@@ -1,0 +1,12 @@
+deploy:
+  provider: s3
+  acl: public_read
+  cache_control: "max-age=30"
+  access_key_id: AKIAJS2B2FMG7GS4E5MA
+  secret_access_key:
+    secure: gDvEoQgPvIvNxT37tf8uv2Qu29WLcZdqQG3LNEBJiBhGaWqHtOcnFs9dmibSv992+yPjar4A8Iq8Ws5+9nalzNPRqndSiwLVdSYU2DJs45+t6lbTx96uFOewxCF0oWiihVj9Gje55XfqCnp23PfPMlTHywZUYifRlk/SO6QwDOP0bb9SJCGlZCusuU7msEtJonP1vuD7qv7GE8uPrM2lylOs8BMzGNURsWG53b77GiJNwipbnw6BOKsZQdy8oFN/Cpe+BUAn1iOkg2nwsM/yLzmVQJfny9Mr0u2yZO7IJdncCe3dnSXzIFq4nzcTqKV+ZLg/K6ThaYotF+XGGzmBFodISt1P2YHgpWymbUFv9ZAj5bHF8F1xb/pofy8SsTjwtDw9aJ+4BewtWdpUpSw+bQvvz/Fj1xOSSR1T7Htdx0h4AlTJwOHyMuJezg7J/X6xLqbMtgBiRvhbekzS+mEtTGh1op6QboXxHKg38ZjLyDWdqgjysL5RYaZYdvr9V2SaDs5gffaAgLNuYpK4lWoRzWzbLf1fAbTKhW0ZkZN/sQHWpVfdL1lU8vxJ6hy33fEFMtDfdxpQX0RYlAkpq7xkncUTLUfUrfOMo6ABkgN3C2lcDwwRijYw5chU4UT/3V4AxzPtT7+BEs00bM/zMvjwXhNhNWaUeeDisD5CM4Bg33A=
+  bucket: folio-resource-management.frontside.io
+  region: us-east-2
+  skip_cleanup: true
+  on:
+    branch: master
