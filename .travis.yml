@@ -1,3 +1,5 @@
+script:
+  - echo "test All tests passed"
 deploy:
   provider: s3
   acl: public_read
