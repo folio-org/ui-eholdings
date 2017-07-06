@@ -27,23 +27,25 @@ chai.use(chaiEnzyme());
  * @param {Function} setup - suite definition, also passed to `describe`
  */
 export function describeApplication(name, setup) {
-  let rootElement;
+  describe(name, function() {
+    let rootElement;
 
-  beforeEach(function() {
-    rootElement = document.createElement('div');
-    rootElement.id = 'react-testing';
-    document.body.appendChild(rootElement);
+    beforeEach(function() {
+      rootElement = document.createElement('div');
+      rootElement.id = 'react-testing';
+      document.body.appendChild(rootElement);
 
-    this.$ = mount(<App/>, {
-      attachTo: rootElement
+      this.$ = mount(<App/>, {
+        attachTo: rootElement
+      });
     });
-  });
 
-  afterEach(function() {
-    this.$.detach();
-    document.body.removeChild(rootElement);
-    rootElement = null;
-  });
+    afterEach(function() {
+      this.$.detach();
+      document.body.removeChild(rootElement);
+      rootElement = null;
+    });
 
-  describe(name, setup);
+    setup.call(this);
+  });
 }
