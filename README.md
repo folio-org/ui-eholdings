@@ -5,7 +5,7 @@
 ## Prerequisites
 
 * [Git](https://git-scm.com/)
-* [Node.js](https://nodejs.org/) (with NPM)
+* [Node.js](https://nodejs.org/) (at least version 8)
 * [Yarn](https://yarnpkg.com/)
 
 ## Installation
