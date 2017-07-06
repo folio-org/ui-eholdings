@@ -1,5 +1,6 @@
+language: node_js
 script:
-  - echo "test All tests passed"
+  - yarn test -- --single-run
 deploy:
   provider: s3
   acl: public_read
