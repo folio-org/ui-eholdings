@@ -1,7 +1,7 @@
 const webpack = require('webpack');
 const path = require('path');
 
-module.exports = {
+let configuration = {
   entry: [
     'react-hot-loader/patch',
     './src/index.js'
@@ -30,3 +30,11 @@ module.exports = {
     new webpack.HotModuleReplacementPlugin()
   ]
 };
+
+if (process.env.environment === 'production') {
+  delete configuration.devServer;
+  configuration.entry = './src/index.js';
+  configuration.plugins = [];
+}
+
+module.exports = configuration;
