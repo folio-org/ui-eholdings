@@ -5,6 +5,6 @@ import { describeApplication } from './helpers';
 
 describeApplication('Acceptance', function() {
   it('should render the app', function() {
-    expect(this.wrapper.find('h1')).to.have.text('Folio Resource Management');
+    expect(this.$.find('h1')).to.have.text('Folio Resource Management');
   });
 });
