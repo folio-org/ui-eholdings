@@ -23,3 +23,7 @@ deploy:
   local_dir: dist
   on:
     branch: master
+notifications:
+  webhooks:
+    urls:
+      - https://fs-bitbot.herokuapp.com/travis
