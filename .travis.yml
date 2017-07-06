@@ -1,4 +1,11 @@
+dist: trusty
 language: node_js
+addons:
+  chrome: stable
+before_install:
+  - export CHROME_BIN=google-chrome-stable
+  - export DISPLAY=:99.0
+  - sh -e /etc/init.d/xvfb start
 script:
   - yarn test -- --single-run
 deploy:

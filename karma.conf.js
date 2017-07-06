@@ -2,12 +2,19 @@ const path = require('path');
 const webpackConfig = require('./webpack.config');
 
 module.exports = function(config) {
-  config.set({
+  let configuration = {
     frameworks: ['mocha'],
     reporters: ['progress'],
     port: 9876,
 
     browsers: ['Chrome'],
+
+    customLaunchers: {
+      Chrome_travis_ci: {
+        base: 'Chrome',
+        flags: ['--no-sandbox']
+      }
+    },
 
     files: [
       { pattern: 'tests/**/*-test.js', watched: false }
@@ -37,5 +44,11 @@ module.exports = function(config) {
       'karma-mocha',
       'karma-webpack'
     ]
-  });
+  };
+
+  if (process.env.TRAVIS) {
+    configuration.browsers = ['Chrome_travis_ci'];
+  }
+
+  config.set(configuration);
 };
