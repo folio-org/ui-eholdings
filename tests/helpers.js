@@ -1,4 +1,4 @@
-/* global beforeEach, afterEach */
+/* global describe, beforeEach, afterEach */
 import React from 'react';
 import chai from 'chai';
 import chaiEnzyme from 'chai-enzyme';
@@ -9,7 +9,12 @@ import App from '../src/components/app';
 // use enzyme matchers
 chai.use(chaiEnzyme());
 
-export function setupAppForAcceptanceTesting() {
+/**
+ * Mounts our app for acceptance testing
+ * @param {String} name - name passed to describe
+ * @param {Function} setup - function passed to describe
+ */
+export function describeApplication(name, setup) {
   let rootElement;
 
   beforeEach(function() {
@@ -27,4 +32,6 @@ export function setupAppForAcceptanceTesting() {
     document.body.removeChild(rootElement);
     rootElement = null;
   });
+
+  describe(name, setup);
 }
