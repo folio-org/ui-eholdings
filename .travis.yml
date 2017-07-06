@@ -18,5 +18,6 @@ deploy:
   bucket: folio-resource-management.frontside.io
   region: us-east-2
   skip_cleanup: true
+  local_dir: dist
   on:
     branch: master
