@@ -1,15 +1,17 @@
 /* global describe, beforeEach, afterEach */
 import React from 'react';
 import chai from 'chai';
-import chaiEnzyme from 'chai-enzyme';
-import { mount } from 'enzyme';
+import chaiJquery from 'chai-jquery';
+import $ from 'jquery';
+import { render, unmountComponentAtNode } from 'react-dom';
 
 import App from '../src/components/app';
 
-// use enzyme matchers
-chai.use(chaiEnzyme());
+// use jquery matchers
+chai.use((chai, utils) => chaiJquery(chai, utils, $));
 
-/**
+/*
+ * TODO: FIX THIS DESCRIPTION
  * Sets up the entire Folio application, mounts it with enzyme, and tears it down
  * Use this helper for end-to-end acceptance testing intead of the normal 'describe'
  *
@@ -35,13 +37,11 @@ export function describeApplication(name, setup) {
       rootElement.id = 'react-testing';
       document.body.appendChild(rootElement);
 
-      this.$ = mount(<App/>, {
-        attachTo: rootElement
-      });
+      this.app = render(<App/>, rootElement);
     });
 
     afterEach(function() {
-      this.$.detach();
+      unmountComponentAtNode(rootElement);
       document.body.removeChild(rootElement);
       rootElement = null;
     });

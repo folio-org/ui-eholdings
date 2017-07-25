@@ -4,7 +4,7 @@ const webpackConfig = require('./webpack.config');
 module.exports = function(config) {
   let configuration = {
     frameworks: ['mocha'],
-    reporters: ['progress'],
+    reporters: ['mocha'],
     port: 9876,
 
     browsers: ['Chrome'],
@@ -24,16 +24,11 @@ module.exports = function(config) {
       'tests/**/*-test.js': ['webpack']
     },
 
-    webpack: Object.assign({}, webpackConfig, {
-      // enzyme externals
-      externals: {
-        'react/addons': true,
-        'react/lib/ExecutionEnvironment': true,
-        'react/lib/ReactContext': true
-      }
-    }),
+    webpack: webpackConfig,
 
-    webpackMiddleware: webpackConfig.devServer,
+    webpackMiddleware: {
+      stats: "errors-only"
+    },
 
     mochaReporter: {
       showDiff: true
@@ -42,7 +37,8 @@ module.exports = function(config) {
     plugins: [
       'karma-chrome-launcher',
       'karma-mocha',
-      'karma-webpack'
+      'karma-webpack',
+      'karma-mocha-reporter'
     ]
   };
 
