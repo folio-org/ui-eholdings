@@ -2,13 +2,21 @@
 import React from 'react';
 import chai from 'chai';
 import chaiJquery from 'chai-jquery';
+import chaiSinon from 'sinon-chai';
 import $ from 'jquery';
 import { render, unmountComponentAtNode } from 'react-dom';
+import { startTestMirage } from '../mirage/start';
 
 import App from '../src/components/app';
 
 // use jquery matchers
 chai.use((chai, utils) => chaiJquery(chai, utils, $));
+
+// use sinon matchers
+chai.use(chaiSinon);
+
+// helper to trigger native change events for react elements
+export { default as triggerChange } from 'react-trigger-change';
 
 /*
  * TODO: FIX THIS DESCRIPTION
@@ -38,9 +46,12 @@ export function describeApplication(name, setup) {
       document.body.appendChild(rootElement);
 
       this.app = render(<App/>, rootElement);
+      this.server = startTestMirage();
+      this.server.logging = false;
     });
 
     afterEach(function() {
+      this.server.shutdown();
       unmountComponentAtNode(rootElement);
       document.body.removeChild(rootElement);
       rootElement = null;
