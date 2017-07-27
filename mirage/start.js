@@ -1,3 +1,5 @@
+/* global require */
+
 import Mirage from 'mirage-server';
 import baseConfig from './config';
 import camelCase from 'lodash/camelCase';

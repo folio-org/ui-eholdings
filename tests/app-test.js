@@ -1,7 +1,5 @@
 /* global describe, beforeEach */
 import { expect } from 'chai';
-import $ from 'jquery';
-import sinon from 'sinon';
 import it from './it-will';
 
 import { describeApplication } from './helpers';

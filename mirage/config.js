@@ -1,5 +1,3 @@
-import Mirage from 'mirage-server';
-
 export default function () {
   this.namespace = 'eholdings';
 

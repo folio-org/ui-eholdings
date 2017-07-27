@@ -30,7 +30,6 @@ export default function itWill(...args) {
       let timeout = this.timeout();
       let interval = 10;
       let start = new Date().getTime();
-      let error = null;
       let test = this;
 
       return new Promise(function(resolve, reject) {
@@ -43,7 +42,6 @@ export default function itWill(...args) {
               resolve();
             }
           } catch(e) {
-            error = e;
             let now = new Date().getTime();
             if (now - start + interval >= timeout) {
               reject(e);

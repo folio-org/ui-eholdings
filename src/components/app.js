@@ -43,7 +43,7 @@ export default class App extends Component {
         ))}
         {(!hasSearchResults && searchQuery) ? (
           <p data-test-search-no-results>
-            No results found for <strong>"{searchQuery}"</strong>.
+            No results found for <strong>{`"${searchQuery}"`}</strong>.
           </p>
         ) : (
           <ul data-test-search-results-list>
