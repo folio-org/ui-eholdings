@@ -5,7 +5,8 @@ export default function () {
 
   this.get('/vendors', ({ vendors }, request) => {
     let filteredVendors = vendors.all().filter((vendorModel) => {
-      return vendorModel.vendorName.includes(request.queryParams.search);
+      let query = request.queryParams.search.toLowerCase();
+      return vendorModel.vendorName.toLowerCase().includes(query);
     });
 
     return filteredVendors;

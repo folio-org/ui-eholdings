@@ -4,50 +4,38 @@ import $ from 'jquery';
 import sinon from 'sinon';
 import it from './it-will';
 
-import {
-  describeApplication,
-  triggerChange
-} from './helpers';
+import { describeApplication } from './helpers';
+import AppPage from './pages/app';
 
 describeApplication('eHoldings', function() {
   beforeEach(function() {
-    this.server.create('vendor', { vendorName: 'Vendor1' });
-    this.server.create('vendor', { vendorName: 'Vendor2' });
-    this.server.create('vendor', { vendorName: 'Vendor3' });
-  });
-
-  it('should render the app', function() {
-    expect($('h1')).to.have.text('Folio Resource Management');
+    this.server.createList('vendor', 3, {
+      vendorName: (i) => `Vendor${i + 1}`
+    });
   });
 
   it('has a searchbox with options to search for vendor, package and title', function() {
-    expect($('[data-test-search-field]')).to.exist;
+    expect(AppPage.searchField).to.exist;
   });
 
   describe("searching for a vendor", function() {
     beforeEach(function() {
-      let $input = $('[data-test-search-field]').val('Vendor');
-      triggerChange($input.get(0));
-
-      $('[data-test-search-submit]').trigger('click');
+      AppPage.search('Vendor');
     });
 
     it("displays vendor entries related to 'Vendor'", function() {
-      expect($('[data-test-search-results-item]')).to.have.lengthOf(3);
+      expect(AppPage.searchResultsItems).to.have.lengthOf(3);
     });
 
     it("displays the name, number of packages available, and packages subscribed to for each vendor");
 
     describe("filtering the search results further", function() {
       beforeEach(function() {
-        let $input = $('[data-test-search-field]').val('Vendor1');
-        triggerChange($input.get(0));
-
-        $('[data-test-search-submit]').trigger('click');
+        AppPage.search('Vendor1');
       });
 
       it("only shows a single result", function() {
-        expect($('[data-test-search-results-item]')).to.have.lengthOf(1);
+        expect(AppPage.searchResultsItems).to.have.lengthOf(1);
       });
     });
 

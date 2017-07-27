@@ -3,6 +3,7 @@ import baseConfig from './config';
 import camelCase from 'lodash/camelCase';
 import '../tests/force-fetch-polyfill';
 
+const environment = process.env.NODE_ENV;
 const moduleTypes = ['factories', 'fixtures', 'scenarios', 'models', 'serializers', 'identity-managers'];
 
 const req = require.context('./', true, /\.js$/);
@@ -24,7 +25,7 @@ req.keys().forEach((modulePath) => {
 });
 
 export function startDevMirage() {
-  let options = Object.assign(modules, { baseConfig });
+  let options = Object.assign(modules, { environment, baseConfig });
   return new Mirage(options);
 }
 
@@ -32,6 +33,6 @@ export function startTestMirage() {
   let testModules = { ...modules };
   delete modules.scenarios;
 
-  let options = Object.assign(testModules, { baseConfig });
+  let options = Object.assign(testModules, { environment, baseConfig });
   return new Mirage(options);
 }

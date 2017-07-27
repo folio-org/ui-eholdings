@@ -1,4 +1,5 @@
 const path = require('path');
+const webpack = require('webpack');
 const webpackConfig = require('./webpack.config');
 
 module.exports = function(config) {
@@ -24,7 +25,13 @@ module.exports = function(config) {
       'tests/**/*-test.js': ['webpack']
     },
 
-    webpack: webpackConfig,
+    webpack: Object.assign(webpackConfig, {
+      plugins: [
+        new webpack.EnvironmentPlugin({
+          NODE_ENV: 'test'
+        })
+      ]
+    }),
 
     webpackMiddleware: {
       stats: "errors-only"
