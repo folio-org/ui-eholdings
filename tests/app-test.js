@@ -50,10 +50,28 @@ describeApplication('eHoldings', function() {
   });
 
   describe("searching for the vendor 'fhqwhgads'", function() {
-    it("displays 'no results' message");
+    beforeEach(function() {
+      AppPage.search('fhqwhgads');
+    });
+
+    it("displays 'no results' message", function() {
+      expect(AppPage.noResultsMessage).to.equal('No results found for "fhqwhgads".');
+    });
   });
 
   describe("encountering a server error", function() {
-    it("dies with dignity");
+    beforeEach(function() {
+      this.server.get('/vendors', [{
+        message: 'There was an error',
+        code: "1000",
+        subcode: 0
+      }], 500);
+
+      AppPage.search("this doesn't matter");
+    });
+
+    it("dies with dignity", function() {
+      expect(AppPage.hasErrors).to.be.true;
+    });
   });
 });

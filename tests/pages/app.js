@@ -10,6 +10,14 @@ export default {
     return $('[data-test-search-results-item]');
   },
 
+  get hasErrors() {
+    return $('[data-test-search-error-message]').length > 0;
+  },
+
+  get noResultsMessage() {
+    return $('[data-test-search-no-results]').text();
+  },
+
   search(query) {
     let $input = $('[data-test-search-field]').val(query);
     triggerChange($input.get(0));

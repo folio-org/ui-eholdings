@@ -6,15 +6,22 @@ export default class App extends Component {
     super(...arguments);
 
     this.state = {
-      search: ''
+      search: '',
+      searchQuery: '',
+      searchResults: null,
+      errors: null
     };
   }
 
   render () {
     let {
       search,
-      searchResults
+      searchQuery,
+      searchResults,
+      errors
     } = this.state;
+
+    let hasSearchResults = (searchResults && searchResults.totalResults > 0);
 
     return (
       <div>
@@ -29,13 +36,24 @@ export default class App extends Component {
             onChange={this.handleChange} />
           <button data-test-search-submit type="submit" disabled={!search}>Search</button>
         </form>
-        <ul data-test-search-results-list>
-          {!!searchResults && searchResults.vendors.map((vendor) => (
-            <li data-test-search-results-item key={vendor.vendorId}>
-              {vendor.vendorName}
-            </li>
-          ))}
-        </ul>
+        {!!errors && errors.map((err, i) => (
+          <p key={i} data-test-search-error-message>
+            {err.message}. {err.code}
+          </p>
+        ))}
+        {(!hasSearchResults && searchQuery) ? (
+          <p data-test-search-no-results>
+            No results found for <strong>"{searchQuery}"</strong>.
+          </p>
+        ) : (
+          <ul data-test-search-results-list>
+            {hasSearchResults && searchResults.vendors.map((vendor) => (
+              <li data-test-search-results-item key={vendor.vendorId}>
+                {vendor.vendorName}
+              </li>
+            ))}
+          </ul>
+        )}
       </div>
     );
   }
@@ -45,12 +63,22 @@ export default class App extends Component {
       let { search } = this.state;
 
       e.preventDefault();
-      fetch(`/eholdings/vendors?search=${search}`)
-      .then((res) => res.json())
-      .then((data) => {
-        this.setState({
-          searchResults: data
-        });
+      fetch(`/eholdings/vendors?search=${search}`).then((res) => {
+        if (!res.ok) {
+          res.json().then((data) => {
+            this.setState({
+              errors: data,
+              searchQuery: search
+            });
+          });
+        } else {
+          res.json().then((data) => {
+            this.setState({
+              searchResults: data,
+              searchQuery: search
+            });
+          });
+        }
       });
     }
   }

@@ -60,3 +60,12 @@ export function describeApplication(name, setup) {
     setup.call(this);
   });
 }
+
+/*
+ * Returns a promise that doesn't resolve to make the test wait forever
+ */
+window.pauseTest = pauseTest;
+export function pauseTest(context) {
+  if (context) context.timeout(0);
+  return new Promise(() => {});
+}
