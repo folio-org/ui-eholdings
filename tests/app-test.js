@@ -1,4 +1,4 @@
-/* global describe, beforeEach, afterEach, it */
+/* global it */
 import { expect } from 'chai';
 
 import { describeApplication } from './helpers';

@@ -1,5 +1,9 @@
 import React from 'react';
 
-export default () => (
+const App = () => (
   <h1>Folio Resource Management</h1>
 )
+
+App.displayName = 'App';
+
+export default App;

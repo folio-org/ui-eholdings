@@ -15,15 +15,29 @@ let configuration = {
   devServer: {
     hot: true,
     contentBase: path.join(__dirname, 'dist'),
-    historyApiFallback: false
+    historyApiFallback: false,
+    stats: 'errors-only'
   },
 
   module: {
-    rules: [{
-      test: /\.js$/,
-      exclude: /node_modules/,
-      loader: 'babel-loader'
-    }]
+    rules: [
+      {
+        enforce: "pre",
+        test: /\.js$/,
+        exclude: /node_modules/,
+        loader: 'eslint-loader',
+        options: {
+          emitError: true,
+          emitWarning: true,
+          failOnError: true
+        }
+      },
+      {
+        test: /\.js$/,
+        exclude: /node_modules/,
+        loader: 'babel-loader'
+      }
+    ]
   },
 
   plugins: [
