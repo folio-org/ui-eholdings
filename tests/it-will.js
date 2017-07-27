@@ -1,4 +1,4 @@
-const originalIt = window.it;
+itWill.immediately = window.it;
 
 // This turns every call of `it` into a "convergent assertion." The
 // assertion is run every 10ms until it is either true, or it times
@@ -22,11 +22,11 @@ const originalIt = window.it;
 //   });
 export default function itWill(...args) {
   if (args.length <= 1) {
-    return originalIt(...args);
+    return itWill.immediately(...args);
   } else {
     let [name, assertion] = args;
 
-    return originalIt(name, function() {
+    return itWill.immediately(name, function() {
       let timeout = this.timeout();
       let interval = 10;
       let start = new Date().getTime();

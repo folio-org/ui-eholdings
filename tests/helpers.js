@@ -4,7 +4,7 @@ import chai from 'chai';
 import chaiJquery from 'chai-jquery';
 import $ from 'jquery';
 import { render, unmountComponentAtNode } from 'react-dom';
-import { startTestMirage } from '../mirage/start';
+import startMirage from '../mirage';
 
 import App from '../src/components/app';
 
@@ -15,17 +15,13 @@ chai.use((chai, utils) => chaiJquery(chai, utils, $));
 export { default as triggerChange } from 'react-trigger-change';
 
 /*
- * TODO: FIX THIS DESCRIPTION
- * Sets up the entire Folio application, mounts it with enzyme, and tears it down
+ * Sets up the entire Folio application with mirage, mounts it, and tears it down
  * Use this helper for end-to-end acceptance testing intead of the normal 'describe'
- *
- * The Enzyme wrapper instance is stored as `$` in the testing context so you can use
- * it inside of your assertions.
  *
  * ```
  * describeApplication('Acceptance', function() {
  *   it('should show something awesome', function() {
- *     expect(this.$.find('h1')).to.have.text('something awesome');
+ *     expect($('h1')).to.have.text('something awesome');
  *   });
  * })
  * ```
@@ -42,7 +38,7 @@ export function describeApplication(name, setup) {
       document.body.appendChild(rootElement);
 
       this.app = render(<App/>, rootElement);
-      this.server = startTestMirage();
+      this.server = startMirage();
       this.server.logging = false;
     });
 

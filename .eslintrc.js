@@ -17,6 +17,7 @@ module.exports = {
     Promise: true
   },
   rules: {
-    "jsx-quotes": "off"
+    "jsx-quotes": "off",
+    "no-console": "warn"
   }
 };

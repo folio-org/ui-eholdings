@@ -12,7 +12,7 @@ describeApplication('eHoldings', function() {
     });
   });
 
-  it('has a searchbox with options to search for vendor, package and title', function() {
+  it('has a searchbox', function() {
     expect(AppPage.searchField).to.exist;
   });
 
