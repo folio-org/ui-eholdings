@@ -19,8 +19,6 @@ if (module.hot) {
   module.hot.accept('./components/app', render);
 }
 
-if (process.env.NODE_ENV === 'development') {
-  window.mirage = startMirage();
-}
+window.mirage = startMirage();
 
 render();
