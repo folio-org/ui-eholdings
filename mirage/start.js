@@ -8,8 +8,9 @@ import '../tests/force-fetch-polyfill';
 const environment = process.env.NODE_ENV;
 const moduleTypes = ['factories', 'fixtures', 'models', 'serializers', 'identity-managers'];
 
-// only use data from our scenarios in development
-if (environment === 'development') {
+// don't load scenarios in the 'test' environment since you want to
+// create the server configuration by hand to correspond to each test case.
+if (environment !== 'test') {
   moduleTypes.push('scenarios');
 }
 
