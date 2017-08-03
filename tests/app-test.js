@@ -10,7 +10,12 @@ describeApplication('eHoldings', function() {
     this.server.createList('vendor', 3, {
       vendorName: (i) => `Vendor${i + 1}`
     });
+
+    return this.visit('/eholdings', () => {
+      expect(AppPage.root).to.exist;
+    });
   });
+
 
   it('has a searchbox', function() {
     expect(AppPage.searchField).to.exist;
