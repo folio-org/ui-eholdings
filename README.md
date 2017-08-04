@@ -1,6 +1,6 @@
-# Folio Resource Management
+# Folio e-holdings application
 
-[![Build Status](https://travis-ci.org/thefrontside/folio-resource-management.svg?branch=master)](https://travis-ci.org/thefrontside/folio-resource-management)
+[![Build Status](https://travis-ci.org/thefrontside/ui-eholdings.svg?branch=master)](https://travis-ci.org/thefrontside/ui-eholdings)
 
 ## Prerequisites
 
@@ -10,8 +10,8 @@
 
 ## Installation
 
-* `git clone https://github.com/thefrontside/folio-resource-management`
-* `cd folio-resource-management`
+* `git clone https://github.com/thefrontside/ui-eholdings`
+* `cd ui-eholdings`
 * `yarn`
 
 ## Running

@@ -1,9 +1,9 @@
 {
-  "name": "folio-resource-management",
+  "name": "@folio/eholdings",
   "version": "0.1.0",
-  "description": "FOLIO Resource Management App",
+  "description": "FOLIO e-holdings app",
   "main": "src/index.js",
-  "repository": "https://github.com/thefrontside/folio-resource-management",
+  "repository": "https://github.com/thefrontside/ui-eholdings",
   "license": "MIT",
   "scripts": {
     "build": "webpack",
