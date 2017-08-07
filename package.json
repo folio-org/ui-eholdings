@@ -1,16 +1,17 @@
 {
   "name": "@folio/eholdings",
   "version": "0.1.0",
-  "description": "FOLIO e-holdings app",
+  "description": "FOLIO eholdings management application",
   "main": "src/index.js",
   "repository": "https://github.com/thefrontside/ui-eholdings",
   "license": "MIT",
   "scripts": {
-    "build": "webpack",
-    "start": "webpack-dev-server",
+    "build": "cd platform && yarn && yarn build",
+    "start": "cd platform && yarn && yarn start",
     "test": "karma start"
   },
   "devDependencies": {
+    "@folio/stripes-core": "cowboyd/stripes-core#custom-history-interface",
     "babel-core": "^6.25.0",
     "babel-loader": "^7.1.1",
     "babel-preset-env": "^1.6.0",
@@ -41,5 +42,10 @@
   },
   "dependencies": {
     "isomorphic-fetch": "^2.2.1"
+  },
+  "stripes": {
+    "type": "app",
+    "displayName": "e-holdings",
+    "route": "/eholdings"
   }
 }

@@ -1,0 +1,18 @@
+{
+  "name": "ui-eholdings-demo",
+  "version": "1.0.0",
+  "description": "Demo chrome for the ui-eholdings application",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node stripes.js dev stripes.config.js",
+    "build": "node stripes.js build stripes.config.js dist"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@folio/eholdings": "file:../",
+    "@folio/stripes-core": "cowboyd/stripes-core#custom-history-interface",
+    "mirage-server": "cowboyd/mirage-server"
+  }
+}

@@ -2,6 +2,10 @@ import $ from 'jquery';
 import { triggerChange } from '../helpers';
 
 export default {
+  get root() {
+    return $('[data-test-eholdings]');
+  },
+
   get searchField() {
     return $('[data-test-search-field]');
   },

@@ -24,7 +24,7 @@ export default class App extends Component {
     let hasSearchResults = (searchResults && searchResults.totalResults > 0);
 
     return (
-      <div>
+      <div data-test-eholdings>
         <h1>Folio Resource Management</h1>
         <form onSubmit={this.searchSubmit}>
           <input
