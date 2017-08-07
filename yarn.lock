@@ -41,7 +41,7 @@
 
 "@folio/stripes-core@thefrontside/stripes-core#eholdings-demo-support":
   version "2.4.0"
-  resolved "https://codeload.github.com/thefrontside/stripes-core/tar.gz/ef9e45992294c578ced0628848401616a6703b24"
+  resolved "https://codeload.github.com/thefrontside/stripes-core/tar.gz/f7d703e19d79187ffb677a4280ba6107a1bc96eb"
   dependencies:
     "@folio/stripes-components" "^1.4.0"
     "@folio/stripes-connect" "^2.4.0"
