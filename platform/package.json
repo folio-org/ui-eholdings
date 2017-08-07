@@ -12,7 +12,7 @@
   "license": "ISC",
   "devDependencies": {
     "@folio/eholdings": "file:../",
-    "@folio/stripes-core": "cowboyd/stripes-core#remove-unused-nav-buttons",
+    "@folio/stripes-core": "cowboyd/stripes-core#custom-history-interface",
     "mirage-server": "cowboyd/mirage-server"
   }
 }

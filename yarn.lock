@@ -41,7 +41,7 @@
 
 "@folio/stripes-core@cowboyd/stripes-core#custom-history-interface":
   version "2.4.0"
-  resolved "https://codeload.github.com/cowboyd/stripes-core/tar.gz/72db5053d92440f2caf68406bf11e5d36b1574aa"
+  resolved "https://codeload.github.com/cowboyd/stripes-core/tar.gz/24d06dc27cda7e99ec1c13459387dcc4b19c1734"
   dependencies:
     "@folio/stripes-components" "^1.4.0"
     "@folio/stripes-connect" "^2.4.0"
