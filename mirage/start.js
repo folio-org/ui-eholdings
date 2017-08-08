@@ -1,8 +1,7 @@
 /* global require */
 
-import Mirage from 'mirage-server';
+import Mirage, { camelize } from 'mirage-server';
 import baseConfig from './config';
-import camelCase from 'lodash/camelCase';
 import '../tests/force-fetch-polyfill';
 
 const environment = process.env.NODE_ENV;
@@ -15,7 +14,7 @@ if (environment !== 'test') {
 }
 
 let modules = moduleTypes.reduce((memo, name) => {
-  memo[camelCase(name)] = {};
+  memo[camelize(name)] = {};
   return memo;
 }, {});
 
@@ -28,7 +27,7 @@ req.keys().forEach((modulePath) => {
   const moduleName = moduleParts[2];
 
   if (moduleName && modules[moduleType]) {
-    const moduleKey = camelCase(moduleName.replace('.js', ''));
+    const moduleKey = camelize(moduleName.replace('.js', ''));
     modules[moduleType][moduleKey] = req(modulePath).default;
   }
 });
