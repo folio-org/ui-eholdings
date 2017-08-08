@@ -1,5 +1,8 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import fetch from 'isomorphic-fetch';
+
+import View from '../../components/vendor-show';
 
 class Vendor {
   constructor(prev = {}, props = {}) {
@@ -44,13 +47,24 @@ class ErroredVendor extends Vendor {
   }
 }
 
-class FindVendor extends Component {
+export default class VendorShowRoute extends Component {
+  static propTypes = {
+    match: PropTypes.shape({
+      params: PropTypes.shape({
+        vendorId: PropTypes.string.isRequired
+      }).isRequired
+    }).isRequired
+  };
+
   state = {
-    vendor: new PendingVendor({ id: this.props.id })
+    vendor: new PendingVendor({
+      id: this.props.match.params.vendorId
+    })
   };
 
   componentWillMount() {
     let vendor = this.state.vendor;
+
     fetch(`/eholdings/vendors/${vendor.id}`)
       .then(res => {
         if (!res.ok) {
@@ -61,7 +75,6 @@ class FindVendor extends Component {
       })
       .then(payload => this.setState({ vendor: vendor.resolve(payload) }))
       .catch(error => this.setState({ vendor: vendor.reject(error) }));
-
   }
 
   componentWillUnmount() {
@@ -69,41 +82,6 @@ class FindVendor extends Component {
   }
 
   render() {
-    return this.props.children(this.state.vendor);
+    return (<View vendor={this.state.vendor}/>);
   }
-}
-
-
-export default function VendorDetails({ match }) {
-  let id = match.params.vendorId;
-
-  return (
-    <FindVendor id={id}>
-      {(vendor)=> (
-        <div data-test-eholdings-vendor-details>
-          {vendor.isLoaded ? (
-            <div>
-              <h1 data-test-eholdings-vendor-details-name>
-                {vendor.vendorName}
-              </h1>
-              <p>
-                Total Packages: <span data-test-eholdings-vendor-details-packages-total>{vendor.packagesTotal}</span>
-              </p>
-              <p>
-                Selected Packages: <span data-test-eholdings-vendor-details-packages-selected>{vendor.packagesSelected}</span>
-              </p>
-            </div>
-          ) : vendor.isErrored ? (
-            vendor.mapErrors((error, key) => (
-              <p key={key} data-test-eholdings-vendor-details-error>
-                {error.message}. {error.code}
-              </p>
-            ))
-          ) : (
-            <p>Loading...</p>
-          )}
-        </div>
-      )}
-    </FindVendor>
-  );
 }
