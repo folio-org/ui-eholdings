@@ -9,7 +9,6 @@ before_install:
   - sh -e /etc/init.d/xvfb start
   - curl -o- -L https://yarnpkg.com/install.sh | bash -s -- --version 0.27.5
   - export PATH=$HOME/.yarn/bin:$PATH
-  - yarn config set @folio:registry https://repository.folio.org/repository/npm-folio/
 install:
   - yarn
 cache:
