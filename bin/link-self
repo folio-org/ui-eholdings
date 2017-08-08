@@ -1,0 +1,15 @@
+#!/usr/bin/env sh
+#
+# When running the tests, or building the demo application, the
+# @folio/eholdings package is not visible by default.... Only things
+# that are in the `node_modules` directory can be loaded. This changes
+# that by linking the current directory to the module so that it can
+# be required from the test cases and the demo app.
+#
+# In other words, our test files can require('@folio/eholdings') and
+# our demo stripe platfrom can require('@folio/eholdings'). Without
+# this link it will throw an ModuleNotFound error.
+if ! [ -L node_modules/@folio/eholdings ]
+then
+  ln -s `pwd` node_modules/@folio/eholdings
+fi
