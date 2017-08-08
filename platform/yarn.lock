@@ -42,9 +42,9 @@
     redux-crud "^3.0.0"
     uuid "^3.0.1"
 
-"@folio/stripes-core@cowboyd/stripes-core#custom-history-interface":
+"@folio/stripes-core@thefrontside/stripes-core#eholdings-demo-support":
   version "2.4.0"
-  resolved "https://codeload.github.com/cowboyd/stripes-core/tar.gz/24d06dc27cda7e99ec1c13459387dcc4b19c1734"
+  resolved "https://codeload.github.com/thefrontside/stripes-core/tar.gz/f7d703e19d79187ffb677a4280ba6107a1bc96eb"
   dependencies:
     "@folio/stripes-components" "^1.4.0"
     "@folio/stripes-connect" "^2.4.0"
