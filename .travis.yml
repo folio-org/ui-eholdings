@@ -20,7 +20,7 @@ deploy:
   bucket: folio.frontside.io
   region: us-east-2
   skip_cleanup: true
-  local_dir: platform/dist
+  local_dir: dist
   on:
     branch: master
 notifications:

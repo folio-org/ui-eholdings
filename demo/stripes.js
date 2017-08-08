@@ -105,6 +105,6 @@ if (!process.argv.slice(2).length) {
 
 function mirage(config) {
   return Object.assign({}, config, {
-    entry: ['./boot-mirage'].concat(config.entry)
+    entry: ['./demo/boot-mirage'].concat(config.entry)
   });
 }

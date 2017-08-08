@@ -6,8 +6,9 @@
   "repository": "https://github.com/thefrontside/ui-eholdings",
   "license": "MIT",
   "scripts": {
-    "build": "cd platform && yarn && yarn build",
-    "start": "cd platform && yarn && yarn start",
+    "postinstall": "bin/link-self",
+    "start": "node demo/stripes.js dev demo/stripes.config.js",
+    "build": "node demo/stripes.js build demo/stripes.config.js dist",
     "test": "karma start"
   },
   "devDependencies": {
@@ -28,8 +29,8 @@
     "karma-mocha": "^1.3.0",
     "karma-mocha-reporter": "^2.2.3",
     "karma-webpack": "^2.0.3",
-    "lodash": "^4.17.4",
     "mirage-server": "cowboyd/mirage-server",
+    "lodash": "^4.17.4",
     "mocha": "^3.4.2",
     "react": "^15.6.1",
     "react-addons-test-utils": "^15.6.0",
