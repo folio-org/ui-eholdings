@@ -36,7 +36,7 @@ export default class App extends Component {
             onChange={this.handleChange} />
           <button data-test-search-submit type="submit" disabled={!search}>Search</button>
         </form>
-        {!!errors && errors.map((err, i) => (
+        {!!errors && Array(errors).map((err, i) => (
           <p key={i} data-test-search-error-message>
             {err.message}. {err.code}
           </p>
@@ -46,7 +46,7 @@ export default class App extends Component {
             No results found for <strong>{`"${searchQuery}"`}</strong>.
           </p>
         ) : (
-          <ul data-test-search-results-list>
+          <ul data-test-search-results-list>  
             {hasSearchResults && searchResults.vendors.map((vendor) => (
               <li data-test-search-results-item key={vendor.vendorId}>
                 {vendor.vendorName}
