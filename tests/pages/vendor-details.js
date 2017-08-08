@@ -2,7 +2,7 @@ import $ from 'jquery';
 import { triggerChange } from '../helpers';
 
 export default {
-  get root() {
+  get $root() {
     return $('[data-test-eholdings-vendor-details]');
   },
 
@@ -15,10 +15,10 @@ export default {
   },
 
   get numPackages() {
-    return $('[data-test-eholdings-vendor-details-packages-total]').text();
+    return parseInt($('[data-test-eholdings-vendor-details-packages-total]').text(), 10);
   },
 
   get numPackagesSelected() {
-    return $('[data-test-eholdings-vendor-details-packages-selected]').text();
+    return parseInt($('[data-test-eholdings-vendor-details-packages-selected]').text(), 10);
   }
-}
+};

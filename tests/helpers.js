@@ -53,6 +53,9 @@ export function describeApplication(name, setup) {
   });
 }
 
+describeApplication.skip = describe.skip;
+
+
 /**
  * Triggers a navigation, and ensures that it happens correctly.
  *

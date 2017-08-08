@@ -5,7 +5,7 @@ import it from './it-will';
 import { describeApplication } from './helpers';
 import AppPage from './pages/app';
 
-describeApplication('eHoldings', function() {
+describeApplication.skip('eHoldings', function() {
   beforeEach(function() {
     this.server.createList('vendor', 3, {
       vendorName: (i) => `Vendor${i + 1}`

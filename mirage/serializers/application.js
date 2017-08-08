@@ -7,11 +7,17 @@ export default Serializer.extend({
   serialize(response) {
     let json = Serializer.prototype.serialize.apply(this, arguments);
     if(Array.isArray(json)) {
-      json = {
+      return {
         totalResults: json.length,
-        [this.keyForResource(response)]: json
-      }
+        [this.keyForResource(response)]: json.map(this.mapPrimaryKey, this)
+      };
+    } else {
+      return this.mapPrimaryKey(json);
     }
-    return json;
+  },
+
+  mapPrimaryKey(json) {
+    let { id, ...rest } = json;
+    return { [`${this.type}Id`]: id, ...rest };
   }
 });

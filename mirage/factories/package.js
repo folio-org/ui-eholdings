@@ -1,7 +1,6 @@
 import { Factory, faker } from 'mirage-server';
 
 export default Factory.extend({
-  packageId: () => faker.random.number(),
   packageName: () => faker.commerce.productName(),
   titleCount: 1,
   isSelected: 0,

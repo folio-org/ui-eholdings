@@ -6,59 +6,71 @@ import { describeApplication } from './helpers';
 import VendorDetailsPage from './pages/vendor-details';
 
 describeApplication('VendorDetails', function() {
-  let vendor; 
+  let vendor;
   let vendorPackages;
+
   beforeEach(function() {
-    vendor = this.server.create('vendor');
+    vendor = this.server.create('vendor', {
+      vendorName: 'League of Ordinary Men'
+    });
     // vendorPackages = this.server.createList('package', 5, {
     //   vendor: vendor
     // });
+  });
 
-    return this.visit(`/eholdings/vendors/${vendor.vendorId}`, () => {
-      expect(VendorDetailsPage.root).to.exist;
+  describe("visiting the vendor details page", function() {
+
+    beforeEach(function() {
+      return this.visit(`/eholdings/vendors/${vendor.id}`, () => {
+        expect(VendorDetailsPage.$root).to.exist;
+      });
+    });
+
+    it('displays the vendor name', function() {
+      expect(VendorDetailsPage.name).to.equal('League of Ordinary Men');
+    });
+
+    it('displays the total number of packages', function() {
+      // debugger;
+      expect(VendorDetailsPage.numPackages).to.equal(vendor.packagesTotal);
+    });
+
+    it('displays the number of selected packages', function() {
+      expect(VendorDetailsPage.numPackagesSelected).to.equal(vendor.packagesSelected);
+    });
+
+    // it('displays a list of packages', function() {
+    //   expect(VendorDetailsPage.packageList).to.have.lengthOf(1);
+    // });
+
+    // it('displays name of a package in the package list', function() {
+    //   expect(VendorDetailsPage.packageList[0].name).to.equal(vendorPackages[0].name);
+    // });
+
+    // it('displays number of selected titles for a package', function() {
+    //   expect(VendorDetailsPage.packageList[0].numTitles).to.equal(vendorPackages[0].selectedCount);
+    // });
+
+    // it('displays total number of titles for a package', function() {
+    //   expect(VendorDetailsPage.packageList[0].numTitlesSelected).to.equal(vendorPackages[0].titleCount);
+    // });
+  });
+
+  describe("encountering a server error", function() {
+    beforeEach(function() {
+      this.server.get('/vendors/:id', [{
+        message: 'There was an error',
+        code: "1000",
+        subcode: 0
+      }], 500);
+
+      return this.visit(`/eholdings/vendors/${vendor.id}`, () => {
+        expect(VendorDetailsPage.$root).to.exist;
+      });
+    });
+
+    it("dies with dignity", function() {
+      expect(VendorDetailsPage.hasErrors).to.be.true;
     });
   });
-
-  it('displays the vendor name', function() {
-    expect(VendorDetailsPage.name).to.equal(vendor.name);
-  });
-
-  it('displays the total number of packages', function() {
-    // debugger;
-    expect(VendorDetailsPage.numPackages).to.equal(vendor.packagesTotal);
-  });
-
-  it('displays the number of selected packages', function() {
-    expect(VendorDetailsPage.numPackagesSelected).to.equal(vendor.packagesSelected);
-  });
-
-  // it('displays a list of packages', function() {
-  //   expect(VendorDetailsPage.packageList).to.have.lengthOf(1);
-  // });
-
-  // it('displays name of a package in the package list', function() {
-  //   expect(VendorDetailsPage.packageList[0].name).to.equal(vendorPackages[0].name);
-  // });
-
-  // it('displays number of selected titles for a package', function() {
-  //   expect(VendorDetailsPage.packageList[0].numTitles).to.equal(vendorPackages[0].selectedCount);
-  // });
-
-  // it('displays total number of titles for a package', function() {
-  //   expect(VendorDetailsPage.packageList[0].numTitlesSelected).to.equal(vendorPackages[0].titleCount);
-  // });
-
-  // describe("encountering a server error", function() {
-  //   beforeEach(function() {
-  //     this.server.get('/vendors/:id', [{
-  //       message: 'There was an error',
-  //       code: "1000",
-  //       subcode: 0
-  //     }], 500);
-  //   });
-
-  //   it("dies with dignity", function() {
-  //     expect(VendorDetailsPage.hasErrors).to.be.true;
-  //   });
-  // });
 });
