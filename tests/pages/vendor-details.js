@@ -22,13 +22,13 @@ export default {
   },
 
   get packageList() {
-    return $('[data-test-eholdings-vendor-package]').map(createPackageObject);
+    return $('[data-test-eholdings-vendor-package]').toArray().map(createPackageObject);
   }
 };
 
-function createPackageObject(index, element) {
+function createPackageObject(element) {
   let $scope = $(element);
-  
+
   return {
     get name() {
       return $scope.find('[data-test-eholdings-vendor-package-name]').text();

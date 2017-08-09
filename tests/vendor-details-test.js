@@ -6,13 +6,15 @@ import { describeApplication } from './helpers';
 import VendorDetailsPage from './pages/vendor-details';
 
 describeApplication('VendorDetails', function() {
-  let vendor;
+  let vendor, packages;
 
   beforeEach(function() {
     vendor = this.server.create('vendor', {
       vendorName: 'League of Ordinary Men',
       packagesTotal: 5
     });
+
+    packages = this.server.schema.where('package', { vendorId: vendor.id }).models;
   });
 
   describe("visiting the vendor details page", function() {
@@ -36,19 +38,19 @@ describeApplication('VendorDetails', function() {
     });
 
     it('displays a list of packages', function() {
-      expect(VendorDetailsPage.packageList).to.have.lengthOf(5);
+      expect(VendorDetailsPage.packageList).to.have.lengthOf(packages.length);
     });
 
     it('displays name of a package in the package list', function() {
-      expect(VendorDetailsPage.packageList[0].name).to.equal(vendor.packages[0].name);
+      expect(VendorDetailsPage.packageList[0].name).to.equal(packages[0].packageName);
     });
 
     it('displays number of selected titles for a package', function() {
-      expect(VendorDetailsPage.packageList[0].numTitles).to.equal(vendor.packages[0].selectedCount);
+      expect(VendorDetailsPage.packageList[0].numTitles).to.equal(packages[0].selectedCount);
     });
 
     it('displays total number of titles for a package', function() {
-      expect(VendorDetailsPage.packageList[0].numTitlesSelected).to.equal(vendor.packages[0].titleCount);
+      expect(VendorDetailsPage.packageList[0].numTitlesSelected).to.equal(packages[0].titleCount);
     });
   });
 
