@@ -1,3 +1,5 @@
+const path = require('path');
+
 module.exports = {
   okapi: { 'url':'http://localhost:9130', 'tenant':'diku' },
   config: {
@@ -13,6 +15,7 @@ module.exports = {
     disableAuth: true
   },
   modules: {
-    '@folio/eholdings': {}
+    '@folio/eholdings': {},
+    [path.dirname(__filename)]: {}
   }
 };

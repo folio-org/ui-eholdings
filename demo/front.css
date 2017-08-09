@@ -1,0 +1,17 @@
+.front {
+  width: 80%;
+  margin: auto;
+}
+
+.logo {
+  height: 150px;
+  width: 150px;
+  float: left;
+  margin: 2em;
+}
+
+.content {
+  float: left;
+  max-width: 50em;
+  margin-top: 2em;
+}
