@@ -15,10 +15,10 @@ export default {
   },
 
   get numPackages() {
-    return parseInt($('[data-test-eholdings-vendor-details-packages-total]').text(), 10);
+    return $('[data-test-eholdings-vendor-details-packages-total]').text();
   },
 
   get numPackagesSelected() {
-    return parseInt($('[data-test-eholdings-vendor-details-packages-selected]').text(), 10);
+    return $('[data-test-eholdings-vendor-details-packages-selected]').text();
   }
 };

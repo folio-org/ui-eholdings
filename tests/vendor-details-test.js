@@ -11,10 +11,8 @@ describeApplication('VendorDetails', function() {
 
   beforeEach(function() {
     vendor = this.server.create('vendor', {
-      vendorName: 'League of Ordinary Men'
-    });
-    vendorPackages = this.server.createList('package', 5, {
-      vendor: vendor
+      vendorName: 'League of Ordinary Men',
+      totalPackages: 5
     });
   });
 
@@ -31,11 +29,11 @@ describeApplication('VendorDetails', function() {
     });
 
     it('displays the total number of packages', function() {
-      expect(VendorDetailsPage.numPackages).to.equal(vendor.packagesTotal);
+      expect(VendorDetailsPage.numPackages).to.equal(`Total Packages${vendor.packagesTotal}`);
     });
 
     it('displays the number of selected packages', function() {
-      expect(VendorDetailsPage.numPackagesSelected).to.equal(vendor.packagesSelected);
+      expect(VendorDetailsPage.numPackagesSelected).to.equal(`Packages Selected${vendor.packagesSelected}`);
     });
 
     it.skip('displays a list of packages', function() {

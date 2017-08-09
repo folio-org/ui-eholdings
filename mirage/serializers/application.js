@@ -19,5 +19,9 @@ export default Serializer.extend({
   mapPrimaryKey(json) {
     let { id, ...rest } = json;
     return { [`${this.type}Id`]: id, ...rest };
+  },
+
+  keyForCollection(modelName) {
+    return `${this.keyForModel(modelName)}List`;
   }
 });

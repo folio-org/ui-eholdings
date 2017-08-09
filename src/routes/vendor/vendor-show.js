@@ -16,12 +16,27 @@ export default class VendorShowRoute extends Component {
   state = {
     vendor: new PendingVendor({
       id: this.props.match.params.vendorId
-    })
+    }),
+    vendorPackages: new PendingVendorPackages()
   };
 
   componentWillMount() {
     let vendor = this.state.vendor;
+    this.loadVendor(vendor);
+    this.loadVendorPackages(vendor);
+  }
 
+  componentWillUnmount() {
+    this.setState = ()=> {};
+  }
+
+  render() {
+    return (<View
+      vendor={this.state.vendor}
+      vendorPackages={this.state.vendorPackages}/>);
+  }
+
+  loadVendor(vendor) {
     fetch(`/eholdings/vendors/${vendor.id}`)
       .then(res => {
         if (!res.ok) {
@@ -34,12 +49,19 @@ export default class VendorShowRoute extends Component {
       .catch(error => this.setState({ vendor: vendor.reject(error) }));
   }
 
-  componentWillUnmount() {
-    this.setState = ()=> {};
-  }
+  loadVendorPackages(vendor) {
+    let vendorPackages = this.state.vendorPackages;
 
-  render() {
-    return (<View vendor={this.state.vendor}/>);
+    fetch(`/eholdings/vendors/${vendor.id}/packages`)
+      .then(res => {
+        if (!res.ok) {
+          return res.text().then(body => { throw { status: res.status, body }; });
+        } else {
+          return res.json();
+        }
+      })
+      .then(payload => this.setState({ vendorPackages: vendorPackages.resolve(payload) }))
+      .catch(error => this.setState({ vendorPackages: vendorPackages.reject(error) }));
   }
 }
 
@@ -80,6 +102,52 @@ class LoadedVendor extends Vendor {
 }
 
 class ErroredVendor extends Vendor {
+  get isErrored() { return true; }
+
+  mapErrors(...args) {
+    try {
+      return JSON.parse(this.error.body).map(...args);
+    } catch (e) {
+      console.error(e);
+      return [];
+    }
+  }
+}
+
+
+class VendorPackages {
+  constructor(prev = {}, props = {}) {
+    Object.assign(this, {
+      packageList: []
+    }, prev, props);
+  }
+
+  get isPending() { return false; }
+  get isLoaded() { return false; }
+  get isErrored() { return false; }
+}
+
+class PendingVendorPackages extends VendorPackages {
+  get isPending()  { return true; }
+
+  resolve(data) {
+    return new LoadedVendorPackages(this, data);
+  }
+
+  reject(error) {
+    return new ErroredVendorPackages(this, { error });
+  }
+}
+
+class LoadedVendorPackages extends VendorPackages {
+  get isLoaded() { return true; }
+
+  mapPackages(...args) {
+    return this.packageList.map(...args);
+  }
+}
+
+class ErroredVendorPackages extends VendorPackages {
   get isErrored() { return true; }
 
   mapErrors(...args) {
