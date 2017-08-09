@@ -9,4 +9,10 @@ export default function () {
 
     return filteredVendors;
   });
+
+  this.get('/vendors/:id');
+
+  this.get('/vendors/:vendorId/packages', ({ packages }, request) => {
+    return packages.where( { vendorId: request.params.vendorId } );
+  });
 }

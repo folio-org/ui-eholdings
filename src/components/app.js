@@ -36,7 +36,7 @@ export default class App extends Component {
             onChange={this.handleChange} />
           <button data-test-search-submit type="submit" disabled={!search}>Search</button>
         </form>
-        {!!errors && errors.map((err, i) => (
+        {!!errors && Array(errors).map((err, i) => (
           <p key={i} data-test-search-error-message>
             {err.message}. {err.code}
           </p>
