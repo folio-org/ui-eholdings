@@ -8,11 +8,25 @@ import styles from './vendor-show.css';
 
 export default function VendorShow({ vendor, vendorPackages }) {
   const renderPackageListItem = item => (
-    <li key={item.packageId}>
-      {item.packageName}
-      {!!item.isSelected && (
-        <div>SELECTED</div>
-      )}
+    <li key={item.packageId} data-test-eholdings-vendor-package>
+      <h5 data-test-eholdings-vendor-package-name>{item.packageName}</h5>
+      <div>
+        {item.isSelected ? (
+          <span>Selected</span>
+        ) : (
+          <span>Unselected</span>
+        )}
+        &nbsp;&bull;&nbsp;
+       <span data-test-eholdings-vendor-details-package-num-titles>{item.selectedCount}</span>
+       &nbsp;/&nbsp;
+       <span data-test-eholdings-vendor-details-package-num-titles-selected>{item.titleCount}</span>
+       &nbsp;
+       {item.titleCount === 1 ? (
+         <span>Title</span>
+       ): (
+         <span>Titles</span>
+       )}
+     </div>
     </li>
   );
 
