@@ -46,7 +46,7 @@ export default class App extends Component {
             No results found for <strong>{`"${searchQuery}"`}</strong>.
           </p>
         ) : (
-          <ul data-test-search-results-list>  
+          <ul data-test-search-results-list>
             {hasSearchResults && searchResults.vendors.map((vendor) => (
               <li data-test-search-results-item key={vendor.vendorId}>
                 {vendor.vendorName}

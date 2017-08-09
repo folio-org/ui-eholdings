@@ -13,9 +13,9 @@ describeApplication('VendorDetails', function() {
     vendor = this.server.create('vendor', {
       vendorName: 'League of Ordinary Men'
     });
-    // vendorPackages = this.server.createList('package', 5, {
-    //   vendor: vendor
-    // });
+    vendorPackages = this.server.createList('package', 5, {
+      vendor: vendor
+    });
   });
 
   describe("visiting the vendor details page", function() {
@@ -31,7 +31,6 @@ describeApplication('VendorDetails', function() {
     });
 
     it('displays the total number of packages', function() {
-      // debugger;
       expect(VendorDetailsPage.numPackages).to.equal(vendor.packagesTotal);
     });
 
@@ -39,21 +38,21 @@ describeApplication('VendorDetails', function() {
       expect(VendorDetailsPage.numPackagesSelected).to.equal(vendor.packagesSelected);
     });
 
-    // it('displays a list of packages', function() {
-    //   expect(VendorDetailsPage.packageList).to.have.lengthOf(1);
-    // });
+    it.skip('displays a list of packages', function() {
+      expect(VendorDetailsPage.packageList).to.have.lengthOf(1);
+    });
 
-    // it('displays name of a package in the package list', function() {
-    //   expect(VendorDetailsPage.packageList[0].name).to.equal(vendorPackages[0].name);
-    // });
+    it.skip('displays name of a package in the package list', function() {
+      expect(VendorDetailsPage.packageList[0].name).to.equal(vendorPackages[0].name);
+    });
 
-    // it('displays number of selected titles for a package', function() {
-    //   expect(VendorDetailsPage.packageList[0].numTitles).to.equal(vendorPackages[0].selectedCount);
-    // });
+    it.skip('displays number of selected titles for a package', function() {
+      expect(VendorDetailsPage.packageList[0].numTitles).to.equal(vendorPackages[0].selectedCount);
+    });
 
-    // it('displays total number of titles for a package', function() {
-    //   expect(VendorDetailsPage.packageList[0].numTitlesSelected).to.equal(vendorPackages[0].titleCount);
-    // });
+    it.skip('displays total number of titles for a package', function() {
+      expect(VendorDetailsPage.packageList[0].numTitlesSelected).to.equal(vendorPackages[0].titleCount);
+    });
   });
 
   describe("encountering a server error", function() {

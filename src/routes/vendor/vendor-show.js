@@ -4,49 +4,6 @@ import fetch from 'isomorphic-fetch';
 
 import View from '../../components/vendor-show';
 
-class Vendor {
-  constructor(prev = {}, props = {}) {
-    Object.assign(this, prev, props);
-  }
-  get isRequested() { return false; }
-  get isLoading() { return false; }
-  get isLoaded() { return false; }
-  get isErrored() { return false; }
-  get isPending() { return !this.isRequested || this.isLoading; }
-
-}
-
-class PendingVendor extends Vendor {
-  get isRequested()  { return true; }
-  get isPending() { return true; }
-
-  resolve(data) {
-    return new LoadedVendor(this, data);
-  }
-
-  reject(error) {
-    return new ErroredVendor(this, { error });
-  }
-}
-
-class LoadedVendor extends Vendor {
-  get isRequested() { return true; }
-  get isLoaded() { return true; }
-}
-
-class ErroredVendor extends Vendor {
-  get isErrored() { return true; }
-
-  mapErrors(...args) {
-    try {
-      return JSON.parse(this.error.body).map(...args);
-    } catch (e) {
-      console.error(e);
-      return [];
-    }
-  }
-}
-
 export default class VendorShowRoute extends Component {
   static propTypes = {
     match: PropTypes.shape({
@@ -83,5 +40,54 @@ export default class VendorShowRoute extends Component {
 
   render() {
     return (<View vendor={this.state.vendor}/>);
+  }
+}
+
+/*
+ * These models represent possible loading states for a vendor.
+ * A request is fired off before `render()` to fetch the vendor
+ * details.  The vendor is of type 'PendingVendor' until the request
+ * completes, at which point the PendingVendor emits an instance of
+ * 'LoadedVendor' or 'Erroredvendor' depending on the response.
+ * The presentational component will display 'Loading...' while
+ * the vendor is pending.
+*/
+
+class Vendor {
+  constructor(prev = {}, props = {}) {
+    Object.assign(this, prev, props);
+  }
+
+  get isPending() { return false; }
+  get isLoaded() { return false; }
+  get isErrored() { return false; }
+}
+
+class PendingVendor extends Vendor {
+  get isPending()  { return true; }
+
+  resolve(data) {
+    return new LoadedVendor(this, data);
+  }
+
+  reject(error) {
+    return new ErroredVendor(this, { error });
+  }
+}
+
+class LoadedVendor extends Vendor {
+  get isLoaded() { return true; }
+}
+
+class ErroredVendor extends Vendor {
+  get isErrored() { return true; }
+
+  mapErrors(...args) {
+    try {
+      return JSON.parse(this.error.body).map(...args);
+    } catch (e) {
+      console.error(e);
+      return [];
+    }
   }
 }

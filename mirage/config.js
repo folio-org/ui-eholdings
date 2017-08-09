@@ -13,7 +13,6 @@ export default function () {
   this.get('/vendors/:id');
 
   this.get('/vendors/:vendorId/packages', ({ packages }, request) => {
-    // debugger;
     return packages.where( { vendorId: request.params.vendorId } );
   });
 }

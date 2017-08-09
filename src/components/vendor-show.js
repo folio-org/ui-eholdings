@@ -29,7 +29,6 @@ export default function VendorShow({ vendor }) {
   );
 }
 
-VendorShow.displayName = 'VendorShow';
 VendorShow.propTypes = {
   vendor: PropTypes.object.isRequired
 };
