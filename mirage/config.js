@@ -25,6 +25,13 @@ export default function () {
     return packages.where( { vendorId: request.params.vendorId } );
   });
 
+  this.get('/vendors/:vendorId/packages/:packageId', ({ packages }, request) => {
+    return packages.findBy({
+      vendorId: request.params.vendorId,
+      id: request.params.packageId
+    });
+  });
+
   // hot-reload passthrough
   this.pretender.get('/:rand.hot-update.json', this.pretender.passthrough);
 }
