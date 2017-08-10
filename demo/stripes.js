@@ -47,7 +47,7 @@ commander
     if (options.cache) config.plugins.push(cachePlugin);
     if (options.devtool) config.devtool = options.devtool;
 
-    const compiler = webpack(mirage(config));
+    const compiler = webpack(mirage(svgloader(config)));
 
     const port = options.port || process.env.STRIPES_PORT || 3000;
     const host = options.host || process.env.STRIPES_HOST || 'localhost';
@@ -92,7 +92,7 @@ commander
       options: { stripesLoader: stripesLoaderConfig },
     }));
     config.output.path = path.resolve(outputPath);
-    const compiler = webpack(mirage(config));
+    const compiler = webpack(mirage(svgloader(config)));
     compiler.run(function (err, stats) { });
   });
 
@@ -106,5 +106,34 @@ if (!process.argv.slice(2).length) {
 function mirage(config) {
   return Object.assign({}, config, {
     entry: ['./demo/boot-mirage'].concat(config.entry)
+  });
+}
+
+function svgloader(config) {
+  let module = config.module;
+  return Object.assign({}, config, {
+    module: Object.assign({}, module, {
+      loaders: [
+        {
+          test: /\.svg$/,
+          exclude: /node_modules/,
+          loader: 'svg-react-loader',
+          query: {
+            classIdPrefix: '[name]-[hash:8]__',
+            filters: [
+              function (value) {
+                // ...
+                this.update(newvalue);
+              }
+            ],
+            propsMap: {
+              fillRule: 'fill-rule',
+              foo: 'bar'
+            },
+            xmlnsTest: /^xmlns.*$/
+          }
+        }
+      ]
+    })
   });
 }

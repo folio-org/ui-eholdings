@@ -1,0 +1,11 @@
+.front {
+  margin: 3em auto;
+  max-width: 50em;
+  padding: 0 2em;
+}
+
+.logo {
+  height: 36px;
+  width: 36px;
+  vertical-align: bottom;
+}
