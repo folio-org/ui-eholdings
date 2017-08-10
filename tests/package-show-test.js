@@ -6,8 +6,7 @@ import { describeApplication } from './helpers';
 import PackageShowPage from './pages/package-show';
 
 describeApplication('PackageShow', function() {
-  let vendor;
-  let vendorPackage;
+  let vendor, vendorPackage;
 
   beforeEach(function() {
     vendorPackage = this.server.create('package', {
@@ -30,8 +29,8 @@ describeApplication('PackageShow', function() {
       expect(PackageShowPage.name).to.equal('Cool Package');
     });
 
-    // skipped: this will be disabled until page is no longer read-only
     it.skip('displays whether or not the package is selected', function() {
+      // skip: this will be disabled until page is no longer read-only
       expect(PackageShowPage.isSelected).to.be.true;
     });
 

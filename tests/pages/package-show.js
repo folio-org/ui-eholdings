@@ -1,5 +1,4 @@
 import $ from 'jquery';
-import { triggerChange } from '../helpers';
 
 export default {
   get $root() {
