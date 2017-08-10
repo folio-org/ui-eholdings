@@ -1,17 +1,11 @@
 .front {
-  width: 80%;
-  margin: auto;
+  margin: 3em auto;
+  max-width: 50em;
+  padding: 0 2em;
 }
 
 .logo {
-  height: 150px;
-  width: 150px;
-  float: left;
-  margin: 2em;
-}
-
-.content {
-  float: left;
-  max-width: 50em;
-  margin-top: 2em;
+  height: 36px;
+  width: 36px;
+  vertical-align: bottom;
 }

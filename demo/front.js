@@ -8,30 +8,29 @@ import style from './front.css';
 export default function Front() {
   return (
     <div className={style.front}>
-      <Logo className={style.logo}/>
-      <div className={style.content}>
-        <h1>Frontside FOLIO</h1>
-        <p>
-          Welcome to the frontside folio demo. Here you'll find a showcase of the applications and modules that we've been working on.
-        </p>
+      <h1><Logo className={style.logo}/> Frontside FOLIO</h1>
+      <p>
+        Welcome to the Frontside FOLIO demo. Here you'll find a showcase of the applications and modules that we've been working on.
+      </p>
 
-        <p>While we wire up the general search and navigation system for e-holdings, please have a look at these direct links as a starting point:</p>
+      <p>While we wire up the general search and navigation system for e-holdings, please have a look at these direct links as a starting point:</p>
 
-        <h3>Vendors</h3>
-        <ul>
-          <li><Link to="/eholdings/vendors/1">Bob Martin and Sons</Link></li>
-          <li><Link to="/eholdings/vendors/2">Vendore Fantastico</Link></li>
-        </ul>
-        <h3>Packages</h3>
-        <ul>
-          <li><Link to="/eholdings/packages/1">Harvard Busines Review</Link></li>
-          <li><Link to="/eholdings/packages/2">Bird Person E-Content</Link></li>
-        </ul>
+      <h3>Vendors</h3>
+      <ul>
+        <li><Link to="/eholdings/vendors/1">Bob Martin and Sons</Link></li>
+        <li><Link to="/eholdings/vendors/2">Vendore Fantastico</Link></li>
+      </ul>
+      <h3>Packages</h3>
+      <ul>
+        <li><Link to="/eholdings/packages/1">Harvard Business Review</Link></li>
+        <li><Link to="/eholdings/packages/2">Bird Person E-Content</Link></li>
+      </ul>
 
-        <blockquote>
-          Note that the network requests are connecting to a server populated with mock data and not actually sourcing directly from the Ebsco resource management API
-        </blockquote>
-      </div>
+      <p>
+        <em>
+          Note that the network requests are connecting to a server populated with mock data and not actually sourcing from the Ebsco resource management API.
+        </em>
+      </p>
     </div>
   );
 }
