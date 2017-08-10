@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { Link } from 'react-router-dom'
 import Paneset from '@folio/stripes-components/lib/Paneset';
 import Pane from '@folio/stripes-components/lib/Pane';
 import KeyValue from '@folio/stripes-components/lib/KeyValue';
@@ -9,7 +10,9 @@ import styles from './vendor-show.css';
 export default function VendorShow({ vendor, vendorPackages }) {
   const renderPackageListItem = item => (
     <li key={item.packageId} data-test-eholdings-vendor-package>
-      <h5 data-test-eholdings-vendor-package-name>{item.packageName}</h5>
+      <h5 data-test-eholdings-vendor-package-name>
+        <Link to={`/eholdings/vendors/${vendor.id}/packages/${item.packageId}`}>{item.packageName}</Link>
+      </h5>
       <div>
         {item.isSelected ? (
           <span>Selected</span>
