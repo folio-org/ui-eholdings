@@ -1,4 +1,13 @@
+import { okapi } from 'stripes-loader';
+
 export default function () {
+  // Okapi configs
+  this.urlPrefix = okapi.url;
+  this.get('/_/version', {});
+  this.get('/_/proxy/modules', []);
+
+  // e-holdings endpoints
+  this.urlPrefix = '';
   this.namespace = 'eholdings';
 
   this.get('/vendors', ({ vendors }, request) => {
@@ -15,4 +24,7 @@ export default function () {
   this.get('/vendors/:vendorId/packages', ({ packages }, request) => {
     return packages.where( { vendorId: request.params.vendorId } );
   });
+
+  // hot-reload passthrough
+  this.pretender.get('/:rand.hot-update.json', this.pretender.passthrough);
 }

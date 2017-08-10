@@ -28,9 +28,6 @@ export default class TestHarness extends Component {
     this.store = configureStore({ okapi });
     this.logger = configureLogger(config);
     this.mirage = startMirage();
-
-    this.mirage.get(`${okapi.url}/_/proxy/modules`, []);
-    this.mirage.get(`${okapi.url}/_/version`, {});
     this.history = createMemoryHistory();
 
     discoverServices(okapi.url, this.store);
