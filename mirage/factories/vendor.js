@@ -15,11 +15,13 @@ export default Factory.extend({
 
       server.createList('package', vendor.packagesSelected, {
         vendor,
+        vendorName: vendor.vendorName,
         isSelected: 1
       });
 
       server.createList('package', (vendor.packagesTotal - vendor.packagesSelected), {
         vendor,
+        vendorName: vendor.vendorName,
         isSelected: 0
       });
     }
