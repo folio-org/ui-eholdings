@@ -15,16 +15,18 @@ export default function Front() {
 
       <p>While we wire up the general search and navigation system for e-holdings, please have a look at these direct links as a starting point:</p>
 
-      <h3>Vendors</h3>
-      <ul>
-        <li><Link to="/eholdings/vendors/1">Bob Martin and Sons</Link></li>
-        <li><Link to="/eholdings/vendors/2">Vendore Fantastico</Link></li>
-      </ul>
-      <h3>Packages</h3>
-      <ul>
-        <li><Link to="/eholdings/packages/1">Harvard Business Review</Link></li>
-        <li><Link to="/eholdings/packages/2">Bird Person E-Content</Link></li>
-      </ul>
+        <h3>Vendors</h3>
+        <ul>
+          <li><Link to="/eholdings/vendors/6">Economist Intelligence Unit</Link></li>
+          <li><Link to="/eholdings/vendors/7">Edinburgh University Press</Link></li>
+        </ul>
+        {/*
+            <h3>Packages</h3>
+              <ul>
+                <li><Link to="/eholdings/vendors/6/packages/26">EIU: Country Reports Archive (DFG Nationallizenz)</Link></li>
+                <li><Link to="/eholdings/vendors/7/packages/27">Digimap Ordnance Survey</Link></li>
+            </ul>
+        */}
 
       <p>
         <em>
