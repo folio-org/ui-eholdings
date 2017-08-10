@@ -29,21 +29,20 @@ describeApplication('PackageShow', function() {
       expect(PackageShowPage.name).to.equal('Cool Package');
     });
 
-    it.skip('displays whether or not the package is selected', function() {
-      // skip: this will be disabled until page is no longer read-only
-      expect(PackageShowPage.isSelected).to.be.true;
+    it('displays whether or not the package is selected', function() {
+      expect(PackageShowPage.isSelected).to.equal(`Selected${vendorPackage.isSelected ? 'SELECTED' : 'NOT SELECTED'}`);
     });
 
     it('displays the content type', function(){
-      expect(PackageShowPage.contentType).to.equal('e-book');
+      expect(PackageShowPage.contentType).to.equal('Content Typee-book');
     })
 
     it('displays the total number of titles', function() {
-      expect(PackageShowPage.numTitles).to.equal(vendorPackage.titleCount);
+      expect(PackageShowPage.numTitles).to.equal(`Total Titles${vendorPackage.titleCount}`);
     });
 
     it('displays the number of selected titles', function() {
-      expect(PackageShowPage.numTitlesSelected).to.equal(vendorPackage.selectedCount);
+      expect(PackageShowPage.numTitlesSelected).to.equal(`Selected Titles${vendorPackage.selectedCount}`);
     });
   });
 

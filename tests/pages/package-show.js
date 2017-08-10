@@ -15,13 +15,13 @@ export default {
     return $('[data-test-eholdings-package-details-content-type]').text();
   },
   get numTitles() {
-    return parseInt($('[data-test-eholdings-package-details-titles-total').text(), 10);
+    return $('[data-test-eholdings-package-details-titles-total').text();
   },
   get numTitlesSelected() {
-    return parseInt($('[data-test-eholdings-package-details-titles-selected').text(), 10);
+    return $('[data-test-eholdings-package-details-titles-selected').text();
   },
   get isSelected() {
-    return $('[data-test-eholdings-package-details-selected]').value();
+    return $('[data-test-eholdings-package-details-selected]').text();
   },
   get hasErrors() {
     return $('[data-test-eholdings-package-details-error]').length > 0;
