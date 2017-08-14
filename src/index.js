@@ -10,9 +10,20 @@ import CustomerResourceShow from './routes/customer-resource/customer-resource-s
 
 export default class EHoldings extends Component {
   static propTypes = {
+    stripes: PropTypes.shape({
+      connect: PropTypes.func.isRequired
+    }).isRequired,
     match: PropTypes.shape({
       path: PropTypes.string.isRequired
     }).isRequired
+  }
+
+  constructor(props) {
+    super(props);
+    this.ConnectedApp = props.stripes.connect(App);
+    this.ConnectedVendorShow = props.stripes.connect(VendorShow);
+    this.ConnectedPackageShow = props.stripes.connect(PackageShow);
+    this.ConnectedCustomerResourceShow = props.stripes.connect(CustomerResourceShow);
   }
 
   render() {
@@ -20,10 +31,10 @@ export default class EHoldings extends Component {
 
     return(
       <Switch>
-        <Route path={rootPath} exact component={App}/>
-        <Route path={`${rootPath}/vendors/:vendorId/packages/:packageId/titles/:titleId`} exact component={CustomerResourceShow}/>
-        <Route path={`${rootPath}/vendors/:vendorId/packages/:packageId`} exact component={PackageShow}/>
-        <Route path={`${rootPath}/vendors/:vendorId`} exact component={VendorShow}/>
+        <Route path={rootPath} exact component={this.ConnectedApp}/>
+        <Route path={`${rootPath}/vendors/:vendorId`} exact component={this.ConnectedVendorShow}/>
+        <Route path={`${rootPath}/vendors/:vendorId/packages/:packageId`} exact component={this.ConnectedPackageShow}/>
+        <Route path={`${rootPath}/vendors/:vendorId/packages/:packageId/titles/:titleId`} exact component={this.ConnectedCustomerResourceShow}/>
       </Switch>
     );
   }

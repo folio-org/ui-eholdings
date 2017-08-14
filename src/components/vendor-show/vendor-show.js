@@ -14,22 +14,14 @@ export default function VendorShow({ vendor, vendorPackages }) {
         <Link to={`/eholdings/vendors/${vendor.id}/packages/${item.packageId}`}>{item.packageName}</Link>
       </h5>
       <div>
-        {item.isSelected ? (
-          <span>Selected</span>
-        ) : (
-          <span>Unselected</span>
-        )}
+        <span>{item.isSelected ? 'Selected' : 'Unselected' }</span>
         &nbsp;&bull;&nbsp;
-       <span data-test-eholdings-vendor-details-package-num-titles>{item.selectedCount}</span>
-       &nbsp;/&nbsp;
-       <span data-test-eholdings-vendor-details-package-num-titles-selected>{item.titleCount}</span>
-       &nbsp;
-       {item.titleCount === 1 ? (
-         <span>Title</span>
-       ): (
-         <span>Titles</span>
-       )}
-     </div>
+        <span data-test-eholdings-vendor-details-package-num-titles>{item.selectedCount}</span>
+        &nbsp;/&nbsp;
+        <span data-test-eholdings-vendor-details-package-num-titles-selected>{item.titleCount}</span>
+        &nbsp;
+        <span>{item.titleCount === 1 ? 'Title' : 'Titles'}</span>
+      </div>
     </li>
   );
 
@@ -37,7 +29,7 @@ export default function VendorShow({ vendor, vendorPackages }) {
     <div data-test-eholdings-vendor-details>
       <Paneset>
         <Pane defaultWidth="100%">
-          {vendor.isLoaded ? (
+          {vendor ? (
             <div>
               <h1 data-test-eholdings-vendor-details-name>
                 {vendor.vendorName}
@@ -48,32 +40,21 @@ export default function VendorShow({ vendor, vendorPackages }) {
               <div data-test-eholdings-vendor-details-packages-selected>
                 <KeyValue label="Packages Selected" value={vendor.packagesSelected} />
               </div>
-            </div>
-          ) : vendor.isErrored ? (
-            vendor.mapErrors((error, key) => (
-              <p key={key} data-test-eholdings-vendor-details-error>
-                {error.message}. {error.code}
-              </p>
-            ))
-          ) : (
-            <p>Loading...</p>
-          )}
 
-          {vendor.isLoaded && vendorPackages.isLoaded ? (
-            <div>
-              <h3>Packages</h3>
-              <List
-                itemFormatter={renderPackageListItem}
-                items={vendorPackages.packageList}
-                listClass={styles.list}
-              />
+              {vendorPackages && vendorPackages.length ? (
+                <div>
+                  <h3>Packages</h3>
+                  <List
+                      itemFormatter={renderPackageListItem}
+                      items={vendorPackages}
+                      listClass={styles.list}/>
+                </div>
+              ) : vendorPackages ? (
+                <p>No Packages Found</p>
+              ) : (
+                <p>Loading...</p>
+              )}
             </div>
-          ) : vendorPackages.isErrored ? (
-            vendorPackages.mapErrors((error, key) => (
-              <p key={key}>
-                {error.message}. {error.code}
-              </p>
-            ))
           ) : (
             <p>Loading...</p>
           )}
@@ -84,6 +65,6 @@ export default function VendorShow({ vendor, vendorPackages }) {
 }
 
 VendorShow.propTypes = {
-  vendor: PropTypes.object.isRequired,
-  vendorPackages: PropTypes.object.isRequired
+  vendor: PropTypes.object,
+  vendorPackages: PropTypes.arrayOf(PropTypes.object)
 };

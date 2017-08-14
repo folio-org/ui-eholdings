@@ -8,7 +8,6 @@ export default function () {
   this.get('/_/proxy/modules', []);
 
   // e-holdings endpoints
-  this.urlPrefix = '';
   this.namespace = 'eholdings';
 
   // fetch polyfill needs this header set so it can reliably set `response.url`
@@ -49,11 +48,12 @@ export default function () {
   });
 
   this.get('/vendors/:vendorId/packages/:packageId/titles/:titleId', ({ customerResources, titles }, request) => {
-    let matchingCustomerResource = customerResources.findBy({
+    const matchingCustomerResource = customerResources.findBy({
       packageId: request.params.packageId,
       titleId: request.params.titleId
     });
-    return titles.find(matchingCustomerResource.titleId)
+
+    return new Response(200, getHeaders(request), titles.find(matchingCustomerResource.titleId));
   });
 
   // hot-reload passthrough

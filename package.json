@@ -32,6 +32,7 @@
     "lodash": "^4.17.4",
     "mirage-server": "cowboyd/mirage-server",
     "mocha": "^3.4.2",
+    "query-string": "^5.0.0",
     "react": "^15.6.1",
     "react-addons-test-utils": "^15.6.0",
     "react-dom": "^15.6.1",
