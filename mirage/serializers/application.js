@@ -1,18 +1,26 @@
 import { Serializer } from 'mirage-server';
 
 export default Serializer.extend({
-  embed: true,
-  root: false,
+  embed: false,
+  serializeIds: 'always',
 
   serialize(response) {
+    /*
+     * Don't rely on mirage to send rootless responses, since a rootless mirage
+     * response currently doesn't serialize relationship ids; instead we manually
+     * pull out the top-level key and ignore sideloaded records.
+    */
     let json = Serializer.prototype.serialize.apply(this, arguments);
-    if(Array.isArray(json)) {
+    let keyForPrimaryResource = this.keyForResource(response);
+    let unSideloadedJson = json[keyForPrimaryResource];
+
+    if (Array.isArray(unSideloadedJson)) {
       return {
-        totalResults: json.length,
-        [this.keyForResource(response)]: json.map(this.mapPrimaryKey, this)
+        totalResults: unSideloadedJson.length,
+        [keyForPrimaryResource]: unSideloadedJson.map(this.mapPrimaryKey, this)
       };
     } else {
-      return this.mapPrimaryKey(json);
+      return this.mapPrimaryKey(unSideloadedJson);
     }
   },
 
@@ -23,5 +31,9 @@ export default Serializer.extend({
 
   keyForCollection(modelName) {
     return `${this.keyForModel(modelName)}List`;
+  },
+
+  keyForEmbeddedRelationship(attributeName) {
+    return `${this.keyForModel(attributeName)}List`;
   }
 });

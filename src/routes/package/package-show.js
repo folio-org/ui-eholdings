@@ -18,12 +18,27 @@ export default class PackageShowRoute extends Component {
     package: new PendingPackage({
       id: this.props.match.params.packageId,
       vendorId: this.props.match.params.vendorId
-    })
+    }),
+    packageTitles: new PendingPackageTitles()
   };
 
   componentWillMount() {
     let vendorPackage = this.state.package;
+    this.loadVendorPackage(vendorPackage);
+    this.loadPackageTitles(vendorPackage);
+  }
 
+  componentWillUnmount() {
+    this.setState = ()=> {};
+  }
+
+  render() {
+    return (<View
+      vendorPackage={this.state.package}
+      packageTitles={this.state.packageTitles}/>);
+  }
+
+  loadVendorPackage(vendorPackage) {
     fetch(`/eholdings/vendors/${vendorPackage.vendorId}/packages/${vendorPackage.id}`)
       .then(res => {
         if (!res.ok) {
@@ -36,12 +51,19 @@ export default class PackageShowRoute extends Component {
       .catch(error => this.setState({ package: vendorPackage.reject(error) }));
   }
 
-  componentWillUnmount() {
-    this.setState = ()=> {};
-  }
+  loadPackageTitles(vendorPackage) {
+    let packageTitles = this.state.packageTitles;
 
-  render() {
-    return (<View vendorPackage={this.state.package}/>);
+    fetch(`/eholdings/vendors/${vendorPackage.vendorId}/packages/${vendorPackage.id}/titles`)
+      .then(res => {
+        if (!res.ok) {
+          return res.text().then(body => { throw { status: res.status, body }; });
+        } else {
+          return res.json();
+        }
+      })
+      .then(payload => this.setState({ packageTitles: packageTitles.resolve(payload) }))
+      .catch(error => this.setState({ packageTitles: packageTitles.reject(error) }));
   }
 }
 
@@ -73,6 +95,51 @@ class LoadedPackage extends Package {
 }
 
 class ErroredPackage extends Package {
+  get isErrored() { return true; }
+
+  mapErrors(...args) {
+    try {
+      return JSON.parse(this.error.body).map(...args);
+    } catch (e) {
+      console.error(e);
+      return [];
+    }
+  }
+}
+
+class PackageTitles {
+  constructor(prev = {}, props = {}) {
+    Object.assign(this, {
+      titleList: []
+    }, prev, props);
+  }
+
+  get isPending() { return false; }
+  get isLoaded() { return false; }
+  get isErrored() { return false; }
+}
+
+class PendingPackageTitles extends PackageTitles {
+  get isPending()  { return true; }
+
+  resolve(data) {
+    return new LoadedPackageTitles(this, data);
+  }
+
+  reject(error) {
+    return new ErroredPackageTitles(this, { error });
+  }
+}
+
+class LoadedPackageTitles extends PackageTitles {
+  get isLoaded() { return true; }
+
+  mapPackageTitles(...args) {
+    return this.titleList.map(...args);
+  }
+}
+
+class ErroredPackageTitles extends PackageTitles {
   get isErrored() { return true; }
 
   mapErrors(...args) {
