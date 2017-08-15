@@ -38,6 +38,14 @@ export default function () {
     return titles.find(titleIds);
   });
 
+  this.get('/vendors/:vendorId/packages/:packageId/titles/:titleId', ({ customerResources, titles }, request) => {
+    let matchingCustomerResource = customerResources.findBy({
+      packageId: request.params.packageId,
+      titleId: request.params.titleId
+    });
+    return titles.find(matchingCustomerResource.titleId)
+  });
+
   // hot-reload passthrough
   this.pretender.get('/:rand.hot-update.json', this.pretender.passthrough);
 }
