@@ -6,16 +6,21 @@ import { describeApplication } from './helpers';
 import PackageShowPage from './pages/package-show';
 
 describeApplication('PackageShow', function() {
-  let vendor, vendorPackage;
+  let vendor, vendorPackage, customerResources;
 
   beforeEach(function() {
-    vendorPackage = this.server.create('package', {
-      packageName: 'Cool Package',
-      contentType: 'e-book'
-    });
-    vendor = vendorPackage.createVendor({
+    vendor = this.server.create('vendor', {
       vendorName: 'Cool Vendor'
     });
+
+    vendorPackage = this.server.create('package', 'withTitles', {
+      vendor,
+      packageName: 'Cool Package',
+      contentType: 'e-book',
+      titleCount: 5
+    });
+
+    customerResources = this.server.schema.where('customer-resource', { packageId: vendorPackage.id }).models;
   });
 
   describe("visiting the package details page", function() {
@@ -30,7 +35,7 @@ describeApplication('PackageShow', function() {
     });
 
     it('displays whether or not the package is selected', function() {
-      expect(PackageShowPage.isSelected).to.equal(`Selected${vendorPackage.isSelected ? 'SELECTED' : 'NOT SELECTED'}`);
+      expect(PackageShowPage.isSelected).to.equal(`Selected${vendorPackage.isSelected ? 'Selected' : 'Not Selected'}`);
     });
 
     it('displays the content type', function(){
@@ -43,6 +48,18 @@ describeApplication('PackageShow', function() {
 
     it('displays the number of selected titles', function() {
       expect(PackageShowPage.numTitlesSelected).to.equal(`Selected Titles${vendorPackage.selectedCount}`);
+    });
+
+    it('displays a list of titles', function() {
+      expect(PackageShowPage.titleList).to.have.lengthOf(customerResources.length);
+    });
+
+    it('displays name of a title in the title list', function() {
+      expect(PackageShowPage.titleList[0].name).to.equal(customerResources[0].title.titleName);
+    });
+
+    it('displays whether the first title is selected', function() {
+      expect(PackageShowPage.titleList[0].isSelected).to.equal(customerResources[0].isSelected);
     });
   });
 

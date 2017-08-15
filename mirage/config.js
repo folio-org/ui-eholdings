@@ -32,6 +32,12 @@ export default function () {
     });
   });
 
+  this.get('/vendors/:vendorId/packages/:packageId/titles', ({ customerResources, titles }, request) => {
+    let matchingCustomerResources = customerResources.where( { packageId: request.params.packageId } );
+    let titleIds = matchingCustomerResources.models.map((customerResource) => customerResource.titleId);
+    return titles.find(titleIds);
+  });
+
   // hot-reload passthrough
   this.pretender.get('/:rand.hot-update.json', this.pretender.passthrough);
 }
