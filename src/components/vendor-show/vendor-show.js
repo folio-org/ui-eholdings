@@ -11,7 +11,7 @@ export default function VendorShow({ vendor, vendorPackages }) {
   const renderPackageListItem = item => (
     <li key={item.packageId} data-test-eholdings-vendor-package>
       <h5 data-test-eholdings-vendor-package-name>
-        <Link to={`/eholdings/vendors/${vendor.id}/packages/${item.packageId}`}>{item.packageName}</Link>
+        <Link to={`/eholdings/vendors/${vendor.vendorId}/packages/${item.packageId}`}>{item.packageName}</Link>
       </h5>
       <div>
         <span>{item.isSelected ? 'Selected' : 'Unselected' }</span>
