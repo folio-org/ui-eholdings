@@ -44,6 +44,7 @@ commander
     config.plugins.push(new webpack.LoaderOptionsPlugin({
       options: { stripesLoader: stripesLoaderConfig }
     }));
+    config.plugins.push(new webpack.EnvironmentPlugin({ NODE_ENV: 'development' }));
     if (options.cache) config.plugins.push(cachePlugin);
     if (options.devtool) config.devtool = options.devtool;
 
@@ -91,6 +92,7 @@ commander
     config.plugins.push(new webpack.LoaderOptionsPlugin({
       options: { stripesLoader: stripesLoaderConfig },
     }));
+    config.plugins.push(new webpack.EnvironmentPlugin({ NODE_ENV: 'production' }));
     config.output.path = path.resolve(outputPath);
     const compiler = webpack(mirage(svgloader(config)));
     compiler.run(function (err, stats) { });
