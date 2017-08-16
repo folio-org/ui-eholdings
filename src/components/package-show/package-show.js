@@ -11,7 +11,7 @@ export default function PackageShow({ vendorPackage, packageTitles }) {
   const renderTitleListItem = item => (
     <li key={item.titleId} data-test-eholdings-package-details-title>
       <h5 data-test-eholdings-package-details-title-name>
-        {item.titleName}
+        <Link to={`/eholdings/vendors/${vendorPackage.vendorId}/packages/${vendorPackage.packageId}/titles/${item.titleId}`}>{item.titleName}</Link>
       </h5>
       <div data-test-eholdings-package-details-title-selected>
         { /* assumes that customerResourcesList.length will always equal one */  }

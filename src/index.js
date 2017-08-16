@@ -6,6 +6,7 @@ import Switch from 'react-router-dom/Switch';
 import App from './components/app';
 import VendorShow from './routes/vendor/vendor-show';
 import PackageShow from './routes/package/package-show';
+import CustomerResourceShow from './routes/customer-resource/customer-resource-show';
 
 export default class EHoldings extends Component {
   static propTypes = {
@@ -20,6 +21,7 @@ export default class EHoldings extends Component {
     return(
       <Switch>
         <Route path={rootPath} exact component={App}/>
+        <Route path={`${rootPath}/vendors/:vendorId/packages/:packageId/titles/:titleId`} exact component={CustomerResourceShow}/>
         <Route path={`${rootPath}/vendors/:vendorId/packages/:packageId`} exact component={PackageShow}/>
         <Route path={`${rootPath}/vendors/:vendorId`} exact component={VendorShow}/>
       </Switch>

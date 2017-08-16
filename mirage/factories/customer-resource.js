@@ -7,7 +7,14 @@ export default Factory.extend({
   withTitle: trait({
     afterCreate(customerResource, server) {
       let title = server.create('title');
-      customerResource.update('title', title);
+      customerResource.title = title;
+      customerResource.save();
     }
-  })
+  }),
+
+  afterCreate(customerResource) {
+    customerResource.update('packageName', customerResource.package.packageName);
+    customerResource.update('vendorName', customerResource.package.vendor.vendorName);
+    customerResource.update('vendorId', customerResource.package.vendor.id);
+  }
 });
