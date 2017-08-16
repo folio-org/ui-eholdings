@@ -6,8 +6,6 @@ const webpack = require('webpack');
 // karma-webpack to load properly.
 const webpackConfig = require('@folio/stripes-core/webpack.config.cli.dev');
 
-
-
 // This is not a separate platform, so we need to stub out our own
 // stripes config. Whenever code in the application, or in stripes
 // itself does `import 'stripes-loader'`, it will find our test
@@ -16,7 +14,6 @@ const webpackConfig = require('@folio/stripes-core/webpack.config.cli.dev');
 // Note that stripes has its own rules for handling the
 // `stripes-loader` package, so we have to remove its custom rule above.
 webpackConfig.resolve.alias['stripes-loader'] = path.resolve(__dirname, 'tests/stripes.config.js');
-
 
 // The webpack config provided by stripes-core, contains the `stripes-loader` module which uses
 // itself as a loader. We turn this off by finding the rule and
@@ -27,6 +24,7 @@ webpackConfig.resolve.alias['stripes-loader'] = path.resolve(__dirname, 'tests/s
 webpackConfig.module.rules = webpackConfig.module.rules.filter(rule => {
   return !rule.use || !rule.use.some(use => use.loader === '@folio/stripes-loader');
 });
+
 // make sure that the NODE_ENV is available in browser code.
 webpackConfig.plugins.push(new webpack.EnvironmentPlugin({
   NODE_ENV: 'test'
@@ -48,11 +46,11 @@ module.exports = function(config) {
     },
 
     files: [
-      { pattern: 'tests/**/*-test.js', watched: false }
+      { pattern: 'tests/index.js', watched: false }
     ],
 
     preprocessors: {
-      'tests/**/*-test.js': ['webpack']
+      'tests/index.js': ['webpack']
     },
 
     webpack: webpackConfig,
