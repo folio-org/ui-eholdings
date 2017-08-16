@@ -1,35 +1,55 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import Logo from 'svg-react-loader?name=Logo!./frontside-icon-transparent.svg';
-import Paneset from '@folio/stripes-components/lib/Paneset';
-import Pane from '@folio/stripes-components/lib/Pane';
 import style from './front.css';
 
 export default function Front() {
   return (
     <div className={style.front}>
-      <h1><Logo className={style.logo}/> Frontside FOLIO</h1>
+      <h1><Logo className={style.logo}/> e-Holdings, by Frontside</h1>
       <p>
         Welcome to the Frontside FOLIO demo. Here you'll find a showcase of the applications and modules that we've been working on.
       </p>
 
-      <p>While we wire up the general search and navigation system for e-holdings, please have a look at these direct links as a starting point:</p>
+      <p>
+        <em>HTTPS is currently only partially enabled at the moment for this demo. To allow insecure content to load from the demo Okapi instance, you'll need to temporarily allow "unsafe scripts" in your browser:</em>
+      </p>
+      <ul>
+        <li>
+          <a href="https://superuser.com/questions/487748/how-to-allow-chrome-browser-to-load-insecure-content">Chrome instructions</a>
+        </li>
+      </ul>
 
-        <h3>Vendors</h3>
-        <ul>
-          <li><Link to="/eholdings/vendors/1">Economist Intelligence Unit</Link></li>
-          <li><Link to="/eholdings/vendors/2">Edinburgh University Press</Link></li>
-        </ul>
+      <p>
+        While we wire up the general search and navigation system for e-holdings, please have a look at these direct links as a starting point:
+      </p>
 
-        <h3>Packages</h3>
-          <ul>
-            <li><Link to="/eholdings/vendors/6/packages/5">EIU: Country Reports Archive (DFG Nationallizenz)</Link></li>
-            <li><Link to="/eholdings/vendors/2/packages/6">Digimap Ordnance Survey</Link></li>
-        </ul>
+      <h3>Search</h3>
+      <ul>
+        <li><Link to="/eholdings/vendors">Search for a vendor</Link></li>
+      </ul>
+
+      <h3>Vendors</h3>
+      <ul>
+        <li><Link to="/eholdings/vendors/432">NASA</Link></li>
+        <li><Link to="/eholdings/vendors/19">EBSCO</Link></li>
+      </ul>
+
+      <h3>Packages</h3>
+      <ul>
+        <li><Link to="/eholdings/vendors/432/packages/8208">NASA eBooks</Link></li>
+        <li><Link to="/eholdings/vendors/19/packages/1125">Business Source Complete</Link></li>
+      </ul>
+
+      <h3>Titles</h3>
+      <ul>
+        <li><Link to="/eholdings/titles/4862281">Rockets and People, Volume 2: Creating a Rocket Industry</Link></li>
+        <li><Link to="/eholdings/titles/910785">Cornell Real Estate Review</Link></li>
+      </ul>
 
       <p>
         <em>
-          Note that the network requests are connecting to a server populated with mock data and not actually sourcing from the Ebsco resource management API.
+          The data in this demo connects to the EBSCO resource management API sandbox. The UI does not yet have any pagination, so result sets are limited to 25 items.
         </em>
       </p>
     </div>
