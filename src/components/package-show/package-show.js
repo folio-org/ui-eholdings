@@ -15,11 +15,7 @@ export default function PackageShow({ vendorPackage, packageTitles }) {
       </h5>
       <div data-test-eholdings-package-details-title-selected>
         { /* assumes that customerResourcesList.length will always equal one */  }
-        {item.customerResourcesList[0].isSelected ? (
-          <span>Selected</span>
-        ) : (
-          <span>Unselected</span>
-        )}
+        <span>{item.customerResourcesList[0].isSelected ? 'Selected' : 'Unselected'}</span>
       </div>
     </li>
   );
@@ -28,7 +24,7 @@ export default function PackageShow({ vendorPackage, packageTitles }) {
     <div data-test-eholdings-package-details>
       <Paneset>
         <Pane defaultWidth="100%">
-          {vendorPackage.isLoaded ? (
+          {vendorPackage ? (
             <div>
               <h3 data-test-eholdings-package-details-vendor>
                 <Link to={`/eholdings/vendors/${vendorPackage.vendorId}`}>{vendorPackage.vendorName}</Link>
@@ -48,32 +44,22 @@ export default function PackageShow({ vendorPackage, packageTitles }) {
               <div data-test-eholdings-package-details-titles-selected>
                 <KeyValue label="Selected Titles" value={vendorPackage.selectedCount} />
               </div>
-            </div>
-          ) : vendorPackage.isErrored ? (
-            vendorPackage.mapErrors((error, key) => (
-              <p key={key} data-test-eholdings-package-details-error>
-                {error.message}. {error.code}
-              </p>
-            ))
-          ) : (
-            <p>Loading...</p>
-          )}
 
-          {vendorPackage.isLoaded && packageTitles.isLoaded ? (
-            <div>
-              <h3>Titles</h3>
-              <List
-                itemFormatter={renderTitleListItem}
-                items={packageTitles.titleList}
-                listClass={styles.list}
-              />
+              {packageTitles && packageTitles.length ? (
+                <div>
+                  <h3>Titles</h3>
+                  <List
+                      itemFormatter={renderTitleListItem}
+                      items={packageTitles}
+                      listClass={styles.list}
+                      />
+                </div>
+              ) : packageTitles ? (
+                <p>No Titles Found</p>
+              ) : (
+                <p>Loading...</p>
+              )}
             </div>
-          ) : packageTitles.isErrored ? (
-            packageTitles.mapErrors((error, key) => (
-              <p key={key}>
-                {error.message}. {error.code}
-              </p>
-            ))
           ) : (
             <p>Loading...</p>
           )}
@@ -84,6 +70,6 @@ export default function PackageShow({ vendorPackage, packageTitles }) {
 }
 
 PackageShow.propTypes = {
-  vendorPackage: PropTypes.object.isRequired,
-  packageTitles: PropTypes.object.isRequired
+  vendorPackage: PropTypes.object,
+  packageTitles: PropTypes.arrayOf(PropTypes.object)
 };

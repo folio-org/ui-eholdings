@@ -3,6 +3,7 @@ import startMirage from '../mirage';
 
 import createMemoryHistory from 'history/createMemoryHistory';
 import { okapi, config } from 'stripes-loader';
+import epics from '@folio/stripes-core/src/epics';
 import configureLogger from '@folio/stripes-core/src/configureLogger';
 import configureStore from '@folio/stripes-core/src/configureStore';
 import { discoverServices } from '@folio/stripes-core/src/discoverServices';
@@ -41,6 +42,7 @@ export default class TestHarness extends Component {
   render() {
     return (
       <Root store={this.store}
+            epics={epics}
             logger={this.logger}
             config={config}
             okapi={okapi}

@@ -12,90 +12,42 @@ export default class CustomerResourceShowRoute extends Component {
         titleId: PropTypes.string.isRequired,
         vendorId: PropTypes.string.isRequired
       }).isRequired
-    }).isRequired
-  };
-
-  state = {
-    customerResource: new PendingCustomerResource({
-      packageId: this.props.match.params.packageId,
-      titleId: this.props.match.params.titleId,
-      vendorId: this.props.match.params.vendorId
+    }).isRequired,
+    resources: PropTypes.shape({
+      showCustomerResource: PropTypes.shape({
+        records: PropTypes.arrayOf(PropTypes.object)
+      })
     })
   };
 
-  componentWillMount() {
-    let customerResource = this.state.customerResource;
-    this.loadCustomerResource(customerResource);
-  }
-
-  componentWillUnmount() {
-    this.setState = ()=> {};
-  }
+  static manifest = Object.freeze({
+    showCustomerResource: {
+      type: 'okapi',
+      path: 'eholdings/vendors/:{vendorId}/packages/:{packageId}/titles/:{titleId}',
+      pk: 'titleId'
+    }
+  });
 
   render() {
-    return (<View customerResource={this.state.customerResource}/>);
+    return (
+      <View customerResource={this.getCustomerResource()}/>
+    );
   }
 
-  loadCustomerResource(customerResource) {
-    fetch(`/eholdings/vendors/${customerResource.vendorId}/packages/${customerResource.packageId}/titles/${customerResource.titleId}`)
-      .then(res => {
-        if (!res.ok) {
-          return res.text().then(body => { throw { status: res.status, body }; });
-        } else {
-          return res.json();
-        }
-      })
-      .then(payload => this.setState({ customerResource: customerResource.resolve(payload) }))
-      .catch(error => this.setState({ customerResource: customerResource.reject(error) }));
-  }
-}
+  getCustomerResource() {
+    const {
+      resources: { showCustomerResource },
+      match: { params: { vendorId, packageId, titleId } }
+    } = this.props;
 
-/*
- * These models represent possible loading states for a customer resource.
- * A request is fired off before `render()` to fetch the customer resource
- * details.  The customer resource is of type 'PendingCustomerResource' until the request
- * completes, at which point the PendingCustomerResource emits an instance of
- * 'LoadedCustomerResource' or 'ErroredCustomerResource' depending on the response.
- * The presentational component will display 'Loading...' while
- * the customer resource is pending.
-*/
-
-class CustomerResource {
-  constructor(prev = {}, props = {}) {
-    Object.assign(this, prev, props);
-  }
-
-  get isPending() { return false; }
-  get isLoaded() { return false; }
-  get isErrored() { return false; }
-}
-
-class PendingCustomerResource extends CustomerResource {
-  get isPending()  { return true; }
-
-  resolve(data) {
-    return new LoadedCustomerResource(this, data);
-  }
-
-  reject(error) {
-    return new ErroredCustomerResource(this, { error });
-  }
-}
-
-class LoadedCustomerResource extends CustomerResource {
-  get isLoaded() { return true; }
-}
-
-class ErroredCustomerResource extends CustomerResource {
-  get isErrored() { return true; }
-
-  mapErrors(...args) {
-    try {
-      return JSON.parse(this.error.body).map(...args);
-    } catch (e) {
-      console.error(e);
-      return [];
+    if (!showCustomerResource) {
+      return null;
     }
+
+    return showCustomerResource.records.find((title) => {
+      return title.titleId === titleId && title.customerResourcesList.some((pkgTitle) => {
+        return pkgTitle.packageId === packageId && pkgTitle.vendorId === vendorId;
+      });
+    });
   }
 }
-

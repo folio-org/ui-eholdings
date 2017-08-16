@@ -8,23 +8,22 @@ import CustomerResourceShowPage from './pages/customer-resource-show';
 describeApplication('CustomerResourceShow', function() {
   let vendor, vendorPackage, customerResources;
 
-    beforeEach(function() {
-      vendor = this.server.create('vendor', {
-        vendorName: 'Cool Vendor'
-      });
-
-      vendorPackage = this.server.create('package', 'withTitles', {
-        vendor,
-        packageName: 'Cool Package',
-        contentType: 'e-book',
-        titleCount: 5
-      });
-
-      customerResources = this.server.schema.where('customer-resource', { packageId: vendorPackage.id }).models;
+  beforeEach(function() {
+    vendor = this.server.create('vendor', {
+      vendorName: 'Cool Vendor'
     });
 
-  describe("visiting the customer resource page", function() {
+    vendorPackage = this.server.create('package', 'withTitles', {
+      vendor,
+      packageName: 'Cool Package',
+      contentType: 'e-book',
+      titleCount: 5
+    });
 
+    customerResources = this.server.schema.where('customer-resource', { packageId: vendorPackage.id }).models;
+  });
+
+  describe("visiting the customer resource page", function() {
     beforeEach(function() {
       return this.visit(`/eholdings/vendors/${vendor.id}/packages/${vendorPackage.id}/titles/${customerResources[0].titleId}`, () => {
         expect(CustomerResourceShowPage.$root).to.exist;
@@ -48,7 +47,7 @@ describeApplication('CustomerResourceShow', function() {
     });
   });
 
-  describe("encountering a server error", function() {
+  describe.skip("encountering a server error", function() {
     beforeEach(function() {
       this.server.get('/vendors/:vendorId/packages/:packageId/titles/:titleId', [{
         message: 'There was an error',

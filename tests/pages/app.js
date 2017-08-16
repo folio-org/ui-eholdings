@@ -2,15 +2,15 @@ import $ from 'jquery';
 import { triggerChange } from '../helpers';
 
 export default {
-  get root() {
+  get $root() {
     return $('[data-test-eholdings]');
   },
 
-  get searchField() {
+  get $searchField() {
     return $('[data-test-search-field]');
   },
 
-  get searchResultsItems() {
+  get $searchResultsItems() {
     return $('[data-test-search-results-item]');
   },
 

@@ -1,49 +1,59 @@
 import { okapi } from 'stripes-loader';
+import { Response } from 'mirage-server';
 
 export default function () {
   // Okapi configs
   this.urlPrefix = okapi.url;
-  this.get('/_/version', {});
+  this.get('/_/version', () => '0.0.0');
   this.get('/_/proxy/modules', []);
 
   // e-holdings endpoints
-  this.urlPrefix = '';
   this.namespace = 'eholdings';
 
+  // fetch polyfill needs this header set so it can reliably set `response.url`
+  const getHeaders = (req) => ({ 'X-Request-URL': req.url });
+
   this.get('/vendors', ({ vendors }, request) => {
-    let filteredVendors = vendors.all().filter((vendorModel) => {
-      let query = request.queryParams.search.toLowerCase();
+    const filteredVendors = vendors.all().filter((vendorModel) => {
+      const query = request.queryParams.search.toLowerCase();
       return vendorModel.vendorName.toLowerCase().includes(query);
     });
 
-    return filteredVendors;
+    return new Response(200, getHeaders(request), filteredVendors);
   });
 
-  this.get('/vendors/:id');
+  this.get('/vendors/:id', ({ vendors }, request) => {
+    const vendor = vendors.find(request.params.id);
+    return new Response(200, getHeaders(request), vendor);
+  });
 
   this.get('/vendors/:vendorId/packages', ({ packages }, request) => {
-    return packages.where( { vendorId: request.params.vendorId } );
+    const vendorPackages =  packages.where( { vendorId: request.params.vendorId } );
+    return new Response(200, getHeaders(request), vendorPackages);
   });
 
   this.get('/vendors/:vendorId/packages/:packageId', ({ packages }, request) => {
-    return packages.findBy({
+    const vendorPackage = packages.findBy({
       vendorId: request.params.vendorId,
       id: request.params.packageId
     });
+
+    return new Response(200, getHeaders(request), vendorPackage);
   });
 
   this.get('/vendors/:vendorId/packages/:packageId/titles', ({ customerResources, titles }, request) => {
-    let matchingCustomerResources = customerResources.where( { packageId: request.params.packageId } );
-    let titleIds = matchingCustomerResources.models.map((customerResource) => customerResource.titleId);
-    return titles.find(titleIds);
+    const matchingCustomerResources = customerResources.where({ packageId: request.params.packageId });
+    const titleIds = matchingCustomerResources.models.map((customerResource) => customerResource.titleId);
+    return new Response(200, getHeaders(request), titles.find(titleIds));
   });
 
   this.get('/vendors/:vendorId/packages/:packageId/titles/:titleId', ({ customerResources, titles }, request) => {
-    let matchingCustomerResource = customerResources.findBy({
+    const matchingCustomerResource = customerResources.findBy({
       packageId: request.params.packageId,
       titleId: request.params.titleId
     });
-    return titles.find(matchingCustomerResource.titleId)
+
+    return new Response(200, getHeaders(request), titles.find(matchingCustomerResource.titleId));
   });
 
   // hot-reload passthrough
