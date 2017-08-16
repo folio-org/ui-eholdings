@@ -30,8 +30,8 @@ export default class PackageShowRoute extends Component {
     },
     showPackageTitles: {
       type: 'okapi',
-      path: 'eholdings/vendors/:{vendorId}/packages/:{packageId}/titles',
-      records: 'titleList',
+      path: 'eholdings/vendors/:{vendorId}/packages/:{packageId}/titles?search=%00&searchfield=titlename&offset=1&count=25&orderby=relevance',
+      records: 'titles',
       pk: 'titleId'
     }
   });
@@ -55,7 +55,7 @@ export default class PackageShowRoute extends Component {
     }
 
     return showPackage.records.find((pkg) => {
-      return pkg.packageId === packageId && pkg.vendorId === vendorId;
+      return pkg.packageId == packageId && pkg.vendorId == vendorId;
     });
   }
 
@@ -71,7 +71,7 @@ export default class PackageShowRoute extends Component {
 
     return showPackageTitles.records.filter((title) => {
       return title.customerResourcesList.some((pkgTitle) => {
-        return pkgTitle.packageId === packageId;
+        return pkgTitle.packageId == packageId;
       });
     });
   }
