@@ -12,9 +12,27 @@ export default Factory.extend({
     }
   }),
 
+  withPackage: trait({
+    afterCreate(customerResource, server) {
+      let packageObj = server.create('package', 'withVendor');
+      customerResource.update({
+        'package': packageObj,
+        'packageName': packageObj.packageName,
+        'vendorId': packageObj.vendor.id,
+        'vendorName': packageObj.vendor.vendorName
+      });
+      customerResource.save();
+    }
+  }),
+
   afterCreate(customerResource) {
-    customerResource.update('packageName', customerResource.package.packageName);
-    customerResource.update('vendorName', customerResource.package.vendor.vendorName);
-    customerResource.update('vendorId', customerResource.package.vendor.id);
+    if(customerResource.package) {
+      customerResource.update({
+        'packageName': customerResource.package.packageName,
+        'vendorId': customerResource.package.vendor.id,
+        'vendorName': customerResource.package.vendor.vendorName
+      });
+      customerResource.save();
+    }
   }
 });
