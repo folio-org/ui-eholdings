@@ -20,10 +20,10 @@ export default class EHoldings extends Component {
 
   constructor(props) {
     super(props);
-    this.ConnectedApp = props.stripes.connect(App);
-    this.ConnectedVendorShow = props.stripes.connect(VendorShow);
-    this.ConnectedPackageShow = props.stripes.connect(PackageShow);
-    this.ConnectedCustomerResourceShow = props.stripes.connect(CustomerResourceShow);
+    this.App = props.stripes.connect(App);
+    this.VendorShow = props.stripes.connect(VendorShow);
+    this.PackageShow = props.stripes.connect(PackageShow);
+    this.CustomerResourceShow = props.stripes.connect(CustomerResourceShow);
   }
 
   render() {
@@ -31,10 +31,10 @@ export default class EHoldings extends Component {
 
     return(
       <Switch>
-        <Route path={rootPath} exact component={this.ConnectedApp}/>
-        <Route path={`${rootPath}/vendors/:vendorId`} exact component={this.ConnectedVendorShow}/>
-        <Route path={`${rootPath}/vendors/:vendorId/packages/:packageId`} exact component={this.ConnectedPackageShow}/>
-        <Route path={`${rootPath}/vendors/:vendorId/packages/:packageId/titles/:titleId`} exact component={this.ConnectedCustomerResourceShow}/>
+        <Route path={rootPath} exact component={this.App}/>
+        <Route path={`${rootPath}/vendors/:vendorId`} exact component={this.VendorShow}/>
+        <Route path={`${rootPath}/vendors/:vendorId/packages/:packageId`} exact component={this.PackageShow}/>
+        <Route path={`${rootPath}/vendors/:vendorId/packages/:packageId/titles/:titleId`} exact component={this.CustomerResourceShow}/>
       </Switch>
     );
   }
