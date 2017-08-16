@@ -17,16 +17,15 @@ export default function Front() {
 
         <h3>Vendors</h3>
         <ul>
-          <li><Link to="/eholdings/vendors/6">Economist Intelligence Unit</Link></li>
-          <li><Link to="/eholdings/vendors/7">Edinburgh University Press</Link></li>
+          <li><Link to="/eholdings/vendors/1">Economist Intelligence Unit</Link></li>
+          <li><Link to="/eholdings/vendors/2">Edinburgh University Press</Link></li>
         </ul>
-        {/*
-            <h3>Packages</h3>
-              <ul>
-                <li><Link to="/eholdings/vendors/6/packages/26">EIU: Country Reports Archive (DFG Nationallizenz)</Link></li>
-                <li><Link to="/eholdings/vendors/7/packages/27">Digimap Ordnance Survey</Link></li>
-            </ul>
-        */}
+
+        <h3>Packages</h3>
+          <ul>
+            <li><Link to="/eholdings/vendors/6/packages/5">EIU: Country Reports Archive (DFG Nationallizenz)</Link></li>
+            <li><Link to="/eholdings/vendors/2/packages/6">Digimap Ordnance Survey</Link></li>
+        </ul>
 
       <p>
         <em>
