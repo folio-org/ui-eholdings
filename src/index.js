@@ -15,7 +15,8 @@ export default class EHoldings extends Component {
     }).isRequired,
     match: PropTypes.shape({
       path: PropTypes.string.isRequired
-    }).isRequired
+    }).isRequired,
+    okapi: PropTypes.object
   }
 
   constructor(props) {

@@ -45,8 +45,8 @@ export default class CustomerResourceShowRoute extends Component {
     }
 
     return showCustomerResource.records.find((title) => {
-      return title.titleId === titleId && title.customerResourcesList.some((pkgTitle) => {
-        return pkgTitle.packageId === packageId && pkgTitle.vendorId === vendorId;
+      return title.titleId == titleId && title.customerResourcesList.some((pkgTitle) => {
+        return pkgTitle.packageId == packageId && pkgTitle.vendorId == vendorId;
       });
     });
   }

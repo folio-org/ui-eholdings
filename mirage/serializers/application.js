@@ -1,4 +1,4 @@
-import { Serializer } from 'mirage-server';
+import { Serializer, pluralize } from 'mirage-server';
 
 export default Serializer.extend({
   embed: false,
@@ -30,7 +30,13 @@ export default Serializer.extend({
   },
 
   keyForCollection(modelName) {
-    return `${this.keyForModel(modelName)}List`;
+    const pluralizedKey = pluralize(this.keyForModel(modelName));
+
+    if (modelName === 'vendor' || modelName === 'title') {
+      return pluralizedKey;
+    } else {
+      return `${pluralizedKey}List`;
+    }
   },
 
   keyForEmbeddedRelationship(attributeName) {

@@ -24,8 +24,8 @@ export default class SearchVendors extends Component {
   static manifest = Object.freeze({
     searchVendors: {
       type: 'okapi',
-      path: 'eholdings/vendors?search=?{search}',
-      records: 'vendorList',
+      path: 'eholdings/vendors?search=?{search}&count=25&offset=1&orderby=relevance',
+      records: 'vendors',
       pk: 'vendorId'
     }
   });

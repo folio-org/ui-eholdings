@@ -49,6 +49,9 @@
   "stripes": {
     "type": "app",
     "displayName": "e-holdings",
-    "route": "/eholdings"
+    "route": "/eholdings",
+    "okapiInterfaces": {
+      "kb-ebsco": "0.1.0"
+    }
   }
 }

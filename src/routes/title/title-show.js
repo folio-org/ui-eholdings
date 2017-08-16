@@ -41,7 +41,7 @@ export default class TitleShowRoute extends Component {
     }
 
     return showTitle.records.find((title) => {
-      return title.titleId === titleId;
+      return title.titleId == titleId;
     });
   }
 }
