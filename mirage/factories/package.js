@@ -33,5 +33,13 @@ export default Factory.extend({
         });
       }
     }
+  }),
+
+  withVendor: trait({
+    afterCreate(packageObj, server) {
+      let vendor = server.create('vendor');
+      packageObj.vendor = vendor;
+      packageObj.save();
+    }
   })
 });

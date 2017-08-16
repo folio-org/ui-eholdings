@@ -24,6 +24,11 @@ export default function CustomerResourceShow({ customerResource }) {
               <div data-test-eholdings-customer-resource-show-selected>
                 <KeyValue label="Selected" value={customerResource.customerResourcesList[0].isSelected ? 'Selected' : 'Not Selected'} />
               </div>
+              <div>
+                <Link to={`/eholdings/titles/${customerResource.titleId}`}>
+                  View other packages that include this title
+                </Link>
+              </div>
             </div>
           ) : (
             <p>Loading...</p>

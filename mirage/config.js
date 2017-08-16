@@ -13,25 +13,7 @@ export default function () {
   // fetch polyfill needs this header set so it can reliably set `response.url`
   const getHeaders = (req) => ({ 'X-Request-URL': req.url });
 
-  this.get('/vendors', ({ vendors }, request) => {
-    const filteredVendors = vendors.all().filter((vendorModel) => {
-      const query = request.queryParams.search.toLowerCase();
-      return vendorModel.vendorName.toLowerCase().includes(query);
-    });
-
-    return new Response(200, getHeaders(request), filteredVendors);
-  });
-
-  this.get('/vendors/:id', ({ vendors }, request) => {
-    const vendor = vendors.find(request.params.id);
-    return new Response(200, getHeaders(request), vendor);
-  });
-
-  this.get('/vendors/:vendorId/packages', ({ packages }, request) => {
-    const vendorPackages =  packages.where( { vendorId: request.params.vendorId } );
-    return new Response(200, getHeaders(request), vendorPackages);
-  });
-
+    // Package resources
   this.get('/vendors/:vendorId/packages/:packageId', ({ packages }, request) => {
     const vendorPackage = packages.findBy({
       vendorId: request.params.vendorId,
@@ -55,6 +37,33 @@ export default function () {
 
     return new Response(200, getHeaders(request), titles.find(matchingCustomerResource.titleId));
   });
+
+  // Title resources
+  this.get('/titles/:id', ({ titles }, request) => {
+    const title = titles.find(request.params.id);
+    return new Response(200, getHeaders(request), title);
+  });
+
+  // Vendor resources
+  this.get('/vendors', ({ vendors }, request) => {
+    const filteredVendors = vendors.all().filter((vendorModel) => {
+      const query = request.queryParams.search.toLowerCase();
+      return vendorModel.vendorName.toLowerCase().includes(query);
+    });
+
+    return new Response(200, getHeaders(request), filteredVendors);
+  });
+
+  this.get('/vendors/:id', ({ vendors }, request) => {
+    const vendor = vendors.find(request.params.id);
+    return new Response(200, getHeaders(request), vendor);
+  });
+
+  this.get('/vendors/:vendorId/packages', ({ packages }, request) => {
+    const vendorPackages =  packages.where( { vendorId: request.params.vendorId } );
+    return new Response(200, getHeaders(request), vendorPackages);
+  });
+
 
   // hot-reload passthrough
   this.pretender.get('/:rand.hot-update.json', this.pretender.passthrough);
