@@ -40,7 +40,7 @@ export default class CustomerResourceShowRoute extends Component {
       match: { params: { vendorId, packageId, titleId } }
     } = this.props;
 
-    if (!showCustomerResource || !vendorId || !packageId || !titleId) {
+    if (!showCustomerResource) {
       return null;
     }
 

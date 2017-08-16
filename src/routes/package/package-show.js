@@ -50,7 +50,7 @@ export default class PackageShowRoute extends Component {
       match: { params: { vendorId, packageId } }
     } = this.props;
 
-    if (!showPackage || !vendorId || !packageId) {
+    if (!showPackage) {
       return null;
     }
 
@@ -65,7 +65,7 @@ export default class PackageShowRoute extends Component {
       match: { params: { vendorId, packageId } }
     } = this.props;
 
-    if (!showPackageTitles || !vendorId || !packageId) {
+    if (!showPackageTitles) {
       return null;
     }
 
