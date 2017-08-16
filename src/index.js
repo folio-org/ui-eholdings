@@ -1,9 +1,8 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import Route from 'react-router-dom/Route';
-import Switch from 'react-router-dom/Switch';
+import { Route, Switch, Redirect } from 'react-router-dom';
 
-import App from './components/app';
+import SearchVendors from './routes/search/search-vendors';
 import VendorShow from './routes/vendor/vendor-show';
 import PackageShow from './routes/package/package-show';
 import CustomerResourceShow from './routes/customer-resource/customer-resource-show';
@@ -20,7 +19,7 @@ export default class EHoldings extends Component {
 
   constructor(props) {
     super(props);
-    this.App = props.stripes.connect(App);
+    this.SearchVendors = props.stripes.connect(SearchVendors);
     this.VendorShow = props.stripes.connect(VendorShow);
     this.PackageShow = props.stripes.connect(PackageShow);
     this.CustomerResourceShow = props.stripes.connect(CustomerResourceShow);
@@ -31,10 +30,11 @@ export default class EHoldings extends Component {
 
     return(
       <Switch>
-        <Route path={rootPath} exact component={this.App}/>
+        <Route path={`${rootPath}/vendors`} exact component={this.SearchVendors}/>
         <Route path={`${rootPath}/vendors/:vendorId`} exact component={this.VendorShow}/>
         <Route path={`${rootPath}/vendors/:vendorId/packages/:packageId`} exact component={this.PackageShow}/>
         <Route path={`${rootPath}/vendors/:vendorId/packages/:packageId/titles/:titleId`} exact component={this.CustomerResourceShow}/>
+        <Route render={() => (<Redirect to={`${rootPath}/vendors`}/>)}/>
       </Switch>
     );
   }

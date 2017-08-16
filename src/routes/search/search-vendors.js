@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom';
 import Paneset from '@folio/stripes-components/lib/Paneset';
 import Pane from '@folio/stripes-components/lib/Pane';
 
-export default class App extends Component {
+export default class SearchVendors extends Component {
   static propTypes = {
     location: PropTypes.shape({
       pathname: PropTypes.string.isRequired,

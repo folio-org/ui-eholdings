@@ -3,7 +3,7 @@ import { expect } from 'chai';
 import it from './it-will';
 
 import { describeApplication } from './helpers';
-import AppPage from './pages/app';
+import SearchVendorsPage from './pages/search-vendors';
 
 describeApplication('eHoldings', function() {
   beforeEach(function() {
@@ -11,33 +11,33 @@ describeApplication('eHoldings', function() {
       vendorName: (i) => `Vendor${i + 1}`
     });
 
-    return this.visit('/eholdings', () => {
-      expect(AppPage.$root).to.exist;
+    return this.visit('/eholdings/vendors', () => {
+      expect(SearchVendorsPage.$root).to.exist;
     });
   });
 
   it('has a searchbox', function() {
-    expect(AppPage.$searchField).to.exist;
+    expect(SearchVendorsPage.$searchField).to.exist;
   });
 
   describe("searching for a vendor", function() {
     beforeEach(function() {
-      AppPage.search('Vendor');
+      SearchVendorsPage.search('Vendor');
     });
 
     it("displays vendor entries related to 'Vendor'", function() {
-      expect(AppPage.$searchResultsItems).to.have.lengthOf(3);
+      expect(SearchVendorsPage.$searchResultsItems).to.have.lengthOf(3);
     });
 
     it("displays the name, number of packages available, and packages subscribed to for each vendor");
 
     describe("filtering the search results further", function() {
       beforeEach(function() {
-        AppPage.search('Vendor1');
+        SearchVendorsPage.search('Vendor1');
       });
 
       it("only shows a single result", function() {
-        expect(AppPage.$searchResultsItems).to.have.lengthOf(1);
+        expect(SearchVendorsPage.$searchResultsItems).to.have.lengthOf(1);
       });
     });
 
@@ -53,11 +53,11 @@ describeApplication('eHoldings', function() {
 
   describe("searching for the vendor 'fhqwhgads'", function() {
     beforeEach(function() {
-      AppPage.search('fhqwhgads');
+      SearchVendorsPage.search('fhqwhgads');
     });
 
     it("displays 'no results' message", function() {
-      expect(AppPage.noResultsMessage).to.equal('No results found for "fhqwhgads".');
+      expect(SearchVendorsPage.noResultsMessage).to.equal('No results found for "fhqwhgads".');
     });
   });
 
