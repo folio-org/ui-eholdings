@@ -26,7 +26,7 @@ export default function Front() {
 
       <h3>Search</h3>
       <ul>
-        <li><Link to="/eholdings/vendors">Search for a vendor</Link></li>
+        <li>Search for a <Link to="/eholdings/vendors">vendor</Link>, <Link to="/eholdings/packages">package</Link>, or <Link to="/eholdings/titles">title</Link></li>
       </ul>
 
       <h3>Vendors</h3>
