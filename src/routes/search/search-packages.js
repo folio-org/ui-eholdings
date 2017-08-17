@@ -15,18 +15,18 @@ export default class SearchVendors extends Component {
       push: PropTypes.func.isRequired
     }).isRequired,
     resources: PropTypes.shape({
-      searchVendors: PropTypes.shape({
+      searchPackages: PropTypes.shape({
         records: PropTypes.arrayOf(PropTypes.object)
       })
     }).isRequired
   };
 
   static manifest = Object.freeze({
-    searchVendors: {
+    searchPackages: {
       type: 'okapi',
-      path: 'eholdings/vendors?search=?{search}&count=25&offset=1&orderby=relevance',
-      records: 'vendors',
-      pk: 'vendorId'
+      path: 'eholdings/packages?search=?{search}&count=25&offset=1&orderby=relevance',
+      records: 'packagesList',
+      pk: 'packageId'
     }
   });
 
@@ -62,15 +62,15 @@ export default class SearchVendors extends Component {
     });
   };
 
-  getVendors() {
-    const { resources: { searchVendors } } = this.props;
-    if (!searchVendors) { return []; }
-    return searchVendors.records;
+  getPackages() {
+    const { resources: { searchPackages } } = this.props;
+    if (!searchPackages) { return []; }
+    return searchPackages.records;
   }
 
   get isLoading() {
-    const { resources: { searchVendors } } = this.props;
-    return !searchVendors || searchVendors.isPending;
+    const { resources: { searchPackages } } = this.props;
+    return !searchPackages || searchPackages.isPending;
   }
 
   renderButtonGroup() {
@@ -98,8 +98,8 @@ export default class SearchVendors extends Component {
   render () {
     const { search, query } = this.state;
 
-    const vendors = this.getVendors();
-    const hasSearchResults = vendors && vendors.length > 0;
+    const packages = this.getPackages();
+    const hasSearchResults = packages && packages.length > 0;
 
     return (
       <div data-test-eholdings>
@@ -114,7 +114,7 @@ export default class SearchVendors extends Component {
                         type="search"
                         name="search"
                         value={search}
-                        placeholder="Search for vendors"
+                        placeholder="Search for packages"
                         data-test-search-field
                         onChange={this.handleChange} />
                     <button
@@ -134,9 +134,9 @@ export default class SearchVendors extends Component {
               </p>
             ) : (
               <ul data-test-search-results-list>
-                {hasSearchResults && vendors.map((vendor) => (
-                  <li data-test-search-results-item key={vendor.vendorId}>
-                    <Link to={`/eholdings/vendors/${vendor.vendorId}`}>{vendor.vendorName}</Link>
+                {hasSearchResults && packages.map((pkg) => (
+                  <li data-test-search-results-item key={pkg.packageId}>
+                    <Link to={`/eholdings/vendors/${pkg.vendorId}/packages/${pkg.packageId}`}>{pkg.packageName}</Link>
                   </li>
                 ))}
               </ul>

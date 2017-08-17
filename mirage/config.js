@@ -13,7 +13,16 @@ export default function () {
   // fetch polyfill needs this header set so it can reliably set `response.url`
   const getHeaders = (req) => ({ 'X-Request-URL': req.url });
 
-    // Package resources
+  // Package resources
+  this.get('/packages', ({ packages }, request) => {
+    const filteredPackages = packages.all().filter((packageModel) => {
+      const query = request.queryParams.search.toLowerCase();
+      return packageModel.packageName.toLowerCase().includes(query);
+    });
+
+    return new Response(200, getHeaders(request), filteredPackages);
+  });
+
   this.get('/vendors/:vendorId/packages/:packageId', ({ packages }, request) => {
     const vendorPackage = packages.findBy({
       vendorId: request.params.vendorId,
@@ -39,6 +48,15 @@ export default function () {
   });
 
   // Title resources
+  this.get('/titles', ({ titles }, request) => {
+    const filteredTitles = titles.all().filter((titleModel) => {
+      const query = request.queryParams.search.toLowerCase();
+      return titleModel.titleName.toLowerCase().includes(query);
+    });
+
+    return new Response(200, getHeaders(request), filteredTitles);
+  });
+
   this.get('/titles/:id', ({ titles }, request) => {
     const title = titles.find(request.params.id);
     return new Response(200, getHeaders(request), title);
