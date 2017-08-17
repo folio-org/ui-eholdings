@@ -73,6 +73,28 @@ export default class SearchVendors extends Component {
     return !searchVendors || searchVendors.isPending;
   }
 
+  renderButtonGroup() {
+    const { location, history } = this.props;
+    const goTo = (url) => () => history.push(url);
+    const isActive = (url) => url === location.pathname;
+
+    const searchButtons = [
+      ['Vendors', '/eholdings/vendors'],
+      ['Packages', '/eholdings/packages'],
+      ['Titles', '/eholdings/titles']
+    ];
+
+    return (
+      <div style={{ float: 'left', marginRight: '1rem' }}>
+        {searchButtons.map(([label, url], i) => (
+          <button key={i} onClick={goTo(url)} disabled={isActive(url)}>
+            {label}
+          </button>
+        ))}
+      </div>
+    );
+  }
+
   render () {
     const { search, query } = this.state;
 
@@ -85,21 +107,24 @@ export default class SearchVendors extends Component {
           <Pane
               defaultWidth="100%"
               header={(
-                <form onSubmit={this.handleSearch}>
-                  <input
-                      type="search"
-                      name="search"
-                      value={search}
-                      placeholder="Search for vendors"
-                      data-test-search-field
-                      onChange={this.handleChange} />
-                  <button
-                      type="submit"
-                      disabled={!search}
-                      data-test-search-submit>
-                    Search
-                  </button>
-                </form>
+                <div style={{ width: '100%' }}>
+                  {this.renderButtonGroup()}
+                  <form onSubmit={this.handleSearch}>
+                    <input
+                        type="search"
+                        name="search"
+                        value={search}
+                        placeholder="Search for vendors"
+                        data-test-search-field
+                        onChange={this.handleChange} />
+                    <button
+                        type="submit"
+                        disabled={!search}
+                        data-test-search-submit>
+                      Search
+                    </button>
+                  </form>
+                </div>
               )}>
             {this.isLoading ? (
               <p>...loading</p>
