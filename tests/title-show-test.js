@@ -29,7 +29,7 @@ describeApplication('TitleShow', function() {
     });
 
     it('displays the publisher name', function() {
-      expect(TitleShowPage.publisherName).to.equal('PublisherCool Publisher');
+      expect(TitleShowPage.publisherName).to.equal('Cool Publisher');
     });
 
     it('displays a list of customer resources', function() {

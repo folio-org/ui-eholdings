@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom'
 import Paneset from '@folio/stripes-components/lib/Paneset';
 import Pane from '@folio/stripes-components/lib/Pane';
-import KeyValue from '@folio/stripes-components/lib/KeyValue';
+import KeyValueLabel from '../key-value-label';
 import List from '@folio/stripes-components/lib/List';
 import styles from './title-show.css';
 
@@ -14,7 +14,7 @@ export default function TitleShow({ title }) {
         <Link to={`/eholdings/vendors/${item.vendorId}/packages/${item.packageId}/titles/${item.titleId}`}>{item.packageName}</Link>
       </h5>
       <div data-test-eholdings-title-show-package-selected>
-        <span>{item.isSelected ? 'Selected' : 'Unselected'}</span>
+        <span>{item.isSelected ? 'Selected' : 'Not Selected'}</span>
      </div>
     </li>
   );
@@ -25,12 +25,21 @@ export default function TitleShow({ title }) {
         <Pane defaultWidth="100%">
           {title ? (
             <div>
-              <h1 data-test-eholdings-title-show-title-name>
-                {title.titleName}
-              </h1>
-              <div data-test-eholdings-title-show-publisher-name>
-                <KeyValue label="Publisher" value={title.publisherName} />
+              <div style={{ margin: '2rem 0' }}>
+                <KeyValueLabel label="Title">
+                  <h1 data-test-eholdings-title-show-title-name>
+                    {title.titleName}
+                  </h1>
+                </KeyValueLabel>
               </div>
+
+              <KeyValueLabel label="Publisher">
+                <div data-test-eholdings-title-show-publisher-name>
+                  {title.publisherName}
+                </div>
+              </KeyValueLabel>
+
+              <hr />
               <h3>Packages</h3>
               <List
                 itemFormatter={renderPackageListItem}

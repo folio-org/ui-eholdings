@@ -41,5 +41,11 @@ export default Factory.extend({
       packageObj.vendor = vendor;
       packageObj.save();
     }
-  })
+  }),
+
+  afterCreate(packageObj) {
+    if(packageObj.vendor) {
+      packageObj.update('vendorName', packageObj.vendor.vendorName).save();
+    }
+  }
 });

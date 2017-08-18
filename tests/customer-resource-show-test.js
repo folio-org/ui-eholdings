@@ -43,7 +43,7 @@ describeApplication('CustomerResourceShow', function() {
     });
 
     it('displays if the customer resource is selected', function() {
-      expect(CustomerResourceShowPage.isSelected).to.equal(`Selected${customerResources[0].isSelected ? 'Selected' : 'Not Selected'}`);
+      expect(CustomerResourceShowPage.isSelected).to.equal(`${customerResources[0].isSelected ? 'Yes' : 'No'}`);
     });
   });
 

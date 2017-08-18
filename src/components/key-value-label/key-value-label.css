@@ -1,0 +1,16 @@
+.kv-label {
+  display: block;
+  font-size: .8em;
+  font-weight: bold;
+  margin-bottom: 0;
+  text-transform: Uppercase;
+  color: #333;
+}
+
+.kv-value h1 {
+  margin-top: 0;
+}
+
+.kv-root {
+  margin-bottom: 1rem;
+}
