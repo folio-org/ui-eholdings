@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom'
 import Paneset from '@folio/stripes-components/lib/Paneset';
 import Pane from '@folio/stripes-components/lib/Pane';
-import KeyValue from '@folio/stripes-components/lib/KeyValue';
+import KeyValueLabel from '../key-value-label';
 import List from '@folio/stripes-components/lib/List';
 import styles from './vendor-show.css';
 
@@ -14,7 +14,7 @@ export default function VendorShow({ vendor, vendorPackages }) {
         <Link to={`/eholdings/vendors/${vendor.vendorId}/packages/${item.packageId}`}>{item.packageName}</Link>
       </h5>
       <div>
-        <span>{item.isSelected ? 'Selected' : 'Unselected' }</span>
+        <span>{item.isSelected ? 'Selected' : 'Not Selected' }</span>
         &nbsp;&bull;&nbsp;
         <span data-test-eholdings-vendor-details-package-num-titles>{item.selectedCount}</span>
         &nbsp;/&nbsp;
@@ -31,16 +31,27 @@ export default function VendorShow({ vendor, vendorPackages }) {
         <Pane defaultWidth="100%">
           {vendor ? (
             <div>
-              <h1 data-test-eholdings-vendor-details-name>
-                {vendor.vendorName}
-              </h1>
-              <div data-test-eholdings-vendor-details-packages-total>
-                <KeyValue label="Total Packages" value={vendor.packagesTotal} />
-              </div>
-              <div data-test-eholdings-vendor-details-packages-selected>
-                <KeyValue label="Packages Selected" value={vendor.packagesSelected} />
+              <div style={{ margin: '2rem 0' }}>
+                <KeyValueLabel label="Vendor">
+                  <h1 data-test-eholdings-vendor-details-name>
+                    {vendor.vendorName}
+                  </h1>
+                </KeyValueLabel>
               </div>
 
+              <KeyValueLabel label="Packages Selected">
+                <div data-test-eholdings-vendor-details-packages-selected>
+                  {vendor.packagesSelected}
+                </div>
+              </KeyValueLabel>
+
+              <KeyValueLabel label="Total Packages">
+                <div data-test-eholdings-vendor-details-packages-total>
+                  {vendor.packagesTotal}
+                </div>
+              </KeyValueLabel>
+
+              <hr />
               {vendorPackages && vendorPackages.length ? (
                 <div>
                   <h3>Packages</h3>

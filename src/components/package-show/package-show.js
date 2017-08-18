@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom'
 import Paneset from '@folio/stripes-components/lib/Paneset';
 import Pane from '@folio/stripes-components/lib/Pane';
-import KeyValue from '@folio/stripes-components/lib/KeyValue';
+import KeyValueLabel from '../key-value-label';
 import List from '@folio/stripes-components/lib/List';
 import styles from './package-show.css';
 
@@ -15,7 +15,7 @@ export default function PackageShow({ vendorPackage, packageTitles }) {
       </h5>
       <div data-test-eholdings-package-details-title-selected>
         { /* assumes that customerResourcesList.length will always equal one */  }
-        <span>{item.customerResourcesList[0].isSelected ? 'Selected' : 'Unselected'}</span>
+        <span>{item.customerResourcesList[0].isSelected ? 'Selected' : 'Not Selected'}</span>
       </div>
     </li>
   );
@@ -26,24 +26,47 @@ export default function PackageShow({ vendorPackage, packageTitles }) {
         <Pane defaultWidth="100%">
           {vendorPackage ? (
             <div>
-              <h3 data-test-eholdings-package-details-vendor>
-                <Link to={`/eholdings/vendors/${vendorPackage.vendorId}`}>{vendorPackage.vendorName}</Link>
-              </h3>
-              <h1 data-test-eholdings-package-details-name>
-                {vendorPackage.packageName}
-              </h1>
-              <div data-test-eholdings-package-details-content-type>
-                <KeyValue label="Content Type" value={vendorPackage.contentType} />
+              <div style={{ margin: '2rem 0' }}>
+                <KeyValueLabel label="Package">
+                  <h1 data-test-eholdings-package-details-name>
+                    {vendorPackage.packageName}
+                  </h1>
+                </KeyValueLabel>
               </div>
-              <div data-test-eholdings-package-details-selected>
-                <KeyValue label="Selected" value={vendorPackage.isSelected ? 'Selected' : 'Not Selected'} />
-              </div>
-              <div data-test-eholdings-package-details-titles-total>
-                <KeyValue label="Total Titles" value={vendorPackage.titleCount} />
-              </div>
-              <div data-test-eholdings-package-details-titles-selected>
-                <KeyValue label="Selected Titles" value={vendorPackage.selectedCount} />
-              </div>
+
+              <KeyValueLabel label="Vendor">
+                <div data-test-eholdings-package-details-vendor>
+                  <Link to={`/eholdings/vendors/${vendorPackage.vendorId}`}>{vendorPackage.vendorName}</Link>
+                </div>
+              </KeyValueLabel>
+
+              <KeyValueLabel label="Content Type">
+                <div data-test-eholdings-package-details-content-type>
+                  {vendorPackage.contentType}
+                </div>
+              </KeyValueLabel>
+
+              <KeyValueLabel label="Titles Selected">
+                <div data-test-eholdings-package-details-titles-selected>
+                  {vendorPackage.selectedCount}
+                </div>
+              </KeyValueLabel>
+
+              <KeyValueLabel label="Total Titles">
+                <div data-test-eholdings-package-details-titles-total>
+                  {vendorPackage.titleCount}
+                </div>
+              </KeyValueLabel>
+
+              <hr />
+
+              <KeyValueLabel label="Selected">
+                <div data-test-eholdings-package-details-selected>
+                  {vendorPackage.isSelected ? 'Yes' : 'No'}
+                </div>
+              </KeyValueLabel>
+
+              <hr />
 
               {packageTitles && packageTitles.length ? (
                 <div>

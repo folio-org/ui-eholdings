@@ -29,11 +29,11 @@ describeApplication('VendorShow', function() {
     });
 
     it('displays the total number of packages', function() {
-      expect(VendorShowPage.numPackages).to.equal(`Total Packages${vendor.packagesTotal}`);
+      expect(VendorShowPage.numPackages).to.equal(`${vendor.packagesTotal}`);
     });
 
     it('displays the number of selected packages', function() {
-      expect(VendorShowPage.numPackagesSelected).to.equal(`Packages Selected${vendor.packagesSelected}`);
+      expect(VendorShowPage.numPackagesSelected).to.equal(`${vendor.packagesSelected}`);
     });
 
     it('displays a list of packages', function() {
