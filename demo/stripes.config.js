@@ -1,7 +1,7 @@
 const path = require('path');
 
 module.exports = {
-  okapi: { 'url':'http://okapi.frontside.io', 'tenant':'fs' },
+  okapi: { 'url':'https://okapi.frontside.io', 'tenant':'fs' },
   config: {
     hasAllPerms: true,
     disableAuth: true
