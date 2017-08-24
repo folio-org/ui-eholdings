@@ -27,6 +27,12 @@ export default function TitleShow({ title }) {
                 </div>
               </KeyValueLabel>
 
+              <KeyValueLabel label="Publisher Type">
+                <div data-test-eholdings-title-show-publisher-type>
+                  {title.pubType}
+                </div>
+              </KeyValueLabel>
+
               <hr />
               <h3>Packages</h3>
               <ul data-test-eholdings-title-show-package-list className={styles['list']}>

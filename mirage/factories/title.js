@@ -3,6 +3,22 @@ import { Factory, faker, trait } from 'mirage-server';
 export default Factory.extend({
   titleName: () => faker.company.catchPhrase(),
   publisherName: () => faker.company.companyName(),
+  pubType: () => faker.random.arrayElement([
+    'Journal',
+    'Newsletter',
+    'Report',
+    'Proceedings',
+    'Website',
+    'Newspaper',
+    'Unspecified',
+    'Book',
+    'Book Series',
+    'Database',
+    'Thesis Dissertation',
+    'Streaming Audio',
+    'Streaming Video',
+    'Audiobook'
+  ]),
 
   withPackages: trait({
     afterCreate(title, server) {

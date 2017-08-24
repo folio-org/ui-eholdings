@@ -32,6 +32,10 @@ describeApplication('TitleShow', function() {
       expect(TitleShowPage.publisherName).to.equal('Cool Publisher');
     });
 
+    it('displays the publisher type', function() {
+      expect(TitleShowPage.publisherType).to.equal(title.pubType);
+    });
+
     it('displays a list of customer resources', function() {
       expect(TitleShowPage.packageList).to.have.lengthOf(customerResources.length);
     });

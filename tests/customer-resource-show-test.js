@@ -30,6 +30,18 @@ describeApplication('CustomerResourceShow', function() {
       });
     });
 
+    it('displays the title name', function() {
+      expect(CustomerResourceShowPage.titleName).to.equal(customerResources[0].title.titleName);
+    });
+
+    it('displays the publisher name', function() {
+      expect(CustomerResourceShowPage.publisherName).to.equal(customerResources[0].title.publisherName);
+    });
+
+    it('displays the publisher type', function() {
+      expect(CustomerResourceShowPage.publisherType).to.equal(customerResources[0].title.pubType);
+    });
+
     it('displays the vendor name', function() {
       expect(CustomerResourceShowPage.vendorName).to.equal('Cool Vendor');
     });
@@ -38,12 +50,12 @@ describeApplication('CustomerResourceShow', function() {
       expect(CustomerResourceShowPage.packageName).to.equal('Cool Package');
     });
 
-    it('displays the title name', function() {
-      expect(CustomerResourceShowPage.titleName).to.equal(customerResources[0].title.titleName);
-    });
-
     it('displays the content type', function() {
       expect(CustomerResourceShowPage.contentType).to.equal(customerResources[0].package.contentType);
+    });
+
+    it('displays the managed url', function() {
+      expect(CustomerResourceShowPage.managedUrl).to.equal(customerResources[0].url);
     });
 
     it('displays if the customer resource is selected', function() {

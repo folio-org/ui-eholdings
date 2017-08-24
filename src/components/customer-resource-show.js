@@ -20,6 +20,18 @@ export default function CustomerResourceShow({ customerResource }) {
                 </KeyValueLabel>
               </div>
 
+              <KeyValueLabel label="Publisher">
+                <div data-test-eholdings-customer-resource-show-publisher-name>
+                  {customerResource.publisherName}
+                </div>
+              </KeyValueLabel>
+
+              <KeyValueLabel label="Publisher Type">
+                <div data-test-eholdings-customer-resource-show-publisher-type>
+                  {customerResource.pubType}
+                </div>
+              </KeyValueLabel>
+
               <KeyValueLabel label="Package">
                 <div data-test-eholdings-customer-resource-show-package-name>
                   <Link to={`/eholdings/vendors/${customerResource.customerResourcesList[0].vendorId}/packages/${customerResource.customerResourcesList[0].packageId}`}>{customerResource.customerResourcesList[0].packageName}</Link>
@@ -37,6 +49,13 @@ export default function CustomerResourceShow({ customerResource }) {
                   <Link to={`/eholdings/vendors/${customerResource.customerResourcesList[0].vendorId}`}>{customerResource.customerResourcesList[0].vendorName}</Link>
                 </div>
               </KeyValueLabel>
+
+              <KeyValueLabel label="Managed URL">
+                <div data-test-eholdings-customer-resource-show-managed-url>
+                  <Link to={customerResource.customerResourcesList[0].url}>{customerResource.customerResourcesList[0].url}</Link>
+                </div>
+              </KeyValueLabel>
+
 
               <hr />
 

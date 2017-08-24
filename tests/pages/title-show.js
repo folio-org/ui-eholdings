@@ -13,6 +13,10 @@ export default {
     return $('[data-test-eholdings-title-show-publisher-name]').text();
   },
 
+  get publisherType() {
+    return $('[data-test-eholdings-title-show-publisher-type]').text();
+  },
+
   get hasErrors() {
     return $('[data-test-eholdings-title-show-error]').length > 0;
   },
