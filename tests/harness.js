@@ -8,6 +8,7 @@ import configureLogger from '@folio/stripes-core/src/configureLogger';
 import configureStore from '@folio/stripes-core/src/configureStore';
 import { discoverServices } from '@folio/stripes-core/src/discoverServices';
 import gatherActions from '@folio/stripes-core/src/gatherActions';
+import { setOkapiReady } from '@folio/stripes-core/src/okapiActions';
 
 import Root from '@folio/stripes-core/src/Root';
 
@@ -26,13 +27,16 @@ const actionNames = gatherActions();
 export default class TestHarness extends Component {
 
   componentWillMount() {
-    this.store = configureStore({ okapi });
     this.logger = configureLogger(config);
+    this.store = configureStore({ okapi }, this.logger);
     this.mirage = startMirage();
 
     this.history = createMemoryHistory();
 
     discoverServices(okapi.url, this.store);
+
+    // While we have disableAuth on, manually tell our app Okapi is ready
+    this.store.dispatch(setOkapiReady());
   }
 
   componentWillUnmount() {

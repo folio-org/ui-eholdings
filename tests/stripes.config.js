@@ -18,6 +18,7 @@ export const okapi = { url: 'https://okapi.com', tenant:'tests' };
 export const config = {
   // autoLogin: { username: 'diku_admin', password: 'admin' }
   // logCategories: 'core,redux,connect,connect-fetch,substitute,path,mpath,mquery,action,event,perm,interface,xhr'
+  logCategories: '',
   // logPrefix: 'stripes'
   // logTimestamp: false
   // showPerms: false

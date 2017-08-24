@@ -12,7 +12,7 @@
     "test": "karma start"
   },
   "devDependencies": {
-    "@folio/stripes-core": "thefrontside/stripes-core#reducers-cache",
+    "@folio/stripes-core": "thefrontside/stripes-core#master",
     "babel-core": "^6.25.0",
     "babel-loader": "^7.1.1",
     "babel-preset-env": "^1.6.0",
