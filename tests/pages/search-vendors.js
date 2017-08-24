@@ -11,7 +11,7 @@ export default {
   },
 
   get $searchResultsItems() {
-    return $('[data-test-search-results-item]');
+    return $('[data-test-search-results-list] li');
   },
 
   get hasErrors() {
