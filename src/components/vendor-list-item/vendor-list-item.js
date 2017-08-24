@@ -6,9 +6,11 @@ import styles from './vendor-list-item.css';
 export default function VendorListItem({ item, link }) {
   return (
     <li key={item.vendorId} data-test-eholdings-vendor-list-item className={styles['list-item']}>
-      <h5 data-test-eholdings-vendor-list-item-name>
-        <Link to={link}>{item.vendorName}</Link>
-      </h5>
+      <Link to={link}>
+        <h5 data-test-eholdings-vendor-list-item-name>
+          {item.vendorName}
+        </h5>
+      </Link>
     </li>
   );
 }

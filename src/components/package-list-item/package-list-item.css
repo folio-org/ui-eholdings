@@ -1,14 +1,22 @@
 .list-item {
-  background: none;
-  border-bottom: 1px solid #eee;
+  border-bottom: 1px solid #dcdcdc;
   list-style-type: none;
-  padding: 1em;
+  margin: 0;
 
   &:first-child {
-    border-top: 1px solid #eee;
+    border-top: 1px solid #dcdcdc;
   }
 
-  & h5 {
-    margin: 0;
+  & a {
+    display: block;
+    padding: 1em;
+
+    &:hover {
+      background-color: #eee;
+    }
+
+    & h5 {
+      margin: 0;
+    }
   }
 }
