@@ -34,7 +34,7 @@ export default {
   },
 
   get titleList() {
-    return $('[data-test-eholdings-package-details-title]').toArray().map(createTitleObject);
+    return $('[data-test-eholdings-package-details-title-list] li').toArray().map(createTitleObject);
   }
 };
 
@@ -43,11 +43,11 @@ function createTitleObject(element) {
 
   return {
     get name() {
-      return $scope.find('[data-test-eholdings-package-details-title-name]').text();
+      return $scope.find('[data-test-eholdings-title-list-item-title-name]').text();
     },
 
     get isSelected() {
-      return $scope.find('[data-test-eholdings-package-details-title-selected]').text() === 'Selected';
+      return $scope.find('[data-test-eholdings-title-list-item-title-selected]').text() === 'Selected';
     }
   };
 }

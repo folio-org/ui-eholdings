@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import queryString from 'query-string';
-import { Link } from 'react-router-dom';
 import Paneset from '@folio/stripes-components/lib/Paneset';
 import Pane from '@folio/stripes-components/lib/Pane';
+import PackageListItem from '../../components/package-list-item';
+import styles from './search.css';
 
 export default class SearchVendors extends Component {
   static propTypes = {
@@ -133,11 +134,13 @@ export default class SearchVendors extends Component {
                 No results found for <strong>{`"${query.search}"`}</strong>.
               </p>
             ) : (
-              <ul data-test-search-results-list>
+              <ul data-test-search-results-list className={styles['search-results-list']}>
                 {hasSearchResults && packages.map((pkg) => (
-                  <li data-test-search-results-item key={pkg.packageId}>
-                    <Link to={`/eholdings/vendors/${pkg.vendorId}/packages/${pkg.packageId}`}>{pkg.packageName}</Link>
-                  </li>
+                  <PackageListItem
+                    key={pkg.packageId}
+                    item={pkg}
+                    link={`/eholdings/vendors/${pkg.vendorId}/packages/${pkg.packageId}`}>
+                  </PackageListItem>
                 ))}
               </ul>
             )}

@@ -1,0 +1,22 @@
+.list-item {
+  border-bottom: 1px solid #dcdcdc;
+  list-style-type: none;
+  margin: 0;
+
+  &:first-child {
+    border-top: 1px solid #dcdcdc;
+  }
+
+  & a {
+    display: block;
+    padding: 1em;
+
+    &:hover {
+      background-color: #eee;
+    }
+
+    & h5 {
+      margin: 0;
+    }
+  }
+}

@@ -18,7 +18,7 @@ export default {
   },
 
   get packageList() {
-    return $('[data-test-eholdings-title-show-package]').toArray().map(createPackageObject);
+    return $('[data-test-eholdings-title-show-package-list] li').toArray().map(createPackageObject);
   }
 };
 
@@ -27,11 +27,11 @@ function createPackageObject(element) {
 
   return {
     get name() {
-      return $scope.find('[data-test-eholdings-title-show-package-name]').text();
+      return $scope.find('[data-test-eholdings-package-list-item-name]').text();
     },
 
     get isSelected() {
-      return $scope.find('[data-test-eholdings-title-show-package-selected]').text() === 'Selected';
+      return $scope.find('[data-test-eholdings-package-list-item-selected]').text() === 'Selected';
     }
   };
 }
