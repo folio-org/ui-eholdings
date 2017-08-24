@@ -34,7 +34,7 @@ export default function TitleShow({ title }) {
                   <PackageListItem
                     key={item.packageId}
                     item={item}
-                    link={`/eholdings/vendors/${item.vendorId}/packages/${item.packageId}/titles/${item.titleId}`}>
+                    link={`/eholdings/vendors/${item.vendorId}/packages/${item.packageId}/titles/${title.titleId}`}>
                   </PackageListItem>
                 ))}
               </ul>

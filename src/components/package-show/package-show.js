@@ -4,22 +4,10 @@ import { Link } from 'react-router-dom'
 import Paneset from '@folio/stripes-components/lib/Paneset';
 import Pane from '@folio/stripes-components/lib/Pane';
 import KeyValueLabel from '../key-value-label';
-import List from '@folio/stripes-components/lib/List';
+import TitleListItem from '../title-list-item';
 import styles from './package-show.css';
 
 export default function PackageShow({ vendorPackage, packageTitles }) {
-  const renderTitleListItem = item => (
-    <li key={item.titleId} data-test-eholdings-package-details-title>
-      <h5 data-test-eholdings-package-details-title-name>
-        <Link to={`/eholdings/vendors/${vendorPackage.vendorId}/packages/${vendorPackage.packageId}/titles/${item.titleId}`}>{item.titleName}</Link>
-      </h5>
-      <div data-test-eholdings-package-details-title-selected>
-        { /* assumes that customerResourcesList.length will always equal one */  }
-        <span>{item.customerResourcesList[0].isSelected ? 'Selected' : 'Not Selected'}</span>
-      </div>
-    </li>
-  );
-
   return (
     <div data-test-eholdings-package-details>
       <Paneset>
@@ -71,11 +59,16 @@ export default function PackageShow({ vendorPackage, packageTitles }) {
               {packageTitles && packageTitles.length ? (
                 <div>
                   <h3>Titles</h3>
-                  <List
-                      itemFormatter={renderTitleListItem}
-                      items={packageTitles}
-                      listClass={styles.list}
-                      />
+                  <ul data-test-eholdings-package-details-title-list className={styles['list']}>
+                    {packageTitles.map(item => (
+                      <TitleListItem
+                        key={item.titleId}
+                        item={item}
+                        link={`/eholdings/vendors/${vendorPackage.vendorId}/packages/${vendorPackage.packageId}/titles/${item.titleId}`}
+                        showSelected={true}>
+                      </TitleListItem>
+                    ))}
+                  </ul>
                 </div>
               ) : packageTitles ? (
                 <p>No Titles Found</p>
