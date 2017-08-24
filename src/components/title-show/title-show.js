@@ -1,24 +1,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Link } from 'react-router-dom'
 import Paneset from '@folio/stripes-components/lib/Paneset';
 import Pane from '@folio/stripes-components/lib/Pane';
 import KeyValueLabel from '../key-value-label';
-import List from '@folio/stripes-components/lib/List';
+import PackageListItem from '../package-list-item';
 import styles from './title-show.css';
 
 export default function TitleShow({ title }) {
-  const renderPackageListItem = item => (
-    <li key={item.packageId} data-test-eholdings-title-show-package>
-      <h5 data-test-eholdings-title-show-package-name>
-        <Link to={`/eholdings/vendors/${item.vendorId}/packages/${item.packageId}/titles/${item.titleId}`}>{item.packageName}</Link>
-      </h5>
-      <div data-test-eholdings-title-show-package-selected>
-        <span>{item.isSelected ? 'Selected' : 'Not Selected'}</span>
-     </div>
-    </li>
-  );
-
   return (
     <div data-test-eholdings-title-show>
       <Paneset>
@@ -41,11 +29,15 @@ export default function TitleShow({ title }) {
 
               <hr />
               <h3>Packages</h3>
-              <List
-                itemFormatter={renderPackageListItem}
-                items={title.customerResourcesList}
-                listClass={styles.list}
-              />
+              <ul data-test-eholdings-title-show-package-list className={styles['list']}>
+                {title.customerResourcesList.map(item => (
+                  <PackageListItem
+                    key={item.packageId}
+                    item={item}
+                    link={`/eholdings/vendors/${item.vendorId}/packages/${item.packageId}/titles/${item.titleId}`}>
+                  </PackageListItem>
+                ))}
+              </ul>
             </div>
           ) : (
             <p>Loading...</p>
