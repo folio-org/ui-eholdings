@@ -28,7 +28,7 @@ export default class EHoldings extends Component {
     this.SearchTitles = props.stripes.connect(SearchTitles);
     this.VendorShow = props.stripes.connect(VendorShow);
     this.PackageShow = props.stripes.connect(PackageShow);
-    this.CustomerResourceShow = props.stripes.connect(CustomerResourceShow);
+    this.CustomerResourceShow = CustomerResourceShow;
     this.TitleShow = props.stripes.connect(TitleShow);
   }
 

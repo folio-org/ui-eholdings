@@ -27,7 +27,7 @@ export { default as triggerChange } from 'react-trigger-change';
  * @param {String} name - name of the test suite, passed to mocha's `describe`
  * @param {Function} setup - suite definition, also passed to `describe`
  */
-export function describeApplication(name, setup) {
+export function describeApplication(name, setup, describe = window.describe) {
   describe(name, function() {
     let rootElement;
 
@@ -54,6 +54,9 @@ export function describeApplication(name, setup) {
 }
 
 describeApplication.skip = describe.skip;
+describeApplication.only = function(name, setup) {
+  return describeApplication(name, setup, describe.only);
+};
 
 
 /**
