@@ -22,6 +22,22 @@ export default {
   },
 
   get isSelected() {
-    return $('[data-test-eholdings-customer-resource-show-selected]').text();
+    return $('[data-test-eholdings-customer-resource-show-selected]').text() === 'Yes';
+  },
+
+  toggleIsSelected() {
+    $('[data-test-eholdings-customer-resource-show-selected] input').click();
+  },
+
+  get isSelecting() {
+    return $('[data-test-eholdings-customer-resource-show-is-selecting]').length > 0;
+  },
+
+  get isSelectedToggleable() {
+    return $('[data-test-eholdings-customer-resource-show-selected] input[type=checkbox]').prop('disabled') === false;
+  },
+
+  get flashError() {
+    return '';
   }
 };
