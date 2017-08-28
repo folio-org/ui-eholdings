@@ -6,6 +6,9 @@ export default function () {
   this.urlPrefix = okapi.url;
   this.get('/_/version', () => '0.0.0');
   this.get('/_/proxy/modules', []);
+  this.get('/saml/check', {
+    ssoEnabled: false
+  });
 
   // e-holdings endpoints
   this.namespace = 'eholdings';
