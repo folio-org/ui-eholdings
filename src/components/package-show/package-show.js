@@ -56,6 +56,14 @@ export default function PackageShow({ vendorPackage, packageTitles }) {
 
               <hr />
 
+              {vendorPackage.visibilityData.isHidden && (
+                <div data-test-eholdings-package-details-is-hidden>
+                <p><strong>This package is hidden.</strong></p>
+                <p><em>{vendorPackage.visibilityData.reason}</em></p>
+                <hr />
+                </div>
+              )}
+
               {packageTitles && packageTitles.length ? (
                 <div>
                   <h3>Titles</h3>

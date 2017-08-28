@@ -35,6 +35,10 @@ export default {
 
   get titleList() {
     return $('[data-test-eholdings-package-details-title-list] li').toArray().map(createTitleObject);
+  },
+
+  get isHidden() {
+    return $('[data-test-eholdings-package-details-is-hidden]').length === 1;
   }
 };
 

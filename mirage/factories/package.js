@@ -43,9 +43,20 @@ export default Factory.extend({
     }
   }),
 
-  afterCreate(packageObj) {
-    if(packageObj.vendor) {
-      packageObj.update('vendorName', packageObj.vendor.vendorName).save();
+  isHidden: trait({
+    afterCreate(packageObj, server) {
+      let visibilityData = server.create('visibility-data', {
+        isHidden: true,
+        reason: "The content is for mature audiences only."
+      });
+      packageObj.update('visibilityData', visibilityData);
+    }
+  }),
+
+  afterCreate(packageObj, server) {
+    if(!packageObj.visibilityData) {
+      let visibilityData = server.create('visibility-data');
+      packageObj.update('visibilityData', visibilityData);
     }
   }
 });
