@@ -39,6 +39,10 @@ export default {
 
   get isHidden() {
     return $('[data-test-eholdings-package-details-is-hidden]').length === 1;
+  },
+
+  get customCoverage() {
+    return $('[data-test-eholdings-package-details-custom-coverage]').text();
   }
 };
 

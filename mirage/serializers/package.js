@@ -3,7 +3,7 @@ import { Serializer } from 'mirage-server';
 export default Serializer.extend({
   embed: true,
 
-  include: ['visibilityData', 'vendor'],
+  include: ['customCoverage', 'vendor', 'visibilityData'],
 
   serialize(response) {
     let json = Serializer.prototype.serialize.apply(this, arguments);
@@ -27,6 +27,7 @@ export default Serializer.extend({
     delete json.vendor;
 
     // delete ids of embedded records
+    delete json.customCoverage.id;
     delete json.visibilityData.id;
 
     // rename primary id

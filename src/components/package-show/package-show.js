@@ -46,6 +46,14 @@ export default function PackageShow({ vendorPackage, packageTitles }) {
                 </div>
               </KeyValueLabel>
 
+              {(vendorPackage.customCoverage.beginCoverage || vendorPackage.customCoverage.endCoverage) && (
+                <KeyValueLabel label="Custom Coverage">
+                  <div data-test-eholdings-package-details-custom-coverage>
+                    {vendorPackage.customCoverage.beginCoverage} - {vendorPackage.customCoverage.endCoverage}
+                  </div>
+                </KeyValueLabel>
+              )}
+
               <hr />
 
               <KeyValueLabel label="Selected">

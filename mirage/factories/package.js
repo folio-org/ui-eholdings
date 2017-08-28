@@ -53,7 +53,22 @@ export default Factory.extend({
     }
   }),
 
+  withCustomCoverage: trait({
+    afterCreate(packageObj, server) {
+      let customCoverage = server.create('custom-coverage', {
+        beginCoverage: () => faker.date.past(),
+        endCoverage: () => faker.date.future()
+      });
+      packageObj.update('customCoverage', customCoverage);
+    }
+  }),
+
   afterCreate(packageObj, server) {
+    if(!packageObj.customCoverage) {
+      let customCoverage = server.create('custom-coverage');
+      packageObj.update('customCoverage', customCoverage);
+    }
+
     if(!packageObj.visibilityData) {
       let visibilityData = server.create('visibility-data');
       packageObj.update('visibilityData', visibilityData);
