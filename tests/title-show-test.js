@@ -37,7 +37,7 @@ describeApplication('TitleShow', function() {
     });
 
     it('displays name of a package in the customer resource list', function() {
-      expect(TitleShowPage.packageList[0].name).to.equal(customerResources[0].packageName);
+      expect(TitleShowPage.packageList[0].name).to.equal(customerResources[0].package.packageName);
     });
 
     it('displays whether the first customer resource is selected', function() {

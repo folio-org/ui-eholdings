@@ -1,39 +1,15 @@
-import { Serializer } from 'mirage-server';
+import ApplicationSerializer from './application';
 
-export default Serializer.extend({
-  embed: true,
-
+export default ApplicationSerializer.extend({
   include: ['customCoverage', 'vendor', 'visibilityData'],
 
-  serialize(response) {
-    let json = Serializer.prototype.serialize.apply(this, arguments);
-    let keyForPrimaryResource = this.keyForResource(response);
-    let unSideloadedJson = json[keyForPrimaryResource];
-
-    if (Array.isArray(unSideloadedJson)) {
-      return {
-        totalResults: unSideloadedJson.length,
-        packagesList: unSideloadedJson.map(this.adjustPackageKeys, this)
-      };
-    } else {
-      return this.adjustPackageKeys(unSideloadedJson);
+  modifyKeys(json) {
+    let newHash = json;
+    if(newHash.vendor && !newHash.vendorId) {
+      newHash.vendorId = json.vendor.id;
+      newHash.vendorName = json.vendor.vendorName;
+      delete newHash.vendor;
     }
-  },
-
-  adjustPackageKeys(json) {
-    // move the vendor id and name up a level
-    json.vendorId = json.vendor.id;
-    json.vendorName = json.vendor.vendorName;
-    delete json.vendor;
-
-    // delete ids of embedded records
-    delete json.customCoverage.id;
-    delete json.visibilityData.id;
-
-    // rename primary id
-    json.packageId = json.id;
-    delete json.id;
-
-    return json;
+    return newHash;
   }
 });

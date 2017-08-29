@@ -1,26 +1,33 @@
 import { Serializer, pluralize } from 'mirage-server';
 
 export default Serializer.extend({
-  embed: false,
-  serializeIds: 'always',
+  embed: true,
 
   serialize(response) {
     /*
      * Don't rely on mirage to send rootless responses, since a rootless mirage
      * response currently doesn't serialize relationship ids; instead we manually
-     * pull out the top-level key and ignore sideloaded records.
+     * pull out the top-level key.
     */
     let json = Serializer.prototype.serialize.apply(this, arguments);
     let keyForPrimaryResource = this.keyForResource(response);
-    let unSideloadedJson = json[keyForPrimaryResource];
+    let rootlessJson = json[keyForPrimaryResource];
 
-    if (Array.isArray(unSideloadedJson)) {
+    if(typeof this.serializerFor(response.modelName).modifyKeys === "function") {
+      if (Array.isArray(rootlessJson)) {
+        rootlessJson = rootlessJson.map(this.serializerFor(response.modelName).modifyKeys, this);
+      } else {
+        rootlessJson = this.serializerFor(response.modelName).modifyKeys(rootlessJson);
+      }
+    }
+
+    if (Array.isArray(rootlessJson)) {
       return {
-        totalResults: unSideloadedJson.length,
-        [keyForPrimaryResource]: unSideloadedJson.map(this.mapPrimaryKey, this)
+        totalResults: rootlessJson.length,
+        [keyForPrimaryResource]: rootlessJson.map(this.mapPrimaryKey, this)
       };
     } else {
-      return this.mapPrimaryKey(unSideloadedJson);
+      return this.mapPrimaryKey(rootlessJson);
     }
   },
 
@@ -32,14 +39,25 @@ export default Serializer.extend({
   keyForCollection(modelName) {
     const pluralizedKey = pluralize(this.keyForModel(modelName));
 
-    if (modelName === 'vendor' || modelName === 'title') {
+    if (modelName === 'vendor' || modelName === 'title' || modelName === 'customer-resource') {
       return pluralizedKey;
     } else {
       return `${pluralizedKey}List`;
     }
   },
 
-  keyForEmbeddedRelationship(attributeName) {
-    return `${this.keyForModel(attributeName)}List`;
+  createCustomerResourcesList(json) {
+    // move the vendor/package/title ids and names up a level
+    return json.customerResources.map((customerResource) => {
+      let hash = customerResource;
+      hash.vendorId = customerResource.package.vendor.id;
+      hash.vendorName = customerResource.package.vendor.vendorName;
+      hash.packageId = customerResource.package.id;
+      hash.packageName = customerResource.package.packageName;
+      hash.titleId = json.titleId;
+      delete hash.package;
+      delete hash.id;
+      return hash;
+    });
   }
 });
