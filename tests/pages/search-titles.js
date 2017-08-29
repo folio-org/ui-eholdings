@@ -11,7 +11,7 @@ export default {
   },
 
   get $searchResultsItems() {
-    return $('[data-test-vendor-search-results-list] li');
+    return $('[data-test-title-search-results-list] li');
   },
 
   get hasErrors() {
@@ -19,7 +19,7 @@ export default {
   },
 
   get noResultsMessage() {
-    return $('[data-test-vendor-search-no-results]').text();
+    return $('[data-test-title-search-no-results]').text();
   },
 
   search(query) {

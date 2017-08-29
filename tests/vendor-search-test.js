@@ -69,11 +69,11 @@ describeApplication('eHoldings', function() {
         subcode: 0
       }], 500);
 
-      AppPage.search("this doesn't matter");
+      SearchVendorsPage.search("this doesn't matter");
     });
 
     it("dies with dignity", function() {
-      expect(AppPage.hasErrors).to.be.true;
+      expect(SearchVendorsPage.hasErrors).to.be.true;
     });
   });
 });
