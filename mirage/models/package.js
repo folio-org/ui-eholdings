@@ -1,5 +1,7 @@
 import { Model, belongsTo } from 'mirage-server';
 
 export default Model.extend({
-  vendor: belongsTo()
+  customCoverage: belongsTo(),
+  vendor: belongsTo(),
+  visibilityData: belongsTo()
 });

@@ -46,6 +46,14 @@ export default function PackageShow({ vendorPackage, packageTitles }) {
                 </div>
               </KeyValueLabel>
 
+              {(vendorPackage.customCoverage.beginCoverage || vendorPackage.customCoverage.endCoverage) && (
+                <KeyValueLabel label="Custom Coverage">
+                  <div data-test-eholdings-package-details-custom-coverage>
+                    {vendorPackage.customCoverage.beginCoverage} - {vendorPackage.customCoverage.endCoverage}
+                  </div>
+                </KeyValueLabel>
+              )}
+
               <hr />
 
               <KeyValueLabel label="Selected">
@@ -55,6 +63,14 @@ export default function PackageShow({ vendorPackage, packageTitles }) {
               </KeyValueLabel>
 
               <hr />
+
+              {vendorPackage.visibilityData.isHidden && (
+                <div data-test-eholdings-package-details-is-hidden>
+                <p><strong>This package is hidden.</strong></p>
+                <p><em>{vendorPackage.visibilityData.reason}</em></p>
+                <hr />
+                </div>
+              )}
 
               {packageTitles && packageTitles.length ? (
                 <div>
