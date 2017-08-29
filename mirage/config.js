@@ -50,6 +50,18 @@ export default function () {
     return new Response(200, getHeaders(request), titles.find(matchingCustomerResource.titleId));
   });
 
+  this.put('/vendors/:vendorId/packages/:packageId/titles/:titleId', ({ customerResources, titles }, request) => {
+    const matchingCustomerResource = customerResources.findBy({
+      packageId: request.params.packageId,
+      titleId: request.params.titleId
+    });
+
+    let { isSelected } = JSON.parse(request.requestBody);
+    matchingCustomerResource.update('isSelected', isSelected).save();
+
+    return new Response(204, getHeaders(request), '');
+  });
+
   // Title resources
   this.get('/titles', ({ titles }, request) => {
     const filteredTitles = titles.all().filter((titleModel) => {
