@@ -6,6 +6,14 @@ import { handleActions } from 'redux-actions';
 
 import View from '../../components/customer-resource-show';
 
+const ActionTypes = {
+  'CUSTOMER_RESOURCE_SHOW_ERROR': 'CUSTOMER_RESOURCE_SHOW_ERROR',
+  'CUSTOMER_RESOURCE_SHOW_TOGGLE_SELECTED_REJECT': 'CUSTOMER_RESOURCE_SHOW_TOGGLE_SELECTED_REJECT',
+  'CUSTOMER_RESOURCE_SHOW_TOGGLE_SELECTED_RESOLVE': 'CUSTOMER_RESOURCE_SHOW_TOGGLE_SELECTED_RESOLVE',
+  'CUSTOMER_RESOURCE_SHOW_TOGGLE_SELECTED': 'CUSTOMER_RESOURCE_SHOW_TOGGLE_SELECTED',
+  'CUSTOMER_RESOURCE_SHOW_LOADED': 'CUSTOMER_RESOURCE_SHOW_LOADED'
+};
+
 class CustomerResourceShowRoute extends Component {
   static propTypes = {
     match: PropTypes.shape({
@@ -21,9 +29,10 @@ class CustomerResourceShowRoute extends Component {
     addReducer: PropTypes.func.isRequired
   }
 
+
   componentWillMount() {
     this.context.addReducer('customerResourceShow', handleActions({
-      ['CUSTOMER_RESOURCE_SHOW_LOADED']: (state, action) => {
+      [ActionTypes.CUSTOMER_RESOURCE_SHOW_LOADED]: (state, action) => {
         let resource = action.record.customerResourcesList[0];
         return {
           ...state,
@@ -33,27 +42,27 @@ class CustomerResourceShowRoute extends Component {
           ...resource
         };
       },
-      ['CUSTOMER_RESOURCE_SHOW_TOGGLE_SELECTED']: (state, action) => {
+      [ActionTypes.CUSTOMER_RESOURCE_SHOW_TOGGLE_SELECTED]: (state, action) => {
         return {
           ...state,
           isSelected: !state.isSelected,
           isTogglingSelection: true
         };
       },
-      ['CUSTOMER_RESOURCE_SHOW_TOGGLE_SELECTED_RESOLVE']: (state, action) => {
+      [ActionTypes.CUSTOMER_RESOURCE_SHOW_TOGGLE_SELECTED_RESOLVE]: (state, action) => {
         return {
           ...state,
           isTogglingSelection: false
         };
       },
-      ['CUSTOMER_RESOURCE_SHOW_TOGGLE_SELECTED_REJECT']: (state, action) => {
+      [ActionTypes.CUSTOMER_RESOURCE_SHOW_TOGGLE_SELECTED_REJECT]: (state, action) => {
         return {
           ...state,
           isTogglingSelection: false,
           isSelected: !state.isSelected
         };
       },
-      ['CUSTOMER_RESOURCE_SHOW_ERROR']: (state, action) => {
+      [ActionTypes.CUSTOMER_RESOURCE_SHOW_ERROR]: (state, action) => {
         return {
           ...state,
           toggleSelectionError: action.error
