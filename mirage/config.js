@@ -44,6 +44,10 @@ export default function () {
       titleId: request.params.titleId
     });
 
+    if(!matchingCustomerResource) {
+      return new Response(500, getHeaders(request));
+    }
+
     return new Response(200, getHeaders(request), titles.find(matchingCustomerResource.titleId));
   });
 
@@ -52,6 +56,10 @@ export default function () {
       packageId: request.params.packageId,
       titleId: request.params.titleId
     });
+
+    if(!matchingCustomerResource) {
+      return new Response(500, getHeaders(request));
+    }
 
     let { isSelected } = JSON.parse(request.requestBody);
     matchingCustomerResource.update('isSelected', isSelected).save();

@@ -10,7 +10,7 @@ export default function CustomerResourceShow({ model, toggleSelected }) {
     <div data-test-eholdings-customer-resource-show>
       <Paneset>
         <Pane defaultWidth="100%">
-          {model.isLoaded ? (
+          {model && model.isLoaded ? (
             <div>
               <div style={{ margin: '2rem 0' }}>
                 <KeyValueLabel label="Resource">
@@ -62,6 +62,6 @@ export default function CustomerResourceShow({ model, toggleSelected }) {
 }
 
 CustomerResourceShow.propTypes = {
-  customerResource: PropTypes.object,
-  saveSelected: PropTypes.func
+  model: PropTypes.object,
+  toggleSelected: PropTypes.func
 };

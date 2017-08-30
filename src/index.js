@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import 'rxjs'; // maybe we shouldn't pull all of these in?
 import PropTypes from 'prop-types';
 import { Route, Switch, Redirect } from 'react-router-dom';
 
