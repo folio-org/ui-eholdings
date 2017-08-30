@@ -1,10 +1,16 @@
+import _ from 'lodash';
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import fetch from 'isomorphic-fetch';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
+
+import * as actionCreators from './action-creators';
+import customerResourceReducer from './reducers';
 
 import View from '../../components/customer-resource-show';
 
-export default class CustomerResourceShowRoute extends Component {
+class CustomerResourceShowRoute extends Component {
   static propTypes = {
     match: PropTypes.shape({
       params: PropTypes.shape({
@@ -13,41 +19,44 @@ export default class CustomerResourceShowRoute extends Component {
         vendorId: PropTypes.string.isRequired
       }).isRequired
     }).isRequired,
-    resources: PropTypes.shape({
-      showCustomerResource: PropTypes.shape({
-        records: PropTypes.arrayOf(PropTypes.object)
-      })
-    })
+    customerResource: PropTypes.object
   };
 
-  static manifest = Object.freeze({
-    showCustomerResource: {
-      type: 'okapi',
-      path: 'eholdings/vendors/:{vendorId}/packages/:{packageId}/titles/:{titleId}',
-      pk: 'titleId'
-    }
-  });
-
-  render() {
-    return (
-      <View customerResource={this.getCustomerResource()}/>
-    );
+  static contextTypes = {
+    addReducer: PropTypes.func.isRequired,
+    store: PropTypes.object
   }
 
-  getCustomerResource() {
+  componentWillMount() {
+    // Add reducers
+    this.context.addReducer('customerResource', customerResourceReducer);
+
+    // TODO: this might be able to go somewhere else.  like
+    // what if we put vendorId, etc. on the state where the
+    // actionCreators can get at it?  something...
     const {
-      resources: { showCustomerResource },
       match: { params: { vendorId, packageId, titleId } }
     } = this.props;
 
-    if (!showCustomerResource) {
-      return null;
-    }
+    this.props.fetchCustomerResource(vendorId, packageId, titleId);
+  }
 
-    return showCustomerResource.records.find((title) => {
-      return title.titleId == titleId && title.customerResourcesList.some((pkgTitle) => {
-        return pkgTitle.packageId == packageId && pkgTitle.vendorId == vendorId;
-      });
-    });
+  render() {
+    return (
+        <View
+          model={this.props.customerResource}
+          toggleSelected={this.props.toggleSelected}
+        />
+    );
   }
 }
+
+export default connect(
+  state => ({
+    customerResource: state.customerResource
+  }),
+  dispatch => bindActionCreators(
+    actionCreators,
+    dispatch
+  )
+)(CustomerResourceShowRoute);

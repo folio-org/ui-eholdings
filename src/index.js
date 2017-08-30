@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import 'rxjs'; // maybe we shouldn't pull all of these in?
 import PropTypes from 'prop-types';
 import { Route, Switch, Redirect } from 'react-router-dom';
 
@@ -28,7 +29,7 @@ export default class EHoldings extends Component {
     this.SearchTitles = props.stripes.connect(SearchTitles);
     this.VendorShow = props.stripes.connect(VendorShow);
     this.PackageShow = props.stripes.connect(PackageShow);
-    this.CustomerResourceShow = props.stripes.connect(CustomerResourceShow);
+    this.CustomerResourceShow = CustomerResourceShow;
     this.TitleShow = props.stripes.connect(TitleShow);
   }
 
