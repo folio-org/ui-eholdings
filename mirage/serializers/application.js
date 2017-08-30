@@ -54,6 +54,7 @@ export default Serializer.extend({
       hash.vendorName = customerResource.package.vendor.vendorName;
       hash.packageId = customerResource.package.id;
       hash.packageName = customerResource.package.packageName;
+      hash.contentType = customerResource.package.contentType;
       hash.titleId = json.titleId;
       delete hash.package;
       delete hash.id;

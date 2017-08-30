@@ -17,6 +17,10 @@ export default {
     return $('[data-test-eholdings-customer-resource-show-package-name]').text();
   },
 
+  get contentType() {
+    return $('[data-test-eholdings-customer-resource-show-content-type]').text();
+  },
+
   get hasErrors() {
     return $('[data-test-eholdings-customer-resource-show-error]').length > 0;
   },
