@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import fetch from 'isomorphic-fetch';
 import { connect } from 'react-redux';
+import { handleActions } from 'redux-actions';
 
 import View from '../../components/customer-resource-show';
 
@@ -21,9 +22,8 @@ class CustomerResourceShowRoute extends Component {
   }
 
   componentWillMount() {
-    this.context.addReducer('customerResourceShow', function(state, action) {
-      switch (action.type) {
-      case 'CUSTOMER_RESOURCE_SHOW_LOADED':
+    this.context.addReducer('customerResourceShow', handleActions({
+      ['CUSTOMER_RESOURCE_SHOW_LOADED']: (state, action) => {
         let resource = action.record.customerResourcesList[0];
         return {
           ...state,
@@ -32,33 +32,34 @@ class CustomerResourceShowRoute extends Component {
           titleName: action.record.titleName,
           ...resource
         };
-      case 'CUSTOMER_RESOURCE_SHOW_TOGGLE_SELECTED':
+      },
+      ['CUSTOMER_RESOURCE_SHOW_TOGGLE_SELECTED']: (state, action) => {
         return {
           ...state,
           isSelected: !state.isSelected,
           isTogglingSelection: true
         };
-        return state;
-      case 'CUSTOMER_RESOURCE_SHOW_TOGGLE_SELECTED_RESOLVE':
+      },
+      ['CUSTOMER_RESOURCE_SHOW_TOGGLE_SELECTED_RESOLVE']: (state, action) => {
         return {
           ...state,
           isTogglingSelection: false
         };
-      case 'CUSTOMER_RESOURCE_SHOW_TOGGLE_SELECTED_REJECT':
+      },
+      ['CUSTOMER_RESOURCE_SHOW_TOGGLE_SELECTED_REJECT']: (state, action) => {
         return {
           ...state,
           isTogglingSelection: false,
           isSelected: !state.isSelected
         };
-      case 'CUSTOMER_RESOURCE_SHOW_ERROR':
+      },
+      ['CUSTOMER_RESOURCE_SHOW_ERROR']: (state, action) => {
         return {
           ...state,
           toggleSelectionError: action.error
         };
-      default:
-        return state ? state : null;
       }
-    });
+    }, { isLoaded: false, isErrored: false }));
 
     let { loadRecord, errorRecord } = this.props.dispatch;
 

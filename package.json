@@ -44,7 +44,8 @@
     "webpack-dev-server": "^2.5.0"
   },
   "dependencies": {
-    "isomorphic-fetch": "^2.2.1"
+    "isomorphic-fetch": "^2.2.1",
+    "redux-actions": "^2.2.1"
   },
   "stripes": {
     "type": "app",
