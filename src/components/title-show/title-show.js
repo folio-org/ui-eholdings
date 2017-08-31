@@ -27,8 +27,8 @@ export default function TitleShow({ title }) {
                 </div>
               </KeyValueLabel>
 
-              <KeyValueLabel label="Publisher Type">
-                <div data-test-eholdings-title-show-publisher-type>
+              <KeyValueLabel label="Publication Type">
+                <div data-test-eholdings-title-show-publication-type>
                   {title.pubType}
                 </div>
               </KeyValueLabel>

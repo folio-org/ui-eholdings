@@ -13,8 +13,8 @@ export default {
     return $('[data-test-eholdings-customer-resource-show-publisher-name]').text();
   },
 
-  get publisherType() {
-    return $('[data-test-eholdings-customer-resource-show-publisher-type]').text();
+  get publicationType() {
+    return $('[data-test-eholdings-customer-resource-show-publication-type]').text();
   },
 
   get vendorName() {

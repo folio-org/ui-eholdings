@@ -38,8 +38,8 @@ describeApplication('CustomerResourceShow', function() {
       expect(CustomerResourceShowPage.publisherName).to.equal(customerResources[0].title.publisherName);
     });
 
-    it('displays the publisher type', function() {
-      expect(CustomerResourceShowPage.publisherType).to.equal(customerResources[0].title.pubType);
+    it('displays the publication type', function() {
+      expect(CustomerResourceShowPage.publicationType).to.equal(customerResources[0].title.pubType);
     });
 
     it('displays the vendor name', function() {
