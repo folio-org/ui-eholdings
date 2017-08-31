@@ -58,6 +58,10 @@ describeApplication('CustomerResourceShow', function() {
       expect(CustomerResourceShowPage.managedUrl).to.equal(customerResources[0].url);
     });
 
+    it('displays the subjects list', function() {
+      expect(CustomerResourceShowPage.subjectsList).to.equal(customerResources[0].title.subjects.models.map((subjectObj) => subjectObj.subject).join('; '));
+    });
+
     it('displays if the customer resource is selected', function() {
       expect(CustomerResourceShowPage.isSelected).to.equal(`${customerResources[0].isSelected ? 'Yes' : 'No'}`);
     });

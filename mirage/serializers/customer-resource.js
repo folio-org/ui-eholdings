@@ -20,7 +20,6 @@ export default ApplicationSerializer.extend({
     if(json.title) {
       let newHash = json.title;
       newHash.customerResourcesList = this.createCustomerResourcesList(json.title);
-      delete newHash.customerResources;
       newHash.titleId = json.title.id;
       delete newHash.id;
       return newHash;

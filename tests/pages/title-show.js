@@ -17,6 +17,10 @@ export default {
     return $('[data-test-eholdings-title-show-publisher-type]').text();
   },
 
+  get subjectsList() {
+    return $('[data-test-eholdings-title-show-subjects-list]').text();
+  },
+
   get hasErrors() {
     return $('[data-test-eholdings-title-show-error]').length > 0;
   },

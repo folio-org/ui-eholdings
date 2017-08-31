@@ -58,6 +58,14 @@ export default function CustomerResourceShow({ customerResource }) {
                 </KeyValueLabel>
               ) }
 
+              {customerResource.subjectsList.length > 0 && (
+                <KeyValueLabel label="Subjects">
+                  <div data-test-eholdings-customer-resource-show-subjects-list>
+                    {customerResource.subjectsList.map((subjectObj) => subjectObj.subject).join('; ')}
+                  </div>
+                </KeyValueLabel>
+              ) }
+
               <hr />
 
               <KeyValueLabel label="Selected">

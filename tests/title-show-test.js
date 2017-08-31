@@ -14,6 +14,13 @@ describeApplication('TitleShow', function() {
       publisherName: 'Cool Publisher'
     });
 
+    title.subjects = [
+      this.server.create('subject', { subject: 'Cool Subject 1' }),
+      this.server.create('subject', { subject: 'Cool Subject 2' }),
+      this.server.create('subject', { subject: 'Cool Subject 3' })
+    ];
+    title.save();
+
     customerResources = title.customerResources.models;
   });
 
@@ -34,6 +41,10 @@ describeApplication('TitleShow', function() {
 
     it('displays the publisher type', function() {
       expect(TitleShowPage.publisherType).to.equal(title.pubType);
+    });
+
+    it('displays the subjects list', function() {
+      expect(TitleShowPage.subjectsList).to.equal('Cool Subject 1; Cool Subject 2; Cool Subject 3');
     });
 
     it('displays a list of customer resources', function() {
