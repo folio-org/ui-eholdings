@@ -7,7 +7,7 @@ import KeyValueLabel from '../key-value-label';
 import TitleListItem from '../title-list-item';
 import styles from './package-show.css';
 
-export default function PackageShow({ vendorPackage, packageTitles }) {
+export default function PackageShow({ vendorPackage, packageTitles }, { formatDate }) {
   return (
     <div data-test-eholdings-package-details>
       <Paneset>
@@ -49,7 +49,7 @@ export default function PackageShow({ vendorPackage, packageTitles }) {
               {(vendorPackage.customCoverage.beginCoverage || vendorPackage.customCoverage.endCoverage) && (
                 <KeyValueLabel label="Custom Coverage">
                   <div data-test-eholdings-package-details-custom-coverage>
-                    {vendorPackage.customCoverage.beginCoverage} - {vendorPackage.customCoverage.endCoverage}
+                    {formatDate(vendorPackage.customCoverage.beginCoverage)} - {formatDate(vendorPackage.customCoverage.endCoverage)}
                   </div>
                 </KeyValueLabel>
               )}
@@ -104,4 +104,8 @@ export default function PackageShow({ vendorPackage, packageTitles }) {
 PackageShow.propTypes = {
   vendorPackage: PropTypes.object,
   packageTitles: PropTypes.arrayOf(PropTypes.object)
+};
+
+PackageShow.contextTypes = {
+  formatDate: PropTypes.func
 };
