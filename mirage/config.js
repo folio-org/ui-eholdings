@@ -35,19 +35,15 @@ export default function () {
     return new Response(200, getHeaders(request), vendorPackage);
   });
 
-  this.get('/vendors/:vendorId/packages/:packageId/titles', ({ customerResources, titles }, request) => {
-    const matchingCustomerResources = customerResources.where({ packageId: request.params.packageId });
-    const titleIds = matchingCustomerResources.models.map((customerResource) => customerResource.titleId);
-    return new Response(200, getHeaders(request), titles.find(titleIds));
+  this.get('/vendors/:vendorId/packages/:packageId/titles', ({ customerResources }, request) => {
+    return new Response(200, getHeaders(request), customerResources.where({ packageId: request.params.packageId }));
   });
 
-  this.get('/vendors/:vendorId/packages/:packageId/titles/:titleId', ({ customerResources, titles }, request) => {
-    const matchingCustomerResource = customerResources.findBy({
+  this.get('/vendors/:vendorId/packages/:packageId/titles/:titleId', ({ customerResources }, request) => {
+    return new Response(200, getHeaders(request), customerResources.findBy({
       packageId: request.params.packageId,
       titleId: request.params.titleId
-    });
-
-    return new Response(200, getHeaders(request), titles.find(matchingCustomerResource.titleId));
+    }));
   });
 
   // Title resources

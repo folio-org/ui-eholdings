@@ -42,6 +42,10 @@ describeApplication('CustomerResourceShow', function() {
       expect(CustomerResourceShowPage.titleName).to.equal(customerResources[0].title.titleName);
     });
 
+    it('displays the content type', function() {
+      expect(CustomerResourceShowPage.contentType).to.equal(customerResources[0].package.contentType);
+    });
+
     it('displays if the customer resource is selected', function() {
       expect(CustomerResourceShowPage.isSelected).to.equal(`${customerResources[0].isSelected ? 'Yes' : 'No'}`);
     });

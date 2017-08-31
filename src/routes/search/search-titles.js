@@ -130,11 +130,11 @@ export default class SearchVendors extends Component {
             {this.isLoading ? (
               <p>...loading</p>
             ) : (!hasSearchResults && query.search) ? (
-              <p data-test-search-no-results>
+              <p data-test-title-search-no-results>
                 No results found for <strong>{`"${query.search}"`}</strong>.
               </p>
             ) : (
-              <ul data-test-search-results-list className={styles['search-results-list']}>
+              <ul data-test-title-search-results-list className={styles['search-results-list']}>
                 {hasSearchResults && titles.map((title) => (
                   <TitleListItem
                     key={title.titleId}

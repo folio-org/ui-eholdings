@@ -1,10 +1,13 @@
 import ApplicationSerializer from './application';
+// import createCustomerResourcesList from '../utils/create-customer-resource-list';
 
 export default ApplicationSerializer.extend({
-  /*
-   * Title records DO return embedded records, not just ids of the relationships.
-  */
-  embed: true,
-  serializeIds: 'never',
-  include: ['customerResources']
+  include: ['customerResources'],
+
+  modifyKeys(json) {
+    let newHash = json;
+    newHash.customerResourcesList = this.createCustomerResourcesList(json);
+    delete newHash.customerResources;
+    return newHash;
+  }
 });

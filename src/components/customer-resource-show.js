@@ -26,6 +26,12 @@ export default function CustomerResourceShow({ customerResource }) {
                 </div>
               </KeyValueLabel>
 
+              <KeyValueLabel label="Content Type">
+                <div data-test-eholdings-customer-resource-show-content-type>
+                  {customerResource.customerResourcesList[0].contentType}
+                </div>
+              </KeyValueLabel>
+
               <KeyValueLabel label="Vendor">
                 <div data-test-eholdings-customer-resource-show-vendor-name>
                   <Link to={`/eholdings/vendors/${customerResource.customerResourcesList[0].vendorId}`}>{customerResource.customerResourcesList[0].vendorName}</Link>
