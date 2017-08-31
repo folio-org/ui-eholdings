@@ -38,5 +38,13 @@ export default Factory.extend({
         isSelected: false
       });
     }
+  }),
+
+  withSubjects: trait({
+    afterCreate(title, server) {
+      let subjects = server.createList('subject', 3);
+      title.subjects = subjects;
+      title.save();
+    }
   })
 });

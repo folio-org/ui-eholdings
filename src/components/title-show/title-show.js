@@ -33,6 +33,14 @@ export default function TitleShow({ title }) {
                 </div>
               </KeyValueLabel>
 
+              {title.subjectsList.length > 0 && (
+                <KeyValueLabel label="Subjects">
+                  <div data-test-eholdings-title-show-subjects-list>
+                    {title.subjectsList.map((subjectObj) => subjectObj.subject).join('; ')}
+                  </div>
+                </KeyValueLabel>
+              ) }
+
               <hr />
               <h3>Packages</h3>
               <ul data-test-eholdings-title-show-package-list className={styles['list']}>

@@ -33,6 +33,10 @@ export default {
     return $('[data-test-eholdings-customer-resource-show-managed-url]').text();
   },
 
+  get subjectsList() {
+    return $('[data-test-eholdings-customer-resource-show-subjects-list]').text();
+  },
+
   get hasErrors() {
     return $('[data-test-eholdings-customer-resource-show-error]').length > 0;
   },

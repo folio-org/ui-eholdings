@@ -46,9 +46,17 @@ export default Serializer.extend({
     }
   },
 
+  keyForEmbeddedRelationship(attributeName) {
+    if(attributeName === 'subjects' || attributeName === 'customerResources') {
+      return `${pluralize(attributeName)}List`;
+    } else {
+      return attributeName;
+    }
+  },
+
   createCustomerResourcesList(json) {
     // move the vendor/package/title ids and names up a level
-    return json.customerResources.map((customerResource) => {
+    return json.customerResourcesList.map((customerResource) => {
       let hash = customerResource;
       hash.vendorId = customerResource.package.vendor.id;
       hash.vendorName = customerResource.package.vendor.vendorName;
