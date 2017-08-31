@@ -56,8 +56,8 @@ export default Factory.extend({
   withCustomCoverage: trait({
     afterCreate(packageObj, server) {
       let customCoverage = server.create('custom-coverage', {
-        beginCoverage: () => faker.date.past(),
-        endCoverage: () => faker.date.future()
+        beginCoverage: () => faker.date.past().toISOString().substring(0,10),
+        endCoverage: () => faker.date.future().toISOString().substring(0,10)
       });
       packageObj.update('customCoverage', customCoverage);
     }
