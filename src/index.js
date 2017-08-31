@@ -18,6 +18,9 @@ export default class EHoldings extends Component {
   static propTypes = {
     match: PropTypes.shape({
       path: PropTypes.string.isRequired
+    }).isRequired,
+    stripes: PropTypes.shape({
+      intl: PropTypes.object.isRequired
     }).isRequired
   };
 
@@ -25,6 +28,16 @@ export default class EHoldings extends Component {
     addReducer: PropTypes.func.isRequired,
     addEpic: PropTypes.func.isRequired
   };
+
+  static childContextTypes = {
+    intl: PropTypes.object
+  }
+
+  getChildContext() {
+    return {
+      intl: this.props.stripes.intl
+    }
+  }
 
   constructor(props) {
     super(props);
