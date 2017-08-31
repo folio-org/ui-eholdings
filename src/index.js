@@ -29,7 +29,8 @@ export default class EHoldings extends Component {
   getChildContext() {
     return {
       formatDate: (dateString) => {
-        return new Date(Date.parse(dateString)).toLocaleDateString(this.props.stripes.locale)
+        // only for use with date strings not including time
+        return new Date(Date.parse(dateString)).toLocaleDateString(this.props.stripes.locale, { timezone: 'UTC' })
       }
     }
   }
