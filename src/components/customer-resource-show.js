@@ -50,12 +50,13 @@ export default function CustomerResourceShow({ customerResource }) {
                 </div>
               </KeyValueLabel>
 
-              <KeyValueLabel label="Managed URL">
-                <div data-test-eholdings-customer-resource-show-managed-url>
-                  <Link to={customerResource.customerResourcesList[0].url}>{customerResource.customerResourcesList[0].url}</Link>
-                </div>
-              </KeyValueLabel>
-
+              {customerResource.customerResourcesList[0].url && (
+                <KeyValueLabel label="Managed URL">
+                  <div data-test-eholdings-customer-resource-show-managed-url>
+                    <Link to={customerResource.customerResourcesList[0].url}>{customerResource.customerResourcesList[0].url}</Link>
+                  </div>
+                </KeyValueLabel>
+              ) }
 
               <hr />
 
