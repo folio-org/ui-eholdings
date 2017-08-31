@@ -6,19 +6,10 @@ import style from './front.css';
 export default function Front() {
   return (
     <div className={style.front}>
-      <h1><Logo className={style.logo}/> e-Holdings, by Frontside</h1>
+      <h1><Logo className={style.logo}/> eHoldings, by Frontside</h1>
       <p>
         Welcome to the Frontside FOLIO demo. Here you'll find a showcase of the applications and modules that we've been working on.
       </p>
-
-      <p>
-        <em>HTTPS is currently only partially enabled at the moment for this demo. To allow insecure content to load from the demo Okapi instance, you'll need to temporarily allow "unsafe scripts" in your browser:</em>
-      </p>
-      <ul>
-        <li>
-          <a href="https://superuser.com/questions/487748/how-to-allow-chrome-browser-to-load-insecure-content">Chrome instructions</a>
-        </li>
-      </ul>
 
       <p>
         While we wire up the general search and navigation system for e-holdings, please have a look at these direct links as a starting point:
