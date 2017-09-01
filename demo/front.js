@@ -34,7 +34,7 @@ export default function Front() {
 
       <h3>Titles</h3>
       <ul>
-        <li><Link to="/eholdings/titles/4862281">Rockets and People, Volume 2: Creating a Rocket Industry</Link></li>
+        <li><Link to="/eholdings/titles/2022451">Rockets and People, Volume 2: Creating a Rocket Industry</Link></li>
         <li><Link to="/eholdings/titles/910785">Cornell Real Estate Review</Link></li>
       </ul>
 
