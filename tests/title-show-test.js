@@ -39,8 +39,8 @@ describeApplication('TitleShow', function() {
       expect(TitleShowPage.publisherName).to.equal('Cool Publisher');
     });
 
-    it('displays the publisher type', function() {
-      expect(TitleShowPage.publisherType).to.equal(title.pubType);
+    it('displays the publication type', function() {
+      expect(TitleShowPage.publicationType).to.equal(title.pubType);
     });
 
     it('displays the subjects list', function() {

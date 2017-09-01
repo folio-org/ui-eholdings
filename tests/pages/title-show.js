@@ -13,8 +13,8 @@ export default {
     return $('[data-test-eholdings-title-show-publisher-name]').text();
   },
 
-  get publisherType() {
-    return $('[data-test-eholdings-title-show-publisher-type]').text();
+  get publicationType() {
+    return $('[data-test-eholdings-title-show-publication-type]').text();
   },
 
   get subjectsList() {

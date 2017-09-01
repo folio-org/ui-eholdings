@@ -26,8 +26,8 @@ export default function CustomerResourceShow({ customerResource }) {
                 </div>
               </KeyValueLabel>
 
-              <KeyValueLabel label="Publisher Type">
-                <div data-test-eholdings-customer-resource-show-publisher-type>
+              <KeyValueLabel label="Publication Type">
+                <div data-test-eholdings-customer-resource-show-publication-type>
                   {customerResource.pubType}
                 </div>
               </KeyValueLabel>
