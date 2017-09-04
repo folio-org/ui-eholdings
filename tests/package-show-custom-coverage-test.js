@@ -34,7 +34,7 @@ describeApplication('PackageShowCustomCoverage', function() {
     });
 
     it('displays the custom coverage section', function() {
-      expect(PackageShowPage.customCoverage).to.equal('1969-07-16 - 1972-12-19');
+      expect(PackageShowPage.customCoverage).to.equal('7/15/1969 - 12/18/1972');
     });
   });
 

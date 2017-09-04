@@ -13,12 +13,26 @@ import TitleShow from './routes/title/title-show';
 export default class EHoldings extends Component {
   static propTypes = {
     stripes: PropTypes.shape({
-      connect: PropTypes.func.isRequired
+      connect: PropTypes.func.isRequired,
+      locale: PropTypes.string.isRequired
     }).isRequired,
     match: PropTypes.shape({
       path: PropTypes.string.isRequired
     }).isRequired,
     okapi: PropTypes.object
+  }
+
+  static childContextTypes = {
+    formatDate: PropTypes.func
+  }
+
+  getChildContext() {
+    return {
+      formatDate: (dateString) => {
+        // only for use with date strings not including time
+        return new Date(Date.parse(dateString)).toLocaleDateString(this.props.stripes.locale, { timezone: 'UTC' })
+      }
+    }
   }
 
   constructor(props) {
