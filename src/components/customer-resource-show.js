@@ -5,6 +5,7 @@ import Paneset from '@folio/stripes-components/lib/Paneset';
 import Pane from '@folio/stripes-components/lib/Pane';
 import KeyValueLabel from './key-value-label';
 import IdentifiersList from './identifiers-list';
+import ContributorsList from './contributors-list';
 
 export default function CustomerResourceShow({ model, toggleSelected }) {
   const { record, toggle } = model;
@@ -37,6 +38,7 @@ export default function CustomerResourceShow({ model, toggleSelected }) {
               </KeyValueLabel>
 
               <IdentifiersList data={resource.identifiersList} />
+              <ContributorsList data={resource.contributorsList} />
 
               <KeyValueLabel label="Package">
                 <div data-test-eholdings-customer-resource-show-package-name>

@@ -21,6 +21,10 @@ export default {
     return $('[data-test-eholdings-identifiers-list-item]').toArray().map((item) => $(item).text());
   },
 
+  get contributorsList() {
+    return $('[data-test-eholdings-contributors-list-item]').toArray().map((item) => $(item).text());
+  },
+
   get subjectsList() {
     return $('[data-test-eholdings-title-show-subjects-list]').text();
   },

@@ -7,6 +7,7 @@ import KeyValueLabel from './key-value-label';
 import List from './list';
 import PackageListItem from './package-list-item';
 import IdentifiersList from './identifiers-list';
+import ContributorsList from './contributors-list';
 
 export default function TitleShow({ title }) {
   return (
@@ -36,6 +37,7 @@ export default function TitleShow({ title }) {
               </KeyValueLabel>
 
               <IdentifiersList data={title.identifiersList} />
+              <ContributorsList data={title.contributorsList} />
 
               {title.subjectsList.length > 0 && (
                 <KeyValueLabel label="Subjects">
