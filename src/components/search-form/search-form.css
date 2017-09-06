@@ -1,0 +1,35 @@
+.search-form-container {
+  width: 100%;
+}
+
+.search-switcher {
+  float: left;
+  margin: 0 1em;
+
+  & a {
+    display: inline-block;
+    border: solid #ccc;
+    border-width: 1px 1px 1px 0;
+    padding: 0.4em 0.6em;
+    text-decoration: none;
+    line-height: 1;
+
+    &:first-child {
+      border-left-width: 1px;
+      border-radius: 0.3em 0 0 0.3em;
+    }
+
+    &:last-child {
+      border-radius: 0 0.3em 0.3em 0;
+    }
+
+    &.is-active {
+      background-color: #eee;
+    }
+  }
+}
+
+.search-results-list {
+  margin: 1em 0;
+  padding-left: 0;
+}

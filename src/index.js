@@ -2,9 +2,13 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Route, Switch, Redirect } from 'react-router-dom';
 
-import SearchVendors from './routes/search/search-vendors';
-import SearchPackages from './routes/search/search-packages';
-import SearchTitles from './routes/search/search-titles';
+import { reducer, epics } from './redux';
+
+import SearchRoute from './routes/search';
+import VendorSearchResultsRoute from './routes/vendor/vendor-search-results';
+import PackageSearchResultsRoute from './routes/package/package-search-results';
+import TitleSearchResultsRoute from './routes/title/title-search-results';
+
 import VendorShow from './routes/vendor/vendor-show';
 import PackageShow from './routes/package/package-show';
 import CustomerResourceShow from './routes/customer-resource/customer-resource-show';
@@ -12,24 +16,27 @@ import TitleShow from './routes/title/title-show';
 
 export default class EHoldings extends Component {
   static propTypes = {
-    stripes: PropTypes.shape({
-      connect: PropTypes.func.isRequired
-    }).isRequired,
     match: PropTypes.shape({
       path: PropTypes.string.isRequired
-    }).isRequired,
-    okapi: PropTypes.object
-  }
+    }).isRequired
+  };
+
+  static contextTypes = {
+    addReducer: PropTypes.func.isRequired,
+    addEpic: PropTypes.func.isRequired
+  };
 
   constructor(props) {
     super(props);
-    this.SearchVendors = props.stripes.connect(SearchVendors);
-    this.SearchPackages = props.stripes.connect(SearchPackages);
-    this.SearchTitles = props.stripes.connect(SearchTitles);
     this.VendorShow = props.stripes.connect(VendorShow);
     this.PackageShow = props.stripes.connect(PackageShow);
     this.CustomerResourceShow = CustomerResourceShow;
     this.TitleShow = props.stripes.connect(TitleShow);
+  }
+
+  componentWillMount() {
+    this.context.addReducer('eholdings', reducer);
+    this.context.addEpic('eholdings', epics);
   }
 
   render() {
@@ -37,14 +44,19 @@ export default class EHoldings extends Component {
 
     return(
       <Switch>
-        <Route path={`${rootPath}/vendors`} exact component={this.SearchVendors}/>
-        <Route path={`${rootPath}/packages`} exact component={this.SearchPackages}/>
-        <Route path={`${rootPath}/titles`} exact component={this.SearchTitles}/>
+        <Route path={`${rootPath}/search/:searchType(vendors|packages|titles)`} render={(props) => (
+          <SearchRoute {...props}>
+            <Route path={`${rootPath}/search/vendors`} exact component={VendorSearchResultsRoute}/>
+            <Route path={`${rootPath}/search/packages`} exact component={PackageSearchResultsRoute}/>
+            <Route path={`${rootPath}/search/titles`} exact component={TitleSearchResultsRoute}/>
+          </SearchRoute>
+        )}/>
+
         <Route path={`${rootPath}/vendors/:vendorId`} exact component={this.VendorShow}/>
         <Route path={`${rootPath}/vendors/:vendorId/packages/:packageId`} exact component={this.PackageShow}/>
         <Route path={`${rootPath}/vendors/:vendorId/packages/:packageId/titles/:titleId`} exact component={this.CustomerResourceShow}/>
         <Route path={`${rootPath}/titles/:titleId`} exact component={this.TitleShow}/>
-        <Route render={() => (<Redirect to={`${rootPath}/vendors`}/>)}/>
+        <Route render={() => (<Redirect to={`${rootPath}/search/vendors`}/>)}/>
       </Switch>
     );
   }
