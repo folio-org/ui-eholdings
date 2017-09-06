@@ -16,9 +16,9 @@ export default function PackageListItem({ item, link, showTitleCount }) {
           {showTitleCount && (
             <span>
               {" • "}
-              <span data-test-eholdings-vendor-details-package-num-titles>{item.selectedCount}</span>
+              <span data-test-eholdings-package-num-titles>{item.selectedCount}</span>
               {" / "}
-              <span data-test-eholdings-vendor-details-package-num-titles-selected>{item.titleCount}</span>
+              <span data-test-eholdings-package-num-titles-selected>{item.titleCount}</span>
               {" "}
               <span>{item.titleCount === 1 ? 'Title' : 'Titles'}</span>
             </span>

@@ -11,21 +11,24 @@ export default {
   },
 
   get $searchResultsItems() {
-    return $('[data-test-title-search-results-list] li');
+    return $('[data-test-vendor-search-results-list] li');
   },
 
   get hasErrors() {
-    return $('[data-test-search-error-message]').length > 0;
+    return $('[data-test-vendor-search-error-message]').length > 0;
   },
 
   get noResultsMessage() {
-    return $('[data-test-title-search-no-results]').text();
+    return $('[data-test-vendor-search-no-results]').text();
   },
 
   search(query) {
     let $input = $('[data-test-search-field]').val(query);
     triggerChange($input.get(0));
 
-    $('[data-test-search-submit]').trigger('click');
+    // allow `triggerChange` to take effect
+    window.setTimeout(() => {
+      $('[data-test-search-submit]').trigger('click');
+    }, 1);
   }
-}
+};

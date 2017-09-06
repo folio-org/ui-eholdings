@@ -17,7 +17,7 @@ function VendorSearchResultsRoute({
   ) : isErrored ? (
     <p data-test-vendor-search-error>{error}</p>
   ) : !records.length && search ? (
-    <p data-test-vendor-search-not-found>
+    <p data-test-vendor-search-no-results>
       No vendors found for <strong>{`"${search}"`}</strong>.
     </p>
   ) : (

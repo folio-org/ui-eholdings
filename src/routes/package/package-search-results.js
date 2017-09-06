@@ -15,9 +15,9 @@ function PackageSearchResults({
   return isLoading ? (
     <p>...loading</p>
   ) : isErrored ? (
-    <p data-test-vendor-search-error>{error}</p>
+    <p data-test-package-search-error-message>{error}</p>
   ) : !records.length && search ? (
-    <p data-test-vendor-search-not-found>
+    <p data-test-package-search-no-results>
       No packages found for <strong>{`"${search}"`}</strong>.
     </p>
   ) : (

@@ -3,15 +3,15 @@ import { expect } from 'chai';
 import it from './it-will';
 
 import { describeApplication } from './helpers';
-import SearchTitlesPage from './pages/search-titles';
+import SearchTitlesPage from './pages/title-search';
 
-describeApplication('eHoldings', function() {
+describeApplication('TitleSearch', function() {
   beforeEach(function() {
     this.server.createList('title', 3, {
       titleName: (i) => `Title${i + 1}`
     });
 
-    return this.visit('/eholdings/titles', () => {
+    return this.visit('/eholdings/search/titles', () => {
       expect(SearchTitlesPage.$root).to.exist;
     });
   });
@@ -46,7 +46,7 @@ describeApplication('eHoldings', function() {
     });
 
     it("displays 'no results' message", function() {
-      expect(SearchTitlesPage.noResultsMessage).to.equal('No results found for "fhqwhgads".');
+      expect(SearchTitlesPage.noResultsMessage).to.equal('No titles found for "fhqwhgads".');
     });
   });
 });

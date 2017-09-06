@@ -15,9 +15,9 @@ function TitleSearchResults({
   return isLoading ? (
     <p>...loading</p>
   ) : isErrored ? (
-    <p data-test-vendor-search-error>{error}</p>
+    <p data-test-title-search-error-message>{error}</p>
   ) : !records.length && search ? (
-    <p data-test-vendor-search-not-found>
+    <p data-test-title-search-no-results>
       No titles found for <strong>{`"${search}"`}</strong>.
     </p>
   ) : (
