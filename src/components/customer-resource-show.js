@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom';
 import Paneset from '@folio/stripes-components/lib/Paneset';
 import Pane from '@folio/stripes-components/lib/Pane';
 import KeyValueLabel from './key-value-label';
+import IdentifiersList from './identifiers-list';
 
 export default function CustomerResourceShow({ model, toggleSelected }) {
   return (
@@ -31,6 +32,8 @@ export default function CustomerResourceShow({ model, toggleSelected }) {
                   {model.pubType}
                 </div>
               </KeyValueLabel>
+
+              <IdentifiersList data={model.identifiersList} />
 
               <KeyValueLabel label="Package">
                 <div data-test-eholdings-customer-resource-show-package-name>

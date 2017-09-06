@@ -6,7 +6,7 @@ export default Factory.extend({
 
   withTitle: trait({
     afterCreate(customerResource, server) {
-      let title = server.create('title', 'withSubjects');
+      let title = server.create('title', 'withSubjects', 'withIdentifiers');
       customerResource.title = title;
       customerResource.save();
     }

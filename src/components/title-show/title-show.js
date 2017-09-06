@@ -4,6 +4,7 @@ import Paneset from '@folio/stripes-components/lib/Paneset';
 import Pane from '@folio/stripes-components/lib/Pane';
 import KeyValueLabel from '../key-value-label';
 import PackageListItem from '../package-list-item';
+import IdentifiersList from '../identifiers-list';
 import styles from './title-show.css';
 
 export default function TitleShow({ title }) {
@@ -32,6 +33,8 @@ export default function TitleShow({ title }) {
                   {title.pubType}
                 </div>
               </KeyValueLabel>
+
+              <IdentifiersList data={title.identifiersList} />
 
               {title.subjectsList.length > 0 && (
                 <KeyValueLabel label="Subjects">
