@@ -69,5 +69,9 @@ export default {
 
   get flashError() {
     return '';
+  },
+
+  get isHidden() {
+    return $('[data-test-eholdings-customer-resource-show-is-hidden]').length === 1;
   }
 };
