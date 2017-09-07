@@ -3,10 +3,10 @@ import { expect } from 'chai';
 import it from './it-will';
 
 import { describeApplication } from './helpers';
-import CustomerResourceShowPage from './pages/customer-resource-show';
+import ResourcePage from './pages/customer-resource-show';
 
 describeApplication('CustomerResourceShow', function() {
-  let vendor, vendorPackage, customerResources;
+  let vendor, vendorPackage, resource;
 
   beforeEach(function() {
     vendor = this.server.create('vendor', {
@@ -20,68 +20,101 @@ describeApplication('CustomerResourceShow', function() {
       titleCount: 5
     });
 
-    customerResources = this.server.schema.where('customer-resource', { packageId: vendorPackage.id }).models;
+    let title = this.server.create('title', {
+      package: vendorPackage
+    });
+
+    resource = this.server.create('customer-resource', {
+      package: vendorPackage,
+      isSelected: false,
+      title
+    });
+
   });
 
   describe("visiting the customer resource page", function() {
     beforeEach(function() {
-      return this.visit(`/eholdings/vendors/${vendor.id}/packages/${vendorPackage.id}/titles/${customerResources[0].titleId}`, () => {
-        expect(CustomerResourceShowPage.$root).to.exist;
+      return this.visit(`/eholdings/vendors/${vendor.id}/packages/${vendorPackage.id}/titles/${resource.titleId}`, () => {
+        expect(ResourcePage.$root).to.exist;
       });
     });
 
     it('displays the title name', function() {
-      expect(CustomerResourceShowPage.titleName).to.equal(customerResources[0].title.titleName);
+      expect(ResourcePage.titleName).to.equal(resource.title.titleName);
     });
 
     it('displays the publisher name', function() {
-      expect(CustomerResourceShowPage.publisherName).to.equal(customerResources[0].title.publisherName);
+      expect(ResourcePage.publisherName).to.equal(resource.title.publisherName);
     });
 
     it('displays the publication type', function() {
-      expect(CustomerResourceShowPage.publicationType).to.equal(customerResources[0].title.pubType);
+      expect(ResourcePage.publicationType).to.equal(resource.title.pubType);
     });
 
     it('displays the vendor name', function() {
-      expect(CustomerResourceShowPage.vendorName).to.equal('Cool Vendor');
+      expect(ResourcePage.vendorName).to.equal(resource.package.vendor.vendorName);
     });
 
     it('displays the package name', function() {
-      expect(CustomerResourceShowPage.packageName).to.equal('Cool Package');
+      expect(ResourcePage.packageName).to.equal(resource.package.packageName);
     });
 
     it('displays the content type', function() {
-      expect(CustomerResourceShowPage.contentType).to.equal(customerResources[0].package.contentType);
+      expect(ResourcePage.contentType).to.equal(resource.package.contentType);
     });
 
     it('displays the managed url', function() {
-      expect(CustomerResourceShowPage.managedUrl).to.equal(customerResources[0].url);
+      expect(ResourcePage.managedUrl).to.equal(resource.url);
     });
 
     it('displays the subjects list', function() {
-      expect(CustomerResourceShowPage.subjectsList).to.equal(customerResources[0].title.subjects.models.map((subjectObj) => subjectObj.subject).join('; '));
+      expect(ResourcePage.subjectsList).to.equal(resource.title.subjects.models.map((subjectObj) => subjectObj.subject).join('; '));
     });
 
-    it('displays if the customer resource is selected', function() {
-      expect(CustomerResourceShowPage.isSelected).to.equal(`${customerResources[0].isSelected ? 'Yes' : 'No'}`);
+    it('indicates that the resource is not yet selected', function() {
+      expect(ResourcePage.isSelected).to.equal(false);
     });
-  });
 
-  describe.skip("encountering a server error", function() {
-    beforeEach(function() {
-      this.server.get('/vendors/:vendorId/packages/:packageId/titles/:titleId', [{
-        message: 'There was an error',
-        code: "1000",
-        subcode: 0
-      }], 500);
-
-      return this.visit(`/eholdings/vendors/${vendor.id}/packages/${vendorPackage.id}/titles/${customerResources[0].titleId}`, () => {
-        expect(CustomerResourceShowPage.$root).to.exist;
+    describe("selecting a package title to add to my holdings", function() {
+      beforeEach(function() {
+        ResourcePage.toggleIsSelected();
       });
-    });
 
-    it("dies with dignity", function() {
-      expect(CustomerResourceShowPage.hasErrors).to.be.true;
+      it('reflects the desired state (YES)', function() {
+        expect(ResourcePage.isSelected).to.equal(true);
+      });
+
+      it('indicates it working to get to desired state', function() {
+        expect(ResourcePage.isSelecting).to.equal(true);
+      });
+
+      it('cannot be interacted with while the request is in flight', function() {
+        expect(ResourcePage.isSelectedToggleable).to.equal(false);
+      });
+
+      describe('when the request succeeds', function() {
+        it('reflect the desired state was set', function() {
+          expect(ResourcePage.isSelected).to.equal(true);
+        });
+
+        it('indicates it is no longer working', function() {
+          expect(ResourcePage.isSelecting).to.equal(false);
+        });
+      });
+
+      describe('when the request fails', function() {
+        it('does not change to new state', function() {
+          expect(ResourcePage.isSelected).to.equal(false);
+        });
+
+        it('indicates it is no longer working', function() {
+          expect(ResourcePage.isSelecting).to.equal(false);
+        });
+
+        it.skip('logs an Error somewhere', function() {
+          expect(ResourcePage.flashError).to.match(/unable to select/i);
+        });
+      });
     });
   });
 });
