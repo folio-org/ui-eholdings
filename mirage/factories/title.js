@@ -46,5 +46,13 @@ export default Factory.extend({
       title.subjects = subjects;
       title.save();
     }
+  }),
+
+  withIdentifiers: trait({
+    afterCreate(title, server) {
+      let identifiers = server.createList('identifier', 3);
+      title.identifiers = identifiers;
+      title.save();
+    }
   })
 });

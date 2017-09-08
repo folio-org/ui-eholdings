@@ -19,6 +19,12 @@ describeApplication('TitleShow', function() {
       this.server.create('subject', { subject: 'Cool Subject 2' }),
       this.server.create('subject', { subject: 'Cool Subject 3' })
     ];
+    title.identifiers = [
+      this.server.create('identifier', { type: 1, subtype: 1, id: '978-0547928210' }),
+      this.server.create('identifier', { type: 1, subtype: 1, id: '978-0547928203' }),
+      this.server.create('identifier', { type: 1, subtype: 2, id: '978-0547928197' }),
+      this.server.create('identifier', { type: 1, subtype: 0, id: '978-0547928227' })
+    ]
     title.save();
 
     customerResources = title.customerResources.models;
@@ -41,6 +47,18 @@ describeApplication('TitleShow', function() {
 
     it('displays the publication type', function() {
       expect(TitleShowPage.publicationType).to.equal(title.pubType);
+    });
+
+    it('groups together identifiers of the same type and subtype', function() {
+      expect(TitleShowPage.identifiersList[0]).to.equal('ISBN (Print)978-0547928210 978-0547928203');
+    });
+
+    it('does not group together identifiers of the same type, but not the same subtype', function() {
+      expect(TitleShowPage.identifiersList[1]).to.equal('ISBN (Online)978-0547928197');
+    });
+
+    it('does not show a subtype for an identifier when none exists', function() {
+      expect(TitleShowPage.identifiersList[2]).to.equal('ISBN978-0547928227');
     });
 
     it('displays the subjects list', function() {
