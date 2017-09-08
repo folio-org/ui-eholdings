@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
+import List from '../../components/list';
 import PackageListItem from '../../components/package-list-item';
 
 function PackageSearchResults({
@@ -20,14 +21,14 @@ function PackageSearchResults({
       No packages found for <strong>{`"${search}"`}</strong>.
     </p>
   ) : (
-    <ul data-test-package-search-results-list>
+    <List data-test-package-search-results-list>
       {records.map((pkg) => (
         <PackageListItem
             key={pkg.packageId}
-            item={pkg}
-            link={`/eholdings/vendors/${pkg.vendorId}/packages/${pkg.packageId}`}/>
+            link={`/eholdings/vendors/${pkg.vendorId}/packages/${pkg.packageId}`}
+            item={pkg}/>
       ))}
-    </ul>
+    </List>
   );
 }
 

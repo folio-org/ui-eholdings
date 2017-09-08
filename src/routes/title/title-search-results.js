@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
+import List from '../../components/list';
 import TitleListItem from '../../components/title-list-item';
 
 function TitleSearchResults({
@@ -20,15 +21,14 @@ function TitleSearchResults({
       No titles found for <strong>{`"${search}"`}</strong>.
     </p>
   ) : (
-    <ul data-test-title-search-results-list>
+    <List data-test-title-search-results-list>
       {records.map((title) => (
         <TitleListItem
             key={title.titleId}
-            item={title}
             link={`/eholdings/titles/${title.titleId}`}
-            showSelected={false}/>
+            item={title}/>
       ))}
-    </ul>
+    </List>
   );
 }
 

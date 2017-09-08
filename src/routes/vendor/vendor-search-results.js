@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
+import List from '../../components/list';
 import VendorListItem from '../../components/vendor-list-item';
 
 function VendorSearchResultsRoute({
@@ -20,14 +21,14 @@ function VendorSearchResultsRoute({
       No vendors found for <strong>{`"${search}"`}</strong>.
     </p>
   ) : (
-    <ul data-test-vendor-search-results-list>
+    <List data-test-vendor-search-results-list>
       {records.map((vendor) => (
         <VendorListItem
             key={vendor.vendorId}
             item={vendor}
             link={`/eholdings/vendors/${vendor.vendorId}`}/>
       ))}
-    </ul>
+    </List>
   );
 }
 

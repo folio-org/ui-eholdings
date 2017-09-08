@@ -1,11 +1,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Link } from 'react-router-dom'
+
+import { Link } from 'react-router-dom';
 import Paneset from '@folio/stripes-components/lib/Paneset';
 import Pane from '@folio/stripes-components/lib/Pane';
-import KeyValueLabel from '../key-value-label';
-import TitleListItem from '../title-list-item';
-import styles from './package-show.css';
+import KeyValueLabel from './key-value-label';
+import List from './list';
+import TitleListItem from './title-list-item';
 
 export default function PackageShow({ vendorPackage, packageTitles }) {
   return (
@@ -75,16 +76,15 @@ export default function PackageShow({ vendorPackage, packageTitles }) {
               {packageTitles && packageTitles.length ? (
                 <div>
                   <h3>Titles</h3>
-                  <ul data-test-eholdings-package-details-title-list className={styles['list']}>
+                  <List data-test-eholdings-package-details-title-list>
                     {packageTitles.map(item => (
                       <TitleListItem
                         key={item.titleId}
                         item={item}
                         link={`/eholdings/vendors/${vendorPackage.vendorId}/packages/${vendorPackage.packageId}/titles/${item.titleId}`}
-                        showSelected={true}>
-                      </TitleListItem>
+                        showSelected/>
                     ))}
-                  </ul>
+                  </List>
                 </div>
               ) : packageTitles ? (
                 <p>No Titles Found</p>

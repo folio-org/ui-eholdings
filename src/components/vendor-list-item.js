@@ -1,11 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Link } from 'react-router-dom'
-import styles from './vendor-list-item.css';
+
+import { Link } from 'react-router-dom';
 
 export default function VendorListItem({ item, link }) {
   return (
-    <li key={item.vendorId} data-test-eholdings-vendor-list-item className={styles['list-item']}>
+    <li data-test-eholdings-vendor-list-item>
       <Link to={link}>
         <h5 data-test-eholdings-vendor-list-item-name>
           {item.vendorName}
