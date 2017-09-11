@@ -5,6 +5,7 @@ import 'rxjs/add/observable/from';
 import 'rxjs/add/operator/switchMap';
 import 'rxjs/add/operator/pluck';
 import 'rxjs/add/operator/catch';
+import merge from 'lodash/merge';
 
 // action types
 const EHOLDINGS_SEARCH = 'EHOLDINGS_SEARCH';
@@ -58,9 +59,9 @@ export const searchReducer = handleActions({
     }
   })
 }, {
-  vendors: _.merge({}, initialSearchState),
-  packages: _.merge({}, initialSearchState),
-  titles: _.merge({}, initialSearchState)
+  vendors: merge({}, initialSearchState),
+  packages: merge({}, initialSearchState),
+  titles: merge({}, initialSearchState)
 });
 
 // search epic
@@ -71,8 +72,8 @@ export function searchEpic(action$, { getState }) {
       const { searchType, query, options } = action;
       const { endpoint, defaults, recordsKey = searchType } = options;
 
-      const searchQuery = { ...query, ...defaults };
-      const url = `${okapi.url}/${endpoint}?${queryString.stringify(query)}`;
+      const searchQuery = { ...defaults, ...query };
+      const url = `${okapi.url}/${endpoint}?${queryString.stringify(searchQuery)}`;
       const request = fetch(url, { headers: { 'X-Okapi-Tenant': okapi.tenant }});
 
       return Observable.from(request.then((res) => res.json())).pluck(recordsKey)

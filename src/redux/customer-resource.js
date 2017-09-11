@@ -27,7 +27,7 @@ export const toggleSelected = () => ({
 
 // customer resource record reducer
 export const recordReducer = handleActions({
-  [CUSTOMER_RESOURCE_REQUESTED]: (state, action) => ({
+  [CUSTOMER_RESOURCE_REQUESTED]: (state) => ({
     ...state,
     isPending: true,
     isResolved: false,
@@ -106,12 +106,12 @@ function customerResourceEpic(action$, { getState }) {
         .map((payload) => ({ type: CUSTOMER_RESOURCE_RESOLVE, payload }))
         .catch((error) => Observable.of({ type: CUSTOMER_RESOURCE_REJECT, error }));
     });
-};
+}
 
 // customer resource toggle selected epic
 function toggleSelectedEpic(action$, { getState }) {
   return action$.ofType(CUSTOMER_RESOURCE_TOGGLE_SELECTED)
-    .switchMap((action) => {
+    .switchMap(() => {
       let { okapi, eholdings: { customerResource: { record }} } = getState();
       let body = JSON.stringify({ isSelected: record.content.isSelected });
       let request = fetchResource(record.content, { okapi, method: 'PUT', body });

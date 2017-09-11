@@ -55,7 +55,8 @@ class SearchRoute extends Component {
       packages: PropTypes.object.isRequired,
       titles: PropTypes.object.isRequired
     }).isRequired,
-    searchHoldings: PropTypes.func.isRequired
+    searchHoldings: PropTypes.func.isRequired,
+    children: PropTypes.node.isRequired
   };
 
   componentWillMount() {
