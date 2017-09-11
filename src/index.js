@@ -20,6 +20,7 @@ export default class EHoldings extends Component {
       path: PropTypes.string.isRequired
     }).isRequired,
     stripes: PropTypes.shape({
+      connect: PropTypes.func.isRequired,
       intl: PropTypes.object.isRequired
     }).isRequired
   };

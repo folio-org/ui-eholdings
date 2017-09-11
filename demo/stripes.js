@@ -48,6 +48,12 @@ commander
     if (options.cache) config.plugins.push(cachePlugin);
     if (options.devtool) config.devtool = options.devtool;
 
+    // Show eslint failures at runtime
+    config.module.rules.push({
+      test: /src\/.*\.js$/,
+      loader: 'eslint-loader'
+    });
+
     const compiler = webpack(mirage(svgloader(config)));
 
     const port = options.port || process.env.STRIPES_PORT || 3000;

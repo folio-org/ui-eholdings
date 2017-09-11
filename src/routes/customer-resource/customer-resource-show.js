@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import fetch from 'isomorphic-fetch';
 import { connect } from 'react-redux';
 import { requestResource, toggleSelected } from '../../redux/customer-resource';
 
@@ -15,7 +14,9 @@ class CustomerResourceShowRoute extends Component {
         vendorId: PropTypes.string.isRequired
       }).isRequired
     }).isRequired,
-    model: PropTypes.object.isRequired
+    model: PropTypes.object.isRequired,
+    requestResource: PropTypes.func.isRequired,
+    toggleSelected: PropTypes.func.isRequired
   };
 
   componentWillMount() {

@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import fetch from 'isomorphic-fetch';
 
 import View from '../../components/package-show';
 
@@ -62,7 +61,7 @@ export default class PackageShowRoute extends Component {
   getPackageTitles() {
     const {
       resources: { showPackageTitles },
-      match: { params: { vendorId, packageId } }
+      match: { params: { packageId } }
     } = this.props;
 
     if (!showPackageTitles) {

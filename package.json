@@ -9,11 +9,13 @@
     "postinstall": "bin/link-self",
     "start": "node demo/stripes.js dev demo/stripes.config.js",
     "build": "node demo/stripes.js build demo/stripes.config.js dist",
-    "test": "karma start"
+    "test": "karma start",
+    "lint": "eslint src"
   },
   "devDependencies": {
     "@folio/stripes-core": "thefrontside/stripes-core#master",
     "babel-core": "^6.25.0",
+    "babel-eslint": "^7.2.3",
     "babel-loader": "^7.1.1",
     "babel-preset-env": "^1.6.0",
     "babel-preset-react": "^6.24.1",

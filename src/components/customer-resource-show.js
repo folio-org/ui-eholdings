@@ -111,5 +111,6 @@ export default function CustomerResourceShow({ model, toggleSelected }) {
 
 CustomerResourceShow.propTypes = {
   model: PropTypes.object,
-  saveSelected: PropTypes.func
+  saveSelected: PropTypes.func,
+  toggleSelected: PropTypes.func
 };
