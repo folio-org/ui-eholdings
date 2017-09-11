@@ -1,4 +1,5 @@
 import $ from 'jquery';
+import { triggerChange } from '../helpers';
 
 export default {
   get $root() {
@@ -46,7 +47,7 @@ export default {
   },
 
   toggleIsSelected() {
-    $('[data-test-eholdings-customer-resource-show-selected] input').click();
+    triggerChange($('[data-test-eholdings-customer-resource-show-selected] input').get(0));
   },
 
   get isSelecting() {
