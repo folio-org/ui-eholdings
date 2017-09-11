@@ -7,22 +7,23 @@ import PackageListItem from '../../components/package-list-item';
 
 function PackageSearchResults({
   query: { search },
-  isLoading,
-  isErrored,
-  records,
+  isPending,
+  isResolved,
+  isRejected,
+  content,
   error
 }) {
-  return isLoading ? (
+  return isPending ? (
     <p>...loading</p>
-  ) : isErrored ? (
+  ) : isRejected ? (
     <p data-test-package-search-error-message>{error}</p>
-  ) : !records.length && search ? (
+  ) : isResolved && !content.length ? (
     <p data-test-package-search-no-results>
       No packages found for <strong>{`"${search}"`}</strong>.
     </p>
   ) : (
     <List data-test-package-search-results-list>
-      {records.map((pkg) => (
+      {content.map((pkg) => (
         <PackageListItem
             key={pkg.packageId}
             link={`/eholdings/vendors/${pkg.vendorId}/packages/${pkg.packageId}`}
@@ -36,9 +37,10 @@ PackageSearchResults.propTypes = {
   query: PropTypes.shape({
     search: PropTypes.string
   }).isRequired,
-  isLoading: PropTypes.bool.isRequired,
-  isErrored: PropTypes.bool.isRequired,
-  records: PropTypes.array.isRequired,
+  isPending: PropTypes.bool.isRequired,
+  isResolved: PropTypes.bool.isRequired,
+  isRejected: PropTypes.bool.isRequired,
+  content: PropTypes.array.isRequired,
   error: PropTypes.object
 };
 

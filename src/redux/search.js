@@ -10,7 +10,7 @@ import merge from 'lodash/merge';
 // action types
 const EHOLDINGS_SEARCH = 'EHOLDINGS_SEARCH';
 const EHOLDINGS_SEARCH_RESOLVE = 'EHOLDINGS_SEARCH_RESOLVE';
-const EHOLDINGS_SEARCH_ERRORED = 'EHOLDINGS_SEARCH_ERRORED';
+const EHOLDINGS_SEARCH_REJECT = 'EHOLDINGS_SEARCH_REJECT';
 
 // action creators
 export const searchHoldings = (searchType, query, options) => ({
@@ -23,9 +23,10 @@ export const searchHoldings = (searchType, query, options) => ({
 // initial state for each search type
 const initialSearchState = {
   query: {},
-  isLoading: false,
-  isErrored: false,
-  records: [],
+  isPending: false,
+  isResolved: false,
+  isRejected: false,
+  content: [],
   error: null
 };
 
@@ -36,8 +37,10 @@ export const searchReducer = handleActions({
     [action.searchType]: {
       ...state[action.searchType],
       query: action.query,
-      isLoading: true,
-      isErrored: false,
+      isPending: true,
+      isResolved: false,
+      isRejected: false,
+      content: [],
       error: null
     }
   }),
@@ -45,16 +48,17 @@ export const searchReducer = handleActions({
     ...state,
     [action.searchType]: {
       ...state[action.searchType],
-      isLoading: false,
-      records: action.payload
+      isPending: false,
+      isResolved: true,
+      content: action.payload
     }
   }),
-  [EHOLDINGS_SEARCH_ERRORED]: (state, action) => ({
+  [EHOLDINGS_SEARCH_REJECT]: (state, action) => ({
     ...state,
     [action.searchType]: {
       ...state[action.searchType],
-      isLoading: false,
-      isErrored: true,
+      isPending: false,
+      isRejected: true,
       error: action.error
     }
   })
@@ -78,6 +82,6 @@ export function searchEpic(action$, { getState }) {
 
       return Observable.from(request.then((res) => res.json())).pluck(recordsKey)
         .map((payload) => ({ type: EHOLDINGS_SEARCH_RESOLVE, searchType, payload }))
-        .catch((error) => Observable.of({ type: EHOLDINGS_SEARCH_ERRORED, searchType, error }));
+        .catch((error) => Observable.of({ type: EHOLDINGS_SEARCH_REJECT, searchType, error }));
     });
 }
