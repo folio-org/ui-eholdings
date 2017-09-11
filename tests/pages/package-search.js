@@ -15,7 +15,7 @@ export default {
   },
 
   get hasErrors() {
-    return $('[data-test-search-error-message]').length > 0;
+    return $('[data-test-package-search-error-message]').length > 0;
   },
 
   get noResultsMessage() {
@@ -26,6 +26,9 @@ export default {
     let $input = $('[data-test-search-field]').val(query);
     triggerChange($input.get(0));
 
-    $('[data-test-search-submit]').trigger('click');
+    // allow `triggerChange` to take effect
+    window.setTimeout(() => {
+      $('[data-test-search-submit]').trigger('click');
+    }, 1);
   }
 }

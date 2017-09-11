@@ -3,15 +3,15 @@ import { expect } from 'chai';
 import it from './it-will';
 
 import { describeApplication } from './helpers';
-import SearchVendorsPage from './pages/search-vendors';
+import SearchVendorsPage from './pages/vendor-search';
 
-describeApplication('eHoldings', function() {
+describeApplication('VendorSearch', function() {
   beforeEach(function() {
     this.server.createList('vendor', 3, {
       vendorName: (i) => `Vendor${i + 1}`
     });
 
-    return this.visit('/eholdings/vendors', () => {
+    return this.visit('/eholdings/search/vendors', () => {
       expect(SearchVendorsPage.$root).to.exist;
     });
   });
@@ -57,7 +57,7 @@ describeApplication('eHoldings', function() {
     });
 
     it("displays 'no results' message", function() {
-      expect(SearchVendorsPage.noResultsMessage).to.equal('No results found for "fhqwhgads".');
+      expect(SearchVendorsPage.noResultsMessage).to.equal('No vendors found for "fhqwhgads".');
     });
   });
 

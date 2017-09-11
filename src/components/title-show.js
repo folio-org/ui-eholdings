@@ -1,11 +1,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+
 import Paneset from '@folio/stripes-components/lib/Paneset';
 import Pane from '@folio/stripes-components/lib/Pane';
-import KeyValueLabel from '../key-value-label';
-import PackageListItem from '../package-list-item';
-import IdentifiersList from '../identifiers-list';
-import styles from './title-show.css';
+import KeyValueLabel from './key-value-label';
+import List from './list';
+import PackageListItem from './package-list-item';
+import IdentifiersList from './identifiers-list';
 
 export default function TitleShow({ title }) {
   return (
@@ -46,7 +47,7 @@ export default function TitleShow({ title }) {
 
               <hr />
               <h3>Packages</h3>
-              <ul data-test-eholdings-title-show-package-list className={styles['list']}>
+              <List data-test-eholdings-title-show-package-list>
                 {title.customerResourcesList.map(item => (
                   <PackageListItem
                     key={item.packageId}
@@ -54,7 +55,7 @@ export default function TitleShow({ title }) {
                     link={`/eholdings/vendors/${item.vendorId}/packages/${item.packageId}/titles/${title.titleId}`}>
                   </PackageListItem>
                 ))}
-              </ul>
+              </List>
             </div>
           ) : (
             <p>Loading...</p>

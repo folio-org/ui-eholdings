@@ -19,7 +19,7 @@ export default {
   },
 
   get packageList() {
-    return $('[data-test-eholdings-vendor-package]').toArray().map(createPackageObject);
+    return $('[data-test-eholdings-package-list-item]').toArray().map(createPackageObject);
   }
 };
 
@@ -28,15 +28,15 @@ function createPackageObject(element) {
 
   return {
     get name() {
-      return $scope.find('[data-test-eholdings-vendor-package-name]').text();
+      return $scope.find('[data-test-eholdings-package-list-item-name]').text();
     },
 
     get numTitles() {
-      return parseInt($scope.find('[data-test-eholdings-vendor-details-package-num-titles]').text(), 10);
+      return parseInt($scope.find('[data-test-eholdings-package-num-titles]').text(), 10);
     },
 
     get numTitlesSelected() {
-      return parseInt($scope.find('[data-test-eholdings-vendor-details-package-num-titles-selected]').text(), 10);
+      return parseInt($scope.find('[data-test-eholdings-package-num-titles-selected]').text(), 10);
     }
   };
 }

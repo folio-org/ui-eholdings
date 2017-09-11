@@ -3,15 +3,15 @@ import { expect } from 'chai';
 import it from './it-will';
 
 import { describeApplication } from './helpers';
-import SearchPackagesPage from './pages/search-packages';
+import SearchPackagesPage from './pages/package-search';
 
-describeApplication('eHoldings', function() {
+describeApplication('PackageSearch', function() {
   beforeEach(function() {
     this.server.createList('package', 3, 'withVendor', {
       packageName: (i) => `Package${i + 1}`
     });
 
-    return this.visit('/eholdings/packages', () => {
+    return this.visit('/eholdings/search/packages', () => {
       expect(SearchPackagesPage.$root).to.exist;
     });
   });
@@ -46,7 +46,7 @@ describeApplication('eHoldings', function() {
     });
 
     it("displays 'no results' message", function() {
-      expect(SearchPackagesPage.noResultsMessage).to.equal('No results found for "fhqwhgads".');
+      expect(SearchPackagesPage.noResultsMessage).to.equal('No packages found for "fhqwhgads".');
     });
   });
 });
