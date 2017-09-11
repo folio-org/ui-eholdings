@@ -20,5 +20,24 @@ export default Factory.extend({
       });
       customerResource.save();
     }
-  })
+  }),
+
+  isHidden: trait({
+    afterCreate(customerResource, server) {
+      let visibilityData = server.create('visibility-data', {
+        isHidden: true,
+        reason: "The content is for mature audiences only."
+      });
+      customerResource.update('visibilityData', visibilityData);
+      customerResource.save();
+    }
+  }),
+
+  afterCreate(customerResource, server) {
+    if(!customerResource.visibilityData) {
+      let visibilityData = server.create('visibility-data');
+      customerResource.update('visibilityData', visibilityData);
+      customerResource.save();
+    }
+  }
 });

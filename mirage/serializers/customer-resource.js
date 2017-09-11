@@ -1,7 +1,7 @@
 import ApplicationSerializer from './application';
 
 export default ApplicationSerializer.extend({
-  include: ['package', 'title'],
+  include: ['package', 'title', 'visibilityData'],
 
   serialize() {
     let json = ApplicationSerializer.prototype.serialize.apply(this, arguments);

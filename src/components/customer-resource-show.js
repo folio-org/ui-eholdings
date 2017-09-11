@@ -86,6 +86,14 @@ export default function CustomerResourceShow({ model, toggleSelected }) {
 
               <hr/>
 
+              {resource.visibilityData.isHidden && (
+                <div data-test-eholdings-customer-resource-show-is-hidden>
+                  <p><strong>This resource is hidden.</strong></p>
+                  <p><em>{resource.visibilityData.reason}</em></p>
+                  <hr />
+                </div>
+              )}
+
               <div>
                 <Link to={`/eholdings/titles/${resource.titleId}`}>
                   View all packages that include this title
