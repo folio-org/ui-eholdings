@@ -8,7 +8,16 @@ import KeyValueLabel from './key-value-label';
 import List from './list';
 import TitleListItem from './title-list-item';
 
-export default function PackageShow({ vendorPackage, packageTitles }) {
+export default function PackageShow({ vendorPackage, packageTitles }, { intl }) {
+  let formatISODateWithoutTime = function(dateString) {
+    let [year, month, day]= dateString.split('-');
+    let dateObj = new Date();
+    dateObj.setFullYear(year);
+    dateObj.setMonth(parseInt(month, 10) - 1);
+    dateObj.setDate(day);
+    return intl.formatDate(dateObj);
+  };
+
   return (
     <div data-test-eholdings-package-details>
       <Paneset>
@@ -50,7 +59,7 @@ export default function PackageShow({ vendorPackage, packageTitles }) {
               {(vendorPackage.customCoverage.beginCoverage || vendorPackage.customCoverage.endCoverage) && (
                 <KeyValueLabel label="Custom Coverage">
                   <div data-test-eholdings-package-details-custom-coverage>
-                    {vendorPackage.customCoverage.beginCoverage} - {vendorPackage.customCoverage.endCoverage}
+                    {formatISODateWithoutTime(vendorPackage.customCoverage.beginCoverage)} - {formatISODateWithoutTime(vendorPackage.customCoverage.endCoverage)}
                   </div>
                 </KeyValueLabel>
               )}
@@ -104,4 +113,8 @@ export default function PackageShow({ vendorPackage, packageTitles }) {
 PackageShow.propTypes = {
   vendorPackage: PropTypes.object,
   packageTitles: PropTypes.arrayOf(PropTypes.object)
+};
+
+PackageShow.contextTypes = {
+  intl: PropTypes.object
 };
