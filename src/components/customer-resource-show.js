@@ -7,64 +7,67 @@ import KeyValueLabel from './key-value-label';
 import IdentifiersList from './identifiers-list';
 
 export default function CustomerResourceShow({ model, toggleSelected }) {
+  const { record, toggle } = model;
+  const resource = record.content;
+
   return (
     <div data-test-eholdings-customer-resource-show>
       <Paneset>
         <Pane defaultWidth="100%">
-          {model.isLoaded ? (
+          {record.isResolved ? (
             <div>
               <div style={{ margin: '2rem 0' }}>
                 <KeyValueLabel label="Resource">
                   <h1 data-test-eholdings-customer-resource-show-title-name>
-                    {model.titleName}
+                    {resource.titleName}
                   </h1>
                 </KeyValueLabel>
               </div>
 
               <KeyValueLabel label="Publisher">
                 <div data-test-eholdings-customer-resource-show-publisher-name>
-                  {model.publisherName}
+                  {resource.publisherName}
                 </div>
               </KeyValueLabel>
 
               <KeyValueLabel label="Publication Type">
                 <div data-test-eholdings-customer-resource-show-publication-type>
-                  {model.pubType}
+                  {resource.pubType}
                 </div>
               </KeyValueLabel>
 
-              <IdentifiersList data={model.identifiersList} />
+              <IdentifiersList data={resource.identifiersList} />
 
               <KeyValueLabel label="Package">
                 <div data-test-eholdings-customer-resource-show-package-name>
-                  <Link to={`/eholdings/vendors/${model.vendorId}/packages/${model.packageId}`}>{model.packageName}</Link>
+                  <Link to={`/eholdings/vendors/${resource.vendorId}/packages/${resource.packageId}`}>{resource.packageName}</Link>
                 </div>
               </KeyValueLabel>
 
               <KeyValueLabel label="Content Type">
                 <div data-test-eholdings-customer-resource-show-content-type>
-                  {model.contentType}
+                  {resource.contentType}
                 </div>
               </KeyValueLabel>
 
               <KeyValueLabel label="Vendor">
                 <div data-test-eholdings-customer-resource-show-vendor-name>
-                  <Link to={`/eholdings/vendors/${model.vendorId}`}>{model.vendorName}</Link>
+                  <Link to={`/eholdings/vendors/${resource.vendorId}`}>{resource.vendorName}</Link>
                 </div>
               </KeyValueLabel>
 
-              {model.url && (
+              {resource.url && (
                 <KeyValueLabel label="Managed URL">
                   <div data-test-eholdings-customer-resource-show-managed-url>
-                    <Link to={model.url}>{model.url}</Link>
+                    <Link to={resource.url}>{resource.url}</Link>
                   </div>
                 </KeyValueLabel>
               ) }
 
-              {model.subjectsList && model.subjectsList.length > 0 && (
+              {resource.subjectsList && resource.subjectsList.length > 0 && (
                 <KeyValueLabel label="Subjects">
                   <div data-test-eholdings-customer-resource-show-subjects-list>
-                    {model.subjectsList.map((subjectObj) => subjectObj.subject).join('; ')}
+                    {resource.subjectsList.map((subjectObj) => subjectObj.subject).join('; ')}
                   </div>
                 </KeyValueLabel>
               ) }
@@ -73,18 +76,18 @@ export default function CustomerResourceShow({ model, toggleSelected }) {
 
               <KeyValueLabel label="Selected">
                 <div data-test-eholdings-customer-resource-show-selected>
-                  <input type="checkbox" onChange={toggleSelected} disabled={model.isTogglingSelection} checked={model.isSelected} />
-                  {model.isSelected ? 'Yes' : 'No'}
-                  {model.isTogglingSelection ? (
-                    <span data-test-eholdings-customer-resource-show-is-selecting>...</span>) : ('')
-                  }
+                  <input type="checkbox" onChange={toggleSelected} disabled={toggle.isPending} checked={resource.isSelected} />
+                  {resource.isSelected ? 'Yes' : 'No'}
+                  {toggle.isPending && (
+                    <span data-test-eholdings-customer-resource-show-is-selecting>...</span>
+                  )}
                 </div>
               </KeyValueLabel>
 
               <hr/>
 
               <div>
-                <Link to={`/eholdings/titles/${model.titleId}`}>
+                <Link to={`/eholdings/titles/${resource.titleId}`}>
                   View all packages that include this title
                 </Link>
               </div>
