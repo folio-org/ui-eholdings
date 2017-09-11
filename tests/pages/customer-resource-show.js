@@ -1,4 +1,6 @@
 import $ from 'jquery';
+import { convergeOn } from '../it-will';
+import { expect } from 'chai';
 
 export default {
   get $root() {
@@ -46,7 +48,15 @@ export default {
   },
 
   toggleIsSelected() {
-    $('[data-test-eholdings-customer-resource-show-selected] input').click();
+    /*
+     * We don't want to click the element before it exists.  This should
+     * probably become a generic 'click' helper once we have more usage.
+     */
+    return convergeOn(() => {
+      expect($('[data-test-eholdings-customer-resource-show-selected]')).to.exist;
+    }).then(() => (
+      $('[data-test-eholdings-customer-resource-show-selected] input').click()
+    ));
   },
 
   get isSelecting() {
