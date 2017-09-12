@@ -51,7 +51,10 @@ commander
     // Show eslint failures at runtime
     config.module.rules.push({
       test: /src\/.*\.js$/,
-      loader: 'eslint-loader'
+      loader: 'eslint-loader',
+      options: {
+        emitWarning: true
+      }
     });
 
     const compiler = webpack(mirage(svgloader(config)));
