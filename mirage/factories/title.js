@@ -48,6 +48,14 @@ export default Factory.extend({
     }
   }),
 
+  withContributors: trait({
+    afterCreate(title, server) {
+      let contributors = server.createList('contributor', 3);
+      title.contributors = contributors;
+      title.save();
+    }
+  }),
+
   withIdentifiers: trait({
     afterCreate(title, server) {
       let identifiers = server.createList('identifier', 3);

@@ -1,8 +1,7 @@
 import ApplicationSerializer from './application';
-// import createCustomerResourcesList from '../utils/create-customer-resource-list';
 
 export default ApplicationSerializer.extend({
-  include: ['customerResources', 'subjects', 'identifiers'],
+  include: ['contributors', 'customerResources', 'subjects', 'identifiers'],
 
   modifyKeys(json) {
     let newHash = json;

@@ -24,7 +24,12 @@ describeApplication('TitleShow', function() {
       this.server.create('identifier', { type: 1, subtype: 1, id: '978-0547928203' }),
       this.server.create('identifier', { type: 1, subtype: 2, id: '978-0547928197' }),
       this.server.create('identifier', { type: 1, subtype: 0, id: '978-0547928227' })
-    ]
+    ];
+    title.contributors = [
+      this.server.create('contributor', { type: 'author', contributor: 'Sally Writer' }),
+      this.server.create('contributor', { type: 'author', contributor: 'Jane Wordsmith' }),
+      this.server.create('contributor', { type: 'illustrator', contributor: 'John Artist' })
+    ];
     title.save();
 
     customerResources = title.customerResources.models;
@@ -59,6 +64,18 @@ describeApplication('TitleShow', function() {
 
     it('does not show a subtype for an identifier when none exists', function() {
       expect(TitleShowPage.identifiersList[2]).to.equal('ISBN978-0547928227');
+    });
+
+    it('displays the authors', function() {
+      expect(TitleShowPage.contributorsList[0]).to.equal('AuthorsSally Writer, Jane Wordsmith');
+    });
+
+    it('displays the illustrator', function() {
+      expect(TitleShowPage.contributorsList[1]).to.equal('IllustratorJohn Artist');
+    });
+
+    it('does not display an editor', function() {
+      expect(TitleShowPage.contributorsList[2]).to.be.undefined;
     });
 
     it('displays the subjects list', function() {

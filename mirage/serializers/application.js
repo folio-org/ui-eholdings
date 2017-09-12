@@ -47,7 +47,7 @@ export default Serializer.extend({
   },
 
   keyForEmbeddedRelationship(attributeName) {
-    let attributeNamesToAppendList = ['customerResources', 'subjects', 'identifiers'];
+    let attributeNamesToAppendList = ['customerResources', 'subjects', 'identifiers', 'contributors'];
 
     if(attributeNamesToAppendList.includes(attributeName)) {
       return `${pluralize(attributeName)}List`;
