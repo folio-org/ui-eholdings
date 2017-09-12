@@ -7,22 +7,23 @@ import TitleListItem from '../../components/title-list-item';
 
 function TitleSearchResults({
   query: { search },
-  isLoading,
-  isErrored,
-  records,
+  isPending,
+  isResolved,
+  isRejected,
+  content,
   error
 }) {
-  return isLoading ? (
+  return isPending ? (
     <p>...loading</p>
-  ) : isErrored ? (
+  ) : isRejected ? (
     <p data-test-title-search-error-message>{error}</p>
-  ) : !records.length && search ? (
+  ) : isResolved && !content.length ? (
     <p data-test-title-search-no-results>
       No titles found for <strong>{`"${search}"`}</strong>.
     </p>
   ) : (
     <List data-test-title-search-results-list>
-      {records.map((title) => (
+      {content.map((title) => (
         <TitleListItem
             key={title.titleId}
             link={`/eholdings/titles/${title.titleId}`}
@@ -36,9 +37,10 @@ TitleSearchResults.propTypes = {
   query: PropTypes.shape({
     search: PropTypes.string
   }).isRequired,
-  isLoading: PropTypes.bool.isRequired,
-  isErrored: PropTypes.bool.isRequired,
-  records: PropTypes.array.isRequired,
+  isPending: PropTypes.bool.isRequired,
+  isResolved: PropTypes.bool.isRequired,
+  isRejected: PropTypes.bool.isRequired,
+  content: PropTypes.array.isRequired,
   error: PropTypes.object
 };
 

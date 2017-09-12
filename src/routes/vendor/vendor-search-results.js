@@ -7,22 +7,23 @@ import VendorListItem from '../../components/vendor-list-item';
 
 function VendorSearchResultsRoute({
   query: { search },
-  isLoading,
-  isErrored,
-  records,
+  isPending,
+  isResolved,
+  isRejected,
+  content,
   error
 }) {
-  return isLoading ? (
+  return isPending ? (
     <p>...loading</p>
-  ) : isErrored ? (
+  ) : isRejected ? (
     <p data-test-vendor-search-error>{error}</p>
-  ) : !records.length && search ? (
+  ) : isResolved && !content.length ? (
     <p data-test-vendor-search-no-results>
       No vendors found for <strong>{`"${search}"`}</strong>.
     </p>
   ) : (
     <List data-test-vendor-search-results-list>
-      {records.map((vendor) => (
+      {content.map((vendor) => (
         <VendorListItem
             key={vendor.vendorId}
             item={vendor}
@@ -36,9 +37,10 @@ VendorSearchResultsRoute.propTypes = {
   query: PropTypes.shape({
     search: PropTypes.string
   }).isRequired,
-  isLoading: PropTypes.bool.isRequired,
-  isErrored: PropTypes.bool.isRequired,
-  records: PropTypes.array.isRequired,
+  isPending: PropTypes.bool.isRequired,
+  isResolved: PropTypes.bool.isRequired,
+  isRejected: PropTypes.bool.isRequired,
+  content: PropTypes.array.isRequired,
   error: PropTypes.object
 };
 
