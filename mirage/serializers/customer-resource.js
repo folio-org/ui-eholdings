@@ -1,7 +1,7 @@
 import ApplicationSerializer from './application';
 
 export default ApplicationSerializer.extend({
-  include: ['package', 'title', 'visibilityData'],
+  include: ['package', 'title', 'visibilityData', 'customEmbargoPeriod', 'managedEmbargoPeriod'],
 
   serialize() {
     let json = ApplicationSerializer.prototype.serialize.apply(this, arguments);

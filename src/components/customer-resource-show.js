@@ -72,6 +72,22 @@ export default function CustomerResourceShow({ model, toggleSelected }) {
                 </KeyValueLabel>
               ) }
 
+              {resource.managedEmbargoPeriod.embargoUnit && (
+                <KeyValueLabel label="Managed Embargo Period">
+                  <div data-test-eholdings-customer-resource-show-managed-embargo-period>
+                    {resource.managedEmbargoPeriod.embargoValue} {resource.managedEmbargoPeriod.embargoUnit}
+                  </div>
+                </KeyValueLabel>
+              ) }
+
+              {resource.customEmbargoPeriod.embargoUnit && (
+                <KeyValueLabel label="Custom Embargo Period">
+                  <div data-test-eholdings-customer-resource-show-custom-embargo-period>
+                    {resource.customEmbargoPeriod.embargoValue} {resource.customEmbargoPeriod.embargoUnit}
+                  </div>
+                </KeyValueLabel>
+              ) }
+
               <hr />
 
               <KeyValueLabel label="Selected">

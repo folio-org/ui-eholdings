@@ -39,5 +39,23 @@ export default Factory.extend({
       customerResource.update('visibilityData', visibilityData);
       customerResource.save();
     }
+
+    if(!customerResource.customEmbargoPeriod) {
+      let customEmbargoPeriod = server.create('embargo-period', {
+        embargoUnit: null,
+        embargoValue: 0
+      });
+      customerResource.update('customEmbargoPeriod', customEmbargoPeriod);
+      customerResource.save();
+    }
+
+    if(!customerResource.managedEmbargoPeriod) {
+      let managedEmbargoPeriod = server.create('embargo-period', {
+        embargoUnit: null,
+        embargoValue: 0
+      });
+      customerResource.update('managedEmbargoPeriod', managedEmbargoPeriod);
+      customerResource.save();
+    }
   }
 });
