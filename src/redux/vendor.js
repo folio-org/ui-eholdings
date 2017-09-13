@@ -31,7 +31,7 @@ export const vendorEpics = combineEpics(
   createRequestEpic({
     name: 'vendor-packages',
     endpoint: ({ vendorId }) => `eholdings/vendors/${vendorId}/packages`,
-    normalize: (payload) => payload ? payload.packagesList : [],
+    deserialize: (payload) => payload ? payload.packagesList : [],
     defaultParams: {
       search: '%00',
       count: 25,

@@ -51,7 +51,7 @@ export const customerResourceEpics = combineEpics(
   createRequestEpic({
     name: 'customer-resource',
     endpoint: getResourceEndpoint,
-    normalize: (payload) => {
+    deserialize: (payload) => {
       if (payload) {
         let { customerResourcesList, ...title } = payload;
 

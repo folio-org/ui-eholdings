@@ -196,7 +196,7 @@ export function createRequestReducer({
  * Creates an epic that watches for REQUEST_MAKE actions for a
  * specific name and performs said request. When an error is returned
  * from the response the REQUEST_REJECT action is dispatched with the
- * error; otherwise REQUEST_RESOLVE is dispatched with the normalized
+ * error; otherwise REQUEST_RESOLVE is dispatched with the deserialized
  * payload.
  *
  * In order for request epics to handle actions for a specific
@@ -209,7 +209,7 @@ export function createRequestReducer({
  * `options` arguments provided to the request action. This should
  * return serialized data to send with the request (params or body).
  *
- * The `normalize` function will simply recieve the payload from the
+ * The `deserialize` function will simply recieve the payload from the
  * request's response along with the `options` argument provided to
  * the initial request's action.
  *
@@ -224,7 +224,7 @@ export function createRequestReducer({
  * @param {object|false} [defaultParams=false] - when `false` this request has
  * no query options; when an object is provided, it will be merged with
  * `data` before being stringified and appended to GET and DELETE URLs
- * @param {function} [normalize=identity] - transforms data being
+ * @param {function} [deserialize=identity] - transforms data being
  * received from the response before it is dispatched to the reducer
  * @param {function} [serialize=identity] - transforms data being sent
  * with the request before the request is made
@@ -234,7 +234,7 @@ export function createRequestEpic({
   name,
   endpoint = '',
   defaultParams = false,
-  normalize = (i) => i,
+  deserialize = (i) => i,
   serialize = (i) => i
 }) {
   return (action$, { getState }) => (
@@ -283,7 +283,7 @@ export function createRequestEpic({
             .then(([ok, body]) => ok ? body : Promise.reject(body));
 
         return Observable.from(request)
-          .map((payload) => resolveRequest(name, normalize(payload)))
+          .map((payload) => resolveRequest(name, deserialize(payload)))
           .catch((error) => Observable.of(rejectRequest(name, error)));
       })
   );

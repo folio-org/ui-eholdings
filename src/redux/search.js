@@ -46,7 +46,7 @@ function createSearchEpic(name, {
   return createRequestEpic({
     name: `${name}-search`,
     endpoint: `eholdings/${name}`,
-    normalize: (payload) => payload ? payload[recordsKey] || [] : [],
+    deserialize: (payload) => payload ? payload[recordsKey] || [] : [],
     defaultParams: {
       search: '',
       count: 25,

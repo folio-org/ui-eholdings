@@ -35,7 +35,7 @@ export const packageEpics = combineEpics(
     endpoint: ({ vendorId, packageId }) => (
       `eholdings/vendors/${vendorId}/packages/${packageId}/titles`
     ),
-    normalize: (payload) => payload && payload.titles,
+    deserialize: (payload) => payload && payload.titles,
     defaultParams: {
       search: '%00',
       searchfield: 'titlename',
