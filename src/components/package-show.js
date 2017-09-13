@@ -9,6 +9,8 @@ import List from './list';
 import TitleListItem from './title-list-item';
 
 export default function PackageShow({ vendorPackage, packageTitles }, { intl }) {
+  let packageRecord = vendorPackage.content;
+
   let formatISODateWithoutTime = function(dateString) {
     let [year, month, day]= dateString.split('-');
     let dateObj = new Date();
@@ -22,46 +24,46 @@ export default function PackageShow({ vendorPackage, packageTitles }, { intl }) 
     <div data-test-eholdings-package-details>
       <Paneset>
         <Pane defaultWidth="100%">
-          {vendorPackage ? (
+          {vendorPackage.isResolved ? (
             <div>
               <div style={{ margin: '2rem 0' }}>
                 <KeyValueLabel label="Package">
                   <h1 data-test-eholdings-package-details-name>
-                    {vendorPackage.packageName}
+                    {packageRecord.packageName}
                   </h1>
                 </KeyValueLabel>
               </div>
 
               <KeyValueLabel label="Vendor">
                 <div data-test-eholdings-package-details-vendor>
-                  <Link to={`/eholdings/vendors/${vendorPackage.vendorId}`}>{vendorPackage.vendorName}</Link>
+                  <Link to={`/eholdings/vendors/${packageRecord.vendorId}`}>{packageRecord.vendorName}</Link>
                 </div>
               </KeyValueLabel>
 
-              {vendorPackage.contentType && (
+              {packageRecord.contentType && (
                 <KeyValueLabel label="Content Type">
                   <div data-test-eholdings-package-details-content-type>
-                    {vendorPackage.contentType}
+                    {packageRecord.contentType}
                   </div>
                 </KeyValueLabel>
               ) }
 
               <KeyValueLabel label="Titles Selected">
                 <div data-test-eholdings-package-details-titles-selected>
-                  {vendorPackage.selectedCount}
+                  {packageRecord.selectedCount}
                 </div>
               </KeyValueLabel>
 
               <KeyValueLabel label="Total Titles">
                 <div data-test-eholdings-package-details-titles-total>
-                  {vendorPackage.titleCount}
+                  {packageRecord.titleCount}
                 </div>
               </KeyValueLabel>
 
-              {(vendorPackage.customCoverage.beginCoverage || vendorPackage.customCoverage.endCoverage) && (
+              {(packageRecord.customCoverage.beginCoverage || packageRecord.customCoverage.endCoverage) && (
                 <KeyValueLabel label="Custom Coverage">
                   <div data-test-eholdings-package-details-custom-coverage>
-                    {formatISODateWithoutTime(vendorPackage.customCoverage.beginCoverage)} - {formatISODateWithoutTime(vendorPackage.customCoverage.endCoverage)}
+                    {formatISODateWithoutTime(packageRecord.customCoverage.beginCoverage)} - {formatISODateWithoutTime(packageRecord.customCoverage.endCoverage)}
                   </div>
                 </KeyValueLabel>
               )}
@@ -70,34 +72,34 @@ export default function PackageShow({ vendorPackage, packageTitles }, { intl }) 
 
               <KeyValueLabel label="Selected">
                 <div data-test-eholdings-package-details-selected>
-                  {vendorPackage.isSelected ? 'Yes' : 'No'}
+                  {packageRecord.isSelected ? 'Yes' : 'No'}
                 </div>
               </KeyValueLabel>
 
               <hr />
 
-              {vendorPackage.visibilityData.isHidden && (
+              {packageRecord.visibilityData.isHidden && (
                 <div data-test-eholdings-package-details-is-hidden>
-                <p><strong>This package is hidden.</strong></p>
-                <p><em>{vendorPackage.visibilityData.reason}</em></p>
-                <hr />
+                  <p><strong>This package is hidden.</strong></p>
+                  <p><em>{packageRecord.visibilityData.reason}</em></p>
+                  <hr />
                 </div>
               )}
 
-              {packageTitles && packageTitles.length ? (
+              {packageTitles.isResolved && packageTitles.content.length ? (
                 <div>
                   <h3>Titles</h3>
                   <List data-test-eholdings-package-details-title-list>
-                    {packageTitles.map(item => (
+                    {packageTitles.content.map(item => (
                       <TitleListItem
                         key={item.titleId}
                         item={item}
-                        link={`/eholdings/vendors/${vendorPackage.vendorId}/packages/${vendorPackage.packageId}/titles/${item.titleId}`}
+                        link={`/eholdings/vendors/${packageRecord.vendorId}/packages/${packageRecord.packageId}/titles/${item.titleId}`}
                         showSelected/>
                     ))}
                   </List>
                 </div>
-              ) : packageTitles ? (
+              ) : packageTitles.isResolved ? (
                 <p>No Titles Found</p>
               ) : (
                 <p>Loading...</p>
@@ -113,8 +115,8 @@ export default function PackageShow({ vendorPackage, packageTitles }, { intl }) 
 }
 
 PackageShow.propTypes = {
-  vendorPackage: PropTypes.object,
-  packageTitles: PropTypes.arrayOf(PropTypes.object)
+  vendorPackage: PropTypes.object.isRequired,
+  packageTitles: PropTypes.object.isRequired
 };
 
 PackageShow.contextTypes = {

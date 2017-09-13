@@ -1,87 +1,65 @@
-import { handleActions } from 'redux-actions';
-import queryString from 'query-string';
-import { Observable } from 'rxjs/Observable';
-import 'rxjs/add/observable/from';
-import 'rxjs/add/operator/switchMap';
-import 'rxjs/add/operator/pluck';
-import 'rxjs/add/operator/catch';
-import merge from 'lodash/merge';
+import { combineReducers } from 'redux';
+import { combineEpics } from 'redux-observable';
+import {
+  REQUEST_MAKE,
+  createRequestCreator,
+  createRequestReducer,
+  createRequestEpic
+} from './request';
 
-// action types
-const EHOLDINGS_SEARCH = 'EHOLDINGS_SEARCH';
-const EHOLDINGS_SEARCH_RESOLVE = 'EHOLDINGS_SEARCH_RESOLVE';
-const EHOLDINGS_SEARCH_REJECT = 'EHOLDINGS_SEARCH_REJECT';
+// search action creators
+export const searchVendors = createRequestCreator('vendors-search');
+export const searchPackages = createRequestCreator('packages-search');
+export const searchTitles = createRequestCreator('titles-search');
 
-// action creators
-export const searchHoldings = (searchType, query, options) => ({
-  type: EHOLDINGS_SEARCH,
-  searchType,
-  query,
-  options
+// search specific reducer creator
+function createSearchReducer(name) {
+  name = `${name}-search`;
+
+  return createRequestReducer({
+    name,
+    initialContent: [],
+    initialState: {
+      query: {}
+    },
+    handleActions: {
+      [REQUEST_MAKE]: (state, action) => ({
+        ...state,
+        query: action.data
+      })
+    }
+  });
+}
+
+// search reducer
+export const searchReducer = combineReducers({
+  vendors: createSearchReducer('vendors'),
+  packages: createSearchReducer('packages'),
+  titles: createSearchReducer('titles')
 });
 
-// initial state for each search type
-const initialSearchState = {
-  query: {},
-  isPending: false,
-  isResolved: false,
-  isRejected: false,
-  content: [],
-  error: null
-};
-
-// reducer
-export const searchReducer = handleActions({
-  [EHOLDINGS_SEARCH]: (state, action) => ({
-    ...state,
-    [action.searchType]: {
-      ...state[action.searchType],
-      query: action.query,
-      isPending: true,
-      isResolved: false,
-      isRejected: false,
-      content: [],
-      error: null
+// search specific epic creator
+function createSearchEpic(name, {
+  recordsKey = name,
+  defaultParams = {}
+} = {}) {
+  return createRequestEpic({
+    name: `${name}-search`,
+    endpoint: `eholdings/${name}`,
+    normalize: (payload) => payload ? payload[recordsKey] || [] : [],
+    defaultParams: {
+      search: '',
+      count: 25,
+      offset: 1,
+      orderby: 'relevance',
+      ...defaultParams
     }
-  }),
-  [EHOLDINGS_SEARCH_RESOLVE]: (state, action) => ({
-    ...state,
-    [action.searchType]: {
-      ...state[action.searchType],
-      isPending: false,
-      isResolved: true,
-      content: action.payload
-    }
-  }),
-  [EHOLDINGS_SEARCH_REJECT]: (state, action) => ({
-    ...state,
-    [action.searchType]: {
-      ...state[action.searchType],
-      isPending: false,
-      isRejected: true,
-      error: action.error
-    }
-  })
-}, {
-  vendors: merge({}, initialSearchState),
-  packages: merge({}, initialSearchState),
-  titles: merge({}, initialSearchState)
-});
+  });
+}
 
 // search epic
-export function searchEpic(action$, { getState }) {
-  return action$.ofType(EHOLDINGS_SEARCH)
-    .switchMap((action) => {
-      const { okapi } = getState();
-      const { searchType, query, options } = action;
-      const { endpoint, defaults, recordsKey = searchType } = options;
-
-      const searchQuery = { ...defaults, ...query };
-      const url = `${okapi.url}/${endpoint}?${queryString.stringify(searchQuery)}`;
-      const request = fetch(url, { headers: { 'X-Okapi-Tenant': okapi.tenant }});
-
-      return Observable.from(request.then((res) => res.json())).pluck(recordsKey)
-        .map((payload) => ({ type: EHOLDINGS_SEARCH_RESOLVE, searchType, payload }))
-        .catch((error) => Observable.of({ type: EHOLDINGS_SEARCH_REJECT, searchType, error }));
-    });
-}
+export const searchEpic = combineEpics(
+  createSearchEpic('vendors'),
+  createSearchEpic('packages', { recordsKey: 'packagesList' }),
+  createSearchEpic('titles', { defaultParams: { searchfield: 'titlename' }})
+);

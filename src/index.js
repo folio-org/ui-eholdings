@@ -20,7 +20,6 @@ export default class EHoldings extends Component {
       path: PropTypes.string.isRequired
     }).isRequired,
     stripes: PropTypes.shape({
-      connect: PropTypes.func.isRequired,
       intl: PropTypes.object.isRequired
     }).isRequired
   };
@@ -37,15 +36,7 @@ export default class EHoldings extends Component {
   getChildContext() {
     return {
       intl: this.props.stripes.intl
-    }
-  }
-
-  constructor(props) {
-    super(props);
-    this.VendorShow = props.stripes.connect(VendorShow);
-    this.PackageShow = props.stripes.connect(PackageShow);
-    this.CustomerResourceShow = CustomerResourceShow;
-    this.TitleShow = props.stripes.connect(TitleShow);
+    };
   }
 
   componentWillMount() {
@@ -64,10 +55,10 @@ export default class EHoldings extends Component {
           <Route path={`${rootPath}/search/titles`} exact component={TitleSearchResultsRoute}/>
         </Route>
 
-        <Route path={`${rootPath}/vendors/:vendorId`} exact component={this.VendorShow}/>
-        <Route path={`${rootPath}/vendors/:vendorId/packages/:packageId`} exact component={this.PackageShow}/>
-        <Route path={`${rootPath}/vendors/:vendorId/packages/:packageId/titles/:titleId`} exact component={this.CustomerResourceShow}/>
-        <Route path={`${rootPath}/titles/:titleId`} exact component={this.TitleShow}/>
+        <Route path={`${rootPath}/vendors/:vendorId`} exact component={VendorShow}/>
+        <Route path={`${rootPath}/vendors/:vendorId/packages/:packageId`} exact component={PackageShow}/>
+        <Route path={`${rootPath}/vendors/:vendorId/packages/:packageId/titles/:titleId`} exact component={CustomerResourceShow}/>
+        <Route path={`${rootPath}/titles/:titleId`} exact component={TitleShow}/>
         <Route render={() => (<Redirect to={`${rootPath}/search/vendors`}/>)}/>
       </Switch>
     );

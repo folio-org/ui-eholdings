@@ -8,38 +8,40 @@ import List from './list';
 import PackageListItem from './package-list-item';
 
 export default function VendorShow({ vendor, vendorPackages }) {
+  const record = vendor.content;
+
   return (
     <div data-test-eholdings-vendor-details>
       <Paneset>
         <Pane defaultWidth="100%">
-          {vendor ? (
+          {vendor.isResolved ? (
             <div>
               <div style={{ margin: '2rem 0' }}>
                 <KeyValueLabel label="Vendor">
                   <h1 data-test-eholdings-vendor-details-name>
-                    {vendor.vendorName}
+                    {record.vendorName}
                   </h1>
                 </KeyValueLabel>
               </div>
 
               <KeyValueLabel label="Packages Selected">
                 <div data-test-eholdings-vendor-details-packages-selected>
-                  {vendor.packagesSelected}
+                  {record.packagesSelected}
                 </div>
               </KeyValueLabel>
 
               <KeyValueLabel label="Total Packages">
                 <div data-test-eholdings-vendor-details-packages-total>
-                  {vendor.packagesTotal}
+                  {record.packagesTotal}
                 </div>
               </KeyValueLabel>
 
               <hr />
-              {vendorPackages && vendorPackages.length ? (
+              {vendorPackages.isResolved && vendorPackages.content.length ? (
                 <div>
                   <h3>Packages</h3>
                   <List>
-                    {vendorPackages.map((pkg) => (
+                    {vendorPackages.content.map((pkg) => (
                       <PackageListItem
                           key={pkg.packageId}
                           link={`/eholdings/vendors/${pkg.vendorId}/packages/${pkg.packageId}`}
@@ -48,7 +50,7 @@ export default function VendorShow({ vendor, vendorPackages }) {
                     ))}
                   </List>
                 </div>
-              ) : vendorPackages ? (
+              ) : vendorPackages.isResolved ? (
                 <p>No Packages Found</p>
               ) : (
                 <p>Loading...</p>
@@ -64,6 +66,6 @@ export default function VendorShow({ vendor, vendorPackages }) {
 }
 
 VendorShow.propTypes = {
-  vendor: PropTypes.object,
-  vendorPackages: PropTypes.arrayOf(PropTypes.object)
+  vendor: PropTypes.object.isRequired,
+  vendorPackages: PropTypes.object.isRequired
 };
