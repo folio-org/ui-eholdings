@@ -141,7 +141,7 @@ export const customerResourceEpics = combineEpics(
 );
 
 // helper to fetch a customer resource using the okapi endpoint and headers
-function fetchResource({ vendorId, packageId, titleId }, { okapi, method, body }) {
+function fetchResource({ vendorId, packageId, titleId }, { okapi, method = 'GET', body }) {
   let endpoint = `${okapi.url}/eholdings/vendors/${vendorId}/packages/${packageId}/titles/${titleId}`;
   let headers = { 'X-Okapi-Tenant': okapi.tenant };
 
