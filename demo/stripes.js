@@ -30,6 +30,7 @@ commander
   .option('--host [host]', 'Host')
   .option('--cache', 'Use HardSourceWebpackPlugin cache')
   .option('--devtool [devtool]', 'Use another value for devtool instead of "inline-source-map"')
+  .option('--mirage', 'Use the mirage server to simulate the backend')
   .arguments('<config>')
   .description('Launch a webpack-dev-server')
   .action(function (loaderConfigFile, options) {
@@ -57,7 +58,7 @@ commander
       }
     });
 
-    const compiler = webpack(mirage(svgloader(config)));
+    const compiler = webpack(mirage(svgloader(config), options.mirage));
 
     const port = options.port || process.env.STRIPES_PORT || 3000;
     const host = options.host || process.env.STRIPES_HOST || 'localhost';
@@ -114,10 +115,15 @@ if (!process.argv.slice(2).length) {
   commander.outputHelp();
 }
 
-function mirage(config) {
-  return Object.assign({}, config, {
-    entry: ['./demo/boot-mirage'].concat(config.entry)
-  });
+function mirage(config, enabled = false) {
+  if (enabled) {
+    console.info('Using Mirage Server');
+    return Object.assign({}, config, {
+      entry: ['./demo/boot-mirage'].concat(config.entry)
+    });
+  } else {
+    return config;
+  }
 }
 
 function svgloader(config) {
