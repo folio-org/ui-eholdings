@@ -19,6 +19,13 @@
 * `yarn start`
 * Visit your app at [http://localhost:8080](http://localhost:8080).
 
+By default, this will use the backend OKAPI cluster at
+https://okapi.frontside.io However, if you want to run the application
+against the mirage server contained within the browser, you can turn
+it on with the `--mirage` option:
+
+* `yarn start --mirage`
+
 ## Running Tests
 
 * `yarn test` (uses Karma and Mocha to test the application)
