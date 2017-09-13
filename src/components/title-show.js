@@ -61,6 +61,10 @@ export default function TitleShow({ title }) {
                 ))}
               </List>
             </div>
+          ) : title.isRejected ? (
+            <p data-test-eholdings-title-show-error>
+              {title.error.length ? title.error[0].message : title.error.message}
+            </p>
           ) : (
             <p>Loading...</p>
           )}

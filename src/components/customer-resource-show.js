@@ -119,6 +119,10 @@ export default function CustomerResourceShow({ customerResource, toggleRequest, 
                 </Link>
               </div>
             </div>
+          ) : customerResource.isRejected ? (
+            <p data-test-eholdings-customer-resource-show-error>
+              {customerResource.error.length ? customerResource.error[0].message : customerResource.error.message}
+            </p>
           ) : (
             <p>Loading...</p>
           )}

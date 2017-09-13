@@ -16,7 +16,9 @@ function PackageSearchResults({
   return isPending ? (
     <p>...loading</p>
   ) : isRejected ? (
-    <p data-test-package-search-error-message>{error}</p>
+    <p data-test-package-search-error-message>
+      {error.length ? error[0].message : error.message}
+    </p>
   ) : isResolved && !content.length ? (
     <p data-test-package-search-no-results>
       No packages found for <strong>{`"${search}"`}</strong>.
@@ -41,7 +43,10 @@ PackageSearchResults.propTypes = {
   isResolved: PropTypes.bool.isRequired,
   isRejected: PropTypes.bool.isRequired,
   content: PropTypes.array.isRequired,
-  error: PropTypes.object
+  error: PropTypes.oneOfType([
+    PropTypes.object,
+    PropTypes.array
+  ])
 };
 
 export default connect(

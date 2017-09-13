@@ -56,6 +56,10 @@ export default function VendorShow({ vendor, vendorPackages }) {
                 <p>Loading...</p>
               )}
             </div>
+          ) : vendor.isRejected ? (
+            <p data-test-eholdings-vendor-details-error>
+              {vendor.error.length ? vendor.error[0].message : vendor.error.message}
+            </p>
           ) : (
             <p>Loading...</p>
           )}

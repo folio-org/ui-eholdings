@@ -53,7 +53,7 @@ describeApplication('VendorShow', function() {
     });
   });
 
-  describe.skip("encountering a server error", function() {
+  describe("encountering a server error", function() {
     beforeEach(function() {
       this.server.get('/vendors/:id', [{
         message: 'There was an error',
