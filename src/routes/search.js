@@ -30,7 +30,7 @@ const searchTypes = {
     endpoint: 'eholdings/titles',
     defaults: {
       ...defaultSearchParams,
-      searchField: 'titlename'
+      searchfield: 'titlename'
     }
   }
 };
