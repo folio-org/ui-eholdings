@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { Route, Switch, Redirect } from 'react-router-dom';
+import { Route, Switch, Redirect } from './router';
 
 import { reducer, epics } from './redux';
 
@@ -58,13 +58,11 @@ export default class EHoldings extends Component {
 
     return(
       <Switch>
-        <Route path={`${rootPath}/search/:searchType(vendors|packages|titles)`} render={(props) => (
-          <SearchRoute {...props}>
-            <Route path={`${rootPath}/search/vendors`} exact component={VendorSearchResultsRoute}/>
-            <Route path={`${rootPath}/search/packages`} exact component={PackageSearchResultsRoute}/>
-            <Route path={`${rootPath}/search/titles`} exact component={TitleSearchResultsRoute}/>
-          </SearchRoute>
-        )}/>
+        <Route path={`${rootPath}/search/:searchType(vendors|packages|titles)`} component={SearchRoute}>
+          <Route path={`${rootPath}/search/vendors`} exact component={VendorSearchResultsRoute}/>
+          <Route path={`${rootPath}/search/packages`} exact component={PackageSearchResultsRoute}/>
+          <Route path={`${rootPath}/search/titles`} exact component={TitleSearchResultsRoute}/>
+        </Route>
 
         <Route path={`${rootPath}/vendors/:vendorId`} exact component={this.VendorShow}/>
         <Route path={`${rootPath}/vendors/:vendorId/packages/:packageId`} exact component={this.PackageShow}/>
