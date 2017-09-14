@@ -54,6 +54,7 @@ export default class SearchForm extends Component {
         </div>
         <form onSubmit={this.handleSearchSubmit}>
           <input
+              className={styles['search-input']}
               type="search"
               name="search"
               value={searchString}
@@ -61,6 +62,7 @@ export default class SearchForm extends Component {
               onChange={this.handleChangeSearch}
               data-test-search-field />
           <button
+              className={styles['search-submit']}
               type="submit"
               disabled={!searchString}
               data-test-search-submit>

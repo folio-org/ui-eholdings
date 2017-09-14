@@ -1,4 +1,7 @@
+@import '@folio/stripes-core/src/components/variables';
+
 .search-form-container {
+  margin: 1em 0 0.5em 0;
   width: 100%;
 }
 
@@ -8,24 +11,45 @@
 
   & a {
     display: inline-block;
-    border: solid #ccc;
+    border: 1px solid var(--primary);
     border-width: 1px 1px 1px 0;
-    padding: 0.4em 0.6em;
+    padding: 0.36em 0.57em;
     text-decoration: none;
     line-height: 1;
 
     &:first-child {
       border-left-width: 1px;
-      border-radius: 0.3em 0 0 0.3em;
+      border-radius: 0.4em 0 0 0.4em;
     }
 
     &:last-child {
-      border-radius: 0 0.3em 0.3em 0;
+      border-radius: 0 0.4em 0.4em 0;
     }
 
     &.is-active {
-      background-color: #eee;
+      background-color: var(--primary);
+      color: #fff;
     }
+  }
+}
+
+.search-input {
+  height: var(--controlHeight);
+  min-height: var(--controlHeight);
+  margin-bottom: var(--controlMarginBottom);
+  padding: 4px;
+  border: 1px solid var(--inputBorderColor);
+}
+
+.search-submit {
+  margin-left: 0.5em;
+  background-color: var(--primary);
+  border: 1px solid var(--primary);
+  border-radius: 0.4em;
+  color: #fff;
+
+  &:hover{
+    background-color: color(var(--primary) shade(8%));
   }
 }
 
