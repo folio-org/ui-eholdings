@@ -5,40 +5,25 @@ import KeyValueLabel from './key-value-label';
 export default function IdentifiersList({ data }) {
   let types = {
     0: 'ISSN',
-    1: 'ISBN',
-    2: 'TSDID',
-    3: 'SPID',
-    4: 'EjsJournaID',
-    5: 'NewsbankID',
-    6: 'ZDBID',
-    7: 'EPBookID',
-    8: 'Mid',
-    9: 'BHM'
+    1: 'ISBN'
   };
 
   let subtypes = {
     0: 'Empty',
     1: 'Print',
-    2: 'Online',
-    3: 'Preceding',
-    4: 'Succeeding',
-    5: 'Regional',
-    6: 'Linking',
-    7: 'Invalid'
+    2: 'Online'
   };
 
-  let typesCount = Object.keys(types).length;
-  let subtypesCount = Object.keys(subtypes).length;
+  // get rid of identifiers we received that aren't ISSN or ISBN
+  let filteredData = data.filter((identifier) => {
+    return (identifier.type === 0 ||  identifier.type === 1) && (identifier.type >= 0 ||  identifier.type <= 2);
+  })
 
   // turn type and subtype ids into strings
-  let identifiersWithCompoundTypes = data.map((identifier) => {
+  let identifiersWithCompoundTypes = filteredData.map((identifier) => {
     let compoundType = types[identifier.type];
 
-    if(identifier.type >= typesCount) {
-      compoundType = 'Unknown Identifier';
-    }
-
-    if(identifier.subtype > 0 && identifier.subtype < subtypesCount) {
+    if(identifier.subtype > 0) {
       compoundType = `${compoundType} (${subtypes[identifier.subtype]})`;
     }
 
