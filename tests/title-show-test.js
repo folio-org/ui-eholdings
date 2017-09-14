@@ -26,9 +26,9 @@ describeApplication('TitleShow', function() {
       this.server.create('identifier', { type: 1, subtype: 0, id: '978-0547928227' })
     ];
     title.contributors = [
-      this.server.create('contributor', { type: 'author', contributor: 'Sally Writer' }),
-      this.server.create('contributor', { type: 'author', contributor: 'Jane Wordsmith' }),
-      this.server.create('contributor', { type: 'illustrator', contributor: 'John Artist' })
+      this.server.create('contributor', { type: 'author', contributor: 'Writer, Sally' }),
+      this.server.create('contributor', { type: 'author', contributor: 'Wordsmith, Jane' }),
+      this.server.create('contributor', { type: 'illustrator', contributor: 'Artist, John' })
     ];
     title.save();
 
@@ -67,11 +67,11 @@ describeApplication('TitleShow', function() {
     });
 
     it('displays the authors', function() {
-      expect(TitleShowPage.contributorsList[0]).to.equal('AuthorsSally Writer, Jane Wordsmith');
+      expect(TitleShowPage.contributorsList[0]).to.equal('AuthorsWriter, Sally; Wordsmith, Jane');
     });
 
     it('displays the illustrator', function() {
-      expect(TitleShowPage.contributorsList[1]).to.equal('IllustratorJohn Artist');
+      expect(TitleShowPage.contributorsList[1]).to.equal('IllustratorArtist, John');
     });
 
     it('does not display an editor', function() {

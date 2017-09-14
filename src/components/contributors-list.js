@@ -24,7 +24,7 @@ export default function ContributorsList({ data }) {
         return (
           <div key={key} data-test-eholdings-contributors-list-item>
             <KeyValueLabel label={key}>
-              {names.join(', ')}
+              {names.join('; ')}
             </KeyValueLabel>
           </div>
         );
