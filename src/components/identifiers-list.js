@@ -27,11 +27,18 @@ export default function IdentifiersList({ data }) {
     7: 'Invalid'
   };
 
+  let typesCount = Object.keys(types).length;
+  let subtypesCount = Object.keys(subtypes).length;
+
   // turn type and subtype ids into strings
   let identifiersWithCompoundTypes = data.map((identifier) => {
     let compoundType = types[identifier.type];
 
-    if(identifier.subtype > 0) {
+    if(identifier.type >= typesCount) {
+      compoundType = 'Unknown Identifier';
+    }
+
+    if(identifier.subtype > 0 && identifier.subtype < subtypesCount) {
       compoundType = `${compoundType} (${subtypes[identifier.subtype]})`;
     }
 
