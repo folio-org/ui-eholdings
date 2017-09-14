@@ -38,11 +38,13 @@ export default function PackageShow({ vendorPackage, packageTitles }, { intl }) 
                 </div>
               </KeyValueLabel>
 
-              <KeyValueLabel label="Content Type">
-                <div data-test-eholdings-package-details-content-type>
-                  {vendorPackage.contentType}
-                </div>
-              </KeyValueLabel>
+              {vendorPackage.contentType && (
+                <KeyValueLabel label="Content Type">
+                  <div data-test-eholdings-package-details-content-type>
+                    {vendorPackage.contentType}
+                  </div>
+                </KeyValueLabel>
+              ) }
 
               <KeyValueLabel label="Titles Selected">
                 <div data-test-eholdings-package-details-titles-selected>

@@ -46,11 +46,13 @@ export default function CustomerResourceShow({ model, toggleSelected }) {
                 </div>
               </KeyValueLabel>
 
-              <KeyValueLabel label="Content Type">
-                <div data-test-eholdings-customer-resource-show-content-type>
-                  {resource.contentType}
-                </div>
-              </KeyValueLabel>
+              {resource.contentType && (
+                <KeyValueLabel label="Content Type">
+                  <div data-test-eholdings-customer-resource-show-content-type>
+                    {resource.contentType}
+                  </div>
+                </KeyValueLabel>
+              ) }
 
               <KeyValueLabel label="Vendor">
                 <div data-test-eholdings-customer-resource-show-vendor-name>
