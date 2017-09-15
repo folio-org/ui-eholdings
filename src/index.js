@@ -37,7 +37,7 @@ export default class EHoldings extends Component {
   getChildContext() {
     return {
       intl: this.props.stripes.intl
-    }
+    };
   }
 
   constructor(props) {
