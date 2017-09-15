@@ -23,7 +23,8 @@ describeApplication('TitleShow', function() {
       this.server.create('identifier', { type: 1, subtype: 1, id: '978-0547928210' }),
       this.server.create('identifier', { type: 1, subtype: 1, id: '978-0547928203' }),
       this.server.create('identifier', { type: 1, subtype: 2, id: '978-0547928197' }),
-      this.server.create('identifier', { type: 1, subtype: 0, id: '978-0547928227' })
+      this.server.create('identifier', { type: 1, subtype: 0, id: '978-0547928227' }),
+      this.server.create('identifier', { type: 8, subtype: 49, id: 'someothertypeofid' })
     ];
     title.contributors = [
       this.server.create('contributor', { type: 'author', contributor: 'Writer, Sally' }),
@@ -64,6 +65,10 @@ describeApplication('TitleShow', function() {
 
     it('does not show a subtype for an identifier when none exists', function() {
       expect(TitleShowPage.identifiersList[2]).to.equal('ISBN978-0547928227');
+    });
+
+    it('does not show identifiers that are not ISSN or ISBN', function() {
+      expect(TitleShowPage.identifiersList.length).to.equal(3);
     });
 
     it('displays the authors', function() {
