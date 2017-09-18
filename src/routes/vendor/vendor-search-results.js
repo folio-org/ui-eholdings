@@ -16,7 +16,9 @@ function VendorSearchResultsRoute({
   return isPending ? (
     <p>...loading</p>
   ) : isRejected ? (
-    <p data-test-vendor-search-error>{error}</p>
+    <p data-test-vendor-search-error-message>
+      {error.length ? error[0].message : error.message}
+    </p>
   ) : isResolved && !content.length ? (
     <p data-test-vendor-search-no-results>
       No vendors found for <strong>{`"${search}"`}</strong>.
@@ -41,7 +43,10 @@ VendorSearchResultsRoute.propTypes = {
   isResolved: PropTypes.bool.isRequired,
   isRejected: PropTypes.bool.isRequired,
   content: PropTypes.array.isRequired,
-  error: PropTypes.object
+  error: PropTypes.oneOfType([
+    PropTypes.object,
+    PropTypes.array
+  ])
 };
 
 export default connect(

@@ -7,87 +7,86 @@ import KeyValueLabel from './key-value-label';
 import IdentifiersList from './identifiers-list';
 import ContributorsList from './contributors-list';
 
-export default function CustomerResourceShow({ model, toggleSelected }) {
-  const { record, toggle } = model;
-  const resource = record.content;
+export default function CustomerResourceShow({ customerResource, toggleRequest, toggleSelected }) {
+  const record = customerResource.content;
 
   return (
     <div data-test-eholdings-customer-resource-show>
       <Paneset>
         <Pane defaultWidth="100%">
-          {record.isResolved ? (
+          {customerResource.isResolved ? (
             <div>
               <div style={{ margin: '2rem 0' }}>
                 <KeyValueLabel label="Resource">
                   <h1 data-test-eholdings-customer-resource-show-title-name>
-                    {resource.titleName}
+                    {record.titleName}
                   </h1>
                 </KeyValueLabel>
               </div>
 
               <KeyValueLabel label="Publisher">
                 <div data-test-eholdings-customer-resource-show-publisher-name>
-                  {resource.publisherName}
+                  {record.publisherName}
                 </div>
               </KeyValueLabel>
 
               <KeyValueLabel label="Publication Type">
                 <div data-test-eholdings-customer-resource-show-publication-type>
-                  {resource.pubType}
+                  {record.pubType}
                 </div>
               </KeyValueLabel>
 
-              <IdentifiersList data={resource.identifiersList} />
-              <ContributorsList data={resource.contributorsList} />
+              <IdentifiersList data={record.identifiersList} />
+              <ContributorsList data={record.contributorsList} />
 
               <KeyValueLabel label="Package">
                 <div data-test-eholdings-customer-resource-show-package-name>
-                  <Link to={`/eholdings/vendors/${resource.vendorId}/packages/${resource.packageId}`}>{resource.packageName}</Link>
+                  <Link to={`/eholdings/vendors/${record.vendorId}/packages/${record.packageId}`}>{record.packageName}</Link>
                 </div>
               </KeyValueLabel>
 
-              {resource.contentType && (
+              {record.contentType && (
                 <KeyValueLabel label="Content Type">
                   <div data-test-eholdings-customer-resource-show-content-type>
-                    {resource.contentType}
+                    {record.contentType}
                   </div>
                 </KeyValueLabel>
               ) }
 
               <KeyValueLabel label="Vendor">
                 <div data-test-eholdings-customer-resource-show-vendor-name>
-                  <Link to={`/eholdings/vendors/${resource.vendorId}`}>{resource.vendorName}</Link>
+                  <Link to={`/eholdings/vendors/${record.vendorId}`}>{record.vendorName}</Link>
                 </div>
               </KeyValueLabel>
 
-              {resource.url && (
+              {record.url && (
                 <KeyValueLabel label="Managed URL">
                   <div data-test-eholdings-customer-resource-show-managed-url>
-                    <Link to={resource.url}>{resource.url}</Link>
+                    <Link to={record.url}>{record.url}</Link>
                   </div>
                 </KeyValueLabel>
               ) }
 
-              {resource.subjectsList && resource.subjectsList.length > 0 && (
+              {record.subjectsList && record.subjectsList.length > 0 && (
                 <KeyValueLabel label="Subjects">
                   <div data-test-eholdings-customer-resource-show-subjects-list>
-                    {resource.subjectsList.map((subjectObj) => subjectObj.subject).join('; ')}
+                    {record.subjectsList.map((subjectObj) => subjectObj.subject).join('; ')}
                   </div>
                 </KeyValueLabel>
               ) }
 
-              {resource.managedEmbargoPeriod.embargoUnit && (
+              {record.managedEmbargoPeriod.embargoUnit && (
                 <KeyValueLabel label="Managed Embargo Period">
                   <div data-test-eholdings-customer-resource-show-managed-embargo-period>
-                    {resource.managedEmbargoPeriod.embargoValue} {resource.managedEmbargoPeriod.embargoUnit}
+                    {record.managedEmbargoPeriod.embargoValue} {record.managedEmbargoPeriod.embargoUnit}
                   </div>
                 </KeyValueLabel>
               ) }
 
-              {resource.customEmbargoPeriod.embargoUnit && (
+              {record.customEmbargoPeriod.embargoUnit && (
                 <KeyValueLabel label="Custom Embargo Period">
                   <div data-test-eholdings-customer-resource-show-custom-embargo-period>
-                    {resource.customEmbargoPeriod.embargoValue} {resource.customEmbargoPeriod.embargoUnit}
+                    {record.customEmbargoPeriod.embargoValue} {record.customEmbargoPeriod.embargoUnit}
                   </div>
                 </KeyValueLabel>
               ) }
@@ -96,9 +95,9 @@ export default function CustomerResourceShow({ model, toggleSelected }) {
 
               <KeyValueLabel label="Selected">
                 <div data-test-eholdings-customer-resource-show-selected>
-                  <input type="checkbox" onChange={toggleSelected} disabled={toggle.isPending} checked={resource.isSelected} />
-                  {resource.isSelected ? 'Yes' : 'No'}
-                  {toggle.isPending && (
+                  <input type="checkbox" onChange={toggleSelected} disabled={toggleRequest.isPending} checked={record.isSelected} />
+                  {record.isSelected ? 'Yes' : 'No'}
+                  {toggleRequest.isPending && (
                     <span data-test-eholdings-customer-resource-show-is-selecting>...</span>
                   )}
                 </div>
@@ -106,20 +105,24 @@ export default function CustomerResourceShow({ model, toggleSelected }) {
 
               <hr/>
 
-              {resource.visibilityData.isHidden && (
+              {record.visibilityData.isHidden && (
                 <div data-test-eholdings-customer-resource-show-is-hidden>
                   <p><strong>This resource is hidden.</strong></p>
-                  <p><em>{resource.visibilityData.reason}</em></p>
+                  <p><em>{record.visibilityData.reason}</em></p>
                   <hr />
                 </div>
               )}
 
               <div>
-                <Link to={`/eholdings/titles/${resource.titleId}`}>
+                <Link to={`/eholdings/titles/${record.titleId}`}>
                   View all packages that include this title
                 </Link>
               </div>
             </div>
+          ) : customerResource.isRejected ? (
+            <p data-test-eholdings-customer-resource-show-error>
+              {customerResource.error.length ? customerResource.error[0].message : customerResource.error.message}
+            </p>
           ) : (
             <p>Loading...</p>
           )}
@@ -130,7 +133,7 @@ export default function CustomerResourceShow({ model, toggleSelected }) {
 }
 
 CustomerResourceShow.propTypes = {
-  model: PropTypes.object,
-  saveSelected: PropTypes.func,
-  toggleSelected: PropTypes.func
+  customerResource: PropTypes.object.isRequired,
+  toggleRequest: PropTypes.object.isRequired,
+  toggleSelected: PropTypes.func.isRequired
 };

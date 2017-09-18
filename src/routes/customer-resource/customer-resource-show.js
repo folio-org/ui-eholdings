@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { requestResource, toggleSelected } from '../../redux/customer-resource';
+import { getCustomerResource, toggleIsSelected } from '../../redux/customer-resource';
 
 import View from '../../components/customer-resource-show';
 
@@ -14,21 +14,33 @@ class CustomerResourceShowRoute extends Component {
         vendorId: PropTypes.string.isRequired
       }).isRequired
     }).isRequired,
-    model: PropTypes.object.isRequired,
-    requestResource: PropTypes.func.isRequired,
-    toggleSelected: PropTypes.func.isRequired
+    customerResource: PropTypes.object.isRequired,
+    toggleRequest: PropTypes.object.isRequired,
+    getCustomerResource: PropTypes.func.isRequired,
+    toggleIsSelected: PropTypes.func.isRequired
   };
 
   componentWillMount() {
     let { vendorId, packageId, titleId } = this.props.match.params;
-    this.props.requestResource(vendorId, packageId, titleId);
+    this.props.getCustomerResource({ vendorId, packageId, titleId });
   }
+
+  toggleSelected = () => {
+    let { vendorId, packageId, titleId } = this.props.match.params;
+    let { isSelected } = this.props.customerResource.content;
+
+    this.props.toggleIsSelected({
+      vendorId, packageId, titleId,
+      isSelected: !isSelected
+    });
+  };
 
   render() {
     return (
       <View
-        model={this.props.model}
-        toggleSelected={this.props.toggleSelected}
+        customerResource={this.props.customerResource}
+        toggleRequest={this.props.toggleRequest}
+        toggleSelected={this.toggleSelected}
       />
     );
   }
@@ -36,9 +48,10 @@ class CustomerResourceShowRoute extends Component {
 
 export default connect(
   ({ eholdings: { customerResource }}) => ({
-    model: customerResource
+    customerResource: customerResource.record,
+    toggleRequest: customerResource.toggle
   }), {
-    requestResource,
-    toggleSelected
+    getCustomerResource,
+    toggleIsSelected
   }
 )(CustomerResourceShowRoute);

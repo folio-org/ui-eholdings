@@ -131,5 +131,22 @@ describeApplication('CustomerResourceShow', function() {
       });
     });
   });
+
+  describe("encountering a server error", function() {
+    beforeEach(function() {
+      this.server.get('/vendors/:vendorId/packages/:packageId/titles/:titleId', [{
+        message: 'There was an error',
+        code: "1000",
+        subcode: 0
+      }], 500);
+
+      return this.visit(`/eholdings/vendors/${vendor.id}/packages/${vendorPackage.id}/titles/${resource.titleId}`, () => {
+        expect(ResourcePage.$root).to.exist;
+      });
+    });
+
+    it("dies with dignity", function() {
+      expect(ResourcePage.hasErrors).to.be.true;
+    });
+  });
 });
-0

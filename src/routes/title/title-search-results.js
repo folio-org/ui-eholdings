@@ -16,7 +16,9 @@ function TitleSearchResults({
   return isPending ? (
     <p>...loading</p>
   ) : isRejected ? (
-    <p data-test-title-search-error-message>{error}</p>
+    <p data-test-title-search-error-message>
+      {error.length ? error[0].message : error.message}
+    </p>
   ) : isResolved && !content.length ? (
     <p data-test-title-search-no-results>
       No titles found for <strong>{`"${search}"`}</strong>.
@@ -41,7 +43,10 @@ TitleSearchResults.propTypes = {
   isResolved: PropTypes.bool.isRequired,
   isRejected: PropTypes.bool.isRequired,
   content: PropTypes.array.isRequired,
-  error: PropTypes.object
+  error: PropTypes.oneOfType([
+    PropTypes.object,
+    PropTypes.array
+  ])
 };
 
 export default connect(

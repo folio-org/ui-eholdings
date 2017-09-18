@@ -1,46 +1,34 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
+import { getTitle } from '../../redux/title';
 
 import View from '../../components/title-show';
 
-export default class TitleShowRoute extends Component {
+class TitleShowRoute extends Component {
   static propTypes = {
     match: PropTypes.shape({
       params: PropTypes.shape({
         titleId: PropTypes.string.isRequired
       }).isRequired
     }).isRequired,
-    resources: PropTypes.shape({
-      showTitle: PropTypes.shape({
-        records: PropTypes.arrayOf(PropTypes.object)
-      })
-    })
+    title: PropTypes.object.isRequired,
+    getTitle: PropTypes.func.isRequired
   };
 
-  static manifest = Object.freeze({
-    showTitle: {
-      type: 'okapi',
-      path: 'eholdings/titles/:{titleId}',
-      pk: 'titleId'
-    }
-  });
+  componentWillMount() {
+    let { titleId } = this.props.match.params;
+    this.props.getTitle({ titleId });
+  }
 
   render() {
-    return (<View title={this.getTitle()}/>);
-  }
-
-  getTitle() {
-    const {
-      resources: { showTitle },
-      match: { params: { titleId } }
-    } = this.props;
-
-    if (!showTitle) {
-      return null;
-    }
-
-    return showTitle.records.find((title) => {
-      return title.titleId == titleId;
-    });
+    return (
+      <View title={this.props.title}/>
+    );
   }
 }
+
+export default connect(
+  ({ eholdings: { title }}) => ({ title }),
+  { getTitle }
+)(TitleShowRoute);

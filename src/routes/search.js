@@ -2,38 +2,11 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import queryString from 'query-string';
 import { connect } from 'react-redux';
-
-import { searchHoldings } from '../redux/search';
+import { searchVendors, searchPackages, searchTitles } from '../redux/search';
 
 import Paneset from '@folio/stripes-components/lib/Paneset';
 import Pane from '@folio/stripes-components/lib/Pane';
 import SearchForm from '../components/search-form';
-
-const defaultSearchParams = {
-  search: '',
-  count: 25,
-  offset: 1,
-  orderby: 'relevance'
-};
-
-const searchTypes = {
-  vendors: {
-    endpoint: 'eholdings/vendors',
-    defaults: defaultSearchParams
-  },
-  packages: {
-    endpoint: 'eholdings/packages',
-    defaults: defaultSearchParams,
-    recordsKey: 'packagesList'
-  },
-  titles: {
-    endpoint: 'eholdings/titles',
-    defaults: {
-      ...defaultSearchParams,
-      searchfield: 'titlename'
-    }
-  }
-};
 
 class SearchRoute extends Component {
   static propTypes = {
@@ -47,7 +20,7 @@ class SearchRoute extends Component {
     }).isRequired,
     match: PropTypes.shape({
       params: PropTypes.shape({
-        searchType: PropTypes.oneOf(Object.keys(searchTypes)).isRequired
+        searchType: PropTypes.oneOf(['vendors', 'packages', 'titles']).isRequired
       }).isRequired
     }).isRequired,
     search: PropTypes.shape({
@@ -55,7 +28,9 @@ class SearchRoute extends Component {
       packages: PropTypes.object.isRequired,
       titles: PropTypes.object.isRequired
     }).isRequired,
-    searchHoldings: PropTypes.func.isRequired,
+    searchVendors: PropTypes.func.isRequired,
+    searchPackages: PropTypes.func.isRequired,
+    searchTitles: PropTypes.func.isRequired,
     children: PropTypes.node.isRequired
   };
 
@@ -70,15 +45,16 @@ class SearchRoute extends Component {
       location,
       history,
       match: { params: { searchType }},
-      search: {[searchType]: { query:lastQuery, isLoading }},
-      searchHoldings
+      search: {[searchType]: { query:lastQuery, isLoading }}
     } = this.props;
 
     const searchQuery = queryString.stringify(query || lastQuery);
     const lastSearchQuery = queryString.stringify(lastQuery);
 
     if (!isLoading && searchQuery && searchQuery !== lastSearchQuery) {
-      searchHoldings(searchType, query, searchTypes[searchType]);
+      if (searchType === 'vendors') this.props.searchVendors(query);
+      if (searchType === 'packages') this.props.searchPackages(query);
+      if (searchType === 'titles') this.props.searchTitles(query);
     }
 
     // push or replace the current location if the search term has changed
@@ -133,5 +109,5 @@ class SearchRoute extends Component {
 
 export default connect(
   ({ eholdings: { search }}) => ({ search }),
-  { searchHoldings }
+  { searchVendors, searchPackages, searchTitles }
 )(SearchRoute);
