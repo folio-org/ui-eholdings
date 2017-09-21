@@ -36,7 +36,7 @@ function itOnly(name, assertion) {
     it.immediately.only(name, _convergeOn(assertion));
 }
 
-function itStill(name, assertion, time = 200) {
+function itStill(name, assertion, time = 50) {
   return !assertion ? it.immediately(name) :
     it.immediately(name, _convergeOn(assertion, true, time));
 }
