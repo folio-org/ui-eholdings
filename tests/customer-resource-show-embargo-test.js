@@ -52,11 +52,11 @@ describeApplication('CustomerResourceShowEmbargos', function() {
       });
     });
 
-    it('does not display the managed embargo section', function() {
+    it.still('does not display the managed embargo section', function() {
       expect(CustomerResourceShowPage.managedEmbargoPeriod).to.equal('');
     });
 
-    it('does not display the custom embargo section', function() {
+    it.still('does not display the custom embargo section', function() {
       expect(CustomerResourceShowPage.customEmbargoPeriod).to.equal('');
     });
   });

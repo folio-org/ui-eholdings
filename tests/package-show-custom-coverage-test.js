@@ -51,7 +51,7 @@ describeApplication('PackageShowCustomCoverage', function() {
       });
     });
 
-    it('does not display the custom coverage section', function() {
+    it.still('does not display the custom coverage section', function() {
       expect(PackageShowPage.customCoverage).to.equal('');
     });
   });
