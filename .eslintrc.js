@@ -9,7 +9,7 @@ module.exports = {
       experimentalObjectRestSpread: true
     }
   },
-  extends: ['eslint:recommended', 'plugin:react/recommended'],
+  extends: ['stripes'],
   env: {
     browser: true
   },
@@ -18,7 +18,13 @@ module.exports = {
     Promise: true
   },
   rules: {
+    "comma-dangle": "off",
+    "import/no-extraneous-dependencies": "off",
     "jsx-quotes": "off",
-    "no-console": "warn"
+    "no-console": "warn",
+    "no-else-return": "off",
+    "no-nested-ternary": "off",
+    "prefer-const": "off",
+    "react/forbid-prop-types": "off"
   }
 };
