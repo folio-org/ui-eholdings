@@ -26,10 +26,10 @@ export { Switch, Redirect } from 'react-router-dom';
  * will take all of the children of the top level `Route` component,
  * and pass them as the children of the `ParentRoute` component.
  */
-export function Route({component: Component, children, ...props}) {
+export function Route({ component: Component, children, ...props }) {
   if (Component) {
     return (
-      <RouterRoute {...props} render={(props) => (<Component {...props}>{children}</Component>)} />
+      <RouterRoute {...props} render={props => (<Component {...props}>{children}</Component>)} /> // eslint-disable-line no-shadow
     );
   } else {
     return (<RouterRoute {...props}>{children}</RouterRoute>);

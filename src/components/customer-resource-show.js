@@ -70,7 +70,7 @@ export default function CustomerResourceShow({ customerResource, toggleRequest, 
               {record.subjectsList && record.subjectsList.length > 0 && (
                 <KeyValueLabel label="Subjects">
                   <div data-test-eholdings-customer-resource-show-subjects-list>
-                    {record.subjectsList.map((subjectObj) => subjectObj.subject).join('; ')}
+                    {record.subjectsList.map(subjectObj => subjectObj.subject).join('; ')}
                   </div>
                 </KeyValueLabel>
               ) }
@@ -103,7 +103,7 @@ export default function CustomerResourceShow({ customerResource, toggleRequest, 
                 </div>
               </KeyValueLabel>
 
-              <hr/>
+              <hr />
 
               {record.visibilityData.isHidden && (
                 <div data-test-eholdings-customer-resource-show-is-hidden>

@@ -17,7 +17,7 @@ export const toggleIsSelected = createRequestCreator(
 
 // customer-resource reducer
 export const customerResourceReducer = combineReducers({
-  record:  createRequestReducer({
+  record: createRequestReducer({
     name: 'customer-resource',
     initialContent: {},
     handleRequests: {

@@ -10,10 +10,10 @@ export default function TitleListItem({ item, link, showSelected }) {
         <h5 data-test-eholdings-title-list-item-title-name>
           {item.titleName}
         </h5>
-        { /* assumes that customerResourcesList.length will always equal one if showSelected === true */  }
+        { /* assumes that customerResourcesList.length will always equal one if showSelected === true */ }
         {showSelected && (
           <span data-test-eholdings-title-list-item-title-selected>
-              {item.customerResourcesList[0].isSelected ? 'Selected' : 'Not Selected'}
+            {item.customerResourcesList[0].isSelected ? 'Selected' : 'Not Selected'}
           </span>
         )}
       </Link>

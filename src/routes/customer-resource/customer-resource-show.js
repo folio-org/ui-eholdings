@@ -30,7 +30,9 @@ class CustomerResourceShowRoute extends Component {
     let { isSelected } = this.props.customerResource.content;
 
     this.props.toggleIsSelected({
-      vendorId, packageId, titleId,
+      vendorId,
+      packageId,
+      titleId,
       isSelected: !isSelected
     });
   };
@@ -47,7 +49,7 @@ class CustomerResourceShowRoute extends Component {
 }
 
 export default connect(
-  ({ eholdings: { customerResource }}) => ({
+  ({ eholdings: { customerResource } }) => ({
     customerResource: customerResource.record,
     toggleRequest: customerResource.toggle
   }), {

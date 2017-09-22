@@ -52,8 +52,8 @@ class SearchRoute extends Component {
   componentWillReceiveProps(nextProps) {
     const {
       location,
-      match: { params: { searchType }},
-      search: {[searchType]: { content, isPending }}
+      match: { params: { searchType } },
+      search: { [searchType]: { content, isPending } }
     } = nextProps;
 
     // if the search query is empty, reset results
@@ -64,7 +64,7 @@ class SearchRoute extends Component {
         if (searchType === 'vendors') this.props.clearVendors();
         if (searchType === 'packages') this.props.clearPackages();
         if (searchType === 'titles') this.props.clearTitles();
-      } else if (pathQuery.search){
+      } else if (pathQuery.search) {
         this.performSearch(pathQuery);
       }
     }
@@ -74,8 +74,8 @@ class SearchRoute extends Component {
     const {
       location,
       history,
-      match: { params: { searchType }},
-      search: {[searchType]: { query:lastQuery, isPending }}
+      match: { params: { searchType } },
+      search: { [searchType]: { query: lastQuery, isPending } }
     } = this.props;
 
     const searchQuery = queryString.stringify(query || lastQuery);
@@ -100,19 +100,20 @@ class SearchRoute extends Component {
 
   handleSearch = (search) => {
     const {
-      match: { params: { searchType }},
-      search: {[searchType]: { query }}
+      match: { params: { searchType } },
+      search: { [searchType]: { query } }
     } = this.props;
 
     this.performSearch({ ...query, search });
   };
 
   render() {
-    const { match: { params: { searchType }}, search } = this.props;
-    const {[searchType]: { query, isResolved, isPending, isRejected }} = search;
+    const { match: { params: { searchType } }, search } = this.props;
+    const { [searchType]: { query, isResolved, isPending, isRejected } } = search;
 
     const searchTypeLocations = Object.keys(search).reduce((locations, type) => ({
-      ...locations, [type]: {
+      ...locations,
+      [type]: {
         pathname: `/eholdings/search/${type}`,
         search: queryString.stringify(search[type].query)
       }
@@ -126,11 +127,13 @@ class SearchRoute extends Component {
           resultsType={searchType}
           searchForm={(
             <SearchForm
-            searchType={searchType}
-            searchString={query.search}
-            searchTypeLocations={searchTypeLocations}
-            onSearch={this.handleSearch}/>
-          )}>
+              searchType={searchType}
+              searchString={query.search}
+              searchTypeLocations={searchTypeLocations}
+              onSearch={this.handleSearch}
+            />
+          )}
+        >
           {this.props.children}
         </SearchPaneset>
       </div>
@@ -139,7 +142,7 @@ class SearchRoute extends Component {
 }
 
 export default connect(
-  ({ eholdings: { search }}) => ({ search }),
+  ({ eholdings: { search } }) => ({ search }),
   {
     searchVendors,
     searchPackages,

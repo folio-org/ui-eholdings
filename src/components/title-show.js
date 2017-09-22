@@ -44,7 +44,7 @@ export default function TitleShow({ title }) {
               {record.subjectsList.length > 0 && (
                 <KeyValueLabel label="Subjects">
                   <div data-test-eholdings-title-show-subjects-list>
-                    {record.subjectsList.map((subjectObj) => subjectObj.subject).join('; ')}
+                    {record.subjectsList.map(subjectObj => subjectObj.subject).join('; ')}
                   </div>
                 </KeyValueLabel>
               ) }
@@ -56,8 +56,8 @@ export default function TitleShow({ title }) {
                   <PackageListItem
                     key={item.packageId}
                     item={item}
-                    link={`/eholdings/vendors/${item.vendorId}/packages/${item.packageId}/titles/${record.titleId}`}>
-                  </PackageListItem>
+                    link={`/eholdings/vendors/${item.vendorId}/packages/${item.packageId}/titles/${record.titleId}`}
+                  />
                 ))}
               </List>
             </div>

@@ -25,11 +25,12 @@ function TitleSearchResults({
     </p>
   ) : (
     <List data-test-title-search-results-list>
-      {content.map((title) => (
+      {content.map(title => (
         <TitleListItem
-            key={title.titleId}
-            link={`/eholdings/titles/${title.titleId}`}
-            item={title}/>
+          key={title.titleId}
+          link={`/eholdings/titles/${title.titleId}`}
+          item={title}
+        />
       ))}
     </List>
   );
@@ -50,5 +51,5 @@ TitleSearchResults.propTypes = {
 };
 
 export default connect(
-  ({ eholdings: { search }}) => ({ ...search.titles })
+  ({ eholdings: { search } }) => ({ ...search.titles })
 )(TitleSearchResults);

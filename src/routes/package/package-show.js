@@ -28,8 +28,9 @@ class PackageShowRoute extends Component {
   render() {
     return (
       <View
-          vendorPackage={this.props.showPackage}
-          packageTitles={this.props.showPackageTitles}/>
+        vendorPackage={this.props.showPackage}
+        packageTitles={this.props.showPackageTitles}
+      />
     );
   }
 }

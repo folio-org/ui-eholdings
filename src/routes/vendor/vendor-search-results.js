@@ -25,11 +25,12 @@ function VendorSearchResultsRoute({
     </p>
   ) : (
     <List data-test-vendor-search-results-list>
-      {content.map((vendor) => (
+      {content.map(vendor => (
         <VendorListItem
-            key={vendor.vendorId}
-            item={vendor}
-            link={`/eholdings/vendors/${vendor.vendorId}`}/>
+          key={vendor.vendorId}
+          item={vendor}
+          link={`/eholdings/vendors/${vendor.vendorId}`}
+        />
       ))}
     </List>
   );
@@ -50,5 +51,5 @@ VendorSearchResultsRoute.propTypes = {
 };
 
 export default connect(
-  ({ eholdings: { search }}) => ({ ...search.vendors })
+  ({ eholdings: { search } }) => ({ ...search.vendors })
 )(VendorSearchResultsRoute);

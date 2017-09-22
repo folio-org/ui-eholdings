@@ -153,7 +153,7 @@ export function createRequestReducer({
     error: null
   };
 
-  initialState = {
+  initialState = { // eslint-disable-line no-param-reassign
     ...defaultState,
     ...initialState
   };
@@ -161,7 +161,7 @@ export function createRequestReducer({
   let reducer = reduxHandleActions({
     ...handleActions,
 
-    [REQUEST_MAKE]: (state) => ({
+    [REQUEST_MAKE]: state => ({
       ...state,
       ...defaultState,
       isPending: true
@@ -178,7 +178,7 @@ export function createRequestReducer({
       isRejected: true,
       error
     }),
-    [REQUEST_CLEAR]: (state) => ({
+    [REQUEST_CLEAR]: state => ({
       ...state,
       ...defaultState
     })
@@ -191,15 +191,26 @@ export function createRequestReducer({
 
     if (isRequest && handleRequests[action.name]) {
       return handleRequests[action.name](state, action);
-
     } else if (isThisRequest || (!middle && handleActions[action.type])) {
-      if (middle) state = middle(state, action);
+      if (middle) state = middle(state, action); // eslint-disable-line no-param-reassign
       return reducer(state, action);
-
     } else {
       return state;
     }
   };
+}
+
+/**
+ * Sometimes the response from the server (or mirage) does not include a
+ * body (null). This causes `response.json()` to error with something like
+ * "unexpected end of input". This workaround uses `response.text()` and
+ * when there are any errors parsing it using `JSON.parse`, the text is
+ * returned instead.
+ */
+function parseResponseBody(response) {
+  return response.text().then((text) => {
+    try { return JSON.parse(text); } catch (e) { return text; }
+  });
 }
 
 /**
@@ -246,16 +257,17 @@ export function createRequestEpic({
   name,
   endpoint = '',
   defaultParams = false,
-  deserialize = (i) => i,
-  serialize = (i) => i
+  deserialize = i => i,
+  serialize = i => i
 }) {
   return (action$, { getState }) => (
     action$.ofType(REQUEST_MAKE)
-      .filter((action) => action.name === name)
+      .filter(action => action.name === name)
       .switchMap(({ data = {}, options = {} }) => {
         let { okapi } = getState();
         let { method = 'GET' } = options;
-        let body, headers = { 'X-Okapi-Tenant': okapi.tenant };
+        let body;
+        let headers = { 'X-Okapi-Tenant': okapi.tenant };
         let url = endpoint;
 
         // endpoint url
@@ -291,24 +303,12 @@ export function createRequestEpic({
 
         // request which rejects when not OK
         let request = fetch(url, { headers, method, body })
-            .then((response) => Promise.all([response.ok, parseResponseBody(response)]))
-            .then(([ok, body]) => ok ? body : Promise.reject(body));
+          .then(response => Promise.all([response.ok, parseResponseBody(response)]))
+          .then(([ok, body]) => (ok ? body : Promise.reject(body))); // eslint-disable-line no-shadow
 
         return Observable.from(request)
-          .map((payload) => resolveRequest(name, deserialize(payload)))
-          .catch((error) => Observable.of(rejectRequest(name, error)));
+          .map(payload => resolveRequest(name, deserialize(payload)))
+          .catch(error => Observable.of(rejectRequest(name, error)));
       })
   );
-}
-
-// Sometimes the response from the server (or mirage) does not include a
-// body (null). This causes `response.json()` to error with something like
-// "unexpected end of input". This workaround uses `response.text()` and
-// when there are any errors parsing it using `JSON.parse`, the text is
-// returned instead.
-function parseResponseBody(response) {
-  return response.text().then((text) => {
-    try { return JSON.parse(text); }
-    catch (e) { return text; }
-  });
 }
