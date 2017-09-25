@@ -14,16 +14,16 @@ export default function ContributorsList({ data }) {
     <div>
       {Object.keys(contributorsByType).map((key) => {
         let names = contributorsByType[key];
-        let capitaliedKey = capitalize(key);
+        let capitalizedKey = capitalize(key);
 
         // would be better with a pluralization tool
         if (names.length > 1) {
-          capitaliedKey = `${capitaliedKey}s`;
+          capitalizedKey = `${capitalizedKey}s`;
         }
 
         return (
           <div key={key} data-test-eholdings-contributors-list-item>
-            <KeyValueLabel label={capitaliedKey}>
+            <KeyValueLabel label={capitalizedKey}>
               {names.join('; ')}
             </KeyValueLabel>
           </div>
