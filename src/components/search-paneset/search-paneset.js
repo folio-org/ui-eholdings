@@ -43,8 +43,10 @@ export default class SearchPaneset extends React.Component {
         <SearchPaneVignette isHidden={this.state.hideFilters} onClick={this.toggleFilters} />
         <SearchPane isHidden={this.state.hideFilters}>
           <PaneHeader
-            lastMenu={hasResults && (
+            lastMenu={hasResults ? (
               <PaneMenu><button onClick={this.toggleFilters} className={styles['search-pane-toggle']}>Apply</button></PaneMenu>
+            ) : (
+              <span></span>
             )}
           />
           <div className={styles['scrollable-container']}>
