@@ -11,6 +11,7 @@ import 'rxjs/add/operator/catch';
 export const REQUEST_MAKE = '@@ui-eholdings/REQUEST_MAKE';
 export const REQUEST_RESOLVE = '@@ui-eholdings/REQUEST_RESOLVE';
 export const REQUEST_REJECT = '@@ui-eholdings/REQUEST_REJECT';
+export const REQUEST_CLEAR = '@@ui-eholdings/REQUEST_CLEAR';
 
 /**
  * Creates an action creator to start a request for a specific named epic
@@ -32,6 +33,13 @@ export function createRequestCreator(name, options = {}) {
     name,
     options,
     data
+  });
+}
+
+export function createClearRequestCreator(name) {
+  return () => ({
+    type: REQUEST_CLEAR,
+    name
   });
 }
 
@@ -169,6 +177,10 @@ export function createRequestReducer({
       isPending: false,
       isRejected: true,
       error
+    }),
+    [REQUEST_CLEAR]: (state) => ({
+      ...state,
+      ...defaultState
     })
   }, initialState);
 

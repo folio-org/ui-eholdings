@@ -3,6 +3,7 @@ import { combineEpics } from 'redux-observable';
 import {
   REQUEST_MAKE,
   createRequestCreator,
+  createClearRequestCreator,
   createRequestReducer,
   createRequestEpic
 } from './request';
@@ -11,6 +12,9 @@ import {
 export const searchVendors = createRequestCreator('vendors-search');
 export const searchPackages = createRequestCreator('packages-search');
 export const searchTitles = createRequestCreator('titles-search');
+export const clearVendors = createClearRequestCreator('vendors-search');
+export const clearPackages = createClearRequestCreator('packages-search');
+export const clearTitles = createClearRequestCreator('titles-search');
 
 // search specific reducer creator
 function createSearchReducer(name) {
