@@ -40,7 +40,9 @@ export default class SearchPaneset extends React.Component {
 
     return (
       <div className={styles['search-paneset']}>
-        <SearchPaneVignette isHidden={this.state.hideFilters} onClick={this.toggleFilters} />
+        {hasResults && (
+          <SearchPaneVignette isHidden={this.state.hideFilters} onClick={this.toggleFilters} />
+        )}
         <SearchPane isHidden={this.state.hideFilters}>
           <PaneHeader
             lastMenu={hasResults ? (
