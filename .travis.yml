@@ -15,7 +15,7 @@ cache:
   yarn: true
 script:
   - yarn lint
-  - yarn test -- --single-run
+  - yarn test --single-run
 before_deploy:
   - environment=production yarn build
 deploy:
