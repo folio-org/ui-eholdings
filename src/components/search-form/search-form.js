@@ -58,7 +58,7 @@ export default class SearchForm extends Component {
               type="search"
               name="search"
               value={searchString}
-              placeholder={`Search for ${searchType}`}
+              placeholder={`Search for ${searchType}...`}
               onChange={this.handleChangeSearch}
               data-test-search-field />
           <button

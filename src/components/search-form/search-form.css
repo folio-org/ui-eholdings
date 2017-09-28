@@ -1,52 +1,80 @@
 @import '@folio/stripes-core/src/components/variables';
 
 .search-form-container {
-  margin: 1em 0 0.5em 0;
-  width: 100%;
+  padding: 1em;
 }
 
 .search-switcher {
-  float: left;
-  margin: 0 1em;
+  display: block;
+  margin: 0 auto 1em auto;
+  position: relative;
+  vertical-align: middle;
+  width: 100%;
 
   & a {
-    display: inline-block;
     border: 1px solid var(--primary);
-    border-width: 1px 1px 1px 0;
+    border-radius: 0.4em;
+    display: inline-block;
+    flex: 0 1 auto;
     padding: 0.36em 0.57em;
+    position: relative;
+    text-align: center;
+    user-select: none;
     text-decoration: none;
-    line-height: 1;
+    vertical-align: middle;
+    white-space: nowrap;
+    width: calc(100% / 3);
 
     &:first-child {
-      border-left-width: 1px;
-      border-radius: 0.4em 0 0 0.4em;
+      margin-left: 0;
+
+      &:not(:last-child) {
+        border-top-right-radius: 0;
+        border-bottom-right-radius: 0;
+      }
     }
 
-    &:last-child {
-      border-radius: 0 0.4em 0.4em 0;
+    &:last-child:not(:first-child) {
+      border-top-left-radius: 0;
+      border-bottom-left-radius: 0;
     }
 
     &.is-active {
       background-color: var(--primary);
       color: #fff;
     }
+
+    &:not(:first-child):not(:last-child) {
+      border-radius: 0;
+    }
+  }
+
+  & a + a {
+    margin-left: -1px;
   }
 }
 
 .search-input {
-  height: var(--controlHeight);
-  min-height: var(--controlHeight);
-  margin-bottom: var(--controlMarginBottom);
-  padding: 4px;
-  border: 1px solid var(--inputBorderColor);
+  box-sizing: border-box;
+  border: 2px solid #ccc;
+  border-radius: 2px;
+  font-size: 13px;
+  background-color: #fff;
+  background-position: 10px 10px;
+  background-repeat: no-repeat;
+  padding: 5px;
+  border-radius: 5px;
+  width: 100%;
 }
 
 .search-submit {
-  margin-left: 0.5em;
   background-color: var(--primary);
   border: 1px solid var(--primary);
   border-radius: 0.4em;
   color: #fff;
+  line-height: 2em;
+  margin-top: 1em;
+  width: 100%;
 
   &:hover{
     background-color: color(var(--primary) shade(8%));

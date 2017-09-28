@@ -1,0 +1,31 @@
+.search-pane {
+  background: #fff;
+  height: 100%;
+  left: 0;
+  position: absolute;
+  top: 0;
+  width: 100%;
+  z-index: 12;
+
+  &.is-hidden {
+    display: none;
+  }
+}
+
+@media(min-width: 641px){
+  .search-pane {
+    width: 320px;
+  }
+}
+
+@media(min-width: 961px){
+  .search-pane,
+  .search-pane.is-hidden {
+    border-right: 1px solid rgba(0,0,0,.2);
+    display: flex;
+    flex: 0 0 320px;
+    flex-flow: column nowrap;
+    overflow: hidden;
+    position: relative;
+  }
+}

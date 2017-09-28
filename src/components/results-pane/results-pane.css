@@ -1,0 +1,9 @@
+.results-pane {
+  display: flex;
+  flex: 1 0 0;
+  flex-flow: column nowrap;
+  height: 100%;
+  overflow: hidden;
+  position: relative;
+  z-index: 10;
+}
