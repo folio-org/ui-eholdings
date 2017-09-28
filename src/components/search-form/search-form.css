@@ -68,7 +68,17 @@
 }
 
 .search-submit {
-  display: none;
+  background-color: var(--primary);
+  border: 1px solid var(--primary);
+  border-radius: 0.4em;
+  color: #fff;
+  line-height: 2em;
+  margin-top: 1em;
+  width: 100%;
+
+  &:hover{
+    background-color: color(var(--primary) shade(8%));
+  }
 }
 
 .search-results-list {
