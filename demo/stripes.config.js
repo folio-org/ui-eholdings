@@ -9,5 +9,6 @@ module.exports = {
   },
   modules: {
     '@folio/eholdings': {},
+    '../demo': {}
   }
 };
