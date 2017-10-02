@@ -8,21 +8,21 @@ const webpackConfig = require('@folio/stripes-core/webpack.config.cli.dev');
 
 // This is not a separate platform, so we need to stub out our own
 // stripes config. Whenever code in the application, or in stripes
-// itself does `import 'stripes-loader'`, it will find our test
+// itself does `import 'stripes-config'`, it will find our test
 // config.
 //
 // Note that stripes has its own rules for handling the
-// `stripes-loader` package, so we have to remove its custom rule above.
-webpackConfig.resolve.alias['stripes-loader'] = path.resolve(__dirname, 'tests/stripes.config.js');
+// `stripes-config` package, so we have to remove its custom rule above.
+webpackConfig.resolve.alias['stripes-config'] = path.resolve(__dirname, 'tests/stripes.config.js');
 
-// The webpack config provided by stripes-core, contains the `stripes-loader` module which uses
+// The webpack config provided by stripes-core, contains the `stripes-config` module which uses
 // itself as a loader. We turn this off by finding the rule and
 // removing it from the webpack config, so that our own shim for the
-// `stripes-loader` module does not get overriden.
-// see `@folio/stripes-loader`
+// `stripes-config` module does not get overriden.
+// see `@folio/stripes-config`
 // see `@folio/stripes-core/webpack.config.base.js`
 webpackConfig.module.rules = webpackConfig.module.rules.filter(rule => {
-  return !rule.use || !rule.use.some(use => use.loader === '@folio/stripes-loader');
+  return !rule.use || !rule.use.some(use => use.loader === '@folio/stripes-config');
 });
 
 // make sure that the NODE_ENV is available in browser code.

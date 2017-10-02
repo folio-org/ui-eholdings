@@ -9,6 +9,5 @@ module.exports = {
   },
   modules: {
     '@folio/eholdings': {},
-    [path.dirname(__filename)]: {}
   }
 };

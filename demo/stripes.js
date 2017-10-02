@@ -1,8 +1,10 @@
+#!/usr/bin/env node
+
 const commander = require('commander');
 const webpack = require('webpack');
 const HardSourceWebpackPlugin = require('hard-source-webpack-plugin');
 const path = require('path');
-
+const StripesConfigPlugin = require('@folio/stripes-core/webpack/stripes-config-plugin');
 const devConfig = require('@folio/stripes-core/webpack.config.cli.dev');
 
 const stripesCorePath = path.dirname(require.resolve('@folio/stripes-core/index.html'));
@@ -24,6 +26,17 @@ const cachePlugin = new HardSourceWebpackPlugin({
   }
 });
 
+// Display webpack output to the console
+function processStats(err, stats) {
+  if (err) {
+    console.error(err);
+  }
+  console.log(stats.toString({
+    chunks: false,
+    colors: true
+  }));
+}
+
 commander
   .command('dev')
   .option('--port [port]', 'Port')
@@ -33,19 +46,16 @@ commander
   .option('--mirage', 'Use the mirage server to simulate the backend')
   .arguments('<config>')
   .description('Launch a webpack-dev-server')
-  .action(function (loaderConfigFile, options) {
+  .action(function (stripesConfigFile, options) {
     const express = require('express');
     const app = express();
 
     const config = Object.assign({}, devConfig);
-    const stripesLoaderConfig = require(path.resolve(loaderConfigFile));
+    const stripesConfig = require(path.resolve(stripesConfigFile));
+    config.plugins.push(new StripesConfigPlugin(stripesConfig));
     // Look for modules in node_modules, then the platform, then stripes-core
     config.resolve.modules = ['node_modules', cwdModules, coreModules];
     config.resolveLoader = { modules: ['node_modules', cwdModules, coreModules] };
-    config.plugins.push(new webpack.LoaderOptionsPlugin({
-      options: { stripesLoader: stripesLoaderConfig }
-    }));
-    config.plugins.push(new webpack.EnvironmentPlugin({ NODE_ENV: 'development' }));
     if (options.cache) config.plugins.push(cachePlugin);
     if (options.devtool) config.devtool = options.devtool;
 
@@ -92,20 +102,23 @@ commander
 
 commander
   .command('build')
+  .option('--publicPath [publicPath]', 'publicPath')
   .arguments('<config> <output>')
   .description('Build a tenant bundle')
-  .action(function (loaderConfigFile, outputPath) {
+  .action(function (stripesConfigFile, outputPath, options) {
     const config = require('@folio/stripes-core/webpack.config.cli.prod');
-    const stripesLoaderConfig = require(path.resolve(loaderConfigFile));
+    const stripesConfig = require(path.resolve(stripesConfigFile));
+    config.plugins.push(new StripesConfigPlugin(stripesConfig));
     config.resolve.modules = ['node_modules', cwdModules];
     config.resolveLoader = { modules: ['node_modules', cwdModules] };
-    config.plugins.push(new webpack.LoaderOptionsPlugin({
-      options: { stripesLoader: stripesLoaderConfig },
-    }));
-    config.plugins.push(new webpack.EnvironmentPlugin({ NODE_ENV: 'production' }));
     config.output.path = path.resolve(outputPath);
+    if (options.publicPath) {
+      config.output.publicPath = options.publicPath;
+    }
     const compiler = webpack(mirage(svgloader(config)));
-    compiler.run(function (err, stats) { });
+    compiler.run(function (err, stats) {
+      processStats(err, stats);
+    });
   });
 
 commander.parse(process.argv);

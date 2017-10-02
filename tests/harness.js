@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import startMirage from '../mirage';
 
 import createMemoryHistory from 'history/createMemoryHistory';
-import { okapi, config } from 'stripes-loader';
+import { okapi, config } from 'stripes-config';
 import configureEpics from '@folio/stripes-core/src/configureEpics';
 import configureLogger from '@folio/stripes-core/src/configureLogger';
 import configureStore from '@folio/stripes-core/src/configureStore';
