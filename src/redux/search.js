@@ -18,10 +18,8 @@ export const clearTitles = createClearRequestCreator('titles-search');
 
 // search specific reducer creator
 function createSearchReducer(name) {
-  name = `${name}-search`;
-
   return createRequestReducer({
-    name,
+    name: `${name}-search`,
     initialContent: [],
     initialState: {
       query: {}
@@ -50,7 +48,7 @@ function createSearchEpic(name, {
   return createRequestEpic({
     name: `${name}-search`,
     endpoint: `eholdings/${name}`,
-    deserialize: (payload) => payload ? payload[recordsKey] || [] : [],
+    deserialize: payload => (payload ? payload[recordsKey] || [] : []),
     defaultParams: {
       search: '',
       count: 25,
@@ -65,5 +63,5 @@ function createSearchEpic(name, {
 export const searchEpic = combineEpics(
   createSearchEpic('vendors'),
   createSearchEpic('packages', { recordsKey: 'packagesList' }),
-  createSearchEpic('titles', { defaultParams: { searchfield: 'titlename' }})
+  createSearchEpic('titles', { defaultParams: { searchfield: 'titlename' } })
 );

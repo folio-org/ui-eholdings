@@ -15,26 +15,24 @@ export default function IdentifiersList({ data }) {
   };
 
   // get rid of identifiers we received that aren't ISSN or ISBN
-  let filteredData = data.filter((identifier) => {
-    return (identifier.type === 0 ||  identifier.type === 1) && (identifier.type >= 0 ||  identifier.type <= 2);
-  })
+  let filteredData = data.filter(identifier => (identifier.type === 0 || identifier.type === 1) && (identifier.type >= 0 || identifier.type <= 2));
 
   // turn type and subtype ids into strings
   let identifiersWithCompoundTypes = filteredData.map((identifier) => {
     let compoundType = types[identifier.type];
 
-    if(identifier.subtype > 0) {
+    if (identifier.subtype > 0) {
       compoundType = `${compoundType} (${subtypes[identifier.subtype]})`;
     }
 
     return {
       id: identifier.id,
       compoundType
-    }
+    };
   });
 
   // group by type/subtype combination
-  let identifiersByType = identifiersWithCompoundTypes.reduce(function (byType, identifier) {
+  let identifiersByType = identifiersWithCompoundTypes.reduce((byType, identifier) => {
     let key = identifier.compoundType;
     byType[key] = byType[key] || [];
     byType[key].push(identifier.id);
@@ -43,15 +41,13 @@ export default function IdentifiersList({ data }) {
 
   return (
     <div>
-      {Object.keys(identifiersByType).map((key) => {
-        return (
-          <div key={key} data-test-eholdings-identifiers-list-item>
-            <KeyValueLabel label={key}>
-              {identifiersByType[key].join(' ')}
-            </KeyValueLabel>
-          </div>
-        );
-      })}
+      {Object.keys(identifiersByType).map(key => (
+        <div key={key} data-test-eholdings-identifiers-list-item>
+          <KeyValueLabel label={key}>
+            {identifiersByType[key].join(' ')}
+          </KeyValueLabel>
+        </div>
+      ))}
     </div>
   );
 }

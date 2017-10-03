@@ -11,8 +11,8 @@ import TitleListItem from './title-list-item';
 export default function PackageShow({ vendorPackage, packageTitles }, { intl }) {
   let packageRecord = vendorPackage.content;
 
-  let formatISODateWithoutTime = function(dateString) {
-    let [year, month, day]= dateString.split('-');
+  let formatISODateWithoutTime = (dateString) => {
+    let [year, month, day] = dateString.split('-');
     let dateObj = new Date();
     dateObj.setFullYear(year);
     dateObj.setMonth(parseInt(month, 10) - 1);
@@ -95,7 +95,8 @@ export default function PackageShow({ vendorPackage, packageTitles }, { intl }) 
                         key={item.titleId}
                         item={item}
                         link={`/eholdings/vendors/${packageRecord.vendorId}/packages/${packageRecord.packageId}/titles/${item.titleId}`}
-                        showSelected/>
+                        showSelected
+                      />
                     ))}
                   </List>
                 </div>

@@ -27,14 +27,15 @@ class VendorShowRoute extends Component {
   render() {
     return (
       <View
-          vendor={this.props.vendor}
-          vendorPackages={this.props.vendorPackages}/>
+        vendor={this.props.vendor}
+        vendorPackages={this.props.vendorPackages}
+      />
     );
   }
 }
 
 export default connect(
-  ({ eholdings: { vendor }}) => ({
+  ({ eholdings: { vendor } }) => ({
     vendor: vendor.record,
     vendorPackages: vendor.packages
   }), {

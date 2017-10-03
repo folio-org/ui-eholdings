@@ -48,7 +48,7 @@ export default class SearchPaneset extends React.Component {
             lastMenu={hasResults ? (
               <PaneMenu><button onClick={this.toggleFilters} className={styles['search-pane-toggle']}>Apply</button></PaneMenu>
             ) : (
-              <span></span>
+              <span />
             )}
           />
           <div className={styles['scrollable-container']}>

@@ -47,19 +47,19 @@ export default class EHoldings extends Component {
   render() {
     const rootPath = this.props.match.path;
 
-    return(
+    return (
       <Switch>
         <Route path={`${rootPath}/search/:searchType(vendors|packages|titles)`} component={SearchRoute}>
-          <Route path={`${rootPath}/search/vendors`} exact component={VendorSearchResultsRoute}/>
-          <Route path={`${rootPath}/search/packages`} exact component={PackageSearchResultsRoute}/>
-          <Route path={`${rootPath}/search/titles`} exact component={TitleSearchResultsRoute}/>
+          <Route path={`${rootPath}/search/vendors`} exact component={VendorSearchResultsRoute} />
+          <Route path={`${rootPath}/search/packages`} exact component={PackageSearchResultsRoute} />
+          <Route path={`${rootPath}/search/titles`} exact component={TitleSearchResultsRoute} />
         </Route>
 
-        <Route path={`${rootPath}/vendors/:vendorId`} exact component={VendorShow}/>
-        <Route path={`${rootPath}/vendors/:vendorId/packages/:packageId`} exact component={PackageShow}/>
-        <Route path={`${rootPath}/vendors/:vendorId/packages/:packageId/titles/:titleId`} exact component={CustomerResourceShow}/>
-        <Route path={`${rootPath}/titles/:titleId`} exact component={TitleShow}/>
-        <Route render={() => (<Redirect to={`${rootPath}/search/vendors`}/>)}/>
+        <Route path={`${rootPath}/vendors/:vendorId`} exact component={VendorShow} />
+        <Route path={`${rootPath}/vendors/:vendorId/packages/:packageId`} exact component={PackageShow} />
+        <Route path={`${rootPath}/vendors/:vendorId/packages/:packageId/titles/:titleId`} exact component={CustomerResourceShow} />
+        <Route path={`${rootPath}/titles/:titleId`} exact component={TitleShow} />
+        <Route render={() => (<Redirect to={`${rootPath}/search/vendors`} />)} />
       </Switch>
     );
   }

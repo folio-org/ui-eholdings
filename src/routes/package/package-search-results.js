@@ -25,11 +25,12 @@ function PackageSearchResults({
     </p>
   ) : (
     <List data-test-package-search-results-list>
-      {content.map((pkg) => (
+      {content.map(pkg => (
         <PackageListItem
-            key={pkg.packageId}
-            link={`/eholdings/vendors/${pkg.vendorId}/packages/${pkg.packageId}`}
-            item={pkg}/>
+          key={pkg.packageId}
+          link={`/eholdings/vendors/${pkg.vendorId}/packages/${pkg.packageId}`}
+          item={pkg}
+        />
       ))}
     </List>
   );
@@ -50,5 +51,5 @@ PackageSearchResults.propTypes = {
 };
 
 export default connect(
-  ({ eholdings: { search }}) => ({ ...search.packages })
+  ({ eholdings: { search } }) => ({ ...search.packages })
 )(PackageSearchResults);

@@ -7,7 +7,7 @@ export default function KeyValueLabel(props) {
     <div className={styles['kv-root']}>
       <div className={styles['kv-label']}>{props.label}</div>
       <div className={styles['kv-value']}>
-        {props.children}
+        {props.value || props.children}
       </div>
     </div>
   );

@@ -23,12 +23,12 @@ class TitleShowRoute extends Component {
 
   render() {
     return (
-      <View title={this.props.title}/>
+      <View title={this.props.title} />
     );
   }
 }
 
 export default connect(
-  ({ eholdings: { title }}) => ({ title }),
+  ({ eholdings: { title } }) => ({ title }),
   { getTitle }
 )(TitleShowRoute);

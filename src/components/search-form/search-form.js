@@ -42,30 +42,33 @@ export default class SearchForm extends Component {
     return (
       <div className={styles['search-form-container']}>
         <div className={styles['search-switcher']}>
-          {Object.keys(searchTypeLocations).map((type) => (
+          {Object.keys(searchTypeLocations).map(type => (
             <NavLink
-                key={type}
-                title={`search ${type}`}
-                to={searchTypeLocations[type]}
-                activeClassName={styles['is-active']}>
+              key={type}
+              title={`search ${type}`}
+              to={searchTypeLocations[type]}
+              activeClassName={styles['is-active']}
+            >
               {capitalize(type)}
             </NavLink>
           ))}
         </div>
         <form onSubmit={this.handleSearchSubmit}>
           <input
-              className={styles['search-input']}
-              type="search"
-              name="search"
-              value={searchString}
-              placeholder={`Search for ${searchType}...`}
-              onChange={this.handleChangeSearch}
-              data-test-search-field />
+            className={styles['search-input']}
+            type="search"
+            name="search"
+            value={searchString}
+            placeholder={`Search for ${searchType}...`}
+            onChange={this.handleChangeSearch}
+            data-test-search-field
+          />
           <button
-              className={styles['search-submit']}
-              type="submit"
-              disabled={!searchString}
-              data-test-search-submit>
+            className={styles['search-submit']}
+            type="submit"
+            disabled={!searchString}
+            data-test-search-submit
+          >
             Search
           </button>
         </form>

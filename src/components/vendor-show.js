@@ -41,12 +41,13 @@ export default function VendorShow({ vendor, vendorPackages }) {
                 <div>
                   <h3>Packages</h3>
                   <List>
-                    {vendorPackages.content.map((pkg) => (
+                    {vendorPackages.content.map(pkg => (
                       <PackageListItem
-                          key={pkg.packageId}
-                          link={`/eholdings/vendors/${pkg.vendorId}/packages/${pkg.packageId}`}
-                          showTitleCount
-                          item={pkg}/>
+                        key={pkg.packageId}
+                        link={`/eholdings/vendors/${pkg.vendorId}/packages/${pkg.packageId}`}
+                        showTitleCount
+                        item={pkg}
+                      />
                     ))}
                   </List>
                 </div>
