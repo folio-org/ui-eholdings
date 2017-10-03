@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import Paneset from '@folio/stripes-components/lib/Paneset';
 import Pane from '@folio/stripes-components/lib/Pane';
+import Icon from '@folio/stripes-components/lib/Icon';
 import KeyValueLabel from './key-value-label';
 import IdentifiersList from './identifiers-list';
 import ContributorsList from './contributors-list';
@@ -124,7 +125,7 @@ export default function CustomerResourceShow({ customerResource, toggleRequest, 
               {customerResource.error.length ? customerResource.error[0].message : customerResource.error.message}
             </p>
           ) : (
-            <p>Loading...</p>
+            <Icon icon='spinner-ellipsis' />
           )}
         </Pane>
       </Paneset>

@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import Paneset from '@folio/stripes-components/lib/Paneset';
 import Pane from '@folio/stripes-components/lib/Pane';
+import Icon from '@folio/stripes-components/lib/Icon';
 import KeyValueLabel from './key-value-label';
 import List from './list';
 import TitleListItem from './title-list-item';
@@ -111,7 +112,7 @@ export default function PackageShow({ vendorPackage, packageTitles }, { intl }) 
               {vendorPackage.error.length ? vendorPackage.error[0].message : vendorPackage.error.message}
             </p>
           ) : (
-            <p>Loading...</p>
+            <Icon icon='spinner-ellipsis' />
           )}
         </Pane>
       </Paneset>

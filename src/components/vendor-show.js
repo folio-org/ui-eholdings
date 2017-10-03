@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 
 import Paneset from '@folio/stripes-components/lib/Paneset';
 import Pane from '@folio/stripes-components/lib/Pane';
+import Icon from '@folio/stripes-components/lib/Icon';
 import KeyValueLabel from './key-value-label';
 import List from './list';
 import PackageListItem from './package-list-item';
@@ -62,7 +63,7 @@ export default function VendorShow({ vendor, vendorPackages }) {
               {vendor.error.length ? vendor.error[0].message : vendor.error.message}
             </p>
           ) : (
-            <p>Loading...</p>
+            <Icon icon='spinner-ellipsis' />
           )}
         </Pane>
       </Paneset>
