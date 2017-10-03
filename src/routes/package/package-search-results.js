@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import Icon from '@folio/stripes-components/lib/Icon';
 
 import List from '../../components/list';
 import PackageListItem from '../../components/package-list-item';
@@ -14,7 +15,7 @@ function PackageSearchResults({
   error
 }) {
   return isPending ? (
-    <p>...loading</p>
+    <Icon icon='spinner-ellipsis' />
   ) : isRejected ? (
     <p data-test-package-search-error-message>
       {error.length ? error[0].message : error.message}
