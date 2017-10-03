@@ -1,4 +1,4 @@
-import { okapi } from 'stripes-loader';
+import { okapi } from 'stripes-config';
 import { Response } from 'mirage-server';
 
 export default function () {
