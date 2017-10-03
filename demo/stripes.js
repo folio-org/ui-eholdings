@@ -1,4 +1,7 @@
 #!/usr/bin/env node
+/* eslint-disable global-require */
+/* eslint-disable import/no-dynamic-require */
+/* eslint-disable no-console */
 
 const commander = require('commander');
 const webpack = require('webpack');
@@ -13,12 +16,13 @@ const cwdModules = path.join(cwd, 'node_modules');
 const coreModules = path.join(stripesCorePath, 'node_modules');
 
 const packageJSON = require('@folio/stripes-core/package.json');
+
 commander.version(packageJSON.version);
 
 const cachePlugin = new HardSourceWebpackPlugin({
   cacheDirectory: path.join(cwd, 'webpackcache'),
   recordsPath: path.join(cwd, 'webpackcache/records.json'),
-  configHash: function(webpackConfig) {
+  configHash() {
     // Build a string value used by HardSource to determine which cache to
     // use if [confighash] is in cacheDirectory or if the cache should be
     // replaced if [confighash] does not appear in cacheDirectory.
@@ -37,6 +41,45 @@ function processStats(err, stats) {
   }));
 }
 
+function mirage(config, enabled = false) {
+  if (enabled) {
+    console.info('Using Mirage Server');
+    return Object.assign({}, config, {
+      entry: ['./demo/boot-mirage'].concat(config.entry)
+    });
+  } else {
+    return config;
+  }
+}
+
+function svgloader(config) {
+  let module = config.module;
+  return Object.assign({}, config, {
+    module: Object.assign({}, module, {
+      loaders: [
+        {
+          test: /\.svg$/,
+          exclude: /node_modules/,
+          loader: 'svg-react-loader',
+          query: {
+            classIdPrefix: '[name]-[hash:8]__',
+            filters: [
+              (value) => { // eslint-disable-line no-unused-vars
+                this.update(newvalue); // eslint-disable-line no-undef
+              }
+            ],
+            propsMap: {
+              fillRule: 'fill-rule',
+              foo: 'bar'
+            },
+            xmlnsTest: /^xmlns.*$/
+          }
+        }
+      ]
+    })
+  });
+}
+
 commander
   .command('dev')
   .option('--port [port]', 'Port')
@@ -46,7 +89,7 @@ commander
   .option('--mirage', 'Use the mirage server to simulate the backend')
   .arguments('<config>')
   .description('Launch a webpack-dev-server')
-  .action(function (stripesConfigFile, options) {
+  .action((stripesConfigFile, options) => {
     const express = require('express');
     const app = express();
 
@@ -73,7 +116,7 @@ commander
     const port = options.port || process.env.STRIPES_PORT || 3000;
     const host = options.host || process.env.STRIPES_HOST || 'localhost';
 
-    app.use(express.static(stripesCorePath + '/public'));
+    app.use(express.static(`${stripesCorePath}/public`));
 
     app.use(require('webpack-dev-middleware')(compiler, {
       noInfo: true,
@@ -82,21 +125,21 @@ commander
 
     app.use(require('webpack-hot-middleware')(compiler));
 
-    app.get('/favicon.ico', function(req, res) {
+    app.get('/favicon.ico', (req, res) => {
       res.sendFile(path.join(stripesCorePath, 'favicon.ico'));
     });
 
-    app.get('*', function(req, res) {
+    app.get('*', (req, res) => {
       res.sendFile(path.join(stripesCorePath, 'index.html'));
     });
 
-    app.listen(port, host, function(err) {
+    app.listen(port, host, (err) => {
       if (err) {
         console.log(err);
         return;
       }
 
-      console.log('Listening at http://' + host + ':' + port);
+      console.log(`Listening at http://${host}:${port}`);
     });
   });
 
@@ -105,7 +148,7 @@ commander
   .option('--publicPath [publicPath]', 'publicPath')
   .arguments('<config> <output>')
   .description('Build a tenant bundle')
-  .action(function (stripesConfigFile, outputPath, options) {
+  .action((stripesConfigFile, outputPath, options) => {
     const config = require('@folio/stripes-core/webpack.config.cli.prod');
     const stripesConfig = require(path.resolve(stripesConfigFile));
     config.plugins.push(new StripesConfigPlugin(stripesConfig));
@@ -116,7 +159,7 @@ commander
       config.output.publicPath = options.publicPath;
     }
     const compiler = webpack(mirage(svgloader(config)));
-    compiler.run(function (err, stats) {
+    compiler.run((err, stats) => {
       processStats(err, stats);
     });
   });
@@ -126,44 +169,4 @@ commander.parse(process.argv);
 // output help if no command specified
 if (!process.argv.slice(2).length) {
   commander.outputHelp();
-}
-
-function mirage(config, enabled = false) {
-  if (enabled) {
-    console.info('Using Mirage Server');
-    return Object.assign({}, config, {
-      entry: ['./demo/boot-mirage'].concat(config.entry)
-    });
-  } else {
-    return config;
-  }
-}
-
-function svgloader(config) {
-  let module = config.module;
-  return Object.assign({}, config, {
-    module: Object.assign({}, module, {
-      loaders: [
-        {
-          test: /\.svg$/,
-          exclude: /node_modules/,
-          loader: 'svg-react-loader',
-          query: {
-            classIdPrefix: '[name]-[hash:8]__',
-            filters: [
-              function (value) {
-                // ...
-                this.update(newvalue);
-              }
-            ],
-            propsMap: {
-              fillRule: 'fill-rule',
-              foo: 'bar'
-            },
-            xmlnsTest: /^xmlns.*$/
-          }
-        }
-      ]
-    })
-  });
 }
