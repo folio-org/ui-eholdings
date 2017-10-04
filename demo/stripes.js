@@ -4,6 +4,7 @@ const commander = require('commander');
 const webpack = require('webpack');
 const HardSourceWebpackPlugin = require('hard-source-webpack-plugin');
 const path = require('path');
+const fs = require('fs');
 const nodeObjectHash = require('node-object-hash');
 const express = require('express');
 const webpackDevMiddleware = require('webpack-dev-middleware');
@@ -88,10 +89,20 @@ commander
   .option('--host [host]', 'Host')
   .option('--cache', 'Use HardSourceWebpackPlugin cache')
   .option('--devtool [devtool]', 'Use another value for devtool instead of "inline-source-map"')
-  .option('--mirage', 'Use the mirage server to simulate the backend')
+  .option('--mirage [scenario]', 'Use the mirage server to simulate the backend', (scenario) => {
+    let validScenario = scenario === true ? 'default' : scenario;
+
+    if (!fs.existsSync(path.join(__dirname, '../mirage/scenarios', `${validScenario}.js`))) {
+      console.warn(`Unable to find mirage scenario "${validScenario}"`); // eslint-disable-line no-console
+      return 'default';
+    } else {
+      return validScenario;
+    }
+  })
   .arguments('<config>')
   .description('Launch a webpack-dev-server')
   .action((stripesConfigFile, options) => {
+    const mirageOption = options.mirage === true ? 'default' : options.mirage;
     const app = express();
     const devConfig = require('@folio/stripes-core/webpack.config.cli.dev'); // eslint-disable-line
     const config = Object.assign({}, devConfig);
@@ -100,6 +111,10 @@ commander
     // Look for modules in node_modules, then the platform, then stripes-core
     config.resolve.modules = ['node_modules', cwdModules, coreModules];
     config.resolveLoader = { modules: ['node_modules', cwdModules, coreModules] };
+    config.plugins.push(new webpack.EnvironmentPlugin({
+      NODE_ENV: 'development',
+      MIRAGE_SCENARIO: mirageOption || 'default'
+    }));
     if (options.cache) config.plugins.push(cachePlugin);
     if (options.devtool) config.devtool = options.devtool;
 
@@ -112,7 +127,7 @@ commander
       }
     });
 
-    const compiler = webpack(mirage(svgloader(config), options.mirage));
+    const compiler = webpack(mirage(svgloader(config), mirageOption));
 
     const port = options.port || process.env.STRIPES_PORT || 3000;
     const host = options.host || process.env.STRIPES_HOST || 'localhost';

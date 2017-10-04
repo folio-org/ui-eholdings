@@ -5,6 +5,7 @@ import chaiJquery from 'chai-jquery';
 import $ from 'jquery';
 import { render, unmountComponentAtNode } from 'react-dom';
 import { convergeOn } from './it-will';
+import startMirage from '../mirage/start';
 import TestHarness from './harness';
 
 // use jquery matchers
@@ -36,20 +37,24 @@ export function describeApplication(name, setup, describe = window.describe) {
       rootElement.id = 'react-testing';
       document.body.appendChild(rootElement);
 
-      this.app = render(<TestHarness />, rootElement);
-      this.server = this.app.mirage;
+      this.server = startMirage(setup.scenarios);
       this.server.logging = false;
+
+      this.app = render(<TestHarness />, rootElement);
 
       this.visit = visit.bind(null, this); // eslint-disable-line no-use-before-define
     });
 
-    afterEach(() => {
+    afterEach(function () {
+      this.server.shutdown();
       unmountComponentAtNode(rootElement);
       document.body.removeChild(rootElement);
       rootElement = null;
     });
 
-    setup.call(this);
+    let doSetup = typeof setup.suite === 'function' ? setup.suite : setup;
+
+    doSetup.call(this);
   });
 }
 

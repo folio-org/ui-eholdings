@@ -2,6 +2,11 @@ import { combineReducers } from 'redux';
 import { combineEpics } from 'redux-observable';
 
 import {
+  applicationReducer,
+  applicationEpics
+} from './application';
+
+import {
   searchReducer,
   searchEpic
 } from './search';
@@ -23,6 +28,7 @@ import {
 } from './customer-resource';
 
 export const reducer = combineReducers({
+  application: applicationReducer,
   search: searchReducer,
   vendor: vendorReducer,
   package: packageReducer,
@@ -31,6 +37,7 @@ export const reducer = combineReducers({
 });
 
 export const epics = combineEpics(
+  applicationEpics,
   searchEpic,
   vendorEpics,
   packageEpics,

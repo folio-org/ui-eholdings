@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import startMirage from '../mirage';
 
 /* eslint-disable import/first */
 import createMemoryHistory from 'history/createMemoryHistory';
@@ -30,7 +29,6 @@ export default class TestHarness extends Component {
     this.logger = configureLogger(config);
     this.epics = configureEpics();
     this.store = configureStore({ okapi }, this.logger, this.epics);
-    this.mirage = startMirage();
 
     this.history = createMemoryHistory();
 
@@ -38,10 +36,6 @@ export default class TestHarness extends Component {
 
     // While we have disableAuth on, manually tell our app Okapi is ready
     this.store.dispatch(setOkapiReady());
-  }
-
-  componentWillUnmount() {
-    this.mirage.shutdown();
   }
 
   /**

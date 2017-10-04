@@ -1,11 +1,31 @@
 import { okapi } from 'stripes-config'; // eslint-disable-line import/no-unresolved
 import { Response } from 'mirage-server';
 
-export default function () {
-  // Okapi configs
+export default function configure() {
   this.urlPrefix = okapi.url;
+
+  // okapi endpoints
   this.get('/_/version', () => '0.0.0');
-  this.get('/_/proxy/modules', []);
+
+  this.get('/_/proxy/modules', [{
+    id: 'mod-kb-ebsco',
+    name: 'kb-ebsco'
+  }]);
+
+  this.get('/_/proxy/modules/mod-kb-ebsco', {
+    id: 'mod-kb-ebsco',
+    name: 'kb-ebsco',
+    provides: [{
+      id: 'eholdings',
+      version: '0.1.0',
+      handlers: [{
+        methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE'],
+        pathPattern: '/eholdings/*'
+      }]
+    }],
+    permissionSets: []
+  });
+
   this.get('/saml/check', {
     ssoEnabled: false
   });
@@ -44,6 +64,32 @@ export default function () {
 
   // e-holdings endpoints
   this.namespace = 'eholdings';
+
+  // status
+  this.get('/status', {
+    data: {
+      type: 'status',
+      attributes: {
+        'is-configuration-valid': true
+      }
+    }
+  });
+
+  // configuration
+  this.get('/configuration', {
+    data: {
+      type: 'configuration',
+      attributes: {
+        'customer-id': 'some-valid-customer-id',
+        'api-key': 'some-valid-api-key'
+      }
+    }
+  });
+
+  this.put('/configuration', (_, request) => {
+    let data = JSON.parse(request.requestBody);
+    return data;
+  });
 
   // Package resources
   this.get('/packages', ({ packages }, request) => {
