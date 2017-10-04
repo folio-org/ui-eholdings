@@ -1,19 +1,19 @@
-import packageJson from '../package.json';
+import packageJson from '../package.json'; // eslint-disable-line import/extensions
 
-const { type, ...stripeDefaults } = packageJson.stripes;
+const { ...stripeDefaults } = packageJson.stripes;
 
 export const modules = {
   app: [{
-      ...stripeDefaults,
-      module: '@folio/eholdings',
-      getModule: () => require('../src/index.js').default,
-      // moduleRoot: path.join(__dirname, '..'),
-      description: packageJson.description,
-      version: packageJson.version
-    }]
+    ...stripeDefaults,
+    module: '@folio/eholdings',
+    getModule: () => require('../src/index.js').default, // eslint-disable-line global-require
+    // moduleRoot: path.join(__dirname, '..'),
+    description: packageJson.description,
+    version: packageJson.version
+  }]
 };
 
-export const okapi = { url: 'https://okapi.com', tenant:'tests' };
+export const okapi = { url: 'https://okapi.com', tenant: 'tests' };
 
 export const config = {
   // autoLogin: { username: 'diku_admin', password: 'admin' }

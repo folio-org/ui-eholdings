@@ -10,7 +10,7 @@
     "start": "node demo/stripes.js dev demo/stripes.config.js",
     "build": "node demo/stripes.js build demo/stripes.config.js dist",
     "test": "karma start",
-    "lint": "eslint src demo mirage"
+    "lint": "eslint src tests mirage demo"
   },
   "devDependencies": {
     "@folio/stripes-core": "thefrontside/stripes-core#master",

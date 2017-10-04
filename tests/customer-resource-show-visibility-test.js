@@ -5,16 +5,18 @@ import it from './it-will';
 import { describeApplication } from './helpers';
 import CustomerResourceShowPage from './pages/customer-resource-show';
 
-describeApplication('CustomerResourceShowVisibility', function() {
-  let pkg, title, resource;
+describeApplication('CustomerResourceShowVisibility', () => {
+  let pkg,
+    title,
+    resource;
 
-  beforeEach(function() {
+  beforeEach(function () {
     pkg = this.server.create('package', 'withVendor');
     title = this.server.create('title');
   });
 
-  describe("visiting the customer resource show page with a hidden resource", function() {
-    beforeEach(function() {
+  describe('visiting the customer resource show page with a hidden resource', () => {
+    beforeEach(function () {
       resource = this.server.create('customer-resource', 'isHidden', {
         package: pkg,
         title
@@ -25,13 +27,13 @@ describeApplication('CustomerResourceShowVisibility', function() {
       });
     });
 
-    it('displays the hidden/reason section', function() {
+    it('displays the hidden/reason section', () => {
       expect(CustomerResourceShowPage.isHidden).to.be.true;
     });
   });
 
-  describe("visiting the customer resource show page with a resource that is not hidden", function() {
-    beforeEach(function() {
+  describe('visiting the customer resource show page with a resource that is not hidden', () => {
+    beforeEach(function () {
       resource = this.server.create('customer-resource', {
         package: pkg,
         title
@@ -42,7 +44,7 @@ describeApplication('CustomerResourceShowVisibility', function() {
       });
     });
 
-    it('does not display the hidden/reason section', function() {
+    it('does not display the hidden/reason section', () => {
       expect(CustomerResourceShowPage.isHidden).to.be.false;
     });
   });

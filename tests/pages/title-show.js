@@ -1,5 +1,19 @@
 import $ from 'jquery';
 
+function createPackageObject(element) {
+  let $scope = $(element);
+
+  return {
+    get name() {
+      return $scope.find('[data-test-eholdings-package-list-item-name]').text();
+    },
+
+    get isSelected() {
+      return $scope.find('[data-test-eholdings-package-list-item-selected]').text() === 'Selected';
+    }
+  };
+}
+
 export default {
   get $root() {
     return $('[data-test-eholdings-title-show]');
@@ -18,11 +32,11 @@ export default {
   },
 
   get identifiersList() {
-    return $('[data-test-eholdings-identifiers-list-item]').toArray().map((item) => $(item).text());
+    return $('[data-test-eholdings-identifiers-list-item]').toArray().map(item => $(item).text());
   },
 
   get contributorsList() {
-    return $('[data-test-eholdings-contributors-list-item]').toArray().map((item) => $(item).text());
+    return $('[data-test-eholdings-contributors-list-item]').toArray().map(item => $(item).text());
   },
 
   get subjectsList() {
@@ -37,17 +51,3 @@ export default {
     return $('[data-test-eholdings-title-show-package-list] li').toArray().map(createPackageObject);
   }
 };
-
-function createPackageObject(element) {
-  let $scope = $(element);
-
-  return {
-    get name() {
-      return $scope.find('[data-test-eholdings-package-list-item-name]').text();
-    },
-
-    get isSelected() {
-      return $scope.find('[data-test-eholdings-package-list-item-selected]').text() === 'Selected';
-    }
-  };
-}

@@ -5,10 +5,11 @@ import it from './it-will';
 import { describeApplication } from './helpers';
 import TitleShowPage from './pages/title-show';
 
-describeApplication('TitleShow', function() {
-  let title, customerResources;
+describeApplication('TitleShow', () => {
+  let title,
+    customerResources;
 
-  beforeEach(function() {
+  beforeEach(function () {
     title = this.server.create('title', 'withPackages', {
       titleName: 'Cool Title',
       publisherName: 'Cool Publisher'
@@ -36,75 +37,75 @@ describeApplication('TitleShow', function() {
     customerResources = title.customerResources.models;
   });
 
-  describe("visiting the title page", function() {
-    beforeEach(function() {
+  describe('visiting the title page', () => {
+    beforeEach(function () {
       return this.visit(`/eholdings/titles/${title.id}`, () => {
         expect(TitleShowPage.$root).to.exist;
       });
     });
 
-    it('displays the title name', function() {
+    it('displays the title name', () => {
       expect(TitleShowPage.titleName).to.equal('Cool Title');
     });
 
-    it('displays the publisher name', function() {
+    it('displays the publisher name', () => {
       expect(TitleShowPage.publisherName).to.equal('Cool Publisher');
     });
 
-    it('displays the publication type', function() {
+    it('displays the publication type', () => {
       expect(TitleShowPage.publicationType).to.equal(title.pubType);
     });
 
-    it('groups together identifiers of the same type and subtype', function() {
+    it('groups together identifiers of the same type and subtype', () => {
       expect(TitleShowPage.identifiersList[0]).to.equal('ISBN (Print)978-0547928210 978-0547928203');
     });
 
-    it('does not group together identifiers of the same type, but not the same subtype', function() {
+    it('does not group together identifiers of the same type, but not the same subtype', () => {
       expect(TitleShowPage.identifiersList[1]).to.equal('ISBN (Online)978-0547928197');
     });
 
-    it('does not show a subtype for an identifier when none exists', function() {
+    it('does not show a subtype for an identifier when none exists', () => {
       expect(TitleShowPage.identifiersList[2]).to.equal('ISBN978-0547928227');
     });
 
-    it('does not show identifiers that are not ISSN or ISBN', function() {
+    it('does not show identifiers that are not ISSN or ISBN', () => {
       expect(TitleShowPage.identifiersList.length).to.equal(3);
     });
 
-    it('displays the authors', function() {
+    it('displays the authors', () => {
       expect(TitleShowPage.contributorsList[0]).to.equal('AuthorsWriter, Sally; Wordsmith, Jane');
     });
 
-    it('displays the illustrator', function() {
+    it('displays the illustrator', () => {
       expect(TitleShowPage.contributorsList[1]).to.equal('IllustratorArtist, John');
     });
 
-    it('does not display an editor', function() {
+    it('does not display an editor', () => {
       expect(TitleShowPage.contributorsList[2]).to.be.undefined;
     });
 
-    it('displays the subjects list', function() {
+    it('displays the subjects list', () => {
       expect(TitleShowPage.subjectsList).to.equal('Cool Subject 1; Cool Subject 2; Cool Subject 3');
     });
 
-    it('displays a list of customer resources', function() {
+    it('displays a list of customer resources', () => {
       expect(TitleShowPage.packageList).to.have.lengthOf(customerResources.length);
     });
 
-    it('displays name of a package in the customer resource list', function() {
+    it('displays name of a package in the customer resource list', () => {
       expect(TitleShowPage.packageList[0].name).to.equal(customerResources[0].package.packageName);
     });
 
-    it('displays whether the first customer resource is selected', function() {
+    it('displays whether the first customer resource is selected', () => {
       expect(TitleShowPage.packageList[0].isSelected).to.equal(customerResources[0].isSelected);
     });
   });
 
-  describe("encountering a server error", function() {
-    beforeEach(function() {
+  describe('encountering a server error', () => {
+    beforeEach(function () {
       this.server.get('/titles/:titleId', [{
         message: 'There was an error',
-        code: "1000",
+        code: '1000',
         subcode: 0
       }], 500);
 
@@ -113,7 +114,7 @@ describeApplication('TitleShow', function() {
       });
     });
 
-    it("dies with dignity", function() {
+    it('dies with dignity', () => {
       expect(TitleShowPage.hasErrors).to.be.true;
     });
   });

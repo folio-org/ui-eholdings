@@ -19,6 +19,8 @@
 //     expect(thing).to.be('set');
 //   });
 
+/* eslint-disable no-use-before-define */
+
 it.immediately = window.it;
 it.skip = it.immediately.skip;
 it.only = itOnly;
@@ -42,7 +44,7 @@ function itStill(name, assertion, time = 50) {
 }
 
 function _convergeOn(...args) {
-  return function() {
+  return function () {
     return convergeOn.apply(this, args);
   };
 }
@@ -102,13 +104,13 @@ export function convergeOn(assertion, invert, time) {
         } else {
           resolve();
         }
-      } catch(error) {
+      } catch (error) {
         if (!invert && doLoop) {
           window.setTimeout(loop, interval);
         } else if (invert || !doLoop) {
           reject(error);
         }
       }
-    })();
+    }());
   });
 }

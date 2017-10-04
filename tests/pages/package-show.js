@@ -1,5 +1,19 @@
 import $ from 'jquery';
 
+function createTitleObject(element) {
+  let $scope = $(element);
+
+  return {
+    get name() {
+      return $scope.find('[data-test-eholdings-title-list-item-title-name]').text();
+    },
+
+    get isSelected() {
+      return $scope.find('[data-test-eholdings-title-list-item-title-selected]').text() === 'Selected';
+    }
+  };
+}
+
 export default {
   get $root() {
     return $('[data-test-eholdings-package-details]');
@@ -45,17 +59,3 @@ export default {
     return $('[data-test-eholdings-package-details-custom-coverage]').text();
   }
 };
-
-function createTitleObject(element) {
-  let $scope = $(element);
-
-  return {
-    get name() {
-      return $scope.find('[data-test-eholdings-title-list-item-title-name]').text();
-    },
-
-    get isSelected() {
-      return $scope.find('[data-test-eholdings-title-list-item-title-selected]').text() === 'Selected';
-    }
-  };
-}
