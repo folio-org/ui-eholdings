@@ -55,7 +55,7 @@ export default function VendorShow({ vendor, vendorPackages }) {
               ) : vendorPackages.isResolved ? (
                 <p>No Packages Found</p>
               ) : (
-                <p>Loading...</p>
+                <Icon icon="spinner-ellipsis" />
               )}
             </div>
           ) : vendor.isRejected ? (
