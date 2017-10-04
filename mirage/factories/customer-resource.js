@@ -16,7 +16,7 @@ export default Factory.extend({
     afterCreate(customerResource, server) {
       let packageObj = server.create('package', 'withVendor');
       customerResource.update({
-        'package': packageObj
+        package: packageObj
       });
       customerResource.save();
     }
@@ -26,7 +26,7 @@ export default Factory.extend({
     afterCreate(customerResource, server) {
       let visibilityData = server.create('visibility-data', {
         isHidden: true,
-        reason: "The content is for mature audiences only."
+        reason: 'The content is for mature audiences only.'
       });
       customerResource.update('visibilityData', visibilityData);
       customerResource.save();
@@ -34,13 +34,13 @@ export default Factory.extend({
   }),
 
   afterCreate(customerResource, server) {
-    if(!customerResource.visibilityData) {
+    if (!customerResource.visibilityData) {
       let visibilityData = server.create('visibility-data');
       customerResource.update('visibilityData', visibilityData);
       customerResource.save();
     }
 
-    if(!customerResource.customEmbargoPeriod) {
+    if (!customerResource.customEmbargoPeriod) {
       let customEmbargoPeriod = server.create('embargo-period', {
         embargoUnit: null,
         embargoValue: 0
@@ -49,7 +49,7 @@ export default Factory.extend({
       customerResource.save();
     }
 
-    if(!customerResource.managedEmbargoPeriod) {
+    if (!customerResource.managedEmbargoPeriod) {
       let managedEmbargoPeriod = server.create('embargo-period', {
         embargoUnit: null,
         embargoValue: 0

@@ -10,7 +10,7 @@ export default Factory.extend({
       // If packagesTotal is greater than zero, we'll auto-create the packages
       // for this vendor here.
 
-      if(vendor.packagesTotal > 0) {
+      if (vendor.packagesTotal > 0) {
         // Decide how many will be selected (0 to packagesTotal)
         vendor.packagesSelected = faker.random.number({ min: 0, max: vendor.packagesTotal });
 

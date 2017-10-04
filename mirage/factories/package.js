@@ -18,7 +18,7 @@ export default Factory.extend({
       // If titleCount is greater than zero, we'll auto-create the package titles
       // for this package here.
 
-      if(packageObj.titleCount > 0) {
+      if (packageObj.titleCount > 0) {
         // Decide how many will be selected (0 to titleCount)
         packageObj.selectedCount = faker.random.number({ min: 0, max: packageObj.titleCount });
 
@@ -47,7 +47,7 @@ export default Factory.extend({
     afterCreate(packageObj, server) {
       let visibilityData = server.create('visibility-data', {
         isHidden: true,
-        reason: "The content is for mature audiences only."
+        reason: 'The content is for mature audiences only.'
       });
       packageObj.update('visibilityData', visibilityData);
     }
@@ -56,20 +56,20 @@ export default Factory.extend({
   withCustomCoverage: trait({
     afterCreate(packageObj, server) {
       let customCoverage = server.create('custom-coverage', {
-        beginCoverage: () => faker.date.past().toISOString().substring(0,10),
-        endCoverage: () => faker.date.future().toISOString().substring(0,10)
+        beginCoverage: () => faker.date.past().toISOString().substring(0, 10),
+        endCoverage: () => faker.date.future().toISOString().substring(0, 10)
       });
       packageObj.update('customCoverage', customCoverage);
     }
   }),
 
   afterCreate(packageObj, server) {
-    if(!packageObj.customCoverage) {
+    if (!packageObj.customCoverage) {
       let customCoverage = server.create('custom-coverage');
       packageObj.update('customCoverage', customCoverage);
     }
 
-    if(!packageObj.visibilityData) {
+    if (!packageObj.visibilityData) {
       let visibilityData = server.create('visibility-data');
       packageObj.update('visibilityData', visibilityData);
     }

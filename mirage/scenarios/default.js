@@ -1,10 +1,10 @@
-export default function(server) {
+export default function (server) {
   function createVendor(name, packages = []) {
     let vendor = server.create('vendor', {
       vendorName: name,
       packagesTotal: 0
     });
-    packages.forEach((pkg)=> {
+    packages.forEach((pkg) => {
       server.create('package', 'withTitles', { ...pkg, vendor });
     });
   }
