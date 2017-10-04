@@ -104,7 +104,7 @@ export default function PackageShow({ vendorPackage, packageTitles }, { intl }) 
               ) : packageTitles.isResolved ? (
                 <p>No Titles Found</p>
               ) : (
-                <p>Loading...</p>
+                <Icon icon="spinner-ellipsis" />
               )}
             </div>
           ) : vendorPackage.isRejected ? (
