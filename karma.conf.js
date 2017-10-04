@@ -21,7 +21,9 @@ webpackConfig.resolve.alias['stripes-config'] = path.resolve(__dirname, 'tests/s
 // `stripes-config` module does not get overriden.
 // see `@folio/stripes-config`
 // see `@folio/stripes-core/webpack.config.base.js`
-webpackConfig.module.rules = webpackConfig.module.rules.filter(rule => !rule.use || !rule.use.some(use => use.loader === '@folio/stripes-config'));
+webpackConfig.module.rules = webpackConfig.module.rules.filter((rule) => {
+  return !rule.use || !rule.use.some(use => use.loader === '@folio/stripes-config');
+});
 
 // make sure that the NODE_ENV is available in browser code.
 webpackConfig.plugins.push(new webpack.EnvironmentPlugin({
