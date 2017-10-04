@@ -2464,9 +2464,9 @@ eslint-config-airbnb@^15.1.0:
   dependencies:
     eslint-config-airbnb-base "^11.3.0"
 
-eslint-config-stripes@^0.0.1:
-  version "0.0.1"
-  resolved "https://registry.yarnpkg.com/eslint-config-stripes/-/eslint-config-stripes-0.0.1.tgz#a40f875ddc58ce9e56df6b147b28f51f4752026c"
+eslint-config-stripes@^1.0.0:
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/eslint-config-stripes/-/eslint-config-stripes-1.0.0.tgz#ed4089285430bec8a9bdeff1612c83e215da3895"
   dependencies:
     eslint-config-airbnb "^15.1.0"
     eslint-import-resolver-webpack "^0.8.3"
