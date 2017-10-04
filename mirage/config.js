@@ -1,5 +1,5 @@
-import { okapi } from 'stripes-config';
-import { Response } from 'mirage-server';
+import { okapi } from 'stripes-config'; // eslint-disable-line import/no-unresolved
+/* import { Response } from 'mirage-server'; */
 
 export default function () {
   // Okapi configs
@@ -39,7 +39,7 @@ export default function () {
     });
   });
 
-  this.put('/vendors/:vendorId/packages/:packageId/titles/:titleId', ({ customerResources, titles }, request) => {
+  this.put('/vendors/:vendorId/packages/:packageId/titles/:titleId', ({ customerResources }, request) => {
     let matchingCustomerResource = customerResources.findBy({
       packageId: request.params.packageId,
       titleId: request.params.titleId

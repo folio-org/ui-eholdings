@@ -1,14 +1,16 @@
-/* global describe, beforeEach */
+/* global describe, beforeEach, afterEach */
 import { expect } from 'chai';
 import it from './it-will';
 
 import { describeApplication } from './helpers';
 import ResourcePage from './pages/customer-resource-show';
 
-describeApplication('CustomerResourceShow', function() {
-  let vendor, vendorPackage, resource;
+describeApplication('CustomerResourceShow', () => {
+  let vendor,
+    vendorPackage,
+    resource;
 
-  beforeEach(function() {
+  beforeEach(function () {
     vendor = this.server.create('vendor', {
       vendorName: 'Cool Vendor'
     });
@@ -29,54 +31,53 @@ describeApplication('CustomerResourceShow', function() {
       isSelected: false,
       title
     });
-
   });
 
-  describe("visiting the customer resource page", function() {
-    beforeEach(function() {
+  describe('visiting the customer resource page', () => {
+    beforeEach(function () {
       return this.visit(`/eholdings/vendors/${vendor.id}/packages/${vendorPackage.id}/titles/${resource.titleId}`, () => {
         expect(ResourcePage.$root).to.exist;
       });
     });
 
-    it('displays the title name', function() {
+    it('displays the title name', () => {
       expect(ResourcePage.titleName).to.equal(resource.title.titleName);
     });
 
-    it('displays the publisher name', function() {
+    it('displays the publisher name', () => {
       expect(ResourcePage.publisherName).to.equal(resource.title.publisherName);
     });
 
-    it('displays the publication type', function() {
+    it('displays the publication type', () => {
       expect(ResourcePage.publicationType).to.equal(resource.title.pubType);
     });
 
-    it('displays the vendor name', function() {
+    it('displays the vendor name', () => {
       expect(ResourcePage.vendorName).to.equal(resource.package.vendor.vendorName);
     });
 
-    it('displays the package name', function() {
+    it('displays the package name', () => {
       expect(ResourcePage.packageName).to.equal(resource.package.packageName);
     });
 
-    it('displays the content type', function() {
+    it('displays the content type', () => {
       expect(ResourcePage.contentType).to.equal(resource.package.contentType);
     });
 
-    it('displays the managed url', function() {
+    it('displays the managed url', () => {
       expect(ResourcePage.managedUrl).to.equal(resource.url);
     });
 
-    it('displays the subjects list', function() {
-      expect(ResourcePage.subjectsList).to.equal(resource.title.subjects.models.map((subjectObj) => subjectObj.subject).join('; '));
+    it('displays the subjects list', () => {
+      expect(ResourcePage.subjectsList).to.equal(resource.title.subjects.models.map(subjectObj => subjectObj.subject).join('; '));
     });
 
-    it('indicates that the resource is not yet selected', function() {
+    it('indicates that the resource is not yet selected', () => {
       expect(ResourcePage.isSelected).to.equal(false);
     });
 
-    describe("selecting a package title to add to my holdings", function() {
-      beforeEach(function() {
+    describe('selecting a package title to add to my holdings', () => {
+      beforeEach(function () {
         /*
          * The expectations in the convergent `it` blocks
          * get run once every 10ms.  We were seeing test flakiness
@@ -90,53 +91,53 @@ describeApplication('CustomerResourceShow', function() {
         return ResourcePage.toggleIsSelected();
       });
 
-      afterEach(function() {
+      afterEach(function () {
         this.server.timing = 0;
       });
 
-      it('reflects the desired state (YES)', function() {
+      it('reflects the desired state (YES)', () => {
         expect(ResourcePage.isSelected).to.equal(true);
       });
 
-      it('indicates it working to get to desired state', function() {
+      it('indicates it working to get to desired state', () => {
         expect(ResourcePage.isSelecting).to.equal(true);
       });
 
-      it('cannot be interacted with while the request is in flight', function() {
+      it('cannot be interacted with while the request is in flight', () => {
         expect(ResourcePage.isSelectedToggleable).to.equal(false);
       });
 
-      describe('when the request succeeds', function() {
-        it('reflect the desired state was set', function() {
+      describe('when the request succeeds', () => {
+        it('reflect the desired state was set', () => {
           expect(ResourcePage.isSelected).to.equal(true);
         });
 
-        it('indicates it is no longer working', function() {
+        it('indicates it is no longer working', () => {
           expect(ResourcePage.isSelecting).to.equal(false);
         });
       });
 
-      describe('when the request fails', function() {
-        it('does not change to new state', function() {
+      describe('when the request fails', () => {
+        it('does not change to new state', () => {
           expect(ResourcePage.isSelected).to.equal(false);
         });
 
-        it('indicates it is no longer working', function() {
+        it('indicates it is no longer working', () => {
           expect(ResourcePage.isSelecting).to.equal(false);
         });
 
-        it.skip('logs an Error somewhere', function() {
+        it.skip('logs an Error somewhere', () => {
           expect(ResourcePage.flashError).to.match(/unable to select/i);
         });
       });
     });
   });
 
-  describe("encountering a server error", function() {
-    beforeEach(function() {
+  describe('encountering a server error', () => {
+    beforeEach(function () {
       this.server.get('/vendors/:vendorId/packages/:packageId/titles/:titleId', [{
         message: 'There was an error',
-        code: "1000",
+        code: '1000',
         subcode: 0
       }], 500);
 
@@ -145,7 +146,7 @@ describeApplication('CustomerResourceShow', function() {
       });
     });
 
-    it("dies with dignity", function() {
+    it('dies with dignity', () => {
       expect(ResourcePage.hasErrors).to.be.true;
     });
   });

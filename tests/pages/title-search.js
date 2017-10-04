@@ -31,4 +31,4 @@ export default {
       $('[data-test-search-submit]').trigger('click');
     }, 1);
   }
-}
+};

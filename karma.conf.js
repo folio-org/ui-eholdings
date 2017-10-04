@@ -21,7 +21,7 @@ webpackConfig.resolve.alias['stripes-config'] = path.resolve(__dirname, 'tests/s
 // `stripes-config` module does not get overriden.
 // see `@folio/stripes-config`
 // see `@folio/stripes-core/webpack.config.base.js`
-webpackConfig.module.rules = webpackConfig.module.rules.filter(rule => {
+webpackConfig.module.rules = webpackConfig.module.rules.filter((rule) => {
   return !rule.use || !rule.use.some(use => use.loader === '@folio/stripes-config');
 });
 
@@ -30,7 +30,7 @@ webpackConfig.plugins.push(new webpack.EnvironmentPlugin({
   NODE_ENV: 'test'
 }));
 
-module.exports = function(config) {
+module.exports = (config) => {
   let configuration = {
     frameworks: ['mocha'],
     reporters: ['mocha'],
@@ -56,7 +56,7 @@ module.exports = function(config) {
     webpack: webpackConfig,
 
     webpackMiddleware: {
-      stats: "errors-only"
+      stats: 'errors-only'
     },
 
     mochaReporter: {

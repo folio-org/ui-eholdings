@@ -8,7 +8,7 @@ import { convergeOn } from './it-will';
 import TestHarness from './harness';
 
 // use jquery matchers
-chai.use((chai, utils) => chaiJquery(chai, utils, $));
+chai.use((chai, utils) => chaiJquery(chai, utils, $)); // eslint-disable-line no-shadow
 
 // helper to trigger native change events for react elements
 export { default as triggerChange } from 'react-trigger-change';
@@ -28,22 +28,22 @@ export { default as triggerChange } from 'react-trigger-change';
  * @param {Function} setup - suite definition, also passed to `describe`
  */
 export function describeApplication(name, setup, describe = window.describe) {
-  describe(name, function() {
+  describe(name, function () {
     let rootElement;
 
-    beforeEach(function() {
+    beforeEach(function () {
       rootElement = document.createElement('div');
       rootElement.id = 'react-testing';
       document.body.appendChild(rootElement);
 
-      this.app = render(<TestHarness/>, rootElement);
+      this.app = render(<TestHarness />, rootElement);
       this.server = this.app.mirage;
       this.server.logging = false;
 
-      this.visit = visit.bind(null, this);
+      this.visit = visit.bind(null, this); // eslint-disable-line no-use-before-define
     });
 
-    afterEach(function() {
+    afterEach(() => {
       unmountComponentAtNode(rootElement);
       document.body.removeChild(rootElement);
       rootElement = null;
@@ -54,7 +54,7 @@ export function describeApplication(name, setup, describe = window.describe) {
 }
 
 describeApplication.skip = describe.skip;
-describeApplication.only = function(name, setup) {
+describeApplication.only = function (name, setup) {
   return describeApplication(name, setup, describe.only);
 };
 
@@ -95,7 +95,7 @@ function visit(context, path, convergenceCheck) {
 /**
  * Returns a promise that doesn't resolve to make the test wait forever
  */
-window.pauseTest = pauseTest;
+window.pauseTest = pauseTest; // eslint-disable-line no-use-before-define
 export function pauseTest(context) {
   if (context) context.timeout(0);
   return new Promise(() => {});

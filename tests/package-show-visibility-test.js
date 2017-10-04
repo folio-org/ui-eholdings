@@ -5,17 +5,18 @@ import it from './it-will';
 import { describeApplication } from './helpers';
 import PackageShowPage from './pages/package-show';
 
-describeApplication('PackageShowVisibility', function() {
-  let vendor, pkg;
+describeApplication('PackageShowVisibility', () => {
+  let vendor,
+    pkg;
 
-  beforeEach(function() {
+  beforeEach(function () {
     vendor = this.server.create('vendor', {
       vendorName: 'Cool Vendor'
     });
   });
 
-  describe("visiting the package show page with a hidden package", function() {
-    beforeEach(function() {
+  describe('visiting the package show page with a hidden package', () => {
+    beforeEach(function () {
       pkg = this.server.create('package', 'isHidden', {
         vendor,
         packageName: 'Cool Package',
@@ -27,13 +28,13 @@ describeApplication('PackageShowVisibility', function() {
       });
     });
 
-    it('displays the hidden/reason section', function() {
+    it('displays the hidden/reason section', () => {
       expect(PackageShowPage.isHidden).to.be.true;
     });
   });
 
-  describe("visiting the package show page with a package that is not hidden", function() {
-    beforeEach(function() {
+  describe('visiting the package show page with a package that is not hidden', () => {
+    beforeEach(function () {
       pkg = this.server.create('package', {
         vendor,
         packageName: 'Cool Package',
@@ -45,7 +46,7 @@ describeApplication('PackageShowVisibility', function() {
       });
     });
 
-    it('does not display the hidden/reason section', function() {
+    it('does not display the hidden/reason section', () => {
       expect(PackageShowPage.isHidden).to.be.false;
     });
   });

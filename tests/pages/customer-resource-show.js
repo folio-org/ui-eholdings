@@ -1,6 +1,6 @@
 import $ from 'jquery';
-import { convergeOn } from '../it-will';
 import { expect } from 'chai';
+import { convergeOn } from '../it-will';
 
 export default {
   get $root() {
@@ -76,10 +76,10 @@ export default {
   },
 
   get managedEmbargoPeriod() {
-    return $('[data-test-eholdings-customer-resource-show-managed-embargo-period]').text()
+    return $('[data-test-eholdings-customer-resource-show-managed-embargo-period]').text();
   },
 
   get customEmbargoPeriod() {
-    return $('[data-test-eholdings-customer-resource-show-custom-embargo-period]').text()
+    return $('[data-test-eholdings-customer-resource-show-custom-embargo-period]').text();
   }
 };

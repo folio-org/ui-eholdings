@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
 import startMirage from '../mirage';
 
+/* eslint-disable import/first */
 import createMemoryHistory from 'history/createMemoryHistory';
-import { okapi, config } from 'stripes-config';
+import { okapi, config } from 'stripes-config'; // eslint-disable-line import/no-unresolved
 import configureEpics from '@folio/stripes-core/src/configureEpics';
 import configureLogger from '@folio/stripes-core/src/configureLogger';
 import configureStore from '@folio/stripes-core/src/configureStore';
@@ -25,7 +26,6 @@ const actionNames = gatherActions();
  * for interacting with the custom history.
  */
 export default class TestHarness extends Component {
-
   componentWillMount() {
     this.logger = configureLogger(config);
     this.epics = configureEpics();
@@ -44,19 +44,6 @@ export default class TestHarness extends Component {
     this.mirage.shutdown();
   }
 
-  render() {
-    return (
-      <Root store={this.store}
-            epics={this.epics}
-            logger={this.logger}
-            config={config}
-            okapi={okapi}
-            history={this.history}
-            actionNames={actionNames}
-            disableAuth />
-    );
-  }
-
   /**
    * Simulate navigation to the path or location. E.g.
    *
@@ -70,5 +57,20 @@ export default class TestHarness extends Component {
    */
   visit(path) {
     this.history.push(path);
+  }
+
+  render() {
+    return (
+      <Root
+        store={this.store}
+        epics={this.epics}
+        logger={this.logger}
+        config={config}
+        okapi={okapi}
+        history={this.history}
+        actionNames={actionNames}
+        disableAuth
+      />
+    );
   }
 }

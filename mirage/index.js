@@ -1,6 +1,6 @@
 /* global require */
 
-let start = () => {};
+let start = () => {}; // eslint-disable-line import/no-mutable-exports
 
 // Currently we run mirage in production because the server side is
 // incomplete.
@@ -10,7 +10,7 @@ let start = () => {};
 // bundle mirage at all.
 //
 if (process.env.NODE_ENV !== 'production') {
-  start = require('./start').default;
+  start = require('./start').default; // eslint-disable-line global-require
 }
 
 export default start;

@@ -5,7 +5,7 @@ export default ApplicationSerializer.extend({
 
   modifyKeys(json) {
     let newHash = json;
-    if(newHash.vendor && !newHash.vendorId) {
+    if (newHash.vendor && !newHash.vendorId) {
       newHash.vendorId = json.vendor.id;
       newHash.vendorName = json.vendor.vendorName;
       delete newHash.vendor;

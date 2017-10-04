@@ -3,8 +3,8 @@ import ApplicationSerializer from './application';
 export default ApplicationSerializer.extend({
   include: ['package', 'title', 'visibilityData', 'customEmbargoPeriod', 'managedEmbargoPeriod'],
 
-  serialize() {
-    let json = ApplicationSerializer.prototype.serialize.apply(this, arguments);
+  serialize(...args) {
+    let json = ApplicationSerializer.prototype.serialize.apply(this, args);
 
     if (Array.isArray(json.customerResources)) {
       return {
@@ -17,7 +17,7 @@ export default ApplicationSerializer.extend({
   },
 
   modifyKeys(json) {
-    if(json.title) {
+    if (json.title) {
       let newHash = json.title;
       newHash.customerResourcesList = this.createCustomerResourcesList(json.title);
       newHash.titleId = json.title.id;

@@ -9,11 +9,11 @@ export default Serializer.extend({
      * response currently doesn't serialize relationship ids; instead we manually
      * pull out the top-level key.
     */
-    let json = Serializer.prototype.serialize.apply(this, arguments);
+    let json = Serializer.prototype.serialize.apply(this, arguments); // eslint-disable-line prefer-rest-params
     let keyForPrimaryResource = this.keyForResource(response);
     let rootlessJson = json[keyForPrimaryResource];
 
-    if(typeof this.serializerFor(response.modelName).modifyKeys === "function") {
+    if (typeof this.serializerFor(response.modelName).modifyKeys === 'function') {
       if (Array.isArray(rootlessJson)) {
         rootlessJson = rootlessJson.map(this.serializerFor(response.modelName).modifyKeys, this);
       } else {
@@ -49,7 +49,7 @@ export default Serializer.extend({
   keyForEmbeddedRelationship(attributeName) {
     let attributeNamesToAppendList = ['customerResources', 'subjects', 'identifiers', 'contributors'];
 
-    if(attributeNamesToAppendList.includes(attributeName)) {
+    if (attributeNamesToAppendList.includes(attributeName)) {
       return `${pluralize(attributeName)}List`;
     } else {
       return attributeName;
