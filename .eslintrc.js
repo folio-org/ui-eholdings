@@ -23,8 +23,6 @@ module.exports = {
     "import/no-extraneous-dependencies": "off",
     "jsx-quotes": "off",
     "no-console": "warn",
-    "no-else-return": "off",
-    "no-nested-ternary": "off",
     "prefer-const": "off",
     "react/forbid-prop-types": "off"
   }
