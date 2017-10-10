@@ -1,14 +1,18 @@
 #!/usr/bin/env node
-/* eslint-disable global-require */
-/* eslint-disable import/no-dynamic-require */
-/* eslint-disable no-console */
 
 const commander = require('commander');
 const webpack = require('webpack');
 const HardSourceWebpackPlugin = require('hard-source-webpack-plugin');
 const path = require('path');
+const nodeObjectHash = require('node-object-hash');
+const express = require('express');
+const webpackDevMiddleware = require('webpack-dev-middleware');
+const webpackHotMiddleware = require('webpack-hot-middleware');
+const connectHistoryApiFallback = require('connect-history-api-fallback');
+
 const StripesConfigPlugin = require('@folio/stripes-core/webpack/stripes-config-plugin');
 const devConfig = require('@folio/stripes-core/webpack.config.cli.dev');
+const prodConfig = require('@folio/stripes-core/webpack.config.cli.prod');
 
 const stripesCorePath = path.dirname(require.resolve('@folio/stripes-core/index.html'));
 const cwd = path.resolve();
@@ -26,16 +30,16 @@ const cachePlugin = new HardSourceWebpackPlugin({
     // Build a string value used by HardSource to determine which cache to
     // use if [confighash] is in cacheDirectory or if the cache should be
     // replaced if [confighash] does not appear in cacheDirectory.
-    return require('node-object-hash')().hash(devConfig);
+    return nodeObjectHash().hash(devConfig);
   }
 });
 
 // Display webpack output to the console
 function processStats(err, stats) {
   if (err) {
-    console.error(err);
+    console.error(err); // eslint-disable-line no-console
   }
-  console.log(stats.toString({
+  console.log(stats.toString({ // eslint-disable-line no-console
     chunks: false,
     colors: true
   }));
@@ -43,7 +47,7 @@ function processStats(err, stats) {
 
 function mirage(config, enabled = false) {
   if (enabled) {
-    console.info('Using Mirage Server');
+    console.info('Using Mirage Server'); // eslint-disable-line no-console
     return Object.assign({}, config, {
       entry: ['./demo/boot-mirage'].concat(config.entry)
     });
@@ -90,11 +94,10 @@ commander
   .arguments('<config>')
   .description('Launch a webpack-dev-server')
   .action((stripesConfigFile, options) => {
-    const express = require('express');
     const app = express();
 
     const config = Object.assign({}, devConfig);
-    const stripesConfig = require(path.resolve(stripesConfigFile));
+    const stripesConfig = require(path.resolve(stripesConfigFile)); // eslint-disable-line
     config.plugins.push(new StripesConfigPlugin(stripesConfig));
     // Look for modules in node_modules, then the platform, then stripes-core
     config.resolve.modules = ['node_modules', cwdModules, coreModules];
@@ -118,28 +121,28 @@ commander
 
     app.use(express.static(`${stripesCorePath}/public`));
 
-    app.use(require('webpack-dev-middleware')(compiler, {
+    // Process index rewrite before webpack-dev-middleware
+    // to respond with webpack's dist copy of index.html
+    app.use(connectHistoryApiFallback({}));
+
+    app.use(webpackDevMiddleware(compiler, {
       noInfo: true,
       publicPath: config.output.publicPath
     }));
 
-    app.use(require('webpack-hot-middleware')(compiler));
+    app.use(webpackHotMiddleware(compiler));
 
     app.get('/favicon.ico', (req, res) => {
       res.sendFile(path.join(stripesCorePath, 'favicon.ico'));
     });
 
-    app.get('*', (req, res) => {
-      res.sendFile(path.join(stripesCorePath, 'index.html'));
-    });
-
     app.listen(port, host, (err) => {
       if (err) {
-        console.log(err);
+        console.log(err); // eslint-disable-line no-console
         return;
       }
 
-      console.log(`Listening at http://${host}:${port}`);
+      console.log(`Listening at http://${host}:${port}`); // eslint-disable-line no-console
     });
   });
 
@@ -149,8 +152,8 @@ commander
   .arguments('<config> <output>')
   .description('Build a tenant bundle')
   .action((stripesConfigFile, outputPath, options) => {
-    const config = require('@folio/stripes-core/webpack.config.cli.prod');
-    const stripesConfig = require(path.resolve(stripesConfigFile));
+    const config = Object.assign({}, prodConfig);
+    const stripesConfig = require(path.resolve(stripesConfigFile)); // eslint-disable-line
     config.plugins.push(new StripesConfigPlugin(stripesConfig));
     config.resolve.modules = ['node_modules', cwdModules];
     config.resolveLoader = { modules: ['node_modules', cwdModules] };
