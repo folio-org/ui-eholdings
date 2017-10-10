@@ -12,3 +12,9 @@
     display: none;
   }
 }
+
+@media(min-width: 961px){
+  .search-pane-vignette {
+    display: none;
+  }
+}
