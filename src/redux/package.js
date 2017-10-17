@@ -37,11 +37,11 @@ export const packageEpics = combineEpics(
     ),
     deserialize: payload => payload && payload.titles,
     defaultParams: {
-      search: '%00',
+      search: '',
       searchfield: 'titlename',
       count: 25,
       offset: 1,
-      orderby: 'relevance'
+      orderby: 'TitleName'
     }
   })
 );

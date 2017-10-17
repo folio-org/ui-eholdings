@@ -33,10 +33,10 @@ export const vendorEpics = combineEpics(
     endpoint: ({ vendorId }) => `eholdings/vendors/${vendorId}/packages`,
     deserialize: payload => (payload ? payload.packagesList : []),
     defaultParams: {
-      search: '%00',
+      search: '',
       count: 25,
       offset: 1,
-      orderby: 'relevance'
+      orderby: 'PackageName'
     }
   })
 );
