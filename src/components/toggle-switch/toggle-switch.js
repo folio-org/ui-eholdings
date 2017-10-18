@@ -1,14 +1,13 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames/bind';
-import KeyValueLabel from '../key-value-label';
 import styles from './toggle-switch.css';
 
 const cx = classNames.bind(styles);
 
 export default function ToggleSwitch(props) {
   return (
-    <div className={cx('toggle-switch', {
+    <div className={cx(styles['toggle-switch'], {
       'is-pending': props.isPending
     })}
     >
@@ -18,6 +17,7 @@ export default function ToggleSwitch(props) {
         disabled={props.disabled}
         checked={props.checked}
       />
+      <div className={styles['toggle-switch-slider']} />
     </div>
   );
 }

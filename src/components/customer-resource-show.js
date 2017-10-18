@@ -96,7 +96,7 @@ export default function CustomerResourceShow({ customerResource, toggleRequest, 
               <hr />
 
               <label>
-                {record.isSelected ? 'Selected' : 'Not Selected'}
+                <h4>{record.isSelected ? 'Selected' : 'Not Selected'}</h4>
                 <ToggleSwitch
                   onChange={toggleSelected}
                   disabled={toggleRequest.isPending}
