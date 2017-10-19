@@ -16,6 +16,7 @@ export default function ToggleSwitch(props) {
         onChange={props.onChange}
         disabled={props.disabled}
         checked={props.checked}
+        id={props.id}
       />
       <div className={styles['toggle-switch-slider']} />
     </div>
@@ -27,5 +28,6 @@ ToggleSwitch.propTypes = {
   onChange: PropTypes.func,
   disabled: PropTypes.bool,
   isPending: PropTypes.bool,
+  id: PropTypes.string
 };
 

@@ -95,13 +95,14 @@ export default function CustomerResourceShow({ customerResource, toggleRequest, 
 
               <hr />
 
-              <label>
+              <label htmlFor="customer-resource-show-toggle-switch">
                 <h4>{record.isSelected ? 'Selected' : 'Not Selected'}</h4>
                 <ToggleSwitch
                   onChange={toggleSelected}
                   disabled={toggleRequest.isPending}
                   checked={record.isSelected}
                   isPending={toggleRequest.isPending}
+                  id="customer-resource-show-toggle-switch"
                 />
               </label>
 
