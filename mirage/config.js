@@ -1,5 +1,5 @@
 import { okapi } from 'stripes-config'; // eslint-disable-line import/no-unresolved
-/* import { Response } from 'mirage-server'; */
+import { Response } from 'mirage-server';
 
 export default function () {
   // Okapi configs
@@ -8,6 +8,38 @@ export default function () {
   this.get('/_/proxy/modules', []);
   this.get('/saml/check', {
     ssoEnabled: false
+  });
+
+  // mod-users
+  this.get('/users', []);
+
+  // mod-config
+  this.get('/configurations/entries', {
+    configs: []
+  });
+
+  // mod-users-bl
+  this.post('/bl-users/login', () => {
+    let okapiTokenHeader = () => {
+      return { 'X-Okapi-Token': `myOkapiToken:${Date.now()}` };
+    };
+
+    return new Response(201,
+      okapiTokenHeader(),
+      {
+        user: {
+          username: 'testuser',
+          personal: {
+            lastName: 'User',
+            firstName: 'Test',
+            email: 'folio_admin@frontside.io',
+          }
+        },
+        permissions: {
+          permissions: []
+        }
+      }
+    );
   });
 
   // e-holdings endpoints
