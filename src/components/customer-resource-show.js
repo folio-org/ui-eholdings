@@ -7,7 +7,7 @@ import Icon from '@folio/stripes-components/lib/Icon';
 import KeyValueLabel from './key-value-label';
 import IdentifiersList from './identifiers-list';
 import ContributorsList from './contributors-list';
-import ToggleSwitch from "./toggle-switch";
+import ToggleSwitch from './toggle-switch';
 
 export default function CustomerResourceShow({ customerResource, toggleRequest, toggleSelected }) {
   const record = customerResource.content;
