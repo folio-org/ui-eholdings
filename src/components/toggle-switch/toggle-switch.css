@@ -1,0 +1,57 @@
+@import '@folio/stripes-components/lib/variables';
+
+.toggle-switch {
+  display: inline-block;
+  position: relative;
+  height: 34px;
+  width: 60px;
+
+  & input {
+    display: none;
+  }
+
+  & input:checked + .toggle-switch-slider {
+    background-color: var(--success);
+  }
+
+  & input:checked + .toggle-switch-slider:before {
+    transform: translateX(26px);
+  }
+
+  &.is-pending .toggle-switch-slider {
+    animation: toggle-pending 3s infinite ease-in-out;
+  }
+}
+
+@keyframes toggle-pending {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.25;
+  }
+}
+
+.toggle-switch-slider {
+  background-color: #333;
+  border-radius: 34px;
+  bottom: 0;
+  cursor: pointer;
+  left: 0;
+  position: absolute;
+  right: 0;
+  top: 0;
+  transition: .4s;
+}
+
+.toggle-switch-slider:before {
+  background-color: #fff;
+  border-radius: 50%;
+  bottom: 4px;
+  content: "";
+  height: 26px;
+  left: 4px;
+  position: absolute;
+  transition: .4s;
+  width: 26px;
+}

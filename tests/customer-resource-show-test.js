@@ -76,7 +76,7 @@ describeApplication('CustomerResourceShow', () => {
       expect(ResourcePage.isSelected).to.equal(false);
     });
 
-    describe('selecting a package title to add to my holdings', () => {
+    describe('successfully selecting a package title to add to my holdings', () => {
       beforeEach(function () {
         /*
          * The expectations in the convergent `it` blocks
@@ -95,7 +95,7 @@ describeApplication('CustomerResourceShow', () => {
         this.server.timing = 0;
       });
 
-      it('reflects the desired state (YES)', () => {
+      it('reflects the desired state (Selected)', () => {
         expect(ResourcePage.isSelected).to.equal(true);
       });
 
@@ -116,9 +116,38 @@ describeApplication('CustomerResourceShow', () => {
           expect(ResourcePage.isSelecting).to.equal(false);
         });
       });
+    });
 
-      describe('when the request fails', () => {
-        it('does not change to new state', () => {
+    describe('unsuccessfully selecting a package title to add to my holdings', () => {
+      beforeEach(function () {
+        this.server.put('/vendors/:vendorId/packages/:packageId/titles/:titleId', [{
+          message: 'There was an error',
+          code: '1000',
+          subcode: 0
+        }], 500);
+
+        this.server.timing = 50;
+        return ResourcePage.toggleIsSelected();
+      });
+
+      afterEach(function () {
+        this.server.timing = 0;
+      });
+
+      it('reflects the desired state (Selected)', () => {
+        expect(ResourcePage.isSelected).to.equal(true);
+      });
+
+      it('indicates it working to get to desired state', () => {
+        expect(ResourcePage.isSelecting).to.equal(true);
+      });
+
+      it('cannot be interacted with while the request is in flight', () => {
+        expect(ResourcePage.isSelectedToggleable).to.equal(false);
+      });
+
+      describe('when the request succeeds', () => {
+        it('reflect the desired state was set', () => {
           expect(ResourcePage.isSelected).to.equal(false);
         });
 

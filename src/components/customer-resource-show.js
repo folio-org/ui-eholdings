@@ -7,6 +7,7 @@ import Icon from '@folio/stripes-components/lib/Icon';
 import KeyValueLabel from './key-value-label';
 import IdentifiersList from './identifiers-list';
 import ContributorsList from './contributors-list';
+import ToggleSwitch from './toggle-switch';
 
 export default function CustomerResourceShow({ customerResource, toggleRequest, toggleSelected }) {
   const record = customerResource.content;
@@ -94,15 +95,19 @@ export default function CustomerResourceShow({ customerResource, toggleRequest, 
 
               <hr />
 
-              <KeyValueLabel label="Selected">
-                <div data-test-eholdings-customer-resource-show-selected>
-                  <input type="checkbox" onChange={toggleSelected} disabled={toggleRequest.isPending} checked={record.isSelected} />
-                  {record.isSelected ? 'Yes' : 'No'}
-                  {toggleRequest.isPending && (
-                    <span data-test-eholdings-customer-resource-show-is-selecting>...</span>
-                  )}
-                </div>
-              </KeyValueLabel>
+              <label
+                data-test-eholdings-customer-resource-show-selected
+                htmlFor="customer-resource-show-toggle-switch"
+              >
+                <h4>{record.isSelected ? 'Selected' : 'Not Selected'}</h4>
+                <ToggleSwitch
+                  onChange={toggleSelected}
+                  disabled={toggleRequest.isPending}
+                  checked={record.isSelected}
+                  isPending={toggleRequest.isPending}
+                  id="customer-resource-show-toggle-switch"
+                />
+              </label>
 
               <hr />
 
