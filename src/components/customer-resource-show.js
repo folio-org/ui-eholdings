@@ -95,7 +95,10 @@ export default function CustomerResourceShow({ customerResource, toggleRequest, 
 
               <hr />
 
-              <label htmlFor="customer-resource-show-toggle-switch">
+              <label
+                data-test-eholdings-customer-resource-show-selected
+                htmlFor="customer-resource-show-toggle-switch"
+              >
                 <h4>{record.isSelected ? 'Selected' : 'Not Selected'}</h4>
                 <ToggleSwitch
                   onChange={toggleSelected}

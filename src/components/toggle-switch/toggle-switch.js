@@ -7,9 +7,11 @@ const cx = classNames.bind(styles);
 
 export default function ToggleSwitch(props) {
   return (
-    <div className={cx(styles['toggle-switch'], {
-      'is-pending': props.isPending
-    })}
+    <div
+      data-test-toggle-switch
+      className={cx(styles['toggle-switch'], {
+        'is-pending': props.isPending
+      })}
     >
       <input
         type="checkbox"
@@ -30,4 +32,3 @@ ToggleSwitch.propTypes = {
   isPending: PropTypes.bool,
   id: PropTypes.string
 };
-

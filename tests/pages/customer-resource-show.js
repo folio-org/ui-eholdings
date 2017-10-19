@@ -44,7 +44,7 @@ export default {
   },
 
   get isSelected() {
-    return $('[data-test-eholdings-customer-resource-show-selected]').text() === 'Yes';
+    return $('[data-test-eholdings-customer-resource-show-selected]').text() === 'Selected';
   },
 
   toggleIsSelected() {
@@ -60,7 +60,7 @@ export default {
   },
 
   get isSelecting() {
-    return $('[data-test-eholdings-customer-resource-show-is-selecting]').length > 0;
+    return $('[data-test-eholdings-customer-resource-show-selected] [data-test-toggle-switch]').attr('class').indexOf('is-pending--') !== -1;
   },
 
   get isSelectedToggleable() {
