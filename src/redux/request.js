@@ -266,9 +266,12 @@ export function createRequestEpic({
       .switchMap(({ data = {}, options = {} }) => {
         let { okapi } = getState();
         let { method = 'GET' } = options;
-        let body;
-        let headers = { 'X-Okapi-Tenant': okapi.tenant };
         let url = endpoint;
+        let headers = {
+          'X-Okapi-Tenant': okapi.tenant,
+          'X-Okapi-Token': okapi.token
+        };
+        let body;
 
         // endpoint url
         if (typeof endpoint === 'function') {
@@ -279,7 +282,7 @@ export function createRequestEpic({
 
         // request body
         if (method === 'PUT' || method === 'POST') {
-          headers['Content-Type'] = 'application/json';
+          headers['Content-Type'] = 'application/vnd.api+json';
           body = JSON.stringify(serialize(data));
 
         // query params
