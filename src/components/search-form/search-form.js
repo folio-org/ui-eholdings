@@ -40,7 +40,7 @@ export default class SearchForm extends Component {
     const { searchString } = this.state;
 
     return (
-      <div className={styles['search-form-container']}>
+      <div className={styles['search-form-container']} data-test-search-form={searchType}>
         <div className={styles['search-switcher']}>
           {Object.keys(searchTypeLocations).map(type => (
             <NavLink
@@ -48,6 +48,7 @@ export default class SearchForm extends Component {
               title={`search ${type}`}
               to={searchTypeLocations[type]}
               activeClassName={styles['is-active']}
+              data-test-search-type-button={type}
             >
               {capitalize(type)}
             </NavLink>

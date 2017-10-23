@@ -1,6 +1,6 @@
 /* global describe, beforeEach */
 import { expect } from 'chai';
-import it from './it-will';
+import it, { convergeOn } from './it-will';
 
 import { describeApplication } from './helpers';
 import VendorSearchPage from './pages/vendor-search';
@@ -48,6 +48,37 @@ describeApplication('VendorSearch', () => {
 
     describe('sorting by name', () => {
       it('sorts by name');
+    });
+
+    describe('clicking another search type', () => {
+      beforeEach(() => {
+        return convergeOn(() => {
+          // wait for the previous search to complete
+          expect(VendorSearchPage.$searchResultsItems).to.have.lengthOf(3);
+        }).then(() => VendorSearchPage.changeSearchType('packages'));
+      });
+
+      it('displays an empty search', () => {
+        expect(VendorSearchPage.$searchField).to.have.value('');
+      });
+
+      it('does not display any more results', () => {
+        expect(VendorSearchPage.$searchResultsItems).to.have.lengthOf(0);
+      });
+
+      describe('navigating back to vendors search', () => {
+        beforeEach(() => {
+          return VendorSearchPage.changeSearchType('vendors');
+        });
+
+        it('displays the original search', () => {
+          expect(VendorSearchPage.$searchField).to.have.value('Vendor');
+        });
+
+        it('displays the original search results', () => {
+          expect(VendorSearchPage.$searchResultsItems).to.have.lengthOf(3);
+        });
+      });
     });
   });
 
