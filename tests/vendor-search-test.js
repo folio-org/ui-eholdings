@@ -11,8 +11,12 @@ describeApplication('VendorSearch', () => {
       vendorName: i => `Vendor${i + 1}`
     });
 
-    return this.visit('/eholdings/search/vendors', () => {
-      expect(VendorSearchPage.$root).to.exist;
+    this.server.create('vendor', {
+      vendorName: 'Totally Awesome Co'
+    });
+
+    return this.visit('/eholdings/?searchType=vendors', () => {
+      expect(VendorSearchPage.$searchResultsItems).to.have.lengthOf(4);
     });
   });
 

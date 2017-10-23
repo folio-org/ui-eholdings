@@ -11,8 +11,12 @@ describeApplication('TitleSearch', () => {
       titleName: i => `Title${i + 1}`
     });
 
-    return this.visit('/eholdings/search/titles', () => {
-      expect(TitleSearchPage.$root).to.exist;
+    this.server.create('title', {
+      titleName: 'SomethingSomethingWhoa'
+    });
+
+    return this.visit('/eholdings/?searchType=titles', () => {
+      expect(TitleSearchPage.$searchResultsItems).to.have.lengthOf(4);
     });
   });
 

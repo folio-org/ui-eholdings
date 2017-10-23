@@ -11,8 +11,12 @@ describeApplication('PackageSearch', () => {
       packageName: i => `Package${i + 1}`
     });
 
-    return this.visit('/eholdings/search/packages', () => {
-      expect(PackageSearchPage.$root).to.exist;
+    this.server.create('package', 'withVendor', {
+      packageName: 'SomethingElse'
+    });
+
+    return this.visit('/eholdings/?searchType=packages', () => {
+      expect(PackageSearchPage.$searchResultsItems).to.have.lengthOf(4);
     });
   });
 
