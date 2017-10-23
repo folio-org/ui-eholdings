@@ -23,6 +23,12 @@ export default class SearchPaneset extends React.Component {
     location: PropTypes.object
   }
 
+  static contextTypes = {
+    router: PropTypes.shape({
+      history: PropTypes.object
+    })
+  }
+
   state = {
     hideFilters: this.props.hideFilters
   };
@@ -41,6 +47,10 @@ export default class SearchPaneset extends React.Component {
     }));
   };
 
+  closePreview = () => {
+    this.context.router.history.push({ pathname: '/eholdings', search: this.props.location.search });
+  };
+
   render() {
     let { searchForm, resultsType, resultsView, detailsView, location } = this.props;
     let rootLocation = { pathname: '/eholdings', search: location.search };
@@ -51,7 +61,7 @@ export default class SearchPaneset extends React.Component {
           <SearchPaneVignette isHidden={this.state.hideFilters} onClick={this.toggleFilters} />
         )}
         {!!detailsView && (
-          <SearchPaneVignette onClick={this.closeDetails} />
+          <SearchPaneVignette onClick={this.closePreview} />
         )}
         <SearchPane isHidden={this.state.hideFilters}>
           <PaneHeader

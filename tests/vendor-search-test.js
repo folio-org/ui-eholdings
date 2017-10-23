@@ -46,6 +46,16 @@ describeApplication('VendorSearch', () => {
       it('shows the preview pane', () => {
         expect(VendorSearchPage.previewPaneIsVisible).to.be.true;
       });
+
+      describe('clicking the vignette behind the preview pane', () => {
+        beforeEach(() => {
+          VendorSearchPage.clickSearchVignette();
+        });
+
+        it('hides the preview pane', () => {
+          expect(VendorSearchPage.previewPaneIsVisible).to.be.false;
+        });
+      });
     });
 
     describe('filtering the search results further', () => {

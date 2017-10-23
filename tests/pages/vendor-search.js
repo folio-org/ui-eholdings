@@ -28,6 +28,10 @@ export default {
     return $('[data-test-preview-pane="vendors"]').length === 1;
   },
 
+  clickSearchVignette() {
+    return $('[data-test-search-vignette]').trigger('click');
+  },
+
   search(query) {
     let $input = $('[data-test-search-field]').val(query);
     triggerChange($input.get(0));

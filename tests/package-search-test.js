@@ -44,6 +44,16 @@ describeApplication('PackageSearch', () => {
       it('shows the preview pane', () => {
         expect(PackageSearchPage.previewPaneIsVisible).to.be.true;
       });
+
+      describe('clicking the vignette behind the preview pane', () => {
+        beforeEach(() => {
+          PackageSearchPage.clickSearchVignette();
+        });
+
+        it('hides the preview pane', () => {
+          expect(PackageSearchPage.previewPaneIsVisible).to.be.false;
+        });
+      });
     });
 
     describe('filtering the search results further', () => {

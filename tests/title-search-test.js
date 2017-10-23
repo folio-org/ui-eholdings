@@ -44,6 +44,16 @@ describeApplication('TitleSearch', () => {
       it('shows the preview pane', () => {
         expect(TitleSearchPage.previewPaneIsVisible).to.be.true;
       });
+
+      describe('clicking the vignette behind the preview pane', () => {
+        beforeEach(() => {
+          TitleSearchPage.clickSearchVignette();
+        });
+
+        it('hides the preview pane', () => {
+          expect(TitleSearchPage.previewPaneIsVisible).to.be.false;
+        });
+      });
     });
 
     describe('filtering the search results further', () => {
