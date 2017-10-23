@@ -1,8 +1,8 @@
 /* global describe, beforeEach */
+import { Response } from 'mirage-server';
+
 import { expect } from 'chai';
 import it from './it-will';
-
-import { Response } from 'mirage-server';
 
 import { describeApplication } from './helpers';
 import ApplicationPage from './pages/application';
@@ -123,26 +123,26 @@ describeApplication('With valid backend configuration', () => {
       expect(SettingsPage.$actions).to.not.exist;
     });
 
-    describe('filling in invalid data', function() {
-      beforeEach(function() {
-          this.server.put('/configuration', (_, request) => {
-            return new Response(422, {}, {
-              "errors":[{
-                "title":"Invalid base",
-                "detail":"RM-API Credentials Are Invalid",
-                "source":{}
-              }],
-              "jsonapi":{"version":"1.0"}
-            });
+    describe('filling in invalid data', () => {
+      beforeEach(function () {
+        this.server.put('/configuration', () => {
+          return new Response(422, {}, {
+            errors: [{
+              title: 'Invalid base',
+              detail: 'RM-API Credentials Are Invalid',
+              source: {}
+            }],
+            jsonapi: { version: '1.0' }
           });
+        });
         return SettingsPage.fillIn({
           customerId: 'totally-bogus-customer-id',
           apiKey: 'totally-bogus-api-key'
-        }).then(()=> {
+        }).then(() => {
           return SettingsPage.save();
         });
       });
-      it('reports the error to the interface', function() {
+      it('reports the error to the interface', () => {
         expect(SettingsPage.errorText).to.equal('RM-API Credentials Are Invalid');
       });
     });
