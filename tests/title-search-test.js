@@ -1,6 +1,6 @@
 /* global describe, beforeEach */
 import { expect } from 'chai';
-import it from './it-will';
+import it, { convergeOn } from './it-will';
 
 import { describeApplication } from './helpers';
 import TitleSearchPage from './pages/title-search';
@@ -36,6 +36,37 @@ describeApplication('TitleSearch', () => {
 
       it('only shows a single result', () => {
         expect(TitleSearchPage.$searchResultsItems).to.have.lengthOf(1);
+      });
+    });
+
+    describe('clicking another search type', () => {
+      beforeEach(() => {
+        return convergeOn(() => {
+          // wait for the previous search to complete
+          expect(TitleSearchPage.$searchResultsItems).to.have.lengthOf(3);
+        }).then(() => TitleSearchPage.changeSearchType('vendors'));
+      });
+
+      it('displays an empty search', () => {
+        expect(TitleSearchPage.$searchField).to.have.value('');
+      });
+
+      it('does not display any more results', () => {
+        expect(TitleSearchPage.$searchResultsItems).to.have.lengthOf(0);
+      });
+
+      describe('navigating back to titles search', () => {
+        beforeEach(() => {
+          return TitleSearchPage.changeSearchType('titles');
+        });
+
+        it('displays the original search', () => {
+          expect(TitleSearchPage.$searchField).to.have.value('Title');
+        });
+
+        it('displays the original search results', () => {
+          expect(TitleSearchPage.$searchResultsItems).to.have.lengthOf(3);
+        });
       });
     });
   });

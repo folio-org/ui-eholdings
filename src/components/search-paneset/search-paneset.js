@@ -23,8 +23,10 @@ export default class SearchPaneset extends React.Component {
     hideFilters: this.props.hideFilters
   };
 
-  componentWillReceiveProps({ hideFilters }) {
-    if (hideFilters !== this.state.hideFilters) {
+  componentWillReceiveProps({ hideFilters, resultsType }) {
+    let isSameSearchType = resultsType === this.props.resultsType;
+
+    if (isSameSearchType && hideFilters !== this.state.hideFilters) {
       this.setState({ hideFilters });
     }
   }

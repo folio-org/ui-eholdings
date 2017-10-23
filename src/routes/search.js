@@ -50,14 +50,17 @@ class SearchRoute extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    const {
+    let {
       location,
       match: { params: { searchType } },
       search: { [searchType]: { content, isPending } }
     } = nextProps;
 
-    // if the search query is empty, reset results
-    if (!isPending && location.search !== this.props.location.search) {
+    let isSameSearchType = searchType === this.props.match.params.searchType;
+    let isDifferentSearch = location.search !== this.props.location.search;
+
+    // searching the same set, if the search query is empty, reset results
+    if (isSameSearchType && !isPending && isDifferentSearch) {
       const pathQuery = queryString.parse(location.search);
 
       if (content.length > 0 && !pathQuery.search) {

@@ -1,6 +1,6 @@
 /* global describe, beforeEach */
 import { expect } from 'chai';
-import it from './it-will';
+import it, { convergeOn } from './it-will';
 
 import { describeApplication } from './helpers';
 import PackageSearchPage from './pages/package-search';
@@ -36,6 +36,37 @@ describeApplication('PackageSearch', () => {
 
       it('only shows a single result', () => {
         expect(PackageSearchPage.$searchResultsItems).to.have.lengthOf(1);
+      });
+    });
+
+    describe('clicking another search type', () => {
+      beforeEach(() => {
+        return convergeOn(() => {
+          // wait for the previous search to complete
+          expect(PackageSearchPage.$searchResultsItems).to.have.lengthOf(3);
+        }).then(() => PackageSearchPage.changeSearchType('titles'));
+      });
+
+      it('displays an empty search', () => {
+        expect(PackageSearchPage.$searchField).to.have.value('');
+      });
+
+      it('does not display any more results', () => {
+        expect(PackageSearchPage.$searchResultsItems).to.have.lengthOf(0);
+      });
+
+      describe('navigating back to packages search', () => {
+        beforeEach(() => {
+          return PackageSearchPage.changeSearchType('packages');
+        });
+
+        it('displays the original search', () => {
+          expect(PackageSearchPage.$searchField).to.have.value('Package');
+        });
+
+        it('displays the original search results', () => {
+          expect(PackageSearchPage.$searchResultsItems).to.have.lengthOf(3);
+        });
       });
     });
   });
