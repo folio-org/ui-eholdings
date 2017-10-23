@@ -33,6 +33,19 @@ describeApplication('PackageSearch', () => {
       expect(PackageSearchPage.$searchResultsItems).to.have.lengthOf(3);
     });
 
+    describe('clicking a search results list item', () => {
+      beforeEach(() => {
+        return convergeOn(() => {
+          // wait for the previous search to complete
+          expect(PackageSearchPage.$searchResultsItems).to.have.lengthOf(3);
+        }).then(() => PackageSearchPage.$searchResultsItems[0].click());
+      });
+
+      it('shows the preview pane', () => {
+        expect(PackageSearchPage.previewPaneIsVisible).to.be.true;
+      });
+    });
+
     describe('filtering the search results further', () => {
       beforeEach(() => {
         PackageSearchPage.search('Package1');

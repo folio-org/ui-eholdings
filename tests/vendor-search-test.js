@@ -35,6 +35,19 @@ describeApplication('VendorSearch', () => {
 
     it('displays the name, number of packages available, and packages subscribed to for each vendor');
 
+    describe('clicking a search results list item', () => {
+      beforeEach(() => {
+        return convergeOn(() => {
+          // wait for the previous search to complete
+          expect(VendorSearchPage.$searchResultsItems).to.have.lengthOf(3);
+        }).then(() => VendorSearchPage.$searchResultsItems[0].click());
+      });
+
+      it('shows the preview pane', () => {
+        expect(VendorSearchPage.previewPaneIsVisible).to.be.true;
+      });
+    });
+
     describe('filtering the search results further', () => {
       beforeEach(() => {
         VendorSearchPage.search('Vendor1');

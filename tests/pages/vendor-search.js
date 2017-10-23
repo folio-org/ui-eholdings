@@ -13,7 +13,7 @@ export default {
   },
 
   get $searchResultsItems() {
-    return $('[data-test-vendor-search-results-list] li');
+    return $('[data-test-vendor-search-results-list] li a');
   },
 
   get hasErrors() {
@@ -22,6 +22,10 @@ export default {
 
   get noResultsMessage() {
     return $('[data-test-vendor-search-no-results]').text();
+  },
+
+  get previewPaneIsVisible() {
+    return $('[data-test-preview-pane="vendors"]').length === 1;
   },
 
   search(query) {

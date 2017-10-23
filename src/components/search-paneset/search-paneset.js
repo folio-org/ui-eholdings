@@ -79,7 +79,7 @@ export default class SearchPaneset extends React.Component {
           </ResultsPane>
         )}
         {!!detailsView && (
-          <PreviewPane>
+          <PreviewPane previewType={resultsType}>
             <PaneHeader
               firstMenu={(
                 <PaneMenu><Link to={rootLocation}><Icon icon="closeX" /></Link></PaneMenu>
