@@ -21,6 +21,12 @@ class TitleShowRoute extends Component {
     this.props.getTitle({ titleId });
   }
 
+  componentWillReceiveProps({ match: { params: { titleId } } }) {
+    if (titleId !== this.props.match.params.titleId) {
+      this.props.getTitle({ titleId });
+    }
+  }
+
   render() {
     return (
       <View title={this.props.title} />

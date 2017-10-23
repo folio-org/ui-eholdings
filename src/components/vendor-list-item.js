@@ -17,5 +17,8 @@ export default function VendorListItem({ item, link }) {
 
 VendorListItem.propTypes = {
   item: PropTypes.object,
-  link: PropTypes.string
+  link: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.object
+  ])
 };

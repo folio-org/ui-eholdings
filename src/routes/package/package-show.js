@@ -25,6 +25,14 @@ class PackageShowRoute extends Component {
     this.props.getPackageTitles({ vendorId, packageId });
   }
 
+  componentWillReceiveProps({ match: { params: { vendorId, packageId } } }) {
+    if (vendorId !== this.props.match.params.vendorId ||
+       packageId !== this.props.match.params.packageId) {
+      this.props.getPackage({ vendorId, packageId });
+      this.props.getPackageTitles({ vendorId, packageId });
+    }
+  }
+
   render() {
     return (
       <View

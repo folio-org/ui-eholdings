@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import NavLink from 'react-router-dom/NavLink';
+import Link from 'react-router-dom/Link';
 import capitalize from 'lodash/capitalize';
 import styles from './search-form.css';
 
@@ -43,15 +43,15 @@ export default class SearchForm extends Component {
       <div className={styles['search-form-container']} data-test-search-form={searchType}>
         <div className={styles['search-switcher']}>
           {Object.keys(searchTypeLocations).map(type => (
-            <NavLink
+            <Link
               key={type}
               title={`search ${type}`}
               to={searchTypeLocations[type]}
-              activeClassName={styles['is-active']}
+              className={searchType === type && styles['is-active']}
               data-test-search-type-button={type}
             >
               {capitalize(type)}
-            </NavLink>
+            </Link>
           ))}
         </div>
         <form onSubmit={this.handleSearchSubmit}>

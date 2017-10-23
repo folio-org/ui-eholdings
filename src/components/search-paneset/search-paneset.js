@@ -1,22 +1,26 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import Link from 'react-router-dom/Link';
 import PaneHeader from '@folio/stripes-components/lib/PaneHeader';
 import PaneMenu from '@folio/stripes-components/lib/PaneMenu';
+import Icon from '@folio/stripes-components/lib/Icon';
 import capitalize from 'lodash/capitalize';
 
 import SearchPane from '../search-pane';
 import ResultsPane from '../results-pane';
+import PreviewPane from '../preview-pane';
 import SearchPaneVignette from '../search-pane-vignette';
 
 import styles from './search-paneset.css';
 
 export default class SearchPaneset extends React.Component {
   static propTypes = {
-    children: PropTypes.node,
     searchForm: PropTypes.node,
     hideFilters: PropTypes.bool,
-    hasResults: PropTypes.bool,
-    resultsType: PropTypes.string
+    resultsType: PropTypes.string,
+    resultsView: PropTypes.node,
+    detailsView: PropTypes.node,
+    location: PropTypes.object
   }
 
   state = {
@@ -38,16 +42,20 @@ export default class SearchPaneset extends React.Component {
   };
 
   render() {
-    let { searchForm, hasResults, resultsType, children } = this.props;
+    let { searchForm, resultsType, resultsView, detailsView, location } = this.props;
+    let rootLocation = { pathname: '/eholdings', search: location.search };
 
     return (
       <div className={styles['search-paneset']}>
-        {hasResults && (
+        {!!resultsView && (
           <SearchPaneVignette isHidden={this.state.hideFilters} onClick={this.toggleFilters} />
+        )}
+        {!!detailsView && (
+          <SearchPaneVignette onClick={this.closeDetails} />
         )}
         <SearchPane isHidden={this.state.hideFilters}>
           <PaneHeader
-            lastMenu={hasResults ? (
+            lastMenu={resultsView ? (
               <PaneMenu><button onClick={this.toggleFilters} className={styles['search-pane-toggle']}>Apply</button></PaneMenu>
             ) : (
               <span />
@@ -57,7 +65,7 @@ export default class SearchPaneset extends React.Component {
             {searchForm}
           </div>
         </SearchPane>
-        {hasResults && (
+        {!!(resultsView || detailsView) && (
           <ResultsPane>
             <PaneHeader
               paneTitle={capitalize(resultsType)}
@@ -66,9 +74,21 @@ export default class SearchPaneset extends React.Component {
               )}
             />
             <div className={styles['scrollable-container']}>
-              {children}
+              {resultsView}
             </div>
           </ResultsPane>
+        )}
+        {!!detailsView && (
+          <PreviewPane>
+            <PaneHeader
+              firstMenu={(
+                <PaneMenu><Link to={rootLocation}><Icon icon="closeX" /></Link></PaneMenu>
+              )}
+            />
+            <div className={styles['scrollable-container']}>
+              {detailsView}
+            </div>
+          </PreviewPane>
         )}
       </div>
     );

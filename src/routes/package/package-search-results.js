@@ -7,6 +7,7 @@ import List from '../../components/list';
 import PackageListItem from '../../components/package-list-item';
 
 function PackageSearchResults({
+  location,
   query: { search },
   isPending,
   isResolved,
@@ -29,7 +30,10 @@ function PackageSearchResults({
       {content.map(pkg => (
         <PackageListItem
           key={pkg.packageId}
-          link={`/eholdings/vendors/${pkg.vendorId}/packages/${pkg.packageId}`}
+          link={{
+            pathname: `/eholdings/vendors/${pkg.vendorId}/packages/${pkg.packageId}`,
+            search: location.search
+          }}
           item={pkg}
         />
       ))}
@@ -38,6 +42,7 @@ function PackageSearchResults({
 }
 
 PackageSearchResults.propTypes = {
+  location: PropTypes.object.isRequired,
   query: PropTypes.shape({
     search: PropTypes.string
   }).isRequired,

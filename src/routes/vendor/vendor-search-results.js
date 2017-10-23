@@ -7,6 +7,7 @@ import List from '../../components/list';
 import VendorListItem from '../../components/vendor-list-item';
 
 function VendorSearchResultsRoute({
+  location,
   query: { search },
   isPending,
   isResolved,
@@ -30,7 +31,10 @@ function VendorSearchResultsRoute({
         <VendorListItem
           key={vendor.vendorId}
           item={vendor}
-          link={`/eholdings/vendors/${vendor.vendorId}`}
+          link={{
+            pathname: `/eholdings/vendors/${vendor.vendorId}`,
+            search: location.search
+          }}
         />
       ))}
     </List>
@@ -38,6 +42,7 @@ function VendorSearchResultsRoute({
 }
 
 VendorSearchResultsRoute.propTypes = {
+  location: PropTypes.object.isRequired,
   query: PropTypes.shape({
     search: PropTypes.string
   }).isRequired,

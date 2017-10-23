@@ -23,6 +23,9 @@ export default function TitleListItem({ item, link, showSelected }) {
 
 TitleListItem.propTypes = {
   item: PropTypes.object,
-  link: PropTypes.string,
+  link: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.object
+  ]),
   showSelected: PropTypes.bool
 };

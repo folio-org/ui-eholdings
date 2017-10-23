@@ -7,6 +7,7 @@ import List from '../../components/list';
 import TitleListItem from '../../components/title-list-item';
 
 function TitleSearchResults({
+  location,
   query: { search },
   isPending,
   isResolved,
@@ -29,7 +30,10 @@ function TitleSearchResults({
       {content.map(title => (
         <TitleListItem
           key={title.titleId}
-          link={`/eholdings/titles/${title.titleId}`}
+          link={{
+            pathname: `/eholdings/titles/${title.titleId}`,
+            search: location.search
+          }}
           item={title}
         />
       ))}
@@ -38,6 +42,7 @@ function TitleSearchResults({
 }
 
 TitleSearchResults.propTypes = {
+  location: PropTypes.object.isRequired,
   query: PropTypes.shape({
     search: PropTypes.string
   }).isRequired,

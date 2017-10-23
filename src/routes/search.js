@@ -11,6 +11,10 @@ import {
   clearTitles
 } from '../redux/search';
 
+import VendorSearchResultsRoute from './vendor/vendor-search-results';
+import PackageSearchResultsRoute from './package/package-search-results';
+import TitleSearchResultsRoute from './title/title-search-results';
+
 import SearchPaneset from '../components/search-paneset';
 import SearchForm from '../components/search-form';
 
@@ -23,11 +27,6 @@ class SearchRoute extends Component {
     history: PropTypes.shape({
       push: PropTypes.func.isRequired,
       replace: PropTypes.func.isRequired
-    }).isRequired,
-    match: PropTypes.shape({
-      params: PropTypes.shape({
-        searchType: PropTypes.oneOf(['vendors', 'packages', 'titles']).isRequired
-      }).isRequired
     }).isRequired,
     search: PropTypes.shape({
       vendors: PropTypes.object.isRequired,
@@ -49,19 +48,17 @@ class SearchRoute extends Component {
     this.performSearch(pathQuery);
   }
 
-  componentWillReceiveProps(nextProps) {
-    let {
-      location,
-      match: { params: { searchType } },
-      search: { [searchType]: { content, isPending } }
-    } = nextProps;
+  componentWillReceiveProps({ location, search }) {
+    let searchType = this.getSearchType(location);
+    if (!searchType) return;
 
-    let isSameSearchType = searchType === this.props.match.params.searchType;
+    let { content, isPending } = search[searchType] || {};
+    let isSameSearchType = this.getSearchType() === searchType;
     let isDifferentSearch = location.search !== this.props.location.search;
 
     // searching the same set, if the search query is empty, reset results
     if (isSameSearchType && !isPending && isDifferentSearch) {
-      const pathQuery = queryString.parse(location.search);
+      let pathQuery = queryString.parse(location.search);
 
       if (content.length > 0 && !pathQuery.search) {
         if (searchType === 'vendors') this.props.clearVendors();
@@ -70,20 +67,36 @@ class SearchRoute extends Component {
       } else if (pathQuery.search) {
         this.performSearch(pathQuery);
       }
+    } else if (!isSameSearchType && !isPending && !content.length) {
+      this.performSearch();
     }
   }
 
+  getSearchType(location = this.props.location) {
+    let locationQuery = queryString.parse(location.search);
+    return locationQuery.searchType;
+  }
+
   performSearch(query) {
-    const {
+    let searchType = this.getSearchType();
+    if (!searchType) return;
+
+    let {
       location,
       history,
-      match: { params: { searchType } },
       search: { [searchType]: { query: lastQuery, isPending } }
     } = this.props;
 
-    const searchQuery = queryString.stringify(query || lastQuery);
+    // remove the searchType from the actual search
+    if (query && query.searchType) {
+      delete query.searchType;
+    }
 
-    if (!isPending && searchQuery) {
+    let searchQuery = queryString.stringify(query || lastQuery);
+    let searchNotEqual = query && query.search !== lastQuery.search;
+    let searchIsEmpty = (!query || !query.search) && !lastQuery.search;
+
+    if (!isPending && (searchNotEqual || searchIsEmpty)) {
       if (searchType === 'vendors') this.props.searchVendors(query);
       if (searchType === 'packages') this.props.searchPackages(query);
       if (searchType === 'titles') this.props.searchTitles(query);
@@ -91,7 +104,8 @@ class SearchRoute extends Component {
 
     // push or replace the current location if the search term has changed
     if (query && searchQuery !== location.search) {
-      const url = `${location.pathname}?${searchQuery}`;
+      let url = `${location.pathname}?searchType=${searchType}`;
+      if (searchQuery) url += `&${searchQuery}`;
 
       if (query.search === lastQuery.search) {
         history.replace(url);
@@ -102,32 +116,49 @@ class SearchRoute extends Component {
   }
 
   handleSearch = (search) => {
-    const {
-      match: { params: { searchType } },
-      search: { [searchType]: { query } }
-    } = this.props;
-
+    let searchType = this.getSearchType();
+    if (!searchType) return;
+    const { search: { [searchType]: { query } } } = this.props;
     this.performSearch({ ...query, search });
   };
 
   render() {
-    const { match: { params: { searchType } }, search } = this.props;
-    const { [searchType]: { query, isResolved, isPending, isRejected } } = search;
+    let { location, search, children } = this.props;
+    let searchType = this.getSearchType();
 
-    const searchTypeLocations = Object.keys(search).reduce((locations, type) => ({
+    if (!searchType) return children;
+
+    let { [searchType]: { query, isResolved, isPending, isRejected } } = search;
+    let searchTypeLocations = Object.keys(search).reduce((locations, type) => ({
       ...locations,
       [type]: {
-        pathname: `/eholdings/search/${type}`,
-        search: queryString.stringify(search[type].query)
+        pathname: location.pathname,
+        search: queryString.stringify({
+          ...search[type].query,
+          searchType: type
+        })
       }
     }), {});
+
+    let Results = null;
+    if (searchType === 'vendors') {
+      Results = VendorSearchResultsRoute;
+    } else if (searchType === 'packages') {
+      Results = PackageSearchResultsRoute;
+    } else if (searchType === 'titles') {
+      Results = TitleSearchResultsRoute;
+    }
+
+    let noDetails = /^\/eholdings\/?$/.test(location.pathname);
 
     return (
       <div data-test-eholdings>
         <SearchPaneset
+          location={location}
           hideFilters={!!this.props.location.search}
-          hasResults={isPending || isResolved || isRejected}
           resultsType={searchType}
+          resultsView={(isPending || isResolved || isRejected) && <Results location={location} />}
+          detailsView={noDetails ? null : children}
           searchForm={(
             <SearchForm
               searchType={searchType}
@@ -136,9 +167,7 @@ class SearchRoute extends Component {
               onSearch={this.handleSearch}
             />
           )}
-        >
-          {this.props.children}
-        </SearchPaneset>
+        />
       </div>
     );
   }
