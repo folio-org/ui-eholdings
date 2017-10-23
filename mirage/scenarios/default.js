@@ -1,4 +1,4 @@
-export default function (server) {
+export default function defaultScenario(server) {
   function createVendor(name, packages = []) {
     let vendor = server.create('vendor', {
       vendorName: name,
@@ -71,6 +71,6 @@ export default function (server) {
   ]);
 
   server.createList('vendor', 5, 'withPackagesAndTitles', {
-    packagesTotal: () => Math.floor(Math.random() * 10) + 1
+    get packagesTotal() { return Math.floor(Math.random() * 10) + 1; }
   });
 }
