@@ -5,6 +5,7 @@ import {
   createRequestReducer,
   createRequestEpic
 } from './request';
+import formatContentType from './utilities';
 
 // package action creators
 export const getPackage = createRequestCreator('package');
@@ -28,7 +29,11 @@ export const packageEpics = combineEpics(
     name: 'package',
     endpoint: ({ vendorId, packageId }) => (
       `eholdings/vendors/${vendorId}/packages/${packageId}`
-    )
+    ),
+    deserialize: (payload) => {
+      payload.contentType = formatContentType(payload.contentType);
+      return payload;
+    }
   }),
   createRequestEpic({
     name: 'package-titles',

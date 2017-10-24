@@ -20,7 +20,7 @@ describeApplication('PackageShowVisibility', () => {
       pkg = this.server.create('package', 'isHidden', {
         vendor,
         packageName: 'Cool Package',
-        contentType: 'e-book'
+        contentType: 'ebook'
       });
 
       return this.visit(`/eholdings/vendors/${vendor.id}/packages/${pkg.id}`, () => {
@@ -38,7 +38,7 @@ describeApplication('PackageShowVisibility', () => {
       pkg = this.server.create('package', {
         vendor,
         packageName: 'Cool Package',
-        contentType: 'e-book'
+        contentType: 'ebook'
       });
 
       return this.visit(`/eholdings/vendors/${vendor.id}/packages/${pkg.id}`, () => {

@@ -6,11 +6,11 @@ export default Factory.extend({
   isSelected: true,
   selectedCount: 0,
   contentType: () => faker.random.arrayElement([
-    'Online Reference',
-    'Aggregated Full Text',
-    'Abstract and Index',
-    'E-Book',
-    'E-Journal'
+    'OnlineReference',
+    'AggregatedFullText',
+    'AbstractAndIndex',
+    'eBook',
+    'eJournal'
   ]),
 
   withTitles: trait({

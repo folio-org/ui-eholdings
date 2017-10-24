@@ -26,7 +26,7 @@ describeApplication('PackageShowCustomCoverage', () => {
         customCoverage,
         vendor,
         packageName: 'Cool Package',
-        contentType: 'e-book'
+        contentType: 'ebook'
       });
 
       return this.visit(`/eholdings/vendors/${vendor.id}/packages/${pkg.id}`, () => {
@@ -44,7 +44,7 @@ describeApplication('PackageShowCustomCoverage', () => {
       pkg = this.server.create('package', {
         vendor,
         packageName: 'Cool Package',
-        contentType: 'e-book'
+        contentType: 'ebook'
       });
 
       return this.visit(`/eholdings/vendors/${vendor.id}/packages/${pkg.id}`, () => {

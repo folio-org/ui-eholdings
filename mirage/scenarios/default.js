@@ -12,27 +12,27 @@ export default function defaultScenario(server) {
   createVendor('Economist Intelligence Unit', [
     {
       packageName: 'Business Briefings',
-      contentType: 'Aggregated Full Text',
+      contentType: 'AggregatedFullText',
       titleCount: 9
     },
     {
       packageName: 'Country Reports & Profiles (EIU)',
-      contentType: 'Aggregated Full Text',
+      contentType: 'AggregatedFullText',
       titleCount: 3
     },
     {
       packageName: 'EIU CityData',
-      contentType: 'Online Reference',
+      contentType: 'OnlineReference',
       titleCount: 1
     },
     {
       packageName: 'EIU Complete Country Coverage',
-      contentType: 'Online Reference',
+      contentType: 'OnlineReference',
       titleCount: 1
     },
     {
       packageName: 'EIU: Country Reports Archive (DFG Nationallizenz)',
-      contentType: 'Aggregated Full Text',
+      contentType: 'AggregatedFullText',
       titleCount: 2
     }
   ]);
@@ -40,32 +40,32 @@ export default function defaultScenario(server) {
   createVendor('Edinburgh University Press', [
     {
       packageName: 'Digimap Ordnance Survey',
-      contentType: 'Online Reference',
+      contentType: 'OnlineReference',
       titleCount: 1
     },
     {
-      packageName: 'Edinburch University Press',
-      contentType: 'E-Journal',
+      packageName: 'EdinburchUniversityPress',
+      contentType: 'EJournal',
       titleCount: 2
     },
     {
-      packageName: 'Edinburgh University Press (NESLi2)',
-      contentType: 'E-Journal',
+      packageName: 'EdinburghUniversityPress (NESLi2)',
+      contentType: 'EJournal',
       titleCount: 3
     },
     {
       packageName: 'Edinburgh University Press (SHEDL)',
-      contentType: 'E-Journal',
+      contentType: 'EJournal',
       titleCount: 2
     },
     {
       packageName: 'Edinburgh University Press Complete Collection (JISC)',
-      contentType: 'E-Journal',
+      contentType: 'EJournal',
       titleCount: 6
     },
     {
       packageName: 'Edinburgh University Press Complete Collection (SHEDL)',
-      contentType: 'E-Journal',
+      contentType: 'EJournal',
       titleCount: 3
     }
   ]);
