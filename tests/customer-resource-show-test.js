@@ -18,7 +18,7 @@ describeApplication('CustomerResourceShow', () => {
     vendorPackage = this.server.create('package', 'withTitles', {
       vendor,
       packageName: 'Cool Package',
-      contentType: 'e-book',
+      contentType: 'ebook',
       titleCount: 5
     });
 
@@ -61,7 +61,7 @@ describeApplication('CustomerResourceShow', () => {
     });
 
     it('displays the content type', () => {
-      expect(ResourcePage.contentType).to.equal(resource.package.contentType);
+      expect(ResourcePage.contentType).to.equal('E-Book');
     });
 
     it('displays the managed url', () => {
