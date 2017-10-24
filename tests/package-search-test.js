@@ -16,7 +16,7 @@ describeApplication('PackageSearch', () => {
     });
 
     return this.visit('/eholdings/?searchType=packages', () => {
-      expect(PackageSearchPage.$searchResultsItems).to.have.lengthOf(4);
+      expect(PackageSearchPage.$root).to.exist;
     });
   });
 

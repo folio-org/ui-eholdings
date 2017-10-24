@@ -16,7 +16,7 @@ describeApplication('VendorSearch', () => {
     });
 
     return this.visit('/eholdings/?searchType=vendors', () => {
-      expect(VendorSearchPage.$searchResultsItems).to.have.lengthOf(4);
+      expect(VendorSearchPage.$root).to.exist;
     });
   });
 

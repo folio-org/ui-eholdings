@@ -43,9 +43,12 @@ class SearchRoute extends Component {
   };
 
   componentWillMount() {
-    // search using existing query params
-    const pathQuery = queryString.parse(this.props.location.search);
-    this.performSearch(pathQuery);
+    let pathQuery = queryString.parse(this.props.location.search);
+
+    // search using existing query params if there is a search string
+    if (typeof pathQuery.search !== 'undefined') {
+      this.performSearch(pathQuery);
+    }
   }
 
   componentWillReceiveProps({ location, search }) {
@@ -67,8 +70,6 @@ class SearchRoute extends Component {
       } else if (pathQuery.search) {
         this.performSearch(pathQuery);
       }
-    } else if (!isSameSearchType && !isPending && !content.length) {
-      this.performSearch();
     }
   }
 
@@ -155,7 +156,7 @@ class SearchRoute extends Component {
       <div data-test-eholdings>
         <SearchPaneset
           location={location}
-          hideFilters={!!this.props.location.search}
+          hideFilters={!!query.search}
           resultsType={searchType}
           resultsView={(isPending || isResolved || isRejected) && <Results location={location} />}
           detailsView={noDetails ? null : children}
