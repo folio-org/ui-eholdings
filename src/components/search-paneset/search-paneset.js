@@ -1,6 +1,5 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import Link from 'react-router-dom/Link';
 import PaneHeader from '@folio/stripes-components/lib/PaneHeader';
 import PaneMenu from '@folio/stripes-components/lib/PaneMenu';
 import Icon from '@folio/stripes-components/lib/Icon';
@@ -48,22 +47,28 @@ export default class SearchPaneset extends React.Component {
   };
 
   closePreview = () => {
-    this.context.router.history.push({ pathname: '/eholdings', search: this.props.location.search });
+    this.context.router.history.push({
+      pathname: '/eholdings',
+      search: this.props.location.search
+    });
   };
 
   render() {
-    let { searchForm, resultsType, resultsView, detailsView, location } = this.props;
-    let rootLocation = { pathname: '/eholdings', search: location.search };
+    let { hideFilters } = this.state;
+    let { searchForm, resultsType, resultsView, detailsView } = this.props;
+
+    // only hide filters if there are results and always hide filters when a detail view is visible
+    hideFilters = (hideFilters && !!resultsView) || !!detailsView;
 
     return (
       <div className={styles['search-paneset']}>
         {!!resultsView && (
-          <SearchPaneVignette isHidden={this.state.hideFilters} onClick={this.toggleFilters} />
+          <SearchPaneVignette isHidden={hideFilters} onClick={this.toggleFilters} />
         )}
         {!!detailsView && (
           <SearchPaneVignette onClick={this.closePreview} />
         )}
-        <SearchPane isHidden={resultsView && this.state.hideFilters}>
+        <SearchPane isHidden={hideFilters}>
           <PaneHeader
             lastMenu={resultsView ? (
               <PaneMenu><button onClick={this.toggleFilters} className={styles['search-pane-toggle']}>Apply</button></PaneMenu>
@@ -75,7 +80,7 @@ export default class SearchPaneset extends React.Component {
             {searchForm}
           </div>
         </SearchPane>
-        {!!(resultsView || detailsView) && (
+        {!!resultsView && (
           <ResultsPane>
             <PaneHeader
               paneTitle={capitalize(resultsType)}
@@ -92,7 +97,7 @@ export default class SearchPaneset extends React.Component {
           <PreviewPane previewType={resultsType}>
             <PaneHeader
               firstMenu={(
-                <PaneMenu><Link to={rootLocation}><Icon icon="closeX" /></Link></PaneMenu>
+                <PaneMenu><button onClick={this.closePreview}><Icon icon="closeX" /></button></PaneMenu>
               )}
             />
             <div className={styles['scrollable-container']}>
