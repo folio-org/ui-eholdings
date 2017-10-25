@@ -10,8 +10,10 @@ export default function formatContentType(contentType) {
     onlinereference: 'Online Reference'
   };
 
-  if (contentType) {
-    return contentTypes[contentType.toLowerCase()];
+  let contentTypeKey = contentType.toLowerCase();
+
+  if (contentType && Object.prototype.hasOwnProperty.call(contentTypes, contentTypeKey)) {
+    return contentTypes[contentTypeKey];
   } else {
     return contentType;
   }
