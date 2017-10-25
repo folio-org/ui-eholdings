@@ -7,7 +7,10 @@ import {
   createRequestReducer,
   createRequestEpic
 } from './request';
-import formatContentType from './utilities';
+import {
+  formatContentType,
+  formatResourceType
+} from './utilities';
 
 // customer-resource action creators
 export const getCustomerResource = createRequestCreator('customer-resource');
@@ -55,8 +58,13 @@ export const customerResourceEpics = combineEpics(
     deserialize: (payload) => {
       if (payload) {
         let { customerResourcesList, ...title } = payload;
+
         if (customerResourcesList[0] && customerResourcesList[0].contentType) {
           customerResourcesList[0].contentType = formatContentType(customerResourcesList[0].contentType);
+        }
+
+        if (title.pubType) {
+          title.pubType = formatResourceType(title.pubType);
         }
 
         return {

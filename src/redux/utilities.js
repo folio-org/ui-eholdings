@@ -1,4 +1,4 @@
-export default function formatContentType(contentType) {
+export function formatContentType(contentType) {
   let contentTypes = {
     all: 'All',
     aggregatedfulltext: 'Aggregated Full Text',
@@ -16,5 +16,33 @@ export default function formatContentType(contentType) {
     return contentTypes[contentTypeKey];
   } else {
     return contentType;
+  }
+}
+
+export function formatResourceType(resourceType) {
+  let resourceTypes = {
+    all: 'All',
+    audiobook: 'Audiobook',
+    book: 'Book',
+    bookseries: 'Book Series',
+    database: 'Database',
+    journal: 'Journal',
+    newsletter: 'Newsletter',
+    newspaper: 'Newspaper',
+    proceedings: 'Proceedings',
+    report: 'Report',
+    streamingaudio: 'Streaming Audio',
+    streamingvideo: 'Streaming Video',
+    thesisdissertation: 'Thesis & Dissertation',
+    website: 'Web Site',
+    unspecified: 'Unspecified',
+  };
+
+  let resourceTypeKey = resourceType.toLowerCase();
+
+  if (resourceType && Object.prototype.hasOwnProperty.call(resourceTypes, resourceTypeKey)) {
+    return resourceTypes[resourceTypeKey];
+  } else {
+    return resourceType;
   }
 }
