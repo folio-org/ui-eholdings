@@ -23,7 +23,8 @@ describeApplication('CustomerResourceShow', () => {
     });
 
     let title = this.server.create('title', {
-      package: vendorPackage
+      package: vendorPackage,
+      pubType: 'StreamingVideo',
     });
 
     resource = this.server.create('customer-resource', {
@@ -49,7 +50,7 @@ describeApplication('CustomerResourceShow', () => {
     });
 
     it('displays the publication type', () => {
-      expect(ResourcePage.publicationType).to.equal(resource.title.pubType);
+      expect(ResourcePage.publicationType).to.equal('Streaming Video');
     });
 
     it('displays the vendor name', () => {
