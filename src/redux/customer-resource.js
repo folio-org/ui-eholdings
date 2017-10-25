@@ -55,7 +55,9 @@ export const customerResourceEpics = combineEpics(
     deserialize: (payload) => {
       if (payload) {
         let { customerResourcesList, ...title } = payload;
-        customerResourcesList[0].contentType = formatContentType(customerResourcesList[0].contentType);
+        if (customerResourcesList[0] && customerResourcesList[0].contentType) {
+          customerResourcesList[0].contentType = formatContentType(customerResourcesList[0].contentType);
+        }
 
         return {
           ...title,

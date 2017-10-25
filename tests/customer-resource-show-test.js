@@ -162,6 +162,39 @@ describeApplication('CustomerResourceShow', () => {
     });
   });
 
+  describe('visiting the customer resource page with some attributes undefined', () => {
+    beforeEach(function () {
+      vendorPackage = this.server.create('package', 'withTitles', {
+        vendor,
+        packageName: 'Cool Package',
+        contentType: '',
+        titleCount: 5
+      });
+
+      let title = this.server.create('title', {
+        package: vendorPackage
+      });
+
+      resource = this.server.create('customer-resource', {
+        package: vendorPackage,
+        isSelected: false,
+        title
+      });
+
+      return this.visit(`/eholdings/vendors/${vendor.id}/packages/${vendorPackage.id}/titles/${resource.titleId}`, () => {
+        expect(ResourcePage.$root).to.exist;
+      });
+    });
+
+    it('displays the title name', () => {
+      expect(ResourcePage.titleName).to.equal(resource.title.titleName);
+    });
+
+    it('does not display a content type', () => {
+      expect(ResourcePage.contentType).to.equal('');
+    });
+  });
+
   describe('encountering a server error', () => {
     beforeEach(function () {
       this.server.get('/vendors/:vendorId/packages/:packageId/titles/:titleId', [{

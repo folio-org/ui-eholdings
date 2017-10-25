@@ -10,5 +10,9 @@ export default function formatContentType(contentType) {
     onlinereference: 'Online Reference'
   };
 
-  return contentTypes[contentType.toLowerCase()];
+  if (contentType) {
+    return contentTypes[contentType.toLowerCase()];
+  } else {
+    return contentType;
+  }
 }

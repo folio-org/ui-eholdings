@@ -31,7 +31,9 @@ export const packageEpics = combineEpics(
       `eholdings/vendors/${vendorId}/packages/${packageId}`
     ),
     deserialize: (payload) => {
-      payload.contentType = formatContentType(payload.contentType);
+      if (payload.contentType) {
+        payload.contentType = formatContentType(payload.contentType);
+      }
       return payload;
     }
   }),
