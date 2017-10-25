@@ -12,7 +12,8 @@ describeApplication('TitleShow', () => {
   beforeEach(function () {
     title = this.server.create('title', 'withPackages', {
       titleName: 'Cool Title',
-      publisherName: 'Cool Publisher'
+      publisherName: 'Cool Publisher',
+      pubType: 'website'
     });
 
     title.subjects = [
@@ -53,7 +54,7 @@ describeApplication('TitleShow', () => {
     });
 
     it('displays the publication type', () => {
-      expect(TitleShowPage.publicationType).to.equal(title.pubType);
+      expect(TitleShowPage.publicationType).to.equal('Web Site');
     });
 
     it('groups together identifiers of the same type and subtype', () => {
