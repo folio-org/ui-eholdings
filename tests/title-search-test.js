@@ -11,7 +11,11 @@ describeApplication('TitleSearch', () => {
       titleName: i => `Title${i + 1}`
     });
 
-    return this.visit('/eholdings/search/titles', () => {
+    this.server.create('title', {
+      titleName: 'SomethingSomethingWhoa'
+    });
+
+    return this.visit('/eholdings/?searchType=titles', () => {
       expect(TitleSearchPage.$root).to.exist;
     });
   });
@@ -27,6 +31,29 @@ describeApplication('TitleSearch', () => {
 
     it("displays title entries related to 'Title'", () => {
       expect(TitleSearchPage.$searchResultsItems).to.have.lengthOf(3);
+    });
+
+    describe('clicking a search results list item', () => {
+      beforeEach(() => {
+        return convergeOn(() => {
+          // wait for the previous search to complete
+          expect(TitleSearchPage.$searchResultsItems).to.have.lengthOf(3);
+        }).then(() => TitleSearchPage.$searchResultsItems[0].click());
+      });
+
+      it('shows the preview pane', () => {
+        expect(TitleSearchPage.previewPaneIsVisible).to.be.true;
+      });
+
+      describe('clicking the vignette behind the preview pane', () => {
+        beforeEach(() => {
+          TitleSearchPage.clickSearchVignette();
+        });
+
+        it('hides the preview pane', () => {
+          expect(TitleSearchPage.previewPaneIsVisible).to.be.false;
+        });
+      });
     });
 
     describe('filtering the search results further', () => {

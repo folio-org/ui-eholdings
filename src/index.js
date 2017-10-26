@@ -6,14 +6,10 @@ import { reducer, epics } from './redux';
 
 import ApplicationRoute from './routes/application';
 import SearchRoute from './routes/search';
-import VendorSearchResultsRoute from './routes/vendor/vendor-search-results';
-import PackageSearchResultsRoute from './routes/package/package-search-results';
-import TitleSearchResultsRoute from './routes/title/title-search-results';
-
-import VendorShow from './routes/vendor/vendor-show';
-import PackageShow from './routes/package/package-show';
-import CustomerResourceShow from './routes/customer-resource/customer-resource-show';
-import TitleShow from './routes/title/title-show';
+import VendorShow from './routes/vendor-show';
+import PackageShow from './routes/package-show';
+import CustomerResourceShow from './routes/customer-resource-show';
+import TitleShow from './routes/title-show';
 
 import SettingsRoute from './routes/settings';
 
@@ -58,19 +54,15 @@ export default class EHoldings extends Component {
       <Route path={rootPath} component={SettingsRoute} />
     ) : (
       <Route path={rootPath} component={ApplicationRoute}>
-        <Switch>
-          <Route path={`${rootPath}/search/:searchType(vendors|packages|titles)`} component={SearchRoute}>
-            <Route path={`${rootPath}/search/vendors`} exact component={VendorSearchResultsRoute} />
-            <Route path={`${rootPath}/search/packages`} exact component={PackageSearchResultsRoute} />
-            <Route path={`${rootPath}/search/titles`} exact component={TitleSearchResultsRoute} />
-          </Route>
-
-          <Route path={`${rootPath}/vendors/:vendorId`} exact component={VendorShow} />
-          <Route path={`${rootPath}/vendors/:vendorId/packages/:packageId`} exact component={PackageShow} />
-          <Route path={`${rootPath}/vendors/:vendorId/packages/:packageId/titles/:titleId`} exact component={CustomerResourceShow} />
-          <Route path={`${rootPath}/titles/:titleId`} exact component={TitleShow} />
-          <Route render={() => (<Redirect to={`${rootPath}/search/vendors`} />)} />
-        </Switch>
+        <Route path={rootPath} component={SearchRoute}>
+          <Switch>
+            <Route path={`${rootPath}/vendors/:vendorId`} exact component={VendorShow} />
+            <Route path={`${rootPath}/vendors/:vendorId/packages/:packageId`} exact component={PackageShow} />
+            <Route path={`${rootPath}/vendors/:vendorId/packages/:packageId/titles/:titleId`} exact component={CustomerResourceShow} />
+            <Route path={`${rootPath}/titles/:titleId`} exact component={TitleShow} />
+            <Route render={() => (<Redirect to={`${rootPath}?searchType=vendors`} />)} />
+          </Switch>
+        </Route>
       </Route>
     );
   }

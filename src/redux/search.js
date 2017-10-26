@@ -63,5 +63,5 @@ function createSearchEpic(name, {
 export const searchEpic = combineEpics(
   createSearchEpic('vendors'),
   createSearchEpic('packages', { recordsKey: 'packagesList' }),
-  createSearchEpic('titles', { defaultParams: { searchfield: 'titlename' } })
+  createSearchEpic('titles', { defaultParams: { searchfield: 'TitleName' } })
 );

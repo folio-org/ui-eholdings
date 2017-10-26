@@ -1,12 +1,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
 import Icon from '@folio/stripes-components/lib/Icon';
 
-import List from '../../components/list';
-import PackageListItem from '../../components/package-list-item';
+import List from './list';
+import PackageListItem from './package-list-item';
 
-function PackageSearchResults({
+export default function PackageSearchResults({
+  location,
   query: { search },
   isPending,
   isResolved,
@@ -15,7 +15,7 @@ function PackageSearchResults({
   error
 }) {
   return isPending ? (
-    <Icon icon='spinner-ellipsis' />
+    <Icon icon="spinner-ellipsis" />
   ) : isRejected ? (
     <p data-test-package-search-error-message>
       {error.length ? error[0].message : error.message}
@@ -29,7 +29,10 @@ function PackageSearchResults({
       {content.map(pkg => (
         <PackageListItem
           key={pkg.packageId}
-          link={`/eholdings/vendors/${pkg.vendorId}/packages/${pkg.packageId}`}
+          link={{
+            pathname: `/eholdings/vendors/${pkg.vendorId}/packages/${pkg.packageId}`,
+            search: location.search
+          }}
           item={pkg}
         />
       ))}
@@ -38,6 +41,7 @@ function PackageSearchResults({
 }
 
 PackageSearchResults.propTypes = {
+  location: PropTypes.object.isRequired,
   query: PropTypes.shape({
     search: PropTypes.string
   }).isRequired,
@@ -50,7 +54,3 @@ PackageSearchResults.propTypes = {
     PropTypes.array
   ])
 };
-
-export default connect(
-  ({ eholdings: { search } }) => ({ ...search.packages })
-)(PackageSearchResults);

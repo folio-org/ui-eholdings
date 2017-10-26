@@ -8,6 +8,7 @@ const cx = classNames.bind(styles);
 export default function SearchPaneVignette({ isHidden, onClick }) {
   return (
     <div // eslint-disable-line jsx-a11y/no-static-element-interactions
+      data-test-search-vignette
       onClick={onClick}
       className={cx('search-pane-vignette', {
         'is-hidden': isHidden

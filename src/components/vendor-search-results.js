@@ -1,12 +1,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
 import Icon from '@folio/stripes-components/lib/Icon';
 
-import List from '../../components/list';
-import TitleListItem from '../../components/title-list-item';
+import List from './list';
+import VendorListItem from './vendor-list-item';
 
-function TitleSearchResults({
+export default function VendorSearchResults({
+  location,
   query: { search },
   isPending,
   isResolved,
@@ -15,29 +15,33 @@ function TitleSearchResults({
   error
 }) {
   return isPending ? (
-    <Icon icon='spinner-ellipsis' />
+    <Icon icon="spinner-ellipsis" />
   ) : isRejected ? (
-    <p data-test-title-search-error-message>
+    <p data-test-vendor-search-error-message>
       {error.length ? error[0].message : error.message}
     </p>
   ) : isResolved && !content.length ? (
-    <p data-test-title-search-no-results>
-      No titles found for <strong>{`"${search}"`}</strong>.
+    <p data-test-vendor-search-no-results>
+      No vendors found for <strong>{`"${search}"`}</strong>.
     </p>
   ) : (
-    <List data-test-title-search-results-list>
-      {content.map(title => (
-        <TitleListItem
-          key={title.titleId}
-          link={`/eholdings/titles/${title.titleId}`}
-          item={title}
+    <List data-test-vendor-search-results-list>
+      {content.map(vendor => (
+        <VendorListItem
+          key={vendor.vendorId}
+          item={vendor}
+          link={{
+            pathname: `/eholdings/vendors/${vendor.vendorId}`,
+            search: location.search
+          }}
         />
       ))}
     </List>
   );
 }
 
-TitleSearchResults.propTypes = {
+VendorSearchResults.propTypes = {
+  location: PropTypes.object.isRequired,
   query: PropTypes.shape({
     search: PropTypes.string
   }).isRequired,
@@ -50,7 +54,3 @@ TitleSearchResults.propTypes = {
     PropTypes.array
   ])
 };
-
-export default connect(
-  ({ eholdings: { search } }) => ({ ...search.titles })
-)(TitleSearchResults);
