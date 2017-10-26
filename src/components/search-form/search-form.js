@@ -7,10 +7,10 @@ import styles from './search-form.css';
 export default class SearchForm extends Component {
   static propTypes = {
     searchType: PropTypes.oneOf(['vendors', 'packages', 'titles']).isRequired,
-    searchTypeLocations: PropTypes.shape({
-      vendors: PropTypes.object.isRequired,
-      packages: PropTypes.object.isRequired,
-      titles: PropTypes.object.isRequired
+    searchTypeUrls: PropTypes.shape({
+      vendors: PropTypes.string.isRequired,
+      packages: PropTypes.string.isRequired,
+      titles: PropTypes.string.isRequired
     }).isRequired,
     onSearch: PropTypes.func.isRequired,
     searchString: PropTypes.string
@@ -28,7 +28,10 @@ export default class SearchForm extends Component {
 
   handleSearchSubmit = (e) => {
     e.preventDefault();
-    this.props.onSearch(this.state.searchString);
+
+    this.props.onSearch({
+      search: this.state.searchString
+    });
   };
 
   handleChangeSearch = (e) => {
@@ -36,17 +39,17 @@ export default class SearchForm extends Component {
   };
 
   render() {
-    const { searchType, searchTypeLocations } = this.props;
+    const { searchType, searchTypeUrls } = this.props;
     const { searchString } = this.state;
 
     return (
       <div className={styles['search-form-container']} data-test-search-form={searchType}>
         <div className={styles['search-switcher']}>
-          {Object.keys(searchTypeLocations).map(type => (
+          {Object.keys(searchTypeUrls).map(type => (
             <Link
               key={type}
               title={`search ${type}`}
-              to={searchTypeLocations[type]}
+              to={searchTypeUrls[type]}
               className={searchType === type && styles['is-active']}
               data-test-search-type-button={type}
             >
