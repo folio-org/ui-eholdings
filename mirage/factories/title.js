@@ -4,20 +4,21 @@ export default Factory.extend({
   titleName: () => faker.company.catchPhrase(),
   publisherName: () => faker.company.companyName(),
   pubType: () => faker.random.arrayElement([
+    'All',
+    'Audiobook',
+    'Book',
+    'BookSeries',
+    'Database',
     'Journal',
     'Newsletter',
-    'Report',
-    'Proceedings',
-    'Website',
     'Newspaper',
-    'Unspecified',
-    'Book',
-    'Book Series',
-    'Database',
-    'Thesis Dissertation',
-    'Streaming Audio',
-    'Streaming Video',
-    'Audiobook'
+    'Proceedings',
+    'Report',
+    'StreamingAudio',
+    'StreamingVideo',
+    'thesisdissertation',
+    'website',
+    'unspecified'
   ]),
 
   withPackages: trait({
