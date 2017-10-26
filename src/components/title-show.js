@@ -63,7 +63,7 @@ export default function TitleShow({ title }) {
           {title.error.length ? title.error[0].message : title.error.message}
         </p>
       ) : (
-        <Icon icon='spinner-ellipsis' />
+        <Icon icon="spinner-ellipsis" />
       )}
     </div>
   );

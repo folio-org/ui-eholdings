@@ -108,7 +108,7 @@ export default function PackageShow({ vendorPackage, packageTitles }, { intl }) 
           {vendorPackage.error.length ? vendorPackage.error[0].message : vendorPackage.error.message}
         </p>
       ) : (
-        <Icon icon='spinner-ellipsis' />
+        <Icon icon="spinner-ellipsis" />
       )}
     </div>
   );

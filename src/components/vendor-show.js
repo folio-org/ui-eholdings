@@ -59,7 +59,7 @@ export default function VendorShow({ vendor, vendorPackages }) {
           {vendor.error.length ? vendor.error[0].message : vendor.error.message}
         </p>
       ) : (
-        <Icon icon='spinner-ellipsis' />
+        <Icon icon="spinner-ellipsis" />
       )}
     </div>
   );

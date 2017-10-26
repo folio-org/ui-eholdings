@@ -130,7 +130,7 @@ export default function CustomerResourceShow({ customerResource, toggleRequest, 
               {customerResource.error.length ? customerResource.error[0].message : customerResource.error.message}
             </p>
           ) : (
-            <Icon icon='spinner-ellipsis' />
+            <Icon icon="spinner-ellipsis" />
           )}
         </Pane>
       </Paneset>

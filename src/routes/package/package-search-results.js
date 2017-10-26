@@ -16,7 +16,7 @@ function PackageSearchResults({
   error
 }) {
   return isPending ? (
-    <Icon icon='spinner-ellipsis' />
+    <Icon icon="spinner-ellipsis" />
   ) : isRejected ? (
     <p data-test-package-search-error-message>
       {error.length ? error[0].message : error.message}

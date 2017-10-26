@@ -25,7 +25,7 @@ class SettingsRoute extends Component {
     return (
       <ApplicationRoute showSettings>
         {application.config.isPending ? (
-          <Icon icon='spinner-ellipsis' />
+          <Icon icon="spinner-ellipsis" />
         ) : (
           <View
             settings={application.config.content}
