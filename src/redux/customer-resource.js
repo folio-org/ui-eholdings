@@ -9,7 +9,7 @@ import {
 } from './request';
 import {
   formatContentType,
-  formatResourceType
+  formatPublicationType
 } from './utilities';
 
 // customer-resource action creators
@@ -64,7 +64,7 @@ export const customerResourceEpics = combineEpics(
         }
 
         if (title.pubType) {
-          title.pubType = formatResourceType(title.pubType);
+          title.pubType = formatPublicationType(title.pubType);
         }
 
         return {

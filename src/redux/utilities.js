@@ -19,8 +19,8 @@ export function formatContentType(contentType) {
   }
 }
 
-export function formatResourceType(resourceType) {
-  let resourceTypes = {
+export function formatPublicationType(publicationType) {
+  let publicationTypes = {
     all: 'All',
     audiobook: 'Audiobook',
     book: 'Book',
@@ -38,11 +38,11 @@ export function formatResourceType(resourceType) {
     unspecified: 'Unspecified',
   };
 
-  let resourceTypeKey = resourceType.toLowerCase();
+  let publicationTypeKey = publicationType.toLowerCase();
 
-  if (resourceType && Object.prototype.hasOwnProperty.call(resourceTypes, resourceTypeKey)) {
-    return resourceTypes[resourceTypeKey];
+  if (publicationType && Object.prototype.hasOwnProperty.call(publicationTypes, publicationTypeKey)) {
+    return publicationTypes[publicationTypeKey];
   } else {
-    return resourceType;
+    return publicationType;
   }
 }

@@ -4,7 +4,7 @@ import {
   createRequestEpic
 } from './request';
 
-import { formatResourceType } from './utilities';
+import { formatPublicationType } from './utilities';
 
 // title action creators
 export const getTitle = createRequestCreator('title');
@@ -21,7 +21,7 @@ export const titleEpic = createRequestEpic({
   endpoint: ({ titleId }) => `eholdings/titles/${titleId}`,
   deserialize: (payload) => {
     if (payload.pubType) {
-      payload.pubType = formatResourceType(payload.pubType);
+      payload.pubType = formatPublicationType(payload.pubType);
     }
     return payload;
   }
