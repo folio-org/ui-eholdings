@@ -54,7 +54,7 @@ describeApplication('TitleShow', () => {
     });
 
     it('displays the publication type', () => {
-      expect(TitleShowPage.publicationType).to.equal('Web Site');
+      expect(TitleShowPage.publicationType).to.equal('Website');
     });
 
     it('groups together identifiers of the same type and subtype', () => {

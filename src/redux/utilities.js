@@ -34,7 +34,7 @@ export function formatPublicationType(publicationType) {
     streamingaudio: 'Streaming Audio',
     streamingvideo: 'Streaming Video',
     thesisdissertation: 'Thesis & Dissertation',
-    website: 'Web Site',
+    website: 'Website',
     unspecified: 'Unspecified',
   };
 
