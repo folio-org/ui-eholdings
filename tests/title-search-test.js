@@ -9,7 +9,7 @@ describeApplication('TitleSearch', () => {
   let titles;
 
   beforeEach(function () {
-    titles = this.server.createList('title', 3, {
+    titles = this.server.createList('title', 3, 'withPackages', {
       titleName: i => `Title${i + 1}`
     });
 
@@ -66,6 +66,30 @@ describeApplication('TitleSearch', () => {
 
         it('hides the preview pane', () => {
           expect(TitleSearchPage.previewPaneIsVisible).to.be.false;
+        });
+      });
+
+      describe('clicking an item within the preview pane', () => {
+        beforeEach(() => {
+          return TitleSearchPage.clickPackage(0);
+        });
+
+        it('hides the search ui', () => {
+          expect(TitleSearchPage.$root).to.not.exist;
+        });
+
+        describe('and going back', () => {
+          beforeEach(function () {
+            return this.goBack(() => expect(TitleSearchPage.$root).to.exist);
+          });
+
+          it('displays the original search', () => {
+            expect(TitleSearchPage.$searchField).to.have.value('Title');
+          });
+
+          it('displays the original search results', () => {
+            expect(TitleSearchPage.$searchResultsItems).to.have.lengthOf(3);
+          });
         });
       });
     });
