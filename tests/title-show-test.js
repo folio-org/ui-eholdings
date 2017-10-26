@@ -102,6 +102,92 @@ describeApplication('TitleShow', () => {
     });
   });
 
+  describe('visiting the title page with some attributes undefined', () => {
+    beforeEach(function () {
+      title = this.server.create('title', 'withPackages', {
+        titleName: 'Cool Title',
+        publisherName: 'Cool Publisher',
+        pubType: ''
+      });
+      title.subjects = [
+      ];
+      title.identifiers = [
+      ];
+      title.contributors = [
+      ];
+      title.save();
+      customerResources = title.customerResources.models;
+      return this.visit(`/eholdings/titles/${title.id}`, () => {
+        expect(TitleShowPage.$root).to.exist;
+      });
+    });
+
+    it('displays the title name', () => {
+      expect(TitleShowPage.titleName).to.equal('Cool Title');
+    });
+
+    it('displays the publisher name', () => {
+      expect(TitleShowPage.publisherName).to.equal('Cool Publisher');
+    });
+
+    it('does not displays the publication type', () => {
+      expect(TitleShowPage.publicationType).to.equal('');
+    });
+
+    it('does not display identifiers', () => {
+      expect(TitleShowPage.identifiersList.length).to.equal(0);
+    });
+    it('does not display contributors', () => {
+      expect(TitleShowPage.contributorsList.length).to.equal(0);
+    });
+    it('does not display package list', () => {
+      expect(TitleShowPage.packageList.length).to.equal(0);
+    });
+    it('does not display subjects list', () => {
+      expect(TitleShowPage.subjectsList.length).to.equal(0);
+    });
+  });
+
+  describe('visiting the title page with unknown attribute values', () => {
+    beforeEach(function () {
+      title = this.server.create('title', 'withPackages', {
+        titleName: 'Cool Title',
+        publisherName: 'Cool Publisher',
+        pubType: 'UnknownPublicationType'
+      });
+      title.save();
+      customerResources = title.customerResources.models;
+      return this.visit(`/eholdings/titles/${title.id}`, () => {
+        expect(TitleShowPage.$root).to.exist;
+      });
+    });
+
+    it('displays the title name', () => {
+      expect(TitleShowPage.titleName).to.equal('Cool Title');
+    });
+
+    it('displays the publisher name', () => {
+      expect(TitleShowPage.publisherName).to.equal('Cool Publisher');
+    });
+
+    it('displays publication type without modification', () => {
+      expect(TitleShowPage.publicationType).to.equal('UnknownPublicationType');
+    });
+
+    it('does not display identifiers', () => {
+      expect(TitleShowPage.identifiersList.length).to.equal(0);
+    });
+    it('does not display contributors', () => {
+      expect(TitleShowPage.contributorsList.length).to.equal(0);
+    });
+    it('does not display package list', () => {
+      expect(TitleShowPage.packageList.length).to.equal(0);
+    });
+    it('does not display subjects list', () => {
+      expect(TitleShowPage.subjectsList.length).to.equal(0);
+    });
+  });
+
   describe('encountering a server error', () => {
     beforeEach(function () {
       this.server.get('/titles/:titleId', [{
