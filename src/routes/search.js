@@ -61,7 +61,8 @@ class SearchRoute extends Component {
     let isNewQuery = props.location.search !== this.props.location.search;
     let isNewSearch = search !== this.state.search;
 
-    // if there is no search type, do nothing
+    // if there is no search type, do nothing. Otherwise if there
+    // _was_ a search type before, remove it from our state
     if (searchType) {
       // if there isn't a pending search, we're within the same search
       // type as before, and the query has changed, perform the search
@@ -74,6 +75,9 @@ class SearchRoute extends Component {
       if (isNewSearch || isNewQuery) {
         this.setState({ query, searchType, search });
       }
+    } else if (this.state.searchType) {
+      // with no search type, query and search are probably empty
+      this.setState({ query, searchType, search });
     }
   }
 
