@@ -43,6 +43,7 @@ export function describeApplication(name, setup, describe = window.describe) {
       this.app = render(<TestHarness />, rootElement);
 
       this.visit = visit.bind(null, this); // eslint-disable-line no-use-before-define
+      this.goBack = goBack.bind(null, this); // eslint-disable-line no-use-before-define
     });
 
     afterEach(function () {
@@ -84,14 +85,31 @@ describeApplication.only = function (name, setup) {
  *   });
  *
  * @param {Object} context - a mocha test context.
- * @param {string|Location} - where to navigate.
- * @param {function} - assertion to run to ensure that the navigation
- * worked.
+ * @param {String|Location} path - where to navigate.
+ * @param {Function} convergenceCheck - assertion to run to ensure
+ * that the navigation worked.
  * @return {Promise} resolved when navigation is complete.
  */
 function visit(context, path, convergenceCheck) {
   if (context.app) {
     context.app.visit(path);
+  }
+
+  return convergeOn.call(context, convergenceCheck);
+}
+
+/**
+ * Triggers navigating back through the history, and ensures thiat it
+ * happens correctly.
+ *
+ * @param {Object} context - a mocha test context.
+ * @param {Function} convergenceCheck - assertion to run to ensure
+ * that the navigation worked.
+ * @returns {Promise} resolved when navigation is complete
+ */
+function goBack(context, convergenceCheck) {
+  if (context.app) {
+    context.app.history.goBack();
   }
 
   return convergeOn.call(context, convergenceCheck);
