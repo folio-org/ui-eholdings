@@ -138,7 +138,7 @@ class SearchRoute extends Component {
   getSearchTypeUrls() {
     let { location, search } = this.props;
 
-    return Object.keys(search).reduce((locations, type) => ({
+    return ['vendors', 'packages', 'titles'].reduce((locations, type) => ({
       [type]: this.buildSearchUrl(location.pathname, search[type].query, type),
       ...locations
     }), {});

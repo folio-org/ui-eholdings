@@ -4,9 +4,11 @@ import Link from 'react-router-dom/Link';
 import capitalize from 'lodash/capitalize';
 import styles from './search-form.css';
 
+const validSearchTypes = ['vendors', 'packages', 'titles'];
+
 export default class SearchForm extends Component {
   static propTypes = {
-    searchType: PropTypes.oneOf(['vendors', 'packages', 'titles']).isRequired,
+    searchType: PropTypes.oneOf(validSearchTypes).isRequired,
     searchTypeUrls: PropTypes.shape({
       vendors: PropTypes.string.isRequired,
       packages: PropTypes.string.isRequired,
@@ -45,7 +47,7 @@ export default class SearchForm extends Component {
     return (
       <div className={styles['search-form-container']} data-test-search-form={searchType}>
         <div className={styles['search-switcher']}>
-          {Object.keys(searchTypeUrls).map(type => (
+          {validSearchTypes.map(type => (
             <Link
               key={type}
               title={`search ${type}`}
