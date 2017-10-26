@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { getVendor, getVendorPackages } from '../../redux/vendor';
+import { getVendor, getVendorPackages } from '../redux/vendor';
 
-import View from '../../components/vendor-show';
+import View from '../components/vendor-show';
 
 class VendorShowRoute extends Component {
   static propTypes = {

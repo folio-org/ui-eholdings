@@ -8,10 +8,9 @@ import {
   searchTitles
 } from '../redux/search';
 
-import VendorSearchResultsRoute from './vendor/vendor-search-results';
-import PackageSearchResultsRoute from './package/package-search-results';
-import TitleSearchResultsRoute from './title/title-search-results';
-
+import VendorSearchResults from '../components/vendor-search-results';
+import PackageSearchResults from '../components/package-search-results';
+import TitleSearchResults from '../components/title-search-results';
 import SearchPaneset from '../components/search-paneset';
 import SearchForm from '../components/search-form';
 
@@ -151,14 +150,15 @@ class SearchRoute extends Component {
     let { location } = this.props;
     let { searchType, search } = this.state;
     let { isResolved, isPending, isRejected } = search;
+    let props = { location, ...search };
 
     if (isResolved || isPending || isRejected) {
       if (searchType === 'vendors') {
-        return <VendorSearchResultsRoute location={location} />;
+        return <VendorSearchResults {...props} />;
       } else if (searchType === 'packages') {
-        return <PackageSearchResultsRoute location={location} />;
+        return <PackageSearchResults {...props} />;
       } else if (searchType === 'titles') {
-        return <TitleSearchResultsRoute location={location} />;
+        return <TitleSearchResults {...props} />;
       }
     }
 

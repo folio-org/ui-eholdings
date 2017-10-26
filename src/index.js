@@ -6,11 +6,10 @@ import { reducer, epics } from './redux';
 
 import ApplicationRoute from './routes/application';
 import SearchRoute from './routes/search';
-
-import VendorShow from './routes/vendor/vendor-show';
-import PackageShow from './routes/package/package-show';
-import CustomerResourceShow from './routes/customer-resource/customer-resource-show';
-import TitleShow from './routes/title/title-show';
+import VendorShow from './routes/vendor-show';
+import PackageShow from './routes/package-show';
+import CustomerResourceShow from './routes/customer-resource-show';
+import TitleShow from './routes/title-show';
 
 import SettingsRoute from './routes/settings';
 
