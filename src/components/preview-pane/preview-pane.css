@@ -1,0 +1,31 @@
+.preview-pane {
+  display: flex;
+  flex: 11 0 0;
+  flex-flow: column nowrap;
+  height: 100%;
+  width: 100%;
+  overflow: hidden;
+  position: absolute;
+  right: 0;
+  top: 0;
+  z-index: 11;
+  background-color: white;
+}
+
+@media(min-width: 641px){
+  .preview-pane {
+    width: 600px
+  }
+}
+
+@media(min-width: 961px){
+  .preview-pane {
+    position: relative;
+    width: auto;
+
+    /* preview pane is open next to results */
+    &:nth-child(5) {
+      border-left: 1px solid rgba(0,0,0,.2);
+    }
+  }
+}

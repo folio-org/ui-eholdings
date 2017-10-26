@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { getPackage, getPackageTitles } from '../../redux/package';
+import { getPackage, getPackageTitles } from '../redux/package';
 
-import View from '../../components/package-show';
+import View from '../components/package-show';
 
 class PackageShowRoute extends Component {
   static propTypes = {
@@ -23,6 +23,14 @@ class PackageShowRoute extends Component {
     let { vendorId, packageId } = this.props.match.params;
     this.props.getPackage({ vendorId, packageId });
     this.props.getPackageTitles({ vendorId, packageId });
+  }
+
+  componentWillReceiveProps({ match: { params: { vendorId, packageId } } }) {
+    if (vendorId !== this.props.match.params.vendorId ||
+       packageId !== this.props.match.params.packageId) {
+      this.props.getPackage({ vendorId, packageId });
+      this.props.getPackageTitles({ vendorId, packageId });
+    }
   }
 
   render() {

@@ -11,7 +11,11 @@ describeApplication('VendorSearch', () => {
       vendorName: i => `Vendor${i + 1}`
     });
 
-    return this.visit('/eholdings/search/vendors', () => {
+    this.server.create('vendor', {
+      vendorName: 'Totally Awesome Co'
+    });
+
+    return this.visit('/eholdings/?searchType=vendors', () => {
       expect(VendorSearchPage.$root).to.exist;
     });
   });
@@ -30,6 +34,29 @@ describeApplication('VendorSearch', () => {
     });
 
     it('displays the name, number of packages available, and packages subscribed to for each vendor');
+
+    describe('clicking a search results list item', () => {
+      beforeEach(() => {
+        return convergeOn(() => {
+          // wait for the previous search to complete
+          expect(VendorSearchPage.$searchResultsItems).to.have.lengthOf(3);
+        }).then(() => VendorSearchPage.$searchResultsItems[0].click());
+      });
+
+      it('shows the preview pane', () => {
+        expect(VendorSearchPage.previewPaneIsVisible).to.be.true;
+      });
+
+      describe('clicking the vignette behind the preview pane', () => {
+        beforeEach(() => {
+          VendorSearchPage.clickSearchVignette();
+        });
+
+        it('hides the preview pane', () => {
+          expect(VendorSearchPage.previewPaneIsVisible).to.be.false;
+        });
+      });
+    });
 
     describe('filtering the search results further', () => {
       beforeEach(() => {

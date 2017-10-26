@@ -2,21 +2,30 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import PaneHeader from '@folio/stripes-components/lib/PaneHeader';
 import PaneMenu from '@folio/stripes-components/lib/PaneMenu';
+import Icon from '@folio/stripes-components/lib/Icon';
 import capitalize from 'lodash/capitalize';
 
 import SearchPane from '../search-pane';
 import ResultsPane from '../results-pane';
+import PreviewPane from '../preview-pane';
 import SearchPaneVignette from '../search-pane-vignette';
 
 import styles from './search-paneset.css';
 
 export default class SearchPaneset extends React.Component {
   static propTypes = {
-    children: PropTypes.node,
     searchForm: PropTypes.node,
     hideFilters: PropTypes.bool,
-    hasResults: PropTypes.bool,
-    resultsType: PropTypes.string
+    resultsType: PropTypes.string,
+    resultsView: PropTypes.node,
+    detailsView: PropTypes.node,
+    location: PropTypes.object
+  }
+
+  static contextTypes = {
+    router: PropTypes.shape({
+      history: PropTypes.object
+    })
   }
 
   state = {
@@ -37,17 +46,31 @@ export default class SearchPaneset extends React.Component {
     }));
   };
 
+  closePreview = () => {
+    this.context.router.history.push({
+      pathname: '/eholdings',
+      search: this.props.location.search
+    });
+  };
+
   render() {
-    let { searchForm, hasResults, resultsType, children } = this.props;
+    let { hideFilters } = this.state;
+    let { searchForm, resultsType, resultsView, detailsView } = this.props;
+
+    // only hide filters if there are results and always hide filters when a detail view is visible
+    hideFilters = (hideFilters && !!resultsView) || !!detailsView;
 
     return (
       <div className={styles['search-paneset']}>
-        {hasResults && (
-          <SearchPaneVignette isHidden={this.state.hideFilters} onClick={this.toggleFilters} />
+        {!!resultsView && (
+          <SearchPaneVignette isHidden={hideFilters} onClick={this.toggleFilters} />
         )}
-        <SearchPane isHidden={this.state.hideFilters}>
+        {!!detailsView && (
+          <SearchPaneVignette onClick={this.closePreview} />
+        )}
+        <SearchPane isHidden={hideFilters}>
           <PaneHeader
-            lastMenu={hasResults ? (
+            lastMenu={resultsView ? (
               <PaneMenu><button onClick={this.toggleFilters} className={styles['search-pane-toggle']}>Apply</button></PaneMenu>
             ) : (
               <span />
@@ -57,7 +80,7 @@ export default class SearchPaneset extends React.Component {
             {searchForm}
           </div>
         </SearchPane>
-        {hasResults && (
+        {!!resultsView && (
           <ResultsPane>
             <PaneHeader
               paneTitle={capitalize(resultsType)}
@@ -66,9 +89,21 @@ export default class SearchPaneset extends React.Component {
               )}
             />
             <div className={styles['scrollable-container']}>
-              {children}
+              {resultsView}
             </div>
           </ResultsPane>
+        )}
+        {!!detailsView && (
+          <PreviewPane previewType={resultsType}>
+            <PaneHeader
+              firstMenu={(
+                <PaneMenu><button onClick={this.closePreview}><Icon icon="closeX" /></button></PaneMenu>
+              )}
+            />
+            <div className={styles['scrollable-container']}>
+              {detailsView}
+            </div>
+          </PreviewPane>
         )}
       </div>
     );

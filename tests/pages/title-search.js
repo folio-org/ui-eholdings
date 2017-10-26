@@ -13,7 +13,7 @@ export default {
   },
 
   get $searchResultsItems() {
-    return $('[data-test-title-search-results-list] li');
+    return $('[data-test-title-search-results-list] li a');
   },
 
   get hasErrors() {
@@ -22,6 +22,14 @@ export default {
 
   get noResultsMessage() {
     return $('[data-test-title-search-no-results]').text();
+  },
+
+  get previewPaneIsVisible() {
+    return $('[data-test-preview-pane="titles"]').length === 1;
+  },
+
+  clickSearchVignette() {
+    return $('[data-test-search-vignette]').trigger('click');
   },
 
   search(query) {

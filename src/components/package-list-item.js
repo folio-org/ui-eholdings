@@ -31,6 +31,9 @@ export default function PackageListItem({ item, link, showTitleCount }) {
 
 PackageListItem.propTypes = {
   item: PropTypes.object,
-  link: PropTypes.string,
+  link: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.object
+  ]),
   showTitleCount: PropTypes.bool
 };

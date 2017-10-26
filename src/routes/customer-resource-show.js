@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { getCustomerResource, toggleIsSelected } from '../../redux/customer-resource';
+import { getCustomerResource, toggleIsSelected } from '../redux/customer-resource';
 
-import View from '../../components/customer-resource-show';
+import View from '../components/customer-resource-show';
 
 class CustomerResourceShowRoute extends Component {
   static propTypes = {

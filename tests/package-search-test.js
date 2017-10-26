@@ -11,7 +11,11 @@ describeApplication('PackageSearch', () => {
       packageName: i => `Package${i + 1}`
     });
 
-    return this.visit('/eholdings/search/packages', () => {
+    this.server.create('package', 'withVendor', {
+      packageName: 'SomethingElse'
+    });
+
+    return this.visit('/eholdings/?searchType=packages', () => {
       expect(PackageSearchPage.$root).to.exist;
     });
   });
@@ -27,6 +31,29 @@ describeApplication('PackageSearch', () => {
 
     it("displays package entries related to 'Package'", () => {
       expect(PackageSearchPage.$searchResultsItems).to.have.lengthOf(3);
+    });
+
+    describe('clicking a search results list item', () => {
+      beforeEach(() => {
+        return convergeOn(() => {
+          // wait for the previous search to complete
+          expect(PackageSearchPage.$searchResultsItems).to.have.lengthOf(3);
+        }).then(() => PackageSearchPage.$searchResultsItems[0].click());
+      });
+
+      it('shows the preview pane', () => {
+        expect(PackageSearchPage.previewPaneIsVisible).to.be.true;
+      });
+
+      describe('clicking the vignette behind the preview pane', () => {
+        beforeEach(() => {
+          PackageSearchPage.clickSearchVignette();
+        });
+
+        it('hides the preview pane', () => {
+          expect(PackageSearchPage.previewPaneIsVisible).to.be.false;
+        });
+      });
     });
 
     describe('filtering the search results further', () => {
