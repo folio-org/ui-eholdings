@@ -173,7 +173,8 @@ describeApplication('CustomerResourceShow', () => {
       });
 
       let title = this.server.create('title', {
-        package: vendorPackage
+        package: vendorPackage,
+        pubType: ''
       });
 
       resource = this.server.create('customer-resource', {
@@ -194,9 +195,13 @@ describeApplication('CustomerResourceShow', () => {
     it('does not display a content type', () => {
       expect(ResourcePage.contentType).to.equal('');
     });
+
+    it('does not display a publication type', () => {
+      expect(ResourcePage.publicationType).to.equal('');
+    });
   });
 
-  describe('visiting the customer resource page with unknown attribute value', () => {
+  describe('visiting the customer resource page with unknown attribute values', () => {
     beforeEach(function () {
       vendorPackage = this.server.create('package', 'withTitles', {
         vendor,
@@ -206,7 +211,8 @@ describeApplication('CustomerResourceShow', () => {
       });
 
       let title = this.server.create('title', {
-        package: vendorPackage
+        package: vendorPackage,
+        pubType: 'UnknownPublicationType'
       });
 
       resource = this.server.create('customer-resource', {
@@ -226,6 +232,10 @@ describeApplication('CustomerResourceShow', () => {
 
     it('does not display a content type', () => {
       expect(ResourcePage.contentType).to.equal('Isolinear Chip');
+    });
+
+    it('displays the publication type without modification', () => {
+      expect(ResourcePage.publicationType).to.equal('UnknownPublicationType');
     });
   });
 
