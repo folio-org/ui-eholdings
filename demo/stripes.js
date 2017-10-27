@@ -1,37 +1,13 @@
 #!/usr/bin/env node
 
 const commander = require('commander');
-const webpack = require('webpack');
-const HardSourceWebpackPlugin = require('hard-source-webpack-plugin');
 const path = require('path');
-const fs = require('fs');
-const nodeObjectHash = require('node-object-hash');
-const express = require('express');
-const webpackDevMiddleware = require('webpack-dev-middleware');
-const webpackHotMiddleware = require('webpack-hot-middleware');
-const connectHistoryApiFallback = require('connect-history-api-fallback');
-
-const StripesConfigPlugin = require('@folio/stripes-core/webpack/stripes-config-plugin');
-
-const stripesCorePath = path.dirname(require.resolve('@folio/stripes-core/index.html'));
-const cwd = path.resolve();
-const cwdModules = path.join(cwd, 'node_modules');
-const coreModules = path.join(stripesCorePath, 'node_modules');
-
+const stripes = require('@folio/stripes-core/webpack/stripes-node-api');
 const packageJSON = require('@folio/stripes-core/package.json');
+const webpack = require('webpack');
+const fs = require('fs');
 
 commander.version(packageJSON.version);
-
-const cachePlugin = new HardSourceWebpackPlugin({
-  cacheDirectory: path.join(cwd, 'webpackcache'),
-  recordsPath: path.join(cwd, 'webpackcache/records.json'),
-  configHash(webpackConfig) {
-    // Build a string value used by HardSource to determine which cache to
-    // use if [confighash] is in cacheDirectory or if the cache should be
-    // replaced if [confighash] does not appear in cacheDirectory.
-    return nodeObjectHash().hash(webpackConfig);
-  }
-});
 
 // Display webpack output to the console
 function processStats(err, stats) {
@@ -40,8 +16,12 @@ function processStats(err, stats) {
   }
   console.log(stats.toString({ // eslint-disable-line no-console
     chunks: false,
-    colors: true
+    colors: true,
   }));
+  // Check for webpack compile errors and exit
+  if (err || stats.hasErrors()) {
+    process.exit(1);
+  }
 }
 
 function mirage(config, enabled = false) {
@@ -102,61 +82,28 @@ commander
   .arguments('<config>')
   .description('Launch a webpack-dev-server')
   .action((stripesConfigFile, options) => {
-    const mirageOption = options.mirage === true ? 'default' : options.mirage;
-    const app = express();
-    const devConfig = require('@folio/stripes-core/webpack.config.cli.dev'); // eslint-disable-line
-    const config = Object.assign({}, devConfig);
     const stripesConfig = require(path.resolve(stripesConfigFile)); // eslint-disable-line
-    config.plugins.push(new StripesConfigPlugin(stripesConfig));
-    // Look for modules in node_modules, then the platform, then stripes-core
-    config.resolve.modules = ['node_modules', cwdModules, coreModules];
-    config.resolveLoader = { modules: ['node_modules', cwdModules, coreModules] };
-    config.plugins.push(new webpack.EnvironmentPlugin({
-      NODE_ENV: 'development',
-      MIRAGE_SCENARIO: mirageOption || 'default'
-    }));
-    if (options.cache) config.plugins.push(cachePlugin);
-    if (options.devtool) config.devtool = options.devtool;
+    const mirageOption = options.mirage === true ? 'default' : options.mirage;
 
-    // Show eslint failures at runtime
-    config.module.rules.push({
-      test: /src\/.*\.js$/,
-      loader: 'eslint-loader',
-      options: {
-        emitWarning: true
-      }
-    });
+    options.webpackOverrides = (config) => {
+      config.plugins.push(new webpack.EnvironmentPlugin({
+        NODE_ENV: 'development',
+        MIRAGE_SCENARIO: mirageOption || 'default'
+      }));
 
-    const compiler = webpack(mirage(svgloader(config), mirageOption));
+      // Show eslint failures at runtime
+      config.module.rules.push({
+        test: /src\/.*\.js$/,
+        loader: 'eslint-loader',
+        options: {
+          emitWarning: true
+        }
+      });
 
-    const port = options.port || process.env.STRIPES_PORT || 3000;
-    const host = options.host || process.env.STRIPES_HOST || 'localhost';
+      return mirage(svgloader(config), mirageOption);
+    };
 
-    app.use(express.static(`${stripesCorePath}/public`));
-
-    // Process index rewrite before webpack-dev-middleware
-    // to respond with webpack's dist copy of index.html
-    app.use(connectHistoryApiFallback({}));
-
-    app.use(webpackDevMiddleware(compiler, {
-      noInfo: true,
-      publicPath: config.output.publicPath
-    }));
-
-    app.use(webpackHotMiddleware(compiler));
-
-    app.get('/favicon.ico', (req, res) => {
-      res.sendFile(path.join(stripesCorePath, 'favicon.ico'));
-    });
-
-    app.listen(port, host, (err) => {
-      if (err) {
-        console.log(err); // eslint-disable-line no-console
-        return;
-      }
-
-      console.log(`Listening at http://${host}:${port}`); // eslint-disable-line no-console
-    });
+    stripes.serve(stripesConfig, options);
   });
 
 commander
@@ -165,20 +112,13 @@ commander
   .arguments('<config> <output>')
   .description('Build a tenant bundle')
   .action((stripesConfigFile, outputPath, options) => {
-    const prodConfig = require('@folio/stripes-core/webpack.config.cli.prod'); // eslint-disable-line
-    const config = Object.assign({}, prodConfig);
     const stripesConfig = require(path.resolve(stripesConfigFile)); // eslint-disable-line
-    config.plugins.push(new StripesConfigPlugin(stripesConfig));
-    config.resolve.modules = ['node_modules', cwdModules];
-    config.resolveLoader = { modules: ['node_modules', cwdModules] };
-    config.output.path = path.resolve(outputPath);
-    if (options.publicPath) {
-      config.output.publicPath = options.publicPath;
-    }
-    const compiler = webpack(mirage(svgloader(config)));
-    compiler.run((err, stats) => {
-      processStats(err, stats);
-    });
+    options.outputPath = outputPath;
+    options.webpackOverrides = (config) => {
+      return mirage(svgloader(config));
+    };
+
+    stripes.build(stripesConfig, options, processStats);
   });
 
 commander.parse(process.argv);
