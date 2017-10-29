@@ -59,7 +59,7 @@ export default function PackageShow({
           {(packageRecord.customCoverage.beginCoverage || packageRecord.customCoverage.endCoverage) && (
             <KeyValueLabel label="Custom Coverage">
               <div data-test-eholdings-package-details-custom-coverage>
-                {formatISODateWithoutTime(packageRecord.customCoverage.beginCoverage)} - {formatISODateWithoutTime(packageRecord.customCoverage.endCoverage)}
+                {formatISODateWithoutTime(packageRecord.customCoverage.beginCoverage, intl)} - {formatISODateWithoutTime(packageRecord.customCoverage.endCoverage, intl)}
               </div>
             </KeyValueLabel>
           )}
