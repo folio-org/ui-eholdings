@@ -6,6 +6,8 @@ import KeyValueLabel from '../key-value-label';
 import IdentifiersList from '../identifiers-list';
 import ContributorsList from '../contributors-list';
 import ToggleSwitch from '../toggle-switch';
+import CoverageDates from '../coverage-dates';
+import { isBookPublicationType, formatPublicationType, isValidCoverageList } from './utilities';
 import styles from './customer-resource-show.css';
 
 export default function CustomerResourceShow({ customerResource, toggleRequest, toggleSelected }) {
@@ -23,6 +25,8 @@ export default function CustomerResourceShow({ customerResource, toggleRequest, 
             </KeyValueLabel>
           </div>
 
+          <ContributorsList data={record.contributorsList} />
+
           <KeyValueLabel label="Publisher">
             <div data-test-eholdings-customer-resource-show-publisher-name>
               {record.publisherName}
@@ -36,7 +40,14 @@ export default function CustomerResourceShow({ customerResource, toggleRequest, 
           </KeyValueLabel>
 
           <IdentifiersList data={record.identifiersList} />
-          <ContributorsList data={record.contributorsList} />
+
+          {record.subjectsList && record.subjectsList.length > 0 && (
+            <KeyValueLabel label="Subjects">
+              <div data-test-eholdings-customer-resource-show-subjects-list>
+                {record.subjectsList.map(subjectObj => subjectObj.subject).join('; ')}
+              </div>
+            </KeyValueLabel>
+          ) }
 
           <KeyValueLabel label="Package">
             <div data-test-eholdings-customer-resource-show-package-name>
@@ -66,11 +77,13 @@ export default function CustomerResourceShow({ customerResource, toggleRequest, 
             </KeyValueLabel>
           ) }
 
-          {record.subjectsList && record.subjectsList.length > 0 && (
-            <KeyValueLabel label="Subjects">
-              <div data-test-eholdings-customer-resource-show-subjects-list>
-                {record.subjectsList.map(subjectObj => subjectObj.subject).join('; ')}
-              </div>
+          {record.managedCoverageList && record.managedCoverageList.length && isValidCoverageList(record.managedCoverageList) && (
+            <KeyValueLabel label="Managed Coverage Dates">
+              <CoverageDates
+                coverageArray={record.managedCoverageList}
+                id="customer-resource-show-managed-coverage-list"
+                isYearOnly={isBookPublicationType(record.pubType)}
+              />
             </KeyValueLabel>
           ) }
 

@@ -7,6 +7,7 @@ import KeyValueLabel from '../key-value-label';
 import List from '../list';
 import TitleListItem from '../title-list-item';
 import ToggleSwitch from '../toggle-switch';
+import formatISODateWithoutTime from '../utilities';
 import styles from './package-show.css';
 
 export default function PackageShow({
@@ -16,15 +17,6 @@ export default function PackageShow({
   toggleSelected
 }, { intl }) {
   let packageRecord = vendorPackage.content;
-
-  let formatISODateWithoutTime = (dateString) => {
-    let [year, month, day] = dateString.split('-');
-    let dateObj = new Date();
-    dateObj.setFullYear(year);
-    dateObj.setMonth(parseInt(month, 10) - 1);
-    dateObj.setDate(day);
-    return intl.formatDate(dateObj);
-  };
 
   return (
     <div className={styles['detail-container']} data-test-eholdings-package-details>
