@@ -31,7 +31,7 @@ describeApplication('CustomerResourceShowManagedCoverage', () => {
     });
   });
 
-  describe.only('visiting the customer resource show page with single managed coverage', () => {
+  describe('visiting the customer resource show page with single managed coverage', () => {
     beforeEach(function () {
       resource.managedCoverageList = this.server.createList('managed-coverage', 1,
         {
@@ -39,7 +39,6 @@ describeApplication('CustomerResourceShowManagedCoverage', () => {
           endCoverage: '1972-12-19'
         });
       resource.save();
-      console.log('resource.managedCoverageList:', resource.managedCoverageList);
 
       return this.visit(`/eholdings/vendors/${pkg.vendor.id}/packages/${pkg.id}/titles/${resource.id}`, () => {
         expect(CustomerResourceShowPage.$root).to.exist;

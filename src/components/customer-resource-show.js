@@ -81,7 +81,7 @@ export default function CustomerResourceShow({ customerResource, toggleRequest, 
               {record.managedCoverageList && record.managedCoverageList.length > 0 && (
                 <KeyValueLabel label="Managed Coverage Dates">
                   <div data-test-eholdings-customer-resource-show-managed-coverage-list>
-                    {record.managedCoverageList.map(managedCoverageObj => (`${formatISODateWithoutTime(managedCoverageObj.beginCoverage, intl)}-${formatISODateWithoutTime(managedCoverageObj.endCoverage, intl)}`)).join(',')}
+                    {record.managedCoverageList.map(managedCoverageObj => (`${formatISODateWithoutTime(managedCoverageObj.beginCoverage, intl)} - ${formatISODateWithoutTime(managedCoverageObj.endCoverage, intl)}`)).join(',')}
                   </div>
                 </KeyValueLabel>
               ) }
