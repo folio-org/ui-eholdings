@@ -33,6 +33,14 @@ export default Factory.extend({
     }
   }),
 
+  // withManagedCoverage: trait({
+  //   afterCreate(customerResource, server) {
+  //     console.log('customResource', customerResource);
+  //     let managedCoverages = server.createList('managed-coverage', 3);
+  //     customerResource.managedCoverageList = managedCoverages;
+  //     customerResource.save();
+  //   }
+  // }),
   afterCreate(customerResource, server) {
     if (!customerResource.visibilityData) {
       let visibilityData = server.create('visibility-data');
@@ -55,6 +63,12 @@ export default Factory.extend({
         embargoValue: 0
       });
       customerResource.update('managedEmbargoPeriod', managedEmbargoPeriod);
+      customerResource.save();
+    }
+
+    if (!customerResource.managedCoverageList) {
+      let managedCoverages = server.createList('managed-coverage', 3);
+      customerResource.update('managedCoverageList', managedCoverages);
       customerResource.save();
     }
   }
