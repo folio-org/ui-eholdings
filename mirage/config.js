@@ -106,6 +106,22 @@ export default function configure() {
     });
   });
 
+  this.put('/vendors/:vendorId/packages/:packageId', ({ packages, customerResources }, request) => {
+    let matchingPackage = packages.findBy({
+      vendorId: request.params.vendorId,
+      id: request.params.packageId
+    });
+
+    let matchingCustomerResources = customerResources.where({
+      packageId: request.params.packageId
+    });
+
+    let { isSelected } = JSON.parse(request.requestBody);
+
+    matchingCustomerResources.update('isSelected', isSelected).save();
+    matchingPackage.update('isSelected', isSelected).save();
+  });
+
   this.get('/vendors/:vendorId/packages/:packageId/titles', ({ customerResources }, request) => {
     return customerResources.where({ packageId: request.params.packageId });
   });

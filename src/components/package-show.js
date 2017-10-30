@@ -6,8 +6,14 @@ import Icon from '@folio/stripes-components/lib/Icon';
 import KeyValueLabel from './key-value-label';
 import List from './list';
 import TitleListItem from './title-list-item';
+import ToggleSwitch from './toggle-switch';
 
-export default function PackageShow({ vendorPackage, packageTitles }, { intl }) {
+export default function PackageShow({
+  vendorPackage,
+  packageTitles,
+  toggleRequest,
+  toggleSelected
+}, { intl }) {
   let packageRecord = vendorPackage.content;
 
   let formatISODateWithoutTime = (dateString) => {
@@ -67,11 +73,19 @@ export default function PackageShow({ vendorPackage, packageTitles }, { intl }) 
 
           <hr />
 
-          <KeyValueLabel label="Selected">
-            <div data-test-eholdings-package-details-selected>
-              {packageRecord.isSelected ? 'Yes' : 'No'}
-            </div>
-          </KeyValueLabel>
+          <label
+            data-test-eholdings-package-details-selected
+            htmlFor="package-details-toggle-switch"
+          >
+            <h4>{packageRecord.isSelected ? 'Selected' : 'Not Selected'}</h4>
+            <ToggleSwitch
+              onChange={toggleSelected}
+              disabled={toggleRequest.isPending}
+              checked={packageRecord.isSelected}
+              isPending={toggleRequest.isPending}
+              id="package-details-toggle-switch"
+            />
+          </label>
 
           <hr />
 
@@ -116,7 +130,9 @@ export default function PackageShow({ vendorPackage, packageTitles }, { intl }) 
 
 PackageShow.propTypes = {
   vendorPackage: PropTypes.object.isRequired,
-  packageTitles: PropTypes.object.isRequired
+  packageTitles: PropTypes.object.isRequired,
+  toggleRequest: PropTypes.object.isRequired,
+  toggleSelected: PropTypes.func.isRequired
 };
 
 PackageShow.contextTypes = {
