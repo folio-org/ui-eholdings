@@ -1,6 +1,6 @@
-/* global describe, beforeEach */
+/* global describe, beforeEach, afterEach */
 import { expect } from 'chai';
-import it from './it-will';
+import it, { convergeOn } from './it-will';
 
 import { describeApplication } from './helpers';
 import PackageShowPage from './pages/package-show';
@@ -19,6 +19,7 @@ describeApplication('PackageShow', () => {
       vendor,
       packageName: 'Cool Package',
       contentType: 'ebook',
+      isSelected: false,
       titleCount: 5
     });
 
@@ -37,7 +38,7 @@ describeApplication('PackageShow', () => {
     });
 
     it('displays whether or not the package is selected', () => {
-      expect(PackageShowPage.isSelected).to.equal(`${vendorPackage.isSelected ? 'Yes' : 'No'}`);
+      expect(PackageShowPage.isSelected).to.equal(false);
     });
 
     it('displays the content type', () => {
@@ -45,7 +46,7 @@ describeApplication('PackageShow', () => {
     });
 
     it('displays the total number of titles', () => {
-      expect(PackageShowPage.numTitles).to.equal(`${vendorPackage.titleCount}`);
+      expect(PackageShowPage.numTitles).to.equal('5');
     });
 
     it('displays the number of selected titles', () => {
@@ -53,7 +54,7 @@ describeApplication('PackageShow', () => {
     });
 
     it('displays a list of titles', () => {
-      expect(PackageShowPage.titleList).to.have.lengthOf(customerResources.length);
+      expect(PackageShowPage.titleList).to.have.lengthOf(5);
     });
 
     it('displays name of a title in the title list', () => {
@@ -62,6 +63,120 @@ describeApplication('PackageShow', () => {
 
     it('displays whether the first title is selected', () => {
       expect(PackageShowPage.titleList[0].isSelected).to.equal(customerResources[0].isSelected);
+    });
+
+    describe('successfully selecting a package title to add to my holdings', () => {
+      beforeEach(function () {
+        /*
+         * The expectations in the convergent `it` blocks
+         * get run once every 10ms.  We were seeing test flakiness
+         * when a toggle action dispatched and resolved before an
+         * expectation had the chance to run.  We sidestep this by
+         * temporarily increasing the mirage server's response time
+         * to 50ms.
+         * TODO: control timing directly with Mirage
+         */
+        this.server.timing = 50;
+        return PackageShowPage.toggleIsSelected();
+      });
+
+      afterEach(function () {
+        this.server.timing = 0;
+      });
+
+      it('reflects the desired state (Selected)', () => {
+        expect(PackageShowPage.isSelected).to.equal(true);
+      });
+
+      it('indicates it working to get to desired state', () => {
+        expect(PackageShowPage.isSelecting).to.equal(true);
+      });
+
+      it('cannot be interacted with while the request is in flight', () => {
+        expect(PackageShowPage.isSelectedToggleable).to.equal(false);
+      });
+
+      describe('when the request succeeds', () => {
+        it('reflect the desired state was set', () => {
+          expect(PackageShowPage.isSelected).to.equal(true);
+        });
+
+        it('indicates it is no longer working', () => {
+          expect(PackageShowPage.isSelecting).to.equal(false);
+        });
+
+        it('should show the package titles are all selected', () => {
+          expect(PackageShowPage.allTitlesSelected).to.equal(true);
+        });
+
+        it('updates the selected title count', () => {
+          expect(PackageShowPage.numTitlesSelected).to.equal(`${vendorPackage.titleCount}`);
+        });
+      });
+
+      describe('and deselecting the package', () => {
+        beforeEach(() => {
+          return convergeOn(() => {
+            // wait for the package to become toggleable again
+            expect(PackageShowPage.isSelectedToggleable).to.equal(true);
+          }).then(() => PackageShowPage.toggleIsSelected());
+        });
+
+        it('reflects the desired state (not selected)', () => {
+          expect(PackageShowPage.isSelected).to.equal(false);
+        });
+
+        it('should show all package titles are not selected', () => {
+          expect(PackageShowPage.allTitlesSelected).to.equal(false);
+        });
+
+        it('updates the selected title count', () => {
+          expect(PackageShowPage.numTitlesSelected).to.equal('0');
+        });
+      });
+    });
+
+    describe('unsuccessfully selecting a package title to add to my holdings', () => {
+      beforeEach(function () {
+        this.server.put('/vendors/:vendorId/packages/:packageId', [{
+          message: 'There was an error',
+          code: '1000',
+          subcode: 0
+        }], 500);
+
+        this.server.timing = 50;
+        return PackageShowPage.toggleIsSelected();
+      });
+
+      afterEach(function () {
+        this.server.timing = 0;
+      });
+
+      it('reflects the desired state (Selected)', () => {
+        expect(PackageShowPage.isSelected).to.equal(true);
+      });
+
+      it('indicates it working to get to desired state', () => {
+        expect(PackageShowPage.isSelecting).to.equal(true);
+      });
+
+      it('cannot be interacted with while the request is in flight', () => {
+        expect(PackageShowPage.isSelectedToggleable).to.equal(false);
+      });
+
+      describe('when the request succeeds', () => {
+        it('reflect the desired state was set', () => {
+          expect(PackageShowPage.isSelected).to.equal(false);
+        });
+
+        it('indicates it is no longer working', () => {
+          expect(PackageShowPage.isSelecting).to.equal(false);
+        });
+
+        it.skip('logs an Error somewhere', () => {
+          expect(PackageShowPage.flashError).to.match(/unable to select/i);
+        });
+      });
     });
   });
 

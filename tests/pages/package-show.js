@@ -1,4 +1,6 @@
 import $ from 'jquery';
+import { expect } from 'chai';
+import { convergeOn } from '../it-will';
 
 function createTitleObject(element) {
   let $scope = $(element);
@@ -40,7 +42,31 @@ export default {
   },
 
   get isSelected() {
-    return $('[data-test-eholdings-package-details-selected]').text();
+    return $('[data-test-eholdings-package-details-selected]').text() === 'Selected';
+  },
+
+  toggleIsSelected() {
+    /*
+     * We don't want to click the element before it exists.  This should
+     * probably become a generic 'click' helper once we have more usage.
+     */
+    return convergeOn(() => {
+      expect($('[data-test-eholdings-package-details-selected]')).to.exist;
+    }).then(() => (
+      $('[data-test-eholdings-package-details-selected] input').click()
+    ));
+  },
+
+  get isSelecting() {
+    return $('[data-test-eholdings-package-details-selected] [data-test-toggle-switch]').attr('class').indexOf('is-pending--') !== -1;
+  },
+
+  get isSelectedToggleable() {
+    return $('[data-test-eholdings-package-details-selected] input[type=checkbox]').prop('disabled') === false;
+  },
+
+  get allTitlesSelected() {
+    return this.titleList.every(title => title.isSelected);
   },
 
   get hasErrors() {
