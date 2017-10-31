@@ -122,8 +122,8 @@ describeApplication('CustomerResourceShowManagedCoverage', () => {
         expect(CustomerResourceShowPage.$root).to.exist;
       });
     });
-    //it('displays dates with YYYY format', () => {
+    // it('displays dates with YYYY format', () => {
     //  expect(CustomerResourceShowPage.managedCoverageList).to.equal('1969 - 1972');
-    //});
+    // });
   });
 });

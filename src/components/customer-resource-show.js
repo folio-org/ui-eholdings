@@ -81,7 +81,7 @@ export default function CustomerResourceShow({ customerResource, toggleRequest, 
               {record.managedCoverageList && record.managedCoverageList.length > 0 && (
                 <KeyValueLabel label="Managed Coverage Dates">
                   <CoverageDates
-                    id="customer-resource-show-managed-coverage-list" 
+                    id="customer-resource-show-managed-coverage-list"
                     coverageArray={record.managedCoverageList}
                     intl={intl}
                   />

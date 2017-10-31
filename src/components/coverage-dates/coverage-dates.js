@@ -1,10 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import classNames from 'classnames/bind';
-import styles from './coverage-dates.css';
-import { formatISODateWithoutTime, isBookPublicationType } from '../utilities';
-
-const cx = classNames.bind(styles);
+import { formatISODateWithoutTime } from '../utilities';
 
 export default function CoverageDates(props) {
   return (
@@ -18,6 +14,5 @@ export default function CoverageDates(props) {
 
 CoverageDates.propTypes = {
   coverageArray: PropTypes.array,
-  id: PropTypes.string,
   intl: PropTypes.object
 };
