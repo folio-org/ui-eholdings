@@ -105,8 +105,11 @@ describeApplication('CustomerResourceShowManagedCoverage', () => {
     });
   });
 
-  describe('visiting the customer resource page with managed coverage and year only resource type', () => {
+  describe('visiting the customer resource page with managed coverage and year only publication type', () => {
     beforeEach(function () {
+      title.pubType = 'Audiobook';
+      title.save;
+
       resource.managedCoverageList = this.server.createList('managed-coverage', 1,
         {
           beginCoverage: '1969-07-16',
@@ -119,8 +122,8 @@ describeApplication('CustomerResourceShowManagedCoverage', () => {
         expect(CustomerResourceShowPage.$root).to.exist;
       });
     });
-    //    it('displays dates with YYYY format', () => {
-    //      expect(CustomerResourceShowPage.managedCoverageList).to.equal('1969 - 1972');
-    //    });
+    //it('displays dates with YYYY format', () => {
+    //  expect(CustomerResourceShowPage.managedCoverageList).to.equal('1969 - 1972');
+    //});
   });
 });

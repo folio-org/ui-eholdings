@@ -8,7 +8,7 @@ import KeyValueLabel from './key-value-label';
 import IdentifiersList from './identifiers-list';
 import ContributorsList from './contributors-list';
 import ToggleSwitch from './toggle-switch';
-import formatISODateWithoutTime from './utilities';
+import CoverageDates from './coverage-dates';
 
 export default function CustomerResourceShow({ customerResource, toggleRequest, toggleSelected }, { intl }) {
   const record = customerResource.content;
@@ -80,10 +80,11 @@ export default function CustomerResourceShow({ customerResource, toggleRequest, 
 
               {record.managedCoverageList && record.managedCoverageList.length > 0 && (
                 <KeyValueLabel label="Managed Coverage Dates">
-                  <div data-test-eholdings-customer-resource-show-managed-coverage-list>
-                    {record.managedCoverageList
-                      .sort((item1, item2) => item1.beginCoverage < item2.beginCoverage)
-                      .map(managedCoverageObj => (`${formatISODateWithoutTime(managedCoverageObj.beginCoverage, intl)} - ${formatISODateWithoutTime(managedCoverageObj.endCoverage, intl)}`)).join(', ')}</div>
+                  <CoverageDates
+                    id="customer-resource-show-managed-coverage-list" 
+                    coverageArray={record.managedCoverageList}
+                    intl={intl}
+                  />
                 </KeyValueLabel>
               ) }
 

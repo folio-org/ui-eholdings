@@ -7,7 +7,7 @@ import KeyValueLabel from '../key-value-label';
 import List from '../list';
 import TitleListItem from '../title-list-item';
 import ToggleSwitch from '../toggle-switch';
-import formatISODateWithoutTime from '../utilities';
+import { formatISODateWithoutTime } from '../utilities';
 import styles from './package-show.css';
 
 export default function PackageShow({

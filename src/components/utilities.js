@@ -1,4 +1,4 @@
-export default function formatISODateWithoutTime(dateString, intl) {
+export function formatISODateWithoutTime(dateString, intl) {
   if (dateString == null) {
     return '';
   }
@@ -8,4 +8,17 @@ export default function formatISODateWithoutTime(dateString, intl) {
   dateObj.setMonth(parseInt(month, 10) - 1);
   dateObj.setDate(day);
   return intl.formatDate(dateObj);
+}
+export function isBookPublicationType(publicationType) {
+  let publicationTypeLookup = publicationType.toLowerCase();
+
+  let bookPublicationTypes = [
+    'audio book',
+    'book',
+    'book series',
+    'streaming audio',
+    'streaming video'
+  ];
+
+  return bookPublicationTypes.includes(publicationTypeLookup);
 }
