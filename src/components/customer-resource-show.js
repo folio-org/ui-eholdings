@@ -9,6 +9,7 @@ import IdentifiersList from './identifiers-list';
 import ContributorsList from './contributors-list';
 import ToggleSwitch from './toggle-switch';
 import CoverageDates from './coverage-dates';
+import { isBookPublicationType } from './utilities';
 
 export default function CustomerResourceShow({ customerResource, toggleRequest, toggleSelected }, { intl }) {
   const record = customerResource.content;
@@ -84,6 +85,7 @@ export default function CustomerResourceShow({ customerResource, toggleRequest, 
                     coverageArray={record.managedCoverageList}
                     intl={intl}
                     id="customer-resource-show-managed-coverage-list"
+                    isYearOnly={isBookPublicationType(record.pubType)}
                   />
                 </KeyValueLabel>
               ) }

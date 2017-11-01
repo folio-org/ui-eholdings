@@ -9,16 +9,22 @@ export function formatISODateWithoutTime(dateString, intl) {
   dateObj.setDate(day);
   return intl.formatDate(dateObj);
 }
+export function formatYear(dateString) {
+  if (dateString == null) {
+    return '';
+  }
+  let [year] = dateString.split('-');
+  return year;
+}
 export function isBookPublicationType(publicationType) {
   let publicationTypeLookup = publicationType.toLowerCase();
 
   let bookPublicationTypes = [
-    'audio book',
+    'audiobook',
     'book',
     'book series',
     'streaming audio',
     'streaming video'
   ];
-
   return bookPublicationTypes.includes(publicationTypeLookup);
 }

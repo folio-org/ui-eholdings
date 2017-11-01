@@ -13,6 +13,8 @@ describeApplication('CustomerResourceShowManagedCoverage', () => {
   beforeEach(function () {
     pkg = this.server.create('package', 'withVendor');
     title = this.server.create('title');
+    title.pubType = 'Journal';
+    title.save;
     resource = this.server.create('customer-resource', {
       package: pkg,
       title
@@ -124,7 +126,7 @@ describeApplication('CustomerResourceShowManagedCoverage', () => {
     });
   });
 
-  describe('visiting the customer resource page with managed coverage and year only publication type', () => {
+  describe('visiting the customer resource page with managed coverage and year only publication type, multiple years', () => {
     beforeEach(function () {
       title.pubType = 'Audiobook';
       title.save;
@@ -141,8 +143,51 @@ describeApplication('CustomerResourceShowManagedCoverage', () => {
         expect(CustomerResourceShowPage.$root).to.exist;
       });
     });
-    // it('displays dates with YYYY format', () => {
-    //  expect(CustomerResourceShowPage.managedCoverageList).to.equal('1969 - 1972');
-    // });
+    it('displays dates with YYYY format', () => {
+      expect(CustomerResourceShowPage.managedCoverageList).to.equal('1969 - 1972');
+    });
+  });
+  describe('visiting the customer resource page with managed coverage and year only publication type single year', () => {
+    beforeEach(function () {
+      title.pubType = 'Audiobook';
+      title.save;
+
+      resource.managedCoverageList = this.server.createList('managed-coverage', 1,
+        {
+          beginCoverage: '1969-01-01',
+          endCoverage: '1969-05-01'
+        }
+      );
+      resource.save();
+
+      return this.visit(`/eholdings/vendors/${pkg.vendor.id}/packages/${pkg.id}/titles/${resource.id}`, () => {
+        expect(CustomerResourceShowPage.$root).to.exist;
+      });
+    });
+    it('displays dates with YYYY format', () => {
+      expect(CustomerResourceShowPage.managedCoverageList).to.equal('1969');
+    });
+  });
+
+  describe('visiting the customer resource page with managed coverage and year only publication type missing end year', () => {
+    beforeEach(function () {
+      title.pubType = 'Audiobook';
+      title.save;
+
+      resource.managedCoverageList = this.server.createList('managed-coverage', 1,
+        {
+          beginCoverage: '1969-01-01',
+          endCoverage: ''
+        }
+      );
+      resource.save();
+
+      return this.visit(`/eholdings/vendors/${pkg.vendor.id}/packages/${pkg.id}/titles/${resource.id}`, () => {
+        expect(CustomerResourceShowPage.$root).to.exist;
+      });
+    });
+    //it('displays dates with YYYY format', () => {
+    //  expect(CustomerResourceShowPage.managedCoverageList).to.equal('1969');
+    //});
   });
 });
