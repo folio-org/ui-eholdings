@@ -3,7 +3,7 @@ export default function unconfiguredBackendScenario(server) {
     data: {
       type: 'status',
       attributes: {
-        'is-configuration-valid': false
+        isConfigurationValid: false
       }
     }
   });

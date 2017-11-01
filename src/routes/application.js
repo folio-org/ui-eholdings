@@ -36,7 +36,7 @@ class ApplicationRoute extends Component {
         ) : status.isRejected ? (
           <FailedBackendErrorScreen />
         ) : status.isResolved && (
-          !(showSettings || status.content['is-configuration-valid'])
+          !(showSettings || status.content.isConfigurationValid)
             ? <InvalidBackendErrorScreen />
             : children
         )) : <NoBackendErrorScreen />}

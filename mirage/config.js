@@ -70,7 +70,7 @@ export default function configure() {
     data: {
       type: 'status',
       attributes: {
-        'is-configuration-valid': true
+        isConfigurationValid: true
       }
     }
   });
