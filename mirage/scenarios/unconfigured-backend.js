@@ -12,8 +12,8 @@ export default function unconfiguredBackendScenario(server) {
     data: {
       type: 'configuration',
       attributes: {
-        'customer-id': '',
-        'api-key': ''
+        customerId: '',
+        apiKey: ''
       }
     }
   });

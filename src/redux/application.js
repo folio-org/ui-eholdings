@@ -80,8 +80,8 @@ export const applicationEpics = combineEpics(
       data: {
         type: 'configurations',
         attributes: {
-          'customer-id': customerId,
-          'api-key': apiKey
+          customerId,
+          apiKey
         }
       }
     })
