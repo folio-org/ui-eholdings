@@ -7,7 +7,7 @@ import {
   createRequestReducer,
   createRequestEpic
 } from './request';
-import { formatContentType } from './utilities';
+import formatContentType from './utilities';
 
 // package action creators
 export const getPackage = createRequestCreator('package');

@@ -6,15 +6,21 @@ function sortCoverage(coverageObj1, coverageObj2) {
   return coverageObj1.beginCoverage < coverageObj2.beginCoverage;
 }
 
-function formatCoverageDate(coverageObj, intl, isYearOnly) {
-  if (isYearOnly) {
-    let startYear = `${formatYear(coverageObj.beginCoverage)}`;
-    let endYear = coverageObj.endCoverage === null || coverageObj.endCoverage.trim() === '' ? '' : `${formatYear(coverageObj.endCoverage)}`;
-    return startYear === endYear ? `${startYear}` : `${startYear} - ${endYear}`;
+function formatCoverageFullDate(coverageObj, intl) {
+  let startDate = `${formatISODateWithoutTime(coverageObj.beginCoverage, intl)}`;
+  let endDate = coverageObj.endCoverage === null || coverageObj.endCoverage.trim() === '' ? 'Present' : `${formatISODateWithoutTime(coverageObj.endCoverage, intl)}`;
+  return `${startDate} - ${endDate}`;
+}
+
+function formatCoverageYear(coverageObj) {
+  let startYear = `${formatYear(coverageObj.beginCoverage)}`;
+  let endYear = coverageObj.endCoverage === null || coverageObj.endCoverage.trim() === '' ? '' : `${formatYear(coverageObj.endCoverage)}`;
+  if (startYear === endYear) {
+    return `${startYear}`;
+  } else if (endYear === '') {
+    return `${startYear}`;
   } else {
-    let startDate = `${formatISODateWithoutTime(coverageObj.beginCoverage, intl)}`;
-    let endDate = coverageObj.endCoverage === null || coverageObj.endCoverage.trim() === '' ? 'Present' : `${formatISODateWithoutTime(coverageObj.endCoverage, intl)}`;
-    return `${startDate} - ${endDate}`;
+    return `${startYear} - ${endYear}`;
   }
 }
 
@@ -23,7 +29,7 @@ export default function CoverageDates(props) {
     <div id={props.id} data-test-eholdings-customer-resource-show-managed-coverage-list >
       { props.coverageArray
         .sort((coverageObj1, coverageObj2) => sortCoverage(coverageObj1, coverageObj2))
-        .map(coverageArrayObj => formatCoverageDate(coverageArrayObj, props.intl, props.isYearOnly)).join(', ')}
+        .map(coverageArrayObj => (props.isYearOnly ? formatCoverageYear(coverageArrayObj) : formatCoverageFullDate(coverageArrayObj, props.intl))).join(', ')}
     </div>
   );
 }

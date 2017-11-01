@@ -186,8 +186,29 @@ describeApplication('CustomerResourceShowManagedCoverage', () => {
         expect(CustomerResourceShowPage.$root).to.exist;
       });
     });
-    //it('displays dates with YYYY format', () => {
-    //  expect(CustomerResourceShowPage.managedCoverageList).to.equal('1969');
-    //});
+    it('displays dates with YYYY format', () => {
+      expect(CustomerResourceShowPage.managedCoverageList).to.equal('1969');
+    });
+  });
+  describe('visiting the customer resource page with managed coverage and year only publication type missing begin and end year', () => {
+    beforeEach(function () {
+      title.pubType = 'Audiobook';
+      title.save;
+
+      resource.managedCoverageList = this.server.createList('managed-coverage', 1,
+        {
+          beginCoverage: '',
+          endCoverage: ''
+        }
+      );
+      resource.save();
+
+      return this.visit(`/eholdings/vendors/${pkg.vendor.id}/packages/${pkg.id}/titles/${resource.id}`, () => {
+        expect(CustomerResourceShowPage.$root).to.exist;
+      });
+    });
+    it('does not display managed coverage list', () => {
+      expect(CustomerResourceShowPage.managedCoverageList).to.equal('');
+    });
   });
 });
