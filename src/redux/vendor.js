@@ -5,6 +5,7 @@ import {
   createRequestReducer,
   createRequestEpic
 } from './request';
+import { normalizeJsonApiResource } from './utilities';
 
 // vendor action creators
 export const getVendor = createRequestCreator('vendor');
@@ -26,7 +27,8 @@ export const vendorReducer = combineReducers({
 export const vendorEpics = combineEpics(
   createRequestEpic({
     name: 'vendor',
-    endpoint: ({ vendorId }) => `eholdings/vendors/${vendorId}`
+    endpoint: ({ vendorId }) => `eholdings/jsonapi/vendors/${vendorId}`,
+    deserialize: payload => (payload ? normalizeJsonApiResource(payload.data) : [])
   }),
   createRequestEpic({
     name: 'vendor-packages',

@@ -46,3 +46,10 @@ export function formatPublicationType(publicationType) {
     return publicationType;
   }
 }
+
+export function normalizeJsonApiResource(resource) {
+  return {
+    id: resource.id,
+    ...resource.attributes
+  };
+}

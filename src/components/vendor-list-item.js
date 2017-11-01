@@ -8,7 +8,7 @@ export default function VendorListItem({ item, link }) {
     <li data-test-eholdings-vendor-list-item>
       <Link to={link}>
         <h5 data-test-eholdings-vendor-list-item-name>
-          {item.vendorName}
+          {item.name}
         </h5>
       </Link>
     </li>

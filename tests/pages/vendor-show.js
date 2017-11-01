@@ -26,12 +26,19 @@ export default {
   get name() {
     return $('[data-test-eholdings-vendor-details-name]').text();
   },
+
   get hasErrors() {
     return $('[data-test-eholdings-vendor-details-error]').length > 0;
   },
+
+  get errorMessage() {
+    return $('[data-test-eholdings-vendor-details-error]').text();
+  },
+
   get numPackages() {
     return $('[data-test-eholdings-vendor-details-packages-total]').text();
   },
+
   get numPackagesSelected() {
     return $('[data-test-eholdings-vendor-details-packages-selected]').text();
   },

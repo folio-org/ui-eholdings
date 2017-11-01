@@ -20,6 +20,10 @@ export default {
     return $('[data-test-vendor-search-error-message]').length > 0;
   },
 
+  get errorMessage() {
+    return $('[data-test-vendor-search-error-message]').text();
+  },
+
   get noResultsMessage() {
     return $('[data-test-vendor-search-no-results]').text();
   },

@@ -11,7 +11,7 @@ describeApplication('PackageShowVisibility', () => {
 
   beforeEach(function () {
     vendor = this.server.create('vendor', {
-      vendorName: 'Cool Vendor'
+      name: 'Cool Vendor'
     });
   });
 

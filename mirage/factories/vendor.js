@@ -1,7 +1,7 @@
 import { Factory, faker, trait } from 'mirage-server';
 
 export default Factory.extend({
-  vendorName: () => faker.company.companyName(),
+  name: () => faker.company.companyName(),
   packagesTotal: 0,
   packagesSelected: 0,
 
@@ -16,14 +16,14 @@ export default Factory.extend({
 
         server.createList('package', vendor.packagesSelected, 'withTitles', {
           vendor,
-          vendorName: vendor.vendorName,
+          vendorName: vendor.name,
           isSelected: true,
           titleCount: faker.random.number({ min: 1, max: 5 })
         });
 
         server.createList('package', (vendor.packagesTotal - vendor.packagesSelected), 'withTitles', {
           vendor,
-          vendorName: vendor.vendorName,
+          vendorName: vendor.name,
           isSelected: false,
           titleCount: faker.random.number({ min: 1, max: 5 })
         });

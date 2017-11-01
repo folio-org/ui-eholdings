@@ -156,14 +156,14 @@ export default function configure() {
   });
 
   // Vendor resources
-  this.get('/vendors', ({ vendors }, request) => {
+  this.get('/jsonapi/vendors', ({ vendors }, request) => {
     return vendors.all().filter((vendorModel) => {
       let query = request.queryParams.search.toLowerCase();
-      return vendorModel.vendorName.toLowerCase().includes(query);
+      return vendorModel.name.toLowerCase().includes(query);
     });
   });
 
-  this.get('/vendors/:id', ({ vendors }, request) => {
+  this.get('/jsonapi/vendors/:id', ({ vendors }, request) => {
     return vendors.find(request.params.id);
   });
 
