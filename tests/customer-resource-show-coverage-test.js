@@ -49,7 +49,7 @@ describeApplication('CustomerResourceShowManagedCoverage', () => {
       expect(CustomerResourceShowPage.managedCoverageList).to.equal('7/16/1969 - 12/19/1972');
     });
   });
-  describe('visiting the customer resource page with single managed coverage (beginCoverage only)', () => {
+  describe('visiting the customer resource page with single managed coverage (endCoverage null)', () => {
     beforeEach(function () {
       resource.managedCoverageList = this.server.createList('managed-coverage', 1,
         {
@@ -64,7 +64,26 @@ describeApplication('CustomerResourceShowManagedCoverage', () => {
     });
 
     it('display the managed coverage section for single date (begin date and no end date)', () => {
-      expect(CustomerResourceShowPage.managedCoverageList).to.equal('7/16/1969 - ');
+      expect(CustomerResourceShowPage.managedCoverageList).to.equal('7/16/1969 - Present');
+    });
+  });
+
+  describe('visiting the customer resource page with single managed coverage (endCoverage empty)', () => {
+    beforeEach(function () {
+      resource.managedCoverageList = this.server.createList('managed-coverage', 1,
+        {
+          beginCoverage: '1969-07-16',
+          endCoverage: ''
+        });
+      resource.save();
+
+      return this.visit(`/eholdings/vendors/${pkg.vendor.id}/packages/${pkg.id}/titles/${resource.id}`, () => {
+        expect(CustomerResourceShowPage.$root).to.exist;
+      });
+    });
+
+    it('display the managed coverage section for single date (begin date and no end date)', () => {
+      expect(CustomerResourceShowPage.managedCoverageList).to.equal('7/16/1969 - Present');
     });
   });
 
