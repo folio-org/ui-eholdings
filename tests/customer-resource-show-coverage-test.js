@@ -89,6 +89,25 @@ describeApplication('CustomerResourceShowManagedCoverage', () => {
     });
   });
 
+  describe('visiting the customer resource page with single managed coverage (beginCoverage empty)', () => {
+    beforeEach(function () {
+      resource.managedCoverageList = this.server.createList('managed-coverage', 1,
+        {
+          beginCoverage: '',
+          endCoverage: '1969-07-16'
+        });
+      resource.save();
+
+      return this.visit(`/eholdings/vendors/${pkg.vendor.id}/packages/${pkg.id}/titles/${resource.id}`, () => {
+        expect(CustomerResourceShowPage.$root).to.exist;
+      });
+    });
+
+    it('display the managed coverage section for single date (end date only)', () => {
+      expect(CustomerResourceShowPage.managedCoverageList).to.equal('7/16/1969');
+    });
+  });
+
   describe('visiting the customer resource page with incorrectly formed coverage dates', () => {
     beforeEach(function () {
       resource.managedCoverageList = this.server.createList('managed-coverage', 1,
@@ -178,6 +197,27 @@ describeApplication('CustomerResourceShowManagedCoverage', () => {
         {
           beginCoverage: '1969-01-01',
           endCoverage: ''
+        }
+      );
+      resource.save();
+
+      return this.visit(`/eholdings/vendors/${pkg.vendor.id}/packages/${pkg.id}/titles/${resource.id}`, () => {
+        expect(CustomerResourceShowPage.$root).to.exist;
+      });
+    });
+    it('displays dates with YYYY format', () => {
+      expect(CustomerResourceShowPage.managedCoverageList).to.equal('1969');
+    });
+  });
+  describe('visiting the customer resource page with managed coverage and year only publication type missing begin year', () => {
+    beforeEach(function () {
+      title.pubType = 'Audiobook';
+      title.save;
+
+      resource.managedCoverageList = this.server.createList('managed-coverage', 1,
+        {
+          beginCoverage: '',
+          endCoverage: '1969-01-01'
         }
       );
       resource.save();

@@ -33,7 +33,7 @@ export function isBookPublicationType(publicationType) {
   }
 }
 export function formatISODateWithoutTime(dateString, intl) {
-  if ((dateString == null) || (dateString.trim() === '')) {
+  if (!dateString) {
     return '';
   }
   let [year, month, day] = dateString.split('-');
@@ -44,7 +44,7 @@ export function formatISODateWithoutTime(dateString, intl) {
   return intl.formatDate(dateObj);
 }
 export function formatYear(dateString) {
-  if ((dateString == null) || (dateString.trim() === '')) {
+  if (!dateString) {
     return '';
   }
   let [year] = dateString.split('-');
