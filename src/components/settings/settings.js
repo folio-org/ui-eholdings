@@ -13,8 +13,8 @@ export default class Settings extends Component {
   };
 
   state = {
-    customerId: this.props.settings['customer-id'] || '',
-    apiKey: this.props.settings['api-key'] || '',
+    customerId: this.props.settings.customerId || '',
+    apiKey: this.props.settings.apiKey || '',
     invalidCustomerId: false,
     invalidApiKey: false
   };
@@ -23,12 +23,12 @@ export default class Settings extends Component {
     let { customerId, apiKey } = this.state;
     let { update, settings: next } = nextProps;
 
-    let isDirty = customerId !== next['customer-id'] || apiKey !== next['api-key'];
+    let isDirty = customerId !== next.customerId || apiKey !== next.apiKey;
 
     if (update.isResolved && isDirty) {
       this.setState({
-        customerId: next['customer-id'],
-        apiKey: next['api-key']
+        customerId: next.customerId,
+        apiKey: next.apiKey
       });
     }
   }
@@ -50,8 +50,8 @@ export default class Settings extends Component {
     e.preventDefault();
 
     this.setState({
-      customerId: settings['customer-id'],
-      apiKey: settings['api-key'],
+      customerId: settings.customerId,
+      apiKey: settings.apiKey,
       invalidCustomerId: false,
       invalidApiKey: false
     });
@@ -88,7 +88,7 @@ export default class Settings extends Component {
     let { settings, update } = this.props;
 
     let isFresh = !customerId && !apiKey;
-    let isDirty = customerId !== settings['customer-id'] || apiKey !== settings['api-key'];
+    let isDirty = customerId !== settings.customerId || apiKey !== settings.apiKey;
     let isValid = customerId && apiKey;
 
     return (

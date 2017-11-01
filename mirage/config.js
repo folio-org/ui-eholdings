@@ -70,7 +70,7 @@ export default function configure() {
     data: {
       type: 'status',
       attributes: {
-        'is-configuration-valid': true
+        isConfigurationValid: true
       }
     }
   });
@@ -80,8 +80,8 @@ export default function configure() {
     data: {
       type: 'configuration',
       attributes: {
-        'customer-id': 'some-valid-customer-id',
-        'api-key': 'some-valid-api-key'
+        customerId: 'some-valid-customer-id',
+        apiKey: 'some-valid-api-key'
       }
     }
   });

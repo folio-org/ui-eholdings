@@ -3,7 +3,7 @@ export default function unconfiguredBackendScenario(server) {
     data: {
       type: 'status',
       attributes: {
-        'is-configuration-valid': false
+        isConfigurationValid: false
       }
     }
   });
@@ -12,8 +12,8 @@ export default function unconfiguredBackendScenario(server) {
     data: {
       type: 'configuration',
       attributes: {
-        'customer-id': '',
-        'api-key': ''
+        customerId: '',
+        apiKey: ''
       }
     }
   });
