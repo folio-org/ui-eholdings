@@ -2,21 +2,13 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 import Icon from '@folio/stripes-components/lib/Icon';
-<<<<<<< HEAD:src/components/title-show/title-show.js
 import KeyValueLabel from '../key-value-label';
 import List from '../list';
 import PackageListItem from '../package-list-item';
 import IdentifiersList from '../identifiers-list';
 import ContributorsList from '../contributors-list';
+import { formatPublicationType } from '../utilities';
 import styles from './title-show.css';
-=======
-import KeyValueLabel from './key-value-label';
-import List from './list';
-import PackageListItem from './package-list-item';
-import IdentifiersList from './identifiers-list';
-import ContributorsList from './contributors-list';
-import { formatPublicationType } from './utilities';
->>>>>>> Moved pub type formatting back to display level (needed pub type to format coverage date correctly), additional logic for year formats (cases with missing dates):src/components/title-show.js
 
 export default function TitleShow({ title }) {
   let record = title.content;
