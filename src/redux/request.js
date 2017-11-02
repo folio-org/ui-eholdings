@@ -2,9 +2,9 @@ import queryString from 'query-string';
 import startsWith from 'lodash/startsWith';
 import { handleActions as reduxHandleActions } from 'redux-actions';
 import { Observable } from 'rxjs/Observable';
-import 'rxjs/add/operator/switchMap';
 import 'rxjs/add/observable/from';
 import 'rxjs/add/observable/of';
+import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/catch';
 
 // action types
