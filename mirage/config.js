@@ -158,7 +158,7 @@ export default function configure() {
   // Vendor resources
   this.get('/jsonapi/vendors', ({ vendors }, request) => {
     return vendors.all().filter((vendorModel) => {
-      let query = request.queryParams.search.toLowerCase();
+      let query = request.queryParams.q.toLowerCase();
       return vendorModel.name.toLowerCase().includes(query);
     });
   });

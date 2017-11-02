@@ -54,7 +54,7 @@ function createSearchEpic(name, {
       endpoint: 'eholdings/jsonapi/vendors',
       deserialize: payload => (payload ? payload.data.map(pkg => normalizeJsonApiResource(pkg)) || [] : []),
       defaultParams: {
-        search: '',
+        q: '',
         count: 25,
         offset: 1,
         orderby: 'relevance',
