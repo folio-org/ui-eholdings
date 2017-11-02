@@ -8,11 +8,11 @@ import VendorSearchPage from './pages/vendor-search';
 describeApplication('VendorSearch', () => {
   beforeEach(function () {
     this.server.createList('vendor', 3, {
-      vendorName: i => `Vendor${i + 1}`
+      name: i => `Vendor${i + 1}`
     });
 
     this.server.create('vendor', {
-      vendorName: 'Totally Awesome Co'
+      name: 'Totally Awesome Co'
     });
 
     return this.visit('/eholdings/?searchType=vendors', () => {
@@ -121,17 +121,23 @@ describeApplication('VendorSearch', () => {
 
   describe('encountering a server error', () => {
     beforeEach(function () {
-      this.server.get('/vendors', [{
-        message: 'There was an error',
-        code: '1000',
-        subcode: 0
-      }], 500);
+      this.server.get('/jsonapi/vendors', {
+        errors: [
+          {
+            title: 'There was an error'
+          }
+        ]
+      }, 500);
 
       VendorSearchPage.search("this doesn't matter");
     });
 
-    it('dies with dignity', () => {
+    it('shows an error', () => {
       expect(VendorSearchPage.hasErrors).to.be.true;
+    });
+
+    it('displays the error message returned from the server', () => {
+      expect(VendorSearchPage.errorMessage).to.equal('There was an error');
     });
   });
 });

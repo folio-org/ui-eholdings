@@ -18,7 +18,7 @@ export default function VendorSearchResults({
     <Icon icon="spinner-ellipsis" />
   ) : isRejected ? (
     <p data-test-vendor-search-error-message>
-      {error.length ? error[0].message : error.message}
+      {error.errors.length ? error.errors[0].title : error.title}
     </p>
   ) : isResolved && !content.length ? (
     <p data-test-vendor-search-no-results>
@@ -28,10 +28,10 @@ export default function VendorSearchResults({
     <List data-test-vendor-search-results-list>
       {content.map(vendor => (
         <VendorListItem
-          key={vendor.vendorId}
+          key={vendor.id}
           item={vendor}
           link={{
-            pathname: `/eholdings/vendors/${vendor.vendorId}`,
+            pathname: `/eholdings/vendors/${vendor.id}`,
             search: location.search
           }}
         />

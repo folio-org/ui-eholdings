@@ -7,7 +7,7 @@ export default ApplicationSerializer.extend({
     let newHash = json;
     if (newHash.vendor && !newHash.vendorId) {
       newHash.vendorId = json.vendor.id;
-      newHash.vendorName = json.vendor.vendorName;
+      newHash.vendorName = json.vendor.name;
       delete newHash.vendor;
     }
     return newHash;

@@ -12,7 +12,7 @@ describeApplication('CustomerResourceShow', () => {
 
   beforeEach(function () {
     vendor = this.server.create('vendor', {
-      vendorName: 'Cool Vendor'
+      name: 'Cool Vendor'
     });
 
     vendorPackage = this.server.create('package', 'withTitles', {
@@ -54,7 +54,7 @@ describeApplication('CustomerResourceShow', () => {
     });
 
     it('displays the vendor name', () => {
-      expect(ResourcePage.vendorName).to.equal(resource.package.vendor.vendorName);
+      expect(ResourcePage.vendorName).to.equal(resource.package.vendor.name);
     });
 
     it('displays the package name', () => {

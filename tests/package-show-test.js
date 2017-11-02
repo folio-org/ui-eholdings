@@ -12,7 +12,7 @@ describeApplication('PackageShow', () => {
 
   beforeEach(function () {
     vendor = this.server.create('vendor', {
-      vendorName: 'Cool Vendor'
+      name: 'Cool Vendor'
     });
 
     vendorPackage = this.server.create('package', 'withTitles', {

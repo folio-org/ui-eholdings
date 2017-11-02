@@ -61,7 +61,7 @@ export default Serializer.extend({
     return json.customerResourcesList.map((customerResource) => {
       let hash = customerResource;
       hash.vendorId = customerResource.package.vendor.id;
-      hash.vendorName = customerResource.package.vendor.vendorName;
+      hash.vendorName = customerResource.package.vendor.name;
       hash.packageId = customerResource.package.id;
       hash.packageName = customerResource.package.packageName;
       hash.contentType = customerResource.package.contentType;

@@ -7,6 +7,7 @@ import {
   createRequestReducer,
   createRequestEpic
 } from './request';
+import { normalizeJsonApiResource } from './utilities';
 
 // search action creators
 export const searchVendors = createRequestCreator('vendors-search');
@@ -45,18 +46,35 @@ function createSearchEpic(name, {
   recordsKey = name,
   defaultParams = {}
 } = {}) {
-  return createRequestEpic({
-    name: `${name}-search`,
-    endpoint: `eholdings/${name}`,
-    deserialize: payload => (payload ? payload[recordsKey] || [] : []),
-    defaultParams: {
-      search: '',
-      count: 25,
-      offset: 1,
-      orderby: 'relevance',
-      ...defaultParams
-    }
-  });
+  // TODO: when switching package and title search over to JSON API,
+  // only use this version of return createRequestEpic()
+  if (name === 'vendors') {
+    return createRequestEpic({
+      name: `${name}-search`,
+      endpoint: 'eholdings/jsonapi/vendors',
+      deserialize: payload => (payload ? payload.data.map(pkg => normalizeJsonApiResource(pkg)) || [] : []),
+      defaultParams: {
+        q: '',
+        count: 25,
+        offset: 1,
+        orderby: 'relevance',
+        ...defaultParams
+      }
+    });
+  } else {
+    return createRequestEpic({
+      name: `${name}-search`,
+      endpoint: `eholdings/${name}`,
+      deserialize: payload => (payload ? payload[recordsKey] || [] : []),
+      defaultParams: {
+        search: '',
+        count: 25,
+        offset: 1,
+        orderby: 'relevance',
+        ...defaultParams
+      }
+    });
+  }
 }
 
 // search epic

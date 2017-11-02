@@ -16,7 +16,7 @@ export default function VendorShow({ vendor, vendorPackages }) {
           <div style={{ margin: '2rem 0' }}>
             <KeyValueLabel label="Vendor">
               <h1 data-test-eholdings-vendor-details-name>
-                {record.vendorName}
+                {record.name}
               </h1>
             </KeyValueLabel>
           </div>
@@ -56,7 +56,7 @@ export default function VendorShow({ vendor, vendorPackages }) {
         </div>
       ) : vendor.isRejected ? (
         <p data-test-eholdings-vendor-details-error>
-          {vendor.error.length ? vendor.error[0].message : vendor.error.message}
+          {vendor.error.errors.length ? vendor.error.errors[0].title : vendor.error.title}
         </p>
       ) : (
         <Icon icon="spinner-ellipsis" />

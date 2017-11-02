@@ -11,7 +11,7 @@ describeApplication('VendorShow', () => {
 
   beforeEach(function () {
     vendor = this.server.create('vendor', 'withPackagesAndTitles', {
-      vendorName: 'League of Ordinary Men',
+      name: 'League of Ordinary Men',
       packagesTotal: 5
     });
 
@@ -56,19 +56,25 @@ describeApplication('VendorShow', () => {
 
   describe('encountering a server error', () => {
     beforeEach(function () {
-      this.server.get('/vendors/:id', [{
-        message: 'There was an error',
-        code: '1000',
-        subcode: 0
-      }], 500);
+      this.server.get('/jsonapi/vendors/:id', {
+        errors: [
+          {
+            title: 'There was an error'
+          }
+        ]
+      }, 500);
 
       return this.visit(`/eholdings/vendors/${vendor.id}`, () => {
         expect(VendorShowPage.$root).to.exist;
       });
     });
 
-    it('dies with dignity', () => {
+    it('has an error', () => {
       expect(VendorShowPage.hasErrors).to.be.true;
+    });
+
+    it('displays the error message returned from the server', () => {
+      expect(VendorShowPage.errorMessage).to.equal('There was an error');
     });
   });
 });
