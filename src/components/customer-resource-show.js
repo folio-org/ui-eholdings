@@ -9,7 +9,7 @@ import IdentifiersList from './identifiers-list';
 import ContributorsList from './contributors-list';
 import ToggleSwitch from './toggle-switch';
 import CoverageDates from './coverage-dates';
-import { isBookPublicationType, formatPublicationType } from './utilities';
+import { isBookPublicationType, formatPublicationType, isValidCoverageList } from './utilities';
 
 export default function CustomerResourceShow({ customerResource, toggleRequest, toggleSelected }, { intl }) {
   const record = customerResource.content;
@@ -78,8 +78,7 @@ export default function CustomerResourceShow({ customerResource, toggleRequest, 
                   </div>
                 </KeyValueLabel>
               ) }
-
-              {record.managedCoverageList && record.managedCoverageList.length > 0 && (
+              {record.managedCoverageList && record.managedCoverageList.length > 0 && isValidCoverageList(record.managedCoverageList) && (
                 <KeyValueLabel label="Managed Coverage Dates">
                   <CoverageDates
                     coverageArray={record.managedCoverageList}
