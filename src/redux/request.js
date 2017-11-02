@@ -299,21 +299,7 @@ export function createRequestEpic({
               delete query.search;
             }
 
-            // "hack" to prevent query-string from removing/encoding null searches
-            if (query.search === '%00') {
-              let { search, ...queryParams } = query;
-
-              // TODO: make the same for all search types, right now only
-              // vendors has q instead of search
-              if ('q' in query) {
-                searchQuery = `q=${search}&${queryString.stringify(queryParams)}`;
-              } else {
-                searchQuery = `search=${search}&${queryString.stringify(queryParams)}`;
-              }
-            } else {
-              searchQuery = queryString.stringify(query);
-            }
-
+            searchQuery = queryString.stringify(query);
             url = `${url}?${searchQuery}`;
           }
         }
