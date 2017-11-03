@@ -21,7 +21,13 @@ export default Factory.extend({
       customerResource.save();
     }
   }),
-
+  withManagedCoverage: trait({
+    afterCreate(customerResource, server) {
+      let managedCoverages = server.createList('managed-coverage', 1);
+      customerResource.update('managedCoverageList', managedCoverages);
+      customerResource.save();
+    }
+  }),
   isHidden: trait({
     afterCreate(customerResource, server) {
       let visibilityData = server.create('visibility-data', {
