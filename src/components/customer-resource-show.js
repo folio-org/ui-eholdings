@@ -28,6 +28,8 @@ export default function CustomerResourceShow({ customerResource, toggleRequest, 
                 </KeyValueLabel>
               </div>
 
+              <ContributorsList data={record.contributorsList} />
+
               <KeyValueLabel label="Publisher">
                 <div data-test-eholdings-customer-resource-show-publisher-name>
                   {record.publisherName}
@@ -41,8 +43,14 @@ export default function CustomerResourceShow({ customerResource, toggleRequest, 
               </KeyValueLabel>
 
               <IdentifiersList data={record.identifiersList} />
-              <ContributorsList data={record.contributorsList} />
 
+              {record.subjectsList && record.subjectsList.length > 0 && (
+                <KeyValueLabel label="Subjects">
+                  <div data-test-eholdings-customer-resource-show-subjects-list>
+                    {record.subjectsList.map(subjectObj => subjectObj.subject).join('; ')}
+                  </div>
+                </KeyValueLabel>
+              ) }
               <KeyValueLabel label="Package">
                 <div data-test-eholdings-customer-resource-show-package-name>
                   <Link to={`/eholdings/vendors/${record.vendorId}/packages/${record.packageId}`}>{record.packageName}</Link>
@@ -71,13 +79,6 @@ export default function CustomerResourceShow({ customerResource, toggleRequest, 
                 </KeyValueLabel>
               ) }
 
-              {record.subjectsList && record.subjectsList.length > 0 && (
-                <KeyValueLabel label="Subjects">
-                  <div data-test-eholdings-customer-resource-show-subjects-list>
-                    {record.subjectsList.map(subjectObj => subjectObj.subject).join('; ')}
-                  </div>
-                </KeyValueLabel>
-              ) }
               {record.managedCoverageList && record.managedCoverageList.length && isValidCoverageList(record.managedCoverageList) && (
                 <KeyValueLabel label="Managed Coverage Dates">
                   <CoverageDates
