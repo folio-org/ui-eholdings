@@ -83,7 +83,6 @@ export default function CustomerResourceShow({ customerResource, toggleRequest, 
                 <KeyValueLabel label="Managed Coverage Dates">
                   <CoverageDates
                     coverageArray={record.managedCoverageList}
-                    intl={intl}
                     id="customer-resource-show-managed-coverage-list"
                     isYearOnly={isBookPublicationType(record.pubType)}
                   />

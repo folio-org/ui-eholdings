@@ -28,19 +28,22 @@ function formatCoverageYear(coverageObj) {
   }
 }
 
-export default function CoverageDates(props) {
+export default function CoverageDates(props, context) {
   return (
     <div id={props.id} data-test-eholdings-customer-resource-show-managed-coverage-list >
       { props.coverageArray
         .sort((coverageObj1, coverageObj2) => compareCoverage(coverageObj1, coverageObj2))
-        .map(coverageArrayObj => (props.isYearOnly ? formatCoverageYear(coverageArrayObj) : formatCoverageFullDate(coverageArrayObj, props.intl))).join(', ')}
+        .map(coverageArrayObj => (props.isYearOnly ? formatCoverageYear(coverageArrayObj) : formatCoverageFullDate(coverageArrayObj, context.intl))).join(', ')}
     </div>
   );
 }
 
 CoverageDates.propTypes = {
   coverageArray: PropTypes.array,
-  intl: PropTypes.object,
   id: PropTypes.string,
   isYearOnly: PropTypes.bool
+};
+
+CoverageDates.contextTypes = {
+  intl: PropTypes.object
 };
