@@ -7,7 +7,7 @@ import {
   createRequestReducer,
   createRequestEpic
 } from './request';
-import formatContentType from './utilities';
+import { formatContentType } from './utilities';
 
 // customer-resource action creators
 export const getCustomerResource = createRequestCreator('customer-resource');

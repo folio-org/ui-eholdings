@@ -1,4 +1,4 @@
-export default function formatContentType(contentType) {
+export function formatContentType(contentType) {
   let contentTypes = {
     all: 'All',
     aggregatedfulltext: 'Aggregated Full Text',
