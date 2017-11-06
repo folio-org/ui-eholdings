@@ -2,18 +2,19 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 import Icon from '@folio/stripes-components/lib/Icon';
-import KeyValueLabel from './key-value-label';
-import List from './list';
-import PackageListItem from './package-list-item';
+import KeyValueLabel from '../key-value-label';
+import List from '../list';
+import PackageListItem from '../package-list-item';
+import styles from './vendor-show.css';
 
 export default function VendorShow({ vendor, vendorPackages }) {
   const record = vendor.content;
 
   return (
-    <div style={{ padding: '0 1rem' }} data-test-eholdings-vendor-details>
+    <div className={styles['detail-container']} data-test-eholdings-vendor-details>
       {vendor.isResolved ? (
         <div>
-          <div style={{ margin: '2rem 0' }}>
+          <div className={styles['detail-container-header']}>
             <KeyValueLabel label="Vendor">
               <h1 data-test-eholdings-vendor-details-name>
                 {record.name}
