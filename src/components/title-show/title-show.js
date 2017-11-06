@@ -2,20 +2,21 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 import Icon from '@folio/stripes-components/lib/Icon';
-import KeyValueLabel from './key-value-label';
-import List from './list';
-import PackageListItem from './package-list-item';
-import IdentifiersList from './identifiers-list';
-import ContributorsList from './contributors-list';
+import KeyValueLabel from '../key-value-label';
+import List from '../list';
+import PackageListItem from '../package-list-item';
+import IdentifiersList from '../identifiers-list';
+import ContributorsList from '../contributors-list';
+import styles from './title-show.css';
 
 export default function TitleShow({ title }) {
   let record = title.content;
 
   return (
-    <div style={{ padding: '0 1rem' }} data-test-eholdings-title-show>
+    <div className={styles['detail-container']} data-test-eholdings-title-show>
       {title.isResolved ? (
         <div>
-          <div style={{ margin: '2rem 0' }}>
+          <div className={styles['detail-container-header']}>
             <KeyValueLabel label="Title">
               <h1 data-test-eholdings-title-show-title-name>
                 {record.titleName}

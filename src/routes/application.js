@@ -30,7 +30,7 @@ class ApplicationRoute extends Component {
     } = this.props;
 
     return (
-      <div className="eholdings-application" data-test-eholdings-application style={{ width: '100%' }}>
+      <div className="eholdings-application" data-test-eholdings-application>
         {version ? (status.isPending ? (
           <Icon icon="spinner-ellipsis" />
         ) : status.isRejected ? (

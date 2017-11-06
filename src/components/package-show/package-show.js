@@ -3,10 +3,11 @@ import PropTypes from 'prop-types';
 
 import { Link } from 'react-router-dom';
 import Icon from '@folio/stripes-components/lib/Icon';
-import KeyValueLabel from './key-value-label';
-import List from './list';
-import TitleListItem from './title-list-item';
-import ToggleSwitch from './toggle-switch';
+import KeyValueLabel from '../key-value-label';
+import List from '../list';
+import TitleListItem from '../title-list-item';
+import ToggleSwitch from '../toggle-switch';
+import styles from './package-show.css';
 
 export default function PackageShow({
   vendorPackage,
@@ -26,10 +27,10 @@ export default function PackageShow({
   };
 
   return (
-    <div style={{ padding: '0 1rem' }} data-test-eholdings-package-details>
+    <div className={styles['detail-container']} data-test-eholdings-package-details>
       {vendorPackage.isResolved ? (
         <div>
-          <div style={{ margin: '2rem 0' }}>
+          <div className={styles['detail-container-header']}>
             <KeyValueLabel label="Package">
               <h1 data-test-eholdings-package-details-name>
                 {packageRecord.packageName}
