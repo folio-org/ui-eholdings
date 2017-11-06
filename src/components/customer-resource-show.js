@@ -11,7 +11,7 @@ import ToggleSwitch from './toggle-switch';
 import CoverageDates from './coverage-dates';
 import { isBookPublicationType, formatPublicationType, isValidCoverageList } from './utilities';
 
-export default function CustomerResourceShow({ customerResource, toggleRequest, toggleSelected }, { intl }) {
+export default function CustomerResourceShow({ customerResource, toggleRequest, toggleSelected }) {
   const record = customerResource.content;
 
   return (
@@ -154,7 +154,4 @@ CustomerResourceShow.propTypes = {
   customerResource: PropTypes.object.isRequired,
   toggleRequest: PropTypes.object.isRequired,
   toggleSelected: PropTypes.func.isRequired
-};
-CustomerResourceShow.contextTypes = {
-  intl: PropTypes.object
 };
