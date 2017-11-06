@@ -9,11 +9,11 @@ function createPackageObject(element) {
     },
 
     get numTitles() {
-      return parseInt($scope.find('[data-test-eholdings-package-num-titles]').text(), 10);
+      return parseInt($scope.find('[data-test-eholdings-package-list-item-num-titles]').text(), 10);
     },
 
     get numTitlesSelected() {
-      return parseInt($scope.find('[data-test-eholdings-package-num-titles-selected]').text(), 10);
+      return parseInt($scope.find('[data-test-eholdings-package-list-item-num-titles-selected]').text(), 10);
     }
   };
 }

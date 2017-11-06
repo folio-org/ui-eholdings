@@ -3,6 +3,24 @@ import { expect } from 'chai';
 import { convergeOn } from '../it-will';
 import { triggerChange } from '../helpers';
 
+function createVendorObject(element) {
+  let $scope = $(element);
+
+  return {
+    get name() {
+      return $scope.find('[data-test-eholdings-vendor-list-item-name]').text();
+    },
+
+    get numPackages() {
+      return parseInt($scope.find('[data-test-eholdings-vendor-list-item-num-packages-total]').text(), 10);
+    },
+
+    get numPackagesSelected() {
+      return parseInt($scope.find('[data-test-eholdings-vendor-list-item-num-packages-selected]').text(), 10);
+    }
+  };
+}
+
 export default {
   get $root() {
     return $('[data-test-eholdings]');
@@ -30,6 +48,10 @@ export default {
 
   get previewPaneIsVisible() {
     return $('[data-test-preview-pane="vendors"]').length === 1;
+  },
+
+  get vendorList() {
+    return $('[data-test-vendor-search-results-list] li').toArray().map(createVendorObject);
   },
 
   clickSearchVignette() {

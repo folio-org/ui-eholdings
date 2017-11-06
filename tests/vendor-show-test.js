@@ -46,11 +46,11 @@ describeApplication('VendorShow', () => {
     });
 
     it('displays number of selected titles for a package', () => {
-      expect(VendorShowPage.packageList[0].numTitles).to.equal(packages[0].selectedCount);
+      expect(VendorShowPage.packageList[0].numTitlesSelected).to.equal(packages[0].selectedCount);
     });
 
     it('displays total number of titles for a package', () => {
-      expect(VendorShowPage.packageList[0].numTitlesSelected).to.equal(packages[0].titleCount);
+      expect(VendorShowPage.packageList[0].numTitles).to.equal(packages[0].titleCount);
     });
   });
 

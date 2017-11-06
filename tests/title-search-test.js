@@ -6,8 +6,10 @@ import { describeApplication } from './helpers';
 import TitleSearchPage from './pages/title-search';
 
 describeApplication('TitleSearch', () => {
+  let titles;
+
   beforeEach(function () {
-    this.server.createList('title', 3, {
+    titles = this.server.createList('title', 3, {
       titleName: i => `Title${i + 1}`
     });
 
@@ -31,6 +33,18 @@ describeApplication('TitleSearch', () => {
 
     it("displays title entries related to 'Title'", () => {
       expect(TitleSearchPage.$searchResultsItems).to.have.lengthOf(3);
+    });
+
+    it('displays the name of a title', () => {
+      expect(TitleSearchPage.titleList[0].name).to.equal('Title1');
+    });
+
+    it('displays the publisher name of a title', () => {
+      expect(TitleSearchPage.titleList[0].publisherName).to.equal(titles[0].publisherName);
+    });
+
+    it('displays the publication type of a title', () => {
+      expect(TitleSearchPage.titleList[0].publicationType).to.equal(titles[0].pubType);
     });
 
     describe('clicking a search results list item', () => {

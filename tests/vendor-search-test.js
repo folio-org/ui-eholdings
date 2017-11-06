@@ -8,7 +8,9 @@ import VendorSearchPage from './pages/vendor-search';
 describeApplication('VendorSearch', () => {
   beforeEach(function () {
     this.server.createList('vendor', 3, {
-      name: i => `Vendor${i + 1}`
+      name: i => `Vendor${i + 1}`,
+      packagesSelected: 1,
+      packagesTotal: 3
     });
 
     this.server.create('vendor', {
@@ -33,7 +35,17 @@ describeApplication('VendorSearch', () => {
       expect(VendorSearchPage.$searchResultsItems).to.have.lengthOf(3);
     });
 
-    it('displays the name, number of packages available, and packages subscribed to for each vendor');
+    it('displays the vendor name in the list', () => {
+      expect(VendorSearchPage.vendorList[0].name).to.equal('Vendor1');
+    });
+
+    it('displays the number of selected packages for a vendor in the list', () => {
+      expect(VendorSearchPage.vendorList[0].numPackagesSelected).to.equal(1);
+    });
+
+    it('displays the total number of packages for a vendor in the list', () => {
+      expect(VendorSearchPage.vendorList[0].numPackages).to.equal(3);
+    });
 
     describe('clicking a search results list item', () => {
       beforeEach(() => {
@@ -71,10 +83,6 @@ describeApplication('VendorSearch', () => {
     describe('clicking on a result', () => {
       it('shows vendor details');
       it('shows packages for vendor');
-    });
-
-    describe('sorting by name', () => {
-      it('sorts by name');
     });
 
     describe('clicking another search type', () => {

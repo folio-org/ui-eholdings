@@ -3,22 +3,26 @@ import PropTypes from 'prop-types';
 
 import { Link } from 'react-router-dom';
 
-export default function PackageListItem({ item, link, showTitleCount }) {
+export default function PackageListItem({ item, link, showTitleCount, showVendorName }) {
   return (
     <li data-test-eholdings-package-list-item>
       <Link to={link}>
         <h5 data-test-eholdings-package-list-item-name>
           {item.packageName}
         </h5>
-        <div data-test-eholdings-package-list-item-selected>
-          <span>{item.isSelected ? 'Selected' : 'Not Selected'}</span>
-
+        <div>
+          {showVendorName && (
+            <div data-test-eholdings-package-list-item-vendor-name>
+              {item.vendorName}
+            </div>
+          )}
+          <span data-test-eholdings-package-list-item-selected>{item.isSelected ? 'Selected' : 'Not Selected'}</span>
           {showTitleCount && (
             <span>
               &nbsp;&bull;&nbsp;
-              <span data-test-eholdings-package-num-titles>{item.selectedCount}</span>
+              <span data-test-eholdings-package-list-item-num-titles-selected>{item.selectedCount}</span>
               &nbsp;/&nbsp;
-              <span data-test-eholdings-package-num-titles-selected>{item.titleCount}</span>
+              <span data-test-eholdings-package-list-item-num-titles>{item.titleCount}</span>
               &nbsp;
               <span>{item.titleCount === 1 ? 'Title' : 'Titles'}</span>
             </span>
@@ -35,5 +39,6 @@ PackageListItem.propTypes = {
     PropTypes.string,
     PropTypes.object
   ]),
-  showTitleCount: PropTypes.bool
+  showTitleCount: PropTypes.bool,
+  showVendorName: PropTypes.bool
 };
