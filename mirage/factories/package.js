@@ -22,12 +22,12 @@ export default Factory.extend({
         // Decide how many will be selected (0 to titleCount)
         packageObj.selectedCount = faker.random.number({ min: 0, max: packageObj.titleCount });
 
-        server.createList('customer-resource', packageObj.selectedCount, 'withTitle', {
+        server.createList('customer-resource', packageObj.selectedCount, 'withTitle', 'withManagedCoverage', {
           package: packageObj,
           isSelected: true
         });
 
-        server.createList('customer-resource', (packageObj.titleCount - packageObj.selectedCount), 'withTitle', {
+        server.createList('customer-resource', (packageObj.titleCount - packageObj.selectedCount), 'withTitle', 'withManagedCoverage', {
           package: packageObj,
           isSelected: false
         });

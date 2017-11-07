@@ -7,6 +7,7 @@ import List from '../list';
 import PackageListItem from '../package-list-item';
 import IdentifiersList from '../identifiers-list';
 import ContributorsList from '../contributors-list';
+import { formatPublicationType } from '../utilities';
 import styles from './title-show.css';
 
 export default function TitleShow({ title }) {
@@ -32,7 +33,7 @@ export default function TitleShow({ title }) {
 
           <KeyValueLabel label="Publication Type">
             <div data-test-eholdings-title-show-publication-type>
-              {record.pubType}
+              {formatPublicationType(record.pubType)}
             </div>
           </KeyValueLabel>
 

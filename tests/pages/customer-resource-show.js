@@ -74,11 +74,12 @@ export default {
   get isHidden() {
     return $('[data-test-eholdings-customer-resource-show-is-hidden]').length === 1;
   },
-
   get managedEmbargoPeriod() {
     return $('[data-test-eholdings-customer-resource-show-managed-embargo-period]').text();
   },
-
+  get managedCoverageList() {
+    return $('[data-test-eholdings-customer-resource-show-managed-coverage-list]').text();
+  },
   get customEmbargoPeriod() {
     return $('[data-test-eholdings-customer-resource-show-custom-embargo-period]').text();
   }
