@@ -77,7 +77,7 @@ export default function CustomerResourceShow({ customerResource, toggleRequest, 
             </KeyValueLabel>
           ) }
 
-          {record.managedCoverageList && record.managedCoverageList.length && isValidCoverageList(record.managedCoverageList) && (
+          {record.managedCoverageList && record.managedCoverageList.length > 0 && isValidCoverageList(record.managedCoverageList) && (
             <KeyValueLabel label="Managed Coverage Dates">
               <CoverageDates
                 coverageArray={record.managedCoverageList}
