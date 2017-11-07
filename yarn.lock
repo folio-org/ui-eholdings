@@ -42,7 +42,7 @@
 
 "@folio/stripes-core@thefrontside/stripes-core#master":
   version "2.7.0"
-  resolved "https://codeload.github.com/thefrontside/stripes-core/tar.gz/f7cebd3126dc3aac04cc163096858634c6c5475b"
+  resolved "https://codeload.github.com/thefrontside/stripes-core/tar.gz/016889a15fad4cd7b264852cb4c055acf44c206d"
   dependencies:
     "@folio/stripes-components" "^1.6.0"
     "@folio/stripes-connect" "^3.0.0-pre.1"
