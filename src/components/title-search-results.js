@@ -34,6 +34,7 @@ export default function TitleSearchResults({
             search: location.search
           }}
           item={title}
+          showPublisherAndType
         />
       ))}
     </List>

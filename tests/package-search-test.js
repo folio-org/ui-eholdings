@@ -6,9 +6,13 @@ import { describeApplication } from './helpers';
 import PackageSearchPage from './pages/package-search';
 
 describeApplication('PackageSearch', () => {
+  let pkgs;
+
   beforeEach(function () {
-    this.server.createList('package', 3, 'withVendor', {
-      packageName: i => `Package${i + 1}`
+    pkgs = this.server.createList('package', 3, 'withVendor', {
+      packageName: i => `Package${i + 1}`,
+      titleCount: 3,
+      selectedCount: 1
     });
 
     this.server.create('package', 'withVendor', {
@@ -31,6 +35,14 @@ describeApplication('PackageSearch', () => {
 
     it("displays package entries related to 'Package'", () => {
       expect(PackageSearchPage.$searchResultsItems).to.have.lengthOf(3);
+    });
+
+    it('displays the package name in the list', () => {
+      expect(PackageSearchPage.packageList[0].name).to.equal('Package1');
+    });
+
+    it('displays the package vendor name name in the list', () => {
+      expect(PackageSearchPage.packageList[0].vendorName).to.equal(pkgs[0].vendor.name);
     });
 
     describe('clicking a search results list item', () => {
