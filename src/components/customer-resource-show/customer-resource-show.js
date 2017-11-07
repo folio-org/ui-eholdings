@@ -7,7 +7,7 @@ import IdentifiersList from '../identifiers-list';
 import ContributorsList from '../contributors-list';
 import ToggleSwitch from '../toggle-switch';
 import CoverageDates from '../coverage-dates';
-import { isBookPublicationType, formatPublicationType, isValidCoverageList } from './utilities';
+import { isBookPublicationType, formatPublicationType, isValidCoverageList } from '../utilities';
 import styles from './customer-resource-show.css';
 
 export default function CustomerResourceShow({ customerResource, toggleRequest, toggleSelected }) {
@@ -35,7 +35,7 @@ export default function CustomerResourceShow({ customerResource, toggleRequest, 
 
           <KeyValueLabel label="Publication Type">
             <div data-test-eholdings-customer-resource-show-publication-type>
-              {record.pubType}
+              {formatPublicationType(record.pubType)}
             </div>
           </KeyValueLabel>
 
