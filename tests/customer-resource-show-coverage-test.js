@@ -32,7 +32,19 @@ describeApplication('CustomerResourceShowManagedCoverage', () => {
       expect(CustomerResourceShowPage.managedCoverageList).to.equal('');
     });
   });
+  describe('visiting the customer resource page with empty (0 length) managed coverage array', () => {
+    beforeEach(function () {
+      resource.managedCoverageList = this.server.createList('managed-coverage', 0);
+      resource.save();
+      return this.visit(`/eholdings/vendors/${pkg.vendor.id}/packages/${pkg.id}/titles/${resource.id}`, () => {
+        expect(CustomerResourceShowPage.$root).to.exist;
+      });
+    });
 
+    it('does not display the managed coverage section', () => {
+      expect(CustomerResourceShowPage.managedCoverageList).to.equal('');
+    });
+  });
   describe('visiting the customer resource page with single managed coverage', () => {
     beforeEach(function () {
       resource.managedCoverageList = this.server.createList('managed-coverage', 1,
