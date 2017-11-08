@@ -10,6 +10,13 @@ export default function VendorListItem({ item, link }) {
         <h5 data-test-eholdings-vendor-list-item-name>
           {item.name}
         </h5>
+        <div data-test-eholdings-vendor-list-item-selections>
+          <span data-test-eholdings-vendor-list-item-num-packages-selected>{item.packagesSelected}</span>
+          &nbsp;/&nbsp;
+          <span data-test-eholdings-vendor-list-item-num-packages-total>{item.packagesTotal}</span>
+          &nbsp;
+          <span>{item.packagesTotal === 1 ? 'Package' : 'Packages'}</span>
+        </div>
       </Link>
     </li>
   );

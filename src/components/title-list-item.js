@@ -3,13 +3,19 @@ import PropTypes from 'prop-types';
 
 import { Link } from 'react-router-dom';
 
-export default function TitleListItem({ item, link, showSelected }) {
+export default function TitleListItem({ item, link, showSelected, showPublisherAndType }) {
   return (
     <li data-test-eholdings-title-list-item>
       <Link to={link}>
         <h5 data-test-eholdings-title-list-item-title-name>
           {item.titleName}
         </h5>
+        {showPublisherAndType && (
+          <div>
+            <span data-test-eholdings-title-list-item-publisher-name>{item.publisherName}</span><br />
+            <span data-test-eholdings-title-list-item-publication-type>{item.pubType}</span>
+          </div>
+        )}
         { /* assumes that customerResourcesList.length will always equal one if showSelected === true */ }
         {showSelected && (
           <span data-test-eholdings-title-list-item-title-selected>
@@ -27,5 +33,6 @@ TitleListItem.propTypes = {
     PropTypes.string,
     PropTypes.object
   ]),
-  showSelected: PropTypes.bool
+  showSelected: PropTypes.bool,
+  showPublisherAndType: PropTypes.bool
 };

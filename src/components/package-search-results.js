@@ -34,6 +34,7 @@ export default function PackageSearchResults({
             search: location.search
           }}
           item={pkg}
+          showVendorName
         />
       ))}
     </List>
