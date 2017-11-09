@@ -87,7 +87,7 @@ export default function CustomerResourceShow({ customerResource, toggleRequest, 
             </KeyValueLabel>
           ) }
 
-          {record.managedEmbargoPeriod.embargoUnit && (
+          {record.managedEmbargoPeriod.embargoUnit && record.managedEmbargoPeriod.embargoValue && (
             <KeyValueLabel label="Managed Embargo Period">
               <div data-test-eholdings-customer-resource-show-managed-embargo-period>
                 {record.managedEmbargoPeriod.embargoValue} {record.managedEmbargoPeriod.embargoUnit}
@@ -95,7 +95,7 @@ export default function CustomerResourceShow({ customerResource, toggleRequest, 
             </KeyValueLabel>
           ) }
 
-          {record.customEmbargoPeriod.embargoUnit && (
+          {record.customEmbargoPeriod.embargoUnit && record.customEmbargoPeriod.embargoValue && (
             <KeyValueLabel label="Custom Embargo Period">
               <div data-test-eholdings-customer-resource-show-custom-embargo-period>
                 {record.customEmbargoPeriod.embargoValue} {record.customEmbargoPeriod.embargoUnit}
