@@ -74,6 +74,9 @@ export default {
   get isHidden() {
     return $('[data-test-eholdings-customer-resource-show-is-hidden]').length === 1;
   },
+  get hiddenReason() {
+    return $('[data-test-eholdings-customer-resource-show-hidden-reason]').text();
+  },
   get managedEmbargoPeriod() {
     return $('[data-test-eholdings-customer-resource-show-managed-embargo-period]').text();
   },
