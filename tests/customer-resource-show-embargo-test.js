@@ -62,4 +62,50 @@ describeApplication('CustomerResourceShowEmbargos', () => {
       expect(CustomerResourceShowPage.customEmbargoPeriod).to.equal('');
     });
   });
+  describe('visiting the customer resource show page with embargos with null values', () => {
+    beforeEach(function () {
+      resource.managedEmbargoPeriod = this.server.create('embargo-period', {
+        embargoUnit: 'Months',
+        embargoValue: null
+      });
+
+      resource.customEmbargoPeriod = this.server.create('embargo-period', {
+        embargoUnit: 'Weeks',
+        embargoValue: null
+      });
+
+      resource.save();
+      return this.visit(`/eholdings/vendors/${pkg.vendor.id}/packages/${pkg.id}/titles/${resource.id}`, () => {
+        expect(CustomerResourceShowPage.$root).to.exist;
+      });
+    });
+
+    it.still('does not display the managed embargo section', () => {
+      expect(CustomerResourceShowPage.managedEmbargoPeriod).to.equal('');
+    });
+
+    it.still('does not display the custom embargo section', () => {
+      expect(CustomerResourceShowPage.customEmbargoPeriod).to.equal('');
+    });
+  });
+  describe('visiting the customer resource show page with no embargos', () => {
+    beforeEach(function () {
+      resource.managedEmbargoPeriod = null;
+
+      resource.customEmbargoPeriod = null;
+
+      resource.save();
+      return this.visit(`/eholdings/vendors/${pkg.vendor.id}/packages/${pkg.id}/titles/${resource.id}`, () => {
+        expect(CustomerResourceShowPage.$root).to.exist;
+      });
+    });
+
+    it.still('does not display the managed embargo section', () => {
+      expect(CustomerResourceShowPage.managedEmbargoPeriod).to.equal('');
+    });
+
+    it.still('does not display the custom embargo section', () => {
+      expect(CustomerResourceShowPage.customEmbargoPeriod).to.equal('');
+    });
+  });
 });

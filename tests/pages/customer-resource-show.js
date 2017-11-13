@@ -74,6 +74,9 @@ export default {
   get isHidden() {
     return $('[data-test-eholdings-customer-resource-show-is-hidden]').length === 1;
   },
+  get hiddenReason() {
+    return $('[data-test-eholdings-customer-resource-show-hidden-reason]').text();
+  },
   get managedEmbargoPeriod() {
     return $('[data-test-eholdings-customer-resource-show-managed-embargo-period]').text();
   },
@@ -82,5 +85,11 @@ export default {
   },
   get customEmbargoPeriod() {
     return $('[data-test-eholdings-customer-resource-show-custom-embargo-period]').text();
-  }
+  },
+  get identifiersList() {
+    return $('[data-test-eholdings-identifiers-list-item]').toArray().map(item => $(item).text());
+  },
+  get contributorsList() {
+    return $('[data-test-eholdings-contributors-list-item]').toArray().map(item => $(item).text());
+  },
 };

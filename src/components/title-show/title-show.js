@@ -25,6 +25,8 @@ export default function TitleShow({ title }) {
             </KeyValueLabel>
           </div>
 
+          <ContributorsList data={record.contributorsList} />
+
           <KeyValueLabel label="Publisher">
             <div data-test-eholdings-title-show-publisher-name>
               {record.publisherName}
@@ -38,7 +40,6 @@ export default function TitleShow({ title }) {
           </KeyValueLabel>
 
           <IdentifiersList data={record.identifiersList} />
-          <ContributorsList data={record.contributorsList} />
 
           {record.subjectsList.length > 0 && (
             <KeyValueLabel label="Subjects">

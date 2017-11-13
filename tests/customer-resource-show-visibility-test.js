@@ -48,4 +48,54 @@ describeApplication('CustomerResourceShowVisibility', () => {
       expect(CustomerResourceShowPage.isHidden).to.be.false;
     });
   });
+  describe('visiting the customer resource show page with a hidden resource and mapped reason text', () => {
+    beforeEach(function () {
+      resource = this.server.create('customer-resource', 'isHidden', {
+        package: pkg,
+        title
+      });
+
+      let visibilityData = this.server.create('visibility-data', {
+        isHidden: true,
+        reason: 'Hidden by EP'
+      });
+      resource.update('visibilityData', visibilityData);
+      resource.save();
+      return this.visit(`/eholdings/vendors/${pkg.vendor.id}/packages/${pkg.id}/titles/${resource.id}`, () => {
+        expect(CustomerResourceShowPage.$root).to.exist;
+      });
+    });
+
+    it('displays the hidden/reason section', () => {
+      expect(CustomerResourceShowPage.isHidden).to.be.true;
+    });
+    it('maps the hidden reason text', () => {
+      expect(CustomerResourceShowPage.hiddenReason).to.equal('Set by System');
+    });
+  });
+  describe('visiting the customer resource show page with a hidden resource and reason text is not mapped', () => {
+    beforeEach(function () {
+      resource = this.server.create('customer-resource', 'isHidden', {
+        package: pkg,
+        title
+      });
+
+      let visibilityData = this.server.create('visibility-data', {
+        isHidden: true,
+        reason: 'Not Mapped Reason Text'
+      });
+      resource.update('visibilityData', visibilityData);
+      resource.save();
+      return this.visit(`/eholdings/vendors/${pkg.vendor.id}/packages/${pkg.id}/titles/${resource.id}`, () => {
+        expect(CustomerResourceShowPage.$root).to.exist;
+      });
+    });
+
+    it('displays the hidden/reason section', () => {
+      expect(CustomerResourceShowPage.isHidden).to.be.true;
+    });
+    it('maps the hidden reason text', () => {
+      expect(CustomerResourceShowPage.hiddenReason).to.equal('Not Mapped Reason Text');
+    });
+  });
 });

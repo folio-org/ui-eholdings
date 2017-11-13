@@ -27,6 +27,20 @@ describeApplication('CustomerResourceShow', () => {
       pubType: 'StreamingVideo',
     });
 
+    title.identifiers = [
+      this.server.create('identifier', { type: 1, subtype: 1, id: '978-0547928210' }),
+      this.server.create('identifier', { type: 1, subtype: 1, id: '978-0547928203' }),
+      this.server.create('identifier', { type: 1, subtype: 2, id: '978-0547928197' }),
+      this.server.create('identifier', { type: 1, subtype: 0, id: '978-0547928227' }),
+      this.server.create('identifier', { type: 8, subtype: 49, id: 'someothertypeofid' })
+    ];
+    title.contributors = [
+      this.server.create('contributor', { type: 'author', contributor: 'Writer, Sally' }),
+      this.server.create('contributor', { type: 'author', contributor: 'Wordsmith, Jane' }),
+      this.server.create('contributor', { type: 'illustrator', contributor: 'Artist, John' })
+    ];
+    title.save();
+
     resource = this.server.create('customer-resource', {
       package: vendorPackage,
       isSelected: false,
@@ -45,6 +59,14 @@ describeApplication('CustomerResourceShow', () => {
       expect(ResourcePage.titleName).to.equal(resource.title.titleName);
     });
 
+    it('displays the authors', () => {
+      expect(ResourcePage.contributorsList[0]).to.equal('AuthorsWriter, Sally; Wordsmith, Jane');
+    });
+
+    it('displays the illustrator', () => {
+      expect(ResourcePage.contributorsList[1]).to.equal('IllustratorArtist, John');
+    });
+
     it('displays the publisher name', () => {
       expect(ResourcePage.publisherName).to.equal(resource.title.publisherName);
     });
@@ -53,8 +75,20 @@ describeApplication('CustomerResourceShow', () => {
       expect(ResourcePage.publicationType).to.equal('Streaming Video');
     });
 
-    it('displays the vendor name', () => {
-      expect(ResourcePage.vendorName).to.equal(resource.package.vendor.name);
+    it('does not group together identifiers of the same type, but not the same subtype', () => {
+      expect(ResourcePage.identifiersList[1]).to.equal('ISBN (Online)978-0547928197');
+    });
+
+    it('does not show a subtype for an identifier when none exists', () => {
+      expect(ResourcePage.identifiersList[2]).to.equal('ISBN978-0547928227');
+    });
+
+    it('does not show identifiers that are not ISSN or ISBN', () => {
+      expect(ResourcePage.identifiersList.length).to.equal(3);
+    });
+
+    it('displays the subjects list', () => {
+      expect(ResourcePage.subjectsList).to.equal(resource.title.subjects.models.map(subjectObj => subjectObj.subject).join('; '));
     });
 
     it('displays the package name', () => {
@@ -65,12 +99,12 @@ describeApplication('CustomerResourceShow', () => {
       expect(ResourcePage.contentType).to.equal('E-Book');
     });
 
-    it('displays the managed url', () => {
-      expect(ResourcePage.managedUrl).to.equal(resource.url);
+    it('displays the vendor name', () => {
+      expect(ResourcePage.vendorName).to.equal(resource.package.vendor.name);
     });
 
-    it('displays the subjects list', () => {
-      expect(ResourcePage.subjectsList).to.equal(resource.title.subjects.models.map(subjectObj => subjectObj.subject).join('; '));
+    it('displays the managed url', () => {
+      expect(ResourcePage.managedUrl).to.equal(resource.url);
     });
 
     it('indicates that the resource is not yet selected', () => {

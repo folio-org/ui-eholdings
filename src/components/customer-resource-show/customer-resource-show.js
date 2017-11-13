@@ -7,7 +7,7 @@ import IdentifiersList from '../identifiers-list';
 import ContributorsList from '../contributors-list';
 import ToggleSwitch from '../toggle-switch';
 import CoverageDates from '../coverage-dates';
-import { isBookPublicationType, formatPublicationType, isValidCoverageList } from '../utilities';
+import { isBookPublicationType, formatPublicationType, isValidCoverageList, mapMessageReason } from '../utilities';
 import styles from './customer-resource-show.css';
 
 export default function CustomerResourceShow({ customerResource, toggleRequest, toggleSelected }) {
@@ -87,7 +87,7 @@ export default function CustomerResourceShow({ customerResource, toggleRequest, 
             </KeyValueLabel>
           ) }
 
-          {record.managedEmbargoPeriod.embargoUnit && (
+          {record.managedEmbargoPeriod.embargoUnit && record.managedEmbargoPeriod.embargoValue && (
             <KeyValueLabel label="Managed Embargo Period">
               <div data-test-eholdings-customer-resource-show-managed-embargo-period>
                 {record.managedEmbargoPeriod.embargoValue} {record.managedEmbargoPeriod.embargoUnit}
@@ -95,7 +95,7 @@ export default function CustomerResourceShow({ customerResource, toggleRequest, 
             </KeyValueLabel>
           ) }
 
-          {record.customEmbargoPeriod.embargoUnit && (
+          {record.customEmbargoPeriod.embargoUnit && record.customEmbargoPeriod.embargoValue && (
             <KeyValueLabel label="Custom Embargo Period">
               <div data-test-eholdings-customer-resource-show-custom-embargo-period>
                 {record.customEmbargoPeriod.embargoValue} {record.customEmbargoPeriod.embargoUnit}
@@ -124,7 +124,7 @@ export default function CustomerResourceShow({ customerResource, toggleRequest, 
           {record.visibilityData.isHidden && (
             <div data-test-eholdings-customer-resource-show-is-hidden>
               <p><strong>This resource is hidden.</strong></p>
-              <p><em>{record.visibilityData.reason}</em></p>
+              <p data-test-eholdings-customer-resource-show-hidden-reason><em>{mapMessageReason(record.visibilityData.reason)}</em></p>
               <hr />
             </div>
           )}

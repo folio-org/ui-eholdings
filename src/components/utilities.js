@@ -17,6 +17,7 @@ let publicationTypes = {
   website: { display: 'Website', isBook: false },
   unspecified: { display: 'Unspecified', isBook: false },
 };
+
 export function formatPublicationType(publicationType) {
   let publicationTypeKey = publicationType.toLowerCase();
   if (publicationType && Object.prototype.hasOwnProperty.call(publicationTypes, publicationTypeKey)) {
@@ -67,4 +68,14 @@ export function isValidCoverageList(coverageArray) {
   return coverageArray
     .every(coverageArrayObj => (isValidCoverage(coverageArrayObj)));
 }
-
+let messageMaps = {
+  'hidden by ep': 'Set by System'
+};
+export function mapMessageReason(message) {
+  let messageKey = message.toLowerCase();
+  if (messageKey && Object.prototype.hasOwnProperty.call(messageMaps, messageKey)) {
+    return messageMaps[messageKey];
+  } else {
+    return message;
+  }
+}
