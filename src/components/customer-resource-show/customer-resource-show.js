@@ -72,7 +72,7 @@ export default function CustomerResourceShow({ customerResource, toggleRequest, 
           {record.url && (
             <KeyValueLabel label="Managed URL">
               <div data-test-eholdings-customer-resource-show-managed-url>
-                <Link to={record.url}>{record.url}</Link>
+                <a href={record.url}>{record.url}</a>
               </div>
             </KeyValueLabel>
           ) }
