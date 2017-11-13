@@ -62,6 +62,12 @@ export default function configure() {
     );
   });
 
+  // mod-notify
+  this.get('/notify/_self', {
+    notifications: [],
+    totalRecords: 0
+  });
+
   // e-holdings endpoints
   this.namespace = 'eholdings';
 

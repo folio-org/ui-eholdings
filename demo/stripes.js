@@ -9,18 +9,23 @@ const fs = require('fs');
 
 commander.version(packageJSON.version);
 
-// Display webpack output to the console
-function processStats(err, stats) {
+// Display error to the console and exit
+function processError(err) {
   if (err) {
     console.error(err); // eslint-disable-line no-console
   }
+  process.exit(1);
+}
+
+// Display webpack output to the console
+function processStats(stats) {
   console.log(stats.toString({ // eslint-disable-line no-console
     chunks: false,
     colors: true,
   }));
   // Check for webpack compile errors and exit
-  if (err || stats.hasErrors()) {
-    process.exit(1);
+  if (stats.hasErrors()) {
+    processError();
   }
 }
 
@@ -118,7 +123,9 @@ commander
       return mirage(svgloader(config));
     };
 
-    stripes.build(stripesConfig, options, processStats);
+    stripes.build(stripesConfig, options)
+      .then(stats => processStats(stats))
+      .catch(err => processError(err));
   });
 
 commander.parse(process.argv);
