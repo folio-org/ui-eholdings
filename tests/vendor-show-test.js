@@ -52,7 +52,28 @@ describeApplication('VendorShow', () => {
     it('displays total number of titles for a package', () => {
       expect(VendorShowPage.packageList[0].numTitles).to.equal(packages[0].titleCount);
     });
+
+    it.still('should not display the back button', () => {
+      expect(VendorShowPage.$backButton).to.not.exist;
+    });
   });
+
+  describe('navigating to vendor details page', () => {
+    beforeEach(function () {
+      return this.visit({
+        pathname: `/eholdings/vendors/${vendor.id}`,
+        // our internal link component automatically sets the location state
+        state: { eholdings: true }
+      }, () => {
+        expect(VendorShowPage.$root).to.exist;
+      });
+    });
+
+    it('should display the back button in UI', () => {
+      expect(VendorShowPage.$backButton).to.exist;
+    });
+  });
+
 
   describe('encountering a server error', () => {
     beforeEach(function () {

@@ -78,9 +78,9 @@ describeApplication('TitleSearch', () => {
           expect(TitleSearchPage.$root).to.not.exist;
         });
 
-        describe('and going back', () => {
-          beforeEach(function () {
-            return this.goBack(() => expect(TitleSearchPage.$root).to.exist);
+        describe('and clicking the back button', () => {
+          beforeEach(() => {
+            return TitleSearchPage.clickBackButton();
           });
 
           it('displays the original search', () => {

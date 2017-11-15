@@ -45,5 +45,9 @@ export default {
 
   get packageList() {
     return $('[data-test-eholdings-package-list-item]').toArray().map(createPackageObject);
+  },
+
+  get $backButton() {
+    return $('[data-test-eholdings-vendor-details-back-button]');
   }
 };
