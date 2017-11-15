@@ -7,7 +7,7 @@ import VendorSearchPage from './pages/vendor-search';
 
 describeApplication('VendorSearch', () => {
   beforeEach(function () {
-    this.server.createList('vendor', 3, {
+    this.server.createList('vendor', 3, 'withPackagesAndTitles', {
       name: i => `Vendor${i + 1}`,
       packagesSelected: 1,
       packagesTotal: 3
@@ -66,6 +66,30 @@ describeApplication('VendorSearch', () => {
 
         it('hides the preview pane', () => {
           expect(VendorSearchPage.previewPaneIsVisible).to.be.false;
+        });
+      });
+
+      describe('clicking an item within the preview pane', () => {
+        beforeEach(() => {
+          return VendorSearchPage.clickPackage(0);
+        });
+
+        it('hides the search ui', () => {
+          expect(VendorSearchPage.$root).to.not.exist;
+        });
+
+        describe('and going back', () => {
+          beforeEach(function () {
+            return this.goBack(() => expect(VendorSearchPage.$root).to.exist);
+          });
+
+          it('displays the original search', () => {
+            expect(VendorSearchPage.$searchField).to.have.value('Vendor');
+          });
+
+          it('displays the original search results', () => {
+            expect(VendorSearchPage.$searchResultsItems).to.have.lengthOf(3);
+          });
         });
       });
     });

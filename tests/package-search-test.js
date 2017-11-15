@@ -9,7 +9,7 @@ describeApplication('PackageSearch', () => {
   let pkgs;
 
   beforeEach(function () {
-    pkgs = this.server.createList('package', 3, 'withVendor', {
+    pkgs = this.server.createList('package', 3, 'withVendor', 'withTitles', {
       packageName: i => `Package${i + 1}`,
       titleCount: 3,
       selectedCount: 1
@@ -64,6 +64,30 @@ describeApplication('PackageSearch', () => {
 
         it('hides the preview pane', () => {
           expect(PackageSearchPage.previewPaneIsVisible).to.be.false;
+        });
+      });
+
+      describe('clicking an item within the preview pane', () => {
+        beforeEach(() => {
+          return PackageSearchPage.clickTitle(0);
+        });
+
+        it('hides the search ui', () => {
+          expect(PackageSearchPage.$root).to.not.exist;
+        });
+
+        describe('and going back', () => {
+          beforeEach(function () {
+            return this.goBack(() => expect(PackageSearchPage.$root).to.exist);
+          });
+
+          it('displays the original search', () => {
+            expect(PackageSearchPage.$searchField).to.have.value('Package');
+          });
+
+          it('displays the original search results', () => {
+            expect(PackageSearchPage.$searchResultsItems).to.have.lengthOf(3);
+          });
         });
       });
     });

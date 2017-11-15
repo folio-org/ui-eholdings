@@ -71,5 +71,15 @@ export default {
   changeSearchType(searchType) {
     $(`[data-test-search-type-button="${searchType}"]`).get(0).click();
     return convergeOn(() => expect($(`[data-test-search-form="${searchType}"]`)).to.exist);
+  },
+
+  clickTitle(index) {
+    let $title = null;
+
+    // wait until the item exists before clicking
+    return convergeOn(() => {
+      $title = $('[data-test-eholdings-title-list-item] a');
+      expect($title.eq(index)).to.exist;
+    }).then(() => $title.get(index).click());
   }
 };

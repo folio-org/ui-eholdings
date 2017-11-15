@@ -11,8 +11,9 @@ export default Factory.extend({
       // for this vendor here.
 
       if (vendor.packagesTotal > 0) {
-        // Decide how many will be selected (0 to packagesTotal)
-        vendor.packagesSelected = faker.random.number({ min: 0, max: vendor.packagesTotal });
+        // Decide how many will be selected if not already (0 to packagesTotal)
+        vendor.packagesSelected = vendor.packagesSelected ||
+          faker.random.number({ min: 0, max: vendor.packagesTotal });
 
         server.createList('package', vendor.packagesSelected, 'withTitles', {
           vendor,
