@@ -1,3 +1,5 @@
-import { Model } from 'mirage-server';
+import { Model, hasMany } from 'mirage-server';
 
-export default Model.extend();
+export default Model.extend({
+  packages: hasMany()
+});

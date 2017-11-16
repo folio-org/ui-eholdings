@@ -1,19 +1,3 @@
-import { JSONAPISerializer, camelize } from 'mirage-server';
+import ApplicationSerializer from './application';
 
-export default JSONAPISerializer.extend({
-  keyForModel(modelName) {
-    return camelize(modelName);
-  },
-
-  keyForCollection(modelName) {
-    return camelize(modelName);
-  },
-
-  keyForAttribute(attr) {
-    return camelize(attr);
-  },
-
-  keyForRelationship(key) {
-    return camelize(key);
-  }
-});
+export default ApplicationSerializer.extend();

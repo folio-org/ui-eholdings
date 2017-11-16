@@ -1,7 +1,7 @@
 import { Factory, faker, trait } from 'mirage-server';
 
 export default Factory.extend({
-  packageName: () => faker.commerce.productName(),
+  name: () => faker.commerce.productName(),
   titleCount: 0,
   isSelected: true,
   selectedCount: 0,
@@ -22,12 +22,12 @@ export default Factory.extend({
         // Decide how many will be selected (0 to titleCount)
         packageObj.selectedCount = faker.random.number({ min: 0, max: packageObj.titleCount });
 
-        server.createList('customer-resource', packageObj.selectedCount, 'withTitle', 'withManagedCoverage', {
+        server.createList('customerResource', packageObj.selectedCount, 'withTitle', 'withManagedCoverage', {
           package: packageObj,
           isSelected: true
         });
 
-        server.createList('customer-resource', (packageObj.titleCount - packageObj.selectedCount), 'withTitle', 'withManagedCoverage', {
+        server.createList('customerResource', (packageObj.titleCount - packageObj.selectedCount), 'withTitle', 'withManagedCoverage', {
           package: packageObj,
           isSelected: false
         });
@@ -49,7 +49,7 @@ export default Factory.extend({
         isHidden: true,
         reason: 'The content is for mature audiences only.'
       });
-      packageObj.update('visibilityData', visibilityData);
+      packageObj.update('visibilityData', visibilityData.toJSON());
     }
   }),
 
@@ -59,19 +59,19 @@ export default Factory.extend({
         beginCoverage: () => faker.date.past().toISOString().substring(0, 10),
         endCoverage: () => faker.date.future().toISOString().substring(0, 10)
       });
-      packageObj.update('customCoverage', customCoverage);
+      packageObj.update('customCoverage', customCoverage.toJSON());
     }
   }),
 
   afterCreate(packageObj, server) {
     if (!packageObj.customCoverage) {
       let customCoverage = server.create('custom-coverage');
-      packageObj.update('customCoverage', customCoverage);
+      packageObj.update('customCoverage', customCoverage.toJSON());
     }
 
     if (!packageObj.visibilityData) {
       let visibilityData = server.create('visibility-data');
-      packageObj.update('visibilityData', visibilityData);
+      packageObj.update('visibilityData', visibilityData.toJSON());
     }
   }
 });

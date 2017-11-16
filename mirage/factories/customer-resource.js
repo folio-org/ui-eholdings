@@ -21,27 +21,30 @@ export default Factory.extend({
       customerResource.save();
     }
   }),
+
   withManagedCoverage: trait({
     afterCreate(customerResource, server) {
       let managedCoverages = server.createList('managed-coverage', 1);
-      customerResource.update('managedCoverageList', managedCoverages);
+      customerResource.update('managedCoverages', managedCoverages.map(item => item.toJSON()));
       customerResource.save();
     }
   }),
+
   isHidden: trait({
     afterCreate(customerResource, server) {
       let visibilityData = server.create('visibility-data', {
         isHidden: true,
         reason: 'The content is for mature audiences only.'
       });
-      customerResource.update('visibilityData', visibilityData);
+      customerResource.update('visibilityData', visibilityData.toJSON());
       customerResource.save();
     }
   }),
+
   afterCreate(customerResource, server) {
     if (!customerResource.visibilityData) {
       let visibilityData = server.create('visibility-data');
-      customerResource.update('visibilityData', visibilityData);
+      customerResource.update('visibilityData', visibilityData.toJSON());
       customerResource.save();
     }
 
@@ -50,7 +53,7 @@ export default Factory.extend({
         embargoUnit: null,
         embargoValue: 0
       });
-      customerResource.update('customEmbargoPeriod', customEmbargoPeriod);
+      customerResource.update('customEmbargoPeriod', customEmbargoPeriod.toJSON());
       customerResource.save();
     }
 
@@ -59,15 +62,16 @@ export default Factory.extend({
         embargoUnit: null,
         embargoValue: 0
       });
-      customerResource.update('managedEmbargoPeriod', managedEmbargoPeriod);
+      customerResource.update('managedEmbargoPeriod', managedEmbargoPeriod.toJSON());
       customerResource.save();
     }
-    if (!customerResource.managedCoverageList) {
+
+    if (!customerResource.managedCoverages) {
       let managedCoverages = server.createList('managed-coverage', 1, {
         beginCoverage: null,
         endCoverage: null
       });
-      customerResource.update('managedCoverageList', managedCoverages);
+      customerResource.update('managedCoverages', managedCoverages.map(item => item.toJSON()));
       customerResource.save();
     }
   }

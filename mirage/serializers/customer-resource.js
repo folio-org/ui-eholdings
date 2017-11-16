@@ -1,30 +1,28 @@
 import ApplicationSerializer from './application';
 
+function mapCustomerResourceAttrs(hash, customerResource) {
+  hash.attributes.vendorId = customerResource.package.vendor.id;
+  hash.attributes.vendorName = customerResource.package.vendor.name;
+  hash.attributes.packageId = customerResource.package.id;
+  hash.attributes.packageName = customerResource.package.name;
+  hash.attributes.contentType = customerResource.package.contentType;
+  hash.attributes.titleId = customerResource.title.id;
+  hash.attributes.name = customerResource.title.name;
+  hash.attributes.publisherName = customerResource.title.publisherName;
+  hash.attributes.publicationType = customerResource.title.publicationType;
+  hash.attributes.contributors = customerResource.title.contributors;
+  hash.attributes.identifiers = customerResource.title.identifiers;
+  return hash;
+}
+
 export default ApplicationSerializer.extend({
-  include: ['package', 'title', 'visibilityData', 'customEmbargoPeriod', 'managedEmbargoPeriod', 'managedCoverageList'],
+  getHashForResource(customerResource) {
+    let hash = ApplicationSerializer.prototype.getHashForResource.apply(this, arguments); // eslint-disable-line prefer-rest-params
 
-  serialize(...args) {
-    let json = ApplicationSerializer.prototype.serialize.apply(this, args);
-
-    if (Array.isArray(json.customerResources)) {
-      return {
-        totalResults: json.totalResults,
-        titles: json.customerResources
-      };
+    if (Array.isArray(hash)) {
+      return hash.map((h, i) => mapCustomerResourceAttrs(h, customerResource.models[i]));
     } else {
-      return json;
-    }
-  },
-
-  modifyKeys(json) {
-    if (json.title) {
-      let newHash = json.title;
-      newHash.customerResourcesList = this.createCustomerResourcesList(json.title);
-      newHash.titleId = json.title.id;
-      delete newHash.id;
-      return newHash;
-    } else {
-      return json;
+      return mapCustomerResourceAttrs(hash, customerResource);
     }
   }
 });

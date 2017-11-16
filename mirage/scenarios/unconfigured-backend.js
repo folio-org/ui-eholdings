@@ -1,6 +1,7 @@
 export default function unconfiguredBackendScenario(server) {
   server.get('/status', {
     data: {
+      id: 'status',
       type: 'status',
       attributes: {
         isConfigurationValid: false
@@ -10,6 +11,7 @@ export default function unconfiguredBackendScenario(server) {
 
   server.get('/configuration', {
     data: {
+      id: 'configuration',
       type: 'configuration',
       attributes: {
         customerId: '',

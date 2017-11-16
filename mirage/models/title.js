@@ -1,9 +1,5 @@
-import { Model, hasMany, belongsTo } from 'mirage-server';
+import { Model, hasMany } from 'mirage-server';
 
 export default Model.extend({
-  package: belongsTo(),
-  contributors: hasMany(),
-  customerResources: hasMany(),
-  identifiers: hasMany(),
-  subjects: hasMany()
+  customerResources: hasMany()
 });
