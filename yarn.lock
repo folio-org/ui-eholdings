@@ -25,6 +25,33 @@
     react-tether "0.5.7"
     redux-form "^7.0.3"
 
+"@folio/stripes-components@thefrontside/stripes-components#master":
+  version "1.9.0"
+  resolved "https://codeload.github.com/thefrontside/stripes-components/tar.gz/655852d1aa90631e746c2c29cf6a86c5e27a0178"
+  dependencies:
+    "@folio/stripes-form" "^0.8.1"
+    "@folio/stripes-react-hotkeys" "^1.0.0"
+    classnames "^2.2.5"
+    create-react-class "^15.5.3"
+    dom-helpers "^3.2.1"
+    file-loader "^1.1.5"
+    lodash "^4.17.4"
+    moment "^2.17.1"
+    moment-range "^3.0.3"
+    mousetrap "^1.6.1"
+    prop-types "^15.5.10"
+    prop-types-extra "^1.0.1"
+    react "^15.6.1"
+    react-dom "^15.6.1"
+    react-flexbox-grid "1.1.3"
+    react-overlays "^0.8.0"
+    react-router-dom "^4.1.1"
+    react-test-renderer "^15.6.1"
+    react-tether "0.5.7"
+    react-transition-group "^2.2.1"
+    redux-form "^7.0.3"
+    typeface-source-sans-pro "^0.0.44"
+
 "@folio/stripes-connect@^3.0.0-pre.1":
   version "3.0.0"
   resolved "https://repository.folio.org/repository/npm-folio/@folio/stripes-connect/-/stripes-connect-3.0.0.tgz#87634148bc68c2eed2acfc784474382f00cafaa6"
@@ -42,7 +69,7 @@
 
 "@folio/stripes-core@thefrontside/stripes-core#master":
   version "2.7.0"
-  resolved "https://codeload.github.com/thefrontside/stripes-core/tar.gz/fe0c75108096b2befc7806cde21ef73449d958da"
+  resolved "https://codeload.github.com/thefrontside/stripes-core/tar.gz/a5ce22824809c1a9400f1102029fd05b60226f13"
   dependencies:
     "@folio/stripes-components" "^1.6.0"
     "@folio/stripes-connect" "^3.0.0-pre.1"
@@ -1455,8 +1482,8 @@ bytes@3.0.0:
   resolved "https://registry.yarnpkg.com/bytes/-/bytes-3.0.0.tgz#d32815404d689699f85a4ea4fa8755dd13a96048"
 
 cacache@^10.0.0:
-  version "10.0.0"
-  resolved "https://registry.yarnpkg.com/cacache/-/cacache-10.0.0.tgz#3bba88bf62b0773fd9a691605f60c9d3c595e853"
+  version "10.0.1"
+  resolved "https://registry.yarnpkg.com/cacache/-/cacache-10.0.1.tgz#3e05f6e616117d9b54665b1b20c8aeb93ea5d36f"
   dependencies:
     bluebird "^3.5.0"
     chownr "^1.0.1"
@@ -5949,7 +5976,7 @@ react-transform-hmr@^1.0.3:
     global "^4.3.0"
     react-proxy "^1.1.7"
 
-react-transition-group@^2.2.0:
+react-transition-group@^2.2.0, react-transition-group@^2.2.1:
   version "2.2.1"
   resolved "https://registry.yarnpkg.com/react-transition-group/-/react-transition-group-2.2.1.tgz#e9fb677b79e6455fd391b03823afe84849df4a10"
   dependencies:
@@ -7084,13 +7111,17 @@ typeface-source-sans-pro@0.0.43:
   version "0.0.43"
   resolved "https://registry.yarnpkg.com/typeface-source-sans-pro/-/typeface-source-sans-pro-0.0.43.tgz#b2b28ea447f3b55eac08cd8d61a85060d653fecb"
 
+typeface-source-sans-pro@^0.0.44:
+  version "0.0.44"
+  resolved "https://registry.yarnpkg.com/typeface-source-sans-pro/-/typeface-source-sans-pro-0.0.44.tgz#d7aca6e233210933fd6f7807b6e81296d2be82c8"
+
 ua-parser-js@^0.7.9:
   version "0.7.17"
   resolved "https://registry.yarnpkg.com/ua-parser-js/-/ua-parser-js-0.7.17.tgz#e9ec5f9498b9ec910e7ae3ac626a805c4d09ecac"
 
 uglify-es@^3.1.3:
-  version "3.1.8"
-  resolved "https://registry.yarnpkg.com/uglify-es/-/uglify-es-3.1.8.tgz#2f21a56871d6354dcc21469cc034c3967f14c5b1"
+  version "3.1.9"
+  resolved "https://registry.yarnpkg.com/uglify-es/-/uglify-es-3.1.9.tgz#6c82df628ac9eb7af9c61fd70c744a084abe6161"
   dependencies:
     commander "~2.11.0"
     source-map "~0.6.1"
@@ -7472,8 +7503,8 @@ wordwrap@~1.0.0:
   resolved "https://registry.yarnpkg.com/wordwrap/-/wordwrap-1.0.0.tgz#27584810891456a4171c8d0226441ade90cbcaeb"
 
 worker-farm@^1.4.1:
-  version "1.5.1"
-  resolved "https://registry.yarnpkg.com/worker-farm/-/worker-farm-1.5.1.tgz#8e9f4a7da4f3c595aa600903051b969390423fa1"
+  version "1.5.2"
+  resolved "https://registry.yarnpkg.com/worker-farm/-/worker-farm-1.5.2.tgz#32b312e5dc3d5d45d79ef44acc2587491cd729ae"
   dependencies:
     errno "^0.1.4"
     xtend "^4.0.1"
