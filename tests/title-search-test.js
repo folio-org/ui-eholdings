@@ -10,11 +10,11 @@ describeApplication('TitleSearch', () => {
 
   beforeEach(function () {
     titles = this.server.createList('title', 3, 'withPackages', {
-      titleName: i => `Title${i + 1}`
+      name: i => `Title${i + 1}`
     });
 
     this.server.create('title', {
-      titleName: 'SomethingSomethingWhoa'
+      name: 'SomethingSomethingWhoa'
     });
 
     return this.visit('/eholdings/?searchType=titles', () => {
@@ -44,7 +44,7 @@ describeApplication('TitleSearch', () => {
     });
 
     it('displays the publication type of a title', () => {
-      expect(TitleSearchPage.titleList[0].publicationType).to.equal(titles[0].pubType);
+      expect(TitleSearchPage.titleList[0].publicationType).to.equal(titles[0].publicationType);
     });
 
     describe('clicking a search results list item', () => {
@@ -152,11 +152,11 @@ describeApplication('TitleSearch', () => {
 
   describe('encountering a server error', () => {
     beforeEach(function () {
-      this.server.get('/titles', [{
-        message: 'There was an error',
-        code: '1000',
-        subcode: 0
-      }], 500);
+      this.server.get('/jsonapi/titles', {
+        errors: [{
+          title: 'There was an error'
+        }]
+      }, 500);
 
       TitleSearchPage.search("this doesn't matter");
     });

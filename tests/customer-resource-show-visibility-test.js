@@ -22,7 +22,7 @@ describeApplication('CustomerResourceShowVisibility', () => {
         title
       });
 
-      return this.visit(`/eholdings/vendors/${pkg.vendor.id}/packages/${pkg.id}/titles/${resource.id}`, () => {
+      return this.visit(`/eholdings/customer-resources/${resource.id}`, () => {
         expect(CustomerResourceShowPage.$root).to.exist;
       });
     });
@@ -39,7 +39,7 @@ describeApplication('CustomerResourceShowVisibility', () => {
         title
       });
 
-      return this.visit(`/eholdings/vendors/${pkg.vendor.id}/packages/${pkg.id}/titles/${resource.id}`, () => {
+      return this.visit(`/eholdings/customer-resources/${resource.id}`, () => {
         expect(CustomerResourceShowPage.$root).to.exist;
       });
     });
@@ -48,6 +48,7 @@ describeApplication('CustomerResourceShowVisibility', () => {
       expect(CustomerResourceShowPage.isHidden).to.be.false;
     });
   });
+
   describe('visiting the customer resource show page with a hidden resource and mapped reason text', () => {
     beforeEach(function () {
       resource = this.server.create('customer-resource', 'isHidden', {
@@ -57,11 +58,13 @@ describeApplication('CustomerResourceShowVisibility', () => {
 
       let visibilityData = this.server.create('visibility-data', {
         isHidden: true,
-        reason: 'Hidden by EP'
-      });
+        reason: 'Set by System'
+      }).toJSON();
+
       resource.update('visibilityData', visibilityData);
       resource.save();
-      return this.visit(`/eholdings/vendors/${pkg.vendor.id}/packages/${pkg.id}/titles/${resource.id}`, () => {
+
+      return this.visit(`/eholdings/customer-resources/${resource.id}`, () => {
         expect(CustomerResourceShowPage.$root).to.exist;
       });
     });
@@ -69,10 +72,12 @@ describeApplication('CustomerResourceShowVisibility', () => {
     it('displays the hidden/reason section', () => {
       expect(CustomerResourceShowPage.isHidden).to.be.true;
     });
+
     it('maps the hidden reason text', () => {
       expect(CustomerResourceShowPage.hiddenReason).to.equal('Set by System');
     });
   });
+
   describe('visiting the customer resource show page with a hidden resource and reason text is not mapped', () => {
     beforeEach(function () {
       resource = this.server.create('customer-resource', 'isHidden', {
@@ -83,10 +88,12 @@ describeApplication('CustomerResourceShowVisibility', () => {
       let visibilityData = this.server.create('visibility-data', {
         isHidden: true,
         reason: 'Not Mapped Reason Text'
-      });
+      }).toJSON();
+
       resource.update('visibilityData', visibilityData);
       resource.save();
-      return this.visit(`/eholdings/vendors/${pkg.vendor.id}/packages/${pkg.id}/titles/${resource.id}`, () => {
+
+      return this.visit(`/eholdings/customer-resources/${resource.id}`, () => {
         expect(CustomerResourceShowPage.$root).to.exist;
       });
     });
@@ -94,6 +101,7 @@ describeApplication('CustomerResourceShowVisibility', () => {
     it('displays the hidden/reason section', () => {
       expect(CustomerResourceShowPage.isHidden).to.be.true;
     });
+
     it('maps the hidden reason text', () => {
       expect(CustomerResourceShowPage.hiddenReason).to.equal('Not Mapped Reason Text');
     });

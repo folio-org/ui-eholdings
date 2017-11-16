@@ -10,13 +10,13 @@ describeApplication('PackageSearch', () => {
 
   beforeEach(function () {
     pkgs = this.server.createList('package', 3, 'withVendor', 'withTitles', {
-      packageName: i => `Package${i + 1}`,
+      name: i => `Package${i + 1}`,
       titleCount: 3,
       selectedCount: 1
     });
 
     this.server.create('package', 'withVendor', {
-      packageName: 'SomethingElse'
+      name: 'SomethingElse'
     });
 
     return this.visit('/eholdings/?searchType=packages', () => {
@@ -150,11 +150,11 @@ describeApplication('PackageSearch', () => {
 
   describe('encountering a server error', () => {
     beforeEach(function () {
-      this.server.get('/packages', [{
-        message: 'There was an error',
-        code: '1000',
-        subcode: 0
-      }], 500);
+      this.server.get('/jsonapi/packages', {
+        errors: [{
+          title: 'There was an error'
+        }]
+      }, 500);
 
       PackageSearchPage.search("this doesn't matter");
     });

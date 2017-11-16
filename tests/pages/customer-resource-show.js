@@ -44,7 +44,7 @@ export default {
   },
 
   get isSelected() {
-    return $('[data-test-eholdings-customer-resource-show-selected]').text() === 'Selected';
+    return $('[data-test-eholdings-customer-resource-show-selected] input').prop('checked');
   },
 
   toggleIsSelected() {

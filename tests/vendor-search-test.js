@@ -158,11 +158,9 @@ describeApplication('VendorSearch', () => {
   describe('encountering a server error', () => {
     beforeEach(function () {
       this.server.get('/jsonapi/vendors', {
-        errors: [
-          {
-            title: 'There was an error'
-          }
-        ]
+        errors: [{
+          title: 'There was an error'
+        }]
       }, 500);
 
       VendorSearchPage.search("this doesn't matter");

@@ -20,16 +20,16 @@ describeApplication('PackageShowCustomCoverage', () => {
       let customCoverage = this.server.create('custom-coverage', {
         beginCoverage: '1969-07-16',
         endCoverage: '1972-12-19'
-      });
+      }).toJSON();
 
       pkg = this.server.create('package', {
         customCoverage,
         vendor,
-        packageName: 'Cool Package',
-        contentType: 'ebook'
+        name: 'Cool Package',
+        contentType: 'E-Book'
       });
 
-      return this.visit(`/eholdings/vendors/${vendor.id}/packages/${pkg.id}`, () => {
+      return this.visit(`/eholdings/packages/${pkg.id}`, () => {
         expect(PackageShowPage.$root).to.exist;
       });
     });
@@ -47,7 +47,7 @@ describeApplication('PackageShowCustomCoverage', () => {
         contentType: 'ebook'
       });
 
-      return this.visit(`/eholdings/vendors/${vendor.id}/packages/${pkg.id}`, () => {
+      return this.visit(`/eholdings/packages/${pkg.id}`, () => {
         expect(PackageShowPage.$root).to.exist;
       });
     });

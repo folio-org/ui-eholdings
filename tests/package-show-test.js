@@ -17,8 +17,8 @@ describeApplication('PackageShow', () => {
 
     vendorPackage = this.server.create('package', 'withTitles', {
       vendor,
-      packageName: 'Cool Package',
-      contentType: 'ebook',
+      name: 'Cool Package',
+      contentType: 'E-Book',
       isSelected: false,
       titleCount: 5
     });
@@ -28,7 +28,7 @@ describeApplication('PackageShow', () => {
 
   describe('visiting the package details page', () => {
     beforeEach(function () {
-      return this.visit(`/eholdings/vendors/${vendor.id}/packages/${vendorPackage.id}`, () => {
+      return this.visit(`/eholdings/packages/${vendorPackage.id}`, () => {
         expect(PackageShowPage.$root).to.exist;
       });
     });
@@ -58,7 +58,7 @@ describeApplication('PackageShow', () => {
     });
 
     it('displays name of a title in the title list', () => {
-      expect(PackageShowPage.titleList[0].name).to.equal(customerResources[0].title.titleName);
+      expect(PackageShowPage.titleList[0].name).to.equal(customerResources[0].title.name);
     });
 
     it('displays whether the first title is selected', () => {
@@ -142,11 +142,11 @@ describeApplication('PackageShow', () => {
 
     describe('unsuccessfully selecting a package title to add to my holdings', () => {
       beforeEach(function () {
-        this.server.put('/vendors/:vendorId/packages/:packageId', [{
-          message: 'There was an error',
-          code: '1000',
-          subcode: 0
-        }], 500);
+        this.server.put('/jsonapi/packages/:packageId', {
+          errors: [{
+            title: 'There was an error'
+          }]
+        }, 500);
 
         this.server.timing = 50;
         return PackageShowPage.toggleIsSelected();
@@ -168,8 +168,8 @@ describeApplication('PackageShow', () => {
         expect(PackageShowPage.isSelectedToggleable).to.equal(false);
       });
 
-      describe('when the request succeeds', () => {
-        it('reflect the desired state was set', () => {
+      describe('when the request fails', () => {
+        it('reflect the desired state was not set', () => {
           expect(PackageShowPage.isSelected).to.equal(false);
         });
 
@@ -187,7 +187,7 @@ describeApplication('PackageShow', () => {
   describe('navigating to package show page', () => {
     beforeEach(function () {
       return this.visit({
-        pathname: `/eholdings/vendors/${vendor.id}/packages/${vendorPackage.id}`,
+        pathname: `/eholdings/packages/${vendorPackage.id}`,
         // our internal link component automatically sets the location state
         state: { eholdings: true }
       }, () => {
@@ -203,13 +203,13 @@ describeApplication('PackageShow', () => {
 
   describe('encountering a server error', () => {
     beforeEach(function () {
-      this.server.get('/vendors/:vendorId/packages/:packageId', [{
-        message: 'There was an error',
-        code: '1000',
-        subcode: 0
-      }], 500);
+      this.server.get('/jsonapi/packages/:packageId', {
+        errors: [{
+          title: 'There was an error'
+        }]
+      }, 500);
 
-      return this.visit(`/eholdings/vendors/${vendor.id}/packages/${vendorPackage.id}`, () => {
+      return this.visit(`/eholdings/packages/${vendorPackage.id}`, () => {
         expect(PackageShowPage.$root).to.exist;
       });
     });

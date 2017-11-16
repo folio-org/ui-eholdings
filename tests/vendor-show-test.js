@@ -42,7 +42,7 @@ describeApplication('VendorShow', () => {
     });
 
     it('displays name of a package in the package list', () => {
-      expect(VendorShowPage.packageList[0].name).to.equal(packages[0].packageName);
+      expect(VendorShowPage.packageList[0].name).to.equal(packages[0].name);
     });
 
     it('displays number of selected titles for a package', () => {
@@ -78,11 +78,9 @@ describeApplication('VendorShow', () => {
   describe('encountering a server error', () => {
     beforeEach(function () {
       this.server.get('/jsonapi/vendors/:id', {
-        errors: [
-          {
-            title: 'There was an error'
-          }
-        ]
+        errors: [{
+          title: 'There was an error'
+        }]
       }, 500);
 
       return this.visit(`/eholdings/vendors/${vendor.id}`, () => {

@@ -42,7 +42,7 @@ export default {
   },
 
   get isSelected() {
-    return $('[data-test-eholdings-package-details-selected]').text() === 'Selected';
+    return $('[data-test-eholdings-package-details-selected] input').prop('checked');
   },
 
   toggleIsSelected() {

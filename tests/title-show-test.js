@@ -11,28 +11,31 @@ describeApplication('TitleShow', () => {
 
   beforeEach(function () {
     title = this.server.create('title', 'withPackages', {
-      titleName: 'Cool Title',
+      name: 'Cool Title',
       publisherName: 'Cool Publisher',
-      pubType: 'website'
+      publicationType: 'Website'
     });
 
     title.subjects = [
       this.server.create('subject', { subject: 'Cool Subject 1' }),
       this.server.create('subject', { subject: 'Cool Subject 2' }),
       this.server.create('subject', { subject: 'Cool Subject 3' })
-    ];
+    ].map(m => m.toJSON());
+
     title.identifiers = [
-      this.server.create('identifier', { type: 1, subtype: 1, id: '978-0547928210' }),
-      this.server.create('identifier', { type: 1, subtype: 1, id: '978-0547928203' }),
-      this.server.create('identifier', { type: 1, subtype: 2, id: '978-0547928197' }),
-      this.server.create('identifier', { type: 1, subtype: 0, id: '978-0547928227' }),
-      this.server.create('identifier', { type: 8, subtype: 49, id: 'someothertypeofid' })
-    ];
+      this.server.create('identifier', { type: 'ISBN', subtype: 'Print', id: '978-0547928210' }),
+      this.server.create('identifier', { type: 'ISBN', subtype: 'Print', id: '978-0547928203' }),
+      this.server.create('identifier', { type: 'ISBN', subtype: 'Online', id: '978-0547928197' }),
+      this.server.create('identifier', { type: 'ISBN', subtype: 'Empty', id: '978-0547928227' }),
+      this.server.create('identifier', { type: 'Mid', subtype: 'someothersubtype', id: 'someothertypeofid' })
+    ].map(m => m.toJSON());
+
     title.contributors = [
       this.server.create('contributor', { type: 'author', contributor: 'Writer, Sally' }),
       this.server.create('contributor', { type: 'author', contributor: 'Wordsmith, Jane' }),
       this.server.create('contributor', { type: 'illustrator', contributor: 'Artist, John' })
-    ];
+    ].map(m => m.toJSON());
+
     title.save();
 
     customerResources = title.customerResources.models;
@@ -94,7 +97,7 @@ describeApplication('TitleShow', () => {
     });
 
     it('displays name of a package in the customer resource list', () => {
-      expect(TitleShowPage.packageList[0].name).to.equal(customerResources[0].package.packageName);
+      expect(TitleShowPage.packageList[0].name).to.equal(customerResources[0].package.name);
     });
 
     it('displays whether the first customer resource is selected', () => {
@@ -125,16 +128,11 @@ describeApplication('TitleShow', () => {
   describe('visiting the title page with some attributes undefined', () => {
     beforeEach(function () {
       title = this.server.create('title', 'withPackages', {
-        titleName: 'Cool Title',
+        name: 'Cool Title',
         publisherName: 'Cool Publisher',
-        pubType: ''
+        publicationType: ''
       });
-      title.subjects = [
-      ];
-      title.identifiers = [
-      ];
-      title.contributors = [
-      ];
+
       title.save();
       customerResources = title.customerResources.models;
       return this.visit(`/eholdings/titles/${title.id}`, () => {
@@ -171,10 +169,11 @@ describeApplication('TitleShow', () => {
   describe('visiting the title page with unknown attribute values', () => {
     beforeEach(function () {
       title = this.server.create('title', 'withPackages', {
-        titleName: 'Cool Title',
+        name: 'Cool Title',
         publisherName: 'Cool Publisher',
-        pubType: 'UnknownPublicationType'
+        publicationType: 'UnknownPublicationType'
       });
+
       title.save();
       customerResources = title.customerResources.models;
       return this.visit(`/eholdings/titles/${title.id}`, () => {
