@@ -5,7 +5,7 @@
   position: relative;
 }
 
-@media(--largeUp) {
+@media (--largeUp) {
   .search-paneset {
     align-items: flex-start;
     display: flex;

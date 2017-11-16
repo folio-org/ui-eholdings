@@ -10,7 +10,7 @@
 }
 
 .eholdings-settings-form-actions {
-  @media(--mediumUp) {
+  @media (--mediumUp) {
     display: flex;
     flex-direction: row-reverse;
   }
@@ -29,7 +29,7 @@
     white-space: nowrap;
     width: 100%;
 
-    @media(--mediumUp) {
+    @media (--mediumUp) {
       display: inline-block;
       margin: 0.5em;
       padding: 0.36em 0.57em;
@@ -48,7 +48,7 @@
 
   & label {
     display: block;
-    font-size: .8em;
+    font-size: 0.8em;
     font-weight: bold;
     margin-bottom: 4px;
     text-transform: Uppercase;

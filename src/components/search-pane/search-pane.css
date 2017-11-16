@@ -11,7 +11,7 @@
 
   &:only-child {
     display: block;
-    border-right: 1px solid rgba(0,0,0,.2);
+    border-right: 1px solid rgba(0, 0, 0, 0.2);
   }
 
   &.is-hidden {
@@ -19,16 +19,16 @@
   }
 }
 
-@media(--mediumUp) {
+@media (--mediumUp) {
   .search-pane {
     width: 320px;
   }
 }
 
-@media(--largeUp) {
+@media (--largeUp) {
   .search-pane,
   .search-pane.is-hidden {
-    border-right: 1px solid rgba(0,0,0,.2);
+    border-right: 1px solid rgba(0, 0, 0, 0.2);
     display: flex;
     flex: 0 0 320px;
     flex-flow: column nowrap;

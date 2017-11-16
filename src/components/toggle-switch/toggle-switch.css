@@ -14,7 +14,7 @@
     background-color: var(--success);
   }
 
-  & input:checked + .toggle-switch-slider:before {
+  & input:checked + .toggle-switch-slider::before {
     transform: translateX(26px);
   }
 
@@ -24,9 +24,11 @@
 }
 
 @keyframes toggle-pending {
-  0%, 100% {
+  0%,
+  100% {
     opacity: 1;
   }
+
   50% {
     opacity: 0.25;
   }
@@ -41,10 +43,10 @@
   position: absolute;
   right: 0;
   top: 0;
-  transition: .4s;
+  transition: 0.4s;
 }
 
-.toggle-switch-slider:before {
+.toggle-switch-slider::before {
   background-color: #fff;
   border-radius: 50%;
   bottom: 4px;
@@ -52,6 +54,6 @@
   height: 26px;
   left: 4px;
   position: absolute;
-  transition: .4s;
+  transition: 0.4s;
   width: 26px;
 }

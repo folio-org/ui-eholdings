@@ -14,20 +14,20 @@
   background-color: white;
 }
 
-@media(--mediumUp) {
+@media (--mediumUp) {
   .preview-pane {
     width: 600px;
   }
 }
 
-@media(--largeUp) {
+@media (--largeUp) {
   .preview-pane {
     position: relative;
     width: auto;
 
     /* preview pane is open next to results */
     &:nth-child(5) {
-      border-left: 1px solid rgba(0,0,0,.2);
+      border-left: 1px solid rgba(0, 0, 0, 0.2);
     }
   }
 }
