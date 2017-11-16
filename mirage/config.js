@@ -68,6 +68,11 @@ export default function configure() {
     totalRecords: 0
   });
 
+  this.get('/notify', {
+    notifications: [],
+    totalRecords: 0
+  });
+
   // e-holdings endpoints
   this.namespace = 'eholdings';
 
