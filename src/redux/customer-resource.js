@@ -1,76 +1,29 @@
-import { combineReducers } from 'redux';
-import { combineEpics } from 'redux-observable';
-import {
-  REQUEST_MAKE,
-  REQUEST_REJECT,
-  createRequestCreator,
-  createRequestReducer,
-  createRequestEpic
-} from './request';
-import { formatContentType } from './utilities';
+import Resolver, { Model } from './resolver';
 
-// customer-resource action creators
-export const getCustomerResource = createRequestCreator('customer-resource');
-export const toggleIsSelected = createRequestCreator(
-  'customer-resource-toggle-selected',
-  { method: 'PUT' }
-);
+export default class CustomerResource extends Model {
+  static type = 'customerResources';
+  static path = '/eholdings/jsonapi/customer-resources';
 
-// customer-resource reducer
-export const customerResourceReducer = combineReducers({
-  record: createRequestReducer({
-    name: 'customer-resource',
-    initialContent: {},
-    handleRequests: {
-      'customer-resource-toggle-selected': (state, action) => {
-        if (action.type === REQUEST_MAKE || action.type === REQUEST_REJECT) {
-          return {
-            ...state,
-            content: {
-              ...state.content,
-              isSelected: !state.content.isSelected
-            }
-          };
-        } else {
-          return state;
-        }
-      }
-    }
-  }),
-  toggle: createRequestReducer({
-    name: 'customer-resource-toggle-selected'
-  })
-});
+  static attributes = {
+    name: '',
+    titleId: 0,
+    vendorId: 0,
+    vendorName: '',
+    packageId: 0,
+    packageName: '',
+    publisherName: '',
+    publicationType: '',
+    contentType: '',
+    isSelected: false,
+    url: '',
+    subjects: [],
+    contributors: [],
+    identifiers: [],
+    managedCoverages: [],
+    managedEmbargoPeriod: {},
+    customEmbargoPeriod: {},
+    visibilityData: {}
+  };
+}
 
-// customer-resource endpoint generator
-const getResourceEndpoint = ({ vendorId, packageId, titleId }) => (
-  `eholdings/vendors/${vendorId}/packages/${packageId}/titles/${titleId}`
-);
-
-// customer-resource epics
-export const customerResourceEpics = combineEpics(
-  createRequestEpic({
-    name: 'customer-resource',
-    endpoint: getResourceEndpoint,
-    deserialize: (payload) => {
-      if (payload) {
-        let { customerResourcesList, ...title } = payload;
-
-        if (customerResourcesList[0] && customerResourcesList[0].contentType) {
-          customerResourcesList[0].contentType = formatContentType(customerResourcesList[0].contentType);
-        }
-        return {
-          ...title,
-          ...customerResourcesList[0]
-        };
-      } else {
-        return payload;
-      }
-    }
-  }),
-  createRequestEpic({
-    name: 'customer-resource-toggle-selected',
-    endpoint: getResourceEndpoint,
-    serialize: ({ isSelected }) => ({ isSelected })
-  })
-);
+Resolver.register(CustomerResource);

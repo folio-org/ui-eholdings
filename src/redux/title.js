@@ -1,20 +1,21 @@
-import {
-  createRequestCreator,
-  createRequestReducer,
-  createRequestEpic
-} from './request';
+import Resolver, { Model } from './resolver';
 
-// title action creators
-export const getTitle = createRequestCreator('title');
+export default class Title extends Model {
+  static type = 'titles';
+  static path = '/eholdings/jsonapi/titles';
 
-// title reducer
-export const titleReducer = createRequestReducer({
-  name: 'title',
-  initialContent: {}
-});
+  static attributes = {
+    name: '',
+    publisherName: '',
+    publicationType: '',
+    subjects: [],
+    contributors: [],
+    identifiers: []
+  };
 
-// title epic
-export const titleEpic = createRequestEpic({
-  name: 'title',
-  endpoint: ({ titleId }) => `eholdings/titles/${titleId}`
-});
+  static relationships = {
+    customerResources: { hasMany: true }
+  };
+}
+
+Resolver.register(Title);

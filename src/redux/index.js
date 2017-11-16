@@ -2,45 +2,14 @@ import { combineReducers } from 'redux';
 import { combineEpics } from 'redux-observable';
 
 import {
-  applicationReducer,
-  applicationEpics
-} from './application';
-
-import {
-  searchReducer,
-  searchEpic
-} from './search';
-import {
-  vendorReducer,
-  vendorEpics
-} from './vendor';
-import {
-  packageReducer,
-  packageEpics
-} from './package';
-import {
-  titleReducer,
-  titleEpic
-} from './title';
-import {
-  customerResourceReducer,
-  customerResourceEpics
-} from './customer-resource';
+  reducer as dataReducer,
+  epic as dataEpic
+} from './data';
 
 export const reducer = combineReducers({
-  application: applicationReducer,
-  search: searchReducer,
-  vendor: vendorReducer,
-  package: packageReducer,
-  title: titleReducer,
-  customerResource: customerResourceReducer
+  data: dataReducer
 });
 
 export const epics = combineEpics(
-  applicationEpics,
-  searchEpic,
-  vendorEpics,
-  packageEpics,
-  titleEpic,
-  customerResourceEpics
+  dataEpic
 );
