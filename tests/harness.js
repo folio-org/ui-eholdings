@@ -10,7 +10,7 @@ import { discoverServices } from '@folio/stripes-core/src/discoverServices';
 import gatherActions from '@folio/stripes-core/src/gatherActions';
 import { setOkapiReady } from '@folio/stripes-core/src/okapiActions';
 
-import Root from '@folio/stripes-core/src/Root';
+import Root from '@folio/stripes-core/src/components/Root';
 
 const actionNames = gatherActions();
 
