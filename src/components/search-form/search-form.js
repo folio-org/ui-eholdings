@@ -32,7 +32,7 @@ export default class SearchForm extends Component {
     e.preventDefault();
 
     this.props.onSearch({
-      search: this.state.searchString
+      q: this.state.searchString
     });
   };
 

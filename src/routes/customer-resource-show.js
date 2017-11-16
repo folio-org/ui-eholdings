@@ -1,47 +1,48 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { getCustomerResource, toggleIsSelected } from '../redux/customer-resource';
 
+import Resolver from '../redux/resolver';
+import CustomerResource from '../redux/customer-resource';
 import View from '../components/customer-resource-show';
 
 class CustomerResourceShowRoute extends Component {
   static propTypes = {
     match: PropTypes.shape({
       params: PropTypes.shape({
-        packageId: PropTypes.string.isRequired,
-        titleId: PropTypes.string.isRequired,
-        vendorId: PropTypes.string.isRequired
+        id: PropTypes.string.isRequired
       }).isRequired
     }).isRequired,
-    customerResource: PropTypes.object.isRequired,
-    toggleRequest: PropTypes.object.isRequired,
+    model: PropTypes.object.isRequired,
     getCustomerResource: PropTypes.func.isRequired,
-    toggleIsSelected: PropTypes.func.isRequired
+    updateResource: PropTypes.func.isRequired
   };
 
   componentWillMount() {
-    let { vendorId, packageId, titleId } = this.props.match.params;
-    this.props.getCustomerResource({ vendorId, packageId, titleId });
+    let { match, getCustomerResource } = this.props;
+    let { id } = match.params;
+    getCustomerResource(id);
+  }
+
+  componentWillReceiveProps(nextProps) {
+    let { match, getCustomerResource } = nextProps;
+    let { id } = match.params;
+
+    if (id !== this.props.match.params.id) {
+      getCustomerResource(id);
+    }
   }
 
   toggleSelected = () => {
-    let { vendorId, packageId, titleId } = this.props.match.params;
-    let { isSelected } = this.props.customerResource.content;
-
-    this.props.toggleIsSelected({
-      vendorId,
-      packageId,
-      titleId,
-      isSelected: !isSelected
-    });
-  };
+    let { model, updateResource } = this.props;
+    model.isSelected = !model.isSelected;
+    updateResource(model);
+  }
 
   render() {
     return (
       <View
-        customerResource={this.props.customerResource}
-        toggleRequest={this.props.toggleRequest}
+        model={this.props.model}
         toggleSelected={this.toggleSelected}
       />
     );
@@ -49,11 +50,10 @@ class CustomerResourceShowRoute extends Component {
 }
 
 export default connect(
-  ({ eholdings: { customerResource } }) => ({
-    customerResource: customerResource.record,
-    toggleRequest: customerResource.toggle
+  ({ eholdings: { data } }, { match }) => ({
+    model: new Resolver(data).find('customerResources', match.params.id)
   }), {
-    getCustomerResource,
-    toggleIsSelected
+    getCustomerResource: id => CustomerResource.find(id),
+    updateResource: model => CustomerResource.save(model)
   }
 )(CustomerResourceShowRoute);

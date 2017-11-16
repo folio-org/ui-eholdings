@@ -8,8 +8,8 @@ import ApplicationRoute from './routes/application';
 import SearchRoute from './routes/search';
 import VendorShow from './routes/vendor-show';
 import PackageShow from './routes/package-show';
-import CustomerResourceShow from './routes/customer-resource-show';
 import TitleShow from './routes/title-show';
+import CustomerResourceShow from './routes/customer-resource-show';
 
 import SettingsRoute from './routes/settings';
 
@@ -57,9 +57,9 @@ export default class EHoldings extends Component {
         <Route path={rootPath} component={SearchRoute}>
           <Switch>
             <Route path={`${rootPath}/vendors/:vendorId`} exact component={VendorShow} />
-            <Route path={`${rootPath}/vendors/:vendorId/packages/:packageId`} exact component={PackageShow} />
-            <Route path={`${rootPath}/vendors/:vendorId/packages/:packageId/titles/:titleId`} exact component={CustomerResourceShow} />
+            <Route path={`${rootPath}/packages/:packageId`} exact component={PackageShow} />
             <Route path={`${rootPath}/titles/:titleId`} exact component={TitleShow} />
+            <Route path={`${rootPath}/customer-resources/:id`} exact component={CustomerResourceShow} />
             <Route render={() => (<Redirect to={`${rootPath}?searchType=vendors`} />)} />
           </Switch>
         </Route>

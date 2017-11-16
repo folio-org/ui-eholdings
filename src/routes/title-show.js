@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { getTitle } from '../redux/title';
 
+import Resolver from '../redux/resolver';
+import Title from '../redux/title';
 import View from '../components/title-show';
 
 class TitleShowRoute extends Component {
@@ -12,29 +13,38 @@ class TitleShowRoute extends Component {
         titleId: PropTypes.string.isRequired
       }).isRequired
     }).isRequired,
-    title: PropTypes.object.isRequired,
+    model: PropTypes.object.isRequired,
     getTitle: PropTypes.func.isRequired
   };
 
   componentWillMount() {
-    let { titleId } = this.props.match.params;
-    this.props.getTitle({ titleId });
+    let { match, getTitle } = this.props;
+    let { titleId } = match.params;
+    getTitle(titleId);
   }
 
-  componentWillReceiveProps({ match: { params: { titleId } } }) {
+  componentWillReceiveProps(nextProps) {
+    let { match, getTitle } = nextProps;
+    let { titleId } = match.params;
+
     if (titleId !== this.props.match.params.titleId) {
-      this.props.getTitle({ titleId });
+      getTitle(titleId);
     }
   }
 
   render() {
     return (
-      <View title={this.props.title} />
+      <View
+        model={this.props.model}
+      />
     );
   }
 }
 
 export default connect(
-  ({ eholdings: { title } }) => ({ title }),
-  { getTitle }
+  ({ eholdings: { data } }, { match }) => ({
+    model: new Resolver(data).find('titles', match.params.titleId)
+  }), {
+    getTitle: id => Title.find(id, { include: 'customerResources' })
+  }
 )(TitleShowRoute);

@@ -1,40 +1,27 @@
 import moment from 'moment';
 
-let publicationTypes = {
-  all: { display: 'All', isBook: false },
-  audiobook: { display: 'Audiobook', isBook: true },
-  book: { display: 'Book', isBook: true },
-  bookseries: { display: 'Book Series', isBook: true },
-  database: { display: 'Database', isBook: false },
-  journal: { display: 'Journal', isBook: false },
-  newsletter: { display: 'Newsletter', isBook: false },
-  newspaper: { display: 'Newspaper', isBook: false },
-  proceedings: { display: 'Proceedings', isBook: false },
-  report: { display: 'Report', isBook: false },
-  streamingaudio: { display: 'Streaming Audio', isBook: true },
-  streamingvideo: { display: 'Streaming Video', isBook: true },
-  thesisdissertation: { display: 'Thesis & Dissertation', isBook: false },
-  website: { display: 'Website', isBook: false },
-  unspecified: { display: 'Unspecified', isBook: false },
-};
-
-export function formatPublicationType(publicationType) {
-  let publicationTypeKey = publicationType.toLowerCase();
-  if (publicationType && Object.prototype.hasOwnProperty.call(publicationTypes, publicationTypeKey)) {
-    return publicationTypes[publicationTypeKey].display;
-  } else {
-    return publicationType;
-  }
-}
 export function isBookPublicationType(publicationType) {
-  let publicationTypeKey = publicationType.toLowerCase();
+  let publicationTypeIsBook = {
+    All: false,
+    Audiobook: true,
+    Book: true,
+    'Book Series': true,
+    Database: false,
+    Journal: false,
+    Newsletter: false,
+    Newspaper: false,
+    Proceedings: false,
+    Report: false,
+    'Streaming Audio': true,
+    'Streaming Video': true,
+    'Thesis & Dissertation': false,
+    Website: false,
+    Unspecified: false
+  };
 
-  if (publicationType && Object.prototype.hasOwnProperty.call(publicationTypes, publicationTypeKey)) {
-    return publicationTypes[publicationTypeKey].isBook;
-  } else {
-    return false;
-  }
+  return !!publicationTypeIsBook[publicationType];
 }
+
 export function formatISODateWithoutTime(dateString, intl) {
   if (!dateString) {
     return '';
@@ -46,6 +33,7 @@ export function formatISODateWithoutTime(dateString, intl) {
   dateObj.setDate(day);
   return intl.formatDate(dateObj);
 }
+
 export function formatYear(dateString) {
   if (!dateString) {
     return '';
@@ -67,15 +55,4 @@ export function isValidCoverage(coverageObj) {
 export function isValidCoverageList(coverageArray) {
   return coverageArray
     .every(coverageArrayObj => (isValidCoverage(coverageArrayObj)));
-}
-let messageMaps = {
-  'hidden by ep': 'Set by System'
-};
-export function mapMessageReason(message) {
-  let messageKey = message.toLowerCase();
-  if (messageKey && Object.prototype.hasOwnProperty.call(messageMaps, messageKey)) {
-    return messageMaps[messageKey];
-  } else {
-    return message;
-  }
 }

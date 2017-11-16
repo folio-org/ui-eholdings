@@ -10,13 +10,9 @@ import List from '../list';
 import PackageListItem from '../package-list-item';
 import styles from './vendor-show.css';
 
-export default function VendorShow({
-  vendor,
-  vendorPackages
-}, { router }) {
-  const record = vendor.content;
-  const historyState = router.history.location.state;
-  const queryString = router.route.location.search;
+export default function VendorShow({ model }, { router }) {
+  let historyState = router.history.location.state;
+  let queryString = router.route.location.search;
 
   return (
     <div>
@@ -30,64 +26,60 @@ export default function VendorShow({
         />
       )}
       <div className={styles['detail-container']} data-test-eholdings-vendor-details>
-        {vendor.isResolved ? (
+        {model.isLoaded ? (
           <div>
             <div className={styles['detail-container-header']}>
               <KeyValueLabel label="Vendor">
                 <h1 data-test-eholdings-vendor-details-name>
-                  {record.name}
+                  {model.name}
                 </h1>
               </KeyValueLabel>
             </div>
 
             <KeyValueLabel label="Packages Selected">
               <div data-test-eholdings-vendor-details-packages-selected>
-                {record.packagesSelected}
+                {model.packagesSelected}
               </div>
             </KeyValueLabel>
 
             <KeyValueLabel label="Total Packages">
               <div data-test-eholdings-vendor-details-packages-total>
-                {record.packagesTotal}
+                {model.packagesTotal}
               </div>
             </KeyValueLabel>
 
             <hr />
-            {vendorPackages.isResolved && vendorPackages.content.length ? (
-              <div>
-                <h3>Packages</h3>
-                <List>
-                  {vendorPackages.content.map(pkg => (
-                    <PackageListItem
-                      key={pkg.packageId}
-                      link={`/eholdings/vendors/${pkg.vendorId}/packages/${pkg.packageId}`}
-                      showTitleCount
-                      item={pkg}
-                    />
-                  ))}
-                </List>
-              </div>
-            ) : vendorPackages.isResolved ? (
-              <p>No Packages Found</p>
-            ) : (
-              <Icon icon="spinner-ellipsis" />
-            )}
+
+            <h3>Packages</h3>
+            <List>
+              {model.packages.isLoading ? (
+                <Icon icon="spinner-ellipsis" />
+              ) : (
+                model.packages.map(pkg => (
+                  <PackageListItem
+                    key={pkg.id}
+                    link={`/eholdings/packages/${pkg.id}`}
+                    showTitleCount
+                    item={pkg}
+                  />
+                ))
+              )}
+            </List>
           </div>
-        ) : vendor.isRejected ? (
+        ) : model.request.isRejected ? (
           <p data-test-eholdings-vendor-details-error>
-            {vendor.error.errors.length ? vendor.error.errors[0].title : vendor.error.title}
+            {model.request.errors[0].title}
           </p>
-        ) : (
+        ) : model.isLoading ? (
           <Icon icon="spinner-ellipsis" />
-        )}
+        ) : null}
       </div>
     </div>
   );
 }
 
 VendorShow.propTypes = {
-  vendor: PropTypes.object.isRequired,
-  vendorPackages: PropTypes.object.isRequired
+  model: PropTypes.object.isRequired
 };
 
 VendorShow.contextTypes = {

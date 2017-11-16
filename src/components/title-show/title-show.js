@@ -10,15 +10,11 @@ import List from '../list';
 import PackageListItem from '../package-list-item';
 import IdentifiersList from '../identifiers-list';
 import ContributorsList from '../contributors-list';
-import { formatPublicationType } from '../utilities';
 import styles from './title-show.css';
 
-export default function TitleShow({
-  title
-}, { router }) {
-  let record = title.content;
-  const historyState = router.history.location.state;
-  const queryString = router.route.location.search;
+export default function TitleShow({ model }, { router }) {
+  let historyState = router.history.location.state;
+  let queryString = router.route.location.search;
 
   return (
     <div>
@@ -32,36 +28,36 @@ export default function TitleShow({
         />
       )}
       <div className={styles['detail-container']} data-test-eholdings-title-show>
-        {title.isResolved ? (
+        {model.isLoaded ? (
           <div>
             <div className={styles['detail-container-header']}>
               <KeyValueLabel label="Title">
                 <h1 data-test-eholdings-title-show-title-name>
-                  {record.titleName}
+                  {model.name}
                 </h1>
               </KeyValueLabel>
             </div>
 
-            <ContributorsList data={record.contributorsList} />
+            <ContributorsList data={model.contributors} />
 
             <KeyValueLabel label="Publisher">
               <div data-test-eholdings-title-show-publisher-name>
-                {record.publisherName}
+                {model.publisherName}
               </div>
             </KeyValueLabel>
 
             <KeyValueLabel label="Publication Type">
               <div data-test-eholdings-title-show-publication-type>
-                {formatPublicationType(record.pubType)}
+                {model.publicationType}
               </div>
             </KeyValueLabel>
 
-            <IdentifiersList data={record.identifiersList} />
+            <IdentifiersList data={model.identifiers} />
 
-            {record.subjectsList.length > 0 && (
+            {model.subjects.length > 0 && (
               <KeyValueLabel label="Subjects">
                 <div data-test-eholdings-title-show-subjects-list>
-                  {record.subjectsList.map(subjectObj => subjectObj.subject).join('; ')}
+                  {model.subjects.map(subjectObj => subjectObj.subject).join('; ')}
                 </div>
               </KeyValueLabel>
             ) }
@@ -69,29 +65,32 @@ export default function TitleShow({
             <hr />
             <h3>Packages</h3>
             <List data-test-eholdings-title-show-package-list>
-              {record.customerResourcesList.map(item => (
+              {model.customerResources.isLoading ? (
+                <Icon icon="spinner-ellipsis" />
+              ) : model.customerResources.map(item => (
                 <PackageListItem
-                  key={item.packageId}
+                  key={item.id}
                   item={item}
-                  link={`/eholdings/vendors/${item.vendorId}/packages/${item.packageId}/titles/${record.titleId}`}
+                  link={`/eholdings/customer-resources/${item.id}`}
+                  packageName={item.packageName}
                 />
               ))}
             </List>
           </div>
-        ) : title.isRejected ? (
+        ) : model.request.isRejected ? (
           <p data-test-eholdings-title-show-error>
-            {title.error.length ? title.error[0].message : title.error.message}
+            {model.request.errors[0].title}
           </p>
-        ) : (
+        ) : model.isLoading ? (
           <Icon icon="spinner-ellipsis" />
-        )}
+        ) : null}
       </div>
     </div>
   );
 }
 
 TitleShow.propTypes = {
-  title: PropTypes.object.isRequired
+  model: PropTypes.object.isRequired
 };
 
 TitleShow.contextTypes = {

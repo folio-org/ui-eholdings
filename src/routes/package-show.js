@@ -1,11 +1,9 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import {
-  getPackage,
-  getPackageTitles,
-  toggleIsSelected
-} from '../redux/package';
+
+import Resolver from '../redux/resolver';
+import Package from '../redux/package';
 
 import View from '../components/package-show';
 
@@ -13,58 +11,45 @@ class PackageShowRoute extends Component {
   static propTypes = {
     match: PropTypes.shape({
       params: PropTypes.shape({
-        packageId: PropTypes.string.isRequired,
-        vendorId: PropTypes.string.isRequired
+        packageId: PropTypes.string.isRequired
       }).isRequired
     }).isRequired,
-    showPackage: PropTypes.object.isRequired,
-    showPackageTitles: PropTypes.object.isRequired,
-    toggleRequest: PropTypes.object.isRequired,
+    model: PropTypes.object.isRequired,
     getPackage: PropTypes.func.isRequired,
     getPackageTitles: PropTypes.func.isRequired,
-    toggleIsSelected: PropTypes.func.isRequired
+    updatePackage: PropTypes.func.isRequired
   };
 
   componentWillMount() {
-    let { vendorId, packageId } = this.props.match.params;
-    this.props.getPackage({ vendorId, packageId });
-    this.props.getPackageTitles({ vendorId, packageId });
+    let { packageId } = this.props.match.params;
+    this.props.getPackage(packageId);
   }
 
   componentWillReceiveProps(nextProps) {
-    let {
-      toggleRequest,
-      match: { params: { vendorId, packageId } }
-    } = nextProps;
+    let { model: next, match, getPackage, getPackageTitles } = nextProps;
+    let { model: old, match: oldMatch } = this.props;
+    let { packageId } = match.params;
 
-    if (vendorId !== this.props.match.params.vendorId ||
-       packageId !== this.props.match.params.packageId) {
-      this.props.getPackage({ vendorId, packageId });
-      this.props.getPackageTitles({ vendorId, packageId });
+    if (packageId !== oldMatch.params.packageId) {
+      getPackage(packageId);
 
     // if the toggle request just resolved (and wasn't previously), reload the package titles
-    } else if (toggleRequest.isResolved && !this.props.toggleRequest.isResolved) {
-      this.props.getPackageTitles({ vendorId, packageId });
+    } else if (next.update.isResolved && old.update.isPending) {
+      getPackageTitles(packageId);
     }
   }
 
   toggleSelected = () => {
-    let { vendorId, packageId } = this.props.match.params;
-    let { isSelected } = this.props.showPackage.content;
-
-    this.props.toggleIsSelected({
-      vendorId,
-      packageId,
-      isSelected: !isSelected
-    });
+    let { model, updatePackage } = this.props;
+    model.isSelected = !model.isSelected;
+    model.selectedCount = model.isSelected ? model.titleCount : 0;
+    updatePackage(model);
   };
 
   render() {
     return (
       <View
-        vendorPackage={this.props.showPackage}
-        packageTitles={this.props.showPackageTitles}
-        toggleRequest={this.props.toggleRequest}
+        model={this.props.model}
         toggleSelected={this.toggleSelected}
       />
     );
@@ -72,13 +57,11 @@ class PackageShowRoute extends Component {
 }
 
 export default connect(
-  ({ eholdings }) => ({
-    showPackage: eholdings.package.record,
-    showPackageTitles: eholdings.package.titles,
-    toggleRequest: eholdings.package.toggle
+  ({ eholdings: { data } }, { match }) => ({
+    model: new Resolver(data).find('packages', match.params.packageId)
   }), {
-    getPackage,
-    getPackageTitles,
-    toggleIsSelected
+    getPackage: id => Package.find(id, { include: 'customerResources' }),
+    getPackageTitles: id => Package.queryRelated(id, 'customerResources'),
+    updatePackage: model => Package.save(model)
   }
 )(PackageShowRoute);

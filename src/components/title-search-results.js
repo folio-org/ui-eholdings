@@ -5,32 +5,24 @@ import Icon from '@folio/stripes-components/lib/Icon';
 import List from './list';
 import TitleListItem from './title-list-item';
 
-export default function TitleSearchResults({
-  location,
-  query: { search },
-  isPending,
-  isResolved,
-  isRejected,
-  content,
-  error
-}) {
-  return isPending ? (
+export default function TitleSearchResults({ location, results }) {
+  return results.request.isPending ? (
     <Icon icon="spinner-ellipsis" />
-  ) : isRejected ? (
+  ) : results.request.isRejected ? (
     <p data-test-title-search-error-message>
-      {error.length ? error[0].message : error.message}
+      {results.request.errors[0].title}
     </p>
-  ) : isResolved && !content.length ? (
+  ) : results.request.isResolved && !results.length ? (
     <p data-test-title-search-no-results>
-      No titles found for <strong>{`"${search}"`}</strong>.
+      No titles found for <strong>{`"${results.request.params.q}"`}</strong>.
     </p>
   ) : (
     <List data-test-title-search-results-list>
-      {content.map(title => (
+      {results.map(title => (
         <TitleListItem
-          key={title.titleId}
+          key={title.id}
           link={{
-            pathname: `/eholdings/titles/${title.titleId}`,
+            pathname: `/eholdings/titles/${title.id}`,
             search: location.search
           }}
           item={title}
@@ -43,15 +35,5 @@ export default function TitleSearchResults({
 
 TitleSearchResults.propTypes = {
   location: PropTypes.object.isRequired,
-  query: PropTypes.shape({
-    search: PropTypes.string
-  }).isRequired,
-  isPending: PropTypes.bool.isRequired,
-  isResolved: PropTypes.bool.isRequired,
-  isRejected: PropTypes.bool.isRequired,
-  content: PropTypes.array.isRequired,
-  error: PropTypes.oneOfType([
-    PropTypes.object,
-    PropTypes.array
-  ])
+  results: PropTypes.object.isRequired
 };
