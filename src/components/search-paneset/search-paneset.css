@@ -1,9 +1,11 @@
+@import '@folio/stripes-components/lib/variables';
+
 .search-paneset {
   height: calc(100vh - 44px);
   position: relative;
 }
 
-@media(min-width: 961px){
+@media(--largeUp) {
   .search-paneset {
     align-items: flex-start;
     display: flex;

@@ -1,3 +1,5 @@
+@import '@folio/stripes-components/lib/variables';
+
 .preview-pane {
   display: flex;
   flex: 11 0 0;
@@ -12,13 +14,13 @@
   background-color: white;
 }
 
-@media(min-width: 641px){
+@media(--mediumUp) {
   .preview-pane {
-    width: 600px
+    width: 600px;
   }
 }
 
-@media(min-width: 961px){
+@media(--largeUp) {
   .preview-pane {
     position: relative;
     width: auto;

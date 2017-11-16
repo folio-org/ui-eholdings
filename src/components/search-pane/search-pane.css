@@ -1,3 +1,5 @@
+@import '@folio/stripes-components/lib/variables';
+
 .search-pane {
   background: #fff;
   height: 100%;
@@ -17,13 +19,13 @@
   }
 }
 
-@media(min-width: 641px){
+@media(--mediumUp) {
   .search-pane {
     width: 320px;
   }
 }
 
-@media(min-width: 961px){
+@media(--largeUp) {
   .search-pane,
   .search-pane.is-hidden {
     border-right: 1px solid rgba(0,0,0,.2);

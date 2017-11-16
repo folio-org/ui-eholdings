@@ -1,3 +1,5 @@
+@import '@folio/stripes-components/lib/variables';
+
 .search-pane-vignette {
   height: 100%;
   z-index: 11;
@@ -13,7 +15,7 @@
   }
 }
 
-@media(min-width: 961px){
+@media(--largeUp) {
   .search-pane-vignette {
     display: none;
   }

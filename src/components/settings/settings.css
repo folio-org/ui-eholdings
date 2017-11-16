@@ -10,7 +10,7 @@
 }
 
 .eholdings-settings-form-actions {
-  @media(min-width: 641px){
+  @media(--mediumUp) {
     display: flex;
     flex-direction: row-reverse;
   }
@@ -29,7 +29,7 @@
     white-space: nowrap;
     width: 100%;
 
-    @media(min-width: 641px){
+    @media(--mediumUp) {
       display: inline-block;
       margin: 0.5em;
       padding: 0.36em 0.57em;
