@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import { Link } from 'react-router-dom';
+import Link from './link';
 
 export default function PackageListItem({ item, link, showTitleCount, showVendorName }) {
   return (
