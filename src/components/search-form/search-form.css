@@ -6,7 +6,7 @@
 
 .search-switcher {
   display: block;
-  margin: 0 auto 1em auto;
+  margin: 0 auto 1em;
   position: relative;
   vertical-align: middle;
   width: 100%;
@@ -57,13 +57,12 @@
 .search-input {
   box-sizing: border-box;
   border: 2px solid #ccc;
-  border-radius: 2px;
+  border-radius: 5px;
   font-size: 13px;
   background-color: #fff;
   background-position: 10px 10px;
   background-repeat: no-repeat;
   padding: 5px;
-  border-radius: 5px;
   width: 100%;
 }
 
@@ -76,7 +75,7 @@
   margin-top: 1em;
   width: 100%;
 
-  &:hover{
+  &:hover {
     background-color: color(var(--primary) shade(8%));
   }
 }
