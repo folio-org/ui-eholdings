@@ -47,6 +47,10 @@ describeApplication('TitleSearch', () => {
       expect(TitleSearchPage.titleList[0].publicationType).to.equal(titles[0].publicationType);
     });
 
+    it('displays the total number of search results', () => {
+      expect(TitleSearchPage.totalResults).to.equal('3 search results');
+    });
+
     describe('clicking a search results list item', () => {
       beforeEach(() => {
         return convergeOn(() => {

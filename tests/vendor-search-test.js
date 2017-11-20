@@ -47,6 +47,10 @@ describeApplication('VendorSearch', () => {
       expect(VendorSearchPage.vendorList[0].numPackages).to.equal(3);
     });
 
+    it('displays the total number of search results', () => {
+      expect(VendorSearchPage.totalResults).to.equal('3 search results');
+    });
+
     describe('clicking a search results list item', () => {
       beforeEach(() => {
         return convergeOn(() => {

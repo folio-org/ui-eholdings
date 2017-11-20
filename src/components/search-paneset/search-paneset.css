@@ -20,6 +20,10 @@
   }
 }
 
+.search-heading {
+  text-align: center;
+}
+
 .scrollable-container {
   height: calc(100vh - 88px);
   overflow-y: scroll;

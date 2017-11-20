@@ -34,6 +34,10 @@ export default {
     return $('[data-test-vendor-search-results-list] li a');
   },
 
+  get totalResults() {
+    return $('[data-test-eholdings-total-search-results]').text();
+  },
+
   get hasErrors() {
     return $('[data-test-vendor-search-error-message]').length > 0;
   },
