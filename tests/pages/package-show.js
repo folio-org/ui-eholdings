@@ -83,5 +83,9 @@ export default {
 
   get customCoverage() {
     return $('[data-test-eholdings-package-details-custom-coverage]').text();
+  },
+
+  get $backButton() {
+    return $('[data-test-eholdings-package-details-back-button]');
   }
 };

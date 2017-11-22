@@ -78,9 +78,9 @@ describeApplication('VendorSearch', () => {
           expect(VendorSearchPage.$root).to.not.exist;
         });
 
-        describe('and going back', () => {
-          beforeEach(function () {
-            return this.goBack(() => expect(VendorSearchPage.$root).to.exist);
+        describe('and clicking the back button', () => {
+          beforeEach(() => {
+            return VendorSearchPage.clickBackButton();
           });
 
           it('displays the original search', () => {

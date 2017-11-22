@@ -92,4 +92,8 @@ export default {
   get contributorsList() {
     return $('[data-test-eholdings-contributors-list-item]').toArray().map(item => $(item).text());
   },
+
+  get $backButton() {
+    return $('[data-test-eholdings-customer-resource-show-back-button]');
+  }
 };

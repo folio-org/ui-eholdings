@@ -81,5 +81,9 @@ export default {
       $pkg = $('[data-test-eholdings-package-list-item] a');
       expect($pkg.eq(index)).to.exist;
     }).then(() => $pkg.get(index).click());
+  },
+
+  clickBackButton() {
+    return $('[data-test-eholdings-customer-resource-show-back-button]').trigger('click');
   }
 };

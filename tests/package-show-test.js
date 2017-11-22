@@ -65,6 +65,10 @@ describeApplication('PackageShow', () => {
       expect(PackageShowPage.titleList[0].isSelected).to.equal(customerResources[0].isSelected);
     });
 
+    it.still('should not display a back button', () => {
+      expect(PackageShowPage.$backButton).to.not.exist;
+    });
+
     describe('successfully selecting a package title to add to my holdings', () => {
       beforeEach(function () {
         /*
@@ -179,6 +183,23 @@ describeApplication('PackageShow', () => {
       });
     });
   });
+
+  describe('navigating to package show page', () => {
+    beforeEach(function () {
+      return this.visit({
+        pathname: `/eholdings/vendors/${vendor.id}/packages/${vendorPackage.id}`,
+        // our internal link component automatically sets the location state
+        state: { eholdings: true }
+      }, () => {
+        expect(PackageShowPage.$root).to.exist;
+      });
+    });
+
+    it('should display the back button in UI', () => {
+      expect(PackageShowPage.$backButton).to.exist;
+    });
+  });
+
 
   describe('encountering a server error', () => {
     beforeEach(function () {

@@ -100,6 +100,26 @@ describeApplication('TitleShow', () => {
     it('displays whether the first customer resource is selected', () => {
       expect(TitleShowPage.packageList[0].isSelected).to.equal(customerResources[0].isSelected);
     });
+
+    it.still('should not display back button', () => {
+      expect(TitleShowPage.$backButton).to.not.exist;
+    });
+  });
+
+  describe('navigating to title page', () => {
+    beforeEach(function () {
+      return this.visit({
+        pathname: `/eholdings/titles/${title.id}`,
+        // our internal link component automatically sets the location state
+        state: { eholdings: true }
+      }, () => {
+        expect(TitleShowPage.$root).to.exist;
+      });
+    });
+
+    it('should display the back button in UI', () => {
+      expect(TitleShowPage.$backButton).to.exist;
+    });
   });
 
   describe('visiting the title page with some attributes undefined', () => {

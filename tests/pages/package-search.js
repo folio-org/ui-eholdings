@@ -81,5 +81,9 @@ export default {
       $title = $('[data-test-eholdings-title-list-item] a');
       expect($title.eq(index)).to.exist;
     }).then(() => $title.get(index).click());
+  },
+
+  clickBackButton() {
+    return $('[data-test-eholdings-customer-resource-show-back-button]').trigger('click');
   }
 };

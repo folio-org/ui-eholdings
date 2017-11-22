@@ -111,6 +111,10 @@ describeApplication('CustomerResourceShow', () => {
       expect(ResourcePage.isSelected).to.equal(false);
     });
 
+    it.still('should not display the back button', () => {
+      expect(ResourcePage.$backButton).to.not.exist;
+    });
+
     describe('successfully selecting a package title to add to my holdings', () => {
       beforeEach(function () {
         /*
@@ -121,7 +125,7 @@ describeApplication('CustomerResourceShow', () => {
          * temporarily increasing the mirage server's response time
          * to 50ms.
          * TODO: control timing directly with Mirage
-         */
+        */
         this.server.timing = 50;
         return ResourcePage.toggleIsSelected();
       });
@@ -152,6 +156,7 @@ describeApplication('CustomerResourceShow', () => {
         });
       });
     });
+
 
     describe('unsuccessfully selecting a package title to add to my holdings', () => {
       beforeEach(function () {
@@ -194,6 +199,22 @@ describeApplication('CustomerResourceShow', () => {
           expect(ResourcePage.flashError).to.match(/unable to select/i);
         });
       });
+    });
+  });
+
+  describe('navigating to customer resource page', () => {
+    beforeEach(function () {
+      return this.visit({
+        pathname: `/eholdings/vendors/${vendor.id}/packages/${vendorPackage.id}/titles/${resource.titleId}`,
+        // our internal link component automatically sets the location state
+        state: { eholdings: true }
+      }, () => {
+        expect(ResourcePage.$root).to.exist;
+      });
+    });
+
+    it('should display the back button in UI', () => {
+      expect(ResourcePage.$backButton).to.exist;
     });
   });
 
