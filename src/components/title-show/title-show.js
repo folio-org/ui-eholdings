@@ -14,11 +14,11 @@ import { formatPublicationType } from '../utilities';
 import styles from './title-show.css';
 
 export default function TitleShow({
-  title,
-  queryString
+  title
 }, { router }) {
   let record = title.content;
-  let historyState = router.history.location.state;
+  const historyState = router.history.location.state;
+  const queryString = router.history.location.search;
 
   return (
     <div>
@@ -91,8 +91,7 @@ export default function TitleShow({
 }
 
 TitleShow.propTypes = {
-  title: PropTypes.object.isRequired,
-  queryString: PropTypes.string
+  title: PropTypes.object.isRequired
 };
 
 TitleShow.contextTypes = {
