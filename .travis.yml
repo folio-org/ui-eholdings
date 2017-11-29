@@ -1,6 +1,12 @@
 sudo: false
 dist: trusty
 language: node_js
+env:
+  - BROWSER=Chrome_travis_ci
+  - BROWSER=bs_safari_11
+matrix:
+  allow_failures:
+    - env: BROWSER=bs_safari_11
 addons:
   chrome: stable
 before_install:
@@ -15,7 +21,7 @@ cache:
   yarn: true
 script:
   - yarn lint
-  - yarn test --single-run
+  - yarn test --single-run --browsers=$BROWSER
 before_deploy:
   - NODE_ENV=production yarn build
 deploy:

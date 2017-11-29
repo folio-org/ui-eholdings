@@ -33,15 +33,28 @@ webpackConfig.plugins.push(new webpack.EnvironmentPlugin({
 module.exports = (config) => {
   let configuration = {
     frameworks: ['mocha'],
-    reporters: ['mocha'],
+    reporters: ['mocha', 'BrowserStack'],
     port: 9876,
 
     browsers: ['Chrome'],
 
+    browserStack: {
+      username: 'folioproject1',
+      project: 'ui-eholdings'
+    },
+
+    // define browsers
     customLaunchers: {
       Chrome_travis_ci: {
         base: 'Chrome',
         flags: ['--no-sandbox']
+      },
+      bs_safari_11: {
+        base: 'BrowserStack',
+        os: 'OS X',
+        os_version: 'High Sierra',
+        browser: 'safari',
+        browser_version: '11.0'
       }
     },
 
@@ -65,6 +78,7 @@ module.exports = (config) => {
 
     plugins: [
       'karma-chrome-launcher',
+      'karma-browserstack-launcher',
       'karma-mocha',
       'karma-webpack',
       'karma-mocha-reporter'
