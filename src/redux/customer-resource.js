@@ -1,29 +1,27 @@
-import Resolver, { Model } from './resolver';
+import model from './model';
 
-export default class CustomerResource extends Model {
-  static type = 'customerResources';
-  static path = '/eholdings/jsonapi/customer-resources';
-
-  static attributes = {
-    name: '',
-    titleId: 0,
-    vendorId: 0,
-    vendorName: '',
-    packageId: 0,
-    packageName: '',
-    publisherName: '',
-    publicationType: '',
-    contentType: '',
-    isSelected: false,
-    url: '',
-    subjects: [],
-    contributors: [],
-    identifiers: [],
-    managedCoverages: [],
-    managedEmbargoPeriod: {},
-    customEmbargoPeriod: {},
-    visibilityData: {}
-  };
+class CustomerResource {
+  name = '';
+  titleId = 0;
+  vendorId = 0;
+  vendorName = '';
+  packageId = 0;
+  packageName = '';
+  publisherName = '';
+  publicationType = '';
+  contentType = '';
+  isSelected = false;
+  url = '';
+  subjects = [];
+  contributors = [];
+  identifiers = [];
+  managedCoverages = [];
+  managedEmbargoPeriod = {};
+  customEmbargoPeriod = {};
+  visibilityData = {};
 }
 
-Resolver.register(CustomerResource);
+export default model({
+  type: 'customerResources',
+  path: '/eholdings/jsonapi/customer-resources'
+})(CustomerResource);

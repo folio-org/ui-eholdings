@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
-import Resolver from '../redux/resolver';
+import { createResolver } from '../redux';
 import CustomerResource from '../redux/customer-resource';
 import View from '../components/customer-resource-show';
 
@@ -51,7 +51,7 @@ class CustomerResourceShowRoute extends Component {
 
 export default connect(
   ({ eholdings: { data } }, { match }) => ({
-    model: new Resolver(data).find('customerResources', match.params.id)
+    model: createResolver(data).find('customerResources', match.params.id)
   }), {
     getCustomerResource: id => CustomerResource.find(id),
     updateResource: model => CustomerResource.save(model)

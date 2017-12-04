@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
-import Resolver from '../redux/resolver';
+import { createResolver } from '../redux';
 import Title from '../redux/title';
 import View from '../components/title-show';
 
@@ -43,7 +43,7 @@ class TitleShowRoute extends Component {
 
 export default connect(
   ({ eholdings: { data } }, { match }) => ({
-    model: new Resolver(data).find('titles', match.params.titleId)
+    model: createResolver(data).find('titles', match.params.titleId)
   }), {
     getTitle: id => Title.find(id, { include: 'customerResources' })
   }

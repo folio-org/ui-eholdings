@@ -1,24 +1,18 @@
-import Resolver, { Model } from './resolver';
+import model, { hasMany } from './model';
 
-export default class Package extends Model {
-  static type = 'packages';
-  static path = '/eholdings/jsonapi/packages';
-
-  static attributes = {
-    name: '',
-    vendorId: null,
-    vendorName: '',
-    isSelected: false,
-    contentType: '',
-    selectedCount: 0,
-    titleCount: 0,
-    customCoverage: {},
-    visibilityData: {}
-  };
-
-  static relationships = {
-    customerResources: { hasMany: true }
-  };
+class Package {
+  name = '';
+  vendorId = null;
+  vendorName = '';
+  isSelected = false;
+  contentType = '';
+  selectedCount = 0;
+  titleCount = 0;
+  customCoverage = {};
+  visibilityData = {};
+  customerResources = hasMany();
 }
 
-Resolver.register(Package);
+export default model({
+  path: '/eholdings/jsonapi/packages'
+})(Package);

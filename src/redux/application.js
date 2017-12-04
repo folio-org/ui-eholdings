@@ -1,28 +1,23 @@
-import Resolver, { Model } from './resolver';
+import model from './model';
 
-export class Status extends Model {
-  static type = 'statuses';
+export const Status = model({
   // id is 'status' so it will be appended to this when retrieving
   // the status
-  static path = '/eholdings';
+  path: '/eholdings'
+})(
+  class Status {
+    isConfigurationValid = false;
+  }
+);
 
-  static attributes = {
-    isConfigurationValid: false
-  };
-}
-
-Resolver.register(Status);
-
-export class Configuration extends Model {
-  static type = 'configuration';
+export const Configuration = model({
+  type: 'configuration',
   // id is 'configuration' so it will be appended to this path when
   // retrieving the configuration
-  static path = '/eholdings';
-
-  static attributes = {
-    customerId: '',
-    apiKey: ''
-  };
-}
-
-Resolver.register(Configuration);
+  path: '/eholdings'
+})(
+  class Configuration {
+    customerId = '';
+    apiKey = '';
+  }
+);

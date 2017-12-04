@@ -1,21 +1,15 @@
-import Resolver, { Model } from './resolver';
+import model, { hasMany } from './model';
 
-export default class Title extends Model {
-  static type = 'titles';
-  static path = '/eholdings/jsonapi/titles';
-
-  static attributes = {
-    name: '',
-    publisherName: '',
-    publicationType: '',
-    subjects: [],
-    contributors: [],
-    identifiers: []
-  };
-
-  static relationships = {
-    customerResources: { hasMany: true }
-  };
+class Title {
+  name = '';
+  publisherName = '';
+  publicationType = '';
+  subjects = [];
+  contributors = [];
+  identifiers = [];
+  customerResources = hasMany();
 }
 
-Resolver.register(Title);
+export default model({
+  path: '/eholdings/jsonapi/titles'
+})(Title);

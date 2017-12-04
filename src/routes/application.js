@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import Icon from '@folio/stripes-components/lib/Icon';
 
-import Resolver from '../redux/resolver';
+import { createResolver } from '../redux';
 import { Status } from '../redux/application';
 import NoBackendErrorScreen from '../components/error-screen/no-backend';
 import FailedBackendErrorScreen from '../components/error-screen/failed-backend';
@@ -51,7 +51,7 @@ export default connect(
     eholdings: { data },
     discovery: { interfaces = {} }
   }) => ({
-    status: new Resolver(data).find('statuses', 'status'),
+    status: createResolver(data).find('statuses', 'status'),
     interfaces
   }), {
     getBackendStatus: () => Status.find('status')

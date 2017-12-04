@@ -1,18 +1,12 @@
-import Resolver, { Model } from './resolver';
+import model, { hasMany } from './model';
 
-export default class Vendor extends Model {
-  static type = 'vendors';
-  static path = '/eholdings/jsonapi/vendors';
-
-  static attributes = {
-    name: '',
-    packagesSelected: 0,
-    packagesTotal: 0
-  };
-
-  static relationships = {
-    packages: { hasMany: true }
-  };
+class Vendor {
+  name = '';
+  packagesSelected = 0;
+  packagesTotal = 0;
+  packages = hasMany();
 }
 
-Resolver.register(Vendor);
+export default model({
+  path: '/eholdings/jsonapi/vendors'
+})(Vendor);

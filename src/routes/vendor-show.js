@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
-import Resolver from '../redux/resolver';
+import { createResolver } from '../redux';
 import Vendor from '../redux/vendor';
 
 import View from '../components/vendor-show';
@@ -40,7 +40,7 @@ class VendorShowRoute extends Component {
 
 export default connect(
   ({ eholdings: { data } }, { match }) => ({
-    model: new Resolver(data).find('vendors', match.params.vendorId)
+    model: createResolver(data).find('vendors', match.params.vendorId)
   }), {
     getVendor: id => Vendor.find(id, { include: 'packages' })
   }

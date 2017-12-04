@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import qs from 'query-string';
 import { connect } from 'react-redux';
 
-import Resolver from '../redux/resolver';
+import { createResolver } from '../redux';
 import Vendor from '../redux/vendor';
 import Package from '../redux/package';
 import Title from '../redux/title';
@@ -217,7 +217,7 @@ class SearchRoute extends Component {
 
 export default connect(
   ({ eholdings: { data } }) => ({
-    resolver: new Resolver(data)
+    resolver: createResolver(data)
   }), {
     searchVendors: params => Vendor.query(params),
     searchPackages: params => Package.query(params),

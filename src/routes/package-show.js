@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
-import Resolver from '../redux/resolver';
+import { createResolver } from '../redux';
 import Package from '../redux/package';
 
 import View from '../components/package-show';
@@ -58,7 +58,7 @@ class PackageShowRoute extends Component {
 
 export default connect(
   ({ eholdings: { data } }, { match }) => ({
-    model: new Resolver(data).find('packages', match.params.packageId)
+    model: createResolver(data).find('packages', match.params.packageId)
   }), {
     getPackage: id => Package.find(id, { include: 'customerResources' }),
     getPackageTitles: id => Package.queryRelated(id, 'customerResources'),

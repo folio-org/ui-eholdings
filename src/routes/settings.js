@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import Icon from '@folio/stripes-components/lib/Icon';
 
-import Resolver from '../redux/resolver';
+import { createResolver } from '../redux';
 import { Configuration } from '../redux/application';
 import View from '../components/settings';
 import ApplicationRoute from './application';
@@ -49,7 +49,7 @@ class SettingsRoute extends Component {
 
 export default connect(
   ({ eholdings: { data } }) => ({
-    config: new Resolver(data).find('configuration', 'configuration')
+    config: createResolver(data).find('configuration', 'configuration')
   }), {
     getBackendConfig: () => Configuration.find('configuration'),
     updateBackendConfig: model => Configuration.save(model)
