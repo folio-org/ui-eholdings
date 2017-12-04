@@ -36,7 +36,7 @@ export class Collection {
   }
 
   get isLoaded() {
-    return this.length && this.models.every(m => m.isLoaded);
+    return !!this.length && this.models.every(m => m.isLoaded);
   }
 
   get isLoading() {
@@ -187,15 +187,15 @@ class BaseModel {
   }
 
   get isLoading() {
-    return this.data.isLoading;
+    return !!this.data.isLoading;
   }
 
   get isLoaded() {
-    return this.data.isLoaded;
+    return !!this.data.isLoaded;
   }
 
   get isSaving() {
-    return this.data.isSaving;
+    return !!this.data.isSaving;
   }
 }
 
@@ -223,7 +223,7 @@ function describeHasMany(key, relType = key) {
     get() {
       let collection = new Collection(relType, [], this.request, this.resolver);
 
-      if (hasOwnProperty(this.data.relationships, key)) {
+      if (hasOwnProperty(this.data.relationships, key) && this.data.relationships[key].data) {
         let related = this.data.relationships[key];
         let records = related.data.map(({ id }) => this.resolver.getRecord(relType, id));
         let request = this.resolver.getRequest('query', {
@@ -245,19 +245,19 @@ function describeHasMany(key, relType = key) {
  * on a model
  * @param {String} key - the relationship key
  * @param {String} [relType=key] - the relationship type, defaults to
- * the relationship key
+ * the pluralized relationship key
  * @returns {Object} a property descriptor for this relationship
  */
-function describeBelongsTo(key, relType = key) {
+function describeBelongsTo(key, relType = pluralize(key)) {
   return {
     get() {
       let Model = this.resolver.modelFor(relType);
       let model = new Model({}, this.request, this.resolver); // eslint-disable-line no-shadow
 
-      if (hasOwnProperty(this.data.relationships, key)) {
+      if (hasOwnProperty(this.data.relationships, key) && this.data.relationships[key].data) {
         let related = this.data.relationships[key];
         let record = this.resolver.getRecord(relType, related.data.id);
-        let request = this.resolver.getRequest('find', { type: relType, id: record.data.id });
+        let request = this.resolver.getRequest('find', { type: relType, id: record.id });
 
         request = request.timestamp > this.request.timestamp ? request : this.request;
         model = new Model(record, request, this.resolver);

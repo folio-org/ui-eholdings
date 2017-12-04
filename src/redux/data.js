@@ -182,10 +182,12 @@ const formatErrors = (errors) => {
   let format = (err) => {
     if (typeof err === 'string') {
       return { title: err };
-    } else if (err.message) {
+    } else if (err && err.message) {
       return { title: err.message };
-    } else {
+    } else if (err && err.title) {
       return err;
+    } else {
+      return { title: 'An unknown error occurred' };
     }
   };
 
