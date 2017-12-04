@@ -2,7 +2,7 @@ export default function unconfiguredBackendScenario(server) {
   server.get('/status', {
     data: {
       id: 'status',
-      type: 'status',
+      type: 'statuses',
       attributes: {
         isConfigurationValid: false
       }

@@ -51,7 +51,7 @@ export default connect(
     eholdings: { data },
     discovery: { interfaces = {} }
   }) => ({
-    status: new Resolver(data).find('status', 'status'),
+    status: new Resolver(data).find('statuses', 'status'),
     interfaces
   }), {
     getBackendStatus: () => Status.find('status')

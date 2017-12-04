@@ -80,7 +80,7 @@ export default function configure() {
   this.get('/status', {
     data: {
       id: 'status',
-      type: 'status',
+      type: 'statuses',
       attributes: {
         isConfigurationValid: true
       }

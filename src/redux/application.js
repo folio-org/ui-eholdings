@@ -1,7 +1,7 @@
 import Resolver, { Model } from './resolver';
 
 export class Status extends Model {
-  static type = 'status';
+  static type = 'statuses';
   // id is 'status' so it will be appended to this when retrieving
   // the status
   static path = '/eholdings';
