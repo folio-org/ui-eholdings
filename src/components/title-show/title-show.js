@@ -18,7 +18,7 @@ export default function TitleShow({
 }, { router }) {
   let record = title.content;
   const historyState = router.history.location.state;
-  const queryString = router.history.location.search;
+  const queryString = router.route.location.search;
 
   return (
     <div>

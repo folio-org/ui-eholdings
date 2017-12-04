@@ -16,7 +16,7 @@ export default function VendorShow({
 }, { router }) {
   const record = vendor.content;
   const historyState = router.history.location.state;
-  const queryString = router.history.location.search;
+  const queryString = router.route.location.search;
 
   return (
     <div>
