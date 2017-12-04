@@ -57,6 +57,10 @@ describeApplication('PackageSearch', () => {
         expect(PackageSearchPage.previewPaneIsVisible).to.be.true;
       });
 
+      it('should not display button in UI', () => {
+        expect(PackageSearchPage.$backButton).to.not.exist;
+      });
+
       describe('clicking the vignette behind the preview pane', () => {
         beforeEach(() => {
           PackageSearchPage.clickSearchVignette();

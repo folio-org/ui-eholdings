@@ -12,11 +12,11 @@ import styles from './vendor-show.css';
 
 export default function VendorShow({
   vendor,
-  vendorPackages,
-  queryString
+  vendorPackages
 }, { router }) {
   const record = vendor.content;
-  let historyState = router.history.location.state;
+  const historyState = router.history.location.state;
+  const queryString = router.route.location.search;
 
   return (
     <div>
@@ -87,8 +87,7 @@ export default function VendorShow({
 
 VendorShow.propTypes = {
   vendor: PropTypes.object.isRequired,
-  vendorPackages: PropTypes.object.isRequired,
-  queryString: PropTypes.string
+  vendorPackages: PropTypes.object.isRequired
 };
 
 VendorShow.contextTypes = {

@@ -54,6 +54,10 @@ export default {
     return $('[data-test-title-search-results-list] li').toArray().map(createTitleObject);
   },
 
+  get $backButton() {
+    return $('[data-test-eholdings-title-show-back-button]');
+  },
+
   clickSearchVignette() {
     return $('[data-test-search-vignette]').trigger('click');
   },

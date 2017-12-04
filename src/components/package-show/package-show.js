@@ -17,11 +17,11 @@ export default function PackageShow({
   vendorPackage,
   packageTitles,
   toggleRequest,
-  toggleSelected,
-  queryString
+  toggleSelected
 }, { intl, router }) {
   let packageRecord = vendorPackage.content;
-  let historyState = router.history.location.state;
+  const historyState = router.history.location.state;
+  const queryString = router.route.location.search;
 
   return (
     <div>
@@ -142,7 +142,6 @@ PackageShow.propTypes = {
   packageTitles: PropTypes.object.isRequired,
   toggleRequest: PropTypes.object.isRequired,
   toggleSelected: PropTypes.func.isRequired,
-  queryString: PropTypes.string
 };
 
 PackageShow.contextTypes = {

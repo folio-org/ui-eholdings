@@ -59,6 +59,10 @@ describeApplication('VendorSearch', () => {
         expect(VendorSearchPage.previewPaneIsVisible).to.be.true;
       });
 
+      it('should not display button in UI', () => {
+        expect(VendorSearchPage.$backButton).to.not.exist;
+      });
+
       describe('clicking the vignette behind the preview pane', () => {
         beforeEach(() => {
           VendorSearchPage.clickSearchVignette();

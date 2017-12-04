@@ -59,6 +59,10 @@ describeApplication('TitleSearch', () => {
         expect(TitleSearchPage.previewPaneIsVisible).to.be.true;
       });
 
+      it('should not display back button in UI', () => {
+        expect(TitleSearchPage.$backButton).to.not.exist;
+      });
+
       describe('clicking the vignette behind the preview pane', () => {
         beforeEach(() => {
           TitleSearchPage.clickSearchVignette();

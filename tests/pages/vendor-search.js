@@ -54,6 +54,10 @@ export default {
     return $('[data-test-vendor-search-results-list] li').toArray().map(createVendorObject);
   },
 
+  get $backButton() {
+    return $('[data-test-eholdings-vendor-details-back-button');
+  },
+
   clickSearchVignette() {
     return $('[data-test-search-vignette]').trigger('click');
   },
