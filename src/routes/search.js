@@ -31,6 +31,10 @@ class SearchRoute extends Component {
     children: PropTypes.node.isRequired
   };
 
+  static childContextTypes = {
+    queryParams: PropTypes.object
+  };
+
   constructor(props) {
     super(props);
 
@@ -49,6 +53,16 @@ class SearchRoute extends Component {
     }
 
     this.state = state;
+  }
+
+  getChildContext() {
+    return {
+      // provide child components with query params that we've already parsed
+      queryParams: {
+        searchType: this.state.searchType,
+        ...this.state.query
+      }
+    };
   }
 
   componentWillMount() {
@@ -82,7 +96,7 @@ class SearchRoute extends Component {
         this.queries[searchType] = query;
         this.setState({ query, searchType, results });
       }
-    } else if (this.state.searchType) {
+    } else {
       // with no search type, query and results are likely empty
       this.setState({ searchType, query, results });
     }

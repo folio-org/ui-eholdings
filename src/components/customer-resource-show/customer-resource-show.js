@@ -13,7 +13,7 @@ import CoverageDates from '../coverage-dates';
 import { isBookPublicationType, isValidCoverageList } from '../utilities';
 import styles from './customer-resource-show.css';
 
-export default function CustomerResourceShow({ model, toggleSelected, queryString }, { router }) {
+export default function CustomerResourceShow({ model, toggleSelected }, { router, queryParams }) {
   let historyState = router.history.location.state;
   let hasManagedCoverages = model.managedCoverages.length > 0 &&
     isValidCoverageList(model.managedCoverages);
@@ -26,7 +26,7 @@ export default function CustomerResourceShow({ model, toggleSelected, queryStrin
 
   return (
     <div>
-      { !queryString && (
+      {!queryParams.searchType && (
         <PaneHeader
           firstMenu={historyState && historyState.eholdings && (
             <PaneMenu>
@@ -171,10 +171,10 @@ export default function CustomerResourceShow({ model, toggleSelected, queryStrin
 
 CustomerResourceShow.propTypes = {
   model: PropTypes.object.isRequired,
-  toggleSelected: PropTypes.func.isRequired,
-  queryString: PropTypes.string
+  toggleSelected: PropTypes.func.isRequired
 };
 
 CustomerResourceShow.contextTypes = {
-  router: PropTypes.object
+  router: PropTypes.object,
+  queryParams: PropTypes.object
 };

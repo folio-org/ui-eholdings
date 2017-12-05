@@ -12,13 +12,12 @@ import IdentifiersList from '../identifiers-list';
 import ContributorsList from '../contributors-list';
 import styles from './title-show.css';
 
-export default function TitleShow({ model }, { router }) {
+export default function TitleShow({ model }, { router, queryParams }) {
   let historyState = router.history.location.state;
-  let queryString = router.route.location.search;
 
   return (
     <div>
-      { !queryString && (
+      {!queryParams.searchType && (
         <PaneHeader
           firstMenu={historyState && historyState.eholdings && (
             <PaneMenu>
@@ -94,5 +93,6 @@ TitleShow.propTypes = {
 };
 
 TitleShow.contextTypes = {
-  router: PropTypes.object
+  router: PropTypes.object,
+  queryParams: PropTypes.object
 };
