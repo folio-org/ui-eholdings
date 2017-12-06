@@ -7,7 +7,7 @@
   "license": "MIT",
   "scripts": {
     "postinstall": "bin/link-self",
-    "start": "node demo/stripes.js dev demo/stripes.config.js",
+    "start": "NODE_ENV=development node demo/stripes.js dev demo/stripes.config.js",
     "build": "node demo/stripes.js build demo/stripes.config.js dist",
     "test": "karma start",
     "lint": "eslint ./"

@@ -25,6 +25,8 @@ webpackConfig.module.rules = webpackConfig.module.rules.filter((rule) => {
   return !rule.use || !rule.use.some(use => use.loader === '@folio/stripes-config');
 });
 
+webpackConfig.plugins = [];
+
 // make sure that the NODE_ENV is available in browser code.
 webpackConfig.plugins.push(new webpack.EnvironmentPlugin({
   NODE_ENV: 'test'
