@@ -29,9 +29,9 @@
     redux-form "^7.0.3"
     typeface-source-sans-pro "^0.0.44"
 
-"@folio/stripes-connect@^3.0.0-pre.1":
+"@folio/stripes-connect@^3.0.0", "@folio/stripes-connect@^3.0.0-pre.1":
   version "3.0.0"
-  resolved "https://repository.folio.org/repository/npm-folio/@folio/stripes-connect/-/stripes-connect-3.0.0.tgz#87634148bc68c2eed2acfc784474382f00cafaa6"
+  resolved "https://repository.folio.org/repository/npm-folio/@folio/stripes-connect/-/stripes-connect-3.0.0.tgz#d3a3b05f8cd786c4bd848bf6a870b51b95173859"
   dependencies:
     isomorphic-fetch "^2.2.1"
     lodash "^4.17.2"
