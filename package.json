@@ -50,6 +50,7 @@
   },
   "dependencies": {
     "classnames": "^2.2.5",
+    "impagination": "^1.0.0-alpha.3",
     "isomorphic-fetch": "^2.2.1",
     "redux-actions": "^2.2.1"
   },

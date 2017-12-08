@@ -78,21 +78,26 @@ export default class SearchPaneset extends React.Component {
         {!!resultsView && (
           <SearchPaneVignette isHidden={hideFilters} onClick={this.toggleFilters} />
         )}
+
         {!!detailsView && (
           <SearchPaneVignette onClick={this.closePreview} />
         )}
+
         <SearchPane isHidden={hideFilters}>
           <PaneHeader
             lastMenu={resultsView ? (
-              <PaneMenu><button onClick={this.toggleFilters} className={styles['search-pane-toggle']}>Apply</button></PaneMenu>
-            ) : (
-              <span />
-            )}
+              <PaneMenu>
+                <button onClick={this.toggleFilters} className={styles['search-pane-toggle']}>
+                  Apply
+                </button>
+              </PaneMenu>
+            ) : null}
           />
           <div className={styles['scrollable-container']}>
             {searchForm}
           </div>
         </SearchPane>
+
         {!!resultsView && (
           <ResultsPane>
             <PaneHeader
@@ -105,7 +110,11 @@ export default class SearchPaneset extends React.Component {
                 </div>
               )}
               firstMenu={(
-                <PaneMenu><button onClick={this.toggleFilters} className={styles['results-pane-search-toggle']}>&larr; Search</button></PaneMenu>
+                <PaneMenu>
+                  <button onClick={this.toggleFilters} className={styles['results-pane-search-toggle']}>
+                    &larr; Search
+                  </button>
+                </PaneMenu>
               )}
             />
             <div className={styles['scrollable-container']}>
@@ -113,11 +122,16 @@ export default class SearchPaneset extends React.Component {
             </div>
           </ResultsPane>
         )}
+
         {!!detailsView && (
           <PreviewPane previewType={resultsType}>
             <PaneHeader
               firstMenu={(
-                <PaneMenu><button onClick={this.closePreview}><Icon icon="closeX" /></button></PaneMenu>
+                <PaneMenu>
+                  <button onClick={this.closePreview}>
+                    <Icon icon="closeX" />
+                  </button>
+                </PaneMenu>
               )}
             />
             <div className={styles['scrollable-container']}>

@@ -8,9 +8,9 @@ import Vendor from '../redux/vendor';
 import Package from '../redux/package';
 import Title from '../redux/title';
 
-import VendorSearchResults from '../components/vendor-search-results';
-import PackageSearchResults from '../components/package-search-results';
-import TitleSearchResults from '../components/title-search-results';
+import VendorSearch from '../components/vendor-search';
+import PackageSearch from '../components/package-search';
+import TitleSearch from '../components/title-search';
 import SearchPaneset from '../components/search-paneset';
 import SearchForm from '../components/search-form';
 
@@ -24,7 +24,6 @@ class SearchRoute extends Component {
       push: PropTypes.func.isRequired,
       replace: PropTypes.func.isRequired
     }).isRequired,
-    resolver: PropTypes.object.isRequired,
     searchVendors: PropTypes.func.isRequired,
     searchPackages: PropTypes.func.isRequired,
     searchTitles: PropTypes.func.isRequired,
@@ -38,21 +37,17 @@ class SearchRoute extends Component {
   constructor(props) {
     super(props);
 
-    let { searchType, ...query } = qs.parse(props.location.search);
-    let results = props.resolver.query(searchType, query);
-
-    // the current location's query, minus the search type, and the
-    // resulting records for the current query
-    let state = { query, searchType, results };
+    // the current location's query params, minus the search type
+    let { searchType, ...params } = qs.parse(props.location.search);
 
     // cache queries so we can restore them with the search type buttons
     this.queries = {};
 
     if (searchType) {
-      this.queries[searchType] = query;
+      this.queries[searchType] = params;
     }
 
-    this.state = state;
+    this.state = { params, searchType };
   }
 
   getChildContext() {
@@ -64,76 +59,22 @@ class SearchRoute extends Component {
       }
     };
   }
+  componentWillReceiveProps(nextProps) {
+    let { location } = nextProps;
+    let { searchType, ...params } = qs.parse(location.search);
 
-  componentWillMount() {
-    // we've landed here with an existing search query
-    if (this.state.query.q) {
-      this.performSearch();
-    }
-  }
-
-  componentWillReceiveProps(props) {
-    let { searchType, ...query } = qs.parse(props.location.search);
-    let results = props.resolver.query(searchType, query);
-
-    // if there is no search type, do nothing. Otherwise if there
-    // _was_ a search type before, remove it from our state
+    // cache the query so it can be restored via the search type
     if (searchType) {
-      let isSameSearchType = searchType === this.state.searchType;
-      let isNewQuery = props.location.search !== this.props.location.search;
-      let isNewSearch = results.request !== this.state.results.request;
-
-      // if there isn't a pending search, we're within the same search
-      // type as before, and the query has changed, perform the search
-      if (!results.request.isPending && isSameSearchType && isNewQuery) {
-        this.performSearch(query);
-      }
-
-      // if either the search state or the query has changed,
-      // cache the query so it can be restored via the search type
-      // buttons, and update our component's state
-      if (isNewSearch || isNewQuery) {
-        this.queries[searchType] = query;
-        this.setState({ query, searchType, results });
-      }
-    } else {
-      // with no search type, query and results are likely empty
-      this.setState({ searchType, query, results });
-    }
-  }
-
-  /**
-   * Performs a search for an optional query for the current search
-   * type with the context bound to this Component
-   * @param {Object} query - a query object to pass to the search action
-   */
-  performSearch = (query = this.state.query) => {
-    let { location, history } = this.props;
-    let { searchType, results } = this.state;
-    let { params: lastQuery, isPending } = results.request;
-    let queryString = qs.stringify(query);
-
-    let isNewSearch = queryString !== qs.stringify(lastQuery);
-    let isNewQuery = queryString !== qs.stringify(this.state.query);
-
-    // if there isn't a pending search and the search query has changed,
-    // dispatch the search action specific to this search type
-    if (!isPending && (isNewSearch || !results.request.timestamp)) {
-      if (searchType === 'vendors') this.props.searchVendors(query);
-      if (searchType === 'packages') this.props.searchPackages(query);
-      if (searchType === 'titles') this.props.searchTitles(query);
+      this.queries[searchType] = params;
     }
 
-    // if the new query is diffent from our location, update the location
-    if (isNewQuery) {
-      let url = this.buildSearchUrl(location.pathname, queryString);
+    let newType = searchType !== this.state.searchType;
+    let newSearch = qs.stringify(params) !== qs.stringify(this.state.query);
 
-      // if only the filters have changed, just replace the current location
-      if (query.q === lastQuery.q) {
-        history.replace(url);
-      } else {
-        history.push(url);
-      }
+    // if the new query params are diffent from our location query params,
+    // update our state
+    if (newType || newSearch) {
+      this.setState({ searchType, params });
     }
   }
 
@@ -171,21 +112,54 @@ class SearchRoute extends Component {
   }
 
   /**
-   * Renders the search results component specific to the current search type
+   * Update the url to match new seaerch params
+   * @param {Object} params - query param object
+   */
+  performSearch = (params = this.state.params) => {
+    let { location, history } = this.props;
+
+    // if the new query is diffent from our location, update the location
+    if (qs.stringify(params) !== qs.stringify(this.state.query)) {
+      let url = this.buildSearchUrl(location.pathname, params);
+
+      // if only the filters have changed, just replace the current location
+      if (params.q === this.state.params.q) {
+        history.replace(url);
+      } else {
+        history.push(url);
+      }
+    }
+  };
+
+  /**
+   * Dispatch the search action specific to this search type for a page offset
+   * @param {Number} offset - the page offset
+   */
+  fetchPage = (offset) => {
+    let { searchType, params } = this.state;
+    let pageParams = { ...params, offset };
+
+    if (searchType === 'vendors') this.props.searchVendors(pageParams);
+    if (searchType === 'packages') this.props.searchPackages(pageParams);
+    if (searchType === 'titles') this.props.searchTitles(pageParams);
+  };
+
+  /**
+   * Renders the search component specific to the current search type
    */
   renderResults() {
+    let { searchType, params } = this.state;
     let { location } = this.props;
-    let { searchType, results } = this.state;
-    let { isResolved, isPending, isRejected } = results.request;
-    let props = { location, results };
 
-    if (isResolved || isPending || isRejected) {
+    let props = { location, params, fetch: this.fetchPage };
+
+    if (params.q) {
       if (searchType === 'vendors') {
-        return <VendorSearchResults {...props} />;
+        return <VendorSearch {...props} />;
       } else if (searchType === 'packages') {
-        return <PackageSearchResults {...props} />;
+        return <PackageSearch {...props} />;
       } else if (searchType === 'titles') {
-        return <TitleSearchResults {...props} />;
+        return <TitleSearch {...props} />;
       }
     }
 
@@ -198,11 +172,10 @@ class SearchRoute extends Component {
    */
   render() {
     let { location, children } = this.props;
-    let { searchType, results } = this.state;
+    let { searchType, params } = this.state;
 
     if (searchType) {
       let hideDetails = /^\/eholdings\/?$/.test(location.pathname);
-      let { params, meta } = results.request;
 
       return (
         <div data-test-eholdings>
@@ -212,7 +185,7 @@ class SearchRoute extends Component {
             resultsType={searchType}
             resultsView={this.renderResults()}
             detailsView={!hideDetails && children}
-            totalResults={meta.totalResults}
+            // totalResults={meta.totalResults}
             searchForm={(
               <SearchForm
                 searchType={searchType}
@@ -231,9 +204,7 @@ class SearchRoute extends Component {
 }
 
 export default connect(
-  ({ eholdings: { data } }) => ({
-    resolver: createResolver(data)
-  }), {
+  null, {
     searchVendors: params => Vendor.query(params),
     searchPackages: params => Package.query(params),
     searchTitles: params => Title.query(params)
