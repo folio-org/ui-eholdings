@@ -39,6 +39,10 @@
       border-bottom-left-radius: 0;
     }
 
+    &:visited {
+      color: var(--primary);
+    }
+
     &.is-active {
       background-color: var(--primary);
       color: #fff;
