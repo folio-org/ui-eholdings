@@ -1,5 +1,15 @@
 .detail-container {
   padding: 0 1rem;
+
+  & h1 {
+    font-size: 2.5em;
+    font-weight: 700;
+    margin-top: 0.125em;
+  }
+
+  & h3 {
+    margin: 1em 0 0.5em;
+  }
 }
 
 .detail-container-header {
