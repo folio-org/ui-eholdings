@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import Query from './query';
+import QueryList from './query-list';
 import TitleListItem from './title-list-item';
 
 export default function TitleSearch({
@@ -10,7 +10,7 @@ export default function TitleSearch({
   fetch
 }) {
   return (
-    <Query
+    <QueryList
       type="title"
       params={params}
       fetch={fetch}

@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import Query from './query';
+import QueryList from './query-list';
 import PackageListItem from './package-list-item';
 
 export default function PackageSearch({
@@ -10,7 +10,7 @@ export default function PackageSearch({
   fetch
 }) {
   return (
-    <Query
+    <QueryList
       type="packages"
       params={params}
       fetch={fetch}

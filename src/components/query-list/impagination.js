@@ -7,6 +7,7 @@ export default class Impagination extends Component {
     pageSize: PropTypes.number,
     loadHorizon: PropTypes.number,
     readOffset: PropTypes.number,
+    totalPages: PropTypes.number,
     fetch: PropTypes.func.isRequired,
     collections: PropTypes.object.isRequired,
     renderList: PropTypes.func.isRequired
@@ -29,9 +30,10 @@ export default class Impagination extends Component {
     this.dataset = new Dataset({
       pageSize: props.pageSize,
       loadHorizon: props.loadHorizon,
+      stats: { totalPages: props.totalPages },
 
-      // the fetch option will return a promise that resolves during
-      // the componentWillReceiveProps hook
+      // the fetch option will return a promise that might resolve
+      // later during the componentWillReceiveProps hook
       fetch: (pageOffset, pageSize) => {
         // page starts with 1
         let page = pageOffset + 1;
@@ -40,16 +42,27 @@ export default class Impagination extends Component {
           let collection = this.props.collections[page];
           let isFulfilled = false;
 
+          // if the collection has already been resolved, immediately
+          // resolve this promise
           if (collection && collection.request.isResolved) {
             resolve(collection.models);
             isFulfilled = true;
+
+          // if the collection has already been rejected, immediately
+          // reject this promise
           } else if (collection && collection.request.isRejected) {
             reject(collection.request.errors);
             isFulfilled = true;
+
+          // the collection is not resolved or rejected already, make
+          // the request now and handle resolution later on in the
+          // componentWillReceiveProps hook
           } else {
             this.props.fetch(page, pageSize);
           }
 
+          // cache this promise's callbacks (and status) so it can be
+          // resolved or rejected later on
           this.promises[page] = {
             resolve,
             reject,
@@ -72,13 +85,21 @@ export default class Impagination extends Component {
     };
   }
 
+  // set the initial read offset of our dataset
   componentWillMount() {
     let { readOffset } = this.props;
     this.dataset.setReadOffset(readOffset);
   }
 
+  // when we recieve an update, loop over the pages of collections so
+  // we can resolve or reject any pending requests
   componentWillReceiveProps(nextProps) {
-    let { readOffset, collections } = nextProps;
+    let { readOffset, totalPages, collections } = nextProps;
+
+    // if there is a new total page count, update our dataset state
+    if (totalPages !== this.props.totalPages) {
+      this.dataset.state.stats.totalPages = totalPages;
+    }
 
     for (let page of Object.keys(collections)) {
       let promise = this.promises[page];
@@ -95,11 +116,14 @@ export default class Impagination extends Component {
       }
     }
 
+    // if there is a new read offset, tell our dataset
     if (readOffset !== this.props.readOffset) {
       this.dataset.setReadOffset(readOffset);
     }
   }
 
+  // We only call the `renderList` prop with the dataset state. Notice
+  // we don't import React because we are not using JSX in this component
   render() {
     let { renderList } = this.props;
     let { datasetState } = this.state;
