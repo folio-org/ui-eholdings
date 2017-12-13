@@ -15,6 +15,7 @@ class QueryList extends Component {
     pageSize: PropTypes.number,
     loadHorizon: PropTypes.number,
     itemHeight: PropTypes.number.isRequired,
+    notFoundMessage: PropTypes.string,
     fetch: PropTypes.func.isRequired,
     onPage: PropTypes.func,
     resolver: PropTypes.object.isRequired,
@@ -130,7 +131,8 @@ class QueryList extends Component {
       loadHorizon,
       fetch,
       itemHeight,
-      renderItem
+      renderItem,
+      notFoundMessage = 'Not Found'
     } = this.props;
     let {
       readOffset,
@@ -157,7 +159,23 @@ class QueryList extends Component {
             data-test-query-list={type}
           >
             <List style={{ height: listHeight, overflow: 'hidden' }}>
-              {datasetState.map(renderItem)}
+              {datasetState.hasRejected && !datasetState.length ? (
+                <li className={styles.error} data-test-query-list-error={type}>
+                  {datasetState.rejected[0].error[0].title}
+                </li>
+              ) : !datasetState.length ? (
+                <li className={styles['not-found']} data-test-query-list-not-found={type}>
+                  {notFoundMessage}
+                </li>
+              ) : (
+                datasetState.map((item, i) => (item.isRejected ? (
+                  <li className={styles.error} data-test-query-list-error={type}>
+                    {item.error[0].title}
+                  </li>
+                ) : (
+                  renderItem(item, i)
+                )))
+              )}
             </List>
           </div>
         )}

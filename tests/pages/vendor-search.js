@@ -31,7 +31,7 @@ export default {
   },
 
   get $searchResultsItems() {
-    return $('[data-test-vendor-search-results-list] li a');
+    return $('[data-test-query-list="vendors"] li a');
   },
 
   get totalResults() {
@@ -39,15 +39,15 @@ export default {
   },
 
   get hasErrors() {
-    return $('[data-test-vendor-search-error-message]').length > 0;
+    return $('[data-test-query-list-error="vendors"]').length > 0;
   },
 
   get errorMessage() {
-    return $('[data-test-vendor-search-error-message]').text();
+    return $('[data-test-query-list-error="vendors"]').text();
   },
 
   get noResultsMessage() {
-    return $('[data-test-vendor-search-no-results]').text();
+    return $('[data-test-query-list-not-found="vendors"]').text();
   },
 
   get previewPaneIsVisible() {
@@ -55,7 +55,7 @@ export default {
   },
 
   get vendorList() {
-    return $('[data-test-vendor-search-results-list] li').toArray().map(createVendorObject);
+    return $('[data-test-query-list="vendors"] li').toArray().map(createVendorObject);
   },
 
   get $backButton() {

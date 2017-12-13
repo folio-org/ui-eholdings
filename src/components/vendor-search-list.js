@@ -17,6 +17,7 @@ export default function VendorSearchList({
       fetch={fetch}
       onPage={onPage}
       itemHeight={65}
+      notFoundMessage={`No vendors found for "${params.q}".`}
       renderItem={(item, i) => (
         <VendorListItem
           key={i}

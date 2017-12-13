@@ -17,6 +17,7 @@ export default function PackageSearchList({
       fetch={fetch}
       onPage={onPage}
       itemHeight={80}
+      notFoundMessage={`No packages found for "${params.q}".`}
       renderItem={(item, i) => (
         <PackageListItem
           key={i}

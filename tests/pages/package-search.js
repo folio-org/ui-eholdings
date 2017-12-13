@@ -35,7 +35,7 @@ export default {
   },
 
   get $searchResultsItems() {
-    return $('[data-test-package-search-results-list] li a');
+    return $('[data-test-query-list="packages"] li a');
   },
 
   get totalResults() {
@@ -43,11 +43,11 @@ export default {
   },
 
   get hasErrors() {
-    return $('[data-test-package-search-error-message]').length > 0;
+    return $('[data-test-query-list-error="packages"]').length > 0;
   },
 
   get noResultsMessage() {
-    return $('[data-test-package-search-no-results]').text();
+    return $('[data-test-query-list-not-found="packages"]').text();
   },
 
   get previewPaneIsVisible() {
@@ -55,7 +55,7 @@ export default {
   },
 
   get packageList() {
-    return $('[data-test-package-search-results-list] li').toArray().map(createPackageObject);
+    return $('[data-test-query-list="packages"] li').toArray().map(createPackageObject);
   },
 
   get $backButton() {

@@ -35,7 +35,7 @@ export default {
   },
 
   get $searchResultsItems() {
-    return $('[data-test-title-search-results-list] li a');
+    return $('[data-test-query-list="titles"] li a');
   },
 
   get totalResults() {
@@ -43,11 +43,11 @@ export default {
   },
 
   get hasErrors() {
-    return $('[data-test-title-search-error-message]').length > 0;
+    return $('[data-test-query-list-error="titles"]').length > 0;
   },
 
   get noResultsMessage() {
-    return $('[data-test-title-search-no-results]').text();
+    return $('[data-test-query-list-not-found="titles"]').text();
   },
 
   get previewPaneIsVisible() {
@@ -55,7 +55,7 @@ export default {
   },
 
   get titleList() {
-    return $('[data-test-title-search-results-list] li').toArray().map(createTitleObject);
+    return $('[data-test-query-list="titles"] li').toArray().map(createTitleObject);
   },
 
   get $backButton() {

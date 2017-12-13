@@ -1,4 +1,15 @@
+@import '@folio/stripes-components/lib/variables';
+
 .list {
   height: 100%;
   overflow-y: auto;
+}
+
+.not-found, .error {
+  padding: 2rem;
+  text-align: center;
+}
+
+.error {
+  color: var(--error);
 }

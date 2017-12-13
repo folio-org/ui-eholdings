@@ -17,6 +17,7 @@ export default function TitleSearchList({
       fetch={fetch}
       onPage={onPage}
       itemHeight={80}
+      notFoundMessage={`No titles found for "${params.q}".`}
       renderItem={(item, i) => (
         <TitleListItem
           key={i}
