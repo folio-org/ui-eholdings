@@ -1,0 +1,21 @@
+.list-item {
+  height: 3.75rem;
+
+  & > a {
+    height: 100%;
+  }
+
+  &.is-selected-visible {
+    height: 4.75rem;
+  }
+
+  &.is-publisher-visible {
+    height: 5.75rem;
+  }
+}
+
+.name {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}

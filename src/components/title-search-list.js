@@ -4,23 +4,26 @@ import PropTypes from 'prop-types';
 import QueryList from './query-list';
 import TitleListItem from './title-list-item';
 
-export default function TitleSearch({
+export default function TitleSearchList({
   location,
   params,
-  fetch
+  fetch,
+  onPage
 }) {
   return (
     <QueryList
-      type="title"
+      type="titles"
       params={params}
       fetch={fetch}
-      renderItem={item => (
+      onPage={onPage}
+      itemHeight={80}
+      renderItem={(item, i) => (
         <TitleListItem
-          key={item.id}
-          item={item}
+          key={i}
           showPublisherAndType
-          link={{
-            pathname: `/eholdings/titles/${item.id}`,
+          item={item.content}
+          link={item.content && {
+            pathname: `/eholdings/titles/${item.content.id}`,
             search: location.search
           }}
         />
@@ -29,8 +32,9 @@ export default function TitleSearch({
   );
 }
 
-TitleSearch.propTypes = {
+TitleSearchList.propTypes = {
   location: PropTypes.object.isRequired,
   params: PropTypes.object.isRequired,
-  fetch: PropTypes.func.isRequired
+  fetch: PropTypes.func.isRequired,
+  onPage: PropTypes.func.isRequired
 };

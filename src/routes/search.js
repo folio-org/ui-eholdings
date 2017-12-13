@@ -3,14 +3,13 @@ import PropTypes from 'prop-types';
 import qs from 'query-string';
 import { connect } from 'react-redux';
 
-import { createResolver } from '../redux';
 import Vendor from '../redux/vendor';
 import Package from '../redux/package';
 import Title from '../redux/title';
 
-import VendorSearch from '../components/vendor-search';
-import PackageSearch from '../components/package-search';
-import TitleSearch from '../components/title-search';
+import VendorSearchList from '../components/vendor-search-list';
+import PackageSearchList from '../components/package-search-list';
+import TitleSearchList from '../components/title-search-list';
 import SearchPaneset from '../components/search-paneset';
 import SearchForm from '../components/search-form';
 
@@ -112,10 +111,10 @@ class SearchRoute extends Component {
   }
 
   /**
-   * Update the url to match new seaerch params
+   * Update the url to match new search params
    * @param {Object} params - query param object
    */
-  performSearch = (params = this.state.params) => {
+  updateURLParams = (params = this.state.params) => {
     let { location, history } = this.props;
 
     // if the new query is diffent from our location, update the location
@@ -132,12 +131,34 @@ class SearchRoute extends Component {
   };
 
   /**
-   * Dispatch the search action specific to this search type for a page offset
-   * @param {Number} offset - the page offset
+   * Handles submitting the search form by simply updating the URL
+   * query params. When the QueryList component is updated, it will
+   * trigger `fetchPage` below with the new query params
+   * @param {Object} params - query param object
    */
-  fetchPage = (offset) => {
+  handleSearch = (params) => {
+    this.updateURLParams(params);
+  };
+
+  /**
+   * Handles updating the page query param in our URL. The
+   * QueryList component will trigger this method when scrolling
+   * between pages
+   * @param {Number} page - the page number the QueryList component
+   * has been scrolled to
+   */
+  handlePage = (page) => {
+    let { params } = this.state;
+    this.updateURLParams({ ...params, page });
+  };
+
+  /**
+   * Dispatch the search action specific to this search type for a page
+   * @param {Number} page - the page number
+   */
+  fetchPage = (page) => {
     let { searchType, params } = this.state;
-    let pageParams = { ...params, offset };
+    let pageParams = { ...params, page };
 
     if (searchType === 'vendors') this.props.searchVendors(pageParams);
     if (searchType === 'packages') this.props.searchPackages(pageParams);
@@ -149,17 +170,21 @@ class SearchRoute extends Component {
    */
   renderResults() {
     let { searchType, params } = this.state;
-    let { location } = this.props;
 
-    let props = { location, params, fetch: this.fetchPage };
+    let props = {
+      params,
+      location: this.props.location,
+      fetch: this.fetchPage,
+      onPage: this.handlePage
+    };
 
     if (params.q) {
       if (searchType === 'vendors') {
-        return <VendorSearch {...props} />;
+        return <VendorSearchList {...props} />;
       } else if (searchType === 'packages') {
-        return <PackageSearch {...props} />;
+        return <PackageSearchList {...props} />;
       } else if (searchType === 'titles') {
-        return <TitleSearch {...props} />;
+        return <TitleSearchList {...props} />;
       }
     }
 
@@ -191,7 +216,7 @@ class SearchRoute extends Component {
                 searchType={searchType}
                 searchString={params.q}
                 searchTypeUrls={this.getSearchTypeUrls()}
-                onSearch={this.performSearch}
+                onSearch={this.handleSearch}
               />
             )}
           />
