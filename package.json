@@ -60,6 +60,13 @@
     "hasSettings": true,
     "okapiInterfaces": {
       "kb-ebsco": "0.1.0"
-    }
+    },
+    "permissionSets": [
+        {
+        "permissionName": "module.eholdings.enabled",
+        "displayName": "UI: eHoldings module is enabled",
+        "visible": true
+      }
+    ]
   }
 }
