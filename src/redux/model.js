@@ -223,15 +223,19 @@ function describeHasMany(key, relType = key) {
     get() {
       let collection = new Collection(relType, [], this.request, this.resolver);
 
+      let request = this.resolver.getRequest('query', {
+        path: `${this.constructor.pathFor(this.id)}/${dasherize(key)}`,
+        type: relType
+      });
+
       if (hasOwnProperty(this.data.relationships, key) && this.data.relationships[key].data) {
         let related = this.data.relationships[key];
         let records = related.data.map(({ id }) => this.resolver.getRecord(relType, id));
-        let request = this.resolver.getRequest('query', {
-          path: `${this.constructor.pathFor(this.id)}/${dasherize(key)}`,
-          type: relType
-        });
 
         request = request.timestamp > this.request.timestamp ? request : this.request;
+        collection = new Collection(relType, records, request, this.resolver);
+      } else if (request.timestamp) {
+        let records = request.records.map(id => this.resolver.getRecord(relType, id));
         collection = new Collection(relType, records, request, this.resolver);
       }
 

@@ -66,7 +66,7 @@ export default {
   },
 
   get allTitlesSelected() {
-    return this.titleList.every(title => title.isSelected);
+    return !!this.titleList.length && this.titleList.every(title => title.isSelected);
   },
 
   get hasErrors() {

@@ -290,8 +290,8 @@ const handlers = {
             ...store.records,
             [record.id]: {
               ...recordState,
-              attributes: record.attributes || recordState.attributes,
-              relationships: record.relationships || recordState.relationships,
+              attributes: record.attributes || {},
+              relationships: record.relationships || {},
               isSaving: false,
               isLoading: false,
               isLoaded: true

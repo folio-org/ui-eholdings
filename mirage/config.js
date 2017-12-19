@@ -152,6 +152,8 @@ export default function configure() {
     matchingCustomerResources.update('isSelected', isSelected);
     matchingPackage.update('isSelected', isSelected);
     matchingPackage.update('selectedCount', selectedCount);
+
+    return matchingPackage;
   });
 
   this.get('/jsonapi/packages/:packageId/customer-resources', ({ customerResources }, request) => {
@@ -189,6 +191,8 @@ export default function configure() {
 
     let { isSelected } = JSON.parse(request.requestBody);
     matchingCustomerResource.update('isSelected', isSelected);
+
+    return matchingCustomerResource;
   });
 
   // hot-reload passthrough
