@@ -145,12 +145,10 @@ describeApplication('PackageShowSelection', () => {
             });
 
             it('removes custom coverage', () => {
-              expect(providerPackage.customCoverage.beginCoverage).to.equal(null);
-              expect(providerPackage.customCoverage.endCoverage).to.equal(null);
+              expect(PackageShowPage.customCoverage).to.equal('');
             });
 
             it('is not hidden', () => {
-              expect(providerPackage.visibilityData.isHidden).to.equal(false);
               expect(PackageShowPage.isHidden).to.equal(false);
             });
           });
