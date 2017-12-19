@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import moment from 'moment';
 
 import { createResolver } from '../redux';
 import Package from '../redux/package';
@@ -54,11 +55,19 @@ class PackageShowRoute extends Component {
     updatePackage(model);
   };
 
+  customCoverageSubmitted = (values) => {
+    let { model, updatePackage } = this.props;
+    model.customCoverage.beginCoverage = !values.beginCoverage ? null : moment(values.beginCoverage).format('YYYY-MM-DD');
+    model.customCoverage.endCoverage = !values.endCoverage ? null : moment(values.endCoverage).format('YYYY-MM-DD');
+    updatePackage(model);
+  }
+
   render() {
     return (
       <View
         model={this.props.model}
         toggleSelected={this.toggleSelected}
+        customCoverageSubmitted={this.customCoverageSubmitted}
       />
     );
   }
