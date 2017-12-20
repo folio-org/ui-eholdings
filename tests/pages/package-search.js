@@ -38,6 +38,10 @@ export default {
     return $('[data-test-package-search-results-list] li a');
   },
 
+  get totalResults() {
+    return $('[data-test-eholdings-total-search-results]').text();
+  },
+
   get hasErrors() {
     return $('[data-test-package-search-error-message]').length > 0;
   },

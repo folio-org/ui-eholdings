@@ -188,7 +188,7 @@ class SearchRoute extends Component {
 
     if (searchType) {
       let hideDetails = /^\/eholdings\/?$/.test(location.pathname);
-      let { params } = results.request;
+      let { params, meta } = results.request;
 
       return (
         <div data-test-eholdings>
@@ -198,6 +198,7 @@ class SearchRoute extends Component {
             resultsType={searchType}
             resultsView={this.renderResults()}
             detailsView={!hideDetails && children}
+            totalResults={meta.totalResults}
             searchForm={(
               <SearchForm
                 searchType={searchType}

@@ -45,6 +45,10 @@ describeApplication('PackageSearch', () => {
       expect(PackageSearchPage.packageList[0].vendorName).to.equal(pkgs[0].vendor.name);
     });
 
+    it('displays the total number of search results', () => {
+      expect(PackageSearchPage.totalResults).to.equal('3 search results');
+    });
+
     describe('clicking a search results list item', () => {
       beforeEach(() => {
         return convergeOn(() => {

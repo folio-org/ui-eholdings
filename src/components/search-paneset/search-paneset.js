@@ -19,14 +19,19 @@ export default class SearchPaneset extends React.Component {
     resultsType: PropTypes.string,
     resultsView: PropTypes.node,
     detailsView: PropTypes.node,
+    totalResults: PropTypes.number,
     location: PropTypes.object
-  }
+  };
+
+  static defaultProps = {
+    totalResults: 0
+  };
 
   static contextTypes = {
     router: PropTypes.shape({
       history: PropTypes.object
     })
-  }
+  };
 
   state = {
     hideFilters: this.props.hideFilters
@@ -55,7 +60,13 @@ export default class SearchPaneset extends React.Component {
 
   render() {
     let { hideFilters } = this.state;
-    let { searchForm, resultsType, resultsView, detailsView } = this.props;
+    let {
+      searchForm,
+      resultsType,
+      resultsView,
+      detailsView,
+      totalResults
+    } = this.props;
 
     // only hide filters if there are results and always hide filters when a detail view is visible
     hideFilters = (hideFilters && !!resultsView) || !!detailsView;
@@ -83,7 +94,14 @@ export default class SearchPaneset extends React.Component {
         {!!resultsView && (
           <ResultsPane>
             <PaneHeader
-              paneTitle={capitalize(resultsType)}
+              paneTitle={(
+                <div className={styles['search-heading']}>
+                  <strong>{capitalize(resultsType)}</strong>
+                  <div data-test-eholdings-total-search-results>
+                    <em>{totalResults} search results</em>
+                  </div>
+                </div>
+              )}
               firstMenu={(
                 <PaneMenu><button onClick={this.toggleFilters} className={styles['results-pane-search-toggle']}>&larr; Search</button></PaneMenu>
               )}
