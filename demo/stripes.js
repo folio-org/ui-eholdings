@@ -40,34 +40,6 @@ function mirage(config, enabled = false) {
   }
 }
 
-function svgloader(config) {
-  let module = config.module;
-  return Object.assign({}, config, {
-    module: Object.assign({}, module, {
-      loaders: [
-        {
-          test: /\.svg$/,
-          exclude: /node_modules/,
-          loader: 'svg-react-loader',
-          query: {
-            classIdPrefix: '[name]-[hash:8]__',
-            filters: [
-              (value) => { // eslint-disable-line no-unused-vars
-                this.update(newvalue); // eslint-disable-line no-undef
-              }
-            ],
-            propsMap: {
-              fillRule: 'fill-rule',
-              foo: 'bar'
-            },
-            xmlnsTest: /^xmlns.*$/
-          }
-        }
-      ]
-    })
-  });
-}
-
 commander
   .command('dev')
   .option('--port [port]', 'Port')
@@ -105,7 +77,7 @@ commander
         }
       });
 
-      return mirage(svgloader(config), mirageOption);
+      return mirage(config, mirageOption);
     };
 
     stripes.serve(stripesConfig, options);
@@ -120,7 +92,7 @@ commander
     const stripesConfig = require(path.resolve(stripesConfigFile)); // eslint-disable-line
     options.outputPath = outputPath;
     options.webpackOverrides = (config) => {
-      return mirage(svgloader(config));
+      return mirage(config);
     };
 
     stripes.build(stripesConfig, options)

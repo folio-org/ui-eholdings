@@ -1,12 +1,12 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import Logo from 'svg-react-loader?name=Logo!./frontside-icon-transparent.svg'; // eslint-disable-line import/no-webpack-loader-syntax
+import logo from './frontside-icon-transparent.svg';
 import style from './front.css';
 
 export default function Front() {
   return (
     <div className={style.front}>
-      <h1><Logo className={style.logo} /> eHoldings, by Frontside</h1>
+      <h1><img alt="Frontside logo" src={logo} className={style.logo} /> eHoldings, by Frontside</h1>
       <p>
         Welcome to the Frontside FOLIO demo. Here you&rsquo;ll find a showcase of the applications and modules that we&rsquo;ve been working on.
       </p>
