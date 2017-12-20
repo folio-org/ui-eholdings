@@ -104,7 +104,7 @@ export default function configure() {
   });
 
   // Vendor resources
-  this.get('/jsonapi/vendors', function ({ vendors }, request) { // eslint-disable-line func-names
+  this.get('/vendors', function ({ vendors }, request) { // eslint-disable-line func-names
     let json = this.serialize(vendors.all().filter((vendorModel) => {
       let query = request.queryParams.q.toLowerCase();
       return vendorModel.name.toLowerCase().includes(query);
@@ -114,12 +114,12 @@ export default function configure() {
     return json;
   });
 
-  this.get('/jsonapi/vendors/:id', ({ vendors }, request) => {
+  this.get('/vendors/:id', ({ vendors }, request) => {
     return vendors.find(request.params.id);
   });
 
   // Package resources
-  this.get('/jsonapi/packages', function ({ packages }, request) { // eslint-disable-line func-names
+  this.get('/packages', function ({ packages }, request) { // eslint-disable-line func-names
     let json = this.serialize(packages.all().filter((packageModel) => {
       const query = request.queryParams.q.toLowerCase();
       return packageModel.name.toLowerCase().includes(query);
@@ -129,13 +129,13 @@ export default function configure() {
     return json;
   });
 
-  this.get('/jsonapi/packages/:id', ({ packages }, request) => {
+  this.get('/packages/:id', ({ packages }, request) => {
     return packages.findBy({
       id: request.params.id
     });
   });
 
-  this.put('/jsonapi/packages/:id', ({ packages, customerResources }, request) => {
+  this.put('/packages/:id', ({ packages, customerResources }, request) => {
     let matchingPackage = packages.findBy({
       id: request.params.id
     });
@@ -156,12 +156,12 @@ export default function configure() {
     return matchingPackage;
   });
 
-  this.get('/jsonapi/packages/:packageId/customer-resources', ({ customerResources }, request) => {
+  this.get('/packages/:packageId/customer-resources', ({ customerResources }, request) => {
     return customerResources.where({ packageId: request.params.packageId });
   });
 
   // Title resources
-  this.get('/jsonapi/titles', function ({ titles }, request) { // eslint-disable-line func-names
+  this.get('/titles', function ({ titles }, request) { // eslint-disable-line func-names
     let json = this.serialize(titles.all().filter((titleModel) => {
       const query = request.queryParams.q.toLowerCase();
       return titleModel.name.toLowerCase().includes(query);
@@ -171,20 +171,20 @@ export default function configure() {
     return json;
   });
 
-  this.get('/jsonapi/titles/:id', ({ titles }, request) => {
+  this.get('/titles/:id', ({ titles }, request) => {
     return titles.find(request.params.id);
   });
 
   // Customer Resource resources
-  this.get('/jsonapi/customer-resources', ({ customerResources }, request) => {
+  this.get('/customer-resources', ({ customerResources }, request) => {
     return customerResources.where({ packageId: request.params.packageId });
   });
 
-  this.get('/jsonapi/customer-resources/:id', ({ customerResources }, request) => {
+  this.get('/customer-resources/:id', ({ customerResources }, request) => {
     return customerResources.findBy({ id: request.params.id });
   });
 
-  this.put('/jsonapi/customer-resources/:id', ({ customerResources }, request) => {
+  this.put('/customer-resources/:id', ({ customerResources }, request) => {
     let matchingCustomerResource = customerResources.findBy({
       id: request.params.id
     });

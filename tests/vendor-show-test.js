@@ -77,7 +77,7 @@ describeApplication('VendorShow', () => {
 
   describe('encountering a server error', () => {
     beforeEach(function () {
-      this.server.get('/jsonapi/vendors/:id', {
+      this.server.get('/vendors/:id', {
         errors: [{
           title: 'There was an error'
         }]

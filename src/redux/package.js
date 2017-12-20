@@ -15,5 +15,5 @@ class Package {
 
 export default model({
   type: 'packages',
-  path: '/eholdings/jsonapi/packages'
+  path: '/eholdings/packages'
 })(Package);

@@ -142,7 +142,7 @@ describeApplication('PackageShow', () => {
 
     describe('unsuccessfully selecting a package title to add to my holdings', () => {
       beforeEach(function () {
-        this.server.put('/jsonapi/packages/:packageId', {
+        this.server.put('/packages/:packageId', {
           errors: [{
             title: 'There was an error'
           }]
@@ -203,7 +203,7 @@ describeApplication('PackageShow', () => {
 
   describe('encountering a server error', () => {
     beforeEach(function () {
-      this.server.get('/jsonapi/packages/:packageId', {
+      this.server.get('/packages/:packageId', {
         errors: [{
           title: 'There was an error'
         }]

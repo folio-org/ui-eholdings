@@ -12,5 +12,5 @@ class Title {
 
 export default model({
   type: 'titles',
-  path: '/eholdings/jsonapi/titles'
+  path: '/eholdings/titles'
 })(Title);
