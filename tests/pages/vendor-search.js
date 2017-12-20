@@ -55,7 +55,7 @@ export default {
   },
 
   get vendorList() {
-    return $('[data-test-query-list="vendors"] li').toArray().map(createVendorObject);
+    return this.$searchResultsItems.toArray().map(createVendorObject);
   },
 
   get $backButton() {
@@ -93,5 +93,14 @@ export default {
 
   clickBackButton() {
     return $('[data-test-eholdings-package-details-back-button]').trigger('click');
+  },
+
+  scrollToOffset(readOffset) {
+    let $list = $('[data-test-query-list="vendors"]').get(0);
+    let rowHeight = $('li', $list).get(0).offsetHeight;
+    let scrollOffset = rowHeight * readOffset;
+
+    $list.scrollTop = scrollOffset;
+    $list.dispatchEvent(new Event('scroll'));
   }
 };

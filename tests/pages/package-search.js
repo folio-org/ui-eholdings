@@ -55,7 +55,7 @@ export default {
   },
 
   get packageList() {
-    return $('[data-test-query-list="packages"] li').toArray().map(createPackageObject);
+    return this.$searchResultsItems.toArray().map(createPackageObject);
   },
 
   get $backButton() {
@@ -93,5 +93,14 @@ export default {
 
   clickBackButton() {
     return $('[data-test-eholdings-customer-resource-show-back-button]').trigger('click');
+  },
+
+  scrollToOffset(readOffset) {
+    let $list = $('[data-test-query-list="packages"]').get(0);
+    let rowHeight = $('li', $list).get(0).offsetHeight;
+    let scrollOffset = rowHeight * readOffset;
+
+    $list.scrollTop = scrollOffset;
+    $list.dispatchEvent(new Event('scroll'));
   }
 };

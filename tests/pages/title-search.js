@@ -55,7 +55,7 @@ export default {
   },
 
   get titleList() {
-    return $('[data-test-query-list="titles"] li').toArray().map(createTitleObject);
+    return this.$searchResultsItems.toArray().map(createTitleObject);
   },
 
   get $backButton() {
@@ -93,5 +93,14 @@ export default {
 
   clickBackButton() {
     return $('[data-test-eholdings-customer-resource-show-back-button]').trigger('click');
+  },
+
+  scrollToOffset(readOffset) {
+    let $list = $('[data-test-query-list="titles"]').get(0);
+    let rowHeight = $('li', $list).get(0).offsetHeight;
+    let scrollOffset = rowHeight * readOffset;
+
+    $list.scrollTop = scrollOffset;
+    $list.dispatchEvent(new Event('scroll'));
   }
 };

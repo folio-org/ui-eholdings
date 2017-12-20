@@ -142,6 +142,61 @@ describeApplication('PackageSearch', () => {
     });
   });
 
+  describe('with multiple pages of packages', () => {
+    beforeEach(function () {
+      this.server.createList('package', 75, {
+        name: i => `Other Package ${i + 1}`
+      });
+    });
+
+    describe('searching for packages', () => {
+      beforeEach(() => {
+        PackageSearchPage.search('other');
+      });
+
+      it('shows the first page of results', () => {
+        expect(PackageSearchPage.packageList[0].name).to.equal('Other Package 5');
+      });
+
+      describe('and then scrolling down', () => {
+        beforeEach(() => {
+          return convergeOn(() => {
+            expect(PackageSearchPage.packageList.length).to.be.gt(0);
+          }).then(() => {
+            PackageSearchPage.scrollToOffset(25);
+          });
+        });
+
+        it('shows the next page of results', () => {
+          // when the list is scrolled, it has a threshold of 5 items. index 4,
+          // the 5th item, is the topmost visible item in the list
+          expect(PackageSearchPage.packageList[4].name).to.equal('Other Package 30');
+        });
+
+        it('updates the page number in the URL', function () {
+          expect(this.app.history.location.search).to.include('page=2');
+        });
+      });
+    });
+
+    describe('navigating directly to a search page', () => {
+      beforeEach(function () {
+        return this.visit('/eholdings/?searchType=packages&page=3&q=other', () => {
+          expect(PackageSearchPage.$root).to.exist;
+        });
+      });
+
+      it('should show the search results for that page', () => {
+        // see comment above about packageList index number
+        expect(PackageSearchPage.packageList[4].name).to.equal('Other Package 55');
+      });
+
+      it('should retain the proper page', function () {
+        expect(this.app.history.location.search).to.include('page=3');
+      });
+    });
+  });
+
   describe("searching for the package 'fhqwhgads'", () => {
     beforeEach(() => {
       PackageSearchPage.search('fhqwhgads');

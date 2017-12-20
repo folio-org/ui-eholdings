@@ -1,8 +1,11 @@
 import ApplicationSerializer from './application';
 
 function mapPackageVendor(hash, vendor) {
-  hash.attributes.vendorId = vendor.id;
-  hash.attributes.vendorName = vendor.name;
+  if (vendor) {
+    hash.attributes.vendorId = vendor.id;
+    hash.attributes.vendorName = vendor.name;
+  }
+
   return hash;
 }
 
