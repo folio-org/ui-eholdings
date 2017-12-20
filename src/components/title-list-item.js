@@ -8,18 +8,18 @@ export default function TitleListItem({ item, link, showSelected, showPublisherA
     <li data-test-eholdings-title-list-item>
       <Link to={link}>
         <h5 data-test-eholdings-title-list-item-title-name>
-          {item.titleName}
+          {item.name}
         </h5>
         {showPublisherAndType && (
           <div>
             <span data-test-eholdings-title-list-item-publisher-name>{item.publisherName}</span><br />
-            <span data-test-eholdings-title-list-item-publication-type>{item.pubType}</span>
+            <span data-test-eholdings-title-list-item-publication-type>{item.publicationType}</span>
           </div>
         )}
         { /* assumes that customerResourcesList.length will always equal one if showSelected === true */ }
         {showSelected && (
           <span data-test-eholdings-title-list-item-title-selected>
-            {item.customerResourcesList[0].isSelected ? 'Selected' : 'Not Selected'}
+            {item.isSelected ? 'Selected' : 'Not Selected'}
           </span>
         )}
       </Link>

@@ -1,74 +1,25 @@
-import { Serializer, pluralize } from 'mirage-server';
+import { JSONAPISerializer, camelize, pluralize } from 'mirage-server';
 
-export default Serializer.extend({
-  embed: true,
+export default JSONAPISerializer.extend({
+  serializeIds: 'always',
 
-  serialize(response) {
-    /*
-     * Don't rely on mirage to send rootless responses, since a rootless mirage
-     * response currently doesn't serialize relationship ids; instead we manually
-     * pull out the top-level key.
-    */
-    let json = Serializer.prototype.serialize.apply(this, arguments); // eslint-disable-line prefer-rest-params
-    let keyForPrimaryResource = this.keyForResource(response);
-    let rootlessJson = json[keyForPrimaryResource];
-
-    if (typeof this.serializerFor(response.modelName).modifyKeys === 'function') {
-      if (Array.isArray(rootlessJson)) {
-        rootlessJson = rootlessJson.map(this.serializerFor(response.modelName).modifyKeys, this);
-      } else {
-        rootlessJson = this.serializerFor(response.modelName).modifyKeys(rootlessJson);
-      }
-    }
-
-    if (Array.isArray(rootlessJson)) {
-      return {
-        totalResults: rootlessJson.length,
-        [keyForPrimaryResource]: rootlessJson.map(this.mapPrimaryKey, this)
-      };
-    } else {
-      return this.mapPrimaryKey(rootlessJson);
-    }
-  },
-
-  mapPrimaryKey(json) {
-    let { id, ...rest } = json;
-    return { [`${this.type}Id`]: id, ...rest };
+  keyForModel(modelName) {
+    return camelize(modelName);
   },
 
   keyForCollection(modelName) {
-    const pluralizedKey = pluralize(this.keyForModel(modelName));
-
-    if (modelName === 'vendor' || modelName === 'title' || modelName === 'customer-resource') {
-      return pluralizedKey;
-    } else {
-      return `${pluralizedKey}List`;
-    }
+    return camelize(modelName);
   },
 
-  keyForEmbeddedRelationship(attributeName) {
-    let attributeNamesToAppendList = ['customerResources', 'subjects', 'identifiers', 'contributors'];
-
-    if (attributeNamesToAppendList.includes(attributeName)) {
-      return `${pluralize(attributeName)}List`;
-    } else {
-      return attributeName;
-    }
+  keyForAttribute(attr) {
+    return camelize(attr);
   },
 
-  createCustomerResourcesList(json) {
-    // move the vendor/package/title ids and names up a level
-    return json.customerResourcesList.map((customerResource) => {
-      let hash = customerResource;
-      hash.vendorId = customerResource.package.vendor.id;
-      hash.vendorName = customerResource.package.vendor.name;
-      hash.packageId = customerResource.package.id;
-      hash.packageName = customerResource.package.packageName;
-      hash.contentType = customerResource.package.contentType;
-      hash.titleId = json.titleId;
-      delete hash.package;
-      delete hash.id;
-      return hash;
-    });
+  keyForRelationship(key) {
+    return camelize(key);
+  },
+
+  typeKeyForModel(model) {
+    return camelize(pluralize(model.modelName));
   }
 });

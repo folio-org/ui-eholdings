@@ -1,25 +1,28 @@
 import { Factory, faker, trait } from 'mirage-server';
 
 export default Factory.extend({
-  titleName: () => faker.company.catchPhrase(),
+  name: () => faker.company.catchPhrase(),
   publisherName: () => faker.company.companyName(),
-  pubType: () => faker.random.arrayElement([
+  publicationType: () => faker.random.arrayElement([
     'All',
     'Audiobook',
     'Book',
-    'BookSeries',
+    'Book Series',
     'Database',
     'Journal',
     'Newsletter',
     'Newspaper',
     'Proceedings',
     'Report',
-    'StreamingAudio',
-    'StreamingVideo',
-    'thesisdissertation',
-    'website',
-    'unspecified'
+    'Streaming Audio',
+    'Streaming Video',
+    'Thesis & Dissertation',
+    'Website',
+    'Unspecified'
   ]),
+  subjects: () => [],
+  contributors: () => [],
+  identifiers: () => [],
 
   withPackages: trait({
     afterCreate(title, server) {
@@ -29,12 +32,12 @@ export default Factory.extend({
       // Decide how many will be selected (0 to total)
       let selectedCount = faker.random.number({ min: 0, max: total });
 
-      server.createList('customer-resource', selectedCount, 'withPackage', 'withManagedCoverage', {
+      server.createList('customerResource', selectedCount, 'withPackage', 'withManagedCoverage', {
         title,
         isSelected: true
       });
 
-      server.createList('customer-resource', (total - selectedCount), 'withPackage', 'withManagedCoverage', {
+      server.createList('customerResource', (total - selectedCount), 'withPackage', 'withManagedCoverage', {
         title,
         isSelected: false
       });
@@ -44,7 +47,7 @@ export default Factory.extend({
   withSubjects: trait({
     afterCreate(title, server) {
       let subjects = server.createList('subject', 3);
-      title.subjects = subjects;
+      title.subjects = subjects.map(item => item.toJSON());
       title.save();
     }
   }),
@@ -52,7 +55,7 @@ export default Factory.extend({
   withContributors: trait({
     afterCreate(title, server) {
       let contributors = server.createList('contributor', 3);
-      title.contributors = contributors;
+      title.contributors = contributors.map(item => item.toJSON());
       title.save();
     }
   }),
@@ -60,7 +63,7 @@ export default Factory.extend({
   withIdentifiers: trait({
     afterCreate(title, server) {
       let identifiers = server.createList('identifier', 3);
-      title.identifiers = identifiers;
+      title.identifiers = identifiers.map(item => item.toJSON());
       title.save();
     }
   })

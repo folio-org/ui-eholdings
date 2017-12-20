@@ -3,7 +3,8 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import Icon from '@folio/stripes-components/lib/Icon';
 
-import { getBackendStatus } from '../redux/application';
+import { createResolver } from '../redux';
+import { Status } from '../redux/application';
 import NoBackendErrorScreen from '../components/error-screen/no-backend';
 import FailedBackendErrorScreen from '../components/error-screen/failed-backend';
 import InvalidBackendErrorScreen from '../components/error-screen/invalid-backend';
@@ -31,12 +32,12 @@ class ApplicationRoute extends Component {
 
     return (
       <div className="eholdings-application" data-test-eholdings-application>
-        {version ? (status.isPending ? (
+        {version ? (status.isLoading ? (
           <Icon icon="spinner-ellipsis" />
-        ) : status.isRejected ? (
+        ) : status.request.isRejected ? (
           <FailedBackendErrorScreen />
-        ) : status.isResolved && (
-          !(showSettings || status.content.isConfigurationValid)
+        ) : status.isLoaded && (
+          !(showSettings || status.isConfigurationValid)
             ? <InvalidBackendErrorScreen />
             : children
         )) : <NoBackendErrorScreen />}
@@ -47,11 +48,12 @@ class ApplicationRoute extends Component {
 
 export default connect(
   ({
-    eholdings: { application },
+    eholdings: { data },
     discovery: { interfaces = {} }
   }) => ({
-    status: application.status,
+    status: createResolver(data).find('statuses', 'status'),
     interfaces
-  }),
-  { getBackendStatus }
+  }), {
+    getBackendStatus: () => Status.find('status')
+  }
 )(ApplicationRoute);

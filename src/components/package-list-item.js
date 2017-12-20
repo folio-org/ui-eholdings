@@ -3,12 +3,12 @@ import PropTypes from 'prop-types';
 
 import Link from './link';
 
-export default function PackageListItem({ item, link, showTitleCount, showVendorName }) {
+export default function PackageListItem({ item, link, showTitleCount, showVendorName, packageName }) {
   return (
     <li data-test-eholdings-package-list-item>
       <Link to={link}>
         <h5 data-test-eholdings-package-list-item-name>
-          {item.packageName}
+          {packageName || item.name}
         </h5>
         <div>
           {showVendorName && (
@@ -34,11 +34,12 @@ export default function PackageListItem({ item, link, showTitleCount, showVendor
 }
 
 PackageListItem.propTypes = {
-  item: PropTypes.object,
+  item: PropTypes.object.isRequired,
   link: PropTypes.oneOfType([
     PropTypes.string,
     PropTypes.object
   ]),
   showTitleCount: PropTypes.bool,
-  showVendorName: PropTypes.bool
+  showVendorName: PropTypes.bool,
+  packageName: PropTypes.string
 };

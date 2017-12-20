@@ -1,15 +1,19 @@
 import ApplicationSerializer from './application';
 
-export default ApplicationSerializer.extend({
-  include: ['customCoverage', 'vendor', 'visibilityData'],
+function mapPackageVendor(hash, vendor) {
+  hash.attributes.vendorId = vendor.id;
+  hash.attributes.vendorName = vendor.name;
+  return hash;
+}
 
-  modifyKeys(json) {
-    let newHash = json;
-    if (newHash.vendor && !newHash.vendorId) {
-      newHash.vendorId = json.vendor.id;
-      newHash.vendorName = json.vendor.name;
-      delete newHash.vendor;
+export default ApplicationSerializer.extend({
+  getHashForResource(pkg) {
+    let hash = ApplicationSerializer.prototype.getHashForResource.apply(this, arguments); // eslint-disable-line prefer-rest-params
+
+    if (Array.isArray(hash)) {
+      return hash.map((h, i) => mapPackageVendor(h, pkg.models[i].vendor));
+    } else {
+      return mapPackageVendor(hash, pkg.vendor);
     }
-    return newHash;
   }
 });

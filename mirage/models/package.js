@@ -1,7 +1,6 @@
-import { Model, belongsTo } from 'mirage-server';
+import { Model, belongsTo, hasMany } from 'mirage-server';
 
 export default Model.extend({
-  customCoverage: belongsTo(),
-  vendor: belongsTo(),
-  visibilityData: belongsTo()
+  customerResources: hasMany(),
+  vendor: belongsTo()
 });

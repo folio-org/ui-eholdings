@@ -11,27 +11,27 @@ export default function defaultScenario(server) {
 
   createVendor('Economist Intelligence Unit', [
     {
-      packageName: 'Business Briefings',
+      name: 'Business Briefings',
       contentType: 'AggregatedFullText',
       titleCount: 9
     },
     {
-      packageName: 'Country Reports & Profiles (EIU)',
+      name: 'Country Reports & Profiles (EIU)',
       contentType: 'AggregatedFullText',
       titleCount: 3
     },
     {
-      packageName: 'EIU CityData',
+      name: 'EIU CityData',
       contentType: 'OnlineReference',
       titleCount: 1
     },
     {
-      packageName: 'EIU Complete Country Coverage',
+      name: 'EIU Complete Country Coverage',
       contentType: 'OnlineReference',
       titleCount: 1
     },
     {
-      packageName: 'EIU: Country Reports Archive (DFG Nationallizenz)',
+      name: 'EIU: Country Reports Archive (DFG Nationallizenz)',
       contentType: 'AggregatedFullText',
       titleCount: 2
     }
@@ -39,32 +39,32 @@ export default function defaultScenario(server) {
 
   createVendor('Edinburgh University Press', [
     {
-      packageName: 'Digimap Ordnance Survey',
+      name: 'Digimap Ordnance Survey',
       contentType: 'OnlineReference',
       titleCount: 1
     },
     {
-      packageName: 'EdinburchUniversityPress',
+      name: 'EdinburchUniversityPress',
       contentType: 'EJournal',
       titleCount: 2
     },
     {
-      packageName: 'EdinburghUniversityPress (NESLi2)',
+      name: 'EdinburghUniversityPress (NESLi2)',
       contentType: 'EJournal',
       titleCount: 3
     },
     {
-      packageName: 'Edinburgh University Press (SHEDL)',
+      name: 'Edinburgh University Press (SHEDL)',
       contentType: 'EJournal',
       titleCount: 2
     },
     {
-      packageName: 'Edinburgh University Press Complete Collection (JISC)',
+      name: 'Edinburgh University Press Complete Collection (JISC)',
       contentType: 'EJournal',
       titleCount: 6
     },
     {
-      packageName: 'Edinburgh University Press Complete Collection (SHEDL)',
+      name: 'Edinburgh University Press Complete Collection (SHEDL)',
       contentType: 'EJournal',
       titleCount: 3
     }

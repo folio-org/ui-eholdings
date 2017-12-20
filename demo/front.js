@@ -28,8 +28,8 @@ export default function Front() {
 
       <h3>Packages</h3>
       <ul>
-        <li><Link to="/eholdings/vendors/432/packages/8208">NASA eBooks</Link></li>
-        <li><Link to="/eholdings/vendors/19/packages/1125">Business Source Complete</Link></li>
+        <li><Link to="/eholdings/packages/432-8208">NASA eBooks</Link></li>
+        <li><Link to="/eholdings/packages/19-1125">Business Source Complete</Link></li>
       </ul>
 
       <h3>Titles</h3>

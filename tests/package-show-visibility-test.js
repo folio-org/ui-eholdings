@@ -19,11 +19,11 @@ describeApplication('PackageShowVisibility', () => {
     beforeEach(function () {
       pkg = this.server.create('package', 'isHidden', {
         vendor,
-        packageName: 'Cool Package',
-        contentType: 'ebook'
+        name: 'Cool Package',
+        contentType: 'E-Book'
       });
 
-      return this.visit(`/eholdings/vendors/${vendor.id}/packages/${pkg.id}`, () => {
+      return this.visit(`/eholdings/packages/${pkg.id}`, () => {
         expect(PackageShowPage.$root).to.exist;
       });
     });
@@ -37,11 +37,11 @@ describeApplication('PackageShowVisibility', () => {
     beforeEach(function () {
       pkg = this.server.create('package', {
         vendor,
-        packageName: 'Cool Package',
+        name: 'Cool Package',
         contentType: 'ebook'
       });
 
-      return this.visit(`/eholdings/vendors/${vendor.id}/packages/${pkg.id}`, () => {
+      return this.visit(`/eholdings/packages/${pkg.id}`, () => {
         expect(PackageShowPage.$root).to.exist;
       });
     });

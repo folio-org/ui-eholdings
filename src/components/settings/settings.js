@@ -8,7 +8,6 @@ const cx = classNames.bind(styles);
 export default class Settings extends Component {
   static propTypes = {
     settings: PropTypes.object.isRequired,
-    update: PropTypes.object.isRequired,
     onSubmit: PropTypes.func.isRequired
   };
 
@@ -21,11 +20,13 @@ export default class Settings extends Component {
 
   componentWillReceiveProps(nextProps) {
     let { customerId, apiKey } = this.state;
-    let { update, settings: next } = nextProps;
+    let { settings: old } = this.props;
+    let { settings: next } = nextProps;
 
     let isDirty = customerId !== next.customerId || apiKey !== next.apiKey;
+    let hasUpdated = old.update.isPending && next.update.isResolved;
 
-    if (update.isResolved && isDirty) {
+    if (hasUpdated && isDirty) {
       this.setState({
         customerId: next.customerId,
         apiKey: next.apiKey
@@ -85,7 +86,7 @@ export default class Settings extends Component {
 
   render() {
     let { customerId, apiKey, invalidCustomerId, invalidApiKey } = this.state;
-    let { settings, update } = this.props;
+    let { settings } = this.props;
 
     let isFresh = !customerId && !apiKey;
     let isDirty = customerId !== settings.customerId || apiKey !== settings.apiKey;
@@ -103,9 +104,9 @@ export default class Settings extends Component {
           onSubmit={this.handleSubmit}
           data-test-eholdings-settings
         >
-          {update.isRejected && (
+          {settings.request.isRejected && (
             <p data-test-eholdings-settings-error>
-              {update.error.length ? update.error[0].message : update.error.message}
+              {settings.request.errors[0].title}
             </p>
           )}
 
@@ -145,9 +146,14 @@ export default class Settings extends Component {
 
           {(isFresh || isDirty) && (
             <div className={styles['eholdings-settings-form-actions']} data-test-eholdings-settings-actions>
-              <button type="submit" disabled={!isValid || update.isPending}>Save</button>
+              <button type="submit" disabled={!isValid || settings.isSaving}>Save</button>
               <button type="reset" onClick={this.handleClear}>Cancel</button>
-              <div className={styles['eholdings-settings-save-error']} data-test-eholdings-settings-error>{update.message}</div>
+
+              {settings.update.isRejected && (
+                <div className={styles['eholdings-settings-save-error']} data-test-eholdings-settings-error>
+                  {settings.update.errors[0].title}
+                </div>
+              )}
             </div>
           )}
         </form>

@@ -5,32 +5,24 @@ import Icon from '@folio/stripes-components/lib/Icon';
 import List from './list';
 import PackageListItem from './package-list-item';
 
-export default function PackageSearchResults({
-  location,
-  query: { search },
-  isPending,
-  isResolved,
-  isRejected,
-  content,
-  error
-}) {
-  return isPending ? (
+export default function PackageSearchResults({ location, results }) {
+  return results.request.isPending ? (
     <Icon icon="spinner-ellipsis" />
-  ) : isRejected ? (
+  ) : results.request.isRejected ? (
     <p data-test-package-search-error-message>
-      {error.length ? error[0].message : error.message}
+      {results.request.errors[0].title}
     </p>
-  ) : isResolved && !content.length ? (
+  ) : results.request.isResolved && !results.length ? (
     <p data-test-package-search-no-results>
-      No packages found for <strong>{`"${search}"`}</strong>.
+      No packages found for <strong>{`"${results.request.params.q}"`}</strong>.
     </p>
   ) : (
     <List data-test-package-search-results-list>
-      {content.map(pkg => (
+      {results.map(pkg => (
         <PackageListItem
-          key={pkg.packageId}
+          key={pkg.id}
           link={{
-            pathname: `/eholdings/vendors/${pkg.vendorId}/packages/${pkg.packageId}`,
+            pathname: `/eholdings/packages/${pkg.id}`,
             search: location.search
           }}
           item={pkg}
@@ -43,15 +35,5 @@ export default function PackageSearchResults({
 
 PackageSearchResults.propTypes = {
   location: PropTypes.object.isRequired,
-  query: PropTypes.shape({
-    search: PropTypes.string
-  }).isRequired,
-  isPending: PropTypes.bool.isRequired,
-  isResolved: PropTypes.bool.isRequired,
-  isRejected: PropTypes.bool.isRequired,
-  content: PropTypes.array.isRequired,
-  error: PropTypes.oneOfType([
-    PropTypes.object,
-    PropTypes.array
-  ])
+  results: PropTypes.object.isRequired
 };

@@ -17,28 +17,29 @@ describeApplication('CustomerResourceShow', () => {
 
     vendorPackage = this.server.create('package', 'withTitles', {
       vendor,
-      packageName: 'Cool Package',
-      contentType: 'ebook',
+      name: 'Cool Package',
+      contentType: 'E-Book',
       titleCount: 5
     });
 
     let title = this.server.create('title', {
-      package: vendorPackage,
-      pubType: 'StreamingVideo',
+      publicationType: 'Streaming Video'
     });
 
     title.identifiers = [
-      this.server.create('identifier', { type: 1, subtype: 1, id: '978-0547928210' }),
-      this.server.create('identifier', { type: 1, subtype: 1, id: '978-0547928203' }),
-      this.server.create('identifier', { type: 1, subtype: 2, id: '978-0547928197' }),
-      this.server.create('identifier', { type: 1, subtype: 0, id: '978-0547928227' }),
-      this.server.create('identifier', { type: 8, subtype: 49, id: 'someothertypeofid' })
-    ];
+      this.server.create('identifier', { type: 'ISBN', subtype: 'Print', id: '978-0547928210' }),
+      this.server.create('identifier', { type: 'ISBN', subtype: 'Print', id: '978-0547928203' }),
+      this.server.create('identifier', { type: 'ISBN', subtype: 'Online', id: '978-0547928197' }),
+      this.server.create('identifier', { type: 'ISBN', subtype: 'Empty', id: '978-0547928227' }),
+      this.server.create('identifier', { type: 'Mid', subtype: 'someothersubtype', id: 'someothertypeofid' })
+    ].map(m => m.toJSON());
+
     title.contributors = [
       this.server.create('contributor', { type: 'author', contributor: 'Writer, Sally' }),
       this.server.create('contributor', { type: 'author', contributor: 'Wordsmith, Jane' }),
       this.server.create('contributor', { type: 'illustrator', contributor: 'Artist, John' })
-    ];
+    ].map(m => m.toJSON());
+
     title.save();
 
     resource = this.server.create('customer-resource', {
@@ -50,13 +51,13 @@ describeApplication('CustomerResourceShow', () => {
 
   describe('visiting the customer resource page', () => {
     beforeEach(function () {
-      return this.visit(`/eholdings/vendors/${vendor.id}/packages/${vendorPackage.id}/titles/${resource.titleId}`, () => {
+      return this.visit(`/eholdings/customer-resources/${resource.titleId}`, () => {
         expect(ResourcePage.$root).to.exist;
       });
     });
 
     it('displays the title name', () => {
-      expect(ResourcePage.titleName).to.equal(resource.title.titleName);
+      expect(ResourcePage.titleName).to.equal(resource.title.name);
     });
 
     it('displays the authors', () => {
@@ -88,11 +89,13 @@ describeApplication('CustomerResourceShow', () => {
     });
 
     it('displays the subjects list', () => {
-      expect(ResourcePage.subjectsList).to.equal(resource.title.subjects.models.map(subjectObj => subjectObj.subject).join('; '));
+      expect(ResourcePage.subjectsList).to.equal(
+        resource.title.subjects.map(subjectObj => subjectObj.subject).join('; ')
+      );
     });
 
     it('displays the package name', () => {
-      expect(ResourcePage.packageName).to.equal(resource.package.packageName);
+      expect(ResourcePage.packageName).to.equal(resource.package.name);
     });
 
     it('displays the content type', () => {
@@ -160,11 +163,11 @@ describeApplication('CustomerResourceShow', () => {
 
     describe('unsuccessfully selecting a package title to add to my holdings', () => {
       beforeEach(function () {
-        this.server.put('/vendors/:vendorId/packages/:packageId/titles/:titleId', [{
-          message: 'There was an error',
-          code: '1000',
-          subcode: 0
-        }], 500);
+        this.server.put('/jsonapi/customer-resources/:id', {
+          errors: [{
+            title: 'There was an error'
+          }]
+        }, 500);
 
         this.server.timing = 50;
         return ResourcePage.toggleIsSelected();
@@ -205,7 +208,7 @@ describeApplication('CustomerResourceShow', () => {
   describe('navigating to customer resource page', () => {
     beforeEach(function () {
       return this.visit({
-        pathname: `/eholdings/vendors/${vendor.id}/packages/${vendorPackage.id}/titles/${resource.titleId}`,
+        pathname: `/eholdings/customer-resources/${resource.id}`,
         // our internal link component automatically sets the location state
         state: { eholdings: true }
       }, () => {
@@ -222,14 +225,13 @@ describeApplication('CustomerResourceShow', () => {
     beforeEach(function () {
       vendorPackage = this.server.create('package', 'withTitles', {
         vendor,
-        packageName: 'Cool Package',
+        name: 'Cool Package',
         contentType: '',
         titleCount: 5
       });
 
       let title = this.server.create('title', {
-        package: vendorPackage,
-        pubType: ''
+        publicationType: ''
       });
 
       resource = this.server.create('customer-resource', {
@@ -238,13 +240,13 @@ describeApplication('CustomerResourceShow', () => {
         title
       });
 
-      return this.visit(`/eholdings/vendors/${vendor.id}/packages/${vendorPackage.id}/titles/${resource.titleId}`, () => {
+      return this.visit(`/eholdings/customer-resources/${resource.id}`, () => {
         expect(ResourcePage.$root).to.exist;
       });
     });
 
     it('displays the title name', () => {
-      expect(ResourcePage.titleName).to.equal(resource.title.titleName);
+      expect(ResourcePage.titleName).to.equal(resource.title.name);
     });
 
     it('does not display a content type', () => {
@@ -260,14 +262,13 @@ describeApplication('CustomerResourceShow', () => {
     beforeEach(function () {
       vendorPackage = this.server.create('package', 'withTitles', {
         vendor,
-        packageName: 'Cool Package',
+        name: 'Cool Package',
         contentType: 'Isolinear Chip',
         titleCount: 5
       });
 
       let title = this.server.create('title', {
-        package: vendorPackage,
-        pubType: 'UnknownPublicationType'
+        publicationType: 'UnknownPublicationType'
       });
 
       resource = this.server.create('customer-resource', {
@@ -276,13 +277,13 @@ describeApplication('CustomerResourceShow', () => {
         title
       });
 
-      return this.visit(`/eholdings/vendors/${vendor.id}/packages/${vendorPackage.id}/titles/${resource.titleId}`, () => {
+      return this.visit(`/eholdings/customer-resources/${resource.id}`, () => {
         expect(ResourcePage.$root).to.exist;
       });
     });
 
     it('displays the title name', () => {
-      expect(ResourcePage.titleName).to.equal(resource.title.titleName);
+      expect(ResourcePage.titleName).to.equal(resource.title.name);
     });
 
     it('does not display a content type', () => {
@@ -296,13 +297,13 @@ describeApplication('CustomerResourceShow', () => {
 
   describe('encountering a server error', () => {
     beforeEach(function () {
-      this.server.get('/vendors/:vendorId/packages/:packageId/titles/:titleId', [{
-        message: 'There was an error',
-        code: '1000',
-        subcode: 0
-      }], 500);
+      this.server.get('/jsonapi/customer-resources/:id', {
+        errors: [{
+          title: 'There was an error'
+        }]
+      }, 500);
 
-      return this.visit(`/eholdings/vendors/${vendor.id}/packages/${vendorPackage.id}/titles/${resource.titleId}`, () => {
+      return this.visit(`/eholdings/customer-resources/${resource.id}`, () => {
         expect(ResourcePage.$root).to.exist;
       });
     });

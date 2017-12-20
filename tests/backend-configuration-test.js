@@ -128,13 +128,11 @@ describeApplication('With valid backend configuration', () => {
         this.server.put('/configuration', () => {
           return new Response(422, {}, {
             errors: [{
-              title: 'Invalid base',
-              detail: 'RM-API Credentials Are Invalid',
-              source: {}
-            }],
-            jsonapi: { version: '1.0' }
+              title: 'RM-API Credentials Are Invalid'
+            }]
           });
         });
+
         return SettingsPage.fillIn({
           customerId: 'totally-bogus-customer-id',
           apiKey: 'totally-bogus-api-key'
@@ -142,6 +140,7 @@ describeApplication('With valid backend configuration', () => {
           return SettingsPage.save();
         });
       });
+
       it('reports the error to the interface', () => {
         expect(SettingsPage.errorText).to.equal('RM-API Credentials Are Invalid');
       });
@@ -181,9 +180,11 @@ describeApplication('With valid backend configuration', () => {
 
       describe('when saving the changes fail', () => {
         beforeEach(function () {
-          this.server.put('/configuration', [{
-            message: 'an error has occurred'
-          }], 500);
+          this.server.put('/configuration', {
+            errors: [{
+              title: 'an error has occurred'
+            }]
+          }, 500);
 
           SettingsPage.save();
         });

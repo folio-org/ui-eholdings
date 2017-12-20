@@ -79,7 +79,8 @@ export default function configure() {
   // status
   this.get('/status', {
     data: {
-      type: 'status',
+      id: 'status',
+      type: 'statuses',
       attributes: {
         isConfigurationValid: true
       }
@@ -89,6 +90,7 @@ export default function configure() {
   // configuration
   this.get('/configuration', {
     data: {
+      id: 'configuration',
       type: 'configuration',
       attributes: {
         customerId: 'some-valid-customer-id',
@@ -98,88 +100,99 @@ export default function configure() {
   });
 
   this.put('/configuration', (_, request) => {
-    let data = JSON.parse(request.requestBody);
-    return data;
-  });
-
-  // Package resources
-  this.get('/packages', ({ packages }, request) => {
-    return packages.all().filter((packageModel) => {
-      const query = request.queryParams.search.toLowerCase();
-      return packageModel.packageName.toLowerCase().includes(query);
-    });
-  });
-
-  this.get('/vendors/:vendorId/packages/:packageId', ({ packages }, request) => {
-    return packages.findBy({
-      vendorId: request.params.vendorId,
-      id: request.params.packageId
-    });
-  });
-
-  this.put('/vendors/:vendorId/packages/:packageId', ({ packages, customerResources }, request) => {
-    let matchingPackage = packages.findBy({
-      vendorId: request.params.vendorId,
-      id: request.params.packageId
-    });
-
-    let matchingCustomerResources = customerResources.where({
-      packageId: request.params.packageId
-    });
-
-    let { isSelected } = JSON.parse(request.requestBody);
-
-    matchingCustomerResources.update('isSelected', isSelected).save();
-    matchingPackage.update('isSelected', isSelected).save();
-  });
-
-  this.get('/vendors/:vendorId/packages/:packageId/titles', ({ customerResources }, request) => {
-    return customerResources.where({ packageId: request.params.packageId });
-  });
-
-  this.get('/vendors/:vendorId/packages/:packageId/titles/:titleId', ({ customerResources }, request) => {
-    return customerResources.findBy({
-      packageId: request.params.packageId,
-      titleId: request.params.titleId
-    });
-  });
-
-  this.put('/vendors/:vendorId/packages/:packageId/titles/:titleId', ({ customerResources }, request) => {
-    let matchingCustomerResource = customerResources.findBy({
-      packageId: request.params.packageId,
-      titleId: request.params.titleId
-    });
-
-    let { isSelected } = JSON.parse(request.requestBody);
-    matchingCustomerResource.update('isSelected', isSelected).save();
-  });
-
-  // Title resources
-  this.get('/titles', ({ titles }, request) => {
-    return titles.all().filter((titleModel) => {
-      const query = request.queryParams.search.toLowerCase();
-      return titleModel.titleName.toLowerCase().includes(query);
-    });
-  });
-
-  this.get('/titles/:id', ({ titles }, request) => {
-    return titles.find(request.params.id);
+    return JSON.parse(request.requestBody);
   });
 
   // Vendor resources
-  this.get('/jsonapi/vendors', ({ vendors }, request) => {
-    return vendors.all().filter((vendorModel) => {
+  this.get('/jsonapi/vendors', function ({ vendors }, request) { // eslint-disable-line func-names
+    let json = this.serialize(vendors.all().filter((vendorModel) => {
       let query = request.queryParams.q.toLowerCase();
       return vendorModel.name.toLowerCase().includes(query);
-    });
+    }));
+
+    json.meta = { totalResults: json.data.length };
+    return json;
   });
 
   this.get('/jsonapi/vendors/:id', ({ vendors }, request) => {
     return vendors.find(request.params.id);
   });
 
-  this.get('/vendors/:vendorId/packages', ({ packages }, request) => {
-    return packages.where({ vendorId: request.params.vendorId });
+  // Package resources
+  this.get('/jsonapi/packages', function ({ packages }, request) { // eslint-disable-line func-names
+    let json = this.serialize(packages.all().filter((packageModel) => {
+      const query = request.queryParams.q.toLowerCase();
+      return packageModel.name.toLowerCase().includes(query);
+    }));
+
+    json.meta = { totalResults: json.data.length };
+    return json;
+  });
+
+  this.get('/jsonapi/packages/:id', ({ packages }, request) => {
+    return packages.findBy({
+      id: request.params.id
+    });
+  });
+
+  this.put('/jsonapi/packages/:id', ({ packages, customerResources }, request) => {
+    let matchingPackage = packages.findBy({
+      id: request.params.id
+    });
+
+    let matchingCustomerResources = customerResources.where({
+      packageId: request.params.id
+    });
+
+    let body = JSON.parse(request.requestBody);
+    let { isSelected } = body.data.attributes;
+
+    let selectedCount = isSelected ? matchingCustomerResources.length : 0;
+
+    matchingCustomerResources.update('isSelected', isSelected);
+    matchingPackage.update('isSelected', isSelected);
+    matchingPackage.update('selectedCount', selectedCount);
+
+    return matchingPackage;
+  });
+
+  this.get('/jsonapi/packages/:packageId/customer-resources', ({ customerResources }, request) => {
+    return customerResources.where({ packageId: request.params.packageId });
+  });
+
+  // Title resources
+  this.get('/jsonapi/titles', function ({ titles }, request) { // eslint-disable-line func-names
+    let json = this.serialize(titles.all().filter((titleModel) => {
+      const query = request.queryParams.q.toLowerCase();
+      return titleModel.name.toLowerCase().includes(query);
+    }));
+
+    json.meta = { totalResults: json.data.length };
+    return json;
+  });
+
+  this.get('/jsonapi/titles/:id', ({ titles }, request) => {
+    return titles.find(request.params.id);
+  });
+
+  // Customer Resource resources
+  this.get('/jsonapi/customer-resources', ({ customerResources }, request) => {
+    return customerResources.where({ packageId: request.params.packageId });
+  });
+
+  this.get('/jsonapi/customer-resources/:id', ({ customerResources }, request) => {
+    return customerResources.findBy({ id: request.params.id });
+  });
+
+  this.put('/jsonapi/customer-resources/:id', ({ customerResources }, request) => {
+    let matchingCustomerResource = customerResources.findBy({
+      id: request.params.id
+    });
+
+    let { isSelected } = JSON.parse(request.requestBody);
+    matchingCustomerResource.update('isSelected', isSelected);
+
+    return matchingCustomerResource;
   });
 
   // hot-reload passthrough

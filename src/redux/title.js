@@ -1,20 +1,15 @@
-import {
-  createRequestCreator,
-  createRequestReducer,
-  createRequestEpic
-} from './request';
+import model, { hasMany } from './model';
 
-// title action creators
-export const getTitle = createRequestCreator('title');
+class Title {
+  name = '';
+  publisherName = '';
+  publicationType = '';
+  subjects = [];
+  contributors = [];
+  identifiers = [];
+  customerResources = hasMany();
+}
 
-// title reducer
-export const titleReducer = createRequestReducer({
-  name: 'title',
-  initialContent: {}
-});
-
-// title epic
-export const titleEpic = createRequestEpic({
-  name: 'title',
-  endpoint: ({ titleId }) => `eholdings/titles/${titleId}`
-});
+export default model({
+  path: '/eholdings/jsonapi/titles'
+})(Title);

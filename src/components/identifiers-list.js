@@ -3,26 +3,15 @@ import PropTypes from 'prop-types';
 import KeyValueLabel from './key-value-label';
 
 export default function IdentifiersList({ data }) {
-  let types = {
-    0: 'ISSN',
-    1: 'ISBN'
-  };
-
-  let subtypes = {
-    0: 'Empty',
-    1: 'Print',
-    2: 'Online'
-  };
-
   // get rid of identifiers we received that aren't ISSN or ISBN
-  let filteredData = data.filter(identifier => (identifier.type === 0 || identifier.type === 1) && (identifier.type >= 0 || identifier.type <= 2));
+  let filteredData = data.filter(identifier => ['ISSN', 'ISBN'].includes(identifier.type));
 
-  // turn type and subtype ids into strings
+  // turn type and subtype into compound types
   let identifiersWithCompoundTypes = filteredData.map((identifier) => {
-    let compoundType = types[identifier.type];
+    let compoundType = identifier.type;
 
-    if (identifier.subtype > 0) {
-      compoundType = `${compoundType} (${subtypes[identifier.subtype]})`;
+    if (identifier.subtype !== 'Empty') {
+      compoundType = `${identifier.type} (${identifier.subtype})`;
     }
 
     return {

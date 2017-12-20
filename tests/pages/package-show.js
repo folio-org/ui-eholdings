@@ -42,7 +42,7 @@ export default {
   },
 
   get isSelected() {
-    return $('[data-test-eholdings-package-details-selected]').text() === 'Selected';
+    return $('[data-test-eholdings-package-details-selected] input').prop('checked');
   },
 
   toggleIsSelected() {
@@ -66,7 +66,7 @@ export default {
   },
 
   get allTitlesSelected() {
-    return this.titleList.every(title => title.isSelected);
+    return !!this.titleList.length && this.titleList.every(title => title.isSelected);
   },
 
   get hasErrors() {

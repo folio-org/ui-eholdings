@@ -24,16 +24,16 @@ describeApplication('CustomerResourceShowEmbargos', () => {
       resource.managedEmbargoPeriod = this.server.create('embargo-period', {
         embargoUnit: 'Months',
         embargoValue: 6
-      });
+      }).toJSON();
 
       resource.customEmbargoPeriod = this.server.create('embargo-period', {
         embargoUnit: 'Weeks',
         embargoValue: 9
-      });
+      }).toJSON();
 
       resource.save();
 
-      return this.visit(`/eholdings/vendors/${pkg.vendor.id}/packages/${pkg.id}/titles/${resource.id}`, () => {
+      return this.visit(`/eholdings/customer-resources/${resource.id}`, () => {
         expect(CustomerResourceShowPage.$root).to.exist;
       });
     });
@@ -49,7 +49,7 @@ describeApplication('CustomerResourceShowEmbargos', () => {
 
   describe('visiting the customer resource show page without any embargos', () => {
     beforeEach(function () {
-      return this.visit(`/eholdings/vendors/${pkg.vendor.id}/packages/${pkg.id}/titles/${resource.id}`, () => {
+      return this.visit(`/eholdings/customer-resources/${resource.id}`, () => {
         expect(CustomerResourceShowPage.$root).to.exist;
       });
     });
@@ -62,20 +62,21 @@ describeApplication('CustomerResourceShowEmbargos', () => {
       expect(CustomerResourceShowPage.customEmbargoPeriod).to.equal('');
     });
   });
+
   describe('visiting the customer resource show page with embargos with null values', () => {
     beforeEach(function () {
       resource.managedEmbargoPeriod = this.server.create('embargo-period', {
         embargoUnit: 'Months',
         embargoValue: null
-      });
+      }).toJSON();
 
       resource.customEmbargoPeriod = this.server.create('embargo-period', {
         embargoUnit: 'Weeks',
         embargoValue: null
-      });
+      }).toJSON();
 
       resource.save();
-      return this.visit(`/eholdings/vendors/${pkg.vendor.id}/packages/${pkg.id}/titles/${resource.id}`, () => {
+      return this.visit(`/eholdings/customer-resources/${resource.id}`, () => {
         expect(CustomerResourceShowPage.$root).to.exist;
       });
     });
@@ -88,14 +89,14 @@ describeApplication('CustomerResourceShowEmbargos', () => {
       expect(CustomerResourceShowPage.customEmbargoPeriod).to.equal('');
     });
   });
+
   describe('visiting the customer resource show page with no embargos', () => {
     beforeEach(function () {
       resource.managedEmbargoPeriod = null;
-
       resource.customEmbargoPeriod = null;
 
       resource.save();
-      return this.visit(`/eholdings/vendors/${pkg.vendor.id}/packages/${pkg.id}/titles/${resource.id}`, () => {
+      return this.visit(`/eholdings/customer-resources/${resource.id}`, () => {
         expect(CustomerResourceShowPage.$root).to.exist;
       });
     });
