@@ -1,6 +1,7 @@
 import model from './model';
 
 export const Status = model({
+  type: 'statuses',
   // id is 'status' so it will be appended to this when retrieving
   // the status
   path: '/eholdings'
