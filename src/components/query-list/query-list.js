@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import classNames from 'classnames/bind';
 import { connect } from 'react-redux';
 
 import { createResolver } from '../../redux';
@@ -7,6 +8,8 @@ import { createResolver } from '../../redux';
 import styles from './query-list.css';
 import Impagination from './impagination';
 import List from '../list';
+
+const cx = classNames.bind(styles);
 
 class QueryList extends Component {
   static propTypes = {
@@ -35,6 +38,7 @@ class QueryList extends Component {
     // set the initial read offset and find the collection for our
     // initial page of records
     this.state = {
+      visibleItems: pageSize,
       readOffset: (page - 1) * pageSize,
       collections: {
         [page]: resolver.query(type, { ...params, page })
@@ -43,21 +47,27 @@ class QueryList extends Component {
   }
 
   // update the DOM element's scrollTop position with our initial
-  // page offset
+  // page offset and decide the initial visible item count
   componentDidMount() {
     let { params, pageSize, itemHeight } = this.props;
     let pageOffset = parseInt(params.page || 1, 10) - 1;
 
     // $list is populated via the ref in the render method below
-    if (pageOffset && this.$list) {
-      this.$list.scrollTop = pageOffset * pageSize * itemHeight;
+    if (this.$list) {
+      if (pageOffset) {
+        this.$list.scrollTop = pageOffset * pageSize * itemHeight;
+      }
+
+      // adjust the amount of visible items on resize
+      window.addEventListener('resize', this.handleListLayout);
+      this.handleListLayout();
     }
   }
 
   componentWillReceiveProps(nextProps) {
-    let { type, params, pageSize, resolver } = nextProps;
     let { collections } = this.state;
-    let { page = 1 } = params;
+    let { type, params, pageSize, resolver } = nextProps;
+    let page = parseInt(params.page || 1, 10);
 
     // if the type has changed, set this to our initial properties
     if (type !== this.props.type) {
@@ -77,15 +87,24 @@ class QueryList extends Component {
         return memo;
       }, {});
 
-      if (params !== this.props.params) {
-        collections[page] = resolver.query(type, { ...params, page });
-      }
+      // get the pages of results around our current page
+      // eslint-disable-next-line no-shadow
+      [page - 1, page, page + 1].forEach((page) => {
+        if (page >= 1) {
+          collections[page] = resolver.query(type, { ...params, page });
+        }
+      });
 
       this.setState({ collections });
     }
   }
 
-  // retrieves the total results from the first
+  // clean up our resize listener
+  componentWillUnmount() {
+    window.removeEventListener('resize', this.handleListLayout);
+  }
+
+  // retrieves the total results from the first resolved page
   getTotalResults() {
     let { collections } = this.state;
     let pages = Object.keys(collections);
@@ -104,23 +123,64 @@ class QueryList extends Component {
     let { params, itemHeight, pageSize, onPage } = this.props;
 
     let top = e.target.scrollTop;
-    let bottom = top + e.target.offsetHeight;
-    // scroll up, use upper bound; down uses the lower bound
-    let boundary = top > this.scrollTop ? bottom : top;
-    let readOffset = Math.floor(boundary / itemHeight);
-
-    // this is kept out of state to avoid renders
-    this.scrollTop = top;
+    let readOffset = Math.floor(top / itemHeight);
 
     // when we cross into a new page we might need to adjust query
     // params via the `onPage` prop
-    let page = Math.round(readOffset / pageSize) + 1;
+    let page = Math.floor(readOffset / pageSize) + 1;
     // one of these could be a integer or string
     if (page != params.page) onPage(page); // eslint-disable-line eqeqeq
 
     // update impagination's readOffset
     if (this.state.readOffset !== readOffset) {
       this.setState({ readOffset });
+    }
+  };
+
+  // Handles updating our visible items count based on the list height
+  handleListLayout = () => {
+    let { itemHeight } = this.props;
+
+    if (this.$list) {
+      let listHeight = this.$list.offsetHeight;
+      let visibleItems = Math.ceil(listHeight / itemHeight);
+      this.setState({ visibleItems });
+    }
+  };
+
+  // Renders a list item when it is within the thresholds of what is to
+  // be considered within the list view
+  renderListItem = (item, i) => {
+    let { type, itemHeight, renderItem } = this.props;
+    let { visibleItems, readOffset } = this.state;
+
+    let threshold = 5;
+    let isAboveLowerThresh = i > readOffset - threshold;
+    let isBelowUpperThresh = i < readOffset + visibleItems + threshold;
+
+    if (isAboveLowerThresh && isBelowUpperThresh) {
+      let props = {
+        key: i,
+        className: cx('list-item', {
+          'is-error': item.isRejected
+        }),
+        style: {
+          height: itemHeight,
+          top: i * itemHeight
+        }
+      };
+
+      return item.isRejected ? (
+        <li {...props} data-test-query-list-error={type}>
+          {item.error[0].title}
+        </li>
+      ) : (
+        <li {...props} data-test-query-list-item={type}>
+          {renderItem(item)}
+        </li>
+      );
+    } else {
+      return null;
     }
   };
 
@@ -131,8 +191,7 @@ class QueryList extends Component {
       loadHorizon,
       fetch,
       itemHeight,
-      renderItem,
-      notFoundMessage = 'Not Found'
+      notFoundMessage
     } = this.props;
     let {
       readOffset,
@@ -142,6 +201,11 @@ class QueryList extends Component {
     let totalResults = this.getTotalResults();
     let totalPages = Math.ceil(totalResults / pageSize);
     let listHeight = totalResults * itemHeight;
+
+    // list height should be at least enough for the readOffset
+    if (listHeight === 0) {
+      listHeight = (readOffset + pageSize) * itemHeight;
+    }
 
     return (
       <Impagination
@@ -158,23 +222,17 @@ class QueryList extends Component {
             onScroll={this.handleScroll}
             data-test-query-list={type}
           >
-            <List style={{ height: listHeight, overflow: 'hidden' }}>
+            <List style={{ height: listHeight }}>
               {datasetState.hasRejected && !datasetState.length ? (
-                <li className={styles.error} data-test-query-list-error={type}>
+                <li className={styles['list-error']} data-test-query-list-error={type}>
                   {datasetState.rejected[0].error[0].title}
                 </li>
               ) : !datasetState.length ? (
-                <li className={styles['not-found']} data-test-query-list-not-found={type}>
+                <li className={cx('list-error', 'not-found')} data-test-query-list-not-found={type}>
                   {notFoundMessage}
                 </li>
               ) : (
-                datasetState.map((item, i) => (item.isRejected ? (
-                  <li className={styles.error} data-test-query-list-error={type}>
-                    {item.error[0].title}
-                  </li>
-                ) : (
-                  renderItem(item, i)
-                )))
+                datasetState.map(this.renderListItem)
               )}
             </List>
           </div>

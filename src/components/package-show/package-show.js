@@ -102,12 +102,13 @@ export default function PackageShow({ model, toggleSelected }, { intl, router, q
                 <Icon icon="spinner-ellipsis" />
               ) : (
                 model.customerResources.map(item => (
-                  <TitleListItem
-                    key={item.id}
-                    item={item}
-                    link={`/eholdings/customer-resources/${item.id}`}
-                    showSelected
-                  />
+                  <li key={item.id} data-test-eholdings-title-list-item>
+                    <TitleListItem
+                      item={item}
+                      link={`/eholdings/customer-resources/${item.id}`}
+                      showSelected
+                    />
+                  </li>
                 ))
               )}
             </List>

@@ -18,9 +18,8 @@ export default function PackageSearchList({
       onPage={onPage}
       itemHeight={80}
       notFoundMessage={`No packages found for "${params.q}".`}
-      renderItem={(item, i) => (
+      renderItem={item => (
         <PackageListItem
-          key={i}
           showVendorName
           item={item.content}
           link={item.content && {

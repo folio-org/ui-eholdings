@@ -3,13 +3,25 @@
 .list {
   height: 100%;
   overflow-y: auto;
+
+  & > ul {
+    position: relative;
+    overflow: hidden;
+  }
 }
 
-.not-found, .error {
+.list-item {
+  position: absolute;
+  width: 100%;
+  left: 0;
+}
+
+.list-error {
   padding: 2rem;
   text-align: center;
-}
-
-.error {
   color: var(--error);
+
+  &.not-found {
+    color: #555;
+  }
 }

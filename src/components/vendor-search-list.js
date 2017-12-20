@@ -18,9 +18,8 @@ export default function VendorSearchList({
       onPage={onPage}
       itemHeight={65}
       notFoundMessage={`No vendors found for "${params.q}".`}
-      renderItem={(item, i) => (
+      renderItem={item => (
         <VendorListItem
-          key={i}
           item={item.content}
           link={item.content && {
             pathname: `/eholdings/vendors/${item.content.id}`,

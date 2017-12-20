@@ -18,9 +18,8 @@ export default function TitleSearchList({
       onPage={onPage}
       itemHeight={80}
       notFoundMessage={`No titles found for "${params.q}".`}
-      renderItem={(item, i) => (
+      renderItem={item => (
         <TitleListItem
-          key={i}
           showPublisherAndType
           item={item.content}
           link={item.content && {

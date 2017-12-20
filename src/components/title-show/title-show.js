@@ -67,12 +67,13 @@ export default function TitleShow({ model }, { router, queryParams }) {
               {model.customerResources.isLoading ? (
                 <Icon icon="spinner-ellipsis" />
               ) : model.customerResources.map(item => (
-                <PackageListItem
-                  key={item.id}
-                  item={item}
-                  link={`/eholdings/customer-resources/${item.id}`}
-                  packageName={item.packageName}
-                />
+                <li key={item.id} data-test-eholdings-package-list-item>
+                  <PackageListItem
+                    item={item}
+                    link={`/eholdings/customer-resources/${item.id}`}
+                    packageName={item.packageName}
+                  />
+                </li>
               ))}
             </List>
           </div>
