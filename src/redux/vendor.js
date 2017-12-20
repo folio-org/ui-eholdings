@@ -9,5 +9,5 @@ class Vendor {
 
 export default model({
   type: 'vendors',
-  path: '/eholdings/jsonapi/vendors'
+  path: '/eholdings/vendors'
 })(Vendor);

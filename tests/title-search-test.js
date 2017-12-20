@@ -156,7 +156,7 @@ describeApplication('TitleSearch', () => {
 
   describe('encountering a server error', () => {
     beforeEach(function () {
-      this.server.get('/jsonapi/titles', {
+      this.server.get('/titles', {
         errors: [{
           title: 'There was an error'
         }]

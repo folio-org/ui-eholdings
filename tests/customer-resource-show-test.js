@@ -163,7 +163,7 @@ describeApplication('CustomerResourceShow', () => {
 
     describe('unsuccessfully selecting a package title to add to my holdings', () => {
       beforeEach(function () {
-        this.server.put('/jsonapi/customer-resources/:id', {
+        this.server.put('/customer-resources/:id', {
           errors: [{
             title: 'There was an error'
           }]
@@ -297,7 +297,7 @@ describeApplication('CustomerResourceShow', () => {
 
   describe('encountering a server error', () => {
     beforeEach(function () {
-      this.server.get('/jsonapi/customer-resources/:id', {
+      this.server.get('/customer-resources/:id', {
         errors: [{
           title: 'There was an error'
         }]

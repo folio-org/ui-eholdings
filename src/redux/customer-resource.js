@@ -23,5 +23,5 @@ class CustomerResource {
 
 export default model({
   type: 'customerResources',
-  path: '/eholdings/jsonapi/customer-resources'
+  path: '/eholdings/customer-resources'
 })(CustomerResource);

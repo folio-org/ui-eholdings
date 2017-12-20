@@ -154,7 +154,7 @@ describeApplication('PackageSearch', () => {
 
   describe('encountering a server error', () => {
     beforeEach(function () {
-      this.server.get('/jsonapi/packages', {
+      this.server.get('/packages', {
         errors: [{
           title: 'There was an error'
         }]
