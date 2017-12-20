@@ -106,12 +106,7 @@ export default class Resolver {
    * request and a simple map method to map over it's record models
    */
   query(type, params, { path } = {}) {
-    let request = this.getRequest('query', { type, params, path });
-    let records = request ? request.records.map((id) => {
-      return this.getRecord(type, id);
-    }) : [];
-
-    return new Collection(type, records, request, this);
+    return new Collection({ type, params, path }, this);
   }
 
   /**
@@ -122,9 +117,6 @@ export default class Resolver {
    */
   find(type, id) {
     let ModelClass = this.modelFor(type);
-    let record = this.getRecord(type, id);
-    let request = this.getRequest('find', { type, params: { id } });
-
-    return new ModelClass(record, request, this);
+    return new ModelClass(id, this);
   }
 }

@@ -7,6 +7,7 @@ import TitleListItem from './title-list-item';
 export default function TitleSearchList({
   location,
   params,
+  collection,
   fetch,
   onPage
 }) {
@@ -15,6 +16,7 @@ export default function TitleSearchList({
       type="titles"
       params={params}
       fetch={fetch}
+      collection={collection}
       onPage={onPage}
       itemHeight={80}
       notFoundMessage={`No titles found for "${params.q}".`}
@@ -35,6 +37,7 @@ export default function TitleSearchList({
 TitleSearchList.propTypes = {
   location: PropTypes.object.isRequired,
   params: PropTypes.object.isRequired,
+  collection: PropTypes.object.isRequired,
   fetch: PropTypes.func.isRequired,
   onPage: PropTypes.func.isRequired
 };

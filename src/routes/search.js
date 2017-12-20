@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import qs from 'query-string';
 import { connect } from 'react-redux';
 
+import { createResolver } from '../redux';
 import Vendor from '../redux/vendor';
 import Package from '../redux/package';
 import Title from '../redux/title';
@@ -26,6 +27,7 @@ class SearchRoute extends Component {
     searchVendors: PropTypes.func.isRequired,
     searchPackages: PropTypes.func.isRequired,
     searchTitles: PropTypes.func.isRequired,
+    resolver: PropTypes.object.isRequired,
     children: PropTypes.node.isRequired
   };
 
@@ -38,6 +40,7 @@ class SearchRoute extends Component {
 
     // the current location's query params, minus the search type
     let { searchType, ...params } = qs.parse(props.location.search);
+    let results = props.resolver.query(searchType, params);
 
     // cache queries so we can restore them with the search type buttons
     this.queries = {};
@@ -46,7 +49,7 @@ class SearchRoute extends Component {
       this.queries[searchType] = params;
     }
 
-    this.state = { params, searchType };
+    this.state = { params, searchType, results };
   }
 
   getChildContext() {
@@ -59,7 +62,7 @@ class SearchRoute extends Component {
     };
   }
   componentWillReceiveProps(nextProps) {
-    let { location } = nextProps;
+    let { location, resolver } = nextProps;
     let { searchType, ...params } = qs.parse(location.search);
 
     // cache the query so it can be restored via the search type
@@ -73,7 +76,8 @@ class SearchRoute extends Component {
     // if the new query params are diffent from our location query params,
     // update our state
     if (newType || newSearch) {
-      this.setState({ searchType, params });
+      let results = resolver.query(searchType, params);
+      this.setState({ searchType, params, results });
     }
   }
 
@@ -169,11 +173,12 @@ class SearchRoute extends Component {
    * Renders the search component specific to the current search type
    */
   renderResults() {
-    let { searchType, params } = this.state;
+    let { searchType, params, results } = this.state;
 
     let props = {
       params,
       location: this.props.location,
+      collection: results,
       fetch: this.fetchPage,
       onPage: this.handlePage
     };
@@ -197,7 +202,7 @@ class SearchRoute extends Component {
    */
   render() {
     let { location, children } = this.props;
-    let { searchType, params } = this.state;
+    let { searchType, params, results } = this.state;
 
     if (searchType) {
       let hideDetails = /^\/eholdings\/?$/.test(location.pathname);
@@ -210,7 +215,7 @@ class SearchRoute extends Component {
             resultsType={searchType}
             resultsView={this.renderResults()}
             detailsView={!hideDetails && children}
-            // totalResults={meta.totalResults}
+            totalResults={results.length}
             searchForm={(
               <SearchForm
                 searchType={searchType}
@@ -229,7 +234,9 @@ class SearchRoute extends Component {
 }
 
 export default connect(
-  null, {
+  ({ eholdings: { data } }) => ({
+    resolver: createResolver(data)
+  }), {
     searchVendors: params => Vendor.query(params),
     searchPackages: params => Package.query(params),
     searchTitles: params => Title.query(params)

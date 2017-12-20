@@ -9,7 +9,7 @@ export default class Impagination extends Component {
     readOffset: PropTypes.number,
     totalPages: PropTypes.number,
     fetch: PropTypes.func.isRequired,
-    collections: PropTypes.object.isRequired,
+    collection: PropTypes.object.isRequired,
     renderList: PropTypes.func.isRequired
   };
 
@@ -39,19 +39,19 @@ export default class Impagination extends Component {
         let page = pageOffset + 1;
 
         return new Promise((resolve, reject) => {
-          let collection = this.props.collections[page];
+          let { request, records } = this.props.collection.getPage(page);
           let isFulfilled = false;
 
           // if the collection has already been resolved, immediately
           // resolve this promise
-          if (collection && collection.request.isResolved) {
-            resolve(collection.models);
+          if (request.isResolved) {
+            resolve(records);
             isFulfilled = true;
 
           // if the collection has already been rejected, immediately
           // reject this promise
-          } else if (collection && collection.request.isRejected) {
-            reject(collection.request.errors);
+          } else if (request.isRejected) {
+            reject(request.errors);
             isFulfilled = true;
 
           // the collection is not resolved or rejected already, make
@@ -94,23 +94,23 @@ export default class Impagination extends Component {
   // when we recieve an update, loop over the pages of collections so
   // we can resolve or reject any pending requests
   componentWillReceiveProps(nextProps) {
-    let { readOffset, totalPages, collections } = nextProps;
+    let { readOffset, totalPages, collection } = nextProps;
 
     // if there is a new total page count, update our dataset state
     if (totalPages !== this.props.totalPages) {
       this.dataset.state.stats.totalPages = totalPages;
     }
 
-    for (let page of Object.keys(collections)) {
+    for (let page of Object.keys(this.promises)) {
       let promise = this.promises[page];
-      let collection = collections[page];
+      let { request, records } = collection.getPage(page);
 
       if (promise && !promise.isFulfilled) {
-        if (collection.request.isResolved) {
-          promise.resolve(collection.models);
+        if (request.isResolved) {
+          promise.resolve(records);
           promise.isFulfilled = true;
-        } else if (collection.request.isRejected) {
-          promise.reject(collection.request.errors);
+        } else if (request.isRejected) {
+          promise.reject(request.errors);
           promise.isFulfilled = true;
         }
       }

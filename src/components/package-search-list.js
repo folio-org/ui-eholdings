@@ -7,6 +7,7 @@ import PackageListItem from './package-list-item';
 export default function PackageSearchList({
   location,
   params,
+  collection,
   fetch,
   onPage
 }) {
@@ -15,6 +16,7 @@ export default function PackageSearchList({
       type="packages"
       params={params}
       fetch={fetch}
+      collection={collection}
       onPage={onPage}
       itemHeight={80}
       notFoundMessage={`No packages found for "${params.q}".`}
@@ -35,6 +37,7 @@ export default function PackageSearchList({
 PackageSearchList.propTypes = {
   location: PropTypes.object.isRequired,
   params: PropTypes.object.isRequired,
+  collection: PropTypes.object.isRequired,
   fetch: PropTypes.func.isRequired,
   onPage: PropTypes.func.isRequired
 };

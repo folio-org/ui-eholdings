@@ -7,6 +7,7 @@ import VendorListItem from './vendor-list-item';
 export default function VendorSearchList({
   location,
   params,
+  collection,
   fetch,
   onPage
 }) {
@@ -14,6 +15,7 @@ export default function VendorSearchList({
     <QueryList
       type="vendors"
       params={params}
+      collection={collection}
       fetch={fetch}
       onPage={onPage}
       itemHeight={65}
@@ -34,6 +36,7 @@ export default function VendorSearchList({
 VendorSearchList.propTypes = {
   location: PropTypes.object.isRequired,
   params: PropTypes.object.isRequired,
+  collection: PropTypes.object.isRequired,
   fetch: PropTypes.func.isRequired,
   onPage: PropTypes.func.isRequired
 };

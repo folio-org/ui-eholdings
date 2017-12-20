@@ -1,9 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames/bind';
-import { connect } from 'react-redux';
-
-import { createResolver } from '../../redux';
 
 import styles from './query-list.css';
 import Impagination from './impagination';
@@ -11,7 +8,7 @@ import List from '../list';
 
 const cx = classNames.bind(styles);
 
-class QueryList extends Component {
+export default class QueryList extends Component {
   static propTypes = {
     type: PropTypes.string.isRequired,
     params: PropTypes.object.isRequired,
@@ -21,7 +18,7 @@ class QueryList extends Component {
     notFoundMessage: PropTypes.string,
     fetch: PropTypes.func.isRequired,
     onPage: PropTypes.func,
-    resolver: PropTypes.object.isRequired,
+    collection: PropTypes.object.isRequired,
     renderItem: PropTypes.func.isRequired
   };
 
@@ -32,17 +29,14 @@ class QueryList extends Component {
   constructor(props) {
     super(props);
 
-    let { type, params, pageSize, resolver } = this.props;
-    let { page = 1 } = params;
+    let { params, pageSize } = this.props;
+    let page = parseInt(params.page || 1, 10);
 
     // set the initial read offset and find the collection for our
     // initial page of records
     this.state = {
       visibleItems: pageSize,
-      readOffset: (page - 1) * pageSize,
-      collections: {
-        [page]: resolver.query(type, { ...params, page })
-      }
+      readOffset: (page - 1) * pageSize
     };
   }
 
@@ -65,55 +59,20 @@ class QueryList extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    let { collections } = this.state;
-    let { type, params, pageSize, resolver } = nextProps;
+    let { type, params, pageSize } = nextProps;
     let page = parseInt(params.page || 1, 10);
 
-    // if the type has changed, set this to our initial properties
+    // if the type has changed, set our initial properties
     if (type !== this.props.type) {
       this.setState({
-        readOffset: (page - 1) * pageSize,
-        collections: {
-          [page]: resolver.query(type, { ...params, page })
-        }
+        readOffset: (page - 1) * pageSize
       });
-
-    // update the resolver collection any time there's an update to
-    // this component
-    } else {
-      // eslint-disable-next-line no-shadow
-      collections = Object.keys(collections).reduce((memo, page) => {
-        memo[page] = resolver.query(type, { ...params, page });
-        return memo;
-      }, {});
-
-      // get the pages of results around our current page
-      // eslint-disable-next-line no-shadow
-      [page - 1, page, page + 1].forEach((page) => {
-        if (page >= 1) {
-          collections[page] = resolver.query(type, { ...params, page });
-        }
-      });
-
-      this.setState({ collections });
     }
   }
 
   // clean up our resize listener
   componentWillUnmount() {
     window.removeEventListener('resize', this.handleListLayout);
-  }
-
-  // retrieves the total results from the first resolved page
-  getTotalResults() {
-    let { collections } = this.state;
-    let pages = Object.keys(collections);
-
-    // the first resolved request should have total results
-    let resolvedPage = pages.find(p => collections[p].request.isResolved);
-    let { totalResults } = resolvedPage ? collections[resolvedPage].request.meta : {};
-
-    return totalResults || 0;
   }
 
   // Handles setting the read offset based on the current scroll
@@ -189,18 +148,18 @@ class QueryList extends Component {
       type,
       pageSize,
       loadHorizon,
+      collection,
       fetch,
       itemHeight,
       notFoundMessage
     } = this.props;
     let {
-      readOffset,
-      collections
+      readOffset
     } = this.state;
 
-    let totalResults = this.getTotalResults();
-    let totalPages = Math.ceil(totalResults / pageSize);
-    let listHeight = totalResults * itemHeight;
+    let listLength = collection.length + pageSize;
+    let totalPages = Math.ceil(listLength / pageSize);
+    let listHeight = listLength * itemHeight;
 
     // list height should be at least enough for the readOffset
     if (listHeight === 0) {
@@ -213,7 +172,7 @@ class QueryList extends Component {
         loadHorizon={loadHorizon}
         readOffset={readOffset}
         totalPages={totalPages}
-        collections={collections}
+        collection={collection}
         fetch={fetch}
         renderList={datasetState => (
           <div
@@ -241,14 +200,3 @@ class QueryList extends Component {
     );
   }
 }
-
-// This is a connected component strictly for creating a resolver on
-// every state update. When this component is nested within a routes
-// view (which is likely when viewing a detail pane), it becomes
-// cumbersome to keep passing down a new resolver through every
-// intermediate component
-export default connect(
-  ({ eholdings: { data } }) => ({
-    resolver: createResolver(data)
-  })
-)(QueryList);
