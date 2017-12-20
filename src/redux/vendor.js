@@ -8,5 +8,6 @@ class Vendor {
 }
 
 export default model({
+  type: 'vendors',
   path: '/eholdings/jsonapi/vendors'
 })(Vendor);
