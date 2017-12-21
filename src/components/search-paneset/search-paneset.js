@@ -28,6 +28,7 @@ export default class SearchPaneset extends React.Component {
   };
 
   static contextTypes = {
+    intl: PropTypes.object,
     router: PropTypes.shape({
       history: PropTypes.object
     })
@@ -67,6 +68,7 @@ export default class SearchPaneset extends React.Component {
       detailsView,
       totalResults
     } = this.props;
+    let { intl } = this.context;
 
     // only hide filters if there are results and always hide filters when a detail view is visible
     hideFilters = (hideFilters && !!resultsView) || !!detailsView;
@@ -98,7 +100,7 @@ export default class SearchPaneset extends React.Component {
                 <div className={styles['search-heading']}>
                   <strong>{capitalize(resultsType)}</strong>
                   <div data-test-eholdings-total-search-results>
-                    <em>{totalResults} search results</em>
+                    <em>{intl.formatNumber(totalResults)} search results</em>
                   </div>
                 </div>
               )}
