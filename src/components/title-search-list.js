@@ -14,7 +14,7 @@ export default function TitleSearchList({
   return (
     <QueryList
       type="titles"
-      params={params}
+      page={parseInt(params.page || 1, 10)}
       fetch={fetch}
       collection={collection}
       onPage={onPage}

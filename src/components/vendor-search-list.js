@@ -14,7 +14,7 @@ export default function VendorSearchList({
   return (
     <QueryList
       type="vendors"
-      params={params}
+      page={parseInt(params.page || 1, 10)}
       collection={collection}
       fetch={fetch}
       onPage={onPage}

@@ -10,7 +10,7 @@ export default class Impagination extends Component {
     totalPages: PropTypes.number,
     fetch: PropTypes.func.isRequired,
     collection: PropTypes.object.isRequired,
-    renderList: PropTypes.func.isRequired
+    children: PropTypes.func.isRequired
   };
 
   static defaultProps = {
@@ -143,9 +143,7 @@ export default class Impagination extends Component {
   // We only call the `renderList` prop with the dataset state. Notice
   // we don't import React because we are not using JSX in this component
   render() {
-    let { renderList } = this.props;
     let { datasetState } = this.state;
-
-    return renderList(datasetState);
+    return this.props.children(datasetState);
   }
 }

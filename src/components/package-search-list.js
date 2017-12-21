@@ -14,7 +14,7 @@ export default function PackageSearchList({
   return (
     <QueryList
       type="packages"
-      params={params}
+      page={parseInt(params.page || 1, 10)}
       fetch={fetch}
       collection={collection}
       onPage={onPage}
