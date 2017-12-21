@@ -13,13 +13,12 @@ import ToggleSwitch from '../toggle-switch';
 import { formatISODateWithoutTime } from '../utilities';
 import styles from './package-show.css';
 
-export default function PackageShow({ model, toggleSelected }, { intl, router }) {
+export default function PackageShow({ model, toggleSelected }, { intl, router, queryParams }) {
   let historyState = router.history.location.state;
-  let queryString = router.route.location.search;
 
   return (
     <div>
-      { !queryString && (
+      {!queryParams.searchType && (
         <PaneHeader
           firstMenu={historyState && historyState.eholdings && (
             <PaneMenu>
@@ -132,5 +131,6 @@ PackageShow.propTypes = {
 
 PackageShow.contextTypes = {
   intl: PropTypes.object,
-  router: PropTypes.object
+  router: PropTypes.object,
+  queryParams: PropTypes.object
 };

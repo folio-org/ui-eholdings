@@ -10,13 +10,12 @@ import List from '../list';
 import PackageListItem from '../package-list-item';
 import styles from './vendor-show.css';
 
-export default function VendorShow({ model }, { router }) {
+export default function VendorShow({ model }, { router, queryParams }) {
   let historyState = router.history.location.state;
-  let queryString = router.route.location.search;
 
   return (
     <div>
-      { !queryString && (
+      {!queryParams.searchType && (
         <PaneHeader
           firstMenu={historyState && historyState.eholdings && (
             <PaneMenu>
@@ -83,5 +82,6 @@ VendorShow.propTypes = {
 };
 
 VendorShow.contextTypes = {
-  router: PropTypes.object
+  router: PropTypes.object,
+  queryParams: PropTypes.object
 };
