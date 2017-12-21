@@ -84,7 +84,6 @@ describe('Redux Models', () => {
 
     it('should have empty hasMany relationships', () => {
       expect(vendor.packages).to.have.lengthOf(0);
-      expect(vendor.packages.isLoaded).to.be.false;
     });
 
     it('should have empty belongsTo relationships', () => {
@@ -116,7 +115,6 @@ describe('Redux Models', () => {
 
     it('should have a hasMany relationship', () => {
       expect(vendor.packages).to.have.lengthOf(1);
-      expect(vendor.packages.isLoaded).to.be.true;
       expect(vendor.packages.getRecord(0).name).to.equal('Awesome Package');
     });
 
@@ -160,7 +158,6 @@ describe('Redux Models', () => {
 
     it('should have empty hasMany relationships', () => {
       expect(vendor.packages).to.have.lengthOf(0);
-      expect(vendor.packages.isLoaded).to.be.false;
     });
 
     it('should have empty belongsTo relationships', () => {

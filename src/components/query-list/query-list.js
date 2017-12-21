@@ -48,6 +48,7 @@ export default class QueryList extends Component {
   render() {
     let {
       type,
+      page,
       pageSize,
       loadHorizon,
       notFoundMessage,
@@ -60,7 +61,7 @@ export default class QueryList extends Component {
       readOffset
     } = this.state;
 
-    let listLength = collection.length + pageSize;
+    let listLength = collection.isLoaded ? collection.length : page * pageSize;
     let totalPages = Math.ceil(listLength / pageSize);
 
     return (

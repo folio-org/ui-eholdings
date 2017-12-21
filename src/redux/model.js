@@ -57,6 +57,11 @@ export class Collection {
     return this.pages[page];
   }
 
+  /**
+   * Gets a record at the given read offset
+   * @param {Number} offset - zero based read offset
+   * @returns {Model} the model for a record at the offset
+   */
   getRecord(offset) {
     if (!this.records[offset]) {
       let pageOffset = offset / this.pageSize;
@@ -77,13 +82,10 @@ export class Collection {
   }
 
   /**
-   * Gets the first resolved page for this instance to find the total
-   * results meta property. If there is no resolved request, the
-   * minimum length is predicted using the current page and the page
-   * size. The resulting length is cached
-   * @returns {Number} length or predicted length of this collection
+   * Returns the first resolved page request for this collection
+   * @returns {Object} the request object
    */
-  get length() {
+  get request() {
     let { request } = this.getPage(this.currentPage);
     let page = 1;
 
@@ -93,7 +95,18 @@ export class Collection {
       page += 1;
     }
 
-    let len = request.meta.totalResults || this.records.length ||
+    return request;
+  }
+
+  /**
+   * Gets the first resolved page for this instance to find the total
+   * results meta property. If there is no resolved request, the
+   * minimum length is predicted using the current page and the page
+   * size. The resulting length is cached
+   * @returns {Number} length or predicted length of this collection
+   */
+  get length() {
+    let len = this.request.meta.totalResults || this.records.length ||
       (this.currentPage - 1) * this.pageSize;
 
     // cache the length for this instance
@@ -137,11 +150,11 @@ export class Collection {
   }
 
   /**
-   * True when isLoading is false
+   * True when any requests have been resolved
    * @returns {Boolean}
    */
   get isLoaded() {
-    return !this.isLoading;
+    return !!this.request.timestamp && !this.request.isPending;
   }
 }
 
