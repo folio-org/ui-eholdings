@@ -104,7 +104,11 @@ describeApplication('VendorSearch', () => {
 
     describe('filtering the search results further', () => {
       beforeEach(() => {
-        VendorSearchPage.search('Vendor1');
+        return convergeOn(() => {
+          expect(VendorSearchPage.$searchResultsItems).to.have.lengthOf(3);
+        }).then(() => {
+          VendorSearchPage.search('Vendor1');
+        });
       });
 
       it('only shows a single result', () => {

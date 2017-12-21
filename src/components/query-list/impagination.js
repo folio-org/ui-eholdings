@@ -31,52 +31,8 @@ export default class Impagination extends Component {
       pageSize: props.pageSize,
       loadHorizon: props.loadHorizon,
       stats: { totalPages: props.totalPages },
-
-      // the fetch option will return a promise that might resolve
-      // later during the componentWillReceiveProps hook
-      fetch: (pageOffset, pageSize) => {
-        // page starts with 1
-        let page = pageOffset + 1;
-
-        return new Promise((resolve, reject) => {
-          let { request, records } = this.props.collection.getPage(page);
-          let isFulfilled = false;
-
-          // if the collection has already been resolved, immediately
-          // resolve this promise
-          if (request.isResolved) {
-            resolve(records);
-            isFulfilled = true;
-
-          // if the collection has already been rejected, immediately
-          // reject this promise
-          } else if (request.isRejected) {
-            reject(request.errors);
-            isFulfilled = true;
-
-          // the collection is not resolved or rejected already, make
-          // the request now and handle resolution later on in the
-          // componentWillReceiveProps hook
-          } else {
-            this.props.fetch(page, pageSize);
-          }
-
-          // cache this promise's callbacks (and status) so it can be
-          // resolved or rejected later on
-          this.promises[page] = {
-            resolve,
-            reject,
-            isFulfilled
-          };
-        });
-      },
-
-      // we update our own state when the dataset state changes
-      observe: (state) => {
-        this.setState(({
-          datasetState: state
-        }));
-      }
+      fetch: this.fetch,
+      observe: this.observe
     });
 
     // initial state
@@ -94,33 +50,95 @@ export default class Impagination extends Component {
   // when we recieve an update, loop over the pages of collections so
   // we can resolve or reject any pending requests
   componentWillReceiveProps(nextProps) {
-    let { readOffset, totalPages, collection } = nextProps;
+    let { totalPages, collection } = nextProps;
+
+    // new, zero length collections are likely entirely new
+    let isNewCollection = !collection.length &&
+      collection.isLoading !== this.props.collection.isLoading;
+
+    // we need to reset the dataset
+    if (isNewCollection) {
+      this.promises = {};
+      this.dataset.reset();
+    }
 
     // if there is a new total page count, update our dataset state
-    if (totalPages !== this.props.totalPages) {
+    if (totalPages !== this.dataset.state.stats.totalPages) {
       this.dataset.state.stats.totalPages = totalPages;
     }
 
+    // ensure that we keep all of our promises
     for (let page of Object.keys(this.promises)) {
       let promise = this.promises[page];
       let { request, records } = collection.getPage(page);
 
-      if (promise && !promise.isFulfilled) {
+      if (promise) {
         if (request.isResolved) {
           promise.resolve(records);
-          promise.isFulfilled = true;
+          delete this.promises[page];
         } else if (request.isRejected) {
           promise.reject(request.errors);
-          promise.isFulfilled = true;
+          delete this.promises[page];
         }
       }
     }
+  }
+
+  componentDidUpdate() {
+    let { readOffset } = this.props;
 
     // if there is a new read offset, tell our dataset
-    if (readOffset !== this.props.readOffset) {
+    if (readOffset !== this.dataset.state.readOffset) {
       this.dataset.setReadOffset(readOffset);
     }
   }
+
+  /**
+   * Used by impagination's dataset to resolve records
+   * @param {Number} pageOffset - zero based page offset
+   * @param {Number} pageSize - requested page size
+   * @returns {Promise} resolves immediately or during the
+   * componentWillReceiveProps hook later
+   */
+  fetch = (pageOffset, pageSize) => {
+    // page starts with 1
+    let page = pageOffset + 1;
+
+    return new Promise((resolve, reject) => {
+      let { request, records } = this.props.collection.getPage(page);
+
+      // if the collection has already been resolved, immediately
+      // resolve this promise
+      if (request.isResolved) {
+        resolve(records);
+
+        // if the collection has already been rejected, immediately
+        // reject this promise
+      } else if (request.isRejected) {
+        reject(request.errors);
+
+        // the collection is not resolved or rejected already, make
+        // the request now and handle resolution later on in the
+        // componentWillReceiveProps hook
+      } else {
+        this.props.fetch(page, pageSize);
+
+        // cache this promise's callbacks (and status) so it can be
+        // resolved or rejected later on
+        this.promises[page] = { resolve, reject };
+      }
+    });
+  };
+
+  /**
+   * Used by impagination's dataset to observe its state
+   * @param {Object} state - impagination's dataset state
+   */
+  observe = (state) => {
+    this.setState(({
+      datasetState: state
+    }));
+  };
 
   // We only call the `renderList` prop with the dataset state. Notice
   // we don't import React because we are not using JSX in this component

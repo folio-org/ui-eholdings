@@ -62,11 +62,9 @@ export default class QueryList extends Component {
     let { type, params, pageSize } = nextProps;
     let page = parseInt(params.page || 1, 10);
 
-    // if the type has changed, set our initial properties
-    if (type !== this.props.type) {
-      this.setState({
-        readOffset: (page - 1) * pageSize
-      });
+    // if the type or params have changed, reset the initial read offset
+    if (type !== this.props.type || params !== this.props.params) {
+      this.setState({ readOffset: (page - 1) * pageSize });
     }
   }
 

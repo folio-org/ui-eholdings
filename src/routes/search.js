@@ -64,21 +64,15 @@ class SearchRoute extends Component {
   componentWillReceiveProps(nextProps) {
     let { location, resolver } = nextProps;
     let { searchType, ...params } = qs.parse(location.search);
+    let results = resolver.query(searchType, params);
 
     // cache the query so it can be restored via the search type
     if (searchType) {
       this.queries[searchType] = params;
     }
 
-    let newType = searchType !== this.state.searchType;
-    let newSearch = qs.stringify(params) !== qs.stringify(this.state.query);
-
-    // if the new query params are diffent from our location query params,
-    // update our state
-    if (newType || newSearch) {
-      let results = resolver.query(searchType, params);
-      this.setState({ searchType, params, results });
-    }
+    // always update the results state
+    this.setState({ searchType, params, results });
   }
 
   /**
@@ -118,11 +112,11 @@ class SearchRoute extends Component {
    * Update the url to match new search params
    * @param {Object} params - query param object
    */
-  updateURLParams = (params = this.state.params) => {
+  updateURLParams(params) {
     let { location, history } = this.props;
 
     // if the new query is diffent from our location, update the location
-    if (qs.stringify(params) !== qs.stringify(this.state.query)) {
+    if (qs.stringify(params) !== qs.stringify(this.state.params)) {
       let url = this.buildSearchUrl(location.pathname, params);
 
       // if only the filters have changed, just replace the current location
@@ -132,16 +126,26 @@ class SearchRoute extends Component {
         history.push(url);
       }
     }
-  };
+  }
 
   /**
-   * Handles submitting the search form by simply updating the URL
-   * query params. When the QueryList component is updated, it will
-   * trigger `fetchPage` below with the new query params
+   * Dispatches a search action specific to the current search type
+   * @param {Object} params - search params for the action
+   */
+  search(params) {
+    let { searchType } = this.state;
+    if (searchType === 'vendors') this.props.searchVendors(params);
+    if (searchType === 'packages') this.props.searchPackages(params);
+    if (searchType === 'titles') this.props.searchTitles(params);
+  }
+
+  /**
+   * Handles submitting the search form and updates the URL
    * @param {Object} params - query param object
    */
   handleSearch = (params) => {
     this.updateURLParams(params);
+    this.search(params);
   };
 
   /**
@@ -157,16 +161,12 @@ class SearchRoute extends Component {
   };
 
   /**
-   * Dispatch the search action specific to this search type for a page
+   * Uses the current params to search for another page
    * @param {Number} page - the page number
    */
   fetchPage = (page) => {
-    let { searchType, params } = this.state;
-    let pageParams = { ...params, page };
-
-    if (searchType === 'vendors') this.props.searchVendors(pageParams);
-    if (searchType === 'packages') this.props.searchPackages(pageParams);
-    if (searchType === 'titles') this.props.searchTitles(pageParams);
+    let { params } = this.state;
+    this.search({ ...params, page });
   };
 
   /**
