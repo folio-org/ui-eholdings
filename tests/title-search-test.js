@@ -106,9 +106,9 @@ describeApplication('TitleSearch', () => {
       beforeEach(() => {
         return convergeOn(() => {
           expect(TitleSearchPage.$searchResultsItems).to.have.lengthOf(3);
-        }).then(() => {
-          TitleSearchPage.search('Title1');
-        });
+        }).then(() => (
+          TitleSearchPage.search('Title1')
+        ));
       });
 
       it('only shows a single result', () => {

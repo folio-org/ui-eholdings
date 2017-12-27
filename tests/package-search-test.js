@@ -104,9 +104,9 @@ describeApplication('PackageSearch', () => {
       beforeEach(() => {
         return convergeOn(() => {
           expect(PackageSearchPage.$searchResultsItems).to.have.lengthOf(3);
-        }).then(() => {
-          PackageSearchPage.search('Package1');
-        });
+        }).then(() => (
+          PackageSearchPage.search('Package1')
+        ));
       });
 
       it('only shows a single result', () => {

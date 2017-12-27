@@ -70,10 +70,11 @@ export default {
     let $input = $('[data-test-search-field]').val(query);
     triggerChange($input.get(0));
 
-    // allow `triggerChange` to take effect
-    window.setTimeout(() => {
+    return convergeOn(() => {
+      expect($input).to.have.value(query);
+    }).then(() => {
       $('[data-test-search-submit]').trigger('click');
-    }, 1);
+    });
   },
 
   changeSearchType(searchType) {

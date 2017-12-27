@@ -106,9 +106,9 @@ describeApplication('VendorSearch', () => {
       beforeEach(() => {
         return convergeOn(() => {
           expect(VendorSearchPage.$searchResultsItems).to.have.lengthOf(3);
-        }).then(() => {
-          VendorSearchPage.search('Vendor1');
-        });
+        }).then(() => (
+          VendorSearchPage.search('Vendor1')
+        ));
       });
 
       it('only shows a single result', () => {
