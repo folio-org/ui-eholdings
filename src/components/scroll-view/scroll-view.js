@@ -23,20 +23,12 @@ export default class ScrollView extends Component {
     visibleItems: 0
   };
 
-  // update the DOM element's scrollTop position with our initial
-  // page offset and decide the initial visible item count
   componentDidMount() {
-    let { itemHeight } = this.props;
-    let { offset } = this.state;
-
-    // $list is populated via the ref in the render method below
-    if (this.$list) {
-      this.$list.scrollTop = offset * itemHeight;
-
-      // adjust the amount of visible items on resize
-      window.addEventListener('resize', this.handleListLayout);
-      this.handleListLayout();
-    }
+    // update the DOM element's scrollTop position with our offset
+    this.setScrollOffset();
+    // adjust the amount of visible items on resize
+    window.addEventListener('resize', this.handleListLayout);
+    this.handleListLayout();
   }
 
   componentWillReceiveProps({ offset }) {
@@ -46,16 +38,40 @@ export default class ScrollView extends Component {
     }
   }
 
+  componentDidUpdate(prevProps, prevState) {
+    let didStateUpdate = prevState.offset !== this.state.offset;
+    let didPropsUpdate = prevProps.offset !== this.props.offset;
+    let propNeedsUpdate = this.props.offset !== this.state.offset;
+
+    if (didStateUpdate) {
+      if (propNeedsUpdate) {
+        this.props.onUpdate(this.state.offset);
+      } else if (didPropsUpdate) {
+        this.setScrollOffset();
+      }
+    }
+  }
+
   // clean up our resize listener
   componentWillUnmount() {
     window.removeEventListener('resize', this.handleListLayout);
   }
 
+  setScrollOffset() {
+    let { itemHeight } = this.props;
+    let { offset } = this.state;
+
+    // $list is populated via the ref in the render method below
+    if (this.$list) {
+      this.$list.scrollTop = offset * itemHeight;
+    }
+  }
+
   // Handles setting the read offset based on the current scroll
-  // position. Also calls `onPage` when a new page has crossed the
-  // threshold of what's considered to be active the view
+  // position. Also calls `onUpdate` when an item has crossed the
+  // threshold of what's considered to be active in the view
   handleScroll = (e) => {
-    let { itemHeight, onUpdate } = this.props;
+    let { itemHeight } = this.props;
 
     let top = e.target.scrollTop;
     let offset = Math.floor(top / itemHeight);
@@ -63,7 +79,6 @@ export default class ScrollView extends Component {
     // update impagination's readOffset
     if (this.state.offset !== offset) {
       this.setState({ offset });
-      onUpdate(offset);
     }
   };
 

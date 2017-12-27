@@ -7,7 +7,6 @@ export default class Impagination extends Component {
     pageSize: PropTypes.number,
     loadHorizon: PropTypes.number,
     readOffset: PropTypes.number,
-    totalPages: PropTypes.number,
     fetch: PropTypes.func.isRequired,
     collection: PropTypes.object.isRequired,
     children: PropTypes.func.isRequired
@@ -30,7 +29,7 @@ export default class Impagination extends Component {
     this.dataset = new Dataset({
       pageSize: props.pageSize,
       loadHorizon: props.loadHorizon,
-      stats: { totalPages: props.totalPages },
+      stats: { totalPages: props.collection.totalPages },
       fetch: this.fetch,
       observe: this.observe
     });
@@ -50,27 +49,31 @@ export default class Impagination extends Component {
   // when we recieve an update, loop over the pages of collections so
   // we can resolve or reject any pending requests
   componentWillReceiveProps(nextProps) {
-    let { totalPages, collection } = nextProps;
-
-    // new, zero length collections are likely entirely new
-    let isNewCollection = !collection.length &&
-      collection.isLoading !== this.props.collection.isLoading;
+    let { collection } = nextProps;
 
     // we need to reset the dataset
-    if (isNewCollection) {
+    if (collection.key !== this.props.collection.key) {
       this.promises = {};
-      this.dataset.reset();
+
+      // impagination dataset
+      this.dataset = new Dataset({
+        pageSize: nextProps.pageSize,
+        loadHorizon: nextProps.loadHorizon,
+        stats: { totalPages: collection.totalPages },
+        fetch: this.fetch,
+        observe: this.observe
+      });
     }
 
     // if there is a new total page count, update our dataset state
-    if (totalPages !== this.dataset.state.stats.totalPages) {
-      this.dataset.state.stats.totalPages = totalPages;
+    if (collection.totalPages !== this.dataset.state.stats.totalPages) {
+      this.dataset.state.stats.totalPages = collection.totalPages;
     }
 
     // ensure that we keep all of our promises
     for (let page of Object.keys(this.promises)) {
-      let promise = this.promises[page];
       let { request, records } = collection.getPage(page);
+      let promise = this.promises[page];
 
       if (promise) {
         if (request.isResolved) {

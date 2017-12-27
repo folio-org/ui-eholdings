@@ -9,15 +9,15 @@ export default function TitleSearchList({
   params,
   collection,
   fetch,
-  onPage
+  onUpdateOffset
 }) {
   return (
     <QueryList
       type="titles"
-      page={parseInt(params.page || 1, 10)}
+      offset={parseInt(params.offset || 0, 10)}
       fetch={fetch}
       collection={collection}
-      onPage={onPage}
+      onUpdateOffset={onUpdateOffset}
       itemHeight={80}
       notFoundMessage={`No titles found for "${params.q}".`}
       renderItem={item => (
@@ -39,5 +39,5 @@ TitleSearchList.propTypes = {
   params: PropTypes.object.isRequired,
   collection: PropTypes.object.isRequired,
   fetch: PropTypes.func.isRequired,
-  onPage: PropTypes.func.isRequired
+  onUpdateOffset: PropTypes.func.isRequired
 };

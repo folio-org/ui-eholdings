@@ -9,15 +9,15 @@ export default function VendorSearchList({
   params,
   collection,
   fetch,
-  onPage
+  onUpdateOffset
 }) {
   return (
     <QueryList
       type="vendors"
-      page={parseInt(params.page || 1, 10)}
-      collection={collection}
+      offset={parseInt(params.offset || 0, 10)}
       fetch={fetch}
-      onPage={onPage}
+      collection={collection}
+      onUpdateOffset={onUpdateOffset}
       itemHeight={65}
       notFoundMessage={`No vendors found for "${params.q}".`}
       renderItem={item => (
@@ -38,5 +38,5 @@ VendorSearchList.propTypes = {
   params: PropTypes.object.isRequired,
   collection: PropTypes.object.isRequired,
   fetch: PropTypes.func.isRequired,
-  onPage: PropTypes.func.isRequired
+  onUpdateOffset: PropTypes.func.isRequired
 };

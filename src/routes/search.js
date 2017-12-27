@@ -40,7 +40,6 @@ class SearchRoute extends Component {
 
     // the current location's query params, minus the search type
     let { searchType, ...params } = qs.parse(props.location.search);
-    let results = props.resolver.query(searchType, params);
 
     // cache queries so we can restore them with the search type buttons
     this.queries = {};
@@ -49,7 +48,7 @@ class SearchRoute extends Component {
       this.queries[searchType] = params;
     }
 
-    this.state = { params, searchType, results };
+    this.state = { params, searchType };
   }
 
   getChildContext() {
@@ -57,14 +56,14 @@ class SearchRoute extends Component {
       // provide child components with query params that we've already parsed
       queryParams: {
         searchType: this.state.searchType,
-        ...this.state.query
+        ...this.state.params
       }
     };
   }
+
   componentWillReceiveProps(nextProps) {
-    let { location, resolver } = nextProps;
+    let { location } = nextProps;
     let { searchType, ...params } = qs.parse(location.search);
-    let results = resolver.query(searchType, params);
 
     // cache the query so it can be restored via the search type
     if (searchType) {
@@ -72,7 +71,21 @@ class SearchRoute extends Component {
     }
 
     // always update the results state
-    this.setState({ searchType, params, results });
+    this.setState({ searchType, params });
+  }
+
+  /**
+   * Uses the resolver to get a results collection for the current
+   * search type and search params (including the page)
+   * @returns {Collection} a collection instance
+   */
+  getResults() {
+    let { resolver } = this.props;
+    let { searchType, params } = this.state;
+    let { offset = 0, ...queryParams } = params;
+    let page = Math.floor(offset / 25) + 1;
+
+    return resolver.query(searchType, { ...queryParams, page });
   }
 
   /**
@@ -115,7 +128,7 @@ class SearchRoute extends Component {
   updateURLParams(params) {
     let { location, history } = this.props;
 
-    // if the new query is diffent from our location, update the location
+    // if the new query is different from our location, update the location
     if (qs.stringify(params) !== qs.stringify(this.state.params)) {
       let url = this.buildSearchUrl(location.pathname, params);
 
@@ -149,15 +162,14 @@ class SearchRoute extends Component {
   };
 
   /**
-   * Handles updating the page query param in our URL. The
+   * Handles updating the pffset query param in our URL. The
    * QueryList component will trigger this method when scrolling
-   * between pages
-   * @param {Number} page - the page number the QueryList component
+   * @param {Number} offset - the read offset the QueryList component
    * has been scrolled to
    */
-  handlePage = (page) => {
+  handleOffset = (offset) => {
     let { params } = this.state;
-    this.updateURLParams({ ...params, page });
+    this.updateURLParams({ ...params, offset });
   };
 
   /**
@@ -173,14 +185,14 @@ class SearchRoute extends Component {
    * Renders the search component specific to the current search type
    */
   renderResults() {
-    let { searchType, params, results } = this.state;
+    let { searchType, params } = this.state;
 
     let props = {
       params,
       location: this.props.location,
-      collection: results,
-      fetch: this.fetchPage,
-      onPage: this.handlePage
+      collection: this.getResults(),
+      onUpdateOffset: this.handleOffset,
+      fetch: this.fetchPage
     };
 
     if (params.q) {
@@ -202,10 +214,11 @@ class SearchRoute extends Component {
    */
   render() {
     let { location, children } = this.props;
-    let { searchType, params, results } = this.state;
+    let { searchType, params } = this.state;
 
     if (searchType) {
       let hideDetails = /^\/eholdings\/?$/.test(location.pathname);
+      let results = this.getResults();
 
       return (
         <div data-test-eholdings>

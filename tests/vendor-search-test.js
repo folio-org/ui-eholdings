@@ -174,7 +174,7 @@ describeApplication('VendorSearch', () => {
           return convergeOn(() => {
             expect(VendorSearchPage.vendorList.length).to.be.gt(0);
           }).then(() => {
-            VendorSearchPage.scrollToOffset(25);
+            VendorSearchPage.scrollToOffset(26);
           });
         });
 
@@ -185,14 +185,14 @@ describeApplication('VendorSearch', () => {
         });
 
         it('updates the page number in the URL', function () {
-          expect(this.app.history.location.search).to.include('page=2');
+          expect(this.app.history.location.search).to.include('offset=26');
         });
       });
     });
 
     describe('navigating directly to a search page', () => {
       beforeEach(function () {
-        return this.visit('/eholdings/?searchType=vendors&page=3&q=other', () => {
+        return this.visit('/eholdings/?searchType=vendors&offset=51&q=other', () => {
           expect(VendorSearchPage.$root).to.exist;
         });
       });
@@ -203,7 +203,7 @@ describeApplication('VendorSearch', () => {
       });
 
       it('should retain the proper page', function () {
-        expect(this.app.history.location.search).to.include('page=3');
+        expect(this.app.history.location.search).to.include('offset=51');
       });
     });
   });

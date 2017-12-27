@@ -1,3 +1,4 @@
+import qs from 'query-string';
 import dasherize from 'lodash/kebabCase';
 import { pluralize } from 'inflected';
 import { find, query, save } from './data';
@@ -13,14 +14,20 @@ import { find, query, save } from './data';
  */
 export class Collection {
   constructor({ type, params = {}, path }, resolver) {
+    let { page = 1, ...queryParams } = params;
+    let { pageSize = 25 } = queryParams;
+
     this.type = type;
     this.params = params;
     this.path = path;
     this.resolver = resolver;
     this.pages = [];
     this.records = [];
-    this.pageSize = parseInt(params.pageSize || 25, 10);
-    this.currentPage = parseInt(params.page || 1, 10);
+    this.pageSize = parseInt(pageSize, 10);
+    this.currentPage = parseInt(page, 10);
+
+    // unique to a specific search regardless of page
+    this.key = `${type}/${qs.stringify(queryParams)}`;
   }
 
   /**
@@ -100,21 +107,26 @@ export class Collection {
 
   /**
    * Gets the first resolved page for this instance to find the total
-   * results meta property. If there is no resolved request, the
-   * minimum length is predicted using the current page and the page
-   * size. The resulting length is cached
-   * @returns {Number} length or predicted length of this collection
+   * results meta property.
+   * @returns {Number}
    */
   get length() {
-    let len = this.request.meta.totalResults || this.records.length ||
-      (this.currentPage - 1) * this.pageSize;
+    return this.request.meta.totalResults || this.records.length;
+  }
 
-    // cache the length for this instance
-    Object.defineProperty(this, 'length', {
-      get() { return len; }
+  /**
+   * Caches and returns the calculated total page count
+   * @returns {Number} total pages
+   */
+  get totalPages() {
+    let total = Math.ceil(this.length / this.pageSize);
+
+    // cache the total for this instance
+    Object.defineProperty(this, 'totalPages', {
+      get() { return total; }
     });
 
-    return len;
+    return total;
   }
 
   /**

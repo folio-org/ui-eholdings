@@ -170,7 +170,7 @@ describeApplication('TitleSearch', () => {
           return convergeOn(() => {
             expect(TitleSearchPage.titleList.length).to.be.gt(0);
           }).then(() => {
-            TitleSearchPage.scrollToOffset(25);
+            TitleSearchPage.scrollToOffset(26);
           });
         });
 
@@ -181,14 +181,14 @@ describeApplication('TitleSearch', () => {
         });
 
         it('updates the page number in the URL', function () {
-          expect(this.app.history.location.search).to.include('page=2');
+          expect(this.app.history.location.search).to.include('offset=26');
         });
       });
     });
 
     describe('navigating directly to a search page', () => {
       beforeEach(function () {
-        return this.visit('/eholdings/?searchType=titles&page=3&q=other', () => {
+        return this.visit('/eholdings/?searchType=titles&offset=51&q=other', () => {
           expect(TitleSearchPage.$root).to.exist;
         });
       });
@@ -199,7 +199,7 @@ describeApplication('TitleSearch', () => {
       });
 
       it('should retain the proper page', function () {
-        expect(this.app.history.location.search).to.include('page=3');
+        expect(this.app.history.location.search).to.include('offset=51');
       });
     });
   });
