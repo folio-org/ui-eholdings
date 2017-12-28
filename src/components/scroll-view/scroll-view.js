@@ -1,4 +1,4 @@
-import React, { Component, Children } from 'react';
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
 import styles from './scroll-view.css';
@@ -6,15 +6,17 @@ import List from '../list';
 
 export default class ScrollView extends Component {
   static propTypes = {
-    length: PropTypes.number,
+    items: PropTypes.shape({
+      length: PropTypes.number.isRequired,
+      slice: PropTypes.func.isRequired
+    }).isRequired,
     offset: PropTypes.number,
     itemHeight: PropTypes.number.isRequired,
     onUpdate: PropTypes.func,
-    children: PropTypes.node.isRequired
+    children: PropTypes.func.isRequired
   };
 
   static defaultProps = {
-    length: 0,
     offset: 0
   };
 
@@ -39,14 +41,14 @@ export default class ScrollView extends Component {
   }
 
   componentDidUpdate(prevProps, prevState) {
-    let didStateUpdate = prevState.offset !== this.state.offset;
-    let didPropsUpdate = prevProps.offset !== this.props.offset;
-    let propNeedsUpdate = this.props.offset !== this.state.offset;
-
-    if (didStateUpdate) {
-      if (propNeedsUpdate) {
+    // did the state update
+    if (prevState.offset !== this.state.offset) {
+      // props are outdated, need to call onUpdate
+      if (this.props.offset !== this.state.offset) {
         this.props.onUpdate(this.state.offset);
-      } else if (didPropsUpdate) {
+      // if props updated when the state did, we have a new offset we
+      // need to scroll to
+      } else if (prevProps.offset !== this.props.offset) {
         this.setScrollOffset();
       }
     }
@@ -57,6 +59,8 @@ export default class ScrollView extends Component {
     window.removeEventListener('resize', this.handleListLayout);
   }
 
+  // Sets the list's scrollTop based on the itemHeight and
+  // current offset
   setScrollOffset() {
     let { itemHeight } = this.props;
     let { offset } = this.state;
@@ -94,35 +98,36 @@ export default class ScrollView extends Component {
   };
 
   renderChildren() {
-    let { itemHeight, children } = this.props;
+    let { items, itemHeight, children } = this.props;
     let { offset, visibleItems } = this.state;
+
     let threshold = 5;
+    let lower = Math.max(offset - threshold, 0);
+    let upper = Math.min(offset + visibleItems + threshold, items.length - 1);
 
-    let calcStyle = i => ({
-      height: itemHeight,
-      top: i * itemHeight
-    });
+    // slice the visible items and map them to `children`
+    return items.slice(lower, upper + 1).map((item, i) => {
+      let index = lower + i;
 
-    // calculate the positions before filtering
-    let items = Children.map(children, (child, i) => (
-      <li key={i} className={styles['list-item']} style={calcStyle(i)}>
-        {child}
-      </li>
-    ));
+      let style = {
+        height: itemHeight,
+        top: itemHeight * index
+      };
 
-    return items.filter((child, i) => {
-      let isAboveLowerThresh = i > offset - threshold;
-      let isBelowUpperThresh = i < offset + visibleItems + threshold;
-      return isAboveLowerThresh && isBelowUpperThresh;
+      return (
+        <li key={index} className={styles['list-item']} style={style}>
+          {children(item, index)}
+        </li>
+      );
     });
   }
 
   render() {
     // strip all other props to pass along the rest to the div
     // eslint-disable-next-line no-unused-vars
-    let { length, itemHeight, offset: _, onUpdate, ...props } = this.props;
+    let { items, itemHeight, offset: _, onUpdate, ...props } = this.props;
     let { offset, visibleItems } = this.state;
-    let listHeight = length * itemHeight;
+    let listHeight = items.length * itemHeight;
 
     // list height should be at least enough for the offset
     if (listHeight === 0) {

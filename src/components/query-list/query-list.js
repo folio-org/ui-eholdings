@@ -39,23 +39,23 @@ export default function QueryList({
           </div>
         ) : (
           <ScrollView
-            length={state.length}
+            items={state}
             offset={offset}
             itemHeight={itemHeight}
             onUpdate={onUpdateOffset}
             data-test-query-list={type}
           >
-            {state.map((item, i) => (
+            {item => (
               item.isRejected ? (
-                <div key={i} className={cx('list-item', 'is-error')} data-test-query-list-error={type}>
+                <div className={cx('list-item', 'is-error')} data-test-query-list-error={type}>
                   {item.error[0].title}
                 </div>
               ) : (
-                <div key={i} className={styles['list-item']} data-test-query-list-item>
+                <div className={styles['list-item']} data-test-query-list-item>
                   {renderItem(item)}
                 </div>
               )
-            ))}
+            )}
           </ScrollView>
         )
       )}
