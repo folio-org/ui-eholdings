@@ -12,7 +12,7 @@ export const Status = model({
 );
 
 export const Configuration = model({
-  type: 'configuration',
+  type: 'configurations',
   // id is 'configuration' so it will be appended to this path when
   // retrieving the configuration
   path: '/eholdings'
