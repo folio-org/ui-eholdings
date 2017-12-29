@@ -49,7 +49,7 @@ class SettingsRoute extends Component {
 
 export default connect(
   ({ eholdings: { data } }) => ({
-    config: createResolver(data).find('configuration', 'configuration')
+    config: createResolver(data).find('configurations', 'configuration')
   }), {
     getBackendConfig: () => Configuration.find('configuration'),
     updateBackendConfig: model => Configuration.save(model)

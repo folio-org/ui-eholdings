@@ -12,7 +12,7 @@ export default function unconfiguredBackendScenario(server) {
   server.get('/configuration', {
     data: {
       id: 'configuration',
-      type: 'configuration',
+      type: 'configurations',
       attributes: {
         customerId: '',
         apiKey: ''

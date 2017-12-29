@@ -91,7 +91,7 @@ export default function configure() {
   this.get('/configuration', {
     data: {
       id: 'configuration',
-      type: 'configuration',
+      type: 'configurations',
       attributes: {
         customerId: 'some-valid-customer-id',
         apiKey: 'some-valid-api-key'
