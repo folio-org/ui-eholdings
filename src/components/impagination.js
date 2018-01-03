@@ -2,6 +2,28 @@ import { Component } from 'react';
 import PropTypes from 'prop-types';
 import Dataset from 'impagination';
 
+/**
+ * Helper to patch the slice method of a Dataset state
+ * @param {Object} datasetState - Dataset state instance
+ * @returns {Object} new Dataset state instance
+ */
+function patchDatasetSlice(datasetState) {
+  return Object.create(datasetState, {
+    slice: {
+      value(start, end) {
+        let last = Math.min(end, this.length) - 1;
+        let ret = [];
+
+        for (let i = start; i <= last; i++) {
+          ret.push(this.getRecord(i));
+        }
+
+        return ret;
+      }
+    }
+  });
+}
+
 export default class Impagination extends Component {
   static propTypes = {
     pageSize: PropTypes.number,
@@ -146,7 +168,7 @@ export default class Impagination extends Component {
   // We only call the `renderList` prop with the dataset state. Notice
   // we don't import React because we are not using JSX in this component
   render() {
-    let { datasetState } = this.state;
+    let datasetState = patchDatasetSlice(this.state.datasetState);
     return this.props.children(datasetState);
   }
 }

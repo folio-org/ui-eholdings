@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import debounce from 'lodash/debounce';
 
 import styles from './scroll-view.css';
 import List from '../list';
@@ -45,7 +46,7 @@ export default class ScrollView extends Component {
     if (prevState.offset !== this.state.offset) {
       // props are outdated, need to call onUpdate
       if (this.props.offset !== this.state.offset) {
-        this.props.onUpdate(this.state.offset);
+        this.triggerUpdate(this.state.offset);
       // if props updated when the state did, we have a new offset we
       // need to scroll to
       } else if (prevProps.offset !== this.props.offset) {
@@ -58,6 +59,11 @@ export default class ScrollView extends Component {
   componentWillUnmount() {
     window.removeEventListener('resize', this.handleListLayout);
   }
+
+  // debounce the `onUpdate` prop
+  triggerUpdate = debounce((offset) => {
+    this.props.onUpdate(offset);
+  }, 300);
 
   // Sets the list's scrollTop based on the itemHeight and
   // current offset
