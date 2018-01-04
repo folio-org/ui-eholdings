@@ -39,7 +39,7 @@ export default {
   },
 
   get totalResults() {
-    return $('[data-test-eholdings-total-search-results]').text();
+    return $('[data-test-eholdings-search-results-header] p').text();
   },
 
   get hasErrors() {
