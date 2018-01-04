@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import logo from './frontside-icon-transparent.svg';
+import logo from './frontside-icon.svg';
 import style from './front.css';
 
 export default function Front() {
