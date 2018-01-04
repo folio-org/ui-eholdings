@@ -86,6 +86,6 @@ export default {
   },
 
   get $backButton() {
-    return $('[data-test-eholdings-package-details-back-button]');
+    return $('[data-test-eholdings-package-details-back-button] button');
   }
 };

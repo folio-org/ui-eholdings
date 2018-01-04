@@ -59,7 +59,7 @@ export default {
   },
 
   get $backButton() {
-    return $('[data-test-eholdings-package-details-back-button]');
+    return $('[data-test-eholdings-package-details-back-button] button');
   },
 
   clickSearchVignette() {
@@ -93,7 +93,7 @@ export default {
   },
 
   clickBackButton() {
-    return $('[data-test-eholdings-customer-resource-show-back-button]').trigger('click');
+    return $('[data-test-eholdings-customer-resource-show-back-button] button').trigger('click');
   },
 
   scrollToOffset(readOffset) {

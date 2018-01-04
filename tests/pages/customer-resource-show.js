@@ -94,6 +94,6 @@ export default {
   },
 
   get $backButton() {
-    return $('[data-test-eholdings-customer-resource-show-back-button]');
+    return $('[data-test-eholdings-customer-resource-show-back-button] button');
   }
 };
