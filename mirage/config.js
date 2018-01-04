@@ -1,6 +1,32 @@
 import { okapi } from 'stripes-config'; // eslint-disable-line import/no-unresolved
 import { Response } from 'mirage-server';
 
+/**
+ * Helper for creating a search route for a resource type.
+ * Currently includes pagination and searching by name.
+ * @param {String} resourceType - resource type's model name
+ * @returns {Function} route handler for a search route of this
+ * resource type
+ */
+function searchRouteFor(resourceType) {
+  return function (schema, req) { // eslint-disable-line func-names
+    let query = req.queryParams.q.toLowerCase();
+    let page = Math.max(parseInt(req.queryParams.page || 1, 10), 1);
+    let count = parseInt(req.queryParams.count || 25, 10);
+    let offset = (page - 1) * count;
+
+    let collection = schema[resourceType];
+    let json = this.serialize(collection.all().filter((model) => {
+      return model.name && model.name.toLowerCase().includes(query);
+    }));
+
+    json.meta = { totalResults: json.data.length };
+    json.data = json.data.slice(offset, offset + count);
+    return json;
+  };
+}
+
+// typical mirage config export
 export default function configure() {
   this.urlPrefix = okapi.url;
 
@@ -104,30 +130,14 @@ export default function configure() {
   });
 
   // Vendor resources
-  this.get('/vendors', function ({ vendors }, request) { // eslint-disable-line func-names
-    let json = this.serialize(vendors.all().filter((vendorModel) => {
-      let query = request.queryParams.q.toLowerCase();
-      return vendorModel.name.toLowerCase().includes(query);
-    }));
-
-    json.meta = { totalResults: json.data.length };
-    return json;
-  });
+  this.get('/vendors', searchRouteFor('vendors'));
 
   this.get('/vendors/:id', ({ vendors }, request) => {
     return vendors.find(request.params.id);
   });
 
   // Package resources
-  this.get('/packages', function ({ packages }, request) { // eslint-disable-line func-names
-    let json = this.serialize(packages.all().filter((packageModel) => {
-      const query = request.queryParams.q.toLowerCase();
-      return packageModel.name.toLowerCase().includes(query);
-    }));
-
-    json.meta = { totalResults: json.data.length };
-    return json;
-  });
+  this.get('/packages', searchRouteFor('packages'));
 
   this.get('/packages/:id', ({ packages }, request) => {
     return packages.findBy({
@@ -161,15 +171,7 @@ export default function configure() {
   });
 
   // Title resources
-  this.get('/titles', function ({ titles }, request) { // eslint-disable-line func-names
-    let json = this.serialize(titles.all().filter((titleModel) => {
-      const query = request.queryParams.q.toLowerCase();
-      return titleModel.name.toLowerCase().includes(query);
-    }));
-
-    json.meta = { totalResults: json.data.length };
-    return json;
-  });
+  this.get('/titles', searchRouteFor('titles'));
 
   this.get('/titles/:id', ({ titles }, request) => {
     return titles.find(request.params.id);

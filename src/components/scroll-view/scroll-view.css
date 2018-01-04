@@ -1,0 +1,15 @@
+.list {
+  height: 100%;
+  overflow-y: auto;
+
+  & > ul {
+    position: relative;
+    overflow: hidden;
+  }
+}
+
+.list-item {
+  position: absolute;
+  width: 100%;
+  left: 0;
+}

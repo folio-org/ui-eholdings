@@ -1,0 +1,19 @@
+@import '@folio/stripes-components/lib/variables';
+
+.error {
+  padding: 2rem;
+  text-align: center;
+  color: var(--error);
+
+  &.not-found {
+    color: #555;
+  }
+}
+
+.list-item {
+  height: 100%;
+
+  &.is-error {
+    color: var(--error);
+  }
+}

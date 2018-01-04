@@ -35,7 +35,7 @@ export default {
   },
 
   get $searchResultsItems() {
-    return $('[data-test-package-search-results-list] li a');
+    return $('[data-test-query-list="packages"] li a');
   },
 
   get totalResults() {
@@ -43,11 +43,11 @@ export default {
   },
 
   get hasErrors() {
-    return $('[data-test-package-search-error-message]').length > 0;
+    return $('[data-test-query-list-error="packages"]').length > 0;
   },
 
   get noResultsMessage() {
-    return $('[data-test-package-search-no-results]').text();
+    return $('[data-test-query-list-not-found="packages"]').text();
   },
 
   get previewPaneIsVisible() {
@@ -55,7 +55,7 @@ export default {
   },
 
   get packageList() {
-    return $('[data-test-package-search-results-list] li').toArray().map(createPackageObject);
+    return this.$searchResultsItems.toArray().map(createPackageObject);
   },
 
   get $backButton() {
@@ -70,10 +70,11 @@ export default {
     let $input = $('[data-test-search-field]').val(query);
     triggerChange($input.get(0));
 
-    // allow `triggerChange` to take effect
-    window.setTimeout(() => {
+    return convergeOn(() => {
+      expect($input).to.have.value(query);
+    }).then(() => {
       $('[data-test-search-submit]').trigger('click');
-    }, 1);
+    });
   },
 
   changeSearchType(searchType) {
@@ -93,5 +94,14 @@ export default {
 
   clickBackButton() {
     return $('[data-test-eholdings-customer-resource-show-back-button]').trigger('click');
+  },
+
+  scrollToOffset(readOffset) {
+    let $list = $('[data-test-query-list="packages"]').get(0);
+    let rowHeight = $('li', $list).get(0).offsetHeight;
+    let scrollOffset = rowHeight * readOffset;
+
+    $list.scrollTop = scrollOffset;
+    $list.dispatchEvent(new Event('scroll'));
   }
 };

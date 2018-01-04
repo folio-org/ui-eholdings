@@ -55,12 +55,13 @@ export default function VendorShow({ model }, { router, queryParams }) {
                 <Icon icon="spinner-ellipsis" />
               ) : (
                 model.packages.map(pkg => (
-                  <PackageListItem
-                    key={pkg.id}
-                    link={`/eholdings/packages/${pkg.id}`}
-                    showTitleCount
-                    item={pkg}
-                  />
+                  <li key={pkg.id} data-test-eholdings-package-list-item>
+                    <PackageListItem
+                      link={`/eholdings/packages/${pkg.id}`}
+                      showTitleCount
+                      item={pkg}
+                    />
+                  </li>
                 ))
               )}
             </List>

@@ -1,3 +1,4 @@
+import qs from 'query-string';
 import dasherize from 'lodash/kebabCase';
 import { pluralize } from 'inflected';
 import { find, query, save } from './data';
@@ -12,39 +13,160 @@ import { find, query, save } from './data';
  * @param {Resolver} resolver - the current resolver instance
  */
 export class Collection {
-  constructor(type, records, request, resolver) {
-    this.data = records || [];
-    this.request = request;
+  constructor({ type, params = {}, path }, resolver) {
+    let { page = 1, ...queryParams } = params;
+    let { pageSize = 25 } = queryParams;
+
+    this.type = type;
+    this.params = params;
+    this.path = path;
     this.resolver = resolver;
-    this.models = [];
+    this.pages = [];
+    this.records = [];
+    this.pageSize = parseInt(pageSize, 10);
+    this.currentPage = parseInt(page, 10);
 
-    for (let i = 0, l = this.data.length; i < l; i++) {
-      let ModelClass = resolver.modelFor(type);
+    // unique to a specific search regardless of page
+    this.key = `${type}/${qs.stringify(queryParams)}`;
+  }
 
-      // check for any newer requests for this specific record
-      let req = resolver.getRequest('find', { type, params: { id: records[i].id } });
+  /**
+   * Gets the request and records for a page with the same params used
+   * to initialize this collection instance
+   * @param {Number} page - the page number
+   * @returns {Object} object containing the request and associated records
+   */
+  getPage(page) {
+    if (!this.pages[page]) {
+      let request = this.resolver.getRequest('query', {
+        type: this.type,
+        params: { ...this.params, page },
+        path: this.path
+      });
 
-      req = req.timestamp > request.timestamp ? req : request;
-      this.models[i] = new ModelClass(records[i], req, resolver);
+      // the first page might not have a page param
+      if (!request.timestamp && page === 1) {
+        request = this.resolver.getRequest('query', {
+          type: this.type,
+          params: { ...this.params, page: undefined },
+          path: this.path
+        });
+      }
+
+      let records = request.records.map((id) => {
+        return this.resolver.find(this.type, id);
+      });
+
+      // cache this page for this instance
+      this.pages[page] = { request, records };
     }
+
+    return this.pages[page];
   }
 
+  /**
+   * Gets a record at the given read offset
+   * @param {Number} offset - zero based read offset
+   * @returns {Model} the model for a record at the offset
+   */
+  getRecord(offset) {
+    if (!this.records[offset]) {
+      let pageOffset = offset / this.pageSize;
+      let recordOffset = offset % this.pageSize;
+      let page = this.getPage(pageOffset + 1);
+      let record = page.records[recordOffset];
+
+      // the record does not exist, return an empty one
+      if (!record) {
+        return this.resolver.find(this.type, null);
+      }
+
+      // cache this record for this instance
+      this.records[offset] = record;
+    }
+
+    return this.records[offset];
+  }
+
+  /**
+   * Returns the first resolved page request for this collection
+   * @returns {Object} the request object
+   */
+  get request() {
+    let { request } = this.getPage(this.currentPage);
+    let page = 1;
+
+    // find the first resolved page up to the current page
+    while (!request.isResolved && page < this.currentPage) {
+      request = this.getPage(page).request;
+      page += 1;
+    }
+
+    return request;
+  }
+
+  /**
+   * Gets the first resolved page for this instance to find the total
+   * results meta property.
+   * @returns {Number}
+   */
   get length() {
-    // if this doesn't check for models, it will error when inspecting
-    // it via react dev tools
-    return this.models ? this.models.length : 0;
+    return this.request.meta.totalResults || this.records.length;
   }
 
-  get isLoaded() {
-    return !!this.length && this.models.every(m => m.isLoaded);
+  /**
+   * Caches and returns the calculated total page count
+   * @returns {Number} total pages
+   */
+  get totalPages() {
+    let total = Math.ceil(this.length / this.pageSize);
+
+    // cache the total for this instance
+    Object.defineProperty(this, 'totalPages', {
+      get() { return total; }
+    });
+
+    return total;
   }
 
+  /**
+   * Maps over the current records or predicted records for this
+   * collection instance.
+   * @param {Function} callback - called for each record
+   * @param {Mixed} ctx - the context to use for the callback
+   * @returns {Array} array of mapped records
+   */
+  map(callback, ctx) {
+    let offset = 0;
+    let record = this.getRecord(offset);
+    let ret = [];
+
+    while (offset < this.length || record.id) {
+      ret.push(callback.call(ctx, record, offset));
+      offset += 1;
+      record = this.getRecord(offset);
+    }
+
+    return ret;
+  }
+
+  /**
+   * True when the current request is pending or when there is no
+   * request and no records
+   * @returns {Boolean}
+   */
   get isLoading() {
-    return !this.length || this.models.some(m => m.isLoading);
+    let { request } = this.getPage(this.currentPage);
+    let isRequested = !!request.timestamp || !!this.length;
+    return request.isPending || !isRequested;
   }
 
-  map(...args) {
-    return this.models.map(...args);
+  /**
+   * True when any requests have been resolved
+   * @returns {Boolean}
+   */
+  get isLoaded() {
+    return !!this.request.timestamp && !this.request.isPending;
   }
 }
 
@@ -134,10 +256,10 @@ class BaseModel {
    * @param {Object} request - the request associated with this record
    * @param {Resolver} resolver - the current resolver instance
    */
-  constructor(record, request, resolver) {
-    this.data = record || { attributes: {} };
-    this.request = request;
+  constructor(id, resolver) {
+    this.id = id;
     this.resolver = resolver;
+    this.data = resolver.getRecord(this.type, id) || {};
   }
 
   /**
@@ -156,6 +278,24 @@ class BaseModel {
     }
 
     return { data };
+  }
+
+  /**
+   * Lazily looks up a find request for this record
+   * @returns {Object} the find request state object
+   */
+  get request() {
+    let request = this.resolver.getRequest('find', {
+      type: this.type,
+      params: { id: this.id }
+    });
+
+    // this will essentially cache this request
+    Object.defineProperty(this, 'request', {
+      get() { return request; }
+    });
+
+    return request;
   }
 
   /**
@@ -180,10 +320,6 @@ class BaseModel {
 
   get type() {
     return this.constructor.type;
-  }
-
-  get id() {
-    return this.data.id;
   }
 
   get isLoading() {
@@ -221,22 +357,18 @@ function hasOwnProperty(obj, prop) {
 function describeHasMany(key, relType = key) {
   return {
     get() {
-      let collection = new Collection(relType, [], this.request, this.resolver);
+      let collection = new Collection({
+        type: relType,
+        path: `${this.constructor.pathFor(this.id)}/${dasherize(key)}`
+      }, this.resolver);
 
-      let request = this.resolver.getRequest('query', {
-        path: `${this.constructor.pathFor(this.id)}/${dasherize(key)}`,
-        type: relType
-      });
 
-      if (hasOwnProperty(this.data.relationships, key) && this.data.relationships[key].data) {
-        let related = this.data.relationships[key];
-        let records = related.data.map(({ id }) => this.resolver.getRecord(relType, id));
-
-        request = request.timestamp > this.request.timestamp ? request : this.request;
-        collection = new Collection(relType, records, request, this.resolver);
-      } else if (request.timestamp) {
-        let records = request.records.map(id => this.resolver.getRecord(relType, id));
-        collection = new Collection(relType, records, request, this.resolver);
+      if (!collection.length &&
+          hasOwnProperty(this.data.relationships, key) &&
+          this.data.relationships[key].data) {
+        collection = new Collection({ type: relType }, this.resolver);
+        collection.records = this.data.relationships[key].data
+          .map(({ id }) => this.resolver.find(relType, id));
       }
 
       return collection;
@@ -256,15 +388,10 @@ function describeBelongsTo(key, relType = pluralize(key)) {
   return {
     get() {
       let Model = this.resolver.modelFor(relType);
-      let model = new Model({}, this.request, this.resolver); // eslint-disable-line no-shadow
+      let model = new Model(null, this.resolver); // eslint-disable-line no-shadow
 
       if (hasOwnProperty(this.data.relationships, key) && this.data.relationships[key].data) {
-        let related = this.data.relationships[key];
-        let record = this.resolver.getRecord(relType, related.data.id);
-        let request = this.resolver.getRequest('find', { type: relType, id: record.id });
-
-        request = request.timestamp > this.request.timestamp ? request : this.request;
-        model = new Model(record, request, this.resolver);
+        model = new Model(this.data.relationships[key].data.id, this.resolver);
       }
 
       return model;

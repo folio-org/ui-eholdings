@@ -68,12 +68,8 @@ describe('Redux Models', () => {
 
   describe('with no data', () => {
     beforeEach(() => {
-      // this will produce an empty request object
-      let vendorRequest = resolver.getRequest('find', { type: 'vendors' });
-      let pkgRequest = resolver.getRequest('find', { type: 'packages' });
-
-      vendor = new VendorModel({}, vendorRequest, resolver);
-      pkg = new PackageModel({}, pkgRequest, resolver);
+      vendor = new VendorModel(null, resolver);
+      pkg = new PackageModel(null, resolver);
     });
 
     it('should indicate status', () => {
@@ -88,7 +84,6 @@ describe('Redux Models', () => {
 
     it('should have empty hasMany relationships', () => {
       expect(vendor.packages).to.have.lengthOf(0);
-      expect(vendor.packages.isLoaded).to.be.false;
     });
 
     it('should have empty belongsTo relationships', () => {
@@ -99,12 +94,8 @@ describe('Redux Models', () => {
 
   describe('with data', () => {
     beforeEach(() => {
-      // this will produce an empty request object
-      let vendorRequest = resolver.getRequest('find', { type: 'vendors' });
-      let pkgRequest = resolver.getRequest('find', { type: 'packages' });
-
-      vendor = new VendorModel(VENDOR_JSON, vendorRequest, resolver);
-      pkg = new PackageModel(PACKAGE_JSON, pkgRequest, resolver);
+      vendor = new VendorModel(1, resolver);
+      pkg = new PackageModel(1, resolver);
     });
 
     it('should indicate status', () => {
@@ -124,8 +115,7 @@ describe('Redux Models', () => {
 
     it('should have a hasMany relationship', () => {
       expect(vendor.packages).to.have.lengthOf(1);
-      expect(vendor.packages.isLoaded).to.be.true;
-      expect(vendor.packages.models[0].name).to.equal('Awesome Package');
+      expect(vendor.packages.getRecord(0).name).to.equal('Awesome Package');
     });
 
     it('should have a belongsTo relationship', () => {
@@ -135,21 +125,25 @@ describe('Redux Models', () => {
   });
 
   describe('with incomplete data', () => {
+    const INCOMPLETE_VENDOR_JSON = {
+      ...VENDOR_JSON,
+      attributes: { totalPackages: 1 },
+      relationships: { packages: {} }
+    };
+
+    const INCOMPLETE_PACKAGE_JSON = {
+      ...PACKAGE_JSON,
+      relationships: { vendor: {} }
+    };
+
     beforeEach(() => {
-      // this will produce an empty request object
-      let vendorRequest = resolver.getRequest('find', { type: 'vendors' });
-      let pkgRequest = resolver.getRequest('find', { type: 'packages' });
+      resolver = new Resolver({
+        vendors: { requests: {}, records: { 1: INCOMPLETE_VENDOR_JSON } },
+        packages: { requests: {}, records: { 1: INCOMPLETE_PACKAGE_JSON } }
+      }, [VendorModel, PackageModel]);
 
-      vendor = new VendorModel({
-        ...VENDOR_JSON,
-        attributes: { totalPackages: 1 },
-        relationships: { packages: {} }
-      }, vendorRequest, resolver);
-
-      pkg = new PackageModel({
-        ...PACKAGE_JSON,
-        relationships: { vendor: {} }
-      }, pkgRequest, resolver);
+      vendor = new VendorModel(1, resolver);
+      pkg = new PackageModel(1, resolver);
     });
 
     it('should indicate status', () => {
@@ -164,7 +158,6 @@ describe('Redux Models', () => {
 
     it('should have empty hasMany relationships', () => {
       expect(vendor.packages).to.have.lengthOf(0);
-      expect(vendor.packages.isLoaded).to.be.false;
     });
 
     it('should have empty belongsTo relationships', () => {
