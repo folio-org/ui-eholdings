@@ -32,7 +32,7 @@ export default class TestHarness extends Component {
 
     this.history = createMemoryHistory();
 
-    discoverServices(okapi.url, this.store);
+    discoverServices(this.store);
 
     // While we have disableAuth on, manually tell our app Okapi is ready
     this.store.dispatch(setOkapiReady());

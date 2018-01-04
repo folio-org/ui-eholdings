@@ -38,6 +38,10 @@ export default function configure() {
     name: 'kb-ebsco'
   }]);
 
+  this.get('_/proxy/tenants/:id/modules', [{
+    id: 'mod-kb-ebsco'
+  }]);
+
   this.get('/_/proxy/modules/mod-kb-ebsco', {
     id: 'mod-kb-ebsco',
     name: 'kb-ebsco',
