@@ -34,11 +34,11 @@ export default {
   },
 
   get numTitles() {
-    return $('[data-test-eholdings-package-details-titles-total').text();
+    return $('[data-test-eholdings-package-details-titles-total]').text();
   },
 
   get numTitlesSelected() {
-    return $('[data-test-eholdings-package-details-titles-selected').text();
+    return $('[data-test-eholdings-package-details-titles-selected]').text();
   },
 
   get isSelected() {
