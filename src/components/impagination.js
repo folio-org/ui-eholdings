@@ -3,7 +3,17 @@ import PropTypes from 'prop-types';
 import Dataset from 'impagination';
 
 /**
- * Helper to patch the slice method of a Dataset state
+ * Patch the slice method of a Dataset state.
+ *
+ * Currently it is broken such that state.slice(x, y) will return a
+ * slice with `undefined` values if the values of `x` and `y`
+ * reference records that are out of the dataset bounds. Instead, the
+ * standard JS behaviro is to truncate the slice at the last available
+ * record. If there are no avaliable records, then it will be an empty
+ * set.
+ *
+ *
+ * @see https://github.com/flexyford/impagination/issues/48
  * @param {Object} datasetState - Dataset state instance
  * @returns {Object} new Dataset state instance
  */
