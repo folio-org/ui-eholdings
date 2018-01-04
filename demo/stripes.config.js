@@ -16,5 +16,14 @@ module.exports = {
   modules: {
     '@folio/eholdings': {},
     '../demo': {}
+  },
+  branding: {
+    logo: {
+      src: './demo/frontside-logo.svg',
+      alt: 'Frontside'
+    },
+    favicon: {
+      src: './demo/favicon.ico',
+    }
   }
 };
