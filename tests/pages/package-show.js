@@ -69,6 +69,14 @@ export default {
     return !!this.titleList.length && this.titleList.every(title => title.isSelected);
   },
 
+  confirmDeselection() {
+    return $('[data-test-eholdings-package-deselection-confirmation-modal-yes]').trigger('click');
+  },
+
+  cancelDeselection() {
+    return $('[data-test-eholdings-package-deselection-confirmation-modal-no]').trigger('click');
+  },
+
   get hasErrors() {
     return $('[data-test-eholdings-package-details-error]').length > 0;
   },

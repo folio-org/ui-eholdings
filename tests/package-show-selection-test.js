@@ -53,7 +53,7 @@ describeApplication('PackageShowSelection', () => {
         expect(PackageShowPage.isSelected).to.equal(true);
       });
 
-      it('indicates it working to get to desired state', () => {
+      it('indicates it is working to get to desired state', () => {
         expect(PackageShowPage.isSelecting).to.equal(true);
       });
 
@@ -95,8 +95,55 @@ describeApplication('PackageShowSelection', () => {
           expect(PackageShowPage.allTitlesSelected).to.equal(false);
         });
 
-        it('updates the selected title count', () => {
-          expect(PackageShowPage.numTitlesSelected).to.equal('0');
+        describe('canceling the deselection', () => {
+          beforeEach(() => {
+            PackageShowPage.cancelDeselection();
+          });
+
+          it('reverts back to the selected state', () => {
+            expect(PackageShowPage.isSelected).to.equal(true);
+          });
+        });
+
+        describe('confirming the deselection', () => {
+          beforeEach(function () {
+            this.server.timing = 50;
+            PackageShowPage.confirmDeselection();
+          });
+
+          afterEach(function () {
+            this.server.timing = 0;
+          });
+
+          it('reflects the desired state (Unselected)', () => {
+            expect(PackageShowPage.isSelected).to.equal(false);
+          });
+
+          it('indicates it is working to get to desired state', () => {
+            expect(PackageShowPage.isSelecting).to.equal(true);
+          });
+
+          it('cannot be interacted with while the request is in flight', () => {
+            expect(PackageShowPage.isSelectedToggleable).to.equal(false);
+          });
+
+          describe('when the request succeeds', () => {
+            it('reflect the desired state was set', () => {
+              expect(PackageShowPage.isSelected).to.equal(false);
+            });
+
+            it('indicates it is no longer working', () => {
+              expect(PackageShowPage.isSelecting).to.equal(false);
+            });
+
+            it('should show the package titles are not all selected', () => {
+              expect(PackageShowPage.allTitlesSelected).to.equal(false);
+            });
+
+            it('updates the selected title count', () => {
+              expect(PackageShowPage.numTitlesSelected).to.equal(`${vendorPackage.titleCount}`);
+            });
+          });
         });
       });
     });
