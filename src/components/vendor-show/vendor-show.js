@@ -11,7 +11,7 @@ import List from '../list';
 import PackageListItem from '../package-list-item';
 import styles from './vendor-show.css';
 
-export default function VendorShow({ model }, { router, queryParams }) {
+export default function VendorShow({ model }, { router, queryParams, intl }) {
   let historyState = router.history.location.state;
 
   return (
@@ -40,13 +40,13 @@ export default function VendorShow({ model }, { router, queryParams }) {
 
             <KeyValueLabel label="Packages Selected">
               <div data-test-eholdings-vendor-details-packages-selected>
-                {model.packagesSelected}
+                {intl.formatNumber(model.packagesSelected)}
               </div>
             </KeyValueLabel>
 
             <KeyValueLabel label="Total Packages">
               <div data-test-eholdings-vendor-details-packages-total>
-                {model.packagesTotal}
+                {intl.formatNumber(model.packagesTotal)}
               </div>
             </KeyValueLabel>
 
@@ -87,5 +87,6 @@ VendorShow.propTypes = {
 
 VendorShow.contextTypes = {
   router: PropTypes.object,
-  queryParams: PropTypes.object
+  queryParams: PropTypes.object,
+  intl: PropTypes.object
 };

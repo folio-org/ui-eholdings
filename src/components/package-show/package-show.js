@@ -106,13 +106,13 @@ export default class PackageShow extends Component {
 
               <KeyValueLabel label="Titles Selected">
                 <div data-test-eholdings-package-details-titles-selected>
-                  {model.selectedCount}
+                  {intl.formatNumber(model.selectedCount)}
                 </div>
               </KeyValueLabel>
 
               <KeyValueLabel label="Total Titles">
                 <div data-test-eholdings-package-details-titles-total>
-                  {model.titleCount}
+                  {intl.formatNumber(model.titleCount)}
                 </div>
               </KeyValueLabel>
 

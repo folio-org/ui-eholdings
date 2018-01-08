@@ -70,6 +70,27 @@ describeApplication('PackageShow', () => {
     });
   });
 
+  describe('visiting the package details page for a large package', () => {
+    beforeEach(function () {
+      vendorPackage.selectedCount = 9000;
+      vendorPackage.titleCount = 10000;
+
+      return this.visit(`/eholdings/packages/${vendorPackage.id}`, () => {
+        expect(PackageShowPage.$root).to.exist;
+      });
+    });
+
+    describe('viewing large packages', () => {
+      it('correctly formats the number for selected title count', () => {
+        expect(PackageShowPage.numTitlesSelected).to.equal('9,000');
+      });
+
+      it('correctly formats the number for total title count', () => {
+        expect(PackageShowPage.numTitles).to.equal('10,000');
+      });
+    });
+  });
+
   describe('navigating to package show page', () => {
     beforeEach(function () {
       return this.visit({

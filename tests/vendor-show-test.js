@@ -58,6 +58,27 @@ describeApplication('VendorShow', () => {
     });
   });
 
+  describe('visiting the vendor details page for a large vendor', () => {
+    beforeEach(function () {
+      vendor.packagesSelected = 9000;
+      vendor.packagesTotal = 10000;
+
+      return this.visit(`/eholdings/vendors/${vendor.id}`, () => {
+        expect(VendorShowPage.$root).to.exist;
+      });
+    });
+
+    describe('viewing large vendors', () => {
+      it('correctly formats the number for selected package count', () => {
+        expect(VendorShowPage.numPackagesSelected).to.equal('9,000');
+      });
+
+      it('correctly formats the number for total package count', () => {
+        expect(VendorShowPage.numPackages).to.equal('10,000');
+      });
+    });
+  });
+
   describe('navigating to vendor details page', () => {
     beforeEach(function () {
       return this.visit({
