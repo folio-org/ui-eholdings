@@ -89,18 +89,31 @@ export class Collection {
   }
 
   /**
-   * Returns the first resolved page request for this collection
+   * Caches and returns the first resolved page request for
+   * this collection
    * @returns {Object} the request object
    */
   get request() {
     let { request } = this.getPage(this.currentPage);
+
+    // We cannot use `this.totalPages` as it uses `this.length` which
+    // in turn calls this method for `request`, thereby entering an
+    // infinite loop. This 400 page limit is arbitrary and was only
+    // chosen to ensure all pages are accounted for with up to 10,000
+    // total results (with the default 25 record page size).
+    let pageLimit = 400;
     let page = 1;
 
-    // find the first resolved page up to the current page
-    while (!request.isResolved && page < this.currentPage) {
+    // find the first resolved page up to a page limit
+    while (!request.isResolved && page < pageLimit) {
       request = this.getPage(page).request;
       page += 1;
     }
+
+    // cache the request for this instance
+    Object.defineProperty(this, 'request', {
+      get() { return request; }
+    });
 
     return request;
   }
@@ -165,7 +178,7 @@ export class Collection {
    * True when any requests have been resolved
    * @returns {Boolean}
    */
-  get isLoaded() {
+  get hasLoaded() {
     return !!this.request.timestamp && !this.request.isPending;
   }
 }

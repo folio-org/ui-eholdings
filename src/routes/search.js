@@ -230,6 +230,7 @@ class SearchRoute extends Component {
             resultsView={this.renderResults()}
             detailsView={!hideDetails && children}
             totalResults={results.length}
+            isLoading={!results.hasLoaded}
             searchForm={(
               <SearchForm
                 searchType={searchType}
