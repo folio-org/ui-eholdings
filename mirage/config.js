@@ -195,7 +195,9 @@ export default function configure() {
       id: request.params.id
     });
 
-    let { isSelected } = JSON.parse(request.requestBody);
+    let body = JSON.parse(request.requestBody);
+    let { isSelected } = body.data.attributes;
+
     matchingCustomerResource.update('isSelected', isSelected);
 
     return matchingCustomerResource;
