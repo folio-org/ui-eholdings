@@ -1,8 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import classNames from 'classnames/bind';
 
 import styles from './package-list-item.css';
 import Link from '../link';
+
+const cx = classNames.bind(styles);
 
 export default function PackageListItem({
   item,
@@ -10,13 +13,19 @@ export default function PackageListItem({
   showTitleCount,
   showVendorName,
   packageName
-},
-{
+}, {
   intl
 }) {
-  return item && (
-    <Link to={link}>
-      <h5 className={styles.name} data-test-eholdings-package-list-item-name>
+  return !item ? (
+    <div
+      className={cx('skeleton', {
+        'is-vendor-name-visible': showVendorName,
+        'is-title-count-visible': showTitleCount
+      })}
+    />
+  ) : (
+    <Link to={link} className={styles.item}>
+      <h5 data-test-eholdings-package-list-item-name>
         {packageName || item.name}
       </h5>
 
@@ -34,10 +43,19 @@ export default function PackageListItem({
         {showTitleCount && (
           <span>
             &nbsp;&bull;&nbsp;
-            <span data-test-eholdings-package-list-item-num-titles-selected>{intl.formatNumber(item.selectedCount)}</span>
+
+            <span data-test-eholdings-package-list-item-num-titles-selected>
+              {intl.formatNumber(item.selectedCount)}
+            </span>
+
             &nbsp;/&nbsp;
-            <span data-test-eholdings-package-list-item-num-titles>{intl.formatNumber(item.titleCount)}</span>
+
+            <span data-test-eholdings-package-list-item-num-titles>
+              {intl.formatNumber(item.titleCount)}
+            </span>
+
             &nbsp;
+
             <span>{item.titleCount === 1 ? 'Title' : 'Titles'}</span>
           </span>
         )}
