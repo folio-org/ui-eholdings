@@ -10,6 +10,9 @@ export default function PackageListItem({
   showTitleCount,
   showVendorName,
   packageName
+},
+{
+  intl
 }) {
   return item && (
     <Link to={link}>
@@ -31,9 +34,9 @@ export default function PackageListItem({
         {showTitleCount && (
           <span>
             &nbsp;&bull;&nbsp;
-            <span data-test-eholdings-package-list-item-num-titles-selected>{item.selectedCount}</span>
+            <span data-test-eholdings-package-list-item-num-titles-selected>{intl.formatNumber(item.selectedCount)}</span>
             &nbsp;/&nbsp;
-            <span data-test-eholdings-package-list-item-num-titles>{item.titleCount}</span>
+            <span data-test-eholdings-package-list-item-num-titles>{intl.formatNumber(item.titleCount)}</span>
             &nbsp;
             <span>{item.titleCount === 1 ? 'Title' : 'Titles'}</span>
           </span>
@@ -52,4 +55,8 @@ PackageListItem.propTypes = {
   showTitleCount: PropTypes.bool,
   showVendorName: PropTypes.bool,
   packageName: PropTypes.string
+};
+
+PackageListItem.contextTypes = {
+  intl: PropTypes.object
 };
