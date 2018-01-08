@@ -47,6 +47,10 @@ describeApplication('VendorSearch', () => {
       expect(VendorSearchPage.vendorList[0].numPackages).to.equal(3);
     });
 
+    it('displays a loading indicator where the total results will be', () => {
+      expect(VendorSearchPage.totalResults).to.equal('Loading...');
+    });
+
     it('displays the total number of search results', () => {
       expect(VendorSearchPage.totalResults).to.equal('3 search results');
     });
@@ -116,11 +120,6 @@ describeApplication('VendorSearch', () => {
       });
     });
 
-    describe('clicking on a result', () => {
-      it('shows vendor details');
-      it('shows packages for vendor');
-    });
-
     describe('clicking another search type', () => {
       beforeEach(() => {
         return convergeOn(() => {
@@ -184,7 +183,7 @@ describeApplication('VendorSearch', () => {
           expect(VendorSearchPage.vendorList[4].name).to.equal('Other Vendor 30');
         });
 
-        it('updates the page number in the URL', function () {
+        it('updates the offset in the URL', function () {
           expect(this.app.history.location.search).to.include('offset=26');
         });
       });
@@ -202,8 +201,31 @@ describeApplication('VendorSearch', () => {
         expect(VendorSearchPage.vendorList[4].name).to.equal('Other Vendor 55');
       });
 
-      it('should retain the proper page', function () {
+      it('should retain the proper offset', function () {
         expect(this.app.history.location.search).to.include('offset=51');
+      });
+
+      describe('and then scrolling up', () => {
+        beforeEach(() => {
+          return convergeOn(() => {
+            expect(VendorSearchPage.vendorList.length).to.be.gt(0);
+          }).then(() => {
+            VendorSearchPage.scrollToOffset(0);
+          });
+        });
+
+        // it might take a bit for the next request to be triggered after the scroll
+        it.still('shows the total results', () => {
+          expect(VendorSearchPage.totalResults).to.equal('75 search results');
+        }, 500);
+
+        it('shows the prev page of results', () => {
+          expect(VendorSearchPage.vendorList[0].name).to.equal('Other Vendor 5');
+        });
+
+        it('updates the offset in the URL', function () {
+          expect(this.app.history.location.search).to.include('offset=0');
+        });
       });
     });
   });

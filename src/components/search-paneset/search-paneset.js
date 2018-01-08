@@ -21,6 +21,7 @@ export default class SearchPaneset extends React.Component {
     resultsView: PropTypes.node,
     detailsView: PropTypes.node,
     totalResults: PropTypes.number,
+    isLoading: PropTypes.bool,
     location: PropTypes.object
   };
 
@@ -67,7 +68,8 @@ export default class SearchPaneset extends React.Component {
       resultsType,
       resultsView,
       detailsView,
-      totalResults
+      totalResults,
+      isLoading
     } = this.props;
     let { intl } = this.context;
 
@@ -104,7 +106,7 @@ export default class SearchPaneset extends React.Component {
             <div data-test-eholdings-search-results-header>
               <PaneHeader
                 paneTitle={capitalize(resultsType)}
-                paneSub={`${intl.formatNumber(totalResults)} search results`}
+                paneSub={isLoading ? 'Loading...' : `${intl.formatNumber(totalResults)} search results`}
                 firstMenu={
                   <div className={styles['results-pane-search-toggle']}>
                     <PaneMenu>

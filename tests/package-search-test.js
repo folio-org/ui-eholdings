@@ -45,6 +45,10 @@ describeApplication('PackageSearch', () => {
       expect(PackageSearchPage.packageList[0].vendorName).to.equal(pkgs[0].vendor.name);
     });
 
+    it('displays a loading indicator where the total results will be', () => {
+      expect(PackageSearchPage.totalResults).to.equal('Loading...');
+    });
+
     it('displays the total number of search results', () => {
       expect(PackageSearchPage.totalResults).to.equal('3 search results');
     });
@@ -177,7 +181,7 @@ describeApplication('PackageSearch', () => {
           expect(PackageSearchPage.packageList[4].name).to.equal('Other Package 30');
         });
 
-        it('updates the page number in the URL', function () {
+        it('updates the offset in the URL', function () {
           expect(this.app.history.location.search).to.include('offset=26');
         });
       });
@@ -195,8 +199,31 @@ describeApplication('PackageSearch', () => {
         expect(PackageSearchPage.packageList[4].name).to.equal('Other Package 55');
       });
 
-      it('should retain the proper page', function () {
+      it('should retain the proper offset', function () {
         expect(this.app.history.location.search).to.include('offset=51');
+      });
+
+      describe('and then scrolling up', () => {
+        beforeEach(() => {
+          return convergeOn(() => {
+            expect(PackageSearchPage.packageList.length).to.be.gt(0);
+          }).then(() => {
+            PackageSearchPage.scrollToOffset(0);
+          });
+        });
+
+        // it might take a bit for the next request to be triggered after the scroll
+        it.still('shows the total results', () => {
+          expect(PackageSearchPage.totalResults).to.equal('75 search results');
+        }, 500);
+
+        it('shows the prev page of results', () => {
+          expect(PackageSearchPage.packageList[0].name).to.equal('Other Package 5');
+        });
+
+        it('updates the offset in the URL', function () {
+          expect(this.app.history.location.search).to.include('offset=0');
+        });
       });
     });
   });
