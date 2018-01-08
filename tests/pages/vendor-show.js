@@ -48,6 +48,6 @@ export default {
   },
 
   get $backButton() {
-    return $('[data-test-eholdings-vendor-details-back-button]');
+    return $('[data-test-eholdings-vendor-details-back-button] button');
   }
 };

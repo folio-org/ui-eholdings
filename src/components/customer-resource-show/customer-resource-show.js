@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import Icon from '@folio/stripes-components/lib/Icon';
+import IconButton from '@folio/stripes-components/lib/IconButton';
 import PaneHeader from '@folio/stripes-components/lib/PaneHeader';
 import PaneMenu from '@folio/stripes-components/lib/PaneMenu';
 
@@ -30,7 +31,9 @@ export default function CustomerResourceShow({ model, toggleSelected }, { router
         <PaneHeader
           firstMenu={historyState && historyState.eholdings && (
             <PaneMenu>
-              <button data-test-eholdings-customer-resource-show-back-button onClick={() => router.history.goBack()}><Icon icon="left-arrow" /></button>
+              <div data-test-eholdings-customer-resource-show-back-button>
+                <IconButton icon="left-arrow" onClick={() => router.history.goBack()} />
+              </div>
             </PaneMenu>
           )}
         />

@@ -5,6 +5,11 @@
   position: relative;
 }
 
+.search-pane-toggle {
+  height: 44px;
+  padding: 0 1em;
+}
+
 @media (--largeUp) {
   .search-paneset {
     align-items: flex-start;

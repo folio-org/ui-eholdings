@@ -1,10 +1,14 @@
+@import '@folio/stripes-components/lib/variables';
+
 .kv-label {
   display: block;
-  font-size: 0.8em;
-  font-weight: bold;
-  margin-bottom: 0;
-  text-transform: Uppercase;
-  color: #333;
+  font-weight: 600;
+  margin-bottom: 2px;
+  color: var(--secondary, #333);
+}
+
+.kvValue {
+  line-height: 120%;
 }
 
 .kv-value h1 {
@@ -12,5 +16,5 @@
 }
 
 .kv-root {
-  margin-bottom: 1rem;
+  padding: 0 5px 14px 0;
 }

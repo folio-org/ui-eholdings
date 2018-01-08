@@ -35,7 +35,7 @@ export default {
   },
 
   get totalResults() {
-    return $('[data-test-eholdings-total-search-results]').text();
+    return $('[data-test-eholdings-search-results-header] p').text();
   },
 
   get hasErrors() {
@@ -59,7 +59,7 @@ export default {
   },
 
   get $backButton() {
-    return $('[data-test-eholdings-vendor-details-back-button]');
+    return $('[data-test-eholdings-vendor-details-back-button] button');
   },
 
   clickSearchVignette() {
@@ -93,7 +93,7 @@ export default {
   },
 
   clickBackButton() {
-    return $('[data-test-eholdings-package-details-back-button]').trigger('click');
+    return $('[data-test-eholdings-package-details-back-button] button').trigger('click');
   },
 
   scrollToOffset(readOffset) {

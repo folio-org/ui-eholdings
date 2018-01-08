@@ -52,6 +52,6 @@ export default {
   },
 
   get $backButton() {
-    return $('[data-test-eholdings-title-show-back-button]');
+    return $('[data-test-eholdings-title-show-back-button] button');
   }
 };

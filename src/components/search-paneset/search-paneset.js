@@ -2,7 +2,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import PaneHeader from '@folio/stripes-components/lib/PaneHeader';
 import PaneMenu from '@folio/stripes-components/lib/PaneMenu';
-import Icon from '@folio/stripes-components/lib/Icon';
+import IconButton from '@folio/stripes-components/lib/IconButton';
+import Button from '@folio/stripes-components/lib/Button';
 import capitalize from 'lodash/capitalize';
 
 import SearchPane from '../search-pane';
@@ -87,9 +88,9 @@ export default class SearchPaneset extends React.Component {
           <PaneHeader
             lastMenu={resultsView ? (
               <PaneMenu>
-                <button onClick={this.toggleFilters} className={styles['search-pane-toggle']}>
+                <Button buttonStyle="transparent" onClick={this.toggleFilters} className={styles['search-pane-toggle']}>
                   Apply
-                </button>
+                </Button>
               </PaneMenu>
             ) : null}
           />
@@ -100,23 +101,22 @@ export default class SearchPaneset extends React.Component {
 
         {!!resultsView && (
           <ResultsPane>
-            <PaneHeader
-              paneTitle={(
-                <div className={styles['search-heading']}>
-                  <strong>{capitalize(resultsType)}</strong>
-                  <div data-test-eholdings-total-search-results>
-                    <em>{intl.formatNumber(totalResults)} search results</em>
+            <div data-test-eholdings-search-results-header>
+              <PaneHeader
+                paneTitle={capitalize(resultsType)}
+                paneSub={`${intl.formatNumber(totalResults)} search results`}
+                firstMenu={
+                  <div className={styles['results-pane-search-toggle']}>
+                    <PaneMenu>
+                      <IconButton
+                        onClick={this.toggleFilters}
+                        icon="search"
+                      />
+                    </PaneMenu>
                   </div>
-                </div>
-              )}
-              firstMenu={(
-                <PaneMenu>
-                  <button onClick={this.toggleFilters} className={styles['results-pane-search-toggle']}>
-                    &larr; Search
-                  </button>
-                </PaneMenu>
-              )}
-            />
+                }
+              />
+            </div>
             <div className={styles['scrollable-container']}>
               {resultsView}
             </div>
@@ -128,9 +128,10 @@ export default class SearchPaneset extends React.Component {
             <PaneHeader
               firstMenu={(
                 <PaneMenu>
-                  <button onClick={this.closePreview}>
-                    <Icon icon="closeX" />
-                  </button>
+                  <IconButton
+                    onClick={this.closePreview}
+                    icon="closeX"
+                  />
                 </PaneMenu>
               )}
             />
