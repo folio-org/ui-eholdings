@@ -31,5 +31,5 @@
 
 .scrollable-container {
   height: calc(100vh - 88px);
-  overflow-y: scroll;
+  overflow-y: auto;
 }
