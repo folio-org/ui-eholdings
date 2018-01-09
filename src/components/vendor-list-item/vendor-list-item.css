@@ -1,8 +1,9 @@
 .item {
   height: 100%;
 
-  & h5, & div {
-    overflow: hidden;
+  & h5,
+  & div {
+    overflow-x: hidden;
     white-space: nowrap;
     text-overflow: ellipsis;
   }
@@ -24,10 +25,10 @@
     8em 1em;    /* selection */
   background-position:
     0 0.1em,     /* name */
-    0 1.7em; /* selection */
+    0 1.75em; /* selection */
 
   /* shimmer effect */
-  &:after {
+  &::after {
     content: '';
     position: absolute;
     top: 0;
