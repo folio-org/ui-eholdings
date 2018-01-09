@@ -32,4 +32,5 @@
 .scrollable-container {
   height: calc(100vh - 88px);
   overflow-y: auto;
+  -webkit-overflow-scroll: touch;
 }
