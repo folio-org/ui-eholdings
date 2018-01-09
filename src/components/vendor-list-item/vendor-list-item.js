@@ -5,16 +5,27 @@ import styles from './vendor-list-item.css';
 import Link from '../link';
 
 export default function VendorListItem({ item, link }, { intl }) {
-  return item && (
-    <Link to={link}>
-      <h5 className={styles.name} data-test-eholdings-vendor-list-item-name>
+  return !item ? (
+    <div className={styles.skeleton} />
+  ) : (
+    <Link to={link} className={styles.item}>
+      <h5 data-test-eholdings-vendor-list-item-name>
         {item.name}
       </h5>
+
       <div data-test-eholdings-vendor-list-item-selections>
-        <span data-test-eholdings-vendor-list-item-num-packages-selected>{intl.formatNumber(item.packagesSelected)}</span>
+        <span data-test-eholdings-vendor-list-item-num-packages-selected>
+          {intl.formatNumber(item.packagesSelected)}
+        </span>
+
         &nbsp;/&nbsp;
-        <span data-test-eholdings-vendor-list-item-num-packages-total>{intl.formatNumber(item.packagesTotal)}</span>
+
+        <span data-test-eholdings-vendor-list-item-num-packages-total>
+          {intl.formatNumber(item.packagesTotal)}
+        </span>
+
         &nbsp;
+
         <span>{item.packagesTotal === 1 ? 'Package' : 'Packages'}</span>
       </div>
     </Link>
