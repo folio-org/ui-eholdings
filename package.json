@@ -60,7 +60,7 @@
     "route": "/eholdings",
     "hasSettings": true,
     "okapiInterfaces": {
-      "kb-ebsco": "0.1.0"
+      "eholdings": "0.1"
     },
     "permissionSets": [
       {
