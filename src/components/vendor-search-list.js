@@ -18,7 +18,7 @@ export default function VendorSearchList({
       fetch={fetch}
       collection={collection}
       onUpdateOffset={onUpdateOffset}
-      itemHeight={65}
+      itemHeight={68}
       notFoundMessage={`No vendors found for "${params.q}".`}
       renderItem={item => (
         <VendorListItem

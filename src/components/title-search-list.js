@@ -18,7 +18,7 @@ export default function TitleSearchList({
       fetch={fetch}
       collection={collection}
       onUpdateOffset={onUpdateOffset}
-      itemHeight={80}
+      itemHeight={84}
       notFoundMessage={`No titles found for "${params.q}".`}
       renderItem={item => (
         <TitleListItem

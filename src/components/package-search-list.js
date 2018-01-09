@@ -18,7 +18,7 @@ export default function PackageSearchList({
       fetch={fetch}
       collection={collection}
       onUpdateOffset={onUpdateOffset}
-      itemHeight={80}
+      itemHeight={84}
       notFoundMessage={`No packages found for "${params.q}".`}
       renderItem={item => (
         <PackageListItem
