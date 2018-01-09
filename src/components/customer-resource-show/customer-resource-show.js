@@ -241,7 +241,24 @@ export default class CustomerResourceShow extends Component {
             </div>
           )}
         >
-          Are you sure you want to remove this title from your holdings? All customizations will be lost.
+          {
+            /*
+               we use <= here to account for the case where a user
+               selects and then immediately deselects the
+               customerResource
+            */
+            model.package.selectedCount <= 1
+              ? (
+                <span data-test-eholdings-final-title-warning>
+                  Are you sure you want to remove this title from your holdings?
+                  It is also the last title selected in this package. By removing
+                  this title, you will also remove this package from your holdings
+                  and all customizations will be lost.
+                </span>
+              )
+              : 'Are you sure you want to remove this title from your holdings? ' +
+                'All customizations will be lost.'
+          }
         </Modal>
       </div>
     );

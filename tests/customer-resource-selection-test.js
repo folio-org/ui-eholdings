@@ -97,6 +97,10 @@ describeApplication('CustomerResourceShow', () => {
           expect(ResourcePage.isSelected).to.equal(false);
         });
 
+        it('warns the user that they are deselecting the final title in the package', () => {
+          expect(ResourcePage.$finalTitleWarning).to.exist;
+        });
+
         describe('canceling the deselection', () => {
           beforeEach(() => {
             ResourcePage.cancelDeselection();

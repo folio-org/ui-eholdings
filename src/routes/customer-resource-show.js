@@ -53,7 +53,7 @@ export default connect(
   ({ eholdings: { data } }, { match }) => ({
     model: createResolver(data).find('customerResources', match.params.id)
   }), {
-    getCustomerResource: id => CustomerResource.find(id),
+    getCustomerResource: id => CustomerResource.find(id, { include: 'package' }),
     updateResource: model => CustomerResource.save(model)
   }
 )(CustomerResourceShowRoute);

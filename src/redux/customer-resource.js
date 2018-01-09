@@ -1,4 +1,4 @@
-import model from './model';
+import model, { belongsTo } from './model';
 
 class CustomerResource {
   name = '';
@@ -7,6 +7,7 @@ class CustomerResource {
   vendorName = '';
   packageId = 0;
   packageName = '';
+  package = belongsTo();
   publisherName = '';
   publicationType = '';
   contentType = '';
