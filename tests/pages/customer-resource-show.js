@@ -74,26 +74,40 @@ export default {
   get isHidden() {
     return $('[data-test-eholdings-customer-resource-show-is-hidden]').length === 1;
   },
+
   get hiddenReason() {
     return $('[data-test-eholdings-customer-resource-show-hidden-reason]').text();
   },
+
   get managedEmbargoPeriod() {
     return $('[data-test-eholdings-customer-resource-show-managed-embargo-period]').text();
   },
+
   get managedCoverageList() {
     return $('[data-test-eholdings-customer-resource-show-managed-coverage-list]').text();
   },
+
   get customEmbargoPeriod() {
     return $('[data-test-eholdings-customer-resource-show-custom-embargo-period]').text();
   },
+
   get identifiersList() {
     return $('[data-test-eholdings-identifiers-list-item]').toArray().map(item => $(item).text());
   },
+
   get contributorsList() {
     return $('[data-test-eholdings-contributors-list-item]').toArray().map(item => $(item).text());
   },
 
   get $backButton() {
     return $('[data-test-eholdings-customer-resource-show-back-button] button');
+  },
+
+  confirmDeselection() {
+    return $('[data-test-eholdings-customer-resource-deselection-confirmation-modal-yes]').trigger('click');
+  },
+
+  cancelDeselection() {
+    return $('[data-test-eholdings-customer-resource-deselection-confirmation-modal-no]').trigger('click');
   }
 };
