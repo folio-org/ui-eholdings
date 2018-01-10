@@ -103,8 +103,12 @@ export default {
     return $('[data-test-eholdings-customer-resource-show-back-button] button');
   },
 
-  get $finalTitleWarning() {
-    return $('[data-test-eholdings-final-title-warning]');
+  get $deselectTitleWarning() {
+    return $('[data-test-eholdings-deselect-title-warning]');
+  },
+
+  get $deselectFinalTitleWarning() {
+    return $('[data-test-eholdings-deselect-final-title-warning]');
   },
 
   confirmDeselection() {
