@@ -15,7 +15,8 @@ class ProviderShowRoute extends Component {
       }).isRequired
     }).isRequired,
     model: PropTypes.object.isRequired,
-    getProvider: PropTypes.func.isRequired
+    getProvider: PropTypes.func.isRequired,
+    getPackages: PropTypes.func.isRequired
   };
 
   componentWillMount() {
@@ -29,10 +30,18 @@ class ProviderShowRoute extends Component {
     }
   }
 
+  fetchPackages = (page) => {
+    let { match, getPackages } = this.props;
+    let { providerId } = match.params;
+
+    getPackages(providerId, { page });
+  };
+
   render() {
     return (
       <View
         model={this.props.model}
+        fetchPackages={this.fetchPackages}
       />
     );
   }
@@ -42,6 +51,7 @@ export default connect(
   ({ eholdings: { data } }, { match }) => ({
     model: createResolver(data).find('providers', match.params.providerId)
   }), {
-    getProvider: id => Provider.find(id, { include: 'packages' })
+    getProvider: id => Provider.find(id, { include: 'packages' }),
+    getPackages: (id, params) => Provider.queryRelated(id, 'packages', params)
   }
 )(ProviderShowRoute);

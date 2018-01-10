@@ -62,7 +62,8 @@ export default class ScrollView extends Component {
 
   // debounce the `onUpdate` prop
   triggerUpdate = debounce((offset) => {
-    this.props.onUpdate(offset);
+    let { onUpdate } = this.props;
+    if (onUpdate) onUpdate(offset);
   }, 300);
 
   // Sets the list's scrollTop based on the itemHeight and
@@ -83,8 +84,10 @@ export default class ScrollView extends Component {
   handleScroll = (e) => {
     let { itemHeight } = this.props;
 
-    let top = e.target.scrollTop;
+    let top = e.currentTarget.scrollTop;
     let offset = Math.floor(top / itemHeight);
+
+    e.stopPropagation();
 
     // update impagination's readOffset
     if (this.state.offset !== offset) {

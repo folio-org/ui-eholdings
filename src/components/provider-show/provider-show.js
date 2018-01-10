@@ -7,11 +7,18 @@ import PaneHeader from '@folio/stripes-components/lib/PaneHeader';
 import PaneMenu from '@folio/stripes-components/lib/PaneMenu';
 
 import KeyValueLabel from '../key-value-label';
-import List from '../list';
+import QueryList from '../query-list';
 import PackageListItem from '../package-list-item';
 import styles from './provider-show.css';
 
-export default function ProviderShow({ model }, { router, queryParams, intl }) {
+export default function ProviderShow({
+  model,
+  fetchPackages
+}, {
+  router,
+  queryParams,
+  intl
+}) {
   let historyState = router.history.location.state;
 
   return (
@@ -53,21 +60,22 @@ export default function ProviderShow({ model }, { router, queryParams, intl }) {
             <hr />
 
             <h3>Packages</h3>
-            <List>
-              {model.packages.isLoading ? (
-                <Icon icon="spinner-ellipsis" />
-              ) : (
-                model.packages.map(pkg => (
-                  <li key={pkg.id} data-test-eholdings-package-list-item>
-                    <PackageListItem
-                      link={`/eholdings/packages/${pkg.id}`}
-                      showTitleCount
-                      item={pkg}
-                    />
-                  </li>
-                ))
-              )}
-            </List>
+
+            <div style={{ height: 500 }}>
+              <QueryList
+                type="provider-packages"
+                fetch={fetchPackages}
+                collection={model.packages}
+                itemHeight={84}
+                renderItem={item => (
+                  <PackageListItem
+                    link={item.content && `/eholdings/packages/${item.content.id}`}
+                    item={item.content}
+                    showTitleCount
+                  />
+                )}
+              />
+            </div>
           </div>
         ) : model.request.isRejected ? (
           <p data-test-eholdings-provider-details-error>
@@ -82,7 +90,8 @@ export default function ProviderShow({ model }, { router, queryParams, intl }) {
 }
 
 ProviderShow.propTypes = {
-  model: PropTypes.object.isRequired
+  model: PropTypes.object.isRequired,
+  fetchPackages: PropTypes.func.isRequired
 };
 
 ProviderShow.contextTypes = {

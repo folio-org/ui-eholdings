@@ -137,7 +137,23 @@ export default function configure() {
   this.get('/providers', searchRouteFor('providers'));
 
   this.get('/providers/:id', ({ providers }, request) => {
-    return providers.find(request.params.id);
+    let provider = providers.find(request.params.id);
+    provider.packages = provider.packages.slice(0, 25);
+    return provider;
+  });
+
+  this.get('/providers/:id/packages', function providerPackages({ packages }, request) {
+    let page = Math.max(parseInt(request.queryParams.page || 1, 10), 1);
+    let count = parseInt(request.queryParams.count || 25, 10);
+    let offset = (page - 1) * count;
+
+    let json = this.serialize(packages.where({
+      providerId: request.params.id
+    }));
+
+    json.meta = { totalResults: json.data.length };
+    json.data = json.data.slice(offset, offset + count);
+    return json;
   });
 
   // Package resources
