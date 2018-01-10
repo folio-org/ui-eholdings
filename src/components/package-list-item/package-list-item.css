@@ -1,8 +1,9 @@
 .item {
   height: 100%;
 
-  & h5, & div {
-    overflow: hidden;
+  & h5,
+  & div {
+    overflow-x: hidden;
     white-space: nowrap;
     text-overflow: ellipsis;
   }
@@ -24,7 +25,7 @@
     4em 1em;    /* selected */
   background-position:
     0 0.1em, /* name */
-    0 1.7em; /* selected */
+    0 1.75em; /* selected */
 
   &.is-vendor-name-visible {
     background-image:
@@ -37,8 +38,8 @@
       5em 1em;    /* selected */
     background-position:
       0 0.1em, /* name */
-      0 1.7em, /* vendor */
-      0 2.7em; /* selected */
+      0 1.75em, /* vendor */
+      0 2.9em; /* selected */
   }
 
   &.is-title-count-visible {
@@ -52,12 +53,12 @@
       8em 1em;    /* count */
     background-position:
       0 0.1em, /* name */
-      0 1.7em, /* selected */
-      0 2.7em; /* count */
+      0 1.75em, /* selected */
+      0 2.9em; /* count */
   }
 
   /* shimmer effect */
-  &:after {
+  &::after {
     content: '';
     position: absolute;
     top: 0;

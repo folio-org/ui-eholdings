@@ -1,8 +1,9 @@
 .item {
   height: 100%;
 
-  & h5, & div {
-    overflow: hidden;
+  & h5,
+  & div {
+    overflow-x: hidden;
     white-space: nowrap;
     text-overflow: ellipsis;
   }
@@ -32,7 +33,7 @@
       5em 1em;    /* selected */
     background-position:
       0 0.1em, /* name */
-      0 1.7em, /* selected */
+      0 1.75em, /* selected */
   }
 
   &.is-publisher-and-type-visible {
@@ -46,12 +47,12 @@
       5em 1em;    /* type */
     background-position:
       0 0.1em, /* name */
-      0 1.7em, /* publisher */
-      0 2.7em; /* type */
+      0 1.75em, /* publisher */
+      0 2.9em; /* type */
   }
 
   /* shimmer effect */
-  &:after {
+  &::after {
     content: '';
     position: absolute;
     top: 0;
