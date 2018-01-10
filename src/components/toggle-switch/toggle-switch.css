@@ -14,6 +14,10 @@
     background-color: var(--success);
   }
 
+  & input:disabled + .toggle-switch-slider {
+    background-color: var(--secondary);
+  }
+
   & input:checked + .toggle-switch-slider::before {
     transform: translateX(26px);
   }
@@ -35,7 +39,7 @@
 }
 
 .toggle-switch-slider {
-  background-color: #333;
+  background-color: var(--labelColor);
   border-radius: 34px;
   bottom: 0;
   cursor: pointer;
