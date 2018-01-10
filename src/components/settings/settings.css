@@ -1,8 +1,12 @@
 @import '@folio/stripes-components/lib/variables';
 
 .eholdings-settings {
-  padding: 2em;
+  padding: 0 2em;
   width: 100%;
+
+  & h2 {
+    margin: 0.83em 0;
+  }
 
   & form {
     max-width: 40em;
@@ -80,4 +84,10 @@
   align-items: center;
   flex-grow: 1;
   color: var(--error);
+}
+
+.eholdings-settings-back-button {
+  @media (--mediumUp) {
+    display: none;
+  }
 }

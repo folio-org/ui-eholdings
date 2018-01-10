@@ -1,6 +1,10 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames/bind';
+import Link from 'react-router-dom/Link';
+import Pane from '@folio/stripes-components/lib/Pane';
+import IconButton from '@folio/stripes-components/lib/IconButton';
+
 import styles from './settings.css';
 
 const cx = classNames.bind(styles);
@@ -93,71 +97,77 @@ export default class Settings extends Component {
     let isValid = customerId && apiKey;
 
     return (
-      <div className={styles['eholdings-settings']}>
-        <h1>eHoldings</h1>
+      <Pane
+        defaultWidth="fill"
+        paneTitle="eHoldings"
+        firstMenu={(
+          <Link to="/settings" className={styles['eholdings-settings-back-button']}><IconButton icon="left-arrow" /></Link>
+        )}
+      >
+        <div className={styles['eholdings-settings']}>
+          <h2 data-test-eholdings-settings-description>
+            EBSCO Knowledge Base
+          </h2>
 
-        <h2 data-test-eholdings-settings-description>
-          EBSCO Knowledge Base
-        </h2>
-
-        <form
-          onSubmit={this.handleSubmit}
-          data-test-eholdings-settings
-        >
-          {settings.request.isRejected && (
-            <p data-test-eholdings-settings-error>
-              {settings.request.errors[0].title}
-            </p>
-          )}
-
-          <div
-            data-test-eholdings-settings-customerid
-            className={cx(styles['eholdings-settings-field'], {
-              'has-error': invalidCustomerId
-            })}
+          <form
+            onSubmit={this.handleSubmit}
+            data-test-eholdings-settings
           >
-            <label htmlFor="eholdings-settings-customerid">Customer ID</label>
-            <input
-              id="eholdings-settings-customerid"
-              type="text"
-              autoComplete="off"
-              value={customerId}
-              onChange={this.updateCustomerId}
-              onBlur={this.validateCustomerId}
-            />
-          </div>
+            {settings.request.isRejected && (
+              <p data-test-eholdings-settings-error>
+                {settings.request.errors[0].title}
+              </p>
+            )}
 
-          <div
-            data-test-eholdings-settings-apikey
-            className={cx(styles['eholdings-settings-field'], {
-              'has-error': invalidApiKey
-            })}
-          >
-            <label htmlFor="eholdings-settings-apikey">API Key</label>
-            <input
-              id="eholdings-settings-apikey"
-              type="text"
-              autoComplete="off"
-              value={apiKey}
-              onChange={this.updateApiKey}
-              onBlur={this.validateApiKey}
-            />
-          </div>
-
-          {(isFresh || isDirty) && (
-            <div className={styles['eholdings-settings-form-actions']} data-test-eholdings-settings-actions>
-              <button type="submit" disabled={!isValid || settings.isSaving}>Save</button>
-              <button type="reset" onClick={this.handleClear}>Cancel</button>
-
-              {settings.update.isRejected && (
-                <div className={styles['eholdings-settings-save-error']} data-test-eholdings-settings-error>
-                  {settings.update.errors[0].title}
-                </div>
-              )}
+            <div
+              data-test-eholdings-settings-customerid
+              className={cx(styles['eholdings-settings-field'], {
+                'has-error': invalidCustomerId
+              })}
+            >
+              <label htmlFor="eholdings-settings-customerid">Customer ID</label>
+              <input
+                id="eholdings-settings-customerid"
+                type="text"
+                autoComplete="off"
+                value={customerId}
+                onChange={this.updateCustomerId}
+                onBlur={this.validateCustomerId}
+              />
             </div>
-          )}
-        </form>
-      </div>
+
+            <div
+              data-test-eholdings-settings-apikey
+              className={cx(styles['eholdings-settings-field'], {
+                'has-error': invalidApiKey
+              })}
+            >
+              <label htmlFor="eholdings-settings-apikey">API Key</label>
+              <input
+                id="eholdings-settings-apikey"
+                type="text"
+                autoComplete="off"
+                value={apiKey}
+                onChange={this.updateApiKey}
+                onBlur={this.validateApiKey}
+              />
+            </div>
+
+            {(isFresh || isDirty) && (
+              <div className={styles['eholdings-settings-form-actions']} data-test-eholdings-settings-actions>
+                <button type="submit" disabled={!isValid || settings.isSaving}>Save</button>
+                <button type="reset" onClick={this.handleClear}>Cancel</button>
+
+                {settings.update.isRejected && (
+                  <div className={styles['eholdings-settings-save-error']} data-test-eholdings-settings-error>
+                    {settings.update.errors[0].title}
+                  </div>
+                )}
+              </div>
+            )}
+          </form>
+        </div>
+      </Pane>
     );
   }
 }
