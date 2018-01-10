@@ -3,11 +3,12 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import Icon from '@folio/stripes-components/lib/Icon';
 
-import { createResolver } from '../redux';
-import { Status } from '../redux/application';
-import NoBackendErrorScreen from '../components/error-screen/no-backend';
-import FailedBackendErrorScreen from '../components/error-screen/failed-backend';
-import InvalidBackendErrorScreen from '../components/error-screen/invalid-backend';
+import { createResolver } from '../../redux';
+import { Status } from '../../redux/application';
+import NoBackendErrorScreen from '../../components/error-screen/no-backend';
+import FailedBackendErrorScreen from '../../components/error-screen/failed-backend';
+import InvalidBackendErrorScreen from '../../components/error-screen/invalid-backend';
+import styles from './application.css';
 
 class ApplicationRoute extends Component {
   static propTypes = {
@@ -31,7 +32,7 @@ class ApplicationRoute extends Component {
     } = this.props;
 
     return (
-      <div className="eholdings-application" data-test-eholdings-application>
+      <div className={styles['eholdings-application']} data-test-eholdings-application>
         {version ? (status.isLoading ? (
           <Icon icon="spinner-ellipsis" />
         ) : status.request.isRejected ? (
