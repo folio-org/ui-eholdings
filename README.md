@@ -1,6 +1,14 @@
-# Folio e-holdings application
+# ui-eholdings
 
-[![Build Status](https://travis-ci.org/thefrontside/ui-eholdings.svg?branch=master)](https://travis-ci.org/thefrontside/ui-eholdings)
+[![Build Status](https://travis-ci.org/folio-org/ui-eholdings.svg?branch=master)](https://travis-ci.org/folio-org/ui-eholdings)
+
+Copyright (C) 2017-2018 The Open Library Foundation
+
+This software is distributed under the terms of the Apache License,
+Version 2.0. See the file "[LICENSE](LICENSE)" for more information.
+
+## Introduction
+The `ui-eholdings` module adds the ability to manage electronic holdings in FOLIO. The first supported knowledge base is from EBSCO.
 
 ## Prerequisites
 
@@ -10,7 +18,7 @@
 
 ## Installation
 
-* `git clone https://github.com/thefrontside/ui-eholdings`
+* `git clone https://github.com/folio-org/ui-eholdings`
 * `cd ui-eholdings`
 * `yarn`
 

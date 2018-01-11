@@ -1,10 +1,10 @@
 {
   "name": "@folio/eholdings",
   "version": "0.1.0",
-  "description": "FOLIO eholdings management application",
+  "description": "FOLIO UI module for eHoldings",
   "main": "src/index.js",
-  "repository": "https://github.com/thefrontside/ui-eholdings",
-  "license": "MIT",
+  "repository": "https://github.com/folio-org/ui-eholdings",
+  "license": "Apache-2.0",
   "scripts": {
     "postinstall": "bin/link-self",
     "start": "NODE_ENV=development node demo/stripes.js dev demo/stripes.config.js",
