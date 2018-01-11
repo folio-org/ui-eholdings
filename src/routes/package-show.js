@@ -43,6 +43,14 @@ class PackageShowRoute extends Component {
     let { model, updatePackage } = this.props;
     model.isSelected = !model.isSelected;
     model.selectedCount = model.isSelected ? model.titleCount : 0;
+
+    // clear out any customizations before sending to server
+    if (!model.isSelected) {
+      model.visibilityData.isHidden = false;
+      model.customCoverage.beginCoverage = null;
+      model.customCoverage.endCoverage = null;
+    }
+
     updatePackage(model);
   };
 
