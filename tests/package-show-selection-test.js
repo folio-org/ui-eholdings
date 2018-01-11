@@ -143,6 +143,16 @@ describeApplication('PackageShowSelection', () => {
             it('updates the selected title count', () => {
               expect(PackageShowPage.numTitlesSelected).to.equal(`${vendorPackage.titleCount}`);
             });
+
+            it('removes custom coverage', () => {
+              expect(vendorPackage.customCoverage.beginCoverage).to.equal(null);
+              expect(vendorPackage.customCoverage.endCoverage).to.equal(null);
+            });
+
+            it('is not hidden', () => {
+              expect(vendorPackage.visibilityData.isHidden).to.equal(false);
+              expect(PackageShowPage.isHidden).to.equal(false);
+            });
           });
         });
       });

@@ -36,6 +36,15 @@ class CustomerResourceShowRoute extends Component {
   toggleSelected = () => {
     let { model, updateResource } = this.props;
     model.isSelected = !model.isSelected;
+
+    // clear out any customizations before sending to server
+    if (!model.isSelected) {
+      model.visibilityData.isHidden = false;
+      model.customCoverages = [];
+      model.customEmbargoPeriod.embargoUnit = null;
+      model.customEmbargoPeriod.customEmbargoValue = 0;
+    }
+
     updateResource(model);
   }
 
