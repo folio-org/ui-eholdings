@@ -53,11 +53,18 @@ class PackageShowRoute extends Component {
     updatePackage(model);
   };
 
+  toggleHidden = () => {
+    let { model, updatePackage } = this.props;
+    model.visibilityData.isHidden = !model.visibilityData.isHidden;
+    updatePackage(model);
+  };
+
   render() {
     return (
       <View
         model={this.props.model}
         toggleSelected={this.toggleSelected}
+        toggleHidden={this.toggleHidden}
       />
     );
   }

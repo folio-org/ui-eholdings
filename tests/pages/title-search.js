@@ -21,6 +21,10 @@ function createTitleObject(element) {
 
     get isSelected() {
       return $scope.find('[data-test-eholdings-title-list-item-title-selected]').text() === 'Selected';
+    },
+
+    get isHidden() {
+      return $scope.find('[data-test-eholdings-title-list-item-title-hidden]').text() === 'Hidden';
     }
   };
 }

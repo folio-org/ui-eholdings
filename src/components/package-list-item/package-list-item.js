@@ -59,6 +59,14 @@ export default function PackageListItem({
             <span>{item.titleCount === 1 ? 'Title' : 'Titles'}</span>
           </span>
         )}
+        {item.visibilityData.isHidden && (
+          <span>
+              &nbsp;&bull;&nbsp;
+            <span data-test-eholdings-package-list-item-title-hidden>
+              {'Hidden'}
+            </span>
+          </span>
+        )}
       </div>
     </Link>
   );
