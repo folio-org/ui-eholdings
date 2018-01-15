@@ -67,6 +67,11 @@
         "permissionName": "module.eholdings.enabled",
         "displayName": "UI: eHoldings module is enabled",
         "visible": true
+      },
+      {
+        "permissionName": "settings.eholdings.enabled",
+        "displayName": "Settings (eHoldings): display list of settings pages",
+        "visible": true
       }
     ]
   }
