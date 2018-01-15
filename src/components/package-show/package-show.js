@@ -134,7 +134,7 @@ export default class PackageShow extends Component {
                 <ToggleSwitch
                   onChange={this.handleSelectionToggle}
                   checked={packageSelected}
-                  isPending={model.update.isPending}
+                  isPending={model.update.isPending && 'isSelected' in model.update.changedAttributes}
                   id="package-details-toggle-switch"
                 />
               </label>
