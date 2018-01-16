@@ -38,6 +38,9 @@ it on with the `--mirage` option:
 
 * `yarn test` (uses Karma and Mocha to test the application)
 
+To add Istanbul instrumentation and a code coverage report:
+* `yarn test --coverage`
+
 ## Building
 
 * `yarn build`
