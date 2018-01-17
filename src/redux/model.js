@@ -392,6 +392,13 @@ function describeHasMany(key, relType = key) {
 /**
  * Helper to produce a property descriptor for a belongsTo relationship
  * on a model
+ *
+ * For `belongsTo`, there are two potential locations for relationship data:
+ * in the case that related records have been fetched via JSONAPI `include` keyword,
+ * the linkage can be found in the `relationships` key, but to link stored records
+ * without a `relationship` key we can also examine the record's attributes on the
+ * assumption that foreign keys are of the form `datatypeId` (i.e. packageId, vendorId, etc.)
+ *
  * @param {String} key - the relationship key
  * @param {String} [relType=key] - the relationship type, defaults to
  * the pluralized relationship key
@@ -403,8 +410,14 @@ function describeBelongsTo(key, relType = pluralize(key)) {
       let Model = this.resolver.modelFor(relType);
       let model = new Model(null, this.resolver); // eslint-disable-line no-shadow
 
+      let relId = `${key}Id`;
+
+      // check for related records first based on `relationship` if it exists
       if (hasOwnProperty(this.data.relationships, key) && this.data.relationships[key].data) {
         model = new Model(this.data.relationships[key].data.id, this.resolver);
+      // in absence of explicit `relationship` data, check for foreign keys in attributes
+      } else if (hasOwnProperty(this.data.attributes, relId) && this.data.attributes[relId]) {
+        model = new Model(this.data.attributes[relId], this.resolver);
       }
 
       return model;
