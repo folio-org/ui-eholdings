@@ -18,4 +18,4 @@ cache:
   yarn: true
 script:
   - yarn lint
-  - yarn test --single-run --browsers=$BROWSER
+  - yarn test --single-run --browsers=$BROWSER --coverage

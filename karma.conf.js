@@ -45,6 +45,10 @@ module.exports = (config) => {
       project: 'ui-eholdings'
     },
 
+    client: {
+      args: ['--coverage', config.coverage]
+    },
+
     // define browsers
     customLaunchers: {
       Chrome_travis_ci: {
@@ -64,16 +68,6 @@ module.exports = (config) => {
       { pattern: 'tests/index.js', watched: false }
     ],
 
-    preprocessors: {
-      'tests/index.js': ['webpack']
-    },
-
-    webpack: webpackConfig,
-
-    webpackMiddleware: {
-      stats: 'errors-only'
-    },
-
     mochaReporter: {
       showDiff: true
     },
@@ -84,12 +78,48 @@ module.exports = (config) => {
       'karma-mocha',
       'karma-webpack',
       'karma-mocha-reporter'
-    ]
+    ],
+
+    preprocessors: {
+      'tests/index.js': ['webpack']
+    },
+
+    webpackMiddleware: {
+      stats: 'errors-only'
+    }
   };
+
+  // Turn on coverage reports if --coverage option set
+  if (config.coverage) {
+    configuration.coverageReporter = {
+      type: 'text',
+      includeAllSources: true,
+      check: {
+        global: { // thresholds under which karma will return failure
+          statements: 95,
+          branches: 85, // should be raised after getting this % up
+          functions: 95,
+          lines: 95
+        }
+      }
+    };
+    configuration.plugins.push('karma-coverage');
+    configuration.reporters.push('coverage');
+
+    // Brittle way of injecting babel-plugin-istanbul into the webpack config.
+    // Should probably be moved to stripes-core when it has more test infrastructure.
+    let babelLoaderConfigIndex = webpackConfig.module.rules.findIndex((rule) => {
+      return rule.loader === 'babel-loader';
+    });
+    webpackConfig.module.rules[babelLoaderConfigIndex].options.plugins = [
+      require.resolve('babel-plugin-istanbul')
+    ];
+  }
 
   if (process.env.TRAVIS) {
     configuration.browsers = ['Chrome_travis_ci'];
   }
 
+  configuration.webpack = webpackConfig;
   config.set(configuration);
 };
