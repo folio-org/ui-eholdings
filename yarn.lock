@@ -13,7 +13,7 @@
     react-hotkeys "^0.10.0"
     react-router-dom "^4.0.0"
 
-"@folio/stripes-cli@folio-org/stripes-cli", stripes-cli@folio-org/stripes-cli:
+"@folio/stripes-cli@folio-org/stripes-cli":
   version "0.11.0"
   resolved "https://codeload.github.com/folio-org/stripes-cli/tar.gz/1733d3105fa78fd937a57bc99e7224319846dd18"
   dependencies:
