@@ -119,21 +119,24 @@ const reject = (request, errors, data) => ({
  * @param {String} data.type - the resource type
  * @param {Object} data.params - request params
  */
-const makeRequest = (type, data) => ({
-  [data.timestamp]: {
-    timestamp: data.timestamp,
-    type,
-    path: data.path,
-    resource: data.type,
-    params: data.params,
-    isPending: true,
-    isResolved: false,
-    isRejected: false,
-    records: data.params.id ? [data.params.id] : [],
-    meta: {},
-    errors: []
-  }
-});
+const makeRequest = (type, data) => {
+  return {
+    [data.timestamp]: {
+      timestamp: data.timestamp,
+      type,
+      path: data.path,
+      resource: data.type,
+      params: data.params,
+      isPending: true,
+      isResolved: false,
+      isRejected: false,
+      records: data.params.id ? [data.params.id] : [],
+      changedAttributes: data.changedAttributes,
+      meta: {},
+      errors: []
+    }
+  };
+};
 
 /**
  * Helper for retrieving or creating a record from the resource
@@ -198,6 +201,30 @@ const formatErrors = (errors) => {
   }
 };
 
+/**
+ * Helper for calculating the difference between old and new state
+ * with model.save(). Borrows heavily from Ember Data.
+ * @param {Object} oldData - current state of attributes in store
+ * @param {Object} newData - requested new state of attributes
+ * @returns {Object} set of attributes with change
+ */
+const getChangedAttributes = (oldData, newData) => {
+  let diffData = Object.create(null);
+  let newDataKeys = Object.keys(newData);
+
+  for (let i = 0, length = newDataKeys.length; i < length; i++) {
+    let key = newDataKeys[i];
+    if (oldData[key] !== newData[key]) {
+      diffData[key] = {
+        prev: oldData[key],
+        next: newData[key]
+      };
+    }
+  }
+
+  return diffData;
+};
+
 // reducer handlers
 const handlers = {
 
@@ -243,20 +270,27 @@ const handlers = {
    * @param {Object} action.data - data associated with the query
    * @param {String} action.data.params.id - the id of the requested record
    */
-  [actionTypes.SAVE]: (state, { data }) => {
-    return reduceData(data.type, state, store => ({
-      requests: {
-        ...store.requests,
-        ...makeRequest('update', data)
-      },
-      records: {
-        ...store.records,
-        [data.params.id]: {
-          ...getRecord(store, data.params.id),
-          isSaving: true
+  [actionTypes.SAVE]: (state, { data, payload }) => {
+    return reduceData(data.type, state, (store) => {
+      let record = getRecord(store, data.params.id);
+
+      return {
+        requests: {
+          ...store.requests,
+          ...makeRequest('update', {
+            ...data,
+            changedAttributes: getChangedAttributes(record.attributes, payload.data.attributes)
+          })
+        },
+        records: {
+          ...store.records,
+          [data.params.id]: {
+            ...record,
+            isSaving: true
+          }
         }
-      }
-    }));
+      };
+    });
   },
 
   /**
