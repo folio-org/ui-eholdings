@@ -9,7 +9,13 @@
 # In other words, our test files can require('@folio/eholdings') and
 # our demo stripe platfrom can require('@folio/eholdings'). Without
 # this link it will throw an ModuleNotFound error.
-if ! [ -L node_modules/@folio/eholdings ]
+if ! [ -d node_modules ]
 then
-  ln -s `pwd` node_modules/@folio/eholdings
+    # if there is no node_modules/ dir, then this is not
+    # a test or self-demo build, but a build as part of a
+    # bigger application, so skip this step.
+    echo "node_modules dir does not exist, so link-self is a no-op"
+elif ! [ -L node_modules/@folio/eholdings ]
+then
+    ln -s `pwd` node_modules/@folio/eholdings
 fi
