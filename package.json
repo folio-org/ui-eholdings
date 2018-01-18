@@ -13,8 +13,8 @@
     "lint": "eslint ./"
   },
   "devDependencies": {
-    "@folio/stripes-components": "thefrontside/stripes-components#master",
-    "@folio/stripes-core": "thefrontside/stripes-core#master",
+    "@folio/stripes-components": "folio-org/stripes-components#master",
+    "@folio/stripes-core": "folio-org/stripes-core#master",
     "babel-core": "^6.25.0",
     "babel-eslint": "^8.0.1",
     "babel-loader": "^7.1.1",
