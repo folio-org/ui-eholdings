@@ -1,24 +1,24 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
-import Icon from '@folio/stripes-components/lib/Icon';
 import IconButton from '@folio/stripes-components/lib/IconButton';
-import PaneHeader from '@folio/stripes-components/lib/PaneHeader';
 import PaneMenu from '@folio/stripes-components/lib/PaneMenu';
 import Button from '@folio/stripes-components/lib/Button';
+import Layout from '@folio/stripes-components/lib/Layout';
 
-import Link from '../link';
-import KeyValueLabel from '../key-value-label';
-import List from '../list';
-import TitleListItem from '../title-list-item';
-import ToggleSwitch from '../toggle-switch';
-import Modal from '../modal';
-import { formatISODateWithoutTime } from '../utilities';
-import styles from './package-show.css';
+import DetailsView from './details-view';
+import QueryList from './query-list';
+import Link from './link';
+import KeyValueLabel from './key-value-label';
+import TitleListItem from './title-list-item';
+import ToggleSwitch from './toggle-switch';
+import Modal from './modal';
+import { formatISODateWithoutTime } from './utilities';
 
 export default class PackageShow extends Component {
   static propTypes = {
     model: PropTypes.object.isRequired,
+    fetchPackageTitles: PropTypes.func.isRequired,
     toggleSelected: PropTypes.func.isRequired,
     toggleHidden: PropTypes.func.isRequired
   };
@@ -66,35 +66,26 @@ export default class PackageShow extends Component {
   };
 
   render() {
-    let { model } = this.props;
+    let { model, fetchPackageTitles } = this.props;
     let { intl, router, queryParams } = this.context;
     let { showSelectionModal, packageSelected, packageHidden } = this.state;
     let historyState = router.history.location.state;
 
     return (
       <div>
-        {!queryParams.searchType && (
-          <PaneHeader
-            firstMenu={historyState && historyState.eholdings && (
-              <PaneMenu>
-                <div data-test-eholdings-package-details-back-button>
-                  <IconButton icon="left-arrow" onClick={() => router.history.goBack()} />
-                </div>
-              </PaneMenu>
-            )}
-          />
-        )}
-        <div className={styles['detail-container']} data-test-eholdings-package-details>
-          {model.isLoaded ? (
-            <div>
-              <div className={styles['detail-container-header']}>
-                <KeyValueLabel label="Package">
-                  <h1 data-test-eholdings-package-details-name>
-                    {model.name}
-                  </h1>
-                </KeyValueLabel>
+        <DetailsView
+          type="package"
+          model={model}
+          showPaneHeader={!queryParams.searchType}
+          paneHeaderFirstMenu={historyState && historyState.eholdings && (
+            <PaneMenu>
+              <div data-test-eholdings-package-details-back-button>
+                <IconButton icon="left-arrow" onClick={() => router.history.goBack()} />
               </div>
-
+            </PaneMenu>
+          )}
+          bodyContent={(
+            <div>
               <KeyValueLabel label="Provider">
                 <div data-test-eholdings-package-details-provider>
                   <Link to={`/eholdings/providers/${model.providerId}`}>{model.providerName}</Link>
@@ -107,7 +98,7 @@ export default class PackageShow extends Component {
                     {model.contentType}
                   </div>
                 </KeyValueLabel>
-              ) }
+              )}
 
               <KeyValueLabel label="Titles Selected">
                 <div data-test-eholdings-package-details-titles-selected>
@@ -136,32 +127,43 @@ export default class PackageShow extends Component {
                 />
               </label>
 
-              { packageSelected && (
+              {packageSelected && (
                 <div>
                   <hr />
+
                   <label
                     data-test-eholdings-package-details-hidden
                     htmlFor="package-details-toggle-hidden-switch"
                   >
-                    <h4>{packageHidden ? 'Hidden from patrons' : 'Visible to patrons'}</h4>
-                    <div className={styles['flex-container']}>
-                      <div className={styles['flex-item']}>
+                    <h4>
+                      {model.visibilityData.isHidden
+                        ? 'Hidden from patrons'
+                        : 'Visible to patrons'}
+                    </h4>
+
+                    <Layout className="flex">
+                      <div className="marginRightHalf">
                         <ToggleSwitch
                           onChange={this.props.toggleHidden}
                           checked={!packageHidden}
-                          isPending={model.update.isPending && 'visibilityData' in model.update.changedAttributes}
+                          isPending={model.update.isPending &&
+                            ('visibilityData' in model.update.changedAttributes)}
                           id="package-details-toggle-hidden-switch"
                         />
                       </div>
-                      <div data-test-eholdings-package-details-is-hidden className={styles['flex-item']}>
-                        <p>{(model.visibilityData.isHidden ? model.visibilityData.reason : '')}</p>
-                      </div>
-                    </div>
+
+                      {model.visibilityData.isHidden && (
+                        <div data-test-eholdings-package-details-is-hidden>
+                          {model.visibilityData.reason}
+                        </div>
+                      )}
+                    </Layout>
                   </label>
 
                   {(model.customCoverage.beginCoverage || model.customCoverage.endCoverage) && (
                     <div>
                       <hr />
+
                       <KeyValueLabel label="Custom Coverage">
                         <div data-test-eholdings-package-details-custom-coverage>
                           {formatISODateWithoutTime(model.customCoverage.beginCoverage, intl)} - {formatISODateWithoutTime(model.customCoverage.endCoverage, intl)}
@@ -173,31 +175,27 @@ export default class PackageShow extends Component {
               )}
 
               <hr />
-              <h3>Titles</h3>
-              <List data-test-eholdings-package-details-title-list>
-                {model.customerResources.isLoading ? (
-                  <Icon icon="spinner-ellipsis" />
-                ) : (
-                  model.customerResources.map(item => (
-                    <li key={item.id} data-test-eholdings-title-list-item>
-                      <TitleListItem
-                        item={item}
-                        link={`/eholdings/customer-resources/${item.id}`}
-                        showSelected
-                      />
-                    </li>
-                  ))
-                )}
-              </List>
             </div>
-          ) : model.request.isRejected ? (
-            <p data-test-eholdings-package-details-error>
-              {model.request.errors[0].title}
-            </p>
-          ) : model.isLoading ? (
-            <Icon icon="spinner-ellipsis" />
-          ) : null}
-        </div>
+          )}
+          listHeader="Titles"
+          renderList={scrollable => (
+            <QueryList
+              type="package-titles"
+              fetch={fetchPackageTitles}
+              collection={model.customerResources}
+              scrollable={scrollable}
+              itemHeight={70}
+              renderItem={item => (
+                <TitleListItem
+                  item={item.content}
+                  link={item.content && `/eholdings/customer-resources/${item.content.id}`}
+                  showSelected
+                />
+              )}
+            />
+          )}
+        />
+
         <Modal
           open={showSelectionModal}
           size="small"

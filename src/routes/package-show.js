@@ -59,10 +59,18 @@ class PackageShowRoute extends Component {
     updatePackage(model);
   };
 
+  fetchPackageTitles = (page) => {
+    let { match, getPackageTitles } = this.props;
+    let { packageId } = match.params;
+
+    getPackageTitles(packageId, { page });
+  };
+
   render() {
     return (
       <View
         model={this.props.model}
+        fetchPackageTitles={this.fetchPackageTitles}
         toggleSelected={this.toggleSelected}
         toggleHidden={this.toggleHidden}
       />
@@ -75,7 +83,7 @@ export default connect(
     model: createResolver(data).find('packages', match.params.packageId)
   }), {
     getPackage: id => Package.find(id, { include: 'customerResources' }),
-    getPackageTitles: id => Package.queryRelated(id, 'customerResources'),
+    getPackageTitles: (id, params) => Package.queryRelated(id, 'customerResources', params),
     updatePackage: model => Package.save(model)
   }
 )(PackageShowRoute);

@@ -15,6 +15,7 @@ export default class QueryList extends Component {
     pageSize: PropTypes.number,
     loadHorizon: PropTypes.number,
     itemHeight: PropTypes.number,
+    scrollable: PropTypes.bool,
     notFoundMessage: PropTypes.string,
     collection: PropTypes.object.isRequired,
     fetch: PropTypes.func.isRequired,
@@ -50,6 +51,7 @@ export default class QueryList extends Component {
       type,
       pageSize,
       loadHorizon,
+      scrollable,
       notFoundMessage,
       collection,
       fetch,
@@ -83,6 +85,7 @@ export default class QueryList extends Component {
               offset={offset}
               itemHeight={itemHeight}
               onUpdate={this.updateOffset}
+              scrollable={scrollable}
               data-test-query-list={type}
             >
               {item => (

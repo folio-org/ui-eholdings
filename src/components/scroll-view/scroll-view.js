@@ -1,9 +1,12 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import classNames from 'classnames/bind';
 import debounce from 'lodash/debounce';
 
 import styles from './scroll-view.css';
 import List from '../list';
+
+const cx = classNames.bind(styles);
 
 export default class ScrollView extends Component {
   static propTypes = {
@@ -12,13 +15,15 @@ export default class ScrollView extends Component {
       slice: PropTypes.func.isRequired
     }).isRequired,
     offset: PropTypes.number,
+    scrollable: PropTypes.bool,
     itemHeight: PropTypes.number.isRequired,
     onUpdate: PropTypes.func,
     children: PropTypes.func.isRequired
   };
 
   static defaultProps = {
-    offset: 0
+    offset: 0,
+    scrollable: true
   };
 
   state = {
@@ -55,9 +60,11 @@ export default class ScrollView extends Component {
     }
   }
 
-  // clean up our resize listener
   componentWillUnmount() {
+    // clean up our resize listener
     window.removeEventListener('resize', this.handleListLayout);
+    // cancel any pending debounced update
+    this.triggerUpdate.cancel();
   }
 
   // debounce the `onUpdate` prop
@@ -86,8 +93,6 @@ export default class ScrollView extends Component {
 
     let top = e.currentTarget.scrollTop;
     let offset = Math.floor(top / itemHeight);
-
-    e.stopPropagation();
 
     // update impagination's readOffset
     if (this.state.offset !== offset) {
@@ -134,7 +139,7 @@ export default class ScrollView extends Component {
   render() {
     // strip all other props to pass along the rest to the div
     // eslint-disable-next-line no-unused-vars
-    let { items, itemHeight, offset: _, onUpdate, ...props } = this.props;
+    let { items, itemHeight, offset: _, onUpdate, scrollable, ...props } = this.props;
     let { offset, visibleItems } = this.state;
     let listHeight = items.length * itemHeight;
 
@@ -146,7 +151,7 @@ export default class ScrollView extends Component {
     return (
       <div
         ref={(n) => { this.$list = n; }}
-        className={styles.list}
+        className={cx('list', { locked: !scrollable })}
         onScroll={this.handleScroll}
         {...props}
       >

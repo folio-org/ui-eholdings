@@ -137,9 +137,8 @@ export default class SearchPaneset extends React.Component {
                 </PaneMenu>
               )}
             />
-            <div className={styles['scrollable-container']}>
-              {detailsView}
-            </div>
+
+            {detailsView}
           </PreviewPane>
         )}
       </div>

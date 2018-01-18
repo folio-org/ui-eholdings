@@ -1,20 +1,20 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import Icon from '@folio/stripes-components/lib/Icon';
+
 import IconButton from '@folio/stripes-components/lib/IconButton';
-import PaneHeader from '@folio/stripes-components/lib/PaneHeader';
 import PaneMenu from '@folio/stripes-components/lib/PaneMenu';
 import Button from '@folio/stripes-components/lib/Button';
+import Layout from '@folio/stripes-components/lib/Layout';
 
-import Link from '../link';
-import KeyValueLabel from '../key-value-label';
-import IdentifiersList from '../identifiers-list';
-import ContributorsList from '../contributors-list';
-import ToggleSwitch from '../toggle-switch';
-import CoverageDates from '../coverage-dates';
-import { isBookPublicationType, isValidCoverageList } from '../utilities';
-import Modal from '../modal';
-import styles from './customer-resource-show.css';
+import DetailsView from './details-view';
+import Link from './link';
+import KeyValueLabel from './key-value-label';
+import IdentifiersList from './identifiers-list';
+import ContributorsList from './contributors-list';
+import ToggleSwitch from './toggle-switch';
+import CoverageDates from './coverage-dates';
+import { isBookPublicationType, isValidCoverageList } from './utilities';
+import Modal from './modal';
 
 export default class CustomerResourceShow extends Component {
   static propTypes = {
@@ -81,28 +81,19 @@ export default class CustomerResourceShow extends Component {
 
     return (
       <div>
-        {!queryParams.searchType && (
-          <PaneHeader
-            firstMenu={historyState && historyState.eholdings && (
-              <PaneMenu>
-                <div data-test-eholdings-customer-resource-show-back-button>
-                  <IconButton icon="left-arrow" onClick={() => router.history.goBack()} />
-                </div>
-              </PaneMenu>
-            )}
-          />
-        )}
-        <div className={styles['detail-container']} data-test-eholdings-customer-resource-show>
-          {model.isLoaded ? (
-            <div>
-              <div className={styles['detail-container-header']}>
-                <KeyValueLabel label="Resource">
-                  <h1 data-test-eholdings-customer-resource-show-title-name>
-                    {model.name}
-                  </h1>
-                </KeyValueLabel>
+        <DetailsView
+          type="resource"
+          model={model}
+          showPaneHeader={!queryParams.searchType}
+          paneHeaderFirstMenu={historyState && historyState.eholdings && (
+            <PaneMenu>
+              <div data-test-eholdings-customer-resource-show-back-button>
+                <IconButton icon="left-arrow" onClick={() => router.history.goBack()} />
               </div>
-
+            </PaneMenu>
+          )}
+          bodyContent={(
+            <div>
               <ContributorsList data={model.contributors} />
 
               <KeyValueLabel label="Publisher">
@@ -125,7 +116,7 @@ export default class CustomerResourceShow extends Component {
                     {model.subjects.map(subjectObj => subjectObj.subject).join('; ')}
                   </div>
                 </KeyValueLabel>
-              ) }
+              )}
 
               <KeyValueLabel label="Package">
                 <div data-test-eholdings-customer-resource-show-package-name>
@@ -139,7 +130,7 @@ export default class CustomerResourceShow extends Component {
                     {model.contentType}
                   </div>
                 </KeyValueLabel>
-              ) }
+              )}
 
               <KeyValueLabel label="Provider">
                 <div data-test-eholdings-customer-resource-show-provider-name>
@@ -153,7 +144,7 @@ export default class CustomerResourceShow extends Component {
                     <a href={model.url} target="_blank">{model.url}</a>
                   </div>
                 </KeyValueLabel>
-              ) }
+              )}
 
               {hasManagedCoverages && (
                 <KeyValueLabel label="Managed Coverage Dates">
@@ -188,67 +179,51 @@ export default class CustomerResourceShow extends Component {
                 />
               </label>
 
-              { resourceSelected && (
+              {resourceSelected && (
                 <div>
                   <hr />
-
                   <label
                     data-test-eholdings-customer-resource-toggle-hidden
                     htmlFor="customer-resource-show-hide-toggle-switch"
-                  > {
-                      model.package.visibilityData.isHidden ? (
-                        <div>
-                          <h4>Hidden from patrons</h4>
-                          <div className={styles['flex-container']}>
-                            <div className={styles['flex-item']}>
-                              <ToggleSwitch
-                                id="customer-resource-show-hide-toggle-switch"
-                                checked={false}
-                                disabled
-                              />
-                            </div>
+                  >
+                    <h4>
+                      {model.visibilityData.isHidden
+                        ? 'Hidden from patrons'
+                        : 'Visible to patrons'}
+                    </h4>
 
-                            <div className={styles['flex-item']}>
-                              {
-                                <p data-test-eholdings-customer-resource-toggle-hidden-reason>
-                                  All titles in this package are hidden.
-                                </p>
-                              }
-                            </div>
-                          </div>
+                    <Layout className="flex">
+                      <div className="marginRightHalf">
+                        {model.package.visibilityData.isHidden ? (
+                          <ToggleSwitch
+                            id="customer-resource-show-hide-toggle-switch"
+                            checked={false}
+                            disabled
+                          />
+                        ) : (
+                          <ToggleSwitch
+                            onChange={this.props.toggleHidden}
+                            checked={!resourceHidden}
+                            isPending={model.update.isPending}
+                            id="customer-resource-show-hide-toggle-switch"
+                          />
+                        )}
+                      </div>
+
+                      {model.visibilityData.isHidden && (
+                        <div data-test-eholdings-customer-resource-toggle-hidden-reason>
+                          {model.package.visibilityData.isHidden
+                            ? 'All titles in this package are hidden.'
+                            : model.visibilityData.reason}
                         </div>
-                      ) : (
-                        <div>
-                          <h4>{resourceHidden ? 'Hidden from patrons' : 'Visible to patrons'}</h4>
-                          <div className={styles['flex-container']}>
-                            <div className={styles['flex-item']}>
-                              <ToggleSwitch
-                                onChange={this.props.toggleHidden}
-                                checked={!resourceHidden}
-                                isPending={model.update.isPending && 'visibilityData' in model.update.changedAttributes}
-                                id="customer-resource-show-hide-toggle-switch"
-                              />
-                            </div>
-                            <div className={styles['flex-item']}>
-                              {
-                                model.visibilityData.isHidden ? (
-                                  <p data-test-eholdings-customer-resource-toggle-hidden-reason>
-                                    {model.visibilityData.reason}
-                                  </p>
-                                ) : (
-                                  <p data-test-eholdings-customer-resource-toggle-hidden-reason />
-                                )
-                              }
-                            </div>
-                          </div>
-                        </div>
-                      )
-                    }
+                      )}
+                    </Layout>
                   </label>
 
                   {hasCustomEmbargoPeriod && (
                     <div>
                       <hr />
+
                       <KeyValueLabel label="Custom Embargo Period">
                         <div data-test-eholdings-customer-resource-show-custom-embargo-period>
                           {model.customEmbargoPeriod.embargoValue} {model.customEmbargoPeriod.embargoUnit}
@@ -267,14 +242,9 @@ export default class CustomerResourceShow extends Component {
                 </Link>
               </div>
             </div>
-          ) : model.request.isRejected ? (
-            <p data-test-eholdings-customer-resource-show-error>
-              {model.request.errors[0].title}
-            </p>
-          ) : model.isLoading ? (
-            <Icon icon="spinner-ellipsis" />
-          ) : null}
-        </div>
+          )}
+        />
+
         <Modal
           open={showSelectionModal}
           size="small"
