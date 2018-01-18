@@ -41,8 +41,7 @@ class CustomerResourceShowRoute extends Component {
     if (!model.isSelected) {
       model.visibilityData.isHidden = false;
       model.customCoverages = [];
-      model.customEmbargoPeriod.embargoUnit = null;
-      model.customEmbargoPeriod.customEmbargoValue = 0;
+      model.customEmbargoPeriod = {};
     }
 
     updateResource(model);

@@ -47,8 +47,7 @@ class PackageShowRoute extends Component {
     // clear out any customizations before sending to server
     if (!model.isSelected) {
       model.visibilityData.isHidden = false;
-      model.customCoverage.beginCoverage = null;
-      model.customCoverage.endCoverage = null;
+      model.customCoverage = {};
     }
 
     updatePackage(model);
