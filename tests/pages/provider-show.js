@@ -24,19 +24,19 @@ function createPackageObject(element) {
 
 export default {
   get $root() {
-    return $('[data-test-eholdings-provider-details]');
+    return $('[data-test-eholdings-details-view="provider"]');
   },
 
   get name() {
-    return $('[data-test-eholdings-provider-details-name]').text();
+    return $('[data-test-eholdings-details-view-name="provider"]').text();
   },
 
   get hasErrors() {
-    return $('[data-test-eholdings-provider-details-error]').length > 0;
+    return $('[data-test-eholdings-details-view-error="provider"]').length > 0;
   },
 
   get errorMessage() {
-    return $('[data-test-eholdings-provider-details-error]').text();
+    return $('[data-test-eholdings-details-view-error="provider"]').text();
   },
 
   get numPackages() {

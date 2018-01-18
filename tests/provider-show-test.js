@@ -64,20 +64,15 @@ describeApplication('ProviderShow', () => {
 
   describe('visiting the provider details page with multiple pages of packages', () => {
     beforeEach(function () {
-      provider = this.server.create('provider');
+      this.server.loadFixtures();
 
-      this.server.createList('package', 50, {
-        name: i => `Related Package ${i + 1}`,
-        provider
-      });
-
-      return this.visit(`/eholdings/providers/${provider.id}`, () => {
+      return this.visit('/eholdings/providers/paged_provider', () => {
         expect(ProviderShowPage.$root).to.exist;
       });
     });
 
     it('should display the first page of related packages', () => {
-      expect(ProviderShowPage.packageList[0].name).to.equal('Related Package 6');
+      expect(ProviderShowPage.packageList[0].name).to.equal('Provider Package 1');
     });
 
     describe('scrolling down the list of packages', () => {
@@ -92,7 +87,7 @@ describeApplication('ProviderShow', () => {
       it('should display the next page of related packages', () => {
         // when the list is scrolled, it has a threshold of 5 items. index 4,
         // the 5th item, is the topmost visible item in the list
-        expect(ProviderShowPage.packageList[4].name).to.equal('Related Package 31');
+        expect(ProviderShowPage.packageList[4].name).to.equal('Provider Package 26');
       });
     });
   });

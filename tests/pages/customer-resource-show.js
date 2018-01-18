@@ -4,11 +4,11 @@ import { convergeOn } from '../it-will';
 
 export default {
   get $root() {
-    return $('[data-test-eholdings-customer-resource-show]');
+    return $('[data-test-eholdings-details-view="resource"]');
   },
 
   get titleName() {
-    return $('[data-test-eholdings-customer-resource-show-title-name]').text();
+    return $('[data-test-eholdings-details-view-name="resource"]').text();
   },
 
   get publisherName() {
@@ -40,7 +40,7 @@ export default {
   },
 
   get hasErrors() {
-    return $('[data-test-eholdings-customer-resource-show-error]').length > 0;
+    return $('[data-test-eholdings-details-view-error="resource"]').length > 0;
   },
 
   get isSelected() {

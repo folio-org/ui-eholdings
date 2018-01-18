@@ -87,7 +87,7 @@ export default {
 
     // wait until the item exists before clicking
     return convergeOn(() => {
-      $title = $('[data-test-eholdings-title-list-item] a');
+      $title = $('[data-test-query-list="package-titles"] li a');
       expect($title.eq(index)).to.exist;
     }).then(() => $title.get(index).click());
   },

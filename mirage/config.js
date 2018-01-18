@@ -26,6 +26,29 @@ function searchRouteFor(resourceType) {
   };
 }
 
+/**
+ * Helper for creating a nested resource route. Currently only accepts
+ * page and count params.
+ * @param {String} foreignKey - parent resource foreign key prefix
+ * @param {String} resourceType - nested resource's model name
+ * @returns {Function} route handler for a nested resource
+ */
+function nestedResourceRouteFor(foreignKey, resourceType) {
+  return function (schema, req) { // eslint-disable-line func-names
+    let page = Math.max(parseInt(req.queryParams.page || 1, 10), 1);
+    let count = parseInt(req.queryParams.count || 25, 10);
+    let offset = (page - 1) * count;
+
+    let json = this.serialize(schema[resourceType].where({
+      [`${foreignKey}Id`]: req.params.id
+    }));
+
+    json.meta = { totalResults: json.data.length };
+    json.data = json.data.slice(offset, offset + count);
+    return json;
+  };
+}
+
 // typical mirage config export
 export default function configure() {
   this.urlPrefix = okapi.url;
@@ -138,38 +161,31 @@ export default function configure() {
 
   this.get('/providers/:id', ({ providers }, request) => {
     let provider = providers.find(request.params.id);
-    provider.packages = provider.packages.slice(0, 25);
+
+    if (provider && provider.packages.length > 25) {
+      provider.packages = provider.packages.slice(0, 25);
+    }
+
     return provider;
   });
 
-  this.get('/providers/:id/packages', function providerPackages({ packages }, request) {
-    let page = Math.max(parseInt(request.queryParams.page || 1, 10), 1);
-    let count = parseInt(request.queryParams.count || 25, 10);
-    let offset = (page - 1) * count;
-
-    let json = this.serialize(packages.where({
-      providerId: request.params.id
-    }));
-
-    json.meta = { totalResults: json.data.length };
-    json.data = json.data.slice(offset, offset + count);
-    return json;
-  });
+  this.get('/providers/:id/packages', nestedResourceRouteFor('provider', 'packages'));
 
   // Package resources
   this.get('/packages', searchRouteFor('packages'));
 
   this.get('/packages/:id', ({ packages }, request) => {
-    return packages.findBy({
-      id: request.params.id
-    });
+    let pkg = packages.find(request.params.id);
+
+    if (pkg && pkg.customerResources.length > 25) {
+      pkg.customerResources = pkg.customerResources.slice(0, 25);
+    }
+
+    return pkg;
   });
 
   this.put('/packages/:id', ({ packages, customerResources }, request) => {
-    let matchingPackage = packages.findBy({
-      id: request.params.id
-    });
-
+    let matchingPackage = packages.find(request.params.id);
     let matchingCustomerResources = customerResources.where({
       packageId: request.params.id
     });
@@ -190,9 +206,7 @@ export default function configure() {
     return matchingPackage;
   });
 
-  this.get('/packages/:packageId/customer-resources', ({ customerResources }, request) => {
-    return customerResources.where({ packageId: request.params.packageId });
-  });
+  this.get('/packages/:id/customer-resources', nestedResourceRouteFor('package', 'customerResources'));
 
   // Title resources
   this.get('/titles', searchRouteFor('titles'));
@@ -207,13 +221,11 @@ export default function configure() {
   });
 
   this.get('/customer-resources/:id', ({ customerResources }, request) => {
-    return customerResources.findBy({ id: request.params.id });
+    return customerResources.find(request.params.id);
   });
 
   this.put('/customer-resources/:id', ({ customerResources }, request) => {
-    let matchingCustomerResource = customerResources.findBy({
-      id: request.params.id
-    });
+    let matchingCustomerResource = customerResources.find(request.params.id);
 
     let body = JSON.parse(request.requestBody);
     let { isSelected } = body.data.attributes;
