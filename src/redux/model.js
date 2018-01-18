@@ -164,6 +164,29 @@ export class Collection {
   }
 
   /**
+   * Slices the current records for this collection via `getRecord`
+   * @param {Number} start - the start index to slice
+   * @param {Number} end - the end index to slice
+   * @returns {Array} array of records for the range
+   */
+  slice(start, end) {
+    let last = Math.min(end, this.length) - 1;
+    let ret = [];
+
+    for (let i = start; i <= last; i++) {
+      let record = this.getRecord(i);
+
+      if (record.id) {
+        ret.push(record);
+      } else {
+        break;
+      }
+    }
+
+    return ret;
+  }
+
+  /**
    * True when the current request is pending or when there is no
    * request and no records
    * @returns {Boolean}
