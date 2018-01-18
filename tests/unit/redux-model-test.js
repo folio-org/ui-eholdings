@@ -92,7 +92,7 @@ describe('Redux Models', () => {
     });
   });
 
-  describe('with data', () => {
+  describe('with explicit relationship data', () => {
     beforeEach(() => {
       vendor = new VendorModel(1, resolver);
       pkg = new PackageModel(1, resolver);
@@ -163,6 +163,25 @@ describe('Redux Models', () => {
     it('should have empty belongsTo relationships', () => {
       expect(pkg.vendor.isLoaded).to.be.false;
       expect(pkg.vendor.name).to.equal('Default Vendor');
+    });
+
+    describe('with foreign key in attributes', () => {
+      beforeEach(() => {
+        INCOMPLETE_PACKAGE_JSON.attributes.vendorId = vendor.id;
+        INCOMPLETE_VENDOR_JSON.attributes.name = 'Awesome Vendor';
+
+        // we have to recreate these after state alteration
+        vendor = new VendorModel(1, resolver);
+        pkg = new PackageModel(1, resolver);
+      });
+
+      // not yet implemented
+      it('should have hasMany relationships');
+
+      it('should have belongsTo relationships', () => {
+        expect(pkg.vendor.isLoaded).to.be.true;
+        expect(pkg.vendor.name).to.equal('Awesome Vendor');
+      });
     });
   });
 });
