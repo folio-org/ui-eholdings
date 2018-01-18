@@ -14,7 +14,20 @@ module.exports = (config) => {
         browser: 'safari',
         browser_version: '11.0'
       }
-    }
+    },
+
+    browserStack: {
+      username: 'folioproject1',
+      project: 'ui-eholdings'
+    },
+
+    plugins: [
+      'karma-chrome-launcher',
+      'karma-browserstack-launcher',
+      'karma-mocha',
+      'karma-webpack',
+      'karma-mocha-reporter'
+    ]
   };
 
   // Turn on coverage reports if --coverage option set
@@ -32,6 +45,7 @@ module.exports = (config) => {
       }
     };
     configuration.reporters.push('coverage');
+    configuration.plugins.push('karma-coverage');
   }
 
   if (process.env.TRAVIS) {
