@@ -45,6 +45,31 @@ const servePlugin = {
   beforeBuild,
 }
 
+const testPlugin = {
+  options: {
+    coverage: {
+      describe: 'Enable Karma coverage reports',
+      type: 'boolean',
+      alias: 'karma.coverage', // this allows --coverage to be passed to Karma
+    },
+  },
+  beforeBuild: (options) => {
+    return (config) => {
+      if (options.coverage || options.karma.coverage) {
+        // Brittle way of injecting babel-plugin-istanbul into the webpack config.
+        // Should probably be moved to stripes-core when it has more test infrastructure.
+        let babelLoaderConfigIndex = config.module.rules.findIndex((rule) => {
+          return rule.loader === 'babel-loader';
+        });
+        config.module.rules[babelLoaderConfigIndex].options.plugins = [
+          require.resolve('babel-plugin-istanbul')
+        ];
+      }
+      return config;
+    };
+  },
+}
+
 module.exports = {
   // Assign defaults to existing CLI options
   okapi: url,
@@ -54,6 +79,7 @@ module.exports = {
   // Custom command extension
   plugins: {
     serve: servePlugin,
+    test: testPlugin,
   },
 
   // Aliases 
