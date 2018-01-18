@@ -19,4 +19,4 @@ cache:
   yarn: true
 script:
   - yarn lint
-  - yarn test --karma.single-run --karma.browsers=$BROWSER --coverage
+  - yarn test --karma.singleRun --karma.browsers=$BROWSER --coverage
