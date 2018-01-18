@@ -32,8 +32,8 @@
       20em 1.1em, /* name */
       5em 1em;    /* selected */
     background-position:
-      0 0.1em, /* name */
-      0 1.75em, /* selected */
+      0 0.1em,  /* name */
+      0 1.75em; /* selected */
   }
 
   &.is-publisher-and-type-visible {
