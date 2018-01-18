@@ -2,9 +2,9 @@
 # yarn lockfile v1
 
 
-"@folio/stripes-components@^2.0.0", "@folio/stripes-components@thefrontside/stripes-components#master":
+"@folio/stripes-components@^2.0.0", "@folio/stripes-components@folio-org/stripes-components#master":
   version "2.0.0"
-  resolved "https://codeload.github.com/thefrontside/stripes-components/tar.gz/017f2d467e49b343db553234584d6521eacaf56c"
+  resolved "https://codeload.github.com/folio-org/stripes-components/tar.gz/87043b402e6fd669ce2a3b2188a4f3b135eaab8f"
   dependencies:
     "@folio/stripes-form" "^0.8.2"
     "@folio/stripes-react-hotkeys" "^1.0.0"
@@ -16,6 +16,7 @@
     moment "^2.17.1"
     moment-range "^3.0.3"
     mousetrap "^1.6.1"
+    normalize.css "^7.0.0"
     prop-types "^15.5.10"
     prop-types-extra "^1.0.1"
     react "^15.6.1"
@@ -44,9 +45,9 @@
     redux-crud "^3.0.0"
     uuid "^3.0.1"
 
-"@folio/stripes-core@thefrontside/stripes-core#master":
+"@folio/stripes-core@folio-org/stripes-core#master":
   version "2.8.0"
-  resolved "https://codeload.github.com/thefrontside/stripes-core/tar.gz/73709cae98a667d7952535d6797d132a19c17baa"
+  resolved "https://codeload.github.com/folio-org/stripes-core/tar.gz/3295fcb15b55a973fa34089b288001d6a3d571b3"
   dependencies:
     "@folio/stripes-components" "^2.0.0"
     "@folio/stripes-connect" "^3.0.0"
@@ -5126,6 +5127,10 @@ normalize-url@^1.4.0:
     prepend-http "^1.0.0"
     query-string "^4.1.0"
     sort-keys "^1.0.0"
+
+normalize.css@^7.0.0:
+  version "7.0.0"
+  resolved "https://registry.yarnpkg.com/normalize.css/-/normalize.css-7.0.0.tgz#abfb1dd82470674e0322b53ceb1aaf412938e4bf"
 
 npm-run-path@^2.0.0:
   version "2.0.2"
