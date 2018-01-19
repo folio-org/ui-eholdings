@@ -94,21 +94,16 @@ export class Collection {
    * @returns {Object} the request object
    */
   get request() {
-    let { request } = this.getPage(this.currentPage);
+    // eslint-disable-next-line no-unused-vars
+    let { page, ...queryParams } = this.params;
 
-    // We cannot use `this.totalPages` as it uses `this.length` which
-    // in turn calls this method for `request`, thereby entering an
-    // infinite loop. This 400 page limit is arbitrary and was only
-    // chosen to ensure all pages are accounted for with up to 10,000
-    // total results (with the default 25 record page size).
-    let pageLimit = 400;
-    let page = 1;
-
-    // find the first resolved page up to a page limit
-    while (!request.isResolved && page < pageLimit) {
-      request = this.getPage(page).request;
-      page += 1;
-    }
+    // without including the page param, this will return the last
+    // query request for any page of this collection
+    let request = this.resolver.getRequest('query', {
+      type: this.type,
+      params: queryParams,
+      path: this.path
+    }, req => req.isResolved);
 
     // cache the request for this instance
     Object.defineProperty(this, 'request', {
@@ -445,7 +440,6 @@ function describeHasMany(key, relType = key) {
         type: relType,
         path: `${this.constructor.pathFor(this.id)}/${dasherize(key)}`
       }, this.resolver);
-
 
       if (!collection.length &&
           hasOwnProperty(this.data.relationships, key) &&
