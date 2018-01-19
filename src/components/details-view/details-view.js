@@ -32,29 +32,43 @@ export default class DetailsView extends Component {
   };
 
   componentDidMount() {
-    this.setStickyHeight();
+    window.addEventListener('resize', this.handleLayout);
+    this.handleLayout();
   }
 
   componentDidUpdate() {
-    this.setStickyHeight();
+    this.handleLayout();
   }
 
-  setStickyHeight() {
-    if (this.$container && this.$sticky) {
-      this.$sticky.style.height = `${this.$container.offsetHeight}px`;
-    }
+  componentWillUnmount() {
+    window.removeEventListener('resize', this.handleLayout);
   }
+
+  handleLayout = () => {
+    if (this.$container && this.$sticky &&
+        this.$sticky.offsetHeight >= this.$container.offsetHeight) {
+      this.$sticky.style.height = `${this.$container.offsetHeight}px`;
+      this.shouldHandleScroll = true;
+    } else if (this.shouldHandleScroll) {
+      this.shouldHandleScroll = false;
+    }
+  };
 
   handleScroll = (e) => {
     let { isSticky } = this.state;
-    let scrollingList = this.$list.firstElementChild === e.target;
 
-    // if the list element hits the top, disable isSticky
-    if (scrollingList && e.target.scrollTop === 0 && isSticky) {
+    // bail if we shouldn't handle scrolling
+    if (!this.shouldHandleScroll) return;
+
+    // if the list's child element hits the top, disable isSticky
+    if (this.$list.firstElementChild === e.target &&
+        e.target.scrollTop === 0 && isSticky) {
+      // prevent scroll logic around bottoming out by scrolling up 1px
+      this.$container.scrollTop = this.$container.scrollTop - 1;
       this.setState({ isSticky: false });
 
     // don't do these calculations when not scrolling the container
-    } else {
+    } else if (e.currentTarget === e.target) {
       let top = e.currentTarget.scrollTop;
       let height = e.currentTarget.offsetHeight;
       let scrollHeight = e.currentTarget.scrollHeight;
@@ -75,8 +89,11 @@ export default class DetailsView extends Component {
     let { isSticky } = this.state;
     let scrollingUp = e.deltaY < 0;
     let notInList = !this.$list.contains(e.target);
+    let listAtTop = this.$list.firstElementChild.scrollTop === 0;
 
-    if (isSticky && scrollingUp && notInList) {
+    if (isSticky && scrollingUp && (notInList || listAtTop)) {
+      // prevent scroll logic around bottoming out by scrolling up 1px
+      this.$container.scrollTop = this.$container.scrollTop - 1;
       this.setState({ isSticky: false });
     }
   };

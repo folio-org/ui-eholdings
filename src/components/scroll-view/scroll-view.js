@@ -58,6 +58,9 @@ export default class ScrollView extends Component {
         this.setScrollOffset();
       }
     }
+
+    // update any layout changes
+    this.handleListLayout();
   }
 
   componentWillUnmount() {
@@ -107,7 +110,10 @@ export default class ScrollView extends Component {
     if (this.$list) {
       let listHeight = this.$list.offsetHeight;
       let visibleItems = Math.ceil(listHeight / itemHeight);
-      this.setState({ visibleItems });
+
+      if (visibleItems !== this.state.visibleItems) {
+        this.setState({ visibleItems });
+      }
     }
   };
 
