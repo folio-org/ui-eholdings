@@ -11,7 +11,8 @@ export const actionTypes = {
   FIND: '@@ui-eholdings/db/FIND',
   SAVE: '@@ui-eholdings/db/SAVE',
   RESOLVE: '@@ui-eholdings/db/RESOLVE',
-  REJECT: '@@ui-eholdings/db/REJECT'
+  REJECT: '@@ui-eholdings/db/REJECT',
+  UNLOAD: '@@ui-eholdings/db/UNLOAD'
 };
 
 /**
@@ -63,6 +64,19 @@ export const save = (type, payload, { path }) => ({
     timestamp: Date.now()
   },
   payload
+});
+
+/**
+ * Action creator for uloading a record
+ * @param {String} type - resource type
+ * @param {String|[String]} ids - one or more record ids
+ */
+export const unload = (type, ids) => ({
+  type: actionTypes.UNLOAD,
+  data: {
+    type,
+    ids: [].concat(ids)
+  }
 });
 
 /**
@@ -291,6 +305,42 @@ const handlers = {
         }
       };
     });
+  },
+
+  /**
+   * Handles reducing the data store when unloading records
+   * @param {Object} state - data store state
+   * @param {Object} action.data - data associated with the action
+   * @param {String} action.data.ids - ids of records
+   */
+  [actionTypes.UNLOAD]: (state, { data }) => {
+    return reduceData(data.type, state, store => ({
+      // remove the records from the store
+      records: data.ids.reduce((records, id) => {
+        // eslint-disable-next-line no-unused-vars
+        let { [id]: r, ...rest } = records;
+        return rest;
+      }, store.records),
+
+      // remove reqeusts for this record and flag query requests with `hasUnloaded`
+      requests: Object.keys(store.requests).reduce((reqs, timestamp) => {
+        let request = store.requests[timestamp];
+
+        // if the request does not include any unloaded ids, keep it
+        if (!request.records.some(id => data.ids.includes(id))) {
+          reqs[timestamp] = request;
+
+        // if a query request includes unloaded ids, falg is with `hasUnloaded`
+        } else if (request.type === 'query') {
+          reqs[timestamp] = {
+            ...request,
+            hasUnloaded: true
+          };
+        }
+
+        return reqs;
+      }, {})
+    }));
   },
 
   /**

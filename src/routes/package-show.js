@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 
 import { createResolver } from '../redux';
 import Package from '../redux/package';
+import CustomerResource from '../redux/customer-resource';
 
 import View from '../components/package-show';
 
@@ -17,6 +18,7 @@ class PackageShowRoute extends Component {
     model: PropTypes.object.isRequired,
     getPackage: PropTypes.func.isRequired,
     getPackageTitles: PropTypes.func.isRequired,
+    unloadCustomerResources: PropTypes.func.isRequired,
     updatePackage: PropTypes.func.isRequired
   };
 
@@ -26,16 +28,16 @@ class PackageShowRoute extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    let { model: next, match, getPackage, getPackageTitles } = nextProps;
+    let { model: next, match, getPackage, unloadCustomerResources } = nextProps;
     let { model: old, match: oldMatch } = this.props;
     let { packageId } = match.params;
 
     if (packageId !== oldMatch.params.packageId) {
       getPackage(packageId);
 
-    // if the toggle request just resolved (and wasn't previously), reload the package titles
+    // if an update just resolved, unfetch the package titles
     } else if (next.update.isResolved && old.update.isPending) {
-      getPackageTitles(packageId);
+      unloadCustomerResources(next.customerResources);
     }
   }
 
@@ -82,8 +84,9 @@ export default connect(
   ({ eholdings: { data } }, { match }) => ({
     model: createResolver(data).find('packages', match.params.packageId)
   }), {
-    getPackage: id => Package.find(id, { include: 'customerResources' }),
+    getPackage: id => Package.find(id),
     getPackageTitles: (id, params) => Package.queryRelated(id, 'customerResources', params),
+    unloadCustomerResources: collection => CustomerResource.unload(collection),
     updatePackage: model => Package.save(model)
   }
 )(PackageShowRoute);

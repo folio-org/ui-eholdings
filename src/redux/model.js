@@ -1,7 +1,7 @@
 import qs from 'query-string';
 import dasherize from 'lodash/kebabCase';
 import { pluralize } from 'inflected';
-import { find, query, save } from './data';
+import { find, query, save, unload } from './data';
 
 /**
  * Collection object which provides the request state object created
@@ -204,6 +204,30 @@ export class Collection {
   get hasLoaded() {
     return !!this.request.timestamp && !this.request.isPending;
   }
+
+  /**
+   * True when any requests have unloaded records; caches it's
+   * results for efficiency
+   * @returns {Boolean}
+   */
+  get hasUnloaded() {
+    let { hasUnloaded } = this.getPage(this.currentPage).request;
+    let pageLimit = this.totalPages;
+    let page = 1;
+
+    // find the first page up to a page limit with an unloaded record
+    while (!hasUnloaded && page < pageLimit) {
+      hasUnloaded = !!this.getPage(page).request.hasUnloaded;
+      page += 1;
+    }
+
+    // cache the result for this instance
+    Object.defineProperty(this, 'hasUnloaded', {
+      get() { return hasUnloaded; }
+    });
+
+    return hasUnloaded;
+  }
 }
 
 
@@ -277,12 +301,36 @@ class BaseModel {
 
   /**
    * Action creator for saving a record
-   * @param {Object} model - the record's model
+   * @param {Model} model - the record's model
    */
   static save(model) { // eslint-disable-line no-shadow
     return save(this.type, model.serialize(), {
       path: this.pathFor(model.id)
     });
+  }
+
+  /**
+   * Action creator for unloading records
+   * @param {Model|Collection} modelOrCollection - the record model or collection
+   */
+  static unload(modelOrCollection) {
+    let ids = [];
+
+    // unload a single model
+    if (modelOrCollection instanceof BaseModel) {
+      ids = modelOrCollection.id;
+
+    // unload each page of records
+    } else if (modelOrCollection instanceof Collection) {
+      let page = 1;
+
+      while (page <= modelOrCollection.totalPages) {
+        ids = ids.concat(modelOrCollection.getPage(page).request.records);
+        page += 1;
+      }
+    }
+
+    return unload(this.type, ids);
   }
 
   /**
