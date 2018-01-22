@@ -8,14 +8,14 @@ if (environment === 'production') {
 }
 
 module.exports = {
+  // This could be set here or in a .stripesclirc file
   okapi: { url, tenant: 'fs' },
   config: {
     hasAllPerms: true,
     logCategories: ''
   },
   modules: {
-    '@folio/eholdings': {},
-    '../demo': {}
+    '@folio/eholdings-demo': {},
   },
   branding: {
     logo: {

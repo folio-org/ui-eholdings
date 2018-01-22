@@ -12,10 +12,11 @@ before_install:
   - sh -e /etc/init.d/xvfb start
   - curl -o- -L https://yarnpkg.com/install.sh | bash -s -- --version 1.1.0
   - export PATH=$HOME/.yarn/bin:$PATH
+  - npm config set @folio:registry https://repository.folio.org/repository/npm-folioci/
 install:
   - yarn
 cache:
   yarn: true
 script:
   - yarn lint
-  - yarn test --single-run --browsers=$BROWSER --coverage
+  - yarn test --karma.singleRun --karma.browsers=$BROWSER --coverage
