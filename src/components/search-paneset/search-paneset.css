@@ -1,12 +1,12 @@
 @import '@folio/stripes-components/lib/variables';
 
 .search-paneset {
-  height: calc(100vh - 44px);
+  height: calc(100vh - 45px);
   position: relative;
 }
 
 .search-pane-toggle {
-  height: 44px;
+  height: 45px;
   padding: 0 1em;
 }
 
@@ -30,7 +30,7 @@
 }
 
 .scrollable-container {
-  height: calc(100vh - 88px);
+  height: calc(100vh - 90px);
   overflow-y: auto;
   -webkit-overflow-scroll: touch;
 }
