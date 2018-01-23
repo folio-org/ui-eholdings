@@ -4,6 +4,15 @@ language: node_js
 env:
   - BROWSER=Chrome_travis_ci
   - BROWSER=bs_safari_11
+  - BROWSER=bs_firefox_mac
+  - BROWSER=bs_ieEdge_windows
+  - BROWSER=bs_ie11_windows
+matrix:
+  fast_finish: true
+  allow_failures:
+    - env: BROWSER=bs_firefox_mac
+    - env: BROWSER=bs_ieEdge_windows
+    - env: BROWSER=bs_ie11_windows
 addons:
   chrome: stable
 before_install:
