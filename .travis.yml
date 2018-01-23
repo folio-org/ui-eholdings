@@ -18,5 +18,5 @@ install:
 cache:
   yarn: true
 script:
-  - yarn lint
+  - yarn lint --max-warnings=0
   - yarn test --karma.singleRun --karma.browsers=$BROWSER --coverage
