@@ -150,7 +150,11 @@ export default class DetailsView extends Component {
           )}
 
           {!!renderList && model.isLoaded && (
-            <div ref={(n) => { this.$sticky = n; }} className={styles.sticky}>
+            <div
+              ref={(n) => { this.$sticky = n; }}
+              className={styles.sticky}
+              data-test-eholdings-details-view-list={type}
+            >
               <h3>{listHeader}</h3>
 
               <div ref={(n) => { this.$list = n; }} className={styles.list}>

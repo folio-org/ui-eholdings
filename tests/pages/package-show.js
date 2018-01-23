@@ -86,6 +86,14 @@ export default {
     return $('[data-test-eholdings-details-view-error="package"]').length > 0;
   },
 
+  get $titleContainer() {
+    return $('[data-test-eholdings-details-view-list="package"]');
+  },
+
+  get $titleQueryList() {
+    return $('[data-test-query-list="package-titles"]');
+  },
+
   get titleList() {
     return $('[data-test-query-list="package-titles"] li a').toArray().map(createTitleObject);
   },

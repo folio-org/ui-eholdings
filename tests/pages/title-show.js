@@ -47,6 +47,10 @@ export default {
     return $('[data-test-eholdings-details-view-error="title"]').length > 0;
   },
 
+  get $packageContainer() {
+    return $('[data-test-eholdings-details-view-list="title"]');
+  },
+
   get packageList() {
     return $('[data-test-query-list="title-packages"] li a').toArray().map(createPackageObject);
   },

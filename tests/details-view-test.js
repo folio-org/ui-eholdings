@@ -1,0 +1,136 @@
+/* global describe, beforeEach */
+import { expect } from 'chai';
+import it, { convergeOn } from './it-will';
+
+import { describeApplication } from './helpers';
+import PackageShowPage from './pages/package-show';
+import TitleShowPage from './pages/title-show';
+
+describeApplication('DetailsView', () => {
+  beforeEach(function () {
+    this.server.loadFixtures();
+  });
+
+  describe('visiting a package with paged customer-resources', () => {
+    beforeEach(function () {
+      return this.visit('/eholdings/packages/paged_pkg', () => {
+        expect(PackageShowPage.$root).to.exist;
+      });
+    });
+
+    it('has a list that fills the container', () => {
+      expect(PackageShowPage.$titleContainer.height()).to.equal(PackageShowPage.$root.height());
+    });
+
+    it('has a list that is not scrollable', () => {
+      expect(PackageShowPage.$titleQueryList).to.have.css('overflow-y', 'hidden');
+    });
+
+    describe('scrolling to the bottom of the container', () => {
+      beforeEach(() => {
+        // converge on the height being great enough to scroll
+        return convergeOn(() => {
+          expect(PackageShowPage.$root.prop('scrollHeight')).to.be.gt(PackageShowPage.$root.height());
+        }).then(() => {
+          PackageShowPage.$root.scrollTop(PackageShowPage.$root.prop('scrollHeight'));
+        });
+      });
+
+      it('disables scrolling the container', () => {
+        expect(PackageShowPage.$root).to.have.css('overflow-y', 'hidden');
+      });
+
+      it('enables scrolling the list', () => {
+        expect(PackageShowPage.$titleQueryList).to.have.css('overflow-y', 'auto');
+      });
+
+      describe('scrolling up from the list', () => {
+        beforeEach(() => {
+          // converge on the previous expected behavior first
+          return convergeOn(() => {
+            expect(PackageShowPage.$root).to.have.css('overflow-y', 'hidden');
+          }).then(() => {
+            PackageShowPage.scrollToTitleOffset(0);
+          });
+        });
+
+        it('enables scrolling the container', () => {
+          expect(PackageShowPage.$root).to.have.css('overflow-y', 'auto');
+        });
+
+        it('disables scrolling the list', () => {
+          expect(PackageShowPage.$titleQueryList).to.have.css('overflow-y', 'hidden');
+        });
+      });
+
+      describe('scrolling up from the container', () => {
+        beforeEach(() => {
+          // converge on the previous expected behavior first
+          return convergeOn(() => {
+            expect(PackageShowPage.$root).to.have.css('overflow-y', 'hidden');
+          }).then(() => {
+            PackageShowPage.$root.scrollTop(10);
+          });
+        });
+
+        it('enables scrolling the container', () => {
+          expect(PackageShowPage.$root).to.have.css('overflow-y', 'auto');
+        });
+
+        it('disables scrolling the list', () => {
+          expect(PackageShowPage.$titleQueryList).to.have.css('overflow-y', 'hidden');
+        });
+      });
+
+      describe('scrolling up with the mousewheel', () => {
+        beforeEach(() => {
+          // converge on the previous expected behavior first
+          return convergeOn(() => {
+            expect(PackageShowPage.$root).to.have.css('overflow-y', 'hidden');
+          }).then(() => {
+            PackageShowPage.$root.get(0).dispatchEvent(
+              new WheelEvent('wheel', { bubbles: true, deltaY: -1 })
+            );
+          });
+        });
+
+        it('enables scrolling the container', () => {
+          expect(PackageShowPage.$root).to.have.css('overflow-y', 'auto');
+        });
+
+        it('disables scrolling the list', () => {
+          expect(PackageShowPage.$titleQueryList).to.have.css('overflow-y', 'hidden');
+        });
+      });
+    });
+
+    describe('then visiting a title page with few customer-resources', () => {
+      beforeEach(function () {
+        let title = this.server.create('title');
+
+        // converge on the previous page being loaded first
+        return convergeOn(() => {
+          expect(PackageShowPage.titleList.length).to.be.gt(0);
+        }).then(() => {
+          return this.visit(`/eholdings/titles/${title.id}`, () => {
+            expect(TitleShowPage.$root).to.exist;
+          });
+        });
+      });
+
+      it('has a list that does not fill the container', () => {
+        expect(TitleShowPage.$packageContainer.height()).to.be.lt(TitleShowPage.$root.height());
+      });
+
+      describe('scrolling to the bottom of the container', () => {
+        beforeEach(() => {
+          TitleShowPage.$root.scrollTop(TitleShowPage.$root.prop('scrollHeight'));
+        });
+
+        it.still('does not disable scrolling the container', () => {
+          expect(TitleShowPage.$root).to.have.css('overflow-y', 'auto');
+        });
+      });
+    });
+  });
+});
