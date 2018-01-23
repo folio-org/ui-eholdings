@@ -159,12 +159,13 @@ export default function configure() {
     });
 
     let body = JSON.parse(request.requestBody);
-    let { isSelected } = body.data.attributes;
+    let { isSelected, customCoverage } = body.data.attributes;
 
     let selectedCount = isSelected ? matchingCustomerResources.length : 0;
 
     matchingCustomerResources.update('isSelected', isSelected);
     matchingPackage.update('isSelected', isSelected);
+    matchingPackage.update('customCoverage', customCoverage);
     matchingPackage.update('selectedCount', selectedCount);
 
     return matchingPackage;

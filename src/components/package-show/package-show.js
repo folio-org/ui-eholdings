@@ -13,13 +13,14 @@ import List from '../list';
 import TitleListItem from '../title-list-item';
 import ToggleSwitch from '../toggle-switch';
 import Modal from '../modal';
-import { formatISODateWithoutTime } from '../utilities';
+import CustomCoverageForm from '../custom-coverage-form';
 import styles from './package-show.css';
 
 export default class PackageShow extends Component {
   static propTypes = {
     model: PropTypes.object.isRequired,
-    toggleSelected: PropTypes.func.isRequired
+    toggleSelected: PropTypes.func.isRequired,
+    customCoverageSubmitted: PropTypes.func.isRequired
   };
 
   static contextTypes = {
@@ -61,7 +62,7 @@ export default class PackageShow extends Component {
   };
 
   render() {
-    let { model } = this.props;
+    let { model, customCoverageSubmitted } = this.props;
     let { intl, router, queryParams } = this.context;
     let { showSelectionModal, packageSelected } = this.state;
     let historyState = router.history.location.state;
@@ -116,14 +117,6 @@ export default class PackageShow extends Component {
                 </div>
               </KeyValueLabel>
 
-              {(model.customCoverage.beginCoverage || model.customCoverage.endCoverage) && (
-                <KeyValueLabel label="Custom Coverage">
-                  <div data-test-eholdings-package-details-custom-coverage>
-                    {formatISODateWithoutTime(model.customCoverage.beginCoverage, intl)} - {formatISODateWithoutTime(model.customCoverage.endCoverage, intl)}
-                  </div>
-                </KeyValueLabel>
-              )}
-
               <hr />
 
               <label
@@ -139,10 +132,27 @@ export default class PackageShow extends Component {
                 />
               </label>
 
+              <hr />
+
               {model.visibilityData.isHidden && (
                 <div data-test-eholdings-package-details-is-hidden>
                   <p><strong>This package is hidden.</strong></p>
                   <p><em>{model.visibilityData.reason}</em></p>
+                  <hr />
+                </div>
+              )}
+
+              {model.isSelected && (
+                <div data-test-eholdings-package-details-custom-coverage>
+                  <CustomCoverageForm
+                    onSubmit={customCoverageSubmitted}
+                    intl={intl}
+                    initialValues={{
+                      beginCoverage: model.customCoverage.beginCoverage,
+                      endCoverage: model.customCoverage.endCoverage
+                    }}
+                    isPending={model.update.isPending && 'customCoverage' in model.update.changedAttributes}
+                  />
                   <hr />
                 </div>
               )}
