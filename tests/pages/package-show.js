@@ -30,8 +30,8 @@ export default {
     return $('[data-test-eholdings-package-details-name]').text();
   },
 
-  get vendor() {
-    return $('[data-test-eholdings-package-details-vendor]').text();
+  get provider() {
+    return $('[data-test-eholdings-package-details-provider]').text();
   },
 
   get contentType() {

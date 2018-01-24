@@ -6,29 +6,29 @@ import { describeApplication } from './helpers';
 import PackageShowPage from './pages/package-show';
 
 describeApplication('PackageShow', () => {
-  let vendor,
-    vendorPackage,
+  let provider,
+    providerPackage,
     customerResources;
 
   beforeEach(function () {
-    vendor = this.server.create('vendor', {
-      name: 'Cool Vendor'
+    provider = this.server.create('provider', {
+      name: 'Cool Provider'
     });
 
-    vendorPackage = this.server.create('package', 'withTitles', {
-      vendor,
+    providerPackage = this.server.create('package', 'withTitles', {
+      provider,
       name: 'Cool Package',
       contentType: 'E-Book',
       isSelected: false,
       titleCount: 5
     });
 
-    customerResources = this.server.schema.where('customer-resource', { packageId: vendorPackage.id }).models;
+    customerResources = this.server.schema.where('customer-resource', { packageId: providerPackage.id }).models;
   });
 
   describe('visiting the package details page', () => {
     beforeEach(function () {
-      return this.visit(`/eholdings/packages/${vendorPackage.id}`, () => {
+      return this.visit(`/eholdings/packages/${providerPackage.id}`, () => {
         expect(PackageShowPage.$root).to.exist;
       });
     });
@@ -50,7 +50,7 @@ describeApplication('PackageShow', () => {
     });
 
     it('displays the number of selected titles', () => {
-      expect(PackageShowPage.numTitlesSelected).to.equal(`${vendorPackage.selectedCount}`);
+      expect(PackageShowPage.numTitlesSelected).to.equal(`${providerPackage.selectedCount}`);
     });
 
     it('displays a list of titles', () => {
@@ -72,10 +72,10 @@ describeApplication('PackageShow', () => {
 
   describe('visiting the package details page for a large package', () => {
     beforeEach(function () {
-      vendorPackage.selectedCount = 9000;
-      vendorPackage.titleCount = 10000;
+      providerPackage.selectedCount = 9000;
+      providerPackage.titleCount = 10000;
 
-      return this.visit(`/eholdings/packages/${vendorPackage.id}`, () => {
+      return this.visit(`/eholdings/packages/${providerPackage.id}`, () => {
         expect(PackageShowPage.$root).to.exist;
       });
     });
@@ -94,7 +94,7 @@ describeApplication('PackageShow', () => {
   describe('navigating to package show page', () => {
     beforeEach(function () {
       return this.visit({
-        pathname: `/eholdings/packages/${vendorPackage.id}`,
+        pathname: `/eholdings/packages/${providerPackage.id}`,
         // our internal link component automatically sets the location state
         state: { eholdings: true }
       }, () => {
@@ -116,7 +116,7 @@ describeApplication('PackageShow', () => {
         }]
       }, 500);
 
-      return this.visit(`/eholdings/packages/${vendorPackage.id}`, () => {
+      return this.visit(`/eholdings/packages/${providerPackage.id}`, () => {
         expect(PackageShowPage.$root).to.exist;
       });
     });

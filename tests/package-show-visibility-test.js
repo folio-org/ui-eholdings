@@ -6,19 +6,19 @@ import { describeApplication } from './helpers';
 import PackageShowPage from './pages/package-show';
 
 describeApplication('PackageShowVisibility', () => {
-  let vendor,
+  let provider,
     pkg;
 
   beforeEach(function () {
-    vendor = this.server.create('vendor', {
-      name: 'Cool Vendor'
+    provider = this.server.create('provider', {
+      name: 'Cool Provider'
     });
   });
 
   describe('visiting the package show page with a hidden package with a hidden reason', () => {
     beforeEach(function () {
       pkg = this.server.create('package', 'isHidden', {
-        vendor,
+        provider,
         name: 'Cool Package',
         contentType: 'E-Book',
         isSelected: true
@@ -41,7 +41,7 @@ describeApplication('PackageShowVisibility', () => {
   describe('visiting the package show page with a hidden package without a hidden reason', () => {
     beforeEach(function () {
       pkg = this.server.create('package', 'isHiddenWithoutReason', {
-        vendor,
+        provider,
         name: 'Cool Package',
         contentType: 'E-Book',
         isSelected: true
@@ -64,7 +64,7 @@ describeApplication('PackageShowVisibility', () => {
   describe('visiting the package show page with a package that is not hidden', () => {
     beforeEach(function () {
       pkg = this.server.create('package', {
-        vendor,
+        provider,
         name: 'Cool Package',
         contentType: 'ebook',
         isSelected: true
@@ -87,7 +87,7 @@ describeApplication('PackageShowVisibility', () => {
   describe('visiting the package show page with a package that is not selected', () => {
     beforeEach(function () {
       pkg = this.server.create('package', {
-        vendor,
+        provider,
         name: 'Cool Package',
         contentType: 'ebook',
         isSelected: false
@@ -114,7 +114,7 @@ describeApplication('PackageShowVisibility', () => {
   describe('visiting the package details page and Hiding a Package', () => {
     beforeEach(function () {
       pkg = this.server.create('package', 'withTitles', {
-        vendor,
+        provider,
         name: 'Cool Package',
         contentType: 'E-Book',
         isSelected: true,
@@ -165,7 +165,7 @@ describeApplication('PackageShowVisibility', () => {
   describe('visiting the package details page and Showing a Package', () => {
     beforeEach(function () {
       pkg = this.server.create('package', 'isHidden', 'withTitles', {
-        vendor,
+        provider,
         name: 'Cool Package',
         contentType: 'E-Book',
         isSelected: true,

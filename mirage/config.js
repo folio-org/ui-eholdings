@@ -133,11 +133,11 @@ export default function configure() {
     return JSON.parse(request.requestBody);
   });
 
-  // Vendor resources
-  this.get('/vendors', searchRouteFor('vendors'));
+  // Provider resources
+  this.get('/providers', searchRouteFor('providers'));
 
-  this.get('/vendors/:id', ({ vendors }, request) => {
-    return vendors.find(request.params.id);
+  this.get('/providers/:id', ({ providers }, request) => {
+    return providers.find(request.params.id);
   });
 
   // Package resources

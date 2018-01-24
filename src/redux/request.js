@@ -293,7 +293,7 @@ export function createRequestEpic({
             let searchQuery = '';
 
             // TODO: make the same for all search types, right now only
-            // vendors has q instead of search
+            // providers has q instead of search
             if ('q' in query) {
               query.q = query.search;
               delete query.search;

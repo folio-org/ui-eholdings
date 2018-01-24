@@ -22,7 +22,7 @@ export default function PackageSearchList({
       notFoundMessage={`No packages found for "${params.q}".`}
       renderItem={item => (
         <PackageListItem
-          showVendorName
+          showProviderName
           item={item.content}
           link={item.content && {
             pathname: `/eholdings/packages/${item.content.id}`,

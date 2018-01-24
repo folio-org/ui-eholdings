@@ -397,7 +397,7 @@ function describeHasMany(key, relType = key) {
  * in the case that related records have been fetched via JSONAPI `include` keyword,
  * the linkage can be found in the `relationships` key, but to link stored records
  * without a `relationship` key we can also examine the record's attributes on the
- * assumption that foreign keys are of the form `datatypeId` (i.e. packageId, vendorId, etc.)
+ * assumption that foreign keys are of the form `datatypeId` (i.e. packageId, providerId, etc.)
  *
  * @param {String} key - the relationship key
  * @param {String} [relType=key] - the relationship type, defaults to

@@ -3,8 +3,8 @@ import model, { belongsTo } from './model';
 class CustomerResource {
   name = '';
   titleId = 0;
-  vendorId = 0;
-  vendorName = '';
+  providerId = 0;
+  providerName = '';
   packageId = 0;
   packageName = '';
   package = belongsTo();

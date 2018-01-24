@@ -16,7 +16,7 @@ import { Link } from 'react-router-dom';
  * ---  Usage   ---
  * import Link from 'link';
  *
- * <Link to={`/eholdings/vendors/${record.vendorId}/packages/${record.packageId}`}>{record.packageName}</Link>
+ * <Link to={`/eholdings/providers/${record.providerId}/packages/${record.packageId}`}>{record.packageName}</Link>
  *
  * --- end Usage ---
  *

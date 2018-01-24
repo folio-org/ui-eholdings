@@ -6,12 +6,12 @@ import { describeApplication } from './helpers';
 import PackageShowPage from './pages/package-show';
 
 describeApplication('PackageShowCustomCoverage', () => {
-  let vendor,
+  let provider,
     pkg;
 
   beforeEach(function () {
-    vendor = this.server.create('vendor', {
-      name: 'Cool Vendor'
+    provider = this.server.create('provider', {
+      name: 'Cool Provider'
     });
   });
 
@@ -24,7 +24,7 @@ describeApplication('PackageShowCustomCoverage', () => {
 
       pkg = this.server.create('package', {
         customCoverage,
-        vendor,
+        provider,
         name: 'Cool Package',
         contentType: 'E-Book'
       });
@@ -42,7 +42,7 @@ describeApplication('PackageShowCustomCoverage', () => {
   describe('visiting the package show page with a package without custom coverage', () => {
     beforeEach(function () {
       pkg = this.server.create('package', {
-        vendor,
+        provider,
         packageName: 'Cool Package',
         contentType: 'ebook'
       });

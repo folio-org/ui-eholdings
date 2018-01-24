@@ -24,27 +24,27 @@ function createPackageObject(element) {
 
 export default {
   get $root() {
-    return $('[data-test-eholdings-vendor-details]');
+    return $('[data-test-eholdings-provider-details]');
   },
 
   get name() {
-    return $('[data-test-eholdings-vendor-details-name]').text();
+    return $('[data-test-eholdings-provider-details-name]').text();
   },
 
   get hasErrors() {
-    return $('[data-test-eholdings-vendor-details-error]').length > 0;
+    return $('[data-test-eholdings-provider-details-error]').length > 0;
   },
 
   get errorMessage() {
-    return $('[data-test-eholdings-vendor-details-error]').text();
+    return $('[data-test-eholdings-provider-details-error]').text();
   },
 
   get numPackages() {
-    return $('[data-test-eholdings-vendor-details-packages-total]').text();
+    return $('[data-test-eholdings-provider-details-packages-total]').text();
   },
 
   get numPackagesSelected() {
-    return $('[data-test-eholdings-vendor-details-packages-selected]').text();
+    return $('[data-test-eholdings-provider-details-packages-selected]').text();
   },
 
   get packageList() {
@@ -52,6 +52,6 @@ export default {
   },
 
   get $backButton() {
-    return $('[data-test-eholdings-vendor-details-back-button] button');
+    return $('[data-test-eholdings-provider-details-back-button] button');
   }
 };

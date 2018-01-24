@@ -17,13 +17,13 @@ export default function Front() {
 
       <h3>Search</h3>
       <ul>
-        <li>Search for a <Link to="/eholdings/?searchType=vendors">vendor</Link>, <Link to="/eholdings/?searchType=packages">package</Link>, or <Link to="/eholdings/?searchType=titles">title</Link></li>
+        <li>Search for a <Link to="/eholdings/?searchType=providers">provider</Link>, <Link to="/eholdings/?searchType=packages">package</Link>, or <Link to="/eholdings/?searchType=titles">title</Link></li>
       </ul>
 
-      <h3>Vendors</h3>
+      <h3>Providers</h3>
       <ul>
-        <li><Link to="/eholdings/vendors/432">NASA</Link></li>
-        <li><Link to="/eholdings/vendors/19">EBSCO</Link></li>
+        <li><Link to="/eholdings/providers/432">NASA</Link></li>
+        <li><Link to="/eholdings/providers/19">EBSCO</Link></li>
       </ul>
 
       <h3>Packages</h3>

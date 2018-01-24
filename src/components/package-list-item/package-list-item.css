@@ -27,18 +27,18 @@
     0 0.1em, /* name */
     0 1.75em; /* selected */
 
-  &.is-vendor-name-visible {
+  &.is-provider-name-visible {
     background-image:
       linear-gradient(#eee, #eee 0.9em, transparent 0.9em), /* name */
-      linear-gradient(#eee, #eee 0.8em, transparent 0.8em), /* vendor */
+      linear-gradient(#eee, #eee 0.8em, transparent 0.8em), /* provider */
       linear-gradient(#eee, #eee 0.8em, transparent 0.8em); /* selected */
     background-size:
       20em 1.1em, /* name */
-      10em 1em,   /* vendor */
+      10em 1em,   /* provider */
       5em 1em;    /* selected */
     background-position:
       0 0.1em, /* name */
-      0 1.75em, /* vendor */
+      0 1.75em, /* provider */
       0 2.9em; /* selected */
   }
 

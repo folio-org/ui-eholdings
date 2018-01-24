@@ -1,15 +1,15 @@
 export default function defaultScenario(server) {
-  function createVendor(name, packages = []) {
-    let vendor = server.create('vendor', {
-      vendorName: name,
+  function createProvider(name, packages = []) {
+    let provider = server.create('provider', {
+      providerName: name,
       packagesTotal: 0
     });
     packages.forEach((pkg) => {
-      server.create('package', 'withTitles', { ...pkg, vendor });
+      server.create('package', 'withTitles', { ...pkg, provider });
     });
   }
 
-  createVendor('Economist Intelligence Unit', [
+  createProvider('Economist Intelligence Unit', [
     {
       name: 'Business Briefings',
       contentType: 'AggregatedFullText',
@@ -37,7 +37,7 @@ export default function defaultScenario(server) {
     }
   ]);
 
-  createVendor('Edinburgh University Press', [
+  createProvider('Edinburgh University Press', [
     {
       name: 'Digimap Ordnance Survey',
       contentType: 'OnlineReference',
@@ -70,7 +70,7 @@ export default function defaultScenario(server) {
     }
   ]);
 
-  server.createList('vendor', 5, 'withPackagesAndTitles', {
+  server.createList('provider', 5, 'withPackagesAndTitles', {
     get packagesTotal() { return Math.floor(Math.random() * 10) + 1; }
   });
 }

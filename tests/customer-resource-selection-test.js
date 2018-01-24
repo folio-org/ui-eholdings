@@ -6,17 +6,17 @@ import { describeApplication } from './helpers';
 import ResourcePage from './pages/customer-resource-show';
 
 describeApplication('CustomerResourceShow Selection', () => {
-  let vendor,
-    vendorPackage,
+  let provider,
+    providerPackage,
     resource;
 
   beforeEach(function () {
-    vendor = this.server.create('vendor', {
-      name: 'Cool Vendor'
+    provider = this.server.create('provider', {
+      name: 'Cool Provider'
     });
 
-    vendorPackage = this.server.create('package', 'withTitles', {
-      vendor,
+    providerPackage = this.server.create('package', 'withTitles', {
+      provider,
       name: 'Cool Package',
       contentType: 'E-Book',
       titleCount: 5
@@ -27,7 +27,7 @@ describeApplication('CustomerResourceShow Selection', () => {
     });
 
     resource = this.server.create('customer-resource', {
-      package: vendorPackage,
+      package: providerPackage,
       isSelected: false,
       title
     });

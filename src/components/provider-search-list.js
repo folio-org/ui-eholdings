@@ -2,9 +2,9 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 import QueryList from './query-list';
-import VendorListItem from './vendor-list-item';
+import ProviderListItem from './provider-list-item';
 
-export default function VendorSearchList({
+export default function ProviderSearchList({
   location,
   params,
   collection,
@@ -13,18 +13,18 @@ export default function VendorSearchList({
 }) {
   return (
     <QueryList
-      type="vendors"
+      type="providers"
       offset={parseInt(params.offset || 0, 10)}
       fetch={fetch}
       collection={collection}
       onUpdateOffset={onUpdateOffset}
       itemHeight={68}
-      notFoundMessage={`No vendors found for "${params.q}".`}
+      notFoundMessage={`No providers found for "${params.q}".`}
       renderItem={item => (
-        <VendorListItem
+        <ProviderListItem
           item={item.content}
           link={item.content && {
-            pathname: `/eholdings/vendors/${item.content.id}`,
+            pathname: `/eholdings/providers/${item.content.id}`,
             search: location.search
           }}
         />
@@ -33,7 +33,7 @@ export default function VendorSearchList({
   );
 }
 
-VendorSearchList.propTypes = {
+ProviderSearchList.propTypes = {
   location: PropTypes.object.isRequired,
   params: PropTypes.object.isRequired,
   collection: PropTypes.object.isRequired,

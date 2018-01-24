@@ -34,10 +34,10 @@ export default Factory.extend({
       }
     }
   }),
-  withVendor: trait({
+  withProvider: trait({
     afterCreate(packageObj, server) {
-      let vendor = server.create('vendor');
-      packageObj.vendor = vendor;
+      let provider = server.create('provider');
+      packageObj.provider = provider;
       packageObj.save();
     }
   }),
