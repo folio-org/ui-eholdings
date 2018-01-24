@@ -14,6 +14,10 @@ function createPackageObject(element) {
 
     get numTitlesSelected() {
       return parseInt($scope.find('[data-test-eholdings-package-list-item-num-titles-selected]').text(), 10);
+    },
+
+    get isHidden() {
+      return $scope.find('[data-test-eholdings-package-list-item-title-hidden]').text() === 'Hidden';
     }
   };
 }

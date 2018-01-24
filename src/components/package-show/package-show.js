@@ -19,7 +19,8 @@ import styles from './package-show.css';
 export default class PackageShow extends Component {
   static propTypes = {
     model: PropTypes.object.isRequired,
-    toggleSelected: PropTypes.func.isRequired
+    toggleSelected: PropTypes.func.isRequired,
+    toggleHidden: PropTypes.func.isRequired
   };
 
   static contextTypes = {
@@ -30,12 +31,16 @@ export default class PackageShow extends Component {
 
   state = {
     showSelectionModal: false,
-    packageSelected: this.props.model.isSelected
+    packageSelected: this.props.model.isSelected,
+    packageHidden: this.props.model.visibilityData.isHidden
   };
 
   componentWillReceiveProps({ model }) {
     if (!model.isSaving) {
-      this.setState({ packageSelected: model.isSelected });
+      this.setState({
+        packageSelected: model.isSelected,
+        packageHidden: model.visibilityData.isHidden
+      });
     }
   }
 
@@ -63,7 +68,7 @@ export default class PackageShow extends Component {
   render() {
     let { model } = this.props;
     let { intl, router, queryParams } = this.context;
-    let { showSelectionModal, packageSelected } = this.state;
+    let { showSelectionModal, packageSelected, packageHidden } = this.state;
     let historyState = router.history.location.state;
 
     return (
@@ -138,15 +143,35 @@ export default class PackageShow extends Component {
                   id="package-details-toggle-switch"
                 />
               </label>
-
-              {model.visibilityData.isHidden && (
-                <div data-test-eholdings-package-details-is-hidden>
-                  <p><strong>This package is hidden.</strong></p>
-                  <p><em>{model.visibilityData.reason}</em></p>
-                  <hr />
+              <label
+                data-test-eholdings-package-details-hidden
+                htmlFor="package-details-toggle-hidden-switch"
+              >
+                <h4>{model.visibilityData.isHidden ? 'Hidden from patrons' : 'Visible to patrons'}</h4>
+                <div className={styles['flex-container']}>
+                  <div className={styles['flex-item']}>
+                    { packageSelected ? (
+                      <ToggleSwitch
+                        onChange={this.props.toggleHidden}
+                        checked={!packageHidden}
+                        isPending={model.update.isPending}
+                        id="package-details-toggle-hidden-switch"
+                      />
+                    ) : (
+                      <ToggleSwitch
+                        checked
+                        disabled
+                        id="package-details-toggle-hidden-switch"
+                      />
+                    )
+                    }
+                  </div>
+                  <div data-test-eholdings-package-details-is-hidden className={styles['flex-item']}>
+                    <p>{(model.visibilityData.isHidden ? model.visibilityData.reason : '')}</p>
+                  </div>
                 </div>
-              )}
-
+              </label>
+              <hr />
               <h3>Titles</h3>
               <List data-test-eholdings-package-details-title-list>
                 {model.customerResources.isLoading ? (

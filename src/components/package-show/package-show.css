@@ -19,3 +19,11 @@
 .detail-container-header {
   margin: 2rem 0;
 }
+.flex-container {
+   display: flex;
+   align-items: center;
+ }
+ .flex-item {
+   margin-right: 10px;
+ }
+

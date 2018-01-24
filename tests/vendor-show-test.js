@@ -16,6 +16,7 @@ describeApplication('VendorShow', () => {
     });
 
     packages = this.server.schema.where('package', { vendorId: vendor.id }).models;
+    packages[0].visibilityData.isHidden = true;
   });
 
   describe('visiting the vendor details page', () => {
@@ -51,6 +52,9 @@ describeApplication('VendorShow', () => {
 
     it('displays total number of titles for a package', () => {
       expect(VendorShowPage.packageList[0].numTitles).to.equal(packages[0].titleCount);
+    });
+    it('displays isHidden indicator', () => {
+      expect(VendorShowPage.packageList[0].isHidden).to.equal(packages[0].visibilityData.isHidden);
     });
 
     it.still('should not display the back button', () => {

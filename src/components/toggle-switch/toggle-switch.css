@@ -18,6 +18,10 @@
     transform: translateX(26px);
   }
 
+  & input:disabled + .toggle-switch-slider {
+    background-color: var(--secondary);
+  }
+
   &.is-pending .toggle-switch-slider {
     animation: toggle-pending 3s infinite ease-in-out;
   }
