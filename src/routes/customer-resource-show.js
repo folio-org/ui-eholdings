@@ -47,11 +47,18 @@ class CustomerResourceShowRoute extends Component {
     updateResource(model);
   }
 
+  toggleHidden = () => {
+    let { model, updateResource } = this.props;
+    model.visibilityData.isHidden = !model.visibilityData.isHidden;
+    updateResource(model);
+  }
+
   render() {
     return (
       <View
         model={this.props.model}
         toggleSelected={this.toggleSelected}
+        toggleHidden={this.toggleHidden}
       />
     );
   }

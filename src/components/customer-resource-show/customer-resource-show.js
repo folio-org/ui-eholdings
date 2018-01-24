@@ -19,7 +19,8 @@ import styles from './customer-resource-show.css';
 export default class CustomerResourceShow extends Component {
   static propTypes = {
     model: PropTypes.object.isRequired,
-    toggleSelected: PropTypes.func.isRequired
+    toggleSelected: PropTypes.func.isRequired,
+    toggleHidden: PropTypes.func.isRequired
   };
 
   static contextTypes = {
@@ -29,12 +30,16 @@ export default class CustomerResourceShow extends Component {
 
   state = {
     showSelectionModal: false,
-    resourceSelected: this.props.model.isSelected
+    resourceSelected: this.props.model.isSelected,
+    resourceHidden: this.props.model.visibilityData.isHidden
   };
 
   componentWillReceiveProps({ model }) {
     if (!model.isSaving) {
-      this.setState({ resourceSelected: model.isSelected });
+      this.setState({
+        resourceSelected: model.isSelected,
+        resourceHidden: model.visibilityData.isHidden
+      });
     }
   }
 
@@ -193,15 +198,70 @@ export default class CustomerResourceShow extends Component {
 
               <hr />
 
-              {model.visibilityData.isHidden && (
-                <div data-test-eholdings-customer-resource-show-is-hidden>
-                  <p><strong>This resource is hidden.</strong></p>
-                  <p data-test-eholdings-customer-resource-show-hidden-reason>
-                    <em>{model.visibilityData.reason}</em>
-                  </p>
-                  <hr />
-                </div>
-              )}
+              <label
+                data-test-eholdings-customer-resource-toggle-hidden
+                htmlFor="customer-resource-show-hide-toggle-switch"
+              > {
+                  model.package.visibilityData.isHidden ? (
+                    <div>
+                      <h4>Hidden from patrons</h4>
+                      <div className={styles['flex-container']}>
+                        <div className={styles['flex-item']}>
+                          <ToggleSwitch
+                            id="customer-resource-show-hide-toggle-switch"
+                            checked={false}
+                            disabled
+                          />
+                        </div>
+
+                        <div className={styles['flex-item']}>
+                          {
+                            <p data-test-eholdings-customer-resource-toggle-hidden-reason>
+                              All titles in this package are hidden.
+                            </p>
+                          }
+                        </div>
+                      </div>
+                    </div>
+                  ) : (
+                    <div>
+                      <h4>{model.visibilityData.isHidden ? 'Hidden from patrons' : 'Visible to patrons'}</h4>
+                      <div className={styles['flex-container']}>
+                        <div className={styles['flex-item']}>
+                          { resourceSelected ? (
+                            <ToggleSwitch
+                              onChange={this.props.toggleHidden}
+                              checked={!model.visibilityData.isHidden}
+                              isPending={model.update.isPending}
+                              id="customer-resource-show-hide-toggle-switch"
+                            />
+                          ) : (
+                            <ToggleSwitch
+                              checked
+                              disabled
+                              id="customer-resource-show-hide-toggle-switch"
+                            />
+                          )
+                          }
+                        </div>
+                        <div className={styles['flex-item']}>
+                          {
+                            model.visibilityData.isHidden ? (
+                              <p data-test-eholdings-customer-resource-toggle-hidden-reason>
+                                {model.visibilityData.reason}
+                              </p>
+                            ) : (
+                              <p data-test-eholdings-customer-resource-toggle-hidden-reason />
+                            )
+                          }
+                        </div>
+                      </div>
+                    </div>
+                  )
+                }
+              </label>
+
+              <hr />
 
               <div>
                 <Link to={`/eholdings/titles/${model.titleId}`}>
