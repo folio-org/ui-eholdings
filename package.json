@@ -12,7 +12,7 @@
     "lint": "eslint ./"
   },
   "devDependencies": {
-    "@folio/stripes-cli": "folio-org/stripes-cli#STCLI-7-permissions",
+    "@folio/stripes-cli": "folio-org/stripes-cli#STCLI-13-improve-alias-support",
     "@folio/stripes-components": "folio-org/stripes-components#master",
     "@folio/stripes-core": "folio-org/stripes-core#master",
     "babel-plugin-istanbul": "^4.1.5",
