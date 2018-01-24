@@ -3,10 +3,10 @@ const webpack = require('webpack');
 const environment = process.env.NODE_ENV;
 let url;
 
-if (environment === 'production') {
-  url = 'https://okapi.frontside.io';
-} else {
+if (environment === 'sandbox') {
   url = 'https://okapi-sandbox.frontside.io';
+} else {
+  url = 'https://okapi.frontside.io';
 }
 
 function mirage(config, enabled = false) {
@@ -82,7 +82,7 @@ module.exports = {
     test: testPlugin,
   },
 
-  // Aliases 
+  // Aliases
   aliases: {
     '@folio/eholdings-demo': './demo',
   }
