@@ -150,7 +150,7 @@ export default class CustomerResourceShow extends Component {
               {model.url && (
                 <KeyValueLabel label="Managed URL">
                   <div data-test-eholdings-customer-resource-show-managed-url>
-                    <a href={model.url}>{model.url}</a>
+                    <a href={model.url} target="_blank">{model.url}</a>
                   </div>
                 </KeyValueLabel>
               ) }

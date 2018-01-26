@@ -110,6 +110,17 @@ describeApplication('CustomerResourceShow', () => {
       expect(ResourcePage.managedUrl).to.equal(resource.url);
     });
 
+    describe('clicking the managed url opens link in new tab', () => {
+      beforeEach(() => {
+        ResourcePage.clickManagedURL();
+      });
+
+      it('opens in new tab', () => {
+        expect(window.history.length).to.equal(1);
+        expect(window.name.includes('ebscohost'));
+      });
+    });
+
     it('indicates that the resource is not yet selected', () => {
       expect(ResourcePage.isSelected).to.equal(false);
     });
