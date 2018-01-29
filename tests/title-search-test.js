@@ -10,7 +10,8 @@ describeApplication('TitleSearch', () => {
 
   beforeEach(function () {
     titles = this.server.createList('title', 3, 'withPackages', {
-      name: i => `Title${i + 1}`
+      name: i => `Title${i + 1}`,
+      publicationType: i => (i % 2 ? 'book' : 'journal')
     });
 
     this.server.create('title', {
@@ -24,6 +25,10 @@ describeApplication('TitleSearch', () => {
 
   it('has a searchbox', () => {
     expect(TitleSearchPage.$searchField).to.exist;
+  });
+
+  it('has search filters', () => {
+    expect(TitleSearchPage.$searchFilters).to.exist;
   });
 
   describe('searching for a title', () => {
@@ -106,7 +111,24 @@ describeApplication('TitleSearch', () => {
       });
     });
 
-    describe('filtering the search results further', () => {
+    describe('filtering by publication type', () => {
+      beforeEach(() => {
+        return convergeOn(() => {
+          expect(TitleSearchPage.$searchResultsItems).to.have.lengthOf(3);
+        }).then(() => (
+          TitleSearchPage.clickFilter('book')
+        )).then(() => (
+          TitleSearchPage.search('Title')
+        ));
+      });
+
+      it('only shows results for book publication types', () => {
+        expect(TitleSearchPage.titleList).to.have.lengthOf(1);
+        expect(TitleSearchPage.titleList[0].publicationType).to.equal('book');
+      });
+    });
+
+    describe('with a more specific query', () => {
       beforeEach(() => {
         return convergeOn(() => {
           expect(TitleSearchPage.$searchResultsItems).to.have.lengthOf(3);

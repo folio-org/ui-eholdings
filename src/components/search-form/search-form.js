@@ -14,12 +14,14 @@ export default class SearchForm extends Component {
       packages: PropTypes.string.isRequired,
       titles: PropTypes.string.isRequired
     }).isRequired,
+    filtersComponent: PropTypes.func,
     onSearch: PropTypes.func.isRequired,
     searchString: PropTypes.string
   };
 
   state = {
-    searchString: this.props.searchString || ''
+    searchString: this.props.searchString || '',
+    filter: ''
   };
 
   componentWillReceiveProps({ searchString = '' }) {
@@ -32,7 +34,8 @@ export default class SearchForm extends Component {
     e.preventDefault();
 
     this.props.onSearch({
-      q: this.state.searchString
+      q: this.state.searchString,
+      filter: this.state.filter
     });
   };
 
@@ -40,9 +43,13 @@ export default class SearchForm extends Component {
     this.setState({ searchString: e.target.value });
   };
 
+  handleUpdateFilter = (filter) => {
+    this.setState({ filter });
+  };
+
   render() {
-    const { searchType, searchTypeUrls } = this.props;
-    const { searchString } = this.state;
+    const { searchType, searchTypeUrls, filtersComponent: Filters } = this.props;
+    const { searchString, filter } = this.state;
 
     return (
       <div className={styles['search-form-container']} data-test-search-form={searchType}>
@@ -77,6 +84,15 @@ export default class SearchForm extends Component {
           >
             Search
           </button>
+
+          <hr />
+
+          {Filters && (
+            <Filters
+              filter={filter}
+              onUpdate={this.handleUpdateFilter}
+            />
+          )}
         </form>
       </div>
     );

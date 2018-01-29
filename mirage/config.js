@@ -5,10 +5,11 @@ import { Response } from 'mirage-server';
  * Helper for creating a search route for a resource type.
  * Currently includes pagination and searching by name.
  * @param {String} resourceType - resource type's model name
+ * @param {Function} [filter] - optional filter function
  * @returns {Function} route handler for a search route of this
  * resource type
  */
-function searchRouteFor(resourceType) {
+function searchRouteFor(resourceType, filter = () => true) {
   return function (schema, req) { // eslint-disable-line func-names
     let query = req.queryParams.q.toLowerCase();
     let page = Math.max(parseInt(req.queryParams.page || 1, 10), 1);
@@ -17,7 +18,9 @@ function searchRouteFor(resourceType) {
 
     let collection = schema[resourceType];
     let json = this.serialize(collection.all().filter((model) => {
-      return model.name && model.name.toLowerCase().includes(query);
+      return model.name
+        && model.name.toLowerCase().includes(query)
+        && filter(model, req);
     }));
 
     json.meta = { totalResults: json.data.length };
@@ -207,7 +210,15 @@ export default function configure() {
   this.get('/packages/:id/customer-resources', nestedResourceRouteFor('package', 'customerResources'));
 
   // Title resources
-  this.get('/titles', searchRouteFor('titles'));
+  this.get('/titles', searchRouteFor('titles', (title, req) => {
+    let { filter } = req.queryParams;
+
+    if (filter && filter !== 'all') {
+      return title.publicationType.toLowerCase() === filter;
+    } else {
+      return true;
+    }
+  }));
 
   this.get('/titles/:id', ({ titles }, request) => {
     return titles.find(request.params.id);

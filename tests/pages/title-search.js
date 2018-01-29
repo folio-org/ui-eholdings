@@ -38,6 +38,10 @@ export default {
     return $('[data-test-search-field]');
   },
 
+  get $searchFilters() {
+    return $('[data-test-eholdings-title-search-filters]');
+  },
+
   get $searchResultsItems() {
     return $('[data-test-query-list="titles"] li a');
   },
@@ -83,6 +87,12 @@ export default {
     }).then(() => {
       $('[data-test-search-submit]').trigger('click');
     });
+  },
+
+  clickFilter(value) {
+    let $radio = this.$searchFilters.find(`input[type="radio"][value="${value}"]`);
+    $radio.get(0).click();
+    return convergeOn(() => expect($radio).to.have.prop('checked'));
   },
 
   changeSearchType(searchType) {
