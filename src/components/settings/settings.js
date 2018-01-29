@@ -145,7 +145,7 @@ export default class Settings extends Component {
               <label htmlFor="eholdings-settings-apikey">API Key</label>
               <input
                 id="eholdings-settings-apikey"
-                type="text"
+                type="password"
                 autoComplete="off"
                 value={apiKey}
                 onChange={this.updateApiKey}
