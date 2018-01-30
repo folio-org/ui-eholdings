@@ -141,5 +141,9 @@ export default {
 
   cancelDeselection() {
     return $('[data-test-eholdings-customer-resource-deselection-confirmation-modal-no]').trigger('click');
+  },
+
+  clickManagedURL() {
+    return $('[data-test-eholdings-customer-resource-show-managed-url]').trigger('click');
   }
 };
