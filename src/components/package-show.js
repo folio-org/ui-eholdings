@@ -14,6 +14,7 @@ import TitleListItem from './title-list-item';
 import ToggleSwitch from './toggle-switch';
 import Modal from './modal';
 import { formatISODateWithoutTime } from './utilities';
+import styles from './styles.css';
 
 export default class PackageShow extends Component {
   static propTypes = {
@@ -142,7 +143,7 @@ export default class PackageShow extends Component {
                     </h4>
 
                     <Layout className="flex">
-                      <div className="marginRightHalf">
+                      <div className={styles.marginRightHalf}>
                         <ToggleSwitch
                           onChange={this.props.toggleHidden}
                           checked={!packageHidden}

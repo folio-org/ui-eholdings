@@ -48,9 +48,3 @@
     flex: 1;
   }
 }
-
-/* like `marginTopHalf` or `marginBottomHalf` from stripes-components,
-   but for right margins instead (and without `!important`) */
-:global(.marginRightHalf) {
-  margin-right: 0.5rem;
-}

@@ -15,6 +15,7 @@ import ToggleSwitch from './toggle-switch';
 import CoverageDates from './coverage-dates';
 import { isBookPublicationType, isValidCoverageList } from './utilities';
 import Modal from './modal';
+import styles from './styles.css';
 
 export default class CustomerResourceShow extends Component {
   static propTypes = {
@@ -193,7 +194,7 @@ export default class CustomerResourceShow extends Component {
                     </h4>
 
                     <Layout className="flex">
-                      <div className="marginRightHalf">
+                      <div className={styles.marginRightHalf}>
                         {model.package.visibilityData.isHidden ? (
                           <ToggleSwitch
                             id="customer-resource-show-hide-toggle-switch"
