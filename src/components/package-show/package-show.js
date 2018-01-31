@@ -143,6 +143,7 @@ export default class PackageShow extends Component {
                   id="package-details-toggle-switch"
                 />
               </label>
+              <hr />
               <label
                 data-test-eholdings-package-details-hidden
                 htmlFor="package-details-toggle-hidden-switch"
