@@ -11,7 +11,7 @@ describeApplication('CustomerResourceShowManagedCoverage', () => {
     resource;
 
   beforeEach(function () {
-    pkg = this.server.create('package', 'withVendor');
+    pkg = this.server.create('package', 'withProvider');
 
     title = this.server.create('title', {
       publicationType: 'Journal'

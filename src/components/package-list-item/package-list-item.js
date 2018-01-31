@@ -11,7 +11,7 @@ export default function PackageListItem({
   item,
   link,
   showTitleCount,
-  showVendorName,
+  showProviderName,
   packageName
 }, {
   intl
@@ -19,7 +19,7 @@ export default function PackageListItem({
   return !item ? (
     <div
       className={cx('skeleton', {
-        'is-vendor-name-visible': showVendorName,
+        'is-provider-name-visible': showProviderName,
         'is-title-count-visible': showTitleCount
       })}
     />
@@ -29,9 +29,9 @@ export default function PackageListItem({
         {packageName || item.name}
       </h5>
 
-      {showVendorName && (
-        <div data-test-eholdings-package-list-item-vendor-name>
-          {item.vendorName}
+      {showProviderName && (
+        <div data-test-eholdings-package-list-item-provider-name>
+          {item.providerName}
         </div>
       )}
 
@@ -79,7 +79,7 @@ PackageListItem.propTypes = {
     PropTypes.object
   ]),
   showTitleCount: PropTypes.bool,
-  showVendorName: PropTypes.bool,
+  showProviderName: PropTypes.bool,
   packageName: PropTypes.string
 };
 

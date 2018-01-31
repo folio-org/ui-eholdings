@@ -1,6 +1,6 @@
 import model, { hasMany } from './model';
 
-class Vendor {
+class Provider {
   name = '';
   packagesSelected = 0;
   packagesTotal = 0;
@@ -8,6 +8,6 @@ class Vendor {
 }
 
 export default model({
-  type: 'vendors',
-  path: '/eholdings/vendors'
-})(Vendor);
+  type: 'providers',
+  path: '/eholdings/providers'
+})(Provider);

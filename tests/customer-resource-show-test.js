@@ -6,17 +6,17 @@ import { describeApplication } from './helpers';
 import ResourcePage from './pages/customer-resource-show';
 
 describeApplication('CustomerResourceShow', () => {
-  let vendor,
-    vendorPackage,
+  let provider,
+    providerPackage,
     resource;
 
   beforeEach(function () {
-    vendor = this.server.create('vendor', {
-      name: 'Cool Vendor'
+    provider = this.server.create('provider', {
+      name: 'Cool Provider'
     });
 
-    vendorPackage = this.server.create('package', 'withTitles', {
-      vendor,
+    providerPackage = this.server.create('package', 'withTitles', {
+      provider,
       name: 'Cool Package',
       contentType: 'E-Book',
       titleCount: 5
@@ -43,7 +43,7 @@ describeApplication('CustomerResourceShow', () => {
     title.save();
 
     resource = this.server.create('customer-resource', {
-      package: vendorPackage,
+      package: providerPackage,
       isSelected: false,
       title
     });
@@ -102,8 +102,8 @@ describeApplication('CustomerResourceShow', () => {
       expect(ResourcePage.contentType).to.equal('E-Book');
     });
 
-    it('displays the vendor name', () => {
-      expect(ResourcePage.vendorName).to.equal(resource.package.vendor.name);
+    it('displays the provider name', () => {
+      expect(ResourcePage.providerName).to.equal(resource.package.provider.name);
     });
 
     it('displays the managed url', () => {
@@ -148,8 +148,8 @@ describeApplication('CustomerResourceShow', () => {
 
   describe('visiting the customer resource page with some attributes undefined', () => {
     beforeEach(function () {
-      vendorPackage = this.server.create('package', 'withTitles', {
-        vendor,
+      providerPackage = this.server.create('package', 'withTitles', {
+        provider,
         name: 'Cool Package',
         contentType: '',
         titleCount: 5
@@ -160,7 +160,7 @@ describeApplication('CustomerResourceShow', () => {
       });
 
       resource = this.server.create('customer-resource', {
-        package: vendorPackage,
+        package: providerPackage,
         isSelected: false,
         title
       });
@@ -185,8 +185,8 @@ describeApplication('CustomerResourceShow', () => {
 
   describe('visiting the customer resource page with unknown attribute values', () => {
     beforeEach(function () {
-      vendorPackage = this.server.create('package', 'withTitles', {
-        vendor,
+      providerPackage = this.server.create('package', 'withTitles', {
+        provider,
         name: 'Cool Package',
         contentType: 'Isolinear Chip',
         titleCount: 5
@@ -197,7 +197,7 @@ describeApplication('CustomerResourceShow', () => {
       });
 
       resource = this.server.create('customer-resource', {
-        package: vendorPackage,
+        package: providerPackage,
         isSelected: false,
         title
       });

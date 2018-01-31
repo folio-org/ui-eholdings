@@ -125,7 +125,7 @@ describeApplication('TitleSearch', () => {
         return convergeOn(() => {
           // wait for the previous search to complete
           expect(TitleSearchPage.$searchResultsItems).to.have.lengthOf(3);
-        }).then(() => TitleSearchPage.changeSearchType('vendors'));
+        }).then(() => TitleSearchPage.changeSearchType('providers'));
       });
 
       it('displays an empty search', () => {

@@ -6,25 +6,25 @@ export default Factory.extend({
   packagesSelected: 0,
 
   withPackagesAndTitles: trait({
-    afterCreate(vendor, server) {
+    afterCreate(provider, server) {
       // If packagesTotal is greater than zero, we'll auto-create the packages
-      // for this vendor here.
+      // for this provider here.
 
-      if (vendor.packagesTotal > 0) {
+      if (provider.packagesTotal > 0) {
         // Decide how many will be selected if not already (0 to packagesTotal)
-        vendor.packagesSelected = vendor.packagesSelected ||
-          faker.random.number({ min: 0, max: vendor.packagesTotal });
+        provider.packagesSelected = provider.packagesSelected ||
+          faker.random.number({ min: 0, max: provider.packagesTotal });
 
-        server.createList('package', vendor.packagesSelected, 'withTitles', {
-          vendor,
-          vendorName: vendor.name,
+        server.createList('package', provider.packagesSelected, 'withTitles', {
+          provider,
+          providerName: provider.name,
           isSelected: true,
           titleCount: faker.random.number({ min: 1, max: 5 })
         });
 
-        server.createList('package', (vendor.packagesTotal - vendor.packagesSelected), 'withTitles', {
-          vendor,
-          vendorName: vendor.name,
+        server.createList('package', (provider.packagesTotal - provider.packagesSelected), 'withTitles', {
+          provider,
+          providerName: provider.name,
           isSelected: false,
           titleCount: faker.random.number({ min: 1, max: 5 })
         });

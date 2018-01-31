@@ -4,11 +4,11 @@ import qs from 'query-string';
 import { connect } from 'react-redux';
 
 import { createResolver } from '../redux';
-import Vendor from '../redux/vendor';
+import Provider from '../redux/provider';
 import Package from '../redux/package';
 import Title from '../redux/title';
 
-import VendorSearchList from '../components/vendor-search-list';
+import ProviderSearchList from '../components/provider-search-list';
 import PackageSearchList from '../components/package-search-list';
 import TitleSearchList from '../components/title-search-list';
 import SearchPaneset from '../components/search-paneset';
@@ -24,7 +24,7 @@ class SearchRoute extends Component {
       push: PropTypes.func.isRequired,
       replace: PropTypes.func.isRequired
     }).isRequired,
-    searchVendors: PropTypes.func.isRequired,
+    searchProviders: PropTypes.func.isRequired,
     searchPackages: PropTypes.func.isRequired,
     searchTitles: PropTypes.func.isRequired,
     resolver: PropTypes.object.isRequired,
@@ -114,7 +114,7 @@ class SearchRoute extends Component {
   getSearchTypeUrls() {
     let { location } = this.props;
 
-    return ['vendors', 'packages', 'titles'].reduce((locations, type) => {
+    return ['providers', 'packages', 'titles'].reduce((locations, type) => {
       let lastQuery = this.queries[type] || {};
       let url = this.buildSearchUrl(location.pathname, lastQuery, type);
       return { ...locations, [type]: url };
@@ -147,7 +147,7 @@ class SearchRoute extends Component {
    */
   search(params) {
     let { searchType } = this.state;
-    if (searchType === 'vendors') this.props.searchVendors(params);
+    if (searchType === 'providers') this.props.searchProviders(params);
     if (searchType === 'packages') this.props.searchPackages(params);
     if (searchType === 'titles') this.props.searchTitles(params);
   }
@@ -197,8 +197,8 @@ class SearchRoute extends Component {
     };
 
     if (params.q) {
-      if (searchType === 'vendors') {
-        return <VendorSearchList {...props} />;
+      if (searchType === 'providers') {
+        return <ProviderSearchList {...props} />;
       } else if (searchType === 'packages') {
         return <PackageSearchList {...props} />;
       } else if (searchType === 'titles') {
@@ -252,7 +252,7 @@ export default connect(
   ({ eholdings: { data } }) => ({
     resolver: createResolver(data)
   }), {
-    searchVendors: params => Vendor.query(params),
+    searchProviders: params => Provider.query(params),
     searchPackages: params => Package.query(params),
     searchTitles: params => Title.query(params)
   }

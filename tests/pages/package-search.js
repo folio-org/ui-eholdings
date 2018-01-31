@@ -11,8 +11,8 @@ function createPackageObject(element) {
       return $scope.find('[data-test-eholdings-package-list-item-name]').text();
     },
 
-    get vendorName() {
-      return $scope.find('[data-test-eholdings-package-list-item-vendor-name]').text();
+    get providerName() {
+      return $scope.find('[data-test-eholdings-package-list-item-provider-name]').text();
     },
 
     get numTitles() {

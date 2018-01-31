@@ -41,9 +41,9 @@ export default class TestHarness extends Component {
   /**
    * Simulate navigation to the path or location. E.g.
    *
-   *  this.visit('/eholdings/vendors?query=hbr');
+   *  this.visit('/eholdings/providers?query=hbr');
    *  // or
-   *  this.visit({pathname: '/eholdings/vendors', search: '?query=hbr');
+   *  this.visit({pathname: '/eholdings/providers', search: '?query=hbr');
    *
    * @method visit
    * @param {string | Location} path

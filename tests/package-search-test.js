@@ -9,13 +9,13 @@ describeApplication('PackageSearch', () => {
   let pkgs;
 
   beforeEach(function () {
-    pkgs = this.server.createList('package', 3, 'withVendor', 'withTitles', {
+    pkgs = this.server.createList('package', 3, 'withProvider', 'withTitles', {
       name: i => `Package${i + 1}`,
       titleCount: 3,
       selectedCount: 1
     });
 
-    this.server.create('package', 'withVendor', {
+    this.server.create('package', 'withProvider', {
       name: 'SomethingElse'
     });
 
@@ -41,8 +41,8 @@ describeApplication('PackageSearch', () => {
       expect(PackageSearchPage.packageList[0].name).to.equal('Package1');
     });
 
-    it('displays the package vendor name name in the list', () => {
-      expect(PackageSearchPage.packageList[0].vendorName).to.equal(pkgs[0].vendor.name);
+    it('displays the package provider name name in the list', () => {
+      expect(PackageSearchPage.packageList[0].providerName).to.equal(pkgs[0].provider.name);
     });
 
     it('displays a loading indicator where the total results will be', () => {

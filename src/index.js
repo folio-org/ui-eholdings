@@ -6,7 +6,7 @@ import { reducer, epics } from './redux';
 
 import ApplicationRoute from './routes/application';
 import SearchRoute from './routes/search';
-import VendorShow from './routes/vendor-show';
+import ProviderShow from './routes/provider-show';
 import PackageShow from './routes/package-show';
 import TitleShow from './routes/title-show';
 import CustomerResourceShow from './routes/customer-resource-show';
@@ -56,11 +56,11 @@ export default class EHoldings extends Component {
       <Route path={rootPath} component={ApplicationRoute}>
         <Route path={rootPath} component={SearchRoute}>
           <Switch>
-            <Route path={`${rootPath}/vendors/:vendorId`} exact component={VendorShow} />
+            <Route path={`${rootPath}/providers/:providerId`} exact component={ProviderShow} />
             <Route path={`${rootPath}/packages/:packageId`} exact component={PackageShow} />
             <Route path={`${rootPath}/titles/:titleId`} exact component={TitleShow} />
             <Route path={`${rootPath}/customer-resources/:id`} exact component={CustomerResourceShow} />
-            <Route render={() => (<Redirect to={`${rootPath}?searchType=vendors`} />)} />
+            <Route render={() => (<Redirect to={`${rootPath}?searchType=providers`} />)} />
           </Switch>
         </Route>
       </Route>

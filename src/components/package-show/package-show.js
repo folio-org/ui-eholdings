@@ -95,9 +95,9 @@ export default class PackageShow extends Component {
                 </KeyValueLabel>
               </div>
 
-              <KeyValueLabel label="Vendor">
-                <div data-test-eholdings-package-details-vendor>
-                  <Link to={`/eholdings/vendors/${model.vendorId}`}>{model.vendorName}</Link>
+              <KeyValueLabel label="Provider">
+                <div data-test-eholdings-package-details-provider>
+                  <Link to={`/eholdings/providers/${model.providerId}`}>{model.providerName}</Link>
                 </div>
               </KeyValueLabel>
 

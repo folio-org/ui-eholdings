@@ -141,9 +141,9 @@ export default class CustomerResourceShow extends Component {
                 </KeyValueLabel>
               ) }
 
-              <KeyValueLabel label="Vendor">
-                <div data-test-eholdings-customer-resource-show-vendor-name>
-                  <Link to={`/eholdings/vendors/${model.vendorId}`}>{model.vendorName}</Link>
+              <KeyValueLabel label="Provider">
+                <div data-test-eholdings-customer-resource-show-provider-name>
+                  <Link to={`/eholdings/providers/${model.providerId}`}>{model.providerName}</Link>
                 </div>
               </KeyValueLabel>
 

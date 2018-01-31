@@ -4,13 +4,13 @@ import Link from 'react-router-dom/Link';
 import capitalize from 'lodash/capitalize';
 import styles from './search-form.css';
 
-const validSearchTypes = ['vendors', 'packages', 'titles'];
+const validSearchTypes = ['providers', 'packages', 'titles'];
 
 export default class SearchForm extends Component {
   static propTypes = {
     searchType: PropTypes.oneOf(validSearchTypes).isRequired,
     searchTypeUrls: PropTypes.shape({
-      vendors: PropTypes.string.isRequired,
+      providers: PropTypes.string.isRequired,
       packages: PropTypes.string.isRequired,
       titles: PropTypes.string.isRequired
     }).isRequired,

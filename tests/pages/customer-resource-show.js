@@ -19,8 +19,8 @@ export default {
     return $('[data-test-eholdings-customer-resource-show-publication-type]').text();
   },
 
-  get vendorName() {
-    return $('[data-test-eholdings-customer-resource-show-vendor-name]').text();
+  get providerName() {
+    return $('[data-test-eholdings-customer-resource-show-provider-name]').text();
   },
 
   get packageName() {

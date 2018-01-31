@@ -2,8 +2,8 @@ import model, { hasMany } from './model';
 
 class Package {
   name = '';
-  vendorId = null;
-  vendorName = '';
+  providerId = null;
+  providerName = '';
   isSelected = false;
   contentType = '';
   selectedCount = 0;
