@@ -30,13 +30,11 @@ export default {
   },
 
   get customerIdFieldIsInvalid() {
-    return $('[data-test-eholdings-settings-customerid] label').css('color') === 'rgb(153, 0, 0)' &&
-      $('[data-test-eholdings-settings-customerid] input').css('border-color') === 'rgb(153, 0, 0)';
+    return $('[data-test-eholdings-settings-customerid]').get(0).className.includes('has-error--');
   },
 
   get apiKeyFieldIsInvalid() {
-    return $('[data-test-eholdings-settings-apikey] label').css('color') === 'rgb(153, 0, 0)' &&
-      $('[data-test-eholdings-settings-apikey] input').css('border-color') === 'rgb(153, 0, 0)';
+    return $('[data-test-eholdings-settings-apikey]').get(0).className.includes('has-error--');
   },
 
   get errorText() {

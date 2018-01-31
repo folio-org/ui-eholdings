@@ -13,6 +13,27 @@ module.exports = (config) => {
         os_version: 'High Sierra',
         browser: 'safari',
         browser_version: '11.0'
+      },
+      bs_firefox_mac: {
+        base: 'BrowserStack',
+        browser: 'firefox',
+        browser_version: '57.0',
+        os: 'OS X',
+        os_version: 'Sierra'
+      },
+      bs_ieEdge_windows: {
+        base: 'BrowserStack',
+        browser: 'edge',
+        browser_version: '15.0',
+        os: 'Windows',
+        os_version: '10'
+      },
+      bs_ie11_windows: {
+        base: 'BrowserStack',
+        browser: 'ie',
+        browser_version: '11.0',
+        os: 'Windows',
+        os_version: '7'
       }
     },
 
@@ -46,10 +67,6 @@ module.exports = (config) => {
     };
     configuration.reporters.push('coverage');
     configuration.plugins.push('karma-coverage');
-  }
-
-  if (process.env.TRAVIS) {
-    configuration.browsers = ['Chrome_travis_ci'];
   }
 
   config.set(configuration);
