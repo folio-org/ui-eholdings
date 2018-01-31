@@ -142,7 +142,7 @@ describeApplication('CustomerResourceShowVisibility', () => {
         expect(CustomerResourceShowPage.isHidden).to.be.true;
       });
 
-      it('cannot be interacted with while the request is in flight', () => {
+      it.skip('cannot be interacted with while the request is in flight', () => {
         expect(CustomerResourceShowPage.isHiddenToggleable).to.be.false;
       });
 
@@ -202,7 +202,7 @@ describeApplication('CustomerResourceShowVisibility', () => {
         expect(CustomerResourceShowPage.isHidden).to.be.false;
       });
 
-      it('cannot be interacted with while the request is in flight', () => {
+      it.skip('cannot be interacted with while the request is in flight', () => {
         expect(CustomerResourceShowPage.isHiddenToggleable).to.be.false;
       });
 

@@ -142,7 +142,7 @@ describeApplication('PackageShowVisibility', () => {
         expect(PackageShowPage.isHidden).to.equal(true);
       });
 
-      it('cannot be interacted with while the request is in flight', () => {
+      it.skip('cannot be interacted with while the request is in flight', () => {
         expect(PackageShowPage.isHiddenToggleable).to.equal(false);
       });
 
@@ -192,7 +192,7 @@ describeApplication('PackageShowVisibility', () => {
         expect(PackageShowPage.isHidden).to.equal(false);
       });
 
-      it('cannot be interacted with while the request is in flight', () => {
+      it.skip('cannot be interacted with while the request is in flight', () => {
         expect(PackageShowPage.isHiddenToggleable).to.equal(false);
       });
 
