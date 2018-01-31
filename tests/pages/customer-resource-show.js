@@ -47,6 +47,10 @@ export default {
     return $('[data-test-eholdings-customer-resource-show-selected] input').prop('checked');
   },
 
+  get $visibilitySection() {
+    return $('[data-test-eholdings-customer-resource-toggle-hidden]');
+  },
+
   toggleIsSelected() {
     /*
      * We don't want to click the element before it exists.  This should
@@ -73,10 +77,6 @@ export default {
 
   get isHidden() {
     return $('[data-test-eholdings-customer-resource-toggle-hidden] input').prop('checked') === false;
-  },
-
-  get isDisabled() {
-    return $('[data-test-eholdings-customer-resource-toggle-hidden] input').prop('disabled');
   },
 
   get hiddenReason() {

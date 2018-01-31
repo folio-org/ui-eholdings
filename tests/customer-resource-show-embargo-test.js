@@ -15,7 +15,8 @@ describeApplication('CustomerResourceShowEmbargos', () => {
     title = this.server.create('title');
     resource = this.server.create('customer-resource', {
       package: pkg,
-      title
+      title,
+      isSelected: true
     });
   });
 
