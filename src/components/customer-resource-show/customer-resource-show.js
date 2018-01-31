@@ -67,7 +67,7 @@ export default class CustomerResourceShow extends Component {
   render() {
     let { model } = this.props;
     let { router, queryParams } = this.context;
-    let { showSelectionModal, resourceSelected } = this.state;
+    let { showSelectionModal, resourceSelected, resourceHidden } = this.state;
 
     let historyState = router.history.location.state;
     let hasManagedCoverages = model.managedCoverages.length > 0 &&
@@ -173,21 +173,13 @@ export default class CustomerResourceShow extends Component {
                 </KeyValueLabel>
               )}
 
-              {hasCustomEmbargoPeriod && (
-                <KeyValueLabel label="Custom Embargo Period">
-                  <div data-test-eholdings-customer-resource-show-custom-embargo-period>
-                    {model.customEmbargoPeriod.embargoValue} {model.customEmbargoPeriod.embargoUnit}
-                  </div>
-                </KeyValueLabel>
-              )}
-
               <hr />
 
               <label
                 data-test-eholdings-customer-resource-show-selected
                 htmlFor="customer-resource-show-toggle-switch"
               >
-                <h4>{model.isSelected ? 'Selected' : 'Not Selected'}</h4>
+                <h4>{resourceSelected ? 'Selected' : 'Not Selected'}</h4>
                 <ToggleSwitch
                   onChange={this.handleSelectionToggle}
                   checked={resourceSelected}
@@ -196,70 +188,76 @@ export default class CustomerResourceShow extends Component {
                 />
               </label>
 
-              <hr />
+              { resourceSelected && (
+                <div>
+                  <hr />
 
-              <label
-                data-test-eholdings-customer-resource-toggle-hidden
-                htmlFor="customer-resource-show-hide-toggle-switch"
-              > {
-                  model.package.visibilityData.isHidden ? (
-                    <div>
-                      <h4>Hidden from patrons</h4>
-                      <div className={styles['flex-container']}>
-                        <div className={styles['flex-item']}>
-                          <ToggleSwitch
-                            id="customer-resource-show-hide-toggle-switch"
-                            checked={false}
-                            disabled
-                          />
-                        </div>
+                  <label
+                    data-test-eholdings-customer-resource-toggle-hidden
+                    htmlFor="customer-resource-show-hide-toggle-switch"
+                  > {
+                      model.package.visibilityData.isHidden ? (
+                        <div>
+                          <h4>Hidden from patrons</h4>
+                          <div className={styles['flex-container']}>
+                            <div className={styles['flex-item']}>
+                              <ToggleSwitch
+                                id="customer-resource-show-hide-toggle-switch"
+                                checked={false}
+                                disabled
+                              />
+                            </div>
 
-                        <div className={styles['flex-item']}>
-                          {
-                            <p data-test-eholdings-customer-resource-toggle-hidden-reason>
-                              All titles in this package are hidden.
-                            </p>
-                          }
+                            <div className={styles['flex-item']}>
+                              {
+                                <p data-test-eholdings-customer-resource-toggle-hidden-reason>
+                                  All titles in this package are hidden.
+                                </p>
+                              }
+                            </div>
+                          </div>
                         </div>
-                      </div>
-                    </div>
-                  ) : (
+                      ) : (
+                        <div>
+                          <h4>{resourceHidden ? 'Hidden from patrons' : 'Visible to patrons'}</h4>
+                          <div className={styles['flex-container']}>
+                            <div className={styles['flex-item']}>
+                              <ToggleSwitch
+                                onChange={this.props.toggleHidden}
+                                checked={!resourceHidden}
+                                isPending={model.update.isPending && 'visibilityData' in model.update.changedAttributes}
+                                id="customer-resource-show-hide-toggle-switch"
+                              />
+                            </div>
+                            <div className={styles['flex-item']}>
+                              {
+                                model.visibilityData.isHidden ? (
+                                  <p data-test-eholdings-customer-resource-toggle-hidden-reason>
+                                    {model.visibilityData.reason}
+                                  </p>
+                                ) : (
+                                  <p data-test-eholdings-customer-resource-toggle-hidden-reason />
+                                )
+                              }
+                            </div>
+                          </div>
+                        </div>
+                      )
+                    }
+                  </label>
+
+                  {hasCustomEmbargoPeriod && (
                     <div>
-                      <h4>{model.visibilityData.isHidden ? 'Hidden from patrons' : 'Visible to patrons'}</h4>
-                      <div className={styles['flex-container']}>
-                        <div className={styles['flex-item']}>
-                          { resourceSelected ? (
-                            <ToggleSwitch
-                              onChange={this.props.toggleHidden}
-                              checked={!model.visibilityData.isHidden}
-                              isPending={model.update.isPending}
-                              id="customer-resource-show-hide-toggle-switch"
-                            />
-                          ) : (
-                            <ToggleSwitch
-                              checked
-                              disabled
-                              id="customer-resource-show-hide-toggle-switch"
-                            />
-                          )
-                          }
+                      <hr />
+                      <KeyValueLabel label="Custom Embargo Period">
+                        <div data-test-eholdings-customer-resource-show-custom-embargo-period>
+                          {model.customEmbargoPeriod.embargoValue} {model.customEmbargoPeriod.embargoUnit}
                         </div>
-                        <div className={styles['flex-item']}>
-                          {
-                            model.visibilityData.isHidden ? (
-                              <p data-test-eholdings-customer-resource-toggle-hidden-reason>
-                                {model.visibilityData.reason}
-                              </p>
-                            ) : (
-                              <p data-test-eholdings-customer-resource-toggle-hidden-reason />
-                            )
-                          }
-                        </div>
-                      </div>
+                      </KeyValueLabel>
                     </div>
-                  )
-                }
-              </label>
+                  )}
+                </div>
+              )}
 
               <hr />
 

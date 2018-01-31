@@ -121,21 +121,13 @@ export default class PackageShow extends Component {
                 </div>
               </KeyValueLabel>
 
-              {(model.customCoverage.beginCoverage || model.customCoverage.endCoverage) && (
-                <KeyValueLabel label="Custom Coverage">
-                  <div data-test-eholdings-package-details-custom-coverage>
-                    {formatISODateWithoutTime(model.customCoverage.beginCoverage, intl)} - {formatISODateWithoutTime(model.customCoverage.endCoverage, intl)}
-                  </div>
-                </KeyValueLabel>
-              )}
-
               <hr />
 
               <label
                 data-test-eholdings-package-details-selected
                 htmlFor="package-details-toggle-switch"
               >
-                <h4>{model.isSelected ? 'Selected' : 'Not Selected'}</h4>
+                <h4>{packageSelected ? 'Selected' : 'Not Selected'}</h4>
                 <ToggleSwitch
                   onChange={this.handleSelectionToggle}
                   checked={packageSelected}
@@ -143,35 +135,43 @@ export default class PackageShow extends Component {
                   id="package-details-toggle-switch"
                 />
               </label>
-              <hr />
-              <label
-                data-test-eholdings-package-details-hidden
-                htmlFor="package-details-toggle-hidden-switch"
-              >
-                <h4>{model.visibilityData.isHidden ? 'Hidden from patrons' : 'Visible to patrons'}</h4>
-                <div className={styles['flex-container']}>
-                  <div className={styles['flex-item']}>
-                    { packageSelected ? (
-                      <ToggleSwitch
-                        onChange={this.props.toggleHidden}
-                        checked={!packageHidden}
-                        isPending={model.update.isPending}
-                        id="package-details-toggle-hidden-switch"
-                      />
-                    ) : (
-                      <ToggleSwitch
-                        checked
-                        disabled
-                        id="package-details-toggle-hidden-switch"
-                      />
-                    )
-                    }
-                  </div>
-                  <div data-test-eholdings-package-details-is-hidden className={styles['flex-item']}>
-                    <p>{(model.visibilityData.isHidden ? model.visibilityData.reason : '')}</p>
-                  </div>
+
+              { packageSelected && (
+                <div>
+                  <hr />
+                  <label
+                    data-test-eholdings-package-details-hidden
+                    htmlFor="package-details-toggle-hidden-switch"
+                  >
+                    <h4>{packageHidden ? 'Hidden from patrons' : 'Visible to patrons'}</h4>
+                    <div className={styles['flex-container']}>
+                      <div className={styles['flex-item']}>
+                        <ToggleSwitch
+                          onChange={this.props.toggleHidden}
+                          checked={!packageHidden}
+                          isPending={model.update.isPending && 'visibilityData' in model.update.changedAttributes}
+                          id="package-details-toggle-hidden-switch"
+                        />
+                      </div>
+                      <div data-test-eholdings-package-details-is-hidden className={styles['flex-item']}>
+                        <p>{(model.visibilityData.isHidden ? model.visibilityData.reason : '')}</p>
+                      </div>
+                    </div>
+                  </label>
+
+                  {(model.customCoverage.beginCoverage || model.customCoverage.endCoverage) && (
+                    <div>
+                      <hr />
+                      <KeyValueLabel label="Custom Coverage">
+                        <div data-test-eholdings-package-details-custom-coverage>
+                          {formatISODateWithoutTime(model.customCoverage.beginCoverage, intl)} - {formatISODateWithoutTime(model.customCoverage.endCoverage, intl)}
+                        </div>
+                      </KeyValueLabel>
+                    </div>
+                  )}
                 </div>
-              </label>
+              )}
+
               <hr />
               <h3>Titles</h3>
               <List data-test-eholdings-package-details-title-list>
