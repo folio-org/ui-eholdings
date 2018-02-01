@@ -184,6 +184,7 @@ export default class PackageShow extends Component {
               type="package-titles"
               fetch={fetchPackageTitles}
               collection={model.customerResources}
+              length={model.titleCount}
               scrollable={scrollable}
               itemHeight={70}
               renderItem={item => (

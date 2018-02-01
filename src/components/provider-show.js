@@ -52,6 +52,7 @@ export default function ProviderShow({
           type="provider-packages"
           fetch={fetchPackages}
           collection={model.packages}
+          length={model.packagesTotal}
           scrollable={scrollable}
           itemHeight={70}
           renderItem={item => (
