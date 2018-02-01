@@ -27,7 +27,7 @@ export class Collection {
     this.currentPage = parseInt(page, 10);
 
     // unique to a specific search regardless of page
-    this.key = `${type}/${qs.stringify(queryParams)}`;
+    this.key = `${type}::${path}?${qs.stringify(queryParams)}`;
   }
 
   /**

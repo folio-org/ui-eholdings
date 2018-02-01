@@ -68,6 +68,34 @@ describeApplication('PackageShow', () => {
     it.still('should not display a back button', () => {
       expect(PackageShowPage.$backButton).to.not.exist;
     });
+
+    describe('then visiting another package details page', () => {
+      beforeEach(function () {
+        let otherPackage = this.server.create('package', 'withTitles', {
+          provider,
+          name: 'Other Package',
+          titleCount: 2
+        });
+
+        // converge on the previous package loading first
+        return convergeOn(() => {
+          expect(PackageShowPage.titleList.length).to.be.gt(0);
+        }).then(() => (
+          this.visit(`/eholdings/packages/${otherPackage.id}`, () => {
+            expect(PackageShowPage.$root).to.exist;
+          })
+        ));
+      });
+
+      it('displays the different package', () => {
+        expect(PackageShowPage.name).to.equal('Other Package');
+      });
+
+      it('displays different titles', () => {
+        expect(PackageShowPage.numTitles).to.equal('2');
+        expect(PackageShowPage.titleList[0].name).to.not.equal(customerResources[0].title.name);
+      });
+    });
   });
 
   describe('visiting the package details page with multiple pages of titles', () => {
