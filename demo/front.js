@@ -12,18 +12,18 @@ export default function Front() {
       </p>
 
       <p>
-        While we wire up the general search and navigation system for e-holdings, please have a look at these direct links as a starting point:
+        Have a look at these direct links as a starting point:
       </p>
 
       <h3>Search</h3>
       <ul>
-        <li>Search for a <Link to="/eholdings/?searchType=vendors">vendor</Link>, <Link to="/eholdings/?searchType=packages">package</Link>, or <Link to="/eholdings/?searchType=titles">title</Link></li>
+        <li>Search for a <Link to="/eholdings/?searchType=providers">provider</Link>, <Link to="/eholdings/?searchType=packages">package</Link>, or <Link to="/eholdings/?searchType=titles">title</Link></li>
       </ul>
 
-      <h3>Vendors</h3>
+      <h3>Providers</h3>
       <ul>
-        <li><Link to="/eholdings/vendors/432">NASA</Link></li>
-        <li><Link to="/eholdings/vendors/19">EBSCO</Link></li>
+        <li><Link to="/eholdings/providers/432">NASA</Link></li>
+        <li><Link to="/eholdings/providers/19">EBSCO</Link></li>
       </ul>
 
       <h3>Packages</h3>
@@ -40,7 +40,7 @@ export default function Front() {
 
       <p>
         <em>
-          The data in this demo connects to the EBSCO resource management API sandbox. The UI does not yet have any pagination, so result sets are limited to 25 items.
+          The e-holdings data in this demo connects to a sample account in the EBSCO resource management API.
         </em>
       </p>
     </div>

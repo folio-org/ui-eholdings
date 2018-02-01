@@ -12,21 +12,26 @@ function createTitleObject(element) {
 
     get isSelected() {
       return $scope.find('[data-test-eholdings-title-list-item-title-selected]').text() === 'Selected';
+    },
+
+    get isHidden() {
+      return $scope.find('[data-test-eholdings-title-list-item-title-hidden]').text() === 'Hidden';
     }
+
   };
 }
 
 export default {
   get $root() {
-    return $('[data-test-eholdings-package-details]');
+    return $('[data-test-eholdings-details-view="package"]');
   },
 
   get name() {
-    return $('[data-test-eholdings-package-details-name]').text();
+    return $('[data-test-eholdings-details-view-name="package"]').text();
   },
 
-  get vendor() {
-    return $('[data-test-eholdings-package-details-vendor]').text();
+  get provider() {
+    return $('[data-test-eholdings-package-details-provider]').text();
   },
 
   get contentType() {
@@ -78,14 +83,41 @@ export default {
   },
 
   get hasErrors() {
-    return $('[data-test-eholdings-package-details-error]').length > 0;
+    return $('[data-test-eholdings-details-view-error="package"]').length > 0;
+  },
+
+  get $titleContainer() {
+    return $('[data-test-eholdings-details-view-list="package"]');
+  },
+
+  get $titleQueryList() {
+    return $('[data-test-query-list="package-titles"]');
   },
 
   get titleList() {
-    return $('[data-test-eholdings-package-details-title-list] li').toArray().map(createTitleObject);
+    return $('[data-test-query-list="package-titles"] li a').toArray().map(createTitleObject);
+  },
+  toggleIsHidden() {
+    return convergeOn(() => {
+      expect($('[data-test-eholdings-package-details-hidden]')).to.exist;
+    }).then(() => (
+      $('[data-test-eholdings-package-details-hidden] input').click()
+    ));
+  },
+  get isHiding() {
+    return $('[data-test-eholdings-package-details-hidden] [data-test-toggle-switch]').attr('class').indexOf('is-pending--') !== -1;
   },
 
+  get isHiddenToggleable() {
+    return $('[data-test-eholdings-package-details-hidden] input[type=checkbox]').prop('disabled') === false;
+  },
   get isHidden() {
+    return $('[data-test-eholdings-package-details-hidden] input').prop('checked') === false;
+  },
+  get allTitlesHidden() {
+    return !!this.titleList.length && this.titleList.every(title => title.isHidden);
+  },
+  get isHiddenMessage() {
     return $('[data-test-eholdings-package-details-is-hidden]').length === 1;
   },
 
@@ -95,5 +127,14 @@ export default {
 
   get $backButton() {
     return $('[data-test-eholdings-package-details-back-button] button');
+  },
+
+  scrollToTitleOffset(readOffset) {
+    let $list = $('[data-test-query-list="package-titles"]').get(0);
+    let rowHeight = $('li', $list).get(0).offsetHeight;
+    let scrollOffset = rowHeight * readOffset;
+
+    $list.scrollTop = scrollOffset;
+    $list.dispatchEvent(new Event('scroll'));
   }
 };

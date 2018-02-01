@@ -1,8 +1,8 @@
 import ApplicationSerializer from './application';
 
 function mapCustomerResourceAttrs(hash, customerResource) {
-  hash.attributes.vendorId = customerResource.package.vendor.id;
-  hash.attributes.vendorName = customerResource.package.vendor.name;
+  hash.attributes.providerId = customerResource.package.provider.id;
+  hash.attributes.providerName = customerResource.package.provider.name;
   hash.attributes.packageId = customerResource.package.id;
   hash.attributes.packageName = customerResource.package.name;
   hash.attributes.contentType = customerResource.package.contentType;

@@ -1,9 +1,9 @@
 import ApplicationSerializer from './application';
 
-function mapPackageVendor(hash, vendor) {
-  if (vendor) {
-    hash.attributes.vendorId = vendor.id;
-    hash.attributes.vendorName = vendor.name;
+function mapPackageProvider(hash, provider) {
+  if (provider) {
+    hash.attributes.providerId = provider.id;
+    hash.attributes.providerName = provider.name;
   }
 
   return hash;
@@ -14,9 +14,9 @@ export default ApplicationSerializer.extend({
     let hash = ApplicationSerializer.prototype.getHashForResource.apply(this, arguments); // eslint-disable-line prefer-rest-params
 
     if (Array.isArray(hash)) {
-      return hash.map((h, i) => mapPackageVendor(h, pkg.models[i].vendor));
+      return hash.map((h, i) => mapPackageProvider(h, pkg.models[i].provider));
     } else {
-      return mapPackageVendor(hash, pkg.vendor);
+      return mapPackageProvider(hash, pkg.provider);
     }
   }
 });

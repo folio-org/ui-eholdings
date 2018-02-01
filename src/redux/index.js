@@ -2,7 +2,7 @@ import { combineReducers } from 'redux';
 import { combineEpics } from 'redux-observable';
 
 import Resolver from './resolver';
-import VendorModel from './vendor';
+import ProviderModel from './provider';
 import PackageModel from './package';
 import TitleModel from './title';
 import CustomerResourceModel from './customer-resource';
@@ -18,7 +18,7 @@ import {
 
 export const createResolver = (state) => {
   return new Resolver(state, [
-    VendorModel,
+    ProviderModel,
     PackageModel,
     TitleModel,
     CustomerResourceModel,

@@ -11,8 +11,8 @@ function createPackageObject(element) {
       return $scope.find('[data-test-eholdings-package-list-item-name]').text();
     },
 
-    get vendorName() {
-      return $scope.find('[data-test-eholdings-package-list-item-vendor-name]').text();
+    get providerName() {
+      return $scope.find('[data-test-eholdings-package-list-item-provider-name]').text();
     },
 
     get numTitles() {
@@ -87,7 +87,7 @@ export default {
 
     // wait until the item exists before clicking
     return convergeOn(() => {
-      $title = $('[data-test-eholdings-title-list-item] a');
+      $title = $('[data-test-query-list="package-titles"] li a');
       expect($title.eq(index)).to.exist;
     }).then(() => $title.get(index).click());
   },

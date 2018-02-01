@@ -3,6 +3,10 @@
   overflow-y: auto;
   -webkit-overflow-scrolling: touch;
 
+  &.locked {
+    overflow-y: hidden;
+  }
+
   & > ul {
     position: relative;
     overflow: hidden;

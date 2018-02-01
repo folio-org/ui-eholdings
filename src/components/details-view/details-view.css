@@ -1,0 +1,50 @@
+.container {
+  height: calc(100vh - 90px);
+  overflow-y: auto;
+
+  &.locked {
+    overflow-y: hidden;
+  }
+
+  & h3 {
+    margin: 1em 0 0.5em;
+  }
+
+  & h4 {
+    margin: 0.5em 0;
+  }
+}
+
+.header {
+  padding: 0 1rem;
+  margin: 2rem 0;
+
+  & h1 {
+    font-size: 2.5em;
+    font-weight: 700;
+    margin-top: 0.125em;
+  }
+}
+
+.body {
+  padding: 0 1rem;
+}
+
+.sticky {
+  display: flex;
+  flex-direction: column;
+  margin-top: 0.5rem;
+
+  & h3 {
+    padding: 1rem 1rem 0.75rem;
+    border-bottom: 1px solid #dcdcdc;
+    margin: 0;
+  }
+
+  & .list {
+    /* the box-model needs _some_ height that is not 'auto' for flexbox to
+       be able to fill this element to fit the remaining space */
+    min-height: 0px;
+    flex: 1;
+  }
+}

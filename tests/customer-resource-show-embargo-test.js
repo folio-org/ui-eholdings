@@ -11,11 +11,12 @@ describeApplication('CustomerResourceShowEmbargos', () => {
     resource;
 
   beforeEach(function () {
-    pkg = this.server.create('package', 'withVendor');
+    pkg = this.server.create('package', 'withProvider');
     title = this.server.create('title');
     resource = this.server.create('customer-resource', {
       package: pkg,
-      title
+      title,
+      isSelected: true
     });
   });
 

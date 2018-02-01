@@ -1,10 +1,10 @@
 const environment = process.env.NODE_ENV;
 let url;
 
-if (environment === 'production') {
-  url = 'https://okapi.frontside.io';
-} else {
+if (environment === 'sandbox') {
   url = 'https://okapi-sandbox.frontside.io';
+} else {
+  url = 'https://okapi.frontside.io';
 }
 
 module.exports = {

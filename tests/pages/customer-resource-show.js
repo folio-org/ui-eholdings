@@ -4,11 +4,11 @@ import { convergeOn } from '../it-will';
 
 export default {
   get $root() {
-    return $('[data-test-eholdings-customer-resource-show]');
+    return $('[data-test-eholdings-details-view="resource"]');
   },
 
   get titleName() {
-    return $('[data-test-eholdings-customer-resource-show-title-name]').text();
+    return $('[data-test-eholdings-details-view-name="resource"]').text();
   },
 
   get publisherName() {
@@ -19,8 +19,8 @@ export default {
     return $('[data-test-eholdings-customer-resource-show-publication-type]').text();
   },
 
-  get vendorName() {
-    return $('[data-test-eholdings-customer-resource-show-vendor-name]').text();
+  get providerName() {
+    return $('[data-test-eholdings-customer-resource-show-provider-name]').text();
   },
 
   get packageName() {
@@ -40,11 +40,15 @@ export default {
   },
 
   get hasErrors() {
-    return $('[data-test-eholdings-customer-resource-show-error]').length > 0;
+    return $('[data-test-eholdings-details-view-error="resource"]').length > 0;
   },
 
   get isSelected() {
     return $('[data-test-eholdings-customer-resource-show-selected] input').prop('checked');
+  },
+
+  get $visibilitySection() {
+    return $('[data-test-eholdings-customer-resource-toggle-hidden]');
   },
 
   toggleIsSelected() {
@@ -72,11 +76,31 @@ export default {
   },
 
   get isHidden() {
-    return $('[data-test-eholdings-customer-resource-show-is-hidden]').length === 1;
+    return $('[data-test-eholdings-customer-resource-toggle-hidden] input').prop('checked') === false;
   },
 
   get hiddenReason() {
-    return $('[data-test-eholdings-customer-resource-show-hidden-reason]').text();
+    return $('[data-test-eholdings-customer-resource-toggle-hidden-reason]').text();
+  },
+
+  toggleIsHidden() {
+    /*
+     * We don't want to click the element before it exists.  This should
+     * probably become a generic 'click' helper once we have more usage.
+     */
+    return convergeOn(() => {
+      expect($('[data-test-eholdings-customer-resource-toggle-hidden]')).to.exist;
+    }).then(() => (
+      $('[data-test-eholdings-customer-resource-toggle-hidden] input').click()
+    ));
+  },
+
+  get isHiding() {
+    return $('[data-test-eholdings-customer-resource-toggle-hidden] [data-test-toggle-switch]').attr('class').indexOf('is-pending--') !== -1;
+  },
+
+  get isHiddenToggleable() {
+    return $('[data-test-eholdings-customer-resource-toggle-hidden] input[type=checkbox]').prop('disabled') === false;
   },
 
   get managedEmbargoPeriod() {
@@ -117,5 +141,9 @@ export default {
 
   cancelDeselection() {
     return $('[data-test-eholdings-customer-resource-deselection-confirmation-modal-no]').trigger('click');
+  },
+
+  clickManagedURL() {
+    return $('[data-test-eholdings-customer-resource-show-managed-url]').trigger('click');
   }
 };

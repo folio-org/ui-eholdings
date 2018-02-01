@@ -34,11 +34,10 @@ export default Factory.extend({
       }
     }
   }),
-
-  withVendor: trait({
+  withProvider: trait({
     afterCreate(packageObj, server) {
-      let vendor = server.create('vendor');
-      packageObj.vendor = vendor;
+      let provider = server.create('provider');
+      packageObj.provider = provider;
       packageObj.save();
     }
   }),
@@ -48,6 +47,15 @@ export default Factory.extend({
       let visibilityData = server.create('visibility-data', {
         isHidden: true,
         reason: 'The content is for mature audiences only.'
+      });
+      packageObj.update('visibilityData', visibilityData.toJSON());
+    }
+  }),
+  isHiddenWithoutReason: trait({
+    afterCreate(packageObj, server) {
+      let visibilityData = server.create('visibility-data', {
+        isHidden: true,
+        reason: ''
       });
       packageObj.update('visibilityData', visibilityData.toJSON());
     }

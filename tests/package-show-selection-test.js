@@ -6,16 +6,16 @@ import { describeApplication } from './helpers';
 import PackageShowPage from './pages/package-show';
 
 describeApplication('PackageShowSelection', () => {
-  let vendor,
-    vendorPackage;
+  let provider,
+    providerPackage;
 
   beforeEach(function () {
-    vendor = this.server.create('vendor', {
-      name: 'Cool Vendor'
+    provider = this.server.create('provider', {
+      name: 'Cool Provider'
     });
 
-    vendorPackage = this.server.create('package', 'withTitles', {
-      vendor,
+    providerPackage = this.server.create('package', 'withTitles', {
+      provider,
       name: 'Cool Package',
       contentType: 'E-Book',
       isSelected: false,
@@ -25,7 +25,7 @@ describeApplication('PackageShowSelection', () => {
 
   describe('visiting the package details page', () => {
     beforeEach(function () {
-      return this.visit(`/eholdings/packages/${vendorPackage.id}`, () => {
+      return this.visit(`/eholdings/packages/${providerPackage.id}`, () => {
         expect(PackageShowPage.$root).to.exist;
       });
     });
@@ -75,7 +75,7 @@ describeApplication('PackageShowSelection', () => {
         });
 
         it('updates the selected title count', () => {
-          expect(PackageShowPage.numTitlesSelected).to.equal(`${vendorPackage.titleCount}`);
+          expect(PackageShowPage.numTitlesSelected).to.equal(`${providerPackage.titleCount}`);
         });
       });
 
@@ -141,16 +141,16 @@ describeApplication('PackageShowSelection', () => {
             });
 
             it('updates the selected title count', () => {
-              expect(PackageShowPage.numTitlesSelected).to.equal(`${vendorPackage.titleCount}`);
+              expect(PackageShowPage.numTitlesSelected).to.equal(`${providerPackage.titleCount}`);
             });
 
             it('removes custom coverage', () => {
-              expect(vendorPackage.customCoverage.beginCoverage).to.equal(null);
-              expect(vendorPackage.customCoverage.endCoverage).to.equal(null);
+              expect(providerPackage.customCoverage.beginCoverage).to.equal(null);
+              expect(providerPackage.customCoverage.endCoverage).to.equal(null);
             });
 
             it('is not hidden', () => {
-              expect(vendorPackage.visibilityData.isHidden).to.equal(false);
+              expect(providerPackage.visibilityData.isHidden).to.equal(false);
               expect(PackageShowPage.isHidden).to.equal(false);
             });
           });

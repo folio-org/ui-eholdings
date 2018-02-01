@@ -6,22 +6,22 @@ import { describeApplication } from './helpers';
 import ResourcePage from './pages/customer-resource-show';
 
 describeApplication('CustomerResourceShow Deselection', () => {
-  let vendor,
+  let provider,
     title,
-    vendorPackage,
+    providerPackage,
     resource;
 
   beforeEach(function () {
-    vendor = this.server.create('vendor', {
-      name: 'Cool Vendor'
+    provider = this.server.create('provider', {
+      name: 'Cool Provider'
     });
 
     title = this.server.create('title', {
       publicationType: 'Streaming Video'
     });
 
-    vendorPackage = this.server.create('package', {
-      vendor,
+    providerPackage = this.server.create('package', {
+      provider,
       name: 'Cool Package',
       contentType: 'E-Book',
       titleCount: 1,
@@ -29,7 +29,7 @@ describeApplication('CustomerResourceShow Deselection', () => {
     });
 
     resource = this.server.create('customer-resource', {
-      package: vendorPackage,
+      package: providerPackage,
       isSelected: true,
       title
     });
@@ -60,8 +60,8 @@ describeApplication('CustomerResourceShow Deselection', () => {
 
     describe('part of a package with several selected titles', () => {
       beforeEach(function () {
-        vendorPackage.titleCount = 5;
-        vendorPackage.selectedCount = 2;
+        providerPackage.titleCount = 5;
+        providerPackage.selectedCount = 2;
 
         return this.visit(`/eholdings/customer-resources/${resource.id}`, () => {
           expect(ResourcePage.$root).to.exist;

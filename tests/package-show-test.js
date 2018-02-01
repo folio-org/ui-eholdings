@@ -1,34 +1,34 @@
 /* global describe, beforeEach */
 import { expect } from 'chai';
-import it from './it-will';
+import it, { convergeOn } from './it-will';
 
 import { describeApplication } from './helpers';
 import PackageShowPage from './pages/package-show';
 
 describeApplication('PackageShow', () => {
-  let vendor,
-    vendorPackage,
+  let provider,
+    providerPackage,
     customerResources;
 
   beforeEach(function () {
-    vendor = this.server.create('vendor', {
-      name: 'Cool Vendor'
+    provider = this.server.create('provider', {
+      name: 'Cool Provider'
     });
 
-    vendorPackage = this.server.create('package', 'withTitles', {
-      vendor,
+    providerPackage = this.server.create('package', 'withTitles', {
+      provider,
       name: 'Cool Package',
       contentType: 'E-Book',
       isSelected: false,
       titleCount: 5
     });
 
-    customerResources = this.server.schema.where('customer-resource', { packageId: vendorPackage.id }).models;
+    customerResources = this.server.schema.where('customer-resource', { packageId: providerPackage.id }).models;
   });
 
   describe('visiting the package details page', () => {
     beforeEach(function () {
-      return this.visit(`/eholdings/packages/${vendorPackage.id}`, () => {
+      return this.visit(`/eholdings/packages/${providerPackage.id}`, () => {
         expect(PackageShowPage.$root).to.exist;
       });
     });
@@ -50,7 +50,7 @@ describeApplication('PackageShow', () => {
     });
 
     it('displays the number of selected titles', () => {
-      expect(PackageShowPage.numTitlesSelected).to.equal(`${vendorPackage.selectedCount}`);
+      expect(PackageShowPage.numTitlesSelected).to.equal(`${providerPackage.selectedCount}`);
     });
 
     it('displays a list of titles', () => {
@@ -70,12 +70,42 @@ describeApplication('PackageShow', () => {
     });
   });
 
+  describe('visiting the package details page with multiple pages of titles', () => {
+    beforeEach(function () {
+      this.server.loadFixtures();
+
+      return this.visit('/eholdings/packages/paged_pkg', () => {
+        expect(PackageShowPage.$root).to.exist;
+      });
+    });
+
+    it('should display the first page of related titles', () => {
+      expect(PackageShowPage.titleList[0].name).to.equal('Package Title 1');
+    });
+
+    describe('scrolling down the list of titles', () => {
+      beforeEach(() => {
+        return convergeOn(() => {
+          expect(PackageShowPage.titleList.length).to.be.gt(0);
+        }).then(() => {
+          PackageShowPage.scrollToTitleOffset(26);
+        });
+      });
+
+      it('should display the next page of related titles', () => {
+        // when the list is scrolled, it has a threshold of 5 items. index 4,
+        // the 5th item, is the topmost visible item in the list
+        expect(PackageShowPage.titleList[4].name).to.equal('Package Title 26');
+      });
+    });
+  });
+
   describe('visiting the package details page for a large package', () => {
     beforeEach(function () {
-      vendorPackage.selectedCount = 9000;
-      vendorPackage.titleCount = 10000;
+      providerPackage.selectedCount = 9000;
+      providerPackage.titleCount = 10000;
 
-      return this.visit(`/eholdings/packages/${vendorPackage.id}`, () => {
+      return this.visit(`/eholdings/packages/${providerPackage.id}`, () => {
         expect(PackageShowPage.$root).to.exist;
       });
     });
@@ -94,7 +124,7 @@ describeApplication('PackageShow', () => {
   describe('navigating to package show page', () => {
     beforeEach(function () {
       return this.visit({
-        pathname: `/eholdings/packages/${vendorPackage.id}`,
+        pathname: `/eholdings/packages/${providerPackage.id}`,
         // our internal link component automatically sets the location state
         state: { eholdings: true }
       }, () => {
@@ -116,7 +146,7 @@ describeApplication('PackageShow', () => {
         }]
       }, 500);
 
-      return this.visit(`/eholdings/packages/${vendorPackage.id}`, () => {
+      return this.visit(`/eholdings/packages/${providerPackage.id}`, () => {
         expect(PackageShowPage.$root).to.exist;
       });
     });

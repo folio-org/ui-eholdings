@@ -1,25 +1,27 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import Icon from '@folio/stripes-components/lib/Icon';
+
 import IconButton from '@folio/stripes-components/lib/IconButton';
-import PaneHeader from '@folio/stripes-components/lib/PaneHeader';
 import PaneMenu from '@folio/stripes-components/lib/PaneMenu';
 import Button from '@folio/stripes-components/lib/Button';
+import Layout from '@folio/stripes-components/lib/Layout';
 
-import Link from '../link';
-import KeyValueLabel from '../key-value-label';
-import IdentifiersList from '../identifiers-list';
-import ContributorsList from '../contributors-list';
-import ToggleSwitch from '../toggle-switch';
-import CoverageDates from '../coverage-dates';
-import { isBookPublicationType, isValidCoverageList } from '../utilities';
-import Modal from '../modal';
-import styles from './customer-resource-show.css';
+import DetailsView from './details-view';
+import Link from './link';
+import KeyValueLabel from './key-value-label';
+import IdentifiersList from './identifiers-list';
+import ContributorsList from './contributors-list';
+import ToggleSwitch from './toggle-switch';
+import CoverageDates from './coverage-dates';
+import { isBookPublicationType, isValidCoverageList } from './utilities';
+import Modal from './modal';
+import styles from './styles.css';
 
 export default class CustomerResourceShow extends Component {
   static propTypes = {
     model: PropTypes.object.isRequired,
-    toggleSelected: PropTypes.func.isRequired
+    toggleSelected: PropTypes.func.isRequired,
+    toggleHidden: PropTypes.func.isRequired
   };
 
   static contextTypes = {
@@ -29,12 +31,16 @@ export default class CustomerResourceShow extends Component {
 
   state = {
     showSelectionModal: false,
-    resourceSelected: this.props.model.isSelected
+    resourceSelected: this.props.model.isSelected,
+    resourceHidden: this.props.model.visibilityData.isHidden
   };
 
   componentWillReceiveProps({ model }) {
     if (!model.isSaving) {
-      this.setState({ resourceSelected: model.isSelected });
+      this.setState({
+        resourceSelected: model.isSelected,
+        resourceHidden: model.visibilityData.isHidden
+      });
     }
   }
 
@@ -62,7 +68,7 @@ export default class CustomerResourceShow extends Component {
   render() {
     let { model } = this.props;
     let { router, queryParams } = this.context;
-    let { showSelectionModal, resourceSelected } = this.state;
+    let { showSelectionModal, resourceSelected, resourceHidden } = this.state;
 
     let historyState = router.history.location.state;
     let hasManagedCoverages = model.managedCoverages.length > 0 &&
@@ -76,28 +82,19 @@ export default class CustomerResourceShow extends Component {
 
     return (
       <div>
-        {!queryParams.searchType && (
-          <PaneHeader
-            firstMenu={historyState && historyState.eholdings && (
-              <PaneMenu>
-                <div data-test-eholdings-customer-resource-show-back-button>
-                  <IconButton icon="left-arrow" onClick={() => router.history.goBack()} />
-                </div>
-              </PaneMenu>
-            )}
-          />
-        )}
-        <div className={styles['detail-container']} data-test-eholdings-customer-resource-show>
-          {model.isLoaded ? (
-            <div>
-              <div className={styles['detail-container-header']}>
-                <KeyValueLabel label="Resource">
-                  <h1 data-test-eholdings-customer-resource-show-title-name>
-                    {model.name}
-                  </h1>
-                </KeyValueLabel>
+        <DetailsView
+          type="resource"
+          model={model}
+          showPaneHeader={!queryParams.searchType}
+          paneHeaderFirstMenu={historyState && historyState.eholdings && (
+            <PaneMenu>
+              <div data-test-eholdings-customer-resource-show-back-button>
+                <IconButton icon="left-arrow" onClick={() => router.history.goBack()} />
               </div>
-
+            </PaneMenu>
+          )}
+          bodyContent={(
+            <div>
               <ContributorsList data={model.contributors} />
 
               <KeyValueLabel label="Publisher">
@@ -120,7 +117,7 @@ export default class CustomerResourceShow extends Component {
                     {model.subjects.map(subjectObj => subjectObj.subject).join('; ')}
                   </div>
                 </KeyValueLabel>
-              ) }
+              )}
 
               <KeyValueLabel label="Package">
                 <div data-test-eholdings-customer-resource-show-package-name>
@@ -134,21 +131,21 @@ export default class CustomerResourceShow extends Component {
                     {model.contentType}
                   </div>
                 </KeyValueLabel>
-              ) }
+              )}
 
-              <KeyValueLabel label="Vendor">
-                <div data-test-eholdings-customer-resource-show-vendor-name>
-                  <Link to={`/eholdings/vendors/${model.vendorId}`}>{model.vendorName}</Link>
+              <KeyValueLabel label="Provider">
+                <div data-test-eholdings-customer-resource-show-provider-name>
+                  <Link to={`/eholdings/providers/${model.providerId}`}>{model.providerName}</Link>
                 </div>
               </KeyValueLabel>
 
               {model.url && (
                 <KeyValueLabel label="Managed URL">
                   <div data-test-eholdings-customer-resource-show-managed-url>
-                    <a href={model.url}>{model.url}</a>
+                    <a href={model.url} target="_blank">{model.url}</a>
                   </div>
                 </KeyValueLabel>
-              ) }
+              )}
 
               {hasManagedCoverages && (
                 <KeyValueLabel label="Managed Coverage Dates">
@@ -168,21 +165,13 @@ export default class CustomerResourceShow extends Component {
                 </KeyValueLabel>
               )}
 
-              {hasCustomEmbargoPeriod && (
-                <KeyValueLabel label="Custom Embargo Period">
-                  <div data-test-eholdings-customer-resource-show-custom-embargo-period>
-                    {model.customEmbargoPeriod.embargoValue} {model.customEmbargoPeriod.embargoUnit}
-                  </div>
-                </KeyValueLabel>
-              )}
-
               <hr />
 
               <label
                 data-test-eholdings-customer-resource-show-selected
                 htmlFor="customer-resource-show-toggle-switch"
               >
-                <h4>{model.isSelected ? 'Selected' : 'Not Selected'}</h4>
+                <h4>{resourceSelected ? 'Selected' : 'Not Selected'}</h4>
                 <ToggleSwitch
                   onChange={this.handleSelectionToggle}
                   checked={resourceSelected}
@@ -191,17 +180,62 @@ export default class CustomerResourceShow extends Component {
                 />
               </label>
 
-              <hr />
-
-              {model.visibilityData.isHidden && (
-                <div data-test-eholdings-customer-resource-show-is-hidden>
-                  <p><strong>This resource is hidden.</strong></p>
-                  <p data-test-eholdings-customer-resource-show-hidden-reason>
-                    <em>{model.visibilityData.reason}</em>
-                  </p>
+              {resourceSelected && (
+                <div>
                   <hr />
+                  <label
+                    data-test-eholdings-customer-resource-toggle-hidden
+                    htmlFor="customer-resource-show-hide-toggle-switch"
+                  >
+                    <h4>
+                      {model.visibilityData.isHidden
+                        ? 'Hidden from patrons'
+                        : 'Visible to patrons'}
+                    </h4>
+
+                    <Layout className="flex">
+                      <div className={styles.marginRightHalf}>
+                        {model.package.visibilityData.isHidden ? (
+                          <ToggleSwitch
+                            id="customer-resource-show-hide-toggle-switch"
+                            checked={false}
+                            disabled
+                          />
+                        ) : (
+                          <ToggleSwitch
+                            onChange={this.props.toggleHidden}
+                            checked={!resourceHidden}
+                            isPending={model.update.isPending}
+                            id="customer-resource-show-hide-toggle-switch"
+                          />
+                        )}
+                      </div>
+
+                      {model.visibilityData.isHidden && (
+                        <div data-test-eholdings-customer-resource-toggle-hidden-reason>
+                          {model.package.visibilityData.isHidden
+                            ? 'All titles in this package are hidden.'
+                            : model.visibilityData.reason}
+                        </div>
+                      )}
+                    </Layout>
+                  </label>
+
+                  {hasCustomEmbargoPeriod && (
+                    <div>
+                      <hr />
+
+                      <KeyValueLabel label="Custom Embargo Period">
+                        <div data-test-eholdings-customer-resource-show-custom-embargo-period>
+                          {model.customEmbargoPeriod.embargoValue} {model.customEmbargoPeriod.embargoUnit}
+                        </div>
+                      </KeyValueLabel>
+                    </div>
+                  )}
                 </div>
               )}
+
+              <hr />
 
               <div>
                 <Link to={`/eholdings/titles/${model.titleId}`}>
@@ -209,14 +243,9 @@ export default class CustomerResourceShow extends Component {
                 </Link>
               </div>
             </div>
-          ) : model.request.isRejected ? (
-            <p data-test-eholdings-customer-resource-show-error>
-              {model.request.errors[0].title}
-            </p>
-          ) : model.isLoading ? (
-            <Icon icon="spinner-ellipsis" />
-          ) : null}
-        </div>
+          )}
+        />
+
         <Modal
           open={showSelectionModal}
           size="small"

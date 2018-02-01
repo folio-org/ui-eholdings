@@ -14,7 +14,7 @@ export default Factory.extend({
 
   withPackage: trait({
     afterCreate(customerResource, server) {
-      let packageObj = server.create('package', 'withVendor');
+      let packageObj = server.create('package', 'withProvider');
       customerResource.update({
         package: packageObj
       });

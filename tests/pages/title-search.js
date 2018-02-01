@@ -21,6 +21,10 @@ function createTitleObject(element) {
 
     get isSelected() {
       return $scope.find('[data-test-eholdings-title-list-item-title-selected]').text() === 'Selected';
+    },
+
+    get isHidden() {
+      return $scope.find('[data-test-eholdings-title-list-item-title-hidden]').text() === 'Hidden';
     }
   };
 }
@@ -87,7 +91,7 @@ export default {
 
     // wait until the item exists before clicking
     return convergeOn(() => {
-      $pkg = $('[data-test-eholdings-package-list-item] a');
+      $pkg = $('[data-test-query-list="title-packages"] li a');
       expect($pkg.eq(index)).to.exist;
     }).then(() => $pkg.get(index).click());
   },

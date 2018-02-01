@@ -20,13 +20,12 @@ export function blur(el) {
   let node = $(el).get(0);
 
   if (node) {
-    let focusEvent = document.createEvent('UIEvents');
-    focusEvent.initEvent('focus', false, false);
-    node.dispatchEvent(focusEvent);
-
-    let blurEvent = document.createEvent('UIEvents');
-    blurEvent.initEvent('blur', false, false);
-    node.dispatchEvent(blurEvent);
+    node.dispatchEvent(
+      new MouseEvent('blur', {
+        bubbles: true,
+        cancelable: true
+      })
+    );
   } else {
     throw new Error('Blur node does not exist.');
   }

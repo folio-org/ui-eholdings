@@ -3,20 +3,20 @@ import { expect } from 'chai';
 import { convergeOn } from '../it-will';
 import { triggerChange } from '../helpers';
 
-function createVendorObject(element) {
+function createProviderObject(element) {
   let $scope = $(element);
 
   return {
     get name() {
-      return $scope.find('[data-test-eholdings-vendor-list-item-name]').text();
+      return $scope.find('[data-test-eholdings-provider-list-item-name]').text();
     },
 
     get numPackages() {
-      return parseInt($scope.find('[data-test-eholdings-vendor-list-item-num-packages-total]').text(), 10);
+      return parseInt($scope.find('[data-test-eholdings-provider-list-item-num-packages-total]').text(), 10);
     },
 
     get numPackagesSelected() {
-      return parseInt($scope.find('[data-test-eholdings-vendor-list-item-num-packages-selected]').text(), 10);
+      return parseInt($scope.find('[data-test-eholdings-provider-list-item-num-packages-selected]').text(), 10);
     }
   };
 }
@@ -31,7 +31,7 @@ export default {
   },
 
   get $searchResultsItems() {
-    return $('[data-test-query-list="vendors"] li a');
+    return $('[data-test-query-list="providers"] li a');
   },
 
   get totalResults() {
@@ -39,27 +39,27 @@ export default {
   },
 
   get hasErrors() {
-    return $('[data-test-query-list-error="vendors"]').length > 0;
+    return $('[data-test-query-list-error="providers"]').length > 0;
   },
 
   get errorMessage() {
-    return $('[data-test-query-list-error="vendors"]').text();
+    return $('[data-test-query-list-error="providers"]').text();
   },
 
   get noResultsMessage() {
-    return $('[data-test-query-list-not-found="vendors"]').text();
+    return $('[data-test-query-list-not-found="providers"]').text();
   },
 
   get previewPaneIsVisible() {
-    return $('[data-test-preview-pane="vendors"]').length === 1;
+    return $('[data-test-preview-pane="providers"]').length === 1;
   },
 
-  get vendorList() {
-    return this.$searchResultsItems.toArray().map(createVendorObject);
+  get providerList() {
+    return this.$searchResultsItems.toArray().map(createProviderObject);
   },
 
   get $backButton() {
-    return $('[data-test-eholdings-vendor-details-back-button] button');
+    return $('[data-test-eholdings-provider-details-back-button] button');
   },
 
   clickSearchVignette() {
@@ -87,7 +87,7 @@ export default {
 
     // wait until the item exists before clicking
     return convergeOn(() => {
-      $pkg = $('[data-test-eholdings-package-list-item] a');
+      $pkg = $('[data-test-query-list="provider-packages"] li a');
       expect($pkg.eq(index)).to.exist;
     }).then(() => $pkg.get(index).click());
   },
@@ -97,7 +97,7 @@ export default {
   },
 
   scrollToOffset(readOffset) {
-    let $list = $('[data-test-query-list="vendors"]').get(0);
+    let $list = $('[data-test-query-list="providers"]').get(0);
     let rowHeight = $('li', $list).get(0).offsetHeight;
     let scrollOffset = rowHeight * readOffset;
 
