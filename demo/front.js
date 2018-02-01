@@ -12,7 +12,7 @@ export default function Front() {
       </p>
 
       <p>
-        While we wire up the general search and navigation system for e-holdings, please have a look at these direct links as a starting point:
+        Have a look at these direct links as a starting point:
       </p>
 
       <h3>Search</h3>
@@ -40,7 +40,7 @@ export default function Front() {
 
       <p>
         <em>
-          The data in this demo connects to the EBSCO resource management API sandbox. The UI does not yet have any pagination, so result sets are limited to 25 items.
+          The e-holdings data in this demo connects to a sample account in the EBSCO resource management API.
         </em>
       </p>
     </div>
