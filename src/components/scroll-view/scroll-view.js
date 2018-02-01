@@ -1,9 +1,12 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import classNames from 'classnames/bind';
 import debounce from 'lodash/debounce';
 
 import styles from './scroll-view.css';
 import List from '../list';
+
+const cx = classNames.bind(styles);
 
 export default class ScrollView extends Component {
   static propTypes = {
@@ -12,13 +15,15 @@ export default class ScrollView extends Component {
       slice: PropTypes.func.isRequired
     }).isRequired,
     offset: PropTypes.number,
+    scrollable: PropTypes.bool,
     itemHeight: PropTypes.number.isRequired,
     onUpdate: PropTypes.func,
     children: PropTypes.func.isRequired
   };
 
   static defaultProps = {
-    offset: 0
+    offset: 0,
+    scrollable: true
   };
 
   state = {
@@ -53,16 +58,22 @@ export default class ScrollView extends Component {
         this.setScrollOffset();
       }
     }
+
+    // update any layout changes
+    this.handleListLayout();
   }
 
-  // clean up our resize listener
   componentWillUnmount() {
+    // clean up our resize listener
     window.removeEventListener('resize', this.handleListLayout);
+    // cancel any pending debounced update
+    this.triggerUpdate.cancel();
   }
 
   // debounce the `onUpdate` prop
   triggerUpdate = debounce((offset) => {
-    this.props.onUpdate(offset);
+    let { onUpdate } = this.props;
+    if (onUpdate) onUpdate(offset);
   }, 300);
 
   // Sets the list's scrollTop based on the itemHeight and
@@ -83,7 +94,7 @@ export default class ScrollView extends Component {
   handleScroll = (e) => {
     let { itemHeight } = this.props;
 
-    let top = e.target.scrollTop;
+    let top = e.currentTarget.scrollTop;
     let offset = Math.floor(top / itemHeight);
 
     // update impagination's readOffset
@@ -99,7 +110,10 @@ export default class ScrollView extends Component {
     if (this.$list) {
       let listHeight = this.$list.offsetHeight;
       let visibleItems = Math.ceil(listHeight / itemHeight);
-      this.setState({ visibleItems });
+
+      if (visibleItems !== this.state.visibleItems) {
+        this.setState({ visibleItems });
+      }
     }
   };
 
@@ -131,7 +145,7 @@ export default class ScrollView extends Component {
   render() {
     // strip all other props to pass along the rest to the div
     // eslint-disable-next-line no-unused-vars
-    let { items, itemHeight, offset: _, onUpdate, ...props } = this.props;
+    let { items, itemHeight, offset: _, onUpdate, scrollable, ...props } = this.props;
     let { offset, visibleItems } = this.state;
     let listHeight = items.length * itemHeight;
 
@@ -143,7 +157,7 @@ export default class ScrollView extends Component {
     return (
       <div
         ref={(n) => { this.$list = n; }}
-        className={styles.list}
+        className={cx('list', { locked: !scrollable })}
         onScroll={this.handleScroll}
         {...props}
       >

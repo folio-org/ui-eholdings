@@ -23,11 +23,11 @@ function createTitleObject(element) {
 
 export default {
   get $root() {
-    return $('[data-test-eholdings-package-details]');
+    return $('[data-test-eholdings-details-view="package"]');
   },
 
   get name() {
-    return $('[data-test-eholdings-package-details-name]').text();
+    return $('[data-test-eholdings-details-view-name="package"]').text();
   },
 
   get provider() {
@@ -83,11 +83,19 @@ export default {
   },
 
   get hasErrors() {
-    return $('[data-test-eholdings-package-details-error]').length > 0;
+    return $('[data-test-eholdings-details-view-error="package"]').length > 0;
+  },
+
+  get $titleContainer() {
+    return $('[data-test-eholdings-details-view-list="package"]');
+  },
+
+  get $titleQueryList() {
+    return $('[data-test-query-list="package-titles"]');
   },
 
   get titleList() {
-    return $('[data-test-eholdings-package-details-title-list] li').toArray().map(createTitleObject);
+    return $('[data-test-query-list="package-titles"] li a').toArray().map(createTitleObject);
   },
   toggleIsHidden() {
     return convergeOn(() => {
@@ -119,5 +127,14 @@ export default {
 
   get $backButton() {
     return $('[data-test-eholdings-package-details-back-button] button');
+  },
+
+  scrollToTitleOffset(readOffset) {
+    let $list = $('[data-test-query-list="package-titles"]').get(0);
+    let rowHeight = $('li', $list).get(0).offsetHeight;
+    let scrollOffset = rowHeight * readOffset;
+
+    $list.scrollTop = scrollOffset;
+    $list.dispatchEvent(new Event('scroll'));
   }
 };

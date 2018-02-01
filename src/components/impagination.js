@@ -84,7 +84,8 @@ export default class Impagination extends Component {
     let { collection } = nextProps;
 
     // we need to reset the dataset
-    if (collection.key !== this.props.collection.key) {
+    if (collection.key !== this.props.collection.key ||
+        this.hasUnloadedWithinHorizon(nextProps)) {
       this.promises = {};
 
       // impagination dataset
@@ -129,6 +130,26 @@ export default class Impagination extends Component {
   }
 
   /**
+   * Returns true or false if the current pages within the load
+   * horizon have unloaded records
+   * @param {Object} props - props to use
+   * @returns {Boolean}
+   */
+  hasUnloadedWithinHorizon(props = this.props) {
+    let { pageSize, readOffset, loadHorizon, collection } = props;
+    let firstPage = Math.ceil(Math.max(readOffset - loadHorizon, 0) / pageSize);
+    let lastPage = Math.ceil(Math.min(readOffset + loadHorizon, collection.length) / pageSize);
+
+    for (let page = firstPage; page <= lastPage; page++) {
+      if (collection.getPage(page).request.hasUnloaded) {
+        return true;
+      }
+    }
+
+    return false;
+  }
+
+  /**
    * Used by impagination's dataset to resolve records
    * @param {Number} pageOffset - zero based page offset
    * @param {Number} pageSize - requested page size
@@ -143,18 +164,18 @@ export default class Impagination extends Component {
       let { request, records } = this.props.collection.getPage(page);
 
       // if the collection has already been resolved, immediately
-      // resolve this promise
-      if (request.isResolved) {
+      // resolve this promise, do not resolve if there are unloaded records
+      if (request.isResolved && !request.hasUnloaded) {
         resolve(records);
 
-        // if the collection has already been rejected, immediately
-        // reject this promise
-      } else if (request.isRejected) {
+      // if the collection has already been rejected, immediately
+      // reject this promise, do not reject if there are unloaded records
+      } else if (request.isRejected && !request.hasUnloaded) {
         reject(request.errors);
 
-        // the collection is not resolved or rejected already, make
-        // the request now and handle resolution later on in the
-        // componentWillReceiveProps hook
+      // the collection is not resolved or rejected already, make
+      // the request now and handle resolution later on in the
+      // componentWillReceiveProps hook
       } else {
         this.props.fetch(page, pageSize);
 

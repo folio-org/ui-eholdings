@@ -16,11 +16,11 @@ function createPackageObject(element) {
 
 export default {
   get $root() {
-    return $('[data-test-eholdings-title-show]');
+    return $('[data-test-eholdings-details-view="title"]');
   },
 
   get titleName() {
-    return $('[data-test-eholdings-title-show-title-name]').text();
+    return $('[data-test-eholdings-details-view-name="title"]').text();
   },
 
   get publisherName() {
@@ -44,14 +44,27 @@ export default {
   },
 
   get hasErrors() {
-    return $('[data-test-eholdings-title-show-error]').length > 0;
+    return $('[data-test-eholdings-details-view-error="title"]').length > 0;
+  },
+
+  get $packageContainer() {
+    return $('[data-test-eholdings-details-view-list="title"]');
   },
 
   get packageList() {
-    return $('[data-test-eholdings-title-show-package-list] li').toArray().map(createPackageObject);
+    return $('[data-test-query-list="title-packages"] li a').toArray().map(createPackageObject);
   },
 
   get $backButton() {
     return $('[data-test-eholdings-title-show-back-button] button');
+  },
+
+  scrollToPackageOffset(readOffset) {
+    let $list = $('[data-test-query-list="title-packages"]').get(0);
+    let rowHeight = $('li', $list).get(0).offsetHeight;
+    let scrollOffset = rowHeight * readOffset;
+
+    $list.scrollTop = scrollOffset;
+    $list.dispatchEvent(new Event('scroll'));
   }
 };

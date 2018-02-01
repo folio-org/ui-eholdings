@@ -44,10 +44,11 @@ export default class Resolver {
    * @param {String} data.type - the requested resource's type
    * @param {Object} [data.params] - params used in the request
    * @param {String} [data.path] - path used to make the request
+   * @param {Function} [filter] - function to optionally filter matching requests
    * @returns {Object} the last request state object associated with
    * the provided data
    */
-  getRequest(type, data) {
+  getRequest(type, data, filter = () => true) {
     let store = this.state[data.type];
     let params = Object.keys(data.params || {});
 
@@ -74,11 +75,11 @@ export default class Resolver {
         let isNewer = timestamp > ret.timestamp;
 
         // if a path was specified, ensure it too matches
-        if (isMatch && data.path) {
+        if (isMatch && Object.hasOwnProperty.call(data, 'path')) {
           isMatch = request.path === data.path;
         }
 
-        return isMatch && isNewer ? request : ret;
+        return isMatch && isNewer && filter(request) ? request : ret;
       }, emptyRequest);
     } else {
       return emptyRequest;
@@ -105,7 +106,15 @@ export default class Resolver {
    * @returns {Collection} a collection object that provides the
    * request and a simple map method to map over it's record models
    */
-  query(type, params, { path } = {}) {
+  query(type, params, options = {}) {
+    let { path } = options;
+
+    // when looking up a query via the resolver, the request
+    // should have a path
+    if (!path) {
+      path = this.modelFor(type).path;
+    }
+
     return new Collection({ type, params, path }, this);
   }
 

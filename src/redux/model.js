@@ -1,7 +1,7 @@
 import qs from 'query-string';
 import dasherize from 'lodash/kebabCase';
 import { pluralize } from 'inflected';
-import { find, query, save } from './data';
+import { find, query, save, unload } from './data';
 
 /**
  * Collection object which provides the request state object created
@@ -94,21 +94,16 @@ export class Collection {
    * @returns {Object} the request object
    */
   get request() {
-    let { request } = this.getPage(this.currentPage);
+    // eslint-disable-next-line no-unused-vars
+    let { page, ...queryParams } = this.params;
 
-    // We cannot use `this.totalPages` as it uses `this.length` which
-    // in turn calls this method for `request`, thereby entering an
-    // infinite loop. This 400 page limit is arbitrary and was only
-    // chosen to ensure all pages are accounted for with up to 10,000
-    // total results (with the default 25 record page size).
-    let pageLimit = 400;
-    let page = 1;
-
-    // find the first resolved page up to a page limit
-    while (!request.isResolved && page < pageLimit) {
-      request = this.getPage(page).request;
-      page += 1;
-    }
+    // without including the page param, this will return the last
+    // query request for any page of this collection
+    let request = this.resolver.getRequest('query', {
+      type: this.type,
+      params: queryParams,
+      path: this.path
+    }, req => req.isResolved);
 
     // cache the request for this instance
     Object.defineProperty(this, 'request', {
@@ -164,6 +159,29 @@ export class Collection {
   }
 
   /**
+   * Slices the current records for this collection via `getRecord`
+   * @param {Number} start - the start index to slice
+   * @param {Number} end - the end index to slice
+   * @returns {Array} array of records for the range
+   */
+  slice(start, end) {
+    let last = Math.min(end, this.length) - 1;
+    let ret = [];
+
+    for (let i = start; i <= last; i++) {
+      let record = this.getRecord(i);
+
+      if (record.id) {
+        ret.push(record);
+      } else {
+        break;
+      }
+    }
+
+    return ret;
+  }
+
+  /**
    * True when the current request is pending or when there is no
    * request and no records
    * @returns {Boolean}
@@ -180,6 +198,30 @@ export class Collection {
    */
   get hasLoaded() {
     return !!this.request.timestamp && !this.request.isPending;
+  }
+
+  /**
+   * True when any requests have unloaded records; caches it's
+   * results for efficiency
+   * @returns {Boolean}
+   */
+  get hasUnloaded() {
+    let { hasUnloaded } = this.getPage(this.currentPage).request;
+    let pageLimit = this.totalPages;
+    let page = 1;
+
+    // find the first page up to a page limit with an unloaded record
+    while (!hasUnloaded && page < pageLimit) {
+      hasUnloaded = !!this.getPage(page).request.hasUnloaded;
+      page += 1;
+    }
+
+    // cache the result for this instance
+    Object.defineProperty(this, 'hasUnloaded', {
+      get() { return hasUnloaded; }
+    });
+
+    return hasUnloaded;
   }
 }
 
@@ -254,12 +296,36 @@ class BaseModel {
 
   /**
    * Action creator for saving a record
-   * @param {Object} model - the record's model
+   * @param {Model} model - the record's model
    */
   static save(model) { // eslint-disable-line no-shadow
     return save(this.type, model.serialize(), {
       path: this.pathFor(model.id)
     });
+  }
+
+  /**
+   * Action creator for unloading records
+   * @param {Model|Collection} modelOrCollection - the record model or collection
+   */
+  static unload(modelOrCollection) {
+    let ids = [];
+
+    // unload a single model
+    if (modelOrCollection instanceof BaseModel) {
+      ids = modelOrCollection.id;
+
+    // unload each page of records
+    } else if (modelOrCollection instanceof Collection) {
+      let page = 1;
+
+      while (page <= modelOrCollection.totalPages) {
+        ids = ids.concat(modelOrCollection.getPage(page).request.records);
+        page += 1;
+      }
+    }
+
+    return unload(this.type, ids);
   }
 
   /**
@@ -374,7 +440,6 @@ function describeHasMany(key, relType = key) {
         type: relType,
         path: `${this.constructor.pathFor(this.id)}/${dasherize(key)}`
       }, this.resolver);
-
 
       if (!collection.length &&
           hasOwnProperty(this.data.relationships, key) &&

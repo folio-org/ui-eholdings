@@ -1,0 +1,6 @@
+/* This file is for importing shared styles without using the `:global` scope */
+
+/* like `marginTopHalf` or `marginBottomHalf` from stripes-components */
+.marginRightHalf {
+  margin-right: 0.5rem;
+}

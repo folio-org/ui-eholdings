@@ -1,6 +1,6 @@
 /* global describe, beforeEach */
 import { expect } from 'chai';
-import it from './it-will';
+import it, { convergeOn } from './it-will';
 
 import { describeApplication } from './helpers';
 import TitleShowPage from './pages/title-show';
@@ -204,6 +204,36 @@ describeApplication('TitleShow', () => {
     });
     it('does not display subjects list', () => {
       expect(TitleShowPage.subjectsList.length).to.equal(0);
+    });
+  });
+
+  describe('visiting the title details page with multiple pages of packages', () => {
+    beforeEach(function () {
+      this.server.loadFixtures();
+
+      return this.visit('/eholdings/titles/paged_title', () => {
+        expect(TitleShowPage.$root).to.exist;
+      });
+    });
+
+    it('should display the first page of related packages', () => {
+      expect(TitleShowPage.packageList[0].name).to.equal('Title Package 1');
+    });
+
+    describe('scrolling down the list of packages', () => {
+      beforeEach(() => {
+        return convergeOn(() => {
+          expect(TitleShowPage.packageList.length).to.be.gt(0);
+        }).then(() => {
+          TitleShowPage.scrollToPackageOffset(26);
+        });
+      });
+
+      it('should display the next page of related packages', () => {
+        // when the list is scrolled, it has a threshold of 5 items. index 4,
+        // the 5th item, is the topmost visible item in the list
+        expect(TitleShowPage.packageList[4].name).to.equal('Title Package 26');
+      });
     });
   });
 

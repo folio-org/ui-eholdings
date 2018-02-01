@@ -24,19 +24,19 @@ function createPackageObject(element) {
 
 export default {
   get $root() {
-    return $('[data-test-eholdings-provider-details]');
+    return $('[data-test-eholdings-details-view="provider"]');
   },
 
   get name() {
-    return $('[data-test-eholdings-provider-details-name]').text();
+    return $('[data-test-eholdings-details-view-name="provider"]').text();
   },
 
   get hasErrors() {
-    return $('[data-test-eholdings-provider-details-error]').length > 0;
+    return $('[data-test-eholdings-details-view-error="provider"]').length > 0;
   },
 
   get errorMessage() {
-    return $('[data-test-eholdings-provider-details-error]').text();
+    return $('[data-test-eholdings-details-view-error="provider"]').text();
   },
 
   get numPackages() {
@@ -48,10 +48,19 @@ export default {
   },
 
   get packageList() {
-    return $('[data-test-eholdings-package-list-item]').toArray().map(createPackageObject);
+    return $('[data-test-query-list="provider-packages"] li a').toArray().map(createPackageObject);
   },
 
   get $backButton() {
     return $('[data-test-eholdings-provider-details-back-button] button');
+  },
+
+  scrollToPackageOffset(readOffset) {
+    let $list = $('[data-test-query-list="provider-packages"]').get(0);
+    let rowHeight = $('li', $list).get(0).offsetHeight;
+    let scrollOffset = rowHeight * readOffset;
+
+    $list.scrollTop = scrollOffset;
+    $list.dispatchEvent(new Event('scroll'));
   }
 };
