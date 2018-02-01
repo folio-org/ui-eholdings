@@ -42,7 +42,7 @@
     webpack-bundle-analyzer "^2.9.1"
     yargs "^10.0.3"
 
-"@folio/stripes-components@^2.0.0", "@folio/stripes-components@folio-org/stripes-components#master":
+"@folio/stripes-components@^2.0.0":
   version "2.0.0"
   resolved "https://codeload.github.com/folio-org/stripes-components/tar.gz/87043b402e6fd669ce2a3b2188a4f3b135eaab8f"
   dependencies:
@@ -63,6 +63,34 @@
     react-dom "^15.6.1"
     react-flexbox-grid "1.1.3"
     react-overlays "^0.8.0"
+    react-router-dom "^4.1.1"
+    react-test-renderer "^15.6.1"
+    react-tether "0.5.7"
+    react-transition-group "^2.2.1"
+    redux-form "^7.0.3"
+    typeface-source-sans-pro "^0.0.44"
+
+"@folio/stripes-components@folio-org/stripes-components#master":
+  version "2.0.0"
+  resolved "https://codeload.github.com/folio-org/stripes-components/tar.gz/b6a276de3092fe238369f788f8888c93b28a9954"
+  dependencies:
+    "@folio/stripes-form" "^0.8.2"
+    "@folio/stripes-react-hotkeys" "^1.0.0"
+    classnames "^2.2.5"
+    create-react-class "^15.5.3"
+    dom-helpers "^3.2.1"
+    file-loader "^1.1.5"
+    lodash "^4.17.4"
+    moment "^2.17.1"
+    moment-range "^3.0.3"
+    mousetrap "^1.6.1"
+    normalize.css "^7.0.0"
+    prop-types "^15.5.10"
+    prop-types-extra "^1.0.1"
+    react "^15.6"
+    react-dom "^15.6"
+    react-flexbox-grid "1.1.3"
+    react-overlays "^0.8.3"
     react-router-dom "^4.1.1"
     react-test-renderer "^15.6.1"
     react-tether "0.5.7"
@@ -6476,7 +6504,7 @@ react-deep-force-update@^2.1.1:
   version "2.1.1"
   resolved "https://registry.yarnpkg.com/react-deep-force-update/-/react-deep-force-update-2.1.1.tgz#8ea4263cd6455a050b37445b3f08fd839d86e909"
 
-react-dom@^15.3.2, react-dom@^15.4.0, react-dom@^15.6.1:
+react-dom@^15.3.2, react-dom@^15.4.0, react-dom@^15.6, react-dom@^15.6.1:
   version "15.6.2"
   resolved "https://registry.yarnpkg.com/react-dom/-/react-dom-15.6.2.tgz#41cfadf693b757faf2708443a1d1fd5a02bef730"
   dependencies:
@@ -6521,7 +6549,7 @@ react-intl@^2.3.0:
     intl-relativeformat "^2.0.0"
     invariant "^2.1.1"
 
-react-overlays@^0.8.0:
+react-overlays@^0.8.0, react-overlays@^0.8.3:
   version "0.8.3"
   resolved "https://registry.yarnpkg.com/react-overlays/-/react-overlays-0.8.3.tgz#fad65eea5b24301cca192a169f5dddb0b20d3ac5"
   dependencies:
@@ -6619,7 +6647,7 @@ react-trigger-change@^1.0.2:
   version "1.0.2"
   resolved "https://registry.yarnpkg.com/react-trigger-change/-/react-trigger-change-1.0.2.tgz#af573398ecef2475362b84f8c08c07fea23914c3"
 
-react@^15.3.2, react@^15.4.2, react@^15.5.1, react@^15.6.1:
+react@^15.3.2, react@^15.4.2, react@^15.5.1, react@^15.6, react@^15.6.1:
   version "15.6.2"
   resolved "https://registry.yarnpkg.com/react/-/react-15.6.2.tgz#dba0434ab439cfe82f108f0f511663908179aa72"
   dependencies:
