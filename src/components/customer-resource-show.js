@@ -261,7 +261,6 @@ export default class CustomerResourceShow extends Component {
                 Yes, remove
               </Button>
               <Button
-                hollow
                 onClick={this.cancelSelectionToggle}
                 data-test-eholdings-customer-resource-deselection-confirmation-modal-no
               >
