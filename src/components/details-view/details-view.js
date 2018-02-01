@@ -61,14 +61,19 @@ export default class DetailsView extends Component {
    * height, we have no need to handle any scroll behavior
    */
   handleLayout = () => {
-    if (this.$container && this.$sticky &&
-        this.$sticky.offsetHeight >= this.$container.offsetHeight) {
-      // this could also be `maxHeight` since the content is longer
-      // than what the container is able to accomidate
-      this.$sticky.style.height = `${this.$container.offsetHeight}px`;
-      this.shouldHandleScroll = true;
-    } else if (this.shouldHandleScroll) {
-      this.shouldHandleScroll = false;
+    if (this.$container && this.$sticky && this.$list) {
+      let stickyHeight = this.$sticky.offsetHeight;
+      let containerHeight = this.$container.offsetHeight;
+
+      this.shouldHandleScroll = stickyHeight >= containerHeight;
+
+      // the sticky wrapper needs an explicit height for child
+      // elements with percentage-based heights
+      if (this.shouldHandleScroll) {
+        this.$sticky.style.height = `${containerHeight}px`;
+      } else {
+        this.$sticky.style.height = '';
+      }
     }
   };
 
