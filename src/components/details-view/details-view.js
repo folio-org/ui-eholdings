@@ -11,6 +11,18 @@ import styles from './details-view.css';
 
 const cx = classNames.bind(styles);
 
+/**
+ * This component will render a details view which includes the type
+ * of resource and resource name, along with some body content, and an
+ * optional list element. If given a `renderList` function, the list's
+ * portion of the details page will become sticky on scroll if the
+ * list's contents are longer than the containing element.
+ *
+ * It also includes a pane header component with an option for the
+ * `firstMenu` prop. This is so we can reduce the boilerplate in the
+ * various details views, which may or may not require their own
+ * header component.
+ */
 export default class DetailsView extends Component {
   static propTypes = {
     type: PropTypes.string.isRequired,
@@ -44,9 +56,15 @@ export default class DetailsView extends Component {
     window.removeEventListener('resize', this.handleLayout);
   }
 
+  /**
+   * If the height of the sticky content is less than the container's
+   * height, we have no need to handle any scroll behavior
+   */
   handleLayout = () => {
     if (this.$container && this.$sticky &&
         this.$sticky.offsetHeight >= this.$container.offsetHeight) {
+      // this could also be `maxHeight` since the content is longer
+      // than what the container is able to accomidate
       this.$sticky.style.height = `${this.$container.offsetHeight}px`;
       this.shouldHandleScroll = true;
     } else if (this.shouldHandleScroll) {
@@ -54,6 +72,10 @@ export default class DetailsView extends Component {
     }
   };
 
+  /**
+   * While scrolling, we need to decide if we should enable or disable
+   * the list's "sticky" behavior
+   */
   handleScroll = (e) => {
     let { isSticky } = this.state;
 
@@ -85,6 +107,12 @@ export default class DetailsView extends Component {
     }
   };
 
+  /**
+   * When scrolling the container is locked, we need to listen for a
+   * mousewheel up to disable the sticky list. But only a mousewheel
+   * up outside of the list, or when the inner list is scrolled all
+   * the way up already.
+   */
   handleWheel = (e) => {
     let { isSticky } = this.state;
     let scrollingUp = e.deltaY < 0;
