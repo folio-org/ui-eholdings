@@ -148,7 +148,7 @@ describeApplication('PackageSearch', () => {
       });
 
       it('displays an empty search', () => {
-        expect(PackageSearchPage.$searchField).to.have.value('');
+        expect(PackageSearchPage.$titleSearchField).to.have.value('');
       });
 
       it('does not display any more results', () => {
