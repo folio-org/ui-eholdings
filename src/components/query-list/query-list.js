@@ -20,7 +20,8 @@ export default class QueryList extends Component {
     collection: PropTypes.object.isRequired,
     fetch: PropTypes.func.isRequired,
     renderItem: PropTypes.func.isRequired,
-    onUpdateOffset: PropTypes.func
+    onUpdateOffset: PropTypes.func,
+    length: PropTypes.number
   };
 
   static defaultProps = {
@@ -56,7 +57,8 @@ export default class QueryList extends Component {
       collection,
       fetch,
       itemHeight,
-      renderItem
+      renderItem,
+      length
     } = this.props;
     let {
       offset
@@ -82,6 +84,7 @@ export default class QueryList extends Component {
           ) : (
             <ScrollView
               items={state}
+              length={length}
               offset={offset}
               itemHeight={itemHeight}
               onUpdate={this.updateOffset}

@@ -14,6 +14,7 @@ export default class ScrollView extends Component {
       length: PropTypes.number.isRequired,
       slice: PropTypes.func.isRequired
     }).isRequired,
+    length: PropTypes.number,
     offset: PropTypes.number,
     scrollable: PropTypes.bool,
     itemHeight: PropTypes.number.isRequired,
@@ -118,12 +119,12 @@ export default class ScrollView extends Component {
   };
 
   renderChildren() {
-    let { items, itemHeight, children } = this.props;
+    let { items, length, itemHeight, children } = this.props;
     let { offset, visibleItems } = this.state;
 
     let threshold = 5;
     let lower = Math.max(offset - threshold, 0);
-    let upper = Math.min(offset + visibleItems + threshold, items.length - 1);
+    let upper = Math.min(offset + visibleItems + threshold, (length || items.length) - 1);
 
     // slice the visible items and map them to `children`
     return items.slice(lower, upper + 1).map((item, i) => {
@@ -145,9 +146,9 @@ export default class ScrollView extends Component {
   render() {
     // strip all other props to pass along the rest to the div
     // eslint-disable-next-line no-unused-vars
-    let { items, itemHeight, offset: _, onUpdate, scrollable, ...props } = this.props;
+    let { items, length, itemHeight, offset: _, onUpdate, scrollable, ...props } = this.props;
     let { offset, visibleItems } = this.state;
-    let listHeight = items.length * itemHeight;
+    let listHeight = (length || items.length) * itemHeight;
 
     // list height should be at least enough for the offset
     if (listHeight === 0) {
