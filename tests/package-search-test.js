@@ -4,6 +4,7 @@ import it, { convergeOn } from './it-will';
 
 import { describeApplication } from './helpers';
 import PackageSearchPage from './pages/package-search';
+import PackageShowPage from './pages/package-show';
 
 describeApplication('PackageSearch', () => {
   let pkgs;
@@ -11,8 +12,9 @@ describeApplication('PackageSearch', () => {
   beforeEach(function () {
     pkgs = this.server.createList('package', 3, 'withProvider', 'withTitles', {
       name: i => `Package${i + 1}`,
+      isSelected: i => !!i,
       titleCount: 3,
-      selectedCount: 1
+      selectedCount: i => i
     });
 
     this.server.create('package', 'withProvider', {
@@ -67,6 +69,21 @@ describeApplication('PackageSearch', () => {
 
       it('should not display button in UI', () => {
         expect(PackageSearchPage.$backButton).to.not.exist;
+      });
+
+      describe('selecting a package', () => {
+        beforeEach(() => {
+          return convergeOn(() => {
+            expect(PackageSearchPage.packageList[0].isSelected).to.be.false;
+            expect(PackageShowPage.$root).to.exist;
+          }).then(() => (
+            PackageShowPage.toggleIsSelected()
+          ));
+        });
+
+        it('reflects the selection in the results list', () => {
+          expect(PackageSearchPage.packageList[0].isSelected).to.be.true;
+        });
       });
 
       describe('clicking the vignette behind the preview pane', () => {
