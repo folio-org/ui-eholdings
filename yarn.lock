@@ -81,7 +81,7 @@
 
 "@folio/stripes-components@folio-org/stripes-components#master":
   version "2.0.1"
-  resolved "https://codeload.github.com/folio-org/stripes-components/tar.gz/f13f762baf7736fc278caac547b5f19fd1ef2763"
+  resolved "https://codeload.github.com/folio-org/stripes-components/tar.gz/b836083df670e9c588579f4edeb6573ba85589b1"
   dependencies:
     "@folio/stripes-form" "^0.8.2"
     "@folio/stripes-react-hotkeys" "^1.0.0"

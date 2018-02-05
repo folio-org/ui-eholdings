@@ -1,0 +1,49 @@
+.custom-embargo-form,
+.custom-emabrgo-form-editing {
+  padding: 0.5em;
+}
+
+.custom-embargo-form-editing {
+  background: #e6f3ff;
+}
+
+.custom-embargo-add-button {
+  margin: 1em 0;
+}
+
+.custom-embargo-display {
+  display: flex;
+  align-items: center
+}
+
+.custom-embargo {
+  display: flex;
+  align-items: flex-start;
+}
+
+.custom-embargo-action-buttons {
+  display: flex;
+  margin-top: 1em;
+  padding: 0.5em;
+  align-items: flex-start;
+}
+
+.custom-embargo-container {
+  display: flex;
+  align-items: flex-start;
+  padding: 0.5em;
+}
+
+.custom-embargo-text-field {
+  align-self: flex-start;
+  flex: 1 1 auto;
+  margin-right: 1em;
+}
+
+.custom-embargo-component-width {
+  width: 13em;
+}
+
+.error-message {
+  color: red;
+}

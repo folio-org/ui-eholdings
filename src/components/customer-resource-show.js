@@ -16,12 +16,14 @@ import CoverageDates from './coverage-dates';
 import { isBookPublicationType, isValidCoverageList } from './utilities';
 import Modal from './modal';
 import styles from './styles.css';
+import CustomEmbargoForm from './custom-embargo';
 
 export default class CustomerResourceShow extends Component {
   static propTypes = {
     model: PropTypes.object.isRequired,
     toggleSelected: PropTypes.func.isRequired,
-    toggleHidden: PropTypes.func.isRequired
+    toggleHidden: PropTypes.func.isRequired,
+    customEmbargoSubmitted: PropTypes.func.isRequired
   };
 
   static contextTypes = {
@@ -66,7 +68,7 @@ export default class CustomerResourceShow extends Component {
   };
 
   render() {
-    let { model } = this.props;
+    let { model, customEmbargoSubmitted } = this.props;
     let { router, queryParams } = this.context;
     let { showSelectionModal, resourceSelected, resourceHidden } = this.state;
 
@@ -79,6 +81,8 @@ export default class CustomerResourceShow extends Component {
     let hasCustomEmbargoPeriod = model.customEmbargoPeriod &&
       model.customEmbargoPeriod.embargoUnit &&
       model.customEmbargoPeriod.embargoValue;
+    let customEmbargoValue = model.customEmbargoPeriod && model.customEmbargoPeriod.embargoValue;
+    let customEmbargoUnit = model.customEmbargoPeriod && model.customEmbargoPeriod.embargoUnit;
 
     return (
       <div>
@@ -221,17 +225,23 @@ export default class CustomerResourceShow extends Component {
                     </Layout>
                   </label>
 
-                  {hasCustomEmbargoPeriod && (
-                    <div>
-                      <hr />
-
-                      <KeyValueLabel label="Custom Embargo Period">
-                        <div data-test-eholdings-customer-resource-show-custom-embargo-period>
-                          {model.customEmbargoPeriod.embargoValue} {model.customEmbargoPeriod.embargoUnit}
-                        </div>
-                      </KeyValueLabel>
-                    </div>
-                  )}
+                  <hr />
+                  <KeyValueLabel label="Custom Embargo Period">
+                    {hasCustomEmbargoPeriod ? (
+                      <div data-test-eholdings-customer-resource-show-custom-embargo-period>
+                        <CustomEmbargoForm
+                          initialValues={{ customEmbargoValue, customEmbargoUnit }}
+                          onSubmit={customEmbargoSubmitted}
+                          isPending={model.update.isPending && 'customEmbargoPeriod' in model.update.changedAttributes}
+                        />
+                      </div>
+                    ) : (
+                      <CustomEmbargoForm
+                        initialValues={{ customEmbargoValue, customEmbargoUnit }}
+                        onSubmit={customEmbargoSubmitted}
+                      />
+                    )}
+                  </KeyValueLabel>
                 </div>
               )}
 
