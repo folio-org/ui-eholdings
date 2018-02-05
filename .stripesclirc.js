@@ -20,16 +20,25 @@ function mirage(config, enabled = false) {
   }
 }
 
-// beforeBuild needs to return a "webpack override" function for the CLI
-// It is currently passed the entire yargs argv object
-function beforeBuild(options) {
-  const mirageOption = options.mirage === true ? 'default' : options.mirage;
-  return (config) => {
-    config.plugins.push(new webpack.EnvironmentPlugin({
-      MIRAGE_SCENARIO: mirageOption || 'default'
-    }));
-    return mirage(config, mirageOption);
-  };
+const buildPlugin = {
+  beforeBuild: (options) => {
+    return (config) => {
+      // Shove babel-plugin-remove-jsx-attributes into babel plugins
+      // Should be moved to stripes-core as soon as we feel comfortable with its effectiveness
+      let babelLoaderConfigIndex = config.module.rules.findIndex((rule) => {
+        return rule.loader === 'babel-loader';
+      });
+
+      // Remove all data-test or data-test- attributes
+      config.module.rules[babelLoaderConfigIndex].options.plugins = [
+        [require.resolve('babel-plugin-remove-jsx-attributes'), {
+          patterns: ['^data-test.*$']
+        }]
+      ];
+
+      return config;
+    };
+  }
 }
 
 const servePlugin = {
@@ -42,7 +51,15 @@ const servePlugin = {
     },
   },
   // Stripes CLI hook into "webpackOverrides"
-  beforeBuild,
+  beforeBuild: (options) => {
+    const mirageOption = options.mirage === true ? 'default' : options.mirage;
+    return (config) => {
+      config.plugins.push(new webpack.EnvironmentPlugin({
+        MIRAGE_SCENARIO: mirageOption || 'default'
+      }));
+      return mirage(config, mirageOption);
+    };
+  },
 }
 
 const testPlugin = {
@@ -78,6 +95,7 @@ module.exports = {
 
   // Custom command extension
   plugins: {
+    build: buildPlugin,
     serve: servePlugin,
     test: testPlugin,
   },
