@@ -109,14 +109,14 @@ class CustomCoverageDate extends Component {
               </div>
             </div>
             <div className={styles['custom-coverage-action-buttons']}>
-              <div data-test-eholdings-package-details-save-custom-coverage-button>
-                <Button disabled={pristine} type="submit" role="button" buttonStyle="primary">
-                  Save
+              <div data-test-eholdings-package-details-cancel-custom-coverage-button>
+                <Button disabled={isPending} type="button" role="button" buttonStyle="secondary" onClick={this.handleCancelCustomCoverage}>
+                  Cancel
                 </Button>
               </div>
-              <div data-test-eholdings-package-details-cancel-custom-coverage-button>
-                <Button disabled={isPending} type="button" role="button" onClick={this.handleCancelCustomCoverage}>
-                  Cancel
+              <div data-test-eholdings-package-details-save-custom-coverage-button>
+                <Button disabled={pristine} type="submit" role="button">
+                  Save
                 </Button>
               </div>
             </div>
