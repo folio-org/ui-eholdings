@@ -237,6 +237,9 @@ export default function configure() {
     return matchingCustomerResource;
   });
 
+  // translation bundle passthrough
+  this.pretender.get(`${__webpack_public_path__}translations/:rand.json`, this.pretender.passthrough); // eslint-disable-line
+
   // hot-reload passthrough
   this.pretender.get('/:rand.hot-update.json', this.pretender.passthrough);
 }
