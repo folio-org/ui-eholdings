@@ -28,9 +28,9 @@ describeApplication('DetailsView', () => {
 
     describe('scrolling to the bottom of the container', () => {
       beforeEach(() => {
-        // converge on the height being great enough to scroll
+        // converge on the titles being loaded
         return convergeOn(() => {
-          expect(PackageShowPage.$root.prop('scrollHeight')).to.be.gt(PackageShowPage.$root.height());
+          expect(PackageShowPage.titleList.length).to.be.gt(0);
         }).then(() => {
           PackageShowPage.$root.scrollTop(PackageShowPage.$root.prop('scrollHeight'));
         });
