@@ -16,6 +16,7 @@
     "@folio/stripes-components": "folio-org/stripes-components#master",
     "@folio/stripes-core": "folio-org/stripes-core#master",
     "babel-plugin-istanbul": "^4.1.5",
+    "babel-plugin-remove-jsx-attributes": "^0.0.2",
     "chai": "^4.0.2",
     "chai-jquery": "^2.0.0",
     "eslint": "^4.8.0",
