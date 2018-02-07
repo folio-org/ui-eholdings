@@ -1,24 +1,24 @@
 import { Component } from 'react';
 import PropTypes from 'prop-types';
-import Dataset from 'impagination';
+import State from 'impagination/src/state';
 
 /**
- * Patch the slice method of a Dataset state.
+ * Patch / add methods to a Dataset state
  *
- * Currently it is broken such that state.slice(x, y) will return a
- * slice with `undefined` values if the values of `x` and `y`
- * reference records that are out of the dataset bounds. Instead, the
- * standard JS behaviro is to truncate the slice at the last available
- * record. If there are no avaliable records, then it will be an empty
- * set.
- *
- *
- * @see https://github.com/flexyford/impagination/issues/48
- * @param {Object} datasetState - Dataset state instance
- * @returns {Object} new Dataset state instance
+ * Due to the way the state's immutability is handled, we cannot
+ * extend it to create a patched state class
  */
-function patchDatasetSlice(datasetState) {
-  return Object.create(datasetState, {
+function patchDatasetState(dataset) {
+  return Object.create(dataset, {
+    /**
+     * Currently it is broken such that `state.slice(start, end)` will
+     * return a slice with `undefined` values if the values of `start`
+     * and `end` reference records that have not yet been
+     * requested. Instead, we use `state.getRecord(index)` to return
+     * default records for unrequested pages instead of `undefined`.
+     *
+     * @see https://github.com/flexyford/impagination/issues/48
+     */
     slice: {
       value(start, end) {
         let last = Math.min(end, this.length) - 1;
@@ -30,6 +30,26 @@ function patchDatasetSlice(datasetState) {
 
         return ret;
       }
+    },
+
+    /**
+     * Returns the pages within the load horizon
+     */
+    pagesWithinHorizon: {
+      get() {
+        let withinHorizon = [];
+
+        // this private api is useful for getting the min and max pages in
+        // a load horizon; it simply does some math around the readOffset
+        // and loadHorizon properties so we also don't have to do it here
+        let { minLoadHorizon, maxLoadHorizon } = this._getLoadHorizons();
+
+        for (let i = minLoadHorizon; i < maxLoadHorizon; i++) {
+          withinHorizon.push(this.getPage(i));
+        }
+
+        return withinHorizon;
+      }
     }
   });
 }
@@ -39,6 +59,9 @@ export default class Impagination extends Component {
     pageSize: PropTypes.number,
     loadHorizon: PropTypes.number,
     readOffset: PropTypes.number,
+    // this prop is most definitely used, but the way in which it gets
+    // destructured from a default argument confuses eslint
+    // eslint-disable-next-line react/no-unused-prop-types
     fetch: PropTypes.func.isRequired,
     collection: PropTypes.object.isRequired,
     children: PropTypes.func.isRequired
@@ -50,156 +73,93 @@ export default class Impagination extends Component {
     readOffset: 0
   };
 
-  constructor(props) {
-    super(props);
+  // we can't set this directly as the state object because it will
+  // lose getters and other prototype methods
+  state = {
+    dataset: new State({
+      pageSize: this.props.pageSize,
+      loadHorizon: this.props.loadHorizon,
+      readOffset: this.props.readOffset,
+      stats: { totalPages: this.props.collection.totalPages }
+    })
+  };
 
-    // track promises for each page to resolve in
-    // `componentWillReceiveProps` later
-    this.promises = {};
+  // update state on mount to trigger any initial requests and
+  // load any already-resolved records
+  componentWillMount() {
+    this.updateDataset();
+  }
 
-    // impagination dataset
-    this.dataset = new Dataset({
-      pageSize: props.pageSize,
-      loadHorizon: props.loadHorizon,
-      stats: { totalPages: props.collection.totalPages },
-      fetch: this.fetch,
-      observe: this.observe
+  // the main trigger for updating the datset state
+  componentWillReceiveProps(nextProps) {
+    this.updateDataset(nextProps);
+  }
+
+  //  Updates the dataset immutably and triggers the `fetch` property
+  //  when there are unrequested pages.
+  updateDataset(props = this.props) {
+    let { collection, pageSize, loadHorizon, readOffset, fetch } = props;
+    let dataset = this.state.dataset;
+
+    let isNewCollection = collection.key !== this.props.collection.key;
+    let hasUnloaded = patchDatasetState(dataset).pagesWithinHorizon.some(({ offset }) => {
+      return collection.getPage(offset + 1).request.hasUnloaded;
     });
 
-    // initial state
-    this.state = {
-      datasetState: this.dataset.state
-    };
-  }
-
-  // set the initial read offset of our dataset
-  componentWillMount() {
-    let { readOffset } = this.props;
-    this.dataset.setReadOffset(readOffset);
-  }
-
-  // when we recieve an update, loop over the pages of collections so
-  // we can resolve or reject any pending requests
-  componentWillReceiveProps(nextProps) {
-    let { collection } = nextProps;
-
-    // we need to reset the dataset
-    if (collection.key !== this.props.collection.key ||
-        this.hasUnloadedWithinHorizon(nextProps)) {
-      this.promises = {};
-
-      // impagination dataset
-      this.dataset = new Dataset({
-        pageSize: nextProps.pageSize,
-        loadHorizon: nextProps.loadHorizon,
-        stats: { totalPages: collection.totalPages },
-        fetch: this.fetch,
-        observe: this.observe
+    // we need a brand new dataset state
+    if (isNewCollection || hasUnloaded) {
+      dataset = new State({
+        pageSize,
+        loadHorizon,
+        readOffset,
+        stats: {
+          totalPages: collection.totalPages
+        }
       });
     }
 
-    // if there is a new total page count, update our dataset state
-    if (collection.totalPages !== this.dataset.state.stats.totalPages) {
-      this.dataset.state.stats.totalPages = collection.totalPages;
+    //  update the total page count if necessary
+    if (collection.totalPages !== dataset.stats.totalPages) {
+      dataset.stats.totalPages = collection.totalPages;
     }
 
-    // ensure that we keep all of our promises
-    for (let page of Object.keys(this.promises)) {
-      let { request, records } = collection.getPage(page);
-      let promise = this.promises[page];
+    // update the read offset if necessary
+    if (readOffset !== dataset.readOffset) {
+      dataset = dataset.setReadOffset(readOffset);
+    }
 
-      if (promise) {
+    // make any requests for unrequested pages
+    dataset.unrequested.forEach((p) => {
+      // we use a 1-based page number
+      fetch(p.offset + 1, pageSize);
+    });
+
+    // update newly requested pages
+    dataset = dataset.fetch(dataset.unrequested);
+
+    // resolve or reject all pages within the load horizon
+    patchDatasetState(dataset).pagesWithinHorizon.forEach((page) => {
+      // we use a 1-based page number
+      let { request, records } = collection.getPage(page.offset + 1);
+
+      if (page.isRequested && !request.hasUnloaded) {
         if (request.isResolved) {
-          promise.resolve(records);
-          delete this.promises[page];
+          dataset = dataset.resolve(records, page.offset);
         } else if (request.isRejected) {
-          promise.reject(request.errors);
-          delete this.promises[page];
+          dataset = dataset.reject(request.errors, page);
         }
       }
-    }
-  }
-
-  componentDidUpdate() {
-    let { readOffset } = this.props;
-
-    // if there is a new read offset, tell our dataset
-    if (readOffset !== this.dataset.state.readOffset) {
-      this.dataset.setReadOffset(readOffset);
-    }
-  }
-
-  /**
-   * Returns true or false if the current pages within the load
-   * horizon have unloaded records
-   * @param {Object} props - props to use
-   * @returns {Boolean}
-   */
-  hasUnloadedWithinHorizon(props = this.props) {
-    let { pageSize, readOffset, loadHorizon, collection } = props;
-    let firstPage = Math.ceil(Math.max(readOffset - loadHorizon, 0) / pageSize);
-    let lastPage = Math.ceil(Math.min(readOffset + loadHorizon, collection.length) / pageSize);
-
-    for (let page = firstPage; page <= lastPage; page++) {
-      if (collection.getPage(page).request.hasUnloaded) {
-        return true;
-      }
-    }
-
-    return false;
-  }
-
-  /**
-   * Used by impagination's dataset to resolve records
-   * @param {Number} pageOffset - zero based page offset
-   * @param {Number} pageSize - requested page size
-   * @returns {Promise} resolves immediately or during the
-   * componentWillReceiveProps hook later
-   */
-  fetch = (pageOffset, pageSize) => {
-    // page starts with 1
-    let page = pageOffset + 1;
-
-    return new Promise((resolve, reject) => {
-      let { request, records } = this.props.collection.getPage(page);
-
-      // if the collection has already been resolved, immediately
-      // resolve this promise, do not resolve if there are unloaded records
-      if (request.isResolved && !request.hasUnloaded) {
-        resolve(records);
-
-      // if the collection has already been rejected, immediately
-      // reject this promise, do not reject if there are unloaded records
-      } else if (request.isRejected && !request.hasUnloaded) {
-        reject(request.errors);
-
-      // the collection is not resolved or rejected already, make
-      // the request now and handle resolution later on in the
-      // componentWillReceiveProps hook
-      } else {
-        this.props.fetch(page, pageSize);
-
-        // cache this promise's callbacks (and status) so it can be
-        // resolved or rejected later on
-        this.promises[page] = { resolve, reject };
-      }
     });
-  };
 
-  /**
-   * Used by impagination's dataset to observe its state
-   * @param {Object} state - impagination's dataset state
-   */
-  observe = (state) => {
-    this.setState(({
-      datasetState: state
-    }));
-  };
+    // update the state with the new dataset
+    this.setState({ dataset });
+  }
 
-  // We only call the `renderList` prop with the dataset state. Notice
-  // we don't import React because we are not using JSX in this component
+  // We treat `children` as a render prop and call it with the dataset
+  // state. Notice we do not import React because we are not using any
+  // JSX in this component
   render() {
-    let datasetState = patchDatasetSlice(this.state.datasetState);
-    return this.props.children(datasetState);
+    let dataset = patchDatasetState(this.state.dataset);
+    return this.props.children(dataset);
   }
 }
