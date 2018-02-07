@@ -15,8 +15,8 @@
     redux-form "^7.0.3"
 
 "@folio/stripes-cli@folio-org/stripes-cli#STCLI-19-prep":
-  version "0.13.0"
-  resolved "https://codeload.github.com/folio-org/stripes-cli/tar.gz/1d1326ca58a5a99cf4f18d50e5841228cc54b771"
+  version "0.14.0"
+  resolved "https://codeload.github.com/folio-org/stripes-cli/tar.gz/b8c4fe95722777e8ff6710e396bd62e881a45839"
   dependencies:
     "@folio/developer" "^1.3.0"
     "@folio/stripes-core" "^2.9.0"
