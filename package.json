@@ -8,7 +8,7 @@
   "scripts": {
     "start": "NODE_ENV=development stripescli serve demo/stripes.config.js",
     "build": "stripescli build demo/stripes.config.js dist",
-    "test": "stripescli test karma --configFile demo/stripes.config.js",
+    "test": "stripescli test karma demo/stripes.config.js",
     "lint": "eslint ./"
   },
   "devDependencies": {
