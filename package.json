@@ -8,11 +8,11 @@
   "scripts": {
     "start": "NODE_ENV=development stripescli serve demo/stripes.config.js",
     "build": "stripescli build demo/stripes.config.js dist",
-    "test": "stripescli test demo/stripes.config.js --type=unit",
+    "test": "stripescli test karma demo/stripes.config.js",
     "lint": "eslint ./"
   },
   "devDependencies": {
-    "@folio/stripes-cli": "folio-org/stripes-cli#master",
+    "@folio/stripes-cli": "^0.14.0",
     "@folio/stripes-components": "folio-org/stripes-components#master",
     "@folio/stripes-core": "folio-org/stripes-core#master",
     "babel-plugin-istanbul": "^4.1.5",

@@ -14,9 +14,9 @@
     react-router-dom "^4.0.0"
     redux-form "^7.0.3"
 
-"@folio/stripes-cli@folio-org/stripes-cli#master":
-  version "0.13.0"
-  resolved "https://codeload.github.com/folio-org/stripes-cli/tar.gz/28a51332bbceb6e2ea590d5caf8611808c34102a"
+"@folio/stripes-cli@^0.14.0":
+  version "0.14.100039"
+  resolved "https://repository.folio.org/repository/npm-folioci/@folio/stripes-cli/-/stripes-cli-0.14.100039.tgz#ca758f2d1fffb807658e76af8b7d1b183906111e"
   dependencies:
     "@folio/developer" "^1.3.0"
     "@folio/stripes-core" "^2.9.0"
@@ -186,7 +186,7 @@
 
 "@folio/stripes-core@folio-org/stripes-core#master":
   version "2.9.0"
-  resolved "https://codeload.github.com/folio-org/stripes-core/tar.gz/2bd7c5f191d0cac9cae204702bf3d3d257c8db73"
+  resolved "https://codeload.github.com/folio-org/stripes-core/tar.gz/768b740aa4a958ffb87021676ca8bf91358b1a61"
   dependencies:
     "@folio/stripes-components" "^2.0.0"
     "@folio/stripes-connect" "^3.1.0"
