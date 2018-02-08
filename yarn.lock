@@ -14,9 +14,9 @@
     react-router-dom "^4.0.0"
     redux-form "^7.0.3"
 
-"@folio/stripes-cli@^0.14.0":
-  version "0.14.100039"
-  resolved "https://repository.folio.org/repository/npm-folioci/@folio/stripes-cli/-/stripes-cli-0.14.100039.tgz#ca758f2d1fffb807658e76af8b7d1b183906111e"
+"@folio/stripes-cli@^0.15.0":
+  version "0.15.100040"
+  resolved "https://repository.folio.org/repository/npm-folioci/@folio/stripes-cli/-/stripes-cli-0.15.100040.tgz#410050368db2422c725aae38ef532aad19237250"
   dependencies:
     "@folio/developer" "^1.3.0"
     "@folio/stripes-core" "^2.9.0"
@@ -44,8 +44,8 @@
     yargs "^10.0.3"
 
 "@folio/stripes-components@^2.0.0":
-  version "2.0.1000177"
-  resolved "https://repository.folio.org/repository/npm-folioci/@folio/stripes-components/-/stripes-components-2.0.1000177.tgz#48b73e0d3bcc3a01ae3d73d25ad927ebf02a5c0d"
+  version "2.0.1000178"
+  resolved "https://repository.folio.org/repository/npm-folioci/@folio/stripes-components/-/stripes-components-2.0.1000178.tgz#f858907323e1aea52089de7adf8d0f3cd73f3a2c"
   dependencies:
     "@folio/stripes-form" "^0.8.2"
     "@folio/stripes-react-hotkeys" "^1.0.0"
@@ -70,7 +70,7 @@
 
 "@folio/stripes-components@folio-org/stripes-components#master":
   version "2.0.0"
-  resolved "https://codeload.github.com/folio-org/stripes-components/tar.gz/335f806a32ac3abcafe6c0efa38dfdd2f8765c7c"
+  resolved "https://codeload.github.com/folio-org/stripes-components/tar.gz/4e0f7c3200396d9484150762c06d66e5620987d7"
   dependencies:
     "@folio/stripes-form" "^0.8.2"
     "@folio/stripes-react-hotkeys" "^1.0.0"
@@ -107,8 +107,8 @@
     uuid "^3.0.1"
 
 "@folio/stripes-core@^2.9.0":
-  version "2.9.1000159"
-  resolved "https://repository.folio.org/repository/npm-folioci/@folio/stripes-core/-/stripes-core-2.9.1000159.tgz#e6c7ea62ee12df3f16f509368f3b47675021604a"
+  version "2.9.1000161"
+  resolved "https://repository.folio.org/repository/npm-folioci/@folio/stripes-core/-/stripes-core-2.9.1000161.tgz#4bbd8b7c468dd54005b0fa4900d5fcf81bb75e90"
   dependencies:
     "@folio/stripes-components" "^2.0.0"
     "@folio/stripes-connect" "^3.1.0"
@@ -310,8 +310,8 @@
   resolved "https://registry.yarnpkg.com/@types/async/-/async-2.0.47.tgz#f49ba1dd1f189486beb6e1d070a850f6ab4bd521"
 
 "@types/node@^8.0.24":
-  version "8.5.10"
-  resolved "https://registry.yarnpkg.com/@types/node/-/node-8.5.10.tgz#49bd3637125dea5f55d7d1e8f51efd6cb835e1f7"
+  version "8.9.1"
+  resolved "https://registry.yarnpkg.com/@types/node/-/node-8.9.1.tgz#5a329d73a97f3c5a626dfe0ed8c0b831fee5357a"
 
 "@types/zen-observable@0.5.3", "@types/zen-observable@^0.5.3":
   version "0.5.3"
@@ -477,8 +477,8 @@ apollo-cache@^1.1.2:
     apollo-utilities "^1.0.6"
 
 apollo-client@^2.0.3:
-  version "2.2.2"
-  resolved "https://registry.yarnpkg.com/apollo-client/-/apollo-client-2.2.2.tgz#55d7b7a85d28161a6ecddd86cde8180be52193f6"
+  version "2.2.3"
+  resolved "https://registry.yarnpkg.com/apollo-client/-/apollo-client-2.2.3.tgz#a8df51c9ff89acb0d98de81b911e56b1ce468ca3"
   dependencies:
     "@types/zen-observable" "^0.5.3"
     apollo-cache "^1.1.2"
@@ -491,24 +491,24 @@ apollo-client@^2.0.3:
     "@types/async" "2.0.47"
 
 apollo-link-dedup@^1.0.0:
-  version "1.0.5"
-  resolved "https://registry.yarnpkg.com/apollo-link-dedup/-/apollo-link-dedup-1.0.5.tgz#1c213d7ebbe48e74b016fffacd7e6a53dc309e32"
+  version "1.0.6"
+  resolved "https://registry.yarnpkg.com/apollo-link-dedup/-/apollo-link-dedup-1.0.6.tgz#566ab421a5f6ef41995e2e386f575600d51b1408"
   dependencies:
-    apollo-link "^1.0.7"
+    apollo-link "^1.1.0"
 
 apollo-link-http@^1.2.0:
-  version "1.3.2"
-  resolved "https://registry.yarnpkg.com/apollo-link-http/-/apollo-link-http-1.3.2.tgz#63537ee5ecf9c004efb0317f1222b7dbc6f21559"
+  version "1.3.3"
+  resolved "https://registry.yarnpkg.com/apollo-link-http/-/apollo-link-http-1.3.3.tgz#cb792c73266607e6361c8c1cc4dd42d405ca08f1"
   dependencies:
-    apollo-link "^1.0.7"
+    apollo-link "^1.1.0"
 
-apollo-link@^1.0.0, apollo-link@^1.0.7:
-  version "1.0.7"
-  resolved "https://registry.yarnpkg.com/apollo-link/-/apollo-link-1.0.7.tgz#42cd38a7378332fc3e41a214ff6a6e5e703a556f"
+apollo-link@^1.0.0, apollo-link@^1.1.0:
+  version "1.1.0"
+  resolved "https://registry.yarnpkg.com/apollo-link/-/apollo-link-1.1.0.tgz#9d573b16387ee0d8e147b1f319e42c8c562f18f7"
   dependencies:
     "@types/zen-observable" "0.5.3"
     apollo-utilities "^1.0.0"
-    zen-observable "^0.6.0"
+    zen-observable "^0.7.0"
 
 apollo-utilities@^1.0.0, apollo-utilities@^1.0.6:
   version "1.0.6"
@@ -2023,13 +2023,9 @@ commander@2.9.0:
   dependencies:
     graceful-readlink ">= 1.0.0"
 
-commander@^2.11.0, commander@^2.13.0, commander@^2.9.0:
+commander@^2.11.0, commander@^2.13.0, commander@^2.9.0, commander@~2.14.1:
   version "2.14.1"
   resolved "https://registry.yarnpkg.com/commander/-/commander-2.14.1.tgz#2235123e37af8ca3c65df45b026dbd357b01b9aa"
-
-commander@~2.13.0:
-  version "2.13.0"
-  resolved "https://registry.yarnpkg.com/commander/-/commander-2.13.0.tgz#6964bca67685df7c1f1430c584f07d7597885b9c"
 
 commondir@^1.0.1:
   version "1.0.1"
@@ -8296,17 +8292,17 @@ ua-parser-js@^0.7.9:
   resolved "https://registry.yarnpkg.com/ua-parser-js/-/ua-parser-js-0.7.17.tgz#e9ec5f9498b9ec910e7ae3ac626a805c4d09ecac"
 
 uglify-es@^3.3.4:
-  version "3.3.9"
-  resolved "https://registry.yarnpkg.com/uglify-es/-/uglify-es-3.3.9.tgz#0c1c4f0700bed8dbc124cdb304d2592ca203e677"
+  version "3.3.10"
+  resolved "https://registry.yarnpkg.com/uglify-es/-/uglify-es-3.3.10.tgz#8b0b7992cebe20edc26de1bf325cef797b8f3fa5"
   dependencies:
-    commander "~2.13.0"
+    commander "~2.14.1"
     source-map "~0.6.1"
 
 uglify-js@3.3.x:
-  version "3.3.9"
-  resolved "https://registry.yarnpkg.com/uglify-js/-/uglify-js-3.3.9.tgz#33869666c8ab7f7658ce3d22f0f1ced40097d33a"
+  version "3.3.10"
+  resolved "https://registry.yarnpkg.com/uglify-js/-/uglify-js-3.3.10.tgz#8e47821d4cf28e14c1826a0078ba0825ed094da8"
   dependencies:
-    commander "~2.13.0"
+    commander "~2.14.1"
     source-map "~0.6.1"
 
 uglify-js@^2.6, uglify-js@^2.8.29:
@@ -8957,10 +8953,6 @@ yauzl@2.4.1:
 yeast@0.1.2:
   version "0.1.2"
   resolved "https://registry.yarnpkg.com/yeast/-/yeast-0.1.2.tgz#008e06d8094320c372dbc2f8ed76a0ca6c8ac419"
-
-zen-observable@^0.6.0:
-  version "0.6.1"
-  resolved "https://registry.yarnpkg.com/zen-observable/-/zen-observable-0.6.1.tgz#01dbed3bc8d02cbe9ee1112c83e04c807f647244"
 
 zen-observable@^0.7.0:
   version "0.7.1"
