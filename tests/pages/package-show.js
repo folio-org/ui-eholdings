@@ -1,6 +1,8 @@
 import $ from 'jquery';
 import { expect } from 'chai';
+
 import { convergeOn } from '../it-will';
+import { advancedFillIn, pressEnter } from './helpers';
 
 function createTitleObject(element) {
   let $scope = $(element);
@@ -62,12 +64,52 @@ export default {
     ));
   },
 
+  clickCustomCoverageCancelButton() {
+    return convergeOn(() => {
+      expect($('[data-test-eholdings-package-details-cancel-custom-coverage-button]')).to.exist;
+    }).then(() => (
+      $('[data-test-eholdings-package-details-cancel-custom-coverage-button] button').click()
+    ));
+  },
+
+  clickCustomCoverageEditButton() {
+    return convergeOn(() => {
+      expect($('[data-test-eholdings-package-details-edit-custom-coverage-button]')).to.exist;
+    }).then(() => (
+      $('[data-test-eholdings-package-details-edit-custom-coverage-button] button').click()
+    ));
+  },
+
+  clickCustomCoverageSaveButton() {
+    return convergeOn(() => {
+      expect($('[data-test-eholdings-package-details-save-custom-coverage-button]')).to.exist;
+    }).then(() => {
+      return $('[data-test-eholdings-package-details-save-custom-coverage-button] button').click();
+    });
+  },
+
+  clickCustomCoverageAddButton() {
+    return convergeOn(() => {
+      expect($('[data-test-eholdings-package-details-custom-coverage-button] button')).to.exist;
+    }).then(() => (
+      $('[data-test-eholdings-package-details-custom-coverage-button] button').click()
+    ));
+  },
+
+  get beginCoverage() {
+    return $('[data-test-eholdings-package-details-custom-begin-coverage]').find('input').val();
+  },
+
   get isSelecting() {
     return $('[data-test-eholdings-package-details-selected] [data-test-toggle-switch]').attr('class').indexOf('is-pending--') !== -1;
   },
 
   get isSelectedToggleable() {
     return $('[data-test-eholdings-package-details-selected] input[type=checkbox]').prop('disabled') === false;
+  },
+
+  get isCustomCoverageSavable() {
+    return $('[data-test-eholdings-package-details-save-custom-coverage-button] button').prop('disabled') === false;
   },
 
   get allTitlesSelected() {
@@ -122,7 +164,7 @@ export default {
   },
 
   get customCoverage() {
-    return $('[data-test-eholdings-package-details-custom-coverage]').text();
+    return $('[data-test-eholdings-package-details-custom-coverage-display]').text();
   },
 
   get $backButton() {
@@ -136,5 +178,66 @@ export default {
 
     $list.scrollTop = scrollOffset;
     $list.dispatchEvent(new Event('scroll'));
+  },
+
+  get $customCoverageCancelButton() {
+    return $('[data-test-eholdings-package-details-cancel-custom-coverage-button] button');
+  },
+
+  get $customCoverageInputs() {
+    return $('[data-test-eholdings-package-details-custom-coverage-inputs]');
+  },
+
+  get $customCoverageAddButton() {
+    return $('[data-test-eholdings-package-details-custom-coverage-button] button');
+  },
+
+  get $beginDateField() {
+    return $('[data-test-eholdings-package-details-custom-begin-coverage] input')[0];
+  },
+  get $endDateField() {
+    return $('[data-test-eholdings-package-details-custom-end-coverage] input')[0];
+  },
+
+  get validationError() {
+    return $('[data-test-eholdings-package-details-custom-begin-coverage] [class^="feedbackError"]').text();
+  },
+
+  inputBeginDate(beginDate) {
+    return advancedFillIn(this.$beginDateField, beginDate);
+  },
+
+  inputEndDate(endDate) {
+    return advancedFillIn(this.$endDateField, endDate);
+  },
+  pressEnterBeginDate() {
+    pressEnter(this.$beginDateField);
+  },
+  pressEnterEndDate() {
+    pressEnter(this.$endDateField);
+  },
+  clearBeginDate() {
+    let $clearButton = $('[data-test-eholdings-package-details-custom-begin-coverage]')
+      .find('button[id^=datepicker-clear-button]');
+    return convergeOn(() => {
+      expect($clearButton).to.exist;
+    }).then(() => {
+      $clearButton.click();
+    });
+  },
+  clearEndDate() {
+    let $clearButton = $('[data-test-eholdings-package-details-custom-end-coverage]')
+      .find('button[id^=datepicker-clear-button]');
+    return convergeOn(() => {
+      expect($clearButton).to.exist;
+    }).then(() => {
+      $clearButton.click();
+    });
+  },
+  blurEndDate() {
+    this.$endDateField.blur();
+  },
+  blurBeginDate() {
+    this.$beginDateField.blur();
   }
 };
