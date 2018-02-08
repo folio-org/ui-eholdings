@@ -1,0 +1,41 @@
+@import '@folio/stripes-components/lib/variables';
+
+.custom-coverage-form,
+.custom-coverage-form-editing {
+  padding: 0.5em;
+}
+
+.custom-coverage-form-editing {
+  background: #e6f3ff;
+}
+
+.custom-coverage-action-buttons {
+  display: flex;
+  margin-top: 1em;
+}
+
+.custom-coverage-date-display {
+  display: flex;
+  align-items: center
+}
+
+.custom-coverage-dates {
+  display: flex;
+  align-items: flex-start;
+}
+
+.custom-coverage-date-clear-row {
+  flex: 0 0 3em;
+  margin-top: 1.5em;
+  text-align: center;
+}
+
+.custom-coverage-date-picker {
+  align-self: flex-start;
+  flex: 1 1 auto;
+  margin-right: 1em;
+}
+
+.custom-coverage-add-button {
+  margin: 1em 0;
+}

@@ -191,15 +191,14 @@ export default function configure() {
     });
 
     let body = JSON.parse(request.requestBody);
-    let { isSelected } = body.data.attributes;
-
-    let { visibilityData } = body.data.attributes;
+    let { isSelected, customCoverage, visibilityData } = body.data.attributes;
 
     let selectedCount = isSelected ? matchingCustomerResources.length : 0;
 
     matchingCustomerResources.update('isSelected', isSelected);
     matchingCustomerResources.update('visibilityData', visibilityData);
     matchingPackage.update('isSelected', isSelected);
+    matchingPackage.update('customCoverage', customCoverage);
     matchingPackage.update('selectedCount', selectedCount);
     matchingPackage.update('visibilityData', visibilityData);
 

@@ -13,7 +13,7 @@ import KeyValueLabel from './key-value-label';
 import TitleListItem from './title-list-item';
 import ToggleSwitch from './toggle-switch';
 import Modal from './modal';
-import { formatISODateWithoutTime } from './utilities';
+import PackageCustomCoverage from './package-custom-coverage';
 import styles from './styles.css';
 
 export default class PackageShow extends Component {
@@ -21,7 +21,8 @@ export default class PackageShow extends Component {
     model: PropTypes.object.isRequired,
     fetchPackageTitles: PropTypes.func.isRequired,
     toggleSelected: PropTypes.func.isRequired,
-    toggleHidden: PropTypes.func.isRequired
+    toggleHidden: PropTypes.func.isRequired,
+    customCoverageSubmitted: PropTypes.func.isRequired
   };
 
   static contextTypes = {
@@ -67,7 +68,7 @@ export default class PackageShow extends Component {
   };
 
   render() {
-    let { model, fetchPackageTitles } = this.props;
+    let { model, fetchPackageTitles, customCoverageSubmitted } = this.props;
     let { intl, router, queryParams } = this.context;
     let { showSelectionModal, packageSelected, packageHidden } = this.state;
     let historyState = router.history.location.state;
@@ -112,8 +113,6 @@ export default class PackageShow extends Component {
                   {intl.formatNumber(model.titleCount)}
                 </div>
               </KeyValueLabel>
-
-              <hr />
 
               <label
                 data-test-eholdings-package-details-selected
@@ -161,17 +160,23 @@ export default class PackageShow extends Component {
                     </Layout>
                   </label>
 
-                  {(model.customCoverage.beginCoverage || model.customCoverage.endCoverage) && (
-                    <div>
-                      <hr />
+                  <hr />
 
-                      <KeyValueLabel label="Custom Coverage">
-                        <div data-test-eholdings-package-details-custom-coverage>
-                          {formatISODateWithoutTime(model.customCoverage.beginCoverage, intl)} - {formatISODateWithoutTime(model.customCoverage.endCoverage, intl)}
-                        </div>
-                      </KeyValueLabel>
-                    </div>
-                  )}
+                  <KeyValueLabel label="Custom Coverage">
+                    {model.customCoverage.beginCoverage ? (
+                      <div data-test-eholdings-package-details-custom-coverage>
+                        <PackageCustomCoverage
+                          beginCoverage={model.customCoverage.beginCoverage}
+                          endCoverage={model.customCoverage.endCoverage}
+                          onSubmit={customCoverageSubmitted}
+                          isPending={model.update.isPending && 'customCoverage' in model.update.changedAttributes}
+                          intl={intl}
+                        />
+                      </div>
+                    ) : (
+                      <PackageCustomCoverage onSubmit={customCoverageSubmitted} intl={intl} />
+                    )}
+                  </KeyValueLabel>
                 </div>
               )}
 
