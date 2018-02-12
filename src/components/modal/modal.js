@@ -12,7 +12,7 @@ import css from './modal.css';
 
 const propTypes = {
   /** Deciding value for rendering the modal(true) or not(false). */
-  open: PropTypes.bool.isRequired,
+  open: PropTypes.bool,
   /** Callback that signals intent to close window -
    * boolean passed to 'open' prop can be set using
    * callback does not actually close the modal.

@@ -111,8 +111,7 @@ export default function configure() {
         permissions: {
           permissions: []
         }
-      }
-    );
+      });
   });
 
   // mod-notify

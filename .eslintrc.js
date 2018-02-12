@@ -9,7 +9,7 @@ module.exports = {
       experimentalObjectRestSpread: true
     }
   },
-  extends: ['stripes'],
+  extends: ['@folio/eslint-config-stripes'],
   env: {
     browser: true
   },
