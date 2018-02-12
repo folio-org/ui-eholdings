@@ -143,6 +143,10 @@ describeApplication('PackageSearch', () => {
         }).then(() => PackageSearchPage.changeSearchType('titles'));
       });
 
+      it('only shows one search type as selected', () => {
+        expect(PackageSearchPage.$selectedSearchType).to.have.lengthOf(1);
+      });
+
       it('displays an empty search', () => {
         expect(PackageSearchPage.$searchField).to.have.value('');
       });

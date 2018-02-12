@@ -46,13 +46,13 @@ export default class SearchForm extends Component {
 
     return (
       <div className={styles['search-form-container']} data-test-search-form={searchType}>
-        <div className={styles['search-switcher']}>
+        <div className={styles['search-switcher']} data-test-search-form-type-switcher>
           {validSearchTypes.map(type => (
             <Link
               key={type}
               title={`search ${type}`}
               to={searchTypeUrls[type]}
-              className={searchType === type && styles['is-active']}
+              className={searchType === type ? styles['is-active'] : undefined}
               data-test-search-type-button={type}
             >
               {capitalize(type)}

@@ -128,6 +128,10 @@ describeApplication('TitleSearch', () => {
         }).then(() => TitleSearchPage.changeSearchType('providers'));
       });
 
+      it('only shows one search type as selected', () => {
+        expect(TitleSearchPage.$selectedSearchType).to.have.lengthOf(1);
+      });
+
       it('displays an empty search', () => {
         expect(TitleSearchPage.$searchField).to.have.value('');
       });

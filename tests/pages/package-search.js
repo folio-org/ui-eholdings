@@ -66,6 +66,10 @@ export default {
     return $('[data-test-eholdings-package-details-back-button] button');
   },
 
+  get $selectedSearchType() {
+    return $('[data-test-search-form-type-switcher] a[class^="is-active--"]');
+  },
+
   clickSearchVignette() {
     return $('[data-test-search-vignette]').trigger('click');
   },
