@@ -128,6 +128,10 @@ describeApplication('ProviderSearch', () => {
         }).then(() => ProviderSearchPage.changeSearchType('packages'));
       });
 
+      it('only shows one search type as selected', () => {
+        expect(ProviderSearchPage.$selectedSearchType).to.have.lengthOf(1);
+      });
+
       it('displays an empty search', () => {
         expect(ProviderSearchPage.$searchField).to.have.value('');
       });
