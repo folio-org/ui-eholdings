@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import qs from 'query-string';
 import { connect } from 'react-redux';
 
+import { qs } from '../components/utilities';
 import { createResolver } from '../redux';
 import Provider from '../redux/provider';
 import Package from '../redux/package';

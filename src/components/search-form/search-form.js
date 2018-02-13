@@ -16,12 +16,13 @@ export default class SearchForm extends Component {
     }).isRequired,
     filtersComponent: PropTypes.func,
     onSearch: PropTypes.func.isRequired,
-    searchString: PropTypes.string
+    searchString: PropTypes.string,
+    filters: PropTypes.object
   };
 
   state = {
     searchString: this.props.searchString || '',
-    filter: ''
+    filter: this.props.filters || {}
   };
 
   componentWillReceiveProps({ searchString = '' }) {

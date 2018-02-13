@@ -1,9 +1,10 @@
-import qs from 'query-string';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/observable/from';
 import 'rxjs/add/observable/of';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/catch';
+
+import { qs } from '../components/utilities';
 
 // actions
 export const actionTypes = {

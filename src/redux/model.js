@@ -1,6 +1,6 @@
-import qs from 'query-string';
 import dasherize from 'lodash/kebabCase';
 import { pluralize } from 'inflected';
+import { qs } from '../components/utilities';
 import { find, query, save, unload } from './data';
 
 /**

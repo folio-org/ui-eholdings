@@ -1,4 +1,6 @@
+import isEqual from 'lodash/isEqual';
 import { Collection } from './model';
+
 
 /**
  * Resolver to retreive records and thir associated request object
@@ -69,9 +71,7 @@ export default class Resolver {
       return Object.keys(store.requests).reduce((ret, timestamp) => {
         let request = store.requests[timestamp];
         let isMatch = request.type === type &&
-          // we don't care about type equality with params
-          // eslint-disable-next-line eqeqeq
-          params.every(key => request.params[key] == data.params[key]);
+          params.every(key => isEqual(request.params[key], data.params[key]));
         let isNewer = timestamp > ret.timestamp;
 
         // if a path was specified, ensure it too matches

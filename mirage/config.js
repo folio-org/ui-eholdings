@@ -211,13 +211,15 @@ export default function configure() {
 
   // Title resources
   this.get('/titles', searchRouteFor('titles', (title, req) => {
-    let { filter } = req.queryParams;
+    let params = req.queryParams;
+    let type = params['filter[type]'];
+    let filtered = true;
 
-    if (filter && filter !== 'all') {
-      return title.publicationType.toLowerCase() === filter;
-    } else {
-      return true;
+    if (type && type !== 'all') {
+      filtered = title.publicationType.toLowerCase() === type;
     }
+
+    return filtered;
   }));
 
   this.get('/titles/:id', ({ titles }, request) => {

@@ -1,4 +1,3 @@
-import queryString from 'query-string';
 import startsWith from 'lodash/startsWith';
 import { handleActions as reduxHandleActions } from 'redux-actions';
 import { Observable } from 'rxjs/Observable';
@@ -6,6 +5,8 @@ import 'rxjs/add/observable/from';
 import 'rxjs/add/observable/of';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/catch';
+
+import { qs } from '../components/utilities';
 
 // action types
 export const REQUEST_MAKE = '@@ui-eholdings/REQUEST_MAKE';
@@ -299,7 +300,7 @@ export function createRequestEpic({
               delete query.search;
             }
 
-            searchQuery = queryString.stringify(query);
+            searchQuery = qs.stringify(query);
             url = `${url}?${searchQuery}`;
           }
         }

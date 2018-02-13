@@ -23,11 +23,10 @@ const pubtypeFilters = [
 ];
 
 export default function TitleSearchFilters({
-  filter,
+  filter = {},
   onUpdate
 }) {
-  // this is not a default property to allow `null` as a filter
-  let pubtype = filter || 'all';
+  let pubtype = filter.type || 'all';
 
   return (
     <div data-test-eholdings-title-search-filters>
@@ -37,7 +36,7 @@ export default function TitleSearchFilters({
         separator={false}
         header={FilterAccordionHeader}
         displayClearButton={pubtype !== 'all'}
-        onClearFilter={() => onUpdate('all')}
+        onClearFilter={() => onUpdate({ ...filter, type: null })}
         closedByDefault={false}
       >
         {pubtypeFilters.map(({ label, value }, i) => (
@@ -48,7 +47,7 @@ export default function TitleSearchFilters({
             label={label}
             value={value}
             checked={value === pubtype}
-            onChange={() => onUpdate(value)}
+            onChange={() => onUpdate({ ...filter, type: value })}
           />
         ))}
       </Accordion>
@@ -57,6 +56,6 @@ export default function TitleSearchFilters({
 }
 
 TitleSearchFilters.propTypes = {
-  filter: PropTypes.string,
+  filter: PropTypes.object,
   onUpdate: PropTypes.func.isRequired
 };
