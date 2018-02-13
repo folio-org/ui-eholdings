@@ -119,6 +119,10 @@ describeApplication('With valid backend configuration', () => {
       expect(SettingsPage.$apiKeyField).to.exist;
     });
 
+    it('field for the ebsco RM API key appears with text as password hidden', () => {
+      expect(SettingsPage.$apiKeyField).to.have.prop('type', 'password');
+    });
+
     it.still('does not have visible form action buttons', () => {
       expect(SettingsPage.$actions).to.not.exist;
     });
