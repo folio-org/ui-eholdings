@@ -1,4 +1,5 @@
 /* global describe, beforeEach, afterEach */
+/* istanbul ignore file */
 import React from 'react';
 import chai from 'chai';
 import chaiJquery from 'chai-jquery';

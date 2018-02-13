@@ -4,10 +4,12 @@ export default JSONAPISerializer.extend({
   serializeIds: 'always',
 
   keyForModel(modelName) {
+    /* istanbul ignore next */
     return camelize(modelName);
   },
 
   keyForCollection(modelName) {
+    /* istanbul ignore next */
     return camelize(modelName);
   },
 
