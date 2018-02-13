@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import Link from 'react-router-dom/Link';
 import capitalize from 'lodash/capitalize';
+import isEqual from 'lodash/isEqual';
 import styles from './search-form.css';
 
 const validSearchTypes = ['providers', 'packages', 'titles'];
@@ -17,17 +18,21 @@ export default class SearchForm extends Component {
     filtersComponent: PropTypes.func,
     onSearch: PropTypes.func.isRequired,
     searchString: PropTypes.string,
-    filters: PropTypes.object
+    filter: PropTypes.object
   };
 
   state = {
     searchString: this.props.searchString || '',
-    filter: this.props.filters || {}
+    filter: this.props.filter || {}
   };
 
-  componentWillReceiveProps({ searchString = '' }) {
+  componentWillReceiveProps({ searchString = '', filter = {} }) {
     if (searchString !== this.state.searchString) {
       this.setState({ searchString });
+    }
+
+    if (!isEqual(filter, this.state.filter)) {
+      this.setState({ filter });
     }
   }
 

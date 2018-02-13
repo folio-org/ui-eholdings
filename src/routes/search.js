@@ -250,6 +250,7 @@ class SearchRoute extends Component {
               <SearchForm
                 searchType={searchType}
                 searchString={params.q}
+                filter={params.filter}
                 searchTypeUrls={this.getSearchTypeUrls()}
                 filtersComponent={this.getFiltersComponent()}
                 onSearch={this.handleSearch}

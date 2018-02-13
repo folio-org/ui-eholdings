@@ -116,7 +116,7 @@ describeApplication('TitleSearch', () => {
         return convergeOn(() => {
           expect(TitleSearchPage.$searchResultsItems).to.have.lengthOf(3);
         }).then(() => (
-          TitleSearchPage.clickFilter('book')
+          TitleSearchPage.clickFilter('pubtype', 'book')
         )).then(() => (
           TitleSearchPage.search('Title')
         ));
@@ -125,6 +125,27 @@ describeApplication('TitleSearch', () => {
       it('only shows results for book publication types', () => {
         expect(TitleSearchPage.titleList).to.have.lengthOf(1);
         expect(TitleSearchPage.titleList[0].publicationType).to.equal('book');
+      });
+
+      describe('visiting the page with an existing filter', () => {
+        beforeEach(function () {
+          return convergeOn(() => {
+            expect(TitleSearchPage.$searchResultsItems).to.have.lengthOf(1);
+          }).then(() => {
+            return this.visit('/eholdings/?searchType=titles&q=Title&filter[type]=journal', () => {
+              expect(TitleSearchPage.$root).to.exist;
+            });
+          });
+        });
+
+        it('shows the existing filter in the search form', () => {
+          expect(TitleSearchPage.getFilter('pubtype')).to.equal('journal');
+        });
+
+        it('only shows results for journal publication types', () => {
+          expect(TitleSearchPage.titleList).to.have.lengthOf(2);
+          expect(TitleSearchPage.titleList[0].publicationType).to.equal('journal');
+        });
       });
     });
 

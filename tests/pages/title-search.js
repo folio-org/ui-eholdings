@@ -89,8 +89,12 @@ export default {
     });
   },
 
-  clickFilter(value) {
-    let $radio = this.$searchFilters.find(`input[type="radio"][value="${value}"]`);
+  getFilter(name) {
+    return this.$searchFilters.find(`input[name="${name}"]:checked`).val();
+  },
+
+  clickFilter(name, value) {
+    let $radio = this.$searchFilters.find(`input[name="${name}"][value="${value}"]`);
     $radio.get(0).click();
     return convergeOn(() => expect($radio).to.have.prop('checked'));
   },
