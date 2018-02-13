@@ -119,6 +119,9 @@ export default class DetailsView extends Component {
    * the way up already.
    */
   handleWheel = (e) => {
+    // this does not need to run if we do not have a list element
+    if (!this.$list) return;
+
     let { isSticky } = this.state;
     let scrollingUp = e.deltaY < 0;
     let notInList = !this.$list.contains(e.target);
