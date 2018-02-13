@@ -61,15 +61,18 @@ export default Factory.extend({
     }
   }),
 
-  withCustomCoverage: trait({
-    afterCreate(packageObj, server) {
-      let customCoverage = server.create('custom-coverage', {
-        beginCoverage: () => faker.date.past().toISOString().substring(0, 10),
-        endCoverage: () => faker.date.future().toISOString().substring(0, 10)
-      });
-      packageObj.update('customCoverage', customCoverage.toJSON());
-    }
-  }),
+  // this trait is currently not used, by removing it we
+  // can increase the code coverage of this file by 50%
+
+  // withCustomCoverage: trait({
+  //   afterCreate(packageObj, server) {
+  //     let customCoverage = server.create('custom-coverage', {
+  //       beginCoverage: () => faker.date.past().toISOString().substring(0, 10),
+  //       endCoverage: () => faker.date.future().toISOString().substring(0, 10)
+  //     });
+  //     packageObj.update('customCoverage', customCoverage.toJSON());
+  //   }
+  // }),
 
   afterCreate(packageObj, server) {
     if (!packageObj.customCoverage) {

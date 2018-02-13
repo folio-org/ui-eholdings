@@ -71,7 +71,7 @@ export class Collection {
    */
   getRecord(offset) {
     if (!this.records[offset]) {
-      let pageOffset = offset / this.pageSize;
+      let pageOffset = Math.floor(offset / this.pageSize);
       let recordOffset = offset % this.pageSize;
       let page = this.getPage(pageOffset + 1);
       let record = page.records[recordOffset];
@@ -206,7 +206,7 @@ export class Collection {
    * @returns {Boolean}
    */
   get hasUnloaded() {
-    let { hasUnloaded } = this.getPage(this.currentPage).request;
+    let hasUnloaded = !!this.getPage(this.currentPage).request.hasUnloaded;
     let pageLimit = this.totalPages;
     let page = 1;
 

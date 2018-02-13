@@ -1,3 +1,5 @@
+/* istanbul ignore file */
+
 // This turns every call of `it` into a "convergent assertion." The
 // assertion is run every 10ms until it is either true, or it times
 // out. This makes it incredibly robust in the face of asynchronous
