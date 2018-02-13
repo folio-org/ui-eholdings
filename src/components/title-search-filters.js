@@ -36,7 +36,7 @@ export default function TitleSearchFilters({
         separator={false}
         header={FilterAccordionHeader}
         displayClearButton={pubtype !== 'all'}
-        onClearFilter={() => onUpdate({ ...filter, type: null })}
+        onClearFilter={() => onUpdate({ ...filter, type: undefined })}
         closedByDefault={false}
       >
         {pubtypeFilters.map(({ label, value }, i) => (

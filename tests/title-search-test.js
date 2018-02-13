@@ -127,6 +127,26 @@ describeApplication('TitleSearch', () => {
         expect(TitleSearchPage.titleList[0].publicationType).to.equal('book');
       });
 
+      it('reflects the filter in the URL query params', function () {
+        expect(this.app.history.location.search).to.include('filter[type]=book');
+      });
+
+      describe('clearing the filters', () => {
+        beforeEach(() => {
+          return convergeOn(() => {
+            expect(TitleSearchPage.$searchResultsItems).to.have.lengthOf(1);
+          }).then(() => (
+            TitleSearchPage.clearFilter('pubtype')
+          )).then(() => (
+            TitleSearchPage.search('Title')
+          ));
+        });
+
+        it.still('removes the filter from the URL query params', function () {
+          expect(this.app.history.location.search).to.not.include('filter[type]');
+        });
+      });
+
       describe('visiting the page with an existing filter', () => {
         beforeEach(function () {
           return convergeOn(() => {
