@@ -86,7 +86,11 @@ class SearchRoute extends Component {
     let { offset = 0, ...queryParams } = params;
     let page = Math.floor(offset / 25) + 1;
 
-    return resolver.query(searchType, { ...queryParams, page });
+    return resolver.query(searchType, {
+      filter: undefined,
+      ...queryParams,
+      page
+    });
   }
 
   /**
