@@ -242,7 +242,7 @@ describeApplication('CustomerResourceShowVisibility', () => {
     });
 
     it('displays the visibility toggle with as switched to on', () => {
-      expect(CustomerResourceShowPage.isHidden).to.be.false;
+      expect(CustomerResourceShowPage.isHidden).to.be.true;
     });
 
     it('the visibility toggle is disabled', () => {
