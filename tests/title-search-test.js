@@ -10,7 +10,8 @@ describeApplication('TitleSearch', () => {
 
   beforeEach(function () {
     titles = this.server.createList('title', 3, 'withPackages', {
-      name: i => `Title${i + 1}`
+      name: i => `Title${i + 1}`,
+      publicationType: i => (i % 2 ? 'book' : 'journal')
     });
 
     this.server.create('title', {
@@ -24,6 +25,10 @@ describeApplication('TitleSearch', () => {
 
   it('has a searchbox', () => {
     expect(TitleSearchPage.$searchField).to.exist;
+  });
+
+  it('has search filters', () => {
+    expect(TitleSearchPage.$searchFilters).to.exist;
   });
 
   describe('searching for a title', () => {
@@ -106,7 +111,65 @@ describeApplication('TitleSearch', () => {
       });
     });
 
-    describe('filtering the search results further', () => {
+    describe('filtering by publication type', () => {
+      beforeEach(() => {
+        return convergeOn(() => {
+          expect(TitleSearchPage.$searchResultsItems).to.have.lengthOf(3);
+        }).then(() => (
+          TitleSearchPage.clickFilter('pubtype', 'book')
+        )).then(() => (
+          TitleSearchPage.search('Title')
+        ));
+      });
+
+      it('only shows results for book publication types', () => {
+        expect(TitleSearchPage.titleList).to.have.lengthOf(1);
+        expect(TitleSearchPage.titleList[0].publicationType).to.equal('book');
+      });
+
+      it('reflects the filter in the URL query params', function () {
+        expect(this.app.history.location.search).to.include('filter[type]=book');
+      });
+
+      describe('clearing the filters', () => {
+        beforeEach(() => {
+          return convergeOn(() => {
+            expect(TitleSearchPage.$searchResultsItems).to.have.lengthOf(1);
+          }).then(() => (
+            TitleSearchPage.clearFilter('pubtype')
+          )).then(() => (
+            TitleSearchPage.search('Title')
+          ));
+        });
+
+        it.still('removes the filter from the URL query params', function () {
+          expect(this.app.history.location.search).to.not.include('filter[type]');
+        });
+      });
+
+      describe('visiting the page with an existing filter', () => {
+        beforeEach(function () {
+          return convergeOn(() => {
+            expect(TitleSearchPage.$searchResultsItems).to.have.lengthOf(1);
+          }).then(() => {
+            return this.visit('/eholdings/?searchType=titles&q=Title&filter[type]=journal', () => {
+              expect(TitleSearchPage.$root).to.exist;
+            });
+          });
+        });
+
+        it('shows the existing filter in the search form', () => {
+          expect(TitleSearchPage.getFilter('pubtype')).to.equal('journal');
+        });
+
+        it('only shows results for journal publication types', () => {
+          expect(TitleSearchPage.titleList).to.have.lengthOf(2);
+          expect(TitleSearchPage.titleList[0].publicationType).to.equal('journal');
+        });
+      });
+    });
+
+    describe('with a more specific query', () => {
       beforeEach(() => {
         return convergeOn(() => {
           expect(TitleSearchPage.$searchResultsItems).to.have.lengthOf(3);

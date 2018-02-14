@@ -17,14 +17,6 @@ function createTitleObject(element) {
 
     get publicationType() {
       return $scope.find('[data-test-eholdings-title-list-item-publication-type]').text();
-    },
-
-    get isSelected() {
-      return $scope.find('[data-test-eholdings-title-list-item-title-selected]').text() === 'Selected';
-    },
-
-    get isHidden() {
-      return $scope.find('[data-test-eholdings-title-list-item-title-hidden]').text() === 'Hidden';
     }
   };
 }
@@ -36,6 +28,10 @@ export default {
 
   get $searchField() {
     return $('[data-test-search-field]');
+  },
+
+  get $searchFilters() {
+    return $('[data-test-eholdings-title-search-filters]');
   },
 
   get $searchResultsItems() {
@@ -83,6 +79,23 @@ export default {
     }).then(() => {
       $('[data-test-search-submit]').trigger('click');
     });
+  },
+
+  getFilter(name) {
+    return this.$searchFilters.find(`input[name="${name}"]:checked`).val();
+  },
+
+  clickFilter(name, value) {
+    let $radio = this.$searchFilters.find(`input[name="${name}"][value="${value}"]`);
+    $radio.get(0).click();
+    return convergeOn(() => expect($radio).to.have.prop('checked'));
+  },
+
+  clearFilter(name) {
+    this.$searchFilters.find(`input[name="${name}"]`)
+      .closest('section').find('[role="heading"] button:nth-child(2)')
+      .get(0)
+      .click();
   },
 
   changeSearchType(searchType) {
