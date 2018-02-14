@@ -246,10 +246,10 @@
     postcss-url "^7.0.0"
     prop-types "^15.5.10"
     query-string "^5.0.0"
-    react "^15.6.0"
+    react "^16.2.0"
     react-apollo "^2.0.1"
     react-cookie "^2.0.8"
-    react-dom "^15.6.0"
+    react-dom "^16.2.0"
     react-intl "^2.3.0"
     react-overlays "^0.8.3"
     react-redux "^5.0.2"
@@ -269,7 +269,7 @@
     uglifyjs-webpack-plugin "^1.1.8"
     uuid "^3.0.0"
     webpack "^3.4.1"
-    webpack-dev-middleware "^1.10.0"
+    webpack-dev-middleware "^2.0.4"
     webpack-hot-middleware "^2.16.1"
     webpack-virtual-modules "^0.1.8"
 
@@ -2045,6 +2045,10 @@ commander@2.9.0:
   resolved "https://registry.yarnpkg.com/commander/-/commander-2.9.0.tgz#9c99094176e12240cb22d6c5146098400fe0f7d4"
   dependencies:
     graceful-readlink ">= 1.0.0"
+
+commander@~2.13.0:
+  version "2.13.0"
+  resolved "https://registry.yarnpkg.com/commander/-/commander-2.13.0.tgz#6964bca67685df7c1f1430c584f07d7597885b9c"
 
 commondir@^1.0.1:
   version "1.0.1"
@@ -8326,11 +8330,11 @@ ua-parser-js@^0.7.9:
   version "0.7.17"
   resolved "https://registry.yarnpkg.com/ua-parser-js/-/ua-parser-js-0.7.17.tgz#e9ec5f9498b9ec910e7ae3ac626a805c4d09ecac"
 
-uglify-es@^3.3.4:
-  version "3.3.10"
-  resolved "https://registry.yarnpkg.com/uglify-es/-/uglify-es-3.3.10.tgz#8b0b7992cebe20edc26de1bf325cef797b8f3fa5"
+uglify-es@3.3.9, uglify-es@^3.3.4:
+  version "3.3.9"
+  resolved "https://registry.yarnpkg.com/uglify-es/-/uglify-es-3.3.9.tgz#0c1c4f0700bed8dbc124cdb304d2592ca203e677"
   dependencies:
-    commander "~2.14.1"
+    commander "~2.13.0"
     source-map "~0.6.1"
 
 uglify-js@3.3.x:
