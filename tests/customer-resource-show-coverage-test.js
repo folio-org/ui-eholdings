@@ -30,7 +30,7 @@ describeApplication('CustomerResourceShowManagedCoverage', () => {
       });
     });
 
-    it('does not display the managed coverage section', () => {
+    it.still('does not display the managed coverage section', () => {
       expect(CustomerResourceShowPage.managedCoverageList).to.equal('');
     });
   });
@@ -44,7 +44,7 @@ describeApplication('CustomerResourceShowManagedCoverage', () => {
       });
     });
 
-    it('does not display the managed coverage section', () => {
+    it.still('does not display the managed coverage section', () => {
       expect(CustomerResourceShowPage.managedCoverageList).to.equal('');
     });
   });
@@ -239,7 +239,7 @@ describeApplication('CustomerResourceShowManagedCoverage', () => {
       });
     });
 
-    it('does not display managed coverage list', () => {
+    it.still('does not display managed coverage list', () => {
       expect(CustomerResourceShowPage.managedCoverageList).to.equal('');
     });
   });

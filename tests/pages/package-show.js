@@ -160,7 +160,7 @@ export default {
     return !!this.titleList.length && this.titleList.every(title => title.isHidden);
   },
   get isHiddenMessage() {
-    return $('[data-test-eholdings-package-details-is-hidden]').length === 1;
+    return $('[data-test-eholdings-package-details-is-hidden]').text();
   },
 
   get customCoverage() {

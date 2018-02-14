@@ -127,7 +127,7 @@ describeApplication('TitleShow', () => {
 
   describe('visiting the title page with some attributes undefined', () => {
     beforeEach(function () {
-      title = this.server.create('title', 'withPackages', {
+      title = this.server.create('title', {
         name: 'Cool Title',
         publisherName: 'Cool Publisher',
         publicationType: ''
@@ -148,27 +148,30 @@ describeApplication('TitleShow', () => {
       expect(TitleShowPage.publisherName).to.equal('Cool Publisher');
     });
 
-    it('does not displays the publication type', () => {
+    it.still('does not displays the publication type', () => {
       expect(TitleShowPage.publicationType).to.equal('');
     });
 
-    it('does not display identifiers', () => {
+    it.still('does not display identifiers', () => {
       expect(TitleShowPage.identifiersList.length).to.equal(0);
     });
-    it('does not display contributors', () => {
+
+    it.still('does not display contributors', () => {
       expect(TitleShowPage.contributorsList.length).to.equal(0);
     });
-    it('does not display package list', () => {
+
+    it.still('does not display package list', () => {
       expect(TitleShowPage.packageList.length).to.equal(0);
     });
-    it('does not display subjects list', () => {
+
+    it.still('does not display subjects list', () => {
       expect(TitleShowPage.subjectsList.length).to.equal(0);
     });
   });
 
   describe('visiting the title page with unknown attribute values', () => {
     beforeEach(function () {
-      title = this.server.create('title', 'withPackages', {
+      title = this.server.create('title', {
         name: 'Cool Title',
         publisherName: 'Cool Publisher',
         publicationType: 'UnknownPublicationType'
@@ -193,16 +196,19 @@ describeApplication('TitleShow', () => {
       expect(TitleShowPage.publicationType).to.equal('UnknownPublicationType');
     });
 
-    it('does not display identifiers', () => {
+    it.still('does not display identifiers', () => {
       expect(TitleShowPage.identifiersList.length).to.equal(0);
     });
-    it('does not display contributors', () => {
+
+    it.still('does not display contributors', () => {
       expect(TitleShowPage.contributorsList.length).to.equal(0);
     });
-    it('does not display package list', () => {
+
+    it.still('does not display package list', () => {
       expect(TitleShowPage.packageList.length).to.equal(0);
     });
-    it('does not display subjects list', () => {
+
+    it.still('does not display subjects list', () => {
       expect(TitleShowPage.subjectsList.length).to.equal(0);
     });
   });

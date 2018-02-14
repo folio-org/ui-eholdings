@@ -85,7 +85,7 @@ describeApplication('PackageShowCustomCoverage', () => {
         });
       });
 
-      it('does not remove the custom coverage', () => {
+      it.still('does not remove the custom coverage', () => {
         expect(PackageShowPage.customCoverage).to.equal('7/16/1969 - 12/19/1972');
       });
     });

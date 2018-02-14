@@ -46,7 +46,7 @@ describeApplication('CustomerResourceShowVisibility', () => {
       });
     });
 
-    it('does not display the visibility toggle', () => {
+    it.still('does not display the visibility toggle', () => {
       expect(CustomerResourceShowPage.visibilitySection).to.not.exist;
     });
   });
