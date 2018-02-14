@@ -4,6 +4,12 @@ import PropTypes from 'prop-types';
 import { Accordion, FilterAccordionHeader } from '@folio/stripes-components/lib/Accordion';
 import RadioButton from '@folio/stripes-components/lib/RadioButton';
 
+const selectedFilters = [
+  { label: 'Selected', value: 'true' },
+  { label: 'Not Selected', value: 'false' },
+  { label: 'Selected By EBSCO', value: 'ebsco' }
+];
+
 const pubtypeFilters = [
   { label: 'All', value: 'all' },
   { label: 'Audio Book', value: 'audiobook' },
@@ -26,16 +32,40 @@ export default function TitleSearchFilters({
   filter = {},
   onUpdate
 }) {
-  let pubtype = filter.type || 'all';
+  let { type = 'all', selected } = filter;
 
   return (
     <div data-test-eholdings-title-search-filters>
+      <Accordion
+        name="selected"
+        label="Selection Status"
+        separator={false}
+        header={FilterAccordionHeader}
+        displayClearButton={!!selected}
+        onClearFilter={() => onUpdate({ ...filter, selected: undefined })}
+        closedByDefault={false}
+      >
+        {selectedFilters.map(({ label, value }, i) => (
+          <RadioButton
+            key={i}
+            name="selected"
+            id={`eholdings-title-search-filters-selected-${value}`}
+            label={label}
+            value={value}
+            checked={value === selected}
+            onChange={() => onUpdate({ ...filter, selected: value })}
+          />
+        ))}
+      </Accordion>
+
+      <hr />
+
       <Accordion
         name="pubtype"
         label="Publication Type"
         separator={false}
         header={FilterAccordionHeader}
-        displayClearButton={pubtype !== 'all'}
+        displayClearButton={type !== 'all'}
         onClearFilter={() => onUpdate({ ...filter, type: undefined })}
         closedByDefault={false}
       >
@@ -46,7 +76,7 @@ export default function TitleSearchFilters({
             id={`eholdings-title-search-filters-pubtype-${value}`}
             label={label}
             value={value}
-            checked={value === pubtype}
+            checked={value === type}
             onChange={() => onUpdate({ ...filter, type: value })}
           />
         ))}
