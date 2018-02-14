@@ -89,11 +89,11 @@ describeApplication('With unconfigured backend', {
           });
         });
 
-        it('does not display an error state for customer id', () => {
+        it.still('does not display an error state for customer id', () => {
           expect(SettingsPage.customerIdFieldIsInvalid).to.be.false;
         });
 
-        it('does not display an error state for api key', () => {
+        it.still('does not display an error state for api key', () => {
           expect(SettingsPage.apiKeyFieldIsInvalid).to.be.false;
         });
       });
@@ -211,7 +211,7 @@ describeApplication('With valid backend configuration', () => {
           SettingsPage.fillIn({ customerId: '' });
         });
 
-        it('does not enable the save button', () => {
+        it.still('does not enable the save button', () => {
           expect(SettingsPage.$saveButton).to.have.prop('disabled', true);
         });
       });
