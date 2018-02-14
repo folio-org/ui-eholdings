@@ -121,24 +121,6 @@ describeApplication('CustomerResourceShowManagedCoverage', () => {
     });
   });
 
-  describe('visiting the customer resource page with incorrectly formed coverage dates', () => {
-    beforeEach(function () {
-      resource.managedCoverages = this.server.createList('managed-coverage', 1, {
-        beginCoverage: '1969-07',
-        endCoverage: '1969-07-16'
-      }).map(m => m.toJSON());
-
-      resource.save();
-      return this.visit(`/eholdings/customer-resources/${resource.id}`, () => {
-        expect(CustomerResourceShowPage.$root).to.exist;
-      });
-    });
-
-    it('does not display coverage dates', () => {
-      expect(CustomerResourceShowPage.managedCoverageList).to.equal('');
-    });
-  });
-
   describe('visiting the customer resource page with multiple managed coverage dates', () => {
     beforeEach(function () {
       resource.managedCoverages = [
