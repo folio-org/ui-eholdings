@@ -53,12 +53,20 @@ class CustomerResourceShowRoute extends Component {
     updateResource(model);
   }
 
+  customEmbargoSubmitted = (values) => {
+    let { model, updateResource } = this.props;
+    model.customEmbargoPeriod.embargoValue = values.customEmbargoValue;
+    model.customEmbargoPeriod.embargoUnit = values.customEmbargoUnit;
+    updateResource(model);
+  }
+
   render() {
     return (
       <View
         model={this.props.model}
         toggleSelected={this.toggleSelected}
         toggleHidden={this.toggleHidden}
+        customEmbargoSubmitted={this.customEmbargoSubmitted}
       />
     );
   }
