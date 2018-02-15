@@ -14,6 +14,11 @@ describeApplication('TitleSearch', () => {
       publicationType: i => (i % 2 ? 'book' : 'journal')
     });
 
+    // make sure only one of these is not selected
+    titles.forEach((title, i) => {
+      title.customerResources.update('isSelected', !!i);
+    });
+
     this.server.create('title', {
       name: 'SomethingSomethingWhoa'
     });
@@ -165,6 +170,62 @@ describeApplication('TitleSearch', () => {
         it('only shows results for journal publication types', () => {
           expect(TitleSearchPage.titleList).to.have.lengthOf(2);
           expect(TitleSearchPage.titleList[0].publicationType).to.equal('journal');
+        });
+      });
+    });
+
+    describe('filtering by selection status', () => {
+      beforeEach(() => {
+        return convergeOn(() => {
+          expect(TitleSearchPage.$searchResultsItems).to.have.lengthOf(3);
+        }).then(() => (
+          TitleSearchPage.clickFilter('selected', 'true')
+        )).then(() => (
+          TitleSearchPage.search('Title')
+        ));
+      });
+
+      it('only shows results for selected titles', () => {
+        expect(TitleSearchPage.titleList).to.have.lengthOf(2);
+      });
+
+      it('reflects the filter in the URL query params', function () {
+        expect(this.app.history.location.search).to.include('filter[selected]=true');
+      });
+
+      describe('clearing the filters', () => {
+        beforeEach(() => {
+          return convergeOn(() => {
+            expect(TitleSearchPage.$searchResultsItems).to.have.lengthOf(2);
+          }).then(() => (
+            TitleSearchPage.clearFilter('selected')
+          )).then(() => (
+            TitleSearchPage.search('Title')
+          ));
+        });
+
+        it.still('removes the filter from the URL query params', function () {
+          expect(this.app.history.location.search).to.not.include('filter[selected]');
+        });
+      });
+
+      describe('visiting the page with an existing filter', () => {
+        beforeEach(function () {
+          return convergeOn(() => {
+            expect(TitleSearchPage.$searchResultsItems).to.have.lengthOf(2);
+          }).then(() => {
+            return this.visit('/eholdings/?searchType=titles&q=Title&filter[selected]=false', () => {
+              expect(TitleSearchPage.$root).to.exist;
+            });
+          });
+        });
+
+        it('shows the existing filter in the search form', () => {
+          expect(TitleSearchPage.getFilter('selected')).to.equal('false');
+        });
+
+        it('only shows results for non-selected titles', () => {
+          expect(TitleSearchPage.titleList).to.have.lengthOf(1);
         });
       });
     });

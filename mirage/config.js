@@ -213,10 +213,17 @@ export default function configure() {
   this.get('/titles', searchRouteFor('titles', (title, req) => {
     let params = req.queryParams;
     let type = params['filter[type]'];
+    let selected = params['filter[selected]'];
     let filtered = true;
 
     if (type && type !== 'all') {
       filtered = title.publicationType.toLowerCase() === type;
+    }
+
+    if (selected) {
+      filtered = title.customerResources.models.some((resource) => {
+        return resource.isSelected.toString() === selected;
+      });
     }
 
     return filtered;
