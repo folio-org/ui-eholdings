@@ -3,6 +3,7 @@ import { Factory, faker, trait } from 'mirage-server';
 export default Factory.extend({
   isSelected: false,
   url: () => faker.internet.url(),
+  customCoverages: [],
 
   withTitle: trait({
     afterCreate(customerResource, server) {

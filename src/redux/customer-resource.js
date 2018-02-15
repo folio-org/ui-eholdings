@@ -17,6 +17,7 @@ class CustomerResource {
   contributors = [];
   identifiers = [];
   managedCoverages = [];
+  customCoverages = [];
   managedEmbargoPeriod = {};
   customEmbargoPeriod = {};
   visibilityData = {};

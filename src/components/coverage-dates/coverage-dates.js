@@ -30,7 +30,7 @@ function formatCoverageYear(coverageObj) {
 
 export default function CoverageDates(props, context) {
   return (
-    <div id={props.id} data-test-eholdings-customer-resource-show-managed-coverage-list >
+    <div id={props.id} data-test-eholdings-display-coverage-list>
       { props.coverageArray
         .sort((coverageObj1, coverageObj2) => compareCoverage(coverageObj1, coverageObj2))
         .map(coverageArrayObj => (props.isYearOnly ? formatCoverageYear(coverageArrayObj) : formatCoverageFullDate(coverageArrayObj, context.intl))).join(', ')}

@@ -246,11 +246,11 @@ export default function configure() {
     let matchingCustomerResource = customerResources.find(request.params.id);
 
     let body = JSON.parse(request.requestBody);
-    let { isSelected } = body.data.attributes;
-    let { visibilityData } = body.data.attributes;
+    let { isSelected, visibilityData, customCoverages } = body.data.attributes;
 
     matchingCustomerResource.update('isSelected', isSelected);
     matchingCustomerResource.update('visibilityData', visibilityData);
+    matchingCustomerResource.update('customCoverages', customCoverages);
 
     return matchingCustomerResource;
   });

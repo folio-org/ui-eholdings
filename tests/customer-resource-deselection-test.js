@@ -126,10 +126,6 @@ describeApplication('CustomerResourceShow Deselection', () => {
               expect(ResourcePage.isSelecting).to.equal(false);
             });
 
-            it('removes custom coverage', () => {
-              expect(resource.customCoverages.models.length).to.equal(0);
-            });
-
             it('removes custom embargo', () => {
               expect(resource.customEmbargoPeriod.embargoUnit).to.equal(null);
               expect(resource.customEmbargoPeriod.embargoValue).to.equal(0);
