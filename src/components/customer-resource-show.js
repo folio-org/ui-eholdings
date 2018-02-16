@@ -209,7 +209,8 @@ export default class CustomerResourceShow extends Component {
                           <ToggleSwitch
                             onChange={this.props.toggleHidden}
                             checked={!resourceHidden}
-                            isPending={model.update.isPending}
+                            isPending={model.update.isPending &&
+                              ('visibilityData' in model.update.changedAttributes)}
                             id="customer-resource-show-hide-toggle-switch"
                           />
                         )}
