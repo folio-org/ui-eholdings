@@ -5,6 +5,7 @@ import { Accordion, FilterAccordionHeader } from '@folio/stripes-components/lib/
 import RadioButton from '@folio/stripes-components/lib/RadioButton';
 
 const selectedFilters = [
+  { label: 'All', value: undefined },
   { label: 'Selected', value: 'true' },
   { label: 'Not Selected', value: 'false' },
   { label: 'Selected By EBSCO', value: 'ebsco' }
