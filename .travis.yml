@@ -10,7 +10,6 @@ env:
 matrix:
   fast_finish: true
   allow_failures:
-    - env: BROWSER=bs_firefox_mac
     - env: BROWSER=bs_ieEdge_windows
     - env: BROWSER=bs_ie11_windows
 addons:
