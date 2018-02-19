@@ -12,6 +12,7 @@ export default Factory.extend({
     'eBook',
     'eJournal'
   ]),
+  customCoverage: {},
 
   withTitles: trait({
     afterCreate(packageObj, server) {
@@ -75,11 +76,6 @@ export default Factory.extend({
   // }),
 
   afterCreate(packageObj, server) {
-    if (!packageObj.customCoverage) {
-      let customCoverage = server.create('custom-coverage');
-      packageObj.update('customCoverage', customCoverage.toJSON());
-    }
-
     if (!packageObj.visibilityData) {
       let visibilityData = server.create('visibility-data');
       packageObj.update('visibilityData', visibilityData.toJSON());

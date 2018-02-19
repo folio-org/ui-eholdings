@@ -110,7 +110,7 @@ describeApplication('CustomerResourceShow', () => {
       expect(ResourcePage.managedUrl).to.equal(resource.url);
     });
 
-    describe('clicking the managed url opens link in new tab', () => {
+    describe.skip('clicking the managed url opens link in new tab', () => {
       beforeEach(() => {
         ResourcePage.clickManagedURL();
       });
