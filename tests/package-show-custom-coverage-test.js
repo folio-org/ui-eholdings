@@ -233,7 +233,7 @@ describeApplication('PackageShowCustomCoverage', () => {
             convergeOn(() => {
               expect(PackageShowPage.validationError).to.exist;
             }).then(() => {
-              expect(PackageShowPage.validationError).to.match(/\bEnter Date in.*\b/);
+              expect(PackageShowPage.validationError).to.match(/\bEnter date in.*\b/);
             });
           });
         });
@@ -253,7 +253,7 @@ describeApplication('PackageShowCustomCoverage', () => {
 
 
           it('throws validation error', () => {
-            expect(PackageShowPage.validationError).to.include('Start Date must be before End Date');
+            expect(PackageShowPage.validationError).to.include('Start date must be before end date.');
           });
         });
       });

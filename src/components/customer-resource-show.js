@@ -29,6 +29,7 @@ export default class CustomerResourceShow extends Component {
   };
 
   static contextTypes = {
+    locale: PropTypes.string,
     router: PropTypes.object,
     queryParams: PropTypes.object
   };
@@ -71,7 +72,7 @@ export default class CustomerResourceShow extends Component {
 
   render() {
     let { model, customEmbargoSubmitted, coverageSubmitted } = this.props;
-    let { router, queryParams } = this.context;
+    let { locale, router, queryParams } = this.context;
     let { showSelectionModal, resourceSelected, resourceHidden } = this.state;
 
     let historyState = router.history.location.state;
@@ -243,6 +244,7 @@ export default class CustomerResourceShow extends Component {
                     initialValues={{ customCoverages }}
                     onSubmit={coverageSubmitted}
                     isPending={model.update.isPending && 'customCoverages' in model.update.changedAttributes}
+                    locale={locale}
                   />
 
                   <hr />
