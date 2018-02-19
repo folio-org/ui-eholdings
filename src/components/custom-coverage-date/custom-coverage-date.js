@@ -20,7 +20,8 @@ class CustomCoverageDate extends Component {
     onSubmit: PropTypes.func.isRequired,
     pristine: PropTypes.bool,
     initialize: PropTypes.func,
-    isPending: PropTypes.bool
+    isPending: PropTypes.bool,
+    locale: PropTypes.string // eslint-disable-line react/no-unused-prop-types
   }
 
   static contextTypes = {
@@ -110,12 +111,12 @@ class CustomCoverageDate extends Component {
             </div>
             <div className={styles['custom-coverage-action-buttons']}>
               <div data-test-eholdings-package-details-cancel-custom-coverage-button>
-                <Button disabled={isPending} type="button" role="button" buttonStyle="secondary" onClick={this.handleCancelCustomCoverage}>
+                <Button disabled={isPending} type="button" role="button" onClick={this.handleCancelCustomCoverage}>
                   Cancel
                 </Button>
               </div>
               <div data-test-eholdings-package-details-save-custom-coverage-button>
-                <Button disabled={pristine} type="submit" role="button">
+                <Button disabled={pristine} type="submit" buttonStyle="primary" role="button">
                   Save
                 </Button>
               </div>
@@ -157,15 +158,16 @@ class CustomCoverageDate extends Component {
 // the values from the from are passed into this function and then
 // validated based on the matching field with the same 'name' as value
 function validate(values, props) {
-  let dateFormat = props.intl.formatters.getDateTimeFormat().format();
+  moment.locale(props.locale);
+  let dateFormat = moment.localeData()._longDateFormat.L;
   const errors = {};
 
   if (!values.beginCoverage || !moment(values.beginCoverage).isValid()) {
-    errors.beginCoverage = `Enter Date in ${dateFormat} format.`;
+    errors.beginCoverage = `Enter date in ${dateFormat} format.`;
   }
 
   if (values.endCoverage && moment(values.beginCoverage).isAfter(moment(values.endCoverage))) {
-    errors.beginCoverage = 'Start Date must be before End Date';
+    errors.beginCoverage = 'Start date must be before end date.';
   }
 
   return errors;

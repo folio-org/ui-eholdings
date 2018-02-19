@@ -22,7 +22,8 @@ class CoverageForm extends Component {
     handleSubmit: PropTypes.func,
     pristine: PropTypes.bool,
     isPending: PropTypes.bool,
-    initialize: PropTypes.func
+    initialize: PropTypes.func,
+    locale: PropTypes.string // eslint-disable-line react/no-unused-prop-types
   };
 
   state = {
@@ -224,18 +225,20 @@ class CoverageForm extends Component {
   }
 }
 
-const validate = (values) => {
+const validate = (values, props) => {
+  moment.locale(props.locale);
+  let dateFormat = moment.localeData()._longDateFormat.L;
   let errors = [];
 
   values.customCoverages.forEach((dateRange, index) => {
     let dateRangeErrors = {};
 
     if (!dateRange.beginCoverage || !moment(dateRange.beginCoverage).isValid()) {
-      dateRangeErrors.beginCoverage = 'Enter a valid start date';
+      dateRangeErrors.beginCoverage = `Enter date in ${dateFormat} format.`;
     }
 
     if (dateRange.endCoverage && moment(dateRange.beginCoverage).isAfter(moment(dateRange.endCoverage))) {
-      dateRangeErrors.beginCoverage = 'Start date must be before end date';
+      dateRangeErrors.beginCoverage = 'Start date must be before end date.';
     }
 
     errors[index] = dateRangeErrors;
