@@ -174,7 +174,22 @@ export default function configure() {
   this.get('/providers/:id/packages', nestedResourceRouteFor('provider', 'packages'));
 
   // Package resources
-  this.get('/packages', searchRouteFor('packages'));
+  this.get('/packages', searchRouteFor('packages', (pkg, req) => {
+    let params = req.queryParams;
+    let type = params['filter[type]'];
+    let selected = params['filter[selected]'];
+    let filtered = true;
+
+    if (type && type !== 'all') {
+      filtered = pkg.contentType.toLowerCase() === type;
+    }
+
+    if (selected) {
+      filtered = pkg.isSelected.toString() === selected;
+    }
+
+    return filtered;
+  }));
 
   this.get('/titles/:id', ({ titles }, request) => {
     return titles.find(request.params.id);
