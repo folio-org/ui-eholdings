@@ -127,8 +127,7 @@ describeApplication('CustomerResourceDeselection', () => {
             });
 
             it('removes custom embargo', () => {
-              expect(resource.customEmbargoPeriod.embargoUnit).to.equal(null);
-              expect(resource.customEmbargoPeriod.embargoValue).to.equal(0);
+              expect(ResourcePage.customEmbargoPeriod).to.equal('');
             });
 
             it('is not hidden', () => {

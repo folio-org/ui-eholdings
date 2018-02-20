@@ -1,14 +1,16 @@
 import React, { Component } from 'react';
 import { Field, FieldArray, reduxForm } from 'redux-form';
 import PropTypes from 'prop-types';
-import classNames from 'classnames/bind';
 import moment from 'moment';
+import isEqual from 'lodash/isEqual';
+import classNames from 'classnames/bind';
 
 import Datepicker from '@folio/stripes-components/lib/Datepicker';
 import Button from '@folio/stripes-components/lib/Button';
 import Icon from '@folio/stripes-components/lib/Icon';
 import IconButton from '@folio/stripes-components/lib/IconButton';
 import CoverageDateList from '../coverage-date-list';
+import KeyValueLabel from '../key-value-label';
 import styles from './customer-resource-coverage.css';
 
 const cx = classNames.bind(styles);
@@ -32,7 +34,7 @@ class CustomerResourceCoverage extends Component {
 
   componentWillReceiveProps(nextProps) {
     let wasPending = this.props.isPending && !nextProps.isPending;
-    let needsUpdate = this.props.initialValues.customCoverages !== nextProps.initialValues.customCoverages;
+    let needsUpdate = !isEqual(this.props.initialValues, nextProps.initialValues);
 
     if (wasPending || needsUpdate) {
       this.setState({ isEditing: false });
@@ -54,13 +56,11 @@ class CustomerResourceCoverage extends Component {
 
   renderDatepicker = ({ input, label, meta }) => {
     return (
-      <div>
-        <Datepicker
-          label={label}
-          input={input}
-          meta={meta}
-        />
-      </div>
+      <Datepicker
+        label={label}
+        input={input}
+        meta={meta}
+      />
     );
   }
 
@@ -182,12 +182,15 @@ class CustomerResourceCoverage extends Component {
     } else if (customCoverages.length && customCoverages[0].beginCoverage !== '') {
       contents = (
         <div
-          data-test-eholdings-coverage-form-display
           className={styles['coverage-form-display']}
         >
-          <CoverageDateList
-            coverageArray={customCoverages}
-          />
+          <KeyValueLabel label="Custom">
+            <span data-test-eholdings-coverage-form-display>
+              <CoverageDateList
+                coverageArray={customCoverages}
+              />
+            </span>
+          </KeyValueLabel>
           <div data-test-eholdings-coverage-form-edit-button>
             <IconButton icon="edit" onClick={this.handleEdit} />
           </div>
@@ -216,10 +219,8 @@ class CustomerResourceCoverage extends Component {
           'is-editing': this.state.isEditing
         })}
       >
-        <fieldset>
-          <legend className={styles['coverage-form-legend']}>Coverage dates</legend>
-          {contents}
-        </fieldset>
+        <h4 className={styles['coverage-form-legend']}>Coverage dates</h4>
+        {contents}
       </div>
     );
   }

@@ -96,7 +96,8 @@ describeApplication('PackageCustomCoverage', () => {
       });
 
       it('displays the date input fields', () => {
-        expect(PackageShowPage.$customCoverageInputs).to.exist;
+        expect(PackageShowPage.$beginDateField).to.exist;
+        expect(PackageShowPage.$endDateField).to.exist;
       });
     });
   });
@@ -133,7 +134,8 @@ describeApplication('PackageCustomCoverage', () => {
       });
 
       it('displays custom coverage date inputs', () => {
-        expect(PackageShowPage.$customCoverageInputs).to.exist;
+        expect(PackageShowPage.$beginDateField).to.exist;
+        expect(PackageShowPage.$endDateField).to.exist;
       });
 
       describe('entering valid coverage', () => {
@@ -171,7 +173,8 @@ describeApplication('PackageCustomCoverage', () => {
             });
 
             it('removes the custom coverage input fields', () => {
-              expect(PackageShowPage.$customCoverageInputs).to.not.exist;
+              expect(PackageShowPage.$beginDateField).to.not.exist;
+              expect(PackageShowPage.$endDateField).to.not.exist;
             });
 
             it('does not display the button to add custom coverage', () => {
@@ -202,7 +205,8 @@ describeApplication('PackageCustomCoverage', () => {
             });
 
             it('removes the custom coverage input fields', () => {
-              expect(PackageShowPage.$customCoverageInputs).to.not.exist;
+              expect(PackageShowPage.$beginDateField).to.not.exist;
+              expect(PackageShowPage.$endDateField).to.not.exist;
             });
 
             it('does not display the button to add custom coverage', () => {
@@ -265,7 +269,8 @@ describeApplication('PackageCustomCoverage', () => {
         });
 
         it('removes the custom coverage input fields', () => {
-          expect(PackageShowPage.$customCoverageInputs).to.not.exist;
+          expect(PackageShowPage.$beginDateField).to.not.exist;
+          expect(PackageShowPage.$endDateField).to.not.exist;
         });
 
         it('displays the button to add custom coverage', () => {
