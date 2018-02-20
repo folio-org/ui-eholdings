@@ -5,7 +5,7 @@ import it, { convergeOn } from './it-will';
 import { describeApplication } from './helpers';
 import PackageShowPage from './pages/package-show';
 
-describeApplication('PackageShowSelection', () => {
+describeApplication('PackageSelection', () => {
   let provider,
     providerPackage;
 

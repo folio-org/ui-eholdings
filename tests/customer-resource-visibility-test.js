@@ -5,7 +5,7 @@ import it from './it-will';
 import { describeApplication } from './helpers';
 import CustomerResourceShowPage from './pages/customer-resource-show';
 
-describeApplication('CustomerResourceShowVisibility', () => {
+describeApplication('CustomerResourceVisibility', () => {
   let pkg,
     title,
     resource;

@@ -6,7 +6,7 @@ import { describeApplication } from './helpers';
 import ResourcePage from './pages/customer-resource-show';
 import CustomerResourceCoverage from './pages/customer-resource-coverage';
 
-describeApplication('CustomerResourceShowCoverage', () => {
+describeApplication('CustomerResourceCustomCoverage', () => {
   let pkg,
     title,
     resource;
