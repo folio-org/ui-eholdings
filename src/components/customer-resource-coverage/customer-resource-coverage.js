@@ -8,7 +8,7 @@ import Datepicker from '@folio/stripes-components/lib/Datepicker';
 import Button from '@folio/stripes-components/lib/Button';
 import Icon from '@folio/stripes-components/lib/Icon';
 import IconButton from '@folio/stripes-components/lib/IconButton';
-import CoverageDates from '../coverage-dates';
+import CoverageDateList from '../coverage-date-list';
 import styles from './customer-resource-coverage.css';
 
 const cx = classNames.bind(styles);
@@ -185,7 +185,7 @@ class CustomerResourceCoverage extends Component {
           data-test-eholdings-coverage-form-display
           className={styles['coverage-form-display']}
         >
-          <CoverageDates
+          <CoverageDateList
             coverageArray={customCoverages}
           />
           <div data-test-eholdings-coverage-form-edit-button>
