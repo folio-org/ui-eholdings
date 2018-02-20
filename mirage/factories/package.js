@@ -12,7 +12,10 @@ export default Factory.extend({
     'eBook',
     'eJournal'
   ]),
-  customCoverage: {},
+  customCoverage: {
+    beginCoverage: '',
+    endCoverage: ''
+  },
 
   withTitles: trait({
     afterCreate(packageObj, server) {

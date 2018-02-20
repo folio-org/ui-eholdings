@@ -15,7 +15,7 @@ describeApplication('PackageShowCustomCoverage', () => {
     });
   });
 
-  describe('visting the packshow page and package is not selected', () => {
+  describe('visiting the package show page and package is not selected', () => {
     beforeEach(function () {
       pkg = this.server.create('package', {
         provider,
