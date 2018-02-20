@@ -29,7 +29,7 @@
 
 .coverage-form-datepicker {
   align-self: flex-start;
-  flex: 1 1 auto;
+  flex: 1 1 200px;
   margin-right: 1em;
 }
 
