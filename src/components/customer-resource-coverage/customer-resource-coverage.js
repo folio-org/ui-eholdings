@@ -9,11 +9,11 @@ import Button from '@folio/stripes-components/lib/Button';
 import Icon from '@folio/stripes-components/lib/Icon';
 import IconButton from '@folio/stripes-components/lib/IconButton';
 import CoverageDates from '../coverage-dates';
-import styles from './coverage-form.css';
+import styles from './customer-resource-coverage.css';
 
 const cx = classNames.bind(styles);
 
-class CoverageForm extends Component {
+class CustomerResourceCoverage extends Component {
   static propTypes = {
     initialValues: PropTypes.shape({
       customCoverages: PropTypes.array,
@@ -252,4 +252,4 @@ export default reduxForm({
   enableReinitialize: true,
   form: 'Coverage',
   destroyOnUnmount: false
-})(CoverageForm);
+})(CustomerResourceCoverage);

@@ -17,7 +17,7 @@ import { isBookPublicationType, isValidCoverageList } from './utilities';
 import Modal from './modal';
 import styles from './styles.css';
 import CustomEmbargoForm from './custom-embargo';
-import CoverageForm from './coverage-form';
+import CustomerResourceCoverage from './customer-resource-coverage';
 
 export default class CustomerResourceShow extends Component {
   static propTypes = {
@@ -240,7 +240,7 @@ export default class CustomerResourceShow extends Component {
 
                   <hr />
 
-                  <CoverageForm
+                  <CustomerResourceCoverage
                     initialValues={{ customCoverages }}
                     onSubmit={coverageSubmitted}
                     isPending={model.update.isPending && 'customCoverages' in model.update.changedAttributes}
