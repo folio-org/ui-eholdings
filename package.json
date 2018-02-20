@@ -52,6 +52,13 @@
     "displayName": "eHoldings",
     "route": "/eholdings",
     "hasSettings": true,
+    "icons": [
+     {
+       "name": "icon",
+       "alt": "FOLIO UI module for eHoldings",
+       "title": "eHoldings"
+     }
+    ],
     "okapiInterfaces": {
       "eholdings": "0.1"
     },
