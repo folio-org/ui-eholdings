@@ -14,6 +14,12 @@ describeApplication('CustomerResourceShowCoverage', () => {
   beforeEach(function () {
     pkg = this.server.create('package', 'withProvider');
 
+    pkg.customCoverage = {
+      beginCoverage: '12/01/2018',
+      endCoverage: '12/31/2018'
+    };
+    pkg.save();
+
     title = this.server.create('title');
 
     resource = this.server.create('customer-resource', {
@@ -128,8 +134,9 @@ describeApplication('CustomerResourceShowCoverage', () => {
             CoverageForm.dateRangeRowList[0].$beginCoverageField.click();
             CoverageForm.dateRangeRowList[0].inputBeginDate('12/16/2018');
             CoverageForm.dateRangeRowList[0].pressEnterBeginDate();
-            CoverageForm.dateRangeRowList[0].clearBeginDate();
-            CoverageForm.dateRangeRowList[0].blurBeginDate();
+            CoverageForm.dateRangeRowList[0].$endCoverageField.click();
+            CoverageForm.dateRangeRowList[0].inputEndDate('12/18/2018');
+            CoverageForm.dateRangeRowList[0].pressEnterEndDate();
           });
         });
 
@@ -151,11 +158,129 @@ describeApplication('CustomerResourceShowCoverage', () => {
           });
 
           it('displays the saved date range', () => {
-            expect(CoverageForm.displayText).to.equal('12/16/2018 - Present');
+            expect(CoverageForm.displayText).to.equal('12/16/2018 - 12/18/2018');
           });
 
           it('displays an edit button', () => {
             expect(CoverageForm.$editButton).to.exist;
+          });
+        });
+      });
+
+      describe('entering an invalid date range', () => {
+        beforeEach(() => {
+          return convergeOn(() => {
+            expect(CoverageForm.dateRangeRowList[0].$beginCoverageField).to.exist;
+            expect(CoverageForm.dateRangeRowList[0].$endCoverageField).to.exist;
+          });
+        });
+
+        describe('entering an invalid begin date format', () => {
+          beforeEach(() => {
+            CoverageForm.dateRangeRowList[0].$beginCoverageField.click();
+            CoverageForm.dateRangeRowList[0].inputBeginDate('12/16/2018');
+            CoverageForm.dateRangeRowList[0].pressEnterBeginDate();
+
+            CoverageForm.dateRangeRowList[0].clearBeginDate();
+          });
+
+          it('indicates validation error on begin date', () => {
+            expect(CoverageForm.dateRangeRowList[0].beginCoverageFieldIsInvalid).to.be.true;
+          });
+
+          it('displays messaging that date is invalid format', () => {
+            expect(CoverageForm.dateRangeRowList[0].beginCoverageFieldValidationError).to.eq(
+              'Enter date in MM/DD/YYYY format.'
+            );
+          });
+        });
+
+        describe('entering an end date before a start date', () => {
+          beforeEach(() => {
+            CoverageForm.dateRangeRowList[0].$beginCoverageField.click();
+            CoverageForm.dateRangeRowList[0].inputBeginDate('12/16/2018');
+            CoverageForm.dateRangeRowList[0].pressEnterBeginDate();
+            CoverageForm.dateRangeRowList[0].$endCoverageField.click();
+            CoverageForm.dateRangeRowList[0].inputEndDate('12/14/2018');
+            CoverageForm.dateRangeRowList[0].pressEnterEndDate();
+          });
+
+          it('indicates validation error on begin date', () => {
+            expect(CoverageForm.dateRangeRowList[0].beginCoverageFieldIsInvalid).to.be.true;
+          });
+
+          it('displays messaging that end date is before start date', () => {
+            expect(CoverageForm.dateRangeRowList[0].beginCoverageFieldValidationError).to.eq(
+              'Start date must be before end date'
+            );
+          });
+        });
+
+        describe('entering overlapping ranges', () => {
+          beforeEach(() => {
+            CoverageForm.dateRangeRowList[0].$beginCoverageField.click();
+            CoverageForm.dateRangeRowList[0].inputBeginDate('12/16/2018');
+            CoverageForm.dateRangeRowList[0].pressEnterBeginDate();
+            CoverageForm.dateRangeRowList[0].$endCoverageField.click();
+            CoverageForm.dateRangeRowList[0].inputEndDate('12/20/2018');
+            CoverageForm.dateRangeRowList[0].pressEnterEndDate();
+
+            CoverageForm.clickAddRowButton();
+
+            return convergeOn(() => {
+              expect(CoverageForm.dateRangeRowList[1].$beginCoverageField).to.exist;
+              expect(CoverageForm.dateRangeRowList[1].$endCoverageField).to.exist;
+            }).then(() => {
+              CoverageForm.dateRangeRowList[1].$beginCoverageField.click();
+              CoverageForm.dateRangeRowList[1].inputBeginDate('12/18/2018');
+              CoverageForm.dateRangeRowList[1].pressEnterBeginDate();
+              CoverageForm.dateRangeRowList[1].$endCoverageField.click();
+              CoverageForm.dateRangeRowList[1].inputEndDate('12/19/2018');
+              CoverageForm.dateRangeRowList[1].pressEnterEndDate();
+            });
+          });
+
+          it('indicates validation error on begin dates', () => {
+            expect(CoverageForm.dateRangeRowList[0].beginCoverageFieldIsInvalid).to.be.true;
+            expect(CoverageForm.dateRangeRowList[1].beginCoverageFieldIsInvalid).to.be.true;
+          });
+
+          it('has messaging that dates overlap', () => {
+            expect(CoverageForm.dateRangeRowList[0].beginCoverageFieldValidationError).to.eq(
+              'Date range overlaps with 12/18/2018 - 12/19/2018'
+            );
+            expect(CoverageForm.dateRangeRowList[1].beginCoverageFieldValidationError).to.eq(
+              'Date range overlaps with 12/16/2018 - 12/20/2018'
+            );
+          });
+        });
+
+        describe('entering a date range outside of package coverage range', () => {
+          beforeEach(() => {
+            CoverageForm.dateRangeRowList[0].$beginCoverageField.click();
+            CoverageForm.dateRangeRowList[0].inputBeginDate('11/16/2018');
+            CoverageForm.dateRangeRowList[0].pressEnterBeginDate();
+            CoverageForm.dateRangeRowList[0].$endCoverageField.click();
+            CoverageForm.dateRangeRowList[0].inputEndDate('01/14/2019');
+            CoverageForm.dateRangeRowList[0].pressEnterEndDate();
+          });
+
+          it('indicates validation error on begin date', function() {
+            expect(CoverageForm.dateRangeRowList[0].beginCoverageFieldIsInvalid).to.be.true;
+          });
+          it('indicates validation error on end date', function() {
+            expect(CoverageForm.dateRangeRowList[0].endCoverageFieldIsInvalid).to.be.true;
+          });
+
+          it('displays messaging that begin date is outside of package coverage range', () => {
+            expect(CoverageForm.dateRangeRowList[0].beginCoverageFieldValidationError).to.eq(
+              "Dates must be within Package's date range (12/1/2018 - 12/31/2018)."
+            );
+          });
+          it('displays messaging that end date is outside of package coverage range', () => {
+            expect(CoverageForm.dateRangeRowList[0].endCoverageFieldValidationError).to.eq(
+              "Dates must be within Package's date range (12/1/2018 - 12/31/2018)."
+            );
           });
         });
       });
@@ -226,7 +351,6 @@ describeApplication('CustomerResourceShowCoverage', () => {
             CoverageForm.dateRangeRowList[0].inputEndDate('12/16/2018');
             CoverageForm.dateRangeRowList[0].pressEnterEndDate();
             CoverageForm.dateRangeRowList[0].clearEndDate();
-            CoverageForm.dateRangeRowList[0].blurEndDate();
           });
         });
 
