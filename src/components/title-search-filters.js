@@ -16,32 +16,32 @@ export default function TitleSearchFilters(props) {
       searchType="titles"
       availableFilters={[{
         name: 'selected',
-        label: 'Selection Status',
+        label: 'Selection status',
         defaultValue: 'all',
         options: [
           { label: 'All', value: 'all' },
           { label: 'Selected', value: 'true' },
-          { label: 'Not Selected', value: 'false' },
-          { label: 'Selected By EBSCO', value: 'ebsco' }
+          { label: 'Not selected', value: 'false' },
+          { label: 'Selected by EBSCO', value: 'ebsco' }
         ]
       }, {
         name: 'type',
-        label: 'Publication Type',
+        label: 'Publication type',
         defaultValue: 'all',
         options: [
           { label: 'All', value: 'all' },
-          { label: 'Audio Book', value: 'audiobook' },
+          { label: 'Audio book', value: 'audiobook' },
           { label: 'Book', value: 'book' },
-          { label: 'Book Series', value: 'bookseries' },
+          { label: 'Book series', value: 'bookseries' },
           { label: 'Database', value: 'database' },
           { label: 'Journal', value: 'journal' },
           { label: 'Newsletter', value: 'newsletter' },
           { label: 'Newspaper', value: 'newspaper' },
           { label: 'Proceedings', value: 'proceedings' },
           { label: 'Report', value: 'report' },
-          { label: 'Streaming Audio', value: 'streamingaudio' },
-          { label: 'Streaming Video', value: 'streamingvideo' },
-          { label: 'Thesis & Dissertation', value: 'thesisdissertation' },
+          { label: 'Streaming audio', value: 'streamingaudio' },
+          { label: 'Streaming video', value: 'streamingvideo' },
+          { label: 'Thesis & dissertation', value: 'thesisdissertation' },
           { label: 'Website', value: 'website' },
           { label: 'Unspecified', value: 'unspecified' }
         ]
