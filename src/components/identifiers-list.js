@@ -33,7 +33,7 @@ export default function IdentifiersList({ data }) {
       {Object.keys(identifiersByType).map(key => (
         <div key={key} data-test-eholdings-identifiers-list-item>
           <KeyValueLabel label={key}>
-            {identifiersByType[key].join(' ')}
+            {identifiersByType[key].join(', ')}
           </KeyValueLabel>
         </div>
       ))}

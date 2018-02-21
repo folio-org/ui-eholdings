@@ -61,7 +61,7 @@ describeApplication('TitleShow', () => {
     });
 
     it('groups together identifiers of the same type and subtype', () => {
-      expect(TitleShowPage.identifiersList[0]).to.equal('ISBN (Print)978-0547928210 978-0547928203');
+      expect(TitleShowPage.identifiersList[0]).to.equal('ISBN (Print)978-0547928210, 978-0547928203');
     });
 
     it('does not group together identifiers of the same type, but not the same subtype', () => {
