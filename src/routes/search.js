@@ -9,6 +9,7 @@ import Title from '../redux/title';
 
 import ProviderSearchList from '../components/provider-search-list';
 import PackageSearchList from '../components/package-search-list';
+import PackageSearchFilters from '../components/package-search-filters';
 import TitleSearchList from '../components/title-search-list';
 import TitleSearchFilters from '../components/title-search-filters';
 import SearchPaneset from '../components/search-paneset';
@@ -209,6 +210,8 @@ class SearchRoute extends Component {
 
     if (searchType === 'titles') {
       return TitleSearchFilters;
+    } else if (searchType === 'packages') {
+      return PackageSearchFilters;
     }
 
     return null;

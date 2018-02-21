@@ -174,7 +174,23 @@ export default function configure() {
   this.get('/providers/:id/packages', nestedResourceRouteFor('provider', 'packages'));
 
   // Package resources
-  this.get('/packages', searchRouteFor('packages'));
+  this.get('/packages', searchRouteFor('packages', (pkg, req) => {
+    let query = req.queryParams.q.toLowerCase();
+    let params = req.queryParams;
+    let type = params['filter[type]'];
+    let selected = params['filter[selected]'];
+    let filtered = pkg.name && pkg.name.toLowerCase().includes(query);
+
+    if (filtered && type && type !== 'all') {
+      filtered = pkg.contentType.toLowerCase() === type;
+    }
+
+    if (filtered && selected) {
+      filtered = pkg.isSelected.toString() === selected;
+    }
+
+    return filtered;
+  }));
 
   this.get('/titles/:id', ({ titles }, request) => {
     return titles.find(request.params.id);
@@ -222,30 +238,29 @@ export default function configure() {
     let isxn = params['filter[isxn]'];
     let subject = params['filter[subject]'];
     let publisher = params['filter[publisher]'];
-    let queryFiltered = true;
     let filtered = true;
 
     if (name) {
-      queryFiltered = title.name && title.name.toLowerCase().includes(name.toLowerCase());
+      filtered = title.name && title.name.toLowerCase().includes(name.toLowerCase());
     } else if (isxn) {
-      queryFiltered = title.identifiers && title.identifiers.some(i => i.id.toLowerCase().includes(isxn.toLowerCase()));
+      filtered = title.identifiers && title.identifiers.some(i => i.id.toLowerCase().includes(isxn.toLowerCase()));
     } else if (subject) {
-      queryFiltered = title.subjects && title.subjects.some(s => s.subject.toLowerCase().includes(subject.toLowerCase()));
+      filtered = title.subjects && title.subjects.some(s => s.subject.toLowerCase().includes(subject.toLowerCase()));
     } else if (publisher) {
-      queryFiltered = title.publisherName && title.publisherName.toLowerCase().includes(publisher.toLowerCase());
+      filtered = title.publisherName && title.publisherName.toLowerCase().includes(publisher.toLowerCase());
     }
 
-    if (type && type !== 'all') {
+    if (filtered && type && type !== 'all') {
       filtered = title.publicationType.toLowerCase() === type;
     }
 
-    if (selected) {
+    if (filtered && selected) {
       filtered = title.customerResources.models.some((resource) => {
         return resource.isSelected.toString() === selected;
       });
     }
 
-    return filtered && queryFiltered;
+    return filtered;
   }));
 
   this.get('/titles/:id', ({ titles }, request) => {
