@@ -47,10 +47,15 @@ class PackageShowRoute extends Component {
     model.isSelected = !model.isSelected;
     model.selectedCount = model.isSelected ? model.titleCount : 0;
 
+    // If package is selected, allowKbToAddTitles should be true
+    if (model.isSelected) {
+      model.allowKbToAddTitles = true;
+    }
     // clear out any customizations before sending to server
     if (!model.isSelected) {
       model.visibilityData.isHidden = false;
       model.customCoverage = {};
+      model.allowKbToAddTitles = false;
     }
 
     updatePackage(model);
@@ -76,6 +81,12 @@ class PackageShowRoute extends Component {
     updatePackage(model);
   };
 
+  toggleAllowKbToAddTitles = () => {
+    let { model, updatePackage } = this.props;
+    model.allowKbToAddTitles = !model.allowKbToAddTitles;
+    updatePackage(model);
+  };
+
   render() {
     return (
       <View
@@ -84,6 +95,7 @@ class PackageShowRoute extends Component {
         toggleSelected={this.toggleSelected}
         toggleHidden={this.toggleHidden}
         customCoverageSubmitted={this.customCoverageSubmitted}
+        toggleAllowKbToAddTitles={this.toggleAllowKbToAddTitles}
       />
     );
   }
