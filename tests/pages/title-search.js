@@ -33,7 +33,7 @@ export default {
     return $('[data-test-search-field]');
   },
   get $searchFilters() {
-    return $('[data-test-eholdings-title-search-filters]');
+    return $('[data-test-eholdings-search-filters="titles"]');
   },
 
   get $searchResultsItems() {

@@ -1,92 +1,52 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 
-import { Accordion, FilterAccordionHeader } from '@folio/stripes-components/lib/Accordion';
-import RadioButton from '@folio/stripes-components/lib/RadioButton';
+import SearchFilters from './search-form/search-filters';
 
-const selectedFilters = [
-  { label: 'All', value: undefined },
-  { label: 'Selected', value: 'true' },
-  { label: 'Not Selected', value: 'false' },
-  { label: 'Selected By EBSCO', value: 'ebsco' }
-];
-
-const pubtypeFilters = [
-  { label: 'All', value: 'all' },
-  { label: 'Audio Book', value: 'audiobook' },
-  { label: 'Book', value: 'book' },
-  { label: 'Book Series', value: 'bookseries' },
-  { label: 'Database', value: 'database' },
-  { label: 'Journal', value: 'journal' },
-  { label: 'Newsletter', value: 'newsletter' },
-  { label: 'Newspaper', value: 'newspaper' },
-  { label: 'Proceedings', value: 'proceedings' },
-  { label: 'Report', value: 'report' },
-  { label: 'Streaming Audio', value: 'streamingaudio' },
-  { label: 'Streaming Video', value: 'streamingvideo' },
-  { label: 'Thesis & Dissertation', value: 'thesisdissertation' },
-  { label: 'Website', value: 'website' },
-  { label: 'Unspecified', value: 'unspecified' }
-];
-
-export default function TitleSearchFilters({
-  filter = {},
-  onUpdate
-}) {
-  let { type = 'all', selected } = filter;
-
+/**
+ * Renders search filters with specific title filters.
+ *
+ * Once the API supports returning these filters via an endpoint, this
+ * component should not be necessary. Instead the `search-form` should
+ * recieve the available filters from the route and render the
+ * search-filters component itself.
+ */
+export default function TitleSearchFilters(props) {
   return (
-    <div data-test-eholdings-title-search-filters>
-      <Accordion
-        name="selected"
-        label="Selection Status"
-        separator={false}
-        header={FilterAccordionHeader}
-        displayClearButton={!!selected}
-        onClearFilter={() => onUpdate({ ...filter, selected: undefined })}
-        closedByDefault={false}
-      >
-        {selectedFilters.map(({ label, value }, i) => (
-          <RadioButton
-            key={i}
-            name="selected"
-            id={`eholdings-title-search-filters-selected-${value}`}
-            label={label}
-            value={value}
-            checked={value === selected}
-            onChange={() => onUpdate({ ...filter, selected: value })}
-          />
-        ))}
-      </Accordion>
-
-      <hr />
-
-      <Accordion
-        name="pubtype"
-        label="Publication Type"
-        separator={false}
-        header={FilterAccordionHeader}
-        displayClearButton={type !== 'all'}
-        onClearFilter={() => onUpdate({ ...filter, type: undefined })}
-        closedByDefault={false}
-      >
-        {pubtypeFilters.map(({ label, value }, i) => (
-          <RadioButton
-            key={i}
-            name="pubtype"
-            id={`eholdings-title-search-filters-pubtype-${value}`}
-            label={label}
-            value={value}
-            checked={value === type}
-            onChange={() => onUpdate({ ...filter, type: value })}
-          />
-        ))}
-      </Accordion>
-    </div>
+    <SearchFilters
+      searchType="titles"
+      availableFilters={[{
+        name: 'selected',
+        label: 'Selection status',
+        defaultValue: 'all',
+        options: [
+          { label: 'All', value: 'all' },
+          { label: 'Selected', value: 'true' },
+          { label: 'Not selected', value: 'false' },
+          { label: 'Selected by EBSCO', value: 'ebsco' }
+        ]
+      }, {
+        name: 'type',
+        label: 'Publication type',
+        defaultValue: 'all',
+        options: [
+          { label: 'All', value: 'all' },
+          { label: 'Audio book', value: 'audiobook' },
+          { label: 'Book', value: 'book' },
+          { label: 'Book series', value: 'bookseries' },
+          { label: 'Database', value: 'database' },
+          { label: 'Journal', value: 'journal' },
+          { label: 'Newsletter', value: 'newsletter' },
+          { label: 'Newspaper', value: 'newspaper' },
+          { label: 'Proceedings', value: 'proceedings' },
+          { label: 'Report', value: 'report' },
+          { label: 'Streaming audio', value: 'streamingaudio' },
+          { label: 'Streaming video', value: 'streamingvideo' },
+          { label: 'Thesis & dissertation', value: 'thesisdissertation' },
+          { label: 'Website', value: 'website' },
+          { label: 'Unspecified', value: 'unspecified' }
+        ]
+      }]}
+      {...props}
+    />
   );
 }
-
-TitleSearchFilters.propTypes = {
-  filter: PropTypes.object,
-  onUpdate: PropTypes.func.isRequired
-};
