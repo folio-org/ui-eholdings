@@ -93,7 +93,7 @@ class CustomEmbargoForm extends Component {
                   <Field
                     name='customEmbargoValue'
                     type="number"
-                    parse={value => (!value ? null : (isNaN(value) ? '' : Number(value)))} // eslint-disable-line no-restricted-globals
+                    parse={value => (!value ? null : (Number.isNaN(value) ? '' : Number(value)))}
                     component={this.renderTextField}
                   />
                 </div>
@@ -163,7 +163,7 @@ class CustomEmbargoForm extends Component {
 const validate = (values) => {
   const errors = {};
 
-  if (isNaN(Number(values.customEmbargoValue))) { // eslint-disable-line no-restricted-globals
+  if (Number.isNaN(Number(values.customEmbargoValue))) {
     errors.customEmbargoValue = 'Must be a number';
   }
 
