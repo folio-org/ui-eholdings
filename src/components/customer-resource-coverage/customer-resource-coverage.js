@@ -8,12 +8,12 @@ import Datepicker from '@folio/stripes-components/lib/Datepicker';
 import Button from '@folio/stripes-components/lib/Button';
 import Icon from '@folio/stripes-components/lib/Icon';
 import IconButton from '@folio/stripes-components/lib/IconButton';
-import CoverageDates from '../coverage-dates';
-import styles from './coverage-form.css';
+import CoverageDateList from '../coverage-date-list';
+import styles from './customer-resource-coverage.css';
 
 const cx = classNames.bind(styles);
 
-class CoverageForm extends Component {
+class CustomerResourceCoverage extends Component {
   static propTypes = {
     initialValues: PropTypes.shape({
       customCoverages: PropTypes.array,
@@ -185,7 +185,7 @@ class CoverageForm extends Component {
           data-test-eholdings-coverage-form-display
           className={styles['coverage-form-display']}
         >
-          <CoverageDates
+          <CoverageDateList
             coverageArray={customCoverages}
           />
           <div data-test-eholdings-coverage-form-edit-button>
@@ -252,4 +252,4 @@ export default reduxForm({
   enableReinitialize: true,
   form: 'Coverage',
   destroyOnUnmount: false
-})(CoverageForm);
+})(CustomerResourceCoverage);
