@@ -92,3 +92,14 @@
   margin: 1em 0;
   padding-left: 0;
 }
+
+.search-filters {
+
+  & section {
+    margin-bottom: 1em;
+  }
+
+  & [role="tabpanel"] {
+    padding-left: 1em;
+  }
+}

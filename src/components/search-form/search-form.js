@@ -131,7 +131,7 @@ export default class SearchForm extends Component {
 
           {Filters && (
             <Filters
-              filter={filter}
+              activeFilters={filter}
               onUpdate={this.handleUpdateFilter}
             />
           )}

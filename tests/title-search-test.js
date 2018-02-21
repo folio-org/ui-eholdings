@@ -152,7 +152,7 @@ describeApplication('TitleSearch', () => {
         return convergeOn(() => {
           expect(TitleSearchPage.$searchResultsItems).to.have.lengthOf(3);
         }).then(() => (
-          TitleSearchPage.clickFilter('pubtype', 'book')
+          TitleSearchPage.clickFilter('type', 'book')
         )).then(() => (
           TitleSearchPage.search('Title')
         ));
@@ -172,7 +172,7 @@ describeApplication('TitleSearch', () => {
           return convergeOn(() => {
             expect(TitleSearchPage.$searchResultsItems).to.have.lengthOf(1);
           }).then(() => (
-            TitleSearchPage.clearFilter('pubtype')
+            TitleSearchPage.clearFilter('type')
           )).then(() => (
             TitleSearchPage.search('Title')
           ));
@@ -195,7 +195,7 @@ describeApplication('TitleSearch', () => {
         });
 
         it('shows the existing filter in the search form', () => {
-          expect(TitleSearchPage.getFilter('pubtype')).to.equal('journal');
+          expect(TitleSearchPage.getFilter('type')).to.equal('journal');
         });
 
         it('only shows results for journal publication types', () => {
@@ -415,7 +415,7 @@ describeApplication('TitleSearch', () => {
         }).then(() => (
           TitleSearchPage.selectSearchField('isxn')
         )).then(() => (
-          TitleSearchPage.clickFilter('pubtype', 'book')
+          TitleSearchPage.clickFilter('type', 'book')
         )).then(() => (
           TitleSearchPage.search('999-999')
         ));
