@@ -27,9 +27,11 @@ export default {
   },
 
   get $searchField() {
+    return $('[data-test-title-search-field]').find('input[name="search"]');
+  },
+  get $providerSearchField() {
     return $('[data-test-search-field]');
   },
-
   get $searchFilters() {
     return $('[data-test-eholdings-title-search-filters]');
   },
@@ -69,9 +71,8 @@ export default {
   clickSearchVignette() {
     return $('[data-test-search-vignette]').trigger('click');
   },
-
   search(query) {
-    let $input = $('[data-test-search-field]').val(query);
+    let $input = $('[data-test-title-search-field]').find('input[name="search"]').val(query);
     triggerChange($input.get(0));
 
     return convergeOn(() => {
@@ -79,6 +80,13 @@ export default {
     }).then(() => {
       $('[data-test-search-submit]').trigger('click');
     });
+  },
+  get $searchFieldSelect() {
+    return $('[data-test-title-search-field]').find('select')[0];
+  },
+  selectSearchField(searchfield) {
+    let $input = $('[data-test-title-search-field]').find('select').val(searchfield);
+    return triggerChange($input.get(0));
   },
 
   getFilter(name) {

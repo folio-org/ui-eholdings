@@ -8,15 +8,42 @@ import TitleSearchPage from './pages/title-search';
 describeApplication('TitleSearch', () => {
   let titles;
 
+  // Odd indexed items are assigned alternate attributes targeted in specific filtering tests
   beforeEach(function () {
-    titles = this.server.createList('title', 3, 'withPackages', {
+    titles = this.server.createList('title', 3, 'withPackages', 'withSubjects', 'withIdentifiers', {
       name: i => `Title${i + 1}`,
-      publicationType: i => (i % 2 ? 'book' : 'journal')
+      publicationType: i => (i % 2 ? 'book' : 'journal'),
+      publisherName: i => (i % 2 ? 'TestPublisher' : 'Default Publisher')
     });
 
     // make sure only one of these is not selected
     titles.forEach((title, i) => {
       title.customerResources.update('isSelected', !!i);
+    });
+
+    // set up subjects
+    titles.forEach((title, i) => {
+      if (i % 2) {
+        title.subjects.push(this.server.create('subject',
+          {
+            type: 'TLI',
+            subject: 'TestSubject'
+          }));
+        title.save();
+      }
+    });
+
+    // set up identifiers
+    titles.forEach((title, i) => {
+      if (i % 2) {
+        title.identifiers.push(this.server.create('identifier',
+          {
+            id: '999-999',
+            subtype: 0,
+            type: 0
+          }));
+        title.save();
+      }
     });
 
     this.server.create('title', {
@@ -30,6 +57,10 @@ describeApplication('TitleSearch', () => {
 
   it('has a searchbox', () => {
     expect(TitleSearchPage.$searchField).to.exist;
+  });
+
+  it('displays title as default searchfield', () => {
+    expect(TitleSearchPage.$searchFieldSelect.value).to.equal('title');
   });
 
   it('has search filters', () => {
@@ -230,6 +261,104 @@ describeApplication('TitleSearch', () => {
       });
     });
 
+    describe('selecting a publisher search field', () => {
+      beforeEach(() => {
+        return convergeOn(() => {
+          expect(TitleSearchPage.$searchResultsItems).to.have.lengthOf(3);
+        }).then(() => (
+          TitleSearchPage.selectSearchField('publisher')
+        )).then(() => (
+          TitleSearchPage.search('TestPublisher')
+        ));
+      });
+
+      it('only shows results having publishers with name including TestPublisher', () => {
+        expect(TitleSearchPage.titleList).to.have.lengthOf(1);
+        expect(TitleSearchPage.titleList[0].publisherName).to.include('TestPublisher');
+      });
+
+      it('reflects the publisher searchfield in the URL query params', function () {
+        expect(this.app.history.location.search).to.include('searchfield=publisher');
+      });
+    });
+
+    describe('selecting a subject search field', () => {
+      beforeEach(() => {
+        return convergeOn(() => {
+          expect(TitleSearchPage.$searchResultsItems).to.have.lengthOf(3);
+        }).then(() => (
+          TitleSearchPage.selectSearchField('subject')
+        )).then(() => (
+          TitleSearchPage.search('TestSubject')
+        ));
+      });
+
+      it('only shows results having subjects including TestSubject', () => {
+        expect(TitleSearchPage.titleList).to.have.lengthOf(1);
+      });
+
+      it('reflects the subject searchfield in the URL query params', function () {
+        expect(this.app.history.location.search).to.include('searchfield=subject');
+      });
+    });
+
+    describe('selecting an isxn search field', () => {
+      beforeEach(() => {
+        return convergeOn(() => {
+          expect(TitleSearchPage.$searchResultsItems).to.have.lengthOf(3);
+        }).then(() => (
+          TitleSearchPage.selectSearchField('isxn')
+        )).then(() => (
+          TitleSearchPage.search('999-999')
+        ));
+      });
+
+      it('only shows results having isxn field ', () => {
+        expect(TitleSearchPage.titleList).to.have.lengthOf(1);
+      });
+
+      it('reflects the isxn searchfield in the URL query params', function () {
+        expect(this.app.history.location.search).to.include('searchfield=isxn');
+      });
+    });
+
+    describe('changing search fields', () => {
+      beforeEach(() => {
+        return convergeOn(() => {
+          expect(TitleSearchPage.$searchResultsItems).to.have.lengthOf(3);
+        }).then(() => (
+          TitleSearchPage.selectSearchField('subject')
+        ));
+      });
+
+      it('maintains the previous search', () => {
+        expect(TitleSearchPage.$searchField).to.have.value('Title');
+      });
+    });
+
+    describe('visiting the page with an existing search field', () => {
+      beforeEach(function () {
+        return convergeOn(() => {
+          expect(TitleSearchPage.$searchResultsItems).to.have.lengthOf(3);
+        }).then(() => {
+          return this.visit('/eholdings/?searchType=titles&q=TestPublisher&searchfield=publisher', () => {
+            expect(TitleSearchPage.$root).to.exist;
+          });
+        });
+      });
+
+      it('displays publisher as searchfield', () => {
+        expect(TitleSearchPage.$searchFieldSelect.value).to.eql('publisher');
+      });
+
+      it('displays search field populated', () => {
+        expect(TitleSearchPage.$searchField).to.have.value('TestPublisher');
+      });
+
+      it('only shows results for searchfield and query', () => {
+        expect(TitleSearchPage.titleList).to.have.lengthOf(1);
+      });
+    });
     describe('with a more specific query', () => {
       beforeEach(() => {
         return convergeOn(() => {
@@ -257,7 +386,7 @@ describeApplication('TitleSearch', () => {
       });
 
       it('displays an empty search', () => {
-        expect(TitleSearchPage.$searchField).to.have.value('');
+        expect(TitleSearchPage.$providerSearchField).to.have.value('');
       });
 
       it('does not display any more results', () => {
@@ -278,7 +407,66 @@ describeApplication('TitleSearch', () => {
         });
       });
     });
+
+    describe('selecting both a search field and a search filter', () => {
+      beforeEach(() => {
+        return convergeOn(() => {
+          expect(TitleSearchPage.$searchResultsItems).to.have.lengthOf(3);
+        }).then(() => (
+          TitleSearchPage.selectSearchField('isxn')
+        )).then(() => (
+          TitleSearchPage.clickFilter('pubtype', 'book')
+        )).then(() => (
+          TitleSearchPage.search('999-999')
+        ));
+      });
+      it('only shows results having both isxn and book pub type', () => {
+        expect(TitleSearchPage.titleList).to.have.lengthOf(1);
+        expect(TitleSearchPage.titleList[0].publicationType).to.equal('book');
+      });
+
+      it('reflects searchfield=isxn in the URL query params', function () {
+        expect(this.app.history.location.search).to.include('searchfield=isxn');
+      });
+
+      it('reflects filter[type]=book in the URL query params', function () {
+        expect(this.app.history.location.search).to.include('filter[type]=book');
+      });
+
+      it.still('does not reflect filter[isxn] in search field', function () {
+        expect(this.app.history.location.search).to.not.include('filter[isxn]');
+      });
+
+      describe('navigating to packages search', () => {
+        beforeEach(() => {
+          return TitleSearchPage.changeSearchType('packages');
+        });
+
+        it('displays an empty search', () => {
+          expect(TitleSearchPage.$providerSearchField).to.have.value('');
+        });
+
+        describe('navigating back to titles search', () => {
+          beforeEach(() => {
+            return TitleSearchPage.changeSearchType('titles');
+          });
+
+          it('reflects the isxn searchfield in the URL query params', function () {
+            expect(this.app.history.location.search).to.include('searchfield=isxn');
+          });
+
+          it('reflects the pub type in the URL query params', function () {
+            expect(this.app.history.location.search).to.include('filter[type]=book');
+          });
+
+          it.still('does not reflect filter[isxn] in search field', function () {
+            expect(this.app.history.location.search).to.not.include('filter[isxn]');
+          });
+        });
+      });
+    });
   });
+
 
   describe('with multiple pages of titles', () => {
     beforeEach(function () {

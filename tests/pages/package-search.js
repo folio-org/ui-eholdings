@@ -37,7 +37,9 @@ export default {
   get $searchField() {
     return $('[data-test-search-field]');
   },
-
+  get $titleSearchField() {
+    return $('[data-test-title-search-field]').find('input[name="search"]');
+  },
   get $searchResultsItems() {
     return $('[data-test-query-list="packages"] li a');
   },
