@@ -30,12 +30,12 @@ export default function PackageSearchFilters(props) {
         defaultValue: 'all',
         options: [
           { label: 'All', value: 'all' },
-          { label: 'Aggregated Full Text', value: 'aggregatedfulltext' },
-          { label: 'Abstract and Index', value: 'abstractandindex' },
-          { label: 'E-Book', value: 'ebook' },
-          { label: 'E-Journal', value: 'ejournal' },
+          { label: 'Aggregated full text', value: 'aggregatedfulltext' },
+          { label: 'Abstract and index', value: 'abstractandindex' },
+          { label: 'E-book', value: 'ebook' },
+          { label: 'E-journal', value: 'ejournal' },
           { label: 'Print', value: 'print' },
-          { label: 'Online Reference', value: 'onlinereference' },
+          { label: 'Online reference', value: 'onlinereference' },
           { label: 'Unknown', value: 'unknown' }
         ]
       }]}
