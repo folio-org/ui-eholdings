@@ -5,6 +5,7 @@ import IconButton from '@folio/stripes-components/lib/IconButton';
 import PaneMenu from '@folio/stripes-components/lib/PaneMenu';
 import Button from '@folio/stripes-components/lib/Button';
 import Layout from '@folio/stripes-components/lib/Layout';
+import Icon from '@folio/stripes-components/lib/Icon';
 
 import DetailsView from './details-view';
 import QueryList from './query-list';
@@ -187,7 +188,7 @@ export default class PackageShow extends Component {
                         />
                       </div>
                       ) : (
-                        <p>Loading...</p>
+                        <Icon icon="spinner-ellipsis" />
                       )}
                   </label>
 
