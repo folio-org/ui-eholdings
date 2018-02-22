@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import moment from 'moment';
 
 import { createResolver } from '../redux';
 import CustomerResource from '../redux/customer-resource';
@@ -53,12 +54,36 @@ class CustomerResourceShowRoute extends Component {
     updateResource(model);
   }
 
+  customEmbargoSubmitted = (values) => {
+    let { model, updateResource } = this.props;
+    model.customEmbargoPeriod.embargoValue = values.customEmbargoValue;
+    model.customEmbargoPeriod.embargoUnit = values.customEmbargoUnit;
+    updateResource(model);
+  }
+
+  coverageSubmitted = (values) => {
+    let { model, updateResource } = this.props;
+    model.customCoverages = values.customCoverages.map((dateRange) => {
+      let beginCoverage = !dateRange.beginCoverage ? null : moment(dateRange.beginCoverage).format('YYYY-MM-DD');
+      let endCoverage = !dateRange.endCoverage ? null : moment(dateRange.endCoverage).format('YYYY-MM-DD');
+
+      return {
+        beginCoverage,
+        endCoverage
+      };
+    });
+
+    updateResource(model);
+  }
+
   render() {
     return (
       <View
         model={this.props.model}
         toggleSelected={this.toggleSelected}
         toggleHidden={this.toggleHidden}
+        customEmbargoSubmitted={this.customEmbargoSubmitted}
+        coverageSubmitted={this.coverageSubmitted}
       />
     );
   }

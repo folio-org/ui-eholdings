@@ -5,7 +5,7 @@ import it from './it-will';
 import { describeApplication } from './helpers';
 import PackageShowPage from './pages/package-show';
 
-describeApplication('PackageShowVisibility', () => {
+describeApplication('PackageVisibility', () => {
   let provider,
     pkg;
 
@@ -34,7 +34,7 @@ describeApplication('PackageShowVisibility', () => {
     });
 
     it('displays the hidden/reason section', () => {
-      expect(PackageShowPage.isHiddenMessage).to.be.true;
+      expect(PackageShowPage.isHiddenMessage).to.equal('The content is for mature audiences only.');
     });
   });
 
@@ -56,8 +56,8 @@ describeApplication('PackageShowVisibility', () => {
       expect(PackageShowPage.isHidden).to.be.true;
     });
 
-    it('does not displays the hidden/reason section', () => {
-      expect(PackageShowPage.isHiddenMessage).to.be.false;
+    it.still('does not displays the hidden/reason section', () => {
+      expect(PackageShowPage.isHiddenMessage).to.equal('');
     });
   });
 
@@ -79,8 +79,8 @@ describeApplication('PackageShowVisibility', () => {
       expect(PackageShowPage.isHidden).to.be.false;
     });
 
-    it('does not display the hidden/reason section', () => {
-      expect(PackageShowPage.isHiddenMessage).to.be.false;
+    it.still('does not display the hidden/reason section', () => {
+      expect(PackageShowPage.isHiddenMessage).to.equal('');
     });
   });
 
@@ -103,11 +103,11 @@ describeApplication('PackageShowVisibility', () => {
     });
 
     it('displays a disabled Toggle', () => {
-      expect(PackageShowPage.isHiddenToggleable).to.equal(false);
+      expect(PackageShowPage.isHiddenToggleable).to.be.false;
     });
 
-    it('does not display the hidden/reason section', () => {
-      expect(PackageShowPage.isHiddenMessage).to.be.false;
+    it.still('does not display the hidden/reason section', () => {
+      expect(PackageShowPage.isHiddenMessage).to.equal('');
     });
   });
 

@@ -17,14 +17,6 @@ function createTitleObject(element) {
 
     get publicationType() {
       return $scope.find('[data-test-eholdings-title-list-item-publication-type]').text();
-    },
-
-    get isSelected() {
-      return $scope.find('[data-test-eholdings-title-list-item-title-selected]').text() === 'Selected';
-    },
-
-    get isHidden() {
-      return $scope.find('[data-test-eholdings-title-list-item-title-hidden]').text() === 'Hidden';
     }
   };
 }
@@ -35,7 +27,13 @@ export default {
   },
 
   get $searchField() {
+    return $('[data-test-title-search-field]').find('input[name="search"]');
+  },
+  get $providerSearchField() {
     return $('[data-test-search-field]');
+  },
+  get $searchFilters() {
+    return $('[data-test-eholdings-search-filters="titles"]');
   },
 
   get $searchResultsItems() {
@@ -66,12 +64,15 @@ export default {
     return $('[data-test-eholdings-title-show-back-button] button');
   },
 
+  get $selectedSearchType() {
+    return $('[data-test-search-form-type-switcher] a[class^="is-active--"]');
+  },
+
   clickSearchVignette() {
     return $('[data-test-search-vignette]').trigger('click');
   },
-
   search(query) {
-    let $input = $('[data-test-search-field]').val(query);
+    let $input = $('[data-test-title-search-field]').find('input[name="search"]').val(query);
     triggerChange($input.get(0));
 
     return convergeOn(() => {
@@ -79,6 +80,30 @@ export default {
     }).then(() => {
       $('[data-test-search-submit]').trigger('click');
     });
+  },
+  get $searchFieldSelect() {
+    return $('[data-test-title-search-field]').find('select')[0];
+  },
+  selectSearchField(searchfield) {
+    let $input = $('[data-test-title-search-field]').find('select').val(searchfield);
+    return triggerChange($input.get(0));
+  },
+
+  getFilter(name) {
+    return this.$searchFilters.find(`input[name="${name}"]:checked`).val();
+  },
+
+  clickFilter(name, value) {
+    let $radio = this.$searchFilters.find(`input[name="${name}"][value="${value}"]`);
+    $radio.get(0).click();
+    return convergeOn(() => expect($radio).to.have.prop('checked'));
+  },
+
+  clearFilter(name) {
+    this.$searchFilters.find(`input[name="${name}"]`)
+      .closest('section').find('[role="heading"] button:nth-child(2)')
+      .get(0)
+      .click();
   },
 
   changeSearchType(searchType) {

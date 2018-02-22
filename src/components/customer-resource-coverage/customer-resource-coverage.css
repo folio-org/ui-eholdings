@@ -1,0 +1,64 @@
+@import '@folio/stripes-components/lib/variables';
+
+.coverage-form {
+  padding: 1em 0 0.5em;
+
+  &.is-editing {
+    background: #e6f3ff;
+  }
+}
+
+.coverage-form-legend {
+  margin-bottom: 0.5em;
+}
+
+.coverage-form-display {
+  display: flex;
+  align-items: center;
+}
+
+.coverage-form-date-range-rows {
+  list-style-type: none;
+  padding: 0;
+}
+
+.coverage-form-date-range-row {
+  display: flex;
+  align-items: flex-start;
+}
+
+.coverage-form-datepicker {
+  align-self: flex-start;
+  flex: 1 1 200px;
+  margin-right: 1em;
+}
+
+.coverage-form-date-range-clear-row {
+  flex: 0 0 3em;
+  margin-top: 2.25em;
+  text-align: center;
+
+  @media (--mediumUp) {
+    margin-top: 1.5em;
+  }
+}
+
+.coverage-form-add-row-button button {
+  width: 100%;
+
+  @media (--mediumUp) {
+    width: auto;
+  }
+}
+
+.coverage-form-action-buttons {
+  border-top: 1px solid var(--minor-divider-color);
+  display: flex;
+  margin-top: 1em;
+  padding-top: 1em;
+  align-items: flex-start;
+}
+
+.coverage-form-action-button {
+  margin-right: 0.25em;
+}

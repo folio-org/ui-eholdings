@@ -12,19 +12,24 @@ import KeyValueLabel from './key-value-label';
 import IdentifiersList from './identifiers-list';
 import ContributorsList from './contributors-list';
 import ToggleSwitch from './toggle-switch';
-import CoverageDates from './coverage-dates';
+import CoverageDateList from './coverage-date-list';
 import { isBookPublicationType, isValidCoverageList } from './utilities';
 import Modal from './modal';
 import styles from './styles.css';
+import CustomEmbargoForm from './custom-embargo';
+import CustomerResourceCoverage from './customer-resource-coverage';
 
 export default class CustomerResourceShow extends Component {
   static propTypes = {
     model: PropTypes.object.isRequired,
     toggleSelected: PropTypes.func.isRequired,
-    toggleHidden: PropTypes.func.isRequired
+    toggleHidden: PropTypes.func.isRequired,
+    customEmbargoSubmitted: PropTypes.func.isRequired,
+    coverageSubmitted: PropTypes.func.isRequired
   };
 
   static contextTypes = {
+    locale: PropTypes.string,
     router: PropTypes.object,
     queryParams: PropTypes.object
   };
@@ -66,8 +71,8 @@ export default class CustomerResourceShow extends Component {
   };
 
   render() {
-    let { model } = this.props;
-    let { router, queryParams } = this.context;
+    let { model, customEmbargoSubmitted, coverageSubmitted } = this.props;
+    let { locale, router, queryParams } = this.context;
     let { showSelectionModal, resourceSelected, resourceHidden } = this.state;
 
     let historyState = router.history.location.state;
@@ -79,6 +84,16 @@ export default class CustomerResourceShow extends Component {
     let hasCustomEmbargoPeriod = model.customEmbargoPeriod &&
       model.customEmbargoPeriod.embargoUnit &&
       model.customEmbargoPeriod.embargoValue;
+    let customEmbargoValue = model.customEmbargoPeriod && model.customEmbargoPeriod.embargoValue;
+    let customEmbargoUnit = model.customEmbargoPeriod && model.customEmbargoPeriod.embargoUnit;
+
+    let customCoverages = model.customCoverages;
+    if (customCoverages.length === 0) {
+      customCoverages.push({
+        beginCoverage: '',
+        endCoverage: ''
+      });
+    }
 
     return (
       <div>
@@ -103,7 +118,7 @@ export default class CustomerResourceShow extends Component {
                 </div>
               </KeyValueLabel>
 
-              <KeyValueLabel label="Publication Type">
+              <KeyValueLabel label="Publication type">
                 <div data-test-eholdings-customer-resource-show-publication-type>
                   {model.publicationType}
                 </div>
@@ -126,7 +141,7 @@ export default class CustomerResourceShow extends Component {
               </KeyValueLabel>
 
               {model.contentType && (
-                <KeyValueLabel label="Content Type">
+                <KeyValueLabel label="Content type">
                   <div data-test-eholdings-customer-resource-show-content-type>
                     {model.contentType}
                   </div>
@@ -148,17 +163,18 @@ export default class CustomerResourceShow extends Component {
               )}
 
               {hasManagedCoverages && (
-                <KeyValueLabel label="Managed Coverage Dates">
-                  <CoverageDates
-                    coverageArray={model.managedCoverages}
-                    id="customer-resource-show-managed-coverage-list"
-                    isYearOnly={isBookPublicationType(model.publicationType)}
-                  />
+                <KeyValueLabel label="Managed coverage dates">
+                  <div data-test-eholdings-customer-resource-show-managed-coverage-list>
+                    <CoverageDateList
+                      coverageArray={model.managedCoverages}
+                      isYearOnly={isBookPublicationType(model.publicationType)}
+                    />
+                  </div>
                 </KeyValueLabel>
               )}
 
               {hasManagedEmbargoPeriod && (
-                <KeyValueLabel label="Managed Embargo Period">
+                <KeyValueLabel label="Managed embargo period">
                   <div data-test-eholdings-customer-resource-show-managed-embargo-period>
                     {model.managedEmbargoPeriod.embargoValue} {model.managedEmbargoPeriod.embargoUnit}
                   </div>
@@ -171,7 +187,7 @@ export default class CustomerResourceShow extends Component {
                 data-test-eholdings-customer-resource-show-selected
                 htmlFor="customer-resource-show-toggle-switch"
               >
-                <h4>{resourceSelected ? 'Selected' : 'Not Selected'}</h4>
+                <h4>{resourceSelected ? 'Selected' : 'Not selected'}</h4>
                 <ToggleSwitch
                   onChange={this.handleSelectionToggle}
                   checked={resourceSelected}
@@ -205,7 +221,8 @@ export default class CustomerResourceShow extends Component {
                           <ToggleSwitch
                             onChange={this.props.toggleHidden}
                             checked={!resourceHidden}
-                            isPending={model.update.isPending}
+                            isPending={model.update.isPending &&
+                              ('visibilityData' in model.update.changedAttributes)}
                             id="customer-resource-show-hide-toggle-switch"
                           />
                         )}
@@ -221,17 +238,32 @@ export default class CustomerResourceShow extends Component {
                     </Layout>
                   </label>
 
-                  {hasCustomEmbargoPeriod && (
-                    <div>
-                      <hr />
+                  <hr />
 
-                      <KeyValueLabel label="Custom Embargo Period">
-                        <div data-test-eholdings-customer-resource-show-custom-embargo-period>
-                          {model.customEmbargoPeriod.embargoValue} {model.customEmbargoPeriod.embargoUnit}
-                        </div>
-                      </KeyValueLabel>
-                    </div>
-                  )}
+                  <CustomerResourceCoverage
+                    initialValues={{ customCoverages }}
+                    onSubmit={coverageSubmitted}
+                    isPending={model.update.isPending && 'customCoverages' in model.update.changedAttributes}
+                    locale={locale}
+                  />
+
+                  <hr />
+                  <KeyValueLabel label="Custom embargo period">
+                    {hasCustomEmbargoPeriod ? (
+                      <div data-test-eholdings-customer-resource-show-custom-embargo-period>
+                        <CustomEmbargoForm
+                          initialValues={{ customEmbargoValue, customEmbargoUnit }}
+                          onSubmit={customEmbargoSubmitted}
+                          isPending={model.update.isPending && 'customEmbargoPeriod' in model.update.changedAttributes}
+                        />
+                      </div>
+                    ) : (
+                      <CustomEmbargoForm
+                        initialValues={{ customEmbargoValue, customEmbargoUnit }}
+                        onSubmit={customEmbargoSubmitted}
+                      />
+                    )}
+                  </KeyValueLabel>
                 </div>
               )}
 

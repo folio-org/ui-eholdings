@@ -2,6 +2,10 @@
 
 .search-form-container {
   padding: 1em;
+
+  & hr {
+    margin: 1.5rem 0;
+  }
 }
 
 .search-switcher {
@@ -87,4 +91,15 @@
 .search-results-list {
   margin: 1em 0;
   padding-left: 0;
+}
+
+.search-filters {
+
+  & section {
+    margin-bottom: 1em;
+  }
+
+  & [role="tabpanel"] {
+    padding-left: 1em;
+  }
 }

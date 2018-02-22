@@ -5,7 +5,7 @@ import it, { convergeOn } from './it-will';
 import { describeApplication } from './helpers';
 import PackageShowPage from './pages/package-show';
 
-describeApplication('PackageShowCustomCoverage', () => {
+describeApplication('PackageCustomCoverage', () => {
   let provider,
     pkg;
 
@@ -15,7 +15,7 @@ describeApplication('PackageShowCustomCoverage', () => {
     });
   });
 
-  describe('visting the packshow page and package is not selected', () => {
+  describe('visiting the package show page and package is not selected', () => {
     beforeEach(function () {
       pkg = this.server.create('package', {
         provider,
@@ -85,7 +85,7 @@ describeApplication('PackageShowCustomCoverage', () => {
         });
       });
 
-      it('does not remove the custom coverage', () => {
+      it.still('does not remove the custom coverage', () => {
         expect(PackageShowPage.customCoverage).to.equal('7/16/1969 - 12/19/1972');
       });
     });
@@ -233,7 +233,7 @@ describeApplication('PackageShowCustomCoverage', () => {
             convergeOn(() => {
               expect(PackageShowPage.validationError).to.exist;
             }).then(() => {
-              expect(PackageShowPage.validationError).to.match(/\bEnter Date in.*\b/);
+              expect(PackageShowPage.validationError).to.match(/\bEnter date in.*\b/);
             });
           });
         });
@@ -253,7 +253,7 @@ describeApplication('PackageShowCustomCoverage', () => {
 
 
           it('throws validation error', () => {
-            expect(PackageShowPage.validationError).to.include('Start Date must be before End Date');
+            expect(PackageShowPage.validationError).to.include('Start date must be before end date.');
           });
         });
       });

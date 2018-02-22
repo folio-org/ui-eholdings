@@ -57,6 +57,8 @@ export function advancedFillIn(el, value) {
 export function blur(el) {
   let node = $(el).get(0);
 
+  // the error should not be reported for passing tests
+  /* istanbul ignore else */
   if (node) {
     node.dispatchEvent(
       new MouseEvent('blur', {
@@ -70,8 +72,10 @@ export function blur(el) {
 }
 
 export function pressEnter(el) {
-  let $node = el;
+  let $node = $(el).get(0);
 
+  // the error should not be reported for passing tests
+  /* istanbul ignore else */
   if ($node) {
     let newKeyboardEvent = new Event('keydown', {
       bubbles: true,
@@ -83,5 +87,7 @@ export function pressEnter(el) {
     });
 
     $node.dispatchEvent(newKeyboardEvent);
+  } else {
+    throw new Error('Node does not exist.');
   }
 }

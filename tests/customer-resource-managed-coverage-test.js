@@ -5,7 +5,7 @@ import it from './it-will';
 import { describeApplication } from './helpers';
 import CustomerResourceShowPage from './pages/customer-resource-show';
 
-describeApplication('CustomerResourceShowManagedCoverage', () => {
+describeApplication('CustomerResourceManagedCoverage', () => {
   let pkg,
     title,
     resource;
@@ -30,7 +30,7 @@ describeApplication('CustomerResourceShowManagedCoverage', () => {
       });
     });
 
-    it('does not display the managed coverage section', () => {
+    it.still('does not display the managed coverage section', () => {
       expect(CustomerResourceShowPage.managedCoverageList).to.equal('');
     });
   });
@@ -44,7 +44,7 @@ describeApplication('CustomerResourceShowManagedCoverage', () => {
       });
     });
 
-    it('does not display the managed coverage section', () => {
+    it.still('does not display the managed coverage section', () => {
       expect(CustomerResourceShowPage.managedCoverageList).to.equal('');
     });
   });
@@ -118,24 +118,6 @@ describeApplication('CustomerResourceShowManagedCoverage', () => {
 
     it('display the managed coverage section for single date (end date only)', () => {
       expect(CustomerResourceShowPage.managedCoverageList).to.equal('7/16/1969');
-    });
-  });
-
-  describe('visiting the customer resource page with incorrectly formed coverage dates', () => {
-    beforeEach(function () {
-      resource.managedCoverages = this.server.createList('managed-coverage', 1, {
-        beginCoverage: '1969-07',
-        endCoverage: '1969-07-16'
-      }).map(m => m.toJSON());
-
-      resource.save();
-      return this.visit(`/eholdings/customer-resources/${resource.id}`, () => {
-        expect(CustomerResourceShowPage.$root).to.exist;
-      });
-    });
-
-    it('does not display coverage dates', () => {
-      expect(CustomerResourceShowPage.managedCoverageList).to.equal('');
     });
   });
 
@@ -257,7 +239,7 @@ describeApplication('CustomerResourceShowManagedCoverage', () => {
       });
     });
 
-    it('does not display managed coverage list', () => {
+    it.still('does not display managed coverage list', () => {
       expect(CustomerResourceShowPage.managedCoverageList).to.equal('');
     });
   });

@@ -1,3 +1,4 @@
+/* istanbul ignore file */
 export default function defaultScenario(server) {
   function createProvider(name, packages = []) {
     let provider = server.create('provider', {

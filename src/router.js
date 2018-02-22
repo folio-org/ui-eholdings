@@ -27,6 +27,8 @@ export { Switch, Redirect } from 'react-router-dom';
  * and pass them as the children of the `ParentRoute` component.
  */
 export function Route({ component: Component, children, ...props }) {
+  // we currently always provide a component
+  /* istanbul ignore else */
   if (Component) {
     return (
       <RouterRoute {...props} render={props => (<Component {...props}>{children}</Component>)} /> // eslint-disable-line no-shadow

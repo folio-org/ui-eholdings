@@ -110,7 +110,7 @@ describeApplication('CustomerResourceShow', () => {
       expect(ResourcePage.managedUrl).to.equal(resource.url);
     });
 
-    describe('clicking the managed url opens link in new tab', () => {
+    describe.skip('clicking the managed url opens link in new tab', () => {
       beforeEach(() => {
         ResourcePage.clickManagedURL();
       });
@@ -174,11 +174,11 @@ describeApplication('CustomerResourceShow', () => {
       expect(ResourcePage.titleName).to.equal(resource.title.name);
     });
 
-    it('does not display a content type', () => {
+    it.still('does not display a content type', () => {
       expect(ResourcePage.contentType).to.equal('');
     });
 
-    it('does not display a publication type', () => {
+    it.still('does not display a publication type', () => {
       expect(ResourcePage.publicationType).to.equal('');
     });
   });
@@ -211,7 +211,7 @@ describeApplication('CustomerResourceShow', () => {
       expect(ResourcePage.titleName).to.equal(resource.title.name);
     });
 
-    it('does not display a content type', () => {
+    it('displays a content type', () => {
       expect(ResourcePage.contentType).to.equal('Isolinear Chip');
     });
 

@@ -89,11 +89,11 @@ describeApplication('With unconfigured backend', {
           });
         });
 
-        it('does not display an error state for customer id', () => {
+        it.still('does not display an error state for customer id', () => {
           expect(SettingsPage.customerIdFieldIsInvalid).to.be.false;
         });
 
-        it('does not display an error state for api key', () => {
+        it.still('does not display an error state for api key', () => {
           expect(SettingsPage.apiKeyFieldIsInvalid).to.be.false;
         });
       });
@@ -117,6 +117,10 @@ describeApplication('With valid backend configuration', () => {
 
     it('has a field for the ebsco RM API key', () => {
       expect(SettingsPage.$apiKeyField).to.exist;
+    });
+
+    it('field for the ebsco RM API key appears with text as password hidden', () => {
+      expect(SettingsPage.$apiKeyField).to.have.prop('type', 'password');
     });
 
     it.still('does not have visible form action buttons', () => {
@@ -207,7 +211,7 @@ describeApplication('With valid backend configuration', () => {
           SettingsPage.fillIn({ customerId: '' });
         });
 
-        it('does not enable the save button', () => {
+        it.still('does not enable the save button', () => {
           expect(SettingsPage.$saveButton).to.have.prop('disabled', true);
         });
       });

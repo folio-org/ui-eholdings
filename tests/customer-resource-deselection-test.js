@@ -5,7 +5,7 @@ import it from './it-will';
 import { describeApplication } from './helpers';
 import ResourcePage from './pages/customer-resource-show';
 
-describeApplication('CustomerResourceShow Deselection', () => {
+describeApplication('CustomerResourceDeselection', () => {
   let provider,
     title,
     providerPackage,
@@ -124,10 +124,6 @@ describeApplication('CustomerResourceShow Deselection', () => {
 
             it('indicates it is no longer working', () => {
               expect(ResourcePage.isSelecting).to.equal(false);
-            });
-
-            it('removes custom coverage', () => {
-              expect(resource.customCoverages.models.length).to.equal(0);
             });
 
             it('removes custom embargo', () => {

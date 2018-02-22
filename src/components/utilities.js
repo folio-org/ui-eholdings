@@ -1,4 +1,5 @@
 import moment from 'moment';
+import queryString from 'qs';
 
 export function isBookPublicationType(publicationType) {
   let publicationTypeIsBook = {
@@ -56,3 +57,11 @@ export function isValidCoverageList(coverageArray) {
   return coverageArray
     .every(coverageArrayObj => (isValidCoverage(coverageArrayObj)));
 }
+
+// We use these functions quite a bit with these options, so this just
+// allows us to preload them with defaults so we don't have to repeat
+// the same options every time.
+export const qs = {
+  parse: path => queryString.parse(path, { ignoreQueryPrefix: true }),
+  stringify: params => queryString.stringify(params, { encodeValuesOnly: true })
+};

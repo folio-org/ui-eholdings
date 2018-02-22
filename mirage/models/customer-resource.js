@@ -1,7 +1,6 @@
-import { Model, belongsTo, hasMany } from 'mirage-server';
+import { Model, belongsTo } from 'mirage-server';
 
 export default Model.extend({
   package: belongsTo(),
-  title: belongsTo(),
-  customCoverages: hasMany()
+  title: belongsTo()
 });
