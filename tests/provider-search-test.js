@@ -160,6 +160,160 @@ describeApplication('ProviderSearch', () => {
     });
   });
 
+  describe('sorting providers', () => {
+    beforeEach(function () {
+      this.server.create('provider', {
+        name: 'Health Associations'
+      });
+      this.server.create('provider', {
+        name: 'Analytics for everyone'
+      });
+      this.server.create('provider', {
+        name: 'Non Matching'
+      });
+      this.server.create('provider', {
+        name: 'My Health Analytics 2'
+      });
+      this.server.create('provider', {
+        name: 'My Health Analytics 10'
+      });
+    });
+
+    describe('searching for providers', () => {
+      beforeEach(() => {
+        ProviderSearchPage.search('health analytics');
+      });
+
+      it('has search filters', () => {
+        expect(ProviderSearchPage.$searchFilters).to.exist;
+      });
+
+      it('shows the default sort filter of relevance in the search form', () => {
+        expect(ProviderSearchPage.getFilter('sort')).to.equal('relevance');
+      });
+
+      it("displays provider entries related to 'health analytics'", () => {
+        expect(ProviderSearchPage.$searchResultsItems).to.have.lengthOf(4);
+      });
+
+      it('displays the providers sorted by relevance', () => {
+        expect(ProviderSearchPage.providerList[0].name).to.equal('My Health Analytics 2');
+        expect(ProviderSearchPage.providerList[1].name).to.equal('My Health Analytics 10');
+        expect(ProviderSearchPage.providerList[2].name).to.equal('Analytics for everyone');
+        expect(ProviderSearchPage.providerList[3].name).to.equal('Health Associations');
+      });
+
+      it.still('does not reflect the default sort=relevance in url', function () {
+        expect(this.app.history.location.search).to.not.include('sort=relevance');
+      });
+
+      describe('then filtering by sort options', () => {
+        beforeEach(() => {
+          return convergeOn(() => {
+            expect(ProviderSearchPage.providerList.length).to.be.gt(0);
+          }).then(() => (
+            ProviderSearchPage.clickFilter('sort', 'name')
+          ));
+        });
+
+        it('displays the providers sorted by provider name', () => {
+          expect(ProviderSearchPage.providerList[0].name).to.equal('Analytics for everyone');
+          expect(ProviderSearchPage.providerList[1].name).to.equal('Health Associations');
+          expect(ProviderSearchPage.providerList[2].name).to.equal('My Health Analytics 2');
+          expect(ProviderSearchPage.providerList[3].name).to.equal('My Health Analytics 10');
+        });
+
+        it('shows the sort filter of name in the search form', () => {
+          expect(ProviderSearchPage.getFilter('sort')).to.equal('name');
+        });
+
+        it('reflects the sort in the URL query params', function () {
+          expect(this.app.history.location.search).to.include('sort=name');
+        });
+
+        describe('then searching for other providers', () => {
+          beforeEach(() => {
+            ProviderSearchPage.search('analytics');
+          });
+
+          it('keeps the sort filter of name in the search form', () => {
+            expect(ProviderSearchPage.getFilter('sort')).to.equal('name');
+          });
+
+          it('displays the providers sorted by provider name', () => {
+            expect(ProviderSearchPage.providerList[0].name).to.equal('Analytics for everyone');
+            expect(ProviderSearchPage.providerList[1].name).to.equal('My Health Analytics 2');
+            expect(ProviderSearchPage.providerList[2].name).to.equal('My Health Analytics 10');
+          });
+
+          it('shows the sort filter of name in the search form', () => {
+            expect(ProviderSearchPage.getFilter('sort')).to.equal('name');
+          });
+
+          describe('then clicking another search type', () => {
+            beforeEach(() => {
+              return convergeOn(() => {
+                expect(ProviderSearchPage.$searchResultsItems).to.have.lengthOf(3);
+              }).then(() => ProviderSearchPage.changeSearchType('packages'));
+            });
+
+            it('does not display any results', () => {
+              expect(ProviderSearchPage.$searchResultsItems).to.have.lengthOf(0);
+            });
+
+            describe('navigating back to providers search', () => {
+              beforeEach(() => {
+                return ProviderSearchPage.changeSearchType('providers');
+              });
+
+              it('keeps the sort filter of name in the search form', () => {
+                expect(ProviderSearchPage.getFilter('sort')).to.equal('name');
+              });
+
+              it('displays the last results', () => {
+                expect(ProviderSearchPage.$searchResultsItems).to.have.lengthOf(3);
+              });
+
+              it('reflects the sort=name in the URL query params', function () {
+                expect(this.app.history.location.search).to.include('sort=name');
+              });
+            });
+          });
+        });
+      });
+    });
+
+    describe('visiting the page with an existing sort', () => {
+      beforeEach(function () {
+        return convergeOn(() => {
+          expect(ProviderSearchPage.$searchResultsItems).to.have.lengthOf(0);
+        }).then(() => {
+          return this.visit('/eholdings/?searchType=providers&q=health&sort=name', () => {
+            expect(ProviderSearchPage.$root).to.exist;
+          });
+        });
+      });
+
+      it('displays search field populated', () => {
+        expect(ProviderSearchPage.$searchField).to.have.value('health');
+      });
+
+      it('displays the sort filter of name as selected in the search form', () => {
+        expect(ProviderSearchPage.getFilter('sort')).to.equal('name');
+      });
+
+      it('displays the expected results', () => {
+        expect(ProviderSearchPage.$searchResultsItems).to.have.lengthOf(3);
+      });
+
+      it('displays results sorted by name', () => {
+        expect(ProviderSearchPage.providerList[0].name).to.equal('Health Associations');
+        expect(ProviderSearchPage.providerList[1].name).to.equal('My Health Analytics 2');
+        expect(ProviderSearchPage.providerList[2].name).to.equal('My Health Analytics 10');
+      });
+    });
+  });
+
   describe('with multiple pages of providers', () => {
     beforeEach(function () {
       this.server.createList('provider', 75, {
