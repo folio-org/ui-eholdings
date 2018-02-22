@@ -44,9 +44,6 @@
     "isomorphic-fetch": "^2.2.1",
     "redux-actions": "^2.2.1"
   },
-  "resolutions": {
-    "**/uglify-es": "3.3.9"
-  },
   "stripes": {
     "type": "app",
     "displayName": "eHoldings",
