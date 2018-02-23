@@ -19,7 +19,7 @@ describeApplication('DetailsView', () => {
     });
 
     it('has a list that fills the container', () => {
-      expect(PackageShowPage.$titleContainer.height()).to.equal(PackageShowPage.$root.height());
+      expect(PackageShowPage.$titleContainer.height()).to.equal(PackageShowPage.$detailPaneContents.height());
     });
 
     it('has a list that is not scrollable', () => {
@@ -32,12 +32,12 @@ describeApplication('DetailsView', () => {
         return convergeOn(() => {
           expect(PackageShowPage.titleList.length).to.be.gt(0);
         }).then(() => {
-          PackageShowPage.$root.scrollTop(PackageShowPage.$root.prop('scrollHeight'));
+          PackageShowPage.$detailPaneContents.scrollTop(PackageShowPage.$detailPaneContents.prop('scrollHeight'));
         });
       });
 
       it('disables scrolling the container', () => {
-        expect(PackageShowPage.$root).to.have.css('overflow-y', 'hidden');
+        expect(PackageShowPage.$detailPaneContents).to.have.css('overflow-y', 'hidden');
       });
 
       it('enables scrolling the list', () => {
@@ -48,14 +48,14 @@ describeApplication('DetailsView', () => {
         beforeEach(() => {
           // converge on the previous expected behavior first
           return convergeOn(() => {
-            expect(PackageShowPage.$root).to.have.css('overflow-y', 'hidden');
+            expect(PackageShowPage.$detailPaneContents).to.have.css('overflow-y', 'hidden');
           }).then(() => {
             PackageShowPage.scrollToTitleOffset(0);
           });
         });
 
         it('enables scrolling the container', () => {
-          expect(PackageShowPage.$root).to.have.css('overflow-y', 'auto');
+          expect(PackageShowPage.$detailPaneContents).to.have.css('overflow-y', 'auto');
         });
 
         it('disables scrolling the list', () => {
@@ -67,14 +67,14 @@ describeApplication('DetailsView', () => {
         beforeEach(() => {
           // converge on the previous expected behavior first
           return convergeOn(() => {
-            expect(PackageShowPage.$root).to.have.css('overflow-y', 'hidden');
+            expect(PackageShowPage.$detailPaneContents).to.have.css('overflow-y', 'hidden');
           }).then(() => {
-            PackageShowPage.$root.scrollTop(10);
+            PackageShowPage.$detailPaneContents.scrollTop(10);
           });
         });
 
         it('enables scrolling the container', () => {
-          expect(PackageShowPage.$root).to.have.css('overflow-y', 'auto');
+          expect(PackageShowPage.$detailPaneContents).to.have.css('overflow-y', 'auto');
         });
 
         it('disables scrolling the list', () => {
@@ -86,16 +86,16 @@ describeApplication('DetailsView', () => {
         beforeEach(() => {
           // converge on the previous expected behavior first
           return convergeOn(() => {
-            expect(PackageShowPage.$root).to.have.css('overflow-y', 'hidden');
+            expect(PackageShowPage.$detailPaneContents).to.have.css('overflow-y', 'hidden');
           }).then(() => {
-            PackageShowPage.$root.get(0).dispatchEvent(
+            PackageShowPage.$detailPaneContents.get(0).dispatchEvent(
               new WheelEvent('wheel', { bubbles: true, deltaY: -1 })
             );
           });
         });
 
         it('enables scrolling the container', () => {
-          expect(PackageShowPage.$root).to.have.css('overflow-y', 'auto');
+          expect(PackageShowPage.$detailPaneContents).to.have.css('overflow-y', 'auto');
         });
 
         it('disables scrolling the list', () => {
@@ -119,16 +119,16 @@ describeApplication('DetailsView', () => {
       });
 
       it('has a list that does not fill the container', () => {
-        expect(TitleShowPage.$packageContainer.height()).to.be.lt(TitleShowPage.$root.height());
+        expect(TitleShowPage.$packageContainer.height()).to.be.lt(TitleShowPage.$detailPaneContents.height());
       });
 
       describe('scrolling to the bottom of the container', () => {
         beforeEach(() => {
-          TitleShowPage.$root.scrollTop(TitleShowPage.$root.prop('scrollHeight'));
+          TitleShowPage.$detailPaneContents.scrollTop(TitleShowPage.$detailPaneContents.prop('scrollHeight'));
         });
 
         it.still('does not disable scrolling the container', () => {
-          expect(TitleShowPage.$root).to.have.css('overflow-y', 'auto');
+          expect(TitleShowPage.$detailPaneContents).to.have.css('overflow-y', 'auto');
         });
       });
     });

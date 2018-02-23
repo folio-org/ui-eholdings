@@ -1,9 +1,8 @@
-/* global describe, beforeEach */
 import { expect } from 'chai';
-import it from './it-will';
+import { describe, beforeEach, it } from '@bigtest/mocha';
 
 import { describeApplication } from './helpers';
-import ResourcePage from './pages/customer-resource-show';
+import ResourcePage from './pages/bigtest/customer-resource-show';
 
 describeApplication('CustomerResourceShow', () => {
   let provider,
@@ -23,7 +22,9 @@ describeApplication('CustomerResourceShow', () => {
     });
 
     let title = this.server.create('title', {
-      publicationType: 'Streaming Video'
+      name: 'Best Title Ever',
+      publicationType: 'Streaming Video',
+      publisherName: 'Amazing Publisher'
     });
 
     title.identifiers = [
@@ -40,12 +41,18 @@ describeApplication('CustomerResourceShow', () => {
       this.server.create('contributor', { type: 'illustrator', contributor: 'Artist, John' })
     ].map(m => m.toJSON());
 
+    title.subjects = [
+      this.server.create('subject', { type: 'TLI', subject: 'Writing' }),
+      this.server.create('subject', { type: 'TLI', subject: 'Words' }),
+    ].map(m => m.toJSON());
+
     title.save();
 
     resource = this.server.create('customer-resource', {
       package: providerPackage,
       isSelected: false,
-      title
+      title,
+      url: 'frontside.io'
     });
   });
 
@@ -57,19 +64,19 @@ describeApplication('CustomerResourceShow', () => {
     });
 
     it('displays the title name', () => {
-      expect(ResourcePage.titleName).to.equal(resource.title.name);
+      expect(ResourcePage.titleName).to.equal('Best Title Ever');
     });
 
     it('displays the authors', () => {
-      expect(ResourcePage.contributorsList[0]).to.equal('AuthorsWriter, Sally; Wordsmith, Jane');
+      expect(ResourcePage.contributorsList(0).text).to.equal('AuthorsWriter, Sally; Wordsmith, Jane');
     });
 
     it('displays the illustrator', () => {
-      expect(ResourcePage.contributorsList[1]).to.equal('IllustratorArtist, John');
+      expect(ResourcePage.contributorsList(1).text).to.equal('IllustratorArtist, John');
     });
 
     it('displays the publisher name', () => {
-      expect(ResourcePage.publisherName).to.equal(resource.title.publisherName);
+      expect(ResourcePage.publisherName).to.equal('Amazing Publisher');
     });
 
     it('displays the publication type', () => {
@@ -77,25 +84,23 @@ describeApplication('CustomerResourceShow', () => {
     });
 
     it('does not group together identifiers of the same type, but not the same subtype', () => {
-      expect(ResourcePage.identifiersList[1]).to.equal('ISBN (Online)978-0547928197');
+      expect(ResourcePage.identifiersList(1).text).to.equal('ISBN (Online)978-0547928197');
     });
 
     it('does not show a subtype for an identifier when none exists', () => {
-      expect(ResourcePage.identifiersList[2]).to.equal('ISBN978-0547928227');
+      expect(ResourcePage.identifiersList(2).text).to.equal('ISBN978-0547928227');
     });
 
     it('does not show identifiers that are not ISSN or ISBN', () => {
-      expect(ResourcePage.identifiersList.length).to.equal(3);
+      expect(ResourcePage.identifiersList().length).to.equal(3);
     });
 
     it('displays the subjects list', () => {
-      expect(ResourcePage.subjectsList).to.equal(
-        resource.title.subjects.map(subjectObj => subjectObj.subject).join('; ')
-      );
+      expect(ResourcePage.subjectsList).to.equal('Writing; Words');
     });
 
     it('displays the package name', () => {
-      expect(ResourcePage.packageName).to.equal(resource.package.name);
+      expect(ResourcePage.packageName).to.equal('Cool Package');
     });
 
     it('displays the content type', () => {
@@ -103,11 +108,11 @@ describeApplication('CustomerResourceShow', () => {
     });
 
     it('displays the provider name', () => {
-      expect(ResourcePage.providerName).to.equal(resource.package.provider.name);
+      expect(ResourcePage.providerName).to.equal('Cool Provider');
     });
 
     it('displays the managed url', () => {
-      expect(ResourcePage.managedUrl).to.equal(resource.url);
+      expect(ResourcePage.managedUrl).to.equal('frontside.io');
     });
 
     describe.skip('clicking the managed url opens link in new tab', () => {
@@ -125,8 +130,8 @@ describeApplication('CustomerResourceShow', () => {
       expect(ResourcePage.isSelected).to.equal(false);
     });
 
-    it.still('should not display the back button', () => {
-      expect(ResourcePage.$backButton).to.not.exist;
+    it.always('should not display the back button', () => {
+      expect(ResourcePage.hasBackButton).to.be.false;
     });
   });
 
@@ -142,7 +147,7 @@ describeApplication('CustomerResourceShow', () => {
     });
 
     it('should display the back button in UI', () => {
-      expect(ResourcePage.$backButton).to.exist;
+      expect(ResourcePage.hasBackButton).to.be.true;
     });
   });
 
@@ -156,6 +161,7 @@ describeApplication('CustomerResourceShow', () => {
       });
 
       let title = this.server.create('title', {
+        name: 'Best Title Ever',
         publicationType: ''
       });
 
@@ -171,14 +177,14 @@ describeApplication('CustomerResourceShow', () => {
     });
 
     it('displays the title name', () => {
-      expect(ResourcePage.titleName).to.equal(resource.title.name);
+      expect(ResourcePage.titleName).to.equal('Best Title Ever');
     });
 
-    it.still('does not display a content type', () => {
-      expect(ResourcePage.contentType).to.equal('');
+    it.always('does not display a content type', () => {
+      expect(ResourcePage.hasContentType).to.be.false;
     });
 
-    it.still('does not display a publication type', () => {
+    it('does not display a publication type', () => {
       expect(ResourcePage.publicationType).to.equal('');
     });
   });
@@ -193,6 +199,7 @@ describeApplication('CustomerResourceShow', () => {
       });
 
       let title = this.server.create('title', {
+        name: 'Best Title Ever',
         publicationType: 'UnknownPublicationType'
       });
 
@@ -208,7 +215,7 @@ describeApplication('CustomerResourceShow', () => {
     });
 
     it('displays the title name', () => {
-      expect(ResourcePage.titleName).to.equal(resource.title.name);
+      expect(ResourcePage.titleName).to.equal('Best Title Ever');
     });
 
     it('displays a content type', () => {
