@@ -6,14 +6,14 @@
   "repository": "https://github.com/folio-org/ui-eholdings",
   "license": "Apache-2.0",
   "scripts": {
-    "start": "NODE_ENV=development stripescli serve demo/stripes.config.js",
-    "build": "stripescli build demo/stripes.config.js dist",
-    "test": "stripescli test karma demo/stripes.config.js",
+    "start": "NODE_ENV=development stripes serve demo/stripes.config.js",
+    "build": "stripes build demo/stripes.config.js dist",
+    "test": "stripes test karma demo/stripes.config.js",
     "lint": "eslint ./"
   },
   "devDependencies": {
     "@folio/eslint-config-stripes": "^1.1.0",
-    "@folio/stripes-cli": "^0.14.0",
+    "@folio/stripes-cli": "^1.0.0",
     "@folio/stripes-components": "folio-org/stripes-components#master",
     "@folio/stripes-core": "folio-org/stripes-core#master",
     "babel-plugin-istanbul": "^4.1.5",
@@ -43,9 +43,6 @@
     "inflected": "^2.0.3",
     "isomorphic-fetch": "^2.2.1",
     "redux-actions": "^2.2.1"
-  },
-  "resolutions": {
-    "**/uglify-es": "3.3.9"
   },
   "stripes": {
     "type": "app",
