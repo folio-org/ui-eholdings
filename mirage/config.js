@@ -1,5 +1,5 @@
 import { okapi } from 'stripes-config'; // eslint-disable-line import/no-unresolved
-import { Response } from 'mirage-server';
+import { Response } from '@bigtest/mirage';
 
 /**
  * Helper for creating a search route for a resource type.

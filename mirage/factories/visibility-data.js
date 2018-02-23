@@ -1,4 +1,4 @@
-import { Factory } from 'mirage-server';
+import { Factory } from '@bigtest/mirage';
 
 export default Factory.extend({
   isHidden: false,

@@ -1,4 +1,4 @@
-import { Model, hasMany } from 'mirage-server';
+import { Model, hasMany } from '@bigtest/mirage';
 
 export default Model.extend({
   packages: hasMany()
