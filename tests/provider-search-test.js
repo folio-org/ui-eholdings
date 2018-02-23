@@ -71,8 +71,25 @@ describeApplication('ProviderSearch', () => {
         expect(ProviderSearchPage.previewPaneIsVisible).to.be.true;
       });
 
-      it('should not display button in UI', () => {
+      it('should not display back button in UI', () => {
         expect(ProviderSearchPage.$backButton).to.not.exist;
+      });
+
+      describe('conducting a new search', () => {
+        beforeEach(() => {
+          ProviderSearchPage.search('Totally Awesome Co');
+        });
+
+        it('removes the preview detail pane', () => {
+          expect(ProviderSearchPage.previewPaneIsVisible).to.not.be.true;
+        });
+
+        it('preserves the last history entry', function () {
+          // this is a check to make sure duplicate entries are not added
+          // to the history. Ensuring the back button works as expected
+          let history = this.app.history;
+          expect(history.entries[history.index - 1].search).to.include('q=Provider');
+        });
       });
 
       describe('clicking the vignette behind the preview pane', () => {

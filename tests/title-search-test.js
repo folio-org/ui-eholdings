@@ -116,6 +116,23 @@ describeApplication('TitleSearch', () => {
         expect(TitleSearchPage.$backButton).to.not.exist;
       });
 
+      describe('conducting a new search', () => {
+        beforeEach(() => {
+          TitleSearchPage.search('SomethingSomethingWhoa');
+        });
+
+        it('removes the preview detail pane', () => {
+          expect(TitleSearchPage.previewPaneIsVisible).to.not.be.true;
+        });
+
+        it('preserves the last history entry', function () {
+          // this is a check to make sure duplicate entries are not added
+          // to the history. Ensuring the back button works as expected
+          let history = this.app.history;
+          expect(history.entries[history.index - 1].search).to.include('q=Title');
+        });
+      });
+
       describe('clicking the vignette behind the preview pane', () => {
         beforeEach(() => {
           TitleSearchPage.clickSearchVignette();

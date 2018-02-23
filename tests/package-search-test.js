@@ -76,6 +76,23 @@ describeApplication('PackageSearch', () => {
         expect(PackageSearchPage.$backButton).to.not.exist;
       });
 
+      describe('conducting a new search', () => {
+        beforeEach(() => {
+          PackageSearchPage.search('SomethingElse');
+        });
+
+        it('removes the preview detail pane', () => {
+          expect(PackageSearchPage.previewPaneIsVisible).to.not.be.true;
+        });
+
+        it('preserves the last history entry', function () {
+          // this is a check to make sure duplicate entries are not added
+          // to the history. Ensuring the back button works as expected
+          let history = this.app.history;
+          expect(history.entries[history.index - 1].search).to.include('q=Package');
+        });
+      });
+
       describe('selecting a package', () => {
         beforeEach(() => {
           return convergeOn(() => {

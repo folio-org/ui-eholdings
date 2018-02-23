@@ -23,7 +23,8 @@ class SearchRoute extends Component {
     }).isRequired,
     history: PropTypes.shape({
       push: PropTypes.func.isRequired,
-      replace: PropTypes.func.isRequired
+      replace: PropTypes.func.isRequired,
+      location: PropTypes.object
     }).isRequired,
     searchProviders: PropTypes.func.isRequired,
     searchPackages: PropTypes.func.isRequired,
@@ -150,6 +151,11 @@ class SearchRoute extends Component {
     // if the new query is different from our location, update the location
     if (qs.stringify(params) !== qs.stringify(this.state.params)) {
       let url = this.buildSearchUrl(location.pathname, params);
+
+      // if new query is different from current query this will close detail pane
+      if (params.q !== this.state.params.q) {
+        url = this.buildSearchUrl('/eholdings', params);
+      }
       // if only the filters have changed, just replace the current location
       if (params.q === this.state.params.q) {
         history.replace(url);
