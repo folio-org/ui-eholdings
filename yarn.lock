@@ -2,6 +2,16 @@
 # yarn lockfile v1
 
 
+"@bigtest/convergence@^0.3.0":
+  version "0.3.0"
+  resolved "https://registry.yarnpkg.com/@bigtest/convergence/-/convergence-0.3.0.tgz#c69a8219e5c6f3b092651117debd3990610118c8"
+
+"@bigtest/interaction@^0.1.0":
+  version "0.1.0"
+  resolved "https://registry.yarnpkg.com/@bigtest/interaction/-/interaction-0.1.0.tgz#5fe97b50f78d541cce81205785995602d09a2b03"
+  dependencies:
+    "@bigtest/convergence" "^0.3.0"
+
 "@bigtest/mirage@^0.0.1":
   version "0.0.1"
   resolved "https://registry.yarnpkg.com/@bigtest/mirage/-/mirage-0.0.1.tgz#c13462680ce1d91d5b1a73a2f90489b0d6039e83"
@@ -10,6 +20,12 @@
     inflected "^2.0.2"
     lodash "^4.17.4"
     pretender "^2.0.0"
+
+"@bigtest/mocha@^0.2.1":
+  version "0.2.1"
+  resolved "https://registry.yarnpkg.com/@bigtest/mocha/-/mocha-0.2.1.tgz#280f9c1168641c87df3444a6a3602a53b7bfd13b"
+  dependencies:
+    "@bigtest/convergence" "^0.3.0"
 
 "@folio/developer@^1.3.0":
   version "1.3.100011"

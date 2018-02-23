@@ -12,7 +12,9 @@
     "lint": "eslint ./"
   },
   "devDependencies": {
+    "@bigtest/interaction": "^0.1.0",
     "@bigtest/mirage": "^0.0.1",
+    "@bigtest/mocha": "^0.2.1",
     "@folio/eslint-config-stripes": "^1.1.0",
     "@folio/stripes-cli": "^1.0.0",
     "@folio/stripes-components": "folio-org/stripes-components#master",
