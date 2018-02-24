@@ -1,3 +1,3 @@
-import { Model } from 'mirage-server';
+import { Model } from '@bigtest/mirage';
 
 export default Model.extend();
