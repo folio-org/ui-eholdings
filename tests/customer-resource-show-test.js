@@ -130,7 +130,7 @@ describeApplication('CustomerResourceShow', () => {
       expect(ResourcePage.isSelected).to.equal(false);
     });
 
-    it.always('should not display the back button', () => {
+    it.always.skip('should not display the back button', () => {
       expect(ResourcePage.hasBackButton).to.be.false;
     });
   });
@@ -180,11 +180,11 @@ describeApplication('CustomerResourceShow', () => {
       expect(ResourcePage.titleName).to.equal('Best Title Ever');
     });
 
-    it.always('does not display a content type', () => {
+    it.always.skip('does not display a content type', () => {
       expect(ResourcePage.hasContentType).to.be.false;
     });
 
-    it.always('does not display a publication type', () => {
+    it.always.skip('does not display a publication type', () => {
       expect(ResourcePage.hasPublicationType).to.be.false;
     });
   });
