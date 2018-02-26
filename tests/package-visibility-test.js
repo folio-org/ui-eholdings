@@ -5,7 +5,7 @@ import it from './it-will';
 import { describeApplication } from './helpers';
 import PackageShowPage from './pages/package-show';
 
-describeApplication('PackageShowVisibility', () => {
+describeApplication('PackageVisibility', () => {
   let provider,
     pkg;
 

@@ -1,11 +1,19 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import Link from 'react-router-dom/Link';
+import SearchField from '@folio/stripes-components/lib/structures/SearchField';
 import capitalize from 'lodash/capitalize';
 import isEqual from 'lodash/isEqual';
 import styles from './search-form.css';
 
 const validSearchTypes = ['providers', 'packages', 'titles'];
+
+const searchableIndexes = [
+  { label: 'Title', value: 'title' },
+  { label: 'ISSN/ISBN', value: 'isxn' },
+  { label: 'Publisher', value: 'publisher' },
+  { label: 'Subject', value: 'subject' }
+];
 
 export default class SearchForm extends Component {
   static propTypes = {
@@ -18,21 +26,27 @@ export default class SearchForm extends Component {
     filtersComponent: PropTypes.func,
     onSearch: PropTypes.func.isRequired,
     searchString: PropTypes.string,
-    filter: PropTypes.object
+    filter: PropTypes.object,
+    searchfield: PropTypes.string
   };
 
   state = {
     searchString: this.props.searchString || '',
-    filter: this.props.filter || {}
+    filter: this.props.filter || {},
+    searchfield: this.props.searchfield || 'title'
   };
 
-  componentWillReceiveProps({ searchString = '', filter = {} }) {
+  componentWillReceiveProps({ searchString = '', filter = {}, searchfield }) {
     if (searchString !== this.state.searchString) {
       this.setState({ searchString });
     }
 
     if (!isEqual(filter, this.state.filter)) {
       this.setState({ filter });
+    }
+
+    if (searchfield !== this.state.searchfield) {
+      this.setState({ searchfield });
     }
   }
 
@@ -41,7 +55,8 @@ export default class SearchForm extends Component {
 
     this.props.onSearch({
       q: this.state.searchString,
-      filter: this.state.filter
+      filter: this.state.filter,
+      searchfield: this.state.searchfield
     });
   };
 
@@ -53,9 +68,13 @@ export default class SearchForm extends Component {
     this.setState({ filter });
   };
 
+  handleChangeIndex = (e) => {
+    this.setState({ searchfield: e.target.value });
+  };
+
   render() {
     const { searchType, searchTypeUrls, filtersComponent: Filters } = this.props;
-    const { searchString, filter } = this.state;
+    const { searchString, filter, searchfield } = this.state;
 
     return (
       <div className={styles['search-form-container']} data-test-search-form={searchType}>
@@ -73,15 +92,32 @@ export default class SearchForm extends Component {
           ))}
         </div>
         <form onSubmit={this.handleSearchSubmit}>
-          <input
-            className={styles['search-input']}
-            type="search"
-            name="search"
-            value={searchString}
-            placeholder={`Search for ${searchType}...`}
-            onChange={this.handleChangeSearch}
-            data-test-search-field
-          />
+          {(searchType === 'titles') ? (
+            <div data-test-title-search-field>
+              <SearchField
+                name="search"
+                id="eholdings-title-search-searchfield"
+                searchableIndexes={searchableIndexes}
+                selectedIndex={searchfield}
+                onChangeIndex={this.handleChangeIndex}
+                onChange={this.handleChangeSearch}
+                onClear={this.onClearSearch}
+                value={searchString}
+                placeholder={`Search for ${searchType}...`}
+              />
+            </div>
+          ) : (
+            <input
+              className={styles['search-input']}
+              type="search"
+              name="search"
+              value={searchString}
+              placeholder={`Search for ${searchType}...`}
+              onChange={this.handleChangeSearch}
+              data-test-search-field
+            />
+          )
+          }
           <button
             className={styles['search-submit']}
             type="submit"
@@ -95,7 +131,7 @@ export default class SearchForm extends Component {
 
           {Filters && (
             <Filters
-              filter={filter}
+              activeFilters={filter}
               onUpdate={this.handleUpdateFilter}
             />
           )}

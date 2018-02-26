@@ -12,12 +12,12 @@ import KeyValueLabel from './key-value-label';
 import IdentifiersList from './identifiers-list';
 import ContributorsList from './contributors-list';
 import ToggleSwitch from './toggle-switch';
-import CoverageDates from './coverage-dates';
+import CoverageDateList from './coverage-date-list';
 import { isBookPublicationType, isValidCoverageList } from './utilities';
 import Modal from './modal';
 import styles from './styles.css';
 import CustomEmbargoForm from './custom-embargo';
-import CoverageForm from './coverage-form';
+import CustomerResourceCoverage from './customer-resource-coverage';
 
 export default class CustomerResourceShow extends Component {
   static propTypes = {
@@ -172,7 +172,7 @@ export default class CustomerResourceShow extends Component {
               {hasManagedCoverages && (
                 <KeyValueLabel label="Managed coverage dates">
                   <div data-test-eholdings-customer-resource-show-managed-coverage-list>
-                    <CoverageDates
+                    <CoverageDateList
                       coverageArray={model.managedCoverages}
                       isYearOnly={isBookPublicationType(model.publicationType)}
                     />
@@ -247,7 +247,7 @@ export default class CustomerResourceShow extends Component {
 
                   <hr />
 
-                  <CoverageForm
+                  <CustomerResourceCoverage
                     initialValues={{ customCoverages }}
                     packageCoverage={ model.package.customCoverage }
                     onSubmit={coverageSubmitted}

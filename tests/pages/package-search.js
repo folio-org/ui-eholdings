@@ -38,6 +38,14 @@ export default {
     return $('[data-test-search-field]');
   },
 
+  get $titleSearchField() {
+    return $('[data-test-title-search-field]').find('input[name="search"]');
+  },
+
+  get $searchFilters() {
+    return $('[data-test-eholdings-search-filters="packages"]');
+  },
+
   get $searchResultsItems() {
     return $('[data-test-query-list="packages"] li a');
   },
@@ -83,6 +91,23 @@ export default {
     }).then(() => {
       $('[data-test-search-submit]').trigger('click');
     });
+  },
+
+  getFilter(name) {
+    return this.$searchFilters.find(`input[name="${name}"]:checked`).val();
+  },
+
+  clickFilter(name, value) {
+    let $radio = this.$searchFilters.find(`input[name="${name}"][value="${value}"]`);
+    $radio.get(0).click();
+    return convergeOn(() => expect($radio).to.have.prop('checked'));
+  },
+
+  clearFilter(name) {
+    this.$searchFilters.find(`input[name="${name}"]`)
+      .closest('section').find('[role="heading"] button:nth-child(2)')
+      .get(0)
+      .click();
   },
 
   changeSearchType(searchType) {

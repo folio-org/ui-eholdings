@@ -3,20 +3,20 @@ import { Field, FieldArray, reduxForm } from 'redux-form';
 import PropTypes from 'prop-types';
 import classNames from 'classnames/bind';
 import moment from 'moment';
+import isEqual from 'lodash/isEqual';
 
 import Datepicker from '@folio/stripes-components/lib/Datepicker';
 import Button from '@folio/stripes-components/lib/Button';
 import Icon from '@folio/stripes-components/lib/Icon';
 import IconButton from '@folio/stripes-components/lib/IconButton';
-import CoverageDates from '../coverage-dates';
-import styles from './coverage-form.css';
-import { formatISODateWithoutTime } from '../utilities';
-import isEqual from 'lodash/isEqual';
 
+import CoverageDateList from '../coverage-date-list';
+import styles from './customer-resource-coverage.css';
+import { formatISODateWithoutTime } from '../utilities';
 
 const cx = classNames.bind(styles);
 
-class CoverageForm extends Component {
+class CustomerResourceCoverage extends Component {
   static propTypes = {
     initialValues: PropTypes.shape({
       customCoverages: PropTypes.array
@@ -190,7 +190,7 @@ class CoverageForm extends Component {
           data-test-eholdings-coverage-form-display
           className={styles['coverage-form-display']}
         >
-          <CoverageDates
+          <CoverageDateList
             coverageArray={customCoverages}
           />
           <div data-test-eholdings-coverage-form-edit-button>
@@ -384,4 +384,4 @@ export default reduxForm({
   enableReinitialize: true,
   form: 'Coverage',
   destroyOnUnmount: false
-})(CoverageForm);
+})(CustomerResourceCoverage);

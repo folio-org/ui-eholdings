@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-
 import { qs } from '../components/utilities';
 import { createResolver } from '../redux';
 import Provider from '../redux/provider';
@@ -10,6 +9,7 @@ import Title from '../redux/title';
 
 import ProviderSearchList from '../components/provider-search-list';
 import PackageSearchList from '../components/package-search-list';
+import PackageSearchFilters from '../components/package-search-filters';
 import TitleSearchList from '../components/title-search-list';
 import TitleSearchFilters from '../components/title-search-filters';
 import SearchPaneset from '../components/search-paneset';
@@ -76,6 +76,21 @@ class SearchRoute extends Component {
   }
 
   /**
+   * Transforms UI params into search params
+   * @param {Object} parms - query param object
+   */
+
+  transformQueryParams(params) {
+    let { searchType } = this.state;
+    if (searchType === 'titles') {
+      let { q, searchfield = 'name', filter = {}, ...searchParams } = params;
+      if (searchfield === 'title') { searchfield = 'name'; }
+      let searchfilter = { ...filter, [searchfield]: q };
+      return { ...searchParams, filter: searchfilter };
+    } else { return params; }
+  }
+
+  /**
    * Uses the resolver to get a results collection for the current
    * search type and search params (including the page)
    * @returns {Collection} a collection instance
@@ -84,11 +99,12 @@ class SearchRoute extends Component {
     let { resolver } = this.props;
     let { searchType, params } = this.state;
     let { offset = 0, ...queryParams } = params;
+    let searchParams = this.transformQueryParams(queryParams);
     let page = Math.floor(offset / 25) + 1;
 
     return resolver.query(searchType, {
       filter: undefined,
-      ...queryParams,
+      ...searchParams,
       page
     });
   }
@@ -107,7 +123,6 @@ class SearchRoute extends Component {
     if (queryString) {
       url += `&${queryString}`;
     }
-
     return url;
   }
 
@@ -132,11 +147,9 @@ class SearchRoute extends Component {
    */
   updateURLParams(params) {
     let { location, history } = this.props;
-
     // if the new query is different from our location, update the location
     if (qs.stringify(params) !== qs.stringify(this.state.params)) {
       let url = this.buildSearchUrl(location.pathname, params);
-
       // if only the filters have changed, just replace the current location
       if (params.q === this.state.params.q) {
         history.replace(url);
@@ -151,10 +164,11 @@ class SearchRoute extends Component {
    * @param {Object} params - search params for the action
    */
   search(params) {
+    let searchParams = this.transformQueryParams(params);
     let { searchType } = this.state;
-    if (searchType === 'providers') this.props.searchProviders(params);
-    if (searchType === 'packages') this.props.searchPackages(params);
-    if (searchType === 'titles') this.props.searchTitles(params);
+    if (searchType === 'providers') this.props.searchProviders(searchParams);
+    if (searchType === 'packages') this.props.searchPackages(searchParams);
+    if (searchType === 'titles') this.props.searchTitles(searchParams);
   }
 
   /**
@@ -196,6 +210,8 @@ class SearchRoute extends Component {
 
     if (searchType === 'titles') {
       return TitleSearchFilters;
+    } else if (searchType === 'packages') {
+      return PackageSearchFilters;
     }
 
     return null;
@@ -206,7 +222,6 @@ class SearchRoute extends Component {
    */
   renderResults() {
     let { searchType, params } = this.state;
-
     let props = {
       params,
       location: this.props.location,
@@ -255,6 +270,7 @@ class SearchRoute extends Component {
                 searchType={searchType}
                 searchString={params.q}
                 filter={params.filter}
+                searchfield={params.searchfield}
                 searchTypeUrls={this.getSearchTypeUrls()}
                 filtersComponent={this.getFiltersComponent()}
                 onSearch={this.handleSearch}

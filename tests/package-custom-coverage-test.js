@@ -5,7 +5,7 @@ import it, { convergeOn } from './it-will';
 import { describeApplication } from './helpers';
 import PackageShowPage from './pages/package-show';
 
-describeApplication('PackageShowCustomCoverage', () => {
+describeApplication('PackageCustomCoverage', () => {
   let provider,
     pkg;
 
@@ -15,7 +15,7 @@ describeApplication('PackageShowCustomCoverage', () => {
     });
   });
 
-  describe('visting the packshow page and package is not selected', () => {
+  describe('visiting the package show page and package is not selected', () => {
     beforeEach(function () {
       pkg = this.server.create('package', {
         provider,

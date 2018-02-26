@@ -5,7 +5,7 @@ import it from './it-will';
 import { describeApplication } from './helpers';
 import ResourcePage from './pages/customer-resource-show';
 
-describeApplication('CustomerResourceShow Deselection', () => {
+describeApplication('CustomerResourceDeselection', () => {
   let provider,
     title,
     providerPackage,

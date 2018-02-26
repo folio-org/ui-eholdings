@@ -1,5 +1,5 @@
 /* global describe, beforeEach */
-import { Response } from 'mirage-server';
+import { Response } from '@bigtest/mirage';
 
 import { expect } from 'chai';
 import it from './it-will';

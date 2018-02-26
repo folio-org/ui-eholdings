@@ -28,7 +28,7 @@ function formatCoverageYear(coverageObj) {
   }
 }
 
-export default function CoverageDates(props, context) {
+export default function CoverageDateList(props, context) {
   return (
     <div id={props.id} data-test-eholdings-display-coverage-list>
       { props.coverageArray
@@ -38,12 +38,12 @@ export default function CoverageDates(props, context) {
   );
 }
 
-CoverageDates.propTypes = {
+CoverageDateList.propTypes = {
   coverageArray: PropTypes.array,
   id: PropTypes.string,
   isYearOnly: PropTypes.bool
 };
 
-CoverageDates.contextTypes = {
+CoverageDateList.contextTypes = {
   intl: PropTypes.object
 };

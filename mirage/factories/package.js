@@ -1,4 +1,4 @@
-import { Factory, faker, trait } from 'mirage-server';
+import { Factory, faker, trait } from '@bigtest/mirage';
 
 export default Factory.extend({
   name: () => faker.commerce.productName(),
@@ -12,7 +12,10 @@ export default Factory.extend({
     'eBook',
     'eJournal'
   ]),
-  customCoverage: {},
+  customCoverage: {
+    beginCoverage: '',
+    endCoverage: ''
+  },
 
   withTitles: trait({
     afterCreate(packageObj, server) {

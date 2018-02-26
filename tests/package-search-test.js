@@ -14,7 +14,8 @@ describeApplication('PackageSearch', () => {
       name: i => `Package${i + 1}`,
       isSelected: i => !!i,
       titleCount: 3,
-      selectedCount: i => i
+      selectedCount: i => i,
+      contentType: i => (!i ? 'ebook' : 'ejournal')
     });
 
     this.server.create('package', 'withProvider', {
@@ -121,7 +122,120 @@ describeApplication('PackageSearch', () => {
       });
     });
 
-    describe('filtering the search results further', () => {
+    describe('filtering by content type', () => {
+      beforeEach(() => {
+        return convergeOn(() => {
+          expect(PackageSearchPage.$searchResultsItems).to.have.lengthOf(3);
+        }).then(() => (
+          PackageSearchPage.clickFilter('type', 'ebook')
+        )).then(() => (
+          PackageSearchPage.search('Package')
+        ));
+      });
+
+      it('only shows results for ebook content types', () => {
+        expect(PackageSearchPage.packageList).to.have.lengthOf(1);
+      });
+
+      it('reflects the filter in the URL query params', function () {
+        expect(this.app.history.location.search).to.include('filter[type]=ebook');
+      });
+
+      describe('clearing the filters', () => {
+        beforeEach(() => {
+          return convergeOn(() => {
+            expect(PackageSearchPage.$searchResultsItems).to.have.lengthOf(1);
+          }).then(() => (
+            PackageSearchPage.clearFilter('type')
+          )).then(() => (
+            PackageSearchPage.search('Package')
+          ));
+        });
+
+        it.still('removes the filter from the URL query params', function () {
+          expect(this.app.history.location.search).to.not.include('filter[type]');
+        });
+      });
+
+      describe('visiting the page with an existing filter', () => {
+        beforeEach(function () {
+          return convergeOn(() => {
+            expect(PackageSearchPage.$searchResultsItems).to.have.lengthOf(1);
+          }).then(() => {
+            return this.visit('/eholdings/?searchType=packages&q=Package&filter[type]=ejournal', () => {
+              expect(PackageSearchPage.$root).to.exist;
+            });
+          });
+        });
+
+        it('shows the existing filter in the search form', () => {
+          expect(PackageSearchPage.getFilter('type')).to.equal('ejournal');
+        });
+
+        it('only shows results for e-journal content types', () => {
+          expect(PackageSearchPage.packageList).to.have.lengthOf(2);
+        });
+      });
+    });
+
+    describe('filtering by selection status', () => {
+      beforeEach(() => {
+        return convergeOn(() => {
+          expect(PackageSearchPage.$searchResultsItems).to.have.lengthOf(3);
+        }).then(() => (
+          PackageSearchPage.clickFilter('selected', 'true')
+        )).then(() => (
+          PackageSearchPage.search('Package')
+        ));
+      });
+
+      it('only shows results for selected packages', () => {
+        expect(PackageSearchPage.packageList).to.have.lengthOf(2);
+        expect(PackageSearchPage.packageList[0].isSelected).to.be.true;
+      });
+
+      it('reflects the filter in the URL query params', function () {
+        expect(this.app.history.location.search).to.include('filter[selected]=true');
+      });
+
+      describe('clearing the filters', () => {
+        beforeEach(() => {
+          return convergeOn(() => {
+            expect(PackageSearchPage.$searchResultsItems).to.have.lengthOf(2);
+          }).then(() => (
+            PackageSearchPage.clearFilter('selected')
+          )).then(() => (
+            PackageSearchPage.search('Package')
+          ));
+        });
+
+        it.still('removes the filter from the URL query params', function () {
+          expect(this.app.history.location.search).to.not.include('filter[selected]');
+        });
+      });
+
+      describe('visiting the page with an existing filter', () => {
+        beforeEach(function () {
+          return convergeOn(() => {
+            expect(PackageSearchPage.$searchResultsItems).to.have.lengthOf(2);
+          }).then(() => {
+            return this.visit('/eholdings/?searchType=packages&q=Package&filter[selected]=false', () => {
+              expect(PackageSearchPage.$root).to.exist;
+            });
+          });
+        });
+
+        it('shows the existing filter in the search form', () => {
+          expect(PackageSearchPage.getFilter('selected')).to.equal('false');
+        });
+
+        it('only shows results for non-selected packages', () => {
+          expect(PackageSearchPage.packageList).to.have.lengthOf(1);
+        });
+      });
+    });
+
+    describe('with a more specific query', () => {
       beforeEach(() => {
         return convergeOn(() => {
           expect(PackageSearchPage.$searchResultsItems).to.have.lengthOf(3);
@@ -148,7 +262,7 @@ describeApplication('PackageSearch', () => {
       });
 
       it('displays an empty search', () => {
-        expect(PackageSearchPage.$searchField).to.have.value('');
+        expect(PackageSearchPage.$titleSearchField).to.have.value('');
       });
 
       it('does not display any more results', () => {

@@ -5,7 +5,7 @@ import it, { convergeOn } from './it-will';
 import { describeApplication } from './helpers';
 import CustomerResourceShowPage from './pages/customer-resource-show';
 
-describeApplication('CustomerResourceShowEmbargos', () => {
+describeApplication('CustomerResourceEmbargo', () => {
   let pkg,
     title,
     resource;

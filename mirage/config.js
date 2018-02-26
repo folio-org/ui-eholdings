@@ -1,5 +1,5 @@
 import { okapi } from 'stripes-config'; // eslint-disable-line import/no-unresolved
-import { Response } from 'mirage-server';
+import { Response } from '@bigtest/mirage';
 
 /**
  * Helper for creating a search route for a resource type.
@@ -9,18 +9,18 @@ import { Response } from 'mirage-server';
  * @returns {Function} route handler for a search route of this
  * resource type
  */
-function searchRouteFor(resourceType, filter = () => true) {
+function searchRouteFor(resourceType, filter = (model, req) => {
+  let query = req.queryParams.q.toLowerCase();
+  return model.name && model.name.toLowerCase().includes(query);
+}) {
   return function (schema, req) { // eslint-disable-line func-names
-    let query = req.queryParams.q.toLowerCase();
     let page = Math.max(parseInt(req.queryParams.page || 1, 10), 1);
     let count = parseInt(req.queryParams.count || 25, 10);
     let offset = (page - 1) * count;
 
     let collection = schema[resourceType];
     let json = this.serialize(collection.all().filter((model) => {
-      return model.name
-        && model.name.toLowerCase().includes(query)
-        && filter(model, req);
+      return filter(model, req);
     }));
 
     json.meta = { totalResults: json.data.length };
@@ -174,7 +174,27 @@ export default function configure() {
   this.get('/providers/:id/packages', nestedResourceRouteFor('provider', 'packages'));
 
   // Package resources
-  this.get('/packages', searchRouteFor('packages'));
+  this.get('/packages', searchRouteFor('packages', (pkg, req) => {
+    let query = req.queryParams.q.toLowerCase();
+    let params = req.queryParams;
+    let type = params['filter[type]'];
+    let selected = params['filter[selected]'];
+    let filtered = pkg.name && pkg.name.toLowerCase().includes(query);
+
+    if (filtered && type && type !== 'all') {
+      filtered = pkg.contentType.toLowerCase() === type;
+    }
+
+    if (filtered && selected) {
+      filtered = pkg.isSelected.toString() === selected;
+    }
+
+    return filtered;
+  }));
+
+  this.get('/titles/:id', ({ titles }, request) => {
+    return titles.find(request.params.id);
+  });
 
   this.get('/packages/:id', ({ packages }, request) => {
     let pkg = packages.find(request.params.id);
@@ -214,13 +234,27 @@ export default function configure() {
     let params = req.queryParams;
     let type = params['filter[type]'];
     let selected = params['filter[selected]'];
+    let name = params['filter[name]'];
+    let isxn = params['filter[isxn]'];
+    let subject = params['filter[subject]'];
+    let publisher = params['filter[publisher]'];
     let filtered = true;
 
-    if (type && type !== 'all') {
+    if (name) {
+      filtered = title.name && title.name.toLowerCase().includes(name.toLowerCase());
+    } else if (isxn) {
+      filtered = title.identifiers && title.identifiers.some(i => i.id.toLowerCase().includes(isxn.toLowerCase()));
+    } else if (subject) {
+      filtered = title.subjects && title.subjects.some(s => s.subject.toLowerCase().includes(subject.toLowerCase()));
+    } else if (publisher) {
+      filtered = title.publisherName && title.publisherName.toLowerCase().includes(publisher.toLowerCase());
+    }
+
+    if (filtered && type && type !== 'all') {
       filtered = title.publicationType.toLowerCase() === type;
     }
 
-    if (selected) {
+    if (filtered && selected) {
       filtered = title.customerResources.models.some((resource) => {
         return resource.isSelected.toString() === selected;
       });
