@@ -27,6 +27,22 @@ function createRowObject(element) {
       return $scope.find('[data-test-eholdings-coverage-form-date-range-begin] input').attr('class').includes('feedbackValid--');
     },
 
+    get beginCoverageFieldIsInvalid() {
+      return $scope.find('[data-test-eholdings-coverage-form-date-range-begin] input').attr('class').includes('feedbackError--');
+    },
+
+    get beginCoverageFieldValidationError() {
+      return $scope.find('[data-test-eholdings-coverage-form-date-range-begin] div[class^=feedbackError]').text();
+    },
+
+    get endCoverageFieldIsInvalid() {
+      return $scope.find('[data-test-eholdings-coverage-form-date-range-end] input').attr('class').includes('feedbackError--');
+    },
+
+    get endCoverageFieldValidationError() {
+      return $scope.find('[data-test-eholdings-coverage-form-date-range-end] div[class^=feedbackError]').text();
+    },
+
     get $removeRowButton() {
       return $scope.find('[data-test-eholdings-coverage-form-remove-row-button]');
     },
@@ -56,8 +72,8 @@ function createRowObject(element) {
     },
 
     clearBeginDate() {
-      let $clearButton = $('[data-test-eholdings-package-details-custom-begin-coverage]')
-        .find('button[id^=datepicker-clear-button]');
+      let $clearButton = $('[data-test-eholdings-coverage-form-date-range-begin]')
+          .find('button[id^=datepicker-clear-button-undefined]');
       return convergeOn(() => {
         expect($clearButton).to.exist;
       }).then(() => {
@@ -66,7 +82,7 @@ function createRowObject(element) {
     },
 
     clearEndDate() {
-      let $clearButton = $('[data-test-eholdings-package-details-custom-end-coverage]')
+      let $clearButton = $('[data-test-eholdings-coverage-form-date-range-end]')
         .find('button[id^=datepicker-clear-button]');
       return convergeOn(() => {
         expect($clearButton).to.exist;
@@ -149,9 +165,9 @@ export default {
   clickAddRowButton() {
     return convergeOn(() => {
       expect($('[data-test-eholdings-coverage-form-add-row-button]')).to.exist;
-    }).then(() => {
-      return $('[data-test-eholdings-coverage-form-add-row-button] button').click();
-    });
+    }).then(() => (
+      $('[data-test-eholdings-coverage-form-add-row-button] button').click()
+    ));
   },
 
   clickSaveButton() {
