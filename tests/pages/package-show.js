@@ -28,6 +28,10 @@ export default {
     return $('[data-test-eholdings-details-view="package"]');
   },
 
+  get $detailPaneContents() {
+    return $('[data-test-eholdings-detail-pane-contents]');
+  },
+
   get name() {
     return $('[data-test-eholdings-details-view-name="package"]').text();
   },

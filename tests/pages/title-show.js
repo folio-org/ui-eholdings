@@ -19,6 +19,10 @@ export default {
     return $('[data-test-eholdings-details-view="title"]');
   },
 
+  get $detailPaneContents() {
+    return $('[data-test-eholdings-detail-pane-contents]');
+  },
+
   get titleName() {
     return $('[data-test-eholdings-details-view-name="title"]').text();
   },

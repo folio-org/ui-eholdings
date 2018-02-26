@@ -153,7 +153,7 @@ export default class DetailsView extends Component {
     });
 
     return (
-      <div>
+      <div data-test-eholdings-details-view={type}>
         {showPaneHeader && (
           <PaneHeader firstMenu={paneHeaderFirstMenu} />
         )}
@@ -163,7 +163,7 @@ export default class DetailsView extends Component {
           className={containerClassName}
           onScroll={this.handleScroll}
           onWheel={this.handleWheel}
-          data-test-eholdings-details-view={type}
+          data-test-eholdings-detail-pane-contents
         >
           {model.isLoaded ? [
             <div key="header" className={styles.header}>

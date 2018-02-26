@@ -118,11 +118,13 @@ export default class CustomerResourceShow extends Component {
                 </div>
               </KeyValueLabel>
 
-              <KeyValueLabel label="Publication type">
-                <div data-test-eholdings-customer-resource-show-publication-type>
-                  {model.publicationType}
-                </div>
-              </KeyValueLabel>
+              {model.publicationType && (
+                <KeyValueLabel label="Publication type">
+                  <div data-test-eholdings-customer-resource-show-publication-type>
+                    {model.publicationType}
+                  </div>
+                </KeyValueLabel>
+              )}
 
               <IdentifiersList data={model.identifiers} />
 
