@@ -10,6 +10,7 @@ import {
   titleName = text('[data-test-eholdings-details-view-name="resource"]');
   publisherName = text('[data-test-eholdings-customer-resource-show-publisher-name]');
   publicationType = text('[data-test-eholdings-customer-resource-show-publication-type]');
+  hasPublicationType = isPresent('[data-test-eholdings-customer-resource-show-publication-type]');
   subjectsList = text('[data-test-eholdings-customer-resource-show-subjects-list]');
   providerName = text('[data-test-eholdings-customer-resource-show-provider-name]');
   packageName = text('[data-test-eholdings-customer-resource-show-package-name]');

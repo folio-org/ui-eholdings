@@ -184,8 +184,8 @@ describeApplication('CustomerResourceShow', () => {
       expect(ResourcePage.hasContentType).to.be.false;
     });
 
-    it('does not display a publication type', () => {
-      expect(ResourcePage.publicationType).to.equal('');
+    it.always('does not display a publication type', () => {
+      expect(ResourcePage.hasPublicationType).to.be.false;
     });
   });
 
