@@ -73,7 +73,7 @@ function createRowObject(element) {
 
     clearBeginDate() {
       let $clearButton = $('[data-test-eholdings-coverage-form-date-range-begin]')
-          .find('button[id^=datepicker-clear-button-undefined]');
+        .find('button[id^=datepicker-clear-button-undefined]');
       return convergeOn(() => {
         expect($clearButton).to.exist;
       }).then(() => {

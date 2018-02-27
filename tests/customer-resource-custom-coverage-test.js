@@ -265,10 +265,10 @@ describeApplication('CustomerResourceCustomCoverage', () => {
             CustomerResourceCoverage.dateRangeRowList[0].pressEnterEndDate();
           });
 
-          it('indicates validation error on begin date', function() {
+          it('indicates validation error on begin date', () => {
             expect(CustomerResourceCoverage.dateRangeRowList[0].beginCoverageFieldIsInvalid).to.be.true;
           });
-          it('indicates validation error on end date', function() {
+          it('indicates validation error on end date', () => {
             expect(CustomerResourceCoverage.dateRangeRowList[0].endCoverageFieldIsInvalid).to.be.true;
           });
 

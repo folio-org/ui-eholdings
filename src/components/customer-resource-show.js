@@ -249,7 +249,7 @@ export default class CustomerResourceShow extends Component {
 
                   <CustomerResourceCoverage
                     initialValues={{ customCoverages }}
-                    packageCoverage={ model.package.customCoverage }
+                    packageCoverage={model.package.customCoverage}
                     onSubmit={coverageSubmitted}
                     isPending={model.update.isPending && 'customCoverages' in model.update.changedAttributes}
                     locale={locale}

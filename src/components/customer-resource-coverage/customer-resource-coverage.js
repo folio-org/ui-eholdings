@@ -21,14 +21,14 @@ class CustomerResourceCoverage extends Component {
     initialValues: PropTypes.shape({
       customCoverages: PropTypes.array
     }).isRequired,
-    packageCoverage: PropTypes.object,
+    packageCoverage: PropTypes.object, // eslint-disable-line react/no-unused-prop-types
     onSubmit: PropTypes.func.isRequired,
     handleSubmit: PropTypes.func,
     pristine: PropTypes.bool,
     isPending: PropTypes.bool,
     initialize: PropTypes.func,
     locale: PropTypes.string, // eslint-disable-line react/no-unused-prop-types
-    intl: PropTypes.object
+    intl: PropTypes.object // eslint-disable-line react/no-unused-prop-types
   };
 
   state = {
@@ -230,26 +230,6 @@ class CustomerResourceCoverage extends Component {
   }
 }
 
-const validate = (values, props) => {
-  let errors = [];
-
-  let { intl, packageCoverage, locale } = props;
-
-  values.customCoverages.forEach((dateRange, index) => {
-    let dateRangeErrors = {};
-
-    dateRangeErrors =
-      validateDateFormat(dateRange) ||
-      validateStartDateBeforeEndDate(dateRange) ||
-      validateNoRangeOverlaps(dateRange, values.customCoverages, index, intl) ||
-      validateWithinPackageRange(dateRange, packageCoverage, intl);
-
-    errors[index] = dateRangeErrors;
-  });
-
-  return { customCoverages: errors };
-};
-
 /**
  * Validator to ensure start date comes before end date chronologically
  * @param {} dateRange - coverage date range to validate
@@ -309,12 +289,12 @@ const validateWithinPackageRange = (dateRange, packageCoverage, intl) => {
     let packageRange = moment.range(packageBeginCoverageDate, packageEndCoverageDate);
 
     const message = `Dates must be within Package's date range (${
-                        formatISODateWithoutTime(packageBeginCoverageDate.format('YYYY-MM-DD'), intl)
-                      } - ${
-                        packageEndCoverage
-                          ? formatISODateWithoutTime(packageEndCoverageDate.format('YYYY-MM-DD'), intl)
-                          : 'Present'
-                      }).`;
+      formatISODateWithoutTime(packageBeginCoverageDate.format('YYYY-MM-DD'), intl)
+    } - ${
+      packageEndCoverage
+        ? formatISODateWithoutTime(packageEndCoverageDate.format('YYYY-MM-DD'), intl)
+        : 'Present'
+    }).`;
 
 
     let beginDateOutOfRange = !packageRange.contains(beginCoverageDate);
@@ -347,12 +327,12 @@ const validateNoRangeOverlaps = (dateRange, customCoverages, index, intl) => {
   let endCoverageDate = dateRange.endCoverage ? moment(dateRange.endCoverage) : present;
   let coverageRange = moment.range(beginCoverageDate, endCoverageDate);
 
-  for(let overlapIndex = 0, len = customCoverages.length; overlapIndex < len; overlapIndex++) {
+  for (let overlapIndex = 0, len = customCoverages.length; overlapIndex < len; overlapIndex++) {
     let overlapRange = customCoverages[overlapIndex];
 
     // don't compare range to itself and skip newly added rows
-    if(index === overlapIndex || !dateRange.beginCoverage) {
-      continue;
+    if (index === overlapIndex || !dateRange.beginCoverage) {
+      continue; // eslint-disable-line no-continue
     }
 
     let overlapCoverageBeginDate = moment(overlapRange.beginCoverage);
@@ -360,13 +340,13 @@ const validateNoRangeOverlaps = (dateRange, customCoverages, index, intl) => {
     let overlapCoverageRange = moment.range(overlapCoverageBeginDate, overlapCoverageEndDate);
 
     const message = `Date range overlaps with ${
-                      overlapRange.beginCoverage &&
-                        formatISODateWithoutTime(overlapCoverageBeginDate.format('YYYY-MM-DD'), intl)
-                    } - ${
-                      overlapRange.endCoverage
-                        ? formatISODateWithoutTime(overlapCoverageEndDate.format('YYYY-MM-DD'), intl)
-                        : 'Present'
-                    }`;
+      overlapRange.beginCoverage &&
+        formatISODateWithoutTime(overlapCoverageBeginDate.format('YYYY-MM-DD'), intl)
+    } - ${
+      overlapRange.endCoverage
+        ? formatISODateWithoutTime(overlapCoverageEndDate.format('YYYY-MM-DD'), intl)
+        : 'Present'
+    }`;
 
     if (overlapCoverageRange.overlaps(coverageRange)
         || overlapCoverageRange.isEqual(coverageRange)
@@ -377,6 +357,26 @@ const validateNoRangeOverlaps = (dateRange, customCoverages, index, intl) => {
   }
 
   return false;
+};
+
+const validate = (values, props) => {
+  let errors = [];
+
+  let { intl, packageCoverage, locale } = props;
+
+  values.customCoverages.forEach((dateRange, index) => {
+    let dateRangeErrors = {};
+
+    dateRangeErrors =
+      validateDateFormat(dateRange, locale) ||
+      validateStartDateBeforeEndDate(dateRange) ||
+      validateNoRangeOverlaps(dateRange, values.customCoverages, index, intl) ||
+      validateWithinPackageRange(dateRange, packageCoverage, intl);
+
+    errors[index] = dateRangeErrors;
+  });
+
+  return { customCoverages: errors };
 };
 
 export default reduxForm({
