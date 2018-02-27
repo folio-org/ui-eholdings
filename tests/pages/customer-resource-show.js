@@ -114,7 +114,7 @@ export default {
   },
 
   get customEmbargoPeriod() {
-    return $('[data-test-eholdings-customer-resource-show-custom-embargo-period]').text();
+    return $('[data-test-eholdings-customer-resource-custom-embargo-display]').text();
   },
 
   get identifiersList() {

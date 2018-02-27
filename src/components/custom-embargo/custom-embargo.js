@@ -1,12 +1,18 @@
 import React, { Component } from 'react';
 import { Field, reduxForm } from 'redux-form';
 import PropTypes from 'prop-types';
+import classNames from 'classnames/bind';
+import isEqual from 'lodash/isEqual';
 
 import Button from '@folio/stripes-components/lib/Button';
 import TextField from '@folio/stripes-components/lib/TextField';
+import Icon from '@folio/stripes-components/lib/Icon';
 import IconButton from '@folio/stripes-components/lib/IconButton';
 import Select from '@folio/stripes-components/lib/Select';
+import KeyValueLabel from '../key-value-label';
 import styles from './custom-embargo.css';
+
+const cx = classNames.bind(styles);
 
 class CustomEmbargoForm extends Component {
   static propTypes = {
@@ -16,26 +22,29 @@ class CustomEmbargoForm extends Component {
     }).isRequired,
     onSubmit: PropTypes.func.isRequired,
     isPending: PropTypes.bool,
-    handleSubmit: PropTypes.func.isRequired,
+    handleSubmit: PropTypes.func,
     initialize: PropTypes.func,
-    change: PropTypes.func
+    change: PropTypes.func,
+    pristine: PropTypes.bool
   };
 
   state = {
     isEditing: false,
   };
 
+  componentWillReceiveProps(nextProps) {
+    let wasPending = this.props.isPending && !nextProps.isPending;
+    let needsUpdate = !isEqual(this.props.initialValues, nextProps.initialValues);
+
+    if (wasPending && needsUpdate) {
+      this.setState({ isEditing: false });
+    }
+  }
+
   handleEditCustomEmbargo = (e) => {
     let isEditing = !this.state.isEditing;
     e.preventDefault();
     this.setState({ isEditing });
-  }
-
-  handleSubmit = (data) => {
-    this.setState({
-      isEditing: false
-    });
-    this.props.onSubmit(data);
   }
 
   handleCancelCustomEmbargo = (e) => {
@@ -76,13 +85,13 @@ class CustomEmbargoForm extends Component {
   }
 
   render() {
-    let { isPending, change } = this.props;
-
+    let { pristine, isPending, change, handleSubmit, onSubmit } = this.props;
     const { customEmbargoValue, customEmbargoUnit } = this.props.initialValues;
+    let contents;
 
     if (this.state.isEditing) {
-      return (
-        <form onSubmit={this.props.handleSubmit(this.handleSubmit)}>
+      contents = (
+        <form onSubmit={handleSubmit(onSubmit)}>
           <div
             data-test-eholdings-customer-resource-custom-embargo-form
             className={styles['custom-embargo-form-editing']}
@@ -113,47 +122,78 @@ class CustomEmbargoForm extends Component {
               </div>
             </div>
             <div className={styles['custom-embargo-action-buttons']}>
-              <div data-test-eholdings-customer-resource-cancel-custom-embargo-button>
-                <Button disabled={isPending} type="button" role="button" onClick={this.handleCancelCustomEmbargo}>
+              <div
+                data-test-eholdings-customer-resource-cancel-custom-embargo-button
+                className={styles['custom-embargo-action-button']}
+              >
+                <Button
+                  disabled={isPending}
+                  type="button"
+                  role="button"
+                  onClick={this.handleCancelCustomEmbargo}
+                  marginBottom0 // gag
+                >
                   Cancel
                 </Button>
               </div>
-              <div data-test-eholdings-customer-resource-save-custom-embargo-button>
-                <Button type="submit" role="button" buttonStyle="primary">
+              <div
+                data-test-eholdings-customer-resource-save-custom-embargo-button
+                className={styles['custom-embargo-action-button']}
+              >
+                <Button
+                  disabled={pristine || isPending}
+                  type="submit"
+                  role="button"
+                  buttonStyle="primary"
+                  marginBottom0 // gag
+                >
                   Save
                 </Button>
               </div>
+              {isPending && (
+                <Icon icon="spinner-ellipsis" />
+              )}
             </div>
           </div>
         </form>
       );
     } else if (customEmbargoValue && customEmbargoUnit) {
-      return (
-        <div className={styles['custom-embargo-form']}>
-          <div className={styles['custom-embargo-display']}>
-            <div data-test-eholdings-customer-resource-custom-embargo-display className={styles['custom-embargo']}>
+      contents = (
+        <div className={styles['custom-embargo-display']}>
+          <KeyValueLabel label="Custom">
+            <span data-test-eholdings-customer-resource-custom-embargo-display>
               {customEmbargoValue} {customEmbargoUnit}
-            </div>
-            <div data-test-eholdings-customer-resource-edit-custom-embargo-button>
-              <IconButton icon="edit" onClick={this.handleEditCustomEmbargo} />
-            </div>
+            </span>
+          </KeyValueLabel>
+          <div data-test-eholdings-customer-resource-edit-custom-embargo-button>
+            <IconButton icon="edit" onClick={this.handleEditCustomEmbargo} />
           </div>
         </div>
       );
     } else {
-      return (
-        <div className={styles['custom-embargo-form']}>
-          <div data-test-eholdings-customer-resource-add-custom-embargo-button>
-            <Button
-              type="button"
-              onClick={this.handleEditCustomEmbargo}
-            >
-              Add Custom Embargo
-            </Button>
-          </div>
+      contents = (
+        <div data-test-eholdings-customer-resource-add-custom-embargo-button>
+          <Button
+            type="button"
+            onClick={this.handleEditCustomEmbargo}
+          >
+            Set custom embargo period
+          </Button>
         </div>
       );
     }
+
+    return (
+      <div
+        data-test-eholdings-coverage-form
+        className={cx(styles['custom-embargo-form'], {
+          'is-editing': this.state.isEditing
+        })}
+      >
+        <h4>Embargo period</h4>
+        {contents}
+      </div>
+    );
   }
 }
 

@@ -143,6 +143,7 @@ export default {
   get titleList() {
     return $('[data-test-query-list="package-titles"] li a').toArray().map(createTitleObject);
   },
+
   toggleIsHidden() {
     return convergeOn(() => {
       expect($('[data-test-eholdings-package-details-hidden]')).to.exist;
@@ -150,6 +151,7 @@ export default {
       $('[data-test-eholdings-package-details-hidden] input').click()
     ));
   },
+
   get isHiding() {
     return $('[data-test-eholdings-package-details-hidden] [data-test-toggle-switch]').attr('class').indexOf('is-pending--') !== -1;
   },
@@ -157,6 +159,7 @@ export default {
   get isHiddenToggleable() {
     return $('[data-test-eholdings-package-details-hidden] input[type=checkbox]').prop('disabled') === false;
   },
+
   get isHidden() {
     return $('[data-test-eholdings-package-details-hidden] input').prop('checked') === false;
   },
@@ -188,23 +191,19 @@ export default {
     return $('[data-test-eholdings-package-details-cancel-custom-coverage-button] button');
   },
 
-  get $customCoverageInputs() {
-    return $('[data-test-eholdings-package-details-custom-coverage-inputs]');
-  },
-
   get $customCoverageAddButton() {
     return $('[data-test-eholdings-package-details-custom-coverage-button] button');
   },
 
   get $beginDateField() {
-    return $('[data-test-eholdings-package-details-custom-begin-coverage] input')[0];
+    return $('[data-test-eholdings-custom-coverage-date-range-begin] input')[0];
   },
   get $endDateField() {
-    return $('[data-test-eholdings-package-details-custom-end-coverage] input')[0];
+    return $('[data-test-eholdings-custom-coverage-date-range-end] input')[0];
   },
 
   get validationError() {
-    return $('[data-test-eholdings-package-details-custom-begin-coverage] [class^="feedbackError"]').text();
+    return $('[data-test-eholdings-custom-coverage-date-range-begin] [class^="feedbackError"]').text();
   },
 
   inputBeginDate(beginDate) {
@@ -214,12 +213,15 @@ export default {
   inputEndDate(endDate) {
     return advancedFillIn(this.$endDateField, endDate);
   },
+
   pressEnterBeginDate() {
     pressEnter(this.$beginDateField);
   },
+
   pressEnterEndDate() {
     pressEnter(this.$endDateField);
   },
+
   clearBeginDate() {
     let $clearButton = $('[data-test-eholdings-package-details-custom-begin-coverage]')
       .find('button[id^=datepicker-clear-button]');
@@ -229,6 +231,7 @@ export default {
       $clearButton.click();
     });
   },
+
   clearEndDate() {
     let $clearButton = $('[data-test-eholdings-package-details-custom-end-coverage]')
       .find('button[id^=datepicker-clear-button]');
@@ -238,9 +241,11 @@ export default {
       $clearButton.click();
     });
   },
+
   blurEndDate() {
     this.$endDateField.blur();
   },
+
   blurBeginDate() {
     this.$beginDateField.blur();
   }
