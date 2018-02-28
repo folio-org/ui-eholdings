@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import { Prompt } from 'react-router-dom';
 
 import Button from '@folio/stripes-components/lib/Button';
 import Layout from '@folio/stripes-components/lib/Layout';
@@ -28,15 +29,14 @@ export default class CustomerResourceShow extends Component {
 
   static contextTypes = {
     locale: PropTypes.string,
-    intl: PropTypes.object,
-    router: PropTypes.object,
-    queryParams: PropTypes.object
+    intl: PropTypes.object
   };
 
   state = {
     showSelectionModal: false,
     resourceSelected: this.props.model.isSelected,
-    resourceHidden: this.props.model.visibilityData.isHidden
+    resourceHidden: this.props.model.visibilityData.isHidden,
+    isEditing: false
   };
 
   componentWillReceiveProps({ model }) {
@@ -69,10 +69,25 @@ export default class CustomerResourceShow extends Component {
     });
   };
 
+  // when there are no fields being edited this is equal to 0; when
+  // any number of fields are being edited this is greater than 0;
+  // this number is stored on the instance so that the state will only
+  // update when this count is equal to or greater than 0
+  editCount = 0;
+
+  handleEditing = (edit) => {
+    this.editCount = this.editCount + (edit ? 1 : -1);
+    let isEditing = this.editCount > 0;
+
+    if (isEditing !== this.state.isEditing) {
+      this.setState({ isEditing });
+    }
+  };
+
   render() {
     let { model, customEmbargoSubmitted, coverageSubmitted } = this.props;
     let { locale, intl } = this.context;
-    let { showSelectionModal, resourceSelected, resourceHidden } = this.state;
+    let { showSelectionModal, resourceSelected, resourceHidden, isEditing } = this.state;
 
     let hasManagedCoverages = model.managedCoverages.length > 0 &&
       isValidCoverageList(model.managedCoverages);
@@ -240,6 +255,7 @@ export default class CustomerResourceShow extends Component {
                   <CustomerResourceCoverage
                     initialValues={{ customCoverages }}
                     packageCoverage={model.package.customCoverage}
+                    onEdit={this.handleEditing}
                     onSubmit={coverageSubmitted}
                     isPending={model.update.isPending && 'customCoverages' in model.update.changedAttributes}
                     locale={locale}
@@ -250,6 +266,7 @@ export default class CustomerResourceShow extends Component {
 
                   <CustomEmbargoForm
                     initialValues={{ customEmbargoValue, customEmbargoUnit }}
+                    onEdit={this.handleEditing}
                     onSubmit={customEmbargoSubmitted}
                     isPending={model.update.isPending && 'customEmbargoPeriod' in model.update.changedAttributes}
                   />
@@ -311,6 +328,14 @@ export default class CustomerResourceShow extends Component {
             )
           }
         </Modal>
+
+        <Prompt
+          when={isEditing}
+          message={
+            'There are currently unsaved changes on this page.\n\n' +
+            'These changes will be lost, continue?'
+          }
+        />
       </div>
     );
   }

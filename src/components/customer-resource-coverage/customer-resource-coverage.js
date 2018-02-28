@@ -23,6 +23,7 @@ class CustomerResourceCoverage extends Component {
       customCoverages: PropTypes.array
     }).isRequired,
     packageCoverage: PropTypes.object, // eslint-disable-line react/no-unused-prop-types
+    onEdit: PropTypes.func,
     onSubmit: PropTypes.func.isRequired,
     handleSubmit: PropTypes.func,
     pristine: PropTypes.bool,
@@ -42,6 +43,12 @@ class CustomerResourceCoverage extends Component {
 
     if (wasPending && needsUpdate) {
       this.setState({ isEditing: false });
+    }
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    if (this.props.onEdit && prevState.isEditing !== this.state.isEditing) {
+      this.props.onEdit(this.state.isEditing);
     }
   }
 

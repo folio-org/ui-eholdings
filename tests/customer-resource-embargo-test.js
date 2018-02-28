@@ -80,6 +80,25 @@ describeApplication('CustomerResourceEmbargo', () => {
         expect(CustomerResourceShowPage.$customEmbargoForm).to.exist;
       });
 
+      describe('then trying to navigate away', () => {
+        beforeEach(() => {
+          return convergeOn(() => {
+            expect(CustomerResourceShowPage.isEditingCustomEmbargo).to.be.true;
+          }).then(() => (
+            CustomerResourceShowPage.clickPackage()
+          ));
+        });
+
+        it('prompts the user to continue', function () {
+          expect(this.confirm.calledOnce).to.be.true;
+        });
+
+        it.always('does not navigate away', function () {
+          expect(this.app.history.location.pathname)
+            .to.equal(`/eholdings/customer-resources/${resource.id}`);
+        });
+      });
+
       describe('entering valid custom embargo value and selecting unit', () => {
         beforeEach(() => {
           return convergeOn(() => {

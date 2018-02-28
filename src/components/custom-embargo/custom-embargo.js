@@ -20,6 +20,7 @@ class CustomEmbargoForm extends Component {
       customEmbargoValue: PropTypes.number,
       customEmbargoUnit: PropTypes.string,
     }).isRequired,
+    onEdit: PropTypes.func,
     onSubmit: PropTypes.func.isRequired,
     isPending: PropTypes.bool,
     handleSubmit: PropTypes.func,
@@ -38,6 +39,12 @@ class CustomEmbargoForm extends Component {
 
     if (wasPending && needsUpdate) {
       this.setState({ isEditing: false });
+    }
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    if (this.props.onEdit && prevState.isEditing !== this.state.isEditing) {
+      this.props.onEdit(this.state.isEditing);
     }
   }
 
@@ -185,7 +192,7 @@ class CustomEmbargoForm extends Component {
 
     return (
       <div
-        data-test-eholdings-coverage-form
+        data-test-eholdings-embargo-form
         className={cx(styles['custom-embargo-form'], {
           'is-editing': this.state.isEditing
         })}
