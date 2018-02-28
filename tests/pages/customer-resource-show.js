@@ -126,7 +126,7 @@ export default {
   },
 
   get $backButton() {
-    return $('[data-test-eholdings-customer-resource-show-back-button] button');
+    return $('[data-test-eholdings-details-view-back-button] button');
   },
 
   get $deselectTitleWarning() {

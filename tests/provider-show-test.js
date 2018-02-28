@@ -26,6 +26,10 @@ describeApplication('ProviderShow', () => {
       });
     });
 
+    it('displays the provider name in the pane header', () => {
+      expect(ProviderShowPage.paneTitle).to.equal('League of Ordinary Men');
+    });
+
     it('displays the provider name', () => {
       expect(ProviderShowPage.name).to.equal('League of Ordinary Men');
     });

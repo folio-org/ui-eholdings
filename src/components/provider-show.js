@@ -13,24 +13,12 @@ export default function ProviderShow({
   model,
   fetchPackages
 }, {
-  router,
-  queryParams,
   intl
 }) {
-  let historyState = router.history.location.state;
-
   return (
     <DetailsView
       type="provider"
       model={model}
-      showPaneHeader={!queryParams.searchType}
-      paneHeaderFirstMenu={historyState && historyState.eholdings && (
-        <PaneMenu>
-          <div data-test-eholdings-provider-details-back-button>
-            <IconButton icon="left-arrow" onClick={() => router.history.goBack()} />
-          </div>
-        </PaneMenu>
-      )}
       bodyContent={(
         <div>
           <KeyValueLabel label="Packages Selected">

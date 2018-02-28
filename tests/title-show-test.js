@@ -48,6 +48,10 @@ describeApplication('TitleShow', () => {
       });
     });
 
+    it('displays the provider name in the pane header', () => {
+      expect(TitleShowPage.paneTitle).to.equal('Cool Title');
+    });
+
     it('displays the title name', () => {
       expect(TitleShowPage.titleName).to.equal('Cool Title');
     });
