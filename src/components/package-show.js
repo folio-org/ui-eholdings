@@ -5,6 +5,7 @@ import IconButton from '@folio/stripes-components/lib/IconButton';
 import PaneMenu from '@folio/stripes-components/lib/PaneMenu';
 import Button from '@folio/stripes-components/lib/Button';
 import Layout from '@folio/stripes-components/lib/Layout';
+import Icon from '@folio/stripes-components/lib/Icon';
 
 import DetailsView from './details-view';
 import QueryList from './query-list';
@@ -22,7 +23,8 @@ export default class PackageShow extends Component {
     fetchPackageTitles: PropTypes.func.isRequired,
     toggleSelected: PropTypes.func.isRequired,
     toggleHidden: PropTypes.func.isRequired,
-    customCoverageSubmitted: PropTypes.func.isRequired
+    customCoverageSubmitted: PropTypes.func.isRequired,
+    toggleAllowKbToAddTitles: PropTypes.func.isRequired
   };
 
   static contextTypes = {
@@ -34,14 +36,16 @@ export default class PackageShow extends Component {
   state = {
     showSelectionModal: false,
     packageSelected: this.props.model.isSelected,
-    packageHidden: this.props.model.visibilityData.isHidden
+    packageHidden: this.props.model.visibilityData.isHidden,
+    packageAllowedToAddTitles: this.props.model.allowKbToAddTitles
   };
 
   componentWillReceiveProps({ model }) {
     if (!model.isSaving) {
       this.setState({
         packageSelected: model.isSelected,
-        packageHidden: model.visibilityData.isHidden
+        packageHidden: model.visibilityData.isHidden,
+        packageAllowedToAddTitles: model.allowKbToAddTitles
       });
     }
   }
@@ -51,6 +55,7 @@ export default class PackageShow extends Component {
     if (this.props.model.isSelected) {
       this.setState({ showSelectionModal: true });
     } else {
+      this.setState({ packageAllowedToAddTitles: true });
       this.props.toggleSelected();
     }
   };
@@ -70,7 +75,7 @@ export default class PackageShow extends Component {
   render() {
     let { model, fetchPackageTitles, customCoverageSubmitted } = this.props;
     let { intl, router, queryParams } = this.context;
-    let { showSelectionModal, packageSelected, packageHidden } = this.state;
+    let { showSelectionModal, packageSelected, packageHidden, packageAllowedToAddTitles } = this.state;
     let historyState = router.history.location.state;
 
     let customCoverages = [{
@@ -163,6 +168,33 @@ export default class PackageShow extends Component {
                         </div>
                       )}
                     </Layout>
+                  </label>
+
+                  <hr />
+
+                  <label
+                    data-test-eholdings-package-details-allow-add-new-titles
+                    htmlFor="package-details-toggle-allow-add-new-titles-switch"
+                  >
+                    {/* The check below for null could be refactored after RM API starts sending this attribute
+                    in list of packages to mod-kb-ebsco */}
+                    {packageAllowedToAddTitles != null ? (
+                      <div>
+                        <h4>
+                          {packageAllowedToAddTitles
+                            ? 'Allow KB to add new titles'
+                            : 'Do not allow KB to add new titles'}
+                        </h4>
+                        <ToggleSwitch
+                          onChange={this.props.toggleAllowKbToAddTitles}
+                          checked={packageAllowedToAddTitles}
+                          isPending={model.update.isPending && 'allowKbToAddTitles' in model.update.changedAttributes}
+                          id="package-details-toggle-allow-add-new-titles-switch"
+                        />
+                      </div>
+                      ) : (
+                        <Icon icon="spinner-ellipsis" />
+                      )}
                   </label>
 
                   <hr />

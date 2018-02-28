@@ -152,6 +152,14 @@ export default {
     ));
   },
 
+  toggleAllowKbToAddTitles() {
+    return convergeOn(() => {
+      expect($('[data-test-eholdings-package-details-allow-add-new-titles]')).to.exist;
+    }).then(() => (
+      $('[data-test-eholdings-package-details-allow-add-new-titles] input').click()
+    ));
+  },
+
   get isHiding() {
     return $('[data-test-eholdings-package-details-hidden] [data-test-toggle-switch]').attr('class').indexOf('is-pending--') !== -1;
   },
@@ -162,6 +170,12 @@ export default {
 
   get isHidden() {
     return $('[data-test-eholdings-package-details-hidden] input').prop('checked') === false;
+  },
+  get allowKbToAddTitles() {
+    return $('[data-test-eholdings-package-details-allow-add-new-titles] input').prop('checked') === true;
+  },
+  get allowKbToAddTitlesToggle() {
+    return $('[package-details-toggle-allow-add-new-titles-switch]');
   },
   get allTitlesHidden() {
     return !!this.titleList.length && this.titleList.every(title => title.isHidden);

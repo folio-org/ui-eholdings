@@ -5,6 +5,7 @@ export default Factory.extend({
   titleCount: 0,
   isSelected: true,
   selectedCount: 0,
+  allowKbToAddTitles: true,
   contentType: () => faker.random.arrayElement([
     'OnlineReference',
     'AggregatedFullText',
