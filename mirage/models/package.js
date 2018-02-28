@@ -1,4 +1,4 @@
-import { Model, belongsTo, hasMany } from 'mirage-server';
+import { Model, belongsTo, hasMany } from '@bigtest/mirage';
 
 export default Model.extend({
   customerResources: hasMany(),

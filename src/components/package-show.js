@@ -78,6 +78,11 @@ export default class PackageShow extends Component {
     let { showSelectionModal, packageSelected, packageHidden, packageAllowedToAddTitles } = this.state;
     let historyState = router.history.location.state;
 
+    let customCoverages = [{
+      beginCoverage: model.customCoverage.beginCoverage,
+      endCoverage: model.customCoverage.endCoverage
+    }];
+
     return (
       <div>
         <DetailsView
@@ -194,15 +199,13 @@ export default class PackageShow extends Component {
 
                   <hr />
 
-                  <KeyValueLabel label="Custom Coverage">
-                    <div data-test-eholdings-package-details-custom-coverage>
-                      <PackageCustomCoverage
-                        initialValues={model.customCoverage}
-                        onSubmit={customCoverageSubmitted}
-                        isPending={model.update.isPending && 'customCoverage' in model.update.changedAttributes}
-                      />
-                    </div>
-                  </KeyValueLabel>
+                  <div data-test-eholdings-package-details-custom-coverage>
+                    <PackageCustomCoverage
+                      initialValues={{ customCoverages }}
+                      onSubmit={customCoverageSubmitted}
+                      isPending={model.update.isPending && 'customCoverage' in model.update.changedAttributes}
+                    />
+                  </div>
                 </div>
               )}
 

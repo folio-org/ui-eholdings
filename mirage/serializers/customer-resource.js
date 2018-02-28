@@ -12,6 +12,7 @@ function mapCustomerResourceAttrs(hash, customerResource) {
   hash.attributes.publicationType = customerResource.title.publicationType;
   hash.attributes.contributors = customerResource.title.contributors;
   hash.attributes.identifiers = customerResource.title.identifiers;
+  hash.attributes.subjects = customerResource.title.subjects;
   return hash;
 }
 
