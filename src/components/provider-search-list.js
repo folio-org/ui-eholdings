@@ -9,8 +9,11 @@ export default function ProviderSearchList({
   params,
   collection,
   fetch,
-  onUpdateOffset
-}) {
+  onUpdateOffset,
+}, { router }) {
+  let { params: routeParams } = router.route.match;
+  let isProviderPage = routeParams.type === 'providers';
+
   return (
     <QueryList
       type="providers"
@@ -27,6 +30,7 @@ export default function ProviderSearchList({
             pathname: `/eholdings/providers/${item.content.id}`,
             search: location.search
           }}
+          active={item.content && isProviderPage && routeParams.id === item.content.id}
         />
       )}
     />
@@ -39,4 +43,8 @@ ProviderSearchList.propTypes = {
   collection: PropTypes.object.isRequired,
   fetch: PropTypes.func.isRequired,
   onUpdateOffset: PropTypes.func.isRequired
+};
+
+ProviderSearchList.contextTypes = {
+  router: PropTypes.object
 };

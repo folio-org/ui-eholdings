@@ -104,6 +104,10 @@ describeApplication('TitleSearch', () => {
         }).then(() => TitleSearchPage.$searchResultsItems[0].click());
       });
 
+      it('clicked item has an active state', () => {
+        expect(TitleSearchPage.titleList[0].isActive).to.be.true;
+      });
+
       it('shows the preview pane', () => {
         expect(TitleSearchPage.previewPaneIsVisible).to.be.true;
       });

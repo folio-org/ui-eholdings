@@ -10,6 +10,7 @@ const cx = classNames.bind(styles);
 export default function PackageListItem({
   item,
   link,
+  active,
   showTitleCount,
   showProviderName,
   packageName
@@ -24,7 +25,13 @@ export default function PackageListItem({
       })}
     />
   ) : (
-    <Link to={link} className={styles.item}>
+    <Link
+      data-test-eholdings-package-list-item-active
+      to={link}
+      className={cx('item', {
+        'is-selected': active
+      })}
+    >
       <h5 data-test-eholdings-package-list-item-name>
         {packageName || item.name}
       </h5>
@@ -78,6 +85,7 @@ PackageListItem.propTypes = {
     PropTypes.string,
     PropTypes.object
   ]),
+  active: PropTypes.bool,
   showTitleCount: PropTypes.bool,
   showProviderName: PropTypes.bool,
   packageName: PropTypes.string

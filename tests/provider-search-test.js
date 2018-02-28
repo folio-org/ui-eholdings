@@ -63,6 +63,10 @@ describeApplication('ProviderSearch', () => {
         }).then(() => ProviderSearchPage.$searchResultsItems[0].click());
       });
 
+      it('clicked item has an active state', () => {
+        expect(ProviderSearchPage.providerList[0].isActive).to.be.true;
+      });
+
       it('shows the preview pane', () => {
         expect(ProviderSearchPage.previewPaneIsVisible).to.be.true;
       });

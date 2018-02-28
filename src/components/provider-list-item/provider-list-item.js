@@ -1,14 +1,23 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import classNames from 'classnames/bind';
 
 import styles from './provider-list-item.css';
 import Link from '../link';
 
-export default function ProviderListItem({ item, link }, { intl }) {
+const cx = classNames.bind(styles);
+
+export default function ProviderListItem({ item, link, active }, { intl }) {
   return !item ? (
     <div className={styles.skeleton} />
   ) : (
-    <Link to={link} className={styles.item}>
+    <Link
+      data-test-eholdings-provider-list-item-active
+      to={link}
+      className={cx('item', {
+        'is-selected': active
+      })}
+    >
       <h5 data-test-eholdings-provider-list-item-name>
         {item.name}
       </h5>
@@ -37,9 +46,10 @@ ProviderListItem.propTypes = {
   link: PropTypes.oneOfType([
     PropTypes.string,
     PropTypes.object
-  ])
+  ]),
+  active: PropTypes.bool,
 };
 
 ProviderListItem.contextTypes = {
-  intl: PropTypes.object
+  intl: PropTypes.object,
 };
