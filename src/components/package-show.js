@@ -1,8 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
-import IconButton from '@folio/stripes-components/lib/IconButton';
-import PaneMenu from '@folio/stripes-components/lib/PaneMenu';
 import Button from '@folio/stripes-components/lib/Button';
 import Layout from '@folio/stripes-components/lib/Layout';
 import Icon from '@folio/stripes-components/lib/Icon';
@@ -74,9 +72,8 @@ export default class PackageShow extends Component {
 
   render() {
     let { model, fetchPackageTitles, customCoverageSubmitted } = this.props;
-    let { intl, router, queryParams } = this.context;
+    let { intl } = this.context;
     let { showSelectionModal, packageSelected, packageHidden, packageAllowedToAddTitles } = this.state;
-    let historyState = router.history.location.state;
 
     let customCoverages = [{
       beginCoverage: model.customCoverage.beginCoverage,
@@ -88,14 +85,6 @@ export default class PackageShow extends Component {
         <DetailsView
           type="package"
           model={model}
-          showPaneHeader={!queryParams.searchType}
-          paneHeaderFirstMenu={historyState && historyState.eholdings && (
-            <PaneMenu>
-              <div data-test-eholdings-package-details-back-button>
-                <IconButton icon="left-arrow" onClick={() => router.history.goBack()} />
-              </div>
-            </PaneMenu>
-          )}
           bodyContent={(
             <div>
               <KeyValueLabel label="Provider">

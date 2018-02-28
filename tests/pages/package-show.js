@@ -189,7 +189,11 @@ export default {
   },
 
   get $backButton() {
-    return $('[data-test-eholdings-package-details-back-button] button');
+    return $('[data-test-eholdings-details-view-back-button] button');
+  },
+
+  get paneTitle() {
+    return $('[data-test-eholdings-details-view-pane-title]').text();
   },
 
   scrollToTitleOffset(readOffset) {

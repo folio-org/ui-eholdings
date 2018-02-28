@@ -33,6 +33,10 @@ describeApplication('PackageShow', () => {
       });
     });
 
+    it('displays the provider name in the pane header', () => {
+      expect(PackageShowPage.paneTitle).to.equal('Cool Package');
+    });
+
     it('displays the package name', () => {
       expect(PackageShowPage.name).to.equal('Cool Package');
     });

@@ -19,7 +19,8 @@ import {
   hasContentType = isPresent('[data-test-eholdings-customer-resource-show-content-type]');
   hasErrors = isPresent('[data-test-eholdings-details-view-error="resource"]');
   isSelected = property('checked', '[data-test-eholdings-customer-resource-show-selected] input');
-  hasBackButton = isPresent('[data-test-eholdings-customer-resource-show-back-button] button');
+  hasBackButton = isPresent('[data-test-eholdings-details-view-back-button] button');
+  paneTitle = text('[data-test-eholdings-details-view-pane-title]');
 
   identifiersList = collection('[data-test-eholdings-identifiers-list-item]', {
     text: text()

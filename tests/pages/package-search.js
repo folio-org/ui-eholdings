@@ -71,7 +71,7 @@ export default {
   },
 
   get $backButton() {
-    return $('[data-test-eholdings-package-details-back-button] button');
+    return $('[data-test-eholdings-details-view-back-button] button');
   },
 
   get $selectedSearchType() {
@@ -126,7 +126,7 @@ export default {
   },
 
   clickBackButton() {
-    return $('[data-test-eholdings-customer-resource-show-back-button] button').trigger('click');
+    return $('[data-test-eholdings-details-view-back-button] button').trigger('click');
   },
 
   scrollToOffset(readOffset) {
