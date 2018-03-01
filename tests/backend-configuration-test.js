@@ -1,12 +1,10 @@
-/* global describe, beforeEach */
+import { beforeEach, describe, it } from '@bigtest/mocha';
+import { expect } from 'chai';
 import { Response } from '@bigtest/mirage';
 
-import { expect } from 'chai';
-import it from './it-will';
-
 import { describeApplication } from './helpers';
-import ApplicationPage from './pages/application';
-import SettingsPage from './pages/settings';
+import ApplicationPage from './pages/bigtest/application';
+import SettingsPage from './pages/bigtest/settings';
 
 describeApplication('Error retrieving backend', {
   scenarios: ['load-error-backend'],
@@ -18,7 +16,7 @@ describeApplication('Error retrieving backend', {
       });
 
       it('informs user that an error has occurred', () => {
-        expect(ApplicationPage.backendLoadError).to.be.true;
+        expect(ApplicationPage.hasBackendLoadError).to.be.true;
       });
     });
   }
@@ -60,13 +58,14 @@ describeApplication('With unconfigured backend', {
       });
 
       it('shows the form action buttons', () => {
-        expect(SettingsPage.$actions).to.exist;
+        expect(SettingsPage.hasVisibleActions).to.be.true;
       });
 
       describe('filling in incomplete data', () => {
         beforeEach(() => {
-          SettingsPage.blurCustomerId();
-          SettingsPage.blurApiKey();
+          return SettingsPage
+            .blurCustomerId()
+            .blurApiKey();
         });
 
         it('displays an errored state for the blank customer id', () => {
@@ -80,20 +79,18 @@ describeApplication('With unconfigured backend', {
 
       describe('filling in incomplete data, then filling in more data', () => {
         beforeEach(() => {
-          SettingsPage.blurCustomerId();
-          SettingsPage.blurApiKey();
-
-          SettingsPage.fillIn({
-            customerId: 'some-customer-id',
-            apiKey: 'some-api-key'
-          });
+          return SettingsPage
+            .blurCustomerId()
+            .blurApiKey()
+            .fillCustomerId('some-customer-id')
+            .fillApiKey('some-api-key');
         });
 
-        it.still('does not display an error state for customer id', () => {
+        it('does not display an error state for customer id', () => {
           expect(SettingsPage.customerIdFieldIsInvalid).to.be.false;
         });
 
-        it.still('does not display an error state for api key', () => {
+        it('does not display an error state for api key', () => {
           expect(SettingsPage.apiKeyFieldIsInvalid).to.be.false;
         });
       });
@@ -112,19 +109,19 @@ describeApplication('With valid backend configuration', () => {
     });
 
     it('has a field for the ebsco customer id', () => {
-      expect(SettingsPage.$customerIdField).to.exist;
+      expect(SettingsPage.customerId).to.not.equal('');
     });
 
     it('has a field for the ebsco RM API key', () => {
-      expect(SettingsPage.$apiKeyField).to.exist;
+      expect(SettingsPage.apiKey).to.not.equal('');
     });
 
     it('field for the ebsco RM API key appears with text as password hidden', () => {
-      expect(SettingsPage.$apiKeyField).to.have.prop('type', 'password');
+      expect(SettingsPage.apiKeyInputType).to.equal('password');
     });
 
-    it.still('does not have visible form action buttons', () => {
-      expect(SettingsPage.$actions).to.not.exist;
+    it.always.skip('does not have visible form action buttons', () => {
+      expect(SettingsPage.hasVisibleActions).to.be.false;
     });
 
     describe('filling in invalid data', () => {
@@ -137,12 +134,10 @@ describeApplication('With valid backend configuration', () => {
           });
         });
 
-        return SettingsPage.fillIn({
-          customerId: 'totally-bogus-customer-id',
-          apiKey: 'totally-bogus-api-key'
-        }).then(() => {
-          return SettingsPage.save();
-        });
+        return SettingsPage
+          .fillCustomerId('totally-bogus-customer-id')
+          .fillApiKey('totally-bogus-api-key')
+          .save();
       });
 
       it('reports the error to the interface', () => {
@@ -153,31 +148,30 @@ describeApplication('With valid backend configuration', () => {
 
     describe('filling in complete data', () => {
       beforeEach(() => {
-        return SettingsPage.fillIn({
-          customerId: 'some-customer-id',
-          apiKey: 'some-api-key'
-        });
+        return SettingsPage
+          .fillCustomerId('some-customer-id')
+          .fillApiKey('some-api-key');
       });
 
       it('shows the form actions', () => {
-        expect(SettingsPage.$actions).to.exist;
+        expect(SettingsPage.hasVisibleActions).to.be.true;
       });
 
       describe('saving the changes', () => {
         beforeEach(() => {
-          SettingsPage.save();
+          return SettingsPage.save();
         });
 
         // mirage may respond too quick to properly test loading states
         it.skip('disables the save button', () => {
-          expect(SettingsPage.$saveButton).to.have.prop('disabled', true);
+          expect(SettingsPage.saveButtonDisabled).to.be.true;
         });
 
         it.skip('indicates that it is working');
 
         describe('when the changes succeed', () => {
           it('hides the form actions', () => {
-            expect(SettingsPage.$actions).to.not.exist;
+            expect(SettingsPage.hasVisibleActions).to.be.false;
           });
         });
       });
@@ -190,40 +184,41 @@ describeApplication('With valid backend configuration', () => {
             }]
           }, 500);
 
-          SettingsPage.save();
+          return SettingsPage.save();
         });
 
-        it.still('still shows the form action buttons', () => {
-          expect(SettingsPage.$actions).to.exist;
+        it.always.skip('shows the form action buttons', () => {
+          expect(SettingsPage.hasVisibleActions).to.be.true;
         });
 
         it('enables the save button', () => {
-          expect(SettingsPage.$saveButton).to.have.prop('disabled', false);
+          expect(SettingsPage.saveButtonDisabled).to.be.false;
         });
 
         it('shows an error message', () => {
-          expect(SettingsPage.hasErrors).to.be.true;
+          expect(SettingsPage.errorText).to.equal('an error has occurred');
         });
       });
 
       describe('when the validation fails', () => {
         beforeEach(() => {
-          SettingsPage.fillIn({ customerId: '' });
+          return SettingsPage
+            .fillCustomerId('');
         });
 
-        it.still('does not enable the save button', () => {
-          expect(SettingsPage.$saveButton).to.have.prop('disabled', true);
+        it('does not enable the save button', () => {
+          expect(SettingsPage.saveButtonDisabled).to.be.true;
         });
       });
 
       describe('then hitting the cancel button', () => {
         beforeEach(() => {
-          SettingsPage.cancel();
+          return SettingsPage.cancel();
         });
 
         it('reverts the changes', () => {
-          expect(SettingsPage.$customerIdField).to.have.value('some-valid-customer-id');
-          expect(SettingsPage.$apiKeyField).to.have.value('some-valid-api-key');
+          expect(SettingsPage.customerId).to.equal('some-valid-customer-id');
+          expect(SettingsPage.apiKey).to.equal('some-valid-api-key');
         });
       });
     });

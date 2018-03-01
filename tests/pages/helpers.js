@@ -1,20 +1,6 @@
 import $ from 'jquery';
 import { expect } from 'chai';
-import { triggerChange } from '../helpers';
 import { convergeOn } from '../it-will';
-
-export function fillIn(el, val) {
-  if (typeof val === 'undefined') {
-    return Promise.resolve();
-  }
-
-  let $input = $(el).val(val);
-  triggerChange($input.get(0));
-
-  return convergeOn(() => {
-    expect($input.val()).to.equal(val);
-  });
-}
 
 /* Only used for datepicker component */
 export function advancedFillIn(el, value) {
