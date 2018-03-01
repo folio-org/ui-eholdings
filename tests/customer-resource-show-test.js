@@ -63,8 +63,12 @@ describeApplication('CustomerResourceShow', () => {
       });
     });
 
-    it('displays the provider name in the pane header', () => {
+    it('displays the title name in the pane header', () => {
       expect(ResourcePage.paneTitle).to.equal('Best Title Ever');
+    });
+
+    it('displays the package name in the pane header', () => {
+      expect(ResourcePage.paneSub).to.equal('Cool Package');
     });
 
     it('displays the title name', () => {

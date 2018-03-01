@@ -85,6 +85,7 @@ export default class PackageShow extends Component {
         <DetailsView
           type="package"
           model={model}
+          paneTitle={model.name}
           bodyContent={(
             <div>
               <KeyValueLabel label="Provider">

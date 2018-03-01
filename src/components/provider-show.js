@@ -16,6 +16,7 @@ export default function ProviderShow({
     <DetailsView
       type="provider"
       model={model}
+      paneTitle={model.name}
       bodyContent={(
         <div>
           <KeyValueLabel label="Packages Selected">

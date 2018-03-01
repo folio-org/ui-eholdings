@@ -13,6 +13,7 @@ export default function TitleShow({ model }) {
     <DetailsView
       type="title"
       model={model}
+      paneTitle={model.name}
       bodyContent={(
         <div>
           <ContributorsList data={model.contributors} />
