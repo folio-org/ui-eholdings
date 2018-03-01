@@ -102,7 +102,7 @@ class CustomEmbargoForm extends Component {
                   <Field
                     name='customEmbargoValue'
                     type="number"
-                    parse={value => (!value ? null : (Number.isNaN(value) ? '' : Number(value)))}
+                    parse={value => (!value ? null : (Number.isNaN(Number(value)) ? '' : Number(value)))}
                     component={this.renderTextField}
                   />
                 </div>
