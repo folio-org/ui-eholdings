@@ -76,18 +76,22 @@ const testPlugin = {
         return rule.loader === 'babel-loader';
       });
 
-      if (options.coverage || options.karma.coverage) {
-        // Brittle way of injecting babel-plugin-istanbul into the webpack config.
-        // Should probably be moved to stripes-core when it has more test infrastructure.
-        config.module.rules[babelLoaderConfigIndex].options.plugins = [
-          require.resolve('babel-plugin-istanbul')
-        ];
+      if(!config.module.rules[babelLoaderConfigIndex].options.plugins) {
+        config.module.rules[babelLoaderConfigIndex].options.plugins = [];
       }
 
       // Make decorators possible
-      config.module.rules[babelLoaderConfigIndex].options.plugins = [
+      config.module.rules[babelLoaderConfigIndex].options.plugins.push(
         [require.resolve('babel-plugin-transform-decorators-legacy')]
-      ];
+      );
+
+      // Brittle way of injecting babel-plugin-istanbul into the webpack config.
+      // Should probably be moved to stripes-core when it has more test infrastructure.
+      if (options.coverage || options.karma.coverage) {
+        config.module.rules[babelLoaderConfigIndex].options.plugins.push(
+          require.resolve('babel-plugin-istanbul')
+        );
+      }
 
       return config;
     };
