@@ -25,6 +25,10 @@ function createPackageObject(element) {
 
     get isSelected() {
       return $scope.find('[data-test-eholdings-package-list-item-selected]').text().toLowerCase() === 'selected';
+    },
+
+    get isActive() {
+      return $scope.attr('class').indexOf('is-selected---') !== -1;
     }
   };
 }

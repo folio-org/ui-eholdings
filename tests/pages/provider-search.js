@@ -17,6 +17,10 @@ function createProviderObject(element) {
 
     get numPackagesSelected() {
       return parseInt($scope.find('[data-test-eholdings-provider-list-item-num-packages-selected]').text(), 10);
+    },
+
+    get isActive() {
+      return $scope.attr('class').indexOf('is-selected---') !== -1;
     }
   };
 }

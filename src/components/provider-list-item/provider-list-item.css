@@ -1,6 +1,17 @@
 .item {
   height: 100%;
 
+  &.is-selected {
+    background-color: rgba(0,0,0,.5);
+    color: #FFFFFF;
+    &:hover {
+      background-color: rgba(0,0,0,.5);
+    }
+    & h5 {
+      color: #FFFFFF;
+    }
+  }
+
   & h5,
   & div {
     overflow: hidden;

@@ -17,6 +17,10 @@ function createTitleObject(element) {
 
     get publicationType() {
       return $scope.find('[data-test-eholdings-title-list-item-publication-type]').text();
+    },
+
+    get isActive() {
+      return $scope.attr('class').indexOf('is-selected---') !== -1;
     }
   };
 }

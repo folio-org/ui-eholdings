@@ -64,6 +64,10 @@ describeApplication('PackageSearch', () => {
         }).then(() => PackageSearchPage.$searchResultsItems[0].click());
       });
 
+      it('clicked item has an active state', () => {
+        expect(PackageSearchPage.packageList[0].isActive).to.be.true;
+      });
+
       it('shows the preview pane', () => {
         expect(PackageSearchPage.previewPaneIsVisible).to.be.true;
       });
