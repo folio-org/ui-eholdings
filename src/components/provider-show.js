@@ -1,9 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import IconButton from '@folio/stripes-components/lib/IconButton';
-import PaneMenu from '@folio/stripes-components/lib/PaneMenu';
-
 import DetailsView from './details-view';
 import KeyValueLabel from './key-value-label';
 import QueryList from './query-list';
@@ -13,24 +10,12 @@ export default function ProviderShow({
   model,
   fetchPackages
 }, {
-  router,
-  queryParams,
   intl
 }) {
-  let historyState = router.history.location.state;
-
   return (
     <DetailsView
       type="provider"
       model={model}
-      showPaneHeader={!queryParams.searchType}
-      paneHeaderFirstMenu={historyState && historyState.eholdings && (
-        <PaneMenu>
-          <div data-test-eholdings-provider-details-back-button>
-            <IconButton icon="left-arrow" onClick={() => router.history.goBack()} />
-          </div>
-        </PaneMenu>
-      )}
       bodyContent={(
         <div>
           <KeyValueLabel label="Packages Selected">

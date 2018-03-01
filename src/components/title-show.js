@@ -1,9 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import IconButton from '@folio/stripes-components/lib/IconButton';
-import PaneMenu from '@folio/stripes-components/lib/PaneMenu';
-
 import DetailsView from './details-view';
 import KeyValueLabel from './key-value-label';
 import ScrollView from './scroll-view';
@@ -11,21 +8,11 @@ import PackageListItem from './package-list-item';
 import IdentifiersList from './identifiers-list';
 import ContributorsList from './contributors-list';
 
-export default function TitleShow({ model }, { router, queryParams }) {
-  let historyState = router.history.location.state;
-
+export default function TitleShow({ model }) {
   return (
     <DetailsView
       type="title"
       model={model}
-      showPaneHeader={!queryParams.searchType}
-      paneHeaderFirstMenu={historyState && historyState.eholdings && (
-        <PaneMenu>
-          <div data-test-eholdings-title-show-back-button>
-            <IconButton icon="left-arrow" onClick={() => router.history.goBack()} />
-          </div>
-        </PaneMenu>
-      )}
       bodyContent={(
         <div>
           <ContributorsList data={model.contributors} />

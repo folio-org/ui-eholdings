@@ -5,6 +5,9 @@ import capitalize from 'lodash/capitalize';
 
 import PaneHeader from '@folio/stripes-components/lib/PaneHeader';
 import Icon from '@folio/stripes-components/lib/Icon';
+import IconButton from '@folio/stripes-components/lib/IconButton';
+import PaneMenu from '@folio/stripes-components/lib/PaneMenu';
+import Link from 'react-router-dom/Link';
 
 import KeyValueLabel from '../key-value-label';
 import styles from './details-view.css';
@@ -32,11 +35,14 @@ export default class DetailsView extends Component {
       isLoading: PropTypes.bool.isRequired,
       request: PropTypes.object.isRequired
     }).isRequired,
-    showPaneHeader: PropTypes.bool,
-    paneHeaderFirstMenu: PropTypes.node,
     bodyContent: PropTypes.node.isRequired,
     listHeader: PropTypes.string,
     renderList: PropTypes.func
+  };
+
+  static contextTypes = {
+    router: PropTypes.object,
+    queryParams: PropTypes.object
   };
 
   state = {
@@ -138,12 +144,16 @@ export default class DetailsView extends Component {
     let {
       type,
       model,
-      showPaneHeader,
-      paneHeaderFirstMenu,
       bodyContent,
       listHeader,
       renderList
     } = this.props;
+
+    let {
+      router,
+      queryParams
+    } = this.context;
+
     let {
       isSticky
     } = this.state;
@@ -152,11 +162,30 @@ export default class DetailsView extends Component {
       locked: isSticky
     });
 
+    let historyState = router.history.location.state;
+
     return (
       <div data-test-eholdings-details-view={type}>
-        {showPaneHeader && (
-          <PaneHeader firstMenu={paneHeaderFirstMenu} />
-        )}
+        <PaneHeader
+          firstMenu={queryParams.searchType ? (
+            <PaneMenu>
+              <Link to='/eholdings'>
+                <IconButton
+                  icon="closeX"
+                />
+              </Link>
+            </PaneMenu>
+          ) : historyState && historyState.eholdings && (
+            <PaneMenu>
+              <div data-test-eholdings-details-view-back-button>
+                <IconButton icon="left-arrow" onClick={() => router.history.goBack()} />
+              </div>
+            </PaneMenu>
+          )}
+          paneTitle={(
+            <div data-test-eholdings-details-view-pane-title>{model.name}</div>
+          )}
+        />
 
         <div
           ref={(n) => { this.$container = n; }}
