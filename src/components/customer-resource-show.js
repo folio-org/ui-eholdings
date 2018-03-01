@@ -1,8 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
-import IconButton from '@folio/stripes-components/lib/IconButton';
-import PaneMenu from '@folio/stripes-components/lib/PaneMenu';
 import Button from '@folio/stripes-components/lib/Button';
 import Layout from '@folio/stripes-components/lib/Layout';
 
@@ -72,10 +70,9 @@ export default class CustomerResourceShow extends Component {
 
   render() {
     let { model, customEmbargoSubmitted, coverageSubmitted } = this.props;
-    let { locale, router, queryParams } = this.context;
+    let { locale } = this.context;
     let { showSelectionModal, resourceSelected, resourceHidden } = this.state;
 
-    let historyState = router.history.location.state;
     let hasManagedCoverages = model.managedCoverages.length > 0 &&
       isValidCoverageList(model.managedCoverages);
     let hasManagedEmbargoPeriod = model.managedEmbargoPeriod &&
@@ -97,14 +94,8 @@ export default class CustomerResourceShow extends Component {
         <DetailsView
           type="resource"
           model={model}
-          showPaneHeader={!queryParams.searchType}
-          paneHeaderFirstMenu={historyState && historyState.eholdings && (
-            <PaneMenu>
-              <div data-test-eholdings-customer-resource-show-back-button>
-                <IconButton icon="left-arrow" onClick={() => router.history.goBack()} />
-              </div>
-            </PaneMenu>
-          )}
+          paneTitle={model.name}
+          paneSub={model.packageName}
           bodyContent={(
             <div>
               <ContributorsList data={model.contributors} />

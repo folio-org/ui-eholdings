@@ -21,6 +21,7 @@ import {
   isSelected = property('checked', '[data-test-eholdings-customer-resource-show-selected] input');
   hasBackButton = isPresent('[data-test-eholdings-details-view-back-button] button');
   paneTitle = text('[data-test-eholdings-details-view-pane-title]');
+  paneSub = text('[data-test-eholdings-details-view-pane-sub]');
 
   identifiersList = collection('[data-test-eholdings-identifiers-list-item]', {
     text: text()

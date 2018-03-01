@@ -35,6 +35,8 @@ export default class DetailsView extends Component {
       isLoading: PropTypes.bool.isRequired,
       request: PropTypes.object.isRequired
     }).isRequired,
+    paneTitle: PropTypes.oneOfType([PropTypes.string, PropTypes.element, PropTypes.node]),
+    paneSub: PropTypes.oneOfType([PropTypes.string, PropTypes.element, PropTypes.node]),
     bodyContent: PropTypes.node.isRequired,
     listHeader: PropTypes.string,
     renderList: PropTypes.func
@@ -146,7 +148,9 @@ export default class DetailsView extends Component {
       model,
       bodyContent,
       listHeader,
-      renderList
+      renderList,
+      paneTitle,
+      paneSub
     } = this.props;
 
     let {
@@ -183,7 +187,10 @@ export default class DetailsView extends Component {
             </PaneMenu>
           )}
           paneTitle={(
-            <div data-test-eholdings-details-view-pane-title>{model.name}</div>
+            <span data-test-eholdings-details-view-pane-title>{paneTitle}</span>
+          )}
+          paneSub={(
+            <span data-test-eholdings-details-view-pane-sub>{paneSub}</span>
           )}
         />
 
