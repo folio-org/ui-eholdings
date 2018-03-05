@@ -81,11 +81,7 @@ export default class SearchForm extends Component {
   };
 
   handleUpdateFilter = (filter) => {
-    if (this.props.searchType === 'providers') {
-      this.setState({ filter }, () => this.submitSearch());
-    } else {
-      this.setState({ filter });
-    }
+    this.setState({ filter }, () => this.submitSearch());
   };
 
   handleChangeIndex = (e) => {

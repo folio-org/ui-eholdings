@@ -149,8 +149,6 @@ describeApplication('PackageSearch', () => {
           expect(PackageSearchPage.$searchResultsItems).to.have.lengthOf(3);
         }).then(() => (
           PackageSearchPage.clickFilter('type', 'ebook')
-        )).then(() => (
-          PackageSearchPage.search('Package')
         ));
       });
 
@@ -168,8 +166,6 @@ describeApplication('PackageSearch', () => {
             expect(PackageSearchPage.$searchResultsItems).to.have.lengthOf(1);
           }).then(() => (
             PackageSearchPage.clearFilter('type')
-          )).then(() => (
-            PackageSearchPage.search('Package')
           ));
         });
 
@@ -205,8 +201,6 @@ describeApplication('PackageSearch', () => {
           expect(PackageSearchPage.$searchResultsItems).to.have.lengthOf(3);
         }).then(() => (
           PackageSearchPage.clickFilter('selected', 'true')
-        )).then(() => (
-          PackageSearchPage.search('Package')
         ));
       });
 
@@ -225,8 +219,6 @@ describeApplication('PackageSearch', () => {
             expect(PackageSearchPage.$searchResultsItems).to.have.lengthOf(2);
           }).then(() => (
             PackageSearchPage.clearFilter('selected')
-          )).then(() => (
-            PackageSearchPage.search('Package')
           ));
         });
 
@@ -302,6 +294,160 @@ describeApplication('PackageSearch', () => {
         it('displays the original search results', () => {
           expect(PackageSearchPage.$searchResultsItems).to.have.lengthOf(3);
         });
+      });
+    });
+  });
+
+  describe('sorting packages', () => {
+    beforeEach(function () {
+      this.server.create('package', {
+        name: 'Academic ASAP'
+      });
+      this.server.create('package', {
+        name: 'Search Networks'
+      });
+      this.server.create('package', {
+        name: 'Non Matching'
+      });
+      this.server.create('package', {
+        name: 'Academic Search Elite'
+      });
+      this.server.create('package', {
+        name: 'Academic Search Premier'
+      });
+    });
+
+    describe('searching for packages', () => {
+      beforeEach(() => {
+        PackageSearchPage.search('academic search');
+      });
+
+      it('has search filters', () => {
+        expect(PackageSearchPage.$searchFilters).to.exist;
+      });
+
+      it('shows the default sort filter of relevance in the search form', () => {
+        expect(PackageSearchPage.getFilter('sort')).to.equal('relevance');
+      });
+
+      it("displays package entries related to 'academic search'", () => {
+        expect(PackageSearchPage.$searchResultsItems).to.have.lengthOf(4);
+      });
+
+      it('displays the packages sorted by relevance', () => {
+        expect(PackageSearchPage.packageList[0].name).to.equal('Academic Search Elite');
+        expect(PackageSearchPage.packageList[1].name).to.equal('Academic Search Premier');
+        expect(PackageSearchPage.packageList[2].name).to.equal('Academic ASAP');
+        expect(PackageSearchPage.packageList[3].name).to.equal('Search Networks');
+      });
+
+      it.still('does not reflect the default sort=relevance in url', function () {
+        expect(this.app.history.location.search).to.not.include('sort=relevance');
+      });
+
+      describe('then filtering by sort options', () => {
+        beforeEach(() => {
+          return convergeOn(() => {
+            expect(PackageSearchPage.packageList.length).to.be.gt(0);
+          }).then(() => (
+            PackageSearchPage.clickFilter('sort', 'name')
+          ));
+        });
+
+        it('displays the packages sorted by package name', () => {
+          expect(PackageSearchPage.packageList[0].name).to.equal('Academic ASAP');
+          expect(PackageSearchPage.packageList[1].name).to.equal('Academic Search Elite');
+          expect(PackageSearchPage.packageList[2].name).to.equal('Academic Search Premier');
+          expect(PackageSearchPage.packageList[3].name).to.equal('Search Networks');
+        });
+
+        it('shows the sort filter of name in the search form', () => {
+          expect(PackageSearchPage.getFilter('sort')).to.equal('name');
+        });
+
+        it('reflects the sort in the URL query params', function () {
+          expect(this.app.history.location.search).to.include('sort=name');
+        });
+
+        describe('then searching for other packages', () => {
+          beforeEach(() => {
+            PackageSearchPage.search('search');
+          });
+
+          it('keeps the sort filter of name in the search form', () => {
+            expect(PackageSearchPage.getFilter('sort')).to.equal('name');
+          });
+
+          it('displays the packages sorted by package name', () => {
+            expect(PackageSearchPage.packageList[0].name).to.equal('Academic Search Elite');
+            expect(PackageSearchPage.packageList[1].name).to.equal('Academic Search Premier');
+            expect(PackageSearchPage.packageList[2].name).to.equal('Search Networks');
+          });
+
+          it('shows the sort filter of name in the search form', () => {
+            expect(PackageSearchPage.getFilter('sort')).to.equal('name');
+          });
+
+          describe('then clicking another search type', () => {
+            beforeEach(() => {
+              return convergeOn(() => {
+                expect(PackageSearchPage.$searchResultsItems).to.have.lengthOf(3);
+              }).then(() => PackageSearchPage.changeSearchType('titles'));
+            });
+
+            it('does not display any results', () => {
+              expect(PackageSearchPage.$searchResultsItems).to.have.lengthOf(0);
+            });
+
+            describe('navigating back to packages search', () => {
+              beforeEach(() => {
+                return PackageSearchPage.changeSearchType('packages');
+              });
+
+              it('keeps the sort filter of name in the search form', () => {
+                expect(PackageSearchPage.getFilter('sort')).to.equal('name');
+              });
+
+              it('displays the last results', () => {
+                expect(PackageSearchPage.$searchResultsItems).to.have.lengthOf(3);
+              });
+
+              it('reflects the sort=name in the URL query params', function () {
+                expect(this.app.history.location.search).to.include('sort=name');
+              });
+            });
+          });
+        });
+      });
+    });
+
+    describe('visiting the page with an existing sort', () => {
+      beforeEach(function () {
+        return convergeOn(() => {
+          expect(PackageSearchPage.$searchResultsItems).to.have.lengthOf(0);
+        }).then(() => {
+          return this.visit('/eholdings/?searchType=packages&q=academic&sort=name', () => {
+            expect(PackageSearchPage.$root).to.exist;
+          });
+        });
+      });
+
+      it('displays search field populated', () => {
+        expect(PackageSearchPage.$searchField).to.have.value('academic');
+      });
+
+      it('displays the sort filter of name as selected in the search form', () => {
+        expect(PackageSearchPage.getFilter('sort')).to.equal('name');
+      });
+
+      it('displays the expected results', () => {
+        expect(PackageSearchPage.$searchResultsItems).to.have.lengthOf(3);
+      });
+
+      it('displays results sorted by name', () => {
+        expect(PackageSearchPage.packageList[0].name).to.equal('Academic ASAP');
+        expect(PackageSearchPage.packageList[1].name).to.equal('Academic Search Elite');
+        expect(PackageSearchPage.packageList[2].name).to.equal('Academic Search Premier');
       });
     });
   });

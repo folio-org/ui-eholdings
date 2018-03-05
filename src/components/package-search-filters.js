@@ -15,6 +15,15 @@ export default function PackageSearchFilters(props) {
     <SearchFilters
       searchType="packages"
       availableFilters={[{
+        name: 'sort',
+        label: 'Sort options',
+        defaultValue: 'relevance',
+        options: [
+          { label: 'Relevance', value: 'relevance' },
+          { label: 'Package', value: 'name' }
+        ]
+      },
+        {
         name: 'selected',
         label: 'Selection status',
         defaultValue: 'all',

@@ -174,8 +174,6 @@ describeApplication('TitleSearch', () => {
           expect(TitleSearchPage.$searchResultsItems).to.have.lengthOf(3);
         }).then(() => (
           TitleSearchPage.clickFilter('type', 'book')
-        )).then(() => (
-          TitleSearchPage.search('Title')
         ));
       });
 
@@ -194,8 +192,6 @@ describeApplication('TitleSearch', () => {
             expect(TitleSearchPage.$searchResultsItems).to.have.lengthOf(1);
           }).then(() => (
             TitleSearchPage.clearFilter('type')
-          )).then(() => (
-            TitleSearchPage.search('Title')
           ));
         });
 
@@ -232,8 +228,6 @@ describeApplication('TitleSearch', () => {
           expect(TitleSearchPage.$searchResultsItems).to.have.lengthOf(3);
         }).then(() => (
           TitleSearchPage.clickFilter('selected', 'true')
-        )).then(() => (
-          TitleSearchPage.search('Title')
         ));
       });
 
@@ -251,8 +245,6 @@ describeApplication('TitleSearch', () => {
             expect(TitleSearchPage.$searchResultsItems).to.have.lengthOf(2);
           }).then(() => (
             TitleSearchPage.clearFilter('selected')
-          )).then(() => (
-            TitleSearchPage.search('Title')
           ));
         });
 
