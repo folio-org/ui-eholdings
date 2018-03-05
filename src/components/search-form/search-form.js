@@ -1,9 +1,13 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import Link from 'react-router-dom/Link';
-import SearchField from '@folio/stripes-components/lib/structures/SearchField';
 import capitalize from 'lodash/capitalize';
 import isEqual from 'lodash/isEqual';
+import SearchField from '@folio/stripes-components/lib/structures/SearchField';
+import ProviderSearchFilters from '../provider-search-filters';
+import PackageSearchFilters from '../package-search-filters';
+import TitleSearchFilters from '../title-search-filters';
+
 import styles from './search-form.css';
 
 const validSearchTypes = ['providers', 'packages', 'titles'];
@@ -22,13 +26,17 @@ export default class SearchForm extends Component {
       providers: PropTypes.string.isRequired,
       packages: PropTypes.string.isRequired,
       titles: PropTypes.string.isRequired
-    }).isRequired,
-    filtersComponent: PropTypes.func,
+    }),
     onSearch: PropTypes.func.isRequired,
     searchString: PropTypes.string,
     filter: PropTypes.object,
     searchfield: PropTypes.string,
-    sort: PropTypes.string
+    sort: PropTypes.string,
+    displaySearchTypeSwitcher: PropTypes.bool
+  };
+
+  static defaultProps = {
+    displaySearchTypeSwitcher: true
   };
 
   state = {
@@ -88,25 +96,44 @@ export default class SearchForm extends Component {
     this.setState({ searchfield: e.target.value });
   };
 
+  /**
+   * Returns the component that is responsible for rendering filters
+   * for the current searchType
+   */
+  getFiltersComponent = (searchType) => {
+    if (searchType === 'titles') {
+      return TitleSearchFilters;
+    } else if (searchType === 'packages') {
+      return PackageSearchFilters;
+    } else if (searchType === 'providers') {
+      return ProviderSearchFilters;
+    }
+
+    return null;
+  };
+
   render() {
-    const { searchType, searchTypeUrls, filtersComponent: Filters } = this.props;
+    const { searchType, searchTypeUrls, displaySearchTypeSwitcher } = this.props;
     const { searchString, filter, searchfield } = this.state;
+    const Filters = this.getFiltersComponent(searchType);
 
     return (
       <div className={styles['search-form-container']} data-test-search-form={searchType}>
-        <div className={styles['search-switcher']} data-test-search-form-type-switcher>
-          {validSearchTypes.map(type => (
-            <Link
-              key={type}
-              title={`search ${type}`}
-              to={searchTypeUrls[type]}
-              className={searchType === type ? styles['is-active'] : undefined}
-              data-test-search-type-button={type}
-            >
-              {capitalize(type)}
-            </Link>
-          ))}
-        </div>
+        { displaySearchTypeSwitcher && (
+          <div className={styles['search-switcher']} data-test-search-form-type-switcher>
+            {validSearchTypes.map(type => (
+              <Link
+                key={type}
+                title={`search ${type}`}
+                to={searchTypeUrls[type]}
+                className={searchType === type ? styles['is-active'] : undefined}
+                data-test-search-type-button={type}
+              >
+                {capitalize(type)}
+              </Link>
+            ))}
+          </div>
+        )}
         <form onSubmit={this.handleSearchSubmit}>
           {(searchType === 'titles') ? (
             <div data-test-title-search-field>
@@ -119,7 +146,7 @@ export default class SearchForm extends Component {
                 onChange={this.handleChangeSearch}
                 onClear={this.onClearSearch}
                 value={searchString}
-                placeholder={`Search for ${searchType}...`}
+                placeholder={`Search ${searchType}...`}
               />
             </div>
           ) : (
@@ -128,7 +155,7 @@ export default class SearchForm extends Component {
               type="search"
               name="search"
               value={searchString}
-              placeholder={`Search for ${searchType}...`}
+              placeholder={`Search ${searchType}...`}
               onChange={this.handleChangeSearch}
               data-test-search-field
             />
@@ -143,13 +170,14 @@ export default class SearchForm extends Component {
             Search
           </button>
 
-          <hr />
-
           {Filters && (
-            <Filters
-              activeFilters={filter}
-              onUpdate={this.handleUpdateFilter}
-            />
+            <div>
+              <hr />
+              <Filters
+                activeFilters={filter}
+                onUpdate={this.handleUpdateFilter}
+              />
+            </div>
           )}
         </form>
       </div>

@@ -6,6 +6,19 @@
     overflow-y: hidden;
   }
 
+  & .list-header {
+    display: flex;
+    border-bottom: 1px solid #dcdcdc;
+    border-top: 1px solid #dcdcdc;
+    justify-content: space-between;
+  }
+
+  &.locked {
+    & .list-header {
+      border-top: 1px solid #fff;
+    }
+  }
+
   & h3 {
     margin: 1em 0 0.5em;
   }
@@ -38,14 +51,13 @@
 
   & h3 {
     padding: 1rem 1rem 0.75rem;
-    border-bottom: 1px solid #dcdcdc;
     margin: 0;
   }
 
   & .list {
     /* the box-model needs _some_ height that is not 'auto' for flexbox to
        be able to fill this element to fit the remaining space */
-    min-height: 0px;
+    min-height: 0;
     flex: 1;
   }
 }

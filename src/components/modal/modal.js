@@ -112,9 +112,11 @@ const Modal = (props) => {
         <div className={css.modalContent}>
           {props.children}
         </div>
-        <div className={css.modalFooter}>
-          {props.footer}
-        </div>
+        { props.footer &&
+          <div className={css.modalFooter}>
+            {props.footer}
+          </div>
+        }
       </div>
     </OverlayModal>
   );
