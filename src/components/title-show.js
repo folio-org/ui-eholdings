@@ -25,11 +25,13 @@ export default function TitleShow({ model }) {
             </div>
           </KeyValueLabel>
 
-          <KeyValueLabel label="Publication type">
-            <div data-test-eholdings-title-show-publication-type>
-              {model.publicationType}
-            </div>
-          </KeyValueLabel>
+          {model.publicationType && (
+            <KeyValueLabel label="Publication Type">
+              <div data-test-eholdings-title-show-publication-type>
+                {model.publicationType}
+              </div>
+            </KeyValueLabel>
+          )}
 
           <IdentifiersList data={model.identifiers} />
 

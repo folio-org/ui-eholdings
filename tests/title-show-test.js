@@ -1,9 +1,8 @@
-import { beforeEach, describe, it } from '@bigtest/mocha';
 import { expect } from 'chai';
-import { convergeOn } from '@bigtest/convergence';
+import { describe, beforeEach, it, convergeOn } from '@bigtest/mocha';
 
 import { describeApplication } from './helpers';
-import TitleShowPage from './pages/title-show';
+import TitleShowPage from './pages/bigtest/title-show';
 
 describeApplication('TitleShow', () => {
   let title,
@@ -65,31 +64,31 @@ describeApplication('TitleShow', () => {
     });
 
     it('groups together identifiers of the same type and subtype', () => {
-      expect(TitleShowPage.identifiersList[0]).to.equal('ISBN (Print)978-0547928210, 978-0547928203');
+      expect(TitleShowPage.identifiersList(0).text).to.equal('ISBN (Print)978-0547928210, 978-0547928203');
     });
 
     it('does not group together identifiers of the same type, but not the same subtype', () => {
-      expect(TitleShowPage.identifiersList[1]).to.equal('ISBN (Online)978-0547928197');
+      expect(TitleShowPage.identifiersList(1).text).to.equal('ISBN (Online)978-0547928197');
     });
 
     it('does not show a subtype for an identifier when none exists', () => {
-      expect(TitleShowPage.identifiersList[2]).to.equal('ISBN978-0547928227');
+      expect(TitleShowPage.identifiersList(2).text).to.equal('ISBN978-0547928227');
     });
 
     it('does not show identifiers that are not ISSN or ISBN', () => {
-      expect(TitleShowPage.identifiersList.length).to.equal(3);
+      expect(TitleShowPage.identifiersList().length).to.equal(3);
     });
 
     it('displays the authors', () => {
-      expect(TitleShowPage.contributorsList[0]).to.equal('AuthorsWriter, Sally; Wordsmith, Jane');
+      expect(TitleShowPage.contributorsList(0).text).to.equal('AuthorsWriter, Sally; Wordsmith, Jane');
     });
 
     it('displays the illustrator', () => {
-      expect(TitleShowPage.contributorsList[1]).to.equal('IllustratorArtist, John');
+      expect(TitleShowPage.contributorsList(1).text).to.equal('IllustratorArtist, John');
     });
 
     it('does not display an editor', () => {
-      expect(TitleShowPage.contributorsList[2]).to.be.undefined;
+      expect(TitleShowPage.contributorsList()[2]).to.be.undefined;
     });
 
     it('displays the subjects list', () => {
@@ -97,19 +96,19 @@ describeApplication('TitleShow', () => {
     });
 
     it('displays a list of customer resources', () => {
-      expect(TitleShowPage.packageList).to.have.lengthOf(customerResources.length);
+      expect(TitleShowPage.packageList()).to.have.lengthOf(customerResources.length);
     });
 
     it('displays name of a package in the customer resource list', () => {
-      expect(TitleShowPage.packageList[0].name).to.equal(customerResources[0].package.name);
+      expect(TitleShowPage.packageList(0).name).to.equal(customerResources[0].package.name);
     });
 
     it('displays whether the first customer resource is selected', () => {
-      expect(TitleShowPage.packageList[0].isSelected).to.equal(customerResources[0].isSelected);
+      expect(TitleShowPage.packageList(0).isSelected).to.equal(customerResources[0].isSelected);
     });
 
     it.always('should not display back button', () => {
-      expect(TitleShowPage.$backButton).to.not.exist;
+      expect(TitleShowPage.hasBackButton).to.be.false;
     });
   });
 
@@ -125,7 +124,7 @@ describeApplication('TitleShow', () => {
     });
 
     it('should display the back button in UI', () => {
-      expect(TitleShowPage.$backButton).to.exist;
+      expect(TitleShowPage.hasBackButton).to.be.true;
     });
   });
 
@@ -152,24 +151,24 @@ describeApplication('TitleShow', () => {
       expect(TitleShowPage.publisherName).to.equal('Cool Publisher');
     });
 
-    it.always('does not displays the publication type', () => {
-      expect(TitleShowPage.publicationType).to.equal('');
+    it.always('does not display the publication type', () => {
+      expect(TitleShowPage.hasPublicationType).to.be.false;
     });
 
     it.always('does not display identifiers', () => {
-      expect(TitleShowPage.identifiersList.length).to.equal(0);
+      expect(TitleShowPage.identifiersList().length).to.equal(0);
     });
 
     it.always('does not display contributors', () => {
-      expect(TitleShowPage.contributorsList.length).to.equal(0);
+      expect(TitleShowPage.contributorsList().length).to.equal(0);
     });
 
     it.always('does not display package list', () => {
-      expect(TitleShowPage.packageList.length).to.equal(0);
+      expect(TitleShowPage.packageList().length).to.equal(0);
     });
 
     it.always('does not display subjects list', () => {
-      expect(TitleShowPage.subjectsList.length).to.equal(0);
+      expect(TitleShowPage.hasSubjectsList).to.be.false;
     });
   });
 
@@ -201,19 +200,19 @@ describeApplication('TitleShow', () => {
     });
 
     it.always('does not display identifiers', () => {
-      expect(TitleShowPage.identifiersList.length).to.equal(0);
+      expect(TitleShowPage.hasIdentifiersList).to.be.false;
     });
 
     it.always('does not display contributors', () => {
-      expect(TitleShowPage.contributorsList.length).to.equal(0);
+      expect(TitleShowPage.contributorsList().length).to.equal(0);
     });
 
     it.always('does not display package list', () => {
-      expect(TitleShowPage.packageList.length).to.equal(0);
+      expect(TitleShowPage.packageList().length).to.equal(0);
     });
 
     it.always('does not display subjects list', () => {
-      expect(TitleShowPage.subjectsList.length).to.equal(0);
+      expect(TitleShowPage.hasSubjectsList).to.be.false;
     });
   });
 
@@ -227,13 +226,13 @@ describeApplication('TitleShow', () => {
     });
 
     it('should display the first page of related packages', () => {
-      expect(TitleShowPage.packageList[0].name).to.equal('Title Package 1');
+      expect(TitleShowPage.packageList(0).name).to.equal('Title Package 1');
     });
 
-    describe('scrolling down the list of packages', () => {
+    describe.skip('scrolling down the list of packages', () => {
       beforeEach(() => {
         return convergeOn(() => {
-          expect(TitleShowPage.packageList.length).to.be.gt(0);
+          expect(TitleShowPage.packageList().length).to.be.gt(0);
         }).then(() => {
           TitleShowPage.scrollToPackageOffset(26);
         });
@@ -242,7 +241,7 @@ describeApplication('TitleShow', () => {
       it('should display the next page of related packages', () => {
         // when the list is scrolled, it has a threshold of 5 items. index 4,
         // the 5th item, is the topmost visible item in the list
-        expect(TitleShowPage.packageList[4].name).to.equal('Title Package 26');
+        expect(TitleShowPage.packageList(4).name).to.equal('Title Package 26');
       });
     });
   });
