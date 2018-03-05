@@ -28,6 +28,7 @@ export default class CustomerResourceShow extends Component {
 
   static contextTypes = {
     locale: PropTypes.string,
+    intl: PropTypes.object,
     router: PropTypes.object,
     queryParams: PropTypes.object
   };
@@ -70,7 +71,7 @@ export default class CustomerResourceShow extends Component {
 
   render() {
     let { model, customEmbargoSubmitted, coverageSubmitted } = this.props;
-    let { locale } = this.context;
+    let { locale, intl } = this.context;
     let { showSelectionModal, resourceSelected, resourceHidden } = this.state;
 
     let hasManagedCoverages = model.managedCoverages.length > 0 &&
@@ -81,12 +82,18 @@ export default class CustomerResourceShow extends Component {
     let customEmbargoValue = model.customEmbargoPeriod && model.customEmbargoPeriod.embargoValue;
     let customEmbargoUnit = model.customEmbargoPeriod && model.customEmbargoPeriod.embargoUnit;
 
-    let customCoverages = model.customCoverages;
-    if (customCoverages.length === 0) {
-      customCoverages.push({
+    // in the event that the resource lacks custom coverage, we must
+    // add an artificial "blank" row of coverage at this level so
+    // the form initializes correctly when adding coverage.  unfortunately,
+    // due to redux-form eccentricity, we cannot do this in the CoverageForm
+    // component itself.  instead we clone the coverages off the model here,
+    // as mutating the model directly will break all other customizations.
+    let customCoverages = [...model.customCoverages];
+    if (customCoverages.length === 0 && model.isSelected) {
+      customCoverages = [{
         beginCoverage: '',
         endCoverage: ''
-      });
+      }];
     }
 
     return (
@@ -232,9 +239,11 @@ export default class CustomerResourceShow extends Component {
 
                   <CustomerResourceCoverage
                     initialValues={{ customCoverages }}
+                    packageCoverage={model.package.customCoverage}
                     onSubmit={coverageSubmitted}
                     isPending={model.update.isPending && 'customCoverages' in model.update.changedAttributes}
                     locale={locale}
+                    intl={intl}
                   />
 
                   <hr />
