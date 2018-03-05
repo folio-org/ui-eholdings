@@ -7,6 +7,7 @@ import Provider from '../redux/provider';
 import Package from '../redux/package';
 import Title from '../redux/title';
 
+import ProviderSearchFilters from '../components/provider-search-filters';
 import ProviderSearchList from '../components/provider-search-list';
 import PackageSearchList from '../components/package-search-list';
 import PackageSearchFilters from '../components/package-search-filters';
@@ -212,6 +213,8 @@ class SearchRoute extends Component {
       return TitleSearchFilters;
     } else if (searchType === 'packages') {
       return PackageSearchFilters;
+    } else if (searchType === 'providers') {
+      return ProviderSearchFilters;
     }
 
     return null;
@@ -271,6 +274,7 @@ class SearchRoute extends Component {
                 searchString={params.q}
                 filter={params.filter}
                 searchfield={params.searchfield}
+                sort={params.sort}
                 searchTypeUrls={this.getSearchTypeUrls()}
                 filtersComponent={this.getFiltersComponent()}
                 onSearch={this.handleSearch}

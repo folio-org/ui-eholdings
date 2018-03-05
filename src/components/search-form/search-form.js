@@ -27,37 +27,53 @@ export default class SearchForm extends Component {
     onSearch: PropTypes.func.isRequired,
     searchString: PropTypes.string,
     filter: PropTypes.object,
-    searchfield: PropTypes.string
+    searchfield: PropTypes.string,
+    sort: PropTypes.string
   };
 
   state = {
     searchString: this.props.searchString || '',
     filter: this.props.filter || {},
-    searchfield: this.props.searchfield || 'title'
+    searchfield: this.props.searchfield || 'title',
+    sort: this.props.sort || 'relevance'
   };
 
-  componentWillReceiveProps({ searchString = '', filter = {}, searchfield }) {
+  componentWillReceiveProps({ searchString = '', filter = {}, searchfield, sort }) {
     if (searchString !== this.state.searchString) {
       this.setState({ searchString });
     }
 
-    if (!isEqual(filter, this.state.filter)) {
-      this.setState({ filter });
+    if (sort !== this.state.sort) {
+      this.setState({ sort });
     }
 
+    if (sort) {
+      let displayfilter = { ...filter, sort };
+      if (!isEqual(displayfilter, this.state.filter)) {
+        this.setState({ filter: displayfilter });
+      }
+    } else if (!isEqual(filter, this.state.filter)) {
+      this.setState({ filter });
+    }
     if (searchfield !== this.state.searchfield) {
       this.setState({ searchfield });
     }
   }
 
-  handleSearchSubmit = (e) => {
-    e.preventDefault();
+  submitSearch = () => {
+    let { sort, ...searchfilter } = this.state.filter;
 
     this.props.onSearch({
       q: this.state.searchString,
-      filter: this.state.filter,
-      searchfield: this.state.searchfield
+      filter: searchfilter,
+      searchfield: this.state.searchfield,
+      sort
     });
+  };
+
+  handleSearchSubmit = (e) => {
+    e.preventDefault();
+    this.submitSearch();
   };
 
   handleChangeSearch = (e) => {
@@ -65,7 +81,11 @@ export default class SearchForm extends Component {
   };
 
   handleUpdateFilter = (filter) => {
-    this.setState({ filter });
+    if (this.props.searchType === 'providers') {
+      this.setState({ filter }, () => this.submitSearch());
+    } else {
+      this.setState({ filter });
+    }
   };
 
   handleChangeIndex = (e) => {
