@@ -225,6 +225,7 @@ export default class PackageShow extends Component {
           size="small"
           label="Remove package from holdings?"
           scope="root"
+          id="eholdings-package-confirmation-modal"
           footer={(
             <div>
               <Button
