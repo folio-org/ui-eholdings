@@ -6,7 +6,7 @@
   "repository": "https://github.com/folio-org/ui-eholdings",
   "license": "Apache-2.0",
   "scripts": {
-    "start": "NODE_ENV=development stripes serve demo/stripes.config.js",
+    "start": "stripes serve demo/stripes.config.js",
     "build": "stripes build demo/stripes.config.js dist",
     "test": "stripes test karma demo/stripes.config.js",
     "lint": "eslint ./"
