@@ -1,6 +1,7 @@
 import $ from 'jquery';
 import { expect } from 'chai';
 import { convergeOn } from '@bigtest/convergence';
+import { computed } from '@bigtest/interaction';
 
 /* Only used for datepicker component */
 export function advancedFillIn(el, value) {
@@ -60,3 +61,13 @@ export function pressEnter(el) {
     throw new Error('Node does not exist.');
   }
 }
+
+export const isRootPresent = () => {
+  return computed(function () {
+    try {
+      return !!this.$root;
+    } catch (e) {
+      return false;
+    }
+  });
+};

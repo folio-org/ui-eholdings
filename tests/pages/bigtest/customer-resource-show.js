@@ -8,13 +8,17 @@ import {
   text,
   value
 } from '@bigtest/interaction';
+import { isRootPresent } from '../helpers';
+
 
 @page class CustomerResourceShowDeselectionModal {
   confirmDeselection = clickable('[data-test-eholdings-customer-resource-deselection-confirmation-modal-yes]');
   cancelDeselection = clickable('[data-test-eholdings-customer-resource-deselection-confirmation-modal-no]');
 }
 
-@page class CustomerResourceShowNavigationModal {}
+@page class CustomerResourceShowNavigationModal {
+  exists = isRootPresent();
+}
 
 @page class CustomerResourceShowPage {
   titleName = text('[data-test-eholdings-details-view-name="resource"]');
