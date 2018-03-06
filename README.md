@@ -27,6 +27,14 @@ The `ui-eholdings` module adds the ability to manage electronic holdings in FOLI
 * `yarn start`
 * Visit your app at [http://localhost:8080](http://localhost:8080).
 
+On Windows: 
+If you encounter problems trying to run your app on Windows, specifically, with NODE_ENV:
+
+* Set environment variable NODE_ENV=development
+  `SET NODE_ENV=development` if running from Windows command prompt
+  `export NODE_ENV=development` if running from Cygwin on Windows
+* Edit ui-eholdings/package.json to remove `NODE_ENV=development` from scripts object
+
 By default, this will use the backend OKAPI cluster at
 https://okapi.frontside.io However, if you want to run the application
 against the mirage server contained within the browser, you can turn
