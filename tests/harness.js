@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import PropTypes from 'prop-types';
 
 /* eslint-disable import/first */
 import createMemoryHistory from 'history/createMemoryHistory';
@@ -30,22 +29,11 @@ const actionNames = gatherActions();
  * for interacting with the custom history.
  */
 export default class TestHarness extends Component {
-  static propTypes = {
-    confirm: PropTypes.func.isRequired
-  };
-
   componentWillMount() {
     this.logger = configureLogger(config);
     this.epics = configureEpics();
     this.store = configureStore({ okapi }, this.logger, this.epics);
-
-    this.history = createMemoryHistory({
-      // memory histories do not use window.confirm
-      // instead, we use a stub passed in from our setup hook
-      getUserConfirmation: (message, callback) => {
-        callback(!!this.props.confirm(message));
-      }
-    });
+    this.history = createMemoryHistory();
 
     discoverServices(this.store);
 

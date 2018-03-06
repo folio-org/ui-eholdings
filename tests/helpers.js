@@ -4,7 +4,6 @@ import React from 'react';
 import chai from 'chai';
 import chaiJquery from 'chai-jquery';
 import $ from 'jquery';
-import sinon from 'sinon';
 import { render, unmountComponentAtNode } from 'react-dom';
 import Convergence from '@bigtest/convergence';
 import startMirage from '../mirage/start';
@@ -43,12 +42,7 @@ export function describeApplication(name, setup, describe = window.describe) {
       this.server = startMirage(setup.scenarios);
       this.server.logging = false;
 
-      // acts as `window.confirm` when using in-memory history
-      this.confirm = sinon.stub();
-
-      this.app = render((
-        <TestHarness confirm={this.confirm} />
-      ), rootElement);
+      this.app = render(<TestHarness />, rootElement);
 
       this.visit = visit.bind(null, this); // eslint-disable-line no-use-before-define
     });

@@ -252,5 +252,9 @@ export default {
 
   get validationErrorOnSelect() {
     return $('[data-test-eholdings-customer-resource-custom-embargo-select] [class^="feedbackError"]').text();
+  },
+
+  get $navigationModal() {
+    return $('#navigation-modal');
   }
 };

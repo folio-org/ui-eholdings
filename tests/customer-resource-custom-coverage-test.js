@@ -95,8 +95,8 @@ describeApplication('CustomerResourceCustomCoverage', () => {
           ));
         });
 
-        it('prompts the user to continue', function () {
-          expect(this.confirm.calledOnce).to.be.true;
+        it('shows a navigation confirmation modal', () => {
+          expect(ResourcePage.$navigationModal).to.exist;
         });
 
         it.always('does not navigate away', function () {
@@ -104,7 +104,6 @@ describeApplication('CustomerResourceCustomCoverage', () => {
             .to.equal(`/eholdings/customer-resources/${resource.id}`);
         });
       });
-
 
       describe('clicking cancel', () => {
         beforeEach(() => {
