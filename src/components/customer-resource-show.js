@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { Prompt } from 'react-router-dom';
 
 import Button from '@folio/stripes-components/lib/Button';
 import Layout from '@folio/stripes-components/lib/Layout';
@@ -17,6 +16,7 @@ import Modal from './modal';
 import styles from './styles.css';
 import CustomEmbargoForm from './custom-embargo';
 import CustomerResourceCoverage from './customer-resource-coverage';
+import NavigationModal from './navigation-modal';
 
 export default class CustomerResourceShow extends Component {
   static propTypes = {
@@ -329,13 +329,7 @@ export default class CustomerResourceShow extends Component {
           }
         </Modal>
 
-        <Prompt
-          when={isEditing}
-          message={
-            'There are currently unsaved changes on this page.\n\n' +
-            'These changes will be lost, continue?'
-          }
-        />
+        <NavigationModal when={isEditing} />
       </div>
     );
   }
