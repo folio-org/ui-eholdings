@@ -19,13 +19,13 @@ export default function ProviderShow({
       paneTitle={model.name}
       bodyContent={(
         <div>
-          <KeyValueLabel label="Packages Selected">
+          <KeyValueLabel label="Packages selected">
             <div data-test-eholdings-provider-details-packages-selected>
               {intl.formatNumber(model.packagesSelected)}
             </div>
           </KeyValueLabel>
 
-          <KeyValueLabel label="Total Packages">
+          <KeyValueLabel label="Total packages">
             <div data-test-eholdings-provider-details-packages-total>
               {intl.formatNumber(model.packagesTotal)}
             </div>

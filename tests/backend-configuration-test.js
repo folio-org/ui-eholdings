@@ -129,7 +129,7 @@ describeApplication('With valid backend configuration', () => {
         this.server.put('/configuration', () => {
           return new Response(422, {}, {
             errors: [{
-              title: 'RM-API Credentials Are Invalid'
+              title: 'RM-API credentials are invalid'
             }]
           });
         });
@@ -141,7 +141,7 @@ describeApplication('With valid backend configuration', () => {
       });
 
       it('reports the error to the interface', () => {
-        expect(SettingsPage.errorText).to.equal('RM-API Credentials Are Invalid');
+        expect(SettingsPage.errorText).to.equal('RM-API credentials are invalid');
       });
     });
 

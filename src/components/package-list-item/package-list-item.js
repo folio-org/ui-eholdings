@@ -44,7 +44,7 @@ export default function PackageListItem({
 
       <div>
         <span data-test-eholdings-package-list-item-selected>
-          {item.isSelected ? 'Selected' : 'Not Selected'}
+          {item.isSelected ? 'Selected' : 'Not selected'}
         </span>
 
         {showTitleCount && (

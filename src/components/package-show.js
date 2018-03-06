@@ -95,20 +95,20 @@ export default class PackageShow extends Component {
               </KeyValueLabel>
 
               {model.contentType && (
-                <KeyValueLabel label="Content Type">
+                <KeyValueLabel label="Content type">
                   <div data-test-eholdings-package-details-content-type>
                     {model.contentType}
                   </div>
                 </KeyValueLabel>
               )}
 
-              <KeyValueLabel label="Titles Selected">
+              <KeyValueLabel label="Titles selected">
                 <div data-test-eholdings-package-details-titles-selected>
                   {intl.formatNumber(model.selectedCount)}
                 </div>
               </KeyValueLabel>
 
-              <KeyValueLabel label="Total Titles">
+              <KeyValueLabel label="Total titles">
                 <div data-test-eholdings-package-details-titles-total>
                   {intl.formatNumber(model.titleCount)}
                 </div>
@@ -118,7 +118,7 @@ export default class PackageShow extends Component {
                 data-test-eholdings-package-details-selected
                 htmlFor="package-details-toggle-switch"
               >
-                <h4>{packageSelected ? 'Selected' : 'Not Selected'}</h4>
+                <h4>{packageSelected ? 'Selected' : 'Not selected'}</h4>
                 <ToggleSwitch
                   onChange={this.handleSelectionToggle}
                   checked={packageSelected}

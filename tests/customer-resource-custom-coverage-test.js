@@ -273,12 +273,12 @@ describeApplication('CustomerResourceCustomCoverage', () => {
 
           it('displays messaging that begin date is outside of package coverage range', () => {
             expect(CustomerResourceCoverage.dateRangeRowList[0].beginCoverageFieldValidationError).to.eq(
-              "Dates must be within Package's date range (12/1/2018 - 12/31/2018)."
+              "Dates must be within package's date range (12/1/2018 - 12/31/2018)."
             );
           });
           it('displays messaging that end date is outside of package coverage range', () => {
             expect(CustomerResourceCoverage.dateRangeRowList[0].endCoverageFieldValidationError).to.eq(
-              "Dates must be within Package's date range (12/1/2018 - 12/31/2018)."
+              "Dates must be within package's date range (12/1/2018 - 12/31/2018)."
             );
           });
         });
