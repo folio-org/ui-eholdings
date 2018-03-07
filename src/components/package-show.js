@@ -172,8 +172,8 @@ export default class PackageShow extends Component {
                       <div>
                         <h4>
                           {packageAllowedToAddTitles
-                            ? 'Allow KB to add new titles'
-                            : 'Do not allow KB to add new titles'}
+                            ? 'Automatically select new titles'
+                            : 'Do not automatically select new titles'}
                         </h4>
                         <ToggleSwitch
                           onChange={this.props.toggleAllowKbToAddTitles}
