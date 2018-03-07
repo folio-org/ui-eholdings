@@ -23,6 +23,7 @@ class CustomerResourceCoverage extends Component {
       customCoverages: PropTypes.array
     }).isRequired,
     packageCoverage: PropTypes.object, // eslint-disable-line react/no-unused-prop-types
+    isEditable: PropTypes.bool,
     onEdit: PropTypes.func,
     onSubmit: PropTypes.func.isRequired,
     handleSubmit: PropTypes.func,
@@ -34,7 +35,7 @@ class CustomerResourceCoverage extends Component {
   };
 
   state = {
-    isEditing: false
+    isEditing: !!this.props.isEditable
   };
 
   componentWillReceiveProps(nextProps) {
@@ -42,26 +43,26 @@ class CustomerResourceCoverage extends Component {
     let needsUpdate = !isEqual(this.props.initialValues.customCoverages, nextProps.initialValues.customCoverages);
 
     if (wasPending && needsUpdate) {
-      this.setState({ isEditing: false });
+      this.toggleEditing(false);
     }
   }
 
-  componentDidUpdate(prevProps, prevState) {
-    if (this.props.onEdit && prevState.isEditing !== this.state.isEditing) {
-      this.props.onEdit(this.state.isEditing);
+  toggleEditing(isEditing = !this.state.isEditing) {
+    if (this.props.onEdit) {
+      this.props.onEdit(isEditing);
+    } else {
+      this.setState({ isEditing });
     }
   }
 
   handleEdit = (e) => {
     e.preventDefault();
-    this.setState({ isEditing: true });
+    this.toggleEditing(true);
   }
 
   handleCancel = (e) => {
     e.preventDefault();
-    this.setState({
-      isEditing: false
-    });
+    this.toggleEditing(false);
     this.props.initialize(this.props.initialValues);
   }
 
@@ -150,11 +151,17 @@ class CustomerResourceCoverage extends Component {
   };
 
   render() {
-    let { pristine, isPending, handleSubmit, onSubmit } = this.props;
+    let {
+      pristine,
+      isPending,
+      isEditable = this.state.isEditing,
+      handleSubmit,
+      onSubmit
+    } = this.props;
     let { customCoverages } = this.props.initialValues;
     let contents;
 
-    if (this.state.isEditing) {
+    if (isEditable) {
       contents = (
         <form onSubmit={handleSubmit(onSubmit)}>
           <FieldArray name="customCoverages" component={this.renderCoverageFields} />
@@ -230,7 +237,7 @@ class CustomerResourceCoverage extends Component {
       <div
         data-test-eholdings-coverage-form
         className={cx(styles['coverage-form'], {
-          'is-editing': this.state.isEditing
+          'is-editing': isEditable
         })}
       >
         <h4 className={styles['coverage-form-legend']}>Coverage dates</h4>
