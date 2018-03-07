@@ -3,7 +3,8 @@ import {
   isPresent,
   page,
   property,
-  text
+  text,
+  clickable
 } from '@bigtest/interaction';
 
 @page class CustomerResourceShowPage {
@@ -13,12 +14,15 @@ import {
   hasPublicationType = isPresent('[data-test-eholdings-customer-resource-show-publication-type]');
   subjectsList = text('[data-test-eholdings-customer-resource-show-subjects-list]');
   providerName = text('[data-test-eholdings-customer-resource-show-provider-name]');
+  clickProvider = clickable('[data-test-eholdings-customer-resource-show-provider-name] a');
   packageName = text('[data-test-eholdings-customer-resource-show-package-name]');
   managedUrl = text('[data-test-eholdings-customer-resource-show-managed-url]');
   contentType = text('[data-test-eholdings-customer-resource-show-content-type]');
   hasContentType = isPresent('[data-test-eholdings-customer-resource-show-content-type]');
   hasErrors = isPresent('[data-test-eholdings-details-view-error="resource"]');
   isSelected = property('checked', '[data-test-eholdings-customer-resource-show-selected] input');
+  toggleSelected = clickable('[data-test-eholdings-customer-resource-show-selected] input');
+  addCoverage = clickable('[data-test-eholdings-coverage-form-add-button] button');
   hasBackButton = isPresent('[data-test-eholdings-details-view-back-button] button');
   paneTitle = text('[data-test-eholdings-details-view-pane-title]');
   paneSub = text('[data-test-eholdings-details-view-pane-sub]');
