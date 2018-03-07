@@ -32,7 +32,8 @@ export default class SearchForm extends Component {
     filter: PropTypes.object,
     searchfield: PropTypes.string,
     sort: PropTypes.string,
-    displaySearchTypeSwitcher: PropTypes.bool
+    displaySearchTypeSwitcher: PropTypes.bool,
+    isLoading: PropTypes.bool
   };
 
   static defaultProps = {
@@ -88,6 +89,10 @@ export default class SearchForm extends Component {
     this.setState({ searchString: e.target.value });
   };
 
+  handleClearSearch = () => {
+    this.setState({ searchString: '' });
+  };
+
   handleUpdateFilter = (filter) => {
     this.setState({ filter }, () => this.submitSearch());
   };
@@ -113,7 +118,7 @@ export default class SearchForm extends Component {
   };
 
   render() {
-    const { searchType, searchTypeUrls, displaySearchTypeSwitcher } = this.props;
+    const { searchType, searchTypeUrls, displaySearchTypeSwitcher, isLoading } = this.props;
     const { searchString, filter, searchfield } = this.state;
     const Filters = this.getFiltersComponent(searchType);
 
@@ -139,28 +144,28 @@ export default class SearchForm extends Component {
             <div data-test-title-search-field>
               <SearchField
                 name="search"
-                id="eholdings-title-search-searchfield"
                 searchableIndexes={searchableIndexes}
                 selectedIndex={searchfield}
                 onChangeIndex={this.handleChangeIndex}
                 onChange={this.handleChangeSearch}
-                onClear={this.onClearSearch}
+                onClear={this.handleClearSearch}
                 value={searchString}
                 placeholder={`Search ${searchType}...`}
+                loading={isLoading}
               />
             </div>
           ) : (
-            <input
-              className={styles['search-input']}
-              type="search"
-              name="search"
-              value={searchString}
-              placeholder={`Search ${searchType}...`}
-              onChange={this.handleChangeSearch}
-              data-test-search-field
-            />
-          )
-          }
+            <div data-test-search-field>
+              <SearchField
+                name="search"
+                onChange={this.handleChangeSearch}
+                onClear={this.handleClearSearch}
+                value={searchString}
+                placeholder={`Search ${searchType}...`}
+                loading={isLoading}
+              />
+            </div>
+          )}
           <button
             className={styles['search-submit']}
             type="submit"

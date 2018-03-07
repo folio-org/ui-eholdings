@@ -39,7 +39,7 @@ export default {
   },
 
   get $searchField() {
-    return $('[data-test-search-field]');
+    return $('[data-test-search-field]').find('input[name="search"]');
   },
 
   get $titleSearchField() {
@@ -87,7 +87,7 @@ export default {
   },
 
   search(query) {
-    let $input = $('[data-test-search-field]').val(query);
+    let $input = $('[data-test-search-field]').find('input[name="search"]').val(query);
     triggerChange($input.get(0));
 
     return convergeOn(() => {

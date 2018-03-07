@@ -262,6 +262,7 @@ class SearchRoute extends Component {
                 sort={params.sort}
                 searchTypeUrls={this.getSearchTypeUrls()}
                 onSearch={this.handleSearch}
+                isLoading={params.q && !results.hasLoaded}
               />
             )}
           />
