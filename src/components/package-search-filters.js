@@ -31,7 +31,7 @@ export default function PackageSearchFilters(props) {
           { label: 'All', value: 'all' },
           { label: 'Selected', value: 'true' },
           { label: 'Not selected', value: 'false' },
-          { label: 'Selected by EBSCO', value: 'ebsco' }
+          { label: 'Ordered through EBSCO', value: 'ebsco' }
         ]
       }, {
         name: 'type',
@@ -39,12 +39,12 @@ export default function PackageSearchFilters(props) {
         defaultValue: 'all',
         options: [
           { label: 'All', value: 'all' },
-          { label: 'Aggregated full text', value: 'aggregatedfulltext' },
-          { label: 'Abstract and index', value: 'abstractandindex' },
-          { label: 'E-book', value: 'ebook' },
-          { label: 'E-journal', value: 'ejournal' },
+          { label: 'Aggregated Full Text', value: 'aggregatedfulltext' },
+          { label: 'Abstract and Index', value: 'abstractandindex' },
+          { label: 'E-Book', value: 'ebook' },
+          { label: 'E-Journal', value: 'ejournal' },
           { label: 'Print', value: 'print' },
-          { label: 'Online reference', value: 'onlinereference' },
+          { label: 'Online Reference', value: 'onlinereference' },
           { label: 'Unknown', value: 'unknown' }
         ]
       }]}

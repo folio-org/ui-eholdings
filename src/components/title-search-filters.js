@@ -22,7 +22,7 @@ export default function TitleSearchFilters(props) {
           { label: 'All', value: 'all' },
           { label: 'Selected', value: 'true' },
           { label: 'Not selected', value: 'false' },
-          { label: 'Selected by EBSCO', value: 'ebsco' }
+          { label: 'Ordered through EBSCO', value: 'ebsco' }
         ]
       }, {
         name: 'type',
@@ -30,18 +30,18 @@ export default function TitleSearchFilters(props) {
         defaultValue: 'all',
         options: [
           { label: 'All', value: 'all' },
-          { label: 'Audio book', value: 'audiobook' },
+          { label: 'Audio Book', value: 'audiobook' },
           { label: 'Book', value: 'book' },
-          { label: 'Book series', value: 'bookseries' },
+          { label: 'Book Series', value: 'bookseries' },
           { label: 'Database', value: 'database' },
           { label: 'Journal', value: 'journal' },
           { label: 'Newsletter', value: 'newsletter' },
           { label: 'Newspaper', value: 'newspaper' },
           { label: 'Proceedings', value: 'proceedings' },
           { label: 'Report', value: 'report' },
-          { label: 'Streaming audio', value: 'streamingaudio' },
-          { label: 'Streaming video', value: 'streamingvideo' },
-          { label: 'Thesis & dissertation', value: 'thesisdissertation' },
+          { label: 'Streaming Audio', value: 'streamingaudio' },
+          { label: 'Streaming Video', value: 'streamingvideo' },
+          { label: 'Thesis & Dissertation', value: 'thesisdissertation' },
           { label: 'Website', value: 'website' },
           { label: 'Unspecified', value: 'unspecified' }
         ]
