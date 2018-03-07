@@ -192,13 +192,13 @@ export default function configure() {
     let filtered = true;
 
     if (name) {
-      filtered = title.name && title.name.toLowerCase().includes(name.toLowerCase());
+      filtered = title.name && includesWords(title.name, name);
     } else if (isxn) {
-      filtered = title.identifiers && title.identifiers.some(i => i.id.toLowerCase().includes(isxn.toLowerCase()));
+      filtered = title.identifiers && title.identifiers.some(i => includesWords(i.id, isxn));
     } else if (subject) {
-      filtered = title.subjects && title.subjects.some(s => s.subject.toLowerCase().includes(subject.toLowerCase()));
+      filtered = title.subjects && title.subjects.some(s => includesWords(s.subject, subject));
     } else if (publisher) {
-      filtered = title.publisherName && title.publisherName.toLowerCase().includes(publisher.toLowerCase());
+      filtered = title.publisherName && includesWords(title.publisherName, publisher);
     }
 
     if (filtered && type && type !== 'all') {
