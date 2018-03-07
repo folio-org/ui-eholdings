@@ -141,7 +141,7 @@ export default class Settings extends Component {
                 'has-error': invalidApiKey
               })}
             >
-              <label htmlFor="eholdings-settings-apikey">API Key</label>
+              <label htmlFor="eholdings-settings-apikey">API key</label>
               <input
                 id="eholdings-settings-apikey"
                 type="password"

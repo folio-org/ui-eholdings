@@ -291,7 +291,7 @@ const validateWithinPackageRange = (dateRange, packageCoverage, intl) => {
     let packageEndCoverageDate = packageEndCoverage ? moment(packageEndCoverage) : moment();
     let packageRange = moment.range(packageBeginCoverageDate, packageEndCoverageDate);
 
-    const message = `Dates must be within Package's date range (${
+    const message = `Dates must be within package's date range (${
       formatISODateWithoutTime(packageBeginCoverageDate.format('YYYY-MM-DD'), intl)
     } - ${
       packageEndCoverage
