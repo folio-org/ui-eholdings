@@ -12,6 +12,7 @@
     "lint": "eslint ./"
   },
   "devDependencies": {
+    "@bigtest/convergence": "^0.4.0",
     "@bigtest/interaction": "^0.1.0",
     "@bigtest/mirage": "^0.0.1",
     "@bigtest/mocha": "^0.3.1",
