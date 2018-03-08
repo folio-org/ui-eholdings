@@ -45,7 +45,7 @@
   & .list {
     /* the box-model needs _some_ height that is not 'auto' for flexbox to
        be able to fill this element to fit the remaining space */
-    min-height: 0px;
+    min-height: 0;
     flex: 1;
   }
 }

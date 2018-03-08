@@ -2,13 +2,15 @@
   height: 100%;
 
   &.is-selected {
-    background-color: rgba(0,0,0,.5);
-    color: #FFFFFF;
+    background-color: rgba(0, 0, 0, 0.5);
+    color: #fff;
+
     &:hover {
-      background-color: rgba(0,0,0,.5);
+      background-color: rgba(0, 0, 0, 0.5);
     }
+
     & h5 {
-      color: #FFFFFF;
+      color: #fff;
     }
   }
 
@@ -28,41 +30,45 @@
   padding: 1em;
 
   /* skeleton effect */
+
+  /* 1. name  2. selected */
   background-image:
-    linear-gradient(#eee, #eee 0.9em, transparent 0.9em), /* name */
-    linear-gradient(#eee, #eee 0.8em, transparent 0.8em); /* selected */
+    linear-gradient(#eee, #eee 0.9em, transparent 0.9em),
+    linear-gradient(#eee, #eee 0.8em, transparent 0.8em);
   background-size:
-    20em 1.1em, /* name */
-    4em 1em;    /* selected */
+    20em 1.1em,
+    4em 1em;
   background-position:
-    0 0.1em, /* name */
-    0 1.75em; /* selected */
+    0 0.1em,
+    0 1.75em;
 
   &.is-provider-name-visible {
+    /* 1. name  2. provider  3. selected */
     background-image:
-      linear-gradient(#eee, #eee 0.9em, transparent 0.9em), /* name */
-      linear-gradient(#eee, #eee 0.8em, transparent 0.8em), /* provider */
-      linear-gradient(#eee, #eee 0.8em, transparent 0.8em); /* selected */
+      linear-gradient(#eee, #eee 0.9em, transparent 0.9em),
+      linear-gradient(#eee, #eee 0.8em, transparent 0.8em),
+      linear-gradient(#eee, #eee 0.8em, transparent 0.8em);
     background-size:
-      20em 1.1em, /* name */
-      10em 1em,   /* provider */
-      5em 1em;    /* selected */
+      20em 1.1em,
+      10em 1em,
+      5em 1em;
     background-position:
-      0 0.1em, /* name */
-      0 1.75em, /* provider */
-      0 2.9em; /* selected */
+      0 0.1em,
+      0 1.75em,
+      0 2.9em;
   }
 
   &.is-title-count-visible {
+    /* 1. name  2. selected */
     background-image:
-      linear-gradient(#eee, #eee 0.9em, transparent 0.9em), /* name */
-      linear-gradient(#eee, #eee 0.8em, transparent 0.8em); /* selected */
+      linear-gradient(#eee, #eee 0.9em, transparent 0.9em),
+      linear-gradient(#eee, #eee 0.8em, transparent 0.8em);
     background-size:
-      20em 1.1em, /* name */
-      5em 1em;    /* selected */
+      20em 1.1em,
+      5em 1em;
     background-position:
-      0 0.1em,  /* name */
-      0 1.75em; /* selected */
+      0 0.1em,
+      0 1.75em;
   }
 
   /* shimmer effect */
