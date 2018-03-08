@@ -1,6 +1,6 @@
 import { beforeEach, describe, it } from '@bigtest/mocha';
 import { expect } from 'chai';
-import { convergeOn } from '@bigtest/convergence';
+import Convergence from '@bigtest/convergence';
 
 import { describeApplication } from './helpers';
 import PackageShowPage from './pages/package-show';
@@ -140,7 +140,7 @@ describeApplication('PackageCustomCoverage', () => {
 
       describe('entering valid coverage', () => {
         beforeEach(() => {
-          return convergeOn(() => {
+          return new Convergence(() => {
             expect(PackageShowPage.$beginDateField).to.exist;
             expect(PackageShowPage.$endDateField).to.exist;
           });
@@ -218,7 +218,7 @@ describeApplication('PackageCustomCoverage', () => {
 
       describe('entering invalid coverage', () => {
         beforeEach(() => {
-          return convergeOn(() => {
+          return new Convergence(() => {
             expect(PackageShowPage.$beginDateField).to.exist;
             expect(PackageShowPage.$endDateField).to.exist;
           });
@@ -234,9 +234,9 @@ describeApplication('PackageCustomCoverage', () => {
           });
 
           it('rejects invalid begin date', () => {
-            convergeOn(() => {
+            return new Convergence(() => {
               expect(PackageShowPage.validationError).to.exist;
-            }).then(() => {
+            }).do(() => {
               expect(PackageShowPage.validationError).to.match(/\bEnter date in.*\b/);
             });
           });
