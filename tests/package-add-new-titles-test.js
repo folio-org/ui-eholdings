@@ -1,6 +1,6 @@
-/* global describe, beforeEach, afterEach */
+import { beforeEach, afterEach, describe, it } from '@bigtest/mocha';
 import { expect } from 'chai';
-import it from './it-will';
+
 import { describeApplication } from './helpers';
 import PackageShowPage from './pages/package-show';
 
@@ -72,7 +72,7 @@ describeApplication('PackageShowAllowKbToAddTitles', () => {
       expect(PackageShowPage.allowKbToAddTitles).to.be.false;
     });
 
-    it.still('does not display the allow KB to add titles toggle switch', () => {
+    it.always('does not display the allow KB to add titles toggle switch', () => {
       expect(PackageShowPage.allowKbToAddTitlesToggle).to.not.exist;
     });
   });

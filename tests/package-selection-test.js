@@ -1,6 +1,6 @@
-/* global describe, beforeEach, afterEach */
+import { beforeEach, afterEach, describe, it } from '@bigtest/mocha';
 import { expect } from 'chai';
-import it, { convergeOn } from './it-will';
+import { convergeOn } from '@bigtest/convergence';
 
 import { describeApplication } from './helpers';
 import PackageShowPage from './pages/package-show';

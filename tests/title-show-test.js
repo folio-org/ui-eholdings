@@ -1,6 +1,6 @@
-/* global describe, beforeEach */
+import { beforeEach, describe, it } from '@bigtest/mocha';
 import { expect } from 'chai';
-import it, { convergeOn } from './it-will';
+import { convergeOn } from '@bigtest/convergence';
 
 import { describeApplication } from './helpers';
 import TitleShowPage from './pages/title-show';
@@ -108,7 +108,7 @@ describeApplication('TitleShow', () => {
       expect(TitleShowPage.packageList[0].isSelected).to.equal(customerResources[0].isSelected);
     });
 
-    it.still('should not display back button', () => {
+    it.always('should not display back button', () => {
       expect(TitleShowPage.$backButton).to.not.exist;
     });
   });
@@ -152,23 +152,23 @@ describeApplication('TitleShow', () => {
       expect(TitleShowPage.publisherName).to.equal('Cool Publisher');
     });
 
-    it.still('does not displays the publication type', () => {
+    it.always('does not displays the publication type', () => {
       expect(TitleShowPage.publicationType).to.equal('');
     });
 
-    it.still('does not display identifiers', () => {
+    it.always('does not display identifiers', () => {
       expect(TitleShowPage.identifiersList.length).to.equal(0);
     });
 
-    it.still('does not display contributors', () => {
+    it.always('does not display contributors', () => {
       expect(TitleShowPage.contributorsList.length).to.equal(0);
     });
 
-    it.still('does not display package list', () => {
+    it.always('does not display package list', () => {
       expect(TitleShowPage.packageList.length).to.equal(0);
     });
 
-    it.still('does not display subjects list', () => {
+    it.always('does not display subjects list', () => {
       expect(TitleShowPage.subjectsList.length).to.equal(0);
     });
   });
@@ -200,19 +200,19 @@ describeApplication('TitleShow', () => {
       expect(TitleShowPage.publicationType).to.equal('UnknownPublicationType');
     });
 
-    it.still('does not display identifiers', () => {
+    it.always('does not display identifiers', () => {
       expect(TitleShowPage.identifiersList.length).to.equal(0);
     });
 
-    it.still('does not display contributors', () => {
+    it.always('does not display contributors', () => {
       expect(TitleShowPage.contributorsList.length).to.equal(0);
     });
 
-    it.still('does not display package list', () => {
+    it.always('does not display package list', () => {
       expect(TitleShowPage.packageList.length).to.equal(0);
     });
 
-    it.still('does not display subjects list', () => {
+    it.always('does not display subjects list', () => {
       expect(TitleShowPage.subjectsList.length).to.equal(0);
     });
   });

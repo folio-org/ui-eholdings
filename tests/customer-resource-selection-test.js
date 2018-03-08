@@ -1,6 +1,5 @@
-/* global describe, beforeEach, afterEach */
+import { beforeEach, afterEach, describe, it } from '@bigtest/mocha';
 import { expect } from 'chai';
-import it from './it-will';
 
 import { describeApplication } from './helpers';
 import ResourcePage from './pages/customer-resource-show';

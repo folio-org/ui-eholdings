@@ -1,6 +1,6 @@
 import $ from 'jquery';
 import { expect } from 'chai';
-import { convergeOn } from '../it-will';
+import { convergeOn } from '@bigtest/convergence';
 import { triggerChange } from '../helpers';
 
 function createTitleObject(element) {

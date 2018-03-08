@@ -1,6 +1,6 @@
-/* global describe, beforeEach */
+import { beforeEach, describe, it } from '@bigtest/mocha';
 import { expect } from 'chai';
-import it, { convergeOn } from './it-will';
+import { convergeOn } from '@bigtest/convergence';
 
 import { describeApplication } from './helpers';
 import PackageShowPage from './pages/package-show';
@@ -69,7 +69,7 @@ describeApplication('PackageShow', () => {
       expect(PackageShowPage.titleList[0].isSelected).to.equal(customerResources[0].isSelected);
     });
 
-    it.still('should not display a back button', () => {
+    it.always('should not display a back button', () => {
       expect(PackageShowPage.$backButton).to.not.exist;
     });
 

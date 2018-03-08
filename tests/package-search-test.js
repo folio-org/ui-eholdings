@@ -1,6 +1,6 @@
-/* global describe, beforeEach */
+import { beforeEach, describe, it } from '@bigtest/mocha';
 import { expect } from 'chai';
-import it, { convergeOn } from './it-will';
+import { convergeOn } from '@bigtest/convergence';
 
 import { describeApplication } from './helpers';
 import PackageSearchPage from './pages/package-search';
@@ -169,7 +169,7 @@ describeApplication('PackageSearch', () => {
           ));
         });
 
-        it.still('removes the filter from the URL query params', function () {
+        it.always('removes the filter from the URL query params', function () {
           expect(this.app.history.location.search).to.not.include('filter[type]');
         });
       });
@@ -222,7 +222,7 @@ describeApplication('PackageSearch', () => {
           ));
         });
 
-        it.still('removes the filter from the URL query params', function () {
+        it.always('removes the filter from the URL query params', function () {
           expect(this.app.history.location.search).to.not.include('filter[selected]');
         });
       });
@@ -341,7 +341,7 @@ describeApplication('PackageSearch', () => {
         expect(PackageSearchPage.packageList[3].name).to.equal('Search Networks');
       });
 
-      it.still('does not reflect the default sort=relevance in url', function () {
+      it.always('does not reflect the default sort=relevance in url', function () {
         expect(this.app.history.location.search).to.not.include('sort=relevance');
       });
 
@@ -515,7 +515,7 @@ describeApplication('PackageSearch', () => {
         });
 
         // it might take a bit for the next request to be triggered after the scroll
-        it.still('shows the total results', () => {
+        it.always('shows the total results', () => {
           expect(PackageSearchPage.totalResults).to.equal('75 search results');
         }, 500);
 

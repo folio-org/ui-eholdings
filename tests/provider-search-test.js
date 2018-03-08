@@ -1,6 +1,6 @@
-/* global describe, beforeEach */
+import { beforeEach, describe, it } from '@bigtest/mocha';
 import { expect } from 'chai';
-import it, { convergeOn } from './it-will';
+import { convergeOn } from '@bigtest/convergence';
 
 import { describeApplication } from './helpers';
 import ProviderSearchPage from './pages/provider-search';
@@ -220,7 +220,7 @@ describeApplication('ProviderSearch', () => {
         expect(ProviderSearchPage.providerList[3].name).to.equal('Health Associations');
       });
 
-      it.still('does not reflect the default sort=relevance in url', function () {
+      it.always('does not reflect the default sort=relevance in url', function () {
         expect(this.app.history.location.search).to.not.include('sort=relevance');
       });
 
@@ -394,7 +394,7 @@ describeApplication('ProviderSearch', () => {
         });
 
         // it might take a bit for the next request to be triggered after the scroll
-        it.still('shows the total results', () => {
+        it.always('shows the total results', () => {
           expect(ProviderSearchPage.totalResults).to.equal('75 search results');
         }, 500);
 

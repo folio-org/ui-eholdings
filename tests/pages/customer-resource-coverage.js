@@ -1,6 +1,6 @@
 import $ from 'jquery';
 import { expect } from 'chai';
-import { convergeOn } from '../it-will';
+import { convergeOn } from '@bigtest/convergence';
 import { advancedFillIn, pressEnter } from './helpers';
 
 function createRowObject(element) {
@@ -124,6 +124,10 @@ export default {
   clickAddRowButton() {
     return convergeOn(() => expect(this.$addRowButton).to.exist)
       .then(() => this.$addRowButton.click());
+  },
+  clickCancelButton() {
+    return convergeOn(() => expect(this.$cancelButton).to.exist)
+      .then(() => this.$cancelButton.click());
   },
   clickSaveButton() {
     return convergeOn(() => expect(this.$saveButton).to.exist)
