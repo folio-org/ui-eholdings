@@ -2,13 +2,15 @@
   height: 100%;
 
   &.is-selected {
-    background-color: rgba(0,0,0,.5);
-    color: #FFFFFF;
+    background-color: rgba(0, 0, 0, 0.5);
+    color: #fff;
+
     &:hover {
-      background-color: rgba(0,0,0,.5);
+      background-color: rgba(0, 0, 0, 0.5);
     }
+
     & h5 {
-      color: #FFFFFF;
+      color: #fff;
     }
   }
 
@@ -28,38 +30,39 @@
   padding: 1em;
 
   /* skeleton effect */
-  background-image:
-    linear-gradient(#eee, #eee 0.9em, transparent 0.9em); /* name */
-  background-size:
-    20em 1.1em; /* name */
-  background-position:
-    0 0.1em; /* name */
+
+  /* 1. name */
+  background-image: linear-gradient(#eee, #eee 0.9em, transparent 0.9em);
+  background-size: 20em 1.1em;
+  background-position: 0 0.1em;
 
   &.is-selected-visible {
+    /* 1. name  2. selected */
     background-image:
-      linear-gradient(#eee, #eee 0.9em, transparent 0.9em), /* name */
-      linear-gradient(#eee, #eee 0.8em, transparent 0.8em); /* selected */
+      linear-gradient(#eee, #eee 0.9em, transparent 0.9em),
+      linear-gradient(#eee, #eee 0.8em, transparent 0.8em);
     background-size:
-      20em 1.1em, /* name */
-      5em 1em;    /* selected */
+      20em 1.1em,
+      5em 1em;
     background-position:
-      0 0.1em,  /* name */
-      0 1.75em; /* selected */
+      0 0.1em,
+      0 1.75em;
   }
 
   &.is-publisher-and-type-visible {
+    /* 1. name  2. publisher  3. type */
     background-image:
-      linear-gradient(#eee, #eee 0.9em, transparent 0.9em), /* name */
-      linear-gradient(#eee, #eee 0.8em, transparent 0.8em), /* publisher */
-      linear-gradient(#eee, #eee 0.8em, transparent 0.8em); /* type */
+      linear-gradient(#eee, #eee 0.9em, transparent 0.9em),
+      linear-gradient(#eee, #eee 0.8em, transparent 0.8em),
+      linear-gradient(#eee, #eee 0.8em, transparent 0.8em);
     background-size:
-      20em 1.1em, /* name */
-      10em 1em,   /* publisher */
-      5em 1em;    /* type */
+      20em 1.1em,
+      10em 1em,
+      5em 1em;
     background-position:
-      0 0.1em, /* name */
-      0 1.75em, /* publisher */
-      0 2.9em; /* type */
+      0 0.1em,
+      0 1.75em,
+      0 2.9em;
   }
 
   /* shimmer effect */
