@@ -9,7 +9,7 @@
     "start": "stripes serve demo/stripes.config.js",
     "build": "stripes build demo/stripes.config.js dist",
     "test": "stripes test karma demo/stripes.config.js",
-    "lint": "eslint ./"
+    "lint": "eslint ./ && stylelint \"src/**/*.css\""
   },
   "devDependencies": {
     "@bigtest/interaction": "^0.1.0",
