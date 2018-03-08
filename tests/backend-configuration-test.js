@@ -120,7 +120,7 @@ describeApplication('With valid backend configuration', () => {
       expect(SettingsPage.apiKeyInputType).to.equal('password');
     });
 
-    it.always.skip('does not have visible form action buttons', () => {
+    it.always('does not have visible form action buttons', () => {
       expect(SettingsPage.hasVisibleActions).to.be.false;
     });
 
@@ -187,7 +187,7 @@ describeApplication('With valid backend configuration', () => {
           return SettingsPage.save();
         });
 
-        it.always.skip('shows the form action buttons', () => {
+        it.always('shows the form action buttons', () => {
           expect(SettingsPage.hasVisibleActions).to.be.true;
         });
 
