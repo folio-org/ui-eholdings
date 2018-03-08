@@ -36,6 +36,7 @@ export function describeApplication(name, setup, describe = window.describe) {
     beforeEach(function () {
       rootElement = document.createElement('div');
       rootElement.id = 'react-testing';
+      rootElement.style = 'height: 100%;';
       document.body.appendChild(rootElement);
 
       this.server = startMirage(setup.scenarios);
