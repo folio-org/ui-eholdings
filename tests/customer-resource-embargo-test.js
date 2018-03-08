@@ -141,7 +141,7 @@ describeApplication('CustomerResourceEmbargo', () => {
               CustomerResourceShowPage.clickCustomEmbargoCancelButton();
             });
 
-            it('displays existing custom embargo period', () => {
+            it('displays existing custom embargo period (none)', () => {
               expect(CustomerResourceShowPage.customEmbargoPeriod).to.equal('');
             });
 
@@ -149,8 +149,8 @@ describeApplication('CustomerResourceEmbargo', () => {
               expect(CustomerResourceShowPage.$customEmbargoForm).to.not.exist;
             });
 
-            it('does not display the button to add custom embargo', () => {
-              expect(CustomerResourceShowPage.$customEmbargoAddButton).to.not.exist;
+            it('displays the button to add custom embargo', () => {
+              expect(CustomerResourceShowPage.$customEmbargoAddButton).to.exist;
             });
           });
 
