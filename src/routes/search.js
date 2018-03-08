@@ -7,12 +7,9 @@ import Provider from '../redux/provider';
 import Package from '../redux/package';
 import Title from '../redux/title';
 
-import ProviderSearchFilters from '../components/provider-search-filters';
 import ProviderSearchList from '../components/provider-search-list';
 import PackageSearchList from '../components/package-search-list';
-import PackageSearchFilters from '../components/package-search-filters';
 import TitleSearchList from '../components/title-search-list';
-import TitleSearchFilters from '../components/title-search-filters';
 import SearchPaneset from '../components/search-paneset';
 import SearchForm from '../components/search-form';
 
@@ -209,24 +206,6 @@ class SearchRoute extends Component {
   };
 
   /**
-   * Returns the component that is responsible for rendering filters
-   * for the current searchType
-   */
-  getFiltersComponent() {
-    let { searchType } = this.state;
-
-    if (searchType === 'titles') {
-      return TitleSearchFilters;
-    } else if (searchType === 'packages') {
-      return PackageSearchFilters;
-    } else if (searchType === 'providers') {
-      return ProviderSearchFilters;
-    }
-
-    return null;
-  }
-
-  /**
    * Renders the search component specific to the current search type
    */
   renderResults() {
@@ -282,7 +261,6 @@ class SearchRoute extends Component {
                 searchfield={params.searchfield}
                 sort={params.sort}
                 searchTypeUrls={this.getSearchTypeUrls()}
-                filtersComponent={this.getFiltersComponent()}
                 onSearch={this.handleSearch}
               />
             )}

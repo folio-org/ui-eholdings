@@ -198,11 +198,9 @@ export default class PackageShow extends Component {
                   </div>
                 </div>
               )}
-
-              <hr />
             </div>
           )}
-          listHeader="Titles"
+          listType="titles"
           renderList={scrollable => (
             <QueryList
               type="package-titles"

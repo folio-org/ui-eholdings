@@ -39,11 +39,9 @@ export default function TitleShow({ model }) {
               </div>
             </KeyValueLabel>
           )}
-
-          <hr />
         </div>
       )}
-      listHeader="Packages"
+      listType="packages"
       renderList={scrollable => (
         <ScrollView
           itemHeight={70}

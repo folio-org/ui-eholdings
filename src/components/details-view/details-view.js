@@ -38,7 +38,7 @@ export default class DetailsView extends Component {
     paneTitle: PropTypes.oneOfType([PropTypes.string, PropTypes.element, PropTypes.node]),
     paneSub: PropTypes.oneOfType([PropTypes.string, PropTypes.element, PropTypes.node]),
     bodyContent: PropTypes.node.isRequired,
-    listHeader: PropTypes.string,
+    listType: PropTypes.string,
     renderList: PropTypes.func
   };
 
@@ -147,7 +147,7 @@ export default class DetailsView extends Component {
       type,
       model,
       bodyContent,
-      listHeader,
+      listType,
       renderList,
       paneTitle,
       paneSub
@@ -227,7 +227,11 @@ export default class DetailsView extends Component {
               className={styles.sticky}
               data-test-eholdings-details-view-list={type}
             >
-              <h3>{listHeader}</h3>
+              <div className={styles['list-header']}>
+                <h3>
+                  {capitalize(listType)}
+                </h3>
+              </div>
 
               <div ref={(n) => { this.$list = n; }} className={styles.list}>
                 {renderList(isSticky)}

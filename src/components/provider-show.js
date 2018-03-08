@@ -32,7 +32,7 @@ export default function ProviderShow({
           </KeyValueLabel>
         </div>
       )}
-      listHeader="Packages"
+      listType="packages"
       renderList={scrollable => (
         <QueryList
           type="provider-packages"
