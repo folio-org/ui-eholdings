@@ -10,6 +10,10 @@ import { discoverServices } from '@folio/stripes-core/src/discoverServices';
 import gatherActions from '@folio/stripes-core/src/gatherActions';
 import { setOkapiReady } from '@folio/stripes-core/src/okapiActions';
 
+// load these in our tests
+import 'typeface-source-sans-pro';
+import '@folio/stripes-components/lib/global.css';
+
 import Root from '@folio/stripes-core/src/components/Root';
 
 const actionNames = gatherActions();
