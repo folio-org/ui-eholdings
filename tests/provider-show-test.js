@@ -1,6 +1,6 @@
-/* global describe, beforeEach */
+import { beforeEach, describe, it } from '@bigtest/mocha';
 import { expect } from 'chai';
-import it, { convergeOn } from './it-will';
+import { convergeOn } from '@bigtest/convergence';
 
 import { describeApplication } from './helpers';
 import ProviderShowPage from './pages/provider-show';
@@ -61,7 +61,7 @@ describeApplication('ProviderShow', () => {
       expect(ProviderShowPage.packageList[0].isHidden).to.equal(packages[0].visibilityData.isHidden);
     });
 
-    it.still('should not display the back button', () => {
+    it.always('should not display the back button', () => {
       expect(ProviderShowPage.$backButton).to.not.exist;
     });
   });

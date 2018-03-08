@@ -1,6 +1,6 @@
-/* global describe, beforeEach */
+import { beforeEach, describe, it } from '@bigtest/mocha';
 import { expect } from 'chai';
-import it, { convergeOn } from './it-will';
+import { convergeOn } from '@bigtest/convergence';
 
 import { describeApplication } from './helpers';
 import PackageShowPage from './pages/package-show';
@@ -58,7 +58,7 @@ describeApplication('PackageCustomCoverage', () => {
       expect(PackageShowPage.customCoverage).to.equal('7/16/1969 - 12/19/1972');
     });
 
-    it.still('should not display a button to add custom coverage', () => {
+    it.always('should not display a button to add custom coverage', () => {
       expect(PackageShowPage.$customCoverageButton).to.not.exist;
     });
 
@@ -85,7 +85,7 @@ describeApplication('PackageCustomCoverage', () => {
         });
       });
 
-      it.still('does not remove the custom coverage', () => {
+      it.always('does not remove the custom coverage', () => {
         expect(PackageShowPage.customCoverage).to.equal('7/16/1969 - 12/19/1972');
       });
     });
@@ -116,7 +116,7 @@ describeApplication('PackageCustomCoverage', () => {
       });
     });
 
-    it.still('does not display the custom coverage section', () => {
+    it.always('does not display the custom coverage section', () => {
       expect(PackageShowPage.customCoverage).to.equal('');
     });
 

@@ -1,6 +1,6 @@
-/* global describe, beforeEach */
+import { beforeEach, describe, it } from '@bigtest/mocha';
 import { expect } from 'chai';
-import it, { convergeOn } from './it-will';
+import { convergeOn } from '@bigtest/convergence';
 
 import { describeApplication } from './helpers';
 import PackageShowPage from './pages/package-show';
@@ -127,7 +127,7 @@ describeApplication('DetailsView', () => {
           TitleShowPage.$detailPaneContents.scrollTop(TitleShowPage.$detailPaneContents.prop('scrollHeight'));
         });
 
-        it.still('does not disable scrolling the container', () => {
+        it.always('does not disable scrolling the container', () => {
           expect(TitleShowPage.$detailPaneContents).to.have.css('overflow-y', 'auto');
         });
       });

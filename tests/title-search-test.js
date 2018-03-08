@@ -1,6 +1,6 @@
-/* global describe, beforeEach */
+import { beforeEach, describe, it } from '@bigtest/mocha';
 import { expect } from 'chai';
-import it, { convergeOn } from './it-will';
+import { convergeOn } from '@bigtest/convergence';
 
 import { describeApplication } from './helpers';
 import TitleSearchPage from './pages/title-search';
@@ -195,7 +195,7 @@ describeApplication('TitleSearch', () => {
           ));
         });
 
-        it.still('removes the filter from the URL query params', function () {
+        it.always('removes the filter from the URL query params', function () {
           expect(this.app.history.location.search).to.not.include('filter[type]');
         });
       });
@@ -248,7 +248,7 @@ describeApplication('TitleSearch', () => {
           ));
         });
 
-        it.still('removes the filter from the URL query params', function () {
+        it.always('removes the filter from the URL query params', function () {
           expect(this.app.history.location.search).to.not.include('filter[selected]');
         });
       });
@@ -446,7 +446,7 @@ describeApplication('TitleSearch', () => {
         expect(this.app.history.location.search).to.include('filter[type]=book');
       });
 
-      it.still('does not reflect filter[isxn] in search field', function () {
+      it.always('does not reflect filter[isxn] in search field', function () {
         expect(this.app.history.location.search).to.not.include('filter[isxn]');
       });
 
@@ -472,7 +472,7 @@ describeApplication('TitleSearch', () => {
             expect(this.app.history.location.search).to.include('filter[type]=book');
           });
 
-          it.still('does not reflect filter[isxn] in search field', function () {
+          it.always('does not reflect filter[isxn] in search field', function () {
             expect(this.app.history.location.search).to.not.include('filter[isxn]');
           });
         });
@@ -545,7 +545,7 @@ describeApplication('TitleSearch', () => {
         });
 
         // it might take a bit for the next request to be triggered after the scroll
-        it.still('shows the total results', () => {
+        it.always('shows the total results', () => {
           expect(TitleSearchPage.totalResults).to.equal('75 search results');
         }, 500);
 

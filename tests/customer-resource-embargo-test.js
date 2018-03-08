@@ -1,6 +1,6 @@
-/* global describe, beforeEach */
+import { beforeEach, describe, it } from '@bigtest/mocha';
 import { expect } from 'chai';
-import it, { convergeOn } from './it-will';
+import { convergeOn } from '@bigtest/convergence';
 
 import { describeApplication } from './helpers';
 import CustomerResourceShowPage from './pages/customer-resource-show';
@@ -55,11 +55,11 @@ describeApplication('CustomerResourceEmbargo', () => {
       });
     });
 
-    it.still('does not display the managed embargo section', () => {
+    it.always('does not display the managed embargo section', () => {
       expect(CustomerResourceShowPage.managedEmbargoPeriod).to.equal('');
     });
 
-    it.still('does not display the custom embargo period', () => {
+    it.always('does not display the custom embargo period', () => {
       expect(CustomerResourceShowPage.customEmbargoPeriod).to.equal('');
     });
 
@@ -248,11 +248,11 @@ describeApplication('CustomerResourceEmbargo', () => {
       });
     });
 
-    it.still('does not display the managed embargo section', () => {
+    it.always('does not display the managed embargo section', () => {
       expect(CustomerResourceShowPage.managedEmbargoPeriod).to.equal('');
     });
 
-    it.still('does not display the custom embargo section', () => {
+    it.always('does not display the custom embargo section', () => {
       expect(CustomerResourceShowPage.customEmbargoPeriod).to.equal('');
     });
   });
@@ -268,11 +268,11 @@ describeApplication('CustomerResourceEmbargo', () => {
       });
     });
 
-    it.still('does not display the managed embargo section', () => {
+    it.always('does not display the managed embargo section', () => {
       expect(CustomerResourceShowPage.managedEmbargoPeriod).to.equal('');
     });
 
-    it.still('does not display the custom embargo section', () => {
+    it.always('does not display the custom embargo section', () => {
       expect(CustomerResourceShowPage.customEmbargoPeriod).to.equal('');
     });
   });
@@ -291,7 +291,7 @@ describeApplication('CustomerResourceEmbargo', () => {
       });
     });
 
-    it.still('does not display the custom embargo section', () => {
+    it.always('does not display the custom embargo section', () => {
       expect(CustomerResourceShowPage.customEmbargoPeriod).to.equal('');
     });
   });

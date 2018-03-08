@@ -1,6 +1,5 @@
-/* global describe, beforeEach, afterEach */
+import { beforeEach, afterEach, describe, it } from '@bigtest/mocha';
 import { expect } from 'chai';
-import it from './it-will';
 
 import { describeApplication } from './helpers';
 import CustomerResourceShowPage from './pages/customer-resource-show';
@@ -46,7 +45,7 @@ describeApplication('CustomerResourceVisibility', () => {
       });
     });
 
-    it.still('does not display the visibility toggle', () => {
+    it.always('does not display the visibility toggle', () => {
       expect(CustomerResourceShowPage.visibilitySection).to.not.exist;
     });
   });

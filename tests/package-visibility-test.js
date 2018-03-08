@@ -1,6 +1,5 @@
-/* global describe, beforeEach, afterEach */
+import { beforeEach, afterEach, describe, it } from '@bigtest/mocha';
 import { expect } from 'chai';
-import it from './it-will';
 
 import { describeApplication } from './helpers';
 import PackageShowPage from './pages/package-show';
@@ -56,7 +55,7 @@ describeApplication('PackageVisibility', () => {
       expect(PackageShowPage.isHidden).to.be.true;
     });
 
-    it.still('does not displays the hidden/reason section', () => {
+    it.always('does not displays the hidden/reason section', () => {
       expect(PackageShowPage.isHiddenMessage).to.equal('');
     });
   });
@@ -79,7 +78,7 @@ describeApplication('PackageVisibility', () => {
       expect(PackageShowPage.isHidden).to.be.false;
     });
 
-    it.still('does not display the hidden/reason section', () => {
+    it.always('does not display the hidden/reason section', () => {
       expect(PackageShowPage.isHiddenMessage).to.equal('');
     });
   });
@@ -106,7 +105,7 @@ describeApplication('PackageVisibility', () => {
       expect(PackageShowPage.isHiddenToggleable).to.be.false;
     });
 
-    it.still('does not display the hidden/reason section', () => {
+    it.always('does not display the hidden/reason section', () => {
       expect(PackageShowPage.isHiddenMessage).to.equal('');
     });
   });
