@@ -87,6 +87,10 @@ describeApplication('CustomerResourceCustomCoverage', () => {
       });
 
       describe('clicking cancel', () => {
+        beforeEach(() => {
+          CustomerResourceCoverage.clickCancelButton();
+        });
+
         it('hides the custom coverage form', () => {
           expect(CustomerResourceCoverage.$form).to.not.exist;
         });

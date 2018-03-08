@@ -125,6 +125,10 @@ export default {
     return convergeOn(() => expect(this.$addRowButton).to.exist)
       .then(() => this.$addRowButton.click());
   },
+  clickCancelButton() {
+    return convergeOn(() => expect(this.$cancelButton).to.exist)
+      .then(() => this.$cancelButton.click());
+  },
   clickSaveButton() {
     return convergeOn(() => expect(this.$saveButton).to.exist)
       .then(() => this.$saveButton.click());
