@@ -39,6 +39,7 @@ export default Factory.extend({
       }
     }
   }),
+
   withProvider: trait({
     afterCreate(packageObj, server) {
       let provider = server.create('provider');
@@ -56,6 +57,7 @@ export default Factory.extend({
       packageObj.update('visibilityData', visibilityData.toJSON());
     }
   }),
+
   isHiddenWithoutReason: trait({
     afterCreate(packageObj, server) {
       let visibilityData = server.create('visibility-data', {
@@ -66,18 +68,12 @@ export default Factory.extend({
     }
   }),
 
-  // this trait is currently not used, by removing it we
-  // can increase the code coverage of this file by 50%
-
-  // withCustomCoverage: trait({
-  //   afterCreate(packageObj, server) {
-  //     let customCoverage = server.create('custom-coverage', {
-  //       beginCoverage: () => faker.date.past().toISOString().substring(0, 10),
-  //       endCoverage: () => faker.date.future().toISOString().substring(0, 10)
-  //     });
-  //     packageObj.update('customCoverage', customCoverage.toJSON());
-  //   }
-  // }),
+  withCustomCoverage: trait({
+    afterCreate(packageObj, server) {
+      let customCoverage = server.create('custom-coverage');
+      packageObj.update('customCoverage', customCoverage.toJSON());
+    }
+  }),
 
   afterCreate(packageObj, server) {
     if (!packageObj.visibilityData) {
