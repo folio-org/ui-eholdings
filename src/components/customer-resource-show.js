@@ -291,6 +291,7 @@ export default class CustomerResourceShow extends Component {
           size="small"
           label="Remove resource from holdings?"
           scope="root"
+          id="eholdings-customer-resource-deselection-confirmation-modal"
           footer={(
             <div>
               <Button
