@@ -1,6 +1,6 @@
 import $ from 'jquery';
 import { expect } from 'chai';
-import { convergeOn } from '@bigtest/convergence';
+import Convergence from '@bigtest/convergence';
 import { triggerChange } from '../helpers';
 
 function createProviderObject(element) {
@@ -45,7 +45,9 @@ export default {
   clickFilter(name, value) {
     let $radio = this.$searchFilters.find(`input[name="${name}"][value="${value}"]`);
     $radio.get(0).click();
-    return convergeOn(() => expect($radio).to.have.prop('checked'));
+    return new Convergence()
+      .once(() => expect($radio).to.have.prop('checked'))
+      .run();
   },
 
   get $searchResultsItems() {
@@ -100,34 +102,38 @@ export default {
     let $input = $('[data-test-search-field]').find('input[name="search"]').val(query);
     triggerChange($input.get(0));
 
-    return convergeOn(() => {
-      expect($input).to.have.value(query);
-    }).then(() => {
-      $('[data-test-search-submit]').trigger('click');
-    });
+    return new Convergence()
+      .once(() => expect($input).to.have.value(query))
+      .do(() => $('[data-test-search-submit]').trigger('click'))
+      .run();
   },
 
   clearSearch() {
     let $input = $('[data-test-search-field]').find('input[name="search"]').val('');
     triggerChange($input.get(0));
-    return convergeOn(() => {
-      expect($input).to.have.value('');
-    });
+    return new Convergence()
+      .once(() => expect($input).to.have.value(''))
+      .run();
   },
 
   changeSearchType(searchType) {
     $(`[data-test-search-type-button="${searchType}"]`).get(0).click();
-    return convergeOn(() => expect($(`[data-test-search-form="${searchType}"]`)).to.exist);
+    return new Convergence()
+      .once(() => expect($(`[data-test-search-form="${searchType}"]`)).to.exist)
+      .run();
   },
 
   clickPackage(index) {
     let $pkg = null;
 
     // wait until the item exists before clicking
-    return convergeOn(() => {
-      $pkg = $('[data-test-query-list="provider-packages"] li a');
-      expect($pkg.eq(index)).to.exist;
-    }).then(() => $pkg.get(index).click());
+    return new Convergence()
+      .once(() => {
+        $pkg = $('[data-test-query-list="provider-packages"] li a');
+        expect($pkg.eq(index)).to.exist;
+      })
+      .do(() => $pkg.get(index).click())
+      .run();
   },
 
   clickBackButton() {

@@ -1,7 +1,7 @@
 import $ from 'jquery';
 import { expect } from 'chai';
 
-import { convergeOn } from '@bigtest/convergence';
+import Convergence from '@bigtest/convergence';
 
 function createTitleObject(element) {
   let $scope = $(element);
@@ -40,11 +40,10 @@ export default {
      * We don't want to click the element before it exists.  This should
      * probably become a generic 'click' helper once we have more usage.
      */
-    return convergeOn(() => {
-      expect($('[data-test-eholdings-package-details-selected]')).to.exist;
-    }).then(() => (
-      $('[data-test-eholdings-package-details-selected] input').click()
-    ));
+    return new Convergence()
+      .once(() => expect($('[data-test-eholdings-package-details-selected]')).to.exist)
+      .do(() => $('[data-test-eholdings-package-details-selected] input').click())
+      .run();
   },
 
   get isSelecting() {
@@ -80,11 +79,10 @@ export default {
   },
 
   toggleIsHidden() {
-    return convergeOn(() => {
-      expect($('[data-test-eholdings-package-details-hidden]')).to.exist;
-    }).then(() => (
-      $('[data-test-eholdings-package-details-hidden] input').click()
-    ));
+    return new Convergence()
+      .once(() => expect($('[data-test-eholdings-package-details-hidden]')).to.exist)
+      .do(() => $('[data-test-eholdings-package-details-hidden] input').click())
+      .run();
   },
 
   get isHiding() {

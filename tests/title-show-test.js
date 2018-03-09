@@ -1,5 +1,6 @@
 import { expect } from 'chai';
-import { describe, beforeEach, it, convergeOn } from '@bigtest/mocha';
+import { describe, beforeEach, it } from '@bigtest/mocha';
+import Convergence from '@bigtest/convergence';
 
 import { describeApplication } from './helpers';
 import TitleShowPage from './pages/bigtest/title-show';
@@ -231,11 +232,10 @@ describeApplication('TitleShow', () => {
 
     describe.skip('scrolling down the list of packages', () => {
       beforeEach(() => {
-        return convergeOn(() => {
-          expect(TitleShowPage.packageList().length).to.be.gt(0);
-        }).then(() => {
-          TitleShowPage.scrollToPackageOffset(26);
-        });
+        return new Convergence()
+          .once(() => expect(TitleShowPage.packageList().length).to.be.gt(0))
+          .do(() => TitleShowPage.scrollToPackageOffset(26))
+          .run();
       });
 
       it('should display the next page of related packages', () => {

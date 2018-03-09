@@ -1,6 +1,6 @@
 import $ from 'jquery';
 import { expect } from 'chai';
-import { convergeOn } from '@bigtest/convergence';
+import Convergence from '@bigtest/convergence';
 
 export default {
   get $root() {
@@ -16,11 +16,10 @@ export default {
      * We don't want to click the element before it exists.  This should
      * probably become a generic 'click' helper once we have more usage.
      */
-    return convergeOn(() => {
-      expect($('[data-test-eholdings-customer-resource-show-selected]')).to.exist;
-    }).then(() => (
-      $('[data-test-eholdings-customer-resource-show-selected] input').click()
-    ));
+    return new Convergence()
+      .once(() => expect($('[data-test-eholdings-customer-resource-show-selected]')).to.exist)
+      .do(() => $('[data-test-eholdings-customer-resource-show-selected] input').click())
+      .run();
   },
 
   get isSelecting() {
@@ -44,11 +43,10 @@ export default {
      * We don't want to click the element before it exists.  This should
      * probably become a generic 'click' helper once we have more usage.
      */
-    return convergeOn(() => {
-      expect($('[data-test-eholdings-customer-resource-toggle-hidden]')).to.exist;
-    }).then(() => (
-      $('[data-test-eholdings-customer-resource-toggle-hidden] input').click()
-    ));
+    return new Convergence()
+      .once(() => expect($('[data-test-eholdings-customer-resource-toggle-hidden]')).to.exist)
+      .do(() => $('[data-test-eholdings-customer-resource-toggle-hidden] input').click())
+      .run();
   },
 
   get isHiding() {
