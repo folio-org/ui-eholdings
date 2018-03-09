@@ -47,14 +47,28 @@ module.exports = (config) => {
       'karma-browserstack-launcher',
       'karma-mocha',
       'karma-webpack',
-      'karma-mocha-reporter'
+      'karma-mocha-reporter',
+      'karma-junit-reporter'
     ]
   };
+
+  // Also run junit reporter on CircleCI
+  if (process.env.CIRCLECI) {
+    configuration.reporters.push('junit');
+    configuration.junitReporter = {
+      outputDir: 'artifacts/junit/Karma'
+    };
+  }
 
   // Turn on coverage reports if --coverage option set
   if (config.coverage) {
     configuration.coverageReporter = {
-      type: 'text',
+      dir: 'artifacts/coverage',
+      subdir: '.',
+      reporters: [
+        { type: 'text' },
+        { type: 'lcovonly', file: 'lcov.txt' }
+      ],
       includeAllSources: true,
       check: {
         global: { // thresholds under which karma will return failure

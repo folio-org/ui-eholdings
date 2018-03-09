@@ -9,7 +9,9 @@
     "start": "stripes serve demo/stripes.config.js",
     "build": "stripes build demo/stripes.config.js dist",
     "test": "stripes test karma demo/stripes.config.js",
-    "lint": "eslint ./ && stylelint \"src/**/*.css\""
+    "lint": "eslint ./ && stylelint \"src/**/*.css\"",
+    "eslint": "eslint ./",
+    "stylelint": "stylelint \"src/**/*.css\""
   },
   "devDependencies": {
     "@bigtest/convergence": "^0.4.0",
@@ -28,6 +30,7 @@
     "jquery": "^3.2.1",
     "karma-browserstack-launcher": "^1.3.0",
     "karma-coverage": "^1.1.1",
+    "karma-junit-reporter": "^1.2.0",
     "lodash": "^4.17.4",
     "moment": "^2.17.1",
     "qs": "^6.5.1",
