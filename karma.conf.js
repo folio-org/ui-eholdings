@@ -2,6 +2,11 @@ module.exports = (config) => {
   let configuration = {
     reporters: ['mocha', 'BrowserStack'],
 
+    browserDisconnectTimeout: 3e5,
+    browserDisconnectTolerance: 3,
+    browserNoActivityTimeout: 3e5,
+    captureTimeout: 3e5,
+
     customLaunchers: {
       Chrome_travis_ci: {
         base: 'Chrome',
