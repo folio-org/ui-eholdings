@@ -1,8 +1,8 @@
-import { beforeEach, afterEach, describe, it } from '@bigtest/mocha';
 import { expect } from 'chai';
+import { beforeEach, describe, it } from '@bigtest/mocha';
 
 import { describeApplication } from './helpers';
-import PackageShowPage from './pages/package-show';
+import PackageShowPage from './pages/bigtest/package-show';
 
 describeApplication('PackageShowAllowKbToAddTitles', () => {
   let provider,
@@ -69,15 +69,15 @@ describeApplication('PackageShowAllowKbToAddTitles', () => {
     });
 
     it('sets the state of allow KB to add titles to false', () => {
-      expect(PackageShowPage.allowKbToAddTitles).to.be.false;
+      expect(PackageShowPage.hasAllowKbToAddTitles).to.be.false;
     });
 
     it.always('does not display the allow KB to add titles toggle switch', () => {
-      expect(PackageShowPage.allowKbToAddTitlesToggle).to.not.exist;
+      expect(PackageShowPage.hasAllowKbToAddTitlesToggle).to.be.false;
     });
   });
 
-  describe('visiting the package show page with a package that is not selected and selecting a package', () => {
+  describe('visiting the package show page with a package that is not selected', () => {
     beforeEach(function () {
       pkg = this.server.create('package', {
         provider,
@@ -92,30 +92,18 @@ describeApplication('PackageShowAllowKbToAddTitles', () => {
       });
     });
 
-    beforeEach(function () {
-      /*
-       * The expectations in the convergent `it` blocks
-       * get run once every 10ms.  We were seeing test flakiness
-       * when a toggle action dispatched and resolved before an
-       * expectation had the chance to run.  We sidestep this by
-       * temporarily increasing the mirage server's response time
-       * to 50ms.
-       * TODO: control timing directly with Mirage
-       */
-      this.server.timing = 50;
-      return PackageShowPage.toggleIsSelected();
-    });
+    describe('selecting a package', () => {
+      beforeEach(() => {
+        return PackageShowPage.toggleIsSelected();
+      });
 
-    afterEach(function () {
-      this.server.timing = 0;
-    });
+      it('reflects the desired state (Selected)', () => {
+        expect(PackageShowPage.isSelected).to.be.true;
+      });
 
-    it('reflects the desired state (Selected)', () => {
-      expect(PackageShowPage.isSelected).to.equal(true);
-    });
-
-    it('displays an ON Toggle for allow KB to add titles', () => {
-      expect(PackageShowPage.allowKbToAddTitles).to.equal(true);
+      it('displays an ON Toggle for allow KB to add titles', () => {
+        expect(PackageShowPage.allowKbToAddTitles).to.be.true;
+      });
     });
   });
 
@@ -140,21 +128,21 @@ describeApplication('PackageShowAllowKbToAddTitles', () => {
 
     describe('toggling to deselect a package and confirming deselection', () => {
       beforeEach(() => {
-        return PackageShowPage.toggleIsSelected().then(() => {
-          return PackageShowPage.confirmDeselection();
-        });
+        return PackageShowPage
+          .toggleIsSelected()
+          .append(PackageShowPage.modal.confirmDeselection());
       });
 
       it('removes allow KB to add titles toggle switch', () => {
-        expect(PackageShowPage.allowKbToAddTitlesToggle).to.not.exist;
+        expect(PackageShowPage.hasAllowKbToAddTitlesToggle).to.be.false;
       });
     });
 
     describe('toggling to deselect a package and canceling deselection', () => {
       beforeEach(() => {
-        return PackageShowPage.toggleIsSelected().then(() => {
-          return PackageShowPage.cancelDeselection();
-        });
+        return PackageShowPage
+          .toggleIsSelected()
+          .append(PackageShowPage.modal.cancelDeselection());
       });
 
       it('displays an ON Toggle', () => {
@@ -183,17 +171,12 @@ describeApplication('PackageShowAllowKbToAddTitles', () => {
     });
 
     describe('successfully toggling add new titles', () => {
-      beforeEach(function () {
-        this.server.timing = 50;
+      beforeEach(() => {
         return PackageShowPage.toggleAllowKbToAddTitles();
       });
 
-      afterEach(function () {
-        this.server.timing = 0;
-      });
-
       it('reflects the desired state OFF', () => {
-        expect(PackageShowPage.allowKbToAddTitles).to.equal(false);
+        expect(PackageShowPage.allowKbToAddTitles).to.be.false;
       });
     });
   });
@@ -218,17 +201,12 @@ describeApplication('PackageShowAllowKbToAddTitles', () => {
     });
 
     describe('successfully toggling add new titles', () => {
-      beforeEach(function () {
-        this.server.timing = 50;
+      beforeEach(() => {
         return PackageShowPage.toggleAllowKbToAddTitles();
       });
 
-      afterEach(function () {
-        this.server.timing = 0;
-      });
-
       it('reflects the desired state ON', () => {
-        expect(PackageShowPage.allowKbToAddTitles).to.equal(true);
+        expect(PackageShowPage.allowKbToAddTitles).to.be.true;
       });
     });
   });
