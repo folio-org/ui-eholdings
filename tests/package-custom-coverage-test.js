@@ -140,7 +140,7 @@ describeApplication('PackageCustomCoverage', () => {
 
       describe('entering valid coverage', () => {
         beforeEach(() => {
-          return new Convergence(() => {
+          return new Convergence().once(() => {
             expect(PackageShowPage.$beginDateField).to.exist;
             expect(PackageShowPage.$endDateField).to.exist;
           });
@@ -218,7 +218,7 @@ describeApplication('PackageCustomCoverage', () => {
 
       describe('entering invalid coverage', () => {
         beforeEach(() => {
-          return new Convergence(() => {
+          return new Convergence().once(() => {
             expect(PackageShowPage.$beginDateField).to.exist;
             expect(PackageShowPage.$endDateField).to.exist;
           });
@@ -234,9 +234,8 @@ describeApplication('PackageCustomCoverage', () => {
           });
 
           it('rejects invalid begin date', () => {
-            return new Convergence(() => {
+            return new Convergence().once(() => {
               expect(PackageShowPage.validationError).to.exist;
-            }).do(() => {
               expect(PackageShowPage.validationError).to.match(/\bEnter date in.*\b/);
             });
           });
