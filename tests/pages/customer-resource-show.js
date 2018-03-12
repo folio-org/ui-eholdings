@@ -29,6 +29,10 @@ export default {
     return $('[data-test-eholdings-customer-resource-show-package-name]').text();
   },
 
+  clickPackage() {
+    return $('[data-test-eholdings-customer-resource-show-package-name] a').get(0).click();
+  },
+
   get contentType() {
     return $('[data-test-eholdings-customer-resource-show-content-type]').text();
   },
@@ -113,8 +117,16 @@ export default {
     return $('[data-test-eholdings-customer-resource-show-managed-coverage-list]').text();
   },
 
+  get isEditingCoverage() {
+    return $('[data-test-eholdings-coverage-form] form').length === 1;
+  },
+
   get customEmbargoPeriod() {
     return $('[data-test-eholdings-customer-resource-custom-embargo-display]').text();
+  },
+
+  get isEditingCustomEmbargo() {
+    return $('[data-test-eholdings-embargo-form] form').length === 1;
   },
 
   get identifiersList() {
@@ -240,5 +252,9 @@ export default {
 
   get validationErrorOnSelect() {
     return $('[data-test-eholdings-customer-resource-custom-embargo-select] [class^="feedbackError"]').text();
+  },
+
+  get $navigationModal() {
+    return $('#navigation-modal');
   }
 };

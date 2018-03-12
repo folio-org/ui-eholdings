@@ -18,8 +18,10 @@ class CustomEmbargoForm extends Component {
   static propTypes = {
     initialValues: PropTypes.shape({
       customEmbargoValue: PropTypes.number,
-      customEmbargoUnit: PropTypes.string,
+      customEmbargoUnit: PropTypes.string
     }).isRequired,
+    isEditable: PropTypes.bool,
+    onEdit: PropTypes.func,
     onSubmit: PropTypes.func.isRequired,
     isPending: PropTypes.bool,
     handleSubmit: PropTypes.func,
@@ -29,7 +31,7 @@ class CustomEmbargoForm extends Component {
   };
 
   state = {
-    isEditing: false,
+    isEditing: !!this.props.isEditable
   };
 
   componentWillReceiveProps(nextProps) {
@@ -37,21 +39,26 @@ class CustomEmbargoForm extends Component {
     let needsUpdate = !isEqual(this.props.initialValues, nextProps.initialValues);
 
     if (wasPending && needsUpdate) {
-      this.setState({ isEditing: false });
+      this.toggleEditing(false);
+    }
+  }
+
+  toggleEditing(isEditing = !this.state.isEditing) {
+    if (this.props.onEdit) {
+      this.props.onEdit(isEditing);
+    } else {
+      this.setState({ isEditing });
     }
   }
 
   handleEditCustomEmbargo = (e) => {
-    let isEditing = !this.state.isEditing;
     e.preventDefault();
-    this.setState({ isEditing });
+    this.toggleEditing(true);
   }
 
   handleCancelCustomEmbargo = (e) => {
     e.preventDefault();
-    this.setState({
-      isEditing: false
-    });
+    this.toggleEditing(false);
     this.props.initialize(this.props.initialValues);
   }
 
@@ -85,11 +92,21 @@ class CustomEmbargoForm extends Component {
   }
 
   render() {
-    let { pristine, isPending, change, handleSubmit, onSubmit } = this.props;
-    const { customEmbargoValue, customEmbargoUnit } = this.props.initialValues;
+    let {
+      pristine,
+      isPending,
+      isEditable = this.state.isEditing,
+      change,
+      handleSubmit,
+      onSubmit
+    } = this.props;
+    const {
+      customEmbargoValue,
+      customEmbargoUnit
+    } = this.props.initialValues;
     let contents;
 
-    if (this.state.isEditing) {
+    if (isEditable) {
       contents = (
         <form onSubmit={handleSubmit(onSubmit)}>
           <div
@@ -185,9 +202,9 @@ class CustomEmbargoForm extends Component {
 
     return (
       <div
-        data-test-eholdings-coverage-form
+        data-test-eholdings-embargo-form
         className={cx(styles['custom-embargo-form'], {
-          'is-editing': this.state.isEditing
+          'is-editing': isEditable
         })}
       >
         <h4>Embargo period</h4>

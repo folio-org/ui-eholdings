@@ -86,6 +86,25 @@ describeApplication('CustomerResourceCustomCoverage', () => {
         expect(CustomerResourceCoverage.$addButton).to.not.exist;
       });
 
+      describe('then trying to navigate away', () => {
+        beforeEach(() => {
+          return convergeOn(() => {
+            expect(ResourcePage.isEditingCoverage).to.be.true;
+          }).then(() => (
+            ResourcePage.clickPackage()
+          ));
+        });
+
+        it('shows a navigation confirmation modal', () => {
+          expect(ResourcePage.$navigationModal).to.exist;
+        });
+
+        it.always('does not navigate away', function () {
+          expect(this.app.history.location.pathname)
+            .to.equal(`/eholdings/customer-resources/${resource.id}`);
+        });
+      });
+
       describe('clicking cancel', () => {
         beforeEach(() => {
           CustomerResourceCoverage.clickCancelButton();

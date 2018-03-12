@@ -33,7 +33,6 @@ export default class TestHarness extends Component {
     this.logger = configureLogger(config);
     this.epics = configureEpics();
     this.store = configureStore({ okapi }, this.logger, this.epics);
-
     this.history = createMemoryHistory();
 
     discoverServices(this.store);

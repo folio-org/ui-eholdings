@@ -16,6 +16,7 @@ import Modal from './modal';
 import styles from './styles.css';
 import CustomEmbargoForm from './custom-embargo';
 import CustomerResourceCoverage from './customer-resource-coverage';
+import NavigationModal from './navigation-modal';
 
 export default class CustomerResourceShow extends Component {
   static propTypes = {
@@ -28,15 +29,15 @@ export default class CustomerResourceShow extends Component {
 
   static contextTypes = {
     locale: PropTypes.string,
-    intl: PropTypes.object,
-    router: PropTypes.object,
-    queryParams: PropTypes.object
+    intl: PropTypes.object
   };
 
   state = {
     showSelectionModal: false,
     resourceSelected: this.props.model.isSelected,
-    resourceHidden: this.props.model.visibilityData.isHidden
+    resourceHidden: this.props.model.visibilityData.isHidden,
+    isCoverageEditable: false,
+    isEmbargoEditable: false
   };
 
   componentWillReceiveProps({ model }) {
@@ -69,10 +70,24 @@ export default class CustomerResourceShow extends Component {
     });
   };
 
+  handleCoverageEdit = (isCoverageEditable) => {
+    this.setState({ isCoverageEditable });
+  };
+
+  handleEmbargoEdit = (isEmbargoEditable) => {
+    this.setState({ isEmbargoEditable });
+  };
+
   render() {
     let { model, customEmbargoSubmitted, coverageSubmitted } = this.props;
     let { locale, intl } = this.context;
-    let { showSelectionModal, resourceSelected, resourceHidden } = this.state;
+    let {
+      showSelectionModal,
+      resourceSelected,
+      resourceHidden,
+      isCoverageEditable,
+      isEmbargoEditable
+    } = this.state;
 
     let hasManagedCoverages = model.managedCoverages.length > 0 &&
       isValidCoverageList(model.managedCoverages);
@@ -240,6 +255,8 @@ export default class CustomerResourceShow extends Component {
                   <CustomerResourceCoverage
                     initialValues={{ customCoverages }}
                     packageCoverage={model.package.customCoverage}
+                    isEditable={isCoverageEditable}
+                    onEdit={this.handleCoverageEdit}
                     onSubmit={coverageSubmitted}
                     isPending={model.update.isPending && 'customCoverages' in model.update.changedAttributes}
                     locale={locale}
@@ -250,6 +267,8 @@ export default class CustomerResourceShow extends Component {
 
                   <CustomEmbargoForm
                     initialValues={{ customEmbargoValue, customEmbargoUnit }}
+                    isEditable={isEmbargoEditable}
+                    onEdit={this.handleEmbargoEdit}
                     onSubmit={customEmbargoSubmitted}
                     isPending={model.update.isPending && 'customEmbargoPeriod' in model.update.changedAttributes}
                   />
@@ -311,6 +330,8 @@ export default class CustomerResourceShow extends Component {
             )
           }
         </Modal>
+
+        <NavigationModal when={isCoverageEditable || isEmbargoEditable} />
       </div>
     );
   }
