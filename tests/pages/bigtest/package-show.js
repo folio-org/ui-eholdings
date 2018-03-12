@@ -4,12 +4,72 @@ import {
   isPresent,
   page,
   property,
-  text
+  text,
+  value,
+  fillable,
+  triggerable,
+  blurrable
 } from '@bigtest/interaction';
 
 @page class PackageShowModal {
   confirmDeselection = clickable('[data-test-eholdings-package-deselection-confirmation-modal-yes]');
   cancelDeselection = clickable('[data-test-eholdings-package-deselection-confirmation-modal-no]');
+}
+
+@page class PackageDatePicker {
+  hasBeginDateField = isPresent('[data-test-eholdings-custom-coverage-date-range-begin] input')
+  hasEndDateField = isPresent('[data-test-eholdings-custom-coverage-date-range-end] input')
+
+  beginDateValue = value('[data-test-eholdings-custom-coverage-date-range-begin] input')
+  endDateValue = value('[data-test-eholdings-custom-coverage-date-range-end] input')
+
+  fillBeginDate = fillable('[data-test-eholdings-custom-coverage-date-range-begin] input')
+  fillEndDate = fillable('[data-test-eholdings-custom-coverage-date-range-end] input')
+
+  clickBeginDateField = clickable('[data-test-eholdings-custom-coverage-date-range-begin] input')
+  clickEndDateField = clickable('[data-test-eholdings-custom-coverage-date-range-end] input')
+
+  pressEnterBeginDate = triggerable('keydown', '[data-test-eholdings-custom-coverage-date-range-begin] input', {
+    bubbles: true,
+    cancelable: true,
+    keyCode: 13
+  })
+  pressEnterEndDate = triggerable('keydown', '[data-test-eholdings-custom-coverage-date-range-end] input', {
+    bubbles: true,
+    cancelable: true,
+    keyCode: 13
+  })
+
+  clearBeginDate = clickable('[data-test-eholdings-custom-coverage-date-range-begin] button[id^=datepicker-clear-button]')
+  clearEndDate = clickable('[data-test-eholdings-custom-coverage-date-range-end] button[id^=datepicker-clear-button]')
+
+  blurBeginDate = blurrable('[data-test-eholdings-custom-coverage-date-range-begin] input')
+  blurEndDate = blurrable('[data-test-eholdings-custom-coverage-date-range-end] input')
+
+  fillBeginDateField(date) {
+    return this.clickBeginDateField()
+      .append(this.fillBeginDate(date))
+      .append(this.pressEnterBeginDate())
+      .append(this.blurBeginDate());
+  }
+
+  fillEndDateField(date) {
+    return this.clickEndDateField()
+      .append(this.fillEndDate(date))
+      .append(this.pressEnterEndDate())
+      .append(this.blurEndDate());
+  }
+
+  enterAndClearBeginDate(date) {
+    return this.fillBeginDateField(date)
+      .append(this.clearBeginDate())
+      .append(this.blurBeginDate());
+  }
+
+  enterBeginDateAfterEndDate(beginDate, endDate) {
+    return this.fillBeginDateField(beginDate)
+      .append(this.fillEndDateField(endDate));
+  }
 }
 
 @page class PackageShowPage {
@@ -32,6 +92,26 @@ import {
     name: text('[data-test-eholdings-title-list-item-title-name]'),
     selectedLabel: text('[data-test-eholdings-title-list-item-title-selected]')
   });
+
+  hasCustomCoverage = isPresent('[data-test-eholdings-package-details-custom-coverage-display]')
+  customCoverage = text('[data-test-eholdings-package-details-custom-coverage-display]')
+  hasCustomCoverageAddButton = isPresent('[data-test-eholdings-package-details-custom-coverage-button] button')
+  clickCustomCoverageAddButton = clickable('[data-test-eholdings-package-details-custom-coverage-button] button')
+  clickCustomCoverageCancelButton = clickable('[data-test-eholdings-package-details-cancel-custom-coverage-button] button')
+  clickCustomCoverageEditButton = clickable('[data-test-eholdings-package-details-edit-custom-coverage-button] button')
+  clickCustomCoverageSaveButton = clickable('[data-test-eholdings-package-details-save-custom-coverage-button] button')
+  isCustomCoverageDisabled = property('disabled', '[data-test-eholdings-package-details-save-custom-coverage-button] button')
+  validationError = text('[data-test-eholdings-custom-coverage-date-range-begin] [class^="feedbackError"]')
+
+  dateFields = new PackageDatePicker()
+
+  deselectAndConfirmPackage() {
+    return this.toggleIsSelected().append(this.modal.confirmDeselection());
+  }
+
+  deselectAndCancelPackage() {
+    return this.toggleIsSelected().append(this.modal.cancelDeselection());
+  }
 }
 
 export default new PackageShowPage('[data-test-eholdings-details-view="package"]');
