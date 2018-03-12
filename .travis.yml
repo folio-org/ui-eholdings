@@ -3,8 +3,8 @@ dist: trusty
 language: node_js
 env:
   - BROWSER=Chrome_travis_ci
+  - BROWSER=firefox_linux
   - BROWSER=bs_safari_11
-  - BROWSER=bs_firefox_mac
   - BROWSER=bs_ieEdge_windows
   - BROWSER=bs_ie11_windows
 matrix:
@@ -14,6 +14,7 @@ matrix:
     - env: BROWSER=bs_ie11_windows
 addons:
   chrome: stable
+  firefox: latest
 before_install:
   - export CHROME_BIN=google-chrome-stable
   - export DISPLAY=:99.0

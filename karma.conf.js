@@ -12,6 +12,9 @@ module.exports = (config) => {
         base: 'Chrome',
         flags: ['--no-sandbox']
       },
+      firefox_linux: {
+        base: 'Firefox'
+      },
       bs_safari_11: {
         base: 'BrowserStack',
         os: 'OS X',

@@ -57,6 +57,21 @@ jobs:
           name: Store code coverage report
           path: ./artifacts/coverage/lcov.txt
 
+  test-firefox:
+    docker:
+      - image: circleci/node:latest-browsers
+    steps:
+      - attach_workspace:
+          at: ~/
+      - run:
+          name: Run tests
+          command: yarn test --karma.singleRun --karma.browsers=firefox_linux
+      - store_test_results:
+          path: ./artifacts/junit
+      - store_artifacts:
+          name: Store junit test report
+          path: ./artifacts/junit
+
   test-safari:
     docker:
       - image: circleci/node:latest
@@ -66,21 +81,6 @@ jobs:
       - run:
           name: Run tests
           command: yarn test --karma.singleRun --karma.browsers=bs_safari_11
-      - store_test_results:
-          path: ./artifacts/junit
-      - store_artifacts:
-          name: Store junit test report
-          path: ./artifacts/junit
-
-  test-firefox:
-    docker:
-      - image: circleci/node:latest
-    steps:
-      - attach_workspace:
-          at: ~/
-      - run:
-          name: Run tests
-          command: yarn test --karma.singleRun --karma.browsers=bs_firefox_mac
       - store_test_results:
           path: ./artifacts/junit
       - store_artifacts:
