@@ -31,8 +31,9 @@ export default {
   },
 
   get $searchField() {
-    return $('[data-test-search-field]');
+    return $('[data-test-search-field]').find('input[name="search"]');
   },
+
   get $searchFilters() {
     return $('[data-test-eholdings-search-filters="providers"]');
   },
@@ -53,6 +54,7 @@ export default {
       .get(0)
       .click();
   },
+
   get $searchResultsItems() {
     return $('[data-test-query-list="providers"] li a');
   },
@@ -94,7 +96,7 @@ export default {
   },
 
   search(query) {
-    let $input = $('[data-test-search-field]').val(query);
+    let $input = $('[data-test-search-field]').find('input[name="search"]').val(query);
     triggerChange($input.get(0));
 
     return convergeOn(() => {
