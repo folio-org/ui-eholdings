@@ -28,6 +28,7 @@ import Datepicker from './datepicker';
   numTitlesSelected = text('[data-test-eholdings-package-details-titles-selected]');
   hasErrors = isPresent('[data-test-eholdings-details-view-error="package"]');
   hasBackButton = isPresent('[data-test-eholdings-details-view-back-button] button');
+  clickBackButton = clickable('[data-test-eholdings-details-view-back-button] button');
 
   titleList = collection('[data-test-query-list="package-titles"] li a', {
     name: text('[data-test-eholdings-title-list-item-title-name]'),

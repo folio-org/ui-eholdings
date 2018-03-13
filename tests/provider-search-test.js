@@ -1,9 +1,11 @@
 import { beforeEach, describe, it } from '@bigtest/mocha';
 import { expect } from 'chai';
-import { convergeOn } from '@bigtest/convergence';
 
 import { describeApplication } from './helpers';
-import ProviderSearchPage from './pages/provider-search';
+import ProviderSearchPage from './pages/bigtest/provider-search';
+import PackageShowPage from './pages/bigtest/package-show';
+
+window.ProviderSearchPage = ProviderSearchPage;
 
 describeApplication('ProviderSearch', () => {
   beforeEach(function () {
@@ -23,32 +25,32 @@ describeApplication('ProviderSearch', () => {
   });
 
   it('has a searchbox', () => {
-    expect(ProviderSearchPage.$searchField).to.exist;
+    expect(ProviderSearchPage.hasSearchField).to.be.true;
   });
 
   it('has disabled search button', () => {
-    expect(ProviderSearchPage.isSearchButtonEnabled).to.equal(false);
+    expect(ProviderSearchPage.isSearchButtonDisabled).to.equal(true);
   });
 
   describe('searching for a provider', () => {
     beforeEach(() => {
-      ProviderSearchPage.search('Provider');
+      return ProviderSearchPage.search('Provider');
     });
 
     it("displays provider entries related to 'Provider'", () => {
-      expect(ProviderSearchPage.$searchResultsItems).to.have.lengthOf(3);
+      expect(ProviderSearchPage.providerList()).to.have.lengthOf(3);
     });
 
     it('displays the provider name in the list', () => {
-      expect(ProviderSearchPage.providerList[0].name).to.equal('Provider1');
+      expect(ProviderSearchPage.providerList(0).name).to.equal('Provider1');
     });
 
     it('displays the number of selected packages for a provider in the list', () => {
-      expect(ProviderSearchPage.providerList[0].numPackagesSelected).to.equal(1);
+      expect(ProviderSearchPage.providerList(0).numPackagesSelected).to.equal('1');
     });
 
     it('displays the total number of packages for a provider in the list', () => {
-      expect(ProviderSearchPage.providerList[0].numPackages).to.equal(3);
+      expect(ProviderSearchPage.providerList(0).numPackages).to.equal('3');
     });
 
     it('displays a loading indicator where the total results will be', () => {
@@ -65,31 +67,30 @@ describeApplication('ProviderSearch', () => {
 
     describe('clicking a search results list item', () => {
       beforeEach(() => {
-        return convergeOn(() => {
-          // wait for the previous search to complete
-          expect(ProviderSearchPage.$searchResultsItems).to.have.lengthOf(3);
-        }).then(() => ProviderSearchPage.$searchResultsItems[0].click());
+        return ProviderSearchPage.interaction
+          .once(() => ProviderSearchPage.hasLoaded)
+          .do(() => ProviderSearchPage.providerList(0).clickThrough());
       });
 
       it('clicked item has an active state', () => {
-        expect(ProviderSearchPage.providerList[0].isActive).to.be.true;
+        expect(ProviderSearchPage.providerList(0).isActive).to.be.true;
       });
 
       it('shows the preview pane', () => {
-        expect(ProviderSearchPage.previewPaneIsVisible('providers')).to.be.true;
+        expect(ProviderSearchPage.providerPreviewPaneIsPresent).to.be.true;
       });
 
       it('should not display back button in UI', () => {
-        expect(ProviderSearchPage.$backButton).to.not.exist;
+        expect(ProviderSearchPage.hasBackButton).to.be.false;
       });
 
       describe('conducting a new search', () => {
         beforeEach(() => {
-          ProviderSearchPage.search('Totally Awesome Co');
+          return ProviderSearchPage.search('Totally Awesome Co');
         });
 
         it('removes the preview detail pane', () => {
-          expect(ProviderSearchPage.previewPaneIsVisible('providers')).to.not.be.true;
+          expect(ProviderSearchPage.providerPreviewPaneIsPresent).to.be.false;
         });
 
         it('preserves the last history entry', function () {
@@ -104,36 +105,36 @@ describeApplication('ProviderSearch', () => {
         });
       });
 
-      describe('clicking the vignette behind the preview pane', () => {
+      describe.skip('clicking the vignette behind the preview pane', () => {
         beforeEach(() => {
-          ProviderSearchPage.clickSearchVignette();
+          return ProviderSearchPage.clickSearchVignette();
         });
 
         it('hides the preview pane', () => {
-          expect(ProviderSearchPage.previewPaneIsVisible('providers')).to.be.false;
+          expect(ProviderSearchPage.providerPreviewPaneIsPresent).to.be.false;
         });
       });
 
       describe('clicking an item within the preview pane', () => {
         beforeEach(() => {
-          return ProviderSearchPage.clickPackage(0);
+          return ProviderSearchPage.providerPackageList(0).clickToPackage();
         });
 
-        it('hides the search ui', () => {
-          expect(ProviderSearchPage.$root).to.not.exist;
+        it('hides the search UI', () => {
+          expect(ProviderSearchPage.exists).to.be.false;
         });
 
         describe('and clicking the back button', () => {
           beforeEach(() => {
-            return ProviderSearchPage.clickBackButton();
+            return PackageShowPage.clickBackButton();
           });
 
           it('displays the original search', () => {
-            expect(ProviderSearchPage.$searchField).to.have.value('Provider');
+            expect(ProviderSearchPage.searchFieldValue).to.equal('Provider');
           });
 
           it('displays the original search results', () => {
-            expect(ProviderSearchPage.$searchResultsItems).to.have.lengthOf(3);
+            expect(ProviderSearchPage.providerList()).to.have.lengthOf(3);
           });
         });
       });
@@ -141,41 +142,36 @@ describeApplication('ProviderSearch', () => {
 
     describe('filtering the search results further', () => {
       beforeEach(() => {
-        return convergeOn(() => {
-          expect(ProviderSearchPage.$searchResultsItems).to.have.lengthOf(3);
-        }).then(() => (
-          ProviderSearchPage.search('Provider1')
-        ));
+        return ProviderSearchPage.search('Provider1');
       });
 
       it('only shows a single result', () => {
-        expect(ProviderSearchPage.$searchResultsItems).to.have.lengthOf(1);
+        expect(ProviderSearchPage.providerList()).to.have.lengthOf(1);
       });
     });
 
     describe('clicking another search type', () => {
       beforeEach(() => {
-        return convergeOn(() => {
-          // wait for the previous search to complete
-          expect(ProviderSearchPage.$searchResultsItems).to.have.lengthOf(3);
-        }).then(() => ProviderSearchPage.$searchResultsItems[0].click())
-          .then(() => ProviderSearchPage.changeSearchType('packages'));
+        return ProviderSearchPage.interaction
+          .once(() => ProviderSearchPage.hasLoaded)
+          .do(() => ProviderSearchPage.providerList(0).clickThrough())
+          .append(ProviderSearchPage.changeSearchType('packages'));
       });
 
       it('only shows one search type as selected', () => {
-        expect(ProviderSearchPage.$selectedSearchType).to.have.lengthOf(1);
+        expect(ProviderSearchPage.selectedSearchType()).to.have.lengthOf(1);
       });
 
       it('displays an empty search', () => {
-        expect(ProviderSearchPage.$searchField).to.have.value('');
+        expect(ProviderSearchPage.searchFieldValue).to.equal('');
       });
 
       it('does not display any more results', () => {
-        expect(ProviderSearchPage.$searchResultsItems).to.have.lengthOf(0);
+        expect(ProviderSearchPage.providerList()).to.have.lengthOf(0);
       });
 
       it('does not show the preview pane', () => {
-        expect(ProviderSearchPage.previewPaneIsVisible('packages')).to.be.false;
+        expect(ProviderSearchPage.packagePreviewPaneIsPresent).to.be.false;
       });
 
       describe('navigating back to providers search', () => {
@@ -184,15 +180,15 @@ describeApplication('ProviderSearch', () => {
         });
 
         it('displays the original search', () => {
-          expect(ProviderSearchPage.$searchField).to.have.value('Provider');
+          expect(ProviderSearchPage.searchFieldValue).to.equal('Provider');
         });
 
         it('displays the original search results', () => {
-          expect(ProviderSearchPage.$searchResultsItems).to.have.lengthOf(3);
+          expect(ProviderSearchPage.providerList()).to.have.lengthOf(3);
         });
 
         it('shows the preview pane', () => {
-          expect(ProviderSearchPage.previewPaneIsVisible('providers')).to.be.true;
+          expect(ProviderSearchPage.providerPreviewPaneIsPresent).to.be.true;
         });
       });
     });
@@ -219,26 +215,26 @@ describeApplication('ProviderSearch', () => {
 
     describe('searching for providers', () => {
       beforeEach(() => {
-        ProviderSearchPage.search('health analytics');
+        return ProviderSearchPage.search('health analytics');
       });
 
       it('has search filters', () => {
-        expect(ProviderSearchPage.$searchFilters).to.exist;
+        expect(ProviderSearchPage.hasSearchFilters).to.be.true;
       });
 
       it('shows the default sort filter of relevance in the search form', () => {
-        expect(ProviderSearchPage.getFilter('sort')).to.equal('relevance');
+        expect(ProviderSearchPage.sortBy).to.equal('relevance');
       });
 
       it("displays provider entries related to 'health analytics'", () => {
-        expect(ProviderSearchPage.$searchResultsItems).to.have.lengthOf(4);
+        expect(ProviderSearchPage.providerList()).to.have.lengthOf(4);
       });
 
       it('displays the providers sorted by relevance', () => {
-        expect(ProviderSearchPage.providerList[0].name).to.equal('My Health Analytics 2');
-        expect(ProviderSearchPage.providerList[1].name).to.equal('My Health Analytics 10');
-        expect(ProviderSearchPage.providerList[2].name).to.equal('Analytics for everyone');
-        expect(ProviderSearchPage.providerList[3].name).to.equal('Health Associations');
+        expect(ProviderSearchPage.providerList(0).name).to.equal('My Health Analytics 2');
+        expect(ProviderSearchPage.providerList(1).name).to.equal('My Health Analytics 10');
+        expect(ProviderSearchPage.providerList(2).name).to.equal('Analytics for everyone');
+        expect(ProviderSearchPage.providerList(3).name).to.equal('Health Associations');
       });
 
       it.always('does not reflect the default sort=relevance in url', function () {
@@ -251,22 +247,18 @@ describeApplication('ProviderSearch', () => {
 
       describe('then filtering by sort options', () => {
         beforeEach(() => {
-          return convergeOn(() => {
-            expect(ProviderSearchPage.providerList.length).to.be.gt(0);
-          }).then(() => (
-            ProviderSearchPage.clickFilter('sort', 'name')
-          ));
+          return ProviderSearchPage.clickFilter('sort', 'name');
         });
 
         it('displays the providers sorted by provider name', () => {
-          expect(ProviderSearchPage.providerList[0].name).to.equal('Analytics for everyone');
-          expect(ProviderSearchPage.providerList[1].name).to.equal('Health Associations');
-          expect(ProviderSearchPage.providerList[2].name).to.equal('My Health Analytics 2');
-          expect(ProviderSearchPage.providerList[3].name).to.equal('My Health Analytics 10');
+          expect(ProviderSearchPage.providerList(0).name).to.equal('Analytics for everyone');
+          expect(ProviderSearchPage.providerList(1).name).to.equal('Health Associations');
+          expect(ProviderSearchPage.providerList(2).name).to.equal('My Health Analytics 2');
+          expect(ProviderSearchPage.providerList(3).name).to.equal('My Health Analytics 10');
         });
 
         it('shows the sort filter of name in the search form', () => {
-          expect(ProviderSearchPage.getFilter('sort')).to.equal('name');
+          expect(ProviderSearchPage.sortBy).to.equal('name');
         });
 
         it('reflects the sort in the URL query params', function () {
@@ -279,21 +271,21 @@ describeApplication('ProviderSearch', () => {
 
         describe('then searching for other providers', () => {
           beforeEach(() => {
-            ProviderSearchPage.search('analytics');
+            return ProviderSearchPage.search('analytics');
           });
 
           it('keeps the sort filter of name in the search form', () => {
-            expect(ProviderSearchPage.getFilter('sort')).to.equal('name');
+            expect(ProviderSearchPage.sortBy).to.equal('name');
           });
 
           it('displays the providers sorted by provider name', () => {
-            expect(ProviderSearchPage.providerList[0].name).to.equal('Analytics for everyone');
-            expect(ProviderSearchPage.providerList[1].name).to.equal('My Health Analytics 2');
-            expect(ProviderSearchPage.providerList[2].name).to.equal('My Health Analytics 10');
+            expect(ProviderSearchPage.providerList(0).name).to.equal('Analytics for everyone');
+            expect(ProviderSearchPage.providerList(1).name).to.equal('My Health Analytics 2');
+            expect(ProviderSearchPage.providerList(2).name).to.equal('My Health Analytics 10');
           });
 
           it('shows the sort filter of name in the search form', () => {
-            expect(ProviderSearchPage.getFilter('sort')).to.equal('name');
+            expect(ProviderSearchPage.sortBy).to.equal('name');
           });
 
           it('hides search filters on smaller screen sizes (due to new search term)', () => {
@@ -302,13 +294,11 @@ describeApplication('ProviderSearch', () => {
 
           describe('then clicking another search type', () => {
             beforeEach(() => {
-              return convergeOn(() => {
-                expect(ProviderSearchPage.$searchResultsItems).to.have.lengthOf(3);
-              }).then(() => ProviderSearchPage.changeSearchType('packages'));
+              return ProviderSearchPage.changeSearchType('packages');
             });
 
             it('does not display any results', () => {
-              expect(ProviderSearchPage.$searchResultsItems).to.have.lengthOf(0);
+              expect(ProviderSearchPage.providerList()).to.have.lengthOf(0);
             });
 
             describe('navigating back to providers search', () => {
@@ -317,11 +307,11 @@ describeApplication('ProviderSearch', () => {
               });
 
               it('keeps the sort filter of name in the search form', () => {
-                expect(ProviderSearchPage.getFilter('sort')).to.equal('name');
+                expect(ProviderSearchPage.sortBy).to.equal('name');
               });
 
               it('displays the last results', () => {
-                expect(ProviderSearchPage.$searchResultsItems).to.have.lengthOf(3);
+                expect(ProviderSearchPage.providerList()).to.have.lengthOf(3);
               });
 
               it('reflects the sort=name in the URL query params', function () {
@@ -335,44 +325,37 @@ describeApplication('ProviderSearch', () => {
 
     describe('visiting the page with an existing sort', () => {
       beforeEach(function () {
-        return convergeOn(() => {
-          expect(ProviderSearchPage.$searchResultsItems).to.have.lengthOf(0);
-        }).then(() => {
-          return this.visit('/eholdings/?searchType=providers&q=health&sort=name', () => {
-            expect(ProviderSearchPage.$root).to.exist;
-          });
+        return this.visit('/eholdings/?searchType=providers&q=health&sort=name', () => {
+          expect(ProviderSearchPage.$root).to.exist;
         });
       });
 
       it('displays search field populated', () => {
-        expect(ProviderSearchPage.$searchField).to.have.value('health');
+        expect(ProviderSearchPage.searchFieldValue).to.equal('health');
       });
 
       it('displays the sort filter of name as selected in the search form', () => {
-        expect(ProviderSearchPage.getFilter('sort')).to.equal('name');
+        expect(ProviderSearchPage.sortBy).to.equal('name');
       });
 
       it('displays the expected results', () => {
-        expect(ProviderSearchPage.$searchResultsItems).to.have.lengthOf(3);
+        expect(ProviderSearchPage.providerList()).to.have.lengthOf(3);
       });
 
       it('displays results sorted by name', () => {
-        expect(ProviderSearchPage.providerList[0].name).to.equal('Health Associations');
-        expect(ProviderSearchPage.providerList[1].name).to.equal('My Health Analytics 2');
-        expect(ProviderSearchPage.providerList[2].name).to.equal('My Health Analytics 10');
+        expect(ProviderSearchPage.providerList(0).name).to.equal('Health Associations');
+        expect(ProviderSearchPage.providerList(1).name).to.equal('My Health Analytics 2');
+        expect(ProviderSearchPage.providerList(2).name).to.equal('My Health Analytics 10');
       });
     });
 
     describe('clearing the search field', () => {
       beforeEach(() => {
-        return convergeOn(() => {
-          expect(ProviderSearchPage.$searchResultsItems).to.have.lengthOf(0);
-        }).then(() => (
-          ProviderSearchPage.clearSearch()
-        ));
+        return ProviderSearchPage.clearSearch();
       });
+
       it('has disabled search button', () => {
-        expect(ProviderSearchPage.isSearchButtonEnabled).to.equal(false);
+        expect(ProviderSearchPage.isSearchButtonDisabled).to.equal(true);
       });
     });
   });
@@ -386,26 +369,24 @@ describeApplication('ProviderSearch', () => {
 
     describe('searching for providers', () => {
       beforeEach(() => {
-        ProviderSearchPage.search('other');
+        return ProviderSearchPage.search('other');
       });
 
       it('shows the first page of results', () => {
-        expect(ProviderSearchPage.providerList[0].name).to.equal('Other Provider 5');
+        expect(ProviderSearchPage.providerList(0).name).to.equal('Other Provider 5');
       });
 
       describe('and then scrolling down', () => {
         beforeEach(() => {
-          return convergeOn(() => {
-            expect(ProviderSearchPage.providerList.length).to.be.gt(0);
-          }).then(() => {
-            ProviderSearchPage.scrollToOffset(26);
-          });
+          return ProviderSearchPage.interaction
+            .once(() => ProviderSearchPage.hasLoaded)
+            .do(() => ProviderSearchPage.scrollToOffset(26));
         });
 
         it('shows the next page of results', () => {
           // when the list is scrolled, it has a threshold of 5 items. index 4,
           // the 5th item, is the topmost visible item in the list
-          expect(ProviderSearchPage.providerList[4].name).to.equal('Other Provider 30');
+          expect(ProviderSearchPage.providerList(4).name).to.equal('Other Provider 30');
         });
 
         it('updates the offset in the URL', function () {
@@ -423,7 +404,7 @@ describeApplication('ProviderSearch', () => {
 
       it('should show the search results for that page', () => {
         // see comment above about providerList index number
-        expect(ProviderSearchPage.providerList[4].name).to.equal('Other Provider 55');
+        expect(ProviderSearchPage.providerList(4).name).to.equal('Other Provider 55');
       });
 
       it('should retain the proper offset', function () {
@@ -432,20 +413,18 @@ describeApplication('ProviderSearch', () => {
 
       describe('and then scrolling up', () => {
         beforeEach(() => {
-          return convergeOn(() => {
-            expect(ProviderSearchPage.providerList.length).to.be.gt(0);
-          }).then(() => {
-            ProviderSearchPage.scrollToOffset(0);
-          });
+          return ProviderSearchPage.interaction
+            .once(() => ProviderSearchPage.hasLoaded)
+            .do(() => ProviderSearchPage.scrollToOffset(0));
         });
 
-        // it might take a bit for the next request to be triggered after the scroll
-        it.always('shows the total results', () => {
+
+        it('shows the total results', () => {
           expect(ProviderSearchPage.totalResults).to.equal('75 search results');
-        }, 500);
+        });
 
         it('shows the prev page of results', () => {
-          expect(ProviderSearchPage.providerList[0].name).to.equal('Other Provider 5');
+          expect(ProviderSearchPage.providerList(0).name).to.equal('Other Provider 5');
         });
 
         it('updates the offset in the URL', function () {
@@ -457,7 +436,7 @@ describeApplication('ProviderSearch', () => {
 
   describe("searching for the provider 'fhqwhgads'", () => {
     beforeEach(() => {
-      ProviderSearchPage.search('fhqwhgads');
+      return ProviderSearchPage.search('fhqwhgads');
     });
 
     it("displays 'no results' message", () => {
@@ -473,7 +452,7 @@ describeApplication('ProviderSearch', () => {
         }]
       }, 500);
 
-      ProviderSearchPage.search("this doesn't matter");
+      return ProviderSearchPage.search("this doesn't matter");
     });
 
     it('shows an error', () => {
