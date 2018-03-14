@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 
 import Button from '@folio/stripes-components/lib/Button';
 import Layout from '@folio/stripes-components/lib/Layout';
+import { Accordion } from '@folio/stripes-components/lib/Accordion';
 
 import DetailsView from './details-view';
 import Link from './link';
@@ -120,138 +121,79 @@ export default class CustomerResourceShow extends Component {
           paneSub={model.packageName}
           bodyContent={(
             <div>
-              <ContributorsList data={model.contributors} />
+              <Accordion label="Holding status">
+                <label
+                  data-test-eholdings-customer-resource-show-selected
+                  htmlFor="customer-resource-show-toggle-switch"
+                >
+                  <h4>{resourceSelected ? 'Selected' : 'Not selected'}</h4>
+                  <ToggleSwitch
+                    onChange={this.handleSelectionToggle}
+                    checked={resourceSelected}
+                    isPending={model.update.isPending && 'isSelected' in model.update.changedAttributes}
+                    id="customer-resource-show-toggle-switch"
+                  />
+                </label>
 
-              <KeyValueLabel label="Publisher">
-                <div data-test-eholdings-customer-resource-show-publisher-name>
-                  {model.publisherName}
-                </div>
-              </KeyValueLabel>
+                {resourceSelected && (
+                  <div>
+                    <label
+                      data-test-eholdings-customer-resource-toggle-hidden
+                      htmlFor="customer-resource-show-hide-toggle-switch"
+                    >
+                      <h4>
+                        {model.visibilityData.isHidden
+                          ? 'Hidden from patrons'
+                          : 'Visible to patrons'}
+                      </h4>
 
-              {model.publicationType && (
-                <KeyValueLabel label="Publication type">
-                  <div data-test-eholdings-customer-resource-show-publication-type>
-                    {model.publicationType}
-                  </div>
-                </KeyValueLabel>
-              )}
-
-              <IdentifiersList data={model.identifiers} />
-
-              {model.subjects.length > 0 && (
-                <KeyValueLabel label="Subjects">
-                  <div data-test-eholdings-customer-resource-show-subjects-list>
-                    {model.subjects.map(subjectObj => subjectObj.subject).join('; ')}
-                  </div>
-                </KeyValueLabel>
-              )}
-
-              <KeyValueLabel label="Package">
-                <div data-test-eholdings-customer-resource-show-package-name>
-                  <Link to={`/eholdings/packages/${model.packageId}`}>{model.packageName}</Link>
-                </div>
-              </KeyValueLabel>
-
-              {model.contentType && (
-                <KeyValueLabel label="Content type">
-                  <div data-test-eholdings-customer-resource-show-content-type>
-                    {model.contentType}
-                  </div>
-                </KeyValueLabel>
-              )}
-
-              <KeyValueLabel label="Provider">
-                <div data-test-eholdings-customer-resource-show-provider-name>
-                  <Link to={`/eholdings/providers/${model.providerId}`}>{model.providerName}</Link>
-                </div>
-              </KeyValueLabel>
-
-              {model.url && (
-                <KeyValueLabel label="Managed URL">
-                  <div data-test-eholdings-customer-resource-show-managed-url>
-                    <a href={model.url} target="_blank">{model.url}</a>
-                  </div>
-                </KeyValueLabel>
-              )}
-
-              {hasManagedCoverages && (
-                <KeyValueLabel label="Managed coverage dates">
-                  <div data-test-eholdings-customer-resource-show-managed-coverage-list>
-                    <CoverageDateList
-                      coverageArray={model.managedCoverages}
-                      isYearOnly={isBookPublicationType(model.publicationType)}
-                    />
-                  </div>
-                </KeyValueLabel>
-              )}
-
-              {hasManagedEmbargoPeriod && (
-                <KeyValueLabel label="Managed embargo period">
-                  <div data-test-eholdings-customer-resource-show-managed-embargo-period>
-                    {model.managedEmbargoPeriod.embargoValue} {model.managedEmbargoPeriod.embargoUnit}
-                  </div>
-                </KeyValueLabel>
-              )}
-
-              <hr />
-
-              <label
-                data-test-eholdings-customer-resource-show-selected
-                htmlFor="customer-resource-show-toggle-switch"
-              >
-                <h4>{resourceSelected ? 'Selected' : 'Not selected'}</h4>
-                <ToggleSwitch
-                  onChange={this.handleSelectionToggle}
-                  checked={resourceSelected}
-                  isPending={model.update.isPending && 'isSelected' in model.update.changedAttributes}
-                  id="customer-resource-show-toggle-switch"
-                />
-              </label>
-
-              {resourceSelected && (
-                <div>
-                  <hr />
-                  <label
-                    data-test-eholdings-customer-resource-toggle-hidden
-                    htmlFor="customer-resource-show-hide-toggle-switch"
-                  >
-                    <h4>
-                      {model.visibilityData.isHidden
-                        ? 'Hidden from patrons'
-                        : 'Visible to patrons'}
-                    </h4>
-
-                    <Layout className="flex">
-                      <div className={styles.marginRightHalf}>
-                        {model.package.visibilityData.isHidden ? (
-                          <ToggleSwitch
-                            id="customer-resource-show-hide-toggle-switch"
-                            checked={false}
-                            disabled
-                          />
-                        ) : (
-                          <ToggleSwitch
-                            onChange={this.props.toggleHidden}
-                            checked={!resourceHidden}
-                            isPending={model.update.isPending &&
-                              ('visibilityData' in model.update.changedAttributes)}
-                            id="customer-resource-show-hide-toggle-switch"
-                          />
-                        )}
-                      </div>
-
-                      {model.visibilityData.isHidden && (
-                        <div data-test-eholdings-customer-resource-toggle-hidden-reason>
-                          {model.package.visibilityData.isHidden
-                            ? 'All titles in this package are hidden.'
-                            : model.visibilityData.reason}
+                      <Layout className="flex">
+                        <div className={styles.marginRightHalf}>
+                          {model.package.visibilityData.isHidden ? (
+                            <ToggleSwitch
+                              id="customer-resource-show-hide-toggle-switch"
+                              checked={false}
+                              disabled
+                            />
+                          ) : (
+                            <ToggleSwitch
+                              onChange={this.props.toggleHidden}
+                              checked={!resourceHidden}
+                              isPending={model.update.isPending &&
+                                ('visibilityData' in model.update.changedAttributes)}
+                              id="customer-resource-show-hide-toggle-switch"
+                            />
+                          )}
                         </div>
-                      )}
-                    </Layout>
-                  </label>
 
-                  <hr />
+                        {model.visibilityData.isHidden && (
+                          <div data-test-eholdings-customer-resource-toggle-hidden-reason>
+                            {model.package.visibilityData.isHidden
+                              ? 'All titles in this package are hidden.'
+                              : model.visibilityData.reason}
+                          </div>
+                        )}
+                      </Layout>
+                    </label>
+                  </div>
+                )}
+              </Accordion>
+              <Accordion
+                label="Coverage dates"
+                closedByDefault={!hasManagedCoverages && !resourceSelected}
+              >
+                {hasManagedCoverages && (
+                  <KeyValueLabel label="Managed coverage dates">
+                    <div data-test-eholdings-customer-resource-show-managed-coverage-list>
+                      <CoverageDateList
+                        coverageArray={model.managedCoverages}
+                        isYearOnly={isBookPublicationType(model.publicationType)}
+                      />
+                    </div>
+                  </KeyValueLabel>
+                )}
 
+                {resourceSelected && (
                   <CustomerResourceCoverage
                     initialValues={{ customCoverages }}
                     packageCoverage={model.package.customCoverage}
@@ -262,9 +204,26 @@ export default class CustomerResourceShow extends Component {
                     locale={locale}
                     intl={intl}
                   />
+                )}
 
-                  <hr />
+                {!hasManagedCoverages && !resourceSelected && (
+                  <p>Add the resource to holdings to set custom coverage dates.</p>
+                )}
 
+              </Accordion>
+              <Accordion
+                label="Embargo period"
+                closedByDefault={!hasManagedEmbargoPeriod && !resourceSelected}
+              >
+                {hasManagedEmbargoPeriod && (
+                  <KeyValueLabel label="Managed embargo period">
+                    <div data-test-eholdings-customer-resource-show-managed-embargo-period>
+                      {model.managedEmbargoPeriod.embargoValue} {model.managedEmbargoPeriod.embargoUnit}
+                    </div>
+                  </KeyValueLabel>
+                )}
+
+                {resourceSelected && (
                   <CustomEmbargoForm
                     initialValues={{ customEmbargoValue, customEmbargoUnit }}
                     isEditable={isEmbargoEditable}
@@ -272,16 +231,76 @@ export default class CustomerResourceShow extends Component {
                     onSubmit={customEmbargoSubmitted}
                     isPending={model.update.isPending && 'customEmbargoPeriod' in model.update.changedAttributes}
                   />
-                </div>
-              )}
+                )}
 
-              <hr />
+                {!hasManagedEmbargoPeriod && !resourceSelected && (
+                  <p>Add the resource to holdings to set an custom embargo period.</p>
+                )}
 
-              <div>
-                <Link to={`/eholdings/titles/${model.titleId}`}>
-                  View all packages that include this title
-                </Link>
-              </div>
+              </Accordion>
+
+              <Accordion label="Resource information">
+
+                <ContributorsList data={model.contributors} />
+
+                <KeyValueLabel label="Publisher">
+                  <div data-test-eholdings-customer-resource-show-publisher-name>
+                    {model.publisherName}
+                  </div>
+                </KeyValueLabel>
+
+                {model.publicationType && (
+                  <KeyValueLabel label="Publication type">
+                    <div data-test-eholdings-customer-resource-show-publication-type>
+                      {model.publicationType}
+                    </div>
+                  </KeyValueLabel>
+                )}
+
+                <IdentifiersList data={model.identifiers} />
+
+                {model.subjects.length > 0 && (
+                  <KeyValueLabel label="Subjects">
+                    <div data-test-eholdings-customer-resource-show-subjects-list>
+                      {model.subjects.map(subjectObj => subjectObj.subject).join('; ')}
+                    </div>
+                  </KeyValueLabel>
+                )}
+
+                <KeyValueLabel label="Provider">
+                  <div data-test-eholdings-customer-resource-show-provider-name>
+                    <Link to={`/eholdings/providers/${model.providerId}`}>{model.providerName}</Link>
+                  </div>
+                </KeyValueLabel>
+
+                <KeyValueLabel label="Package">
+                  <div data-test-eholdings-customer-resource-show-package-name>
+                    <Link to={`/eholdings/packages/${model.packageId}`}>{model.packageName}</Link>
+                  </div>
+                </KeyValueLabel>
+
+                <KeyValueLabel label="Other packages">
+                  <Link to={`/eholdings/titles/${model.titleId}`}>
+                    View all packages that include this title
+                  </Link>
+                </KeyValueLabel>
+
+                {model.contentType && (
+                  <KeyValueLabel label="Content type">
+                    <div data-test-eholdings-customer-resource-show-content-type>
+                      {model.contentType}
+                    </div>
+                  </KeyValueLabel>
+                )}
+
+                {model.url && (
+                  <KeyValueLabel label="Managed URL">
+                    <div data-test-eholdings-customer-resource-show-managed-url>
+                      <a href={model.url} target="_blank">{model.url}</a>
+                    </div>
+                  </KeyValueLabel>
+                )}
+              </Accordion>
             </div>
           )}
         />

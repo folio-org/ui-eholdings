@@ -240,7 +240,6 @@ class CustomerResourceCoverage extends Component {
           'is-editing': isEditable
         })}
       >
-        <h4 className={styles['coverage-form-legend']}>Coverage dates</h4>
         {contents}
       </div>
     );

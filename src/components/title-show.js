@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { Accordion } from '@folio/stripes-components/lib/Accordion';
 
 import DetailsView from './details-view';
 import KeyValueLabel from './key-value-label';
@@ -15,7 +16,7 @@ export default function TitleShow({ model }) {
       model={model}
       paneTitle={model.name}
       bodyContent={(
-        <div>
+        <Accordion label="Title information">
           <ContributorsList data={model.contributors} />
 
           <KeyValueLabel label="Publisher">
@@ -39,7 +40,7 @@ export default function TitleShow({ model }) {
               </div>
             </KeyValueLabel>
           )}
-        </div>
+        </Accordion>
       )}
       listType="packages"
       renderList={scrollable => (
