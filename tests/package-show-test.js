@@ -15,7 +15,7 @@ describeApplication('PackageShow', () => {
       name: 'Cool Provider'
     });
 
-    providerPackage = this.server.create('package', 'withTitles', {
+    providerPackage = this.server.create('package', 'withTitles', 'withCustomCoverage', {
       provider,
       name: 'Cool Package',
       contentType: 'E-Book',
