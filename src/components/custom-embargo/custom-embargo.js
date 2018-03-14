@@ -207,7 +207,6 @@ class CustomEmbargoForm extends Component {
           'is-editing': isEditable
         })}
       >
-        <h4>Embargo period</h4>
         {contents}
       </div>
     );

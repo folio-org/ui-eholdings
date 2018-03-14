@@ -5,6 +5,7 @@ import DetailsView from './details-view';
 import KeyValueLabel from './key-value-label';
 import QueryList from './query-list';
 import PackageListItem from './package-list-item';
+import DetailsViewSection from './details-view-section';
 
 export default function ProviderShow({
   model,
@@ -18,7 +19,7 @@ export default function ProviderShow({
       model={model}
       paneTitle={model.name}
       bodyContent={(
-        <div>
+        <DetailsViewSection label="Provider information">
           <KeyValueLabel label="Packages selected">
             <div data-test-eholdings-provider-details-packages-selected>
               {intl.formatNumber(model.packagesSelected)}
@@ -30,7 +31,7 @@ export default function ProviderShow({
               {intl.formatNumber(model.packagesTotal)}
             </div>
           </KeyValueLabel>
-        </div>
+        </DetailsViewSection>
       )}
       listType="packages"
       renderList={scrollable => (
