@@ -1,0 +1,93 @@
+.container {
+  position: fixed;
+  right: 0;
+  width: 100%;
+  display: none;
+}
+
+.bottom {
+  bottom: 20px;
+  pointer-events: none;
+  animation-name: slideInBottom;
+  animation-duration: 1s;
+  animation-fill-mode: both;
+}
+
+.slideOutBottom {
+  display: block;
+  animation-name: slideOutBottom;
+  animation-duration: 1s;
+  animation-fill-mode: both;
+}
+
+.top {
+  top: 20px;
+  animation-name: slideInTop;
+  animation-duration: 1s;
+  animation-fill-mode: both;
+}
+
+.slideOutTop {
+  display: block;
+  animation-name: slideOutTop;
+  animation-duration: 1s;
+  animation-fill-mode: both;
+}
+
+.isOpen {
+  display: block;
+}
+
+.toast {
+  display: flex;
+  justify-content: space-between;
+  width: 300px;
+  margin-right: auto;
+  margin-left: auto;
+  color: white;
+  padding: 10px;
+  border-radius: 4px;
+  pointer-events: auto;
+}
+
+.error {
+  background-color: red;
+}
+
+.info {
+  background-color: blue;
+}
+
+.success {
+  background-color: green;
+}
+
+.closeIcon {
+  fill: white;
+}
+
+@keyframes slideInBottom {
+  0% { transform: translate3d(0, 300%, 0) }
+  58% { transform: translate3d(0, -7px, 0) }
+  88% { transform: translate3d(0, -2px, 0) }
+  100% { transform: translate3d(0, 0px, 0) }
+}
+
+@keyframes slideOutBottom {
+  100% { transform: translate3d(0, 310%, 0) }
+  88% { transform: translate3d(0, 300%, 0) }
+  58% { transform: translate3d(0, -7px, 0) }
+  0% { transform: translate3d(0, 0, 0) }
+}
+
+@keyframes slideInTop {
+  0% { transform: translate3d(0, -300%, 0) }
+  58% { transform: translate3d(0, 7px, 0) }
+  100% { transform: translate3d(0, 0px, 0) }
+}
+
+@keyframes slideOutTop {
+  100% { transform: translate3d(0, -300%, 0) }
+  88% { transform: translate3d(0, 7px, 0) }
+  0% { transform: translate3d(0, 0px, 0) }
+}

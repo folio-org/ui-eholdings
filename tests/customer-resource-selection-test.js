@@ -85,7 +85,7 @@ describeApplication('CustomerResourceSelection', () => {
       });
     });
 
-    describe('unsuccessfully selecting a package title to add to my holdings', () => {
+    describe.only('unsuccessfully selecting a package title to add to my holdings', () => {
       beforeEach(function () {
         this.server.put('/customer-resources/:id', {
           errors: [{
