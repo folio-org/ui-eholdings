@@ -218,7 +218,6 @@ class PackageCustomCoverage extends Component {
           'is-editing': this.state.isEditing
         })}
       >
-        <h4>Coverage dates</h4>
         {contents}
       </div>
     );

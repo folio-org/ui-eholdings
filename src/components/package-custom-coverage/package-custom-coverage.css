@@ -1,10 +1,11 @@
 @import '@folio/stripes-components/lib/variables';
 
 .custom-coverage-form {
-  padding: 0.5em 1em 1em;
+  padding: 0 0 1em;
 
   &.is-editing {
     background: #e6f3ff;
+    padding: 1em;
   }
 }
 

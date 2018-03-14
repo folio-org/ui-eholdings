@@ -9,7 +9,6 @@ import IconButton from '@folio/stripes-components/lib/IconButton';
 import PaneMenu from '@folio/stripes-components/lib/PaneMenu';
 import Link from 'react-router-dom/Link';
 
-import KeyValueLabel from '../key-value-label';
 import styles from './details-view.css';
 
 const cx = classNames.bind(styles);
@@ -203,11 +202,12 @@ export default class DetailsView extends Component {
         >
           {model.isLoaded ? [
             <div key="header" className={styles.header}>
-              <KeyValueLabel label={capitalize(type)}>
-                <h1 data-test-eholdings-details-view-name={type}>
-                  {model.name}
-                </h1>
-              </KeyValueLabel>
+              <h2 data-test-eholdings-details-view-name={type}>
+                {paneTitle}
+              </h2>
+              {paneSub &&
+                <p>{paneSub}</p>
+              }
             </div>,
 
             <div key="body" className={styles.body}>

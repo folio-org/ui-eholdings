@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import Button from '@folio/stripes-components/lib/Button';
 import Layout from '@folio/stripes-components/lib/Layout';
 import Icon from '@folio/stripes-components/lib/Icon';
+import { Accordion } from '@folio/stripes-components/lib/Accordion';
 
 import DetailsView from './details-view';
 import QueryList from './query-list';
@@ -88,107 +89,83 @@ export default class PackageShow extends Component {
           paneTitle={model.name}
           bodyContent={(
             <div>
-              <KeyValueLabel label="Provider">
-                <div data-test-eholdings-package-details-provider>
-                  <Link to={`/eholdings/providers/${model.providerId}`}>{model.providerName}</Link>
-                </div>
-              </KeyValueLabel>
+              <Accordion label="Holding status">
+                <label
+                  data-test-eholdings-package-details-selected
+                  htmlFor="package-details-toggle-switch"
+                >
+                  <h4>{packageSelected ? 'Selected' : 'Not selected'}</h4>
+                  <ToggleSwitch
+                    onChange={this.handleSelectionToggle}
+                    checked={packageSelected}
+                    isPending={model.update.isPending && 'isSelected' in model.update.changedAttributes}
+                    id="package-details-toggle-switch"
+                  />
+                </label>
 
-              {model.contentType && (
-                <KeyValueLabel label="Content type">
-                  <div data-test-eholdings-package-details-content-type>
-                    {model.contentType}
-                  </div>
-                </KeyValueLabel>
-              )}
+                {packageSelected && (
+                  <div>
+                    <label
+                      data-test-eholdings-package-details-hidden
+                      htmlFor="package-details-toggle-hidden-switch"
+                    >
+                      <h4>
+                        {model.visibilityData.isHidden
+                          ? 'Hidden from patrons'
+                          : 'Visible to patrons'}
+                      </h4>
 
-              <KeyValueLabel label="Titles selected">
-                <div data-test-eholdings-package-details-titles-selected>
-                  {intl.formatNumber(model.selectedCount)}
-                </div>
-              </KeyValueLabel>
-
-              <KeyValueLabel label="Total titles">
-                <div data-test-eholdings-package-details-titles-total>
-                  {intl.formatNumber(model.titleCount)}
-                </div>
-              </KeyValueLabel>
-
-              <label
-                data-test-eholdings-package-details-selected
-                htmlFor="package-details-toggle-switch"
-              >
-                <h4>{packageSelected ? 'Selected' : 'Not selected'}</h4>
-                <ToggleSwitch
-                  onChange={this.handleSelectionToggle}
-                  checked={packageSelected}
-                  isPending={model.update.isPending && 'isSelected' in model.update.changedAttributes}
-                  id="package-details-toggle-switch"
-                />
-              </label>
-
-              {packageSelected && (
-                <div>
-                  <hr />
-
-                  <label
-                    data-test-eholdings-package-details-hidden
-                    htmlFor="package-details-toggle-hidden-switch"
-                  >
-                    <h4>
-                      {model.visibilityData.isHidden
-                        ? 'Hidden from patrons'
-                        : 'Visible to patrons'}
-                    </h4>
-
-                    <Layout className="flex">
-                      <div className={styles.marginRightHalf}>
-                        <ToggleSwitch
-                          onChange={this.props.toggleHidden}
-                          checked={!packageHidden}
-                          isPending={model.update.isPending &&
-                            ('visibilityData' in model.update.changedAttributes)}
-                          id="package-details-toggle-hidden-switch"
-                        />
-                      </div>
-
-                      {model.visibilityData.isHidden && (
-                        <div data-test-eholdings-package-details-is-hidden>
-                          {model.visibilityData.reason}
+                      <Layout className="flex">
+                        <div className={styles.marginRightHalf}>
+                          <ToggleSwitch
+                            onChange={this.props.toggleHidden}
+                            checked={!packageHidden}
+                            isPending={model.update.isPending &&
+                              ('visibilityData' in model.update.changedAttributes)}
+                            id="package-details-toggle-hidden-switch"
+                          />
                         </div>
-                      )}
-                    </Layout>
-                  </label>
 
-                  <hr />
+                        {model.visibilityData.isHidden && (
+                          <div data-test-eholdings-package-details-is-hidden>
+                            {model.visibilityData.reason}
+                          </div>
+                        )}
+                      </Layout>
+                    </label>
 
-                  <label
-                    data-test-eholdings-package-details-allow-add-new-titles
-                    htmlFor="package-details-toggle-allow-add-new-titles-switch"
-                  >
-                    {/* The check below for null could be refactored after RM API starts sending this attribute
-                    in list of packages to mod-kb-ebsco */}
-                    {packageAllowedToAddTitles != null ? (
-                      <div>
-                        <h4>
-                          {packageAllowedToAddTitles
-                            ? 'Automatically select new titles'
-                            : 'Do not automatically select new titles'}
-                        </h4>
-                        <ToggleSwitch
-                          onChange={this.props.toggleAllowKbToAddTitles}
-                          checked={packageAllowedToAddTitles}
-                          isPending={model.update.isPending && 'allowKbToAddTitles' in model.update.changedAttributes}
-                          id="package-details-toggle-allow-add-new-titles-switch"
-                        />
-                      </div>
-                      ) : (
-                        <Icon icon="spinner-ellipsis" />
-                      )}
-                  </label>
-
-                  <hr />
-
+                    <label
+                      data-test-eholdings-package-details-allow-add-new-titles
+                      htmlFor="package-details-toggle-allow-add-new-titles-switch"
+                    >
+                      {/* The check below for null could be refactored after RM API starts sending this attribute
+                      in list of packages to mod-kb-ebsco */}
+                      {packageAllowedToAddTitles != null ? (
+                        <div>
+                          <h4>
+                            {packageAllowedToAddTitles
+                              ? 'Automatically select new titles'
+                              : 'Do not automatically select new titles'}
+                          </h4>
+                          <ToggleSwitch
+                            onChange={this.props.toggleAllowKbToAddTitles}
+                            checked={packageAllowedToAddTitles}
+                            isPending={model.update.isPending && 'allowKbToAddTitles' in model.update.changedAttributes}
+                            id="package-details-toggle-allow-add-new-titles-switch"
+                          />
+                        </div>
+                        ) : (
+                          <Icon icon="spinner-ellipsis" />
+                        )}
+                    </label>
+                  </div>
+                )}
+              </Accordion>
+              <Accordion
+                label="Coverage dates"
+                closedByDefault={!packageSelected}
+              >
+                {packageSelected ? (
                   <div data-test-eholdings-package-details-custom-coverage>
                     <PackageCustomCoverage
                       initialValues={{ customCoverages }}
@@ -196,8 +173,37 @@ export default class PackageShow extends Component {
                       isPending={model.update.isPending && 'customCoverage' in model.update.changedAttributes}
                     />
                   </div>
-                </div>
-              )}
+                ) : (
+                  <p>Add the package to holdings to set custom coverage dates.</p>
+                )}
+              </Accordion>
+              <Accordion label="Package information">
+                <KeyValueLabel label="Provider">
+                  <div data-test-eholdings-package-details-provider>
+                    <Link to={`/eholdings/providers/${model.providerId}`}>{model.providerName}</Link>
+                  </div>
+                </KeyValueLabel>
+
+                {model.contentType && (
+                  <KeyValueLabel label="Content type">
+                    <div data-test-eholdings-package-details-content-type>
+                      {model.contentType}
+                    </div>
+                  </KeyValueLabel>
+                )}
+
+                <KeyValueLabel label="Titles selected">
+                  <div data-test-eholdings-package-details-titles-selected>
+                    {intl.formatNumber(model.selectedCount)}
+                  </div>
+                </KeyValueLabel>
+
+                <KeyValueLabel label="Total titles">
+                  <div data-test-eholdings-package-details-titles-total>
+                    {intl.formatNumber(model.titleCount)}
+                  </div>
+                </KeyValueLabel>
+              </Accordion>
             </div>
           )}
           listType="titles"
