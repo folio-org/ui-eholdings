@@ -7,6 +7,7 @@ import ScrollView from './scroll-view';
 import PackageListItem from './package-list-item';
 import IdentifiersList from './identifiers-list';
 import ContributorsList from './contributors-list';
+import DetailsViewSection from './details-view-section';
 
 export default function TitleShow({ model }) {
   return (
@@ -15,7 +16,7 @@ export default function TitleShow({ model }) {
       model={model}
       paneTitle={model.name}
       bodyContent={(
-        <div>
+        <DetailsViewSection label="Title information">
           <ContributorsList data={model.contributors} />
 
           <KeyValueLabel label="Publisher">
@@ -39,7 +40,7 @@ export default function TitleShow({ model }) {
               </div>
             </KeyValueLabel>
           )}
-        </div>
+        </DetailsViewSection>
       )}
       listType="packages"
       renderList={scrollable => (

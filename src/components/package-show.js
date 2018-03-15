@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
 import Button from '@folio/stripes-components/lib/Button';
-import Layout from '@folio/stripes-components/lib/Layout';
 import Icon from '@folio/stripes-components/lib/Icon';
 
 import DetailsView from './details-view';
@@ -13,7 +12,7 @@ import TitleListItem from './title-list-item';
 import ToggleSwitch from './toggle-switch';
 import Modal from './modal';
 import PackageCustomCoverage from './package-custom-coverage';
-import styles from './styles.css';
+import DetailsViewSection from './details-view-section';
 
 export default class PackageShow extends Component {
   static propTypes = {
@@ -88,80 +87,54 @@ export default class PackageShow extends Component {
           paneTitle={model.name}
           bodyContent={(
             <div>
-              <KeyValueLabel label="Provider">
-                <div data-test-eholdings-package-details-provider>
-                  <Link to={`/eholdings/providers/${model.providerId}`}>{model.providerName}</Link>
-                </div>
-              </KeyValueLabel>
+              <DetailsViewSection label="Holding status">
+                <label
+                  data-test-eholdings-package-details-selected
+                  htmlFor="package-details-toggle-switch"
+                >
+                  <h4>{packageSelected ? 'Selected' : 'Not selected'}</h4>
+                  <ToggleSwitch
+                    onChange={this.handleSelectionToggle}
+                    checked={packageSelected}
+                    isPending={model.update.isPending && 'isSelected' in model.update.changedAttributes}
+                    id="package-details-toggle-switch"
+                  />
+                </label>
+              </DetailsViewSection>
+              <DetailsViewSection label="Visibility">
+                {packageSelected ? (
+                  <div>
+                    <label
+                      data-test-eholdings-package-details-hidden
+                      htmlFor="package-details-toggle-hidden-switch"
+                    >
+                      <h4>
+                        {model.visibilityData.isHidden
+                          ? 'Hidden from patrons'
+                          : 'Visible to patrons'}
+                      </h4>
 
-              {model.contentType && (
-                <KeyValueLabel label="Content type">
-                  <div data-test-eholdings-package-details-content-type>
-                    {model.contentType}
-                  </div>
-                </KeyValueLabel>
-              )}
+                      <ToggleSwitch
+                        onChange={this.props.toggleHidden}
+                        checked={!packageHidden}
+                        isPending={model.update.isPending &&
+                          ('visibilityData' in model.update.changedAttributes)}
+                        id="package-details-toggle-hidden-switch"
+                      />
+                    </label>
 
-              <KeyValueLabel label="Titles selected">
-                <div data-test-eholdings-package-details-titles-selected>
-                  {intl.formatNumber(model.selectedCount)}
-                </div>
-              </KeyValueLabel>
-
-              <KeyValueLabel label="Total titles">
-                <div data-test-eholdings-package-details-titles-total>
-                  {intl.formatNumber(model.titleCount)}
-                </div>
-              </KeyValueLabel>
-
-              <label
-                data-test-eholdings-package-details-selected
-                htmlFor="package-details-toggle-switch"
-              >
-                <h4>{packageSelected ? 'Selected' : 'Not selected'}</h4>
-                <ToggleSwitch
-                  onChange={this.handleSelectionToggle}
-                  checked={packageSelected}
-                  isPending={model.update.isPending && 'isSelected' in model.update.changedAttributes}
-                  id="package-details-toggle-switch"
-                />
-              </label>
-
-              {packageSelected && (
-                <div>
-                  <hr />
-
-                  <label
-                    data-test-eholdings-package-details-hidden
-                    htmlFor="package-details-toggle-hidden-switch"
-                  >
-                    <h4>
-                      {model.visibilityData.isHidden
-                        ? 'Hidden from patrons'
-                        : 'Visible to patrons'}
-                    </h4>
-
-                    <Layout className="flex">
-                      <div className={styles.marginRightHalf}>
-                        <ToggleSwitch
-                          onChange={this.props.toggleHidden}
-                          checked={!packageHidden}
-                          isPending={model.update.isPending &&
-                            ('visibilityData' in model.update.changedAttributes)}
-                          id="package-details-toggle-hidden-switch"
-                        />
+                    {model.visibilityData.isHidden && (
+                      <div data-test-eholdings-package-details-is-hidden>
+                        {model.visibilityData.reason}
                       </div>
-
-                      {model.visibilityData.isHidden && (
-                        <div data-test-eholdings-package-details-is-hidden>
-                          {model.visibilityData.reason}
-                        </div>
-                      )}
-                    </Layout>
-                  </label>
-
-                  <hr />
-
+                    )}
+                  </div>
+                ) : (
+                  <p>Not shown to patrons.</p>
+                )}
+              </DetailsViewSection>
+              <DetailsViewSection label="Title management">
+                {packageSelected ? (
                   <label
                     data-test-eholdings-package-details-allow-add-new-titles
                     htmlFor="package-details-toggle-allow-add-new-titles-switch"
@@ -186,9 +159,15 @@ export default class PackageShow extends Component {
                         <Icon icon="spinner-ellipsis" />
                       )}
                   </label>
-
-                  <hr />
-
+                ) : (
+                  <p>Knowledge base does not automatically select titles.</p>
+                )}
+              </DetailsViewSection>
+              <DetailsViewSection
+                label="Coverage dates"
+                closedByDefault={!packageSelected}
+              >
+                {packageSelected ? (
                   <div data-test-eholdings-package-details-custom-coverage>
                     <PackageCustomCoverage
                       initialValues={{ customCoverages }}
@@ -196,8 +175,37 @@ export default class PackageShow extends Component {
                       isPending={model.update.isPending && 'customCoverage' in model.update.changedAttributes}
                     />
                   </div>
-                </div>
-              )}
+                ) : (
+                  <p>Add the package to holdings to set custom coverage dates.</p>
+                )}
+              </DetailsViewSection>
+              <DetailsViewSection label="Package information">
+                <KeyValueLabel label="Provider">
+                  <div data-test-eholdings-package-details-provider>
+                    <Link to={`/eholdings/providers/${model.providerId}`}>{model.providerName}</Link>
+                  </div>
+                </KeyValueLabel>
+
+                {model.contentType && (
+                  <KeyValueLabel label="Content type">
+                    <div data-test-eholdings-package-details-content-type>
+                      {model.contentType}
+                    </div>
+                  </KeyValueLabel>
+                )}
+
+                <KeyValueLabel label="Titles selected">
+                  <div data-test-eholdings-package-details-titles-selected>
+                    {intl.formatNumber(model.selectedCount)}
+                  </div>
+                </KeyValueLabel>
+
+                <KeyValueLabel label="Total titles">
+                  <div data-test-eholdings-package-details-titles-total>
+                    {intl.formatNumber(model.titleCount)}
+                  </div>
+                </KeyValueLabel>
+              </DetailsViewSection>
             </div>
           )}
           listType="titles"
