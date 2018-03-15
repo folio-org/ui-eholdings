@@ -12,7 +12,7 @@ import ToggleSwitch from './toggle-switch';
 import CoverageDateList from './coverage-date-list';
 import { isBookPublicationType, isValidCoverageList } from './utilities';
 import Modal from './modal';
-import CustomEmbargoForm from './custom-embargo';
+import CustomEmbargoForm from './custom-embargo-form';
 import CustomerResourceCoverage from './customer-resource-coverage';
 import NavigationModal from './navigation-modal';
 import DetailsViewSection from './details-view-section';
@@ -110,6 +110,13 @@ export default class CustomerResourceShow extends Component {
       }];
     }
 
+    let actionMenuItems = [
+      {
+        label: 'Edit',
+        to: `/eholdings/customer-resources/${model.id}/edit`
+      }
+    ];
+
     return (
       <div>
         <DetailsView
@@ -117,6 +124,7 @@ export default class CustomerResourceShow extends Component {
           model={model}
           paneTitle={model.name}
           paneSub={model.packageName}
+          actionMenuItems={actionMenuItems}
           bodyContent={(
             <div>
               <DetailsViewSection label="Holding status">
