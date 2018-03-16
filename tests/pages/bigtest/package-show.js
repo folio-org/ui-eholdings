@@ -8,7 +8,8 @@ import {
   value,
   fillable,
   triggerable,
-  blurrable
+  blurrable,
+  action
 } from '@bigtest/interaction';
 
 @page class PackageShowModal {
@@ -46,29 +47,29 @@ import {
   blurBeginDate = blurrable('[data-test-eholdings-custom-coverage-date-range-begin] input')
   blurEndDate = blurrable('[data-test-eholdings-custom-coverage-date-range-end] input')
 
-  fillBeginDateField(date) {
+  fillBeginDateField = action(function(date) {
     return this.clickBeginDateField()
-      .append(this.fillBeginDate(date))
-      .append(this.pressEnterBeginDate())
-      .append(this.blurBeginDate());
-  }
+      .fillBeginDate(date)
+      .pressEnterBeginDate()
+      .blurBeginDate();
+  });
 
-  fillEndDateField(date) {
+  fillEndDateField = action(function(date) {
     return this.clickEndDateField()
-      .append(this.fillEndDate(date))
-      .append(this.pressEnterEndDate())
-      .append(this.blurEndDate());
-  }
+      .fillEndDate(date)
+      .pressEnterEndDate()
+      .blurEndDate();
+  });
 
   enterAndClearBeginDate(date) {
     return this.fillBeginDateField(date)
-      .append(this.clearBeginDate())
-      .append(this.blurBeginDate());
+      .clearBeginDate()
+      .blurBeginDate();
   }
 
   enterBeginDateAfterEndDate(beginDate, endDate) {
     return this.fillBeginDateField(beginDate)
-      .append(this.fillEndDateField(endDate));
+      .fillEndDateField(endDate);
   }
 }
 
