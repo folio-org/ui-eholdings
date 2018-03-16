@@ -48,13 +48,6 @@ export default {
     return convergeOn(() => expect($radio).to.have.prop('checked'));
   },
 
-  clearFilter(name) {
-    this.$searchFilters.find(`input[name="${name}"]`)
-      .closest('section').find('[role="heading"] button:nth-child(2)')
-      .get(0)
-      .click();
-  },
-
   get $searchResultsItems() {
     return $('[data-test-query-list="providers"] li a');
   },
