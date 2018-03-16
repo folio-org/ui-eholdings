@@ -62,35 +62,6 @@ class CustomEmbargoForm extends Component {
     this.props.initialize(this.props.initialValues);
   }
 
-  renderTextField = ({ input, meta: { touched, error } }) => {
-    return (
-      <div>
-        <TextField
-          {...input}
-        />
-        {touched && ((error && <span className={styles['error-message']}>{error}</span>))}
-      </div>
-    );
-  }
-
-  renderDropDown = ({ input, meta: { touched, error } }) => {
-    return (
-      <div>
-        <Select
-          {...input}
-          dataOptions={[
-            { value: '', label: 'None' },
-            { value: 'Days', label: 'Days' },
-            { value: 'Weeks', label: 'Weeks' },
-            { value: 'Months', label: 'Months' },
-            { value: 'Years', label: 'Years' }
-          ]}
-        />
-        {touched && ((error && <span className={styles['error-message']}>{error}</span>))}
-      </div>
-    );
-  }
-
   render() {
     let {
       pristine,
@@ -117,18 +88,24 @@ class CustomEmbargoForm extends Component {
               <div className={styles['custom-embargo-component-width']}>
                 <div data-test-eholdings-customer-resource-custom-embargo-textfield className={styles['custom-embargo-text-field']}>
                   <Field
-                    name='customEmbargoValue'
-                    type="number"
+                    name="customEmbargoValue"
                     parse={value => (!value ? null : (Number.isNaN(Number(value)) ? '' : Number(value)))}
-                    component={this.renderTextField}
+                    component={TextField}
                   />
                 </div>
               </div>
               <div className={styles['custom-embargo-component-width']}>
                 <div data-test-eholdings-customer-resource-custom-embargo-select className={styles['flex-item-right-bottom-margin']}>
                   <Field
-                    name='customEmbargoUnit'
-                    component={this.renderDropDown}
+                    name="customEmbargoUnit"
+                    component={Select}
+                    dataOptions={[
+                      { value: '', label: 'None' },
+                      { value: 'Days', label: 'Days' },
+                      { value: 'Weeks', label: 'Weeks' },
+                      { value: 'Months', label: 'Months' },
+                      { value: 'Years', label: 'Years' }
+                    ]}
                     onChange={(event, newValue) => {
                       if (newValue === '') {
                         change('customEmbargoValue', 0);

@@ -66,17 +66,6 @@ class CustomerResourceCoverage extends Component {
     this.props.initialize(this.props.initialValues);
   }
 
-  renderDatepicker = ({ input, label, meta, id }) => {
-    return (
-      <Datepicker
-        label={label}
-        input={input}
-        meta={meta}
-        id={id}
-      />
-    );
-  }
-
   renderCoverageFields = ({ fields }) => {
     return (
       <div>
@@ -99,7 +88,7 @@ class CustomerResourceCoverage extends Component {
                   <Field
                     name={`${dateRange}.beginCoverage`}
                     type="text"
-                    component={this.renderDatepicker}
+                    component={Datepicker}
                     label="Start date"
                     id="begin-coverage"
                   />
@@ -111,7 +100,7 @@ class CustomerResourceCoverage extends Component {
                   <Field
                     name={`${dateRange}.endCoverage`}
                     type="text"
-                    component={this.renderDatepicker}
+                    component={Datepicker}
                     label="End date"
                     id="end-coverage"
                   />
