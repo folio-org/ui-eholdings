@@ -36,10 +36,6 @@ export default {
     return $('[data-test-eholdings-details-view-name="package"]').text();
   },
 
-  get provider() {
-    return $('[data-test-eholdings-package-details-provider]').text();
-  },
-
   get contentType() {
     return $('[data-test-eholdings-package-details-content-type]').text();
   },
@@ -100,10 +96,6 @@ export default {
     ));
   },
 
-  get beginCoverage() {
-    return $('[data-test-eholdings-package-details-custom-begin-coverage]').find('input').val();
-  },
-
   get isSelecting() {
     return $('[data-test-eholdings-package-details-selected] [data-test-toggle-switch]').attr('class').indexOf('is-pending--') !== -1;
   },
@@ -152,14 +144,6 @@ export default {
     ));
   },
 
-  toggleAllowKbToAddTitles() {
-    return convergeOn(() => {
-      expect($('[data-test-eholdings-package-details-allow-add-new-titles]')).to.exist;
-    }).then(() => (
-      $('[data-test-eholdings-package-details-allow-add-new-titles] input').click()
-    ));
-  },
-
   get isHiding() {
     return $('[data-test-eholdings-package-details-hidden] [data-test-toggle-switch]').attr('class').indexOf('is-pending--') !== -1;
   },
@@ -171,12 +155,7 @@ export default {
   get isHidden() {
     return $('[data-test-eholdings-package-details-hidden] input').prop('checked') === false;
   },
-  get allowKbToAddTitles() {
-    return $('[data-test-eholdings-package-details-allow-add-new-titles] input').prop('checked') === true;
-  },
-  get allowKbToAddTitlesToggle() {
-    return $('[package-details-toggle-allow-add-new-titles-switch]');
-  },
+
   get allTitlesHidden() {
     return !!this.titleList.length && this.titleList.every(title => title.isHidden);
   },
@@ -203,10 +182,6 @@ export default {
 
     $list.scrollTop = scrollOffset;
     $list.dispatchEvent(new Event('scroll'));
-  },
-
-  get $customCoverageCancelButton() {
-    return $('[data-test-eholdings-package-details-cancel-custom-coverage-button] button');
   },
 
   get $customCoverageAddButton() {
@@ -242,16 +217,6 @@ export default {
 
   clearBeginDate() {
     let $clearButton = $('[data-test-eholdings-package-details-custom-begin-coverage]')
-      .find('button[id^=datepicker-clear-button]');
-    return convergeOn(() => {
-      expect($clearButton).to.exist;
-    }).then(() => {
-      $clearButton.click();
-    });
-  },
-
-  clearEndDate() {
-    let $clearButton = $('[data-test-eholdings-package-details-custom-end-coverage]')
       .find('button[id^=datepicker-clear-button]');
     return convergeOn(() => {
       expect($clearButton).to.exist;

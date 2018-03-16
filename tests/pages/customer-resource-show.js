@@ -7,10 +7,6 @@ export default {
     return $('[data-test-eholdings-details-view="resource"]');
   },
 
-  clickPackage() {
-    return $('[data-test-eholdings-customer-resource-show-package-name] a').get(0).click();
-  },
-
   get isSelected() {
     return $('[data-test-eholdings-customer-resource-show-selected] input').prop('checked');
   },
@@ -67,10 +63,6 @@ export default {
     return $('[data-test-eholdings-customer-resource-show-managed-coverage-list]').text();
   },
 
-  get isEditingCoverage() {
-    return $('[data-test-eholdings-coverage-form] form').length === 1;
-  },
-
   get customEmbargoPeriod() {
     return $('[data-test-eholdings-customer-resource-custom-embargo-display]').text();
   },
@@ -90,8 +82,4 @@ export default {
   cancelDeselection() {
     return $('[data-test-eholdings-customer-resource-deselection-confirmation-modal-no]').trigger('click');
   },
-
-  get $navigationModal() {
-    return $('#navigation-modal');
-  }
 };
