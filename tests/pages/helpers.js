@@ -40,23 +40,6 @@ export function advancedFillIn(el, value) {
   });
 }
 
-export function blur(el) {
-  let node = $(el).get(0);
-
-  // the error should not be reported for passing tests
-  /* istanbul ignore else */
-  if (node) {
-    node.dispatchEvent(
-      new MouseEvent('blur', {
-        bubbles: true,
-        cancelable: true
-      })
-    );
-  } else {
-    throw new Error('Blur node does not exist.');
-  }
-}
-
 export function pressEnter(el) {
   let $node = $(el).get(0);
 
