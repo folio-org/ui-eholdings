@@ -71,15 +71,23 @@
     lodash "^4.2.0"
     to-fast-properties "^2.0.0"
 
+"@bigtest/convergence@^0.3.0":
+  version "0.3.0"
+  resolved "https://registry.yarnpkg.com/@bigtest/convergence/-/convergence-0.3.0.tgz#c69a8219e5c6f3b092651117debd3990610118c8"
+
+"@bigtest/convergence@^0.4.0":
+  version "0.4.0"
+  resolved "https://registry.yarnpkg.com/@bigtest/convergence/-/convergence-0.4.0.tgz#dc4caa274e4d8e91e5a63eefa8bb76b422e2c7f2"
+
 "@bigtest/convergence@^0.5.0":
   version "0.5.0"
   resolved "https://registry.yarnpkg.com/@bigtest/convergence/-/convergence-0.5.0.tgz#1d84f05e8e88869358050dabc28cf883872c41ca"
 
-"@bigtest/interaction@^0.2.0":
-  version "0.2.0"
-  resolved "https://registry.yarnpkg.com/@bigtest/interaction/-/interaction-0.2.0.tgz#2110eec1c3c2800d730138e751343bef3435c031"
+"@bigtest/interaction@^0.1.0":
+  version "0.1.0"
+  resolved "https://registry.yarnpkg.com/@bigtest/interaction/-/interaction-0.1.0.tgz#5fe97b50f78d541cce81205785995602d09a2b03"
   dependencies:
-    "@bigtest/convergence" "^0.5.0"
+    "@bigtest/convergence" "^0.3.0"
 
 "@bigtest/mirage@^0.0.1":
   version "0.0.1"

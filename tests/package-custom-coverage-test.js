@@ -5,7 +5,7 @@ import Convergence from '@bigtest/convergence';
 import { describeApplication } from './helpers';
 import PackageShowPage from './pages/bigtest/package-show';
 
-describeApplication.only('PackageCustomCoverage', () => {
+describeApplication('PackageCustomCoverage', () => {
   let provider,
     pkg;
 
@@ -242,14 +242,9 @@ describeApplication.only('PackageCustomCoverage', () => {
           expect(PackageShowPage.dateFields.hasEndDateField).to.be.false;
         });
 
-        // hmm, this passes in isoloation but not with any other tests
-        // the beforeEach convergence fails?
-        // PackageShowPage.clickCustomCoverageCancelButton() fails with:
-        // `convergence exceeded the 0ms timeout`
-
-        // it('displays the button to add custom coverage', () => {
-        //   expect(PackageShowPage.hasCustomCoverageAddButton).to.be.true;
-        // });
+        it('displays the button to add custom coverage', () => {
+          expect(PackageShowPage.hasCustomCoverageAddButton).to.be.true;
+        });
       });
     });
   });
