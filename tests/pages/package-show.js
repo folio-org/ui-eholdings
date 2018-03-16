@@ -8,10 +8,6 @@ function createTitleObject(element) {
   let $scope = $(element);
 
   return {
-    get name() {
-      return $scope.find('[data-test-eholdings-title-list-item-title-name]').text();
-    },
-
     get isSelected() {
       return $scope.find('[data-test-eholdings-title-list-item-title-selected]').text() === 'Selected';
     },
@@ -30,18 +26,6 @@ export default {
 
   get $detailPaneContents() {
     return $('[data-test-eholdings-detail-pane-contents]');
-  },
-
-  get name() {
-    return $('[data-test-eholdings-details-view-name="package"]').text();
-  },
-
-  get contentType() {
-    return $('[data-test-eholdings-package-details-content-type]').text();
-  },
-
-  get numTitles() {
-    return $('[data-test-eholdings-package-details-titles-total]').text();
   },
 
   get numTitlesSelected() {
@@ -120,10 +104,6 @@ export default {
     return $('[data-test-eholdings-package-deselection-confirmation-modal-no]').trigger('click');
   },
 
-  get hasErrors() {
-    return $('[data-test-eholdings-details-view-error="package"]').length > 0;
-  },
-
   get $titleContainer() {
     return $('[data-test-eholdings-details-view-list="package"]');
   },
@@ -165,14 +145,6 @@ export default {
 
   get customCoverage() {
     return $('[data-test-eholdings-package-details-custom-coverage-display]').text();
-  },
-
-  get $backButton() {
-    return $('[data-test-eholdings-details-view-back-button] button');
-  },
-
-  get paneTitle() {
-    return $('[data-test-eholdings-details-view-pane-title]').text();
   },
 
   scrollToTitleOffset(readOffset) {
