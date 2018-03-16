@@ -47,14 +47,14 @@ import {
   blurBeginDate = blurrable('[data-test-eholdings-custom-coverage-date-range-begin] input')
   blurEndDate = blurrable('[data-test-eholdings-custom-coverage-date-range-end] input')
 
-  fillBeginDateField = action(function(date) {
+  fillBeginDateField = action(function (date) {
     return this.clickBeginDateField()
       .fillBeginDate(date)
       .pressEnterBeginDate()
       .blurBeginDate();
   });
 
-  fillEndDateField = action(function(date) {
+  fillEndDateField = action(function (date) {
     return this.clickEndDateField()
       .fillEndDate(date)
       .pressEnterEndDate()
