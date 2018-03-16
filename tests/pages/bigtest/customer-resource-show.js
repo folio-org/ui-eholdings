@@ -59,8 +59,8 @@ import {
   clickCustomEmbargoCancelButton = clickable('[data-test-eholdings-customer-resource-cancel-custom-embargo-button] button');
   hasCustomEmbargoCancelButton = isPresent('[data-test-eholdings-customer-resource-cancel-custom-embargo-button] button');
   isCustomEmbargoCancelDisabled = property('disabled', '[data-test-eholdings-customer-resource-cancel-custom-embargo-button] button');
-  validationErrorOnTextField = text('[data-test-eholdings-customer-resource-custom-embargo-textfield] [class^="error-message--"]');
-  validationErrorOnSelect = text('[data-test-eholdings-customer-resource-custom-embargo-select] [class^="error-message--"]');
+  validationErrorOnTextField = text('[data-test-eholdings-customer-resource-custom-embargo-textfield] [class^="feedbackError--"]');
+  validationErrorOnSelect = text('[data-test-eholdings-customer-resource-custom-embargo-select] [class^="feedbackError--"]');
   clickCustomEmbargoEditButton = clickable('[data-test-eholdings-customer-resource-edit-custom-embargo-button] button');
 
   identifiersList = collection('[data-test-eholdings-identifiers-list-item]', {

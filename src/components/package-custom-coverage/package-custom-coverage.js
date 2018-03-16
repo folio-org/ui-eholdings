@@ -45,16 +45,6 @@ class PackageCustomCoverage extends Component {
     }
   }
 
-  renderDatepicker = ({ input, label, meta }) => {
-    return (
-      <Datepicker
-        label={label}
-        input={input}
-        meta={meta}
-      />
-    );
-  }
-
   renderCoverageFields = ({ fields }) => {
     return (
       <div>
@@ -92,7 +82,7 @@ class PackageCustomCoverage extends Component {
                   <Field
                     name={`${dateRange}.beginCoverage`}
                     type="text"
-                    component={this.renderDatepicker}
+                    component={Datepicker}
                     label="Start date"
                   />
                 </div>
@@ -103,7 +93,7 @@ class PackageCustomCoverage extends Component {
                   <Field
                     name={`${dateRange}.endCoverage`}
                     type="text"
-                    component={this.renderDatepicker}
+                    component={Datepicker}
                     label="End date"
                   />
                 </div>
