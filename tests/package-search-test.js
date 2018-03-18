@@ -69,7 +69,7 @@ describeApplication('PackageSearch', () => {
       });
 
       it('shows the preview pane', () => {
-        expect(PackageSearchPage.previewPaneIsVisible).to.be.true;
+        expect(PackageSearchPage.previewPaneIsVisible('packages')).to.be.true;
       });
 
       it('should not display button in UI', () => {
@@ -82,7 +82,7 @@ describeApplication('PackageSearch', () => {
         });
 
         it('removes the preview detail pane', () => {
-          expect(PackageSearchPage.previewPaneIsVisible).to.not.be.true;
+          expect(PackageSearchPage.previewPaneIsVisible('packages')).to.not.be.true;
         });
 
         it('preserves the last history entry', function () {
@@ -114,7 +114,7 @@ describeApplication('PackageSearch', () => {
         });
 
         it('hides the preview pane', () => {
-          expect(PackageSearchPage.previewPaneIsVisible).to.be.false;
+          expect(PackageSearchPage.previewPaneIsVisible('packages')).to.be.false;
         });
       });
 
@@ -267,7 +267,8 @@ describeApplication('PackageSearch', () => {
         return convergeOn(() => {
           // wait for the previous search to complete
           expect(PackageSearchPage.$searchResultsItems).to.have.lengthOf(3);
-        }).then(() => PackageSearchPage.changeSearchType('titles'));
+        }).then(() => PackageSearchPage.$searchResultsItems[0].click())
+          .then(() => PackageSearchPage.changeSearchType('titles'));
       });
 
       it('only shows one search type as selected', () => {
@@ -282,6 +283,10 @@ describeApplication('PackageSearch', () => {
         expect(PackageSearchPage.$searchResultsItems).to.have.lengthOf(0);
       });
 
+      it('does not show the preview pane', () => {
+        expect(PackageSearchPage.previewPaneIsVisible('titles')).to.be.false;
+      });
+
       describe('navigating back to packages search', () => {
         beforeEach(() => {
           return PackageSearchPage.changeSearchType('packages');
@@ -293,6 +298,10 @@ describeApplication('PackageSearch', () => {
 
         it('displays the original search results', () => {
           expect(PackageSearchPage.$searchResultsItems).to.have.lengthOf(3);
+        });
+
+        it('shows the preview pane', () => {
+          expect(PackageSearchPage.previewPaneIsVisible('packages')).to.be.true;
         });
       });
     });

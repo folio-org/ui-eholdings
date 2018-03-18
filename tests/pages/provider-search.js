@@ -68,8 +68,8 @@ export default {
     return $('[data-test-query-list-not-found="providers"]').text();
   },
 
-  get previewPaneIsVisible() {
-    return $('[data-test-preview-pane="providers"]').length === 1;
+  previewPaneIsVisible(searchType) {
+    return $(`[data-test-preview-pane="${searchType}"]`).length === 1;
   },
 
   get providerList() {

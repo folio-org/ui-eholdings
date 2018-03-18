@@ -43,9 +43,11 @@ class SearchRoute extends Component {
 
     // cache queries so we can restore them with the search type buttons
     this.queries = {};
+    this.path = {};
 
     if (searchType) {
       this.queries[searchType] = params;
+      this.path[searchType] = props.location.pathname;
     }
 
     this.state = { params, searchType };
@@ -68,6 +70,7 @@ class SearchRoute extends Component {
     // cache the query so it can be restored via the search type
     if (searchType) {
       this.queries[searchType] = params;
+      this.path[searchType] = location.pathname;
     }
 
     // always update the results state
@@ -131,11 +134,10 @@ class SearchRoute extends Component {
    * @returns {Object} key value pair of search type urls
    */
   getSearchTypeUrls() {
-    let { location } = this.props;
-
     return ['providers', 'packages', 'titles'].reduce((locations, type) => {
       let lastQuery = this.queries[type] || {};
-      let url = this.buildSearchUrl(location.pathname, lastQuery, type);
+      let lastPath = this.path[type] || '/eholdings';
+      let url = this.buildSearchUrl(lastPath, lastQuery, type);
       return { ...locations, [type]: url };
     }, {});
   }

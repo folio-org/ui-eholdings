@@ -5,7 +5,7 @@ import { convergeOn } from '@bigtest/convergence';
 import { describeApplication } from './helpers';
 import TitleSearchPage from './pages/title-search';
 
-describeApplication('TitleSearch', () => {
+describeApplication.only('TitleSearch', () => {
   let titles;
 
   // Odd indexed items are assigned alternate attributes targeted in specific filtering tests
@@ -109,7 +109,7 @@ describeApplication('TitleSearch', () => {
       });
 
       it('shows the preview pane', () => {
-        expect(TitleSearchPage.previewPaneIsVisible('titles')).to.be.true;
+        expect(TitleSearchPage.previewPaneIsVisible).to.be.true;
       });
 
       it('should not display back button in UI', () => {
@@ -122,7 +122,7 @@ describeApplication('TitleSearch', () => {
         });
 
         it('removes the preview detail pane', () => {
-          expect(TitleSearchPage.previewPaneIsVisible('titles')).to.not.be.true;
+          expect(TitleSearchPage.previewPaneIsVisible).to.not.be.true;
         });
 
         it('preserves the last history entry', function () {
@@ -139,7 +139,7 @@ describeApplication('TitleSearch', () => {
         });
 
         it('hides the preview pane', () => {
-          expect(TitleSearchPage.previewPaneIsVisible('titles')).to.be.false;
+          expect(TitleSearchPage.previewPaneIsVisible).to.be.false;
         });
       });
 
@@ -408,7 +408,7 @@ describeApplication('TitleSearch', () => {
       });
 
       it('does not show the preview pane', () => {
-        expect(TitleSearchPage.previewPaneIsVisible('providers')).to.be.false;
+        expect(TitleSearchPage.previewPaneIsVisible).to.be.false;
       });
 
       describe('navigating back to titles search', () => {
@@ -425,7 +425,7 @@ describeApplication('TitleSearch', () => {
         });
 
         it('shows the preview pane', () => {
-          expect(TitleSearchPage.previewPaneIsVisible('titles')).to.be.true;
+          expect(TitleSearchPage.previewPaneIsVisible).to.be.true;
         });
       });
     });
@@ -483,6 +483,132 @@ describeApplication('TitleSearch', () => {
 
           it.always('does not reflect filter[isxn] in search field', function () {
             expect(this.app.history.location.search).to.not.include('filter[isxn]');
+          });
+        });
+      });
+    });
+  });
+
+  describe.only('navigating between search types', () => {
+    beforeEach(function () {
+      this.server.create('provider', {
+        name: 'Provider1'
+      });
+      this.server.create('provider', {
+        name: 'Provider2'
+      });
+      this.server.create('title', {
+        name: 'SwitchTitle1'
+      });
+      this.server.create('title', {
+        name: 'SwitchTitle2'
+      });
+      this.server.create('title', {
+        name: 'SwitchTitle3'
+      });
+    });
+
+    describe('searching for titles', () => {
+      beforeEach(() => {
+        TitleSearchPage.search('SwitchTitle');
+      });
+
+      it('displays titles', () => {
+        expect(TitleSearchPage.$searchResultsItems).to.have.lengthOf(3);
+      });
+
+      describe('clicking a search results list item', () => {
+        beforeEach(() => {
+          return convergeOn(() => {
+            // wait for the previous search to complete
+            expect(TitleSearchPage.$searchResultsItems).to.have.lengthOf(3);
+          }).then(() => TitleSearchPage.$searchResultsItems[0].click());
+        });
+
+        it('clicked item has an active state', () => {
+          expect(TitleSearchPage.titleList[0].isActive).to.be.true;
+        });
+
+        it('shows the preview pane', () => {
+          expect(TitleSearchPage.previewPaneIsVisible).to.be.true;
+        });
+
+        describe('clicking another search type', () => {
+          beforeEach(() => {
+            return convergeOn(() => {
+              // wait for the previous search to complete
+              expect(TitleSearchPage.$searchResultsItems).to.have.lengthOf(3);
+            }).then(() => TitleSearchPage.changeSearchType('providers'));
+          });
+          it('only shows one search type as selected', () => {
+            expect(TitleSearchPage.$selectedSearchType).to.have.lengthOf(1);
+          });
+
+          it('displays an empty search', () => {
+            expect(TitleSearchPage.$providerSearchField).to.have.value('');
+          });
+
+          it('does not display any more results', () => {
+            expect(TitleSearchPage.$searchResultsItems).to.have.lengthOf(0);
+          });
+
+          it('does not show the preview pane', () => {
+            expect(TitleSearchPage.previewPaneIsVisible).to.be.false;
+          });
+
+          describe('performing a provider search', () => {
+            beforeEach(() => {
+              return convergeOn(() => {
+                // wait for the previous search to complete
+                expect(TitleSearchPage.$providersearchResultsItems).to.have.lengthOf(0);
+              }).then(() => TitleSearchPage.providerSearch('Provider'));
+            });
+
+            it('displays a populated search', () => {
+              expect(TitleSearchPage.$providerSearchField).to.have.value('Provider');
+            });
+
+            it('displays results', () => {
+              expect(TitleSearchPage.$providersearchResultsItems).to.have.lengthOf(2);
+            });
+
+            it('does not show the preview pane', () => {
+              expect(TitleSearchPage.providerPreviewPaneIsVisible).to.be.false;
+            });
+
+            describe('clicking a search results list item', () => {
+              beforeEach(() => {
+                return convergeOn(() => {
+                  // wait for the previous search to complete
+                  expect(TitleSearchPage.$providersearchResultsItems).to.have.lengthOf(2);
+                }).then(() => TitleSearchPage.$providerResultsItems[0].click());
+              });
+
+              it('clicked item has an active state', () => {
+                expect(TitleSearchPage.providerList[0].isActive).to.be.true;
+              });
+
+              it('shows the preview pane', () => {
+                expect(TitleSearchPage.providerPreviewPaneIsVisible).to.be.true;
+              });
+              describe('navigating back to titles search', () => {
+                beforeEach(() => {
+                  return TitleSearchPage.changeSearchType('titles');
+                });
+
+                it('displays the original search', () => {
+                  expect(TitleSearchPage.$searchField).to.have.value('SwitchTitle');
+                });
+
+                it('displays the original search results', () => {
+                  expect(TitleSearchPage.$searchResultsItems).to.have.lengthOf(3);
+                });
+
+                it('shows the preview pane', () => {
+                  expect(TitleSearchPage.previewPaneIsVisible).to.be.true;
+                });
+              });
+            });
           });
         });
       });
