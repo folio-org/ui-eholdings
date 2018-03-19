@@ -17,7 +17,7 @@ import {
   cancelDeselection = clickable('[data-test-eholdings-package-deselection-confirmation-modal-no]');
 }
 
-@page class PackageDatePicker {
+@page class PackageDatePickers {
   hasBeginDateField = isPresent('[data-test-eholdings-custom-coverage-date-range-begin] input')
   hasEndDateField = isPresent('[data-test-eholdings-custom-coverage-date-range-end] input')
 
@@ -104,7 +104,7 @@ import {
   isCustomCoverageDisabled = property('disabled', '[data-test-eholdings-package-details-save-custom-coverage-button] button')
   validationError = text('[data-test-eholdings-custom-coverage-date-range-begin] [class^="feedbackError"]')
 
-  dateFields = new PackageDatePicker()
+  dateFields = new PackageDatePickers('[data-test-eholdings-custom-coverage-form]')
 
   deselectAndConfirmPackage() {
     return this.toggleIsSelected().append(this.modal.confirmDeselection());
