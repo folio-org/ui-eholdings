@@ -2,7 +2,6 @@ import {
   blurrable,
   clickable,
   collection,
-  computed,
   fillable,
   isPresent,
   page,
@@ -10,13 +9,7 @@ import {
   text,
   triggerable
 } from '@bigtest/interaction';
-import { isRootPresent } from '../helpers';
-
-let hasClassBeginningWith = (className, selector) => {
-  return computed(function () {
-    return this.$(selector).className.includes(className);
-  });
-};
+import { isRootPresent, hasClassBeginningWith } from '../helpers';
 
 @page class CustomerResourceCustomCoveragePage {
   exists = isRootPresent();

@@ -1,8 +1,8 @@
-import { beforeEach, afterEach, describe, it } from '@bigtest/mocha';
+import { beforeEach, describe, it } from '@bigtest/mocha';
 import { expect } from 'chai';
 
 import { describeApplication } from './helpers';
-import ResourcePage from './pages/customer-resource-show';
+import ResourcePage from './pages/bigtest/customer-resource-show';
 
 describeApplication('CustomerResourceDeselection', () => {
   let provider,
@@ -48,11 +48,11 @@ describeApplication('CustomerResourceDeselection', () => {
 
       describe('deselecting', () => {
         beforeEach(() => {
-          ResourcePage.toggleIsSelected();
+          return ResourcePage.toggleIsSelected();
         });
 
         it('warns the user they are deselecting the final title in the package', () => {
-          expect(ResourcePage.$deselectFinalTitleWarning).to.exist;
+          expect(ResourcePage.deselectionModal.hasDeselectFinalTitleWarning).to.be.true;
         });
       });
     });
@@ -77,7 +77,7 @@ describeApplication('CustomerResourceDeselection', () => {
         });
 
         it('warns the user they are deselecting', () => {
-          expect(ResourcePage.$deselectTitleWarning).to.exist;
+          expect(ResourcePage.deselectionModal.hasDeselectTitleWarning).to.be.true;
         });
 
         it('reflects the desired state (not selected)', () => {
@@ -86,7 +86,7 @@ describeApplication('CustomerResourceDeselection', () => {
 
         describe('canceling the deselection', () => {
           beforeEach(() => {
-            return ResourcePage.cancelDeselection();
+            return ResourcePage.deselectionModal.cancelDeselection();
           });
 
           it('reverts back to the selected state', () => {
@@ -95,13 +95,8 @@ describeApplication('CustomerResourceDeselection', () => {
         });
 
         describe('confirming the deselection', () => {
-          beforeEach(function () {
-            this.server.timing = 50;
-            ResourcePage.confirmDeselection();
-          });
-
-          afterEach(function () {
-            this.server.timing = 0;
+          beforeEach(() => {
+            return ResourcePage.deselectionModal.confirmDeselection();
           });
 
           it('reflects the desired state (not selected)', () => {
@@ -113,7 +108,7 @@ describeApplication('CustomerResourceDeselection', () => {
           });
 
           it('cannot be interacted with while the request is in flight', () => {
-            expect(ResourcePage.isSelectedToggleable).to.equal(false);
+            expect(ResourcePage.isSelectedToggleDisabled).to.equal(true);
           });
 
           describe('when the request succeeds', () => {
@@ -126,12 +121,12 @@ describeApplication('CustomerResourceDeselection', () => {
             });
 
             it('removes custom embargo', () => {
-              expect(ResourcePage.customEmbargoPeriod).to.equal('');
+              expect(ResourcePage.hasCustomEmbargoPeriod).to.equal(false);
             });
 
             it('is not hidden', () => {
               expect(resource.visibilityData.isHidden).to.equal(false);
-              expect(ResourcePage.isHidden).to.equal(false);
+              expect(ResourcePage.hasHiddenToggle).to.equal(false);
             });
           });
         });

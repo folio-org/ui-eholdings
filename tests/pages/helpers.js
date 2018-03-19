@@ -71,3 +71,9 @@ export const isRootPresent = () => {
     }
   });
 };
+
+export const hasClassBeginningWith = (className, selector) => {
+  return computed(function () {
+    return this.$(selector).className.includes(className);
+  });
+};

@@ -146,7 +146,7 @@ describeApplication('CustomerResourceShow', () => {
     describe('navigating away when editing a field', () => {
       beforeEach(() => {
         return ResourcePage
-          .toggleSelected()
+          .toggleIsSelected()
           .addCoverage()
           .clickProvider();
       });

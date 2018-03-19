@@ -8,12 +8,14 @@ import {
   text,
   value
 } from '@bigtest/interaction';
-import { isRootPresent } from '../helpers';
+import { isRootPresent, hasClassBeginningWith } from '../helpers';
 
 
 @page class CustomerResourceShowDeselectionModal {
   confirmDeselection = clickable('[data-test-eholdings-customer-resource-deselection-confirmation-modal-yes]');
   cancelDeselection = clickable('[data-test-eholdings-customer-resource-deselection-confirmation-modal-no]');
+  hasDeselectTitleWarning = isPresent('[data-test-eholdings-deselect-title-warning]');
+  hasDeselectFinalTitleWarning = isPresent('[data-test-eholdings-deselect-final-title-warning]');
 }
 
 @page class CustomerResourceShowNavigationModal {
@@ -34,16 +36,18 @@ import { isRootPresent } from '../helpers';
   hasContentType = isPresent('[data-test-eholdings-customer-resource-show-content-type]');
   hasErrors = isPresent('[data-test-eholdings-details-view-error="resource"]');
   isSelected = property('checked', '[data-test-eholdings-customer-resource-show-selected] input');
-  toggleSelected = clickable('[data-test-eholdings-customer-resource-show-selected] input');
+  isSelecting = hasClassBeginningWith('is-pending--', '[data-test-eholdings-customer-resource-show-selected] [data-test-toggle-switch]');
   addCoverage = clickable('[data-test-eholdings-coverage-form-add-button] button');
   hasBackButton = isPresent('[data-test-eholdings-details-view-back-button] button');
   paneTitle = text('[data-test-eholdings-details-view-pane-title]');
   paneSub = text('[data-test-eholdings-details-view-pane-sub]');
+  isSelectedToggleDisabled = property('disabled', '[data-test-eholdings-customer-resource-show-selected] input[type=checkbox]');
   toggleIsSelected = clickable('[data-test-eholdings-customer-resource-show-selected] input');
   isEditingCustomEmbargo = isPresent('[data-test-eholdings-embargo-form] form');
   clickPackage = clickable('[data-test-eholdings-customer-resource-show-package-name] a');
   deselectionModal = new CustomerResourceShowDeselectionModal('#eholdings-customer-resource-deselection-confirmation-modal');
   navigationModal = new CustomerResourceShowNavigationModal('#navigation-modal');
+  hasHiddenToggle = isPresent('[data-test-eholdings-customer-resource-toggle-hidden] input');
 
   managedEmbargoPeriod = text('[data-test-eholdings-customer-resource-show-managed-embargo-period]');
   hasManagedEmbargoPeriod = isPresent('[data-test-eholdings-customer-resource-show-managed-embargo-period]');
