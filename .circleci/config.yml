@@ -47,7 +47,7 @@ jobs:
           at: ~/
       - run:
           name: Run tests
-          command: yarn test --karma.singleRun --coverage
+          command: yarn test --karma.singleRun --karma.browsers=Chrome --coverage
       - store_test_results:
           path: ./artifacts/junit
       - store_artifacts:
@@ -74,13 +74,13 @@ jobs:
 
   test-firefox:
     docker:
-      - image: circleci/node:latest
+      - image: circleci/node:latest-browsers
     steps:
       - attach_workspace:
           at: ~/
       - run:
           name: Run tests
-          command: yarn test --karma.singleRun --karma.browsers=bs_firefox_mac || true
+          command: yarn test --karma.singleRun --karma.browsers=Firefox || true
       - store_test_results:
           path: ./artifacts/junit
       - store_artifacts:
