@@ -136,8 +136,9 @@ describeApplication('PackageCustomCoverage', () => {
       describe('entering valid coverage', () => {
         describe('with begin date and end date', () => {
           beforeEach(() => {
-            return PackageShowPage.dateFields.fillBeginDate('12/16/2018')
-              .append(PackageShowPage.dateFields.fillEndDate('12/24/2018'));
+            return PackageShowPage.dateFields
+              .fillBeginDate('12/16/2018')
+              .fillEndDate('12/24/2018');
           });
 
           it('accepts valid begin date', () => {
