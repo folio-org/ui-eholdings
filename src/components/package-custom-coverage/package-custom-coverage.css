@@ -1,17 +1,22 @@
 @import '@folio/stripes-components/lib/variables';
 
-.custom-coverage-form,
-.custom-coverage-form-editing {
-  padding: 0.5em;
-}
-
-.custom-coverage-form-editing {
-  background: #e6f3ff;
+.custom-coverage-form {
+  &.is-editing {
+    background: #e6f3ff;
+    padding: 1em;
+  }
 }
 
 .custom-coverage-action-buttons {
+  border-top: 1px solid var(--minor-divider-color);
   display: flex;
   margin-top: 1em;
+  padding-top: 1em;
+  align-items: flex-start;
+}
+
+.custom-coverage-action-button {
+  margin-right: 0.25em;
 }
 
 .custom-coverage-date-display {
@@ -19,21 +24,38 @@
   align-items: center;
 }
 
-.custom-coverage-dates {
+.custom-coverage-date-range-rows {
+  list-style-type: none;
+  padding: 0;
+}
+
+.custom-coverage-date-range-row {
   display: flex;
   align-items: flex-start;
 }
 
-.custom-coverage-date-clear-row {
-  flex: 0 0 3em;
-  margin-top: 1.5em;
-  text-align: center;
-}
-
-.custom-coverage-date-picker {
+.custom-coverage-datepicker {
   align-self: flex-start;
   flex: 1 1 200px;
   margin-right: 1em;
+}
+
+.custom-coverage-date-range-clear-row {
+  flex: 0 0 3em;
+  margin-top: 2.25em;
+  text-align: center;
+
+  @media (--mediumUp) {
+    margin-top: 1.5em;
+  }
+}
+
+.custom-coverage-add-row-button button {
+  width: 100%;
+
+  @media (--mediumUp) {
+    width: auto;
+  }
 }
 
 .custom-coverage-add-button {

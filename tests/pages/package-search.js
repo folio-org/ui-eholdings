@@ -1,6 +1,6 @@
 import $ from 'jquery';
 import { expect } from 'chai';
-import { convergeOn } from '../it-will';
+import { convergeOn } from '@bigtest/convergence';
 import { triggerChange } from '../helpers';
 
 function createPackageObject(element) {
@@ -15,16 +15,12 @@ function createPackageObject(element) {
       return $scope.find('[data-test-eholdings-package-list-item-provider-name]').text();
     },
 
-    get numTitles() {
-      return parseInt($scope.find('[data-test-eholdings-package-list-item-num-titles]').text(), 10);
-    },
-
-    get numTitlesSelected() {
-      return parseInt($scope.find('[data-test-eholdings-package-list-item-num-titles-selected]').text(), 10);
-    },
-
     get isSelected() {
       return $scope.find('[data-test-eholdings-package-list-item-selected]').text().toLowerCase() === 'selected';
+    },
+
+    get isActive() {
+      return $scope.attr('class').indexOf('is-selected---') !== -1;
     }
   };
 }
@@ -35,7 +31,7 @@ export default {
   },
 
   get $searchField() {
-    return $('[data-test-search-field]');
+    return $('[data-test-search-field]').find('input[name="search"]');
   },
 
   get $titleSearchField() {
@@ -71,7 +67,7 @@ export default {
   },
 
   get $backButton() {
-    return $('[data-test-eholdings-package-details-back-button] button');
+    return $('[data-test-eholdings-details-view-back-button] button');
   },
 
   get $selectedSearchType() {
@@ -83,7 +79,7 @@ export default {
   },
 
   search(query) {
-    let $input = $('[data-test-search-field]').val(query);
+    let $input = $('[data-test-search-field]').find('input[name="search"]').val(query);
     triggerChange($input.get(0));
 
     return convergeOn(() => {
@@ -126,7 +122,7 @@ export default {
   },
 
   clickBackButton() {
-    return $('[data-test-eholdings-customer-resource-show-back-button] button').trigger('click');
+    return $('[data-test-eholdings-details-view-back-button] button').trigger('click');
   },
 
   scrollToOffset(readOffset) {

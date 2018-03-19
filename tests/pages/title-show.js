@@ -19,6 +19,10 @@ export default {
     return $('[data-test-eholdings-details-view="title"]');
   },
 
+  get $detailPaneContents() {
+    return $('[data-test-eholdings-detail-pane-contents]');
+  },
+
   get titleName() {
     return $('[data-test-eholdings-details-view-name="title"]').text();
   },
@@ -56,7 +60,11 @@ export default {
   },
 
   get $backButton() {
-    return $('[data-test-eholdings-title-show-back-button] button');
+    return $('[data-test-eholdings-details-view-back-button] button');
+  },
+
+  get paneTitle() {
+    return $('[data-test-eholdings-details-view-pane-title]').text();
   },
 
   scrollToPackageOffset(readOffset) {

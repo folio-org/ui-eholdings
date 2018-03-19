@@ -1,56 +1,6 @@
 import { okapi } from 'stripes-config'; // eslint-disable-line import/no-unresolved
-import { Response } from 'mirage-server';
-
-/**
- * Helper for creating a search route for a resource type.
- * Currently includes pagination and searching by name.
- * @param {String} resourceType - resource type's model name
- * @param {Function} [filter] - optional filter function
- * @returns {Function} route handler for a search route of this
- * resource type
- */
-function searchRouteFor(resourceType, filter = (model, req) => {
-  let query = req.queryParams.q.toLowerCase();
-  return model.name && model.name.toLowerCase().includes(query);
-}) {
-  return function (schema, req) { // eslint-disable-line func-names
-    let page = Math.max(parseInt(req.queryParams.page || 1, 10), 1);
-    let count = parseInt(req.queryParams.count || 25, 10);
-    let offset = (page - 1) * count;
-
-    let collection = schema[resourceType];
-    let json = this.serialize(collection.all().filter((model) => {
-      return filter(model, req);
-    }));
-
-    json.meta = { totalResults: json.data.length };
-    json.data = json.data.slice(offset, offset + count);
-    return json;
-  };
-}
-
-/**
- * Helper for creating a nested resource route. Currently only accepts
- * page and count params.
- * @param {String} foreignKey - parent resource foreign key prefix
- * @param {String} resourceType - nested resource's model name
- * @returns {Function} route handler for a nested resource
- */
-function nestedResourceRouteFor(foreignKey, resourceType) {
-  return function (schema, req) { // eslint-disable-line func-names
-    let page = Math.max(parseInt(req.queryParams.page || 1, 10), 1);
-    let count = parseInt(req.queryParams.count || 25, 10);
-    let offset = (page - 1) * count;
-
-    let json = this.serialize(schema[resourceType].where({
-      [`${foreignKey}Id`]: req.params.id
-    }));
-
-    json.meta = { totalResults: json.data.length };
-    json.data = json.data.slice(offset, offset + count);
-    return json;
-  };
-}
+import { Response } from '@bigtest/mirage';
+import { searchRouteFor, nestedResourceRouteFor, includesWords } from './helpers';
 
 // typical mirage config export
 export default function configure() {
@@ -179,7 +129,7 @@ export default function configure() {
     let params = req.queryParams;
     let type = params['filter[type]'];
     let selected = params['filter[selected]'];
-    let filtered = pkg.name && pkg.name.toLowerCase().includes(query);
+    let filtered = pkg.name && includesWords(pkg.name, query);
 
     if (filtered && type && type !== 'all') {
       filtered = pkg.contentType.toLowerCase() === type;
@@ -213,7 +163,7 @@ export default function configure() {
     });
 
     let body = JSON.parse(request.requestBody);
-    let { isSelected, customCoverage, visibilityData } = body.data.attributes;
+    let { isSelected, allowKbToAddTitles, customCoverage, visibilityData } = body.data.attributes;
 
     let selectedCount = isSelected ? matchingCustomerResources.length : 0;
 
@@ -223,6 +173,7 @@ export default function configure() {
     matchingPackage.update('customCoverage', customCoverage);
     matchingPackage.update('selectedCount', selectedCount);
     matchingPackage.update('visibilityData', visibilityData);
+    matchingPackage.update('allowKbToAddTitles', allowKbToAddTitles);
 
     return matchingPackage;
   });
@@ -241,13 +192,13 @@ export default function configure() {
     let filtered = true;
 
     if (name) {
-      filtered = title.name && title.name.toLowerCase().includes(name.toLowerCase());
+      filtered = title.name && includesWords(title.name, name);
     } else if (isxn) {
-      filtered = title.identifiers && title.identifiers.some(i => i.id.toLowerCase().includes(isxn.toLowerCase()));
+      filtered = title.identifiers && title.identifiers.some(i => includesWords(i.id, isxn));
     } else if (subject) {
-      filtered = title.subjects && title.subjects.some(s => s.subject.toLowerCase().includes(subject.toLowerCase()));
+      filtered = title.subjects && title.subjects.some(s => includesWords(s.subject, subject));
     } else if (publisher) {
-      filtered = title.publisherName && title.publisherName.toLowerCase().includes(publisher.toLowerCase());
+      filtered = title.publisherName && includesWords(title.publisherName, publisher);
     }
 
     if (filtered && type && type !== 'all') {
@@ -280,11 +231,17 @@ export default function configure() {
     let matchingCustomerResource = customerResources.find(request.params.id);
 
     let body = JSON.parse(request.requestBody);
-    let { isSelected, visibilityData, customCoverages } = body.data.attributes;
+    let {
+      isSelected,
+      visibilityData,
+      customCoverages,
+      customEmbargoPeriod
+    } = body.data.attributes;
 
     matchingCustomerResource.update('isSelected', isSelected);
     matchingCustomerResource.update('visibilityData', visibilityData);
     matchingCustomerResource.update('customCoverages', customCoverages);
+    matchingCustomerResource.update('customEmbargoPeriod', customEmbargoPeriod);
 
     return matchingCustomerResource;
   });

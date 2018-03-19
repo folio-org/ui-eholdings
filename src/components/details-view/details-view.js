@@ -5,8 +5,10 @@ import capitalize from 'lodash/capitalize';
 
 import PaneHeader from '@folio/stripes-components/lib/PaneHeader';
 import Icon from '@folio/stripes-components/lib/Icon';
+import IconButton from '@folio/stripes-components/lib/IconButton';
+import PaneMenu from '@folio/stripes-components/lib/PaneMenu';
+import Link from 'react-router-dom/Link';
 
-import KeyValueLabel from '../key-value-label';
 import styles from './details-view.css';
 
 const cx = classNames.bind(styles);
@@ -32,11 +34,16 @@ export default class DetailsView extends Component {
       isLoading: PropTypes.bool.isRequired,
       request: PropTypes.object.isRequired
     }).isRequired,
-    showPaneHeader: PropTypes.bool,
-    paneHeaderFirstMenu: PropTypes.node,
+    paneTitle: PropTypes.oneOfType([PropTypes.string, PropTypes.element, PropTypes.node]),
+    paneSub: PropTypes.oneOfType([PropTypes.string, PropTypes.element, PropTypes.node]),
     bodyContent: PropTypes.node.isRequired,
-    listHeader: PropTypes.string,
+    listType: PropTypes.string,
     renderList: PropTypes.func
+  };
+
+  static contextTypes = {
+    router: PropTypes.object,
+    queryParams: PropTypes.object
   };
 
   state = {
@@ -138,12 +145,18 @@ export default class DetailsView extends Component {
     let {
       type,
       model,
-      showPaneHeader,
-      paneHeaderFirstMenu,
       bodyContent,
-      listHeader,
-      renderList
+      listType,
+      renderList,
+      paneTitle,
+      paneSub
     } = this.props;
+
+    let {
+      router,
+      queryParams
+    } = this.context;
+
     let {
       isSticky
     } = this.state;
@@ -152,26 +165,49 @@ export default class DetailsView extends Component {
       locked: isSticky
     });
 
+    let historyState = router.history.location.state;
+
     return (
-      <div>
-        {showPaneHeader && (
-          <PaneHeader firstMenu={paneHeaderFirstMenu} />
-        )}
+      <div data-test-eholdings-details-view={type}>
+        <PaneHeader
+          firstMenu={queryParams.searchType ? (
+            <PaneMenu>
+              <Link to='/eholdings'>
+                <IconButton
+                  icon="closeX"
+                />
+              </Link>
+            </PaneMenu>
+          ) : historyState && historyState.eholdings && (
+            <PaneMenu>
+              <div data-test-eholdings-details-view-back-button>
+                <IconButton icon="left-arrow" onClick={() => router.history.goBack()} />
+              </div>
+            </PaneMenu>
+          )}
+          paneTitle={(
+            <span data-test-eholdings-details-view-pane-title>{paneTitle}</span>
+          )}
+          paneSub={(
+            <span data-test-eholdings-details-view-pane-sub>{paneSub}</span>
+          )}
+        />
 
         <div
           ref={(n) => { this.$container = n; }}
           className={containerClassName}
           onScroll={this.handleScroll}
           onWheel={this.handleWheel}
-          data-test-eholdings-details-view={type}
+          data-test-eholdings-detail-pane-contents
         >
           {model.isLoaded ? [
             <div key="header" className={styles.header}>
-              <KeyValueLabel label={capitalize(type)}>
-                <h1 data-test-eholdings-details-view-name={type}>
-                  {model.name}
-                </h1>
-              </KeyValueLabel>
+              <h2 data-test-eholdings-details-view-name={type}>
+                {paneTitle}
+              </h2>
+              {paneSub &&
+                <p>{paneSub}</p>
+              }
             </div>,
 
             <div key="body" className={styles.body}>
@@ -191,7 +227,11 @@ export default class DetailsView extends Component {
               className={styles.sticky}
               data-test-eholdings-details-view-list={type}
             >
-              <h3>{listHeader}</h3>
+              <div className={styles['list-header']}>
+                <h3>
+                  {capitalize(listType)}
+                </h3>
+              </div>
 
               <div ref={(n) => { this.$list = n; }} className={styles.list}>
                 {renderList(isSticky)}

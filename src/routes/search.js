@@ -9,9 +9,7 @@ import Title from '../redux/title';
 
 import ProviderSearchList from '../components/provider-search-list';
 import PackageSearchList from '../components/package-search-list';
-import PackageSearchFilters from '../components/package-search-filters';
 import TitleSearchList from '../components/title-search-list';
-import TitleSearchFilters from '../components/title-search-filters';
 import SearchPaneset from '../components/search-paneset';
 import SearchForm from '../components/search-form';
 
@@ -23,7 +21,8 @@ class SearchRoute extends Component {
     }).isRequired,
     history: PropTypes.shape({
       push: PropTypes.func.isRequired,
-      replace: PropTypes.func.isRequired
+      replace: PropTypes.func.isRequired,
+      location: PropTypes.object
     }).isRequired,
     searchProviders: PropTypes.func.isRequired,
     searchPackages: PropTypes.func.isRequired,
@@ -150,6 +149,11 @@ class SearchRoute extends Component {
     // if the new query is different from our location, update the location
     if (qs.stringify(params) !== qs.stringify(this.state.params)) {
       let url = this.buildSearchUrl(location.pathname, params);
+
+      // if new query is different from current query this will close detail pane
+      if (params.q !== this.state.params.q) {
+        url = this.buildSearchUrl('/eholdings', params);
+      }
       // if only the filters have changed, just replace the current location
       if (params.q === this.state.params.q) {
         history.replace(url);
@@ -200,22 +204,6 @@ class SearchRoute extends Component {
     let { offset, ...params } = this.state.params;
     this.search({ ...params, page });
   };
-
-  /**
-   * Returns the component that is responsible for rendering filters
-   * for the current searchType
-   */
-  getFiltersComponent() {
-    let { searchType } = this.state;
-
-    if (searchType === 'titles') {
-      return TitleSearchFilters;
-    } else if (searchType === 'packages') {
-      return PackageSearchFilters;
-    }
-
-    return null;
-  }
 
   /**
    * Renders the search component specific to the current search type
@@ -271,9 +259,10 @@ class SearchRoute extends Component {
                 searchString={params.q}
                 filter={params.filter}
                 searchfield={params.searchfield}
+                sort={params.sort}
                 searchTypeUrls={this.getSearchTypeUrls()}
-                filtersComponent={this.getFiltersComponent()}
                 onSearch={this.handleSearch}
+                isLoading={params.q && !results.hasLoaded}
               />
             )}
           />

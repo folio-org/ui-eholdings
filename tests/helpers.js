@@ -5,7 +5,7 @@ import chai from 'chai';
 import chaiJquery from 'chai-jquery';
 import $ from 'jquery';
 import { render, unmountComponentAtNode } from 'react-dom';
-import { convergeOn } from './it-will';
+import Convergence from '@bigtest/convergence';
 import startMirage from '../mirage/start';
 import TestHarness from './harness';
 
@@ -36,6 +36,7 @@ export function describeApplication(name, setup, describe = window.describe) {
     beforeEach(function () {
       rootElement = document.createElement('div');
       rootElement.id = 'react-testing';
+      rootElement.style.height = '100%';
       document.body.appendChild(rootElement);
 
       this.server = startMirage(setup.scenarios);
@@ -44,7 +45,6 @@ export function describeApplication(name, setup, describe = window.describe) {
       this.app = render(<TestHarness />, rootElement);
 
       this.visit = visit.bind(null, this); // eslint-disable-line no-use-before-define
-      this.goBack = goBack.bind(null, this); // eslint-disable-line no-use-before-define
     });
 
     afterEach(function () {
@@ -92,35 +92,9 @@ describeApplication.only = function (name, setup) {
  * @return {Promise} resolved when navigation is complete.
  */
 function visit(context, path, convergenceCheck) {
-  if (context.app) {
-    context.app.visit(path);
-  }
-
-  return convergeOn.call(context, convergenceCheck);
-}
-
-/**
- * Triggers navigating back through the history, and ensures thiat it
- * happens correctly.
- *
- * @param {Object} context - a mocha test context.
- * @param {Function} convergenceCheck - assertion to run to ensure
- * that the navigation worked.
- * @returns {Promise} resolved when navigation is complete
- */
-function goBack(context, convergenceCheck) {
-  if (context.app) {
-    context.app.history.goBack();
-  }
-
-  return convergeOn.call(context, convergenceCheck);
-}
-
-/**
- * Returns a promise that doesn't resolve to make the test wait forever
- */
-window.pauseTest = pauseTest; // eslint-disable-line no-use-before-define
-export function pauseTest(context) {
-  if (context) context.timeout(0);
-  return new Promise(() => {});
+  return new Convergence()
+    .do(() => context.app.visit(path))
+    .once(convergenceCheck)
+    .timeout(context.timeout())
+    .run();
 }

@@ -1,6 +1,5 @@
-/* global describe, beforeEach */
+import { beforeEach, describe, it } from '@bigtest/mocha';
 import { expect } from 'chai';
-import it from './it-will';
 
 import { describeApplication } from './helpers';
 import CustomerResourceShowPage from './pages/customer-resource-show';
@@ -30,7 +29,7 @@ describeApplication('CustomerResourceManagedCoverage', () => {
       });
     });
 
-    it.still('does not display the managed coverage section', () => {
+    it.always('does not display the managed coverage section', () => {
       expect(CustomerResourceShowPage.managedCoverageList).to.equal('');
     });
   });
@@ -44,7 +43,7 @@ describeApplication('CustomerResourceManagedCoverage', () => {
       });
     });
 
-    it.still('does not display the managed coverage section', () => {
+    it.always('does not display the managed coverage section', () => {
       expect(CustomerResourceShowPage.managedCoverageList).to.equal('');
     });
   });
@@ -239,7 +238,7 @@ describeApplication('CustomerResourceManagedCoverage', () => {
       });
     });
 
-    it.still('does not display managed coverage list', () => {
+    it.always('does not display managed coverage list', () => {
       expect(CustomerResourceShowPage.managedCoverageList).to.equal('');
     });
   });

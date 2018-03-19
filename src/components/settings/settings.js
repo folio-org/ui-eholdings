@@ -104,15 +104,14 @@ export default class Settings extends Component {
           <Link to="/settings" className={styles['eholdings-settings-back-button']}><IconButton icon="left-arrow" /></Link>
         )}
       >
-        <div className={styles['eholdings-settings']}>
+        <div
+          className={styles['eholdings-settings']}
+          data-test-eholdings-settings
+        >
           <h2 data-test-eholdings-settings-description>
             EBSCO Knowledge Base
           </h2>
-
-          <form
-            onSubmit={this.handleSubmit}
-            data-test-eholdings-settings
-          >
+          <form onSubmit={this.handleSubmit}>
             {settings.request.isRejected && (
               <p data-test-eholdings-settings-error>
                 {settings.request.errors[0].title}
@@ -142,7 +141,7 @@ export default class Settings extends Component {
                 'has-error': invalidApiKey
               })}
             >
-              <label htmlFor="eholdings-settings-apikey">API Key</label>
+              <label htmlFor="eholdings-settings-apikey">API key</label>
               <input
                 id="eholdings-settings-apikey"
                 type="password"

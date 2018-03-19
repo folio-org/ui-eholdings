@@ -1,6 +1,5 @@
-/* global describe, beforeEach, afterEach */
+import { beforeEach, afterEach, describe, it } from '@bigtest/mocha';
 import { expect } from 'chai';
-import it from './it-will';
 
 import { describeApplication } from './helpers';
 import CustomerResourceShowPage from './pages/customer-resource-show';
@@ -46,7 +45,7 @@ describeApplication('CustomerResourceVisibility', () => {
       });
     });
 
-    it.still('does not display the visibility toggle', () => {
+    it.always('does not display the visibility toggle', () => {
       expect(CustomerResourceShowPage.visibilitySection).to.not.exist;
     });
   });
@@ -61,7 +60,7 @@ describeApplication('CustomerResourceVisibility', () => {
 
       let visibilityData = this.server.create('visibility-data', {
         isHidden: true,
-        reason: 'Set by System'
+        reason: 'Set by system'
       }).toJSON();
 
       resource.update('visibilityData', visibilityData);
@@ -77,7 +76,7 @@ describeApplication('CustomerResourceVisibility', () => {
     });
 
     it('maps the hidden reason text', () => {
-      expect(CustomerResourceShowPage.hiddenReason).to.equal('Set by System');
+      expect(CustomerResourceShowPage.hiddenReason).to.equal('Set by system');
     });
   });
 

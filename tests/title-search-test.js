@@ -1,6 +1,6 @@
-/* global describe, beforeEach */
+import { beforeEach, describe, it } from '@bigtest/mocha';
 import { expect } from 'chai';
-import it, { convergeOn } from './it-will';
+import { convergeOn } from '@bigtest/convergence';
 
 import { describeApplication } from './helpers';
 import TitleSearchPage from './pages/title-search';
@@ -104,12 +104,33 @@ describeApplication('TitleSearch', () => {
         }).then(() => TitleSearchPage.$searchResultsItems[0].click());
       });
 
+      it('clicked item has an active state', () => {
+        expect(TitleSearchPage.titleList[0].isActive).to.be.true;
+      });
+
       it('shows the preview pane', () => {
         expect(TitleSearchPage.previewPaneIsVisible).to.be.true;
       });
 
       it('should not display back button in UI', () => {
         expect(TitleSearchPage.$backButton).to.not.exist;
+      });
+
+      describe('conducting a new search', () => {
+        beforeEach(() => {
+          TitleSearchPage.search('SomethingSomethingWhoa');
+        });
+
+        it('removes the preview detail pane', () => {
+          expect(TitleSearchPage.previewPaneIsVisible).to.not.be.true;
+        });
+
+        it('preserves the last history entry', function () {
+          // this is a check to make sure duplicate entries are not added
+          // to the history. Ensuring the back button works as expected
+          let history = this.app.history;
+          expect(history.entries[history.index - 1].search).to.include('q=Title');
+        });
       });
 
       describe('clicking the vignette behind the preview pane', () => {
@@ -153,8 +174,6 @@ describeApplication('TitleSearch', () => {
           expect(TitleSearchPage.$searchResultsItems).to.have.lengthOf(3);
         }).then(() => (
           TitleSearchPage.clickFilter('type', 'book')
-        )).then(() => (
-          TitleSearchPage.search('Title')
         ));
       });
 
@@ -173,12 +192,10 @@ describeApplication('TitleSearch', () => {
             expect(TitleSearchPage.$searchResultsItems).to.have.lengthOf(1);
           }).then(() => (
             TitleSearchPage.clearFilter('type')
-          )).then(() => (
-            TitleSearchPage.search('Title')
           ));
         });
 
-        it.still('removes the filter from the URL query params', function () {
+        it.always('removes the filter from the URL query params', function () {
           expect(this.app.history.location.search).to.not.include('filter[type]');
         });
       });
@@ -211,8 +228,6 @@ describeApplication('TitleSearch', () => {
           expect(TitleSearchPage.$searchResultsItems).to.have.lengthOf(3);
         }).then(() => (
           TitleSearchPage.clickFilter('selected', 'true')
-        )).then(() => (
-          TitleSearchPage.search('Title')
         ));
       });
 
@@ -230,12 +245,10 @@ describeApplication('TitleSearch', () => {
             expect(TitleSearchPage.$searchResultsItems).to.have.lengthOf(2);
           }).then(() => (
             TitleSearchPage.clearFilter('selected')
-          )).then(() => (
-            TitleSearchPage.search('Title')
           ));
         });
 
-        it.still('removes the filter from the URL query params', function () {
+        it.always('removes the filter from the URL query params', function () {
           expect(this.app.history.location.search).to.not.include('filter[selected]');
         });
       });
@@ -433,7 +446,7 @@ describeApplication('TitleSearch', () => {
         expect(this.app.history.location.search).to.include('filter[type]=book');
       });
 
-      it.still('does not reflect filter[isxn] in search field', function () {
+      it.always('does not reflect filter[isxn] in search field', function () {
         expect(this.app.history.location.search).to.not.include('filter[isxn]');
       });
 
@@ -459,7 +472,7 @@ describeApplication('TitleSearch', () => {
             expect(this.app.history.location.search).to.include('filter[type]=book');
           });
 
-          it.still('does not reflect filter[isxn] in search field', function () {
+          it.always('does not reflect filter[isxn] in search field', function () {
             expect(this.app.history.location.search).to.not.include('filter[isxn]');
           });
         });
@@ -532,7 +545,7 @@ describeApplication('TitleSearch', () => {
         });
 
         // it might take a bit for the next request to be triggered after the scroll
-        it.still('shows the total results', () => {
+        it.always('shows the total results', () => {
           expect(TitleSearchPage.totalResults).to.equal('75 search results');
         }, 500);
 

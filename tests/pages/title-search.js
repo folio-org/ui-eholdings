@@ -1,6 +1,6 @@
 import $ from 'jquery';
 import { expect } from 'chai';
-import { convergeOn } from '../it-will';
+import { convergeOn } from '@bigtest/convergence';
 import { triggerChange } from '../helpers';
 
 function createTitleObject(element) {
@@ -17,6 +17,10 @@ function createTitleObject(element) {
 
     get publicationType() {
       return $scope.find('[data-test-eholdings-title-list-item-publication-type]').text();
+    },
+
+    get isActive() {
+      return $scope.attr('class').indexOf('is-selected---') !== -1;
     }
   };
 }
@@ -61,7 +65,7 @@ export default {
   },
 
   get $backButton() {
-    return $('[data-test-eholdings-title-show-back-button] button');
+    return $('[data-test-eholdings-details-view-back-button] button');
   },
 
   get $selectedSearchType() {
@@ -122,7 +126,7 @@ export default {
   },
 
   clickBackButton() {
-    return $('[data-test-eholdings-customer-resource-show-back-button] button').trigger('click');
+    return $('[data-test-eholdings-details-view-back-button] button').trigger('click');
   },
 
   scrollToOffset(readOffset) {

@@ -25,7 +25,7 @@ export default class QueryList extends Component {
   };
 
   static defaultProps = {
-    notFoundMessage: 'Not Found'
+    notFoundMessage: 'Not found'
   }
 
   state = {

@@ -62,25 +62,12 @@
   }
 }
 
-.search-input {
-  box-sizing: border-box;
-  border: 2px solid #ccc;
-  border-radius: 5px;
-  font-size: 13px;
-  background-color: #fff;
-  background-position: 10px 10px;
-  background-repeat: no-repeat;
-  padding: 5px;
-  width: 100%;
-}
-
 .search-submit {
   background-color: var(--primary);
   border: 1px solid var(--primary);
   border-radius: 0.4em;
   color: #fff;
   line-height: 2;
-  margin-top: 1em;
   width: 100%;
 
   &:hover {
@@ -94,7 +81,6 @@
 }
 
 .search-filters {
-
   & section {
     margin-bottom: 1em;
   }

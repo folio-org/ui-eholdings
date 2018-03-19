@@ -1,20 +1,24 @@
 import React, { Component } from 'react';
-import { Field, reduxForm } from 'redux-form';
+import { Field, FieldArray, reduxForm } from 'redux-form';
 import PropTypes from 'prop-types';
 import moment from 'moment';
+import isEqual from 'lodash/isEqual';
+import classNames from 'classnames/bind';
 
 import Datepicker from '@folio/stripes-components/lib/Datepicker';
+import Icon from '@folio/stripes-components/lib/Icon';
 import IconButton from '@folio/stripes-components/lib/IconButton';
 import Button from '@folio/stripes-components/lib/Button';
+import KeyValueLabel from '../key-value-label';
 import styles from './package-custom-coverage.css';
-
 import { formatISODateWithoutTime } from '../utilities';
+
+const cx = classNames.bind(styles);
 
 class PackageCustomCoverage extends Component {
   static propTypes = {
     initialValues: PropTypes.shape({
-      beginCoverage: PropTypes.string,
-      endCoverage: PropTypes.string
+      customCoverages: PropTypes.array
     }).isRequired,
     handleSubmit: PropTypes.func.isRequired,
     onSubmit: PropTypes.func.isRequired,
@@ -32,17 +36,86 @@ class PackageCustomCoverage extends Component {
     isEditing: false
   }
 
-  renderDatepicker = ({ input, label, meta }) => {
+  componentWillReceiveProps(nextProps) {
+    let wasPending = this.props.isPending && !nextProps.isPending;
+    let needsUpdate = !isEqual(this.props.initialValues, nextProps.initialValues);
+
+    if (wasPending || needsUpdate) {
+      this.setState({ isEditing: false });
+    }
+  }
+
+  renderCoverageFields = ({ fields }) => {
     return (
       <div>
-        <Datepicker
-          label={label}
-          input={input}
-          meta={meta}
-        />
+        {fields.length === 0 ? (
+          <div>
+            <p data-test-eholdings-custom-coverage-no-rows-left>
+              No date range set. Saving will remove custom coverage.
+            </p>
+            <div
+              className={styles['custom-coverage-add-row-button']}
+              data-test-eholdings-custom-coverage-add-row-button
+            >
+              <Button
+                disabled={this.props.isPending}
+                type="button"
+                role="button"
+                onClick={() => fields.push({})}
+              >
+                + Add date range
+              </Button>
+            </div>
+          </div>
+        ) : (
+          <ul className={styles['custom-coverage-date-range-rows']}>
+            {fields.map((dateRange, index) => (
+              <li
+                data-test-eholdings-custom-coverage-date-range-row
+                key={index}
+                className={styles['custom-coverage-date-range-row']}
+              >
+                <div
+                  data-test-eholdings-custom-coverage-date-range-begin
+                  className={styles['custom-coverage-datepicker']}
+                >
+                  <Field
+                    name={`${dateRange}.beginCoverage`}
+                    type="text"
+                    component={Datepicker}
+                    label="Start date"
+                  />
+                </div>
+                <div
+                  data-test-eholdings-custom-coverage-date-range-end
+                  className={styles['custom-coverage-datepicker']}
+                >
+                  <Field
+                    name={`${dateRange}.endCoverage`}
+                    type="text"
+                    component={Datepicker}
+                    label="End date"
+                  />
+                </div>
+
+                <div
+                  data-test-eholdings-custom-coverage-remove-row-button
+                  className={styles['custom-coverage-date-range-clear-row']}
+                >
+                  <IconButton
+                    disabled={this.props.isPending}
+                    icon="hollowX"
+                    onClick={() => fields.remove(index)}
+                    size="small"
+                  />
+                </div>
+              </li>
+            ))}
+          </ul>
+        )}
       </div>
     );
-  }
+  };
 
   handleEditCustomCoverage = (event) => {
     let isEditing = !this.state.isEditing;
@@ -58,99 +131,86 @@ class PackageCustomCoverage extends Component {
     this.props.initialize(this.props.initialValues);
   }
 
-  handleDeleteCustomCoverage = (event) => {
-    event.preventDefault();
-    let data = {
-      beginCoverage: '',
-      endCoverage: ''
-    };
-
-    this.handleSubmit(data);
-  }
-
-  handleSubmit = (data) => {
-    this.setState({
-      isEditing: false
-    });
-    this.props.onSubmit(data);
-  }
-
-
   render() {
-    let { pristine, isPending } = this.props;
+    let { pristine, isPending, handleSubmit, onSubmit } = this.props;
     let { intl } = this.context;
+    let contents;
+    let { customCoverages } = this.props.initialValues;
 
-    const { beginCoverage, endCoverage } = this.props.initialValues;
     if (this.state.isEditing) {
-      return (
-        <form onSubmit={this.props.handleSubmit(this.handleSubmit)}>
-          <div
-            data-test-eholdings-package-details-custom-coverage-inputs
-            className={styles['custom-coverage-form-editing']}
-          >
-            <div className={styles['custom-coverage-dates']}>
-              <div data-test-eholdings-package-details-custom-begin-coverage className={styles['custom-coverage-date-picker']}>
-                <Field
-                  name='beginCoverage'
-                  component={this.renderDatepicker}
-                  label="Start Date"
-                />
-              </div>
-              <div data-test-eholdings-package-details-custom-end-coverage className={styles['custom-coverage-date-picker']}>
-                <Field
-                  name='endCoverage'
-                  component={this.renderDatepicker}
-                  label="End Date"
-                />
-              </div>
-              <div className={styles['custom-coverage-date-clear-row']}>
-                {this.props.initialValues.beginCoverage && (
-                  <IconButton icon="trashBin" onClick={this.handleDeleteCustomCoverage} size="small" />
-                )}
-              </div>
+      contents = (
+        <form onSubmit={handleSubmit(onSubmit)}>
+          <FieldArray name="customCoverages" component={this.renderCoverageFields} />
+          <div className={styles['custom-coverage-action-buttons']}>
+            <div
+              data-test-eholdings-package-details-cancel-custom-coverage-button
+              className={styles['custom-coverage-action-button']}
+            >
+              <Button
+                disabled={isPending}
+                type="button"
+                role="button"
+                onClick={this.handleCancelCustomCoverage}
+                marginBottom0 // gag
+              >
+                Cancel
+              </Button>
             </div>
-            <div className={styles['custom-coverage-action-buttons']}>
-              <div data-test-eholdings-package-details-cancel-custom-coverage-button>
-                <Button disabled={isPending} type="button" role="button" onClick={this.handleCancelCustomCoverage}>
-                  Cancel
-                </Button>
-              </div>
-              <div data-test-eholdings-package-details-save-custom-coverage-button>
-                <Button disabled={pristine} type="submit" buttonStyle="primary" role="button">
-                  Save
-                </Button>
-              </div>
+            <div
+              data-test-eholdings-package-details-save-custom-coverage-button
+              className={styles['custom-coverage-action-button']}
+            >
+              <Button
+                disabled={pristine || isPending}
+                type="submit"
+                buttonStyle="primary"
+                role="button"
+                marginBottom0 // gag
+              >
+                {isPending ? 'Saving' : 'Save' }
+              </Button>
             </div>
+            {isPending && (
+              <Icon icon="spinner-ellipsis" />
+            )}
           </div>
         </form>
       );
-    } else if (beginCoverage) {
-      return (
-        <div className={styles['custom-coverage-form']}>
-          <div className={styles['custom-coverage-date-display']}>
+    } else if (customCoverages.length && customCoverages[0].beginCoverage !== '') {
+      contents = (
+        <div className={styles['custom-coverage-date-display']}>
+          <KeyValueLabel label="Custom">
             <div data-test-eholdings-package-details-custom-coverage-display className={styles['custom-coverage-dates']}>
-              {formatISODateWithoutTime(beginCoverage, intl)} - {formatISODateWithoutTime(endCoverage, intl) || 'Present'}
+              {formatISODateWithoutTime(customCoverages[0].beginCoverage, intl)} - {formatISODateWithoutTime(customCoverages[0].endCoverage, intl) || 'Present'}
             </div>
-            <div data-test-eholdings-package-details-edit-custom-coverage-button>
-              <IconButton icon="edit" onClick={this.handleEditCustomCoverage} />
-            </div>
+          </KeyValueLabel>
+          <div data-test-eholdings-package-details-edit-custom-coverage-button>
+            <IconButton icon="edit" onClick={this.handleEditCustomCoverage} />
           </div>
         </div>
       );
     } else {
-      return (
-        <div className={styles['custom-coverage-form']}>
-          <div data-test-eholdings-package-details-custom-coverage-button>
-            <Button
-              type="button"
-              onClick={this.handleEditCustomCoverage}
-            >
-              Add Custom Coverage
-            </Button>
-          </div>
+      contents = (
+        <div data-test-eholdings-package-details-custom-coverage-button>
+          <Button
+            type="button"
+            onClick={this.handleEditCustomCoverage}
+          >
+            Set custom coverage
+          </Button>
         </div>
       );
     }
+
+    return (
+      <div
+        className={cx(styles['custom-coverage-form'], {
+          'is-editing': this.state.isEditing
+        })}
+      >
+        {contents}
+      </div>
+    );
   }
 }
 
@@ -162,15 +222,21 @@ function validate(values, props) {
   let dateFormat = moment.localeData()._longDateFormat.L;
   const errors = {};
 
-  if (!values.beginCoverage || !moment(values.beginCoverage).isValid()) {
-    errors.beginCoverage = `Enter date in ${dateFormat} format.`;
-  }
+  values.customCoverages.forEach((dateRange, index) => {
+    let dateRangeErrors = {};
 
-  if (values.endCoverage && moment(values.beginCoverage).isAfter(moment(values.endCoverage))) {
-    errors.beginCoverage = 'Start date must be before end date.';
-  }
+    if (!dateRange.beginCoverage || !moment(dateRange.beginCoverage).isValid()) {
+      dateRangeErrors.beginCoverage = `Enter date in ${dateFormat} format.`;
+    }
 
-  return errors;
+    if (dateRange.endCoverage && moment(dateRange.beginCoverage).isAfter(moment(dateRange.endCoverage))) {
+      dateRangeErrors.beginCoverage = 'Start date must be before end date.';
+    }
+
+    errors[index] = dateRangeErrors;
+  });
+
+  return { customCoverages: errors };
 }
 
 export default reduxForm({

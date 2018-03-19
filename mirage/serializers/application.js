@@ -1,4 +1,4 @@
-import { JSONAPISerializer, camelize, pluralize } from 'mirage-server';
+import { JSONAPISerializer, camelize, pluralize } from '@bigtest/mirage';
 
 export default JSONAPISerializer.extend({
   serializeIds: 'always',

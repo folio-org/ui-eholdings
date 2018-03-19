@@ -47,10 +47,15 @@ class PackageShowRoute extends Component {
     model.isSelected = !model.isSelected;
     model.selectedCount = model.isSelected ? model.titleCount : 0;
 
+    // If package is selected, allowKbToAddTitles should be true
+    if (model.isSelected) {
+      model.allowKbToAddTitles = true;
+    }
     // clear out any customizations before sending to server
     if (!model.isSelected) {
       model.visibilityData.isHidden = false;
       model.customCoverage = {};
+      model.allowKbToAddTitles = false;
     }
 
     updatePackage(model);
@@ -71,8 +76,24 @@ class PackageShowRoute extends Component {
 
   customCoverageSubmitted = (values) => {
     let { model, updatePackage } = this.props;
-    model.customCoverage.beginCoverage = !values.beginCoverage ? null : moment(values.beginCoverage).format('YYYY-MM-DD');
-    model.customCoverage.endCoverage = !values.endCoverage ? null : moment(values.endCoverage).format('YYYY-MM-DD');
+    let beginCoverage = '';
+    let endCoverage = '';
+
+    if (values.customCoverages[0]) {
+      beginCoverage = !values.customCoverages[0].beginCoverage ? '' : moment(values.customCoverages[0].beginCoverage).format('YYYY-MM-DD');
+      endCoverage = !values.customCoverages[0].endCoverage ? '' : moment(values.customCoverages[0].endCoverage).format('YYYY-MM-DD');
+    }
+
+    model.customCoverage = {
+      beginCoverage,
+      endCoverage
+    };
+    updatePackage(model);
+  };
+
+  toggleAllowKbToAddTitles = () => {
+    let { model, updatePackage } = this.props;
+    model.allowKbToAddTitles = !model.allowKbToAddTitles;
     updatePackage(model);
   };
 
@@ -84,6 +105,7 @@ class PackageShowRoute extends Component {
         toggleSelected={this.toggleSelected}
         toggleHidden={this.toggleHidden}
         customCoverageSubmitted={this.customCoverageSubmitted}
+        toggleAllowKbToAddTitles={this.toggleAllowKbToAddTitles}
       />
     );
   }

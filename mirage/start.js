@@ -1,6 +1,6 @@
 /* global require */
 
-import Mirage, { camelize } from 'mirage-server';
+import Mirage, { camelize } from '@bigtest/mirage';
 import baseConfig from './config';
 import '../tests/force-fetch-polyfill';
 

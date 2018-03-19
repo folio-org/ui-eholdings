@@ -1,4 +1,4 @@
-import { Factory, faker, trait } from 'mirage-server';
+import { Factory, faker, trait } from '@bigtest/mirage';
 
 export default Factory.extend({
   isSelected: false,

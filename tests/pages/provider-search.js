@@ -1,6 +1,6 @@
 import $ from 'jquery';
 import { expect } from 'chai';
-import { convergeOn } from '../it-will';
+import { convergeOn } from '@bigtest/convergence';
 import { triggerChange } from '../helpers';
 
 function createProviderObject(element) {
@@ -17,6 +17,10 @@ function createProviderObject(element) {
 
     get numPackagesSelected() {
       return parseInt($scope.find('[data-test-eholdings-provider-list-item-num-packages-selected]').text(), 10);
+    },
+
+    get isActive() {
+      return $scope.attr('class').indexOf('is-selected---') !== -1;
     }
   };
 }
@@ -27,7 +31,21 @@ export default {
   },
 
   get $searchField() {
-    return $('[data-test-search-field]');
+    return $('[data-test-search-field]').find('input[name="search"]');
+  },
+
+  get $searchFilters() {
+    return $('[data-test-eholdings-search-filters="providers"]');
+  },
+
+  getFilter(name) {
+    return this.$searchFilters.find(`input[name="${name}"]:checked`).val();
+  },
+
+  clickFilter(name, value) {
+    let $radio = this.$searchFilters.find(`input[name="${name}"][value="${value}"]`);
+    $radio.get(0).click();
+    return convergeOn(() => expect($radio).to.have.prop('checked'));
   },
 
   get $searchResultsItems() {
@@ -59,7 +77,7 @@ export default {
   },
 
   get $backButton() {
-    return $('[data-test-eholdings-provider-details-back-button] button');
+    return $('[data-test-eholdings-details-view-back-button] button');
   },
 
   get $selectedSearchType() {
@@ -71,7 +89,7 @@ export default {
   },
 
   search(query) {
-    let $input = $('[data-test-search-field]').val(query);
+    let $input = $('[data-test-search-field]').find('input[name="search"]').val(query);
     triggerChange($input.get(0));
 
     return convergeOn(() => {
@@ -97,7 +115,7 @@ export default {
   },
 
   clickBackButton() {
-    return $('[data-test-eholdings-package-details-back-button] button').trigger('click');
+    return $('[data-test-eholdings-details-view-back-button] button').trigger('click');
   },
 
   scrollToOffset(readOffset) {

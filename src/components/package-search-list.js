@@ -10,7 +10,10 @@ export default function PackageSearchList({
   collection,
   fetch,
   onUpdateOffset
-}) {
+}, { router }) {
+  let { params: routeParams } = router.route.match;
+  let isPackagePage = routeParams.type === 'packages';
+
   return (
     <QueryList
       type="packages"
@@ -28,6 +31,7 @@ export default function PackageSearchList({
             pathname: `/eholdings/packages/${item.content.id}`,
             search: location.search
           }}
+          active={item.content && isPackagePage && routeParams.id === item.content.id}
         />
       )}
     />
@@ -40,4 +44,8 @@ PackageSearchList.propTypes = {
   collection: PropTypes.object.isRequired,
   fetch: PropTypes.func.isRequired,
   onUpdateOffset: PropTypes.func.isRequired
+};
+
+PackageSearchList.contextTypes = {
+  router: PropTypes.object
 };

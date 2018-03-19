@@ -1,3 +1,5 @@
+@import '@folio/stripes-components/lib/variables';
+
 .container {
   height: calc(100vh - 90px);
   overflow-y: auto;
@@ -6,11 +8,21 @@
     overflow-y: hidden;
   }
 
-  & h3 {
-    margin: 1em 0 0.5em;
+  & .list-header {
+    display: flex;
+    border-bottom: 1px solid #eee;
+    border-top: 1px solid var(--minor-divider-color);
+    justify-content: space-between;
+  }
+
+  &.locked {
+    & .list-header {
+      border-top: 1px solid #fff;
+    }
   }
 
   & h4 {
+    font-size: inherit;
     margin: 0.5em 0;
   }
 }
@@ -19,10 +31,18 @@
   padding: 0 1rem;
   margin: 2rem 0;
 
-  & h1 {
+  & h2 {
     font-size: 2.5em;
     font-weight: 700;
-    margin-top: 0.125em;
+    margin: 0.5em 1em 0 0;
+  }
+
+  & p {
+    color: var(--secondary);
+    font-size: 1.5em;
+    font-weight: 600;
+    margin-bottom: 0;
+    margin-top: 0.25em;
   }
 }
 
@@ -37,15 +57,17 @@
   max-height: 100%;
 
   & h3 {
+    color: var(--subLabelColor #999);
+    font-size: 18px;
+    font-weight: 600;
     padding: 1rem 1rem 0.75rem;
-    border-bottom: 1px solid #dcdcdc;
     margin: 0;
   }
 
   & .list {
     /* the box-model needs _some_ height that is not 'auto' for flexbox to
        be able to fill this element to fit the remaining space */
-    min-height: 0px;
+    min-height: 0;
     flex: 1;
   }
 }

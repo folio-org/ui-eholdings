@@ -6,18 +6,23 @@
   "repository": "https://github.com/folio-org/ui-eholdings",
   "license": "Apache-2.0",
   "scripts": {
-    "start": "NODE_ENV=development stripes serve demo/stripes.config.js",
+    "start": "stripes serve demo/stripes.config.js",
     "build": "stripes build demo/stripes.config.js dist",
     "test": "stripes test karma demo/stripes.config.js",
-    "lint": "eslint ./"
+    "lint": "eslint ./ && stylelint \"src/**/*.css\"",
+    "eslint": "eslint ./",
+    "stylelint": "stylelint \"src/**/*.css\""
   },
   "devDependencies": {
+    "@bigtest/convergence": "^0.4.0",
+    "@bigtest/interaction": "^0.1.0",
+    "@bigtest/mirage": "^0.0.1",
+    "@bigtest/mocha": "^0.3.1",
     "@folio/eslint-config-stripes": "^1.1.0",
     "@folio/stripes-cli": "^1.0.0",
-    "@folio/stripes-components": "folio-org/stripes-components#master",
-    "@folio/stripes-core": "folio-org/stripes-core#master",
     "babel-plugin-istanbul": "^4.1.5",
     "babel-plugin-remove-jsx-attributes": "^0.0.2",
+    "babel-plugin-transform-decorators-legacy": "^1.3.4",
     "chai": "^4.0.2",
     "chai-jquery": "^2.0.0",
     "eslint": "^4.8.0",
@@ -25,8 +30,9 @@
     "jquery": "^3.2.1",
     "karma-browserstack-launcher": "^1.3.0",
     "karma-coverage": "^1.1.1",
+    "karma-firefox-launcher": "^1.1.0",
+    "karma-junit-reporter": "^1.2.0",
     "lodash": "^4.17.4",
-    "mirage-server": "cowboyd/mirage-server",
     "moment": "^2.17.1",
     "qs": "^6.5.1",
     "react": "^16.2.0",
@@ -44,20 +50,17 @@
     "isomorphic-fetch": "^2.2.1",
     "redux-actions": "^2.2.1"
   },
-  "resolutions": {
-    "**/uglify-es": "3.3.9"
-  },
   "stripes": {
     "type": "app",
     "displayName": "eHoldings",
     "route": "/eholdings",
     "hasSettings": true,
     "icons": [
-     {
-       "name": "app",
-       "alt": "FOLIO UI module for eHoldings",
-       "title": "eHoldings"
-     }
+      {
+        "name": "app",
+        "alt": "FOLIO UI module for eHoldings",
+        "title": "eHoldings"
+      }
     ],
     "okapiInterfaces": {
       "eholdings": "0.1"

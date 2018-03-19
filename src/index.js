@@ -57,7 +57,7 @@ export default class EHoldings extends Component {
       <Route path={rootPath} component={SettingsRoute} />
     ) : (
       <Route path={rootPath} component={ApplicationRoute}>
-        <Route path={rootPath} component={SearchRoute}>
+        <Route path={`${rootPath}/:type?/:id?`} component={SearchRoute}>
           <Switch>
             <Route path={`${rootPath}/providers/:providerId`} exact component={ProviderShow} />
             <Route path={`${rootPath}/packages/:packageId`} exact component={PackageShow} />

@@ -1,52 +1,39 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import IconButton from '@folio/stripes-components/lib/IconButton';
-import PaneMenu from '@folio/stripes-components/lib/PaneMenu';
-
 import DetailsView from './details-view';
 import KeyValueLabel from './key-value-label';
 import QueryList from './query-list';
 import PackageListItem from './package-list-item';
+import DetailsViewSection from './details-view-section';
 
 export default function ProviderShow({
   model,
   fetchPackages
 }, {
-  router,
-  queryParams,
   intl
 }) {
-  let historyState = router.history.location.state;
-
   return (
     <DetailsView
       type="provider"
       model={model}
-      showPaneHeader={!queryParams.searchType}
-      paneHeaderFirstMenu={historyState && historyState.eholdings && (
-        <PaneMenu>
-          <div data-test-eholdings-provider-details-back-button>
-            <IconButton icon="left-arrow" onClick={() => router.history.goBack()} />
-          </div>
-        </PaneMenu>
-      )}
+      paneTitle={model.name}
       bodyContent={(
-        <div>
-          <KeyValueLabel label="Packages Selected">
+        <DetailsViewSection label="Provider information">
+          <KeyValueLabel label="Packages selected">
             <div data-test-eholdings-provider-details-packages-selected>
               {intl.formatNumber(model.packagesSelected)}
             </div>
           </KeyValueLabel>
 
-          <KeyValueLabel label="Total Packages">
+          <KeyValueLabel label="Total packages">
             <div data-test-eholdings-provider-details-packages-total>
               {intl.formatNumber(model.packagesTotal)}
             </div>
           </KeyValueLabel>
-        </div>
+        </DetailsViewSection>
       )}
-      listHeader="Packages"
+      listType="packages"
       renderList={scrollable => (
         <QueryList
           type="provider-packages"

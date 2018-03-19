@@ -10,7 +10,10 @@ export default function TitleSearchList({
   collection,
   fetch,
   onUpdateOffset
-}) {
+}, { router }) {
+  let { params: routeParams } = router.route.match;
+  let isTitlePage = routeParams.type === 'titles';
+
   return (
     <QueryList
       type="titles"
@@ -28,6 +31,7 @@ export default function TitleSearchList({
             pathname: `/eholdings/titles/${item.content.id}`,
             search: location.search
           }}
+          active={item.content && isTitlePage && routeParams.id === item.content.id}
         />
       )}
     />
@@ -40,4 +44,8 @@ TitleSearchList.propTypes = {
   collection: PropTypes.object.isRequired,
   fetch: PropTypes.func.isRequired,
   onUpdateOffset: PropTypes.func.isRequired
+};
+
+TitleSearchList.contextTypes = {
+  router: PropTypes.object
 };

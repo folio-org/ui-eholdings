@@ -1,33 +1,22 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import IconButton from '@folio/stripes-components/lib/IconButton';
-import PaneMenu from '@folio/stripes-components/lib/PaneMenu';
-
 import DetailsView from './details-view';
 import KeyValueLabel from './key-value-label';
 import ScrollView from './scroll-view';
 import PackageListItem from './package-list-item';
 import IdentifiersList from './identifiers-list';
 import ContributorsList from './contributors-list';
+import DetailsViewSection from './details-view-section';
 
-export default function TitleShow({ model }, { router, queryParams }) {
-  let historyState = router.history.location.state;
-
+export default function TitleShow({ model }) {
   return (
     <DetailsView
       type="title"
       model={model}
-      showPaneHeader={!queryParams.searchType}
-      paneHeaderFirstMenu={historyState && historyState.eholdings && (
-        <PaneMenu>
-          <div data-test-eholdings-title-show-back-button>
-            <IconButton icon="left-arrow" onClick={() => router.history.goBack()} />
-          </div>
-        </PaneMenu>
-      )}
+      paneTitle={model.name}
       bodyContent={(
-        <div>
+        <DetailsViewSection label="Title information">
           <ContributorsList data={model.contributors} />
 
           <KeyValueLabel label="Publisher">
@@ -36,11 +25,13 @@ export default function TitleShow({ model }, { router, queryParams }) {
             </div>
           </KeyValueLabel>
 
-          <KeyValueLabel label="Publication Type">
-            <div data-test-eholdings-title-show-publication-type>
-              {model.publicationType}
-            </div>
-          </KeyValueLabel>
+          {model.publicationType && (
+            <KeyValueLabel label="Publication Type">
+              <div data-test-eholdings-title-show-publication-type>
+                {model.publicationType}
+              </div>
+            </KeyValueLabel>
+          )}
 
           <IdentifiersList data={model.identifiers} />
 
@@ -51,11 +42,9 @@ export default function TitleShow({ model }, { router, queryParams }) {
               </div>
             </KeyValueLabel>
           )}
-
-          <hr />
-        </div>
+        </DetailsViewSection>
       )}
-      listHeader="Packages"
+      listType="packages"
       renderList={scrollable => (
         <ScrollView
           itemHeight={70}

@@ -1,6 +1,19 @@
 .item {
   height: 100%;
 
+  &.is-selected {
+    background-color: rgba(0, 0, 0, 0.5);
+    color: #fff;
+
+    &:hover {
+      background-color: rgba(0, 0, 0, 0.5);
+    }
+
+    & h5 {
+      color: #fff;
+    }
+  }
+
   & h5,
   & div {
     overflow: hidden;
@@ -17,15 +30,17 @@
   padding: 1em;
 
   /* skeleton effect */
+
+  /* 1. name  2. selection */
   background-image:
-    linear-gradient(#eee, #eee 0.9em, transparent 0.9em), /* name */
-    linear-gradient(#eee, #eee 0.8em, transparent 0.8em); /* selection */
+    linear-gradient(#eee, #eee 0.9em, transparent 0.9em),
+    linear-gradient(#eee, #eee 0.8em, transparent 0.8em);
   background-size:
-    20em 1.1em, /* name */
-    8em 1em;    /* selection */
+    20em 1.1em,
+    8em 1em;
   background-position:
-    0 0.1em,     /* name */
-    0 1.75em; /* selection */
+    0 0.1em,
+    0 1.75em;
 
   /* shimmer effect */
   &::after {
