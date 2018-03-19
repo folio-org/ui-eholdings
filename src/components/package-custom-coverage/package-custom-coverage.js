@@ -139,7 +139,10 @@ class PackageCustomCoverage extends Component {
 
     if (this.state.isEditing) {
       contents = (
-        <form onSubmit={handleSubmit(onSubmit)}>
+        <form
+          data-test-eholdings-custom-coverage-form
+          onSubmit={handleSubmit(onSubmit)}
+        >
           <FieldArray name="customCoverages" component={this.renderCoverageFields} />
           <div className={styles['custom-coverage-action-buttons']}>
             <div
