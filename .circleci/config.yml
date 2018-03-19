@@ -79,6 +79,15 @@ jobs:
       - attach_workspace:
           at: ~/
       - run:
+          name: Install the latest Firefox
+          command: |
+            sudo apt-get remove firefox-mozilla-build &&
+            sudo sh -c "echo 'deb http://ftp.hr.debian.org/debian sid main' >> /etc/apt/sources.list" &&
+            sudo apt-get update &&
+            sudo apt-get remove binutils
+            sudo apt-get install -t sid firefox &&
+            firefox --version
+      - run:
           name: Run tests
           command: yarn test --karma.singleRun --karma.browsers=Firefox || true
       - store_test_results:
