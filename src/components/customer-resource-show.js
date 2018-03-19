@@ -125,6 +125,7 @@ export default class CustomerResourceShow extends Component {
                   htmlFor="customer-resource-show-toggle-switch"
                 >
                   <h4>{resourceSelected ? 'Selected' : 'Not selected'}</h4>
+                  <br />
                   <ToggleSwitch
                     onChange={this.handleSelectionToggle}
                     checked={resourceSelected}
@@ -145,7 +146,7 @@ export default class CustomerResourceShow extends Component {
                           ? 'Hidden from patrons'
                           : 'Visible to patrons'}
                       </h4>
-
+                      <br />
                       <ToggleSwitch
                         onChange={this.props.toggleHidden}
                         checked={!resourceHidden}
