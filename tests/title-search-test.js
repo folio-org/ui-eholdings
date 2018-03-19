@@ -158,6 +158,24 @@ describeApplication('TitleSearch', () => {
         });
       });
 
+      describe('clicking the close button on the preview pane', () => {
+        beforeEach(() => {
+          TitleSearchPage.clickCloseButton();
+        });
+
+        it('hides the preview pane', () => {
+          expect(TitleSearchPage.previewPaneIsVisible('titles')).to.be.false;
+        });
+
+        it('displays the original search', () => {
+          expect(TitleSearchPage.$searchField).to.have.value('Title');
+        });
+
+        it('displays the original search results', () => {
+          expect(TitleSearchPage.$searchResultsItems).to.have.lengthOf(3);
+        });
+      });
+
       describe('clicking an item within the preview pane', () => {
         beforeEach(() => {
           return TitleSearchPage.packageTitleList(0).clickToPackage();

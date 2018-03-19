@@ -115,6 +115,25 @@ describeApplication('ProviderSearch', () => {
         });
       });
 
+      describe('clicking the close button on the preview pane', () => {
+        beforeEach(() => {
+          ProviderSearchPage.clickCloseButton();
+        });
+
+        it('hides the preview pane', () => {
+          expect(ProviderSearchPage.previewPaneIsVisible('providers')).to.be.false;
+        });
+
+        it('displays the original search', () => {
+          expect(ProviderSearchPage.$searchField).to.have.value('Provider');
+        });
+
+        it('displays the original search results', () => {
+          expect(ProviderSearchPage.$searchResultsItems).to.have.lengthOf(3);
+        });
+      });
+
+
       describe('clicking an item within the preview pane', () => {
         beforeEach(() => {
           return ProviderSearchPage.providerPackageList(0).clickToPackage();

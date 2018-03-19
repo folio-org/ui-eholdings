@@ -35,6 +35,7 @@ import { isRootPresent, hasClassBeginningWith } from './helpers';
   noResultsMessage = text('[data-test-query-list-not-found="titles"]');
   selectedSearchType = collection('[data-test-search-form-type-switcher] a[class^="is-active--"]');
   isSearchVignetteHidden = hasClassBeginningWith('is-hidden--', '[data-test-search-vignette]');
+  clickCloseButton = clickable('[data-test-eholdings-details-view-close-button] button');
 
   hasLoaded = computed(function () {
     return this.titleList().length > 0;
