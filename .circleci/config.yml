@@ -89,7 +89,7 @@ jobs:
             firefox --version
       - run:
           name: Run tests
-          command: yarn test --karma.singleRun --karma.browsers=Firefox || true
+          command: yarn test --karma.singleRun --karma.browsers=Firefox
       - store_test_results:
           path: ./artifacts/junit
       - store_artifacts:
