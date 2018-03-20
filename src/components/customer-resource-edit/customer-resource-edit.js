@@ -9,6 +9,7 @@ import Icon from '@folio/stripes-components/lib/Icon';
 import DetailsView from '../details-view';
 import CoverageStatementFields, { validate as validateCoverageStatement } from '../coverage-statement-fields';
 import CustomerResourceCoverageFields, { validate as validateCoverageDates } from '../customer-resource-coverage-fields';
+import CustomEmbargoFields, { validate as validateEmbargo } from '../custom-embargo-fields';
 import DetailsViewSection from '../details-view-section';
 import NavigationModal from '../navigation-modal';
 import styles from './customer-resource-edit.css';
@@ -19,7 +20,8 @@ class CustomerResourceEdit extends Component {
     initialValues: PropTypes.object.isRequired,
     handleSubmit: PropTypes.func,
     onSubmit: PropTypes.func.isRequired,
-    pristine: PropTypes.bool
+    pristine: PropTypes.bool,
+    change: PropTypes.func
   };
 
   static contextTypes = {
@@ -48,7 +50,8 @@ class CustomerResourceEdit extends Component {
       model,
       handleSubmit,
       onSubmit,
-      pristine
+      pristine,
+      change
     } = this.props;
 
     let actionMenuItems = [
@@ -76,6 +79,11 @@ class CustomerResourceEdit extends Component {
               label="Coverage statement"
             >
               <CoverageStatementFields />
+            </DetailsViewSection>
+            <DetailsViewSection
+              label="Embargo period"
+            >
+              <CustomEmbargoFields change={change} />
             </DetailsViewSection>
             <div className={styles['customer-resource-edit-action-buttons']}>
               <div
@@ -115,7 +123,7 @@ class CustomerResourceEdit extends Component {
 }
 
 const validate = (values, props) => {
-  return Object.assign({}, validateCoverageDates(values, props), validateCoverageStatement(values));
+  return Object.assign({}, validateCoverageDates(values, props), validateCoverageStatement(values), validateEmbargo(values));
 };
 
 export default reduxForm({

@@ -46,6 +46,10 @@ class CustomerResourceEditRoute extends Component {
       };
     });
     model.coverageStatement = values.coverageStatement;
+    model.customEmbargoPeriod = {
+      embargoValue: values.customEmbargoValue,
+      embargoUnit: values.customEmbargoUnit
+    };
     updateResource(model);
   }
 
@@ -56,7 +60,9 @@ class CustomerResourceEditRoute extends Component {
         onSubmit={this.resourceEditSubmitted}
         initialValues={{
           customCoverages: this.props.model.customCoverages,
-          coverageStatement: this.props.model.coverageStatement
+          coverageStatement: this.props.model.coverageStatement,
+          customEmbargoValue: this.props.model.customEmbargoPeriod.embargoValue,
+          customEmbargoUnit: this.props.model.customEmbargoPeriod.embargoUnit
         }}
       />
     );

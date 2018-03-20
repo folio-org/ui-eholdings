@@ -1,16 +1,16 @@
 import React, { Component } from 'react';
-import { Field, reduxForm } from 'redux-form';
+import { reduxForm } from 'redux-form';
 import PropTypes from 'prop-types';
 import classNames from 'classnames/bind';
 import isEqual from 'lodash/isEqual';
 
 import Button from '@folio/stripes-components/lib/Button';
-import TextField from '@folio/stripes-components/lib/TextField';
 import Icon from '@folio/stripes-components/lib/Icon';
 import IconButton from '@folio/stripes-components/lib/IconButton';
-import Select from '@folio/stripes-components/lib/Select';
+
 import KeyValueLabel from '../key-value-label';
-import styles from './custom-embargo.css';
+import CustomEmbargoFields, { validate as validateEmbargo } from '../custom-embargo-fields';
+import styles from './custom-embargo-form.css';
 
 const cx = classNames.bind(styles);
 
@@ -26,8 +26,8 @@ class CustomEmbargoForm extends Component {
     isPending: PropTypes.bool,
     handleSubmit: PropTypes.func,
     initialize: PropTypes.func,
-    change: PropTypes.func,
-    pristine: PropTypes.bool
+    pristine: PropTypes.bool,
+    change: PropTypes.func
   };
 
   state = {
@@ -84,37 +84,7 @@ class CustomEmbargoForm extends Component {
             data-test-eholdings-customer-resource-custom-embargo-form
             className={styles['custom-embargo-form-editing']}
           >
-            <div className={styles['custom-embargo-container']}>
-              <div className={styles['custom-embargo-component-width']}>
-                <div data-test-eholdings-customer-resource-custom-embargo-textfield className={styles['custom-embargo-text-field']}>
-                  <Field
-                    name="customEmbargoValue"
-                    parse={value => (!value ? null : (Number.isNaN(Number(value)) ? '' : Number(value)))}
-                    component={TextField}
-                  />
-                </div>
-              </div>
-              <div className={styles['custom-embargo-component-width']}>
-                <div data-test-eholdings-customer-resource-custom-embargo-select className={styles['flex-item-right-bottom-margin']}>
-                  <Field
-                    name="customEmbargoUnit"
-                    component={Select}
-                    dataOptions={[
-                      { value: '', label: 'None' },
-                      { value: 'Days', label: 'Days' },
-                      { value: 'Weeks', label: 'Weeks' },
-                      { value: 'Months', label: 'Months' },
-                      { value: 'Years', label: 'Years' }
-                    ]}
-                    onChange={(event, newValue) => {
-                      if (newValue === '') {
-                        change('customEmbargoValue', 0);
-                      }
-                    }}
-                  />
-                </div>
-              </div>
-            </div>
+            <CustomEmbargoFields change={change} />
             <div className={styles['custom-embargo-action-buttons']}>
               <div
                 data-test-eholdings-customer-resource-cancel-custom-embargo-button
@@ -141,7 +111,7 @@ class CustomEmbargoForm extends Component {
                   buttonStyle="primary"
                   marginBottom0 // gag
                 >
-                  Save
+                  {isPending ? 'Saving' : 'Save'}
                 </Button>
               </div>
               {isPending && (
@@ -190,28 +160,8 @@ class CustomEmbargoForm extends Component {
   }
 }
 
-// this function is a special function used by redux-form for form validation
-// the values from the form are passed into this function and then
-// validated based on the matching field with the same 'name' as value
 const validate = (values) => {
-  const errors = {};
-
-  if (Number.isNaN(Number(values.customEmbargoValue))) {
-    errors.customEmbargoValue = 'Must be a number';
-  }
-
-  if (values.customEmbargoValue === null) {
-    errors.customEmbargoValue = 'Value cannot be null';
-  }
-
-  if (values.customEmbargoValue < 0 || (values.customEmbargoValue === 0 && values.customEmbargoUnit !== '')) {
-    errors.customEmbargoValue = 'Enter value greater than 0';
-  }
-
-  if (values.customEmbargoValue > 0 && values.customEmbargoUnit === '') {
-    errors.customEmbargoUnit = 'Select a valid unit';
-  }
-  return errors;
+  return validateEmbargo(values);
 };
 
 export default reduxForm({
