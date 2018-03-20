@@ -25,6 +25,10 @@
     font-size: inherit;
     margin: 0.5em 0;
   }
+
+  & label h4 {
+    display: inline-block;
+  }
 }
 
 .header {

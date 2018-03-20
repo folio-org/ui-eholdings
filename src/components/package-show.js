@@ -93,6 +93,7 @@ export default class PackageShow extends Component {
                   htmlFor="package-details-toggle-switch"
                 >
                   <h4>{packageSelected ? 'Selected' : 'Not selected'}</h4>
+                  <br />
                   <ToggleSwitch
                     onChange={this.handleSelectionToggle}
                     checked={packageSelected}
@@ -113,7 +114,7 @@ export default class PackageShow extends Component {
                           ? 'Hidden from patrons'
                           : 'Visible to patrons'}
                       </h4>
-
+                      <br />
                       <ToggleSwitch
                         onChange={this.props.toggleHidden}
                         checked={!packageHidden}
@@ -135,30 +136,36 @@ export default class PackageShow extends Component {
               </DetailsViewSection>
               <DetailsViewSection label="Title management">
                 {packageSelected ? (
-                  <label
-                    data-test-eholdings-package-details-allow-add-new-titles
-                    htmlFor="package-details-toggle-allow-add-new-titles-switch"
-                  >
-                    {/* The check below for null could be refactored after RM API starts sending this attribute
-                    in list of packages to mod-kb-ebsco */}
+                  <div>
                     {packageAllowedToAddTitles != null ? (
                       <div>
-                        <h4>
-                          {packageAllowedToAddTitles
+                        <label
+                          data-test-eholdings-package-details-allow-add-new-titles
+                          htmlFor="package-details-toggle-allow-add-new-titles-switch"
+                        >
+                          <h4>
+                            {packageAllowedToAddTitles
                             ? 'Automatically select new titles'
                             : 'Do not automatically select new titles'}
-                        </h4>
-                        <ToggleSwitch
-                          onChange={this.props.toggleAllowKbToAddTitles}
-                          checked={packageAllowedToAddTitles}
-                          isPending={model.update.isPending && 'allowKbToAddTitles' in model.update.changedAttributes}
-                          id="package-details-toggle-allow-add-new-titles-switch"
-                        />
+                          </h4>
+                          <br />
+                          <ToggleSwitch
+                            onChange={this.props.toggleAllowKbToAddTitles}
+                            checked={packageAllowedToAddTitles}
+                            isPending={model.update.isPending && 'allowKbToAddTitles' in model.update.changedAttributes}
+                            id="package-details-toggle-allow-add-new-titles-switch"
+                          />
+                        </label>
                       </div>
                       ) : (
-                        <Icon icon="spinner-ellipsis" />
+                        <label
+                          data-test-eholdings-package-details-allow-add-new-titles
+                          htmlFor="package-details-toggle-allow-add-new-titles-switch"
+                        >
+                          <Icon icon="spinner-ellipsis" />
+                        </label>
                       )}
-                  </label>
+                  </div>
                 ) : (
                   <p>Knowledge base does not automatically select titles.</p>
                 )}
