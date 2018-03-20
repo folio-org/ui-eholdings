@@ -8,6 +8,7 @@ import Icon from '@folio/stripes-components/lib/Icon';
 
 import DetailsView from '../details-view';
 import CoverageStatementFields, { validate as validateCoverageStatement } from '../coverage-statement-fields';
+import CustomerResourceCoverageFields, { validate as validateCoverageDates } from '../customer-resource-coverage-fields';
 import DetailsViewSection from '../details-view-section';
 import NavigationModal from '../navigation-modal';
 import styles from './customer-resource-edit.css';
@@ -67,13 +68,18 @@ class CustomerResourceEdit extends Component {
         bodyContent={(
           <form onSubmit={handleSubmit(onSubmit)}>
             <DetailsViewSection
+              label="Coverage dates"
+            >
+              <CustomerResourceCoverageFields />
+            </DetailsViewSection>
+            <DetailsViewSection
               label="Coverage statement"
             >
               <CoverageStatementFields />
             </DetailsViewSection>
             <div className={styles['customer-resource-edit-action-buttons']}>
               <div
-                data-test-eholdings-customer-resource-save-button
+                data-test-eholdings-customer-resource-cancel-button
               >
                 <Button
                   disabled={model.update.isPending}
@@ -85,7 +91,7 @@ class CustomerResourceEdit extends Component {
                 </Button>
               </div>
               <div
-                data-test-eholdings-customer-resource-cancel-button
+                data-test-eholdings-customer-resource-save-button
               >
                 <Button
                   disabled={pristine || model.update.isPending}
@@ -108,8 +114,8 @@ class CustomerResourceEdit extends Component {
   }
 }
 
-const validate = (values) => {
-  return validateCoverageStatement(values);
+const validate = (values, props) => {
+  return Object.assign({}, validateCoverageDates(values, props), validateCoverageStatement(values));
 };
 
 export default reduxForm({

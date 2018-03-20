@@ -217,6 +217,26 @@ export default class CustomerResourceShow extends Component {
                 )}
 
               </DetailsViewSection>
+
+              <DetailsViewSection
+                label="Coverage statement"
+              >
+                {resourceSelected && (
+                  <CoverageStatementForm
+                    initialValues={{ coverageStatement: model.coverageStatement }}
+                    isEditable={isCoverageStatementEditable}
+                    onEdit={this.handleCoverageStatementEdit}
+                    onSubmit={coverageStatementSubmitted}
+                    isPending={model.update.isPending && 'coverageStatement' in model.update.changedAttributes}
+                  />
+                )}
+
+                {!hasManagedEmbargoPeriod && !resourceSelected && (
+                  <p>Add the resource to holdings to set a coverage statement.</p>
+                )}
+
+              </DetailsViewSection>
+
               <DetailsViewSection
                 label="Embargo period"
                 closedByDefault={!hasManagedEmbargoPeriod && !resourceSelected}
@@ -241,25 +261,6 @@ export default class CustomerResourceShow extends Component {
 
                 {!hasManagedEmbargoPeriod && !resourceSelected && (
                   <p>Add the resource to holdings to set an custom embargo period.</p>
-                )}
-
-              </DetailsViewSection>
-
-              <DetailsViewSection
-                label="Coverage statement"
-              >
-                {resourceSelected && (
-                  <CoverageStatementForm
-                    initialValues={{ coverageStatement: model.coverageStatement }}
-                    isEditable={isCoverageStatementEditable}
-                    onEdit={this.handleCoverageStatementEdit}
-                    onSubmit={coverageStatementSubmitted}
-                    isPending={model.update.isPending && 'coverageStatement' in model.update.changedAttributes}
-                  />
-                )}
-
-                {!hasManagedEmbargoPeriod && !resourceSelected && (
-                  <p>Add the resource to holdings to set a coverage statement.</p>
                 )}
 
               </DetailsViewSection>

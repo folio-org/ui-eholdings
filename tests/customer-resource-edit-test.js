@@ -38,7 +38,7 @@ describeApplication('CustomerResourceEdit', () => {
     });
   });
 
-  describe('visiting the customer resource edit page without a coverage statement', () => {
+  describe('visiting the customer resource edit page without coverage dates or statement', () => {
     beforeEach(function () {
       return this.visit(`/eholdings/customer-resources/${resource.titleId}/edit`, () => {
         expect(ResourceEditPage.$root).to.exist;
@@ -65,13 +65,19 @@ describeApplication('CustomerResourceEdit', () => {
 
     describe('entering invalid data', () => {
       beforeEach(() => {
-        return ResourceEditPage
-          .inputCoverageStatement(`Lorem ipsum dolor sit amet, consectetuer adipiscing elit.
-            Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis
-            dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec,
-            pellentesque eu, pretium quis, sem. Nulla consequat massa quis enim. Donec pede justo,
-            fringilla vel, aliquet nec, vulputate e`)
-          .clickSave();
+        return ResourceEditPage.interaction
+          .clickAddRowButton()
+          .once(() => ResourceEditPage.dateRangeRowList().length > 0)
+          .do(() => {
+            return ResourceEditPage
+              .inputCoverageStatement(`Lorem ipsum dolor sit amet, consectetuer adipiscing elit.
+                Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis
+                dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec,
+                pellentesque eu, pretium quis, sem. Nulla consequat massa quis enim. Donec pede justo,
+                fringilla vel, aliquet nec, vulputate e`)
+              .append(ResourceEditPage.dateRangeRowList(0).fillDates('12/18/2018', '12/16/2018'))
+              .clickSave();
+          });
       });
 
       it('highlights the textarea with an error state', () => {
@@ -81,11 +87,22 @@ describeApplication('CustomerResourceEdit', () => {
       it('displays a validation error message', () => {
         expect(ResourceEditPage.validationErrorOnCoverageStatement).to.equal('Statement must be 350 characters or less.');
       });
+
+      it('displays a validation error for coverage', () => {
+        expect(ResourceEditPage.dateRangeRowList(0).beginDate.isInvalid).to.be.true;
+      });
     });
 
     describe('entering valid data', () => {
       beforeEach(() => {
-        return ResourceEditPage.inputCoverageStatement('Only 90s kids would understand.');
+        return ResourceEditPage.interaction
+          .clickAddRowButton()
+          .once(() => ResourceEditPage.dateRangeRowList().length > 0)
+          .do(() => {
+            return ResourceEditPage
+              .inputCoverageStatement('Only 90s kids would understand.')
+              .append(ResourceEditPage.dateRangeRowList(0).fillDates('12/16/2018', '12/18/2018'));
+          });
       });
 
       describe('clicking cancel', () => {
@@ -93,7 +110,7 @@ describeApplication('CustomerResourceEdit', () => {
           return ResourceEditPage.clickCancel();
         });
 
-        it.skip('shows a navigation confirmation modal', () => {
+        it('shows a navigation confirmation modal', () => {
           expect(ResourceEditPage.navigationModal.$root).to.exist;
         });
       });
@@ -114,9 +131,17 @@ describeApplication('CustomerResourceEdit', () => {
     });
   });
 
-  describe('visiting the customer resource edit page with an existing coverage statement', () => {
+  describe('visiting the customer resource edit page with coverage dates and statement', () => {
     beforeEach(function () {
       resource.coverageStatement = 'Use this one weird trick to get access.';
+      let customCoverages = [
+        this.server.create('custom-coverage', {
+          beginCoverage: '1969-07-16',
+          endCoverage: '1972-12-19'
+        })
+      ];
+      resource.update('customCoverages', customCoverages.map(item => item.toJSON()));
+      resource.save();
 
       return this.visit(`/eholdings/customer-resources/${resource.titleId}/edit`, () => {
         expect(ResourceEditPage.$root).to.exist;
@@ -149,6 +174,7 @@ describeApplication('CustomerResourceEdit', () => {
             dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec,
             pellentesque eu, pretium quis, sem. Nulla consequat massa quis enim. Donec pede justo,
             fringilla vel, aliquet nec, vulputate e`)
+          .append(ResourceEditPage.dateRangeRowList(0).fillDates('12/18/2018', '12/16/2018'))
           .clickSave();
       });
 
@@ -159,11 +185,17 @@ describeApplication('CustomerResourceEdit', () => {
       it('displays a validation error message', () => {
         expect(ResourceEditPage.validationErrorOnCoverageStatement).to.equal('Statement must be 350 characters or less.');
       });
+
+      it('displays a validation error for coverage', () => {
+        expect(ResourceEditPage.dateRangeRowList(0).beginDate.isInvalid).to.be.true;
+      });
     });
 
     describe('entering valid data', () => {
       beforeEach(() => {
-        return ResourceEditPage.inputCoverageStatement('Refinance your home loans.');
+        return ResourceEditPage
+          .inputCoverageStatement('Refinance your home loans.')
+          .append(ResourceEditPage.dateRangeRowList(0).fillDates('12/16/2018', '12/18/2018'));
       });
 
       describe('clicking cancel', () => {
@@ -171,7 +203,7 @@ describeApplication('CustomerResourceEdit', () => {
           return ResourceEditPage.clickCancel();
         });
 
-        it.skip('shows a navigation confirmation modal', () => {
+        it('shows a navigation confirmation modal', () => {
           expect(ResourceEditPage.navigationModal.$root).to.exist;
         });
       });

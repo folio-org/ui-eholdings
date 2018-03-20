@@ -44,10 +44,6 @@
   margin-right: 1em;
 }
 
-.custom-embargo-component-width {
-  width: 13em;
-}
-
 .error-message {
   color: var(--error);
 }

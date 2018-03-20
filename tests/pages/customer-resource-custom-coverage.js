@@ -21,14 +21,14 @@ import Datepicker from './datepicker';
   hasSaveButton = isPresent('[data-test-eholdings-coverage-form-save-button] button');
   hasAddButton = isPresent('[data-test-eholdings-coverage-form-add-button] button');
   hasEditButton = isPresent('[data-test-eholdings-coverage-form-edit-button]');
-  clickAddRowButton = clickable('[data-test-eholdings-coverage-form-add-row-button] button');
+  clickAddRowButton = clickable('[data-test-eholdings-coverage-fields-add-row-button] button');
   displayText = text('[data-test-eholdings-coverage-form-display]');
-  hasNoRowsLeftMessage = isPresent('[data-test-eholdings-coverage-form-no-rows-left]');
+  hasNoRowsLeftMessage = isPresent('[data-test-eholdings-coverage-fields-no-rows-left]');
 
-  dateRangeRowList = collection('[data-test-eholdings-coverage-form-date-range-row]', {
-    beginDate: new Datepicker('[data-test-eholdings-coverage-form-date-range-begin]'),
-    endDate: new Datepicker('[data-test-eholdings-coverage-form-date-range-end]'),
-    clickRemoveRowButton: clickable('[data-test-eholdings-coverage-form-remove-row-button] button'),
+  dateRangeRowList = collection('[data-test-eholdings-coverage-fields-date-range-row]', {
+    beginDate: new Datepicker('[data-test-eholdings-coverage-fields-date-range-begin]'),
+    endDate: new Datepicker('[data-test-eholdings-coverage-fields-date-range-end]'),
+    clickRemoveRowButton: clickable('[data-test-eholdings-coverage-fields-remove-row-button] button'),
     fillDates(beginDate, endDate) {
       return this.beginDate.fillAndBlur(beginDate)
         .append(this.endDate.fillAndBlur(endDate));
