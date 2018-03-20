@@ -31,6 +31,10 @@ describeApplication('PackageSearch', () => {
     expect(PackageSearchPage.$searchField).to.exist;
   });
 
+  it('has disabled search button', () => {
+    expect(PackageSearchPage.isSearchButtonEnabled).to.equal(false);
+  });
+
   describe('searching for a package', () => {
     beforeEach(() => {
       PackageSearchPage.search('Package');
@@ -54,6 +58,10 @@ describeApplication('PackageSearch', () => {
 
     it('displays the total number of search results', () => {
       expect(PackageSearchPage.totalResults).to.equal('3 search results');
+    });
+
+    it('hides search filters on smaller screen sizes (due to new search term)', () => {
+      expect(PackageSearchPage.isSearchVignetteHidden).to.equal(true);
     });
 
     describe('clicking a search results list item', () => {
@@ -90,6 +98,10 @@ describeApplication('PackageSearch', () => {
           // to the history. Ensuring the back button works as expected
           let history = this.app.history;
           expect(history.entries[history.index - 1].search).to.include('q=Package');
+        });
+
+        it('hides search filters on smaller screen sizes (due to new search term)', () => {
+          expect(PackageSearchPage.isSearchVignetteHidden).to.equal(true);
         });
       });
 
@@ -158,6 +170,10 @@ describeApplication('PackageSearch', () => {
 
       it('reflects the filter in the URL query params', function () {
         expect(this.app.history.location.search).to.include('filter[type]=ebook');
+      });
+
+      it('shows search filters on smaller screen sizes (due to filter change only)', () => {
+        expect(PackageSearchPage.isSearchVignetteHidden).to.equal(false);
       });
 
       describe('clearing the filters', () => {
@@ -457,6 +473,19 @@ describeApplication('PackageSearch', () => {
         expect(PackageSearchPage.packageList[0].name).to.equal('Academic ASAP');
         expect(PackageSearchPage.packageList[1].name).to.equal('Academic Search Elite');
         expect(PackageSearchPage.packageList[2].name).to.equal('Academic Search Premier');
+      });
+    });
+
+    describe('clearing the search field', () => {
+      beforeEach(() => {
+        return convergeOn(() => {
+          expect(PackageSearchPage.$searchResultsItems).to.have.lengthOf(0);
+        }).then(() => (
+          PackageSearchPage.clearSearch()
+        ));
+      });
+      it('has disabled search button', () => {
+        expect(PackageSearchPage.isSearchButtonEnabled).to.equal(false);
       });
     });
   });

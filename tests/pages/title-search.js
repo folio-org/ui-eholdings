@@ -72,6 +72,14 @@ export default {
     return $('[data-test-search-form-type-switcher] a[class^="is-active--"]');
   },
 
+  get isSearchButtonEnabled() {
+    return $('[data-test-search-submit]').prop('disabled') === false;
+  },
+
+  get isSearchVignetteHidden() {
+    return $('[data-test-search-vignette]').attr('class').indexOf('is-hidden--') !== -1;
+  },
+
   clickSearchVignette() {
     return $('[data-test-search-vignette]').trigger('click');
   },
@@ -83,6 +91,13 @@ export default {
       expect($input).to.have.value(query);
     }).then(() => {
       $('[data-test-search-submit]').trigger('click');
+    });
+  },
+  clearSearch() {
+    let $input = $('[data-test-title-search-field]').find('input[name="search"]').val('');
+    triggerChange($input.get(0));
+    return convergeOn(() => {
+      expect($input).to.have.value('');
     });
   },
   get $searchFieldSelect() {

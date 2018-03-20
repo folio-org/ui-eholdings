@@ -5,12 +5,11 @@ import PaneMenu from '@folio/stripes-components/lib/PaneMenu';
 import IconButton from '@folio/stripes-components/lib/IconButton';
 import Button from '@folio/stripes-components/lib/Button';
 import capitalize from 'lodash/capitalize';
-
+import { qs } from '../utilities';
 import SearchPane from '../search-pane';
 import ResultsPane from '../results-pane';
 import PreviewPane from '../preview-pane';
 import SearchPaneVignette from '../search-pane-vignette';
-
 import styles from './search-paneset.css';
 
 export default class SearchPaneset extends React.Component {
@@ -22,7 +21,10 @@ export default class SearchPaneset extends React.Component {
     detailsView: PropTypes.node,
     totalResults: PropTypes.number,
     isLoading: PropTypes.bool,
-    location: PropTypes.object
+    location: PropTypes.shape({
+      pathname: PropTypes.string.isRequired,
+      search: PropTypes.string.isRequired
+    }).isRequired
   };
 
   static defaultProps = {
@@ -40,11 +42,24 @@ export default class SearchPaneset extends React.Component {
     hideFilters: this.props.hideFilters
   };
 
-  componentWillReceiveProps({ hideFilters, resultsType }) {
-    let isSameSearchType = resultsType === this.props.resultsType;
+  componentWillReceiveProps({ resultsType, location }) {
+    let isSameLocation = location.search === this.props.location.search;
 
-    if (isSameSearchType && hideFilters !== this.state.hideFilters) {
-      this.setState({ hideFilters });
+    if (!isSameLocation) {
+      let isSameSearchType = resultsType === this.props.resultsType;
+
+      if (isSameSearchType) {
+        let { ...nextSearchParams } = qs.parse(location.search);
+        let { ...searchParams } = qs.parse(this.props.location.search);
+
+        let searchTermChanged = nextSearchParams.q !== searchParams.q;
+
+        if (searchTermChanged) {
+          this.setState({ hideFilters: true });
+        } else {
+          this.setState({ hideFilters: false });
+        }
+      }
     }
   }
 
