@@ -89,7 +89,7 @@ jobs:
             firefox --version
       - run:
           name: Run tests
-          command: yarn test --karma.singleRun --karma.browsers=Firefox || true
+          command: yarn test --karma.singleRun --karma.browsers=Firefox
       - store_test_results:
           path: ./artifacts/junit
       - store_artifacts:
@@ -144,11 +144,5 @@ workflows:
           requires:
             - checkout-and-install
       - test-firefox:
-          requires:
-            - checkout-and-install
-      - test-edge:
-          requires:
-            - checkout-and-install
-      - test-ie:
           requires:
             - checkout-and-install
