@@ -68,7 +68,7 @@ describeApplication('ProviderSearch', () => {
       });
 
       it('shows the preview pane', () => {
-        expect(ProviderSearchPage.previewPaneIsVisible).to.be.true;
+        expect(ProviderSearchPage.previewPaneIsVisible('providers')).to.be.true;
       });
 
       it('should not display back button in UI', () => {
@@ -81,7 +81,7 @@ describeApplication('ProviderSearch', () => {
         });
 
         it('removes the preview detail pane', () => {
-          expect(ProviderSearchPage.previewPaneIsVisible).to.not.be.true;
+          expect(ProviderSearchPage.previewPaneIsVisible('providers')).to.not.be.true;
         });
 
         it('preserves the last history entry', function () {
@@ -98,7 +98,7 @@ describeApplication('ProviderSearch', () => {
         });
 
         it('hides the preview pane', () => {
-          expect(ProviderSearchPage.previewPaneIsVisible).to.be.false;
+          expect(ProviderSearchPage.previewPaneIsVisible('providers')).to.be.false;
         });
       });
 
@@ -146,7 +146,8 @@ describeApplication('ProviderSearch', () => {
         return convergeOn(() => {
           // wait for the previous search to complete
           expect(ProviderSearchPage.$searchResultsItems).to.have.lengthOf(3);
-        }).then(() => ProviderSearchPage.changeSearchType('packages'));
+        }).then(() => ProviderSearchPage.$searchResultsItems[0].click())
+          .then(() => ProviderSearchPage.changeSearchType('packages'));
       });
 
       it('only shows one search type as selected', () => {
@@ -161,6 +162,10 @@ describeApplication('ProviderSearch', () => {
         expect(ProviderSearchPage.$searchResultsItems).to.have.lengthOf(0);
       });
 
+      it('does not show the preview pane', () => {
+        expect(ProviderSearchPage.previewPaneIsVisible('packages')).to.be.false;
+      });
+
       describe('navigating back to providers search', () => {
         beforeEach(() => {
           return ProviderSearchPage.changeSearchType('providers');
@@ -172,6 +177,10 @@ describeApplication('ProviderSearch', () => {
 
         it('displays the original search results', () => {
           expect(ProviderSearchPage.$searchResultsItems).to.have.lengthOf(3);
+        });
+
+        it('shows the preview pane', () => {
+          expect(ProviderSearchPage.previewPaneIsVisible('providers')).to.be.true;
         });
       });
     });

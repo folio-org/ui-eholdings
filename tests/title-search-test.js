@@ -109,7 +109,7 @@ describeApplication('TitleSearch', () => {
       });
 
       it('shows the preview pane', () => {
-        expect(TitleSearchPage.previewPaneIsVisible).to.be.true;
+        expect(TitleSearchPage.previewPaneIsVisible('titles')).to.be.true;
       });
 
       it('should not display back button in UI', () => {
@@ -122,7 +122,7 @@ describeApplication('TitleSearch', () => {
         });
 
         it('removes the preview detail pane', () => {
-          expect(TitleSearchPage.previewPaneIsVisible).to.not.be.true;
+          expect(TitleSearchPage.previewPaneIsVisible('titles')).to.not.be.true;
         });
 
         it('preserves the last history entry', function () {
@@ -139,7 +139,7 @@ describeApplication('TitleSearch', () => {
         });
 
         it('hides the preview pane', () => {
-          expect(TitleSearchPage.previewPaneIsVisible).to.be.false;
+          expect(TitleSearchPage.previewPaneIsVisible('titles')).to.be.false;
         });
       });
 
@@ -391,7 +391,8 @@ describeApplication('TitleSearch', () => {
         return convergeOn(() => {
           // wait for the previous search to complete
           expect(TitleSearchPage.$searchResultsItems).to.have.lengthOf(3);
-        }).then(() => TitleSearchPage.changeSearchType('providers'));
+        }).then(() => TitleSearchPage.$searchResultsItems[0].click())
+          .then(() => TitleSearchPage.changeSearchType('providers'));
       });
 
       it('only shows one search type as selected', () => {
@@ -406,6 +407,10 @@ describeApplication('TitleSearch', () => {
         expect(TitleSearchPage.$searchResultsItems).to.have.lengthOf(0);
       });
 
+      it('does not show the preview pane', () => {
+        expect(TitleSearchPage.previewPaneIsVisible('providers')).to.be.false;
+      });
+
       describe('navigating back to titles search', () => {
         beforeEach(() => {
           return TitleSearchPage.changeSearchType('titles');
@@ -417,6 +422,10 @@ describeApplication('TitleSearch', () => {
 
         it('displays the original search results', () => {
           expect(TitleSearchPage.$searchResultsItems).to.have.lengthOf(3);
+        });
+
+        it('shows the preview pane', () => {
+          expect(TitleSearchPage.previewPaneIsVisible('titles')).to.be.true;
         });
       });
     });
@@ -479,7 +488,6 @@ describeApplication('TitleSearch', () => {
       });
     });
   });
-
 
   describe('with multiple pages of titles', () => {
     beforeEach(function () {
