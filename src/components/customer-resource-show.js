@@ -17,7 +17,7 @@ import CustomEmbargoForm from './custom-embargo-form';
 import CoverageStatementForm from './coverage-statement-form';
 import NavigationModal from './navigation-modal';
 import DetailsViewSection from './details-view-section';
-import Toast from './toast';
+import Toaster from './toaster';
 
 export default class CustomerResourceShow extends Component {
   static propTypes = {
@@ -90,7 +90,6 @@ export default class CustomerResourceShow extends Component {
     let hasErrors = model.update.isRejected;
     let errors = hasErrors ? model.update.errors.map((error, index) => ({
       message: error.title,
-      id: `error-${index}`,
       type: 'error'
     })) : [];
     let { locale, intl } = this.context;
@@ -134,8 +133,7 @@ export default class CustomerResourceShow extends Component {
 
     return (
       <div>
-        {hasErrors ?
-        errors.map((error, index) => <Toast key={`errorToast-${index}`}>{error.message}</Toast>) : null}
+        <Toaster toasts={errors} position="top" />
 
         <DetailsView
           type="resource"

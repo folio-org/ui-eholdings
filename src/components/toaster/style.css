@@ -2,52 +2,63 @@
   position: fixed;
   right: 0;
   width: 100%;
-  display: none;
 }
 
 .bottom {
-  bottom: 20px;
+  bottom: 0;
+}
+
+.top {
+  top: 20px;
+}
+
+.transitionWrapper {
   pointer-events: none;
+}
+
+.toast {
+  display: none;
+  justify-content: space-between;
+  width: 300px;
+  margin-left: auto;
+  margin-bottom: 20px;
+  margin-right: auto;
+  color: white;
+  padding: 10px;
+  border-radius: 4px;
+  pointer-events: auto;
+}
+
+.slideInBottom {
+  display: flex;
   animation-name: slideInBottom;
   animation-duration: 1s;
   animation-fill-mode: both;
 }
 
 .slideOutBottom {
-  display: block;
+  display: flex;
   animation-name: slideOutBottom;
   animation-duration: 1s;
   animation-fill-mode: both;
 }
 
-.top {
-  top: 20px;
+.slideInTop {
+  display: flex;
   animation-name: slideInTop;
   animation-duration: 1s;
   animation-fill-mode: both;
 }
 
 .slideOutTop {
-  display: block;
+  display: flex;
   animation-name: slideOutTop;
   animation-duration: 1s;
   animation-fill-mode: both;
 }
 
 .isOpen {
-  display: block;
-}
-
-.toast {
   display: flex;
-  justify-content: space-between;
-  width: 300px;
-  margin-right: auto;
-  margin-left: auto;
-  color: white;
-  padding: 10px;
-  border-radius: 4px;
-  pointer-events: auto;
 }
 
 .error {
