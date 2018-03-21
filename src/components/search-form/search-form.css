@@ -62,30 +62,6 @@
   }
 }
 
-.search-submit {
-  background-color: var(--primary);
-  border: 1px solid var(--primary);
-  border-radius: 0.4em;
-  color: #fff;
-  line-height: 2;
-  width: 100%;
-
-  &:hover {
-    background-color: color(var(--primary) shade(8%));
-  }
-
-  &[disabled] {
-    background-color: #ccc;
-    border-color: #ccc;
-    color: #888;
-
-    &:hover {
-      cursor: initial;
-      opacity: 1;
-    }
-  }
-}
-
 .search-results-list {
   margin: 1em 0;
   padding-left: 0;

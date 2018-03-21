@@ -4,6 +4,7 @@ import Link from 'react-router-dom/Link';
 import capitalize from 'lodash/capitalize';
 import isEqual from 'lodash/isEqual';
 import SearchField from '@folio/stripes-components/lib/structures/SearchField';
+import Button from '@folio/stripes-components/lib/Button';
 import ProviderSearchFilters from '../provider-search-filters';
 import PackageSearchFilters from '../package-search-filters';
 import TitleSearchFilters from '../title-search-filters';
@@ -166,14 +167,15 @@ export default class SearchForm extends Component {
               />
             </div>
           )}
-          <button
-            className={styles['search-submit']}
+          <Button
             type="submit"
+            buttonStyle="primary"
+            fullWidth
             disabled={!searchString}
             data-test-search-submit
           >
             Search
-          </button>
+          </Button>
 
           {Filters && (
             <div>
