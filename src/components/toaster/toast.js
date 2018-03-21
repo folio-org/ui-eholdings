@@ -2,9 +2,9 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { CSSTransition } from 'react-transition-group';
 import classNames from 'classnames';
-import style from './style.css';
-
 import Icon from '@folio/stripes-components/lib/Icon';
+
+import style from './style.css';
 
 function captialize(word) {
   return word[0].toUpperCase() + word.substr(1);
@@ -18,14 +18,6 @@ function captialize(word) {
  *
  */
 class Toast extends Component {
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      isOpen: props.isOpen || true
-    };
-  }
-
   static propTypes = {
     // determine which way the toast should animate, based on where
     // `Toaster` is positioned
@@ -55,6 +47,14 @@ class Toast extends Component {
     timeout: 5000
   };
 
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      isOpen: props.isOpen || true
+    };
+  }
+
   componentDidMount() {
     this.timer = window.setTimeout(() => {
       this.hideToast();
@@ -83,11 +83,12 @@ class Toast extends Component {
       <CSSTransition
         in={isOpen}
         timeout={1000}
-        unmountOnExit={true}
+        unmountOnExit
         classNames={{
           enter: style[`slideIn${captialize(animationPosition)}`],
           exit: style[`slideOut${captialize(animationPosition)}`]
-        }}>
+        }}
+      >
         <div className={toastClass} aria-live="assertive">
           {this.props.children}
 

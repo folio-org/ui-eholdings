@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { TransitionGroup } from 'react-transition-group';
+import classNames from 'classnames';
 import style from './style.css';
 import Toast from './toast';
-import classNames from 'classNames';
 
 /**
  * A component to display & manage toast notifications.
@@ -43,7 +43,7 @@ class Toaster extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    if(nextProps.toasts) {
+    if (nextProps.toasts) {
       this.setState({ toasts: nextProps.toasts });
     }
   }
@@ -58,15 +58,17 @@ class Toaster extends Component {
     let { position } = this.props;
     let { toasts } = this.state;
 
-    if(!toasts.length) { return null; }
+    if (!toasts.length) { return null; }
 
-    return toasts.map((toast, index) => {
+    return toasts.map((toast) => {
       return (
-        <Toast type={toast.type}
-               onClose={this.destroyToast}
-               id={toast.id}
-               animationPosition={position}
-               key={toast.id}>
+        <Toast
+          type={toast.type}
+          onClose={this.destroyToast}
+          id={toast.id}
+          animationPosition={position}
+          key={toast.id}
+        >
           {toast.message}
         </Toast>
       );
