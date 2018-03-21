@@ -143,6 +143,23 @@ describeApplication('CustomerResourceShow', () => {
       expect(ResourcePage.hasBackButton).to.be.false;
     });
 
+    describe('toggling is selected with errors', () => {
+      beforeEach(function () {
+        this.server.put('/customer-resources/:id', {
+          errors: [{
+            title: 'There was an error'
+          }]
+        }, 500);
+
+        return ResourcePage
+          .toggleIsSelected();
+      });
+
+      it('displays the error', () => {
+        expect(ResourcePage.toast.errorText).to.equal('There was an error');
+      });
+    });
+
     describe('navigating away when editing a field', () => {
       beforeEach(() => {
         return ResourcePage

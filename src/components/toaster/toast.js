@@ -89,7 +89,7 @@ class Toast extends Component {
           exit: style[`slideOut${captialize(animationPosition)}`]
         }}
       >
-        <div className={toastClass} aria-live="assertive">
+        <div className={toastClass} aria-live="assertive" data-test-eholdings-toast={type}>
           {this.props.children}
 
           <button onClick={this.hideToast}>
