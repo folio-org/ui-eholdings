@@ -13,7 +13,7 @@ function captialize(word) {
 /**
  * A component to display toast notifications. It handles error, info,
  * and success notifications. You typically won't use this component
- * indivudually. Instead you should use the `Toaster` component which
+ * individually. Instead you should use the `Toaster` component which
  * manages `Toast` components.
  *
  */
