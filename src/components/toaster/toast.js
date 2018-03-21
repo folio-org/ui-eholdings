@@ -11,7 +11,7 @@ function captialize(word) {
 }
 
 /**
- * A component to display toast notifications. It handles error, info,
+ * A component to display toast notifications. It handles error, warn,
  * and success notifications. You typically won't use this component
  * individually. Instead you should use the `Toaster` component which
  * manages `Toast` components.
@@ -26,7 +26,7 @@ class Toast extends Component {
     // if the toast is open or not
     isOpen: PropTypes.bool,
 
-    // the type of toast: info, error, or success
+    // the type of toast: warn, error, or success
     type: PropTypes.string,
 
     // the error message is a child of the `Toast` component
@@ -43,7 +43,7 @@ class Toast extends Component {
   };
 
   static defaultProps = {
-    type: 'info',
+    type: 'warn',
     timeout: 5000
   };
 

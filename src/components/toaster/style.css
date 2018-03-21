@@ -1,3 +1,5 @@
+@import '@folio/stripes-components/lib/variables';
+
 .container {
   position: fixed;
   z-index: 1;
@@ -27,7 +29,7 @@
   margin-right: auto;
   color: white;
   padding: 10px;
-  border-radius: 4px;
+  border-radius: var(--radius);
   pointer-events: auto;
 }
 
@@ -60,15 +62,15 @@
 }
 
 .error {
-  background-color: red;
+  background-color: var(--error)
 }
 
-.info {
-  background-color: blue;
+.warn {
+  background-color: var(--warn)
 }
 
 .success {
-  background-color: green;
+  background-color: var(--success)
 }
 
 .closeIcon {
