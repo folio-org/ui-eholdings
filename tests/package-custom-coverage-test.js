@@ -91,8 +91,8 @@ describeApplication('PackageCustomCoverage', () => {
       });
 
       it('displays the date input fields', () => {
-        expect(PackageShowPage.dateFields.hasBeginDateField).to.be.true;
-        expect(PackageShowPage.dateFields.hasEndDateField).to.be.true;
+        expect(PackageShowPage.beginDate.exists).to.be.true;
+        expect(PackageShowPage.endDate.exists).to.be.true;
       });
     });
   });
@@ -129,24 +129,22 @@ describeApplication('PackageCustomCoverage', () => {
       });
 
       it('displays custom coverage date inputs', () => {
-        expect(PackageShowPage.dateFields.hasBeginDateField).to.be.true;
-        expect(PackageShowPage.dateFields.hasEndDateField).to.be.true;
+        expect(PackageShowPage.beginDate.exists).to.be.true;
+        expect(PackageShowPage.endDate.exists).to.be.true;
       });
 
       describe('entering valid coverage', () => {
         describe('with begin date and end date', () => {
           beforeEach(() => {
-            return PackageShowPage.dateFields
-              .fillBeginDate('12/16/2018')
-              .fillEndDate('12/24/2018');
+            return PackageShowPage.fillDates('12/16/2018', '12/24/2018');
           });
 
           it('accepts valid begin date', () => {
-            expect(PackageShowPage.dateFields.beginDateValue).to.equal('12/16/2018');
+            expect(PackageShowPage.beginDate.value).to.equal('12/16/2018');
           });
 
           it('accepts valid end date', () => {
-            expect(PackageShowPage.dateFields.endDateValue).to.equal('12/24/2018');
+            expect(PackageShowPage.endDate.value).to.equal('12/24/2018');
           });
 
           it('save button is enabled', () => {
@@ -163,8 +161,8 @@ describeApplication('PackageCustomCoverage', () => {
             });
 
             it('removes the custom coverage input fields', () => {
-              expect(PackageShowPage.$beginDateField).to.not.exist;
-              expect(PackageShowPage.$endDateField).to.not.exist;
+              expect(PackageShowPage.beginDate.exists).to.be.false;
+              expect(PackageShowPage.endDate.exists).to.be.false;
             });
 
             it('does not display the button to add custom coverage', () => {
@@ -175,11 +173,11 @@ describeApplication('PackageCustomCoverage', () => {
 
         describe('with begin date and no end date', () => {
           beforeEach(() => {
-            return PackageShowPage.dateFields.fillBeginDate('12/16/2018');
+            return PackageShowPage.beginDate.fillAndBlur('12/16/2018');
           });
 
           it('accepts valid begin date', () => {
-            expect(PackageShowPage.dateFields.beginDateValue).to.equal('12/16/2018');
+            expect(PackageShowPage.beginDate.value).to.equal('12/16/2018');
           });
 
           it('save button is enabled', () => {
@@ -196,8 +194,8 @@ describeApplication('PackageCustomCoverage', () => {
             });
 
             it('removes the custom coverage input fields', () => {
-              expect(PackageShowPage.dateFields.hasBeginDateField).to.be.false;
-              expect(PackageShowPage.dateFields.hasEndDateField).to.be.false;
+              expect(PackageShowPage.beginDate.exists).to.be.false;
+              expect(PackageShowPage.endDate.exists).to.be.false;
             });
 
             it('does not display the button to add custom coverage', () => {
@@ -210,7 +208,7 @@ describeApplication('PackageCustomCoverage', () => {
       describe('entering invalid coverage', () => {
         describe('with no begin date', () => {
           beforeEach(() => {
-            return PackageShowPage.dateFields.enterAndClearBeginDate('12/16/2018');
+            return PackageShowPage.beginDate.fillAndClear('12/16/2018');
           });
 
           it('rejects invalid begin date', () => {
@@ -220,8 +218,7 @@ describeApplication('PackageCustomCoverage', () => {
 
         describe('with begin date after end date', () => {
           beforeEach(() => {
-            return PackageShowPage.dateFields
-              .enterBeginDateAfterEndDate('12/24/2018', '12/16/2018');
+            return PackageShowPage.fillDates('12/24/2018', '12/16/2018');
           });
 
 
@@ -238,8 +235,8 @@ describeApplication('PackageCustomCoverage', () => {
         });
 
         it('removes the custom coverage input fields', () => {
-          expect(PackageShowPage.dateFields.hasBeginDateField).to.be.false;
-          expect(PackageShowPage.dateFields.hasEndDateField).to.be.false;
+          expect(PackageShowPage.beginDate.exists).to.be.false;
+          expect(PackageShowPage.endDate.exists).to.be.false;
         });
 
         it('displays the button to add custom coverage', () => {
