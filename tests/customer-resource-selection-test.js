@@ -3,6 +3,7 @@ import { expect } from 'chai';
 
 import { describeApplication } from './helpers';
 import ResourcePage from './pages/customer-resource-show';
+import ResourcePageBigTest from './pages/bigtest/customer-resource-show';
 
 describeApplication('CustomerResourceSelection', () => {
   let provider,
@@ -122,8 +123,8 @@ describeApplication('CustomerResourceSelection', () => {
           expect(ResourcePage.isSelecting).to.equal(false);
         });
 
-        it.skip('logs an Error somewhere', () => {
-          expect(ResourcePage.flashError).to.match(/unable to select/i);
+        it('displays a toast error', () => {
+          expect(ResourcePageBigTest.toast.errorText).to.equal('There was an error');
         });
       });
     });

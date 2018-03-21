@@ -86,11 +86,11 @@
 }
 
 @keyframes slideInTop {
-  0% { transform: translate3d(0, 50rem, 0); }
+  0% { transform: translate3d(0, -50rem, 0); }
   100% { transform: translate3d(0, 0, 0); }
 }
 
 @keyframes slideOutTop {
-  100% { transform: translate3d(0, 50rem, 0); }
+  100% { transform: translate3d(0, -50rem, 0); }
   0% { transform: translate3d(0, 0, 0); }
 }
