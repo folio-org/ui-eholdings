@@ -34,8 +34,6 @@ class CustomerResourceShowRoute extends Component {
     }
   }
 
-  // where would I catch the error for this update?
-  // then I need to display a toast with the error message
   toggleSelected = () => {
     let { model, updateResource } = this.props;
     model.isSelected = !model.isSelected;

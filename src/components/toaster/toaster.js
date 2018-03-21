@@ -21,7 +21,7 @@ class Toaster extends Component {
     position: PropTypes.string,
     // array of toast messages to display
     toasts: PropTypes.arrayOf(PropTypes.shape({
-      // the type of toast: info, error, or success
+      // the type of toast: warn, error, or success
       type: PropTypes.string,
       // to pick the specific toast out when calling `onClose`
       id: PropTypes.string.isRequired,
