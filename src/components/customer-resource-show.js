@@ -90,7 +90,8 @@ export default class CustomerResourceShow extends Component {
     let hasErrors = model.update.isRejected;
     let errors = hasErrors ? model.update.errors.map((error, index) => ({
       message: error.title,
-      type: 'error'
+      type: 'error',
+      id: `error-${model.update.timestamp}-${index}`
     })) : [];
     let { locale, intl } = this.context;
     let {
@@ -133,7 +134,7 @@ export default class CustomerResourceShow extends Component {
 
     return (
       <div>
-        <Toaster toasts={errors} position="top" />
+        <Toaster toasts={errors} position="bottom" />
 
         <DetailsView
           type="resource"

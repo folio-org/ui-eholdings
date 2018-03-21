@@ -1,5 +1,7 @@
 .container {
   position: fixed;
+  z-index: 1;
+  pointer-events: none;
   right: 0;
   width: 100%;
 }
@@ -17,7 +19,7 @@
 }
 
 .toast {
-  display: none;
+  display: flex;
   justify-content: space-between;
   width: 300px;
   margin-left: auto;
@@ -30,28 +32,24 @@
 }
 
 .slideInBottom {
-  display: flex;
   animation-name: slideInBottom;
   animation-duration: 1s;
   animation-fill-mode: both;
 }
 
 .slideOutBottom {
-  display: flex;
   animation-name: slideOutBottom;
   animation-duration: 1s;
   animation-fill-mode: both;
 }
 
 .slideInTop {
-  display: flex;
   animation-name: slideInTop;
   animation-duration: 1s;
   animation-fill-mode: both;
 }
 
 .slideOutTop {
-  display: flex;
   animation-name: slideOutTop;
   animation-duration: 1s;
   animation-fill-mode: both;
@@ -78,27 +76,21 @@
 }
 
 @keyframes slideInBottom {
-  0% { transform: translate3d(0, 300%, 0) }
-  58% { transform: translate3d(0, -7px, 0) }
-  88% { transform: translate3d(0, -2px, 0) }
-  100% { transform: translate3d(0, 0px, 0) }
+  0% { transform: translate3d(0, 50rem, 0) }
+  100% { transform: translate3d(0, 0, 0) }
 }
 
 @keyframes slideOutBottom {
-  100% { transform: translate3d(0, 310%, 0) }
-  88% { transform: translate3d(0, 300%, 0) }
-  58% { transform: translate3d(0, -7px, 0) }
+  100% { transform: translate3d(0, 50rem, 0) }
   0% { transform: translate3d(0, 0, 0) }
 }
 
 @keyframes slideInTop {
-  0% { transform: translate3d(0, -300%, 0) }
-  58% { transform: translate3d(0, 7px, 0) }
-  100% { transform: translate3d(0, 0px, 0) }
+  0% { transform: translate3d(0, 50rem, 0) }
+  100% { transform: translate3d(0, 0, 0) }
 }
 
 @keyframes slideOutTop {
-  100% { transform: translate3d(0, -300%, 0) }
-  88% { transform: translate3d(0, 7px, 0) }
-  0% { transform: translate3d(0, 0px, 0) }
+  100% { transform: translate3d(0, 50rem, 0) }
+  0% { transform: translate3d(0, 0, 0) }
 }

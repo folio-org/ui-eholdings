@@ -11,26 +11,11 @@ function captialize(word) {
 }
 
 /**
- * TODOS
- * - Close toast on timeout
- * - Add more positions
- *   - left
- *   - right
- * - Docs on everything (how do the animations work, etc)
- *
- *
- *
- *
- *
- *
- */
-
-
-/**
  * A component to display toast notifications. It handles error, info,
- * and success notifications.
+ * and success notifications. You typically won't use this component
+ * indivudually. Instead you should use the `Toaster` component which
+ * manages `Toast` components.
  *
- * TODO, there's more
  */
 class Toast extends Component {
   constructor(props) {
@@ -42,59 +27,66 @@ class Toast extends Component {
   }
 
   static propTypes = {
+    // determine which way the toast should animate, based on where
+    // `Toaster` is positioned
     animationPosition: PropTypes.string,
+
+    // if the toast is open or not
     isOpen: PropTypes.bool,
+
+    // the type of toast: info, error, or success
     type: PropTypes.string,
-    children: PropTypes.node.isRequired
+
+    // the error message is a child of the `Toast` component
+    children: PropTypes.node.isRequired,
+
+    // to pick the specific toast out when calling `onClose`
+    id: PropTypes.string.isRequired,
+
+    // called when the toast is closed
+    onClose: PropTypes.func.isRequired,
+
+    // change the amount of time the toast is displayed for
+    timeout: PropTypes.number
   };
 
   static defaultProps = {
-    type: 'info'
+    type: 'info',
+    timeout: 5000
   };
 
-  // componentDidMount() {
-  //   this.timer = setTimeout(() => {
-  //     this.hideToast();
-  //   }, 5000);
-  // }
+  componentDidMount() {
+    this.timer = window.setTimeout(() => {
+      this.hideToast();
+    }, this.props.timeout);
+  }
 
-  // willDestroyElement() {
-  //   this.timer = null;
-  // }
-
-  componentWillReceiveProps() {
-    // this cannot be..
-    // ...
-    // this exists because if you get the same exact error back to
-    // back it will not redisplay the toasts
-    this.setState({ isOpen: true });
+  componentWillUnmount() {
+    window.clearTimeout(this.timer);
   }
 
   hideToast = () => {
-    this.setState({ isOpen: false });
+    this.setState({ isOpen: false }, () => {
+      this.props.onClose(this.props.id);
+    });
   }
 
   render() {
     let { isOpen } = this.state;
     let { type, animationPosition } = this.props;
-    let animationClasses = {
-      enter: style[`slideIn${captialize(animationPosition)}`],
-      exit: style[`slideOut${captialize(animationPosition)}`]
-    };
-
     let toastClass = classNames({
       [style.toast]: true,
-      [style[type]]: true,
-      [style.isOpen]: isOpen
+      [style[type]]: true
     });
 
     return (
       <CSSTransition
         in={isOpen}
         timeout={1000}
+        unmountOnExit={true}
         classNames={{
-          enter: animationClasses.enter,
-          exit: animationClasses.exit
+          enter: style[`slideIn${captialize(animationPosition)}`],
+          exit: style[`slideOut${captialize(animationPosition)}`]
         }}>
         <div className={toastClass} aria-live="assertive">
           {this.props.children}
