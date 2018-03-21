@@ -1,6 +1,6 @@
 # ui-eholdings
 
-[![Build Status](https://travis-ci.org/folio-org/ui-eholdings.svg?branch=master)](https://travis-ci.org/folio-org/ui-eholdings)
+[![Build Status](https://circleci.com/gh/folio-org/ui-eholdings/tree/master.svg?style=svg)](https://circleci.com/gh/folio-org/ui-eholdings)
 
 Copyright (C) 2017-2018 The Open Library Foundation
 
