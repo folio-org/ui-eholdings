@@ -4,4 +4,10 @@ export default function customerResourceError(server) {
       title: 'What have you done?!'
     }]
   }, 500);
+
+  server.put('/packages/:packageId', {
+    errors: [{
+      title: 'There was an error'
+    }]
+  }, 500);
 }

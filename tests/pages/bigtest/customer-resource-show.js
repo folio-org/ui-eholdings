@@ -9,6 +9,7 @@ import {
   value
 } from '@bigtest/interaction';
 import { isRootPresent, hasClassBeginningWith } from '../helpers';
+import Toast from './toast';
 
 
 @page class CustomerResourceShowDeselectionModal {
@@ -48,7 +49,7 @@ import { isRootPresent, hasClassBeginningWith } from '../helpers';
   deselectionModal = new CustomerResourceShowDeselectionModal('#eholdings-customer-resource-deselection-confirmation-modal');
   navigationModal = new CustomerResourceShowNavigationModal('#navigation-modal');
   hasHiddenToggle = isPresent('[data-test-eholdings-customer-resource-toggle-hidden] input');
-
+  toast = Toast
   managedEmbargoPeriod = text('[data-test-eholdings-customer-resource-show-managed-embargo-period]');
   hasManagedEmbargoPeriod = isPresent('[data-test-eholdings-customer-resource-show-managed-embargo-period]');
   customEmbargoPeriod = text('[data-test-eholdings-customer-resource-custom-embargo-display]');

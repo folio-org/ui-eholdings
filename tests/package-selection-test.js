@@ -4,6 +4,8 @@ import { convergeOn } from '@bigtest/convergence';
 
 import { describeApplication } from './helpers';
 import PackageShowPage from './pages/package-show';
+// we should remove this once everything is converted over.
+import PackageShowPageBigTest from './pages/bigtest/package-show';
 
 describeApplication('PackageSelection', () => {
   let provider,
@@ -193,8 +195,8 @@ describeApplication('PackageSelection', () => {
           expect(PackageShowPage.isSelecting).to.equal(false);
         });
 
-        it.skip('logs an Error somewhere', () => {
-          expect(PackageShowPage.flashError).to.match(/unable to select/i);
+        it('shows the error as a toast', () => {
+          expect(PackageShowPageBigTest.toast.errorText).to.equal('There was an error');
         });
       });
     });

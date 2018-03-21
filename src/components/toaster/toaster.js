@@ -83,7 +83,7 @@ class Toaster extends Component {
     });
 
     return (
-      <div className={containerClass}>
+      <div className={containerClass} data-test-eholdings-toaster-container>
         <TransitionGroup className={style.transitionWrapper}>
           {this.renderToasts()}
         </TransitionGroup>
