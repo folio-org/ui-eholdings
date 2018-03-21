@@ -73,6 +73,17 @@
   &:hover {
     background-color: color(var(--primary) shade(8%));
   }
+
+  &[disabled] {
+    background-color: #ccc;
+    border-color: #ccc;
+    color: #888;
+
+    &:hover {
+      cursor: initial;
+      opacity: 1;
+    }
+  }
 }
 
 .search-results-list {

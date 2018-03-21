@@ -26,6 +26,10 @@ describeApplication('ProviderSearch', () => {
     expect(ProviderSearchPage.$searchField).to.exist;
   });
 
+  it('has disabled search button', () => {
+    expect(ProviderSearchPage.isSearchButtonEnabled).to.equal(false);
+  });
+
   describe('searching for a provider', () => {
     beforeEach(() => {
       ProviderSearchPage.search('Provider');
@@ -53,6 +57,10 @@ describeApplication('ProviderSearch', () => {
 
     it('displays the total number of search results', () => {
       expect(ProviderSearchPage.totalResults).to.equal('3 search results');
+    });
+
+    it('hides search filters on smaller screen sizes (due to new search term)', () => {
+      expect(ProviderSearchPage.isSearchVignetteHidden).to.equal(true);
     });
 
     describe('clicking a search results list item', () => {
@@ -89,6 +97,10 @@ describeApplication('ProviderSearch', () => {
           // to the history. Ensuring the back button works as expected
           let history = this.app.history;
           expect(history.entries[history.index - 1].search).to.include('q=Provider');
+        });
+
+        it('hides search filters on smaller screen sizes (due to new search term)', () => {
+          expect(ProviderSearchPage.isSearchVignetteHidden).to.equal(true);
         });
       });
 
@@ -233,6 +245,10 @@ describeApplication('ProviderSearch', () => {
         expect(this.app.history.location.search).to.not.include('sort=relevance');
       });
 
+      it('hides search filters on smaller screen sizes (due to new search term)', () => {
+        expect(ProviderSearchPage.isSearchVignetteHidden).to.equal(true);
+      });
+
       describe('then filtering by sort options', () => {
         beforeEach(() => {
           return convergeOn(() => {
@@ -257,6 +273,10 @@ describeApplication('ProviderSearch', () => {
           expect(this.app.history.location.search).to.include('sort=name');
         });
 
+        it('shows search filters on smaller screen sizes (due to filter change only)', () => {
+          expect(ProviderSearchPage.isSearchVignetteHidden).to.equal(false);
+        });
+
         describe('then searching for other providers', () => {
           beforeEach(() => {
             ProviderSearchPage.search('analytics');
@@ -274,6 +294,10 @@ describeApplication('ProviderSearch', () => {
 
           it('shows the sort filter of name in the search form', () => {
             expect(ProviderSearchPage.getFilter('sort')).to.equal('name');
+          });
+
+          it('hides search filters on smaller screen sizes (due to new search term)', () => {
+            expect(ProviderSearchPage.isSearchVignetteHidden).to.equal(true);
           });
 
           describe('then clicking another search type', () => {
@@ -336,6 +360,19 @@ describeApplication('ProviderSearch', () => {
         expect(ProviderSearchPage.providerList[0].name).to.equal('Health Associations');
         expect(ProviderSearchPage.providerList[1].name).to.equal('My Health Analytics 2');
         expect(ProviderSearchPage.providerList[2].name).to.equal('My Health Analytics 10');
+      });
+    });
+
+    describe('clearing the search field', () => {
+      beforeEach(() => {
+        return convergeOn(() => {
+          expect(ProviderSearchPage.$searchResultsItems).to.have.lengthOf(0);
+        }).then(() => (
+          ProviderSearchPage.clearSearch()
+        ));
+      });
+      it('has disabled search button', () => {
+        expect(ProviderSearchPage.isSearchButtonEnabled).to.equal(false);
       });
     });
   });

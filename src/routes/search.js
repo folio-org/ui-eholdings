@@ -148,6 +148,7 @@ class SearchRoute extends Component {
    */
   updateURLParams(params) {
     let { location, history } = this.props;
+
     // if the new query is different from our location, update the location
     if (qs.stringify(params) !== qs.stringify(this.state.params)) {
       let url = this.buildSearchUrl(location.pathname, params);
@@ -156,6 +157,7 @@ class SearchRoute extends Component {
       if (params.q !== this.state.params.q) {
         url = this.buildSearchUrl('/eholdings', params);
       }
+
       // if only the filters have changed, just replace the current location
       if (params.q === this.state.params.q) {
         history.replace(url);
