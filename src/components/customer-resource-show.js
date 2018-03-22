@@ -86,7 +86,7 @@ export default class CustomerResourceShow extends Component {
   };
 
   render() {
-    let { model, customEmbargoSubmitted, coverageSubmitted } = this.props;
+    let { model, customEmbargoSubmitted, coverageSubmitted, coverageStatementSubmitted } = this.props;
     let hasErrors = model.update.isRejected;
     let errors = hasErrors ? model.update.errors.map((error, index) => ({
       message: error.title,
