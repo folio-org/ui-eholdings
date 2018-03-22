@@ -59,14 +59,92 @@ class CoverageStatementForm extends Component {
     this.props.initialize(this.props.initialValues);
   }
 
-  render() {
+  renderCoverageStatement() {
+    const {
+      coverageStatement
+    } = this.props.initialValues;
+
+    return (
+      <div className={styles['coverage-statement-display']}>
+        <span data-test-eholdings-customer-resource-coverage-statement-display>
+          {coverageStatement}
+        </span>
+        <div data-test-eholdings-customer-resource-edit-coverage-statement-button>
+          <IconButton icon="edit" onClick={this.handleEdit} />
+        </div>
+      </div>
+    );
+  }
+
+  renderEditingForm() {
     let {
       pristine,
       isPending,
-      isEditable = this.state.isEditing,
-      // change,
       handleSubmit,
       onSubmit
+    } = this.props;
+
+    return (
+      <form onSubmit={handleSubmit(onSubmit)}>
+        <div
+          data-test-eholdings-customer-resource-coverage-statement-form
+          className={styles['coverage-statement-form-editing']}
+        >
+          <CoverageStatementFields />
+          <div className={styles['coverage-statement-action-buttons']}>
+            <div
+              data-test-eholdings-customer-resource-cancel-coverage-statement-button
+              className={styles['coverage-statement-action-button']}
+            >
+              <Button
+                disabled={isPending}
+                type="button"
+                role="button"
+                onClick={this.handleCancel}
+                marginBottom0 // gag
+              >
+                Cancel
+              </Button>
+            </div>
+            <div
+              data-test-eholdings-customer-resource-save-coverage-statement-button
+              className={styles['coverage-statement-action-button']}
+            >
+              <Button
+                disabled={pristine || isPending}
+                type="submit"
+                role="button"
+                buttonStyle="primary"
+                marginBottom0 // gag
+              >
+                {isPending ? 'Saving' : 'Save'}
+              </Button>
+            </div>
+            {isPending && (
+              <Icon icon="spinner-ellipsis" />
+            )}
+          </div>
+        </div>
+      </form>
+    );
+  }
+
+  renderSetCoverage() {
+    return (
+      <div data-test-eholdings-customer-resource-add-coverage-statement-button>
+        <Button
+          type="button"
+          onClick={this.handleEdit}
+        >
+          Set coverage statement
+        </Button>
+      </div>
+    );
+  }
+
+  render() {
+    let {
+      isEditable = this.state.isEditing
     } = this.props;
     const {
       coverageStatement
@@ -74,71 +152,11 @@ class CoverageStatementForm extends Component {
     let contents;
 
     if (isEditable) {
-      contents = (
-        <form onSubmit={handleSubmit(onSubmit)}>
-          <div
-            data-test-eholdings-customer-resource-coverage-statement-form
-            className={styles['coverage-statement-form-editing']}
-          >
-            <CoverageStatementFields />
-            <div className={styles['coverage-statement-action-buttons']}>
-              <div
-                data-test-eholdings-customer-resource-cancel-coverage-statement-button
-                className={styles['coverage-statement-action-button']}
-              >
-                <Button
-                  disabled={isPending}
-                  type="button"
-                  role="button"
-                  onClick={this.handleCancel}
-                  marginBottom0 // gag
-                >
-                  Cancel
-                </Button>
-              </div>
-              <div
-                data-test-eholdings-customer-resource-save-coverage-statement-button
-                className={styles['coverage-statement-action-button']}
-              >
-                <Button
-                  disabled={pristine || isPending}
-                  type="submit"
-                  role="button"
-                  buttonStyle="primary"
-                  marginBottom0 // gag
-                >
-                  {isPending ? 'Saving' : 'Save'}
-                </Button>
-              </div>
-              {isPending && (
-                <Icon icon="spinner-ellipsis" />
-              )}
-            </div>
-          </div>
-        </form>
-      );
+      contents = this.renderEditingForm();
     } else if (coverageStatement) {
-      contents = (
-        <div className={styles['coverage-statement-display']}>
-          <span data-test-eholdings-customer-resource-coverage-statement-display>
-            {coverageStatement}
-          </span>
-          <div data-test-eholdings-customer-resource-edit-coverage-statement-button>
-            <IconButton icon="edit" onClick={this.handleEdit} />
-          </div>
-        </div>
-      );
+      contents = this.renderCoverageStatement();
     } else {
-      contents = (
-        <div data-test-eholdings-customer-resource-add-coverage-statement-button>
-          <Button
-            type="button"
-            onClick={this.handleEdit}
-          >
-            Set coverage statement
-          </Button>
-        </div>
-      );
+      contents = this.renderSetCoverage();
     }
 
     return (
