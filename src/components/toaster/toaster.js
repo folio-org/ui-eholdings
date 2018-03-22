@@ -26,7 +26,9 @@ class Toaster extends Component {
       // to pick the specific toast out when calling `onClose`
       id: PropTypes.string.isRequired,
       // the toast message that will be displayed in the UI
-      message: PropTypes.string.isRequired
+      message: PropTypes.string.isRequired,
+      // the time which the toast is shown
+      timeout: PropTypes.number
     })).isRequired
   };
 
@@ -68,6 +70,7 @@ class Toaster extends Component {
           id={toast.id}
           animationPosition={position}
           key={toast.id}
+          timeout={toast.timeout}
         >
           {toast.message}
         </Toast>
