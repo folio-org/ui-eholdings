@@ -43,6 +43,17 @@ export default Factory.extend({
     }
   }),
 
+  isHiddenWithoutReason: trait({
+    afterCreate(customerResource, server) {
+      let visibilityData = server.create('visibility-data', {
+        isHidden: true,
+        reason: ''
+      });
+      customerResource.update('visibilityData', visibilityData.toJSON());
+      customerResource.save();
+    }
+  }),
+
   afterCreate(customerResource, server) {
     if (!customerResource.visibilityData) {
       let visibilityData = server.create('visibility-data');
