@@ -167,11 +167,10 @@ describeApplication('CustomerResourceShow', () => {
         expect(ResourcePage.toast.isPositionedBottom).to.be.true;
         expect(ResourcePage.toast.isPositionedTop).to.be.false;
       });
-
     });
 
     describe('toggling is selected with multiple errors', () => {
-      beforeEach(function() {
+      beforeEach(function () {
         this.server.put('/customer-resources/:id', {
           errors: [{
             title: 'There was an error'
