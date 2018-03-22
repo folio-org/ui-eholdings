@@ -1,9 +1,8 @@
 import { beforeEach, describe, it } from '@bigtest/mocha';
 import { expect } from 'chai';
-import { convergeOn } from '@bigtest/convergence';
 
 import { describeApplication } from './helpers';
-import ProviderShowPage from './pages/provider-show';
+import ProviderShowPage from './pages/bigtest/provider-show';
 
 describeApplication('ProviderShow', () => {
   let provider,
@@ -43,26 +42,27 @@ describeApplication('ProviderShow', () => {
     });
 
     it('displays a list of packages', () => {
-      expect(ProviderShowPage.packageList).to.have.lengthOf(packages.length);
+      expect(ProviderShowPage.packageList().length).to.equal(packages.length);
     });
 
     it('displays name of a package in the package list', () => {
-      expect(ProviderShowPage.packageList[0].name).to.equal(packages[0].name);
+      expect(ProviderShowPage.packageList(0).name).to.equal(packages[0].name);
     });
 
     it('displays number of selected titles for a package', () => {
-      expect(ProviderShowPage.packageList[0].numTitlesSelected).to.equal(packages[0].selectedCount);
+      expect(ProviderShowPage.packageList(0).numTitlesSelected).to.equal(`${packages[0].selectedCount}`);
     });
 
     it('displays total number of titles for a package', () => {
-      expect(ProviderShowPage.packageList[0].numTitles).to.equal(packages[0].titleCount);
+      expect(ProviderShowPage.packageList(0).numTitles).to.equal(`${packages[0].titleCount}`);
     });
+
     it('displays isHidden indicator', () => {
-      expect(ProviderShowPage.packageList[0].isHidden).to.equal(packages[0].visibilityData.isHidden);
+      expect(ProviderShowPage.packageList(0).isHidden).to.equal(packages[0].visibilityData.isHidden);
     });
 
     it.always('should not display the back button', () => {
-      expect(ProviderShowPage.$backButton).to.not.exist;
+      expect(ProviderShowPage.hasBackButton).to.be.false;
     });
   });
 
@@ -76,22 +76,20 @@ describeApplication('ProviderShow', () => {
     });
 
     it('should display the first page of related packages', () => {
-      expect(ProviderShowPage.packageList[0].name).to.equal('Provider Package 1');
+      expect(ProviderShowPage.packageList(0).name).to.equal('Provider Package 1');
     });
 
     describe('scrolling down the list of packages', () => {
       beforeEach(() => {
-        return convergeOn(() => {
-          expect(ProviderShowPage.packageList.length).to.be.gt(0);
-        }).then(() => {
-          ProviderShowPage.scrollToPackageOffset(26);
-        });
+        return ProviderShowPage.interaction
+          .once(() => ProviderShowPage.packageListHasLoaded)
+          .scrollToPackageOffset(26);
       });
 
       it('should display the next page of related packages', () => {
         // when the list is scrolled, it has a threshold of 5 items. index 4,
         // the 5th item, is the topmost visible item in the list
-        expect(ProviderShowPage.packageList[4].name).to.equal('Provider Package 26');
+        expect(ProviderShowPage.packageList(4).name).to.equal('Provider Package 26');
       });
     });
   });
@@ -129,7 +127,7 @@ describeApplication('ProviderShow', () => {
     });
 
     it('should display the back button in UI', () => {
-      expect(ProviderShowPage.$backButton).to.exist;
+      expect(ProviderShowPage.hasBackButton).to.be.true;
     });
   });
 
