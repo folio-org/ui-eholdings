@@ -11,6 +11,7 @@ import {
   blurrable
 } from '@bigtest/interaction';
 import { isRootPresent } from '../helpers';
+import Toast from './toast';
 
 @page class PackageShowModal {
   confirmDeselection = clickable('[data-test-eholdings-package-deselection-confirmation-modal-yes]');
@@ -76,7 +77,7 @@ import { isRootPresent } from '../helpers';
   clickCustomCoverageSaveButton = clickable('[data-test-eholdings-package-details-save-custom-coverage-button] button')
   isCustomCoverageDisabled = property('disabled', '[data-test-eholdings-package-details-save-custom-coverage-button] button')
   validationError = text('[data-test-eholdings-custom-coverage-date-range-begin] [class^="feedbackError"]')
-
+  toast = Toast
   beginDate = new Datepicker('[data-test-eholdings-custom-coverage-date-range-begin]');
   endDate = new Datepicker('[data-test-eholdings-custom-coverage-date-range-end]');
 
