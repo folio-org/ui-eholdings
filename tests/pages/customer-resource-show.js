@@ -61,25 +61,5 @@ export default {
 
   get managedCoverageList() {
     return $('[data-test-eholdings-customer-resource-show-managed-coverage-list]').text();
-  },
-
-  get customEmbargoPeriod() {
-    return $('[data-test-eholdings-customer-resource-custom-embargo-display]').text();
-  },
-
-  get $deselectTitleWarning() {
-    return $('[data-test-eholdings-deselect-title-warning]');
-  },
-
-  get $deselectFinalTitleWarning() {
-    return $('[data-test-eholdings-deselect-final-title-warning]');
-  },
-
-  confirmDeselection() {
-    return $('[data-test-eholdings-customer-resource-deselection-confirmation-modal-yes]').trigger('click');
-  },
-
-  cancelDeselection() {
-    return $('[data-test-eholdings-customer-resource-deselection-confirmation-modal-no]').trigger('click');
-  },
+  }
 };
