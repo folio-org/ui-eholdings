@@ -12,7 +12,7 @@ export default function ProviderListItem({ item, link, active }, { intl }) {
     <div className={styles.skeleton} />
   ) : (
     <Link
-      data-test-eholdings-provider-list-item-active
+      data-test-eholdings-provider-list-item
       to={link}
       className={cx('item', {
         'is-selected': active
