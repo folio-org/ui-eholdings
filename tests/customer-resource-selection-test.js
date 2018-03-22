@@ -2,7 +2,7 @@ import { beforeEach, afterEach, describe, it } from '@bigtest/mocha';
 import { expect } from 'chai';
 
 import { describeApplication } from './helpers';
-import ResourcePage from './pages/customer-resource-show';
+import ResourcePage from './pages/bigtest/customer-resource-show';
 
 describeApplication('CustomerResourceSelection', () => {
   let provider,
@@ -71,7 +71,7 @@ describeApplication('CustomerResourceSelection', () => {
       });
 
       it('cannot be interacted with while the request is in flight', () => {
-        expect(ResourcePage.isSelectedToggleable).to.equal(false);
+        expect(ResourcePage.isSelectedToggleDisabled).to.equal(true);
       });
 
       describe('when the request succeeds', () => {
@@ -110,7 +110,7 @@ describeApplication('CustomerResourceSelection', () => {
       });
 
       it('cannot be interacted with while the request is in flight', () => {
-        expect(ResourcePage.isSelectedToggleable).to.equal(false);
+        expect(ResourcePage.isSelectedToggleDisabled).to.equal(true);
       });
 
       describe('when the request succeeds', () => {
