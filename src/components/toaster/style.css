@@ -62,15 +62,15 @@
 }
 
 .error {
-  background-color: var(--error)
+  background-color: var(--error);
 }
 
 .warn {
-  background-color: var(--warn)
+  background-color: var(--warn);
 }
 
 .success {
-  background-color: var(--success)
+  background-color: var(--success);
 }
 
 .closeIcon {

@@ -155,8 +155,18 @@ describeApplication('CustomerResourceShow', () => {
           .toggleIsSelected();
       });
 
-      it('displays the error', () => {
+      it('displays the correct error text', () => {
         expect(ResourcePage.toast.errorText).to.equal('There was an error');
+      });
+
+      it('only has one error', () => {
+        expect(ResourcePage.toast.errorToastCount).to.equal(1);
+        expect(ResourcePage.toast.totalToastCount).to.equal(1);
+      });
+
+      it('is positioned to the bottom', () => {
+        expect(ResourcePage.toast.isPositionedBottom).to.be.true;
+        expect(ResourcePage.toast.isPositionedTop).to.be.false;
       });
     });
 
