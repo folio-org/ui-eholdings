@@ -1,4 +1,5 @@
 import {
+  blurrable,
   clickable,
   collection,
   fillable,
@@ -70,6 +71,31 @@ import { isRootPresent, hasClassBeginningWith } from '../helpers';
   validationErrorOnTextField = text('[data-test-eholdings-customer-resource-custom-embargo-textfield] [class^="feedbackError--"]');
   validationErrorOnSelect = text('[data-test-eholdings-customer-resource-custom-embargo-select] [class^="feedbackError--"]');
   clickCustomEmbargoEditButton = clickable('[data-test-eholdings-customer-resource-edit-custom-embargo-button] button');
+
+  coverageStatement = text('[data-test-eholdings-customer-resource-coverage-statement-display]');
+  hasCoverageStatement = isPresent('[data-test-eholdings-customer-resource-coverage-statement-display]');
+  hasCoverageStatementAddButton = isPresent('[data-test-eholdings-customer-resource-add-coverage-statement-button] button');
+  clickCoverageStatementAddButton = clickable('[data-test-eholdings-customer-resource-add-coverage-statement-button] button');
+  hasCoverageStatementForm = isPresent('[data-test-eholdings-customer-resource-coverage-statement-form]');
+  coverageStatementFieldValue = value('[data-test-eholdings-coverage-statement-textarea] textarea');
+  clickCoverageStatementEditButton = clickable('[data-test-eholdings-customer-resource-edit-coverage-statement-button] button');
+  hasCoverageStatementEditButton = isPresent('[data-test-eholdings-customer-resource-edit-coverage-statement-button] button');
+  clickCoverageStatementSaveButton = clickable('[data-test-eholdings-customer-resource-save-coverage-statement-button] button');
+  hasCoverageStatementSaveButton = isPresent('[data-test-eholdings-customer-resource-save-coverage-statement-button] button');
+  isCoverageStatementSaveDisabled = property('disabled', '[data-test-eholdings-customer-resource-save-coverage-statement-button] button');
+  clickCoverageStatementCancelButton = clickable('[data-test-eholdings-customer-resource-cancel-coverage-statement-button] button');
+  hasCoverageStatementCancelButton = isPresent('[data-test-eholdings-customer-resource-cancel-coverage-statement-button] button');
+  isCoverageStatementCancelDisabled = property('disabled', '[data-test-eholdings-customer-resource-cancel-coverage-statement-button] button');
+  fillCoverageStatement = fillable('[data-test-eholdings-coverage-statement-textarea] textarea');
+  blurCoverageStatement = blurrable('[data-test-eholdings-coverage-statement-textarea] textarea');
+  coverageStatementHasError = hasClassBeginningWith('feedbackError--', '[data-test-eholdings-coverage-statement-textarea] textarea');
+  validationErrorOnCoverageStatement = text('[data-test-eholdings-coverage-statement-textarea] [class^="feedbackError--"]');
+
+  inputCoverageStatement(statement) {
+    return this
+      .fillCoverageStatement(statement)
+      .blurCoverageStatement();
+  }
 
   identifiersList = collection('[data-test-eholdings-identifiers-list-item]', {
     text: text()

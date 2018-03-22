@@ -78,6 +78,12 @@ class CustomerResourceShowRoute extends Component {
     updateResource(model);
   }
 
+  coverageStatementSubmitted = (values) => {
+    let { model, updateResource } = this.props;
+    model.coverageStatement = values.coverageStatement;
+    updateResource(model);
+  }
+
   render() {
     return (
       <View
@@ -86,6 +92,7 @@ class CustomerResourceShowRoute extends Component {
         toggleHidden={this.toggleHidden}
         customEmbargoSubmitted={this.customEmbargoSubmitted}
         coverageSubmitted={this.coverageSubmitted}
+        coverageStatementSubmitted={this.coverageStatementSubmitted}
       />
     );
   }

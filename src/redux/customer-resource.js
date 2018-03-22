@@ -21,6 +21,7 @@ class CustomerResource {
   managedEmbargoPeriod = {};
   customEmbargoPeriod = {};
   visibilityData = {};
+  coverageStatement = '';
 }
 
 export default model({

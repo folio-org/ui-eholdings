@@ -12,8 +12,9 @@ import ToggleSwitch from './toggle-switch';
 import CoverageDateList from './coverage-date-list';
 import { isBookPublicationType, isValidCoverageList } from './utilities';
 import Modal from './modal';
-import CustomEmbargoForm from './custom-embargo';
 import CustomerResourceCoverage from './customer-resource-coverage';
+import CustomEmbargoForm from './custom-embargo';
+import CoverageStatementForm from './coverage-statement-form';
 import NavigationModal from './navigation-modal';
 import DetailsViewSection from './details-view-section';
 
@@ -23,7 +24,8 @@ export default class CustomerResourceShow extends Component {
     toggleSelected: PropTypes.func.isRequired,
     toggleHidden: PropTypes.func.isRequired,
     customEmbargoSubmitted: PropTypes.func.isRequired,
-    coverageSubmitted: PropTypes.func.isRequired
+    coverageSubmitted: PropTypes.func.isRequired,
+    coverageStatementSubmitted: PropTypes.func.isRequired
   };
 
   static contextTypes = {
@@ -36,7 +38,8 @@ export default class CustomerResourceShow extends Component {
     resourceSelected: this.props.model.isSelected,
     resourceHidden: this.props.model.visibilityData.isHidden,
     isCoverageEditable: false,
-    isEmbargoEditable: false
+    isEmbargoEditable: false,
+    isCoverageStatementEditable: false
   };
 
   componentWillReceiveProps({ model }) {
@@ -77,15 +80,20 @@ export default class CustomerResourceShow extends Component {
     this.setState({ isEmbargoEditable });
   };
 
+  handleCoverageStatementEdit = (isCoverageStatementEditable) => {
+    this.setState({ isCoverageStatementEditable });
+  };
+
   render() {
-    let { model, customEmbargoSubmitted, coverageSubmitted } = this.props;
+    let { model, customEmbargoSubmitted, coverageSubmitted, coverageStatementSubmitted } = this.props;
     let { locale, intl } = this.context;
     let {
       showSelectionModal,
       resourceSelected,
       resourceHidden,
       isCoverageEditable,
-      isEmbargoEditable
+      isEmbargoEditable,
+      isCoverageStatementEditable
     } = this.state;
 
     let hasManagedCoverages = model.managedCoverages.length > 0 &&
@@ -110,6 +118,13 @@ export default class CustomerResourceShow extends Component {
       }];
     }
 
+    let actionMenuItems = [
+      {
+        label: 'Edit',
+        to: `/eholdings/customer-resources/${model.id}/edit`
+      }
+    ];
+
     return (
       <div>
         <DetailsView
@@ -117,6 +132,7 @@ export default class CustomerResourceShow extends Component {
           model={model}
           paneTitle={model.name}
           paneSub={model.packageName}
+          actionMenuItems={actionMenuItems}
           bodyContent={(
             <div>
               <DetailsViewSection label="Holding status">
@@ -225,6 +241,25 @@ export default class CustomerResourceShow extends Component {
 
                 {!hasManagedEmbargoPeriod && !resourceSelected && (
                   <p>Add the resource to holdings to set an custom embargo period.</p>
+                )}
+
+              </DetailsViewSection>
+
+              <DetailsViewSection
+                label="Coverage statement"
+              >
+                {resourceSelected && (
+                  <CoverageStatementForm
+                    initialValues={{ coverageStatement: model.coverageStatement }}
+                    isEditable={isCoverageStatementEditable}
+                    onEdit={this.handleCoverageStatementEdit}
+                    onSubmit={coverageStatementSubmitted}
+                    isPending={model.update.isPending && 'coverageStatement' in model.update.changedAttributes}
+                  />
+                )}
+
+                {!hasManagedEmbargoPeriod && !resourceSelected && (
+                  <p>Add the resource to holdings to set a coverage statement.</p>
                 )}
 
               </DetailsViewSection>
@@ -341,7 +376,7 @@ export default class CustomerResourceShow extends Component {
           }
         </Modal>
 
-        <NavigationModal when={isCoverageEditable || isEmbargoEditable} />
+        <NavigationModal when={isCoverageEditable || isEmbargoEditable || isCoverageStatementEditable} />
       </div>
     );
   }
