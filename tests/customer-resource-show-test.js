@@ -151,8 +151,7 @@ describeApplication('CustomerResourceShow', () => {
           }]
         }, 500);
 
-        return ResourcePage
-          .toggleIsSelected();
+        return ResourcePage.toggleIsSelected();
       });
 
       it('displays the correct error text', () => {
@@ -167,6 +166,26 @@ describeApplication('CustomerResourceShow', () => {
       it('is positioned to the bottom', () => {
         expect(ResourcePage.toast.isPositionedBottom).to.be.true;
         expect(ResourcePage.toast.isPositionedTop).to.be.false;
+      });
+
+    });
+
+    describe('toggling is selected with multiple errors', () => {
+      beforeEach(function() {
+        this.server.put('/customer-resources/:id', {
+          errors: [{
+            title: 'There was an error'
+          }, {
+            title: 'There was another error!'
+          }]
+        }, 500);
+
+        return ResourcePage.toggleIsSelected();
+      });
+
+      it('has two errors', () => {
+        expect(ResourcePage.toast.errorToastCount).to.equal(2);
+        expect(ResourcePage.toast.totalToastCount).to.equal(2);
       });
     });
 
