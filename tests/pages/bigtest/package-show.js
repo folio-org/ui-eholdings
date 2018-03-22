@@ -4,46 +4,13 @@ import {
   isPresent,
   page,
   property,
-  text,
-  value,
-  fillable,
-  triggerable,
-  blurrable
+  text
 } from '@bigtest/interaction';
-import { isRootPresent } from '../helpers';
+import Datepicker from './datepicker';
 
 @page class PackageShowModal {
   confirmDeselection = clickable('[data-test-eholdings-package-deselection-confirmation-modal-yes]');
   cancelDeselection = clickable('[data-test-eholdings-package-deselection-confirmation-modal-no]');
-}
-
-@page class Datepicker {
-  exists = isRootPresent();
-  value = value('input');
-  clickInput = clickable('input');
-  fillInput = fillable('input');
-  blurInput = blurrable('input');
-  clearInput = clickable('button[id^=datepicker-clear-button]');
-  pressEnter = triggerable('keydown', 'input', {
-    bubbles: true,
-    cancelable: true,
-    keyCode: 13
-  });
-
-  fillAndBlur(date) {
-    return this
-      .clickInput()
-      .fillInput(date)
-      .pressEnter()
-      .blurInput();
-  }
-
-  fillAndClear(date) {
-    return this
-      .fillAndBlur(date)
-      .clearInput()
-      .blurInput();
-  }
 }
 
 @page class PackageShowPage {
