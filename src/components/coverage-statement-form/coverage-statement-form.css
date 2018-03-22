@@ -1,0 +1,34 @@
+@import '@folio/stripes-components/lib/variables';
+
+.coverage-statement-form {
+  &.is-editing {
+    background: #e6f3ff;
+    padding: 1em;
+  }
+}
+
+.coverage-statement-add-button {
+  margin: 1em 0;
+}
+
+.coverage-statement-display {
+  display: flex;
+  align-items: center;
+}
+
+.coverage-statement {
+  display: flex;
+  align-items: flex-start;
+}
+
+.coverage-statement-action-buttons {
+  border-top: 1px solid var(--minor-divider-color);
+  display: flex;
+  margin-top: 1em;
+  padding-top: 1em;
+  align-items: flex-start;
+}
+
+.coverage-statement-action-button {
+  margin-right: 0.25em;
+}

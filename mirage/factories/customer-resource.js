@@ -4,6 +4,7 @@ export default Factory.extend({
   isSelected: false,
   url: () => faker.internet.url(),
   customCoverages: [],
+  coverageStatement: '',
 
   withTitle: trait({
     afterCreate(customerResource, server) {
