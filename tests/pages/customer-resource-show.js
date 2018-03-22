@@ -7,30 +7,6 @@ export default {
     return $('[data-test-eholdings-details-view="resource"]');
   },
 
-  get isSelected() {
-    return $('[data-test-eholdings-customer-resource-show-selected] input').prop('checked');
-  },
-
-  toggleIsSelected() {
-    /*
-     * We don't want to click the element before it exists.  This should
-     * probably become a generic 'click' helper once we have more usage.
-     */
-    return convergeOn(() => {
-      expect($('[data-test-eholdings-customer-resource-show-selected]')).to.exist;
-    }).then(() => (
-      $('[data-test-eholdings-customer-resource-show-selected] input').click()
-    ));
-  },
-
-  get isSelecting() {
-    return $('[data-test-eholdings-customer-resource-show-selected] [data-test-toggle-switch]').attr('class').indexOf('is-pending--') !== -1;
-  },
-
-  get isSelectedToggleable() {
-    return $('[data-test-eholdings-customer-resource-show-selected] input[type=checkbox]').prop('disabled') === false;
-  },
-
   get isHidden() {
     return $('[data-test-eholdings-customer-resource-toggle-hidden] input').prop('checked') === false;
   },
