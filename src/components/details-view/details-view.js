@@ -38,7 +38,8 @@ export default class DetailsView extends Component {
     paneSub: PropTypes.oneOfType([PropTypes.string, PropTypes.element, PropTypes.node]),
     bodyContent: PropTypes.node.isRequired,
     listType: PropTypes.string,
-    renderList: PropTypes.func
+    renderList: PropTypes.func,
+    actionMenuItems: PropTypes.array
   };
 
   static contextTypes = {
@@ -149,7 +150,8 @@ export default class DetailsView extends Component {
       listType,
       renderList,
       paneTitle,
-      paneSub
+      paneSub,
+      actionMenuItems
     } = this.props;
 
     let {
@@ -191,6 +193,7 @@ export default class DetailsView extends Component {
           paneSub={(
             <span data-test-eholdings-details-view-pane-sub>{paneSub}</span>
           )}
+          actionMenuItems={actionMenuItems}
         />
 
         <div
