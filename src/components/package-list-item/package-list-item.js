@@ -26,7 +26,7 @@ export default function PackageListItem({
     />
   ) : (
     <Link
-      data-test-eholdings-package-list-item-active
+      data-test-eholdings-package-list-item
       to={link}
       className={cx('item', {
         'is-selected': active

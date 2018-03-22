@@ -40,6 +40,7 @@ import { isRootPresent, hasClassBeginningWith } from '../helpers';
   isSelecting = hasClassBeginningWith('is-pending--', '[data-test-eholdings-customer-resource-show-selected] [data-test-toggle-switch]');
   addCoverage = clickable('[data-test-eholdings-coverage-form-add-button] button');
   hasBackButton = isPresent('[data-test-eholdings-details-view-back-button] button');
+  clickBackButton = clickable('[data-test-eholdings-details-view-back-button] button');
   paneTitle = text('[data-test-eholdings-details-view-pane-title]');
   paneSub = text('[data-test-eholdings-details-view-pane-sub]');
   isSelectedToggleDisabled = property('disabled', '[data-test-eholdings-customer-resource-show-selected] input[type=checkbox]');

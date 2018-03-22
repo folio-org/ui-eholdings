@@ -24,6 +24,7 @@ export default function SearchFilters({
           header={FilterAccordionHeader}
           displayClearButton={!!activeFilters[name] && activeFilters[name] !== defaultValue}
           onClearFilter={() => onUpdate({ ...activeFilters, [name]: undefined })}
+          id={`filter-${searchType}-${name}`}
         >
           {options.map(({ label, value }, i) => ( // eslint-disable-line no-shadow
             <RadioButton
