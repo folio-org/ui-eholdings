@@ -1,7 +1,7 @@
-export default function customerResourceError(server) {
+export default function serverPutErrors(server) {
   server.put('/customer-resources/:id', {
     errors: [{
-      title: 'What have you done?!'
+      title: 'Server error, try again'
     }]
   }, 500);
 
