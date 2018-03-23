@@ -1,6 +1,6 @@
 import { beforeEach, describe, it } from '@bigtest/mocha';
 import { expect } from 'chai';
-import { convergeOn } from '@bigtest/convergence';
+import Convergence from '@bigtest/convergence';
 
 import { describeApplication } from './helpers';
 import ProviderShowPage from './pages/provider-show';
@@ -81,11 +81,10 @@ describeApplication('ProviderShow', () => {
 
     describe('scrolling down the list of packages', () => {
       beforeEach(() => {
-        return convergeOn(() => {
-          expect(ProviderShowPage.packageList.length).to.be.gt(0);
-        }).then(() => {
-          ProviderShowPage.scrollToPackageOffset(26);
-        });
+        return new Convergence()
+          .once(() => expect(ProviderShowPage.packageList.length).to.be.gt(0))
+          .do(() => ProviderShowPage.scrollToPackageOffset(26))
+          .run();
       });
 
       it('should display the next page of related packages', () => {

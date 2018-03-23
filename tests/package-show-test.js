@@ -1,6 +1,6 @@
 import { beforeEach, describe, it } from '@bigtest/mocha';
 import { expect } from 'chai';
-import { convergeOn } from '@bigtest/convergence';
+import Convergence from '@bigtest/convergence';
 
 import { describeApplication } from './helpers';
 import PackageShowPage from './pages/bigtest/package-show';
@@ -82,13 +82,14 @@ describeApplication('PackageShow', () => {
         });
 
         // converge on the previous package loading first
-        return convergeOn(() => {
-          expect(PackageShowPage.titleList.length).to.be.gt(0);
-        }).then(() => (
-          this.visit(`/eholdings/packages/${otherPackage.id}`, () => {
-            expect(PackageShowPage.$root).to.exist;
+        return new Convergence()
+          .once(() => expect(PackageShowPage.titleList.length).to.be.gt(0))
+          .do(() => {
+            this.visit(`/eholdings/packages/${otherPackage.id}`, () => {
+              expect(PackageShowPage.$root).to.exist;
+            });
           })
-        ));
+          .run();
       });
 
       it('displays the different package', () => {
@@ -117,11 +118,10 @@ describeApplication('PackageShow', () => {
 
     describe.skip('scrolling down the list of titles', () => {
       beforeEach(() => {
-        return convergeOn(() => {
-          expect(PackageShowPage.titleList.length).to.be.gt(0);
-        }).then(() => {
-          PackageShowPage.scrollToTitleOffset(26);
-        });
+        return new Convergence()
+          .once(() => expect(PackageShowPage.titleList.length).to.be.gt(0))
+          .do(() => PackageShowPage.scrollToTitleOffset(26))
+          .run();
       });
 
       it('should display the next page of related titles', () => {

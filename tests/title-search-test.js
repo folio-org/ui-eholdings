@@ -1,6 +1,6 @@
 import { beforeEach, describe, it } from '@bigtest/mocha';
 import { expect } from 'chai';
-import { convergeOn } from '@bigtest/convergence';
+import Convergence from '@bigtest/convergence';
 
 import { describeApplication } from './helpers';
 import TitleSearchPage from './pages/title-search';
@@ -110,10 +110,11 @@ describeApplication('TitleSearch', () => {
 
     describe('clicking a search results list item', () => {
       beforeEach(() => {
-        return convergeOn(() => {
-          // wait for the previous search to complete
-          expect(TitleSearchPage.$searchResultsItems).to.have.lengthOf(3);
-        }).then(() => TitleSearchPage.$searchResultsItems[0].click());
+        // wait for the previous search to complete
+        return new Convergence()
+          .once(() => expect(TitleSearchPage.$searchResultsItems).to.have.lengthOf(3))
+          .do(() => TitleSearchPage.$searchResultsItems[0].click())
+          .run();
       });
 
       it('clicked item has an active state', () => {
@@ -186,11 +187,10 @@ describeApplication('TitleSearch', () => {
 
     describe('filtering by publication type', () => {
       beforeEach(() => {
-        return convergeOn(() => {
-          expect(TitleSearchPage.$searchResultsItems).to.have.lengthOf(3);
-        }).then(() => (
-          TitleSearchPage.clickFilter('type', 'book')
-        ));
+        return new Convergence()
+          .once(() => expect(TitleSearchPage.$searchResultsItems).to.have.lengthOf(3))
+          .do(() => TitleSearchPage.clickFilter('type', 'book'))
+          .run();
       });
 
       it('only shows results for book publication types', () => {
@@ -208,11 +208,10 @@ describeApplication('TitleSearch', () => {
 
       describe('clearing the filters', () => {
         beforeEach(() => {
-          return convergeOn(() => {
-            expect(TitleSearchPage.$searchResultsItems).to.have.lengthOf(1);
-          }).then(() => (
-            TitleSearchPage.clearFilter('type')
-          ));
+          return new Convergence()
+            .once(() => expect(TitleSearchPage.$searchResultsItems).to.have.lengthOf(1))
+            .do(() => TitleSearchPage.clearFilter('type'))
+            .run();
         });
 
         it.always('removes the filter from the URL query params', function () {
@@ -226,13 +225,14 @@ describeApplication('TitleSearch', () => {
 
       describe('visiting the page with an existing filter', () => {
         beforeEach(function () {
-          return convergeOn(() => {
-            expect(TitleSearchPage.$searchResultsItems).to.have.lengthOf(1);
-          }).then(() => {
-            return this.visit('/eholdings/?searchType=titles&q=Title&filter[type]=journal', () => {
-              expect(TitleSearchPage.$root).to.exist;
-            });
-          });
+          return new Convergence()
+            .once(() => expect(TitleSearchPage.$searchResultsItems).to.have.lengthOf(1))
+            .do(() => {
+              return this.visit('/eholdings/?searchType=titles&q=Title&filter[type]=journal', () => {
+                expect(TitleSearchPage.$root).to.exist;
+              });
+            })
+            .run();
         });
 
         it('shows the existing filter in the search form', () => {
@@ -252,11 +252,10 @@ describeApplication('TitleSearch', () => {
 
     describe('filtering by selection status', () => {
       beforeEach(() => {
-        return convergeOn(() => {
-          expect(TitleSearchPage.$searchResultsItems).to.have.lengthOf(3);
-        }).then(() => (
-          TitleSearchPage.clickFilter('selected', 'true')
-        ));
+        return new Convergence()
+          .once(() => expect(TitleSearchPage.$searchResultsItems).to.have.lengthOf(3))
+          .do(() => TitleSearchPage.clickFilter('selected', 'true'))
+          .run();
       });
 
       it('only shows results for selected titles', () => {
@@ -273,11 +272,10 @@ describeApplication('TitleSearch', () => {
 
       describe('clearing the filters', () => {
         beforeEach(() => {
-          return convergeOn(() => {
-            expect(TitleSearchPage.$searchResultsItems).to.have.lengthOf(2);
-          }).then(() => (
-            TitleSearchPage.clearFilter('selected')
-          ));
+          return new Convergence()
+            .once(() => expect(TitleSearchPage.$searchResultsItems).to.have.lengthOf(2))
+            .do(() => TitleSearchPage.clearFilter('selected'))
+            .run();
         });
 
         it.always('removes the filter from the URL query params', function () {
@@ -291,13 +289,14 @@ describeApplication('TitleSearch', () => {
 
       describe('visiting the page with an existing filter', () => {
         beforeEach(function () {
-          return convergeOn(() => {
-            expect(TitleSearchPage.$searchResultsItems).to.have.lengthOf(2);
-          }).then(() => {
-            return this.visit('/eholdings/?searchType=titles&q=Title&filter[selected]=false', () => {
-              expect(TitleSearchPage.$root).to.exist;
-            });
-          });
+          return new Convergence()
+            .once(() => expect(TitleSearchPage.$searchResultsItems).to.have.lengthOf(2))
+            .do(() => {
+              return this.visit('/eholdings/?searchType=titles&q=Title&filter[selected]=false', () => {
+                expect(TitleSearchPage.$root).to.exist;
+              });
+            })
+            .run();
         });
 
         it('shows the existing filter in the search form', () => {
@@ -316,13 +315,11 @@ describeApplication('TitleSearch', () => {
 
     describe('selecting a publisher search field', () => {
       beforeEach(() => {
-        return convergeOn(() => {
-          expect(TitleSearchPage.$searchResultsItems).to.have.lengthOf(3);
-        }).then(() => (
-          TitleSearchPage.selectSearchField('publisher')
-        )).then(() => (
-          TitleSearchPage.search('TestPublisher')
-        ));
+        return new Convergence()
+          .once(() => expect(TitleSearchPage.$searchResultsItems).to.have.lengthOf(3))
+          .do(() => TitleSearchPage.selectSearchField('publisher'))
+          .do(() => TitleSearchPage.search('TestPublisher'))
+          .run();
       });
 
       it('only shows results having publishers with name including TestPublisher', () => {
@@ -341,13 +338,11 @@ describeApplication('TitleSearch', () => {
 
     describe('selecting a subject search field', () => {
       beforeEach(() => {
-        return convergeOn(() => {
-          expect(TitleSearchPage.$searchResultsItems).to.have.lengthOf(3);
-        }).then(() => (
-          TitleSearchPage.selectSearchField('subject')
-        )).then(() => (
-          TitleSearchPage.search('TestSubject')
-        ));
+        return new Convergence()
+          .once(() => expect(TitleSearchPage.$searchResultsItems).to.have.lengthOf(3))
+          .do(() => TitleSearchPage.selectSearchField('subject'))
+          .do(() => TitleSearchPage.search('TestSubject'))
+          .run();
       });
 
       it('only shows results having subjects including TestSubject', () => {
@@ -365,13 +360,11 @@ describeApplication('TitleSearch', () => {
 
     describe('selecting an isxn search field', () => {
       beforeEach(() => {
-        return convergeOn(() => {
-          expect(TitleSearchPage.$searchResultsItems).to.have.lengthOf(3);
-        }).then(() => (
-          TitleSearchPage.selectSearchField('isxn')
-        )).then(() => (
-          TitleSearchPage.search('999-999')
-        ));
+        return new Convergence()
+          .once(() => expect(TitleSearchPage.$searchResultsItems).to.have.lengthOf(3))
+          .do(() => TitleSearchPage.selectSearchField('isxn'))
+          .do(() => TitleSearchPage.search('999-999'))
+          .run();
       });
 
       it('only shows results having isxn field ', () => {
@@ -389,11 +382,10 @@ describeApplication('TitleSearch', () => {
 
     describe('changing search fields', () => {
       beforeEach(() => {
-        return convergeOn(() => {
-          expect(TitleSearchPage.$searchResultsItems).to.have.lengthOf(3);
-        }).then(() => (
-          TitleSearchPage.selectSearchField('subject')
-        ));
+        return new Convergence()
+          .once(() => expect(TitleSearchPage.$searchResultsItems).to.have.lengthOf(3))
+          .do(() => TitleSearchPage.selectSearchField('subject'))
+          .run();
       });
 
       it('maintains the previous search', () => {
@@ -403,13 +395,14 @@ describeApplication('TitleSearch', () => {
 
     describe('visiting the page with an existing search field', () => {
       beforeEach(function () {
-        return convergeOn(() => {
-          expect(TitleSearchPage.$searchResultsItems).to.have.lengthOf(3);
-        }).then(() => {
-          return this.visit('/eholdings/?searchType=titles&q=TestPublisher&searchfield=publisher', () => {
-            expect(TitleSearchPage.$root).to.exist;
-          });
-        });
+        return new Convergence()
+          .once(() => expect(TitleSearchPage.$searchResultsItems).to.have.lengthOf(3))
+          .do(() => {
+            return this.visit('/eholdings/?searchType=titles&q=TestPublisher&searchfield=publisher', () => {
+              expect(TitleSearchPage.$root).to.exist;
+            });
+          })
+          .run();
       });
 
       it('displays publisher as searchfield', () => {
@@ -426,11 +419,10 @@ describeApplication('TitleSearch', () => {
     });
     describe('with a more specific query', () => {
       beforeEach(() => {
-        return convergeOn(() => {
-          expect(TitleSearchPage.$searchResultsItems).to.have.lengthOf(3);
-        }).then(() => (
-          TitleSearchPage.search('Title1')
-        ));
+        return new Convergence()
+          .once(() => expect(TitleSearchPage.$searchResultsItems).to.have.lengthOf(3))
+          .do(() => TitleSearchPage.search('Title1'))
+          .run();
       });
 
       it('only shows a single result', () => {
@@ -440,11 +432,14 @@ describeApplication('TitleSearch', () => {
 
     describe('clicking another search type', () => {
       beforeEach(() => {
-        return convergeOn(() => {
-          // wait for the previous search to complete
-          expect(TitleSearchPage.$searchResultsItems).to.have.lengthOf(3);
-        }).then(() => TitleSearchPage.$searchResultsItems[0].click())
-          .then(() => TitleSearchPage.changeSearchType('providers'));
+        // wait for the previous search to complete
+        return new Convergence()
+          .once(() => expect(TitleSearchPage.$searchResultsItems).to.have.lengthOf(3))
+          .do(() => {
+            TitleSearchPage.$searchResultsItems[0].click();
+            TitleSearchPage.changeSearchType('providers');
+          })
+          .run();
       });
 
       it('only shows one search type as selected', () => {
@@ -488,15 +483,12 @@ describeApplication('TitleSearch', () => {
 
     describe('selecting both a search field and a search filter', () => {
       beforeEach(() => {
-        return convergeOn(() => {
-          expect(TitleSearchPage.$searchResultsItems).to.have.lengthOf(3);
-        }).then(() => (
-          TitleSearchPage.selectSearchField('isxn')
-        )).then(() => (
-          TitleSearchPage.clickFilter('type', 'book')
-        )).then(() => (
-          TitleSearchPage.search('999-999')
-        ));
+        return new Convergence()
+          .once(() => expect(TitleSearchPage.$searchResultsItems).to.have.lengthOf(3))
+          .do(() => TitleSearchPage.selectSearchField('isxn'))
+          .do(() => TitleSearchPage.clickFilter('type', 'book'))
+          .do(() => TitleSearchPage.search('999-999'))
+          .run();
       });
       it('only shows results having both isxn and book pub type', () => {
         expect(TitleSearchPage.titleList).to.have.lengthOf(1);
@@ -546,11 +538,10 @@ describeApplication('TitleSearch', () => {
 
     describe('clearing the search field', () => {
       beforeEach(() => {
-        return convergeOn(() => {
-          expect(TitleSearchPage.$searchResultsItems).to.have.lengthOf(3);
-        }).then(() => (
-          TitleSearchPage.clearSearch()
-        ));
+        return new Convergence()
+          .once(() => expect(TitleSearchPage.$searchResultsItems).to.have.lengthOf(3))
+          .do(() => TitleSearchPage.clearSearch())
+          .run();
       });
       it('has disabled search button', () => {
         expect(TitleSearchPage.isSearchButtonEnabled).to.equal(false);
@@ -577,11 +568,10 @@ describeApplication('TitleSearch', () => {
 
       describe('and then scrolling down', () => {
         beforeEach(() => {
-          return convergeOn(() => {
-            expect(TitleSearchPage.titleList.length).to.be.gt(0);
-          }).then(() => {
-            TitleSearchPage.scrollToOffset(26);
-          });
+          return new Convergence()
+            .once(() => expect(TitleSearchPage.titleList.length).to.be.gt(0))
+            .do(() => TitleSearchPage.scrollToOffset(26))
+            .run();
         });
 
         it('shows the next page of results', () => {
@@ -614,11 +604,10 @@ describeApplication('TitleSearch', () => {
 
       describe('and then scrolling up', () => {
         beforeEach(() => {
-          return convergeOn(() => {
-            expect(TitleSearchPage.titleList.length).to.be.gt(0);
-          }).then(() => {
-            TitleSearchPage.scrollToOffset(0);
-          });
+          return new Convergence()
+            .once(() => expect(TitleSearchPage.titleList.length).to.be.gt(0))
+            .do(() => TitleSearchPage.scrollToOffset(0))
+            .run();
         });
 
         // it might take a bit for the next request to be triggered after the scroll

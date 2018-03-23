@@ -1,6 +1,6 @@
 import { beforeEach, afterEach, describe, it } from '@bigtest/mocha';
 import { expect } from 'chai';
-import { convergeOn } from '@bigtest/convergence';
+import Convergence from '@bigtest/convergence';
 
 import { describeApplication } from './helpers';
 import PackageShowPage from './pages/package-show';
@@ -81,10 +81,10 @@ describeApplication('PackageSelection', () => {
 
       describe('and deselecting the package', () => {
         beforeEach(() => {
-          return convergeOn(() => {
-            // wait for the package to become toggleable again
-            expect(PackageShowPage.isSelectedToggleable).to.equal(true);
-          }).then(() => PackageShowPage.toggleIsSelected());
+          return new Convergence()
+            .once(() => expect(PackageShowPage.isSelectedToggleable).to.equal(true))
+            .do(() => PackageShowPage.toggleIsSelected())
+            .run();
         });
 
         it('reflects the desired state (not selected)', () => {
