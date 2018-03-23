@@ -1,8 +1,8 @@
-import { beforeEach, afterEach, describe, it } from '@bigtest/mocha';
+import { beforeEach, describe, it } from '@bigtest/mocha';
 import { expect } from 'chai';
 
 import { describeApplication } from './helpers';
-import CustomerResourceShowPage from './pages/customer-resource-show';
+import CustomerResourceShowPage from './pages/bigtest/customer-resource-show';
 
 describeApplication('CustomerResourceVisibility', () => {
   let pkg,
@@ -14,7 +14,7 @@ describeApplication('CustomerResourceVisibility', () => {
     title = this.server.create('title');
   });
 
-  describe('visiting the customer resource show page with a resource that is not hidden and is selected', () => {
+  describe('visiting the customer resource show page with a visible resource and is selected', () => {
     beforeEach(function () {
       resource = this.server.create('customer-resource', {
         package: pkg,
@@ -27,8 +27,8 @@ describeApplication('CustomerResourceVisibility', () => {
       });
     });
 
-    it('displays the visibility toggle as switched to on', () => {
-      expect(CustomerResourceShowPage.isHidden).to.be.false;
+    it('displays an ON visibility toggle (Visible)', () => {
+      expect(CustomerResourceShowPage.isVisible).to.be.true;
     });
   });
 
@@ -58,51 +58,35 @@ describeApplication('CustomerResourceVisibility', () => {
         title
       });
 
-      let visibilityData = this.server.create('visibility-data', {
-        isHidden: true,
-        reason: 'Set by system'
-      }).toJSON();
-
-      resource.update('visibilityData', visibilityData);
-      resource.save();
-
       return this.visit(`/eholdings/customer-resources/${resource.id}`, () => {
         expect(CustomerResourceShowPage.$root).to.exist;
       });
     });
 
-    it('displays the visibility toggle with as switched to on', () => {
-      expect(CustomerResourceShowPage.isHidden).to.be.false;
+    it('displays an OFF visibility toggle (Hidden)', () => {
+      expect(CustomerResourceShowPage.isVisible).to.be.false;
     });
 
     it('maps the hidden reason text', () => {
-      expect(CustomerResourceShowPage.hiddenReason).to.equal('Set by system');
+      expect(CustomerResourceShowPage.hiddenReason).to.equal('The content is for mature audiences only.');
     });
   });
 
   describe('visiting the customer resource show page with a hidden resource and no reason', () => {
     beforeEach(function () {
-      resource = this.server.create('customer-resource', 'isHidden', {
+      resource = this.server.create('customer-resource', 'isHiddenWithoutReason', {
         package: pkg,
         isSelected: true,
         title
       });
-
-      let visibilityData = this.server.create('visibility-data', {
-        isHidden: true,
-        reason: ''
-      }).toJSON();
-
-      resource.update('visibilityData', visibilityData);
-      resource.save();
 
       return this.visit(`/eholdings/customer-resources/${resource.id}`, () => {
         expect(CustomerResourceShowPage.$root).to.exist;
       });
     });
 
-    it('displays the visibility toggle with as switched to on', () => {
-      expect(CustomerResourceShowPage.isHidden).to.be.false;
+    it('displays an OFF visibility toggle (Hidden)', () => {
+      expect(CustomerResourceShowPage.isVisible).to.be.false;
     });
 
     it('maps the hidden reason text', () => {
@@ -123,31 +107,26 @@ describeApplication('CustomerResourceVisibility', () => {
       });
     });
 
-    it('displays the visibility toggle with as switched to on', () => {
-      expect(CustomerResourceShowPage.isHidden).to.be.false;
+    it('displays an ON visibility toggle (Visible)', () => {
+      expect(CustomerResourceShowPage.isVisible).to.be.true;
     });
 
     describe('successfully hiding a customer resource', () => {
-      beforeEach(function () {
-        this.server.timing = 50;
+      beforeEach(() => {
         return CustomerResourceShowPage.toggleIsHidden();
       });
 
-      afterEach(function () {
-        this.server.timing = 0;
+      it('reflects the desired state OFF (Hidden)', () => {
+        expect(CustomerResourceShowPage.isVisible).to.be.false;
       });
 
-      it('reflects the desired state as switched to off', () => {
-        expect(CustomerResourceShowPage.isHidden).to.be.true;
-      });
-
-      it.skip('cannot be interacted with while the request is in flight', () => {
-        expect(CustomerResourceShowPage.isHiddenToggleable).to.be.false;
+      it('cannot be interacted with while the request is in flight', () => {
+        expect(CustomerResourceShowPage.isHiddenDisabled).to.be.false;
       });
 
       describe('when the request succeeds', () => {
-        it('reflect the desired state was set as switched to off', () => {
-          expect(CustomerResourceShowPage.isHidden).to.be.true;
+        it('reflects the desired state OFF (Hidden)', () => {
+          expect(CustomerResourceShowPage.isVisible).to.be.false;
         });
 
         it('indicates it is no longer pending', () => {
@@ -160,27 +139,19 @@ describeApplication('CustomerResourceVisibility', () => {
   describe('visiting the customer resource show page and showing a hidden resource', () => {
     beforeEach(function () {
       pkg.isSelected = true;
-      resource = this.server.create('customer-resource', 'isHidden', {
+      resource = this.server.create('customer-resource', 'isHiddenWithoutReason', {
         package: pkg,
         isSelected: true,
         title
       });
-
-      let visibilityData = this.server.create('visibility-data', {
-        isHidden: true,
-        reason: ''
-      }).toJSON();
-
-      resource.update('visibilityData', visibilityData);
-      resource.save();
 
       return this.visit(`/eholdings/customer-resources/${resource.id}`, () => {
         expect(CustomerResourceShowPage.$root).to.exist;
       });
     });
 
-    it('displays the visibility toggle as switched to on', () => {
-      expect(CustomerResourceShowPage.isHidden).to.be.false;
+    it('displays an OFF visibility toggle (Hidden)', () => {
+      expect(CustomerResourceShowPage.isVisible).to.be.false;
     });
 
     it('maps the hidden reason text', () => {
@@ -188,26 +159,21 @@ describeApplication('CustomerResourceVisibility', () => {
     });
 
     describe('successfully showing a customer resource', () => {
-      beforeEach(function () {
-        this.server.timing = 50;
+      beforeEach(() => {
         return CustomerResourceShowPage.toggleIsHidden();
       });
 
-      afterEach(function () {
-        this.server.timing = 0;
+      it('reflects the desired state ON (Visible)', () => {
+        expect(CustomerResourceShowPage.isVisible).to.be.true;
       });
 
-      it('reflects the desired state (Show)', () => {
-        expect(CustomerResourceShowPage.isHidden).to.be.false;
-      });
-
-      it.skip('cannot be interacted with while the request is in flight', () => {
-        expect(CustomerResourceShowPage.isHiddenToggleable).to.be.false;
+      it('cannot be interacted while the request is in flight', () => {
+        expect(CustomerResourceShowPage.isHiddenDisabled).to.be.false;
       });
 
       describe('when the request succeeds', () => {
-        it('reflect the desired state was set (Show)', () => {
-          expect(CustomerResourceShowPage.isHidden).to.be.false;
+        it('reflects the desired state ON (Visible)', () => {
+          expect(CustomerResourceShowPage.isVisible).to.be.true;
         });
 
         it('indicates it is no longer pending', () => {
@@ -227,25 +193,17 @@ describeApplication('CustomerResourceVisibility', () => {
         isSelected: true
       });
 
-      let visibilityData = this.server.create('visibility-data', {
-        isHidden: true,
-        reason: ''
-      }).toJSON();
-
-      resource.update('visibilityData', visibilityData);
-      resource.save();
-
       return this.visit(`/eholdings/customer-resources/${resource.id}`, () => {
         expect(CustomerResourceShowPage.$root).to.exist;
       });
     });
 
-    it('displays the visibility toggle with as switched to on', () => {
-      expect(CustomerResourceShowPage.isHidden).to.be.true;
+    it('displays an OFF visibility toggle (Hidden)', () => {
+      expect(CustomerResourceShowPage.isVisible).to.be.false;
     });
 
     it('the visibility toggle is disabled', () => {
-      expect(CustomerResourceShowPage.isHiddenToggleable).to.be.false;
+      expect(CustomerResourceShowPage.isHiddenDisabled).to.be.false;
     });
 
     it('maps the hidden reason text', () => {

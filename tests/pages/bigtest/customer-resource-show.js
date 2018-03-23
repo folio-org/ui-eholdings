@@ -50,6 +50,11 @@ import { isRootPresent, hasClassBeginningWith } from '../helpers';
   deselectionModal = new CustomerResourceShowDeselectionModal('#eholdings-customer-resource-deselection-confirmation-modal');
   navigationModal = new CustomerResourceShowNavigationModal('#navigation-modal');
   hasHiddenToggle = isPresent('[data-test-eholdings-customer-resource-toggle-hidden] input');
+  isVisible = property('checked', '[data-test-eholdings-customer-resource-toggle-hidden] input');
+  hiddenReason = text('[data-test-eholdings-customer-resource-toggle-hidden-reason]');
+  isHiddenDisabled = property('disabled', '[data-test-eholdings-customer-resource-toggle-hidden] input[type=checkbox]');
+  toggleIsHidden = clickable('[data-test-eholdings-customer-resource-toggle-hidden] input');
+  isHiding = hasClassBeginningWith('is-pending--', '[data-test-eholdings-customer-resource-toggle-hidden] [data-test-toggle-switch]');
 
   managedEmbargoPeriod = text('[data-test-eholdings-customer-resource-show-managed-embargo-period]');
   hasManagedEmbargoPeriod = isPresent('[data-test-eholdings-customer-resource-show-managed-embargo-period]');
