@@ -48,8 +48,11 @@ export default function TitleListItem({
       )}
 
       {showSelected && (
-        <span data-test-eholdings-title-list-item-title-selected>
-          {item.isSelected ? 'Selected' : 'Not selected'}
+        <span>
+          <span data-test-eholdings-title-list-item-title-selected>
+            {item.isSelected ? 'Selected' : 'Not selected'}
+          </span>
+
           {item.visibilityData.isHidden && (
             <span>
               &nbsp;&bull;&nbsp;

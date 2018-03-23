@@ -1,9 +1,8 @@
 import { beforeEach, afterEach, describe, it } from '@bigtest/mocha';
 import { expect } from 'chai';
-import { convergeOn } from '@bigtest/convergence';
 
 import { describeApplication } from './helpers';
-import PackageShowPage from './pages/package-show';
+import PackageShowPage from './pages/bigtest/package-show';
 
 describeApplication('PackageSelection', () => {
   let provider,
@@ -58,7 +57,7 @@ describeApplication('PackageSelection', () => {
       });
 
       it('cannot be interacted with while the request is in flight', () => {
-        expect(PackageShowPage.isSelectedToggleable).to.equal(false);
+        expect(PackageShowPage.isSelectedToggleDisabled).to.equal(true);
       });
 
       describe('when the request succeeds', () => {
@@ -81,10 +80,9 @@ describeApplication('PackageSelection', () => {
 
       describe('and deselecting the package', () => {
         beforeEach(() => {
-          return convergeOn(() => {
-            // wait for the package to become toggleable again
-            expect(PackageShowPage.isSelectedToggleable).to.equal(true);
-          }).then(() => PackageShowPage.toggleIsSelected());
+          return PackageShowPage.interaction
+            .once(() => !PackageShowPage.isSelectedToggleDisabled)
+            .toggleIsSelected();
         });
 
         it('reflects the desired state (not selected)', () => {
@@ -97,7 +95,7 @@ describeApplication('PackageSelection', () => {
 
         describe('canceling the deselection', () => {
           beforeEach(() => {
-            PackageShowPage.cancelDeselection();
+            return PackageShowPage.modal.cancelDeselection();
           });
 
           it('reverts back to the selected state', () => {
@@ -108,7 +106,7 @@ describeApplication('PackageSelection', () => {
         describe('confirming the deselection', () => {
           beforeEach(function () {
             this.server.timing = 50;
-            PackageShowPage.confirmDeselection();
+            return PackageShowPage.modal.confirmDeselection();
           });
 
           afterEach(function () {
@@ -124,7 +122,7 @@ describeApplication('PackageSelection', () => {
           });
 
           it('cannot be interacted with while the request is in flight', () => {
-            expect(PackageShowPage.isSelectedToggleable).to.equal(false);
+            expect(PackageShowPage.isSelectedToggleDisabled).to.equal(true);
           });
 
           describe('when the request succeeds', () => {
@@ -145,11 +143,11 @@ describeApplication('PackageSelection', () => {
             });
 
             it('removes custom coverage', () => {
-              expect(PackageShowPage.customCoverage).to.equal('');
+              expect(PackageShowPage.hasCustomCoverage).to.equal(false);
             });
 
-            it('is not hidden', () => {
-              expect(PackageShowPage.isHidden).to.equal(false);
+            it('is not hideable', () => {
+              expect(PackageShowPage.isHiddenTogglePresent).to.equal(false);
             });
           });
         });
@@ -181,7 +179,7 @@ describeApplication('PackageSelection', () => {
       });
 
       it('cannot be interacted with while the request is in flight', () => {
-        expect(PackageShowPage.isSelectedToggleable).to.equal(false);
+        expect(PackageShowPage.isSelectedToggleDisabled).to.equal(true);
       });
 
       describe('when the request fails', () => {
