@@ -2,7 +2,7 @@ import { beforeEach, describe, it } from '@bigtest/mocha';
 import { expect } from 'chai';
 
 import { describeApplication } from './helpers';
-import CustomerResourceShowPage from './pages/customer-resource-show';
+import CustomerResourceShowPage from './pages/bigtest/customer-resource-show';
 
 describeApplication('CustomerResourceManagedCoverage', () => {
   let pkg,
@@ -30,7 +30,7 @@ describeApplication('CustomerResourceManagedCoverage', () => {
     });
 
     it.always('does not display the managed coverage section', () => {
-      expect(CustomerResourceShowPage.managedCoverageList).to.equal('');
+      expect(CustomerResourceShowPage.hasManagedCoverageList).to.be.false;
     });
   });
 
@@ -44,7 +44,7 @@ describeApplication('CustomerResourceManagedCoverage', () => {
     });
 
     it.always('does not display the managed coverage section', () => {
-      expect(CustomerResourceShowPage.managedCoverageList).to.equal('');
+      expect(CustomerResourceShowPage.hasManagedCoverageList).to.be.false;
     });
   });
 
@@ -239,7 +239,7 @@ describeApplication('CustomerResourceManagedCoverage', () => {
     });
 
     it.always('does not display managed coverage list', () => {
-      expect(CustomerResourceShowPage.managedCoverageList).to.equal('');
+      expect(CustomerResourceShowPage.hasManagedCoverageList).to.be.false;
     });
   });
 });

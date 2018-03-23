@@ -102,6 +102,8 @@ import { isRootPresent, hasClassBeginningWith } from '../helpers';
       .fillCoverageStatement(statement)
       .blurCoverageStatement();
   }
+  managedCoverageList = text('[data-test-eholdings-customer-resource-show-managed-coverage-list]');
+  hasManagedCoverageList = isPresent('[data-test-eholdings-customer-resource-show-managed-coverage-list]');
 
   identifiersList = collection('[data-test-eholdings-identifiers-list-item]', {
     text: text()

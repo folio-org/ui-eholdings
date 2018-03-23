@@ -5,6 +5,7 @@ export default Factory.extend({
   url: () => faker.internet.url(),
   customCoverages: [],
   coverageStatement: '',
+  managedCoverages: [],
 
   withTitle: trait({
     afterCreate(customerResource, server) {
@@ -76,15 +77,6 @@ export default Factory.extend({
         embargoValue: 0
       });
       customerResource.update('managedEmbargoPeriod', managedEmbargoPeriod.toJSON());
-      customerResource.save();
-    }
-
-    if (!customerResource.managedCoverages) {
-      let managedCoverages = server.createList('managed-coverage', 1, {
-        beginCoverage: null,
-        endCoverage: null
-      });
-      customerResource.update('managedCoverages', managedCoverages.map(item => item.toJSON()));
       customerResource.save();
     }
   }
