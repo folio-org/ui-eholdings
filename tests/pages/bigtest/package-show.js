@@ -1,12 +1,14 @@
 import {
   clickable,
   collection,
+  computed,
   isPresent,
   page,
   property,
   text
 } from '@bigtest/interaction';
 import Datepicker from './datepicker';
+import { hasClassBeginningWith } from '../helpers';
 
 @page class PackageShowModal {
   confirmDeselection = clickable('[data-test-eholdings-package-deselection-confirmation-modal-yes]');
@@ -30,9 +32,25 @@ import Datepicker from './datepicker';
   hasBackButton = isPresent('[data-test-eholdings-details-view-back-button] button');
   clickBackButton = clickable('[data-test-eholdings-details-view-back-button] button');
 
+  isVisibleToPatrons = property('checked', '[data-test-eholdings-package-details-hidden] input');
+  isHiddenMessage = text('[data-test-eholdings-package-details-is-hidden]');
+  isHiddenMessagePresent = isPresent('[data-test-eholdings-package-details-is-hidden]');
+  isHiddenToggleDisabled = property('disabled', '[data-test-eholdings-package-details-hidden] input[type=checkbox]');
+  isHiddenTogglePresent = isPresent('[data-test-eholdings-package-details-hidden] input');
+  isHiding = hasClassBeginningWith('is-pending--', '[data-test-eholdings-package-details-hidden] [data-test-toggle-switch]');
+  allTitlesHidden = computed(function () {
+    return !!this.titleList().length && this.titleList().every(title => title.isHidden);
+  });
+
+  toggleIsHidden = clickable('[data-test-eholdings-package-details-hidden] input');
+
   titleList = collection('[data-test-query-list="package-titles"] li a', {
     name: text('[data-test-eholdings-title-list-item-title-name]'),
-    selectedLabel: text('[data-test-eholdings-title-list-item-title-selected]')
+    selectedLabel: text('[data-test-eholdings-title-list-item-title-selected]'),
+    isHiddenLabel: text('[data-test-eholdings-title-list-item-title-hidden]'),
+    isHidden: computed(function () {
+      return this.isHiddenLabel === 'Hidden';
+    })
   });
 
   hasCustomCoverage = isPresent('[data-test-eholdings-package-details-custom-coverage-display]')
