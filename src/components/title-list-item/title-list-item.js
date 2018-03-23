@@ -23,7 +23,7 @@ export default function TitleListItem({
     />
   ) : (
     <Link
-      data-test-eholdings-title-list-item-active
+      data-test-eholdings-title-list-item
       to={link}
       className={cx('item', {
         'is-selected': active
