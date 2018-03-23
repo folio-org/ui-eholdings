@@ -1,9 +1,9 @@
 import { beforeEach, describe, it } from '@bigtest/mocha';
 import { expect } from 'chai';
-import { convergeOn } from '@bigtest/convergence';
 
 import { describeApplication } from './helpers';
-import TitleSearchPage from './pages/title-search';
+import TitleSearchPage from './pages/bigtest/title-search';
+import ResourceShowPage from './pages/bigtest/customer-resource-show';
 
 describeApplication('TitleSearch', () => {
   let titles;
@@ -51,49 +51,49 @@ describeApplication('TitleSearch', () => {
     });
 
     return this.visit('/eholdings/?searchType=titles', () => {
-      expect(TitleSearchPage.$root).to.exist;
+      expect(TitleSearchPage.exists).to.be.true;
     });
   });
 
   it('has a searchbox', () => {
-    expect(TitleSearchPage.$searchField).to.exist;
+    expect(TitleSearchPage.hasSearchField).to.be.true;
   });
 
   it('displays title as default searchfield', () => {
-    expect(TitleSearchPage.$searchFieldSelect.value).to.equal('title');
+    expect(TitleSearchPage.searchFieldSelectValue).to.equal('title');
   });
 
   it('has search filters', () => {
-    expect(TitleSearchPage.$searchFilters).to.exist;
+    expect(TitleSearchPage.hasSearchFilters).to.be.true;
   });
 
   it('has disabled search button', () => {
-    expect(TitleSearchPage.isSearchButtonEnabled).to.equal(false);
+    expect(TitleSearchPage.isSearchButtonDisabled).to.be.true;
   });
 
   describe('searching for a title', () => {
     beforeEach(() => {
-      TitleSearchPage.search('Title');
+      return TitleSearchPage.search('Title');
     });
 
     it('has enabled search button', () => {
-      expect(TitleSearchPage.isSearchButtonEnabled).to.equal(true);
+      expect(TitleSearchPage.isSearchButtonDisabled).to.be.false;
     });
 
     it("displays title entries related to 'Title'", () => {
-      expect(TitleSearchPage.$searchResultsItems).to.have.lengthOf(3);
+      expect(TitleSearchPage.titleList()).to.have.lengthOf(3);
     });
 
     it('displays the name of a title', () => {
-      expect(TitleSearchPage.titleList[0].name).to.equal('Title1');
+      expect(TitleSearchPage.titleList(0).name).to.equal('Title1');
     });
 
     it('displays the publisher name of a title', () => {
-      expect(TitleSearchPage.titleList[0].publisherName).to.equal(titles[0].publisherName);
+      expect(TitleSearchPage.titleList(0).publisherName).to.equal(titles[0].publisherName);
     });
 
     it('displays the publication type of a title', () => {
-      expect(TitleSearchPage.titleList[0].publicationType).to.equal(titles[0].publicationType);
+      expect(TitleSearchPage.titleList(0).publicationType).to.equal(titles[0].publicationType);
     });
 
     it('displays a loading indicator where the total results will be', () => {
@@ -110,31 +110,30 @@ describeApplication('TitleSearch', () => {
 
     describe('clicking a search results list item', () => {
       beforeEach(() => {
-        return convergeOn(() => {
-          // wait for the previous search to complete
-          expect(TitleSearchPage.$searchResultsItems).to.have.lengthOf(3);
-        }).then(() => TitleSearchPage.$searchResultsItems[0].click());
+        return TitleSearchPage.interaction
+          .once(() => TitleSearchPage.hasLoaded)
+          .do(() => TitleSearchPage.titleList(0).clickThrough());
       });
 
       it('clicked item has an active state', () => {
-        expect(TitleSearchPage.titleList[0].isActive).to.be.true;
+        expect(TitleSearchPage.titleList(0).isActive).to.be.true;
       });
 
       it('shows the preview pane', () => {
-        expect(TitleSearchPage.previewPaneIsVisible('titles')).to.be.true;
+        expect(TitleSearchPage.titlePreviewPaneIsPresent).to.be.true;
       });
 
       it('should not display back button in UI', () => {
-        expect(TitleSearchPage.$backButton).to.not.exist;
+        expect(TitleSearchPage.hasBackButton).to.be.false;
       });
 
       describe('conducting a new search', () => {
         beforeEach(() => {
-          TitleSearchPage.search('SomethingSomethingWhoa');
+          return TitleSearchPage.search('SomethingSomethingWhoa');
         });
 
         it('removes the preview detail pane', () => {
-          expect(TitleSearchPage.previewPaneIsVisible('titles')).to.not.be.true;
+          expect(TitleSearchPage.titlePreviewPaneIsPresent).to.be.false;
         });
 
         it('preserves the last history entry', function () {
@@ -149,36 +148,36 @@ describeApplication('TitleSearch', () => {
         });
       });
 
-      describe('clicking the vignette behind the preview pane', () => {
+      describe.skip('clicking the vignette behind the preview pane', () => {
         beforeEach(() => {
-          TitleSearchPage.clickSearchVignette();
+          return TitleSearchPage.clickSearchVignette();
         });
 
         it('hides the preview pane', () => {
-          expect(TitleSearchPage.previewPaneIsVisible('titles')).to.be.false;
+          expect(TitleSearchPage.titlePreviewPaneIsPresent).to.be.false;
         });
       });
 
       describe('clicking an item within the preview pane', () => {
         beforeEach(() => {
-          return TitleSearchPage.clickPackage(0);
+          return TitleSearchPage.packageTitleList(0).clickToPackage();
         });
 
         it('hides the search ui', () => {
-          expect(TitleSearchPage.$root).to.not.exist;
+          expect(TitleSearchPage.exists).to.be.false;
         });
 
         describe('and clicking the back button', () => {
           beforeEach(() => {
-            return TitleSearchPage.clickBackButton();
+            return ResourceShowPage.clickBackButton();
           });
 
           it('displays the original search', () => {
-            expect(TitleSearchPage.$searchField).to.have.value('Title');
+            expect(TitleSearchPage.searchFieldValue).to.equal('Title');
           });
 
           it('displays the original search results', () => {
-            expect(TitleSearchPage.$searchResultsItems).to.have.lengthOf(3);
+            expect(TitleSearchPage.titleList()).to.have.lengthOf(3);
           });
         });
       });
@@ -186,16 +185,14 @@ describeApplication('TitleSearch', () => {
 
     describe('filtering by publication type', () => {
       beforeEach(() => {
-        return convergeOn(() => {
-          expect(TitleSearchPage.$searchResultsItems).to.have.lengthOf(3);
-        }).then(() => (
-          TitleSearchPage.clickFilter('type', 'book')
-        ));
+        return TitleSearchPage.interaction
+          .once(() => TitleSearchPage.hasLoaded)
+          .clickFilter('type', 'book');
       });
 
       it('only shows results for book publication types', () => {
-        expect(TitleSearchPage.titleList).to.have.lengthOf(1);
-        expect(TitleSearchPage.titleList[0].publicationType).to.equal('book');
+        expect(TitleSearchPage.titleList()).to.have.lengthOf(1);
+        expect(TitleSearchPage.titleList(0).publicationType).to.equal('book');
       });
 
       it('shows search filters on smaller screen sizes (due to filter change only)', () => {
@@ -208,11 +205,9 @@ describeApplication('TitleSearch', () => {
 
       describe('clearing the filters', () => {
         beforeEach(() => {
-          return convergeOn(() => {
-            expect(TitleSearchPage.$searchResultsItems).to.have.lengthOf(1);
-          }).then(() => (
-            TitleSearchPage.clearFilter('type')
-          ));
+          return TitleSearchPage.interaction
+            .once(() => TitleSearchPage.hasLoaded)
+            .clearFilter('type');
         });
 
         it.always('removes the filter from the URL query params', function () {
@@ -226,13 +221,13 @@ describeApplication('TitleSearch', () => {
 
       describe('visiting the page with an existing filter', () => {
         beforeEach(function () {
-          return convergeOn(() => {
-            expect(TitleSearchPage.$searchResultsItems).to.have.lengthOf(1);
-          }).then(() => {
-            return this.visit('/eholdings/?searchType=titles&q=Title&filter[type]=journal', () => {
-              expect(TitleSearchPage.$root).to.exist;
-            });
-          });
+          return TitleSearchPage.interaction
+            .once(() => TitleSearchPage.hasLoaded)
+            .do(() => (
+              this.visit('/eholdings/?searchType=titles&q=Title&filter[type]=journal', () => {
+                expect(TitleSearchPage.exists).to.be.true;
+              })
+            ));
         });
 
         it('shows the existing filter in the search form', () => {
@@ -240,8 +235,8 @@ describeApplication('TitleSearch', () => {
         });
 
         it('only shows results for journal publication types', () => {
-          expect(TitleSearchPage.titleList).to.have.lengthOf(2);
-          expect(TitleSearchPage.titleList[0].publicationType).to.equal('journal');
+          expect(TitleSearchPage.titleList()).to.have.lengthOf(2);
+          expect(TitleSearchPage.titleList(0).publicationType).to.equal('journal');
         });
 
         it('shows search filters on smaller screen sizes (due to filter change only)', () => {
@@ -252,15 +247,13 @@ describeApplication('TitleSearch', () => {
 
     describe('filtering by selection status', () => {
       beforeEach(() => {
-        return convergeOn(() => {
-          expect(TitleSearchPage.$searchResultsItems).to.have.lengthOf(3);
-        }).then(() => (
-          TitleSearchPage.clickFilter('selected', 'true')
-        ));
+        return TitleSearchPage.interaction
+          .once(() => TitleSearchPage.hasLoaded)
+          .clickFilter('selected', 'true');
       });
 
       it('only shows results for selected titles', () => {
-        expect(TitleSearchPage.titleList).to.have.lengthOf(2);
+        expect(TitleSearchPage.titleList()).to.have.lengthOf(2);
       });
 
       it('reflects the filter in the URL query params', function () {
@@ -273,11 +266,9 @@ describeApplication('TitleSearch', () => {
 
       describe('clearing the filters', () => {
         beforeEach(() => {
-          return convergeOn(() => {
-            expect(TitleSearchPage.$searchResultsItems).to.have.lengthOf(2);
-          }).then(() => (
-            TitleSearchPage.clearFilter('selected')
-          ));
+          return TitleSearchPage.interaction
+            .once(() => TitleSearchPage.hasLoaded)
+            .clearFilter('selected');
         });
 
         it.always('removes the filter from the URL query params', function () {
@@ -291,13 +282,13 @@ describeApplication('TitleSearch', () => {
 
       describe('visiting the page with an existing filter', () => {
         beforeEach(function () {
-          return convergeOn(() => {
-            expect(TitleSearchPage.$searchResultsItems).to.have.lengthOf(2);
-          }).then(() => {
-            return this.visit('/eholdings/?searchType=titles&q=Title&filter[selected]=false', () => {
-              expect(TitleSearchPage.$root).to.exist;
-            });
-          });
+          return TitleSearchPage.interaction
+            .once(() => TitleSearchPage.hasLoaded)
+            .do(() => (
+              this.visit('/eholdings/?searchType=titles&q=Title&filter[selected]=false', () => {
+                expect(TitleSearchPage.exists).to.be.true;
+              })
+            ));
         });
 
         it('shows the existing filter in the search form', () => {
@@ -305,7 +296,7 @@ describeApplication('TitleSearch', () => {
         });
 
         it('only shows results for non-selected titles', () => {
-          expect(TitleSearchPage.titleList).to.have.lengthOf(1);
+          expect(TitleSearchPage.titleList()).to.have.lengthOf(1);
         });
 
         it('shows search filters on smaller screen sizes (due to filter change only)', () => {
@@ -316,18 +307,16 @@ describeApplication('TitleSearch', () => {
 
     describe('selecting a publisher search field', () => {
       beforeEach(() => {
-        return convergeOn(() => {
-          expect(TitleSearchPage.$searchResultsItems).to.have.lengthOf(3);
-        }).then(() => (
-          TitleSearchPage.selectSearchField('publisher')
-        )).then(() => (
-          TitleSearchPage.search('TestPublisher')
-        ));
+        return TitleSearchPage.interaction
+          .once(() => TitleSearchPage.hasLoaded)
+          .do(() => (
+            TitleSearchPage.selectSearchField('publisher').search('TestPublisher')
+          ));
       });
 
       it('only shows results having publishers with name including TestPublisher', () => {
-        expect(TitleSearchPage.titleList).to.have.lengthOf(1);
-        expect(TitleSearchPage.titleList[0].publisherName).to.include('TestPublisher');
+        expect(TitleSearchPage.titleList()).to.have.lengthOf(1);
+        expect(TitleSearchPage.titleList(0).publisherName).to.include('TestPublisher');
       });
 
       it('reflects the publisher searchfield in the URL query params', function () {
@@ -341,17 +330,15 @@ describeApplication('TitleSearch', () => {
 
     describe('selecting a subject search field', () => {
       beforeEach(() => {
-        return convergeOn(() => {
-          expect(TitleSearchPage.$searchResultsItems).to.have.lengthOf(3);
-        }).then(() => (
-          TitleSearchPage.selectSearchField('subject')
-        )).then(() => (
-          TitleSearchPage.search('TestSubject')
-        ));
+        return TitleSearchPage.interaction
+          .once(() => TitleSearchPage.hasLoaded)
+          .do(() => (
+            TitleSearchPage.selectSearchField('subject').search('TestSubject')
+          ));
       });
 
       it('only shows results having subjects including TestSubject', () => {
-        expect(TitleSearchPage.titleList).to.have.lengthOf(1);
+        expect(TitleSearchPage.titleList()).to.have.lengthOf(1);
       });
 
       it('reflects the subject searchfield in the URL query params', function () {
@@ -365,17 +352,15 @@ describeApplication('TitleSearch', () => {
 
     describe('selecting an isxn search field', () => {
       beforeEach(() => {
-        return convergeOn(() => {
-          expect(TitleSearchPage.$searchResultsItems).to.have.lengthOf(3);
-        }).then(() => (
-          TitleSearchPage.selectSearchField('isxn')
-        )).then(() => (
-          TitleSearchPage.search('999-999')
-        ));
+        return TitleSearchPage.interaction
+          .once(() => TitleSearchPage.hasLoaded)
+          .do(() => (
+            TitleSearchPage.selectSearchField('isxn').search('999-999')
+          ));
       });
 
       it('only shows results having isxn field ', () => {
-        expect(TitleSearchPage.titleList).to.have.lengthOf(1);
+        expect(TitleSearchPage.titleList()).to.have.lengthOf(1);
       });
 
       it('reflects the isxn searchfield in the URL query params', function () {
@@ -389,78 +374,81 @@ describeApplication('TitleSearch', () => {
 
     describe('changing search fields', () => {
       beforeEach(() => {
-        return convergeOn(() => {
-          expect(TitleSearchPage.$searchResultsItems).to.have.lengthOf(3);
-        }).then(() => (
-          TitleSearchPage.selectSearchField('subject')
-        ));
+        return TitleSearchPage.interaction
+          .once(() => TitleSearchPage.hasLoaded)
+          .do(() => (
+            TitleSearchPage.selectSearchField('subject')
+          ));
       });
 
       it('maintains the previous search', () => {
-        expect(TitleSearchPage.$searchField).to.have.value('Title');
+        expect(TitleSearchPage.searchFieldValue).to.equal('Title');
       });
     });
 
     describe('visiting the page with an existing search field', () => {
       beforeEach(function () {
-        return convergeOn(() => {
-          expect(TitleSearchPage.$searchResultsItems).to.have.lengthOf(3);
-        }).then(() => {
-          return this.visit('/eholdings/?searchType=titles&q=TestPublisher&searchfield=publisher', () => {
-            expect(TitleSearchPage.$root).to.exist;
-          });
-        });
+        return TitleSearchPage.interaction
+          .once(() => TitleSearchPage.hasLoaded)
+          .do(() => (
+            this.visit('/eholdings/?searchType=titles&q=TestPublisher&searchfield=publisher', () => {
+              expect(TitleSearchPage.exists).to.be.true;
+            })
+          ));
       });
 
       it('displays publisher as searchfield', () => {
-        expect(TitleSearchPage.$searchFieldSelect.value).to.eql('publisher');
+        expect(TitleSearchPage.searchFieldSelectValue).to.eql('publisher');
       });
 
       it('displays search field populated', () => {
-        expect(TitleSearchPage.$searchField).to.have.value('TestPublisher');
+        expect(TitleSearchPage.searchFieldValue).to.equal('TestPublisher');
       });
 
       it('only shows results for searchfield and query', () => {
-        expect(TitleSearchPage.titleList).to.have.lengthOf(1);
+        expect(TitleSearchPage.titleList()).to.have.lengthOf(1);
       });
     });
+
     describe('with a more specific query', () => {
       beforeEach(() => {
-        return convergeOn(() => {
-          expect(TitleSearchPage.$searchResultsItems).to.have.lengthOf(3);
-        }).then(() => (
-          TitleSearchPage.search('Title1')
-        ));
+        return TitleSearchPage.interaction
+          .once(() => TitleSearchPage.hasLoaded)
+          .do(() => (
+            TitleSearchPage.search('Title1')
+          ));
       });
 
       it('only shows a single result', () => {
-        expect(TitleSearchPage.$searchResultsItems).to.have.lengthOf(1);
+        expect(TitleSearchPage.titleList()).to.have.lengthOf(1);
       });
     });
 
     describe('clicking another search type', () => {
       beforeEach(() => {
-        return convergeOn(() => {
-          // wait for the previous search to complete
-          expect(TitleSearchPage.$searchResultsItems).to.have.lengthOf(3);
-        }).then(() => TitleSearchPage.$searchResultsItems[0].click())
-          .then(() => TitleSearchPage.changeSearchType('providers'));
+        return TitleSearchPage.interaction
+          .once(() => TitleSearchPage.hasLoaded)
+          .do(() => (
+            TitleSearchPage
+              .titleList(0).click()
+              .append(TitleSearchPage.changeSearchType('providers'))
+          ));
       });
 
       it('only shows one search type as selected', () => {
-        expect(TitleSearchPage.$selectedSearchType).to.have.lengthOf(1);
+        expect(TitleSearchPage.selectedSearchType()).to.have.lengthOf(1);
       });
 
       it('displays an empty search', () => {
-        expect(TitleSearchPage.$providerSearchField).to.have.value('');
+        expect(TitleSearchPage.providerOrPackageSearchFieldValue).to.equal('');
       });
 
       it('does not display any more results', () => {
-        expect(TitleSearchPage.$searchResultsItems).to.have.lengthOf(0);
+        expect(TitleSearchPage.titleList()).to.have.lengthOf(0);
       });
 
       it('does not show the preview pane', () => {
-        expect(TitleSearchPage.previewPaneIsVisible('providers')).to.be.false;
+        expect(TitleSearchPage.providerPreviewPaneIsPresent).to.be.false;
       });
 
       describe('navigating back to titles search', () => {
@@ -469,15 +457,15 @@ describeApplication('TitleSearch', () => {
         });
 
         it('displays the original search', () => {
-          expect(TitleSearchPage.$searchField).to.have.value('Title');
+          expect(TitleSearchPage.searchFieldValue).to.equal('Title');
         });
 
         it('displays the original search results', () => {
-          expect(TitleSearchPage.$searchResultsItems).to.have.lengthOf(3);
+          expect(TitleSearchPage.titleList()).to.have.lengthOf(3);
         });
 
         it('shows the preview pane', () => {
-          expect(TitleSearchPage.previewPaneIsVisible('titles')).to.be.true;
+          expect(TitleSearchPage.titlePreviewPaneIsPresent).to.be.true;
         });
 
         it('hides search filters on smaller screen sizes (due to new search term)', () => {
@@ -488,19 +476,15 @@ describeApplication('TitleSearch', () => {
 
     describe('selecting both a search field and a search filter', () => {
       beforeEach(() => {
-        return convergeOn(() => {
-          expect(TitleSearchPage.$searchResultsItems).to.have.lengthOf(3);
-        }).then(() => (
-          TitleSearchPage.selectSearchField('isxn')
-        )).then(() => (
-          TitleSearchPage.clickFilter('type', 'book')
-        )).then(() => (
-          TitleSearchPage.search('999-999')
-        ));
+        return TitleSearchPage.interaction
+          .once(() => TitleSearchPage.hasLoaded)
+          .do(() => (
+            TitleSearchPage.selectSearchField('isxn').clickFilter('type', 'book').search('999-999')
+          ));
       });
       it('only shows results having both isxn and book pub type', () => {
-        expect(TitleSearchPage.titleList).to.have.lengthOf(1);
-        expect(TitleSearchPage.titleList[0].publicationType).to.equal('book');
+        expect(TitleSearchPage.titleList()).to.have.lengthOf(1);
+        expect(TitleSearchPage.titleList(0).publicationType).to.equal('book');
       });
 
       it('reflects searchfield=isxn in the URL query params', function () {
@@ -521,7 +505,7 @@ describeApplication('TitleSearch', () => {
         });
 
         it('displays an empty search', () => {
-          expect(TitleSearchPage.$providerSearchField).to.have.value('');
+          expect(TitleSearchPage.providerOrPackageSearchFieldValue).to.equal('');
         });
 
         describe('navigating back to titles search', () => {
@@ -546,14 +530,15 @@ describeApplication('TitleSearch', () => {
 
     describe('clearing the search field', () => {
       beforeEach(() => {
-        return convergeOn(() => {
-          expect(TitleSearchPage.$searchResultsItems).to.have.lengthOf(3);
-        }).then(() => (
-          TitleSearchPage.clearSearch()
-        ));
+        return TitleSearchPage.interaction
+          .once(() => TitleSearchPage.hasLoaded)
+          .do(() => (
+            TitleSearchPage.clearSearch()
+          ));
       });
+
       it('has disabled search button', () => {
-        expect(TitleSearchPage.isSearchButtonEnabled).to.equal(false);
+        expect(TitleSearchPage.isSearchButtonDisabled).to.be.true;
       });
     });
   });
@@ -567,27 +552,26 @@ describeApplication('TitleSearch', () => {
 
     describe('searching for titles', () => {
       beforeEach(() => {
-        TitleSearchPage.search('other');
+        return TitleSearchPage.search('other');
       });
 
       it('shows the first page of results', () => {
-        // return window.pauseTest(this);
-        expect(TitleSearchPage.titleList[0].name).to.equal('Other Title 5');
+        expect(TitleSearchPage.titleList(0).name).to.equal('Other Title 5');
       });
 
       describe('and then scrolling down', () => {
         beforeEach(() => {
-          return convergeOn(() => {
-            expect(TitleSearchPage.titleList.length).to.be.gt(0);
-          }).then(() => {
-            TitleSearchPage.scrollToOffset(26);
-          });
+          return TitleSearchPage.interaction
+            .once(() => TitleSearchPage.hasLoaded)
+            .do(() => (
+              TitleSearchPage.scrollToOffset(26)
+            ));
         });
 
         it('shows the next page of results', () => {
           // when the list is scrolled, it has a threshold of 5 items. index 4,
           // the 5th item, is the topmost visible item in the list
-          expect(TitleSearchPage.titleList[4].name).to.equal('Other Title 30');
+          expect(TitleSearchPage.titleList(4).name).to.equal('Other Title 30');
         });
 
         it('updates the offset in the URL', function () {
@@ -605,7 +589,7 @@ describeApplication('TitleSearch', () => {
 
       it('should show the search results for that page', () => {
         // see comment above about titleList index number
-        expect(TitleSearchPage.titleList[4].name).to.equal('Other Title 55');
+        expect(TitleSearchPage.titleList(4).name).to.equal('Other Title 55');
       });
 
       it('should retain the proper offset', function () {
@@ -614,11 +598,11 @@ describeApplication('TitleSearch', () => {
 
       describe('and then scrolling up', () => {
         beforeEach(() => {
-          return convergeOn(() => {
-            expect(TitleSearchPage.titleList.length).to.be.gt(0);
-          }).then(() => {
-            TitleSearchPage.scrollToOffset(0);
-          });
+          return TitleSearchPage.interaction
+            .once(() => TitleSearchPage.hasLoaded)
+            .do(() => (
+              TitleSearchPage.scrollToOffset(0)
+            ));
         });
 
         // it might take a bit for the next request to be triggered after the scroll
@@ -627,7 +611,7 @@ describeApplication('TitleSearch', () => {
         }, 500);
 
         it('shows the prev page of results', () => {
-          expect(TitleSearchPage.titleList[0].name).to.equal('Other Title 5');
+          expect(TitleSearchPage.titleList(0).name).to.equal('Other Title 5');
         });
 
         it('updates the offset in the URL', function () {
@@ -639,7 +623,7 @@ describeApplication('TitleSearch', () => {
 
   describe("searching for the title 'fhqwhgads'", () => {
     beforeEach(() => {
-      TitleSearchPage.search('fhqwhgads');
+      return TitleSearchPage.search('fhqwhgads');
     });
 
     it("displays 'no results' message", () => {
@@ -655,7 +639,7 @@ describeApplication('TitleSearch', () => {
         }]
       }, 500);
 
-      TitleSearchPage.search("this doesn't matter");
+      return TitleSearchPage.search("this doesn't matter");
     });
 
     it('dies with dignity', () => {
