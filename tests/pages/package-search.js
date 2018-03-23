@@ -48,7 +48,7 @@ import { isRootPresent } from './helpers';
   })
 
   clearFilter = action(function (name) {
-    return this.click(`#filter-packages-${name} [role="heading"] button:nth-child(2)`);
+    return this.click(`#filter-packages-${name} button[icon="clearX"]`);
   })
 
   getFilter(name) {
