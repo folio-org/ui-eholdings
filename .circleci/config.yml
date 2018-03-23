@@ -74,19 +74,13 @@ jobs:
 
   test-firefox:
     docker:
-      - image: circleci/node:latest-browsers
+      - image: circleci/node:latest
     steps:
       - attach_workspace:
           at: ~/
       - run:
-          name: Install the latest Firefox ESR
-          command: |
-            sudo apt-get remove firefox-mozilla-build &&
-            sudo apt install firefox-esr &&
-            firefox --version
-      - run:
           name: Run tests
-          command: yarn test --karma.singleRun --karma.browsers=Firefox
+          command: yarn test --karma.singleRun --karma.browsers=bs_firefox_mac
       - store_test_results:
           path: ./artifacts/junit
       - store_artifacts:
@@ -101,7 +95,7 @@ jobs:
           at: ~/
       - run:
           name: Run tests
-          command: yarn test --karma.singleRun --karma.browsers=bs_ieEdge_windows || true
+          command: yarn test --karma.singleRun --karma.browsers=bs_ieEdge_windows
       - store_test_results:
           path: ./artifacts/junit
       - store_artifacts:
@@ -116,7 +110,7 @@ jobs:
           at: ~/
       - run:
           name: Run tests
-          command: yarn test --karma.singleRun --karma.browsers=bs_ie11_windows || true
+          command: yarn test --karma.singleRun --karma.browsers=bs_ie11_windows
       - store_test_results:
           path: ./artifacts/junit
       - store_artifacts:
@@ -135,6 +129,9 @@ workflows:
           requires:
             - checkout-and-install
       - test-chrome:
+          requires:
+            - checkout-and-install
+      - test-firefox:
           requires:
             - checkout-and-install
       - test-safari:
