@@ -153,3 +153,6 @@ workflows:
       - test-chrome:
           requires:
             - checkout-and-install
+      - test-firefox:
+          requires:
+            - checkout-and-install
