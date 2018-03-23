@@ -1,6 +1,5 @@
 import { beforeEach, describe, it } from '@bigtest/mocha';
 import { expect } from 'chai';
-import { convergeOn } from '@bigtest/convergence';
 
 import { describeApplication } from './helpers';
 import PackageShowPage from './pages/bigtest/package-show';
@@ -82,13 +81,13 @@ describeApplication('PackageShow', () => {
         });
 
         // converge on the previous package loading first
-        return convergeOn(() => {
-          expect(PackageShowPage.titleList.length).to.be.gt(0);
-        }).then(() => (
-          this.visit(`/eholdings/packages/${otherPackage.id}`, () => {
-            expect(PackageShowPage.$root).to.exist;
-          })
-        ));
+        return PackageShowPage.interaction
+          .once(() => PackageShowPage.titleList().length > 0)
+          .do(() => {
+            return this.visit(`/eholdings/packages/${otherPackage.id}`, () => {
+              expect(PackageShowPage.$root).to.exist;
+            });
+          });
       });
 
       it('displays the different package', () => {
@@ -117,11 +116,9 @@ describeApplication('PackageShow', () => {
 
     describe.skip('scrolling down the list of titles', () => {
       beforeEach(() => {
-        return convergeOn(() => {
-          expect(PackageShowPage.titleList.length).to.be.gt(0);
-        }).then(() => {
-          PackageShowPage.scrollToTitleOffset(26);
-        });
+        return PackageShowPage.interaction
+          .once(() => PackageShowPage.titleList().length > 0)
+          .scrollToTitleOffset(26);
       });
 
       it('should display the next page of related titles', () => {
