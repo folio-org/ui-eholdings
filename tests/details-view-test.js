@@ -1,10 +1,9 @@
 import { beforeEach, describe, it } from '@bigtest/mocha';
 import { expect } from 'chai';
-import { convergeOn } from '@bigtest/convergence';
 
 import { describeApplication } from './helpers';
-import PackageShowPage from './pages/package-show';
-import TitleShowPage from './pages/title-show';
+import PackageShowPage from './pages/bigtest/package-show';
+import TitleShowPage from './pages/bigtest/title-show';
 
 describeApplication('DetailsView', () => {
   beforeEach(function () {
@@ -14,92 +13,78 @@ describeApplication('DetailsView', () => {
   describe('visiting a package with paged customer-resources', () => {
     beforeEach(function () {
       return this.visit('/eholdings/packages/paged_pkg', () => {
-        expect(PackageShowPage.$root).to.exist;
+        expect(PackageShowPage.exist).to.be.true;
       });
     });
 
     it('has a list that fills the container', () => {
-      expect(PackageShowPage.$titleContainer.height()).to.equal(PackageShowPage.$detailPaneContents.height());
+      expect(PackageShowPage.titleContainerHeight).to.equal(PackageShowPage.detailPaneContentsHeight);
     });
 
     it('has a list that is not scrollable', () => {
-      expect(PackageShowPage.$titleQueryList).to.have.css('overflow-y', 'hidden');
+      expect(PackageShowPage.titleQueryListOverFlowY).to.eq('hidden');
     });
 
     describe('scrolling to the bottom of the container', () => {
       beforeEach(() => {
-        // converge on the titles being loaded
-        return convergeOn(() => {
-          expect(PackageShowPage.titleList.length).to.be.gt(0);
-        }).then(() => {
-          PackageShowPage.$detailPaneContents.scrollTop(PackageShowPage.$detailPaneContents.prop('scrollHeight'));
-        });
+        return PackageShowPage.interaction
+          .once(() => PackageShowPage.titlesHaveLoaded)
+          .detailsPaneScrollTop(PackageShowPage.detailsPaneContentScrollHeight);
       });
 
       it('disables scrolling the container', () => {
-        expect(PackageShowPage.$detailPaneContents).to.have.css('overflow-y', 'hidden');
+        expect(PackageShowPage.detailsPaneContentsOverFlowY).to.eq('hidden');
       });
 
       it('enables scrolling the list', () => {
-        expect(PackageShowPage.$titleQueryList).to.have.css('overflow-y', 'auto');
+        expect(PackageShowPage.titleQueryListOverFlowY).to.eq('auto');
       });
 
       describe('scrolling up from the list', () => {
         beforeEach(() => {
-          // converge on the previous expected behavior first
-          return convergeOn(() => {
-            expect(PackageShowPage.$detailPaneContents).to.have.css('overflow-y', 'hidden');
-          }).then(() => {
-            PackageShowPage.scrollToTitleOffset(0);
-          });
+          return PackageShowPage.interaction
+            .once(() => PackageShowPage.detailsPaneContentsOverFlowY === 'hidden')
+            .scrollToTitleOffset(0);
         });
 
         it('enables scrolling the container', () => {
-          expect(PackageShowPage.$detailPaneContents).to.have.css('overflow-y', 'auto');
+          expect(PackageShowPage.detailsPaneContentsOverFlowY).to.eq('auto');
         });
 
         it('disables scrolling the list', () => {
-          expect(PackageShowPage.$titleQueryList).to.have.css('overflow-y', 'hidden');
+          expect(PackageShowPage.titleQueryListOverFlowY).to.eq('hidden');
         });
       });
 
       describe('scrolling up from the container', () => {
         beforeEach(() => {
-          // converge on the previous expected behavior first
-          return convergeOn(() => {
-            expect(PackageShowPage.$detailPaneContents).to.have.css('overflow-y', 'hidden');
-          }).then(() => {
-            PackageShowPage.$detailPaneContents.scrollTop(10);
-          });
+          return PackageShowPage.interaction
+            .once(() => PackageShowPage.detailsPaneContentsOverFlowY === 'hidden')
+            .scrollToTitleOffset(10);
         });
 
         it('enables scrolling the container', () => {
-          expect(PackageShowPage.$detailPaneContents).to.have.css('overflow-y', 'auto');
+          expect(PackageShowPage.detailsPaneContentsOverFlowY).to.eq('auto');
         });
 
         it('disables scrolling the list', () => {
-          expect(PackageShowPage.$titleQueryList).to.have.css('overflow-y', 'hidden');
+          expect(PackageShowPage.titleQueryListOverFlowY).to.eq('hidden');
         });
       });
 
       describe('scrolling up with the mousewheel', () => {
         beforeEach(() => {
-          // converge on the previous expected behavior first
-          return convergeOn(() => {
-            expect(PackageShowPage.$detailPaneContents).to.have.css('overflow-y', 'hidden');
-          }).then(() => {
-            PackageShowPage.$detailPaneContents.get(0).dispatchEvent(
-              new WheelEvent('wheel', { bubbles: true, deltaY: -1 })
-            );
-          });
+          return PackageShowPage.interaction
+            .once(() => PackageShowPage.detailsPaneContentsOverFlowY === 'hidden')
+            .detailPaneMouseWheel();
         });
 
         it('enables scrolling the container', () => {
-          expect(PackageShowPage.$detailPaneContents).to.have.css('overflow-y', 'auto');
+          expect(PackageShowPage.detailsPaneContentsOverFlowY).to.eq('hidden');
         });
 
         it('disables scrolling the list', () => {
-          expect(PackageShowPage.$titleQueryList).to.have.css('overflow-y', 'hidden');
+          expect(PackageShowPage.titleQueryListOverFlowY).to.eq('hidden');
         });
       });
     });
@@ -108,27 +93,26 @@ describeApplication('DetailsView', () => {
       beforeEach(function () {
         let title = this.server.create('title');
 
-        // converge on the previous page being loaded first
-        return convergeOn(() => {
-          expect(PackageShowPage.titleList.length).to.be.gt(0);
-        }).then(() => {
-          return this.visit(`/eholdings/titles/${title.id}`, () => {
-            expect(TitleShowPage.$root).to.exist;
+        return PackageShowPage.interaction
+          .once(() => PackageShowPage.titlesHaveLoaded)
+          .do(() => {
+            return this.visit(`/eholdings/titles/${title.id}`, () => {
+              expect(TitleShowPage.$root).to.exist;
+            });
           });
-        });
       });
 
       it('has a list that does not fill the container', () => {
-        expect(TitleShowPage.$packageContainer.height()).to.be.lt(TitleShowPage.$detailPaneContents.height());
+        expect(TitleShowPage.packageContainerHeight).to.be.lt(TitleShowPage.detailsPaneContentsHeight);
       });
 
       describe('scrolling to the bottom of the container', () => {
         beforeEach(() => {
-          TitleShowPage.$detailPaneContents.scrollTop(TitleShowPage.$detailPaneContents.prop('scrollHeight'));
+          TitleShowPage.detailsPaneScrollTop(TitleShowPage.detailsPaneScrollsHeight);
         });
 
         it.always('does not disable scrolling the container', () => {
-          expect(TitleShowPage.$detailPaneContents).to.have.css('overflow-y', 'auto');
+          expect(TitleShowPage.detailsPaneContentsOverFlowY).to.eq('auto');
         });
       });
     });

@@ -61,7 +61,7 @@ import { isRootPresent } from '../helpers';
           top: firstItem.offsetHeight * readOffset
         });
       });
-  })
+  });
 
   search = action(function (query) {
     return this

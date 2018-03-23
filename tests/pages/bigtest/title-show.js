@@ -1,10 +1,13 @@
 import {
+  action,
   collection,
   computed,
   isPresent,
+  property,
   page,
   text
 } from '@bigtest/interaction';
+import { getComputedStyle } from '../helpers';
 
 @page class TitleShowPage {
   paneTitle = text('[data-test-eholdings-details-view-pane-title]');
@@ -17,6 +20,19 @@ import {
   hasBackButton = isPresent('[data-test-eholdings-details-view-back-button] button');
   hasErrors = isPresent('[data-test-eholdings-details-view-error="title"]');
   hasIdentifiersList = isPresent('[data-test-eholdings-identifiers-list-item]');
+  packageContainerHeight = property('offsetHeight', '[data-test-eholdings-details-view-list="title"]');
+  detailsPaneScrollsHeight = property('scrollHeight', '[data-test-eholdings-detail-pane-contents]');
+  detailsPaneContentsHeight = property('offsetHeight', '[data-test-eholdings-detail-pane-contents]');
+  detailsPaneContentsOverFlowY = getComputedStyle('overflow-y', '[data-test-eholdings-detail-pane-contents]');
+
+  detailsPaneScrollTop = action(function (offset) {
+    return this.find('[data-test-query-list="package-titles"]')
+      .do(() => {
+        return this.scroll('[data-test-eholdings-detail-pane-contents]', {
+          top: offset
+        });
+      });
+  });
 
   packageList = collection('[data-test-query-list="title-packages"] li a', {
     name: text('[data-test-eholdings-package-list-item-name]'),
