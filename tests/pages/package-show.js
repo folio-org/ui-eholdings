@@ -9,12 +9,7 @@ function createTitleObject(element) {
   return {
     get isSelected() {
       return $scope.find('[data-test-eholdings-title-list-item-title-selected]').text() === 'Selected';
-    },
-
-    get isHidden() {
-      return $scope.find('[data-test-eholdings-title-list-item-title-hidden]').text() === 'Hidden';
     }
-
   };
 }
 
@@ -79,31 +74,8 @@ export default {
     return $('[data-test-query-list="package-titles"] li a').toArray().map(createTitleObject);
   },
 
-  toggleIsHidden() {
-    return convergeOn(() => {
-      expect($('[data-test-eholdings-package-details-hidden]')).to.exist;
-    }).then(() => (
-      $('[data-test-eholdings-package-details-hidden] input').click()
-    ));
-  },
-
-  get isHiding() {
-    return $('[data-test-eholdings-package-details-hidden] [data-test-toggle-switch]').attr('class').indexOf('is-pending--') !== -1;
-  },
-
-  get isHiddenToggleable() {
-    return $('[data-test-eholdings-package-details-hidden] input[type=checkbox]').prop('disabled') === false;
-  },
-
   get isHidden() {
     return $('[data-test-eholdings-package-details-hidden] input').prop('checked') === false;
-  },
-
-  get allTitlesHidden() {
-    return !!this.titleList.length && this.titleList.every(title => title.isHidden);
-  },
-  get isHiddenMessage() {
-    return $('[data-test-eholdings-package-details-is-hidden]').text();
   },
 
   get customCoverage() {

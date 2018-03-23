@@ -1,8 +1,8 @@
-import { beforeEach, afterEach, describe, it } from '@bigtest/mocha';
+import { beforeEach, describe, it } from '@bigtest/mocha';
 import { expect } from 'chai';
 
 import { describeApplication } from './helpers';
-import PackageShowPage from './pages/package-show';
+import PackageShowPage from './pages/bigtest/package-show';
 
 describeApplication('PackageVisibility', () => {
   let provider,
@@ -28,8 +28,8 @@ describeApplication('PackageVisibility', () => {
       });
     });
 
-    it('displays an OFF Toggle (Hidden from patrons)', () => {
-      expect(PackageShowPage.isHidden).to.be.true;
+    it('displays an OFF toggle (Hidden from patrons)', () => {
+      expect(PackageShowPage.isVisibleToPatrons).to.be.false;
     });
 
     it('displays the hidden/reason section', () => {
@@ -51,12 +51,12 @@ describeApplication('PackageVisibility', () => {
       });
     });
 
-    it('displays an OFF Toggle (Hidden from patrons)', () => {
-      expect(PackageShowPage.isHidden).to.be.true;
+    it('displays an OFF toggle (Hidden from patrons)', () => {
+      expect(PackageShowPage.isVisibleToPatrons).to.be.false;
     });
 
-    it.always('does not displays the hidden/reason section', () => {
-      expect(PackageShowPage.isHiddenMessage).to.equal('');
+    it('does not display the hidden/reason section', () => {
+      expect(PackageShowPage.isHiddenMessagePresent).to.be.false;
     });
   });
 
@@ -74,12 +74,12 @@ describeApplication('PackageVisibility', () => {
       });
     });
 
-    it('displays an ON Toggle (Visible to patrons)', () => {
-      expect(PackageShowPage.isHidden).to.be.false;
+    it('displays an ON toggle (Visible to patrons)', () => {
+      expect(PackageShowPage.isVisibleToPatrons).to.be.true;
     });
 
     it.always('does not display the hidden/reason section', () => {
-      expect(PackageShowPage.isHiddenMessage).to.equal('');
+      expect(PackageShowPage.isHiddenMessagePresent).to.be.false;
     });
   });
 
@@ -97,16 +97,12 @@ describeApplication('PackageVisibility', () => {
       });
     });
 
-    it('displays an ON Toggle (Visible to patrons)', () => {
-      expect(PackageShowPage.isHidden).to.be.false;
-    });
-
-    it('displays a disabled Toggle', () => {
-      expect(PackageShowPage.isHiddenToggleable).to.be.false;
+    it('does not display a toggle', () => {
+      expect(PackageShowPage.isHiddenTogglePresent).to.be.false;
     });
 
     it.always('does not display the hidden/reason section', () => {
-      expect(PackageShowPage.isHiddenMessage).to.equal('');
+      expect(PackageShowPage.isHiddenMessagePresent).to.be.false;
     });
   });
 
@@ -124,38 +120,34 @@ describeApplication('PackageVisibility', () => {
       });
     });
 
-    it('displays an ON Toggle (Visible to patrons)', () => {
-      expect(PackageShowPage.isHidden).to.be.false;
+    it('displays an ON toggle (Visible to patrons)', () => {
+      expect(PackageShowPage.isVisibleToPatrons).to.be.true;
     });
 
     describe('successfully hiding a package', () => {
-      beforeEach(function () {
-        this.server.timing = 50;
+      beforeEach(() => {
         return PackageShowPage.toggleIsHidden();
       });
 
-      afterEach(function () {
-        this.server.timing = 0;
-      });
       it('reflects the desired state OFF (Hidden from patrons)', () => {
-        expect(PackageShowPage.isHidden).to.equal(true);
+        expect(PackageShowPage.isVisibleToPatrons).to.be.false;
       });
 
       it.skip('cannot be interacted with while the request is in flight', () => {
-        expect(PackageShowPage.isHiddenToggleable).to.equal(false);
+        expect(PackageShowPage.isHiddenToggleDisabled).to.be.true;
       });
 
       describe('when the request succeeds', () => {
         it('reflects the desired state OFF (Hidden from patrons)', () => {
-          expect(PackageShowPage.isHidden).to.equal(true);
+          expect(PackageShowPage.isVisibleToPatrons).to.be.false;
         });
 
         it('indicates it is no longer pending', () => {
-          expect(PackageShowPage.isHiding).to.equal(false);
+          expect(PackageShowPage.isHiding).to.be.false;
         });
 
         it('shows the package titles are all hidden', () => {
-          expect(PackageShowPage.allTitlesHidden).to.equal(true);
+          expect(PackageShowPage.allTitlesHidden).to.be.true;
         });
       });
     });
@@ -176,36 +168,33 @@ describeApplication('PackageVisibility', () => {
     });
 
     it('reflects the desired initial state OFF (Hidden from patrons)', () => {
-      expect(PackageShowPage.isHidden).to.be.true;
+      expect(PackageShowPage.isVisibleToPatrons).to.be.false;
     });
+
     describe('successfully showing a package', () => {
-      beforeEach(function () {
-        this.server.timing = 50;
+      beforeEach(() => {
         return PackageShowPage.toggleIsHidden();
       });
 
-      afterEach(function () {
-        this.server.timing = 0;
-      });
       it('displays an ON Toggle (Visible to patrons)', () => {
-        expect(PackageShowPage.isHidden).to.equal(false);
+        expect(PackageShowPage.isVisibleToPatrons).to.be.true;
       });
 
       it.skip('cannot be interacted with while the request is in flight', () => {
-        expect(PackageShowPage.isHiddenToggleable).to.equal(false);
+        expect(PackageShowPage.isHiddenToggleDisabled).to.be.true;
       });
 
       describe('when the request succeeds', () => {
         it('reflects the desired state as ON Toggle (Visible to patrons)', () => {
-          expect(PackageShowPage.isHidden).to.equal(false);
+          expect(PackageShowPage.isVisibleToPatrons).to.be.true;
         });
 
         it('indicates it is no longer pending', () => {
-          expect(PackageShowPage.isHiding).to.equal(false);
+          expect(PackageShowPage.isHiding).to.be.false;
         });
 
         it('should show the package titles are all not hidden', () => {
-          expect(PackageShowPage.allTitlesHidden).to.equal(false);
+          expect(PackageShowPage.allTitlesHidden).to.be.false;
         });
       });
     });
