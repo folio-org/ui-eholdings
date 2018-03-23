@@ -144,8 +144,8 @@ describeApplication('CustomerResourceCustomCoverage', () => {
             .fillDates('12/16/2018', '12/18/2018');
         });
 
-        it('shows the input as valid', () => {
-          expect(CustomerResourceCoverage.dateRangeRowList(0).beginDate.isValid).to.be.true;
+        it('shows the input as changed', () => {
+          expect(CustomerResourceCoverage.dateRangeRowList(0).beginDate.isChanged).to.be.true;
         });
 
         it('enables the save button', () => {
