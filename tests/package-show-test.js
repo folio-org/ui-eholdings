@@ -65,7 +65,7 @@ describeApplication('PackageShow', () => {
     });
 
     it('displays whether the first title is selected', () => {
-      expect(PackageShowPage.titleList(0).selectedLabel).to.equal((customerResources[0].isSelected ? 'Selected' : 'Not selected'));
+      expect(PackageShowPage.titleList(0).isSelectedLabel).to.equal((customerResources[0].isSelected ? 'Selected' : 'Not selected'));
     });
 
     it.always('should not display a back button', () => {
