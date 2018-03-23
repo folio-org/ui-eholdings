@@ -25,7 +25,7 @@ module.exports = (config) => {
         os: 'OS X',
         os_version: 'High Sierra',
         browser: 'safari',
-        browser_version: '11.0'
+        browser_version: '11.1'
       },
       bs_firefox_mac: {
         base: 'BrowserStack',

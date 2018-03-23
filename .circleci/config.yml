@@ -163,3 +163,6 @@ workflows:
       - test-firefox:
           requires:
             - checkout-and-install
+      - test-safari:
+          requires:
+            - checkout-and-install
