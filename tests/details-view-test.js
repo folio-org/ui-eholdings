@@ -40,7 +40,7 @@ describeApplication('DetailsView', () => {
         expect(PackageShowPage.titleQueryListOverFlowY).to.eq('auto');
       });
 
-      describe('scrolling up from the list', () => {
+      describe('scrolling up to the top of the list', () => {
         beforeEach(() => {
           return PackageShowPage.interaction
             .once(() => PackageShowPage.detailsPaneContentsOverFlowY === 'hidden')
@@ -56,23 +56,23 @@ describeApplication('DetailsView', () => {
         });
       });
 
-      describe('scrolling up from the container', () => {
+      describe('scrolling part of the way up the title list', () => {
         beforeEach(() => {
           return PackageShowPage.interaction
             .once(() => PackageShowPage.detailsPaneContentsOverFlowY === 'hidden')
             .scrollToTitleOffset(10);
         });
 
-        it('enables scrolling the container', () => {
-          expect(PackageShowPage.detailsPaneContentsOverFlowY).to.eq('auto');
+        it.pause('disables scrolling the container', () => {
+          expect(PackageShowPage.detailsPaneContentsOverFlowY).to.eq('hidden');
         });
 
-        it('disables scrolling the list', () => {
-          expect(PackageShowPage.titleQueryListOverFlowY).to.eq('hidden');
+        it('enables scrolling the list', () => {
+          expect(PackageShowPage.titleQueryListOverFlowY).to.eq('auto');
         });
       });
 
-      describe('scrolling up with the mousewheel', () => {
+      describe('scrolling up with the mousewheel to the top of the title list', () => {
         beforeEach(() => {
           return PackageShowPage.interaction
             .once(() => PackageShowPage.detailsPaneContentsOverFlowY === 'hidden')
@@ -80,7 +80,7 @@ describeApplication('DetailsView', () => {
         });
 
         it('enables scrolling the container', () => {
-          expect(PackageShowPage.detailsPaneContentsOverFlowY).to.eq('hidden');
+          expect(PackageShowPage.detailsPaneContentsOverFlowY).to.eq('auto');
         });
 
         it('disables scrolling the list', () => {
