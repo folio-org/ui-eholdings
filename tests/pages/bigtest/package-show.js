@@ -4,15 +4,13 @@ import {
   computed,
   isPresent,
   page,
-  computed,
   property,
   action,
   text,
   triggerable
 } from '@bigtest/interaction';
-import { isRootPresent, getComputedStyle } from '../helpers';
+import { isRootPresent, getComputedStyle, hasClassBeginningWith } from '../helpers';
 import Datepicker from './datepicker';
-import { hasClassBeginningWith } from '../helpers';
 
 @page class PackageShowModal {
   confirmDeselection = clickable('[data-test-eholdings-package-deselection-confirmation-modal-yes]');
