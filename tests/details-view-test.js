@@ -63,7 +63,7 @@ describeApplication('DetailsView', () => {
             .scrollToTitleOffset(10);
         });
 
-        it.pause('disables scrolling the container', () => {
+        it('disables scrolling the container', () => {
           expect(PackageShowPage.detailsPaneContentsOverFlowY).to.eq('hidden');
         });
 
