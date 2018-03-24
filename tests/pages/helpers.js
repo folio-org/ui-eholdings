@@ -15,3 +15,10 @@ export const hasClassBeginningWith = (className, selector) => {
     return this.$(selector).className.includes(className);
   });
 };
+
+export const getComputedStyle = (className, selector) => {
+  return computed(function () {
+    let element = this.$(selector);
+    return window.getComputedStyle(element)[className];
+  });
+};

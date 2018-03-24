@@ -5,10 +5,12 @@ import {
   isPresent,
   page,
   property,
-  text
+  action,
+  text,
+  triggerable
 } from '@bigtest/interaction';
+import { isRootPresent, getComputedStyle, hasClassBeginningWith } from '../helpers';
 import Datepicker from './datepicker';
-import { hasClassBeginningWith } from '../helpers';
 
 @page class PackageShowModal {
   confirmDeselection = clickable('[data-test-eholdings-package-deselection-confirmation-modal-yes]');
@@ -16,6 +18,7 @@ import { hasClassBeginningWith } from '../helpers';
 }
 
 @page class PackageShowPage {
+  exist = isRootPresent();
   allowKbToAddTitles = property('checked', '[data-test-eholdings-package-details-allow-add-new-titles] input');
   hasAllowKbToAddTitles = isPresent('[data-test-eholdings-package-details-toggle-allow-add-new-titles] input');
   hasAllowKbToAddTitlesToggle = isPresent('[package-details-toggle-allow-add-new-titles-switch]');
@@ -33,6 +36,16 @@ import { hasClassBeginningWith } from '../helpers';
   hasErrors = isPresent('[data-test-eholdings-details-view-error="package"]');
   hasBackButton = isPresent('[data-test-eholdings-details-view-back-button] button');
   clickBackButton = clickable('[data-test-eholdings-details-view-back-button] button');
+  detailsPaneContentScrollHeight = property('scrollHeight', '[data-test-eholdings-detail-pane-contents]');
+
+  detailPaneMouseWheel = triggerable('wheel', '[data-test-eholdings-detail-pane-contents]', {
+    bubbles: true,
+    deltaY: -1
+  });
+
+  titlesHaveLoaded = computed(function () {
+    return this.titleList().length > 0;
+  });
 
   toggleIsHidden = clickable('[data-test-eholdings-package-details-hidden] input');
   isVisibleToPatrons = property('checked', '[data-test-eholdings-package-details-hidden] input');
@@ -62,15 +75,38 @@ import { hasClassBeginningWith } from '../helpers';
     })
   });
 
-  hasCustomCoverage = isPresent('[data-test-eholdings-package-details-custom-coverage-display]')
-  customCoverage = text('[data-test-eholdings-package-details-custom-coverage-display]')
-  hasCustomCoverageAddButton = isPresent('[data-test-eholdings-package-details-custom-coverage-button] button')
-  clickCustomCoverageAddButton = clickable('[data-test-eholdings-package-details-custom-coverage-button] button')
-  clickCustomCoverageCancelButton = clickable('[data-test-eholdings-package-details-cancel-custom-coverage-button] button')
-  clickCustomCoverageEditButton = clickable('[data-test-eholdings-package-details-edit-custom-coverage-button] button')
-  clickCustomCoverageSaveButton = clickable('[data-test-eholdings-package-details-save-custom-coverage-button] button')
-  isCustomCoverageDisabled = property('disabled', '[data-test-eholdings-package-details-save-custom-coverage-button] button')
-  validationError = text('[data-test-eholdings-custom-coverage-date-range-begin] [class^="feedbackError"]')
+  detailsPaneScrollTop = action(function (offset) {
+    return this.find('[data-test-query-list="package-titles"]')
+      .do(() => {
+        return this.scroll('[data-test-eholdings-detail-pane-contents]', {
+          top: offset
+        });
+      });
+  });
+
+  scrollToTitleOffset = action(function (readOffset) {
+    return this.find('[data-test-query-list="package-titles"] li')
+      .do((firstItem) => {
+        return this.scroll('[data-test-query-list="package-titles"]', {
+          top: firstItem.offsetHeight * readOffset
+        });
+      });
+  });
+
+  titleContainerHeight = property('offsetHeight', '[data-test-eholdings-details-view-list="package"]');
+  detailPaneContentsHeight = property('offsetHeight', '[data-test-eholdings-detail-pane-contents]');
+  titleQueryListOverFlowY = getComputedStyle('overflow-y', '[data-test-query-list="package-titles"]');
+  detailsPaneContentsOverFlowY = getComputedStyle('overflow-y', '[data-test-eholdings-detail-pane-contents]');
+
+  hasCustomCoverage = isPresent('[data-test-eholdings-package-details-custom-coverage-display]');
+  customCoverage = text('[data-test-eholdings-package-details-custom-coverage-display]');
+  hasCustomCoverageAddButton = isPresent('[data-test-eholdings-package-details-custom-coverage-button] button');
+  clickCustomCoverageAddButton = clickable('[data-test-eholdings-package-details-custom-coverage-button] button');
+  clickCustomCoverageCancelButton = clickable('[data-test-eholdings-package-details-cancel-custom-coverage-button] button');
+  clickCustomCoverageEditButton = clickable('[data-test-eholdings-package-details-edit-custom-coverage-button] button');
+  clickCustomCoverageSaveButton = clickable('[data-test-eholdings-package-details-save-custom-coverage-button] button');
+  isCustomCoverageDisabled = property('disabled', '[data-test-eholdings-package-details-save-custom-coverage-button] button');
+  validationError = text('[data-test-eholdings-custom-coverage-date-range-begin] [class^="feedbackError"]');
 
   beginDate = new Datepicker('[data-test-eholdings-custom-coverage-date-range-begin]');
   endDate = new Datepicker('[data-test-eholdings-custom-coverage-date-range-end]');
