@@ -2,7 +2,6 @@ import {
   attribute,
   blurrable,
   clickable,
-  computed,
   fillable,
   isPresent,
   page,
@@ -11,11 +10,7 @@ import {
   value
 } from '@bigtest/interaction';
 
-let hasClassBeginningWith = (className, selector) => {
-  return computed(function () {
-    return this.$(selector).className.includes(className);
-  });
-};
+import { hasClassBeginningWith } from '../helpers';
 
 @page class SettingsPage {
   customerId = value('[data-test-eholdings-settings-customerid] input');
