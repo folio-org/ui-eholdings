@@ -2,8 +2,8 @@ import { expect } from 'chai';
 import { describe, beforeEach, it } from '@bigtest/mocha';
 
 import { describeApplication } from './helpers';
-import ResourcePage from './pages/bigtest/customer-resource-show';
-import NavigationModal from './pages/bigtest/navigation-modal';
+import ResourcePage from './pages/customer-resource-show';
+import NavigationModal from './pages/navigation-modal';
 
 describeApplication('CustomerResourceShow', () => {
   let provider,

@@ -8,7 +8,7 @@ import {
   text,
   value
 } from '@bigtest/interaction';
-import { hasClassBeginningWith } from '../helpers';
+import { hasClassBeginningWith } from './helpers';
 
 @page class CustomerResourceEditNavigationModal {}
 

@@ -2,7 +2,7 @@ import { expect } from 'chai';
 import { beforeEach, describe, it } from '@bigtest/mocha';
 
 import { describeApplication } from './helpers';
-import PackageShowPage from './pages/bigtest/package-show';
+import PackageShowPage from './pages/package-show';
 
 describeApplication('PackageShowAllowKbToAddTitles', () => {
   let provider,

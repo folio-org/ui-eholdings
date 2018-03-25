@@ -11,7 +11,7 @@ import {
   text,
   is
 } from '@bigtest/interaction';
-import { isRootPresent } from '../helpers';
+import { isRootPresent } from './helpers';
 
 @page class PackageSearchPage {
   exists = isRootPresent();

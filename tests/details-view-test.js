@@ -2,8 +2,8 @@ import { beforeEach, describe, it } from '@bigtest/mocha';
 import { expect } from 'chai';
 
 import { describeApplication } from './helpers';
-import PackageShowPage from './pages/bigtest/package-show';
-import TitleShowPage from './pages/bigtest/title-show';
+import PackageShowPage from './pages/package-show';
+import TitleShowPage from './pages/title-show';
 
 describeApplication('DetailsView', () => {
   beforeEach(function () {

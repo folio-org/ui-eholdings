@@ -6,7 +6,7 @@ import {
   property,
   text,
 } from '@bigtest/interaction';
-import { isRootPresent } from '../helpers';
+import { isRootPresent } from './helpers';
 import Datepicker from './datepicker';
 
 @page class CustomerResourceCustomCoveragePage {

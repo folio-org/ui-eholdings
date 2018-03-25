@@ -2,7 +2,7 @@ import { expect } from 'chai';
 import { describe, beforeEach, it } from '@bigtest/mocha';
 
 import { describeApplication } from './helpers';
-import TitleShowPage from './pages/bigtest/title-show';
+import TitleShowPage from './pages/title-show';
 
 describeApplication('TitleShow', () => {
   let title,

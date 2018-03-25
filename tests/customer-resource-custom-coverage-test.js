@@ -1,8 +1,8 @@
 import { beforeEach, describe, it } from '@bigtest/mocha';
 import { expect } from 'chai';
 import { describeApplication } from './helpers';
-import ResourcePage from './pages/bigtest/customer-resource-show';
-import CustomerResourceCoverage from './pages/bigtest/customer-resource-custom-coverage';
+import ResourcePage from './pages/customer-resource-show';
+import CustomerResourceCoverage from './pages/customer-resource-custom-coverage';
 
 describeApplication('CustomerResourceCustomCoverage', () => {
   let pkg,

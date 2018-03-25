@@ -11,7 +11,7 @@ import {
   text,
   is
 } from '@bigtest/interaction';
-import { isRootPresent, hasClassBeginningWith } from '../helpers';
+import { isRootPresent, hasClassBeginningWith } from './helpers';
 
 @page class TitleSearchPage {
   exists = isRootPresent();

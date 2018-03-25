@@ -9,7 +9,7 @@ import {
   text,
   triggerable
 } from '@bigtest/interaction';
-import { isRootPresent, getComputedStyle, hasClassBeginningWith } from '../helpers';
+import { isRootPresent, getComputedStyle, hasClassBeginningWith } from './helpers';
 import Datepicker from './datepicker';
 
 @page class PackageShowModal {

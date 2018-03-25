@@ -2,7 +2,7 @@ import { beforeEach, afterEach, describe, it } from '@bigtest/mocha';
 import { expect } from 'chai';
 
 import { describeApplication } from './helpers';
-import PackageShowPage from './pages/bigtest/package-show';
+import PackageShowPage from './pages/package-show';
 
 describeApplication('PackageSelection', () => {
   let provider,

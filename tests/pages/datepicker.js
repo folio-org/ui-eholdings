@@ -7,7 +7,7 @@ import {
   triggerable,
   blurrable
 } from '@bigtest/interaction';
-import { hasClassBeginningWith, isRootPresent } from '../helpers';
+import { hasClassBeginningWith, isRootPresent } from './helpers';
 
 export default @page class Datepicker {
   exists = isRootPresent();

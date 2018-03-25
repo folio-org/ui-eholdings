@@ -7,7 +7,7 @@ import {
   page,
   text
 } from '@bigtest/interaction';
-import { getComputedStyle } from '../helpers';
+import { getComputedStyle } from './helpers';
 
 @page class TitleShowPage {
   paneTitle = text('[data-test-eholdings-details-view-pane-title]');
