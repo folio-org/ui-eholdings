@@ -2,7 +2,7 @@
 
 .preview-pane {
   display: flex;
-  flex: 11 0 0;
+  flex: 11 0 320px;
   flex-flow: column nowrap;
   height: 100%;
   width: 100%;
