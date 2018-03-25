@@ -1,6 +1,7 @@
 .list {
   line-height: 1.15;
-  margin: 0;
+  max-width: 48rem;
+  margin: 0 auto;
   padding: 0;
 
   & li {

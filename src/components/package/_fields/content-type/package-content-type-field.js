@@ -2,15 +2,11 @@ import React, { Component } from 'react';
 import { Field } from 'redux-form';
 
 import { Select } from '@folio/stripes-components';
-import styles from './package-content-type-field.css';
 
 export default class PackageContentTypeField extends Component {
   render() {
     return (
-      <div
-        data-test-eholdings-package-content-type-field
-        className={styles['package-content-type-field']}
-      >
+      <div data-test-eholdings-package-content-type-field>
         <Field
           name="contentType"
           component={Select}

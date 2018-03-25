@@ -3,14 +3,10 @@ import { Field } from 'redux-form';
 
 import { TextField } from '@folio/stripes-components';
 import { injectIntl, intlShape } from 'react-intl';
-import styles from './edition-field.css';
 
 function EditionField({ intl }) {
   return (
-    <div
-      data-test-eholdings-edition-field
-      className={styles['edition-field']}
-    >
+    <div data-test-eholdings-edition-field>
       <Field
         name="edition"
         component={TextField}

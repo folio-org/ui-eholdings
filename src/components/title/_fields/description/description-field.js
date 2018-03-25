@@ -3,14 +3,10 @@ import { Field } from 'redux-form';
 
 import { TextArea } from '@folio/stripes-components';
 import { injectIntl, intlShape } from 'react-intl';
-import styles from './description-field.css';
 
 function DescriptionField({ intl }) {
   return (
-    <div
-      data-test-eholdings-description-textarea
-      className={styles['description-textarea']}
-    >
+    <div data-test-eholdings-description-textarea>
       <Field
         name="description"
         component={TextArea}

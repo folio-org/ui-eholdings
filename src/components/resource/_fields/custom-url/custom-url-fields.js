@@ -2,16 +2,12 @@ import React, { Component } from 'react';
 import { Field } from 'redux-form';
 
 import { TextField } from '@folio/stripes-components';
-import styles from './custom-url-fields.css';
 
 class CustomUrlFields extends Component {
   render() {
     return (
       <div>
-        <div
-          className={styles['url-text-area']}
-          data-test-eholdings-custom-url-textfield
-        >
+        <div data-test-eholdings-custom-url-textfield>
           <Field
             name="customUrl"
             component={TextField}

@@ -3,14 +3,10 @@ import { Field } from 'redux-form';
 import { injectIntl, intlShape, FormattedMessage } from 'react-intl';
 
 import { TextField } from '@folio/stripes-components';
-import styles from './title-name-field.css';
 
 function TitleNameField({ intl }) {
   return (
-    <div
-      data-test-eholdings-title-name-field
-      className={styles['title-name-field']}
-    >
+    <div data-test-eholdings-title-name-field>
       <Field
         name="name"
         type="text"
