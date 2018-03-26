@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import moment from 'moment';
 
 import { createResolver } from '../redux';
 import CustomerResource from '../redux/customer-resource';
@@ -35,6 +36,15 @@ class CustomerResourceEditRoute extends Component {
 
   resourceEditSubmitted = (values) => {
     let { model, updateResource } = this.props;
+    model.customCoverages = values.customCoverages.map((dateRange) => {
+      let beginCoverage = !dateRange.beginCoverage ? null : moment(dateRange.beginCoverage).format('YYYY-MM-DD');
+      let endCoverage = !dateRange.endCoverage ? null : moment(dateRange.endCoverage).format('YYYY-MM-DD');
+
+      return {
+        beginCoverage,
+        endCoverage
+      };
+    });
     model.coverageStatement = values.coverageStatement;
     updateResource(model);
   }
@@ -45,6 +55,7 @@ class CustomerResourceEditRoute extends Component {
         model={this.props.model}
         onSubmit={this.resourceEditSubmitted}
         initialValues={{
+          customCoverages: this.props.model.customCoverages,
           coverageStatement: this.props.model.coverageStatement
         }}
       />
