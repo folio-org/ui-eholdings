@@ -1,15 +1,13 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { Icon } from '@folio/stripes-components';
 
 import { createResolver } from '../redux';
 import { Configuration } from '../redux/application';
-import View from '../components/settings';
-import ApplicationRoute from './application';
 
-// eslint-disable-next-line no-shadow
-class SettingsRoute extends Component {
+import View from '../components/settings-knowledge-base';
+
+class SettingsKnowledgeBaseRoute extends Component {
   static propTypes = {
     config: PropTypes.object.isRequired,
     getBackendConfig: PropTypes.func.isRequired,
@@ -33,16 +31,10 @@ class SettingsRoute extends Component {
     let { config } = this.props;
 
     return (
-      <ApplicationRoute showSettings>
-        {config.isLoading ? (
-          <Icon icon="spinner-ellipsis" />
-        ) : (
-          <View
-            settings={config}
-            onSubmit={this.updateConfig}
-          />
-        )}
-      </ApplicationRoute>
+      <View
+        settings={config}
+        onSubmit={this.updateConfig}
+      />
     );
   }
 }
@@ -54,4 +46,4 @@ export default connect(
     getBackendConfig: () => Configuration.find('configuration'),
     updateBackendConfig: model => Configuration.save(model)
   }
-)(SettingsRoute);
+)(SettingsKnowledgeBaseRoute);

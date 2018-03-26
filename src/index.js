@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { Route, Switch, Redirect } from './router';
+import Settings from '@folio/stripes-components/lib/Settings';
 
+import { Route, Switch, Redirect } from './router';
 import { reducer, epics } from './redux';
 
 import ApplicationRoute from './routes/application';
@@ -13,7 +14,8 @@ import TitleShow from './routes/title-show';
 import CustomerResourceShow from './routes/customer-resource-show';
 import CustomerResourceEdit from './routes/customer-resource-edit';
 
-import SettingsRoute from './routes/settings';
+import SettingsKnowledgeBaseRoute from './routes/settings-knowledge-base';
+import SettingsRootProxyRoute from './routes/settings-root-proxy';
 
 export default class EHoldings extends Component {
   static propTypes = {
@@ -29,7 +31,8 @@ export default class EHoldings extends Component {
 
   static contextTypes = {
     addReducer: PropTypes.func.isRequired,
-    addEpic: PropTypes.func.isRequired
+    addEpic: PropTypes.func.isRequired,
+    router: PropTypes.object
   };
 
   static childContextTypes = {
@@ -54,9 +57,26 @@ export default class EHoldings extends Component {
       showSettings,
       match: { path: rootPath }
     } = this.props;
+    let { router } = this.context;
 
     return showSettings ? (
-      <Route path={rootPath} component={SettingsRoute} />
+      <Settings
+        {...this.props}
+        pages={[
+          {
+            route: 'knowledge-base',
+            label: 'Knowledge base',
+            component: SettingsKnowledgeBaseRoute
+          },
+          {
+            route: 'root-proxy',
+            label: 'Root proxy',
+            component: SettingsRootProxyRoute
+          }
+        ]}
+        paneTitle="eHoldings"
+        activeLink={router.route.location.pathname}
+      />
     ) : (
       <Route path={rootPath} component={ApplicationRoute}>
         <Route path={`${rootPath}/:type?/:id?`} component={SearchRoute}>

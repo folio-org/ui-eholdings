@@ -1,0 +1,7 @@
+@import '@folio/stripes-components/lib/variables';
+
+.settings-detail-pane-back-button {
+  @media (--mediumUp) {
+    display: none;
+  }
+}

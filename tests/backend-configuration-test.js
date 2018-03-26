@@ -54,7 +54,7 @@ describeApplication('With unconfigured backend', {
 
     describe('when visiting settings', () => {
       beforeEach(function () {
-        return this.visit('/settings/eholdings', () => expect(SettingsPage.$root).to.exist);
+        return this.visit('/settings/eholdings/knowledge-base', () => expect(SettingsPage.$root).to.exist);
       });
 
       it('shows the form action buttons', () => {
@@ -101,11 +101,7 @@ describeApplication('With unconfigured backend', {
 describeApplication('With valid backend configuration', () => {
   describe('when visiting settings', () => {
     beforeEach(function () {
-      return this.visit('/settings/eholdings', () => expect(SettingsPage.$root).to.exist);
-    });
-
-    it('has a description of itself', () => {
-      expect(SettingsPage.description).to.equal('EBSCO Knowledge Base');
+      return this.visit('/settings/eholdings/knowledge-base', () => expect(SettingsPage.$root).to.exist);
     });
 
     it('has a field for the ebsco customer id', () => {
