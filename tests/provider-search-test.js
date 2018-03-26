@@ -2,8 +2,8 @@ import { beforeEach, describe, it } from '@bigtest/mocha';
 import { expect } from 'chai';
 
 import { describeApplication } from './helpers';
-import ProviderSearchPage from './pages/bigtest/provider-search';
-import PackageShowPage from './pages/bigtest/package-show';
+import ProviderSearchPage from './pages/provider-search';
+import PackageShowPage from './pages/package-show';
 
 window.ProviderSearchPage = ProviderSearchPage;
 

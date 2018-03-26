@@ -3,8 +3,8 @@ import { expect } from 'chai';
 import { Response } from '@bigtest/mirage';
 
 import { describeApplication } from './helpers';
-import ApplicationPage from './pages/bigtest/application';
-import SettingsPage from './pages/bigtest/settings';
+import ApplicationPage from './pages/application';
+import SettingsPage from './pages/settings';
 
 describeApplication('Error retrieving backend', {
   scenarios: ['load-error-backend'],

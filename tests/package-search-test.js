@@ -2,9 +2,9 @@ import { beforeEach, describe, it } from '@bigtest/mocha';
 import { expect } from 'chai';
 
 import { describeApplication } from './helpers';
-import PackageSearchPage from './pages/bigtest/package-search';
-import PackageShowPage from './pages/bigtest/package-show';
-import ResourceShowPage from './pages/bigtest/customer-resource-show';
+import PackageSearchPage from './pages/package-search';
+import PackageShowPage from './pages/package-show';
+import ResourceShowPage from './pages/customer-resource-show';
 
 describeApplication('PackageSearch', () => {
   let pkgs;

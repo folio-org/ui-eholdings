@@ -9,7 +9,7 @@ import {
   text,
   value
 } from '@bigtest/interaction';
-import { isRootPresent, hasClassBeginningWith } from '../helpers';
+import { isRootPresent, hasClassBeginningWith } from './helpers';
 
 
 @page class CustomerResourceShowDeselectionModal {

@@ -2,8 +2,8 @@ import { beforeEach, describe, it } from '@bigtest/mocha';
 import { expect } from 'chai';
 
 import { describeApplication } from './helpers';
-import TitleSearchPage from './pages/bigtest/title-search';
-import ResourceShowPage from './pages/bigtest/customer-resource-show';
+import TitleSearchPage from './pages/title-search';
+import ResourceShowPage from './pages/customer-resource-show';
 
 describeApplication('TitleSearch', () => {
   let titles;

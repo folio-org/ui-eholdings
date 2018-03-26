@@ -10,7 +10,7 @@ import {
   value
 } from '@bigtest/interaction';
 
-import { hasClassBeginningWith } from '../helpers';
+import { hasClassBeginningWith } from './helpers';
 
 @page class SettingsPage {
   customerId = value('[data-test-eholdings-settings-customerid] input');

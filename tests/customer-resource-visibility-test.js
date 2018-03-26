@@ -2,7 +2,7 @@ import { beforeEach, describe, it } from '@bigtest/mocha';
 import { expect } from 'chai';
 
 import { describeApplication } from './helpers';
-import CustomerResourceShowPage from './pages/bigtest/customer-resource-show';
+import CustomerResourceShowPage from './pages/customer-resource-show';
 
 describeApplication('CustomerResourceVisibility', () => {
   let pkg,
