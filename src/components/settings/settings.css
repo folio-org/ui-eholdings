@@ -1,93 +1,30 @@
 @import '@folio/stripes-components/lib/variables';
 
-.eholdings-settings {
-  padding: 0 2em;
-  width: 100%;
-
-  & h2 {
-    margin: 0.83em 0;
-  }
-
-  & form {
-    max-width: 40em;
-  }
-}
-
-.eholdings-settings-form-actions {
-  @media (--mediumUp) {
-    display: flex;
-    flex-direction: row-reverse;
-  }
-
-  & button {
-    background: #fff;
-    border: 1px solid var(--primary);
-    border-radius: 0.4em;
-    color: var(--primary);
-    margin: 0.5em 0;
-    padding: 0.57em;
-    text-align: center;
-    text-decoration: none;
-    user-select: none;
-    vertical-align: middle;
-    white-space: nowrap;
-    width: 100%;
-
-    @media (--mediumUp) {
-      display: inline-block;
-      margin: 0.5em;
-      padding: 0.36em 0.57em;
-      width: auto;
-    }
-  }
-
-  & button[type=submit] {
-    background: var(--primary);
-    color: #fff;
-  }
-}
-
-.eholdings-settings-field {
-  margin-bottom: var(--controlMarginBottom);
-
-  & label {
-    display: block;
-    font-size: 0.8em;
-    font-weight: bold;
-    margin-bottom: 4px;
-    text-transform: Uppercase;
-    color: var(--labelColor);
-  }
-
-  & input {
-    height: var(--controlHeight);
-    min-height: var(--controlHeight);
-    margin-bottom: var(--controlMarginBottom);
-    padding: 4px;
-    border: 1px solid var(--inputBorderColor);
-    width: 100%;
-  }
-
-  &.has-error {
-    & label {
-      color: #900;
-    }
-
-    & input {
-      border-color: #900;
-    }
-  }
-}
-
-.eholdings-settings-save-error {
-  display: flex;
-  align-items: center;
-  flex-grow: 1;
-  color: var(--error);
-}
-
 .eholdings-settings-back-button {
   @media (--mediumUp) {
     display: none;
+  }
+}
+
+.settings-nav-list {
+  margin: 15px;
+}
+
+.settings-paneset {
+  background: #fff;
+  display: flex;
+  height: 100%;
+}
+
+.settings-nav-pane {
+  background: #fff;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  width: 100%;
+
+  @media (--mediumUp) {
+    flex: 5 0 160px;
+    position: relative;
   }
 }

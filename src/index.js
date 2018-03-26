@@ -13,6 +13,8 @@ import CustomerResourceShow from './routes/customer-resource-show';
 import CustomerResourceEdit from './routes/customer-resource-edit';
 
 import SettingsRoute from './routes/settings';
+import SettingsKnowledgeBaseRoute from './routes/settings-knowledge-base';
+import SettingsRootProxyRoute from './routes/settings-root-proxy';
 
 export default class EHoldings extends Component {
   static propTypes = {
@@ -55,7 +57,12 @@ export default class EHoldings extends Component {
     } = this.props;
 
     return showSettings ? (
-      <Route path={rootPath} component={SettingsRoute} />
+      <Route path={rootPath} component={SettingsRoute}>
+        <Switch>
+          <Route path={`${rootPath}/knowledge-base`} exact component={SettingsKnowledgeBaseRoute} />
+          <Route path={`${rootPath}/root-proxy`} exact component={SettingsRootProxyRoute} />
+        </Switch>
+      </Route>
     ) : (
       <Route path={rootPath} component={ApplicationRoute}>
         <Route path={`${rootPath}/:type?/:id?`} component={SearchRoute}>

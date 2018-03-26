@@ -1,0 +1,39 @@
+@import '@folio/stripes-components/lib/variables';
+
+.settings-detail-pane {
+  background: #fff;
+  height: 100%;
+  max-height: calc(100vh - 44px);
+  overflow: hidden;
+  position: absolute;
+  top: 0;
+  width: 100%;
+
+  &:empty {
+    display: none;
+  }
+
+  @media (--mediumUp) {
+    border-left: 1px solid rgba(0, 0, 0, 0.2);
+    flex: 11 0 320px;
+    position: relative;
+  }
+}
+
+.settings-detail-pane-container {
+  height: calc(100vh - 90px);
+  overflow-y: auto;
+  width: 100%;
+}
+
+.settings-detail-pane-content {
+  margin: 0 auto;
+  max-width: 40em;
+  padding: var(--major-padding);
+}
+
+.settings-detail-pane-back-button {
+  @media (--mediumUp) {
+    display: none;
+  }
+}
