@@ -3,7 +3,6 @@ import { expect } from 'chai';
 
 import { describeApplication } from './helpers';
 import ResourcePage from './pages/customer-resource-show';
-import ResourcePageBigTest from './pages/bigtest/customer-resource-show';
 
 describeApplication('CustomerResourceSelection', () => {
   let provider,
@@ -124,7 +123,7 @@ describeApplication('CustomerResourceSelection', () => {
         });
 
         it('displays a toast error', () => {
-          expect(ResourcePageBigTest.toast.errorText).to.equal('There was an error');
+          expect(ResourcePage.toast.errorText).to.equal('There was an error');
         });
       });
     });

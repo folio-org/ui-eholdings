@@ -11,6 +11,7 @@ import {
 } from '@bigtest/interaction';
 import { isRootPresent, getComputedStyle, hasClassBeginningWith } from './helpers';
 import Datepicker from './datepicker';
+import Toast from './toast';
 
 @page class PackageShowModal {
   confirmDeselection = clickable('[data-test-eholdings-package-deselection-confirmation-modal-yes]');
@@ -110,6 +111,8 @@ import Datepicker from './datepicker';
 
   beginDate = new Datepicker('[data-test-eholdings-custom-coverage-date-range-begin]');
   endDate = new Datepicker('[data-test-eholdings-custom-coverage-date-range-end]');
+
+  toast = Toast
 
   fillDates(beginDate, endDate) {
     return this.beginDate.fillAndBlur(beginDate)

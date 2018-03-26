@@ -4,7 +4,7 @@ import {
   page,
   text
 } from '@bigtest/interaction';
-import style from '../../../src/components/toaster/style.css';
+import style from '../../src/components/toaster/style.css';
 
 @page class Toast {
   isPositionedTop = hasClass(style.top)

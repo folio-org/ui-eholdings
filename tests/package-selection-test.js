@@ -3,8 +3,6 @@ import { expect } from 'chai';
 
 import { describeApplication } from './helpers';
 import PackageShowPage from './pages/package-show';
-// we should remove this once everything is converted over.
-import PackageShowPageBigTest from './pages/bigtest/package-show';
 
 describeApplication('PackageSelection', () => {
   let provider,
@@ -194,7 +192,7 @@ describeApplication('PackageSelection', () => {
         });
 
         it('shows the error as a toast', () => {
-          expect(PackageShowPageBigTest.toast.errorText).to.equal('There was an error');
+          expect(PackageShowPage.toast.errorText).to.equal('There was an error');
         });
       });
     });
