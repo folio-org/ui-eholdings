@@ -4,11 +4,12 @@ import classNames from 'classnames/bind';
 import capitalize from 'lodash/capitalize';
 import { Link } from 'react-router-dom';
 
-import PaneHeader from '@folio/stripes-components/lib/PaneHeader';
-import Icon from '@folio/stripes-components/lib/Icon';
-import IconButton from '@folio/stripes-components/lib/IconButton';
-import PaneMenu from '@folio/stripes-components/lib/PaneMenu';
-
+import {
+  Icon,
+  IconButton,
+  PaneHeader,
+  PaneMenu
+} from '@folio/stripes-components';
 import styles from './details-view.css';
 
 const cx = classNames.bind(styles);

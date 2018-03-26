@@ -1,8 +1,10 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
-import Button from '@folio/stripes-components/lib/Button';
-import Icon from '@folio/stripes-components/lib/Icon';
+import {
+  Button,
+  Icon
+} from '@folio/stripes-components';
 
 import DetailsView from './details-view';
 import QueryList from './query-list';

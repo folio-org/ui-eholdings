@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Field } from 'redux-form';
 
-import TextArea from '@folio/stripes-components/lib/TextArea';
+import { TextArea } from '@folio/stripes-components';
 import styles from './coverage-statement-fields.css';
 
 export default class CoverageStatementFields extends Component {

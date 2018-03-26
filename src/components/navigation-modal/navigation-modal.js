@@ -1,8 +1,10 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
-import Modal from '@folio/stripes-components/lib/Modal';
-import Button from '@folio/stripes-components/lib/Button';
+import {
+  Button,
+  Modal
+} from '@folio/stripes-components';
 import styles from './navigation-modal.css';
 
 export default class NavigationModal extends Component {

@@ -7,7 +7,7 @@ import React from 'react';
 import { Modal as OverlayModal } from 'react-overlays';
 import classNames from 'classnames';
 import PropTypes from 'prop-types';
-import Icon from '@folio/stripes-components/lib/Icon';
+import { Icon } from '@folio/stripes-components';
 import css from './modal.css';
 
 const propTypes = {

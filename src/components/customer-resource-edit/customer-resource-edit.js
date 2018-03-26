@@ -3,8 +3,10 @@ import PropTypes from 'prop-types';
 import { reduxForm } from 'redux-form';
 import isEqual from 'lodash/isEqual';
 
-import Button from '@folio/stripes-components/lib/Button';
-import Icon from '@folio/stripes-components/lib/Icon';
+import {
+  Button,
+  Icon
+} from '@folio/stripes-components';
 
 import DetailsView from '../details-view';
 import CoverageStatementFields, { validate as validateCoverageStatement } from '../coverage-statement-fields';

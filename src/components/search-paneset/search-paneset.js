@@ -1,9 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import PaneHeader from '@folio/stripes-components/lib/PaneHeader';
-import PaneMenu from '@folio/stripes-components/lib/PaneMenu';
-import IconButton from '@folio/stripes-components/lib/IconButton';
-import Button from '@folio/stripes-components/lib/Button';
+import {
+  Button,
+  IconButton,
+  PaneHeader,
+  PaneMenu
+} from '@folio/stripes-components';
 import capitalize from 'lodash/capitalize';
 import { qs } from '../utilities';
 import SearchPane from '../search-pane';
