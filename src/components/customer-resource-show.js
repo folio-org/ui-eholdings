@@ -13,7 +13,7 @@ import CoverageDateList from './coverage-date-list';
 import { isBookPublicationType, isValidCoverageList } from './utilities';
 import Modal from './modal';
 import CustomerResourceCoverage from './customer-resource-coverage';
-import CustomEmbargoForm from './custom-embargo';
+import CustomEmbargoForm from './custom-embargo-form';
 import CoverageStatementForm from './coverage-statement-form';
 import NavigationModal from './navigation-modal';
 import DetailsViewSection from './details-view-section';
