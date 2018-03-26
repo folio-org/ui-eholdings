@@ -175,7 +175,7 @@ export default class DetailsView extends Component {
           firstMenu={queryParams.searchType ? (
             <PaneMenu>
               <div data-test-eholdings-details-view-close-button>
-                <Link to={{ pathname: '/eholdings', search: router.history.location.search }}>
+                <Link to={{ pathname: '/eholdings', search: router.route.location.search }}>
                   <IconButton icon="closeX" />
                 </Link>
               </div>
