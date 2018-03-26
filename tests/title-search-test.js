@@ -160,19 +160,19 @@ describeApplication('TitleSearch', () => {
 
       describe('clicking the close button on the preview pane', () => {
         beforeEach(() => {
-          TitleSearchPage.clickCloseButton();
+          return TitleSearchPage.clickCloseButton();
         });
 
         it('hides the preview pane', () => {
-          expect(TitleSearchPage.previewPaneIsVisible('titles')).to.be.false;
+          expect(TitleSearchPage.titlePreviewPaneIsPresent).to.be.false;
         });
 
         it('displays the original search', () => {
-          expect(TitleSearchPage.$searchField).to.have.value('Title');
+          expect(TitleSearchPage.searchFieldValue).to.equal('Title');
         });
 
         it('displays the original search results', () => {
-          expect(TitleSearchPage.$searchResultsItems).to.have.lengthOf(3);
+          expect(TitleSearchPage.titleList()).to.have.lengthOf(3);
         });
       });
 
