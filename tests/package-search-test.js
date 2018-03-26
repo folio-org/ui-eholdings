@@ -125,6 +125,24 @@ describeApplication('PackageSearch', () => {
         });
       });
 
+      describe('clicking the close button on the preview pane', () => {
+        beforeEach(() => {
+          return PackageSearchPage.clickCloseButton();
+        });
+
+        it('hides the preview pane', () => {
+          expect(PackageSearchPage.packagePreviewPaneIsPresent).to.be.false;
+        });
+
+        it('displays the original search', () => {
+          expect(PackageSearchPage.searchFieldValue).to.equal('Package');
+        });
+
+        it('displays the original search results', () => {
+          expect(PackageSearchPage.packageList()).to.have.lengthOf(3);
+        });
+      });
+
       describe('clicking an item within the preview pane', () => {
         beforeEach(() => {
           return PackageSearchPage.packageTitleList(0).clickToTitle();

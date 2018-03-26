@@ -2,12 +2,12 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames/bind';
 import capitalize from 'lodash/capitalize';
+import { Link } from 'react-router-dom';
 
 import PaneHeader from '@folio/stripes-components/lib/PaneHeader';
 import Icon from '@folio/stripes-components/lib/Icon';
 import IconButton from '@folio/stripes-components/lib/IconButton';
 import PaneMenu from '@folio/stripes-components/lib/PaneMenu';
-import Link from 'react-router-dom/Link';
 
 import styles from './details-view.css';
 
@@ -174,11 +174,11 @@ export default class DetailsView extends Component {
         <PaneHeader
           firstMenu={queryParams.searchType ? (
             <PaneMenu>
-              <Link to='/eholdings'>
-                <IconButton
-                  icon="closeX"
-                />
-              </Link>
+              <div data-test-eholdings-details-view-close-button>
+                <Link to={{ pathname: '/eholdings', search: router.route.location.search }}>
+                  <IconButton icon="closeX" />
+                </Link>
+              </div>
             </PaneMenu>
           ) : historyState && historyState.eholdings && (
             <PaneMenu>
