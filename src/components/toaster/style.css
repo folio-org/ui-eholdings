@@ -1,0 +1,101 @@
+@import '@folio/stripes-components/lib/variables';
+
+.container {
+  position: fixed;
+  z-index: 13;
+  pointer-events: none;
+  right: 0;
+  padding: 1em;
+  width: 100%;
+}
+
+.bottom {
+  bottom: 0;
+}
+
+.top {
+  top: 20px;
+}
+
+.transitionWrapper {
+  pointer-events: none;
+}
+
+.toast {
+  display: flex;
+  justify-content: space-between;
+  max-width: 640px;
+  min-width: 300px;
+  margin-left: auto;
+  margin-bottom: 1em;
+  margin-right: auto;
+  color: white;
+  padding: 10px;
+  border-radius: var(--radius);
+  box-shadow: 0 10px 30px 0 rgba(0, 0, 0, 0.24);
+  pointer-events: auto;
+}
+
+.slideInBottom {
+  animation-name: slideInBottom;
+  animation-duration: 1s;
+  animation-fill-mode: both;
+}
+
+.slideOutBottom {
+  animation-name: slideOutBottom;
+  animation-duration: 1s;
+  animation-fill-mode: both;
+}
+
+.slideInTop {
+  animation-name: slideInTop;
+  animation-duration: 1s;
+  animation-fill-mode: both;
+}
+
+.slideOutTop {
+  animation-name: slideOutTop;
+  animation-duration: 1s;
+  animation-fill-mode: both;
+}
+
+.isOpen {
+  display: flex;
+}
+
+.error {
+  background-color: var(--error);
+}
+
+.warn {
+  background-color: var(--warn);
+}
+
+.success {
+  background-color: var(--success);
+}
+
+.closeIcon {
+  fill: white;
+}
+
+@keyframes slideInBottom {
+  0% { transform: translate3d(0, 50rem, 0); }
+  100% { transform: translate3d(0, 0, 0); }
+}
+
+@keyframes slideOutBottom {
+  100% { transform: translate3d(0, 50rem, 0); }
+  0% { transform: translate3d(0, 0, 0); }
+}
+
+@keyframes slideInTop {
+  0% { transform: translate3d(0, -50rem, 0); }
+  100% { transform: translate3d(0, 0, 0); }
+}
+
+@keyframes slideOutTop {
+  100% { transform: translate3d(0, -50rem, 0); }
+  0% { transform: translate3d(0, 0, 0); }
+}

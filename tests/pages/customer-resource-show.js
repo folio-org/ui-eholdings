@@ -10,6 +10,7 @@ import {
   value
 } from '@bigtest/interaction';
 import { isRootPresent, hasClassBeginningWith } from './helpers';
+import Toast from './toast';
 
 
 @page class CustomerResourceShowDeselectionModal {
@@ -55,6 +56,8 @@ import { isRootPresent, hasClassBeginningWith } from './helpers';
   isHiddenDisabled = property('disabled', '[data-test-eholdings-customer-resource-toggle-hidden] input[type=checkbox]');
   toggleIsHidden = clickable('[data-test-eholdings-customer-resource-toggle-hidden] input');
   isHiding = hasClassBeginningWith('is-pending--', '[data-test-eholdings-customer-resource-toggle-hidden] [data-test-toggle-switch]');
+
+  toast = Toast
 
   managedEmbargoPeriod = text('[data-test-eholdings-customer-resource-show-managed-embargo-period]');
   hasManagedEmbargoPeriod = isPresent('[data-test-eholdings-customer-resource-show-managed-embargo-period]');

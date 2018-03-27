@@ -17,6 +17,7 @@ import CustomEmbargoForm from './custom-embargo-form';
 import CoverageStatementForm from './coverage-statement-form';
 import NavigationModal from './navigation-modal';
 import DetailsViewSection from './details-view-section';
+import Toaster from './toaster';
 
 export default class CustomerResourceShow extends Component {
   static propTypes = {
@@ -86,6 +87,12 @@ export default class CustomerResourceShow extends Component {
 
   render() {
     let { model, customEmbargoSubmitted, coverageSubmitted, coverageStatementSubmitted } = this.props;
+    let hasErrors = model.update.isRejected;
+    let errors = hasErrors ? model.update.errors.map((error, index) => ({
+      message: error.title,
+      type: 'error',
+      id: `error-${model.update.timestamp}-${index}`
+    })) : [];
     let { locale, intl } = this.context;
     let {
       showSelectionModal,
@@ -127,6 +134,8 @@ export default class CustomerResourceShow extends Component {
 
     return (
       <div>
+        <Toaster toasts={errors} position="bottom" />
+
         <DetailsView
           type="resource"
           model={model}

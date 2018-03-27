@@ -13,6 +13,7 @@ import ToggleSwitch from './toggle-switch';
 import Modal from './modal';
 import PackageCustomCoverage from './package-custom-coverage';
 import DetailsViewSection from './details-view-section';
+import Toaster from './toaster';
 
 export default class PackageShow extends Component {
   static propTypes = {
@@ -71,6 +72,12 @@ export default class PackageShow extends Component {
 
   render() {
     let { model, fetchPackageTitles, customCoverageSubmitted } = this.props;
+    let hasErrors = model.update.isRejected;
+    let errors = hasErrors ? model.update.errors.map((error, index) => ({
+      message: error.title,
+      type: 'error',
+      id: `error-${model.update.timestamp}-${index}`
+    })) : [];
     let { intl } = this.context;
     let { showSelectionModal, packageSelected, packageHidden, packageAllowedToAddTitles } = this.state;
 
@@ -81,6 +88,7 @@ export default class PackageShow extends Component {
 
     return (
       <div>
+        <Toaster toasts={errors} position="bottom" />
         <DetailsView
           type="package"
           model={model}

@@ -122,8 +122,8 @@ describeApplication('CustomerResourceSelection', () => {
           expect(ResourcePage.isSelecting).to.equal(false);
         });
 
-        it.skip('logs an Error somewhere', () => {
-          expect(ResourcePage.flashError).to.match(/unable to select/i);
+        it('displays a toast error', () => {
+          expect(ResourcePage.toast.errorText).to.equal('There was an error');
         });
       });
     });

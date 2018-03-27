@@ -191,8 +191,8 @@ describeApplication('PackageSelection', () => {
           expect(PackageShowPage.isSelecting).to.equal(false);
         });
 
-        it.skip('logs an Error somewhere', () => {
-          expect(PackageShowPage.flashError).to.match(/unable to select/i);
+        it('shows the error as a toast', () => {
+          expect(PackageShowPage.toast.errorText).to.equal('There was an error');
         });
       });
     });

@@ -38,6 +38,7 @@
     "react": "^16.2.0",
     "react-dom": "^16.2.0",
     "react-hot-loader": "next",
+    "react-transition-group": "^2.2.1",
     "react-trigger-change": "^1.0.2",
     "stylelint": "^8.2.0",
     "stylelint-config-standard": "^17.0.0",
