@@ -105,6 +105,7 @@ export default class SearchPaneset extends React.Component {
 
         <SearchPane isHidden={hideFilters}>
           <PaneHeader
+            paneTitle="Search &amp; Filter"
             lastMenu={resultsView ? (
               <PaneMenu>
                 <Button buttonStyle="transparent" onClick={this.toggleFilters} className={styles['search-pane-toggle']}>
