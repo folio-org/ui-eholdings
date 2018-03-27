@@ -40,7 +40,8 @@ export default class DetailsView extends Component {
     bodyContent: PropTypes.node.isRequired,
     listType: PropTypes.string,
     renderList: PropTypes.func,
-    actionMenuItems: PropTypes.array
+    actionMenuItems: PropTypes.array,
+    lastMenu: PropTypes.node
   };
 
   static contextTypes = {
@@ -152,7 +153,8 @@ export default class DetailsView extends Component {
       renderList,
       paneTitle,
       paneSub,
-      actionMenuItems
+      actionMenuItems,
+      lastMenu
     } = this.props;
 
     let {
@@ -195,6 +197,7 @@ export default class DetailsView extends Component {
             <span data-test-eholdings-details-view-pane-sub>{paneSub}</span>
           )}
           actionMenuItems={actionMenuItems}
+          lastMenu={lastMenu}
         />
 
         <div

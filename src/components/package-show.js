@@ -4,7 +4,9 @@ import PropTypes from 'prop-types';
 import {
   Button,
   Icon,
-  KeyValue
+  IconButton,
+  KeyValue,
+  PaneMenu
 } from '@folio/stripes-components';
 
 import DetailsView from './details-view';
@@ -88,13 +90,6 @@ export default class PackageShow extends Component {
       endCoverage: model.customCoverage.endCoverage
     }];
 
-    let actionMenuItems = [
-      {
-        label: 'Edit',
-        to: { pathname: `/eholdings/packages/${model.id}/edit`, search: router.route.location.search }
-      }
-    ];
-
     return (
       <div>
         <Toaster toasts={errors} position="bottom" />
@@ -102,7 +97,13 @@ export default class PackageShow extends Component {
           type="package"
           model={model}
           paneTitle={model.name}
-          actionMenuItems={actionMenuItems}
+          lastMenu={(
+            <PaneMenu>
+              <Link to={{ pathname: `/eholdings/packages/${model.id}/edit`, search: router.route.location.search }}>
+                <IconButton icon="edit" />
+              </Link>
+            </PaneMenu>
+          )}
           bodyContent={(
             <div>
               <DetailsViewSection label="Holding status">

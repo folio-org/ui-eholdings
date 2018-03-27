@@ -39,12 +39,18 @@ class CustomerResourceEdit extends Component {
     let needsUpdate = !isEqual(this.props.initialValues, nextProps.initialValues);
 
     if (wasPending && needsUpdate) {
-      this.context.router.history.push(`/eholdings/customer-resources/${this.props.model.id}`);
+      this.context.router.history.push(
+        `/eholdings/customer-resources/${this.props.model.id}`,
+        { eholdings: true }
+      );
     }
   }
 
   handleCancel = () => {
-    this.context.router.history.push(`/eholdings/customer-resources/${this.props.model.id}`);
+    this.context.router.history.push(
+      `/eholdings/customer-resources/${this.props.model.id}`,
+      { eholdings: true }
+    );
   }
 
   render() {
@@ -56,20 +62,12 @@ class CustomerResourceEdit extends Component {
       change
     } = this.props;
 
-    let actionMenuItems = [
-      {
-        label: 'Cancel Editing',
-        to: `/eholdings/customer-resources/${model.id}`
-      }
-    ];
-
     return (
       <DetailsView
         type="resource"
         model={model}
         paneTitle={model.name}
         paneSub={model.packageName}
-        actionMenuItems={actionMenuItems}
         bodyContent={(
           <form onSubmit={handleSubmit(onSubmit)}>
             <DetailsViewSection

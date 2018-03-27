@@ -34,12 +34,18 @@ class PackageEdit extends Component {
     let needsUpdate = !isEqual(this.props.initialValues, nextProps.initialValues);
 
     if (wasPending && needsUpdate) {
-      this.context.router.history.push(`/eholdings/packages/${this.props.model.id}`);
+      this.context.router.history.push(
+        `/eholdings/packages/${this.props.model.id}${this.context.router.route.location.search}`,
+        { eholdings: true }
+      );
     }
   }
 
   handleCancel = () => {
-    this.context.router.history.push(`/eholdings/packages/${this.props.model.id}`);
+    this.context.router.history.push(
+      `/eholdings/packages/${this.props.model.id}${this.context.router.route.location.search}`,
+      { eholdings: true }
+    );
   }
 
   render() {
@@ -50,19 +56,11 @@ class PackageEdit extends Component {
       pristine
     } = this.props;
 
-    let actionMenuItems = [
-      {
-        label: 'Cancel Editing',
-        to: `/eholdings/packages/${model.id}`
-      }
-    ];
-
     return (
       <DetailsView
         type="package"
         model={model}
         paneTitle={model.name}
-        actionMenuItems={actionMenuItems}
         bodyContent={(
           <form onSubmit={handleSubmit(onSubmit)}>
             <DetailsViewSection

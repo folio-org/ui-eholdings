@@ -3,7 +3,9 @@ import PropTypes from 'prop-types';
 
 import {
   Button,
-  KeyValue
+  IconButton,
+  KeyValue,
+  PaneMenu
 } from '@folio/stripes-components';
 
 import DetailsView from './details-view';
@@ -127,13 +129,6 @@ export default class CustomerResourceShow extends Component {
       }];
     }
 
-    let actionMenuItems = [
-      {
-        label: 'Edit',
-        to: `/eholdings/customer-resources/${model.id}/edit`
-      }
-    ];
-
     return (
       <div>
         <Toaster toasts={errors} position="bottom" />
@@ -143,7 +138,13 @@ export default class CustomerResourceShow extends Component {
           model={model}
           paneTitle={model.name}
           paneSub={model.packageName}
-          actionMenuItems={actionMenuItems}
+          lastMenu={(
+            <PaneMenu>
+              <Link to={`/eholdings/customer-resources/${model.id}/edit`}>
+                <IconButton icon="edit" />
+              </Link>
+            </PaneMenu>
+          )}
           bodyContent={(
             <div>
               <DetailsViewSection label="Holding status">
