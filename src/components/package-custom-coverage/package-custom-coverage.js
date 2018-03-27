@@ -9,9 +9,9 @@ import {
   Button,
   Datepicker,
   Icon,
-  IconButton
+  IconButton,
+  KeyValue
 } from '@folio/stripes-components';
-import KeyValueLabel from '../key-value-label';
 import styles from './package-custom-coverage.css';
 import { formatISODateWithoutTime } from '../utilities';
 
@@ -184,11 +184,11 @@ class PackageCustomCoverage extends Component {
     } else if (customCoverages.length && customCoverages[0].beginCoverage !== '') {
       contents = (
         <div className={styles['custom-coverage-date-display']}>
-          <KeyValueLabel label="Custom">
+          <KeyValue label="Custom">
             <div data-test-eholdings-package-details-custom-coverage-display className={styles['custom-coverage-dates']}>
               {formatISODateWithoutTime(customCoverages[0].beginCoverage, intl)} - {formatISODateWithoutTime(customCoverages[0].endCoverage, intl) || 'Present'}
             </div>
-          </KeyValueLabel>
+          </KeyValue>
           <div data-test-eholdings-package-details-edit-custom-coverage-button>
             <IconButton icon="edit" onClick={this.handleEditCustomCoverage} />
           </div>

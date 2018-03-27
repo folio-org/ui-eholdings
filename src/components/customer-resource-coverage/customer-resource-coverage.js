@@ -7,9 +7,9 @@ import isEqual from 'lodash/isEqual';
 import {
   Button,
   Icon,
-  IconButton
+  IconButton,
+  KeyValue
 } from '@folio/stripes-components';
-import KeyValueLabel from '../key-value-label';
 
 import CoverageDateList from '../coverage-date-list';
 import CustomerResourceCoverageFields, { validate as validateCoverage } from '../customer-resource-coverage-fields';
@@ -122,13 +122,13 @@ class CustomerResourceCoverage extends Component {
       <div
         className={styles['coverage-form-display']}
       >
-        <KeyValueLabel label="Custom">
+        <KeyValue label="Custom">
           <span data-test-eholdings-coverage-form-display>
             <CoverageDateList
               coverageArray={customCoverages}
             />
           </span>
-        </KeyValueLabel>
+        </KeyValue>
         <div data-test-eholdings-coverage-form-edit-button>
           <IconButton icon="edit" onClick={this.handleEdit} />
         </div>

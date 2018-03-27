@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import capitalize from 'lodash/capitalize';
-import KeyValueLabel from './key-value-label';
+import { KeyValue } from '@folio/stripes-components';
 
 export default function ContributorsList({ data }) {
   let contributorsByType = data.reduce((byType, contributor) => {
@@ -23,9 +23,9 @@ export default function ContributorsList({ data }) {
 
         return (
           <div key={key} data-test-eholdings-contributors-list-item>
-            <KeyValueLabel label={capitalizedKey}>
+            <KeyValue label={capitalizedKey}>
               {names.join('; ')}
-            </KeyValueLabel>
+            </KeyValue>
           </div>
         );
       })}

@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import KeyValueLabel from './key-value-label';
+import { KeyValue } from '@folio/stripes-components';
 
 export default function IdentifiersList({ data }) {
   // get rid of identifiers we received that aren't ISSN or ISBN
@@ -32,9 +32,9 @@ export default function IdentifiersList({ data }) {
     <div>
       {Object.keys(identifiersByType).map(key => (
         <div key={key} data-test-eholdings-identifiers-list-item>
-          <KeyValueLabel label={key}>
+          <KeyValue label={key}>
             {identifiersByType[key].join(', ')}
-          </KeyValueLabel>
+          </KeyValue>
         </div>
       ))}
     </div>

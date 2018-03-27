@@ -3,13 +3,13 @@ import PropTypes from 'prop-types';
 
 import {
   Button,
-  Icon
+  Icon,
+  KeyValue
 } from '@folio/stripes-components';
 
 import DetailsView from './details-view';
 import QueryList from './query-list';
 import Link from './link';
-import KeyValueLabel from './key-value-label';
 import TitleListItem from './title-list-item';
 import ToggleSwitch from './toggle-switch';
 import Modal from './modal';
@@ -197,31 +197,31 @@ export default class PackageShow extends Component {
                 )}
               </DetailsViewSection>
               <DetailsViewSection label="Package information">
-                <KeyValueLabel label="Provider">
+                <KeyValue label="Provider">
                   <div data-test-eholdings-package-details-provider>
                     <Link to={`/eholdings/providers/${model.providerId}`}>{model.providerName}</Link>
                   </div>
-                </KeyValueLabel>
+                </KeyValue>
 
                 {model.contentType && (
-                  <KeyValueLabel label="Content type">
+                  <KeyValue label="Content type">
                     <div data-test-eholdings-package-details-content-type>
                       {model.contentType}
                     </div>
-                  </KeyValueLabel>
+                  </KeyValue>
                 )}
 
-                <KeyValueLabel label="Titles selected">
+                <KeyValue label="Titles selected">
                   <div data-test-eholdings-package-details-titles-selected>
                     {intl.formatNumber(model.selectedCount)}
                   </div>
-                </KeyValueLabel>
+                </KeyValue>
 
-                <KeyValueLabel label="Total titles">
+                <KeyValue label="Total titles">
                   <div data-test-eholdings-package-details-titles-total>
                     {intl.formatNumber(model.titleCount)}
                   </div>
-                </KeyValueLabel>
+                </KeyValue>
               </DetailsViewSection>
             </div>
           )}
