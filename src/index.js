@@ -8,6 +8,7 @@ import ApplicationRoute from './routes/application';
 import SearchRoute from './routes/search';
 import ProviderShow from './routes/provider-show';
 import PackageShow from './routes/package-show';
+import PackageEdit from './routes/package-edit';
 import TitleShow from './routes/title-show';
 import CustomerResourceShow from './routes/customer-resource-show';
 import CustomerResourceEdit from './routes/customer-resource-edit';
@@ -62,6 +63,7 @@ export default class EHoldings extends Component {
           <Switch>
             <Route path={`${rootPath}/providers/:providerId`} exact component={ProviderShow} />
             <Route path={`${rootPath}/packages/:packageId`} exact component={PackageShow} />
+            <Route path={`${rootPath}/packages/:packageId/edit`} exact component={PackageEdit} />
             <Route path={`${rootPath}/titles/:titleId`} exact component={TitleShow} />
             <Route path={`${rootPath}/customer-resources/:id`} exact component={CustomerResourceShow} />
             <Route path={`${rootPath}/customer-resources/:id/edit`} exact component={CustomerResourceEdit} />

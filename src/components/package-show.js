@@ -80,13 +80,20 @@ export default class PackageShow extends Component {
       type: 'error',
       id: `error-${model.update.timestamp}-${index}`
     })) : [];
-    let { intl } = this.context;
+    let { intl, router } = this.context;
     let { showSelectionModal, packageSelected, packageHidden, packageAllowedToAddTitles } = this.state;
 
     let customCoverages = [{
       beginCoverage: model.customCoverage.beginCoverage,
       endCoverage: model.customCoverage.endCoverage
     }];
+
+    let actionMenuItems = [
+      {
+        label: 'Edit',
+        to: { pathname: `/eholdings/packages/${model.id}/edit`, search: router.route.location.search }
+      }
+    ];
 
     return (
       <div>
@@ -95,6 +102,7 @@ export default class PackageShow extends Component {
           type="package"
           model={model}
           paneTitle={model.name}
+          actionMenuItems={actionMenuItems}
           bodyContent={(
             <div>
               <DetailsViewSection label="Holding status">
