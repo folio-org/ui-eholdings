@@ -3,12 +3,9 @@ import PropTypes from 'prop-types';
 import { CSSTransition } from 'react-transition-group';
 import classNames from 'classnames';
 import Icon from '@folio/stripes-components/lib/Icon';
+import capitalize from 'lodash/capitalize';
 
 import style from './style.css';
-
-function captialize(word) {
-  return word[0].toUpperCase() + word.substr(1);
-}
 
 /**
  * A component to display toast notifications. It handles error, warn,
@@ -22,9 +19,6 @@ class Toast extends Component {
     // determine which way the toast should animate, based on where
     // `Toaster` is positioned
     animationPosition: PropTypes.string,
-
-    // if the toast is open or not
-    isOpen: PropTypes.bool,
 
     // the type of toast: warn, error, or success
     type: PropTypes.string,
@@ -47,13 +41,9 @@ class Toast extends Component {
     timeout: 5000
   };
 
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      isOpen: props.isOpen || true
-    };
-  }
+  state = {
+    isOpen: true
+  };
 
   componentDidMount() {
     this.timer = window.setTimeout(() => {
@@ -85,8 +75,8 @@ class Toast extends Component {
         timeout={1000}
         unmountOnExit
         classNames={{
-          enter: style[`slideIn${captialize(animationPosition)}`],
-          exit: style[`slideOut${captialize(animationPosition)}`]
+          enter: style[`slideIn${capitalize(animationPosition)}`],
+          exit: style[`slideOut${capitalize(animationPosition)}`]
         }}
       >
         <div className={toastClass} aria-live="assertive" data-test-eholdings-toast={type}>
