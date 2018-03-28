@@ -74,16 +74,10 @@ jobs:
 
   test-firefox:
     docker:
-      - image: circleci/node:latest-browsers
+      - image: selenium/standalone-firefox:latest
     steps:
       - attach_workspace:
           at: ~/
-      - run:
-          name: Install the latest Firefox ESR
-          command: |
-            sudo apt-get remove firefox-mozilla-build &&
-            sudo apt install firefox &&
-            firefox --version
       - run:
           name: Run tests
           command: yarn test --karma.singleRun --karma.browsers=Firefox
