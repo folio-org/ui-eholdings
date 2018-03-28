@@ -1,11 +1,13 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
-import { Button } from '@folio/stripes-components';
+import {
+  Button,
+  KeyValue
+} from '@folio/stripes-components';
 
 import DetailsView from './details-view';
 import Link from './link';
-import KeyValueLabel from './key-value-label';
 import IdentifiersList from './identifiers-list';
 import ContributorsList from './contributors-list';
 import ToggleSwitch from './toggle-switch';
@@ -198,14 +200,14 @@ export default class CustomerResourceShow extends Component {
                 closedByDefault={!hasManagedCoverages && !resourceSelected}
               >
                 {hasManagedCoverages && (
-                  <KeyValueLabel label="Managed coverage dates">
+                  <KeyValue label="Managed coverage dates">
                     <div data-test-eholdings-customer-resource-show-managed-coverage-list>
                       <CoverageDateList
                         coverageArray={model.managedCoverages}
                         isYearOnly={isBookPublicationType(model.publicationType)}
                       />
                     </div>
-                  </KeyValueLabel>
+                  </KeyValue>
                 )}
 
                 {resourceSelected && (
@@ -251,11 +253,11 @@ export default class CustomerResourceShow extends Component {
                 closedByDefault={!hasManagedEmbargoPeriod && !resourceSelected}
               >
                 {hasManagedEmbargoPeriod && (
-                  <KeyValueLabel label="Managed embargo period">
+                  <KeyValue label="Managed embargo period">
                     <div data-test-eholdings-customer-resource-show-managed-embargo-period>
                       {model.managedEmbargoPeriod.embargoValue} {model.managedEmbargoPeriod.embargoUnit}
                     </div>
-                  </KeyValueLabel>
+                  </KeyValue>
                 )}
 
                 {resourceSelected && (
@@ -278,62 +280,62 @@ export default class CustomerResourceShow extends Component {
 
                 <ContributorsList data={model.contributors} />
 
-                <KeyValueLabel label="Publisher">
+                <KeyValue label="Publisher">
                   <div data-test-eholdings-customer-resource-show-publisher-name>
                     {model.publisherName}
                   </div>
-                </KeyValueLabel>
+                </KeyValue>
 
                 {model.publicationType && (
-                  <KeyValueLabel label="Publication type">
+                  <KeyValue label="Publication type">
                     <div data-test-eholdings-customer-resource-show-publication-type>
                       {model.publicationType}
                     </div>
-                  </KeyValueLabel>
+                  </KeyValue>
                 )}
 
                 <IdentifiersList data={model.identifiers} />
 
                 {model.subjects.length > 0 && (
-                  <KeyValueLabel label="Subjects">
+                  <KeyValue label="Subjects">
                     <div data-test-eholdings-customer-resource-show-subjects-list>
                       {model.subjects.map(subjectObj => subjectObj.subject).join('; ')}
                     </div>
-                  </KeyValueLabel>
+                  </KeyValue>
                 )}
 
-                <KeyValueLabel label="Provider">
+                <KeyValue label="Provider">
                   <div data-test-eholdings-customer-resource-show-provider-name>
                     <Link to={`/eholdings/providers/${model.providerId}`}>{model.providerName}</Link>
                   </div>
-                </KeyValueLabel>
+                </KeyValue>
 
-                <KeyValueLabel label="Package">
+                <KeyValue label="Package">
                   <div data-test-eholdings-customer-resource-show-package-name>
                     <Link to={`/eholdings/packages/${model.packageId}`}>{model.packageName}</Link>
                   </div>
-                </KeyValueLabel>
+                </KeyValue>
 
-                <KeyValueLabel label="Other packages">
+                <KeyValue label="Other packages">
                   <Link to={`/eholdings/titles/${model.titleId}`}>
                     View all packages that include this title
                   </Link>
-                </KeyValueLabel>
+                </KeyValue>
 
                 {model.contentType && (
-                  <KeyValueLabel label="Content type">
+                  <KeyValue label="Content type">
                     <div data-test-eholdings-customer-resource-show-content-type>
                       {model.contentType}
                     </div>
-                  </KeyValueLabel>
+                  </KeyValue>
                 )}
 
                 {model.url && (
-                  <KeyValueLabel label="Managed URL">
+                  <KeyValue label="Managed URL">
                     <div data-test-eholdings-customer-resource-show-managed-url>
                       <a href={model.url} target="_blank">{model.url}</a>
                     </div>
-                  </KeyValueLabel>
+                  </KeyValue>
                 )}
               </DetailsViewSection>
             </div>

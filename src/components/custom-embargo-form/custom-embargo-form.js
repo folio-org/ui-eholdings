@@ -7,10 +7,10 @@ import isEqual from 'lodash/isEqual';
 import {
   Button,
   Icon,
-  IconButton
+  IconButton,
+  KeyValue
 } from '@folio/stripes-components';
 
-import KeyValueLabel from '../key-value-label';
 import CustomEmbargoFields, { validate as validateEmbargo } from '../custom-embargo-fields';
 import styles from './custom-embargo-form.css';
 
@@ -126,11 +126,11 @@ class CustomEmbargoForm extends Component {
     } else if (customEmbargoValue && customEmbargoUnit) {
       contents = (
         <div className={styles['custom-embargo-display']}>
-          <KeyValueLabel label="Custom">
+          <KeyValue label="Custom">
             <span data-test-eholdings-customer-resource-custom-embargo-display>
               {customEmbargoValue} {customEmbargoUnit}
             </span>
-          </KeyValueLabel>
+          </KeyValue>
           <div data-test-eholdings-customer-resource-edit-custom-embargo-button>
             <IconButton icon="edit" onClick={this.handleEditCustomEmbargo} />
           </div>

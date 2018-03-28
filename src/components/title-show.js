@@ -1,8 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { KeyValue } from '@folio/stripes-components';
 
 import DetailsView from './details-view';
-import KeyValueLabel from './key-value-label';
 import ScrollView from './scroll-view';
 import PackageListItem from './package-list-item';
 import IdentifiersList from './identifiers-list';
@@ -19,28 +19,28 @@ export default function TitleShow({ model }) {
         <DetailsViewSection label="Title information">
           <ContributorsList data={model.contributors} />
 
-          <KeyValueLabel label="Publisher">
+          <KeyValue label="Publisher">
             <div data-test-eholdings-title-show-publisher-name>
               {model.publisherName}
             </div>
-          </KeyValueLabel>
+          </KeyValue>
 
           {model.publicationType && (
-            <KeyValueLabel label="Publication Type">
+            <KeyValue label="Publication Type">
               <div data-test-eholdings-title-show-publication-type>
                 {model.publicationType}
               </div>
-            </KeyValueLabel>
+            </KeyValue>
           )}
 
           <IdentifiersList data={model.identifiers} />
 
           {model.subjects.length > 0 && (
-            <KeyValueLabel label="Subjects">
+            <KeyValue label="Subjects">
               <div data-test-eholdings-title-show-subjects-list>
                 {model.subjects.map(subjectObj => subjectObj.subject).join('; ')}
               </div>
-            </KeyValueLabel>
+            </KeyValue>
           )}
         </DetailsViewSection>
       )}

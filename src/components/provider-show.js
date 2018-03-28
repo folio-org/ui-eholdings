@@ -1,8 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { KeyValue } from '@folio/stripes-components';
 
 import DetailsView from './details-view';
-import KeyValueLabel from './key-value-label';
 import QueryList from './query-list';
 import PackageListItem from './package-list-item';
 import DetailsViewSection from './details-view-section';
@@ -20,17 +20,17 @@ export default function ProviderShow({
       paneTitle={model.name}
       bodyContent={(
         <DetailsViewSection label="Provider information">
-          <KeyValueLabel label="Packages selected">
+          <KeyValue label="Packages selected">
             <div data-test-eholdings-provider-details-packages-selected>
               {intl.formatNumber(model.packagesSelected)}
             </div>
-          </KeyValueLabel>
+          </KeyValue>
 
-          <KeyValueLabel label="Total packages">
+          <KeyValue label="Total packages">
             <div data-test-eholdings-provider-details-packages-total>
               {intl.formatNumber(model.packagesTotal)}
             </div>
-          </KeyValueLabel>
+          </KeyValue>
         </DetailsViewSection>
       )}
       listType="packages"
