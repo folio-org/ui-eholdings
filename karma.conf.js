@@ -22,14 +22,14 @@ module.exports = (config) => {
       bs_firefox_mac: {
         base: 'BrowserStack',
         browser: 'firefox',
-        browser_version: '57.0',
+        browser_version: '56.0',
         os: 'OS X',
         os_version: 'Sierra'
       },
       bs_firefox_windows: {
         base: 'BrowserStack',
         browser: 'firefox',
-        browser_version: '57.0',
+        browser_version: '56.0',
         os: 'Windows',
         os_version: '10'
       },
