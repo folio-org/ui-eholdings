@@ -74,7 +74,7 @@ jobs:
 
   test-firefox:
     docker:
-      - image: selenium/node-firefox:latest
+      - image: circleci/node:latest-browsers
     steps:
       - attach_workspace:
           at: ~/
