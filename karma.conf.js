@@ -26,6 +26,13 @@ module.exports = (config) => {
         os: 'OS X',
         os_version: 'Sierra'
       },
+      bs_firefox_windows: {
+        base: 'BrowserStack',
+        browser: 'firefox',
+        browser_version: '57.0',
+        os: 'Windows',
+        os_version: '10'
+      },
       bs_ieEdge_windows: {
         base: 'BrowserStack',
         browser: 'edge',

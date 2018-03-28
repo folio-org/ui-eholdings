@@ -87,6 +87,21 @@ jobs:
           name: Store junit test report
           path: ./artifacts/junit
 
+  test-firefox-windows:
+    docker:
+      - image: circleci/node:latest
+    steps:
+      - attach_workspace:
+          at: ~/
+      - run:
+          name: Run tests
+          command: yarn test --karma.singleRun --karma.browsers=bs_firefox_windows
+      - store_test_results:
+          path: ./artifacts/junit
+      - store_artifacts:
+          name: Store junit test report
+          path: ./artifacts/junit
+
   test-edge:
     docker:
       - image: circleci/node:latest
@@ -132,6 +147,9 @@ workflows:
           requires:
             - checkout-and-install
       - test-firefox:
+          requires:
+            - checkout-and-install
+      - test-firefox-windows:
           requires:
             - checkout-and-install
       - test-safari:
