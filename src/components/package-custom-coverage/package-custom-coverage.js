@@ -83,7 +83,6 @@ class PackageCustomCoverage extends Component {
             <Button
               disabled={isPending}
               type="button"
-              role="button"
               onClick={this.handleCancelCustomCoverage}
               marginBottom0 // gag
             >
@@ -98,7 +97,6 @@ class PackageCustomCoverage extends Component {
               disabled={pristine || isPending}
               type="submit"
               buttonStyle="primary"
-              role="button"
               marginBottom0 // gag
             >
               {isPending ? 'Saving' : 'Save' }

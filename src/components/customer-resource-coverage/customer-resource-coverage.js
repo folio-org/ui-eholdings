@@ -86,7 +86,6 @@ class CustomerResourceCoverage extends Component {
             <Button
               disabled={isPending}
               type="button"
-              role="button"
               onClick={this.handleCancel}
               marginBottom0 // gag
             >
@@ -100,7 +99,6 @@ class CustomerResourceCoverage extends Component {
             <Button
               disabled={pristine || isPending}
               type="submit"
-              role="button"
               buttonStyle="primary"
               marginBottom0 // gag
             >

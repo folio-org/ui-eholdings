@@ -92,7 +92,6 @@ class CustomerResourceEdit extends Component {
                 <Button
                   disabled={model.update.isPending}
                   type="button"
-                  role="button"
                   onClick={this.handleCancel}
                 >
                   Cancel
@@ -104,7 +103,6 @@ class CustomerResourceEdit extends Component {
                 <Button
                   disabled={pristine || model.update.isPending}
                   type="submit"
-                  role="button"
                   buttonStyle="primary"
                 >
                   {model.update.isPending ? 'Saving' : 'Save'}
