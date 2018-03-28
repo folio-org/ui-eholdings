@@ -82,7 +82,7 @@ jobs:
           name: Install the latest Firefox ESR
           command: |
             sudo apt-get remove firefox-mozilla-build &&
-            sudo apt install firefox-esr &&
+            sudo apt install firefox &&
             firefox --version
       - run:
           name: Run tests
