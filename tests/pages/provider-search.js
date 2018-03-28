@@ -33,7 +33,7 @@ import { isRootPresent, hasClassBeginningWith } from './helpers';
   sortBy = value('[data-test-eholdings-search-filters="providers"] input[name="sort"]:checked');
   isSearchButtonDisabled = property('disabled', '[data-test-search-submit]');
   isSearchVignetteHidden = hasClassBeginningWith('is-hidden---', '[data-test-search-vignette]');
-  clickCloseButton = clickable('[data-test-eholdings-details-view-close-button] button');
+  clickCloseButton = clickable('[data-test-eholdings-details-view-close-button] a');
 
   hasLoaded = computed(function () {
     return this.providerList().length > 0;

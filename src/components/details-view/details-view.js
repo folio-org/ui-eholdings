@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames/bind';
 import capitalize from 'lodash/capitalize';
-import { Link } from 'react-router-dom';
 
 import {
   Icon,
@@ -178,9 +177,10 @@ export default class DetailsView extends Component {
           firstMenu={queryParams.searchType ? (
             <PaneMenu>
               <div data-test-eholdings-details-view-close-button>
-                <Link to={{ pathname: '/eholdings', search: router.route.location.search }}>
-                  <IconButton icon="closeX" />
-                </Link>
+                <IconButton
+                  icon="closeX"
+                  href={`/eholdings${router.route.location.search}`}
+                />
               </div>
             </PaneMenu>
           ) : historyState && historyState.eholdings && (

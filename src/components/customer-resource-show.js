@@ -140,9 +140,10 @@ export default class CustomerResourceShow extends Component {
           paneSub={model.packageName}
           lastMenu={(
             <PaneMenu>
-              <Link to={`/eholdings/customer-resources/${model.id}/edit`}>
-                <IconButton icon="edit" />
-              </Link>
+              <IconButton
+                icon="edit"
+                href={`/eholdings/customer-resources/${model.id}/edit`}
+              />
             </PaneMenu>
           )}
           bodyContent={(

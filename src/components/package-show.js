@@ -99,9 +99,10 @@ export default class PackageShow extends Component {
           paneTitle={model.name}
           lastMenu={(
             <PaneMenu>
-              <Link to={{ pathname: `/eholdings/packages/${model.id}/edit`, search: router.route.location.search }}>
-                <IconButton icon="edit" />
-              </Link>
+              <IconButton
+                icon="edit"
+                href={`/eholdings/packages/${model.id}/edit${router.route.location.search}`}
+              />
             </PaneMenu>
           )}
           bodyContent={(

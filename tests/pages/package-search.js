@@ -33,7 +33,7 @@ import { isRootPresent } from './helpers';
   noResultsMessage = text('[data-test-query-list-not-found="packages"]');
   selectedSearchType = collection('[data-test-search-form-type-switcher] a[class^="is-active--"]');
   sortBy = value('[data-test-eholdings-search-filters="packages"] input[name="sort"]:checked');
-  clickCloseButton = clickable('[data-test-eholdings-details-view-close-button] button');
+  clickCloseButton = clickable('[data-test-eholdings-details-view-close-button] a');
 
   hasLoaded = computed(function () {
     return this.packageList().length > 0;

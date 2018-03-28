@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames/bind';
-import Link from 'react-router-dom/Link';
 import {
   IconButton,
   Pane
@@ -104,7 +103,12 @@ export default class Settings extends Component {
         defaultWidth="fill"
         paneTitle="eHoldings"
         firstMenu={(
-          <Link to="/settings" className={styles['eholdings-settings-back-button']}><IconButton icon="left-arrow" /></Link>
+          <div className={styles['eholdings-settings-back-button']}>
+            <IconButton
+              icon="left-arrow"
+              href="/settings"
+            />
+          </div>
         )}
       >
         <div
