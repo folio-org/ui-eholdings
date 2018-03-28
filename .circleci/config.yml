@@ -74,7 +74,7 @@ jobs:
 
   test-firefox:
     docker:
-      - image: selenium/standalone-firefox:latest
+      - image: selenium/node-firefox:latest
     steps:
       - attach_workspace:
           at: ~/
