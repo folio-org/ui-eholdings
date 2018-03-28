@@ -69,7 +69,7 @@ import { isRootPresent, hasClassBeginningWith } from './helpers';
   });
 
   clearFilter = action(function (name) {
-    return this.click(`#filter-titles-${name} [role="heading"] button:nth-child(2)`);
+    return this.click(`#filter-titles-${name} button[icon="clearX"]`);
   });
 
   changeSearchType = action(function (searchType) {

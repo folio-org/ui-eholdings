@@ -4,9 +4,11 @@ import PropTypes from 'prop-types';
 import classNames from 'classnames/bind';
 import isEqual from 'lodash/isEqual';
 
-import Button from '@folio/stripes-components/lib/Button';
-import Icon from '@folio/stripes-components/lib/Icon';
-import IconButton from '@folio/stripes-components/lib/IconButton';
+import {
+  Button,
+  Icon,
+  IconButton
+} from '@folio/stripes-components';
 
 import KeyValueLabel from '../key-value-label';
 import CustomEmbargoFields, { validate as validateEmbargo } from '../custom-embargo-fields';

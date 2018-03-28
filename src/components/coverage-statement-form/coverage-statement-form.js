@@ -4,9 +4,11 @@ import PropTypes from 'prop-types';
 import classNames from 'classnames/bind';
 import isEqual from 'lodash/isEqual';
 
-import Button from '@folio/stripes-components/lib/Button';
-import Icon from '@folio/stripes-components/lib/Icon';
-import IconButton from '@folio/stripes-components/lib/IconButton';
+import {
+  Button,
+  Icon,
+  IconButton
+} from '@folio/stripes-components';
 
 import CoverageStatementFields, { validate as validateCoverageStatement } from '../coverage-statement-fields';
 import styles from './coverage-statement-form.css';

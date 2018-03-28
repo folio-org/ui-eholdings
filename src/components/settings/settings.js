@@ -2,8 +2,11 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames/bind';
 import Link from 'react-router-dom/Link';
-import Pane from '@folio/stripes-components/lib/Pane';
-import IconButton from '@folio/stripes-components/lib/IconButton';
+import {
+  IconButton,
+  Pane
+} from '@folio/stripes-components';
+
 
 import styles from './settings.css';
 

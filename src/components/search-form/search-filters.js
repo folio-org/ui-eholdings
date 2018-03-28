@@ -1,9 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import { Accordion, FilterAccordionHeader } from '@folio/stripes-components/lib/Accordion';
-import RadioButton from '@folio/stripes-components/lib/RadioButton';
-
+import {
+  Accordion,
+  FilterAccordionHeader,
+  RadioButton
+} from '@folio/stripes-components';
 import styles from './search-form.css';
 
 export default function SearchFilters({

@@ -24,6 +24,7 @@ export default @page class Datepicker {
 
   isValid = hasClassBeginningWith('feedbackValid--', 'input');
   isInvalid = hasClassBeginningWith('feedbackError--', 'input');
+  isChanged = hasClassBeginningWith('feedbackChanged--', 'input');
   validationError = text('div[class^=feedback]');
 
   fillAndBlur(date) {

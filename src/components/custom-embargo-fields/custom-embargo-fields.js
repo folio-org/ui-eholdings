@@ -2,8 +2,10 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Field } from 'redux-form';
 
-import TextField from '@folio/stripes-components/lib/TextField';
-import Select from '@folio/stripes-components/lib/Select';
+import {
+  Select,
+  TextField
+} from '@folio/stripes-components';
 import styles from './custom-embargo-fields.css';
 
 export default class CustomEmbargoFields extends Component {

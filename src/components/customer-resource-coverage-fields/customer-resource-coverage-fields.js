@@ -3,9 +3,11 @@ import { Field, FieldArray } from 'redux-form';
 import PropTypes from 'prop-types';
 import moment from 'moment';
 
-import Datepicker from '@folio/stripes-components/lib/Datepicker';
-import Button from '@folio/stripes-components/lib/Button';
-import IconButton from '@folio/stripes-components/lib/IconButton';
+import {
+  Button,
+  Datepicker,
+  IconButton
+} from '@folio/stripes-components';
 
 import styles from './customer-resource-coverage-fields.css';
 import { formatISODateWithoutTime } from '../utilities';

@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import Icon from '@folio/stripes-components/lib/Icon';
+import { Icon } from '@folio/stripes-components';
 
 import { createResolver } from '../../redux';
 import { Status } from '../../redux/application';

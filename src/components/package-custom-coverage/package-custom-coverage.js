@@ -5,10 +5,12 @@ import moment from 'moment';
 import isEqual from 'lodash/isEqual';
 import classNames from 'classnames/bind';
 
-import Datepicker from '@folio/stripes-components/lib/Datepicker';
-import Icon from '@folio/stripes-components/lib/Icon';
-import IconButton from '@folio/stripes-components/lib/IconButton';
-import Button from '@folio/stripes-components/lib/Button';
+import {
+  Button,
+  Datepicker,
+  Icon,
+  IconButton
+} from '@folio/stripes-components';
 import KeyValueLabel from '../key-value-label';
 import styles from './package-custom-coverage.css';
 import { formatISODateWithoutTime } from '../utilities';
