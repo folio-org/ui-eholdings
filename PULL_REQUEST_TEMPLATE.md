@@ -1,4 +1,7 @@
 <!--
+  If you have a relevant JIRA issue number, please put it in the issue title.
+  Example: UIEH-57 Create example component
+
   TL;DR
     - https://www.youtube.com/watch?v=5aHmO_S8FQ4
     - http://www.olitreadwell.com/2016/05/22/how-to-write-great-pull-requests/
@@ -13,12 +16,15 @@
   statements like "the purpose is to change the font colors." and
   instead provide an explanation like "the current textual color
   palette does not provide enough contrast for certain classes of
-  visual impairments"
+  visual impairments."
 
   The purpose may seem self-evident to you now, but the standard to
   hold yourself to should be "can a developer parachuting into this
   project reconstruct the necessary context merely by reading this
-  section"
+  section."
+
+  If you have a relevant JIRA issue, add a link directly to the issue URL here.
+  Example: https://issues.folio.org/browse/UIEH-57
  -->
 
 ## Approach
@@ -30,7 +36,7 @@
   Made a dark color of #333, a medium color of #ccc
 
  Good:
-   This introduces three abstact contrast levels that deveolpers can
+   This introduces three abstract contrast levels that developers can
    use: dark, medium, and light.
 
  The goal is not only to explain what you did, but help other
