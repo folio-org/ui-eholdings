@@ -11,7 +11,6 @@
 
   &:only-child {
     display: block;
-    border-right: 1px solid rgba(0, 0, 0, 0.2);
   }
 
   &.is-hidden {
@@ -21,13 +20,20 @@
 
 @media (--mediumUp) {
   .search-pane {
+    border-right: 1px solid rgba(0, 0, 0, 0.2);
     width: 320px;
+
+    &:only-child {
+      border: none;
+      width: 100%;
+    }
   }
 }
 
 @media (--largeUp) {
   .search-pane,
-  .search-pane.is-hidden {
+  .search-pane.is-hidden,
+  .search-pane:only-child {
     border-right: 1px solid rgba(0, 0, 0, 0.2);
     display: flex;
     flex: 0 0 320px;
