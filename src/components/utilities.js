@@ -3,21 +3,21 @@ import queryString from 'qs';
 
 export function isBookPublicationType(publicationType) {
   let publicationTypeIsBook = {
-    All: false,
-    Audiobook: true,
-    Book: true,
+    'All': false,
+    'Audiobook': true,
+    'Book': true,
     'Book Series': true,
-    Database: false,
-    Journal: false,
-    Newsletter: false,
-    Newspaper: false,
-    Proceedings: false,
-    Report: false,
+    'Database': false,
+    'Journal': false,
+    'Newsletter': false,
+    'Newspaper': false,
+    'Proceedings': false,
+    'Report': false,
     'Streaming Audio': true,
     'Streaming Video': true,
     'Thesis & Dissertation': false,
-    Website: false,
-    Unspecified: false
+    'Website': false,
+    'Unspecified': false
   };
 
   return !!publicationTypeIsBook[publicationType];
