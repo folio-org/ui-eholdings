@@ -149,8 +149,18 @@ describeApplication('ProviderShow', () => {
       expect(ProviderShowPage.hasErrors).to.be.true;
     });
 
-    it('displays the error message returned from the server', () => {
-      expect(ProviderShowPage.errorMessage).to.equal('There was an error');
+    it('displays the correct error text', () => {
+      expect(ProviderShowPage.toast.errorText).to.equal('There was an error');
+    });
+
+    it('only has one error', () => {
+      expect(ProviderShowPage.toast.errorToastCount).to.equal(1);
+      expect(ProviderShowPage.toast.totalToastCount).to.equal(1);
+    });
+
+    it('is positioned to the bottom', () => {
+      expect(ProviderShowPage.toast.isPositionedBottom).to.be.true;
+      expect(ProviderShowPage.toast.isPositionedTop).to.be.false;
     });
   });
 });

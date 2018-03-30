@@ -8,6 +8,7 @@ import {
   KeyValue,
   PaneMenu
 } from '@folio/stripes-components';
+import { processErrors } from './utilities';
 
 import DetailsView from './details-view';
 import QueryList from './query-list';
@@ -76,12 +77,6 @@ export default class PackageShow extends Component {
 
   render() {
     let { model, fetchPackageTitles, customCoverageSubmitted } = this.props;
-    let hasErrors = model.update.isRejected;
-    let errors = hasErrors ? model.update.errors.map((error, index) => ({
-      message: error.title,
-      type: 'error',
-      id: `error-${model.update.timestamp}-${index}`
-    })) : [];
     let { intl, router } = this.context;
     let { showSelectionModal, packageSelected, packageHidden, packageAllowedToAddTitles } = this.state;
 
@@ -92,7 +87,7 @@ export default class PackageShow extends Component {
 
     return (
       <div>
-        <Toaster toasts={errors} position="bottom" />
+        <Toaster toasts={processErrors(model)} position="bottom" />
         <DetailsView
           type="package"
           model={model}

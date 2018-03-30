@@ -257,6 +257,20 @@ describeApplication('TitleShow', () => {
       });
     });
 
+    it('displays the correct error text', () => {
+      expect(TitleShowPage.toast.errorText).to.equal('An unknown error occurred');
+    });
+
+    it('only has one error', () => {
+      expect(TitleShowPage.toast.errorToastCount).to.equal(1);
+      expect(TitleShowPage.toast.totalToastCount).to.equal(1);
+    });
+
+    it('is positioned to the bottom', () => {
+      expect(TitleShowPage.toast.isPositionedBottom).to.be.true;
+      expect(TitleShowPage.toast.isPositionedTop).to.be.false;
+    });
+
     it('dies with dignity', () => {
       expect(TitleShowPage.hasErrors).to.be.true;
     });
