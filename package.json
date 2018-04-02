@@ -20,6 +20,8 @@
     "@bigtest/mocha": "^0.3.3",
     "@folio/eslint-config-stripes": "^1.1.0",
     "@folio/stripes-cli": "^1.0.0",
+    "@folio/stripes-components": "git+https://git@github.com/thefrontside/stripes-components.git#jc/stripeszindex",
+    "@folio/stripes-core": "git+https://git@github.com/thefrontside/stripes-core.git#jc/stripeszindex",
     "babel-plugin-istanbul": "^4.1.5",
     "babel-plugin-remove-jsx-attributes": "^0.0.2",
     "babel-plugin-transform-decorators-legacy": "^1.3.4",
