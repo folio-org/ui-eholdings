@@ -107,10 +107,10 @@ import Toast from './toast';
   clickCustomCoverageEditButton = clickable('[data-test-eholdings-package-details-edit-custom-coverage-button] button');
   clickCustomCoverageSaveButton = clickable('[data-test-eholdings-package-details-save-custom-coverage-button] button');
   isCustomCoverageDisabled = property('disabled', '[data-test-eholdings-package-details-save-custom-coverage-button] button');
-  validationError = text('[data-test-eholdings-custom-coverage-date-range-begin] [class^="feedbackError"]');
+  validationError = text('[data-test-eholdings-coverage-fields-date-range-begin] [class^="feedbackError"]');
 
-  beginDate = new Datepicker('[data-test-eholdings-custom-coverage-date-range-begin]');
-  endDate = new Datepicker('[data-test-eholdings-custom-coverage-date-range-end]');
+  beginDate = new Datepicker('[data-test-eholdings-coverage-fields-date-range-begin]');
+  endDate = new Datepicker('[data-test-eholdings-coverage-fields-date-range-end]');
 
   toast = Toast
 

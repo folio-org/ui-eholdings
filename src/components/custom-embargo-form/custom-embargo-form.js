@@ -95,7 +95,6 @@ class CustomEmbargoForm extends Component {
                 <Button
                   disabled={isPending}
                   type="button"
-                  role="button"
                   onClick={this.handleCancelCustomEmbargo}
                   marginBottom0 // gag
                 >
@@ -109,7 +108,6 @@ class CustomEmbargoForm extends Component {
                 <Button
                   disabled={pristine || isPending}
                   type="submit"
-                  role="button"
                   buttonStyle="primary"
                   marginBottom0 // gag
                 >

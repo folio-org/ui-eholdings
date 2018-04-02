@@ -4,7 +4,9 @@ import PropTypes from 'prop-types';
 import {
   Button,
   Icon,
-  KeyValue
+  IconButton,
+  KeyValue,
+  PaneMenu
 } from '@folio/stripes-components';
 
 import DetailsView from './details-view';
@@ -80,7 +82,7 @@ export default class PackageShow extends Component {
       type: 'error',
       id: `error-${model.update.timestamp}-${index}`
     })) : [];
-    let { intl } = this.context;
+    let { intl, router } = this.context;
     let { showSelectionModal, packageSelected, packageHidden, packageAllowedToAddTitles } = this.state;
 
     let customCoverages = [{
@@ -95,6 +97,14 @@ export default class PackageShow extends Component {
           type="package"
           model={model}
           paneTitle={model.name}
+          lastMenu={(
+            <PaneMenu>
+              <IconButton
+                icon="edit"
+                href={`/eholdings/packages/${model.id}/edit${router.route.location.search}`}
+              />
+            </PaneMenu>
+          )}
           bodyContent={(
             <div>
               <DetailsViewSection label="Holding status">

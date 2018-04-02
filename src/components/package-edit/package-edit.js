@@ -3,27 +3,22 @@ import PropTypes from 'prop-types';
 import { reduxForm } from 'redux-form';
 import isEqual from 'lodash/isEqual';
 
-import {
-  Button,
-  Icon
-} from '@folio/stripes-components';
+import Button from '@folio/stripes-components/lib/Button';
+import Icon from '@folio/stripes-components/lib/Icon';
 
 import DetailsView from '../details-view';
-import CoverageStatementFields, { validate as validateCoverageStatement } from '../coverage-statement-fields';
-import CustomerResourceCoverageFields, { validate as validateCoverageDates } from '../customer-resource-coverage-fields';
-import CustomEmbargoFields, { validate as validateEmbargo } from '../custom-embargo-fields';
+import PackageCoverageFields, { validate as validateCoverageDates } from '../package-coverage-fields';
 import DetailsViewSection from '../details-view-section';
 import NavigationModal from '../navigation-modal';
-import styles from './customer-resource-edit.css';
+import styles from './package-edit.css';
 
-class CustomerResourceEdit extends Component {
+class PackageEdit extends Component {
   static propTypes = {
     model: PropTypes.object.isRequired,
     initialValues: PropTypes.object.isRequired,
     handleSubmit: PropTypes.func,
     onSubmit: PropTypes.func.isRequired,
-    pristine: PropTypes.bool,
-    change: PropTypes.func
+    pristine: PropTypes.bool
   };
 
   static contextTypes = {
@@ -40,7 +35,7 @@ class CustomerResourceEdit extends Component {
 
     if (wasPending && needsUpdate) {
       this.context.router.history.push(
-        `/eholdings/customer-resources/${this.props.model.id}`,
+        `/eholdings/packages/${this.props.model.id}${this.context.router.route.location.search}`,
         { eholdings: true }
       );
     }
@@ -48,7 +43,7 @@ class CustomerResourceEdit extends Component {
 
   handleCancel = () => {
     this.context.router.history.push(
-      `/eholdings/customer-resources/${this.props.model.id}`,
+      `/eholdings/packages/${this.props.model.id}${this.context.router.route.location.search}`,
       { eholdings: true }
     );
   }
@@ -58,36 +53,24 @@ class CustomerResourceEdit extends Component {
       model,
       handleSubmit,
       onSubmit,
-      pristine,
-      change
+      pristine
     } = this.props;
 
     return (
       <DetailsView
-        type="resource"
+        type="package"
         model={model}
         paneTitle={model.name}
-        paneSub={model.packageName}
         bodyContent={(
           <form onSubmit={handleSubmit(onSubmit)}>
             <DetailsViewSection
               label="Coverage dates"
             >
-              <CustomerResourceCoverageFields />
+              <PackageCoverageFields />
             </DetailsViewSection>
-            <DetailsViewSection
-              label="Coverage statement"
-            >
-              <CoverageStatementFields />
-            </DetailsViewSection>
-            <DetailsViewSection
-              label="Embargo period"
-            >
-              <CustomEmbargoFields change={change} />
-            </DetailsViewSection>
-            <div className={styles['customer-resource-edit-action-buttons']}>
+            <div className={styles['package-edit-action-buttons']}>
               <div
-                data-test-eholdings-customer-resource-cancel-button
+                data-test-eholdings-package-cancel-button
               >
                 <Button
                   disabled={model.update.isPending}
@@ -98,7 +81,7 @@ class CustomerResourceEdit extends Component {
                 </Button>
               </div>
               <div
-                data-test-eholdings-customer-resource-save-button
+                data-test-eholdings-package-save-button
               >
                 <Button
                   disabled={pristine || model.update.isPending}
@@ -121,12 +104,12 @@ class CustomerResourceEdit extends Component {
 }
 
 const validate = (values, props) => {
-  return Object.assign({}, validateCoverageDates(values, props), validateCoverageStatement(values), validateEmbargo(values));
+  return validateCoverageDates(values, props);
 };
 
 export default reduxForm({
   validate,
   enableReinitialize: true,
-  form: 'CustomerResourceEdit',
+  form: 'PackageEdit',
   destroyOnUnmount: false,
-})(CustomerResourceEdit);
+})(PackageEdit);

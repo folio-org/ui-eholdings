@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames/bind';
 import capitalize from 'lodash/capitalize';
-import { Link } from 'react-router-dom';
 
 import {
   Icon,
@@ -40,7 +39,8 @@ export default class DetailsView extends Component {
     bodyContent: PropTypes.node.isRequired,
     listType: PropTypes.string,
     renderList: PropTypes.func,
-    actionMenuItems: PropTypes.array
+    actionMenuItems: PropTypes.array,
+    lastMenu: PropTypes.node
   };
 
   static contextTypes = {
@@ -152,7 +152,8 @@ export default class DetailsView extends Component {
       renderList,
       paneTitle,
       paneSub,
-      actionMenuItems
+      actionMenuItems,
+      lastMenu
     } = this.props;
 
     let {
@@ -176,9 +177,10 @@ export default class DetailsView extends Component {
           firstMenu={queryParams.searchType ? (
             <PaneMenu>
               <div data-test-eholdings-details-view-close-button>
-                <Link to={{ pathname: '/eholdings', search: router.route.location.search }}>
-                  <IconButton icon="closeX" />
-                </Link>
+                <IconButton
+                  icon="closeX"
+                  href={`/eholdings${router.route.location.search}`}
+                />
               </div>
             </PaneMenu>
           ) : historyState && historyState.eholdings && (
@@ -195,6 +197,7 @@ export default class DetailsView extends Component {
             <span data-test-eholdings-details-view-pane-sub>{paneSub}</span>
           )}
           actionMenuItems={actionMenuItems}
+          lastMenu={lastMenu}
         />
 
         <div
