@@ -7,7 +7,7 @@ import React from 'react';
 import { Modal as OverlayModal } from 'react-overlays';
 import classNames from 'classnames';
 import PropTypes from 'prop-types';
-import { Icon } from '@folio/stripes-components';
+import { IconButton } from '@folio/stripes-components';
 import css from './modal.css';
 
 const propTypes = {
@@ -52,6 +52,7 @@ const defaultProps = {
   dismissible: false,
   open: false,
   showHeader: true,
+  size: 'medium',
 };
 
 const Modal = (props) => {
@@ -97,14 +98,13 @@ const Modal = (props) => {
             </div>
             <div className={css.modalControls}>
               {props.dismissible &&
-                <button
+                <IconButton
                   className={css.closeModal}
                   onClick={props.onClose}
                   title="Dismiss modal"
-                  aria-label="Dismiss modal"
-                >
-                  <Icon icon="closeX" />
-                </button>
+                  ariaLabel="Dismiss modal"
+                  icon="closeX"
+                />
               }
             </div>
           </div>
