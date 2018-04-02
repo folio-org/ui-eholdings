@@ -13,12 +13,12 @@ import Datepicker from './datepicker';
   exists = isRootPresent();
   clickAddButton = clickable('[data-test-eholdings-coverage-form-add-button] button');
   hasForm = isPresent('[data-test-eholdings-coverage-form] form');
-  clickCancelButton = clickable('[data-test-eholdings-coverage-form-cancel-button] button');
-  clickSaveButton = clickable('[data-test-eholdings-coverage-form-save-button] button');
+  clickCancelButton = clickable('[data-test-eholdings-inline-form-cancel-button] button');
+  clickSaveButton = clickable('[data-test-eholdings-inline-form-save-button] button');
   clickEditButton = clickable('[data-test-eholdings-coverage-form-edit-button] button')
-  hasCancelButton = isPresent('[data-test-eholdings-coverage-form-cancel-button] button');
-  isSaveButtonDisabled = property('disabled', '[data-test-eholdings-coverage-form-save-button] button');
-  hasSaveButton = isPresent('[data-test-eholdings-coverage-form-save-button] button');
+  hasCancelButton = isPresent('[data-test-eholdings-inline-form-cancel-button] button');
+  isSaveButtonDisabled = property('disabled', '[data-test-eholdings-inline-form-save-button] button');
+  hasSaveButton = isPresent('[data-test-eholdings-inline-form-save-button] button');
   hasAddButton = isPresent('[data-test-eholdings-coverage-form-add-button] button');
   hasEditButton = isPresent('[data-test-eholdings-coverage-form-edit-button]');
   clickAddRowButton = clickable('[data-test-eholdings-coverage-fields-add-row-button] button');

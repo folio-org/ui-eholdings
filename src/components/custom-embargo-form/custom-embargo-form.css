@@ -3,7 +3,7 @@
 .custom-embargo-form {
   &.is-editing {
     background: #e6f3ff;
-    padding: 1em;
+    padding: 1em 1em 0;
   }
 }
 
