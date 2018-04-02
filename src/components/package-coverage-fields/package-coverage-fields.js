@@ -30,7 +30,6 @@ export default class PackageCoverageFields extends Component {
             >
               <Button
                 type="button"
-                role="button"
                 onClick={() => fields.push({})}
               >
                 + Add date range
