@@ -55,6 +55,7 @@ export default function ProviderShow({
           </DetailsViewSection>
         )}
         listType="packages"
+        enableListSearch
         renderList={scrollable => (
           <QueryList
             type="provider-packages"
