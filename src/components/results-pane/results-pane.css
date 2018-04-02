@@ -5,5 +5,5 @@
   height: 100%;
   overflow: hidden;
   position: relative;
-  z-index: 10;
+  z-index: stripesZIndex('searchResultsPane');
 }

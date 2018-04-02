@@ -2,7 +2,7 @@
 
 .search-pane-vignette {
   height: 100%;
-  z-index: 11;
+  z-index: stripesZIndex('searchPaneVignette');
   position: absolute;
   top: 0;
   bottom: 0;

@@ -2,7 +2,7 @@
 
 .container {
   position: fixed;
-  z-index: 13;
+  z-index: stripesZIndex('toast');
   pointer-events: none;
   right: 0;
   padding: 1em;
