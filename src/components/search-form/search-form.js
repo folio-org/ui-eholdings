@@ -154,6 +154,7 @@ export default class SearchForm extends Component {
                 onClear={this.handleClearSearch}
                 value={searchString}
                 placeholder={`Search ${searchType}...`}
+                ariaLabel={`Search ${searchType}`}
                 loading={isLoading}
               />
             </div>
@@ -165,6 +166,7 @@ export default class SearchForm extends Component {
                 onClear={this.handleClearSearch}
                 value={searchString}
                 placeholder={`Search ${searchType}...`}
+                ariaLabel={`Search ${searchType}`}
                 loading={isLoading}
               />
             </div>
