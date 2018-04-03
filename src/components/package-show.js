@@ -108,6 +108,7 @@ export default class PackageShow extends Component {
             <PaneMenu>
               <IconButton
                 icon="edit"
+                ariaLabel={`Edit ${model.name}`}
                 href={`/eholdings/packages/${model.id}/edit${router.route.location.search}`}
               />
             </PaneMenu>

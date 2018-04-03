@@ -25,6 +25,7 @@ export default class SettingsDetailPane extends Component {
           <IconButton
             icon="left-arrow"
             href="/settings/eholdings"
+            ariaLabel="Go back to eHoldings settings"
             className={styles['settings-detail-pane-back-button']}
           />
         )}
