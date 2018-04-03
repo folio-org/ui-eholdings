@@ -103,10 +103,10 @@ import Toast from './toast';
   customCoverage = text('[data-test-eholdings-package-details-custom-coverage-display]');
   hasCustomCoverageAddButton = isPresent('[data-test-eholdings-package-details-custom-coverage-button] button');
   clickCustomCoverageAddButton = clickable('[data-test-eholdings-package-details-custom-coverage-button] button');
-  clickCustomCoverageCancelButton = clickable('[data-test-eholdings-package-details-cancel-custom-coverage-button] button');
+  clickCustomCoverageCancelButton = clickable('[data-test-eholdings-inline-form-cancel-button] button');
   clickCustomCoverageEditButton = clickable('[data-test-eholdings-package-details-edit-custom-coverage-button] button');
-  clickCustomCoverageSaveButton = clickable('[data-test-eholdings-package-details-save-custom-coverage-button] button');
-  isCustomCoverageDisabled = property('disabled', '[data-test-eholdings-package-details-save-custom-coverage-button] button');
+  clickCustomCoverageSaveButton = clickable('[data-test-eholdings-inline-form-save-button] button');
+  isCustomCoverageDisabled = property('disabled', '[data-test-eholdings-inline-form-save-button] button');
   validationError = text('[data-test-eholdings-coverage-fields-date-range-begin] [class^="feedbackError"]');
 
   beginDate = new Datepicker('[data-test-eholdings-coverage-fields-date-range-begin]');

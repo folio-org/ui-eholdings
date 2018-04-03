@@ -6,15 +6,14 @@ import isEqual from 'lodash/isEqual';
 
 import {
   Button,
-  Icon,
   IconButton,
   KeyValue
 } from '@folio/stripes-components';
 
 import CoverageDateList from '../coverage-date-list';
 import CustomerResourceCoverageFields, { validate as validateCoverage } from '../customer-resource-coverage-fields';
+import InlineForm from '../inline-form';
 import styles from './customer-resource-coverage.css';
-
 
 const cx = classNames.bind(styles);
 
@@ -76,40 +75,15 @@ class CustomerResourceCoverage extends Component {
     } = this.props;
 
     return (
-      <form onSubmit={handleSubmit(onSubmit)}>
+      <InlineForm
+        data-test-eholdings-custom-coverage-form
+        onSubmit={handleSubmit(onSubmit)}
+        onCancel={this.handleCancel}
+        pristine={pristine}
+        isPending={isPending}
+      >
         <CustomerResourceCoverageFields />
-        <div className={styles['coverage-form-action-buttons']}>
-          <div
-            data-test-eholdings-coverage-form-cancel-button
-            className={styles['coverage-form-action-button']}
-          >
-            <Button
-              disabled={isPending}
-              type="button"
-              onClick={this.handleCancel}
-              marginBottom0 // gag
-            >
-              Cancel
-            </Button>
-          </div>
-          <div
-            data-test-eholdings-coverage-form-save-button
-            className={styles['coverage-form-action-button']}
-          >
-            <Button
-              disabled={pristine || isPending}
-              type="submit"
-              buttonStyle="primary"
-              marginBottom0 // gag
-            >
-              {isPending ? 'Saving' : 'Save' }
-            </Button>
-          </div>
-          {isPending && (
-            <Icon icon="spinner-ellipsis" />
-          )}
-        </div>
-      </form>
+      </InlineForm>
     );
   }
 

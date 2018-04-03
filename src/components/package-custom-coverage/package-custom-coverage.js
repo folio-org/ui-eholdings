@@ -11,6 +11,7 @@ import {
 } from '@folio/stripes-components';
 
 import PackageCoverageFields, { validate as validateCoverage } from '../package-coverage-fields';
+import InlineForm from '../inline-form';
 import styles from './package-custom-coverage.css';
 import { formatISODateWithoutTime } from '../utilities';
 
@@ -22,6 +23,7 @@ class PackageCustomCoverage extends Component {
       customCoverages: PropTypes.array
     }).isRequired,
     isEditable: PropTypes.bool,
+    onEdit: PropTypes.func,
     handleSubmit: PropTypes.func.isRequired,
     onSubmit: PropTypes.func.isRequired,
     pristine: PropTypes.bool,
@@ -35,7 +37,7 @@ class PackageCustomCoverage extends Component {
   }
 
   state = {
-    isEditing: false
+    isEditing: !!this.props.isEditable
   }
 
   componentWillReceiveProps(nextProps) {
@@ -43,67 +45,47 @@ class PackageCustomCoverage extends Component {
     let needsUpdate = !isEqual(this.props.initialValues, nextProps.initialValues);
 
     if (wasPending || needsUpdate) {
-      this.setState({ isEditing: false });
+      this.toggleEditing(false);
     }
   }
 
-  handleEditCustomCoverage = (event) => {
-    let isEditing = !this.state.isEditing;
-    event.preventDefault();
-    this.setState({ isEditing });
+  toggleEditing(isEditing = !this.state.isEditing) {
+    if (this.props.onEdit) {
+      this.props.onEdit(isEditing);
+    } else {
+      this.setState({ isEditing });
+    }
   }
 
-  handleCancelCustomCoverage = (event) => {
+  handleEdit = (e) => {
+    e.preventDefault();
+    this.toggleEditing(true);
+  }
+
+  handleCancel = (event) => {
     event.preventDefault();
-    this.setState({
-      isEditing: false
-    });
+    this.toggleEditing(false);
     this.props.initialize(this.props.initialValues);
   }
 
   renderEditingForm() {
     let {
+      handleSubmit,
+      onSubmit,
       pristine,
       isPending,
-      handleSubmit,
-      onSubmit
     } = this.props;
 
     return (
-      <form
+      <InlineForm
         data-test-eholdings-custom-coverage-form
         onSubmit={handleSubmit(onSubmit)}
+        onCancel={this.handleCancel}
+        pristine={pristine}
+        isPending={isPending}
       >
         <PackageCoverageFields />
-        <div className={styles['custom-coverage-action-buttons']}>
-          <div
-            data-test-eholdings-package-details-cancel-custom-coverage-button
-            className={styles['custom-coverage-action-button']}
-          >
-            <Button
-              disabled={isPending}
-              type="button"
-              onClick={this.handleCancelCustomCoverage}
-              marginBottom0 // gag
-            >
-              Cancel
-            </Button>
-          </div>
-          <div
-            data-test-eholdings-package-details-save-custom-coverage-button
-            className={styles['custom-coverage-action-button']}
-          >
-            <Button
-              disabled={pristine || isPending}
-              type="submit"
-              buttonStyle="primary"
-              marginBottom0 // gag
-            >
-              {isPending ? 'Saving' : 'Save' }
-            </Button>
-          </div>
-        </div>
-      </form>
+      </InlineForm>
     );
   }
 
@@ -119,7 +101,7 @@ class PackageCustomCoverage extends Component {
           </div>
         </KeyValue>
         <div data-test-eholdings-package-details-edit-custom-coverage-button>
-          <IconButton icon="edit" onClick={this.handleEditCustomCoverage} />
+          <IconButton icon="edit" onClick={this.handleEdit} />
         </div>
       </div>
     );
@@ -130,7 +112,7 @@ class PackageCustomCoverage extends Component {
       <div data-test-eholdings-package-details-custom-coverage-button>
         <Button
           type="button"
-          onClick={this.handleEditCustomCoverage}
+          onClick={this.handleEdit}
         >
           Set custom coverage dates
         </Button>
@@ -142,8 +124,8 @@ class PackageCustomCoverage extends Component {
     let {
       isEditable = this.state.isEditing
     } = this.props;
-    let contents;
     let { customCoverages } = this.props.initialValues;
+    let contents;
 
     if (isEditable) {
       contents = this.renderEditingForm();
@@ -155,8 +137,9 @@ class PackageCustomCoverage extends Component {
 
     return (
       <div
+        data-test-eholdings-package-custom-coverage-form
         className={cx(styles['custom-coverage-form'], {
-          'is-editing': this.state.isEditing
+          'is-editing': isEditable
         })}
       >
         {contents}

@@ -3,20 +3,8 @@
 .custom-coverage-form {
   &.is-editing {
     background: #e6f3ff;
-    padding: 1em;
+    padding: 1em 1em 0;
   }
-}
-
-.custom-coverage-action-buttons {
-  border-top: 1px solid var(--minor-divider-color);
-  display: flex;
-  margin-top: 1em;
-  padding-top: 1em;
-  align-items: flex-start;
-}
-
-.custom-coverage-action-button {
-  margin-right: 0.25em;
 }
 
 .custom-coverage-date-display {

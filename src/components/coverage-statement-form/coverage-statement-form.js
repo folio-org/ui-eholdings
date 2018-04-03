@@ -6,11 +6,11 @@ import isEqual from 'lodash/isEqual';
 
 import {
   Button,
-  Icon,
   IconButton
 } from '@folio/stripes-components';
 
 import CoverageStatementFields, { validate as validateCoverageStatement } from '../coverage-statement-fields';
+import InlineForm from '../inline-form';
 import styles from './coverage-statement-form.css';
 
 const cx = classNames.bind(styles);
@@ -61,6 +61,27 @@ class CoverageStatementForm extends Component {
     this.props.initialize(this.props.initialValues);
   }
 
+  renderEditingForm() {
+    let {
+      pristine,
+      isPending,
+      handleSubmit,
+      onSubmit
+    } = this.props;
+
+    return (
+      <InlineForm
+        data-test-eholdings-custom-coverage-form
+        onSubmit={handleSubmit(onSubmit)}
+        onCancel={this.handleCancel}
+        pristine={pristine}
+        isPending={isPending}
+      >
+        <CoverageStatementFields />
+      </InlineForm>
+    );
+  }
+
   renderCoverageStatement() {
     const {
       coverageStatement
@@ -75,57 +96,6 @@ class CoverageStatementForm extends Component {
           <IconButton icon="edit" onClick={this.handleEdit} />
         </div>
       </div>
-    );
-  }
-
-  renderEditingForm() {
-    let {
-      pristine,
-      isPending,
-      handleSubmit,
-      onSubmit
-    } = this.props;
-
-    return (
-      <form onSubmit={handleSubmit(onSubmit)}>
-        <div
-          data-test-eholdings-customer-resource-coverage-statement-form
-          className={styles['coverage-statement-form-editing']}
-        >
-          <CoverageStatementFields />
-          <div className={styles['coverage-statement-action-buttons']}>
-            <div
-              data-test-eholdings-customer-resource-cancel-coverage-statement-button
-              className={styles['coverage-statement-action-button']}
-            >
-              <Button
-                disabled={isPending}
-                type="button"
-                onClick={this.handleCancel}
-                marginBottom0 // gag
-              >
-                Cancel
-              </Button>
-            </div>
-            <div
-              data-test-eholdings-customer-resource-save-coverage-statement-button
-              className={styles['coverage-statement-action-button']}
-            >
-              <Button
-                disabled={pristine || isPending}
-                type="submit"
-                buttonStyle="primary"
-                marginBottom0 // gag
-              >
-                {isPending ? 'Saving' : 'Save'}
-              </Button>
-            </div>
-            {isPending && (
-              <Icon icon="spinner-ellipsis" />
-            )}
-          </div>
-        </div>
-      </form>
     );
   }
 
@@ -161,7 +131,7 @@ class CoverageStatementForm extends Component {
 
     return (
       <div
-        data-test-eholdings-embargo-form
+        data-test-eholdings-customer-resource-coverage-statement-form
         className={cx(styles['coverage-statement-form'], {
           'is-editing': isEditable
         })}

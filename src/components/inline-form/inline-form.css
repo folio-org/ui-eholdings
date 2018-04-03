@@ -1,0 +1,13 @@
+@import '@folio/stripes-components/lib/variables';
+
+.inline-form-action-buttons {
+  align-items: flex-start;
+  border-top: 1px solid var(--minor-divider-color);
+  display: flex;
+  margin-top: 1em;
+  padding-top: 1em;
+}
+
+.inline-form-action-button {
+  margin-right: 0.25em;
+}

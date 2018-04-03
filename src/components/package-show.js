@@ -17,6 +17,7 @@ import TitleListItem from './title-list-item';
 import ToggleSwitch from './toggle-switch';
 import Modal from './modal';
 import PackageCustomCoverage from './package-custom-coverage';
+import NavigationModal from './navigation-modal';
 import DetailsViewSection from './details-view-section';
 import Toaster from './toaster';
 
@@ -40,7 +41,8 @@ export default class PackageShow extends Component {
     showSelectionModal: false,
     packageSelected: this.props.model.isSelected,
     packageHidden: this.props.model.visibilityData.isHidden,
-    packageAllowedToAddTitles: this.props.model.allowKbToAddTitles
+    packageAllowedToAddTitles: this.props.model.allowKbToAddTitles,
+    isCoverageEditable: false
   };
 
   componentWillReceiveProps({ model }) {
@@ -75,10 +77,20 @@ export default class PackageShow extends Component {
     });
   };
 
+  handleCoverageEdit = (isCoverageEditable) => {
+    this.setState({ isCoverageEditable });
+  };
+
   render() {
     let { model, fetchPackageTitles, customCoverageSubmitted } = this.props;
     let { intl, router } = this.context;
-    let { showSelectionModal, packageSelected, packageHidden, packageAllowedToAddTitles } = this.state;
+    let {
+      showSelectionModal,
+      packageSelected,
+      packageHidden,
+      packageAllowedToAddTitles,
+      isCoverageEditable
+    } = this.state;
 
     let customCoverages = [{
       beginCoverage: model.customCoverage.beginCoverage,
@@ -195,6 +207,8 @@ export default class PackageShow extends Component {
                       initialValues={{ customCoverages }}
                       onSubmit={customCoverageSubmitted}
                       isPending={model.update.isPending && 'customCoverage' in model.update.changedAttributes}
+                      onEdit={this.handleCoverageEdit}
+                      isEditable={isCoverageEditable}
                     />
                   </div>
                 ) : (
@@ -276,6 +290,8 @@ export default class PackageShow extends Component {
         >
           Are you sure you want to remove this package and all its titles from your holdings? All customizations will be lost.
         </Modal>
+
+        <NavigationModal when={isCoverageEditable} />
       </div>
     );
   }

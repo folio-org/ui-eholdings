@@ -6,12 +6,12 @@ import isEqual from 'lodash/isEqual';
 
 import {
   Button,
-  Icon,
   IconButton,
   KeyValue
 } from '@folio/stripes-components';
 
 import CustomEmbargoFields, { validate as validateEmbargo } from '../custom-embargo-fields';
+import InlineForm from '../inline-form';
 import styles from './custom-embargo-form.css';
 
 const cx = classNames.bind(styles);
@@ -53,25 +53,75 @@ class CustomEmbargoForm extends Component {
     }
   }
 
-  handleEditCustomEmbargo = (e) => {
+  handleEdit = (e) => {
     e.preventDefault();
     this.toggleEditing(true);
   }
 
-  handleCancelCustomEmbargo = (e) => {
+  handleCancel = (e) => {
     e.preventDefault();
     this.toggleEditing(false);
     this.props.initialize(this.props.initialValues);
   }
 
-  render() {
+  renderEditingForm() {
     let {
+      change,
       pristine,
       isPending,
-      isEditable = this.state.isEditing,
-      change,
       handleSubmit,
       onSubmit
+    } = this.props;
+
+    return (
+      <InlineForm
+        data-test-eholdings-custom-coverage-form
+        onSubmit={handleSubmit(onSubmit)}
+        onCancel={this.handleCancel}
+        pristine={pristine}
+        isPending={isPending}
+      >
+        <CustomEmbargoFields change={change} />
+      </InlineForm>
+    );
+  }
+
+  renderEmbargo() {
+    const {
+      customEmbargoValue,
+      customEmbargoUnit
+    } = this.props.initialValues;
+
+    return (
+      <div className={styles['custom-embargo-display']}>
+        <KeyValue label="Custom">
+          <span data-test-eholdings-customer-resource-custom-embargo-display>
+            {customEmbargoValue} {customEmbargoUnit}
+          </span>
+        </KeyValue>
+        <div data-test-eholdings-customer-resource-edit-custom-embargo-button>
+          <IconButton icon="edit" onClick={this.handleEdit} />
+        </div>
+      </div>
+    );
+  }
+
+  renderSetEmbargo() {
+    return (
+      <div data-test-eholdings-customer-resource-add-custom-embargo-button>
+        <Button
+          type="button"
+          onClick={this.handleEdit}
+        >
+          Set custom embargo period
+        </Button>
+      </div>
+    );
+  }
+
+  render() {
+    let {
+      isEditable = this.state.isEditing
     } = this.props;
     const {
       customEmbargoValue,
@@ -80,71 +130,11 @@ class CustomEmbargoForm extends Component {
     let contents;
 
     if (isEditable) {
-      contents = (
-        <form onSubmit={handleSubmit(onSubmit)}>
-          <div
-            data-test-eholdings-customer-resource-custom-embargo-form
-            className={styles['custom-embargo-form-editing']}
-          >
-            <CustomEmbargoFields change={change} />
-            <div className={styles['custom-embargo-action-buttons']}>
-              <div
-                data-test-eholdings-customer-resource-cancel-custom-embargo-button
-                className={styles['custom-embargo-action-button']}
-              >
-                <Button
-                  disabled={isPending}
-                  type="button"
-                  onClick={this.handleCancelCustomEmbargo}
-                  marginBottom0 // gag
-                >
-                  Cancel
-                </Button>
-              </div>
-              <div
-                data-test-eholdings-customer-resource-save-custom-embargo-button
-                className={styles['custom-embargo-action-button']}
-              >
-                <Button
-                  disabled={pristine || isPending}
-                  type="submit"
-                  buttonStyle="primary"
-                  marginBottom0 // gag
-                >
-                  {isPending ? 'Saving' : 'Save'}
-                </Button>
-              </div>
-              {isPending && (
-                <Icon icon="spinner-ellipsis" />
-              )}
-            </div>
-          </div>
-        </form>
-      );
+      contents = this.renderEditingForm();
     } else if (customEmbargoValue && customEmbargoUnit) {
-      contents = (
-        <div className={styles['custom-embargo-display']}>
-          <KeyValue label="Custom">
-            <span data-test-eholdings-customer-resource-custom-embargo-display>
-              {customEmbargoValue} {customEmbargoUnit}
-            </span>
-          </KeyValue>
-          <div data-test-eholdings-customer-resource-edit-custom-embargo-button>
-            <IconButton icon="edit" onClick={this.handleEditCustomEmbargo} />
-          </div>
-        </div>
-      );
+      contents = this.renderEmbargo();
     } else {
-      contents = (
-        <div data-test-eholdings-customer-resource-add-custom-embargo-button>
-          <Button
-            type="button"
-            onClick={this.handleEditCustomEmbargo}
-          >
-            Set custom embargo period
-          </Button>
-        </div>
-      );
+      contents = this.renderSetEmbargo();
     }
 
     return (
