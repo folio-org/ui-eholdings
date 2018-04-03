@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import Link from 'react-router-dom/Link';
 import Pane from '@folio/stripes-components/lib/Pane';
 import IconButton from '@folio/stripes-components/lib/IconButton';
 
@@ -23,9 +22,12 @@ export default class SettingsDetailPane extends Component {
         defaultWidth="fill"
         paneTitle={paneTitle}
         firstMenu={(
-          <Link to="/settings/eholdings" className={styles['settings-detail-pane-back-button']}>
-            <IconButton icon="left-arrow" />
-          </Link>
+          <div className={styles['settings-detail-pane-back-button']}>
+            <IconButton
+              icon="left-arrow"
+              href="/settings/eholdings"
+            />
+          </div>
         )}
       >
         {children}
