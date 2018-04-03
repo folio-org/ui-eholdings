@@ -1,6 +1,9 @@
 @import '@folio/stripes-components/lib/variables';
 
 .search-form-container {
+  margin: 0 auto;
+  min-width: 320px;
+  max-width: 640px;
   padding: 1em;
 
   & hr {

@@ -1,6 +1,7 @@
 .results-pane {
+  background: #fff;
   display: flex;
-  flex: 5 0 0;
+  flex: 5 0 320px;
   flex-flow: column nowrap;
   height: 100%;
   overflow: hidden;
