@@ -3,6 +3,10 @@
 .details-view-section {
   border-top: 1px solid var(--minor-divider-color);
   padding-bottom: 1em;
+
+  &:first-of-type {
+    border-top: none;
+  }
 }
 
 .details-view-section-label {
