@@ -6,6 +6,7 @@ import {
   page,
   text
 } from '@bigtest/interaction';
+import Toast from './toast';
 
 @page class ProviderShowPage {
   paneTitle = text('[data-test-eholdings-details-view-pane-title]');
@@ -15,6 +16,8 @@ import {
   hasBackButton = isPresent('[data-test-eholdings-details-view-back-button] button');
   hasErrors = isPresent('[data-test-eholdings-details-view-error="provider"]');
   errorMessage = text('[data-test-eholdings-details-view-error="provider"]');
+
+  toast = Toast
 
   packageList = collection('[data-test-query-list="provider-packages"] li a', {
     name: text('[data-test-eholdings-package-list-item-name]'),

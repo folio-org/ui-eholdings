@@ -180,6 +180,20 @@ describeApplication('PackageShow', () => {
       });
     });
 
+    it('displays the correct error text', () => {
+      expect(PackageShowPage.toast.errorText).to.equal('There was an error');
+    });
+
+    it('only has one error', () => {
+      expect(PackageShowPage.toast.errorToastCount).to.equal(1);
+      expect(PackageShowPage.toast.totalToastCount).to.equal(1);
+    });
+
+    it('is positioned to the bottom', () => {
+      expect(PackageShowPage.toast.isPositionedBottom).to.be.true;
+      expect(PackageShowPage.toast.isPositionedTop).to.be.false;
+    });
+
     it('dies with dignity', () => {
       expect(PackageShowPage.hasErrors).to.be.true;
     });

@@ -65,3 +65,17 @@ export const qs = {
   parse: path => queryString.parse(path, { ignoreQueryPrefix: true }),
   stringify: params => queryString.stringify(params, { encodeValuesOnly: true })
 };
+
+export const processErrors = ({ request, update }) => {
+  let processErrorsSet = ({ errors, timestamp }) => errors.map((error, index) => ({
+    message: error.title,
+    type: 'error',
+    id: `error-${timestamp}-${index}`
+  }));
+
+  let hasErrors = update.isRejected || request.isRejected;
+  let putErrors = hasErrors ? processErrorsSet(update) : [];
+  let getErrors = hasErrors ? processErrorsSet(request) : [];
+
+  return getErrors.concat(putErrors);
+};

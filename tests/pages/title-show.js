@@ -8,6 +8,7 @@ import {
   text
 } from '@bigtest/interaction';
 import { getComputedStyle } from './helpers';
+import Toast from './toast';
 
 @page class TitleShowPage {
   paneTitle = text('[data-test-eholdings-details-view-pane-title]');
@@ -24,6 +25,8 @@ import { getComputedStyle } from './helpers';
   detailsPaneScrollsHeight = property('scrollHeight', '[data-test-eholdings-detail-pane-contents]');
   detailsPaneContentsHeight = property('offsetHeight', '[data-test-eholdings-detail-pane-contents]');
   detailsPaneContentsOverFlowY = getComputedStyle('overflow-y', '[data-test-eholdings-detail-pane-contents]');
+
+toast = Toast
 
   detailsPaneScrollTop = action(function (offset) {
     return this.find('[data-test-query-list="package-titles"]')
