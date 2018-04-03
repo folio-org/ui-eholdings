@@ -123,6 +123,16 @@ export default class CustomerResourceShow extends Component {
       }];
     }
 
+    let actionMenuItems = [
+      {
+        label: 'Edit',
+        to: {
+          pathname: `/eholdings/customer-resources/${model.id}/edit`,
+          state: { eholdings: true }
+        }
+      }
+    ];
+
     return (
       <div>
         <Toaster toasts={processErrors(model)} position="bottom" />
@@ -132,6 +142,7 @@ export default class CustomerResourceShow extends Component {
           model={model}
           paneTitle={model.name}
           paneSub={model.packageName}
+          actionMenuItems={actionMenuItems}
           lastMenu={(
             <PaneMenu>
               <IconButton

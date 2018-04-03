@@ -26,7 +26,8 @@ class PackageEdit extends Component {
       history: PropTypes.shape({
         push: PropTypes.func.isRequired
       }).isRequired
-    }).isRequired
+    }).isRequired,
+    queryParams: PropTypes.object
   };
 
   componentWillReceiveProps(nextProps) {
@@ -56,11 +57,31 @@ class PackageEdit extends Component {
       pristine
     } = this.props;
 
+    let {
+      queryParams,
+      router
+    } = this.context;
+
+    let actionMenuItems = [
+      {
+        label: 'Cancel editing',
+        to: `/eholdings/packages/${model.id}${router.route.location.search}`
+      }
+    ];
+
+    if (queryParams) {
+      actionMenuItems.push({
+        label: 'Maximize',
+        to: `/eholdings/packages/${model.id}/edit`
+      });
+    }
+
     return (
       <DetailsView
         type="package"
         model={model}
         paneTitle={model.name}
+        actionMenuItems={actionMenuItems}
         bodyContent={(
           <form onSubmit={handleSubmit(onSubmit)}>
             <DetailsViewSection

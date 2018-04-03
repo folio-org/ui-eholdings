@@ -2,16 +2,30 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { KeyValue } from '@folio/stripes-components';
 
-import { processErrors } from './utilities';
-import DetailsView from './details-view';
-import ScrollView from './scroll-view';
-import PackageListItem from './package-list-item';
-import IdentifiersList from './identifiers-list';
-import ContributorsList from './contributors-list';
-import DetailsViewSection from './details-view-section';
-import Toaster from './toaster';
+import { processErrors } from '../utilities';
+import DetailsView from '../details-view';
+import ScrollView from '../scroll-view';
+import PackageListItem from '../package-list-item';
+import IdentifiersList from '../identifiers-list';
+import ContributorsList from '../contributors-list';
+import DetailsViewSection from '../details-view-section';
+import Toaster from '../toaster';
+import styles from './title-show.css';
 
-export default function TitleShow({ model }) {
+export default function TitleShow({ model }, { queryParams }) {
+  let actionMenuItems = [];
+
+  if (queryParams.searchType) {
+    actionMenuItems.push({
+      label: 'Full view',
+      to: {
+        pathname: `/eholdings/titles/${model.id}`,
+        state: { eholdings: true }
+      },
+      className: styles['full-view-link']
+    });
+  }
+
   return (
     <div>
       <Toaster toasts={processErrors(model)} position="bottom" />
@@ -20,6 +34,7 @@ export default function TitleShow({ model }) {
         type="title"
         model={model}
         paneTitle={model.name}
+        actionMenuItems={actionMenuItems}
         bodyContent={(
           <DetailsViewSection label="Title information">
             <ContributorsList data={model.contributors} />
