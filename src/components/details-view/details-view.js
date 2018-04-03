@@ -179,7 +179,7 @@ export default class DetailsView extends Component {
               <div data-test-eholdings-details-view-close-button>
                 <IconButton
                   icon="closeX"
-                  title={`Close ${paneTitle}`}
+                  ariaLabel={`Close ${paneTitle}`}
                   href={`/eholdings${router.route.location.search}`}
                 />
               </div>
@@ -189,7 +189,7 @@ export default class DetailsView extends Component {
               <div data-test-eholdings-details-view-back-button>
                 <IconButton
                   icon="left-arrow"
-                  title="Go back"
+                  ariaLabel="Go back"
                   onClick={() => router.history.goBack()}
                 />
               </div>

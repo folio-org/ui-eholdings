@@ -136,7 +136,7 @@ export default class CustomerResourceShow extends Component {
             <PaneMenu>
               <IconButton
                 icon="edit"
-                title={`Edit ${model.name}`}
+                ariaLabel={`Edit ${model.name}`}
                 href={`/eholdings/customer-resources/${model.id}/edit`}
               />
             </PaneMenu>
