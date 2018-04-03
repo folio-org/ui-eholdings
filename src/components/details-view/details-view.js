@@ -43,7 +43,8 @@ export default class DetailsView extends Component {
     renderList: PropTypes.func,
     actionMenuItems: PropTypes.array,
     lastMenu: PropTypes.node,
-    enableListSearch: PropTypes.bool
+    enableListSearch: PropTypes.bool,
+    onSearch: PropTypes.func
   };
 
   static contextTypes = {
@@ -164,7 +165,8 @@ export default class DetailsView extends Component {
       paneSub,
       actionMenuItems,
       lastMenu,
-      enableListSearch
+      enableListSearch,
+      onSearch
     } = this.props;
 
     let {
@@ -277,7 +279,7 @@ export default class DetailsView extends Component {
           >
             <SearchForm
               searchType={listType}
-              onSearch={() => {}}
+              onSearch={onSearch}
               displaySearchTypeSwitcher={false}
             />
           </Modal>

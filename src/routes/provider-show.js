@@ -19,38 +19,71 @@ class ProviderShowRoute extends Component {
     getPackages: PropTypes.func.isRequired
   };
 
+  state = {
+    pkgSearchParams: {}
+  }
+
   componentWillMount() {
     let { providerId } = this.props.match.params;
     this.props.getProvider(providerId);
   }
 
-  componentWillReceiveProps({ match: { params: { providerId } } }) {
-    if (providerId !== this.props.match.params.providerId) {
+  componentDidUpdate(prevProps, prevState) {
+    let { match, getPackages } = this.props;
+    let { pkgSearchParams } = this.state;
+    let { providerId } = match.params;
+
+    if (providerId !== prevProps.match.params.providerId) {
       this.props.getProvider(providerId);
+    }
+
+    if (pkgSearchParams !== prevState.pkgSearchParams) {
+      getPackages(providerId, pkgSearchParams);
     }
   }
 
-  fetchPackages = (page) => {
-    let { match, getPackages } = this.props;
+  getPkgResults() {
+    let { match, resolver } = this.props;
+    let { pkgSearchParams } = this.state;
     let { providerId } = match.params;
 
-    getPackages(providerId, { page });
+    console.log(pkgSearchParams);
+
+    return resolver.query('packages', pkgSearchParams, {
+      path: `${Provider.pathFor(providerId)}/packages`
+    });
+  }
+
+  searchPackages = (params) => {
+    this.setState({ pkgSearchParams: params });
+  };
+
+  fetchPackages = (page) => {
+    let { pkgSearchParams } = this.state;
+    this.searchPackages({ ...pkgSearchParams, page });
   };
 
   render() {
     return (
       <View
         model={this.props.model}
+        packages={this.getPkgResults()}
         fetchPackages={this.fetchPackages}
+        searchPackages={this.searchPackages}
       />
     );
   }
 }
 
 export default connect(
-  ({ eholdings: { data } }, { match }) => ({
-    model: createResolver(data).find('providers', match.params.providerId)
-  }), {
+  ({ eholdings: { data } }, { match }) => {
+    let resolver = createResolver(data);
+
+    return {
+      model: resolver.find('providers', match.params.providerId),
+      resolver
+    };
+  }, {
     getProvider: id => Provider.find(id, { include: 'packages' }),
     getPackages: (id, params) => Provider.queryRelated(id, 'packages', params)
   }
