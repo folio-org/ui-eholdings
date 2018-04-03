@@ -114,6 +114,33 @@ export default class PackageShow extends Component {
           )}
           bodyContent={(
             <div>
+              <DetailsViewSection label="Package information">
+                <KeyValue label="Provider">
+                  <div data-test-eholdings-package-details-provider>
+                    <Link to={`/eholdings/providers/${model.providerId}`}>{model.providerName}</Link>
+                  </div>
+                </KeyValue>
+
+                {model.contentType && (
+                  <KeyValue label="Content type">
+                    <div data-test-eholdings-package-details-content-type>
+                      {model.contentType}
+                    </div>
+                  </KeyValue>
+                )}
+
+                <KeyValue label="Titles selected">
+                  <div data-test-eholdings-package-details-titles-selected>
+                    {intl.formatNumber(model.selectedCount)}
+                  </div>
+                </KeyValue>
+
+                <KeyValue label="Total titles">
+                  <div data-test-eholdings-package-details-titles-total>
+                    {intl.formatNumber(model.titleCount)}
+                  </div>
+                </KeyValue>
+              </DetailsViewSection>
               <DetailsViewSection label="Holding status">
                 <label
                   data-test-eholdings-package-details-selected
@@ -214,33 +241,6 @@ export default class PackageShow extends Component {
                 ) : (
                   <p>Add the package to holdings to set custom coverage dates.</p>
                 )}
-              </DetailsViewSection>
-              <DetailsViewSection label="Package information">
-                <KeyValue label="Provider">
-                  <div data-test-eholdings-package-details-provider>
-                    <Link to={`/eholdings/providers/${model.providerId}`}>{model.providerName}</Link>
-                  </div>
-                </KeyValue>
-
-                {model.contentType && (
-                  <KeyValue label="Content type">
-                    <div data-test-eholdings-package-details-content-type>
-                      {model.contentType}
-                    </div>
-                  </KeyValue>
-                )}
-
-                <KeyValue label="Titles selected">
-                  <div data-test-eholdings-package-details-titles-selected>
-                    {intl.formatNumber(model.selectedCount)}
-                  </div>
-                </KeyValue>
-
-                <KeyValue label="Total titles">
-                  <div data-test-eholdings-package-details-titles-total>
-                    {intl.formatNumber(model.titleCount)}
-                  </div>
-                </KeyValue>
               </DetailsViewSection>
             </div>
           )}

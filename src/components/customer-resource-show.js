@@ -142,6 +142,68 @@ export default class CustomerResourceShow extends Component {
           )}
           bodyContent={(
             <div>
+              <DetailsViewSection label="Resource information">
+
+                <ContributorsList data={model.contributors} />
+
+                <KeyValue label="Publisher">
+                  <div data-test-eholdings-customer-resource-show-publisher-name>
+                    {model.publisherName}
+                  </div>
+                </KeyValue>
+
+                {model.publicationType && (
+                  <KeyValue label="Publication type">
+                    <div data-test-eholdings-customer-resource-show-publication-type>
+                      {model.publicationType}
+                    </div>
+                  </KeyValue>
+                )}
+
+                <IdentifiersList data={model.identifiers} />
+
+                {model.subjects.length > 0 && (
+                  <KeyValue label="Subjects">
+                    <div data-test-eholdings-customer-resource-show-subjects-list>
+                      {model.subjects.map(subjectObj => subjectObj.subject).join('; ')}
+                    </div>
+                  </KeyValue>
+                )}
+
+                <KeyValue label="Provider">
+                  <div data-test-eholdings-customer-resource-show-provider-name>
+                    <Link to={`/eholdings/providers/${model.providerId}`}>{model.providerName}</Link>
+                  </div>
+                </KeyValue>
+
+                <KeyValue label="Package">
+                  <div data-test-eholdings-customer-resource-show-package-name>
+                    <Link to={`/eholdings/packages/${model.packageId}`}>{model.packageName}</Link>
+                  </div>
+                </KeyValue>
+
+                <KeyValue label="Other packages">
+                  <Link to={`/eholdings/titles/${model.titleId}`}>
+                    View all packages that include this title
+                  </Link>
+                </KeyValue>
+
+                {model.contentType && (
+                  <KeyValue label="Content type">
+                    <div data-test-eholdings-customer-resource-show-content-type>
+                      {model.contentType}
+                    </div>
+                  </KeyValue>
+                )}
+
+                {model.url && (
+                  <KeyValue label="Managed URL">
+                    <div data-test-eholdings-customer-resource-show-managed-url>
+                      <a href={model.url} target="_blank">{model.url}</a>
+                    </div>
+                  </KeyValue>
+                )}
+              </DetailsViewSection>
               <DetailsViewSection label="Holding status">
                 <label
                   data-test-eholdings-customer-resource-show-selected
@@ -270,69 +332,6 @@ export default class CustomerResourceShow extends Component {
                   <p>Add the resource to holdings to set an custom embargo period.</p>
                 )}
 
-              </DetailsViewSection>
-
-              <DetailsViewSection label="Resource information">
-
-                <ContributorsList data={model.contributors} />
-
-                <KeyValue label="Publisher">
-                  <div data-test-eholdings-customer-resource-show-publisher-name>
-                    {model.publisherName}
-                  </div>
-                </KeyValue>
-
-                {model.publicationType && (
-                  <KeyValue label="Publication type">
-                    <div data-test-eholdings-customer-resource-show-publication-type>
-                      {model.publicationType}
-                    </div>
-                  </KeyValue>
-                )}
-
-                <IdentifiersList data={model.identifiers} />
-
-                {model.subjects.length > 0 && (
-                  <KeyValue label="Subjects">
-                    <div data-test-eholdings-customer-resource-show-subjects-list>
-                      {model.subjects.map(subjectObj => subjectObj.subject).join('; ')}
-                    </div>
-                  </KeyValue>
-                )}
-
-                <KeyValue label="Provider">
-                  <div data-test-eholdings-customer-resource-show-provider-name>
-                    <Link to={`/eholdings/providers/${model.providerId}`}>{model.providerName}</Link>
-                  </div>
-                </KeyValue>
-
-                <KeyValue label="Package">
-                  <div data-test-eholdings-customer-resource-show-package-name>
-                    <Link to={`/eholdings/packages/${model.packageId}`}>{model.packageName}</Link>
-                  </div>
-                </KeyValue>
-
-                <KeyValue label="Other packages">
-                  <Link to={`/eholdings/titles/${model.titleId}`}>
-                    View all packages that include this title
-                  </Link>
-                </KeyValue>
-
-                {model.contentType && (
-                  <KeyValue label="Content type">
-                    <div data-test-eholdings-customer-resource-show-content-type>
-                      {model.contentType}
-                    </div>
-                  </KeyValue>
-                )}
-
-                {model.url && (
-                  <KeyValue label="Managed URL">
-                    <div data-test-eholdings-customer-resource-show-managed-url>
-                      <a href={model.url} target="_blank">{model.url}</a>
-                    </div>
-                  </KeyValue>
-                )}
               </DetailsViewSection>
             </div>
           )}
