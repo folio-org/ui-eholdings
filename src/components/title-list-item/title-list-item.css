@@ -2,11 +2,11 @@
   height: 100%;
 
   &.is-selected {
-    background-color: rgba(0, 0, 0, 0.5);
+    background-color: #666;
     color: #fff;
 
     &:hover {
-      background-color: rgba(0, 0, 0, 0.5);
+      background-color: #555;
     }
 
     & h5 {
