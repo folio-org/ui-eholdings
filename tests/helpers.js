@@ -94,7 +94,5 @@ describeApplication.only = function (name, setup) {
 function visit(context, path, convergenceCheck) {
   return new Convergence()
     .do(() => context.app.visit(path))
-    .once(convergenceCheck)
-    .timeout(context.timeout())
-    .run();
+    .once(convergenceCheck);
 }
