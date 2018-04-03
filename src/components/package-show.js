@@ -97,6 +97,13 @@ export default class PackageShow extends Component {
       endCoverage: model.customCoverage.endCoverage
     }];
 
+    let actionMenuItems = [
+      {
+        label: 'Edit',
+        to: `/eholdings/packages/${model.id}/edit`
+      }
+    ];
+
     return (
       <div>
         <Toaster toasts={processErrors(model)} position="bottom" />
@@ -104,6 +111,7 @@ export default class PackageShow extends Component {
           type="package"
           model={model}
           paneTitle={model.name}
+          actionMenuItems={actionMenuItems}
           lastMenu={(
             <PaneMenu>
               <IconButton
