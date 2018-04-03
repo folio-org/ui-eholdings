@@ -1,0 +1,38 @@
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
+
+import View from '@folio/stripes-components/lib/Settings';
+import ApplicationRoute from './application';
+
+export default class SettingsRoute extends Component {
+  static propTypes = {
+    children: PropTypes.node.isRequired
+  };
+
+  static contextTypes = {
+    router: PropTypes.object
+  };
+
+  render() {
+    let { children } = this.props;
+    let { router } = this.context;
+
+    let pages = React.Children.map(children, child => ({
+      route: child.props.path,
+      label: child.props.name,
+      component: child.props.component
+    }));
+
+    return (
+      <ApplicationRoute showSettings>
+        <View
+          paneTitle="eHoldings"
+          activeLink={router.route.location.pathname}
+          match={router.route.match}
+          location={router.route.location}
+          pages={pages}
+        />
+      </ApplicationRoute>
+    );
+  }
+}

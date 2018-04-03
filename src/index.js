@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import Settings from '@folio/stripes-components/lib/Settings';
 
 import { Route, Switch, Redirect } from './router';
 import { reducer, epics } from './redux';
 
 import ApplicationRoute from './routes/application';
+import SettingsRoute from './routes/settings';
 import SearchRoute from './routes/search';
 import ProviderShow from './routes/provider-show';
 import PackageShow from './routes/package-show';
@@ -57,26 +57,12 @@ export default class EHoldings extends Component {
       showSettings,
       match: { path: rootPath }
     } = this.props;
-    let { router } = this.context;
 
     return showSettings ? (
-      <Settings
-        {...this.props}
-        pages={[
-          {
-            route: 'knowledge-base',
-            label: 'Knowledge base',
-            component: SettingsKnowledgeBaseRoute
-          },
-          {
-            route: 'root-proxy',
-            label: 'Root proxy',
-            component: SettingsRootProxyRoute
-          }
-        ]}
-        paneTitle="eHoldings"
-        activeLink={router.route.location.pathname}
-      />
+      <Route path={rootPath} component={SettingsRoute}>
+        <Route path="knowledge-base" exact component={SettingsKnowledgeBaseRoute} name="Knowledge base" />
+        <Route path="root-proxy" exact component={SettingsRootProxyRoute} name="Root proxy" />
+      </Route>
     ) : (
       <Route path={rootPath} component={ApplicationRoute}>
         <Route path={`${rootPath}/:type?/:id?`} component={SearchRoute}>
