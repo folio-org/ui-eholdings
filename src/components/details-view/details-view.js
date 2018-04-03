@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames/bind';
 import capitalize from 'lodash/capitalize';
+import Link from 'react-router-dom/Link';
 
 import {
   Icon,
@@ -49,7 +50,9 @@ export default class DetailsView extends Component {
   };
 
   state = {
-    isSticky: false
+    isSticky: false,
+    isScrolledPastHeader: false,
+    bodyTopPadding: '1rem'
   };
 
   componentDidMount() {
@@ -92,6 +95,22 @@ export default class DetailsView extends Component {
    */
   handleScroll = (e) => {
     let { isSticky } = this.state;
+
+    // if the body position is higher than the FOLIO header + actions, apply class
+    if (this.$container.scrollTop - this.$header.offsetHeight > 0) {
+      if (this.state.isScrolledPastHeader === false) {
+        this.setState({
+          bodyTopPadding: `${this.$header.offsetHeight}px`,
+          isScrolledPastHeader: true
+        });
+      }
+    } else {
+      this.setState({
+        bodyTopPadding: '1rem',
+        isScrolledPastHeader: false
+      });
+    }
+
 
     // bail if we shouldn't handle scrolling
     if (!this.shouldHandleScroll) return;
@@ -152,8 +171,8 @@ export default class DetailsView extends Component {
       renderList,
       paneTitle,
       paneSub,
-      actionMenuItems,
-      lastMenu
+      // actionMenuItems,
+      // lastMenu
     } = this.props;
 
     let {
@@ -173,32 +192,20 @@ export default class DetailsView extends Component {
 
     return (
       <div data-test-eholdings-details-view={type}>
-        <PaneHeader
-          firstMenu={queryParams.searchType ? (
-            <PaneMenu>
-              <div data-test-eholdings-details-view-close-button>
-                <IconButton
-                  icon="closeX"
-                  href={`/eholdings${router.route.location.search}`}
-                />
-              </div>
-            </PaneMenu>
+        <div className={styles.actions}>
+          {queryParams.searchType ? (
+            <div data-test-eholdings-details-view-close-button>
+              <IconButton
+                icon="closeX"
+                href={`/eholdings${router.route.location.search}`}
+              />
+            </div>
           ) : historyState && historyState.eholdings && (
-            <PaneMenu>
-              <div data-test-eholdings-details-view-back-button>
-                <IconButton icon="left-arrow" onClick={() => router.history.goBack()} />
-              </div>
-            </PaneMenu>
+            <div data-test-eholdings-details-view-back-button>
+              <IconButton icon="left-arrow" onClick={() => router.history.goBack()} />
+            </div>
           )}
-          paneTitle={(
-            <span data-test-eholdings-details-view-pane-title>{paneTitle}</span>
-          )}
-          paneSub={(
-            <span data-test-eholdings-details-view-pane-sub>{paneSub}</span>
-          )}
-          actionMenuItems={actionMenuItems}
-          lastMenu={lastMenu}
-        />
+        </div>
 
         <div
           ref={(n) => { this.$container = n; }}
@@ -208,17 +215,31 @@ export default class DetailsView extends Component {
           data-test-eholdings-detail-pane-contents
         >
           {model.isLoaded ? [
-            <div key="header" className={styles.header}>
-              <h2 data-test-eholdings-details-view-name={type}>
-                {paneTitle}
-              </h2>
-              {paneSub &&
-                <p>{paneSub}</p>
-              }
-            </div>,
-
-            <div key="body" className={styles.body}>
-              {bodyContent}
+            <div key="paneContents">
+              <div
+                ref={(n) => { this.$header = n; }}
+                key="header"
+                className={cx(styles.header, {
+                  'is-scrolled-past': this.state.isScrolledPastHeader
+                })}
+              >
+                <div key="headerInner" className={styles['header-inner']}>
+                  {paneTitle &&
+                    <h2 key="paneTitle" data-test-eholdings-details-view-name={type}>{paneTitle}</h2>
+                  }
+                  {paneSub &&
+                    <p key="paneSub" data-test-eholdings-details-view-pane-sub>{paneSub}</p>
+                  }
+                </div>
+              </div>
+              <div
+                ref={(n) => { this.$body = n; }}
+                key="body"
+                className={styles.body}
+                style={{ paddingTop: this.state.bodyTopPadding }}
+              >
+                {bodyContent}
+              </div>
             </div>
           ] : model.request.isRejected ? (
             <p data-test-eholdings-details-view-error={type}>
