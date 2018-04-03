@@ -82,6 +82,7 @@ describeApplication('CustomerResourceEdit', () => {
                 fringilla vel, aliquet nec, vulputate e`)
               .append(ResourceEditPage.dateRangeRowList(0).fillDates('12/18/2018', '12/16/2018'))
               .inputEmbargoValue('')
+              .blurEmbargoValue()
               .selectEmbargoUnit('Weeks')
               .clickSave();
           });
@@ -204,6 +205,7 @@ describeApplication('CustomerResourceEdit', () => {
             fringilla vel, aliquet nec, vulputate e`)
           .append(ResourceEditPage.dateRangeRowList(0).fillDates('12/18/2018', '12/16/2018'))
           .inputEmbargoValue('')
+          .blurEmbargoValue()
           .selectEmbargoUnit('Weeks')
           .clickSave();
       });
