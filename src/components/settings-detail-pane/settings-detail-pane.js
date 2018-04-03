@@ -22,12 +22,11 @@ export default class SettingsDetailPane extends Component {
         defaultWidth="fill"
         paneTitle={paneTitle}
         firstMenu={(
-          <div className={styles['settings-detail-pane-back-button']}>
-            <IconButton
-              icon="left-arrow"
-              href="/settings/eholdings"
-            />
-          </div>
+          <IconButton
+            icon="left-arrow"
+            href="/settings/eholdings"
+            className={styles['settings-detail-pane-back-button']}
+          />
         )}
       >
         {children}
