@@ -23,7 +23,6 @@ import { hasClassBeginningWith } from './helpers';
   customerIdFieldIsInvalid = hasClassBeginningWith('has-error--', '[data-test-eholdings-settings-customerid]');
   apiKeyFieldIsInvalid = hasClassBeginningWith('has-error--', '[data-test-eholdings-settings-apikey]');
   errorText = text('[data-test-eholdings-settings-error]');
-  description = text('[data-test-eholdings-settings-description]');
   save = clickable('[data-test-eholdings-settings-actions] [type="submit"]');
   saveButtonDisabled = property('disabled', '[data-test-eholdings-settings-actions] [type="submit"]');
   cancel = clickable('[data-test-eholdings-settings-actions] [type="reset"]');

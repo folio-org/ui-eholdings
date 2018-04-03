@@ -1,19 +1,6 @@
 @import '@folio/stripes-components/lib/variables';
 
-.eholdings-settings {
-  padding: 0 2em;
-  width: 100%;
-
-  & h2 {
-    margin: 0.83em 0;
-  }
-
-  & form {
-    max-width: 40em;
-  }
-}
-
-.eholdings-settings-form-actions {
+.settings-kb-form-actions {
   @media (--mediumUp) {
     display: flex;
     flex-direction: row-reverse;
@@ -47,7 +34,7 @@
   }
 }
 
-.eholdings-settings-field {
+.settings-kb-field {
   margin-bottom: var(--controlMarginBottom);
 
   & label {
@@ -79,14 +66,14 @@
   }
 }
 
-.eholdings-settings-save-error {
+.settings-kb-save-error {
   display: flex;
   align-items: center;
   flex-grow: 1;
   color: var(--error);
 }
 
-.eholdings-settings-back-button {
+.settings-kb-back-button {
   @media (--mediumUp) {
     display: none;
   }

@@ -1,17 +1,14 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames/bind';
-import {
-  IconButton,
-  Pane
-} from '@folio/stripes-components';
+import { Icon } from '@folio/stripes-components';
+import SettingsDetailPane from '../settings-detail-pane';
 
-
-import styles from './settings.css';
+import styles from './settings-knowledge-base.css';
 
 const cx = classNames.bind(styles);
 
-export default class Settings extends Component {
+export default class SettingsKnowledgeBase extends Component {
   static propTypes = {
     settings: PropTypes.object.isRequired,
     onSubmit: PropTypes.func.isRequired
@@ -31,8 +28,9 @@ export default class Settings extends Component {
 
     let isDirty = customerId !== next.customerId || apiKey !== next.apiKey;
     let hasUpdated = old.update.isPending && next.update.isResolved;
+    let hasFinishedLoading = old.isLoading && next.isLoaded;
 
-    if (hasUpdated && isDirty) {
+    if (hasFinishedLoading || (hasUpdated && isDirty)) {
       this.setState({
         customerId: next.customerId,
         apiKey: next.apiKey
@@ -99,26 +97,23 @@ export default class Settings extends Component {
     let isValid = customerId && apiKey;
 
     return (
-      <Pane
-        defaultWidth="fill"
-        paneTitle="eHoldings"
-        firstMenu={(
-          <div className={styles['eholdings-settings-back-button']}>
-            <IconButton
-              icon="left-arrow"
-              href="/settings"
-            />
-          </div>
-        )}
+      <SettingsDetailPane
+        paneTitle="Knowledge base"
       >
-        <div
-          className={styles['eholdings-settings']}
-          data-test-eholdings-settings
+        <h4
+          className={styles['setttings-kb-headline']}
         >
-          <h2 data-test-eholdings-settings-description>
-            EBSCO Knowledge Base
-          </h2>
-          <form onSubmit={this.handleSubmit}>
+          EBSCO RM API credentials
+        </h4>
+
+        {settings.isLoading ? (
+          <Icon icon="spinner-ellipsis" />
+        ) : (
+          <form
+            onSubmit={this.handleSubmit}
+            data-test-eholdings-settings
+            className={styles['settings-kb-form']}
+          >
             {settings.request.isRejected && (
               <p data-test-eholdings-settings-error>
                 {settings.request.errors[0].title}
@@ -127,13 +122,13 @@ export default class Settings extends Component {
 
             <div
               data-test-eholdings-settings-customerid
-              className={cx(styles['eholdings-settings-field'], {
+              className={cx(styles['settings-kb-field'], {
                 'has-error': invalidCustomerId
               })}
             >
-              <label htmlFor="eholdings-settings-customerid">Customer ID</label>
+              <label htmlFor="eholdings-settings-kb-customerid">Customer ID</label>
               <input
-                id="eholdings-settings-customerid"
+                id="eholdings-settings-kb-customerid"
                 type="text"
                 autoComplete="off"
                 value={customerId}
@@ -144,13 +139,13 @@ export default class Settings extends Component {
 
             <div
               data-test-eholdings-settings-apikey
-              className={cx(styles['eholdings-settings-field'], {
+              className={cx(styles['settings-kb-field'], {
                 'has-error': invalidApiKey
               })}
             >
-              <label htmlFor="eholdings-settings-apikey">API key</label>
+              <label htmlFor="eholdings-settings-kb-apikey">API key</label>
               <input
-                id="eholdings-settings-apikey"
+                id="eholdings-settings-kb-apikey"
                 type="password"
                 autoComplete="off"
                 value={apiKey}
@@ -160,20 +155,20 @@ export default class Settings extends Component {
             </div>
 
             {(isFresh || isDirty) && (
-              <div className={styles['eholdings-settings-form-actions']} data-test-eholdings-settings-actions>
+              <div className={styles['settings-kb-form-actions']} data-test-eholdings-settings-actions>
                 <button type="submit" disabled={!isValid || settings.isSaving}>Save</button>
                 <button type="reset" onClick={this.handleClear}>Cancel</button>
 
                 {settings.update.isRejected && (
-                  <div className={styles['eholdings-settings-save-error']} data-test-eholdings-settings-error>
+                  <div className={styles['settings-kb-save-error']} data-test-eholdings-settings-error>
                     {settings.update.errors[0].title}
                   </div>
                 )}
               </div>
             )}
           </form>
-        </div>
-      </Pane>
+        )}
+      </SettingsDetailPane>
     );
   }
 }
