@@ -154,6 +154,14 @@ export default class DetailsView extends Component {
     }
   };
 
+  handleListSearch = (params) => {
+    this.setState({ showSearchModal: false }, () => {
+      if (this.props.onSearch) {
+        this.props.onSearch(params);
+      };
+    });
+  }
+
   render() {
     let {
       type,
@@ -279,7 +287,7 @@ export default class DetailsView extends Component {
           >
             <SearchForm
               searchType={listType}
-              onSearch={onSearch}
+              onSearch={this.handleListSearch}
               displaySearchTypeSwitcher={false}
             />
           </Modal>

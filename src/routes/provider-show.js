@@ -47,8 +47,6 @@ class ProviderShowRoute extends Component {
     let { pkgSearchParams } = this.state;
     let { providerId } = match.params;
 
-    console.log(pkgSearchParams);
-
     return resolver.query('packages', pkgSearchParams, {
       path: `${Provider.pathFor(providerId)}/packages`
     });
