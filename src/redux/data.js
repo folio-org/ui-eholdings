@@ -5,6 +5,7 @@ import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/catch';
 
 import { qs } from '../components/utilities';
+import { mergeRelationships } from './helpers';
 
 // actions
 export const actionTypes = {
@@ -364,27 +365,6 @@ const handlers = {
         }
       }
     }));
-
-    // helper function to merge relationship data without losing
-    // information.  if a record has `data` populated in its
-    // `relationships` key, we want to persist that even if
-    // a more recent request resolves without that relationship data
-    // included.
-    let mergeRelationships = (existing, incoming) => {
-      if (!incoming) { return existing; }
-
-      let mergedRelationships = {};
-
-      for (let recordType in incoming) {
-        if (incoming[recordType] && incoming[recordType].data) {
-          mergedRelationships[recordType] = incoming[recordType];
-        } else {
-          mergedRelationships[recordType] = existing[recordType] || {};
-        }
-      }
-
-      return mergedRelationships;
-    };
 
     // then we reduce each record in the set of records
     next = records.reduce((next, record) => { // eslint-disable-line no-shadow
