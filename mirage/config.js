@@ -189,6 +189,8 @@ export default function configure() {
     return matchingPackage;
   });
 
+  this.post('/packages');
+
   // Title resources
   this.get('/titles', searchRouteFor('titles', (title, req) => {
     let params = req.queryParams;
