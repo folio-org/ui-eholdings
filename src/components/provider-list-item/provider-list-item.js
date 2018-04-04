@@ -7,7 +7,7 @@ import Link from '../link';
 
 const cx = classNames.bind(styles);
 
-export default function ProviderListItem({ item, link, active }, { intl }) {
+export default function ProviderListItem({ item, link, active, onClick }, { intl }) {
   return !item ? (
     <div className={styles.skeleton} />
   ) : (
@@ -17,6 +17,12 @@ export default function ProviderListItem({ item, link, active }, { intl }) {
       className={cx('item', {
         'is-selected': active
       })}
+      onClick={(e) => {
+        if (onClick) {
+          e.preventDefault();
+          onClick();
+        }
+      }}
     >
       <h5 data-test-eholdings-provider-list-item-name>
         {item.name}
@@ -48,6 +54,7 @@ ProviderListItem.propTypes = {
     PropTypes.object
   ]),
   active: PropTypes.bool,
+  onClick: PropTypes.func
 };
 
 ProviderListItem.contextTypes = {

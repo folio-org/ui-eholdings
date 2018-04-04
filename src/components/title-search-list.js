@@ -28,10 +28,14 @@ export default function TitleSearchList({
           showPublisherAndType
           item={item.content}
           link={item.content && {
-            pathname: `/eholdings/titles/${item.content.id}`,
-            search: location.search
+            pathname: `/eholdings/titles/${item.content.id}`
           }}
           active={item.content && isTitlePage && routeParams.id === item.content.id}
+          onClick={() => {
+            router.history.push(
+              `/eholdings/titles/${item.content.id}${location.search}`
+            );
+          }}
         />
       )}
     />
