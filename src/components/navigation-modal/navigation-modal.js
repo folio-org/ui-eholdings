@@ -2,9 +2,9 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
 import {
-  Button,
-  Modal
+  Button
 } from '@folio/stripes-components';
+import Modal from '../modal';
 import styles from './navigation-modal.css';
 
 export default class NavigationModal extends Component {
@@ -20,8 +20,8 @@ export default class NavigationModal extends Component {
   };
 
   static defaultProps = {
-    modalLabel: 'There are unsaved changes',
-    continueLabel: 'Close without saving',
+    modalLabel: 'Confirm navigation',
+    continueLabel: 'Continue without saving',
     dismissLabel: 'Keep editing'
   };
 
@@ -109,9 +109,7 @@ export default class NavigationModal extends Component {
           open={showModal}
           label={modalLabel}
           onClose={this.dismiss}
-          dismissible
-        >
-          {children || (
+          footer={(
             <div className={styles['navigation-modal-buttons']}>
               <Button
                 fullWidth
@@ -131,6 +129,8 @@ export default class NavigationModal extends Component {
               </Button>
             </div>
           )}
+        >
+          Your changes have not been saved. Are you sure you want to leave this page?
         </Modal>
       );
     } else {
