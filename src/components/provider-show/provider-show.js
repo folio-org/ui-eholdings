@@ -2,19 +2,34 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { KeyValue } from '@folio/stripes-components';
 
-import { processErrors } from './utilities';
-import DetailsView from './details-view';
-import QueryList from './query-list';
-import PackageListItem from './package-list-item';
-import DetailsViewSection from './details-view-section';
-import Toaster from './toaster';
+import { processErrors } from '../utilities';
+import DetailsView from '../details-view';
+import QueryList from '../query-list';
+import PackageListItem from '../package-list-item';
+import DetailsViewSection from '../details-view-section';
+import Toaster from '../toaster';
+import styles from './provider-show.css';
 
 export default function ProviderShow({
   model,
   fetchPackages
 }, {
-  intl
+  intl,
+  queryParams
 }) {
+  let actionMenuItems = [];
+
+  if (queryParams.searchType) {
+    actionMenuItems.push({
+      label: 'Full view',
+      to: {
+        pathname: `/eholdings/providers/${model.id}`,
+        state: { eholdings: true }
+      },
+      className: styles['full-view-link']
+    });
+  }
+
   return (
     <div>
       <Toaster toasts={processErrors(model)} position="bottom" />
@@ -23,6 +38,7 @@ export default function ProviderShow({
         type="provider"
         model={model}
         paneTitle={model.name}
+        actionMenuItems={actionMenuItems}
         bodyContent={(
           <DetailsViewSection label="Provider information">
             <KeyValue label="Packages selected">

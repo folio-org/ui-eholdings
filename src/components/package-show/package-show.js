@@ -8,18 +8,20 @@ import {
   KeyValue,
   PaneMenu
 } from '@folio/stripes-components';
-import { processErrors } from './utilities';
+import { processErrors } from '../utilities';
 
-import DetailsView from './details-view';
-import QueryList from './query-list';
-import Link from './link';
-import TitleListItem from './title-list-item';
-import ToggleSwitch from './toggle-switch';
-import Modal from './modal';
-import PackageCustomCoverage from './package-custom-coverage';
-import NavigationModal from './navigation-modal';
-import DetailsViewSection from './details-view-section';
-import Toaster from './toaster';
+import DetailsView from '../details-view';
+import QueryList from '../query-list';
+import Link from '../link';
+import TitleListItem from '../title-list-item';
+import ToggleSwitch from '../toggle-switch';
+import Modal from '../modal';
+import PackageCustomCoverage from '../package-custom-coverage';
+import NavigationModal from '../navigation-modal';
+import DetailsViewSection from '../details-view-section';
+import Toaster from '../toaster';
+
+import styles from './package-show.css';
 
 export default class PackageShow extends Component {
   static propTypes = {
@@ -83,7 +85,7 @@ export default class PackageShow extends Component {
 
   render() {
     let { model, fetchPackageTitles, customCoverageSubmitted } = this.props;
-    let { intl, router } = this.context;
+    let { intl, router, queryParams } = this.context;
     let {
       showSelectionModal,
       packageSelected,
@@ -97,6 +99,27 @@ export default class PackageShow extends Component {
       endCoverage: model.customCoverage.endCoverage
     }];
 
+    let actionMenuItems = [
+      {
+        label: 'Edit',
+        to: {
+          pathname: `/eholdings/packages/${model.id}/edit`,
+          state: { eholdings: true }
+        }
+      }
+    ];
+
+    if (queryParams.searchType) {
+      actionMenuItems.push({
+        label: 'Full view',
+        to: {
+          pathname: `/eholdings/packages/${model.id}`,
+          state: { eholdings: true }
+        },
+        className: styles['full-view-link']
+      });
+    }
+
     return (
       <div>
         <Toaster toasts={processErrors(model)} position="bottom" />
@@ -104,6 +127,7 @@ export default class PackageShow extends Component {
           type="package"
           model={model}
           paneTitle={model.name}
+          actionMenuItems={actionMenuItems}
           lastMenu={(
             <PaneMenu>
               <IconButton

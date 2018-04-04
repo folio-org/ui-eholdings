@@ -62,12 +62,23 @@ class CustomerResourceEdit extends Component {
       change
     } = this.props;
 
+    let actionMenuItems = [
+      {
+        label: 'Cancel editing',
+        to: {
+          pathname: `/eholdings/customer-resources/${model.id}`,
+          state: { eholdings: true }
+        }
+      }
+    ];
+
     return (
       <DetailsView
         type="resource"
         model={model}
         paneTitle={model.name}
         paneSub={model.packageName}
+        actionMenuItems={actionMenuItems}
         bodyContent={(
           <form onSubmit={handleSubmit(onSubmit)}>
             <DetailsViewSection
