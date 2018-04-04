@@ -27,10 +27,14 @@ export default function ProviderSearchList({
         <ProviderListItem
           item={item.content}
           link={item.content && {
-            pathname: `/eholdings/providers/${item.content.id}`,
-            search: location.search
+            pathname: `/eholdings/providers/${item.content.id}`
           }}
           active={item.content && isProviderPage && routeParams.id === item.content.id}
+          onClick={() => {
+            router.history.push(
+              `/eholdings/providers/${item.content.id}${location.search}`
+            );
+          }}
         />
       )}
     />

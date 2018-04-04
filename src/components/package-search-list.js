@@ -28,10 +28,14 @@ export default function PackageSearchList({
           showProviderName
           item={item.content}
           link={item.content && {
-            pathname: `/eholdings/packages/${item.content.id}`,
-            search: location.search
+            pathname: `/eholdings/packages/${item.content.id}`
           }}
           active={item.content && isPackagePage && routeParams.id === item.content.id}
+          onClick={() => {
+            router.history.push(
+              `/eholdings/packages/${item.content.id}${location.search}`
+            );
+          }}
         />
       )}
     />

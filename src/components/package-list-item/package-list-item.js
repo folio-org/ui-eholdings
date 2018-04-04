@@ -13,7 +13,8 @@ export default function PackageListItem({
   active,
   showTitleCount,
   showProviderName,
-  packageName
+  packageName,
+  onClick
 }, {
   intl
 }) {
@@ -31,6 +32,12 @@ export default function PackageListItem({
       className={cx('item', {
         'is-selected': active
       })}
+      onClick={(e) => {
+        if (onClick) {
+          e.preventDefault();
+          onClick();
+        }
+      }}
     >
       <h5 data-test-eholdings-package-list-item-name>
         {packageName || item.name}
@@ -88,7 +95,8 @@ PackageListItem.propTypes = {
   active: PropTypes.bool,
   showTitleCount: PropTypes.bool,
   showProviderName: PropTypes.bool,
-  packageName: PropTypes.string
+  packageName: PropTypes.string,
+  onClick: PropTypes.func
 };
 
 PackageListItem.contextTypes = {

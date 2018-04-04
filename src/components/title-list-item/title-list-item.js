@@ -12,7 +12,8 @@ export default function TitleListItem({
   link,
   active,
   showSelected,
-  showPublisherAndType
+  showPublisherAndType,
+  onClick
 }) {
   return !item ? (
     <div
@@ -28,6 +29,12 @@ export default function TitleListItem({
       className={cx('item', {
         'is-selected': active
       })}
+      onClick={(e) => {
+        if (onClick) {
+          e.preventDefault();
+          onClick();
+        }
+      }}
     >
       <h5 data-test-eholdings-title-list-item-title-name>
         {item.name}
@@ -75,5 +82,6 @@ TitleListItem.propTypes = {
   ]),
   active: PropTypes.bool,
   showSelected: PropTypes.bool,
-  showPublisherAndType: PropTypes.bool
+  showPublisherAndType: PropTypes.bool,
+  onClick: PropTypes.func
 };
