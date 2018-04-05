@@ -32,8 +32,12 @@ class SettingsKnowledgeBaseRoute extends Component {
 
     return (
       <View
-        settings={config}
+        model={config}
         onSubmit={this.updateConfig}
+        initialValues={{
+          customerId: config.customerId,
+          apiKey: config.apiKey
+        }}
       />
     );
   }

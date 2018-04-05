@@ -52,7 +52,7 @@ describeApplication('With unconfigured backend', {
       });
     });
 
-    describe('when visiting settings', () => {
+    describe('when visiting the KB auth form', () => {
       beforeEach(function () {
         return this.visit('/settings/eholdings/knowledge-base', () => expect(SettingsPage.$root).to.exist);
       });
@@ -99,7 +99,7 @@ describeApplication('With unconfigured backend', {
 });
 
 describeApplication('With valid backend configuration', () => {
-  describe('when visiting settings', () => {
+  describe('when visiting the KB auth form', () => {
     beforeEach(function () {
       return this.visit('/settings/eholdings/knowledge-base', () => expect(SettingsPage.$root).to.exist);
     });
@@ -137,7 +137,7 @@ describeApplication('With valid backend configuration', () => {
       });
 
       it('reports the error to the interface', () => {
-        expect(SettingsPage.errorText).to.equal('RM-API credentials are invalid');
+        expect(SettingsPage.toast.errorText).to.equal('RM-API credentials are invalid');
       });
     });
 
@@ -192,7 +192,7 @@ describeApplication('With valid backend configuration', () => {
         });
 
         it('shows an error message', () => {
-          expect(SettingsPage.errorText).to.equal('an error has occurred');
+          expect(SettingsPage.toast.errorText).to.equal('an error has occurred');
         });
       });
 

@@ -1,80 +1,16 @@
 @import '@folio/stripes-components/lib/variables';
 
+.settings-kb-form {
+  max-width: 50em;
+}
+
 .settings-kb-form-actions {
-  @media (--mediumUp) {
-    display: flex;
-    flex-direction: row-reverse;
-  }
+  align-items: flex-start;
+  border-top: 1px solid var(--minor-divider-color);
+  display: flex;
+  padding-top: 1em;
 
   & button {
-    background: #fff;
-    border: 1px solid var(--primary);
-    border-radius: 0.4em;
-    color: var(--primary);
-    margin: 0.5em 0;
-    padding: 0.57em;
-    text-align: center;
-    text-decoration: none;
-    user-select: none;
-    vertical-align: middle;
-    white-space: nowrap;
-    width: 100%;
-
-    @media (--mediumUp) {
-      display: inline-block;
-      margin: 0.5em;
-      padding: 0.36em 0.57em;
-      width: auto;
-    }
-  }
-
-  & button[type=submit] {
-    background: var(--primary);
-    color: #fff;
-  }
-}
-
-.settings-kb-field {
-  margin-bottom: var(--controlMarginBottom);
-
-  & label {
-    display: block;
-    font-size: 0.8em;
-    font-weight: bold;
-    margin-bottom: 4px;
-    text-transform: Uppercase;
-    color: var(--labelColor);
-  }
-
-  & input {
-    height: var(--controlHeight);
-    min-height: var(--controlHeight);
-    margin-bottom: var(--controlMarginBottom);
-    padding: 4px;
-    border: 1px solid var(--inputBorderColor);
-    width: 100%;
-  }
-
-  &.has-error {
-    & label {
-      color: #900;
-    }
-
-    & input {
-      border-color: #900;
-    }
-  }
-}
-
-.settings-kb-save-error {
-  display: flex;
-  align-items: center;
-  flex-grow: 1;
-  color: var(--error);
-}
-
-.settings-kb-back-button {
-  @media (--mediumUp) {
-    display: none;
+    margin-right: 0.25em;
   }
 }
