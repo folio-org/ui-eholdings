@@ -9,12 +9,14 @@
       background-color: #555;
     }
 
-    & h5 {
+    & h3,
+    & h4 {
       color: #fff;
     }
   }
 
-  & h5,
+  & h3,
+  & h4,
   & div {
     overflow: hidden;
     white-space: nowrap;

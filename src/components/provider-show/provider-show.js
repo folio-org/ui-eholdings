@@ -68,6 +68,7 @@ export default function ProviderShow({
                 link={item.content && `/eholdings/packages/${item.content.id}`}
                 item={item.content}
                 showTitleCount
+                headingLevel='h4'
               />
             )}
           />

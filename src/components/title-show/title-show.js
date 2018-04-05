@@ -77,6 +77,7 @@ export default function TitleShow({ model }, { queryParams }) {
                 link={`/eholdings/customer-resources/${item.id}`}
                 packageName={item.packageName}
                 item={item}
+                headingLevel='h4'
               />
             )}
           </ScrollView>
