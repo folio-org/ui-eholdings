@@ -7,7 +7,9 @@ import Link from '../link';
 
 const cx = classNames.bind(styles);
 
-export default function ProviderListItem({ item, link, active, onClick }, { intl }) {
+export default function ProviderListItem({ item, link, active, onClick, headingLevel }, { intl }) {
+  let Heading = headingLevel || 'h3';
+
   return !item ? (
     <div className={styles.skeleton} />
   ) : (
@@ -24,9 +26,9 @@ export default function ProviderListItem({ item, link, active, onClick }, { intl
         }
       }}
     >
-      <h5 data-test-eholdings-provider-list-item-name>
+      <Heading data-test-eholdings-provider-list-item-name>
         {item.name}
-      </h5>
+      </Heading>
 
       <div data-test-eholdings-provider-list-item-selections>
         <span data-test-eholdings-provider-list-item-num-packages-selected>
@@ -54,7 +56,8 @@ ProviderListItem.propTypes = {
     PropTypes.object
   ]),
   active: PropTypes.bool,
-  onClick: PropTypes.func
+  onClick: PropTypes.func,
+  headingLevel: PropTypes.string
 };
 
 ProviderListItem.contextTypes = {

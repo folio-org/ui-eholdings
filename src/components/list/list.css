@@ -22,8 +22,10 @@
         background-color: #efefef;
       }
 
-      & h5 {
+      & h3,
+      & h4 {
         color: #555;
+        font-size: 1.1rem;
         font-weight: 600;
         margin: 0 0 0.5em;
       }

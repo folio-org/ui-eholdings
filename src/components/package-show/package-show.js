@@ -283,6 +283,7 @@ export default class PackageShow extends Component {
                   item={item.content}
                   link={item.content && `/eholdings/customer-resources/${item.content.id}`}
                   showSelected
+                  headingLevel='h4'
                 />
               )}
             />

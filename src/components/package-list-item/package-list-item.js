@@ -14,10 +14,13 @@ export default function PackageListItem({
   showTitleCount,
   showProviderName,
   packageName,
-  onClick
+  onClick,
+  headingLevel
 }, {
   intl
 }) {
+  let Heading = headingLevel || 'h3';
+
   return !item ? (
     <div
       className={cx('skeleton', {
@@ -39,9 +42,9 @@ export default function PackageListItem({
         }
       }}
     >
-      <h5 data-test-eholdings-package-list-item-name>
+      <Heading data-test-eholdings-package-list-item-name>
         {packageName || item.name}
-      </h5>
+      </Heading>
 
       {showProviderName && (
         <div data-test-eholdings-package-list-item-provider-name>
@@ -96,7 +99,8 @@ PackageListItem.propTypes = {
   showTitleCount: PropTypes.bool,
   showProviderName: PropTypes.bool,
   packageName: PropTypes.string,
-  onClick: PropTypes.func
+  onClick: PropTypes.func,
+  headingLevel: PropTypes.string
 };
 
 PackageListItem.contextTypes = {

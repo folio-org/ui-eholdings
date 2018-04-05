@@ -13,8 +13,11 @@ export default function TitleListItem({
   active,
   showSelected,
   showPublisherAndType,
-  onClick
+  onClick,
+  headingLevel
 }) {
+  let Heading = headingLevel || 'h3';
+
   return !item ? (
     <div
       className={cx('skeleton', {
@@ -36,9 +39,9 @@ export default function TitleListItem({
         }
       }}
     >
-      <h5 data-test-eholdings-title-list-item-title-name>
+      <Heading data-test-eholdings-title-list-item-title-name>
         {item.name}
-      </h5>
+      </Heading>
 
       {showPublisherAndType && (
         <div>
@@ -83,5 +86,6 @@ TitleListItem.propTypes = {
   active: PropTypes.bool,
   showSelected: PropTypes.bool,
   showPublisherAndType: PropTypes.bool,
-  onClick: PropTypes.func
+  onClick: PropTypes.func,
+  headingLevel: PropTypes.string
 };
