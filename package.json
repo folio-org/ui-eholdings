@@ -46,6 +46,7 @@
   },
   "dependencies": {
     "classnames": "^2.2.5",
+    "funcadelic": "^0.4.0",
     "impagination": "^1.0.0-alpha.3",
     "inflected": "^2.0.3",
     "isomorphic-fetch": "^2.2.1",
