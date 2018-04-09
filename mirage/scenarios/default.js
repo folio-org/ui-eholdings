@@ -10,6 +10,15 @@ export default function defaultScenario(server) {
     });
   }
 
+  createProvider('Atlanta A&T Library', [
+    {
+      name: 'Atlanta A&T Drumming Books',
+      contentType: 'AggregatedFullText',
+      titleCount: 3,
+      isCustom: true
+    },
+  ]);
+
   createProvider('Economist Intelligence Unit', [
     {
       name: 'Business Briefings',

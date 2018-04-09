@@ -3,16 +3,20 @@ import PropTypes from 'prop-types';
 import { reduxForm } from 'redux-form';
 import isEqual from 'lodash/isEqual';
 
-import Button from '@folio/stripes-components/lib/Button';
-import Icon from '@folio/stripes-components/lib/Icon';
+import {
+  Button,
+  Icon,
+} from '@folio/stripes-components';
+import { processErrors } from '../utilities';
 
 import DetailsView from '../details-view';
 import PackageCoverageFields, { validate as validateCoverageDates } from '../package-coverage-fields';
 import DetailsViewSection from '../details-view-section';
 import NavigationModal from '../navigation-modal';
-import styles from './package-edit.css';
+import Toaster from '../toaster';
+import styles from './managed-package-edit.css';
 
-class PackageEdit extends Component {
+class ManagedPackageEdit extends Component {
   static propTypes = {
     model: PropTypes.object.isRequired,
     initialValues: PropTypes.object.isRequired,
@@ -71,55 +75,58 @@ class PackageEdit extends Component {
 
     if (queryParams) {
       actionMenuItems.push({
-        label: 'Maximize',
+        label: 'Full view',
         to: `/eholdings/packages/${model.id}/edit`
       });
     }
 
     return (
-      <DetailsView
-        type="package"
-        model={model}
-        paneTitle={model.name}
-        actionMenuItems={actionMenuItems}
-        bodyContent={(
-          <form onSubmit={handleSubmit(onSubmit)}>
-            <DetailsViewSection
-              label="Coverage dates"
-            >
-              <PackageCoverageFields />
-            </DetailsViewSection>
-            <div className={styles['package-edit-action-buttons']}>
-              <div
-                data-test-eholdings-package-cancel-button
+      <div>
+        <Toaster toasts={processErrors(model)} position="bottom" />
+        <DetailsView
+          type="package"
+          model={model}
+          paneTitle={model.name}
+          actionMenuItems={actionMenuItems}
+          bodyContent={(
+            <form onSubmit={handleSubmit(onSubmit)}>
+              <DetailsViewSection
+                label="Coverage dates"
               >
-                <Button
-                  disabled={model.update.isPending}
-                  type="button"
-                  onClick={this.handleCancel}
+                <PackageCoverageFields />
+              </DetailsViewSection>
+              <div className={styles['package-edit-action-buttons']}>
+                <div
+                  data-test-eholdings-package-cancel-button
                 >
-                  Cancel
-                </Button>
-              </div>
-              <div
-                data-test-eholdings-package-save-button
-              >
-                <Button
-                  disabled={pristine || model.update.isPending}
-                  type="submit"
-                  buttonStyle="primary"
+                  <Button
+                    disabled={model.update.isPending}
+                    type="button"
+                    onClick={this.handleCancel}
+                  >
+                    Cancel
+                  </Button>
+                </div>
+                <div
+                  data-test-eholdings-package-save-button
                 >
-                  {model.update.isPending ? 'Saving' : 'Save'}
-                </Button>
+                  <Button
+                    disabled={pristine || model.update.isPending}
+                    type="submit"
+                    buttonStyle="primary"
+                  >
+                    {model.update.isPending ? 'Saving' : 'Save'}
+                  </Button>
+                </div>
+                {model.update.isPending && (
+                  <Icon icon="spinner-ellipsis" />
+                )}
               </div>
-              {model.update.isPending && (
-                <Icon icon="spinner-ellipsis" />
-              )}
-            </div>
-            <NavigationModal when={!pristine && !model.update.isPending} />
-          </form>
-        )}
-      />
+              <NavigationModal when={!pristine && !model.update.isPending} />
+            </form>
+          )}
+        />
+      </div>
     );
   }
 }
@@ -131,6 +138,6 @@ const validate = (values, props) => {
 export default reduxForm({
   validate,
   enableReinitialize: true,
-  form: 'PackageEdit',
+  form: 'ManagedPackageEdit',
   destroyOnUnmount: false,
-})(PackageEdit);
+})(ManagedPackageEdit);

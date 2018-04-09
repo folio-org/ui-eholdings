@@ -7,7 +7,8 @@ import { createResolver } from '../redux';
 import Package from '../redux/package';
 import CustomerResource from '../redux/customer-resource';
 
-import View from '../components/package-edit';
+import ManagedPackageEdit from '../components/managed-package-edit';
+import CustomPackageEdit from '../components/custom-package-edit';
 
 class PackageEditRoute extends Component {
   static propTypes = {
@@ -55,20 +56,43 @@ class PackageEditRoute extends Component {
       beginCoverage,
       endCoverage
     };
+
+    if ('name' in values) {
+      model.name = values.name;
+    }
+
     updatePackage(model);
   };
 
   render() {
+    let { model } = this.props;
+    let initialValues = {};
+    let View;
+
+    if (model.isCustom) {
+      View = CustomPackageEdit;
+      initialValues = {
+        name: model.name,
+        customCoverages: [{
+          beginCoverage: model.customCoverage.beginCoverage,
+          endCoverage: model.customCoverage.endCoverage
+        }]
+      };
+    } else {
+      View = ManagedPackageEdit;
+      initialValues = {
+        customCoverages: [{
+          beginCoverage: model.customCoverage.beginCoverage,
+          endCoverage: model.customCoverage.endCoverage
+        }]
+      };
+    }
+
     return (
       <View
-        model={this.props.model}
+        model={model}
         onSubmit={this.packageEditSubmitted}
-        initialValues={{
-          customCoverages: [{
-            beginCoverage: this.props.model.customCoverage.beginCoverage,
-            endCoverage: this.props.model.customCoverage.endCoverage
-          }]
-        }}
+        initialValues={initialValues}
       />
     );
   }

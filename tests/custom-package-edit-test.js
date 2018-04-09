@@ -5,7 +5,7 @@ import { describeApplication } from './helpers';
 import PackageShowPage from './pages/package-show';
 import PackageEditPage from './pages/package-edit';
 
-describeApplication('PackageEdit', () => {
+describeApplication('CustomPackageEdit', () => {
   let provider,
     providerPackage;
 
@@ -18,7 +18,8 @@ describeApplication('PackageEdit', () => {
       provider,
       name: 'Cool Package',
       contentType: 'E-Book',
-      isSelected: true
+      isSelected: true,
+      isCustom: true
     });
   });
 
@@ -129,8 +130,13 @@ describeApplication('PackageEdit', () => {
     describe('entering invalid data', () => {
       beforeEach(() => {
         return PackageEditPage.interaction
+          .name('')
           .append(PackageEditPage.dateRangeRowList(0).fillDates('12/18/2018', '12/16/2018'))
           .clickSave();
+      });
+
+      it('displays a validation error for the name', () => {
+        expect(PackageEditPage.nameHasError).to.be.true;
       });
 
       it('displays a validation error for coverage', () => {
@@ -140,7 +146,9 @@ describeApplication('PackageEdit', () => {
 
     describe('entering valid data', () => {
       beforeEach(() => {
-        return PackageEditPage.dateRangeRowList(0).fillDates('12/16/2018', '12/18/2018');
+        return PackageEditPage
+          .name('A Different Name')
+          .append(PackageEditPage.dateRangeRowList(0).fillDates('12/16/2018', '12/18/2018'));
       });
 
       describe('clicking cancel', () => {
@@ -161,11 +169,19 @@ describeApplication('PackageEdit', () => {
         it('goes to the package show page', () => {
           expect(PackageShowPage.$root).to.exist;
         });
+
+        it('reflects the new name', () => {
+          expect(PackageShowPage.name).to.equal('A Different Name');
+        });
+
+        it('reflects the new coverage dates', () => {
+          expect(PackageShowPage.customCoverage).to.equal('12/16/2018 - 12/18/2018');
+        });
       });
     });
   });
 
-  describe('encountering a server error', () => {
+  describe('encountering a server error when GETting', () => {
     beforeEach(function () {
       this.server.get('/packages/:id', {
         errors: [{
@@ -180,6 +196,33 @@ describeApplication('PackageEdit', () => {
 
     it('dies with dignity', () => {
       expect(PackageEditPage.hasErrors).to.be.true;
+    });
+  });
+
+  describe('encountering a server error when PUTting', () => {
+    beforeEach(function () {
+      this.server.put('/packages/:id', {
+        errors: [{
+          title: 'There was an error'
+        }]
+      }, 500);
+
+      return this.visit(`/eholdings/packages/${providerPackage.id}/edit`, () => {
+        expect(PackageEditPage.$root).to.exist;
+      });
+    });
+
+    describe('entering valid data and clicking save', () => {
+      beforeEach(() => {
+        return PackageEditPage.interaction
+          .name('A Different Name')
+          .append(PackageEditPage.dateRangeRowList(0).fillDates('12/16/2018', '12/18/2018'))
+          .clickSave();
+      });
+
+      it('pops up an error', () => {
+        expect(PackageEditPage.toast.errorText).to.equal('There was an error');
+      });
     });
   });
 });
