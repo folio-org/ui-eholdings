@@ -178,6 +178,7 @@ export default class PackageShow extends Component {
                     checked={packageSelected}
                     isPending={model.update.isPending && 'isSelected' in model.update.changedAttributes}
                     id="package-details-toggle-switch"
+                    disabled={model.isCustom}
                   />
                 </label>
               </DetailsViewSection>
