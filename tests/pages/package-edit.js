@@ -7,6 +7,7 @@ import {
   property
 } from '@bigtest/interaction';
 import { hasClassBeginningWith } from './helpers';
+import Toast from './toast';
 import Datepicker from './datepicker';
 
 @page class PackageEditNavigationModal {}
@@ -18,6 +19,8 @@ import Datepicker from './datepicker';
   clickSave = clickable('[data-test-eholdings-package-save-button] button');
   isSaveDisabled = property('disabled', '[data-test-eholdings-package-save-button] button');
   hasErrors = isPresent('[data-test-eholdings-details-view-error="package"]');
+
+  toast = Toast
 
   name = fillable('[data-test-eholdings-package-name-field] input');
   nameHasError = hasClassBeginningWith('feedbackError--', '[data-test-eholdings-package-name-field] input');

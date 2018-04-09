@@ -165,7 +165,7 @@ describeApplication('ManagedPackageEdit', () => {
     });
   });
 
-  describe('encountering a server error', () => {
+  describe('encountering a server error when GETting', () => {
     beforeEach(function () {
       this.server.get('/packages/:id', {
         errors: [{
@@ -180,6 +180,32 @@ describeApplication('ManagedPackageEdit', () => {
 
     it('dies with dignity', () => {
       expect(PackageEditPage.hasErrors).to.be.true;
+    });
+  });
+
+  describe('encountering a server error when PUTting', () => {
+    beforeEach(function () {
+      this.server.put('/packages/:id', {
+        errors: [{
+          title: 'There was an error'
+        }]
+      }, 500);
+
+      return this.visit(`/eholdings/packages/${providerPackage.id}/edit`, () => {
+        expect(PackageEditPage.$root).to.exist;
+      });
+    });
+
+    describe('entering valid data and clicking save', () => {
+      beforeEach(() => {
+        return PackageEditPage.interaction
+          .append(PackageEditPage.dateRangeRowList(0).fillDates('12/16/2018', '12/18/2018'))
+          .clickSave();
+      });
+
+      it('pops up an error', () => {
+        expect(PackageEditPage.toast.errorText).to.equal('There was an error');
+      });
     });
   });
 });
