@@ -208,7 +208,9 @@ describeApplication('PackageCustomCoverage', () => {
       describe('entering invalid coverage', () => {
         describe('with no begin date', () => {
           beforeEach(() => {
-            return PackageShowPage.beginDate.fillAndClear('12/16/2018');
+            return PackageShowPage
+              .fillDates('12/24/2018', '12/16/2018')
+              .append(PackageShowPage.beginDate.clearInput());
           });
 
           it('rejects invalid begin date', () => {

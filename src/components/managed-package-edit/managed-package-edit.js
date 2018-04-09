@@ -10,9 +10,9 @@ import DetailsView from '../details-view';
 import PackageCoverageFields, { validate as validateCoverageDates } from '../package-coverage-fields';
 import DetailsViewSection from '../details-view-section';
 import NavigationModal from '../navigation-modal';
-import styles from './package-edit.css';
+import styles from './managed-package-edit.css';
 
-class PackageEdit extends Component {
+class ManagedPackageEdit extends Component {
   static propTypes = {
     model: PropTypes.object.isRequired,
     initialValues: PropTypes.object.isRequired,
@@ -71,7 +71,7 @@ class PackageEdit extends Component {
 
     if (queryParams) {
       actionMenuItems.push({
-        label: 'Maximize',
+        label: 'Full view',
         to: `/eholdings/packages/${model.id}/edit`
       });
     }
@@ -131,6 +131,6 @@ const validate = (values, props) => {
 export default reduxForm({
   validate,
   enableReinitialize: true,
-  form: 'PackageEdit',
+  form: 'ManagedPackageEdit',
   destroyOnUnmount: false,
-})(PackageEdit);
+})(ManagedPackageEdit);

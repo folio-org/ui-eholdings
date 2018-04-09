@@ -17,6 +17,7 @@ export default Factory.extend({
     beginCoverage: '',
     endCoverage: ''
   },
+  isCustom: false,
 
   withTitles: trait({
     afterCreate(packageObj, server) {

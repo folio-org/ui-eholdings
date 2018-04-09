@@ -12,6 +12,7 @@ class Package {
   customCoverage = {};
   visibilityData = {};
   customerResources = hasMany();
+  isCustom = false;
 }
 
 export default model({

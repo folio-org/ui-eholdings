@@ -100,7 +100,11 @@ export function validate(values, props) {
   values.customCoverages.forEach((dateRange, index) => {
     let dateRangeErrors = {};
 
-    if (!dateRange.beginCoverage || !moment(dateRange.beginCoverage).isValid()) {
+    if (dateRange.beginCoverage && !moment(dateRange.beginCoverage).isValid()) {
+      dateRangeErrors.beginCoverage = `Enter date in ${dateFormat} format.`;
+    }
+
+    if (dateRange.endCoverage && !dateRange.beginCoverage) {
       dateRangeErrors.beginCoverage = `Enter date in ${dateFormat} format.`;
     }
 

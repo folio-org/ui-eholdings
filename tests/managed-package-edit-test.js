@@ -5,7 +5,7 @@ import { describeApplication } from './helpers';
 import PackageShowPage from './pages/package-show';
 import PackageEditPage from './pages/package-edit';
 
-describeApplication('PackageEdit', () => {
+describeApplication('ManagedPackageEdit', () => {
   let provider,
     providerPackage;
 
