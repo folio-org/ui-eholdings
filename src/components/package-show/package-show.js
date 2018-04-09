@@ -139,7 +139,7 @@ export default class PackageShow extends Component {
           )}
           bodyContent={(
             <div>
-              <DetailsViewSection label="Package information">
+              <DetailsViewSection label={model.isCustom ? 'Custom package information' : 'Managed package information'}>
                 <KeyValue label="Provider">
                   <div data-test-eholdings-package-details-provider>
                     <Link to={`/eholdings/providers/${model.providerId}`}>{model.providerName}</Link>
@@ -214,7 +214,7 @@ export default class PackageShow extends Component {
                 )}
               </DetailsViewSection>
               <DetailsViewSection label="Title management">
-                {packageSelected ? (
+                {packageSelected && !model.isCustom ? (
                   <div>
                     {packageAllowedToAddTitles != null ? (
                       <div>
