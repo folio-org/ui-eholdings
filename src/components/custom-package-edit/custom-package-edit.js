@@ -12,6 +12,7 @@ import { processErrors } from '../utilities';
 import DetailsView from '../details-view';
 import PackageNameField, { validate as validatePackageName } from '../package-name-field';
 import PackageCoverageFields, { validate as validateCoverageDates } from '../package-coverage-fields';
+import PackageContentTypeField from '../package-content-type-field';
 import DetailsViewSection from '../details-view-section';
 import NavigationModal from '../navigation-modal';
 import Toaster from '../toaster';
@@ -95,6 +96,7 @@ class CustomPackageEdit extends Component {
                 label="Custom package information"
               >
                 <PackageNameField />
+                <PackageContentTypeField />
               </DetailsViewSection>
               <DetailsViewSection
                 label="Coverage dates"

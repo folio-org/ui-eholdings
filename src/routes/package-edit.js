@@ -61,6 +61,10 @@ class PackageEditRoute extends Component {
       model.name = values.name;
     }
 
+    if ('contentType' in values) {
+      model.contentType = values.contentType;
+    }
+
     updatePackage(model);
   };
 
@@ -73,6 +77,7 @@ class PackageEditRoute extends Component {
       View = CustomPackageEdit;
       initialValues = {
         name: model.name,
+        contentType: model.contentType,
         customCoverages: [{
           beginCoverage: model.customCoverage.beginCoverage,
           endCoverage: model.customCoverage.endCoverage

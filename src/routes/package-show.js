@@ -91,6 +91,12 @@ class PackageShowRoute extends Component {
     updatePackage(model);
   };
 
+  packageContentTypeSubmitted = (values) => {
+    let { model, updatePackage } = this.props;
+    model.contentType = values.contentType;
+    updatePackage(model);
+  }
+
   toggleAllowKbToAddTitles = () => {
     let { model, updatePackage } = this.props;
     model.allowKbToAddTitles = !model.allowKbToAddTitles;
@@ -106,6 +112,7 @@ class PackageShowRoute extends Component {
         toggleHidden={this.toggleHidden}
         customCoverageSubmitted={this.customCoverageSubmitted}
         toggleAllowKbToAddTitles={this.toggleAllowKbToAddTitles}
+        packageContentTypeSubmitted={this.packageContentTypeSubmitted}
       />
     );
   }

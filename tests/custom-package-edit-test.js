@@ -100,12 +100,13 @@ describeApplication('CustomPackageEdit', () => {
     });
   });
 
-  describe('visiting the package edit page with coverage dates', () => {
+  describe('visiting the package edit page with coverage dates and content type', () => {
     beforeEach(function () {
       providerPackage.update('customCoverage', {
         beginCoverage: '1969-07-16',
         endCoverage: '1972-12-19'
       });
+      providerPackage.update('contentType', 'E-Book');
       providerPackage.save();
 
       return this.visit(`/eholdings/packages/${providerPackage.id}/edit`, () => {
@@ -148,6 +149,7 @@ describeApplication('CustomPackageEdit', () => {
       beforeEach(() => {
         return PackageEditPage
           .name('A Different Name')
+          .contentType('E-Journal')
           .append(PackageEditPage.dateRangeRowList(0).fillDates('12/16/2018', '12/18/2018'));
       });
 
@@ -176,6 +178,10 @@ describeApplication('CustomPackageEdit', () => {
 
         it('reflects the new coverage dates', () => {
           expect(PackageShowPage.customCoverage).to.equal('12/16/2018 - 12/18/2018');
+        });
+
+        it('reflects the new content type', () => {
+          expect(PackageShowPage.customContentType).to.equal('E-Journal');
         });
       });
     });
