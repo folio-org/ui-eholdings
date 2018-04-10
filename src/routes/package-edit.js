@@ -69,6 +69,29 @@ class PackageEditRoute extends Component {
 
   render() {
     let { model } = this.props;
+    let initialValues = {};
+    let View;
+
+    if (model.isCustom) {
+      View = CustomPackageEdit;
+      initialValues = {
+        name: model.name,
+        contentType: model.contentType,
+        isSelected: model.isSelected,
+        customCoverages: [{
+          beginCoverage: model.customCoverage.beginCoverage,
+          endCoverage: model.customCoverage.endCoverage
+        }]
+      };
+    } else {
+      View = ManagedPackageEdit;
+      initialValues = {
+        customCoverages: [{
+          beginCoverage: model.customCoverage.beginCoverage,
+          endCoverage: model.customCoverage.endCoverage
+        }]
+      };
+    }
 
     return (
       <View

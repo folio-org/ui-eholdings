@@ -109,7 +109,7 @@ const Modal = (props) => {
             </div>
           </div>
         }
-        <div className={css.modalContent}>
+        <div data-test-eholdings-modal-content className={css.modalContent}>
           {props.children}
         </div>
         { props.footer &&

@@ -1,54 +1,67 @@
-import React, { Component } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames/bind';
 import styles from './toggle-switch.css';
 
 const cx = classNames.bind(styles);
 
-export default class ToggleSwitch extends Component {
+export default class ToggleSwitch extends React.Component {
   static propTypes = {
-    checked: PropTypes.bool,
+    input: PropTypes.object,
     onChange: PropTypes.func,
+    name: PropTypes.string,
+    id: PropTypes.string,
     disabled: PropTypes.bool,
-    isPending: PropTypes.bool,
-    id: PropTypes.string
-  };
+    checked: PropTypes.bool,
+    isPending: PropTypes.bool
+  }
 
   state = {
-    checked: this.props.checked
-  };
+    inputChecked: this.props.checked
+  }
 
   componentWillReceiveProps(nextProps) {
     let wasPending = this.props.isPending && !nextProps.isPending;
     let needsUpdate = this.props.checked !== nextProps.checked;
 
     if (wasPending || needsUpdate) {
-      this.setState({ checked: nextProps.checked });
+      this.setState({ inputChecked: nextProps.checked });
     }
   }
 
-  toggle = () => {
-    this.setState({ checked: !this.state.checked });
-    this.props.onChange();
-  };
+  toggle = (e) => {
+    if (this.props.input && this.props.input.onChange) {
+      this.props.input.onChange(e);
+    }
+
+    if (this.props.onChange) {
+      this.props.onChange(e);
+    }
+  }
 
   render() {
-    let { isPending, disabled, id } = this.props;
-    let { checked } = this.state;
+    let { isPending, id, name, disabled, checked } = this.props;
+    let inputChecked;
+    if (this.props.input && this.props.checked) {
+      inputChecked = this.state.inputChecked;
+    } else {
+      inputChecked = checked;
+    }
 
     return (
       <div
         data-test-toggle-switch
         className={cx(styles['toggle-switch'], {
-          'is-pending': isPending
-        })}
+            'is-pending': isPending
+          })}
       >
         <input
           type="checkbox"
+          checked={(inputChecked !== undefined && inputChecked)}
+          id={id}
+          name={name}
           onChange={this.toggle}
           disabled={disabled || isPending}
-          checked={checked}
-          id={id}
         />
         <div className={styles['toggle-switch-slider']} />
       </div>

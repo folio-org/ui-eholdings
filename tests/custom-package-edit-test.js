@@ -30,6 +30,10 @@ describeApplication('CustomPackageEdit', () => {
       });
     });
 
+    it('has holding status toggle', () => {
+      expect(PackageEditPage.holdingStatusToggle).to.exist();
+    });
+
     it('shows blank datepicker fields', () => {
       expect(PackageEditPage.dateRangeRowList(0).beginDate.value).to.equal('');
       expect(PackageEditPage.dateRangeRowList(0).endDate.value).to.equal('');

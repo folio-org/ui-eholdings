@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { reduxForm } from 'redux-form';
+import { reduxForm, Field } from 'redux-form';
 import isEqual from 'lodash/isEqual';
 
 import {
@@ -55,13 +55,21 @@ class CustomPackageEdit extends Component {
     );
   }
 
+  handleSelectionToggle = () => {
+    console.log('HEY');
+    this.setState({
+      packageSelected: !this.props.model.isSelected
+    });
+  }
+
   render() {
     let {
       model,
       initialValues,
       handleSubmit,
       onSubmit,
-      pristine
+      pristine,
+      initialValues
     } = this.props;
 
     let {
@@ -98,6 +106,19 @@ class CustomPackageEdit extends Component {
               >
                 <NameField />
                 <ContentTypeField />
+              </DetailsViewSection>
+              <DetailsViewSection label="Holding status">
+                <label
+                  data-test-eholdings-custom-package-details-selected
+                  htmlFor="custom-package-details-toggle-switch"
+                >
+                  <Field
+                    name="isSelected"
+                    component={ToggleSwitch}
+                    onChange={this.handleSelectionToggle}
+                    checked={model.isSelected}
+                  />
+                </label>
               </DetailsViewSection>
               <DetailsViewSection
                 label="Coverage dates"

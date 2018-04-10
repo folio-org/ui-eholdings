@@ -221,7 +221,6 @@ export default class PackageShow extends Component {
                     checked={packageSelected}
                     isPending={model.update.isPending && 'isSelected' in model.update.changedAttributes}
                     id="package-details-toggle-switch"
-                    disabled={model.isCustom}
                   />
                 </label>
               </DetailsViewSection>
@@ -362,7 +361,7 @@ export default class PackageShow extends Component {
             </div>
           )}
         >
-          Are you sure you want to remove this package and all its titles from your holdings? All customizations will be lost.
+           Are you sure you want to remove this package and all its titles from your holdings? All customizations will be lost.
         </Modal>
 
         <NavigationModal when={isCoverageEditable} />
