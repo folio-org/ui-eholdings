@@ -13,6 +13,7 @@ class Package {
   visibilityData = {};
   customerResources = hasMany();
   isCustom = false;
+  packageType = '';
 }
 
 export default model({

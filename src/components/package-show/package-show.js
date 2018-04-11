@@ -139,7 +139,7 @@ export default class PackageShow extends Component {
           )}
           bodyContent={(
             <div>
-              <DetailsViewSection label={model.isCustom ? 'Custom package information' : 'Managed package information'}>
+              <DetailsViewSection label='Package information'>
                 <KeyValue label="Provider">
                   <div data-test-eholdings-package-details-provider>
                     <Link to={`/eholdings/providers/${model.providerId}`}>{model.providerName}</Link>
@@ -150,6 +150,14 @@ export default class PackageShow extends Component {
                   <KeyValue label="Content type">
                     <div data-test-eholdings-package-details-content-type>
                       {model.contentType}
+                    </div>
+                  </KeyValue>
+                )}
+
+                {model.packageType && (
+                  <KeyValue label="Package type">
+                    <div data-test-eholdings-package-details-type>
+                      {model.packageType}
                     </div>
                   </KeyValue>
                 )}
