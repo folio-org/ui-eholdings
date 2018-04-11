@@ -214,42 +214,46 @@ export default class PackageShow extends Component {
                   <p>Not shown to patrons.</p>
                 )}
               </DetailsViewSection>
-              <DetailsViewSection label="Title management">
-                {packageSelected && !model.isCustom ? (
-                  <div>
-                    {packageAllowedToAddTitles != null ? (
-                      <div>
-                        <label
-                          data-test-eholdings-package-details-allow-add-new-titles
-                          htmlFor="package-details-toggle-allow-add-new-titles-switch"
-                        >
-                          <h4>
-                            {packageAllowedToAddTitles
-                            ? 'Automatically select new titles'
-                            : 'Do not automatically select new titles'}
-                          </h4>
-                          <br />
-                          <ToggleSwitch
-                            onChange={this.props.toggleAllowKbToAddTitles}
-                            checked={packageAllowedToAddTitles}
-                            isPending={model.update.isPending && 'allowKbToAddTitles' in model.update.changedAttributes}
-                            id="package-details-toggle-allow-add-new-titles-switch"
-                          />
-                        </label>
-                      </div>
-                      ) : (
-                        <label
-                          data-test-eholdings-package-details-allow-add-new-titles
-                          htmlFor="package-details-toggle-allow-add-new-titles-switch"
-                        >
-                          <Icon icon="spinner-ellipsis" />
-                        </label>
-                      )}
-                  </div>
-                ) : (
-                  <p>Knowledge base does not automatically select titles.</p>
-                )}
-              </DetailsViewSection>
+
+              {!model.isCustom && (
+                <DetailsViewSection label="Title management">
+                  {packageSelected ? (
+                    <div>
+                      {packageAllowedToAddTitles != null ? (
+                        <div>
+                          <label
+                            data-test-eholdings-package-details-allow-add-new-titles
+                            htmlFor="package-details-toggle-allow-add-new-titles-switch"
+                          >
+                            <h4>
+                              {packageAllowedToAddTitles
+                              ? 'Automatically select new titles'
+                              : 'Do not automatically select new titles'}
+                            </h4>
+                            <br />
+                            <ToggleSwitch
+                              onChange={this.props.toggleAllowKbToAddTitles}
+                              checked={packageAllowedToAddTitles}
+                              isPending={model.update.isPending && 'allowKbToAddTitles' in model.update.changedAttributes}
+                              id="package-details-toggle-allow-add-new-titles-switch"
+                            />
+                          </label>
+                        </div>
+                        ) : (
+                          <label
+                            data-test-eholdings-package-details-allow-add-new-titles
+                            htmlFor="package-details-toggle-allow-add-new-titles-switch"
+                          >
+                            <Icon icon="spinner-ellipsis" />
+                          </label>
+                        )}
+                    </div>
+                  ) : (
+                    <p>Knowledge base does not automatically select titles.</p>
+                  )}
+                </DetailsViewSection>
+              )}
+
               <DetailsViewSection
                 label="Coverage dates"
                 closedByDefault={!packageSelected}
