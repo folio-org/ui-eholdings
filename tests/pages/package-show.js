@@ -27,6 +27,7 @@ import Toast from './toast';
   isSelecting = hasClassBeginningWith('is-pending--', '[data-test-eholdings-package-details-selected] [data-test-toggle-switch]');
   isSelectedToggleDisabled = property('disabled', '[data-test-eholdings-package-details-selected] input[type=checkbox]');
   modal = new PackageShowModal('#eholdings-package-confirmation-modal');
+  hastoggleForAllowKbToAddTitles = isPresent('[data-test-eholdings-package-details-allow-add-new-titles]');
   toggleAllowKbToAddTitles = clickable('[data-test-eholdings-package-details-allow-add-new-titles] input');
   toggleIsSelected = clickable('[data-test-eholdings-package-details-selected] input');
   paneTitle = text('[data-test-eholdings-details-view-pane-title]');

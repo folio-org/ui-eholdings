@@ -56,6 +56,10 @@ describeApplication('PackageShow', () => {
       expect(PackageShowPage.numTitlesSelected).to.equal(`${providerPackage.selectedCount}`);
     });
 
+    it('does not display the toggle for allowing the KB to add titles', () => {
+      expect(PackageShowPage.hastoggleForAllowKbToAddTitles).to.be.false;
+    });
+
     it('displays a list of titles', () => {
       expect(PackageShowPage.titleList().length).to.equal(5);
     });
@@ -98,6 +102,20 @@ describeApplication('PackageShow', () => {
         expect(PackageShowPage.numTitles).to.equal('2');
         expect(PackageShowPage.titleList(0).name).to.not.equal(customerResources[0].title.name);
       });
+    });
+  });
+
+  describe('viewing a custom package details page', () => {
+    beforeEach(function () {
+      providerPackage.isCustom = true;
+      providerPackage.isSelected = true;
+      return this.visit(`/eholdings/packages/${providerPackage.id}`, () => {
+        expect(PackageShowPage.$root).to.exist;
+      });
+    });
+
+    it('does not display the toggle for allowing the KB to add titles', () => {
+      expect(PackageShowPage.hastoggleForAllowKbToAddTitles).to.be.false;
     });
   });
 
