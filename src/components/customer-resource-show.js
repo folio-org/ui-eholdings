@@ -194,12 +194,6 @@ export default class CustomerResourceShow extends Component {
                   </div>
                 </KeyValue>
 
-                <KeyValue label="Other packages">
-                  <Link to={`/eholdings/titles/${model.titleId}`}>
-                    View all packages that include this title
-                  </Link>
-                </KeyValue>
-
                 {model.contentType && (
                   <KeyValue label="Content type">
                     <div data-test-eholdings-customer-resource-show-content-type>
@@ -207,6 +201,18 @@ export default class CustomerResourceShow extends Component {
                     </div>
                   </KeyValue>
                 )}
+
+                <KeyValue label="Title type">
+                  <div data-test-eholdings-package-details-type>
+                    {model.isTitleCustom ? 'Custom' : 'Managed'}
+                  </div>
+                </KeyValue>
+
+                <KeyValue label="Other packages">
+                  <Link to={`/eholdings/titles/${model.titleId}`}>
+                    View all packages that include this title
+                  </Link>
+                </KeyValue>
 
                 {model.url && (
                   <KeyValue label="Managed URL">

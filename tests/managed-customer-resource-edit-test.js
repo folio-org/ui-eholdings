@@ -5,7 +5,7 @@ import { describeApplication } from './helpers';
 import ResourceShowPage from './pages/customer-resource-show';
 import ResourceEditPage from './pages/customer-resource-edit';
 
-describeApplication('CustomerResourceEdit', () => {
+describeApplication('ManagedCustomerResourceEdit', () => {
   let provider,
     providerPackage,
     resource;
@@ -268,7 +268,7 @@ describeApplication('CustomerResourceEdit', () => {
     });
   });
 
-  describe('encountering a server error', () => {
+  describe('encountering a server error when GETting', () => {
     beforeEach(function () {
       this.server.get('/customer-resources/:id', {
         errors: [{
@@ -283,6 +283,36 @@ describeApplication('CustomerResourceEdit', () => {
 
     it('dies with dignity', () => {
       expect(ResourceEditPage.hasErrors).to.be.true;
+    });
+  });
+
+  describe('encountering a server error when PUTting', () => {
+    beforeEach(function () {
+      this.server.put('/customer-resources/:id', {
+        errors: [{
+          title: 'There was an error'
+        }]
+      }, 500);
+
+      return this.visit(`/eholdings/customer-resources/${resource.id}/edit`, () => {
+        expect(ResourceEditPage.$root).to.exist;
+      });
+    });
+
+    describe('entering valid data and clicking save', () => {
+      beforeEach(() => {
+        return ResourceEditPage
+          .inputCoverageStatement('10 ways to fail at everything')
+          .inputEmbargoValue('27')
+          .blurEmbargoValue()
+          .selectEmbargoUnit('Weeks')
+          .blurEmbargoUnit()
+          .clickSave();
+      });
+
+      it('pops up an error', () => {
+        expect(ResourceEditPage.toast.errorText).to.equal('There was an error');
+      });
     });
   });
 });

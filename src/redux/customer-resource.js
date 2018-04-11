@@ -22,6 +22,7 @@ class CustomerResource {
   customEmbargoPeriod = {};
   visibilityData = {};
   coverageStatement = '';
+  isTitleCustom = false;
 }
 
 export default model({

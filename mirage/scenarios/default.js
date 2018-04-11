@@ -13,11 +13,31 @@ export default function defaultScenario(server) {
   createProvider('Atlanta A&T Library', [
     {
       name: 'Atlanta A&T Drumming Books',
-      contentType: 'Online Reference',
-      titleCount: 3,
+      contentType: 'AggregatedFullText',
       isCustom: true
     },
   ]);
+
+  let customProvider = server.create('provider', {
+    name: 'Atlanta A&T Library'
+  });
+
+  let customPackage = server.create('package', {
+    name: 'Atlanta A&T Drumming Books',
+    contentType: 'AggregatedFullText',
+    isCustom: true,
+    provider: customProvider
+  });
+
+  let customTitle = server.create('title', {
+    name: 'Single, Double, and Triple Paradiddles',
+  });
+
+  server.create('customer-resource', {
+    package: customPackage,
+    title: customTitle,
+    isTitleCustom: true
+  });
 
   createProvider('Economist Intelligence Unit', [
     {

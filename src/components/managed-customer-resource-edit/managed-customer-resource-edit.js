@@ -7,6 +7,7 @@ import {
   Button,
   Icon
 } from '@folio/stripes-components';
+import { processErrors } from '../utilities';
 
 import DetailsView from '../details-view';
 import CoverageStatementFields, { validate as validateCoverageStatement } from '../coverage-statement-fields';
@@ -14,9 +15,10 @@ import CustomerResourceCoverageFields, { validate as validateCoverageDates } fro
 import CustomEmbargoFields, { validate as validateEmbargo } from '../custom-embargo-fields';
 import DetailsViewSection from '../details-view-section';
 import NavigationModal from '../navigation-modal';
-import styles from './customer-resource-edit.css';
+import Toaster from '../toaster';
+import styles from './managed-customer-resource-edit.css';
 
-class CustomerResourceEdit extends Component {
+class ManagedCustomerResourceEdit extends Component {
   static propTypes = {
     model: PropTypes.object.isRequired,
     initialValues: PropTypes.object.isRequired,
@@ -73,60 +75,63 @@ class CustomerResourceEdit extends Component {
     ];
 
     return (
-      <DetailsView
-        type="resource"
-        model={model}
-        paneTitle={model.name}
-        paneSub={model.packageName}
-        actionMenuItems={actionMenuItems}
-        bodyContent={(
-          <form onSubmit={handleSubmit(onSubmit)}>
-            <DetailsViewSection
-              label="Coverage dates"
-            >
-              <CustomerResourceCoverageFields />
-            </DetailsViewSection>
-            <DetailsViewSection
-              label="Coverage statement"
-            >
-              <CoverageStatementFields />
-            </DetailsViewSection>
-            <DetailsViewSection
-              label="Embargo period"
-            >
-              <CustomEmbargoFields change={change} />
-            </DetailsViewSection>
-            <div className={styles['customer-resource-edit-action-buttons']}>
-              <div
-                data-test-eholdings-customer-resource-cancel-button
+      <div>
+        <Toaster toasts={processErrors(model)} position="bottom" />
+        <DetailsView
+          type="resource"
+          model={model}
+          paneTitle={model.name}
+          paneSub={model.packageName}
+          actionMenuItems={actionMenuItems}
+          bodyContent={(
+            <form onSubmit={handleSubmit(onSubmit)}>
+              <DetailsViewSection
+                label="Coverage dates"
               >
-                <Button
-                  disabled={model.update.isPending}
-                  type="button"
-                  onClick={this.handleCancel}
-                >
-                  Cancel
-                </Button>
-              </div>
-              <div
-                data-test-eholdings-customer-resource-save-button
+                <CustomerResourceCoverageFields />
+              </DetailsViewSection>
+              <DetailsViewSection
+                label="Coverage statement"
               >
-                <Button
-                  disabled={pristine || model.update.isPending}
-                  type="submit"
-                  buttonStyle="primary"
+                <CoverageStatementFields />
+              </DetailsViewSection>
+              <DetailsViewSection
+                label="Embargo period"
+              >
+                <CustomEmbargoFields change={change} />
+              </DetailsViewSection>
+              <div className={styles['customer-resource-edit-action-buttons']}>
+                <div
+                  data-test-eholdings-customer-resource-cancel-button
                 >
-                  {model.update.isPending ? 'Saving' : 'Save'}
-                </Button>
+                  <Button
+                    disabled={model.update.isPending}
+                    type="button"
+                    onClick={this.handleCancel}
+                  >
+                    Cancel
+                  </Button>
+                </div>
+                <div
+                  data-test-eholdings-customer-resource-save-button
+                >
+                  <Button
+                    disabled={pristine || model.update.isPending}
+                    type="submit"
+                    buttonStyle="primary"
+                  >
+                    {model.update.isPending ? 'Saving' : 'Save'}
+                  </Button>
+                </div>
+                {model.update.isPending && (
+                  <Icon icon="spinner-ellipsis" />
+                )}
               </div>
-              {model.update.isPending && (
-                <Icon icon="spinner-ellipsis" />
-              )}
-            </div>
-            <NavigationModal when={!pristine && !model.update.isPending} />
-          </form>
-        )}
-      />
+              <NavigationModal when={!pristine && !model.update.isPending} />
+            </form>
+          )}
+        />
+      </div>
     );
   }
 }
@@ -138,6 +143,6 @@ const validate = (values, props) => {
 export default reduxForm({
   validate,
   enableReinitialize: true,
-  form: 'CustomerResourceEdit',
+  form: 'ManagedCustomerResourceEdit',
   destroyOnUnmount: false,
-})(CustomerResourceEdit);
+})(ManagedCustomerResourceEdit);

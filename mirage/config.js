@@ -245,7 +245,8 @@ export default function configure() {
       visibilityData,
       customCoverages,
       customEmbargoPeriod,
-      coverageStatement
+      coverageStatement,
+      name
     } = body.data.attributes;
 
     matchingCustomerResource.update('isSelected', isSelected);
@@ -253,6 +254,7 @@ export default function configure() {
     matchingCustomerResource.update('customCoverages', customCoverages);
     matchingCustomerResource.update('customEmbargoPeriod', customEmbargoPeriod);
     matchingCustomerResource.update('coverageStatement', coverageStatement);
+    matchingCustomerResource.title.update('name', name);
 
     return matchingCustomerResource;
   });

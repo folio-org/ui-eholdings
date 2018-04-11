@@ -24,7 +24,7 @@ export default class CustomerResourceCoverageFields extends Component {
       <div className={styles['coverage-fields']}>
         {fields.length === 0 ? (
           <p data-test-eholdings-coverage-fields-no-rows-left>
-            No date ranges set. Saving will remove all custom coverage.
+            No date ranges set.
           </p>
         ) : (
           <ul className={styles['coverage-fields-date-range-rows']}>
