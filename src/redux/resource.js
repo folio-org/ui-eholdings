@@ -22,6 +22,7 @@ class Resource {
   customEmbargoPeriod = {};
   visibilityData = {};
   coverageStatement = '';
+  isTitleCustom = false;
 }
 
 export default model({
