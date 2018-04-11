@@ -14,7 +14,8 @@ export default function ProviderShow({
   model,
   packages,
   fetchPackages,
-  searchPackages
+  searchPackages,
+  searchParams
 }, {
   intl,
   queryParams
@@ -59,12 +60,13 @@ export default function ProviderShow({
         enableListSearch
         listType="packages"
         onSearch={searchPackages}
+        searchParams={searchParams}
         renderList={scrollable => (
           <QueryList
             type="provider-packages"
             fetch={fetchPackages}
-            collection={model.packages}
-            length={model.packagesTotal}
+            collection={packages}
+            length={packages.length}
             scrollable={scrollable}
             itemHeight={70}
             renderItem={item => (
@@ -84,8 +86,10 @@ export default function ProviderShow({
 
 ProviderShow.propTypes = {
   model: PropTypes.object.isRequired,
+  packages: PropTypes.object.isRequired,
   fetchPackages: PropTypes.func.isRequired,
-  searchPackages: PropTypes.func.isRequired
+  searchPackages: PropTypes.func.isRequired,
+  searchParams: PropTypes.object.isRequired
 };
 
 ProviderShow.contextTypes = {

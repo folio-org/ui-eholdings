@@ -44,7 +44,8 @@ export default class DetailsView extends Component {
     actionMenuItems: PropTypes.array,
     lastMenu: PropTypes.node,
     enableListSearch: PropTypes.bool,
-    onSearch: PropTypes.func
+    onSearch: PropTypes.func,
+    searchParams: PropTypes.object
   };
 
   static contextTypes = {
@@ -155,10 +156,14 @@ export default class DetailsView extends Component {
   };
 
   handleListSearch = (params) => {
-    this.setState({ showSearchModal: false }, () => {
-      if (this.props.onSearch) {
-        this.props.onSearch(params);
-      };
+    let { searchParams } = this.props;
+
+    if (params.q && this.props.onSearch) {
+      this.props.onSearch(params);
+    }
+
+    this.setState({
+      showSearchModal: searchParams.q === params.q
     });
   }
 
@@ -174,7 +179,7 @@ export default class DetailsView extends Component {
       actionMenuItems,
       lastMenu,
       enableListSearch,
-      onSearch
+      searchParams
     } = this.props;
 
     let {
@@ -239,9 +244,9 @@ export default class DetailsView extends Component {
               <h2 data-test-eholdings-details-view-name={type}>
                 {paneTitle}
               </h2>
-              {paneSub &&
+              {paneSub && (
                 <p>{paneSub}</p>
-              }
+              )}
             </div>,
 
             <div key="body" className={styles.body}>
@@ -265,7 +270,7 @@ export default class DetailsView extends Component {
                 <h3>{capitalize(listType)}</h3>
 
                 {enableListSearch && (
-                  <IconButton icon="search" onClick={this.toggleSearchModal}/>
+                  <IconButton icon="search" onClick={this.toggleSearchModal} />
                 )}
               </div>
 
@@ -287,6 +292,10 @@ export default class DetailsView extends Component {
           >
             <SearchForm
               searchType={listType}
+              searchString={searchParams.q}
+              filter={searchParams.filter}
+              searchField={searchParams.searchField}
+              sort={searchParams.sort}
               onSearch={this.handleListSearch}
               displaySearchTypeSwitcher={false}
             />

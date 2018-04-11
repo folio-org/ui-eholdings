@@ -15,6 +15,7 @@ class ProviderShowRoute extends Component {
       }).isRequired
     }).isRequired,
     model: PropTypes.object.isRequired,
+    resolver: PropTypes.object.isRequired,
     getProvider: PropTypes.func.isRequired,
     getPackages: PropTypes.func.isRequired
   };
@@ -68,6 +69,7 @@ class ProviderShowRoute extends Component {
         packages={this.getPkgResults()}
         fetchPackages={this.fetchPackages}
         searchPackages={this.searchPackages}
+        searchParams={this.state.pkgSearchParams}
       />
     );
   }
