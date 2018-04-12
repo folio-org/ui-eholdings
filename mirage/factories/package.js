@@ -18,6 +18,11 @@ export default Factory.extend({
     endCoverage: ''
   },
   isCustom: false,
+  packageType: () => faker.random.arrayElement([
+    'Complete',
+    'Partial',
+    'Variable'
+  ]),
 
   withTitles: trait({
     afterCreate(packageObj, server) {

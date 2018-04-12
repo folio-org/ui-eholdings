@@ -93,7 +93,7 @@ class CustomPackageEdit extends Component {
           bodyContent={(
             <form onSubmit={handleSubmit(onSubmit)}>
               <DetailsViewSection
-                label="Custom package information"
+                label="Package information"
               >
                 <PackageNameField />
                 <PackageContentTypeField />

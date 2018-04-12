@@ -19,7 +19,8 @@ describeApplication('PackageShow', () => {
       name: 'Cool Package',
       contentType: 'E-Book',
       isSelected: false,
-      titleCount: 5
+      titleCount: 5,
+      packageType: 'Complete'
     });
 
     customerResources = this.server.schema.where('customer-resource', { packageId: providerPackage.id }).models;
@@ -58,6 +59,10 @@ describeApplication('PackageShow', () => {
 
     it('does not display the toggle for allowing the KB to add titles', () => {
       expect(PackageShowPage.hastoggleForAllowKbToAddTitles).to.be.false;
+    });
+
+    it('displays the package type', () => {
+      expect(PackageShowPage.packageType).to.equal('Complete');
     });
 
     it('displays a list of titles', () => {
@@ -108,6 +113,7 @@ describeApplication('PackageShow', () => {
   describe('viewing a custom package details page', () => {
     beforeEach(function () {
       providerPackage.isCustom = true;
+      providerPackage.packageType = 'Custom';
       providerPackage.isSelected = true;
       return this.visit(`/eholdings/packages/${providerPackage.id}`, () => {
         expect(PackageShowPage.$root).to.exist;
@@ -116,6 +122,10 @@ describeApplication('PackageShow', () => {
 
     it('does not display the toggle for allowing the KB to add titles', () => {
       expect(PackageShowPage.hastoggleForAllowKbToAddTitles).to.be.false;
+    });
+
+    it('displays the package type as custom', () => {
+      expect(PackageShowPage.packageType).to.equal('Custom');
     });
   });
 
