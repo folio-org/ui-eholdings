@@ -2,6 +2,7 @@ import {
   clickable,
   collection,
   computed,
+  fillable,
   isPresent,
   page,
   property,
@@ -31,8 +32,8 @@ import Toast from './toast';
   toggleAllowKbToAddTitles = clickable('[data-test-eholdings-package-details-allow-add-new-titles] input');
   toggleIsSelected = clickable('[data-test-eholdings-package-details-selected] input');
   paneTitle = text('[data-test-eholdings-details-view-pane-title]');
-  name = text('[data-test-eholdings-details-view-name="package"]');
   contentType = text('[data-test-eholdings-package-details-content-type]');
+  name = text('[data-test-eholdings-details-view-name="package"]');
   numTitles = text('[data-test-eholdings-package-details-titles-total]');
   numTitlesSelected = text('[data-test-eholdings-package-details-titles-selected]');
   hasErrors = isPresent('[data-test-eholdings-details-view-error="package"]');
@@ -94,6 +95,14 @@ import Toast from './toast';
         });
       });
   });
+
+  selectContentType = fillable('[data-test-eholdings-package-content-type-field] select');
+  customContentType = text('[data-test-eholdings-package-content-type] span');
+  hasContentTypeField = isPresent('[data-test-eholdings-package-content-type-field] select');
+  clickContentTypeEdit = clickable('[data-test-eholdings-package-content-type-edit-button] button');
+  clickContentTypeCancel = clickable('[data-test-eholdings-inline-form-cancel-button] button');
+  clickContentTypeSave = clickable('[data-test-eholdings-inline-form-save-button] button');
+  isContentTypeSaveDisabled = property('disabled', '[data-test-eholdings-inline-form-save-button] button');
 
   titleContainerHeight = property('offsetHeight', '[data-test-eholdings-details-view-list="package"]');
   detailPaneContentsHeight = property('offsetHeight', '[data-test-eholdings-detail-pane-contents]');

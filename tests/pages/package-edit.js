@@ -23,6 +23,7 @@ import Datepicker from './datepicker';
   toast = Toast
 
   name = fillable('[data-test-eholdings-package-name-field] input');
+  contentType = fillable('[data-test-eholdings-package-content-type-field] select');
   nameHasError = hasClassBeginningWith('feedbackError--', '[data-test-eholdings-package-name-field] input');
 
   dateRangeRowList = collection('[data-test-eholdings-coverage-fields-date-range-row]', {

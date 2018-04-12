@@ -1,0 +1,11 @@
+.package-content-type-display {
+  display: flex;
+}
+
+.package-content-type {
+  &.is-editing {
+    background: #e6f3ff;
+    padding: 1em 1em 0;
+    margin-bottom: 1em;
+  }
+}

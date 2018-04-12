@@ -13,7 +13,7 @@ export default function defaultScenario(server) {
   createProvider('Atlanta A&T Library', [
     {
       name: 'Atlanta A&T Drumming Books',
-      contentType: 'AggregatedFullText',
+      contentType: 'Online Reference',
       titleCount: 3,
       isCustom: true
     },

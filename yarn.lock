@@ -328,7 +328,7 @@
     react-router-dom "^4.0.0"
     redux-form "^7.0.3"
 
-"@folio/ui-testing@github:folio-org/ui-testing#framework-only":
+"@folio/ui-testing@folio-org/ui-testing#framework-only":
   version "4.0.0"
   resolved "https://codeload.github.com/folio-org/ui-testing/tar.gz/90a425c1a8d12552e04c72dfeec2f623a81af629"
   dependencies:
