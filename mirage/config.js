@@ -46,25 +46,21 @@ export default function configure() {
 
   // mod-users-bl
   this.post('/bl-users/login', () => {
-    let okapiTokenHeader = () => {
-      return { 'X-Okapi-Token': `myOkapiToken:${Date.now()}` };
-    };
-
-    return new Response(201,
-      okapiTokenHeader(),
-      {
-        user: {
-          username: 'testuser',
-          personal: {
-            lastName: 'User',
-            firstName: 'Test',
-            email: 'folio_admin@frontside.io',
-          }
-        },
-        permissions: {
-          permissions: []
+    return new Response(201, {
+      'X-Okapi-Token': `myOkapiToken:${Date.now()}`
+    }, {
+      user: {
+        username: 'testuser',
+        personal: {
+          lastName: 'User',
+          firstName: 'Test',
+          email: 'folio_admin@frontside.io',
         }
-      });
+      },
+      permissions: {
+        permissions: []
+      }
+    });
   });
 
   // mod-notify
@@ -109,7 +105,13 @@ export default function configure() {
   });
 
   // Provider resources
-  this.get('/providers', searchRouteFor('providers'));
+  this.get('/providers', searchRouteFor('providers', (provider, req) => {
+    if (req.queryParams.q && provider.name) {
+      return includesWords(provider.name, req.queryParams.q.toLowerCase());
+    } else {
+      return !!provider.name;
+    }
+  }));
 
   this.get('/providers/:id', ({ providers }, request) => {
     let provider = providers.find(request.params.id);
@@ -121,15 +123,16 @@ export default function configure() {
     return provider;
   });
 
-  this.get('/providers/:id/packages', nestedResourceRouteFor('provider', 'packages'));
-
   // Package resources
-  this.get('/packages', searchRouteFor('packages', (pkg, req) => {
-    let query = req.queryParams.q.toLowerCase();
+  let packagesFilter = (pkg, req) => {
     let params = req.queryParams;
     let type = params['filter[type]'];
     let selected = params['filter[selected]'];
-    let filtered = pkg.name && includesWords(pkg.name, query);
+    let filtered = true;
+
+    if (params.q && pkg.name) {
+      filtered = includesWords(pkg.name, params.q.toLowerCase());
+    }
 
     if (filtered && type && type !== 'all') {
       filtered = pkg.contentType.toLowerCase() === type;
@@ -140,11 +143,10 @@ export default function configure() {
     }
 
     return filtered;
-  }));
+  };
 
-  this.get('/titles/:id', ({ titles }, request) => {
-    return titles.find(request.params.id);
-  });
+  this.get('/packages', searchRouteFor('packages', packagesFilter));
+  this.get('/providers/:id/packages', nestedResourceRouteFor('provider', 'packages', packagesFilter));
 
   this.get('/packages/:id', ({ packages }, request) => {
     let pkg = packages.find(request.params.id);
@@ -187,8 +189,6 @@ export default function configure() {
     return matchingPackage;
   });
 
-  this.get('/packages/:id/customer-resources', nestedResourceRouteFor('package', 'customerResources'));
-
   // Title resources
   this.get('/titles', searchRouteFor('titles', (title, req) => {
     let params = req.queryParams;
@@ -228,9 +228,7 @@ export default function configure() {
   });
 
   // Customer Resource resources
-  this.get('/customer-resources', ({ customerResources }, request) => {
-    return customerResources.where({ packageId: request.params.packageId });
-  });
+  this.get('/packages/:id/customer-resources', nestedResourceRouteFor('package', 'customerResources'));
 
   this.get('/customer-resources/:id', ({ customerResources }, request) => {
     return customerResources.find(request.params.id);

@@ -270,7 +270,9 @@ export default class DetailsView extends Component {
                 <h3>{capitalize(listType)}</h3>
 
                 {enableListSearch && (
-                  <IconButton icon="search" onClick={this.toggleSearchModal} />
+                  <div data-test-eholdings-details-view-search>
+                    <IconButton icon="search" onClick={this.toggleSearchModal} />
+                  </div>
                 )}
               </div>
 
@@ -287,6 +289,7 @@ export default class DetailsView extends Component {
             label={`Filter ${listType}`}
             open={showSearchModal}
             onClose={this.toggleSearchModal}
+            id="eholdings-details-view-search-modal"
             closeOnBackgroundClick
             dismissible
           >

@@ -68,8 +68,10 @@ export function getQuery(resourceType, req) {
     } else {
       return '';
     }
-  } else {
+  } else if (req.queryParams.q) {
     return req.queryParams.q.toLowerCase();
+  } else {
+    return null;
   }
 }
 /**
@@ -85,14 +87,11 @@ export function includesWords(testString, query) {
  * Helper for creating a search route for a resource type.
  * Currently includes pagination and searching by name.
  * @param {String} resourceType - resource type's model name
- * @param {Function} [filter] - optional filter function
+ * @param {Function} filter - filter function specific to this resource
  * @returns {Function} route handler for a search route of this
  * resource type
  */
-export function searchRouteFor(resourceType, filter = (model, req) => {
-  let query = req.queryParams.q.toLowerCase();
-  return model.name && includesWords(model.name, query);
-}) {
+export function searchRouteFor(resourceType, filter) {
   return function (schema, req) { // eslint-disable-line func-names
     let page = Math.max(parseInt(req.queryParams.page || 1, 10), 1);
     let count = parseInt(req.queryParams.count || 25, 10);
@@ -106,13 +105,14 @@ export function searchRouteFor(resourceType, filter = (model, req) => {
     json.meta = { totalResults: json.data.length };
 
     let sort = req.queryParams.sort;
+    let query = getQuery(resourceType, req);
 
     if (sort && sort === 'name') {
       json.data = json.data.sort(nameCompare);
-    } else {
-      let query = getQuery(resourceType, req);
+    } else if (query) {
       json.data = json.data.sort(relevanceCompare(query));
     }
+
     json.data = json.data.slice(offset, offset + count);
     return json;
   };
@@ -123,9 +123,10 @@ export function searchRouteFor(resourceType, filter = (model, req) => {
  * page and count params.
  * @param {String} foreignKey - parent resource foreign key prefix
  * @param {String} resourceType - nested resource's model name
+ * @param {Function} filter - filter function specific to this resource
  * @returns {Function} route handler for a nested resource
  */
-export function nestedResourceRouteFor(foreignKey, resourceType) {
+export function nestedResourceRouteFor(foreignKey, resourceType, filter = () => true) {
   return function (schema, req) { // eslint-disable-line func-names
     let page = Math.max(parseInt(req.queryParams.page || 1, 10), 1);
     let count = parseInt(req.queryParams.count || 25, 10);
@@ -133,7 +134,16 @@ export function nestedResourceRouteFor(foreignKey, resourceType) {
 
     let json = this.serialize(schema[resourceType].where({
       [`${foreignKey}Id`]: req.params.id
-    }));
+    }).filter((model) => filter(model, req)));
+
+    let sort = req.queryParams.sort;
+    let query = getQuery(resourceType, req);
+
+    if (sort && sort === 'name') {
+      json.data = json.data.sort(nameCompare);
+    } else if (query) {
+      json.data = json.data.sort(relevanceCompare(query));
+    }
 
     json.meta = { totalResults: json.data.length };
     json.data = json.data.slice(offset, offset + count);
