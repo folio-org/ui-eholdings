@@ -128,14 +128,4 @@ export default class Resolver {
     let ModelClass = this.modelFor(type);
     return new ModelClass(id, this);
   }
-
-  /**
-   * Returns a record model for a specific resource record
-   * @param {String} type - the resource type
-   * @returns {Model} the model for the record
-   */
-  create(type) {
-    let ModelClass = this.modelFor(type);
-    return new ModelClass(null, this);
-  }
 }

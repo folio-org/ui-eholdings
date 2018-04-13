@@ -16,7 +16,7 @@ import styles from './package-create.css';
 
 class PackageCreate extends Component {
   static propTypes = {
-    // model: PropTypes.object.isRequired,
+    request: PropTypes.object.isRequired,
     handleSubmit: PropTypes.func,
     onSubmit: PropTypes.func.isRequired,
     // pristine: PropTypes.bool

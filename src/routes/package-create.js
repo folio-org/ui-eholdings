@@ -9,20 +9,33 @@ import View from '../components/package/create';
 
 class PackageCreateRoute extends Component {
   static propTypes = {
-    model: PropTypes.object.isRequired,
-    updatePackage: PropTypes.func.isRequired
+    request: PropTypes.object.isRequired,
+    createPackage: PropTypes.func.isRequired
   };
 
+  static contextTypes = {
+    router: PropTypes.shape({
+      history: PropTypes.shape({
+        replace: PropTypes.func.isRequired
+      }).isRequired
+    }).isRequired
+  };
+
+  componentDidUpdate(prevProps) {
+    if (!prevProps.request.isResolved && this.props.request.isResolved) {
+      let packageId = this.props.request.records[0];
+      this.context.router.history.replace(`/eholdings/packages/${packageId}`, { eholdings: true });
+    }
+  }
+
   packageCreateSubmitted = (values) => {
-    let { model, updatePackage } = this.props;
-    model.name = values.name;
-    updatePackage(model);
+    this.props.createPackage(values);
   };
 
   render() {
     return (
       <View
-        model={this.props.model}
+        request={this.props.request}
         onSubmit={this.packageCreateSubmitted}
         initialValues={{
           name: ''
@@ -34,8 +47,8 @@ class PackageCreateRoute extends Component {
 
 export default connect(
   ({ eholdings: { data } }) => ({
-    model: createResolver(data).create('packages')
+    request: createResolver(data).getRequest('create', { type: 'packages' })
   }), {
-    updatePackage: model => Package.save(model)
+    createPackage: attrs => Package.create(attrs)
   }
 )(PackageCreateRoute);
