@@ -4,10 +4,10 @@ import { connect } from 'react-redux';
 import moment from 'moment';
 
 import { createResolver } from '../redux';
-import CustomerResource from '../redux/customer-resource';
-import View from '../components/customer-resource-edit';
+import Resource from '../redux/resource';
+import View from '../components/resource-edit';
 
-class CustomerResourceEditRoute extends Component {
+class ResourceEditRoute extends Component {
   static propTypes = {
     match: PropTypes.shape({
       params: PropTypes.shape({
@@ -15,22 +15,22 @@ class CustomerResourceEditRoute extends Component {
       }).isRequired
     }).isRequired,
     model: PropTypes.object.isRequired,
-    getCustomerResource: PropTypes.func.isRequired,
+    getResource: PropTypes.func.isRequired,
     updateResource: PropTypes.func.isRequired
   };
 
   componentWillMount() {
-    let { match, getCustomerResource } = this.props;
+    let { match, getResource } = this.props;
     let { id } = match.params;
-    getCustomerResource(id);
+    getResource(id);
   }
 
   componentWillReceiveProps(nextProps) {
-    let { match, getCustomerResource } = nextProps;
+    let { match, getResource } = nextProps;
     let { id } = match.params;
 
     if (id !== this.props.match.params.id) {
-      getCustomerResource(id);
+      getResource(id);
     }
   }
 
@@ -71,9 +71,9 @@ class CustomerResourceEditRoute extends Component {
 
 export default connect(
   ({ eholdings: { data } }, { match }) => ({
-    model: createResolver(data).find('customerResources', match.params.id)
+    model: createResolver(data).find('resources', match.params.id)
   }), {
-    getCustomerResource: id => CustomerResource.find(id, { include: 'package' }),
-    updateResource: model => CustomerResource.save(model)
+    getResource: id => Resource.find(id, { include: 'package' }),
+    updateResource: model => Resource.save(model)
   }
-)(CustomerResourceEditRoute);
+)(ResourceEditRoute);

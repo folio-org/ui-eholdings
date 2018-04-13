@@ -5,7 +5,7 @@ import moment from 'moment';
 
 import { createResolver } from '../redux';
 import Package from '../redux/package';
-import CustomerResource from '../redux/customer-resource';
+import Resource from '../redux/resource';
 
 import ManagedPackageEdit from '../components/managed-package-edit';
 import CustomPackageEdit from '../components/custom-package-edit';
@@ -19,7 +19,7 @@ class PackageEditRoute extends Component {
     }).isRequired,
     model: PropTypes.object.isRequired,
     getPackage: PropTypes.func.isRequired,
-    unloadCustomerResources: PropTypes.func.isRequired,
+    unloadResources: PropTypes.func.isRequired,
     updatePackage: PropTypes.func.isRequired
   };
 
@@ -29,7 +29,7 @@ class PackageEditRoute extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    let { model: next, match, getPackage, unloadCustomerResources } = nextProps;
+    let { model: next, match, getPackage, unloadResources } = nextProps;
     let { model: old, match: oldMatch } = this.props;
     let { packageId } = match.params;
 
@@ -38,7 +38,7 @@ class PackageEditRoute extends Component {
 
     // if an update just resolved, unfetch the package titles
     } else if (next.update.isResolved && old.update.isPending) {
-      unloadCustomerResources(next.customerResources);
+      unloadResources(next.resources);
     }
   }
 
@@ -108,7 +108,7 @@ export default connect(
     model: createResolver(data).find('packages', match.params.packageId)
   }), {
     getPackage: id => Package.find(id),
-    unloadCustomerResources: collection => CustomerResource.unload(collection),
+    unloadResources: collection => Resource.unload(collection),
     updatePackage: model => Package.save(model)
   }
 )(PackageEditRoute);

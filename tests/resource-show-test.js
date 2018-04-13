@@ -2,10 +2,10 @@ import { expect } from 'chai';
 import { describe, beforeEach, it } from '@bigtest/mocha';
 
 import { describeApplication } from './helpers';
-import ResourcePage from './pages/customer-resource-show';
+import ResourcePage from './pages/resource-show';
 import NavigationModal from './pages/navigation-modal';
 
-describeApplication('CustomerResourceShow', () => {
+describeApplication('ResourceShow', () => {
   let provider,
     providerPackage,
     resource;
@@ -49,7 +49,7 @@ describeApplication('CustomerResourceShow', () => {
 
     title.save();
 
-    resource = this.server.create('customer-resource', {
+    resource = this.server.create('resource', {
       package: providerPackage,
       isSelected: false,
       title,
@@ -57,9 +57,9 @@ describeApplication('CustomerResourceShow', () => {
     });
   });
 
-  describe('visiting the customer resource page', () => {
+  describe('visiting the resource page', () => {
     beforeEach(function () {
-      return this.visit(`/eholdings/customer-resources/${resource.titleId}`, () => {
+      return this.visit(`/eholdings/resources/${resource.titleId}`, () => {
         expect(ResourcePage.$root).to.exist;
       });
     });
@@ -145,7 +145,7 @@ describeApplication('CustomerResourceShow', () => {
 
     describe('toggling is selected with errors', () => {
       beforeEach(function () {
-        this.server.put('/customer-resources/:id', {
+        this.server.put('/resources/:id', {
           errors: [{
             title: 'There was an error'
           }]
@@ -171,7 +171,7 @@ describeApplication('CustomerResourceShow', () => {
 
     describe('toggling is selected with multiple errors', () => {
       beforeEach(function () {
-        this.server.put('/customer-resources/:id', {
+        this.server.put('/resources/:id', {
           errors: [{
             title: 'There was an error'
           }, {
@@ -198,7 +198,7 @@ describeApplication('CustomerResourceShow', () => {
 
       it.always.skip('does not navigate away', function () {
         expect(this.app.history.location.pathname)
-          .to.equal(`/eholdings/customer-resources/${resource.titleId}`);
+          .to.equal(`/eholdings/resources/${resource.titleId}`);
       });
 
       it('shows a navigation modal', () => {
@@ -231,16 +231,16 @@ describeApplication('CustomerResourceShow', () => {
 
         it.always.skip('does not navigation away', function () {
           expect(this.app.history.location.pathname)
-            .to.equal(`/eholdings/customer-resources/${resource.titleId}`);
+            .to.equal(`/eholdings/resources/${resource.titleId}`);
         });
       });
     });
   });
 
-  describe('navigating to customer resource page', () => {
+  describe('navigating to resource page', () => {
     beforeEach(function () {
       return this.visit({
-        pathname: `/eholdings/customer-resources/${resource.id}`,
+        pathname: `/eholdings/resources/${resource.id}`,
         // our internal link component automatically sets the location state
         state: { eholdings: true }
       }, () => {
@@ -253,7 +253,7 @@ describeApplication('CustomerResourceShow', () => {
     });
   });
 
-  describe('visiting the customer resource page with some attributes undefined', () => {
+  describe('visiting the resource page with some attributes undefined', () => {
     beforeEach(function () {
       providerPackage = this.server.create('package', 'withTitles', {
         provider,
@@ -267,13 +267,13 @@ describeApplication('CustomerResourceShow', () => {
         publicationType: ''
       });
 
-      resource = this.server.create('customer-resource', {
+      resource = this.server.create('resource', {
         package: providerPackage,
         isSelected: false,
         title
       });
 
-      return this.visit(`/eholdings/customer-resources/${resource.id}`, () => {
+      return this.visit(`/eholdings/resources/${resource.id}`, () => {
         expect(ResourcePage.$root).to.exist;
       });
     });
@@ -291,7 +291,7 @@ describeApplication('CustomerResourceShow', () => {
     });
   });
 
-  describe('visiting the customer resource page with unknown attribute values', () => {
+  describe('visiting the resource page with unknown attribute values', () => {
     beforeEach(function () {
       providerPackage = this.server.create('package', 'withTitles', {
         provider,
@@ -305,13 +305,13 @@ describeApplication('CustomerResourceShow', () => {
         publicationType: 'UnknownPublicationType'
       });
 
-      resource = this.server.create('customer-resource', {
+      resource = this.server.create('resource', {
         package: providerPackage,
         isSelected: false,
         title
       });
 
-      return this.visit(`/eholdings/customer-resources/${resource.id}`, () => {
+      return this.visit(`/eholdings/resources/${resource.id}`, () => {
         expect(ResourcePage.$root).to.exist;
       });
     });
@@ -331,13 +331,13 @@ describeApplication('CustomerResourceShow', () => {
 
   describe('encountering a server error', () => {
     beforeEach(function () {
-      this.server.get('/customer-resources/:id', {
+      this.server.get('/resources/:id', {
         errors: [{
           title: 'There was an error'
         }]
       }, 500);
 
-      return this.visit(`/eholdings/customer-resources/${resource.id}`, () => {
+      return this.visit(`/eholdings/resources/${resource.id}`, () => {
         expect(ResourcePage.$root).to.exist;
       });
     });

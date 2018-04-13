@@ -11,7 +11,7 @@ class Package {
   titleCount = 0;
   customCoverage = {};
   visibilityData = {};
-  customerResources = hasMany();
+  resources = hasMany();
   isCustom = false;
   packageType = '';
 }

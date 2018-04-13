@@ -16,14 +16,14 @@ import ToggleSwitch from './toggle-switch';
 import CoverageDateList from './coverage-date-list';
 import { isBookPublicationType, isValidCoverageList, processErrors } from './utilities';
 import Modal from './modal';
-import CustomerResourceCoverage from './customer-resource-coverage';
+import ResourceCoverage from './resource-coverage';
 import CustomEmbargoForm from './custom-embargo-form';
 import CoverageStatementForm from './coverage-statement-form';
 import NavigationModal from './navigation-modal';
 import DetailsViewSection from './details-view-section';
 import Toaster from './toaster';
 
-export default class CustomerResourceShow extends Component {
+export default class ResourceShow extends Component {
   static propTypes = {
     model: PropTypes.object.isRequired,
     toggleSelected: PropTypes.func.isRequired,
@@ -127,7 +127,7 @@ export default class CustomerResourceShow extends Component {
       {
         label: 'Edit',
         to: {
-          pathname: `/eholdings/customer-resources/${model.id}/edit`,
+          pathname: `/eholdings/resources/${model.id}/edit`,
           state: { eholdings: true }
         }
       }
@@ -148,7 +148,7 @@ export default class CustomerResourceShow extends Component {
               <IconButton
                 icon="edit"
                 ariaLabel={`Edit ${model.name}`}
-                href={`/eholdings/customer-resources/${model.id}/edit`}
+                href={`/eholdings/resources/${model.id}/edit`}
               />
             </PaneMenu>
           )}
@@ -159,14 +159,14 @@ export default class CustomerResourceShow extends Component {
                 <ContributorsList data={model.contributors} />
 
                 <KeyValue label="Publisher">
-                  <div data-test-eholdings-customer-resource-show-publisher-name>
+                  <div data-test-eholdings-resource-show-publisher-name>
                     {model.publisherName}
                   </div>
                 </KeyValue>
 
                 {model.publicationType && (
                   <KeyValue label="Publication type">
-                    <div data-test-eholdings-customer-resource-show-publication-type>
+                    <div data-test-eholdings-resource-show-publication-type>
                       {model.publicationType}
                     </div>
                   </KeyValue>
@@ -176,20 +176,20 @@ export default class CustomerResourceShow extends Component {
 
                 {model.subjects.length > 0 && (
                   <KeyValue label="Subjects">
-                    <div data-test-eholdings-customer-resource-show-subjects-list>
+                    <div data-test-eholdings-resource-show-subjects-list>
                       {model.subjects.map(subjectObj => subjectObj.subject).join('; ')}
                     </div>
                   </KeyValue>
                 )}
 
                 <KeyValue label="Provider">
-                  <div data-test-eholdings-customer-resource-show-provider-name>
+                  <div data-test-eholdings-resource-show-provider-name>
                     <Link to={`/eholdings/providers/${model.providerId}`}>{model.providerName}</Link>
                   </div>
                 </KeyValue>
 
                 <KeyValue label="Package">
-                  <div data-test-eholdings-customer-resource-show-package-name>
+                  <div data-test-eholdings-resource-show-package-name>
                     <Link to={`/eholdings/packages/${model.packageId}`}>{model.packageName}</Link>
                   </div>
                 </KeyValue>
@@ -202,7 +202,7 @@ export default class CustomerResourceShow extends Component {
 
                 {model.contentType && (
                   <KeyValue label="Content type">
-                    <div data-test-eholdings-customer-resource-show-content-type>
+                    <div data-test-eholdings-resource-show-content-type>
                       {model.contentType}
                     </div>
                   </KeyValue>
@@ -210,7 +210,7 @@ export default class CustomerResourceShow extends Component {
 
                 {model.url && (
                   <KeyValue label="Managed URL">
-                    <div data-test-eholdings-customer-resource-show-managed-url>
+                    <div data-test-eholdings-resource-show-managed-url>
                       <a href={model.url} target="_blank">{model.url}</a>
                     </div>
                   </KeyValue>
@@ -218,8 +218,8 @@ export default class CustomerResourceShow extends Component {
               </DetailsViewSection>
               <DetailsViewSection label="Holding status">
                 <label
-                  data-test-eholdings-customer-resource-show-selected
-                  htmlFor="customer-resource-show-toggle-switch"
+                  data-test-eholdings-resource-show-selected
+                  htmlFor="resource-show-toggle-switch"
                 >
                   <h4>{resourceSelected ? 'Selected' : 'Not selected'}</h4>
                   <br />
@@ -227,7 +227,7 @@ export default class CustomerResourceShow extends Component {
                     onChange={this.handleSelectionToggle}
                     checked={resourceSelected}
                     isPending={model.update.isPending && 'isSelected' in model.update.changedAttributes}
-                    id="customer-resource-show-toggle-switch"
+                    id="resource-show-toggle-switch"
                   />
                 </label>
               </DetailsViewSection>
@@ -235,8 +235,8 @@ export default class CustomerResourceShow extends Component {
                 {resourceSelected ? (
                   <div>
                     <label
-                      data-test-eholdings-customer-resource-toggle-hidden
-                      htmlFor="customer-resource-show-hide-toggle-switch"
+                      data-test-eholdings-resource-toggle-hidden
+                      htmlFor="resource-show-hide-toggle-switch"
                     >
                       <h4>
                         {model.visibilityData.isHidden
@@ -249,12 +249,12 @@ export default class CustomerResourceShow extends Component {
                         checked={!resourceHidden}
                         isPending={model.update.isPending &&
                           ('visibilityData' in model.update.changedAttributes)}
-                        id="customer-resource-show-hide-toggle-switch"
+                        id="resource-show-hide-toggle-switch"
                       />
                     </label>
 
                     {model.visibilityData.isHidden && (
-                      <div data-test-eholdings-customer-resource-toggle-hidden-reason>
+                      <div data-test-eholdings-resource-toggle-hidden-reason>
                         {model.package.visibilityData.isHidden
                           ? 'All titles in this package are hidden.'
                           : model.visibilityData.reason}
@@ -271,7 +271,7 @@ export default class CustomerResourceShow extends Component {
               >
                 {hasManagedCoverages && (
                   <KeyValue label="Managed coverage dates">
-                    <div data-test-eholdings-customer-resource-show-managed-coverage-list>
+                    <div data-test-eholdings-resource-show-managed-coverage-list>
                       <CoverageDateList
                         coverageArray={model.managedCoverages}
                         isYearOnly={isBookPublicationType(model.publicationType)}
@@ -281,7 +281,7 @@ export default class CustomerResourceShow extends Component {
                 )}
 
                 {resourceSelected && (
-                  <CustomerResourceCoverage
+                  <ResourceCoverage
                     initialValues={{ customCoverages }}
                     packageCoverage={model.package.customCoverage}
                     isEditable={isCoverageEditable}
@@ -324,7 +324,7 @@ export default class CustomerResourceShow extends Component {
               >
                 {hasManagedEmbargoPeriod && (
                   <KeyValue label="Managed embargo period">
-                    <div data-test-eholdings-customer-resource-show-managed-embargo-period>
+                    <div data-test-eholdings-resource-show-managed-embargo-period>
                       {model.managedEmbargoPeriod.embargoValue} {model.managedEmbargoPeriod.embargoUnit}
                     </div>
                   </KeyValue>
@@ -354,19 +354,19 @@ export default class CustomerResourceShow extends Component {
           size="small"
           label="Remove resource from holdings?"
           scope="root"
-          id="eholdings-customer-resource-deselection-confirmation-modal"
+          id="eholdings-resource-deselection-confirmation-modal"
           footer={(
             <div>
               <Button
                 buttonStyle="primary"
                 onClick={this.commitSelectionToggle}
-                data-test-eholdings-customer-resource-deselection-confirmation-modal-yes
+                data-test-eholdings-resource-deselection-confirmation-modal-yes
               >
                 Yes, remove
               </Button>
               <Button
                 onClick={this.cancelSelectionToggle}
-                data-test-eholdings-customer-resource-deselection-confirmation-modal-no
+                data-test-eholdings-resource-deselection-confirmation-modal-no
               >
                 No, do not remove
               </Button>
@@ -377,7 +377,7 @@ export default class CustomerResourceShow extends Component {
             /*
                we use <= here to account for the case where a user
                selects and then immediately deselects the
-               customerResource
+               resource
             */
             model.package.selectedCount <= 1 ? (
               <span data-test-eholdings-deselect-final-title-warning>

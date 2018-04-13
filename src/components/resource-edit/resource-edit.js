@@ -10,13 +10,13 @@ import {
 
 import DetailsView from '../details-view';
 import CoverageStatementFields, { validate as validateCoverageStatement } from '../coverage-statement-fields';
-import CustomerResourceCoverageFields, { validate as validateCoverageDates } from '../customer-resource-coverage-fields';
+import ResourceCoverageFields, { validate as validateCoverageDates } from '../resource-coverage-fields';
 import CustomEmbargoFields, { validate as validateEmbargo } from '../custom-embargo-fields';
 import DetailsViewSection from '../details-view-section';
 import NavigationModal from '../navigation-modal';
-import styles from './customer-resource-edit.css';
+import styles from './resource-edit.css';
 
-class CustomerResourceEdit extends Component {
+class ResourceEdit extends Component {
   static propTypes = {
     model: PropTypes.object.isRequired,
     initialValues: PropTypes.object.isRequired,
@@ -40,7 +40,7 @@ class CustomerResourceEdit extends Component {
 
     if (wasPending && needsUpdate) {
       this.context.router.history.push(
-        `/eholdings/customer-resources/${this.props.model.id}`,
+        `/eholdings/resources/${this.props.model.id}`,
         { eholdings: true }
       );
     }
@@ -48,7 +48,7 @@ class CustomerResourceEdit extends Component {
 
   handleCancel = () => {
     this.context.router.history.push(
-      `/eholdings/customer-resources/${this.props.model.id}`,
+      `/eholdings/resources/${this.props.model.id}`,
       { eholdings: true }
     );
   }
@@ -66,7 +66,7 @@ class CustomerResourceEdit extends Component {
       {
         label: 'Cancel editing',
         to: {
-          pathname: `/eholdings/customer-resources/${model.id}`,
+          pathname: `/eholdings/resources/${model.id}`,
           state: { eholdings: true }
         }
       }
@@ -84,7 +84,7 @@ class CustomerResourceEdit extends Component {
             <DetailsViewSection
               label="Coverage dates"
             >
-              <CustomerResourceCoverageFields />
+              <ResourceCoverageFields />
             </DetailsViewSection>
             <DetailsViewSection
               label="Coverage statement"
@@ -96,9 +96,9 @@ class CustomerResourceEdit extends Component {
             >
               <CustomEmbargoFields change={change} />
             </DetailsViewSection>
-            <div className={styles['customer-resource-edit-action-buttons']}>
+            <div className={styles['resource-edit-action-buttons']}>
               <div
-                data-test-eholdings-customer-resource-cancel-button
+                data-test-eholdings-resource-cancel-button
               >
                 <Button
                   disabled={model.update.isPending}
@@ -109,7 +109,7 @@ class CustomerResourceEdit extends Component {
                 </Button>
               </div>
               <div
-                data-test-eholdings-customer-resource-save-button
+                data-test-eholdings-resource-save-button
               >
                 <Button
                   disabled={pristine || model.update.isPending}
@@ -138,6 +138,6 @@ const validate = (values, props) => {
 export default reduxForm({
   validate,
   enableReinitialize: true,
-  form: 'CustomerResourceEdit',
+  form: 'ResourceEdit',
   destroyOnUnmount: false,
-})(CustomerResourceEdit);
+})(ResourceEdit);

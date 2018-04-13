@@ -7,7 +7,7 @@ class Title {
   subjects = [];
   contributors = [];
   identifiers = [];
-  customerResources = hasMany();
+  resources = hasMany();
 }
 
 export default model({

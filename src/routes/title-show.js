@@ -45,6 +45,6 @@ export default connect(
   ({ eholdings: { data } }, { match }) => ({
     model: createResolver(data).find('titles', match.params.titleId)
   }), {
-    getTitle: id => Title.find(id, { include: 'customerResources' })
+    getTitle: id => Title.find(id, { include: 'resources' })
   }
 )(TitleShowRoute);

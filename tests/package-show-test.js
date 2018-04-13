@@ -7,7 +7,7 @@ import PackageShowPage from './pages/package-show';
 describeApplication('PackageShow', () => {
   let provider,
     providerPackage,
-    customerResources;
+    resources;
 
   beforeEach(function () {
     provider = this.server.create('provider', {
@@ -23,7 +23,7 @@ describeApplication('PackageShow', () => {
       packageType: 'Complete'
     });
 
-    customerResources = this.server.schema.where('customer-resource', { packageId: providerPackage.id }).models;
+    resources = this.server.schema.where('resource', { packageId: providerPackage.id }).models;
   });
 
   describe('visiting the package details page', () => {
@@ -70,11 +70,11 @@ describeApplication('PackageShow', () => {
     });
 
     it('displays name of a title in the title list', () => {
-      expect(PackageShowPage.titleList(0).name).to.equal(customerResources[0].title.name);
+      expect(PackageShowPage.titleList(0).name).to.equal(resources[0].title.name);
     });
 
     it('displays whether the first title is selected', () => {
-      expect(PackageShowPage.titleList(0).isSelectedLabel).to.equal((customerResources[0].isSelected ? 'Selected' : 'Not selected'));
+      expect(PackageShowPage.titleList(0).isSelectedLabel).to.equal((resources[0].isSelected ? 'Selected' : 'Not selected'));
     });
 
     it.always('should not display a back button', () => {
@@ -105,7 +105,7 @@ describeApplication('PackageShow', () => {
 
       it('displays different titles', () => {
         expect(PackageShowPage.numTitles).to.equal('2');
-        expect(PackageShowPage.titleList(0).name).to.not.equal(customerResources[0].title.name);
+        expect(PackageShowPage.titleList(0).name).to.not.equal(resources[0].title.name);
       });
     });
   });

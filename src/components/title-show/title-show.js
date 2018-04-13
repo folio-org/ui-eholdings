@@ -68,13 +68,13 @@ export default function TitleShow({ model }, { queryParams }) {
         renderList={scrollable => (
           <ScrollView
             itemHeight={70}
-            items={model.customerResources}
+            items={model.resources}
             scrollable={scrollable}
             data-test-query-list="title-packages"
           >
             {item => (
               <PackageListItem
-                link={`/eholdings/customer-resources/${item.id}`}
+                link={`/eholdings/resources/${item.id}`}
                 packageName={item.packageName}
                 item={item}
                 headingLevel='h4'

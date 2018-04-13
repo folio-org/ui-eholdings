@@ -32,12 +32,12 @@ export default Factory.extend({
       // Decide how many will be selected (0 to total)
       let selectedCount = faker.random.number({ min: 0, max: total });
 
-      server.createList('customerResource', selectedCount, 'withPackage', 'withManagedCoverage', {
+      server.createList('resource', selectedCount, 'withPackage', 'withManagedCoverage', {
         title,
         isSelected: true
       });
 
-      server.createList('customerResource', (total - selectedCount), 'withPackage', 'withManagedCoverage', {
+      server.createList('resource', (total - selectedCount), 'withPackage', 'withManagedCoverage', {
         title,
         isSelected: false
       });

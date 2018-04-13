@@ -11,8 +11,8 @@ import ProviderShow from './routes/provider-show';
 import PackageShow from './routes/package-show';
 import PackageEdit from './routes/package-edit';
 import TitleShow from './routes/title-show';
-import CustomerResourceShow from './routes/customer-resource-show';
-import CustomerResourceEdit from './routes/customer-resource-edit';
+import ResourceShow from './routes/resource-show';
+import ResourceEdit from './routes/resource-edit';
 
 import SettingsKnowledgeBaseRoute from './routes/settings-knowledge-base';
 import SettingsRootProxyRoute from './routes/settings-root-proxy';
@@ -73,8 +73,8 @@ export default class EHoldings extends Component {
             <Route path={`${rootPath}/packages/:packageId`} exact component={PackageShow} />
             <Route path={`${rootPath}/packages/:packageId/edit`} exact component={PackageEdit} />
             <Route path={`${rootPath}/titles/:titleId`} exact component={TitleShow} />
-            <Route path={`${rootPath}/customer-resources/:id`} exact component={CustomerResourceShow} />
-            <Route path={`${rootPath}/customer-resources/:id/edit`} exact component={CustomerResourceEdit} />
+            <Route path={`${rootPath}/resources/:id`} exact component={ResourceShow} />
+            <Route path={`${rootPath}/resources/:id/edit`} exact component={ResourceEdit} />
             <Route render={() => (<Redirect to={`${rootPath}?searchType=providers`} />)} />
           </Switch>
         </Route>

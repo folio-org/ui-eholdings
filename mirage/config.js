@@ -151,16 +151,16 @@ export default function configure() {
   this.get('/packages/:id', ({ packages }, request) => {
     let pkg = packages.find(request.params.id);
 
-    if (pkg && pkg.customerResources.length > 25) {
-      pkg.customerResources = pkg.customerResources.slice(0, 25);
+    if (pkg && pkg.resources.length > 25) {
+      pkg.resources = pkg.resources.slice(0, 25);
     }
 
     return pkg;
   });
 
-  this.put('/packages/:id', ({ packages, customerResources }, request) => {
+  this.put('/packages/:id', ({ packages, resources }, request) => {
     let matchingPackage = packages.find(request.params.id);
-    let matchingCustomerResources = customerResources.where({
+    let matchingResources = resources.where({
       packageId: request.params.id
     });
 
@@ -174,10 +174,10 @@ export default function configure() {
       contentType
     } = body.data.attributes;
 
-    let selectedCount = isSelected ? matchingCustomerResources.length : 0;
+    let selectedCount = isSelected ? matchingResources.length : 0;
 
-    matchingCustomerResources.update('isSelected', isSelected);
-    matchingCustomerResources.update('visibilityData', visibilityData);
+    matchingResources.update('isSelected', isSelected);
+    matchingResources.update('visibilityData', visibilityData);
     matchingPackage.update('isSelected', isSelected);
     matchingPackage.update('customCoverage', customCoverage);
     matchingPackage.update('selectedCount', selectedCount);
@@ -215,7 +215,7 @@ export default function configure() {
     }
 
     if (filtered && selected) {
-      filtered = title.customerResources.models.some((resource) => {
+      filtered = title.resources.models.some((resource) => {
         return resource.isSelected.toString() === selected;
       });
     }
@@ -227,15 +227,15 @@ export default function configure() {
     return titles.find(request.params.id);
   });
 
-  // Customer Resource resources
-  this.get('/packages/:id/customer-resources', nestedResourceRouteFor('package', 'customerResources'));
+  // Resources
+  this.get('/packages/:id/resources', nestedResourceRouteFor('package', 'resources'));
 
-  this.get('/customer-resources/:id', ({ customerResources }, request) => {
-    return customerResources.find(request.params.id);
+  this.get('/resources/:id', ({ resources }, request) => {
+    return resources.find(request.params.id);
   });
 
-  this.put('/customer-resources/:id', ({ customerResources }, request) => {
-    let matchingCustomerResource = customerResources.find(request.params.id);
+  this.put('/resources/:id', ({ resources }, request) => {
+    let matchingResource = resources.find(request.params.id);
 
     let body = JSON.parse(request.requestBody);
     let {
@@ -246,13 +246,13 @@ export default function configure() {
       coverageStatement
     } = body.data.attributes;
 
-    matchingCustomerResource.update('isSelected', isSelected);
-    matchingCustomerResource.update('visibilityData', visibilityData);
-    matchingCustomerResource.update('customCoverages', customCoverages);
-    matchingCustomerResource.update('customEmbargoPeriod', customEmbargoPeriod);
-    matchingCustomerResource.update('coverageStatement', coverageStatement);
+    matchingResource.update('isSelected', isSelected);
+    matchingResource.update('visibilityData', visibilityData);
+    matchingResource.update('customCoverages', customCoverages);
+    matchingResource.update('customEmbargoPeriod', customEmbargoPeriod);
+    matchingResource.update('coverageStatement', coverageStatement);
 
-    return matchingCustomerResource;
+    return matchingResource;
   });
 
   // translation bundle passthrough

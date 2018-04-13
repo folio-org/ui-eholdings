@@ -4,7 +4,7 @@ import { expect } from 'chai';
 import { describeApplication } from './helpers';
 import PackageSearchPage from './pages/package-search';
 import PackageShowPage from './pages/package-show';
-import ResourceShowPage from './pages/customer-resource-show';
+import ResourceShowPage from './pages/resource-show';
 
 describeApplication('PackageSearch', () => {
   let pkgs;

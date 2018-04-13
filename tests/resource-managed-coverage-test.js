@@ -2,9 +2,9 @@ import { beforeEach, describe, it } from '@bigtest/mocha';
 import { expect } from 'chai';
 
 import { describeApplication } from './helpers';
-import CustomerResourceShowPage from './pages/customer-resource-show';
+import ResourceShowPage from './pages/resource-show';
 
-describeApplication('CustomerResourceManagedCoverage', () => {
+describeApplication('ResourceManagedCoverage', () => {
   let pkg,
     title,
     resource;
@@ -16,39 +16,39 @@ describeApplication('CustomerResourceManagedCoverage', () => {
       publicationType: 'Journal'
     });
 
-    resource = this.server.create('customer-resource', {
+    resource = this.server.create('resource', {
       package: pkg,
       title
     });
   });
 
-  describe('visiting the customer resource page with managed coverage undefined', () => {
+  describe('visiting the resource page with managed coverage undefined', () => {
     beforeEach(function () {
-      return this.visit(`/eholdings/customer-resources/${resource.id}`, () => {
-        expect(CustomerResourceShowPage.$root).to.exist;
+      return this.visit(`/eholdings/resources/${resource.id}`, () => {
+        expect(ResourceShowPage.$root).to.exist;
       });
     });
 
     it.always('does not display the managed coverage section', () => {
-      expect(CustomerResourceShowPage.hasManagedCoverageList).to.be.false;
+      expect(ResourceShowPage.hasManagedCoverageList).to.be.false;
     });
   });
 
-  describe('visiting the customer resource page with empty (0 length) managed coverage array', () => {
+  describe('visiting the resource page with empty (0 length) managed coverage array', () => {
     beforeEach(function () {
       resource.managedCoverages = this.server.createList('managed-coverage', 0).map(m => m.toJSON());
       resource.save();
-      return this.visit(`/eholdings/customer-resources/${resource.id}`, () => {
-        expect(CustomerResourceShowPage.$root).to.exist;
+      return this.visit(`/eholdings/resources/${resource.id}`, () => {
+        expect(ResourceShowPage.$root).to.exist;
       });
     });
 
     it.always('does not display the managed coverage section', () => {
-      expect(CustomerResourceShowPage.hasManagedCoverageList).to.be.false;
+      expect(ResourceShowPage.hasManagedCoverageList).to.be.false;
     });
   });
 
-  describe('visiting the customer resource page with single managed coverage', () => {
+  describe('visiting the resource page with single managed coverage', () => {
     beforeEach(function () {
       resource.managedCoverages = this.server.createList('managed-coverage', 1, {
         beginCoverage: '1969-07-16',
@@ -56,17 +56,17 @@ describeApplication('CustomerResourceManagedCoverage', () => {
       }).map(m => m.toJSON());
 
       resource.save();
-      return this.visit(`/eholdings/customer-resources/${resource.id}`, () => {
-        expect(CustomerResourceShowPage.$root).to.exist;
+      return this.visit(`/eholdings/resources/${resource.id}`, () => {
+        expect(ResourceShowPage.$root).to.exist;
       });
     });
 
     it('displays the managed coverage section for single date', () => {
-      expect(CustomerResourceShowPage.managedCoverageList).to.equal('7/16/1969 - 12/19/1972');
+      expect(ResourceShowPage.managedCoverageList).to.equal('7/16/1969 - 12/19/1972');
     });
   });
 
-  describe('visiting the customer resource page with single managed coverage (endCoverage null)', () => {
+  describe('visiting the resource page with single managed coverage (endCoverage null)', () => {
     beforeEach(function () {
       resource.managedCoverages = this.server.createList('managed-coverage', 1, {
         beginCoverage: '1969-07-16',
@@ -74,17 +74,17 @@ describeApplication('CustomerResourceManagedCoverage', () => {
       }).map(m => m.toJSON());
 
       resource.save();
-      return this.visit(`/eholdings/customer-resources/${resource.id}`, () => {
-        expect(CustomerResourceShowPage.$root).to.exist;
+      return this.visit(`/eholdings/resources/${resource.id}`, () => {
+        expect(ResourceShowPage.$root).to.exist;
       });
     });
 
     it('display the managed coverage section for single date (begin date and no end date)', () => {
-      expect(CustomerResourceShowPage.managedCoverageList).to.equal('7/16/1969 - Present');
+      expect(ResourceShowPage.managedCoverageList).to.equal('7/16/1969 - Present');
     });
   });
 
-  describe('visiting the customer resource page with single managed coverage (endCoverage empty)', () => {
+  describe('visiting the resource page with single managed coverage (endCoverage empty)', () => {
     beforeEach(function () {
       resource.managedCoverages = this.server.createList('managed-coverage', 1, {
         beginCoverage: '1969-07-16',
@@ -92,17 +92,17 @@ describeApplication('CustomerResourceManagedCoverage', () => {
       }).map(m => m.toJSON());
 
       resource.save();
-      return this.visit(`/eholdings/customer-resources/${resource.id}`, () => {
-        expect(CustomerResourceShowPage.$root).to.exist;
+      return this.visit(`/eholdings/resources/${resource.id}`, () => {
+        expect(ResourceShowPage.$root).to.exist;
       });
     });
 
     it('display the managed coverage section for single date (begin date and no end date)', () => {
-      expect(CustomerResourceShowPage.managedCoverageList).to.equal('7/16/1969 - Present');
+      expect(ResourceShowPage.managedCoverageList).to.equal('7/16/1969 - Present');
     });
   });
 
-  describe('visiting the customer resource page with single managed coverage (beginCoverage empty)', () => {
+  describe('visiting the resource page with single managed coverage (beginCoverage empty)', () => {
     beforeEach(function () {
       resource.managedCoverages = this.server.createList('managed-coverage', 1, {
         beginCoverage: '',
@@ -110,17 +110,17 @@ describeApplication('CustomerResourceManagedCoverage', () => {
       }).map(m => m.toJSON());
 
       resource.save();
-      return this.visit(`/eholdings/customer-resources/${resource.id}`, () => {
-        expect(CustomerResourceShowPage.$root).to.exist;
+      return this.visit(`/eholdings/resources/${resource.id}`, () => {
+        expect(ResourceShowPage.$root).to.exist;
       });
     });
 
     it('display the managed coverage section for single date (end date only)', () => {
-      expect(CustomerResourceShowPage.managedCoverageList).to.equal('7/16/1969');
+      expect(ResourceShowPage.managedCoverageList).to.equal('7/16/1969');
     });
   });
 
-  describe('visiting the customer resource page with multiple managed coverage dates', () => {
+  describe('visiting the resource page with multiple managed coverage dates', () => {
     beforeEach(function () {
       resource.managedCoverages = [
         this.server.create('managed-coverage', { beginCoverage: '1969-07-16', endCoverage: '1972-12-19' }),
@@ -128,17 +128,17 @@ describeApplication('CustomerResourceManagedCoverage', () => {
       ].map(m => m.toJSON());
 
       resource.save();
-      return this.visit(`/eholdings/customer-resources/${resource.id}`, () => {
-        expect(CustomerResourceShowPage.$root).to.exist;
+      return this.visit(`/eholdings/resources/${resource.id}`, () => {
+        expect(ResourceShowPage.$root).to.exist;
       });
     });
 
     it('displays date ranges comma separated and ordered by most recent coverage to least recent coverage', () => {
-      expect(CustomerResourceShowPage.managedCoverageList).to.equal('1/1/1974 - 12/19/1979, 7/16/1969 - 12/19/1972');
+      expect(ResourceShowPage.managedCoverageList).to.equal('1/1/1974 - 12/19/1979, 7/16/1969 - 12/19/1972');
     });
   });
 
-  describe('visiting the customer resource page with managed coverage and year only publication type, multiple years', () => {
+  describe('visiting the resource page with managed coverage and year only publication type, multiple years', () => {
     beforeEach(function () {
       title.publicationType = 'Audiobook';
       title.save();
@@ -149,17 +149,17 @@ describeApplication('CustomerResourceManagedCoverage', () => {
       }).map(m => m.toJSON());
 
       resource.save();
-      return this.visit(`/eholdings/customer-resources/${resource.id}`, () => {
-        expect(CustomerResourceShowPage.$root).to.exist;
+      return this.visit(`/eholdings/resources/${resource.id}`, () => {
+        expect(ResourceShowPage.$root).to.exist;
       });
     });
 
     it('displays dates with YYYY format', () => {
-      expect(CustomerResourceShowPage.managedCoverageList).to.equal('1969 - 1972');
+      expect(ResourceShowPage.managedCoverageList).to.equal('1969 - 1972');
     });
   });
 
-  describe('visiting the customer resource page with managed coverage and year only publication type single year', () => {
+  describe('visiting the resource page with managed coverage and year only publication type single year', () => {
     beforeEach(function () {
       title.publicationType = 'Audiobook';
       title.save();
@@ -170,17 +170,17 @@ describeApplication('CustomerResourceManagedCoverage', () => {
       }).map(m => m.toJSON());
 
       resource.save();
-      return this.visit(`/eholdings/customer-resources/${resource.id}`, () => {
-        expect(CustomerResourceShowPage.$root).to.exist;
+      return this.visit(`/eholdings/resources/${resource.id}`, () => {
+        expect(ResourceShowPage.$root).to.exist;
       });
     });
 
     it('displays dates with YYYY format', () => {
-      expect(CustomerResourceShowPage.managedCoverageList).to.equal('1969');
+      expect(ResourceShowPage.managedCoverageList).to.equal('1969');
     });
   });
 
-  describe('visiting the customer resource page with managed coverage and year only publication type missing end year', () => {
+  describe('visiting the resource page with managed coverage and year only publication type missing end year', () => {
     beforeEach(function () {
       title.publicationType = 'Audiobook';
       title.save();
@@ -191,17 +191,17 @@ describeApplication('CustomerResourceManagedCoverage', () => {
       }).map(m => m.toJSON());
 
       resource.save();
-      return this.visit(`/eholdings/customer-resources/${resource.id}`, () => {
-        expect(CustomerResourceShowPage.$root).to.exist;
+      return this.visit(`/eholdings/resources/${resource.id}`, () => {
+        expect(ResourceShowPage.$root).to.exist;
       });
     });
 
     it('displays dates with YYYY format', () => {
-      expect(CustomerResourceShowPage.managedCoverageList).to.equal('1969');
+      expect(ResourceShowPage.managedCoverageList).to.equal('1969');
     });
   });
 
-  describe('visiting the customer resource page with managed coverage and year only publication type missing begin year', () => {
+  describe('visiting the resource page with managed coverage and year only publication type missing begin year', () => {
     beforeEach(function () {
       title.publicationType = 'Audiobook';
       title.save();
@@ -212,17 +212,17 @@ describeApplication('CustomerResourceManagedCoverage', () => {
       }).map(m => m.toJSON());
 
       resource.save();
-      return this.visit(`/eholdings/customer-resources/${resource.id}`, () => {
-        expect(CustomerResourceShowPage.$root).to.exist;
+      return this.visit(`/eholdings/resources/${resource.id}`, () => {
+        expect(ResourceShowPage.$root).to.exist;
       });
     });
 
     it('displays dates with YYYY format', () => {
-      expect(CustomerResourceShowPage.managedCoverageList).to.equal('1969');
+      expect(ResourceShowPage.managedCoverageList).to.equal('1969');
     });
   });
 
-  describe('visiting the customer resource page with managed coverage and year only publication type missing begin and end year', () => {
+  describe('visiting the resource page with managed coverage and year only publication type missing begin and end year', () => {
     beforeEach(function () {
       title.publicationType = 'Audiobook';
       title.save();
@@ -233,13 +233,13 @@ describeApplication('CustomerResourceManagedCoverage', () => {
       }).map(m => m.toJSON());
 
       resource.save();
-      return this.visit(`/eholdings/customer-resources/${resource.id}`, () => {
-        expect(CustomerResourceShowPage.$root).to.exist;
+      return this.visit(`/eholdings/resources/${resource.id}`, () => {
+        expect(ResourceShowPage.$root).to.exist;
       });
     });
 
     it.always('does not display managed coverage list', () => {
-      expect(CustomerResourceShowPage.hasManagedCoverageList).to.be.false;
+      expect(ResourceShowPage.hasManagedCoverageList).to.be.false;
     });
   });
 });

@@ -8,76 +8,76 @@ export default Factory.extend({
   managedCoverages: [],
 
   withTitle: trait({
-    afterCreate(customerResource, server) {
+    afterCreate(resource, server) {
       let title = server.create('title', 'withSubjects', 'withContributors', 'withIdentifiers');
-      customerResource.title = title;
-      customerResource.save();
+      resource.title = title;
+      resource.save();
     }
   }),
 
   withPackage: trait({
-    afterCreate(customerResource, server) {
+    afterCreate(resource, server) {
       let packageObj = server.create('package', 'withProvider');
-      customerResource.update({
+      resource.update({
         package: packageObj
       });
-      customerResource.save();
+      resource.save();
     }
   }),
 
   withManagedCoverage: trait({
-    afterCreate(customerResource, server) {
+    afterCreate(resource, server) {
       let managedCoverages = server.createList('managed-coverage', 1);
-      customerResource.update('managedCoverages', managedCoverages.map(item => item.toJSON()));
-      customerResource.save();
+      resource.update('managedCoverages', managedCoverages.map(item => item.toJSON()));
+      resource.save();
     }
   }),
 
   isHidden: trait({
-    afterCreate(customerResource, server) {
+    afterCreate(resource, server) {
       let visibilityData = server.create('visibility-data', {
         isHidden: true,
         reason: 'The content is for mature audiences only.'
       });
-      customerResource.update('visibilityData', visibilityData.toJSON());
-      customerResource.save();
+      resource.update('visibilityData', visibilityData.toJSON());
+      resource.save();
     }
   }),
 
   isHiddenWithoutReason: trait({
-    afterCreate(customerResource, server) {
+    afterCreate(resource, server) {
       let visibilityData = server.create('visibility-data', {
         isHidden: true,
         reason: ''
       });
-      customerResource.update('visibilityData', visibilityData.toJSON());
-      customerResource.save();
+      resource.update('visibilityData', visibilityData.toJSON());
+      resource.save();
     }
   }),
 
-  afterCreate(customerResource, server) {
-    if (!customerResource.visibilityData) {
+  afterCreate(resource, server) {
+    if (!resource.visibilityData) {
       let visibilityData = server.create('visibility-data');
-      customerResource.update('visibilityData', visibilityData.toJSON());
-      customerResource.save();
+      resource.update('visibilityData', visibilityData.toJSON());
+      resource.save();
     }
 
-    if (!customerResource.customEmbargoPeriod) {
+    if (!resource.customEmbargoPeriod) {
       let customEmbargoPeriod = server.create('embargo-period', {
         embargoUnit: null,
         embargoValue: 0
       });
-      customerResource.update('customEmbargoPeriod', customEmbargoPeriod.toJSON());
-      customerResource.save();
+      resource.update('customEmbargoPeriod', customEmbargoPeriod.toJSON());
+      resource.save();
     }
 
-    if (!customerResource.managedEmbargoPeriod) {
+    if (!resource.managedEmbargoPeriod) {
       let managedEmbargoPeriod = server.create('embargo-period', {
         embargoUnit: null,
         embargoValue: 0
       });
-      customerResource.update('managedEmbargoPeriod', managedEmbargoPeriod.toJSON());
-      customerResource.save();
+      resource.update('managedEmbargoPeriod', managedEmbargoPeriod.toJSON());
+      resource.save();
     }
   }
 });

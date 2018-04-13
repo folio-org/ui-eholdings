@@ -2,9 +2,9 @@ import { beforeEach, describe, it } from '@bigtest/mocha';
 import { expect } from 'chai';
 
 import { describeApplication } from './helpers';
-import ResourcePage from './pages/customer-resource-show';
+import ResourcePage from './pages/resource-show';
 
-describeApplication('CustomerResourceDeselection', () => {
+describeApplication('ResourceDeselection', () => {
   let provider,
     title,
     providerPackage,
@@ -27,17 +27,17 @@ describeApplication('CustomerResourceDeselection', () => {
       selectedCount: 1
     });
 
-    resource = this.server.create('customer-resource', {
+    resource = this.server.create('resource', {
       package: providerPackage,
       isSelected: true,
       title
     });
   });
 
-  describe('visiting the customer resource page', () => {
+  describe('visiting the resource page', () => {
     describe('part of a package with only one selected title', () => {
       beforeEach(function () {
-        return this.visit(`/eholdings/customer-resources/${resource.id}`, () => {
+        return this.visit(`/eholdings/resources/${resource.id}`, () => {
           expect(ResourcePage.$root).to.exist;
         });
       });
@@ -62,7 +62,7 @@ describeApplication('CustomerResourceDeselection', () => {
         providerPackage.titleCount = 5;
         providerPackage.selectedCount = 2;
 
-        return this.visit(`/eholdings/customer-resources/${resource.id}`, () => {
+        return this.visit(`/eholdings/resources/${resource.id}`, () => {
           expect(ResourcePage.$root).to.exist;
         });
       });

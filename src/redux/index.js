@@ -5,7 +5,7 @@ import Resolver from './resolver';
 import ProviderModel from './provider';
 import PackageModel from './package';
 import TitleModel from './title';
-import CustomerResourceModel from './customer-resource';
+import ResourceModel from './resource';
 import {
   Status as StatusModel,
   Configuration as ConfigurationModel
@@ -21,7 +21,7 @@ export const createResolver = (state) => {
     ProviderModel,
     PackageModel,
     TitleModel,
-    CustomerResourceModel,
+    ResourceModel,
     StatusModel,
     ConfigurationModel
   ]);

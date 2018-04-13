@@ -1,11 +1,11 @@
 import padStart from 'lodash/padStart';
 
-// package with pages of customer resources
+// package with pages of resources
 let pagedPackage = {
   id: 'paged_pkg',
   name: 'Paged Package',
   providerId: 'rel_provider',
-  customerResourceIds: new Array(50).fill().map((_, i) => {
+  resourceIds: new Array(50).fill().map((_, i) => {
     return `pkg_cust_${padStart(i, 3, '0')}`;
   })
 };
@@ -19,7 +19,7 @@ let providerPackages = new Array(50).fill().map((_, i) => {
   };
 });
 
-// related packages for the paged title customer resources
+// related packages for the paged title resources
 let titlePackages = new Array(50).fill().map((_, i) => {
   return {
     id: `title_pkg_${padStart(i, 3, '0')}`,

@@ -6,7 +6,7 @@ import TitleShowPage from './pages/title-show';
 
 describeApplication('TitleShow', () => {
   let title,
-    customerResources;
+    resources;
 
   beforeEach(function () {
     title = this.server.create('title', 'withPackages', {
@@ -37,7 +37,7 @@ describeApplication('TitleShow', () => {
 
     title.save();
 
-    customerResources = title.customerResources.models;
+    resources = title.resources.models;
   });
 
   describe('visiting the title page', () => {
@@ -95,16 +95,16 @@ describeApplication('TitleShow', () => {
       expect(TitleShowPage.subjectsList).to.equal('Cool Subject 1; Cool Subject 2; Cool Subject 3');
     });
 
-    it('displays a list of customer resources', () => {
-      expect(TitleShowPage.packageList()).to.have.lengthOf(customerResources.length);
+    it('displays a list of resources', () => {
+      expect(TitleShowPage.packageList()).to.have.lengthOf(resources.length);
     });
 
-    it('displays name of a package in the customer resource list', () => {
-      expect(TitleShowPage.packageList(0).name).to.equal(customerResources[0].package.name);
+    it('displays name of a package in the resource list', () => {
+      expect(TitleShowPage.packageList(0).name).to.equal(resources[0].package.name);
     });
 
-    it('displays whether the first customer resource is selected', () => {
-      expect(TitleShowPage.packageList(0).isSelected).to.equal(customerResources[0].isSelected);
+    it('displays whether the first resource is selected', () => {
+      expect(TitleShowPage.packageList(0).isSelected).to.equal(resources[0].isSelected);
     });
 
     it.always('should not display back button', () => {
@@ -137,7 +137,7 @@ describeApplication('TitleShow', () => {
       });
 
       title.save();
-      customerResources = title.customerResources.models;
+      resources = title.resources.models;
       return this.visit(`/eholdings/titles/${title.id}`, () => {
         expect(TitleShowPage.$root).to.exist;
       });
@@ -181,7 +181,7 @@ describeApplication('TitleShow', () => {
       });
 
       title.save();
-      customerResources = title.customerResources.models;
+      resources = title.resources.models;
       return this.visit(`/eholdings/titles/${title.id}`, () => {
         expect(TitleShowPage.$root).to.exist;
       });

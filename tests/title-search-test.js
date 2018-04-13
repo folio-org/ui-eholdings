@@ -3,7 +3,7 @@ import { expect } from 'chai';
 
 import { describeApplication } from './helpers';
 import TitleSearchPage from './pages/title-search';
-import ResourceShowPage from './pages/customer-resource-show';
+import ResourceShowPage from './pages/resource-show';
 
 describeApplication('TitleSearch', () => {
   let titles;
@@ -18,7 +18,7 @@ describeApplication('TitleSearch', () => {
 
     // make sure only one of these is not selected
     titles.forEach((title, i) => {
-      title.customerResources.update('isSelected', !!i);
+      title.resources.update('isSelected', !!i);
     });
 
     // set up subjects
