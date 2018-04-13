@@ -218,8 +218,10 @@ export default class PackageShow extends Component {
                   <br />
                   <ToggleSwitch
                     onChange={this.handleSelectionToggle}
-                    checked={packageSelected}
-                    isPending={model.update.isPending && 'isSelected' in model.update.changedAttributes}
+                    // if destroying selection status is always false
+                    checked={model.destroy.isPending ? false : packageSelected}
+                    isPending={model.destroy.isPending ||
+                      (model.update.isPending && 'isSelected' in model.update.changedAttributes)}
                     id="package-details-toggle-switch"
                   />
                 </label>

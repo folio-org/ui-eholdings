@@ -17,7 +17,7 @@ import { isRootPresent } from './helpers';
   exists = isRootPresent();
   fillSearch = fillable('[data-test-search-field] input[name="search"]');
   submitSearch = clickable('[data-test-search-submit]');
-  isSearchDisabled = property('disabled', '[data-test-search-submit]')
+  isSearchDisabled = property('disabled', '[data-test-search-submit]');
   hasSearchField = isPresent('[data-test-search-field] input[name="search"]');
   hasSearchFilters = isPresent('[data-test-eholdings-search-filters="packages"]');
   searchFieldValue = value('[data-test-search-field] input[name="search"]');
@@ -37,19 +37,19 @@ import { isRootPresent } from './helpers';
 
   hasLoaded = computed(function () {
     return this.packageList().length > 0;
-  })
+  });
 
   changeSearchType = action(function (searchType) {
     return this.click(`[data-test-search-type-button="${searchType}"]`);
-  })
+  });
 
   clickFilter = action(function (name, val) {
     return this.click(`[data-test-eholdings-search-filters="packages"] input[name="${name}"][value="${val}"]`);
-  })
+  });
 
   clearFilter = action(function (name) {
     return this.click(`#filter-packages-${name} button[icon="clearX"]`);
-  })
+  });
 
   getFilter(name) {
     return this.$(`[data-test-eholdings-search-filters="packages"] input[name="${name}"]:checked`).value;
@@ -68,7 +68,7 @@ import { isRootPresent } from './helpers';
     return this
       .fillSearch(query)
       .submitSearch();
-  })
+  });
 
   packageList = collection('[data-test-eholdings-package-list-item]', {
     name: text('[data-test-eholdings-package-list-item-name]'),

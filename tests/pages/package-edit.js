@@ -10,7 +10,11 @@ import { hasClassBeginningWith, isRootPresent } from './helpers';
 import Toast from './toast';
 import Datepicker from './datepicker';
 
-@page class PackageEditNavigationModal {}
+@page class PackageEditNavigationModal {
+  exists = isRootPresent();
+  cancelNavigation = clickable('[data-test-navigation-modal-dismiss]');
+  confirmNavigation = clickable('[data-test-navigation-modal-continue]');
+}
 
 @page class PackageEditModal {
   exists = isRootPresent();
@@ -19,6 +23,7 @@ import Datepicker from './datepicker';
 }
 
 @page class PackageEditPage {
+  exists = isRootPresent();
   navigationModal = new PackageEditNavigationModal('#navigation-modal');
 
   clickCancel = clickable('[data-test-eholdings-package-cancel-button] button');

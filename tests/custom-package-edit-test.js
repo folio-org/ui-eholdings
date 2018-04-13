@@ -4,6 +4,7 @@ import { describe, beforeEach, afterEach, it } from '@bigtest/mocha';
 import { describeApplication } from './helpers';
 import PackageShowPage from './pages/package-show';
 import PackageEditPage from './pages/package-edit';
+import PackageSearchPage from './pages/package-search';
 
 describeApplication('CustomPackageEdit', () => {
   let provider,
@@ -52,8 +53,6 @@ describeApplication('CustomPackageEdit', () => {
       });
     });
 
-    window.PackageEditPage = PackageEditPage;
-
     describe('toggling the selection toggle', () => {
       beforeEach(function () {
         /*
@@ -88,15 +87,23 @@ describeApplication('CustomPackageEdit', () => {
 
         describe('clicking confirm', () => {
           beforeEach(() => {
-            return PackageEditPage.modal.confirmDeselection();
+            return PackageEditPage.interaction
+              .do(() => PackageEditPage.modal.confirmDeselection())
+              .once(() => expect(PackageSearchPage.exists).to.equal(true));
           });
 
-          it('deletes the package', () => {
+          it('transitions to the package search page', function () {
+            expect(this.app.history.location.search).to.include('?searchType=packages');
           });
 
-          it('transitions to the provider page', () => {
-            expect(PackageShowPage.exist).to.equal(true);
-            // http://localhost:3000/eholdings/packages/1/edit?searchType=packages&q=atlanta&searchfield=title
+          describe('searching for package after confirming', () => {
+            beforeEach(() => {
+              return PackageSearchPage.search('Cool Package');
+            });
+
+            it('does not find package', () => {
+              expect(PackageSearchPage.noResultsMessage).to.equal('No packages found for "Cool Package".');
+            });
           });
         });
 
@@ -227,6 +234,26 @@ describeApplication('CustomPackageEdit', () => {
 
         it('shows a navigation confirmation modal', () => {
           expect(PackageEditPage.navigationModal.$root).to.exist;
+        });
+
+        describe('confirming to continue without saving', () => {
+          beforeEach(() => {
+            return PackageEditPage.navigationModal.confirmNavigation();
+          });
+
+          it('navigates from editing page', () => {
+            expect(PackageShowPage.exist).to.eq(true);
+          });
+        });
+
+        describe('confirming to keep editing', () => {
+          beforeEach(() => {
+            return PackageEditPage.navigationModal.cancelNavigation();
+          });
+
+          it('reamins on the editing page', () => {
+            expect(PackageEditPage.exists).to.eq(true);
+          });
         });
       });
 

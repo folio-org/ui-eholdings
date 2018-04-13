@@ -202,6 +202,20 @@ export default function configure() {
     return pkg;
   });
 
+  this.delete('/packages/:id', ({ packages, resources }, request) => {
+    let matchingPackage = packages.find(request.params.id);
+    let matchingResources = resources.where({
+      packageId: request.params.id
+    });
+
+    matchingPackage.destroy();
+    matchingResources.destroy();
+
+    return {};
+  });
+
+  this.get('/packages/:id/resources', nestedResourceRouteFor('package', 'resources'));
+
   // Title resources
   this.get('/titles', searchRouteFor('titles', (title, req) => {
     let params = req.queryParams;
