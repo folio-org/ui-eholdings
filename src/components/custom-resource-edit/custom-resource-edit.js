@@ -12,6 +12,7 @@ import { processErrors } from '../utilities';
 import DetailsView from '../details-view';
 import ResourceNameField, { validate as validateName } from '../resource-name-field';
 import ResourceCoverageFields, { validate as validateCoverageDates } from '../resource-coverage-fields';
+import CoverageStatementFields, { validate as validateCoverageStatement } from '../coverage-statement-fields';
 import DetailsViewSection from '../details-view-section';
 import NavigationModal from '../navigation-modal';
 import Toaster from '../toaster';
@@ -92,6 +93,12 @@ class CustomResourceEdit extends Component {
               >
                 <ResourceCoverageFields />
               </DetailsViewSection>
+              <DetailsViewSection
+                label="Coverage statement"
+              >
+                <CoverageStatementFields />
+              </DetailsViewSection>
+
               <div className={styles['resource-edit-action-buttons']}>
                 <div
                   data-test-eholdings-resource-cancel-button
@@ -129,7 +136,7 @@ class CustomResourceEdit extends Component {
 }
 
 const validate = (values, props) => {
-  return Object.assign({}, validateName(values), validateCoverageDates(values, props));
+  return Object.assign({}, validateName(values), validateCoverageDates(values, props), validateCoverageStatement(values));
 };
 
 export default reduxForm({

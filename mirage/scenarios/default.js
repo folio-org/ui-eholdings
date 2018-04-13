@@ -33,7 +33,7 @@ export default function defaultScenario(server) {
     name: 'Single, Double, and Triple Paradiddles',
   });
 
-  server.create('customer-resource', {
+  server.create('resource', {
     package: customPackage,
     title: customTitle,
     isTitleCustom: true
