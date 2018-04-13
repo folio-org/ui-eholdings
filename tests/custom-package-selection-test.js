@@ -3,9 +3,8 @@ import { expect } from 'chai';
 
 import { describeApplication } from './helpers';
 import PackageShowPage from './pages/package-show';
-import ApplicationPage from './pages/application';
 
-describeApplication.only('CustomPackageSelection', () => {
+describeApplication('CustomPackageSelection', () => {
   let provider,
     providerPackage;
 

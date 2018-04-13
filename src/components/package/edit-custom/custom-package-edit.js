@@ -20,11 +20,12 @@ import styles from './custom-package-edit.css';
 
 class CustomPackageEdit extends Component {
   static propTypes = {
-    model: PropTypes.object.isRequired,
-    initialValues: PropTypes.object.isRequired,
+    change: PropTypes.func,
     handleSubmit: PropTypes.func,
+    initialValues: PropTypes.object.isRequired,
+    model: PropTypes.object.isRequired,
     onSubmit: PropTypes.func.isRequired,
-    pristine: PropTypes.bool
+    pristine: PropTypes.bool,
   };
 
   static contextTypes = {
@@ -35,6 +36,13 @@ class CustomPackageEdit extends Component {
     }).isRequired,
     queryParams: PropTypes.object
   };
+
+  state = {
+    showSelectionModal: false,
+    allowFormToSubmit: false,
+    packageSelected: this.props.initialValues.isSelected,
+    formValues: {}
+  }
 
   componentWillReceiveProps(nextProps) {
     let wasPending = this.props.model.update.isPending && !nextProps.model.update.isPending;
@@ -55,11 +63,42 @@ class CustomPackageEdit extends Component {
     );
   }
 
-  handleSelectionToggle = () => {
-    console.log('HEY');
+  handleSelectionToggle = (e) => {
     this.setState({
-      packageSelected: !this.props.model.isSelected
+      packageSelected: e.target.checked
     });
+  }
+
+  commitSelectionToggle = () => {
+    this.setState({
+      showSelectionModal: false,
+      allowFormToSubmit: true
+    }, () => { this.handleOnSubmit(this.state.formValues); });
+  };
+
+  cancelSelectionToggle = () => {
+    this.setState({
+      showSelectionModal: false,
+      packageSelected: true,
+    }, () => {
+      this.props.change('isSelected', true);
+    });
+  };
+
+  handleOnSubmit = (values) => {
+    if (this.state.allowFormToSubmit === false && values.isSelected === false) {
+      this.setState({
+        showSelectionModal: true,
+        formValues: values
+      });
+    } else {
+      this.setState({
+        allowFormToSubmit: false,
+        formValues: {}
+      }, () => {
+        this.props.onSubmit(values);
+      });
+    }
   }
 
   render() {
@@ -67,10 +106,13 @@ class CustomPackageEdit extends Component {
       model,
       initialValues,
       handleSubmit,
-      onSubmit,
       pristine,
-      initialValues
     } = this.props;
+
+    let {
+      showSelectionModal,
+      packageSelected
+    } = this.state;
 
     let {
       queryParams,
@@ -100,14 +142,16 @@ class CustomPackageEdit extends Component {
           paneTitle={model.name}
           actionMenuItems={actionMenuItems}
           bodyContent={(
-            <form onSubmit={handleSubmit(onSubmit)}>
+            <form onSubmit={handleSubmit(this.handleOnSubmit)}>
               <DetailsViewSection
                 label="Package information"
               >
                 <NameField />
                 <ContentTypeField />
               </DetailsViewSection>
-              <DetailsViewSection label="Holding status">
+              <DetailsViewSection
+                label="Holding status"
+              >
                 <label
                   data-test-eholdings-custom-package-details-selected
                   htmlFor="custom-package-details-toggle-switch"
@@ -115,8 +159,9 @@ class CustomPackageEdit extends Component {
                   <Field
                     name="isSelected"
                     component={ToggleSwitch}
+                    checked={packageSelected}
                     onChange={this.handleSelectionToggle}
-                    checked={model.isSelected}
+                    id="custom-package-details-toggle-switch"
                   />
                 </label>
               </DetailsViewSection>
@@ -158,6 +203,34 @@ class CustomPackageEdit extends Component {
             </form>
           )}
         />
+
+
+        <Modal
+          open={showSelectionModal}
+          size="small"
+          label="Remove package from holdings?"
+          scope="root"
+          id="eholdings-custom-package-confirmation-modal"
+          footer={(
+            <div>
+              <Button
+                buttonStyle="primary"
+                onClick={this.commitSelectionToggle}
+                data-test-eholdings-package-deselection-confirmation-modal-yes
+              >
+                Yes, remove
+              </Button>
+              <Button
+                onClick={this.cancelSelectionToggle}
+                data-test-eholdings-package-deselection-confirmation-modal-no
+              >
+                No, do not remove
+              </Button>
+            </div>
+          )}
+        >
+           Are you sure you want to remove this package and all its titles from your holdings? All customizations will be lost.
+        </Modal>
       </div>
     );
   }
@@ -169,7 +242,7 @@ const validate = (values, props) => {
 
 export default reduxForm({
   validate,
-  enableReinitialize: true,
   form: 'CustomPackageEdit',
+  enableReinitialize: true,
   destroyOnUnmount: false,
 })(CustomPackageEdit);

@@ -4,13 +4,19 @@ import {
   fillable,
   isPresent,
   page,
-  property
+  property,
 } from '@bigtest/interaction';
-import { hasClassBeginningWith } from './helpers';
+import { hasClassBeginningWith, isRootPresent } from './helpers';
 import Toast from './toast';
 import Datepicker from './datepicker';
 
 @page class PackageEditNavigationModal {}
+
+@page class PackageEditModal {
+  exists = isRootPresent();
+  cancelDeselection = clickable('[data-test-eholdings-package-deselection-confirmation-modal-no]');
+  confirmDeselection = clickable('[data-test-eholdings-package-deselection-confirmation-modal-yes]');
+}
 
 @page class PackageEditPage {
   navigationModal = new PackageEditNavigationModal('#navigation-modal');
@@ -19,8 +25,11 @@ import Datepicker from './datepicker';
   clickSave = clickable('[data-test-eholdings-package-save-button] button');
   isSaveDisabled = property('disabled', '[data-test-eholdings-package-save-button] button');
   hasErrors = isPresent('[data-test-eholdings-details-view-error="package"]');
+  toggleIsSelected = clickable('[data-test-eholdings-custom-package-details-selected] input');
+  isSelected = property('checked', '[data-test-eholdings-custom-package-details-selected] input');
+  modal = new PackageEditModal('#eholdings-custom-package-confirmation-modal');
 
-  toast = Toast
+  toast = Toast;
 
   name = fillable('[data-test-eholdings-package-name-field] input');
   contentType = fillable('[data-test-eholdings-package-content-type-field] select');

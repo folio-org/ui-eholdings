@@ -1,5 +1,5 @@
 import { expect } from 'chai';
-import { describe, beforeEach, it } from '@bigtest/mocha';
+import { describe, beforeEach, afterEach, it } from '@bigtest/mocha';
 
 import { describeApplication } from './helpers';
 import PackageShowPage from './pages/package-show';
@@ -18,7 +18,6 @@ describeApplication('CustomPackageEdit', () => {
       provider,
       name: 'Cool Package',
       contentType: 'E-Book',
-      isSelected: true,
       isCustom: true
     });
   });
@@ -30,8 +29,8 @@ describeApplication('CustomPackageEdit', () => {
       });
     });
 
-    it('has holding status toggle', () => {
-      expect(PackageEditPage.holdingStatusToggle).to.exist();
+    it('displays the correct holdings status', () => {
+      expect(PackageEditPage.isSelected).to.equal(true);
     });
 
     it('shows blank datepicker fields', () => {
@@ -50,6 +49,70 @@ describeApplication('CustomPackageEdit', () => {
 
       it('goes to the package show page', () => {
         expect(PackageShowPage.$root).to.exist;
+      });
+    });
+
+    window.PackageEditPage = PackageEditPage;
+
+    describe('toggling the selection toggle', () => {
+      beforeEach(function () {
+        /*
+         * The expectations in the convergent `it` blocks
+         * get run once every 10ms.  We were seeing test flakiness
+         * when a toggle action dispatched and resolved before an
+         * expectation had the chance to run.  We sidestep this by
+         * temporarily increasing the mirage server's response time
+         * to 50ms.
+         * TODO: control timing directly with Mirage
+         */
+        this.server.timing = 50;
+        return PackageEditPage.toggleIsSelected();
+      });
+
+      afterEach(function () {
+        this.server.timing = 0;
+      });
+
+      describe('clicking save', () => {
+        beforeEach(() => {
+          return PackageEditPage.clickSave();
+        });
+
+        it('shows the modal', () => {
+          expect(PackageEditPage.modal.exists).to.equal(true);
+        });
+
+        it('reflects the desired state of holding status', () => {
+          expect(PackageEditPage.isSelected).to.equal(false);
+        });
+
+        describe('clicking confirm', () => {
+          beforeEach(() => {
+            return PackageEditPage.modal.confirmDeselection();
+          });
+
+          it('deletes the package', () => {
+          });
+
+          it('transitions to the provider page', () => {
+            expect(PackageShowPage.exist).to.equal(true);
+            // http://localhost:3000/eholdings/packages/1/edit?searchType=packages&q=atlanta&searchfield=title
+          });
+        });
+
+        describe('clicking cancel', () => {
+          beforeEach(() => {
+            return PackageEditPage.modal.cancelDeselection();
+          });
+
+          it('removes the modal', () => {
+            expect(PackageEditPage.modal.exists).to.equal(false);
+          });
+
+          it('reflects the correct holding status', () => {
+            expect(PackageEditPage.isSelected).to.equal(true);
+          });
+        });
       });
     });
 

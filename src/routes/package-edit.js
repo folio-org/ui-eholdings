@@ -56,6 +56,10 @@ class PackageEditRoute extends Component {
       endCoverage
     };
 
+    if ('isSelected' in values) {
+      model.isSelected = values.isSelected;
+    }
+
     if ('name' in values) {
       model.name = values.name;
     }
