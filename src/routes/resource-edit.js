@@ -37,7 +37,14 @@ class ResourceEditRoute extends Component {
 
   resourceEditSubmitted = (values) => {
     let { model, updateResource } = this.props;
-    model.customCoverages = values.customCoverages.map((dateRange) => {
+    let {
+      coverageStatement,
+      customCoverages,
+      customEmbargoValue,
+      customEmbargoUnit,
+      name,
+    } = values;
+    model.customCoverages = customCoverages.map((dateRange) => {
       let beginCoverage = !dateRange.beginCoverage ? null : moment(dateRange.beginCoverage).format('YYYY-MM-DD');
       let endCoverage = !dateRange.endCoverage ? null : moment(dateRange.endCoverage).format('YYYY-MM-DD');
 
@@ -46,14 +53,14 @@ class ResourceEditRoute extends Component {
         endCoverage
       };
     });
-    model.coverageStatement = values.coverageStatement;
+    model.coverageStatement = coverageStatement;
     model.customEmbargoPeriod = {
-      embargoValue: values.customEmbargoValue,
-      embargoUnit: values.customEmbargoUnit
+      embargoValue: customEmbargoValue,
+      embargoUnit: customEmbargoUnit
     };
 
     if ('name' in values) {
-      model.name = values.name;
+      model.name = name;
     }
 
     updateResource(model);

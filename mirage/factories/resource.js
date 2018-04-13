@@ -65,7 +65,7 @@ export default Factory.extend({
 
     if (!resource.customEmbargoPeriod) {
       let customEmbargoPeriod = server.create('embargo-period', {
-        embargoUnit: null,
+        embargoUnit: '',
         embargoValue: 0
       });
       resource.update('customEmbargoPeriod', customEmbargoPeriod.toJSON());
@@ -74,7 +74,7 @@ export default Factory.extend({
 
     if (!resource.managedEmbargoPeriod) {
       let managedEmbargoPeriod = server.create('embargo-period', {
-        embargoUnit: null,
+        embargoUnit: '',
         embargoValue: 0
       });
       resource.update('managedEmbargoPeriod', managedEmbargoPeriod.toJSON());
