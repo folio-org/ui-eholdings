@@ -5,7 +5,9 @@ import moment from 'moment';
 
 import { createResolver } from '../redux';
 import Resource from '../redux/resource';
-import View from '../components/resource-edit';
+
+import ManagedResourceEdit from '../components/managed-resource-edit';
+import CustomResourceEdit from '../components/custom-resource-edit';
 
 class ResourceEditRoute extends Component {
   static propTypes = {
@@ -50,20 +52,40 @@ class ResourceEditRoute extends Component {
       embargoValue: values.customEmbargoValue,
       embargoUnit: values.customEmbargoUnit
     };
+
+    if ('name' in values) {
+      model.name = values.name;
+    }
+
     updateResource(model);
   }
 
   render() {
+    let { model } = this.props;
+    let initialValues = {};
+    let View;
+
+    if (model.isTitleCustom) {
+      View = CustomResourceEdit;
+      initialValues = {
+        name: model.name,
+        customCoverages: model.customCoverages
+      };
+    } else {
+      View = ManagedResourceEdit;
+      initialValues = {
+        customCoverages: model.customCoverages,
+        coverageStatement: model.coverageStatement,
+        customEmbargoValue: model.customEmbargoPeriod.embargoValue,
+        customEmbargoUnit: model.customEmbargoPeriod.embargoUnit
+      };
+    }
+
     return (
       <View
         model={this.props.model}
         onSubmit={this.resourceEditSubmitted}
-        initialValues={{
-          customCoverages: this.props.model.customCoverages,
-          coverageStatement: this.props.model.coverageStatement,
-          customEmbargoValue: this.props.model.customEmbargoPeriod.embargoValue,
-          customEmbargoUnit: this.props.model.customEmbargoPeriod.embargoUnit
-        }}
+        initialValues={initialValues}
       />
     );
   }

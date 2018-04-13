@@ -11,6 +11,7 @@ import {
   value
 } from '@bigtest/interaction';
 import { hasClassBeginningWith } from './helpers';
+import Toast from './toast';
 import Datepicker from './datepicker';
 
 @page class ResourceEditNavigationModal {}
@@ -22,6 +23,11 @@ import Datepicker from './datepicker';
   clickSave = clickable('[data-test-eholdings-resource-save-button] button');
   isSaveDisabled = property('disabled', '[data-test-eholdings-resource-save-button] button');
   hasErrors = isPresent('[data-test-eholdings-details-view-error="resource"]');
+
+  toast = Toast
+
+  name = fillable('[data-test-eholdings-resource-name-field] input');
+  nameHasError = hasClassBeginningWith('feedbackError--', '[data-test-eholdings-resource-name-field] input');
 
   clickAddRowButton = clickable('[data-test-eholdings-coverage-fields-add-row-button] button');
 
