@@ -51,6 +51,11 @@ describeApplication('CustomResourceEdit', () => {
       expect(ResourceEditPage.coverageStatement).to.equal('');
     });
 
+    it('shows a form with embargo fields', () => {
+      expect(ResourceEditPage.customEmbargoTextFieldValue).to.equal('0');
+      expect(ResourceEditPage.customEmbargoSelectValue).to.equal('');
+    });
+
     it('disables the save button', () => {
       expect(ResourceEditPage.isSaveDisabled).to.be.true;
     });
@@ -71,11 +76,12 @@ describeApplication('CustomResourceEdit', () => {
           .name('')
           .clickAddRowButton()
           .once(() => ResourceEditPage.dateRangeRowList().length > 0)
-          .do(() => {
-            return ResourceEditPage.interaction
-              .append(ResourceEditPage.dateRangeRowList(0).fillDates('12/18/2018', '12/16/2018'))
-              .clickSave();
-          });
+          .do(() => ResourceEditPage.interaction
+            .append(ResourceEditPage.dateRangeRowList(0).fillDates('12/18/2018', '12/16/2018'))
+            .inputEmbargoValue('')
+            .blurEmbargoValue()
+            .selectEmbargoUnit('Weeks')
+            .clickSave());
       });
 
       it('displays a validation error for the name', () => {
@@ -85,6 +91,10 @@ describeApplication('CustomResourceEdit', () => {
       it('displays a validation error for coverage', () => {
         expect(ResourceEditPage.dateRangeRowList(0).beginDate.isInvalid).to.be.true;
       });
+
+      it('displays a validation error for embargo', () => {
+        expect(ResourceEditPage.validationErrorOnEmbargoTextField).to.equal('Value cannot be null');
+      });
     });
 
     describe('entering valid data', () => {
@@ -92,11 +102,13 @@ describeApplication('CustomResourceEdit', () => {
         return ResourceEditPage
           .clickAddRowButton()
           .once(() => ResourceEditPage.dateRangeRowList().length > 0)
-          .do(() => {
-            return ResourceEditPage
-              .inputCoverageStatement('Only 90s kids would understand.')
-              .append(ResourceEditPage.dateRangeRowList(0).fillDates('12/16/2018', '12/18/2018'));
-          });
+          .do(() => ResourceEditPage.interaction
+            .inputCoverageStatement('Only 90s kids would understand.')
+            .append(ResourceEditPage.dateRangeRowList(0).fillDates('12/16/2018', '12/18/2018'))
+            .inputEmbargoValue('27')
+            .blurEmbargoValue()
+            .selectEmbargoUnit('Weeks')
+            .blurEmbargoUnit());
       });
 
       describe('clicking cancel', () => {
@@ -121,14 +133,19 @@ describeApplication('CustomResourceEdit', () => {
         it('displays the saved date range', () => {
           expect(ResourceCoverage.displayText).to.equal('12/16/2018 - 12/18/2018');
         });
+
         it('shows the new statement value', () => {
           expect(ResourceShowPage.coverageStatement).to.equal('Only 90s kids would understand.');
+        });
+
+        it('shows the new embargo value', () => {
+          expect(ResourceShowPage.customEmbargoPeriod).to.equal('27 Weeks');
         });
       });
     });
   });
 
-  describe('visiting the resource edit page with coverage dates or statements', () => {
+  describe('visiting the resource edit page with coverage dates, statements, and embargo', () => {
     beforeEach(function () {
       let customCoverages = [
         this.server.create('custom-coverage', {
@@ -137,11 +154,20 @@ describeApplication('CustomResourceEdit', () => {
         })
       ];
       resource.update('customCoverages', customCoverages.map(item => item.toJSON()));
+      resource.customEmbargoPeriod = this.server.create('embargo-period', {
+        embargoUnit: 'Months',
+        embargoValue: 6
+      }).toJSON();
       resource.save();
 
       return this.visit(`/eholdings/resources/${resource.titleId}/edit`, () => {
         expect(ResourceEditPage.$root).to.exist;
       });
+    });
+
+    it('shows a form with embargo fields', () => {
+      expect(ResourceEditPage.customEmbargoTextFieldValue).to.equal('6');
+      expect(ResourceEditPage.customEmbargoSelectValue).to.equal('Months');
     });
 
     it('disables the save button', () => {
@@ -172,6 +198,9 @@ describeApplication('CustomResourceEdit', () => {
             fringilla vel, aliquet nec, vulputate e`)
           .name('')
           .append(ResourceEditPage.dateRangeRowList(0).fillDates('12/18/2018', '12/16/2018'))
+          .inputEmbargoValue('')
+          .blurEmbargoValue()
+          .selectEmbargoUnit('Weeks')
           .clickSave();
       });
 
@@ -186,6 +215,10 @@ describeApplication('CustomResourceEdit', () => {
       it('displays a validation error message for coverage statement', () => {
         expect(ResourceEditPage.validationErrorOnCoverageStatement).to.equal('Statement must be 350 characters or less.');
       });
+
+      it('displays a validation error for embargo', () => {
+        expect(ResourceEditPage.validationErrorOnEmbargoTextField).to.equal('Value cannot be null');
+      });
     });
 
     describe('entering valid data', () => {
@@ -193,7 +226,11 @@ describeApplication('CustomResourceEdit', () => {
         return ResourceEditPage
           .inputCoverageStatement('Refinance your home loans.')
           .name('A Different Name')
-          .append(ResourceEditPage.dateRangeRowList(0).fillDates('12/16/2018', '12/18/2018'));
+          .append(ResourceEditPage.dateRangeRowList(0).fillDates('12/16/2018', '12/18/2018'))
+          .inputEmbargoValue('27')
+          .blurEmbargoValue()
+          .selectEmbargoUnit('Weeks')
+          .blurEmbargoUnit();
       });
 
       describe('clicking cancel', () => {
@@ -225,6 +262,10 @@ describeApplication('CustomResourceEdit', () => {
 
         it('shows the new statement value', () => {
           expect(ResourceShowPage.coverageStatement).to.equal('Refinance your home loans.');
+        });
+
+        it('shows the new embargo value', () => {
+          expect(ResourceShowPage.customEmbargoPeriod).to.equal('27 Weeks');
         });
       });
     });
@@ -266,6 +307,10 @@ describeApplication('CustomResourceEdit', () => {
         return ResourceEditPage
           .inputCoverageStatement('10 ways to fail at everything')
           .name('A Different Name')
+          .inputEmbargoValue('27')
+          .blurEmbargoValue()
+          .selectEmbargoUnit('Weeks')
+          .blurEmbargoUnit()
           .clickSave();
       });
 

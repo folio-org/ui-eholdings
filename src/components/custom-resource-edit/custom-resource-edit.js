@@ -13,6 +13,7 @@ import DetailsView from '../details-view';
 import ResourceNameField, { validate as validateName } from '../resource-name-field';
 import ResourceCoverageFields, { validate as validateCoverageDates } from '../resource-coverage-fields';
 import CoverageStatementFields, { validate as validateCoverageStatement } from '../coverage-statement-fields';
+import CustomEmbargoFields, { validate as validateEmbargo } from '../custom-embargo-fields';
 import DetailsViewSection from '../details-view-section';
 import NavigationModal from '../navigation-modal';
 import Toaster from '../toaster';
@@ -24,7 +25,8 @@ class CustomResourceEdit extends Component {
     initialValues: PropTypes.object.isRequired,
     handleSubmit: PropTypes.func,
     onSubmit: PropTypes.func.isRequired,
-    pristine: PropTypes.bool
+    pristine: PropTypes.bool,
+    change: PropTypes.func
   };
 
   static contextTypes = {
@@ -60,6 +62,7 @@ class CustomResourceEdit extends Component {
       handleSubmit,
       onSubmit,
       pristine,
+      change
     } = this.props;
 
     let actionMenuItems = [
@@ -98,7 +101,11 @@ class CustomResourceEdit extends Component {
               >
                 <CoverageStatementFields />
               </DetailsViewSection>
-
+              <DetailsViewSection
+                label="Embargo period"
+              >
+                <CustomEmbargoFields change={change} />
+              </DetailsViewSection>
               <div className={styles['resource-edit-action-buttons']}>
                 <div
                   data-test-eholdings-resource-cancel-button
@@ -136,7 +143,7 @@ class CustomResourceEdit extends Component {
 }
 
 const validate = (values, props) => {
-  return Object.assign({}, validateName(values), validateCoverageDates(values, props), validateCoverageStatement(values));
+  return Object.assign({}, validateName(values), validateCoverageDates(values, props), validateCoverageStatement(values), validateEmbargo(values));
 };
 
 export default reduxForm({
