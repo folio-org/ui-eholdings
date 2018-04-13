@@ -10,7 +10,7 @@ import {
 } from '@folio/stripes-components';
 
 import styles from './resource-coverage-fields.css';
-import { formatISODateWithoutTime } from '../utilities';
+import { formatISODateWithoutTime } from '../../../utilities';
 
 export default class ResourceCoverageFields extends Component {
   static propTypes = {

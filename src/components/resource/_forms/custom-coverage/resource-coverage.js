@@ -10,9 +10,9 @@ import {
   KeyValue
 } from '@folio/stripes-components';
 
-import CoverageDateList from '../coverage-date-list';
-import ResourceCoverageFields, { validate as validateCoverage } from '../resource-coverage-fields';
-import InlineForm from '../inline-form';
+import CoverageDateList from '../../../coverage-date-list';
+import CustomCoverageFields, { validate as validateCoverage } from '../../_fields/custom-coverage';
+import InlineForm from '../../../inline-form';
 import styles from './resource-coverage.css';
 
 const cx = classNames.bind(styles);
@@ -82,7 +82,7 @@ class ResourceCoverage extends Component {
         pristine={pristine}
         isPending={isPending}
       >
-        <ResourceCoverageFields />
+        <CustomCoverageFields />
       </InlineForm>
     );
   }
