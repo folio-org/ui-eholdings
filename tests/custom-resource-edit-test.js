@@ -40,11 +40,15 @@ describeApplication('CustomResourceEdit', () => {
     });
   });
 
-  describe('visiting the resource edit page without coverage dates', () => {
+  describe('visiting the resource edit page without coverage dates or statements', () => {
     beforeEach(function () {
       return this.visit(`/eholdings/resources/${resource.titleId}/edit`, () => {
         expect(ResourceEditPage.$root).to.exist;
       });
+    });
+
+    it('shows a form with coverage statement', () => {
+      expect(ResourceEditPage.coverageStatement).to.equal('');
     });
 
     it('disables the save button', () => {
@@ -89,7 +93,9 @@ describeApplication('CustomResourceEdit', () => {
           .clickAddRowButton()
           .once(() => ResourceEditPage.dateRangeRowList().length > 0)
           .do(() => {
-            return ResourceEditPage.dateRangeRowList(0).fillDates('12/16/2018', '12/18/2018');
+            return ResourceEditPage
+              .inputCoverageStatement('Only 90s kids would understand.')
+              .append(ResourceEditPage.dateRangeRowList(0).fillDates('12/16/2018', '12/18/2018'));
           });
       });
 
@@ -115,11 +121,14 @@ describeApplication('CustomResourceEdit', () => {
         it('displays the saved date range', () => {
           expect(ResourceCoverage.displayText).to.equal('12/16/2018 - 12/18/2018');
         });
+        it('shows the new statement value', () => {
+          expect(ResourceShowPage.coverageStatement).to.equal('Only 90s kids would understand.');
+        });
       });
     });
   });
 
-  describe('visiting the resource edit page with coverage dates', () => {
+  describe('visiting the resource edit page with coverage dates or statements', () => {
     beforeEach(function () {
       let customCoverages = [
         this.server.create('custom-coverage', {
@@ -156,6 +165,11 @@ describeApplication('CustomResourceEdit', () => {
     describe('entering invalid data', () => {
       beforeEach(() => {
         return ResourceEditPage
+          .inputCoverageStatement(`Lorem ipsum dolor sit amet, consectetuer adipiscing elit.
+            Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis
+            dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec,
+            pellentesque eu, pretium quis, sem. Nulla consequat massa quis enim. Donec pede justo,
+            fringilla vel, aliquet nec, vulputate e`)
           .name('')
           .append(ResourceEditPage.dateRangeRowList(0).fillDates('12/18/2018', '12/16/2018'))
           .clickSave();
@@ -168,11 +182,16 @@ describeApplication('CustomResourceEdit', () => {
       it('displays a validation error for coverage', () => {
         expect(ResourceEditPage.dateRangeRowList(0).beginDate.isInvalid).to.be.true;
       });
+
+      it('displays a validation error message for coverage statement', () => {
+        expect(ResourceEditPage.validationErrorOnCoverageStatement).to.equal('Statement must be 350 characters or less.');
+      });
     });
 
     describe('entering valid data', () => {
       beforeEach(() => {
         return ResourceEditPage
+          .inputCoverageStatement('Refinance your home loans.')
           .name('A Different Name')
           .append(ResourceEditPage.dateRangeRowList(0).fillDates('12/16/2018', '12/18/2018'));
       });
@@ -202,6 +221,10 @@ describeApplication('CustomResourceEdit', () => {
 
         it('displays the saved date range', () => {
           expect(ResourceCoverage.displayText).to.equal('12/16/2018 - 12/18/2018');
+        });
+
+        it('shows the new statement value', () => {
+          expect(ResourceShowPage.coverageStatement).to.equal('Refinance your home loans.');
         });
       });
     });
@@ -241,6 +264,7 @@ describeApplication('CustomResourceEdit', () => {
     describe('entering valid data and clicking save', () => {
       beforeEach(() => {
         return ResourceEditPage
+          .inputCoverageStatement('10 ways to fail at everything')
           .name('A Different Name')
           .clickSave();
       });
