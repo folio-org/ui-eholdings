@@ -12,6 +12,7 @@ import { processErrors } from '../utilities';
 import DetailsView from '../details-view';
 import CustomerResourceNameField, { validate as validateName } from '../customer-resource-name-field';
 import CustomerResourceCoverageFields, { validate as validateCoverageDates } from '../customer-resource-coverage-fields';
+import CoverageStatementFields, { validate as validateCoverageStatement } from '../coverage-statement-fields';
 import DetailsViewSection from '../details-view-section';
 import NavigationModal from '../navigation-modal';
 import Toaster from '../toaster';
@@ -92,6 +93,11 @@ class CustomCustomerResourceEdit extends Component {
               >
                 <CustomerResourceCoverageFields />
               </DetailsViewSection>
+              <DetailsViewSection
+                label="Coverage statement"
+              >
+                <CoverageStatementFields />
+              </DetailsViewSection>
               <div className={styles['customer-resource-edit-action-buttons']}>
                 <div
                   data-test-eholdings-customer-resource-cancel-button
@@ -129,7 +135,7 @@ class CustomCustomerResourceEdit extends Component {
 }
 
 const validate = (values, props) => {
-  return Object.assign({}, validateName(values), validateCoverageDates(values, props));
+  return Object.assign({}, validateName(values), validateCoverageDates(values, props), validateCoverageStatement(values));
 };
 
 export default reduxForm({

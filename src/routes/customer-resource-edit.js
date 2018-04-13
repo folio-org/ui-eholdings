@@ -69,7 +69,8 @@ class CustomerResourceEditRoute extends Component {
       View = CustomCustomerResourceEdit;
       initialValues = {
         name: model.name,
-        customCoverages: model.customCoverages
+        customCoverages: model.customCoverages,
+        coverageStatement: model.coverageStatement
       };
     } else {
       View = ManagedCustomerResourceEdit;
