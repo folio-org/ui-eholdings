@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import moment from 'moment';
 
 import { createResolver } from '../redux';
 import Package from '../redux/package';
@@ -29,7 +30,26 @@ class PackageCreateRoute extends Component {
   }
 
   packageCreateSubmitted = (values) => {
-    this.props.createPackage(values);
+    let attrs = {};
+    let beginCoverage = '';
+    let endCoverage = '';
+
+    if (values.customCoverages[0]) {
+      attrs.customCoverage = {
+        beginCoverage: !values.customCoverages[0].beginCoverage ? '' : moment(values.customCoverages[0].beginCoverage).format('YYYY-MM-DD'),
+        endCoverage: !values.customCoverages[0].endCoverage ? '' : moment(values.customCoverages[0].endCoverage).format('YYYY-MM-DD')
+      };
+    }
+
+    if ('name' in values) {
+      attrs.name = values.name;
+    }
+
+    if ('contentType' in values) {
+      attrs.contentType = values.contentType;
+    }
+
+    this.props.createPackage(attrs);
   };
 
   render() {
@@ -38,7 +58,9 @@ class PackageCreateRoute extends Component {
         request={this.props.request}
         onSubmit={this.packageCreateSubmitted}
         initialValues={{
-          name: ''
+          name: '',
+          contentType: '',
+          customCoverages: []
         }}
       />
     );

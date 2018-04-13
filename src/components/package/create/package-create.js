@@ -11,7 +11,11 @@ import {
 
 // import DetailsView from '../../details-view';
 import DetailsViewSection from '../../details-view-section';
-// import NavigationModal from '../../navigation-modal';
+import NameField, { validate as validatePackageName } from '../_fields/name';
+import CoverageFields, { validate as validateCoverageDates } from '../_fields/custom-coverage';
+import ContentTypeField from '../_fields/content-type';
+import NavigationModal from '../../navigation-modal';
+import Toaster from '../../toaster';
 import styles from './package-create.css';
 
 class PackageCreate extends Component {
@@ -25,24 +29,19 @@ class PackageCreate extends Component {
   static contextTypes = {
     router: PropTypes.shape({
       history: PropTypes.shape({
-        push: PropTypes.func.isRequired
+        goBack: PropTypes.func.isRequired
       }).isRequired
     }).isRequired
   };
 
   handleCancel = () => {
-    // this.context.router.history.push(
-    //   `/eholdings/packages/${this.props.model.id}${this.context.router.route.location.search}`,
-    //   { eholdings: true }
-    // );
+    this.context.router.history.goBack();
   }
 
   render() {
     let {
-      // model,
       handleSubmit,
-      onSubmit,
-      // pristine
+      onSubmit
     } = this.props;
 
     return (
@@ -55,12 +54,13 @@ class PackageCreate extends Component {
             <DetailsViewSection
               label="Package information"
             >
-              <Field
-                name="name"
-                type="text"
-                component={TextField}
-                label="Name"
-              />
+              <NameField />
+              <ContentTypeField />
+            </DetailsViewSection>
+            <DetailsViewSection
+              label="Coverage dates"
+            >
+              <CoverageFields />
             </DetailsViewSection>
             <div className={styles['package-create-action-buttons']}>
               <div
@@ -91,10 +91,8 @@ class PackageCreate extends Component {
   }
 }
 
-const validate = () => {
-// const validate = (values, props) => {
-  // return validateCoverageDates(values, props);
-  return [];
+const validate = (values, props) => {
+  return Object.assign({}, validatePackageName(values), validateCoverageDates(values, props));
 };
 
 export default reduxForm({

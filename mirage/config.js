@@ -189,7 +189,17 @@ export default function configure() {
     return matchingPackage;
   });
 
-  this.post('/packages');
+  this.post('/packages', ({ packages }, request) => {
+    let body = JSON.parse(request.requestBody);
+    let pkg = packages.create(body.data.attributes);
+
+    let { customCoverages } = body.data.attributes;
+
+    pkg.update('customCoverages', customCoverages);
+    pkg.update('isSelected', true);
+
+    return pkg;
+  });
 
   // Title resources
   this.get('/titles', searchRouteFor('titles', (title, req) => {
