@@ -70,7 +70,10 @@ class ResourceEditRoute extends Component {
       initialValues = {
         name: model.name,
         customCoverages: model.customCoverages,
-        coverageStatement: this.props.model.coverageStatement
+        coverageStatement: this.props.model.coverageStatement,
+        customEmbargoValue: model.customEmbargoPeriod.embargoValue,
+        customEmbargoUnit: model.customEmbargoPeriod.embargoUnit
+
       };
     } else {
       View = ManagedResourceEdit;
