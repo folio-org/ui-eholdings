@@ -7,13 +7,13 @@ import {
   Button,
   Icon,
 } from '@folio/stripes-components';
-import { processErrors } from '../utilities';
+import { processErrors } from '../../utilities';
 
-import DetailsView from '../details-view';
-import PackageCoverageFields, { validate as validateCoverageDates } from '../package-coverage-fields';
-import DetailsViewSection from '../details-view-section';
-import NavigationModal from '../navigation-modal';
-import Toaster from '../toaster';
+import DetailsView from '../../details-view';
+import CoverageFields, { validate as validateCoverageDates } from '../_fields/custom-coverage';
+import DetailsViewSection from '../../details-view-section';
+import NavigationModal from '../../navigation-modal';
+import Toaster from '../../toaster';
 import styles from './managed-package-edit.css';
 
 class ManagedPackageEdit extends Component {
@@ -93,7 +93,7 @@ class ManagedPackageEdit extends Component {
               <DetailsViewSection
                 label="Coverage dates"
               >
-                <PackageCoverageFields />
+                <CoverageFields />
               </DetailsViewSection>
               <div className={styles['package-edit-action-buttons']}>
                 <div

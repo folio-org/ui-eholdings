@@ -7,15 +7,15 @@ import {
   Button,
   Icon,
 } from '@folio/stripes-components';
-import { processErrors } from '../utilities';
+import { processErrors } from '../../utilities';
 
-import DetailsView from '../details-view';
-import PackageNameField, { validate as validatePackageName } from '../package-name-field';
-import PackageCoverageFields, { validate as validateCoverageDates } from '../package-coverage-fields';
-import PackageContentTypeField from '../package-content-type-field';
-import DetailsViewSection from '../details-view-section';
-import NavigationModal from '../navigation-modal';
-import Toaster from '../toaster';
+import DetailsView from '../../details-view';
+import NameField, { validate as validatePackageName } from '../_fields/name';
+import CoverageFields, { validate as validateCoverageDates } from '../_fields/custom-coverage';
+import ContentTypeField from '../_fields/content-type';
+import DetailsViewSection from '../../details-view-section';
+import NavigationModal from '../../navigation-modal';
+import Toaster from '../../toaster';
 import styles from './custom-package-edit.css';
 
 class CustomPackageEdit extends Component {
@@ -95,13 +95,13 @@ class CustomPackageEdit extends Component {
               <DetailsViewSection
                 label="Package information"
               >
-                <PackageNameField />
-                <PackageContentTypeField />
+                <NameField />
+                <ContentTypeField />
               </DetailsViewSection>
               <DetailsViewSection
                 label="Coverage dates"
               >
-                <PackageCoverageFields />
+                <CoverageFields />
               </DetailsViewSection>
               <div className={styles['package-edit-action-buttons']}>
                 <div

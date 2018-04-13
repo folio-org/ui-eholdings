@@ -10,10 +10,10 @@ import {
   KeyValue
 } from '@folio/stripes-components';
 
-import PackageCoverageFields, { validate as validateCoverage } from '../package-coverage-fields';
-import InlineForm from '../inline-form';
+import CoverageFields, { validate as validateCoverage } from '../../_fields/custom-coverage';
+import InlineForm from '../../../inline-form';
 import styles from './package-custom-coverage.css';
-import { formatISODateWithoutTime } from '../utilities';
+import { formatISODateWithoutTime } from '../../../utilities';
 
 const cx = classNames.bind(styles);
 
@@ -84,7 +84,7 @@ class PackageCustomCoverage extends Component {
         pristine={pristine}
         isPending={isPending}
       >
-        <PackageCoverageFields />
+        <CoverageFields />
       </InlineForm>
     );
   }
