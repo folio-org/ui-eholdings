@@ -12,7 +12,10 @@ import styles from './provider-show.css';
 
 export default function ProviderShow({
   model,
-  fetchPackages
+  packages,
+  fetchPackages,
+  searchPackages,
+  searchParams
 }, {
   intl,
   queryParams
@@ -54,13 +57,16 @@ export default function ProviderShow({
             </KeyValue>
           </DetailsViewSection>
         )}
+        enableListSearch
         listType="packages"
+        onSearch={searchPackages}
+        searchParams={searchParams}
         renderList={scrollable => (
           <QueryList
             type="provider-packages"
             fetch={fetchPackages}
-            collection={model.packages}
-            length={model.packagesTotal}
+            collection={packages}
+            length={packages.length}
             scrollable={scrollable}
             itemHeight={70}
             renderItem={item => (
@@ -80,7 +86,10 @@ export default function ProviderShow({
 
 ProviderShow.propTypes = {
   model: PropTypes.object.isRequired,
-  fetchPackages: PropTypes.func.isRequired
+  packages: PropTypes.object.isRequired,
+  fetchPackages: PropTypes.func.isRequired,
+  searchPackages: PropTypes.func.isRequired,
+  searchParams: PropTypes.object.isRequired
 };
 
 ProviderShow.contextTypes = {

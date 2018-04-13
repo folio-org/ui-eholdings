@@ -4,9 +4,12 @@ import {
   computed,
   isPresent,
   page,
-  text
+  text,
+  clickable
 } from '@bigtest/interaction';
+
 import Toast from './toast';
+import SearchModal from './search-modal';
 
 @page class ProviderShowPage {
   paneTitle = text('[data-test-eholdings-details-view-pane-title]');
@@ -16,8 +19,10 @@ import Toast from './toast';
   hasBackButton = isPresent('[data-test-eholdings-details-view-back-button] button');
   hasErrors = isPresent('[data-test-eholdings-details-view-error="provider"]');
   errorMessage = text('[data-test-eholdings-details-view-error="provider"]');
+  clickListSearch = clickable('[data-test-eholdings-details-view-search] button');
 
-  toast = Toast
+  toast = Toast;
+  searchModal = new SearchModal('#eholdings-details-view-search-modal');
 
   packageList = collection('[data-test-query-list="provider-packages"] li a', {
     name: text('[data-test-eholdings-package-list-item-name]'),

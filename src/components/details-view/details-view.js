@@ -9,6 +9,8 @@ import {
   PaneHeader,
   PaneMenu
 } from '@folio/stripes-components';
+import Modal from '../modal';
+import SearchForm from '../search-form';
 import styles from './details-view.css';
 
 const cx = classNames.bind(styles);
@@ -40,7 +42,10 @@ export default class DetailsView extends Component {
     listType: PropTypes.string,
     renderList: PropTypes.func,
     actionMenuItems: PropTypes.array,
-    lastMenu: PropTypes.node
+    lastMenu: PropTypes.node,
+    enableListSearch: PropTypes.bool,
+    onSearch: PropTypes.func,
+    searchParams: PropTypes.object
   };
 
   static contextTypes = {
@@ -49,7 +54,8 @@ export default class DetailsView extends Component {
   };
 
   state = {
-    isSticky: false
+    isSticky: false,
+    showSearchModal: false
   };
 
   componentDidMount() {
@@ -63,6 +69,12 @@ export default class DetailsView extends Component {
 
   componentWillUnmount() {
     window.removeEventListener('resize', this.handleLayout);
+  }
+
+  toggleSearchModal = () => {
+    this.setState(({ showSearchModal }) => ({
+      showSearchModal: !showSearchModal
+    }));
   }
 
   /**
@@ -143,6 +155,18 @@ export default class DetailsView extends Component {
     }
   };
 
+  handleListSearch = (params) => {
+    let { searchParams } = this.props;
+
+    if (params.q && this.props.onSearch) {
+      this.props.onSearch(params);
+    }
+
+    this.setState({
+      showSearchModal: searchParams.q === params.q
+    });
+  }
+
   render() {
     let {
       type,
@@ -153,7 +177,9 @@ export default class DetailsView extends Component {
       paneTitle,
       paneSub,
       actionMenuItems,
-      lastMenu
+      lastMenu,
+      enableListSearch,
+      searchParams
     } = this.props;
 
     let {
@@ -162,7 +188,8 @@ export default class DetailsView extends Component {
     } = this.context;
 
     let {
-      isSticky
+      isSticky,
+      showSearchModal
     } = this.state;
 
     let containerClassName = cx('container', {
@@ -217,9 +244,9 @@ export default class DetailsView extends Component {
               <h2 data-test-eholdings-details-view-name={type}>
                 {paneTitle}
               </h2>
-              {paneSub &&
+              {paneSub && (
                 <p>{paneSub}</p>
-              }
+              )}
             </div>,
 
             <div key="body" className={styles.body}>
@@ -240,9 +267,13 @@ export default class DetailsView extends Component {
               data-test-eholdings-details-view-list={type}
             >
               <div className={styles['list-header']}>
-                <h3>
-                  {capitalize(listType)}
-                </h3>
+                <h3>{capitalize(listType)}</h3>
+
+                {enableListSearch && (
+                  <div data-test-eholdings-details-view-search>
+                    <IconButton icon="search" onClick={this.toggleSearchModal} />
+                  </div>
+                )}
               </div>
 
               <div ref={(n) => { this.$list = n; }} className={styles.list}>
@@ -251,6 +282,28 @@ export default class DetailsView extends Component {
             </div>
           )}
         </div>
+
+        {enableListSearch && showSearchModal && (
+          <Modal
+            size="small"
+            label={`Filter ${listType}`}
+            open={showSearchModal}
+            onClose={this.toggleSearchModal}
+            id="eholdings-details-view-search-modal"
+            closeOnBackgroundClick
+            dismissible
+          >
+            <SearchForm
+              searchType={listType}
+              searchString={searchParams.q}
+              filter={searchParams.filter}
+              searchField={searchParams.searchField}
+              sort={searchParams.sort}
+              onSearch={this.handleListSearch}
+              displaySearchTypeSwitcher={false}
+            />
+          </Modal>
+        )}
       </div>
     );
   }
