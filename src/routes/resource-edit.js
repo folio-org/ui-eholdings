@@ -6,8 +6,8 @@ import moment from 'moment';
 import { createResolver } from '../redux';
 import Resource from '../redux/resource';
 
-import ManagedResourceEdit from '../components/managed-resource-edit';
-import CustomResourceEdit from '../components/custom-resource-edit';
+import ResourceEditManaged from '../components/resource/edit-managed';
+import ResourceEditCustom from '../components/resource/edit-custom';
 
 class ResourceEditRoute extends Component {
   static propTypes = {
@@ -66,7 +66,7 @@ class ResourceEditRoute extends Component {
     let View;
 
     if (model.isTitleCustom) {
-      View = CustomResourceEdit;
+      View = ResourceEditCustom;
       initialValues = {
         name: model.name,
         customCoverages: model.customCoverages,
@@ -76,7 +76,7 @@ class ResourceEditRoute extends Component {
 
       };
     } else {
-      View = ManagedResourceEdit;
+      View = ResourceEditManaged;
       initialValues = {
         customCoverages: model.customCoverages,
         coverageStatement: model.coverageStatement,

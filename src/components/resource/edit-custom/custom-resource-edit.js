@@ -5,24 +5,28 @@ import isEqual from 'lodash/isEqual';
 
 import {
   Button,
-  Icon,
+  Icon
 } from '@folio/stripes-components';
-import { processErrors } from '../utilities';
+import { processErrors } from '../../utilities';
 
-import DetailsView from '../details-view';
-import PackageCoverageFields, { validate as validateCoverageDates } from '../package-coverage-fields';
-import DetailsViewSection from '../details-view-section';
-import NavigationModal from '../navigation-modal';
-import Toaster from '../toaster';
-import styles from './managed-package-edit.css';
+import DetailsView from '../../details-view';
+import NameField, { validate as validateName } from '../_fields/name';
+import CustomCoverageFields, { validate as validateCoverageDates } from '../_fields/custom-coverage';
+import CoverageStatementFields, { validate as validateCoverageStatement } from '../_fields/coverage-statement';
+import CustomEmbargoFields, { validate as validateEmbargo } from '../_fields/custom-embargo';
+import DetailsViewSection from '../../details-view-section';
+import NavigationModal from '../../navigation-modal';
+import Toaster from '../../toaster';
+import styles from './custom-resource-edit.css';
 
-class ManagedPackageEdit extends Component {
+class CustomResourceEdit extends Component {
   static propTypes = {
     model: PropTypes.object.isRequired,
     initialValues: PropTypes.object.isRequired,
     handleSubmit: PropTypes.func,
     onSubmit: PropTypes.func.isRequired,
-    pristine: PropTypes.bool
+    pristine: PropTypes.bool,
+    change: PropTypes.func
   };
 
   static contextTypes = {
@@ -30,8 +34,7 @@ class ManagedPackageEdit extends Component {
       history: PropTypes.shape({
         push: PropTypes.func.isRequired
       }).isRequired
-    }).isRequired,
-    queryParams: PropTypes.object
+    }).isRequired
   };
 
   componentWillReceiveProps(nextProps) {
@@ -40,7 +43,7 @@ class ManagedPackageEdit extends Component {
 
     if (wasPending && needsUpdate) {
       this.context.router.history.push(
-        `/eholdings/packages/${this.props.model.id}${this.context.router.route.location.search}`,
+        `/eholdings/resources/${this.props.model.id}`,
         { eholdings: true }
       );
     }
@@ -48,7 +51,7 @@ class ManagedPackageEdit extends Component {
 
   handleCancel = () => {
     this.context.router.history.push(
-      `/eholdings/packages/${this.props.model.id}${this.context.router.route.location.search}`,
+      `/eholdings/resources/${this.props.model.id}`,
       { eholdings: true }
     );
   }
@@ -58,46 +61,54 @@ class ManagedPackageEdit extends Component {
       model,
       handleSubmit,
       onSubmit,
-      pristine
+      pristine,
+      change
     } = this.props;
-
-    let {
-      queryParams,
-      router
-    } = this.context;
 
     let actionMenuItems = [
       {
         label: 'Cancel editing',
-        to: `/eholdings/packages/${model.id}${router.route.location.search}`
+        to: {
+          pathname: `/eholdings/resources/${model.id}`,
+          state: { eholdings: true }
+        }
       }
     ];
-
-    if (queryParams) {
-      actionMenuItems.push({
-        label: 'Full view',
-        to: `/eholdings/packages/${model.id}/edit`
-      });
-    }
 
     return (
       <div>
         <Toaster toasts={processErrors(model)} position="bottom" />
         <DetailsView
-          type="package"
+          type="resource"
           model={model}
           paneTitle={model.name}
+          paneSub={model.packageName}
           actionMenuItems={actionMenuItems}
           bodyContent={(
             <form onSubmit={handleSubmit(onSubmit)}>
               <DetailsViewSection
+                label="Resource information"
+              >
+                <NameField />
+              </DetailsViewSection>
+              <DetailsViewSection
                 label="Coverage dates"
               >
-                <PackageCoverageFields />
+                <CustomCoverageFields />
               </DetailsViewSection>
-              <div className={styles['package-edit-action-buttons']}>
+              <DetailsViewSection
+                label="Coverage statement"
+              >
+                <CoverageStatementFields />
+              </DetailsViewSection>
+              <DetailsViewSection
+                label="Embargo period"
+              >
+                <CustomEmbargoFields change={change} />
+              </DetailsViewSection>
+              <div className={styles['resource-edit-action-buttons']}>
                 <div
-                  data-test-eholdings-package-cancel-button
+                  data-test-eholdings-resource-cancel-button
                 >
                   <Button
                     disabled={model.update.isPending}
@@ -108,7 +119,7 @@ class ManagedPackageEdit extends Component {
                   </Button>
                 </div>
                 <div
-                  data-test-eholdings-package-save-button
+                  data-test-eholdings-resource-save-button
                 >
                   <Button
                     disabled={pristine || model.update.isPending}
@@ -132,12 +143,12 @@ class ManagedPackageEdit extends Component {
 }
 
 const validate = (values, props) => {
-  return validateCoverageDates(values, props);
+  return Object.assign({}, validateName(values), validateCoverageDates(values, props), validateCoverageStatement(values), validateEmbargo(values));
 };
 
 export default reduxForm({
   validate,
   enableReinitialize: true,
-  form: 'ManagedPackageEdit',
+  form: 'CustomResourceEdit',
   destroyOnUnmount: false,
-})(ManagedPackageEdit);
+})(CustomResourceEdit);

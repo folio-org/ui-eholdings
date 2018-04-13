@@ -10,8 +10,8 @@ import {
   KeyValue
 } from '@folio/stripes-components';
 
-import CustomEmbargoFields, { validate as validateEmbargo } from '../custom-embargo-fields';
-import InlineForm from '../inline-form';
+import CustomEmbargoFields, { validate as validateEmbargo } from '../../_fields/custom-embargo';
+import InlineForm from '../../../inline-form';
 import styles from './custom-embargo-form.css';
 
 const cx = classNames.bind(styles);

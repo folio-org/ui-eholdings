@@ -9,8 +9,8 @@ import {
   KeyValue
 } from '@folio/stripes-components';
 
-import PackageContentTypeField from '../package-content-type-field';
-import InlineForm from '../inline-form';
+import ContentTypeField from '../../_fields/content-type';
+import InlineForm from '../../../inline-form';
 import styles from './package-content-type.css';
 
 const cx = classNames.bind(styles);
@@ -77,7 +77,7 @@ class PackageContentType extends Component {
         pristine={pristine}
         isPending={isPending}
       >
-        <PackageContentTypeField />
+        <ContentTypeField />
       </InlineForm>
     );
   }

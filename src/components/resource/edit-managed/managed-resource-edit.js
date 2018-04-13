@@ -7,19 +7,18 @@ import {
   Button,
   Icon
 } from '@folio/stripes-components';
-import { processErrors } from '../utilities';
+import { processErrors } from '../../utilities';
 
-import DetailsView from '../details-view';
-import ResourceNameField, { validate as validateName } from '../resource-name-field';
-import ResourceCoverageFields, { validate as validateCoverageDates } from '../resource-coverage-fields';
-import CoverageStatementFields, { validate as validateCoverageStatement } from '../coverage-statement-fields';
-import CustomEmbargoFields, { validate as validateEmbargo } from '../custom-embargo-fields';
-import DetailsViewSection from '../details-view-section';
-import NavigationModal from '../navigation-modal';
-import Toaster from '../toaster';
-import styles from './custom-resource-edit.css';
+import DetailsView from '../../details-view';
+import CoverageStatementFields, { validate as validateCoverageStatement } from '../_fields/coverage-statement';
+import CustomCoverageFields, { validate as validateCoverageDates } from '../_fields/custom-coverage';
+import CustomEmbargoFields, { validate as validateEmbargo } from '../_fields/custom-embargo';
+import DetailsViewSection from '../../details-view-section';
+import NavigationModal from '../../navigation-modal';
+import Toaster from '../../toaster';
+import styles from './managed-resource-edit.css';
 
-class CustomResourceEdit extends Component {
+class ManagedResourceEdit extends Component {
   static propTypes = {
     model: PropTypes.object.isRequired,
     initialValues: PropTypes.object.isRequired,
@@ -87,14 +86,9 @@ class CustomResourceEdit extends Component {
           bodyContent={(
             <form onSubmit={handleSubmit(onSubmit)}>
               <DetailsViewSection
-                label="Resource information"
-              >
-                <ResourceNameField />
-              </DetailsViewSection>
-              <DetailsViewSection
                 label="Coverage dates"
               >
-                <ResourceCoverageFields />
+                <CustomCoverageFields />
               </DetailsViewSection>
               <DetailsViewSection
                 label="Coverage statement"
@@ -143,12 +137,12 @@ class CustomResourceEdit extends Component {
 }
 
 const validate = (values, props) => {
-  return Object.assign({}, validateName(values), validateCoverageDates(values, props), validateCoverageStatement(values), validateEmbargo(values));
+  return Object.assign({}, validateCoverageDates(values, props), validateCoverageStatement(values), validateEmbargo(values));
 };
 
 export default reduxForm({
   validate,
   enableReinitialize: true,
-  form: 'CustomResourceEdit',
+  form: 'ManagedResourceEdit',
   destroyOnUnmount: false,
-})(CustomResourceEdit);
+})(ManagedResourceEdit);

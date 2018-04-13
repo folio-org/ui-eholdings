@@ -8,20 +8,20 @@ import {
   PaneMenu
 } from '@folio/stripes-components';
 
-import DetailsView from './details-view';
-import Link from './link';
-import IdentifiersList from './identifiers-list';
-import ContributorsList from './contributors-list';
-import ToggleSwitch from './toggle-switch';
-import CoverageDateList from './coverage-date-list';
-import { isBookPublicationType, isValidCoverageList, processErrors } from './utilities';
-import Modal from './modal';
-import ResourceCoverage from './resource-coverage';
-import CustomEmbargoForm from './custom-embargo-form';
-import CoverageStatementForm from './coverage-statement-form';
-import NavigationModal from './navigation-modal';
-import DetailsViewSection from './details-view-section';
-import Toaster from './toaster';
+import DetailsView from '../details-view';
+import Link from '../link';
+import IdentifiersList from '../identifiers-list';
+import ContributorsList from '..//contributors-list';
+import ToggleSwitch from '../toggle-switch';
+import CoverageDateList from '../coverage-date-list';
+import { isBookPublicationType, isValidCoverageList, processErrors } from '../utilities';
+import Modal from '../modal';
+import CustomCoverage from './_forms/custom-coverage';
+import CustomEmbargo from './_forms/custom-embargo';
+import CoverageStatement from './_forms/coverage-statement';
+import NavigationModal from '../navigation-modal';
+import DetailsViewSection from '../details-view-section';
+import Toaster from '../toaster';
 
 export default class ResourceShow extends Component {
   static propTypes = {
@@ -287,7 +287,7 @@ export default class ResourceShow extends Component {
                 )}
 
                 {resourceSelected && (
-                  <ResourceCoverage
+                  <CustomCoverage
                     initialValues={{ customCoverages }}
                     packageCoverage={model.package.customCoverage}
                     isEditable={isCoverageEditable}
@@ -309,7 +309,7 @@ export default class ResourceShow extends Component {
                 label="Coverage statement"
               >
                 {resourceSelected && (
-                  <CoverageStatementForm
+                  <CoverageStatement
                     initialValues={{ coverageStatement: model.coverageStatement }}
                     isEditable={isCoverageStatementEditable}
                     onEdit={this.handleCoverageStatementEdit}
@@ -337,7 +337,7 @@ export default class ResourceShow extends Component {
                 )}
 
                 {resourceSelected && (
-                  <CustomEmbargoForm
+                  <CustomEmbargo
                     initialValues={{ customEmbargoValue, customEmbargoUnit }}
                     isEditable={isEmbargoEditable}
                     onEdit={this.handleEmbargoEdit}

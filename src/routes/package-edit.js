@@ -7,8 +7,8 @@ import { createResolver } from '../redux';
 import Package from '../redux/package';
 import Resource from '../redux/resource';
 
-import ManagedPackageEdit from '../components/managed-package-edit';
-import CustomPackageEdit from '../components/custom-package-edit';
+import PackageEditManaged from '../components/package/edit-managed';
+import PackageEditCustom from '../components/package/edit-custom';
 
 class PackageEditRoute extends Component {
   static propTypes = {
@@ -74,7 +74,7 @@ class PackageEditRoute extends Component {
     let View;
 
     if (model.isCustom) {
-      View = CustomPackageEdit;
+      View = PackageEditCustom;
       initialValues = {
         name: model.name,
         contentType: model.contentType,
@@ -84,7 +84,7 @@ class PackageEditRoute extends Component {
         }]
       };
     } else {
-      View = ManagedPackageEdit;
+      View = PackageEditManaged;
       initialValues = {
         customCoverages: [{
           beginCoverage: model.customCoverage.beginCoverage,

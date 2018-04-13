@@ -9,8 +9,8 @@ import {
   IconButton
 } from '@folio/stripes-components';
 
-import CoverageStatementFields, { validate as validateCoverageStatement } from '../coverage-statement-fields';
-import InlineForm from '../inline-form';
+import CoverageStatementFields, { validate as validateCoverageStatement } from '../../_fields/coverage-statement';
+import InlineForm from '../../../inline-form';
 import styles from './coverage-statement-form.css';
 
 const cx = classNames.bind(styles);

@@ -8,19 +8,19 @@ import {
   KeyValue,
   PaneMenu
 } from '@folio/stripes-components';
-import { processErrors } from '../utilities';
+import { processErrors } from '../../utilities';
 
-import DetailsView from '../details-view';
-import QueryList from '../query-list';
-import Link from '../link';
-import TitleListItem from '../title-list-item';
-import ToggleSwitch from '../toggle-switch';
-import Modal from '../modal';
-import PackageCustomCoverage from '../package-custom-coverage';
-import PackageContentType from '../package-content-type';
-import NavigationModal from '../navigation-modal';
-import DetailsViewSection from '../details-view-section';
-import Toaster from '../toaster';
+import DetailsView from '../../details-view';
+import QueryList from '../../query-list';
+import Link from '../../link';
+import TitleListItem from '../../title-list-item';
+import ToggleSwitch from '../../toggle-switch';
+import Modal from '../../modal';
+import CustomCoverage from '../_forms/custom-coverage';
+import ContentType from '../_forms/content-type';
+import NavigationModal from '../../navigation-modal';
+import DetailsViewSection from '../../details-view-section';
+import Toaster from '../../toaster';
 
 import styles from './package-show.css';
 
@@ -90,7 +90,7 @@ export default class PackageShow extends Component {
     let content;
     if (model.isCustom) {
       content = (
-        <PackageContentType
+        <ContentType
           initialValues={{ contentType: model.contentType }}
           onSubmit={packageContentTypeSubmitted}
           isPending={model.update.isPending && 'contentType' in model.update.changedAttributes}
@@ -291,7 +291,7 @@ export default class PackageShow extends Component {
               >
                 {packageSelected ? (
                   <div data-test-eholdings-package-details-custom-coverage>
-                    <PackageCustomCoverage
+                    <CustomCoverage
                       initialValues={{ customCoverages }}
                       onSubmit={customCoverageSubmitted}
                       isPending={model.update.isPending && 'customCoverage' in model.update.changedAttributes}

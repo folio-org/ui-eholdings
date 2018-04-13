@@ -7,7 +7,7 @@ import { createResolver } from '../redux';
 import Package from '../redux/package';
 import Resource from '../redux/resource';
 
-import View from '../components/package-show';
+import View from '../components/package/show';
 
 class PackageShowRoute extends Component {
   static propTypes = {

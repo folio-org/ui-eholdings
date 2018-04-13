@@ -5,7 +5,7 @@ import moment from 'moment';
 
 import { createResolver } from '../redux';
 import Resource from '../redux/resource';
-import View from '../components/resource-show';
+import View from '../components/resource/show';
 
 class ResourceShowRoute extends Component {
   static propTypes = {
