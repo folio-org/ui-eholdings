@@ -9,10 +9,10 @@ import {
   IconButton
 } from '@folio/stripes-components';
 
-import styles from './customer-resource-coverage-fields.css';
+import styles from './resource-coverage-fields.css';
 import { formatISODateWithoutTime } from '../utilities';
 
-export default class CustomerResourceCoverageFields extends Component {
+export default class ResourceCoverageFields extends Component {
   static propTypes = {
     packageCoverage: PropTypes.object, // eslint-disable-line react/no-unused-prop-types
     locale: PropTypes.string, // eslint-disable-line react/no-unused-prop-types

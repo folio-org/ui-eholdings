@@ -1,6 +1,6 @@
 @import '@folio/stripes-components/lib/variables';
 
-.customer-resource-edit-action-buttons {
+.resource-edit-action-buttons {
   align-items: flex-start;
   border-top: 1px solid var(--minor-divider-color);
   display: flex;

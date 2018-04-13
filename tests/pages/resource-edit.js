@@ -13,14 +13,14 @@ import {
 import { hasClassBeginningWith } from './helpers';
 import Datepicker from './datepicker';
 
-@page class CustomerResourceEditNavigationModal {}
+@page class ResourceEditNavigationModal {}
 
-@page class CustomerResourceEditPage {
-  navigationModal = new CustomerResourceEditNavigationModal('#navigation-modal');
+@page class ResourceEditPage {
+  navigationModal = new ResourceEditNavigationModal('#navigation-modal');
 
-  clickCancel = clickable('[data-test-eholdings-customer-resource-cancel-button] button');
-  clickSave = clickable('[data-test-eholdings-customer-resource-save-button] button');
-  isSaveDisabled = property('disabled', '[data-test-eholdings-customer-resource-save-button] button');
+  clickCancel = clickable('[data-test-eholdings-resource-cancel-button] button');
+  clickSave = clickable('[data-test-eholdings-resource-save-button] button');
+  isSaveDisabled = property('disabled', '[data-test-eholdings-resource-save-button] button');
   hasErrors = isPresent('[data-test-eholdings-details-view-error="resource"]');
 
   clickAddRowButton = clickable('[data-test-eholdings-coverage-fields-add-row-button] button');
@@ -56,4 +56,4 @@ import Datepicker from './datepicker';
   validationErrorOnEmbargoTextField = text('[data-test-eholdings-custom-embargo-textfield] [class^="feedbackError--"]')
 }
 
-export default new CustomerResourceEditPage('[data-test-eholdings-details-view="resource"]');
+export default new ResourceEditPage('[data-test-eholdings-details-view="resource"]');

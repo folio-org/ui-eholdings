@@ -2,10 +2,10 @@ import { expect } from 'chai';
 import { describe, beforeEach, it } from '@bigtest/mocha';
 
 import { describeApplication } from './helpers';
-import ResourceShowPage from './pages/customer-resource-show';
-import ResourceEditPage from './pages/customer-resource-edit';
+import ResourceShowPage from './pages/resource-show';
+import ResourceEditPage from './pages/resource-edit';
 
-describeApplication('CustomerResourceEdit', () => {
+describeApplication('ResourceEdit', () => {
   let provider,
     providerPackage,
     resource;
@@ -30,7 +30,7 @@ describeApplication('CustomerResourceEdit', () => {
 
     title.save();
 
-    resource = this.server.create('customer-resource', {
+    resource = this.server.create('resource', {
       package: providerPackage,
       isSelected: true,
       title,
@@ -38,9 +38,9 @@ describeApplication('CustomerResourceEdit', () => {
     });
   });
 
-  describe('visiting the customer resource edit page without coverage dates, statement, or embargo', () => {
+  describe('visiting the resource edit page without coverage dates, statement, or embargo', () => {
     beforeEach(function () {
-      return this.visit(`/eholdings/customer-resources/${resource.titleId}/edit`, () => {
+      return this.visit(`/eholdings/resources/${resource.titleId}/edit`, () => {
         expect(ResourceEditPage.$root).to.exist;
       });
     });
@@ -63,7 +63,7 @@ describeApplication('CustomerResourceEdit', () => {
         return ResourceEditPage.clickCancel();
       });
 
-      it('goes to the customer resource show page', () => {
+      it('goes to the resource show page', () => {
         expect(ResourceShowPage.$root).to.exist;
       });
     });
@@ -136,7 +136,7 @@ describeApplication('CustomerResourceEdit', () => {
           return ResourceEditPage.clickSave();
         });
 
-        it('goes to the customer resource show page', () => {
+        it('goes to the resource show page', () => {
           expect(ResourceShowPage.$root).to.exist;
         });
 
@@ -151,7 +151,7 @@ describeApplication('CustomerResourceEdit', () => {
     });
   });
 
-  describe('visiting the customer resource edit page with coverage dates, statement, and embargo', () => {
+  describe('visiting the resource edit page with coverage dates, statement, and embargo', () => {
     beforeEach(function () {
       resource.coverageStatement = 'Use this one weird trick to get access.';
       let customCoverages = [
@@ -167,7 +167,7 @@ describeApplication('CustomerResourceEdit', () => {
       }).toJSON();
       resource.save();
 
-      return this.visit(`/eholdings/customer-resources/${resource.titleId}/edit`, () => {
+      return this.visit(`/eholdings/resources/${resource.titleId}/edit`, () => {
         expect(ResourceEditPage.$root).to.exist;
       });
     });
@@ -190,7 +190,7 @@ describeApplication('CustomerResourceEdit', () => {
         return ResourceEditPage.clickCancel();
       });
 
-      it('goes to the customer resource show page', () => {
+      it('goes to the resource show page', () => {
         expect(ResourceShowPage.$root).to.exist;
       });
     });
@@ -253,7 +253,7 @@ describeApplication('CustomerResourceEdit', () => {
           return ResourceEditPage.clickSave();
         });
 
-        it('goes to the customer resource show page', () => {
+        it('goes to the resource show page', () => {
           expect(ResourceShowPage.$root).to.exist;
         });
 
@@ -270,13 +270,13 @@ describeApplication('CustomerResourceEdit', () => {
 
   describe('encountering a server error', () => {
     beforeEach(function () {
-      this.server.get('/customer-resources/:id', {
+      this.server.get('/resources/:id', {
         errors: [{
           title: 'There was an error'
         }]
       }, 500);
 
-      return this.visit(`/eholdings/customer-resources/${resource.id}/edit`, () => {
+      return this.visit(`/eholdings/resources/${resource.id}/edit`, () => {
         expect(ResourceEditPage.$root).to.exist;
       });
     });

@@ -1,6 +1,6 @@
 import model, { belongsTo } from './model';
 
-class CustomerResource {
+class Resource {
   name = '';
   titleId = 0;
   providerId = 0;
@@ -25,6 +25,6 @@ class CustomerResource {
 }
 
 export default model({
-  type: 'customerResources',
-  path: '/eholdings/customer-resources'
-})(CustomerResource);
+  type: 'resources',
+  path: '/eholdings/resources'
+})(Resource);

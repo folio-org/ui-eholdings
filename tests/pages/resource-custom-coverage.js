@@ -9,7 +9,7 @@ import {
 import { isRootPresent } from './helpers';
 import Datepicker from './datepicker';
 
-@page class CustomerResourceCustomCoveragePage {
+@page class ResourceCustomCoveragePage {
   exists = isRootPresent();
   clickAddButton = clickable('[data-test-eholdings-coverage-form-add-button] button');
   hasForm = isPresent('[data-test-eholdings-coverage-form] form');
@@ -36,4 +36,4 @@ import Datepicker from './datepicker';
   });
 }
 
-export default new CustomerResourceCustomCoveragePage('[data-test-eholdings-coverage-form]');
+export default new ResourceCustomCoveragePage('[data-test-eholdings-coverage-form]');

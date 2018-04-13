@@ -1,5 +1,5 @@
 export default function serverPutErrors(server) {
-  server.put('/customer-resources/:id', {
+  server.put('/resources/:id', {
     errors: [{
       title: 'Server error, try again'
     }]

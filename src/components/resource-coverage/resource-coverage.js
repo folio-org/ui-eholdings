@@ -11,13 +11,13 @@ import {
 } from '@folio/stripes-components';
 
 import CoverageDateList from '../coverage-date-list';
-import CustomerResourceCoverageFields, { validate as validateCoverage } from '../customer-resource-coverage-fields';
+import ResourceCoverageFields, { validate as validateCoverage } from '../resource-coverage-fields';
 import InlineForm from '../inline-form';
-import styles from './customer-resource-coverage.css';
+import styles from './resource-coverage.css';
 
 const cx = classNames.bind(styles);
 
-class CustomerResourceCoverage extends Component {
+class ResourceCoverage extends Component {
   static propTypes = {
     initialValues: PropTypes.shape({
       customCoverages: PropTypes.array
@@ -82,7 +82,7 @@ class CustomerResourceCoverage extends Component {
         pristine={pristine}
         isPending={isPending}
       >
-        <CustomerResourceCoverageFields />
+        <ResourceCoverageFields />
       </InlineForm>
     );
   }
@@ -160,4 +160,4 @@ export default reduxForm({
   enableReinitialize: true,
   form: 'Coverage',
   destroyOnUnmount: false
-})(CustomerResourceCoverage);
+})(ResourceCoverage);

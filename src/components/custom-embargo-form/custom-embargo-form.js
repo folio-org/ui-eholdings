@@ -95,11 +95,11 @@ class CustomEmbargoForm extends Component {
     return (
       <div className={styles['custom-embargo-display']}>
         <KeyValue label="Custom">
-          <span data-test-eholdings-customer-resource-custom-embargo-display>
+          <span data-test-eholdings-resource-custom-embargo-display>
             {customEmbargoValue} {customEmbargoUnit}
           </span>
         </KeyValue>
-        <div data-test-eholdings-customer-resource-edit-custom-embargo-button>
+        <div data-test-eholdings-resource-edit-custom-embargo-button>
           <IconButton icon="edit" onClick={this.handleEdit} />
         </div>
       </div>
@@ -108,7 +108,7 @@ class CustomEmbargoForm extends Component {
 
   renderSetEmbargo() {
     return (
-      <div data-test-eholdings-customer-resource-add-custom-embargo-button>
+      <div data-test-eholdings-resource-add-custom-embargo-button>
         <Button
           type="button"
           onClick={this.handleEdit}

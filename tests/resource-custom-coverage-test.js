@@ -1,10 +1,10 @@
 import { beforeEach, describe, it } from '@bigtest/mocha';
 import { expect } from 'chai';
 import { describeApplication } from './helpers';
-import ResourcePage from './pages/customer-resource-show';
-import CustomerResourceCoverage from './pages/customer-resource-custom-coverage';
+import ResourcePage from './pages/resource-show';
+import ResourceCoverage from './pages/resource-custom-coverage';
 
-describeApplication('CustomerResourceCustomCoverage', () => {
+describeApplication('ResourceCustomCoverage', () => {
   let pkg,
     title,
     resource;
@@ -20,68 +20,68 @@ describeApplication('CustomerResourceCustomCoverage', () => {
 
     title = this.server.create('title');
 
-    resource = this.server.create('customer-resource', {
+    resource = this.server.create('resource', {
       package: pkg,
       title
     });
   });
 
-  describe('visiting an unselected customer resource show page', () => {
+  describe('visiting an unselected resource show page', () => {
     beforeEach(function () {
       resource.isSelected = false;
       resource.save();
 
-      return this.visit(`/eholdings/customer-resources/${resource.id}`, () => {
+      return this.visit(`/eholdings/resources/${resource.id}`, () => {
         expect(ResourcePage.$root).to.exist;
       });
     });
 
     it('does not display coverage', () => {
-      expect(CustomerResourceCoverage.exists).to.be.false;
+      expect(ResourceCoverage.exists).to.be.false;
     });
   });
 
-  describe('visiting a selected customer resource show page without custom coverage', () => {
+  describe('visiting a selected resource show page without custom coverage', () => {
     beforeEach(function () {
       resource.isSelected = true;
       resource.save();
 
-      return this.visit(`/eholdings/customer-resources/${resource.id}`, () => {
+      return this.visit(`/eholdings/resources/${resource.id}`, () => {
         expect(ResourcePage.$root).to.exist;
       });
     });
 
     it('displays an add custom coverage button', () => {
-      expect(CustomerResourceCoverage.hasAddButton).to.be.true;
+      expect(ResourceCoverage.hasAddButton).to.be.true;
     });
 
     describe('clicking the add custom coverage button', () => {
       beforeEach(() => {
-        return CustomerResourceCoverage.clickAddButton();
+        return ResourceCoverage.clickAddButton();
       });
 
       it('reveals the custom coverage form', () => {
-        expect(CustomerResourceCoverage.hasForm).to.be.true;
+        expect(ResourceCoverage.hasForm).to.be.true;
       });
 
       it('reveals a cancel button', () => {
-        expect(CustomerResourceCoverage.hasCancelButton).to.be.true;
+        expect(ResourceCoverage.hasCancelButton).to.be.true;
       });
 
       it('shows a single row of inputs', () => {
-        expect(CustomerResourceCoverage.dateRangeRowList().length).to.equal(1);
+        expect(ResourceCoverage.dateRangeRowList().length).to.equal(1);
       });
 
       it('reveals a save button', () => {
-        expect(CustomerResourceCoverage.hasSaveButton).to.be.true;
+        expect(ResourceCoverage.hasSaveButton).to.be.true;
       });
 
       it('disables the save button', () => {
-        expect(CustomerResourceCoverage.isSaveButtonDisabled).to.be.true;
+        expect(ResourceCoverage.isSaveButtonDisabled).to.be.true;
       });
 
       it('hides the add custom coverage button', () => {
-        expect(CustomerResourceCoverage.hasAddButton).to.be.false;
+        expect(ResourceCoverage.hasAddButton).to.be.false;
       });
 
       describe('then trying to navigate away', () => {
@@ -95,74 +95,74 @@ describeApplication('CustomerResourceCustomCoverage', () => {
 
         it.always('does not navigate away', function () {
           expect(this.app.history.location.pathname)
-            .to.equal(`/eholdings/customer-resources/${resource.id}`);
+            .to.equal(`/eholdings/resources/${resource.id}`);
         });
       });
 
       describe('clicking cancel', () => {
         beforeEach(() => {
-          return CustomerResourceCoverage.clickCancelButton();
+          return ResourceCoverage.clickCancelButton();
         });
 
         it('hides the custom coverage form', () => {
-          expect(CustomerResourceCoverage.hasForm).to.be.false;
+          expect(ResourceCoverage.hasForm).to.be.false;
         });
 
         it('displays an add custom coverage button', () => {
-          expect(CustomerResourceCoverage.hasAddButton).to.exist;
+          expect(ResourceCoverage.hasAddButton).to.exist;
         });
       });
 
       describe('clicking the add row button', () => {
         beforeEach(() => {
-          return CustomerResourceCoverage.clickAddRowButton();
+          return ResourceCoverage.clickAddRowButton();
         });
 
         it('adds another row of date inputs', () => {
-          expect(CustomerResourceCoverage.dateRangeRowList().length).to.equal(2);
+          expect(ResourceCoverage.dateRangeRowList().length).to.equal(2);
         });
 
         it('does not put any values in the new inputs', () => {
-          expect(CustomerResourceCoverage.dateRangeRowList(1).beginDate.value).to.equal('');
-          expect(CustomerResourceCoverage.dateRangeRowList(1).endDate.value).to.equal('');
+          expect(ResourceCoverage.dateRangeRowList(1).beginDate.value).to.equal('');
+          expect(ResourceCoverage.dateRangeRowList(1).endDate.value).to.equal('');
         });
 
         describe('clicking the clear row button', () => {
           beforeEach(() => {
-            return CustomerResourceCoverage.dateRangeRowList(1).clickRemoveRowButton();
+            return ResourceCoverage.dateRangeRowList(1).clickRemoveRowButton();
           });
 
           it('removes the new row', () => {
-            expect(CustomerResourceCoverage.dateRangeRowList().length).to.equal(1);
+            expect(ResourceCoverage.dateRangeRowList().length).to.equal(1);
           });
         });
       });
 
       describe('entering a valid date range', () => {
         beforeEach(() => {
-          return CustomerResourceCoverage.dateRangeRowList(0)
+          return ResourceCoverage.dateRangeRowList(0)
             .fillDates('12/16/2018', '12/18/2018');
         });
 
         it('shows the input as changed', () => {
-          expect(CustomerResourceCoverage.dateRangeRowList(0).beginDate.isChanged).to.be.true;
+          expect(ResourceCoverage.dateRangeRowList(0).beginDate.isChanged).to.be.true;
         });
 
         it('enables the save button', () => {
-          expect(CustomerResourceCoverage.isSaveButtonDisabled).to.be.false;
+          expect(ResourceCoverage.isSaveButtonDisabled).to.be.false;
         });
 
         describe('successfully submitting the form', () => {
           beforeEach(() => {
-            return CustomerResourceCoverage.clickSaveButton();
+            return ResourceCoverage.clickSaveButton();
           });
 
           it('displays the saved date range', () => {
-            expect(CustomerResourceCoverage.displayText).to.equal('12/16/2018 - 12/18/2018');
+            expect(ResourceCoverage.displayText).to.equal('12/16/2018 - 12/18/2018');
           });
 
           it('displays an edit button', () => {
-            expect(CustomerResourceCoverage.hasEditButton).to.be.true;
+            expect(ResourceCoverage.hasEditButton).to.be.true;
           });
         });
       });
@@ -170,17 +170,17 @@ describeApplication('CustomerResourceCustomCoverage', () => {
       describe('entering an invalid date range', () => {
         describe('entering an invalid begin date format', () => {
           beforeEach(() => {
-            return CustomerResourceCoverage.dateRangeRowList(0)
+            return ResourceCoverage.dateRangeRowList(0)
               .fillDates('16/12/2018', '')
-              .append(CustomerResourceCoverage.dateRangeRowList(0).beginDate.clearInput());
+              .append(ResourceCoverage.dateRangeRowList(0).beginDate.clearInput());
           });
 
           it('indicates validation error on begin date', () => {
-            expect(CustomerResourceCoverage.dateRangeRowList(0).beginDate.isInvalid).to.be.true;
+            expect(ResourceCoverage.dateRangeRowList(0).beginDate.isInvalid).to.be.true;
           });
 
           it('displays messaging that date is invalid format', () => {
-            expect(CustomerResourceCoverage.dateRangeRowList(0).beginDate.validationError).to.eq(
+            expect(ResourceCoverage.dateRangeRowList(0).beginDate.validationError).to.eq(
               'Enter date in MM/DD/YYYY format.'
             );
           });
@@ -188,16 +188,16 @@ describeApplication('CustomerResourceCustomCoverage', () => {
 
         describe('entering an end date before a start date', () => {
           beforeEach(() => {
-            return CustomerResourceCoverage.dateRangeRowList(0)
+            return ResourceCoverage.dateRangeRowList(0)
               .fillDates('12/18/2018', '12/16/2018');
           });
 
           it('indicates validation error on begin date', () => {
-            expect(CustomerResourceCoverage.dateRangeRowList(0).beginDate.isInvalid).to.be.true;
+            expect(ResourceCoverage.dateRangeRowList(0).beginDate.isInvalid).to.be.true;
           });
 
           it('displays messaging that end date is before start date', () => {
-            expect(CustomerResourceCoverage.dateRangeRowList(0).beginDate.validationError).to.eq(
+            expect(ResourceCoverage.dateRangeRowList(0).beginDate.validationError).to.eq(
               'Start date must be before end date'
             );
           });
@@ -205,29 +205,29 @@ describeApplication('CustomerResourceCustomCoverage', () => {
 
         describe('add row', () => {
           beforeEach(() => {
-            return CustomerResourceCoverage.clickAddRowButton();
+            return ResourceCoverage.clickAddRowButton();
           });
 
           it('adds another row of date inputs', () => {
-            expect(CustomerResourceCoverage.dateRangeRowList().length).to.equal(2);
+            expect(ResourceCoverage.dateRangeRowList().length).to.equal(2);
           });
 
           describe.skip('entering overlapping ranges', () => {
             beforeEach(() => {
-              return CustomerResourceCoverage.dateRangeRowList(0).fillDates('12/16/2018', '12/20/2018')
-                .append(CustomerResourceCoverage.dateRangeRowList(1).fillDates('12/18/2018', '12/19/2018'));
+              return ResourceCoverage.dateRangeRowList(0).fillDates('12/16/2018', '12/20/2018')
+                .append(ResourceCoverage.dateRangeRowList(1).fillDates('12/18/2018', '12/19/2018'));
             });
 
             it.pause('indicates validation error on begin dates', () => {
-              expect(CustomerResourceCoverage.dateRangeRowList(0).beginDate.isInvalid).to.be.true;
-              expect(CustomerResourceCoverage.dateRangeRowList(1).beginDate.isInvalid).to.be.true;
+              expect(ResourceCoverage.dateRangeRowList(0).beginDate.isInvalid).to.be.true;
+              expect(ResourceCoverage.dateRangeRowList(1).beginDate.isInvalid).to.be.true;
             });
 
             it('has messaging that dates overlap', () => {
-              expect(CustomerResourceCoverage.dateRangeRowList(0).beginDate.validationError).to.eq(
+              expect(ResourceCoverage.dateRangeRowList(0).beginDate.validationError).to.eq(
                 'Date range overlaps with 12/18/2018 - 12/19/2018'
               );
-              expect(CustomerResourceCoverage.dateRangeRowList(1).beginDate.validationError).to.eq(
+              expect(ResourceCoverage.dateRangeRowList(1).beginDate.validationError).to.eq(
                 'Date range overlaps with 12/16/2018 - 12/20/2018'
               );
             });
@@ -236,26 +236,26 @@ describeApplication('CustomerResourceCustomCoverage', () => {
 
         describe('entering a date range outside of package coverage range', () => {
           beforeEach(() => {
-            return CustomerResourceCoverage.dateRangeRowList(0)
+            return ResourceCoverage.dateRangeRowList(0)
               .fillDates('11/16/2018', '01/14/2019');
           });
 
           it('indicates validation error on begin date', () => {
-            expect(CustomerResourceCoverage.dateRangeRowList(0).beginDate.isInvalid).to.be.true;
+            expect(ResourceCoverage.dateRangeRowList(0).beginDate.isInvalid).to.be.true;
           });
 
           it('indicates validation error on end date', () => {
-            expect(CustomerResourceCoverage.dateRangeRowList(0).endDate.isInvalid).to.be.true;
+            expect(ResourceCoverage.dateRangeRowList(0).endDate.isInvalid).to.be.true;
           });
 
           it('displays messaging that begin date is outside of package coverage range', () => {
-            expect(CustomerResourceCoverage.dateRangeRowList(0).beginDate.validationError).to.eq(
+            expect(ResourceCoverage.dateRangeRowList(0).beginDate.validationError).to.eq(
               "Dates must be within package's date range (12/1/2018 - 12/31/2018)."
             );
           });
 
           it('displays messaging that end date is outside of package coverage range', () => {
-            expect(CustomerResourceCoverage.dateRangeRowList(0).endDate.validationError).to.eq(
+            expect(ResourceCoverage.dateRangeRowList(0).endDate.validationError).to.eq(
               "Dates must be within package's date range (12/1/2018 - 12/31/2018)."
             );
           });
@@ -264,7 +264,7 @@ describeApplication('CustomerResourceCustomCoverage', () => {
     });
   });
 
-  describe('visiting a selected customer resource show page with custom coverage', () => {
+  describe('visiting a selected resource show page with custom coverage', () => {
     beforeEach(function () {
       resource.isSelected = true;
       let customCoverages = [
@@ -276,79 +276,79 @@ describeApplication('CustomerResourceCustomCoverage', () => {
       resource.update('customCoverages', customCoverages.map(item => item.toJSON()));
       resource.save();
 
-      return this.visit(`/eholdings/customer-resources/${resource.id}`, () => {
+      return this.visit(`/eholdings/resources/${resource.id}`, () => {
         expect(ResourcePage.$root).to.exist;
       });
     });
 
     it('displays the date ranges', () => {
-      expect(CustomerResourceCoverage.displayText).to.equal('7/16/1969 - 12/19/1972');
+      expect(ResourceCoverage.displayText).to.equal('7/16/1969 - 12/19/1972');
     });
 
     it('displays an edit button', () => {
-      expect(CustomerResourceCoverage.hasEditButton).to.be.true;
+      expect(ResourceCoverage.hasEditButton).to.be.true;
     });
 
     it('does not display an add custom coverage button', () => {
-      expect(CustomerResourceCoverage.hasAddButton).to.be.false;
+      expect(ResourceCoverage.hasAddButton).to.be.false;
     });
 
     describe('clicking the edit button', () => {
       beforeEach(() => {
-        return CustomerResourceCoverage.clickEditButton();
+        return ResourceCoverage.clickEditButton();
       });
 
       it('reveals the custom coverage form', () => {
-        expect(CustomerResourceCoverage.hasForm).to.be.true;
+        expect(ResourceCoverage.hasForm).to.be.true;
       });
 
       it('reveals a cancel button', () => {
-        expect(CustomerResourceCoverage.hasCancelButton).to.be.true;
+        expect(ResourceCoverage.hasCancelButton).to.be.true;
       });
 
       it('shows a single row of inputs', () => {
-        expect(CustomerResourceCoverage.dateRangeRowList().length).to.equal(1);
+        expect(ResourceCoverage.dateRangeRowList().length).to.equal(1);
       });
 
       it('reveals a save button', () => {
-        expect(CustomerResourceCoverage.hasSaveButton).to.be.true;
+        expect(ResourceCoverage.hasSaveButton).to.be.true;
       });
 
       it('disables the save button', () => {
-        expect(CustomerResourceCoverage.isSaveButtonDisabled).to.be.true;
+        expect(ResourceCoverage.isSaveButtonDisabled).to.be.true;
       });
 
       describe('editing one of the fields', () => {
         beforeEach(() => {
-          return CustomerResourceCoverage.dateRangeRowList(0)
+          return ResourceCoverage.dateRangeRowList(0)
             .fillDates('', '12/16/2018');
         });
 
         it('enables the save button', () => {
-          expect(CustomerResourceCoverage.isSaveButtonDisabled).to.be.false;
+          expect(ResourceCoverage.isSaveButtonDisabled).to.be.false;
         });
       });
 
       describe('removing the only row', () => {
         beforeEach(() => {
-          return CustomerResourceCoverage.dateRangeRowList(0).clickRemoveRowButton();
+          return ResourceCoverage.dateRangeRowList(0).clickRemoveRowButton();
         });
 
         it('displays the no rows left message', () => {
-          expect(CustomerResourceCoverage.hasNoRowsLeftMessage).to.be.true;
+          expect(ResourceCoverage.hasNoRowsLeftMessage).to.be.true;
         });
 
         it('enables the save button', () => {
-          expect(CustomerResourceCoverage.isSaveButtonDisabled).to.be.false;
+          expect(ResourceCoverage.isSaveButtonDisabled).to.be.false;
         });
 
         describe('successfully submitting the form', () => {
           beforeEach(() => {
-            return CustomerResourceCoverage.clickSaveButton();
+            return ResourceCoverage.clickSaveButton();
           });
 
           it('displays an add custom coverage button', () => {
-            expect(CustomerResourceCoverage.hasAddButton).to.be.true;
+            expect(ResourceCoverage.hasAddButton).to.be.true;
           });
         });
       });

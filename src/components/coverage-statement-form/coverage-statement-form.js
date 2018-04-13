@@ -89,10 +89,10 @@ class CoverageStatementForm extends Component {
 
     return (
       <div className={styles['coverage-statement-display']}>
-        <span data-test-eholdings-customer-resource-coverage-statement-display>
+        <span data-test-eholdings-resource-coverage-statement-display>
           {coverageStatement}
         </span>
-        <div data-test-eholdings-customer-resource-edit-coverage-statement-button>
+        <div data-test-eholdings-resource-edit-coverage-statement-button>
           <IconButton icon="edit" onClick={this.handleEdit} />
         </div>
       </div>
@@ -101,7 +101,7 @@ class CoverageStatementForm extends Component {
 
   renderSetCoverage() {
     return (
-      <div data-test-eholdings-customer-resource-add-coverage-statement-button>
+      <div data-test-eholdings-resource-add-coverage-statement-button>
         <Button
           type="button"
           onClick={this.handleEdit}
@@ -131,7 +131,7 @@ class CoverageStatementForm extends Component {
 
     return (
       <div
-        data-test-eholdings-customer-resource-coverage-statement-form
+        data-test-eholdings-resource-coverage-statement-form
         className={cx(styles['coverage-statement-form'], {
           'is-editing': isEditable
         })}

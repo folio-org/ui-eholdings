@@ -310,14 +310,14 @@ export default class PackageShow extends Component {
             <QueryList
               type="package-titles"
               fetch={fetchPackageTitles}
-              collection={model.customerResources}
+              collection={model.resources}
               length={model.titleCount}
               scrollable={scrollable}
               itemHeight={70}
               renderItem={item => (
                 <TitleListItem
                   item={item.content}
-                  link={item.content && `/eholdings/customer-resources/${item.content.id}`}
+                  link={item.content && `/eholdings/resources/${item.content.id}`}
                   showSelected
                   headingLevel='h4'
                 />

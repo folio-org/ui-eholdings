@@ -2,9 +2,9 @@ import { beforeEach, afterEach, describe, it } from '@bigtest/mocha';
 import { expect } from 'chai';
 
 import { describeApplication } from './helpers';
-import ResourcePage from './pages/customer-resource-show';
+import ResourcePage from './pages/resource-show';
 
-describeApplication('CustomerResourceSelection', () => {
+describeApplication('ResourceSelection', () => {
   let provider,
     providerPackage,
     resource;
@@ -25,16 +25,16 @@ describeApplication('CustomerResourceSelection', () => {
       publicationType: 'Streaming Video'
     });
 
-    resource = this.server.create('customer-resource', {
+    resource = this.server.create('resource', {
       package: providerPackage,
       isSelected: false,
       title
     });
   });
 
-  describe('visiting the customer resource page', () => {
+  describe('visiting the resource page', () => {
     beforeEach(function () {
-      return this.visit(`/eholdings/customer-resources/${resource.id}`, () => {
+      return this.visit(`/eholdings/resources/${resource.id}`, () => {
         expect(ResourcePage.$root).to.exist;
       });
     });
@@ -87,7 +87,7 @@ describeApplication('CustomerResourceSelection', () => {
 
     describe('unsuccessfully selecting a package title to add to my holdings', () => {
       beforeEach(function () {
-        this.server.put('/customer-resources/:id', {
+        this.server.put('/resources/:id', {
           errors: [{
             title: 'There was an error'
           }]

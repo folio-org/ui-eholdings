@@ -2,9 +2,9 @@ import { beforeEach, describe, it } from '@bigtest/mocha';
 import { expect } from 'chai';
 
 import { describeApplication } from './helpers';
-import CustomerResourceShowPage from './pages/customer-resource-show';
+import ResourceShowPage from './pages/resource-show';
 
-describeApplication('CustomerResourceCoverageStatement', () => {
+describeApplication('ResourceCoverageStatement', () => {
   let pkg,
     title,
     resource;
@@ -12,135 +12,135 @@ describeApplication('CustomerResourceCoverageStatement', () => {
   beforeEach(function () {
     pkg = this.server.create('package', 'withProvider');
     title = this.server.create('title');
-    resource = this.server.create('customer-resource', {
+    resource = this.server.create('resource', {
       package: pkg,
       title,
       isSelected: true
     });
   });
 
-  describe('visiting the customer resource show page with a coverage statement', () => {
+  describe('visiting the resource show page with a coverage statement', () => {
     beforeEach(function () {
       resource.coverageStatement = 'Only 90s kids would understand.';
       resource.save();
 
-      return this.visit(`/eholdings/customer-resources/${resource.id}`, () => {
-        expect(CustomerResourceShowPage.$root).to.exist;
+      return this.visit(`/eholdings/resources/${resource.id}`, () => {
+        expect(ResourceShowPage.$root).to.exist;
       });
     });
 
     it('displays the coverage statement', () => {
-      expect(CustomerResourceShowPage.coverageStatement).to.equal('Only 90s kids would understand.');
+      expect(ResourceShowPage.coverageStatement).to.equal('Only 90s kids would understand.');
     });
   });
 
-  describe('visiting the customer resource show page without a coverage statement', () => {
+  describe('visiting the resource show page without a coverage statement', () => {
     beforeEach(function () {
-      return this.visit(`/eholdings/customer-resources/${resource.id}`, () => {
-        expect(CustomerResourceShowPage.$root).to.exist;
+      return this.visit(`/eholdings/resources/${resource.id}`, () => {
+        expect(ResourceShowPage.$root).to.exist;
       });
     });
 
     it.always('does not display the coverage statement', () => {
-      expect(CustomerResourceShowPage.hasCoverageStatement).to.be.false;
+      expect(ResourceShowPage.hasCoverageStatement).to.be.false;
     });
 
     it('displays a button to add coverage statement', () => {
-      expect(CustomerResourceShowPage.hasCoverageStatementAddButton).to.be.true;
+      expect(ResourceShowPage.hasCoverageStatementAddButton).to.be.true;
     });
 
     describe('clicking on the add coverage statement button', () => {
       beforeEach(() => {
-        return CustomerResourceShowPage.clickCoverageStatementAddButton();
+        return ResourceShowPage.clickCoverageStatementAddButton();
       });
 
       it('should remove the add coverage statement button', () => {
-        expect(CustomerResourceShowPage.hasCoverageStatementAddButton).to.be.false;
+        expect(ResourceShowPage.hasCoverageStatementAddButton).to.be.false;
       });
 
       it('displays the coverage statement form', () => {
-        expect(CustomerResourceShowPage.hasCoverageStatementForm).to.be.true;
+        expect(ResourceShowPage.hasCoverageStatementForm).to.be.true;
       });
 
       describe('then trying to navigate away', () => {
         beforeEach(() => {
-          return CustomerResourceShowPage.clickPackage();
+          return ResourceShowPage.clickPackage();
         });
 
         it('shows a navigation confirmation modal', () => {
-          expect(CustomerResourceShowPage.navigationModal.$root).to.exist;
+          expect(ResourceShowPage.navigationModal.$root).to.exist;
         });
 
         it.always('does not navigate away', function () {
           expect(this.app.history.location.pathname)
-            .to.equal(`/eholdings/customer-resources/${resource.id}`);
+            .to.equal(`/eholdings/resources/${resource.id}`);
         });
       });
 
       describe('entering valid coverage statement', () => {
         beforeEach(() => {
-          return CustomerResourceShowPage.inputCoverageStatement('Use this one weird trick to get access.');
+          return ResourceShowPage.inputCoverageStatement('Use this one weird trick to get access.');
         });
 
         it('accepts valid coverage statement', () => {
-          expect(CustomerResourceShowPage.coverageStatementFieldValue).to.equal('Use this one weird trick to get access.');
+          expect(ResourceShowPage.coverageStatementFieldValue).to.equal('Use this one weird trick to get access.');
         });
 
         it('save button is present', () => {
-          expect(CustomerResourceShowPage.hasCoverageStatementSaveButton).to.be.true;
+          expect(ResourceShowPage.hasCoverageStatementSaveButton).to.be.true;
         });
 
         it('save button is enabled', () => {
-          expect(CustomerResourceShowPage.isCoverageStatementSaveDisabled).to.be.false;
+          expect(ResourceShowPage.isCoverageStatementSaveDisabled).to.be.false;
         });
 
         it('cancel button is present', () => {
-          expect(CustomerResourceShowPage.hasCoverageStatementCancelButton).to.be.true;
+          expect(ResourceShowPage.hasCoverageStatementCancelButton).to.be.true;
         });
 
         it('cancel button is enabled', () => {
-          expect(CustomerResourceShowPage.isCoverageStatementCancelDisabled).to.be.false;
+          expect(ResourceShowPage.isCoverageStatementCancelDisabled).to.be.false;
         });
 
         describe('saving updated coverage statement', () => {
           beforeEach(() => {
-            return CustomerResourceShowPage.clickCoverageStatementSaveButton();
+            return ResourceShowPage.clickCoverageStatementSaveButton();
           });
 
           it('displays new coverage statement period', () => {
-            expect(CustomerResourceShowPage.coverageStatement).to.equal('Use this one weird trick to get access.');
+            expect(ResourceShowPage.coverageStatement).to.equal('Use this one weird trick to get access.');
           });
 
           it('does not display button to add coverage statement', () => {
-            expect(CustomerResourceShowPage.hasCoverageStatementAddButton).to.be.false;
+            expect(ResourceShowPage.hasCoverageStatementAddButton).to.be.false;
           });
 
           it('removes the coverage statement form', () => {
-            expect(CustomerResourceShowPage.hasCoverageStatementForm).to.be.false;
+            expect(ResourceShowPage.hasCoverageStatementForm).to.be.false;
           });
         });
 
         describe('cancelling updated coverage statement', () => {
           beforeEach(() => {
-            return CustomerResourceShowPage.clickCoverageStatementCancelButton();
+            return ResourceShowPage.clickCoverageStatementCancelButton();
           });
 
           it('displays existing coverage statement period (none)', () => {
-            expect(CustomerResourceShowPage.hasCoverageStatement).to.be.false;
+            expect(ResourceShowPage.hasCoverageStatement).to.be.false;
           });
 
           it('removes the coverage statement form', () => {
-            expect(CustomerResourceShowPage.hasCoverageStatementForm).to.be.false;
+            expect(ResourceShowPage.hasCoverageStatementForm).to.be.false;
           });
 
           it('displays the button to add coverage statement', () => {
-            expect(CustomerResourceShowPage.hasCoverageStatementAddButton).to.be.true;
+            expect(ResourceShowPage.hasCoverageStatementAddButton).to.be.true;
           });
         });
 
         describe('entering a coverage statement with too many characters', () => {
           beforeEach(() => {
-            return CustomerResourceShowPage
+            return ResourceShowPage
               .inputCoverageStatement(`Lorem ipsum dolor sit amet, consectetuer adipiscing elit.
                 Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis
                 dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec,
@@ -150,107 +150,107 @@ describeApplication('CustomerResourceCoverageStatement', () => {
           });
 
           it('highlights the textarea with an error state', () => {
-            expect(CustomerResourceShowPage.coverageStatementHasError).to.be.true;
+            expect(ResourceShowPage.coverageStatementHasError).to.be.true;
           });
 
           it('displays a validation error message', () => {
-            expect(CustomerResourceShowPage.validationErrorOnCoverageStatement).to.equal('Statement must be 350 characters or less.');
+            expect(ResourceShowPage.validationErrorOnCoverageStatement).to.equal('Statement must be 350 characters or less.');
           });
         });
       });
     });
   });
 
-  describe('visiting the customer resource show page with no coverage statement', () => {
+  describe('visiting the resource show page with no coverage statement', () => {
     beforeEach(function () {
       resource.coverageStatement = null;
       resource.save();
-      return this.visit(`/eholdings/customer-resources/${resource.id}`, () => {
-        expect(CustomerResourceShowPage.$root).to.exist;
+      return this.visit(`/eholdings/resources/${resource.id}`, () => {
+        expect(ResourceShowPage.$root).to.exist;
       });
     });
 
     it.always('does not display the coverage statement section', () => {
-      expect(CustomerResourceShowPage.hasCoverageStatement).to.be.false;
+      expect(ResourceShowPage.hasCoverageStatement).to.be.false;
     });
   });
 
-  describe('visiting the customer resource show page with title package not selected', () => {
+  describe('visiting the resource show page with title package not selected', () => {
     beforeEach(function () {
       resource.isSelected = false;
       resource.save();
-      return this.visit(`/eholdings/customer-resources/${resource.id}`, () => {
-        expect(CustomerResourceShowPage.$root).to.exist;
+      return this.visit(`/eholdings/resources/${resource.id}`, () => {
+        expect(ResourceShowPage.$root).to.exist;
       });
     });
 
     it.always('does not display the coverage statement section', () => {
-      expect(CustomerResourceShowPage.hasCoverageStatement).to.be.false;
+      expect(ResourceShowPage.hasCoverageStatement).to.be.false;
     });
   });
 
-  describe('visiting the customer resource show page with title package selected', () => {
+  describe('visiting the resource show page with title package selected', () => {
     beforeEach(function () {
       resource.coverageStatement = 'Refinance your home loans.';
       resource.save();
-      return this.visit(`/eholdings/customer-resources/${resource.id}`, () => {
-        expect(CustomerResourceShowPage.$root).to.exist;
+      return this.visit(`/eholdings/resources/${resource.id}`, () => {
+        expect(ResourceShowPage.$root).to.exist;
       });
     });
 
     it('displays the coverage statement section', () => {
-      expect(CustomerResourceShowPage.coverageStatement).to.equal('Refinance your home loans.');
+      expect(ResourceShowPage.coverageStatement).to.equal('Refinance your home loans.');
     });
 
     it('displays the edit button in the coverage statement section', () => {
-      expect(CustomerResourceShowPage.hasCoverageStatementEditButton).to.be.true;
+      expect(ResourceShowPage.hasCoverageStatementEditButton).to.be.true;
     });
 
     it('does not display the add coverage statement button', () => {
-      expect(CustomerResourceShowPage.hasCoverageStatementAddButton).to.be.false;
+      expect(ResourceShowPage.hasCoverageStatementAddButton).to.be.false;
     });
 
     it('displays whether the title package is selected', () => {
-      expect(CustomerResourceShowPage.isSelected).to.equal(true);
+      expect(ResourceShowPage.isSelected).to.equal(true);
     });
 
     describe('toggling to deselect a title package', () => {
       beforeEach(() => {
-        return CustomerResourceShowPage.toggleIsSelected();
+        return ResourceShowPage.toggleIsSelected();
       });
 
       describe('and confirming deselection', () => {
         beforeEach(() => {
-          return CustomerResourceShowPage.deselectionModal.confirmDeselection();
+          return ResourceShowPage.deselectionModal.confirmDeselection();
         });
 
         it('removes coverage statement', () => {
-          expect(CustomerResourceShowPage.hasCoverageStatement).to.be.false;
+          expect(ResourceShowPage.hasCoverageStatement).to.be.false;
         });
       });
 
       describe('and canceling deselection', () => {
         beforeEach(() => {
-          return CustomerResourceShowPage.deselectionModal.cancelDeselection();
+          return ResourceShowPage.deselectionModal.cancelDeselection();
         });
 
         it('does not remove coverage statement', () => {
-          expect(CustomerResourceShowPage.coverageStatement).to.equal('Refinance your home loans.');
+          expect(ResourceShowPage.coverageStatement).to.equal('Refinance your home loans.');
         });
 
         it('displays the edit button in the coverage statement section', () => {
-          expect(CustomerResourceShowPage.hasCoverageStatementEditButton).to.be.true;
+          expect(ResourceShowPage.hasCoverageStatementEditButton).to.be.true;
         });
       });
     });
 
     describe('clicking the edit button', () => {
       beforeEach(() => {
-        return CustomerResourceShowPage.clickCoverageStatementEditButton();
+        return ResourceShowPage.clickCoverageStatementEditButton();
       });
 
       it('displays the coverage statement form', () => {
-        expect(CustomerResourceShowPage.hasCoverageStatementForm).to.be.true;
+        expect(ResourceShowPage.hasCoverageStatementForm).to.be.true;
       });
     });
   });

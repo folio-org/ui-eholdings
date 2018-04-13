@@ -10,7 +10,7 @@ describeApplication('DetailsView', () => {
     this.server.loadFixtures();
   });
 
-  describe('visiting a package with paged customer-resources', () => {
+  describe('visiting a package with paged resources', () => {
     beforeEach(function () {
       return this.visit('/eholdings/packages/paged_pkg', () => {
         expect(PackageShowPage.exist).to.be.true;
@@ -89,7 +89,7 @@ describeApplication('DetailsView', () => {
       });
     });
 
-    describe('then visiting a title page with few customer-resources', () => {
+    describe('then visiting a title page with few resources', () => {
       beforeEach(function () {
         let title = this.server.create('title');
 
