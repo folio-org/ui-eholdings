@@ -135,6 +135,10 @@ describeApplication('ResourceCustomCoverage', () => {
           it('removes the new row', () => {
             expect(ResourceCoverage.dateRangeRowList().length).to.equal(1);
           });
+
+          it('does not display the saving will remove message', () => {
+            expect(ResourceCoverage.hasSavingWillRemoveMessage).to.be.false;
+          });
         });
       });
 
@@ -334,8 +338,8 @@ describeApplication('ResourceCustomCoverage', () => {
           return ResourceCoverage.dateRangeRowList(0).clickRemoveRowButton();
         });
 
-        it('displays the no rows left message', () => {
-          expect(ResourceCoverage.hasNoRowsLeftMessage).to.be.true;
+        it('displays the saving will remove message', () => {
+          expect(ResourceCoverage.hasSavingWillRemoveMessage).to.be.true;
         });
 
         it('enables the save button', () => {

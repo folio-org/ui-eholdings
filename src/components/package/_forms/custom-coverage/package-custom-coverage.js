@@ -70,6 +70,7 @@ class PackageCustomCoverage extends Component {
 
   renderEditingForm() {
     let {
+      initialValues,
       handleSubmit,
       onSubmit,
       pristine,
@@ -84,7 +85,9 @@ class PackageCustomCoverage extends Component {
         pristine={pristine}
         isPending={isPending}
       >
-        <CoverageFields />
+        <CoverageFields
+          initialValue={initialValues.customCoverages}
+        />
       </InlineForm>
     );
   }

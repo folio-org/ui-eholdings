@@ -68,6 +68,7 @@ class ResourceCoverage extends Component {
 
   renderEditingForm() {
     let {
+      initialValues,
       pristine,
       isPending,
       handleSubmit,
@@ -82,7 +83,9 @@ class ResourceCoverage extends Component {
         pristine={pristine}
         isPending={isPending}
       >
-        <CustomCoverageFields />
+        <CustomCoverageFields
+          initialValue={initialValues.customCoverages}
+        />
       </InlineForm>
     );
   }
