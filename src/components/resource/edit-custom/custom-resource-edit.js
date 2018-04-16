@@ -14,6 +14,7 @@ import NameField, { validate as validateName } from '../_fields/name';
 import CustomCoverageFields, { validate as validateCoverageDates } from '../_fields/custom-coverage';
 import CoverageStatementFields, { validate as validateCoverageStatement } from '../_fields/coverage-statement';
 import CustomEmbargoFields, { validate as validateEmbargo } from '../_fields/custom-embargo';
+import PublisherNameField, { validate as validatePublisher } from '../_fields/publisher-name';
 import PublicationTypeField from '../_fields/publication-type';
 import PeerReviewedField from '../_fields/peer-reviewed';
 import DetailsViewSection from '../../details-view-section';
@@ -93,6 +94,7 @@ class CustomResourceEdit extends Component {
                 label="Resource information"
               >
                 <NameField />
+                <PublisherNameField />
                 <PublicationTypeField />
                 <PeerReviewedField />
               </DetailsViewSection>
@@ -150,7 +152,12 @@ class CustomResourceEdit extends Component {
 }
 
 const validate = (values, props) => {
-  return Object.assign({}, validateName(values), validateCoverageDates(values, props), validateCoverageStatement(values), validateEmbargo(values));
+  return Object.assign({},
+    validateName(values),
+    validatePublisher(values),
+    validateCoverageDates(values, props),
+    validateCoverageStatement(values),
+    validateEmbargo(values));
 };
 
 export default reduxForm({
