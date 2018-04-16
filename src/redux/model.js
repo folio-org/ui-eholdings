@@ -308,11 +308,11 @@ class BaseModel {
    * Action creator for creating a record
    * @param {Object} attrs - the record's attributes
    */
-  static create(attrs) { // eslint-disable-line no-shadow
-    let model = new this();
-    model.data.attributes = attrs;
+  static create(attrs) {
+    let newModel = new this();
+    newModel.data.attributes = attrs;
 
-    return create(this.type, model.serialize(), {
+    return create(this.type, newModel.serialize(), {
       path: this.pathFor()
     });
   }

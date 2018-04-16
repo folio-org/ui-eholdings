@@ -10,7 +10,7 @@ import View from '../components/package/create';
 
 class PackageCreateRoute extends Component {
   static propTypes = {
-    request: PropTypes.object.isRequired,
+    createRequest: PropTypes.object.isRequired,
     createPackage: PropTypes.func.isRequired
   };
 
@@ -23,16 +23,14 @@ class PackageCreateRoute extends Component {
   };
 
   componentDidUpdate(prevProps) {
-    if (!prevProps.request.isResolved && this.props.request.isResolved) {
-      let packageId = this.props.request.records[0];
+    if (!prevProps.createRequest.isResolved && this.props.createRequest.isResolved) {
+      let packageId = this.props.createRequest.records[0];
       this.context.router.history.replace(`/eholdings/packages/${packageId}`, { eholdings: true });
     }
   }
 
   packageCreateSubmitted = (values) => {
     let attrs = {};
-    let beginCoverage = '';
-    let endCoverage = '';
 
     if (values.customCoverages[0]) {
       attrs.customCoverage = {
@@ -55,7 +53,7 @@ class PackageCreateRoute extends Component {
   render() {
     return (
       <View
-        request={this.props.request}
+        request={this.props.createRequest}
         onSubmit={this.packageCreateSubmitted}
         initialValues={{
           name: '',
@@ -69,7 +67,7 @@ class PackageCreateRoute extends Component {
 
 export default connect(
   ({ eholdings: { data } }) => ({
-    request: createResolver(data).getRequest('create', { type: 'packages' })
+    createRequest: createResolver(data).getRequest('create', { type: 'packages' })
   }), {
     createPackage: attrs => Package.create(attrs)
   }
