@@ -17,6 +17,7 @@ import CustomEmbargoFields, { validate as validateEmbargo } from '../_fields/cus
 import PublisherNameField, { validate as validatePublisher } from '../_fields/publisher-name';
 import PublicationTypeField from '../_fields/publication-type';
 import PeerReviewedField from '../_fields/peer-reviewed';
+import DescriptionField, { validate as validateDescription } from '../_fields/description';
 import DetailsViewSection from '../../details-view-section';
 import NavigationModal from '../../navigation-modal';
 import Toaster from '../../toaster';
@@ -97,6 +98,7 @@ class CustomResourceEdit extends Component {
                 <PublisherNameField />
                 <PublicationTypeField />
                 <PeerReviewedField />
+                <DescriptionField />
               </DetailsViewSection>
               <DetailsViewSection
                 label="Coverage dates"
@@ -157,7 +159,8 @@ const validate = (values, props) => {
     validatePublisher(values),
     validateCoverageDates(values, props),
     validateCoverageStatement(values),
-    validateEmbargo(values));
+    validateEmbargo(values),
+    validateDescription(values));
 };
 
 export default reduxForm({

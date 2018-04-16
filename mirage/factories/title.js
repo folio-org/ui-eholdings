@@ -23,6 +23,7 @@ export default Factory.extend({
   subjects: () => [],
   contributors: () => [],
   identifiers: () => [],
+  description: '',
 
   withPackages: trait({
     afterCreate(title, server) {

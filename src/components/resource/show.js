@@ -227,6 +227,12 @@ export default class ResourceShow extends Component {
                     </div>
                   </KeyValue>
                 )}
+
+                <KeyValue label="Description">
+                  <div data-test-eholdings-description-field>
+                    {model.description}
+                  </div>
+                </KeyValue>
               </DetailsViewSection>
               <DetailsViewSection label="Holding status">
                 <label
