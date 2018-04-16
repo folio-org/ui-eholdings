@@ -14,6 +14,7 @@ import NameField, { validate as validateName } from '../_fields/name';
 import CustomCoverageFields, { validate as validateCoverageDates } from '../_fields/custom-coverage';
 import CoverageStatementFields, { validate as validateCoverageStatement } from '../_fields/coverage-statement';
 import CustomEmbargoFields, { validate as validateEmbargo } from '../_fields/custom-embargo';
+import PublicationTypeField from '../_fields/publication-type';
 import DetailsViewSection from '../../details-view-section';
 import NavigationModal from '../../navigation-modal';
 import Toaster from '../../toaster';
@@ -91,6 +92,7 @@ class CustomResourceEdit extends Component {
                 label="Resource information"
               >
                 <NameField />
+                <PublicationTypeField />
               </DetailsViewSection>
               <DetailsViewSection
                 label="Coverage dates"

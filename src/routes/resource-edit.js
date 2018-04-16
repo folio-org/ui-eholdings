@@ -43,6 +43,7 @@ class ResourceEditRoute extends Component {
       customEmbargoValue,
       customEmbargoUnit,
       name,
+      publicationType
     } = values;
     model.customCoverages = customCoverages.map((dateRange) => {
       let beginCoverage = !dateRange.beginCoverage ? null : moment(dateRange.beginCoverage).format('YYYY-MM-DD');
@@ -58,6 +59,7 @@ class ResourceEditRoute extends Component {
       embargoValue: customEmbargoValue,
       embargoUnit: customEmbargoUnit
     };
+    model.publicationType = publicationType;
 
     if ('name' in values) {
       model.name = name;
@@ -78,7 +80,8 @@ class ResourceEditRoute extends Component {
           customCoverages: model.customCoverages,
           coverageStatement: model.coverageStatement,
           customEmbargoValue: model.customEmbargoPeriod.embargoValue,
-          customEmbargoUnit: model.customEmbargoPeriod.embargoUnit
+          customEmbargoUnit: model.customEmbargoPeriod.embargoUnit,
+          publicationType: model.publicationType
         }}
       />
     );

@@ -60,6 +60,9 @@ import Datepicker from './datepicker';
   blurEmbargoValue = blurrable('[data-test-eholdings-custom-embargo-textfield] input');
   blurEmbargoUnit = blurrable('[data-test-eholdings-custom-embargo-select] select');
   validationErrorOnEmbargoTextField = text('[data-test-eholdings-custom-embargo-textfield] [class^="feedbackError--"]')
+
+  selectPublicationType = fillable('[data-test-eholdings-publication-type-field] select');
+  publicationTypeValue = value('[data-test-eholdings-publication-type-field] select');
 }
 
 export default new ResourceEditPage('[data-test-eholdings-details-view="resource"]');
