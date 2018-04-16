@@ -23,6 +23,8 @@ import Datepicker from './datepicker';
   clickSave = clickable('[data-test-eholdings-resource-save-button] button');
   isSaveDisabled = property('disabled', '[data-test-eholdings-resource-save-button] button');
   hasErrors = isPresent('[data-test-eholdings-details-view-error="resource"]');
+  isPeerReviewed = property('checked', '[data-test-eholdings-peer-reviewed-field] input[type=checkbox]');
+  checkPeerReviewed = clickable('[data-test-eholdings-peer-reviewed-field] input[type=checkbox]');
 
   toast = Toast
 

@@ -208,6 +208,12 @@ export default class ResourceShow extends Component {
                   </div>
                 </KeyValue>
 
+                <KeyValue label="Peer reviewed">
+                  <div data-test-eholdings-peer-reviewed-field>
+                    {model.isPeerReviewed ? 'Yes' : 'No'}
+                  </div>
+                </KeyValue>
+
                 <KeyValue label="Other packages">
                   <Link to={`/eholdings/titles/${model.titleId}`}>
                     View all packages that include this title

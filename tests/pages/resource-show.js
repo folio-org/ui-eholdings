@@ -57,6 +57,8 @@ import Toast from './toast';
   toggleIsHidden = clickable('[data-test-eholdings-resource-toggle-hidden] input');
   isHiding = hasClassBeginningWith('is-pending--', '[data-test-eholdings-resource-toggle-hidden] [data-test-toggle-switch]');
 
+  peerReviewedStatus = text('[data-test-eholdings-peer-reviewed-field]');
+
   toast = Toast
 
   managedEmbargoPeriod = text('[data-test-eholdings-resource-show-managed-embargo-period]');

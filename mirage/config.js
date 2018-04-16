@@ -245,7 +245,8 @@ export default function configure() {
       customEmbargoPeriod,
       coverageStatement,
       publicationType,
-      name
+      name,
+      isPeerReviewed
     } = body.data.attributes;
 
     matchingResource.update('isSelected', isSelected);
@@ -255,6 +256,7 @@ export default function configure() {
     matchingResource.update('coverageStatement', coverageStatement);
     matchingResource.title.update('name', name);
     matchingResource.title.update('publicationType', publicationType);
+    matchingResource.update('isPeerReviewed', isPeerReviewed);
 
     return matchingResource;
   });
