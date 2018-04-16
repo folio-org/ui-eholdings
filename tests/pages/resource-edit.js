@@ -65,6 +65,9 @@ import Datepicker from './datepicker';
 
   selectPublicationType = fillable('[data-test-eholdings-publication-type-field] select');
   publicationTypeValue = value('[data-test-eholdings-publication-type-field] select');
+  fillPublisher = fillable('[data-test-eholdings-publisher-name-field] input');
+  publisherValue = value('[data-test-eholdings-publisher-name-field] input');
+  publisherHasError = hasClassBeginningWith('feedbackError--', '[data-test-eholdings-publisher-name-field] input');
 }
 
 export default new ResourceEditPage('[data-test-eholdings-details-view="resource"]');

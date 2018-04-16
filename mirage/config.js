@@ -244,9 +244,10 @@ export default function configure() {
       customCoverages,
       customEmbargoPeriod,
       coverageStatement,
+      isPeerReviewed,
       publicationType,
-      name,
-      isPeerReviewed
+      publisherName,
+      name
     } = body.data.attributes;
 
     matchingResource.update('isSelected', isSelected);
@@ -254,9 +255,10 @@ export default function configure() {
     matchingResource.update('customCoverages', customCoverages);
     matchingResource.update('customEmbargoPeriod', customEmbargoPeriod);
     matchingResource.update('coverageStatement', coverageStatement);
+    matchingResource.update('isPeerReviewed', isPeerReviewed);
     matchingResource.title.update('name', name);
     matchingResource.title.update('publicationType', publicationType);
-    matchingResource.update('isPeerReviewed', isPeerReviewed);
+    matchingResource.title.update('publisherName', publisherName);
 
     return matchingResource;
   });

@@ -51,6 +51,10 @@ describeApplication('CustomResourceEdit', () => {
       expect(ResourceEditPage.coverageStatement).to.equal('');
     });
 
+    it('shows a field for publisher', () => {
+      expect(ResourceEditPage.publisherValue).to.equal('Amazing Publisher');
+    });
+
     it('shows a form with embargo fields', () => {
       expect(ResourceEditPage.customEmbargoTextFieldValue).to.equal('0');
       expect(ResourceEditPage.customEmbargoSelectValue).to.equal('');
@@ -78,6 +82,12 @@ describeApplication('CustomResourceEdit', () => {
       beforeEach(() => {
         return ResourceEditPage
           .name('')
+          .fillPublisher(`The only prerequisite is that it makes you happy.
+            If it makes you happy then it's good. All kinds of happy little splashes.
+            I started painting as a hobby when I was little. I didn't know I had any talent.
+            I believe talent is just a pursued interest. Anybody can do what I do.
+            We'll put some happy little leaves here and there. Go out on a limb - that's where the fruit is.
+            God gave you this gift of imagination. Use it.`)
           .clickAddRowButton()
           .once(() => ResourceEditPage.dateRangeRowList().length > 0)
           .do(() => ResourceEditPage.interaction
@@ -90,6 +100,10 @@ describeApplication('CustomResourceEdit', () => {
 
       it('displays a validation error for the name', () => {
         expect(ResourceEditPage.nameHasError).to.be.true;
+      });
+
+      it('displays a validation error for the publisher field', () => {
+        expect(ResourceEditPage.publisherHasError).to.be.true;
       });
 
       it('displays a validation error for coverage', () => {
@@ -108,6 +122,7 @@ describeApplication('CustomResourceEdit', () => {
           .once(() => ResourceEditPage.dateRangeRowList().length > 0)
           .do(() => ResourceEditPage.interaction
             .inputCoverageStatement('Only 90s kids would understand.')
+            .fillPublisher('Not So Awesome Publisher')
             .checkPeerReviewed()
             .append(ResourceEditPage.dateRangeRowList(0).fillDates('12/16/2018', '12/18/2018'))
             .inputEmbargoValue('27')
@@ -133,6 +148,10 @@ describeApplication('CustomResourceEdit', () => {
 
         it('goes to the resource show page', () => {
           expect(ResourceShowPage.$root).to.exist;
+        });
+
+        it('reflects the new publisher', () => {
+          expect(ResourceShowPage.publisherName).to.equal('Not So Awesome Publisher');
         });
 
         it('displays the saved date range', () => {
