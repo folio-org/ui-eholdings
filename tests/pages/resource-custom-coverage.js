@@ -23,7 +23,7 @@ import Datepicker from './datepicker';
   hasEditButton = isPresent('[data-test-eholdings-coverage-form-edit-button]');
   clickAddRowButton = clickable('[data-test-eholdings-coverage-fields-add-row-button] button');
   displayText = text('[data-test-eholdings-coverage-form-display]');
-  hasNoRowsLeftMessage = isPresent('[data-test-eholdings-coverage-fields-no-rows-left]');
+  hasSavingWillRemoveMessage = isPresent('[data-test-eholdings-coverage-fields-saving-will-remove]');
 
   dateRangeRowList = collection('[data-test-eholdings-coverage-fields-date-range-row]', {
     beginDate: new Datepicker('[data-test-eholdings-coverage-fields-date-range-begin]'),

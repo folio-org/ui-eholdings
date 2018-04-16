@@ -16,17 +16,29 @@ export default class ResourceCoverageFields extends Component {
   static propTypes = {
     packageCoverage: PropTypes.object, // eslint-disable-line react/no-unused-prop-types
     locale: PropTypes.string, // eslint-disable-line react/no-unused-prop-types
-    intl: PropTypes.object // eslint-disable-line react/no-unused-prop-types
+    intl: PropTypes.object, // eslint-disable-line react/no-unused-prop-types
+    initialValue: PropTypes.array
+  };
+
+  static defaultProps = {
+    initialValue: []
   };
 
   renderCoverageFields = ({ fields }) => {
+    let { initialValue } = this.props;
+
     return (
       <div className={styles['coverage-fields']}>
-        {fields.length === 0 ? (
-          <p data-test-eholdings-coverage-fields-no-rows-left>
-            No date ranges set.
+        {fields.length === 0
+          && initialValue.length > 0
+          && initialValue[0].beginCoverage
+          && (
+          <p data-test-eholdings-coverage-fields-saving-will-remove>
+            No date ranges set. Saving will remove custom coverage.
           </p>
-        ) : (
+        )}
+
+        {fields.length > 0 && (
           <ul className={styles['coverage-fields-date-range-rows']}>
             {fields.map((dateRange, index) => (
               <li

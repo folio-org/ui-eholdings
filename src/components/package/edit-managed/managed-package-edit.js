@@ -56,6 +56,7 @@ class ManagedPackageEdit extends Component {
   render() {
     let {
       model,
+      initialValues,
       handleSubmit,
       onSubmit,
       pristine
@@ -93,7 +94,9 @@ class ManagedPackageEdit extends Component {
               <DetailsViewSection
                 label="Coverage dates"
               >
-                <CoverageFields />
+                <CoverageFields
+                  initialValue={initialValues.customCoverages}
+                />
               </DetailsViewSection>
               <div className={styles['package-edit-action-buttons']}>
                 <div

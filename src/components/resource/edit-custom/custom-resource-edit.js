@@ -59,6 +59,7 @@ class CustomResourceEdit extends Component {
   render() {
     let {
       model,
+      initialValues,
       handleSubmit,
       onSubmit,
       pristine,
@@ -94,7 +95,9 @@ class CustomResourceEdit extends Component {
               <DetailsViewSection
                 label="Coverage dates"
               >
-                <CustomCoverageFields />
+                <CustomCoverageFields
+                  initialValue={initialValues.customCoverages}
+                />
               </DetailsViewSection>
               <DetailsViewSection
                 label="Coverage statement"

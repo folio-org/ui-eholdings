@@ -13,28 +13,39 @@ export default class PackageCoverageFields extends Component {
   static propTypes = {
     packageCoverage: PropTypes.object, // eslint-disable-line react/no-unused-prop-types
     locale: PropTypes.string, // eslint-disable-line react/no-unused-prop-types
-    intl: PropTypes.object // eslint-disable-line react/no-unused-prop-types
+    intl: PropTypes.object, // eslint-disable-line react/no-unused-prop-types,
+    initialValue: PropTypes.array
+  };
+
+  static defaultProps = {
+    initialValue: []
   };
 
   renderCoverageFields = ({ fields }) => {
+    let { initialValue } = this.props;
+
     return (
       <div className={styles['coverage-fields']}>
+        {fields.length === 0
+          && initialValue.length > 0
+          && initialValue[0].beginCoverage
+          && (
+          <p data-test-eholdings-package-coverage-fields-saving-will-remove>
+            No date ranges set. Saving will remove custom coverage.
+          </p>
+        )}
+
         {fields.length === 0 ? (
-          <div>
-            <p data-test-eholdings-coverage-fields-no-rows-left>
-              No date range set. Saving will remove custom coverage.
-            </p>
-            <div
-              className={styles['coverage-fields-add-row-button']}
-              data-test-eholdings-coverage-fields-add-row-button
+          <div
+            className={styles['coverage-fields-add-row-button']}
+            data-test-eholdings-coverage-fields-add-row-button
+          >
+            <Button
+              type="button"
+              onClick={() => fields.push({})}
             >
-              <Button
-                type="button"
-                onClick={() => fields.push({})}
-              >
-                + Add date range
-              </Button>
-            </div>
+              + Add date range
+            </Button>
           </div>
         ) : (
           <ul className={styles['coverage-fields-date-range-rows']}>
