@@ -41,7 +41,7 @@ class PackageCreate extends Component {
     } = this.props;
 
     return (
-      <div>
+      <div data-test-eholdings-package-create>
         <Toaster
           position="bottom"
           toasts={request.errors.map(({ title }, index) => ({
@@ -77,7 +77,7 @@ class PackageCreate extends Component {
           </form>
         </div>
 
-        <NavigationModal when={!pristine && !request.isPending} />
+        <NavigationModal when={!pristine && !request.isResolved} />
       </div>
     );
   }
