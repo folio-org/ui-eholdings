@@ -244,6 +244,7 @@ export default function configure() {
       customCoverages,
       customEmbargoPeriod,
       coverageStatement,
+      publicationType,
       name
     } = body.data.attributes;
 
@@ -253,6 +254,7 @@ export default function configure() {
     matchingResource.update('customEmbargoPeriod', customEmbargoPeriod);
     matchingResource.update('coverageStatement', coverageStatement);
     matchingResource.title.update('name', name);
+    matchingResource.title.update('publicationType', publicationType);
 
     return matchingResource;
   });

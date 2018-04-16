@@ -191,13 +191,13 @@ describeApplication('CustomResourceEdit', () => {
     describe('entering invalid data', () => {
       beforeEach(() => {
         return ResourceEditPage
+          .name('')
+          .append(ResourceEditPage.dateRangeRowList(0).fillDates('12/18/2018', '12/16/2018'))
           .inputCoverageStatement(`Lorem ipsum dolor sit amet, consectetuer adipiscing elit.
             Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis
             dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec,
             pellentesque eu, pretium quis, sem. Nulla consequat massa quis enim. Donec pede justo,
             fringilla vel, aliquet nec, vulputate e`)
-          .name('')
-          .append(ResourceEditPage.dateRangeRowList(0).fillDates('12/18/2018', '12/16/2018'))
           .inputEmbargoValue('')
           .blurEmbargoValue()
           .selectEmbargoUnit('Weeks')
@@ -224,9 +224,10 @@ describeApplication('CustomResourceEdit', () => {
     describe('entering valid data', () => {
       beforeEach(() => {
         return ResourceEditPage
-          .inputCoverageStatement('Refinance your home loans.')
           .name('A Different Name')
+          .selectPublicationType('Web Site')
           .append(ResourceEditPage.dateRangeRowList(0).fillDates('12/16/2018', '12/18/2018'))
+          .inputCoverageStatement('Refinance your home loans.')
           .inputEmbargoValue('27')
           .blurEmbargoValue()
           .selectEmbargoUnit('Weeks')
@@ -266,6 +267,10 @@ describeApplication('CustomResourceEdit', () => {
 
         it('shows the new embargo value', () => {
           expect(ResourceShowPage.customEmbargoPeriod).to.equal('27 Weeks');
+        });
+
+        it('shows the new publication type', () => {
+          expect(ResourceEditPage.publicationTypeValue).to.equal('Web Site');
         });
       });
     });
