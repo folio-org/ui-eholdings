@@ -60,6 +60,10 @@ describeApplication('CustomResourceEdit', () => {
       expect(ResourceEditPage.isSaveDisabled).to.be.true;
     });
 
+    it('shows unchecked peer review box', () => {
+      expect(ResourceEditPage.isPeerReviewed).to.be.false;
+    });
+
     describe('clicking cancel', () => {
       beforeEach(() => {
         return ResourceEditPage.clickCancel();
@@ -104,6 +108,7 @@ describeApplication('CustomResourceEdit', () => {
           .once(() => ResourceEditPage.dateRangeRowList().length > 0)
           .do(() => ResourceEditPage.interaction
             .inputCoverageStatement('Only 90s kids would understand.')
+            .checkPeerReviewed()
             .append(ResourceEditPage.dateRangeRowList(0).fillDates('12/16/2018', '12/18/2018'))
             .inputEmbargoValue('27')
             .blurEmbargoValue()
@@ -141,6 +146,10 @@ describeApplication('CustomResourceEdit', () => {
         it('shows the new embargo value', () => {
           expect(ResourceShowPage.customEmbargoPeriod).to.equal('27 Weeks');
         });
+
+        it('shows YES for peer reviewed', () => {
+          expect(ResourceShowPage.peerReviewedStatus).to.equal('Yes');
+        });
       });
     });
   });
@@ -174,6 +183,10 @@ describeApplication('CustomResourceEdit', () => {
       expect(ResourceEditPage.isSaveDisabled).to.be.true;
     });
 
+    it('shows unchecked peer review box', () => {
+      expect(ResourceEditPage.isPeerReviewed).to.be.false;
+    });
+
     describe('clicking cancel', () => {
       beforeEach(() => {
         return ResourceEditPage.clickCancel();
@@ -185,6 +198,10 @@ describeApplication('CustomResourceEdit', () => {
 
       it('displays the original date range', () => {
         expect(ResourceCoverage.displayText).to.equal('7/16/1969 - 12/19/1972');
+      });
+
+      it('shows NO for peer reviewed', () => {
+        expect(ResourceShowPage.peerReviewedStatus).to.equal('No');
       });
     });
 
@@ -226,6 +243,7 @@ describeApplication('CustomResourceEdit', () => {
         return ResourceEditPage
           .name('A Different Name')
           .selectPublicationType('Web Site')
+          .checkPeerReviewed()
           .append(ResourceEditPage.dateRangeRowList(0).fillDates('12/16/2018', '12/18/2018'))
           .inputCoverageStatement('Refinance your home loans.')
           .inputEmbargoValue('27')
@@ -272,6 +290,10 @@ describeApplication('CustomResourceEdit', () => {
         it('shows the new publication type', () => {
           expect(ResourceEditPage.publicationTypeValue).to.equal('Web Site');
         });
+
+        it('shows YES for peer reviewed', () => {
+          expect(ResourceShowPage.peerReviewedStatus).to.equal('Yes');
+        });
       });
     });
   });
@@ -311,6 +333,7 @@ describeApplication('CustomResourceEdit', () => {
       beforeEach(() => {
         return ResourceEditPage
           .inputCoverageStatement('10 ways to fail at everything')
+          .checkPeerReviewed()
           .name('A Different Name')
           .inputEmbargoValue('27')
           .blurEmbargoValue()

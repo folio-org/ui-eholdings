@@ -23,6 +23,7 @@ class Resource {
   visibilityData = {};
   coverageStatement = '';
   isTitleCustom = false;
+  isPeerReviewed = false;
 }
 
 export default model({

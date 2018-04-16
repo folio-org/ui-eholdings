@@ -7,6 +7,7 @@ export default Factory.extend({
   coverageStatement: '',
   managedCoverages: [],
   isTitleCustom: false,
+  isPeerReviewed: false,
 
   withTitle: trait({
     afterCreate(resource, server) {
