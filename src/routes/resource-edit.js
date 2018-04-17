@@ -44,6 +44,7 @@ class ResourceEditRoute extends Component {
       customEmbargoUnit,
       name,
       isPeerReviewed,
+      description,
       publicationType,
       publisherName
     } = values;
@@ -69,6 +70,9 @@ class ResourceEditRoute extends Component {
     }
 
     model.isPeerReviewed = isPeerReviewed;
+
+    model.description = description;
+
     updateResource(model);
   }
 
@@ -87,7 +91,8 @@ class ResourceEditRoute extends Component {
           customEmbargoUnit: model.customEmbargoPeriod.embargoUnit,
           isPeerReviewed: model.isPeerReviewed,
           publicationType: model.publicationType,
-          publisherName: model.publisherName
+          publisherName: model.publisherName,
+          description: model.description
         }}
       />
     );

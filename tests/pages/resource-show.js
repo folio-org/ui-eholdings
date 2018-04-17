@@ -26,6 +26,7 @@ import Toast from './toast';
 
 @page class ResourceShowPage {
   titleName = text('[data-test-eholdings-details-view-name="resource"]');
+  descriptionText = text('[data-test-eholdings-description-field]');
   publisherName = text('[data-test-eholdings-resource-show-publisher-name]');
   publicationType = text('[data-test-eholdings-resource-show-publication-type]');
   hasPublicationType = isPresent('[data-test-eholdings-resource-show-publication-type]');

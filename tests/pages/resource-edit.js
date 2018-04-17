@@ -26,6 +26,10 @@ import Datepicker from './datepicker';
   isPeerReviewed = property('checked', '[data-test-eholdings-peer-reviewed-field] input[type=checkbox]');
   checkPeerReviewed = clickable('[data-test-eholdings-peer-reviewed-field] input[type=checkbox]');
 
+  descriptionField = value('[data-test-eholdings-description-textarea] textarea');
+  fillDescription = fillable('[data-test-eholdings-description-textarea] textarea');
+  descriptionError = hasClassBeginningWith('feedbackError--', '[data-test-eholdings-description-textarea] textarea')
+
   toast = Toast
 
   name = fillable('[data-test-eholdings-resource-name-field] input');
