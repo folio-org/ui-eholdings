@@ -1,19 +1,33 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { KeyValue } from '@folio/stripes-components';
+import {
+  IconButton,
+  KeyValue,
+  PaneMenu
+} from '@folio/stripes-components';
 
-import { processErrors } from '../utilities';
-import DetailsView from '../details-view';
-import ScrollView from '../scroll-view';
-import PackageListItem from '../package-list-item';
-import IdentifiersList from '../identifiers-list';
-import ContributorsList from '../contributors-list';
-import DetailsViewSection from '../details-view-section';
-import Toaster from '../toaster';
+import { processErrors } from '../../utilities';
+import DetailsView from '../../details-view';
+import ScrollView from '../../scroll-view';
+import PackageListItem from '../../package-list-item';
+import IdentifiersList from '../../identifiers-list';
+import ContributorsList from '../../contributors-list';
+import DetailsViewSection from '../../details-view-section';
+import Toaster from '../../toaster';
 import styles from './title-show.css';
 
 export default function TitleShow({ model }, { queryParams }) {
   let actionMenuItems = [];
+
+  if (model.isTitleCustom) {
+    actionMenuItems.push({
+      label: 'Edit',
+      to: {
+        pathname: `/eholdings/titles/${model.id}/edit`,
+        state: { eholdings: true }
+      }
+    });
+  }
 
   if (queryParams.searchType) {
     actionMenuItems.push({
@@ -26,6 +40,19 @@ export default function TitleShow({ model }, { queryParams }) {
     });
   }
 
+  let lastMenu;
+  if (model.isTitleCustom) {
+    lastMenu = (
+      <PaneMenu>
+        <IconButton
+          icon="edit"
+          ariaLabel={`Edit ${model.name}`}
+          href={`/eholdings/titles/${model.id}/edit`}
+        />
+      </PaneMenu>
+    );
+  }
+
   return (
     <div>
       <Toaster toasts={processErrors(model)} position="bottom" />
@@ -35,6 +62,7 @@ export default function TitleShow({ model }, { queryParams }) {
         model={model}
         paneTitle={model.name}
         actionMenuItems={actionMenuItems}
+        lastMenu={lastMenu}
         bodyContent={(
           <DetailsViewSection label="Title information">
             <ContributorsList data={model.contributors} />
@@ -62,6 +90,26 @@ export default function TitleShow({ model }, { queryParams }) {
                 </div>
               </KeyValue>
             )}
+
+            {model.description && (
+              <KeyValue label="Description">
+                <div data-test-eholdings-description-field>
+                  {model.description}
+                </div>
+              </KeyValue>
+            )}
+
+            <KeyValue label="Peer reviewed">
+              <div data-test-eholdings-peer-reviewed-field>
+                {model.isPeerReviewed ? 'Yes' : 'No'}
+              </div>
+            </KeyValue>
+
+            <KeyValue label="Title type">
+              <div data-test-eholdings-title-details-type>
+                {model.isTitleCustom ? 'Custom' : 'Managed'}
+              </div>
+            </KeyValue>
           </DetailsViewSection>
         )}
         listType="packages"

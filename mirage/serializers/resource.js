@@ -13,6 +13,8 @@ function mapResourceAttrs(hash, resource) {
   hash.attributes.contributors = resource.title.contributors;
   hash.attributes.identifiers = resource.title.identifiers;
   hash.attributes.subjects = resource.title.subjects;
+  hash.attributes.isPeerReviewed = resource.title.isPeerReviewed;
+  hash.attributes.description = resource.title.description;
   return hash;
 }
 

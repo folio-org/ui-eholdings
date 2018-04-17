@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 
 import { createResolver } from '../redux';
 import Title from '../redux/title';
-import View from '../components/title-show';
+import View from '../components/title/show';
 
 class TitleShowRoute extends Component {
   static propTypes = {

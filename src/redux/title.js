@@ -8,6 +8,9 @@ class Title {
   contributors = [];
   identifiers = [];
   resources = hasMany();
+  isTitleCustom = false;
+  isPeerReviewed = false;
+  description = '';
 }
 
 export default model({
