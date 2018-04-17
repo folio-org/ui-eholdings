@@ -153,7 +153,7 @@ export default connect(
     model: createResolver(data).find('packages', match.params.packageId),
   }), {
     getPackage: id => Package.find(id),
-    getPackageTitles: (id, params) => Package.queryRelated(id, 'customerResources', params),
+    getPackageTitles: (id, params) => Package.queryRelated(id, 'resources', params),
     unloadResources: collection => Resource.unload(collection),
     updatePackage: model => Package.save(model),
     destroyPackage: model => Package.destroy(model)

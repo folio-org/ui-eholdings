@@ -134,14 +134,7 @@ class PackageEditRoute extends Component {
       <View
         model={model}
         onSubmit={this.packageEditSubmitted}
-        initialValues={{
-          name: model.name,
-          contentType: model.contentType,
-          customCoverages: [{
-            beginCoverage: model.customCoverage.beginCoverage,
-            endCoverage: model.customCoverage.endCoverage
-          }]
-        }}
+        initialValues={initialValues}
       />
     );
   }

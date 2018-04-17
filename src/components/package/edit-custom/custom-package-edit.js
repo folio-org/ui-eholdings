@@ -15,6 +15,8 @@ import CoverageFields, { validate as validateCoverageDates } from '../_fields/cu
 import ContentTypeField from '../_fields/content-type';
 import DetailsViewSection from '../../details-view-section';
 import NavigationModal from '../../navigation-modal';
+import ToggleSwitch from '../../toggle-switch/toggle-switch';
+import Modal from '../../modal/modal';
 import Toaster from '../../toaster';
 import styles from './custom-package-edit.css';
 
