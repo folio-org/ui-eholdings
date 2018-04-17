@@ -149,9 +149,21 @@ export default class PackageShow extends Component {
       });
     }
 
+    let toasts = processErrors(model);
+
+    // if coming from creating a new custom package, show a success toast
+    if (router.history.action === 'REPLACE' &&
+        router.history.location.state.isNewRecord) {
+      toasts.push({
+        id: `success-package-${model.id}`,
+        message: 'Successfully created custom package',
+        type: 'success'
+      });
+    }
+
     return (
       <div>
-        <Toaster toasts={processErrors(model)} position="bottom" />
+        <Toaster toasts={toasts} position="bottom" />
         <DetailsView
           type="package"
           model={model}

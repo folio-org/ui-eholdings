@@ -24,8 +24,10 @@ class PackageCreateRoute extends Component {
 
   componentDidUpdate(prevProps) {
     if (!prevProps.createRequest.isResolved && this.props.createRequest.isResolved) {
-      let packageId = this.props.createRequest.records[0];
-      this.context.router.history.replace(`/eholdings/packages/${packageId}`, { eholdings: true });
+      this.context.router.history.replace(
+        `/eholdings/packages/${this.props.createRequest.records[0]}`,
+        { eholdings: true, isNewRecord: true }
+      );
     }
   }
 
@@ -34,8 +36,10 @@ class PackageCreateRoute extends Component {
 
     if (values.customCoverages[0]) {
       attrs.customCoverage = {
-        beginCoverage: !values.customCoverages[0].beginCoverage ? '' : moment(values.customCoverages[0].beginCoverage).format('YYYY-MM-DD'),
-        endCoverage: !values.customCoverages[0].endCoverage ? '' : moment(values.customCoverages[0].endCoverage).format('YYYY-MM-DD')
+        beginCoverage: !values.customCoverages[0].beginCoverage ? '' :
+          moment(values.customCoverages[0].beginCoverage).format('YYYY-MM-DD'),
+        endCoverage: !values.customCoverages[0].endCoverage ? '' :
+          moment(values.customCoverages[0].endCoverage).format('YYYY-MM-DD')
       };
     }
 

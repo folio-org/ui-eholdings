@@ -36,6 +36,10 @@ describeApplication('PackageCreate', () => {
       expect(this.app.history.location.pathname).to.match(/^\/eholdings\/packages\/\d{1,}/);
       expect(PackageShowPage.name).to.equal('My Package');
     });
+
+    it('shows a success toast message', () => {
+      expect(PackageShowPage.toast.successText).to.equal('Successfully created custom package');
+    });
   });
 
   describe('creating a new package with a specified content type', () => {
