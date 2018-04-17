@@ -84,6 +84,8 @@ import Toast from './toast';
   validationErrorOnTextField = text('[data-test-eholdings-custom-embargo-textfield] [class^="feedbackError--"]');
   validationErrorOnSelect = text('[data-test-eholdings-custom-embargo-select] [class^="feedbackError--"]');
   clickCustomEmbargoEditButton = clickable('[data-test-eholdings-resource-edit-custom-embargo-button] button');
+  clickCustomEmbargoRemoveRowButton = clickable('[data-test-eholdings-custom-embargo-remove-row-button] button');
+  hasCustomEmbargoInputs = isPresent('[data-test-eholdings-custom-embargo-textfield] input');
 
   coverageStatement = text('[data-test-eholdings-resource-coverage-statement-display]');
   hasCoverageStatement = isPresent('[data-test-eholdings-resource-coverage-statement-display]');

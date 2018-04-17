@@ -107,7 +107,14 @@ class ResourceEditCustomTitle extends Component {
               <DetailsViewSection
                 label="Embargo period"
               >
-                <CustomEmbargoFields change={change} />
+                <CustomEmbargoFields
+                  change={change}
+                  showInputs={(initialValues.customEmbargoValue > 0)}
+                  initialValue={{
+                    customEmbargoValue: initialValues.customEmbargoValue,
+                    customEmbargoUnit: initialValues.customEmbargoUnit
+                  }}
+                />
               </DetailsViewSection>
               <div className={styles['resource-edit-action-buttons']}>
                 <div

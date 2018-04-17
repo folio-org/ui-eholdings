@@ -3,6 +3,8 @@ import PropTypes from 'prop-types';
 import { Field } from 'redux-form';
 
 import {
+  Button,
+  IconButton,
   Select,
   TextField
 } from '@folio/stripes-components';
@@ -10,13 +12,32 @@ import styles from './custom-embargo-fields.css';
 
 export default class CustomEmbargoFields extends Component {
   static propTypes = {
-    change: PropTypes.func
+    change: PropTypes.func.isRequired,
+    showInputs: PropTypes.bool,
+    initialValue: PropTypes.object
   };
 
-  render() {
-    let { change } = this.props;
+  state = {
+    showInputs: this.props.showInputs
+  };
 
-    return (
+  clearValues = () => {
+    this.props.change('customEmbargoValue', '');
+    this.props.change('customEmbargoUnit', '');
+    this.toggleInputs();
+  }
+
+  toggleInputs = () => {
+    this.setState({
+      'showInputs': !this.state.showInputs
+    });
+  }
+
+  render() {
+    let { initialValue } = this.props;
+    let { showInputs } = this.state;
+
+    return (showInputs) ? (
       <div className={styles['custom-embargo-fields']}>
         <div
           data-test-eholdings-custom-embargo-textfield
@@ -25,8 +46,8 @@ export default class CustomEmbargoFields extends Component {
           <Field
             name="customEmbargoValue"
             component={TextField}
-            type="number"
-            parse={value => (!value ? null : (Number.isNaN(Number(value)) ? '' : Number(value)))}
+            placeholder="Number"
+            autoFocus={initialValue.customEmbargoValue === 0}
           />
         </div>
 
@@ -38,18 +59,46 @@ export default class CustomEmbargoFields extends Component {
             name="customEmbargoUnit"
             component={Select}
             dataOptions={[
-              { value: '', label: 'None' },
+              { value: '', label: 'Select time period' },
               { value: 'Days', label: 'Days' },
               { value: 'Weeks', label: 'Weeks' },
               { value: 'Months', label: 'Months' },
               { value: 'Years', label: 'Years' }
             ]}
-            onChange={(event, newValue) => {
-              if (newValue === '') {
-                change('customEmbargoValue', 0);
-              }
-            }}
           />
+        </div>
+
+        <div
+          data-test-eholdings-custom-embargo-remove-row-button
+          className={styles['custom-embargo-clear-row']}
+        >
+          <IconButton
+            icon="hollowX"
+            onClick={this.clearValues}
+            size="small"
+            ariaLabel="Clear embargo period"
+          />
+        </div>
+      </div>
+    ) : (
+      <div>
+        {initialValue.customEmbargoValue !== 0
+          && (
+          <p data-test-eholdings-embargo-fields-saving-will-remove>
+            Nothing set. Saving will remove custom embargo period.
+          </p>
+        )}
+
+        <div
+          className={styles['custom-embargo-add-row-button']}
+          data-test-eholdings-custom-embargo-add-row-button
+        >
+          <Button
+            type="button"
+            onClick={this.toggleInputs}
+          >
+            + Add custom embargo period
+          </Button>
         </div>
       </div>
     );
@@ -63,16 +112,12 @@ export function validate(values) {
     errors.customEmbargoValue = 'Must be a number';
   }
 
-  if (values.customEmbargoValue === null) {
-    errors.customEmbargoValue = 'Value cannot be null';
-  }
-
-  if (values.customEmbargoValue < 0 || (values.customEmbargoValue === 0 && values.customEmbargoUnit !== '')) {
-    errors.customEmbargoValue = 'Enter value greater than 0';
+  if (values.customEmbargoValue <= 0) {
+    errors.customEmbargoValue = 'Enter number greater than 0';
   }
 
   if (values.customEmbargoValue > 0 && values.customEmbargoUnit === '') {
-    errors.customEmbargoUnit = 'Select a valid unit';
+    errors.customEmbargoUnit = 'Select a unit';
   }
   return errors;
 }

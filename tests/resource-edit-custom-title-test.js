@@ -51,9 +51,8 @@ describeApplication('ResourceEditCustomTitle', () => {
       expect(ResourceEditPage.coverageStatement).to.equal('');
     });
 
-    it('shows a form with embargo fields', () => {
-      expect(ResourceEditPage.customEmbargoTextFieldValue).to.equal('0');
-      expect(ResourceEditPage.customEmbargoSelectValue).to.equal('');
+    it('shows a button to add embargo fields', () => {
+      expect(ResourceEditPage.hasAddCustomEmbargoButton).to.be.true;
     });
 
     it('shows a form with custom url', () => {
@@ -105,6 +104,7 @@ describeApplication('ResourceEditCustomTitle', () => {
         return ResourceEditPage
           .clickAddRowButton()
           .dateRangeRowList(0).fillDates('12/18/2018', '12/16/2018')
+          .clickAddCustomEmbargoButton()
           .inputEmbargoValue('')
           .inputCustomUrlValue(`http://${new Array(610 + 1).join('a')}`) // create a 610 char string
           .blurEmbargoValue()
@@ -117,12 +117,22 @@ describeApplication('ResourceEditCustomTitle', () => {
       });
 
       it('displays a validation error for embargo', () => {
-        expect(ResourceEditPage.validationErrorOnEmbargoTextField).to.equal('Value cannot be null');
+        expect(ResourceEditPage.validationErrorOnEmbargoTextField).to.equal('Enter number greater than 0');
       });
 
       it('displays a custom url validation error message', () => {
         expect(ResourceEditPage.validationErrorOnCustomUrl).to
           .equal('Custom URLs must be 600 characters or less.');
+      });
+
+      describe('removing custom embargo', () => {
+        beforeEach(() => {
+          return ResourceEditPage.clickRemoveCustomEmbargoButton();
+        });
+
+        it.always('does not show a message that saving will remove embargo', () => {
+          expect(ResourceEditPage.hasSavingWillRemoveEmbargoMessage).to.be.false;
+        });
       });
     });
 
@@ -132,6 +142,7 @@ describeApplication('ResourceEditCustomTitle', () => {
           .clickAddRowButton()
           .dateRangeRowList(0).fillDates('12/16/2018', '12/18/2018')
           .inputCoverageStatement('Only 90s kids would understand.')
+          .clickAddCustomEmbargoButton()
           .inputEmbargoValue('27')
           .inputCustomUrlValue('https://bigtestjs.io')
           .blurEmbargoValue()
@@ -206,6 +217,16 @@ describeApplication('ResourceEditCustomTitle', () => {
       expect(ResourceEditPage.isSaveDisabled).to.be.true;
     });
 
+    describe('removing custom embargo', () => {
+      beforeEach(() => {
+        return ResourceEditPage.clickRemoveCustomEmbargoButton();
+      });
+
+      it('shows a message that saving will remove embargo', () => {
+        expect(ResourceEditPage.hasSavingWillRemoveEmbargoMessage).to.be.true;
+      });
+    });
+
     describe('clicking cancel', () => {
       beforeEach(() => {
         return ResourceEditPage.clickCancel();
@@ -244,7 +265,7 @@ describeApplication('ResourceEditCustomTitle', () => {
       });
 
       it('displays a validation error for embargo', () => {
-        expect(ResourceEditPage.validationErrorOnEmbargoTextField).to.equal('Value cannot be null');
+        expect(ResourceEditPage.validationErrorOnEmbargoTextField).to.equal('Enter number greater than 0');
       });
     });
 
@@ -328,6 +349,7 @@ describeApplication('ResourceEditCustomTitle', () => {
       beforeEach(() => {
         return ResourceEditPage
           .inputCoverageStatement('10 ways to fail at everything')
+          .clickAddCustomEmbargoButton()
           .inputEmbargoValue('27')
           .blurEmbargoValue()
           .selectEmbargoUnit('Weeks')

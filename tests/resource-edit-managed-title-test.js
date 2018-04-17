@@ -49,9 +49,8 @@ describeApplication('ResourceEditManagedTitle', () => {
       expect(ResourceEditPage.coverageStatement).to.equal('');
     });
 
-    it('shows a form with embargo fields', () => {
-      expect(ResourceEditPage.customEmbargoTextFieldValue).to.equal('0');
-      expect(ResourceEditPage.customEmbargoSelectValue).to.equal('');
+    it('shows a button to add embargo fields', () => {
+      expect(ResourceEditPage.hasAddCustomEmbargoButton).to.be.true;
     });
 
     it('disables the save button', () => {
@@ -72,12 +71,13 @@ describeApplication('ResourceEditManagedTitle', () => {
       beforeEach(() => {
         return ResourceEditPage
           .clickAddRowButton()
+          .dateRangeRowList(0).fillDates('12/18/2018', '12/16/2018')
           .inputCoverageStatement(`Lorem ipsum dolor sit amet, consectetuer adipiscing elit.
             Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis
             dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec,
             pellentesque eu, pretium quis, sem. Nulla consequat massa quis enim. Donec pede justo,
             fringilla vel, aliquet nec, vulputate e`)
-          .dateRangeRowList(0).fillDates('12/18/2018', '12/16/2018')
+          .clickAddCustomEmbargoButton()
           .inputEmbargoValue('')
           .blurEmbargoValue()
           .selectEmbargoUnit('Weeks')
@@ -97,7 +97,17 @@ describeApplication('ResourceEditManagedTitle', () => {
       });
 
       it('displays a validation error for embargo', () => {
-        expect(ResourceEditPage.validationErrorOnEmbargoTextField).to.equal('Value cannot be null');
+        expect(ResourceEditPage.validationErrorOnEmbargoTextField).to.equal('Enter number greater than 0');
+      });
+
+      describe('removing custom embargo', () => {
+        beforeEach(() => {
+          return ResourceEditPage.clickRemoveCustomEmbargoButton();
+        });
+
+        it.always('does not show a message that saving will remove embargo', () => {
+          expect(ResourceEditPage.hasSavingWillRemoveEmbargoMessage).to.be.false;
+        });
       });
     });
 
@@ -105,8 +115,9 @@ describeApplication('ResourceEditManagedTitle', () => {
       beforeEach(() => {
         return ResourceEditPage
           .clickAddRowButton()
-          .inputCoverageStatement('Only 90s kids would understand.')
           .dateRangeRowList(0).fillDates('12/16/2018', '12/18/2018')
+          .inputCoverageStatement('Only 90s kids would understand.')
+          .clickAddCustomEmbargoButton()
           .inputEmbargoValue('27')
           .blurEmbargoValue()
           .selectEmbargoUnit('Weeks')
@@ -177,6 +188,16 @@ describeApplication('ResourceEditManagedTitle', () => {
       expect(ResourceEditPage.isSaveDisabled).to.be.true;
     });
 
+    describe('removing custom embargo', () => {
+      beforeEach(() => {
+        return ResourceEditPage.clickRemoveCustomEmbargoButton();
+      });
+
+      it('shows a message that saving will remove embargo', () => {
+        expect(ResourceEditPage.hasSavingWillRemoveEmbargoMessage).to.be.true;
+      });
+    });
+
     describe('clicking cancel', () => {
       beforeEach(() => {
         return ResourceEditPage.clickCancel();
@@ -215,7 +236,7 @@ describeApplication('ResourceEditManagedTitle', () => {
       });
 
       it('displays a validation error for embargo', () => {
-        expect(ResourceEditPage.validationErrorOnEmbargoTextField).to.equal('Value cannot be null');
+        expect(ResourceEditPage.validationErrorOnEmbargoTextField).to.equal('Enter number greater than 0');
       });
     });
 
