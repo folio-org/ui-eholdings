@@ -24,6 +24,7 @@ class Resource {
   coverageStatement = '';
   isTitleCustom = false;
   isPeerReviewed = false;
+  description = '';
 }
 
 export default model({

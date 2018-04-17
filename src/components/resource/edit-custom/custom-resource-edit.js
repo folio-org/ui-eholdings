@@ -97,8 +97,8 @@ class CustomResourceEdit extends Component {
                 <NameField />
                 <PublisherNameField />
                 <PublicationTypeField />
-                <PeerReviewedField />
                 <DescriptionField />
+                <PeerReviewedField />
               </DetailsViewSection>
               <DetailsViewSection
                 label="Coverage dates"

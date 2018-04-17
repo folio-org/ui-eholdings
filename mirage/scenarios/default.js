@@ -37,7 +37,8 @@ export default function defaultScenario(server) {
     package: customPackage,
     title: customTitle,
     isTitleCustom: true,
-    isPeerReviewed: false
+    isPeerReviewed: false,
+    description: ''
   });
 
   createProvider('Economist Intelligence Unit', [

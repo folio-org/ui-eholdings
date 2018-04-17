@@ -1,25 +1,24 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { Field } from 'redux-form';
 
 import { TextArea } from '@folio/stripes-components';
 import styles from './description-field.css';
 
-export default class DescriptionField extends Component {
-  render() {
-    return (
-      <div
-        data-test-eholdings-description-textarea
-        className={styles['description-textarea']}
-      >
-        <Field
-          name="decriptionField"
-          component={TextArea}
-          label="Description"
-        />
-      </div>
-    );
-  }
+export default function DescriptionField() {
+  return (
+    <div
+      data-test-eholdings-description-textarea
+      className={styles['description-textarea']}
+    >
+      <Field
+        name="description"
+        component={TextArea}
+        label="Description"
+      />
+    </div>
+  );
 }
+
 
 export function validate(values) {
   const errors = {};
