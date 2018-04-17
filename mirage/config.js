@@ -197,6 +197,7 @@ export default function configure() {
 
     pkg.update('customCoverages', customCoverages);
     pkg.update('isSelected', true);
+    pkg.update('isCustom', true);
 
     return pkg;
   });
