@@ -96,4 +96,26 @@ describeApplication('PackageCreate', () => {
       expect(NavigationModal.$root).to.exist;
     });
   });
+
+  describe('getting an error when creating a new package', () => {
+    beforeEach(function () {
+      this.server.post('/packages', {
+        errors: [{
+          title: 'There was an error'
+        }]
+      }, 500);
+
+      return PackageCreatePage
+        .fillName('My Package')
+        .save();
+    });
+
+    it.always('does not create the new package', function () {
+      expect(this.app.history.location.pathname).to.equal('/eholdings/packages/new');
+    });
+
+    it('shows an error toast message', () => {
+      expect(PackageShowPage.toast.errorText).to.equal('There was an error');
+    });
+  });
 });
