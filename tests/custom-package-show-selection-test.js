@@ -4,7 +4,12 @@ import { expect } from 'chai';
 import { describeApplication } from './helpers';
 import PackageShowPage from './pages/package-show';
 
-describeApplication('CustomPackageSelection', () => {
+// This test though named custom package show is essentially a Package
+// and uses most of the same components as a Package.
+// However, there are some nuances between that of a Package and CustomPackage
+// so those are excersised in this test.
+
+describeApplication('CustomPackageShowSelection', () => {
   let provider,
     providerPackage;
 
@@ -94,59 +99,34 @@ describeApplication('CustomPackageSelection', () => {
             expect(PackageShowPage.isSelected).to.equal(false);
           });
 
-          it('indicates it is no longer working', () => {
-            expect(PackageShowPage.isSelecting).to.equal(false);
-          });
-
-          it('should show the package titles are not all selected', () => {
-            expect(PackageShowPage.allTitlesSelected).to.equal(false);
-          });
-
-          it('updates the selected title count', () => {
-            expect(PackageShowPage.numTitlesSelected).to.equal(`${providerPackage.titleCount}`);
-          });
-
-          it('removes custom coverage', () => {
-            expect(PackageShowPage.hasCustomCoverage).to.equal(false);
-          });
-
-          it('is not hideable', () => {
-            expect(PackageShowPage.isHiddenTogglePresent).to.equal(false);
+          it('removes package detail pane', () => {
+            expect(PackageShowPage.exist).to.equal(false);
           });
         });
       });
     });
 
+    // when you are deleting you are hitting the delete endpoint and not put
+    // put is only on updating a custom packge.
+
     describe('unsuccessfully deselecting a custom package', () => {
       beforeEach(function () {
-        this.server.put('/packages/:packageId', {
+        this.server.delete('/packages/:packageId', {
           errors: [{
             title: 'There was an error'
           }]
         }, 500);
 
-        this.server.timing = 50;
         return PackageShowPage.toggleIsSelected();
-      });
-
-      afterEach(function () {
-        this.server.timing = 0;
       });
 
       it('reflects the desired state (Unselected)', () => {
         expect(PackageShowPage.isSelected).to.equal(false);
       });
 
-      // it('shows a confirmation modal',)
-
       describe('confirming the deselection', () => {
-        beforeEach(function () {
-          this.server.timing = 50;
+        beforeEach(() => {
           return PackageShowPage.modal.confirmDeselection();
-        });
-
-        afterEach(function () {
-          this.server.timing = 0;
         });
 
         it('cannot be interacted with while the request is in flight', () => {
