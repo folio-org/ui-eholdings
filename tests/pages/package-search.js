@@ -34,6 +34,7 @@ import { isRootPresent } from './helpers';
   selectedSearchType = collection('[data-test-search-form-type-switcher] a[class^="is-active--"]');
   sortBy = value('[data-test-eholdings-search-filters="packages"] input[name="sort"]:checked');
   clickCloseButton = clickable('[data-test-eholdings-details-view-close-button] a');
+  hasPreSearchPane = isPresent('[data-test-eholdings-pre-search-pane]');
 
   hasLoaded = computed(function () {
     return this.packageList().length > 0;
