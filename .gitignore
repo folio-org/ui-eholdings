@@ -4,3 +4,4 @@ dist/*
 artifacts
 coverage
 .DS_STORE
+/yarn-error.log

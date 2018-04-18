@@ -1,0 +1,17 @@
+@import '@folio/stripes-components/lib/variables';
+
+.package-create-form-container {
+  overflow-y: auto;
+  padding: 1em;
+}
+
+.package-create-action-buttons {
+  align-items: flex-start;
+  border-top: 1px solid var(--minor-divider-color);
+  display: flex;
+  padding-top: 1em;
+
+  & button {
+    margin-right: 0.25em;
+  }
+}

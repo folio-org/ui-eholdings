@@ -21,7 +21,7 @@ class Toast extends Component {
     animationPosition: PropTypes.string,
 
     // the type of toast: warn, error, or success
-    type: PropTypes.string,
+    type: PropTypes.oneOf(['warn', 'error', 'success']),
 
     // the error message is a child of the `Toast` component
     children: PropTypes.node.isRequired,

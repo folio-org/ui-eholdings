@@ -1,7 +1,7 @@
 import dasherize from 'lodash/kebabCase';
 import { pluralize } from 'inflected';
 import { qs } from '../components/utilities';
-import { find, query, save, unload } from './data';
+import { find, query, save, create, unload } from './data';
 
 /**
  * Collection object which provides the request state object created
@@ -305,6 +305,19 @@ class BaseModel {
   }
 
   /**
+   * Action creator for creating a record
+   * @param {Object} attrs - the record's attributes
+   */
+  static create(attrs) {
+    let newModel = new this();
+    newModel.data.attributes = attrs;
+
+    return create(this.type, newModel.serialize(), {
+      path: this.pathFor()
+    });
+  }
+
+  /**
    * Action creator for unloading records
    * @param {Model|Collection} modelOrCollection - the record model or collection
    */
@@ -338,7 +351,7 @@ class BaseModel {
   constructor(id, resolver) {
     this.id = id;
     this.resolver = resolver;
-    this.data = resolver.getRecord(this.type, id) || {};
+    this.data = (resolver && resolver.getRecord(this.type, id)) || {};
   }
 
   /**

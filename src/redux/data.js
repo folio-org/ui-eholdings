@@ -12,6 +12,7 @@ export const actionTypes = {
   QUERY: '@@ui-eholdings/db/QUERY',
   FIND: '@@ui-eholdings/db/FIND',
   SAVE: '@@ui-eholdings/db/SAVE',
+  CREATE: '@@ui-eholdings/db/CREATE',
   RESOLVE: '@@ui-eholdings/db/RESOLVE',
   REJECT: '@@ui-eholdings/db/REJECT',
   UNLOAD: '@@ui-eholdings/db/UNLOAD'
@@ -63,6 +64,23 @@ export const save = (type, payload, { path }) => ({
     type,
     path,
     params: { id: payload.data.id },
+    timestamp: Date.now()
+  },
+  payload
+});
+
+/**
+ * Action creator for creating a record
+ * @param {String} type - resource type
+ * @param {Object} payload - record payload
+ * @param {String} [options.path] - path to use
+ */
+export const create = (type, payload, { path }) => ({
+  type: actionTypes.CREATE,
+  data: {
+    type,
+    path,
+    params: {},
     timestamp: Date.now()
   },
   payload
@@ -310,6 +328,20 @@ const handlers = {
   },
 
   /**
+   * Handles reducing the data store when creating a new record
+   * @param {Object} state - data store state
+   * @param {Object} action.data - data associated with the query
+   */
+  [actionTypes.CREATE]: (state, { data }) => {
+    return reduceData(data.type, state, store => ({
+      requests: {
+        ...store.requests,
+        ...makeRequest('create', data)
+      }
+    }));
+  },
+
+  /**
    * Handles reducing the data store when unloading records
    * @param {Object} state - data store state
    * @param {Object} action.data - data associated with the action
@@ -485,7 +517,8 @@ export function epic(action$, { getState }) {
   let actionMethods = {
     [actionTypes.QUERY]: 'GET',
     [actionTypes.FIND]: 'GET',
-    [actionTypes.SAVE]: 'PUT'
+    [actionTypes.SAVE]: 'PUT',
+    [actionTypes.CREATE]: 'POST'
   };
 
   return action$
@@ -517,7 +550,7 @@ export function epic(action$, { getState }) {
       }
 
       // When PUTing, the payload needs to be stringified
-      if (method === 'PUT') {
+      if (method === 'PUT' || method === 'POST') {
         body = JSON.stringify(payload);
       }
 
