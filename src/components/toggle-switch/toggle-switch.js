@@ -1,11 +1,11 @@
-import React from 'react';
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames/bind';
 import styles from './toggle-switch.css';
 
 const cx = classNames.bind(styles);
 
-export default class ToggleSwitch extends React.Component {
+export default class ToggleSwitch extends Component {
   static propTypes = {
     input: PropTypes.object,
     onChange: PropTypes.func,
