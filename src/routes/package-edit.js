@@ -73,6 +73,8 @@ class PackageEditRoute extends Component {
     // or deselecting the package will delete the package from holdings
 
     if (model.isCustom && values.isSelected === false) {
+      model.isSelected = !model.isSelected;
+
       destroyPackage(model);
     } else {
       let beginCoverage = '';

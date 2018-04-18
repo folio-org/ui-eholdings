@@ -71,6 +71,8 @@ class PackageShowRoute extends Component {
     // if the package is custom setting the holding status to false
     // or deselecting the package will delete the package from holdings
     if (model.isCustom && !model.isSelected === false) {
+      model.isSelected = !model.isSelected;
+
       destroyPackage(model);
     } else {
       model.isSelected = !model.isSelected;
