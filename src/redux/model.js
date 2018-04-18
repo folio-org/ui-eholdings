@@ -1,7 +1,7 @@
 import dasherize from 'lodash/kebabCase';
 import { pluralize } from 'inflected';
 import { qs } from '../components/utilities';
-import { find, query, save, create, unload } from './data';
+import { find, query, save, unload, destroy, create } from './data';
 
 /**
  * Collection object which provides the request state object created
@@ -318,6 +318,16 @@ class BaseModel {
   }
 
   /**
+   * Action creator for deleting a record
+   * @param {Model} model - the record's model
+   */
+  static destroy(model) { // eslint-disable-line no-shadow
+    return destroy(this.type, model.serialize(), {
+      path: this.pathFor(model.id)
+    });
+  }
+
+  /**
    * Action creator for unloading records
    * @param {Model|Collection} modelOrCollection - the record model or collection
    */
@@ -406,6 +416,24 @@ class BaseModel {
     });
 
     return update;
+  }
+
+  /**
+   * Lazily looks up an delete request for this record
+   * @returns {Object} the delete request state object
+   */
+  get destroy() {
+    let destroyReq = this.resolver.getRequest('destroy', {
+      type: this.type,
+      params: { id: this.id }
+    });
+
+    // this will essentially cache this request
+    Object.defineProperty(this, 'destroy', {
+      get() { return destroyReq; }
+    });
+
+    return destroyReq;
   }
 
   // simple properties to map type, id, and status

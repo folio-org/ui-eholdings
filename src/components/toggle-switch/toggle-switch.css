@@ -7,7 +7,12 @@
   width: 60px;
 
   & input {
-    display: none;
+    /* makes input visually hidden but accessible */
+    position: absolute;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    clip-path: inset(50%);
+    border: 0;
   }
 
   & input:checked + .toggle-switch-slider {

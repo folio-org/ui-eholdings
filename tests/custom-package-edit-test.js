@@ -1,9 +1,10 @@
 import { expect } from 'chai';
-import { describe, beforeEach, it } from '@bigtest/mocha';
+import { describe, beforeEach, afterEach, it } from '@bigtest/mocha';
 
 import { describeApplication } from './helpers';
 import PackageShowPage from './pages/package-show';
 import PackageEditPage from './pages/package-edit';
+import PackageSearchPage from './pages/package-search';
 
 describeApplication('CustomPackageEdit', () => {
   let provider,
@@ -18,7 +19,6 @@ describeApplication('CustomPackageEdit', () => {
       provider,
       name: 'Cool Package',
       contentType: 'E-Book',
-      isSelected: true,
       isCustom: true
     });
   });
@@ -28,6 +28,10 @@ describeApplication('CustomPackageEdit', () => {
       return this.visit(`/eholdings/packages/${providerPackage.id}/edit`, () => {
         expect(PackageEditPage.$root).to.exist;
       });
+    });
+
+    it('displays the correct holdings status', () => {
+      expect(PackageEditPage.isSelected).to.equal(true);
     });
 
     it('shows blank datepicker fields', () => {
@@ -46,6 +50,76 @@ describeApplication('CustomPackageEdit', () => {
 
       it('goes to the package show page', () => {
         expect(PackageShowPage.$root).to.exist;
+      });
+    });
+
+    describe('toggling the selection toggle', () => {
+      beforeEach(function () {
+        /*
+         * The expectations in the convergent `it` blocks
+         * get run once every 10ms.  We were seeing test flakiness
+         * when a toggle action dispatched and resolved before an
+         * expectation had the chance to run.  We sidestep this by
+         * temporarily increasing the mirage server's response time
+         * to 50ms.
+         * TODO: control timing directly with Mirage
+         */
+        this.server.timing = 50;
+        return PackageEditPage.toggleIsSelected();
+      });
+
+      afterEach(function () {
+        this.server.timing = 0;
+      });
+
+      describe('clicking save', () => {
+        beforeEach(() => {
+          return PackageEditPage.clickSave();
+        });
+
+        it('shows the modal', () => {
+          expect(PackageEditPage.modal.exists).to.equal(true);
+        });
+
+        it('reflects the desired state of holding status', () => {
+          expect(PackageEditPage.isSelected).to.equal(false);
+        });
+
+        describe('clicking confirm', () => {
+          beforeEach(() => {
+            return PackageEditPage.interaction
+              .do(() => PackageEditPage.modal.confirmDeselection())
+              .once(() => expect(PackageSearchPage.exists).to.equal(true));
+          });
+
+          it('transitions to the package search page', function () {
+            expect(this.app.history.location.search).to.include('?searchType=packages');
+          });
+
+          describe('searching for package after confirming', () => {
+            beforeEach(() => {
+              return PackageSearchPage.search('Cool Package');
+            });
+
+            it('does not find package', () => {
+              expect(PackageSearchPage.noResultsMessage).to.equal('No packages found for "Cool Package".');
+            });
+          });
+        });
+
+        describe('clicking cancel', () => {
+          beforeEach(() => {
+            return PackageEditPage.modal.cancelDeselection();
+          });
+
+          it('removes the modal', () => {
+            expect(PackageEditPage.modal.exists).to.equal(false);
+          });
+
+          it('reflects the correct holding status', () => {
+            expect(PackageEditPage.isSelected).to.equal(true);
+          });
+        });
       });
     });
 
@@ -160,6 +234,26 @@ describeApplication('CustomPackageEdit', () => {
 
         it('shows a navigation confirmation modal', () => {
           expect(PackageEditPage.navigationModal.$root).to.exist;
+        });
+
+        describe('confirming to continue without saving', () => {
+          beforeEach(() => {
+            return PackageEditPage.navigationModal.confirmNavigation();
+          });
+
+          it('navigates from editing page', () => {
+            expect(PackageShowPage.exist).to.eq(true);
+          });
+        });
+
+        describe('confirming to keep editing', () => {
+          beforeEach(() => {
+            return PackageEditPage.navigationModal.cancelNavigation();
+          });
+
+          it('reamins on the editing page', () => {
+            expect(PackageEditPage.exists).to.eq(true);
+          });
         });
       });
 

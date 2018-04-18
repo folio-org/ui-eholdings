@@ -13,6 +13,7 @@ export const actionTypes = {
   FIND: '@@ui-eholdings/db/FIND',
   SAVE: '@@ui-eholdings/db/SAVE',
   CREATE: '@@ui-eholdings/db/CREATE',
+  DELETE: '@@ui-eholdings/db/DELETE',
   RESOLVE: '@@ui-eholdings/db/RESOLVE',
   REJECT: '@@ui-eholdings/db/REJECT',
   UNLOAD: '@@ui-eholdings/db/UNLOAD'
@@ -86,6 +87,24 @@ export const create = (type, payload, { path }) => ({
   payload
 });
 
+
+/**
+ * Action creator for destroying a record
+ * @param {String} type - resource type
+ * @param {Object} payload - record payload
+ * @param {String} [options.path] - path to use
+ */
+export const destroy = (type, payload, { path }) => ({
+  type: actionTypes.DELETE,
+  data: {
+    type,
+    path,
+    params: { id: payload.data.id },
+    timestamp: Date.now()
+  },
+  payload
+});
+
 /**
  * Action creator for uloading a record
  * @param {String} type - resource type
@@ -126,6 +145,7 @@ const resolve = (request, body, payload) => {
 
   return {
     type: actionTypes.RESOLVE,
+    data: { type: request.resource, ids },
     request: { ...request, records: ids, meta },
     records
   };
@@ -342,6 +362,23 @@ const handlers = {
   },
 
   /**
+   * Handles reducing the data store when deleting a single record
+   * @param {Object} state - data store state
+   * @param {Object} action.data - data associated with the query
+   * @param {String} action.data.params.id - the id of the requested record
+   */
+  [actionTypes.DELETE]: (state, { data }) => {
+    return reduceData(data.type, state, (store) => {
+      return {
+        requests: {
+          ...store.requests,
+          ...makeRequest('destroy', data)
+        },
+      };
+    });
+  },
+
+  /**
    * Handles reducing the data store when unloading records
    * @param {Object} state - data store state
    * @param {Object} action.data - data associated with the action
@@ -361,7 +398,7 @@ const handlers = {
         let request = store.requests[timestamp];
 
         // if the request does not include any unloaded ids, keep it
-        if (!request.records.some(id => data.ids.includes(id))) {
+        if (request.type === 'destroy' || !request.records.some(id => data.ids.includes(id))) {
           reqs[timestamp] = request;
 
         // if a query request includes unloaded ids, falg is with `hasUnloaded`
@@ -383,7 +420,8 @@ const handlers = {
    * @param {Object} action.request - the request state object
    * @param {Array} action.records - array of resolved records
    */
-  [actionTypes.RESOLVE]: (state, { request, records }) => {
+  [actionTypes.RESOLVE]: (state, action) => {
+    let { request, records } = action;
     // first we reduce the request state object
     let next = reduceData(request.resource, state, store => ({
       requests: {
@@ -418,6 +456,10 @@ const handlers = {
         };
       });
     }, next);
+
+    if (request.type === 'destroy') {
+      next = handlers[actionTypes.UNLOAD](next, action);
+    }
 
     return next;
   },
@@ -518,7 +560,8 @@ export function epic(action$, { getState }) {
     [actionTypes.QUERY]: 'GET',
     [actionTypes.FIND]: 'GET',
     [actionTypes.SAVE]: 'PUT',
-    [actionTypes.CREATE]: 'POST'
+    [actionTypes.CREATE]: 'POST',
+    [actionTypes.DELETE]: 'DELETE'
   };
 
   return action$
@@ -551,6 +594,10 @@ export function epic(action$, { getState }) {
 
       // When PUTing, the payload needs to be stringified
       if (method === 'PUT' || method === 'POST') {
+        body = JSON.stringify(payload);
+      }
+
+      if (method === 'DELETE') {
         body = JSON.stringify(payload);
       }
 
