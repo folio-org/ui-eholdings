@@ -57,28 +57,30 @@ export default function ProviderShow({
             </KeyValue>
           </DetailsViewSection>
         )}
-        enableListSearch
+        enableListSearch={model.packages.length > 0}
         listType="packages"
         onSearch={searchPackages}
         searchParams={searchParams}
-        renderList={scrollable => (
-          <QueryList
-            type="provider-packages"
-            fetch={fetchPackages}
-            collection={packages}
-            length={packages.length}
-            scrollable={scrollable}
-            itemHeight={70}
-            renderItem={item => (
-              <PackageListItem
-                link={item.content && `/eholdings/packages/${item.content.id}`}
-                item={item.content}
-                showTitleCount
-                headingLevel='h4'
-              />
-            )}
-          />
-        )}
+        renderList={scrollable => {
+          return model.packages.length > 0 && (
+            <QueryList
+              type="provider-packages"
+              fetch={fetchPackages}
+              collection={packages}
+              length={packages.length}
+              scrollable={scrollable}
+              itemHeight={70}
+              renderItem={item => (
+                <PackageListItem
+                  link={item.content && `/eholdings/packages/${item.content.id}`}
+                  item={item.content}
+                  showTitleCount
+                  headingLevel='h4'
+                />
+              )}
+            />
+          );
+        }}
       />
     </div>
   );

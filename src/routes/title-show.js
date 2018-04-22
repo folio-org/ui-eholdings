@@ -14,8 +14,14 @@ class TitleShowRoute extends Component {
       }).isRequired
     }).isRequired,
     model: PropTypes.object.isRequired,
-    getTitle: PropTypes.func.isRequired
+    resolver: PropTypes.object.isRequired,
+    getTitle: PropTypes.func.isRequired,
+    getPackages: PropTypes.func.isRequired
   };
+
+  state = {
+    pkgSearchParams: {}
+  }
 
   componentWillMount() {
     let { match, getTitle } = this.props;
@@ -23,28 +29,62 @@ class TitleShowRoute extends Component {
     getTitle(titleId);
   }
 
-  componentWillReceiveProps(nextProps) {
-    let { match, getTitle } = nextProps;
+  componentDidUpdate(prevProps, prevState) {
+    let { match, getPackages } = this.props;
+    let { pkgSearchParams } = this.state;
     let { titleId } = match.params;
 
-    if (titleId !== this.props.match.params.titleId) {
-      getTitle(titleId);
+    if (titleId !== prevProps.match.params.titleId) {
+      this.props.getTitle(titleId);
+    }
+
+    if (pkgSearchParams !== prevState.pkgSearchParams) {
+      getPackages(titleId, pkgSearchParams);
     }
   }
+
+  getPkgResults() {
+    let { match, resolver } = this.props;
+    let { pkgSearchParams } = this.state;
+    let { titleId } = match.params;
+
+    return resolver.query('resources', pkgSearchParams, {
+      path: `${Title.pathFor(titleId)}/resources`
+    });
+  }
+
+  searchPackages = (params) => {
+    this.setState({ pkgSearchParams: params });
+  };
+
+  fetchPackages = (page) => {
+    let { pkgSearchParams } = this.state;
+    this.searchPackages({ ...pkgSearchParams, page });
+  };
 
   render() {
     return (
       <View
         model={this.props.model}
+        packages={this.getPkgResults()}
+        fetchPackages={this.fetchPackages}
+        searchPackages={this.searchPackages}
+        searchParams={this.state.pkgSearchParams}
       />
     );
   }
 }
 
 export default connect(
-  ({ eholdings: { data } }, { match }) => ({
-    model: createResolver(data).find('titles', match.params.titleId)
-  }), {
-    getTitle: id => Title.find(id, { include: 'resources' })
+  ({ eholdings: { data } }, { match }) => {
+    let resolver = createResolver(data);
+
+    return {
+      model: resolver.find('titles', match.params.titleId),
+      resolver
+    };
+  }, {
+    getTitle: id => Title.find(id, { include: 'resources' }),
+    getPackages: (id, params) => Title.queryRelated(id, 'resources', params)
   }
 )(TitleShowRoute);

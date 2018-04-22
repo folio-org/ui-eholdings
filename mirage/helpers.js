@@ -5,13 +5,15 @@
  *  numeric so that numbers are sorted naturally ( 1 < 2 < 10)
  *  base for a case insensitive sort
  */
-export function nameCompare(model, modelCompare) {
-  let name = model.attributes.name;
-  let compareName = modelCompare.attributes.name;
-  if (name && compareName) {
-    return name.localeCompare(compareName, undefined, { numeric: true, sensitivity: 'base' });
-  }
-  return 0;
+export function nameCompare(attribute) {
+  return function nameSort(model, modelCompare) {
+    let name = model.attributes[attribute];
+    let compareName = modelCompare.attributes[attribute];
+    if (name && compareName) {
+      return name.localeCompare(compareName, undefined, { numeric: true, sensitivity: 'base' });
+    }
+    return 0;
+  };
 }
 
 /**
@@ -22,10 +24,11 @@ export function nameCompare(model, modelCompare) {
  * Results containing the same number of words from original query use default nameCompare
  *
  */
-export function relevanceCompare(query) {
+export function relevanceCompare(attribute, query) {
   return function RelSort(model, modelCompare) {
-    let name = model.attributes.name;
-    let compareName = modelCompare.attributes.name;
+    let name = model.attributes[attribute];
+    let compareName = modelCompare.attributes[attribute];
+
     if (name && compareName) {
       let words = query.split(' ');
       words.push(query);
@@ -39,7 +42,7 @@ export function relevanceCompare(query) {
         return modelCount < modelCompareCount;
       }
 
-      return nameCompare(model, modelCompare);
+      return name.localeCompare(compareName, undefined, { numeric: true, sensitivity: 'base' });
     }
     return 0;
   };
@@ -108,9 +111,9 @@ export function searchRouteFor(resourceType, filter) {
     let query = getQuery(resourceType, req);
 
     if (sort && sort === 'name') {
-      json.data = json.data.sort(nameCompare);
+      json.data = json.data.sort(nameCompare('name'));
     } else if (query) {
-      json.data = json.data.sort(relevanceCompare(query));
+      json.data = json.data.sort(relevanceCompare('name', query));
     }
 
     json.data = json.data.slice(offset, offset + count);
@@ -123,10 +126,11 @@ export function searchRouteFor(resourceType, filter) {
  * page and count params.
  * @param {String} foreignKey - parent resource foreign key prefix
  * @param {String} resourceType - nested resource's model name
+ * @param {String} attribute - name attribute on the nested resource
  * @param {Function} filter - filter function specific to this resource
  * @returns {Function} route handler for a nested resource
  */
-export function nestedResourceRouteFor(foreignKey, resourceType, filter = () => true) {
+export function nestedResourceRouteFor(foreignKey, resourceType, attribute = 'name', filter = () => true) {
   return function (schema, req) { // eslint-disable-line func-names
     let page = Math.max(parseInt(req.queryParams.page || 1, 10), 1);
     let count = parseInt(req.queryParams.count || 25, 10);
@@ -140,9 +144,9 @@ export function nestedResourceRouteFor(foreignKey, resourceType, filter = () => 
     let query = getQuery(resourceType, req);
 
     if (sort && sort === 'name') {
-      json.data = json.data.sort(nameCompare);
+      json.data = json.data.sort(nameCompare(attribute));
     } else if (query) {
-      json.data = json.data.sort(relevanceCompare(query));
+      json.data = json.data.sort(relevanceCompare(attribute, query));
     }
 
     json.meta = { totalResults: json.data.length };

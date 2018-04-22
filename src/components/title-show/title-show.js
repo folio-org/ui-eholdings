@@ -4,7 +4,7 @@ import { KeyValue } from '@folio/stripes-components';
 
 import { processErrors } from '../utilities';
 import DetailsView from '../details-view';
-import ScrollView from '../scroll-view';
+import QueryList from '../query-list';
 import PackageListItem from '../package-list-item';
 import IdentifiersList from '../identifiers-list';
 import ContributorsList from '../contributors-list';
@@ -12,7 +12,15 @@ import DetailsViewSection from '../details-view-section';
 import Toaster from '../toaster';
 import styles from './title-show.css';
 
-export default function TitleShow({ model }, { queryParams }) {
+export default function TitleShow({
+  model,
+  packages,
+  fetchPackages,
+  searchPackages,
+  searchParams
+}, {
+  queryParams
+}) {
   let actionMenuItems = [];
 
   if (queryParams.searchType) {
@@ -64,31 +72,41 @@ export default function TitleShow({ model }, { queryParams }) {
             )}
           </DetailsViewSection>
         )}
+        enableListSearch={model.resources.length > 0}
         listType="packages"
-        renderList={scrollable => (
-          <ScrollView
-            itemHeight={70}
-            items={model.resources}
-            scrollable={scrollable}
-            data-test-query-list="title-packages"
-          >
-            {item => (
-              <PackageListItem
-                link={`/eholdings/resources/${item.id}`}
-                packageName={item.packageName}
-                item={item}
-                headingLevel='h4'
-              />
-            )}
-          </ScrollView>
-        )}
+        onSearch={searchPackages}
+        searchParams={searchParams}
+        renderList={scrollable => {
+          return model.resources.length > 0 && (
+            <QueryList
+              type="title-packages"
+              fetch={fetchPackages}
+              collection={packages}
+              length={packages.length}
+              scrollable={scrollable}
+              itemHeight={70}
+              renderItem={item => (
+                <PackageListItem
+                  link={item.content && `/eholdings/resources/${item.content.id}`}
+                  packageName={item.content && item.content.packageName}
+                  item={item.content}
+                  headingLevel='h4'
+                />
+              )}
+            />
+          );
+        }}
       />
     </div>
   );
 }
 
 TitleShow.propTypes = {
-  model: PropTypes.object.isRequired
+  model: PropTypes.object.isRequired,
+  packages: PropTypes.object.isRequired,
+  fetchPackages: PropTypes.func.isRequired,
+  searchPackages: PropTypes.func.isRequired,
+  searchParams: PropTypes.object.isRequired
 };
 
 TitleShow.contextTypes = {
