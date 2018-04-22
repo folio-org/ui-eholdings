@@ -214,7 +214,38 @@ export default function configure() {
     return {};
   });
 
-  this.get('/packages/:id/resources', nestedResourceRouteFor('package', 'resources'));
+  let packageTitlesFilter = (resource, req) => {
+    let params = req.queryParams;
+    let type = params['filter[type]'];
+    let selected = params['filter[selected]'];
+    let filtered = true;
+
+    if (params.q) {
+      let searchString = params.q.toLowerCase();
+
+      if (params.searchfield === 'title' && resource.title.name) {
+        filtered = resource.title.name && includesWords(resource.title.name, searchString);
+      } else if (params.searchfield === 'isxn' && resource.title.identifiers) {
+        filtered = resource.title.identifiers && resource.title.identifiers.some(i => includesWords(i.id, searchString));
+      } else if (params.searchfield === 'subject' && resource.title.subjects) {
+        filtered = resource.title.subjects && resource.title.subjects.some(s => includesWords(s.subject, searchString));
+      } else if (params.searchfield === 'publisher' && resource.title.publisherName) {
+        filtered = resource.title.publisherName && includesWords(resource.title.publisherName, searchString);
+      }
+    }
+
+    if (filtered && type && type !== 'all' && resource.title.publicationType) {
+      filtered = resource.title.publicationType.toLowerCase() === type;
+    }
+
+    if (filtered && selected) {
+      filtered = resource.isSelected.toString() === selected;
+    }
+
+    return filtered;
+  };
+
+  this.get('/packages/:id/resources', nestedResourceRouteFor('package', 'resources', packageTitlesFilter));
 
   // Title resources
   this.get('/titles', searchRouteFor('titles', (title, req) => {
@@ -255,8 +286,6 @@ export default function configure() {
   });
 
   // Resources
-  this.get('/packages/:id/resources', nestedResourceRouteFor('package', 'resources'));
-
   this.get('/resources/:id', ({ resources }, request) => {
     return resources.find(request.params.id);
   });

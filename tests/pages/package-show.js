@@ -13,6 +13,7 @@ import {
 import { isRootPresent, getComputedStyle, hasClassBeginningWith } from './helpers';
 import Datepicker from './datepicker';
 import Toast from './toast';
+import SearchModal from './search-modal';
 
 @page class PackageShowModal {
   confirmDeselection = clickable('[data-test-eholdings-package-deselection-confirmation-modal-yes]');
@@ -41,6 +42,9 @@ import Toast from './toast';
   hasBackButton = isPresent('[data-test-eholdings-details-view-back-button] button');
   clickBackButton = clickable('[data-test-eholdings-details-view-back-button] button');
   detailsPaneContentScrollHeight = property('scrollHeight', '[data-test-eholdings-detail-pane-contents]');
+  clickListSearch = clickable('[data-test-eholdings-details-view-search] button');
+
+  searchModal = new SearchModal('#eholdings-details-view-search-modal');
 
   detailPaneMouseWheel = triggerable('wheel', '[data-test-eholdings-detail-pane-contents]', {
     bubbles: true,
@@ -123,7 +127,7 @@ import Toast from './toast';
   beginDate = new Datepicker('[data-test-eholdings-coverage-fields-date-range-begin]');
   endDate = new Datepicker('[data-test-eholdings-coverage-fields-date-range-end]');
 
-  toast = Toast
+  toast = Toast;
 
   fillDates(beginDate, endDate) {
     return this.beginDate.fillAndBlur(beginDate)
