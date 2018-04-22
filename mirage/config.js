@@ -146,7 +146,7 @@ export default function configure() {
   };
 
   this.get('/packages', searchRouteFor('packages', packagesFilter));
-  this.get('/providers/:id/packages', nestedResourceRouteFor('provider', 'packages', packagesFilter));
+  this.get('/providers/:id/packages', nestedResourceRouteFor('provider', 'packages', 'name', packagesFilter));
 
   this.get('/packages/:id', ({ packages }, request) => {
     let pkg = packages.find(request.params.id);
@@ -253,6 +253,29 @@ export default function configure() {
   this.get('/titles/:id', ({ titles }, request) => {
     return titles.find(request.params.id);
   });
+
+  let titlePackagesFilter = (resource, req) => {
+    let params = req.queryParams;
+    let type = params['filter[type]'];
+    let selected = params['filter[selected]'];
+    let filtered = true;
+
+    if (params.q && resource.package.name) {
+      filtered = includesWords(resource.package.name, params.q.toLowerCase());
+    }
+
+    if (filtered && type && type !== 'all') {
+      filtered = resource.package.contentType.toLowerCase() === type;
+    }
+
+    if (filtered && selected) {
+      filtered = resource.isSelected.toString() === selected;
+    }
+
+    return filtered;
+  };
+
+  this.get('/titles/:id/resources', nestedResourceRouteFor('title', 'resources', 'packageName', titlePackagesFilter));
 
   // Resources
   this.get('/packages/:id/resources', nestedResourceRouteFor('package', 'resources'));

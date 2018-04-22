@@ -1,5 +1,6 @@
 import {
   action,
+  clickable,
   collection,
   computed,
   isPresent,
@@ -9,6 +10,7 @@ import {
 } from '@bigtest/interaction';
 import { getComputedStyle } from './helpers';
 import Toast from './toast';
+import SearchModal from './search-modal';
 
 @page class TitleShowPage {
   paneTitle = text('[data-test-eholdings-details-view-pane-title]');
@@ -25,8 +27,10 @@ import Toast from './toast';
   detailsPaneScrollsHeight = property('scrollHeight', '[data-test-eholdings-detail-pane-contents]');
   detailsPaneContentsHeight = property('offsetHeight', '[data-test-eholdings-detail-pane-contents]');
   detailsPaneContentsOverFlowY = getComputedStyle('overflow-y', '[data-test-eholdings-detail-pane-contents]');
+  clickListSearch = clickable('[data-test-eholdings-details-view-search] button');
 
-toast = Toast
+  toast = Toast;
+  searchModal = new SearchModal('#eholdings-details-view-search-modal');
 
   detailsPaneScrollTop = action(function (offset) {
     return this.find('[data-test-query-list="package-titles"]')
