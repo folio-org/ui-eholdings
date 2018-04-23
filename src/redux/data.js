@@ -597,10 +597,6 @@ export function epic(action$, { getState }) {
         body = JSON.stringify(payload);
       }
 
-      if (method === 'DELETE') {
-        body = JSON.stringify(payload);
-      }
-
       // request which rejects when not OK
       let promise = fetch(url, { headers, method, body })
         .then(response => Promise.all([response.ok, parseResponseBody(response)]))
