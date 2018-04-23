@@ -517,7 +517,7 @@ const getHeaders = (method, { okapi }) => {
     'X-Okapi-Token': okapi.token
   };
 
-  if (method === 'PUT') {
+  if (method === 'PUT' || method === 'POST') {
     headers['Content-Type'] = 'application/vnd.api+json';
   }
 
