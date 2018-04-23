@@ -101,8 +101,7 @@ export const destroy = (type, payload, { path }) => ({
     path,
     params: { id: payload.data.id },
     timestamp: Date.now()
-  },
-  payload
+  }
 });
 
 /**
