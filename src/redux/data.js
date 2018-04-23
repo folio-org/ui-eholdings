@@ -101,8 +101,7 @@ export const destroy = (type, payload, { path }) => ({
     path,
     params: { id: payload.data.id },
     timestamp: Date.now()
-  },
-  payload
+  }
 });
 
 /**
@@ -125,7 +124,7 @@ export const unload = (type, ids) => ({
  * @param {Object} body - JSON API returned body
  * @param {Object} payload - payload sent with the request
  */
-const resolve = (request, body, payload) => {
+const resolve = (request, body, payload = {}) => {
   let data = body && body.data ? body.data : payload.data;
   let meta = body ? (body.meta || {}) : {};
   let records = [];
@@ -134,9 +133,18 @@ const resolve = (request, body, payload) => {
   if (Array.isArray(data)) {
     records = records.concat(data);
     ids = records.map(({ id }) => id);
-  } else {
+  } else if (data) {
     records = [data];
     ids = [data.id];
+  } else {
+    // on request where neither a body or payload is sent
+    // such as a delete request we need to pick id off request
+    records = [
+      {
+        id: request.params.id
+      }
+    ];
+    ids = [request.params.id];
   }
 
   if (body && body.included) {
