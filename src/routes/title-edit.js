@@ -55,22 +55,8 @@ class TitleShowRoute extends Component {
 
   titleEditSubmitted = (values) => {
     let { model, updateResource } = this.props;
-    let {
-      name,
-      isPeerReviewed,
-      publicationType,
-      publisherName,
-      description
-    } = values;
-
     let resource = model.resources.records[0];
-
-    resource.name = name;
-    resource.publisherName = publisherName;
-    resource.publicationType = publicationType;
-    resource.isPeerReviewed = isPeerReviewed;
-    resource.description = description;
-    updateResource(resource);
+    updateResource(Object.assign(resource, values));
   }
 
   render() {
