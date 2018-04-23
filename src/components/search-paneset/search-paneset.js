@@ -12,6 +12,7 @@ import SearchPane from '../search-pane';
 import ResultsPane from '../results-pane';
 import PreviewPane from '../preview-pane';
 import SearchPaneVignette from '../search-pane-vignette';
+import Link from '../link';
 import styles from './search-paneset.css';
 
 export default class SearchPaneset extends React.Component {
@@ -78,6 +79,19 @@ export default class SearchPaneset extends React.Component {
     });
   };
 
+  renderNewButton = () => {
+    return (
+      <PaneMenu>
+        <Link
+          className={styles['search-new-button']}
+          to={`/eholdings/${this.props.resultsType}/new`}
+        >
+          + New
+        </Link>
+      </PaneMenu>
+    );
+  };
+
   render() {
     let { hideFilters } = this.state;
     let {
@@ -93,11 +107,14 @@ export default class SearchPaneset extends React.Component {
     // only hide filters if there are results and always hide filters when a detail view is visible
     hideFilters = (hideFilters && !!resultsView) || !!detailsView;
 
+    let newButton = (<PaneMenu />);
+    if (resultsType === 'packages') {
+      newButton = this.renderNewButton();
+    }
+
     return (
       <div className={styles['search-paneset']}>
-        {!!resultsView && (
-          <SearchPaneVignette isHidden={hideFilters} onClick={this.toggleFilters} />
-        )}
+        <SearchPaneVignette isHidden={hideFilters} onClick={this.toggleFilters} />
 
         {!!detailsView && (
           <SearchPaneVignette onClick={this.closePreview} />
@@ -119,10 +136,13 @@ export default class SearchPaneset extends React.Component {
           </div>
         </SearchPane>
 
-        {!!resultsView && (
+        {resultsView ? (
           <ResultsPane>
             <div data-test-eholdings-search-results-header>
               <PaneHeader
+                appIcon={{
+                  app: 'eholdings'
+                }}
                 paneTitle={capitalize(resultsType)}
                 paneSub={isLoading ? 'Loading...' : `${intl.formatNumber(totalResults)} search results`}
                 firstMenu={
@@ -135,12 +155,31 @@ export default class SearchPaneset extends React.Component {
                     </PaneMenu>
                   </div>
                 }
+                lastMenu={newButton}
               />
             </div>
             <div className={styles['scrollable-container']}>
               {resultsView}
             </div>
           </ResultsPane>
+        ) : (
+          <div
+            data-test-eholdings-pre-search-pane
+            className={styles['pre-search-pane']}
+          >
+            <PaneHeader
+              appIcon={{
+                app: 'eholdings'
+              }}
+              paneTitle={capitalize(resultsType)}
+              lastMenu={newButton}
+            />
+            <div className={styles['pre-search-pane-content']}>
+              <div className={styles['pre-search-pane-content-label']}>
+                <p>Enter a query to show search results.</p>
+              </div>
+            </div>
+          </div>
         )}
 
         {!!detailsView && (

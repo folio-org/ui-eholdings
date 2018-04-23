@@ -32,9 +32,17 @@ describeApplication('ProviderSearch', () => {
     expect(ProviderSearchPage.isSearchButtonDisabled).to.equal(true);
   });
 
+  it('has a pre-results pane', () => {
+    expect(ProviderSearchPage.hasPreSearchPane).to.equal(true);
+  });
+
   describe('searching for a provider', () => {
     beforeEach(() => {
       return ProviderSearchPage.search('Provider');
+    });
+
+    it('removes the pre-results pane', () => {
+      expect(ProviderSearchPage.hasPreSearchPane).to.equal(false);
     });
 
     it("displays provider entries related to 'Provider'", () => {

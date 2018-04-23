@@ -2,7 +2,12 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { reduxForm } from 'redux-form';
 
-import { Button, PaneHeader } from '@folio/stripes-components';
+import {
+  Button,
+  IconButton,
+  PaneHeader,
+  PaneMenu
+} from '@folio/stripes-components';
 
 import DetailsViewSection from '../../details-view-section';
 import NameField, { validate as validatePackageName } from '../_fields/name';
@@ -40,6 +45,12 @@ class PackageCreate extends Component {
       pristine
     } = this.props;
 
+    let {
+      router
+    } = this.context;
+
+    let historyState = router.history.location.state;
+
     return (
       <div data-test-eholdings-package-create>
         <Toaster
@@ -51,7 +62,20 @@ class PackageCreate extends Component {
           }))}
         />
 
-        <PaneHeader paneTitle="New custom package" />
+        <PaneHeader
+          paneTitle="New custom package"
+          firstMenu={historyState && historyState.eholdings && (
+            <PaneMenu>
+              <div data-test-eholdings-details-view-back-button>
+                <IconButton
+                  icon="left-arrow"
+                  ariaLabel="Go back"
+                  onClick={this.handleCancel}
+                />
+              </div>
+            </PaneMenu>
+          )}
+        />
 
         <div className={styles['package-create-form-container']}>
           <form onSubmit={handleSubmit(onSubmit)}>

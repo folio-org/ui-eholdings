@@ -34,6 +34,7 @@ import { isRootPresent, hasClassBeginningWith } from './helpers';
   isSearchButtonDisabled = property('disabled', '[data-test-search-submit]');
   isSearchVignetteHidden = hasClassBeginningWith('is-hidden---', '[data-test-search-vignette]');
   clickCloseButton = clickable('[data-test-eholdings-details-view-close-button] a');
+  hasPreSearchPane = isPresent('[data-test-eholdings-pre-search-pane]');
 
   hasLoaded = computed(function () {
     return this.providerList().length > 0;

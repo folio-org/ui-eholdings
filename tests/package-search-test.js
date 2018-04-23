@@ -35,9 +35,17 @@ describeApplication('PackageSearch', () => {
     expect(PackageSearchPage.isSearchDisabled).to.be.true;
   });
 
+  it('has a pre-results pane', () => {
+    expect(PackageSearchPage.hasPreSearchPane).to.equal(true);
+  });
+
   describe('searching for a package', () => {
     beforeEach(() => {
       return PackageSearchPage.search('Package');
+    });
+
+    it('removes the pre-results pane', () => {
+      expect(PackageSearchPage.hasPreSearchPane).to.equal(false);
     });
 
     it("displays package entries related to 'Package'", () => {

@@ -71,9 +71,17 @@ describeApplication('TitleSearch', () => {
     expect(TitleSearchPage.isSearchButtonDisabled).to.be.true;
   });
 
+  it('has a pre-results pane', () => {
+    expect(TitleSearchPage.hasPreSearchPane).to.equal(true);
+  });
+
   describe('searching for a title', () => {
     beforeEach(() => {
       return TitleSearchPage.search('Title');
+    });
+
+    it('removes the pre-results pane', () => {
+      expect(TitleSearchPage.hasPreSearchPane).to.equal(false);
     });
 
     it('has enabled search button', () => {

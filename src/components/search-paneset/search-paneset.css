@@ -34,3 +34,70 @@
   overflow-y: auto;
   -webkit-overflow-scroll: touch;
 }
+
+.pre-search-pane {
+  background: #fff;
+  display: block;
+  margin-left: 320px;
+  height: 100%;
+  overflow: hidden;
+  z-index: 10;
+
+  @media (--mediumUp) {
+    flex: 5 0 320px;
+    flex-flow: column nowrap;
+  }
+
+  @media (--largeUp) {
+    margin-left: 0;
+  }
+}
+
+.pre-search-pane-content {
+  padding: 0 15px;
+  color: rgba(0, 0, 0, 0.62);
+  height: 100%;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: #f9f9f9;
+  flex-direction: column;
+}
+
+.pre-search-pane-content-label {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  font-size: 22px;
+}
+
+.search-new-button {
+  padding: 3px 10px 7px;
+  height: 24px;
+  text-align: center;
+  cursor: pointer;
+  border-radius: 6px;
+  transition: background-color 0.25s, color 0.25s, opacity 0.4s, box-shadow 0s;
+  margin-left: 2px;
+  overflow: hidden;
+  white-space: nowrap;
+  line-height: 100%;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
+  outline: 0;
+  box-shadow: 0 0 0 18px transparent;
+  opacity: 1;
+  background-color: #2b75bb;
+  border: 1px solid #2b75bb;
+  font-weight: 600;
+  color: #fff;
+  margin-right: 15px;
+
+  &:visited {
+    color: #fff;
+  }
+}
