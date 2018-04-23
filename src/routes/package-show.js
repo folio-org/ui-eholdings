@@ -22,6 +22,7 @@ class PackageShowRoute extends Component {
     unloadResources: PropTypes.func.isRequired,
     updatePackage: PropTypes.func.isRequired,
     destroyPackage: PropTypes.func.isRequired,
+    resolver: PropTypes.object.isRequired,
   };
 
   static contextTypes = {
@@ -31,6 +32,10 @@ class PackageShowRoute extends Component {
       }).isRequired
     }).isRequired
   };
+
+  state = {
+    titleSearchParams: {}
+  }
 
   componentWillMount() {
     let { packageId } = this.props.match.params;
@@ -51,7 +56,11 @@ class PackageShowRoute extends Component {
     }
   }
 
-  componentDidUpdate(prevProps) {
+  componentDidUpdate(prevProps, prevState) {
+    let { match, getPackageTitles } = this.props;
+    let { titleSearchParams } = this.state;
+    let { packageId } = match.params;
+
     if (!prevProps.model.destroy.isResolved && this.props.model.destroy.isResolved) {
       // if package was reached based on search
       if (this.context.router.history.location.search) {
@@ -63,6 +72,10 @@ class PackageShowRoute extends Component {
       } else {
         this.context.router.history.replace('/eholdings?searchType=packages', { eholdings: true });
       }
+    }
+
+    if (titleSearchParams !== prevState.titleSearchParams) {
+      getPackageTitles(packageId, titleSearchParams);
     }
   }
 
@@ -133,6 +146,20 @@ class PackageShowRoute extends Component {
     updatePackage(model);
   };
 
+  getTitleResults() {
+    let { match, resolver } = this.props;
+    let { titleSearchParams } = this.state;
+    let { packageId } = match.params;
+
+    return resolver.query('resources', titleSearchParams, {
+      path: `${Package.pathFor(packageId)}/resources`
+    });
+  }
+
+  searchTitles = (params) => {
+    this.setState({ titleSearchParams: params });
+  };
+
   render() {
     return (
       <View
@@ -143,15 +170,23 @@ class PackageShowRoute extends Component {
         customCoverageSubmitted={this.customCoverageSubmitted}
         toggleAllowKbToAddTitles={this.toggleAllowKbToAddTitles}
         packageContentTypeSubmitted={this.packageContentTypeSubmitted}
+        searchTitles={this.searchTitles}
+        searchParams={this.state.titleSearchParams}
+        titles={this.getTitleResults()}
       />
     );
   }
 }
 
 export default connect(
-  ({ eholdings: { data } }, { match }) => ({
-    model: createResolver(data).find('packages', match.params.packageId),
-  }), {
+  ({ eholdings: { data } }, { match }) => {
+    let resolver = createResolver(data);
+
+    return {
+      model: resolver.find('packages', match.params.packageId),
+      resolver
+    };
+  }, {
     getPackage: id => Package.find(id),
     getPackageTitles: (id, params) => Package.queryRelated(id, 'resources', params),
     unloadResources: collection => Resource.unload(collection),

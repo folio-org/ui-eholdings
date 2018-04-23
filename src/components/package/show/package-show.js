@@ -27,12 +27,15 @@ import styles from './package-show.css';
 export default class PackageShow extends Component {
   static propTypes = {
     model: PropTypes.object.isRequired,
+    titles: PropTypes.object.isRequired,
     fetchPackageTitles: PropTypes.func.isRequired,
     toggleSelected: PropTypes.func.isRequired,
     toggleHidden: PropTypes.func.isRequired,
     customCoverageSubmitted: PropTypes.func.isRequired,
     toggleAllowKbToAddTitles: PropTypes.func.isRequired,
-    packageContentTypeSubmitted: PropTypes.func.isRequired
+    packageContentTypeSubmitted: PropTypes.func.isRequired,
+    searchTitles: PropTypes.func.isRequired,
+    searchParams: PropTypes.object.isRequired
   };
 
   static contextTypes = {
@@ -113,7 +116,14 @@ export default class PackageShow extends Component {
   };
 
   render() {
-    let { model, fetchPackageTitles, customCoverageSubmitted } = this.props;
+    let {
+      model,
+      fetchPackageTitles,
+      customCoverageSubmitted,
+      searchTitles,
+      searchParams,
+      titles
+    } = this.props;
     let { intl, router, queryParams } = this.context;
     let {
       showSelectionModal,
@@ -318,13 +328,16 @@ export default class PackageShow extends Component {
               </DetailsViewSection>
             </div>
           )}
+          enableListSearch
           listType="titles"
+          onSearch={searchTitles}
+          searchParams={searchParams}
           renderList={scrollable => (
             <QueryList
               type="package-titles"
               fetch={fetchPackageTitles}
-              collection={model.resources}
-              length={model.titleCount}
+              collection={titles}
+              length={titles.length}
               scrollable={scrollable}
               itemHeight={70}
               renderItem={item => (
