@@ -23,6 +23,9 @@ export default Factory.extend({
   subjects: () => [],
   contributors: () => [],
   identifiers: () => [],
+  isTitleCustom: false,
+  isPeerReviewed: false,
+  description: '',
 
   withPackages: trait({
     afterCreate(title, server) {

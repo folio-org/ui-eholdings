@@ -31,14 +31,14 @@ export default function defaultScenario(server) {
 
   let customTitle = server.create('title', {
     name: 'Single, Double, and Triple Paradiddles',
+    isTitleCustom: true,
+    isPeerReviewed: false,
+    description: ''
   });
 
   server.create('resource', {
     package: customPackage,
-    title: customTitle,
-    isTitleCustom: true,
-    isPeerReviewed: false,
-    description: ''
+    title: customTitle
   });
 
   createProvider('Economist Intelligence Unit', [

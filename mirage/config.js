@@ -283,8 +283,8 @@ export default function configure() {
     matchingResource.update('customCoverages', customCoverages);
     matchingResource.update('customEmbargoPeriod', customEmbargoPeriod);
     matchingResource.update('coverageStatement', coverageStatement);
-    matchingResource.update('isPeerReviewed', isPeerReviewed);
-    matchingResource.update('description', description);
+    matchingResource.title.update('isPeerReviewed', isPeerReviewed);
+    matchingResource.title.update('description', description);
     matchingResource.title.update('name', name);
     matchingResource.title.update('publicationType', publicationType);
     matchingResource.title.update('publisherName', publisherName);

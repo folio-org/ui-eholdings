@@ -25,8 +25,10 @@ import Toast from './toast';
   detailsPaneScrollsHeight = property('scrollHeight', '[data-test-eholdings-detail-pane-contents]');
   detailsPaneContentsHeight = property('offsetHeight', '[data-test-eholdings-detail-pane-contents]');
   detailsPaneContentsOverFlowY = getComputedStyle('overflow-y', '[data-test-eholdings-detail-pane-contents]');
+  peerReviewedStatus = text('[data-test-eholdings-peer-reviewed-field]');
+  descriptionText = text('[data-test-eholdings-description-field]');
 
-toast = Toast
+  toast = Toast
 
   detailsPaneScrollTop = action(function (offset) {
     return this.find('[data-test-query-list="package-titles"]')

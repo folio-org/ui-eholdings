@@ -154,8 +154,7 @@ export default class ResourceShow extends Component {
           )}
           bodyContent={(
             <div>
-              <DetailsViewSection label="Resource information">
-
+              <DetailsViewSection label="Title information">
                 <ContributorsList data={model.contributors} />
 
                 <KeyValue label="Publisher">
@@ -182,6 +181,26 @@ export default class ResourceShow extends Component {
                   </KeyValue>
                 )}
 
+                <KeyValue label="Peer reviewed">
+                  <div data-test-eholdings-peer-reviewed-field>
+                    {model.isPeerReviewed ? 'Yes' : 'No'}
+                  </div>
+                </KeyValue>
+
+                <KeyValue label="Title type">
+                  <div data-test-eholdings-package-details-type>
+                    {model.isTitleCustom ? 'Custom' : 'Managed'}
+                  </div>
+                </KeyValue>
+
+                <KeyValue label="Other packages">
+                  <Link to={`/eholdings/titles/${model.titleId}`}>
+                    View all packages that include this title
+                  </Link>
+                </KeyValue>
+              </DetailsViewSection>
+
+              <DetailsViewSection label="Resource information">
                 <KeyValue label="Provider">
                   <div data-test-eholdings-resource-show-provider-name>
                     <Link to={`/eholdings/providers/${model.providerId}`}>{model.providerName}</Link>
@@ -202,24 +221,6 @@ export default class ResourceShow extends Component {
                   </KeyValue>
                 )}
 
-                <KeyValue label="Title type">
-                  <div data-test-eholdings-package-details-type>
-                    {model.isTitleCustom ? 'Custom' : 'Managed'}
-                  </div>
-                </KeyValue>
-
-                <KeyValue label="Peer reviewed">
-                  <div data-test-eholdings-peer-reviewed-field>
-                    {model.isPeerReviewed ? 'Yes' : 'No'}
-                  </div>
-                </KeyValue>
-
-                <KeyValue label="Other packages">
-                  <Link to={`/eholdings/titles/${model.titleId}`}>
-                    View all packages that include this title
-                  </Link>
-                </KeyValue>
-
                 {model.url && (
                   <KeyValue label="Managed URL">
                     <div data-test-eholdings-resource-show-managed-url>
@@ -228,11 +229,13 @@ export default class ResourceShow extends Component {
                   </KeyValue>
                 )}
 
-                <KeyValue label="Description">
-                  <div data-test-eholdings-description-field>
-                    {model.description}
-                  </div>
-                </KeyValue>
+                {model.description && (
+                  <KeyValue label="Description">
+                    <div data-test-eholdings-description-field>
+                      {model.description}
+                    </div>
+                  </KeyValue>
+                )}
               </DetailsViewSection>
               <DetailsViewSection label="Holding status">
                 <label

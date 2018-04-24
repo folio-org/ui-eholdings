@@ -7,25 +7,26 @@ import {
   Button,
   Icon
 } from '@folio/stripes-components';
-import { processErrors } from '../../utilities';
 
 import DetailsView from '../../details-view';
-import CustomCoverageFields, { validate as validateCoverageDates } from '../_fields/custom-coverage';
-import CoverageStatementFields, { validate as validateCoverageStatement } from '../_fields/coverage-statement';
-import CustomEmbargoFields, { validate as validateEmbargo } from '../_fields/custom-embargo';
+import NameField, { validate as validateName } from '../_fields/name';
+import PublisherNameField, { validate as validatePublisher } from '../_fields/publisher-name';
+import PublicationTypeField from '../_fields/publication-type';
+import DescriptionField, { validate as validateDescription } from '../_fields/description';
+import PeerReviewedField from '../_fields/peer-reviewed';
 import DetailsViewSection from '../../details-view-section';
 import NavigationModal from '../../navigation-modal';
 import Toaster from '../../toaster';
-import styles from './custom-resource-edit.css';
+import styles from './title-edit.css';
 
-class CustomResourceEdit extends Component {
+class TitleEdit extends Component {
   static propTypes = {
     model: PropTypes.object.isRequired,
     initialValues: PropTypes.object.isRequired,
     handleSubmit: PropTypes.func,
     onSubmit: PropTypes.func.isRequired,
     pristine: PropTypes.bool,
-    change: PropTypes.func
+    updateRequest: PropTypes.object.isRequired
   };
 
   static contextTypes = {
@@ -42,7 +43,7 @@ class CustomResourceEdit extends Component {
 
     if (wasPending && needsUpdate) {
       this.context.router.history.push(
-        `/eholdings/resources/${this.props.model.id}`,
+        `/eholdings/titles/${this.props.model.id}`,
         { eholdings: true }
       );
     }
@@ -50,7 +51,7 @@ class CustomResourceEdit extends Component {
 
   handleCancel = () => {
     this.context.router.history.push(
-      `/eholdings/resources/${this.props.model.id}`,
+      `/eholdings/titles/${this.props.model.id}`,
       { eholdings: true }
     );
   }
@@ -58,18 +59,17 @@ class CustomResourceEdit extends Component {
   render() {
     let {
       model,
-      initialValues,
       handleSubmit,
       onSubmit,
       pristine,
-      change
+      updateRequest
     } = this.props;
 
     let actionMenuItems = [
       {
         label: 'Cancel editing',
         to: {
-          pathname: `/eholdings/resources/${model.id}`,
+          pathname: `/eholdings/titles/${model.id}`,
           state: { eholdings: true }
         }
       }
@@ -77,38 +77,37 @@ class CustomResourceEdit extends Component {
 
     return (
       <div>
-        <Toaster toasts={processErrors(model)} position="bottom" />
+        <Toaster
+          position="bottom"
+          toasts={updateRequest.errors.map(({ title }, index) => ({
+            id: `error-${updateRequest.timestamp}-${index}`,
+            message: title,
+            type: 'error'
+          }))}
+        />
+
         <DetailsView
-          type="resource"
+          type="title"
           model={model}
           paneTitle={model.name}
-          paneSub={model.packageName}
           actionMenuItems={actionMenuItems}
           bodyContent={(
             <form onSubmit={handleSubmit(onSubmit)}>
               <DetailsViewSection
-                label="Coverage dates"
+                label="Title information"
               >
-                <CustomCoverageFields
-                  initialValue={initialValues.customCoverages}
-                />
+                <NameField />
+                <PublisherNameField />
+                <PublicationTypeField />
+                <DescriptionField />
+                <PeerReviewedField />
               </DetailsViewSection>
-              <DetailsViewSection
-                label="Coverage statement"
-              >
-                <CoverageStatementFields />
-              </DetailsViewSection>
-              <DetailsViewSection
-                label="Embargo period"
-              >
-                <CustomEmbargoFields change={change} />
-              </DetailsViewSection>
-              <div className={styles['resource-edit-action-buttons']}>
+              <div className={styles['title-edit-action-buttons']}>
                 <div
-                  data-test-eholdings-resource-cancel-button
+                  data-test-eholdings-title-cancel-button
                 >
                   <Button
-                    disabled={model.update.isPending}
+                    disabled={updateRequest.isPending}
                     type="button"
                     onClick={this.handleCancel}
                   >
@@ -116,7 +115,7 @@ class CustomResourceEdit extends Component {
                   </Button>
                 </div>
                 <div
-                  data-test-eholdings-resource-save-button
+                  data-test-eholdings-title-save-button
                 >
                   <Button
                     disabled={pristine || model.update.isPending}
@@ -126,11 +125,11 @@ class CustomResourceEdit extends Component {
                     {model.update.isPending ? 'Saving' : 'Save'}
                   </Button>
                 </div>
-                {model.update.isPending && (
+                {updateRequest.isPending && (
                   <Icon icon="spinner-ellipsis" />
                 )}
               </div>
-              <NavigationModal when={!pristine && !model.update.isPending} />
+              <NavigationModal when={!pristine && !updateRequest.isResolved} />
             </form>
           )}
         />
@@ -139,16 +138,16 @@ class CustomResourceEdit extends Component {
   }
 }
 
-const validate = (values, props) => {
+const validate = (values) => {
   return Object.assign({},
-    validateCoverageDates(values, props),
-    validateCoverageStatement(values),
-    validateEmbargo(values));
+    validateName(values),
+    validatePublisher(values),
+    validateDescription(values));
 };
 
 export default reduxForm({
   validate,
   enableReinitialize: true,
-  form: 'CustomResourceEdit',
+  form: 'TitleEdit',
   destroyOnUnmount: false,
-})(CustomResourceEdit);
+})(TitleEdit);

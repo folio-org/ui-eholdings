@@ -2,14 +2,14 @@ import React, { Component } from 'react';
 import { Field } from 'redux-form';
 
 import { TextField } from '@folio/stripes-components';
-import styles from './resource-name-field.css';
+import styles from './title-name-field.css';
 
-export default class ResourceNameField extends Component {
+export default class TitleNameField extends Component {
   render() {
     return (
       <div
-        data-test-eholdings-resource-name-field
-        className={styles['resource-name-field']}
+        data-test-eholdings-title-name-field
+        className={styles['title-name-field']}
       >
         <Field
           name="name"
