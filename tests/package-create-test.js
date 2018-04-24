@@ -52,7 +52,7 @@ describeApplication('PackageCreate', () => {
 
     it('redirects to the new package with the specified content type', function () {
       expect(this.app.history.location.pathname).to.match(/^\/eholdings\/packages\/\d{1,}/);
-      expect(PackageShowPage.customContentType).to.equal('Print');
+      expect(PackageShowPage.contentType).to.equal('Print');
     });
   });
 

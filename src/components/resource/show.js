@@ -155,13 +155,21 @@ export default class ResourceShow extends Component {
           bodyContent={(
             <div>
               <DetailsViewSection label="Title information">
+                <KeyValue label="Title">
+                  <Link to={`/eholdings/titles/${model.titleId}`}>
+                    {model.name}
+                  </Link>
+                </KeyValue>
+
                 <ContributorsList data={model.contributors} />
 
-                <KeyValue label="Publisher">
-                  <div data-test-eholdings-resource-show-publisher-name>
-                    {model.publisherName}
-                  </div>
-                </KeyValue>
+                {model.publisherName && (
+                  <KeyValue label="Publisher">
+                    <div data-test-eholdings-resource-show-publisher-name>
+                      {model.publisherName}
+                    </div>
+                  </KeyValue>
+                )}
 
                 {model.publicationType && (
                   <KeyValue label="Publication type">
@@ -193,23 +201,25 @@ export default class ResourceShow extends Component {
                   </div>
                 </KeyValue>
 
-                <KeyValue label="Other packages">
-                  <Link to={`/eholdings/titles/${model.titleId}`}>
-                    View all packages that include this title
-                  </Link>
-                </KeyValue>
+                {model.description && (
+                  <KeyValue label="Description">
+                    <div data-test-eholdings-description-field>
+                      {model.description}
+                    </div>
+                  </KeyValue>
+                )}
               </DetailsViewSection>
 
-              <DetailsViewSection label="Resource information">
-                <KeyValue label="Provider">
-                  <div data-test-eholdings-resource-show-provider-name>
-                    <Link to={`/eholdings/providers/${model.providerId}`}>{model.providerName}</Link>
-                  </div>
-                </KeyValue>
-
+              <DetailsViewSection label="Package information">
                 <KeyValue label="Package">
                   <div data-test-eholdings-resource-show-package-name>
                     <Link to={`/eholdings/packages/${model.packageId}`}>{model.packageName}</Link>
+                  </div>
+                </KeyValue>
+
+                <KeyValue label="Provider">
+                  <div data-test-eholdings-resource-show-provider-name>
+                    <Link to={`/eholdings/providers/${model.providerId}`}>{model.providerName}</Link>
                   </div>
                 </KeyValue>
 
@@ -220,23 +230,18 @@ export default class ResourceShow extends Component {
                     </div>
                   </KeyValue>
                 )}
+              </DetailsViewSection>
 
-                {model.url && (
+              {model.url && (
+                <DetailsViewSection label="Resource information">
                   <KeyValue label="Managed URL">
                     <div data-test-eholdings-resource-show-managed-url>
                       <a href={model.url} target="_blank">{model.url}</a>
                     </div>
                   </KeyValue>
-                )}
+                </DetailsViewSection>
+              )}
 
-                {model.description && (
-                  <KeyValue label="Description">
-                    <div data-test-eholdings-description-field>
-                      {model.description}
-                    </div>
-                  </KeyValue>
-                )}
-              </DetailsViewSection>
               <DetailsViewSection label="Holding status">
                 <label
                   data-test-eholdings-resource-show-selected

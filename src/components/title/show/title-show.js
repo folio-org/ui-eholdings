@@ -67,11 +67,13 @@ export default function TitleShow({ model }, { queryParams }) {
           <DetailsViewSection label="Title information">
             <ContributorsList data={model.contributors} />
 
-            <KeyValue label="Publisher">
-              <div data-test-eholdings-title-show-publisher-name>
-                {model.publisherName}
-              </div>
-            </KeyValue>
+            {model.publisherName && (
+              <KeyValue label="Publisher">
+                <div data-test-eholdings-title-show-publisher-name>
+                  {model.publisherName}
+                </div>
+              </KeyValue>
+            )}
 
             {model.publicationType && (
               <KeyValue label="Publication Type">
@@ -91,14 +93,6 @@ export default function TitleShow({ model }, { queryParams }) {
               </KeyValue>
             )}
 
-            {model.description && (
-              <KeyValue label="Description">
-                <div data-test-eholdings-description-field>
-                  {model.description}
-                </div>
-              </KeyValue>
-            )}
-
             <KeyValue label="Peer reviewed">
               <div data-test-eholdings-peer-reviewed-field>
                 {model.isPeerReviewed ? 'Yes' : 'No'}
@@ -110,6 +104,14 @@ export default function TitleShow({ model }, { queryParams }) {
                 {model.isTitleCustom ? 'Custom' : 'Managed'}
               </div>
             </KeyValue>
+
+            {model.description && (
+              <KeyValue label="Description">
+                <div data-test-eholdings-description-field>
+                  {model.description}
+                </div>
+              </KeyValue>
+            )}
           </DetailsViewSection>
         )}
         listType="packages"

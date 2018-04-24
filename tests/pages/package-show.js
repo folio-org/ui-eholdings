@@ -2,7 +2,6 @@ import {
   clickable,
   collection,
   computed,
-  fillable,
   isPresent,
   page,
   property,
@@ -96,14 +95,6 @@ import Toast from './toast';
         });
       });
   });
-
-  selectContentType = fillable('[data-test-eholdings-package-content-type-field] select');
-  customContentType = text('[data-test-eholdings-package-content-type] span');
-  hasContentTypeField = isPresent('[data-test-eholdings-package-content-type-field] select');
-  clickContentTypeEdit = clickable('[data-test-eholdings-package-content-type-edit-button] button');
-  clickContentTypeCancel = clickable('[data-test-eholdings-inline-form-cancel-button] button');
-  clickContentTypeSave = clickable('[data-test-eholdings-inline-form-save-button] button');
-  isContentTypeSaveDisabled = property('disabled', '[data-test-eholdings-inline-form-save-button] button');
 
   titleContainerHeight = property('offsetHeight', '[data-test-eholdings-details-view-list="package"]');
   detailPaneContentsHeight = property('offsetHeight', '[data-test-eholdings-detail-pane-contents]');
