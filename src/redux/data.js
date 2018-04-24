@@ -130,21 +130,18 @@ const resolve = (request, body, payload = {}) => {
   let records = [];
   let ids = [];
 
+  // on request where neither a body or payload is sent
+  // such as a delete request we need to pick id off request
+  if (!data && request.params.id) {
+    data = { id: request.params.id };
+  }
+
   if (Array.isArray(data)) {
     records = records.concat(data);
     ids = records.map(({ id }) => id);
   } else if (data) {
     records = [data];
     ids = [data.id];
-  } else {
-    // on request where neither a body or payload is sent
-    // such as a delete request we need to pick id off request
-    records = [
-      {
-        id: request.params.id
-      }
-    ];
-    ids = [request.params.id];
   }
 
   if (body && body.included) {
