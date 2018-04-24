@@ -57,6 +57,7 @@ import Toast from './toast';
   isHiddenDisabled = property('disabled', '[data-test-eholdings-resource-toggle-hidden] input[type=checkbox]');
   toggleIsHidden = clickable('[data-test-eholdings-resource-toggle-hidden] input');
   isHiding = hasClassBeginningWith('is-pending--', '[data-test-eholdings-resource-toggle-hidden] [data-test-toggle-switch]');
+  clickEditButton = clickable('[data-test-eholdings-resource-edit-link]');
 
   peerReviewedStatus = text('[data-test-eholdings-peer-reviewed-field]');
 

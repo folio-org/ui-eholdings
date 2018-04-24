@@ -24,6 +24,7 @@ import Toast from './toast';
   descriptionField = value('[data-test-eholdings-description-textarea] textarea');
   fillDescription = fillable('[data-test-eholdings-description-textarea] textarea');
   descriptionError = hasClassBeginningWith('feedbackError--', '[data-test-eholdings-description-textarea] textarea');
+  hasBackButton = isPresent('[data-test-eholdings-details-view-back-button] button');
 
   toast = Toast
 

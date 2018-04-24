@@ -146,9 +146,13 @@ export default class ResourceShow extends Component {
           lastMenu={(
             <PaneMenu>
               <IconButton
+                data-test-eholdings-resource-edit-link
                 icon="edit"
                 ariaLabel={`Edit ${model.name}`}
-                href={`/eholdings/resources/${model.id}/edit`}
+                href={{
+                  pathname: `/eholdings/resources/${model.id}/edit`,
+                  state: { eholdings: true }
+                }}
               />
             </PaneMenu>
           )}

@@ -33,6 +33,7 @@ import Datepicker from './datepicker';
   toggleIsSelected = clickable('[data-test-eholdings-custom-package-details-selected] input');
   isSelected = property('checked', '[data-test-eholdings-custom-package-details-selected] input');
   modal = new PackageEditModal('#eholdings-custom-package-confirmation-modal');
+  hasBackButton = isPresent('[data-test-eholdings-details-view-back-button] button');
 
   toast = Toast;
 

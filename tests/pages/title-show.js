@@ -1,5 +1,6 @@
 import {
   action,
+  clickable,
   collection,
   computed,
   isPresent,
@@ -27,6 +28,7 @@ import Toast from './toast';
   detailsPaneContentsOverFlowY = getComputedStyle('overflow-y', '[data-test-eholdings-detail-pane-contents]');
   peerReviewedStatus = text('[data-test-eholdings-peer-reviewed-field]');
   descriptionText = text('[data-test-eholdings-description-field]');
+  clickEditButton = clickable('[data-test-eholdings-title-edit-link]');
 
   toast = Toast
 

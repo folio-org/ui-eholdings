@@ -208,4 +208,22 @@ describeApplication('ManagedPackageEdit', () => {
       });
     });
   });
+
+  describe('visiting the package show page', () => {
+    beforeEach(function () {
+      return this.visit(`/eholdings/packages/${providerPackage.id}`, () => {
+        expect(PackageShowPage.$root).to.exist;
+      });
+    });
+
+    describe('clicking the edit button', () => {
+      beforeEach(() => {
+        return PackageShowPage.clickEditButton();
+      });
+
+      it('should display the back button in pane header', () => {
+        expect(PackageEditPage.hasBackButton).to.be.true;
+      });
+    });
+  });
 });

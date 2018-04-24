@@ -26,7 +26,8 @@ describeApplication('CustomTitleEdit', () => {
       name: 'Best Title Ever',
       publicationType: 'Streaming Video',
       publisherName: 'Amazing Publisher',
-      isPeerReviewed: false
+      isPeerReviewed: false,
+      isTitleCustom: true
     });
 
     title.save();
@@ -266,6 +267,24 @@ describeApplication('CustomTitleEdit', () => {
 
       it('pops up an error', () => {
         expect(TitleEditPage.toast.errorText).to.equal('There was an error');
+      });
+    });
+  });
+
+  describe('visiting the title show page', () => {
+    beforeEach(function () {
+      return this.visit(`/eholdings/titles/${title.id}`, () => {
+        expect(TitleShowPage.$root).to.exist;
+      });
+    });
+
+    describe('clicking the edit button', () => {
+      beforeEach(() => {
+        return TitleShowPage.clickEditButton();
+      });
+
+      it('should display the back button in pane header', () => {
+        expect(TitleEditPage.hasBackButton).to.be.true;
       });
     });
   });
