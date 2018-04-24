@@ -140,6 +140,10 @@ describeApplication('TitleSearch', () => {
           return TitleSearchPage.search('SomethingSomethingWhoa');
         });
 
+        it('displays the total number of search results', () => {
+          expect(TitleSearchPage.totalResults).to.equal('1 search result');
+        });
+
         it('removes the preview detail pane', () => {
           expect(TitleSearchPage.titlePreviewPaneIsPresent).to.be.false;
         });
