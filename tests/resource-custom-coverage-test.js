@@ -222,7 +222,7 @@ describeApplication('ResourceCustomCoverage', () => {
                 .dateRangeRowList(1).fillDates('12/18/2018', '12/19/2018');
             });
 
-            it.pause('indicates validation error on begin dates', () => {
+            it('indicates validation error on begin dates', () => {
               expect(ResourceCoverage.dateRangeRowList(0).beginDate.isInvalid).to.be.true;
               expect(ResourceCoverage.dateRangeRowList(1).beginDate.isInvalid).to.be.true;
             });

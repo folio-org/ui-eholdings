@@ -134,6 +134,17 @@ export default class PackageShow extends Component {
       });
     }
 
+    // if coming from destroying a custom or managed title, show a success toast
+    if (router.history.action === 'REPLACE' &&
+        router.history.location.state &&
+        router.history.location.state.isDestroyed) {
+      toasts.push({
+        id: `success-resource-destruction-${model.id}`,
+        message: 'Title removed from package',
+        type: 'success'
+      });
+    }
+
     // if coming from saving edits to the package, show a success toast
     if (router.history.action === 'PUSH' &&
         router.history.location.state &&

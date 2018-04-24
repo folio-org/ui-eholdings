@@ -264,7 +264,8 @@ export default class ResourceShow extends Component {
                   <ToggleSwitch
                     onChange={this.handleSelectionToggle}
                     checked={resourceSelected}
-                    isPending={model.update.isPending && 'isSelected' in model.update.changedAttributes}
+                    isPending={model.destroy.isPending ||
+                    (model.update.isPending && 'isSelected' in model.update.changedAttributes)}
                     id="resource-show-toggle-switch"
                   />
                 </label>

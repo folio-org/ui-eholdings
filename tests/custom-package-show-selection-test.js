@@ -60,7 +60,6 @@ describeApplication('CustomPackageShowSelection', () => {
         expect(PackageShowPage.isSelected).to.equal(false);
       });
 
-
       describe('canceling the deselection', () => {
         beforeEach(() => {
           return PackageShowPage.modal.cancelDeselection();
@@ -70,7 +69,6 @@ describeApplication('CustomPackageShowSelection', () => {
           expect(PackageShowPage.isSelected).to.equal(true);
         });
       });
-
 
       describe('confirming the deselection', () => {
         beforeEach(function () {

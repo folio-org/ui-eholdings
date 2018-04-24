@@ -34,7 +34,7 @@ describeApplication('ResourceEditManagedTitle', () => {
       package: providerPackage,
       isSelected: true,
       title,
-      url: 'frontside.io'
+      url: 'https://www.frontside.io'
     });
   });
 

@@ -16,7 +16,16 @@ class ResourceShowRoute extends Component {
     }).isRequired,
     model: PropTypes.object.isRequired,
     getResource: PropTypes.func.isRequired,
-    updateResource: PropTypes.func.isRequired
+    updateResource: PropTypes.func.isRequired,
+    destroyResource: PropTypes.func.isRequired
+  };
+
+  static contextTypes = {
+    router: PropTypes.shape({
+      history: PropTypes.shape({
+        replace: PropTypes.func.isRequired
+      }).isRequired
+    }).isRequired
   };
 
   componentWillMount() {
@@ -28,24 +37,35 @@ class ResourceShowRoute extends Component {
   componentWillReceiveProps(nextProps) {
     let { match, getResource } = nextProps;
     let { id } = match.params;
-
     if (id !== this.props.match.params.id) {
       getResource(id);
     }
   }
 
+  componentDidUpdate(prevProps) {
+    let { packageName, packageId } = prevProps.model;
+    if (!prevProps.model.destroy.isResolved && this.props.model.destroy.isResolved) {
+      this.context.router.history.replace(`/eholdings/packages/${packageId}?searchType=packages&q=${packageName}`,
+        { eholdings: true, isDestroyed: true });
+    }
+  }
+
   toggleSelected = () => {
-    let { model, updateResource } = this.props;
+    let { model, updateResource, destroyResource } = this.props;
     model.isSelected = !model.isSelected;
 
-    // clear out any customizations before sending to server
-    if (!model.isSelected) {
+    if (model.isSelected === false) {
+      destroyResource(model);
+    } else {
+      // clear out any customizations before sending to server
       model.visibilityData.isHidden = false;
       model.customCoverages = [];
       model.customEmbargoPeriod = {};
-    }
+      model.identifiersList = [];
+      model.identifiers = {};
 
-    updateResource(model);
+      updateResource(model);
+    }
   }
 
   toggleHidden = () => {
@@ -103,6 +123,7 @@ export default connect(
     model: createResolver(data).find('resources', match.params.id)
   }), {
     getResource: id => Resource.find(id, { include: ['package', 'title'] }),
-    updateResource: model => Resource.save(model)
+    updateResource: model => Resource.save(model),
+    destroyResource: model => Resource.destroy(model)
   }
 )(ResourceShowRoute);
