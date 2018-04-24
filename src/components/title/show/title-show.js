@@ -16,7 +16,7 @@ import DetailsViewSection from '../../details-view-section';
 import Toaster from '../../toaster';
 import styles from './title-show.css';
 
-export default function TitleShow({ model }, { queryParams }) {
+export default function TitleShow({ model }, { queryParams, router }) {
   let actionMenuItems = [];
 
   if (model.isTitleCustom) {
@@ -24,6 +24,7 @@ export default function TitleShow({ model }, { queryParams }) {
       label: 'Edit',
       to: {
         pathname: `/eholdings/titles/${model.id}/edit`,
+        search: router.route.location.search,
         state: { eholdings: true }
       }
     });
@@ -45,9 +46,14 @@ export default function TitleShow({ model }, { queryParams }) {
     lastMenu = (
       <PaneMenu>
         <IconButton
+          data-test-eholdings-title-edit-link
           icon="edit"
           ariaLabel={`Edit ${model.name}`}
-          href={`/eholdings/titles/${model.id}/edit`}
+          href={{
+            pathname: `/eholdings/titles/${model.id}/edit`,
+            search: router.route.location.search,
+            state: { eholdings: true }
+          }}
         />
       </PaneMenu>
     );

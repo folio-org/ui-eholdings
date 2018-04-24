@@ -25,6 +25,7 @@ import Datepicker from './datepicker';
   hasErrors = isPresent('[data-test-eholdings-details-view-error="resource"]');
   isPeerReviewed = property('checked', '[data-test-eholdings-peer-reviewed-field] input[type=checkbox]');
   checkPeerReviewed = clickable('[data-test-eholdings-peer-reviewed-field] input[type=checkbox]');
+  hasBackButton = isPresent('[data-test-eholdings-details-view-back-button] button');
 
   toast = Toast
 

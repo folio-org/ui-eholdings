@@ -37,20 +37,25 @@ class ManagedPackageEdit extends Component {
   componentWillReceiveProps(nextProps) {
     let wasPending = this.props.model.update.isPending && !nextProps.model.update.isPending;
     let needsUpdate = !isEqual(this.props.initialValues, nextProps.initialValues);
+    let { router } = this.context;
 
     if (wasPending && needsUpdate) {
-      this.context.router.history.push(
-        `/eholdings/packages/${this.props.model.id}${this.context.router.route.location.search}`,
-        { eholdings: true }
-      );
+      router.history.push({
+        pathname: `/eholdings/packages/${this.props.model.id}`,
+        search: router.route.location.search,
+        state: { eholdings: true }
+      });
     }
   }
 
   handleCancel = () => {
-    this.context.router.history.push(
-      `/eholdings/packages/${this.props.model.id}${this.context.router.route.location.search}`,
-      { eholdings: true }
-    );
+    let { router } = this.context;
+
+    router.history.push({
+      pathname: `/eholdings/packages/${this.props.model.id}`,
+      search: router.route.location.search,
+      state: { eholdings: true }
+    });
   }
 
   render() {
@@ -70,14 +75,21 @@ class ManagedPackageEdit extends Component {
     let actionMenuItems = [
       {
         label: 'Cancel editing',
-        to: `/eholdings/packages/${model.id}${router.route.location.search}`
+        to: {
+          pathname: `/eholdings/packages/${model.id}`,
+          search: router.route.location.search,
+          state: { eholdings: true }
+        }
       }
     ];
 
     if (queryParams) {
       actionMenuItems.push({
         label: 'Full view',
-        to: `/eholdings/packages/${model.id}/edit`
+        to: {
+          pathname: `/eholdings/packages/${model.id}/edit`,
+          state: { eholdings: true }
+        }
       });
     }
 

@@ -285,4 +285,22 @@ describeApplication('ResourceEdit', () => {
       expect(ResourceEditPage.hasErrors).to.be.true;
     });
   });
+
+  describe('visiting the resource show page', () => {
+    beforeEach(function () {
+      return this.visit(`/eholdings/resources/${resource.id}`, () => {
+        expect(ResourceShowPage.$root).to.exist;
+      });
+    });
+
+    describe('clicking the edit button', () => {
+      beforeEach(() => {
+        return ResourceShowPage.clickEditButton();
+      });
+
+      it('should display the back button in pane header', () => {
+        expect(ResourceEditPage.hasBackButton).to.be.true;
+      });
+    });
+  });
 });

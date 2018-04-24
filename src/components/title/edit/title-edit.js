@@ -34,26 +34,32 @@ class TitleEdit extends Component {
       history: PropTypes.shape({
         push: PropTypes.func.isRequired
       }).isRequired
-    }).isRequired
+    }).isRequired,
+    queryParams: PropTypes.object
   };
 
   componentWillReceiveProps(nextProps) {
     let wasPending = this.props.model.update.isPending && !nextProps.model.update.isPending;
     let needsUpdate = !isEqual(this.props.initialValues, nextProps.initialValues);
+    let { router } = this.context;
 
     if (wasPending && needsUpdate) {
-      this.context.router.history.push(
-        `/eholdings/titles/${this.props.model.id}`,
-        { eholdings: true }
-      );
+      router.history.push({
+        pathname: `/eholdings/titles/${this.props.model.id}`,
+        search: router.route.location.search,
+        state: { eholdings: true }
+      });
     }
   }
 
   handleCancel = () => {
-    this.context.router.history.push(
-      `/eholdings/titles/${this.props.model.id}`,
-      { eholdings: true }
-    );
+    let { router } = this.context;
+
+    router.history.push({
+      pathname: `/eholdings/titles/${this.props.model.id}`,
+      search: router.route.location.search,
+      state: { eholdings: true }
+    });
   }
 
   render() {
@@ -65,15 +71,32 @@ class TitleEdit extends Component {
       updateRequest
     } = this.props;
 
+    let {
+      queryParams,
+      router
+    } = this.context;
+
     let actionMenuItems = [
       {
         label: 'Cancel editing',
         to: {
           pathname: `/eholdings/titles/${model.id}`,
+          search: router.route.location.search,
           state: { eholdings: true }
         }
       }
     ];
+
+    if (queryParams.searchType) {
+      actionMenuItems.push({
+        label: 'Full view',
+        to: {
+          pathname: `/eholdings/titles/${model.id}`,
+          state: { eholdings: true }
+        },
+        className: styles['full-view-link']
+      });
+    }
 
     return (
       <div>

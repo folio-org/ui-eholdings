@@ -104,6 +104,7 @@ export default class PackageShow extends Component {
         label: 'Edit',
         to: {
           pathname: `/eholdings/packages/${model.id}/edit`,
+          search: router.route.location.search,
           state: { eholdings: true }
         }
       }
@@ -143,9 +144,14 @@ export default class PackageShow extends Component {
           lastMenu={(
             <PaneMenu>
               <IconButton
+                data-test-eholdings-package-edit-link
                 icon="edit"
                 ariaLabel={`Edit ${model.name}`}
-                href={`/eholdings/packages/${model.id}/edit${router.route.location.search}`}
+                href={{
+                  pathname: `/eholdings/packages/${model.id}/edit`,
+                  search: router.route.location.search,
+                  state: { eholdings: true }
+                }}
               />
             </PaneMenu>
           )}

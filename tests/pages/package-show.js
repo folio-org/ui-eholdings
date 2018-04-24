@@ -40,6 +40,7 @@ import Toast from './toast';
   hasBackButton = isPresent('[data-test-eholdings-details-view-back-button] button');
   clickBackButton = clickable('[data-test-eholdings-details-view-back-button] button');
   detailsPaneContentScrollHeight = property('scrollHeight', '[data-test-eholdings-detail-pane-contents]');
+  clickEditButton = clickable('[data-test-eholdings-package-edit-link]');
 
   detailPaneMouseWheel = triggerable('wheel', '[data-test-eholdings-detail-pane-contents]', {
     bubbles: true,
