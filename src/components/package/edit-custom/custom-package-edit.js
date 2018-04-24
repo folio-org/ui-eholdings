@@ -43,6 +43,7 @@ class CustomPackageEdit extends Component {
     showSelectionModal: false,
     allowFormToSubmit: false,
     packageSelected: this.props.initialValues.isSelected,
+    packageHidden: this.props.initialValues.isHidden,
     formValues: {}
   }
 
@@ -92,6 +93,12 @@ class CustomPackageEdit extends Component {
     });
   };
 
+  handleHiddenToggle = (e) => {
+    this.setState({
+      packageHidden: !e.target.checked
+    });
+  }
+
   handleOnSubmit = (values) => {
     if (this.state.allowFormToSubmit === false && values.isSelected === false) {
       this.setState({
@@ -118,7 +125,8 @@ class CustomPackageEdit extends Component {
 
     let {
       showSelectionModal,
-      packageSelected
+      packageSelected,
+      packageHidden
     } = this.state;
 
     let {
@@ -179,6 +187,39 @@ class CustomPackageEdit extends Component {
                   />
                 </label>
               </DetailsViewSection>
+              <DetailsViewSection label="Visibility">
+                {packageSelected ? (
+                  <div>
+                    <label
+                      data-test-eholdings-package-details-hidden
+                      htmlFor="custom-package-details-toggle-hidden-switch"
+                    >
+                      <h4>
+                        {packageHidden
+                          ? 'Hidden from patrons'
+                          : 'Visible to patrons'}
+                      </h4>
+                      <br />
+                      <Field
+                        name="isHidden"
+                        component={ToggleSwitch}
+                        checked={!packageHidden}
+                        onChange={this.handleHiddenToggle}
+                        id="custom-package-details-toggle-hidden-switch"
+                      />
+                    </label>
+
+                    {packageHidden && (
+                      <div data-test-eholdings-package-details-is-hidden>
+                        {model.visibilityData.reason}
+                      </div>
+                    )}
+                  </div>
+                ) : (
+                  <p>Not shown to patrons.</p>
+                )}
+              </DetailsViewSection>
+
               <DetailsViewSection
                 label="Coverage dates"
               >
@@ -186,6 +227,7 @@ class CustomPackageEdit extends Component {
                   initialValue={initialValues.customCoverages}
                 />
               </DetailsViewSection>
+
               <div className={styles['package-edit-action-buttons']}>
                 <div
                   data-test-eholdings-package-cancel-button

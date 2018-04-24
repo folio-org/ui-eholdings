@@ -71,7 +71,6 @@ class PackageEditRoute extends Component {
 
     // if the package is custom setting the holding status to false
     // or deselecting the package will delete the package from holdings
-
     if (model.isCustom && values.isSelected === false) {
       destroyPackage(model);
     } else {
@@ -92,6 +91,10 @@ class PackageEditRoute extends Component {
         model.isSelected = values.isSelected;
       }
 
+      if ('isHidden' in values) {
+        model.visibilityData.isHidden = values.isHidden;
+      }
+
       if ('name' in values) {
         model.name = values.name;
       }
@@ -99,7 +102,6 @@ class PackageEditRoute extends Component {
       if ('contentType' in values) {
         model.contentType = values.contentType;
       }
-
       updatePackage(model);
     }
   };
@@ -118,7 +120,8 @@ class PackageEditRoute extends Component {
         customCoverages: [{
           beginCoverage: model.customCoverage.beginCoverage,
           endCoverage: model.customCoverage.endCoverage
-        }]
+        }],
+        isHidden: model.visibilityData.isHidden
       };
     } else {
       View = ManagedPackageEdit;
@@ -126,10 +129,10 @@ class PackageEditRoute extends Component {
         customCoverages: [{
           beginCoverage: model.customCoverage.beginCoverage,
           endCoverage: model.customCoverage.endCoverage
-        }]
+        }],
+        isHidden: model.visibilityData.isHidden
       };
     }
-
     return (
       <View
         model={model}
