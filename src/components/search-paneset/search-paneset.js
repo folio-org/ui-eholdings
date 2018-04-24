@@ -112,6 +112,15 @@ export default class SearchPaneset extends React.Component {
       newButton = this.renderNewButton();
     }
 
+    let resultsPaneSub = 'Loading...';
+    if (!isLoading) {
+      resultsPaneSub = `${intl.formatNumber(totalResults)} search result`;
+
+      if (totalResults > 1) {
+        resultsPaneSub += 's';
+      }
+    }
+
     return (
       <div className={styles['search-paneset']}>
         <SearchPaneVignette isHidden={hideFilters} onClick={this.toggleFilters} />
@@ -144,7 +153,7 @@ export default class SearchPaneset extends React.Component {
                   app: 'eholdings'
                 }}
                 paneTitle={capitalize(resultsType)}
-                paneSub={isLoading ? 'Loading...' : `${intl.formatNumber(totalResults)} search results`}
+                paneSub={resultsPaneSub}
                 firstMenu={
                   <div className={styles['results-pane-search-toggle']}>
                     <PaneMenu>

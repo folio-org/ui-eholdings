@@ -96,6 +96,10 @@ describeApplication('PackageSearch', () => {
           return PackageSearchPage.search('SomethingElse');
         });
 
+        it('displays the total number of search results', () => {
+          expect(PackageSearchPage.totalResults).to.equal('1 search result');
+        });
+
         it('removes the preview detail pane', () => {
           expect(PackageSearchPage.packagePreviewPaneIsPresent).to.be.false;
         });

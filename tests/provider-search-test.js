@@ -97,6 +97,10 @@ describeApplication('ProviderSearch', () => {
           return ProviderSearchPage.search('Totally Awesome Co');
         });
 
+        it('displays the total number of search results', () => {
+          expect(ProviderSearchPage.totalResults).to.equal('1 search result');
+        });
+
         it('removes the preview detail pane', () => {
           expect(ProviderSearchPage.providerPreviewPaneIsPresent).to.be.false;
         });
