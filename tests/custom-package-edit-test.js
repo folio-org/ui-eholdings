@@ -275,7 +275,7 @@ describeApplication('CustomPackageEdit', () => {
         });
 
         it('reflects the new content type', () => {
-          expect(PackageShowPage.customContentType).to.equal('E-Journal');
+          expect(PackageShowPage.contentType).to.equal('E-Journal');
         });
       });
     });

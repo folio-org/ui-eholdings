@@ -17,7 +17,6 @@ import TitleListItem from '../../title-list-item';
 import ToggleSwitch from '../../toggle-switch';
 import Modal from '../../modal';
 import CustomCoverage from '../_forms/custom-coverage';
-import ContentType from '../_forms/content-type';
 import NavigationModal from '../../navigation-modal';
 import DetailsViewSection from '../../details-view-section';
 import Toaster from '../../toaster';
@@ -32,7 +31,6 @@ export default class PackageShow extends Component {
     toggleHidden: PropTypes.func.isRequired,
     customCoverageSubmitted: PropTypes.func.isRequired,
     toggleAllowKbToAddTitles: PropTypes.func.isRequired,
-    packageContentTypeSubmitted: PropTypes.func.isRequired
   };
 
   static contextTypes = {
@@ -83,33 +81,6 @@ export default class PackageShow extends Component {
 
   handleCoverageEdit = (isCoverageEditable) => {
     this.setState({ isCoverageEditable });
-  };
-
-  renderContentType = () => {
-    let { model, packageContentTypeSubmitted } = this.props;
-    let content;
-    if (model.isCustom) {
-      content = (
-        <ContentType
-          initialValues={{ contentType: model.contentType }}
-          onSubmit={packageContentTypeSubmitted}
-          isPending={model.update.isPending && 'contentType' in model.update.changedAttributes}
-        />
-      );
-    } else if (model.contentType) {
-      content = (
-        <KeyValue label="Content type">
-          <div data-test-eholdings-package-details-content-type>
-            {model.contentType}
-          </div>
-        </KeyValue>
-      );
-    }
-    return (
-      <div>
-        {content}
-      </div>
-    );
   };
 
   render() {
@@ -187,7 +158,13 @@ export default class PackageShow extends Component {
                   </div>
                 </KeyValue>
 
-                {this.renderContentType()}
+                {model.contentType && (
+                  <KeyValue label="Content type">
+                    <div data-test-eholdings-package-details-content-type>
+                      {model.contentType}
+                    </div>
+                  </KeyValue>
+                )}
 
                 {model.packageType && (
                   <KeyValue label="Package type">
