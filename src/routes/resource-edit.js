@@ -69,7 +69,7 @@ class ResourceEditRoute extends Component {
     let initialValues = {};
     let View;
 
-    if (model.isTitleCustom) {
+    if (model.isTitleCustom || model.destroy.params.isTitleCustom === true) {
       View = CustomResourceEdit;
       initialValues = {
         isSelected: model.isSelected,

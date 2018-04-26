@@ -99,7 +99,10 @@ export const destroy = (type, payload, { path }) => ({
   data: {
     type,
     path,
-    params: { id: payload.data.id },
+    params: {
+      id: payload.data.id,
+      isTitleCustom: payload.data.attributes.isTitleCustom
+    },
     timestamp: Date.now()
   }
 });
