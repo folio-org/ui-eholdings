@@ -75,6 +75,31 @@ describeApplication('CustomResourceEdit', () => {
       });
     });
 
+    describe('entering invalid an invalid url', () => {
+      beforeEach(() => {
+        return ResourceEditPage
+          .inputCustomUrlValue('no-http.com')
+          .clickSave();
+      });
+
+      it('displays a custom url validation error message', () => {
+        expect(ResourceEditPage.validationErrorOnCustomUrl).to
+          .equal('The URL should include http:// or https://');
+      });
+    });
+
+    describe('entering a blank url', () => {
+      beforeEach(() => {
+        return ResourceEditPage
+          .inputCustomUrlValue('')
+          .clickSave();
+      });
+
+      it('goes to the show page & does not display a URL', () => {
+        expect(ResourceShowPage.isUrlPresent).to.equal(false);
+      });
+    });
+
     describe('entering invalid data', () => {
       beforeEach(() => {
         return ResourceEditPage

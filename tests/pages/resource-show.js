@@ -32,6 +32,7 @@ import Toast from './toast';
   providerName = text('[data-test-eholdings-resource-show-provider-name]');
   clickProvider = clickable('[data-test-eholdings-resource-show-provider-name] a');
   packageName = text('[data-test-eholdings-resource-show-package-name]');
+  isUrlPresent = isPresent('[data-test-eholdings-resource-show-url]');
   url = text('[data-test-eholdings-resource-show-url]');
   contentType = text('[data-test-eholdings-resource-show-content-type]');
   hasContentType = isPresent('[data-test-eholdings-resource-show-content-type]');
