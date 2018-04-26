@@ -45,6 +45,7 @@ import Datepicker from './datepicker';
   });
 
   coverageStatement = value('[data-test-eholdings-coverage-statement-textarea] textarea');
+  customUrlFieldValue = value('[data-test-eholdings-custom-url-textfield] input');
   fillCoverageStatement = fillable('[data-test-eholdings-coverage-statement-textarea] textarea');
   blurCoverageStatement = blurrable('[data-test-eholdings-coverage-statement-textarea] textarea');
   coverageStatementHasError = hasClassBeginningWith('[data-test-eholdings-coverage-statement-textarea] textarea', 'feedbackError--');
@@ -58,11 +59,13 @@ import Datepicker from './datepicker';
 
   customEmbargoTextFieldValue = value('[data-test-eholdings-custom-embargo-textfield] input');
   inputEmbargoValue = fillable('[data-test-eholdings-custom-embargo-textfield] input');
+  inputCustomUrlValue = fillable('[data-test-eholdings-custom-url-textfield] input');
   customEmbargoSelectValue = value('[data-test-eholdings-custom-embargo-select] select');
   selectEmbargoUnit = fillable('[data-test-eholdings-custom-embargo-select] select');
   blurEmbargoValue = blurrable('[data-test-eholdings-custom-embargo-textfield] input');
   blurEmbargoUnit = blurrable('[data-test-eholdings-custom-embargo-select] select');
   validationErrorOnEmbargoTextField = text('[data-test-eholdings-custom-embargo-textfield] [class^="feedbackError--"]')
+  validationErrorOnCustomUrl = text('[data-test-eholdings-custom-url-textfield] [class^="feedbackError--"]')
 
   selectPublicationType = fillable('[data-test-eholdings-publication-type-field] select');
   publicationTypeValue = value('[data-test-eholdings-publication-type-field] select');

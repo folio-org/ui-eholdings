@@ -258,7 +258,14 @@ export default function configure() {
   this.get('/packages/:id/resources', nestedResourceRouteFor('package', 'resources'));
 
   this.get('/resources/:id', ({ resources }, request) => {
-    return resources.find(request.params.id);
+    let resource = resources.find(request.params.id);
+
+    // if the ID is 1, it'll be a custom title
+    if (request.params.id === '1') {
+      resource.update('isTitleCustom', true);
+    }
+
+    return resource;
   });
 
   this.put('/resources/:id', ({ resources }, request) => {
@@ -274,6 +281,7 @@ export default function configure() {
       publicationType,
       publisherName,
       name,
+      url,
       description,
       isPeerReviewed
     } = body.data.attributes;
@@ -286,6 +294,7 @@ export default function configure() {
     matchingResource.title.update('isPeerReviewed', isPeerReviewed);
     matchingResource.title.update('description', description);
     matchingResource.title.update('name', name);
+    matchingResource.update('url', url);
     matchingResource.title.update('publicationType', publicationType);
     matchingResource.title.update('publisherName', publisherName);
 

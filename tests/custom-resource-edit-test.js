@@ -35,7 +35,7 @@ describeApplication('CustomResourceEdit', () => {
       package: providerPackage,
       isSelected: true,
       title,
-      url: 'frontside.io',
+      url: 'https://frontside.io',
       isTitleCustom: true
     });
   });
@@ -54,6 +54,10 @@ describeApplication('CustomResourceEdit', () => {
     it('shows a form with embargo fields', () => {
       expect(ResourceEditPage.customEmbargoTextFieldValue).to.equal('0');
       expect(ResourceEditPage.customEmbargoSelectValue).to.equal('');
+    });
+
+    it('shows a form with custom url', () => {
+      expect(ResourceEditPage.customUrlFieldValue).to.equal('https://frontside.io');
     });
 
     it('disables the save button', () => {
@@ -77,6 +81,7 @@ describeApplication('CustomResourceEdit', () => {
           .clickAddRowButton()
           .dateRangeRowList(0).fillDates('12/18/2018', '12/16/2018')
           .inputEmbargoValue('')
+          .inputCustomUrlValue(`http://${new Array(610 + 1).join('a')}`) // create a 610 char string
           .blurEmbargoValue()
           .selectEmbargoUnit('Weeks')
           .clickSave();
@@ -89,6 +94,11 @@ describeApplication('CustomResourceEdit', () => {
       it('displays a validation error for embargo', () => {
         expect(ResourceEditPage.validationErrorOnEmbargoTextField).to.equal('Value cannot be null');
       });
+
+      it('displays a custom url validation error message', () => {
+        expect(ResourceEditPage.validationErrorOnCustomUrl).to
+          .equal('Custom URLs must be 600 characters or less.');
+      });
     });
 
     describe('entering valid data', () => {
@@ -98,6 +108,7 @@ describeApplication('CustomResourceEdit', () => {
           .dateRangeRowList(0).fillDates('12/16/2018', '12/18/2018')
           .inputCoverageStatement('Only 90s kids would understand.')
           .inputEmbargoValue('27')
+          .inputCustomUrlValue('https://bigtestjs.io')
           .blurEmbargoValue()
           .selectEmbargoUnit('Weeks')
           .blurEmbargoUnit();
@@ -132,6 +143,10 @@ describeApplication('CustomResourceEdit', () => {
 
         it('shows the new embargo value', () => {
           expect(ResourceShowPage.customEmbargoPeriod).to.equal('27 Weeks');
+        });
+
+        it('shows the new url value', () => {
+          expect(ResourceShowPage.url).to.equal('https://bigtestjs.io');
         });
       });
     });

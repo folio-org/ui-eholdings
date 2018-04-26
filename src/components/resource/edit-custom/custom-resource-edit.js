@@ -11,6 +11,7 @@ import { processErrors } from '../../utilities';
 
 import DetailsView from '../../details-view';
 import CustomCoverageFields, { validate as validateCoverageDates } from '../_fields/custom-coverage';
+import CustomUrlFields, { validate as validateUrlFields } from '../_fields/custom-url';
 import CoverageStatementFields, { validate as validateCoverageStatement } from '../_fields/coverage-statement';
 import CustomEmbargoFields, { validate as validateEmbargo } from '../_fields/custom-embargo';
 import DetailsViewSection from '../../details-view-section';
@@ -87,6 +88,11 @@ class CustomResourceEdit extends Component {
           bodyContent={(
             <form onSubmit={handleSubmit(onSubmit)}>
               <DetailsViewSection
+                label="Resources"
+              >
+                <CustomUrlFields />
+              </DetailsViewSection>
+              <DetailsViewSection
                 label="Coverage dates"
               >
                 <CustomCoverageFields
@@ -143,6 +149,7 @@ const validate = (values, props) => {
   return Object.assign({},
     validateCoverageDates(values, props),
     validateCoverageStatement(values),
+    validateUrlFields(values),
     validateEmbargo(values));
 };
 

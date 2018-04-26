@@ -238,8 +238,8 @@ export default class ResourceShow extends Component {
 
               {model.url && (
                 <DetailsViewSection label="Resource information">
-                  <KeyValue label="Managed URL">
-                    <div data-test-eholdings-resource-show-managed-url>
+                  <KeyValue label={`${model.isTitleCustom ? 'Custom' : 'Managed'} URL`}>
+                    <div data-test-eholdings-resource-show-url>
                       <a href={model.url} target="_blank">{model.url}</a>
                     </div>
                   </KeyValue>
