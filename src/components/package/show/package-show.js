@@ -147,7 +147,7 @@ export default class PackageShow extends Component {
                 data-test-eholdings-package-edit-link
                 icon="edit"
                 ariaLabel={`Edit ${model.name}`}
-                href={{
+                to={{
                   pathname: `/eholdings/packages/${model.id}/edit`,
                   search: router.route.location.search,
                   state: { eholdings: true }

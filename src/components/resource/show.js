@@ -149,7 +149,7 @@ export default class ResourceShow extends Component {
                 data-test-eholdings-resource-edit-link
                 icon="edit"
                 ariaLabel={`Edit ${model.name}`}
-                href={{
+                to={{
                   pathname: `/eholdings/resources/${model.id}/edit`,
                   state: { eholdings: true }
                 }}
