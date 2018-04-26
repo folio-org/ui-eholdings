@@ -91,8 +91,8 @@ class PackageEditRoute extends Component {
         model.isSelected = values.isSelected;
       }
 
-      if ('isHidden' in values) {
-        model.visibilityData.isHidden = values.isHidden;
+      if ('isVisible' in values) {
+        model.visibilityData.isHidden = !values.isVisible;
       }
 
       if ('name' in values) {
@@ -121,7 +121,7 @@ class PackageEditRoute extends Component {
           beginCoverage: model.customCoverage.beginCoverage,
           endCoverage: model.customCoverage.endCoverage
         }],
-        isHidden: model.visibilityData.isHidden
+        isVisible: !model.visibilityData.isHidden
       };
     } else {
       View = ManagedPackageEdit;
@@ -130,7 +130,7 @@ class PackageEditRoute extends Component {
           beginCoverage: model.customCoverage.beginCoverage,
           endCoverage: model.customCoverage.endCoverage
         }],
-        isHidden: model.visibilityData.isHidden
+        isVisible: !model.visibilityData.isHidden
       };
     }
     return (

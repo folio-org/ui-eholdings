@@ -43,7 +43,7 @@ class CustomPackageEdit extends Component {
     showSelectionModal: false,
     allowFormToSubmit: false,
     packageSelected: this.props.initialValues.isSelected,
-    packageHidden: this.props.initialValues.isHidden,
+    packageVisible: this.props.initialValues.isVisible,
     formValues: {}
   }
 
@@ -93,9 +93,9 @@ class CustomPackageEdit extends Component {
     });
   };
 
-  handleHiddenToggle = (e) => {
+  handleVisibilityToggle = (e) => {
     this.setState({
-      packageHidden: !e.target.checked
+      packageVisible: e.target.checked
     });
   }
 
@@ -126,7 +126,7 @@ class CustomPackageEdit extends Component {
     let {
       showSelectionModal,
       packageSelected,
-      packageHidden
+      packageVisible
     } = this.state;
 
     let {
@@ -195,21 +195,21 @@ class CustomPackageEdit extends Component {
                       htmlFor="custom-package-details-toggle-hidden-switch"
                     >
                       <h4>
-                        {packageHidden
-                          ? 'Hidden from patrons'
-                          : 'Visible to patrons'}
+                        {packageVisible
+                          ? 'Visible to patrons'
+                          : 'Hidden from patrons'}
                       </h4>
                       <br />
                       <Field
-                        name="isHidden"
+                        name="isVisible"
                         component={ToggleSwitch}
-                        checked={!packageHidden}
-                        onChange={this.handleHiddenToggle}
+                        checked={packageVisible}
+                        onChange={this.handleVisibilityToggle}
                         id="custom-package-details-toggle-hidden-switch"
                       />
                     </label>
 
-                    {packageHidden && (
+                    {packageVisible && (
                       <div data-test-eholdings-package-details-is-hidden>
                         {model.visibilityData.reason}
                       </div>
