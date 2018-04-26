@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { reduxForm } from 'redux-form';
+import { reduxForm, Field } from 'redux-form';
 import isEqual from 'lodash/isEqual';
 
 import {
@@ -13,11 +13,14 @@ import DetailsView from '../../details-view';
 import CoverageFields, { validate as validateCoverageDates } from '../_fields/custom-coverage';
 import DetailsViewSection from '../../details-view-section';
 import NavigationModal from '../../navigation-modal';
+import ToggleSwitch from '../../toggle-switch/toggle-switch';
+import Modal from '../../modal/modal';
 import Toaster from '../../toaster';
 import styles from './managed-package-edit.css';
 
 class ManagedPackageEdit extends Component {
   static propTypes = {
+    change: PropTypes.func,
     model: PropTypes.object.isRequired,
     initialValues: PropTypes.object.isRequired,
     handleSubmit: PropTypes.func,
@@ -34,10 +37,30 @@ class ManagedPackageEdit extends Component {
     queryParams: PropTypes.object
   };
 
+  state = {
+    showSelectionModal: false,
+    allowFormToSubmit: false,
+    packageSelected: this.props.initialValues.isSelected,
+    packageVisible: this.props.initialValues.isVisible,
+    packageAllowedToAddTitles: this.props.initialValues.allowKbToAddTitles,
+    formValues: {}
+  }
+
   componentWillReceiveProps(nextProps) {
     let wasPending = this.props.model.update.isPending && !nextProps.model.update.isPending;
-    let needsUpdate = !isEqual(this.props.initialValues, nextProps.initialValues);
+    let needsUpdate = !isEqual(this.props.model, nextProps.model);
     let { router } = this.context;
+
+    if ((nextProps.initialValues.isSelected !== this.props.initialValues.isSelected) ||
+    (nextProps.initialValues.isVisible !== this.props.initialValues.isVisible) ||
+    (nextProps.initialValues.packageAllowedToAddTitles !== this.props.initialValues.packageAllowedToAddTitles)) {
+      this.setState({
+        ...this.state,
+        packageSelected: nextProps.initialValues.isSelected,
+        packageVisible: nextProps.initialValues.isVisible,
+        packageAllowedToAddTitles: nextProps.initialValues.allowKbToAddTitles
+      });
+    }
 
     if (wasPending && needsUpdate) {
       router.history.push({
@@ -58,14 +81,77 @@ class ManagedPackageEdit extends Component {
     });
   }
 
+  handleSelectionToggle = (e) => {
+    if (e.target.checked) {
+      this.setState({
+        packageSelected: e.target.checked,
+        packageAllowedToAddTitles: true
+      });
+    } else {
+      this.setState({
+        packageSelected: e.target.checked
+      });
+    }
+  }
+
+  commitSelectionToggle = () => {
+    this.setState({
+      showSelectionModal: false,
+      allowFormToSubmit: true
+    }, () => { this.handleOnSubmit(this.state.formValues); });
+  };
+
+  cancelSelectionToggle = () => {
+    this.setState({
+      showSelectionModal: false,
+      packageSelected: true,
+    }, () => {
+      this.props.change('isSelected', true);
+    });
+  };
+
+  handleVisibilityToggle = (e) => {
+    this.setState({
+      packageVisible: e.target.checked
+    });
+  }
+
+  handleAllowKbToAddTitlesToggle = (e) => {
+    this.setState({
+      packageAllowedToAddTitles: e.target.checked
+    });
+  };
+
+  handleOnSubmit = (values) => {
+    if (this.state.allowFormToSubmit === false && values.isSelected === false) {
+      this.setState({
+        showSelectionModal: true,
+        formValues: values
+      });
+    } else {
+      this.setState({
+        allowFormToSubmit: false,
+        formValues: {}
+      }, () => {
+        this.props.onSubmit(values);
+      });
+    }
+  }
+
   render() {
     let {
       model,
       initialValues,
       handleSubmit,
-      onSubmit,
       pristine
     } = this.props;
+
+    let {
+      showSelectionModal,
+      packageSelected,
+      packageVisible,
+      packageAllowedToAddTitles
+    } = this.state;
 
     let {
       queryParams,
@@ -102,13 +188,104 @@ class ManagedPackageEdit extends Component {
           paneTitle={model.name}
           actionMenuItems={actionMenuItems}
           bodyContent={(
-            <form onSubmit={handleSubmit(onSubmit)}>
+            <form onSubmit={handleSubmit(this.handleOnSubmit)}>
+              <DetailsViewSection
+                label="Holding status"
+              >
+                <label
+                  data-test-eholdings-package-details-selected
+                  htmlFor="managed-package-details-toggle-switch"
+                >
+                  <h4>{packageSelected ? 'Selected' : 'Not selected'}</h4>
+                  <br />
+
+                  <Field
+                    name="isSelected"
+                    component={ToggleSwitch}
+                    checked={packageSelected}
+                    onChange={this.handleSelectionToggle}
+                    id="managed-package-details-toggle-switch"
+                  />
+                </label>
+              </DetailsViewSection>
+              <DetailsViewSection label="Visibility">
+                {packageSelected ? (
+                  <div>
+                    <label
+                      data-test-eholdings-package-details-visible
+                      htmlFor="managed-package-details-toggle-visible-switch"
+                    >
+                      <h4>
+                        {packageVisible
+                          ? 'Visible to patrons'
+                          : 'Hidden from patrons'}
+                      </h4>
+                      <br />
+                      <Field
+                        name="isVisible"
+                        component={ToggleSwitch}
+                        checked={packageVisible}
+                        onChange={this.handleVisibilityToggle}
+                        id="managed-package-details-toggle-visible-switch"
+                      />
+                    </label>
+
+                    {!packageVisible && (
+                      <div data-test-eholdings-package-details-is-hidden-reason>
+                        {model.visibilityData.reason}
+                      </div>
+                    )}
+                  </div>
+                ) : (
+                  <p>Not shown to patrons.</p>
+                )}
+              </DetailsViewSection>
+              <DetailsViewSection label="Title management">
+                {packageSelected ? (
+                  <div>
+                    {packageAllowedToAddTitles != null ? (
+                      <div>
+                        <label
+                          data-test-eholdings-package-details-allow-add-new-titles
+                          htmlFor="managed-package-details-toggle-allow-add-new-titles-switch"
+                        >
+                          <h4>
+                            {packageAllowedToAddTitles
+                              ? 'Automatically select new titles'
+                              : 'Do not automatically select new titles'}
+                          </h4>
+                          <br />
+                          <Field
+                            name="allowKbToAddTitles"
+                            component={ToggleSwitch}
+                            checked={packageAllowedToAddTitles}
+                            onChange={this.handleAllowKbToAddTitlesToggle}
+                            id="managed-package-details-toggle-allow-add-new-titles-switch"
+                          />
+                        </label>
+                      </div>
+                        ) : (
+                          <label
+                            data-test-eholdings-package-details-allow-add-new-titles
+                            htmlFor="managed-package-details-toggle-allow-add-new-titles-switch"
+                          >
+                            <Icon icon="spinner-ellipsis" />
+                          </label>
+                        )}
+                  </div>
+                  ) : (
+                    <p>Knowledge base does not automatically select titles.</p>
+                  )}
+              </DetailsViewSection>
               <DetailsViewSection
                 label="Coverage dates"
               >
-                <CoverageFields
-                  initialValue={initialValues.customCoverages}
-                />
+                {packageSelected ? (
+                  <CoverageFields
+                    initialValue={initialValues.customCoverages}
+                  />) : (
+                    <p>Add the package to holdings to set custom coverage dates.</p>
+                )}
               </DetailsViewSection>
               <div className={styles['package-edit-action-buttons']}>
                 <div
@@ -141,6 +318,32 @@ class ManagedPackageEdit extends Component {
             </form>
           )}
         />
+        <Modal
+          open={showSelectionModal}
+          size="small"
+          label="Remove package from holdings?"
+          scope="root"
+          id="eholdings-package-confirmation-modal"
+          footer={(
+            <div>
+              <Button
+                buttonStyle="primary"
+                onClick={this.commitSelectionToggle}
+                data-test-eholdings-package-deselection-confirmation-modal-yes
+              >
+                Yes, remove
+              </Button>
+              <Button
+                onClick={this.cancelSelectionToggle}
+                data-test-eholdings-package-deselection-confirmation-modal-no
+              >
+                No, do not remove
+              </Button>
+            </div>
+          )}
+        >
+           Are you sure you want to remove this package and all its titles from your holdings? All customizations will be lost.
+        </Modal>
       </div>
     );
   }

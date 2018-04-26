@@ -73,6 +73,14 @@ class PackageEditRoute extends Component {
     // or deselecting the package will delete the package from holdings
     if (model.isCustom && values.isSelected === false) {
       destroyPackage(model);
+    } else if (values.isSelected === false) {
+      // When de-selecting a managed package
+      // need to clear out customizations before sending to server
+      model.isSelected = false;
+      model.visibilityData.isHidden = false;
+      model.customCoverage = {};
+      model.allowKbToAddTitles = false;
+      updatePackage(model);
     } else {
       let beginCoverage = '';
       let endCoverage = '';
@@ -95,6 +103,10 @@ class PackageEditRoute extends Component {
         model.visibilityData.isHidden = !values.isVisible;
       }
 
+      if ('allowKbToAddTitles' in values) {
+        model.allowKbToAddTitles = values.allowKbToAddTitles;
+      }
+
       if ('name' in values) {
         model.name = values.name;
       }
@@ -102,6 +114,7 @@ class PackageEditRoute extends Component {
       if ('contentType' in values) {
         model.contentType = values.contentType;
       }
+
       updatePackage(model);
     }
   };
@@ -126,11 +139,13 @@ class PackageEditRoute extends Component {
     } else {
       View = ManagedPackageEdit;
       initialValues = {
+        isSelected: model.isSelected,
         customCoverages: [{
           beginCoverage: model.customCoverage.beginCoverage,
           endCoverage: model.customCoverage.endCoverage
         }],
-        isVisible: !model.visibilityData.isHidden
+        isVisible: !model.visibilityData.isHidden,
+        allowKbToAddTitles: model.allowKbToAddTitles
       };
     }
     return (
