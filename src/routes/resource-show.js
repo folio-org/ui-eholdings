@@ -66,8 +66,8 @@ class ResourceShowRoute extends Component {
   coverageSubmitted = (values) => {
     let { model, updateResource } = this.props;
     model.customCoverages = values.customCoverages.map((dateRange) => {
-      let beginCoverage = !dateRange.beginCoverage ? null : moment(dateRange.beginCoverage).format('YYYY-MM-DD');
-      let endCoverage = !dateRange.endCoverage ? null : moment(dateRange.endCoverage).format('YYYY-MM-DD');
+      let beginCoverage = !dateRange.beginCoverage ? null : moment(dateRange.beginCoverage).tz('UTC').format('YYYY-MM-DD');
+      let endCoverage = !dateRange.endCoverage ? null : moment(dateRange.endCoverage).tz('UTC').format('YYYY-MM-DD');
 
       return {
         beginCoverage,
