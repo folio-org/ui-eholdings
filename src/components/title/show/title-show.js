@@ -49,7 +49,7 @@ export default function TitleShow({ model }, { queryParams, router }) {
           data-test-eholdings-title-edit-link
           icon="edit"
           ariaLabel={`Edit ${model.name}`}
-          href={{
+          to={{
             pathname: `/eholdings/titles/${model.id}/edit`,
             search: router.route.location.search,
             state: { eholdings: true }
