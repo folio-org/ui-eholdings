@@ -211,7 +211,7 @@ describeApplication('ResourceShow', () => {
         });
 
         it('closes the modal', () => {
-          expect(NavigationModal.exists).to.be.false;
+          expect(NavigationModal.isPresent).to.be.false;
         });
 
         it('continues navigation', function () {
@@ -226,7 +226,7 @@ describeApplication('ResourceShow', () => {
         });
 
         it('closes the modal', () => {
-          expect(NavigationModal.exists).to.be.false;
+          expect(NavigationModal.isPresent).to.be.false;
         });
 
         it.always.skip('does not navigation away', function () {

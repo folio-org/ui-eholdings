@@ -9,7 +9,7 @@ import {
   text,
   value
 } from '@bigtest/interactor';
-import { isRootPresent, hasClassBeginningWith } from './helpers';
+import { hasClassBeginningWith } from './helpers';
 import Toast from './toast';
 
 
@@ -20,9 +20,7 @@ import Toast from './toast';
   hasDeselectFinalTitleWarning = isPresent('[data-test-eholdings-deselect-final-title-warning]');
 }
 
-@interactor class ResourceShowNavigationModal {
-  exists = isRootPresent();
-}
+@interactor class ResourceShowNavigationModal {}
 
 @interactor class ResourceShowPage {
   titleName = text('[data-test-eholdings-details-view-name="resource"]');

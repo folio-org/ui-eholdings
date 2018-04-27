@@ -7,10 +7,9 @@ import {
   triggerable,
   blurrable
 } from '@bigtest/interactor';
-import { hasClassBeginningWith, isRootPresent } from './helpers';
+import { hasClassBeginningWith } from './helpers';
 
 export default @interactor class Datepicker {
-  exists = isRootPresent();
   inputValue = value('input');
   clickInput = clickable('input');
   fillInput = fillable('input');

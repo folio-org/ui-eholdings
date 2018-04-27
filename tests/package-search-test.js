@@ -23,7 +23,7 @@ describeApplication('PackageSearch', () => {
     });
 
     return this.visit('/eholdings/?searchType=packages', () => {
-      expect(PackageSearchPage.exists).to.be.true;
+      expect(PackageSearchPage.isPresent).to.be.true;
     });
   });
 
@@ -161,7 +161,7 @@ describeApplication('PackageSearch', () => {
         });
 
         it('hides the search ui', () => {
-          expect(PackageSearchPage.exists).to.be.false;
+          expect(PackageSearchPage.isPresent).to.be.false;
         });
 
         describe('and clicking the back button', () => {
@@ -217,7 +217,7 @@ describeApplication('PackageSearch', () => {
             .when(() => PackageSearchPage.hasLoaded)
             .do(() => (
               this.visit('/eholdings/?searchType=packages&q=Package&filter[type]=ejournal', () => {
-                expect(PackageSearchPage.exists).to.be.true;
+                expect(PackageSearchPage.isPresent).to.be.true;
               })
             ));
         });
@@ -266,7 +266,7 @@ describeApplication('PackageSearch', () => {
             .when(() => PackageSearchPage.hasLoaded)
             .do(() => (
               this.visit('/eholdings/?searchType=packages&q=Package&filter[selected]=false', () => {
-                expect(PackageSearchPage.exists).to.be.true;
+                expect(PackageSearchPage.isPresent).to.be.true;
               })
             ));
         });
@@ -461,7 +461,7 @@ describeApplication('PackageSearch', () => {
     describe('visiting the page with an existing sort', () => {
       beforeEach(function () {
         return this.visit('/eholdings/?searchType=packages&q=academic&sort=name', () => {
-          expect(PackageSearchPage.exists).to.be.true;
+          expect(PackageSearchPage.isPresent).to.be.true;
         });
       });
 
@@ -533,7 +533,7 @@ describeApplication('PackageSearch', () => {
     describe('navigating directly to a search page', () => {
       beforeEach(function () {
         return this.visit('/eholdings/?searchType=packages&offset=51&q=other', () => {
-          expect(PackageSearchPage.exists).to.be.true;
+          expect(PackageSearchPage.isPresent).to.be.true;
         });
       });
 

@@ -9,7 +9,7 @@ import {
   text,
   triggerable
 } from '@bigtest/interactor';
-import { isRootPresent, getComputedStyle, hasClassBeginningWith } from './helpers';
+import { getComputedStyle, hasClassBeginningWith } from './helpers';
 import Datepicker from './datepicker';
 import Toast from './toast';
 
@@ -19,7 +19,6 @@ import Toast from './toast';
 }
 
 @interactor class PackageShowPage {
-  exist = isRootPresent();
   allowKbToAddTitles = property('[data-test-eholdings-package-details-allow-add-new-titles] input', 'checked');
   hasAllowKbToAddTitles = isPresent('[data-test-eholdings-package-details-toggle-allow-add-new-titles] input');
   hasAllowKbToAddTitlesToggle = isPresent('[package-details-toggle-allow-add-new-titles-switch]');

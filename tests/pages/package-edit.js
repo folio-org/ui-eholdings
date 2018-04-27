@@ -6,24 +6,21 @@ import {
   interactor,
   property,
 } from '@bigtest/interactor';
-import { hasClassBeginningWith, isRootPresent } from './helpers';
+import { hasClassBeginningWith } from './helpers';
 import Toast from './toast';
 import Datepicker from './datepicker';
 
 @interactor class PackageEditNavigationModal {
-  exists = isRootPresent();
   cancelNavigation = clickable('[data-test-navigation-modal-dismiss]');
   confirmNavigation = clickable('[data-test-navigation-modal-continue]');
 }
 
 @interactor class PackageEditModal {
-  exists = isRootPresent();
   cancelDeselection = clickable('[data-test-eholdings-package-deselection-confirmation-modal-no]');
   confirmDeselection = clickable('[data-test-eholdings-package-deselection-confirmation-modal-yes]');
 }
 
 @interactor class PackageEditPage {
-  exists = isRootPresent();
   navigationModal = new PackageEditNavigationModal('#navigation-modal');
 
   clickCancel = clickable('[data-test-eholdings-package-cancel-button] button');

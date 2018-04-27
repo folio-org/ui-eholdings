@@ -11,10 +11,9 @@ import {
   value,
   text
 } from '@bigtest/interactor';
-import { isRootPresent, hasClassBeginningWith } from './helpers';
+import { hasClassBeginningWith } from './helpers';
 
 @interactor class ProviderSearchPage {
-  exists = isRootPresent();
   fillSearch = fillable('[data-test-search-field] input[name="search"]');
   submitSearch = clickable('[data-test-search-submit]');
   hasSearchField = isPresent('[data-test-search-field] input[name="search"]');

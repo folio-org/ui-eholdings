@@ -37,7 +37,7 @@ describeApplication('ResourceCustomCoverage', () => {
     });
 
     it('does not display coverage', () => {
-      expect(ResourceCoverage.exists).to.be.false;
+      expect(ResourceCoverage.isPresent).to.be.false;
     });
   });
 
@@ -90,7 +90,7 @@ describeApplication('ResourceCustomCoverage', () => {
         });
 
         it('shows a navigation confirmation modal', () => {
-          expect(ResourcePage.navigationModal.exists).to.be.true;
+          expect(ResourcePage.navigationModal.isPresent).to.be.true;
         });
 
         it.always('does not navigate away', function () {

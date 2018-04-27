@@ -11,10 +11,9 @@ import {
   text,
   is
 } from '@bigtest/interactor';
-import { isRootPresent, hasClassBeginningWith } from './helpers';
+import { hasClassBeginningWith } from './helpers';
 
 @interactor class TitleSearchPage {
-  exists = isRootPresent();
   fillSearch = fillable('[data-test-title-search-field] input[name="search"]');
   submitSearch = clickable('[data-test-search-submit]');
   isSearchButtonDisabled = property('[data-test-search-submit]', 'disabled');

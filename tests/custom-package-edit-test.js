@@ -78,7 +78,7 @@ describeApplication('CustomPackageEdit', () => {
         });
 
         it('shows the modal', () => {
-          expect(PackageEditPage.modal.exists).to.equal(true);
+          expect(PackageEditPage.modal.isPresent).to.equal(true);
         });
 
         it('reflects the desired state of holding status', () => {
@@ -89,7 +89,7 @@ describeApplication('CustomPackageEdit', () => {
           beforeEach(() => {
             return PackageEditPage
               .do(() => PackageEditPage.modal.confirmDeselection())
-              .when(() => expect(PackageSearchPage.exists).to.equal(true));
+              .when(() => expect(PackageSearchPage.isPresent).to.equal(true));
           });
 
           it('transitions to the package search page', function () {
@@ -113,7 +113,7 @@ describeApplication('CustomPackageEdit', () => {
           });
 
           it('removes the modal', () => {
-            expect(PackageEditPage.modal.exists).to.equal(false);
+            expect(PackageEditPage.modal.isPresent).to.equal(false);
           });
 
           it('reflects the correct holding status', () => {
@@ -242,7 +242,7 @@ describeApplication('CustomPackageEdit', () => {
           });
 
           it('navigates from editing page', () => {
-            expect(PackageShowPage.exist).to.eq(true);
+            expect(PackageShowPage.isPresent).to.eq(true);
           });
         });
 
@@ -252,7 +252,7 @@ describeApplication('CustomPackageEdit', () => {
           });
 
           it('reamins on the editing page', () => {
-            expect(PackageEditPage.exists).to.eq(true);
+            expect(PackageEditPage.isPresent).to.eq(true);
           });
         });
       });

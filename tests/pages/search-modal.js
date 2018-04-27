@@ -4,10 +4,8 @@ import {
   attribute,
   value,
 } from '@bigtest/interactor';
-import { isRootPresent } from './helpers';
 
 export default @interactor class SearchModal {
-  exists = isRootPresent();
   searchType = attribute('data-test-search-form', '[data-test-search-form]')
   searchFieldValue = value('[data-test-search-field] input[name="search"]');
 

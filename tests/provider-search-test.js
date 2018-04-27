@@ -152,7 +152,7 @@ describeApplication('ProviderSearch', () => {
         });
 
         it('hides the search UI', () => {
-          expect(ProviderSearchPage.exists).to.be.false;
+          expect(ProviderSearchPage.isPresent).to.be.false;
         });
 
         describe('and clicking the back button', () => {

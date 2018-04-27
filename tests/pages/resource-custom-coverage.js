@@ -6,11 +6,9 @@ import {
   property,
   text,
 } from '@bigtest/interactor';
-import { isRootPresent } from './helpers';
 import Datepicker from './datepicker';
 
 @interactor class ResourceCustomCoveragePage {
-  exists = isRootPresent();
   clickAddButton = clickable('[data-test-eholdings-coverage-form-add-button] button');
   hasForm = isPresent('[data-test-eholdings-coverage-form] form');
   clickCancelButton = clickable('[data-test-eholdings-inline-form-cancel-button] button');

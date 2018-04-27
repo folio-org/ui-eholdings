@@ -13,7 +13,7 @@ describeApplication('DetailsView', () => {
   describe('visiting a package with paged resources', () => {
     beforeEach(function () {
       return this.visit('/eholdings/packages/paged_pkg', () => {
-        expect(PackageShowPage.exist).to.be.true;
+        expect(PackageShowPage.isPresent).to.be.true;
       });
     });
 

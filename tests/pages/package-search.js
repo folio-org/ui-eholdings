@@ -11,10 +11,8 @@ import {
   text,
   is
 } from '@bigtest/interactor';
-import { isRootPresent } from './helpers';
 
 @interactor class PackageSearchPage {
-  exists = isRootPresent();
   fillSearch = fillable('[data-test-search-field] input[name="search"]');
   submitSearch = clickable('[data-test-search-submit]');
   isSearchDisabled = property('[data-test-search-submit]', 'disabled');

@@ -51,7 +51,7 @@ describeApplication('TitleSearch', () => {
     });
 
     return this.visit('/eholdings/?searchType=titles', () => {
-      expect(TitleSearchPage.exists).to.be.true;
+      expect(TitleSearchPage.isPresent).to.be.true;
     });
   });
 
@@ -194,7 +194,7 @@ describeApplication('TitleSearch', () => {
         });
 
         it('hides the search ui', () => {
-          expect(TitleSearchPage.exists).to.be.false;
+          expect(TitleSearchPage.isPresent).to.be.false;
         });
 
         describe('and clicking the back button', () => {
@@ -255,7 +255,7 @@ describeApplication('TitleSearch', () => {
             .when(() => TitleSearchPage.hasLoaded)
             .do(() => (
               this.visit('/eholdings/?searchType=titles&q=Title&filter[type]=journal', () => {
-                expect(TitleSearchPage.exists).to.be.true;
+                expect(TitleSearchPage.isPresent).to.be.true;
               })
             ));
         });
@@ -316,7 +316,7 @@ describeApplication('TitleSearch', () => {
             .when(() => TitleSearchPage.hasLoaded)
             .do(() => (
               this.visit('/eholdings/?searchType=titles&q=Title&filter[selected]=false', () => {
-                expect(TitleSearchPage.exists).to.be.true;
+                expect(TitleSearchPage.isPresent).to.be.true;
               })
             ));
         });
@@ -422,7 +422,7 @@ describeApplication('TitleSearch', () => {
           .when(() => TitleSearchPage.hasLoaded)
           .do(() => (
             this.visit('/eholdings/?searchType=titles&q=TestPublisher&searchfield=publisher', () => {
-              expect(TitleSearchPage.exists).to.be.true;
+              expect(TitleSearchPage.isPresent).to.be.true;
             })
           ));
       });

@@ -45,7 +45,7 @@ describeApplication('ProviderShow package search', () => {
     });
 
     it('shows the package search modal', () => {
-      expect(ProviderShowPage.searchModal.exists).to.be.true;
+      expect(ProviderShowPage.searchModal.isPresent).to.be.true;
     });
   });
 
@@ -56,7 +56,7 @@ describeApplication('ProviderShow package search', () => {
     });
 
     it('hides the package search modal', () => {
-      expect(ProviderShowPage.searchModal.exists).to.be.false;
+      expect(ProviderShowPage.searchModal.isPresent).to.be.false;
     });
 
     it('displays packages matching the search term', () => {
@@ -82,7 +82,7 @@ describeApplication('ProviderShow package search', () => {
       });
 
       it.always('leaves the search modal open', () => {
-        expect(ProviderShowPage.searchModal.exists).to.be.true;
+        expect(ProviderShowPage.searchModal.isPresent).to.be.true;
       });
 
       it('displays packages matching the search term ordered by name', () => {
@@ -99,7 +99,7 @@ describeApplication('ProviderShow package search', () => {
       });
 
       it.always('leaves the search modal open', () => {
-        expect(ProviderShowPage.searchModal.exists).to.be.true;
+        expect(ProviderShowPage.searchModal.isPresent).to.be.true;
       });
 
       it('displays selected packages matching the search term', () => {
@@ -115,7 +115,7 @@ describeApplication('ProviderShow package search', () => {
       });
 
       it.always('leaves the search modal open', () => {
-        expect(ProviderShowPage.searchModal.exists).to.be.true;
+        expect(ProviderShowPage.searchModal.isPresent).to.be.true;
       });
 
       it('displays packages matching the search term and content type', () => {
