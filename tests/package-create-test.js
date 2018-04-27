@@ -61,11 +61,7 @@ describeApplication('PackageCreate', () => {
       return PackageCreatePage
         .fillName('My Package')
         .addCoverage()
-        // Currently, `.dateRangeRowList(0)` immediately throws when
-        // it does not exist. When `@bigtest/interaction` is updated,
-        // this `.once().do()` pattern shouldn't be necessary.
-        .once(() => PackageCreatePage.dateRangeRowList(0))
-        .do(list => list.fillDates('12/16/2018', '12/18/2018'))
+        .append(PackageCreatePage.dateRangeRowList(0).fillDates('12/16/2018', '12/18/2018'))
         .save();
     });
 

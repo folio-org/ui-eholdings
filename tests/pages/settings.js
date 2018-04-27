@@ -4,15 +4,15 @@ import {
   clickable,
   fillable,
   isPresent,
-  page,
+  interactor,
   property,
   value
-} from '@bigtest/interaction';
+} from '@bigtest/interactor';
 import Toast from './toast';
 
 import { hasClassBeginningWith } from './helpers';
 
-@page class SettingsPage {
+@interactor class SettingsPage {
   customerId = value('[data-test-eholdings-settings-customerid] input');
   apiKey = value('[data-test-eholdings-settings-apikey] input');
   fillCustomerId = fillable('[data-test-eholdings-settings-customerid] input');
@@ -20,12 +20,12 @@ import { hasClassBeginningWith } from './helpers';
   blurCustomerId = blurrable('[data-test-eholdings-settings-customerid] input');
   blurApiKey = blurrable('[data-test-eholdings-settings-apikey] input');
   hasVisibleActions = isPresent('[data-test-eholdings-settings-kb-actions]');
-  customerIdFieldIsInvalid = hasClassBeginningWith('feedbackError--', '[data-test-eholdings-settings-customerid] input');
-  apiKeyFieldIsInvalid = hasClassBeginningWith('feedbackError--', '[data-test-eholdings-settings-apikey] input');
+  customerIdFieldIsInvalid = hasClassBeginningWith('[data-test-eholdings-settings-customerid] input', 'feedbackError--');
+  apiKeyFieldIsInvalid = hasClassBeginningWith('[data-test-eholdings-settings-apikey] input', 'feedbackError--');
   save = clickable('[data-test-eholdings-settings-kb-actions] [type="submit"]');
-  saveButtonDisabled = property('disabled', '[data-test-eholdings-settings-kb-actions] [type="submit"]');
+  saveButtonDisabled = property('[data-test-eholdings-settings-kb-actions] [type="submit"]', 'disabled');
   cancel = clickable('[data-test-eholdings-settings-kb-actions] [type="reset"]');
-  apiKeyInputType = attribute('type', '[data-test-eholdings-settings-apikey] input');
+  apiKeyInputType = attribute('[data-test-eholdings-settings-apikey] input', 'type');
 
   toast = Toast;
 }

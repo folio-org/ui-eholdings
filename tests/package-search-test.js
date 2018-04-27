@@ -74,8 +74,8 @@ describeApplication('PackageSearch', () => {
 
     describe('clicking a search results list item', () => {
       beforeEach(() => {
-        return PackageSearchPage.interaction
-          .once(() => PackageSearchPage.hasLoaded)
+        return PackageSearchPage
+          .when(() => PackageSearchPage.hasLoaded)
           .do(() => PackageSearchPage.packageList(0).clickThrough());
       });
 
@@ -182,8 +182,8 @@ describeApplication('PackageSearch', () => {
 
     describe('filtering by content type', () => {
       beforeEach(() => {
-        return PackageSearchPage.interaction
-          .once(() => PackageSearchPage.hasLoaded)
+        return PackageSearchPage
+          .when(() => PackageSearchPage.hasLoaded)
           .clickFilter('type', 'ebook');
       });
 
@@ -201,8 +201,8 @@ describeApplication('PackageSearch', () => {
 
       describe('clearing the filters', () => {
         beforeEach(() => {
-          return PackageSearchPage.interaction
-            .once(() => PackageSearchPage.hasLoaded)
+          return PackageSearchPage
+            .when(() => PackageSearchPage.hasLoaded)
             .clearFilter('type');
         });
 
@@ -213,8 +213,8 @@ describeApplication('PackageSearch', () => {
 
       describe('visiting the page with an existing filter', () => {
         beforeEach(function () {
-          return PackageSearchPage.interaction
-            .once(() => PackageSearchPage.hasLoaded)
+          return PackageSearchPage
+            .when(() => PackageSearchPage.hasLoaded)
             .do(() => (
               this.visit('/eholdings/?searchType=packages&q=Package&filter[type]=ejournal', () => {
                 expect(PackageSearchPage.exists).to.be.true;
@@ -234,8 +234,8 @@ describeApplication('PackageSearch', () => {
 
     describe('filtering by selection status', () => {
       beforeEach(() => {
-        return PackageSearchPage.interaction
-          .once(() => PackageSearchPage.hasLoaded)
+        return PackageSearchPage
+          .when(() => PackageSearchPage.hasLoaded)
           .clickFilter('selected', 'true');
       });
 
@@ -250,8 +250,8 @@ describeApplication('PackageSearch', () => {
 
       describe('clearing the filters', () => {
         beforeEach(() => {
-          return PackageSearchPage.interaction
-            .once(() => PackageSearchPage.hasLoaded)
+          return PackageSearchPage
+            .when(() => PackageSearchPage.hasLoaded)
             .clearFilter('selected');
         });
 
@@ -262,8 +262,8 @@ describeApplication('PackageSearch', () => {
 
       describe('visiting the page with an existing filter', () => {
         beforeEach(function () {
-          return PackageSearchPage.interaction
-            .once(() => PackageSearchPage.hasLoaded)
+          return PackageSearchPage
+            .when(() => PackageSearchPage.hasLoaded)
             .do(() => (
               this.visit('/eholdings/?searchType=packages&q=Package&filter[selected]=false', () => {
                 expect(PackageSearchPage.exists).to.be.true;
@@ -283,8 +283,8 @@ describeApplication('PackageSearch', () => {
 
     describe('with a more specific query', () => {
       beforeEach(() => {
-        return PackageSearchPage.interaction
-          .once(() => PackageSearchPage.hasLoaded)
+        return PackageSearchPage
+          .when(() => PackageSearchPage.hasLoaded)
           .search('Package1');
       });
 
@@ -295,8 +295,8 @@ describeApplication('PackageSearch', () => {
 
     describe('clicking another search type', () => {
       beforeEach(() => {
-        return PackageSearchPage.interaction
-          .once(() => PackageSearchPage.hasLoaded)
+        return PackageSearchPage
+          .when(() => PackageSearchPage.hasLoaded)
           .do(() => PackageSearchPage.packageList(0).click())
           .changeSearchType('titles');
       });
@@ -386,8 +386,8 @@ describeApplication('PackageSearch', () => {
 
       describe('then filtering by sort options', () => {
         beforeEach(() => {
-          return PackageSearchPage.interaction
-            .once(() => PackageSearchPage.hasLoaded)
+          return PackageSearchPage
+            .when(() => PackageSearchPage.hasLoaded)
             .clickFilter('sort', 'name');
         });
 
@@ -427,8 +427,8 @@ describeApplication('PackageSearch', () => {
 
           describe('then clicking another search type', () => {
             beforeEach(() => {
-              return PackageSearchPage.interaction
-                .once(() => PackageSearchPage.hasLoaded)
+              return PackageSearchPage
+                .when(() => PackageSearchPage.hasLoaded)
                 .changeSearchType('titles');
             });
 
@@ -513,8 +513,8 @@ describeApplication('PackageSearch', () => {
 
       describe('and then scrolling down', () => {
         beforeEach(() => {
-          return PackageSearchPage.interaction
-            .once(() => PackageSearchPage.hasLoaded)
+          return PackageSearchPage
+            .when(() => PackageSearchPage.hasLoaded)
             .scrollToOffset(26);
         });
 
@@ -548,8 +548,8 @@ describeApplication('PackageSearch', () => {
 
       describe('and then scrolling up', () => {
         beforeEach(() => {
-          return PackageSearchPage.interaction
-            .once(() => PackageSearchPage.hasLoaded)
+          return PackageSearchPage
+            .when(() => PackageSearchPage.hasLoaded)
             .scrollToOffset(0);
         });
 

@@ -58,7 +58,7 @@ describeApplication('ProviderShow', () => {
     });
 
     it('displays isHidden indicator', () => {
-      expect(ProviderShowPage.packageList(0).isHidden).to.equal(packages[0].visibilityData.isHidden);
+      expect(ProviderShowPage.packageList(0).isPackageHidden).to.equal(packages[0].visibilityData.isHidden);
     });
 
     it.always('should not display the back button', () => {
@@ -81,8 +81,8 @@ describeApplication('ProviderShow', () => {
 
     describe('scrolling down the list of packages', () => {
       beforeEach(() => {
-        return ProviderShowPage.interaction
-          .once(() => ProviderShowPage.packageListHasLoaded)
+        return ProviderShowPage
+          .when(() => ProviderShowPage.packageListHasLoaded)
           .scrollToPackageOffset(26);
       });
 

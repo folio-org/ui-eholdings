@@ -1,9 +1,9 @@
 import {
-  page,
+  interactor,
   isVisible,
   clickable,
   computed
-} from '@bigtest/interaction';
+} from '@bigtest/interactor';
 
 // the current implementation of `isPresent` throws if the root does not exist
 const isRootPresent = () => {
@@ -16,9 +16,9 @@ const isRootPresent = () => {
   });
 };
 
-@page class NavigationModal {
+@interactor class NavigationModal {
   exists = isRootPresent();
-  isVisible = isVisible();
+  isModalVisible = isVisible();
   clickContinue = clickable('[data-test-navigation-modal-continue]');
   clickDismiss = clickable('[data-test-navigation-modal-dismiss]');
 }

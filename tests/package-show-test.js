@@ -90,8 +90,8 @@ describeApplication('PackageShow', () => {
         });
 
         // converge on the previous package loading first
-        return PackageShowPage.interaction
-          .once(() => PackageShowPage.titleList().length > 0)
+        return PackageShowPage
+          .when(() => PackageShowPage.titleList().length > 0)
           .do(() => {
             return this.visit(`/eholdings/packages/${otherPackage.id}`, () => {
               expect(PackageShowPage.$root).to.exist;
@@ -144,8 +144,8 @@ describeApplication('PackageShow', () => {
 
     describe.skip('scrolling down the list of titles', () => {
       beforeEach(() => {
-        return PackageShowPage.interaction
-          .once(() => PackageShowPage.titleList().length > 0)
+        return PackageShowPage
+          .when(() => PackageShowPage.titleList().length > 0)
           .scrollToTitleOffset(26);
       });
 

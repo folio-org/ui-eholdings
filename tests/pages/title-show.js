@@ -5,13 +5,13 @@ import {
   computed,
   isPresent,
   property,
-  page,
+  interactor,
   text
-} from '@bigtest/interaction';
+} from '@bigtest/interactor';
 import { getComputedStyle } from './helpers';
 import Toast from './toast';
 
-@page class TitleShowPage {
+@interactor class TitleShowPage {
   paneTitle = text('[data-test-eholdings-details-view-pane-title]');
   titleName = text('[data-test-eholdings-details-view-name="title"]');
   publisherName = text('[data-test-eholdings-title-show-publisher-name]');
@@ -22,10 +22,10 @@ import Toast from './toast';
   hasBackButton = isPresent('[data-test-eholdings-details-view-back-button] button');
   hasErrors = isPresent('[data-test-eholdings-details-view-error="title"]');
   hasIdentifiersList = isPresent('[data-test-eholdings-identifiers-list-item]');
-  packageContainerHeight = property('offsetHeight', '[data-test-eholdings-details-view-list="title"]');
-  detailsPaneScrollsHeight = property('scrollHeight', '[data-test-eholdings-detail-pane-contents]');
-  detailsPaneContentsHeight = property('offsetHeight', '[data-test-eholdings-detail-pane-contents]');
-  detailsPaneContentsOverFlowY = getComputedStyle('overflow-y', '[data-test-eholdings-detail-pane-contents]');
+  packageContainerHeight = property('[data-test-eholdings-details-view-list="title"]', 'offsetHeight');
+  detailsPaneScrollsHeight = property('[data-test-eholdings-detail-pane-contents]', 'scrollHeight');
+  detailsPaneContentsHeight = property('[data-test-eholdings-detail-pane-contents]', 'offsetHeight');
+  detailsPaneContentsOverFlowY = getComputedStyle('[data-test-eholdings-detail-pane-contents]', 'overflow-y');
   peerReviewedStatus = text('[data-test-eholdings-peer-reviewed-field]');
   descriptionText = text('[data-test-eholdings-description-field]');
   clickEditButton = clickable('[data-test-eholdings-title-edit-link]');
@@ -50,11 +50,11 @@ import Toast from './toast';
   });
 
   identifiersList = collection('[data-test-eholdings-identifiers-list-item]', {
-    text: text()
+    identifierText: text()
   });
 
   contributorsList = collection('[data-test-eholdings-contributors-list-item]', {
-    text: text()
+    contributorText: text()
   });
 }
 

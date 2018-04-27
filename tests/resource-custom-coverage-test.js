@@ -123,8 +123,8 @@ describeApplication('ResourceCustomCoverage', () => {
         });
 
         it('does not put any values in the new inputs', () => {
-          expect(ResourceCoverage.dateRangeRowList(1).beginDate.value).to.equal('');
-          expect(ResourceCoverage.dateRangeRowList(1).endDate.value).to.equal('');
+          expect(ResourceCoverage.dateRangeRowList(1).beginDate.inputValue).to.equal('');
+          expect(ResourceCoverage.dateRangeRowList(1).endDate.inputValue).to.equal('');
         });
 
         describe('clicking the clear row button', () => {

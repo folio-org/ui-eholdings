@@ -4,27 +4,27 @@ import {
   collection,
   fillable,
   isPresent,
-  page,
+  interactor,
   property,
   text,
   value
-} from '@bigtest/interaction';
+} from '@bigtest/interactor';
 import { isRootPresent, hasClassBeginningWith } from './helpers';
 import Toast from './toast';
 
 
-@page class ResourceShowDeselectionModal {
+@interactor class ResourceShowDeselectionModal {
   confirmDeselection = clickable('[data-test-eholdings-resource-deselection-confirmation-modal-yes]');
   cancelDeselection = clickable('[data-test-eholdings-resource-deselection-confirmation-modal-no]');
   hasDeselectTitleWarning = isPresent('[data-test-eholdings-deselect-title-warning]');
   hasDeselectFinalTitleWarning = isPresent('[data-test-eholdings-deselect-final-title-warning]');
 }
 
-@page class ResourceShowNavigationModal {
+@interactor class ResourceShowNavigationModal {
   exists = isRootPresent();
 }
 
-@page class ResourceShowPage {
+@interactor class ResourceShowPage {
   titleName = text('[data-test-eholdings-details-view-name="resource"]');
   descriptionText = text('[data-test-eholdings-description-field]');
   publisherName = text('[data-test-eholdings-resource-show-publisher-name]');
@@ -38,25 +38,25 @@ import Toast from './toast';
   contentType = text('[data-test-eholdings-resource-show-content-type]');
   hasContentType = isPresent('[data-test-eholdings-resource-show-content-type]');
   hasErrors = isPresent('[data-test-eholdings-details-view-error="resource"]');
-  isSelected = property('checked', '[data-test-eholdings-resource-show-selected] input');
-  isSelecting = hasClassBeginningWith('is-pending--', '[data-test-eholdings-resource-show-selected] [data-test-toggle-switch]');
+  isSelected = property('[data-test-eholdings-resource-show-selected] input', 'checked');
+  isSelecting = hasClassBeginningWith('[data-test-eholdings-resource-show-selected] [data-test-toggle-switch]', 'is-pending--');
   addCoverage = clickable('[data-test-eholdings-coverage-form-add-button] button');
   hasBackButton = isPresent('[data-test-eholdings-details-view-back-button] button');
   clickBackButton = clickable('[data-test-eholdings-details-view-back-button] button');
   paneTitle = text('[data-test-eholdings-details-view-pane-title]');
   paneSub = text('[data-test-eholdings-details-view-pane-sub]');
-  isSelectedToggleDisabled = property('disabled', '[data-test-eholdings-resource-show-selected] input[type=checkbox]');
+  isSelectedToggleDisabled = property('[data-test-eholdings-resource-show-selected] input[type=checkbox]', 'disabled');
   toggleIsSelected = clickable('[data-test-eholdings-resource-show-selected] input');
   isEditingCustomEmbargo = isPresent('[data-test-eholdings-embargo-form] form');
   clickPackage = clickable('[data-test-eholdings-resource-show-package-name] a');
   deselectionModal = new ResourceShowDeselectionModal('#eholdings-resource-deselection-confirmation-modal');
   navigationModal = new ResourceShowNavigationModal('#navigation-modal');
   hasHiddenToggle = isPresent('[data-test-eholdings-resource-toggle-hidden] input');
-  isVisible = property('checked', '[data-test-eholdings-resource-toggle-hidden] input');
+  isResourceVisible = property('[data-test-eholdings-resource-toggle-hidden] input', 'checked');
   hiddenReason = text('[data-test-eholdings-resource-toggle-hidden-reason]');
-  isHiddenDisabled = property('disabled', '[data-test-eholdings-resource-toggle-hidden] input[type=checkbox]');
+  isHiddenDisabled = property('[data-test-eholdings-resource-toggle-hidden] input[type=checkbox]', 'disabled');
   toggleIsHidden = clickable('[data-test-eholdings-resource-toggle-hidden] input');
-  isHiding = hasClassBeginningWith('is-pending--', '[data-test-eholdings-resource-toggle-hidden] [data-test-toggle-switch]');
+  isHiding = hasClassBeginningWith('[data-test-eholdings-resource-toggle-hidden] [data-test-toggle-switch]', 'is-pending--');
   clickEditButton = clickable('[data-test-eholdings-resource-edit-link]');
 
   peerReviewedStatus = text('[data-test-eholdings-peer-reviewed-field]');
@@ -77,10 +77,10 @@ import Toast from './toast';
   selectEmbargoUnit = fillable('[data-test-eholdings-custom-embargo-select] select');
   clickCustomEmbargoSaveButton = clickable('[data-test-eholdings-inline-form-save-button] button');
   hasCustomEmbargoSaveButton = isPresent('[data-test-eholdings-inline-form-save-button] button');
-  isCustomEmbargoSaveDisabled = property('disabled', '[data-test-eholdings-inline-form-save-button] button');
+  isCustomEmbargoSaveDisabled = property('[data-test-eholdings-inline-form-save-button] button', 'disabled');
   clickCustomEmbargoCancelButton = clickable('[data-test-eholdings-inline-form-cancel-button] button');
   hasCustomEmbargoCancelButton = isPresent('[data-test-eholdings-inline-form-cancel-button] button');
-  isCustomEmbargoCancelDisabled = property('disabled', '[data-test-eholdings-inline-form-cancel-button] button');
+  isCustomEmbargoCancelDisabled = property('[data-test-eholdings-inline-form-cancel-button] button', 'disabled');
   validationErrorOnTextField = text('[data-test-eholdings-custom-embargo-textfield] [class^="feedbackError--"]');
   validationErrorOnSelect = text('[data-test-eholdings-custom-embargo-select] [class^="feedbackError--"]');
   clickCustomEmbargoEditButton = clickable('[data-test-eholdings-resource-edit-custom-embargo-button] button');
@@ -95,13 +95,13 @@ import Toast from './toast';
   hasCoverageStatementEditButton = isPresent('[data-test-eholdings-resource-edit-coverage-statement-button] button');
   clickCoverageStatementSaveButton = clickable('[data-test-eholdings-inline-form-save-button] button');
   hasCoverageStatementSaveButton = isPresent('[data-test-eholdings-inline-form-save-button] button');
-  isCoverageStatementSaveDisabled = property('disabled', '[data-test-eholdings-inline-form-save-button] button');
+  isCoverageStatementSaveDisabled = property('[data-test-eholdings-inline-form-save-button] button', 'disabled');
   clickCoverageStatementCancelButton = clickable('[data-test-eholdings-inline-form-cancel-button] button');
   hasCoverageStatementCancelButton = isPresent('[data-test-eholdings-inline-form-cancel-button] button');
-  isCoverageStatementCancelDisabled = property('disabled', '[data-test-eholdings-inline-form-cancel-button] button');
+  isCoverageStatementCancelDisabled = property('[data-test-eholdings-inline-form-cancel-button] button', 'disabled');
   fillCoverageStatement = fillable('[data-test-eholdings-coverage-statement-textarea] textarea');
   blurCoverageStatement = blurrable('[data-test-eholdings-coverage-statement-textarea] textarea');
-  coverageStatementHasError = hasClassBeginningWith('feedbackError--', '[data-test-eholdings-coverage-statement-textarea] textarea');
+  coverageStatementHasError = hasClassBeginningWith('[data-test-eholdings-coverage-statement-textarea] textarea', 'feedbackError--');
   validationErrorOnCoverageStatement = text('[data-test-eholdings-coverage-statement-textarea] [class^="feedbackError--"]');
 
   inputCoverageStatement(statement) {
@@ -113,11 +113,11 @@ import Toast from './toast';
   hasManagedCoverageList = isPresent('[data-test-eholdings-resource-show-managed-coverage-list]');
 
   identifiersList = collection('[data-test-eholdings-identifiers-list-item]', {
-    text: text()
+    indentifierText: text()
   });
 
   contributorsList = collection('[data-test-eholdings-contributors-list-item]', {
-    text: text()
+    contributorText: text()
   });
 }
 

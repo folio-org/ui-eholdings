@@ -70,9 +70,9 @@ describeApplication('ManagedResourceEdit', () => {
 
     describe('entering invalid data', () => {
       beforeEach(() => {
-        return ResourceEditPage.interaction
+        return ResourceEditPage
           .clickAddRowButton()
-          .once(() => ResourceEditPage.dateRangeRowList().length > 0)
+          .when(() => ResourceEditPage.dateRangeRowList().length > 0)
           .do(() => {
             return ResourceEditPage
               .inputCoverageStatement(`Lorem ipsum dolor sit amet, consectetuer adipiscing elit.
@@ -107,9 +107,9 @@ describeApplication('ManagedResourceEdit', () => {
 
     describe('entering valid data', () => {
       beforeEach(() => {
-        return ResourceEditPage.interaction
+        return ResourceEditPage
           .clickAddRowButton()
-          .once(() => ResourceEditPage.dateRangeRowList().length > 0)
+          .when(() => ResourceEditPage.dateRangeRowList().length > 0)
           .do(() => {
             return ResourceEditPage
               .inputCoverageStatement('Only 90s kids would understand.')

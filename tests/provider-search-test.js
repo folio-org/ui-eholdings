@@ -75,8 +75,8 @@ describeApplication('ProviderSearch', () => {
 
     describe('clicking a search results list item', () => {
       beforeEach(() => {
-        return ProviderSearchPage.interaction
-          .once(() => ProviderSearchPage.hasLoaded)
+        return ProviderSearchPage
+          .when(() => ProviderSearchPage.hasLoaded)
           .do(() => ProviderSearchPage.providerList(0).clickThrough());
       });
 
@@ -183,8 +183,8 @@ describeApplication('ProviderSearch', () => {
 
     describe('clicking another search type', () => {
       beforeEach(() => {
-        return ProviderSearchPage.interaction
-          .once(() => ProviderSearchPage.hasLoaded)
+        return ProviderSearchPage
+          .when(() => ProviderSearchPage.hasLoaded)
           .do(() => ProviderSearchPage.providerList(0).clickThrough())
           .append(ProviderSearchPage.changeSearchType('packages'));
       });
@@ -409,8 +409,8 @@ describeApplication('ProviderSearch', () => {
 
       describe('and then scrolling down', () => {
         beforeEach(() => {
-          return ProviderSearchPage.interaction
-            .once(() => ProviderSearchPage.hasLoaded)
+          return ProviderSearchPage
+            .when(() => ProviderSearchPage.hasLoaded)
             .do(() => ProviderSearchPage.scrollToOffset(26));
         });
 
@@ -444,11 +444,10 @@ describeApplication('ProviderSearch', () => {
 
       describe('and then scrolling up', () => {
         beforeEach(() => {
-          return ProviderSearchPage.interaction
-            .once(() => ProviderSearchPage.hasLoaded)
+          return ProviderSearchPage
+            .when(() => ProviderSearchPage.hasLoaded)
             .do(() => ProviderSearchPage.scrollToOffset(0));
         });
-
 
         it('shows the total results', () => {
           expect(ProviderSearchPage.totalResults).to.equal('75 search results');

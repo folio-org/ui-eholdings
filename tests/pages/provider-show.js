@@ -3,15 +3,15 @@ import {
   collection,
   computed,
   isPresent,
-  page,
+  interactor,
   text,
   clickable
-} from '@bigtest/interaction';
+} from '@bigtest/interactor';
 
 import Toast from './toast';
 import SearchModal from './search-modal';
 
-@page class ProviderShowPage {
+@interactor class ProviderShowPage {
   paneTitle = text('[data-test-eholdings-details-view-pane-title]');
   name = text('[data-test-eholdings-details-view-name="provider"]');
   numPackages = text('[data-test-eholdings-provider-details-packages-total]');
@@ -28,7 +28,7 @@ import SearchModal from './search-modal';
     name: text('[data-test-eholdings-package-list-item-name]'),
     selectedLabel: text('[data-test-eholdings-title-list-item-title-selected]'),
     isHiddenLabel: text('[data-test-eholdings-package-list-item-title-hidden]'),
-    isHidden: computed(function () {
+    isPackageHidden: computed(function () {
       return this.isHiddenLabel === 'Hidden';
     }),
     numTitles: text('[data-test-eholdings-package-list-item-num-titles]'),

@@ -6,18 +6,18 @@ import {
   computed,
   fillable,
   isPresent,
-  page,
+  interactor,
   value,
   text,
   is
-} from '@bigtest/interaction';
+} from '@bigtest/interactor';
 import { isRootPresent } from './helpers';
 
-@page class PackageSearchPage {
+@interactor class PackageSearchPage {
   exists = isRootPresent();
   fillSearch = fillable('[data-test-search-field] input[name="search"]');
   submitSearch = clickable('[data-test-search-submit]');
-  isSearchDisabled = property('disabled', '[data-test-search-submit]');
+  isSearchDisabled = property('[data-test-search-submit]', 'disabled');
   hasSearchField = isPresent('[data-test-search-field] input[name="search"]');
   hasSearchFilters = isPresent('[data-test-eholdings-search-filters="packages"]');
   searchFieldValue = value('[data-test-search-field] input[name="search"]');
@@ -78,7 +78,7 @@ import { isRootPresent } from './helpers';
     isSelected: computed(function () {
       return this.isSelectedText === 'Selected';
     }),
-    isActive: is('[class*="is-selected"]'),
+    isActive: is(this.$root, '[class*="is-selected"]'),
     clickThrough: clickable()
   });
 

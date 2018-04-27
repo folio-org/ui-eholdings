@@ -1,4 +1,4 @@
-import { computed } from '@bigtest/interaction';
+import { computed } from '@bigtest/interactor';
 
 export const isRootPresent = () => {
   return computed(function () {
@@ -10,13 +10,13 @@ export const isRootPresent = () => {
   });
 };
 
-export const hasClassBeginningWith = (className, selector) => {
+export const hasClassBeginningWith = (selector, className) => {
   return computed(function () {
     return this.$(selector).className.includes(className);
   });
 };
 
-export const getComputedStyle = (className, selector) => {
+export const getComputedStyle = (selector, className) => {
   return computed(function () {
     let element = this.$(selector);
     return window.getComputedStyle(element)[className];

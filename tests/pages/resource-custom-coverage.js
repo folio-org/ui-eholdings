@@ -2,14 +2,14 @@ import {
   clickable,
   collection,
   isPresent,
-  page,
+  interactor,
   property,
   text,
-} from '@bigtest/interaction';
+} from '@bigtest/interactor';
 import { isRootPresent } from './helpers';
 import Datepicker from './datepicker';
 
-@page class ResourceCustomCoveragePage {
+@interactor class ResourceCustomCoveragePage {
   exists = isRootPresent();
   clickAddButton = clickable('[data-test-eholdings-coverage-form-add-button] button');
   hasForm = isPresent('[data-test-eholdings-coverage-form] form');
@@ -17,7 +17,7 @@ import Datepicker from './datepicker';
   clickSaveButton = clickable('[data-test-eholdings-inline-form-save-button] button');
   clickEditButton = clickable('[data-test-eholdings-coverage-form-edit-button] button')
   hasCancelButton = isPresent('[data-test-eholdings-inline-form-cancel-button] button');
-  isSaveButtonDisabled = property('disabled', '[data-test-eholdings-inline-form-save-button] button');
+  isSaveButtonDisabled = property('[data-test-eholdings-inline-form-save-button] button', 'disabled');
   hasSaveButton = isPresent('[data-test-eholdings-inline-form-save-button] button');
   hasAddButton = isPresent('[data-test-eholdings-coverage-form-add-button] button');
   hasEditButton = isPresent('[data-test-eholdings-coverage-form-edit-button]');

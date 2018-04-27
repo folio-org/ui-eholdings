@@ -35,8 +35,8 @@ describeApplication('CustomPackageEdit', () => {
     });
 
     it('shows blank datepicker fields', () => {
-      expect(PackageEditPage.dateRangeRowList(0).beginDate.value).to.equal('');
-      expect(PackageEditPage.dateRangeRowList(0).endDate.value).to.equal('');
+      expect(PackageEditPage.dateRangeRowList(0).beginDate.inputValue).to.equal('');
+      expect(PackageEditPage.dateRangeRowList(0).endDate.inputValue).to.equal('');
     });
 
     it('disables the save button', () => {
@@ -87,9 +87,9 @@ describeApplication('CustomPackageEdit', () => {
 
         describe('clicking confirm', () => {
           beforeEach(() => {
-            return PackageEditPage.interaction
+            return PackageEditPage
               .do(() => PackageEditPage.modal.confirmDeselection())
-              .once(() => expect(PackageSearchPage.exists).to.equal(true));
+              .when(() => expect(PackageSearchPage.exists).to.equal(true));
           });
 
           it('transitions to the package search page', function () {
@@ -125,10 +125,10 @@ describeApplication('CustomPackageEdit', () => {
 
     describe('entering invalid data', () => {
       beforeEach(() => {
-        return PackageEditPage.interaction
-          .once(() => PackageEditPage.dateRangeRowList().length > 0)
+        return PackageEditPage
+          .when(() => PackageEditPage.dateRangeRowList().length > 0)
           .do(() => {
-            return PackageEditPage.interaction
+            return PackageEditPage
               .append(PackageEditPage.dateRangeRowList(0).fillDates('12/18/2018', '12/16/2018'))
               .clickSave();
           });
@@ -141,8 +141,8 @@ describeApplication('CustomPackageEdit', () => {
 
     describe('entering valid data', () => {
       beforeEach(() => {
-        return PackageEditPage.interaction
-          .once(() => PackageEditPage.dateRangeRowList().length > 0)
+        return PackageEditPage
+          .when(() => PackageEditPage.dateRangeRowList().length > 0)
           .do(() => {
             return PackageEditPage.dateRangeRowList(0).fillDates('12/16/2018', '12/18/2018');
           });
@@ -204,7 +204,7 @@ describeApplication('CustomPackageEdit', () => {
 
     describe('entering invalid data', () => {
       beforeEach(() => {
-        return PackageEditPage.interaction
+        return PackageEditPage
           .name('')
           .append(PackageEditPage.dateRangeRowList(0).fillDates('12/18/2018', '12/16/2018'))
           .clickSave();
@@ -314,7 +314,7 @@ describeApplication('CustomPackageEdit', () => {
 
     describe('entering valid data and clicking save', () => {
       beforeEach(() => {
-        return PackageEditPage.interaction
+        return PackageEditPage
           .name('A Different Name')
           .append(PackageEditPage.dateRangeRowList(0).fillDates('12/16/2018', '12/18/2018'))
           .clickSave();

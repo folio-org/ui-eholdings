@@ -140,11 +140,11 @@ describeApplication('PackageCustomCoverage', () => {
           });
 
           it('accepts valid begin date', () => {
-            expect(PackageShowPage.beginDate.value).to.equal('12/16/2018');
+            expect(PackageShowPage.beginDate.inputValue).to.equal('12/16/2018');
           });
 
           it('accepts valid end date', () => {
-            expect(PackageShowPage.endDate.value).to.equal('12/24/2018');
+            expect(PackageShowPage.endDate.inputValue).to.equal('12/24/2018');
           });
 
           it('save button is enabled', () => {
@@ -177,7 +177,7 @@ describeApplication('PackageCustomCoverage', () => {
           });
 
           it('accepts valid begin date', () => {
-            expect(PackageShowPage.beginDate.value).to.equal('12/16/2018');
+            expect(PackageShowPage.beginDate.inputValue).to.equal('12/16/2018');
           });
 
           it('save button is enabled', () => {

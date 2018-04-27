@@ -75,8 +75,8 @@ describeApplication('CustomResourceEdit', () => {
       beforeEach(() => {
         return ResourceEditPage
           .clickAddRowButton()
-          .once(() => ResourceEditPage.dateRangeRowList().length > 0)
-          .do(() => ResourceEditPage.interaction
+          .when(() => ResourceEditPage.dateRangeRowList().length > 0)
+          .do(() => ResourceEditPage
             .append(ResourceEditPage.dateRangeRowList(0).fillDates('12/18/2018', '12/16/2018'))
             .inputEmbargoValue('')
             .blurEmbargoValue()
@@ -97,8 +97,8 @@ describeApplication('CustomResourceEdit', () => {
       beforeEach(() => {
         return ResourceEditPage
           .clickAddRowButton()
-          .once(() => ResourceEditPage.dateRangeRowList().length > 0)
-          .do(() => ResourceEditPage.interaction
+          .when(() => ResourceEditPage.dateRangeRowList().length > 0)
+          .do(() => ResourceEditPage
             .inputCoverageStatement('Only 90s kids would understand.')
             .append(ResourceEditPage.dateRangeRowList(0).fillDates('12/16/2018', '12/18/2018'))
             .inputEmbargoValue('27')
@@ -186,7 +186,7 @@ describeApplication('CustomResourceEdit', () => {
 
     describe('entering invalid data', () => {
       beforeEach(() => {
-        return ResourceEditPage.interaction
+        return ResourceEditPage
           .append(ResourceEditPage.dateRangeRowList(0).fillDates('12/18/2018', '12/16/2018'))
           .inputCoverageStatement(`Lorem ipsum dolor sit amet, consectetuer adipiscing elit.
             Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis
@@ -214,7 +214,7 @@ describeApplication('CustomResourceEdit', () => {
 
     describe('entering valid data', () => {
       beforeEach(() => {
-        return ResourceEditPage.interaction
+        return ResourceEditPage
           .append(ResourceEditPage.dateRangeRowList(0).fillDates('12/16/2018', '12/18/2018'))
           .inputCoverageStatement('Refinance your home loans.')
           .inputEmbargoValue('27')
