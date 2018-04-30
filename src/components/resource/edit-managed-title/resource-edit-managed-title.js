@@ -40,6 +40,13 @@ class ResourceEditManagedTitle extends Component {
     let wasPending = this.props.model.update.isPending && !nextProps.model.update.isPending;
     let needsUpdate = !isEqual(this.props.initialValues, nextProps.initialValues);
 
+    if (nextProps.initialValues.isSelected !== this.props.initialValues.isSelected) {
+      this.setState({
+        ...this.state,
+        managedResourceSelected: nextProps.initialValues.isSelected
+      });
+    }
+
     if (wasPending && needsUpdate) {
       this.context.router.history.push(
         `/eholdings/resources/${this.props.model.id}`,
