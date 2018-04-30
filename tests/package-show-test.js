@@ -89,14 +89,9 @@ describeApplication('PackageShow', () => {
           titleCount: 2
         });
 
-        // converge on the previous package loading first
-        return PackageShowPage
-          .when(() => PackageShowPage.titleList().length > 0)
-          .do(() => {
-            return this.visit(`/eholdings/packages/${otherPackage.id}`, () => {
-              expect(PackageShowPage.$root).to.exist;
-            });
-          });
+        return this.visit(`/eholdings/packages/${otherPackage.id}`, () => {
+          expect(PackageShowPage.$root).to.exist;
+        });
       });
 
       it('displays the different package', () => {
@@ -144,9 +139,7 @@ describeApplication('PackageShow', () => {
 
     describe.skip('scrolling down the list of titles', () => {
       beforeEach(() => {
-        return PackageShowPage
-          .when(() => PackageShowPage.titleList().length > 0)
-          .scrollToTitleOffset(26);
+        return PackageShowPage.scrollToTitleOffset(26);
       });
 
       it('should display the next page of related titles', () => {

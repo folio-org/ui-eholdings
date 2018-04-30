@@ -87,9 +87,7 @@ describeApplication('CustomPackageEdit', () => {
 
         describe('clicking confirm', () => {
           beforeEach(() => {
-            return PackageEditPage
-              .do(() => PackageEditPage.modal.confirmDeselection())
-              .when(() => expect(PackageSearchPage.isPresent).to.equal(true));
+            return PackageEditPage.modal.confirmDeselection();
           });
 
           it('transitions to the package search page', function () {
@@ -126,12 +124,8 @@ describeApplication('CustomPackageEdit', () => {
     describe('entering invalid data', () => {
       beforeEach(() => {
         return PackageEditPage
-          .when(() => PackageEditPage.dateRangeRowList().length > 0)
-          .do(() => {
-            return PackageEditPage
-              .dateRangeRowList(0).fillDates('12/18/2018', '12/16/2018')
-              .clickSave();
-          });
+          .dateRangeRowList(0).fillDates('12/18/2018', '12/16/2018')
+          .clickSave();
       });
 
       it('displays a validation error for coverage', () => {
@@ -141,11 +135,7 @@ describeApplication('CustomPackageEdit', () => {
 
     describe('entering valid data', () => {
       beforeEach(() => {
-        return PackageEditPage
-          .when(() => PackageEditPage.dateRangeRowList().length > 0)
-          .do(() => {
-            return PackageEditPage.dateRangeRowList(0).fillDates('12/16/2018', '12/18/2018');
-          });
+        return PackageEditPage.dateRangeRowList(0).fillDates('12/16/2018', '12/18/2018');
       });
 
       describe('clicking cancel', () => {

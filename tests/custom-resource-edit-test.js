@@ -75,13 +75,11 @@ describeApplication('CustomResourceEdit', () => {
       beforeEach(() => {
         return ResourceEditPage
           .clickAddRowButton()
-          .when(() => ResourceEditPage.dateRangeRowList().length > 0)
-          .do(() => ResourceEditPage
-            .dateRangeRowList(0).fillDates('12/18/2018', '12/16/2018')
-            .inputEmbargoValue('')
-            .blurEmbargoValue()
-            .selectEmbargoUnit('Weeks')
-            .clickSave());
+          .dateRangeRowList(0).fillDates('12/18/2018', '12/16/2018')
+          .inputEmbargoValue('')
+          .blurEmbargoValue()
+          .selectEmbargoUnit('Weeks')
+          .clickSave();
       });
 
       it('displays a validation error for coverage', () => {
@@ -97,14 +95,12 @@ describeApplication('CustomResourceEdit', () => {
       beforeEach(() => {
         return ResourceEditPage
           .clickAddRowButton()
-          .when(() => ResourceEditPage.dateRangeRowList().length > 0)
-          .do(() => ResourceEditPage
-            .inputCoverageStatement('Only 90s kids would understand.')
-            .dateRangeRowList(0).fillDates('12/16/2018', '12/18/2018')
-            .inputEmbargoValue('27')
-            .blurEmbargoValue()
-            .selectEmbargoUnit('Weeks')
-            .blurEmbargoUnit());
+          .dateRangeRowList(0).fillDates('12/16/2018', '12/18/2018')
+          .inputCoverageStatement('Only 90s kids would understand.')
+          .inputEmbargoValue('27')
+          .blurEmbargoValue()
+          .selectEmbargoUnit('Weeks')
+          .blurEmbargoUnit();
       });
 
       describe('clicking cancel', () => {

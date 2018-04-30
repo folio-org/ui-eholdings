@@ -75,9 +75,7 @@ describeApplication('ProviderSearch', () => {
 
     describe('clicking a search results list item', () => {
       beforeEach(() => {
-        return ProviderSearchPage
-          .when(() => ProviderSearchPage.hasLoaded)
-          .do(() => ProviderSearchPage.providerList(0).clickThrough());
+        return ProviderSearchPage.providerList(0).clickThrough();
       });
 
       it('clicked item has an active state', () => {
@@ -184,8 +182,7 @@ describeApplication('ProviderSearch', () => {
     describe('clicking another search type', () => {
       beforeEach(() => {
         return ProviderSearchPage
-          .when(() => ProviderSearchPage.hasLoaded)
-          .do(() => ProviderSearchPage.providerList(0).clickThrough())
+          .providerList(0).clickThrough()
           .changeSearchType('packages');
       });
 
@@ -444,9 +441,7 @@ describeApplication('ProviderSearch', () => {
 
       describe('and then scrolling up', () => {
         beforeEach(() => {
-          return ProviderSearchPage
-            .when(() => ProviderSearchPage.hasLoaded)
-            .do(() => ProviderSearchPage.scrollToOffset(0));
+          return ProviderSearchPage.scrollToOffset(0);
         });
 
         it('shows the total results', () => {

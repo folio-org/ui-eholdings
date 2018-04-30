@@ -28,7 +28,6 @@ describeApplication('DetailsView', () => {
     describe('scrolling to the bottom of the container', () => {
       beforeEach(() => {
         return PackageShowPage
-          .when(() => PackageShowPage.titlesHaveLoaded)
           .detailsPaneScrollTop(PackageShowPage.detailsPaneContentScrollHeight);
       });
 
@@ -42,9 +41,7 @@ describeApplication('DetailsView', () => {
 
       describe('scrolling up to the top of the list', () => {
         beforeEach(() => {
-          return PackageShowPage
-            .when(() => PackageShowPage.detailsPaneContentsOverFlowY === 'hidden')
-            .scrollToTitleOffset(0);
+          return PackageShowPage.scrollToTitleOffset(0);
         });
 
         it('enables scrolling the container', () => {
@@ -58,9 +55,7 @@ describeApplication('DetailsView', () => {
 
       describe('scrolling part of the way up the title list', () => {
         beforeEach(() => {
-          return PackageShowPage
-            .when(() => PackageShowPage.detailsPaneContentsOverFlowY === 'hidden')
-            .scrollToTitleOffset(10);
+          return PackageShowPage.scrollToTitleOffset(10);
         });
 
         it('disables scrolling the container', () => {
@@ -74,9 +69,7 @@ describeApplication('DetailsView', () => {
 
       describe('scrolling up with the mousewheel to the top of the title list', () => {
         beforeEach(() => {
-          return PackageShowPage
-            .when(() => PackageShowPage.detailsPaneContentsOverFlowY === 'hidden')
-            .detailPaneMouseWheel();
+          return PackageShowPage.detailPaneMouseWheel();
         });
 
         it('enables scrolling the container', () => {
@@ -93,13 +86,9 @@ describeApplication('DetailsView', () => {
       beforeEach(function () {
         let title = this.server.create('title');
 
-        return PackageShowPage
-          .when(() => PackageShowPage.titlesHaveLoaded)
-          .do(() => {
-            return this.visit(`/eholdings/titles/${title.id}`, () => {
-              expect(TitleShowPage.$root).to.exist;
-            });
-          });
+        return this.visit(`/eholdings/titles/${title.id}`, () => {
+          expect(TitleShowPage.$root).to.exist;
+        });
       });
 
       it('has a list that does not fill the container', () => {
