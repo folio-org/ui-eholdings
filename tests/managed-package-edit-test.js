@@ -87,6 +87,10 @@ describeApplication('ManagedPackageEdit', () => {
         it('displays the new coverage dates', () => {
           expect(PackageShowPage.customCoverage).to.equal('12/16/2018 - 12/18/2018');
         });
+
+        it('shows a success toast message', () => {
+          expect(PackageShowPage.toast.successText).to.equal('Package saved.');
+        });
       });
     });
   });

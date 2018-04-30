@@ -38,7 +38,7 @@ describeApplication('PackageCreate', () => {
     });
 
     it('shows a success toast message', () => {
-      expect(PackageShowPage.toast.successText).to.equal('Successfully created custom package');
+      expect(PackageShowPage.toast.successText).to.equal('Custom package created.');
     });
   });
 
