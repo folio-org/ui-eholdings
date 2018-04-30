@@ -254,6 +254,16 @@ export default function configure() {
     return titles.find(request.params.id);
   });
 
+  this.post('/titles', ({ titles }, request) => {
+    let body = JSON.parse(request.requestBody);
+    let title = titles.create(body.data.attributes);
+
+    title.update('isSelected', true);
+    title.update('isCustom', true);
+
+    return title;
+  });
+
   // Resources
   this.get('/packages/:id/resources', nestedResourceRouteFor('package', 'resources'));
 
