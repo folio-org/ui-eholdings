@@ -42,6 +42,7 @@ class ResourceEditRoute extends Component {
       customCoverages,
       customEmbargoValue,
       customEmbargoUnit,
+      customUrl
     } = values;
     model.customCoverages = customCoverages.map((dateRange) => {
       let beginCoverage = !dateRange.beginCoverage ? null : moment(dateRange.beginCoverage).tz('UTC').format('YYYY-MM-DD');
@@ -52,6 +53,7 @@ class ResourceEditRoute extends Component {
         endCoverage
       };
     });
+    model.url = customUrl;
     model.coverageStatement = coverageStatement;
     model.customEmbargoPeriod = {
       embargoValue: customEmbargoValue,
@@ -71,7 +73,8 @@ class ResourceEditRoute extends Component {
           customCoverages: model.customCoverages,
           coverageStatement: model.coverageStatement,
           customEmbargoValue: model.customEmbargoPeriod.embargoValue,
-          customEmbargoUnit: model.customEmbargoPeriod.embargoUnit
+          customEmbargoUnit: model.customEmbargoPeriod.embargoUnit,
+          customUrl: model.url
         }}
       />
     );

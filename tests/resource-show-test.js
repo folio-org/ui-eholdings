@@ -53,7 +53,7 @@ describeApplication('ResourceShow', () => {
       package: providerPackage,
       isSelected: false,
       title,
-      url: 'frontside.io'
+      url: 'https://frontside.io'
     });
   });
 
@@ -121,7 +121,7 @@ describeApplication('ResourceShow', () => {
     });
 
     it('displays the managed url', () => {
-      expect(ResourcePage.managedUrl).to.equal('frontside.io');
+      expect(ResourcePage.url).to.equal('https://frontside.io');
     });
 
     describe.skip('clicking the managed url opens link in new tab', () => {
