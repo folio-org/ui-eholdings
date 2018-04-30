@@ -55,7 +55,7 @@ class CustomPackageEdit extends Component {
       router.history.push({
         pathname: `/eholdings/packages/${this.props.model.id}`,
         search: router.route.location.search,
-        state: { eholdings: true }
+        state: { eholdings: true, isFreshlySaved: true }
       });
     }
   }

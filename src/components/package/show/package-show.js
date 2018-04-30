@@ -127,8 +127,19 @@ export default class PackageShow extends Component {
     if (router.history.action === 'REPLACE' &&
         router.history.location.state.isNewRecord) {
       toasts.push({
-        id: `success-package-${model.id}`,
-        message: 'Successfully created custom package',
+        id: `success-package-creation-${model.id}`,
+        message: 'Custom package created.',
+        type: 'success'
+      });
+    }
+
+    // if coming from saving edits to the package, show a success toast
+    if (router.history.action === 'PUSH' &&
+        router.history.location.state &&
+        router.history.location.state.isFreshlySaved) {
+      toasts.push({
+        id: `success-package-saved-${model.id}`,
+        message: 'Package saved.',
         type: 'success'
       });
     }
