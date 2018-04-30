@@ -15,6 +15,7 @@ function mapResourceAttrs(hash, resource) {
   hash.attributes.subjects = resource.title.subjects;
   hash.attributes.isPeerReviewed = resource.title.isPeerReviewed;
   hash.attributes.description = resource.title.description;
+  hash.attributes.isTitleCustom = resource.title.isTitleCustom;
   return hash;
 }
 

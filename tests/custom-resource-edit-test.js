@@ -26,7 +26,8 @@ describeApplication('CustomResourceEdit', () => {
     let title = this.server.create('title', {
       name: 'Best Title Ever',
       publicationType: 'Streaming Video',
-      publisherName: 'Amazing Publisher'
+      publisherName: 'Amazing Publisher',
+      isTitleCustom: true
     });
 
     title.save();
@@ -35,8 +36,7 @@ describeApplication('CustomResourceEdit', () => {
       package: providerPackage,
       isSelected: true,
       title,
-      url: 'https://frontside.io',
-      isTitleCustom: true
+      url: 'https://frontside.io'
     });
   });
 
