@@ -76,7 +76,7 @@ import {
     isSelected: computed(function () {
       return this.isSelectedText === 'Selected';
     }),
-    isActive: is(this.$root, '[class*="is-selected"]'),
+    isActive: is('[class*="is-selected"]'),
     clickThrough: clickable()
   });
 

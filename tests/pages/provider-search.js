@@ -71,7 +71,7 @@ import { hasClassBeginningWith } from './helpers';
     numPackages: text('[data-test-eholdings-provider-list-item-num-packages-total]'),
     providerName: text('[data-test-eholdings-package-list-item-provider-name]'),
     numPackagesSelected: text('[data-test-eholdings-provider-list-item-num-packages-selected]'),
-    isActive: is(this.$root, '[class*="is-selected"]'),
+    isActive: is('[class*="is-selected"]'),
     clickThrough: clickable()
   });
 

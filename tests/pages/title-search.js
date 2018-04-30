@@ -85,7 +85,7 @@ import { hasClassBeginningWith } from './helpers';
     publisherName: text('[data-test-eholdings-title-list-item-publisher-name]'),
     publicationType: text('[data-test-eholdings-title-list-item-publication-type]'),
     clickThrough: clickable(),
-    isActive: is(this.$root, '[class*="is-selected--"]')
+    isActive: is('[class*="is-selected--"]')
   });
 
   packageTitleList = collection('[data-test-query-list="title-packages"] li', {

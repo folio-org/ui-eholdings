@@ -15,7 +15,7 @@
   },
   "devDependencies": {
     "@bigtest/convergence": "^0.7.0",
-    "@bigtest/interactor": "^0.4.1",
+    "@bigtest/interactor": "^0.4.2",
     "@bigtest/mirage": "^0.0.1",
     "@bigtest/mocha": "^0.3.3",
     "@folio/eslint-config-stripes": "^1.1.0",
