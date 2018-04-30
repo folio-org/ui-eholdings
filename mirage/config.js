@@ -279,7 +279,8 @@ export default function configure() {
       url,
       description,
       isPeerReviewed,
-      edition
+      edition,
+      identifiers
     } = body.data.attributes;
 
     matchingResource.update('isSelected', isSelected);
@@ -295,6 +296,8 @@ export default function configure() {
     matchingResource.update('url', url);
     matchingResource.title.update('publicationType', publicationType);
     matchingResource.title.update('publisherName', publisherName);
+    matchingResource.title.update('edition', edition);
+    matchingResource.title.update('identifiers', identifiers);
 
     return matchingResource;
   });

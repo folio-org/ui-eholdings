@@ -1,12 +1,12 @@
 import {
   clickable,
+  collection,
   fillable,
   isPresent,
   interactor,
   property,
   value,
-  text,
-  collection
+  text
 } from '@bigtest/interactor';
 import { hasClassBeginningWith } from './helpers';
 import Toast from './toast';
@@ -55,6 +55,14 @@ import Toast from './toast';
     remove: clickable('button')
   });
   contributorsWillBeRemoved = text('[data-test-eholdings-contributors-fields-saving-will-remove]');
+
+  clickAddIdentifiersRowButton = clickable('[data-test-eholdings-identifiers-fields-add-row-button] button');
+  identifiersRowList = collection('[data-test-eholdings-identifiers-fields-row]', {
+    type: fillable('[data-test-eholdings-identifiers-fields-type] select'),
+    id: fillable('[data-test-eholdings-identifiers-fields-id] input'),
+    idHasError: hasClassBeginningWith('[data-test-eholdings-identifiers-fields-id] input', 'feedbackError--'),
+    clickRemoveRowButton: clickable('[data-test-eholdings-identifiers-fields-remove-row-button] button')
+  });
 }
 
 export default new TitleEditPage('[data-test-eholdings-details-view="title"]');

@@ -13,6 +13,7 @@ import NameField, { validate as validateName } from '../_fields/name';
 import EditionField, { validate as validateEdition } from '../_fields/edition';
 import PublisherNameField, { validate as validatePublisher } from '../_fields/publisher-name';
 import PublicationTypeField from '../_fields/publication-type';
+import IdentifiersFields, { validate as validateIdentifiers } from '../_fields/identifiers';
 import DescriptionField, { validate as validateDescription } from '../_fields/description';
 import ContributorField, { validate as validateContributor } from '../_fields/contributor';
 import PeerReviewedField from '../_fields/peer-reviewed';
@@ -123,12 +124,19 @@ class TitleEdit extends Component {
                 label="Title information"
               >
                 <NameField />
-                <EditionField />
-                <PublisherNameField />
-                <PublicationTypeField />
+
                 <ContributorField
                   initialValue={initialValues.contributors}
                 />
+
+                <EditionField />
+                <PublisherNameField />
+                <PublicationTypeField />
+
+                <IdentifiersFields
+                  initialValue={initialValues.identifiers}
+                />
+
                 <DescriptionField />
                 <PeerReviewedField />
               </DetailsViewSection>
@@ -171,9 +179,10 @@ class TitleEdit extends Component {
 const validate = (values) => {
   return Object.assign({},
     validateName(values),
+    validateContributor(values),
     validateEdition(values),
     validatePublisher(values),
-    validateContributor(values),
+    validateIdentifiers(values),
     validateDescription(values));
 };
 
