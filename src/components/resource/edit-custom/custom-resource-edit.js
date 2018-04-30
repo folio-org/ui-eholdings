@@ -88,7 +88,7 @@ class CustomResourceEdit extends Component {
           bodyContent={(
             <form onSubmit={handleSubmit(onSubmit)}>
               <DetailsViewSection
-                label="Resources"
+                label="Resource information"
               >
                 <CustomUrlFields />
               </DetailsViewSection>
