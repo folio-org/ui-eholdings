@@ -5,32 +5,32 @@ import {
   collection,
   fillable,
   isPresent,
-  page,
+  interactor,
   property,
   text,
   value
-} from '@bigtest/interaction';
+} from '@bigtest/interactor';
 import { hasClassBeginningWith } from './helpers';
 import Toast from './toast';
 import Datepicker from './datepicker';
 
-@page class ResourceEditNavigationModal {}
+@interactor class ResourceEditNavigationModal {}
 
-@page class ResourceEditPage {
+@interactor class ResourceEditPage {
   navigationModal = new ResourceEditNavigationModal('#navigation-modal');
 
   clickCancel = clickable('[data-test-eholdings-resource-cancel-button] button');
   clickSave = clickable('[data-test-eholdings-resource-save-button] button');
-  isSaveDisabled = property('disabled', '[data-test-eholdings-resource-save-button] button');
+  isSaveDisabled = property('[data-test-eholdings-resource-save-button] button', 'disabled');
   hasErrors = isPresent('[data-test-eholdings-details-view-error="resource"]');
-  isPeerReviewed = property('checked', '[data-test-eholdings-peer-reviewed-field] input[type=checkbox]');
+  isPeerReviewed = property('[data-test-eholdings-peer-reviewed-field] input[type=checkbox]', 'checked');
   checkPeerReviewed = clickable('[data-test-eholdings-peer-reviewed-field] input[type=checkbox]');
   hasBackButton = isPresent('[data-test-eholdings-details-view-back-button] button');
 
   toast = Toast
 
   name = fillable('[data-test-eholdings-resource-name-field] input');
-  nameHasError = hasClassBeginningWith('feedbackError--', '[data-test-eholdings-resource-name-field] input');
+  nameHasError = hasClassBeginningWith('[data-test-eholdings-resource-name-field] input', 'feedbackError--');
 
   clickAddRowButton = clickable('[data-test-eholdings-coverage-fields-add-row-button] button');
 
@@ -40,14 +40,14 @@ import Datepicker from './datepicker';
     clickRemoveRowButton: clickable('[data-test-eholdings-coverage-fields-remove-row-button] button'),
     fillDates(beginDate, endDate) {
       return this.beginDate.fillAndBlur(beginDate)
-        .append(this.endDate.fillAndBlur(endDate));
+        .endDate.fillAndBlur(endDate);
     }
   });
 
   coverageStatement = value('[data-test-eholdings-coverage-statement-textarea] textarea');
   fillCoverageStatement = fillable('[data-test-eholdings-coverage-statement-textarea] textarea');
   blurCoverageStatement = blurrable('[data-test-eholdings-coverage-statement-textarea] textarea');
-  coverageStatementHasError = hasClassBeginningWith('feedbackError--', '[data-test-eholdings-coverage-statement-textarea] textarea');
+  coverageStatementHasError = hasClassBeginningWith('[data-test-eholdings-coverage-statement-textarea] textarea', 'feedbackError--');
   validationErrorOnCoverageStatement = text('[data-test-eholdings-coverage-statement-textarea] [class^="feedbackError--"]');
 
   inputCoverageStatement = action(function (statement) {
@@ -68,7 +68,7 @@ import Datepicker from './datepicker';
   publicationTypeValue = value('[data-test-eholdings-publication-type-field] select');
   fillPublisher = fillable('[data-test-eholdings-publisher-name-field] input');
   publisherValue = value('[data-test-eholdings-publisher-name-field] input');
-  publisherHasError = hasClassBeginningWith('feedbackError--', '[data-test-eholdings-publisher-name-field] input');
+  publisherHasError = hasClassBeginningWith('[data-test-eholdings-publisher-name-field] input', 'feedbackError--');
 }
 
 export default new ResourceEditPage('[data-test-eholdings-details-view="resource"]');

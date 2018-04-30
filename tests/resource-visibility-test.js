@@ -28,7 +28,7 @@ describeApplication('ResourceVisibility', () => {
     });
 
     it('displays an ON visibility toggle (Visible)', () => {
-      expect(ResourceShowPage.isVisible).to.be.true;
+      expect(ResourceShowPage.isResourceVisible).to.be.true;
     });
   });
 
@@ -64,7 +64,7 @@ describeApplication('ResourceVisibility', () => {
     });
 
     it('displays an OFF visibility toggle (Hidden)', () => {
-      expect(ResourceShowPage.isVisible).to.be.false;
+      expect(ResourceShowPage.isResourceVisible).to.be.false;
     });
 
     it('maps the hidden reason text', () => {
@@ -86,7 +86,7 @@ describeApplication('ResourceVisibility', () => {
     });
 
     it('displays an OFF visibility toggle (Hidden)', () => {
-      expect(ResourceShowPage.isVisible).to.be.false;
+      expect(ResourceShowPage.isResourceVisible).to.be.false;
     });
 
     it('maps the hidden reason text', () => {
@@ -108,7 +108,7 @@ describeApplication('ResourceVisibility', () => {
     });
 
     it('displays an ON visibility toggle (Visible)', () => {
-      expect(ResourceShowPage.isVisible).to.be.true;
+      expect(ResourceShowPage.isResourceVisible).to.be.true;
     });
 
     describe('successfully hiding a resource', () => {
@@ -117,7 +117,7 @@ describeApplication('ResourceVisibility', () => {
       });
 
       it('reflects the desired state OFF (Hidden)', () => {
-        expect(ResourceShowPage.isVisible).to.be.false;
+        expect(ResourceShowPage.isResourceVisible).to.be.false;
       });
 
       it('cannot be interacted with while the request is in flight', () => {
@@ -126,7 +126,7 @@ describeApplication('ResourceVisibility', () => {
 
       describe('when the request succeeds', () => {
         it('reflects the desired state OFF (Hidden)', () => {
-          expect(ResourceShowPage.isVisible).to.be.false;
+          expect(ResourceShowPage.isResourceVisible).to.be.false;
         });
 
         it('indicates it is no longer pending', () => {
@@ -151,7 +151,7 @@ describeApplication('ResourceVisibility', () => {
     });
 
     it('displays an OFF visibility toggle (Hidden)', () => {
-      expect(ResourceShowPage.isVisible).to.be.false;
+      expect(ResourceShowPage.isResourceVisible).to.be.false;
     });
 
     it('maps the hidden reason text', () => {
@@ -164,7 +164,7 @@ describeApplication('ResourceVisibility', () => {
       });
 
       it('reflects the desired state ON (Visible)', () => {
-        expect(ResourceShowPage.isVisible).to.be.true;
+        expect(ResourceShowPage.isResourceVisible).to.be.true;
       });
 
       it('cannot be interacted while the request is in flight', () => {
@@ -173,7 +173,7 @@ describeApplication('ResourceVisibility', () => {
 
       describe('when the request succeeds', () => {
         it('reflects the desired state ON (Visible)', () => {
-          expect(ResourceShowPage.isVisible).to.be.true;
+          expect(ResourceShowPage.isResourceVisible).to.be.true;
         });
 
         it('indicates it is no longer pending', () => {
@@ -199,7 +199,7 @@ describeApplication('ResourceVisibility', () => {
     });
 
     it('displays an OFF visibility toggle (Hidden)', () => {
-      expect(ResourceShowPage.isVisible).to.be.false;
+      expect(ResourceShowPage.isResourceVisible).to.be.false;
     });
 
     it('the visibility toggle is disabled', () => {

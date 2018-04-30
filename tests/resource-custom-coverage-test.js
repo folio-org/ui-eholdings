@@ -37,7 +37,7 @@ describeApplication('ResourceCustomCoverage', () => {
     });
 
     it('does not display coverage', () => {
-      expect(ResourceCoverage.exists).to.be.false;
+      expect(ResourceCoverage.isPresent).to.be.false;
     });
   });
 
@@ -90,7 +90,7 @@ describeApplication('ResourceCustomCoverage', () => {
         });
 
         it('shows a navigation confirmation modal', () => {
-          expect(ResourcePage.navigationModal.exists).to.be.true;
+          expect(ResourcePage.navigationModal.isPresent).to.be.true;
         });
 
         it.always('does not navigate away', function () {
@@ -123,8 +123,8 @@ describeApplication('ResourceCustomCoverage', () => {
         });
 
         it('does not put any values in the new inputs', () => {
-          expect(ResourceCoverage.dateRangeRowList(1).beginDate.value).to.equal('');
-          expect(ResourceCoverage.dateRangeRowList(1).endDate.value).to.equal('');
+          expect(ResourceCoverage.dateRangeRowList(1).beginDate.inputValue).to.equal('');
+          expect(ResourceCoverage.dateRangeRowList(1).endDate.inputValue).to.equal('');
         });
 
         describe('clicking the clear row button', () => {
@@ -176,7 +176,7 @@ describeApplication('ResourceCustomCoverage', () => {
           beforeEach(() => {
             return ResourceCoverage.dateRangeRowList(0)
               .fillDates('16/12/2018', '')
-              .append(ResourceCoverage.dateRangeRowList(0).beginDate.clearInput());
+              .dateRangeRowList(0).beginDate.clearInput();
           });
 
           it('indicates validation error on begin date', () => {
@@ -219,7 +219,7 @@ describeApplication('ResourceCustomCoverage', () => {
           describe.skip('entering overlapping ranges', () => {
             beforeEach(() => {
               return ResourceCoverage.dateRangeRowList(0).fillDates('12/16/2018', '12/20/2018')
-                .append(ResourceCoverage.dateRangeRowList(1).fillDates('12/18/2018', '12/19/2018'));
+                .dateRangeRowList(1).fillDates('12/18/2018', '12/19/2018');
             });
 
             it.pause('indicates validation error on begin dates', () => {

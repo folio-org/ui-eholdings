@@ -35,8 +35,8 @@ describeApplication('CustomPackageEdit', () => {
     });
 
     it('shows blank datepicker fields', () => {
-      expect(PackageEditPage.dateRangeRowList(0).beginDate.value).to.equal('');
-      expect(PackageEditPage.dateRangeRowList(0).endDate.value).to.equal('');
+      expect(PackageEditPage.dateRangeRowList(0).beginDate.inputValue).to.equal('');
+      expect(PackageEditPage.dateRangeRowList(0).endDate.inputValue).to.equal('');
     });
 
     it('disables the save button', () => {
@@ -78,7 +78,7 @@ describeApplication('CustomPackageEdit', () => {
         });
 
         it('shows the modal', () => {
-          expect(PackageEditPage.modal.exists).to.equal(true);
+          expect(PackageEditPage.modal.isPresent).to.equal(true);
         });
 
         it('reflects the desired state of holding status', () => {
@@ -87,9 +87,7 @@ describeApplication('CustomPackageEdit', () => {
 
         describe('clicking confirm', () => {
           beforeEach(() => {
-            return PackageEditPage.interaction
-              .do(() => PackageEditPage.modal.confirmDeselection())
-              .once(() => expect(PackageSearchPage.exists).to.equal(true));
+            return PackageEditPage.modal.confirmDeselection();
           });
 
           it('transitions to the package search page', function () {
@@ -113,7 +111,7 @@ describeApplication('CustomPackageEdit', () => {
           });
 
           it('removes the modal', () => {
-            expect(PackageEditPage.modal.exists).to.equal(false);
+            expect(PackageEditPage.modal.isPresent).to.equal(false);
           });
 
           it('reflects the correct holding status', () => {
@@ -125,13 +123,9 @@ describeApplication('CustomPackageEdit', () => {
 
     describe('entering invalid data', () => {
       beforeEach(() => {
-        return PackageEditPage.interaction
-          .once(() => PackageEditPage.dateRangeRowList().length > 0)
-          .do(() => {
-            return PackageEditPage.interaction
-              .append(PackageEditPage.dateRangeRowList(0).fillDates('12/18/2018', '12/16/2018'))
-              .clickSave();
-          });
+        return PackageEditPage
+          .dateRangeRowList(0).fillDates('12/18/2018', '12/16/2018')
+          .clickSave();
       });
 
       it('displays a validation error for coverage', () => {
@@ -141,11 +135,7 @@ describeApplication('CustomPackageEdit', () => {
 
     describe('entering valid data', () => {
       beforeEach(() => {
-        return PackageEditPage.interaction
-          .once(() => PackageEditPage.dateRangeRowList().length > 0)
-          .do(() => {
-            return PackageEditPage.dateRangeRowList(0).fillDates('12/16/2018', '12/18/2018');
-          });
+        return PackageEditPage.dateRangeRowList(0).fillDates('12/16/2018', '12/18/2018');
       });
 
       describe('clicking cancel', () => {
@@ -204,9 +194,9 @@ describeApplication('CustomPackageEdit', () => {
 
     describe('entering invalid data', () => {
       beforeEach(() => {
-        return PackageEditPage.interaction
+        return PackageEditPage
           .name('')
-          .append(PackageEditPage.dateRangeRowList(0).fillDates('12/18/2018', '12/16/2018'))
+          .dateRangeRowList(0).fillDates('12/18/2018', '12/16/2018')
           .clickSave();
       });
 
@@ -224,7 +214,7 @@ describeApplication('CustomPackageEdit', () => {
         return PackageEditPage
           .name('A Different Name')
           .contentType('E-Journal')
-          .append(PackageEditPage.dateRangeRowList(0).fillDates('12/16/2018', '12/18/2018'));
+          .dateRangeRowList(0).fillDates('12/16/2018', '12/18/2018');
       });
 
       describe('clicking cancel', () => {
@@ -242,7 +232,7 @@ describeApplication('CustomPackageEdit', () => {
           });
 
           it('navigates from editing page', () => {
-            expect(PackageShowPage.exist).to.eq(true);
+            expect(PackageShowPage.isPresent).to.eq(true);
           });
         });
 
@@ -252,7 +242,7 @@ describeApplication('CustomPackageEdit', () => {
           });
 
           it('reamins on the editing page', () => {
-            expect(PackageEditPage.exists).to.eq(true);
+            expect(PackageEditPage.isPresent).to.eq(true);
           });
         });
       });
@@ -314,9 +304,9 @@ describeApplication('CustomPackageEdit', () => {
 
     describe('entering valid data and clicking save', () => {
       beforeEach(() => {
-        return PackageEditPage.interaction
+        return PackageEditPage
           .name('A Different Name')
-          .append(PackageEditPage.dateRangeRowList(0).fillDates('12/16/2018', '12/18/2018'))
+          .dateRangeRowList(0).fillDates('12/16/2018', '12/18/2018')
           .clickSave();
       });
 

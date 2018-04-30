@@ -6,18 +6,17 @@ import {
   computed,
   fillable,
   isPresent,
-  page,
+  interactor,
   value,
   text,
   is
-} from '@bigtest/interaction';
-import { isRootPresent, hasClassBeginningWith } from './helpers';
+} from '@bigtest/interactor';
+import { hasClassBeginningWith } from './helpers';
 
-@page class TitleSearchPage {
-  exists = isRootPresent();
+@interactor class TitleSearchPage {
   fillSearch = fillable('[data-test-title-search-field] input[name="search"]');
   submitSearch = clickable('[data-test-search-submit]');
-  isSearchButtonDisabled = property('disabled', '[data-test-search-submit]');
+  isSearchButtonDisabled = property('[data-test-search-submit]', 'disabled');
   fillSearch = fillable('[data-test-title-search-field] input[name="search"]');
   submitSearch = clickable('[data-test-search-submit]');
   hasSearchField = isPresent('[data-test-title-search-field] input[name="search"]');
@@ -34,7 +33,7 @@ import { isRootPresent, hasClassBeginningWith } from './helpers';
   errorMessage = text('[data-test-query-list-error="titles"]');
   noResultsMessage = text('[data-test-query-list-not-found="titles"]');
   selectedSearchType = collection('[data-test-search-form-type-switcher] a[class^="is-active--"]');
-  isSearchVignetteHidden = hasClassBeginningWith('is-hidden--', '[data-test-search-vignette]');
+  isSearchVignetteHidden = hasClassBeginningWith('[data-test-search-vignette]', 'is-hidden--');
   clickCloseButton = clickable('[data-test-eholdings-details-view-close-button] a');
   hasPreSearchPane = isPresent('[data-test-eholdings-pre-search-pane]');
 

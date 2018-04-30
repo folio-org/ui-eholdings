@@ -1,9 +1,9 @@
 import {
   isPresent,
-  page,
-} from '@bigtest/interaction';
+  interactor,
+} from '@bigtest/interactor';
 
-@page class ApplicationPage {
+@interactor class ApplicationPage {
   doesNotHaveBackend = isPresent('[data-test-eholdings-no-backend]')
   backendNotConfigured = isPresent('[data-test-eholdings-unconfigured-backend]');
   hasBackendLoadError = isPresent('[data-test-eholdings-application-rejected]');

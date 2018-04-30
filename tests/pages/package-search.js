@@ -6,18 +6,16 @@ import {
   computed,
   fillable,
   isPresent,
-  page,
+  interactor,
   value,
   text,
   is
-} from '@bigtest/interaction';
-import { isRootPresent } from './helpers';
+} from '@bigtest/interactor';
 
-@page class PackageSearchPage {
-  exists = isRootPresent();
+@interactor class PackageSearchPage {
   fillSearch = fillable('[data-test-search-field] input[name="search"]');
   submitSearch = clickable('[data-test-search-submit]');
-  isSearchDisabled = property('disabled', '[data-test-search-submit]');
+  isSearchDisabled = property('[data-test-search-submit]', 'disabled');
   hasSearchField = isPresent('[data-test-search-field] input[name="search"]');
   hasSearchFilters = isPresent('[data-test-eholdings-search-filters="packages"]');
   searchFieldValue = value('[data-test-search-field] input[name="search"]');

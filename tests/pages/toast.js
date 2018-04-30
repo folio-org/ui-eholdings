@@ -1,12 +1,12 @@
 import {
   hasClass,
   count,
-  page,
+  interactor,
   text
-} from '@bigtest/interaction';
+} from '@bigtest/interactor';
 import style from '../../src/components/toaster/style.css';
 
-@page class Toast {
+@interactor class Toast {
   isPositionedTop = hasClass(style.top)
   isPositionedBottom = hasClass(style.bottom)
   errorText = text('[data-test-eholdings-toast="error"]')

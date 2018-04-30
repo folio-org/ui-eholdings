@@ -75,9 +75,7 @@ describeApplication('ProviderSearch', () => {
 
     describe('clicking a search results list item', () => {
       beforeEach(() => {
-        return ProviderSearchPage.interaction
-          .once(() => ProviderSearchPage.hasLoaded)
-          .do(() => ProviderSearchPage.providerList(0).clickThrough());
+        return ProviderSearchPage.providerList(0).clickThrough();
       });
 
       it('clicked item has an active state', () => {
@@ -152,7 +150,7 @@ describeApplication('ProviderSearch', () => {
         });
 
         it('hides the search UI', () => {
-          expect(ProviderSearchPage.exists).to.be.false;
+          expect(ProviderSearchPage.isPresent).to.be.false;
         });
 
         describe('and clicking the back button', () => {
@@ -183,10 +181,9 @@ describeApplication('ProviderSearch', () => {
 
     describe('clicking another search type', () => {
       beforeEach(() => {
-        return ProviderSearchPage.interaction
-          .once(() => ProviderSearchPage.hasLoaded)
-          .do(() => ProviderSearchPage.providerList(0).clickThrough())
-          .append(ProviderSearchPage.changeSearchType('packages'));
+        return ProviderSearchPage
+          .providerList(0).clickThrough()
+          .changeSearchType('packages');
       });
 
       it('only shows one search type as selected', () => {
@@ -409,8 +406,8 @@ describeApplication('ProviderSearch', () => {
 
       describe('and then scrolling down', () => {
         beforeEach(() => {
-          return ProviderSearchPage.interaction
-            .once(() => ProviderSearchPage.hasLoaded)
+          return ProviderSearchPage
+            .when(() => ProviderSearchPage.hasLoaded)
             .do(() => ProviderSearchPage.scrollToOffset(26));
         });
 
@@ -444,11 +441,8 @@ describeApplication('ProviderSearch', () => {
 
       describe('and then scrolling up', () => {
         beforeEach(() => {
-          return ProviderSearchPage.interaction
-            .once(() => ProviderSearchPage.hasLoaded)
-            .do(() => ProviderSearchPage.scrollToOffset(0));
+          return ProviderSearchPage.scrollToOffset(0);
         });
-
 
         it('shows the total results', () => {
           expect(ProviderSearchPage.totalResults).to.equal('75 search results');

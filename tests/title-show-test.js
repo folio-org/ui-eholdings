@@ -231,9 +231,7 @@ describeApplication('TitleShow', () => {
 
     describe.skip('scrolling down the list of packages', () => {
       beforeEach(() => {
-        return TitleShowPage.interaction
-          .once(() => TitleShowPage.packageList().length > 0)
-          .scrollToPackageOffset(26);
+        return TitleShowPage.scrollToPackageOffset(26);
       });
 
       it('should display the next page of related packages', () => {

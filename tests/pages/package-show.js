@@ -2,30 +2,29 @@ import {
   clickable,
   collection,
   computed,
+  interactor,
   isPresent,
-  page,
   property,
   action,
   text,
   triggerable
-} from '@bigtest/interaction';
-import { isRootPresent, getComputedStyle, hasClassBeginningWith } from './helpers';
+} from '@bigtest/interactor';
+import { getComputedStyle, hasClassBeginningWith } from './helpers';
 import Datepicker from './datepicker';
 import Toast from './toast';
 
-@page class PackageShowModal {
+@interactor class PackageShowModal {
   confirmDeselection = clickable('[data-test-eholdings-package-deselection-confirmation-modal-yes]');
   cancelDeselection = clickable('[data-test-eholdings-package-deselection-confirmation-modal-no]');
 }
 
-@page class PackageShowPage {
-  exist = isRootPresent();
-  allowKbToAddTitles = property('checked', '[data-test-eholdings-package-details-allow-add-new-titles] input');
+@interactor class PackageShowPage {
+  allowKbToAddTitles = property('[data-test-eholdings-package-details-allow-add-new-titles] input', 'checked');
   hasAllowKbToAddTitles = isPresent('[data-test-eholdings-package-details-toggle-allow-add-new-titles] input');
   hasAllowKbToAddTitlesToggle = isPresent('[package-details-toggle-allow-add-new-titles-switch]');
-  isSelected = property('checked', '[data-test-eholdings-package-details-selected] input');
-  isSelecting = hasClassBeginningWith('is-pending--', '[data-test-eholdings-package-details-selected] [data-test-toggle-switch]');
-  isSelectedToggleDisabled = property('disabled', '[data-test-eholdings-package-details-selected] input[type=checkbox]');
+  isSelected = property('[data-test-eholdings-package-details-selected] input', 'checked');
+  isSelecting = hasClassBeginningWith('[data-test-eholdings-package-details-selected] [data-test-toggle-switch]', 'is-pending--');
+  isSelectedToggleDisabled = property('[data-test-eholdings-package-details-selected] input[type=checkbox]', 'disabled');
   modal = new PackageShowModal('#eholdings-package-confirmation-modal');
   hastoggleForAllowKbToAddTitles = isPresent('[data-test-eholdings-package-details-allow-add-new-titles]');
   toggleAllowKbToAddTitles = clickable('[data-test-eholdings-package-details-allow-add-new-titles] input');
@@ -39,10 +38,10 @@ import Toast from './toast';
   hasErrors = isPresent('[data-test-eholdings-details-view-error="package"]');
   hasBackButton = isPresent('[data-test-eholdings-details-view-back-button] button');
   clickBackButton = clickable('[data-test-eholdings-details-view-back-button] button');
-  detailsPaneContentScrollHeight = property('scrollHeight', '[data-test-eholdings-detail-pane-contents]');
+  detailsPaneContentScrollHeight = property('[data-test-eholdings-detail-pane-contents]', 'scrollHeight');
   clickEditButton = clickable('[data-test-eholdings-package-edit-link]');
 
-  detailPaneMouseWheel = triggerable('wheel', '[data-test-eholdings-detail-pane-contents]', {
+  detailPaneMouseWheel = triggerable('[data-test-eholdings-detail-pane-contents]', 'wheel', {
     bubbles: true,
     deltaY: -1
   });
@@ -52,15 +51,15 @@ import Toast from './toast';
   });
 
   toggleIsHidden = clickable('[data-test-eholdings-package-details-hidden] input');
-  isVisibleToPatrons = property('checked', '[data-test-eholdings-package-details-hidden] input');
+  isVisibleToPatrons = property('[data-test-eholdings-package-details-hidden] input', 'checked');
   isHiddenMessage = text('[data-test-eholdings-package-details-is-hidden]');
   isHiddenMessagePresent = isPresent('[data-test-eholdings-package-details-is-hidden]');
-  isHiddenToggleDisabled = property('disabled', '[data-test-eholdings-package-details-hidden] input[type=checkbox]');
+  isHiddenToggleDisabled = property('[data-test-eholdings-package-details-hidden] input[type=checkbox]', 'disabled');
   isHiddenTogglePresent = isPresent('[data-test-eholdings-package-details-hidden] input');
-  isHiding = hasClassBeginningWith('is-pending--', '[data-test-eholdings-package-details-hidden] [data-test-toggle-switch]');
+  isHiding = hasClassBeginningWith('[data-test-eholdings-package-details-hidden] [data-test-toggle-switch]', 'is-pending--');
 
   allTitlesHidden = computed(function () {
-    return !!this.titleList().length && this.titleList().every(title => title.isHidden);
+    return !!this.titleList().length && this.titleList().every(title => title.isResourceHidden);
   });
 
   allTitlesSelected = computed(function () {
@@ -74,7 +73,7 @@ import Toast from './toast';
       return this.isSelectedLabel === 'Selected';
     }),
     isHiddenLabel: text('[data-test-eholdings-title-list-item-title-hidden]'),
-    isHidden: computed(function () {
+    isResourceHidden: computed(function () {
       return this.isHiddenLabel === 'Hidden';
     })
   });
@@ -97,10 +96,10 @@ import Toast from './toast';
       });
   });
 
-  titleContainerHeight = property('offsetHeight', '[data-test-eholdings-details-view-list="package"]');
-  detailPaneContentsHeight = property('offsetHeight', '[data-test-eholdings-detail-pane-contents]');
-  titleQueryListOverFlowY = getComputedStyle('overflow-y', '[data-test-query-list="package-titles"]');
-  detailsPaneContentsOverFlowY = getComputedStyle('overflow-y', '[data-test-eholdings-detail-pane-contents]');
+  titleContainerHeight = property('[data-test-eholdings-details-view-list="package"]', 'offsetHeight');
+  detailPaneContentsHeight = property('[data-test-eholdings-detail-pane-contents]', 'offsetHeight');
+  titleQueryListOverFlowY = getComputedStyle('[data-test-query-list="package-titles"]', 'overflow-y');
+  detailsPaneContentsOverFlowY = getComputedStyle('[data-test-eholdings-detail-pane-contents]', 'overflow-y');
 
   hasCustomCoverage = isPresent('[data-test-eholdings-package-details-custom-coverage-display]');
   customCoverage = text('[data-test-eholdings-package-details-custom-coverage-display]');
@@ -109,7 +108,7 @@ import Toast from './toast';
   clickCustomCoverageCancelButton = clickable('[data-test-eholdings-inline-form-cancel-button] button');
   clickCustomCoverageEditButton = clickable('[data-test-eholdings-package-details-edit-custom-coverage-button] button');
   clickCustomCoverageSaveButton = clickable('[data-test-eholdings-inline-form-save-button] button');
-  isCustomCoverageDisabled = property('disabled', '[data-test-eholdings-inline-form-save-button] button');
+  isCustomCoverageDisabled = property('[data-test-eholdings-inline-form-save-button] button', 'disabled');
   validationError = text('[data-test-eholdings-coverage-fields-date-range-begin] [class^="feedbackError"]');
 
   beginDate = new Datepicker('[data-test-eholdings-coverage-fields-date-range-begin]');
@@ -119,15 +118,17 @@ import Toast from './toast';
 
   fillDates(beginDate, endDate) {
     return this.beginDate.fillAndBlur(beginDate)
-      .append(this.endDate.fillAndBlur(endDate));
+      .endDate.fillAndBlur(endDate);
   }
 
   deselectAndConfirmPackage() {
-    return this.toggleIsSelected().append(this.modal.confirmDeselection());
+    return this.toggleIsSelected()
+      .modal.confirmDeselection();
   }
 
   deselectAndCancelPackage() {
-    return this.toggleIsSelected().append(this.modal.cancelDeselection());
+    return this.toggleIsSelected()
+      .modal.cancelDeselection();
   }
 }
 

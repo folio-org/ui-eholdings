@@ -1,13 +1,13 @@
 import {
-  page,
+  interactor,
   isPresent,
   fillable,
   clickable,
   collection
-} from '@bigtest/interaction';
+} from '@bigtest/interactor';
 import Datepicker from './datepicker';
 
-@page class PackageCreatePage {
+@interactor class PackageCreatePage {
   hasName = isPresent('[data-test-eholdings-package-name-field]');
   fillName = fillable('[data-test-eholdings-package-name-field] input');
   hasContentType = isPresent('[data-test-eholdings-package-content-type-field]');
@@ -22,7 +22,7 @@ import Datepicker from './datepicker';
     endDate: new Datepicker('[data-test-eholdings-coverage-fields-date-range-end]'),
     fillDates(beginDate, endDate) {
       return this.beginDate.fillAndBlur(beginDate)
-        .append(this.endDate.fillAndBlur(endDate));
+        .endDate.fillAndBlur(endDate);
     }
   });
 }

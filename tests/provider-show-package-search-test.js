@@ -45,18 +45,18 @@ describeApplication('ProviderShow package search', () => {
     });
 
     it('shows the package search modal', () => {
-      expect(ProviderShowPage.searchModal.exists).to.be.true;
+      expect(ProviderShowPage.searchModal.isPresent).to.be.true;
     });
   });
 
   describe('searching for specific packages', () => {
     beforeEach(() => {
       return ProviderShowPage.clickListSearch()
-        .append(ProviderShowPage.searchModal.search('other ordinary'));
+        .searchModal.search('other ordinary');
     });
 
     it('hides the package search modal', () => {
-      expect(ProviderShowPage.searchModal.exists).to.be.false;
+      expect(ProviderShowPage.searchModal.isPresent).to.be.false;
     });
 
     it('displays packages matching the search term', () => {
@@ -78,11 +78,11 @@ describeApplication('ProviderShow package search', () => {
     describe('then sorting by package name', () => {
       beforeEach(() => {
         return ProviderShowPage.clickListSearch()
-          .append(ProviderShowPage.searchModal.clickFilter('sort', 'name'));
+          .searchModal.clickFilter('sort', 'name');
       });
 
       it.always('leaves the search modal open', () => {
-        expect(ProviderShowPage.searchModal.exists).to.be.true;
+        expect(ProviderShowPage.searchModal.isPresent).to.be.true;
       });
 
       it('displays packages matching the search term ordered by name', () => {
@@ -95,11 +95,11 @@ describeApplication('ProviderShow package search', () => {
     describe('then filtering the packages by selection status', () => {
       beforeEach(() => {
         return ProviderShowPage.clickListSearch()
-          .append(ProviderShowPage.searchModal.clickFilter('selected', 'true'));
+          .searchModal.clickFilter('selected', 'true');
       });
 
       it.always('leaves the search modal open', () => {
-        expect(ProviderShowPage.searchModal.exists).to.be.true;
+        expect(ProviderShowPage.searchModal.isPresent).to.be.true;
       });
 
       it('displays selected packages matching the search term', () => {
@@ -111,11 +111,11 @@ describeApplication('ProviderShow package search', () => {
     describe('then filtering the packages by content type', () => {
       beforeEach(() => {
         return ProviderShowPage.clickListSearch()
-          .append(ProviderShowPage.searchModal.clickFilter('type', 'ebook'));
+          .searchModal.clickFilter('type', 'ebook');
       });
 
       it.always('leaves the search modal open', () => {
-        expect(ProviderShowPage.searchModal.exists).to.be.true;
+        expect(ProviderShowPage.searchModal.isPresent).to.be.true;
       });
 
       it('displays packages matching the search term and content type', () => {

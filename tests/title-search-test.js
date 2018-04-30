@@ -51,7 +51,7 @@ describeApplication('TitleSearch', () => {
     });
 
     return this.visit('/eholdings/?searchType=titles', () => {
-      expect(TitleSearchPage.exists).to.be.true;
+      expect(TitleSearchPage.isPresent).to.be.true;
     });
   });
 
@@ -118,9 +118,7 @@ describeApplication('TitleSearch', () => {
 
     describe('clicking a search results list item', () => {
       beforeEach(() => {
-        return TitleSearchPage.interaction
-          .once(() => TitleSearchPage.hasLoaded)
-          .do(() => TitleSearchPage.titleList(0).clickThrough());
+        return TitleSearchPage.titleList(0).clickThrough();
       });
 
       it('clicked item has an active state', () => {
@@ -194,7 +192,7 @@ describeApplication('TitleSearch', () => {
         });
 
         it('hides the search ui', () => {
-          expect(TitleSearchPage.exists).to.be.false;
+          expect(TitleSearchPage.isPresent).to.be.false;
         });
 
         describe('and clicking the back button', () => {
@@ -215,9 +213,7 @@ describeApplication('TitleSearch', () => {
 
     describe('filtering by publication type', () => {
       beforeEach(() => {
-        return TitleSearchPage.interaction
-          .once(() => TitleSearchPage.hasLoaded)
-          .clickFilter('type', 'book');
+        return TitleSearchPage.clickFilter('type', 'book');
       });
 
       it('only shows results for book publication types', () => {
@@ -235,9 +231,7 @@ describeApplication('TitleSearch', () => {
 
       describe('clearing the filters', () => {
         beforeEach(() => {
-          return TitleSearchPage.interaction
-            .once(() => TitleSearchPage.hasLoaded)
-            .clearFilter('type');
+          return TitleSearchPage.clearFilter('type');
         });
 
         it.always('removes the filter from the URL query params', function () {
@@ -251,13 +245,9 @@ describeApplication('TitleSearch', () => {
 
       describe('visiting the page with an existing filter', () => {
         beforeEach(function () {
-          return TitleSearchPage.interaction
-            .once(() => TitleSearchPage.hasLoaded)
-            .do(() => (
-              this.visit('/eholdings/?searchType=titles&q=Title&filter[type]=journal', () => {
-                expect(TitleSearchPage.exists).to.be.true;
-              })
-            ));
+          return this.visit('/eholdings/?searchType=titles&q=Title&filter[type]=journal', () => {
+            expect(TitleSearchPage.isPresent).to.be.true;
+          });
         });
 
         it('shows the existing filter in the search form', () => {
@@ -277,9 +267,7 @@ describeApplication('TitleSearch', () => {
 
     describe('filtering by selection status', () => {
       beforeEach(() => {
-        return TitleSearchPage.interaction
-          .once(() => TitleSearchPage.hasLoaded)
-          .clickFilter('selected', 'true');
+        return TitleSearchPage.clickFilter('selected', 'true');
       });
 
       it('only shows results for selected titles', () => {
@@ -296,9 +284,7 @@ describeApplication('TitleSearch', () => {
 
       describe('clearing the filters', () => {
         beforeEach(() => {
-          return TitleSearchPage.interaction
-            .once(() => TitleSearchPage.hasLoaded)
-            .clearFilter('selected');
+          return TitleSearchPage.clearFilter('selected');
         });
 
         it.always('removes the filter from the URL query params', function () {
@@ -312,13 +298,9 @@ describeApplication('TitleSearch', () => {
 
       describe('visiting the page with an existing filter', () => {
         beforeEach(function () {
-          return TitleSearchPage.interaction
-            .once(() => TitleSearchPage.hasLoaded)
-            .do(() => (
-              this.visit('/eholdings/?searchType=titles&q=Title&filter[selected]=false', () => {
-                expect(TitleSearchPage.exists).to.be.true;
-              })
-            ));
+          return this.visit('/eholdings/?searchType=titles&q=Title&filter[selected]=false', () => {
+            expect(TitleSearchPage.isPresent).to.be.true;
+          });
         });
 
         it('shows the existing filter in the search form', () => {
@@ -337,11 +319,9 @@ describeApplication('TitleSearch', () => {
 
     describe('selecting a publisher search field', () => {
       beforeEach(() => {
-        return TitleSearchPage.interaction
-          .once(() => TitleSearchPage.hasLoaded)
-          .do(() => (
-            TitleSearchPage.selectSearchField('publisher').search('TestPublisher')
-          ));
+        return TitleSearchPage
+          .selectSearchField('publisher')
+          .search('TestPublisher');
       });
 
       it('only shows results having publishers with name including TestPublisher', () => {
@@ -360,11 +340,9 @@ describeApplication('TitleSearch', () => {
 
     describe('selecting a subject search field', () => {
       beforeEach(() => {
-        return TitleSearchPage.interaction
-          .once(() => TitleSearchPage.hasLoaded)
-          .do(() => (
-            TitleSearchPage.selectSearchField('subject').search('TestSubject')
-          ));
+        return TitleSearchPage
+          .selectSearchField('subject')
+          .search('TestSubject');
       });
 
       it('only shows results having subjects including TestSubject', () => {
@@ -382,11 +360,9 @@ describeApplication('TitleSearch', () => {
 
     describe('selecting an isxn search field', () => {
       beforeEach(() => {
-        return TitleSearchPage.interaction
-          .once(() => TitleSearchPage.hasLoaded)
-          .do(() => (
-            TitleSearchPage.selectSearchField('isxn').search('999-999')
-          ));
+        return TitleSearchPage
+          .selectSearchField('isxn')
+          .search('999-999');
       });
 
       it('only shows results having isxn field ', () => {
@@ -404,11 +380,7 @@ describeApplication('TitleSearch', () => {
 
     describe('changing search fields', () => {
       beforeEach(() => {
-        return TitleSearchPage.interaction
-          .once(() => TitleSearchPage.hasLoaded)
-          .do(() => (
-            TitleSearchPage.selectSearchField('subject')
-          ));
+        return TitleSearchPage.selectSearchField('subject');
       });
 
       it('maintains the previous search', () => {
@@ -418,13 +390,9 @@ describeApplication('TitleSearch', () => {
 
     describe('visiting the page with an existing search field', () => {
       beforeEach(function () {
-        return TitleSearchPage.interaction
-          .once(() => TitleSearchPage.hasLoaded)
-          .do(() => (
-            this.visit('/eholdings/?searchType=titles&q=TestPublisher&searchfield=publisher', () => {
-              expect(TitleSearchPage.exists).to.be.true;
-            })
-          ));
+        return this.visit('/eholdings/?searchType=titles&q=TestPublisher&searchfield=publisher', () => {
+          expect(TitleSearchPage.isPresent).to.be.true;
+        });
       });
 
       it('displays publisher as searchfield', () => {
@@ -442,11 +410,7 @@ describeApplication('TitleSearch', () => {
 
     describe('with a more specific query', () => {
       beforeEach(() => {
-        return TitleSearchPage.interaction
-          .once(() => TitleSearchPage.hasLoaded)
-          .do(() => (
-            TitleSearchPage.search('Title1')
-          ));
+        return TitleSearchPage.search('Title1');
       });
 
       it('only shows a single result', () => {
@@ -456,13 +420,9 @@ describeApplication('TitleSearch', () => {
 
     describe('clicking another search type', () => {
       beforeEach(() => {
-        return TitleSearchPage.interaction
-          .once(() => TitleSearchPage.hasLoaded)
-          .do(() => (
-            TitleSearchPage
-              .titleList(0).click()
-              .append(TitleSearchPage.changeSearchType('providers'))
-          ));
+        return TitleSearchPage
+          .titleList(0).click()
+          .changeSearchType('providers');
       });
 
       it('only shows one search type as selected', () => {
@@ -506,11 +466,10 @@ describeApplication('TitleSearch', () => {
 
     describe('selecting both a search field and a search filter', () => {
       beforeEach(() => {
-        return TitleSearchPage.interaction
-          .once(() => TitleSearchPage.hasLoaded)
-          .do(() => (
-            TitleSearchPage.selectSearchField('isxn').clickFilter('type', 'book').search('999-999')
-          ));
+        return TitleSearchPage
+          .selectSearchField('isxn')
+          .clickFilter('type', 'book')
+          .search('999-999');
       });
       it('only shows results having both isxn and book pub type', () => {
         expect(TitleSearchPage.titleList()).to.have.lengthOf(1);
@@ -560,11 +519,7 @@ describeApplication('TitleSearch', () => {
 
     describe('clearing the search field', () => {
       beforeEach(() => {
-        return TitleSearchPage.interaction
-          .once(() => TitleSearchPage.hasLoaded)
-          .do(() => (
-            TitleSearchPage.clearSearch()
-          ));
+        return TitleSearchPage.clearSearch();
       });
 
       it('has disabled search button', () => {
@@ -591,8 +546,8 @@ describeApplication('TitleSearch', () => {
 
       describe('and then scrolling down', () => {
         beforeEach(() => {
-          return TitleSearchPage.interaction
-            .once(() => TitleSearchPage.hasLoaded)
+          return TitleSearchPage
+            .when(() => TitleSearchPage.hasLoaded)
             .do(() => (
               TitleSearchPage.scrollToOffset(26)
             ));
@@ -628,11 +583,7 @@ describeApplication('TitleSearch', () => {
 
       describe('and then scrolling up', () => {
         beforeEach(() => {
-          return TitleSearchPage.interaction
-            .once(() => TitleSearchPage.hasLoaded)
-            .do(() => (
-              TitleSearchPage.scrollToOffset(0)
-            ));
+          return TitleSearchPage.scrollToOffset(0);
         });
 
         // it might take a bit for the next request to be triggered after the scroll

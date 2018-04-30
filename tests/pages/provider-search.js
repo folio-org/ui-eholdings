@@ -7,14 +7,13 @@ import {
   isPresent,
   is,
   property,
-  page,
+  interactor,
   value,
   text
-} from '@bigtest/interaction';
-import { isRootPresent, hasClassBeginningWith } from './helpers';
+} from '@bigtest/interactor';
+import { hasClassBeginningWith } from './helpers';
 
-@page class ProviderSearchPage {
-  exists = isRootPresent();
+@interactor class ProviderSearchPage {
   fillSearch = fillable('[data-test-search-field] input[name="search"]');
   submitSearch = clickable('[data-test-search-submit]');
   hasSearchField = isPresent('[data-test-search-field] input[name="search"]');
@@ -31,8 +30,8 @@ import { isRootPresent, hasClassBeginningWith } from './helpers';
   noResultsMessage = text('[data-test-query-list-not-found="providers"]');
   selectedSearchType = collection('[data-test-search-form-type-switcher] a[class^="is-active--"]');
   sortBy = value('[data-test-eholdings-search-filters="providers"] input[name="sort"]:checked');
-  isSearchButtonDisabled = property('disabled', '[data-test-search-submit]');
-  isSearchVignetteHidden = hasClassBeginningWith('is-hidden---', '[data-test-search-vignette]');
+  isSearchButtonDisabled = property('[data-test-search-submit]', 'disabled');
+  isSearchVignetteHidden = hasClassBeginningWith('[data-test-search-vignette]', 'is-hidden---');
   clickCloseButton = clickable('[data-test-eholdings-details-view-close-button] a');
   hasPreSearchPane = isPresent('[data-test-eholdings-pre-search-pane]');
 

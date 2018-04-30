@@ -82,11 +82,15 @@
   version "0.5.0"
   resolved "https://registry.yarnpkg.com/@bigtest/convergence/-/convergence-0.5.0.tgz#1d84f05e8e88869358050dabc28cf883872c41ca"
 
-"@bigtest/interaction@^0.2.0":
-  version "0.2.0"
-  resolved "https://registry.yarnpkg.com/@bigtest/interaction/-/interaction-0.2.0.tgz#2110eec1c3c2800d730138e751343bef3435c031"
+"@bigtest/convergence@^0.7.0":
+  version "0.7.0"
+  resolved "https://registry.yarnpkg.com/@bigtest/convergence/-/convergence-0.7.0.tgz#df577d7e78b453cf80b4f29acf66dd7f60fcc0c1"
+
+"@bigtest/interactor@^0.4.2":
+  version "0.4.2"
+  resolved "https://registry.yarnpkg.com/@bigtest/interactor/-/interactor-0.4.2.tgz#22e488ba6acab841d5cfaa238536075fffaf91db"
   dependencies:
-    "@bigtest/convergence" "^0.5.0"
+    "@bigtest/convergence" "^0.7.0"
 
 "@bigtest/mirage@^0.0.1":
   version "0.0.1"
@@ -338,7 +342,7 @@
     react-router-dom "^4.0.0"
     redux-form "^7.0.3"
 
-"@folio/ui-testing@github:folio-org/ui-testing#framework-only":
+"@folio/ui-testing@folio-org/ui-testing#framework-only":
   version "4.0.0"
   resolved "https://codeload.github.com/folio-org/ui-testing/tar.gz/90a425c1a8d12552e04c72dfeec2f623a81af629"
   dependencies:

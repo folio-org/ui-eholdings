@@ -80,8 +80,8 @@ describeApplication('PackageSelection', () => {
 
       describe('and deselecting the package', () => {
         beforeEach(() => {
-          return PackageShowPage.interaction
-            .once(() => !PackageShowPage.isSelectedToggleDisabled)
+          return PackageShowPage
+            .when(() => !PackageShowPage.isSelectedToggleDisabled)
             .toggleIsSelected();
         });
 

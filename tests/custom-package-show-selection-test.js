@@ -100,7 +100,7 @@ describeApplication('CustomPackageShowSelection', () => {
           });
 
           it('removes package detail pane', () => {
-            expect(PackageShowPage.exist).to.equal(false);
+            expect(PackageShowPage.isPresent).to.equal(false);
           });
         });
       });

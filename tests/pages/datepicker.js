@@ -1,30 +1,29 @@
 import {
   clickable,
-  page,
+  interactor,
   value,
   fillable,
   text,
   triggerable,
   blurrable
-} from '@bigtest/interaction';
-import { hasClassBeginningWith, isRootPresent } from './helpers';
+} from '@bigtest/interactor';
+import { hasClassBeginningWith } from './helpers';
 
-export default @page class Datepicker {
-  exists = isRootPresent();
-  value = value('input');
+export default @interactor class Datepicker {
+  inputValue = value('input');
   clickInput = clickable('input');
   fillInput = fillable('input');
   blurInput = blurrable('input');
   clearInput = clickable('button[id^=datepicker-clear-button]');
-  pressEnter = triggerable('keydown', 'input', {
+  pressEnter = triggerable('input', 'keydown', {
     bubbles: true,
     cancelable: true,
     keyCode: 13
   });
 
-  isValid = hasClassBeginningWith('feedbackValid--', 'input');
-  isInvalid = hasClassBeginningWith('feedbackError--', 'input');
-  isChanged = hasClassBeginningWith('feedbackChanged--', 'input');
+  isValid = hasClassBeginningWith('input', 'feedbackValid--');
+  isInvalid = hasClassBeginningWith('input', 'feedbackError--');
+  isChanged = hasClassBeginningWith('input', 'feedbackChanged--');
   validationError = text('div[class^=feedback]');
 
   fillAndBlur(date) {

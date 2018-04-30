@@ -2,22 +2,20 @@ import {
   clickable,
   collection,
   isPresent,
-  page,
+  interactor,
   property,
   text,
-} from '@bigtest/interaction';
-import { isRootPresent } from './helpers';
+} from '@bigtest/interactor';
 import Datepicker from './datepicker';
 
-@page class ResourceCustomCoveragePage {
-  exists = isRootPresent();
+@interactor class ResourceCustomCoveragePage {
   clickAddButton = clickable('[data-test-eholdings-coverage-form-add-button] button');
   hasForm = isPresent('[data-test-eholdings-coverage-form] form');
   clickCancelButton = clickable('[data-test-eholdings-inline-form-cancel-button] button');
   clickSaveButton = clickable('[data-test-eholdings-inline-form-save-button] button');
   clickEditButton = clickable('[data-test-eholdings-coverage-form-edit-button] button')
   hasCancelButton = isPresent('[data-test-eholdings-inline-form-cancel-button] button');
-  isSaveButtonDisabled = property('disabled', '[data-test-eholdings-inline-form-save-button] button');
+  isSaveButtonDisabled = property('[data-test-eholdings-inline-form-save-button] button', 'disabled');
   hasSaveButton = isPresent('[data-test-eholdings-inline-form-save-button] button');
   hasAddButton = isPresent('[data-test-eholdings-coverage-form-add-button] button');
   hasEditButton = isPresent('[data-test-eholdings-coverage-form-edit-button]');
@@ -31,7 +29,7 @@ import Datepicker from './datepicker';
     clickRemoveRowButton: clickable('[data-test-eholdings-coverage-fields-remove-row-button] button'),
     fillDates(beginDate, endDate) {
       return this.beginDate.fillAndBlur(beginDate)
-        .append(this.endDate.fillAndBlur(endDate));
+        .endDate.fillAndBlur(endDate);
     }
   });
 }

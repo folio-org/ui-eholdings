@@ -91,8 +91,8 @@ describeApplication('PackageCustomCoverage', () => {
       });
 
       it('displays the date input fields', () => {
-        expect(PackageShowPage.beginDate.exists).to.be.true;
-        expect(PackageShowPage.endDate.exists).to.be.true;
+        expect(PackageShowPage.beginDate.isPresent).to.be.true;
+        expect(PackageShowPage.endDate.isPresent).to.be.true;
       });
     });
   });
@@ -129,8 +129,8 @@ describeApplication('PackageCustomCoverage', () => {
       });
 
       it('displays custom coverage date inputs', () => {
-        expect(PackageShowPage.beginDate.exists).to.be.true;
-        expect(PackageShowPage.endDate.exists).to.be.true;
+        expect(PackageShowPage.beginDate.isPresent).to.be.true;
+        expect(PackageShowPage.endDate.isPresent).to.be.true;
       });
 
       describe('entering valid coverage', () => {
@@ -140,11 +140,11 @@ describeApplication('PackageCustomCoverage', () => {
           });
 
           it('accepts valid begin date', () => {
-            expect(PackageShowPage.beginDate.value).to.equal('12/16/2018');
+            expect(PackageShowPage.beginDate.inputValue).to.equal('12/16/2018');
           });
 
           it('accepts valid end date', () => {
-            expect(PackageShowPage.endDate.value).to.equal('12/24/2018');
+            expect(PackageShowPage.endDate.inputValue).to.equal('12/24/2018');
           });
 
           it('save button is enabled', () => {
@@ -161,8 +161,8 @@ describeApplication('PackageCustomCoverage', () => {
             });
 
             it('removes the custom coverage input fields', () => {
-              expect(PackageShowPage.beginDate.exists).to.be.false;
-              expect(PackageShowPage.endDate.exists).to.be.false;
+              expect(PackageShowPage.beginDate.isPresent).to.be.false;
+              expect(PackageShowPage.endDate.isPresent).to.be.false;
             });
 
             it('does not display the button to add custom coverage', () => {
@@ -177,7 +177,7 @@ describeApplication('PackageCustomCoverage', () => {
           });
 
           it('accepts valid begin date', () => {
-            expect(PackageShowPage.beginDate.value).to.equal('12/16/2018');
+            expect(PackageShowPage.beginDate.inputValue).to.equal('12/16/2018');
           });
 
           it('save button is enabled', () => {
@@ -194,8 +194,8 @@ describeApplication('PackageCustomCoverage', () => {
             });
 
             it('removes the custom coverage input fields', () => {
-              expect(PackageShowPage.beginDate.exists).to.be.false;
-              expect(PackageShowPage.endDate.exists).to.be.false;
+              expect(PackageShowPage.beginDate.isPresent).to.be.false;
+              expect(PackageShowPage.endDate.isPresent).to.be.false;
             });
 
             it('does not display the button to add custom coverage', () => {
@@ -210,7 +210,7 @@ describeApplication('PackageCustomCoverage', () => {
           beforeEach(() => {
             return PackageShowPage
               .fillDates('12/24/2018', '12/16/2018')
-              .append(PackageShowPage.beginDate.clearInput());
+              .beginDate.clearInput();
           });
 
           it('rejects invalid begin date', () => {
@@ -237,8 +237,8 @@ describeApplication('PackageCustomCoverage', () => {
         });
 
         it('removes the custom coverage input fields', () => {
-          expect(PackageShowPage.beginDate.exists).to.be.false;
-          expect(PackageShowPage.endDate.exists).to.be.false;
+          expect(PackageShowPage.beginDate.isPresent).to.be.false;
+          expect(PackageShowPage.endDate.isPresent).to.be.false;
         });
 
         it('displays the button to add custom coverage', () => {
