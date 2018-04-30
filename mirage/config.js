@@ -265,11 +265,11 @@ export default function configure() {
 
   this.put('/resources/:id', ({ resources }, request) => {
     let matchingResource = resources.find(request.params.id);
-
     let body = JSON.parse(request.requestBody);
     let {
       isSelected,
       visibilityData,
+      contributors,
       customCoverages,
       customEmbargoPeriod,
       coverageStatement,
@@ -287,6 +287,7 @@ export default function configure() {
     matchingResource.update('customCoverages', customCoverages);
     matchingResource.update('customEmbargoPeriod', customEmbargoPeriod);
     matchingResource.update('coverageStatement', coverageStatement);
+    matchingResource.title.update('contributors', contributors);
     matchingResource.title.update('isPeerReviewed', isPeerReviewed);
     matchingResource.title.update('edition', edition);
     matchingResource.title.update('description', description);
