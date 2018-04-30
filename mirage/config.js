@@ -260,11 +260,6 @@ export default function configure() {
   this.get('/resources/:id', ({ resources }, request) => {
     let resource = resources.find(request.params.id);
 
-    // if the ID is 1, it'll be a custom title
-    if (request.params.id === '1') {
-      resource.update('isTitleCustom', true);
-    }
-
     return resource;
   });
 

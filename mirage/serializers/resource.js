@@ -1,6 +1,11 @@
 import ApplicationSerializer from './application';
 
 function mapResourceAttrs(hash, resource) {
+  // if the ID is 1, it'll be a custom title
+  if (resource.id === '1') {
+    hash.attributes.isTitleCustom = true;
+  }
+
   hash.attributes.providerId = resource.package.provider.id;
   hash.attributes.providerName = resource.package.provider.name;
   hash.attributes.packageId = resource.package.id;
