@@ -12,6 +12,7 @@ import {
 import DetailsViewSection from '../../details-view-section';
 import NameField, { validate as validateTitleName } from '../_fields/name';
 import PublisherNameField, { validate as validatePublisherName } from '../_fields/publisher-name';
+import PackageSelectField, { validate as validatePackageSelection } from '../_fields/package-select';
 import DescriptionField, { validate as validateDescription } from '../_fields/description';
 import PublicationTypeField from '../_fields/publication-type';
 import PeerReviewedField from '../_fields/peer-reviewed';
@@ -22,6 +23,7 @@ import styles from './title-create.css';
 class TitleCreate extends Component {
   static propTypes = {
     request: PropTypes.object.isRequired,
+    customPackages: PropTypes.object.isRequired,
     handleSubmit: PropTypes.func.isRequired,
     onSubmit: PropTypes.func.isRequired,
     pristine: PropTypes.bool.isRequired
@@ -42,6 +44,7 @@ class TitleCreate extends Component {
   render() {
     let {
       request,
+      customPackages,
       handleSubmit,
       onSubmit,
       pristine
@@ -86,6 +89,7 @@ class TitleCreate extends Component {
               <PublisherNameField />
               <PublicationTypeField />
               <DescriptionField />
+              <PackageSelectField packages={customPackages} />
               <PeerReviewedField />
             </DetailsViewSection>
             <div className={styles['title-create-action-buttons']}>
@@ -114,7 +118,8 @@ const validate = (values) => {
     {},
     validateTitleName(values),
     validatePublisherName(values),
-    validateDescription(values)
+    validatePackageSelection(values),
+    validateDescription(values),
   );
 };
 

@@ -7,7 +7,15 @@ import TitleShowPage from './pages/title-show';
 import NavigationModal from './pages/navigation-modal';
 
 describeApplication('TitleCreate', () => {
+  let packages;
+
   beforeEach(function () {
+    packages = this.server.createList('package', 2, {
+      name: i => `Custom Package ${i + 1}`,
+      provider: this.server.create('provider'),
+      isCustom: true
+    });
+
     return this.visit('/eholdings/titles/new', () => {
       expect(TitleCreatePage.$root).to.exist;
     });
@@ -30,6 +38,11 @@ describeApplication('TitleCreate', () => {
     expect(TitleCreatePage.hasDescription).to.be.true;
   });
 
+  it('has a package select field', () => {
+    expect(TitleCreatePage.hasPackageSelect).to.be.true;
+    expect(TitleCreatePage.packagesCount).to.equal(2);
+  });
+
   it('has a peer reviewed toggle', () => {
     expect(TitleCreatePage.hasPeerReviewed).to.be.true;
     expect(TitleCreatePage.isPeerReviewed).to.be.false;
@@ -39,12 +52,14 @@ describeApplication('TitleCreate', () => {
     beforeEach(() => {
       return TitleCreatePage
         .fillName('My Title')
+        .selectPackage(packages[0].id)
         .save();
     });
 
     it('redirects to the new title show page', function () {
       expect(this.app.history.location.pathname).to.match(/^\/eholdings\/titles\/\d{1,}/);
       expect(TitleShowPage.titleName).to.equal('My Title');
+      expect(TitleShowPage.packageList(0).name).to.equal('Custom Package 1');
     });
 
     it('shows a success toast message', () => {
@@ -57,6 +72,7 @@ describeApplication('TitleCreate', () => {
       return TitleCreatePage
         .fillName('My Title')
         .fillPublisher('Me')
+        .selectPackage(packages[0].id)
         .save();
     });
 
@@ -71,6 +87,7 @@ describeApplication('TitleCreate', () => {
       return TitleCreatePage
         .fillName('My Title')
         .choosePublicationType('Book')
+        .selectPackage(packages[0].id)
         .save();
     });
 
@@ -85,6 +102,7 @@ describeApplication('TitleCreate', () => {
       return TitleCreatePage
         .fillName('My Title')
         .fillDescription('This is my title')
+        .selectPackage(packages[0].id)
         .save();
     });
 
@@ -94,12 +112,27 @@ describeApplication('TitleCreate', () => {
     });
   });
 
+  describe('creating a new title with a different package', () => {
+    beforeEach(() => {
+      return TitleCreatePage
+        .fillName('My Title')
+        .selectPackage(packages[1].id)
+        .save();
+    });
+
+    it('redirects to the new package with the specified package', function () {
+      expect(this.app.history.location.pathname).to.match(/^\/eholdings\/titles\/\d{1,}/);
+      expect(TitleShowPage.packageList(0).name).to.equal('Custom Package 2');
+    });
+  });
+
   describe('creating a new title and specifying peer reviewed status', () => {
     beforeEach(() => {
       return TitleCreatePage
         .fillName('My Title')
         .fillPublisher('Me')
         .togglePeerReviewed()
+        .selectPackage(packages[0].id)
         .save();
     });
 
@@ -141,6 +174,7 @@ describeApplication('TitleCreate', () => {
 
       return TitleCreatePage
         .fillName('My Title')
+        .selectPackage(packages[0].id)
         .save();
     });
 

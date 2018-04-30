@@ -4,7 +4,8 @@ import {
   fillable,
   clickable,
   property,
-  value
+  value,
+  count
 } from '@bigtest/interactor';
 
 @interactor class TitleCreatePage {
@@ -19,6 +20,9 @@ import {
   publicationType = value('[data-test-eholdings-publication-type-field] select');
   hasDescription = isPresent('[data-test-eholdings-description-textarea]');
   fillDescription = fillable('[data-test-eholdings-description-textarea] textarea');
+  hasPackageSelect = isPresent('[data-test-eholdings-package-select-field]');
+  packagesCount = count('[data-test-eholdings-package-select-field] option:not(:disabled)');
+  selectPackage = fillable('[data-test-eholdings-package-select-field] select');
   hasPeerReviewed = isPresent('[data-test-eholdings-peer-reviewed-field]');
   togglePeerReviewed = clickable('[data-test-eholdings-peer-reviewed-field] input');
   isPeerReviewed = property('[data-test-eholdings-peer-reviewed-field] input', 'checked');

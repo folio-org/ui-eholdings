@@ -128,6 +128,7 @@ export default function configure() {
     let params = req.queryParams;
     let type = params['filter[type]'];
     let selected = params['filter[selected]'];
+    let custom = params['filter[custom]'];
     let filtered = true;
 
     if (params.q && pkg.name) {
@@ -140,6 +141,11 @@ export default function configure() {
 
     if (filtered && selected) {
       filtered = pkg.isSelected.toString() === selected;
+    }
+
+    if (filtered && custom) {
+      // packages don't always have `isCustom` defined
+      filtered = pkg.isCustom ? custom === 'true' : custom === 'false';
     }
 
     return filtered;
@@ -254,12 +260,16 @@ export default function configure() {
     return titles.find(request.params.id);
   });
 
-  this.post('/titles', ({ titles }, request) => {
+  this.post('/titles', (schema, request) => {
     let body = JSON.parse(request.requestBody);
-    let title = titles.create(body.data.attributes);
+    let { packageId, ...titleAttrs } = body.data.attributes;
+    let title = schema.titles.create(titleAttrs);
+    let pkg = schema.packages.find(packageId);
 
     title.update('isSelected', true);
-    title.update('isCustom', true);
+    title.update('isTitleCustom', true);
+
+    schema.resources.create({ package: pkg, title });
 
     return title;
   });

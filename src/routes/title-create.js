@@ -4,13 +4,16 @@ import { connect } from 'react-redux';
 
 import { createResolver } from '../redux';
 import Title from '../redux/title';
+import Package from '../redux/package';
 
 import View from '../components/title/create';
 
 class TitleCreateRoute extends Component {
   static propTypes = {
     createRequest: PropTypes.object.isRequired,
-    createTitle: PropTypes.func.isRequired
+    customPackages: PropTypes.object.isRequired,
+    createTitle: PropTypes.func.isRequired,
+    getCustomPackages: PropTypes.func.isRequired
   };
 
   static contextTypes = {
@@ -20,6 +23,10 @@ class TitleCreateRoute extends Component {
       }).isRequired
     }).isRequired
   };
+
+  componentDidMount() {
+    this.props.getCustomPackages();
+  }
 
   componentDidUpdate(prevProps) {
     if (!prevProps.createRequest.isResolved && this.props.createRequest.isResolved) {
@@ -31,16 +38,24 @@ class TitleCreateRoute extends Component {
   }
 
   render() {
+    let {
+      createRequest,
+      customPackages,
+      createTitle
+    } = this.props;
+
     return (
       <View
-        request={this.props.createRequest}
-        onSubmit={this.props.createTitle}
+        request={createRequest}
+        customPackages={customPackages}
+        onSubmit={createTitle}
         initialValues={{
           name: '',
           publisherName: '',
           publicationType: 'Unspecified',
           isPeerReviewed: false,
           description: '',
+          packageId: ''
         }}
       />
     );
@@ -48,9 +63,21 @@ class TitleCreateRoute extends Component {
 }
 
 export default connect(
-  ({ eholdings: { data } }) => ({
-    createRequest: createResolver(data).getRequest('create', { type: 'titles' })
-  }), {
-    createTitle: attrs => Title.create(attrs)
+  ({ eholdings: { data } }) => {
+    let resolver = createResolver(data);
+
+    return {
+      createRequest: resolver.getRequest('create', { type: 'titles' }),
+      customPackages: resolver.query('packages', {
+        filter: { custom: true },
+        count: 1000
+      })
+    };
+  }, {
+    createTitle: attrs => Title.create(attrs),
+    getCustomPackages: () => Package.query({
+      filter: { custom: true },
+      count: 1000
+    })
   }
 )(TitleCreateRoute);

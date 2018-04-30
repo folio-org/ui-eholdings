@@ -12,6 +12,9 @@ class Title {
   isTitleCustom = false;
   isPeerReviewed = false;
   description = '';
+
+  // only used for title creation
+  packageId = '';
 }
 
 export default model({
