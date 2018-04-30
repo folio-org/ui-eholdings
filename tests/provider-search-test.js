@@ -186,7 +186,7 @@ describeApplication('ProviderSearch', () => {
         return ProviderSearchPage
           .when(() => ProviderSearchPage.hasLoaded)
           .do(() => ProviderSearchPage.providerList(0).clickThrough())
-          .append(ProviderSearchPage.changeSearchType('packages'));
+          .changeSearchType('packages');
       });
 
       it('only shows one search type as selected', () => {

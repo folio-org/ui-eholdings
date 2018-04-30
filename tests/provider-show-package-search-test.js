@@ -52,7 +52,7 @@ describeApplication('ProviderShow package search', () => {
   describe('searching for specific packages', () => {
     beforeEach(() => {
       return ProviderShowPage.clickListSearch()
-        .append(ProviderShowPage.searchModal.search('other ordinary'));
+        .searchModal.search('other ordinary');
     });
 
     it('hides the package search modal', () => {
@@ -78,7 +78,7 @@ describeApplication('ProviderShow package search', () => {
     describe('then sorting by package name', () => {
       beforeEach(() => {
         return ProviderShowPage.clickListSearch()
-          .append(ProviderShowPage.searchModal.clickFilter('sort', 'name'));
+          .searchModal.clickFilter('sort', 'name');
       });
 
       it.always('leaves the search modal open', () => {
@@ -95,7 +95,7 @@ describeApplication('ProviderShow package search', () => {
     describe('then filtering the packages by selection status', () => {
       beforeEach(() => {
         return ProviderShowPage.clickListSearch()
-          .append(ProviderShowPage.searchModal.clickFilter('selected', 'true'));
+          .searchModal.clickFilter('selected', 'true');
       });
 
       it.always('leaves the search modal open', () => {
@@ -111,7 +111,7 @@ describeApplication('ProviderShow package search', () => {
     describe('then filtering the packages by content type', () => {
       beforeEach(() => {
         return ProviderShowPage.clickListSearch()
-          .append(ProviderShowPage.searchModal.clickFilter('type', 'ebook'));
+          .searchModal.clickFilter('type', 'ebook');
       });
 
       it.always('leaves the search modal open', () => {

@@ -210,7 +210,7 @@ describeApplication('PackageCustomCoverage', () => {
           beforeEach(() => {
             return PackageShowPage
               .fillDates('12/24/2018', '12/16/2018')
-              .append(PackageShowPage.beginDate.clearInput());
+              .beginDate.clearInput();
           });
 
           it('rejects invalid begin date', () => {

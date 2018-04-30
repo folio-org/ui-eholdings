@@ -44,7 +44,7 @@ import Datepicker from './datepicker';
     clickRemoveRowButton: clickable('[data-test-eholdings-coverage-fields-remove-row-button] button'),
     fillDates(beginDate, endDate) {
       return this.beginDate.fillAndBlur(beginDate)
-        .append(this.endDate.fillAndBlur(endDate));
+        .endDate.fillAndBlur(endDate);
     }
   });
 }

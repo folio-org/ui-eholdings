@@ -22,7 +22,7 @@ import Datepicker from './datepicker';
     endDate: new Datepicker('[data-test-eholdings-coverage-fields-date-range-end]'),
     fillDates(beginDate, endDate) {
       return this.beginDate.fillAndBlur(beginDate)
-        .append(this.endDate.fillAndBlur(endDate));
+        .endDate.fillAndBlur(endDate);
     }
   });
 }

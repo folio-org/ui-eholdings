@@ -461,7 +461,7 @@ describeApplication('TitleSearch', () => {
           .do(() => (
             TitleSearchPage
               .titleList(0).click()
-              .append(TitleSearchPage.changeSearchType('providers'))
+              .changeSearchType('providers')
           ));
       });
 

@@ -176,7 +176,7 @@ describeApplication('ResourceCustomCoverage', () => {
           beforeEach(() => {
             return ResourceCoverage.dateRangeRowList(0)
               .fillDates('16/12/2018', '')
-              .append(ResourceCoverage.dateRangeRowList(0).beginDate.clearInput());
+              .dateRangeRowList(0).beginDate.clearInput();
           });
 
           it('indicates validation error on begin date', () => {
@@ -219,7 +219,7 @@ describeApplication('ResourceCustomCoverage', () => {
           describe.skip('entering overlapping ranges', () => {
             beforeEach(() => {
               return ResourceCoverage.dateRangeRowList(0).fillDates('12/16/2018', '12/20/2018')
-                .append(ResourceCoverage.dateRangeRowList(1).fillDates('12/18/2018', '12/19/2018'));
+                .dateRangeRowList(1).fillDates('12/18/2018', '12/19/2018');
             });
 
             it.pause('indicates validation error on begin dates', () => {

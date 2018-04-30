@@ -129,7 +129,7 @@ describeApplication('CustomPackageEdit', () => {
           .when(() => PackageEditPage.dateRangeRowList().length > 0)
           .do(() => {
             return PackageEditPage
-              .append(PackageEditPage.dateRangeRowList(0).fillDates('12/18/2018', '12/16/2018'))
+              .dateRangeRowList(0).fillDates('12/18/2018', '12/16/2018')
               .clickSave();
           });
       });
@@ -206,7 +206,7 @@ describeApplication('CustomPackageEdit', () => {
       beforeEach(() => {
         return PackageEditPage
           .name('')
-          .append(PackageEditPage.dateRangeRowList(0).fillDates('12/18/2018', '12/16/2018'))
+          .dateRangeRowList(0).fillDates('12/18/2018', '12/16/2018')
           .clickSave();
       });
 
@@ -224,7 +224,7 @@ describeApplication('CustomPackageEdit', () => {
         return PackageEditPage
           .name('A Different Name')
           .contentType('E-Journal')
-          .append(PackageEditPage.dateRangeRowList(0).fillDates('12/16/2018', '12/18/2018'));
+          .dateRangeRowList(0).fillDates('12/16/2018', '12/18/2018');
       });
 
       describe('clicking cancel', () => {
@@ -316,7 +316,7 @@ describeApplication('CustomPackageEdit', () => {
       beforeEach(() => {
         return PackageEditPage
           .name('A Different Name')
-          .append(PackageEditPage.dateRangeRowList(0).fillDates('12/16/2018', '12/18/2018'))
+          .dateRangeRowList(0).fillDates('12/16/2018', '12/18/2018')
           .clickSave();
       });
 

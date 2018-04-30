@@ -130,7 +130,7 @@ describeApplication('PackageShowAllowKbToAddTitles', () => {
       beforeEach(() => {
         return PackageShowPage
           .toggleIsSelected()
-          .append(PackageShowPage.modal.confirmDeselection());
+          .modal.confirmDeselection();
       });
 
       it('removes allow KB to add titles toggle switch', () => {
@@ -142,7 +142,7 @@ describeApplication('PackageShowAllowKbToAddTitles', () => {
       beforeEach(() => {
         return PackageShowPage
           .toggleIsSelected()
-          .append(PackageShowPage.modal.cancelDeselection());
+          .modal.cancelDeselection();
       });
 
       it('displays an ON Toggle', () => {

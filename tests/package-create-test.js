@@ -61,7 +61,7 @@ describeApplication('PackageCreate', () => {
       return PackageCreatePage
         .fillName('My Package')
         .addCoverage()
-        .append(PackageCreatePage.dateRangeRowList(0).fillDates('12/16/2018', '12/18/2018'))
+        .dateRangeRowList(0).fillDates('12/16/2018', '12/18/2018')
         .save();
     });
 

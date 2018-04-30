@@ -80,7 +80,7 @@ describeApplication('ManagedResourceEdit', () => {
                 dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec,
                 pellentesque eu, pretium quis, sem. Nulla consequat massa quis enim. Donec pede justo,
                 fringilla vel, aliquet nec, vulputate e`)
-              .append(ResourceEditPage.dateRangeRowList(0).fillDates('12/18/2018', '12/16/2018'))
+              .dateRangeRowList(0).fillDates('12/18/2018', '12/16/2018')
               .inputEmbargoValue('')
               .blurEmbargoValue()
               .selectEmbargoUnit('Weeks')
@@ -113,7 +113,7 @@ describeApplication('ManagedResourceEdit', () => {
           .do(() => {
             return ResourceEditPage
               .inputCoverageStatement('Only 90s kids would understand.')
-              .append(ResourceEditPage.dateRangeRowList(0).fillDates('12/16/2018', '12/18/2018'))
+              .dateRangeRowList(0).fillDates('12/16/2018', '12/18/2018')
               .inputEmbargoValue('27')
               .blurEmbargoValue()
               .selectEmbargoUnit('Weeks')
@@ -203,7 +203,7 @@ describeApplication('ManagedResourceEdit', () => {
             dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec,
             pellentesque eu, pretium quis, sem. Nulla consequat massa quis enim. Donec pede justo,
             fringilla vel, aliquet nec, vulputate e`)
-          .append(ResourceEditPage.dateRangeRowList(0).fillDates('12/18/2018', '12/16/2018'))
+          .dateRangeRowList(0).fillDates('12/18/2018', '12/16/2018')
           .inputEmbargoValue('')
           .blurEmbargoValue()
           .selectEmbargoUnit('Weeks')
@@ -231,7 +231,7 @@ describeApplication('ManagedResourceEdit', () => {
       beforeEach(() => {
         return ResourceEditPage
           .inputCoverageStatement('Refinance your home loans.')
-          .append(ResourceEditPage.dateRangeRowList(0).fillDates('12/16/2018', '12/18/2018'))
+          .dateRangeRowList(0).fillDates('12/16/2018', '12/18/2018')
           .inputEmbargoValue('27')
           .blurEmbargoValue()
           .selectEmbargoUnit('Weeks')

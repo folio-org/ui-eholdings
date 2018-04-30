@@ -118,15 +118,17 @@ import Toast from './toast';
 
   fillDates(beginDate, endDate) {
     return this.beginDate.fillAndBlur(beginDate)
-      .append(this.endDate.fillAndBlur(endDate));
+      .endDate.fillAndBlur(endDate);
   }
 
   deselectAndConfirmPackage() {
-    return this.toggleIsSelected().append(this.modal.confirmDeselection());
+    return this.toggleIsSelected()
+      .modal.confirmDeselection();
   }
 
   deselectAndCancelPackage() {
-    return this.toggleIsSelected().append(this.modal.cancelDeselection());
+    return this.toggleIsSelected()
+      .modal.cancelDeselection();
   }
 }
 
