@@ -125,6 +125,7 @@ export default class PackageShow extends Component {
 
     // if coming from creating a new custom package, show a success toast
     if (router.history.action === 'REPLACE' &&
+        router.history.location.state &&
         router.history.location.state.isNewRecord) {
       toasts.push({
         id: `success-package-creation-${model.id}`,
