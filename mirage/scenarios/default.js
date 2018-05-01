@@ -13,6 +13,7 @@ export default function defaultScenario(server) {
 
   let customProvider = server.create('provider', {
     name: 'Atlanta A&T Library',
+    packagesSelected: 1,
     packagesTotal: 1
   });
 
@@ -20,8 +21,9 @@ export default function defaultScenario(server) {
     provider: customProvider,
     name: 'Atlanta A&T Drumming Books',
     contentType: 'AggregatedFullText',
-    isSelected: false,
+    isSelected: true,
     isCustom: true,
+    selectedCount: 1,
     titleCount: 1
   });
 
@@ -29,7 +31,7 @@ export default function defaultScenario(server) {
     name: 'Single, Double, and Triple Paradiddles',
     isTitleCustom: true,
     isPeerReviewed: false,
-    isSelected: false,
+    isSelected: true,
     description: '',
     edition: ''
   });
