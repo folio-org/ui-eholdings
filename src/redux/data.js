@@ -409,7 +409,7 @@ const handlers = {
         if (request.type === 'destroy' || !request.records.some(id => data.ids.includes(id))) {
           reqs[timestamp] = request;
 
-        // if a query request includes unloaded ids, falg is with `hasUnloaded`
+        // if a query request includes unloaded ids, flag is with `hasUnloaded`
         } else if (request.type === 'query') {
           reqs[timestamp] = {
             ...request,
@@ -444,29 +444,29 @@ const handlers = {
       }
     }));
 
-    // then we reduce each record in the set of records
-    next = records.reduce((next, record) => { // eslint-disable-line no-shadow
-      return reduceData(record.type, next, (store) => {
-        let recordState = getRecord(store, record.id);
-
-        return {
-          records: {
-            ...store.records,
-            [record.id]: {
-              ...recordState,
-              attributes: record.attributes || {},
-              relationships: mergeRelationships(recordState.relationships, record.relationships),
-              isSaving: false,
-              isLoading: false,
-              isLoaded: true
-            }
-          }
-        };
-      });
-    }, next);
-
     if (request.type === 'destroy') {
       next = handlers[actionTypes.UNLOAD](next, action);
+    } else {
+      // then we reduce each record in the set of records
+      next = records.reduce((next, record) => { // eslint-disable-line no-shadow
+        return reduceData(record.type, next, (store) => {
+          let recordState = getRecord(store, record.id);
+
+          return {
+            records: {
+              ...store.records,
+              [record.id]: {
+                ...recordState,
+                attributes: record.attributes || {},
+                relationships: mergeRelationships(recordState.relationships, record.relationships),
+                isSaving: false,
+                isLoading: false,
+                isLoaded: true
+              }
+            }
+          };
+        });
+      }, next);
     }
 
     return next;
