@@ -89,8 +89,10 @@ class TitleCreate extends Component {
               <PublisherNameField />
               <PublicationTypeField />
               <DescriptionField />
-              <PackageSelectField packages={customPackages} />
               <PeerReviewedField />
+            </DetailsViewSection>
+            <DetailsViewSection label="Package information">
+              <PackageSelectField packages={customPackages} />
             </DetailsViewSection>
             <div className={styles['title-create-action-buttons']}>
               <div data-test-eholdings-title-create-cancel-button>
