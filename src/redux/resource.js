@@ -9,6 +9,7 @@ class Resource {
   packageName = '';
   package = belongsTo();
   publisherName = '';
+  edition = '';
   publicationType = '';
   contentType = '';
   isSelected = false;

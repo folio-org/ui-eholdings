@@ -73,6 +73,14 @@ export default function TitleShow({ model }, { queryParams, router }) {
           <DetailsViewSection label="Title information">
             <ContributorsList data={model.contributors} />
 
+            {model.edition && (
+              <KeyValue label="Edition">
+                <div data-test-eholdings-title-show-edition>
+                  {model.edition}
+                </div>
+              </KeyValue>
+            )}
+
             {model.publisherName && (
               <KeyValue label="Publisher">
                 <div data-test-eholdings-title-show-publisher-name>

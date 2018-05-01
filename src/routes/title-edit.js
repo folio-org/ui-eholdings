@@ -72,6 +72,7 @@ class TitleShowRoute extends Component {
         updateRequest={updateRequest}
         initialValues={{
           name: model.name,
+          edition: model.edition,
           isPeerReviewed: model.isPeerReviewed,
           publicationType: model.publicationType,
           publisherName: model.publisherName,

@@ -33,6 +33,7 @@ export default function defaultScenario(server) {
     name: 'Single, Double, and Triple Paradiddles',
     isTitleCustom: true,
     isPeerReviewed: false,
+    edition: '',
     description: ''
   });
 

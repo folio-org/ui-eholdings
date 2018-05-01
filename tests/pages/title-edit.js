@@ -33,9 +33,12 @@ import Toast from './toast';
 
   selectPublicationType = fillable('[data-test-eholdings-publication-type-field] select');
   publicationTypeValue = value('[data-test-eholdings-publication-type-field] select');
+  fillEdition = fillable('[data-test-eholdings-edition-field] input');
   fillPublisher = fillable('[data-test-eholdings-publisher-name-field] input');
+  editionValue = value('[data-test-eholdings-edition-field] input');
   publisherValue = value('[data-test-eholdings-publisher-name-field] input');
   publisherHasError = hasClassBeginningWith('[data-test-eholdings-publisher-name-field] input', 'feedbackError--');
+  editionHasError = hasClassBeginningWith('[data-test-eholdings-edition-field] input', 'feedbackError--');
 }
 
 export default new TitleEditPage('[data-test-eholdings-details-view="title"]');

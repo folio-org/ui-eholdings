@@ -25,6 +25,7 @@ export default Factory.extend({
   identifiers: () => [],
   isTitleCustom: false,
   isPeerReviewed: false,
+  edition: '',
   description: '',
 
   withPackages: trait({

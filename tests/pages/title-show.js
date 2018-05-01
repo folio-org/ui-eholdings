@@ -14,6 +14,7 @@ import Toast from './toast';
 @interactor class TitleShowPage {
   paneTitle = text('[data-test-eholdings-details-view-pane-title]');
   titleName = text('[data-test-eholdings-details-view-name="title"]');
+  edition = text('[data-test-eholdings-title-show-edition]');
   publisherName = text('[data-test-eholdings-title-show-publisher-name]');
   publicationType = text('[data-test-eholdings-title-show-publication-type]');
   hasPublicationType = isPresent('[data-test-eholdings-title-show-publication-type]');

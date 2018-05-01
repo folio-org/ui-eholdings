@@ -24,6 +24,7 @@ import Toast from './toast';
 
 @interactor class ResourceShowPage {
   titleName = text('[data-test-eholdings-details-view-name="resource"]');
+  edition = text('[data-test-eholdings-resource-show-edition]');
   descriptionText = text('[data-test-eholdings-description-field]');
   publisherName = text('[data-test-eholdings-resource-show-publisher-name]');
   publicationType = text('[data-test-eholdings-resource-show-publication-type]');

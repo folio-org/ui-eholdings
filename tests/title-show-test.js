@@ -11,6 +11,7 @@ describeApplication('TitleShow', () => {
   beforeEach(function () {
     title = this.server.create('title', 'withPackages', {
       name: 'Cool Title',
+      edition: 'Cool Edition',
       publisherName: 'Cool Publisher',
       publicationType: 'Website'
     });
@@ -53,6 +54,10 @@ describeApplication('TitleShow', () => {
 
     it('displays the title name', () => {
       expect(TitleShowPage.titleName).to.equal('Cool Title');
+    });
+
+    it('displays the edition', () => {
+      expect(TitleShowPage.edition).to.equal('Cool Edition');
     });
 
     it('displays the publisher name', () => {
@@ -132,6 +137,7 @@ describeApplication('TitleShow', () => {
     beforeEach(function () {
       title = this.server.create('title', {
         name: 'Cool Title',
+        edition: 'Cool Edition',
         publisherName: 'Cool Publisher',
         publicationType: ''
       });
@@ -145,6 +151,10 @@ describeApplication('TitleShow', () => {
 
     it('displays the title name', () => {
       expect(TitleShowPage.titleName).to.equal('Cool Title');
+    });
+
+    it('displays the edition', () => {
+      expect(TitleShowPage.edition).to.equal('Cool Edition');
     });
 
     it('displays the publisher name', () => {
@@ -176,6 +186,7 @@ describeApplication('TitleShow', () => {
     beforeEach(function () {
       title = this.server.create('title', {
         name: 'Cool Title',
+        edition: 'Cool Edition',
         publisherName: 'Cool Publisher',
         publicationType: 'UnknownPublicationType'
       });
@@ -189,6 +200,10 @@ describeApplication('TitleShow', () => {
 
     it('displays the title name', () => {
       expect(TitleShowPage.titleName).to.equal('Cool Title');
+    });
+
+    it('displays the edition', () => {
+      expect(TitleShowPage.edition).to.equal('Cool Edition');
     });
 
     it('displays the publisher name', () => {

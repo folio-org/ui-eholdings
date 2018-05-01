@@ -24,6 +24,7 @@ describeApplication('CustomTitleEdit', () => {
 
     title = this.server.create('title', {
       name: 'Best Title Ever',
+      edition: 'Test Edition',
       publicationType: 'Streaming Video',
       publisherName: 'Amazing Publisher',
       isPeerReviewed: false,
@@ -46,6 +47,10 @@ describeApplication('CustomTitleEdit', () => {
       return this.visit(`/eholdings/titles/${title.id}/edit`, () => {
         expect(TitleEditPage.$root).to.exist;
       });
+    });
+
+    it('shows a field for edition', () => {
+      expect(TitleEditPage.editionValue).to.equal('Test Edition');
     });
 
     it('shows a field for publisher', () => {
@@ -78,6 +83,9 @@ describeApplication('CustomTitleEdit', () => {
       beforeEach(() => {
         return TitleEditPage
           .name('')
+          .fillEdition(`In the realm of narrative psychology, a person’s life story is not a Wikipedia biography of the facts and
+            events of a life, but rather the way a person integrates those facts and events internally—picks them apart and weaves them back
+            together to make meaning. `)
           .fillPublisher(`The only prerequisite is that it makes you happy.
             If it makes you happy then it's good. All kinds of happy little splashes.
             I started painting as a hobby when I was little. I didn't know I had any talent.
@@ -96,14 +104,34 @@ describeApplication('CustomTitleEdit', () => {
         expect(TitleEditPage.nameHasError).to.be.true;
       });
 
+      it('displays a validation error for the edition field', () => {
+        expect(TitleEditPage.editionHasError).to.be.true;
+      });
+
       it('displays a validation error for the publisher field', () => {
         expect(TitleEditPage.publisherHasError).to.be.true;
+      });
+    });
+
+    describe('entering empty spaces for edition', () => {
+      beforeEach(() => {
+        return TitleEditPage
+          .name('some name')
+          .fillEdition('        ')
+          .fillPublisher('some publisher')
+          .fillDescription('some description')
+          .clickSave();
+      });
+
+      it('displays a validation error for the edition field', () => {
+        expect(TitleEditPage.editionHasError).to.be.true;
       });
     });
 
     describe('entering valid data', () => {
       beforeEach(() => {
         return TitleEditPage
+          .fillEdition('testing edition again')
           .fillPublisher('Not So Awesome Publisher')
           .fillDescription('What a super helpful description. Wow.')
           .checkPeerReviewed();
@@ -126,6 +154,10 @@ describeApplication('CustomTitleEdit', () => {
 
         it('goes to the title show page', () => {
           expect(TitleShowPage.$root).to.exist;
+        });
+
+        it('reflects the new edition', () => {
+          expect(TitleShowPage.edition).to.equal('testing edition again');
         });
 
         it('reflects the new publisher', () => {
@@ -188,6 +220,7 @@ describeApplication('CustomTitleEdit', () => {
       beforeEach(() => {
         return TitleEditPage
           .name('A Different Name')
+          .fillEdition('A Different Edition')
           .selectPublicationType('Web Site')
           .checkPeerReviewed();
       });
@@ -213,6 +246,10 @@ describeApplication('CustomTitleEdit', () => {
 
         it('reflects the new name', () => {
           expect(TitleShowPage.titleName).to.equal('A Different Name');
+        });
+
+        it('shows the new edition', () => {
+          expect(TitleEditPage.editionValue).to.equal('A Different Edition');
         });
 
         it('shows the new publication type', () => {
@@ -262,6 +299,7 @@ describeApplication('CustomTitleEdit', () => {
         return TitleEditPage
           .checkPeerReviewed()
           .name('A Different Name')
+          .fillEdition('A Different Edition')
           .clickSave();
       });
 

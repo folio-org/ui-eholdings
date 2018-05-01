@@ -2,6 +2,7 @@ import model, { hasMany } from './model';
 
 class Title {
   name = '';
+  edition = '';
   publisherName = '';
   publicationType = '';
   subjects = [];
