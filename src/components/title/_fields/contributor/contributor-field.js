@@ -13,7 +13,7 @@ class ContributorField extends Component {
     function renderFields() {
       return (
         <ul className={styles['contributor-fields-rows']}>
-          {fields.map((contributor, index) => (
+          {fields.map((contributor, index, allFields) => (
             <li
               data-test-eholdings-contributor-fields-row
               className={styles['contributor-fields-row']}
@@ -24,7 +24,7 @@ class ContributorField extends Component {
                 <Field
                   name={`${contributor}.contributor`}
                   type="text"
-                  autoFocus
+                  autoFocus={Object.keys(allFields.get(index)).length === 0}
                   component={TextField}
                   label="Contributor"
                 />
@@ -68,7 +68,7 @@ class ContributorField extends Component {
             type="button"
             onClick={() => fields.push({})}
           >
-            + Add contributer
+            + Add a contributor
           </Button>
         </div>
       </div>
@@ -85,14 +85,17 @@ class ContributorField extends Component {
 export function validate(values) {
   const errors = {};
 
-  values.contributors.forEach((contributor, index) => {
+  values.contributors.forEach((contributorObj, index) => {
     let contributorErrors = {};
+    let isEmptyObject = Object.keys(contributorObj).length === 0;
+    let contributor = contributorObj.contributor;
+    let isEmptyString = typeof contributor === 'string' && !contributor.trim();
 
-    if (!contributor.contributor.length) {
+    if (isEmptyString || isEmptyObject) {
       contributorErrors.contributor = 'You must provide a contributor';
     }
 
-    if (contributor.contributor.length > 250) {
+    if (contributor && contributor.length >= 250) {
       contributorErrors.contributor = 'A contributor must be less than 250 characters';
     }
 
