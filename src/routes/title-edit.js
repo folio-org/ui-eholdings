@@ -48,7 +48,7 @@ class TitleShowRoute extends Component {
     if (!prevProps.updateRequest.isResolved && this.props.updateRequest.isResolved) {
       this.context.router.history.push(
         `/eholdings/titles/${this.props.model.id}`,
-        { eholdings: true }
+        { eholdings: true, isFreshlySaved: true }
       );
     }
   }
