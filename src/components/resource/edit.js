@@ -1,10 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import EditManaged from './edit-managed';
-import EditCustom from './edit-custom';
+import EditManagedTitle from './edit-managed-title';
+import EditCustomTitle from './edit-custom-title';
 
 export default function ResourceEdit({ model, ...props }) {
-  let View = model.isTitleCustom ? EditCustom : EditManaged;
+  let View = model.isTitleCustom ? EditCustomTitle : EditManagedTitle;
 
   return (
     <View

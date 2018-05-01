@@ -16,9 +16,9 @@ import CustomEmbargoFields, { validate as validateEmbargo } from '../_fields/cus
 import DetailsViewSection from '../../details-view-section';
 import NavigationModal from '../../navigation-modal';
 import Toaster from '../../toaster';
-import styles from './managed-resource-edit.css';
+import styles from './resource-edit-managed-title.css';
 
-class ManagedResourceEdit extends Component {
+class ResourceEditManagedTitle extends Component {
   static propTypes = {
     model: PropTypes.object.isRequired,
     initialValues: PropTypes.object.isRequired,
@@ -146,6 +146,6 @@ const validate = (values, props) => {
 export default reduxForm({
   validate,
   enableReinitialize: true,
-  form: 'ManagedResourceEdit',
+  form: 'ResourceEditManagedTitle',
   destroyOnUnmount: false,
-})(ManagedResourceEdit);
+})(ResourceEditManagedTitle);
