@@ -165,6 +165,14 @@ export default class ResourceShow extends Component {
                   </Link>
                 </KeyValue>
 
+                {model.edition && (
+                  <KeyValue label="Edition">
+                    <div data-test-eholdings-resource-show-edition>
+                      {model.edition}
+                    </div>
+                  </KeyValue>
+                )}
+
                 <ContributorsList data={model.contributors} />
 
                 {model.publisherName && (

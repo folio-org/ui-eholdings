@@ -24,6 +24,7 @@ describeApplication('ResourceShow', () => {
 
     let title = this.server.create('title', {
       name: 'Best Title Ever',
+      edition: 'Best Edition',
       publicationType: 'Streaming Video',
       publisherName: 'Amazing Publisher'
     });
@@ -74,6 +75,10 @@ describeApplication('ResourceShow', () => {
 
     it('displays the title name', () => {
       expect(ResourcePage.titleName).to.equal('Best Title Ever');
+    });
+
+    it('displays the edition', () => {
+      expect(ResourcePage.edition).to.equal('Best Edition');
     });
 
     it('displays the authors', () => {
@@ -264,6 +269,7 @@ describeApplication('ResourceShow', () => {
 
       let title = this.server.create('title', {
         name: 'Best Title Ever',
+        edition: 'Best Edition Ever',
         publicationType: ''
       });
 
@@ -280,6 +286,10 @@ describeApplication('ResourceShow', () => {
 
     it('displays the title name', () => {
       expect(ResourcePage.titleName).to.equal('Best Title Ever');
+    });
+
+    it('displays the edition', () => {
+      expect(ResourcePage.edition).to.equal('Best Edition Ever');
     });
 
     it.always('does not display a content type', () => {

@@ -278,7 +278,8 @@ export default function configure() {
       name,
       url,
       description,
-      isPeerReviewed
+      isPeerReviewed,
+      edition
     } = body.data.attributes;
 
     matchingResource.update('isSelected', isSelected);
@@ -287,6 +288,7 @@ export default function configure() {
     matchingResource.update('customEmbargoPeriod', customEmbargoPeriod);
     matchingResource.update('coverageStatement', coverageStatement);
     matchingResource.title.update('isPeerReviewed', isPeerReviewed);
+    matchingResource.title.update('edition', edition);
     matchingResource.title.update('description', description);
     matchingResource.title.update('name', name);
     matchingResource.update('url', url);

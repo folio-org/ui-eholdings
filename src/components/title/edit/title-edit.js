@@ -10,6 +10,7 @@ import {
 
 import DetailsView from '../../details-view';
 import NameField, { validate as validateName } from '../_fields/name';
+import EditionField, { validate as validateEdition } from '../_fields/edition';
 import PublisherNameField, { validate as validatePublisher } from '../_fields/publisher-name';
 import PublicationTypeField from '../_fields/publication-type';
 import DescriptionField, { validate as validateDescription } from '../_fields/description';
@@ -120,6 +121,7 @@ class TitleEdit extends Component {
                 label="Title information"
               >
                 <NameField />
+                <EditionField />
                 <PublisherNameField />
                 <PublicationTypeField />
                 <DescriptionField />
@@ -164,6 +166,7 @@ class TitleEdit extends Component {
 const validate = (values) => {
   return Object.assign({},
     validateName(values),
+    validateEdition(values),
     validatePublisher(values),
     validateDescription(values));
 };
