@@ -5,7 +5,8 @@ import {
   interactor,
   property,
   value,
-  text
+  text,
+  collection
 } from '@bigtest/interactor';
 import { hasClassBeginningWith } from './helpers';
 import Toast from './toast';
@@ -49,6 +50,11 @@ import Toast from './toast';
   publisherHasError = hasClassBeginningWith('[data-test-eholdings-publisher-name-field] input', 'feedbackError--');
   contributorHasError = hasClassBeginningWith('[data-test-eholdings-contributor-contributor] input', 'feedbackError--');
   contributorError = text('[data-test-eholdings-contributor-contributor] [class^="feedbackError--"]');
+
+  removeContributorCollection = collection('[data-test-eholdings-contributor-fields-remove-row-button]', {
+    remove: clickable('button')
+  });
+  contributorsWillBeRemoved = text('[data-test-eholdings-contributors-fields-saving-will-remove]');
 }
 
 export default new TitleEditPage('[data-test-eholdings-details-view="title"]');

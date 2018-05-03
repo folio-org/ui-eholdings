@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import { Field, FieldArray } from 'redux-form';
 import {
   TextField,
@@ -9,7 +10,17 @@ import {
 import styles from './contributor-field.css';
 
 class ContributorField extends Component {
+  static propTypes = {
+    initialValue: PropTypes.array
+  };
+
+  static defaultProps = {
+    initialValue: []
+  };
+
   renderContributorFields = ({ fields }) => {
+    let { initialValue } = this.props;
+
     function renderFields() {
       return (
         <ul className={styles['contributor-fields-rows']}>
@@ -70,6 +81,14 @@ class ContributorField extends Component {
 
     return (
       <div className={styles['contributor-fields']}>
+        {fields.length === 0
+          && initialValue.length > 0
+          && initialValue[0].id
+          && (
+          <p data-test-eholdings-contributors-fields-saving-will-remove>
+            No contributors set. Saving will remove any previously set.
+          </p>
+        )}
         {fields.length !== 0 ? renderFields() : null}
         <div
           data-test-eholdings-contributor-fields-add-row-button

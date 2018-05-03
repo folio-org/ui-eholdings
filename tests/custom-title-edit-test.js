@@ -30,6 +30,7 @@ describeApplication('CustomTitleEdit', () => {
       isPeerReviewed: false,
       contributors: [
         {
+          id: '001',
           contributor: 'Foo',
           type: 'author'
         }
@@ -103,6 +104,18 @@ describeApplication('CustomTitleEdit', () => {
       });
     });
 
+    describe('Removing all contributors when they were previously set', () => {
+      beforeEach(() => {
+        return TitleEditPage
+          .removeContributorCollection(0)
+          .remove();
+      });
+
+      it('displays a message saying they will be removed on save', () => {
+        expect(TitleEditPage.contributorsWillBeRemoved).to
+          .equal('No contributors set. Saving will remove any previously set.');
+      });
+    });
 
     describe('entering invalid data', () => {
       beforeEach(() => {

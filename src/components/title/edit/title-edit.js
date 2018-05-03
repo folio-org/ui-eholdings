@@ -70,7 +70,8 @@ class TitleEdit extends Component {
       handleSubmit,
       onSubmit,
       pristine,
-      updateRequest
+      updateRequest,
+      initialValues
     } = this.props;
 
     let {
@@ -125,7 +126,9 @@ class TitleEdit extends Component {
                 <EditionField />
                 <PublisherNameField />
                 <PublicationTypeField />
-                <ContributerField />
+                <ContributerField
+                  initialValue={initialValues.contributors}
+                />
                 <DescriptionField />
                 <PeerReviewedField />
               </DetailsViewSection>
