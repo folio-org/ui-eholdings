@@ -59,7 +59,7 @@ class ResourceEditManagedTitle extends Component {
     if (wasPending && needsUpdate) {
       this.context.router.history.push(
         `/eholdings/resources/${this.props.model.id}`,
-        { eholdings: true }
+        { eholdings: true, isFreshlySaved: true }
       );
     }
   }

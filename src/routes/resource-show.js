@@ -43,10 +43,21 @@ class ResourceShowRoute extends Component {
   }
 
   componentDidUpdate(prevProps) {
+    let wasUpdated = !this.props.model.update.isPending && prevProps.model.update.isPending && (!this.props.model.update.errors.length > 0);
+    let { router } = this.context;
+
     let { packageName, packageId } = prevProps.model;
     if (!prevProps.model.destroy.isResolved && this.props.model.destroy.isResolved) {
       this.context.router.history.replace(`/eholdings/packages/${packageId}?searchType=packages&q=${packageName}`,
         { eholdings: true, isDestroyed: true });
+    }
+
+    if (wasUpdated) {
+      router.history.push({
+        pathname: `/eholdings/resources/${this.props.model.id}`,
+        search: router.route.location.search,
+        state: { eholdings: true, isFreshlySaved: true }
+      });
     }
   }
 
@@ -54,12 +65,13 @@ class ResourceShowRoute extends Component {
     let { model, updateResource, destroyResource } = this.props;
     model.isSelected = !model.isSelected;
 
-    if (model.isSelected === false) {
+    if (model.isSelected === false && model.package.isCustom) {
       destroyResource(model);
     } else {
       // clear out any customizations before sending to server
       model.visibilityData.isHidden = false;
       model.customCoverages = [];
+      model.coverageStatement = '';
       model.customEmbargoPeriod = {};
       model.identifiersList = [];
       model.identifiers = {};

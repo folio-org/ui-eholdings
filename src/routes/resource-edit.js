@@ -64,8 +64,18 @@ class ResourceEditRoute extends Component {
       customUrl
     } = values;
 
-    if (values.isSelected === false) {
+    if (values.isSelected === false && model.package.isCustom) {
       destroyResource(model);
+    } else if (values.isSelected === false) {
+      model.isSelected = !model.isSelected;
+      model.customCoverages = [];
+      model.visibilityData.isHidden = false;
+      model.identifiersList = [];
+      model.identifiers = {};
+      model.customStatement = '';
+      model.customEmbargoPeriod = {};
+
+      updateResource(model);
     } else {
       model.customCoverages = customCoverages.map((dateRange) => {
         let beginCoverage = !dateRange.beginCoverage ? null : moment(dateRange.beginCoverage).format('YYYY-MM-DD');

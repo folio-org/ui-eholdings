@@ -35,6 +35,7 @@ export default class ResourceShow extends Component {
 
   static contextTypes = {
     locale: PropTypes.string,
+    router: PropTypes.object,
     intl: PropTypes.object
   };
 
@@ -66,7 +67,10 @@ export default class ResourceShow extends Component {
   };
 
   commitSelectionToggle = () => {
-    this.setState({ showSelectionModal: false });
+    this.setState({
+      showSelectionModal: false,
+      resourceSelected: false
+    });
     this.props.toggleSelected();
   };
 
@@ -91,7 +95,7 @@ export default class ResourceShow extends Component {
 
   render() {
     let { model, customEmbargoSubmitted, coverageSubmitted, coverageStatementSubmitted } = this.props;
-    let { locale, intl } = this.context;
+    let { locale, intl, router } = this.context;
     let {
       showSelectionModal,
       resourceSelected,
@@ -133,9 +137,23 @@ export default class ResourceShow extends Component {
       }
     ];
 
+    let toasts = processErrors(model);
+
+    // if coming from updating any value on managed title in a managed package
+    // show a success toast
+    if (router.history.action === 'PUSH' &&
+        router.history.location.state &&
+        router.history.location.state.isFreshlySaved) {
+      toasts.push({
+        id: `success-package-creation-${model.id}`,
+        message: 'Title was updated.',
+        type: 'success'
+      });
+    }
+
     return (
       <div>
-        <Toaster toasts={processErrors(model)} position="bottom" />
+        <Toaster toasts={toasts} position="bottom" />
 
         <DetailsView
           type="resource"
@@ -263,7 +281,7 @@ export default class ResourceShow extends Component {
                   <br />
                   <ToggleSwitch
                     onChange={this.handleSelectionToggle}
-                    checked={resourceSelected}
+                    checked={model.destroy.isPending ? false : resourceSelected}
                     isPending={model.destroy.isPending ||
                     (model.update.isPending && 'isSelected' in model.update.changedAttributes)}
                     id="resource-show-toggle-switch"

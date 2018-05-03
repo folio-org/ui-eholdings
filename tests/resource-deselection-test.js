@@ -100,21 +100,13 @@ describeApplication('ResourceDeselection', () => {
             return ResourcePage.deselectionModal.confirmDeselection();
           });
 
-          it('transition to Package Search Page', () => {
-            expect(PackageSearchPage.isPresent).to.be.true;
+          it('remains on Resource Page', () => {
+            expect(ResourcePage.isPresent).to.be.true;
           });
 
           describe('when the request succeeds', () => {
-            it('has search prefilled with package name', () => {
-              expect(PackageSearchPage.searchFieldValue).to.equal('Cool Package');
-            });
-
-            it('does not have an association to the above package', () => {
-              expect(PackageSearchPage.packageTitleList().length).to.equal(0);
-            });
-
-            it('shows a success Toast notification', () => {
-              expect(PackageSearchPage.toast.successText).to.equal('Title removed from package');
+            it.skip('shows a success Toast notification', () => {
+              expect(PackageSearchPage.toast.successText).to.equal('Title was updated');
             });
           });
         });
