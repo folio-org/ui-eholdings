@@ -29,6 +29,22 @@ import {
   hasPublicationType = isPresent('[data-test-eholdings-publication-type-field]');
   choosePublicationType = fillable('[data-test-eholdings-publication-type-field] select');
   publicationType = value('[data-test-eholdings-publication-type-field] select');
+
+  hasIdentifiersBtn = isPresent('[data-test-eholdings-identifiers-fields-add-row-button]');
+  addIdentifier(type, id) {
+    let values = {
+      'ISSN (Online)': '0',
+      'ISSN (Print)': '1',
+      'ISBN (Online)': '2',
+      'ISBN (Print)': '3'
+    };
+
+    return this
+      .click('[data-test-eholdings-identifiers-fields-add-row-button] button')
+      .fill('[data-test-eholdings-identifiers-fields-type] select', values[type])
+      .fill('[data-test-eholdings-identifiers-fields-id] input', id);
+  }
+
   hasDescription = isPresent('[data-test-eholdings-description-textarea]');
   fillDescription = fillable('[data-test-eholdings-description-textarea] textarea');
   hasPackageSelect = isPresent('[data-test-eholdings-package-select-field]');

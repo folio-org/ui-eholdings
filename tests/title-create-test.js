@@ -42,6 +42,10 @@ describeApplication('TitleCreate', () => {
     expect(TitleCreatePage.publicationType).to.equal('Unspecified');
   });
 
+  it('has an add identifier button', () => {
+    expect(TitleCreatePage.hasIdentifiersBtn).to.be.true;
+  });
+
   it('has a description field', () => {
     expect(TitleCreatePage.hasDescription).to.be.true;
   });
@@ -132,6 +136,21 @@ describeApplication('TitleCreate', () => {
     it('redirects to the new package with the specified content type', function () {
       expect(this.app.history.location.pathname).to.match(/^\/eholdings\/titles\/\d{1,}/);
       expect(TitleShowPage.publicationType).to.equal('Book');
+    });
+  });
+
+  describe('creating a new title with an identifier', () => {
+    beforeEach(() => {
+      return TitleCreatePage
+        .fillName('My Title')
+        .addIdentifier('ISBN (Print)', '90210')
+        .selectPackage(packages[0].id)
+        .save();
+    });
+
+    it('redirects to the new title show page with the specified identifier', function () {
+      expect(this.app.history.location.pathname).to.match(/^\/eholdings\/titles\/\d{1,}/);
+      expect(TitleShowPage.identifiersList(0).text).to.equal('ISBN (Print)90210');
     });
   });
 

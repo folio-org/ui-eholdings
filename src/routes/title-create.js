@@ -37,11 +37,45 @@ class TitleCreateRoute extends Component {
     }
   }
 
+  flattenedIdentifiers = [
+    { type: 'ISSN', subtype: 'Online' },
+    { type: 'ISSN', subtype: 'Print' },
+    { type: 'ISBN', subtype: 'Online' },
+    { type: 'ISBN', subtype: 'Print' }
+  ]
+
+  mergeIdentifiers = (identifiers) => {
+    return identifiers.map(({ id, type, subtype }) => {
+      let mergedTypeIndex = 0;
+
+      if (type && subtype) {
+        mergedTypeIndex = this.flattenedIdentifiers.filter(row =>
+          row.type === type && row.subtype === subtype);
+      }
+
+      return {
+        id,
+        flattenedType: mergedTypeIndex
+      };
+    });
+  }
+
+  expandIdentifiers = (identifiers) => {
+    return identifiers.map(({ id, flattenedType }) => {
+      let flattenedTypeIndex = flattenedType || 0;
+      return { id, ...this.flattenedIdentifiers[flattenedTypeIndex] };
+    });
+  }
+
   createTitle = (values) => {
     let { packageId, ...attrs } = values;
+
     // a resource is created along with the title
     attrs.resources = [{ packageId }];
-    this.props.createTitle(attrs);
+
+    this.props.createTitle(Object.assign(attrs, {
+      identifiers: this.expandIdentifiers(attrs.identifiers)
+    }));
   };
 
   render() {
@@ -62,6 +96,7 @@ class TitleCreateRoute extends Component {
           publicationType: 'Unspecified',
           isPeerReviewed: false,
           contributors: [],
+          identifiers: [],
           description: '',
           packageId: ''
         }}
