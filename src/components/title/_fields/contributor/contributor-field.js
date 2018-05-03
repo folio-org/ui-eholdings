@@ -19,7 +19,10 @@ class ContributorField extends Component {
               className={styles['contributor-fields-row']}
               key={index}
             >
-              <div className={styles['contributor-fields-contributor']}>
+              <div
+                data-test-eholdings-contributor-contributor
+                className={styles['contributor-fields-contributor']}
+              >
                 {/* TODO: Only do autoFocus for the first field, when NEW */}
                 <Field
                   name={`${contributor}.contributor`}
@@ -30,7 +33,10 @@ class ContributorField extends Component {
                 />
               </div>
 
-              <div className={styles['contributor-fields-contributor']}>
+              <div
+                data-test-eholdings-contributor-type
+                className={styles['contributor-fields-contributor']}
+              >
                 <Field
                   name={`${contributor}.type`}
                   component={Select}

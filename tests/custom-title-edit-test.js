@@ -28,6 +28,12 @@ describeApplication('CustomTitleEdit', () => {
       publicationType: 'Streaming Video',
       publisherName: 'Amazing Publisher',
       isPeerReviewed: false,
+      contributors: [
+        {
+          contributor: 'Foo',
+          type: 'author'
+        }
+      ],
       isTitleCustom: true
     });
 
@@ -61,6 +67,11 @@ describeApplication('CustomTitleEdit', () => {
       expect(TitleEditPage.descriptionField).to.equal('');
     });
 
+    it('shows a contributor field', () => {
+      expect(TitleEditPage.contributorValue).to.equal('Foo');
+      expect(TitleEditPage.contributorType).to.equal('author');
+    });
+
     it('shows unchecked peer review box', () => {
       expect(TitleEditPage.isPeerReviewed).to.be.false;
     });
@@ -79,6 +90,20 @@ describeApplication('CustomTitleEdit', () => {
       });
     });
 
+    describe('entering a long contributor name', () => {
+      beforeEach(() => {
+        return TitleEditPage
+          .fillContributor(new Array(255 + 1).join('a'))
+          .clickSave();
+      });
+
+      it('displays the correct validation message', () => {
+        expect(TitleEditPage.contributorHasError).to.be.true;
+        expect(TitleEditPage.contributorError).to.equal('A contributor must be less than 250 characters');
+      });
+    });
+
+
     describe('entering invalid data', () => {
       beforeEach(() => {
         return TitleEditPage
@@ -86,6 +111,7 @@ describeApplication('CustomTitleEdit', () => {
           .fillEdition(`In the realm of narrative psychology, a person’s life story is not a Wikipedia biography of the facts and
             events of a life, but rather the way a person integrates those facts and events internally—picks them apart and weaves them back
             together to make meaning. `)
+          .fillContributor('')
           .fillPublisher(`The only prerequisite is that it makes you happy.
             If it makes you happy then it's good. All kinds of happy little splashes.
             I started painting as a hobby when I was little. I didn't know I had any talent.
@@ -106,6 +132,11 @@ describeApplication('CustomTitleEdit', () => {
 
       it('displays a validation error for the edition field', () => {
         expect(TitleEditPage.editionHasError).to.be.true;
+      });
+
+      it('displays a validation error for contributor', () => {
+        expect(TitleEditPage.contributorHasError).to.be.true;
+        expect(TitleEditPage.contributorError).to.equal('You must provide a contributor');
       });
 
       it('displays a validation error for the publisher field', () => {
@@ -133,6 +164,8 @@ describeApplication('CustomTitleEdit', () => {
         return TitleEditPage
           .fillEdition('testing edition again')
           .fillPublisher('Not So Awesome Publisher')
+          .fillContributor('Awesome Author')
+          .selectContributorType('Editor')
           .fillDescription('What a super helpful description. Wow.')
           .checkPeerReviewed();
       });
@@ -162,6 +195,10 @@ describeApplication('CustomTitleEdit', () => {
 
         it('reflects the new publisher', () => {
           expect(TitleShowPage.publisherName).to.equal('Not So Awesome Publisher');
+        });
+
+        it('reflects the new contributor', () => {
+          expect(TitleShowPage.contributorsList(0).text).to.equal('Awesome Author');
         });
 
         it('shows the new description', () => {
