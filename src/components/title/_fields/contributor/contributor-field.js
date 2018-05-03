@@ -23,10 +23,10 @@ class ContributorField extends Component {
                 data-test-eholdings-contributor-contributor
                 className={styles['contributor-fields-contributor']}
               >
-                {/* TODO: Only do autoFocus for the first field, when NEW */}
                 <Field
                   name={`${contributor}.contributor`}
                   type="text"
+                  id={`${contributor}-input`}
                   autoFocus={Object.keys(allFields.get(index)).length === 0}
                   component={TextField}
                   label="Contributor"
@@ -41,6 +41,7 @@ class ContributorField extends Component {
                   name={`${contributor}.type`}
                   component={Select}
                   label="Contributor Type"
+                  id={`${contributor}-type`}
                   dataOptions={[
                     { value: 'author', label: 'Author' },
                     { value: 'editor', label: 'Editor' },
@@ -54,6 +55,7 @@ class ContributorField extends Component {
               >
                 <IconButton
                   icon="hollowX"
+                  aria-label={`Remove ${allFields.get(index).contributor}`}
                   onClick={() => fields.remove(index)}
                   size="small"
                 />
