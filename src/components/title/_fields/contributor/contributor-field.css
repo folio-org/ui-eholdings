@@ -1,11 +1,9 @@
 @import '@folio/stripes-components/lib/variables';
 
 .contributor-fields {
+  margin: 1em 0;
   max-width: 50em;
-
-  & fieldset {
-    padding: 0;
-  }
+  padding: 0;
 
   & legend {
     margin-bottom: 0.5em;
