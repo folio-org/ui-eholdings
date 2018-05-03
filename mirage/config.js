@@ -262,14 +262,17 @@ export default function configure() {
 
   this.post('/titles', (schema, request) => {
     let body = JSON.parse(request.requestBody);
-    let { packageId, ...titleAttrs } = body.data.attributes;
-    let title = schema.titles.create(titleAttrs);
-    let pkg = schema.packages.find(packageId);
+    let title = schema.titles.create(body.data.attributes);
 
     title.update('isSelected', true);
     title.update('isTitleCustom', true);
 
-    schema.resources.create({ package: pkg, title });
+    for (let include of body.included) {
+      if (include.type === 'resource') {
+        let pkg = schema.packages.find(include.attributes.packageId);
+        schema.resources.create({ package: pkg, title });
+      }
+    }
 
     return title;
   });

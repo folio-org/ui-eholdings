@@ -37,18 +37,24 @@ class TitleCreateRoute extends Component {
     }
   }
 
+  createTitle = (values) => {
+    let { packageId, ...attrs } = values;
+    // a resource is created along with the title
+    attrs.resources = [{ packageId }];
+    this.props.createTitle(attrs);
+  };
+
   render() {
     let {
       createRequest,
-      customPackages,
-      createTitle
+      customPackages
     } = this.props;
 
     return (
       <View
         request={createRequest}
         customPackages={customPackages}
-        onSubmit={createTitle}
+        onSubmit={this.createTitle}
         initialValues={{
           name: '',
           publisherName: '',
