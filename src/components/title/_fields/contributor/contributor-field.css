@@ -2,6 +2,14 @@
 
 .contributor-fields {
   max-width: 50em;
+
+  & fieldset {
+    padding: 0;
+  }
+
+  & legend {
+    margin-bottom: 0.5em;
+  }
 }
 
 .contributor-fields-rows {

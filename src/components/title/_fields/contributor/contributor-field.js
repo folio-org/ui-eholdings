@@ -13,55 +13,57 @@ class ContributorField extends Component {
     function renderFields() {
       return (
         <ul className={styles['contributor-fields-rows']}>
-          {fields.map((contributor, index, allFields) => (
-            <li
-              data-test-eholdings-contributor-fields-row
-              className={styles['contributor-fields-row']}
-              key={index}
-            >
-              <div
-                data-test-eholdings-contributor-contributor
-                className={styles['contributor-fields-contributor']}
+          <fieldset>
+            <legend>Contributors</legend>
+            {fields.map((contributor, index, allFields) => (
+              <li
+                className={styles['contributor-fields-row']}
+                key={index}
               >
-                <Field
-                  name={`${contributor}.contributor`}
-                  type="text"
-                  id={`${contributor}-input`}
-                  autoFocus={Object.keys(allFields.get(index)).length === 0}
-                  component={TextField}
-                  label="Contributor"
-                />
-              </div>
+                <div
+                  data-test-eholdings-contributor-type
+                  className={styles['contributor-fields-contributor']}
+                >
+                  <Field
+                    name={`${contributor}.type`}
+                    component={Select}
+                    autoFocus={Object.keys(allFields.get(index)).length === 0}
+                    label="Type"
+                    id={`${contributor}-type`}
+                    dataOptions={[
+                      { value: 'author', label: 'Author' },
+                      { value: 'editor', label: 'Editor' },
+                      { value: 'illustrator', label: 'Illustrator' }
+                    ]}
+                  />
+                </div>
+                <div
+                  data-test-eholdings-contributor-contributor
+                  className={styles['contributor-fields-contributor']}
+                >
+                  <Field
+                    name={`${contributor}.contributor`}
+                    type="text"
+                    id={`${contributor}-input`}
+                    component={TextField}
+                    label="Name"
+                  />
+                </div>
 
-              <div
-                data-test-eholdings-contributor-type
-                className={styles['contributor-fields-contributor']}
-              >
-                <Field
-                  name={`${contributor}.type`}
-                  component={Select}
-                  label="Contributor Type"
-                  id={`${contributor}-type`}
-                  dataOptions={[
-                    { value: 'author', label: 'Author' },
-                    { value: 'editor', label: 'Editor' },
-                    { value: 'illustrator', label: 'Illustrator' }
-                  ]}
-                />
-              </div>
-              <div
-                data-test-eholdings-contributor-fields-remove-row-button
-                className={styles['contributor-fields-clear-row']}
-              >
-                <IconButton
-                  icon="hollowX"
-                  aria-label={`Remove ${allFields.get(index).contributor}`}
-                  onClick={() => fields.remove(index)}
-                  size="small"
-                />
-              </div>
-            </li>
-          ))}
+                <div
+                  data-test-eholdings-contributor-fields-remove-row-button
+                  className={styles['contributor-fields-clear-row']}
+                >
+                  <IconButton
+                    icon="hollowX"
+                    aria-label={`Remove ${allFields.get(index).contributor}`}
+                    onClick={() => fields.remove(index)}
+                    size="small"
+                  />
+                </div>
+              </li>
+            ))}
+          </fieldset>
         </ul>
       );
     }
