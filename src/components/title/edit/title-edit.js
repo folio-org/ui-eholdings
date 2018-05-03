@@ -14,6 +14,7 @@ import EditionField, { validate as validateEdition } from '../_fields/edition';
 import PublisherNameField, { validate as validatePublisher } from '../_fields/publisher-name';
 import PublicationTypeField from '../_fields/publication-type';
 import DescriptionField, { validate as validateDescription } from '../_fields/description';
+import ContributorField, { validate as validateContributor } from '../_fields/contributor';
 import PeerReviewedField from '../_fields/peer-reviewed';
 import DetailsViewSection from '../../details-view-section';
 import NavigationModal from '../../navigation-modal';
@@ -69,7 +70,8 @@ class TitleEdit extends Component {
       handleSubmit,
       onSubmit,
       pristine,
-      updateRequest
+      updateRequest,
+      initialValues
     } = this.props;
 
     let {
@@ -124,6 +126,9 @@ class TitleEdit extends Component {
                 <EditionField />
                 <PublisherNameField />
                 <PublicationTypeField />
+                <ContributorField
+                  initialValue={initialValues.contributors}
+                />
                 <DescriptionField />
                 <PeerReviewedField />
               </DetailsViewSection>
@@ -168,6 +173,7 @@ const validate = (values) => {
     validateName(values),
     validateEdition(values),
     validatePublisher(values),
+    validateContributor(values),
     validateDescription(values));
 };
 

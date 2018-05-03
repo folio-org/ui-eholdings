@@ -76,7 +76,8 @@ class TitleShowRoute extends Component {
           isPeerReviewed: model.isPeerReviewed,
           publicationType: model.publicationType,
           publisherName: model.publisherName,
-          description: model.description
+          description: model.description,
+          contributors: model.contributors
         }}
       />
     );
