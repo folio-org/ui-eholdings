@@ -82,8 +82,8 @@ class ResourceEditCustomTitle extends Component {
         <DetailsView
           type="resource"
           model={model}
-          paneTitle={model.name}
-          paneSub={model.packageName}
+          paneTitle={model.title.name}
+          paneSub={model.package.name}
           actionMenuItems={actionMenuItems}
           bodyContent={(
             <form onSubmit={handleSubmit(onSubmit)}>

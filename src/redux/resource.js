@@ -8,21 +8,25 @@ class Resource {
   packageId = 0;
   packageName = '';
   package = belongsTo();
-  publisherName = '';
-  edition = '';
-  publicationType = '';
-  contentType = '';
+  title = belongsTo();
   isSelected = false;
   url = '';
-  subjects = [];
-  contributors = [];
-  identifiers = [];
   managedCoverages = [];
   customCoverages = [];
   managedEmbargoPeriod = {};
   customEmbargoPeriod = {};
   visibilityData = {};
   coverageStatement = '';
+
+  // these are really title attributes, but have to stick around
+  // until /PUT titles is available in mod-kb-ebsco
+  publisherName = '';
+  edition = '';
+  publicationType = '';
+  contentType = '';
+  subjects = [];
+  contributors = [];
+  identifiers = [];
   isTitleCustom = false;
   isPeerReviewed = false;
   description = '';
