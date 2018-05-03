@@ -48,15 +48,48 @@ class TitleShowRoute extends Component {
     if (!prevProps.updateRequest.isResolved && this.props.updateRequest.isResolved) {
       this.context.router.history.push(
         `/eholdings/titles/${this.props.model.id}`,
-        { eholdings: true }
+        { eholdings: true, isFreshlySaved: true }
       );
     }
+  }
+
+  flattenedIdentifiers = [
+    { type: 'ISSN', subtype: 'Online' },
+    { type: 'ISSN', subtype: 'Print' },
+    { type: 'ISBN', subtype: 'Online' },
+    { type: 'ISBN', subtype: 'Print' }
+  ]
+
+  mergeIdentifiers = (identifiers) => {
+    return identifiers.map(({ id, type, subtype }) => {
+      let mergedTypeIndex = 0;
+
+      if (type && subtype) {
+        mergedTypeIndex = this.flattenedIdentifiers.filter(row =>
+          row.type === type && row.subtype === subtype);
+      }
+
+      return {
+        id,
+        flattenedType: mergedTypeIndex
+      };
+    });
+  }
+
+  expandIdentifiers = (identifiers) => {
+    return identifiers.map(({ id, flattenedType }) => {
+      let flattenedTypeIndex = flattenedType || 0;
+      return { id, ...this.flattenedIdentifiers[flattenedTypeIndex] };
+    });
   }
 
   titleEditSubmitted = (values) => {
     let { model, updateResource } = this.props;
     let resource = model.resources.records[0];
-    updateResource(Object.assign(resource, values));
+    updateResource(Object.assign(resource, {
+      ...values,
+      identifiers: this.expandIdentifiers(values.identifiers)
+    }));
   }
 
   render() {
@@ -77,7 +110,8 @@ class TitleShowRoute extends Component {
           publicationType: model.publicationType,
           publisherName: model.publisherName,
           description: model.description,
-          contributors: model.contributors
+          contributors: model.contributors,
+          identifiers: this.mergeIdentifiers(model.identifiers)
         }}
       />
     );

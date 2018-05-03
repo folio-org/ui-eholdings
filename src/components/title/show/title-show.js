@@ -59,9 +59,22 @@ export default function TitleShow({ model }, { queryParams, router }) {
     );
   }
 
+  let toasts = processErrors(model);
+
+  // if coming from saving edits to the package, show a success toast
+  if (router.history.action === 'PUSH' &&
+      router.history.location.state &&
+      router.history.location.state.isFreshlySaved) {
+    toasts.push({
+      id: `success-title-saved-${model.id}`,
+      message: 'Title saved.',
+      type: 'success'
+    });
+  }
+
   return (
     <div>
-      <Toaster toasts={processErrors(model)} position="bottom" />
+      <Toaster toasts={toasts} position="bottom" />
 
       <DetailsView
         type="title"

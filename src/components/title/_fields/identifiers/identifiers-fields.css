@@ -1,33 +1,32 @@
 @import '@folio/stripes-components/lib/variables';
 
-.contributor-fields {
+.identifiers-fields {
   margin: 1em 0;
   max-width: 50em;
   padding: 0;
 
   & legend {
-    margin-bottom: 0.5em;
+    margin-bottom: 1em;
   }
 }
 
-.contributor-fields-rows {
+.identifiers-fields-rows {
   list-style-type: none;
   padding: 0;
 }
 
-.contributor-fields-row {
+.identifiers-fields-row {
   display: flex;
   align-items: flex-start;
 }
 
-.contributor-fields-contributor,
-.contributor-fields-type {
+.identifiers-fields-field {
   align-self: flex-start;
   flex: 1 1 200px;
   margin-right: 1em;
 }
 
-.contributor-fields-clear-row {
+.identifiers-fields-clear-row {
   flex: 0 0 3em;
   margin-top: 2.25em;
   text-align: center;

@@ -24,63 +24,61 @@ class ContributorField extends Component {
     function renderFields() {
       return (
         <ul className={styles['contributor-fields-rows']}>
-          <fieldset>
-            <legend>Contributors</legend>
-            {fields.map((contributor, index, allFields) => (
-              <li
-                className={styles['contributor-fields-row']}
-                key={index}
+          {fields.map((contributor, index, allFields) => (
+            <li
+              className={styles['contributor-fields-row']}
+              key={index}
+            >
+              <div
+                data-test-eholdings-contributor-type
+                className={styles['contributor-fields-contributor']}
               >
-                <div
-                  data-test-eholdings-contributor-type
-                  className={styles['contributor-fields-contributor']}
-                >
-                  <Field
-                    name={`${contributor}.type`}
-                    component={Select}
-                    autoFocus={Object.keys(allFields.get(index)).length === 0}
-                    label="Type"
-                    id={`${contributor}-type`}
-                    dataOptions={[
-                      { value: 'author', label: 'Author' },
-                      { value: 'editor', label: 'Editor' },
-                      { value: 'illustrator', label: 'Illustrator' }
-                    ]}
-                  />
-                </div>
-                <div
-                  data-test-eholdings-contributor-contributor
-                  className={styles['contributor-fields-contributor']}
-                >
-                  <Field
-                    name={`${contributor}.contributor`}
-                    type="text"
-                    id={`${contributor}-input`}
-                    component={TextField}
-                    label="Name"
-                  />
-                </div>
+                <Field
+                  name={`${contributor}.type`}
+                  component={Select}
+                  autoFocus={Object.keys(allFields.get(index)).length === 0}
+                  label="Type"
+                  id={`${contributor}-type`}
+                  dataOptions={[
+                    { value: 'author', label: 'Author' },
+                    { value: 'editor', label: 'Editor' },
+                    { value: 'illustrator', label: 'Illustrator' }
+                  ]}
+                />
+              </div>
+              <div
+                data-test-eholdings-contributor-contributor
+                className={styles['contributor-fields-contributor']}
+              >
+                <Field
+                  name={`${contributor}.contributor`}
+                  type="text"
+                  id={`${contributor}-input`}
+                  component={TextField}
+                  label="Name"
+                />
+              </div>
 
-                <div
-                  data-test-eholdings-contributor-fields-remove-row-button
-                  className={styles['contributor-fields-clear-row']}
-                >
-                  <IconButton
-                    icon="hollowX"
-                    aria-label={`Remove ${allFields.get(index).contributor}`}
-                    onClick={() => fields.remove(index)}
-                    size="small"
-                  />
-                </div>
-              </li>
-            ))}
-          </fieldset>
+              <div
+                data-test-eholdings-contributor-fields-remove-row-button
+                className={styles['contributor-fields-clear-row']}
+              >
+                <IconButton
+                  icon="hollowX"
+                  aria-label={`Remove ${allFields.get(index).contributor}`}
+                  onClick={() => fields.remove(index)}
+                  size="small"
+                />
+              </div>
+            </li>
+          ))}
         </ul>
       );
     }
 
     return (
-      <div className={styles['contributor-fields']}>
+      <fieldset className={styles['contributor-fields']}>
+        <legend>Contributors</legend>
         {fields.length === 0
           && initialValue.length > 0
           && initialValue[0].id
@@ -100,7 +98,7 @@ class ContributorField extends Component {
             + Add a contributor
           </Button>
         </div>
-      </div>
+      </fieldset>
     );
   };
 

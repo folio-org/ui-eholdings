@@ -131,6 +131,8 @@ describeApplication('CustomTitleEdit', () => {
             I believe talent is just a pursued interest. Anybody can do what I do.
             We'll put some happy little leaves here and there. Go out on a limb - that's where the fruit is.
             God gave you this gift of imagination. Use it.`)
+          .clickAddIdentifiersRowButton()
+          .identifiersRowList(0).id('00000-00000-00000-00000') // eslint-disable-line newline-per-chained-call
           .fillDescription(`Trees cover up a multitude of sins. If you don't think every day is a good day - try missing a few. You'll see. Put light against light - you have nothing. Put dark against dark - you have nothing. It's the contrast of light and dark that each give the other one meaning. Water's like me. It's laaazy. Boy, it always looks for the easiest way to do things We might as well make some Almighty mountains today as well, what the heck.
             You have to make these big decisions. Just take out whatever you don't want. It'll change your entire perspective. We artists are a different breed of people. We're a happy bunch.
             All you need to paint is a few tools, a little instruction, and a vision in your mind. Exercising the imagination, experimenting with talents, being creative; these things, to me, are truly the windows to your soul. I guess that would be considered a UFO. A big cotton ball in the sky.
@@ -150,6 +152,10 @@ describeApplication('CustomTitleEdit', () => {
       it('displays a validation error for contributor', () => {
         expect(TitleEditPage.contributorHasError).to.be.true;
         expect(TitleEditPage.contributorError).to.equal('You must provide a contributor');
+      });
+
+      it('displays a validation error for the first identifier id', () => {
+        expect(TitleEditPage.identifiersRowList(0).idHasError).to.be.true;
       });
 
       it('displays a validation error for the publisher field', () => {
@@ -179,6 +185,8 @@ describeApplication('CustomTitleEdit', () => {
           .fillPublisher('Not So Awesome Publisher')
           .fillContributor('Awesome Author')
           .selectContributorType('Editor')
+          .clickAddIdentifiersRowButton()
+          .identifiersRowList(0).id('1111') // eslint-disable-line newline-per-chained-call
           .fillDescription('What a super helpful description. Wow.')
           .checkPeerReviewed();
       });
@@ -214,6 +222,10 @@ describeApplication('CustomTitleEdit', () => {
           expect(TitleShowPage.contributorsList(0).text).to.equal('Awesome Author');
         });
 
+        it('shows the new ISSN', () => {
+          expect(TitleShowPage.identifiersList(0).text).to.equal('ISSN (Online)1111');
+        });
+
         it('shows the new description', () => {
           expect(TitleShowPage.descriptionText).to.equal('What a super helpful description. Wow.');
         });
@@ -221,93 +233,9 @@ describeApplication('CustomTitleEdit', () => {
         it('shows YES for peer reviewed', () => {
           expect(TitleShowPage.peerReviewedStatus).to.equal('Yes');
         });
-      });
-    });
-  });
 
-  describe('visiting the title edit page', () => {
-    beforeEach(function () {
-      return this.visit(`/eholdings/titles/${title.id}/edit`, () => {
-        expect(TitleEditPage.$root).to.exist;
-      });
-    });
-
-    it('disables the save button', () => {
-      expect(TitleEditPage.isSaveDisabled).to.be.true;
-    });
-
-    it('shows unchecked peer review box', () => {
-      expect(TitleEditPage.isPeerReviewed).to.be.false;
-    });
-
-    describe('clicking cancel', () => {
-      beforeEach(() => {
-        return TitleEditPage.clickCancel();
-      });
-
-      it('goes to the title show page', () => {
-        expect(TitleShowPage.$root).to.exist;
-      });
-
-      it('shows NO for peer reviewed', () => {
-        expect(TitleShowPage.peerReviewedStatus).to.equal('No');
-      });
-    });
-
-    describe('entering invalid data', () => {
-      beforeEach(() => {
-        return TitleEditPage
-          .name('')
-          .clickSave();
-      });
-
-      it('displays a validation error for the name', () => {
-        expect(TitleEditPage.nameHasError).to.be.true;
-      });
-    });
-
-    describe('entering valid data', () => {
-      beforeEach(() => {
-        return TitleEditPage
-          .name('A Different Name')
-          .fillEdition('A Different Edition')
-          .selectPublicationType('Web Site')
-          .checkPeerReviewed();
-      });
-
-      describe('clicking cancel', () => {
-        beforeEach(() => {
-          return TitleEditPage.clickCancel();
-        });
-
-        it('shows a navigation confirmation modal', () => {
-          expect(TitleEditPage.navigationModal.$root).to.exist;
-        });
-      });
-
-      describe('clicking save', () => {
-        beforeEach(() => {
-          return TitleEditPage.clickSave();
-        });
-
-        it('goes to the title show page', () => {
-          expect(TitleShowPage.$root).to.exist;
-        });
-
-        it('reflects the new name', () => {
-          expect(TitleShowPage.titleName).to.equal('A Different Name');
-        });
-
-        it('shows the new edition', () => {
-          expect(TitleEditPage.editionValue).to.equal('A Different Edition');
-        });
-
-        it('shows the new publication type', () => {
-          expect(TitleEditPage.publicationTypeValue).to.equal('Web Site');
-        });
-
-        it('shows YES for peer reviewed', () => {
-          expect(TitleShowPage.peerReviewedStatus).to.equal('Yes');
+        it('shows a success toast message', () => {
+          expect(TitleShowPage.toast.successText).to.equal('Title saved.');
         });
       });
     });
