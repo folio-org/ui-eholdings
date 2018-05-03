@@ -13,6 +13,17 @@ import {
 
   hasName = isPresent('[data-test-eholdings-title-name-field]');
   fillName = fillable('[data-test-eholdings-title-name-field] input');
+
+  hasContributorBtn = isPresent('[data-test-eholdings-contributor-fields-add-row-button]');
+  addContributor(type, name) {
+    return this
+      .click('[data-test-eholdings-contributor-fields-add-row-button] button')
+      .fill('[data-test-eholdings-contributor-type] select', type)
+      .fill('[data-test-eholdings-contributor-contributor] input', name);
+  }
+
+  hasEdition = isPresent('[data-test-eholdings-edition-field]');
+  fillEdition = fillable('[data-test-eholdings-edition-field] input');
   hasPublisher = isPresent('[data-test-eholdings-publisher-name-field]');
   fillPublisher = fillable('[data-test-eholdings-publisher-name-field] input');
   hasPublicationType = isPresent('[data-test-eholdings-publication-type-field]');

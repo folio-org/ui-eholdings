@@ -25,6 +25,14 @@ describeApplication('TitleCreate', () => {
     expect(TitleCreatePage.hasName).to.be.true;
   });
 
+  it('has an add contributor button', () => {
+    expect(TitleCreatePage.hasContributorBtn).to.be.true;
+  });
+
+  it('has an edition field', () => {
+    expect(TitleCreatePage.hasEdition).to.be.true;
+  });
+
   it('has a publisher name field', () => {
     expect(TitleCreatePage.hasPublisher).to.be.true;
   });
@@ -64,6 +72,36 @@ describeApplication('TitleCreate', () => {
 
     it('shows a success toast message', () => {
       expect(TitleShowPage.toast.successText).to.equal('Custom title created.');
+    });
+  });
+
+  describe('creating a new title with a contributor', () => {
+    beforeEach(() => {
+      return TitleCreatePage
+        .fillName('My Title')
+        .addContributor('author', 'Me')
+        .selectPackage(packages[0].id)
+        .save();
+    });
+
+    it('redirects to the new title show page with the specified contributor', function () {
+      expect(this.app.history.location.pathname).to.match(/^\/eholdings\/titles\/\d{1,}/);
+      expect(TitleShowPage.contributorsList(0).text).to.equal('AuthorMe');
+    });
+  });
+
+  describe('creating a new title with an edition', () => {
+    beforeEach(() => {
+      return TitleCreatePage
+        .fillName('My Title')
+        .fillEdition('My Edition')
+        .selectPackage(packages[0].id)
+        .save();
+    });
+
+    it('redirects to the new title show page with the specified edition', function () {
+      expect(this.app.history.location.pathname).to.match(/^\/eholdings\/titles\/\d{1,}/);
+      expect(TitleShowPage.edition).to.equal('My Edition');
     });
   });
 

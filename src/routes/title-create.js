@@ -57,9 +57,11 @@ class TitleCreateRoute extends Component {
         onSubmit={this.createTitle}
         initialValues={{
           name: '',
+          edition: '',
           publisherName: '',
           publicationType: 'Unspecified',
           isPeerReviewed: false,
+          contributors: [],
           description: '',
           packageId: ''
         }}

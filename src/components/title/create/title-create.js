@@ -10,9 +10,11 @@ import {
 } from '@folio/stripes-components';
 
 import DetailsViewSection from '../../details-view-section';
-import NameField, { validate as validateTitleName } from '../_fields/name';
+import NameField, { validate as validateName } from '../_fields/name';
+import EditionField, { validate as validateEdition } from '../_fields/edition';
 import PublisherNameField, { validate as validatePublisherName } from '../_fields/publisher-name';
 import PackageSelectField, { validate as validatePackageSelection } from '../_fields/package-select';
+import ContributorField, { validate as validateContributor } from '../_fields/contributor';
 import DescriptionField, { validate as validateDescription } from '../_fields/description';
 import PublicationTypeField from '../_fields/publication-type';
 import PeerReviewedField from '../_fields/peer-reviewed';
@@ -86,6 +88,8 @@ class TitleCreate extends Component {
           <form onSubmit={handleSubmit(onSubmit)}>
             <DetailsViewSection label="Title information" separator={false}>
               <NameField />
+              <ContributorField />
+              <EditionField />
               <PublisherNameField />
               <PublicationTypeField />
               <DescriptionField />
@@ -116,13 +120,13 @@ class TitleCreate extends Component {
 }
 
 const validate = (values) => {
-  return Object.assign(
-    {},
-    validateTitleName(values),
+  return Object.assign({},
+    validateName(values),
+    validateContributor(values),
+    validateEdition(values),
     validatePublisherName(values),
-    validatePackageSelection(values),
     validateDescription(values),
-  );
+    validatePackageSelection(values));
 };
 
 export default reduxForm({
