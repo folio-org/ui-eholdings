@@ -14,3 +14,13 @@
 .custom-embargo-select {
   flex: 1;
 }
+
+.custom-embargo-clear-row {
+  flex: 0 0 3em;
+  margin-top: 0.75em;
+  text-align: center;
+
+  @media (--mediumUp) {
+    margin-top: 0;
+  }
+}

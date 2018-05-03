@@ -19,7 +19,7 @@ const cx = classNames.bind(styles);
 class CustomEmbargoForm extends Component {
   static propTypes = {
     initialValues: PropTypes.shape({
-      customEmbargoValue: PropTypes.number,
+      customEmbargoValue: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
       customEmbargoUnit: PropTypes.string
     }).isRequired,
     isEditable: PropTypes.bool,
@@ -70,7 +70,8 @@ class CustomEmbargoForm extends Component {
       pristine,
       isPending,
       handleSubmit,
-      onSubmit
+      onSubmit,
+      initialValues
     } = this.props;
 
     return (
@@ -81,7 +82,14 @@ class CustomEmbargoForm extends Component {
         pristine={pristine}
         isPending={isPending}
       >
-        <CustomEmbargoFields change={change} />
+        <CustomEmbargoFields
+          change={change}
+          showInputs
+          initialValue={{
+            customEmbargoValue: initialValues.customEmbargoValue,
+            customEmbargoUnit: initialValues.customEmbargoUnit
+          }}
+        />
       </InlineForm>
     );
   }

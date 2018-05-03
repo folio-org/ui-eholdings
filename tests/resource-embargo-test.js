@@ -162,16 +162,15 @@ describeApplication('ResourceEmbargo', () => {
             });
           });
 
-          describe('selecting none as custom embargo unit should update value to zero', () => {
+          describe('clearing row should remove inputs', () => {
             beforeEach(() => {
               return ResourceShowPage
                 .inputEmbargoValue('50')
-                .selectEmbargoUnit('None')
-                .clickCustomEmbargoSaveButton();
+                .clickCustomEmbargoRemoveRowButton();
             });
 
-            it('displays new custom embargo period', () => {
-              expect(ResourceShowPage.customEmbargoTextFieldValue).to.equal('0');
+            it('removes the custom embargo inputs', () => {
+              expect(ResourceShowPage.hasCustomEmbargoInputs).to.be.false;
             });
           });
 
@@ -184,7 +183,7 @@ describeApplication('ResourceEmbargo', () => {
             });
 
             it('rejects embargo value', () => {
-              expect(ResourceShowPage.validationErrorOnTextField).to.equal('Enter value greater than 0');
+              expect(ResourceShowPage.validationErrorOnTextField).to.equal('Enter number greater than 0');
             });
           });
 
@@ -197,8 +196,7 @@ describeApplication('ResourceEmbargo', () => {
             });
 
             it('rejects embargo value', () => {
-              expect(ResourceShowPage.customEmbargoTextFieldValue).to.equal('');
-              expect(ResourceShowPage.validationErrorOnTextField).to.equal('Value cannot be null');
+              expect(ResourceShowPage.validationErrorOnTextField).to.equal('Must be a number');
             });
           });
 
@@ -211,7 +209,7 @@ describeApplication('ResourceEmbargo', () => {
             });
 
             it('rejects embargo value', () => {
-              expect(ResourceShowPage.validationErrorOnTextField).to.equal('Value cannot be null');
+              expect(ResourceShowPage.validationErrorOnTextField).to.equal('Enter number greater than 0');
             });
           });
 
@@ -224,7 +222,7 @@ describeApplication('ResourceEmbargo', () => {
             });
 
             it('rejects embargo value', () => {
-              expect(ResourceShowPage.validationErrorOnSelect).to.equal('Select a valid unit');
+              expect(ResourceShowPage.validationErrorOnSelect).to.equal('Select a unit');
             });
           });
         });

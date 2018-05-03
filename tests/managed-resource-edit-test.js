@@ -49,9 +49,8 @@ describeApplication('ManagedResourceEdit', () => {
       expect(ResourceEditPage.coverageStatement).to.equal('');
     });
 
-    it('shows a form with embargo fields', () => {
-      expect(ResourceEditPage.customEmbargoTextFieldValue).to.equal('0');
-      expect(ResourceEditPage.customEmbargoSelectValue).to.equal('');
+    it('shows a button to add embargo fields', () => {
+      expect(ResourceEditPage.hasAddCustomEmbargoButton).to.be.true;
     });
 
     it('disables the save button', () => {
@@ -78,6 +77,7 @@ describeApplication('ManagedResourceEdit', () => {
             dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec,
             pellentesque eu, pretium quis, sem. Nulla consequat massa quis enim. Donec pede justo,
             fringilla vel, aliquet nec, vulputate e`)
+          .clickAddCustomEmbargoButton()
           .inputEmbargoValue('')
           .blurEmbargoValue()
           .selectEmbargoUnit('Weeks')
@@ -97,7 +97,7 @@ describeApplication('ManagedResourceEdit', () => {
       });
 
       it('displays a validation error for embargo', () => {
-        expect(ResourceEditPage.validationErrorOnEmbargoTextField).to.equal('Value cannot be null');
+        expect(ResourceEditPage.validationErrorOnEmbargoTextField).to.equal('Enter number greater than 0');
       });
     });
 
@@ -107,6 +107,7 @@ describeApplication('ManagedResourceEdit', () => {
           .clickAddRowButton()
           .dateRangeRowList(0).fillDates('12/16/2018', '12/18/2018')
           .inputCoverageStatement('Only 90s kids would understand.')
+          .clickAddCustomEmbargoButton()
           .inputEmbargoValue('27')
           .blurEmbargoValue()
           .selectEmbargoUnit('Weeks')
@@ -215,7 +216,7 @@ describeApplication('ManagedResourceEdit', () => {
       });
 
       it('displays a validation error for embargo', () => {
-        expect(ResourceEditPage.validationErrorOnEmbargoTextField).to.equal('Value cannot be null');
+        expect(ResourceEditPage.validationErrorOnEmbargoTextField).to.equal('Enter number greater than 0');
       });
     });
 
@@ -295,6 +296,7 @@ describeApplication('ManagedResourceEdit', () => {
       beforeEach(() => {
         return ResourceEditPage
           .inputCoverageStatement('10 ways to fail at everything')
+          .clickAddCustomEmbargoButton()
           .inputEmbargoValue('27')
           .blurEmbargoValue()
           .selectEmbargoUnit('Weeks')
