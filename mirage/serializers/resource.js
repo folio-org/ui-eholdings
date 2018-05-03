@@ -5,9 +5,12 @@ function mapResourceAttrs(hash, resource) {
   hash.attributes.providerName = resource.package.provider.name;
   hash.attributes.packageId = resource.package.id;
   hash.attributes.packageName = resource.package.name;
-  hash.attributes.contentType = resource.package.contentType;
   hash.attributes.titleId = resource.title.id;
   hash.attributes.name = resource.title.name;
+
+  // these are really title attributes, but have to stick around
+  // until /PUT titles is available in mod-kb-ebsco
+  hash.attributes.contentType = resource.package.contentType;
   hash.attributes.publisherName = resource.title.publisherName;
   hash.attributes.publicationType = resource.title.publicationType;
   hash.attributes.contributors = resource.title.contributors;
@@ -17,6 +20,7 @@ function mapResourceAttrs(hash, resource) {
   hash.attributes.edition = resource.title.edition;
   hash.attributes.description = resource.title.description;
   hash.attributes.isTitleCustom = resource.title.isTitleCustom;
+
   return hash;
 }
 

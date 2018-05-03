@@ -4,7 +4,7 @@ import EditManagedTitle from './edit-managed-title';
 import EditCustomTitle from './edit-custom-title';
 
 export default function ResourceEdit({ model, ...props }) {
-  let View = model.isTitleCustom ? EditCustomTitle : EditManagedTitle;
+  let View = model.title.isTitleCustom ? EditCustomTitle : EditManagedTitle;
 
   return (
     <View

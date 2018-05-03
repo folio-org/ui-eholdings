@@ -102,7 +102,7 @@ export default connect(
   ({ eholdings: { data } }, { match }) => ({
     model: createResolver(data).find('resources', match.params.id)
   }), {
-    getResource: id => Resource.find(id, { include: 'package' }),
+    getResource: id => Resource.find(id, { include: ['package', 'title'] }),
     updateResource: model => Resource.save(model)
   }
 )(ResourceShowRoute);
