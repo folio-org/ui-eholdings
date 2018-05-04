@@ -105,6 +105,8 @@ export default class ResourceShow extends Component {
       isCoverageStatementEditable
     } = this.state;
 
+    let isSelectInFlight = model.update.isPending && 'isSelected' in model.update.changedAttributes;
+
     let hasManagedCoverages = model.managedCoverages.length > 0 &&
       isValidCoverageList(model.managedCoverages);
     let hasManagedEmbargoPeriod = model.managedEmbargoPeriod &&
@@ -282,14 +284,13 @@ export default class ResourceShow extends Component {
                   <ToggleSwitch
                     onChange={this.handleSelectionToggle}
                     checked={model.destroy.isPending ? false : resourceSelected}
-                    isPending={model.destroy.isPending ||
-                    (model.update.isPending && 'isSelected' in model.update.changedAttributes)}
+                    isPending={model.destroy.isPending || isSelectInFlight}
                     id="resource-show-toggle-switch"
                   />
                 </label>
               </DetailsViewSection>
               <DetailsViewSection label="Visibility">
-                {resourceSelected ? (
+                {(resourceSelected && !isSelectInFlight) ? (
                   <div>
                     <label
                       data-test-eholdings-resource-toggle-hidden
@@ -337,7 +338,7 @@ export default class ResourceShow extends Component {
                   </KeyValue>
                 )}
 
-                {resourceSelected && (
+                {(resourceSelected && !isSelectInFlight) && (
                   <CustomCoverage
                     initialValues={{ customCoverages }}
                     packageCoverage={model.package.customCoverage}
@@ -359,7 +360,7 @@ export default class ResourceShow extends Component {
               <DetailsViewSection
                 label="Coverage statement"
               >
-                {resourceSelected && (
+                {(resourceSelected && !isSelectInFlight) && (
                   <CoverageStatement
                     initialValues={{ coverageStatement: model.coverageStatement }}
                     isEditable={isCoverageStatementEditable}
@@ -387,7 +388,7 @@ export default class ResourceShow extends Component {
                   </KeyValue>
                 )}
 
-                {resourceSelected && (
+                {(resourceSelected && !isSelectInFlight) && (
                   <CustomEmbargo
                     initialValues={{ customEmbargoValue, customEmbargoUnit }}
                     isEditable={isEmbargoEditable}

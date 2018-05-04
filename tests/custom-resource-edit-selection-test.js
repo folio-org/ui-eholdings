@@ -35,7 +35,6 @@ describeApplication('CustomResourceHoldingSelection', () => {
       package: providerPackage,
       title,
       url: 'https://www.frontside.io',
-      isTitleCustom: true,
       isSelected: true
     });
   });

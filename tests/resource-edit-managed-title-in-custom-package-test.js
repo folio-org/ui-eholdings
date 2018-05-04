@@ -5,7 +5,7 @@ import { describeApplication } from './helpers';
 import ResourceEditPage from './pages/resource-edit';
 import PackageSearchPage from './pages/package-search';
 
-describeApplication('ManagedResourceHoldingSelection', () => {
+describeApplication('ResourceEditManagedTitleInCustomPackage', () => {
   let provider,
     providerPackage,
     resource;

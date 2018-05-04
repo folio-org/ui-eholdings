@@ -201,7 +201,7 @@ describeApplication('ResourceShow', () => {
           .clickProvider();
       });
 
-      it.always.skip('does not navigate away', function () {
+      it.always('does not navigate away', function () {
         expect(this.app.history.location.pathname)
           .to.equal(`/eholdings/resources/${resource.titleId}`);
       });
@@ -234,7 +234,7 @@ describeApplication('ResourceShow', () => {
           expect(NavigationModal.isPresent).to.be.false;
         });
 
-        it.always.skip('does not navigation away', function () {
+        it.always('does not navigation away', function () {
           expect(this.app.history.location.pathname)
             .to.equal(`/eholdings/resources/${resource.titleId}`);
         });
