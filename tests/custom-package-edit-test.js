@@ -72,6 +72,14 @@ describeApplication('CustomPackageEdit', () => {
         this.server.timing = 0;
       });
 
+      it('cannot toggle visibility', () => {
+        expect(PackageEditPage.isVisibleTogglePresent).to.equal(false);
+      });
+
+      it('cannot edit coverage', () => {
+        expect(PackageEditPage.hasCoverageDatesPresent).to.equal(false);
+      });
+
       describe('clicking save', () => {
         beforeEach(() => {
           return PackageEditPage.clickSave();

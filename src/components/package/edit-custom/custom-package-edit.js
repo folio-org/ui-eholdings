@@ -43,13 +43,23 @@ class CustomPackageEdit extends Component {
     showSelectionModal: false,
     allowFormToSubmit: false,
     packageSelected: this.props.initialValues.isSelected,
+    packageVisible: this.props.initialValues.isVisible,
     formValues: {}
   }
 
   componentWillReceiveProps(nextProps) {
     let wasPending = this.props.model.update.isPending && !nextProps.model.update.isPending;
-    let needsUpdate = !isEqual(this.props.initialValues, nextProps.initialValues);
+    let needsUpdate = !isEqual(this.props.model, nextProps.model);
     let { router } = this.context;
+
+    if ((nextProps.initialValues.isSelected !== this.props.initialValues.isSelected) ||
+    (nextProps.initialValues.isVisible !== this.props.initialValues.isVisible)) {
+      this.setState({
+        ...this.state,
+        packageSelected: nextProps.initialValues.isSelected,
+        packageVisible: nextProps.initialValues.isVisible
+      });
+    }
 
     if (wasPending && needsUpdate) {
       router.history.push({
@@ -92,6 +102,12 @@ class CustomPackageEdit extends Component {
     });
   };
 
+  handleVisibilityToggle = (e) => {
+    this.setState({
+      packageVisible: e.target.checked
+    });
+  }
+
   handleOnSubmit = (values) => {
     if (this.state.allowFormToSubmit === false && values.isSelected === false) {
       this.setState({
@@ -118,7 +134,8 @@ class CustomPackageEdit extends Component {
 
     let {
       showSelectionModal,
-      packageSelected
+      packageSelected,
+      packageVisible
     } = this.state;
 
     let {
@@ -167,9 +184,12 @@ class CustomPackageEdit extends Component {
                 label="Holding status"
               >
                 <label
-                  data-test-eholdings-custom-package-details-selected
+                  data-test-eholdings-package-details-selected
                   htmlFor="custom-package-details-toggle-switch"
                 >
+                  <h4>{packageSelected ? 'Selected' : 'Not selected'}</h4>
+                  <br />
+
                   <Field
                     name="isSelected"
                     component={ToggleSwitch}
@@ -179,13 +199,50 @@ class CustomPackageEdit extends Component {
                   />
                 </label>
               </DetailsViewSection>
+              <DetailsViewSection label="Visibility">
+                {packageSelected ? (
+                  <div>
+                    <label
+                      data-test-eholdings-package-details-visible
+                      htmlFor="custom-package-details-toggle-visible-switch"
+                    >
+                      <h4>
+                        {packageVisible
+                          ? 'Visible to patrons'
+                          : 'Hidden from patrons'}
+                      </h4>
+                      <br />
+                      <Field
+                        name="isVisible"
+                        component={ToggleSwitch}
+                        checked={packageVisible}
+                        onChange={this.handleVisibilityToggle}
+                        id="custom-package-details-toggle-visible-switch"
+                      />
+                    </label>
+
+                    {!packageVisible && (
+                      <div data-test-eholdings-package-details-is-hidden-reason>
+                        {model.visibilityData.reason}
+                      </div>
+                    )}
+                  </div>
+                ) : (
+                  <p>Not shown to patrons.</p>
+                )}
+              </DetailsViewSection>
+
               <DetailsViewSection
                 label="Coverage dates"
               >
-                <CoverageFields
-                  initialValue={initialValues.customCoverages}
-                />
+                {packageSelected ? (
+                  <CoverageFields
+                    initialValue={initialValues.customCoverages}
+                  />) : (
+                    <p>Add the package to holdings to set custom coverage dates.</p>
+                )}
               </DetailsViewSection>
+
               <div className={styles['package-edit-action-buttons']}>
                 <div
                   data-test-eholdings-package-cancel-button
@@ -224,7 +281,7 @@ class CustomPackageEdit extends Component {
           size="small"
           label="Remove package from holdings?"
           scope="root"
-          id="eholdings-custom-package-confirmation-modal"
+          id="eholdings-package-confirmation-modal"
           footer={(
             <div>
               <Button

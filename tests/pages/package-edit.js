@@ -5,6 +5,7 @@ import {
   isPresent,
   interactor,
   property,
+  text,
 } from '@bigtest/interactor';
 import { hasClassBeginningWith } from './helpers';
 import Toast from './toast';
@@ -27,10 +28,19 @@ import Datepicker from './datepicker';
   clickSave = clickable('[data-test-eholdings-package-save-button] button');
   isSaveDisabled = property('[data-test-eholdings-package-save-button] button', 'disabled');
   hasErrors = isPresent('[data-test-eholdings-details-view-error="package"]');
-  toggleIsSelected = clickable('[data-test-eholdings-custom-package-details-selected] input');
-  isSelected = property('[data-test-eholdings-custom-package-details-selected] input', 'checked');
-  modal = new PackageEditModal('#eholdings-custom-package-confirmation-modal');
+  toggleIsSelected = clickable('[data-test-eholdings-package-details-selected] input');
+  isSelected = property('[data-test-eholdings-package-details-selected] input', 'checked');
+  modal = new PackageEditModal('#eholdings-package-confirmation-modal');
   hasBackButton = isPresent('[data-test-eholdings-details-view-back-button] button');
+  toggleIsVisible = clickable('[data-test-eholdings-package-details-visible] input');
+  isVisibleToPatrons = property('[data-test-eholdings-package-details-visible] input', 'checked');
+  isHiddenMessage = text('[data-test-eholdings-package-details-is-hidden-reason]');
+  isHiddenMessagePresent = isPresent('[data-test-eholdings-package-details-is-hidden-reason]');
+  isVisibleTogglePresent = isPresent('[data-test-eholdings-package-details-visible] input');
+  hastoggleForAllowKbToAddTitles = isPresent('[data-test-eholdings-package-details-allow-add-new-titles]');
+  toggleAllowKbToAddTitles = clickable('[data-test-eholdings-package-details-allow-add-new-titles] input');
+  allowKbToAddTitles = property('[data-test-eholdings-package-details-allow-add-new-titles] input', 'checked');
+  hasCoverageDatesPresent = isPresent('[data-test-eholdings-coverage-fields-date-range-row]');
 
   toast = Toast;
 
