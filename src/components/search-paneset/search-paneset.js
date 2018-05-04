@@ -108,7 +108,7 @@ export default class SearchPaneset extends React.Component {
     hideFilters = (hideFilters && !!resultsView) || !!detailsView;
 
     let newButton = (<PaneMenu />);
-    if (resultsType === 'packages' || 'titles') {
+    if (resultsType === 'packages') {
       newButton = this.renderNewButton();
     }
 
