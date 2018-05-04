@@ -53,7 +53,7 @@ describeApplication('ResourceDeselection', () => {
         });
 
         it('warns the user they are deselecting the final title in the package', () => {
-          expect(ResourcePage.deselectionModal.hasDeselectFinalTitleWarning).to.be.true;
+          expect(ResourcePage.deselectionModal.hasDeselectTitleWarning).to.be.true;
         });
       });
     });

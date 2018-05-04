@@ -436,7 +436,7 @@ export default class ResourceShow extends Component {
                selects and then immediately deselects the
                resource
             */
-            model.package.selectedCount <= 1 ? (
+            (model.title.resources.length <= 1 && model.title.isTitleCustom) ? (
               <span data-test-eholdings-deselect-final-title-warning>
                 Are you sure you want to remove this title from your holdings?
                 It is also the last title selected in this package. By removing

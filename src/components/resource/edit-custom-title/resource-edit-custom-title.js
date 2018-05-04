@@ -239,7 +239,25 @@ class ResourceEditCustomTitle extends Component {
             </div>
           )}
         >
-        Are you sure you want to remove this title from your holdings? By removing this title, you will lose all customization to this title in this package only.
+          {
+              /*
+                we use <= here to account for the case where a user
+                selects and then immediately deselects the
+                resource
+              */
+              model.title.resources.length <= 1 ? (
+                <span data-test-eholdings-deselect-final-title-warning>
+                  Are you sure you want to remove this title from your holdings?
+                  It is also the last title selected in this package. By removing
+                  this title, you will also remove this package from your holdings
+                  and all customizations will be lost.
+                </span>
+              ) : (
+                <span data-test-eholdings-deselect-title-warning>
+                Are you sure you want to remove this title from your holdings? By removing this title, you will lose all customization to this title in this package only.
+                </span>
+              )
+            }
         </Modal>
       </div>
     );
