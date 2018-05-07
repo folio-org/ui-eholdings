@@ -2,39 +2,38 @@
 export default function defaultScenario(server) {
   function createProvider(name, packages = []) {
     let provider = server.create('provider', {
-      providerName: name,
-      packagesTotal: 0
+      packagesTotal: packages.length,
+      name
     });
+
     packages.forEach((pkg) => {
       server.create('package', 'withTitles', { ...pkg, provider });
     });
   }
 
-  createProvider('Atlanta A&T Library', [
-    {
-      name: 'Atlanta A&T Drumming Books',
-      contentType: 'AggregatedFullText',
-      isCustom: true
-    },
-  ]);
-
   let customProvider = server.create('provider', {
-    name: 'Atlanta A&T Library'
+    name: 'Atlanta A&T Library',
+    packagesSelected: 1,
+    packagesTotal: 1
   });
 
   let customPackage = server.create('package', {
+    provider: customProvider,
     name: 'Atlanta A&T Drumming Books',
     contentType: 'AggregatedFullText',
+    isSelected: true,
     isCustom: true,
-    provider: customProvider
+    selectedCount: 1,
+    titleCount: 1
   });
 
   let customTitle = server.create('title', {
     name: 'Single, Double, and Triple Paradiddles',
     isTitleCustom: true,
     isPeerReviewed: false,
-    edition: '',
-    description: ''
+    isSelected: true,
+    description: '',
+    edition: ''
   });
 
   server.create('resource', {

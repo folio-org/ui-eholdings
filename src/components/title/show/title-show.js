@@ -61,6 +61,17 @@ export default function TitleShow({ model }, { queryParams, router }) {
 
   let toasts = processErrors(model);
 
+  // if coming from creating a new custom package, show a success toast
+  if (router.history.action === 'REPLACE' &&
+      router.history.location.state &&
+      router.history.location.state.isNewRecord) {
+    toasts.push({
+      id: `success-title-${model.id}`,
+      message: 'Custom title created.',
+      type: 'success'
+    });
+  }
+
   // if coming from saving edits to the package, show a success toast
   if (router.history.action === 'PUSH' &&
       router.history.location.state &&
