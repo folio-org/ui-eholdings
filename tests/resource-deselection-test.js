@@ -105,8 +105,8 @@ describeApplication('ResourceDeselection', () => {
           });
 
           describe('when the request succeeds', () => {
-            it.skip('shows a success Toast notification', () => {
-              expect(PackageSearchPage.toast.successText).to.equal('Title was updated');
+            it('shows a success Toast notification', () => {
+              expect(PackageSearchPage.toast.successText).to.equal('Title was updated.');
             });
           });
         });

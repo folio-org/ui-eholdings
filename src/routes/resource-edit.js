@@ -6,8 +6,7 @@ import moment from 'moment';
 import { createResolver } from '../redux';
 import Resource from '../redux/resource';
 
-import ManagedResourceEdit from '../components/resource/edit-managed-title';
-import CustomResourceEdit from '../components/resource/edit-custom-title';
+import ResourceView from '../components/resource/resource-view';
 
 
 class ResourceEditRoute extends Component {
@@ -99,35 +98,11 @@ class ResourceEditRoute extends Component {
 
   render() {
     let { model } = this.props;
-    let initialValues = {};
-    let View;
-
-    if (model.isTitleCustom === true || model.destroy.params.isTitleCustom === true) {
-      View = CustomResourceEdit;
-      initialValues = {
-        isSelected: model.isSelected,
-        customCoverages: model.customCoverages,
-        coverageStatement: model.coverageStatement,
-        customEmbargoValue: model.customEmbargoPeriod.embargoValue,
-        customEmbargoUnit: model.customEmbargoPeriod.embargoUnit,
-        customUrl: model.url
-      };
-    } else if (model.isTitleCustom === false) {
-      View = ManagedResourceEdit;
-      initialValues = {
-        isSelected: model.isSelected,
-        customCoverages: model.customCoverages,
-        coverageStatement: model.coverageStatement,
-        customEmbargoValue: model.customEmbargoPeriod.embargoValue,
-        customEmbargoUnit: model.customEmbargoPeriod.embargoUnit
-      };
-    }
 
     return (
-      <View
+      <ResourceView
         model={model}
         onSubmit={this.resourceEditSubmitted}
-        initialValues={initialValues}
       />
     );
   }

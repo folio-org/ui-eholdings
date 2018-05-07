@@ -134,7 +134,8 @@ export default class PackageShow extends Component {
       });
     }
 
-    // if coming from destroying a custom or managed title, show a success toast
+    // if coming from destroying a custom or managed title
+    // from within custom-package, show a success toast
     if (router.history.action === 'REPLACE' &&
         router.history.location.state &&
         router.history.location.state.isDestroyed) {
