@@ -6,6 +6,7 @@ import isEqual from 'lodash/isEqual';
 import {
   Button,
   Icon,
+  KeyValue
 } from '@folio/stripes-components';
 import { processErrors } from '../../utilities';
 
@@ -177,8 +178,25 @@ class CustomPackageEdit extends Component {
               <DetailsViewSection
                 label="Package information"
               >
-                <NameField />
-                <ContentTypeField />
+                {packageSelected ? (
+                  <NameField />
+               ) : (
+                 <KeyValue label="Name">
+                   <div data-test-eholdings-package-readonly-name-field>
+                     {model.name}
+                   </div>
+                 </KeyValue>
+
+               )}
+                {packageSelected ? (
+                  <ContentTypeField />
+               ) : (
+                 <KeyValue label="Content type">
+                   <div data-test-eholdings-package-details-readonly-content-type>
+                     {model.contentType}
+                   </div>
+                 </KeyValue>
+               )}
               </DetailsViewSection>
               <DetailsViewSection
                 label="Holding status"
