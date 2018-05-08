@@ -17,7 +17,7 @@
   background-color: #fff;
   max-height: calc(80vh);
   width: 100%;
-  overflow: hidden;
+  overflow: auto;
   border-radius: var(--radius, 4px);
   box-shadow: 0 5px 28px 1px rgba(0, 0, 0, 0.2);
   border: 1px solid rgba(0, 0, 0, 0.2);
