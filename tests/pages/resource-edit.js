@@ -11,10 +11,16 @@ import {
   value
 } from '@bigtest/interactor';
 import { hasClassBeginningWith } from './helpers';
+
 import Toast from './toast';
 import Datepicker from './datepicker';
 
 @interactor class ResourceEditNavigationModal {}
+
+@interactor class ResourceEditModal {
+  confirmDeselection = clickable('[data-test-eholdings-resource-deselection-confirmation-modal-yes]');
+  cancelDeselection = clickable('[data-test-eholdings-resource-deselection-confirmation-modal-no]');
+}
 
 @interactor class ResourceEditPage {
   navigationModal = new ResourceEditNavigationModal('#navigation-modal');
@@ -26,8 +32,11 @@ import Datepicker from './datepicker';
   isPeerReviewed = property('[data-test-eholdings-peer-reviewed-field] input[type=checkbox]', 'checked');
   checkPeerReviewed = clickable('[data-test-eholdings-peer-reviewed-field] input[type=checkbox]');
   hasBackButton = isPresent('[data-test-eholdings-details-view-back-button] button');
+  isSelected = property('[data-test-eholdings-resource-holding-status] input', 'checked');
+  toggleIsSelected = clickable('[data-test-eholdings-resource-holding-status] input');
+  modal = new ResourceEditModal('#eholdings-resource-confirmation-modal');
 
-  toast = Toast
+  toast = Toast;
 
   name = fillable('[data-test-eholdings-resource-name-field] input');
   nameHasError = hasClassBeginningWith('[data-test-eholdings-resource-name-field] input', 'feedbackError--');

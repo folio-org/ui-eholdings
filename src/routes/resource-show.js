@@ -16,7 +16,16 @@ class ResourceShowRoute extends Component {
     }).isRequired,
     model: PropTypes.object.isRequired,
     getResource: PropTypes.func.isRequired,
-    updateResource: PropTypes.func.isRequired
+    updateResource: PropTypes.func.isRequired,
+    destroyResource: PropTypes.func.isRequired
+  };
+
+  static contextTypes = {
+    router: PropTypes.shape({
+      history: PropTypes.shape({
+        replace: PropTypes.func.isRequired
+      }).isRequired
+    }).isRequired
   };
 
   componentWillMount() {
@@ -28,24 +37,47 @@ class ResourceShowRoute extends Component {
   componentWillReceiveProps(nextProps) {
     let { match, getResource } = nextProps;
     let { id } = match.params;
-
     if (id !== this.props.match.params.id) {
       getResource(id);
     }
   }
 
-  toggleSelected = () => {
-    let { model, updateResource } = this.props;
-    model.isSelected = !model.isSelected;
+  componentDidUpdate(prevProps) {
+    let wasUpdated = !this.props.model.update.isPending && prevProps.model.update.isPending && (!this.props.model.update.errors.length > 0);
+    let { router } = this.context;
 
-    // clear out any customizations before sending to server
-    if (!model.isSelected) {
-      model.visibilityData.isHidden = false;
-      model.customCoverages = [];
-      model.customEmbargoPeriod = {};
+    let { packageName, packageId } = prevProps.model;
+    if (!prevProps.model.destroy.isResolved && this.props.model.destroy.isResolved) {
+      this.context.router.history.replace(`/eholdings/packages/${packageId}?searchType=packages&q=${packageName}`,
+        { eholdings: true, isDestroyed: true });
     }
 
-    updateResource(model);
+    if (wasUpdated) {
+      router.history.push({
+        pathname: `/eholdings/resources/${this.props.model.id}`,
+        search: router.route.location.search,
+        state: { eholdings: true, isFreshlySaved: true }
+      });
+    }
+  }
+
+  toggleSelected = () => {
+    let { model, updateResource, destroyResource } = this.props;
+    model.isSelected = !model.isSelected;
+
+    if (model.isSelected === false && model.package.isCustom) {
+      destroyResource(model);
+    } else {
+      // clear out any customizations before sending to server
+      model.visibilityData.isHidden = false;
+      model.customCoverages = [];
+      model.coverageStatement = '';
+      model.customEmbargoPeriod = {};
+      model.identifiersList = [];
+      model.identifiers = {};
+
+      updateResource(model);
+    }
   }
 
   toggleHidden = () => {
@@ -103,6 +135,7 @@ export default connect(
     model: createResolver(data).find('resources', match.params.id)
   }), {
     getResource: id => Resource.find(id, { include: ['package', 'title'] }),
-    updateResource: model => Resource.save(model)
+    updateResource: model => Resource.save(model),
+    destroyResource: model => Resource.destroy(model)
   }
 )(ResourceShowRoute);

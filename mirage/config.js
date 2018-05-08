@@ -325,6 +325,14 @@ export default function configure() {
     return matchingResource;
   });
 
+  this.delete('/resources/:id', ({ resources }, request) => {
+    let matchingResource = resources.find(request.params.id);
+
+    matchingResource.destroy();
+
+    return {};
+  });
+
   // translation bundle passthrough
   this.pretender.get(`${__webpack_public_path__}translations/:rand.json`, this.pretender.passthrough); // eslint-disable-line
 

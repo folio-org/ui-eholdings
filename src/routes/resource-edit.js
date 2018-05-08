@@ -6,7 +6,8 @@ import moment from 'moment';
 import { createResolver } from '../redux';
 import Resource from '../redux/resource';
 
-import View from '../components/resource/edit';
+import ResourceView from '../components/resource/resource-view';
+
 
 class ResourceEditRoute extends Component {
   static propTypes = {
@@ -17,7 +18,16 @@ class ResourceEditRoute extends Component {
     }).isRequired,
     model: PropTypes.object.isRequired,
     getResource: PropTypes.func.isRequired,
-    updateResource: PropTypes.func.isRequired
+    updateResource: PropTypes.func.isRequired,
+    destroyResource: PropTypes.func.isRequired
+  };
+
+  static contextTypes = {
+    router: PropTypes.shape({
+      history: PropTypes.shape({
+        replace: PropTypes.func.isRequired
+      }).isRequired
+    }).isRequired
   };
 
   componentWillMount() {
@@ -35,8 +45,16 @@ class ResourceEditRoute extends Component {
     }
   }
 
+  componentDidUpdate(prevProps) {
+    let { packageName, packageId } = prevProps.model;
+    if (!prevProps.model.destroy.isResolved && this.props.model.destroy.isResolved) {
+      this.context.router.history.replace(`/eholdings/packages/${packageId}?searchType=packages&q=${packageName}`,
+        { eholdings: true, isDestroyed: true });
+    }
+  }
+
   resourceEditSubmitted = (values) => {
-    let { model, updateResource } = this.props;
+    let { model, updateResource, destroyResource } = this.props;
     let {
       coverageStatement,
       customCoverages,
@@ -44,38 +62,47 @@ class ResourceEditRoute extends Component {
       customEmbargoUnit,
       customUrl
     } = values;
-    model.customCoverages = customCoverages.map((dateRange) => {
-      let beginCoverage = !dateRange.beginCoverage ? null : moment(dateRange.beginCoverage).tz('UTC').format('YYYY-MM-DD');
-      let endCoverage = !dateRange.endCoverage ? null : moment(dateRange.endCoverage).tz('UTC').format('YYYY-MM-DD');
 
-      return {
-        beginCoverage,
-        endCoverage
+    if (values.isSelected === false && model.package.isCustom) {
+      destroyResource(model);
+    } else if (values.isSelected === false) {
+      model.isSelected = !model.isSelected;
+      model.customCoverages = [];
+      model.visibilityData.isHidden = false;
+      model.identifiersList = [];
+      model.identifiers = {};
+      model.customStatement = '';
+      model.customEmbargoPeriod = {};
+
+      updateResource(model);
+    } else {
+      model.customCoverages = customCoverages.map((dateRange) => {
+        let beginCoverage = !dateRange.beginCoverage ? null : moment(dateRange.beginCoverage).format('YYYY-MM-DD');
+        let endCoverage = !dateRange.endCoverage ? null : moment(dateRange.endCoverage).format('YYYY-MM-DD');
+
+        return {
+          beginCoverage,
+          endCoverage
+        };
+      });
+
+      model.url = customUrl;
+      model.coverageStatement = coverageStatement;
+      model.customEmbargoPeriod = {
+        embargoValue: customEmbargoValue,
+        embargoUnit: customEmbargoUnit
       };
-    });
-    model.url = customUrl;
-    model.coverageStatement = coverageStatement;
-    model.customEmbargoPeriod = {
-      embargoValue: customEmbargoValue,
-      embargoUnit: customEmbargoUnit
-    };
-    updateResource(model);
+      updateResource(model);
+    }
   }
 
   render() {
     let { model } = this.props;
 
     return (
-      <View
+      <ResourceView
         model={model}
         onSubmit={this.resourceEditSubmitted}
-        initialValues={{
-          customCoverages: model.customCoverages,
-          coverageStatement: model.coverageStatement,
-          customEmbargoValue: model.customEmbargoPeriod.embargoValue,
-          customEmbargoUnit: model.customEmbargoPeriod.embargoUnit,
-          customUrl: model.url
-        }}
       />
     );
   }
@@ -86,6 +113,7 @@ export default connect(
     model: createResolver(data).find('resources', match.params.id)
   }), {
     getResource: id => Resource.find(id, { include: ['package', 'title'] }),
-    updateResource: model => Resource.save(model)
+    updateResource: model => Resource.save(model),
+    destroyResource: model => Resource.destroy(model)
   }
 )(ResourceEditRoute);

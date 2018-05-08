@@ -12,6 +12,8 @@ import {
   is
 } from '@bigtest/interactor';
 
+import Toast from './toast';
+
 @interactor class PackageSearchPage {
   fillSearch = fillable('[data-test-search-field] input[name="search"]');
   submitSearch = clickable('[data-test-search-submit]');
@@ -33,6 +35,8 @@ import {
   sortBy = value('[data-test-eholdings-search-filters="packages"] input[name="sort"]:checked');
   clickCloseButton = clickable('[data-test-eholdings-details-view-close-button] a');
   hasPreSearchPane = isPresent('[data-test-eholdings-pre-search-pane]');
+
+  toast = Toast;
 
   hasLoaded = computed(function () {
     return this.packageList().length > 0;

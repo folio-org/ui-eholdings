@@ -3,6 +3,7 @@ import { expect } from 'chai';
 
 import { describeApplication } from './helpers';
 import ResourcePage from './pages/resource-show';
+import PackageSearchPage from './pages/package-search';
 
 describeApplication('ResourceDeselection', () => {
   let provider,
@@ -52,7 +53,7 @@ describeApplication('ResourceDeselection', () => {
         });
 
         it('warns the user they are deselecting the final title in the package', () => {
-          expect(ResourcePage.deselectionModal.hasDeselectFinalTitleWarning).to.be.true;
+          expect(ResourcePage.deselectionModal.hasDeselectTitleWarning).to.be.true;
         });
       });
     });
@@ -99,34 +100,13 @@ describeApplication('ResourceDeselection', () => {
             return ResourcePage.deselectionModal.confirmDeselection();
           });
 
-          it('reflects the desired state (not selected)', () => {
-            expect(ResourcePage.isSelected).to.equal(false);
-          });
-
-          it('indicates it is working to get to desired state', () => {
-            expect(ResourcePage.isSelecting).to.equal(true);
-          });
-
-          it('cannot be interacted with while the request is in flight', () => {
-            expect(ResourcePage.isSelectedToggleDisabled).to.equal(true);
+          it('remains on Resource Page', () => {
+            expect(ResourcePage.isPresent).to.be.true;
           });
 
           describe('when the request succeeds', () => {
-            it('reflects the desired state was set', () => {
-              expect(ResourcePage.isSelected).to.equal(false);
-            });
-
-            it('indicates it is no longer working', () => {
-              expect(ResourcePage.isSelecting).to.equal(false);
-            });
-
-            it('removes custom embargo', () => {
-              expect(ResourcePage.hasCustomEmbargoPeriod).to.equal(false);
-            });
-
-            it('is not hidden', () => {
-              expect(resource.visibilityData.isHidden).to.equal(false);
-              expect(ResourcePage.hasHiddenToggle).to.equal(false);
+            it('shows a success Toast notification', () => {
+              expect(PackageSearchPage.toast.successText).to.equal('Title was updated.');
             });
           });
         });

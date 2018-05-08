@@ -35,6 +35,7 @@ export default class ResourceShow extends Component {
 
   static contextTypes = {
     locale: PropTypes.string,
+    router: PropTypes.object,
     intl: PropTypes.object
   };
 
@@ -66,7 +67,10 @@ export default class ResourceShow extends Component {
   };
 
   commitSelectionToggle = () => {
-    this.setState({ showSelectionModal: false });
+    this.setState({
+      showSelectionModal: false,
+      resourceSelected: false
+    });
     this.props.toggleSelected();
   };
 
@@ -91,7 +95,7 @@ export default class ResourceShow extends Component {
 
   render() {
     let { model, customEmbargoSubmitted, coverageSubmitted, coverageStatementSubmitted } = this.props;
-    let { locale, intl } = this.context;
+    let { locale, intl, router } = this.context;
     let {
       showSelectionModal,
       resourceSelected,
@@ -100,6 +104,8 @@ export default class ResourceShow extends Component {
       isEmbargoEditable,
       isCoverageStatementEditable
     } = this.state;
+
+    let isSelectInFlight = model.update.isPending && 'isSelected' in model.update.changedAttributes;
 
     let hasManagedCoverages = model.managedCoverages.length > 0 &&
       isValidCoverageList(model.managedCoverages);
@@ -133,9 +139,23 @@ export default class ResourceShow extends Component {
       }
     ];
 
+    let toasts = processErrors(model);
+
+    // if coming from updating any value on managed title in a managed package
+    // show a success toast
+    if (router.history.action === 'PUSH' &&
+        router.history.location.state &&
+        router.history.location.state.isFreshlySaved) {
+      toasts.push({
+        id: `success-package-creation-${model.id}`,
+        message: 'Title was updated.',
+        type: 'success'
+      });
+    }
+
     return (
       <div>
-        <Toaster toasts={processErrors(model)} position="bottom" />
+        <Toaster toasts={toasts} position="bottom" />
 
         <DetailsView
           type="resource"
@@ -263,14 +283,14 @@ export default class ResourceShow extends Component {
                   <br />
                   <ToggleSwitch
                     onChange={this.handleSelectionToggle}
-                    checked={resourceSelected}
-                    isPending={model.update.isPending && 'isSelected' in model.update.changedAttributes}
+                    checked={model.destroy.isPending ? false : resourceSelected}
+                    isPending={model.destroy.isPending || isSelectInFlight}
                     id="resource-show-toggle-switch"
                   />
                 </label>
               </DetailsViewSection>
               <DetailsViewSection label="Visibility">
-                {resourceSelected ? (
+                {(resourceSelected && !isSelectInFlight) ? (
                   <div>
                     <label
                       data-test-eholdings-resource-toggle-hidden
@@ -318,7 +338,7 @@ export default class ResourceShow extends Component {
                   </KeyValue>
                 )}
 
-                {resourceSelected && (
+                {(resourceSelected && !isSelectInFlight) && (
                   <CustomCoverage
                     initialValues={{ customCoverages }}
                     packageCoverage={model.package.customCoverage}
@@ -340,7 +360,7 @@ export default class ResourceShow extends Component {
               <DetailsViewSection
                 label="Coverage statement"
               >
-                {resourceSelected && (
+                {(resourceSelected && !isSelectInFlight) && (
                   <CoverageStatement
                     initialValues={{ coverageStatement: model.coverageStatement }}
                     isEditable={isCoverageStatementEditable}
@@ -368,7 +388,7 @@ export default class ResourceShow extends Component {
                   </KeyValue>
                 )}
 
-                {resourceSelected && (
+                {(resourceSelected && !isSelectInFlight) && (
                   <CustomEmbargo
                     initialValues={{ customEmbargoValue, customEmbargoUnit }}
                     isEditable={isEmbargoEditable}
@@ -417,7 +437,7 @@ export default class ResourceShow extends Component {
                selects and then immediately deselects the
                resource
             */
-            model.package.selectedCount <= 1 ? (
+            (model.title.resources.length <= 1 && model.title.isTitleCustom) ? (
               <span data-test-eholdings-deselect-final-title-warning>
                 Are you sure you want to remove this title from your holdings?
                 It is also the last title selected in this package. By removing

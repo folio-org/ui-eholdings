@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { reduxForm } from 'redux-form';
+import { reduxForm, Field } from 'redux-form';
 import isEqual from 'lodash/isEqual';
 
 import {
@@ -16,6 +16,8 @@ import CoverageStatementFields, { validate as validateCoverageStatement } from '
 import CustomEmbargoFields, { validate as validateEmbargo } from '../_fields/custom-embargo';
 import DetailsViewSection from '../../details-view-section';
 import NavigationModal from '../../navigation-modal';
+import ToggleSwitch from '../../toggle-switch/toggle-switch';
+import Modal from '../../modal/modal';
 import Toaster from '../../toaster';
 import styles from './resource-edit-custom-title.css';
 
@@ -37,6 +39,13 @@ class ResourceEditCustomTitle extends Component {
     }).isRequired
   };
 
+  state = {
+    resourceSelected: this.props.initialValues.isSelected,
+    showSelectionModal: false,
+    allowFormToSubmit: false,
+    formValues: {}
+  }
+
   componentWillReceiveProps(nextProps) {
     let wasPending = this.props.model.update.isPending && !nextProps.model.update.isPending;
     let needsUpdate = !isEqual(this.props.initialValues, nextProps.initialValues);
@@ -44,7 +53,7 @@ class ResourceEditCustomTitle extends Component {
     if (wasPending && needsUpdate) {
       this.context.router.history.push(
         `/eholdings/resources/${this.props.model.id}`,
-        { eholdings: true }
+        { eholdings: true, isFreshlySaved: true }
       );
     }
   }
@@ -56,15 +65,57 @@ class ResourceEditCustomTitle extends Component {
     );
   }
 
+  handleSelectionToggle = (e) => {
+    this.setState({
+      resourceSelected: e.target.checked
+    });
+  }
+
+  commitSelectionToggle = () => {
+    this.setState({
+      showSelectionModal: false,
+      allowFormToSubmit: true
+    }, () => { this.handleOnSubmit(this.state.formValues); });
+  };
+
+  cancelSelectionToggle = () => {
+    this.setState({
+      showSelectionModal: false,
+      resourceSelected: true,
+    }, () => {
+      this.props.change('isSelected', true);
+    });
+  };
+
+  handleOnSubmit = (values) => {
+    if (this.state.allowFormToSubmit === false && values.isSelected === false) {
+      this.setState({
+        showSelectionModal: true,
+        formValues: values
+      });
+    } else {
+      this.setState({
+        allowFormToSubmit: false,
+        formValues: {}
+      }, () => {
+        this.props.onSubmit(values);
+      });
+    }
+  }
+
   render() {
     let {
       model,
       initialValues,
       handleSubmit,
-      onSubmit,
       pristine,
       change
     } = this.props;
+
+    let {
+      showSelectionModal,
+      resourceSelected
+    } = this.state;
 
     let actionMenuItems = [
       {
@@ -86,11 +137,27 @@ class ResourceEditCustomTitle extends Component {
           paneSub={model.package.name}
           actionMenuItems={actionMenuItems}
           bodyContent={(
-            <form onSubmit={handleSubmit(onSubmit)}>
+            <form onSubmit={handleSubmit(this.handleOnSubmit)}>
               <DetailsViewSection
                 label="Resource information"
               >
                 <CustomUrlFields />
+              </DetailsViewSection>
+              <DetailsViewSection
+                label="Holding status"
+              >
+                <label
+                  data-test-eholdings-resource-holding-status
+                  htmlFor="custom-resource-holding-toggle-switch"
+                >
+                  <Field
+                    name="isSelected"
+                    component={ToggleSwitch}
+                    checked={resourceSelected}
+                    onChange={this.handleSelectionToggle}
+                    id="custom-resource-holding-toggle-switch"
+                  />
+                </label>
               </DetailsViewSection>
               <DetailsViewSection
                 label="Coverage dates"
@@ -132,14 +199,14 @@ class ResourceEditCustomTitle extends Component {
                   data-test-eholdings-resource-save-button
                 >
                   <Button
-                    disabled={pristine || model.update.isPending}
+                    disabled={pristine || model.update.isPending || model.destroy.isPending}
                     type="submit"
                     buttonStyle="primary"
                   >
-                    {model.update.isPending ? 'Saving' : 'Save'}
+                    {model.update.isPending || model.destroy.isPending ? 'Saving' : 'Save'}
                   </Button>
                 </div>
-                {model.update.isPending && (
+                {(model.update.isPending || model.destroy.isPending) && (
                   <Icon icon="spinner-ellipsis" />
                 )}
               </div>
@@ -147,6 +214,51 @@ class ResourceEditCustomTitle extends Component {
             </form>
           )}
         />
+
+        <Modal
+          open={showSelectionModal}
+          size="small"
+          label="Remove title from holdings?"
+          scope="root"
+          id="eholdings-resource-confirmation-modal"
+          footer={(
+            <div>
+              <Button
+                buttonStyle="primary"
+                onClick={this.commitSelectionToggle}
+                data-test-eholdings-resource-deselection-confirmation-modal-yes
+              >
+                Yes, remove
+              </Button>
+              <Button
+                onClick={this.cancelSelectionToggle}
+                data-test-eholdings-resource-deselection-confirmation-modal-no
+              >
+                No, do not remove
+              </Button>
+            </div>
+          )}
+        >
+          {
+              /*
+                we use <= here to account for the case where a user
+                selects and then immediately deselects the
+                resource
+              */
+              model.title.resources.length <= 1 ? (
+                <span data-test-eholdings-deselect-final-title-warning>
+                  Are you sure you want to remove this title from your holdings?
+                  It is also the last title selected in this package. By removing
+                  this title, you will also remove this package from your holdings
+                  and all customizations will be lost.
+                </span>
+              ) : (
+                <span data-test-eholdings-deselect-title-warning>
+                Are you sure you want to remove this title from your holdings? By removing this title, you will lose all customization to this title in this package only.
+                </span>
+              )
+            }
+        </Modal>
       </div>
     );
   }

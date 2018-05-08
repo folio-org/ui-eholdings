@@ -5,8 +5,6 @@ import { describeApplication } from './helpers';
 import ProviderSearchPage from './pages/provider-search';
 import PackageShowPage from './pages/package-show';
 
-window.ProviderSearchPage = ProviderSearchPage;
-
 describeApplication('ProviderSearch', () => {
   beforeEach(function () {
     this.server.createList('provider', 3, 'withPackagesAndTitles', {

@@ -44,7 +44,7 @@ describeApplication('CustomTitleEdit', () => {
       package: providerPackage,
       isSelected: true,
       title,
-      url: 'frontside.io',
+      url: 'https://www.frontside.io',
       isTitleCustom: true
     });
   });
