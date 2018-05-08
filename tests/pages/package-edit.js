@@ -41,6 +41,10 @@ import Datepicker from './datepicker';
   toggleAllowKbToAddTitles = clickable('[data-test-eholdings-package-details-allow-add-new-titles] input');
   allowKbToAddTitles = property('[data-test-eholdings-package-details-allow-add-new-titles] input', 'checked');
   hasCoverageDatesPresent = isPresent('[data-test-eholdings-coverage-fields-date-range-row]');
+  hasNameFieldPresent = isPresent('[data-test-eholdings-package-name-field]');
+  hasReadOnlyNameFieldPresent = isPresent('[data-test-eholdings-package-readonly-name-field]');
+  hasContentTypeFieldPresent = isPresent('[data-test-eholdings-package-content-type-field]');
+  hasReadOnlyContentTypeFieldPresent = isPresent('[data-test-eholdings-package-details-readonly-content-type]');
 
   toast = Toast;
 
