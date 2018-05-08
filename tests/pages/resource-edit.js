@@ -53,6 +53,7 @@ import Datepicker from './datepicker';
     }
   });
 
+  hasCoverageStatementArea = isPresent('[data-test-eholdings-coverage-statement-textarea] textarea');
   coverageStatement = value('[data-test-eholdings-coverage-statement-textarea] textarea');
   customUrlFieldValue = value('[data-test-eholdings-custom-url-textfield] input');
   fillCoverageStatement = fillable('[data-test-eholdings-coverage-statement-textarea] textarea');
@@ -74,6 +75,7 @@ import Datepicker from './datepicker';
   blurEmbargoValue = blurrable('[data-test-eholdings-custom-embargo-textfield] input');
   blurEmbargoUnit = blurrable('[data-test-eholdings-custom-embargo-select] select');
   validationErrorOnEmbargoTextField = text('[data-test-eholdings-custom-embargo-textfield] [class^="feedbackError--"]');
+  hasAddCustomCoverageButton = isPresent('[data-test-eholdings-coverage-fields-add-row-button] button');
   hasAddCustomEmbargoButton = isPresent('[data-test-eholdings-custom-embargo-add-row-button] button');
   clickAddCustomEmbargoButton = clickable('[data-test-eholdings-custom-embargo-add-row-button] button');
   hasSavingWillRemoveEmbargoMessage = isPresent('[data-test-eholdings-embargo-fields-saving-will-remove]');

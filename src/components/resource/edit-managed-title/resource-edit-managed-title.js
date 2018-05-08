@@ -150,6 +150,8 @@ class ResourceEditManagedTitle extends Component {
                   data-test-eholdings-resource-holding-status
                   htmlFor="managed-resource-holding-toggle-switch"
                 >
+                  <h4>{managedResourceSelected ? 'Selected' : 'Not selected'}</h4>
+                  <br />
                   <Field
                     name="isSelected"
                     component={ToggleSwitch}
@@ -162,26 +164,38 @@ class ResourceEditManagedTitle extends Component {
               <DetailsViewSection
                 label="Coverage dates"
               >
-                <CustomCoverageFields
-                  initialValue={initialValues.customCoverages}
-                />
+                {managedResourceSelected ? (
+                  <CustomCoverageFields
+                    initialValue={initialValues.customCoverages}
+                  />
+                ) : (
+                  <p>Add the resource to holdings to set custom coverage dates.</p>
+                )}
               </DetailsViewSection>
               <DetailsViewSection
                 label="Coverage statement"
               >
-                <CoverageStatementFields />
+                {managedResourceSelected ? (
+                  <CoverageStatementFields />
+                  ) : (
+                    <p>Add the resource to holdings to set coverage statement.</p>
+                  )}
               </DetailsViewSection>
               <DetailsViewSection
                 label="Embargo period"
               >
-                <CustomEmbargoFields
-                  change={change}
-                  showInputs={(initialValues.customEmbargoValue > 0)}
-                  initialValue={{
+                {managedResourceSelected ? (
+                  <CustomEmbargoFields
+                    change={change}
+                    showInputs={(initialValues.customEmbargoValue > 0)}
+                    initialValue={{
                     customEmbargoValue: initialValues.customEmbargoValue,
                     customEmbargoUnit: initialValues.customEmbargoUnit
                   }}
-                />
+                  />
+                  ) : (
+                    <p>Add the resource to holdings to set custom embargo.</p>
+                  )}
               </DetailsViewSection>
               <div className={styles['resource-edit-action-buttons']}>
                 <div
