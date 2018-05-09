@@ -8,7 +8,8 @@ import TitleModel from './title';
 import ResourceModel from './resource';
 import {
   Status as StatusModel,
-  Configuration as ConfigurationModel
+  Configuration as ConfigurationModel,
+  RootProxy as RootProxyModel
 } from './application';
 
 import {
@@ -23,7 +24,8 @@ export const createResolver = (state) => {
     TitleModel,
     ResourceModel,
     StatusModel,
-    ConfigurationModel
+    ConfigurationModel,
+    RootProxyModel
   ]);
 };
 
