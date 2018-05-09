@@ -93,5 +93,25 @@ describeApplication('TitleShow', () => {
         expect(ResourceShowPage.packageName).to.equal(customPackage.name);
       });
     });
+
+    describe('adding a URL and clicking submit', () => {
+      let customPackage;
+
+      beforeEach(function () {
+        customPackage = this.server.schema.packages.findBy({
+          name: 'Custom Package 2'
+        });
+
+        return TitleShowPage
+          .customPackageModal.choosePackage(customPackage.id)
+          .customPackageModal.fillUrl('http://my.url')
+          .customPackageModal.submit();
+      });
+
+      it('Redirects to the newly created resource with the specified URL', function () {
+        expect(this.app.history.location.pathname).to.match(/^\/eholdings\/resources\/\d{1,}/);
+        expect(ResourceShowPage.url).to.equal('http://my.url');
+      });
+    });
   });
 });

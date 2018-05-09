@@ -28,6 +28,8 @@ import Toast from './toast';
     isDisabled: property('disabled')
   });
 
+  fillUrl = fillable('[data-test-eholdings-custom-url-textfield] input');
+
   submit = clickable('[data-test-eholdings-custom-package-modal-submit]');
   cancel = clickable('[data-test-eholdings-custom-package-modal-cancel]');
 }

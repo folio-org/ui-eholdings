@@ -55,11 +55,12 @@ class TitleShowRoute extends Component {
     }
   }
 
-  createResource = ({ packageId }) => {
+  createResource = ({ packageId, customUrl }) => {
     let { match, createResource } = this.props;
     let { titleId } = match.params;
 
     createResource({
+      url: customUrl,
       packageId,
       titleId
     });

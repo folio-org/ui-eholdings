@@ -327,14 +327,15 @@ export default function configure() {
 
   this.post('/resources', ({ resources, packages }, request) => {
     let body = JSON.parse(request.requestBody);
-    let { packageId, titleId } = body.data.attributes;
+    let { packageId, titleId, url } = body.data.attributes;
     let { providerId } = packages.find(packageId);
 
     let resource = resources.create({
       isSelected: true,
       providerId,
       packageId,
-      titleId
+      titleId,
+      url
     });
 
     return resource;
