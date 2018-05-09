@@ -4,6 +4,8 @@ import { connect } from 'react-redux';
 
 import { createResolver } from '../redux';
 import Title from '../redux/title';
+import Package from '../redux/package';
+import Resource from '../redux/resource';
 import View from '../components/title/show';
 
 class TitleShowRoute extends Component {
@@ -14,37 +16,86 @@ class TitleShowRoute extends Component {
       }).isRequired
     }).isRequired,
     model: PropTypes.object.isRequired,
-    getTitle: PropTypes.func.isRequired
+    customPackages: PropTypes.object.isRequired,
+    getTitle: PropTypes.func.isRequired,
+    getCustomPackages: PropTypes.func.isRequired,
+    createResource: PropTypes.func.isRequired,
+    createRequest: PropTypes.object.isRequired
   };
 
-  componentWillMount() {
-    let { match, getTitle } = this.props;
+  static contextTypes = {
+    router: PropTypes.shape({
+      history: PropTypes.shape({
+        push: PropTypes.func.isRequired
+      }).isRequired
+    }).isRequired
+  };
+
+  componentDidMount() {
+    let { match, getTitle, getCustomPackages } = this.props;
     let { titleId } = match.params;
+
     getTitle(titleId);
+    getCustomPackages();
   }
 
-  componentWillReceiveProps(nextProps) {
-    let { match, getTitle } = nextProps;
-    let { titleId } = match.params;
+  componentDidUpdate(prevProps) {
+    let { match, createRequest } = prevProps;
+    let { titleId } = this.props.match.params;
 
-    if (titleId !== this.props.match.params.titleId) {
-      getTitle(titleId);
+    if (match.params.titleId !== titleId) {
+      this.props.getTitle(titleId);
+    }
+
+    if (!createRequest.isResolved && this.props.createRequest.isResolved) {
+      this.context.router.history.push(
+        `/eholdings/resources/${this.props.createRequest.records[0]}`,
+        { eholdings: true, isNewRecord: true }
+      );
     }
   }
 
+  createResource = ({ packageId }) => {
+    let { match, createResource } = this.props;
+    let { titleId } = match.params;
+
+    createResource({
+      packageId,
+      titleId
+    });
+  };
+
   render() {
+    let { model, customPackages } = this.props;
+
     return (
       <View
-        model={this.props.model}
+        model={model}
+        customPackages={customPackages}
+        addCustomPackage={this.createResource}
       />
     );
   }
 }
 
 export default connect(
-  ({ eholdings: { data } }, { match }) => ({
-    model: createResolver(data).find('titles', match.params.titleId)
-  }), {
-    getTitle: id => Title.find(id, { include: 'resources' })
+  ({ eholdings: { data } }, { match }) => {
+    let resolver = createResolver(data);
+
+    return {
+      model: resolver.find('titles', match.params.titleId),
+      createRequest: resolver.getRequest('create', { type: 'resources' }),
+      customPackages: resolver.query('packages', {
+        filter: { custom: true },
+        count: 100
+      })
+    };
+  }, {
+    getTitle: id => Title.find(id, { include: 'resources' }),
+    createResource: attrs => Resource.create(attrs),
+    getCustomPackages: () => Package.query({
+      filter: { custom: true },
+      count: 100
+    })
   }
 )(TitleShowRoute);

@@ -6,10 +6,31 @@ import {
   isPresent,
   property,
   interactor,
+  fillable,
   text
 } from '@bigtest/interactor';
-import { getComputedStyle } from './helpers';
+
+import {
+  hasClassBeginningWith,
+  getComputedStyle
+} from './helpers';
+
 import Toast from './toast';
+
+@interactor class AddToCustomPackageModal {
+  hasPackageError = hasClassBeginningWith(
+    '[data-test-eholdings-package-select-field] select',
+    'feedbackError--'
+  );
+
+  choosePackage = fillable('[data-test-eholdings-package-select-field] select');
+  packages = collection('[data-test-eholdings-package-select-field] option', {
+    isDisabled: property('disabled')
+  });
+
+  submit = clickable('[data-test-eholdings-custom-package-modal-submit]');
+  cancel = clickable('[data-test-eholdings-custom-package-modal-cancel]');
+}
 
 @interactor class TitleShowPage {
   paneTitle = text('[data-test-eholdings-details-view-pane-title]');
@@ -57,6 +78,9 @@ import Toast from './toast';
   contributorsList = collection('[data-test-eholdings-contributors-list-item]', {
     contributorText: text()
   });
+
+  clickAddToCustomPackageButton = clickable('[data-test-eholdings-add-to-custom-package-button]');
+  customPackageModal = new AddToCustomPackageModal('#eholdings-custom-package-modal');
 }
 
 export default new TitleShowPage('[data-test-eholdings-details-view="title"]');
