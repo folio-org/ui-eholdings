@@ -7,8 +7,7 @@ import { createResolver } from '../redux';
 import Package from '../redux/package';
 import Resource from '../redux/resource';
 
-import ManagedPackageEdit from '../components/package/edit-managed/managed-package-edit';
-import CustomPackageEdit from '../components/package/edit-custom/custom-package-edit';
+import View from '../components/package/edit';
 
 class PackageEditRoute extends Component {
   static propTypes = {
@@ -121,38 +120,11 @@ class PackageEditRoute extends Component {
 
   render() {
     let { model } = this.props;
-    let initialValues = {};
-    let View;
 
-    if (model.isCustom) {
-      View = CustomPackageEdit;
-      initialValues = {
-        name: model.name,
-        contentType: model.contentType,
-        isSelected: model.isSelected,
-        customCoverages: [{
-          beginCoverage: model.customCoverage.beginCoverage,
-          endCoverage: model.customCoverage.endCoverage
-        }],
-        isVisible: !model.visibilityData.isHidden
-      };
-    } else {
-      View = ManagedPackageEdit;
-      initialValues = {
-        isSelected: model.isSelected,
-        customCoverages: [{
-          beginCoverage: model.customCoverage.beginCoverage,
-          endCoverage: model.customCoverage.endCoverage
-        }],
-        isVisible: !model.visibilityData.isHidden,
-        allowKbToAddTitles: model.allowKbToAddTitles
-      };
-    }
     return (
       <View
         model={model}
         onSubmit={this.packageEditSubmitted}
-        initialValues={initialValues}
       />
     );
   }
