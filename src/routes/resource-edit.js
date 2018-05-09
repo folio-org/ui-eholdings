@@ -6,8 +6,7 @@ import moment from 'moment';
 import { createResolver } from '../redux';
 import Resource from '../redux/resource';
 
-import ResourceView from '../components/resource/resource-view';
-
+import View from '../components/resource/edit';
 
 class ResourceEditRoute extends Component {
   static propTypes = {
@@ -100,7 +99,7 @@ class ResourceEditRoute extends Component {
     let { model } = this.props;
 
     return (
-      <ResourceView
+      <View
         model={model}
         onSubmit={this.resourceEditSubmitted}
       />
