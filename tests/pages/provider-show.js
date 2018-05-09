@@ -20,6 +20,7 @@ import SearchModal from './search-modal';
   hasErrors = isPresent('[data-test-eholdings-details-view-error="provider"]');
   errorMessage = text('[data-test-eholdings-details-view-error="provider"]');
   clickListSearch = clickable('[data-test-eholdings-details-view-search] button');
+  numFilters = text('[data-test-eholdings-details-view-filters]');
 
   toast = Toast;
   searchModal = new SearchModal('#eholdings-details-view-search-modal');

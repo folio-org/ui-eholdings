@@ -4,6 +4,7 @@ import classNames from 'classnames/bind';
 import capitalize from 'lodash/capitalize';
 
 import {
+  Badge,
   Icon,
   IconButton,
   PaneHeader,
@@ -198,6 +199,12 @@ export default class DetailsView extends Component {
 
     let historyState = router.history.location.state;
 
+    const countFilters = (params) => {
+      const { q, filter = {} } = params;
+      const appliedFilters = [q, ...Object.values(filter)].filter(val => !!val);
+      return appliedFilters.length;
+    };
+
     return (
       <div data-test-eholdings-details-view={type}>
         <PaneHeader
@@ -270,8 +277,13 @@ export default class DetailsView extends Component {
                 <h3>{capitalize(listType)}</h3>
 
                 {enableListSearch && (
-                  <div data-test-eholdings-details-view-search>
-                    <IconButton icon="search" onClick={this.toggleSearchModal} />
+                  <div className={styles['search-filter-area']}>
+                    <div data-test-eholdings-details-view-filters>
+                      <Badge className={styles['filter-count']}>{countFilters(searchParams)}</Badge>
+                    </div>
+                    <div data-test-eholdings-details-view-search>
+                      <IconButton icon="search" onClick={this.toggleSearchModal} />
+                    </div>
                   </div>
                 )}
               </div>
