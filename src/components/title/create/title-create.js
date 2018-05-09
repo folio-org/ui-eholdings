@@ -59,6 +59,11 @@ class TitleCreate extends Component {
 
     let historyState = router.history.location.state;
 
+    let packageOptions = customPackages.map(pkg => ({
+      label: pkg.name,
+      value: pkg.id
+    }));
+
     return (
       <div data-test-eholdings-title-create>
         <Toaster
@@ -98,7 +103,7 @@ class TitleCreate extends Component {
               <PeerReviewedField />
             </DetailsViewSection>
             <DetailsViewSection label="Package information">
-              <PackageSelectField packages={customPackages} />
+              <PackageSelectField options={packageOptions} />
             </DetailsViewSection>
             <div className={styles['title-create-action-buttons']}>
               <div data-test-eholdings-title-create-cancel-button>

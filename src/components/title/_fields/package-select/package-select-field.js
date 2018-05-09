@@ -5,14 +5,12 @@ import { Field } from 'redux-form';
 import { Select } from '@folio/stripes-components';
 import styles from './package-select-field.css';
 
-export default function PackageSelectField({ packages }) {
-  let options = packages.map(pkg => ({ label: pkg.name, value: pkg.id }));
-
-  options.unshift({
+export default function PackageSelectField({ options }) {
+  let optionsWithPlaceholder = [{
     label: options.length ? 'Choose a package' : '...Loading',
     disabled: true,
     value: ''
-  });
+  }, ...options];
 
   return (
     <div
@@ -23,14 +21,14 @@ export default function PackageSelectField({ packages }) {
         name="packageId"
         component={Select}
         label="Package"
-        dataOptions={options}
+        dataOptions={optionsWithPlaceholder}
       />
     </div>
   );
 }
 
 PackageSelectField.propTypes = {
-  packages: PropTypes.object.isRequired
+  options: PropTypes.array.isRequired
 };
 
 export function validate(values) {
