@@ -180,7 +180,7 @@ export default class DetailsView extends Component {
       actionMenuItems,
       lastMenu,
       enableListSearch,
-      searchParams
+      searchParams = {}
     } = this.props;
 
     let {
@@ -199,11 +199,9 @@ export default class DetailsView extends Component {
 
     let historyState = router.history.location.state;
 
-    const countFilters = (params) => {
-      const { q, filter = {} } = params;
-      const appliedFilters = [q, ...Object.values(filter)].filter(val => !!val);
-      return appliedFilters.length;
-    };
+    let filterCount = [searchParams.q]
+      .concat(Object.values(searchParams.filter || {}))
+      .filter(Boolean).length;
 
     return (
       <div data-test-eholdings-details-view={type}>
@@ -278,9 +276,11 @@ export default class DetailsView extends Component {
 
                 {enableListSearch && (
                   <div className={styles['search-filter-area']}>
-                    <div data-test-eholdings-details-view-filters>
-                      <Badge className={styles['filter-count']}>{countFilters(searchParams)}</Badge>
-                    </div>
+                    {filterCount > 0 && (
+                      <div data-test-eholdings-details-view-filters>
+                        <Badge className={styles['filter-count']}>{filterCount}</Badge>
+                      </div>
+                    )}
                     <div data-test-eholdings-details-view-search>
                       <IconButton icon="search" onClick={this.toggleSearchModal} />
                     </div>

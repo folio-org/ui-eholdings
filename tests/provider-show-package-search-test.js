@@ -48,8 +48,8 @@ describeApplication('ProviderShow package search', () => {
       expect(ProviderShowPage.searchModal.isPresent).to.be.true;
     });
 
-    it('displays 0 filter count', () => {
-      expect(ProviderShowPage.numFilters).to.equal('0');
+    it('does not display badge', () => {
+      expect(ProviderShowPage.filterBadge).to.be.false;
     });
   });
 
