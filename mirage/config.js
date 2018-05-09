@@ -325,6 +325,22 @@ export default function configure() {
     return matchingResource;
   });
 
+  this.post('/resources', ({ resources, packages }, request) => {
+    let body = JSON.parse(request.requestBody);
+    let { packageId, titleId, url } = body.data.attributes;
+    let { providerId } = packages.find(packageId);
+
+    let resource = resources.create({
+      isSelected: true,
+      providerId,
+      packageId,
+      titleId,
+      url
+    });
+
+    return resource;
+  });
+
   this.delete('/resources/:id', ({ resources }, request) => {
     let matchingResource = resources.find(request.params.id);
 
