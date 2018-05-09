@@ -113,14 +113,14 @@ export default connect(
       createRequest: resolver.getRequest('create', { type: 'titles' }),
       customPackages: resolver.query('packages', {
         filter: { custom: true },
-        count: 1000
+        count: 100
       })
     };
   }, {
     createTitle: attrs => Title.create(attrs),
     getCustomPackages: () => Package.query({
       filter: { custom: true },
-      count: 1000
+      count: 100
     })
   }
 )(TitleCreateRoute);
