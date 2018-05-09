@@ -108,7 +108,7 @@ export default class SearchPaneset extends React.Component {
     hideFilters = (hideFilters && !!resultsView) || !!detailsView;
 
     let newButton = (<PaneMenu />);
-    if (resultsType === 'packages') {
+    if (resultsType === 'packages' || resultsType === 'titles') {
       newButton = this.renderNewButton();
     }
 
@@ -123,7 +123,7 @@ export default class SearchPaneset extends React.Component {
 
     return (
       <div className={styles['search-paneset']}>
-        <SearchPaneVignette isHidden={hideFilters} onClick={this.toggleFilters} />
+        <SearchPaneVignette isHidden={hideFilters || !resultsView} onClick={this.toggleFilters} />
 
         {!!detailsView && (
           <SearchPaneVignette onClick={this.closePreview} />
