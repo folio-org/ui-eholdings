@@ -4,6 +4,7 @@ import { reduxForm } from 'redux-form';
 
 import {
   Button,
+  Icon,
   IconButton,
   PaneHeader,
   PaneMenu
@@ -107,15 +108,26 @@ class TitleCreate extends Component {
             </DetailsViewSection>
             <div className={styles['title-create-action-buttons']}>
               <div data-test-eholdings-title-create-cancel-button>
-                <Button type="button" onClick={this.handleCancel}>
+                <Button
+                  disabled={request.isPending}
+                  type="button"
+                  onClick={this.handleCancel}
+                >
                   Cancel
                 </Button>
               </div>
               <div data-test-eholdings-title-create-save-button>
-                <Button type="submit" buttonStyle="primary">
-                  Save
+                <Button
+                  disabled={pristine || request.isPending}
+                  type="submit"
+                  buttonStyle="primary"
+                >
+                  {request.isPending ? 'Saving' : 'Save'}
                 </Button>
               </div>
+              {request.isPending && (
+              <Icon icon="spinner-ellipsis" />
+                )}
             </div>
           </form>
         </div>

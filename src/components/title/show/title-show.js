@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 
 import {
   Button,
+  Icon,
   IconButton,
   KeyValue,
   PaneMenu,
@@ -22,6 +23,7 @@ import styles from './title-show.css';
 
 export default class TitleShow extends Component {
   static propTypes = {
+    request: PropTypes.object.isRequired,
     model: PropTypes.object.isRequired,
     customPackages: PropTypes.object.isRequired,
     addCustomPackage: PropTypes.func.isRequired
@@ -137,7 +139,7 @@ export default class TitleShow extends Component {
   }
 
   render() {
-    let { model, addCustomPackage } = this.props;
+    let { model, addCustomPackage, request } = this.props;
     let { showCustomPackageModal } = this.state;
 
     // this will become a ref that will allow us to submit the form
@@ -250,14 +252,20 @@ export default class TitleShow extends Component {
           id="eholdings-custom-package-modal"
           footer={(
             <div>
+              {request.isPending && (
+              <Icon icon="spinner-ellipsis" />
+                )}
               <Button
                 buttonStyle="primary"
+                disabled={request.isPending}
                 onClick={() => addToPackageForm.submit()}
                 data-test-eholdings-custom-package-modal-submit
               >
                 Submit
               </Button>
               <Button
+                disabled={request.isPending}
+                type="button"
                 onClick={this.toggleCustomPackageModal}
                 data-test-eholdings-custom-package-modal-cancel
               >

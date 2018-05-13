@@ -4,6 +4,7 @@ import { reduxForm } from 'redux-form';
 
 import {
   Button,
+  Icon,
   IconButton,
   PaneHeader,
   PaneMenu
@@ -88,19 +89,29 @@ class PackageCreate extends Component {
             </DetailsViewSection>
             <div className={styles['package-create-action-buttons']}>
               <div data-test-eholdings-package-create-cancel-button>
-                <Button type="button" onClick={this.handleCancel}>
+                <Button
+                  disabled={request.isPending}
+                  type="button"
+                  onClick={this.handleCancel}
+                >
                   Cancel
                 </Button>
               </div>
               <div data-test-eholdings-package-create-save-button>
-                <Button type="submit" buttonStyle="primary">
-                  Save
+                <Button
+                  disabled={pristine || request.isPending}
+                  type="submit"
+                  buttonStyle="primary"
+                >
+                  {request.isPending ? 'Saving' : 'Save'}
                 </Button>
               </div>
+              {request.isPending && (
+              <Icon icon="spinner-ellipsis" />
+                )}
             </div>
           </form>
         </div>
-
         <NavigationModal when={!pristine && !request.isResolved} />
       </div>
     );

@@ -32,6 +32,9 @@ import Toast from './toast';
 
   submit = clickable('[data-test-eholdings-custom-package-modal-submit]');
   cancel = clickable('[data-test-eholdings-custom-package-modal-cancel]');
+
+  isSubmitDisabled = property('[data-test-eholdings-custom-package-modal-submit]', 'disabled');
+  isCancelDisabled = property('[data-test-eholdings-custom-package-modal-cancel]', 'disabled');
 }
 
 @interactor class TitleShowPage {

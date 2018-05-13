@@ -55,6 +55,8 @@ import {
   isPeerReviewed = property('[data-test-eholdings-peer-reviewed-field] input', 'checked');
   save = clickable('[data-test-eholdings-title-create-save-button] button');
   cancel = clickable('[data-test-eholdings-title-create-cancel-button] button');
+  isSaveDisabled = property('[data-test-eholdings-title-create-save-button] button', 'disabled');
+  isCancelDisabled = property('[data-test-eholdings-title-create-cancel-button] button', 'disabled');
 }
 
 export default new TitleCreatePage();
