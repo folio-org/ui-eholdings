@@ -65,6 +65,10 @@ describeApplication('ProviderShow package search', () => {
       expect(ProviderShowPage.packageList(1).name).to.equal('Ordinary Package');
     });
 
+    it('displays the number of relevant package records', () => {
+      expect(ProviderShowPage.searchResultsCount).to.equal('2 records found');
+    });
+
     describe('reopening the modal', () => {
       beforeEach(() => {
         return ProviderShowPage.clickListSearch();

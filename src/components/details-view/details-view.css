@@ -13,6 +13,13 @@
     border-bottom: 1px solid #eee;
     border-top: 1px solid var(--minor-divider-color);
     justify-content: space-between;
+
+    & p {
+      color: var(--secondary);
+      margin: 0;
+      padding-left: 1rem;
+      padding-bottom: 1rem;
+    }
   }
 
   &.locked {
@@ -64,7 +71,7 @@
     color: var(--subLabelColor #999);
     font-size: 18px;
     font-weight: 600;
-    padding: 1rem 1rem 0.75rem;
+    padding: 1rem 1rem 0;
     margin: 0;
   }
 

@@ -61,6 +61,7 @@ export default function ProviderShow({
         listType="packages"
         onSearch={searchPackages}
         searchParams={searchParams}
+        resultsLength={packages.length}
         renderList={scrollable => (
           <QueryList
             type="provider-packages"
