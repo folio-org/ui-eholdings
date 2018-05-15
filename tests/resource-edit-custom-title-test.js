@@ -6,7 +6,7 @@ import ResourceShowPage from './pages/resource-show';
 import ResourceEditPage from './pages/resource-edit';
 import ResourceCoverage from './pages/resource-custom-coverage';
 
-describeApplication.only('ResourceEditCustomTitle', () => {
+describeApplication('ResourceEditCustomTitle', () => {
   let provider,
     providerPackage,
     resource;
