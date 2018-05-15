@@ -41,6 +41,7 @@ class ResourceEditCustomTitle extends Component {
 
   state = {
     resourceSelected: this.props.initialValues.isSelected,
+    resourceHidden: this.props.initialValues.isHidden,
     showSelectionModal: false,
     allowFormToSubmit: false,
     formValues: {}
@@ -68,6 +69,12 @@ class ResourceEditCustomTitle extends Component {
   handleSelectionToggle = (e) => {
     this.setState({
       resourceSelected: e.target.checked
+    });
+  }
+
+  handleVisibilityToggle = (e) => {
+    this.setState({
+      resourceHidden: !e.target.checked
     });
   }
 
@@ -114,7 +121,8 @@ class ResourceEditCustomTitle extends Component {
 
     let {
       showSelectionModal,
-      resourceSelected
+      resourceSelected,
+      resourceHidden
     } = this.state;
 
     let actionMenuItems = [
@@ -162,6 +170,28 @@ class ResourceEditCustomTitle extends Component {
                     checked={resourceSelected}
                     onChange={this.handleSelectionToggle}
                     id="custom-resource-holding-toggle-switch"
+                  />
+                </label>
+              </DetailsViewSection>
+              <DetailsViewSection
+                label="Visibility"
+              >
+                <label
+                  data-test-eholdings-resource-toggle-visibility
+                  htmlFor="custom-resource-visibility-toggle-switch"
+                >
+                  <h4>
+                    {resourceHidden
+                      ? 'Hidden from patrons'
+                    : 'Visible to patrons'}
+                  </h4>
+                  <br />
+                  <Field
+                    name="isHidden"
+                    component={ToggleSwitch}
+                    checked={!resourceHidden}
+                    onChange={this.handleVisibilityToggle}
+                    id="custom-resource-visibility-toggle-switch"
                   />
                 </label>
               </DetailsViewSection>

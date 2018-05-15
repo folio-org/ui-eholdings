@@ -12,6 +12,7 @@ export default function ResourceEdit({ model, ...props }) {
     View = CustomResourceEdit;
     initialValues = {
       isSelected: model.isSelected,
+      isHidden: model.visibilityData.isHidden,
       customCoverages: model.customCoverages,
       coverageStatement: model.coverageStatement,
       customEmbargoValue: model.customEmbargoPeriod.embargoValue,
