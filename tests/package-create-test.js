@@ -25,11 +25,23 @@ describeApplication('PackageCreate', () => {
     expect(PackageCreatePage.hasAddCoverageButton).to.be.true;
   });
 
+  it('disables the save button', () => {
+    expect(PackageCreatePage.isSaveDisabled).to.be.true;
+  });
+
   describe('creating a new package', () => {
     beforeEach(() => {
       return PackageCreatePage
         .fillName('My Package')
         .save();
+    });
+
+    it('disables the save button', () => {
+      expect(PackageCreatePage.isSaveDisabled).to.be.true;
+    });
+
+    it('disables the cancel button', () => {
+      expect(PackageCreatePage.isCancelDisabled).to.be.true;
     });
 
     it('redirects to the new package show page', function () {
@@ -112,6 +124,14 @@ describeApplication('PackageCreate', () => {
 
     it('shows an error toast message', () => {
       expect(PackageShowPage.toast.errorText).to.equal('There was an error');
+    });
+
+    it('enables the save button', () => {
+      expect(PackageCreatePage.isSaveDisabled).to.be.false;
+    });
+
+    it('enables the cancel button', () => {
+      expect(PackageCreatePage.isCancelDisabled).to.be.false;
     });
   });
 });

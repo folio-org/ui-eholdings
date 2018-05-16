@@ -60,12 +60,24 @@ describeApplication('TitleCreate', () => {
     expect(TitleCreatePage.isPeerReviewed).to.be.false;
   });
 
+  it('disables the save button', () => {
+    expect(TitleCreatePage.isSaveDisabled).to.be.true;
+  });
+
   describe('creating a new title', () => {
     beforeEach(() => {
       return TitleCreatePage
         .fillName('My Title')
         .selectPackage(packages[0].id)
         .save();
+    });
+
+    it('disables the save button', () => {
+      expect(TitleCreatePage.isSaveDisabled).to.be.true;
+    });
+
+    it('disables the cancel button', () => {
+      expect(TitleCreatePage.isCancelDisabled).to.be.true;
     });
 
     it('redirects to the new title show page', function () {
@@ -241,6 +253,14 @@ describeApplication('TitleCreate', () => {
 
     it('shows an error toast message', () => {
       expect(TitleShowPage.toast.errorText).to.equal('There was an error');
+    });
+
+    it('enables the save button', () => {
+      expect(TitleCreatePage.isSaveDisabled).to.be.false;
+    });
+
+    it('enables the cancel button', () => {
+      expect(TitleCreatePage.isCancelDisabled).to.be.false;
     });
   });
 });

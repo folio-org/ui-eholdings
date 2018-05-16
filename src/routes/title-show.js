@@ -67,10 +67,11 @@ class TitleShowRoute extends Component {
   };
 
   render() {
-    let { model, customPackages } = this.props;
+    let { model, customPackages, createRequest } = this.props;
 
     return (
       <View
+        request={createRequest}
         model={model}
         customPackages={customPackages}
         addCustomPackage={this.createResource}

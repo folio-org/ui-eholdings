@@ -87,6 +87,14 @@ describeApplication('TitleShow', () => {
           .customPackageModal.submit();
       });
 
+      it('disables the submit button', () => {
+        expect(TitleShowPage.customPackageModal.isSubmitDisabled).to.be.true;
+      });
+
+      it('disables the cancel button', () => {
+        expect(TitleShowPage.customPackageModal.isCancelDisabled).to.be.true;
+      });
+
       it('Redirects to the newly created resource', function () {
         expect(this.app.history.location.pathname).to.match(/^\/eholdings\/resources\/\d{1,}/);
         expect(ResourceShowPage.titleName).to.equal(title.name);

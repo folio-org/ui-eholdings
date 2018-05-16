@@ -3,7 +3,8 @@ import {
   isPresent,
   fillable,
   clickable,
-  collection
+  collection,
+  property
 } from '@bigtest/interactor';
 import Datepicker from './datepicker';
 
@@ -16,6 +17,8 @@ import Datepicker from './datepicker';
   addCoverage = clickable('[data-test-eholdings-coverage-fields-add-row-button] button');
   save = clickable('[data-test-eholdings-package-create-save-button] button');
   cancel = clickable('[data-test-eholdings-package-create-cancel-button] button');
+  isSaveDisabled = property('[data-test-eholdings-package-create-save-button] button', 'disabled');
+  isCancelDisabled = property('[data-test-eholdings-package-create-cancel-button] button', 'disabled');
 
   dateRangeRowList = collection('[data-test-eholdings-coverage-fields-date-range-row]', {
     beginDate: new Datepicker('[data-test-eholdings-coverage-fields-date-range-begin]'),
