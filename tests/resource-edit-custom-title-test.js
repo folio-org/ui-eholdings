@@ -40,6 +40,32 @@ describeApplication('ResourceEditCustomTitle', () => {
     });
   });
 
+  describe('visting the custom resource edit page but the resource is unselected', () => {
+    beforeEach(function () {
+      return this.visit(`/eholdings/resources/${resource.titleId}/edit`, () => {
+        expect(ResourceEditPage.$root).to.exist;
+      });
+    });
+
+    describe('with the resource unselected', () => {
+      beforeEach(() => {
+        return ResourceEditPage.toggleIsSelected();
+      });
+
+      it('should not display the coverage button', () => {
+        expect(ResourceEditPage.hasAddCustomCoverageButton).to.be.false;
+      });
+
+      it('should not display the custom embargo button', () => {
+        expect(ResourceEditPage.hasAddCustomCoverageButton).to.be.false;
+      });
+
+      it('should not display the coverage statement textarea', () => {
+        expect(ResourceEditPage.hasCoverageStatementArea).to.be.false;
+      });
+    });
+  });
+
   describe('visiting the resource edit page without coverage dates or statements', () => {
     beforeEach(function () {
       return this.visit(`/eholdings/resources/${resource.titleId}/edit`, () => {
