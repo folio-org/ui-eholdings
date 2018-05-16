@@ -40,6 +40,7 @@ class ResourceEditManagedTitle extends Component {
 
   state = {
     managedResourceSelected: this.props.initialValues.isSelected,
+    managedResourceHidden: this.props.initialValues.isHidden,
     showSelectionModal: false,
     allowFormToSubmit: false,
     formValues: {}
@@ -52,7 +53,8 @@ class ResourceEditManagedTitle extends Component {
     if (nextProps.initialValues.isSelected !== this.props.initialValues.isSelected) {
       this.setState({
         ...this.state,
-        managedResourceSelected: nextProps.initialValues.isSelected
+        managedResourceSelected: nextProps.initialValues.isSelected,
+        managedResourceHidden: nextProps.initialValues.isHidden,
       });
     }
 
@@ -74,6 +76,12 @@ class ResourceEditManagedTitle extends Component {
   handleSelectionToggle = (e) => {
     this.setState({
       managedResourceSelected: e.target.checked
+    });
+  }
+
+  handleVisibilityToggle = (e) => {
+    this.setState({
+      managedResourceHidden: !e.target.checked
     });
   }
 
@@ -118,7 +126,8 @@ class ResourceEditManagedTitle extends Component {
 
     let {
       showSelectionModal,
-      managedResourceSelected
+      managedResourceSelected,
+      managedResourceHidden
     } = this.state;
 
     let actionMenuItems = [
@@ -159,6 +168,29 @@ class ResourceEditManagedTitle extends Component {
                     onChange={this.handleSelectionToggle}
                     id="managed-resource-holding-toggle-switch"
                   />
+                </label>
+              </DetailsViewSection>
+              <DetailsViewSection
+                label="Visibility"
+              >
+                <label
+                  data-test-eholdings-resource-toggle-visibility
+                  htmlFor="managed-resource-visibility-toggle-switch"
+                >
+                  <h4>
+                    {managedResourceHidden
+                      ? 'Hidden from patrons'
+                    : 'Visible to patrons'}
+                  </h4>
+                  <br />
+                  {managedResourceSelected ? (
+                    <Field
+                      name="isHidden"
+                      component={ToggleSwitch}
+                      checked={!managedResourceHidden}
+                      onChange={this.handleVisibilityToggle}
+                      id="managed-resource-visibility-toggle-switch"
+                    />) : null}
                 </label>
               </DetailsViewSection>
               <DetailsViewSection

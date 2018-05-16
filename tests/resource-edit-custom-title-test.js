@@ -35,6 +35,9 @@ describeApplication('ResourceEditCustomTitle', () => {
     resource = this.server.create('resource', {
       package: providerPackage,
       isSelected: true,
+      visibilityData: {
+        isHidden: true
+      },
       title,
       url: 'https://frontside.io'
     });
@@ -83,6 +86,10 @@ describeApplication('ResourceEditCustomTitle', () => {
 
     it('shows a form with custom url', () => {
       expect(ResourceEditPage.customUrlFieldValue).to.equal('https://frontside.io');
+    });
+
+    it('shows a form with a visibility toggle', () => {
+      expect(ResourceEditPage.isResourceVisible).to.equal(false);
     });
 
     it('disables the save button', () => {
@@ -166,6 +173,7 @@ describeApplication('ResourceEditCustomTitle', () => {
       beforeEach(() => {
         return ResourceEditPage
           .clickAddRowButton()
+          .toggleVisibility()
           .dateRangeRowList(0).fillDates('12/16/2018', '12/18/2018')
           .inputCoverageStatement('Only 90s kids would understand.')
           .clickAddCustomEmbargoButton()
@@ -197,6 +205,10 @@ describeApplication('ResourceEditCustomTitle', () => {
 
         it('displays the saved date range', () => {
           expect(ResourceCoverage.displayText).to.equal('12/16/2018 - 12/18/2018');
+        });
+
+        it('displays the saved visibility', () => {
+          expect(ResourceShowPage.isResourceVisible).to.equal(true);
         });
 
         it('shows the new statement value', () => {

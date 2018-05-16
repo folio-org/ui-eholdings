@@ -34,7 +34,10 @@ describeApplication('ManagedResourceEdit', () => {
       package: providerPackage,
       isSelected: true,
       title,
-      url: 'https://www.frontside.io'
+      url: 'https://www.frontside.io',
+      visibilityData: {
+        isHidden: true
+      }
     });
   });
 
@@ -51,6 +54,10 @@ describeApplication('ManagedResourceEdit', () => {
 
     it('shows a button to add embargo fields', () => {
       expect(ResourceEditPage.hasAddCustomEmbargoButton).to.be.true;
+    });
+
+    it('shows a form with a visibility toggle', () => {
+      expect(ResourceEditPage.isResourceVisible).to.equal(false);
     });
 
     it('disables the save button', () => {
@@ -105,6 +112,7 @@ describeApplication('ManagedResourceEdit', () => {
       beforeEach(() => {
         return ResourceEditPage
           .clickAddRowButton()
+          .toggleVisibility()
           .dateRangeRowList(0).fillDates('12/16/2018', '12/18/2018')
           .inputCoverageStatement('Only 90s kids would understand.')
           .clickAddCustomEmbargoButton()
@@ -135,6 +143,10 @@ describeApplication('ManagedResourceEdit', () => {
 
         it('shows the new statement value', () => {
           expect(ResourceShowPage.coverageStatement).to.equal('Only 90s kids would understand.');
+        });
+
+        it('displays the saved visibility', () => {
+          expect(ResourceShowPage.isResourceVisible).to.equal(true);
         });
 
         it('shows the new embargo value', () => {
