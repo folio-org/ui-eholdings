@@ -588,7 +588,7 @@ export function epic(action$, { getState }) {
 
       // if we're querying a set of records, data.params are the
       // parameters needed in the request URL
-      if (type === actionTypes.QUERY) {
+      if (type === actionTypes.QUERY && Object.keys(data.params).length !== 0) {
         url = `${url}?${qs.stringify(data.params)}`;
       }
 
