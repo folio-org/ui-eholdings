@@ -68,7 +68,7 @@ class ResourceEditRoute extends Component {
     } else if (values.isSelected === false) {
       model.isSelected = !model.isSelected;
       model.customCoverages = [];
-      model.visibilityData.isHidden = false;
+      model.visibilityData.isHidden = !isHidden;
       model.identifiersList = [];
       model.identifiers = {};
       model.customStatement = '';
