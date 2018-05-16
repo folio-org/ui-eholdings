@@ -186,13 +186,14 @@ class ResourceEditCustomTitle extends Component {
                     : 'Visible to patrons'}
                   </h4>
                   <br />
-                  <Field
-                    name="isHidden"
-                    component={ToggleSwitch}
-                    checked={!resourceHidden}
-                    onChange={this.handleVisibilityToggle}
-                    id="custom-resource-visibility-toggle-switch"
-                  />
+                  {resourceSelected ? (
+                    <Field
+                      name="isHidden"
+                      component={ToggleSwitch}
+                      checked={!resourceHidden}
+                      onChange={this.handleVisibilityToggle}
+                      id="custom-resource-visibility-toggle-switch"
+                    />) : null}
                 </label>
               </DetailsViewSection>
               <DetailsViewSection

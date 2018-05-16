@@ -183,13 +183,14 @@ class ResourceEditManagedTitle extends Component {
                     : 'Visible to patrons'}
                   </h4>
                   <br />
-                  <Field
-                    name="isHidden"
-                    component={ToggleSwitch}
-                    checked={!managedResourceHidden}
-                    onChange={this.handleVisibilityToggle}
-                    id="managed-resource-visibility-toggle-switch"
-                  />
+                  {managedResourceSelected ? (
+                    <Field
+                      name="isHidden"
+                      component={ToggleSwitch}
+                      checked={!managedResourceHidden}
+                      onChange={this.handleVisibilityToggle}
+                      id="managed-resource-visibility-toggle-switch"
+                    />) : null}
                 </label>
               </DetailsViewSection>
               <DetailsViewSection
