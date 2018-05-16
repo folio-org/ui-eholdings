@@ -46,6 +46,7 @@ export default class DetailsView extends Component {
     lastMenu: PropTypes.node,
     enableListSearch: PropTypes.bool,
     onSearch: PropTypes.func,
+    resultsLength: PropTypes.number,
     searchParams: PropTypes.object
   };
 
@@ -180,6 +181,7 @@ export default class DetailsView extends Component {
       actionMenuItems,
       lastMenu,
       enableListSearch,
+      resultsLength,
       searchParams = {}
     } = this.props;
 
@@ -272,7 +274,14 @@ export default class DetailsView extends Component {
               data-test-eholdings-details-view-list={type}
             >
               <div className={styles['list-header']}>
-                <h3>{capitalize(listType)}</h3>
+                <div>
+                  <h3>{capitalize(listType)}</h3>
+                  {resultsLength && (
+                    <div data-test-eholdings-details-view-results-count>
+                      <p><small>{resultsLength} records found</small></p>
+                    </div>
+                  )}
+                </div>
 
                 {enableListSearch && (
                   <div className={styles['search-filter-area']}>
