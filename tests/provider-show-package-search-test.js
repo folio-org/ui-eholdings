@@ -47,6 +47,10 @@ describeApplication('ProviderShow package search', () => {
     it('shows the package search modal', () => {
       expect(ProviderShowPage.searchModal.isPresent).to.be.true;
     });
+
+    it('does not display badge', () => {
+      expect(ProviderShowPage.filterBadge).to.be.false;
+    });
   });
 
   describe('searching for specific packages', () => {
@@ -67,6 +71,10 @@ describeApplication('ProviderShow package search', () => {
 
     it('displays the number of relevant package records', () => {
       expect(ProviderShowPage.searchResultsCount).to.equal('2 records found');
+    });
+
+    it('displays updated filter count', () => {
+      expect(ProviderShowPage.numFilters).to.equal('1');
     });
 
     describe('reopening the modal', () => {
@@ -110,6 +118,10 @@ describeApplication('ProviderShow package search', () => {
         expect(ProviderShowPage.packageList()).to.have.lengthOf(1);
         expect(ProviderShowPage.packageList(0).name).to.equal('Other Ordinary Package');
       });
+
+      it('displays updated filter count', () => {
+        expect(ProviderShowPage.numFilters).to.equal('2');
+      });
     });
 
     describe('then filtering the packages by content type', () => {
@@ -125,6 +137,9 @@ describeApplication('ProviderShow package search', () => {
       it('displays packages matching the search term and content type', () => {
         expect(ProviderShowPage.packageList()).to.have.lengthOf(1);
         expect(ProviderShowPage.packageList(0).name).to.equal('Ordinary Package');
+      });
+      it('displays updated filter count', () => {
+        expect(ProviderShowPage.numFilters).to.equal('2');
       });
     });
   });

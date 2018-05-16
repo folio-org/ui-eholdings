@@ -22,3 +22,17 @@ export const Configuration = model({
     apiKey = '';
   }
 );
+
+export const RootProxy = model({
+  type: 'root-proxies',
+  // id is 'root-proxies' so it will be appended to this path when
+  // retrieving the configuration
+  path: '/eholdings/root-proxies'
+})(
+  class RootProxy {
+    id = '';
+    name = '';
+    urlMask = '';
+    selected = false;
+  }
+);

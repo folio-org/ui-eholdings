@@ -4,6 +4,7 @@ import classNames from 'classnames/bind';
 import capitalize from 'lodash/capitalize';
 
 import {
+  Badge,
   Icon,
   IconButton,
   PaneHeader,
@@ -181,7 +182,7 @@ export default class DetailsView extends Component {
       lastMenu,
       enableListSearch,
       resultsLength,
-      searchParams
+      searchParams = {}
     } = this.props;
 
     let {
@@ -199,6 +200,10 @@ export default class DetailsView extends Component {
     });
 
     let historyState = router.history.location.state;
+
+    let filterCount = [searchParams.q]
+      .concat(Object.values(searchParams.filter || {}))
+      .filter(Boolean).length;
 
     return (
       <div data-test-eholdings-details-view={type}>
@@ -279,8 +284,15 @@ export default class DetailsView extends Component {
                 </div>
 
                 {enableListSearch && (
-                  <div data-test-eholdings-details-view-search>
-                    <IconButton icon="search" onClick={this.toggleSearchModal} />
+                  <div className={styles['search-filter-area']}>
+                    {filterCount > 0 && (
+                      <div data-test-eholdings-details-view-filters>
+                        <Badge className={styles['filter-count']}>{filterCount}</Badge>
+                      </div>
+                    )}
+                    <div data-test-eholdings-details-view-search>
+                      <IconButton icon="search" onClick={this.toggleSearchModal} />
+                    </div>
                   </div>
                 )}
               </div>

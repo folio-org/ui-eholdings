@@ -59,7 +59,8 @@ class ResourceEditRoute extends Component {
       customCoverages,
       customEmbargoValue,
       customEmbargoUnit,
-      customUrl
+      customUrl,
+      isHidden
     } = values;
 
     if (values.isSelected === false && model.package.isCustom) {
@@ -67,7 +68,7 @@ class ResourceEditRoute extends Component {
     } else if (values.isSelected === false) {
       model.isSelected = !model.isSelected;
       model.customCoverages = [];
-      model.visibilityData.isHidden = false;
+      model.visibilityData.isHidden = !isHidden;
       model.identifiersList = [];
       model.identifiers = {};
       model.customStatement = '';
@@ -86,6 +87,7 @@ class ResourceEditRoute extends Component {
       });
 
       model.url = customUrl;
+      model.visibilityData.isHidden = !isHidden;
       model.coverageStatement = coverageStatement;
       model.customEmbargoPeriod = {
         embargoValue: customEmbargoValue,

@@ -104,6 +104,32 @@ export default function configure() {
     return JSON.parse(request.requestBody);
   });
 
+  // Root Proxies
+  this.get('/root-proxies', {
+    data: [
+      {
+        id: 'some-selected-value',
+        type: 'rootProxy',
+        attributes: {
+          id: 'some-selected-value',
+          name: 'some-default-name',
+          urlMask: '',
+          selected: true
+        }
+      },
+      {
+        id: 'some-unselected-value',
+        type: 'rootProxy',
+        attributes: {
+          id: 'some-unselected-value',
+          name: 'some-name',
+          urlMask: '',
+          selected: false
+        }
+      }
+    ]
+  });
+
   // Provider resources
   this.get('/providers', searchRouteFor('providers', (provider, req) => {
     if (req.queryParams.q && provider.name) {

@@ -33,6 +33,7 @@ import Datepicker from './datepicker';
   checkPeerReviewed = clickable('[data-test-eholdings-peer-reviewed-field] input[type=checkbox]');
   hasBackButton = isPresent('[data-test-eholdings-details-view-back-button] button');
   isSelected = property('[data-test-eholdings-resource-holding-status] input', 'checked');
+  isResourceVisible = property('[data-test-eholdings-resource-toggle-visibility] input', 'checked');
   toggleIsSelected = clickable('[data-test-eholdings-resource-holding-status] input');
   modal = new ResourceEditModal('#eholdings-resource-confirmation-modal');
 
@@ -53,6 +54,8 @@ import Datepicker from './datepicker';
     }
   });
 
+  hasCoverageStatementArea = isPresent('[data-test-eholdings-coverage-statement-textarea] textarea');
+  toggleVisibility = clickable('[data-test-eholdings-resource-toggle-visibility] input');
   coverageStatement = value('[data-test-eholdings-coverage-statement-textarea] textarea');
   customUrlFieldValue = value('[data-test-eholdings-custom-url-textfield] input');
   fillCoverageStatement = fillable('[data-test-eholdings-coverage-statement-textarea] textarea');
@@ -74,6 +77,7 @@ import Datepicker from './datepicker';
   blurEmbargoValue = blurrable('[data-test-eholdings-custom-embargo-textfield] input');
   blurEmbargoUnit = blurrable('[data-test-eholdings-custom-embargo-select] select');
   validationErrorOnEmbargoTextField = text('[data-test-eholdings-custom-embargo-textfield] [class^="feedbackError--"]');
+  hasAddCustomCoverageButton = isPresent('[data-test-eholdings-coverage-fields-add-row-button] button');
   hasAddCustomEmbargoButton = isPresent('[data-test-eholdings-custom-embargo-add-row-button] button');
   clickAddCustomEmbargoButton = clickable('[data-test-eholdings-custom-embargo-add-row-button] button');
   hasSavingWillRemoveEmbargoMessage = isPresent('[data-test-eholdings-embargo-fields-saving-will-remove]');

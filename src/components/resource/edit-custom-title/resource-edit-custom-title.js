@@ -41,6 +41,7 @@ class ResourceEditCustomTitle extends Component {
 
   state = {
     resourceSelected: this.props.initialValues.isSelected,
+    resourceHidden: this.props.initialValues.isHidden,
     showSelectionModal: false,
     allowFormToSubmit: false,
     formValues: {}
@@ -68,6 +69,12 @@ class ResourceEditCustomTitle extends Component {
   handleSelectionToggle = (e) => {
     this.setState({
       resourceSelected: e.target.checked
+    });
+  }
+
+  handleVisibilityToggle = (e) => {
+    this.setState({
+      resourceHidden: !e.target.checked
     });
   }
 
@@ -114,7 +121,8 @@ class ResourceEditCustomTitle extends Component {
 
     let {
       showSelectionModal,
-      resourceSelected
+      resourceSelected,
+      resourceHidden
     } = this.state;
 
     let actionMenuItems = [
@@ -141,7 +149,11 @@ class ResourceEditCustomTitle extends Component {
               <DetailsViewSection
                 label="Resource information"
               >
-                <CustomUrlFields />
+                {resourceSelected ? (
+                  <CustomUrlFields />
+                    ) : (
+                      <p>Add the resource to holdings to set custom url.</p>
+                  )}
               </DetailsViewSection>
               <DetailsViewSection
                 label="Holding status"
@@ -150,6 +162,8 @@ class ResourceEditCustomTitle extends Component {
                   data-test-eholdings-resource-holding-status
                   htmlFor="custom-resource-holding-toggle-switch"
                 >
+                  <h4>{resourceSelected ? 'Selected' : 'Not selected'}</h4>
+                  <br />
                   <Field
                     name="isSelected"
                     component={ToggleSwitch}
@@ -160,28 +174,64 @@ class ResourceEditCustomTitle extends Component {
                 </label>
               </DetailsViewSection>
               <DetailsViewSection
+                label="Visibility"
+              >
+                <label
+                  data-test-eholdings-resource-toggle-visibility
+                  htmlFor="custom-resource-visibility-toggle-switch"
+                >
+                  <h4>
+                    {resourceHidden
+                      ? 'Hidden from patrons'
+                    : 'Visible to patrons'}
+                  </h4>
+                  <br />
+                  {resourceSelected ? (
+                    <Field
+                      name="isHidden"
+                      component={ToggleSwitch}
+                      checked={!resourceHidden}
+                      onChange={this.handleVisibilityToggle}
+                      id="custom-resource-visibility-toggle-switch"
+                    />) : null}
+                </label>
+              </DetailsViewSection>
+              <DetailsViewSection
                 label="Coverage dates"
               >
-                <CustomCoverageFields
-                  initialValue={initialValues.customCoverages}
-                />
+                {resourceSelected ? (
+                  <CustomCoverageFields
+                    initialValue={initialValues.customCoverages}
+                  />
+                  ) : (
+                    <p>Add the resource to holdings to set custom coverage dates.</p>
+                )}
               </DetailsViewSection>
               <DetailsViewSection
                 label="Coverage statement"
               >
-                <CoverageStatementFields />
+                {resourceSelected ? (
+                  <CoverageStatementFields />
+                  ) : (
+                    <p>Add the resource to holdings to set coverage statement.</p>
+                  )}
               </DetailsViewSection>
               <DetailsViewSection
                 label="Embargo period"
               >
-                <CustomEmbargoFields
-                  change={change}
-                  showInputs={(initialValues.customEmbargoValue > 0)}
-                  initialValue={{
-                    customEmbargoValue: initialValues.customEmbargoValue,
-                    customEmbargoUnit: initialValues.customEmbargoUnit
+                {resourceSelected ? (
+                  <CustomEmbargoFields
+                    change={change}
+                    showInputs={(initialValues.customEmbargoValue > 0)}
+                    initialValue={{
+                      customEmbargoValue: initialValues.customEmbargoValue,
+                      customEmbargoUnit: initialValues.customEmbargoUnit
                   }}
-                />
+                  />
+                ) : (
+                  <p>Add the resource to holdings to set custom embargo.</p>
+                )}
+
               </DetailsViewSection>
               <div className={styles['resource-edit-action-buttons']}>
                 <div

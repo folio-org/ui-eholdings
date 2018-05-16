@@ -40,6 +40,7 @@ class ResourceEditManagedTitle extends Component {
 
   state = {
     managedResourceSelected: this.props.initialValues.isSelected,
+    managedResourceHidden: this.props.initialValues.isHidden,
     showSelectionModal: false,
     allowFormToSubmit: false,
     formValues: {}
@@ -52,7 +53,8 @@ class ResourceEditManagedTitle extends Component {
     if (nextProps.initialValues.isSelected !== this.props.initialValues.isSelected) {
       this.setState({
         ...this.state,
-        managedResourceSelected: nextProps.initialValues.isSelected
+        managedResourceSelected: nextProps.initialValues.isSelected,
+        managedResourceHidden: nextProps.initialValues.isHidden,
       });
     }
 
@@ -74,6 +76,12 @@ class ResourceEditManagedTitle extends Component {
   handleSelectionToggle = (e) => {
     this.setState({
       managedResourceSelected: e.target.checked
+    });
+  }
+
+  handleVisibilityToggle = (e) => {
+    this.setState({
+      managedResourceHidden: !e.target.checked
     });
   }
 
@@ -118,7 +126,8 @@ class ResourceEditManagedTitle extends Component {
 
     let {
       showSelectionModal,
-      managedResourceSelected
+      managedResourceSelected,
+      managedResourceHidden
     } = this.state;
 
     let actionMenuItems = [
@@ -150,6 +159,8 @@ class ResourceEditManagedTitle extends Component {
                   data-test-eholdings-resource-holding-status
                   htmlFor="managed-resource-holding-toggle-switch"
                 >
+                  <h4>{managedResourceSelected ? 'Selected' : 'Not selected'}</h4>
+                  <br />
                   <Field
                     name="isSelected"
                     component={ToggleSwitch}
@@ -160,28 +171,63 @@ class ResourceEditManagedTitle extends Component {
                 </label>
               </DetailsViewSection>
               <DetailsViewSection
+                label="Visibility"
+              >
+                <label
+                  data-test-eholdings-resource-toggle-visibility
+                  htmlFor="managed-resource-visibility-toggle-switch"
+                >
+                  <h4>
+                    {managedResourceHidden
+                      ? 'Hidden from patrons'
+                    : 'Visible to patrons'}
+                  </h4>
+                  <br />
+                  {managedResourceSelected ? (
+                    <Field
+                      name="isHidden"
+                      component={ToggleSwitch}
+                      checked={!managedResourceHidden}
+                      onChange={this.handleVisibilityToggle}
+                      id="managed-resource-visibility-toggle-switch"
+                    />) : null}
+                </label>
+              </DetailsViewSection>
+              <DetailsViewSection
                 label="Coverage dates"
               >
-                <CustomCoverageFields
-                  initialValue={initialValues.customCoverages}
-                />
+                {managedResourceSelected ? (
+                  <CustomCoverageFields
+                    initialValue={initialValues.customCoverages}
+                  />
+                ) : (
+                  <p>Add the resource to holdings to set custom coverage dates.</p>
+                )}
               </DetailsViewSection>
               <DetailsViewSection
                 label="Coverage statement"
               >
-                <CoverageStatementFields />
+                {managedResourceSelected ? (
+                  <CoverageStatementFields />
+                  ) : (
+                    <p>Add the resource to holdings to set coverage statement.</p>
+                  )}
               </DetailsViewSection>
               <DetailsViewSection
                 label="Embargo period"
               >
-                <CustomEmbargoFields
-                  change={change}
-                  showInputs={(initialValues.customEmbargoValue > 0)}
-                  initialValue={{
+                {managedResourceSelected ? (
+                  <CustomEmbargoFields
+                    change={change}
+                    showInputs={(initialValues.customEmbargoValue > 0)}
+                    initialValue={{
                     customEmbargoValue: initialValues.customEmbargoValue,
                     customEmbargoUnit: initialValues.customEmbargoUnit
                   }}
-                />
+                  />
+                  ) : (
+                    <p>Add the resource to holdings to set custom embargo.</p>
+                  )}
               </DetailsViewSection>
               <div className={styles['resource-edit-action-buttons']}>
                 <div

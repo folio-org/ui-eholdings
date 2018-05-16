@@ -20,6 +20,14 @@
       padding-left: 1rem;
       padding-bottom: 1rem;
     }
+
+    & .search-filter-area {
+      display: flex;
+
+      & .filter-count {
+        margin: 0.75em 0;
+      }
+    }
   }
 
   &.locked {
