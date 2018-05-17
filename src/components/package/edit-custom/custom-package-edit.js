@@ -155,13 +155,14 @@ class CustomPackageEdit extends Component {
       }
     ];
 
-    if (queryParams) {
+    if (queryParams.searchType) {
       actionMenuItems.push({
         label: 'Full view',
         to: {
           pathname: `/eholdings/packages/${model.id}/edit`,
           state: { eholdings: true }
-        }
+        },
+        className: styles['full-view-link']
       });
     }
 
