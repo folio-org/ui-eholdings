@@ -50,6 +50,10 @@ describeApplication('CustomPackageEdit', () => {
       it('goes to the package show page', () => {
         expect(PackageShowPage.$root).to.exist;
       });
+
+      it('displays no custom coverage dates', () => {
+        expect(PackageShowPage.hasCustomCoverage).to.be.false;
+      });
     });
 
     describe('entering invalid data', () => {
@@ -88,7 +92,7 @@ describeApplication('CustomPackageEdit', () => {
           expect(PackageShowPage.$root).to.exist;
         });
 
-        it('displays the new coverage dates', () => {
+        it('displays new coverage dates', () => {
           expect(PackageShowPage.customCoverage).to.equal('12/16/2018 - 12/18/2018');
         });
 
@@ -193,10 +197,6 @@ describeApplication('CustomPackageEdit', () => {
 
         it('reflects the new name', () => {
           expect(PackageShowPage.name).to.equal('A Different Name');
-        });
-
-        it('reflects the new coverage dates', () => {
-          expect(PackageShowPage.customCoverage).to.equal('12/16/2018 - 12/18/2018');
         });
 
         it('reflects the new content type', () => {

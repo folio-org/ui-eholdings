@@ -51,7 +51,7 @@ import Toast from './toast';
   });
 
   toggleIsHidden = clickable('[data-test-eholdings-package-details-hidden] input');
-  isVisibleToPatrons = property('[data-test-eholdings-package-details-hidden] input', 'checked');
+  isVisibleToPatrons = text('[data-test-eholdings-package-details-visibility-status]');
   isHiddenMessage = text('[data-test-eholdings-package-details-is-hidden]');
   isHiddenMessagePresent = isPresent('[data-test-eholdings-package-details-is-hidden]');
   isHiddenToggleDisabled = property('[data-test-eholdings-package-details-hidden] input[type=checkbox]', 'disabled');

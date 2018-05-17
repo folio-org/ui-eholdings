@@ -29,8 +29,8 @@ describeApplication('PackageShowAllowKbToAddTitles', () => {
       });
     });
 
-    it('displays an ON Toggle', () => {
-      expect(PackageShowPage.allowKbToAddTitles).to.be.true;
+    it('displays YES for allowing kb to select new titles', () => {
+      expect(PackageShowPage.allowKbToAddTitles).to.equal('Yes');
     });
   });
 
@@ -49,8 +49,8 @@ describeApplication('PackageShowAllowKbToAddTitles', () => {
       });
     });
 
-    it('displays an OFF Toggle', () => {
-      expect(PackageShowPage.allowKbToAddTitles).to.be.false;
+    it('displays NO for allowing kb to select new titles', () => {
+      expect(PackageShowPage.allowKbToAddTitles).to.equal('No');
     });
   });
 
@@ -101,8 +101,8 @@ describeApplication('PackageShowAllowKbToAddTitles', () => {
         expect(PackageShowPage.isSelected).to.be.true;
       });
 
-      it('displays an ON Toggle for allow KB to add titles', () => {
-        expect(PackageShowPage.allowKbToAddTitles).to.be.true;
+      it('displays YES for allowing kb to select new titles', () => {
+        expect(PackageShowPage.allowKbToAddTitles).to.equal('Yes');
       });
     });
   });
@@ -122,8 +122,8 @@ describeApplication('PackageShowAllowKbToAddTitles', () => {
       });
     });
 
-    it('displays an ON Toggle', () => {
-      expect(PackageShowPage.allowKbToAddTitles).to.be.true;
+    it('displays YES for allowing kb to select new titles', () => {
+      expect(PackageShowPage.allowKbToAddTitles).to.equal('Yes');
     });
 
     describe('toggling to deselect a package and confirming deselection', () => {
@@ -145,13 +145,13 @@ describeApplication('PackageShowAllowKbToAddTitles', () => {
           .modal.cancelDeselection();
       });
 
-      it('displays an ON Toggle', () => {
-        expect(PackageShowPage.allowKbToAddTitles).to.be.true;
+      it('displays YES for allowing kb to select new titles', () => {
+        expect(PackageShowPage.allowKbToAddTitles).to.equal('Yes');
       });
     });
   });
 
-  describe('visiting the package details page allowing KB to add new titles and toggling it', () => {
+  describe('visiting the package details page allowing KB to add new titles', () => {
     beforeEach(function () {
       pkg = this.server.create('package', 'withTitles', {
         provider,
@@ -166,22 +166,12 @@ describeApplication('PackageShowAllowKbToAddTitles', () => {
       });
     });
 
-    it('displays an ON Toggle', () => {
-      expect(PackageShowPage.allowKbToAddTitles).to.be.true;
-    });
-
-    describe('successfully toggling add new titles', () => {
-      beforeEach(() => {
-        return PackageShowPage.toggleAllowKbToAddTitles();
-      });
-
-      it('reflects the desired state OFF', () => {
-        expect(PackageShowPage.allowKbToAddTitles).to.be.false;
-      });
+    it('displays YES for allowing kb to select new titles', () => {
+      expect(PackageShowPage.allowKbToAddTitles).to.equal('Yes');
     });
   });
 
-  describe('visiting the package details page not allowing KB to add new titles and toggling it', () => {
+  describe('visiting the package details page not allowing KB to add new titles', () => {
     beforeEach(function () {
       pkg = this.server.create('package', 'withTitles', {
         provider,
@@ -196,18 +186,8 @@ describeApplication('PackageShowAllowKbToAddTitles', () => {
       });
     });
 
-    it('displays an OFF Toggle', () => {
-      expect(PackageShowPage.allowKbToAddTitles).to.be.false;
-    });
-
-    describe('successfully toggling add new titles', () => {
-      beforeEach(() => {
-        return PackageShowPage.toggleAllowKbToAddTitles();
-      });
-
-      it('reflects the desired state ON', () => {
-        expect(PackageShowPage.allowKbToAddTitles).to.be.true;
-      });
+    it('displays NO for allowing kb to select new titles', () => {
+      expect(PackageShowPage.allowKbToAddTitles).to.equal('No');
     });
   });
 });

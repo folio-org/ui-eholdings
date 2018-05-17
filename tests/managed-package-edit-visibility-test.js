@@ -1,5 +1,5 @@
 import { expect } from 'chai';
-import { describe, beforeEach, afterEach, it } from '@bigtest/mocha';
+import { describe, beforeEach, it } from '@bigtest/mocha';
 
 import { describeApplication } from './helpers';
 import PackageShowPage from './pages/package-show';
@@ -51,22 +51,8 @@ describeApplication('ManagedPackageEditVisibility', () => {
     });
 
     describe('toggling the visiblity toggle', () => {
-      beforeEach(function () {
-        /*
-         * The expectations in the convergent `it` blocks
-         * get run once every 10ms.  We were seeing test flakiness
-         * when a toggle action dispatched and resolved before an
-         * expectation had the chance to run.  We sidestep this by
-         * temporarily increasing the mirage server's response time
-         * to 50ms.
-         * TODO: control timing directly with Mirage
-         */
-        this.server.timing = 50;
+      beforeEach(() => {
         return PackageEditPage.toggleIsVisible();
-      });
-
-      afterEach(function () {
-        this.server.timing = 0;
       });
 
       describe('clicking cancel', () => {
@@ -89,7 +75,7 @@ describeApplication('ManagedPackageEditVisibility', () => {
         });
 
         it('displays the new visibility status', () => {
-          expect(PackageShowPage.isVisibleToPatrons).to.equal(true);
+          expect(PackageShowPage.isVisibleToPatrons).to.equal('Yes');
         });
       });
     });
@@ -154,22 +140,8 @@ describeApplication('ManagedPackageEditVisibility', () => {
     });
 
     describe('toggling the visiblity toggle', () => {
-      beforeEach(function () {
-        /*
-         * The expectations in the convergent `it` blocks
-         * get run once every 10ms.  We were seeing test flakiness
-         * when a toggle action dispatched and resolved before an
-         * expectation had the chance to run.  We sidestep this by
-         * temporarily increasing the mirage server's response time
-         * to 50ms.
-         * TODO: control timing directly with Mirage
-         */
-        this.server.timing = 50;
+      beforeEach(() => {
         return PackageEditPage.toggleIsVisible();
-      });
-
-      afterEach(function () {
-        this.server.timing = 0;
       });
 
       describe('clicking cancel', () => {
@@ -192,7 +164,7 @@ describeApplication('ManagedPackageEditVisibility', () => {
         });
 
         it('displays the new visibility status', () => {
-          expect(PackageShowPage.isVisibleToPatrons).to.be.false;
+          expect(PackageShowPage.isVisibleToPatrons).to.equal('No');
         });
       });
     });
