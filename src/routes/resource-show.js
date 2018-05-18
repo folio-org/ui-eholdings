@@ -80,12 +80,6 @@ class ResourceShowRoute extends Component {
     }
   }
 
-  toggleHidden = () => {
-    let { model, updateResource } = this.props;
-    model.visibilityData.isHidden = !model.visibilityData.isHidden;
-    updateResource(model);
-  }
-
   customEmbargoSubmitted = (values) => {
     let { model, updateResource } = this.props;
     model.customEmbargoPeriod = {
@@ -121,7 +115,6 @@ class ResourceShowRoute extends Component {
       <View
         model={this.props.model}
         toggleSelected={this.toggleSelected}
-        toggleHidden={this.toggleHidden}
         customEmbargoSubmitted={this.customEmbargoSubmitted}
         coverageSubmitted={this.coverageSubmitted}
         coverageStatementSubmitted={this.coverageStatementSubmitted}

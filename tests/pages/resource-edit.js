@@ -34,7 +34,13 @@ import Datepicker from './datepicker';
   hasBackButton = isPresent('[data-test-eholdings-details-view-back-button] button');
   isSelected = property('[data-test-eholdings-resource-holding-status] input', 'checked');
   isResourceVisible = property('[data-test-eholdings-resource-toggle-visibility] input', 'checked');
+  isHiddenMessage = text('[data-test-eholdings-resource-toggle-hidden-reason]');
+  isHiddenMessagePresent = isPresent('[data-test-eholdings-resource-toggle-hidden-reason]');
+  isVisibleTogglePresent = isPresent('[data-test-eholdings-resource-toggle-visibility] input');
+  isResourceNotShownLabelPresent = isPresent('[data-test-eholdings-resource-not-shown-label]');
+
   toggleIsSelected = clickable('[data-test-eholdings-resource-holding-status] input');
+  toggleIsVisible = clickable('[data-test-eholdings-resource-toggle-visibility] input');
   modal = new ResourceEditModal('#eholdings-resource-confirmation-modal');
 
   toast = Toast;

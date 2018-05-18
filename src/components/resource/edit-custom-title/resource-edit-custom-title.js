@@ -41,7 +41,7 @@ class ResourceEditCustomTitle extends Component {
 
   state = {
     resourceSelected: this.props.initialValues.isSelected,
-    resourceHidden: this.props.initialValues.isHidden,
+    resourceVisible: this.props.initialValues.isVisible,
     showSelectionModal: false,
     allowFormToSubmit: false,
     formValues: {}
@@ -49,7 +49,16 @@ class ResourceEditCustomTitle extends Component {
 
   componentWillReceiveProps(nextProps) {
     let wasPending = this.props.model.update.isPending && !nextProps.model.update.isPending;
-    let needsUpdate = !isEqual(this.props.initialValues, nextProps.initialValues);
+    let needsUpdate = !isEqual(this.props.model, nextProps.model);
+
+    if ((nextProps.initialValues.isSelected !== this.props.initialValues.isSelected) ||
+    (nextProps.initialValues.isVisible !== this.props.initialValues.isVisible)) {
+      this.setState({
+        ...this.state,
+        resourceSelected: nextProps.initialValues.isSelected,
+        resourceVisible: nextProps.initialValues.isVisible
+      });
+    }
 
     if (wasPending && needsUpdate) {
       this.context.router.history.push(
@@ -74,7 +83,7 @@ class ResourceEditCustomTitle extends Component {
 
   handleVisibilityToggle = (e) => {
     this.setState({
-      resourceHidden: !e.target.checked
+      resourceVisible: e.target.checked
     });
   }
 
@@ -122,7 +131,7 @@ class ResourceEditCustomTitle extends Component {
     let {
       showSelectionModal,
       resourceSelected,
-      resourceHidden
+      resourceVisible
     } = this.state;
 
     let actionMenuItems = [
@@ -176,25 +185,38 @@ class ResourceEditCustomTitle extends Component {
               <DetailsViewSection
                 label="Visibility"
               >
-                <label
-                  data-test-eholdings-resource-toggle-visibility
-                  htmlFor="custom-resource-visibility-toggle-switch"
-                >
-                  <h4>
-                    {resourceHidden
-                      ? 'Hidden from patrons'
-                    : 'Visible to patrons'}
-                  </h4>
-                  <br />
-                  {resourceSelected ? (
-                    <Field
-                      name="isHidden"
-                      component={ToggleSwitch}
-                      checked={!resourceHidden}
-                      onChange={this.handleVisibilityToggle}
-                      id="custom-resource-visibility-toggle-switch"
-                    />) : null}
-                </label>
+                {resourceSelected ? (
+                  <div>
+                    <label
+                      data-test-eholdings-resource-toggle-visibility
+                      htmlFor="custom-resource-visibility-toggle-switch"
+                    >
+                      <h4>
+                        {resourceVisible
+                      ? 'Visible to patrons'
+                    : 'Hidden from patrons'}
+                      </h4>
+                      <br />
+                      <Field
+                        name="isVisible"
+                        component={ToggleSwitch}
+                        checked={resourceVisible}
+                        onChange={this.handleVisibilityToggle}
+                        id="custom-resource-visibility-toggle-switch"
+                      />
+                    </label>
+
+                    {!resourceVisible && (
+                    <div data-test-eholdings-resource-toggle-hidden-reason>
+                      {model.package.visibilityData.isHidden
+                           ? 'All titles in this package are hidden.'
+                           : model.visibilityData.reason}
+                    </div>
+                     )}
+                  </div>
+                 ) : (
+                   <p data-test-eholdings-resource-not-shown-label>Not shown to patrons.</p>
+                 )}
               </DetailsViewSection>
               <DetailsViewSection
                 label="Coverage dates"

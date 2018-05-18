@@ -2,6 +2,7 @@ import {
   blurrable,
   clickable,
   collection,
+  computed,
   fillable,
   isPresent,
   interactor,
@@ -51,12 +52,15 @@ import Toast from './toast';
   clickPackage = clickable('[data-test-eholdings-resource-show-package-name] a');
   deselectionModal = new ResourceShowDeselectionModal('#eholdings-resource-deselection-confirmation-modal');
   navigationModal = new ResourceShowNavigationModal('#navigation-modal');
-  hasHiddenToggle = isPresent('[data-test-eholdings-resource-toggle-hidden] input');
-  isResourceVisible = property('[data-test-eholdings-resource-toggle-hidden] input', 'checked');
-  hiddenReason = text('[data-test-eholdings-resource-toggle-hidden-reason]');
-  isHiddenDisabled = property('[data-test-eholdings-resource-toggle-hidden] input[type=checkbox]', 'disabled');
-  toggleIsHidden = clickable('[data-test-eholdings-resource-toggle-hidden] input');
-  isHiding = hasClassBeginningWith('[data-test-eholdings-resource-toggle-hidden] [data-test-toggle-switch]', 'is-pending--');
+  resourceVisibilityLabel = text('[data-test-eholdings-resource-hidden-label]');
+  isResourceHidden = computed(function () {
+    return this.resourceVisibilityLabel === 'Hidden from patrons';
+  });
+  isResourceVisible = computed(function () {
+    return this.resourceVisibilityLabel === 'Visible to patrons';
+  })
+  hiddenReason = text('[data-test-eholdings-resource-hidden-reason]');
+  isResourceNotShownLabelPresent = isPresent('[data-test-eholdings-resource-not-shown-label]');
   clickEditButton = clickable('[data-test-eholdings-resource-edit-link]');
 
   peerReviewedStatus = text('[data-test-eholdings-peer-reviewed-field]');

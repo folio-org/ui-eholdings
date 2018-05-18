@@ -12,7 +12,7 @@ export default function ResourceEdit({ model, ...props }) {
     View = CustomResourceEdit;
     initialValues = {
       isSelected: model.isSelected,
-      isHidden: model.visibilityData.isHidden,
+      isVisible: !model.visibilityData.isHidden,
       customCoverages: model.customCoverages,
       coverageStatement: model.coverageStatement,
       customEmbargoValue: model.customEmbargoPeriod.embargoValue,
@@ -23,7 +23,7 @@ export default function ResourceEdit({ model, ...props }) {
     View = ManagedResourceEdit;
     initialValues = {
       isSelected: model.isSelected,
-      isHidden: model.visibilityData.isHidden,
+      isVisible: !model.visibilityData.isHidden,
       customCoverages: model.customCoverages,
       coverageStatement: model.coverageStatement,
       customEmbargoValue: model.customEmbargoPeriod.embargoValue,

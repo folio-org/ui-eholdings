@@ -40,7 +40,7 @@ class ResourceEditManagedTitle extends Component {
 
   state = {
     managedResourceSelected: this.props.initialValues.isSelected,
-    managedResourceHidden: this.props.initialValues.isHidden,
+    managedResourceVisible: this.props.initialValues.isVisible,
     showSelectionModal: false,
     allowFormToSubmit: false,
     formValues: {}
@@ -48,13 +48,14 @@ class ResourceEditManagedTitle extends Component {
 
   componentWillReceiveProps(nextProps) {
     let wasPending = this.props.model.update.isPending && !nextProps.model.update.isPending;
-    let needsUpdate = !isEqual(this.props.initialValues, nextProps.initialValues);
+    let needsUpdate = !isEqual(this.props.model, nextProps.model);
 
-    if (nextProps.initialValues.isSelected !== this.props.initialValues.isSelected) {
+    if ((nextProps.initialValues.isSelected !== this.props.initialValues.isSelected) ||
+    (nextProps.initialValues.isVisible !== this.props.initialValues.isVisible)) {
       this.setState({
         ...this.state,
         managedResourceSelected: nextProps.initialValues.isSelected,
-        managedResourceHidden: nextProps.initialValues.isHidden,
+        managedResourceVisible: nextProps.initialValues.isVisible,
       });
     }
 
@@ -81,7 +82,7 @@ class ResourceEditManagedTitle extends Component {
 
   handleVisibilityToggle = (e) => {
     this.setState({
-      managedResourceHidden: !e.target.checked
+      managedResourceVisible: e.target.checked
     });
   }
 
@@ -127,7 +128,7 @@ class ResourceEditManagedTitle extends Component {
     let {
       showSelectionModal,
       managedResourceSelected,
-      managedResourceHidden
+      managedResourceVisible
     } = this.state;
 
     let actionMenuItems = [
@@ -173,25 +174,38 @@ class ResourceEditManagedTitle extends Component {
               <DetailsViewSection
                 label="Visibility"
               >
-                <label
-                  data-test-eholdings-resource-toggle-visibility
-                  htmlFor="managed-resource-visibility-toggle-switch"
-                >
-                  <h4>
-                    {managedResourceHidden
-                      ? 'Hidden from patrons'
-                    : 'Visible to patrons'}
-                  </h4>
-                  <br />
-                  {managedResourceSelected ? (
-                    <Field
-                      name="isHidden"
-                      component={ToggleSwitch}
-                      checked={!managedResourceHidden}
-                      onChange={this.handleVisibilityToggle}
-                      id="managed-resource-visibility-toggle-switch"
-                    />) : null}
-                </label>
+                {managedResourceSelected ? (
+                  <div>
+                    <label
+                      data-test-eholdings-resource-toggle-visibility
+                      htmlFor="managed-resource-visibility-toggle-switch"
+                    >
+                      <h4>
+                        {managedResourceVisible
+                      ? 'Visible to patrons'
+                    : 'Hidden from patrons'}
+                      </h4>
+                      <br />
+                      <Field
+                        name="isVisible"
+                        component={ToggleSwitch}
+                        checked={managedResourceVisible}
+                        onChange={this.handleVisibilityToggle}
+                        id="managed-resource-visibility-toggle-switch"
+                      />
+                    </label>
+
+                    {!managedResourceVisible && (
+                    <div data-test-eholdings-resource-toggle-hidden-reason>
+                      {model.package.visibilityData.isHidden
+                           ? 'All titles in this package are hidden.'
+                           : model.visibilityData.reason}
+                    </div>
+                     )}
+                  </div>
+                 ) : (
+                   <p data-test-eholdings-resource-not-shown-label>Not shown to patrons.</p>
+                 )}
               </DetailsViewSection>
               <DetailsViewSection
                 label="Coverage dates"

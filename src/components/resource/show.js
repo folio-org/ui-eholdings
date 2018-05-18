@@ -27,7 +27,6 @@ export default class ResourceShow extends Component {
   static propTypes = {
     model: PropTypes.object.isRequired,
     toggleSelected: PropTypes.func.isRequired,
-    toggleHidden: PropTypes.func.isRequired,
     customEmbargoSubmitted: PropTypes.func.isRequired,
     coverageSubmitted: PropTypes.func.isRequired,
     coverageStatementSubmitted: PropTypes.func.isRequired
@@ -42,7 +41,6 @@ export default class ResourceShow extends Component {
   state = {
     showSelectionModal: false,
     resourceSelected: this.props.model.isSelected,
-    resourceHidden: this.props.model.visibilityData.isHidden,
     isCoverageEditable: false,
     isEmbargoEditable: false,
     isCoverageStatementEditable: false
@@ -51,8 +49,7 @@ export default class ResourceShow extends Component {
   componentWillReceiveProps({ model }) {
     if (!model.isSaving) {
       this.setState({
-        resourceSelected: model.isSelected,
-        resourceHidden: model.visibilityData.isHidden
+        resourceSelected: model.isSelected
       });
     }
   }
@@ -99,7 +96,6 @@ export default class ResourceShow extends Component {
     let {
       showSelectionModal,
       resourceSelected,
-      resourceHidden,
       isCoverageEditable,
       isEmbargoEditable,
       isCoverageStatementEditable
@@ -293,26 +289,18 @@ export default class ResourceShow extends Component {
                 {(resourceSelected && !isSelectInFlight) ? (
                   <div>
                     <label
-                      data-test-eholdings-resource-toggle-hidden
-                      htmlFor="resource-show-hide-toggle-switch"
+                      data-test-eholdings-resource-hidden-label
+                      htmlFor="resource-show-hide-indicator"
                     >
                       <h4>
                         {model.visibilityData.isHidden
                           ? 'Hidden from patrons'
                           : 'Visible to patrons'}
                       </h4>
-                      <br />
-                      <ToggleSwitch
-                        onChange={this.props.toggleHidden}
-                        checked={!resourceHidden}
-                        isPending={model.update.isPending &&
-                          ('visibilityData' in model.update.changedAttributes)}
-                        id="resource-show-hide-toggle-switch"
-                      />
                     </label>
 
                     {model.visibilityData.isHidden && (
-                      <div data-test-eholdings-resource-toggle-hidden-reason>
+                      <div data-test-eholdings-resource-hidden-reason>
                         {model.package.visibilityData.isHidden
                           ? 'All titles in this package are hidden.'
                           : model.visibilityData.reason}
@@ -320,7 +308,7 @@ export default class ResourceShow extends Component {
                     )}
                   </div>
                 ) : (
-                  <p>Not shown to patrons.</p>
+                  <p data-test-eholdings-resource-not-shown-label>Not shown to patrons.</p>
                 )}
               </DetailsViewSection>
               <DetailsViewSection
