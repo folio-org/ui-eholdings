@@ -27,7 +27,7 @@ describeApplication('ResourceVisibility', () => {
       });
     });
 
-    it('displays an ON visibility toggle (Visible)', () => {
+    it('displays Visibility label as Visible to patrons', () => {
       expect(ResourceShowPage.isResourceVisible).to.be.true;
     });
   });
@@ -45,8 +45,8 @@ describeApplication('ResourceVisibility', () => {
       });
     });
 
-    it.always('does not display the visibility toggle', () => {
-      expect(ResourceShowPage.visibilitySection).to.not.exist;
+    it('displays Visibility label as Not shown to patrons', () => {
+      expect(ResourceShowPage.isResourceNotShownLabelPresent).to.be.true;
     });
   });
 
@@ -63,8 +63,8 @@ describeApplication('ResourceVisibility', () => {
       });
     });
 
-    it('displays an OFF visibility toggle (Hidden)', () => {
-      expect(ResourceShowPage.isResourceVisible).to.be.false;
+    it('displays Visibility label as hidden from patrons', () => {
+      expect(ResourceShowPage.isResourceHidden).to.be.true;
     });
 
     it('maps the hidden reason text', () => {
@@ -85,101 +85,12 @@ describeApplication('ResourceVisibility', () => {
       });
     });
 
-    it('displays an OFF visibility toggle (Hidden)', () => {
-      expect(ResourceShowPage.isResourceVisible).to.be.false;
+    it('displays Visibility label as hidden from patrons', () => {
+      expect(ResourceShowPage.isResourceHidden).to.be.true;
     });
 
     it('maps the hidden reason text', () => {
       expect(ResourceShowPage.hiddenReason).to.equal('');
-    });
-  });
-
-  describe('visiting the resource show page and hiding a resource', () => {
-    beforeEach(function () {
-      resource = this.server.create('resource', {
-        package: pkg,
-        isSelected: true,
-        title
-      });
-
-      return this.visit(`/eholdings/resources/${resource.id}`, () => {
-        expect(ResourceShowPage.$root).to.exist;
-      });
-    });
-
-    it('displays an ON visibility toggle (Visible)', () => {
-      expect(ResourceShowPage.isResourceVisible).to.be.true;
-    });
-
-    describe('successfully hiding a resource', () => {
-      beforeEach(() => {
-        return ResourceShowPage.toggleIsHidden();
-      });
-
-      it('reflects the desired state OFF (Hidden)', () => {
-        expect(ResourceShowPage.isResourceVisible).to.be.false;
-      });
-
-      it('cannot be interacted with while the request is in flight', () => {
-        expect(ResourceShowPage.isHiddenDisabled).to.be.false;
-      });
-
-      describe('when the request succeeds', () => {
-        it('reflects the desired state OFF (Hidden)', () => {
-          expect(ResourceShowPage.isResourceVisible).to.be.false;
-        });
-
-        it('indicates it is no longer pending', () => {
-          expect(ResourceShowPage.isHiding).to.be.false;
-        });
-      });
-    });
-  });
-
-  describe('visiting the resource show page and showing a hidden resource', () => {
-    beforeEach(function () {
-      pkg.isSelected = true;
-      resource = this.server.create('resource', 'isHiddenWithoutReason', {
-        package: pkg,
-        isSelected: true,
-        title
-      });
-
-      return this.visit(`/eholdings/resources/${resource.id}`, () => {
-        expect(ResourceShowPage.$root).to.exist;
-      });
-    });
-
-    it('displays an OFF visibility toggle (Hidden)', () => {
-      expect(ResourceShowPage.isResourceVisible).to.be.false;
-    });
-
-    it('maps the hidden reason text', () => {
-      expect(ResourceShowPage.hiddenReason).to.equal('');
-    });
-
-    describe('successfully showing a resource', () => {
-      beforeEach(() => {
-        return ResourceShowPage.toggleIsHidden();
-      });
-
-      it('reflects the desired state ON (Visible)', () => {
-        expect(ResourceShowPage.isResourceVisible).to.be.true;
-      });
-
-      it('cannot be interacted while the request is in flight', () => {
-        expect(ResourceShowPage.isHiddenDisabled).to.be.false;
-      });
-
-      describe('when the request succeeds', () => {
-        it('reflects the desired state ON (Visible)', () => {
-          expect(ResourceShowPage.isResourceVisible).to.be.true;
-        });
-
-        it('indicates it is no longer pending', () => {
-          expect(ResourceShowPage.isHiding).to.be.false;
-        });
-      });
     });
   });
 
@@ -198,12 +109,8 @@ describeApplication('ResourceVisibility', () => {
       });
     });
 
-    it('displays an OFF visibility toggle (Hidden)', () => {
-      expect(ResourceShowPage.isResourceVisible).to.be.false;
-    });
-
-    it('the visibility toggle is disabled', () => {
-      expect(ResourceShowPage.isHiddenDisabled).to.be.false;
+    it('displays Visibility label as hidden from patrons', () => {
+      expect(ResourceShowPage.isResourceHidden).to.be.true;
     });
 
     it('maps the hidden reason text', () => {
