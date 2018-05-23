@@ -37,9 +37,13 @@ import Datepicker from './datepicker';
   isHiddenMessage = text('[data-test-eholdings-package-details-is-hidden-reason]');
   isHiddenMessagePresent = isPresent('[data-test-eholdings-package-details-is-hidden-reason]');
   isVisibleTogglePresent = isPresent('[data-test-eholdings-package-details-visible] input');
-  hastoggleForAllowKbToAddTitles = isPresent('[data-test-eholdings-package-details-allow-add-new-titles]');
+  hasRadioForAllowKbToAddTitles = isPresent('[data-test-eholdings-allow-kb-to-add-titles-radios]');
   toggleAllowKbToAddTitles = clickable('[data-test-eholdings-package-details-allow-add-new-titles] input');
   allowKbToAddTitles = property('[data-test-eholdings-package-details-allow-add-new-titles] input', 'checked');
+  disallowKbToAddTitlesRadio = property('[data-test-eholdings-allow-kb-to-add-titles-radio-no]', 'checked')
+  allowKbToAddTitlesRadio = property('[data-test-eholdings-allow-kb-to-add-titles-radio-yes]', 'checked');
+  clickAllowKbToAddTitlesRadio = clickable('[data-test-eholdings-allow-kb-to-add-titles-radio-yes]');
+  clickDisallowKbToAddTitlesRadio = clickable('[data-test-eholdings-allow-kb-to-add-titles-radio-no]');
   hasCoverageDatesPresent = isPresent('[data-test-eholdings-coverage-fields-date-range-row]');
   hasNameFieldPresent = isPresent('[data-test-eholdings-package-name-field]');
   hasReadOnlyNameFieldPresent = isPresent('[data-test-eholdings-package-readonly-name-field]');

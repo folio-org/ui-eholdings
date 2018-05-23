@@ -6,6 +6,8 @@ import isEqual from 'lodash/isEqual';
 import {
   Button,
   Icon,
+  RadioButton,
+  RadioButtonGroup,
 } from '@folio/stripes-components';
 import { processErrors } from '../../utilities';
 
@@ -245,34 +247,33 @@ class ManagedPackageEdit extends Component {
                 {packageSelected ? (
                   <div>
                     {packageAllowedToAddTitles != null ? (
-                      <div>
-                        <label
-                          data-test-eholdings-package-details-allow-add-new-titles
-                          htmlFor="managed-package-details-toggle-allow-add-new-titles-switch"
+                      <React.Fragment>
+                        <Field
+                          label="Automatically select new titles"
+                          name="allowKbToAddTitles"
+                          data-test-eholdings-allow-kb-to-add-titles-radios
+                          component={RadioButtonGroup}
                         >
-                          <h4>
-                            {packageAllowedToAddTitles
-                              ? 'Automatically select new titles'
-                              : 'Do not automatically select new titles'}
-                          </h4>
-                          <br />
-                          <Field
-                            name="allowKbToAddTitles"
-                            component={ToggleSwitch}
-                            checked={packageAllowedToAddTitles}
-                            onChange={this.handleAllowKbToAddTitlesToggle}
-                            id="managed-package-details-toggle-allow-add-new-titles-switch"
+                          <RadioButton
+                            label="Yes"
+                            value="true"
+                            data-test-eholdings-allow-kb-to-add-titles-radio-yes
                           />
-                        </label>
-                      </div>
-                        ) : (
-                          <label
-                            data-test-eholdings-package-details-allow-add-new-titles
-                            htmlFor="managed-package-details-toggle-allow-add-new-titles-switch"
-                          >
-                            <Icon icon="spinner-ellipsis" />
-                          </label>
-                        )}
+                          <RadioButton
+                            label="No"
+                            value="false"
+                            data-test-eholdings-allow-kb-to-add-titles-radio-no
+                          />
+                        </Field>
+                      </React.Fragment>
+                    ) : (
+                      <label
+                        data-test-eholdings-package-details-allow-add-new-titles
+                        htmlFor="managed-package-details-toggle-allow-add-new-titles-switch"
+                      >
+                        <Icon icon="spinner-ellipsis" />
+                      </label>
+                    )}
                   </div>
                   ) : (
                     <p>Knowledge base does not automatically select titles.</p>
