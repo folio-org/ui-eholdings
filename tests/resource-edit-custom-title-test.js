@@ -60,7 +60,7 @@ describeApplication('ResourceEditCustomTitle', () => {
       });
 
       it('should not display the custom embargo button', () => {
-        expect(ResourceEditPage.hasAddCustomCoverageButton).to.be.false;
+        expect(ResourceEditPage.hasAddCustomEmbargoButton).to.be.false;
       });
 
       it('should not display the coverage statement textarea', () => {
@@ -107,7 +107,7 @@ describeApplication('ResourceEditCustomTitle', () => {
       });
     });
 
-    describe('entering invalid an invalid url', () => {
+    describe('entering an invalid url', () => {
       beforeEach(() => {
         return ResourceEditPage
           .inputCustomUrlValue('no-http.com')

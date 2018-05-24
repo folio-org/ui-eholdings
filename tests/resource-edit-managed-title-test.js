@@ -55,7 +55,7 @@ describeApplication('ResourceEditManagedTitleInManagedPackage', () => {
       });
 
       it('should not display the custom embargo button', () => {
-        expect(ResourceEditPage.hasAddCustomCoverageButton).to.be.false;
+        expect(ResourceEditPage.hasAddCustomEmbargoButton).to.be.false;
       });
 
       it('should not display the coverage statement textarea', () => {
