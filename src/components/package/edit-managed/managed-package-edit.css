@@ -18,3 +18,11 @@
     display: block;
   }
 }
+
+.title-management-radios {
+  max-width: 50em;
+
+  & fieldset {
+    padding: 0;
+  }
+}

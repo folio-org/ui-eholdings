@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { reduxForm, Field } from 'redux-form';
 import isEqual from 'lodash/isEqual';
@@ -117,12 +117,6 @@ class ManagedPackageEdit extends Component {
       packageVisible: e.target.checked
     });
   }
-
-  handleAllowKbToAddTitlesToggle = (e) => {
-    this.setState({
-      packageAllowedToAddTitles: e.target.checked
-    });
-  };
 
   handleOnSubmit = (values) => {
     if (this.state.allowFormToSubmit === false && values.isSelected === false) {
@@ -245,9 +239,9 @@ class ManagedPackageEdit extends Component {
               </DetailsViewSection>
               <DetailsViewSection label="Title management">
                 {packageSelected ? (
-                  <div>
+                  <div className={styles['title-management-radios']}>
                     {packageAllowedToAddTitles != null ? (
-                      <React.Fragment>
+                      <Fragment>
                         <Field
                           label="Automatically select new titles"
                           name="allowKbToAddTitles"
@@ -265,7 +259,7 @@ class ManagedPackageEdit extends Component {
                             data-test-eholdings-allow-kb-to-add-titles-radio-no
                           />
                         </Field>
-                      </React.Fragment>
+                      </Fragment>
                     ) : (
                       <label
                         data-test-eholdings-package-details-allow-add-new-titles
