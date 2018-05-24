@@ -85,7 +85,11 @@ export function includesWords(testString, query) {
 }
 /**
  * Helper for creating a search route for a resource type.
- * Currently includes pagination and searching by name.
+ *
+ * Currently, our real backend omits some fields for search
+ * results. For this reason, this route helper uses a *List serializer
+ * for the resource type.
+ *
  * @param {String} resourceType - resource type's model name
  * @param {Function} filter - filter function specific to this resource
  * @returns {Function} route handler for a search route of this
@@ -98,9 +102,11 @@ export function searchRouteFor(resourceType, filter) {
     let offset = (page - 1) * count;
 
     let collection = schema[resourceType];
+    // `resourceType` is typically pluralized, the serializer is not
+    let serializerType = `${resourceType.slice(0, -1)}-list`;
     let json = this.serialize(collection.all().filter((model) => {
       return filter(model, req);
-    }));
+    }), serializerType);
 
     json.meta = { totalResults: json.data.length };
 
