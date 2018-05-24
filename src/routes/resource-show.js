@@ -104,12 +104,6 @@ class ResourceShowRoute extends Component {
     updateResource(model);
   }
 
-  coverageStatementSubmitted = (values) => {
-    let { model, updateResource } = this.props;
-    model.coverageStatement = values.coverageStatement;
-    updateResource(model);
-  }
-
   render() {
     return (
       <View
@@ -117,7 +111,6 @@ class ResourceShowRoute extends Component {
         toggleSelected={this.toggleSelected}
         customEmbargoSubmitted={this.customEmbargoSubmitted}
         coverageSubmitted={this.coverageSubmitted}
-        coverageStatementSubmitted={this.coverageStatementSubmitted}
       />
     );
   }

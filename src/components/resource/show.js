@@ -18,7 +18,6 @@ import { isBookPublicationType, isValidCoverageList, processErrors } from '../ut
 import Modal from '../modal';
 import CustomCoverage from './_forms/custom-coverage';
 import CustomEmbargo from './_forms/custom-embargo';
-import CoverageStatement from './_forms/coverage-statement';
 import NavigationModal from '../navigation-modal';
 import DetailsViewSection from '../details-view-section';
 import Toaster from '../toaster';
@@ -28,8 +27,7 @@ export default class ResourceShow extends Component {
     model: PropTypes.object.isRequired,
     toggleSelected: PropTypes.func.isRequired,
     customEmbargoSubmitted: PropTypes.func.isRequired,
-    coverageSubmitted: PropTypes.func.isRequired,
-    coverageStatementSubmitted: PropTypes.func.isRequired
+    coverageSubmitted: PropTypes.func.isRequired
   };
 
   static contextTypes = {
@@ -42,8 +40,7 @@ export default class ResourceShow extends Component {
     showSelectionModal: false,
     resourceSelected: this.props.model.isSelected,
     isCoverageEditable: false,
-    isEmbargoEditable: false,
-    isCoverageStatementEditable: false
+    isEmbargoEditable: false
   };
 
   componentWillReceiveProps({ model }) {
@@ -86,12 +83,8 @@ export default class ResourceShow extends Component {
     this.setState({ isEmbargoEditable });
   };
 
-  handleCoverageStatementEdit = (isCoverageStatementEditable) => {
-    this.setState({ isCoverageStatementEditable });
-  };
-
   render() {
-    let { model, customEmbargoSubmitted, coverageSubmitted, coverageStatementSubmitted } = this.props;
+    let { model, customEmbargoSubmitted, coverageSubmitted } = this.props;
     let { locale, intl, router } = this.context;
     let {
       showSelectionModal,
@@ -292,11 +285,11 @@ export default class ResourceShow extends Component {
                       data-test-eholdings-resource-hidden-label
                       htmlFor="resource-show-hide-indicator"
                     >
-                      <h4>
+                      <p>
                         {model.visibilityData.isHidden
                           ? 'Hidden from patrons'
                           : 'Visible to patrons'}
-                      </h4>
+                      </p>
                     </label>
 
                     {model.visibilityData.isHidden && (
@@ -342,26 +335,22 @@ export default class ResourceShow extends Component {
                 {!hasManagedCoverages && !resourceSelected && (
                   <p>Add the resource to holdings to set custom coverage dates.</p>
                 )}
-
               </DetailsViewSection>
-
               <DetailsViewSection
                 label="Coverage statement"
               >
-                {(resourceSelected && !isSelectInFlight) && (
-                  <CoverageStatement
-                    initialValues={{ coverageStatement: model.coverageStatement }}
-                    isEditable={isCoverageStatementEditable}
-                    onEdit={this.handleCoverageStatementEdit}
-                    onSubmit={coverageStatementSubmitted}
-                    isPending={model.update.isPending && 'coverageStatement' in model.update.changedAttributes}
-                  />
+                {(resourceSelected && !isSelectInFlight) ? (
+                  <div>
+                    {model.coverageStatement ? (
+                      <span data-test-eholdings-resource-coverage-statement-display>
+                        {model.coverageStatement}
+                      </span>
+                   ) : (<p data-test-eholdings-resource-no-coverage-label>No coverage statement has been set.</p>
+                   )}
+                  </div>
+                ) : (
+                  <p data-test-eholdings-resource-coverage-not-shown-label>Add the resource to holdings to set a coverage statement.</p>
                 )}
-
-                {!hasManagedEmbargoPeriod && !resourceSelected && (
-                  <p>Add the resource to holdings to set a coverage statement.</p>
-                )}
-
               </DetailsViewSection>
 
               <DetailsViewSection

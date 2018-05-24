@@ -1,5 +1,4 @@
 import {
-  blurrable,
   clickable,
   collection,
   computed,
@@ -93,28 +92,9 @@ import Toast from './toast';
 
   coverageStatement = text('[data-test-eholdings-resource-coverage-statement-display]');
   hasCoverageStatement = isPresent('[data-test-eholdings-resource-coverage-statement-display]');
-  hasCoverageStatementAddButton = isPresent('[data-test-eholdings-resource-add-coverage-statement-button] button');
-  clickCoverageStatementAddButton = clickable('[data-test-eholdings-resource-add-coverage-statement-button] button');
-  hasCoverageStatementForm = isPresent('[data-test-eholdings-resource-coverage-statement-form] form');
-  coverageStatementFieldValue = value('[data-test-eholdings-coverage-statement-textarea] textarea');
-  clickCoverageStatementEditButton = clickable('[data-test-eholdings-resource-edit-coverage-statement-button] button');
-  hasCoverageStatementEditButton = isPresent('[data-test-eholdings-resource-edit-coverage-statement-button] button');
-  clickCoverageStatementSaveButton = clickable('[data-test-eholdings-inline-form-save-button] button');
-  hasCoverageStatementSaveButton = isPresent('[data-test-eholdings-inline-form-save-button] button');
-  isCoverageStatementSaveDisabled = property('[data-test-eholdings-inline-form-save-button] button', 'disabled');
-  clickCoverageStatementCancelButton = clickable('[data-test-eholdings-inline-form-cancel-button] button');
-  hasCoverageStatementCancelButton = isPresent('[data-test-eholdings-inline-form-cancel-button] button');
-  isCoverageStatementCancelDisabled = property('[data-test-eholdings-inline-form-cancel-button] button', 'disabled');
-  fillCoverageStatement = fillable('[data-test-eholdings-coverage-statement-textarea] textarea');
-  blurCoverageStatement = blurrable('[data-test-eholdings-coverage-statement-textarea] textarea');
-  coverageStatementHasError = hasClassBeginningWith('[data-test-eholdings-coverage-statement-textarea] textarea', 'feedbackError--');
-  validationErrorOnCoverageStatement = text('[data-test-eholdings-coverage-statement-textarea] [class^="feedbackError--"]');
+  hasNoCoverageStatement = isPresent('[data-test-eholdings-resource-no-coverage-label]');
+  hasCoverageNotShownStatement = isPresent('[data-test-eholdings-resource-coverage-not-shown-label]');
 
-  inputCoverageStatement(statement) {
-    return this
-      .fillCoverageStatement(statement)
-      .blurCoverageStatement();
-  }
   managedCoverageList = text('[data-test-eholdings-resource-show-managed-coverage-list]');
   hasManagedCoverageList = isPresent('[data-test-eholdings-resource-show-managed-coverage-list]');
 
