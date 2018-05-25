@@ -17,7 +17,6 @@ import CoverageDateList from '../coverage-date-list';
 import { isBookPublicationType, isValidCoverageList, processErrors } from '../utilities';
 import Modal from '../modal';
 import CustomCoverage from './_forms/custom-coverage';
-import CustomEmbargo from './_forms/custom-embargo';
 import NavigationModal from '../navigation-modal';
 import DetailsViewSection from '../details-view-section';
 import Toaster from '../toaster';
@@ -26,7 +25,6 @@ export default class ResourceShow extends Component {
   static propTypes = {
     model: PropTypes.object.isRequired,
     toggleSelected: PropTypes.func.isRequired,
-    customEmbargoSubmitted: PropTypes.func.isRequired,
     coverageSubmitted: PropTypes.func.isRequired
   };
 
@@ -39,8 +37,7 @@ export default class ResourceShow extends Component {
   state = {
     showSelectionModal: false,
     resourceSelected: this.props.model.isSelected,
-    isCoverageEditable: false,
-    isEmbargoEditable: false
+    isCoverageEditable: false
   };
 
   componentWillReceiveProps({ model }) {
@@ -79,19 +76,13 @@ export default class ResourceShow extends Component {
     this.setState({ isCoverageEditable });
   };
 
-  handleEmbargoEdit = (isEmbargoEditable) => {
-    this.setState({ isEmbargoEditable });
-  };
-
   render() {
-    let { model, customEmbargoSubmitted, coverageSubmitted } = this.props;
+    let { model, coverageSubmitted } = this.props;
     let { locale, intl, router } = this.context;
     let {
       showSelectionModal,
       resourceSelected,
-      isCoverageEditable,
-      isEmbargoEditable,
-      isCoverageStatementEditable
+      isCoverageEditable
     } = this.state;
 
     let isSelectInFlight = model.update.isPending && 'isSelected' in model.update.changedAttributes;
@@ -365,18 +356,19 @@ export default class ResourceShow extends Component {
                   </KeyValue>
                 )}
 
-                {(resourceSelected && !isSelectInFlight) && (
-                  <CustomEmbargo
-                    initialValues={{ customEmbargoValue, customEmbargoUnit }}
-                    isEditable={isEmbargoEditable}
-                    onEdit={this.handleEmbargoEdit}
-                    onSubmit={customEmbargoSubmitted}
-                    isPending={model.update.isPending && 'customEmbargoPeriod' in model.update.changedAttributes}
-                  />
+                {(resourceSelected && !isSelectInFlight) ? (
+                  <div>
+                    {(customEmbargoValue && customEmbargoUnit) ? (
+                      <KeyValue label="Custom">
+                        <span data-test-eholdings-resource-custom-embargo-display>
+                          {customEmbargoValue} {customEmbargoUnit}
+                        </span>
+                      </KeyValue>
+                  ) : (<p data-test-eholdings-resource-no-custom-embargo-label>No custom embargo period has been set.</p>
                 )}
-
-                {!hasManagedEmbargoPeriod && !resourceSelected && (
-                  <p>Add the resource to holdings to set an custom embargo period.</p>
+                  </div>
+                ) : (
+                  <p data-test-eholdings-resource-custom-embargo-not-shown-label>Add the resource to holdings to set a custom embargo period.</p>
                 )}
 
               </DetailsViewSection>
@@ -430,7 +422,7 @@ export default class ResourceShow extends Component {
           }
         </Modal>
 
-        <NavigationModal when={isCoverageEditable || isEmbargoEditable || isCoverageStatementEditable} />
+        <NavigationModal when={isCoverageEditable} />
       </div>
     );
   }

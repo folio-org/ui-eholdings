@@ -80,15 +80,6 @@ class ResourceShowRoute extends Component {
     }
   }
 
-  customEmbargoSubmitted = (values) => {
-    let { model, updateResource } = this.props;
-    model.customEmbargoPeriod = {
-      embargoValue: values.customEmbargoValue,
-      embargoUnit: values.customEmbargoUnit
-    };
-    updateResource(model);
-  }
-
   coverageSubmitted = (values) => {
     let { model, updateResource } = this.props;
     model.customCoverages = values.customCoverages.map((dateRange) => {
@@ -109,7 +100,6 @@ class ResourceShowRoute extends Component {
       <View
         model={this.props.model}
         toggleSelected={this.toggleSelected}
-        customEmbargoSubmitted={this.customEmbargoSubmitted}
         coverageSubmitted={this.coverageSubmitted}
       />
     );

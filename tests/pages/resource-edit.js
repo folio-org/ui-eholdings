@@ -15,7 +15,10 @@ import { hasClassBeginningWith } from './helpers';
 import Toast from './toast';
 import Datepicker from './datepicker';
 
-@interactor class ResourceEditNavigationModal {}
+@interactor class ResourceEditNavigationModal {
+  cancelNavigation = clickable('[data-test-navigation-modal-dismiss]');
+  confirmNavigation = clickable('[data-test-navigation-modal-continue]');
+}
 
 @interactor class ResourceEditModal {
   confirmDeselection = clickable('[data-test-eholdings-resource-deselection-confirmation-modal-yes]');
@@ -76,19 +79,22 @@ import Datepicker from './datepicker';
   });
 
   customEmbargoTextFieldValue = value('[data-test-eholdings-custom-embargo-textfield] input');
+  hasCustomEmbargoTextField = isPresent('[data-test-eholdings-custom-embargo-textfield] input');
   inputEmbargoValue = fillable('[data-test-eholdings-custom-embargo-textfield] input');
   inputCustomUrlValue = fillable('[data-test-eholdings-custom-url-textfield] input');
   customEmbargoSelectValue = value('[data-test-eholdings-custom-embargo-select] select');
+  hasCustomEmbargoSelect = isPresent('[data-test-eholdings-custom-embargo-select] select');
   selectEmbargoUnit = fillable('[data-test-eholdings-custom-embargo-select] select');
   blurEmbargoValue = blurrable('[data-test-eholdings-custom-embargo-textfield] input');
   blurEmbargoUnit = blurrable('[data-test-eholdings-custom-embargo-select] select');
   validationErrorOnEmbargoTextField = text('[data-test-eholdings-custom-embargo-textfield] [class^="feedbackError--"]');
+  validationErrorOnEmbargoSelect = text('[data-test-eholdings-custom-embargo-select] [class^="feedbackError--"]');
   hasAddCustomCoverageButton = isPresent('[data-test-eholdings-coverage-fields-add-row-button] button');
   hasAddCustomEmbargoButton = isPresent('[data-test-eholdings-custom-embargo-add-row-button] button');
   clickAddCustomEmbargoButton = clickable('[data-test-eholdings-custom-embargo-add-row-button] button');
   hasSavingWillRemoveEmbargoMessage = isPresent('[data-test-eholdings-embargo-fields-saving-will-remove]');
   clickRemoveCustomEmbargoButton = clickable('[data-test-eholdings-custom-embargo-remove-row-button] button');
-
+  isEmbargoNotShownLabelPresent = isPresent('[data-test-eholdings-resource-embargo-not-shown-label]');
   validationErrorOnCustomUrl = text('[data-test-eholdings-custom-url-textfield] [class^="feedbackError--"]');
 
   selectPublicationType = fillable('[data-test-eholdings-publication-type-field] select');

@@ -22,7 +22,7 @@ export default class CustomEmbargoFields extends Component {
   };
 
   clearValues = () => {
-    this.props.change('customEmbargoValue', '');
+    this.props.change('customEmbargoValue', 0);
     this.props.change('customEmbargoUnit', '');
     this.toggleInputs();
   }
@@ -108,6 +108,7 @@ export default class CustomEmbargoFields extends Component {
 export function validate(values) {
   const errors = {};
 
+
   if (Number.isNaN(Number(values.customEmbargoValue))) {
     errors.customEmbargoValue = 'Must be a number';
   }
@@ -116,7 +117,7 @@ export function validate(values) {
     errors.customEmbargoValue = 'Enter number greater than 0';
   }
 
-  if (values.customEmbargoValue > 0 && values.customEmbargoUnit === '') {
+  if (values.customEmbargoValue > 0 && !values.customEmbargoUnit) {
     errors.customEmbargoUnit = 'Select a unit';
   }
   return errors;

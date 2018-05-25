@@ -34,7 +34,10 @@ describeApplication('ResourceEditManagedTitleInManagedPackage', () => {
       package: providerPackage,
       isSelected: true,
       title,
-      url: 'https://www.frontside.io'
+      url: 'https://www.frontside.io',
+      visibilityData: {
+        isHidden: true
+      }
     });
   });
 
@@ -141,6 +144,7 @@ describeApplication('ResourceEditManagedTitleInManagedPackage', () => {
       beforeEach(() => {
         return ResourceEditPage
           .clickAddRowButton()
+          .toggleVisibility()
           .dateRangeRowList(0).fillDates('12/16/2018', '12/18/2018')
           .inputCoverageStatement('Only 90s kids would understand.')
           .clickAddCustomEmbargoButton()
@@ -171,6 +175,10 @@ describeApplication('ResourceEditManagedTitleInManagedPackage', () => {
 
         it('shows the new statement value', () => {
           expect(ResourceShowPage.coverageStatement).to.equal('Only 90s kids would understand.');
+        });
+
+        it('displays the saved visibility', () => {
+          expect(ResourceShowPage.isResourceVisible).to.equal(true);
         });
 
         it('shows the new embargo value', () => {
@@ -306,8 +314,7 @@ describeApplication('ResourceEditManagedTitleInManagedPackage', () => {
       });
     });
   });
-
-  describe('encountering a server error', () => {
+  describe('encountering a server error when GETting', () => {
     beforeEach(function () {
       this.server.get('/resources/:id', {
         errors: [{
@@ -322,6 +329,37 @@ describeApplication('ResourceEditManagedTitleInManagedPackage', () => {
 
     it('dies with dignity', () => {
       expect(ResourceEditPage.hasErrors).to.be.true;
+    });
+  });
+
+  describe('encountering a server error when PUTting', () => {
+    beforeEach(function () {
+      this.server.put('/resources/:id', {
+        errors: [{
+          title: 'There was an error'
+        }]
+      }, 500);
+
+      return this.visit(`/eholdings/resources/${resource.id}/edit`, () => {
+        expect(ResourceEditPage.$root).to.exist;
+      });
+    });
+
+    describe('entering valid data and clicking save', () => {
+      beforeEach(() => {
+        return ResourceEditPage
+          .inputCoverageStatement('10 ways to fail at everything')
+          .clickAddCustomEmbargoButton()
+          .inputEmbargoValue('27')
+          .blurEmbargoValue()
+          .selectEmbargoUnit('Weeks')
+          .blurEmbargoUnit()
+          .clickSave();
+      });
+
+      it('pops up an error', () => {
+        expect(ResourceEditPage.toast.errorText).to.equal('There was an error');
+      });
     });
   });
 
