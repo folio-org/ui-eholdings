@@ -5,7 +5,7 @@ import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/catch';
 
 import { qs } from '../components/utilities';
-import { mergeRelationships } from './helpers';
+import { mergeRelationships, mergeAttributes } from './helpers';
 
 // actions
 export const actionTypes = {
@@ -457,7 +457,7 @@ const handlers = {
               ...store.records,
               [record.id]: {
                 ...recordState,
-                attributes: record.attributes || {},
+                attributes: mergeAttributes(recordState.attributes, record.attributes),
                 relationships: mergeRelationships(recordState.relationships, record.relationships),
                 isSaving: false,
                 isLoading: false,
