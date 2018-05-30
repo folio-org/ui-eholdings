@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { reduxForm, Field } from 'redux-form';
 import isEqual from 'lodash/isEqual';
@@ -6,6 +6,8 @@ import isEqual from 'lodash/isEqual';
 import {
   Button,
   Icon,
+  RadioButton,
+  RadioButtonGroup,
 } from '@folio/stripes-components';
 import { processErrors } from '../../utilities';
 
@@ -42,7 +44,6 @@ class ManagedPackageEdit extends Component {
     allowFormToSubmit: false,
     packageSelected: this.props.initialValues.isSelected,
     packageVisible: this.props.initialValues.isVisible,
-    packageAllowedToAddTitles: this.props.initialValues.allowKbToAddTitles,
     formValues: {}
   }
 
@@ -52,13 +53,11 @@ class ManagedPackageEdit extends Component {
     let { router } = this.context;
 
     if ((nextProps.initialValues.isSelected !== this.props.initialValues.isSelected) ||
-    (nextProps.initialValues.isVisible !== this.props.initialValues.isVisible) ||
-    (nextProps.initialValues.packageAllowedToAddTitles !== this.props.initialValues.packageAllowedToAddTitles)) {
+    (nextProps.initialValues.isVisible !== this.props.initialValues.isVisible)) {
       this.setState({
         ...this.state,
         packageSelected: nextProps.initialValues.isSelected,
-        packageVisible: nextProps.initialValues.isVisible,
-        packageAllowedToAddTitles: nextProps.initialValues.allowKbToAddTitles
+        packageVisible: nextProps.initialValues.isVisible
       });
     }
 
@@ -83,9 +82,16 @@ class ManagedPackageEdit extends Component {
 
   handleSelectionToggle = (e) => {
     if (e.target.checked) {
+      let { initialValues } = this.props;
+
+      // Don't set `allowKbToAddTitles` to true unless `isSelected` has actually changed.
+      // Toggling off and then on again should not set `allowKbToAddTitles` to true.
+      if (e.target.checked !== initialValues.isSelected) {
+        this.props.change('allowKbToAddTitles', true);
+      }
+
       this.setState({
-        packageSelected: e.target.checked,
-        packageAllowedToAddTitles: true
+        packageSelected: e.target.checked
       });
     } else {
       this.setState({
@@ -116,12 +122,6 @@ class ManagedPackageEdit extends Component {
     });
   }
 
-  handleAllowKbToAddTitlesToggle = (e) => {
-    this.setState({
-      packageAllowedToAddTitles: e.target.checked
-    });
-  };
-
   handleOnSubmit = (values) => {
     if (this.state.allowFormToSubmit === false && values.isSelected === false) {
       this.setState({
@@ -138,6 +138,7 @@ class ManagedPackageEdit extends Component {
     }
   }
 
+
   render() {
     let {
       model,
@@ -149,8 +150,7 @@ class ManagedPackageEdit extends Component {
     let {
       showSelectionModal,
       packageSelected,
-      packageVisible,
-      packageAllowedToAddTitles
+      packageVisible
     } = this.state;
 
     let {
@@ -243,36 +243,35 @@ class ManagedPackageEdit extends Component {
               </DetailsViewSection>
               <DetailsViewSection label="Title management">
                 {packageSelected ? (
-                  <div>
-                    {packageAllowedToAddTitles != null ? (
-                      <div>
-                        <label
-                          data-test-eholdings-package-details-allow-add-new-titles
-                          htmlFor="managed-package-details-toggle-allow-add-new-titles-switch"
+                  <div className={styles['title-management-radios']}>
+                    {this.props.initialValues.allowKbToAddTitles != null ? (
+                      <Fragment>
+                        <Field
+                          label="Automatically select new titles"
+                          name="allowKbToAddTitles"
+                          data-test-eholdings-allow-kb-to-add-titles-radios
+                          component={RadioButtonGroup}
                         >
-                          <h4>
-                            {packageAllowedToAddTitles
-                              ? 'Automatically select new titles'
-                              : 'Do not automatically select new titles'}
-                          </h4>
-                          <br />
-                          <Field
-                            name="allowKbToAddTitles"
-                            component={ToggleSwitch}
-                            checked={packageAllowedToAddTitles}
-                            onChange={this.handleAllowKbToAddTitlesToggle}
-                            id="managed-package-details-toggle-allow-add-new-titles-switch"
+                          <RadioButton
+                            label="Yes"
+                            value="true"
+                            data-test-eholdings-allow-kb-to-add-titles-radio-yes
                           />
-                        </label>
-                      </div>
-                        ) : (
-                          <label
-                            data-test-eholdings-package-details-allow-add-new-titles
-                            htmlFor="managed-package-details-toggle-allow-add-new-titles-switch"
-                          >
-                            <Icon icon="spinner-ellipsis" />
-                          </label>
-                        )}
+                          <RadioButton
+                            label="No"
+                            value="false"
+                            data-test-eholdings-allow-kb-to-add-titles-radio-no
+                          />
+                        </Field>
+                      </Fragment>
+                    ) : (
+                      <label
+                        data-test-eholdings-package-details-allow-add-new-titles
+                        htmlFor="managed-package-details-toggle-allow-add-new-titles-switch"
+                      >
+                        <Icon icon="spinner-ellipsis" />
+                      </label>
+                    )}
                   </div>
                   ) : (
                     <p>Knowledge base does not automatically select titles.</p>

@@ -36,8 +36,8 @@ describeApplication('ManagedPackageEditSelection', () => {
       expect(PackageEditPage.isVisibleTogglePresent).to.equal(false);
     });
 
-    it('cannot toggle allow kb to add titles', () => {
-      expect(PackageEditPage.hastoggleForAllowKbToAddTitles).to.equal(false);
+    it('cannot select allow kb to add titles', () => {
+      expect(PackageEditPage.hasRadioForAllowKbToAddTitles).to.equal(false);
     });
 
     it('cannot edit coverage', () => {
@@ -147,8 +147,8 @@ describeApplication('ManagedPackageEditSelection', () => {
       expect(PackageEditPage.isVisibleTogglePresent).to.equal(true);
     });
 
-    it('can toggle allow kb to add titles', () => {
-      expect(PackageEditPage.hastoggleForAllowKbToAddTitles).to.equal(true);
+    it('can select allow kb to add titles', () => {
+      expect(PackageEditPage.hasRadioForAllowKbToAddTitles).to.equal(true);
     });
 
     it('can edit coverage', () => {

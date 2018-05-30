@@ -103,7 +103,7 @@ class PackageEditRoute extends Component {
       }
 
       if ('allowKbToAddTitles' in values) {
-        model.allowKbToAddTitles = values.allowKbToAddTitles;
+        model.allowKbToAddTitles = values.allowKbToAddTitles === 'true'; // turn string into boolean
       }
 
       if ('name' in values) {
