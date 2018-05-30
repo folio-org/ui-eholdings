@@ -195,6 +195,10 @@ describeApplication('ResourceEditManagedTitleInManagedPackage', () => {
         this.server.create('custom-coverage', {
           beginCoverage: '1969-07-16',
           endCoverage: '1972-12-19'
+        }),
+        this.server.create('custom-coverage', {
+          beginCoverage: '1973-01-01',
+          endCoverage: '1979-12-31'
         })
       ];
       resource.update('customCoverages', customCoverages.map(item => item.toJSON()));

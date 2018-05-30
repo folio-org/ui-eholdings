@@ -22,6 +22,7 @@ class ResourceEditRoute extends Component {
   };
 
   static contextTypes = {
+    intl: PropTypes.object.isRequired,
     router: PropTypes.shape({
       history: PropTypes.shape({
         replace: PropTypes.func.isRequired
@@ -101,11 +102,13 @@ class ResourceEditRoute extends Component {
 
   render() {
     let { model } = this.props;
+    let { intl } = this.context;
 
     return (
       <View
         model={model}
         onSubmit={this.resourceEditSubmitted}
+        intl={intl}
       />
     );
   }
