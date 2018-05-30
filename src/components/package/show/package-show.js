@@ -239,16 +239,13 @@ export default class PackageShow extends Component {
                       <KeyValue label="Allow knowledge base to automatically select new titles">
                         <div>
                           {packageAllowedToAddTitles != null ? (
-                            <div data-test-eholdings-package-details-allow-add-titles>
+                            <div data-test-eholdings-package-details-allow-add-new-titles>
                               {packageAllowedToAddTitles ? 'Yes' : 'No'}
                             </div>
                             ) : (
-                              <label
-                                data-test-eholdings-package-details-allow-add-new-titles
-                                htmlFor="package-details-toggle-allow-add-new-titles-switch"
-                              >
+                              <div>
                                 <Icon icon="spinner-ellipsis" />
-                              </label>
+                              </div>
                             )}
                         </div>
                       </KeyValue>

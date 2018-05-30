@@ -73,7 +73,7 @@ describeApplication('ManagedPackageEditAllowKbToAddTitles', () => {
         });
 
         it('displays the new allowKbToAddTitles status', () => {
-          expect(PackageShowPage.allowKbToAddTitles).to.equal(false);
+          expect(PackageShowPage.allowKbToAddTitles).to.equal('No');
         });
       });
     });
@@ -136,7 +136,7 @@ describeApplication('ManagedPackageEditAllowKbToAddTitles', () => {
         });
 
         it('displays the new allowKbToAddTitles status', () => {
-          expect(PackageShowPage.allowKbToAddTitles).to.equal(true);
+          expect(PackageShowPage.allowKbToAddTitles).to.equal('Yes');
         });
       });
     });
