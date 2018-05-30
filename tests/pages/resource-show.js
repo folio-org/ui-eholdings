@@ -2,12 +2,10 @@ import {
   clickable,
   collection,
   computed,
-  fillable,
   isPresent,
   interactor,
   property,
-  text,
-  value
+  text
 } from '@bigtest/interactor';
 import { hasClassBeginningWith } from './helpers';
 import Toast from './toast';
@@ -70,25 +68,8 @@ import Toast from './toast';
   hasManagedEmbargoPeriod = isPresent('[data-test-eholdings-resource-show-managed-embargo-period]');
   customEmbargoPeriod = text('[data-test-eholdings-resource-custom-embargo-display]');
   hasCustomEmbargoPeriod = isPresent('[data-test-eholdings-resource-custom-embargo-display]');
-  hasCustomEmbargoAddButton = isPresent('[data-test-eholdings-resource-add-custom-embargo-button] button');
-  hasCustomEmbargoEditButton = isPresent('[data-test-eholdings-resource-edit-custom-embargo-button] button');
-  clickCustomEmbargoAddButton = clickable('[data-test-eholdings-resource-add-custom-embargo-button] button');
-  hasCustomEmbargoForm = isPresent('[data-test-eholdings-embargo-form] form');
-  customEmbargoTextFieldValue = value('[data-test-eholdings-custom-embargo-textfield] input');
-  inputEmbargoValue = fillable('[data-test-eholdings-custom-embargo-textfield] input');
-  customEmbargoSelectValue = value('[data-test-eholdings-custom-embargo-select] select');
-  selectEmbargoUnit = fillable('[data-test-eholdings-custom-embargo-select] select');
-  clickCustomEmbargoSaveButton = clickable('[data-test-eholdings-inline-form-save-button] button');
-  hasCustomEmbargoSaveButton = isPresent('[data-test-eholdings-inline-form-save-button] button');
-  isCustomEmbargoSaveDisabled = property('[data-test-eholdings-inline-form-save-button] button', 'disabled');
-  clickCustomEmbargoCancelButton = clickable('[data-test-eholdings-inline-form-cancel-button] button');
-  hasCustomEmbargoCancelButton = isPresent('[data-test-eholdings-inline-form-cancel-button] button');
-  isCustomEmbargoCancelDisabled = property('[data-test-eholdings-inline-form-cancel-button] button', 'disabled');
-  validationErrorOnTextField = text('[data-test-eholdings-custom-embargo-textfield] [class^="feedbackError--"]');
-  validationErrorOnSelect = text('[data-test-eholdings-custom-embargo-select] [class^="feedbackError--"]');
-  clickCustomEmbargoEditButton = clickable('[data-test-eholdings-resource-edit-custom-embargo-button] button');
-  clickCustomEmbargoRemoveRowButton = clickable('[data-test-eholdings-custom-embargo-remove-row-button] button');
-  hasCustomEmbargoInputs = isPresent('[data-test-eholdings-custom-embargo-textfield] input');
+  hasNoCustomEmbargoPeriod = isPresent('[data-test-eholdings-resource-no-custom-embargo-label]');
+  hasCustomEmbargoNotShownStatement = isPresent('[data-test-eholdings-resource-custom-embargo-not-shown-label]');
 
   coverageStatement = text('[data-test-eholdings-resource-coverage-statement-display]');
   hasCoverageStatement = isPresent('[data-test-eholdings-resource-coverage-statement-display]');

@@ -62,171 +62,8 @@ describeApplication('ResourceEmbargo', () => {
       expect(ResourceShowPage.hasCustomEmbargoPeriod).to.be.false;
     });
 
-    it('displays a button to add custom embargo', () => {
-      expect(ResourceShowPage.hasCustomEmbargoAddButton).to.be.true;
-    });
-
-    describe('clicking on the add custom embargo button', () => {
-      beforeEach(() => {
-        return ResourceShowPage.clickCustomEmbargoAddButton();
-      });
-
-      it('should remove the add custom embargo button', () => {
-        expect(ResourceShowPage.hasCustomEmbargoAddButton).to.be.false;
-      });
-
-      it('displays the custom embargo form', () => {
-        expect(ResourceShowPage.hasCustomEmbargoForm).to.be.true;
-      });
-
-      describe('then trying to navigate away', () => {
-        beforeEach(() => {
-          return ResourceShowPage.clickPackage();
-        });
-
-        it('shows a navigation confirmation modal', () => {
-          expect(ResourceShowPage.navigationModal.$root).to.exist;
-        });
-
-        it.always('does not navigate away', function () {
-          expect(this.app.history.location.pathname)
-            .to.equal(`/eholdings/resources/${resource.id}`);
-        });
-      });
-
-      describe('entering valid custom embargo value and selecting unit', () => {
-        describe('with valid embargo value and unit', () => {
-          beforeEach(() => {
-            return ResourceShowPage
-              .inputEmbargoValue('30')
-              .selectEmbargoUnit('Weeks');
-          });
-
-          it('accepts valid custom embargo value', () => {
-            expect(ResourceShowPage.customEmbargoTextFieldValue).to.equal('30');
-          });
-
-          it('accepts valid custom embargo unit selection', () => {
-            expect(ResourceShowPage.customEmbargoSelectValue).to.equal('Weeks');
-          });
-
-          it('save button is present', () => {
-            expect(ResourceShowPage.hasCustomEmbargoSaveButton).to.be.true;
-          });
-
-          it('save button is enabled', () => {
-            expect(ResourceShowPage.isCustomEmbargoSaveDisabled).to.be.false;
-          });
-
-          it('cancel button is present', () => {
-            expect(ResourceShowPage.hasCustomEmbargoCancelButton).to.be.true;
-          });
-
-          it('cancel button is enabled', () => {
-            expect(ResourceShowPage.isCustomEmbargoCancelDisabled).to.be.false;
-          });
-
-          describe('saving updated custom embargo', () => {
-            beforeEach(() => {
-              return ResourceShowPage.clickCustomEmbargoSaveButton();
-            });
-
-            it('displays new custom embargo period', () => {
-              expect(ResourceShowPage.customEmbargoPeriod).to.equal('30 Weeks');
-            });
-
-            it('does not display button to add custom embargo', () => {
-              expect(ResourceShowPage.hasCustomEmbargoAddButton).to.be.false;
-            });
-
-            it('removes the custom embargo form', () => {
-              expect(ResourceShowPage.hasCustomEmbargoForm).to.be.false;
-            });
-          });
-
-          describe('cancelling updated custom embargo', () => {
-            beforeEach(() => {
-              return ResourceShowPage.clickCustomEmbargoCancelButton();
-            });
-
-            it('displays existing custom embargo period (none)', () => {
-              expect(ResourceShowPage.hasCustomEmbargoPeriod).to.be.false;
-            });
-
-            it('removes the custom embargo form', () => {
-              expect(ResourceShowPage.hasCustomEmbargoForm).to.be.false;
-            });
-
-            it('displays the button to add custom embargo', () => {
-              expect(ResourceShowPage.hasCustomEmbargoAddButton).to.be.true;
-            });
-          });
-
-          describe('clearing row should remove inputs', () => {
-            beforeEach(() => {
-              return ResourceShowPage
-                .inputEmbargoValue('50')
-                .clickCustomEmbargoRemoveRowButton();
-            });
-
-            it('removes the custom embargo inputs', () => {
-              expect(ResourceShowPage.hasCustomEmbargoInputs).to.be.false;
-            });
-          });
-
-          describe('custom embargo value as zero and unit as not None should throw validation error', () => {
-            beforeEach(() => {
-              return ResourceShowPage
-                .inputEmbargoValue(0)
-                .selectEmbargoUnit('Months')
-                .clickCustomEmbargoSaveButton();
-            });
-
-            it('rejects embargo value', () => {
-              expect(ResourceShowPage.validationErrorOnTextField).to.equal('Enter number greater than 0');
-            });
-          });
-
-          describe('custom embargo value that cannot be parsed as number should throw validation error', () => {
-            beforeEach(() => {
-              return ResourceShowPage
-                .inputEmbargoValue('abcdef')
-                .selectEmbargoUnit('Months')
-                .clickCustomEmbargoSaveButton();
-            });
-
-            it('rejects embargo value', () => {
-              expect(ResourceShowPage.validationErrorOnTextField).to.equal('Must be a number');
-            });
-          });
-
-          describe('blank custom embargo value should throw validation error', () => {
-            beforeEach(() => {
-              return ResourceShowPage
-                .inputEmbargoValue('')
-                .selectEmbargoUnit('Months')
-                .clickCustomEmbargoSaveButton();
-            });
-
-            it('rejects embargo value', () => {
-              expect(ResourceShowPage.validationErrorOnTextField).to.equal('Enter number greater than 0');
-            });
-          });
-
-          describe('custom embargo value greater than zero and unit as None should throw validation error', () => {
-            beforeEach(() => {
-              return ResourceShowPage
-                .selectEmbargoUnit('None')
-                .inputEmbargoValue('50')
-                .clickCustomEmbargoSaveButton();
-            });
-
-            it('rejects embargo value', () => {
-              expect(ResourceShowPage.validationErrorOnSelect).to.equal('Select a unit');
-            });
-          });
-        });
-      });
+    it('displays a message that no custom embargo period has been set', () => {
+      expect(ResourceShowPage.hasNoCustomEmbargoPeriod).to.be.true;
     });
   });
 
@@ -255,6 +92,10 @@ describeApplication('ResourceEmbargo', () => {
     it.always('does not display the custom embargo section', () => {
       expect(ResourceShowPage.hasCustomEmbargoPeriod).to.be.false;
     });
+
+    it('displays a message that no custom embargo period has been set', () => {
+      expect(ResourceShowPage.hasNoCustomEmbargoPeriod).to.be.true;
+    });
   });
 
   describe('visiting the resource show page with no embargos', () => {
@@ -275,6 +116,10 @@ describeApplication('ResourceEmbargo', () => {
     it.always('does not display the custom embargo section', () => {
       expect(ResourceShowPage.hasCustomEmbargoPeriod).to.be.false;
     });
+
+    it('displays a message that no custom embargo period has been set', () => {
+      expect(ResourceShowPage.hasNoCustomEmbargoPeriod).to.be.true;
+    });
   });
 
   describe('visiting the resource show page with title package not selected', () => {
@@ -293,6 +138,10 @@ describeApplication('ResourceEmbargo', () => {
 
     it.always('does not display the custom embargo section', () => {
       expect(ResourceShowPage.hasCustomEmbargoPeriod).to.be.false;
+    });
+
+    it('displays a message that custom embargo period is not shown', () => {
+      expect(ResourceShowPage.hasCustomEmbargoNotShownStatement).to.be.true;
     });
   });
 
@@ -313,14 +162,6 @@ describeApplication('ResourceEmbargo', () => {
       expect(ResourceShowPage.customEmbargoPeriod).to.equal('10 Weeks');
     });
 
-    it('displays the edit button in the custom embargo section', () => {
-      expect(ResourceShowPage.hasCustomEmbargoEditButton).to.be.true;
-    });
-
-    it('does not display the add custom embargo button', () => {
-      expect(ResourceShowPage.hasCustomEmbargoAddButton).to.be.false;
-    });
-
     it('displays whether the title package is selected', () => {
       expect(ResourceShowPage.isSelected).to.equal(true);
     });
@@ -338,6 +179,10 @@ describeApplication('ResourceEmbargo', () => {
         it('removes custom embargo', () => {
           expect(ResourceShowPage.hasCustomEmbargoPeriod).to.be.false;
         });
+
+        it('displays a message that custom embargo period is not shown', () => {
+          expect(ResourceShowPage.hasCustomEmbargoNotShownStatement).to.be.true;
+        });
       });
 
       describe('and canceling deselection', () => {
@@ -348,20 +193,6 @@ describeApplication('ResourceEmbargo', () => {
         it('does not remove custom embargo', () => {
           expect(ResourceShowPage.customEmbargoPeriod).to.equal('10 Weeks');
         });
-
-        it('displays the edit button in the custom embargo section', () => {
-          expect(ResourceShowPage.hasCustomEmbargoEditButton).to.be.true;
-        });
-      });
-    });
-
-    describe('clicking the edit button', () => {
-      beforeEach(() => {
-        return ResourceShowPage.clickCustomEmbargoEditButton();
-      });
-
-      it('displays the custom embargo form', () => {
-        expect(ResourceShowPage.hasCustomEmbargoForm).to.be.true;
       });
     });
   });

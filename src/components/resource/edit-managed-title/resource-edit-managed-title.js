@@ -240,7 +240,7 @@ class ResourceEditManagedTitle extends Component {
                   }}
                   />
                   ) : (
-                    <p>Add the resource to holdings to set custom embargo.</p>
+                    <p data-test-eholdings-resource-embargo-not-shown-label>Add the resource to holdings to set custom embargo.</p>
                   )}
               </DetailsViewSection>
               <div className={styles['resource-edit-action-buttons']}>
