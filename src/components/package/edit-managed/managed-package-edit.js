@@ -44,7 +44,6 @@ class ManagedPackageEdit extends Component {
     allowFormToSubmit: false,
     packageSelected: this.props.initialValues.isSelected,
     packageVisible: this.props.initialValues.isVisible,
-    packageAllowedToAddTitles: this.props.initialValues.allowKbToAddTitles,
     formValues: {}
   }
 
@@ -54,13 +53,11 @@ class ManagedPackageEdit extends Component {
     let { router } = this.context;
 
     if ((nextProps.initialValues.isSelected !== this.props.initialValues.isSelected) ||
-    (nextProps.initialValues.isVisible !== this.props.initialValues.isVisible) ||
-    (nextProps.initialValues.packageAllowedToAddTitles !== this.props.initialValues.packageAllowedToAddTitles)) {
+    (nextProps.initialValues.isVisible !== this.props.initialValues.isVisible)) {
       this.setState({
         ...this.state,
         packageSelected: nextProps.initialValues.isSelected,
-        packageVisible: nextProps.initialValues.isVisible,
-        packageAllowedToAddTitles: nextProps.initialValues.allowKbToAddTitles
+        packageVisible: nextProps.initialValues.isVisible
       });
     }
 
@@ -85,9 +82,9 @@ class ManagedPackageEdit extends Component {
 
   handleSelectionToggle = (e) => {
     if (e.target.checked) {
+      this.props.change('allowKbToAddTitles', true);
       this.setState({
-        packageSelected: e.target.checked,
-        packageAllowedToAddTitles: true
+        packageSelected: e.target.checked
       });
     } else {
       this.setState({
@@ -134,6 +131,7 @@ class ManagedPackageEdit extends Component {
     }
   }
 
+
   render() {
     let {
       model,
@@ -145,8 +143,7 @@ class ManagedPackageEdit extends Component {
     let {
       showSelectionModal,
       packageSelected,
-      packageVisible,
-      packageAllowedToAddTitles
+      packageVisible
     } = this.state;
 
     let {
@@ -240,7 +237,7 @@ class ManagedPackageEdit extends Component {
               <DetailsViewSection label="Title management">
                 {packageSelected ? (
                   <div className={styles['title-management-radios']}>
-                    {packageAllowedToAddTitles != null ? (
+                    {this.props.initialValues.allowKbToAddTitles != null ? (
                       <Fragment>
                         <Field
                           label="Automatically select new titles"

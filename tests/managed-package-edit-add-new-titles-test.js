@@ -215,9 +215,7 @@ describeApplication('ManagedPackageEditAllowKbToAddTitles', () => {
         expect(PackageEditPage.isSelected).to.be.true;
       });
 
-      // TODO: Fix before merge
-      // Why is this not true? Something weird is going on.
-      it.skip('allow KB to add titles is selected true', () => {
+      it('allow KB to add titles is selected true', () => {
         expect(PackageEditPage.allowKbToAddTitlesRadio).to.be.true;
       });
     });
