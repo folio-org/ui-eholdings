@@ -82,7 +82,14 @@ class ManagedPackageEdit extends Component {
 
   handleSelectionToggle = (e) => {
     if (e.target.checked) {
-      this.props.change('allowKbToAddTitles', true);
+      let { initialValues } = this.props;
+
+      // Don't set `allowKbToAddTitles` to true unless `isSelected` has actually changed.
+      // Toggling off and then on again should not set `allowKbToAddTitles` to true.
+      if (e.target.checked !== initialValues.isSelected) {
+        this.props.change('allowKbToAddTitles', true);
+      }
+
       this.setState({
         packageSelected: e.target.checked
       });
