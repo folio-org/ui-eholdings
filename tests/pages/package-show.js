@@ -19,15 +19,13 @@ import Toast from './toast';
 }
 
 @interactor class PackageShowPage {
-  allowKbToAddTitles = property('[data-test-eholdings-package-details-allow-add-new-titles] input', 'checked');
+  allowKbToAddTitles = text('[data-test-eholdings-package-details-allow-add-new-titles]');
   hasAllowKbToAddTitles = isPresent('[data-test-eholdings-package-details-toggle-allow-add-new-titles] input');
   hasAllowKbToAddTitlesToggle = isPresent('[package-details-toggle-allow-add-new-titles-switch]');
   isSelected = property('[data-test-eholdings-package-details-selected] input', 'checked');
   isSelecting = hasClassBeginningWith('[data-test-eholdings-package-details-selected] [data-test-toggle-switch]', 'is-pending--');
   isSelectedToggleDisabled = property('[data-test-eholdings-package-details-selected] input[type=checkbox]', 'disabled');
   modal = new PackageShowModal('#eholdings-package-confirmation-modal');
-  hastoggleForAllowKbToAddTitles = isPresent('[data-test-eholdings-package-details-allow-add-new-titles]');
-  toggleAllowKbToAddTitles = clickable('[data-test-eholdings-package-details-allow-add-new-titles] input');
   toggleIsSelected = clickable('[data-test-eholdings-package-details-selected] input');
   paneTitle = text('[data-test-eholdings-details-view-pane-title]');
   contentType = text('[data-test-eholdings-package-details-content-type]');
@@ -46,21 +44,11 @@ import Toast from './toast';
     deltaY: -1
   });
 
-  titlesHaveLoaded = computed(function () {
-    return this.titleList().length > 0;
-  });
-
-  toggleIsHidden = clickable('[data-test-eholdings-package-details-hidden] input');
-  isVisibleToPatrons = property('[data-test-eholdings-package-details-hidden] input', 'checked');
+  isVisibleToPatrons = text('[data-test-eholdings-package-details-visibility-status]');
+  isVisibilityStatusPresent = isPresent('[data-test-eholdings-package-details-visibility-status]');
   isHiddenMessage = text('[data-test-eholdings-package-details-is-hidden]');
   isHiddenMessagePresent = isPresent('[data-test-eholdings-package-details-is-hidden]');
-  isHiddenToggleDisabled = property('[data-test-eholdings-package-details-hidden] input[type=checkbox]', 'disabled');
-  isHiddenTogglePresent = isPresent('[data-test-eholdings-package-details-hidden] input');
   isHiding = hasClassBeginningWith('[data-test-eholdings-package-details-hidden] [data-test-toggle-switch]', 'is-pending--');
-
-  allTitlesHidden = computed(function () {
-    return !!this.titleList().length && this.titleList().every(title => title.isResourceHidden);
-  });
 
   allTitlesSelected = computed(function () {
     return !!this.titleList().length && this.titleList().every(title => title.isSelected);
@@ -73,9 +61,6 @@ import Toast from './toast';
       return this.isSelectedLabel === 'Selected';
     }),
     isHiddenLabel: text('[data-test-eholdings-title-list-item-title-hidden]'),
-    isResourceHidden: computed(function () {
-      return this.isHiddenLabel === 'Hidden';
-    })
   });
 
   detailsPaneScrollTop = action(function (offset) {
@@ -104,22 +89,12 @@ import Toast from './toast';
   hasCustomCoverage = isPresent('[data-test-eholdings-package-details-custom-coverage-display]');
   customCoverage = text('[data-test-eholdings-package-details-custom-coverage-display]');
   hasCustomCoverageAddButton = isPresent('[data-test-eholdings-package-details-custom-coverage-button] button');
-  clickCustomCoverageAddButton = clickable('[data-test-eholdings-package-details-custom-coverage-button] button');
-  clickCustomCoverageCancelButton = clickable('[data-test-eholdings-inline-form-cancel-button] button');
-  clickCustomCoverageEditButton = clickable('[data-test-eholdings-package-details-edit-custom-coverage-button] button');
-  clickCustomCoverageSaveButton = clickable('[data-test-eholdings-inline-form-save-button] button');
-  isCustomCoverageDisabled = property('[data-test-eholdings-inline-form-save-button] button', 'disabled');
   validationError = text('[data-test-eholdings-coverage-fields-date-range-begin] [class^="feedbackError"]');
 
   beginDate = new Datepicker('[data-test-eholdings-coverage-fields-date-range-begin]');
   endDate = new Datepicker('[data-test-eholdings-coverage-fields-date-range-end]');
 
   toast = Toast
-
-  fillDates(beginDate, endDate) {
-    return this.beginDate.fillAndBlur(beginDate)
-      .endDate.fillAndBlur(endDate);
-  }
 
   deselectAndConfirmPackage() {
     return this.toggleIsSelected()

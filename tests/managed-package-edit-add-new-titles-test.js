@@ -1,5 +1,5 @@
 import { expect } from 'chai';
-import { describe, beforeEach, afterEach, it } from '@bigtest/mocha';
+import { describe, beforeEach, it } from '@bigtest/mocha';
 
 import { describeApplication } from './helpers';
 import PackageShowPage from './pages/package-show';
@@ -49,22 +49,8 @@ describeApplication('ManagedPackageEditAllowKbToAddTitles', () => {
     });
 
     describe('changing the allowKbToAddTitles selection', () => {
-      beforeEach(function () {
-        /*
-         * The expectations in the convergent `it` blocks
-         * get run once every 10ms.  We were seeing test flakiness
-         * when a toggle action dispatched and resolved before an
-         * expectation had the chance to run.  We sidestep this by
-         * temporarily increasing the mirage server's response time
-         * to 50ms.
-         * TODO: control timing directly with Mirage
-         */
-        this.server.timing = 50;
+      beforeEach(() => {
         return PackageEditPage.clickDisallowKbToAddTitlesRadio();
-      });
-
-      afterEach(function () {
-        this.server.timing = 0;
       });
 
       describe('clicking cancel', () => {
@@ -87,7 +73,7 @@ describeApplication('ManagedPackageEditAllowKbToAddTitles', () => {
         });
 
         it('displays the new allowKbToAddTitles status', () => {
-          expect(PackageShowPage.allowKbToAddTitles).to.equal(false);
+          expect(PackageShowPage.allowKbToAddTitles).to.equal('No');
         });
       });
     });
@@ -125,23 +111,9 @@ describeApplication('ManagedPackageEditAllowKbToAddTitles', () => {
       });
     });
 
-    describe('changing the allowKbToAddTitles selection', () => {
-      beforeEach(function () {
-        /*
-         * The expectations in the convergent `it` blocks
-         * get run once every 10ms.  We were seeing test flakiness
-         * when a toggle action dispatched and resolved before an
-         * expectation had the chance to run.  We sidestep this by
-         * temporarily increasing the mirage server's response time
-         * to 50ms.
-         * TODO: control timing directly with Mirage
-         */
-        this.server.timing = 50;
+    describe('toggling the allowKbToAddTitles toggle', () => {
+      beforeEach(() => {
         return PackageEditPage.clickAllowKbToAddTitlesRadio();
-      });
-
-      afterEach(function () {
-        this.server.timing = 0;
       });
 
       describe('clicking cancel', () => {
@@ -164,7 +136,7 @@ describeApplication('ManagedPackageEditAllowKbToAddTitles', () => {
         });
 
         it('displays the new allowKbToAddTitles status', () => {
-          expect(PackageShowPage.allowKbToAddTitles).to.equal(true);
+          expect(PackageShowPage.allowKbToAddTitles).to.equal('Yes');
         });
       });
     });
@@ -193,22 +165,8 @@ describeApplication('ManagedPackageEditAllowKbToAddTitles', () => {
     });
 
     describe('toggling the selected toggle', () => {
-      beforeEach(function () {
-        /*
-         * The expectations in the convergent `it` blocks
-         * get run once every 10ms.  We were seeing test flakiness
-         * when a toggle action dispatched and resolved before an
-         * expectation had the chance to run.  We sidestep this by
-         * temporarily increasing the mirage server's response time
-         * to 50ms.
-         * TODO: control timing directly with Mirage
-         */
-        this.server.timing = 50;
+      beforeEach(() => {
         return PackageEditPage.toggleIsSelected();
-      });
-
-      afterEach(function () {
-        this.server.timing = 0;
       });
 
       it('reflects the desired state (Selected)', () => {

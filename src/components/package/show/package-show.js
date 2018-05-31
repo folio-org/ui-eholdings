@@ -8,7 +8,7 @@ import {
   KeyValue,
   PaneMenu
 } from '@folio/stripes-components';
-import { processErrors } from '../../utilities';
+import { processErrors, formatISODateWithoutTime } from '../../utilities';
 
 import DetailsView from '../../details-view';
 import QueryList from '../../query-list';
@@ -16,7 +16,6 @@ import Link from '../../link';
 import TitleListItem from '../../title-list-item';
 import ToggleSwitch from '../../toggle-switch';
 import Modal from '../../modal';
-import CustomCoverage from '../_forms/custom-coverage';
 import NavigationModal from '../../navigation-modal';
 import DetailsViewSection from '../../details-view-section';
 import Toaster from '../../toaster';
@@ -27,10 +26,7 @@ export default class PackageShow extends Component {
   static propTypes = {
     model: PropTypes.object.isRequired,
     fetchPackageTitles: PropTypes.func.isRequired,
-    toggleSelected: PropTypes.func.isRequired,
-    toggleHidden: PropTypes.func.isRequired,
-    customCoverageSubmitted: PropTypes.func.isRequired,
-    toggleAllowKbToAddTitles: PropTypes.func.isRequired,
+    toggleSelected: PropTypes.func.isRequired
   };
 
   static contextTypes = {
@@ -42,7 +38,6 @@ export default class PackageShow extends Component {
   state = {
     showSelectionModal: false,
     packageSelected: this.props.model.isSelected,
-    packageHidden: this.props.model.visibilityData.isHidden,
     packageAllowedToAddTitles: this.props.model.allowKbToAddTitles,
     isCoverageEditable: false
   };
@@ -51,7 +46,6 @@ export default class PackageShow extends Component {
     if (!model.isSaving) {
       this.setState({
         packageSelected: model.isSelected,
-        packageHidden: model.visibilityData.isHidden,
         packageAllowedToAddTitles: model.allowKbToAddTitles
       });
     }
@@ -84,20 +78,14 @@ export default class PackageShow extends Component {
   };
 
   render() {
-    let { model, fetchPackageTitles, customCoverageSubmitted } = this.props;
+    let { model, fetchPackageTitles } = this.props;
     let { intl, router, queryParams } = this.context;
     let {
       showSelectionModal,
       packageSelected,
-      packageHidden,
       packageAllowedToAddTitles,
       isCoverageEditable
     } = this.state;
-
-    let customCoverages = [{
-      beginCoverage: model.customCoverage.beginCoverage,
-      endCoverage: model.customCoverage.endCoverage
-    }];
 
     let actionMenuItems = [
       {
@@ -233,91 +221,57 @@ export default class PackageShow extends Component {
                   />
                 </label>
               </DetailsViewSection>
-              <DetailsViewSection label="Visibility">
+              <DetailsViewSection label="Package settings">
                 {packageSelected ? (
                   <div>
-                    <label
-                      data-test-eholdings-package-details-hidden
-                      htmlFor="package-details-toggle-hidden-switch"
-                    >
-                      <h4>
-                        {model.visibilityData.isHidden
-                          ? 'Hidden from patrons'
-                          : 'Visible to patrons'}
-                      </h4>
-                      <br />
-                      <ToggleSwitch
-                        onChange={this.props.toggleHidden}
-                        checked={!packageHidden}
-                        isPending={model.update.isPending &&
-                          ('visibilityData' in model.update.changedAttributes)}
-                        id="package-details-toggle-hidden-switch"
-                      />
-                    </label>
-
-                    {model.visibilityData.isHidden && (
-                      <div data-test-eholdings-package-details-is-hidden>
-                        {model.visibilityData.reason}
+                    <KeyValue label="Visible to patrons">
+                      <div data-test-eholdings-package-details-visibility-status>
+                        {!model.visibilityData.isHidden ? 'Yes' : 'No'}
                       </div>
+
+                      {model.visibilityData.isHidden && (
+                        <div data-test-eholdings-package-details-is-hidden>
+                          {model.visibilityData.reason}
+                        </div>
+                      )}
+                    </KeyValue>
+                    {!model.isCustom && (
+                      <KeyValue label="Allow knowledge base to automatically select new titles">
+                        <div>
+                          {packageAllowedToAddTitles != null ? (
+                            <div data-test-eholdings-package-details-allow-add-new-titles>
+                              {packageAllowedToAddTitles ? 'Yes' : 'No'}
+                            </div>
+                            ) : (
+                              <div>
+                                <Icon icon="spinner-ellipsis" />
+                              </div>
+                            )}
+                        </div>
+                      </KeyValue>
                     )}
                   </div>
                 ) : (
-                  <p>Not shown to patrons.</p>
+                  <p>Add the package to holdings to customize package settings.</p>
                 )}
               </DetailsViewSection>
-
-              {!model.isCustom && (
-                <DetailsViewSection label="Title management">
-                  {packageSelected ? (
-                    <div>
-                      {packageAllowedToAddTitles != null ? (
-                        <div>
-                          <label
-                            data-test-eholdings-package-details-allow-add-new-titles
-                            htmlFor="package-details-toggle-allow-add-new-titles-switch"
-                          >
-                            <h4>
-                              {packageAllowedToAddTitles
-                              ? 'Automatically select new titles'
-                              : 'Do not automatically select new titles'}
-                            </h4>
-                            <br />
-                            <ToggleSwitch
-                              onChange={this.props.toggleAllowKbToAddTitles}
-                              checked={packageAllowedToAddTitles}
-                              isPending={model.update.isPending && 'allowKbToAddTitles' in model.update.changedAttributes}
-                              id="package-details-toggle-allow-add-new-titles-switch"
-                            />
-                          </label>
-                        </div>
-                        ) : (
-                          <label
-                            data-test-eholdings-package-details-allow-add-new-titles
-                            htmlFor="package-details-toggle-allow-add-new-titles-switch"
-                          >
-                            <Icon icon="spinner-ellipsis" />
-                          </label>
-                        )}
-                    </div>
-                  ) : (
-                    <p>Knowledge base does not automatically select titles.</p>
-                  )}
-                </DetailsViewSection>
-              )}
-
               <DetailsViewSection
                 label="Coverage dates"
                 closedByDefault={!packageSelected}
               >
                 {packageSelected ? (
-                  <div data-test-eholdings-package-details-custom-coverage>
-                    <CustomCoverage
-                      initialValues={{ customCoverages }}
-                      onSubmit={customCoverageSubmitted}
-                      isPending={model.update.isPending && 'customCoverage' in model.update.changedAttributes}
-                      onEdit={this.handleCoverageEdit}
-                      isEditable={isCoverageEditable}
-                    />
+                  <div>
+                    {model.customCoverage.beginCoverage ? (
+                      <div>
+                        <KeyValue label="Custom">
+                          <div data-test-eholdings-package-details-custom-coverage-display>
+                            {formatISODateWithoutTime(model.customCoverage.beginCoverage, intl)} - {formatISODateWithoutTime(model.customCoverage.endCoverage, intl) || 'Present'}
+                          </div>
+                        </KeyValue>
+                      </div>
+                    ) : (
+                      <p>No custom coverage dates set.</p>
+                    )}
                   </div>
                 ) : (
                   <p>Add the package to holdings to set custom coverage dates.</p>

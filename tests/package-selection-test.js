@@ -145,14 +145,6 @@ describeApplication('PackageSelection', () => {
             it('removes custom coverage', () => {
               expect(PackageShowPage.hasCustomCoverage).to.equal(false);
             });
-
-            it('is not hideable', () => {
-              expect(PackageShowPage.isHiddenTogglePresent).to.equal(false);
-            });
-
-            it('does not display the toggle for allowing the KB to add titles', () => {
-              expect(PackageShowPage.hastoggleForAllowKbToAddTitles).to.be.false;
-            });
           });
         });
       });

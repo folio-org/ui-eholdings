@@ -57,10 +57,6 @@ describeApplication('PackageShow', () => {
       expect(PackageShowPage.numTitlesSelected).to.equal(`${providerPackage.selectedCount}`);
     });
 
-    it('does not display the toggle for allowing the KB to add titles', () => {
-      expect(PackageShowPage.hastoggleForAllowKbToAddTitles).to.be.false;
-    });
-
     it('displays the package type', () => {
       expect(PackageShowPage.packageType).to.equal('Complete');
     });
@@ -113,10 +109,6 @@ describeApplication('PackageShow', () => {
       return this.visit(`/eholdings/packages/${providerPackage.id}`, () => {
         expect(PackageShowPage.$root).to.exist;
       });
-    });
-
-    it('does not display the toggle for allowing the KB to add titles', () => {
-      expect(PackageShowPage.hastoggleForAllowKbToAddTitles).to.be.false;
     });
 
     it('displays the package type as custom', () => {
