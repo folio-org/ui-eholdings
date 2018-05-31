@@ -263,7 +263,7 @@ export default class PackageShow extends Component {
                   <div>
                     {model.customCoverage.beginCoverage ? (
                       <div>
-                        <KeyValue label="Custom">
+                        <KeyValue label="Custom coverage dates">
                           <div data-test-eholdings-package-details-custom-coverage-display>
                             {formatISODateWithoutTime(model.customCoverage.beginCoverage, intl)} - {formatISODateWithoutTime(model.customCoverage.endCoverage, intl) || 'Present'}
                           </div>

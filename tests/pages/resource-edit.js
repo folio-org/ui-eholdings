@@ -63,6 +63,7 @@ import Datepicker from './datepicker';
     }
   });
 
+  hasSavingWillRemoveMessage = isPresent('[data-test-eholdings-coverage-fields-saving-will-remove]');
   hasCoverageStatementArea = isPresent('[data-test-eholdings-coverage-statement-textarea] textarea');
   toggleVisibility = clickable('[data-test-eholdings-resource-toggle-visibility] input');
   coverageStatement = value('[data-test-eholdings-coverage-statement-textarea] textarea');

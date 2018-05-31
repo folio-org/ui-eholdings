@@ -16,16 +16,13 @@ import ToggleSwitch from '../toggle-switch';
 import CoverageDateList from '../coverage-date-list';
 import { isBookPublicationType, isValidCoverageList, processErrors } from '../utilities';
 import Modal from '../modal';
-import CustomCoverage from './_forms/custom-coverage';
-import NavigationModal from '../navigation-modal';
 import DetailsViewSection from '../details-view-section';
 import Toaster from '../toaster';
 
 export default class ResourceShow extends Component {
   static propTypes = {
     model: PropTypes.object.isRequired,
-    toggleSelected: PropTypes.func.isRequired,
-    coverageSubmitted: PropTypes.func.isRequired
+    toggleSelected: PropTypes.func.isRequired
   };
 
   static contextTypes = {
@@ -36,8 +33,7 @@ export default class ResourceShow extends Component {
 
   state = {
     showSelectionModal: false,
-    resourceSelected: this.props.model.isSelected,
-    isCoverageEditable: false
+    resourceSelected: this.props.model.isSelected
   };
 
   componentWillReceiveProps({ model }) {
@@ -72,17 +68,12 @@ export default class ResourceShow extends Component {
     });
   };
 
-  handleCoverageEdit = (isCoverageEditable) => {
-    this.setState({ isCoverageEditable });
-  };
-
   render() {
-    let { model, coverageSubmitted } = this.props;
-    let { locale, intl, router } = this.context;
+    let { model } = this.props;
+    let { router } = this.context;
     let {
       showSelectionModal,
-      resourceSelected,
-      isCoverageEditable
+      resourceSelected
     } = this.state;
 
     let isSelectInFlight = model.update.isPending && 'isSelected' in model.update.changedAttributes;
@@ -94,20 +85,11 @@ export default class ResourceShow extends Component {
       model.managedEmbargoPeriod.embargoValue;
     let customEmbargoValue = model.customEmbargoPeriod && model.customEmbargoPeriod.embargoValue;
     let customEmbargoUnit = model.customEmbargoPeriod && model.customEmbargoPeriod.embargoUnit;
-
-    // in the event that the resource lacks custom coverage, we must
-    // add an artificial "blank" row of coverage at this level so
-    // the form initializes correctly when adding coverage.  unfortunately,
-    // due to redux-form eccentricity, we cannot do this in the CoverageForm
-    // component itself.  instead we clone the coverages off the model here,
-    // as mutating the model directly will break all other customizations.
-    let customCoverages = [...model.customCoverages];
-    if (customCoverages.length === 0 && model.isSelected) {
-      customCoverages = [{
-        beginCoverage: '',
-        endCoverage: ''
-      }];
-    }
+    let hasCustomEmbargoPeriod = model.customEmbargoPeriod &&
+      model.customEmbargoPeriod.embargoUnit &&
+      model.customEmbargoPeriod.embargoValue;
+    let hasCustomCoverages = model.customCoverages.length > 0 &&
+    isValidCoverageList(model.customCoverages);
 
     let actionMenuItems = [
       {
@@ -311,21 +293,23 @@ export default class ResourceShow extends Component {
                 )}
 
                 {(resourceSelected && !isSelectInFlight) && (
-                  <CustomCoverage
-                    initialValues={{ customCoverages }}
-                    packageCoverage={model.package.customCoverage}
-                    isEditable={isCoverageEditable}
-                    onEdit={this.handleCoverageEdit}
-                    onSubmit={coverageSubmitted}
-                    isPending={model.update.isPending && 'customCoverages' in model.update.changedAttributes}
-                    locale={locale}
-                    intl={intl}
-                  />
+                <div>
+                  {hasCustomCoverages && (
+                  <KeyValue label="Custom coverage dates">
+                    <span data-test-eholdings-resource-show-custom-coverage-list>
+                      <CoverageDateList
+                        coverageArray={model.customCoverages}
+                        isYearOnly={isBookPublicationType(model.publicationType)}
+                      />
+                    </span>
+                  </KeyValue>
+                  )}
+                </div>)}
+
+                {!hasManagedCoverages && !hasCustomCoverages && (
+                  <p data-test-eholdings-resource-no-coverage-date-label>No coverage date has been set.</p>
                 )}
 
-                {!hasManagedCoverages && !resourceSelected && (
-                  <p>Add the resource to holdings to set custom coverage dates.</p>
-                )}
               </DetailsViewSection>
               <DetailsViewSection
                 label="Coverage statement"
@@ -356,21 +340,21 @@ export default class ResourceShow extends Component {
                   </KeyValue>
                 )}
 
-                {(resourceSelected && !isSelectInFlight) ? (
+                {(resourceSelected && !isSelectInFlight) && (
                   <div>
-                    {(customEmbargoValue && customEmbargoUnit) ? (
+                    {hasCustomEmbargoPeriod && (
                       <KeyValue label="Custom">
                         <span data-test-eholdings-resource-custom-embargo-display>
                           {customEmbargoValue} {customEmbargoUnit}
                         </span>
                       </KeyValue>
-                  ) : (<p data-test-eholdings-resource-no-custom-embargo-label>No custom embargo period has been set.</p>
-                )}
+                   )}
                   </div>
-                ) : (
-                  <p data-test-eholdings-resource-custom-embargo-not-shown-label>Add the resource to holdings to set a custom embargo period.</p>
-                )}
+                 )}
 
+                {!hasManagedEmbargoPeriod && !hasCustomEmbargoPeriod && (
+                <p data-test-eholdings-resource-no-embargo-label>No embargo period has been set.</p>
+                )}
               </DetailsViewSection>
             </div>
           )}
@@ -421,8 +405,6 @@ export default class ResourceShow extends Component {
             )
           }
         </Modal>
-
-        <NavigationModal when={isCoverageEditable} />
       </div>
     );
   }

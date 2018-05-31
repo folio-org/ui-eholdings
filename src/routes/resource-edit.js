@@ -80,8 +80,8 @@ class ResourceEditRoute extends Component {
       updateResource(model);
     } else {
       model.customCoverages = customCoverages.map((dateRange) => {
-        let beginCoverage = !dateRange.beginCoverage ? null : moment(dateRange.beginCoverage).format('YYYY-MM-DD');
-        let endCoverage = !dateRange.endCoverage ? null : moment(dateRange.endCoverage).format('YYYY-MM-DD');
+        let beginCoverage = !dateRange.beginCoverage ? null : moment(dateRange.beginCoverage).tz('UTC').format('YYYY-MM-DD');
+        let endCoverage = !dateRange.endCoverage ? null : moment(dateRange.endCoverage).tz('UTC').format('YYYY-MM-DD');
 
         return {
           beginCoverage,
@@ -102,13 +102,14 @@ class ResourceEditRoute extends Component {
 
   render() {
     let { model } = this.props;
-    let { intl } = this.context;
+    let { intl, locale } = this.context;
 
     return (
       <View
         model={model}
         onSubmit={this.resourceEditSubmitted}
         intl={intl}
+        locale={locale}
       />
     );
   }
