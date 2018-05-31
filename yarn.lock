@@ -130,13 +130,6 @@
     eslint-plugin-jsx-a11y "^6.0.3"
     eslint-plugin-react "^7.6.0"
 
-"@folio/react-githubish-mentions@^1.2.1":
-  version "1.2.10001"
-  resolved "https://repository.folio.org/repository/npm-folioci/@folio/react-githubish-mentions/-/react-githubish-mentions-1.2.10001.tgz#0c24d230e537ca74e83ec24c9a85bdaa5630a24f"
-  dependencies:
-    react-portal-hoc "^0.4.1"
-    textarea-caret "git://github.com/mattkrick/textarea-caret-position.git#ede461f40712238c505e4a1861fc68de6e7731ad"
-
 "@folio/react-intl-safe-html@^1.0.1":
   version "1.0.10007"
   resolved "https://repository.folio.org/repository/npm-folioci/@folio/react-intl-safe-html/-/react-intl-safe-html-1.0.10007.tgz#cabc0e5d51c2f172d197da2e786f2a7c1110ca85"
@@ -144,8 +137,8 @@
     sanitize-html "^1.18.2"
 
 "@folio/stripes-cli@^1.1.0":
-  version "1.1.100074"
-  resolved "https://repository.folio.org/repository/npm-folioci/@folio/stripes-cli/-/stripes-cli-1.1.100074.tgz#fcf4982cd96d51b957cc1fc9c84370e2f55d1fc8"
+  version "1.1.100076"
+  resolved "https://repository.folio.org/repository/npm-folioci/@folio/stripes-cli/-/stripes-cli-1.1.100076.tgz#abd392bce1b1f8e8d985564b41b2c551abbabb14"
   dependencies:
     "@folio/developer" "^1.3.0"
     "@folio/stripes-core" "^2.9.0"
@@ -154,6 +147,7 @@
     configstore "^3.1.1"
     debug "^3.1.0"
     find-up "^2.1.0"
+    get-stdin "^6.0.0"
     global-dirs "^0.1.1"
     http-server "^0.11.1"
     import-lazy "^3.1.0"
@@ -184,9 +178,9 @@
     webpack-bundle-analyzer "^2.9.1"
     yargs "^10.0.3"
 
-"@folio/stripes-components@^2.0.0", "@folio/stripes-components@^2.0.12", "@folio/stripes-components@^2.0.18", "@folio/stripes-components@^2.0.18000345":
-  version "2.0.18000345"
-  resolved "https://repository.folio.org/repository/npm-folioci/@folio/stripes-components/-/stripes-components-2.0.18000345.tgz#de0937d8d4e209356ec8ea0ba2e9ce4594efaef2"
+"@folio/stripes-components@2.0.18000346", "@folio/stripes-components@^2.0.0", "@folio/stripes-components@^2.0.12", "@folio/stripes-components@^2.0.18":
+  version "2.0.18000346"
+  resolved "https://repository.folio.org/repository/npm-folioci/@folio/stripes-components/-/stripes-components-2.0.18000346.tgz#961ad1c8ee2792ce7a723a2dcb3252a18412fb08"
   dependencies:
     "@folio/stripes-connect" "^3.1.3"
     "@folio/stripes-form" "^0.8.2"
@@ -226,7 +220,7 @@
     redux-crud "^3.0.0"
     uuid "^3.0.1"
 
-"@folio/stripes-core@^2.9.0":
+"@folio/stripes-core@^2.9.0", "@folio/stripes-core@^2.9.6":
   version "2.9.6000263"
   resolved "https://repository.folio.org/repository/npm-folioci/@folio/stripes-core/-/stripes-core-2.9.6000263.tgz#66e20623faa189c1b43885d9e844c6d159ac15d9"
   dependencies:
@@ -335,10 +329,9 @@
     prop-types "^15.5.10"
 
 "@folio/stripes-smart-components@^1.4.0":
-  version "1.4.15000176"
-  resolved "https://repository.folio.org/repository/npm-folioci/@folio/stripes-smart-components/-/stripes-smart-components-1.4.15000176.tgz#d55e89c75b5b58d897fdaafac2a0b910a7c9d4c3"
+  version "1.4.15000177"
+  resolved "https://repository.folio.org/repository/npm-folioci/@folio/stripes-smart-components/-/stripes-smart-components-1.4.15000177.tgz#30584c8c7cea2790262123b6a23bde57cc724806"
   dependencies:
-    "@folio/react-githubish-mentions" "^1.2.1"
     "@folio/react-intl-safe-html" "^1.0.1"
     "@folio/stripes-components" "^2.0.18"
     "@folio/stripes-form" "^0.8.2"
@@ -423,8 +416,8 @@ acorn@^5.0.0, acorn@^5.5.0:
   resolved "https://registry.yarnpkg.com/acorn/-/acorn-5.5.3.tgz#f473dd47e0277a08e28e9bec5aeeb04751f0b8c9"
 
 acorn@^5.3.0:
-  version "5.6.0"
-  resolved "https://registry.yarnpkg.com/acorn/-/acorn-5.6.0.tgz#572bedb377a1c61b7a289e72b8c5cfeb7baaf0bf"
+  version "5.6.1"
+  resolved "https://registry.yarnpkg.com/acorn/-/acorn-5.6.1.tgz#c9e50c3e3717cf897f1b071ceadbb543bbc0a8d4"
 
 action-names@^0.3.2:
   version "0.3.2"
@@ -820,7 +813,7 @@ babel-code-frame@^6.22.0, babel-code-frame@^6.26.0:
     esutils "^2.0.2"
     js-tokens "^3.0.2"
 
-babel-core@^6.23.1, babel-core@^6.26.0:
+babel-core@^6.23.1, babel-core@^6.26.0, babel-core@^6.26.3:
   version "6.26.3"
   resolved "https://registry.yarnpkg.com/babel-core/-/babel-core-6.26.3.tgz#b2e2f09e342d0f0c88e2f02e067794125e75c207"
   dependencies:
@@ -3938,6 +3931,10 @@ get-stdin@^5.0.1:
   version "5.0.1"
   resolved "https://registry.yarnpkg.com/get-stdin/-/get-stdin-5.0.1.tgz#122e161591e21ff4c52530305693f20e6393a398"
 
+get-stdin@^6.0.0:
+  version "6.0.0"
+  resolved "https://registry.yarnpkg.com/get-stdin/-/get-stdin-6.0.0.tgz#9e09bf712b360ab9225e812048f71fde9c89657b"
+
 get-stream@^3.0.0:
   version "3.0.0"
   resolved "https://registry.yarnpkg.com/get-stream/-/get-stream-3.0.0.tgz#8e943d1358dc37555054ecbe2edb05aa174ede14"
@@ -5943,7 +5940,11 @@ moment-timezone@^0.5.14, moment-timezone@^0.5.17:
   dependencies:
     moment ">= 2.9.0"
 
-"moment@>= 2.9.0", moment@^2.17.1, moment@^2.19.1, moment@^2.22.1:
+"moment@>= 2.9.0", moment@^2.19.1, moment@^2.22.1:
+  version "2.22.2"
+  resolved "https://registry.yarnpkg.com/moment/-/moment-2.22.2.tgz#3c257f9839fc0e93ff53149632239eb90783ff66"
+
+moment@^2.17.1:
   version "2.22.1"
   resolved "https://registry.yarnpkg.com/moment/-/moment-2.22.1.tgz#529a2e9bf973f259c9643d237fda84de3a26e8ad"
 
@@ -7426,10 +7427,6 @@ react-overlays@^0.8.0, react-overlays@^0.8.3:
     react-transition-group "^2.2.0"
     warning "^3.0.0"
 
-react-portal-hoc@^0.4.1:
-  version "0.4.2"
-  resolved "https://registry.yarnpkg.com/react-portal-hoc/-/react-portal-hoc-0.4.2.tgz#6e25a74b39596be3b3f3322bdbeb8ea2e26fcb5e"
-
 react-prop-types@^0.4.0:
   version "0.4.0"
   resolved "https://registry.yarnpkg.com/react-prop-types/-/react-prop-types-0.4.0.tgz#f99b0bfb4006929c9af2051e7c1414a5c75b93d0"
@@ -8785,10 +8782,6 @@ tether@^1.4.3:
 text-table@~0.2.0:
   version "0.2.0"
   resolved "https://registry.yarnpkg.com/text-table/-/text-table-0.2.0.tgz#7f5ee823ae805207c00af2df4a84ec3fcfa570b4"
-
-"textarea-caret@git://github.com/mattkrick/textarea-caret-position.git#ede461f40712238c505e4a1861fc68de6e7731ad":
-  version "3.0.2"
-  resolved "git://github.com/mattkrick/textarea-caret-position.git#ede461f40712238c505e4a1861fc68de6e7731ad"
 
 throttleit@0.0.2:
   version "0.0.2"
