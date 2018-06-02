@@ -10,12 +10,12 @@ import RootProxySelectField from './_fields/root-proxy-select';
 
 class SettingsRootProxy extends Component {
   static propTypes = {
-    rootProxies: PropTypes.object.isRequired
+    proxyTypes: PropTypes.object.isRequired
   };
 
   render() {
     let {
-      rootProxies
+      proxyTypes
     } = this.props;
 
     return (
@@ -24,7 +24,7 @@ class SettingsRootProxy extends Component {
       >
         <h3>Root Proxy Setting</h3>
 
-        {rootProxies.isLoading ? (
+        {proxyTypes.isLoading ? (
           <Icon icon="spinner-ellipsis" />
         ) : (
           <form
@@ -35,7 +35,7 @@ class SettingsRootProxy extends Component {
               data-test-eholdings-settings-root-proxy-select
               className={styles['settings-root-proxy-form']}
             >
-              <RootProxySelectField proxies={rootProxies} />
+              <RootProxySelectField proxyTypes={proxyTypes} />
             </div>
           </form>
         )}

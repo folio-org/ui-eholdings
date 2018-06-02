@@ -90,27 +90,38 @@ export default function configure() {
     return JSON.parse(request.requestBody);
   });
 
-  // Root Proxies
-  this.get('/root-proxies', {
+  // Current root proxy
+  this.get('/root-proxy', {
+    data:
+      {
+        id: 'eholdings/root-proxy',
+        type: 'rootProxies',
+        attributes: {
+          id: 'eholdings/root-proxy',
+          proxyTypeId: 'EZProxy'
+        }
+      }
+  });
+
+  // Available root proxies
+  this.get('/proxy-types', {
     data: [
       {
         id: 'some-selected-value',
-        type: 'rootProxy',
+        type: 'proxyTypes',
         attributes: {
           id: 'some-selected-value',
           name: 'some-default-name',
           urlMask: '',
-          selected: true
         }
       },
       {
         id: 'some-unselected-value',
-        type: 'rootProxy',
+        type: 'proxyTypes',
         attributes: {
           id: 'some-unselected-value',
           name: 'some-name',
           urlMask: '',
-          selected: false
         }
       }
     ]

@@ -23,16 +23,24 @@ export const Configuration = model({
   }
 );
 
-export const RootProxy = model({
-  type: 'root-proxies',
-  // id is 'root-proxies' so it will be appended to this path when
-  // retrieving the configuration
-  path: '/eholdings/root-proxies'
+export const ProxyType = model({
+  type: 'proxyTypes',
+  path: '/eholdings/proxy-types'
 })(
-  class RootProxy {
+  class ProxyType {
     id = '';
     name = '';
     urlMask = '';
-    selected = false;
   }
 );
+
+export const RootProxy = model({
+  type: 'rootProxies',
+  path: '/eholdings/root-proxy'
+})(
+  class RootProxy {
+    id = '';
+    proxyTypeId = '';
+  }
+);
+

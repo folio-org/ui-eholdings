@@ -3,25 +3,25 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
 import { createResolver } from '../redux';
-import { RootProxy } from '../redux/application';
+import { ProxyType } from '../redux/application';
 import View from '../components/settings-root-proxy';
 
 class SettingsRootProxyRoute extends Component {
   static propTypes = {
-    rootProxies: PropTypes.object.isRequired,
-    getRootProxies: PropTypes.func.isRequired
+    proxyTypes: PropTypes.object.isRequired,
+    getProxyTypes: PropTypes.func.isRequired
   };
 
   componentWillMount() {
-    this.props.getRootProxies();
+    this.props.getProxyTypes();
   }
 
   render() {
-    let { rootProxies } = this.props;
+    let { proxyTypes } = this.props;
 
     return (
       <View
-        rootProxies={rootProxies}
+        proxyTypes={proxyTypes}
       />
     );
   }
@@ -29,8 +29,8 @@ class SettingsRootProxyRoute extends Component {
 
 export default connect(
   ({ eholdings: { data } }) => ({
-    rootProxies: createResolver(data).query('root-proxies')
+    proxyTypes: createResolver(data).query('proxyTypes')
   }), {
-    getRootProxies: () => RootProxy.query()
+    getProxyTypes: () => ProxyType.query()
   }
 )(SettingsRootProxyRoute);
