@@ -57,7 +57,7 @@ jobs:
           at: ~/
       - run:
           name: Run tests
-          command: yarn test --karma.singleRun --karma.browsers=Chrome --coverage
+          command: yarn test --karma.singleRun --karma.browsers=Chrome --karma.reporters mocha junit --coverage
       - store_test_results:
           path: ./artifacts/junit
       - store_artifacts:
@@ -75,7 +75,7 @@ jobs:
           at: ~/
       - run:
           name: Run tests
-          command: yarn test --karma.singleRun --karma.browsers=bs_safari_11
+          command: yarn test --karma.singleRun --karma.browsers=bs_safari_11 --karma.reporters mocha junit BrowserStack
       - store_test_results:
           path: ./artifacts/junit
       - store_artifacts:
@@ -96,7 +96,7 @@ jobs:
             firefox --version
       - run:
           name: Run tests
-          command: yarn test --karma.singleRun --karma.browsers=Firefox
+          command: yarn test --karma.singleRun --karma.browsers=Firefox --karma.reporters mocha junit
       - store_test_results:
           path: ./artifacts/junit
       - store_artifacts:
@@ -111,7 +111,7 @@ jobs:
           at: ~/
       - run:
           name: Run tests
-          command: yarn test --karma.singleRun --karma.browsers=bs_ieEdge_windows || true
+          command: yarn test --karma.singleRun --karma.browsers=bs_ieEdge_windows --karma.reporters mocha junit BrowserStack || true
       - store_test_results:
           path: ./artifacts/junit
       - store_artifacts:
@@ -126,7 +126,7 @@ jobs:
           at: ~/
       - run:
           name: Run tests
-          command: yarn test --karma.singleRun --karma.browsers=bs_ie11_windows || true
+          command: yarn test --karma.singleRun --karma.browsers=bs_ie11_windows --karma.reporters mocha junit BrowserStack || true
       - store_test_results:
           path: ./artifacts/junit
       - store_artifacts:
