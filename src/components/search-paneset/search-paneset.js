@@ -7,6 +7,8 @@ import {
   PaneMenu
 } from '@folio/stripes-components';
 import capitalize from 'lodash/capitalize';
+import { injectIntl, intlShape } from 'react-intl';
+
 import { qs } from '../utilities';
 import SearchPane from '../search-pane';
 import ResultsPane from '../results-pane';
@@ -15,7 +17,7 @@ import SearchPaneVignette from '../search-pane-vignette';
 import Link from '../link';
 import styles from './search-paneset.css';
 
-export default class SearchPaneset extends React.Component {
+class SearchPaneset extends React.Component {
   static propTypes = {
     searchForm: PropTypes.node,
     hideFilters: PropTypes.bool,
@@ -27,7 +29,8 @@ export default class SearchPaneset extends React.Component {
     location: PropTypes.shape({
       pathname: PropTypes.string.isRequired,
       search: PropTypes.string.isRequired
-    }).isRequired
+    }).isRequired,
+    intl: intlShape.isRequired
   };
 
   static defaultProps = {
@@ -35,7 +38,6 @@ export default class SearchPaneset extends React.Component {
   };
 
   static contextTypes = {
-    intl: PropTypes.object,
     router: PropTypes.shape({
       history: PropTypes.object
     })
@@ -100,9 +102,9 @@ export default class SearchPaneset extends React.Component {
       resultsView,
       detailsView,
       totalResults,
-      isLoading
+      isLoading,
+      intl
     } = this.props;
-    let { intl } = this.context;
 
     // only hide filters if there are results and always hide filters when a detail view is visible
     hideFilters = (hideFilters && !!resultsView) || !!detailsView;
@@ -114,11 +116,10 @@ export default class SearchPaneset extends React.Component {
 
     let resultsPaneSub = 'Loading...';
     if (!isLoading) {
-      resultsPaneSub = `${intl.formatNumber(totalResults)} search result`;
-
-      if (totalResults > 1) {
-        resultsPaneSub += 's';
-      }
+      resultsPaneSub = intl.formatMessage(
+        { id: 'ui-eholdings.resultCount' },
+        { count: totalResults }
+      );
     }
 
     return (
@@ -200,3 +201,5 @@ export default class SearchPaneset extends React.Component {
     );
   }
 }
+
+export default injectIntl(SearchPaneset);
