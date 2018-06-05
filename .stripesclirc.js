@@ -63,13 +63,6 @@ const servePlugin = {
 }
 
 const testPlugin = {
-  options: {
-    coverage: {
-      describe: 'Enable Karma coverage reports',
-      type: 'boolean',
-      alias: 'karma.coverage', // this allows --coverage to be passed to Karma
-    },
-  },
   beforeBuild: (options) => {
     return (config) => {
       let babelLoaderConfigIndex = config.module.rules.findIndex((rule) => {
@@ -84,14 +77,6 @@ const testPlugin = {
       config.module.rules[babelLoaderConfigIndex].options.plugins.push(
         [require.resolve('babel-plugin-transform-decorators-legacy')]
       );
-
-      // Brittle way of injecting babel-plugin-istanbul into the webpack config.
-      // Should probably be moved to stripes-core when it has more test infrastructure.
-      if (options.coverage || options.karma.coverage) {
-        config.module.rules[babelLoaderConfigIndex].options.plugins.push(
-          require.resolve('babel-plugin-istanbul')
-        );
-      }
 
       return config;
     };
