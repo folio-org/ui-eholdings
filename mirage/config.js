@@ -94,34 +94,39 @@ export default function configure() {
   this.get('/root-proxy', {
     data:
       {
-        id: 'eholdings/root-proxy',
+        id: 'root-proxy',
         type: 'rootProxies',
         attributes: {
-          id: 'eholdings/root-proxy',
-          proxyTypeId: 'EZProxy'
+          id: 'root-proxy',
+          proxyTypeId: 'bigTestJS'
         }
       }
+  });
+
+  // update root proxy
+  this.put('/root-proxy', (_, request) => {
+    return JSON.parse(request.requestBody);
   });
 
   // Available root proxies
   this.get('/proxy-types', {
     data: [
       {
-        id: 'some-selected-value',
+        id: 'bigTestJS',
         type: 'proxyTypes',
         attributes: {
-          id: 'some-selected-value',
-          name: 'some-default-name',
-          urlMask: '',
+          id: 'bigTestJS',
+          name: 'bigTestJS',
+          urlMask: 'https://github.com/bigtestjs',
         }
       },
       {
-        id: 'some-unselected-value',
+        id: 'microstates',
         type: 'proxyTypes',
         attributes: {
-          id: 'some-unselected-value',
-          name: 'some-name',
-          urlMask: '',
+          id: 'microstates',
+          name: 'microstates',
+          urlMask: 'https://github.com/microstates',
         }
       }
     ]

@@ -6,14 +6,14 @@ import { Select } from '@folio/stripes-components';
 import styles from './root-proxy-select-field.css';
 
 export default function RootProxySelectField({ proxyTypes }) {
-  let rootProxyRecords = proxyTypes.resolver.state.proxyTypes.records;
+  let proxyTypesRecords = proxyTypes.resolver.state.proxyTypes.records;
   let options = [];
 
-  if (rootProxyRecords) {
-    for (let rootProxyRecord in rootProxyRecords) {
-      if (Object.prototype.hasOwnProperty.call(rootProxyRecords, rootProxyRecord)) {
-        options.push({ label: rootProxyRecords[rootProxyRecord].attributes.name,
-          value: rootProxyRecords[rootProxyRecord].attributes.id });
+  if (proxyTypesRecords) {
+    for (let proxyTypesRecord in proxyTypesRecords) {
+      if (Object.prototype.hasOwnProperty.call(proxyTypesRecords, proxyTypesRecord)) {
+        options.push({ label: proxyTypesRecords[proxyTypesRecord].attributes.name,
+          value: proxyTypesRecords[proxyTypesRecord].attributes.id });
       }
     }
   }
@@ -27,8 +27,8 @@ export default function RootProxySelectField({ proxyTypes }) {
         id="eholdings-settings-root-proxy-server"
         name="rootProxyServer"
         component={Select}
-        label="Root Proxy Server"
         dataOptions={options}
+        label="Root Proxy Server"
       />
     </div>
   );

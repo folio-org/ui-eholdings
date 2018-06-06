@@ -36,7 +36,7 @@ export const ProxyType = model({
 
 export const RootProxy = model({
   type: 'rootProxies',
-  path: '/eholdings/root-proxy'
+  path: '/eholdings'
 })(
   class RootProxy {
     id = '';
