@@ -34,7 +34,7 @@ import Toast from './toast';
   toast = Toast
 
   name = fillable('[data-test-eholdings-title-name-field] input');
-  nameHasError = hasClassBeginningWith('[data-test-eholdings-title-name-field] input', 'feedbackError--');
+  nameHasError = hasClassBeginningWith('[data-test-eholdings-title-name-field] input', 'hasError--');
 
   selectPublicationType = fillable('[data-test-eholdings-publication-type-field] select');
   selectContributorType = fillable('[data-test-eholdings-contributor-type] select');
@@ -43,12 +43,12 @@ import Toast from './toast';
   fillPublisher = fillable('[data-test-eholdings-publisher-name-field] input');
   editionValue = value('[data-test-eholdings-edition-field] input');
   publisherValue = value('[data-test-eholdings-publisher-name-field] input');
-  publisherHasError = hasClassBeginningWith('[data-test-eholdings-publisher-name-field] input', 'feedbackError--');
-  editionHasError = hasClassBeginningWith('[data-test-eholdings-edition-field] input', 'feedbackError--');
+  publisherHasError = hasClassBeginningWith('[data-test-eholdings-publisher-name-field] input', 'hasError--');
+  editionHasError = hasClassBeginningWith('[data-test-eholdings-edition-field] input', 'hasError--');
   fillContributor = fillable('[data-test-eholdings-contributor-contributor] input')
   publisherValue = value('[data-test-eholdings-publisher-name-field] input');
-  publisherHasError = hasClassBeginningWith('[data-test-eholdings-publisher-name-field] input', 'feedbackError--');
-  contributorHasError = hasClassBeginningWith('[data-test-eholdings-contributor-contributor] input', 'feedbackError--');
+  publisherHasError = hasClassBeginningWith('[data-test-eholdings-publisher-name-field] input', 'hasError--');
+  contributorHasError = hasClassBeginningWith('[data-test-eholdings-contributor-contributor] input', 'hasError--');
   contributorError = text('[data-test-eholdings-contributor-contributor] [class^="feedbackError--"]');
 
   removeContributorCollection = collection('[data-test-eholdings-contributor-fields-remove-row-button]', {
@@ -60,7 +60,7 @@ import Toast from './toast';
   identifiersRowList = collection('[data-test-eholdings-identifiers-fields-row]', {
     type: fillable('[data-test-eholdings-identifiers-fields-type] select'),
     id: fillable('[data-test-eholdings-identifiers-fields-id] input'),
-    idHasError: hasClassBeginningWith('[data-test-eholdings-identifiers-fields-id] input', 'feedbackError--'),
+    idHasError: hasClassBeginningWith('[data-test-eholdings-identifiers-fields-id] input', 'hasError--'),
     clickRemoveRowButton: clickable('[data-test-eholdings-identifiers-fields-remove-row-button] button')
   });
 }
