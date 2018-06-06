@@ -84,6 +84,7 @@ import Datepicker from './datepicker';
   inputCustomUrlValue = fillable('[data-test-eholdings-custom-url-textfield] input');
   customEmbargoSelectValue = value('[data-test-eholdings-custom-embargo-select] select');
   hasCustomEmbargoSelect = isPresent('[data-test-eholdings-custom-embargo-select] select');
+  hasCustomUrlField = isPresent('[data-test-eholdings-custom-url-textfield]');
   selectEmbargoUnit = fillable('[data-test-eholdings-custom-embargo-select] select');
   blurEmbargoValue = blurrable('[data-test-eholdings-custom-embargo-textfield] input');
   blurEmbargoUnit = blurrable('[data-test-eholdings-custom-embargo-select] select');
