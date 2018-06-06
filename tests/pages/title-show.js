@@ -20,7 +20,7 @@ import Toast from './toast';
 @interactor class AddToCustomPackageModal {
   hasPackageError = hasClassBeginningWith(
     '[data-test-eholdings-package-select-field] select',
-    'feedbackError--'
+    'hasError--'
   );
 
   choosePackage = fillable('[data-test-eholdings-package-select-field] select');

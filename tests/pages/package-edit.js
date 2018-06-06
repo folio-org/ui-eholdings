@@ -54,7 +54,7 @@ import Datepicker from './datepicker';
 
   name = fillable('[data-test-eholdings-package-name-field] input');
   contentType = fillable('[data-test-eholdings-package-content-type-field] select');
-  nameHasError = hasClassBeginningWith('[data-test-eholdings-package-name-field] input', 'feedbackError--');
+  nameHasError = hasClassBeginningWith('[data-test-eholdings-package-name-field] input', 'hasError--');
 
   dateRangeRowList = collection('[data-test-eholdings-coverage-fields-date-range-row]', {
     beginDate: new Datepicker('[data-test-eholdings-coverage-fields-date-range-begin]'),

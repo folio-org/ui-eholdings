@@ -21,9 +21,9 @@ export default @interactor class Datepicker {
     keyCode: 13
   });
 
-  isValid = hasClassBeginningWith('input', 'feedbackValid--');
-  isInvalid = hasClassBeginningWith('input', 'feedbackError--');
-  isChanged = hasClassBeginningWith('input', 'feedbackChanged--');
+  isValid = hasClassBeginningWith('input', 'isValid--');
+  isInvalid = hasClassBeginningWith('input', 'hasError--');
+  isChanged = hasClassBeginningWith('input', 'isChanged--');
   validationError = text('div[class^=feedback]');
 
   fillAndBlur(date) {

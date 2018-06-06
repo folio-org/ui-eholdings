@@ -20,27 +20,6 @@ function mirage(config, enabled = false) {
   }
 }
 
-const buildPlugin = {
-  beforeBuild: (options) => {
-    return (config) => {
-      // Shove babel-plugin-remove-jsx-attributes into babel plugins
-      // Should be moved to stripes-core as soon as we feel comfortable with its effectiveness
-      let babelLoaderConfigIndex = config.module.rules.findIndex((rule) => {
-        return rule.loader === 'babel-loader';
-      });
-
-      // Remove all data-test or data-test- attributes
-      config.module.rules[babelLoaderConfigIndex].options.plugins = [
-        [require.resolve('babel-plugin-remove-jsx-attributes'), {
-          patterns: ['^data-test.*$']
-        }]
-      ];
-
-      return config;
-    };
-  }
-}
-
 const servePlugin = {
   // Standard yargs options object
   options: {
@@ -62,27 +41,6 @@ const servePlugin = {
   },
 }
 
-const testPlugin = {
-  beforeBuild: (options) => {
-    return (config) => {
-      let babelLoaderConfigIndex = config.module.rules.findIndex((rule) => {
-        return rule.loader === 'babel-loader';
-      });
-
-      if(!config.module.rules[babelLoaderConfigIndex].options.plugins) {
-        config.module.rules[babelLoaderConfigIndex].options.plugins = [];
-      }
-
-      // Make decorators possible
-      config.module.rules[babelLoaderConfigIndex].options.plugins.push(
-        [require.resolve('babel-plugin-transform-decorators-legacy')]
-      );
-
-      return config;
-    };
-  },
-}
-
 module.exports = {
   // Assign defaults to existing CLI options
   okapi: url,
@@ -91,9 +49,7 @@ module.exports = {
 
   // Custom command extension
   plugins: {
-    build: buildPlugin,
-    serve: servePlugin,
-    test: testPlugin,
+    serve: servePlugin
   },
 
   // Aliases

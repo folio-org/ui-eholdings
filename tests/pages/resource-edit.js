@@ -49,7 +49,7 @@ import Datepicker from './datepicker';
   toast = Toast;
 
   name = fillable('[data-test-eholdings-resource-name-field] input');
-  nameHasError = hasClassBeginningWith('[data-test-eholdings-resource-name-field] input', 'feedbackError--');
+  nameHasError = hasClassBeginningWith('[data-test-eholdings-resource-name-field] input', 'hasError--');
 
   clickAddRowButton = clickable('[data-test-eholdings-coverage-fields-add-row-button] button');
 
@@ -69,7 +69,7 @@ import Datepicker from './datepicker';
   customUrlFieldValue = value('[data-test-eholdings-custom-url-textfield] input');
   fillCoverageStatement = fillable('[data-test-eholdings-coverage-statement-textarea] textarea');
   blurCoverageStatement = blurrable('[data-test-eholdings-coverage-statement-textarea] textarea');
-  coverageStatementHasError = hasClassBeginningWith('[data-test-eholdings-coverage-statement-textarea] textarea', 'feedbackError--');
+  coverageStatementHasError = hasClassBeginningWith('[data-test-eholdings-coverage-statement-textarea] textarea', 'hasError--');
   validationErrorOnCoverageStatement = text('[data-test-eholdings-coverage-statement-textarea] [class^="feedbackError--"]');
 
   inputCoverageStatement = action(function (statement) {
@@ -102,7 +102,7 @@ import Datepicker from './datepicker';
   publicationTypeValue = value('[data-test-eholdings-publication-type-field] select');
   fillPublisher = fillable('[data-test-eholdings-publisher-name-field] input');
   publisherValue = value('[data-test-eholdings-publisher-name-field] input');
-  publisherHasError = hasClassBeginningWith('[data-test-eholdings-publisher-name-field] input', 'feedbackError--');
+  publisherHasError = hasClassBeginningWith('[data-test-eholdings-publisher-name-field] input', 'hasError--');
 }
 
 export default new ResourceEditPage('[data-test-eholdings-details-view="resource"]');
