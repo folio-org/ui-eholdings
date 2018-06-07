@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { reduxForm, Field } from 'redux-form';
 import isEqual from 'lodash/isEqual';
@@ -10,6 +10,7 @@ import {
 import { processErrors } from '../../utilities';
 
 import DetailsView from '../../details-view';
+import VisibilityField from '../_fields/visibility';
 import CustomCoverageFields, { validate as validateCoverageDates } from '../_fields/custom-coverage';
 import CustomUrlFields, { validate as validateUrlFields } from '../_fields/custom-url';
 import CoverageStatementFields, { validate as validateCoverageStatement } from '../_fields/coverage-statement';
@@ -41,7 +42,6 @@ class ResourceEditCustomTitle extends Component {
 
   state = {
     resourceSelected: this.props.initialValues.isSelected,
-    resourceVisible: this.props.initialValues.isVisible,
     showSelectionModal: false,
     allowFormToSubmit: false,
     formValues: {}
@@ -52,11 +52,9 @@ class ResourceEditCustomTitle extends Component {
     let needsUpdate = !isEqual(this.props.model, nextProps.model);
 
     if ((nextProps.initialValues.isSelected !== this.props.initialValues.isSelected) ||
-    (nextProps.initialValues.isVisible !== this.props.initialValues.isVisible)) {
+        (nextProps.initialValues.isVisible !== this.props.initialValues.isVisible)) {
       this.setState({
-        ...this.state,
-        resourceSelected: nextProps.initialValues.isSelected,
-        resourceVisible: nextProps.initialValues.isVisible
+        resourceSelected: nextProps.initialValues.isSelected
       });
     }
 
@@ -78,12 +76,6 @@ class ResourceEditCustomTitle extends Component {
   handleSelectionToggle = (e) => {
     this.setState({
       resourceSelected: e.target.checked
-    });
-  }
-
-  handleVisibilityToggle = (e) => {
-    this.setState({
-      resourceVisible: e.target.checked
     });
   }
 
@@ -130,8 +122,7 @@ class ResourceEditCustomTitle extends Component {
 
     let {
       showSelectionModal,
-      resourceSelected,
-      resourceVisible
+      resourceSelected
     } = this.state;
 
     let actionMenuItems = [
@@ -144,6 +135,10 @@ class ResourceEditCustomTitle extends Component {
       }
     ];
 
+    let visibilityMessage = model.package.visibilityData.isHidden
+      ? '(All titles in this package are hidden)'
+      : model.visibilityData.reason && `(${model.visibilityData.reason})`;
+
     return (
       <div>
         <Toaster toasts={processErrors(model)} position="bottom" />
@@ -155,14 +150,17 @@ class ResourceEditCustomTitle extends Component {
           actionMenuItems={actionMenuItems}
           bodyContent={(
             <form onSubmit={handleSubmit(this.handleOnSubmit)}>
-              <DetailsViewSection
-                label="Resource information"
-              >
+              <DetailsViewSection label="Resource settings">
                 {resourceSelected ? (
-                  <CustomUrlFields />
-                    ) : (
-                      <p>Add the resource to holdings to set custom url.</p>
-                  )}
+                  <Fragment>
+                    <VisibilityField disabled={visibilityMessage} />
+                    <CustomUrlFields />
+                  </Fragment>
+                ) : (
+                  <p data-test-eholdings-resource-edit-settings-message>
+                    Add the resource to holdings to customize resource settings.
+                  </p>
+                )}
               </DetailsViewSection>
               <DetailsViewSection
                 label="Holding status"
@@ -181,42 +179,6 @@ class ResourceEditCustomTitle extends Component {
                     id="custom-resource-holding-toggle-switch"
                   />
                 </label>
-              </DetailsViewSection>
-              <DetailsViewSection
-                label="Visibility"
-              >
-                {resourceSelected ? (
-                  <div>
-                    <label
-                      data-test-eholdings-resource-toggle-visibility
-                      htmlFor="custom-resource-visibility-toggle-switch"
-                    >
-                      <h4>
-                        {resourceVisible
-                      ? 'Visible to patrons'
-                    : 'Hidden from patrons'}
-                      </h4>
-                      <br />
-                      <Field
-                        name="isVisible"
-                        component={ToggleSwitch}
-                        checked={resourceVisible}
-                        onChange={this.handleVisibilityToggle}
-                        id="custom-resource-visibility-toggle-switch"
-                      />
-                    </label>
-
-                    {!resourceVisible && (
-                    <div data-test-eholdings-resource-toggle-hidden-reason>
-                      {model.package.visibilityData.isHidden
-                           ? 'All titles in this package are hidden.'
-                           : model.visibilityData.reason}
-                    </div>
-                     )}
-                  </div>
-                 ) : (
-                   <p data-test-eholdings-resource-not-shown-label>Not shown to patrons.</p>
-                 )}
               </DetailsViewSection>
               <DetailsViewSection
                 label="Coverage dates"
