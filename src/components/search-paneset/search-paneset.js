@@ -7,6 +7,8 @@ import {
   PaneMenu
 } from '@folio/stripes-components';
 import capitalize from 'lodash/capitalize';
+import { FormattedMessage } from 'react-intl';
+
 import { qs } from '../utilities';
 import SearchPane from '../search-pane';
 import ResultsPane from '../results-pane';
@@ -35,7 +37,6 @@ export default class SearchPaneset extends React.Component {
   };
 
   static contextTypes = {
-    intl: PropTypes.object,
     router: PropTypes.shape({
       history: PropTypes.object
     })
@@ -102,7 +103,6 @@ export default class SearchPaneset extends React.Component {
       totalResults,
       isLoading
     } = this.props;
-    let { intl } = this.context;
 
     // only hide filters if there are results and always hide filters when a detail view is visible
     hideFilters = (hideFilters && !!resultsView) || !!detailsView;
@@ -114,11 +114,14 @@ export default class SearchPaneset extends React.Component {
 
     let resultsPaneSub = 'Loading...';
     if (!isLoading) {
-      resultsPaneSub = `${intl.formatNumber(totalResults)} search result`;
-
-      if (totalResults > 1) {
-        resultsPaneSub += 's';
-      }
+      resultsPaneSub = (
+        <FormattedMessage
+          id="ui-eholdings.resultCount"
+          values={{
+            count: totalResults
+          }}
+        />
+      );
     }
 
     return (

@@ -1,0 +1,3 @@
+{
+  "resultCount": "{count, number} {count, plural, one {search result} other {search results}}"
+}
