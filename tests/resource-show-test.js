@@ -3,7 +3,6 @@ import { describe, beforeEach, it } from '@bigtest/mocha';
 
 import { describeApplication } from './helpers';
 import ResourcePage from './pages/resource-show';
-import NavigationModal from './pages/navigation-modal';
 
 describeApplication('ResourceShow', () => {
   let provider,
@@ -190,54 +189,6 @@ describeApplication('ResourceShow', () => {
       it('has two errors', () => {
         expect(ResourcePage.toast.errorToastCount).to.equal(2);
         expect(ResourcePage.toast.totalToastCount).to.equal(2);
-      });
-    });
-
-    describe('navigating away when editing a field', () => {
-      beforeEach(() => {
-        return ResourcePage
-          .toggleIsSelected()
-          .addCoverage()
-          .clickProvider();
-      });
-
-      it.always('does not navigate away', function () {
-        expect(this.app.history.location.pathname)
-          .to.equal(`/eholdings/resources/${resource.titleId}`);
-      });
-
-      it('shows a navigation modal', () => {
-        expect(NavigationModal.isVisible).to.be.true;
-      });
-
-      describe('when clicking continue', () => {
-        beforeEach(() => {
-          return NavigationModal.clickContinue();
-        });
-
-        it('closes the modal', () => {
-          expect(NavigationModal.isPresent).to.be.false;
-        });
-
-        it('continues navigation', function () {
-          expect(this.app.history.location.pathname)
-            .to.equal(`/eholdings/providers/${resource.packageId}`);
-        });
-      });
-
-      describe('when clicking dismiss', () => {
-        beforeEach(() => {
-          return NavigationModal.clickDismiss();
-        });
-
-        it('closes the modal', () => {
-          expect(NavigationModal.isPresent).to.be.false;
-        });
-
-        it.always('does not navigation away', function () {
-          expect(this.app.history.location.pathname)
-            .to.equal(`/eholdings/resources/${resource.titleId}`);
-        });
       });
     });
   });

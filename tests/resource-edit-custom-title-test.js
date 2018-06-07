@@ -4,7 +4,6 @@ import { describe, beforeEach, it } from '@bigtest/mocha';
 import { describeApplication } from './helpers';
 import ResourceShowPage from './pages/resource-show';
 import ResourceEditPage from './pages/resource-edit';
-import ResourceCoverage from './pages/resource-custom-coverage';
 
 describeApplication('ResourceEditCustomTitle', () => {
   let provider,
@@ -204,7 +203,7 @@ describeApplication('ResourceEditCustomTitle', () => {
         });
 
         it('displays the saved date range', () => {
-          expect(ResourceCoverage.displayText).to.equal('12/16/2018 - 12/18/2018');
+          expect(ResourceShowPage.customCoverageList).to.equal('2018');
         });
 
         it('displays the saved visibility', () => {
@@ -275,7 +274,7 @@ describeApplication('ResourceEditCustomTitle', () => {
       });
 
       it('displays the original date range', () => {
-        expect(ResourceCoverage.displayText).to.equal('7/16/1969 - 12/19/1972');
+        expect(ResourceShowPage.customCoverageList).to.equal('1969 - 1972');
       });
     });
 
@@ -338,7 +337,7 @@ describeApplication('ResourceEditCustomTitle', () => {
         });
 
         it('displays the saved date range', () => {
-          expect(ResourceCoverage.displayText).to.equal('12/16/2018 - 12/18/2018');
+          expect(ResourceShowPage.customCoverageList).to.equal('2018');
         });
 
         it('shows the new statement value', () => {

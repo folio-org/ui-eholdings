@@ -62,8 +62,8 @@ describeApplication('ResourceEmbargo', () => {
       expect(ResourceShowPage.hasCustomEmbargoPeriod).to.be.false;
     });
 
-    it('displays a message that no custom embargo period has been set', () => {
-      expect(ResourceShowPage.hasNoCustomEmbargoPeriod).to.be.true;
+    it('displays a message that no embargo period has been set', () => {
+      expect(ResourceShowPage.hasNoEmbargoPeriod).to.be.true;
     });
   });
 
@@ -93,8 +93,8 @@ describeApplication('ResourceEmbargo', () => {
       expect(ResourceShowPage.hasCustomEmbargoPeriod).to.be.false;
     });
 
-    it('displays a message that no custom embargo period has been set', () => {
-      expect(ResourceShowPage.hasNoCustomEmbargoPeriod).to.be.true;
+    it('displays a message that no embargo period has been set', () => {
+      expect(ResourceShowPage.hasNoEmbargoPeriod).to.be.true;
     });
   });
 
@@ -117,8 +117,8 @@ describeApplication('ResourceEmbargo', () => {
       expect(ResourceShowPage.hasCustomEmbargoPeriod).to.be.false;
     });
 
-    it('displays a message that no custom embargo period has been set', () => {
-      expect(ResourceShowPage.hasNoCustomEmbargoPeriod).to.be.true;
+    it('displays a message that no embargo period has been set', () => {
+      expect(ResourceShowPage.hasNoEmbargoPeriod).to.be.true;
     });
   });
 
@@ -140,8 +140,8 @@ describeApplication('ResourceEmbargo', () => {
       expect(ResourceShowPage.hasCustomEmbargoPeriod).to.be.false;
     });
 
-    it('displays a message that custom embargo period is not shown', () => {
-      expect(ResourceShowPage.hasCustomEmbargoNotShownStatement).to.be.true;
+    it('displays a message that no embargo period has been set', () => {
+      expect(ResourceShowPage.hasNoEmbargoPeriod).to.be.true;
     });
   });
 
@@ -180,8 +180,8 @@ describeApplication('ResourceEmbargo', () => {
           expect(ResourceShowPage.hasCustomEmbargoPeriod).to.be.false;
         });
 
-        it('displays a message that custom embargo period is not shown', () => {
-          expect(ResourceShowPage.hasCustomEmbargoNotShownStatement).to.be.true;
+        it('displays a message that embargo period is not shown', () => {
+          expect(ResourceShowPage.hasNoEmbargoPeriod).to.be.true;
         });
       });
 

@@ -38,7 +38,6 @@ import Toast from './toast';
   hasErrors = isPresent('[data-test-eholdings-details-view-error="resource"]');
   isSelected = property('[data-test-eholdings-resource-show-selected] input', 'checked');
   isSelecting = hasClassBeginningWith('[data-test-eholdings-resource-show-selected] [data-test-toggle-switch]', 'is-pending--');
-  addCoverage = clickable('[data-test-eholdings-coverage-form-add-button] button');
   hasBackButton = isPresent('[data-test-eholdings-details-view-back-button] button');
   clickBackButton = clickable('[data-test-eholdings-details-view-back-button] button');
   paneTitle = text('[data-test-eholdings-details-view-pane-title]');
@@ -68,8 +67,7 @@ import Toast from './toast';
   hasManagedEmbargoPeriod = isPresent('[data-test-eholdings-resource-show-managed-embargo-period]');
   customEmbargoPeriod = text('[data-test-eholdings-resource-custom-embargo-display]');
   hasCustomEmbargoPeriod = isPresent('[data-test-eholdings-resource-custom-embargo-display]');
-  hasNoCustomEmbargoPeriod = isPresent('[data-test-eholdings-resource-no-custom-embargo-label]');
-  hasCustomEmbargoNotShownStatement = isPresent('[data-test-eholdings-resource-custom-embargo-not-shown-label]');
+  hasNoEmbargoPeriod = isPresent('[data-test-eholdings-resource-no-embargo-label]');
 
   coverageStatement = text('[data-test-eholdings-resource-coverage-statement-display]');
   hasCoverageStatement = isPresent('[data-test-eholdings-resource-coverage-statement-display]');
@@ -78,6 +76,10 @@ import Toast from './toast';
 
   managedCoverageList = text('[data-test-eholdings-resource-show-managed-coverage-list]');
   hasManagedCoverageList = isPresent('[data-test-eholdings-resource-show-managed-coverage-list]');
+
+  customCoverageList = text('[data-test-eholdings-resource-show-custom-coverage-list]');
+  hasCustomCoverageList = isPresent('[data-test-eholdings-resource-show-custom-coverage-list]');
+  hasNoCoverageDate = isPresent('[data-test-eholdings-resource-no-coverage-date-label]');
 
   identifiersList = collection('[data-test-eholdings-identifiers-list-item]', {
     indentifierText: text()

@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import moment from 'moment';
 
 import { createResolver } from '../redux';
 import Resource from '../redux/resource';
@@ -80,27 +79,11 @@ class ResourceShowRoute extends Component {
     }
   }
 
-  coverageSubmitted = (values) => {
-    let { model, updateResource } = this.props;
-    model.customCoverages = values.customCoverages.map((dateRange) => {
-      let beginCoverage = !dateRange.beginCoverage ? null : moment(dateRange.beginCoverage).tz('UTC').format('YYYY-MM-DD');
-      let endCoverage = !dateRange.endCoverage ? null : moment(dateRange.endCoverage).tz('UTC').format('YYYY-MM-DD');
-
-      return {
-        beginCoverage,
-        endCoverage
-      };
-    });
-
-    updateResource(model);
-  }
-
   render() {
     return (
       <View
         model={this.props.model}
         toggleSelected={this.toggleSelected}
-        coverageSubmitted={this.coverageSubmitted}
       />
     );
   }
