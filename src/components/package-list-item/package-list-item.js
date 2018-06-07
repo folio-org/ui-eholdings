@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames/bind';
+import { FormattedNumber } from 'react-intl';
 
 import styles from './package-list-item.css';
 import Link from '../link';
@@ -16,8 +17,6 @@ export default function PackageListItem({
   packageName,
   onClick,
   headingLevel
-}, {
-  intl
 }) {
   let Heading = headingLevel || 'h3';
 
@@ -62,13 +61,13 @@ export default function PackageListItem({
             &nbsp;&bull;&nbsp;
 
             <span data-test-eholdings-package-list-item-num-titles-selected>
-              {intl.formatNumber(item.selectedCount)}
+              <FormattedNumber value={item.selectedCount} />
             </span>
 
             &nbsp;/&nbsp;
 
             <span data-test-eholdings-package-list-item-num-titles>
-              {intl.formatNumber(item.titleCount)}
+              <FormattedNumber value={item.titleCount} />
             </span>
 
             &nbsp;
@@ -101,8 +100,4 @@ PackageListItem.propTypes = {
   packageName: PropTypes.string,
   onClick: PropTypes.func,
   headingLevel: PropTypes.string
-};
-
-PackageListItem.contextTypes = {
-  intl: PropTypes.object
 };

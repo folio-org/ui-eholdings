@@ -13,7 +13,6 @@ export default class PackageCoverageFields extends Component {
   static propTypes = {
     packageCoverage: PropTypes.object, // eslint-disable-line react/no-unused-prop-types
     locale: PropTypes.string, // eslint-disable-line react/no-unused-prop-types
-    intl: PropTypes.object, // eslint-disable-line react/no-unused-prop-types,
     initialValue: PropTypes.array
   };
 

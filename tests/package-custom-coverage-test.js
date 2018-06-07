@@ -54,7 +54,7 @@ describeApplication('PackageCustomCoverage', () => {
     });
 
     it('displays the custom coverage section', () => {
-      expect(PackageShowPage.customCoverage).to.equal('7/16/1969 - 12/19/1972');
+      expect(PackageShowPage.customCoverage).to.equal('7/16/1969 - 12/19/1972');
     });
 
     it.always('should not display a button to add custom coverage', () => {
@@ -81,7 +81,7 @@ describeApplication('PackageCustomCoverage', () => {
       });
 
       it.always('does not remove the custom coverage', () => {
-        expect(PackageShowPage.customCoverage).to.equal('7/16/1969 - 12/19/1972');
+        expect(PackageShowPage.customCoverage).to.equal('7/16/1969 - 12/19/1972');
       });
     });
   });

@@ -8,7 +8,8 @@ import {
   KeyValue,
   PaneMenu
 } from '@folio/stripes-components';
-import { processErrors, formatISODateWithoutTime } from '../../utilities';
+import { FormattedDate, FormattedNumber } from 'react-intl';
+import { processErrors } from '../../utilities';
 
 import DetailsView from '../../details-view';
 import QueryList from '../../query-list';
@@ -30,7 +31,6 @@ export default class PackageShow extends Component {
   };
 
   static contextTypes = {
-    intl: PropTypes.object,
     router: PropTypes.object,
     queryParams: PropTypes.object
   };
@@ -79,7 +79,7 @@ export default class PackageShow extends Component {
 
   render() {
     let { model, fetchPackageTitles } = this.props;
-    let { intl, router, queryParams } = this.context;
+    let { router, queryParams } = this.context;
     let {
       showSelectionModal,
       packageSelected,
@@ -194,13 +194,13 @@ export default class PackageShow extends Component {
 
                 <KeyValue label="Titles selected">
                   <div data-test-eholdings-package-details-titles-selected>
-                    {intl.formatNumber(model.selectedCount)}
+                    <FormattedNumber value={model.selectedCount} />
                   </div>
                 </KeyValue>
 
                 <KeyValue label="Total titles">
                   <div data-test-eholdings-package-details-titles-total>
-                    {intl.formatNumber(model.titleCount)}
+                    <FormattedNumber value={model.titleCount} />
                   </div>
                 </KeyValue>
               </DetailsViewSection>
@@ -265,7 +265,22 @@ export default class PackageShow extends Component {
                       <div>
                         <KeyValue label="Custom coverage dates">
                           <div data-test-eholdings-package-details-custom-coverage-display>
-                            {formatISODateWithoutTime(model.customCoverage.beginCoverage, intl)} - {formatISODateWithoutTime(model.customCoverage.endCoverage, intl) || 'Present'}
+                            <FormattedDate
+                              value={model.customCoverage.beginCoverage}
+                              timeZone="UTC"
+                              year="numeric"
+                              month="numeric"
+                              day="numeric"
+                            />&nbsp;-&nbsp;
+                            {(model.customCoverage.endCoverage) ? (
+                              <FormattedDate
+                                value={model.customCoverage.endCoverage}
+                                timeZone="UTC"
+                                year="numeric"
+                                month="numeric"
+                                day="numeric"
+                              />
+                            ) : 'Present'}
                           </div>
                         </KeyValue>
                       </div>
