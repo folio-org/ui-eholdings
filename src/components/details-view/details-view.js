@@ -276,7 +276,8 @@ export default class DetailsView extends Component {
               <div className={styles['list-header']}>
                 <div>
                   <h3>{capitalize(listType)}</h3>
-                  {resultsLength && (
+
+                  {resultsLength > 0 && (
                     <div data-test-eholdings-details-view-results-count>
                       <p><small>{resultsLength} records found</small></p>
                     </div>
