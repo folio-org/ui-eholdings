@@ -27,7 +27,7 @@ describeApplication('ResourceVisibility', () => {
       });
     });
 
-    it('displays Visibility label as Visible to patrons', () => {
+    it('displays it is visible to patrons', () => {
       expect(ResourceShowPage.isResourceVisible).to.be.true;
     });
   });
@@ -45,8 +45,8 @@ describeApplication('ResourceVisibility', () => {
       });
     });
 
-    it('displays Visibility label as Not shown to patrons', () => {
-      expect(ResourceShowPage.isResourceNotShownLabelPresent).to.be.true;
+    it('displays it is not visible to patrons', () => {
+      expect(ResourceShowPage.isResourceHidden).to.be.true;
     });
   });
 
@@ -63,11 +63,11 @@ describeApplication('ResourceVisibility', () => {
       });
     });
 
-    it('displays Visibility label as hidden from patrons', () => {
+    it('displays it is not visible to patrons', () => {
       expect(ResourceShowPage.isResourceHidden).to.be.true;
     });
 
-    it('maps the hidden reason text', () => {
+    it('displays the hidden reason text', () => {
       expect(ResourceShowPage.hiddenReason).to.equal('The content is for mature audiences only.');
     });
   });
@@ -85,11 +85,11 @@ describeApplication('ResourceVisibility', () => {
       });
     });
 
-    it('displays Visibility label as hidden from patrons', () => {
+    it('displays it is not visibile to patrons', () => {
       expect(ResourceShowPage.isResourceHidden).to.be.true;
     });
 
-    it('maps the hidden reason text', () => {
+    it('displays an empty hidden reason text', () => {
       expect(ResourceShowPage.hiddenReason).to.equal('');
     });
   });
@@ -109,12 +109,12 @@ describeApplication('ResourceVisibility', () => {
       });
     });
 
-    it('displays Visibility label as hidden from patrons', () => {
+    it('displays it is not visibile to patrons', () => {
       expect(ResourceShowPage.isResourceHidden).to.be.true;
     });
 
-    it('maps the hidden reason text', () => {
-      expect(ResourceShowPage.hiddenReason).to.equal('All titles in this package are hidden.');
+    it('displays the hidden reason text', () => {
+      expect(ResourceShowPage.hiddenReason).to.equal('All titles in this package are hidden');
     });
   });
 });

@@ -144,7 +144,7 @@ describeApplication('ResourceEditManagedTitleInManagedPackage', () => {
       beforeEach(() => {
         return ResourceEditPage
           .clickAddRowButton()
-          .toggleVisibility()
+          .toggleIsVisible()
           .dateRangeRowList(0).fillDates('12/16/2018', '12/18/2018')
           .inputCoverageStatement('Only 90s kids would understand.')
           .clickAddCustomEmbargoButton()

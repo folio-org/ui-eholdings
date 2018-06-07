@@ -8,7 +8,8 @@ import {
   interactor,
   property,
   text,
-  value
+  value,
+  computed
 } from '@bigtest/interactor';
 import { hasClassBeginningWith } from './helpers';
 
@@ -36,16 +37,24 @@ import Datepicker from './datepicker';
   checkPeerReviewed = clickable('[data-test-eholdings-peer-reviewed-field] input[type=checkbox]');
   hasBackButton = isPresent('[data-test-eholdings-details-view-back-button] button');
   isSelected = property('[data-test-eholdings-resource-holding-status] input', 'checked');
-  isResourceVisible = property('[data-test-eholdings-resource-toggle-visibility] input', 'checked');
-  isHiddenMessage = text('[data-test-eholdings-resource-toggle-hidden-reason]');
-  isHiddenMessagePresent = isPresent('[data-test-eholdings-resource-toggle-hidden-reason]');
-  isVisibleTogglePresent = isPresent('[data-test-eholdings-resource-toggle-visibility] input');
-  isResourceNotShownLabelPresent = isPresent('[data-test-eholdings-resource-not-shown-label]');
+  isResourceVisible = property('[data-test-eholdings-resource-visibility-field] input[value="true"]', 'checked');
+  isHiddenMessage = computed(function () {
+    let $node = this.$('[data-test-eholdings-resource-visibility-field] input[value="false"] ~ span:last-child');
+    return $node.textContent.replace(/^No(\s\((.*)\))?$/, '$2');
+  });
+  isHiddenMessagePresent = computed(function () {
+    try { return !!this.isHiddenMessage; } catch (e) { return false; }
+  });
+  isVisibilityFieldPresent = isPresent('[data-test-eholdings-resource-visibility-field]');
+  isResourceNotSelectedLabelPresent = isPresent('[data-test-eholdings-resource-edit-settings-message]');
 
   toggleIsSelected = clickable('[data-test-eholdings-resource-holding-status] input');
-  toggleIsVisible = clickable('[data-test-eholdings-resource-toggle-visibility] input');
-  modal = new ResourceEditModal('#eholdings-resource-confirmation-modal');
+  toggleIsVisible() {
+    let isVisible = (!this.isResourceVisible).toString();
+    return this.click(`[data-test-eholdings-resource-visibility-field] input[value="${isVisible}"]`);
+  }
 
+  modal = new ResourceEditModal('#eholdings-resource-confirmation-modal');
   toast = Toast;
 
   name = fillable('[data-test-eholdings-resource-name-field] input');
@@ -65,7 +74,6 @@ import Datepicker from './datepicker';
 
   hasSavingWillRemoveMessage = isPresent('[data-test-eholdings-coverage-fields-saving-will-remove]');
   hasCoverageStatementArea = isPresent('[data-test-eholdings-coverage-statement-textarea] textarea');
-  toggleVisibility = clickable('[data-test-eholdings-resource-toggle-visibility] input');
   coverageStatement = value('[data-test-eholdings-coverage-statement-textarea] textarea');
   customUrlFieldValue = value('[data-test-eholdings-custom-url-textfield] input');
   fillCoverageStatement = fillable('[data-test-eholdings-coverage-statement-textarea] textarea');

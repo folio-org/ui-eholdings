@@ -52,12 +52,12 @@ describeApplication('ResourceEditDeselection', () => {
           return ResourceEditPage.toggleIsSelected();
         });
 
-        it('disables custom url field', () => {
+        it('hides custom url field', () => {
           expect(ResourceEditPage.hasCustomUrlField).to.equal(false);
         });
 
-        it('disables visibiliy toggle', () => {
-          expect(ResourceEditPage.isVisibleTogglePresent).to.equal(false);
+        it('hides visibility field', () => {
+          expect(ResourceEditPage.isVisibilityFieldPresent).to.equal(false);
         });
 
         it('hides add date range button', () => {

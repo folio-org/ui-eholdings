@@ -44,7 +44,7 @@ describeApplication('ManagedResourceEditVisibility', () => {
       });
     });
 
-    it('displays an ON visibility toggle (Visible)', () => {
+    it('displays the yes visibility radio is selected', () => {
       expect(ResourceEditPage.isResourceVisible).to.be.true;
     });
 
@@ -110,7 +110,7 @@ describeApplication('ManagedResourceEditVisibility', () => {
       });
     });
 
-    it('displays an OFF visibility toggle (Hidden)', () => {
+    it('displays the no visibility radio is selected', () => {
       expect(ResourceEditPage.isResourceVisible).to.be.false;
     });
 
@@ -156,7 +156,7 @@ describeApplication('ManagedResourceEditVisibility', () => {
       });
     });
 
-    it('displays an OFF visibility toggle (Hidden)', () => {
+    it('displays the no visibility radio is selected', () => {
       expect(ResourceEditPage.isResourceVisible).to.be.false;
     });
 
@@ -179,12 +179,12 @@ describeApplication('ManagedResourceEditVisibility', () => {
       });
     });
 
-    it('displays an OFF visibility toggle (Hidden)', () => {
+    it('displays the no visibility radio is selected', () => {
       expect(ResourceEditPage.isResourceVisible).to.be.false;
     });
 
-    it('maps the hidden reason text', () => {
-      expect(ResourceEditPage.isHiddenMessage).to.equal('All titles in this package are hidden.');
+    it('displays the hidden reason text', () => {
+      expect(ResourceEditPage.isHiddenMessage).to.equal('All titles in this package are hidden');
     });
   });
 
@@ -201,8 +201,8 @@ describeApplication('ManagedResourceEditVisibility', () => {
       });
     });
 
-    it('displays Visibility label as Not shown to patrons', () => {
-      expect(ResourceEditPage.isResourceNotShownLabelPresent).to.be.true;
+    it('displays it is not visible to patrons', () => {
+      expect(ResourceEditPage.isResourceNotSelectedLabelPresent).to.be.true;
     });
   });
 });
