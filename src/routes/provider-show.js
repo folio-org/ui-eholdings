@@ -15,6 +15,7 @@ class ProviderShowRoute extends Component {
       }).isRequired
     }).isRequired,
     model: PropTypes.object.isRequired,
+    search: PropTypes.object,
     resolver: PropTypes.object.isRequired,
     getProvider: PropTypes.func.isRequired,
     getPackages: PropTypes.func.isRequired
@@ -34,12 +35,14 @@ class ProviderShowRoute extends Component {
     let { pkgSearchParams } = this.state;
     let { providerId } = match.params;
 
-    if (providerId !== prevProps.match.params.providerId) {
-      this.props.getProvider(providerId);
-    }
+    if (this.props.search !== undefined) {
+      if (providerId !== prevProps.match.params.providerId) {
+        this.props.getProvider(providerId);
+      }
 
-    if (pkgSearchParams !== prevState.pkgSearchParams) {
-      getPackages(providerId, pkgSearchParams);
+      if (pkgSearchParams !== prevState.pkgSearchParams) {
+        getPackages(providerId, pkgSearchParams);
+      }
     }
   }
 
@@ -78,7 +81,13 @@ class ProviderShowRoute extends Component {
 export default connect(
   ({ eholdings: { data } }, { match }) => {
     let resolver = createResolver(data);
-
+    if (match.url && match.url.includes('searchType')) {
+      return {
+        model: resolver.find('providers', match.params.providerId),
+        search: resolver.getRequest('query', { type: 'providers' }),
+        resolver
+      };
+    }
     return {
       model: resolver.find('providers', match.params.providerId),
       resolver
