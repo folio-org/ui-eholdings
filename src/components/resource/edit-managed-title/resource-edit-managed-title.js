@@ -10,6 +10,7 @@ import {
 import { processErrors } from '../../utilities';
 
 import DetailsView from '../../details-view';
+import VisibilityField from '../_fields/visibility';
 import CoverageStatementFields, { validate as validateCoverageStatement } from '../_fields/coverage-statement';
 import CustomCoverageFields, { validate as validateCoverageDates } from '../_fields/custom-coverage';
 import CustomEmbargoFields, { validate as validateEmbargo } from '../_fields/custom-embargo';
@@ -40,7 +41,6 @@ class ResourceEditManagedTitle extends Component {
 
   state = {
     managedResourceSelected: this.props.initialValues.isSelected,
-    managedResourceVisible: this.props.initialValues.isVisible,
     showSelectionModal: false,
     allowFormToSubmit: false,
     formValues: {}
@@ -51,11 +51,9 @@ class ResourceEditManagedTitle extends Component {
     let needsUpdate = !isEqual(this.props.model, nextProps.model);
 
     if ((nextProps.initialValues.isSelected !== this.props.initialValues.isSelected) ||
-    (nextProps.initialValues.isVisible !== this.props.initialValues.isVisible)) {
+        (nextProps.initialValues.isVisible !== this.props.initialValues.isVisible)) {
       this.setState({
-        ...this.state,
-        managedResourceSelected: nextProps.initialValues.isSelected,
-        managedResourceVisible: nextProps.initialValues.isVisible,
+        managedResourceSelected: nextProps.initialValues.isSelected
       });
     }
 
@@ -77,12 +75,6 @@ class ResourceEditManagedTitle extends Component {
   handleSelectionToggle = (e) => {
     this.setState({
       managedResourceSelected: e.target.checked
-    });
-  }
-
-  handleVisibilityToggle = (e) => {
-    this.setState({
-      managedResourceVisible: e.target.checked
     });
   }
 
@@ -127,8 +119,7 @@ class ResourceEditManagedTitle extends Component {
 
     let {
       showSelectionModal,
-      managedResourceSelected,
-      managedResourceVisible
+      managedResourceSelected
     } = this.state;
 
     let actionMenuItems = [
@@ -141,6 +132,9 @@ class ResourceEditManagedTitle extends Component {
       }
     ];
 
+    let visibilityMessage = model.package.visibilityData.isHidden
+      ? '(All titles in this package are hidden)'
+      : model.visibilityData.reason && `(${model.visibilityData.reason})`;
 
     return (
       <div>
@@ -153,6 +147,15 @@ class ResourceEditManagedTitle extends Component {
           actionMenuItems={actionMenuItems}
           bodyContent={(
             <form onSubmit={handleSubmit(this.handleOnSubmit)}>
+              <DetailsViewSection label="Resource settings">
+                {managedResourceSelected ? (
+                  <VisibilityField disabled={visibilityMessage} />
+                ) : (
+                  <p data-test-eholdings-resource-edit-settings-message>
+                    Add the resource to holdings to customize resource settings.
+                  </p>
+                )}
+              </DetailsViewSection>
               <DetailsViewSection
                 label="Holding status"
               >
@@ -170,42 +173,6 @@ class ResourceEditManagedTitle extends Component {
                     id="managed-resource-holding-toggle-switch"
                   />
                 </label>
-              </DetailsViewSection>
-              <DetailsViewSection
-                label="Visibility"
-              >
-                {managedResourceSelected ? (
-                  <div>
-                    <label
-                      data-test-eholdings-resource-toggle-visibility
-                      htmlFor="managed-resource-visibility-toggle-switch"
-                    >
-                      <h4>
-                        {managedResourceVisible
-                      ? 'Visible to patrons'
-                    : 'Hidden from patrons'}
-                      </h4>
-                      <br />
-                      <Field
-                        name="isVisible"
-                        component={ToggleSwitch}
-                        checked={managedResourceVisible}
-                        onChange={this.handleVisibilityToggle}
-                        id="managed-resource-visibility-toggle-switch"
-                      />
-                    </label>
-
-                    {!managedResourceVisible && (
-                    <div data-test-eholdings-resource-toggle-hidden-reason>
-                      {model.package.visibilityData.isHidden
-                           ? 'All titles in this package are hidden.'
-                           : model.visibilityData.reason}
-                    </div>
-                     )}
-                  </div>
-                 ) : (
-                   <p data-test-eholdings-resource-not-shown-label>Not shown to patrons.</p>
-                 )}
               </DetailsViewSection>
               <DetailsViewSection
                 label="Coverage dates"

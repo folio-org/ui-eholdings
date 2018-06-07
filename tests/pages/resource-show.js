@@ -48,17 +48,18 @@ import Toast from './toast';
   clickPackage = clickable('[data-test-eholdings-resource-show-package-name] a');
   deselectionModal = new ResourceShowDeselectionModal('#eholdings-resource-deselection-confirmation-modal');
   navigationModal = new ResourceShowNavigationModal('#navigation-modal');
-  resourceVisibilityLabel = text('[data-test-eholdings-resource-hidden-label]');
+  resourceVisibilityLabel = text('[data-test-eholdings-resource-show-visibility]');
   isResourceHidden = computed(function () {
-    return this.resourceVisibilityLabel === 'Hidden from patrons';
+    return /^No/.test(this.resourceVisibilityLabel);
   });
   isResourceVisible = computed(function () {
-    return this.resourceVisibilityLabel === 'Visible to patrons';
-  })
-  hiddenReason = text('[data-test-eholdings-resource-hidden-reason]');
-  isResourceNotShownLabelPresent = isPresent('[data-test-eholdings-resource-not-shown-label]');
-  clickEditButton = clickable('[data-test-eholdings-resource-edit-link]');
+    return this.resourceVisibilityLabel === 'Yes';
+  });
+  hiddenReason = computed(function () {
+    return this.isResourceHidden ? this.resourceVisibilityLabel.replace(/^No(\s\((.*)\))?$/, '$2') : '';
+  });
 
+  clickEditButton = clickable('[data-test-eholdings-resource-edit-link]');
   peerReviewedStatus = text('[data-test-eholdings-peer-reviewed-field]');
 
   toast = Toast

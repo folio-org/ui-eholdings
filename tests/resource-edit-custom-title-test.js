@@ -87,14 +87,13 @@ describeApplication('ResourceEditCustomTitle', () => {
       expect(ResourceEditPage.customUrlFieldValue).to.equal('https://frontside.io');
     });
 
-    it('shows a form with a visibility toggle', () => {
+    it('shows a form with a visibility field', () => {
       expect(ResourceEditPage.isResourceVisible).to.equal(false);
     });
 
     it('disables the save button', () => {
       expect(ResourceEditPage.isSaveDisabled).to.be.true;
     });
-
 
     describe('clicking cancel', () => {
       beforeEach(() => {
@@ -172,7 +171,7 @@ describeApplication('ResourceEditCustomTitle', () => {
       beforeEach(() => {
         return ResourceEditPage
           .clickAddRowButton()
-          .toggleVisibility()
+          .toggleIsVisible()
           .dateRangeRowList(0).fillDates('12/16/2018', '12/18/2018')
           .inputCoverageStatement('Only 90s kids would understand.')
           .clickAddCustomEmbargoButton()

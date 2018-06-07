@@ -77,6 +77,9 @@ export default class ResourceShow extends Component {
     } = this.state;
 
     let isSelectInFlight = model.update.isPending && 'isSelected' in model.update.changedAttributes;
+    let visibilityMessage = model.package.visibilityData.isHidden
+      ? '(All titles in this package are hidden)'
+      : model.visibilityData.reason && `(${model.visibilityData.reason})`;
 
     let hasManagedCoverages = model.managedCoverages.length > 0 &&
       isValidCoverageList(model.managedCoverages);
@@ -226,15 +229,23 @@ export default class ResourceShow extends Component {
                 )}
               </DetailsViewSection>
 
-              {model.url && (
-                <DetailsViewSection label="Resource information">
+              <DetailsViewSection label="Resource settings">
+                <KeyValue label="Visible to patrons">
+                  <div data-test-eholdings-resource-show-visibility>
+                    {model.visibilityData.isHidden || !resourceSelected
+                      ? `No ${visibilityMessage}`
+                      : 'Yes'}
+                  </div>
+                </KeyValue>
+
+                {model.url && (
                   <KeyValue label={`${model.title.isTitleCustom ? 'Custom' : 'Managed'} URL`}>
                     <div data-test-eholdings-resource-show-url>
                       <a href={model.url} target="_blank">{model.url}</a>
                     </div>
                   </KeyValue>
-                </DetailsViewSection>
-              )}
+                )}
+              </DetailsViewSection>
 
               <DetailsViewSection label="Holding status">
                 <label
@@ -251,32 +262,7 @@ export default class ResourceShow extends Component {
                   />
                 </label>
               </DetailsViewSection>
-              <DetailsViewSection label="Visibility">
-                {(resourceSelected && !isSelectInFlight) ? (
-                  <div>
-                    <label
-                      data-test-eholdings-resource-hidden-label
-                      htmlFor="resource-show-hide-indicator"
-                    >
-                      <p>
-                        {model.visibilityData.isHidden
-                          ? 'Hidden from patrons'
-                          : 'Visible to patrons'}
-                      </p>
-                    </label>
 
-                    {model.visibilityData.isHidden && (
-                      <div data-test-eholdings-resource-hidden-reason>
-                        {model.package.visibilityData.isHidden
-                          ? 'All titles in this package are hidden.'
-                          : model.visibilityData.reason}
-                      </div>
-                    )}
-                  </div>
-                ) : (
-                  <p data-test-eholdings-resource-not-shown-label>Not shown to patrons.</p>
-                )}
-              </DetailsViewSection>
               <DetailsViewSection
                 label="Coverage dates"
                 closedByDefault={!hasManagedCoverages && !resourceSelected}

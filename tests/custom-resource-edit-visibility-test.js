@@ -46,7 +46,7 @@ describeApplication('CustomResourceEditVisibility', () => {
       });
     });
 
-    it('displays an ON visibility toggle (Visible)', () => {
+    it('displays the yes visibility radio is selected', () => {
       expect(ResourceEditPage.isResourceVisible).to.be.true;
     });
 
@@ -112,7 +112,7 @@ describeApplication('CustomResourceEditVisibility', () => {
       });
     });
 
-    it('displays an OFF visibility toggle (Hidden)', () => {
+    it('displays the no visibility radio is selected', () => {
       expect(ResourceEditPage.isResourceVisible).to.be.false;
     });
 
@@ -158,11 +158,11 @@ describeApplication('CustomResourceEditVisibility', () => {
       });
     });
 
-    it('displays an OFF visibility toggle (Hidden)', () => {
+    it('displays the no visibility radio is selected', () => {
       expect(ResourceEditPage.isResourceVisible).to.be.false;
     });
 
-    it('maps the hidden reason text', () => {
+    it('displays the hidden reason text', () => {
       expect(ResourceEditPage.isHiddenMessage).to.equal('The content is for mature audiences only.');
     });
   });
@@ -181,12 +181,12 @@ describeApplication('CustomResourceEditVisibility', () => {
       });
     });
 
-    it('displays an OFF visibility toggle (Hidden)', () => {
+    it('displays the no visibility radio is selected', () => {
       expect(ResourceEditPage.isResourceVisible).to.be.false;
     });
 
-    it('maps the hidden reason text', () => {
-      expect(ResourceEditPage.isHiddenMessage).to.equal('All titles in this package are hidden.');
+    it('displays the hidden reason text', () => {
+      expect(ResourceEditPage.isHiddenMessage).to.equal('All titles in this package are hidden');
     });
   });
 
@@ -202,6 +202,7 @@ describeApplication('CustomResourceEditVisibility', () => {
         expect(ResourceEditPage.$root).to.exist;
       });
     });
+
     it('reflects the desired state of holding status', () => {
       expect(ResourceEditPage.isSelected).to.equal(true);
     });
@@ -216,11 +217,11 @@ describeApplication('CustomResourceEditVisibility', () => {
       });
 
       it('cannot toggle visibility', () => {
-        expect(ResourceEditPage.isVisibleTogglePresent).to.equal(false);
+        expect(ResourceEditPage.isVisibilityFieldPresent).to.equal(false);
       });
 
-      it('displays Visibility label as Not shown to patrons', () => {
-        expect(ResourceEditPage.isResourceNotShownLabelPresent).to.be.true;
+      it('displays a not selected message for resource settings', () => {
+        expect(ResourceEditPage.isResourceNotSelectedLabelPresent).to.be.true;
       });
     });
   });
