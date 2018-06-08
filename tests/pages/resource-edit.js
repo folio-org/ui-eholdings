@@ -3,6 +3,7 @@ import {
   blurrable,
   clickable,
   collection,
+  scoped,
   fillable,
   isPresent,
   interactor,
@@ -63,8 +64,8 @@ import Datepicker from './datepicker';
   clickAddRowButton = clickable('[data-test-eholdings-coverage-fields-add-row-button] button');
 
   dateRangeRowList = collection('[data-test-eholdings-coverage-fields-date-range-row]', {
-    beginDate: new Datepicker('[data-test-eholdings-coverage-fields-date-range-begin]'),
-    endDate: new Datepicker('[data-test-eholdings-coverage-fields-date-range-end]'),
+    beginDate: scoped('[data-test-eholdings-coverage-fields-date-range-begin]', Datepicker),
+    endDate: scoped('[data-test-eholdings-coverage-fields-date-range-end]', Datepicker),
     clickRemoveRowButton: clickable('[data-test-eholdings-coverage-fields-remove-row-button] button'),
     fillDates(beginDate, endDate) {
       return this.beginDate.fillAndBlur(beginDate)

@@ -1,6 +1,7 @@
 import {
   clickable,
   collection,
+  scoped,
   fillable,
   isPresent,
   interactor,
@@ -57,8 +58,8 @@ import Datepicker from './datepicker';
   nameHasError = hasClassBeginningWith('[data-test-eholdings-package-name-field] input', 'hasError--');
 
   dateRangeRowList = collection('[data-test-eholdings-coverage-fields-date-range-row]', {
-    beginDate: new Datepicker('[data-test-eholdings-coverage-fields-date-range-begin]'),
-    endDate: new Datepicker('[data-test-eholdings-coverage-fields-date-range-end]'),
+    beginDate: scoped('[data-test-eholdings-coverage-fields-date-range-begin]', Datepicker),
+    endDate: scoped('[data-test-eholdings-coverage-fields-date-range-end]', Datepicker),
     clickRemoveRowButton: clickable('[data-test-eholdings-coverage-fields-remove-row-button] button'),
     fillDates(beginDate, endDate) {
       return this.beginDate.fillAndBlur(beginDate)

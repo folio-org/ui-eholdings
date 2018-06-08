@@ -175,7 +175,7 @@ describeApplication('CustomResourceEditCustomCoverage', () => {
           });
         });
 
-        describe.skip('entering overlapping date ranges', () => {
+        describe('entering overlapping date ranges', () => {
           beforeEach(() => {
             return ResourceEditPage.dateRangeRowList(0).fillDates('12/16/2018', '12/20/2018');
           });
@@ -290,11 +290,11 @@ describeApplication('CustomResourceEditCustomCoverage', () => {
       expect(ResourceEditPage.dateRangeRowList().length).to.equal(2);
     });
 
-    it.skip('displays 2 rows for date ranges', () => {
-      expect(ResourceEditPage.dateRangeRowList(0).beginDate.inputValue).to.equal('07/16/1969');
-      expect(ResourceEditPage.dateRangeRowList(0).endDate.inputValue).to.equal('12/19/1972');
-      expect(ResourceEditPage.dateRangeRowList(1).beginDate.inputValue).to.equal('01/01/1973');
-      expect(ResourceEditPage.dateRangeRowList(1).endDate.inputValue).to.equal('12/31/1979');
+    it('displays 2 rows for date ranges', () => {
+      expect(ResourceEditPage.dateRangeRowList(0).beginDate.inputValue).to.equal('12/01/2018');
+      expect(ResourceEditPage.dateRangeRowList(0).endDate.inputValue).to.equal('12/15/2018');
+      expect(ResourceEditPage.dateRangeRowList(1).beginDate.inputValue).to.equal('12/17/2018');
+      expect(ResourceEditPage.dateRangeRowList(1).endDate.inputValue).to.equal('12/20/2018');
     });
   });
 });
