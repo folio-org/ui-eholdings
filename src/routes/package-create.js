@@ -61,7 +61,7 @@ class PackageCreateRoute extends Component {
         onSubmit={this.packageCreateSubmitted}
         initialValues={{
           name: '',
-          contentType: '',
+          contentType: 'Unknown',
           customCoverages: []
         }}
       />
