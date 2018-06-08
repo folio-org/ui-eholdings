@@ -86,11 +86,15 @@
   version "0.7.0"
   resolved "https://registry.yarnpkg.com/@bigtest/convergence/-/convergence-0.7.0.tgz#df577d7e78b453cf80b4f29acf66dd7f60fcc0c1"
 
-"@bigtest/interactor@^0.4.2":
-  version "0.4.2"
-  resolved "https://registry.yarnpkg.com/@bigtest/interactor/-/interactor-0.4.2.tgz#22e488ba6acab841d5cfaa238536075fffaf91db"
+"@bigtest/convergence@^0.9.1":
+  version "0.9.1"
+  resolved "https://registry.yarnpkg.com/@bigtest/convergence/-/convergence-0.9.1.tgz#ddbe3e85e757b8fb82b80df95ed2e574c9d24429"
+
+"@bigtest/interactor@^0.5.0":
+  version "0.5.0"
+  resolved "https://registry.yarnpkg.com/@bigtest/interactor/-/interactor-0.5.0.tgz#48b56c0706504d5c5652e1456302718522363120"
   dependencies:
-    "@bigtest/convergence" "^0.7.0"
+    "@bigtest/convergence" "^0.9.1"
 
 "@bigtest/mirage@^0.0.1":
   version "0.0.1"
@@ -106,6 +110,12 @@
   resolved "https://registry.yarnpkg.com/@bigtest/mocha/-/mocha-0.3.3.tgz#1a2e4545424f6e200af1c1720d8631fc1f36fda1"
   dependencies:
     "@bigtest/convergence" "^0.5.0"
+
+"@bigtest/react@^0.1.1":
+  version "0.1.1"
+  resolved "https://registry.yarnpkg.com/@bigtest/react/-/react-0.1.1.tgz#7ff09a4c946857585af1d120e2073779de000c4c"
+  dependencies:
+    history "^4.7.2"
 
 "@folio/developer@^1.3.0":
   version "1.3.100012"
@@ -1375,7 +1385,7 @@ babel-plugin-transform-strict-mode@^6.24.1:
     babel-runtime "^6.22.0"
     babel-types "^6.24.1"
 
-babel-polyfill@^6.16.0:
+babel-polyfill@^6.16.0, babel-polyfill@^6.26.0:
   version "6.26.0"
   resolved "https://registry.yarnpkg.com/babel-polyfill/-/babel-polyfill-6.26.0.tgz#379937abc67d7895970adc621f284cd966cf2153"
   dependencies:

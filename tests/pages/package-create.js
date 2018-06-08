@@ -4,6 +4,7 @@ import {
   fillable,
   clickable,
   collection,
+  scoped,
   property
 } from '@bigtest/interactor';
 import Datepicker from './datepicker';
@@ -21,8 +22,8 @@ import Datepicker from './datepicker';
   isCancelDisabled = property('[data-test-eholdings-package-create-cancel-button] button', 'disabled');
 
   dateRangeRowList = collection('[data-test-eholdings-coverage-fields-date-range-row]', {
-    beginDate: new Datepicker('[data-test-eholdings-coverage-fields-date-range-begin]'),
-    endDate: new Datepicker('[data-test-eholdings-coverage-fields-date-range-end]'),
+    beginDate: scoped('[data-test-eholdings-coverage-fields-date-range-begin]', Datepicker),
+    endDate: scoped('[data-test-eholdings-coverage-fields-date-range-end]', Datepicker),
     fillDates(beginDate, endDate) {
       return this.beginDate.fillAndBlur(beginDate)
         .endDate.fillAndBlur(endDate);

@@ -1,6 +1,7 @@
 import {
   clickable,
   collection,
+  scoped,
   computed,
   interactor,
   isPresent,
@@ -91,8 +92,8 @@ import Toast from './toast';
   hasCustomCoverageAddButton = isPresent('[data-test-eholdings-package-details-custom-coverage-button] button');
   validationError = text('[data-test-eholdings-coverage-fields-date-range-begin] [class^="feedbackError"]');
 
-  beginDate = new Datepicker('[data-test-eholdings-coverage-fields-date-range-begin]');
-  endDate = new Datepicker('[data-test-eholdings-coverage-fields-date-range-end]');
+  beginDate = scoped('[data-test-eholdings-coverage-fields-date-range-begin]', Datepicker);
+  endDate = scoped('[data-test-eholdings-coverage-fields-date-range-end]', Datepicker);
 
   toast = Toast
 
