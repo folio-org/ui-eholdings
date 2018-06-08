@@ -1,11 +1,10 @@
-/* global describe, beforeEach, afterEach */
+/* global describe, beforeEach */
 /* istanbul ignore file */
-import React from 'react';
 import chai from 'chai';
 import chaiJquery from 'chai-jquery';
 import $ from 'jquery';
-import { render, unmountComponentAtNode } from 'react-dom';
 import Convergence from '@bigtest/convergence';
+import { setupAppForTesting } from '@bigtest/react';
 import startMirage from '../mirage/start';
 import TestHarness from './harness';
 
@@ -31,31 +30,25 @@ export { default as triggerChange } from 'react-trigger-change';
  */
 export function describeApplication(name, setup, describe = window.describe) {
   describe(name, function () {
-    let rootElement;
+    beforeEach(async function () {
+      this.app = await setupAppForTesting(TestHarness, {
+        mountId: 'react-testing',
 
-    beforeEach(function () {
-      rootElement = document.createElement('div');
-      rootElement.id = 'react-testing';
-      rootElement.style.height = '100%';
-      document.body.appendChild(rootElement);
+        setup: () => {
+          this.server = startMirage(setup.scenarios);
+          this.server.logging = false;
+        },
 
-      this.server = startMirage(setup.scenarios);
-      this.server.logging = false;
+        teardown: () => {
+          this.server.shutdown();
+        }
+      });
 
-      this.app = render(<TestHarness />, rootElement);
-
+      document.getElementById('react-testing').style.height = '100%';
       this.visit = visit.bind(null, this); // eslint-disable-line no-use-before-define
     });
 
-    afterEach(function () {
-      this.server.shutdown();
-      unmountComponentAtNode(rootElement);
-      document.body.removeChild(rootElement);
-      rootElement = null;
-    });
-
     let doSetup = typeof setup.suite === 'function' ? setup.suite : setup;
-
     doSetup.call(this);
   });
 }
