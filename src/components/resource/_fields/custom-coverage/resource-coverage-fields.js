@@ -14,7 +14,6 @@ import styles from './resource-coverage-fields.css';
 
 export default class ResourceCoverageFields extends Component {
   static propTypes = {
-    locale: PropTypes.string, // eslint-disable-line react/no-unused-prop-types
     initialValue: PropTypes.array
   };
 
@@ -266,7 +265,7 @@ const validateNoRangeOverlaps = (dateRange, customCoverages, index) => {
 
 export function validate(values, props) {
   let errors = [];
-  let { locale, model } = props;
+  let { intl, model } = props;
 
   let packageCoverage = model.package.customCoverage;
 
@@ -274,7 +273,7 @@ export function validate(values, props) {
     let dateRangeErrors = {};
 
     dateRangeErrors =
-      validateDateFormat(dateRange, locale) ||
+      validateDateFormat(dateRange, intl.locale) ||
       validateStartDateBeforeEndDate(dateRange) ||
       validateNoRangeOverlaps(dateRange, values.customCoverages, index) ||
       validateWithinPackageRange(dateRange, packageCoverage);

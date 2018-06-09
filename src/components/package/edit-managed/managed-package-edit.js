@@ -2,6 +2,7 @@ import React, { Component, Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { reduxForm, Field } from 'redux-form';
 import isEqual from 'lodash/isEqual';
+import { intlShape, injectIntl } from 'react-intl';
 
 import {
   Button,
@@ -27,7 +28,8 @@ class ManagedPackageEdit extends Component {
     initialValues: PropTypes.object.isRequired,
     handleSubmit: PropTypes.func,
     onSubmit: PropTypes.func.isRequired,
-    pristine: PropTypes.bool
+    pristine: PropTypes.bool,
+    intl: intlShape.isRequired // eslint-disable-line react/no-unused-prop-types
   };
 
   static contextTypes = {
@@ -351,9 +353,9 @@ const validate = (values, props) => {
   return validateCoverageDates(values, props);
 };
 
-export default reduxForm({
+export default injectIntl(reduxForm({
   validate,
   enableReinitialize: true,
   form: 'ManagedPackageEdit',
   destroyOnUnmount: false,
-})(ManagedPackageEdit);
+})(ManagedPackageEdit));
