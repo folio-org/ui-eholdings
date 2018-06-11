@@ -90,27 +90,43 @@ export default function configure() {
     return JSON.parse(request.requestBody);
   });
 
-  // Root Proxies
-  this.get('/root-proxies', {
+  // Current root proxy
+  this.get('/root-proxy', {
+    data:
+      {
+        id: 'root-proxy',
+        type: 'rootProxies',
+        attributes: {
+          id: 'root-proxy',
+          proxyTypeId: 'bigTestJS'
+        }
+      }
+  });
+
+  // update root proxy
+  this.put('/root-proxy', (_, request) => {
+    return JSON.parse(request.requestBody);
+  });
+
+  // Available root proxies
+  this.get('/proxy-types', {
     data: [
       {
-        id: 'some-selected-value',
-        type: 'rootProxy',
+        id: 'bigTestJS',
+        type: 'proxyTypes',
         attributes: {
-          id: 'some-selected-value',
-          name: 'some-default-name',
-          urlMask: '',
-          selected: true
+          id: 'bigTestJS',
+          name: 'bigTestJS',
+          urlMask: 'https://github.com/bigtestjs',
         }
       },
       {
-        id: 'some-unselected-value',
-        type: 'rootProxy',
+        id: 'microstates',
+        type: 'proxyTypes',
         attributes: {
-          id: 'some-unselected-value',
-          name: 'some-name',
-          urlMask: '',
-          selected: false
+          id: 'microstates',
+          name: 'microstates',
+          urlMask: 'https://github.com/microstates',
         }
       }
     ]

@@ -9,6 +9,7 @@ import ResourceModel from './resource';
 import {
   Status as StatusModel,
   Configuration as ConfigurationModel,
+  ProxyType as ProxyTypeModel,
   RootProxy as RootProxyModel
 } from './application';
 
@@ -25,6 +26,7 @@ export const createResolver = (state) => {
     ResourceModel,
     StatusModel,
     ConfigurationModel,
+    ProxyTypeModel,
     RootProxyModel
   ]);
 };

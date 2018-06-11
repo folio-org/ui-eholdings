@@ -5,19 +5,19 @@ import { Field } from 'redux-form';
 import { Select } from '@folio/stripes-components';
 import styles from './root-proxy-select-field.css';
 
-export default function RootProxySelectField({ proxies }) {
-  let rootProxyRecords = proxies.resolver.state.rootProxy.records;
+export default function RootProxySelectField({ proxyTypes }) {
+  let proxyTypesRecords = proxyTypes.resolver.state.proxyTypes.records;
   let options = [];
 
-  if (rootProxyRecords) {
-    for (let rootProxyRecord in rootProxyRecords) {
-      if (Object.prototype.hasOwnProperty.call(rootProxyRecords, rootProxyRecord)) {
-        options.push({ label: rootProxyRecords[rootProxyRecord].attributes.name,
-          value: rootProxyRecords[rootProxyRecord].attributes.id,
-          selected: rootProxyRecords[rootProxyRecord].attributes.selected });
+  if (proxyTypesRecords) {
+    for (let proxyTypesRecord in proxyTypesRecords) {
+      if (Object.prototype.hasOwnProperty.call(proxyTypesRecords, proxyTypesRecord)) {
+        options.push({ label: proxyTypesRecords[proxyTypesRecord].attributes.name,
+          value: proxyTypesRecords[proxyTypesRecord].attributes.id });
       }
     }
   }
+
   return (
     <div
       data-test-eholdings-root-proxy-select-field
@@ -27,13 +27,13 @@ export default function RootProxySelectField({ proxies }) {
         id="eholdings-settings-root-proxy-server"
         name="rootProxyServer"
         component={Select}
-        label="Root Proxy Server"
         dataOptions={options}
+        label="Root Proxy Server"
       />
     </div>
   );
 }
 
 RootProxySelectField.propTypes = {
-  proxies: PropTypes.object.isRequired
+  proxyTypes: PropTypes.object.isRequired
 };

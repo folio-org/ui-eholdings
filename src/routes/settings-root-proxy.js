@@ -3,25 +3,42 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
 import { createResolver } from '../redux';
-import { RootProxy } from '../redux/application';
+import { ProxyType, RootProxy } from '../redux/application';
 import View from '../components/settings-root-proxy';
 
 class SettingsRootProxyRoute extends Component {
   static propTypes = {
-    rootProxies: PropTypes.object.isRequired,
-    getRootProxies: PropTypes.func.isRequired
+    proxyTypes: PropTypes.object.isRequired,
+    rootProxy: PropTypes.object.isRequired,
+    getProxyTypes: PropTypes.func.isRequired,
+    getRootProxy: PropTypes.func.isRequired,
+    updateRootProxy: PropTypes.func.isRequired
   };
 
   componentWillMount() {
-    this.props.getRootProxies();
+    this.props.getProxyTypes();
+    this.props.getRootProxy();
+  }
+
+  rootProxySubmitted = (values) => {
+    let { rootProxy, updateRootProxy } = this.props;
+
+    rootProxy.proxyTypeId = values.rootProxyServer;
+
+    updateRootProxy(rootProxy);
   }
 
   render() {
-    let { rootProxies } = this.props;
+    let { proxyTypes, rootProxy } = this.props;
 
     return (
       <View
-        rootProxies={rootProxies}
+        initialValues={{
+          rootProxyServer: rootProxy.proxyTypeId
+        }}
+        proxyTypes={proxyTypes}
+        rootProxy={rootProxy}
+        onSubmit={this.rootProxySubmitted}
       />
     );
   }
@@ -29,8 +46,11 @@ class SettingsRootProxyRoute extends Component {
 
 export default connect(
   ({ eholdings: { data } }) => ({
-    rootProxies: createResolver(data).query('root-proxies')
+    proxyTypes: createResolver(data).query('proxyTypes'),
+    rootProxy: createResolver(data).find('rootProxies', 'root-proxy')
   }), {
-    getRootProxies: () => RootProxy.query()
+    getProxyTypes: () => ProxyType.query(),
+    getRootProxy: () => RootProxy.find('root-proxy'),
+    updateRootProxy: model => RootProxy.save(model)
   }
 )(SettingsRootProxyRoute);
