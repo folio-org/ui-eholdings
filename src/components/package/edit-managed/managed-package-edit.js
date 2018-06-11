@@ -209,7 +209,7 @@ class ManagedPackageEdit extends Component {
                   />
                 </label>
               </DetailsViewSection>
-              <DetailsViewSection label="Visibility">
+              <DetailsViewSection label="Package Settings">
                 {packageSelected ? (
                   <div>
                     <label
@@ -240,8 +240,6 @@ class ManagedPackageEdit extends Component {
                 ) : (
                   <p>Not shown to patrons.</p>
                 )}
-              </DetailsViewSection>
-              <DetailsViewSection label="Title management">
                 {packageSelected ? (
                   <div className={styles['title-management-radios']}>
                     {this.props.initialValues.allowKbToAddTitles != null ? (

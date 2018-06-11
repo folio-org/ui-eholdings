@@ -236,7 +236,7 @@ export default class PackageShow extends Component {
                       )}
                     </KeyValue>
                     {!model.isCustom && (
-                      <KeyValue label="Allow knowledge base to automatically select new titles">
+                      <KeyValue label="Automatically select new titles">
                         <div>
                           {packageAllowedToAddTitles != null ? (
                             <div data-test-eholdings-package-details-allow-add-new-titles>
