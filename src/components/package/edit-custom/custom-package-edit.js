@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { reduxForm, Field } from 'redux-form';
 import isEqual from 'lodash/isEqual';
+import { intlShape, injectIntl } from 'react-intl';
 
 import {
   Button,
@@ -29,6 +30,7 @@ class CustomPackageEdit extends Component {
     model: PropTypes.object.isRequired,
     onSubmit: PropTypes.func.isRequired,
     pristine: PropTypes.bool,
+    intl: intlShape.isRequired // eslint-disable-line react/no-unused-prop-types
   };
 
   static contextTypes = {
@@ -330,9 +332,9 @@ const validate = (values, props) => {
   return Object.assign({}, validatePackageName(values), validateCoverageDates(values, props));
 };
 
-export default reduxForm({
+export default injectIntl(reduxForm({
   validate,
   form: 'CustomPackageEdit',
   enableReinitialize: true,
   destroyOnUnmount: false,
-})(CustomPackageEdit);
+})(CustomPackageEdit));

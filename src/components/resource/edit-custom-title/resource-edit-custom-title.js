@@ -2,6 +2,7 @@ import React, { Component, Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { reduxForm, Field } from 'redux-form';
 import isEqual from 'lodash/isEqual';
+import { intlShape, injectIntl } from 'react-intl';
 
 import {
   Button,
@@ -29,7 +30,8 @@ class ResourceEditCustomTitle extends Component {
     handleSubmit: PropTypes.func,
     onSubmit: PropTypes.func.isRequired,
     pristine: PropTypes.bool,
-    change: PropTypes.func
+    change: PropTypes.func,
+    intl: intlShape.isRequired // eslint-disable-line react/no-unused-prop-types
   };
 
   static contextTypes = {
@@ -306,9 +308,9 @@ const validate = (values, props) => {
     validateEmbargo(values));
 };
 
-export default reduxForm({
+export default injectIntl(reduxForm({
   validate,
   enableReinitialize: true,
   form: 'ResourceEditCustomTitle',
   destroyOnUnmount: false,
-})(ResourceEditCustomTitle);
+})(ResourceEditCustomTitle));

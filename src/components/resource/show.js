@@ -26,7 +26,6 @@ export default class ResourceShow extends Component {
   };
 
   static contextTypes = {
-    locale: PropTypes.string,
     router: PropTypes.object
   };
 

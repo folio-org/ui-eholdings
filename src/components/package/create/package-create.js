@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { reduxForm } from 'redux-form';
+import { intlShape, injectIntl } from 'react-intl';
 
 import {
   Button,
@@ -23,7 +24,8 @@ class PackageCreate extends Component {
     request: PropTypes.object.isRequired,
     handleSubmit: PropTypes.func.isRequired,
     onSubmit: PropTypes.func.isRequired,
-    pristine: PropTypes.bool.isRequired
+    pristine: PropTypes.bool.isRequired,
+    intl: intlShape.isRequired // eslint-disable-line react/no-unused-prop-types
   };
 
   static contextTypes = {
@@ -122,9 +124,9 @@ const validate = (values, props) => {
   return Object.assign({}, validatePackageName(values), validateCoverageDates(values, props));
 };
 
-export default reduxForm({
+export default injectIntl(reduxForm({
   validate,
   enableReinitialize: true,
   form: 'PackageCreate',
   destroyOnUnmount: false
-})(PackageCreate);
+})(PackageCreate));

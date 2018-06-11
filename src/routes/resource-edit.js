@@ -101,13 +101,11 @@ class ResourceEditRoute extends Component {
 
   render() {
     let { model } = this.props;
-    let { locale } = this.context;
 
     return (
       <View
         model={model}
         onSubmit={this.resourceEditSubmitted}
-        locale={locale}
       />
     );
   }

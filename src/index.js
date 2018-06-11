@@ -25,9 +25,6 @@ export default class EHoldings extends Component {
     match: PropTypes.shape({
       path: PropTypes.string.isRequired
     }).isRequired,
-    stripes: PropTypes.shape({
-      locale: PropTypes.string.isRequired
-    }).isRequired,
     showSettings: PropTypes.bool
   };
 
@@ -36,16 +33,6 @@ export default class EHoldings extends Component {
     addEpic: PropTypes.func.isRequired,
     router: PropTypes.object
   };
-
-  static childContextTypes = {
-    locale: PropTypes.string
-  }
-
-  getChildContext() {
-    return {
-      locale: this.props.stripes.locale
-    };
-  }
 
   componentWillMount() {
     this.context.addReducer('eholdings', reducer);

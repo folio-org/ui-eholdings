@@ -11,8 +11,6 @@ import styles from './package-coverage-fields.css';
 
 export default class PackageCoverageFields extends Component {
   static propTypes = {
-    packageCoverage: PropTypes.object, // eslint-disable-line react/no-unused-prop-types
-    locale: PropTypes.string, // eslint-disable-line react/no-unused-prop-types
     initialValue: PropTypes.array
   };
 
@@ -103,7 +101,7 @@ export default class PackageCoverageFields extends Component {
 }
 
 export function validate(values, props) {
-  moment.locale(props.locale);
+  moment.locale(props.intl.locale);
   let dateFormat = moment.localeData()._longDateFormat.L;
   const errors = {};
 
