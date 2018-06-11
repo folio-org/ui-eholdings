@@ -5,7 +5,8 @@ import {
   clickable,
   collection,
   scoped,
-  property
+  property,
+  value
 } from '@bigtest/interactor';
 import Datepicker from './datepicker';
 
@@ -14,6 +15,7 @@ import Datepicker from './datepicker';
   fillName = fillable('[data-test-eholdings-package-name-field] input');
   hasContentType = isPresent('[data-test-eholdings-package-content-type-field]');
   chooseContentType = fillable('[data-test-eholdings-package-content-type-field] select');
+  contentTypeValue = value('[data-test-eholdings-package-content-type-field] select');
   hasAddCoverageButton = isPresent('[data-test-eholdings-coverage-fields-add-row-button]');
   addCoverage = clickable('[data-test-eholdings-coverage-fields-add-row-button] button');
   save = clickable('[data-test-eholdings-package-create-save-button] button');

@@ -21,6 +21,10 @@ describeApplication('PackageCreate', () => {
     expect(PackageCreatePage.hasContentType).to.be.true;
   });
 
+  it('content-type field is "Unknown" by default', () => {
+    expect(PackageCreatePage.contentTypeValue).to.eq('Unknown');
+  });
+
   it('has an add coverage button', () => {
     expect(PackageCreatePage.hasAddCoverageButton).to.be.true;
   });
