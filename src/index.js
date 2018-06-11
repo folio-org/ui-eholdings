@@ -26,7 +26,6 @@ export default class EHoldings extends Component {
       path: PropTypes.string.isRequired
     }).isRequired,
     stripes: PropTypes.shape({
-      intl: PropTypes.object.isRequired,
       locale: PropTypes.string.isRequired
     }).isRequired,
     showSettings: PropTypes.bool
@@ -39,13 +38,11 @@ export default class EHoldings extends Component {
   };
 
   static childContextTypes = {
-    intl: PropTypes.object,
     locale: PropTypes.string
   }
 
   getChildContext() {
     return {
-      intl: this.props.stripes.intl,
       locale: this.props.stripes.locale
     };
   }

@@ -1,13 +1,14 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames/bind';
+import { FormattedNumber } from 'react-intl';
 
 import styles from './provider-list-item.css';
 import Link from '../link';
 
 const cx = classNames.bind(styles);
 
-export default function ProviderListItem({ item, link, active, onClick, headingLevel }, { intl }) {
+export default function ProviderListItem({ item, link, active, onClick, headingLevel }) {
   let Heading = headingLevel || 'h3';
 
   return !item ? (
@@ -32,13 +33,13 @@ export default function ProviderListItem({ item, link, active, onClick, headingL
 
       <div data-test-eholdings-provider-list-item-selections>
         <span data-test-eholdings-provider-list-item-num-packages-selected>
-          {intl.formatNumber(item.packagesSelected)}
+          <FormattedNumber value={item.packagesSelected} />
         </span>
 
         &nbsp;/&nbsp;
 
         <span data-test-eholdings-provider-list-item-num-packages-total>
-          {intl.formatNumber(item.packagesTotal)}
+          <FormattedNumber value={item.packagesTotal} />
         </span>
 
         &nbsp;
@@ -58,8 +59,4 @@ ProviderListItem.propTypes = {
   active: PropTypes.bool,
   onClick: PropTypes.func,
   headingLevel: PropTypes.string
-};
-
-ProviderListItem.contextTypes = {
-  intl: PropTypes.object,
 };

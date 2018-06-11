@@ -1,49 +1,70 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { formatISODateWithoutTime, formatYear } from '../utilities';
+import { injectIntl, intlShape } from 'react-intl';
 
-function compareCoverage(coverageObj1, coverageObj2) {
-  return coverageObj1.beginCoverage < coverageObj2.beginCoverage;
-}
+class CoverageDateList extends React.Component {
+  static propTypes = {
+    coverageArray: PropTypes.array,
+    id: PropTypes.string,
+    isYearOnly: PropTypes.bool,
+    intl: intlShape.isRequired
+  };
 
-function formatCoverageFullDate(coverageObj, intl) {
-  let startDate = `${formatISODateWithoutTime(coverageObj.beginCoverage, intl)}`;
-  let endDate = coverageObj.endCoverage ? `${formatISODateWithoutTime(coverageObj.endCoverage, intl)}` : 'Present';
-  if (!startDate) {
-    return coverageObj.endCoverage ? `${endDate}` : '';
-  } else {
-    return `${startDate} - ${endDate}`;
+  compareCoverage(coverageObj1, coverageObj2) {
+    return coverageObj1.beginCoverage < coverageObj2.beginCoverage;
+  }
+
+  formatCoverageFullDate({ beginCoverage, endCoverage }) {
+    let startDate = beginCoverage ?
+      `${this.props.intl.formatDate(beginCoverage, { timeZone: 'UTC' })}` :
+      '';
+
+    let endDate = endCoverage ?
+      `${this.props.intl.formatDate(endCoverage, { timeZone: 'UTC' })}` :
+      'Present';
+
+    if (!startDate) {
+      return endCoverage ? `${endDate}` : '';
+    } else {
+      return `${startDate} - ${endDate}`;
+    }
+  }
+
+  formatCoverageYear({ beginCoverage, endCoverage }) {
+    let startYear = beginCoverage ?
+      `${this.props.intl.formatDate(beginCoverage, { timeZone: 'UTC', year: 'numeric' })}` :
+      '';
+
+    let endYear = endCoverage ?
+      `${this.props.intl.formatDate(endCoverage, { timeZone: 'UTC', year: 'numeric' })}` :
+      '';
+
+    if (!startYear) {
+      return endCoverage ? `${endYear}` : '';
+    } else if ((startYear === endYear) || (!endYear)) {
+      return `${startYear}`;
+    } else {
+      return `${startYear} - ${endYear}`;
+    }
+  }
+
+  render() {
+    let {
+      coverageArray,
+      id,
+      isYearOnly
+    } = this.props;
+
+    return (
+      <div id={id} data-test-eholdings-display-coverage-list>
+        { coverageArray
+          .sort((coverageObj1, coverageObj2) => this.compareCoverage(coverageObj1, coverageObj2))
+          .map(coverageArrayObj => (isYearOnly ?
+            this.formatCoverageYear(coverageArrayObj) :
+            this.formatCoverageFullDate(coverageArrayObj))).join(', ')}
+      </div>
+    );
   }
 }
 
-function formatCoverageYear(coverageObj) {
-  let startYear = `${formatYear(coverageObj.beginCoverage)}`;
-  let endYear = `${formatYear(coverageObj.endCoverage)}`;
-  if (!startYear) {
-    return coverageObj.endCoverage ? `${endYear}` : '';
-  } else if ((startYear === endYear) || (!endYear)) {
-    return `${startYear}`;
-  } else {
-    return `${startYear} - ${endYear}`;
-  }
-}
-
-export default function CoverageDateList(props, context) {
-  return (
-    <div id={props.id} data-test-eholdings-display-coverage-list>
-      { props.coverageArray
-        .sort((coverageObj1, coverageObj2) => compareCoverage(coverageObj1, coverageObj2))
-        .map(coverageArrayObj => (props.isYearOnly ? formatCoverageYear(coverageArrayObj) : formatCoverageFullDate(coverageArrayObj, context.intl))).join(', ')}
-    </div>
-  );
-}
-
-CoverageDateList.propTypes = {
-  coverageArray: PropTypes.array,
-  id: PropTypes.string,
-  isYearOnly: PropTypes.bool
-};
-
-CoverageDateList.contextTypes = {
-  intl: PropTypes.object
-};
+export default injectIntl(CoverageDateList);

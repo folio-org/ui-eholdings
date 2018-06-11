@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Field, FieldArray } from 'redux-form';
 import PropTypes from 'prop-types';
 import moment from 'moment';
+import { FormattedDate } from 'react-intl';
 
 import {
   Button,
@@ -10,12 +11,10 @@ import {
 } from '@folio/stripes-components';
 
 import styles from './resource-coverage-fields.css';
-import { formatISODateWithoutTime } from '../../../utilities';
 
 export default class ResourceCoverageFields extends Component {
   static propTypes = {
     locale: PropTypes.string, // eslint-disable-line react/no-unused-prop-types
-    intl: PropTypes.object, // eslint-disable-line react/no-unused-prop-types
     initialValue: PropTypes.array
   };
 
@@ -143,10 +142,9 @@ const validateDateFormat = (dateRange, locale) => {
  * custom coverage range if one is present
  * @param {} dateRange - coverage date range to validate
  * @param {} packageCoverage - parent package's custom coverage range
- * @param {} intl - object containing locale-specific data & formatting
  * @returns {} - an error object if errors are found, or `false` otherwise
  */
-const validateWithinPackageRange = (dateRange, packageCoverage, intl) => {
+const validateWithinPackageRange = (dateRange, packageCoverage) => {
   // javascript/moment has no mechanism for "infinite", so we
   // use an absurd future date to represent the concept of "present"
   let present = moment('9999-09-09T05:00:00.000Z');
@@ -163,13 +161,31 @@ const validateWithinPackageRange = (dateRange, packageCoverage, intl) => {
     let packageEndCoverageDate = packageEndCoverage ? moment(packageEndCoverage) : moment();
     let packageRange = moment.range(packageBeginCoverageDate, packageEndCoverageDate);
 
-    const message = `Dates must be within package's date range (${
-      formatISODateWithoutTime(packageBeginCoverageDate.tz('UTC').format('YYYY-MM-DD'), intl)
-    } - ${
-      packageEndCoverage
-        ? formatISODateWithoutTime(packageEndCoverageDate.tz('UTC').format('YYYY-MM-DD'), intl)
-        : 'Present'
-    }).`;
+    let startDate = (
+      <FormattedDate
+        value={packageBeginCoverageDate}
+        timeZone="UTC"
+        year="numeric"
+        month="numeric"
+        day="numeric"
+      />
+    );
+
+    let endDate = packageEndCoverage ? (
+      <FormattedDate
+        value={packageEndCoverageDate}
+        timeZone="UTC"
+        year="numeric"
+        month="numeric"
+        day="numeric"
+      />
+    ) : 'Present';
+
+    const message = (
+      <span>
+        Dates must be within package&apos;s date range ({startDate} - {endDate}).
+      </span>
+    );
 
     let beginDateOutOfRange = !packageRange.contains(beginCoverageDate);
     let endDateOutOfRange = !packageRange.contains(endCoverageDate);
@@ -190,10 +206,9 @@ const validateWithinPackageRange = (dateRange, packageCoverage, intl) => {
  * @param {} customCoverages - all custom coverage ranges present in edit form
  * @param {} index - index in the field array indicating which coverage range is
  * presently being considered
- * @param {} intl - object containing locale-specific data & formatting
  * @returns {} - an error object if errors are found, or `false` otherwise
  */
-const validateNoRangeOverlaps = (dateRange, customCoverages, index, intl) => {
+const validateNoRangeOverlaps = (dateRange, customCoverages, index) => {
   let present = moment('9999-09-09T05:00:00.000Z');
 
   let beginCoverageDate = moment(dateRange.beginCoverage);
@@ -212,14 +227,31 @@ const validateNoRangeOverlaps = (dateRange, customCoverages, index, intl) => {
     let overlapCoverageEndDate = overlapRange.endCoverage ? moment(overlapRange.endCoverage) : present;
     let overlapCoverageRange = moment.range(overlapCoverageBeginDate, overlapCoverageEndDate);
 
-    const message = `Date range overlaps with ${
-      overlapRange.beginCoverage &&
-        formatISODateWithoutTime(overlapCoverageBeginDate.tz('UTC').format('YYYY-MM-DD'), intl)
-    } - ${
-      overlapRange.endCoverage
-        ? formatISODateWithoutTime(overlapCoverageEndDate.tz('UTC').format('YYYY-MM-DD'), intl)
-        : 'Present'
-    }`;
+    let startDate = (
+      <FormattedDate
+        value={overlapRange.beginCoverage}
+        timeZone="UTC"
+        year="numeric"
+        month="numeric"
+        day="numeric"
+      />
+    );
+
+    let endDate = overlapRange.endCoverage ? (
+      <FormattedDate
+        value={overlapRange.endCoverage}
+        timeZone="UTC"
+        year="numeric"
+        month="numeric"
+        day="numeric"
+      />
+    ) : 'Present';
+
+    const message = (
+      <span>
+        Date range overlaps with {startDate} - {endDate}.
+      </span>
+    );
 
     if (overlapCoverageRange.overlaps(coverageRange)
         || overlapCoverageRange.isEqual(coverageRange)
@@ -234,7 +266,7 @@ const validateNoRangeOverlaps = (dateRange, customCoverages, index, intl) => {
 
 export function validate(values, props) {
   let errors = [];
-  let { intl, locale, model } = props;
+  let { locale, model } = props;
 
   let packageCoverage = model.package.customCoverage;
 
@@ -244,8 +276,8 @@ export function validate(values, props) {
     dateRangeErrors =
       validateDateFormat(dateRange, locale) ||
       validateStartDateBeforeEndDate(dateRange) ||
-      validateNoRangeOverlaps(dateRange, values.customCoverages, index, intl) ||
-      validateWithinPackageRange(dateRange, packageCoverage, intl);
+      validateNoRangeOverlaps(dateRange, values.customCoverages, index) ||
+      validateWithinPackageRange(dateRange, packageCoverage);
 
     errors[index] = dateRangeErrors;
   });

@@ -83,7 +83,7 @@ describeApplication('PackageCreate', () => {
 
     it('redirects to the new package with custom coverages', function () {
       expect(this.app.history.location.pathname).to.match(/^\/eholdings\/packages\/\d{1,}/);
-      expect(PackageShowPage.customCoverage).to.equal('12/16/2018 - 12/18/2018');
+      expect(PackageShowPage.customCoverage).to.equal('12/16/2018 - 12/18/2018');
     });
   });
 

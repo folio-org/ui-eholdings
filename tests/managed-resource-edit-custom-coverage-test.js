@@ -199,10 +199,10 @@ describeApplication('ManagedResourceEditCustomCoverage', () => {
 
               it('has messaging that dates overlap', () => {
                 expect(ResourceEditPage.dateRangeRowList(0).beginDate.validationError).to.eq(
-                  'Date range overlaps with 12/18/2018 - 12/19/2018'
+                  'Date range overlaps with 12/18/2018 - 12/19/2018.'
                 );
                 expect(ResourceEditPage.dateRangeRowList(1).beginDate.validationError).to.eq(
-                  'Date range overlaps with 12/16/2018 - 12/20/2018'
+                  'Date range overlaps with 12/16/2018 - 12/20/2018.'
                 );
               });
             });

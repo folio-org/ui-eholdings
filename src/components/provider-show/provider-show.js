@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { KeyValue } from '@folio/stripes-components';
+import { FormattedNumber } from 'react-intl';
 
 import { processErrors } from '../utilities';
 import DetailsView from '../details-view';
@@ -17,7 +18,6 @@ export default function ProviderShow({
   searchPackages,
   searchParams
 }, {
-  intl,
   queryParams
 }) {
   let actionMenuItems = [];
@@ -46,13 +46,13 @@ export default function ProviderShow({
           <DetailsViewSection label="Provider information">
             <KeyValue label="Packages selected">
               <div data-test-eholdings-provider-details-packages-selected>
-                {intl.formatNumber(model.packagesSelected)}
+                <FormattedNumber value={model.packagesSelected} />
               </div>
             </KeyValue>
 
             <KeyValue label="Total packages">
               <div data-test-eholdings-provider-details-packages-total>
-                {intl.formatNumber(model.packagesTotal)}
+                <FormattedNumber value={model.packagesTotal} />
               </div>
             </KeyValue>
           </DetailsViewSection>
@@ -95,6 +95,5 @@ ProviderShow.propTypes = {
 
 ProviderShow.contextTypes = {
   router: PropTypes.object,
-  queryParams: PropTypes.object,
-  intl: PropTypes.object
+  queryParams: PropTypes.object
 };
