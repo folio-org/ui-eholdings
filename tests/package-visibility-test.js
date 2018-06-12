@@ -29,7 +29,7 @@ describeApplication('PackageVisibility', () => {
     });
 
     it('displays NO (Hidden from patrons)', () => {
-      expect(PackageShowPage.isVisibleToPatrons).to.equal('No');
+      expect(PackageShowPage.isVisibleToPatrons).to.contain('No');
     });
 
     it('displays the hidden/reason section', () => {

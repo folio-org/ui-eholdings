@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { reduxForm, Field } from 'redux-form';
 import isEqual from 'lodash/isEqual';
@@ -7,7 +7,9 @@ import { intlShape, injectIntl } from 'react-intl';
 import {
   Button,
   Icon,
-  KeyValue
+  KeyValue,
+  RadioButton,
+  RadioButtonGroup
 } from '@folio/stripes-components';
 import { processErrors } from '../../utilities';
 
@@ -55,12 +57,10 @@ class CustomPackageEdit extends Component {
     let needsUpdate = !isEqual(this.props.model, nextProps.model);
     let { router } = this.context;
 
-    if ((nextProps.initialValues.isSelected !== this.props.initialValues.isSelected) ||
-    (nextProps.initialValues.isVisible !== this.props.initialValues.isVisible)) {
+    if (nextProps.initialValues.isSelected !== this.props.initialValues.isSelected) {
       this.setState({
         ...this.state,
-        packageSelected: nextProps.initialValues.isSelected,
-        packageVisible: nextProps.initialValues.isVisible
+        packageSelected: nextProps.initialValues.isSelected
       });
     }
 
@@ -105,12 +105,6 @@ class CustomPackageEdit extends Component {
     });
   };
 
-  handleVisibilityToggle = (e) => {
-    this.setState({
-      packageVisible: e.target.checked
-    });
-  }
-
   handleOnSubmit = (values) => {
     if (this.state.allowFormToSubmit === false && values.isSelected === false) {
       this.setState({
@@ -137,14 +131,15 @@ class CustomPackageEdit extends Component {
 
     let {
       showSelectionModal,
-      packageSelected,
-      packageVisible
+      packageSelected
     } = this.state;
 
     let {
       queryParams,
       router
     } = this.context;
+
+    let visibilityMessage = model.visibilityData.reason && `(${model.visibilityData.reason})`;
 
     let actionMenuItems = [
       {
@@ -220,32 +215,30 @@ class CustomPackageEdit extends Component {
                   />
                 </label>
               </DetailsViewSection>
-              <DetailsViewSection label="Visibility">
+              <DetailsViewSection label="Package settings">
                 {packageSelected ? (
-                  <div>
-                    <label
-                      data-test-eholdings-package-details-visible
-                      htmlFor="custom-package-details-toggle-visible-switch"
-                    >
-                      <h4>
-                        {packageVisible
-                          ? 'Visible to patrons'
-                          : 'Hidden from patrons'}
-                      </h4>
-                      <br />
-                      <Field
-                        name="isVisible"
-                        component={ToggleSwitch}
-                        checked={packageVisible}
-                        onChange={this.handleVisibilityToggle}
-                        id="custom-package-details-toggle-visible-switch"
-                      />
-                    </label>
+                  <div className={styles['visibility-radios']}>
+                    {this.props.initialValues.isVisible != null ? (
+                      <Fragment>
+                        <div data-test-eholdings-package-visibility-field>
+                          <Field
+                            label="Visible to patrons"
+                            name="isVisible"
+                            component={RadioButtonGroup}
+                          >
+                            <RadioButton label="Yes" value="true" />
+                            <RadioButton label={`No ${visibilityMessage}`} value="false" />
+                          </Field>
+                        </div>
+                      </Fragment>
+                    ) : (
+                      <label
+                        data-test-eholdings-package-details-visibility
+                        htmlFor="managed-package-details-visibility-switch"
+                      >
+                        <Icon icon="spinner-ellipsis" />
+                      </label>
 
-                    {!packageVisible && (
-                      <div data-test-eholdings-package-details-is-hidden-reason>
-                        {model.visibilityData.reason}
-                      </div>
                     )}
                   </div>
                 ) : (

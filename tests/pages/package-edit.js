@@ -1,6 +1,7 @@
 import {
   clickable,
   collection,
+  computed,
   scoped,
   fillable,
   isPresent,
@@ -33,14 +34,22 @@ import Datepicker from './datepicker';
   isSelected = property('[data-test-eholdings-package-details-selected] input', 'checked');
   modal = new PackageEditModal('#eholdings-package-confirmation-modal');
   hasBackButton = isPresent('[data-test-eholdings-details-view-back-button] button');
-  toggleIsVisible = clickable('[data-test-eholdings-package-details-visible] input');
-  isVisibleToPatrons = property('[data-test-eholdings-package-details-visible] input', 'checked');
   isHiddenMessage = text('[data-test-eholdings-package-details-is-hidden-reason]');
   isHiddenMessagePresent = isPresent('[data-test-eholdings-package-details-is-hidden-reason]');
-  isVisibleTogglePresent = isPresent('[data-test-eholdings-package-details-visible] input');
+  isVisibilityFieldPresent = isPresent('[data-test-eholdings-package-visibility-field]');
+  isVisibleToPatrons = property('[data-test-eholdings-package-visibility-field] input[value="true"]', 'checked');
+  toggleIsVisible() {
+    let isVisible = (!this.isVisibleToPatrons).toString();
+    return this.click(`[data-test-eholdings-package-visibility-field] input[value="${isVisible}"]`);
+  }
+  isHiddenMessage = computed(function () {
+    let $node = this.$('[data-test-eholdings-package-visibility-field] input[value="false"] ~ span:last-child');
+    return $node.textContent.replace(/^No(\s\((.*)\))?$/, '$2');
+  });
+  isHiddenMessagePresent = computed(function () {
+    try { return !!this.isHiddenMessage; } catch (e) { return false; }
+  });
   hasRadioForAllowKbToAddTitles = isPresent('[data-test-eholdings-allow-kb-to-add-titles-radios]');
-  toggleAllowKbToAddTitles = clickable('[data-test-eholdings-package-details-allow-add-new-titles] input');
-  allowKbToAddTitles = property('[data-test-eholdings-package-details-allow-add-new-titles] input', 'checked');
   disallowKbToAddTitlesRadio = property('[data-test-eholdings-allow-kb-to-add-titles-radio-no]', 'checked')
   allowKbToAddTitlesRadio = property('[data-test-eholdings-allow-kb-to-add-titles-radio-yes]', 'checked');
   clickAllowKbToAddTitlesRadio = clickable('[data-test-eholdings-allow-kb-to-add-titles-radio-yes]');

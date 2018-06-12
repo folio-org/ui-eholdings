@@ -99,7 +99,7 @@ class PackageEditRoute extends Component {
       }
 
       if ('isVisible' in values) {
-        model.visibilityData.isHidden = !values.isVisible;
+        model.visibilityData.isHidden = !(values.isVisible === 'true'); // turn string into boolean
       }
 
       if ('allowKbToAddTitles' in values) {

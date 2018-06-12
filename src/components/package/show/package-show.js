@@ -35,21 +35,24 @@ export default class PackageShow extends Component {
     queryParams: PropTypes.object
   };
 
+  static getDerivedStateFromProps(nextProps, prevState) {
+    const { model: { allowKbToAddTitles, isSaving, isSelected } } = nextProps;
+    if (!isSaving) {
+      return {
+        ...prevState,
+        packageSelected: isSelected,
+        packageAllowedToAddTitles: allowKbToAddTitles
+      };
+    }
+    return prevState;
+  }
+
   state = {
     showSelectionModal: false,
     packageSelected: this.props.model.isSelected,
     packageAllowedToAddTitles: this.props.model.allowKbToAddTitles,
     isCoverageEditable: false
   };
-
-  componentWillReceiveProps({ model }) {
-    if (!model.isSaving) {
-      this.setState({
-        packageSelected: model.isSelected,
-        packageAllowedToAddTitles: model.allowKbToAddTitles
-      });
-    }
-  }
 
   handleSelectionToggle = () => {
     this.setState({ packageSelected: !this.props.model.isSelected });
@@ -86,6 +89,8 @@ export default class PackageShow extends Component {
       packageAllowedToAddTitles,
       isCoverageEditable
     } = this.state;
+
+    let visibilityMessage = model.visibilityData.reason && `(${model.visibilityData.reason})`;
 
     let actionMenuItems = [
       {
@@ -226,7 +231,7 @@ export default class PackageShow extends Component {
                   <div>
                     <KeyValue label="Visible to patrons">
                       <div data-test-eholdings-package-details-visibility-status>
-                        {!model.visibilityData.isHidden ? 'Yes' : 'No'}
+                        {!model.visibilityData.isHidden ? 'Yes' : `No ${visibilityMessage}`}
                       </div>
 
                       {model.visibilityData.isHidden && (

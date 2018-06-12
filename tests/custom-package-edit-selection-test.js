@@ -1,5 +1,5 @@
 import { expect } from 'chai';
-import { describe, beforeEach, afterEach, it } from '@bigtest/mocha';
+import { describe, beforeEach, it } from '@bigtest/mocha';
 
 import { describeApplication } from './helpers';
 import PackageShowPage from './pages/package-show';
@@ -49,26 +49,12 @@ describeApplication('CustomPackageEditSelection', () => {
     });
 
     describe('toggling the selection toggle (OFF)', () => {
-      beforeEach(function () {
-        /*
-         * The expectations in the convergent `it` blocks
-         * get run once every 10ms.  We were seeing test flakiness
-         * when a toggle action dispatched and resolved before an
-         * expectation had the chance to run.  We sidestep this by
-         * temporarily increasing the mirage server's response time
-         * to 50ms.
-         * TODO: control timing directly with Mirage
-         */
-        this.server.timing = 50;
+      beforeEach(() => {
         return PackageEditPage.toggleIsSelected();
       });
 
-      afterEach(function () {
-        this.server.timing = 0;
-      });
-
       it('cannot toggle visibility', () => {
-        expect(PackageEditPage.isVisibleTogglePresent).to.equal(false);
+        expect(PackageEditPage.isVisibilityFieldPresent).to.equal(false);
       });
 
       it('cannot edit coverage', () => {
@@ -134,26 +120,12 @@ describeApplication('CustomPackageEditSelection', () => {
       });
 
       describe('toggling the selection toggle ON', () => {
-        beforeEach(function () {
-          /*
-           * The expectations in the convergent `it` blocks
-           * get run once every 10ms.  We were seeing test flakiness
-           * when a toggle action dispatched and resolved before an
-           * expectation had the chance to run.  We sidestep this by
-           * temporarily increasing the mirage server's response time
-           * to 50ms.
-           * TODO: control timing directly with Mirage
-           */
-          this.server.timing = 50;
+        beforeEach(() => {
           return PackageEditPage.toggleIsSelected();
         });
 
-        afterEach(function () {
-          this.server.timing = 0;
-        });
-
         it('can toggle visibility', () => {
-          expect(PackageEditPage.isVisibleTogglePresent).to.equal(true);
+          expect(PackageEditPage.isVisibilityFieldPresent).to.equal(true);
         });
 
         it('can edit coverage', () => {
