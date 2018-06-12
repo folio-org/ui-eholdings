@@ -29,7 +29,7 @@ describeApplication('CustomPackageEditVisibility', () => {
     });
 
     it('displays the correct visibility status', () => {
-      expect(PackageEditPage.isVisibleToPatrons).to.equal(false);
+      expect(PackageEditPage.isVisibleToPatrons).to.be.false;
     });
 
     it('displays the hidden/reason section', () => {
@@ -50,7 +50,7 @@ describeApplication('CustomPackageEditVisibility', () => {
       });
     });
 
-    describe('toggling the visiblity toggle', () => {
+    describe('toggling the visiblity field', () => {
       beforeEach(() => {
         return PackageEditPage.toggleIsVisible();
       });
@@ -139,7 +139,7 @@ describeApplication('CustomPackageEditVisibility', () => {
       });
     });
 
-    describe('toggling the visiblity toggle', () => {
+    describe('toggling the visiblity field', () => {
       beforeEach(() => {
         return PackageEditPage.toggleIsVisible();
       });
@@ -197,7 +197,7 @@ describeApplication('CustomPackageEditVisibility', () => {
       });
 
       it('cannot toggle visibility', () => {
-        expect(PackageEditPage.isVisibleTogglePresent).to.equal(false);
+        expect(PackageEditPage.isVisibilityFieldPresent).to.equal(false);
       });
     });
   });

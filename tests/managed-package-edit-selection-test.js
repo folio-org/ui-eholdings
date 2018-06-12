@@ -33,7 +33,7 @@ describeApplication('ManagedPackageEditSelection', () => {
     });
 
     it('cannot toggle visibility', () => {
-      expect(PackageEditPage.isVisibleTogglePresent).to.equal(false);
+      expect(PackageEditPage.isVisibilityFieldPresent).to.equal(false);
     });
 
     it('cannot select allow kb to add titles', () => {
@@ -130,7 +130,7 @@ describeApplication('ManagedPackageEditSelection', () => {
     });
 
     it('can toggle visibility', () => {
-      expect(PackageEditPage.isVisibleTogglePresent).to.equal(true);
+      expect(PackageEditPage.isVisibilityFieldPresent).to.equal(true);
     });
 
     it('can select allow kb to add titles', () => {

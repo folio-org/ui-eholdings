@@ -50,7 +50,7 @@ describeApplication('ManagedPackageEditVisibility', () => {
       });
     });
 
-    describe('toggling the visiblity toggle', () => {
+    describe('toggling the visiblity field', () => {
       beforeEach(() => {
         return PackageEditPage.toggleIsVisible();
       });
@@ -139,7 +139,7 @@ describeApplication('ManagedPackageEditVisibility', () => {
       });
     });
 
-    describe('toggling the visiblity toggle', () => {
+    describe('toggling the visiblity field', () => {
       beforeEach(() => {
         return PackageEditPage.toggleIsVisible();
       });
@@ -187,8 +187,8 @@ describeApplication('ManagedPackageEditVisibility', () => {
       expect(PackageEditPage.isSelected).to.equal(false);
     });
 
-    it('visible toggle is not present', () => {
-      expect(PackageEditPage.isVisibleTogglePresent).to.equal(false);
+    it('visibility field is not present', () => {
+      expect(PackageEditPage.isVisibilityFieldPresent).to.equal(false);
     });
 
     it('disables the save button', () => {
