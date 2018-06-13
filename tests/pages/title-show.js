@@ -77,11 +77,13 @@ import Toast from './toast';
   });
 
   identifiersList = collection('[data-test-eholdings-identifiers-list-item]', {
-    identifierText: text()
+    identifierId: text('[data-test-eholdings-identifier-id]'),
+    identifierType: text('[data-test-eholdings-identifiers-list-item] [class^="kvLabel--"]')
   });
 
   contributorsList = collection('[data-test-eholdings-contributors-list-item]', {
-    contributorText: text()
+    contributorName: text('[data-test-eholdings-contributor-names]'),
+    contributorType: text('[data-test-eholdings-contributors-list-item] [class^="kvLabel--"]')
   });
 
   clickAddToCustomPackageButton = clickable('[data-test-eholdings-add-to-custom-package-button]');

@@ -63,6 +63,8 @@ import Toast from './toast';
 
   hasIdentifiersBtn = isPresent('[data-test-eholdings-identifiers-fields-add-row-button]');
   clickAddIdentifiersRowButton = clickable('[data-test-eholdings-identifiers-fields-add-row-button] button');
+  secondIdentifierType = fillable('[data-test-eholdings-identifiers-fields-type] select[name="identifiers[1].flattenedType"]');
+  secondIdentifierId = fillable('[data-test-eholdings-identifiers-fields-id] input[name="identifiers[1].id"]');
   identifiersRowList = collection('[data-test-eholdings-identifiers-fields-row]', {
     type: fillable('[data-test-eholdings-identifiers-fields-type] select'),
     id: fillable('[data-test-eholdings-identifiers-fields-id] input'),

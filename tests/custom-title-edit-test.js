@@ -35,6 +35,13 @@ describeApplication('CustomTitleEdit', () => {
           type: 'author'
         }
       ],
+      identifiers: [
+        {
+          type: 'ISBN',
+          subtype: 'Online',
+          id: '11133394'
+        }
+      ],
       isTitleCustom: true
     });
 
@@ -115,8 +122,32 @@ describeApplication('CustomTitleEdit', () => {
           expect(TitleShowPage.$root).to.exist;
         });
 
-        it('displays new author', () => {
-          expect(TitleShowPage.contributorsList(1).text).to.contain('Ron');
+        it('displays new editor', () => {
+          expect(TitleShowPage.contributorsList(1).contributorName).to.equal('Ron');
+          expect(TitleShowPage.contributorsList(1).contributorType).to.equal('Editor');
+        });
+      });
+    });
+
+    describe('adding a second identifier', () => {
+      beforeEach(() => {
+        return TitleEditPage.clickAddIdentifiersRowButton()
+          .secondIdentifierType('0')
+          .secondIdentifierId('81803');
+      });
+
+      describe('clicking save', () => {
+        beforeEach(() => {
+          return TitleEditPage.clickSave();
+        });
+
+        it('goes to the title show page', () => {
+          expect(TitleShowPage.$root).to.exist;
+        });
+
+        it('displays the new identifier', () => {
+          expect(TitleShowPage.identifiersList(1).identifierType).to.equal('ISSN (Online)');
+          expect(TitleShowPage.identifiersList(1).identifierId).to.equal('81803');
         });
       });
     });
@@ -216,7 +247,7 @@ describeApplication('CustomTitleEdit', () => {
           .fillContributor('Awesome Author')
           .selectContributorType('Editor')
           .clickAddIdentifiersRowButton()
-          .identifiersRowList(0).id('1111') // eslint-disable-line newline-per-chained-call
+          .identifiersRowList(1).id('1111') // eslint-disable-line newline-per-chained-call
           .fillDescription('What a super helpful description. Wow.')
           .checkPeerReviewed();
       });
@@ -253,7 +284,8 @@ describeApplication('CustomTitleEdit', () => {
         });
 
         it('shows the new ISSN', () => {
-          expect(TitleShowPage.identifiersList(0).text).to.equal('ISSN (Online)1111');
+          expect(TitleShowPage.identifiersList(1).identifierType).to.equal('ISSN (Online)');
+          expect(TitleShowPage.identifiersList(1).identifierId).to.equal('1111');
         });
 
         it('shows the new description', () => {
