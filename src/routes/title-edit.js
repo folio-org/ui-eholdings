@@ -65,7 +65,7 @@ class TitleShowRoute extends Component {
       let mergedTypeIndex = 0;
 
       if (type && subtype) {
-        mergedTypeIndex = this.flattenedIdentifiers.filter(row =>
+        mergedTypeIndex = this.flattenedIdentifiers.findIndex(row =>
           row.type === type && row.subtype === subtype);
       }
 

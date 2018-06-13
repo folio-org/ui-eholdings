@@ -73,8 +73,16 @@ describeApplication('CustomTitleEdit', () => {
       expect(TitleEditPage.contributorType).to.equal('author');
     });
 
+    it('shows add contributor button', () => {
+      expect(TitleEditPage.hasContributorBtn).to.be.true;
+    });
+
     it('shows unchecked peer review box', () => {
       expect(TitleEditPage.isPeerReviewed).to.be.false;
+    });
+
+    it('shows add identifier button', () => {
+      expect(TitleEditPage.hasIdentifiersBtn).to.be.true;
     });
 
     it('disables the save button', () => {
@@ -88,6 +96,28 @@ describeApplication('CustomTitleEdit', () => {
 
       it('goes to the title show page', () => {
         expect(TitleShowPage.$root).to.exist;
+      });
+    });
+
+    describe('adding a second contributor', () => {
+      beforeEach(() => {
+        return TitleEditPage.clickAddContributor()
+          .secondContributorType('editor')
+          .secondContributorName('Ron');
+      });
+
+      describe('clicking save', () => {
+        beforeEach(() => {
+          return TitleEditPage.clickSave();
+        });
+
+        it('goes to the title show page', () => {
+          expect(TitleShowPage.$root).to.exist;
+        });
+
+        it('displays new author', () => {
+          expect(TitleShowPage.contributorsList(1).text).to.contain('Ron');
+        });
       });
     });
 
