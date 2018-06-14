@@ -24,7 +24,7 @@ export default class VisibilityField extends Component {
       >
         <Field
           name="isVisible"
-          label="Visible to patrons"
+          label="Show to patrons"
           component={RadioButtonGroup}
           disabled={!!disabled}
         >
