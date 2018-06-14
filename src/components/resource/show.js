@@ -228,7 +228,7 @@ export default class ResourceShow extends Component {
               </DetailsViewSection>
 
               <DetailsViewSection label="Resource settings">
-                <KeyValue label="Visible to patrons">
+                <KeyValue label="Show to patrons">
                   <div data-test-eholdings-resource-show-visibility>
                     {model.visibilityData.isHidden || !resourceSelected
                       ? `No ${visibilityMessage}`
