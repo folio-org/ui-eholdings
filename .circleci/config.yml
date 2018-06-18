@@ -64,8 +64,11 @@ jobs:
           name: Store junit test report
           path: ./artifacts/junit
       - store_artifacts:
-          name: Store code coverage report
+          name: Store lcov.info
           path: ./artifacts/coverage/lcov.info
+      - store_artifacts:
+          name: Store HTML code coverage report
+          path: ./artifacts/coverage/lcov-report
 
   test-safari:
     docker:
