@@ -117,18 +117,6 @@
   dependencies:
     history "^4.7.2"
 
-"@folio/developer@^1.3.0":
-  version "1.3.100012"
-  resolved "https://repository.folio.org/repository/npm-folioci/@folio/developer/-/developer-1.3.100012.tgz#8eff8bc73323dfa148cbf15e2b1d6f95eb338ad5"
-  dependencies:
-    "@folio/stripes-components" "^2.0.0"
-    "@folio/stripes-smart-components" "^1.4.0"
-    lodash "^4.17.4"
-    prop-types "^15.6.0"
-    react-hotkeys "^0.10.0"
-    react-router-dom "^4.0.0"
-    redux-form "^7.0.3"
-
 "@folio/eslint-config-stripes@^1.1.0":
   version "1.1.100026"
   resolved "https://repository.folio.org/repository/npm-folioci/@folio/eslint-config-stripes/-/eslint-config-stripes-1.1.100026.tgz#4a31f3d85f2bb31600c860999ea5f3374f481542"
@@ -146,12 +134,11 @@
   dependencies:
     sanitize-html "^1.18.2"
 
-"@folio/stripes-cli@^1.1.1":
-  version "1.1.100077"
-  resolved "https://repository.folio.org/repository/npm-folioci/@folio/stripes-cli/-/stripes-cli-1.1.100077.tgz#c61eb7c8824c98e7d7e0816cc8559d3619f523e2"
+"@folio/stripes-cli@^1.2.1":
+  version "1.2.100082"
+  resolved "https://repository.folio.org/repository/npm-folioci/@folio/stripes-cli/-/stripes-cli-1.2.100082.tgz#1859d803ae618c5859d67c51b4c9d45d59d5e82e"
   dependencies:
-    "@folio/developer" "^1.3.0"
-    "@folio/stripes-core" "^2.9.0"
+    "@folio/stripes-core" "^2.10.0"
     "@folio/ui-testing" folio-org/ui-testing#framework-only
     babel-plugin-istanbul "^4.1.6"
     configstore "^3.1.1"
@@ -188,7 +175,7 @@
     webpack-bundle-analyzer "^2.9.1"
     yargs "^10.0.3"
 
-"@folio/stripes-components@2.0.21000354", "@folio/stripes-components@^2.0.0", "@folio/stripes-components@^2.0.12", "@folio/stripes-components@^2.0.18":
+"@folio/stripes-components@2.0.21000354", "@folio/stripes-components@^2.0.0", "@folio/stripes-components@^2.0.12":
   version "2.0.21000354"
   resolved "https://repository.folio.org/repository/npm-folioci/@folio/stripes-components/-/stripes-components-2.0.21000354.tgz#7ad493c6659a123ec89f0fb3a4f6bb574e222e60"
   dependencies:
@@ -230,7 +217,7 @@
     redux-crud "^3.0.0"
     uuid "^3.0.1"
 
-"@folio/stripes-core@^2.10.0", "@folio/stripes-core@^2.9.0":
+"@folio/stripes-core@^2.10.0":
   version "2.10.1000273"
   resolved "https://repository.folio.org/repository/npm-folioci/@folio/stripes-core/-/stripes-core-2.10.1000273.tgz#e1af8c0d562651bf89aace774882e2853fe3d729"
   dependencies:
@@ -340,29 +327,16 @@
     mousetrap "^1.6.1"
     prop-types "^15.5.10"
 
-"@folio/stripes-smart-components@^1.4.0":
-  version "1.4.15000182"
-  resolved "https://repository.folio.org/repository/npm-folioci/@folio/stripes-smart-components/-/stripes-smart-components-1.4.15000182.tgz#92507142a2e06ba67b3b9b26e3681f0d331a924b"
-  dependencies:
-    "@folio/react-intl-safe-html" "^1.0.1"
-    "@folio/stripes-components" "^2.0.18"
-    "@folio/stripes-form" "^0.8.2"
-    lodash "^4.17.4"
-    moment "^2.22.1"
-    moment-timezone "^0.5.17"
-    prop-types "^15.5.10"
-    query-string "^5.0.0"
-    react-bootstrap "^0.32.0"
-    react-intl "^2.4.0"
-    react-router "^4.2.0"
-    react-router-dom "^4.0.0"
-    redux-form "^7.0.3"
-
 "@folio/ui-testing@folio-org/ui-testing#framework-only":
   version "4.0.0"
-  resolved "https://codeload.github.com/folio-org/ui-testing/tar.gz/90a425c1a8d12552e04c72dfeec2f623a81af629"
+  resolved "https://codeload.github.com/folio-org/ui-testing/tar.gz/65eecbddbfc2f4abff27efbb2901a907028ed0a0"
   dependencies:
+    debug "^3.1.0"
+    electron "2.0.0"
+    minimist "^1.2.0"
     mocha "^3.4.2"
+    mocha-jenkins-reporter "^0.3.12"
+    moment "^2.22.1"
     nightmare "^2.10.0"
 
 "@types/async@2.0.49":
@@ -374,8 +348,8 @@
   resolved "https://registry.yarnpkg.com/@types/graphql/-/graphql-0.12.6.tgz#3d619198585fcabe5f4e1adfb5cf5f3388c66c13"
 
 "@types/node@^8.0.24":
-  version "8.10.18"
-  resolved "https://registry.yarnpkg.com/@types/node/-/node-8.10.18.tgz#eb9ad8b0723d13fa9bc8b42543e3661ed805f2bb"
+  version "8.10.20"
+  resolved "https://registry.yarnpkg.com/@types/node/-/node-8.10.20.tgz#fe674ea52e13950ab10954433a7824438aabbcac"
 
 "@types/zen-observable@^0.5.3":
   version "0.5.3"
@@ -421,8 +395,8 @@ acorn@^5.0.0, acorn@^5.5.0:
   resolved "https://registry.yarnpkg.com/acorn/-/acorn-5.5.3.tgz#f473dd47e0277a08e28e9bec5aeeb04751f0b8c9"
 
 acorn@^5.3.0:
-  version "5.6.2"
-  resolved "https://registry.yarnpkg.com/acorn/-/acorn-5.6.2.tgz#b1da1d7be2ac1b4a327fb9eab851702c5045b4e7"
+  version "5.7.1"
+  resolved "https://registry.yarnpkg.com/acorn/-/acorn-5.7.1.tgz#f095829297706a7c9776958c0afc8930a9b9d9d8"
 
 action-names@^0.3.2:
   version "0.3.2"
@@ -1491,7 +1465,7 @@ babel-runtime@^5.8.25:
   dependencies:
     core-js "^1.0.0"
 
-babel-runtime@^6.0.0, babel-runtime@^6.11.6, babel-runtime@^6.18.0, babel-runtime@^6.2.0, babel-runtime@^6.22.0, babel-runtime@^6.26.0:
+babel-runtime@^6.0.0, babel-runtime@^6.18.0, babel-runtime@^6.2.0, babel-runtime@^6.22.0, babel-runtime@^6.26.0:
   version "6.26.0"
   resolved "https://registry.yarnpkg.com/babel-runtime/-/babel-runtime-6.26.0.tgz#965c7058668e82b55d7bfe04ff2337bc8b5647fe"
   dependencies:
@@ -2070,8 +2044,8 @@ check-error@^1.0.1:
   resolved "https://registry.yarnpkg.com/check-error/-/check-error-1.0.2.tgz#574d312edd88bb5dd8912e9286dd6c0aed4aac82"
 
 check-types@^7.3.0:
-  version "7.3.0"
-  resolved "https://registry.yarnpkg.com/check-types/-/check-types-7.3.0.tgz#468f571a4435c24248f5fd0cb0e8d87c3c341e7d"
+  version "7.4.0"
+  resolved "https://registry.yarnpkg.com/check-types/-/check-types-7.4.0.tgz#0378ec1b9616ec71f774931a3c6516fad8c152f4"
 
 chokidar@^1.4.1:
   version "1.7.0"
@@ -2493,7 +2467,7 @@ create-hmac@^1.1.0, create-hmac@^1.1.2, create-hmac@^1.1.4:
     safe-buffer "^5.0.1"
     sha.js "^2.4.8"
 
-create-react-class@^15.5.2, create-react-class@^15.5.3, create-react-class@^15.6.2:
+create-react-class@^15.5.3, create-react-class@^15.6.2:
   version "15.6.3"
   resolved "https://registry.yarnpkg.com/create-react-class/-/create-react-class-15.6.3.tgz#2d73237fb3f970ae6ebe011a9e66f46dbca80036"
   dependencies:
@@ -2859,6 +2833,10 @@ di@^0.0.1:
   version "0.0.1"
   resolved "https://registry.yarnpkg.com/di/-/di-0.0.1.tgz#806649326ceaa7caa3306d75d985ea2748ba913c"
 
+diff@1.0.7:
+  version "1.0.7"
+  resolved "https://registry.yarnpkg.com/diff/-/diff-1.0.7.tgz#24bbb001c4a7d5522169e7cabdb2c2814ed91cf4"
+
 diff@3.2.0:
   version "3.2.0"
   resolved "https://registry.yarnpkg.com/diff/-/diff-3.2.0.tgz#c9ce393a4b7cbd0b058a725c93df299027868ff9"
@@ -2901,7 +2879,7 @@ dom-converter@~0.1:
   dependencies:
     utila "~0.3"
 
-dom-helpers@^3.2.0, dom-helpers@^3.2.1, dom-helpers@^3.3.1:
+dom-helpers@^3.2.1, dom-helpers@^3.3.1:
   version "3.3.1"
   resolved "https://registry.yarnpkg.com/dom-helpers/-/dom-helpers-3.3.1.tgz#fc1a4e15ffdf60ddde03a480a9c0fece821dd4a6"
 
@@ -3048,6 +3026,14 @@ electron-to-chromium@^1.2.7, electron-to-chromium@^1.3.47:
 electron-to-chromium@^1.3.30:
   version "1.3.42"
   resolved "https://registry.yarnpkg.com/electron-to-chromium/-/electron-to-chromium-1.3.42.tgz#95c33bf01d0cc405556aec899fe61fd4d76ea0f9"
+
+electron@2.0.0:
+  version "2.0.0"
+  resolved "https://registry.yarnpkg.com/electron/-/electron-2.0.0.tgz#e95dc7f3a089a52b8c2a52c7c9e1024db0c8d46e"
+  dependencies:
+    "@types/node" "^8.0.24"
+    electron-download "^3.0.1"
+    extract-zip "^1.0.3"
 
 electron@^1.4.4:
   version "1.8.7"
@@ -5476,10 +5462,6 @@ karma@^2.0.2:
     tmp "0.0.33"
     useragent "2.2.1"
 
-keycode@^2.1.2:
-  version "2.2.0"
-  resolved "https://registry.yarnpkg.com/keycode/-/keycode-2.2.0.tgz#3d0af56dc7b8b8e5cba8d0a97f107204eec22b04"
-
 keypress@0.1.x:
   version "0.1.0"
   resolved "https://registry.yarnpkg.com/keypress/-/keypress-0.1.0.tgz#4a3188d4291b66b4f65edb99f806aa9ae293592a"
@@ -6212,7 +6194,16 @@ mkdirp@0.5, mkdirp@0.5.1, mkdirp@0.5.x, mkdirp@^0.5.0, mkdirp@^0.5.1, mkdirp@~0.
   dependencies:
     minimist "0.0.8"
 
-mocha@^3.4.2:
+mocha-jenkins-reporter@^0.3.12:
+  version "0.3.12"
+  resolved "https://registry.yarnpkg.com/mocha-jenkins-reporter/-/mocha-jenkins-reporter-0.3.12.tgz#fde358a542853598e243d68c585f10c21bcc9417"
+  dependencies:
+    diff "1.0.7"
+    mkdirp "0.5.1"
+    mocha "^3.0.0"
+    xml "^1.0.1"
+
+mocha@^3.0.0, mocha@^3.4.2:
   version "3.5.3"
   resolved "https://registry.yarnpkg.com/mocha/-/mocha-3.5.3.tgz#1e0480fe36d2da5858d1eb6acc38418b26eaa20d"
   dependencies:
@@ -6250,7 +6241,7 @@ moment-range@^3.0.3:
   dependencies:
     es6-symbol "^3.1.0"
 
-moment-timezone@^0.5.14, moment-timezone@^0.5.17:
+moment-timezone@^0.5.14:
   version "0.5.17"
   resolved "https://registry.yarnpkg.com/moment-timezone/-/moment-timezone-0.5.17.tgz#3c8fef32051d84c3af174d91dc52977dcb0ad7e5"
   dependencies:
@@ -6260,7 +6251,7 @@ moment-timezone@^0.5.14, moment-timezone@^0.5.17:
   version "2.22.2"
   resolved "https://registry.yarnpkg.com/moment/-/moment-2.22.2.tgz#3c257f9839fc0e93ff53149632239eb90783ff66"
 
-mousetrap@^1.5.2, mousetrap@^1.6.1:
+mousetrap@^1.6.1:
   version "1.6.2"
   resolved "https://registry.yarnpkg.com/mousetrap/-/mousetrap-1.6.2.tgz#caadd9cf886db0986fb2fee59a82f6bd37527587"
 
@@ -7737,23 +7728,6 @@ react-apollo@^2.1.3:
     lodash "4.17.5"
     prop-types "^15.6.0"
 
-react-bootstrap@^0.32.0:
-  version "0.32.1"
-  resolved "https://registry.yarnpkg.com/react-bootstrap/-/react-bootstrap-0.32.1.tgz#60624c1b48a39d773ef6cce6421a4f33ecc166bb"
-  dependencies:
-    babel-runtime "^6.11.6"
-    classnames "^2.2.5"
-    dom-helpers "^3.2.0"
-    invariant "^2.2.1"
-    keycode "^2.1.2"
-    prop-types "^15.5.10"
-    prop-types-extra "^1.0.1"
-    react-overlays "^0.8.0"
-    react-prop-types "^0.4.0"
-    react-transition-group "^2.0.0"
-    uncontrollable "^4.1.0"
-    warning "^3.0.0"
-
 react-cookie@^2.1.4:
   version "2.1.6"
   resolved "https://registry.yarnpkg.com/react-cookie/-/react-cookie-2.1.6.tgz#3a3d59358ae8d3f19d6ebb4c6e8971db342a4c19"
@@ -7801,15 +7775,6 @@ react-hot-loader@next:
     prop-types "^15.6.0"
     shallowequal "^1.0.2"
 
-react-hotkeys@^0.10.0:
-  version "0.10.0"
-  resolved "https://registry.yarnpkg.com/react-hotkeys/-/react-hotkeys-0.10.0.tgz#d1e78bd63f16d6db58d550d33c8eb071f35d94fb"
-  dependencies:
-    create-react-class "^15.5.2"
-    lodash "^4.13.1"
-    mousetrap "^1.5.2"
-    prop-types "^15.5.8"
-
 react-intl@^2.3.0, react-intl@^2.4.0:
   version "2.4.0"
   resolved "https://registry.yarnpkg.com/react-intl/-/react-intl-2.4.0.tgz#66c14dc9df9a73b2fbbfbd6021726e80a613eb15"
@@ -7823,7 +7788,7 @@ react-is@^16.3.2:
   version "16.4.0"
   resolved "https://registry.yarnpkg.com/react-is/-/react-is-16.4.0.tgz#cc9fdc855ac34d2e7d9d2eb7059bbc240d35ffcf"
 
-react-overlays@^0.8.0, react-overlays@^0.8.3:
+react-overlays@^0.8.3:
   version "0.8.3"
   resolved "https://registry.yarnpkg.com/react-overlays/-/react-overlays-0.8.3.tgz#fad65eea5b24301cca192a169f5dddb0b20d3ac5"
   dependencies:
@@ -7832,12 +7797,6 @@ react-overlays@^0.8.0, react-overlays@^0.8.3:
     prop-types "^15.5.10"
     prop-types-extra "^1.0.1"
     react-transition-group "^2.2.0"
-    warning "^3.0.0"
-
-react-prop-types@^0.4.0:
-  version "0.4.0"
-  resolved "https://registry.yarnpkg.com/react-prop-types/-/react-prop-types-0.4.0.tgz#f99b0bfb4006929c9af2051e7c1414a5c75b93d0"
-  dependencies:
     warning "^3.0.0"
 
 react-proxy@^1.1.7:
@@ -7869,7 +7828,7 @@ react-router-dom@^4.0.0, react-router-dom@^4.1.1:
     react-router "^4.3.1"
     warning "^4.0.1"
 
-react-router@^4.0.0, react-router@^4.1.1, react-router@^4.2.0, react-router@^4.3.1:
+react-router@^4.0.0, react-router@^4.1.1, react-router@^4.3.1:
   version "4.3.1"
   resolved "https://registry.yarnpkg.com/react-router/-/react-router-4.3.1.tgz#aada4aef14c809cb2e686b05cee4742234506c4e"
   dependencies:
@@ -7899,7 +7858,7 @@ react-transform-hmr@^1.0.3:
     global "^4.3.0"
     react-proxy "^1.1.7"
 
-react-transition-group@^2.0.0, react-transition-group@^2.2.0, react-transition-group@^2.2.1:
+react-transition-group@^2.2.0, react-transition-group@^2.2.1:
   version "2.3.1"
   resolved "https://registry.yarnpkg.com/react-transition-group/-/react-transition-group-2.3.1.tgz#31d611b33e143a5e0f2d94c348e026a0f3b474b6"
   dependencies:
@@ -8649,8 +8608,8 @@ signal-exit@^3.0.0, signal-exit@^3.0.2:
   resolved "https://registry.yarnpkg.com/signal-exit/-/signal-exit-3.0.2.tgz#b5fdc08f1287ea1178628e415e25132b73646c6d"
 
 simple-git@^1.89.0:
-  version "1.95.1"
-  resolved "https://registry.yarnpkg.com/simple-git/-/simple-git-1.95.1.tgz#8f23b998f0d9e877b12e0291200ce115e004878c"
+  version "1.96.0"
+  resolved "https://registry.yarnpkg.com/simple-git/-/simple-git-1.96.0.tgz#d0279b771ed89a2d1e7d9e15f9abd7f26e319d7c"
   dependencies:
     debug "^3.1.0"
 
@@ -9543,12 +9502,6 @@ unc-path-regex@^0.1.0:
   version "0.1.2"
   resolved "https://registry.yarnpkg.com/unc-path-regex/-/unc-path-regex-0.1.2.tgz#e73dd3d7b0d7c5ed86fbac6b0ae7d8c6a69d50fa"
 
-uncontrollable@^4.1.0:
-  version "4.1.0"
-  resolved "https://registry.yarnpkg.com/uncontrollable/-/uncontrollable-4.1.0.tgz#e0358291252e1865222d90939b19f2f49f81c1a9"
-  dependencies:
-    invariant "^2.1.0"
-
 underscore@~1.4.4:
   version "1.4.4"
   resolved "https://registry.yarnpkg.com/underscore/-/underscore-1.4.4.tgz#61a6a32010622afa07963bf325203cf12239d604"
@@ -10116,6 +10069,10 @@ x-is-string@^0.1.0:
 xdg-basedir@^3.0.0:
   version "3.0.0"
   resolved "https://registry.yarnpkg.com/xdg-basedir/-/xdg-basedir-3.0.0.tgz#496b2cc109eca8dbacfe2dc72b603c17c5870ad4"
+
+xml@^1.0.1:
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/xml/-/xml-1.0.1.tgz#78ba72020029c5bc87b8a81a3cfcd74b4a2fc1e5"
 
 xmlbuilder@8.2.2:
   version "8.2.2"
