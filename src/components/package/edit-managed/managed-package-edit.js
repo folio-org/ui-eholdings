@@ -211,7 +211,7 @@ class ManagedPackageEdit extends Component {
                       <Fragment>
                         <div data-test-eholdings-package-visibility-field>
                           <Field
-                            label="Visible to patrons"
+                            label="Show titles in package to patrons"
                             name="isVisible"
                             component={RadioButtonGroup}
                           >

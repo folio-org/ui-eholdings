@@ -27,7 +27,7 @@ describeApplication('ResourceVisibility', () => {
       });
     });
 
-    it('displays it is visible to patrons', () => {
+    it('shows titles in package to patrons', () => {
       expect(ResourceShowPage.isResourceVisible).to.be.true;
     });
   });
@@ -45,7 +45,7 @@ describeApplication('ResourceVisibility', () => {
       });
     });
 
-    it('displays it is not visible to patrons', () => {
+    it('does not show titles in package to patrons', () => {
       expect(ResourceShowPage.isResourceHidden).to.be.true;
     });
   });
@@ -63,7 +63,7 @@ describeApplication('ResourceVisibility', () => {
       });
     });
 
-    it('displays it is not visible to patrons', () => {
+    it('does not show titles in package to patrons', () => {
       expect(ResourceShowPage.isResourceHidden).to.be.true;
     });
 
