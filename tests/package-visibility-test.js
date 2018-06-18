@@ -51,7 +51,7 @@ describeApplication('PackageVisibility', () => {
       });
     });
 
-    it('displays NO (Hidden from patrons)', () => {
+    it('does not show titles in package to patrons', () => {
       expect(PackageShowPage.isVisibleToPatrons).to.equal('No');
     });
 
@@ -74,7 +74,7 @@ describeApplication('PackageVisibility', () => {
       });
     });
 
-    it('displays YES (Visible to patrons)', () => {
+    it('shows titles in package to patrons', () => {
       expect(PackageShowPage.isVisibleToPatrons).to.equal('Yes');
     });
 

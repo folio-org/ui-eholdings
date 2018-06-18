@@ -229,7 +229,7 @@ export default class PackageShow extends Component {
               <DetailsViewSection label="Package settings">
                 {packageSelected ? (
                   <div>
-                    <KeyValue label="Visible to patrons">
+                    <KeyValue label="Show titles in package to patrons">
                       <div data-test-eholdings-package-details-visibility-status>
                         {!model.visibilityData.isHidden ? 'Yes' : `No ${visibilityMessage}`}
                       </div>
