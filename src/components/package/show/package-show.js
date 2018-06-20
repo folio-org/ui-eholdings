@@ -171,6 +171,7 @@ export default class PackageShow extends Component {
         <DetailsView
           type="package"
           model={model}
+          key={model.id}
           paneTitle={model.name}
           actionMenuItems={actionMenuItems}
           lastMenu={(
