@@ -293,7 +293,7 @@ class CustomPackageEdit extends Component {
         <Modal
           open={showSelectionModal}
           size="small"
-          label="Remove package from holdings?"
+          label="Delete custom package"
           scope="root"
           id="eholdings-package-confirmation-modal"
           footer={(
@@ -303,18 +303,18 @@ class CustomPackageEdit extends Component {
                 onClick={this.commitSelectionToggle}
                 data-test-eholdings-package-deselection-confirmation-modal-yes
               >
-                Yes, remove
+                Yes, delete
               </Button>
               <Button
                 onClick={this.cancelSelectionToggle}
                 data-test-eholdings-package-deselection-confirmation-modal-no
               >
-                No, do not remove
+                No, do not delete
               </Button>
             </div>
           )}
         >
-           Are you sure you want to remove this package and all its titles from your holdings? All customizations will be lost.
+          Are you sure you want to delete this package? By deleting this package it will no longer be available for selection and all customization will be lost. If a title only appears in this package it will no longer be available for selection.
         </Modal>
       </div>
     );
