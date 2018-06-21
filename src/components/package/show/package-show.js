@@ -91,6 +91,21 @@ export default class PackageShow extends Component {
     } = this.state;
 
     let visibilityMessage = model.visibilityData.reason && `(${model.visibilityData.reason})`;
+    let modalMessage = model.isCustom ?
+      {
+        header: 'Delete custom package',
+        body: `Are you sure you want to delete this package?
+          By deleting this package it will no longer be available for selection and all customization will be lost.
+          If a title only appears in this package it will no longer be available for selection.`,
+        buttonConfirm: 'Yes, delete',
+        buttonCancel: 'No, do not delete'
+      } :
+      {
+        header: 'Remove package from holdings?',
+        body: 'Are you sure you want to remove this package and all its titles from your holdings? All customizations will be lost.',
+        buttonConfirm: 'Yes, remove',
+        buttonCancel: 'No, do not remove'
+      };
 
     let actionMenuItems = [
       {
@@ -323,7 +338,7 @@ export default class PackageShow extends Component {
         <Modal
           open={showSelectionModal}
           size="small"
-          label="Remove package from holdings?"
+          label={modalMessage.header}
           scope="root"
           id="eholdings-package-confirmation-modal"
           footer={(
@@ -333,18 +348,18 @@ export default class PackageShow extends Component {
                 onClick={this.commitSelectionToggle}
                 data-test-eholdings-package-deselection-confirmation-modal-yes
               >
-                Yes, remove
+                {modalMessage.buttonConfirm}
               </Button>
               <Button
                 onClick={this.cancelSelectionToggle}
                 data-test-eholdings-package-deselection-confirmation-modal-no
               >
-                No, do not remove
+                {modalMessage.buttonCancel}
               </Button>
             </div>
           )}
         >
-           Are you sure you want to remove this package and all its titles from your holdings? All customizations will be lost.
+          {modalMessage.body}
         </Modal>
 
         <NavigationModal when={isCoverageEditable} />
