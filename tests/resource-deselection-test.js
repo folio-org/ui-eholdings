@@ -44,12 +44,12 @@ describeApplication('ResourceDeselection', () => {
       });
 
       it('indicates that the resource is selected', () => {
-        expect(ResourcePage.isSelected).to.equal(true);
+        expect(ResourcePage.isResourceSelected).to.equal('Selected');
       });
 
       describe('deselecting', () => {
         beforeEach(() => {
-          return ResourcePage.toggleIsSelected();
+          return ResourcePage.dropDownMenu.clickRemoveFromHoldings();
         });
 
         it('warns the user they are deselecting the final title in the package', () => {
@@ -69,20 +69,18 @@ describeApplication('ResourceDeselection', () => {
       });
 
       it('indicates that the resource is selected', () => {
-        expect(ResourcePage.isSelected).to.equal(true);
+        expect(ResourcePage.isResourceSelected).to.equal('Selected');
       });
 
       describe('deselecting', () => {
         beforeEach(() => {
-          return ResourcePage.toggleIsSelected();
+          return ResourcePage
+            .dropDown.clickDropDownButton()
+            .dropDownMenu.clickRemoveFromHoldings();
         });
 
         it('warns the user they are deselecting', () => {
           expect(ResourcePage.deselectionModal.hasDeselectTitleWarning).to.be.true;
-        });
-
-        it('reflects the desired state (not selected)', () => {
-          expect(ResourcePage.isSelected).to.equal(false);
         });
 
         describe('canceling the deselection', () => {
@@ -91,7 +89,7 @@ describeApplication('ResourceDeselection', () => {
           });
 
           it('reverts back to the selected state', () => {
-            expect(ResourcePage.isSelected).to.equal(true);
+            expect(ResourcePage.isResourceSelected).to.equal('Selected');
           });
         });
 
@@ -102,6 +100,10 @@ describeApplication('ResourceDeselection', () => {
 
           it('remains on Resource Page', () => {
             expect(ResourcePage.isPresent).to.be.true;
+          });
+
+          it('set and displayes the selected state', () => {
+            expect(ResourcePage.isResourceSelected).to.equal('Not selected');
           });
 
           describe('when the request succeeds', () => {

@@ -140,7 +140,7 @@ describeApplication('ResourceShow', () => {
     });
 
     it('indicates that the resource is not yet selected', () => {
-      expect(ResourcePage.isSelected).to.equal(false);
+      expect(ResourcePage.isResourceSelected).to.equal('Not selected');
     });
 
     it.always('should not display the back button', () => {
@@ -155,7 +155,7 @@ describeApplication('ResourceShow', () => {
           }]
         }, 500);
 
-        return ResourcePage.toggleIsSelected();
+        return ResourcePage.clickAddToHoldingsButton();
       });
 
       it('displays the correct error text', () => {
@@ -183,7 +183,7 @@ describeApplication('ResourceShow', () => {
           }]
         }, 500);
 
-        return ResourcePage.toggleIsSelected();
+        return ResourcePage.clickAddToHoldingsButton();
       });
 
       it('has two errors', () => {
