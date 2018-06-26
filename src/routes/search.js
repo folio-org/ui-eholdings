@@ -24,6 +24,11 @@ class SearchRoute extends Component {
       replace: PropTypes.func.isRequired,
       location: PropTypes.object
     }).isRequired,
+    match: PropTypes.shape({
+      params: PropTypes.shape({
+        id: PropTypes.string
+      }).isRequired
+    }).isRequired,
     searchProviders: PropTypes.func.isRequired,
     searchPackages: PropTypes.func.isRequired,
     searchTitles: PropTypes.func.isRequired,
@@ -64,8 +69,9 @@ class SearchRoute extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    let { location } = nextProps;
+    let { location, match } = nextProps;
     let { searchType, ...params } = qs.parse(location.search);
+    let shouldFocusItem = null;
 
     // cache the query so it can be restored via the search type
     if (searchType) {
@@ -73,8 +79,17 @@ class SearchRoute extends Component {
       this.path[searchType] = location.pathname;
     }
 
+    // we need to focus the last active list item as determined by the `id` URL param
+    if (this.props.match.params.id && this.props.match.params.id !== match.params.id) {
+      shouldFocusItem = this.props.match.params.id;
+    }
+
     // always update the results state
-    this.setState({ searchType, params });
+    this.setState({
+      shouldFocusItem,
+      searchType,
+      params
+    });
   }
 
   /**
@@ -213,9 +228,13 @@ class SearchRoute extends Component {
    * Renders the search component specific to the current search type
    */
   renderResults() {
-    let { searchType, params } = this.state;
+    let { searchType, params, shouldFocusItem } = this.state;
+    let { match: { params: { id } } } = this.props;
+
     let props = {
       params,
+      activeId: id,
+      shouldFocusItem,
       location: this.props.location,
       collection: this.getResults(),
       onUpdateOffset: this.handleOffset,

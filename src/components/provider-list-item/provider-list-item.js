@@ -3,12 +3,13 @@ import PropTypes from 'prop-types';
 import classNames from 'classnames/bind';
 import { FormattedNumber } from 'react-intl';
 
+import shouldFocus from '../should-focus';
 import styles from './provider-list-item.css';
 import Link from '../link';
 
 const cx = classNames.bind(styles);
 
-export default function ProviderListItem({ item, link, active, onClick, headingLevel }) {
+function ProviderListItem({ item, link, active, onClick, headingLevel }) {
   let Heading = headingLevel || 'h3';
 
   return !item ? (
@@ -60,3 +61,7 @@ ProviderListItem.propTypes = {
   onClick: PropTypes.func,
   headingLevel: PropTypes.string
 };
+
+// this HOC adds a prop, `shouldFocus` that will focus the component's
+// rendered DOM node on mount and update (when the prop is toggled)
+export default shouldFocus(ProviderListItem);

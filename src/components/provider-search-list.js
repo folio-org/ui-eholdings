@@ -7,13 +7,12 @@ import ProviderListItem from './provider-list-item';
 export default function ProviderSearchList({
   location,
   params,
+  activeId,
+  shouldFocusItem,
   collection,
   fetch,
   onUpdateOffset,
 }, { router }) {
-  let { params: routeParams } = router.route.match;
-  let isProviderPage = routeParams.type === 'providers';
-
   return (
     <QueryList
       type="providers"
@@ -29,7 +28,8 @@ export default function ProviderSearchList({
           link={item.content && {
             pathname: `/eholdings/providers/${item.content.id}`
           }}
-          active={item.content && isProviderPage && routeParams.id === item.content.id}
+          active={item.content && activeId && item.content.id === activeId}
+          shouldFocus={item.content && shouldFocusItem && item.content.id === shouldFocusItem}
           onClick={() => {
             router.history.push(
               `/eholdings/providers/${item.content.id}${location.search}`
@@ -44,6 +44,8 @@ export default function ProviderSearchList({
 ProviderSearchList.propTypes = {
   location: PropTypes.object.isRequired,
   params: PropTypes.object.isRequired,
+  activeId: PropTypes.string,
+  shouldFocusItem: PropTypes.string,
   collection: PropTypes.object.isRequired,
   fetch: PropTypes.func.isRequired,
   onUpdateOffset: PropTypes.func.isRequired

@@ -7,13 +7,12 @@ import TitleListItem from './title-list-item';
 export default function TitleSearchList({
   location,
   params,
+  activeId,
+  shouldFocusItem,
   collection,
   fetch,
   onUpdateOffset
 }, { router }) {
-  let { params: routeParams } = router.route.match;
-  let isTitlePage = routeParams.type === 'titles';
-
   return (
     <QueryList
       type="titles"
@@ -30,7 +29,8 @@ export default function TitleSearchList({
           link={item.content && {
             pathname: `/eholdings/titles/${item.content.id}`
           }}
-          active={item.content && isTitlePage && routeParams.id === item.content.id}
+          active={item.content && activeId && item.content.id === activeId}
+          shouldFocus={item.content && shouldFocusItem && item.content.id === shouldFocusItem}
           onClick={() => {
             router.history.push(
               `/eholdings/titles/${item.content.id}${location.search}`
@@ -45,6 +45,8 @@ export default function TitleSearchList({
 TitleSearchList.propTypes = {
   location: PropTypes.object.isRequired,
   params: PropTypes.object.isRequired,
+  activeId: PropTypes.string,
+  shouldFocusItem: PropTypes.string,
   collection: PropTypes.object.isRequired,
   fetch: PropTypes.func.isRequired,
   onUpdateOffset: PropTypes.func.isRequired
