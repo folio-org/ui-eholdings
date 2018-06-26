@@ -163,3 +163,6 @@ workflows:
       - test-firefox:
           requires:
             - checkout-and-install
+      - test-edge:
+          requires:
+            - checkout-and-install
