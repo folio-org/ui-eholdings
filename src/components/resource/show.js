@@ -117,14 +117,14 @@ export default class ResourceShow extends Component {
 
     if (resourceSelected === true) {
       actionMenuItems.push({
-        'label': 'Remove title from Holdings',
+        'label': 'Remove title from holdings',
         'state': { eholdings: true },
         'onClick': this.handleHoldingStatus,
         'data-test-eholdings-remove-resource-from-holdings': true
       });
     } else if (resourceSelected === false) {
       actionMenuItems.push({
-        'label': 'Add to Holdings',
+        'label': 'Add to holdings',
         'state': { eholdings: true },
         'onClick': this.handleHoldingStatus,
         'data-test-eholdings-add-resource-to-holdings': true
