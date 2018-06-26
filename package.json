@@ -53,7 +53,7 @@
     "webpack": "^3.0.0"
   },
   "dependencies": {
-    "@folio/stripes-components": "2.0.21000354",
+    "@folio/stripes-components": "2.0.28000389",
     "classnames": "^2.2.5",
     "funcadelic": "^0.4.0",
     "impagination": "^1.0.0-alpha.3",
