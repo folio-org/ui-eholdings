@@ -5,6 +5,7 @@ import {
   isPresent,
   interactor,
   property,
+  attribute,
   text
 } from '@bigtest/interactor';
 import { hasClassBeginningWith } from './helpers';
@@ -18,6 +19,16 @@ import Toast from './toast';
   hasDeselectFinalTitleWarning = isPresent('[data-test-eholdings-deselect-final-title-warning]');
 }
 
+@interactor class ResourceShowDropDown {
+  clickDropDownButton = clickable('button');
+  isExpanded = attribute('button', 'aria-expanded');
+}
+
+@interactor class ResourceShowDropDownMenu {
+  clickRemoveFromHoldings = clickable('.tether-element [data-test-eholdings-remove-resource-from-holdings]');
+  clickAddToHoldings = clickable('.tether-element [data-test-eholdings-add-resource-to-holdings]');
+}
+
 @interactor class ResourceShowNavigationModal {}
 
 @interactor class ResourceShowPage {
@@ -26,6 +37,7 @@ import Toast from './toast';
   descriptionText = text('[data-test-eholdings-description-field]');
   publisherName = text('[data-test-eholdings-resource-show-publisher-name]');
   publicationType = text('[data-test-eholdings-resource-show-publication-type]');
+  isSelected = property('[data-test-eholdings-resource-show-selected] input', 'checked');
   hasPublicationType = isPresent('[data-test-eholdings-resource-show-publication-type]');
   subjectsList = text('[data-test-eholdings-resource-show-subjects-list]');
   providerName = text('[data-test-eholdings-resource-show-provider-name]');
@@ -36,16 +48,22 @@ import Toast from './toast';
   contentType = text('[data-test-eholdings-resource-show-content-type]');
   hasContentType = isPresent('[data-test-eholdings-resource-show-content-type]');
   hasErrors = isPresent('[data-test-eholdings-details-view-error="resource"]');
+  isResourceSelected = text('[data-test-eholdings-resource-show-selected] h4');
   isSelected = property('[data-test-eholdings-resource-show-selected] input', 'checked');
   isSelecting = hasClassBeginningWith('[data-test-eholdings-resource-show-selected] [data-test-toggle-switch]', 'is-pending--');
+  isLoading = isPresent('[data-test-eholdings-resource-show-selected] [class*=icon---][class*=iconSpinner]');
   hasBackButton = isPresent('[data-test-eholdings-details-view-back-button] button');
   clickBackButton = clickable('[data-test-eholdings-details-view-back-button] button');
   paneTitle = text('[data-test-eholdings-details-view-pane-title]');
   paneSub = text('[data-test-eholdings-details-view-pane-sub]');
   isSelectedToggleDisabled = property('[data-test-eholdings-resource-show-selected] input[type=checkbox]', 'disabled');
-  toggleIsSelected = clickable('[data-test-eholdings-resource-show-selected] input');
+  toggleIsSelected = clickable('[data-test-eholdings-resource-show-holding-status] input');
   isEditingCustomEmbargo = isPresent('[data-test-eholdings-embargo-form] form');
   clickPackage = clickable('[data-test-eholdings-resource-show-package-name] a');
+  clickAddToHoldingsButton = clickable('[data-test-eholdings-resource-add-to-holdings-button]');
+  isAddToHoldingsButtonDisabled = property('[data-test-eholdings-resource-add-to-holdings-button]', 'disabled');
+  dropDown= new ResourceShowDropDown('[class*=paneHeaderCenterInner---] [class*=dropdown---]');
+  dropDownMenu = new ResourceShowDropDownMenu();
   deselectionModal = new ResourceShowDeselectionModal('#eholdings-resource-deselection-confirmation-modal');
   navigationModal = new ResourceShowNavigationModal('#navigation-modal');
   resourceVisibilityLabel = text('[data-test-eholdings-resource-show-visibility]');
@@ -62,7 +80,7 @@ import Toast from './toast';
   clickEditButton = clickable('[data-test-eholdings-resource-edit-link]');
   peerReviewedStatus = text('[data-test-eholdings-peer-reviewed-field]');
 
-  toast = Toast
+  toast = Toast;
 
   managedEmbargoPeriod = text('[data-test-eholdings-resource-show-managed-embargo-period]');
   hasManagedEmbargoPeriod = isPresent('[data-test-eholdings-resource-show-managed-embargo-period]');

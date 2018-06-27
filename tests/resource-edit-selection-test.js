@@ -78,7 +78,7 @@ describeApplication('ResourceEditSelection', () => {
           });
 
           it('reflects the new state', () => {
-            expect(ResourceShowPage.isSelected).to.equal(true);
+            expect(ResourceShowPage.isResourceSelected).to.equal('Selected');
           });
         });
       });
@@ -123,7 +123,7 @@ describeApplication('ResourceEditSelection', () => {
           });
 
           it('indicates it is no longer working', () => {
-            expect(ResourceShowPage.isSelecting).to.equal(false);
+            expect(ResourceShowPage.isLoading).to.equal(false);
           });
 
           it('displays a toast error', () => {

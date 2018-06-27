@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import {
   Button,
   IconButton,
+  Icon,
   KeyValue,
   PaneMenu
 } from '@folio/stripes-components';
@@ -12,7 +13,6 @@ import DetailsView from '../details-view';
 import Link from '../link';
 import IdentifiersList from '../identifiers-list';
 import ContributorsList from '..//contributors-list';
-import ToggleSwitch from '../toggle-switch';
 import CoverageDateList from '../coverage-date-list';
 import { isBookPublicationType, isValidCoverageList, processErrors } from '../utilities';
 import Modal from '../modal';
@@ -42,8 +42,7 @@ export default class ResourceShow extends Component {
     }
   }
 
-  handleSelectionToggle = () => {
-    this.setState({ resourceSelected: !this.props.model.isSelected });
+  handleHoldingStatus = () => {
     if (this.props.model.isSelected) {
       this.setState({ showSelectionModal: true });
     } else {
@@ -113,6 +112,22 @@ export default class ResourceShow extends Component {
         id: `success-package-creation-${model.id}`,
         message: 'Title was updated.',
         type: 'success'
+      });
+    }
+
+    if (resourceSelected === true) {
+      actionMenuItems.push({
+        'label': 'Remove title from holdings',
+        'state': { eholdings: true },
+        'onClick': this.handleHoldingStatus,
+        'data-test-eholdings-remove-resource-from-holdings': true
+      });
+    } else if (resourceSelected === false) {
+      actionMenuItems.push({
+        'label': 'Add to holdings',
+        'state': { eholdings: true },
+        'onClick': this.handleHoldingStatus,
+        'data-test-eholdings-add-resource-to-holdings': true
       });
     }
 
@@ -250,14 +265,23 @@ export default class ResourceShow extends Component {
                   data-test-eholdings-resource-show-selected
                   htmlFor="resource-show-toggle-switch"
                 >
-                  <h4>{resourceSelected ? 'Selected' : 'Not selected'}</h4>
+                  {
+                    model.update.isPending ? (
+                      <Icon icon='spinner-ellipsis' />
+                    ) : (
+                      <h4>{resourceSelected ? 'Selected' : 'Not selected'}</h4>
+                    )
+                  }
                   <br />
-                  <ToggleSwitch
-                    onChange={this.handleSelectionToggle}
-                    checked={model.destroy.isPending ? false : resourceSelected}
-                    isPending={model.destroy.isPending || isSelectInFlight}
-                    id="resource-show-toggle-switch"
-                  />
+                  { ((!resourceSelected && !isSelectInFlight) || (!this.props.model.isSelected && isSelectInFlight)) && (
+                    <Button
+                      buttonStyle="primary"
+                      onClick={this.handleHoldingStatus}
+                      disabled={model.destroy.isPending || isSelectInFlight}
+                      data-test-eholdings-resource-add-to-holdings-button
+                    >
+                      Add to holdings
+                    </Button>)}
                 </label>
               </DetailsViewSection>
 

@@ -40,22 +40,59 @@ describeApplication('ResourceSelection', () => {
     });
 
     it('indicates that the resource is not yet selected', () => {
-      expect(ResourcePage.isSelected).to.equal(false);
+      expect(ResourcePage.isResourceSelected).to.equal('Not selected');
     });
 
-    describe('successfully selecting a package title to add to my holdings', () => {
+    window.ResourcePage = ResourcePage;
+
+    describe('successfully selecting a package title to add to my holdings via the drop down', () => {
       beforeEach(function () {
         /*
-         * The expectations in the convergent `it` blocks
-         * get run once every 10ms.  We were seeing test flakiness
-         * when a toggle action dispatched and resolved before an
-         * expectation had the chance to run.  We sidestep this by
-         * temporarily increasing the mirage server's response time
-         * to 50ms.
+         We need to slow the timing in order for the animation to have to time
+         to run. Reason being in test the Mirage timing is set to 0 so
+         requests resolve immediately.
+         * TODO: control timing directly with Mirage
+        */
+
+        this.server.timing = 50;
+        return ResourcePage
+          .dropDown.clickDropDownButton()
+          .dropDownMenu.clickAddToHoldings();
+      });
+
+      it('closes the drop down', () => {
+        expect(ResourcePage.dropDown.isExpanded).to.equal('false');
+      });
+
+      it('indicates it is working to get to desired state', () => {
+        expect(ResourcePage.isLoading).to.equal(true);
+      });
+
+      it('cannot be interacted with while the request is in flight', () => {
+        expect(ResourcePage.isAddToHoldingsButtonDisabled).to.equal(true);
+      });
+
+      describe('when the request succeeds', () => {
+        it('reflects the desired state was set', () => {
+          expect(ResourcePage.isResourceSelected).to.equal('Selected');
+        });
+
+        it('indicates it is no longer working', () => {
+          expect(ResourcePage.isLoading).to.equal(false);
+        });
+      });
+    });
+
+    describe('successfully selecting a package title to add to my holdings via add to holdings button', () => {
+      beforeEach(function () {
+        /*
+         We need to slow the timing in order for the animation to have to time
+         to run. Reason being in test the Mirage timing is set to 0 so
+         requests resolve immediately.
          * TODO: control timing directly with Mirage
         */
         this.server.timing = 50;
-        return ResourcePage.toggleIsSelected();
+        return ResourcePage.clickAddToHoldingsButton();
       });
 
       afterEach(function () {
@@ -63,63 +100,64 @@ describeApplication('ResourceSelection', () => {
       });
 
       it('reflects the desired state (Selected)', () => {
-        expect(ResourcePage.isSelected).to.equal(true);
+        expect(ResourcePage.isResourceSelected).to.equal('Selected');
       });
 
       it('indicates it is working to get to desired state', () => {
-        expect(ResourcePage.isSelecting).to.equal(true);
+        expect(ResourcePage.isLoading).to.equal(true);
       });
 
       it('cannot be interacted with while the request is in flight', () => {
-        expect(ResourcePage.isSelectedToggleDisabled).to.equal(true);
+        expect(ResourcePage.isAddToHoldingsButtonDisabled).to.equal(true);
       });
 
       describe('when the request succeeds', () => {
         it('reflects the desired state was set', () => {
-          expect(ResourcePage.isSelected).to.equal(true);
+          expect(ResourcePage.isResourceSelected).to.equal('Selected');
         });
 
         it('indicates it is no longer working', () => {
-          expect(ResourcePage.isSelecting).to.equal(false);
+          expect(ResourcePage.isLoading).to.equal(false);
         });
       });
     });
 
     describe('unsuccessfully selecting a package title to add to my holdings', () => {
+      let resolveRequest;
       beforeEach(function () {
-        this.server.put('/resources/:id', {
-          errors: [{
-            title: 'There was an error'
-          }]
+        this.server.put('/resources/:id', () => {
+          return new Promise((resolve) => {
+            resolveRequest = resolve;
+          });
         }, 500);
-
-        this.server.timing = 50;
-        return ResourcePage.toggleIsSelected();
-      });
-
-      afterEach(function () {
-        this.server.timing = 0;
-      });
-
-      it('reflects the desired state (Selected)', () => {
-        expect(ResourcePage.isSelected).to.equal(true);
+        return ResourcePage.dropDownMenu.clickAddToHoldings();
       });
 
       it('indicates it is working to get to desired state', () => {
-        expect(ResourcePage.isSelecting).to.equal(true);
+        expect(ResourcePage.isLoading).to.equal(true);
       });
 
       it('cannot be interacted with while the request is in flight', () => {
-        expect(ResourcePage.isSelectedToggleDisabled).to.equal(true);
+        expect(ResourcePage.isAddToHoldingsButtonDisabled).to.equal(true);
       });
 
       describe('when the request succeeds', () => {
-        it('reflects the desired state was set', () => {
-          expect(ResourcePage.isSelected).to.equal(false);
+        beforeEach(() => {
+          let response = {
+            errors: [{
+              title: 'There was an error'
+            }]
+          };
+
+          return resolveRequest(response);
+        });
+
+        it('reflects the desired state was not set', () => {
+          expect(ResourcePage.isResourceSelected).to.equal('Not selected');
         });
 
         it('indicates it is no longer working', () => {
-          expect(ResourcePage.isSelecting).to.equal(false);
+          expect(ResourcePage.isLoading).to.equal(false);
         });
 
         it('displays a toast error', () => {

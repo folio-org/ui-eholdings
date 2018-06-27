@@ -163,12 +163,14 @@ describeApplication('ResourceEmbargo', () => {
     });
 
     it('displays whether the title package is selected', () => {
-      expect(ResourceShowPage.isSelected).to.equal(true);
+      expect(ResourceShowPage.isResourceSelected).to.equal('Selected');
     });
 
-    describe('toggling to deselect a title package', () => {
+    describe('removing the title package via drop down', () => {
       beforeEach(() => {
-        return ResourceShowPage.toggleIsSelected();
+        return ResourceShowPage
+          .dropDown.clickDropDownButton()
+          .dropDownMenu.clickRemoveFromHoldings();
       });
 
       describe('and confirming deselection', () => {
