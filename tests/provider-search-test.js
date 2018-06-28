@@ -3,6 +3,7 @@ import { expect } from 'chai';
 
 import { describeApplication } from './helpers';
 import ProviderSearchPage from './pages/provider-search';
+import ProviderShowPage from './pages/provider-show';
 import PackageShowPage from './pages/package-show';
 
 describeApplication('ProviderSearch', () => {
@@ -41,6 +42,10 @@ describeApplication('ProviderSearch', () => {
 
     it('removes the pre-results pane', () => {
       expect(ProviderSearchPage.hasPreSearchPane).to.equal(false);
+    });
+
+    it('focuses on the search pane title', () => {
+      expect(ProviderSearchPage.paneTitleHasFocus).to.be.true;
     });
 
     it("displays provider entries related to 'Provider'", () => {
@@ -82,6 +87,10 @@ describeApplication('ProviderSearch', () => {
 
       it('shows the preview pane', () => {
         expect(ProviderSearchPage.providerPreviewPaneIsPresent).to.be.true;
+      });
+
+      it('focuses the provider name', () => {
+        expect(ProviderShowPage.nameHasFocus).to.be.true;
       });
 
       it('should not display back button in UI', () => {
@@ -139,8 +148,12 @@ describeApplication('ProviderSearch', () => {
         it('displays the original search results', () => {
           expect(ProviderSearchPage.providerList()).to.have.lengthOf(3);
         });
-      });
 
+        it('focuses the last active item', () => {
+          expect(ProviderSearchPage.providerList(0).isActive).to.be.false;
+          expect(ProviderSearchPage.providerList(0).hasFocus).to.be.true;
+        });
+      });
 
       describe('clicking an item within the preview pane', () => {
         beforeEach(() => {
@@ -149,6 +162,10 @@ describeApplication('ProviderSearch', () => {
 
         it('hides the search UI', () => {
           expect(ProviderSearchPage.isPresent).to.be.false;
+        });
+
+        it('focuses the package name', () => {
+          expect(PackageShowPage.nameHasFocus).to.be.true;
         });
 
         describe('and clicking the back button', () => {
@@ -162,6 +179,10 @@ describeApplication('ProviderSearch', () => {
 
           it('displays the original search results', () => {
             expect(ProviderSearchPage.providerList()).to.have.lengthOf(3);
+          });
+
+          it('focuses the provider name', () => {
+            expect(ProviderShowPage.nameHasFocus).to.be.true;
           });
         });
       });
