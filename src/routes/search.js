@@ -24,6 +24,11 @@ class SearchRoute extends Component {
       replace: PropTypes.func.isRequired,
       location: PropTypes.object
     }).isRequired,
+    match: PropTypes.shape({
+      params: PropTypes.shape({
+        id: PropTypes.string
+      }).isRequired
+    }).isRequired,
     searchProviders: PropTypes.func.isRequired,
     searchPackages: PropTypes.func.isRequired,
     searchTitles: PropTypes.func.isRequired,
@@ -50,7 +55,11 @@ class SearchRoute extends Component {
       this.path[searchType] = props.location.pathname;
     }
 
-    this.state = { params, searchType };
+    this.state = {
+      hideDetails: /^\/eholdings\/?$/.test(props.location.pathname),
+      searchType,
+      params
+    };
   }
 
   getChildContext() {
@@ -64,8 +73,10 @@ class SearchRoute extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    let { location } = nextProps;
+    let { location, match } = nextProps;
     let { searchType, ...params } = qs.parse(location.search);
+    let hideDetails = /^\/eholdings\/?$/.test(location.pathname);
+    let shouldFocusItem = null;
 
     // cache the query so it can be restored via the search type
     if (searchType) {
@@ -73,8 +84,19 @@ class SearchRoute extends Component {
       this.path[searchType] = location.pathname;
     }
 
+    // when details are not visible, we need to focus the last active
+    // list item as determined by the `id` URL param
+    if (hideDetails && this.props.match.params.id !== match.params.id) {
+      shouldFocusItem = this.props.match.params.id || null;
+    }
+
     // always update the results state
-    this.setState({ searchType, params });
+    this.setState({
+      hideDetails,
+      shouldFocusItem,
+      searchType,
+      params
+    });
   }
 
   /**
@@ -213,9 +235,13 @@ class SearchRoute extends Component {
    * Renders the search component specific to the current search type
    */
   renderResults() {
-    let { searchType, params } = this.state;
+    let { searchType, params, shouldFocusItem } = this.state;
+    let { match: { params: { id } } } = this.props;
+
     let props = {
       params,
+      activeId: id,
+      shouldFocusItem,
       location: this.props.location,
       collection: this.getResults(),
       onUpdateOffset: this.handleOffset,
@@ -241,10 +267,9 @@ class SearchRoute extends Component {
    */
   render() {
     let { location, children } = this.props;
-    let { searchType, params } = this.state;
+    let { searchType, params, hideDetails } = this.state;
 
     if (searchType) {
-      let hideDetails = /^\/eholdings\/?$/.test(location.pathname);
       let results = this.getResults();
 
       return (

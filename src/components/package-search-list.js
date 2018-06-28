@@ -7,13 +7,12 @@ import PackageListItem from './package-list-item';
 export default function PackageSearchList({
   location,
   params,
+  activeId,
+  shouldFocusItem,
   collection,
   fetch,
   onUpdateOffset
 }, { router }) {
-  let { params: routeParams } = router.route.match;
-  let isPackagePage = routeParams.type === 'packages';
-
   return (
     <QueryList
       type="packages"
@@ -30,7 +29,8 @@ export default function PackageSearchList({
           link={item.content && {
             pathname: `/eholdings/packages/${item.content.id}`
           }}
-          active={item.content && isPackagePage && routeParams.id === item.content.id}
+          active={item.content && activeId && item.content.id === activeId}
+          shouldFocus={item.content && shouldFocusItem && item.content.id === shouldFocusItem}
           onClick={() => {
             router.history.push(
               `/eholdings/packages/${item.content.id}${location.search}`
@@ -45,6 +45,8 @@ export default function PackageSearchList({
 PackageSearchList.propTypes = {
   location: PropTypes.object.isRequired,
   params: PropTypes.object.isRequired,
+  activeId: PropTypes.string,
+  shouldFocusItem: PropTypes.string,
   collection: PropTypes.object.isRequired,
   fetch: PropTypes.func.isRequired,
   onUpdateOffset: PropTypes.func.isRequired

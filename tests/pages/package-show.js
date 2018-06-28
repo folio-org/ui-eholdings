@@ -8,7 +8,8 @@ import {
   property,
   action,
   text,
-  triggerable
+  triggerable,
+  is
 } from '@bigtest/interactor';
 import { getComputedStyle, hasClassBeginningWith } from './helpers';
 import Datepicker from './datepicker';
@@ -31,6 +32,7 @@ import Toast from './toast';
   paneTitle = text('[data-test-eholdings-details-view-pane-title]');
   contentType = text('[data-test-eholdings-package-details-content-type]');
   name = text('[data-test-eholdings-details-view-name="package"]');
+  nameHasFocus = is('[data-test-eholdings-details-view-name="package"]', ':focus');
   numTitles = text('[data-test-eholdings-package-details-titles-total]');
   numTitlesSelected = text('[data-test-eholdings-package-details-titles-selected]');
   packageType = text('[data-test-eholdings-package-details-type');

@@ -48,6 +48,10 @@ describeApplication('PackageSearch', () => {
       expect(PackageSearchPage.hasPreSearchPane).to.equal(false);
     });
 
+    it('focuses on the search pane title', () => {
+      expect(PackageSearchPage.paneTitleHasFocus).to.be.true;
+    });
+
     it("displays package entries related to 'Package'", () => {
       expect(PackageSearchPage.packageList()).to.have.lengthOf(3);
     });
@@ -83,6 +87,10 @@ describeApplication('PackageSearch', () => {
 
       it('shows the preview pane', () => {
         expect(PackageSearchPage.packagePreviewPaneIsPresent).to.be.true;
+      });
+
+      it('focuses the package name', () => {
+        expect(PackageShowPage.nameHasFocus).to.be.true;
       });
 
       it.always('should not display button in UI', () => {
@@ -151,6 +159,11 @@ describeApplication('PackageSearch', () => {
         it('displays the original search results', () => {
           expect(PackageSearchPage.packageList()).to.have.lengthOf(3);
         });
+
+        it('focuses the last active item', () => {
+          expect(PackageSearchPage.packageList(0).isActive).to.be.false;
+          expect(PackageSearchPage.packageList(0).hasFocus).to.be.true;
+        });
       });
 
       describe('clicking an item within the preview pane', () => {
@@ -160,6 +173,10 @@ describeApplication('PackageSearch', () => {
 
         it('hides the search ui', () => {
           expect(PackageSearchPage.isPresent).to.be.false;
+        });
+
+        it('focuses the resource name', () => {
+          expect(ResourceShowPage.nameHasFocus).to.be.true;
         });
 
         describe('and clicking the back button', () => {
@@ -173,6 +190,10 @@ describeApplication('PackageSearch', () => {
 
           it('displays the original search results', () => {
             expect(PackageSearchPage.packageList()).to.have.lengthOf(3);
+          });
+
+          it('focuses the package name', () => {
+            expect(PackageShowPage.nameHasFocus).to.be.true;
           });
         });
       });

@@ -60,12 +60,27 @@ export default class DetailsView extends Component {
     showSearchModal: false
   };
 
+  // used to focus the heading when the model loads
+  $heading = React.createRef(); // eslint-disable-line react/sort-comp
+
   componentDidMount() {
     window.addEventListener('resize', this.handleLayout);
     this.handleLayout();
+
+    // if the heading exists on mount, focus it
+    if (this.$heading.current) {
+      this.$heading.current.focus();
+    }
   }
 
-  componentDidUpdate() {
+  componentDidUpdate(prevProps) {
+    let { model } = this.props;
+
+    // if the model just finished loading focus the heading
+    if (!prevProps.model.isLoaded && model.isLoaded) {
+      this.$heading.current.focus();
+    }
+
     this.handleLayout();
   }
 
@@ -248,7 +263,11 @@ export default class DetailsView extends Component {
         >
           {model.isLoaded ? [
             <div key="header" className={styles.header}>
-              <h2 data-test-eholdings-details-view-name={type}>
+              <h2
+                tabIndex={-1}
+                ref={this.$heading}
+                data-test-eholdings-details-view-name={type}
+              >
                 {paneTitle}
               </h2>
               {paneSub && (

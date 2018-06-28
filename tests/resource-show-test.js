@@ -72,8 +72,9 @@ describeApplication('ResourceShow', () => {
       expect(ResourcePage.paneSub).to.equal('Cool Package');
     });
 
-    it('displays the title name', () => {
+    it('displays and focuses the title name', () => {
       expect(ResourcePage.titleName).to.equal('Best Title Ever');
+      expect(ResourcePage.nameHasFocus).to.be.true;
     });
 
     it('displays the edition', () => {

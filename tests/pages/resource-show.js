@@ -6,7 +6,8 @@ import {
   interactor,
   property,
   attribute,
-  text
+  text,
+  is
 } from '@bigtest/interactor';
 import { hasClassBeginningWith } from './helpers';
 import Toast from './toast';
@@ -33,6 +34,7 @@ import Toast from './toast';
 
 @interactor class ResourceShowPage {
   titleName = text('[data-test-eholdings-details-view-name="resource"]');
+  nameHasFocus = is('[data-test-eholdings-details-view-name="resource"]', ':focus');
   edition = text('[data-test-eholdings-resource-show-edition]');
   descriptionText = text('[data-test-eholdings-description-field]');
   publisherName = text('[data-test-eholdings-resource-show-publisher-name]');

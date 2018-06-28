@@ -37,8 +37,9 @@ describeApplication('PackageShow', () => {
       expect(PackageShowPage.paneTitle).to.equal('Cool Package');
     });
 
-    it('displays the package name', () => {
+    it('displays and focuses on the package name', () => {
       expect(PackageShowPage.name).to.equal('Cool Package');
+      expect(PackageShowPage.nameHasFocus).to.be.true;
     });
 
     it('displays whether or not the package is selected', () => {

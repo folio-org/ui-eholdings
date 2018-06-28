@@ -2,12 +2,13 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames/bind';
 
+import shouldFocus from '../should-focus';
 import styles from './title-list-item.css';
 import Link from '../link';
 
 const cx = classNames.bind(styles);
 
-export default function TitleListItem({
+function TitleListItem({
   item,
   link,
   active,
@@ -89,3 +90,7 @@ TitleListItem.propTypes = {
   onClick: PropTypes.func,
   headingLevel: PropTypes.string
 };
+
+// this HOC adds a prop, `shouldFocus` that will focus the component's
+// rendered DOM node on mount and update (when the prop is toggled)
+export default shouldFocus(TitleListItem);

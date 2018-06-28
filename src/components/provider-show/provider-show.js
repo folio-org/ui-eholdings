@@ -40,6 +40,7 @@ export default function ProviderShow({
       <DetailsView
         type="provider"
         model={model}
+        key={model.id}
         paneTitle={model.name}
         actionMenuItems={actionMenuItems}
         bodyContent={(

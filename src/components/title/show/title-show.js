@@ -153,6 +153,7 @@ export default class TitleShow extends Component {
         <DetailsView
           type="title"
           model={model}
+          key={model.id}
           paneTitle={model.name}
           actionMenuItems={this.actionMenuItems}
           lastMenu={this.lastMenu}

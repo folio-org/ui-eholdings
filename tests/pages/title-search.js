@@ -25,6 +25,7 @@ import { hasClassBeginningWith } from './helpers';
   searchFieldSelectValue = value('[data-test-title-search-field] select');
   hasSearchFilters = isPresent('[data-test-eholdings-search-filters="titles"]');
   totalResults = text('[data-test-eholdings-search-results-header] p');
+  paneTitleHasFocus = is('[data-test-eholdings-search-results-header] h2 [tabindex]', ':focus');
   titlePreviewPaneIsPresent = isPresent('[data-test-preview-pane="titles"]');
   providerPreviewPaneIsPresent = isPresent('[data-test-preview-pane="providers"]');
   hasBackButton = isPresent('[data-test-eholdings-details-view-back-button] button');
@@ -85,7 +86,8 @@ import { hasClassBeginningWith } from './helpers';
     publisherName: text('[data-test-eholdings-title-list-item-publisher-name]'),
     publicationType: text('[data-test-eholdings-title-list-item-publication-type]'),
     clickThrough: clickable(),
-    isActive: is('[class*="is-selected--"]')
+    isActive: is('[class*="is-selected--"]'),
+    hasFocus: is(':focus')
   });
 
   packageTitleList = collection('[data-test-query-list="title-packages"] li', {

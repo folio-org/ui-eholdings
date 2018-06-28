@@ -24,6 +24,7 @@ import Toast from './toast';
   titleSearchFieldValue = value('[data-test-title-search-field] input[name="search"]');
   hasResults = isPresent('[data-test-eholdings-search-results-header]');
   totalResults = text('[data-test-eholdings-search-results-header] p');
+  paneTitleHasFocus = is('[data-test-eholdings-search-results-header] h2 [tabindex]', ':focus');
   packagePreviewPaneIsPresent = isPresent('[data-test-preview-pane="packages"]');
   titlePreviewPaneIsPresent = isPresent('[data-test-preview-pane="titles"]');
   hasBackButton = isPresent('[data-test-eholdings-details-view-back-button] button');
@@ -81,6 +82,7 @@ import Toast from './toast';
       return this.isSelectedText === 'Selected';
     }),
     isActive: is('[class*="is-selected"]'),
+    hasFocus: is(':focus'),
     clickThrough: clickable()
   });
 

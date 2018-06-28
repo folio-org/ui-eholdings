@@ -20,6 +20,7 @@ import { hasClassBeginningWith } from './helpers';
   hasSearchFilters = isPresent('[data-test-eholdings-search-filters="providers"]');
   searchFieldValue = value('[data-test-search-field] input[name="search"]');
   totalResults = text('[data-test-eholdings-search-results-header] p');
+  paneTitleHasFocus = is('[data-test-eholdings-search-results-header] h2 [tabindex]', ':focus');
   providerPreviewPaneIsPresent = isPresent('[data-test-preview-pane="providers"]');
   packagePreviewPaneIsPresent = isPresent('[data-test-preview-pane="packages"]');
   hasBackButton = isPresent('[data-test-eholdings-details-view-back-button] button');
@@ -72,6 +73,7 @@ import { hasClassBeginningWith } from './helpers';
     providerName: text('[data-test-eholdings-package-list-item-provider-name]'),
     numPackagesSelected: text('[data-test-eholdings-provider-list-item-num-packages-selected]'),
     isActive: is('[class*="is-selected"]'),
+    hasFocus: is(':focus'),
     clickThrough: clickable()
   });
 

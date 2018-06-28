@@ -3,6 +3,7 @@ import { expect } from 'chai';
 
 import { describeApplication } from './helpers';
 import TitleSearchPage from './pages/title-search';
+import TitleShowPage from './pages/title-show';
 import ResourceShowPage from './pages/resource-show';
 
 describeApplication('TitleSearch', () => {
@@ -84,6 +85,10 @@ describeApplication('TitleSearch', () => {
       expect(TitleSearchPage.hasPreSearchPane).to.equal(false);
     });
 
+    it('focuses on the search pane title', () => {
+      expect(TitleSearchPage.paneTitleHasFocus).to.be.true;
+    });
+
     it('has enabled search button', () => {
       expect(TitleSearchPage.isSearchButtonDisabled).to.be.false;
     });
@@ -127,6 +132,10 @@ describeApplication('TitleSearch', () => {
 
       it('shows the preview pane', () => {
         expect(TitleSearchPage.titlePreviewPaneIsPresent).to.be.true;
+      });
+
+      it('focuses the title name', () => {
+        expect(TitleShowPage.nameHasFocus).to.be.true;
       });
 
       it('should not display back button in UI', () => {
@@ -184,6 +193,11 @@ describeApplication('TitleSearch', () => {
         it('displays the original search results', () => {
           expect(TitleSearchPage.titleList()).to.have.lengthOf(3);
         });
+
+        it('focuses the last active item', () => {
+          expect(TitleSearchPage.titleList(0).isActive).to.be.false;
+          expect(TitleSearchPage.titleList(0).hasFocus).to.be.true;
+        });
       });
 
       describe('clicking an item within the preview pane', () => {
@@ -193,6 +207,10 @@ describeApplication('TitleSearch', () => {
 
         it('hides the search ui', () => {
           expect(TitleSearchPage.isPresent).to.be.false;
+        });
+
+        it('focuses the resource name', () => {
+          expect(ResourceShowPage.nameHasFocus).to.be.true;
         });
 
         describe('and clicking the back button', () => {
@@ -206,6 +224,10 @@ describeApplication('TitleSearch', () => {
 
           it('displays the original search results', () => {
             expect(TitleSearchPage.titleList()).to.have.lengthOf(3);
+          });
+
+          it('focuses the title name', () => {
+            expect(TitleShowPage.nameHasFocus).to.be.true;
           });
         });
       });
