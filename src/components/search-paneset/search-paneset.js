@@ -49,10 +49,9 @@ export default class SearchPaneset extends React.Component {
   // used to focus the pane title when a new search happens
   $title = React.createRef(); // eslint-disable-line react/sort-comp
 
-  // focus the pane title if we mounted with an existing search
+  // focus the pane title if we mounted with existing search results and no details view
   componentDidMount() {
-    // this is only defined when there is an existing search
-    if (this.props.resultsView) {
+    if (this.props.resultsView && !this.props.detailsView) {
       this.$title.current.focus();
     }
   }
