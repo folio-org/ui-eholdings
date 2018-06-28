@@ -29,8 +29,9 @@ describeApplication('ProviderShow', () => {
       expect(ProviderShowPage.paneTitle).to.equal('League of Ordinary Men');
     });
 
-    it('displays the provider name', () => {
+    it('displays and focuses the provider name', () => {
       expect(ProviderShowPage.name).to.equal('League of Ordinary Men');
+      expect(ProviderShowPage.nameHasFocus).to.be.true;
     });
 
     it('displays the total number of packages', () => {

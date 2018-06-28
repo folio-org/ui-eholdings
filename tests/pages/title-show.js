@@ -7,7 +7,8 @@ import {
   property,
   interactor,
   fillable,
-  text
+  text,
+  is
 } from '@bigtest/interactor';
 
 import {
@@ -40,6 +41,7 @@ import Toast from './toast';
 @interactor class TitleShowPage {
   paneTitle = text('[data-test-eholdings-details-view-pane-title]');
   titleName = text('[data-test-eholdings-details-view-name="title"]');
+  nameHasFocus = is('[data-test-eholdings-details-view-name="title"]', ':focus');
   edition = text('[data-test-eholdings-title-show-edition]');
   publisherName = text('[data-test-eholdings-title-show-publisher-name]');
   publicationType = text('[data-test-eholdings-title-show-publication-type]');
