@@ -67,7 +67,7 @@
   },
   "stripes": {
     "type": "app",
-    "displayName": "eHoldings",
+    "displayName": "ui-eholdings.meta.title",
     "route": "/eholdings",
     "hasSettings": true,
     "icons": [
