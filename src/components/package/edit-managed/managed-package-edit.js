@@ -7,6 +7,8 @@ import { intlShape, injectIntl, FormattedMessage } from 'react-intl';
 import {
   Button,
   Icon,
+  Modal,
+  ModalFooter,
   RadioButton,
   RadioButtonGroup
 } from '@folio/stripes-components';
@@ -17,7 +19,6 @@ import CoverageFields, { validate as validateCoverageDates } from '../_fields/cu
 import DetailsViewSection from '../../details-view-section';
 import NavigationModal from '../../navigation-modal';
 import ToggleSwitch from '../../toggle-switch/toggle-switch';
-import Modal from '../../modal/modal';
 import Toaster from '../../toaster';
 import styles from './managed-package-edit.css';
 
@@ -29,7 +30,7 @@ class ManagedPackageEdit extends Component {
     handleSubmit: PropTypes.func,
     onSubmit: PropTypes.func.isRequired,
     pristine: PropTypes.bool,
-    intl: intlShape.isRequired // eslint-disable-line react/no-unused-prop-types
+    intl: intlShape.isRequired
   };
 
   static contextTypes = {
@@ -147,7 +148,8 @@ class ManagedPackageEdit extends Component {
       model,
       initialValues,
       handleSubmit,
-      pristine
+      pristine,
+      intl
     } = this.props;
 
     let {
@@ -195,7 +197,7 @@ class ManagedPackageEdit extends Component {
           bodyContent={(
             <form onSubmit={handleSubmit(this.handleOnSubmit)}>
               <DetailsViewSection
-                label={<FormattedMessage id="ui-eholdings.package.holdingStatus" />}
+                label={intl.formatMessage({ id: 'ui-eholdings.package.holdingStatus' })}
               >
                 <label
                   data-test-eholdings-package-details-selected
@@ -217,26 +219,23 @@ class ManagedPackageEdit extends Component {
                   />
                 </label>
               </DetailsViewSection>
-              <DetailsViewSection label={<FormattedMessage id="ui-eholdings.package.packageSettings" />}>
+              <DetailsViewSection label={intl.formatMessage({ id: 'ui-eholdings.package.packageSettings' })}>
                 {packageSelected ? (
                   <div className={styles['visibility-radios']}>
                     {this.props.initialValues.isVisible != null ? (
                       <Fragment>
                         <div data-test-eholdings-package-visibility-field>
                           <Field
-                            label={<FormattedMessage id="ui-eholdings.package.visibility" />}
+                            label={intl.formatMessage({ id: 'ui-eholdings.package.visibility' })}
                             name="isVisible"
                             component={RadioButtonGroup}
                           >
-                            <RadioButton label={<FormattedMessage id="ui-eholdings.yes" />} value="true" />
+                            <RadioButton label={intl.formatMessage({ id: 'ui-eholdings.yes' })} value="true" />
                             <RadioButton
-                              label={
-                                <FormattedMessage
-                                  id="ui-eholdings.package.visibility.no"
-                                  values={{
-                                    visibilityMessage
-                                  }}
-                                />}
+                              label={intl.formatMessage(
+                                { id: 'ui-eholdings.package.visibility.no' },
+                                { visibilityMessage }
+                              )}
                               value="false"
                             />
                           </Field>
@@ -259,18 +258,18 @@ class ManagedPackageEdit extends Component {
                     {this.props.initialValues.allowKbToAddTitles != null ? (
                       <Fragment>
                         <Field
-                          label={<FormattedMessage id="ui-eholdings.package.packageAllowToAddTitles" />}
+                          label={intl.formatMessage({ id: 'ui-eholdings.package.packageAllowToAddTitles' })}
                           name="allowKbToAddTitles"
                           data-test-eholdings-allow-kb-to-add-titles-radios
                           component={RadioButtonGroup}
                         >
                           <RadioButton
-                            label={<FormattedMessage id="ui-eholdings.yes" />}
+                            label={intl.formatMessage({ id: 'ui-eholdings.yes' })}
                             value="true"
                             data-test-eholdings-allow-kb-to-add-titles-radio-yes
                           />
                           <RadioButton
-                            label={<FormattedMessage id="ui-eholdings.no" />}
+                            label={intl.formatMessage({ id: 'ui-eholdings.no' })}
                             value="false"
                             data-test-eholdings-allow-kb-to-add-titles-radio-no
                           />
@@ -290,7 +289,7 @@ class ManagedPackageEdit extends Component {
                   )}
               </DetailsViewSection>
               <DetailsViewSection
-                label="Coverage dates"
+                label={intl.formatMessage({ id: 'ui-eholdings.package.coverageDates' })}
               >
                 {packageSelected ? (
                   <CoverageFields
@@ -336,25 +335,21 @@ class ManagedPackageEdit extends Component {
         <Modal
           open={showSelectionModal}
           size="small"
-          label={<FormattedMessage id="ui-eholdings.package.modalMessageHeader" />}
-          scope="root"
+          label={intl.formatMessage({ id: 'ui-eholdings.package.modalMessageHeader' })}
           id="eholdings-package-confirmation-modal"
           footer={(
-            <div>
-              <Button
-                buttonStyle="primary"
-                onClick={this.commitSelectionToggle}
-                data-test-eholdings-package-deselection-confirmation-modal-yes
-              >
-                <FormattedMessage id="ui-eholdings.package.modalMessageButtonConfirm" />
-              </Button>
-              <Button
-                onClick={this.cancelSelectionToggle}
-                data-test-eholdings-package-deselection-confirmation-modal-no
-              >
-                <FormattedMessage id="ui-eholdings.package.modalMessageButtonCancel" />
-              </Button>
-            </div>
+            <ModalFooter
+              primaryButton={{
+                'label': intl.formatMessage({ id: 'ui-eholdings.package.modalMessageButtonConfirm' }),
+                'onClick': this.commitSelectionToggle,
+                'data-test-eholdings-package-deselection-confirmation-modal-yes': true
+              }}
+              secondaryButton={{
+                'label': intl.formatMessage({ id: 'ui-eholdings.package.modalMessageButtonCancel' }),
+                'onClick': this.cancelSelectionToggle,
+                'data-test-eholdings-package-deselection-confirmation-modal-no': true
+              }}
+            />
           )}
         >
           <FormattedMessage id="ui-eholdings.package.modalMessageBody" />

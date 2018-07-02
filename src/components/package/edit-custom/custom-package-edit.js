@@ -8,6 +8,8 @@ import {
   Button,
   Icon,
   KeyValue,
+  Modal,
+  ModalFooter,
   RadioButton,
   RadioButtonGroup
 } from '@folio/stripes-components';
@@ -20,7 +22,6 @@ import ContentTypeField from '../_fields/content-type';
 import DetailsViewSection from '../../details-view-section';
 import NavigationModal from '../../navigation-modal';
 import ToggleSwitch from '../../toggle-switch/toggle-switch';
-import Modal from '../../modal/modal';
 import Toaster from '../../toaster';
 import styles from './custom-package-edit.css';
 
@@ -32,7 +33,7 @@ class CustomPackageEdit extends Component {
     model: PropTypes.object.isRequired,
     onSubmit: PropTypes.func.isRequired,
     pristine: PropTypes.bool,
-    intl: intlShape.isRequired // eslint-disable-line react/no-unused-prop-types
+    intl: intlShape.isRequired
   };
 
   static contextTypes = {
@@ -136,6 +137,7 @@ class CustomPackageEdit extends Component {
       initialValues,
       handleSubmit,
       pristine,
+      intl
     } = this.props;
 
     let {
@@ -183,7 +185,7 @@ class CustomPackageEdit extends Component {
           bodyContent={(
             <form onSubmit={handleSubmit(this.handleOnSubmit)}>
               <DetailsViewSection
-                label={<FormattedMessage id="ui-eholdings.package.packageInformation" />}
+                label={intl.formatMessage({ id: 'ui-eholdings.package.packageInformation' })}
               >
                 {packageSelected ? (
                   <NameField />
@@ -206,7 +208,7 @@ class CustomPackageEdit extends Component {
                )}
               </DetailsViewSection>
               <DetailsViewSection
-                label={<FormattedMessage id="ui-eholdings.package.holdingStatus" />}
+                label={intl.formatMessage({ id: 'ui-eholdings.package.holdingStatus' })}
               >
                 <label
                   data-test-eholdings-package-details-selected
@@ -228,26 +230,25 @@ class CustomPackageEdit extends Component {
                   />
                 </label>
               </DetailsViewSection>
-              <DetailsViewSection label={<FormattedMessage id="ui-eholdings.package.packageSettings" />}>
+              <DetailsViewSection label={intl.formatMessage({ id: 'ui-eholdings.package.packageSettings' })}>
                 {packageSelected ? (
                   <div className={styles['visibility-radios']}>
                     {this.props.initialValues.isVisible != null ? (
                       <Fragment>
                         <div data-test-eholdings-package-visibility-field>
                           <Field
-                            label={<FormattedMessage id="ui-eholdings.package.visibility" />}
+                            label={intl.formatMessage({ id: 'ui-eholdings.package.visibility' })}
                             name="isVisible"
                             component={RadioButtonGroup}
                           >
-                            <RadioButton label={<FormattedMessage id="ui-eholdings.yes" />} value="true" />
+                            <RadioButton label={intl.formatMessage({ id: 'ui-eholdings.yes' })} value="true" />
                             <RadioButton
                               label={
-                                <FormattedMessage
-                                  id="ui-eholdings.package.visibility.no"
-                                  values={{
-                                    visibilityMessage
-                                  }}
-                                />}
+                                intl.formatMessage(
+                                  { id: 'ui-eholdings.package.visibility.no' },
+                                  { visibilityMessage }
+                                )
+                              }
                               value="false"
                             />
                           </Field>
@@ -269,7 +270,7 @@ class CustomPackageEdit extends Component {
               </DetailsViewSection>
 
               <DetailsViewSection
-                label={<FormattedMessage id="ui-eholdings.package.coverageDates" />}
+                label={intl.formatMessage({ id: 'ui-eholdings.package.coverageDates' })}
               >
                 {packageSelected ? (
                   <CoverageFields
@@ -318,25 +319,21 @@ class CustomPackageEdit extends Component {
         <Modal
           open={showSelectionModal}
           size="small"
-          label={<FormattedMessage id="ui-eholdings.package.modalMessageHeader.isCustom" />}
-          scope="root"
+          label={intl.formatMessage({ id: 'ui-eholdings.package.modalMessageHeader.isCustom' })}
           id="eholdings-package-confirmation-modal"
           footer={(
-            <div>
-              <Button
-                buttonStyle="primary"
-                onClick={this.commitSelectionToggle}
-                data-test-eholdings-package-deselection-confirmation-modal-yes
-              >
-                <FormattedMessage id="ui-eholdings.package.modalMessageButtonConfirm.isCustom" />
-              </Button>
-              <Button
-                onClick={this.cancelSelectionToggle}
-                data-test-eholdings-package-deselection-confirmation-modal-no
-              >
-                <FormattedMessage id="ui-eholdings.package.modalMessageButtonCancel.isCustom" />
-              </Button>
-            </div>
+            <ModalFooter
+              primaryButton={{
+                'label': intl.formatMessage({ id: 'ui-eholdings.package.modalMessageButtonConfirm.isCustom' }),
+                'onClick': this.commitSelectionToggle,
+                'data-test-eholdings-package-deselection-confirmation-modal-yes': true
+              }}
+              secondaryButton={{
+                'label': intl.formatMessage({ id: 'ui-eholdings.package.modalMessageButtonCancel.isCustom' }),
+                'onClick': this.cancelSelectionToggle,
+                'data-test-eholdings-package-deselection-confirmation-modal-no': true
+              }}
+            />
           )}
         >
           <FormattedMessage id="ui-eholdings.package.modalMessageBody.isCustom" />

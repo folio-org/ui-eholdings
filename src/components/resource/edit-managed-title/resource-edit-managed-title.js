@@ -6,7 +6,9 @@ import { intlShape, injectIntl } from 'react-intl';
 
 import {
   Button,
-  Icon
+  Icon,
+  Modal,
+  ModalFooter
 } from '@folio/stripes-components';
 import { processErrors } from '../../utilities';
 
@@ -17,7 +19,6 @@ import CustomCoverageFields, { validate as validateCoverageDates } from '../_fie
 import CustomEmbargoFields, { validate as validateEmbargo } from '../_fields/custom-embargo';
 import DetailsViewSection from '../../details-view-section';
 import ToggleSwitch from '../../toggle-switch/toggle-switch';
-import Modal from '../../modal/modal';
 import NavigationModal from '../../navigation-modal';
 import Toaster from '../../toaster';
 import styles from './resource-edit-managed-title.css';
@@ -247,24 +248,20 @@ class ResourceEditManagedTitle extends Component { // eslint-disable-line react/
           open={showSelectionModal}
           size="small"
           label="Remove title from holdings?"
-          scope="root"
           id="eholdings-resource-confirmation-modal"
           footer={(
-            <div>
-              <Button
-                buttonStyle="primary"
-                onClick={this.commitSelectionToggle}
-                data-test-eholdings-resource-deselection-confirmation-modal-yes
-              >
-                Yes, remove
-              </Button>
-              <Button
-                onClick={this.cancelSelectionToggle}
-                data-test-eholdings-resource-deselection-confirmation-modal-no
-              >
-                No, do not remove
-              </Button>
-            </div>
+            <ModalFooter
+              primaryButton={{
+                'label': 'Yes, remove',
+                'onClick': this.commitSelectionToggle,
+                'data-test-eholdings-resource-deselection-confirmation-modal-yes': true
+              }}
+              secondaryButton={{
+                'label': 'No, do not remove',
+                'onClick': this.cancelSelectionToggle,
+                'data-test-eholdings-resource-deselection-confirmation-modal-no': true
+              }}
+            />
           )}
         >
         Are you sure you want to remove this title from your holdings? By removing this title, you will lose all customization to this title in this package only.

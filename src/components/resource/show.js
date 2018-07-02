@@ -6,6 +6,8 @@ import {
   IconButton,
   Icon,
   KeyValue,
+  Modal,
+  ModalFooter,
   PaneMenu
 } from '@folio/stripes-components';
 
@@ -15,7 +17,6 @@ import IdentifiersList from '../identifiers-list';
 import ContributorsList from '..//contributors-list';
 import CoverageDateList from '../coverage-date-list';
 import { isBookPublicationType, isValidCoverageList, processErrors } from '../utilities';
-import Modal from '../modal';
 import DetailsViewSection from '../details-view-section';
 import Toaster from '../toaster';
 
@@ -370,24 +371,20 @@ export default class ResourceShow extends Component {
           open={showSelectionModal}
           size="small"
           label="Remove resource from holdings?"
-          scope="root"
           id="eholdings-resource-deselection-confirmation-modal"
           footer={(
-            <div>
-              <Button
-                buttonStyle="primary"
-                onClick={this.commitSelectionToggle}
-                data-test-eholdings-resource-deselection-confirmation-modal-yes
-              >
-                Yes, remove
-              </Button>
-              <Button
-                onClick={this.cancelSelectionToggle}
-                data-test-eholdings-resource-deselection-confirmation-modal-no
-              >
-                No, do not remove
-              </Button>
-            </div>
+            <ModalFooter
+              primaryButton={{
+                'label': 'Yes, remove',
+                'onClick': this.commitSelectionToggle,
+                'data-test-eholdings-resource-deselection-confirmation-modal-yes': true
+              }}
+              secondaryButton={{
+                'label': 'No, do not remove',
+                'onClick': this.cancelSelectionToggle,
+                'data-test-eholdings-resource-deselection-confirmation-modal-no': true
+              }}
+            />
           )}
         >
           {
