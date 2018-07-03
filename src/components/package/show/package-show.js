@@ -8,7 +8,7 @@ import {
   KeyValue,
   PaneMenu
 } from '@folio/stripes-components';
-import { FormattedDate, FormattedNumber } from 'react-intl';
+import { FormattedDate, FormattedNumber, FormattedMessage } from 'react-intl';
 import { processErrors } from '../../utilities';
 
 import DetailsView from '../../details-view';
@@ -95,23 +95,21 @@ export default class PackageShow extends Component {
 
     let modalMessage = model.isCustom ?
       {
-        header: 'Delete custom package',
-        body: `Are you sure you want to delete this package?
-          By deleting this package it will no longer be available for selection and all customization will be lost.
-          If a title only appears in this package it will no longer be available for selection.`,
-        buttonConfirm: 'Yes, delete',
-        buttonCancel: 'No, do not delete'
+        header: <FormattedMessage id='ui-eholdings.package.modalMessageBody.isCustom' />,
+        body: <FormattedMessage id='ui-eholdings.package.modalMessageBody.isCustom' />,
+        buttonConfirm: <FormattedMessage id='ui-eholdings.package.modalMessageButtonConfirm.isCustom' />,
+        buttonCancel: <FormattedMessage id='ui-eholdings.pacakge.modalMessageButtonCancel.isCustom' />
       } :
       {
-        header: 'Remove package from holdings?',
-        body: 'Are you sure you want to remove this package and all its titles from your holdings? All customizations will be lost.',
-        buttonConfirm: 'Yes, remove',
-        buttonCancel: 'No, do not remove'
+        header: <FormattedMessage id='ui-eholdings.package.modalMessageHeader' />,
+        body: <FormattedMessage id='ui-eholdings.package.modalMessageBody' />,
+        buttonConfirm: <FormattedMessage id='ui-eholdings.package.modalMessageButtonConfirm' />,
+        buttonCancel: <FormattedMessage id='ui-eholdings.package.modalMessageButtonCancel' />
       };
 
     let actionMenuItems = [
       {
-        label: 'Edit',
+        label: <FormattedMessage id="ui-eholdings.package.actionMenu.edit" />,
         to: {
           pathname: `/eholdings/packages/${model.id}/edit`,
           search: router.route.location.search,
@@ -122,7 +120,7 @@ export default class PackageShow extends Component {
 
     if (queryParams.searchType) {
       actionMenuItems.push({
-        label: 'Full view',
+        label: <FormattedMessage id="ui-eholdings.package.actionMenu.fullView" />,
         to: {
           pathname: `/eholdings/packages/${model.id}`,
           state: { eholdings: true }
@@ -155,7 +153,7 @@ export default class PackageShow extends Component {
         router.history.location.state.isNewRecord) {
       toasts.push({
         id: `success-package-creation-${model.id}`,
-        message: 'Custom package created.',
+        message: <FormattedMessage id="ui-eholdings.package.toast.isNewRecord" />,
         type: 'success'
       });
     }
@@ -167,7 +165,7 @@ export default class PackageShow extends Component {
         router.history.location.state.isDestroyed) {
       toasts.push({
         id: `success-resource-destruction-${model.id}`,
-        message: 'Title removed from package',
+        message: <FormattedMessage id="ui-eholdings.package.toast.isDestroyed" />,
         type: 'success'
       });
     }
@@ -178,7 +176,7 @@ export default class PackageShow extends Component {
         router.history.location.state.isFreshlySaved) {
       toasts.push({
         id: `success-package-saved-${model.id}`,
-        message: 'Package saved.',
+        message: <FormattedMessage id="ui-eholdings.package.toast.isFreshlySaved" />,
         type: 'success'
       });
     }
@@ -208,15 +206,15 @@ export default class PackageShow extends Component {
           )}
           bodyContent={(
             <div>
-              <DetailsViewSection label='Package information'>
-                <KeyValue label="Provider">
+              <DetailsViewSection label={<FormattedMessage id="ui-eholdings.package.packageInformation" />}>
+                <KeyValue label={<FormattedMessage id="ui-eholdings.package.provider" />}>
                   <div data-test-eholdings-package-details-provider>
                     <Link to={`/eholdings/providers/${model.providerId}`}>{model.providerName}</Link>
                   </div>
                 </KeyValue>
 
                 {model.contentType && (
-                  <KeyValue label="Content type">
+                  <KeyValue label={<FormattedMessage id="ui-eholdings.package.contentType" />}>
                     <div data-test-eholdings-package-details-content-type>
                       {model.contentType}
                     </div>
@@ -224,26 +222,26 @@ export default class PackageShow extends Component {
                 )}
 
                 {model.packageType && (
-                  <KeyValue label="Package type">
+                  <KeyValue label={<FormattedMessage id="ui-eholdings.package.packageType" />}>
                     <div data-test-eholdings-package-details-type>
                       {model.packageType}
                     </div>
                   </KeyValue>
                 )}
 
-                <KeyValue label="Titles selected">
+                <KeyValue label={<FormattedMessage id="ui-eholdings.package.titlesSelected" />}>
                   <div data-test-eholdings-package-details-titles-selected>
                     <FormattedNumber value={model.selectedCount} />
                   </div>
                 </KeyValue>
 
-                <KeyValue label="Total titles">
+                <KeyValue label={<FormattedMessage id="ui-eholdings.package.totalTitles" />}>
                   <div data-test-eholdings-package-details-titles-total>
                     <FormattedNumber value={model.titleCount} />
                   </div>
                 </KeyValue>
               </DetailsViewSection>
-              <DetailsViewSection label="Holding status">
+              <DetailsViewSection label={<FormattedMessage id="ui-eholdings.package.holdingStatus" />} >
                 <label
                   data-test-eholdings-package-details-selected
                   htmlFor="package-details-toggle-switch"
@@ -251,8 +249,13 @@ export default class PackageShow extends Component {
                   { packageSelectionPending ? (
                     <Icon icon="spinner-ellipsis" />
                   ) : (
-                    <h4>{packageSelected ? 'Selected' : 'Not selected'}</h4>
+                    <h4>{packageSelected ?
+                    (<FormattedMessage id="ui-eholdings.selected" />)
+                    :
+                    (<FormattedMessage id="ui-eholdings.notSelected" />)}
+                    </h4>
                   ) }
+
                   <br />
                   {(
                     (!packageSelected && !packageSelectionPending) ||
@@ -269,12 +272,15 @@ export default class PackageShow extends Component {
                   }
                 </label>
               </DetailsViewSection>
-              <DetailsViewSection label="Package settings">
+              <DetailsViewSection label={<FormattedMessage id="ui-eholdings.package.packageSettings" />}>
                 {packageSelected ? (
                   <div>
-                    <KeyValue label="Show titles in package to patrons">
+                    <KeyValue label={<FormattedMessage id="ui-eholdings.package.visibility" />}>
                       <div data-test-eholdings-package-details-visibility-status>
-                        {!model.visibilityData.isHidden ? 'Yes' : `No ${visibilityMessage}`}
+                        {!model.visibilityData.isHidden ?
+                          (<FormattedMessage id="ui-eholdings.yes" />)
+                            :
+                          `No ${visibilityMessage}`}
                       </div>
 
                       {model.visibilityData.isHidden && (
@@ -284,11 +290,15 @@ export default class PackageShow extends Component {
                       )}
                     </KeyValue>
                     {!model.isCustom && (
-                      <KeyValue label="Automatically select new titles">
+                      <KeyValue label={<FormattedMessage id="ui-eholdings.package.packageAllowToAddTitles" />}>
                         <div>
                           {packageAllowedToAddTitles != null ? (
                             <div data-test-eholdings-package-details-allow-add-new-titles>
-                              {packageAllowedToAddTitles ? 'Yes' : 'No'}
+                              {packageAllowedToAddTitles ?
+                                (<FormattedMessage id="ui-eholdings.yes" />)
+                                :
+                                (<FormattedMessage id="ui-eholdings.no" />)
+                              }
                             </div>
                             ) : (
                               <div>
@@ -300,18 +310,18 @@ export default class PackageShow extends Component {
                     )}
                   </div>
                 ) : (
-                  <p>Add the package to holdings to customize package settings.</p>
+                  <p><FormattedMessage id="ui-eholdings.package.visibility.notSelected" /></p>
                 )}
               </DetailsViewSection>
               <DetailsViewSection
-                label="Coverage dates"
+                label={<FormattedMessage id="ui-eholdings.package.coverageDates" />}
                 closedByDefault={!packageSelected}
               >
                 {packageSelected ? (
                   <div>
                     {model.customCoverage.beginCoverage ? (
                       <div>
-                        <KeyValue label="Custom coverage dates">
+                        <KeyValue label={<FormattedMessage id="ui-eholdings.package.customCoverageDates" />}>
                           <div data-test-eholdings-package-details-custom-coverage-display>
                             <FormattedDate
                               value={model.customCoverage.beginCoverage}
@@ -333,11 +343,11 @@ export default class PackageShow extends Component {
                         </KeyValue>
                       </div>
                     ) : (
-                      <p>No custom coverage dates set.</p>
+                      <p><FormattedMessage id="ui-eholdings.package.customCoverage.notSet" /></p>
                     )}
                   </div>
                 ) : (
-                  <p>Add the package to holdings to set custom coverage dates.</p>
+                  <p><FormattedMessage id="ui-eholdings.package.customCoverage.notSelected" /></p>
                 )}
               </DetailsViewSection>
             </div>

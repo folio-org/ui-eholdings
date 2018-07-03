@@ -2,7 +2,7 @@ import React, { Component, Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { reduxForm, Field } from 'redux-form';
 import isEqual from 'lodash/isEqual';
-import { intlShape, injectIntl } from 'react-intl';
+import { intlShape, injectIntl, FormattedMessage } from 'react-intl';
 
 import {
   Button,
@@ -152,7 +152,7 @@ class CustomPackageEdit extends Component {
 
     let actionMenuItems = [
       {
-        label: 'Cancel editing',
+        label: <FormattedMessage id="ui-eholdings.package.actionMenu.cancelEditing" />,
         to: {
           pathname: `/eholdings/packages/${model.id}`,
           search: router.route.location.search,
@@ -163,7 +163,7 @@ class CustomPackageEdit extends Component {
 
     if (queryParams.searchType) {
       actionMenuItems.push({
-        label: 'Full view',
+        label: <FormattedMessage id="ui-eholdings.package.actionMenu.fullView" />,
         to: {
           pathname: `/eholdings/packages/${model.id}/edit`,
           state: { eholdings: true }
@@ -183,12 +183,12 @@ class CustomPackageEdit extends Component {
           bodyContent={(
             <form onSubmit={handleSubmit(this.handleOnSubmit)}>
               <DetailsViewSection
-                label="Package information"
+                label={<FormattedMessage id="ui-eholdings.package.packageInformation" />}
               >
                 {packageSelected ? (
                   <NameField />
                ) : (
-                 <KeyValue label="Name">
+                 <KeyValue label={<FormattedMessage id="ui-eholdings.package.name" />}>
                    <div data-test-eholdings-package-readonly-name-field>
                      {model.name}
                    </div>
@@ -198,7 +198,7 @@ class CustomPackageEdit extends Component {
                 {packageSelected ? (
                   <ContentTypeField />
                ) : (
-                 <KeyValue label="Content type">
+                 <KeyValue label={<FormattedMessage id="ui-eholdings.package.contentType" />}>
                    <div data-test-eholdings-package-details-readonly-content-type>
                      {model.contentType}
                    </div>
@@ -206,13 +206,17 @@ class CustomPackageEdit extends Component {
                )}
               </DetailsViewSection>
               <DetailsViewSection
-                label="Holding status"
+                label={<FormattedMessage id="ui-eholdings.package.holdingStatus" />}
               >
                 <label
                   data-test-eholdings-package-details-selected
                   htmlFor="custom-package-details-toggle-switch"
                 >
-                  <h4>{packageSelected ? 'Selected' : 'Not selected'}</h4>
+                  <h4>{packageSelected ?
+                    (<FormattedMessage id="ui-eholdings.selected" />)
+                    :
+                    (<FormattedMessage id="ui-eholdings.notSelected" />)}
+                  </h4>
                   <br />
 
                   <Field
@@ -224,19 +228,28 @@ class CustomPackageEdit extends Component {
                   />
                 </label>
               </DetailsViewSection>
-              <DetailsViewSection label="Package settings">
+              <DetailsViewSection label={<FormattedMessage id="ui-eholdings.package.packageSettings" />}>
                 {packageSelected ? (
                   <div className={styles['visibility-radios']}>
                     {this.props.initialValues.isVisible != null ? (
                       <Fragment>
                         <div data-test-eholdings-package-visibility-field>
                           <Field
-                            label="Show titles in package to patrons"
+                            label={<FormattedMessage id="ui-eholdings.package.visbility" />}
                             name="isVisible"
                             component={RadioButtonGroup}
                           >
-                            <RadioButton label="Yes" value="true" />
-                            <RadioButton label={`No ${visibilityMessage}`} value="false" />
+                            <RadioButton label={<FormattedMessage id="ui-eholdings.yes" />} value="true" />
+                            <RadioButton
+                              label={
+                                <FormattedMessage
+                                  id="ui-eholdings.package.visibility.no"
+                                  values={{
+                                    visibilityMessage
+                                  }}
+                                />}
+                              value="false"
+                            />
                           </Field>
                         </div>
                       </Fragment>
@@ -251,18 +264,18 @@ class CustomPackageEdit extends Component {
                     )}
                   </div>
                 ) : (
-                  <p>Not shown to patrons.</p>
+                  <p><FormattedMessage id="ui-eholdings.package.packageSettings.notSelected" /></p>
                 )}
               </DetailsViewSection>
 
               <DetailsViewSection
-                label="Coverage dates"
+                label={<FormattedMessage id="ui-eholdings.package.coverageDates" />}
               >
                 {packageSelected ? (
                   <CoverageFields
                     initialValue={initialValues.customCoverages}
                   />) : (
-                    <p>Add the package to holdings to set custom coverage dates.</p>
+                    <p><FormattedMessage id="ui-eholdings.package.customCoverage.notSelected" /></p>
                 )}
               </DetailsViewSection>
 
@@ -275,7 +288,7 @@ class CustomPackageEdit extends Component {
                     type="button"
                     onClick={this.handleCancel}
                   >
-                    Cancel
+                    <FormattedMessage id="ui-eholdings.cancel" />
                   </Button>
                 </div>
                 <div
@@ -286,7 +299,10 @@ class CustomPackageEdit extends Component {
                     type="submit"
                     buttonStyle="primary"
                   >
-                    {model.update.isPending ? 'Saving' : 'Save'}
+                    {model.update.isPending ?
+                    (<FormattedMessage id="ui-eholdings.package.saving" />)
+                    :
+                    (<FormattedMessage id="ui-eholdings.package.save" />)}
                   </Button>
                 </div>
                 {model.update.isPending && (
@@ -302,7 +318,7 @@ class CustomPackageEdit extends Component {
         <Modal
           open={showSelectionModal}
           size="small"
-          label="Delete custom package"
+          label={<FormattedMessage id="ui-eholdings.package.modalMessageHeader.isCustom" />}
           scope="root"
           id="eholdings-package-confirmation-modal"
           footer={(
@@ -312,18 +328,18 @@ class CustomPackageEdit extends Component {
                 onClick={this.commitSelectionToggle}
                 data-test-eholdings-package-deselection-confirmation-modal-yes
               >
-                Yes, delete
+                <FormattedMessage id="ui-eholdings.package.modalMessageButtonConfirm.isCustom" />
               </Button>
               <Button
                 onClick={this.cancelSelectionToggle}
                 data-test-eholdings-package-deselection-confirmation-modal-no
               >
-                No, do not delete
+                <FormattedMessage id="ui-eholdings.package.modalMessageButtonCancel.isCustom" />
               </Button>
             </div>
           )}
         >
-          Are you sure you want to delete this package? By deleting this package it will no longer be available for selection and all customization will be lost. If a title only appears in this package it will no longer be available for selection.
+          <FormattedMessage id="ui-eholdings.package.modalMessageBody.isCustom" />
         </Modal>
       </div>
     );
