@@ -117,16 +117,16 @@
   dependencies:
     history "^4.7.2"
 
-"@folio/eslint-config-stripes@^1.1.0":
-  version "1.1.100026"
-  resolved "https://repository.folio.org/repository/npm-folioci/@folio/eslint-config-stripes/-/eslint-config-stripes-1.1.100026.tgz#4a31f3d85f2bb31600c860999ea5f3374f481542"
+"@folio/eslint-config-stripes@^2.0.2":
+  version "2.0.200030"
+  resolved "https://repository.folio.org/repository/npm-folioci/@folio/eslint-config-stripes/-/eslint-config-stripes-2.0.200030.tgz#3111ef08e5cf6c6bc6c8039bf3715b18204cab4e"
   dependencies:
     eslint-config-airbnb "^16.1.0"
     eslint-import-resolver-webpack "^0.8.3"
     eslint-plugin-babel "^4.1.2"
     eslint-plugin-import "^2.8.0"
     eslint-plugin-jsx-a11y "^6.0.3"
-    eslint-plugin-react "^7.6.0"
+    eslint-plugin-react "7.9.1"
 
 "@folio/react-intl-safe-html@^1.0.1":
   version "1.0.10008"
@@ -2886,7 +2886,7 @@ doctrine@1.5.0:
     esutils "^2.0.2"
     isarray "^1.0.0"
 
-doctrine@^2.0.2, doctrine@^2.1.0:
+doctrine@^2.1.0:
   version "2.1.0"
   resolved "https://registry.yarnpkg.com/doctrine/-/doctrine-2.1.0.tgz#5cd01fc101621b42c4cd7f5d1a66243716d3f39d"
   dependencies:
@@ -3402,14 +3402,14 @@ eslint-plugin-jsx-a11y@^6.0.3:
     emoji-regex "^6.1.0"
     jsx-ast-utils "^2.0.0"
 
-eslint-plugin-react@^7.6.0:
-  version "7.7.0"
-  resolved "https://registry.yarnpkg.com/eslint-plugin-react/-/eslint-plugin-react-7.7.0.tgz#f606c719dbd8a1a2b3d25c16299813878cca0160"
+eslint-plugin-react@7.9.1:
+  version "7.9.1"
+  resolved "https://registry.yarnpkg.com/eslint-plugin-react/-/eslint-plugin-react-7.9.1.tgz#101aadd15e7c7b431ed025303ac7b421a8e3dc15"
   dependencies:
-    doctrine "^2.0.2"
-    has "^1.0.1"
+    doctrine "^2.1.0"
+    has "^1.0.2"
     jsx-ast-utils "^2.0.1"
-    prop-types "^15.6.0"
+    prop-types "^15.6.1"
 
 eslint-restricted-globals@^0.1.1:
   version "0.1.1"
@@ -4411,6 +4411,12 @@ has@^1.0.1:
   resolved "https://registry.yarnpkg.com/has/-/has-1.0.1.tgz#8461733f538b0837c9361e39a9ab9e9704dc2f28"
   dependencies:
     function-bind "^1.0.2"
+
+has@^1.0.2:
+  version "1.0.3"
+  resolved "https://registry.yarnpkg.com/has/-/has-1.0.3.tgz#722d7cbfc1f6aa8241f16dd814e011e1f41e8796"
+  dependencies:
+    function-bind "^1.1.1"
 
 hash-base@^3.0.0:
   version "3.0.4"
