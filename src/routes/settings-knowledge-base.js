@@ -14,8 +14,9 @@ class SettingsKnowledgeBaseRoute extends Component {
     updateBackendConfig: PropTypes.func.isRequired
   };
 
-  componentWillMount() {
-    this.props.getBackendConfig();
+  constructor(props) {
+    super(props);
+    props.getBackendConfig();
   }
 
   updateConfig = ({ customerId, apiKey }) => {

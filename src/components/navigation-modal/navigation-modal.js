@@ -34,21 +34,23 @@ export default class NavigationModal extends Component {
     }).isRequired
   };
 
+  constructor(props) {
+    super(props);
+
+    if (props.when) {
+      this.enable();
+    }
+  }
+
   state = {
     showModal: false,
     nextLocation: null
   };
 
-  componentWillMount() {
-    if (this.props.when) {
+  componentDidUpdate({ when }) {
+    if (this.props.when && !when) {
       this.enable();
-    }
-  }
-
-  componentWillReceiveProps(nextProps) {
-    if (nextProps.when && !this.props.when) {
-      this.enable();
-    } else if (!nextProps.when) {
+    } else if (!this.props.when) {
       this.disable();
     }
   }

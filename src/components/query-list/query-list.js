@@ -28,16 +28,13 @@ export default class QueryList extends Component {
     notFoundMessage: 'Not found'
   }
 
+  static getDerivedPropsFromState({ offset }, prevState) {
+    return offset !== prevState.offset ? { offset } : prevState;
+  }
+
   state = {
     offset: this.props.offset || 0
   };
-
-  componentWillReceiveProps(nextProps) {
-    if (nextProps.offset !== this.props.offset &&
-        nextProps.offset !== this.state.offset) {
-      this.setState({ offset: nextProps.offset });
-    }
-  }
 
   updateOffset = (offset) => {
     this.setState({ offset });

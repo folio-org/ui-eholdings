@@ -20,13 +20,14 @@ class ProviderShowRoute extends Component {
     getPackages: PropTypes.func.isRequired
   };
 
-  state = {
-    pkgSearchParams: {}
+  constructor(props) {
+    super(props);
+    let { providerId } = props.match.params;
+    props.getProvider(providerId);
   }
 
-  componentWillMount() {
-    let { providerId } = this.props.match.params;
-    this.props.getProvider(providerId);
+  state = {
+    pkgSearchParams: {}
   }
 
   componentDidUpdate(prevProps, prevState) {

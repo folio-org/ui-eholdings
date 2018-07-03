@@ -19,8 +19,9 @@ class ApplicationRoute extends Component {
     getBackendStatus: PropTypes.func.isRequired
   }
 
-  componentWillMount() {
-    this.props.getBackendStatus();
+  constructor(props) {
+    super(props);
+    props.getBackendStatus();
   }
 
   render() {

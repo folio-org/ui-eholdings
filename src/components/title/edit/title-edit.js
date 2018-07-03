@@ -41,14 +41,14 @@ class TitleEdit extends Component {
     queryParams: PropTypes.object
   };
 
-  componentWillReceiveProps(nextProps) {
-    let wasPending = this.props.model.update.isPending && !nextProps.model.update.isPending;
-    let needsUpdate = !isEqual(this.props.initialValues, nextProps.initialValues);
+  componentDidUpdate(prevProps) {
+    let wasPending = prevProps.model.update.isPending && !this.props.model.update.isPending;
+    let needsUpdate = !isEqual(prevProps.initialValues, this.props.initialValues);
     let { router } = this.context;
 
     if (wasPending && needsUpdate) {
       router.history.push({
-        pathname: `/eholdings/titles/${this.props.model.id}`,
+        pathname: `/eholdings/titles/${prevProps.model.id}`,
         search: router.route.location.search,
         state: { eholdings: true }
       });

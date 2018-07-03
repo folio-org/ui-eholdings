@@ -42,26 +42,37 @@ class ResourceEditCustomTitle extends Component {
     }).isRequired
   };
 
+  static getDerivedStateFromProps(nextProps, prevState) {
+    if (nextProps.initialValues.isSelected !== prevState.initialValues.isSelected) {
+      return {
+        ...prevState,
+        initialValues: {
+          ...prevState.initialValues,
+          isSelected: nextProps.initialValues.isSelected
+        },
+        resourceSelected: nextProps.initialValues.isSelected
+      };
+    }
+    return prevState;
+  }
+
   state = {
     resourceSelected: this.props.initialValues.isSelected,
     showSelectionModal: false,
     allowFormToSubmit: false,
-    formValues: {}
+    formValues: {},
+    // this is used above in getDerivedStateFromProps
+    // eslint-disable-next-line react/no-unused-state
+    initialValues: this.props.initialValues
   }
 
-  componentWillReceiveProps(nextProps) {
-    let wasPending = this.props.model.update.isPending && !nextProps.model.update.isPending;
-    let needsUpdate = !isEqual(this.props.model, nextProps.model);
-
-    if ((nextProps.initialValues.isSelected !== this.props.initialValues.isSelected) ||
-        (nextProps.initialValues.isVisible !== this.props.initialValues.isVisible)) {
-      this.setState({
-        resourceSelected: nextProps.initialValues.isSelected
-      });
-    }
+  componentDidUpdate(prevProps) {
+    let wasPending = prevProps.model.update.isPending && !this.props.model.update.isPending;
+    let needsUpdate = !isEqual(prevProps.model, this.props.model);
+    let { router } = this.context;
 
     if (wasPending && needsUpdate) {
-      this.context.router.history.push(
+      router.history.push(
         `/eholdings/resources/${this.props.model.id}`,
         { eholdings: true, isFreshlySaved: true }
       );

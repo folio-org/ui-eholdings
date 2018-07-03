@@ -27,12 +27,12 @@ export default class ScrollView extends Component {
     scrollable: true
   };
 
-  state = {
-    offset: this.props.offset,
-    visibleItems: 0
-  };
+  static getDerivedPropsFromState({ offset }, prevState) {
+    return offset !== prevState.offset ? { offset } : prevState;
+  }
 
-  componentDidMount() {
+  constructor(props) {
+    super(props);
     // update the DOM element's scrollTop position with our offset
     this.setScrollOffset();
     // adjust the amount of visible items on resize
@@ -40,12 +40,10 @@ export default class ScrollView extends Component {
     this.handleListLayout();
   }
 
-  componentWillReceiveProps({ offset }) {
-    // new offset that's different from the state
-    if (offset !== this.props.offset && offset !== this.state.offset) {
-      this.setState({ offset });
-    }
-  }
+  state = {
+    offset: this.props.offset,
+    visibleItems: 0
+  };
 
   componentDidUpdate(prevProps, prevState) {
     // did the state update

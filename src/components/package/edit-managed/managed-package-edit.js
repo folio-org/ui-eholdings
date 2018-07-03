@@ -41,25 +41,34 @@ class ManagedPackageEdit extends Component {
     queryParams: PropTypes.object
   };
 
+  static getDerivedStateFromProps(nextProps, prevState) {
+    if (nextProps.initialValues.isSelected !== prevState.initialValues.isSelected) {
+      return {
+        ...prevState,
+        initialValues: {
+          ...prevState.initialValues,
+          isSelected: nextProps.initialValues.isSelected
+        },
+        packageSelected: nextProps.initialValues.isSelected
+      };
+    }
+    return prevState;
+  }
+
   state = {
     showSelectionModal: false,
     allowFormToSubmit: false,
     packageSelected: this.props.initialValues.isSelected,
-    packageVisible: this.props.initialValues.isVisible,
-    formValues: {}
+    formValues: {},
+    // these are used above in getDerivedStateFromProps
+    packageVisible: this.props.initialValues.isVisible, // eslint-disable-line react/no-unused-state
+    initialValues: this.props.initialValues // eslint-disable-line react/no-unused-state
   }
 
-  componentWillReceiveProps(nextProps) {
-    let wasPending = this.props.model.update.isPending && !nextProps.model.update.isPending;
-    let needsUpdate = !isEqual(this.props.model, nextProps.model);
+  componentDidUpdate(prevProps) {
+    let wasPending = prevProps.model.update.isPending && !this.props.model.update.isPending;
+    let needsUpdate = !isEqual(prevProps.model, this.props.model);
     let { router } = this.context;
-
-    if (nextProps.initialValues.isSelected !== this.props.initialValues.isSelected) {
-      this.setState({
-        ...this.state,
-        packageSelected: nextProps.initialValues.isSelected
-      });
-    }
 
     if (wasPending && needsUpdate) {
       router.history.push({

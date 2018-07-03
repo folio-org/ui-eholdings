@@ -8,7 +8,7 @@ import Resource from '../redux/resource';
 
 import View from '../components/title/edit';
 
-class TitleShowRoute extends Component {
+class TitleEditRoute extends Component {
   static propTypes = {
     match: PropTypes.shape({
       params: PropTypes.shape({
@@ -29,27 +29,26 @@ class TitleShowRoute extends Component {
     }).isRequired
   };
 
-  componentWillMount() {
-    let { match, getTitle } = this.props;
+  constructor(props) {
+    super(props);
+    let { match, getTitle } = props;
     let { titleId } = match.params;
     getTitle(titleId);
   }
 
-  componentWillReceiveProps(nextProps) {
-    let { match, getTitle } = nextProps;
+  componentDidUpdate(prevProps) {
+    let { match, getTitle } = this.props;
     let { titleId } = match.params;
 
-    if (titleId !== this.props.match.params.titleId) {
-      getTitle(titleId);
-    }
-  }
-
-  componentDidUpdate(prevProps) {
     if (!prevProps.updateRequest.isResolved && this.props.updateRequest.isResolved) {
       this.context.router.history.push(
         `/eholdings/titles/${this.props.model.id}`,
         { eholdings: true, isFreshlySaved: true }
       );
+    }
+
+    if (titleId !== prevProps.match.params.titleId) {
+      getTitle(titleId);
     }
   }
 
@@ -126,4 +125,4 @@ export default connect(
     getTitle: id => Title.find(id, { include: 'resources' }),
     updateResource: model => Resource.save(model)
   }
-)(TitleShowRoute);
+)(TitleEditRoute);

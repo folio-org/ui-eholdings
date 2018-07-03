@@ -29,7 +29,8 @@ const actionNames = gatherActions();
  * for interacting with the custom history.
  */
 export default class TestHarness extends Component {
-  componentWillMount() {
+  constructor() {
+    super();
     this.logger = configureLogger(config);
     this.epics = configureEpics();
     this.store = configureStore({ okapi }, this.logger, this.epics);
