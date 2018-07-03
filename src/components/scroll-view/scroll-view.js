@@ -9,6 +9,10 @@ import List from '../list';
 const cx = classNames.bind(styles);
 
 export default class ScrollView extends Component {
+  static getDerivedPropsFromState({ offset }, prevState) {
+    return offset !== prevState.offset ? { offset } : prevState;
+  }
+
   static propTypes = {
     items: PropTypes.shape({
       length: PropTypes.number.isRequired,
@@ -26,10 +30,6 @@ export default class ScrollView extends Component {
     offset: 0,
     scrollable: true
   };
-
-  static getDerivedPropsFromState({ offset }, prevState) {
-    return offset !== prevState.offset ? { offset } : prevState;
-  }
 
   constructor(props) {
     super(props);

@@ -9,6 +9,10 @@ import Impagination from '../impagination';
 const cx = classnames.bind(styles);
 
 export default class QueryList extends Component {
+  static getDerivedPropsFromState({ offset }, prevState) {
+    return offset !== prevState.offset ? { offset } : prevState;
+  }
+
   static propTypes = {
     type: PropTypes.string.isRequired,
     offset: PropTypes.number,
@@ -26,10 +30,6 @@ export default class QueryList extends Component {
 
   static defaultProps = {
     notFoundMessage: 'Not found'
-  }
-
-  static getDerivedPropsFromState({ offset }, prevState) {
-    return offset !== prevState.offset ? { offset } : prevState;
   }
 
   state = {

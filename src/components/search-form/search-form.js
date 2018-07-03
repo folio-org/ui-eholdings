@@ -43,6 +43,13 @@ export default class SearchForm extends Component {
     displaySearchTypeSwitcher: true
   };
 
+  state = {
+    searchString: this.props.searchString || '',
+    filter: this.props.filter || {},
+    searchfield: this.props.searchfield || 'title', // last attr actually used in getDerivedStateFromProps
+    sort: this.props.sort || 'relevance' // eslint-disable-line react/no-unused-state
+  };
+
   static getDerivedStateFromProps({ searchString = '', filter = {}, searchfield, sort }, state) {
     const newSearchfield = searchfield !== state.searchfield ? searchfield : state.searchfield;
     const newSearchString = searchString !== state.searchString ? searchString : state.searchString;
@@ -65,13 +72,6 @@ export default class SearchForm extends Component {
       sort: newSort,
     };
   }
-
-  state = {
-    searchString: this.props.searchString || '',
-    filter: this.props.filter || {},
-    searchfield: this.props.searchfield || 'title', // last attr actually used in getDerivedStateFromProps
-    sort: this.props.sort || 'relevance' // eslint-disable-line react/no-unused-state
-  };
 
   submitSearch = () => {
     let { sort, ...searchfilter } = this.state.filter;

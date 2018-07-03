@@ -19,12 +19,6 @@ export default class NavigationModal extends Component {
     ])
   };
 
-  static defaultProps = {
-    modalLabel: 'Confirm navigation',
-    continueLabel: 'Continue without saving',
-    dismissLabel: 'Keep editing'
-  };
-
   static contextTypes = {
     router: PropTypes.shape({
       history: PropTypes.shape({
@@ -32,6 +26,12 @@ export default class NavigationModal extends Component {
         push: PropTypes.func.isRequired
       }).isRequired
     }).isRequired
+  };
+
+  static defaultProps = {
+    modalLabel: 'Confirm navigation',
+    continueLabel: 'Continue without saving',
+    dismissLabel: 'Keep editing'
   };
 
   constructor(props) {

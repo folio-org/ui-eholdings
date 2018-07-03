@@ -29,16 +29,16 @@ export default class ResourceShow extends Component {
     router: PropTypes.object
   };
 
+  state = {
+    showSelectionModal: false,
+    resourceSelected: this.props.model.isSelected
+  };
+
   static getDerivedStateFromProps({ model }, prevState) {
     return !model.isSaving ?
       { ...prevState, resourceSelected: model.isSelected } :
       prevState;
   }
-
-  state = {
-    showSelectionModal: false,
-    resourceSelected: this.props.model.isSelected
-  };
 
   handleHoldingStatus = () => {
     if (this.props.model.isSelected) {

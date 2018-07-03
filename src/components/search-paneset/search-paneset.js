@@ -32,14 +32,14 @@ export default class SearchPaneset extends React.Component {
     }).isRequired
   };
 
-  static defaultProps = {
-    totalResults: 0
-  };
-
   static contextTypes = {
     router: PropTypes.shape({
       history: PropTypes.object
     })
+  };
+
+  static defaultProps = {
+    totalResults: 0
   };
 
   state = {

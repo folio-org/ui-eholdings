@@ -35,6 +35,13 @@ export default class PackageShow extends Component {
     queryParams: PropTypes.object
   };
 
+  state = {
+    showSelectionModal: false,
+    packageSelected: this.props.model.isSelected,
+    packageAllowedToAddTitles: this.props.model.allowKbToAddTitles,
+    isCoverageEditable: false
+  };
+
   static getDerivedStateFromProps(nextProps, prevState) {
     const { model: { allowKbToAddTitles, isSaving, isSelected } } = nextProps;
     if (!isSaving) {
@@ -46,13 +53,6 @@ export default class PackageShow extends Component {
     }
     return prevState;
   }
-
-  state = {
-    showSelectionModal: false,
-    packageSelected: this.props.model.isSelected,
-    packageAllowedToAddTitles: this.props.model.allowKbToAddTitles,
-    isCoverageEditable: false
-  };
 
   handleSelectionToggle = () => {
     this.setState({ packageSelected: !this.props.model.isSelected });

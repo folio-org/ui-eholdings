@@ -41,6 +41,16 @@ class ManagedPackageEdit extends Component {
     queryParams: PropTypes.object
   };
 
+  state = {
+    showSelectionModal: false,
+    allowFormToSubmit: false,
+    packageSelected: this.props.initialValues.isSelected,
+    formValues: {},
+    // these are used above in getDerivedStateFromProps
+    packageVisible: this.props.initialValues.isVisible, // eslint-disable-line react/no-unused-state
+    initialValues: this.props.initialValues // eslint-disable-line react/no-unused-state
+  }
+
   static getDerivedStateFromProps(nextProps, prevState) {
     if (nextProps.initialValues.isSelected !== prevState.initialValues.isSelected) {
       return {
@@ -53,16 +63,6 @@ class ManagedPackageEdit extends Component {
       };
     }
     return prevState;
-  }
-
-  state = {
-    showSelectionModal: false,
-    allowFormToSubmit: false,
-    packageSelected: this.props.initialValues.isSelected,
-    formValues: {},
-    // these are used above in getDerivedStateFromProps
-    packageVisible: this.props.initialValues.isVisible, // eslint-disable-line react/no-unused-state
-    initialValues: this.props.initialValues // eslint-disable-line react/no-unused-state
   }
 
   componentDidUpdate(prevProps) {

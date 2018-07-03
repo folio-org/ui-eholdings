@@ -42,6 +42,16 @@ class ResourceEditCustomTitle extends Component {
     }).isRequired
   };
 
+  state = {
+    resourceSelected: this.props.initialValues.isSelected,
+    showSelectionModal: false,
+    allowFormToSubmit: false,
+    formValues: {},
+    // this is used above in getDerivedStateFromProps
+    // eslint-disable-next-line react/no-unused-state
+    initialValues: this.props.initialValues
+  }
+
   static getDerivedStateFromProps(nextProps, prevState) {
     if (nextProps.initialValues.isSelected !== prevState.initialValues.isSelected) {
       return {
@@ -54,16 +64,6 @@ class ResourceEditCustomTitle extends Component {
       };
     }
     return prevState;
-  }
-
-  state = {
-    resourceSelected: this.props.initialValues.isSelected,
-    showSelectionModal: false,
-    allowFormToSubmit: false,
-    formValues: {},
-    // this is used above in getDerivedStateFromProps
-    // eslint-disable-next-line react/no-unused-state
-    initialValues: this.props.initialValues
   }
 
   componentDidUpdate(prevProps) {
