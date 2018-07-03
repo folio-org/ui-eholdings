@@ -34,9 +34,10 @@ export default class EHoldings extends Component {
     router: PropTypes.object
   };
 
-  componentWillMount() {
-    this.context.addReducer('eholdings', reducer);
-    this.context.addEpic('eholdings', epics);
+  constructor(props, context) {
+    super(props);
+    context.addReducer('eholdings', reducer);
+    context.addEpic('eholdings', epics);
   }
 
   render() {

@@ -43,34 +43,35 @@ export default class SearchForm extends Component {
     displaySearchTypeSwitcher: true
   };
 
+  static getDerivedStateFromProps({ searchString = '', filter = {}, searchfield, sort }, state) {
+    const newSearchfield = searchfield !== state.searchfield ? searchfield : state.searchfield;
+    const newSearchString = searchString !== state.searchString ? searchString : state.searchString;
+    const newSort = sort !== state.sort ? sort : state.sort;
+    let newFilter = state.filter;
+
+    if (sort) {
+      const displayfilter = { ...filter, sort };
+      if (!isEqual(displayfilter, state.filter)) {
+        newFilter = displayfilter;
+      }
+    } else if (!isEqual(filter, state.filter)) {
+      newFilter = filter;
+    }
+
+    return {
+      filter: newFilter,
+      searchfield: newSearchfield,
+      searchString: newSearchString,
+      sort: newSort,
+    };
+  }
+
   state = {
     searchString: this.props.searchString || '',
     filter: this.props.filter || {},
-    searchfield: this.props.searchfield || 'title',
-    sort: this.props.sort || 'relevance'
+    searchfield: this.props.searchfield || 'title', // last attr actually used in getDerivedStateFromProps
+    sort: this.props.sort || 'relevance' // eslint-disable-line react/no-unused-state
   };
-
-  componentWillReceiveProps({ searchString = '', filter = {}, searchfield, sort }) {
-    if (searchString !== this.state.searchString) {
-      this.setState({ searchString });
-    }
-
-    if (sort !== this.state.sort) {
-      this.setState({ sort });
-    }
-
-    if (sort) {
-      let displayfilter = { ...filter, sort };
-      if (!isEqual(displayfilter, this.state.filter)) {
-        this.setState({ filter: displayfilter });
-      }
-    } else if (!isEqual(filter, this.state.filter)) {
-      this.setState({ filter });
-    }
-    if (searchfield !== this.state.searchfield) {
-      this.setState({ searchfield });
-    }
-  }
 
   submitSearch = () => {
     let { sort, ...searchfilter } = this.state.filter;

@@ -27,23 +27,18 @@ class ResourceShowRoute extends Component {
     }).isRequired
   };
 
-  componentWillMount() {
-    let { match, getResource } = this.props;
+  constructor(props) {
+    super(props);
+    let { match, getResource } = props;
     let { id } = match.params;
     getResource(id);
-  }
-
-  componentWillReceiveProps(nextProps) {
-    let { match, getResource } = nextProps;
-    let { id } = match.params;
-    if (id !== this.props.match.params.id) {
-      getResource(id);
-    }
   }
 
   componentDidUpdate(prevProps) {
     let wasUpdated = !this.props.model.update.isPending && prevProps.model.update.isPending && (!this.props.model.update.errors.length > 0);
     let { router } = this.context;
+    let { match, getResource } = this.props;
+    let { id } = match.params;
 
     let { packageName, packageId } = prevProps.model;
     if (!prevProps.model.destroy.isResolved && this.props.model.destroy.isResolved) {
@@ -57,6 +52,10 @@ class ResourceShowRoute extends Component {
         search: router.route.location.search,
         state: { eholdings: true, isFreshlySaved: true }
       });
+    }
+
+    if (id !== prevProps.match.params.id) {
+      getResource(id);
     }
   }
 

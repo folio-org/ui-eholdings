@@ -15,9 +15,10 @@ class SettingsRootProxyRoute extends Component {
     updateRootProxy: PropTypes.func.isRequired
   };
 
-  componentWillMount() {
-    this.props.getProxyTypes();
-    this.props.getRootProxy();
+  constructor(props) {
+    super(props);
+    props.getProxyTypes();
+    props.getRootProxy();
   }
 
   rootProxySubmitted = (values) => {

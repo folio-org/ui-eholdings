@@ -29,26 +29,25 @@ class ResourceEditRoute extends Component {
     }).isRequired
   };
 
-  componentWillMount() {
-    let { match, getResource } = this.props;
+  constructor(props) {
+    super(props);
+    let { match, getResource } = props;
     let { id } = match.params;
     getResource(id);
   }
 
-  componentWillReceiveProps(nextProps) {
-    let { match, getResource } = nextProps;
-    let { id } = match.params;
-
-    if (id !== this.props.match.params.id) {
-      getResource(id);
-    }
-  }
-
   componentDidUpdate(prevProps) {
     let { packageName, packageId } = prevProps.model;
+    let { match, getResource } = this.props;
+    let { id } = match.params;
+
     if (!prevProps.model.destroy.isResolved && this.props.model.destroy.isResolved) {
       this.context.router.history.replace(`/eholdings/packages/${packageId}?searchType=packages&q=${packageName}`,
         { eholdings: true, isDestroyed: true });
+    }
+
+    if (id !== prevProps.match.params.id) {
+      getResource(id);
     }
   }
 

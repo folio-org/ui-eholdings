@@ -31,26 +31,17 @@ class PackageEditRoute extends Component {
     }).isRequired
   };
 
-  componentWillMount() {
-    let { packageId } = this.props.match.params;
-    this.props.getPackage(packageId);
-  }
-
-  componentWillReceiveProps(nextProps) {
-    let { model: next, match, getPackage, unloadResources } = nextProps;
-    let { model: old, match: oldMatch } = this.props;
-    let { packageId } = match.params;
-
-    if (packageId !== oldMatch.params.packageId) {
-      getPackage(packageId);
-
-    // if an update just resolved, unfetch the package titles
-    } else if (next.update.isResolved && old.update.isPending) {
-      unloadResources(next.resources);
-    }
+  constructor(props) {
+    super(props);
+    let { packageId } = props.match.params;
+    props.getPackage(packageId);
   }
 
   componentDidUpdate(prevProps) {
+    let { model: next, match, getPackage, unloadResources } = this.props;
+    let { model: old, match: oldMatch } = prevProps;
+    let { packageId } = match.params;
+
     if (!prevProps.model.destroy.isResolved && this.props.model.destroy.isResolved) {
       // if package was reached based on search
       if (this.context.router.history.location.search) {
@@ -62,6 +53,13 @@ class PackageEditRoute extends Component {
       } else {
         this.context.router.history.replace('/eholdings?searchType=packages', { eholdings: true });
       }
+    }
+
+    if (packageId !== oldMatch.params.packageId) {
+      getPackage(packageId);
+    // if an update just resolved, unfetch the package titles
+    } else if (next.update.isResolved && old.update.isPending) {
+      unloadResources(next.resources);
     }
   }
 

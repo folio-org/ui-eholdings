@@ -16,17 +16,16 @@ export default class ToggleSwitch extends Component {
     isPending: PropTypes.bool
   }
 
-  state = {
-    inputChecked: this.props.checked
+  static getDerivedStateFromProps({ checked, isPending }, state) {
+    const wasPending = state.isPending && !isPending;
+    const needsUpdate = state.inputChecked !== checked;
+    const inputChecked = wasPending || needsUpdate ? checked : state.inputChecked;
+    return { inputChecked, isPending };
   }
 
-  componentWillReceiveProps(nextProps) {
-    let wasPending = this.props.isPending && !nextProps.isPending;
-    let needsUpdate = this.props.checked !== nextProps.checked;
-
-    if (wasPending || needsUpdate) {
-      this.setState({ inputChecked: nextProps.checked });
-    }
+  state = {
+    inputChecked: this.props.checked, // isPending is actually used in getDerivedStateFromProps
+    isPending: this.props.isPending // eslint-disable-line react/no-unused-state
   }
 
   toggle = (e) => {

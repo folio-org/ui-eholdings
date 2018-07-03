@@ -52,10 +52,9 @@ class ResourceEditManagedTitle extends Component {
     let wasPending = this.props.model.update.isPending && !nextProps.model.update.isPending;
     let needsUpdate = !isEqual(this.props.model, nextProps.model);
 
-    if ((nextProps.initialValues.isSelected !== this.props.initialValues.isSelected) ||
-        (nextProps.initialValues.isVisible !== this.props.initialValues.isVisible)) {
+    if (nextProps.initialValues.isSelected !== this.state.managedResourceSelected) {
       this.setState({
-        managedResourceSelected: nextProps.initialValues.isSelected
+        managedResourceSelected: nextProps.initialValues.isSelected,
       });
     }
 

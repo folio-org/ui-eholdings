@@ -54,6 +54,66 @@ function patchDatasetState(dataset) {
   });
 }
 
+//  Updates the dataset immutably and triggers the `fetch` property
+//  when there are unrequested pages.
+function updateDataset(props, state) {
+  let { collection, pageSize, loadHorizon, readOffset, fetch } = props;
+  let dataset = state.dataset;
+
+  let isNewCollection = collection.key !== state.collection.key;
+  let hasUnloaded = patchDatasetState(dataset).pagesWithinHorizon.some(({ offset }) => {
+    return collection.getPage(offset + 1).request.hasUnloaded;
+  });
+
+  // we need a brand new dataset state
+  if (isNewCollection || hasUnloaded) {
+    dataset = new State({
+      pageSize,
+      loadHorizon,
+      readOffset,
+      stats: {
+        totalPages: collection.totalPages
+      }
+    });
+  }
+
+  //  update the total page count if necessary
+  if (collection.totalPages !== dataset.stats.totalPages) {
+    dataset.stats.totalPages = collection.totalPages;
+  }
+
+  // update the read offset if necessary
+  if (readOffset !== dataset.readOffset) {
+    dataset = dataset.setReadOffset(readOffset);
+  }
+
+  // make any requests for unrequested pages
+  dataset.unrequested.forEach((p) => {
+    // we use a 1-based page number
+    fetch(p.offset + 1, pageSize);
+  });
+
+  // update newly requested pages
+  dataset = dataset.fetch(dataset.unrequested);
+
+  // resolve or reject all pages within the load horizon
+  patchDatasetState(dataset).pagesWithinHorizon.forEach((page) => {
+    // we use a 1-based page number
+    let { request, records } = collection.getPage(page.offset + 1);
+
+    if (page.isRequested && !request.hasUnloaded) {
+      if (request.isResolved) {
+        dataset = dataset.resolve(records, page.offset);
+      } else if (request.isRejected) {
+        dataset = dataset.reject(request.errors, page);
+      }
+    }
+  });
+
+  // update the state with the new dataset
+  return dataset;
+}
+
 export default class Impagination extends Component {
   static propTypes = {
     pageSize: PropTypes.number,
@@ -73,9 +133,17 @@ export default class Impagination extends Component {
     readOffset: 0
   };
 
+  static getDerivedStateFromProps(nextProps, prevState) {
+    const dataset = updateDataset(nextProps, prevState);
+    return { collection: nextProps.collection, dataset };
+  }
+
   // we can't set this directly as the state object because it will
   // lose getters and other prototype methods
   state = {
+    // used in getDerivedStateFromProps
+    // eslint-disable-next-line react/no-unused-state
+    collection: this.props.collection,
     dataset: new State({
       pageSize: this.props.pageSize,
       loadHorizon: this.props.loadHorizon,
@@ -83,77 +151,6 @@ export default class Impagination extends Component {
       stats: { totalPages: this.props.collection.totalPages }
     })
   };
-
-  // update state on mount to trigger any initial requests and
-  // load any already-resolved records
-  componentWillMount() {
-    this.updateDataset();
-  }
-
-  // the main trigger for updating the datset state
-  componentWillReceiveProps(nextProps) {
-    this.updateDataset(nextProps);
-  }
-
-  //  Updates the dataset immutably and triggers the `fetch` property
-  //  when there are unrequested pages.
-  updateDataset(props = this.props) {
-    let { collection, pageSize, loadHorizon, readOffset, fetch } = props;
-    let dataset = this.state.dataset;
-
-    let isNewCollection = collection.key !== this.props.collection.key;
-    let hasUnloaded = patchDatasetState(dataset).pagesWithinHorizon.some(({ offset }) => {
-      return collection.getPage(offset + 1).request.hasUnloaded;
-    });
-
-    // we need a brand new dataset state
-    if (isNewCollection || hasUnloaded) {
-      dataset = new State({
-        pageSize,
-        loadHorizon,
-        readOffset,
-        stats: {
-          totalPages: collection.totalPages
-        }
-      });
-    }
-
-    //  update the total page count if necessary
-    if (collection.totalPages !== dataset.stats.totalPages) {
-      dataset.stats.totalPages = collection.totalPages;
-    }
-
-    // update the read offset if necessary
-    if (readOffset !== dataset.readOffset) {
-      dataset = dataset.setReadOffset(readOffset);
-    }
-
-    // make any requests for unrequested pages
-    dataset.unrequested.forEach((p) => {
-      // we use a 1-based page number
-      fetch(p.offset + 1, pageSize);
-    });
-
-    // update newly requested pages
-    dataset = dataset.fetch(dataset.unrequested);
-
-    // resolve or reject all pages within the load horizon
-    patchDatasetState(dataset).pagesWithinHorizon.forEach((page) => {
-      // we use a 1-based page number
-      let { request, records } = collection.getPage(page.offset + 1);
-
-      if (page.isRequested && !request.hasUnloaded) {
-        if (request.isResolved) {
-          dataset = dataset.resolve(records, page.offset);
-        } else if (request.isRejected) {
-          dataset = dataset.reject(request.errors, page);
-        }
-      }
-    });
-
-    // update the state with the new dataset
-    this.setState({ dataset });
-  }
 
   // We treat `children` as a render prop and call it with the dataset
   // state. Notice we do not import React because we are not using any

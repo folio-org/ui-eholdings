@@ -36,18 +36,18 @@ class Toaster extends Component {
     position: 'bottom'
   };
 
+  static getDerivedStateFromProps(nextProps, prevState) {
+    return nextProps.toasts ?
+      { ...prevState, toasts: nextProps.toasts } :
+      prevState;
+  }
+
   constructor(props) {
     super(props);
 
     this.state = {
       toasts: props.toasts
     };
-  }
-
-  componentWillReceiveProps(nextProps) {
-    if (nextProps.toasts) {
-      this.setState({ toasts: nextProps.toasts });
-    }
   }
 
   destroyToast = (toastId) => {

@@ -31,10 +31,10 @@ class SettingsRootProxy extends Component {
     }).isRequired
   };
 
-  componentWillReceiveProps(nextProps) {
-    let wasPending = this.props.rootProxy.update.isPending && !nextProps.rootProxy.update.isPending;
-    let needsUpdate = !isEqual(this.props.rootProxy, nextProps.rootProxy);
-    let isRejected = nextProps.rootProxy.update.isRejected;
+  componentDidUpdate(prevProps) {
+    let wasPending = prevProps.rootProxy.update.isPending && !this.props.rootProxy.update.isPending;
+    let needsUpdate = !isEqual(prevProps.rootProxy, this.props.rootProxy);
+    let isRejected = this.props.rootProxy.update.isRejected;
 
     let { router } = this.context;
 
