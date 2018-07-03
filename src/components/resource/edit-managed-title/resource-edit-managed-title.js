@@ -22,7 +22,7 @@ import NavigationModal from '../../navigation-modal';
 import Toaster from '../../toaster';
 import styles from './resource-edit-managed-title.css';
 
-class ResourceEditManagedTitle extends Component {
+class ResourceEditManagedTitle extends Component { // eslint-disable-line react/no-deprecated
   static propTypes = {
     model: PropTypes.object.isRequired,
     initialValues: PropTypes.object.isRequired,

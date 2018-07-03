@@ -13,7 +13,7 @@ import TitleSearchList from '../components/title-search-list';
 import SearchPaneset from '../components/search-paneset';
 import SearchForm from '../components/search-form';
 
-class SearchRoute extends Component {
+class SearchRoute extends Component { // eslint-disable-line react/no-deprecated
   static propTypes = {
     location: PropTypes.shape({
       pathname: PropTypes.string.isRequired,

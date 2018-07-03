@@ -17,7 +17,7 @@ import SearchPaneVignette from '../search-pane-vignette';
 import Link from '../link';
 import styles from './search-paneset.css';
 
-export default class SearchPaneset extends React.Component {
+export default class SearchPaneset extends React.Component { // eslint-disable-line react/no-deprecated
   static propTypes = {
     searchForm: PropTypes.node,
     hideFilters: PropTypes.bool,
