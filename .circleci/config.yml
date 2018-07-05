@@ -27,7 +27,12 @@ jobs:
           at: ~/
       - run:
           name: Lint JS
-          command: yarn eslint --max-warnings=0
+          command: yarn eslint --max-warnings=0 --format junit --output-file ./artifacts/eslint/eslint.xml
+      - store_test_results:
+          path: ./artifacts
+      - store_artifacts:
+          name: Store report
+          path: ./artifacts
 
   stylelint:
     docker:
