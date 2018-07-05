@@ -133,11 +133,6 @@ export default class Impagination extends Component {
     readOffset: 0
   };
 
-  static getDerivedStateFromProps(nextProps, prevState) {
-    const dataset = updateDataset(nextProps, prevState);
-    return { collection: nextProps.collection, dataset };
-  }
-
   // we can't set this directly as the state object because it will
   // lose getters and other prototype methods
   state = {
@@ -151,6 +146,11 @@ export default class Impagination extends Component {
       stats: { totalPages: this.props.collection.totalPages }
     })
   };
+
+  static getDerivedStateFromProps(nextProps, prevState) {
+    const dataset = updateDataset(nextProps, prevState);
+    return { collection: nextProps.collection, dataset };
+  }
 
   // We treat `children` as a render prop and call it with the dataset
   // state. Notice we do not import React because we are not using any

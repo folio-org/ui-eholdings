@@ -29,16 +29,16 @@ export default class ResourceShow extends Component {
     router: PropTypes.object
   };
 
+  state = {
+    showSelectionModal: false,
+    resourceSelected: this.props.model.isSelected
+  };
+
   static getDerivedStateFromProps({ model }, prevState) {
     return !model.isSaving ?
       { ...prevState, resourceSelected: model.isSelected } :
       prevState;
   }
-
-  state = {
-    showSelectionModal: false,
-    resourceSelected: this.props.model.isSelected
-  };
 
   handleHoldingStatus = () => {
     if (this.props.model.isSelected) {
@@ -252,7 +252,7 @@ export default class ResourceShow extends Component {
                 {model.url && (
                   <KeyValue label={`${model.title.isTitleCustom ? 'Custom' : 'Managed'} URL`}>
                     <div data-test-eholdings-resource-show-url>
-                      <a href={model.url} target="_blank">{model.url}</a>
+                      <a href={model.url} target="_blank" rel="noopener noreferrer">{model.url}</a>
                     </div>
                   </KeyValue>
                 )}
