@@ -31,8 +31,11 @@ import Datepicker from './datepicker';
   isSaveDisabled = property('[data-test-eholdings-package-save-button] button', 'disabled');
   hasErrors = isPresent('[data-test-eholdings-details-view-error="package"]');
   toggleIsSelected = clickable('[data-test-eholdings-package-details-selected] input');
-  isSelected = property('[data-test-eholdings-package-details-selected] input', 'checked');
   modal = new PackageEditModal('#eholdings-package-confirmation-modal');
+  selectionText = text('[data-test-eholdings-package-details-selected] h4');
+  isSelected = computed(function () {
+    return this.selectionText === 'Selected';
+  });
   hasBackButton = isPresent('[data-test-eholdings-details-view-back-button] button');
   isHiddenMessage = text('[data-test-eholdings-package-details-is-hidden-reason]');
   isHiddenMessagePresent = isPresent('[data-test-eholdings-package-details-is-hidden-reason]');

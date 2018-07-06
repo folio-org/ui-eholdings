@@ -15,7 +15,6 @@ import DetailsView from '../../details-view';
 import QueryList from '../../query-list';
 import Link from '../../link';
 import TitleListItem from '../../title-list-item';
-import ToggleSwitch from '../../toggle-switch';
 import Modal from '../../modal';
 import NavigationModal from '../../navigation-modal';
 import DetailsViewSection from '../../details-view-section';
@@ -91,6 +90,9 @@ export default class PackageShow extends Component {
     } = this.state;
 
     let visibilityMessage = model.visibilityData.reason && `(${model.visibilityData.reason})`;
+    let packageSelectionPending = model.destroy.isPending ||
+        (model.update.isPending && 'isSelected' in model.update.changedAttributes);
+
     let modalMessage = model.isCustom ?
       {
         header: 'Delete custom package',
@@ -126,6 +128,22 @@ export default class PackageShow extends Component {
           state: { eholdings: true }
         },
         className: styles['full-view-link']
+      });
+    }
+
+    if (packageSelected) {
+      actionMenuItems.push({
+        'label': 'Remove from Holdings',
+        'state': { eholdings: true },
+        'data-test-eholdings-package-remove-from-holdings-action': true,
+        'onClick': this.handleSelectionToggle
+      });
+    } else {
+      actionMenuItems.push({
+        'label': 'Add to Holdings',
+        'state': { eholdings: true },
+        'data-test-eholdings-package-add-to-holdings-action': true,
+        'onClick': this.handleSelectionToggle
       });
     }
 
@@ -230,16 +248,25 @@ export default class PackageShow extends Component {
                   data-test-eholdings-package-details-selected
                   htmlFor="package-details-toggle-switch"
                 >
-                  <h4>{packageSelected ? 'Selected' : 'Not selected'}</h4>
+                  { packageSelectionPending ? (
+                    <Icon icon="spinner-ellipsis" />
+                  ) : (
+                    <h4>{packageSelected ? 'Selected' : 'Not selected'}</h4>
+                  ) }
                   <br />
-                  <ToggleSwitch
-                    onChange={this.handleSelectionToggle}
-                    // if destroying selection status is always false
-                    checked={model.destroy.isPending ? false : packageSelected}
-                    isPending={model.destroy.isPending ||
-                      (model.update.isPending && 'isSelected' in model.update.changedAttributes)}
-                    id="package-details-toggle-switch"
-                  />
+                  {(
+                    (!packageSelected && !packageSelectionPending) ||
+                    (!this.props.model.isSelected && packageSelectionPending)) &&
+                    <Button
+                      type="button"
+                      buttonStyle="primary"
+                      disabled={packageSelectionPending}
+                      onClick={this.handleSelectionToggle}
+                      data-test-eholdings-package-add-to-holdings-button
+                    >
+                    Add to Holdings
+                    </Button>
+                  }
                 </label>
               </DetailsViewSection>
               <DetailsViewSection label="Package settings">

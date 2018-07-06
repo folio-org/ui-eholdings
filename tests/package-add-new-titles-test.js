@@ -94,7 +94,7 @@ describeApplication('PackageShowAllowKbToAddTitles', () => {
 
     describe('selecting a package', () => {
       beforeEach(() => {
-        return PackageShowPage.toggleIsSelected();
+        return PackageShowPage.selectPackage();
       });
 
       it('reflects the desired state (Selected)', () => {
@@ -128,9 +128,7 @@ describeApplication('PackageShowAllowKbToAddTitles', () => {
 
     describe('toggling to deselect a package and confirming deselection', () => {
       beforeEach(() => {
-        return PackageShowPage
-          .toggleIsSelected()
-          .modal.confirmDeselection();
+        return PackageShowPage.deselectAndConfirmPackage();
       });
 
       it('removes allow KB to add titles toggle switch', () => {
@@ -140,9 +138,7 @@ describeApplication('PackageShowAllowKbToAddTitles', () => {
 
     describe('toggling to deselect a package and canceling deselection', () => {
       beforeEach(() => {
-        return PackageShowPage
-          .toggleIsSelected()
-          .modal.cancelDeselection();
+        return PackageShowPage.deselectAndCancelPackage();
       });
 
       it('displays YES for allowing kb to select new titles', () => {

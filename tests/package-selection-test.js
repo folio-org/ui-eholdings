@@ -41,7 +41,7 @@ describeApplication('PackageSelection', () => {
          * TODO: control timing directly with Mirage
          */
         this.server.timing = 50;
-        return PackageShowPage.toggleIsSelected();
+        return PackageShowPage.selectPackage();
       });
 
       afterEach(function () {
@@ -54,10 +54,6 @@ describeApplication('PackageSelection', () => {
 
       it('indicates it is working to get to desired state', () => {
         expect(PackageShowPage.isSelecting).to.equal(true);
-      });
-
-      it('cannot be interacted with while the request is in flight', () => {
-        expect(PackageShowPage.isSelectedToggleDisabled).to.equal(true);
       });
 
       describe('when the request succeeds', () => {
@@ -80,17 +76,12 @@ describeApplication('PackageSelection', () => {
 
       describe('and deselecting the package', () => {
         beforeEach(() => {
+          // many thanks to elrick for catching the need for
+          // the `when` here
           return PackageShowPage
-            .when(() => !PackageShowPage.isSelectedToggleDisabled)
-            .toggleIsSelected();
-        });
-
-        it('reflects the desired state (not selected)', () => {
-          expect(PackageShowPage.isSelected).to.equal(false);
-        });
-
-        it('should show all package titles are not selected', () => {
-          expect(PackageShowPage.allTitlesSelected).to.equal(false);
+            .when(() => !PackageShowPage.isSelecting)
+            .dropDown.clickDropDownButton()
+            .dropDownMenu.clickRemoveFromHoldings();
         });
 
         describe('canceling the deselection', () => {
@@ -98,7 +89,11 @@ describeApplication('PackageSelection', () => {
             return PackageShowPage.modal.cancelDeselection();
           });
 
-          it('reverts back to the selected state', () => {
+          it('does not show a loading indicator', () => {
+            expect(PackageShowPage.isSelecting).to.equal(false);
+          });
+
+          it('remains selected', () => {
             expect(PackageShowPage.isSelected).to.equal(true);
           });
         });
@@ -113,16 +108,8 @@ describeApplication('PackageSelection', () => {
             this.server.timing = 0;
           });
 
-          it('reflects the desired state (Unselected)', () => {
-            expect(PackageShowPage.isSelected).to.equal(false);
-          });
-
-          it('indicates it is working to get to desired state', () => {
+          it('indicates it is working', () => {
             expect(PackageShowPage.isSelecting).to.equal(true);
-          });
-
-          it('cannot be interacted with while the request is in flight', () => {
-            expect(PackageShowPage.isSelectedToggleDisabled).to.equal(true);
           });
 
           describe('when the request succeeds', () => {
@@ -159,23 +146,15 @@ describeApplication('PackageSelection', () => {
         }, 500);
 
         this.server.timing = 50;
-        return PackageShowPage.toggleIsSelected();
+        return PackageShowPage.selectPackage();
       });
 
       afterEach(function () {
         this.server.timing = 0;
       });
 
-      it('reflects the desired state (Selected)', () => {
-        expect(PackageShowPage.isSelected).to.equal(true);
-      });
-
       it('indicates it working to get to desired state', () => {
         expect(PackageShowPage.isSelecting).to.equal(true);
-      });
-
-      it('cannot be interacted with while the request is in flight', () => {
-        expect(PackageShowPage.isSelectedToggleDisabled).to.equal(true);
       });
 
       describe('when the request fails', () => {
