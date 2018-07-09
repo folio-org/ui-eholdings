@@ -49,15 +49,13 @@ describeApplication('CustomPackageShowSelection', () => {
          * TODO: control timing directly with Mirage
          */
         this.server.timing = 50;
-        return PackageShowPage.toggleIsSelected();
+        return PackageShowPage
+          .dropDown.clickDropDownButton()
+          .dropDownMenu.clickRemoveFromHoldings();
       });
 
       afterEach(function () {
         this.server.timing = 0;
-      });
-
-      it('reflects the desired state (not selected)', () => {
-        expect(PackageShowPage.isSelected).to.equal(false);
       });
 
       describe('canceling the deselection', () => {
@@ -80,21 +78,14 @@ describeApplication('CustomPackageShowSelection', () => {
           this.server.timing = 0;
         });
 
-        it('reflects the desired state (Unselected)', () => {
-          expect(PackageShowPage.isSelected).to.equal(false);
-        });
-
         it('indicates it is working to get to desired state', () => {
           expect(PackageShowPage.isSelecting).to.equal(true);
         });
 
-        it('cannot be interacted with while the request is in flight', () => {
-          expect(PackageShowPage.isSelectedToggleDisabled).to.equal(true);
-        });
-
         describe('when the request succeeds', () => {
-          it('reflect the desired state was set', () => {
-            expect(PackageShowPage.isSelected).to.equal(false);
+          beforeEach(() => {
+            return PackageShowPage
+              .when(() => !PackageShowPage.isSelecting);
           });
 
           it('removes package detail pane', () => {
@@ -115,20 +106,14 @@ describeApplication('CustomPackageShowSelection', () => {
           }]
         }, 500);
 
-        return PackageShowPage.toggleIsSelected();
-      });
-
-      it('reflects the desired state (Unselected)', () => {
-        expect(PackageShowPage.isSelected).to.equal(false);
+        return PackageShowPage
+          .dropDown.clickDropDownButton()
+          .dropDownMenu.clickRemoveFromHoldings();
       });
 
       describe('confirming the deselection', () => {
         beforeEach(() => {
           return PackageShowPage.modal.confirmDeselection();
-        });
-
-        it('cannot be interacted with while the request is in flight', () => {
-          expect(PackageShowPage.isSelectedToggleDisabled).to.equal(true);
         });
 
         describe('when the request fails', () => {

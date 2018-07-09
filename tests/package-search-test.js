@@ -124,7 +124,7 @@ describeApplication('PackageSearch', () => {
 
       describe('selecting a package', () => {
         beforeEach(() => {
-          return PackageShowPage.toggleIsSelected();
+          return PackageShowPage.selectPackage();
         });
 
         it('reflects the selection in the results list', () => {

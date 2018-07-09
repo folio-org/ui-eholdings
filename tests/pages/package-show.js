@@ -9,7 +9,8 @@ import {
   action,
   text,
   triggerable,
-  is
+  is,
+  attribute
 } from '@bigtest/interactor';
 import { getComputedStyle, hasClassBeginningWith } from './helpers';
 import Datepicker from './datepicker';
@@ -20,13 +21,26 @@ import Toast from './toast';
   cancelDeselection = clickable('[data-test-eholdings-package-deselection-confirmation-modal-no]');
 }
 
+@interactor class PackageShowDropDown {
+  clickDropDownButton = clickable('button');
+  isExpanded = attribute('button', 'aria-expanded');
+}
+
+@interactor class PackageShowDropDownMenu {
+  clickRemoveFromHoldings = clickable('.tether-element [data-test-eholdings-package-remove-from-holdings-action]');
+  clickAddToHoldings = clickable('.tether-element [data-test-eholdings-package-add-to-holdings-action]');
+}
+
 @interactor class PackageShowPage {
   allowKbToAddTitles = text('[data-test-eholdings-package-details-allow-add-new-titles]');
   hasAllowKbToAddTitles = isPresent('[data-test-eholdings-package-details-toggle-allow-add-new-titles] input');
   hasAllowKbToAddTitlesToggle = isPresent('[package-details-toggle-allow-add-new-titles-switch]');
-  isSelected = property('[data-test-eholdings-package-details-selected] input', 'checked');
-  isSelecting = hasClassBeginningWith('[data-test-eholdings-package-details-selected] [data-test-toggle-switch]', 'is-pending--');
-  isSelectedToggleDisabled = property('[data-test-eholdings-package-details-selected] input[type=checkbox]', 'disabled');
+
+  selectionText = text('[data-test-eholdings-package-details-selected] h4');
+  isSelected = computed(function () {
+    return this.selectionText === 'Selected';
+  });
+  isSelecting = isPresent('[data-test-eholdings-package-details-selected] [class*=icon---][class*=iconSpinner]');
   modal = new PackageShowModal('#eholdings-package-confirmation-modal');
   toggleIsSelected = clickable('[data-test-eholdings-package-details-selected] input');
   paneTitle = text('[data-test-eholdings-details-view-pane-title]');
@@ -41,6 +55,12 @@ import Toast from './toast';
   clickBackButton = clickable('[data-test-eholdings-details-view-back-button] button');
   detailsPaneContentScrollHeight = property('[data-test-eholdings-detail-pane-contents]', 'scrollHeight');
   clickEditButton = clickable('[data-test-eholdings-package-edit-link]');
+
+  clickAddToHoldingsButton = clickable('[data-test-eholdings-package-add-to-holdings-button]');
+  isAddToHoldingsButtonDisabled = property('[data-test-eholdings-package-add-to-holdings-button]', 'disabled');
+  isAddToHoldingsButtonPresent = isPresent('[data-test-eholdings-package-add-to-holdings-button]');
+  dropDown= new PackageShowDropDown('[class*=paneHeaderCenterInner---] [class*=dropdown---]');
+  dropDownMenu = new PackageShowDropDownMenu();
 
   detailPaneMouseWheel = triggerable('[data-test-eholdings-detail-pane-contents]', 'wheel', {
     bubbles: true,
@@ -97,15 +117,25 @@ import Toast from './toast';
   beginDate = scoped('[data-test-eholdings-coverage-fields-date-range-begin]', Datepicker);
   endDate = scoped('[data-test-eholdings-coverage-fields-date-range-end]', Datepicker);
 
-  toast = Toast
+  toast = Toast;
+
+  selectPackage() {
+    return this
+      .dropDown.clickDropDownButton()
+      .dropDownMenu.clickAddToHoldings();
+  }
 
   deselectAndConfirmPackage() {
-    return this.toggleIsSelected()
+    return this
+      .dropDown.clickDropDownButton()
+      .dropDownMenu.clickRemoveFromHoldings()
       .modal.confirmDeselection();
   }
 
   deselectAndCancelPackage() {
-    return this.toggleIsSelected()
+    return this
+      .dropDown.clickDropDownButton()
+      .dropDownMenu.clickRemoveFromHoldings()
       .modal.cancelDeselection();
   }
 }
