@@ -36,8 +36,15 @@ jobs:
       - attach_workspace:
           at: ~/
       - run:
+          name: Set up artifacts directory
+          command: mkdir -p artifacts/stylelint
+      - run:
           name: Lint CSS
-          command: yarn stylelint
+          command: yarn --silent stylelint --custom-formatter './node_modules/stylelint-junit-formatter' > ./artifacts/stylelint/stylelint.xml
+      - store_test_results:
+          path: ./artifacts
+      - store_artifacts:
+          path: ./artifacts
 
   build:
     docker:
