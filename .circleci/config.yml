@@ -31,7 +31,6 @@ jobs:
       - store_test_results:
           path: ./artifacts
       - store_artifacts:
-          name: Store report
           path: ./artifacts
 
   stylelint:
@@ -66,14 +65,7 @@ jobs:
       - store_test_results:
           path: ./artifacts/junit
       - store_artifacts:
-          name: Store junit test report
-          path: ./artifacts/junit
-      - store_artifacts:
-          name: Store lcov.info
-          path: ./artifacts/coverage/lcov.info
-      - store_artifacts:
-          name: Store HTML code coverage report
-          path: ./artifacts/coverage/lcov-report
+          path: ./artifacts
 
   test-safari:
     docker:
@@ -87,8 +79,7 @@ jobs:
       - store_test_results:
           path: ./artifacts/junit
       - store_artifacts:
-          name: Store junit test report
-          path: ./artifacts/junit
+          path: ./artifacts
 
   test-firefox:
     docker:
@@ -108,8 +99,7 @@ jobs:
       - store_test_results:
           path: ./artifacts/junit
       - store_artifacts:
-          name: Store junit test report
-          path: ./artifacts/junit
+          path: ./artifacts
 
   test-edge:
     docker:
@@ -123,8 +113,7 @@ jobs:
       - store_test_results:
           path: ./artifacts/junit
       - store_artifacts:
-          name: Store junit test report
-          path: ./artifacts/junit
+          path: ./artifacts
 
   test-ie:
     docker:
@@ -138,8 +127,7 @@ jobs:
       - store_test_results:
           path: ./artifacts/junit
       - store_artifacts:
-          name: Store junit test report
-          path: ./artifacts/junit
+          path: ./artifacts
 
 workflows:
   version: 2
