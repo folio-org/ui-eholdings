@@ -105,7 +105,7 @@ describeApplication('ResourceEditManagedTitleInCustomPackage', () => {
           });
 
           it('has a success Toast notification', () => {
-            expect(PackageSearchPage.toast.successText).to.equal('Title removed from package');
+            expect(PackageSearchPage.toast.successText).to.equal('Title removed from package.');
           });
         });
 

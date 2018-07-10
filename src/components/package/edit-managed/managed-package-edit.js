@@ -2,7 +2,7 @@ import React, { Component, Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { reduxForm, Field } from 'redux-form';
 import isEqual from 'lodash/isEqual';
-import { intlShape, injectIntl } from 'react-intl';
+import { intlShape, injectIntl, FormattedMessage } from 'react-intl';
 
 import {
   Button,
@@ -164,7 +164,7 @@ class ManagedPackageEdit extends Component {
 
     let actionMenuItems = [
       {
-        label: 'Cancel editing',
+        label: <FormattedMessage id="ui-eholdings.package.actionMenu.cancelEditing" />,
         to: {
           pathname: `/eholdings/packages/${model.id}`,
           search: router.route.location.search,
@@ -175,7 +175,7 @@ class ManagedPackageEdit extends Component {
 
     if (queryParams.searchType) {
       actionMenuItems.push({
-        label: 'Full view',
+        label: <FormattedMessage id="ui-eholdings.package.actionMenu.fullView" />,
         to: {
           pathname: `/eholdings/packages/${model.id}/edit`,
           state: { eholdings: true }
@@ -195,13 +195,17 @@ class ManagedPackageEdit extends Component {
           bodyContent={(
             <form onSubmit={handleSubmit(this.handleOnSubmit)}>
               <DetailsViewSection
-                label="Holding status"
+                label={<FormattedMessage id="ui-eholdings.package.holdingStatus" />}
               >
                 <label
                   data-test-eholdings-package-details-selected
                   htmlFor="managed-package-details-toggle-switch"
                 >
-                  <h4>{packageSelected ? 'Selected' : 'Not selected'}</h4>
+                  <h4>{packageSelected ?
+                    (<FormattedMessage id="ui-eholdings.selected" />)
+                    :
+                    (<FormattedMessage id="ui-eholdings.notSelected" />)}
+                  </h4>
                   <br />
 
                   <Field
@@ -213,19 +217,28 @@ class ManagedPackageEdit extends Component {
                   />
                 </label>
               </DetailsViewSection>
-              <DetailsViewSection label="Package Settings">
+              <DetailsViewSection label={<FormattedMessage id="ui-eholdings.package.packageSettings" />}>
                 {packageSelected ? (
                   <div className={styles['visibility-radios']}>
                     {this.props.initialValues.isVisible != null ? (
                       <Fragment>
                         <div data-test-eholdings-package-visibility-field>
                           <Field
-                            label="Show titles in package to patrons"
+                            label={<FormattedMessage id="ui-eholdings.package.visibility" />}
                             name="isVisible"
                             component={RadioButtonGroup}
                           >
-                            <RadioButton label="Yes" value="true" />
-                            <RadioButton label={`No ${visibilityMessage}`} value="false" />
+                            <RadioButton label={<FormattedMessage id="ui-eholdings.yes" />} value="true" />
+                            <RadioButton
+                              label={
+                                <FormattedMessage
+                                  id="ui-eholdings.package.visibility.no"
+                                  values={{
+                                    visibilityMessage
+                                  }}
+                                />}
+                              value="false"
+                            />
                           </Field>
                         </div>
                       </Fragment>
@@ -239,25 +252,25 @@ class ManagedPackageEdit extends Component {
                     )}
                   </div>
                 ) : (
-                  <p>Not shown to patrons.</p>
+                  <p><FormattedMessage id="ui-eholdings.package.packageSettings.notSelected" /></p>
                 )}
                 {packageSelected ? (
                   <div className={styles['title-management-radios']}>
                     {this.props.initialValues.allowKbToAddTitles != null ? (
                       <Fragment>
                         <Field
-                          label="Automatically select new titles"
+                          label={<FormattedMessage id="ui-eholdings.package.packageAllowToAddTitles" />}
                           name="allowKbToAddTitles"
                           data-test-eholdings-allow-kb-to-add-titles-radios
                           component={RadioButtonGroup}
                         >
                           <RadioButton
-                            label="Yes"
+                            label={<FormattedMessage id="ui-eholdings.yes" />}
                             value="true"
                             data-test-eholdings-allow-kb-to-add-titles-radio-yes
                           />
                           <RadioButton
-                            label="No"
+                            label={<FormattedMessage id="ui-eholdings.no" />}
                             value="false"
                             data-test-eholdings-allow-kb-to-add-titles-radio-no
                           />
@@ -273,7 +286,7 @@ class ManagedPackageEdit extends Component {
                     )}
                   </div>
                   ) : (
-                    <p>Knowledge base does not automatically select titles.</p>
+                    <p><FormattedMessage id="ui-eholdings.package.packageAllowToAddTitles.notSelected" /></p>
                   )}
               </DetailsViewSection>
               <DetailsViewSection
@@ -283,7 +296,7 @@ class ManagedPackageEdit extends Component {
                   <CoverageFields
                     initialValue={initialValues.customCoverages}
                   />) : (
-                    <p>Add the package to holdings to set custom coverage dates.</p>
+                    <p><FormattedMessage id="ui-eholdings.package.customCoverage.notSelected" /></p>
                 )}
               </DetailsViewSection>
               <div className={styles['package-edit-action-buttons']}>
@@ -306,7 +319,10 @@ class ManagedPackageEdit extends Component {
                     type="submit"
                     buttonStyle="primary"
                   >
-                    {model.update.isPending ? 'Saving' : 'Save'}
+                    {model.update.isPending ?
+                      (<FormattedMessage id="ui-eholdings.saving" />)
+                        :
+                      (<FormattedMessage id="ui-eholdings.save" />)}
                   </Button>
                 </div>
                 {model.update.isPending && (
@@ -320,7 +336,7 @@ class ManagedPackageEdit extends Component {
         <Modal
           open={showSelectionModal}
           size="small"
-          label="Remove package from holdings?"
+          label={<FormattedMessage id="ui-eholdings.package.modalMessageHeader" />}
           scope="root"
           id="eholdings-package-confirmation-modal"
           footer={(
@@ -330,18 +346,18 @@ class ManagedPackageEdit extends Component {
                 onClick={this.commitSelectionToggle}
                 data-test-eholdings-package-deselection-confirmation-modal-yes
               >
-                Yes, remove
+                <FormattedMessage id="ui-eholdings.package.modalMessageButtonConfirm" />
               </Button>
               <Button
                 onClick={this.cancelSelectionToggle}
                 data-test-eholdings-package-deselection-confirmation-modal-no
               >
-                No, do not remove
+                <FormattedMessage id="ui-eholdings.package.modalMessageButtonCancel" />
               </Button>
             </div>
           )}
         >
-           Are you sure you want to remove this package and all its titles from your holdings? All customizations will be lost.
+          <FormattedMessage id="ui-eholdings.package.modalMessageBody" />
         </Modal>
       </div>
     );
