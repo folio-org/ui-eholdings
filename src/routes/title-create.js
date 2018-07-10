@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import TitleManager from '@folio/stripes-core/src/components/TitleManager';
 
 import { createResolver } from '../redux';
 import Title from '../redux/title';
@@ -69,22 +70,24 @@ class TitleCreateRoute extends Component {
     } = this.props;
 
     return (
-      <View
-        request={createRequest}
-        customPackages={customPackages}
-        onSubmit={this.createTitle}
-        initialValues={{
-          name: '',
-          edition: '',
-          publisherName: '',
-          publicationType: 'Unspecified',
-          isPeerReviewed: false,
-          contributors: [],
-          identifiers: [],
-          description: '',
-          packageId: ''
-        }}
-      />
+      <TitleManager record="New custom title">
+        <View
+          request={createRequest}
+          customPackages={customPackages}
+          onSubmit={this.createTitle}
+          initialValues={{
+            name: '',
+            edition: '',
+            publisherName: '',
+            publicationType: 'Unspecified',
+            isPeerReviewed: false,
+            contributors: [],
+            identifiers: [],
+            description: '',
+            packageId: ''
+          }}
+        />
+      </TitleManager>
     );
   }
 }

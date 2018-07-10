@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import TitleManager from '@folio/stripes-core/src/components/TitleManager';
 
 import { createResolver } from '../redux';
 import Provider from '../redux/provider';
@@ -65,13 +66,15 @@ class ProviderShowRoute extends Component {
 
   render() {
     return (
-      <View
-        model={this.props.model}
-        packages={this.getPkgResults()}
-        fetchPackages={this.fetchPackages}
-        searchPackages={this.searchPackages}
-        searchParams={this.state.pkgSearchParams}
-      />
+      <TitleManager record={this.props.model.name}>
+        <View
+          model={this.props.model}
+          packages={this.getPkgResults()}
+          fetchPackages={this.fetchPackages}
+          searchPackages={this.searchPackages}
+          searchParams={this.state.pkgSearchParams}
+        />
+      </TitleManager>
     );
   }
 }

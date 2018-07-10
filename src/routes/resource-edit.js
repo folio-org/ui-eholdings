@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import moment from 'moment';
+import TitleManager from '@folio/stripes-core/src/components/TitleManager';
 
 import { createResolver } from '../redux';
 import Resource from '../redux/resource';
@@ -102,10 +103,12 @@ class ResourceEditRoute extends Component {
     let { model } = this.props;
 
     return (
-      <View
-        model={model}
-        onSubmit={this.resourceEditSubmitted}
-      />
+      <TitleManager record={`Edit ${this.props.model.name}`}>
+        <View
+          model={model}
+          onSubmit={this.resourceEditSubmitted}
+        />
+      </TitleManager>
     );
   }
 }

@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import TitleManager from '@folio/stripes-core/src/components/TitleManager';
 
 import { createResolver } from '../redux';
 import { ProxyType, RootProxy } from '../redux/application';
@@ -33,14 +34,16 @@ class SettingsRootProxyRoute extends Component {
     let { proxyTypes, rootProxy } = this.props;
 
     return (
-      <View
-        initialValues={{
-          rootProxyServer: rootProxy.proxyTypeId
-        }}
-        proxyTypes={proxyTypes}
-        rootProxy={rootProxy}
-        onSubmit={this.rootProxySubmitted}
-      />
+      <TitleManager page="eHoldings settings" record="Root proxy">
+        <View
+          initialValues={{
+            rootProxyServer: rootProxy.proxyTypeId
+          }}
+          proxyTypes={proxyTypes}
+          rootProxy={rootProxy}
+          onSubmit={this.rootProxySubmitted}
+        />
+      </TitleManager>
     );
   }
 }
