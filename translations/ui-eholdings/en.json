@@ -1,11 +1,11 @@
 {
     "meta.title": "eHoldings",
     "package.contentType": "Content type",
-    "package.coverageDates": "Coverage Dates",
+    "package.coverageDates": "Coverage dates",
     "package.customCoverageDates": "Custom coverage dates",
     "package.holdingStatus": "Holding status",
     "package.name": "Name",
-    "package.packageInformation": "Package Information",
+    "package.packageInformation": "Package information",
     "package.packageType": "Package type",
     "package.provider": "Provider",
     "package.titlesSelected": "Titles selected",
@@ -32,11 +32,11 @@
     "package.modalMessageButtonCancel": "No, do not remove",
 
     "package.actionMenu.edit": "Edit",
-    "package.actionMenu.fullView": "Full View",
+    "package.actionMenu.fullView": "Full view",
     "package.actionMenu.cancelEditing": "Cancel editing",
 
     "package.toast.isNewRecord": "Custom package created.",
-    "package.toast.isDestroyed": "Title removed from package",
+    "package.toast.isDestroyed": "Title removed from package.",
     "package.toast.isFreshlySaved": "Package saved.",
 
     "selected": "Selected",
