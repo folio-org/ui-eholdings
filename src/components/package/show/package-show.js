@@ -133,14 +133,14 @@ export default class PackageShow extends Component {
 
     if (packageSelected) {
       actionMenuItems.push({
-        'label': 'Remove from Holdings',
+        'label': 'Remove from holdings',
         'state': { eholdings: true },
         'data-test-eholdings-package-remove-from-holdings-action': true,
         'onClick': this.handleSelectionToggle
       });
     } else {
       actionMenuItems.push({
-        'label': 'Add to Holdings',
+        'label': 'Add to holdings',
         'state': { eholdings: true },
         'data-test-eholdings-package-add-to-holdings-action': true,
         'onClick': this.handleSelectionToggle
@@ -264,7 +264,7 @@ export default class PackageShow extends Component {
                       onClick={this.handleSelectionToggle}
                       data-test-eholdings-package-add-to-holdings-button
                     >
-                    Add to Holdings
+                    Add to holdings
                     </Button>
                   }
                 </label>
