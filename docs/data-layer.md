@@ -2,7 +2,7 @@
 
 ## Redux
 
-In eHoldings, data is connected on `routes` only. This is done via
+In eHoldings, only `routes` are connected to data. This is done via
 `react-redux`'s `connect` decorator.
 
 ``` javascript
@@ -15,15 +15,15 @@ connect(({ eholdings: { data } }) => ({
 });
 ```
 
-When data is needed, you must first request it with one of the actions
+When in need of data, you must first request it with one of the actions
 defined in `mapDispatchToProps`. The data received in
-`mapStateToProps` will then update with a pending request, and update
+`mapStateToProps` will then update with a pending request, then update
 again once the request resolves or rejects.
 
 ## Models
 
-In eHoldings, you must define a model to request and store data in the
-redux store.
+You must first define a model to request and store data in the redux
+store.
 
 ``` javascript
 // src/redux/provider.js
@@ -48,8 +48,9 @@ export default model({
 
 ### Requesting & Resolving Data
 
-Using this model and the eHoldings resolver within `connect` allows us
-to request and receive data from the backend Okapi server.
+After defining a model, we can use the eHoldings `resolver` and
+react-redux's `connect` to allow us to make requests for and receive
+data from our backend API.
 
 ``` javascript
 // src/routes/provider-show.js
@@ -77,20 +78,46 @@ export default connect(
 )(ProviderShowRoute);
 ```
 
-The model returned by the resolver has request objects at
-`model.request`, `model.update`, and `model.destroy` which provide
-information about the different types of requests, such as
-`isPending`, `isResolved`, `isRejected`, `errors`, etc.
+The model returned by the resolver has default properties as defined
+on the model class which are then populated with the request results.
+
+Models also have the following additional properties:
+
+``` javascript
+model.isLoading //=> Boolean indicating if the record is in some loading state
+model.isLoaded  //=> Boolean indicating the model is done loading
+model.isSaving  //=> Boolean indicating the model is being updated
+model.request   //=> Request object for this record's find request
+model.update    //=> Request object for this record's update request
+model.destroy   //=> Request object for this record's destroy request
+```
+
+The various request objects have the following useful properties:
+
+``` javascript
+{
+  timestamp: 1531233597291, // timestamp of when the request was created
+  params: {},               // params for the request such as filters
+  isPending: true,          // whether the request is pending
+  isResolved: false,        // whether the request is resolved
+  isRejected: false,        // whether the request is rejected
+  changedAttributes: {},    // attributes that changed on update
+  meta: {},                 // meta returned by the request
+  errors: []                // errors returned with a rejected request
+}
+```
 
 When dealing with a collection of models, such as with `hasMany`, the
 returned collection object lazily looks up other pages from the same
-query in the data store. This allows you to map over all records that
-have been returned by a query regardless of page, such as when
-rendering the search results lists.
+query in the data store. This allows you to map over or slice all
+records that have been returned by a query regardless of page, such as
+when rendering the search results lists. Collections also have a
+`request` object which is always the last request made for a page
+within the collection.
 
 For search results, the resolver must know the exact params you passed
 to the search action in order to properly find the records from the
-request. In the case of provider packages, the search params are
+request. In the case of a provider's packages, the search params are
 stored in the local state and used by the resolver to look up the
 packages request. When this request resolves, the resolver will be
 able to know which records it resolved with, and in what order.
