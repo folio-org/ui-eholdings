@@ -23,7 +23,7 @@ module.exports = {
       alt: 'Frontside'
     },
     favicon: {
-      src: './demo/favicon.ico',
+      src: './demo/favicon.svg',
     }
   }
 };

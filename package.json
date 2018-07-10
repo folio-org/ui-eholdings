@@ -51,10 +51,10 @@
     "stylelint": "^8.2.0",
     "stylelint-config-standard": "^17.0.0",
     "stylelint-junit-formatter": "^0.2.1",
-    "webpack": "^3.0.0"
+    "webpack": "^4.0.0"
   },
   "dependencies": {
-    "@folio/stripes-components": "2.1.1000401",
+    "@folio/stripes-components": "2.1.5000420",
     "classnames": "^2.2.5",
     "funcadelic": "^0.4.0",
     "impagination": "^1.0.0-alpha.3",
