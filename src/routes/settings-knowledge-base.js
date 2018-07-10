@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import TitleManager from '@folio/stripes-core/src/components/TitleManager';
 
 import { createResolver } from '../redux';
 import { Configuration } from '../redux/application';
@@ -32,14 +33,16 @@ class SettingsKnowledgeBaseRoute extends Component {
     let { config } = this.props;
 
     return (
-      <View
-        model={config}
-        onSubmit={this.updateConfig}
-        initialValues={{
-          customerId: config.customerId,
-          apiKey: config.apiKey
-        }}
-      />
+      <TitleManager page="eHoldings settings" record="Knowledge base">
+        <View
+          model={config}
+          onSubmit={this.updateConfig}
+          initialValues={{
+            customerId: config.customerId,
+            apiKey: config.apiKey
+          }}
+        />
+      </TitleManager>
     );
   }
 }

@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import moment from 'moment';
+import TitleManager from '@folio/stripes-core/src/components/TitleManager';
 
 import { createResolver } from '../redux';
 import Package from '../redux/package';
@@ -56,15 +57,17 @@ class PackageCreateRoute extends Component {
 
   render() {
     return (
-      <View
-        request={this.props.createRequest}
-        onSubmit={this.packageCreateSubmitted}
-        initialValues={{
-          name: '',
-          contentType: 'Unknown',
-          customCoverages: []
-        }}
-      />
+      <TitleManager record="New custom package">
+        <View
+          request={this.props.createRequest}
+          onSubmit={this.packageCreateSubmitted}
+          initialValues={{
+            name: '',
+            contentType: 'Unknown',
+            customCoverages: []
+          }}
+        />
+      </TitleManager>
     );
   }
 }

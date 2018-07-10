@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import TitleManager from '@folio/stripes-core/src/components/TitleManager';
 
 import { createResolver } from '../redux';
 import Title from '../redux/title';
@@ -70,12 +71,14 @@ class TitleShowRoute extends Component {
     let { model, customPackages, createRequest } = this.props;
 
     return (
-      <View
-        request={createRequest}
-        model={model}
-        customPackages={customPackages}
-        addCustomPackage={this.createResource}
-      />
+      <TitleManager record={this.props.model.name}>
+        <View
+          request={createRequest}
+          model={model}
+          customPackages={customPackages}
+          addCustomPackage={this.createResource}
+        />
+      </TitleManager>
     );
   }
 }

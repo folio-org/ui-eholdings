@@ -1,6 +1,9 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import capitalize from 'lodash/capitalize';
+import TitleManager from '@folio/stripes-core/src/components/TitleManager';
+
 import { qs } from '../components/utilities';
 import { createResolver } from '../redux';
 import Provider from '../redux/provider';
@@ -273,29 +276,31 @@ class SearchRoute extends Component { // eslint-disable-line react/no-deprecated
       let results = this.getResults();
 
       return (
-        <div data-test-eholdings>
-          <SearchPaneset
-            location={location}
-            hideFilters={!!params.q}
-            resultsType={searchType}
-            resultsView={this.renderResults()}
-            detailsView={!hideDetails && children}
-            totalResults={results.length}
-            isLoading={!results.hasLoaded}
-            searchForm={(
-              <SearchForm
-                searchType={searchType}
-                searchString={params.q}
-                filter={params.filter}
-                searchfield={params.searchfield}
-                sort={params.sort}
-                searchTypeUrls={this.getSearchTypeUrls()}
-                onSearch={this.handleSearch}
-                isLoading={params.q && !results.hasLoaded}
-              />
-            )}
-          />
-        </div>
+        <TitleManager record={capitalize(searchType)}>
+          <div data-test-eholdings>
+            <SearchPaneset
+              location={location}
+              hideFilters={!!params.q}
+              resultsType={searchType}
+              resultsView={this.renderResults()}
+              detailsView={!hideDetails && children}
+              totalResults={results.length}
+              isLoading={!results.hasLoaded}
+              searchForm={(
+                <SearchForm
+                  searchType={searchType}
+                  searchString={params.q}
+                  filter={params.filter}
+                  searchfield={params.searchfield}
+                  sort={params.sort}
+                  searchTypeUrls={this.getSearchTypeUrls()}
+                  onSearch={this.handleSearch}
+                  isLoading={params.q && !results.hasLoaded}
+                />
+              )}
+            />
+          </div>
+        </TitleManager>
       );
     } else {
       return children;

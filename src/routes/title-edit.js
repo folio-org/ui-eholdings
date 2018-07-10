@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import TitleManager from '@folio/stripes-core/src/components/TitleManager';
 
 import { createResolver } from '../redux';
 import Title from '../redux/title';
@@ -98,21 +99,23 @@ class TitleEditRoute extends Component {
     } = this.props;
 
     return (
-      <View
-        model={model}
-        onSubmit={this.titleEditSubmitted}
-        updateRequest={updateRequest}
-        initialValues={{
-          name: model.name,
-          edition: model.edition,
-          isPeerReviewed: model.isPeerReviewed,
-          publicationType: model.publicationType,
-          publisherName: model.publisherName,
-          description: model.description,
-          contributors: model.contributors,
-          identifiers: this.mergeIdentifiers(model.identifiers)
-        }}
-      />
+      <TitleManager record={`Edit ${this.props.model.name}`}>
+        <View
+          model={model}
+          onSubmit={this.titleEditSubmitted}
+          updateRequest={updateRequest}
+          initialValues={{
+            name: model.name,
+            edition: model.edition,
+            isPeerReviewed: model.isPeerReviewed,
+            publicationType: model.publicationType,
+            publisherName: model.publisherName,
+            description: model.description,
+            contributors: model.contributors,
+            identifiers: this.mergeIdentifiers(model.identifiers)
+          }}
+        />
+      </TitleManager>
     );
   }
 }

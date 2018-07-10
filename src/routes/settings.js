@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import TitleManager from '@folio/stripes-core/src/components/TitleManager';
 
-import View from '@folio/stripes-components/lib/Settings';
+import { Settings as View } from '@folio/stripes-components';
 import ApplicationRoute from './application';
 
 export default class SettingsRoute extends Component {
@@ -25,13 +26,15 @@ export default class SettingsRoute extends Component {
 
     return (
       <ApplicationRoute showSettings>
-        <View
-          paneTitle="eHoldings"
-          activeLink={router.route.location.pathname}
-          match={router.route.match}
-          location={router.route.location}
-          pages={pages}
-        />
+        <TitleManager page="eHoldings settings">
+          <View
+            paneTitle="eHoldings"
+            activeLink={router.route.location.pathname}
+            match={router.route.match}
+            location={router.route.location}
+            pages={pages}
+          />
+        </TitleManager>
       </ApplicationRoute>
     );
   }
