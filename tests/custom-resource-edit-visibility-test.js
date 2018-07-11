@@ -204,25 +204,11 @@ describeApplication('CustomResourceEditVisibility', () => {
     });
 
     it('reflects the desired state of holding status', () => {
-      expect(ResourceEditPage.isSelected).to.equal(true);
+      expect(ResourceEditPage.isResourceSelected).to.equal('Selected');
     });
 
     it('disables the save button', () => {
       expect(ResourceEditPage.isSaveDisabled).to.be.true;
-    });
-
-    describe('toggling the selection toggle', () => {
-      beforeEach(() => {
-        return ResourceEditPage.toggleIsSelected();
-      });
-
-      it('cannot toggle visibility', () => {
-        expect(ResourceEditPage.isVisibilityFieldPresent).to.equal(false);
-      });
-
-      it('displays a not selected message for resource settings', () => {
-        expect(ResourceEditPage.isResourceNotSelectedLabelPresent).to.be.true;
-      });
     });
   });
 });

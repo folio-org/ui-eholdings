@@ -44,61 +44,23 @@ describeApplication('ResourceEditDeselection', () => {
       });
 
       it('indicates that the resource is selected', () => {
-        expect(ResourceEditPage.isSelected).to.equal(true);
+        expect(ResourceEditPage.isResourceSelected).to.equal('Selected');
       });
 
       describe('deselecting', () => {
         beforeEach(() => {
-          return ResourceEditPage.toggleIsSelected();
+          return ResourceShowPage
+            .dropDown.clickDropDownButton()
+            .dropDownMenu.clickRemoveFromHoldings();
         });
 
-        it('hides custom url field', () => {
-          expect(ResourceEditPage.hasCustomUrlField).to.equal(false);
-        });
-
-        it('hides visibility field', () => {
-          expect(ResourceEditPage.isVisibilityFieldPresent).to.equal(false);
-        });
-
-        it('hides add date range button', () => {
-          expect(ResourceEditPage.hasAddCustomCoverageButton).to.equal(false);
-        });
-
-        it('hides coverage statement input field', () => {
-          expect(ResourceEditPage.hasCoverageStatementArea).to.equal(false);
-        });
-
-        it('hides add embargo period button', () => {
-          expect(ResourceEditPage.hasAddCustomEmbargoButton).to.equal(false);
-        });
-
-        describe('clicking save', () => {
+        describe('clicking yes', () => {
           beforeEach(() => {
-            return ResourceEditPage.clickSave();
+            return ResourceEditPage.modal.confirmDeselection();
           });
 
-          it('displays confirmation modal', () => {
-            expect(ResourceEditPage.modal.$root).to.exist;
-          });
-
-          describe('clicking no', () => {
-            beforeEach(() => {
-              return ResourceEditPage.modal.cancelDeselection();
-            });
-
-            it('returns to the edit page', () => {
-              expect(ResourceEditPage.$root).to.exist;
-            });
-          });
-
-          describe('clicking yes', () => {
-            beforeEach(() => {
-              return ResourceEditPage.modal.confirmDeselection();
-            });
-
-            it('goes to the resource show page', () => {
-              expect(ResourceShowPage.$root).to.exist;
-            });
+          it('goes to the resource show page', () => {
+            expect(ResourceShowPage.$root).to.exist;
           });
         });
       });

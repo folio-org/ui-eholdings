@@ -5,7 +5,9 @@ import { describeApplication } from './helpers';
 import ResourceShowPage from './pages/resource-show';
 import ResourceEditPage from './pages/resource-edit';
 
-describeApplication('ResourceEditSelection', () => {
+window.ResourceEditPage = ResourceEditPage;
+
+describeApplication.only('ResourceEditSelection', () => {
   let provider,
     providerPackage,
     resource;
@@ -33,7 +35,7 @@ describeApplication('ResourceEditSelection', () => {
     });
   });
 
-  describe('visiting the resource edit page', () => {
+  describe('visiting the resource edit page with unselected resource', () => {
     beforeEach(function () {
       return this.visit(`/eholdings/resources/${resource.id}/edit`, () => {
         expect(ResourceEditPage.$root).to.exist;
@@ -41,94 +43,58 @@ describeApplication('ResourceEditSelection', () => {
     });
 
     it('indicates that the resource is not yet selected', () => {
-      expect(ResourceEditPage.isSelected).to.equal(false);
+      expect(ResourceEditPage.isResourceSelected).to.equal('Not selected');
     });
 
-    describe('successfully selecting a package title to add to my holdings', () => {
+    it('displays an add to holdings button', () => {
+      expect(ResourceEditPage.addToHoldingsButton).to.equal(true);
+    });
+
+
+    it('should not display the coverage button', () => {
+      expect(ResourceEditPage.hasAddCustomCoverageButton).to.be.false;
+    });
+
+    it('should not display the custom embargo button', () => {
+      expect(ResourceEditPage.hasAddCustomEmbargoButton).to.be.false;
+    });
+
+    it('should not display the coverage statement textarea', () => {
+      expect(ResourceEditPage.hasCoverageStatementArea).to.be.false;
+    });
+
+    describe('successfully adding a resource to holdings using button', () => {
       beforeEach(() => {
-        return ResourceEditPage.toggleIsSelected();
+        return ResourceShowPage.clickAddToHoldingsButton();
       });
 
       it('reflects the desired state (Selected)', () => {
-        expect(ResourceEditPage.isSelected).to.equal(true);
+        expect(ResourceEditPage.isResourceSelected).to.equal('Selected');
       });
 
-      describe('clicking cancel', () => {
-        beforeEach(() => {
-          return ResourceEditPage.clickCancel();
-        });
-
-        it('goes to the resource show page', () => {
-          expect(ResourceShowPage.$root).to.exist;
-        });
-      });
-
-      describe('when the request succeeds', () => {
-        it('reflects the desired state was set', () => {
-          expect(ResourceEditPage.isSelected).to.equal(true);
-        });
-
-        describe('clicking save', () => {
-          beforeEach(() => {
-            return ResourceEditPage.clickSave();
-          });
-
-          it('goes to the resource show page', () => {
-            expect(ResourceShowPage.$root).to.exist;
-          });
-
-          it('reflects the new state', () => {
-            expect(ResourceShowPage.isResourceSelected).to.equal('Selected');
-          });
-        });
+      it('remains on the resource edit page', () => {
+        expect(ResourceEditPage.hasCancelButton).to.equal(true);
+        expect(ResourceEditPage.hasSaveButon).to.equal(true);
       });
     });
 
-    describe('unsuccessfully selecting a package title to add to my holdings', () => {
+    describe('adding a package title to my holdings but request fails', () => {
       beforeEach(function () {
         this.server.put('/resources/:id', {
           errors: [{
             title: 'There was an error'
           }]
         }, 500);
-        return ResourceEditPage.toggleIsSelected();
+        return ResourceShowPage.clickAddToHoldingsButton();
       });
 
-      it('reflects the desired state (Selected)', () => {
-        expect(ResourceEditPage.isSelected).to.equal(true);
-      });
-
-      describe('clicking cancel', () => {
-        beforeEach(() => {
-          return ResourceEditPage.clickCancel();
-        });
-
-        it('goes to the resource show page', () => {
-          expect(ResourceShowPage.$root).to.exist;
-        });
-      });
-
-      describe('when the request succeeds', () => {
+      describe('when the request fails', () => {
         it('reflects the desired state was set', () => {
-          expect(ResourceEditPage.isSelected).to.equal(true);
+          expect(ResourceEditPage.isResourceSelected).to.equal('Not selected');
         });
 
-        describe('clicking save', () => {
-          beforeEach(() => {
-            return ResourceEditPage.clickSave();
-          });
-
-          it('goes to the resource show page', () => {
-            expect(ResourceShowPage.$root).to.exist;
-          });
-
-          it('indicates it is no longer working', () => {
-            expect(ResourceShowPage.isLoading).to.equal(false);
-          });
-
-          it('displays a toast error', () => {
-            expect(ResourceShowPage.toast.errorText).to.equal('There was an error');
-          });
+        it('displays a toast error', () => {
+          expect(ResourceShowPage.toast.errorText).to.equal('There was an error');
         });
       });
     });

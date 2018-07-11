@@ -77,6 +77,10 @@ class ResourceEditRoute extends Component {
       model.coverageStatement = '';
 
       updateResource(model);
+    } else if (values.isSelected && !values.customCoverages) {
+      model.isSelected = true;
+
+      updateResource(model);
     } else {
       model.customCoverages = customCoverages.map((dateRange) => {
         let beginCoverage = !dateRange.beginCoverage ? null : moment(dateRange.beginCoverage).tz('UTC').format('YYYY-MM-DD');
@@ -95,6 +99,7 @@ class ResourceEditRoute extends Component {
         embargoValue: customEmbargoValue,
         embargoUnit: customEmbargoUnit
       };
+
       updateResource(model);
     }
   }

@@ -1,7 +1,8 @@
-import { beforeEach, afterEach, describe, it } from '@bigtest/mocha';
+import { beforeEach, describe, it } from '@bigtest/mocha';
 import { expect } from 'chai';
 
 import { describeApplication } from './helpers';
+import ResourcePage from './pages/resource-show';
 import ResourceEditPage from './pages/resource-edit';
 import PackageSearchPage from './pages/package-search';
 
@@ -47,81 +48,54 @@ describeApplication('CustomResourceHoldingSelection', () => {
     });
 
     it('shows the custom package as selected in my holdings', () => {
-      expect(ResourceEditPage.isSelected).to.equal(true);
+      expect(ResourceEditPage.isResourceSelected).to.equal('Selected');
     });
 
     it('shows save button to be disabled', () => {
       expect(ResourceEditPage.isSaveDisabled).to.equal(true);
     });
 
-
     describe('deselecting a custom resource', () => {
-      beforeEach(function () {
-        /*
-         * The expectations in the convergent `it` blocks
-         * get run once every 10ms.  We were seeing test flakiness
-         * when a toggle action dispatched and resolved before an
-         * expectation had the chance to run.  We sidestep this by
-         * temporarily increasing the mirage server's response time
-         * to 50ms.
-         * TODO: control timing directly with Mirage
-         */
-        this.server.timing = 50;
-        return ResourceEditPage.toggleIsSelected();
+      beforeEach(() => {
+        return ResourcePage
+          .dropDown.clickDropDownButton()
+          .dropDownMenu.clickRemoveFromHoldings();
       });
 
-      afterEach(function () {
-        this.server.timing = 0;
+      it('shows the confirmation modal', () => {
+        expect(ResourceEditPage.modal.isPresent).to.equal(true);
       });
 
-      it('reflects the desired state (not selected)', () => {
-        expect(ResourceEditPage.isSelected).to.equal(false);
-      });
-
-      describe('clicking save button', () => {
+      describe('confirming the save and continue deselection', () => {
         beforeEach(() => {
-          return ResourceEditPage.clickSave();
+          return ResourceEditPage.modal.confirmDeselection();
         });
 
-        it('shows the confirmation modal', () => {
-          expect(ResourceEditPage.modal.isPresent).to.equal(true);
+        it('transition to package search page', () => {
+          expect(PackageSearchPage.isPresent).to.equal(true);
         });
 
-        describe('confirming the save and continue deselection', () => {
-          beforeEach(() => {
-            return ResourceEditPage.modal.confirmDeselection();
-          });
-
-          it('transition to package search page', () => {
-            expect(PackageSearchPage.isPresent).to.equal(true);
-          });
-
-          it('has search prefilled with package name', () => {
-            expect(PackageSearchPage.searchFieldValue).to.equal('Star Wars Custom Package');
-          });
-
-          it('does not have an association to the above package', () => {
-            expect(PackageSearchPage.packageTitleList().length).to.equal(0);
-          });
-
-          it('has a success Toast notification', () => {
-            expect(PackageSearchPage.toast.successText).to.equal('Title removed from package.');
-          });
+        it('has search prefilled with package name', () => {
+          expect(PackageSearchPage.searchFieldValue).to.equal('Star Wars Custom Package');
         });
 
-        describe('canceling the save and discontinue deselection', () => {
-          beforeEach(() => {
-            return ResourceEditPage.modal.cancelDeselection();
-          });
+        it('does not have an association to the above package', () => {
+          expect(PackageSearchPage.packageTitleList().length).to.equal(0);
+        });
 
-          it('should not transition to package search page', () => {
-            expect(PackageSearchPage.isPresent).to.equal(false);
-            expect(ResourceEditPage.isPresent).to.equal(true);
-          });
+        it('has a success Toast notification', () => {
+          expect(PackageSearchPage.toast.successText).to.equal('Title removed from package.');
+        });
+      });
 
-          it('reverts holding status back to original state', () => {
-            expect(ResourceEditPage.isSelected).to.equal(true);
-          });
+      describe('canceling the save and discontinue deselection', () => {
+        beforeEach(() => {
+          return ResourceEditPage.modal.cancelDeselection();
+        });
+
+        it('should not transition to package search page', () => {
+          expect(PackageSearchPage.isPresent).to.equal(false);
+          expect(ResourceEditPage.isPresent).to.equal(true);
         });
       });
     });
@@ -134,35 +108,31 @@ describeApplication('CustomResourceHoldingSelection', () => {
           }]
         }, 500);
 
-        return ResourceEditPage.toggleIsSelected();
+        return ResourcePage
+          .dropDown.clickDropDownButton()
+          .dropDownMenu.clickRemoveFromHoldings();
       });
 
-      it('reflects the desired state (Unselected)', () => {
-        expect(ResourceEditPage.isSelected).to.equal(false);
+      it('shows a confirmation modal', () => {
+        expect(ResourceEditPage.modal.isPresent).to.equal(true);
       });
 
-      describe('clicking save', () => {
+      describe('confirm and continue deselection', () => {
         beforeEach(() => {
-          return ResourceEditPage.clickSave();
+          return ResourceEditPage.modal.confirmDeselection();
         });
 
-        describe('confirm and continue deselection', () => {
-          beforeEach(() => {
-            return ResourceEditPage.modal.confirmDeselection();
-          });
+        it('cannot be interacted with while the request is in flight', () => {
+          expect(ResourceEditPage.isSaveDisabled).to.equal(true);
+        });
 
-          it('cannot be interacted with while the request is in flight', () => {
+        describe('when the request fails', () => {
+          it('indicates it is no longer working', () => {
             expect(ResourceEditPage.isSaveDisabled).to.equal(true);
           });
 
-          describe('when the request fails', () => {
-            it('indicates it is no longer working', () => {
-              expect(ResourceEditPage.isSaveDisabled).to.equal(false);
-            });
-
-            it('shows the error as a toast', () => {
-              expect(ResourceEditPage.toast.errorText).to.equal('There was an error');
-            });
+          it('shows the error as a toast', () => {
+            expect(ResourceEditPage.toast.errorText).to.equal('There was an error');
           });
         });
       });

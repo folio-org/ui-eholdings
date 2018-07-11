@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { reduxForm, Field } from 'redux-form';
+import { reduxForm } from 'redux-form';
 import isEqual from 'lodash/isEqual';
 import { intlShape, injectIntl } from 'react-intl';
 
@@ -18,7 +18,6 @@ import CoverageStatementFields, { validate as validateCoverageStatement } from '
 import CustomCoverageFields, { validate as validateCoverageDates } from '../_fields/custom-coverage';
 import CustomEmbargoFields, { validate as validateEmbargo } from '../_fields/custom-embargo';
 import DetailsViewSection from '../../details-view-section';
-import ToggleSwitch from '../../toggle-switch/toggle-switch';
 import NavigationModal from '../../navigation-modal';
 import Toaster from '../../toaster';
 import styles from './resource-edit-managed-title.css';
@@ -53,17 +52,22 @@ class ResourceEditManagedTitle extends Component { // eslint-disable-line react/
     let wasPending = this.props.model.update.isPending && !nextProps.model.update.isPending;
     let needsUpdate = !isEqual(this.props.model, nextProps.model);
 
+    let wasUnSelected = this.props.model.isSelected && !nextProps.model.isSelected;
+    let isCurrentlySelected = this.props.model.isSelected && nextProps.model.isSelected;
+
     if (nextProps.initialValues.isSelected !== this.state.managedResourceSelected) {
       this.setState({
         managedResourceSelected: nextProps.initialValues.isSelected,
       });
     }
 
-    if (wasPending && needsUpdate) {
-      this.context.router.history.push(
-        `/eholdings/resources/${this.props.model.id}`,
-        { eholdings: true, isFreshlySaved: true }
-      );
+    if (wasUnSelected || isCurrentlySelected) {
+      if (wasPending && needsUpdate) {
+        this.context.router.history.push(
+          `/eholdings/resources/${this.props.model.id}`,
+          { eholdings: true, isFreshlySaved: true }
+        );
+      }
     }
   }
 
@@ -78,6 +82,22 @@ class ResourceEditManagedTitle extends Component { // eslint-disable-line react/
     this.setState({
       managedResourceSelected: e.target.checked
     });
+  }
+
+  handleRemoveResourceFromHoldings = () => {
+    this.setState({
+      formValues: {
+        isSelected: false
+      }
+    }, () => { this.handleOnSubmit(this.state.formValues); });
+  }
+
+  handleAddResourceToHoldings = () => {
+    this.setState({
+      formValues: {
+        isSelected: true
+      }
+    }, () => { this.handleOnSubmit(this.state.formValues); });
   }
 
   commitSelectionToggle = () => {
@@ -124,6 +144,9 @@ class ResourceEditManagedTitle extends Component { // eslint-disable-line react/
       managedResourceSelected
     } = this.state;
 
+
+    let isSelectInFlight = model.update.isPending && 'isSelected' in model.update.changedAttributes;
+
     let actionMenuItems = [
       {
         label: 'Cancel editing',
@@ -133,6 +156,22 @@ class ResourceEditManagedTitle extends Component { // eslint-disable-line react/
         }
       }
     ];
+
+    if (managedResourceSelected === true) {
+      actionMenuItems.push({
+        'label': 'Remove title from holdings',
+        'state': { eholdings: true },
+        'onClick': this.handleRemoveResourceFromHoldings,
+        'data-test-eholdings-remove-resource-from-holdings': true
+      });
+    } else if (managedResourceSelected === false) {
+      actionMenuItems.push({
+        'label': 'Add to holdings',
+        'state': { eholdings: true },
+        'onClick': this.handleAddResourceToHoldings,
+        'data-test-eholdings-add-resource-to-holdings': true
+      });
+    }
 
     let visibilityMessage = model.package.visibilityData.isHidden
       ? '(All titles in this package are hidden)'
@@ -149,57 +188,56 @@ class ResourceEditManagedTitle extends Component { // eslint-disable-line react/
           actionMenuItems={actionMenuItems}
           bodyContent={(
             <form onSubmit={handleSubmit(this.handleOnSubmit)}>
-              <DetailsViewSection label="Resource settings">
-                {managedResourceSelected ? (
-                  <VisibilityField disabled={visibilityMessage} />
-                ) : (
-                  <p data-test-eholdings-resource-edit-settings-message>
-                    Add the resource to holdings to customize resource settings.
-                  </p>
-                )}
-              </DetailsViewSection>
               <DetailsViewSection
                 label="Holding status"
               >
                 <label
                   data-test-eholdings-resource-holding-status
-                  htmlFor="managed-resource-holding-toggle-switch"
-                >
-                  <h4>{managedResourceSelected ? 'Selected' : 'Not selected'}</h4>
+                  htmlFor="managed-resource-holding-status"
+                >  {
+                  model.update.isPending ? (
+                    <Icon icon='spinner-ellipsis' />
+                  ) : (
+                    <h4>{managedResourceSelected ? 'Selected' : 'Not selected'}</h4>
+                  )
+                }
                   <br />
-                  <Field
-                    name="isSelected"
-                    component={ToggleSwitch}
-                    checked={managedResourceSelected}
-                    onChange={this.handleSelectionToggle}
-                    id="managed-resource-holding-toggle-switch"
-                  />
+                  { ((!managedResourceSelected && !isSelectInFlight) || (!this.props.model.isSelected && isSelectInFlight)) && (
+                    <Button
+                      buttonStyle="primary"
+                      onClick={this.handleAddResourceToHoldings}
+                      disabled={model.destroy.isPending || isSelectInFlight}
+                      data-test-eholdings-resource-add-to-holdings-button
+                    >
+                      Add to holdings
+                    </Button>)}
                 </label>
               </DetailsViewSection>
-              <DetailsViewSection
-                label="Coverage dates"
-              >
-                {managedResourceSelected ? (
+              {managedResourceSelected && (
+                <DetailsViewSection label="Resource settings">
+                  <VisibilityField disabled={visibilityMessage} />
+                </DetailsViewSection>
+              )}
+              {managedResourceSelected && (
+                <DetailsViewSection
+                  label="Coverage dates"
+                >
                   <CustomCoverageFields
                     initialValue={initialValues.customCoverages}
                   />
-                ) : (
-                  <p>Add the resource to holdings to set custom coverage dates.</p>
-                )}
-              </DetailsViewSection>
-              <DetailsViewSection
-                label="Coverage statement"
-              >
-                {managedResourceSelected ? (
+                </DetailsViewSection>
+              )}
+              {managedResourceSelected && (
+                <DetailsViewSection
+                  label="Coverage statement"
+                >
                   <CoverageStatementFields />
-                  ) : (
-                    <p>Add the resource to holdings to set coverage statement.</p>
-                  )}
-              </DetailsViewSection>
-              <DetailsViewSection
-                label="Embargo period"
-              >
-                {managedResourceSelected ? (
+                </DetailsViewSection>
+               )}
+              {managedResourceSelected && (
+                <DetailsViewSection
+                  label="Embargo period"
+                >
                   <CustomEmbargoFields
                     change={change}
                     showInputs={(initialValues.customEmbargoValue > 0)}
@@ -208,37 +246,37 @@ class ResourceEditManagedTitle extends Component { // eslint-disable-line react/
                     customEmbargoUnit: initialValues.customEmbargoUnit
                   }}
                   />
-                  ) : (
-                    <p data-test-eholdings-resource-embargo-not-shown-label>Add the resource to holdings to set custom embargo.</p>
-                  )}
-              </DetailsViewSection>
-              <div className={styles['resource-edit-action-buttons']}>
-                <div
-                  data-test-eholdings-resource-cancel-button
-                >
-                  <Button
-                    disabled={model.update.isPending}
-                    type="button"
-                    onClick={this.handleCancel}
-                  >
-                    Cancel
-                  </Button>
-                </div>
-                <div
-                  data-test-eholdings-resource-save-button
-                >
-                  <Button
-                    disabled={pristine || model.update.isPending || model.destroy.isPending}
-                    type="submit"
-                    buttonStyle="primary"
-                  >
-                    {model.update.isPending || model.destroy.isPending ? 'Saving' : 'Save'}
-                  </Button>
-                </div>
-                {model.update.isPending && (
-                  <Icon icon="spinner-ellipsis" />
+                </DetailsViewSection>
                 )}
-              </div>
+              {managedResourceSelected && (
+                <div className={styles['resource-edit-action-buttons']}>
+                  <div
+                    data-test-eholdings-resource-cancel-button
+                  >
+                    <Button
+                      disabled={model.update.isPending}
+                      type="button"
+                      onClick={this.handleCancel}
+                    >
+                      Cancel
+                    </Button>
+                  </div>
+                  <div
+                    data-test-eholdings-resource-save-button
+                  >
+                    <Button
+                      disabled={pristine || model.update.isPending || model.destroy.isPending}
+                      type="submit"
+                      buttonStyle="primary"
+                    >
+                      {model.update.isPending || model.destroy.isPending ? 'Saving' : 'Save'}
+                    </Button>
+                  </div>
+                  {model.update.isPending && (
+                    <Icon icon="spinner-ellipsis" />
+                  )}
+                </div>
+              )}
               <NavigationModal when={!pristine && !model.update.isPending} />
             </form>
           )}
