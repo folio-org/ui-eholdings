@@ -365,12 +365,7 @@
   version "4.0.0"
   resolved "https://codeload.github.com/folio-org/ui-testing/tar.gz/41c0beb5dbfd450538cfd2624a43cac519b35388"
   dependencies:
-    debug "^3.1.0"
-    electron "2.0.0"
-    minimist "^1.2.0"
     mocha "^3.4.2"
-    mocha-jenkins-reporter "^0.3.12"
-    moment "^2.22.1"
     nightmare "^2.10.0"
 
 "@types/async@2.0.49":
@@ -9153,6 +9148,10 @@ sha.js@^2.4.0, sha.js@^2.4.8:
 shallowequal@^1.0.2:
   version "1.0.2"
   resolved "https://registry.yarnpkg.com/shallowequal/-/shallowequal-1.0.2.tgz#1561dbdefb8c01408100319085764da3fcf83f8f"
+
+shallowequal@^1.1.0:
+  version "1.1.0"
+  resolved "https://registry.yarnpkg.com/shallowequal/-/shallowequal-1.1.0.tgz#188d521de95b9087404fd4dcb68b13df0ae4e7f8"
 
 shebang-command@^1.2.0:
   version "1.2.0"

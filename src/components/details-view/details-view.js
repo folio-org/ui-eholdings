@@ -5,6 +5,7 @@ import capitalize from 'lodash/capitalize';
 
 import {
   Badge,
+  Button,
   Icon,
   IconButton,
   Modal,
@@ -174,14 +175,11 @@ export default class DetailsView extends Component {
 
   handleListSearch = (params) => {
     let { searchParams } = this.props;
-
+    console.log('womp ', params.q);
     if (params.q && this.props.onSearch) {
+      console.log('woop');
       this.props.onSearch(params);
     }
-
-    this.setState({
-      showSearchModal: searchParams.q === params.q
-    });
   }
 
   render() {
@@ -333,6 +331,15 @@ export default class DetailsView extends Component {
             id="eholdings-details-view-search-modal"
             closeOnBackgroundClick
             dismissible
+            footer={(
+              <Button
+                buttonStyle="primary"
+                onClick={this.handleListSearch}
+                data-test-eholdings-apply-button
+              >
+                Apply
+              </Button>
+            )}
           >
             <SearchForm
               searchType={listType}

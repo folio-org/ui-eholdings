@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import shallowequal from 'shallowequal';
 import PropTypes from 'prop-types';
 import Link from 'react-router-dom/Link';
 import capitalize from 'lodash/capitalize';
@@ -43,13 +44,6 @@ export default class SearchForm extends Component {
     displaySearchTypeSwitcher: true
   };
 
-  state = {
-    searchString: this.props.searchString || '',
-    filter: this.props.filter || {},
-    searchfield: this.props.searchfield || 'title', // last attr actually used in getDerivedStateFromProps
-    sort: this.props.sort || 'relevance' // eslint-disable-line react/no-unused-state
-  };
-
   static getDerivedStateFromProps({ searchString = '', filter = {}, searchfield, sort }, state) {
     const newSearchfield = searchfield !== state.searchfield ? searchfield : state.searchfield;
     const newSearchString = searchString !== state.searchString ? searchString : state.searchString;
@@ -72,6 +66,19 @@ export default class SearchForm extends Component {
       sort: newSort,
     };
   }
+
+  constructor(props) {
+    super(props);
+
+    this.initial = { ...this.state };
+  }
+
+  state = {
+    searchString: this.props.searchString || '',
+    filter: this.props.filter || {},
+    searchfield: this.props.searchfield || 'title', // last attr actually used in getDerivedStateFromProps
+    sort: this.props.sort || 'relevance' // eslint-disable-line react/no-unused-state
+  };
 
   submitSearch = () => {
     let { sort, ...searchfilter } = this.state.filter;
@@ -104,6 +111,10 @@ export default class SearchForm extends Component {
   handleChangeIndex = (e) => {
     this.setState({ searchfield: e.target.value });
   };
+
+  get hasChanges() {
+    return !isEqual(this.state, this.initial);
+  }
 
   /**
    * Returns the component that is responsible for rendering filters

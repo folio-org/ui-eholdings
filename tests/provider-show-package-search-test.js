@@ -4,7 +4,7 @@ import { expect } from 'chai';
 import { describeApplication } from './helpers';
 import ProviderShowPage from './pages/provider-show';
 
-describeApplication('ProviderShow package search', () => {
+describeApplication.only('ProviderShow package search', () => {
   let provider,
     packages;
 
@@ -48,8 +48,56 @@ describeApplication('ProviderShow package search', () => {
       expect(ProviderShowPage.searchModal.isPresent).to.be.true;
     });
 
+    it('shows empty text field', () => {
+      expect(ProviderShowPage.searchModal.searchFieldValue).to.equal('');
+    });
+
+    it('has default filters selected', () => {
+      expect(ProviderShowPage.searchModal.getFilter('sort')).to.equal('relevance');
+      expect(ProviderShowPage.searchModal.getFilter('selected')).to.equal('all');
+      expect(ProviderShowPage.searchModal.getFilter('type')).to.equal('all');
+    });
+
     it('does not display badge', () => {
       expect(ProviderShowPage.filterBadge).to.be.false;
+    });
+  });
+
+  describe('clicking the apply button', () => {
+    beforeEach(() => {
+      return ProviderShowPage.clickListSearch();
+    });
+
+    describe('no input in search', () => {
+      beforeEach(() => {
+        return ProviderShowPage.searchModal.search('');
+      });
+
+      it('disables search button', () => {
+        expect(ProviderShowPage.searchModal.searchDisabled).to.be.true;
+      });
+
+      // it('does nothing with enter is pressed', () => {
+      //
+      // });
+
+      // it('does not display apply button', () => {
+      //   expect(ProviderShowPage.searchModal.hasApplyButton).to.be.false;
+      // });
+    });
+
+    describe('with search input', () => {
+      beforeEach(() => {
+        return ProviderShowPage.searchModal.search('other');
+      });
+
+      // it('shows apply button', () => {
+      //   expect(ProviderShowPage.searchModal.hasApplyButton).to.be.true;
+      // });
+
+      it('enables search button', () => {
+        expect(ProviderShowPage.searchModal.searchDisabled).to.be.false;
+      });
     });
   });
 
@@ -57,10 +105,6 @@ describeApplication('ProviderShow package search', () => {
     beforeEach(() => {
       return ProviderShowPage.clickListSearch()
         .searchModal.search('other ordinary');
-    });
-
-    it('hides the package search modal', () => {
-      expect(ProviderShowPage.searchModal.isPresent).to.be.false;
     });
 
     it('displays packages matching the search term', () => {
@@ -75,16 +119,6 @@ describeApplication('ProviderShow package search', () => {
 
     it('displays updated filter count', () => {
       expect(ProviderShowPage.numFilters).to.equal('1');
-    });
-
-    describe('reopening the modal', () => {
-      beforeEach(() => {
-        return ProviderShowPage.clickListSearch();
-      });
-
-      it('shows the previous search term', () => {
-        expect(ProviderShowPage.searchModal.searchFieldValue).to.equal('other ordinary');
-      });
     });
 
     describe('then sorting by package name', () => {
