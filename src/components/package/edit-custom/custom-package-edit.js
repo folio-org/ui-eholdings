@@ -235,7 +235,7 @@ class CustomPackageEdit extends Component {
                       <Fragment>
                         <div data-test-eholdings-package-visibility-field>
                           <Field
-                            label={<FormattedMessage id="ui-eholdings.package.visbility" />}
+                            label={<FormattedMessage id="ui-eholdings.package.visibility" />}
                             name="isVisible"
                             component={RadioButtonGroup}
                           >
@@ -300,9 +300,9 @@ class CustomPackageEdit extends Component {
                     buttonStyle="primary"
                   >
                     {model.update.isPending ?
-                    (<FormattedMessage id="ui-eholdings.package.saving" />)
+                    (<FormattedMessage id="ui-eholdings.saving" />)
                     :
-                    (<FormattedMessage id="ui-eholdings.package.save" />)}
+                    (<FormattedMessage id="ui-eholdings.save" />)}
                   </Button>
                 </div>
                 {model.update.isPending && (
