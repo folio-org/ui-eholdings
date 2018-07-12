@@ -98,7 +98,7 @@ export default class PackageShow extends Component {
         header: <FormattedMessage id='ui-eholdings.package.modalMessageBody.isCustom' />,
         body: <FormattedMessage id='ui-eholdings.package.modalMessageBody.isCustom' />,
         buttonConfirm: <FormattedMessage id='ui-eholdings.package.modalMessageButtonConfirm.isCustom' />,
-        buttonCancel: <FormattedMessage id='ui-eholdings.pacakge.modalMessageButtonCancel.isCustom' />
+        buttonCancel: <FormattedMessage id='ui-eholdings.package.modalMessageButtonCancel.isCustom' />
       } :
       {
         header: <FormattedMessage id='ui-eholdings.package.modalMessageHeader' />,
