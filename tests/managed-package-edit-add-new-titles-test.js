@@ -166,7 +166,7 @@ describeApplication('ManagedPackageEditAllowKbToAddTitles', () => {
 
     describe('toggling the selected toggle', () => {
       beforeEach(() => {
-        return PackageEditPage.toggleIsSelected();
+        return PackageEditPage.clickAddButton();
       });
 
       it('reflects the desired state (Selected)', () => {

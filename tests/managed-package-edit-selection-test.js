@@ -32,6 +32,10 @@ describeApplication('ManagedPackageEditSelection', () => {
       expect(PackageEditPage.isSelected).to.equal(false);
     });
 
+    it('shows "Add to holdings" button', () => {
+      expect(PackageEditPage.hasAddButton).to.equal(true);
+    });
+
     it('cannot toggle visibility', () => {
       expect(PackageEditPage.isVisibilityFieldPresent).to.equal(false);
     });
@@ -58,55 +62,42 @@ describeApplication('ManagedPackageEditSelection', () => {
       });
     });
 
-    describe('toggling the selection toggle', () => {
-      beforeEach(() => {
-        return PackageEditPage.toggleIsSelected();
-      });
-
-      describe('clicking cancel', () => {
+    describe('selecting the package', () => {
+      describe('via "Add to holdings" button', () => {
         beforeEach(() => {
-          return PackageEditPage.clickCancel();
+          return PackageEditPage.clickAddButton();
         });
 
-        it('shows a navigation confirmation modal', () => {
-          expect(PackageEditPage.navigationModal.$root).to.exist;
+        it('stays on the edit page', () => {
+          expect(PackageEditPage.isPresent).to.equal(true);
         });
 
-        describe('confirming to continue without saving', () => {
-          beforeEach(() => {
-            return PackageEditPage.navigationModal.confirmNavigation();
-          });
-
-          it('navigates from editing page', () => {
-            expect(PackageShowPage.isPresent).to.eq(true);
-          });
-
-          it('reflects the desired state of holding status', () => {
-            expect(PackageEditPage.isSelected).to.equal(false);
-          });
+        it('reflects that the package has been selected', () => {
+          expect(PackageEditPage.isSelected).to.equal(true);
         });
-        describe('confirming to keep editing', () => {
-          beforeEach(() => {
-            return PackageEditPage.navigationModal.cancelNavigation();
-          });
 
-          it('remains on the editing page', () => {
-            expect(PackageEditPage.isPresent).to.eq(true);
-          });
+        it('should not need the form to be submitted', () => {
+          expect(PackageEditPage.isSaveDisabled).to.equal(true);
         });
       });
 
-      describe('clicking save', () => {
+      describe('via dropdown action', () => {
         beforeEach(() => {
-          return PackageEditPage.clickSave();
+          return PackageEditPage
+            .dropDown.clickDropDownButton()
+            .dropDownMenu.clickAddToHoldings();
         });
 
-        it('goes to the package show page', () => {
-          expect(PackageShowPage.$root).to.exist;
+        it('stays on the edit page', () => {
+          expect(PackageEditPage.isPresent).to.equal(true);
         });
 
-        it('displays the new holding status', () => {
-          expect(PackageShowPage.isSelected).to.equal(true);
+        it('reflects that the package has been selected', () => {
+          expect(PackageEditPage.isSelected).to.equal(true);
+        });
+
+        it('should not need the form to be submitted', () => {
+          expect(PackageEditPage.isSaveDisabled).to.equal(true);
         });
       });
     });
@@ -127,6 +118,10 @@ describeApplication('ManagedPackageEditSelection', () => {
 
     it('reflects the desired state of holding status', () => {
       expect(PackageEditPage.isSelected).to.equal(true);
+    });
+
+    it('hides "Add to holdings" button', () => {
+      expect(PackageEditPage.hasAddButton).to.equal(false);
     });
 
     it('can toggle visibility', () => {
@@ -155,95 +150,38 @@ describeApplication('ManagedPackageEditSelection', () => {
       });
     });
 
-    describe('toggling the selection toggle', () => {
+    describe('deselecting the package', () => {
       beforeEach(() => {
-        return PackageEditPage.toggleIsSelected();
+        return PackageEditPage
+          .dropDown.clickDropDownButton()
+          .dropDownMenu.clickRemoveFromHoldings();
+      });
+
+      it('shows the deselection confirmation modal', () => {
+        expect(PackageEditPage.modal.isPresent).to.equal(true);
       });
 
       describe('clicking cancel', () => {
         beforeEach(() => {
-          return PackageEditPage.clickCancel();
+          return PackageEditPage.modal.cancelDeselection();
         });
 
-        it('shows a navigation confirmation modal', () => {
-          expect(PackageEditPage.navigationModal.$root).to.exist;
-        });
-
-        describe('confirming to continue without saving', () => {
-          beforeEach(() => {
-            return PackageEditPage.navigationModal.confirmNavigation();
-          });
-
-          it('navigates from editing page', () => {
-            expect(PackageShowPage.isPresent).to.eq(true);
-          });
-
-          it('reflects the desired state of holding status', () => {
-            expect(PackageEditPage.isSelected).to.equal(true);
-          });
-        });
-        describe('confirming to keep editing', () => {
-          beforeEach(() => {
-            return PackageEditPage.navigationModal.cancelNavigation();
-          });
-
-          it('remains on the editing page', () => {
-            expect(PackageEditPage.isPresent).to.eq(true);
-          });
-        });
-      });
-
-      describe('clicking save', () => {
-        beforeEach(() => {
-          return PackageEditPage.clickSave();
-        });
-
-        it('shows the modal', () => {
-          expect(PackageEditPage.modal.isPresent).to.equal(true);
+        it('should stay on the edit page', () => {
+          expect(PackageEditPage.isPresent).to.equal(true);
         });
 
         it('reflects the desired state of holding status', () => {
-          expect(PackageEditPage.isSelected).to.equal(false);
+          expect(PackageEditPage.isSelected).to.equal(true);
+        });
+      });
+
+      describe('clicking confirm', () => {
+        beforeEach(() => {
+          return PackageEditPage.modal.confirmDeselection();
         });
 
-        describe('clicking confirm', () => {
-          beforeEach(() => {
-            return PackageEditPage.modal.confirmDeselection();
-          });
-
-          it('removes the modal', () => {
-            expect(PackageEditPage.modal.isPresent).to.equal(false);
-          });
-
-          it('reflects the correct holding status', () => {
-            expect(PackageEditPage.isSelected).to.equal(false);
-          });
-
-          it('goes to the package show page', () => {
-            expect(PackageShowPage.$root).to.exist;
-          });
-
-          it('reflects the correct holding status', () => {
-            expect(PackageEditPage.isSelected).to.equal(false);
-          });
-
-          it('shows a success toast message', () => {
-            expect(PackageShowPage.toast.successText).to.equal('Package saved.');
-          });
-        });
-
-        describe('clicking cancel', () => {
-          beforeEach(() => {
-            return PackageEditPage.modal.cancelDeselection();
-          });
-
-          it('removes the modal', () => {
-            expect(PackageEditPage.modal.isPresent).to.equal(false);
-          });
-
-          it('reflects the correct holding status', () => {
-            expect(PackageEditPage.isSelected).to.equal(true);
-          });
+        it('should navigate to the show page', () => {
+          expect(PackageShowPage.isPresent).to.equal(true);
         });
       });
     });
