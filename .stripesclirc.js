@@ -13,7 +13,7 @@ function mirage(config, enabled = false) {
   if (enabled) {
     console.info('Using Mirage Server'); // eslint-disable-line no-console
     return Object.assign({}, config, {
-      entry: ['./demo/boot-mirage'].concat(config.entry)
+      entry: ['./mirage/boot'].concat(config.entry)
     });
   } else {
     return config;
@@ -46,14 +46,11 @@ module.exports = {
   okapi: url,
   tenant: "fs",
   install: true,
+  hasAllPerms: true,
+  logCategories: '',
 
   // Custom command extension
   plugins: {
     serve: servePlugin
-  },
-
-  // Aliases
-  aliases: {
-    '@folio/eholdings-demo': './demo',
   }
 };
