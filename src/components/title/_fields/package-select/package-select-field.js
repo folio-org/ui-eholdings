@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Field } from 'redux-form';
+import { FormattedMessage } from 'react-intl';
 
 import { Select } from '@folio/stripes-components';
 import styles from './package-select-field.css';
@@ -20,7 +21,7 @@ export default function PackageSelectField({ options }) {
       <Field
         name="packageId"
         component={Select}
-        label="Package"
+        label={<FormattedMessage id="ui-eholdings.title.package.isRequired" />}
         dataOptions={optionsWithPlaceholder}
       />
     </div>

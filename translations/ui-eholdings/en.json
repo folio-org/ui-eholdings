@@ -5,6 +5,7 @@
     "package.customCoverageDates": "Custom coverage dates",
     "package.holdingStatus": "Holding status",
     "package.name": "Name",
+    "package.name.isRequired": "Name *",
     "package.packageInformation": "Package information",
     "package.packageType": "Package type",
     "package.provider": "Provider",
@@ -38,6 +39,9 @@
     "package.toast.isNewRecord": "Custom package created.",
     "package.toast.isDestroyed": "Title removed from package.",
     "package.toast.isFreshlySaved": "Package saved.",
+
+    "title.name.isRequired": "Name *",
+    "title.package.isRequired": "Package *",
 
     "selected": "Selected",
     "notSelected": "Not selected",
