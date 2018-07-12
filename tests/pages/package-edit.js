@@ -1,4 +1,5 @@
 import {
+  attribute,
   clickable,
   collection,
   computed,
@@ -23,6 +24,16 @@ import Datepicker from './datepicker';
   confirmDeselection = clickable('[data-test-eholdings-package-deselection-confirmation-modal-yes]');
 }
 
+@interactor class PackageEditDropDown {
+  clickDropDownButton = clickable('button');
+  isExpanded = attribute('button', 'aria-expanded');
+}
+
+@interactor class PackageEditDropDownMenu {
+  clickRemoveFromHoldings = clickable('.tether-element [data-test-eholdings-package-remove-from-holdings-action]');
+  clickAddToHoldings = clickable('.tether-element [data-test-eholdings-package-add-to-holdings-action]');
+}
+
 @interactor class PackageEditPage {
   navigationModal = new PackageEditNavigationModal('#navigation-modal');
 
@@ -36,6 +47,8 @@ import Datepicker from './datepicker';
   isSelected = computed(function () {
     return this.selectionText === 'Selected';
   });
+  hasAddButton = isPresent('[data-test-eholdings-package-add-to-holdings-button]');
+  clickAddButton = clickable('[data-test-eholdings-package-add-to-holdings-button]');
   hasBackButton = isPresent('[data-test-eholdings-details-view-back-button] button');
   isHiddenMessage = text('[data-test-eholdings-package-details-is-hidden-reason]');
   isHiddenMessagePresent = isPresent('[data-test-eholdings-package-details-is-hidden-reason]');
@@ -62,6 +75,8 @@ import Datepicker from './datepicker';
   hasReadOnlyNameFieldPresent = isPresent('[data-test-eholdings-package-readonly-name-field]');
   hasContentTypeFieldPresent = isPresent('[data-test-eholdings-package-content-type-field]');
   hasReadOnlyContentTypeFieldPresent = isPresent('[data-test-eholdings-package-details-readonly-content-type]');
+  dropDown = new PackageEditDropDown('[class*=paneHeaderCenterInner---] [class*=dropdown---]');
+  dropDownMenu = new PackageEditDropDownMenu();
 
   toast = Toast;
 

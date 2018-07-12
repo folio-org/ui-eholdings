@@ -1,5 +1,6 @@
 {
     "meta.title": "eHoldings",
+    "package.addToHoldings": "Add to holdings",
     "package.contentType": "Content type",
     "package.coverageDates": "Coverage dates",
     "package.customCoverageDates": "Custom coverage dates",

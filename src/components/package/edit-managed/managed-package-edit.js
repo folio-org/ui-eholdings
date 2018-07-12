@@ -18,7 +18,6 @@ import DetailsView from '../../details-view';
 import CoverageFields, { validate as validateCoverageDates } from '../_fields/custom-coverage';
 import DetailsViewSection from '../../details-view-section';
 import NavigationModal from '../../navigation-modal';
-import ToggleSwitch from '../../toggle-switch/toggle-switch';
 import Toaster from '../../toaster';
 import styles from './managed-package-edit.css';
 
@@ -47,7 +46,7 @@ class ManagedPackageEdit extends Component {
     allowFormToSubmit: false,
     packageSelected: this.props.initialValues.isSelected,
     formValues: {},
-    // these are used above in getDerivedStateFromProps
+    // these are used in getDerivedStateFromProps
     packageVisible: this.props.initialValues.isVisible, // eslint-disable-line react/no-unused-state
     initialValues: this.props.initialValues // eslint-disable-line react/no-unused-state
   }
@@ -90,24 +89,22 @@ class ManagedPackageEdit extends Component {
     });
   }
 
-  handleSelectionToggle = (e) => {
-    if (e.target.checked) {
-      let { initialValues } = this.props;
-
-      // Don't set `allowKbToAddTitles` to true unless `isSelected` has actually changed.
-      // Toggling off and then on again should not set `allowKbToAddTitles` to true.
-      if (e.target.checked !== initialValues.isSelected) {
-        this.props.change('allowKbToAddTitles', true);
+  handleSelectionAction = () => {
+    this.setState({
+      packageSelected: true,
+      formValues: {
+        allowKbToAddTitles: true,
+        isSelected: true
       }
+    });
+  }
 
-      this.setState({
-        packageSelected: e.target.checked
-      });
-    } else {
-      this.setState({
-        packageSelected: e.target.checked
-      });
-    }
+  handleDeselectionAction = () => {
+    this.setState({
+      formValues: {
+        isSelected: false
+      }
+    }, () => this.handleOnSubmit(this.state.formValues));
   }
 
   commitSelectionToggle = () => {
@@ -142,7 +139,6 @@ class ManagedPackageEdit extends Component {
     }
   }
 
-
   render() {
     let {
       model,
@@ -163,6 +159,8 @@ class ManagedPackageEdit extends Component {
     } = this.context;
 
     let visibilityMessage = model.visibilityData.reason && `(${model.visibilityData.reason})`;
+    let packageSelectionPending = model.destroy.isPending ||
+      (model.update.isPending && 'isSelected' in model.update.changedAttributes);
 
     let actionMenuItems = [
       {
@@ -186,6 +184,22 @@ class ManagedPackageEdit extends Component {
       });
     }
 
+    if (packageSelected) {
+      actionMenuItems.push({
+        'label': 'Remove from holdings',
+        'state': { eholdings: true },
+        'data-test-eholdings-package-remove-from-holdings-action': true,
+        'onClick': this.handleDeselectionAction
+      });
+    } else {
+      actionMenuItems.push({
+        'label': 'Add to holdings',
+        'state': { eholdings: true },
+        'data-test-eholdings-package-add-to-holdings-action': true,
+        'onClick': this.handleSelectionAction
+      });
+    }
+
     return (
       <div>
         <Toaster toasts={processErrors(model)} position="bottom" />
@@ -203,20 +217,30 @@ class ManagedPackageEdit extends Component {
                   data-test-eholdings-package-details-selected
                   htmlFor="managed-package-details-toggle-switch"
                 >
-                  <h4>{packageSelected ?
-                    (<FormattedMessage id="ui-eholdings.selected" />)
-                    :
-                    (<FormattedMessage id="ui-eholdings.notSelected" />)}
-                  </h4>
+                  { packageSelectionPending ? (
+                    <Icon icon="spinner-ellipsis" />
+                  ) : (
+                    <h4>
+                      {packageSelected ?
+                        (<FormattedMessage id="ui-eholdings.selected" />) :
+                        (<FormattedMessage id="ui-eholdings.notSelected" />)
+                      }
+                    </h4>
+                  )}
                   <br />
 
-                  <Field
-                    name="isSelected"
-                    component={ToggleSwitch}
-                    checked={packageSelected}
-                    onChange={this.handleSelectionToggle}
-                    id="managed-package-details-toggle-switch"
-                  />
+                  {((!packageSelected && !packageSelectionPending) ||
+                    (!this.props.model.isSelected && packageSelectionPending)) &&
+                    <Button
+                      type="button"
+                      buttonStyle="primary"
+                      disabled={packageSelectionPending}
+                      onClick={this.handleSelectionAction}
+                      data-test-eholdings-package-add-to-holdings-button
+                    >
+                      <FormattedMessage id="ui-eholdings.package.addToHoldings" />
+                    </Button>
+                  }
                 </label>
               </DetailsViewSection>
               <DetailsViewSection label={intl.formatMessage({ id: 'ui-eholdings.package.packageSettings' })}>
