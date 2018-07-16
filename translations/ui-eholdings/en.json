@@ -4,6 +4,7 @@
     "package.contentType": "Content type",
     "package.coverageDates": "Coverage dates",
     "package.customCoverageDates": "Custom coverage dates",
+    "package.deletePackage": "Delete package",
     "package.holdingStatus": "Holding status",
     "package.name": "Name",
     "package.name.isRequired": "Name *",

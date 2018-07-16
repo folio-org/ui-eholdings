@@ -21,7 +21,6 @@ import CoverageFields, { validate as validateCoverageDates } from '../_fields/cu
 import ContentTypeField from '../_fields/content-type';
 import DetailsViewSection from '../../details-view-section';
 import NavigationModal from '../../navigation-modal';
-import ToggleSwitch from '../../toggle-switch/toggle-switch';
 import Toaster from '../../toaster';
 import styles from './custom-package-edit.css';
 
@@ -93,10 +92,12 @@ class CustomPackageEdit extends Component {
     });
   }
 
-  handleSelectionToggle = (e) => {
+  handleDeleteAction = () => {
     this.setState({
-      packageSelected: e.target.checked
-    });
+      formValues: {
+        isSelected: false
+      }
+    }, () => this.handleOnSubmit(this.state.formValues));
   }
 
   commitSelectionToggle = () => {
@@ -174,6 +175,15 @@ class CustomPackageEdit extends Component {
       });
     }
 
+    if (packageSelected) {
+      actionMenuItems.push({
+        'label': 'Delete package',
+        'state': { eholdings: true },
+        'data-test-eholdings-package-remove-from-holdings-action': true,
+        'onClick': this.handleDeleteAction
+      });
+    }
+
     return (
       <div>
         <Toaster toasts={processErrors(model)} position="bottom" />
@@ -214,20 +224,12 @@ class CustomPackageEdit extends Component {
                   data-test-eholdings-package-details-selected
                   htmlFor="custom-package-details-toggle-switch"
                 >
-                  <h4>{packageSelected ?
-                    (<FormattedMessage id="ui-eholdings.selected" />)
-                    :
-                    (<FormattedMessage id="ui-eholdings.notSelected" />)}
+                  <h4>
+                    {packageSelected ?
+                      (<FormattedMessage id="ui-eholdings.selected" />) :
+                      (<FormattedMessage id="ui-eholdings.notSelected" />)
+                    }
                   </h4>
-                  <br />
-
-                  <Field
-                    name="isSelected"
-                    component={ToggleSwitch}
-                    checked={packageSelected}
-                    onChange={this.handleSelectionToggle}
-                    id="custom-package-details-toggle-switch"
-                  />
                 </label>
               </DetailsViewSection>
               <DetailsViewSection label={intl.formatMessage({ id: 'ui-eholdings.package.packageSettings' })}>

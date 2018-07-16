@@ -70,7 +70,10 @@ class ManagedPackageEdit extends Component {
     let needsUpdate = !isEqual(prevProps.model, this.props.model);
     let { router } = this.context;
 
-    if (wasPending && needsUpdate) {
+    let wasUnSelected = prevProps.model.isSelected && !this.props.model.isSelected;
+    let isCurrentlySelected = prevProps.model.isSelected && this.props.model.isSelected;
+
+    if (wasPending && needsUpdate && (wasUnSelected || isCurrentlySelected)) {
       router.history.push({
         pathname: `/eholdings/packages/${this.props.model.id}`,
         search: router.route.location.search,
@@ -96,7 +99,7 @@ class ManagedPackageEdit extends Component {
         allowKbToAddTitles: true,
         isSelected: true
       }
-    });
+    }, () => this.handleOnSubmit(this.state.formValues));
   }
 
   handleDeselectionAction = () => {
