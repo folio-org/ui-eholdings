@@ -190,15 +190,5 @@ describeApplication('CustomPackageEditVisibility', () => {
     it('disables the save button', () => {
       expect(PackageEditPage.isSaveDisabled).to.be.true;
     });
-
-    describe('toggling the selection toggle', () => {
-      beforeEach(() => {
-        return PackageEditPage.toggleIsSelected();
-      });
-
-      it('cannot toggle visibility', () => {
-        expect(PackageEditPage.isVisibilityFieldPresent).to.equal(false);
-      });
-    });
   });
 });

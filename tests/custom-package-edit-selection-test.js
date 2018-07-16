@@ -48,98 +48,48 @@ describeApplication('CustomPackageEditSelection', () => {
       });
     });
 
-    describe('toggling the selection toggle (OFF)', () => {
+    describe('deleting the custom package', () => {
       beforeEach(() => {
-        return PackageEditPage.toggleIsSelected();
+        return PackageEditPage
+          .dropDown.clickDropDownButton()
+          .dropDownMenu.clickRemoveFromHoldings();
       });
 
-      it('cannot toggle visibility', () => {
-        expect(PackageEditPage.isVisibilityFieldPresent).to.equal(false);
+      it('shows the deletion confirmation modal', () => {
+        expect(PackageEditPage.modal.isPresent).to.equal(true);
       });
 
-      it('cannot edit coverage', () => {
-        expect(PackageEditPage.hasCoverageDatesPresent).to.equal(false);
-      });
-
-      it('cannot edit package name', () => {
-        expect(PackageEditPage.hasReadOnlyNameFieldPresent).to.equal(true);
-        expect(PackageEditPage.hasNameFieldPresent).to.equal(false);
-      });
-
-      it('cannot edit content type', () => {
-        expect(PackageEditPage.hasReadOnlyContentTypeFieldPresent).to.equal(true);
-        expect(PackageEditPage.hasContentTypeFieldPresent).to.equal(false);
-      });
-
-      describe('clicking save', () => {
+      describe('clicking cancel', () => {
         beforeEach(() => {
-          return PackageEditPage.clickSave();
+          return PackageEditPage.modal.cancelDeselection();
         });
 
-        it('shows the modal', () => {
-          expect(PackageEditPage.modal.isPresent).to.equal(true);
+        it('should stay on the edit page', () => {
+          expect(PackageEditPage.isPresent).to.equal(true);
         });
 
-        it('reflects the desired state of holding status', () => {
-          expect(PackageEditPage.isSelected).to.equal(false);
-        });
-
-        describe('clicking confirm', () => {
-          beforeEach(() => {
-            return PackageEditPage.modal.confirmDeselection();
-          });
-
-          it('transitions to the package search page', function () {
-            expect(this.app.history.location.search).to.include('?searchType=packages');
-          });
-
-          describe('searching for package after confirming', () => {
-            beforeEach(() => {
-              return PackageSearchPage.search('Cool Package');
-            });
-
-            it('does not find package', () => {
-              expect(PackageSearchPage.noResultsMessage).to.equal('No packages found for "Cool Package".');
-            });
-          });
-        });
-
-        describe('clicking cancel', () => {
-          beforeEach(() => {
-            return PackageEditPage.modal.cancelDeselection();
-          });
-
-          it('removes the modal', () => {
-            expect(PackageEditPage.modal.isPresent).to.equal(false);
-          });
-
-          it('reflects the correct holding status', () => {
-            expect(PackageEditPage.isSelected).to.equal(true);
-          });
+        it('reflects that the package is still selected', () => {
+          expect(PackageEditPage.isSelected).to.equal(true);
         });
       });
 
-      describe('toggling the selection toggle ON', () => {
+      describe('clicking confirm', () => {
         beforeEach(() => {
-          return PackageEditPage.toggleIsSelected();
+          return PackageEditPage.modal.confirmDeselection();
         });
 
-        it('can toggle visibility', () => {
-          expect(PackageEditPage.isVisibilityFieldPresent).to.equal(true);
+        it('transitions to the package search page', function () {
+          expect(this.app.history.location.search).to.include('?searchType=packages');
         });
 
-        it('can edit coverage', () => {
-          expect(PackageEditPage.hasCoverageDatesPresent).to.equal(true);
-        });
+        describe('searching for package after confirming', () => {
+          beforeEach(() => {
+            return PackageSearchPage.search('Cool Package');
+          });
 
-        it('can edit package name', () => {
-          expect(PackageEditPage.hasReadOnlyNameFieldPresent).to.equal(false);
-          expect(PackageEditPage.hasNameFieldPresent).to.equal(true);
-        });
-
-        it('can edit content type', () => {
-          expect(PackageEditPage.hasReadOnlyContentTypeFieldPresent).to.equal(false);
-          expect(PackageEditPage.hasContentTypeFieldPresent).to.equal(true);
+          it('does not find package', () => {
+            expect(PackageSearchPage.noResultsMessage).to.equal('No packages found for "Cool Package".');
+          });
         });
       });
     });

@@ -79,6 +79,10 @@ class PackageEditRoute extends Component {
       model.customCoverage = {};
       model.allowKbToAddTitles = false;
       updatePackage(model);
+    } else if (values.isSelected && !values.customCoverages) {
+      model.isSelected = true;
+      model.allowKbToAddTitles = true;
+      updatePackage(model);
     } else {
       let beginCoverage = '';
       let endCoverage = '';
