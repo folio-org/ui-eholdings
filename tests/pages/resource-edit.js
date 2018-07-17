@@ -41,7 +41,6 @@ import Datepicker from './datepicker';
   isPeerReviewed = property('[data-test-eholdings-peer-reviewed-field] input[type=checkbox]', 'checked');
   checkPeerReviewed = clickable('[data-test-eholdings-peer-reviewed-field] input[type=checkbox]');
   hasBackButton = isPresent('[data-test-eholdings-details-view-back-button] button');
-  isSelected = property('[data-test-eholdings-resource-holding-status] input', 'checked');
   isResourceSelected = text('[data-test-eholdings-resource-holding-status] h4');
   isResourceVisible = property('[data-test-eholdings-resource-visibility-field] input[value="true"]', 'checked');
   isHiddenMessage = computed(function () {

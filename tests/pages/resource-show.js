@@ -9,7 +9,6 @@ import {
   text,
   is
 } from '@bigtest/interactor';
-import { hasClassBeginningWith } from './helpers';
 import Toast from './toast';
 
 
@@ -39,7 +38,6 @@ import Toast from './toast';
   descriptionText = text('[data-test-eholdings-description-field]');
   publisherName = text('[data-test-eholdings-resource-show-publisher-name]');
   publicationType = text('[data-test-eholdings-resource-show-publication-type]');
-  isSelected = property('[data-test-eholdings-resource-show-selected] input', 'checked');
   hasPublicationType = isPresent('[data-test-eholdings-resource-show-publication-type]');
   subjectsList = text('[data-test-eholdings-resource-show-subjects-list]');
   providerName = text('[data-test-eholdings-resource-show-provider-name]');
@@ -51,8 +49,6 @@ import Toast from './toast';
   hasContentType = isPresent('[data-test-eholdings-resource-show-content-type]');
   hasErrors = isPresent('[data-test-eholdings-details-view-error="resource"]');
   isResourceSelected = text('[data-test-eholdings-resource-show-selected] h4');
-  isSelected = property('[data-test-eholdings-resource-show-selected] input', 'checked');
-  isSelecting = hasClassBeginningWith('[data-test-eholdings-resource-show-selected] [data-test-toggle-switch]', 'is-pending--');
   isLoading = isPresent('[data-test-eholdings-resource-show-selected] [class*=icon---][class*=iconSpinner]');
   hasBackButton = isPresent('[data-test-eholdings-details-view-back-button] button');
   clickBackButton = clickable('[data-test-eholdings-details-view-back-button] button');
