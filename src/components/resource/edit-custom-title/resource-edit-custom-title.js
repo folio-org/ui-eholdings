@@ -53,6 +53,12 @@ class ResourceEditCustomTitle extends Component {
   }
 
   static getDerivedStateFromProps(nextProps, prevState) {
+    if (nextProps.model.destroy.errors.length) {
+      return {
+        showSelectionModal: false
+      };
+    }
+
     if (nextProps.initialValues.isSelected !== prevState.initialValues.isSelected) {
       return {
         ...prevState,
@@ -102,7 +108,6 @@ class ResourceEditCustomTitle extends Component {
 
   commitSelectionToggle = () => {
     this.setState({
-      showSelectionModal: false,
       allowFormToSubmit: true
     }, () => { this.handleOnSubmit(this.state.formValues); });
   };
@@ -281,8 +286,9 @@ class ResourceEditCustomTitle extends Component {
           footer={(
             <ModalFooter
               primaryButton={{
-                'label': 'Yes, remove',
+                'label': model.destroy.isPending ? 'Removing...' : 'Yes, remove',
                 'onClick': this.commitSelectionToggle,
+                'disabled': model.destroy.isPending,
                 'data-test-eholdings-resource-deselection-confirmation-modal-yes': true
               }}
               secondaryButton={{

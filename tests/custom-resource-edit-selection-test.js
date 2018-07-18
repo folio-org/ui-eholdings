@@ -8,6 +8,7 @@ import PackageSearchPage from './pages/package-search';
 
 describeApplication('CustomResourceHoldingSelection', () => {
   let provider,
+    title,
     providerPackage,
     resource;
 
@@ -23,7 +24,7 @@ describeApplication('CustomResourceHoldingSelection', () => {
       isCustom: true
     });
 
-    let title = this.server.create('title', {
+    title = this.server.create('title', {
       name: 'Hans Solo Director Cut',
       publicationType: 'Streaming Video',
       publisherName: 'Amazing Publisher',
@@ -39,6 +40,7 @@ describeApplication('CustomResourceHoldingSelection', () => {
       isSelected: true
     });
   });
+
 
   describe('visiting the package details page', () => {
     beforeEach(function () {
@@ -66,25 +68,67 @@ describeApplication('CustomResourceHoldingSelection', () => {
         expect(ResourceEditPage.modal.isPresent).to.equal(true);
       });
 
-      describe('confirming the save and continue deselection', () => {
-        beforeEach(() => {
+      describe('confirming to continue deselection', () => {
+        /**
+         * We want to control when this endpoints resolves.
+         * Returning a unresolved promise from the endpoint within
+         * the beforeEach gives us the control to resolve the request
+         * later in tests.
+         */
+
+        let resolveRequest;
+
+        beforeEach(function () {
+          this.server.delete('/resources/:id', ({ resources }, request) => {
+            let matchingResource = resources.find(request.params.id);
+
+            matchingResource.destroy();
+
+            // return {};
+
+            return new Promise((resolve) => {
+              resolveRequest = resolve;
+            });
+          });
+
           return ResourceEditPage.modal.confirmDeselection();
         });
 
-        it('transition to package search page', () => {
-          expect(PackageSearchPage.isPresent).to.equal(true);
+        it('should keep confirmation modal on screen until requests responds', () => {
+          expect(ResourceEditPage.modal.isPresent).to.equal(true);
+          resolveRequest();
         });
 
-        it('has search prefilled with package name', () => {
-          expect(PackageSearchPage.searchFieldValue).to.equal('Star Wars Custom Package');
+        it('confirmation button now reads "Removing..."', () => {
+          expect(ResourceEditPage.modal.confirmButtonText).to.equal('Removing...');
+          resolveRequest();
         });
 
-        it('does not have an association to the above package', () => {
-          expect(PackageSearchPage.packageTitleList().length).to.equal(0);
+        it('confirmation button is disabled', () => {
+          expect(ResourceEditPage.modal.confirmButtonIsDisabled).to.equal(true);
+          resolveRequest();
         });
 
-        it('has a success Toast notification', () => {
-          expect(PackageSearchPage.toast.successText).to.equal('Title removed from package.');
+        describe('when the request resolves', () => {
+          beforeEach(() => {
+            resolveRequest();
+          });
+
+          it('transition to package search page', () => {
+            expect(PackageSearchPage.isPresent).to.equal(true);
+          });
+
+          it('has search prefilled with package name', () => {
+            expect(PackageSearchPage.searchFieldValue).to.equal('Star Wars Custom Package');
+          });
+
+          it('does not have an association to the above package', () => {
+            expect(PackageSearchPage.packageTitleList().length).to.equal(0);
+          });
+
+          it('has a success Toast notification', () => {
+            expect(PackageSearchPage.toast.successText).to.equal('Title removed from package.');
+          });
         });
       });
 
@@ -129,6 +173,10 @@ describeApplication('CustomResourceHoldingSelection', () => {
         describe('when the request fails', () => {
           it('indicates it is no longer working', () => {
             expect(ResourceEditPage.isSaveDisabled).to.equal(true);
+          });
+
+          it('removes the modal', () => {
+            expect(ResourceEditPage.modal.isPresent).to.equal(false);
           });
 
           it('shows the error as a toast', () => {

@@ -25,6 +25,8 @@ import Datepicker from './datepicker';
 @interactor class ResourceEditModal {
   confirmDeselection = clickable('[data-test-eholdings-resource-deselection-confirmation-modal-yes]');
   cancelDeselection = clickable('[data-test-eholdings-resource-deselection-confirmation-modal-no]');
+  confirmButtonText = text('[data-test-eholdings-resource-deselection-confirmation-modal-yes]');
+  confirmButtonIsDisabled = property('[data-test-eholdings-resource-deselection-confirmation-modal-yes]', 'disabled');
 }
 
 @interactor class ResourceEditPage {

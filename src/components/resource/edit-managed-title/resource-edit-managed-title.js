@@ -61,6 +61,12 @@ class ResourceEditManagedTitle extends Component { // eslint-disable-line react/
       });
     }
 
+    if (nextProps.model.update.errors.length) {
+      this.setState({
+        showSelectionModal: false
+      });
+    }
+
     if (wasUnSelected || isCurrentlySelected) {
       if (wasPending && needsUpdate) {
         this.context.router.history.push(
@@ -102,7 +108,6 @@ class ResourceEditManagedTitle extends Component { // eslint-disable-line react/
 
   commitSelectionToggle = () => {
     this.setState({
-      showSelectionModal: false,
       allowFormToSubmit: true
     }, () => { this.handleOnSubmit(this.state.formValues); });
   };
@@ -206,7 +211,7 @@ class ResourceEditManagedTitle extends Component { // eslint-disable-line react/
                     <Button
                       buttonStyle="primary"
                       onClick={this.handleAddResourceToHoldings}
-                      disabled={model.destroy.isPending || isSelectInFlight}
+                      disabled={isSelectInFlight}
                       data-test-eholdings-resource-add-to-holdings-button
                     >
                       Add to holdings
@@ -265,11 +270,11 @@ class ResourceEditManagedTitle extends Component { // eslint-disable-line react/
                     data-test-eholdings-resource-save-button
                   >
                     <Button
-                      disabled={pristine || model.update.isPending || model.destroy.isPending}
+                      disabled={pristine || model.update.isPending}
                       type="submit"
                       buttonStyle="primary"
                     >
-                      {model.update.isPending || model.destroy.isPending ? 'Saving' : 'Save'}
+                      {model.update.isPending ? 'Saving' : 'Save'}
                     </Button>
                   </div>
                   {model.update.isPending && (
@@ -290,8 +295,9 @@ class ResourceEditManagedTitle extends Component { // eslint-disable-line react/
           footer={(
             <ModalFooter
               primaryButton={{
-                'label': 'Yes, remove',
+                'label': model.update.isPending ? 'Removing...' : 'Yes, remove',
                 'onClick': this.commitSelectionToggle,
+                'disabled': model.update.isPending,
                 'data-test-eholdings-resource-deselection-confirmation-modal-yes': true
               }}
               secondaryButton={{

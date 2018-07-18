@@ -7,7 +7,7 @@ import ResourceEditPage from './pages/resource-edit';
 
 window.ResourceEditPage = ResourceEditPage;
 
-describeApplication.only('ResourceEditSelection', () => {
+describeApplication('ResourceEditSelection', () => {
   let provider,
     providerPackage,
     resource;
