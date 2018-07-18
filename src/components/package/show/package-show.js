@@ -120,7 +120,7 @@ export default class PackageShow extends Component {
 
     if (queryParams.searchType) {
       actionMenuItems.push({
-        label: <FormattedMessage id="ui-eholdings.package.actionMenu.fullView" />,
+        label: <FormattedMessage id="ui-eholdings.actionMenu.fullView" />,
         to: {
           pathname: `/eholdings/packages/${model.id}`,
           state: { eholdings: true }

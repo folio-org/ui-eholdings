@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { KeyValue } from '@folio/stripes-components';
-import { FormattedNumber } from 'react-intl';
+import { FormattedNumber, FormattedMessage } from 'react-intl';
 
 import { processErrors } from '../utilities';
 import DetailsView from '../details-view';
@@ -24,7 +24,7 @@ export default function ProviderShow({
 
   if (queryParams.searchType) {
     actionMenuItems.push({
-      label: 'Full view',
+      label: <FormattedMessage id="ui-eholdings.actionMenu.fullView" />,
       to: {
         pathname: `/eholdings/providers/${model.id}`,
         state: { eholdings: true }
@@ -44,14 +44,14 @@ export default function ProviderShow({
         paneTitle={model.name}
         actionMenuItems={actionMenuItems}
         bodyContent={(
-          <DetailsViewSection label="Provider information">
-            <KeyValue label="Packages selected">
+          <DetailsViewSection label={<FormattedMessage id="ui-eholdings.provider.providerInformation" />}>
+            <KeyValue label={<FormattedMessage id="ui-eholdings.provider.packagesSelected" />}>
               <div data-test-eholdings-provider-details-packages-selected>
                 <FormattedNumber value={model.packagesSelected} />
               </div>
             </KeyValue>
 
-            <KeyValue label="Total packages">
+            <KeyValue label={<FormattedMessage id="ui-eholdings.provider.totalPackages" />}>
               <div data-test-eholdings-provider-details-packages-total>
                 <FormattedNumber value={model.packagesTotal} />
               </div>
