@@ -1,27 +1,31 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { Field } from 'redux-form';
-import { FormattedMessage } from 'react-intl';
+import { injectIntl, intlShape } from 'react-intl';
 
 import { TextField } from '@folio/stripes-components';
 import styles from './package-name-field.css';
 
-export default class PackageNameField extends Component {
-  render() {
-    return (
-      <div
-        data-test-eholdings-package-name-field
-        className={styles['package-name-field']}
-      >
-        <Field
-          name="name"
-          type="text"
-          component={TextField}
-          label={<FormattedMessage id="ui-eholdings.package.name.isRequired" />}
-        />
-      </div>
-    );
-  }
+function PackageNameField({ intl }) {
+  return (
+    <div
+      data-test-eholdings-package-name-field
+      className={styles['package-name-field']}
+    >
+      <Field
+        name="name"
+        type="text"
+        component={TextField}
+        label={intl.formatMessage({ id: 'ui-eholdings.package.name.isRequired' })}
+      />
+    </div>
+  );
 }
+
+PackageNameField.propTypes = {
+  intl: intlShape.isRequired
+};
+
+export default injectIntl(PackageNameField);
 
 export function validate(values) {
   let errors = {};

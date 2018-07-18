@@ -2,10 +2,9 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
 import {
-  Button
+  Modal,
+  ModalFooter
 } from '@folio/stripes-components';
-import Modal from '../modal';
-import styles from './navigation-modal.css';
 
 export default class NavigationModal extends Component {
   static propTypes = {
@@ -112,24 +111,18 @@ export default class NavigationModal extends Component {
           label={modalLabel}
           onClose={this.dismiss}
           footer={(
-            <div className={styles['navigation-modal-buttons']}>
-              <Button
-                fullWidth
-                onClick={this.continue}
-                data-test-navigation-modal-continue
-              >
-                {continueLabel}
-              </Button>
-
-              <Button
-                fullWidth
-                onClick={this.dismiss}
-                buttonStyle="primary"
-                data-test-navigation-modal-dismiss
-              >
-                {dismissLabel}
-              </Button>
-            </div>
+            <ModalFooter
+              primaryButton={{
+                'label': dismissLabel,
+                'onClick': this.dismiss,
+                'data-test-navigation-modal-dismiss': true
+              }}
+              secondaryButton={{
+                'label': continueLabel,
+                'onClick': this.continue,
+                'data-test-navigation-modal-continue': true
+              }}
+            />
           )}
         >
           Your changes have not been saved. Are you sure you want to leave this page?

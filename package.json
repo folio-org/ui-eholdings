@@ -54,7 +54,7 @@
     "webpack": "^4.0.0"
   },
   "dependencies": {
-    "@folio/stripes-components": "2.1.5000420",
+    "@folio/stripes-components": "3.0.1000438",
     "classnames": "^2.2.5",
     "funcadelic": "^0.4.0",
     "impagination": "^1.0.0-alpha.3",

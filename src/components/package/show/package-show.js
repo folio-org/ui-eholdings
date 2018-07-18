@@ -6,26 +6,28 @@ import {
   Icon,
   IconButton,
   KeyValue,
+  Modal,
+  ModalFooter,
   PaneMenu
 } from '@folio/stripes-components';
-import { FormattedDate, FormattedNumber, FormattedMessage } from 'react-intl';
+import { intlShape, injectIntl, FormattedDate, FormattedNumber, FormattedMessage } from 'react-intl';
 import { processErrors } from '../../utilities';
 
 import DetailsView from '../../details-view';
 import QueryList from '../../query-list';
 import Link from '../../link';
 import TitleListItem from '../../title-list-item';
-import Modal from '../../modal';
 import NavigationModal from '../../navigation-modal';
 import DetailsViewSection from '../../details-view-section';
 import Toaster from '../../toaster';
 
 import styles from './package-show.css';
 
-export default class PackageShow extends Component {
+class PackageShow extends Component {
   static propTypes = {
     model: PropTypes.object.isRequired,
     fetchPackageTitles: PropTypes.func.isRequired,
+    intl: intlShape.isRequired,
     toggleSelected: PropTypes.func.isRequired
   };
 
@@ -80,7 +82,7 @@ export default class PackageShow extends Component {
   };
 
   render() {
-    let { model, fetchPackageTitles } = this.props;
+    let { model, fetchPackageTitles, intl } = this.props;
     let { router, queryParams } = this.context;
     let {
       showSelectionModal,
@@ -95,16 +97,16 @@ export default class PackageShow extends Component {
 
     let modalMessage = model.isCustom ?
       {
-        header: <FormattedMessage id='ui-eholdings.package.modalMessageBody.isCustom' />,
-        body: <FormattedMessage id='ui-eholdings.package.modalMessageBody.isCustom' />,
-        buttonConfirm: <FormattedMessage id='ui-eholdings.package.modalMessageButtonConfirm.isCustom' />,
-        buttonCancel: <FormattedMessage id='ui-eholdings.package.modalMessageButtonCancel.isCustom' />
+        header: intl.formatMessage({ id: 'ui-eholdings.package.modalMessageHeader.isCustom' }),
+        body: intl.formatMessage({ id: 'ui-eholdings.package.modalMessageBody.isCustom' }),
+        buttonConfirm: intl.formatMessage({ id: 'ui-eholdings.package.modalMessageButtonConfirm.isCustom' }),
+        buttonCancel: intl.formatMessage({ id: 'ui-eholdings.package.modalMessageButtonCancel.isCustom' })
       } :
       {
-        header: <FormattedMessage id='ui-eholdings.package.modalMessageHeader' />,
-        body: <FormattedMessage id='ui-eholdings.package.modalMessageBody' />,
-        buttonConfirm: <FormattedMessage id='ui-eholdings.package.modalMessageButtonConfirm' />,
-        buttonCancel: <FormattedMessage id='ui-eholdings.package.modalMessageButtonCancel' />
+        header: intl.formatMessage({ id: 'ui-eholdings.package.modalMessageHeader' }),
+        body: intl.formatMessage({ id: 'ui-eholdings.package.modalMessageBody' }),
+        buttonConfirm: intl.formatMessage({ id: 'ui-eholdings.package.modalMessageButtonConfirm' }),
+        buttonCancel: intl.formatMessage({ id: 'ui-eholdings.package.modalMessageButtonCancel' })
       };
 
     let actionMenuItems = [
@@ -153,7 +155,7 @@ export default class PackageShow extends Component {
         router.history.location.state.isNewRecord) {
       toasts.push({
         id: `success-package-creation-${model.id}`,
-        message: <FormattedMessage id="ui-eholdings.package.toast.isNewRecord" />,
+        message: intl.formatMessage({ id: 'ui-eholdings.package.toast.isNewRecord' }),
         type: 'success'
       });
     }
@@ -165,7 +167,7 @@ export default class PackageShow extends Component {
         router.history.location.state.isDestroyed) {
       toasts.push({
         id: `success-resource-destruction-${model.id}`,
-        message: <FormattedMessage id="ui-eholdings.package.toast.isDestroyed" />,
+        message: intl.formatMessage({ id: 'ui-eholdings.package.toast.isDestroyed' }),
         type: 'success'
       });
     }
@@ -176,7 +178,7 @@ export default class PackageShow extends Component {
         router.history.location.state.isFreshlySaved) {
       toasts.push({
         id: `success-package-saved-${model.id}`,
-        message: <FormattedMessage id="ui-eholdings.package.toast.isFreshlySaved" />,
+        message: intl.formatMessage({ id: 'ui-eholdings.package.toast.isFreshlySaved' }),
         type: 'success'
       });
     }
@@ -206,7 +208,7 @@ export default class PackageShow extends Component {
           )}
           bodyContent={(
             <div>
-              <DetailsViewSection label={<FormattedMessage id="ui-eholdings.package.packageInformation" />}>
+              <DetailsViewSection label={intl.formatMessage({ id: 'ui-eholdings.package.packageInformation' })}>
                 <KeyValue label={<FormattedMessage id="ui-eholdings.package.provider" />}>
                   <div data-test-eholdings-package-details-provider>
                     <Link to={`/eholdings/providers/${model.providerId}`}>{model.providerName}</Link>
@@ -241,7 +243,7 @@ export default class PackageShow extends Component {
                   </div>
                 </KeyValue>
               </DetailsViewSection>
-              <DetailsViewSection label={<FormattedMessage id="ui-eholdings.package.holdingStatus" />} >
+              <DetailsViewSection label={intl.formatMessage({ id: 'ui-eholdings.package.packageInformation' })}>
                 <label
                   data-test-eholdings-package-details-selected
                   htmlFor="package-details-toggle-switch"
@@ -272,7 +274,7 @@ export default class PackageShow extends Component {
                   }
                 </label>
               </DetailsViewSection>
-              <DetailsViewSection label={<FormattedMessage id="ui-eholdings.package.packageSettings" />}>
+              <DetailsViewSection label={intl.formatMessage({ id: 'ui-eholdings.package.packageSettings' })}>
                 {packageSelected ? (
                   <div>
                     <KeyValue label={<FormattedMessage id="ui-eholdings.package.visibility" />}>
@@ -314,7 +316,7 @@ export default class PackageShow extends Component {
                 )}
               </DetailsViewSection>
               <DetailsViewSection
-                label={<FormattedMessage id="ui-eholdings.package.coverageDates" />}
+                label={intl.formatMessage({ id: 'ui-eholdings.package.coverageDates' })}
                 closedByDefault={!packageSelected}
               >
                 {packageSelected ? (
@@ -377,24 +379,20 @@ export default class PackageShow extends Component {
           open={showSelectionModal}
           size="small"
           label={modalMessage.header}
-          scope="root"
           id="eholdings-package-confirmation-modal"
           footer={(
-            <div>
-              <Button
-                buttonStyle="primary"
-                onClick={this.commitSelectionToggle}
-                data-test-eholdings-package-deselection-confirmation-modal-yes
-              >
-                {modalMessage.buttonConfirm}
-              </Button>
-              <Button
-                onClick={this.cancelSelectionToggle}
-                data-test-eholdings-package-deselection-confirmation-modal-no
-              >
-                {modalMessage.buttonCancel}
-              </Button>
-            </div>
+            <ModalFooter
+              primaryButton={{
+                'label': modalMessage.buttonConfirm,
+                'onClick': this.commitSelectionToggle,
+                'data-test-eholdings-package-deselection-confirmation-modal-yes': true
+              }}
+              secondaryButton={{
+                'label': modalMessage.buttonCancel,
+                'onClick': this.cancelSelectionToggle,
+                'data-test-eholdings-package-deselection-confirmation-modal-no': true
+              }}
+            />
           )}
         >
           {modalMessage.body}
@@ -405,3 +403,5 @@ export default class PackageShow extends Component {
     );
   }
 }
+
+export default injectIntl(PackageShow);

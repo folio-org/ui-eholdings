@@ -3,9 +3,10 @@ import PropTypes from 'prop-types';
 
 import {
   Button,
-  Icon,
   IconButton,
   KeyValue,
+  Modal,
+  ModalFooter,
   PaneMenu,
 } from '@folio/stripes-components';
 
@@ -18,7 +19,6 @@ import ContributorsList from '../../contributors-list';
 import DetailsViewSection from '../../details-view-section';
 import AddToPackageForm from '../_forms/add-to-package';
 import Toaster from '../../toaster';
-import Modal from '../../modal';
 import styles from './title-show.css';
 
 export default class TitleShow extends Component {
@@ -249,30 +249,22 @@ export default class TitleShow extends Component {
           open={showCustomPackageModal}
           size="small"
           label="Add title to custom package"
-          scope="root"
           id="eholdings-custom-package-modal"
           footer={(
-            <div>
-              {request.isPending && (
-              <Icon icon="spinner-ellipsis" />
-                )}
-              <Button
-                buttonStyle="primary"
-                disabled={request.isPending}
-                onClick={() => addToPackageForm.submit()}
-                data-test-eholdings-custom-package-modal-submit
-              >
-                Submit
-              </Button>
-              <Button
-                disabled={request.isPending}
-                type="button"
-                onClick={this.toggleCustomPackageModal}
-                data-test-eholdings-custom-package-modal-cancel
-              >
-                Cancel
-              </Button>
-            </div>
+            <ModalFooter
+              primaryButton={{
+                'label': request.isPending ? 'Saving' : 'Submit',
+                'onClick': () => addToPackageForm.submit(),
+                'disabled': request.isPending,
+                'data-test-eholdings-custom-package-modal-submit': true
+              }}
+              secondaryButton={{
+                'label': 'Cancel',
+                'onClick': this.toggleCustomPackageModal,
+                'disabled': request.isPending,
+                'data-test-eholdings-custom-package-modal-cancel': true
+              }}
+            />
           )}
         >
           <AddToPackageForm

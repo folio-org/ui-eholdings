@@ -1,9 +1,0 @@
-.navigation-modal-buttons {
-  & button {
-    max-height: 44px;
-    height: 44px;
-    font-size: 16px;
-    padding: 0;
-    margin-left: 0;
-  }
-}

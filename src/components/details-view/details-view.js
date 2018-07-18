@@ -7,10 +7,10 @@ import {
   Badge,
   Icon,
   IconButton,
+  Modal,
   PaneHeader,
   PaneMenu
 } from '@folio/stripes-components';
-import Modal from '../modal';
 import SearchForm from '../search-form';
 import styles from './details-view.css';
 
