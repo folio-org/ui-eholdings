@@ -61,6 +61,7 @@ export default function ProviderShow({
         enableListSearch
         listType="packages"
         onSearch={searchPackages}
+        onFilter={searchPackages}
         searchParams={searchParams}
         resultsLength={packages.length}
         renderList={scrollable => (

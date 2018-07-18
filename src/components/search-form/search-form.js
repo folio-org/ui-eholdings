@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import shallowequal from 'shallowequal';
 import PropTypes from 'prop-types';
 import Link from 'react-router-dom/Link';
 import capitalize from 'lodash/capitalize';
@@ -37,7 +36,8 @@ export default class SearchForm extends Component {
     searchfield: PropTypes.string,
     sort: PropTypes.string,
     displaySearchTypeSwitcher: PropTypes.bool,
-    isLoading: PropTypes.bool
+    isLoading: PropTypes.bool,
+    onFilterChange: PropTypes.func
   };
 
   static defaultProps = {
@@ -65,12 +65,6 @@ export default class SearchForm extends Component {
       searchString: newSearchString,
       sort: newSort,
     };
-  }
-
-  constructor(props) {
-    super(props);
-
-    this.initial = { ...this.state };
   }
 
   state = {
@@ -105,16 +99,23 @@ export default class SearchForm extends Component {
   };
 
   handleUpdateFilter = (filter) => {
-    this.setState({ filter }, () => this.submitSearch());
+    this.setState({ filter }, () => {
+      let { sort, ...searchfilter } = this.state.filter;
+
+      if (this.props.onFilterChange) {
+        this.props.onFilterChange({
+          q: this.state.searchString,
+          filter: searchfilter,
+          searchfield: this.state.searchfield,
+          sort
+        });
+      }
+    });
   };
 
   handleChangeIndex = (e) => {
     this.setState({ searchfield: e.target.value });
   };
-
-  get hasChanges() {
-    return !isEqual(this.state, this.initial);
-  }
 
   /**
    * Returns the component that is responsible for rendering filters

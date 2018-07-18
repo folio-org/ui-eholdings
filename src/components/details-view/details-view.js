@@ -9,6 +9,7 @@ import {
   Icon,
   IconButton,
   Modal,
+  ModalFooter,
   PaneHeader,
   PaneMenu
 } from '@folio/stripes-components';
@@ -48,7 +49,8 @@ export default class DetailsView extends Component {
     enableListSearch: PropTypes.bool,
     onSearch: PropTypes.func,
     resultsLength: PropTypes.number,
-    searchParams: PropTypes.object
+    searchParams: PropTypes.object,
+    onFilter: PropTypes.func
   };
 
   static contextTypes = {
@@ -58,7 +60,8 @@ export default class DetailsView extends Component {
 
   state = {
     isSticky: false,
-    showSearchModal: false
+    showSearchModal: false,
+    showSearchModalApplyButton: false
   };
 
   // used to focus the heading when the model loads
@@ -175,11 +178,22 @@ export default class DetailsView extends Component {
 
   handleListSearch = (params) => {
     let { searchParams } = this.props;
-    console.log('womp ', params.q);
-    if (params.q && this.props.onSearch) {
-      console.log('woop');
+
+    if (this.props.onSearch) {
       this.props.onSearch(params);
     }
+
+    this.setState({
+      showSearchModal: searchParams.q === params.q
+    });
+  }
+
+  handleFilterChange = (params) => {
+    if (this.props.onFilter) {
+      this.props.onFilter(params);
+    }
+
+    this.setState({ showSearchModalApplyButton: true });
   }
 
   render() {
@@ -331,14 +345,14 @@ export default class DetailsView extends Component {
             id="eholdings-details-view-search-modal"
             closeOnBackgroundClick
             dismissible
-            footer={(
-              <Button
-                buttonStyle="primary"
-                onClick={this.handleListSearch}
-                data-test-eholdings-apply-button
-              >
-                Apply
-              </Button>
+            footer={this.state.showSearchModalApplyButton && (
+              <ModalFooter
+                primaryButton={{
+                  'label': 'Apply',
+                  'onClick': this.toggleSearchModal,
+                  'data-test-eholdings-apply-button': true
+                }}
+              />
             )}
           >
             <SearchForm
@@ -349,6 +363,7 @@ export default class DetailsView extends Component {
               sort={searchParams.sort}
               onSearch={this.handleListSearch}
               displaySearchTypeSwitcher={false}
+              onFilterChange={this.handleFilterChange}
             />
           </Modal>
         )}

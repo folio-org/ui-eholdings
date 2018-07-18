@@ -77,26 +77,27 @@ describeApplication.only('ProviderShow package search', () => {
         expect(ProviderShowPage.searchModal.searchDisabled).to.be.true;
       });
 
-      // it('does nothing with enter is pressed', () => {
-      //
-      // });
-
-      // it('does not display apply button', () => {
-      //   expect(ProviderShowPage.searchModal.hasApplyButton).to.be.false;
-      // });
+      it('does not display apply button', () => {
+        expect(ProviderShowPage.searchModal.hasApplyButton).to.be.false;
+      });
     });
 
-    describe('with search input', () => {
+    describe('with filter', () => {
       beforeEach(() => {
-        return ProviderShowPage.searchModal.search('other');
+        return ProviderShowPage.searchModal.clickFilter('sort', 'name');
       });
 
-      // it('shows apply button', () => {
-      //   expect(ProviderShowPage.searchModal.hasApplyButton).to.be.true;
-      // });
+      it('shows apply button', () => {
+        expect(ProviderShowPage.searchModal.hasApplyButton).to.be.true;
+      });
 
-      it('enables search button', () => {
-        expect(ProviderShowPage.searchModal.searchDisabled).to.be.false;
+      describe('applying filters', () => {
+        beforeEach(() => {
+          return ProviderShowPage.searchModal.clickApply();
+        });
+        it('applies the filters and closes the modal', () => {
+          expect(ProviderShowPage.searchModal.isPresent).to.be.false;
+        });
       });
     });
   });
