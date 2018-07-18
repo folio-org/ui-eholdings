@@ -4,7 +4,7 @@ import { expect } from 'chai';
 import { describeApplication } from './helpers';
 import ProviderShowPage from './pages/provider-show';
 
-describeApplication.only('ProviderShow package search', () => {
+describeApplication('ProviderShow package search', () => {
   let provider,
     packages;
 
@@ -63,23 +63,13 @@ describeApplication.only('ProviderShow package search', () => {
     });
   });
 
-  describe('clicking the apply button', () => {
+  describe('clicking the search button', () => {
     beforeEach(() => {
       return ProviderShowPage.clickListSearch();
     });
 
-    describe('no input in search', () => {
-      beforeEach(() => {
-        return ProviderShowPage.searchModal.search('');
-      });
-
-      it('disables search button', () => {
-        expect(ProviderShowPage.searchModal.searchDisabled).to.be.true;
-      });
-
-      it('does not display apply button', () => {
-        expect(ProviderShowPage.searchModal.hasApplyButton).to.be.false;
-      });
+    it('does not display search button', () => {
+      expect(ProviderShowPage.searchModal.hasModalSearchButton).to.be.false;
     });
 
     describe('with filter', () => {
@@ -87,15 +77,15 @@ describeApplication.only('ProviderShow package search', () => {
         return ProviderShowPage.searchModal.clickFilter('sort', 'name');
       });
 
-      it('shows apply button', () => {
-        expect(ProviderShowPage.searchModal.hasApplyButton).to.be.true;
+      it('shows search button', () => {
+        expect(ProviderShowPage.searchModal.hasModalSearchButton).to.be.true;
       });
 
       describe('applying filters', () => {
         beforeEach(() => {
-          return ProviderShowPage.searchModal.clickApply();
+          return ProviderShowPage.searchModal.clickSearch();
         });
-        it('applies the filters and closes the modal', () => {
+        it('applies the changes and closes the modal', () => {
           expect(ProviderShowPage.searchModal.isPresent).to.be.false;
         });
       });
@@ -125,11 +115,8 @@ describeApplication.only('ProviderShow package search', () => {
     describe('then sorting by package name', () => {
       beforeEach(() => {
         return ProviderShowPage.clickListSearch()
-          .searchModal.clickFilter('sort', 'name');
-      });
-
-      it.always('leaves the search modal open', () => {
-        expect(ProviderShowPage.searchModal.isPresent).to.be.true;
+          .searchModal.clickFilter('sort', 'name')
+          .searchModal.clickSearch();
       });
 
       it('displays packages matching the search term ordered by name', () => {
@@ -142,11 +129,8 @@ describeApplication.only('ProviderShow package search', () => {
     describe('then filtering the packages by selection status', () => {
       beforeEach(() => {
         return ProviderShowPage.clickListSearch()
-          .searchModal.clickFilter('selected', 'true');
-      });
-
-      it.always('leaves the search modal open', () => {
-        expect(ProviderShowPage.searchModal.isPresent).to.be.true;
+          .searchModal.clickFilter('selected', 'true')
+          .searchModal.clickSearch();
       });
 
       it('displays selected packages matching the search term', () => {
@@ -162,11 +146,8 @@ describeApplication.only('ProviderShow package search', () => {
     describe('then filtering the packages by content type', () => {
       beforeEach(() => {
         return ProviderShowPage.clickListSearch()
-          .searchModal.clickFilter('type', 'ebook');
-      });
-
-      it.always('leaves the search modal open', () => {
-        expect(ProviderShowPage.searchModal.isPresent).to.be.true;
+          .searchModal.clickFilter('type', 'ebook')
+          .searchModal.clickSearch();
       });
 
       it('displays packages matching the search term and content type', () => {

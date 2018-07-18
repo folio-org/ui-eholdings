@@ -16,8 +16,8 @@ export default @interactor class SearchModal {
     return this.click(`[data-test-eholdings-search-filters] input[name="${name}"][value="${val}"]`);
   });
 
-  clickApply = clickable('[data-test-eholdings-apply-button]');
-  hasApplyButton = isPresent('[data-test-eholdings-apply-button]');
+  clickSearch = clickable('[data-test-eholdings-modal-search-button]');
+  hasModalSearchButton = isPresent('[data-test-eholdings-modal-search-button]');
 
   getFilter(name) {
     return this.$(`[data-test-eholdings-search-filters] input[name="${name}"]:checked`).value;
@@ -28,6 +28,6 @@ export default @interactor class SearchModal {
   search = action(function (query) {
     return this
       .fill('[data-test-search-field] input[name="search"]', query)
-      .click('[data-test-search-submit]');
+      .click('[data-test-eholdings-modal-search-button]');
   });
 }

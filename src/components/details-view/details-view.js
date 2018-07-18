@@ -5,7 +5,6 @@ import capitalize from 'lodash/capitalize';
 
 import {
   Badge,
-  Button,
   Icon,
   IconButton,
   Modal,
@@ -61,7 +60,8 @@ export default class DetailsView extends Component {
   state = {
     isSticky: false,
     showSearchModal: false,
-    showSearchModalApplyButton: false
+    showSearchModalSearchButton: false,
+    searchParams: null
   };
 
   // used to focus the heading when the model loads
@@ -90,12 +90,6 @@ export default class DetailsView extends Component {
 
   componentWillUnmount() {
     window.removeEventListener('resize', this.handleLayout);
-  }
-
-  toggleSearchModal = () => {
-    this.setState(({ showSearchModal }) => ({
-      showSearchModal: !showSearchModal
-    }));
   }
 
   /**
@@ -188,12 +182,47 @@ export default class DetailsView extends Component {
     });
   }
 
-  handleFilterChange = (params) => {
-    if (this.props.onFilter) {
-      this.props.onFilter(params);
-    }
+  toggleSearchModal = () => {
+    this.setState(({ showSearchModal }) => ({
+      showSearchModal: !showSearchModal
+    }));
+  }
 
-    this.setState({ showSearchModalApplyButton: true });
+  updateSearch = () => {
+    this.setState({
+      showSearchModal: false,
+      showSearchModalSearchButton: false
+    });
+
+    if (this.props.onFilter) {
+      // where do the params come from?
+      this.props.onFilter(this.state.searchParams);
+    }
+  }
+
+  closeSearchModal = () => {
+    this.setState({
+      searchParams: null,
+      showSearchModal: false,
+      showSearchModalSearchButton: false
+    });
+  }
+
+  handleFilterChange = searchParams => {
+    this.setState({
+      searchParams,
+      showSearchModalSearchButton: true
+    });
+  }
+
+  handleSearchQueryChange = q => {
+    this.setState({
+      searchParams: {
+        ...(this.state.searchParams || this.props.searchParams),
+        q
+      },
+      showSearchModalSearchButton: true
+    });
   }
 
   render() {
@@ -212,6 +241,10 @@ export default class DetailsView extends Component {
       searchParams = {}
     } = this.props;
 
+    if (this.state.searchParams) {
+      searchParams = this.state.searchParams;
+    }
+
     let {
       router,
       queryParams
@@ -219,7 +252,8 @@ export default class DetailsView extends Component {
 
     let {
       isSticky,
-      showSearchModal
+      showSearchModal,
+      showSearchModalSearchButton
     } = this.state;
 
     let containerClassName = cx('container', {
@@ -341,16 +375,16 @@ export default class DetailsView extends Component {
             size="small"
             label={`Filter ${listType}`}
             open={showSearchModal}
-            onClose={this.toggleSearchModal}
+            onClose={this.closeSearchModal}
             id="eholdings-details-view-search-modal"
             closeOnBackgroundClick
             dismissible
-            footer={this.state.showSearchModalApplyButton && (
+            footer={showSearchModalSearchButton && (
               <ModalFooter
                 primaryButton={{
-                  'label': 'Apply',
-                  'onClick': this.toggleSearchModal,
-                  'data-test-eholdings-apply-button': true
+                  'label': 'Search',
+                  'onClick': this.updateSearch,
+                  'data-test-eholdings-modal-search-button': true
                 }}
               />
             )}
@@ -363,7 +397,9 @@ export default class DetailsView extends Component {
               sort={searchParams.sort}
               onSearch={this.handleListSearch}
               displaySearchTypeSwitcher={false}
+              displaySearchButton={false}
               onFilterChange={this.handleFilterChange}
+              onSearchQueryChange={this.handleSearchQueryChange}
             />
           </Modal>
         )}
