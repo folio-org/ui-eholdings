@@ -4,7 +4,6 @@ export default Factory.extend({
   name: () => faker.company.catchPhrase(),
   publisherName: () => faker.company.companyName(),
   publicationType: () => faker.random.arrayElement([
-    'All',
     'Audiobook',
     'Book',
     'Book Series',
