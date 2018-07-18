@@ -160,8 +160,8 @@ describeApplication('ManagedPackageEditAllowKbToAddTitles', () => {
       expect(PackageEditPage.hasRadioForAllowKbToAddTitles).to.equal(false);
     });
 
-    it('disables the save button', () => {
-      expect(PackageEditPage.isSaveDisabled).to.be.true;
+    it('hides the save button', () => {
+      expect(PackageEditPage.isSavePresent).to.equal(false);
     });
 
     describe('toggling the selected toggle', () => {
