@@ -246,116 +246,114 @@ class ManagedPackageEdit extends Component {
                   }
                 </label>
               </DetailsViewSection>
-              <DetailsViewSection label={intl.formatMessage({ id: 'ui-eholdings.package.packageSettings' })}>
-                {packageSelected ? (
-                  <div className={styles['visibility-radios']}>
-                    {this.props.initialValues.isVisible != null ? (
-                      <Fragment>
-                        <div data-test-eholdings-package-visibility-field>
+              {packageSelected && (
+                <div>
+                  <DetailsViewSection label={<FormattedMessage id="ui-eholdings.package.packageSettings" />}>
+                    <div className={styles['visibility-radios']}>
+                      {this.props.initialValues.isVisible != null ? (
+                        <Fragment>
+                          <div data-test-eholdings-package-visibility-field>
+                            <Field
+                              label={<FormattedMessage id="ui-eholdings.package.visibility" />}
+                              name="isVisible"
+                              component={RadioButtonGroup}
+                            >
+                              <RadioButton label={<FormattedMessage id="ui-eholdings.yes" />} value="true" />
+                              <RadioButton
+                                label={
+                                  <FormattedMessage
+                                    id="ui-eholdings.package.visibility.no"
+                                    values={{
+                                      visibilityMessage
+                                    }}
+                                  />}
+                                value="false"
+                              />
+                            </Field>
+                          </div>
+                        </Fragment>
+                      ) : (
+                        <label
+                          data-test-eholdings-package-details-visibility
+                          htmlFor="managed-package-details-visibility-switch"
+                        >
+                          <Icon icon="spinner-ellipsis" />
+                        </label>
+                      )}
+                    </div>
+                    <div className={styles['title-management-radios']}>
+                      {this.props.initialValues.allowKbToAddTitles != null ? (
+                        <Fragment>
                           <Field
-                            label={intl.formatMessage({ id: 'ui-eholdings.package.visibility' })}
-                            name="isVisible"
+                            label={<FormattedMessage id="ui-eholdings.package.packageAllowToAddTitles" />}
+                            name="allowKbToAddTitles"
+                            data-test-eholdings-allow-kb-to-add-titles-radios
                             component={RadioButtonGroup}
                           >
-                            <RadioButton label={intl.formatMessage({ id: 'ui-eholdings.yes' })} value="true" />
                             <RadioButton
-                              label={intl.formatMessage(
-                                { id: 'ui-eholdings.package.visibility.no' },
-                                { visibilityMessage }
-                              )}
+                              label={<FormattedMessage id="ui-eholdings.yes" />}
+                              value="true"
+                              data-test-eholdings-allow-kb-to-add-titles-radio-yes
+                            />
+                            <RadioButton
+                              label={<FormattedMessage id="ui-eholdings.no" />}
                               value="false"
+                              data-test-eholdings-allow-kb-to-add-titles-radio-no
                             />
                           </Field>
-                        </div>
-                      </Fragment>
-                    ) : (
-                      <label
-                        data-test-eholdings-package-details-visibility
-                        htmlFor="managed-package-details-visibility-switch"
-                      >
-                        <Icon icon="spinner-ellipsis" />
-                      </label>
-                    )}
-                  </div>
-                ) : (
-                  <p><FormattedMessage id="ui-eholdings.package.packageSettings.notSelected" /></p>
-                )}
-                {packageSelected ? (
-                  <div className={styles['title-management-radios']}>
-                    {this.props.initialValues.allowKbToAddTitles != null ? (
-                      <Fragment>
-                        <Field
-                          label={intl.formatMessage({ id: 'ui-eholdings.package.packageAllowToAddTitles' })}
-                          name="allowKbToAddTitles"
-                          data-test-eholdings-allow-kb-to-add-titles-radios
-                          component={RadioButtonGroup}
+                        </Fragment>
+                      ) : (
+                        <label
+                          data-test-eholdings-package-details-allow-add-new-titles
+                          htmlFor="managed-package-details-toggle-allow-add-new-titles-switch"
                         >
-                          <RadioButton
-                            label={intl.formatMessage({ id: 'ui-eholdings.yes' })}
-                            value="true"
-                            data-test-eholdings-allow-kb-to-add-titles-radio-yes
-                          />
-                          <RadioButton
-                            label={intl.formatMessage({ id: 'ui-eholdings.no' })}
-                            value="false"
-                            data-test-eholdings-allow-kb-to-add-titles-radio-no
-                          />
-                        </Field>
-                      </Fragment>
-                    ) : (
-                      <label
-                        data-test-eholdings-package-details-allow-add-new-titles
-                        htmlFor="managed-package-details-toggle-allow-add-new-titles-switch"
-                      >
-                        <Icon icon="spinner-ellipsis" />
-                      </label>
-                    )}
+                          <Icon icon="spinner-ellipsis" />
+                        </label>
+                      )}
+                    </div>
+                  </DetailsViewSection>
+                  <DetailsViewSection
+                    label="Coverage dates"
+                  >
+                    <CoverageFields
+                      initialValue={initialValues.customCoverages}
+                    />
+                  </DetailsViewSection>
+                </div>
+              )}
+              <div>
+                <div className={styles['package-edit-action-buttons']}>
+                  <div
+                    data-test-eholdings-package-cancel-button
+                  >
+                    <Button
+                      disabled={model.update.isPending}
+                      type="button"
+                      onClick={this.handleCancel}
+                    >
+                      Cancel
+                    </Button>
                   </div>
-                  ) : (
-                    <p><FormattedMessage id="ui-eholdings.package.packageAllowToAddTitles.notSelected" /></p>
+                  <div
+                    data-test-eholdings-package-save-button
+                  >
+                    <Button
+                      disabled={pristine || model.update.isPending}
+                      type="submit"
+                      buttonStyle="primary"
+                    >
+                      {model.update.isPending ?
+                        (<FormattedMessage id="ui-eholdings.saving" />)
+                          :
+                        (<FormattedMessage id="ui-eholdings.save" />)}
+                    </Button>
+                  </div>
+                  {model.update.isPending && (
+                    <Icon icon="spinner-ellipsis" />
                   )}
-              </DetailsViewSection>
-              <DetailsViewSection
-                label={intl.formatMessage({ id: 'ui-eholdings.package.coverageDates' })}
-              >
-                {packageSelected ? (
-                  <CoverageFields
-                    initialValue={initialValues.customCoverages}
-                  />) : (
-                    <p><FormattedMessage id="ui-eholdings.package.customCoverage.notSelected" /></p>
-                )}
-              </DetailsViewSection>
-              <div className={styles['package-edit-action-buttons']}>
-                <div
-                  data-test-eholdings-package-cancel-button
-                >
-                  <Button
-                    disabled={model.update.isPending}
-                    type="button"
-                    onClick={this.handleCancel}
-                  >
-                    Cancel
-                  </Button>
                 </div>
-                <div
-                  data-test-eholdings-package-save-button
-                >
-                  <Button
-                    disabled={pristine || model.update.isPending}
-                    type="submit"
-                    buttonStyle="primary"
-                  >
-                    {model.update.isPending ?
-                      (<FormattedMessage id="ui-eholdings.saving" />)
-                        :
-                      (<FormattedMessage id="ui-eholdings.save" />)}
-                  </Button>
-                </div>
-                {model.update.isPending && (
-                  <Icon icon="spinner-ellipsis" />
-                )}
+                <NavigationModal when={!pristine && !model.update.isPending} />
               </div>
-              <NavigationModal when={!pristine && !model.update.isPending} />
             </form>
           )}
         />

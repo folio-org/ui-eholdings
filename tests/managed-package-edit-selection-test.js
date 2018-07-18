@@ -49,7 +49,7 @@ describeApplication('ManagedPackageEditSelection', () => {
     });
 
     it('disables the save button', () => {
-      expect(PackageEditPage.isSaveDisabled).to.be.true;
+      expect(PackageEditPage.isSavePresent).to.equal(false);
     });
 
     describe('clicking cancel', () => {

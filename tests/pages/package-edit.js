@@ -39,6 +39,7 @@ import Datepicker from './datepicker';
 
   clickCancel = clickable('[data-test-eholdings-package-cancel-button] button');
   clickSave = clickable('[data-test-eholdings-package-save-button] button');
+  isSavePresent = isPresent('[data-test-eholdings-package-save-button]');
   isSaveDisabled = property('[data-test-eholdings-package-save-button] button', 'disabled');
   hasErrors = isPresent('[data-test-eholdings-details-view-error="package"]');
   toggleIsSelected = clickable('[data-test-eholdings-package-details-selected] input');

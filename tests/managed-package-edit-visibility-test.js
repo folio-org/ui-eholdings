@@ -183,6 +183,7 @@ describeApplication('ManagedPackageEditVisibility', () => {
         expect(PackageEditPage.$root).to.exist;
       });
     });
+
     it('reflects the desired state of holding status', () => {
       expect(PackageEditPage.isSelected).to.equal(false);
     });
@@ -192,7 +193,7 @@ describeApplication('ManagedPackageEditVisibility', () => {
     });
 
     it('disables the save button', () => {
-      expect(PackageEditPage.isSaveDisabled).to.be.true;
+      expect(PackageEditPage.isSavePresent).to.equal(false);
     });
 
     describe('clicking cancel', () => {
