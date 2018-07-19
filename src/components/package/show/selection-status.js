@@ -22,15 +22,15 @@ function SelectionStatusMessage({ model, isPending }) {
 }
 
 function SelectionStatusButton({ model, isPending, onAddToHoldings }) {
-  let message = `Add${ model.isPartiallySelected ? ' all ' : ''} to holdings`;
   if (model.isPartiallySelected || !model.isSelected || isPending) {
+    let messageId = model.isPartiallySelected ? 'addAllToHoldings' : 'addToHoldings';
     return <Button
       type="button"
       buttonStyle="primary"
       disabled={isPending}
       onClick={onAddToHoldings}
       data-test-eholdings-package-add-to-holdings-button
-      > {message}
+      > <FormattedMessage id={`ui-eholdings.${messageId}`} />
     </Button>;
   } else {
     return null;

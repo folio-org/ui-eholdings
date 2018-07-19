@@ -141,8 +141,9 @@ class PackageShow extends Component {
       });
     }
     if (!packageSelected || model.isPartiallySelected) {
+      let messageId = model.isPartiallySelected ? 'addAllToHoldings' : 'addToHoldings';
       actionMenuItems.push({
-        'label': `Add${model.isPartiallySelected ? ' all ' : ''}to holdings`,
+        'label': intl.formatMessage({ id: `ui-eholdings.${messageId}` }),
         'state': { eholdings: true },
         'data-test-eholdings-package-add-to-holdings-action': true,
         'onClick': this.props.addPackageToHoldings

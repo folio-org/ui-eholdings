@@ -46,6 +46,8 @@
 
     "selected": "Selected",
     "notSelected": "Not selected",
+    "addToHoldings": "Add to holdings",
+    "addAllToHoldings": "Add all to holdings",
     "saving": "Saving",
     "save": "Save",
     "yes": "Yes",
