@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
 import {
-  Button,
   Icon,
   IconButton,
   KeyValue,
@@ -29,7 +28,8 @@ class PackageShow extends Component {
     model: PropTypes.object.isRequired,
     fetchPackageTitles: PropTypes.func.isRequired,
     intl: intlShape.isRequired,
-    toggleSelected: PropTypes.func.isRequired
+    toggleSelected: PropTypes.func.isRequired,
+    addPackageToHoldings: PropTypes.func.isRequired
   };
 
   static contextTypes = {
@@ -253,7 +253,7 @@ class PackageShow extends Component {
                   isSelectedInParentComponentState={packageSelected}
                   onAddToHoldings={this.props.addPackageToHoldings}
                 />
-                </DetailsViewSection>
+              </DetailsViewSection>
               <DetailsViewSection label={intl.formatMessage({ id: 'ui-eholdings.package.packageSettings' })}>
                 {packageSelected ? (
                   <div>
