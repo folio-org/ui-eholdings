@@ -7,29 +7,44 @@ export default function SelectionStatus({ model, isPending, isSelectedInParentCo
   let packageSelectionPending = isPending;
   let packageSelected = isSelectedInParentComponentState;
   return (<label data-test-eholdings-package-details-selected>
-          { packageSelectionPending ? (
-            <Icon icon="spinner-ellipsis" />
-          ) : (
-            <h4>{packageSelected ?
-                 (<FormattedMessage id="ui-eholdings.selected" />)
-                 :
-                 (<FormattedMessage id="ui-eholdings.notSelected" />)}
-            </h4>
-          ) }
-
+          <SelectionStatusMessage isPending={isPending} model={model} />
           <br />
-          {(
-            (!packageSelected && !packageSelectionPending) ||
-              (!model.isSelected && packageSelectionPending)) &&
-           <Button
-           type="button"
-           buttonStyle="primary"
-           disabled={packageSelectionPending}
-           onClick={onAddToHoldings}
-           data-test-eholdings-package-add-to-holdings-button
-           >
-           Add to holdings
-           </Button>
-          }
+          <SelectionStatusButton
+          model={model}
+          isPending={isPending}
+          onAddToHoldings={onAddToHoldings} />
   </label>);
+}
+
+function SelectionStatusMessage({ model, isPending }) {
+  if (isPending) {
+    return <Icon icon="spinner-ellipsis" />;
+  } else
+    return <h4><FormattedMessage {...messageFor(model)} /></h4>;
+}
+
+function SelectionStatusButton({ model, isPending, onAddToHoldings }) {
+  let packageSelectionPending = isPending;
+  if (!model.isSelected || packageSelectionPending) {
+    return <Button
+        type="button"
+        buttonStyle="primary"
+        disabled={packageSelectionPending}
+        onClick={onAddToHoldings}
+        data-test-eholdings-package-add-to-holdings-button
+      >
+        Add to holdings
+    </Button>;
+  } else {
+    return null;
+  }
+}
+
+
+function messageFor(model) {
+  if (model.isSelected) {
+    return { id: "ui-eholdings.selected" };
+  } else {
+    return { id: "ui-eholdings.notSelected" };
+  }
 }
