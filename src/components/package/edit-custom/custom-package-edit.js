@@ -55,6 +55,10 @@ class CustomPackageEdit extends Component {
   }
 
   static getDerivedStateFromProps(nextProps, prevState) {
+    if (nextProps.model.destroy.errors.length) {
+      return { showSelectionModal: false };
+    }
+
     if (nextProps.initialValues.isSelected !== prevState.initialValues.isSelected) {
       return {
         ...prevState,
@@ -102,7 +106,6 @@ class CustomPackageEdit extends Component {
 
   commitSelectionToggle = () => {
     this.setState({
-      showSelectionModal: false,
       allowFormToSubmit: true
     }, () => { this.handleOnSubmit(this.state.formValues); });
   };
@@ -155,7 +158,7 @@ class CustomPackageEdit extends Component {
 
     let actionMenuItems = [
       {
-        label: <FormattedMessage id="ui-eholdings.package.actionMenu.cancelEditing" />,
+        label: intl.formatMessage({ id: 'ui-eholdings.package.actionMenu.cancelEditing' }),
         to: {
           pathname: `/eholdings/packages/${model.id}`,
           search: router.route.location.search,
@@ -166,7 +169,7 @@ class CustomPackageEdit extends Component {
 
     if (queryParams.searchType) {
       actionMenuItems.push({
-        label: <FormattedMessage id="ui-eholdings.actionMenu.fullView" />,
+        label: intl.formatMessage({ id: 'ui-eholdings.actionMenu.fullView' }),
         to: {
           pathname: `/eholdings/packages/${model.id}/edit`,
           state: { eholdings: true }
@@ -177,7 +180,7 @@ class CustomPackageEdit extends Component {
 
     if (packageSelected) {
       actionMenuItems.push({
-        'label': 'Delete package',
+        'label': intl.formatMessage({ id: 'ui-eholdings.package.deletePackage' }),
         'state': { eholdings: true },
         'data-test-eholdings-package-remove-from-holdings-action': true,
         'onClick': this.handleDeleteAction
@@ -200,7 +203,7 @@ class CustomPackageEdit extends Component {
                 {packageSelected ? (
                   <NameField />
                ) : (
-                 <KeyValue label={<FormattedMessage id="ui-eholdings.package.name" />}>
+                 <KeyValue label={intl.formatMessage({ id: 'ui-eholdings.package.name' })}>
                    <div data-test-eholdings-package-readonly-name-field>
                      {model.name}
                    </div>
@@ -210,7 +213,7 @@ class CustomPackageEdit extends Component {
                 {packageSelected ? (
                   <ContentTypeField />
                ) : (
-                 <KeyValue label={<FormattedMessage id="ui-eholdings.package.contentType" />}>
+                 <KeyValue label={intl.formatMessage({ id: 'ui-eholdings.package.contentType' })}>
                    <div data-test-eholdings-package-details-readonly-content-type>
                      {model.contentType}
                    </div>
@@ -317,7 +320,6 @@ class CustomPackageEdit extends Component {
           )}
         />
 
-
         <Modal
           open={showSelectionModal}
           size="small"
@@ -326,8 +328,11 @@ class CustomPackageEdit extends Component {
           footer={(
             <ModalFooter
               primaryButton={{
-                'label': intl.formatMessage({ id: 'ui-eholdings.package.modalMessageButtonConfirm.isCustom' }),
+                'label': model.destroy.isPending ?
+                intl.formatMessage({ id: 'ui-eholdings.package.modalMessageButtonWorking.isCustom' }) :
+                intl.formatMessage({ id: 'ui-eholdings.package.modalMessageButtonConfirm.isCustom' }),
                 'onClick': this.commitSelectionToggle,
+                'disabled': model.destroy.isPending,
                 'data-test-eholdings-package-deselection-confirmation-modal-yes': true
               }}
               secondaryButton={{

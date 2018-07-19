@@ -4,7 +4,6 @@ import { describe, beforeEach, it } from '@bigtest/mocha';
 import { describeApplication } from './helpers';
 import PackageShowPage from './pages/package-show';
 import PackageEditPage from './pages/package-edit';
-import PackageSearchPage from './pages/package-search';
 
 describeApplication('CustomPackageEditSelection', () => {
   let provider,
@@ -74,21 +73,38 @@ describeApplication('CustomPackageEditSelection', () => {
       });
 
       describe('clicking confirm', () => {
-        beforeEach(() => {
+        let resolveRequest;
+
+        beforeEach(function () {
+          this.server.delete('/packages/:id', () => {
+            return new Promise((resolve) => {
+              resolveRequest = resolve;
+            });
+          });
+
           return PackageEditPage.modal.confirmDeselection();
         });
 
-        it('transitions to the package search page', function () {
-          expect(this.app.history.location.search).to.include('?searchType=packages');
+        it('should keep confirmation modal on screen until requests responds', () => {
+          expect(PackageEditPage.modal.isPresent).to.equal(true);
         });
 
-        describe('searching for package after confirming', () => {
+        it('confirmation button now reads "deleting"', () => {
+          expect(PackageEditPage.modal.confirmButtonText).to.equal('Deleting...');
+          resolveRequest();
+        });
+
+        it('confirmation button is disabled', () => {
+          expect(PackageEditPage.modal.confirmButtonIsDisabled).to.equal(true);
+        });
+
+        describe('when the request resolves', () => {
           beforeEach(() => {
-            return PackageSearchPage.search('Cool Package');
+            return resolveRequest();
           });
 
-          it('does not find package', () => {
-            expect(PackageSearchPage.noResultsMessage).to.equal('No packages found for "Cool Package".');
+          it('transitions to the package search page', function () {
+            expect(this.app.history.location.search).to.include('?searchType=packages');
           });
         });
       });

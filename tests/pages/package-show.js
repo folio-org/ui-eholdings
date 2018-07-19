@@ -77,6 +77,7 @@ import Toast from './toast';
     return !!this.titleList().length && this.titleList().every(title => title.isSelected);
   });
 
+  hasTitleList = isPresent('[data-test-query-list="package-titles"]');
   titleList = collection('[data-test-query-list="package-titles"] li a', {
     name: text('[data-test-eholdings-title-list-item-title-name]'),
     isSelectedLabel: text('[data-test-eholdings-title-list-item-title-selected]'),

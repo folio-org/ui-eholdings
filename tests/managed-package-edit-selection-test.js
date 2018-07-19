@@ -176,12 +176,40 @@ describeApplication('ManagedPackageEditSelection', () => {
       });
 
       describe('clicking confirm', () => {
-        beforeEach(() => {
+        let resolveRequest;
+
+        beforeEach(function () {
+          this.server.put('/packages/:id', () => {
+            return new Promise((resolve) => {
+              resolveRequest = resolve;
+            });
+          });
+
           return PackageEditPage.modal.confirmDeselection();
         });
 
-        it('should navigate to the show page', () => {
-          expect(PackageShowPage.isPresent).to.equal(true);
+        it('should keep confirmation modal on screen until requests responds', () => {
+          expect(PackageEditPage.modal.isPresent).to.equal(true);
+        });
+
+        it('confirmation button now reads "removing"', () => {
+          expect(PackageEditPage.modal.confirmButtonText).to.equal('Removing...');
+          resolveRequest();
+        });
+
+        it('confirmation button is disabled', () => {
+          expect(PackageEditPage.modal.confirmButtonIsDisabled).to.equal(true);
+        });
+
+        describe('when request resolves', () => {
+          beforeEach(() => {
+            return resolveRequest();
+          });
+
+          it('goes to the resource show page', () => {
+            expect(PackageShowPage.$root).to.exist;
+            expect(PackageShowPage.hasTitleList).to.equal(true);
+          });
         });
       });
     });
