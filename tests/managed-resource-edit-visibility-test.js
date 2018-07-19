@@ -201,8 +201,8 @@ describeApplication('ManagedResourceEditVisibility', () => {
       });
     });
 
-    it('does not show titles in package to patrons', () => {
-      expect(ResourceEditPage.isResourceNotSelectedLabelPresent).to.be.true;
+    it('does not show visibility section', () => {
+      expect(ResourceEditPage.isVisibilityFieldPresent).to.be.false;
     });
   });
 });

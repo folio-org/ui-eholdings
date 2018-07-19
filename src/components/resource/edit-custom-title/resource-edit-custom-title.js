@@ -1,6 +1,6 @@
 import React, { Component, Fragment } from 'react';
 import PropTypes from 'prop-types';
-import { reduxForm, Field } from 'redux-form';
+import { reduxForm } from 'redux-form';
 import isEqual from 'lodash/isEqual';
 import { intlShape, injectIntl } from 'react-intl';
 
@@ -20,7 +20,6 @@ import CoverageStatementFields, { validate as validateCoverageStatement } from '
 import CustomEmbargoFields, { validate as validateEmbargo } from '../_fields/custom-embargo';
 import DetailsViewSection from '../../details-view-section';
 import NavigationModal from '../../navigation-modal';
-import ToggleSwitch from '../../toggle-switch/toggle-switch';
 import Toaster from '../../toaster';
 import styles from './resource-edit-custom-title.css';
 
@@ -54,6 +53,12 @@ class ResourceEditCustomTitle extends Component {
   }
 
   static getDerivedStateFromProps(nextProps, prevState) {
+    if (nextProps.model.destroy.errors.length) {
+      return {
+        showSelectionModal: false
+      };
+    }
+
     if (nextProps.initialValues.isSelected !== prevState.initialValues.isSelected) {
       return {
         ...prevState,
@@ -87,6 +92,14 @@ class ResourceEditCustomTitle extends Component {
     );
   }
 
+  handleRemoveResourceFromHoldings = () => {
+    this.setState({
+      formValues: {
+        isSelected: false
+      }
+    }, () => { this.handleOnSubmit(this.state.formValues); });
+  }
+
   handleSelectionToggle = (e) => {
     this.setState({
       resourceSelected: e.target.checked
@@ -95,7 +108,6 @@ class ResourceEditCustomTitle extends Component {
 
   commitSelectionToggle = () => {
     this.setState({
-      showSelectionModal: false,
       allowFormToSubmit: true
     }, () => { this.handleOnSubmit(this.state.formValues); });
   };
@@ -149,6 +161,15 @@ class ResourceEditCustomTitle extends Component {
       }
     ];
 
+    if (resourceSelected === true) {
+      actionMenuItems.push({
+        'label': 'Remove title from holdings',
+        'state': { eholdings: true },
+        'onClick': this.handleRemoveResourceFromHoldings,
+        'data-test-eholdings-remove-resource-from-holdings': true
+      });
+    }
+
     let visibilityMessage = model.package.visibilityData.isHidden
       ? '(All titles in this package are hidden)'
       : model.visibilityData.reason && `(${model.visibilityData.reason})`;
@@ -164,6 +185,17 @@ class ResourceEditCustomTitle extends Component {
           actionMenuItems={actionMenuItems}
           bodyContent={(
             <form onSubmit={handleSubmit(this.handleOnSubmit)}>
+              <DetailsViewSection
+                label="Holding status"
+              >
+                <label
+                  data-test-eholdings-resource-holding-status
+                  htmlFor="custom-resource-holding-status"
+                >
+                  <h4>{resourceSelected ? 'Selected' : 'Not selected'}</h4>
+                  <br />
+                </label>
+              </DetailsViewSection>
               <DetailsViewSection label="Resource settings">
                 {resourceSelected ? (
                   <Fragment>
@@ -176,24 +208,7 @@ class ResourceEditCustomTitle extends Component {
                   </p>
                 )}
               </DetailsViewSection>
-              <DetailsViewSection
-                label="Holding status"
-              >
-                <label
-                  data-test-eholdings-resource-holding-status
-                  htmlFor="custom-resource-holding-toggle-switch"
-                >
-                  <h4>{resourceSelected ? 'Selected' : 'Not selected'}</h4>
-                  <br />
-                  <Field
-                    name="isSelected"
-                    component={ToggleSwitch}
-                    checked={resourceSelected}
-                    onChange={this.handleSelectionToggle}
-                    id="custom-resource-holding-toggle-switch"
-                  />
-                </label>
-              </DetailsViewSection>
+
               <DetailsViewSection
                 label="Coverage dates"
               >
@@ -271,8 +286,9 @@ class ResourceEditCustomTitle extends Component {
           footer={(
             <ModalFooter
               primaryButton={{
-                'label': 'Yes, remove',
+                'label': model.destroy.isPending ? 'Removing...' : 'Yes, remove',
                 'onClick': this.commitSelectionToggle,
+                'disabled': model.destroy.isPending,
                 'data-test-eholdings-resource-deselection-confirmation-modal-yes': true
               }}
               secondaryButton={{

@@ -73,7 +73,7 @@ class ResourceShowRoute extends Component {
       model.coverageStatement = '';
       model.customEmbargoPeriod = {};
       model.identifiersList = [];
-      model.identifiers = {};
+      model.identifiers = [];
 
       updateResource(model);
     }

@@ -5,6 +5,8 @@ import { describeApplication } from './helpers';
 import ResourceShowPage from './pages/resource-show';
 import ResourceEditPage from './pages/resource-edit';
 
+window.ResourceEditPage = ResourceEditPage;
+
 describeApplication('ResourceEditManagedTitleInManagedPackage', () => {
   let provider,
     providerPackage,
@@ -38,32 +40,6 @@ describeApplication('ResourceEditManagedTitleInManagedPackage', () => {
       visibilityData: {
         isHidden: true
       }
-    });
-  });
-
-  describe('visting the managed resource edit page but the resource is unselected', () => {
-    beforeEach(function () {
-      return this.visit(`/eholdings/resources/${resource.titleId}/edit`, () => {
-        expect(ResourceEditPage.$root).to.exist;
-      });
-    });
-
-    describe('with the resource unselected', () => {
-      beforeEach(() => {
-        return ResourceEditPage.toggleIsSelected();
-      });
-
-      it('should not display the coverage button', () => {
-        expect(ResourceEditPage.hasAddCustomCoverageButton).to.be.false;
-      });
-
-      it('should not display the custom embargo button', () => {
-        expect(ResourceEditPage.hasAddCustomEmbargoButton).to.be.false;
-      });
-
-      it('should not display the coverage statement textarea', () => {
-        expect(ResourceEditPage.hasCoverageStatementArea).to.be.false;
-      });
     });
   });
 
@@ -134,7 +110,7 @@ describeApplication('ResourceEditManagedTitleInManagedPackage', () => {
           return ResourceEditPage.clickRemoveCustomEmbargoButton();
         });
 
-        it.always('does not show a message that saving will remove embargo', () => {
+        it('does not show a message that saving will remove embargo', () => {
           expect(ResourceEditPage.hasSavingWillRemoveEmbargoMessage).to.be.false;
         });
       });

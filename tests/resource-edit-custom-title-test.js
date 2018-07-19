@@ -44,16 +44,31 @@ describeApplication('ResourceEditCustomTitle', () => {
 
   describe('visting the custom resource edit page but the resource is unselected', () => {
     beforeEach(function () {
+      let title = this.server.create('title', {
+        name: 'Best Title Ever',
+        publicationType: 'Streaming Video',
+        publisherName: 'Amazing Publisher',
+        isTitleCustom: true
+      });
+
+      title.save();
+
+      resource = this.server.create('resource', {
+        package: providerPackage,
+        isSelected: false,
+        visibilityData: {
+          isHidden: true
+        },
+        title,
+        url: 'https://frontside.io'
+      });
+
       return this.visit(`/eholdings/resources/${resource.titleId}/edit`, () => {
         expect(ResourceEditPage.$root).to.exist;
       });
     });
 
     describe('with the resource unselected', () => {
-      beforeEach(() => {
-        return ResourceEditPage.toggleIsSelected();
-      });
-
       it('should not display the coverage button', () => {
         expect(ResourceEditPage.hasAddCustomCoverageButton).to.be.false;
       });

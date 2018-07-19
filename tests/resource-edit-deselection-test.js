@@ -17,7 +17,7 @@ describeApplication('ResourceEditDeselection', () => {
     });
 
     title = this.server.create('title', {
-      publicationType: 'Streaming Video'
+      publicationType: 'Streaming Video',
     });
 
     providerPackage = this.server.create('package', {
@@ -36,69 +36,73 @@ describeApplication('ResourceEditDeselection', () => {
   });
 
   describe('visiting the resource page', () => {
-    describe('part of a package with only one selected title', () => {
-      beforeEach(function () {
-        return this.visit(`/eholdings/resources/${resource.id}/edit`, () => {
-          expect(ResourceEditPage.$root).to.exist;
-        });
+    beforeEach(function () {
+      return this.visit(`/eholdings/resources/${resource.id}/edit`, () => {
+        expect(ResourceEditPage.$root).to.exist;
+      });
+    });
+
+    it('indicates that the resource is selected', () => {
+      expect(ResourceEditPage.isResourceSelected).to.equal('Selected');
+    });
+
+    describe('deselecting the resource', () => {
+      beforeEach(() => {
+        return ResourceShowPage
+          .dropDown.clickDropDownButton()
+          .dropDownMenu.clickRemoveFromHoldings();
       });
 
-      it('indicates that the resource is selected', () => {
-        expect(ResourceEditPage.isSelected).to.equal(true);
+
+      it('should show a confirmation modal', () => {
+        expect(ResourceEditPage.modal.isPresent).to.equal(true);
       });
 
-      describe('deselecting', () => {
-        beforeEach(() => {
-          return ResourceEditPage.toggleIsSelected();
+      describe('confirming to continue deselection', () => {
+        /**
+         * We want to control when this endpoints resolves.
+         * Returning a unresolved promise from the endpoint within
+         * the beforeEach gives us the control to resolve the request
+         * later in tests.
+         */
+        let resolveRequest;
+
+        beforeEach(function () {
+          this.server.put('/resources/:id', () => {
+            return new Promise((resolve) => {
+              resolveRequest = resolve;
+            });
+          });
+
+          return ResourceEditPage.modal.confirmDeselection();
         });
 
-        it('hides custom url field', () => {
-          expect(ResourceEditPage.hasCustomUrlField).to.equal(false);
+        it('should keep confirmation modal on screen until requests responds', () => {
+          expect(ResourceEditPage.modal.isPresent).to.equal(true);
+          resolveRequest();
         });
 
-        it('hides visibility field', () => {
-          expect(ResourceEditPage.isVisibilityFieldPresent).to.equal(false);
+        it('confirmation button now reads "removing"', () => {
+          expect(ResourceEditPage.modal.confirmButtonText).to.equal('Removing...');
+          resolveRequest();
         });
 
-        it('hides add date range button', () => {
-          expect(ResourceEditPage.hasAddCustomCoverageButton).to.equal(false);
+        it('confirmation button is disabled', () => {
+          expect(ResourceEditPage.modal.confirmButtonIsDisabled).to.equal(true);
+          resolveRequest();
         });
 
-        it('hides coverage statement input field', () => {
-          expect(ResourceEditPage.hasCoverageStatementArea).to.equal(false);
-        });
-
-        it('hides add embargo period button', () => {
-          expect(ResourceEditPage.hasAddCustomEmbargoButton).to.equal(false);
-        });
-
-        describe('clicking save', () => {
+        describe('when request resolves', () => {
           beforeEach(() => {
-            return ResourceEditPage.clickSave();
+            resolveRequest();
           });
 
-          it('displays confirmation modal', () => {
-            expect(ResourceEditPage.modal.$root).to.exist;
+          it('goes to the resource show page', () => {
+            expect(ResourceShowPage.isUrlPresent).to.equal(true);
           });
 
-          describe('clicking no', () => {
-            beforeEach(() => {
-              return ResourceEditPage.modal.cancelDeselection();
-            });
-
-            it('returns to the edit page', () => {
-              expect(ResourceEditPage.$root).to.exist;
-            });
-          });
-
-          describe('clicking yes', () => {
-            beforeEach(() => {
-              return ResourceEditPage.modal.confirmDeselection();
-            });
-
-            it('goes to the resource show page', () => {
-              expect(ResourceShowPage.$root).to.exist;
-            });
+          it('reflects that the resource is deselected', () => {
+            expect(ResourceShowPage.isResourceSelected).to.equal('Not selected');
           });
         });
       });

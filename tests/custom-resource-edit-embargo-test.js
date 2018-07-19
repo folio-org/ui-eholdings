@@ -328,17 +328,7 @@ describeApplication('CustomResourceEditEmbargo', () => {
     });
 
     it('displays an indicator that the title package is selected', () => {
-      expect(ResourceEditPage.isSelected).to.equal(true);
-    });
-
-    describe('toggling to deselect a title package', () => {
-      beforeEach(() => {
-        return ResourceEditPage.toggleIsSelected();
-      });
-
-      it('displays a message that custom embargo is not shown', () => {
-        expect(ResourceEditPage.isEmbargoNotShownLabelPresent).to.be.true;
-      });
+      expect(ResourceEditPage.isResourceSelected).to.equal('Selected');
     });
   });
 });
