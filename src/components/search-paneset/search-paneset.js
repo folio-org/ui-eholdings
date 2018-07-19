@@ -82,7 +82,7 @@ export default class SearchPaneset extends React.Component { // eslint-disable-l
     let isSameSearchType = prevProps.resultsType === this.props.resultsType;
 
     // focus the pane title when a new search happens within the same search type
-    if (isNewSearch && isSameSearchType) {
+    if (isNewSearch && isSameSearchType && this.$title.current !== null) {
       this.$title.current.focus();
     }
   }
