@@ -8,6 +8,7 @@
     "package.name.isRequired": "Name *",
     "package.packageInformation": "Package information",
     "package.packageType": "Package type",
+    "package.partiallySelected": "{ selectedCount } of { titleCount } titles selected",
     "package.provider": "Provider",
     "package.titlesSelected": "Titles selected",
     "package.totalTitles": "Total titles",

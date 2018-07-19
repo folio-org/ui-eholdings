@@ -94,7 +94,7 @@ class PackageShow extends Component {
 
     let visibilityMessage = model.visibilityData.reason && `(${model.visibilityData.reason})`;
     let packageSelectionPending = model.destroy.isPending ||
-        (model.update.isPending && 'isSelected' in model.update.changedAttributes);
+        (model.update.isPending && ('selectedCount' in model.update.changedAttributes));
 
     let modalMessage = model.isCustom ?
       {

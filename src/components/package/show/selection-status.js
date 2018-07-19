@@ -3,9 +3,7 @@ import React from 'react';
 import { Icon, Button } from '@folio/stripes-components';
 import { FormattedMessage } from 'react-intl';
 
-export default function SelectionStatus({ model, isPending, isSelectedInParentComponentState, onAddToHoldings }) {
-  let packageSelectionPending = isPending;
-  let packageSelected = isSelectedInParentComponentState;
+export default function SelectionStatus({ model, isPending, onAddToHoldings }) {
   return (<label data-test-eholdings-package-details-selected>
           <SelectionStatusMessage isPending={isPending} model={model} />
           <br />
@@ -24,16 +22,15 @@ function SelectionStatusMessage({ model, isPending }) {
 }
 
 function SelectionStatusButton({ model, isPending, onAddToHoldings }) {
-  let packageSelectionPending = isPending;
-  if (!model.isSelected || packageSelectionPending) {
+  let message = `Add${ model.isPartiallySelected ? ' all ' : ''} to holdings`;
+  if (model.isPartiallySelected || !model.isSelected || isPending) {
     return <Button
-        type="button"
-        buttonStyle="primary"
-        disabled={packageSelectionPending}
-        onClick={onAddToHoldings}
-        data-test-eholdings-package-add-to-holdings-button
-      >
-        Add to holdings
+      type="button"
+      buttonStyle="primary"
+      disabled={isPending}
+      onClick={onAddToHoldings}
+      data-test-eholdings-package-add-to-holdings-button
+      > {message}
     </Button>;
   } else {
     return null;
@@ -42,9 +39,15 @@ function SelectionStatusButton({ model, isPending, onAddToHoldings }) {
 
 
 function messageFor(model) {
+  if (model.isPartiallySelected) {
+    return {
+      id: 'ui-eholdings.package.partiallySelected',
+      values: { selectedCount: model.selectedCount, titleCount: model.titleCount }
+    };
+  }
   if (model.isSelected) {
-    return { id: "ui-eholdings.selected" };
+    return { id: 'ui-eholdings.selected' };
   } else {
-    return { id: "ui-eholdings.notSelected" };
+    return { id: 'ui-eholdings.notSelected'};
   }
 }
