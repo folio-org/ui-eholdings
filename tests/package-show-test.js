@@ -127,14 +127,18 @@ describeApplication('PackageShow', () => {
     it('has a button to add all of the remaining titles by selecting the entire package directly in the detail record', () => {
       expect(PackageShowPage.selectionStatus.buttonText).to.equal('Add all to holdings');
     });
-    describe('inspecting the menu', function() {
-      beforeEach(function() {
+    describe('inspecting the menu', function () {
+      beforeEach(function () {
         return PackageShowPage.dropDown.clickDropDownButton();
       });
 
-      it('has menu item to add all remaining titles from this packages');
+      it.skip('has menu item to add all remaining titles from this packages', () => {
+        expect(PackageShowPage.dropDownMenu.addToHoldings.text).to.equal('Add all to holdings');
+      });
 
-      it('has menu item to remove the entire package from holdings just like a completely selected packages');
+      it('has menu item to remove the entire package from holdings just like a completely selected packages', () => {
+        expect(PackageShowPage.dropDownMenu.removeFromHoldings.isVisible).to.equal(true);
+      });
     });
   });
 

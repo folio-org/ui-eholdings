@@ -1,4 +1,5 @@
 import {
+  Interactor,
   clickable,
   collection,
   scoped,
@@ -33,6 +34,8 @@ import Toast from './toast';
 }
 
 @interactor class PackageShowDropDownMenu {
+  addToHoldings = new Interactor('.tether-element [data-test-eholdings-package-add-to-holdings-action]');
+  removeFromHoldings = new Interactor('.tether-element [data-test-eholdings-package-remove-from-holdings-action]');
   clickRemoveFromHoldings = clickable('.tether-element [data-test-eholdings-package-remove-from-holdings-action]');
   clickAddToHoldings = clickable('.tether-element [data-test-eholdings-package-add-to-holdings-action]');
 }
