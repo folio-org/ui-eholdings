@@ -17,9 +17,12 @@ export default function DetailsViewSection(props) {
 }
 
 DetailsViewSection.propTypes = {
-  label: PropTypes.string,
-  separator: PropTypes.bool,
-  children: PropTypes.node
+  children: PropTypes.node,
+  label: PropTypes.oneOfType([
+    PropTypes.element,
+    PropTypes.string
+  ]).isRequired,
+  separator: PropTypes.bool
 };
 
 DetailsViewSection.defaultProps = {
