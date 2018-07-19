@@ -64,6 +64,14 @@ class PackageShowRoute extends Component {
     }
   }
 
+  addPackageToHoldings = () => {
+    let { model, updatePackage } = this.props;
+    model.isSelected = true;
+    model.selectedCount = model.titleCount;
+    model.allowKbToAddTitles = true;
+    updatePackage(model);
+  };
+
   toggleSelected = () => {
     let { model, updatePackage, destroyPackage } = this.props;
     // if the package is custom setting the holding status to false
@@ -103,6 +111,7 @@ class PackageShowRoute extends Component {
           model={this.props.model}
           fetchPackageTitles={this.fetchPackageTitles}
           toggleSelected={this.toggleSelected}
+          addPackageToHoldings={this.addPackageToHoldings}
           toggleHidden={this.toggleHidden}
           customCoverageSubmitted={this.customCoverageSubmitted}
           toggleAllowKbToAddTitles={this.toggleAllowKbToAddTitles}

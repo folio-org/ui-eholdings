@@ -14,6 +14,10 @@ class Package {
   resources = hasMany();
   isCustom = false;
   packageType = '';
+
+  get isPartiallySelected() {
+    return this.selectedCount > 0 && this.selectedCount !== this.titleCount;
+  }
 }
 
 export default model({

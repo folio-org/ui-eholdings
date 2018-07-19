@@ -102,6 +102,46 @@ describeApplication('PackageShow', () => {
     });
   });
 
+  describe('viewing a partially selected package', () => {
+    let pkg;
+    beforeEach(function () {
+      pkg = this.server.create('package', {
+        provider,
+        name: 'Partial Package',
+        selectedCount: 5,
+        titleCount: 10
+      });
+      this.server.createList('resource', 5, 'withTitle', {
+        package: pkg,
+        isSelected: true
+      });
+      this.server.createList('resource', 5, 'withTitle', {
+        package: pkg,
+        isSelected: false
+      });
+      return this.visit(`/eholdings/packages/${pkg.id}`);
+    });
+    it('shows the selected # of titles and the total # of titles in the package', () => {
+      expect(PackageShowPage.selectionStatus.text).to.equal('5 of 10 titles selected');
+    });
+    it('has a button to add all of the remaining titles by selecting the entire package directly in the detail record', () => {
+      expect(PackageShowPage.selectionStatus.buttonText).to.equal('Add all to holdings');
+    });
+    describe('inspecting the menu', () => {
+      beforeEach(() => {
+        return PackageShowPage.dropDown.clickDropDownButton();
+      });
+
+      it('has menu item to add all remaining titles from this packages', () => {
+        expect(PackageShowPage.dropDownMenu.addToHoldings.text).to.equal('Add all to holdings');
+      });
+
+      it('has menu item to remove the entire package from holdings just like a completely selected packages', () => {
+        expect(PackageShowPage.dropDownMenu.removeFromHoldings.isVisible).to.equal(true);
+      });
+    });
+  });
+
   describe('viewing a custom package details page', () => {
     beforeEach(function () {
       providerPackage.isCustom = true;

@@ -1,4 +1,5 @@
 import {
+  Interactor,
   clickable,
   collection,
   scoped,
@@ -16,6 +17,12 @@ import { getComputedStyle, hasClassBeginningWith } from './helpers';
 import Datepicker from './datepicker';
 import Toast from './toast';
 
+@interactor class PackageSelectionStatus {
+  static defaultScope = '[data-test-eholdings-package-details-selected]';
+  text = text('label h4');
+  buttonText = text('button');
+}
+
 @interactor class PackageShowModal {
   confirmDeselection = clickable('[data-test-eholdings-package-deselection-confirmation-modal-yes]');
   cancelDeselection = clickable('[data-test-eholdings-package-deselection-confirmation-modal-no]');
@@ -27,6 +34,8 @@ import Toast from './toast';
 }
 
 @interactor class PackageShowDropDownMenu {
+  addToHoldings = new Interactor('.tether-element [data-test-eholdings-package-add-to-holdings-action]');
+  removeFromHoldings = new Interactor('.tether-element [data-test-eholdings-package-remove-from-holdings-action]');
   clickRemoveFromHoldings = clickable('.tether-element [data-test-eholdings-package-remove-from-holdings-action]');
   clickAddToHoldings = clickable('.tether-element [data-test-eholdings-package-add-to-holdings-action]');
 }
@@ -35,6 +44,9 @@ import Toast from './toast';
   allowKbToAddTitles = text('[data-test-eholdings-package-details-allow-add-new-titles]');
   hasAllowKbToAddTitles = isPresent('[data-test-eholdings-package-details-toggle-allow-add-new-titles] input');
   hasAllowKbToAddTitlesToggle = isPresent('[package-details-toggle-allow-add-new-titles-switch]');
+
+
+  selectionStatus = new PackageSelectionStatus();
 
   selectionText = text('[data-test-eholdings-package-details-selected] h4');
   isSelected = computed(function () {

@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
 import {
-  Button,
   Icon,
   IconButton,
   KeyValue,
@@ -21,6 +20,7 @@ import NavigationModal from '../../navigation-modal';
 import DetailsViewSection from '../../details-view-section';
 import Toaster from '../../toaster';
 
+import SelectionStatus from './selection-status';
 import styles from './package-show.css';
 
 class PackageShow extends Component {
@@ -28,7 +28,8 @@ class PackageShow extends Component {
     model: PropTypes.object.isRequired,
     fetchPackageTitles: PropTypes.func.isRequired,
     intl: intlShape.isRequired,
-    toggleSelected: PropTypes.func.isRequired
+    toggleSelected: PropTypes.func.isRequired,
+    addPackageToHoldings: PropTypes.func.isRequired
   };
 
   static contextTypes = {
@@ -93,7 +94,7 @@ class PackageShow extends Component {
 
     let visibilityMessage = model.visibilityData.reason && `(${model.visibilityData.reason})`;
     let packageSelectionPending = model.destroy.isPending ||
-        (model.update.isPending && 'isSelected' in model.update.changedAttributes);
+        (model.update.isPending && ('selectedCount' in model.update.changedAttributes));
 
     let modalMessage = model.isCustom ?
       {
@@ -138,12 +139,14 @@ class PackageShow extends Component {
         'data-test-eholdings-package-remove-from-holdings-action': true,
         'onClick': this.handleSelectionToggle
       });
-    } else {
+    }
+    if (!packageSelected || model.isPartiallySelected) {
+      let messageId = model.isPartiallySelected ? 'addAllToHoldings' : 'addToHoldings';
       actionMenuItems.push({
-        'label': 'Add to holdings',
+        'label': intl.formatMessage({ id: `ui-eholdings.${messageId}` }),
         'state': { eholdings: true },
         'data-test-eholdings-package-add-to-holdings-action': true,
-        'onClick': this.handleSelectionToggle
+        'onClick': this.props.addPackageToHoldings
       });
     }
 
@@ -244,35 +247,12 @@ class PackageShow extends Component {
                 </KeyValue>
               </DetailsViewSection>
               <DetailsViewSection label={intl.formatMessage({ id: 'ui-eholdings.package.packageInformation' })}>
-                <label
-                  data-test-eholdings-package-details-selected
-                  htmlFor="package-details-toggle-switch"
-                >
-                  { packageSelectionPending ? (
-                    <Icon icon="spinner-ellipsis" />
-                  ) : (
-                    <h4>{packageSelected ?
-                    (<FormattedMessage id="ui-eholdings.selected" />)
-                    :
-                    (<FormattedMessage id="ui-eholdings.notSelected" />)}
-                    </h4>
-                  ) }
-
-                  <br />
-                  {(
-                    (!packageSelected && !packageSelectionPending) ||
-                    (!this.props.model.isSelected && packageSelectionPending)) &&
-                    <Button
-                      type="button"
-                      buttonStyle="primary"
-                      disabled={packageSelectionPending}
-                      onClick={this.handleSelectionToggle}
-                      data-test-eholdings-package-add-to-holdings-button
-                    >
-                    Add to holdings
-                    </Button>
-                  }
-                </label>
+                <SelectionStatus
+                  model={model}
+                  isPending={packageSelectionPending}
+                  isSelectedInParentComponentState={packageSelected}
+                  onAddToHoldings={this.props.addPackageToHoldings}
+                />
               </DetailsViewSection>
               <DetailsViewSection label={intl.formatMessage({ id: 'ui-eholdings.package.packageSettings' })}>
                 {packageSelected ? (
