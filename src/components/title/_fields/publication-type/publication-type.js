@@ -15,7 +15,6 @@ export default function PublicationTypeField() {
         component={Select}
         label="Publication type"
         dataOptions={[
-          { value: 'All', label: 'All' },
           { value: 'Audio Book', label: 'Audio Book' },
           { value: 'Book', label: 'Book' },
           { value: 'Book Series', label: 'Book Series' },
