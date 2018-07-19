@@ -1,23 +1,24 @@
-import React from 'react';
-import PropTypes from 'prop-types';
+import React from "react";
+import PropTypes from "prop-types";
 import {
   Button,
   IconButton,
   PaneHeader,
   PaneMenu
-} from '@folio/stripes-components';
-import capitalize from 'lodash/capitalize';
-import { FormattedMessage } from 'react-intl';
+} from "@folio/stripes-components";
+import capitalize from "lodash/capitalize";
+import { FormattedMessage } from "react-intl";
 
-import { qs } from '../utilities';
-import SearchPane from '../search-pane';
-import ResultsPane from '../results-pane';
-import PreviewPane from '../preview-pane';
-import SearchPaneVignette from '../search-pane-vignette';
-import Link from '../link';
-import styles from './search-paneset.css';
+import { qs } from "../utilities";
+import SearchPane from "../search-pane";
+import ResultsPane from "../results-pane";
+import PreviewPane from "../preview-pane";
+import SearchPaneVignette from "../search-pane-vignette";
+import Link from "../link";
+import styles from "./search-paneset.css";
 
-export default class SearchPaneset extends React.Component { // eslint-disable-line react/no-deprecated
+export default class SearchPaneset extends React.Component {
+  // eslint-disable-line react/no-deprecated
   static propTypes = {
     searchForm: PropTypes.node,
     hideFilters: PropTypes.bool,
@@ -95,7 +96,7 @@ export default class SearchPaneset extends React.Component { // eslint-disable-l
 
   closePreview = () => {
     this.context.router.history.push({
-      pathname: '/eholdings',
+      pathname: "/eholdings",
       search: this.props.location.search
     });
   };
@@ -104,7 +105,7 @@ export default class SearchPaneset extends React.Component { // eslint-disable-l
     return (
       <PaneMenu>
         <Link
-          className={styles['search-new-button']}
+          className={styles["search-new-button"]}
           to={`/eholdings/${this.props.resultsType}/new`}
         >
           + New
@@ -127,12 +128,12 @@ export default class SearchPaneset extends React.Component { // eslint-disable-l
     // only hide filters if there are results and always hide filters when a detail view is visible
     hideFilters = (hideFilters && !!resultsView) || !!detailsView;
 
-    let newButton = (<PaneMenu />);
-    if (resultsType === 'packages' || resultsType === 'titles') {
+    let newButton = <PaneMenu />;
+    if (resultsType === "packages" || resultsType === "titles") {
       newButton = this.renderNewButton();
     }
 
-    let resultsPaneSub = 'Loading...';
+    let resultsPaneSub = "Loading...";
     if (!isLoading) {
       resultsPaneSub = (
         <FormattedMessage
@@ -145,27 +146,32 @@ export default class SearchPaneset extends React.Component { // eslint-disable-l
     }
 
     return (
-      <div className={styles['search-paneset']}>
-        <SearchPaneVignette isHidden={hideFilters || !resultsView} onClick={this.toggleFilters} />
+      <div className={styles["search-paneset"]}>
+        <SearchPaneVignette
+          isHidden={hideFilters || !resultsView}
+          onClick={this.toggleFilters}
+        />
 
-        {!!detailsView && (
-          <SearchPaneVignette onClick={this.closePreview} />
-        )}
+        {!!detailsView && <SearchPaneVignette onClick={this.closePreview} />}
 
         <SearchPane isHidden={hideFilters}>
           <PaneHeader
             paneTitle="Search &amp; Filter"
-            lastMenu={resultsView ? (
-              <PaneMenu>
-                <Button buttonStyle="transparent" onClick={this.toggleFilters} className={styles['search-pane-toggle']}>
-                  Apply
-                </Button>
-              </PaneMenu>
-            ) : null}
+            lastMenu={
+              resultsView ? (
+                <PaneMenu>
+                  <Button
+                    buttonStyle="transparent"
+                    onClick={this.toggleFilters}
+                    className={styles["search-pane-toggle"]}
+                  >
+                    Apply
+                  </Button>
+                </PaneMenu>
+              ) : null
+            }
           />
-          <div className={styles['scrollable-container']}>
-            {searchForm}
-          </div>
+          <div className={styles["scrollable-container"]}>{searchForm}</div>
         </SearchPane>
 
         {resultsView ? (
@@ -173,42 +179,37 @@ export default class SearchPaneset extends React.Component { // eslint-disable-l
             <div data-test-eholdings-search-results-header>
               <PaneHeader
                 appIcon={{
-                  app: 'eholdings'
+                  app: "eholdings"
                 }}
                 paneTitle={capitalize(resultsType)}
                 paneSub={resultsPaneSub}
                 paneTitleRef={this.$title}
                 firstMenu={
-                  <div className={styles['results-pane-search-toggle']}>
+                  <div className={styles["results-pane-search-toggle"]}>
                     <PaneMenu>
-                      <IconButton
-                        onClick={this.toggleFilters}
-                        icon="search"
-                      />
+                      <IconButton onClick={this.toggleFilters} icon="search" />
                     </PaneMenu>
                   </div>
                 }
                 lastMenu={newButton}
               />
             </div>
-            <div className={styles['scrollable-container']}>
-              {resultsView}
-            </div>
+            <div className={styles["scrollable-container"]}>{resultsView}</div>
           </ResultsPane>
         ) : (
           <div
             data-test-eholdings-pre-search-pane
-            className={styles['pre-search-pane']}
+            className={styles["pre-search-pane"]}
           >
             <PaneHeader
               appIcon={{
-                app: 'eholdings'
+                app: "eholdings"
               }}
               paneTitle={capitalize(resultsType)}
               lastMenu={newButton}
             />
-            <div className={styles['pre-search-pane-content']}>
-              <div className={styles['pre-search-pane-content-label']}>
+            <div className={styles["pre-search-pane-content"]}>
+              <div className={styles["pre-search-pane-content-label"]}>
                 <p>Enter a query to show search results.</p>
               </div>
             </div>
@@ -216,9 +217,7 @@ export default class SearchPaneset extends React.Component { // eslint-disable-l
         )}
 
         {!!detailsView && (
-          <PreviewPane previewType={resultsType}>
-            {detailsView}
-          </PreviewPane>
+          <PreviewPane previewType={resultsType}>{detailsView}</PreviewPane>
         )}
       </div>
     );

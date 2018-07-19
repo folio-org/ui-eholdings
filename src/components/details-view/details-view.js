@@ -165,6 +165,7 @@ export default class DetailsView extends Component {
     }
   };
 
+
   render() {
     let {
       type,

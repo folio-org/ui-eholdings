@@ -61,7 +61,10 @@ class SearchRoute extends Component { // eslint-disable-line react/no-deprecated
     this.state = {
       hideDetails: /^\/eholdings\/?$/.test(props.location.pathname),
       searchType,
-      params
+      params,
+      searchString: params.q,
+      searchFilter: params.filter,
+      sort: params.sort
     };
   }
 
@@ -98,8 +101,19 @@ class SearchRoute extends Component { // eslint-disable-line react/no-deprecated
       hideDetails,
       shouldFocusItem,
       searchType,
-      params
+      params,
+      searchString: params.q,
+      searchFilter: params.filter,
+      sort: params.sort
     });
+  }
+
+  handleSearchChange = (searchString) => {
+    this.setState({ searchString });
+  }
+
+  handleFilterChange = (sort, searchFilter) => {
+    this.setState({ sort, searchFilter }, () => this.handleSearch());
   }
 
   /**
@@ -208,7 +222,13 @@ class SearchRoute extends Component { // eslint-disable-line react/no-deprecated
    * Handles submitting the search form and updates the URL
    * @param {Object} params - query param object
    */
-  handleSearch = (params) => {
+  handleSearch = () => {
+    let params = {
+      q: this.state.searchString,
+      filter: this.state.searchFilter,
+      sort: this.state.sort
+    };
+
     this.updateURLParams(params);
     this.search(params);
   };
@@ -270,7 +290,14 @@ class SearchRoute extends Component { // eslint-disable-line react/no-deprecated
    */
   render() {
     let { location, children } = this.props;
-    let { searchType, params, hideDetails } = this.state;
+    let {
+      searchType,
+      params,
+      hideDetails,
+      searchString,
+      searchFilter,
+      sort
+    } = this.state;
 
     if (searchType) {
       let results = this.getResults();
@@ -289,14 +316,15 @@ class SearchRoute extends Component { // eslint-disable-line react/no-deprecated
               searchForm={(
                 <SearchForm
                   searchType={searchType}
-                  searchString={params.q}
-                  filter={params.filter}
+                  searchString={searchString}
+                  searchFilter={searchFilter}
                   searchfield={params.searchfield}
-                  sort={params.sort}
+                  sort={sort}
                   searchTypeUrls={this.getSearchTypeUrls()}
                   onSearch={this.handleSearch}
-                  onFilterChange={this.handleSearch}
                   isLoading={!!params.q && !results.hasLoaded}
+                  handleFilterChange={this.handleFilterChange}
+                  handleSearchChange={this.handleSearchChange}
                 />
               )}
             />
