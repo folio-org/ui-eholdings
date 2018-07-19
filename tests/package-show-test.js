@@ -127,8 +127,15 @@ describeApplication('PackageShow', () => {
     it('has a button to add all of the remaining titles by selecting the entire package directly in the detail record', () => {
       expect(PackageShowPage.selectionStatus.buttonText).to.equal('Add all to holdings');
     });
-    it('has menu item to add all remaining titles from this packages');
-    it('has menu item to remove the entire package from holdings just like a completely selected packages');
+    describe('inspecting the menu', function() {
+      beforeEach(function() {
+        return PackageShowPage.dropDown.clickDropDownButton();
+      });
+
+      it('has menu item to add all remaining titles from this packages');
+
+      it('has menu item to remove the entire package from holdings just like a completely selected packages');
+    });
   });
 
   describe('viewing a custom package details page', () => {
