@@ -66,7 +66,7 @@ class ResourceShowRoute extends Component {
 
     if (model.isSelected === false && model.package.isCustom) {
       destroyResource(model);
-    } else {
+    } else if (model.isSelected === false) {
       // clear out any customizations before sending to server
       model.visibilityData.isHidden = false;
       model.customCoverages = [];
@@ -74,7 +74,11 @@ class ResourceShowRoute extends Component {
       model.customEmbargoPeriod = {};
       model.identifiersList = [];
       model.identifiers = [];
+      model.contributors = [];
+      model.contributorsList = [];
 
+      updateResource(model);
+    } else {
       updateResource(model);
     }
   }
