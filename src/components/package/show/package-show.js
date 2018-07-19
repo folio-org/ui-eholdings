@@ -144,7 +144,7 @@ class PackageShow extends Component {
         'label': 'Add to holdings',
         'state': { eholdings: true },
         'data-test-eholdings-package-add-to-holdings-action': true,
-        'onClick': this.handleSelectionToggle
+        'onClick': this.props.addPackageToHoldings
       });
     }
 
@@ -249,7 +249,7 @@ class PackageShow extends Component {
                   model={model}
                   isPending={packageSelectionPending}
                   isSelectedInParentComponentState={packageSelected}
-                  onAddToHoldings={this.handleSelectionToggle}
+                  onAddToHoldings={this.props.addPackageToHoldings}
                 />
                 </DetailsViewSection>
               <DetailsViewSection label={intl.formatMessage({ id: 'ui-eholdings.package.packageSettings' })}>
