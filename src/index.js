@@ -26,7 +26,11 @@ class EHoldings extends Component {
     match: PropTypes.shape({
       path: PropTypes.string.isRequired
     }).isRequired,
-    showSettings: PropTypes.bool
+    showSettings: PropTypes.bool,
+    root: PropTypes.shape({
+      addReducer: PropTypes.func.isRequired,
+      addEpic: PropTypes.func.isRequired,
+    })
   };
 
   static contextTypes = {
