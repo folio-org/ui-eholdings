@@ -102,6 +102,30 @@ describeApplication('PackageShow', () => {
     });
   });
 
+  describe('viewing a partially selected package', () => {
+    let pkg;
+    beforeEach(function () {
+      pkg = this.server.create('package', {
+        provider,
+        name: 'Partial Package',
+        titleCount: 10
+      });
+      this.server.createList('resource', 5, 'withTitle', {
+        package: pkg,
+        isSelected: true
+      });
+      this.server.createList('resource', 5, 'withTitle', {
+        package: pkg,
+        isSelected: false
+      });
+      return this.visit(`/eholdings/packages/${pkg.id}`);
+    });
+    it('shows the selected # of titles and the total # of titles in the package');
+    it('has a button to add all of the remaining titles by selecting the entire package directly in the detail record');
+    it('has menu item to add all remaining titles from this packages');
+    it('has menu item to remove the entire package from holdings just like a completely selected packages');
+  });
+
   describe('viewing a custom package details page', () => {
     beforeEach(function () {
       providerPackage.isCustom = true;
