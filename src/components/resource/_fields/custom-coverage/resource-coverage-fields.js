@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Field, FieldArray } from 'redux-form';
 import PropTypes from 'prop-types';
 import moment from 'moment';
-import { FormattedDate } from 'react-intl';
+import { injectIntl, intlShape, FormattedDate } from 'react-intl';
 
 import {
   Button,
@@ -12,9 +12,10 @@ import {
 
 import styles from './resource-coverage-fields.css';
 
-export default class ResourceCoverageFields extends Component {
+class ResourceCoverageFields extends Component {
   static propTypes = {
-    initialValue: PropTypes.array
+    initialValue: PropTypes.array,
+    intl: intlShape.isRequired
   };
 
   static defaultProps = {
@@ -22,7 +23,7 @@ export default class ResourceCoverageFields extends Component {
   };
 
   renderCoverageFields = ({ fields }) => {
-    let { initialValue } = this.props;
+    let { initialValue, intl } = this.props;
     return (
       <div className={styles['coverage-fields']}>
         {fields.length === 0
@@ -52,6 +53,7 @@ export default class ResourceCoverageFields extends Component {
                     component={Datepicker}
                     label="Start date"
                     id="begin-coverage"
+                    format={(value) => (value ? intl.formatDate(value, { timeZone: 'UTC' }) : '')}
                   />
                 </div>
                 <div
@@ -64,6 +66,7 @@ export default class ResourceCoverageFields extends Component {
                     component={Datepicker}
                     label="End date"
                     id="end-coverage"
+                    format={(value) => (value ? intl.formatDate(value, { timeZone: 'UTC' }) : '')}
                   />
                 </div>
 
@@ -103,6 +106,8 @@ export default class ResourceCoverageFields extends Component {
     );
   }
 }
+
+export default injectIntl(ResourceCoverageFields);
 
 /**
  * Validator to ensure start date comes before end date chronologically

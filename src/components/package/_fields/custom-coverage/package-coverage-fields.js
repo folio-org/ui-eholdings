@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Field, FieldArray } from 'redux-form';
 import PropTypes from 'prop-types';
 import moment from 'moment';
+import { injectIntl, intlShape } from 'react-intl';
 
 import Datepicker from '@folio/stripes-components/lib/Datepicker';
 import Button from '@folio/stripes-components/lib/Button';
@@ -9,9 +10,10 @@ import IconButton from '@folio/stripes-components/lib/IconButton';
 
 import styles from './package-coverage-fields.css';
 
-export default class PackageCoverageFields extends Component {
+class PackageCoverageFields extends Component {
   static propTypes = {
-    initialValue: PropTypes.array
+    initialValue: PropTypes.array,
+    intl: intlShape.isRequired
   };
 
   static defaultProps = {
@@ -19,7 +21,7 @@ export default class PackageCoverageFields extends Component {
   };
 
   renderCoverageFields = ({ fields }) => {
-    let { initialValue } = this.props;
+    let { initialValue, intl } = this.props;
 
     return (
       <div className={styles['coverage-fields']}>
@@ -61,6 +63,7 @@ export default class PackageCoverageFields extends Component {
                     type="text"
                     component={Datepicker}
                     label="Start date"
+                    format={(value) => (value ? intl.formatDate(value, { timeZone: 'UTC' }) : '')}
                   />
                 </div>
                 <div
@@ -72,6 +75,7 @@ export default class PackageCoverageFields extends Component {
                     type="text"
                     component={Datepicker}
                     label="End date"
+                    format={(value) => (value ? intl.formatDate(value, { timeZone: 'UTC' }) : '')}
                   />
                 </div>
 
@@ -99,6 +103,8 @@ export default class PackageCoverageFields extends Component {
     );
   }
 }
+
+export default injectIntl(PackageCoverageFields);
 
 export function validate(values, props) {
   moment.locale(props.intl.locale);
