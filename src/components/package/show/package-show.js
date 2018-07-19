@@ -139,6 +139,14 @@ class PackageShow extends Component {
         'data-test-eholdings-package-remove-from-holdings-action': true,
         'onClick': this.handleSelectionToggle
       });
+      if (model.isPartiallySelected) {
+        actionMenuItems.push({
+          'label': 'Add all to holdings',
+          'state': { eholdings: true },
+          'data-test-eholdings-package-add-to-holdings-action': true,
+          'onClick': this.props.addPackageToHoldings
+        });
+      }
     } else {
       actionMenuItems.push({
         'label': 'Add to holdings',

@@ -132,7 +132,7 @@ describeApplication('PackageShow', () => {
         return PackageShowPage.dropDown.clickDropDownButton();
       });
 
-      it.skip('has menu item to add all remaining titles from this packages', () => {
+      it('has menu item to add all remaining titles from this packages', () => {
         expect(PackageShowPage.dropDownMenu.addToHoldings.text).to.equal('Add all to holdings');
       });
 
