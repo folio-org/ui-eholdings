@@ -21,6 +21,7 @@ import NavigationModal from '../../navigation-modal';
 import DetailsViewSection from '../../details-view-section';
 import Toaster from '../../toaster';
 
+import SelectionStatus from './selection-status';
 import styles from './package-show.css';
 
 class PackageShow extends Component {
@@ -244,36 +245,13 @@ class PackageShow extends Component {
                 </KeyValue>
               </DetailsViewSection>
               <DetailsViewSection label={intl.formatMessage({ id: 'ui-eholdings.package.packageInformation' })}>
-                <label
-                  data-test-eholdings-package-details-selected
-                  htmlFor="package-details-toggle-switch"
-                >
-                  { packageSelectionPending ? (
-                    <Icon icon="spinner-ellipsis" />
-                  ) : (
-                    <h4>{packageSelected ?
-                    (<FormattedMessage id="ui-eholdings.selected" />)
-                    :
-                    (<FormattedMessage id="ui-eholdings.notSelected" />)}
-                    </h4>
-                  ) }
-
-                  <br />
-                  {(
-                    (!packageSelected && !packageSelectionPending) ||
-                    (!this.props.model.isSelected && packageSelectionPending)) &&
-                    <Button
-                      type="button"
-                      buttonStyle="primary"
-                      disabled={packageSelectionPending}
-                      onClick={this.handleSelectionToggle}
-                      data-test-eholdings-package-add-to-holdings-button
-                    >
-                    Add to holdings
-                    </Button>
-                  }
-                </label>
-              </DetailsViewSection>
+                <SelectionStatus
+                  model={model}
+                  isPending={packageSelectionPending}
+                  isSelectedInParentComponentState={packageSelected}
+                  onAddToHoldings={this.handleSelectionToggle}
+                />
+                </DetailsViewSection>
               <DetailsViewSection label={intl.formatMessage({ id: 'ui-eholdings.package.packageSettings' })}>
                 {packageSelected ? (
                   <div>
