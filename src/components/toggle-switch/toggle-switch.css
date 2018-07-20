@@ -2,6 +2,7 @@
 
 .toggle-switch {
   display: inline-block;
+  margin-bottom: 12px;
   position: relative;
   height: 34px;
   width: 60px;

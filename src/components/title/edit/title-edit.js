@@ -4,6 +4,7 @@ import { reduxForm } from 'redux-form';
 import isEqual from 'lodash/isEqual';
 
 import {
+  Accordion,
   Button,
   Icon
 } from '@folio/stripes-components';
@@ -17,7 +18,6 @@ import IdentifiersFields, { validate as validateIdentifiers } from '../_fields/i
 import DescriptionField, { validate as validateDescription } from '../_fields/description';
 import ContributorField, { validate as validateContributor } from '../_fields/contributor';
 import PeerReviewedField from '../_fields/peer-reviewed';
-import DetailsViewSection from '../../details-view-section';
 import NavigationModal from '../../navigation-modal';
 import Toaster from '../../toaster';
 import styles from './title-edit.css';
@@ -120,7 +120,7 @@ class TitleEdit extends Component {
           actionMenuItems={actionMenuItems}
           bodyContent={(
             <form onSubmit={handleSubmit(onSubmit)}>
-              <DetailsViewSection
+              <Accordion
                 label="Title information"
               >
                 <NameField />
@@ -139,7 +139,7 @@ class TitleEdit extends Component {
 
                 <DescriptionField />
                 <PeerReviewedField />
-              </DetailsViewSection>
+              </Accordion>
               <div className={styles['title-edit-action-buttons']}>
                 <div
                   data-test-eholdings-title-cancel-button

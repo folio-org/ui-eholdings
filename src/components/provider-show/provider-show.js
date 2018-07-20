@@ -1,13 +1,15 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { KeyValue } from '@folio/stripes-components';
+import {
+  Accordion,
+  KeyValue
+} from '@folio/stripes-components';
 import { FormattedNumber, FormattedMessage } from 'react-intl';
 
 import { processErrors } from '../utilities';
 import DetailsView from '../details-view';
 import QueryList from '../query-list';
 import PackageListItem from '../package-list-item';
-import DetailsViewSection from '../details-view-section';
 import Toaster from '../toaster';
 import styles from './provider-show.css';
 
@@ -44,7 +46,7 @@ export default function ProviderShow({
         paneTitle={model.name}
         actionMenuItems={actionMenuItems}
         bodyContent={(
-          <DetailsViewSection label={<FormattedMessage id="ui-eholdings.provider.providerInformation" />}>
+          <Accordion label={<FormattedMessage id="ui-eholdings.provider.providerInformation" />}>
             <KeyValue label={<FormattedMessage id="ui-eholdings.provider.packagesSelected" />}>
               <div data-test-eholdings-provider-details-packages-selected>
                 <FormattedNumber value={model.packagesSelected} />
@@ -56,7 +58,7 @@ export default function ProviderShow({
                 <FormattedNumber value={model.packagesTotal} />
               </div>
             </KeyValue>
-          </DetailsViewSection>
+          </Accordion>
         )}
         enableListSearch
         listType="packages"

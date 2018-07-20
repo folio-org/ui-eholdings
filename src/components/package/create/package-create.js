@@ -4,6 +4,7 @@ import { reduxForm } from 'redux-form';
 import { intlShape, injectIntl } from 'react-intl';
 
 import {
+  Accordion,
   Button,
   Icon,
   IconButton,
@@ -11,7 +12,6 @@ import {
   PaneMenu
 } from '@folio/stripes-components';
 
-import DetailsViewSection from '../../details-view-section';
 import NameField, { validate as validatePackageName } from '../_fields/name';
 import CoverageFields, { validate as validateCoverageDates } from '../_fields/custom-coverage';
 import ContentTypeField from '../_fields/content-type';
@@ -82,13 +82,13 @@ class PackageCreate extends Component {
 
         <div className={styles['package-create-form-container']}>
           <form onSubmit={handleSubmit(onSubmit)}>
-            <DetailsViewSection label="Package information" separator={false}>
+            <Accordion label="Package information" separator={false}>
               <NameField />
               <ContentTypeField />
-            </DetailsViewSection>
-            <DetailsViewSection label="Coverage dates">
+            </Accordion>
+            <Accordion label="Coverage dates">
               <CoverageFields />
-            </DetailsViewSection>
+            </Accordion>
             <div className={styles['package-create-action-buttons']}>
               <div data-test-eholdings-package-create-cancel-button>
                 <Button
