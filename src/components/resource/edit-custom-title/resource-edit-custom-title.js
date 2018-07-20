@@ -5,6 +5,7 @@ import isEqual from 'lodash/isEqual';
 import { intlShape, injectIntl } from 'react-intl';
 
 import {
+  Accordion,
   Button,
   Icon,
   Modal,
@@ -18,7 +19,6 @@ import CustomCoverageFields, { validate as validateCoverageDates } from '../_fie
 import CustomUrlFields, { validate as validateUrlFields } from '../_fields/custom-url';
 import CoverageStatementFields, { validate as validateCoverageStatement } from '../_fields/coverage-statement';
 import CustomEmbargoFields, { validate as validateEmbargo } from '../_fields/custom-embargo';
-import DetailsViewSection from '../../details-view-section';
 import NavigationModal from '../../navigation-modal';
 import Toaster from '../../toaster';
 import styles from './resource-edit-custom-title.css';
@@ -185,18 +185,18 @@ class ResourceEditCustomTitle extends Component {
           actionMenuItems={actionMenuItems}
           bodyContent={(
             <form onSubmit={handleSubmit(this.handleOnSubmit)}>
-              <DetailsViewSection
+              <Accordion
                 label="Holding status"
               >
                 <label
                   data-test-eholdings-resource-holding-status
                   htmlFor="custom-resource-holding-status"
                 >
-                  <h4>{resourceSelected ? 'Selected' : 'Not selected'}</h4>
+                  <p><strong>{resourceSelected ? 'Selected' : 'Not selected'}</strong></p>
                   <br />
                 </label>
-              </DetailsViewSection>
-              <DetailsViewSection label="Resource settings">
+              </Accordion>
+              <Accordion label="Resource settings">
                 {resourceSelected ? (
                   <Fragment>
                     <VisibilityField disabled={visibilityMessage} />
@@ -207,9 +207,9 @@ class ResourceEditCustomTitle extends Component {
                     Add the resource to holdings to customize resource settings.
                   </p>
                 )}
-              </DetailsViewSection>
+              </Accordion>
 
-              <DetailsViewSection
+              <Accordion
                 label="Coverage dates"
               >
                 {resourceSelected ? (
@@ -219,8 +219,8 @@ class ResourceEditCustomTitle extends Component {
                   ) : (
                     <p>Add the resource to holdings to set custom coverage dates.</p>
                 )}
-              </DetailsViewSection>
-              <DetailsViewSection
+              </Accordion>
+              <Accordion
                 label="Coverage statement"
               >
                 {resourceSelected ? (
@@ -228,8 +228,8 @@ class ResourceEditCustomTitle extends Component {
                   ) : (
                     <p>Add the resource to holdings to set coverage statement.</p>
                   )}
-              </DetailsViewSection>
-              <DetailsViewSection
+              </Accordion>
+              <Accordion
                 label="Embargo period"
               >
                 {resourceSelected ? (
@@ -245,7 +245,7 @@ class ResourceEditCustomTitle extends Component {
                   <p data-test-eholdings-resource-embargo-not-shown-label>Add the resource to holdings to set custom embargo.</p>
                 )}
 
-              </DetailsViewSection>
+              </Accordion>
               <div className={styles['resource-edit-action-buttons']}>
                 <div
                   data-test-eholdings-resource-cancel-button

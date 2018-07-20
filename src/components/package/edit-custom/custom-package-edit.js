@@ -5,6 +5,7 @@ import isEqual from 'lodash/isEqual';
 import { intlShape, injectIntl, FormattedMessage } from 'react-intl';
 
 import {
+  Accordion,
   Button,
   Icon,
   KeyValue,
@@ -19,7 +20,6 @@ import DetailsView from '../../details-view';
 import NameField, { validate as validatePackageName } from '../_fields/name';
 import CoverageFields, { validate as validateCoverageDates } from '../_fields/custom-coverage';
 import ContentTypeField from '../_fields/content-type';
-import DetailsViewSection from '../../details-view-section';
 import NavigationModal from '../../navigation-modal';
 import Toaster from '../../toaster';
 import styles from './custom-package-edit.css';
@@ -197,7 +197,22 @@ class CustomPackageEdit extends Component {
           actionMenuItems={actionMenuItems}
           bodyContent={(
             <form onSubmit={handleSubmit(this.handleOnSubmit)}>
-              <DetailsViewSection
+              <Accordion
+                label={intl.formatMessage({ id: 'ui-eholdings.package.holdingStatus' })}
+              >
+                <label
+                  data-test-eholdings-package-details-selected
+                  htmlFor="custom-package-details-toggle-switch"
+                >
+                  <h4>
+                    {packageSelected ?
+                      (<FormattedMessage id="ui-eholdings.selected" />) :
+                      (<FormattedMessage id="ui-eholdings.notSelected" />)
+                    }
+                  </h4>
+                </label>
+              </Accordion>
+              <Accordion
                 label={intl.formatMessage({ id: 'ui-eholdings.package.packageInformation' })}
               >
                 {packageSelected ? (
@@ -219,23 +234,8 @@ class CustomPackageEdit extends Component {
                    </div>
                  </KeyValue>
                )}
-              </DetailsViewSection>
-              <DetailsViewSection
-                label={intl.formatMessage({ id: 'ui-eholdings.package.holdingStatus' })}
-              >
-                <label
-                  data-test-eholdings-package-details-selected
-                  htmlFor="custom-package-details-toggle-switch"
-                >
-                  <h4>
-                    {packageSelected ?
-                      (<FormattedMessage id="ui-eholdings.selected" />) :
-                      (<FormattedMessage id="ui-eholdings.notSelected" />)
-                    }
-                  </h4>
-                </label>
-              </DetailsViewSection>
-              <DetailsViewSection label={intl.formatMessage({ id: 'ui-eholdings.package.packageSettings' })}>
+              </Accordion>
+              <Accordion label={intl.formatMessage({ id: 'ui-eholdings.package.packageSettings' })}>
                 {packageSelected ? (
                   <div className={styles['visibility-radios']}>
                     {this.props.initialValues.isVisible != null ? (
@@ -272,9 +272,9 @@ class CustomPackageEdit extends Component {
                 ) : (
                   <p><FormattedMessage id="ui-eholdings.package.packageSettings.notSelected" /></p>
                 )}
-              </DetailsViewSection>
+              </Accordion>
 
-              <DetailsViewSection
+              <Accordion
                 label={intl.formatMessage({ id: 'ui-eholdings.package.coverageDates' })}
               >
                 {packageSelected ? (
@@ -283,7 +283,7 @@ class CustomPackageEdit extends Component {
                   />) : (
                     <p><FormattedMessage id="ui-eholdings.package.customCoverage.notSelected" /></p>
                 )}
-              </DetailsViewSection>
+              </Accordion>
 
               <div className={styles['package-edit-action-buttons']}>
                 <div

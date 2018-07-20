@@ -5,6 +5,7 @@ import isEqual from 'lodash/isEqual';
 import { intlShape, injectIntl, FormattedMessage } from 'react-intl';
 
 import {
+  Accordion,
   Button,
   Icon,
   Modal,
@@ -16,7 +17,6 @@ import { processErrors } from '../../utilities';
 
 import DetailsView from '../../details-view';
 import CoverageFields, { validate as validateCoverageDates } from '../_fields/custom-coverage';
-import DetailsViewSection from '../../details-view-section';
 import NavigationModal from '../../navigation-modal';
 import Toaster from '../../toaster';
 import styles from './managed-package-edit.css';
@@ -215,7 +215,7 @@ class ManagedPackageEdit extends Component {
           actionMenuItems={actionMenuItems}
           bodyContent={(
             <form onSubmit={handleSubmit(this.handleOnSubmit)}>
-              <DetailsViewSection
+              <Accordion
                 label={intl.formatMessage({ id: 'ui-eholdings.package.holdingStatus' })}
               >
                 <label
@@ -247,10 +247,10 @@ class ManagedPackageEdit extends Component {
                     </Button>
                   }
                 </label>
-              </DetailsViewSection>
+              </Accordion>
               {packageSelected && (
                 <div>
-                  <DetailsViewSection label={intl.formatMessage({ id: 'ui-eholdings.package.packageSettings' })}>
+                  <Accordion label={intl.formatMessage({ id: 'ui-eholdings.package.packageSettings' })}>
                     <div className={styles['visibility-radios']}>
                       {this.props.initialValues.isVisible != null ? (
                         <Fragment>
@@ -310,14 +310,14 @@ class ManagedPackageEdit extends Component {
                         </label>
                       )}
                     </div>
-                  </DetailsViewSection>
-                  <DetailsViewSection
+                  </Accordion>
+                  <Accordion
                     label={intl.formatMessage({ id: 'ui-eholdings.package.coverageDates' })}
                   >
                     <CoverageFields
                       initialValue={initialValues.customCoverages}
                     />
-                  </DetailsViewSection>
+                  </Accordion>
                 </div>
               )}
               <div>

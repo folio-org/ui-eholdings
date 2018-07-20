@@ -5,6 +5,7 @@ import isEqual from 'lodash/isEqual';
 import { intlShape, injectIntl } from 'react-intl';
 
 import {
+  Accordion,
   Button,
   Icon,
   Modal,
@@ -17,7 +18,6 @@ import VisibilityField from '../_fields/visibility';
 import CoverageStatementFields, { validate as validateCoverageStatement } from '../_fields/coverage-statement';
 import CustomCoverageFields, { validate as validateCoverageDates } from '../_fields/custom-coverage';
 import CustomEmbargoFields, { validate as validateEmbargo } from '../_fields/custom-embargo';
-import DetailsViewSection from '../../details-view-section';
 import NavigationModal from '../../navigation-modal';
 import Toaster from '../../toaster';
 import styles from './resource-edit-managed-title.css';
@@ -193,7 +193,7 @@ class ResourceEditManagedTitle extends Component { // eslint-disable-line react/
           actionMenuItems={actionMenuItems}
           bodyContent={(
             <form onSubmit={handleSubmit(this.handleOnSubmit)}>
-              <DetailsViewSection
+              <Accordion
                 label="Holding status"
               >
                 <label
@@ -203,7 +203,7 @@ class ResourceEditManagedTitle extends Component { // eslint-disable-line react/
                   model.update.isPending ? (
                     <Icon icon='spinner-ellipsis' />
                   ) : (
-                    <h4>{managedResourceSelected ? 'Selected' : 'Not selected'}</h4>
+                    <p><strong>{managedResourceSelected ? 'Selected' : 'Not selected'}</strong></p>
                   )
                 }
                   <br />
@@ -217,30 +217,30 @@ class ResourceEditManagedTitle extends Component { // eslint-disable-line react/
                       Add to holdings
                     </Button>)}
                 </label>
-              </DetailsViewSection>
+              </Accordion>
               {managedResourceSelected && (
-                <DetailsViewSection label="Resource settings">
+                <Accordion label="Resource settings">
                   <VisibilityField disabled={visibilityMessage} />
-                </DetailsViewSection>
+                </Accordion>
               )}
               {managedResourceSelected && (
-                <DetailsViewSection
+                <Accordion
                   label="Coverage dates"
                 >
                   <CustomCoverageFields
                     initialValue={initialValues.customCoverages}
                   />
-                </DetailsViewSection>
+                </Accordion>
               )}
               {managedResourceSelected && (
-                <DetailsViewSection
+                <Accordion
                   label="Coverage statement"
                 >
                   <CoverageStatementFields />
-                </DetailsViewSection>
+                </Accordion>
                )}
               {managedResourceSelected && (
-                <DetailsViewSection
+                <Accordion
                   label="Embargo period"
                 >
                   <CustomEmbargoFields
@@ -251,7 +251,7 @@ class ResourceEditManagedTitle extends Component { // eslint-disable-line react/
                     customEmbargoUnit: initialValues.customEmbargoUnit
                   }}
                   />
-                </DetailsViewSection>
+                </Accordion>
                 )}
               {managedResourceSelected && (
                 <div className={styles['resource-edit-action-buttons']}>

@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
 import {
+  Accordion,
   Button,
   IconButton,
   Icon,
@@ -17,7 +18,6 @@ import IdentifiersList from '../identifiers-list';
 import ContributorsList from '..//contributors-list';
 import CoverageDateList from '../coverage-date-list';
 import { isBookPublicationType, isValidCoverageList, processErrors } from '../utilities';
-import DetailsViewSection from '../details-view-section';
 import Toaster from '../toaster';
 
 export default class ResourceShow extends Component {
@@ -155,7 +155,31 @@ export default class ResourceShow extends Component {
           )}
           bodyContent={(
             <div>
-              <DetailsViewSection label="Title information">
+              <Accordion label="Holding status">
+                <label
+                  data-test-eholdings-resource-show-selected
+                  htmlFor="resource-show-toggle-switch"
+                >
+                  {
+                    model.update.isPending ? (
+                      <Icon icon='spinner-ellipsis' />
+                    ) : (
+                      <p><strong>{resourceSelected ? 'Selected' : 'Not selected'}</strong></p>
+                    )
+                  }
+                  <br />
+                  { ((!resourceSelected && !isSelectInFlight) || (!this.props.model.isSelected && isSelectInFlight)) && (
+                    <Button
+                      buttonStyle="primary"
+                      onClick={this.handleHoldingStatus}
+                      disabled={model.destroy.isPending || isSelectInFlight}
+                      data-test-eholdings-resource-add-to-holdings-button
+                    >
+                      Add to holdings
+                    </Button>)}
+                </label>
+              </Accordion>
+              <Accordion label="Title information">
                 <KeyValue label="Title">
                   <Link to={`/eholdings/titles/${model.titleId}`}>
                     {model.title.name}
@@ -217,9 +241,9 @@ export default class ResourceShow extends Component {
                     </div>
                   </KeyValue>
                 )}
-              </DetailsViewSection>
+              </Accordion>
 
-              <DetailsViewSection label="Package information">
+              <Accordion label="Package information">
                 <KeyValue label="Package">
                   <div data-test-eholdings-resource-show-package-name>
                     <Link to={`/eholdings/packages/${model.packageId}`}>{model.package.name}</Link>
@@ -239,9 +263,9 @@ export default class ResourceShow extends Component {
                     </div>
                   </KeyValue>
                 )}
-              </DetailsViewSection>
+              </Accordion>
 
-              <DetailsViewSection label="Resource settings">
+              <Accordion label="Resource settings">
                 <KeyValue label="Show to patrons">
                   <div data-test-eholdings-resource-show-visibility>
                     {model.visibilityData.isHidden || !resourceSelected
@@ -257,34 +281,9 @@ export default class ResourceShow extends Component {
                     </div>
                   </KeyValue>
                 )}
-              </DetailsViewSection>
+              </Accordion>
 
-              <DetailsViewSection label="Holding status">
-                <label
-                  data-test-eholdings-resource-show-selected
-                  htmlFor="resource-show-toggle-switch"
-                >
-                  {
-                    model.update.isPending ? (
-                      <Icon icon='spinner-ellipsis' />
-                    ) : (
-                      <h4>{resourceSelected ? 'Selected' : 'Not selected'}</h4>
-                    )
-                  }
-                  <br />
-                  { ((!resourceSelected && !isSelectInFlight) || (!this.props.model.isSelected && isSelectInFlight)) && (
-                    <Button
-                      buttonStyle="primary"
-                      onClick={this.handleHoldingStatus}
-                      disabled={model.destroy.isPending || isSelectInFlight}
-                      data-test-eholdings-resource-add-to-holdings-button
-                    >
-                      Add to holdings
-                    </Button>)}
-                </label>
-              </DetailsViewSection>
-
-              <DetailsViewSection
+              <Accordion
                 label="Coverage dates"
                 closedByDefault={!hasManagedCoverages && !resourceSelected}
               >
@@ -317,8 +316,8 @@ export default class ResourceShow extends Component {
                   <p data-test-eholdings-resource-no-coverage-date-label>No coverage date has been set.</p>
                 )}
 
-              </DetailsViewSection>
-              <DetailsViewSection
+              </Accordion>
+              <Accordion
                 label="Coverage statement"
               >
                 {(resourceSelected && !isSelectInFlight) ? (
@@ -333,9 +332,9 @@ export default class ResourceShow extends Component {
                 ) : (
                   <p data-test-eholdings-resource-coverage-not-shown-label>Add the resource to holdings to set a coverage statement.</p>
                 )}
-              </DetailsViewSection>
+              </Accordion>
 
-              <DetailsViewSection
+              <Accordion
                 label="Embargo period"
                 closedByDefault={!hasManagedEmbargoPeriod && !resourceSelected}
               >
@@ -362,7 +361,7 @@ export default class ResourceShow extends Component {
                 {!hasManagedEmbargoPeriod && !hasCustomEmbargoPeriod && (
                 <p data-test-eholdings-resource-no-embargo-label>No embargo period has been set.</p>
                 )}
-              </DetailsViewSection>
+              </Accordion>
             </div>
           )}
         />

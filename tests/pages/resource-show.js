@@ -48,7 +48,7 @@ import Toast from './toast';
   contentType = text('[data-test-eholdings-resource-show-content-type]');
   hasContentType = isPresent('[data-test-eholdings-resource-show-content-type]');
   hasErrors = isPresent('[data-test-eholdings-details-view-error="resource"]');
-  isResourceSelected = text('[data-test-eholdings-resource-show-selected] h4');
+  isResourceSelected = text('[data-test-eholdings-resource-show-selected] p');
   isLoading = isPresent('[data-test-eholdings-resource-show-selected] [class*=icon---][class*=iconSpinner]');
   hasBackButton = isPresent('[data-test-eholdings-details-view-back-button] button');
   clickBackButton = clickable('[data-test-eholdings-details-view-back-button] button');

@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { reduxForm } from 'redux-form';
 
 import {
+  Accordion,
   Button,
   Icon,
   IconButton,
@@ -10,7 +11,6 @@ import {
   PaneMenu
 } from '@folio/stripes-components';
 
-import DetailsViewSection from '../../details-view-section';
 import NameField, { validate as validateName } from '../_fields/name';
 import EditionField, { validate as validateEdition } from '../_fields/edition';
 import PublisherNameField, { validate as validatePublisherName } from '../_fields/publisher-name';
@@ -93,7 +93,7 @@ class TitleCreate extends Component {
 
         <div className={styles['title-create-form-container']}>
           <form onSubmit={handleSubmit(onSubmit)}>
-            <DetailsViewSection label="Title information" separator={false}>
+            <Accordion label="Title information" separator={false}>
               <NameField />
               <ContributorField />
               <EditionField />
@@ -102,10 +102,10 @@ class TitleCreate extends Component {
               <IdentifiersFields />
               <DescriptionField />
               <PeerReviewedField />
-            </DetailsViewSection>
-            <DetailsViewSection label="Package information">
+            </Accordion>
+            <Accordion label="Package information">
               <PackageSelectField options={packageOptions} />
-            </DetailsViewSection>
+            </Accordion>
             <div className={styles['title-create-action-buttons']}>
               <div data-test-eholdings-title-create-cancel-button>
                 <Button

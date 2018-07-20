@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
 import {
+  Accordion,
   Button,
   IconButton,
   KeyValue,
@@ -16,7 +17,6 @@ import ScrollView from '../../scroll-view';
 import PackageListItem from '../../package-list-item';
 import IdentifiersList from '../../identifiers-list';
 import ContributorsList from '../../contributors-list';
-import DetailsViewSection from '../../details-view-section';
 import AddToPackageForm from '../_forms/add-to-package';
 import Toaster from '../../toaster';
 import styles from './title-show.css';
@@ -158,7 +158,7 @@ export default class TitleShow extends Component {
           actionMenuItems={this.actionMenuItems}
           lastMenu={this.lastMenu}
           bodyContent={(
-            <DetailsViewSection label="Title information">
+            <Accordion label="Title information">
               <ContributorsList data={model.contributors} />
 
               {model.edition && (
@@ -223,7 +223,7 @@ export default class TitleShow extends Component {
                   Add to custom package
                 </Button>
               </div>
-            </DetailsViewSection>
+            </Accordion>
           )}
           listType="packages"
           renderList={scrollable => (
