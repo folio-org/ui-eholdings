@@ -30,4 +30,9 @@ export default @interactor class SearchModal {
       .fill('[data-test-search-field] input[name="search"]', query)
       .click('[data-test-eholdings-modal-search-button]');
   });
+
+  clearSearch = action(function () {
+    return this
+      .fill('[data-test-search-field] input[name="search"]', '');
+  });
 }

@@ -61,18 +61,13 @@ describeApplication('ProviderShow package search', () => {
     it('does not display badge', () => {
       expect(ProviderShowPage.filterBadge).to.be.false;
     });
-  });
 
-  describe('clicking the search button', () => {
-    beforeEach(() => {
-      return ProviderShowPage.clickListSearch();
-    });
 
     it('does not display search button', () => {
       expect(ProviderShowPage.searchModal.hasModalSearchButton).to.be.false;
     });
 
-    describe('with filter', () => {
+    describe('with filter change', () => {
       beforeEach(() => {
         return ProviderShowPage.searchModal.clickFilter('sort', 'name');
       });
@@ -87,6 +82,48 @@ describeApplication('ProviderShow package search', () => {
         });
         it('applies the changes and closes the modal', () => {
           expect(ProviderShowPage.searchModal.isPresent).to.be.false;
+        });
+      });
+    });
+  });
+
+  describe('filter package by search term', () => {
+    beforeEach(() => {
+      return ProviderShowPage.clickListSearch()
+        .searchModal.search('ordinary');
+    });
+
+    it('displays filtered list', () => {
+      expect(ProviderShowPage.packageList()).to.have.lengthOf(2);
+      expect(ProviderShowPage.packageList(0).name).to.equal('Ordinary Package');
+      expect(ProviderShowPage.packageList(1).name).to.equal('Other Ordinary Package');
+    });
+
+    describe('clearing the search and saving', () => {
+      beforeEach(() => {
+        return ProviderShowPage.clickListSearch()
+          .searchModal.clearSearch();
+      });
+
+      it('shows empty search', () => {
+        expect(ProviderShowPage.searchModal.searchFieldValue).to.equal('');
+      });
+
+      it('shows the search button', () => {
+        expect(ProviderShowPage.searchModal.hasModalSearchButton).to.be.true;
+      });
+
+      describe('applying the cleared search changes', () => {
+        beforeEach(() => {
+          return ProviderShowPage.searchModal.clickSearch();
+        });
+
+        it('applies the change and closes the modal', () => {
+          expect(ProviderShowPage.searchModal.isPresent).to.be.false;
+        });
+
+        it('displays unfiltered list by search term', () => {
+          expect(ProviderShowPage.packageList()).to.have.lengthOf(5);
         });
       });
     });

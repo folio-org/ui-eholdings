@@ -195,7 +195,6 @@ export default class DetailsView extends Component {
     });
 
     if (this.props.onFilter) {
-      // where do the params come from?
       this.props.onFilter(this.state.searchParams);
     }
   }
