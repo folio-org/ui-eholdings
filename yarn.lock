@@ -78,23 +78,15 @@
     lodash "^4.2.0"
     to-fast-properties "^2.0.0"
 
-"@bigtest/convergence@^0.5.0":
-  version "0.5.0"
-  resolved "https://registry.yarnpkg.com/@bigtest/convergence/-/convergence-0.5.0.tgz#1d84f05e8e88869358050dabc28cf883872c41ca"
+"@bigtest/convergence@^0.10.0":
+  version "0.10.0"
+  resolved "https://registry.yarnpkg.com/@bigtest/convergence/-/convergence-0.10.0.tgz#ed2212b7034c84917ccfbaa8cf875730ee535702"
 
-"@bigtest/convergence@^0.7.0":
-  version "0.7.0"
-  resolved "https://registry.yarnpkg.com/@bigtest/convergence/-/convergence-0.7.0.tgz#df577d7e78b453cf80b4f29acf66dd7f60fcc0c1"
-
-"@bigtest/convergence@^0.9.1":
-  version "0.9.1"
-  resolved "https://registry.yarnpkg.com/@bigtest/convergence/-/convergence-0.9.1.tgz#ddbe3e85e757b8fb82b80df95ed2e574c9d24429"
-
-"@bigtest/interactor@^0.5.0":
-  version "0.5.0"
-  resolved "https://registry.yarnpkg.com/@bigtest/interactor/-/interactor-0.5.0.tgz#48b56c0706504d5c5652e1456302718522363120"
+"@bigtest/interactor@^0.7.2":
+  version "0.7.2"
+  resolved "https://registry.yarnpkg.com/@bigtest/interactor/-/interactor-0.7.2.tgz#64e82cbd935d2a7e62b58be7488d461e997a7b31"
   dependencies:
-    "@bigtest/convergence" "^0.9.1"
+    "@bigtest/convergence" "^0.10.0"
 
 "@bigtest/mirage@^0.0.1":
   version "0.0.1"
@@ -105,15 +97,15 @@
     lodash "^4.17.4"
     pretender "^2.0.0"
 
-"@bigtest/mocha@^0.3.3":
-  version "0.3.3"
-  resolved "https://registry.yarnpkg.com/@bigtest/mocha/-/mocha-0.3.3.tgz#1a2e4545424f6e200af1c1720d8631fc1f36fda1"
+"@bigtest/mocha@^0.5.0":
+  version "0.5.0"
+  resolved "https://registry.yarnpkg.com/@bigtest/mocha/-/mocha-0.5.0.tgz#1c714288299fe70052c935d7c24a8434ed2e3d33"
   dependencies:
-    "@bigtest/convergence" "^0.5.0"
+    "@bigtest/convergence" "^0.10.0"
 
-"@bigtest/react@^0.1.1":
-  version "0.1.1"
-  resolved "https://registry.yarnpkg.com/@bigtest/react/-/react-0.1.1.tgz#7ff09a4c946857585af1d120e2073779de000c4c"
+"@bigtest/react@^0.1.2":
+  version "0.1.2"
+  resolved "https://registry.yarnpkg.com/@bigtest/react/-/react-0.1.2.tgz#52b1c0ac7d3bbded421f1407e0e8a589c5261951"
   dependencies:
     history "^4.7.2"
 
