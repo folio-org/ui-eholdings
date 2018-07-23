@@ -61,7 +61,7 @@ import Toast from './toast';
   nameHasFocus = is('[data-test-eholdings-details-view-name="package"]', ':focus');
   numTitles = text('[data-test-eholdings-package-details-titles-total]');
   numTitlesSelected = text('[data-test-eholdings-package-details-titles-selected]');
-  packageType = text('[data-test-eholdings-package-details-type');
+  packageType = text('[data-test-eholdings-package-details-type]');
   hasErrors = isPresent('[data-test-eholdings-details-view-error="package"]');
   hasBackButton = isPresent('[data-test-eholdings-details-view-back-button] button');
   clickBackButton = clickable('[data-test-eholdings-details-view-back-button] button');
