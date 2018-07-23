@@ -405,6 +405,28 @@ describeApplication('ProviderSearch', () => {
         expect(ProviderSearchPage.isSearchButtonDisabled).to.equal(true);
       });
     });
+
+    describe('selecting a filter without a value in the search field', () => {
+      beforeEach(() => {
+        return ProviderSearchPage.clickFilter('sort', 'name');
+      });
+
+      it('should not perform an empty search', () => {
+        expect(ProviderSearchPage.hasPreSearchPane).to.be.true;
+      });
+
+      describe('then adding a search term', () => {
+        beforeEach(() => {
+          return ProviderSearchPage.search('health');
+        });
+
+        it('should apply selected filter to the results', () => {
+          expect(ProviderSearchPage.providerList(0).name).to.equal('Health Associations');
+          expect(ProviderSearchPage.providerList(1).name).to.equal('My Health Analytics 2');
+          expect(ProviderSearchPage.providerList(2).name).to.equal('My Health Analytics 10');
+        });
+      });
+    });
   });
 
   describe('with multiple pages of providers', () => {
