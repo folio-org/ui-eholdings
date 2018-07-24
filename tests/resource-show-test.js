@@ -129,6 +129,10 @@ describeApplication('ResourceShow', () => {
       expect(ResourcePage.url).to.equal('https://frontside.io');
     });
 
+    it('displays the external link icon', () => {
+      expect(ResourcePage.isExternalLinkIconPresent).to.be.true;
+    });
+
     describe.skip('clicking the managed url opens link in new tab', () => {
       beforeEach(() => {
         ResourcePage.clickManagedURL();

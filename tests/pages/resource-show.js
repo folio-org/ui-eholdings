@@ -45,6 +45,7 @@ import Toast from './toast';
   packageName = text('[data-test-eholdings-resource-show-package-name]');
   isUrlPresent = isPresent('[data-test-eholdings-resource-show-url]');
   url = text('[data-test-eholdings-resource-show-url]');
+  isExternalLinkIconPresent = isPresent('[data-test-eholdings-resource-show-external-link-icon]');
   contentType = text('[data-test-eholdings-resource-show-content-type]');
   hasContentType = isPresent('[data-test-eholdings-resource-show-content-type]');
   hasErrors = isPresent('[data-test-eholdings-details-view-error="resource"]');

@@ -13,12 +13,14 @@ import {
 
 import DetailsView from '../details-view';
 import Link from '../link';
+import ExternalLink from '../external-link/external-link';
 import IdentifiersList from '../identifiers-list';
 import ContributorsList from '..//contributors-list';
 import CoverageDateList from '../coverage-date-list';
 import { isBookPublicationType, isValidCoverageList, processErrors } from '../utilities';
 import DetailsViewSection from '../details-view-section';
 import Toaster from '../toaster';
+
 
 export default class ResourceShow extends Component {
   static propTypes = {
@@ -253,7 +255,11 @@ export default class ResourceShow extends Component {
                 {model.url && (
                   <KeyValue label={`${model.title.isTitleCustom ? 'Custom' : 'Managed'} URL`}>
                     <div data-test-eholdings-resource-show-url>
-                      <a href={model.url} target="_blank" rel="noopener noreferrer">{model.url}</a>
+                      <ExternalLink
+                        href={model.url}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                      />
                     </div>
                   </KeyValue>
                 )}
