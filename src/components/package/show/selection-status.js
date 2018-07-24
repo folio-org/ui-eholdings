@@ -4,40 +4,36 @@ import PropTypes from 'prop-types';
 import { Icon, Button } from '@folio/stripes-components';
 import { FormattedMessage } from 'react-intl';
 
-export default function SelectionStatus({ model, isPending, onAddToHoldings }) {
+export default function SelectionStatus({ pkg, onAddToHoldings }) {
   return (
     <label data-test-eholdings-package-details-selected>
-      <SelectionStatusMessage isPending={isPending} model={model} />
+      <SelectionStatusMessage pkg={pkg} />
       <br />
-      <SelectionStatusButton
-        model={model}
-        isPending={isPending}
-        onAddToHoldings={onAddToHoldings}
-      />
+      <SelectionStatusButton pkg={pkg} onAddToHoldings={onAddToHoldings} />
     </label>);
 }
+
 SelectionStatus.propTypes = {
-  model: PropTypes.object.isRequired,
-  isPending: PropTypes.bool.isRequired,
+  pkg: PropTypes.object.isRequired,
   onAddToHoldings: PropTypes.func.isRequired
 };
 
-function SelectionStatusMessage({ model, isPending }) {
-  if (isPending) {
+function SelectionStatusMessage({ pkg }) {
+  if (pkg.isInFlight) {
     return <Icon icon="spinner-ellipsis" />;
   } else {
-    return <h4><FormattedMessage {...messageFor(model)} /></h4>; // eslint-disable-line no-use-before-define
+    return <h4><FormattedMessage {...messageFor(pkg)} /></h4>; // eslint-disable-line no-use-before-define
   }
 }
 
-function SelectionStatusButton({ model, isPending, onAddToHoldings }) {
-  if (model.isPartiallySelected || !model.isSelected || isPending) {
-    let messageId = model.isPartiallySelected ? 'addAllToHoldings' : 'addToHoldings';
+function SelectionStatusButton({ pkg, onAddToHoldings }) {
+  if (pkg.isPartiallySelected || !pkg.isSelected || pkg.isInFlight) {
+    let messageId = pkg.isPartiallySelected ? 'addAllToHoldings' : 'addToHoldings';
     return (
       <Button
         type="button"
         buttonStyle="primary"
-        disabled={isPending}
+        disabled={pkg.isInFlight}
         onClick={onAddToHoldings}
         data-test-eholdings-package-add-to-holdings-button
       >
@@ -49,15 +45,14 @@ function SelectionStatusButton({ model, isPending, onAddToHoldings }) {
   }
 }
 
-
-function messageFor(model) {
-  if (model.isPartiallySelected) {
+function messageFor(pkg) {
+  if (pkg.isPartiallySelected) {
     return {
       id: 'ui-eholdings.package.partiallySelected',
-      values: { selectedCount: model.selectedCount, titleCount: model.titleCount }
+      values: { selectedCount: pkg.selectedCount, titleCount: pkg.titleCount }
     };
   }
-  if (model.isSelected) {
+  if (pkg.isSelected) {
     return { id: 'ui-eholdings.selected' };
   } else {
     return { id: 'ui-eholdings.notSelected' };

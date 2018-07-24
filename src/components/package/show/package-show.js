@@ -93,8 +93,6 @@ class PackageShow extends Component {
     } = this.state;
 
     let visibilityMessage = model.visibilityData.reason && `(${model.visibilityData.reason})`;
-    let packageSelectionPending = model.destroy.isPending ||
-        (model.update.isPending && ('selectedCount' in model.update.changedAttributes));
 
     let modalMessage = model.isCustom ?
       {
@@ -246,14 +244,11 @@ class PackageShow extends Component {
                   </div>
                 </KeyValue>
               </DetailsViewSection>
+
               <DetailsViewSection label={intl.formatMessage({ id: 'ui-eholdings.package.packageInformation' })}>
-                <SelectionStatus
-                  model={model}
-                  isPending={packageSelectionPending}
-                  isSelectedInParentComponentState={packageSelected}
-                  onAddToHoldings={this.props.addPackageToHoldings}
-                />
+                <SelectionStatus pkg={model} onAddToHoldings={this.props.addPackageToHoldings} />
               </DetailsViewSection>
+
               <DetailsViewSection label={intl.formatMessage({ id: 'ui-eholdings.package.packageSettings' })}>
                 {packageSelected ? (
                   <div>
