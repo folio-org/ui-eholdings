@@ -36,11 +36,15 @@ export default class SearchForm extends Component {
     searchfield: PropTypes.string,
     sort: PropTypes.string,
     displaySearchTypeSwitcher: PropTypes.bool,
-    isLoading: PropTypes.bool
+    displaySearchButton: PropTypes.bool,
+    isLoading: PropTypes.bool,
+    onFilterChange: PropTypes.func,
+    onSearchQueryChange: PropTypes.func
   };
 
   static defaultProps = {
-    displaySearchTypeSwitcher: true
+    displaySearchTypeSwitcher: true,
+    displaySearchButton: true
   };
 
   state = {
@@ -90,15 +94,38 @@ export default class SearchForm extends Component {
   };
 
   handleChangeSearch = (e) => {
-    this.setState({ searchString: e.target.value });
+    this.setState({ searchString: e.target.value }, () => {
+      if (this.props.onSearchQueryChange) {
+        this.props.onSearchQueryChange(
+          this.state.searchString
+        );
+      }
+    });
   };
 
   handleClearSearch = () => {
-    this.setState({ searchString: '' });
+    this.setState({ searchString: '' }, () => {
+      if (this.props.onSearchQueryChange) {
+        this.props.onSearchQueryChange(
+          this.state.searchString
+        );
+      }
+    });
   };
 
   handleUpdateFilter = (filter) => {
-    this.setState({ filter }, () => this.submitSearch());
+    this.setState({ filter }, () => {
+      let { sort, ...searchfilter } = this.state.filter;
+
+      if (this.props.onFilterChange) {
+        this.props.onFilterChange({
+          q: this.state.searchString,
+          filter: searchfilter,
+          searchfield: this.state.searchfield,
+          sort
+        });
+      }
+    });
   };
 
   handleChangeIndex = (e) => {
@@ -122,7 +149,13 @@ export default class SearchForm extends Component {
   };
 
   render() {
-    const { searchType, searchTypeUrls, displaySearchTypeSwitcher, isLoading } = this.props;
+    const {
+      searchType,
+      searchTypeUrls,
+      displaySearchTypeSwitcher,
+      isLoading,
+      displaySearchButton
+    } = this.props;
     const { searchString, filter, searchfield } = this.state;
     const Filters = this.getFiltersComponent(searchType);
 
@@ -172,16 +205,17 @@ export default class SearchForm extends Component {
               />
             </div>
           )}
-          <Button
-            type="submit"
-            buttonStyle="primary"
-            fullWidth
-            disabled={!searchString}
-            data-test-search-submit
-          >
-            Search
-          </Button>
-
+          { displaySearchButton && (
+            <Button
+              type="submit"
+              buttonStyle="primary"
+              fullWidth
+              disabled={!searchString}
+              data-test-search-submit
+            >
+              Search
+            </Button>
+          )}
           {Filters && (
             <div>
               <hr />

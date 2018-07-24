@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { filter } from 'funcadelic';
 
 import {
   Accordion,
@@ -36,11 +37,16 @@ export default function SearchFilters({
               label={label}
               value={value}
               checked={value === (activeFilters[name] || defaultValue)}
-              onChange={() => onUpdate({
-                ...activeFilters,
-                // if this option is a default, clear the filter
-                [name]: value === defaultValue ? undefined : value
-              })}
+              onChange={() => {
+                let replaced = {
+                  ...activeFilters,
+                  // if this option is a default, clear the filter
+                  [name]: value === defaultValue ? undefined : value
+                };
+                let withoutDefault = filter(item => item.value !== undefined, replaced);
+
+                return onUpdate(withoutDefault);
+              }}
             />
           ))}
         </Accordion>

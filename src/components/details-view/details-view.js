@@ -8,6 +8,7 @@ import {
   Icon,
   IconButton,
   Modal,
+  ModalFooter,
   PaneHeader,
   PaneMenu
 } from '@folio/stripes-components';
@@ -47,7 +48,8 @@ export default class DetailsView extends Component {
     enableListSearch: PropTypes.bool,
     onSearch: PropTypes.func,
     resultsLength: PropTypes.number,
-    searchParams: PropTypes.object
+    searchParams: PropTypes.object,
+    onFilter: PropTypes.func
   };
 
   static contextTypes = {
@@ -57,7 +59,9 @@ export default class DetailsView extends Component {
 
   state = {
     isSticky: false,
-    showSearchModal: false
+    showSearchModal: false,
+    showSearchModalSearchButton: false,
+    searchParams: null
   };
 
   // used to focus the heading when the model loads
@@ -86,12 +90,6 @@ export default class DetailsView extends Component {
 
   componentWillUnmount() {
     window.removeEventListener('resize', this.handleLayout);
-  }
-
-  toggleSearchModal = () => {
-    this.setState(({ showSearchModal }) => ({
-      showSearchModal: !showSearchModal
-    }));
   }
 
   /**
@@ -175,12 +173,54 @@ export default class DetailsView extends Component {
   handleListSearch = (params) => {
     let { searchParams } = this.props;
 
-    if (params.q && this.props.onSearch) {
+    if (this.props.onSearch) {
       this.props.onSearch(params);
     }
 
     this.setState({
       showSearchModal: searchParams.q === params.q
+    });
+  }
+
+  toggleSearchModal = () => {
+    this.setState(({ showSearchModal }) => ({
+      showSearchModal: !showSearchModal
+    }));
+  }
+
+  updateSearch = () => {
+    this.setState({
+      showSearchModal: false,
+      showSearchModalSearchButton: false
+    });
+
+    if (this.props.onFilter) {
+      this.props.onFilter(this.state.searchParams);
+    }
+  }
+
+  closeSearchModal = () => {
+    this.setState({
+      searchParams: null,
+      showSearchModal: false,
+      showSearchModalSearchButton: false
+    });
+  }
+
+  handleFilterChange = searchParams => {
+    this.setState({
+      searchParams,
+      showSearchModalSearchButton: true
+    });
+  }
+
+  handleSearchQueryChange = q => {
+    this.setState({
+      searchParams: {
+        ...(this.state.searchParams || this.props.searchParams),
+        q
+      },
+      showSearchModalSearchButton: true
     });
   }
 
@@ -200,6 +240,10 @@ export default class DetailsView extends Component {
       searchParams = {}
     } = this.props;
 
+    if (this.state.searchParams) {
+      searchParams = this.state.searchParams;
+    }
+
     let {
       router,
       queryParams
@@ -207,7 +251,8 @@ export default class DetailsView extends Component {
 
     let {
       isSticky,
-      showSearchModal
+      showSearchModal,
+      showSearchModalSearchButton
     } = this.state;
 
     let containerClassName = cx('container', {
@@ -329,10 +374,19 @@ export default class DetailsView extends Component {
             size="small"
             label={`Filter ${listType}`}
             open={showSearchModal}
-            onClose={this.toggleSearchModal}
+            onClose={this.closeSearchModal}
             id="eholdings-details-view-search-modal"
             closeOnBackgroundClick
             dismissible
+            footer={showSearchModalSearchButton && (
+              <ModalFooter
+                primaryButton={{
+                  'label': 'Search',
+                  'onClick': this.updateSearch,
+                  'data-test-eholdings-modal-search-button': true
+                }}
+              />
+            )}
           >
             <SearchForm
               searchType={listType}
@@ -342,6 +396,9 @@ export default class DetailsView extends Component {
               sort={searchParams.sort}
               onSearch={this.handleListSearch}
               displaySearchTypeSwitcher={false}
+              displaySearchButton={false}
+              onFilterChange={this.handleFilterChange}
+              onSearchQueryChange={this.handleSearchQueryChange}
             />
           </Modal>
         )}
