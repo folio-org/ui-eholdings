@@ -48,10 +48,6 @@ describeApplication('PackageSelection', () => {
         this.server.timing = 0;
       });
 
-      it('reflects the desired state (Selected)', () => {
-        expect(PackageShowPage.isSelected).to.equal(true);
-      });
-
       it('indicates it is working to get to desired state', () => {
         expect(PackageShowPage.isSelecting).to.equal(true);
       });
