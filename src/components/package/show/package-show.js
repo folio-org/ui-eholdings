@@ -19,7 +19,7 @@ import TitleListItem from '../../title-list-item';
 import NavigationModal from '../../navigation-modal';
 import Toaster from '../../toaster';
 
-import SelectionStatus from './selection-status';
+import SelectionStatus from '../selection-status';
 import styles from './package-show.css';
 
 class PackageShow extends Component {
@@ -92,8 +92,6 @@ class PackageShow extends Component {
     } = this.state;
 
     let visibilityMessage = model.visibilityData.reason && `(${model.visibilityData.reason})`;
-    let packageSelectionPending = model.destroy.isPending ||
-        (model.update.isPending && ('selectedCount' in model.update.changedAttributes));
 
     let modalMessage = model.isCustom ?
       {
@@ -132,8 +130,9 @@ class PackageShow extends Component {
     }
 
     if (packageSelected) {
+      let messageId = model.isCustom ? 'deletePackage' : 'removeFromHoldings';
       actionMenuItems.push({
-        'label': 'Remove from holdings',
+        'label': intl.formatMessage({ id: `ui-eholdings.package.${messageId}` }),
         'state': { eholdings: true },
         'data-test-eholdings-package-remove-from-holdings-action': true,
         'onClick': this.handleSelectionToggle
@@ -211,8 +210,6 @@ class PackageShow extends Component {
               <Accordion label={intl.formatMessage({ id: 'ui-eholdings.label.holdingStatus' })}>
                 <SelectionStatus
                   model={model}
-                  isPending={packageSelectionPending}
-                  isSelectedInParentComponentState={packageSelected}
                   onAddToHoldings={this.props.addPackageToHoldings}
                 />
               </Accordion>

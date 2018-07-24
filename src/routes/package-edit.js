@@ -120,7 +120,16 @@ class PackageEditRoute extends Component {
       updatePackage(model);
     }
   };
-
+  /* This method is common between package-show and package-edit routes
+   * This should be refactored once we can share model between the routes.
+  */
+  addPackageToHoldings = () => {
+    let { model, updatePackage } = this.props;
+    model.isSelected = true;
+    model.selectedCount = model.titleCount;
+    model.allowKbToAddTitles = true;
+    updatePackage(model);
+  };
   render() {
     let { model } = this.props;
 
@@ -129,6 +138,7 @@ class PackageEditRoute extends Component {
         <View
           model={model}
           onSubmit={this.packageEditSubmitted}
+          addPackageToHoldings={this.addPackageToHoldings}
         />
       </TitleManager>
     );

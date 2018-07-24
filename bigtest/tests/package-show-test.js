@@ -43,7 +43,7 @@ describeApplication('PackageShow', () => {
     });
 
     it('displays whether or not the package is selected', () => {
-      expect(PackageShowPage.isSelected).to.equal(false);
+      expect(PackageShowPage.selectionStatus.isSelected).to.equal(false);
     });
 
     it('displays the content type', () => {

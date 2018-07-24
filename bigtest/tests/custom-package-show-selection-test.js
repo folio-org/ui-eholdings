@@ -34,14 +34,14 @@ describeApplication('CustomPackageShowSelection', () => {
     });
 
     it('automatically has the custom package in my holdings', () => {
-      expect(PackageShowPage.isSelected).to.equal(true);
+      expect(PackageShowPage.selectionStatus.isSelected).to.equal(true);
     });
 
     describe('deselecting a custom package', () => {
       beforeEach(() => {
         return PackageShowPage
           .dropDown.clickDropDownButton()
-          .dropDownMenu.clickRemoveFromHoldings();
+          .dropDownMenu.removeFromHoldings.click();
       });
 
       describe('canceling the deselection', () => {
@@ -50,7 +50,7 @@ describeApplication('CustomPackageShowSelection', () => {
         });
 
         it('reverts back to the selected state', () => {
-          expect(PackageShowPage.isSelected).to.equal(true);
+          expect(PackageShowPage.selectionStatus.isSelected).to.equal(true);
         });
       });
 
@@ -61,7 +61,7 @@ describeApplication('CustomPackageShowSelection', () => {
         });
 
         it('indicates it is working to get to desired state', () => {
-          expect(PackageShowPage.isSelecting).to.equal(true);
+          expect(PackageShowPage.selectionStatus.isSelecting).to.equal(true);
         });
 
         describe('when the request succeeds', () => {
@@ -91,7 +91,7 @@ describeApplication('CustomPackageShowSelection', () => {
 
         return PackageShowPage
           .dropDown.clickDropDownButton()
-          .dropDownMenu.clickRemoveFromHoldings();
+          .dropDownMenu.removeFromHoldings.click();
       });
 
       it('shows a confirmation dialog', () => {
@@ -104,11 +104,11 @@ describeApplication('CustomPackageShowSelection', () => {
         });
 
         it('reflect the desired state was not set', () => {
-          expect(PackageShowPage.isSelected).to.equal(true);
+          expect(PackageShowPage.selectionStatus.isSelected).to.equal(true);
         });
 
         it('indicates it is no longer working', () => {
-          expect(PackageShowPage.isSelecting).to.equal(false);
+          expect(PackageShowPage.selectionStatus.isSelecting).to.equal(false);
         });
 
         it('shows the error as a toast', () => {

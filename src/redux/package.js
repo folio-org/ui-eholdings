@@ -18,6 +18,10 @@ class Package {
   get isPartiallySelected() {
     return this.selectedCount > 0 && this.selectedCount !== this.titleCount;
   }
+
+  get isInFlight() {
+    return this.destroy.isPending || (this.update.isPending && ('selectedCount' in this.update.changedAttributes));
+  }
 }
 
 export default model({

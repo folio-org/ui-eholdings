@@ -185,7 +185,7 @@ describeApplication('ManagedPackageEditVisibility', () => {
     });
 
     it('reflects the desired state of holding status', () => {
-      expect(PackageEditPage.isSelected).to.equal(false);
+      expect(PackageEditPage.selectionStatus.isSelected).to.equal(false);
     });
 
     it('visibility field is not present', () => {

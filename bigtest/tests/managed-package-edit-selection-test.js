@@ -29,11 +29,11 @@ describeApplication('ManagedPackageEditSelection', () => {
     });
 
     it('reflects the desired state of holding status', () => {
-      expect(PackageEditPage.isSelected).to.equal(false);
+      expect(PackageEditPage.selectionStatus.isSelected).to.equal(false);
     });
 
     it('shows "Add to holdings" button', () => {
-      expect(PackageEditPage.hasAddButton).to.equal(true);
+      expect(PackageEditPage.selectionStatus.hasAddButton).to.equal(true);
     });
 
     it('cannot toggle visibility', () => {
@@ -73,7 +73,7 @@ describeApplication('ManagedPackageEditSelection', () => {
         });
 
         it('reflects that the package has been selected', () => {
-          expect(PackageEditPage.isSelected).to.equal(true);
+          expect(PackageEditPage.selectionStatus.isSelected).to.equal(true);
         });
 
         it('should not need the form to be submitted', () => {
@@ -85,7 +85,7 @@ describeApplication('ManagedPackageEditSelection', () => {
         beforeEach(() => {
           return PackageEditPage
             .dropDown.clickDropDownButton()
-            .dropDownMenu.clickAddToHoldings();
+            .dropDownMenu.addToHoldings.click();
         });
 
         it('stays on the edit page', () => {
@@ -93,7 +93,7 @@ describeApplication('ManagedPackageEditSelection', () => {
         });
 
         it('reflects that the package has been selected', () => {
-          expect(PackageEditPage.isSelected).to.equal(true);
+          expect(PackageEditPage.selectionStatus.isSelected).to.equal(true);
         });
 
         it('should not need the form to be submitted', () => {
@@ -103,7 +103,7 @@ describeApplication('ManagedPackageEditSelection', () => {
     });
   });
 
-  describe('visiting the package edit page with a selected package', () => {
+  describe('visiting the package edit page with a totally selected package', () => {
     beforeEach(function () {
       providerPackage = this.server.create('package', {
         provider,
@@ -117,11 +117,11 @@ describeApplication('ManagedPackageEditSelection', () => {
     });
 
     it('reflects the desired state of holding status', () => {
-      expect(PackageEditPage.isSelected).to.equal(true);
+      expect(PackageEditPage.selectionStatus.isSelected).to.equal(true);
     });
 
     it('hides "Add to holdings" button', () => {
-      expect(PackageEditPage.hasAddButton).to.equal(false);
+      expect(PackageEditPage.selectionStatus.hasAddButton).to.equal(false);
     });
 
     it('can toggle visibility', () => {
@@ -154,7 +154,7 @@ describeApplication('ManagedPackageEditSelection', () => {
       beforeEach(() => {
         return PackageEditPage
           .dropDown.clickDropDownButton()
-          .dropDownMenu.clickRemoveFromHoldings();
+          .dropDownMenu.removeFromHoldings.click();
       });
 
       it('shows the deselection confirmation modal', () => {
@@ -171,7 +171,7 @@ describeApplication('ManagedPackageEditSelection', () => {
         });
 
         it('reflects the desired state of holding status', () => {
-          expect(PackageEditPage.isSelected).to.equal(true);
+          expect(PackageEditPage.selectionStatus.isSelected).to.equal(true);
         });
       });
 
@@ -209,6 +209,100 @@ describeApplication('ManagedPackageEditSelection', () => {
           it('goes to the resource show page', () => {
             expect(PackageShowPage.$root).to.exist;
             expect(PackageShowPage.hasTitleList).to.equal(true);
+          });
+        });
+      });
+    });
+  });
+
+  describe('visiting the package edit page with a partially selected package', () => {
+    let pkg;
+    beforeEach(function () {
+      pkg = this.server.create('package', {
+        provider,
+        name: 'Partial Package',
+        selectedCount: 5,
+        titleCount: 10
+      });
+      this.server.createList('resource', 5, 'withTitle', {
+        package: pkg,
+        isSelected: true
+      });
+      this.server.createList('resource', 5, 'withTitle', {
+        package: pkg,
+        isSelected: false
+      });
+      return this.visit(`/eholdings/packages/${pkg.id}/edit`);
+    });
+    it('shows the selected # of titles and the total # of titles in the package', () => {
+      expect(PackageEditPage.selectionStatus.text).to.equal('5 of 10 titles selected');
+    });
+    it('shows add all to holdings button', () => {
+      expect(PackageEditPage.selectionStatus.buttonText).to.equal('Add all to holdings');
+    });
+    describe('inspecting the menu', () => {
+      beforeEach(() => {
+        return PackageEditPage.dropDown.clickDropDownButton();
+      });
+      it('has menu item to add all remaining titles from this packages', () => {
+        expect(PackageEditPage.dropDownMenu.addToHoldings.text).to.equal('Add all to holdings');
+      });
+      it('has menu item to remove the entire package from holdings just like a completely selected packages', () => {
+        expect(PackageEditPage.dropDownMenu.removeFromHoldings.isVisible).to.equal(true);
+      });
+    });
+    describe('clicking the menu item to add all to holdings', () => {
+      beforeEach(function () {
+        this.server.block();
+        return PackageEditPage.selectPackage();
+      });
+      it.skip('indicates it is working to get to desired state', () => {
+        expect(PackageEditPage.selectionStatus.isSelecting).to.equal(true);
+      });
+      describe('when the request succeeds', () => {
+        beforeEach(function () {
+          return this.server.unblock();
+        });
+        it('reflects that the package has been selected', () => {
+          expect(PackageEditPage.selectionStatus.isSelected).to.equal(true);
+        });
+        describe('inspecting the menu', () => {
+          beforeEach(() => {
+            return PackageEditPage.dropDown.clickDropDownButton();
+          });
+          it('does not have menu item to add all to holdings', () => {
+            expect(PackageEditPage.dropDownMenu.addToHoldings.isPresent).to.equal(false);
+          });
+          it('has menu item to remove the entire package from holdings', () => {
+            expect(PackageEditPage.dropDownMenu.removeFromHoldings.isVisible).to.equal(true);
+          });
+        });
+      });
+    });
+    describe('clicking the "Add all to holdings" button', () => {
+      beforeEach(function () {
+        this.server.block();
+        return PackageEditPage.selectPackage();
+      });
+      it.skip('indicates it is working to get to desired state', () => {
+        expect(PackageEditPage.selectionStatus.isSelecting).to.equal(true);
+      });
+      describe('when the request succeeds', () => {
+        beforeEach(function () {
+          return this.server.unblock();
+        });
+        it('reflects that the package has been selected', () => {
+          expect(PackageEditPage.selectionStatus.isSelected).to.equal(true);
+        });
+        describe('inspecting the menu', () => {
+          beforeEach(() => {
+            return PackageEditPage.dropDown.clickDropDownButton();
+          });
+          it('does not have menu item to add all to holdings', () => {
+            expect(PackageEditPage.dropDownMenu.addToHoldings.isPresent).to.equal(false);
+          });
+          it('has menu item to remove the entire package from holdings', () => {
+            expect(PackageEditPage.dropDownMenu.removeFromHoldings.isVisible).to.equal(true);
           });
         });
       });

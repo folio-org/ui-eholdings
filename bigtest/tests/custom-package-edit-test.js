@@ -30,7 +30,7 @@ describeApplication('CustomPackageEdit', () => {
     });
 
     it('displays the correct holdings status', () => {
-      expect(PackageEditPage.isSelected).to.equal(true);
+      expect(PackageEditPage.selectionStatus.isSelected).to.equal(true);
     });
 
     it('shows blank datepicker fields', () => {

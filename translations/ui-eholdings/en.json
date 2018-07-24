@@ -2,6 +2,7 @@
     "meta.title": "eHoldings",
     "package.actionMenu.edit": "Edit",
     "package.addToHoldings": "Add to holdings",
+    "package.removeFromHoldings": "Remove from holdings",
     "package.contentType": "Content type",
     "package.coverageSettings": "Coverage settings",
     "package.coverageDates": "Coverage dates",

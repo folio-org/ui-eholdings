@@ -5,7 +5,6 @@ import isEqual from 'lodash/isEqual';
 import { intlShape, injectIntl, FormattedMessage } from 'react-intl';
 
 import {
-  Button,
   Icon,
   Modal,
   ModalFooter,
@@ -20,6 +19,7 @@ import DetailsViewSection from '../../details-view-section';
 import NavigationModal from '../../navigation-modal';
 import Toaster from '../../toaster';
 import PaneHeaderButton from '../../pane-header-button';
+import SelectionStatus from '../selection-status';
 import styles from './managed-package-edit.css';
 
 class ManagedPackageEdit extends Component {
@@ -30,7 +30,8 @@ class ManagedPackageEdit extends Component {
     handleSubmit: PropTypes.func,
     onSubmit: PropTypes.func.isRequired,
     pristine: PropTypes.bool,
-    intl: intlShape.isRequired
+    intl: intlShape.isRequired,
+    addPackageToHoldings: PropTypes.func.isRequired
   };
 
   static contextTypes = {
@@ -166,7 +167,6 @@ class ManagedPackageEdit extends Component {
     } = this.context;
 
     let visibilityMessage = model.visibilityData.reason && `(${model.visibilityData.reason})`;
-    let packageSelectionPending = model.update.isPending && 'isSelected' in model.update.changedAttributes;
 
     let actionMenuItems = [
       {
@@ -193,17 +193,20 @@ class ManagedPackageEdit extends Component {
 
     if (packageSelected) {
       actionMenuItems.push({
-        'label': 'Remove from holdings',
+        'label': intl.formatMessage({ id: 'ui-eholdings.package.removeFromHoldings' }),
         'state': { eholdings: true },
         'data-test-eholdings-package-remove-from-holdings-action': true,
         'onClick': this.handleDeselectionAction
       });
-    } else {
+    }
+
+    if (!packageSelected || model.isPartiallySelected) {
+      let messageId = model.isPartiallySelected ? 'addAllToHoldings' : 'addToHoldings';
       actionMenuItems.push({
-        'label': 'Add to holdings',
+        'label': intl.formatMessage({ id: `ui-eholdings.${messageId}` }),
         'state': { eholdings: true },
         'data-test-eholdings-package-add-to-holdings-action': true,
-        'onClick': this.handleSelectionAction
+        'onClick': this.props.addPackageToHoldings
       });
     }
 
@@ -241,35 +244,10 @@ class ManagedPackageEdit extends Component {
                 <DetailsViewSection
                   label={intl.formatMessage({ id: 'ui-eholdings.label.holdingStatus' })}
                 >
-                  <label
-                    data-test-eholdings-package-details-selected
-                    htmlFor="managed-package-details-toggle-switch"
-                  >
-                    { packageSelectionPending ? (
-                      <Icon icon="spinner-ellipsis" />
-                    ) : (
-                      <h4>
-                        {packageSelected ?
-                          (<FormattedMessage id="ui-eholdings.selected" />) :
-                          (<FormattedMessage id="ui-eholdings.notSelected" />)
-                        }
-                      </h4>
-                    )}
-                    <br />
-
-                    {((!packageSelected && !packageSelectionPending) ||
-                      (!this.props.model.isSelected && packageSelectionPending)) &&
-                      <Button
-                        type="button"
-                        buttonStyle="primary"
-                        disabled={packageSelectionPending}
-                        onClick={this.handleSelectionAction}
-                        data-test-eholdings-package-add-to-holdings-button
-                      >
-                        <FormattedMessage id="ui-eholdings.package.addToHoldings" />
-                      </Button>
-                    }
-                  </label>
+                  <SelectionStatus
+                    model={model}
+                    onAddToHoldings={this.props.addPackageToHoldings}
+                  />
                 </DetailsViewSection>
                 {packageSelected && (
                   <div>

@@ -98,7 +98,7 @@ describeApplication('PackageShowAllowKbToAddTitles', () => {
       });
 
       it('reflects the desired state (Selected)', () => {
-        expect(PackageShowPage.isSelected).to.be.true;
+        expect(PackageShowPage.selectionStatus.isSelected).to.be.true;
       });
 
       it('displays YES for allowing kb to select new titles', () => {

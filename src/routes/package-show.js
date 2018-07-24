@@ -63,7 +63,9 @@ class PackageShowRoute extends Component {
       unloadResources(next.resources);
     }
   }
-
+  /* This method is common between package-show and package-edit routes
+   * This should be refactored once we can share model between the routes.
+  */
   addPackageToHoldings = () => {
     let { model, updatePackage } = this.props;
     model.isSelected = true;

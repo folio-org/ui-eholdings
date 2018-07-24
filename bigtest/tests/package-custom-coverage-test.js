@@ -62,7 +62,7 @@ describeApplication('PackageCustomCoverage', () => {
     });
 
     it('displays whether or not the package is selected', () => {
-      expect(PackageShowPage.isSelected).to.equal(true);
+      expect(PackageShowPage.selectionStatus.isSelected).to.equal(true);
     });
 
     describe('clicking to toggle and deselect package and confirming deselection', () => {
