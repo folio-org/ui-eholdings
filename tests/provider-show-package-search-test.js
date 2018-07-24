@@ -63,8 +63,12 @@ describeApplication('ProviderShow package search', () => {
     });
 
 
-    it('does not display search button', () => {
+    it('disables search button', () => {
       expect(ProviderShowPage.searchModal.hasModalSearchButton).to.be.false;
+    });
+
+    it('disables the reset all button', () => {
+
     });
 
     describe('with filter change', () => {
@@ -72,8 +76,12 @@ describeApplication('ProviderShow package search', () => {
         return ProviderShowPage.searchModal.clickFilter('sort', 'name');
       });
 
-      it('shows search button', () => {
+      it('enables search button', () => {
         expect(ProviderShowPage.searchModal.hasModalSearchButton).to.be.true;
+      });
+
+      it('enables the reset all button', () => {
+
       });
 
       describe('applying filters', () => {
@@ -109,8 +117,12 @@ describeApplication('ProviderShow package search', () => {
         expect(ProviderShowPage.searchModal.searchFieldValue).to.equal('');
       });
 
-      it('shows the search button', () => {
+      it('enables the search button', () => {
         expect(ProviderShowPage.searchModal.hasModalSearchButton).to.be.true;
+      });
+
+      it('enables the reset all button', () => {
+
       });
 
       describe('applying the cleared search changes', () => {
@@ -160,6 +172,19 @@ describeApplication('ProviderShow package search', () => {
         expect(ProviderShowPage.packageList()).to.have.lengthOf(2);
         expect(ProviderShowPage.packageList(0).name).to.equal('Ordinary Package');
         expect(ProviderShowPage.packageList(1).name).to.equal('Other Ordinary Package');
+      });
+
+      describe('resetting all filters', () => {
+        // open modal
+        // click reset all button
+
+        it('closes the modal', () => {
+
+        });
+
+        it('shows unfiltered list', () => {
+
+        });
       });
     });
 

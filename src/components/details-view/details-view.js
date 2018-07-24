@@ -60,7 +60,7 @@ export default class DetailsView extends Component {
   state = {
     isSticky: false,
     showSearchModal: false,
-    showSearchModalSearchButton: false,
+    showSearchModalSearchButton: true,
     searchParams: null
   };
 
@@ -191,7 +191,17 @@ export default class DetailsView extends Component {
   updateSearch = () => {
     this.setState({
       showSearchModal: false,
-      showSearchModalSearchButton: false
+    });
+
+    if (this.props.onFilter) {
+      this.props.onFilter(this.state.searchParams);
+    }
+  }
+
+  resetSearch = () => {
+    this.setState({
+      searchParams: null,
+      showSearchModal: false,
     });
 
     if (this.props.onFilter) {
@@ -384,6 +394,11 @@ export default class DetailsView extends Component {
                   'label': 'Search',
                   'onClick': this.updateSearch,
                   'data-test-eholdings-modal-search-button': true
+                }}
+                secondaryButton={{
+                  'label': 'Reset all',
+                  'onClick': this.resetSearch,
+                  'data-test-eholdings-modal-reset-all-button': true
                 }}
               />
             )}
