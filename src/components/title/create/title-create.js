@@ -10,6 +10,7 @@ import {
   PaneMenu
 } from '@folio/stripes-components';
 
+import { intlShape, injectIntl } from 'react-intl';
 import DetailsViewSection from '../../details-view-section';
 import NameField, { validate as validateName } from '../_fields/name';
 import EditionField, { validate as validateEdition } from '../_fields/edition';
@@ -30,7 +31,8 @@ class TitleCreate extends Component {
     customPackages: PropTypes.object.isRequired,
     handleSubmit: PropTypes.func.isRequired,
     onSubmit: PropTypes.func.isRequired,
-    pristine: PropTypes.bool.isRequired
+    pristine: PropTypes.bool.isRequired,
+    intl: intlShape.isRequired
   };
 
   static contextTypes = {
@@ -51,7 +53,8 @@ class TitleCreate extends Component {
       customPackages,
       handleSubmit,
       onSubmit,
-      pristine
+      pristine,
+      intl
     } = this.props;
 
     let {
@@ -77,7 +80,7 @@ class TitleCreate extends Component {
         />
 
         <PaneHeader
-          paneTitle="New custom title"
+          paneTitle={intl.formatMessage({ id: 'ui-eholdings.title.create.paneTitle' })}
           firstMenu={historyState && historyState.eholdings && (
             <PaneMenu>
               <div data-test-eholdings-details-view-back-button>
@@ -93,7 +96,7 @@ class TitleCreate extends Component {
 
         <div className={styles['title-create-form-container']}>
           <form onSubmit={handleSubmit(onSubmit)}>
-            <DetailsViewSection label="Title information" separator={false}>
+            <DetailsViewSection label={intl.formatMessage({ id: 'ui-eholdings.title.titleInformation' })} separator={false}>
               <NameField />
               <ContributorField />
               <EditionField />
@@ -103,7 +106,7 @@ class TitleCreate extends Component {
               <DescriptionField />
               <PeerReviewedField />
             </DetailsViewSection>
-            <DetailsViewSection label="Package information">
+            <DetailsViewSection label={intl.formatMessage({ id: 'ui-eholdings.packageInformation' })}>
               <PackageSelectField options={packageOptions} />
             </DetailsViewSection>
             <div className={styles['title-create-action-buttons']}>
@@ -113,7 +116,7 @@ class TitleCreate extends Component {
                   type="button"
                   onClick={this.handleCancel}
                 >
-                  Cancel
+                  {intl.formatMessage({ id: 'ui-eholdings.cancel' })}
                 </Button>
               </div>
               <div data-test-eholdings-title-create-save-button>
@@ -122,7 +125,7 @@ class TitleCreate extends Component {
                   type="submit"
                   buttonStyle="primary"
                 >
-                  {request.isPending ? 'Saving' : 'Save'}
+                  {request.isPending ? intl.formatMessage({ id: 'ui-eholdings.saving' }) : intl.formatMessage({ id: 'ui-eholdings.save' })}
                 </Button>
               </div>
               {request.isPending && (
@@ -149,9 +152,9 @@ const validate = (values) => {
     validatePackageSelection(values));
 };
 
-export default reduxForm({
+export default injectIntl(reduxForm({
   validate,
   enableReinitialize: true,
   form: 'TitleCreate',
   destroyOnUnmount: false
-})(TitleCreate);
+})(TitleCreate));

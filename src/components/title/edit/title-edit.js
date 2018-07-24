@@ -7,7 +7,7 @@ import {
   Button,
   Icon
 } from '@folio/stripes-components';
-
+import { FormattedMessage, intlShape, injectIntl } from 'react-intl';
 import DetailsView from '../../details-view';
 import NameField, { validate as validateName } from '../_fields/name';
 import EditionField, { validate as validateEdition } from '../_fields/edition';
@@ -29,7 +29,8 @@ class TitleEdit extends Component {
     handleSubmit: PropTypes.func,
     onSubmit: PropTypes.func.isRequired,
     pristine: PropTypes.bool,
-    updateRequest: PropTypes.object.isRequired
+    updateRequest: PropTypes.object.isRequired,
+    intl: intlShape.isRequired
   };
 
   static contextTypes = {
@@ -72,7 +73,8 @@ class TitleEdit extends Component {
       onSubmit,
       pristine,
       updateRequest,
-      initialValues
+      initialValues,
+      intl
     } = this.props;
 
     let {
@@ -82,7 +84,7 @@ class TitleEdit extends Component {
 
     let actionMenuItems = [
       {
-        label: 'Cancel editing',
+        label: <FormattedMessage id="ui-eholdings.actionMenu.cancelEditing" />,
         to: {
           pathname: `/eholdings/titles/${model.id}`,
           search: router.route.location.search,
@@ -93,7 +95,7 @@ class TitleEdit extends Component {
 
     if (queryParams.searchType) {
       actionMenuItems.push({
-        label: 'Full view',
+        label: <FormattedMessage id="ui-eholdings.actionMenu.fullView" />,
         to: {
           pathname: `/eholdings/titles/${model.id}`,
           state: { eholdings: true }
@@ -121,7 +123,7 @@ class TitleEdit extends Component {
           bodyContent={(
             <form onSubmit={handleSubmit(onSubmit)}>
               <DetailsViewSection
-                label="Title information"
+                label={intl.formatMessage({ id: 'ui-eholdings.title.titleInformation' })}
               >
                 <NameField />
 
@@ -149,7 +151,8 @@ class TitleEdit extends Component {
                     type="button"
                     onClick={this.handleCancel}
                   >
-                    Cancel
+                    {intl.formatMessage({ id: 'ui-eholdings.cancel' })}
+
                   </Button>
                 </div>
                 <div
@@ -160,7 +163,7 @@ class TitleEdit extends Component {
                     type="submit"
                     buttonStyle="primary"
                   >
-                    {model.update.isPending ? 'Saving' : 'Save'}
+                    {model.update.isPending ? (<FormattedMessage id="ui-eholdings.saving" />) : (<FormattedMessage id="ui-eholdings.save" />)}
                   </Button>
                 </div>
                 {updateRequest.isPending && (
@@ -186,9 +189,9 @@ const validate = (values) => {
     validateDescription(values));
 };
 
-export default reduxForm({
+export default injectIntl(reduxForm({
   validate,
   enableReinitialize: true,
   form: 'TitleEdit',
   destroyOnUnmount: false,
-})(TitleEdit);
+})(TitleEdit));

@@ -112,7 +112,7 @@ class PackageShow extends Component {
 
     let actionMenuItems = [
       {
-        label: <FormattedMessage id="ui-eholdings.package.actionMenu.edit" />,
+        label: <FormattedMessage id="ui-eholdings.actionMenu.edit" />,
         to: {
           pathname: `/eholdings/packages/${model.id}/edit`,
           search: router.route.location.search,
@@ -211,7 +211,7 @@ class PackageShow extends Component {
           )}
           bodyContent={(
             <div>
-              <DetailsViewSection label={intl.formatMessage({ id: 'ui-eholdings.package.packageInformation' })}>
+              <DetailsViewSection label={intl.formatMessage({ id: 'ui-eholdings.packageInformation' })}>
                 <KeyValue label={<FormattedMessage id="ui-eholdings.package.provider" />}>
                   <div data-test-eholdings-package-details-provider>
                     <Link to={`/eholdings/providers/${model.providerId}`}>{model.providerName}</Link>
@@ -246,7 +246,7 @@ class PackageShow extends Component {
                   </div>
                 </KeyValue>
               </DetailsViewSection>
-              <DetailsViewSection label={intl.formatMessage({ id: 'ui-eholdings.package.packageInformation' })}>
+              <DetailsViewSection label={intl.formatMessage({ id: 'ui-eholdings.packageInformation' })}>
                 <SelectionStatus
                   model={model}
                   isPending={packageSelectionPending}

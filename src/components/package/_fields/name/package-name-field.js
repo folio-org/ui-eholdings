@@ -15,7 +15,7 @@ function PackageNameField({ intl }) {
         name="name"
         type="text"
         component={TextField}
-        label={intl.formatMessage({ id: 'ui-eholdings.package.name.isRequired' })}
+        label={intl.formatMessage({ id: 'ui-eholdings.name.isRequired' })}
       />
     </div>
   );

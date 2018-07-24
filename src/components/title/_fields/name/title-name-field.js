@@ -15,7 +15,7 @@ function TitleNameField({ intl }) {
         name="name"
         type="text"
         component={TextField}
-        label={intl.formatMessage({ id: 'ui-eholdings.title.name.isRequired' })}
+        label={intl.formatMessage({ id: 'ui-eholdings.name.isRequired' })}
       />
     </div>
   );
