@@ -1,4 +1,4 @@
-import { beforeEach, afterEach, describe, it } from '@bigtest/mocha';
+import { beforeEach, describe, it } from '@bigtest/mocha';
 import { expect } from 'chai';
 
 import { describeApplication } from './helpers';
@@ -47,14 +47,7 @@ describeApplication('ResourceSelection', () => {
 
     describe('successfully selecting a package title to add to my holdings via the drop down', () => {
       beforeEach(function () {
-        /*
-         We need to slow the timing in order for the animation to have to time
-         to run. Reason being in test the Mirage timing is set to 0 so
-         requests resolve immediately.
-         * TODO: control timing directly with Mirage
-        */
-
-        this.server.timing = 50;
+        this.server.block();
         return ResourcePage
           .dropDown.clickDropDownButton()
           .dropDownMenu.clickAddToHoldings();
@@ -73,6 +66,9 @@ describeApplication('ResourceSelection', () => {
       });
 
       describe('when the request succeeds', () => {
+        beforeEach(function () {
+          this.server.unblock();
+        });
         it('reflects the desired state was set', () => {
           expect(ResourcePage.isResourceSelected).to.equal('Selected');
         });
@@ -85,22 +81,8 @@ describeApplication('ResourceSelection', () => {
 
     describe('successfully selecting a package title to add to my holdings via add to holdings button', () => {
       beforeEach(function () {
-        /*
-         We need to slow the timing in order for the animation to have to time
-         to run. Reason being in test the Mirage timing is set to 0 so
-         requests resolve immediately.
-         * TODO: control timing directly with Mirage
-        */
-        this.server.timing = 50;
+        this.server.block();
         return ResourcePage.clickAddToHoldingsButton();
-      });
-
-      afterEach(function () {
-        this.server.timing = 0;
-      });
-
-      it('reflects the desired state (Selected)', () => {
-        expect(ResourcePage.isResourceSelected).to.equal('Selected');
       });
 
       it('indicates it is working to get to desired state', () => {
@@ -112,6 +94,10 @@ describeApplication('ResourceSelection', () => {
       });
 
       describe('when the request succeeds', () => {
+        beforeEach(function () {
+          this.server.unblock();
+        });
+
         it('reflects the desired state was set', () => {
           expect(ResourcePage.isResourceSelected).to.equal('Selected');
         });
