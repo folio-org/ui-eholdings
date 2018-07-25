@@ -1,5 +1,15 @@
 module.exports = (config) => {
+  const testIndex = './bigtest/tests/index.js';
+  const preprocessors = {};
+  preprocessors[`${testIndex}`] = ['webpack'];
+
   let configuration = {
+    files: [
+      { pattern: testIndex, watched: false },
+    ],
+
+    preprocessors,
+
     browserStack: {
       username: 'folioproject1',
       project: 'ui-eholdings'
