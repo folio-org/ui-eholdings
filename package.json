@@ -51,7 +51,7 @@
     "stylelint": "^8.2.0",
     "stylelint-config-standard": "^17.0.0",
     "stylelint-junit-formatter": "^0.2.1",
-    "webpack": "^4.0.0"
+    "webpack": "^4.16.2"
   },
   "dependencies": {
     "@folio/stripes-components": "3.0.1000442",
