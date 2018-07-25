@@ -1,4 +1,4 @@
-import { beforeEach, afterEach, describe, it } from '@bigtest/mocha';
+import { beforeEach, describe, it } from '@bigtest/mocha';
 import { expect } from 'chai';
 
 import { describeApplication } from './helpers';
@@ -31,21 +31,8 @@ describeApplication('PackageSelection', () => {
 
     describe('successfully selecting a package title to add to my holdings', () => {
       beforeEach(function () {
-        /*
-         * The expectations in the convergent `it` blocks
-         * get run once every 10ms.  We were seeing test flakiness
-         * when a toggle action dispatched and resolved before an
-         * expectation had the chance to run.  We sidestep this by
-         * temporarily increasing the mirage server's response time
-         * to 50ms.
-         * TODO: control timing directly with Mirage
-         */
-        this.server.timing = 50;
+        this.server.block();
         return PackageShowPage.selectPackage();
-      });
-
-      afterEach(function () {
-        this.server.timing = 0;
       });
 
       it('indicates it is working to get to desired state', () => {
@@ -53,6 +40,10 @@ describeApplication('PackageSelection', () => {
       });
 
       describe('when the request succeeds', () => {
+        beforeEach(function () {
+          return this.server.unblock();
+        });
+
         it('reflect the desired state was set', () => {
           expect(PackageShowPage.isSelected).to.equal(true);
         });
@@ -71,7 +62,8 @@ describeApplication('PackageSelection', () => {
       });
 
       describe('and deselecting the package', () => {
-        beforeEach(() => {
+        beforeEach(function () {
+          this.server.unblock();
           // many thanks to elrick for catching the need for
           // the `when` here
           return PackageShowPage
@@ -96,12 +88,8 @@ describeApplication('PackageSelection', () => {
 
         describe('confirming the deselection', () => {
           beforeEach(function () {
-            this.server.timing = 50;
+            this.server.block();
             return PackageShowPage.modal.confirmDeselection();
-          });
-
-          afterEach(function () {
-            this.server.timing = 0;
           });
 
           it('indicates it is working', () => {
@@ -109,6 +97,10 @@ describeApplication('PackageSelection', () => {
           });
 
           describe('when the request succeeds', () => {
+            beforeEach(function () {
+              this.server.unblock();
+            });
+
             it('reflect the desired state was set', () => {
               expect(PackageShowPage.isSelected).to.equal(false);
             });
@@ -140,13 +132,8 @@ describeApplication('PackageSelection', () => {
             title: 'There was an error'
           }]
         }, 500);
-
-        this.server.timing = 50;
+        this.server.block();
         return PackageShowPage.selectPackage();
-      });
-
-      afterEach(function () {
-        this.server.timing = 0;
       });
 
       it('indicates it working to get to desired state', () => {
@@ -154,6 +141,10 @@ describeApplication('PackageSelection', () => {
       });
 
       describe('when the request fails', () => {
+        beforeEach(function () {
+          this.server.unblock();
+        });
+
         it('reflect the desired state was not set', () => {
           expect(PackageShowPage.isSelected).to.equal(false);
         });
