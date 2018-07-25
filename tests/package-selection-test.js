@@ -126,13 +126,13 @@ describeApplication('PackageSelection', () => {
     });
 
     describe('unsuccessfully selecting a package title to add to my holdings', () => {
+      let resolveRequest;
       beforeEach(function () {
-        this.server.put('/packages/:packageId', {
-          errors: [{
-            title: 'There was an error'
-          }]
+        this.server.put('/packages/:packageId', () => {
+          return new Promise((resolve) => {
+            resolveRequest = resolve;
+          });
         }, 500);
-        this.server.block();
         return PackageShowPage.selectPackage();
       });
 
@@ -141,8 +141,12 @@ describeApplication('PackageSelection', () => {
       });
 
       describe('when the request fails', () => {
-        beforeEach(function () {
-          this.server.unblock();
+        beforeEach(() => {
+          resolveRequest({
+            errors: [{
+              title: 'There was an error'
+            }]
+          });
         });
 
         it('reflect the desired state was not set', () => {
