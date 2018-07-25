@@ -1,5 +1,7 @@
 import React, { Component, Fragment } from 'react';
 import PropTypes from 'prop-types';
+import { intlShape, injectIntl, FormattedMessage } from 'react-intl';
+
 
 import {
   Accordion,
@@ -20,11 +22,11 @@ import CoverageDateList from '../coverage-date-list';
 import { isBookPublicationType, isValidCoverageList, processErrors } from '../utilities';
 import Toaster from '../toaster';
 
-
-export default class ResourceShow extends Component {
+class ResourceShow extends Component {
   static propTypes = {
     model: PropTypes.object.isRequired,
-    toggleSelected: PropTypes.func.isRequired
+    toggleSelected: PropTypes.func.isRequired,
+    intl: intlShape.isRequired // eslint-disable-line react/no-unused-prop-types
   };
 
   static contextTypes = {
@@ -66,7 +68,7 @@ export default class ResourceShow extends Component {
   };
 
   render() {
-    let { model } = this.props;
+    let { model, intl } = this.props;
     let { router } = this.context;
     let {
       showSelectionModal,
@@ -93,7 +95,7 @@ export default class ResourceShow extends Component {
 
     let actionMenuItems = [
       {
-        label: 'Edit',
+        label: <FormattedMessage id="ui-eholdings.actionMenu.edit" />,
         to: {
           pathname: `/eholdings/resources/${model.id}/edit`,
           state: { eholdings: true }
@@ -110,21 +112,21 @@ export default class ResourceShow extends Component {
         router.history.location.state.isFreshlySaved) {
       toasts.push({
         id: `success-package-creation-${model.id}`,
-        message: 'Title was updated.',
+        message: <FormattedMessage id="ui-eholdings.resource.toast.isFreshlySaved" />,
         type: 'success'
       });
     }
 
     if (resourceSelected === true) {
       actionMenuItems.push({
-        'label': 'Remove title from holdings',
+        'label': <FormattedMessage id="ui-eholdings.resource.actionMenu.removeHolding" />,
         'state': { eholdings: true },
         'onClick': this.handleHoldingStatus,
         'data-test-eholdings-remove-resource-from-holdings': true
       });
     } else if (resourceSelected === false) {
       actionMenuItems.push({
-        'label': 'Add to holdings',
+        'label': <FormattedMessage id="ui-eholdings.resource.actionMenu.addHolding" />,
         'state': { eholdings: true },
         'onClick': this.handleHoldingStatus,
         'data-test-eholdings-add-resource-to-holdings': true
@@ -154,7 +156,7 @@ export default class ResourceShow extends Component {
           )}
           bodyContent={(
             <div>
-              <Accordion label="Holding status">
+              <Accordion label={<FormattedMessage id="ui-eholdings.label.holdingStatus" />}>
                 <label
                   data-test-eholdings-resource-show-selected
                   htmlFor="resource-show-toggle-switch"
@@ -163,7 +165,11 @@ export default class ResourceShow extends Component {
                     model.update.isPending ? (
                       <Icon icon='spinner-ellipsis' />
                     ) : (
-                      <h4>{resourceSelected ? 'Selected' : 'Not selected'}</h4>
+                      <h4>{resourceSelected ?
+                        (<FormattedMessage id="ui-eholdings.selected" />)
+                          :
+                        (<FormattedMessage id="ui-eholdings.notSelected" />)}
+                      </h4>
                     )
                   }
                   <br />
@@ -174,20 +180,20 @@ export default class ResourceShow extends Component {
                       disabled={model.destroy.isPending || isSelectInFlight}
                       data-test-eholdings-resource-add-to-holdings-button
                     >
-                      Add to holdings
+                      <FormattedMessage id="ui-eholdings.addToHoldings" />
                     </Button>)}
                 </label>
               </Accordion>
 
-              <Accordion label="Resource information">
-                <KeyValue label="Title">
+              <Accordion label={<FormattedMessage id="ui-eholdings.resource.resourceInformation" />}>
+                <KeyValue label={<FormattedMessage id="ui-eholdings.label.title" />}>
                   <Link to={`/eholdings/titles/${model.titleId}`}>
                     {model.title.name}
                   </Link>
                 </KeyValue>
 
                 {model.title.edition && (
-                  <KeyValue label="Edition">
+                  <KeyValue label={<FormattedMessage id="ui-eholdings.label.edition" />}>
                     <div data-test-eholdings-resource-show-edition>
                       {model.title.edition}
                     </div>
@@ -197,7 +203,7 @@ export default class ResourceShow extends Component {
                 <ContributorsList data={model.title.contributors} />
 
                 {model.title.publisherName && (
-                  <KeyValue label="Publisher">
+                  <KeyValue label={<FormattedMessage id="ui-eholdings.label.publisher" />}>
                     <div data-test-eholdings-resource-show-publisher-name>
                       {model.title.publisherName}
                     </div>
@@ -205,7 +211,7 @@ export default class ResourceShow extends Component {
                 )}
 
                 {model.title.publicationType && (
-                  <KeyValue label="Publication type">
+                  <KeyValue label={<FormattedMessage id="ui-eholdings.label.publicationType" />}>
                     <div data-test-eholdings-resource-show-publication-type>
                       {model.title.publicationType}
                     </div>
@@ -215,40 +221,40 @@ export default class ResourceShow extends Component {
                 <IdentifiersList data={model.title.identifiers} />
 
                 {model.title.subjects.length > 0 && (
-                  <KeyValue label="Subjects">
+                  <KeyValue label={<FormattedMessage id="ui-eholdings.label.subjects" />}>
                     <div data-test-eholdings-resource-show-subjects-list>
                       {model.title.subjects.map(subjectObj => subjectObj.subject).join('; ')}
                     </div>
                   </KeyValue>
                 )}
 
-                <KeyValue label="Peer reviewed">
+                <KeyValue label={<FormattedMessage id="ui-eholdings.label.peerReviewed" />}>
                   <div data-test-eholdings-peer-reviewed-field>
                     {model.title.isPeerReviewed ? 'Yes' : 'No'}
                   </div>
                 </KeyValue>
 
-                <KeyValue label="Title type">
+                <KeyValue label={<FormattedMessage id="ui-eholdings.label.titleType" />}>
                   <div data-test-eholdings-package-details-type>
                     {model.title.isTitleCustom ? 'Custom' : 'Managed'}
                   </div>
                 </KeyValue>
 
                 {model.title.description && (
-                  <KeyValue label="Description">
+                  <KeyValue label={<FormattedMessage id="ui-eholdings.label.description" />}>
                     <div data-test-eholdings-description-field>
                       {model.title.description}
                     </div>
                   </KeyValue>
                 )}
 
-                <KeyValue label="Package">
+                <KeyValue label={<FormattedMessage id="ui-eholdings.label.package" />}>
                   <div data-test-eholdings-resource-show-package-name>
                     <Link to={`/eholdings/packages/${model.packageId}`}>{model.package.name}</Link>
                   </div>
                 </KeyValue>
 
-                <KeyValue label="Provider">
+                <KeyValue label={<FormattedMessage id="ui-eholdings.label.provider" />}>
                   <div data-test-eholdings-resource-show-provider-name>
                     <Link to={`/eholdings/providers/${model.providerId}`}>{model.package.providerName}</Link>
                   </div>
@@ -263,8 +269,8 @@ export default class ResourceShow extends Component {
                 )}
               </Accordion>
 
-              <Accordion label="Resource settings">
-                <KeyValue label="Show to patrons">
+              <Accordion label={<FormattedMessage id="ui-eholdings.resource.resourceSettings" />}>
+                <KeyValue label={<FormattedMessage id="ui-eholdings.label.showToPatrons" />}>
                   <div data-test-eholdings-resource-show-visibility>
                     {model.visibilityData.isHidden || !resourceSelected
                       ? `No ${visibilityMessage}`
@@ -273,7 +279,7 @@ export default class ResourceShow extends Component {
                 </KeyValue>
 
                 {model.url && (
-                  <KeyValue label={`${model.title.isTitleCustom ? 'Custom' : 'Managed'} URL`}>
+                  <KeyValue label={`${model.title.isTitleCustom ? (<FormattedMessage id="ui-eholdings.custom" />) : (<FormattedMessage id="ui-eholdings.managed" />)} URL`}>
                     <div data-test-eholdings-resource-show-url>
                       <ExternalLink
                         href={model.url}
@@ -286,18 +292,20 @@ export default class ResourceShow extends Component {
               </Accordion>
 
               <Accordion
-                label="Coverage settings"
+                label={<FormattedMessage id="ui-eholdings.label.coverageSettings" />}
                 closedByDefault={!resourceSelected}
               >
                 {(resourceSelected && !isSelectInFlight) ? (
                   <Fragment>
                     <h4>Coverage dates</h4>
                     {!hasManagedCoverages && !hasCustomCoverages && (
-                      <p data-test-eholdings-resource-no-coverage-date-label>No coverage dates have been set.</p>
+                      <p data-test-eholdings-resource-no-coverage-date-label>
+                        <FormattedMessage id="ui-eholdings.resource.coverageDates.notSet" />
+                      </p>
                     )}
 
                     {hasManagedCoverages && (
-                      <KeyValue label="Managed coverage dates">
+                      <KeyValue label={<FormattedMessage id="ui-eholdings.label.managed.coverageDates" />}>
                         <div data-test-eholdings-resource-show-managed-coverage-list>
                           <CoverageDateList
                             coverageArray={model.managedCoverages}
@@ -310,7 +318,7 @@ export default class ResourceShow extends Component {
                     {(resourceSelected && !isSelectInFlight) && (
                     <div>
                       {hasCustomCoverages && (
-                      <KeyValue label="Custom coverage dates">
+                      <KeyValue label={<FormattedMessage id="ui-eholdings.label.custom.coverageDates" />}>
                         <span data-test-eholdings-resource-show-custom-coverage-list>
                           <CoverageDateList
                             coverageArray={model.customCoverages}
@@ -321,19 +329,22 @@ export default class ResourceShow extends Component {
                       )}
                     </div>)}
 
-                    <h4>Coverage statement</h4>
+                    <h4><FormattedMessage id="ui-eholdings.label.coverageStatement" /></h4>
                     <div>
                       {model.coverageStatement ? (
                         <span data-test-eholdings-resource-coverage-statement-display>
                           {model.coverageStatement}
                         </span>
-                     ) : (<p data-test-eholdings-resource-no-coverage-label>No coverage statement has been set.</p>
+                     ) : (
+                       <p data-test-eholdings-resource-no-coverage-label>
+                         <FormattedMessage id="ui-eholdings.resource.coverageStatement.notSet" />
+                       </p>
                      )}
                     </div>
 
                     <h4>Embargo period</h4>
                     {hasManagedEmbargoPeriod && (
-                      <KeyValue label="Managed embargo period">
+                      <KeyValue label={<FormattedMessage id="ui-eholdings.label.managed.embargoPeriod" />}>
                         <div data-test-eholdings-resource-show-managed-embargo-period>
                           {model.managedEmbargoPeriod.embargoValue} {model.managedEmbargoPeriod.embargoUnit}
                         </div>
@@ -343,7 +354,7 @@ export default class ResourceShow extends Component {
                     {(resourceSelected && !isSelectInFlight) && (
                       <div>
                         {hasCustomEmbargoPeriod && (
-                          <KeyValue label="Custom">
+                          <KeyValue label={<FormattedMessage id="ui-eholdings.custom" />}>
                             <span data-test-eholdings-resource-custom-embargo-display>
                               {customEmbargoValue} {customEmbargoUnit}
                             </span>
@@ -353,7 +364,9 @@ export default class ResourceShow extends Component {
                      )}
 
                     {!hasManagedEmbargoPeriod && !hasCustomEmbargoPeriod && (
-                    <p data-test-eholdings-resource-no-embargo-label>No embargo period has been set.</p>
+                    <p data-test-eholdings-resource-no-embargo-label>
+                      <FormattedMessage id="ui-eholdings.resource.embargoPeriod.notSet" />
+                    </p>
                     )}
                   </Fragment>
                 ) : (
@@ -367,17 +380,17 @@ export default class ResourceShow extends Component {
         <Modal
           open={showSelectionModal}
           size="small"
-          label="Remove resource from holdings?"
+          label={intl.formatMessage({ id: 'ui-eholdings.resource.show.modal.header' })}
           id="eholdings-resource-deselection-confirmation-modal"
           footer={(
             <ModalFooter
               primaryButton={{
-                'label': 'Yes, remove',
+                'label': <FormattedMessage id="ui-eholdings.resource.modal.buttonConfirm" />,
                 'onClick': this.commitSelectionToggle,
                 'data-test-eholdings-resource-deselection-confirmation-modal-yes': true
               }}
               secondaryButton={{
-                'label': 'No, do not remove',
+                'label': <FormattedMessage id="ui-eholdings.resource.modal.buttonCancel" />,
                 'onClick': this.cancelSelectionToggle,
                 'data-test-eholdings-resource-deselection-confirmation-modal-no': true
               }}
@@ -392,15 +405,11 @@ export default class ResourceShow extends Component {
             */
             (model.title.resources.length <= 1 && model.title.isTitleCustom) ? (
               <span data-test-eholdings-deselect-final-title-warning>
-                Are you sure you want to remove this title from your holdings?
-                It is also the last title selected in this package. By removing
-                this title, you will also remove this package from your holdings
-                and all customizations will be lost.
+                <FormattedMessage id="ui-eholdings.resource.modal.body.isCustom.lastTitle" />
               </span>
             ) : (
               <span data-test-eholdings-deselect-title-warning>
-                Are you sure you want to remove this title from your holdings?
-                All customizations will be lost.
+                <FormattedMessage id="ui-eholdings.resource.show.modal.body" />
               </span>
             )
           }
@@ -409,3 +418,5 @@ export default class ResourceShow extends Component {
     );
   }
 }
+
+export default injectIntl(ResourceShow);

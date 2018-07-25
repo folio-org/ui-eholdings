@@ -1,6 +1,6 @@
 import React from 'react';
 import { Field } from 'redux-form';
-import { injectIntl, intlShape } from 'react-intl';
+import { injectIntl, intlShape, FormattedMessage } from 'react-intl';
 
 import { TextField } from '@folio/stripes-components';
 import styles from './package-name-field.css';
@@ -15,7 +15,7 @@ function PackageNameField({ intl }) {
         name="name"
         type="text"
         component={TextField}
-        label={intl.formatMessage({ id: 'ui-eholdings.name.isRequired' })}
+        label={intl.formatMessage({ id: 'ui-eholdings.label.name.isRequired' })}
       />
     </div>
   );
@@ -31,11 +31,11 @@ export function validate(values) {
   let errors = {};
 
   if (values.name === '') {
-    errors.name = 'Custom packages must have a name.';
+    errors.name = <FormattedMessage id="ui-eholdings.validate.errors.customPackage.name" />;
   }
 
   if (values.name.length >= 300) {
-    errors.name = 'Must be less than 300 characters.';
+    errors.name = <FormattedMessage id="ui-eholdings.validate.errors.customPackage.name.length" />;
   }
 
   return errors;

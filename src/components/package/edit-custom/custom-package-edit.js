@@ -218,7 +218,7 @@ class CustomPackageEdit extends Component {
             bodyContent={(
               <Fragment>
                 <DetailsViewSection
-                  label={intl.formatMessage({ id: 'ui-eholdings.package.holdingStatus' })}
+                  label={intl.formatMessage({ id: 'ui-eholdings.label.holdingStatus' })}
                 >
                   <label
                     data-test-eholdings-package-details-selected
@@ -233,7 +233,7 @@ class CustomPackageEdit extends Component {
                   </label>
                 </DetailsViewSection>
                 <DetailsViewSection
-                  label={intl.formatMessage({ id: 'ui-eholdings.packageInformation' })}
+                  label={intl.formatMessage({ id: 'ui-eholdings.label.packageInformation' })}
                 >
                   {packageSelected ? (
                     <NameField />
@@ -313,27 +313,27 @@ class CustomPackageEdit extends Component {
         <Modal
           open={showSelectionModal}
           size="small"
-          label={intl.formatMessage({ id: 'ui-eholdings.package.modalMessageHeader.isCustom' })}
+          label={intl.formatMessage({ id: 'ui-eholdings.package.modal.header.isCustom' })}
           id="eholdings-package-confirmation-modal"
           footer={(
             <ModalFooter
               primaryButton={{
                 'label': model.destroy.isPending ?
-                intl.formatMessage({ id: 'ui-eholdings.package.modalMessageButtonWorking.isCustom' }) :
-                intl.formatMessage({ id: 'ui-eholdings.package.modalMessageButtonConfirm.isCustom' }),
+                intl.formatMessage({ id: 'ui-eholdings.package.modal.buttonWorking.isCustom' }) :
+                intl.formatMessage({ id: 'ui-eholdings.package.modal.buttonConfirm.isCustom' }),
                 'onClick': this.commitSelectionToggle,
                 'disabled': model.destroy.isPending,
                 'data-test-eholdings-package-deselection-confirmation-modal-yes': true
               }}
               secondaryButton={{
-                'label': intl.formatMessage({ id: 'ui-eholdings.package.modalMessageButtonCancel.isCustom' }),
+                'label': intl.formatMessage({ id: 'ui-eholdings.package.modal.buttonCancel.isCustom' }),
                 'onClick': this.cancelSelectionToggle,
                 'data-test-eholdings-package-deselection-confirmation-modal-no': true
               }}
             />
           )}
         >
-          <FormattedMessage id="ui-eholdings.package.modalMessageBody.isCustom" />
+          <FormattedMessage id="ui-eholdings.package.modal.body.isCustom" />
         </Modal>
       </div>
     );
