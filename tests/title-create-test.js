@@ -239,7 +239,7 @@ describeApplication('TitleCreate', () => {
         errors: [{
           title: 'There was an error'
         }]
-      }, 500);
+      });
 
       return TitleCreatePage
         .fillName('My Title')

@@ -132,7 +132,7 @@ describeApplication('PackageSelection', () => {
           return new Promise((resolve) => {
             resolveRequest = resolve;
           });
-        }, 500);
+        });
         return PackageShowPage.selectPackage();
       });
 

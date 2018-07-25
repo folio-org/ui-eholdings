@@ -115,7 +115,7 @@ describeApplication('PackageCreate', () => {
         errors: [{
           title: 'There was an error'
         }]
-      }, 500);
+      });
 
       return PackageCreatePage
         .fillName('My Package')

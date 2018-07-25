@@ -178,7 +178,7 @@ describeApplication('With valid backend configuration', () => {
             errors: [{
               title: 'an error has occurred'
             }]
-          }, 500);
+          });
 
           return SettingsPage.save();
         });

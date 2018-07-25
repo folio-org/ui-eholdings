@@ -516,7 +516,7 @@ describeApplication('ProviderSearch', () => {
         errors: [{
           title: 'There was an error'
         }]
-      }, 500);
+      });
 
       return ProviderSearchPage.search("this doesn't matter");
     });

@@ -550,7 +550,7 @@ describeApplication('PackageSearch', () => {
         // it might take a bit for the next request to be triggered after the scroll
         it.always('shows the total results', () => {
           expect(PackageSearchPage.totalResults).to.equal('75 search results');
-        }, 500);
+        });
 
         it('shows the prev page of results', () => {
           expect(PackageSearchPage.packageList(0).name).to.equal('Other Package 5');
@@ -579,7 +579,7 @@ describeApplication('PackageSearch', () => {
         errors: [{
           title: 'There was an error'
         }]
-      }, 500);
+      });
 
       return PackageSearchPage.search("this doesn't matter");
     });

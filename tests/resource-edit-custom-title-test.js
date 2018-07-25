@@ -371,7 +371,7 @@ describeApplication('ResourceEditCustomTitle', () => {
         errors: [{
           title: 'There was an error'
         }]
-      }, 500);
+      });
 
       return this.visit(`/eholdings/resources/${resource.id}/edit`, () => {
         expect(ResourceEditPage.$root).to.exist;
@@ -389,7 +389,7 @@ describeApplication('ResourceEditCustomTitle', () => {
         errors: [{
           title: 'There was an error'
         }]
-      }, 500);
+      });
 
       return this.visit(`/eholdings/resources/${resource.id}/edit`, () => {
         expect(ResourceEditPage.$root).to.exist;

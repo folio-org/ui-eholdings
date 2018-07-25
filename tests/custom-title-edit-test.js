@@ -309,7 +309,7 @@ describeApplication('CustomTitleEdit', () => {
         errors: [{
           title: 'There was an error'
         }]
-      }, 500);
+      });
 
       return this.visit(`/eholdings/titles/${title.id}/edit`, () => {
         expect(TitleEditPage.$root).to.exist;
@@ -327,7 +327,7 @@ describeApplication('CustomTitleEdit', () => {
         errors: [{
           title: 'There was an error'
         }]
-      }, 500);
+      });
 
       return this.visit(`/eholdings/titles/${title.id}/edit`, () => {
         expect(TitleEditPage.$root).to.exist;

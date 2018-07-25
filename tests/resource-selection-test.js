@@ -115,7 +115,7 @@ describeApplication('ResourceSelection', () => {
           return new Promise((resolve) => {
             resolveRequest = resolve;
           });
-        }, 500);
+        });
         return ResourcePage.dropDownMenu.clickAddToHoldings();
       });
 

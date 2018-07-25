@@ -167,7 +167,7 @@ describeApplication('ManagedPackageEdit', () => {
         errors: [{
           title: 'There was an error'
         }]
-      }, 500);
+      });
 
       return this.visit(`/eholdings/packages/${providerPackage.id}/edit`, () => {
         expect(PackageEditPage.$root).to.exist;
@@ -185,7 +185,7 @@ describeApplication('ManagedPackageEdit', () => {
         errors: [{
           title: 'There was an error'
         }]
-      }, 500);
+      });
 
       return this.visit(`/eholdings/packages/${providerPackage.id}/edit`, () => {
         expect(PackageEditPage.$root).to.exist;

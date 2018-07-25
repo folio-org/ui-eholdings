@@ -84,7 +84,7 @@ describeApplication('ResourceEditSelection', () => {
           errors: [{
             title: 'There was an error'
           }]
-        }, 500);
+        });
         return ResourceShowPage.clickAddToHoldingsButton();
       });
 

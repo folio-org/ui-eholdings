@@ -76,7 +76,7 @@ describeApplication('With list of root proxies available to a customer', () => {
         errors: [{
           title: 'There was an error'
         }]
-      }, 500);
+      });
 
       return this.visit('/settings/eholdings/root-proxy', () => {
         expect(SettingsRootProxyPage.$root).to.exist;

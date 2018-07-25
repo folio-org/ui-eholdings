@@ -264,7 +264,7 @@ describeApplication('TitleShow', () => {
         message: 'There was an error',
         code: '1000',
         subcode: 0
-      }], 500);
+      }]);
 
       return this.visit(`/eholdings/titles/${title.titleId}`, () => {
         expect(TitleShowPage.$root).to.exist;

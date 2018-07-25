@@ -158,7 +158,7 @@ describeApplication('ResourceShow', () => {
           errors: [{
             title: 'There was an error'
           }]
-        }, 500);
+        });
 
         return ResourcePage.clickAddToHoldingsButton();
       });
@@ -186,7 +186,7 @@ describeApplication('ResourceShow', () => {
           }, {
             title: 'There was another error!'
           }]
-        }, 500);
+        });
 
         return ResourcePage.clickAddToHoldingsButton();
       });
@@ -301,7 +301,7 @@ describeApplication('ResourceShow', () => {
         errors: [{
           title: 'There was an error'
         }]
-      }, 500);
+      });
 
       return this.visit(`/eholdings/resources/${resource.id}`, () => {
         expect(ResourcePage.$root).to.exist;

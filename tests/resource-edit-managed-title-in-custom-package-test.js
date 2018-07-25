@@ -107,7 +107,7 @@ describeApplication('ResourceEditManagedTitleInCustomPackage', () => {
           errors: [{
             title: 'There was an error.'
           }]
-        }, 500);
+        });
 
         return ResourcePage
           .dropDown.clickDropDownButton()

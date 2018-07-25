@@ -139,7 +139,7 @@ describeApplication('ProviderShow', () => {
         errors: [{
           title: 'There was an error'
         }]
-      }, 500);
+      });
 
       return this.visit(`/eholdings/providers/${provider.id}`, () => {
         expect(ProviderShowPage.$root).to.exist;

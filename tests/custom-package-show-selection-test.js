@@ -87,7 +87,7 @@ describeApplication('CustomPackageShowSelection', () => {
           errors: [{
             title: 'There was an error'
           }]
-        }, 500);
+        });
 
         return PackageShowPage
           .dropDown.clickDropDownButton()

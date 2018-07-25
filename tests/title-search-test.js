@@ -611,7 +611,7 @@ describeApplication('TitleSearch', () => {
         // it might take a bit for the next request to be triggered after the scroll
         it.always('shows the total results', () => {
           expect(TitleSearchPage.totalResults).to.equal('75 search results');
-        }, 500);
+        });
 
         it('shows the prev page of results', () => {
           expect(TitleSearchPage.titleList(0).name).to.equal('Other Title 5');
@@ -640,7 +640,7 @@ describeApplication('TitleSearch', () => {
         errors: [{
           title: 'There was an error'
         }]
-      }, 500);
+      });
 
       return TitleSearchPage.search("this doesn't matter");
     });
