@@ -1,5 +1,6 @@
 import { beforeEach, describe, it } from '@bigtest/mocha';
 import { expect } from 'chai';
+import { Response } from '@bigtest/mirage';
 
 import { describeApplication } from './helpers';
 import PackageShowPage from './pages/package-show';
@@ -41,7 +42,7 @@ describeApplication('PackageSelection', () => {
 
       describe('when the request succeeds', () => {
         beforeEach(function () {
-          return this.server.unblock();
+          this.server.unblock();
         });
 
         it('reflect the desired state was set', () => {
@@ -126,27 +127,28 @@ describeApplication('PackageSelection', () => {
     });
 
     describe('unsuccessfully selecting a package title to add to my holdings', () => {
-      let resolveRequest;
       beforeEach(function () {
         this.server.put('/packages/:packageId', () => {
-          return new Promise((resolve) => {
-            resolveRequest = resolve;
+          /**
+           * Blocking this request did not work solely using
+           * the mirage endpoint shorthand. We have to manually
+           * build the response to block it with a response code.
+           */
+          return new Response(500, {}, {
+            errors: [{ title: 'There was an error' }]
           });
-        }, 500);
+        });
+        this.server.block();
         return PackageShowPage.selectPackage();
       });
 
-      it('indicates it working to get to desired state', () => {
+      it('indicates it is working to get to desired state', () => {
         expect(PackageShowPage.isSelecting).to.equal(true);
       });
 
       describe('when the request fails', () => {
-        beforeEach(() => {
-          resolveRequest({
-            errors: [{
-              title: 'There was an error'
-            }]
-          });
+        beforeEach(function () {
+          this.server.unblock();
         });
 
         it('reflect the desired state was not set', () => {
