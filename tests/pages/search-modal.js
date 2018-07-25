@@ -3,7 +3,6 @@ import {
   action,
   attribute,
   clickable,
-  isPresent,
   property,
   value,
 } from '@bigtest/interactor';
@@ -17,11 +16,14 @@ export default @interactor class SearchModal {
   });
 
   clickSearch = clickable('[data-test-eholdings-modal-search-button]');
-  hasModalSearchButton = isPresent('[data-test-eholdings-modal-search-button]');
 
   getFilter(name) {
     return this.$(`[data-test-eholdings-search-filters] input[name="${name}"]:checked`).value;
   }
+
+  isSearchButtonDisabled = property('[data-test-eholdings-modal-search-button]', 'disabled');
+  isResetButtonDisabled = property('[data-test-eholdings-modal-reset-all-button]', 'disabled');
+  clickResetAll = clickable('[data-test-eholdings-modal-reset-all-button]');
 
   searchDisabled = property('[data-test-search-submit]', 'disabled')
 

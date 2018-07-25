@@ -64,11 +64,11 @@ describeApplication('ProviderShow package search', () => {
 
 
     it('disables search button', () => {
-      expect(ProviderShowPage.searchModal.hasModalSearchButton).to.be.false;
+      expect(ProviderShowPage.searchModal.isSearchButtonDisabled).to.be.true;
     });
 
     it('disables the reset all button', () => {
-
+      expect(ProviderShowPage.searchModal.isResetButtonDisabled).to.be.true;
     });
 
     describe('with filter change', () => {
@@ -76,12 +76,12 @@ describeApplication('ProviderShow package search', () => {
         return ProviderShowPage.searchModal.clickFilter('sort', 'name');
       });
 
-      it('enables search button', () => {
-        expect(ProviderShowPage.searchModal.hasModalSearchButton).to.be.true;
+      it('enables the search button', () => {
+        expect(ProviderShowPage.searchModal.isSearchButtonDisabled).to.be.false;
       });
 
       it('enables the reset all button', () => {
-
+        expect(ProviderShowPage.searchModal.isResetButtonDisabled).to.be.false;
       });
 
       describe('applying filters', () => {
@@ -118,11 +118,11 @@ describeApplication('ProviderShow package search', () => {
       });
 
       it('enables the search button', () => {
-        expect(ProviderShowPage.searchModal.hasModalSearchButton).to.be.true;
+        expect(ProviderShowPage.searchModal.isSearchButtonDisabled).to.be.false;
       });
 
-      it('enables the reset all button', () => {
-
+      it('disables the reset all button', () => {
+        expect(ProviderShowPage.searchModal.isResetButtonDisabled).to.be.true;
       });
 
       describe('applying the cleared search changes', () => {
@@ -177,13 +177,17 @@ describeApplication('ProviderShow package search', () => {
       describe('resetting all filters', () => {
         // open modal
         // click reset all button
+        beforeEach(() => {
+          return ProviderShowPage.clickListSearch()
+            .searchModal.clickResetAll();
+        });
 
         it('closes the modal', () => {
-
+          expect(ProviderShowPage.searchModal.isPresent).to.be.false;
         });
 
         it('shows unfiltered list', () => {
-
+          expect(ProviderShowPage.packageList()).to.have.lengthOf(5);
         });
       });
     });
