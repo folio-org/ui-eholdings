@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import Link from 'react-router-dom/Link';
 import capitalize from 'lodash/capitalize';
-import isEqual from 'lodash/isEqual';
 import {
   Button,
   SearchField
@@ -32,19 +31,21 @@ export default class SearchForm extends Component {
     }),
     onSearch: PropTypes.func.isRequired,
     searchString: PropTypes.string,
-    searchfield: PropTypes.string,
-    searchFilter: PropTypes.object.isRequired, // TODO: shape it
-    sort: PropTypes.string.isRequired,
+    searchField: PropTypes.string,
+    searchFilter: PropTypes.object, // TODO: shape it
+    sort: PropTypes.string,
     displaySearchTypeSwitcher: PropTypes.bool,
     displaySearchButton: PropTypes.bool,
     isLoading: PropTypes.bool,
     handleSearchChange: PropTypes.func.isRequired,
     handleFilterChange: PropTypes.func.isRequired,
+    handleSearchFieldChange: PropTypes.func.isRequired
   };
 
   static defaultProps = {
     displaySearchTypeSwitcher: true,
-    displaySearchButton: true
+    displaySearchButton: true,
+    searchString: '',
   };
 
   handleSearchSubmit = (e) => {
@@ -66,9 +67,8 @@ export default class SearchForm extends Component {
     this.props.handleFilterChange(sort, searchFilter);
   };
 
-  // TODO, this one? hmmm
   handleChangeIndex = (e) => {
-    this.setState({ searchfield: e.target.value });
+    this.props.handleSearchFieldChange(e.target.value);
   };
 
   /**
@@ -94,7 +94,7 @@ export default class SearchForm extends Component {
       displaySearchTypeSwitcher,
       isLoading,
       displaySearchButton,
-      searchfield,
+      searchField,
       searchFilter,
       searchString,
       sort
@@ -127,7 +127,7 @@ export default class SearchForm extends Component {
               <SearchField
                 name="search"
                 searchableIndexes={searchableIndexes}
-                selectedIndex={searchfield}
+                selectedIndex={searchField}
                 onChangeIndex={this.handleChangeIndex}
                 onChange={this.handleChangeSearch}
                 onClear={this.handleClearSearch}

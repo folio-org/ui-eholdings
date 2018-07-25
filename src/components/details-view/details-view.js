@@ -172,7 +172,7 @@ export default class DetailsView extends Component {
       model,
       bodyContent,
       listType,
-      renderList,
+n      renderList,
       paneTitle,
       paneSub,
       actionMenuItems,

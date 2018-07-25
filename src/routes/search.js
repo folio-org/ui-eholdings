@@ -62,9 +62,10 @@ class SearchRoute extends Component { // eslint-disable-line react/no-deprecated
       hideDetails: /^\/eholdings\/?$/.test(props.location.pathname),
       searchType,
       params,
+      sort: params.sort,
       searchString: params.q,
       searchFilter: params.filter,
-      sort: params.sort
+      searchField: params.searchfield
     };
   }
 
@@ -102,9 +103,10 @@ class SearchRoute extends Component { // eslint-disable-line react/no-deprecated
       shouldFocusItem,
       searchType,
       params,
+      sort: params.sort,
       searchString: params.q,
       searchFilter: params.filter,
-      sort: params.sort
+      searchField: params.searchfield
     });
   }
 
@@ -114,6 +116,10 @@ class SearchRoute extends Component { // eslint-disable-line react/no-deprecated
 
   handleFilterChange = (sort, searchFilter) => {
     this.setState({ sort, searchFilter }, () => this.handleSearch());
+  }
+
+  handleSearchFieldChange = searchField => {
+    this.setState({ searchField });
   }
 
   /**
@@ -226,7 +232,8 @@ class SearchRoute extends Component { // eslint-disable-line react/no-deprecated
     let params = {
       q: this.state.searchString,
       filter: this.state.searchFilter,
-      sort: this.state.sort
+      sort: this.state.sort,
+      searchfield: this.state.searchField
     };
 
     this.updateURLParams(params);
@@ -294,9 +301,10 @@ class SearchRoute extends Component { // eslint-disable-line react/no-deprecated
       searchType,
       params,
       hideDetails,
+      sort,
       searchString,
       searchFilter,
-      sort
+      searchField
     } = this.state;
 
     if (searchType) {
@@ -315,14 +323,15 @@ class SearchRoute extends Component { // eslint-disable-line react/no-deprecated
               isLoading={!results.hasLoaded}
               searchForm={(
                 <SearchForm
+                  sort={sort}
                   searchType={searchType}
                   searchString={searchString}
                   searchFilter={searchFilter}
-                  searchfield={params.searchfield}
-                  sort={sort}
+                  searchField={searchField}
                   searchTypeUrls={this.getSearchTypeUrls()}
-                  onSearch={this.handleSearch}
                   isLoading={!!params.q && !results.hasLoaded}
+                  onSearch={this.handleSearch}
+                  handleSearchFieldChange={this.handleSearchFieldChange}
                   handleFilterChange={this.handleFilterChange}
                   handleSearchChange={this.handleSearchChange}
                 />
