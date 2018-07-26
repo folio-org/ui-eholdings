@@ -290,25 +290,6 @@ describeApplication('CustomResourceEditEmbargo', () => {
     });
   });
 
-  describe('visiting the resource edit page with title package not selected', () => {
-    beforeEach(function () {
-      resource.isSelected = false;
-      resource.customEmbargoPeriod = this.server.create('embargo-period', {
-        embargoUnit: 'Weeks',
-        embargoValue: null
-      }).toJSON();
-
-      resource.save();
-      return this.visit(`/eholdings/resources/${resource.id}/edit`, () => {
-        expect(ResourceEditPage.$root).to.exist;
-      });
-    });
-
-    it('displays a message that custom embargo is not shown', () => {
-      expect(ResourceEditPage.isEmbargoNotShownLabelPresent).to.be.true;
-    });
-  });
-
   describe('visiting the resource edit page with title package selected', () => {
     beforeEach(function () {
       resource.customEmbargoPeriod = this.server.create('embargo-period', {

@@ -312,7 +312,7 @@ class ManagedPackageEdit extends Component {
                     </div>
                   </DetailsViewSection>
                   <DetailsViewSection
-                    label={intl.formatMessage({ id: 'ui-eholdings.package.coverageDates' })}
+                    label={intl.formatMessage({ id: 'ui-eholdings.package.coverageSettings' })}
                   >
                     <CoverageFields
                       initialValue={initialValues.customCoverages}

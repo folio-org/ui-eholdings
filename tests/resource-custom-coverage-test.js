@@ -34,8 +34,8 @@ describeApplication('ResourceCustomCoverage', () => {
       });
     });
 
-    it('displays message that no coverage date has been set', () => {
-      expect(ResourcePage.hasNoCoverageDate).to.be.true;
+    it('displays message that resource needs to be selected', () => {
+      expect(ResourcePage.isNotSelectedCoverageMessagePresent).to.be.true;
     });
 
     it('does not display custom coverage dates', () => {

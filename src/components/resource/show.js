@@ -1,7 +1,8 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import PropTypes from 'prop-types';
 
 import {
+  Accordion,
   Button,
   IconButton,
   Icon,
@@ -18,7 +19,6 @@ import IdentifiersList from '../identifiers-list';
 import ContributorsList from '..//contributors-list';
 import CoverageDateList from '../coverage-date-list';
 import { isBookPublicationType, isValidCoverageList, processErrors } from '../utilities';
-import DetailsViewSection from '../details-view-section';
 import Toaster from '../toaster';
 
 
@@ -157,7 +157,32 @@ export default class ResourceShow extends Component {
           )}
           bodyContent={(
             <div>
-              <DetailsViewSection label="Title information">
+              <Accordion label="Holding status">
+                <label
+                  data-test-eholdings-resource-show-selected
+                  htmlFor="resource-show-toggle-switch"
+                >
+                  {
+                    model.update.isPending ? (
+                      <Icon icon='spinner-ellipsis' />
+                    ) : (
+                      <h4>{resourceSelected ? 'Selected' : 'Not selected'}</h4>
+                    )
+                  }
+                  <br />
+                  { ((!resourceSelected && !isSelectInFlight) || (!this.props.model.isSelected && isSelectInFlight)) && (
+                    <Button
+                      buttonStyle="primary"
+                      onClick={this.handleHoldingStatus}
+                      disabled={model.destroy.isPending || isSelectInFlight}
+                      data-test-eholdings-resource-add-to-holdings-button
+                    >
+                      Add to holdings
+                    </Button>)}
+                </label>
+              </Accordion>
+
+              <Accordion label="Resource information">
                 <KeyValue label="Title">
                   <Link to={`/eholdings/titles/${model.titleId}`}>
                     {model.title.name}
@@ -219,9 +244,7 @@ export default class ResourceShow extends Component {
                     </div>
                   </KeyValue>
                 )}
-              </DetailsViewSection>
 
-              <DetailsViewSection label="Package information">
                 <KeyValue label="Package">
                   <div data-test-eholdings-resource-show-package-name>
                     <Link to={`/eholdings/packages/${model.packageId}`}>{model.package.name}</Link>
@@ -235,15 +258,15 @@ export default class ResourceShow extends Component {
                 </KeyValue>
 
                 {model.package.contentType && (
-                  <KeyValue label="Content type">
+                  <KeyValue label="Package content type">
                     <div data-test-eholdings-resource-show-content-type>
                       {model.package.contentType}
                     </div>
                   </KeyValue>
                 )}
-              </DetailsViewSection>
+              </Accordion>
 
-              <DetailsViewSection label="Resource settings">
+              <Accordion label="Resource settings">
                 <KeyValue label="Show to patrons">
                   <div data-test-eholdings-resource-show-visibility>
                     {model.visibilityData.isHidden || !resourceSelected
@@ -263,112 +286,83 @@ export default class ResourceShow extends Component {
                     </div>
                   </KeyValue>
                 )}
-              </DetailsViewSection>
+              </Accordion>
 
-              <DetailsViewSection label="Holding status">
-                <label
-                  data-test-eholdings-resource-show-selected
-                  htmlFor="resource-show-toggle-switch"
-                >
-                  {
-                    model.update.isPending ? (
-                      <Icon icon='spinner-ellipsis' />
-                    ) : (
-                      <h4>{resourceSelected ? 'Selected' : 'Not selected'}</h4>
-                    )
-                  }
-                  <br />
-                  { ((!resourceSelected && !isSelectInFlight) || (!this.props.model.isSelected && isSelectInFlight)) && (
-                    <Button
-                      buttonStyle="primary"
-                      onClick={this.handleHoldingStatus}
-                      disabled={model.destroy.isPending || isSelectInFlight}
-                      data-test-eholdings-resource-add-to-holdings-button
-                    >
-                      Add to holdings
-                    </Button>)}
-                </label>
-              </DetailsViewSection>
-
-              <DetailsViewSection
-                label="Coverage dates"
-                closedByDefault={!hasManagedCoverages && !resourceSelected}
-              >
-                {hasManagedCoverages && (
-                  <KeyValue label="Managed coverage dates">
-                    <div data-test-eholdings-resource-show-managed-coverage-list>
-                      <CoverageDateList
-                        coverageArray={model.managedCoverages}
-                        isYearOnly={isBookPublicationType(model.publicationType)}
-                      />
-                    </div>
-                  </KeyValue>
-                )}
-
-                {(resourceSelected && !isSelectInFlight) && (
-                <div>
-                  {hasCustomCoverages && (
-                  <KeyValue label="Custom coverage dates">
-                    <span data-test-eholdings-resource-show-custom-coverage-list>
-                      <CoverageDateList
-                        coverageArray={model.customCoverages}
-                        isYearOnly={isBookPublicationType(model.publicationType)}
-                      />
-                    </span>
-                  </KeyValue>
-                  )}
-                </div>)}
-
-                {!hasManagedCoverages && !hasCustomCoverages && (
-                  <p data-test-eholdings-resource-no-coverage-date-label>No coverage date has been set.</p>
-                )}
-
-              </DetailsViewSection>
-              <DetailsViewSection
-                label="Coverage statement"
+              <Accordion
+                label="Coverage settings"
+                closedByDefault={!resourceSelected}
               >
                 {(resourceSelected && !isSelectInFlight) ? (
-                  <div>
-                    {model.coverageStatement ? (
-                      <span data-test-eholdings-resource-coverage-statement-display>
-                        {model.coverageStatement}
-                      </span>
-                   ) : (<p data-test-eholdings-resource-no-coverage-label>No coverage statement has been set.</p>
-                   )}
-                  </div>
-                ) : (
-                  <p data-test-eholdings-resource-coverage-not-shown-label>Add the resource to holdings to set a coverage statement.</p>
-                )}
-              </DetailsViewSection>
+                  <Fragment>
+                    <h4>Coverage dates</h4>
+                    {!hasManagedCoverages && !hasCustomCoverages && (
+                      <p data-test-eholdings-resource-no-coverage-date-label>No coverage dates have been set.</p>
+                    )}
 
-              <DetailsViewSection
-                label="Embargo period"
-                closedByDefault={!hasManagedEmbargoPeriod && !resourceSelected}
-              >
-                {hasManagedEmbargoPeriod && (
-                  <KeyValue label="Managed embargo period">
-                    <div data-test-eholdings-resource-show-managed-embargo-period>
-                      {model.managedEmbargoPeriod.embargoValue} {model.managedEmbargoPeriod.embargoUnit}
-                    </div>
-                  </KeyValue>
-                )}
+                    {hasManagedCoverages && (
+                      <KeyValue label="Managed coverage dates">
+                        <div data-test-eholdings-resource-show-managed-coverage-list>
+                          <CoverageDateList
+                            coverageArray={model.managedCoverages}
+                            isYearOnly={isBookPublicationType(model.publicationType)}
+                          />
+                        </div>
+                      </KeyValue>
+                    )}
 
-                {(resourceSelected && !isSelectInFlight) && (
-                  <div>
-                    {hasCustomEmbargoPeriod && (
-                      <KeyValue label="Custom">
-                        <span data-test-eholdings-resource-custom-embargo-display>
-                          {customEmbargoValue} {customEmbargoUnit}
+                    {(resourceSelected && !isSelectInFlight) && (
+                    <div>
+                      {hasCustomCoverages && (
+                      <KeyValue label="Custom coverage dates">
+                        <span data-test-eholdings-resource-show-custom-coverage-list>
+                          <CoverageDateList
+                            coverageArray={model.customCoverages}
+                            isYearOnly={isBookPublicationType(model.publicationType)}
+                          />
                         </span>
                       </KeyValue>
-                   )}
-                  </div>
-                 )}
+                      )}
+                    </div>)}
 
-                {!hasManagedEmbargoPeriod && !hasCustomEmbargoPeriod && (
-                <p data-test-eholdings-resource-no-embargo-label>No embargo period has been set.</p>
+                    <h4>Coverage statement</h4>
+                    <div>
+                      {model.coverageStatement ? (
+                        <span data-test-eholdings-resource-coverage-statement-display>
+                          {model.coverageStatement}
+                        </span>
+                     ) : (<p data-test-eholdings-resource-no-coverage-label>No coverage statement has been set.</p>
+                     )}
+                    </div>
+
+                    <h4>Embargo period</h4>
+                    {hasManagedEmbargoPeriod && (
+                      <KeyValue label="Managed embargo period">
+                        <div data-test-eholdings-resource-show-managed-embargo-period>
+                          {model.managedEmbargoPeriod.embargoValue} {model.managedEmbargoPeriod.embargoUnit}
+                        </div>
+                      </KeyValue>
+                    )}
+
+                    {(resourceSelected && !isSelectInFlight) && (
+                      <div>
+                        {hasCustomEmbargoPeriod && (
+                          <KeyValue label="Custom">
+                            <span data-test-eholdings-resource-custom-embargo-display>
+                              {customEmbargoValue} {customEmbargoUnit}
+                            </span>
+                          </KeyValue>
+                       )}
+                      </div>
+                     )}
+
+                    {!hasManagedEmbargoPeriod && !hasCustomEmbargoPeriod && (
+                    <p data-test-eholdings-resource-no-embargo-label>No embargo period has been set.</p>
+                    )}
+                  </Fragment>
+                ) : (
+                  <p data-test-eholdings-resource-not-selected-coverage-message>Add the resource to holdings to customize coverage.</p>
                 )}
-              </DetailsViewSection>
+              </Accordion>
             </div>
           )}
         />

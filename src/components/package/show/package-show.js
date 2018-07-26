@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
 import {
+  Accordion,
   Icon,
   IconButton,
   KeyValue,
@@ -17,7 +18,6 @@ import QueryList from '../../query-list';
 import Link from '../../link';
 import TitleListItem from '../../title-list-item';
 import NavigationModal from '../../navigation-modal';
-import DetailsViewSection from '../../details-view-section';
 import Toaster from '../../toaster';
 
 import SelectionStatus from './selection-status';
@@ -211,7 +211,15 @@ class PackageShow extends Component {
           )}
           bodyContent={(
             <div>
-              <DetailsViewSection label={intl.formatMessage({ id: 'ui-eholdings.packageInformation' })}>
+              <Accordion label={intl.formatMessage({ id: 'ui-eholdings.package.holdingStatus' })}>
+                <SelectionStatus
+                  model={model}
+                  isPending={packageSelectionPending}
+                  isSelectedInParentComponentState={packageSelected}
+                  onAddToHoldings={this.props.addPackageToHoldings}
+                />
+              </Accordion>
+              <Accordion label={intl.formatMessage({ id: 'ui-eholdings.packageInformation' })}>
                 <KeyValue label={<FormattedMessage id="ui-eholdings.package.provider" />}>
                   <div data-test-eholdings-package-details-provider>
                     <Link to={`/eholdings/providers/${model.providerId}`}>{model.providerName}</Link>
@@ -245,16 +253,8 @@ class PackageShow extends Component {
                     <FormattedNumber value={model.titleCount} />
                   </div>
                 </KeyValue>
-              </DetailsViewSection>
-              <DetailsViewSection label={intl.formatMessage({ id: 'ui-eholdings.packageInformation' })}>
-                <SelectionStatus
-                  model={model}
-                  isPending={packageSelectionPending}
-                  isSelectedInParentComponentState={packageSelected}
-                  onAddToHoldings={this.props.addPackageToHoldings}
-                />
-              </DetailsViewSection>
-              <DetailsViewSection label={intl.formatMessage({ id: 'ui-eholdings.package.packageSettings' })}>
+              </Accordion>
+              <Accordion label={intl.formatMessage({ id: 'ui-eholdings.package.packageSettings' })}>
                 {packageSelected ? (
                   <div>
                     <KeyValue label={<FormattedMessage id="ui-eholdings.package.visibility" />}>
@@ -294,9 +294,9 @@ class PackageShow extends Component {
                 ) : (
                   <p><FormattedMessage id="ui-eholdings.package.visibility.notSelected" /></p>
                 )}
-              </DetailsViewSection>
-              <DetailsViewSection
-                label={intl.formatMessage({ id: 'ui-eholdings.package.coverageDates' })}
+              </Accordion>
+              <Accordion
+                label={intl.formatMessage({ id: 'ui-eholdings.package.coverageSettings' })}
                 closedByDefault={!packageSelected}
               >
                 {packageSelected ? (
@@ -331,7 +331,7 @@ class PackageShow extends Component {
                 ) : (
                   <p><FormattedMessage id="ui-eholdings.package.customCoverage.notSelected" /></p>
                 )}
-              </DetailsViewSection>
+              </Accordion>
             </div>
           )}
           listType="titles"

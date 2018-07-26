@@ -210,39 +210,32 @@ class ResourceEditCustomTitle extends Component {
               </DetailsViewSection>
 
               <DetailsViewSection
-                label="Coverage dates"
+                label="Coverage settings"
               >
                 {resourceSelected ? (
-                  <CustomCoverageFields
-                    initialValue={initialValues.customCoverages}
-                  />
-                  ) : (
-                    <p>Add the resource to holdings to set custom coverage dates.</p>
-                )}
-              </DetailsViewSection>
-              <DetailsViewSection
-                label="Coverage statement"
-              >
-                {resourceSelected ? (
-                  <CoverageStatementFields />
-                  ) : (
-                    <p>Add the resource to holdings to set coverage statement.</p>
-                  )}
-              </DetailsViewSection>
-              <DetailsViewSection
-                label="Embargo period"
-              >
-                {resourceSelected ? (
-                  <CustomEmbargoFields
-                    change={change}
-                    showInputs={(initialValues.customEmbargoValue > 0)}
-                    initialValue={{
-                      customEmbargoValue: initialValues.customEmbargoValue,
-                      customEmbargoUnit: initialValues.customEmbargoUnit
-                  }}
-                  />
+                  <Fragment>
+                    <h4>Coverage dates</h4>
+                    <CustomCoverageFields
+                      initialValue={initialValues.customCoverages}
+                    />
+
+                    <h4>Coverage statement</h4>
+                    <CoverageStatementFields />
+
+                    <h4>Embargo period</h4>
+                    <CustomEmbargoFields
+                      change={change}
+                      showInputs={(initialValues.customEmbargoValue > 0)}
+                      initialValue={{
+                        customEmbargoValue: initialValues.customEmbargoValue,
+                        customEmbargoUnit: initialValues.customEmbargoUnit
+                      }}
+                    />
+                  </Fragment>
                 ) : (
-                  <p data-test-eholdings-resource-embargo-not-shown-label>Add the resource to holdings to set custom embargo.</p>
+                  <p data-test-eholdings-resource-edit-settings-message>
+                    Add the resource to holdings to customize coverage.
+                  </p>
                 )}
 
               </DetailsViewSection>

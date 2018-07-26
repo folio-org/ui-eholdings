@@ -86,7 +86,7 @@ class PackageCreate extends Component {
               <NameField />
               <ContentTypeField />
             </DetailsViewSection>
-            <DetailsViewSection label="Coverage dates">
+            <DetailsViewSection label="Coverage settings">
               <CoverageFields />
             </DetailsViewSection>
             <div className={styles['package-create-action-buttons']}>

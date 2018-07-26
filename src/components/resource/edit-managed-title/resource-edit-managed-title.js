@@ -225,24 +225,17 @@ class ResourceEditManagedTitle extends Component { // eslint-disable-line react/
               )}
               {managedResourceSelected && (
                 <DetailsViewSection
-                  label="Coverage dates"
+                  label="Coverage settings"
                 >
+                  <h4>Coverage dates</h4>
                   <CustomCoverageFields
                     initialValue={initialValues.customCoverages}
                   />
-                </DetailsViewSection>
-              )}
-              {managedResourceSelected && (
-                <DetailsViewSection
-                  label="Coverage statement"
-                >
+
+                  <h4>Coverage statement</h4>
                   <CoverageStatementFields />
-                </DetailsViewSection>
-               )}
-              {managedResourceSelected && (
-                <DetailsViewSection
-                  label="Embargo period"
-                >
+
+                  <h4>Embargo period</h4>
                   <CustomEmbargoFields
                     change={change}
                     showInputs={(initialValues.customEmbargoValue > 0)}

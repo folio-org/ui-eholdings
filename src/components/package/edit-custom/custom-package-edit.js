@@ -198,6 +198,21 @@ class CustomPackageEdit extends Component {
           bodyContent={(
             <form onSubmit={handleSubmit(this.handleOnSubmit)}>
               <DetailsViewSection
+                label={intl.formatMessage({ id: 'ui-eholdings.package.holdingStatus' })}
+              >
+                <label
+                  data-test-eholdings-package-details-selected
+                  htmlFor="custom-package-details-toggle-switch"
+                >
+                  <h4>
+                    {packageSelected ?
+                      (<FormattedMessage id="ui-eholdings.selected" />) :
+                      (<FormattedMessage id="ui-eholdings.notSelected" />)
+                    }
+                  </h4>
+                </label>
+              </DetailsViewSection>
+              <DetailsViewSection
                 label={intl.formatMessage({ id: 'ui-eholdings.packageInformation' })}
               >
                 {packageSelected ? (
@@ -219,21 +234,6 @@ class CustomPackageEdit extends Component {
                    </div>
                  </KeyValue>
                )}
-              </DetailsViewSection>
-              <DetailsViewSection
-                label={intl.formatMessage({ id: 'ui-eholdings.package.holdingStatus' })}
-              >
-                <label
-                  data-test-eholdings-package-details-selected
-                  htmlFor="custom-package-details-toggle-switch"
-                >
-                  <h4>
-                    {packageSelected ?
-                      (<FormattedMessage id="ui-eholdings.selected" />) :
-                      (<FormattedMessage id="ui-eholdings.notSelected" />)
-                    }
-                  </h4>
-                </label>
               </DetailsViewSection>
               <DetailsViewSection label={intl.formatMessage({ id: 'ui-eholdings.package.packageSettings' })}>
                 {packageSelected ? (
@@ -275,7 +275,7 @@ class CustomPackageEdit extends Component {
               </DetailsViewSection>
 
               <DetailsViewSection
-                label={intl.formatMessage({ id: 'ui-eholdings.package.coverageDates' })}
+                label={intl.formatMessage({ id: 'ui-eholdings.package.coverageSettings' })}
               >
                 {packageSelected ? (
                   <CoverageFields

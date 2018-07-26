@@ -18,7 +18,8 @@ describeApplication('ResourceManagedCoverage', () => {
 
     resource = this.server.create('resource', {
       package: pkg,
-      title
+      title,
+      isSelected: true
     });
   });
 
