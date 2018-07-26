@@ -59,42 +59,26 @@ describeApplication('ResourceEditDeselection', () => {
       });
 
       describe('confirming to continue deselection', () => {
-        /**
-         * We want to control when this endpoints resolves.
-         * Returning a unresolved promise from the endpoint within
-         * the beforeEach gives us the control to resolve the request
-         * later in tests.
-         */
-        let resolveRequest;
-
         beforeEach(function () {
-          this.server.put('/resources/:id', () => {
-            return new Promise((resolve) => {
-              resolveRequest = resolve;
-            });
-          });
-
+          this.server.block();
           return ResourceEditPage.modal.confirmDeselection();
         });
 
         it('should keep confirmation modal on screen until requests responds', () => {
           expect(ResourceEditPage.modal.isPresent).to.equal(true);
-          resolveRequest();
         });
 
         it('confirmation button now reads "removing"', () => {
           expect(ResourceEditPage.modal.confirmButtonText).to.equal('Removing...');
-          resolveRequest();
         });
 
         it('confirmation button is disabled', () => {
           expect(ResourceEditPage.modal.confirmButtonIsDisabled).to.equal(true);
-          resolveRequest();
         });
 
         describe('when request resolves', () => {
-          beforeEach(() => {
-            resolveRequest();
+          beforeEach(function () {
+            this.server.unblock();
           });
 
           it('goes to the resource show page', () => {

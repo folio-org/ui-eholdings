@@ -1,5 +1,6 @@
 import { beforeEach, describe, it } from '@bigtest/mocha';
 import { expect } from 'chai';
+import { Response } from '@bigtest/mirage';
 
 import { describeApplication } from '../helpers/describe-application';
 import ResourcePage from '../interactors/resource-show';
@@ -109,13 +110,18 @@ describeApplication('ResourceSelection', () => {
     });
 
     describe('unsuccessfully selecting a package title to add to my holdings', () => {
-      let resolveRequest;
       beforeEach(function () {
         this.server.put('/resources/:id', () => {
-          return new Promise((resolve) => {
-            resolveRequest = resolve;
+          /**
+           * Blocking this request did not work solely using
+           * the mirage endpoint shorthand. We have to manually
+           * build the response to block it with a response code.
+           */
+          return new Response(500, {}, {
+            errors: [{ title: 'There was an error' }]
           });
-        }, 500);
+        });
+        this.server.block();
         return ResourcePage.dropDownMenu.clickAddToHoldings();
       });
 
@@ -127,15 +133,9 @@ describeApplication('ResourceSelection', () => {
         expect(ResourcePage.isAddToHoldingsButtonDisabled).to.equal(true);
       });
 
-      describe('when the request succeeds', () => {
-        beforeEach(() => {
-          let response = {
-            errors: [{
-              title: 'There was an error'
-            }]
-          };
-
-          return resolveRequest(response);
+      describe('when the request finishes', () => {
+        beforeEach(function () {
+          this.server.unblock();
         });
 
         it('reflects the desired state was not set', () => {

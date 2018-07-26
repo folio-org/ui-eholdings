@@ -176,15 +176,8 @@ describeApplication('ManagedPackageEditSelection', () => {
       });
 
       describe('clicking confirm', () => {
-        let resolveRequest;
-
         beforeEach(function () {
-          this.server.put('/packages/:id', () => {
-            return new Promise((resolve) => {
-              resolveRequest = resolve;
-            });
-          });
-
+          this.server.block();
           return PackageEditPage.modal.confirmDeselection();
         });
 
@@ -194,7 +187,6 @@ describeApplication('ManagedPackageEditSelection', () => {
 
         it('confirmation button now reads "removing"', () => {
           expect(PackageEditPage.modal.confirmButtonText).to.equal('Removing...');
-          resolveRequest();
         });
 
         it('confirmation button is disabled', () => {
@@ -202,8 +194,8 @@ describeApplication('ManagedPackageEditSelection', () => {
         });
 
         describe('when request resolves', () => {
-          beforeEach(() => {
-            return resolveRequest();
+          beforeEach(function () {
+            this.server.unblock();
           });
 
           it('goes to the resource show page', () => {

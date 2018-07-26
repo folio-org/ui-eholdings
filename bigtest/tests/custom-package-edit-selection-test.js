@@ -73,15 +73,8 @@ describeApplication('CustomPackageEditSelection', () => {
       });
 
       describe('clicking confirm', () => {
-        let resolveRequest;
-
         beforeEach(function () {
-          this.server.delete('/packages/:id', () => {
-            return new Promise((resolve) => {
-              resolveRequest = resolve;
-            });
-          });
-
+          this.server.block();
           return PackageEditPage.modal.confirmDeselection();
         });
 
@@ -91,7 +84,6 @@ describeApplication('CustomPackageEditSelection', () => {
 
         it('confirmation button now reads "deleting"', () => {
           expect(PackageEditPage.modal.confirmButtonText).to.equal('Deleting...');
-          resolveRequest();
         });
 
         it('confirmation button is disabled', () => {
@@ -99,8 +91,8 @@ describeApplication('CustomPackageEditSelection', () => {
         });
 
         describe('when the request resolves', () => {
-          beforeEach(() => {
-            return resolveRequest();
+          beforeEach(function () {
+            this.server.unblock();
           });
 
           it('transitions to the package search page', function () {
