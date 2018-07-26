@@ -25,14 +25,19 @@ The `ui-eholdings` module adds the ability to manage electronic holdings in FOLI
 ## Running
 
 * `yarn start`
-* Visit your app at [http://localhost:8080](http://localhost:8080).
+* Visit your app at [http://localhost:3000](http://localhost:3000).
 
 By default, this will use the backend OKAPI cluster at
-https://okapi.frontside.io However, if you want to run the application
-against the mirage server contained within the browser, you can turn
-it on with the `--mirage` option:
+http://localhost:9130
+
+If you want to run the application against the mirage server contained
+within the browser, you can turn it on with the `--mirage` option:
 
 * `yarn start --mirage`
+
+If you want to run the application against a different Okapi cluster:
+
+* `yarn start --okapi https://myokapi.cluster.folio.org`
 
 ## Running Tests
 

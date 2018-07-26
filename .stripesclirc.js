@@ -1,13 +1,6 @@
 const webpack = require('webpack');
 
 const environment = process.env.NODE_ENV;
-let url;
-
-if (environment === 'sandbox') {
-  url = 'https://okapi-sandbox.frontside.io';
-} else {
-  url = 'https://okapi.frontside.io';
-}
 
 function mirage(config, enabled = false) {
   if (enabled) {
@@ -43,7 +36,6 @@ const servePlugin = {
 
 module.exports = {
   // Assign defaults to existing CLI options
-  okapi: url,
   tenant: "fs",
   install: true,
   hasAllPerms: true,
