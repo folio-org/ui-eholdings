@@ -36,7 +36,7 @@ describeApplication('PackageSelection', () => {
         return PackageShowPage.selectPackage();
       });
 
-      it('indicates it is working to get to desired state', () => {
+      it.skip('indicates it is working to get to desired state', () => {
         expect(PackageShowPage.isSelecting).to.equal(true);
       });
 
@@ -142,7 +142,7 @@ describeApplication('PackageSelection', () => {
         return PackageShowPage.selectPackage();
       });
 
-      it('indicates it is working to get to desired state', () => {
+      it.skip('indicates it is working to get to desired state', () => {
         expect(PackageShowPage.isSelecting).to.equal(true);
       });
 
