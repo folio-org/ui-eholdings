@@ -37,9 +37,9 @@ export default class SearchForm extends Component {
     displaySearchTypeSwitcher: PropTypes.bool,
     displaySearchButton: PropTypes.bool,
     isLoading: PropTypes.bool,
-    handleSearchChange: PropTypes.func.isRequired,
-    handleFilterChange: PropTypes.func.isRequired,
-    handleSearchFieldChange: PropTypes.func.isRequired
+    onSearchChange: PropTypes.func.isRequired,
+    onFilterChange: PropTypes.func.isRequired,
+    onSearchFieldChange: PropTypes.func
   };
 
   static defaultProps = {
@@ -54,21 +54,21 @@ export default class SearchForm extends Component {
   };
 
   handleChangeSearch = (e) => {
-    this.props.handleSearchChange(e.target.value);
+    this.props.onSearchChange(e.target.value);
   };
 
   handleClearSearch = () => {
-    this.props.handleSearchChange('');
+    this.props.onSearchChange('');
   };
 
   handleUpdateFilter = (filter) => {
     let { sort, ...searchFilter } = filter;
 
-    this.props.handleFilterChange(sort, searchFilter);
+    this.props.onFilterChange(sort, searchFilter);
   };
 
   handleChangeIndex = (e) => {
-    this.props.handleSearchFieldChange(e.target.value);
+    this.props.onSearchFieldChange(e.target.value);
   };
 
   /**

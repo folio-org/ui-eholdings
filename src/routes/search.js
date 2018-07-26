@@ -331,9 +331,9 @@ class SearchRoute extends Component { // eslint-disable-line react/no-deprecated
                   searchTypeUrls={this.getSearchTypeUrls()}
                   isLoading={!!params.q && !results.hasLoaded}
                   onSearch={this.handleSearch}
-                  handleSearchFieldChange={this.handleSearchFieldChange}
-                  handleFilterChange={this.handleFilterChange}
-                  handleSearchChange={this.handleSearchChange}
+                  onSearchFieldChange={this.handleSearchFieldChange}
+                  onFilterChange={this.handleFilterChange}
+                  onSearchChange={this.handleSearchChange}
                 />
               )}
             />
