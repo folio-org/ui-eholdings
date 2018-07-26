@@ -169,7 +169,7 @@ class ManagedPackageEdit extends Component {
 
     let actionMenuItems = [
       {
-        label: <FormattedMessage id="ui-eholdings.package.actionMenu.cancelEditing" />,
+        label: <FormattedMessage id="ui-eholdings.actionMenu.cancelEditing" />,
         to: {
           pathname: `/eholdings/packages/${model.id}`,
           search: router.route.location.search,

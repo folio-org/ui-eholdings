@@ -158,7 +158,7 @@ class CustomPackageEdit extends Component {
 
     let actionMenuItems = [
       {
-        label: intl.formatMessage({ id: 'ui-eholdings.package.actionMenu.cancelEditing' }),
+        label: intl.formatMessage({ id: 'ui-eholdings.actionMenu.cancelEditing' }),
         to: {
           pathname: `/eholdings/packages/${model.id}`,
           search: router.route.location.search,
@@ -198,12 +198,12 @@ class CustomPackageEdit extends Component {
           bodyContent={(
             <form onSubmit={handleSubmit(this.handleOnSubmit)}>
               <DetailsViewSection
-                label={intl.formatMessage({ id: 'ui-eholdings.package.packageInformation' })}
+                label={intl.formatMessage({ id: 'ui-eholdings.packageInformation' })}
               >
                 {packageSelected ? (
                   <NameField />
                ) : (
-                 <KeyValue label={intl.formatMessage({ id: 'ui-eholdings.package.name' })}>
+                 <KeyValue label={intl.formatMessage({ id: 'ui-eholdings.name' })}>
                    <div data-test-eholdings-package-readonly-name-field>
                      {model.name}
                    </div>

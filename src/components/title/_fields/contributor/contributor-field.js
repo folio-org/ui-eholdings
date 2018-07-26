@@ -7,11 +7,13 @@ import {
   Button,
   IconButton
 } from '@folio/stripes-components';
+import { injectIntl, intlShape } from 'react-intl';
 import styles from './contributor-field.css';
 
 class ContributorField extends Component {
   static propTypes = {
-    initialValue: PropTypes.array
+    initialValue: PropTypes.array,
+    intl: intlShape.isRequired
   };
 
   static defaultProps = {
@@ -19,7 +21,7 @@ class ContributorField extends Component {
   };
 
   renderContributorFields = ({ fields }) => {
-    let { initialValue } = this.props;
+    let { initialValue, intl } = this.props;
 
     function renderFields() {
       return (
@@ -37,7 +39,7 @@ class ContributorField extends Component {
                   name={`${contributor}.type`}
                   component={Select}
                   autoFocus={Object.keys(allFields.get(index)).length === 0}
-                  label="Type"
+                  label={intl.formatMessage({ id: 'ui-eholdings.type' })}
                   id={`${contributor}-type`}
                   dataOptions={[
                     { value: 'author', label: 'Author' },
@@ -55,7 +57,7 @@ class ContributorField extends Component {
                   type="text"
                   id={`${contributor}-input`}
                   component={TextField}
-                  label="Name"
+                  label={intl.formatMessage({ id: 'ui-eholdings.name' })}
                 />
               </div>
 
@@ -84,7 +86,7 @@ class ContributorField extends Component {
           && initialValue[0].id
           && (
           <p data-test-eholdings-contributors-fields-saving-will-remove>
-            No contributors set. Saving will remove any previously set.
+            {intl.formatMessage({ id: 'ui-eholdings.title.contributor.notSet' })}
           </p>
         )}
         {fields.length !== 0 ? renderFields() : null}
@@ -95,7 +97,7 @@ class ContributorField extends Component {
             type="button"
             onClick={() => fields.push({})}
           >
-            + Add a contributor
+            {intl.formatMessage({ id: 'ui-eholdings.title.contributor.addContributor' })}
           </Button>
         </div>
       </fieldset>
@@ -132,4 +134,4 @@ export function validate(values) {
   return { contributors: errors };
 }
 
-export default ContributorField;
+export default injectIntl(ContributorField);

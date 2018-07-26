@@ -9,11 +9,13 @@ import {
   TextField
 } from '@folio/stripes-components';
 
+import { injectIntl, intlShape } from 'react-intl';
 import styles from './identifiers-fields.css';
 
-export default class IdentifiersFields extends Component {
+class IdentifiersFields extends Component {
   static propTypes = {
-    initialValue: PropTypes.array
+    initialValue: PropTypes.array,
+    intl: intlShape.isRequired
   };
 
   static defaultProps = {
@@ -21,7 +23,7 @@ export default class IdentifiersFields extends Component {
   };
 
   renderIdentifierFields = ({ fields }) => {
-    let { initialValue } = this.props;
+    let { initialValue, intl } = this.props;
 
     return (
       <fieldset className={styles['identifiers-fields']}>
@@ -32,7 +34,7 @@ export default class IdentifiersFields extends Component {
           && initialValue[0].id
           && (
           <p data-test-eholdings-identifiers-fields-saving-will-remove>
-            No identifiers set. Saving will remove any previously set.
+            {intl.formatMessage({ id: 'ui-eholdings.title.identifier.notSet' })}
           </p>
         )}
 
@@ -53,7 +55,7 @@ export default class IdentifiersFields extends Component {
                     type="text"
                     component={Select}
                     autoFocus={Object.keys(allFields.get(index)).length === 0}
-                    label="Type"
+                    label={intl.formatMessage({ id: 'ui-eholdings.type' })}
                     dataOptions={[
                       { value: '0', label: 'ISSN (Online)' },
                       { value: '1', label: 'ISSN (Print)' },
@@ -70,7 +72,7 @@ export default class IdentifiersFields extends Component {
                     name={`${identifier}.id`}
                     type="text"
                     component={TextField}
-                    label="ID"
+                    label={intl.formatMessage({ id: 'ui-eholdings.id' })}
                   />
                 </div>
 
@@ -98,7 +100,7 @@ export default class IdentifiersFields extends Component {
             type="button"
             onClick={() => fields.push({})}
           >
-            + Add identifier
+            {intl.formatMessage({ id: 'ui-eholdings.title.identifier.addIdentifier' })}
           </Button>
         </div>
       </fieldset>
@@ -131,3 +133,5 @@ export function validate(values) {
 
   return { identifiers: errors };
 }
+
+export default injectIntl(IdentifiersFields);

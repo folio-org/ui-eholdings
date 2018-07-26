@@ -2,9 +2,10 @@ import React from 'react';
 import { Field } from 'redux-form';
 
 import { Select } from '@folio/stripes-components';
+import { injectIntl, intlShape } from 'react-intl';
 import styles from './publication-type.css';
 
-export default function PublicationTypeField() {
+function PublicationTypeField({ intl }) {
   return (
     <div
       data-test-eholdings-publication-type-field
@@ -13,7 +14,7 @@ export default function PublicationTypeField() {
       <Field
         name="publicationType"
         component={Select}
-        label="Publication type"
+        label={intl.formatMessage({ id: 'ui-eholdings.title.publicationType' })}
         dataOptions={[
           { value: 'Audio Book', label: 'Audio Book' },
           { value: 'Book', label: 'Book' },
@@ -34,3 +35,9 @@ export default function PublicationTypeField() {
     </div>
   );
 }
+
+PublicationTypeField.propTypes = {
+  intl: intlShape.isRequired
+};
+
+export default injectIntl(PublicationTypeField);

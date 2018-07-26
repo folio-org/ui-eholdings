@@ -2,9 +2,10 @@ import React from 'react';
 import { Field } from 'redux-form';
 
 import { TextField } from '@folio/stripes-components';
+import { injectIntl, intlShape } from 'react-intl';
 import styles from './edition-field.css';
 
-export default function EditionField() {
+function EditionField({ intl }) {
   return (
     <div
       data-test-eholdings-edition-field
@@ -13,11 +14,17 @@ export default function EditionField() {
       <Field
         name="edition"
         component={TextField}
-        label="Edition"
+        label={intl.formatMessage({ id: 'ui-eholdings.title.edition' })}
       />
     </div>
   );
 }
+
+EditionField.propTypes = {
+  intl: intlShape.isRequired
+};
+
+export default injectIntl(EditionField);
 
 export function validate(values) {
   const errors = {};

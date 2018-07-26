@@ -2,9 +2,10 @@ import React from 'react';
 import { Field } from 'redux-form';
 
 import { TextField } from '@folio/stripes-components';
+import { injectIntl, intlShape } from 'react-intl';
 import styles from './publisher-name.css';
 
-export default function PublisherNameField() {
+function PublisherNameField({ intl }) {
   return (
     <div
       data-test-eholdings-publisher-name-field
@@ -13,11 +14,17 @@ export default function PublisherNameField() {
       <Field
         name="publisherName"
         component={TextField}
-        label="Publisher"
+        label={intl.formatMessage({ id: 'ui-eholdings.title.publisherName' })}
       />
     </div>
   );
 }
+
+PublisherNameField.propTypes = {
+  intl: intlShape.isRequired
+};
+
+export default injectIntl(PublisherNameField);
 
 export function validate(values) {
   const errors = {};

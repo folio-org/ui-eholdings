@@ -9,7 +9,7 @@ import {
   ModalFooter,
   PaneMenu,
 } from '@folio/stripes-components';
-
+import { intlShape, injectIntl, FormattedMessage } from 'react-intl';
 import { processErrors } from '../../utilities';
 import DetailsView from '../../details-view';
 import ScrollView from '../../scroll-view';
@@ -21,12 +21,13 @@ import AddToPackageForm from '../_forms/add-to-package';
 import Toaster from '../../toaster';
 import styles from './title-show.css';
 
-export default class TitleShow extends Component {
+class TitleShow extends Component {
   static propTypes = {
     request: PropTypes.object.isRequired,
     model: PropTypes.object.isRequired,
     customPackages: PropTypes.object.isRequired,
-    addCustomPackage: PropTypes.func.isRequired
+    addCustomPackage: PropTypes.func.isRequired,
+    intl: intlShape.isRequired
   };
 
   static contextTypes = {
@@ -45,7 +46,7 @@ export default class TitleShow extends Component {
 
     if (model.isTitleCustom) {
       items.push({
-        label: 'Edit',
+        label: <FormattedMessage id="ui-eholdings.actionMenu.edit" />,
         to: {
           pathname: `/eholdings/titles/${model.id}/edit`,
           search: router.route.location.search,
@@ -56,7 +57,7 @@ export default class TitleShow extends Component {
 
     if (queryParams.searchType) {
       items.push({
-        label: 'Full view',
+        label: <FormattedMessage id="ui-eholdings.actionMenu.fullView" />,
         to: {
           pathname: `/eholdings/titles/${model.id}`,
           state: { eholdings: true }
@@ -93,7 +94,7 @@ export default class TitleShow extends Component {
   }
 
   get toasts() {
-    let { model } = this.props;
+    let { model, intl } = this.props;
     let { router } = this.context;
     let toasts = processErrors(model);
 
@@ -103,7 +104,7 @@ export default class TitleShow extends Component {
         router.history.location.state.isNewRecord) {
       toasts.push({
         id: `success-title-${model.id}`,
-        message: 'Custom title created.',
+        message: intl.formatMessage({ id: 'ui-eholdings.title.toast.isNewRecord' }),
         type: 'success'
       });
     }
@@ -114,7 +115,7 @@ export default class TitleShow extends Component {
         router.history.location.state.isFreshlySaved) {
       toasts.push({
         id: `success-title-saved-${model.id}`,
-        message: 'Title saved.',
+        message: intl.formatMessage({ id: 'ui-eholdings.title.toast.isFreshlySaved' }),
         type: 'success'
       });
     }
@@ -139,12 +140,20 @@ export default class TitleShow extends Component {
   }
 
   render() {
-    let { model, addCustomPackage, request } = this.props;
+    let { model, addCustomPackage, request, intl } = this.props;
     let { showCustomPackageModal } = this.state;
 
     // this will become a ref that will allow us to submit the form
     // from our modal footer buttons
     let addToPackageForm;
+
+    let modalMessage =
+      {
+        header: intl.formatMessage({ id: 'ui-eholdings.title.modalMessage.addTitleToCustomPackage' }),
+        saving: intl.formatMessage({ id: 'ui-eholdings.saving' }),
+        submit: intl.formatMessage({ id: 'ui-eholdings.submit' }),
+        cancel: intl.formatMessage({ id: 'ui-eholdings.cancel' })
+      };
 
     return (
       <div>
@@ -158,11 +167,11 @@ export default class TitleShow extends Component {
           actionMenuItems={this.actionMenuItems}
           lastMenu={this.lastMenu}
           bodyContent={(
-            <DetailsViewSection label="Title information">
+            <DetailsViewSection label={<FormattedMessage id="ui-eholdings.title.titleInformation" />}>
               <ContributorsList data={model.contributors} />
 
               {model.edition && (
-                <KeyValue label="Edition">
+                <KeyValue label={<FormattedMessage id="ui-eholdings.title.edition" />}>
                   <div data-test-eholdings-title-show-edition>
                     {model.edition}
                   </div>
@@ -170,7 +179,7 @@ export default class TitleShow extends Component {
               )}
 
               {model.publisherName && (
-                <KeyValue label="Publisher">
+                <KeyValue label={<FormattedMessage id="ui-eholdings.title.publisherName" />}>
                   <div data-test-eholdings-title-show-publisher-name>
                     {model.publisherName}
                   </div>
@@ -178,7 +187,7 @@ export default class TitleShow extends Component {
               )}
 
               {model.publicationType && (
-                <KeyValue label="Publication Type">
+                <KeyValue label={<FormattedMessage id="ui-eholdings.title.publicationType" />}>
                   <div data-test-eholdings-title-show-publication-type>
                     {model.publicationType}
                   </div>
@@ -188,27 +197,27 @@ export default class TitleShow extends Component {
               <IdentifiersList data={model.identifiers} />
 
               {model.subjects.length > 0 && (
-                <KeyValue label="Subjects">
+                <KeyValue label={<FormattedMessage id="ui-eholdings.title.subjects" />}>
                   <div data-test-eholdings-title-show-subjects-list>
                     {model.subjects.map(subjectObj => subjectObj.subject).join('; ')}
                   </div>
                 </KeyValue>
               )}
 
-              <KeyValue label="Peer reviewed">
+              <KeyValue label={<FormattedMessage id="ui-eholdings.title.peerReviewed" />}>
                 <div data-test-eholdings-peer-reviewed-field>
-                  {model.isPeerReviewed ? 'Yes' : 'No'}
+                  {model.isPeerReviewed ? (<FormattedMessage id="ui-eholdings.yes" />) : (<FormattedMessage id="ui-eholdings.no" />)}
                 </div>
               </KeyValue>
 
-              <KeyValue label="Title type">
+              <KeyValue label={<FormattedMessage id="ui-eholdings.title.titleType" />}>
                 <div data-test-eholdings-title-details-type>
-                  {model.isTitleCustom ? 'Custom' : 'Managed'}
+                  {model.isTitleCustom ? (<FormattedMessage id="ui-eholdings.custom" />) : (<FormattedMessage id="ui-eholdings.managed" />)}
                 </div>
               </KeyValue>
 
               {model.description && (
-                <KeyValue label="Description">
+                <KeyValue label={<FormattedMessage id="ui-eholdings.title.description" />}>
                   <div data-test-eholdings-description-field>
                     {model.description}
                   </div>
@@ -220,7 +229,7 @@ export default class TitleShow extends Component {
                   data-test-eholdings-add-to-custom-package-button
                   onClick={this.toggleCustomPackageModal}
                 >
-                  Add to custom package
+                  <FormattedMessage id="ui-eholdings.title.addToCustomPackage" />
                 </Button>
               </div>
             </DetailsViewSection>
@@ -248,18 +257,18 @@ export default class TitleShow extends Component {
         <Modal
           open={showCustomPackageModal}
           size="small"
-          label="Add title to custom package"
+          label={modalMessage.header}
           id="eholdings-custom-package-modal"
           footer={(
             <ModalFooter
               primaryButton={{
-                'label': request.isPending ? 'Saving' : 'Submit',
+                'label': request.isPending ? (modalMessage.saving) : (modalMessage.submit),
                 'onClick': () => addToPackageForm.submit(),
                 'disabled': request.isPending,
                 'data-test-eholdings-custom-package-modal-submit': true
               }}
               secondaryButton={{
-                'label': 'Cancel',
+                'label': intl.formatMessage({ id: 'ui-eholdings.cancel' }),
                 'onClick': this.toggleCustomPackageModal,
                 'disabled': request.isPending,
                 'data-test-eholdings-custom-package-modal-cancel': true
@@ -277,3 +286,5 @@ export default class TitleShow extends Component {
     );
   }
 }
+
+export default injectIntl(TitleShow);
