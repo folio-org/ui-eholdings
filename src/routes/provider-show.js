@@ -7,6 +7,7 @@ import { createResolver } from '../redux';
 import Provider from '../redux/provider';
 
 import View from '../components/provider-show';
+import SearchModal from '../components/search-modal';
 
 class ProviderShowRoute extends Component {
   static propTypes = {
@@ -28,7 +29,8 @@ class ProviderShowRoute extends Component {
   }
 
   state = {
-    pkgSearchParams: {}
+    pkgSearchParams: {},
+    queryId: 0
   }
 
   componentDidUpdate(prevProps, prevState) {
@@ -55,8 +57,11 @@ class ProviderShowRoute extends Component {
     });
   }
 
-  searchPackages = (params) => {
-    this.setState({ pkgSearchParams: params });
+  searchPackages = (pkgSearchParams) => {
+    this.setState({
+      pkgSearchParams,
+      queryId: ++this.state.queryId
+    });
   };
 
   fetchPackages = (page) => {
@@ -65,14 +70,24 @@ class ProviderShowRoute extends Component {
   };
 
   render() {
+    const listType = 'packages';
+
     return (
       <TitleManager record={this.props.model.name}>
         <View
           model={this.props.model}
           packages={this.getPkgResults()}
           fetchPackages={this.fetchPackages}
-          searchPackages={this.searchPackages}
-          searchParams={this.state.pkgSearchParams}
+          listType={listType}
+          searchModal={
+            <SearchModal
+              key={this.state.queryId}
+              listType={listType}
+              query={this.state.pkgSearchParams}
+              onSearch={this.searchPackages}
+              onFilter={this.searchPackages}
+            />
+          }
         />
       </TitleManager>
     );

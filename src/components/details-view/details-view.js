@@ -4,15 +4,12 @@ import classNames from 'classnames/bind';
 import capitalize from 'lodash/capitalize';
 
 import {
-  Badge,
   Icon,
   IconButton,
-  Modal,
-  ModalFooter,
   PaneHeader,
   PaneMenu
 } from '@folio/stripes-components';
-import SearchForm from '../search-form';
+
 import styles from './details-view.css';
 
 const cx = classNames.bind(styles);
@@ -45,11 +42,8 @@ export default class DetailsView extends Component {
     renderList: PropTypes.func,
     actionMenuItems: PropTypes.array,
     lastMenu: PropTypes.node,
-    enableListSearch: PropTypes.bool,
-    onSearch: PropTypes.func,
     resultsLength: PropTypes.number,
-    searchParams: PropTypes.object,
-    onFilter: PropTypes.func
+    searchModal: PropTypes.node
   };
 
   static contextTypes = {
@@ -57,11 +51,12 @@ export default class DetailsView extends Component {
     queryParams: PropTypes.object
   };
 
+  static defaultProps = {
+    searchModal: null
+  }
+
   state = {
-    isSticky: false,
-    showSearchModal: false,
-    enableModalSearchButton: false,
-    searchParams: null
+    isSticky: false
   };
 
   // used to focus the heading when the model loads
@@ -170,73 +165,6 @@ export default class DetailsView extends Component {
     }
   };
 
-  handleListSearch = (params) => {
-    let { searchParams } = this.props;
-
-    if (this.props.onSearch) {
-      this.props.onSearch(params);
-    }
-
-    this.setState({
-      showSearchModal: searchParams.q === params.q
-    });
-  }
-
-  toggleSearchModal = () => {
-    this.setState(({ showSearchModal }) => ({
-      showSearchModal: !showSearchModal
-    }));
-  }
-
-  updateSearch = () => {
-    this.setState({
-      showSearchModal: false,
-      enableModalSearchButton: false
-    });
-
-    if (this.props.onFilter) {
-      this.props.onFilter(this.state.searchParams);
-    }
-  }
-
-  resetSearch = () => {
-    this.setState({
-      searchParams: {},
-      showSearchModal: false,
-      enableModalSearchButton: false
-    },
-    () => {
-      if (this.props.onFilter) {
-        this.props.onFilter(this.state.searchParams);
-      }
-    });
-  }
-
-  closeSearchModal = () => {
-    this.setState({
-      searchParams: null,
-      showSearchModal: false,
-      enableModalSearchButton: false
-    });
-  }
-
-  handleFilterChange = searchParams => {
-    this.setState({
-      searchParams,
-      enableModalSearchButton: true
-    });
-  }
-
-  handleSearchQueryChange = q => {
-    this.setState({
-      searchParams: {
-        ...(this.state.searchParams || this.props.searchParams),
-        q
-      },
-      enableModalSearchButton: true
-    });
-  }
-
   render() {
     let {
       type,
@@ -248,14 +176,9 @@ export default class DetailsView extends Component {
       paneSub,
       actionMenuItems,
       lastMenu,
-      enableListSearch,
       resultsLength,
-      searchParams = {}
+      searchModal
     } = this.props;
-
-    if (this.state.searchParams) {
-      searchParams = this.state.searchParams;
-    }
 
     let {
       router,
@@ -263,9 +186,7 @@ export default class DetailsView extends Component {
     } = this.context;
 
     let {
-      isSticky,
-      showSearchModal,
-      enableModalSearchButton
+      isSticky
     } = this.state;
 
     let containerClassName = cx('container', {
@@ -273,10 +194,6 @@ export default class DetailsView extends Component {
     });
 
     let historyState = router.history.location.state;
-
-    let filterCount = [searchParams.q, searchParams.sort]
-      .concat(Object.values(searchParams.filter || {}))
-      .filter(Boolean).length;
 
     return (
       <div data-test-eholdings-details-view={type}>
@@ -361,18 +278,7 @@ export default class DetailsView extends Component {
                   )}
                 </div>
 
-                {enableListSearch && (
-                  <div className={styles['search-filter-area']}>
-                    {filterCount > 0 && (
-                      <div data-test-eholdings-details-view-filters>
-                        <Badge className={styles['filter-count']}>{filterCount}</Badge>
-                      </div>
-                    )}
-                    <div data-test-eholdings-details-view-search>
-                      <IconButton icon="search" onClick={this.toggleSearchModal} />
-                    </div>
-                  </div>
-                )}
+                {searchModal}
               </div>
 
               <div ref={(n) => { this.$list = n; }} className={styles.list}>
@@ -381,47 +287,6 @@ export default class DetailsView extends Component {
             </div>
           )}
         </div>
-
-        {enableListSearch && showSearchModal && (
-          <Modal
-            size="small"
-            label={`Filter ${listType}`}
-            open={showSearchModal}
-            onClose={this.closeSearchModal}
-            id="eholdings-details-view-search-modal"
-            closeOnBackgroundClick
-            dismissible
-            footer={(
-              <ModalFooter
-                primaryButton={{
-                  'label': 'Search',
-                  'onClick': this.updateSearch,
-                  'disabled': !enableModalSearchButton,
-                  'data-test-eholdings-modal-search-button': true
-                }}
-                secondaryButton={{
-                  'label': 'Reset all',
-                  'onClick': this.resetSearch,
-                  'disabled': !(filterCount > 0),
-                  'data-test-eholdings-modal-reset-all-button': true
-                }}
-              />
-            )}
-          >
-            <SearchForm
-              searchType={listType}
-              searchString={searchParams.q}
-              filter={searchParams.filter}
-              searchField={searchParams.searchField}
-              sort={searchParams.sort}
-              onSearch={this.handleListSearch}
-              displaySearchTypeSwitcher={false}
-              displaySearchButton={false}
-              onFilterChange={this.handleFilterChange}
-              onSearchQueryChange={this.handleSearchQueryChange}
-            />
-          </Modal>
-        )}
       </div>
     );
   }

@@ -15,8 +15,8 @@ export default function ProviderShow({
   model,
   packages,
   fetchPackages,
-  searchPackages,
-  searchParams
+  searchModal,
+  listType
 }, {
   queryParams
 }) {
@@ -58,11 +58,8 @@ export default function ProviderShow({
             </KeyValue>
           </DetailsViewSection>
         )}
-        enableListSearch
-        listType="packages"
-        onSearch={searchPackages}
-        onFilter={searchPackages}
-        searchParams={searchParams}
+        searchModal={searchModal}
+        listType={listType}
         resultsLength={packages.length}
         renderList={scrollable => (
           <QueryList
@@ -91,8 +88,8 @@ ProviderShow.propTypes = {
   model: PropTypes.object.isRequired,
   packages: PropTypes.object.isRequired,
   fetchPackages: PropTypes.func.isRequired,
-  searchPackages: PropTypes.func.isRequired,
-  searchParams: PropTypes.object.isRequired
+  searchModal: PropTypes.node,
+  listType: PropTypes.string.isRequired
 };
 
 ProviderShow.contextTypes = {
