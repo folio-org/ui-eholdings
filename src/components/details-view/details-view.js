@@ -60,7 +60,7 @@ export default class DetailsView extends Component {
   state = {
     isSticky: false,
     showSearchModal: false,
-    showSearchModalSearchButton: false,
+    enableModalSearchButton: false,
     searchParams: null
   };
 
@@ -191,7 +191,7 @@ export default class DetailsView extends Component {
   updateSearch = () => {
     this.setState({
       showSearchModal: false,
-      showSearchModalSearchButton: false
+      enableModalSearchButton: false
     });
 
     if (this.props.onFilter) {
@@ -199,18 +199,31 @@ export default class DetailsView extends Component {
     }
   }
 
+  resetSearch = () => {
+    this.setState({
+      searchParams: {},
+      showSearchModal: false,
+      enableModalSearchButton: false
+    },
+    () => {
+      if (this.props.onFilter) {
+        this.props.onFilter(this.state.searchParams);
+      }
+    });
+  }
+
   closeSearchModal = () => {
     this.setState({
       searchParams: null,
       showSearchModal: false,
-      showSearchModalSearchButton: false
+      enableModalSearchButton: false
     });
   }
 
   handleFilterChange = searchParams => {
     this.setState({
       searchParams,
-      showSearchModalSearchButton: true
+      enableModalSearchButton: true
     });
   }
 
@@ -220,7 +233,7 @@ export default class DetailsView extends Component {
         ...(this.state.searchParams || this.props.searchParams),
         q
       },
-      showSearchModalSearchButton: true
+      enableModalSearchButton: true
     });
   }
 
@@ -252,7 +265,7 @@ export default class DetailsView extends Component {
     let {
       isSticky,
       showSearchModal,
-      showSearchModalSearchButton
+      enableModalSearchButton
     } = this.state;
 
     let containerClassName = cx('container', {
@@ -261,7 +274,7 @@ export default class DetailsView extends Component {
 
     let historyState = router.history.location.state;
 
-    let filterCount = [searchParams.q]
+    let filterCount = [searchParams.q, searchParams.sort]
       .concat(Object.values(searchParams.filter || {}))
       .filter(Boolean).length;
 
@@ -378,12 +391,19 @@ export default class DetailsView extends Component {
             id="eholdings-details-view-search-modal"
             closeOnBackgroundClick
             dismissible
-            footer={showSearchModalSearchButton && (
+            footer={(
               <ModalFooter
                 primaryButton={{
                   'label': 'Search',
                   'onClick': this.updateSearch,
+                  'disabled': !enableModalSearchButton,
                   'data-test-eholdings-modal-search-button': true
+                }}
+                secondaryButton={{
+                  'label': 'Reset all',
+                  'onClick': this.resetSearch,
+                  'disabled': !(filterCount > 0),
+                  'data-test-eholdings-modal-reset-all-button': true
                 }}
               />
             )}
