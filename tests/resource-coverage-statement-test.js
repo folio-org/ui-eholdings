@@ -63,8 +63,8 @@ describeApplication('ResourceCoverageStatement', () => {
       expect(ResourceShowPage.hasCoverageStatement).to.be.false;
     });
 
-    it('displays a message that coverage statement is not shown ', () => {
-      expect(ResourceShowPage.hasCoverageNotShownStatement).to.be.true;
+    it('displays a message that coverage cannot be edited on an unselected resource', () => {
+      expect(ResourceShowPage.isNotSelectedCoverageMessagePresent).to.be.true;
     });
   });
 });
