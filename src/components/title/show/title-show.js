@@ -7,8 +7,7 @@ import {
   IconButton,
   KeyValue,
   Modal,
-  ModalFooter,
-  PaneMenu,
+  ModalFooter
 } from '@folio/stripes-components';
 import { intlShape, injectIntl, FormattedMessage } from 'react-intl';
 import { processErrors } from '../../utilities';
@@ -75,18 +74,16 @@ class TitleShow extends Component {
 
     if (model.isTitleCustom) {
       return (
-        <PaneMenu>
-          <IconButton
-            data-test-eholdings-title-edit-link
-            icon="edit"
-            ariaLabel={`Edit ${model.name}`}
-            to={{
-              pathname: `/eholdings/titles/${model.id}/edit`,
-              search: router.route.location.search,
-              state: { eholdings: true }
-            }}
-          />
-        </PaneMenu>
+        <IconButton
+          data-test-eholdings-title-edit-link
+          icon="edit"
+          ariaLabel={`Edit ${model.name}`}
+          to={{
+            pathname: `/eholdings/titles/${model.id}/edit`,
+            search: router.route.location.search,
+            state: { eholdings: true }
+          }}
+        />
       );
     } else {
       return null;

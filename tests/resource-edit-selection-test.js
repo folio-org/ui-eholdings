@@ -73,7 +73,6 @@ describeApplication('ResourceEditSelection', () => {
       });
 
       it('remains on the resource edit page', () => {
-        expect(ResourceEditPage.hasCancelButton).to.equal(true);
         expect(ResourceEditPage.hasSaveButon).to.equal(true);
       });
     });

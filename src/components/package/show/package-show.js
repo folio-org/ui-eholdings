@@ -7,8 +7,7 @@ import {
   IconButton,
   KeyValue,
   Modal,
-  ModalFooter,
-  PaneMenu
+  ModalFooter
 } from '@folio/stripes-components';
 import { intlShape, injectIntl, FormattedDate, FormattedNumber, FormattedMessage } from 'react-intl';
 import { processErrors } from '../../utilities';
@@ -196,18 +195,16 @@ class PackageShow extends Component {
           paneTitle={model.name}
           actionMenuItems={actionMenuItems}
           lastMenu={(
-            <PaneMenu>
-              <IconButton
-                data-test-eholdings-package-edit-link
-                icon="edit"
-                ariaLabel={`Edit ${model.name}`}
-                to={{
-                  pathname: `/eholdings/packages/${model.id}/edit`,
-                  search: router.route.location.search,
-                  state: { eholdings: true }
-                }}
-              />
-            </PaneMenu>
+            <IconButton
+              data-test-eholdings-package-edit-link
+              icon="edit"
+              ariaLabel={`Edit ${model.name}`}
+              to={{
+                pathname: `/eholdings/packages/${model.id}/edit`,
+                search: router.route.location.search,
+                state: { eholdings: true }
+              }}
+            />
           )}
           bodyContent={(
             <div>

@@ -1,7 +1,9 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import Pane from '@folio/stripes-components/lib/Pane';
-import IconButton from '@folio/stripes-components/lib/IconButton';
+import {
+  IconButton,
+  Pane
+} from '@folio/stripes-components';
 
 import styles from './settings-detail-pane.css';
 

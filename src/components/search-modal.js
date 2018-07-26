@@ -122,9 +122,11 @@ export default class SearchModal extends React.PureComponent {
               <Badge className={styles['filter-count']}>{filterCount}</Badge>
             </div>
           )}
-          <div data-test-eholdings-details-view-search>
-            <IconButton icon="search" onClick={this.toggle} />
-          </div>
+          <IconButton
+            icon="search"
+            onClick={this.toggle}
+            data-test-eholdings-details-view-search
+          />
         </div>
 
         {isModalVisible && (

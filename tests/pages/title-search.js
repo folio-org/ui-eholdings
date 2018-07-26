@@ -28,14 +28,14 @@ import { hasClassBeginningWith } from './helpers';
   paneTitleHasFocus = is('[data-test-eholdings-search-results-header] h2 [tabindex]', ':focus');
   titlePreviewPaneIsPresent = isPresent('[data-test-preview-pane="titles"]');
   providerPreviewPaneIsPresent = isPresent('[data-test-preview-pane="providers"]');
-  hasBackButton = isPresent('[data-test-eholdings-details-view-back-button] button');
+  hasBackButton = isPresent('[data-test-eholdings-details-view-back-button]');
   clickSearchVignette = clickable('[data-test-search-vignette]');
   hasErrors = isPresent('[data-test-query-list-error="titles"]');
   errorMessage = text('[data-test-query-list-error="titles"]');
   noResultsMessage = text('[data-test-query-list-not-found="titles"]');
   selectedSearchType = collection('[data-test-search-form-type-switcher] a[class^="is-active--"]');
   isSearchVignetteHidden = hasClassBeginningWith('[data-test-search-vignette]', 'is-hidden--');
-  clickCloseButton = clickable('[data-test-eholdings-details-view-close-button] a');
+  clickCloseButton = clickable('[data-test-eholdings-details-view-close-button]');
   hasPreSearchPane = isPresent('[data-test-eholdings-pre-search-pane]');
 
   hasLoaded = computed(function () {

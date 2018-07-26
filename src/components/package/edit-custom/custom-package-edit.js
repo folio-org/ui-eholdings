@@ -5,7 +5,6 @@ import isEqual from 'lodash/isEqual';
 import { intlShape, injectIntl, FormattedMessage } from 'react-intl';
 
 import {
-  Button,
   Icon,
   KeyValue,
   Modal,
@@ -22,6 +21,7 @@ import ContentTypeField from '../_fields/content-type';
 import DetailsViewSection from '../../details-view-section';
 import NavigationModal from '../../navigation-modal';
 import Toaster from '../../toaster';
+import PaneHeaderButton from '../../pane-header-button';
 import styles from './custom-package-edit.css';
 
 class CustomPackageEdit extends Component {
@@ -158,12 +158,13 @@ class CustomPackageEdit extends Component {
 
     let actionMenuItems = [
       {
-        label: intl.formatMessage({ id: 'ui-eholdings.actionMenu.cancelEditing' }),
-        to: {
+        'label': intl.formatMessage({ id: 'ui-eholdings.actionMenu.cancelEditing' }),
+        'to': {
           pathname: `/eholdings/packages/${model.id}`,
           search: router.route.location.search,
           state: { eholdings: true }
-        }
+        },
+        'data-test-eholdings-package-cancel-action': true
       }
     ];
 
@@ -190,135 +191,124 @@ class CustomPackageEdit extends Component {
     return (
       <div>
         <Toaster toasts={processErrors(model)} position="bottom" />
-        <DetailsView
-          type="package"
-          model={model}
-          paneTitle={model.name}
-          actionMenuItems={actionMenuItems}
-          bodyContent={(
-            <form onSubmit={handleSubmit(this.handleOnSubmit)}>
-              <DetailsViewSection
-                label={intl.formatMessage({ id: 'ui-eholdings.package.holdingStatus' })}
-              >
-                <label
-                  data-test-eholdings-package-details-selected
-                  htmlFor="custom-package-details-toggle-switch"
-                >
-                  <h4>
-                    {packageSelected ?
-                      (<FormattedMessage id="ui-eholdings.selected" />) :
-                      (<FormattedMessage id="ui-eholdings.notSelected" />)
-                    }
-                  </h4>
-                </label>
-              </DetailsViewSection>
-              <DetailsViewSection
-                label={intl.formatMessage({ id: 'ui-eholdings.packageInformation' })}
-              >
-                {packageSelected ? (
-                  <NameField />
-               ) : (
-                 <KeyValue label={intl.formatMessage({ id: 'ui-eholdings.name' })}>
-                   <div data-test-eholdings-package-readonly-name-field>
-                     {model.name}
-                   </div>
-                 </KeyValue>
-
-               )}
-                {packageSelected ? (
-                  <ContentTypeField />
-               ) : (
-                 <KeyValue label={intl.formatMessage({ id: 'ui-eholdings.package.contentType' })}>
-                   <div data-test-eholdings-package-details-readonly-content-type>
-                     {model.contentType}
-                   </div>
-                 </KeyValue>
-               )}
-              </DetailsViewSection>
-              <DetailsViewSection label={intl.formatMessage({ id: 'ui-eholdings.package.packageSettings' })}>
-                {packageSelected ? (
-                  <div className={styles['visibility-radios']}>
-                    {this.props.initialValues.isVisible != null ? (
-                      <Fragment>
-                        <div data-test-eholdings-package-visibility-field>
-                          <Field
-                            label={intl.formatMessage({ id: 'ui-eholdings.package.visibility' })}
-                            name="isVisible"
-                            component={RadioButtonGroup}
-                          >
-                            <RadioButton label={intl.formatMessage({ id: 'ui-eholdings.yes' })} value="true" />
-                            <RadioButton
-                              label={
-                                intl.formatMessage(
-                                  { id: 'ui-eholdings.package.visibility.no' },
-                                  { visibilityMessage }
-                                )
-                              }
-                              value="false"
-                            />
-                          </Field>
-                        </div>
-                      </Fragment>
-                    ) : (
-                      <label
-                        data-test-eholdings-package-details-visibility
-                        htmlFor="managed-package-details-visibility-switch"
-                      >
-                        <Icon icon="spinner-ellipsis" />
-                      </label>
-
-                    )}
-                  </div>
-                ) : (
-                  <p><FormattedMessage id="ui-eholdings.package.packageSettings.notSelected" /></p>
-                )}
-              </DetailsViewSection>
-
-              <DetailsViewSection
-                label={intl.formatMessage({ id: 'ui-eholdings.package.coverageSettings' })}
-              >
-                {packageSelected ? (
-                  <CoverageFields
-                    initialValue={initialValues.customCoverages}
-                  />) : (
-                    <p><FormattedMessage id="ui-eholdings.package.customCoverage.notSelected" /></p>
-                )}
-              </DetailsViewSection>
-
-              <div className={styles['package-edit-action-buttons']}>
-                <div
-                  data-test-eholdings-package-cancel-button
-                >
-                  <Button
-                    disabled={model.update.isPending}
-                    type="button"
-                    onClick={this.handleCancel}
-                  >
-                    <FormattedMessage id="ui-eholdings.cancel" />
-                  </Button>
-                </div>
-                <div
-                  data-test-eholdings-package-save-button
-                >
-                  <Button
-                    disabled={pristine || model.update.isPending}
-                    type="submit"
-                    buttonStyle="primary"
-                  >
-                    {model.update.isPending ?
-                    (<FormattedMessage id="ui-eholdings.saving" />)
-                    :
-                    (<FormattedMessage id="ui-eholdings.save" />)}
-                  </Button>
-                </div>
+        <form onSubmit={handleSubmit(this.handleOnSubmit)}>
+          <DetailsView
+            type="package"
+            model={model}
+            paneTitle={model.name}
+            actionMenuItems={actionMenuItems}
+            lastMenu={(
+              <Fragment>
                 {model.update.isPending && (
                   <Icon icon="spinner-ellipsis" />
                 )}
-              </div>
-              <NavigationModal when={!pristine && !model.update.isPending} />
-            </form>
-          )}
-        />
+                <PaneHeaderButton
+                  disabled={pristine || model.update.isPending}
+                  type="submit"
+                  buttonStyle="primary"
+                  data-test-eholdings-package-save-button
+                >
+                  {model.update.isPending ?
+                  (<FormattedMessage id="ui-eholdings.saving" />)
+                  :
+                  (<FormattedMessage id="ui-eholdings.save" />)}
+                </PaneHeaderButton>
+              </Fragment>
+            )}
+            bodyContent={(
+              <Fragment>
+                <DetailsViewSection
+                  label={intl.formatMessage({ id: 'ui-eholdings.package.holdingStatus' })}
+                >
+                  <label
+                    data-test-eholdings-package-details-selected
+                    htmlFor="custom-package-details-toggle-switch"
+                  >
+                    <h4>
+                      {packageSelected ?
+                        (<FormattedMessage id="ui-eholdings.selected" />) :
+                        (<FormattedMessage id="ui-eholdings.notSelected" />)
+                      }
+                    </h4>
+                  </label>
+                </DetailsViewSection>
+                <DetailsViewSection
+                  label={intl.formatMessage({ id: 'ui-eholdings.packageInformation' })}
+                >
+                  {packageSelected ? (
+                    <NameField />
+                 ) : (
+                   <KeyValue label={intl.formatMessage({ id: 'ui-eholdings.package.name' })}>
+                     <div data-test-eholdings-package-readonly-name-field>
+                       {model.name}
+                     </div>
+                   </KeyValue>
+
+                 )}
+                  {packageSelected ? (
+                    <ContentTypeField />
+                 ) : (
+                   <KeyValue label={intl.formatMessage({ id: 'ui-eholdings.package.contentType' })}>
+                     <div data-test-eholdings-package-details-readonly-content-type>
+                       {model.contentType}
+                     </div>
+                   </KeyValue>
+                 )}
+                </DetailsViewSection>
+                <DetailsViewSection label={intl.formatMessage({ id: 'ui-eholdings.package.packageSettings' })}>
+                  {packageSelected ? (
+                    <div className={styles['visibility-radios']}>
+                      {this.props.initialValues.isVisible != null ? (
+                        <Fragment>
+                          <div data-test-eholdings-package-visibility-field>
+                            <Field
+                              label={intl.formatMessage({ id: 'ui-eholdings.package.visibility' })}
+                              name="isVisible"
+                              component={RadioButtonGroup}
+                            >
+                              <RadioButton label={intl.formatMessage({ id: 'ui-eholdings.yes' })} value="true" />
+                              <RadioButton
+                                label={
+                                  intl.formatMessage(
+                                    { id: 'ui-eholdings.package.visibility.no' },
+                                    { visibilityMessage }
+                                  )
+                                }
+                                value="false"
+                              />
+                            </Field>
+                          </div>
+                        </Fragment>
+                      ) : (
+                        <label
+                          data-test-eholdings-package-details-visibility
+                          htmlFor="managed-package-details-visibility-switch"
+                        >
+                          <Icon icon="spinner-ellipsis" />
+                        </label>
+
+                      )}
+                    </div>
+                  ) : (
+                    <p><FormattedMessage id="ui-eholdings.package.packageSettings.notSelected" /></p>
+                  )}
+                </DetailsViewSection>
+
+                <DetailsViewSection
+                  label={intl.formatMessage({ id: 'ui-eholdings.package.coverageSettings' })}
+                >
+                  {packageSelected ? (
+                    <CoverageFields
+                      initialValue={initialValues.customCoverages}
+                    />) : (
+                      <p><FormattedMessage id="ui-eholdings.package.customCoverage.notSelected" /></p>
+                  )}
+                </DetailsViewSection>
+                <NavigationModal when={!pristine && !model.update.isPending} />
+              </Fragment>
+            )}
+          />
+        </form>
 
         <Modal
           open={showSelectionModal}

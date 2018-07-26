@@ -76,10 +76,6 @@ describeApplication('TitleCreate', () => {
       expect(TitleCreatePage.isSaveDisabled).to.be.true;
     });
 
-    it('disables the cancel button', () => {
-      expect(TitleCreatePage.isCancelDisabled).to.be.true;
-    });
-
     it('redirects to the new title show page', function () {
       expect(this.app.history.location.pathname).to.match(/^\/eholdings\/titles\/\d{1,}/);
       expect(TitleShowPage.titleName).to.equal('My Title');
@@ -257,10 +253,6 @@ describeApplication('TitleCreate', () => {
 
     it('enables the save button', () => {
       expect(TitleCreatePage.isSaveDisabled).to.be.false;
-    });
-
-    it('enables the cancel button', () => {
-      expect(TitleCreatePage.isCancelDisabled).to.be.false;
     });
   });
 });

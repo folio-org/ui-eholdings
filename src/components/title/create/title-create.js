@@ -1,13 +1,11 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { reduxForm } from 'redux-form';
 
 import {
-  Button,
   Icon,
   IconButton,
-  PaneHeader,
-  PaneMenu
+  PaneHeader
 } from '@folio/stripes-components';
 
 import { intlShape, injectIntl } from 'react-intl';
@@ -23,6 +21,7 @@ import PublicationTypeField from '../_fields/publication-type';
 import PeerReviewedField from '../_fields/peer-reviewed';
 import NavigationModal from '../../navigation-modal';
 import Toaster from '../../toaster';
+import PaneHeaderButton from '../../pane-header-button';
 import styles from './title-create.css';
 
 class TitleCreate extends Component {
@@ -68,6 +67,17 @@ class TitleCreate extends Component {
       value: pkg.id
     }));
 
+    let actionMenuItems = [];
+
+    if (!request.isPending) {
+      actionMenuItems.push({
+        'label': intl.formatMessage({ id: 'ui-eholdings.actionMenu.cancelEditing' }),
+        'state': { eholdings: true },
+        'onClick': this.handleCancel,
+        'data-test-eholdings-title-create-cancel-action': true
+      });
+    }
+
     return (
       <div data-test-eholdings-title-create>
         <Toaster
@@ -79,23 +89,36 @@ class TitleCreate extends Component {
           }))}
         />
 
-        <PaneHeader
-          paneTitle={intl.formatMessage({ id: 'ui-eholdings.title.create.paneTitle' })}
-          firstMenu={historyState && historyState.eholdings && (
-            <PaneMenu>
-              <div data-test-eholdings-details-view-back-button>
-                <IconButton
-                  icon="left-arrow"
-                  ariaLabel="Go back"
-                  onClick={this.handleCancel}
-                />
-              </div>
-            </PaneMenu>
-          )}
-        />
+        <form onSubmit={handleSubmit(onSubmit)}>
+          <PaneHeader
+            paneTitle={intl.formatMessage({ id: 'ui-eholdings.title.create.paneTitle' })}
+            actionMenuItems={actionMenuItems}
+            firstMenu={historyState && historyState.eholdings && (
+              <IconButton
+                icon="left-arrow"
+                ariaLabel="Go back"
+                onClick={this.handleCancel}
+                data-test-eholdings-details-view-back-button
+              />
+            )}
+            lastMenu={(
+              <Fragment>
+                {request.isPending && (
+                  <Icon icon="spinner-ellipsis" />
+                )}
+                <PaneHeaderButton
+                  disabled={pristine || request.isPending}
+                  type="submit"
+                  buttonStyle="primary"
+                  data-test-eholdings-title-create-save-button
+                >
+                  {request.isPending ? intl.formatMessage({ id: 'ui-eholdings.saving' }) : intl.formatMessage({ id: 'ui-eholdings.save' })}
+                </PaneHeaderButton>
+              </Fragment>
+            )}
+          />
 
-        <div className={styles['title-create-form-container']}>
-          <form onSubmit={handleSubmit(onSubmit)}>
+          <div className={styles['title-create-form-container']}>
             <DetailsViewSection label={intl.formatMessage({ id: 'ui-eholdings.title.titleInformation' })} separator={false}>
               <NameField />
               <ContributorField />
@@ -109,31 +132,8 @@ class TitleCreate extends Component {
             <DetailsViewSection label={intl.formatMessage({ id: 'ui-eholdings.packageInformation' })}>
               <PackageSelectField options={packageOptions} />
             </DetailsViewSection>
-            <div className={styles['title-create-action-buttons']}>
-              <div data-test-eholdings-title-create-cancel-button>
-                <Button
-                  disabled={request.isPending}
-                  type="button"
-                  onClick={this.handleCancel}
-                >
-                  {intl.formatMessage({ id: 'ui-eholdings.cancel' })}
-                </Button>
-              </div>
-              <div data-test-eholdings-title-create-save-button>
-                <Button
-                  disabled={pristine || request.isPending}
-                  type="submit"
-                  buttonStyle="primary"
-                >
-                  {request.isPending ? intl.formatMessage({ id: 'ui-eholdings.saving' }) : intl.formatMessage({ id: 'ui-eholdings.save' })}
-                </Button>
-              </div>
-              {request.isPending && (
-              <Icon icon="spinner-ellipsis" />
-                )}
-            </div>
-          </form>
-        </div>
+          </div>
+        </form>
 
         <NavigationModal when={!pristine && !request.isResolved} />
       </div>

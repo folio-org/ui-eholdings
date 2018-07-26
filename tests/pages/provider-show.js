@@ -18,10 +18,10 @@ import SearchModal from './search-modal';
   nameHasFocus = is('[data-test-eholdings-details-view-name="provider"]', ':focus');
   numPackages = text('[data-test-eholdings-provider-details-packages-total]');
   numPackagesSelected = text('[data-test-eholdings-provider-details-packages-selected]');
-  hasBackButton = isPresent('[data-test-eholdings-details-view-back-button] button');
+  hasBackButton = isPresent('[data-test-eholdings-details-view-back-button]');
   hasErrors = isPresent('[data-test-eholdings-details-view-error="provider"]');
   errorMessage = text('[data-test-eholdings-details-view-error="provider"]');
-  clickListSearch = clickable('[data-test-eholdings-details-view-search] button');
+  clickListSearch = clickable('[data-test-eholdings-details-view-search]');
   numFilters = text('[data-test-eholdings-details-view-filters]');
   filterBadge = isPresent('[data-test-eholdings-details-view-filters]');
 

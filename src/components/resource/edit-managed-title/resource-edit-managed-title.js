@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { reduxForm } from 'redux-form';
 import isEqual from 'lodash/isEqual';
@@ -20,7 +20,7 @@ import CustomEmbargoFields, { validate as validateEmbargo } from '../_fields/cus
 import DetailsViewSection from '../../details-view-section';
 import NavigationModal from '../../navigation-modal';
 import Toaster from '../../toaster';
-import styles from './resource-edit-managed-title.css';
+import PaneHeaderButton from '../../pane-header-button';
 
 class ResourceEditManagedTitle extends Component { // eslint-disable-line react/no-deprecated
   static propTypes = {
@@ -154,11 +154,12 @@ class ResourceEditManagedTitle extends Component { // eslint-disable-line react/
 
     let actionMenuItems = [
       {
-        label: 'Cancel editing',
-        to: {
+        'label': 'Cancel editing',
+        'to': {
           pathname: `/eholdings/resources/${model.id}`,
-          state: { eholdings: true }
-        }
+          state: { eholdings: true },
+        },
+        'data-test-eholdings-resource-cancel-action': true
       }
     ];
 
@@ -185,100 +186,97 @@ class ResourceEditManagedTitle extends Component { // eslint-disable-line react/
     return (
       <div>
         <Toaster toasts={processErrors(model)} position="bottom" />
-        <DetailsView
-          type="resource"
-          model={model}
-          paneTitle={model.title.name}
-          paneSub={model.package.name}
-          actionMenuItems={actionMenuItems}
-          bodyContent={(
-            <form onSubmit={handleSubmit(this.handleOnSubmit)}>
-              <DetailsViewSection
-                label="Holding status"
-              >
-                <label
-                  data-test-eholdings-resource-holding-status
-                  htmlFor="managed-resource-holding-status"
-                >  {
-                  model.update.isPending ? (
-                    <Icon icon='spinner-ellipsis' />
-                  ) : (
-                    <h4>{managedResourceSelected ? 'Selected' : 'Not selected'}</h4>
-                  )
-                }
-                  <br />
-                  { ((!managedResourceSelected && !isSelectInFlight) || (!this.props.model.isSelected && isSelectInFlight)) && (
-                    <Button
-                      buttonStyle="primary"
-                      onClick={this.handleAddResourceToHoldings}
-                      disabled={isSelectInFlight}
-                      data-test-eholdings-resource-add-to-holdings-button
-                    >
-                      Add to holdings
-                    </Button>)}
-                </label>
-              </DetailsViewSection>
-              {managedResourceSelected && (
-                <DetailsViewSection label="Resource settings">
-                  <VisibilityField disabled={visibilityMessage} />
+        <form onSubmit={handleSubmit(this.handleOnSubmit)}>
+          <DetailsView
+            type="resource"
+            model={model}
+            paneTitle={model.title.name}
+            paneSub={model.package.name}
+            actionMenuItems={actionMenuItems}
+            lastMenu={(
+              <Fragment>
+                {(model.update.isPending || model.destroy.isPending) && (
+                  <Icon icon="spinner-ellipsis" />
+                )}
+                {managedResourceSelected && (
+                  <PaneHeaderButton
+                    disabled={pristine || model.update.isPending || model.destroy.isPending}
+                    type="submit"
+                    buttonStyle="primary"
+                    data-test-eholdings-resource-save-button
+                  >
+                    {model.update.isPending || model.destroy.isPending ? 'Saving' : 'Save'}
+                  </PaneHeaderButton>
+                )}
+              </Fragment>
+            )}
+            bodyContent={(
+              <Fragment>
+                <DetailsViewSection
+                  label="Holding status"
+                >
+                  <label
+                    data-test-eholdings-resource-holding-status
+                    htmlFor="managed-resource-holding-status"
+                  >  {
+                    model.update.isPending ? (
+                      <Icon icon='spinner-ellipsis' />
+                    ) : (
+                      <h4>{managedResourceSelected ? 'Selected' : 'Not selected'}</h4>
+                    )
+                  }
+                    <br />
+                    { ((!managedResourceSelected && !isSelectInFlight) || (!this.props.model.isSelected && isSelectInFlight)) && (
+                      <Button
+                        buttonStyle="primary"
+                        onClick={this.handleAddResourceToHoldings}
+                        disabled={isSelectInFlight}
+                        data-test-eholdings-resource-add-to-holdings-button
+                      >
+                        Add to holdings
+                      </Button>)}
+                  </label>
                 </DetailsViewSection>
-              )}
-              {managedResourceSelected && (
+                {managedResourceSelected && (
+                  <DetailsViewSection label="Resource settings">
+                    <VisibilityField disabled={visibilityMessage} />
+                  </DetailsViewSection>
+                )}
                 <DetailsViewSection
                   label="Coverage settings"
                 >
-                  <h4>Coverage dates</h4>
-                  <CustomCoverageFields
-                    initialValue={initialValues.customCoverages}
-                  />
+                  {managedResourceSelected ? (
+                    <Fragment>
+                      <h4>Coverage dates</h4>
+                      <CustomCoverageFields
+                        initialValue={initialValues.customCoverages}
+                      />
 
-                  <h4>Coverage statement</h4>
-                  <CoverageStatementFields />
+                      <h4>Coverage statement</h4>
+                      <CoverageStatementFields />
 
-                  <h4>Embargo period</h4>
-                  <CustomEmbargoFields
-                    change={change}
-                    showInputs={(initialValues.customEmbargoValue > 0)}
-                    initialValue={{
-                    customEmbargoValue: initialValues.customEmbargoValue,
-                    customEmbargoUnit: initialValues.customEmbargoUnit
-                  }}
-                  />
-                </DetailsViewSection>
-                )}
-              {managedResourceSelected && (
-                <div className={styles['resource-edit-action-buttons']}>
-                  <div
-                    data-test-eholdings-resource-cancel-button
-                  >
-                    <Button
-                      disabled={model.update.isPending}
-                      type="button"
-                      onClick={this.handleCancel}
-                    >
-                      Cancel
-                    </Button>
-                  </div>
-                  <div
-                    data-test-eholdings-resource-save-button
-                  >
-                    <Button
-                      disabled={pristine || model.update.isPending}
-                      type="submit"
-                      buttonStyle="primary"
-                    >
-                      {model.update.isPending ? 'Saving' : 'Save'}
-                    </Button>
-                  </div>
-                  {model.update.isPending && (
-                    <Icon icon="spinner-ellipsis" />
+                      <h4>Embargo period</h4>
+                      <CustomEmbargoFields
+                        change={change}
+                        showInputs={(initialValues.customEmbargoValue > 0)}
+                        initialValue={{
+                          customEmbargoValue: initialValues.customEmbargoValue,
+                          customEmbargoUnit: initialValues.customEmbargoUnit
+                      }}
+                      />
+                    </Fragment>
+                  ) : (
+                    <p data-test-eholdings-resource-edit-settings-message>
+                      Add the resource to holdings to customize coverage.
+                    </p>
                   )}
-                </div>
-              )}
-              <NavigationModal when={!pristine && !model.update.isPending} />
-            </form>
-          )}
-        />
+
+                </DetailsViewSection>
+                <NavigationModal when={!pristine && !model.update.isPending} />
+              </Fragment>
+            )}
+          />
+        </form>
 
         <Modal
           open={showSelectionModal}

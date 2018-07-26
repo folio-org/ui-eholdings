@@ -1,0 +1,6 @@
+@import '@folio/stripes-components/lib/variables';
+
+.pane-header-button {
+  height: var(--controlHeight);
+  margin: 0 var(--gutter);
+}

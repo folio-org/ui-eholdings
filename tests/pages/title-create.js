@@ -1,4 +1,5 @@
 import {
+  action,
   interactor,
   isPresent,
   fillable,
@@ -7,6 +8,14 @@ import {
   value,
   count
 } from '@bigtest/interactor';
+
+@interactor class TitleCreateDropDown {
+  clickDropDownButton = clickable('button');
+}
+
+@interactor class TitleCreateDropDownMenu {
+  clickCancel = clickable('.tether-element [data-test-eholdings-title-create-cancel-action]');
+}
 
 @interactor class TitleCreatePage {
   static defaultScope = '[data-test-eholdings-title-create]';
@@ -53,10 +62,16 @@ import {
   hasPeerReviewed = isPresent('[data-test-eholdings-peer-reviewed-field]');
   togglePeerReviewed = clickable('[data-test-eholdings-peer-reviewed-field] input');
   isPeerReviewed = property('[data-test-eholdings-peer-reviewed-field] input', 'checked');
-  save = clickable('[data-test-eholdings-title-create-save-button] button');
-  cancel = clickable('[data-test-eholdings-title-create-cancel-button] button');
-  isSaveDisabled = property('[data-test-eholdings-title-create-save-button] button', 'disabled');
-  isCancelDisabled = property('[data-test-eholdings-title-create-cancel-button] button', 'disabled');
+  save = clickable('[data-test-eholdings-title-create-save-button]');
+  isSaveDisabled = property('[data-test-eholdings-title-create-save-button]', 'disabled');
+
+  dropDown = new TitleCreateDropDown('[class*=paneHeaderCenterInner---] [class*=dropdown---]');
+  dropDownMenu = new TitleCreateDropDownMenu();
+  cancel= action(function () {
+    return this
+      .dropDown.clickDropDownButton()
+      .dropDownMenu.clickCancel();
+  });
 }
 
 export default new TitleCreatePage();

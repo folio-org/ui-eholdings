@@ -1,10 +1,9 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { reduxForm } from 'redux-form';
 import isEqual from 'lodash/isEqual';
 
 import {
-  Button,
   Icon
 } from '@folio/stripes-components';
 import { FormattedMessage, intlShape, injectIntl } from 'react-intl';
@@ -20,6 +19,7 @@ import PeerReviewedField from '../_fields/peer-reviewed';
 import DetailsViewSection from '../../details-view-section';
 import NavigationModal from '../../navigation-modal';
 import Toaster from '../../toaster';
+import PaneHeaderButton from '../../pane-header-button';
 import styles from './title-edit.css';
 
 class TitleEdit extends Component {
@@ -84,12 +84,13 @@ class TitleEdit extends Component {
 
     let actionMenuItems = [
       {
-        label: <FormattedMessage id="ui-eholdings.actionMenu.cancelEditing" />,
-        to: {
+        'label': <FormattedMessage id="ui-eholdings.actionMenu.cancelEditing" />,
+        'to': {
           pathname: `/eholdings/titles/${model.id}`,
           search: router.route.location.search,
           state: { eholdings: true }
-        }
+        },
+        'data-test-eholdings-title-cancel-action': true
       }
     ];
 
@@ -105,7 +106,7 @@ class TitleEdit extends Component {
     }
 
     return (
-      <div>
+      <Fragment>
         <Toaster
           position="bottom"
           toasts={updateRequest.errors.map(({ title }, index) => ({
@@ -115,66 +116,55 @@ class TitleEdit extends Component {
           }))}
         />
 
-        <DetailsView
-          type="title"
-          model={model}
-          paneTitle={model.name}
-          actionMenuItems={actionMenuItems}
-          bodyContent={(
-            <form onSubmit={handleSubmit(onSubmit)}>
-              <DetailsViewSection
-                label={intl.formatMessage({ id: 'ui-eholdings.title.titleInformation' })}
-              >
-                <NameField />
-
-                <ContributorField
-                  initialValue={initialValues.contributors}
-                />
-
-                <EditionField />
-                <PublisherNameField />
-                <PublicationTypeField />
-
-                <IdentifiersFields
-                  initialValue={initialValues.identifiers}
-                />
-
-                <DescriptionField />
-                <PeerReviewedField />
-              </DetailsViewSection>
-              <div className={styles['title-edit-action-buttons']}>
-                <div
-                  data-test-eholdings-title-cancel-button
-                >
-                  <Button
-                    disabled={updateRequest.isPending}
-                    type="button"
-                    onClick={this.handleCancel}
-                  >
-                    {intl.formatMessage({ id: 'ui-eholdings.cancel' })}
-
-                  </Button>
-                </div>
-                <div
-                  data-test-eholdings-title-save-button
-                >
-                  <Button
-                    disabled={pristine || model.update.isPending}
-                    type="submit"
-                    buttonStyle="primary"
-                  >
-                    {model.update.isPending ? (<FormattedMessage id="ui-eholdings.saving" />) : (<FormattedMessage id="ui-eholdings.save" />)}
-                  </Button>
-                </div>
-                {updateRequest.isPending && (
+        <form onSubmit={handleSubmit(onSubmit)}>
+          <DetailsView
+            type="title"
+            model={model}
+            paneTitle={model.name}
+            actionMenuItems={actionMenuItems}
+            lastMenu={(
+              <Fragment>
+                {model.update.isPending && (
                   <Icon icon="spinner-ellipsis" />
                 )}
-              </div>
-              <NavigationModal when={!pristine && !updateRequest.isResolved} />
-            </form>
-          )}
-        />
-      </div>
+                <PaneHeaderButton
+                  disabled={pristine || model.update.isPending}
+                  type="submit"
+                  buttonStyle="primary"
+                  data-test-eholdings-title-save-button
+                >
+                  {model.update.isPending ? (<FormattedMessage id="ui-eholdings.saving" />) : (<FormattedMessage id="ui-eholdings.save" />)}
+                </PaneHeaderButton>
+              </Fragment>
+            )}
+            bodyContent={(
+              <Fragment>
+                <DetailsViewSection
+                  label={intl.formatMessage({ id: 'ui-eholdings.title.titleInformation' })}
+                >
+                  <NameField />
+
+                  <ContributorField
+                    initialValue={initialValues.contributors}
+                  />
+
+                  <EditionField />
+                  <PublisherNameField />
+                  <PublicationTypeField />
+
+                  <IdentifiersFields
+                    initialValue={initialValues.identifiers}
+                  />
+
+                  <DescriptionField />
+                  <PeerReviewedField />
+                </DetailsViewSection>
+                <NavigationModal when={!pristine && !updateRequest.isResolved} />
+              </Fragment>
+            )}
+          />
+        </form>
+      </Fragment>
     );
   }
 }

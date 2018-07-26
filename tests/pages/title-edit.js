@@ -1,4 +1,5 @@
 import {
+  action,
   clickable,
   collection,
   fillable,
@@ -13,12 +14,24 @@ import Toast from './toast';
 
 @interactor class TitleEditNavigationModal {}
 
+@interactor class TitleEditDropDown {
+  clickDropDownButton = clickable('button');
+}
+
+@interactor class TitleEditDropDownMenu {
+  clickCancel = clickable('.tether-element [data-test-eholdings-title-cancel-action]');
+}
+
 @interactor class TitleEditPage {
   navigationModal = new TitleEditNavigationModal('#navigation-modal');
 
-  clickCancel = clickable('[data-test-eholdings-title-cancel-button] button');
-  clickSave = clickable('[data-test-eholdings-title-save-button] button');
-  isSaveDisabled = property('[data-test-eholdings-title-save-button] button', 'disabled');
+  clickCancel= action(function () {
+    return this
+      .dropDown.clickDropDownButton()
+      .dropDownMenu.clickCancel();
+  });
+  clickSave = clickable('[data-test-eholdings-title-save-button]');
+  isSaveDisabled = property('[data-test-eholdings-title-save-button]', 'disabled');
   hasErrors = isPresent('[data-test-eholdings-details-view-error="title"]');
   isPeerReviewed = property('[data-test-eholdings-peer-reviewed-field] input[type=checkbox]', 'checked');
   checkPeerReviewed = clickable('[data-test-eholdings-peer-reviewed-field] input[type=checkbox]');
@@ -26,7 +39,7 @@ import Toast from './toast';
   descriptionField = value('[data-test-eholdings-description-textarea] textarea');
   fillDescription = fillable('[data-test-eholdings-description-textarea] textarea');
   descriptionError = hasClassBeginningWith('[data-test-eholdings-description-textarea] textarea', 'feedbackError--');
-  hasBackButton = isPresent('[data-test-eholdings-details-view-back-button] button');
+  hasBackButton = isPresent('[data-test-eholdings-details-view-back-button]');
 
   contributorValue = value('[data-test-eholdings-contributor-contributor] input')
   contributorType = value('[data-test-eholdings-contributor-type] select')
@@ -71,6 +84,9 @@ import Toast from './toast';
     idHasError: hasClassBeginningWith('[data-test-eholdings-identifiers-fields-id] input', 'hasError--'),
     clickRemoveRowButton: clickable('[data-test-eholdings-identifiers-fields-remove-row-button] button')
   });
+
+  dropDown = new TitleEditDropDown('[class*=paneHeaderCenterInner---] [class*=dropdown---]');
+  dropDownMenu = new TitleEditDropDownMenu();
 }
 
 export default new TitleEditPage('[data-test-eholdings-details-view="title"]');
