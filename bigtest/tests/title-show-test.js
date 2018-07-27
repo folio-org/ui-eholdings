@@ -57,6 +57,10 @@ describeApplication('TitleShow', () => {
       expect(TitleShowPage.nameHasFocus).to.be.true;
     });
 
+    it('displays the collapse all button', () => {
+      expect(TitleShowPage.hasCollapseAllButton).to.be.true;
+    });
+
     it('displays the edition', () => {
       expect(TitleShowPage.edition).to.equal('Cool Edition');
     });
@@ -115,6 +119,16 @@ describeApplication('TitleShow', () => {
 
     it.always('should not display back button', () => {
       expect(TitleShowPage.hasBackButton).to.be.false;
+    });
+
+    describe('clicking the collapse all button', () => {
+      beforeEach(() => {
+        return TitleShowPage.clickCollapseAllButton();
+      });
+
+      it('toggles the button text to expand all', () => {
+        expect(TitleShowPage.collapseAllButtonText).to.equal('Expand all');
+      });
     });
   });
 

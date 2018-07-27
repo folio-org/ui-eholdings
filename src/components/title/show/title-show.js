@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-
+import update from 'lodash/fp/update';
+import set from 'lodash/fp/set';
 import {
   Accordion,
   Button,
@@ -35,7 +36,10 @@ class TitleShow extends Component {
   };
 
   state = {
-    showCustomPackageModal: false
+    showCustomPackageModal: false,
+    sections: {
+      titleShowTitleInformation: true
+    }
   };
 
   get actionMenuItems() {
@@ -136,9 +140,19 @@ class TitleShow extends Component {
     }));
   }
 
+  handleSectionToggle = ({ id }) => {
+    let next = update(`sections.${id}`, value => !value, this.state);
+    this.setState(next);
+  }
+
+  handleExpandAll = (sections) => {
+    let next = set('sections', sections, this.state);
+    this.setState(next);
+  }
+
   render() {
     let { model, addCustomPackage, request, intl } = this.props;
-    let { showCustomPackageModal } = this.state;
+    let { showCustomPackageModal, sections } = this.state;
 
     // this will become a ref that will allow us to submit the form
     // from our modal footer buttons
@@ -162,9 +176,16 @@ class TitleShow extends Component {
           key={model.id}
           paneTitle={model.name}
           actionMenuItems={this.actionMenuItems}
+          sections={sections}
+          handleExpandAll={this.handleExpandAll}
           lastMenu={this.lastMenu}
           bodyContent={(
-            <Accordion label={<FormattedMessage id="ui-eholdings.title.titleInformation" />}>
+            <Accordion
+              label={<FormattedMessage id="ui-eholdings.title.titleInformation" />}
+              open={sections.titleShowTitleInformation}
+              id="titleShowTitleInformation"
+              onToggle={this.handleSectionToggle}
+            >
               <ContributorsList data={model.contributors} />
 
               {model.edition && (

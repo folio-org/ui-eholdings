@@ -42,6 +42,10 @@ describeApplication('PackageShow', () => {
       expect(PackageShowPage.nameHasFocus).to.be.true;
     });
 
+    it('displays the collapse all button', () => {
+      expect(PackageShowPage.hasCollapseAllButton).to.be.true;
+    });
+
     it('displays whether or not the package is selected', () => {
       expect(PackageShowPage.isSelected).to.equal(false);
     });
@@ -76,6 +80,16 @@ describeApplication('PackageShow', () => {
 
     it.always('should not display a back button', () => {
       expect(PackageShowPage.hasBackButton).to.be.false;
+    });
+
+    describe('clicking the collapse all button', () => {
+      beforeEach(() => {
+        return PackageShowPage.clickCollapseAllButton();
+      });
+
+      it('toggles the button text to expand all', () => {
+        expect(PackageShowPage.collapseAllButtonText).to.equal('Expand all');
+      });
     });
 
     describe('then visiting another package details page', () => {
