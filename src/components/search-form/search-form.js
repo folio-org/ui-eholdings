@@ -32,7 +32,11 @@ export default class SearchForm extends Component {
     onSearch: PropTypes.func.isRequired,
     searchString: PropTypes.string,
     searchField: PropTypes.string,
-    searchFilter: PropTypes.object, // TODO: shape it
+    searchFilter: PropTypes.shape({
+      q: PropTypes.string,
+      filter: PropTypes.object,
+      searchfield: PropTypes.string,
+    }),
     sort: PropTypes.string,
     displaySearchTypeSwitcher: PropTypes.bool,
     displaySearchButton: PropTypes.bool,
