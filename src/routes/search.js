@@ -61,7 +61,11 @@ class SearchRoute extends Component { // eslint-disable-line react/no-deprecated
     this.state = {
       hideDetails: /^\/eholdings\/?$/.test(props.location.pathname),
       searchType,
-      params
+      params,
+      sort: params.sort,
+      searchString: params.q,
+      searchFilter: params.filter,
+      searchField: params.searchfield
     };
   }
 
@@ -98,8 +102,24 @@ class SearchRoute extends Component { // eslint-disable-line react/no-deprecated
       hideDetails,
       shouldFocusItem,
       searchType,
-      params
+      params,
+      sort: params.sort,
+      searchString: params.q,
+      searchFilter: params.filter,
+      searchField: params.searchfield
     });
+  }
+
+  handleSearchChange = (searchString) => {
+    this.setState({ searchString });
+  }
+
+  handleFilterChange = (sort, searchFilter) => {
+    this.setState({ sort, searchFilter }, () => this.handleSearch());
+  }
+
+  handleSearchFieldChange = searchField => {
+    this.setState({ searchField });
   }
 
   /**
@@ -208,7 +228,14 @@ class SearchRoute extends Component { // eslint-disable-line react/no-deprecated
    * Handles submitting the search form and updates the URL
    * @param {Object} params - query param object
    */
-  handleSearch = (params) => {
+  handleSearch = () => {
+    let params = {
+      q: this.state.searchString,
+      filter: this.state.searchFilter,
+      sort: this.state.sort,
+      searchfield: this.state.searchField
+    };
+
     this.updateURLParams(params);
     this.search(params);
   };
@@ -270,7 +297,15 @@ class SearchRoute extends Component { // eslint-disable-line react/no-deprecated
    */
   render() {
     let { location, children } = this.props;
-    let { searchType, params, hideDetails } = this.state;
+    let {
+      searchType,
+      params,
+      hideDetails,
+      sort,
+      searchString,
+      searchFilter,
+      searchField
+    } = this.state;
 
     if (searchType) {
       let results = this.getResults();
@@ -288,15 +323,17 @@ class SearchRoute extends Component { // eslint-disable-line react/no-deprecated
               isLoading={!results.hasLoaded}
               searchForm={(
                 <SearchForm
+                  sort={sort}
                   searchType={searchType}
-                  searchString={params.q}
-                  filter={params.filter}
-                  searchfield={params.searchfield}
-                  sort={params.sort}
+                  searchString={searchString}
+                  searchFilter={searchFilter}
+                  searchField={searchField}
                   searchTypeUrls={this.getSearchTypeUrls()}
-                  onSearch={this.handleSearch}
-                  onFilterChange={this.handleSearch}
                   isLoading={!!params.q && !results.hasLoaded}
+                  onSearch={this.handleSearch}
+                  onSearchFieldChange={this.handleSearchFieldChange}
+                  onFilterChange={this.handleFilterChange}
+                  onSearchChange={this.handleSearchChange}
                 />
               )}
             />

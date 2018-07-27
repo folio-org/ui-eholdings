@@ -92,9 +92,13 @@ export default class SearchModal extends React.PureComponent {
     });
   }
 
-  handleFilterChange = query => {
+  handleFilterChange = (sort, filter) => {
     this.setState({
-      query: normalize(query),
+      query: normalize({
+        sort,
+        filter,
+        q: this.state.query.q
+      }),
     });
   }
 
@@ -112,7 +116,7 @@ export default class SearchModal extends React.PureComponent {
       .concat(Object.values(queryFromProps.filter))
       .filter(Boolean).length;
 
-    let hasChanges = !isEqual(queryFromProps, this.state.query);
+    let hasChanges = !isEqual(queryFromProps, query);
 
     return (
       <Fragment>
@@ -158,14 +162,14 @@ export default class SearchModal extends React.PureComponent {
             <SearchForm
               searchType={listType}
               searchString={query.q}
-              filter={query.filter}
+              searchFilter={query.filter}
               searchField={query.searchField}
               sort={query.sort}
               onSearch={this.handleListSearch}
               displaySearchTypeSwitcher={false}
               displaySearchButton={false}
               onFilterChange={this.handleFilterChange}
-              onSearchQueryChange={this.handleSearchQueryChange}
+              onSearchChange={this.handleSearchQueryChange}
             />
           </Modal>
         )}
