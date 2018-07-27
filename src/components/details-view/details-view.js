@@ -165,14 +165,13 @@ export default class DetailsView extends Component {
     }
   };
 
-
   render() {
     let {
       type,
       model,
       bodyContent,
       listType,
-n      renderList,
+      renderList,
       paneTitle,
       paneSub,
       actionMenuItems,
