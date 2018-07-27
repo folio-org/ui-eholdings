@@ -44,10 +44,6 @@ describeApplication('PackageCreate', () => {
       expect(PackageCreatePage.isSaveDisabled).to.be.true;
     });
 
-    it('disables the cancel button', () => {
-      expect(PackageCreatePage.isCancelDisabled).to.be.true;
-    });
-
     it('redirects to the new package show page', function () {
       expect(this.app.history.location.pathname).to.match(/^\/eholdings\/packages\/\d{1,}/);
       expect(PackageShowPage.name).to.equal('My Package');
@@ -132,10 +128,6 @@ describeApplication('PackageCreate', () => {
 
     it('enables the save button', () => {
       expect(PackageCreatePage.isSaveDisabled).to.be.false;
-    });
-
-    it('enables the cancel button', () => {
-      expect(PackageCreatePage.isCancelDisabled).to.be.false;
     });
   });
 });

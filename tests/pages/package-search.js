@@ -27,14 +27,14 @@ import Toast from './toast';
   paneTitleHasFocus = is('[data-test-eholdings-search-results-header] h2 [tabindex]', ':focus');
   packagePreviewPaneIsPresent = isPresent('[data-test-preview-pane="packages"]');
   titlePreviewPaneIsPresent = isPresent('[data-test-preview-pane="titles"]');
-  hasBackButton = isPresent('[data-test-eholdings-details-view-back-button] button');
+  hasBackButton = isPresent('[data-test-eholdings-details-view-back-button]');
   clickSearchVignette = clickable('[data-test-search-vignette]');
   hasErrors = isPresent('[data-test-query-list-error="packages"]');
   errorMessage = text('[data-test-query-list-error="packages"]');
   noResultsMessage = text('[data-test-query-list-not-found="packages"]');
   selectedSearchType = collection('[data-test-search-form-type-switcher] a[class^="is-active--"]');
   sortBy = value('[data-test-eholdings-search-filters="packages"] input[name="sort"]:checked');
-  clickCloseButton = clickable('[data-test-eholdings-details-view-close-button] a');
+  clickCloseButton = clickable('[data-test-eholdings-details-view-close-button]');
   hasPreSearchPane = isPresent('[data-test-eholdings-pre-search-pane]');
 
   toast = Toast;

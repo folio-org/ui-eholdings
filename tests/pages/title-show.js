@@ -48,7 +48,7 @@ import Toast from './toast';
   hasPublicationType = isPresent('[data-test-eholdings-title-show-publication-type]');
   subjectsList = text('[data-test-eholdings-title-show-subjects-list]');
   hasSubjectsList = isPresent('[data-test-eholdings-title-show-subjects-list]');
-  hasBackButton = isPresent('[data-test-eholdings-details-view-back-button] button');
+  hasBackButton = isPresent('[data-test-eholdings-details-view-back-button]');
   hasErrors = isPresent('[data-test-eholdings-details-view-error="title"]');
   hasIdentifiersList = isPresent('[data-test-eholdings-identifiers-list-item]');
   packageContainerHeight = property('[data-test-eholdings-details-view-list="title"]', 'offsetHeight');

@@ -29,20 +29,32 @@ import Datepicker from './datepicker';
   confirmButtonIsDisabled = property('[data-test-eholdings-resource-deselection-confirmation-modal-yes]', 'disabled');
 }
 
+@interactor class ResourceEditDropDown {
+  clickDropDownButton = clickable('button');
+}
+
+@interactor class ResourceEditDropDownMenu {
+  clickCancel = clickable('.tether-element [data-test-eholdings-resource-cancel-action]');
+}
+
 @interactor class ResourceEditPage {
   navigationModal = new ResourceEditNavigationModal('#navigation-modal');
 
   addToHoldingsButton = isPresent('[data-test-eholdings-resource-add-to-holdings-button]');
 
-  clickCancel = clickable('[data-test-eholdings-resource-cancel-button] button');
-  clickSave = clickable('[data-test-eholdings-resource-save-button] button');
-  hasSaveButon = isPresent('[data-test-eholdings-resource-save-button] button');
-  hasCancelButton = isPresent('[data-test-eholdings-resource-cancel-button] button');
-  isSaveDisabled = property('[data-test-eholdings-resource-save-button] button', 'disabled');
+  clickCancel= action(function () {
+    return this
+      .dropDown.clickDropDownButton()
+      .dropDownMenu.clickCancel();
+  });
+  clickSave = clickable('[data-test-eholdings-resource-save-button]');
+  hasSaveButon = isPresent('[data-test-eholdings-resource-save-button]');
+  hasCancelButton = isPresent('[data-test-eholdings-resource-cancel-button]');
+  isSaveDisabled = property('[data-test-eholdings-resource-save-button]', 'disabled');
   hasErrors = isPresent('[data-test-eholdings-details-view-error="resource"]');
   isPeerReviewed = property('[data-test-eholdings-peer-reviewed-field] input[type=checkbox]', 'checked');
   checkPeerReviewed = clickable('[data-test-eholdings-peer-reviewed-field] input[type=checkbox]');
-  hasBackButton = isPresent('[data-test-eholdings-details-view-back-button] button');
+  hasBackButton = isPresent('[data-test-eholdings-details-view-back-button]');
   isResourceSelected = text('[data-test-eholdings-resource-holding-status] h4');
   isResourceVisible = property('[data-test-eholdings-resource-visibility-field] input[value="true"]', 'checked');
   isHiddenMessage = computed(function () {
@@ -119,6 +131,9 @@ import Datepicker from './datepicker';
   fillPublisher = fillable('[data-test-eholdings-publisher-name-field] input');
   publisherValue = value('[data-test-eholdings-publisher-name-field] input');
   publisherHasError = hasClassBeginningWith('[data-test-eholdings-publisher-name-field] input', 'hasError--');
+
+  dropDown = new ResourceEditDropDown('[class*=paneHeaderCenterInner---] [class*=dropdown---]');
+  dropDownMenu = new ResourceEditDropDownMenu();
 }
 
 export default new ResourceEditPage('[data-test-eholdings-details-view="resource"]');

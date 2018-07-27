@@ -1,4 +1,5 @@
 import {
+  action,
   attribute,
   clickable,
   collection,
@@ -34,15 +35,20 @@ import Datepicker from './datepicker';
 @interactor class PackageEditDropDownMenu {
   clickRemoveFromHoldings = clickable('.tether-element [data-test-eholdings-package-remove-from-holdings-action]');
   clickAddToHoldings = clickable('.tether-element [data-test-eholdings-package-add-to-holdings-action]');
+  clickCancel = clickable('.tether-element [data-test-eholdings-package-cancel-action]');
 }
 
 @interactor class PackageEditPage {
   navigationModal = new PackageEditNavigationModal('#navigation-modal');
 
-  clickCancel = clickable('[data-test-eholdings-package-cancel-button] button');
-  clickSave = clickable('[data-test-eholdings-package-save-button] button');
+  clickCancel= action(function () {
+    return this
+      .dropDown.clickDropDownButton()
+      .dropDownMenu.clickCancel();
+  });
+  clickSave = clickable('[data-test-eholdings-package-save-button]');
   isSavePresent = isPresent('[data-test-eholdings-package-save-button]');
-  isSaveDisabled = property('[data-test-eholdings-package-save-button] button', 'disabled');
+  isSaveDisabled = property('[data-test-eholdings-package-save-button]', 'disabled');
   hasErrors = isPresent('[data-test-eholdings-details-view-error="package"]');
   toggleIsSelected = clickable('[data-test-eholdings-package-details-selected] input');
   modal = new PackageEditModal('#eholdings-package-confirmation-modal');
@@ -52,7 +58,7 @@ import Datepicker from './datepicker';
   });
   hasAddButton = isPresent('[data-test-eholdings-package-add-to-holdings-button]');
   clickAddButton = clickable('[data-test-eholdings-package-add-to-holdings-button]');
-  hasBackButton = isPresent('[data-test-eholdings-details-view-back-button] button');
+  hasBackButton = isPresent('[data-test-eholdings-details-view-back-button]');
   isHiddenMessage = text('[data-test-eholdings-package-details-is-hidden-reason]');
   isHiddenMessagePresent = isPresent('[data-test-eholdings-package-details-is-hidden-reason]');
   isVisibilityFieldPresent = isPresent('[data-test-eholdings-package-visibility-field]');

@@ -102,14 +102,12 @@ export default class SearchPaneset extends React.Component { // eslint-disable-l
 
   renderNewButton = () => {
     return (
-      <PaneMenu>
-        <Link
-          className={styles['search-new-button']}
-          to={`/eholdings/${this.props.resultsType}/new`}
-        >
-          + New
-        </Link>
-      </PaneMenu>
+      <Link
+        className={styles['search-new-button']}
+        to={`/eholdings/${this.props.resultsType}/new`}
+      >
+        + New
+      </Link>
     );
   };
 
@@ -156,11 +154,9 @@ export default class SearchPaneset extends React.Component { // eslint-disable-l
           <PaneHeader
             paneTitle="Search &amp; Filter"
             lastMenu={resultsView ? (
-              <PaneMenu>
-                <Button buttonStyle="transparent" onClick={this.toggleFilters} className={styles['search-pane-toggle']}>
-                  Apply
-                </Button>
-              </PaneMenu>
+              <Button buttonStyle="transparent" onClick={this.toggleFilters} className={styles['search-pane-toggle']}>
+                Apply
+              </Button>
             ) : null}
           />
           <div className={styles['scrollable-container']}>
@@ -180,12 +176,10 @@ export default class SearchPaneset extends React.Component { // eslint-disable-l
                 paneTitleRef={this.$title}
                 firstMenu={
                   <div className={styles['results-pane-search-toggle']}>
-                    <PaneMenu>
-                      <IconButton
-                        onClick={this.toggleFilters}
-                        icon="search"
-                      />
-                    </PaneMenu>
+                    <IconButton
+                      onClick={this.toggleFilters}
+                      icon="search"
+                    />
                   </div>
                 }
                 lastMenu={newButton}

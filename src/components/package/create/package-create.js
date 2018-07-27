@@ -1,14 +1,12 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { reduxForm } from 'redux-form';
 import { intlShape, injectIntl } from 'react-intl';
 
 import {
-  Button,
   Icon,
   IconButton,
-  PaneHeader,
-  PaneMenu
+  PaneHeader
 } from '@folio/stripes-components';
 
 import DetailsViewSection from '../../details-view-section';
@@ -17,6 +15,7 @@ import CoverageFields, { validate as validateCoverageDates } from '../_fields/cu
 import ContentTypeField from '../_fields/content-type';
 import NavigationModal from '../../navigation-modal';
 import Toaster from '../../toaster';
+import PaneHeaderButton from '../../pane-header-button';
 import styles from './package-create.css';
 
 class PackageCreate extends Component {
@@ -54,6 +53,17 @@ class PackageCreate extends Component {
 
     let historyState = router.history.location.state;
 
+    let actionMenuItems = [];
+
+    if (!request.isPending) {
+      actionMenuItems.push({
+        'label': 'Cancel editing',
+        'state': { eholdings: true },
+        'onClick': this.handleCancel,
+        'data-test-eholdings-package-create-cancel-action': true
+      });
+    }
+
     return (
       <div data-test-eholdings-package-create>
         <Toaster
@@ -65,23 +75,36 @@ class PackageCreate extends Component {
           }))}
         />
 
-        <PaneHeader
-          paneTitle="New custom package"
-          firstMenu={historyState && historyState.eholdings && (
-            <PaneMenu>
-              <div data-test-eholdings-details-view-back-button>
-                <IconButton
-                  icon="left-arrow"
-                  ariaLabel="Go back"
-                  onClick={this.handleCancel}
-                />
-              </div>
-            </PaneMenu>
-          )}
-        />
+        <form onSubmit={handleSubmit(onSubmit)}>
+          <PaneHeader
+            paneTitle="New custom package"
+            actionMenuItems={actionMenuItems}
+            firstMenu={historyState && historyState.eholdings && (
+              <IconButton
+                icon="left-arrow"
+                ariaLabel="Go back"
+                onClick={this.handleCancel}
+                data-test-eholdings-details-view-back-button
+              />
+            )}
+            lastMenu={(
+              <Fragment>
+                {request.isPending && (
+                  <Icon icon="spinner-ellipsis" />
+                )}
+                <PaneHeaderButton
+                  disabled={pristine || request.isPending}
+                  type="submit"
+                  buttonStyle="primary"
+                  data-test-eholdings-package-create-save-button
+                >
+                  {request.isPending ? 'Saving' : 'Save'}
+                </PaneHeaderButton>
+              </Fragment>
+            )}
+          />
 
-        <div className={styles['package-create-form-container']}>
-          <form onSubmit={handleSubmit(onSubmit)}>
+          <div className={styles['package-create-form-container']}>
             <DetailsViewSection label="Package information" separator={false}>
               <NameField />
               <ContentTypeField />
@@ -89,31 +112,8 @@ class PackageCreate extends Component {
             <DetailsViewSection label="Coverage settings">
               <CoverageFields />
             </DetailsViewSection>
-            <div className={styles['package-create-action-buttons']}>
-              <div data-test-eholdings-package-create-cancel-button>
-                <Button
-                  disabled={request.isPending}
-                  type="button"
-                  onClick={this.handleCancel}
-                >
-                  Cancel
-                </Button>
-              </div>
-              <div data-test-eholdings-package-create-save-button>
-                <Button
-                  disabled={pristine || request.isPending}
-                  type="submit"
-                  buttonStyle="primary"
-                >
-                  {request.isPending ? 'Saving' : 'Save'}
-                </Button>
-              </div>
-              {request.isPending && (
-              <Icon icon="spinner-ellipsis" />
-                )}
-            </div>
-          </form>
-        </div>
+          </div>
+        </form>
         <NavigationModal when={!pristine && !request.isResolved} />
       </div>
     );

@@ -23,9 +23,9 @@ import { hasClassBeginningWith } from './helpers';
   paneTitleHasFocus = is('[data-test-eholdings-search-results-header] h2 [tabindex]', ':focus');
   providerPreviewPaneIsPresent = isPresent('[data-test-preview-pane="providers"]');
   packagePreviewPaneIsPresent = isPresent('[data-test-preview-pane="packages"]');
-  hasBackButton = isPresent('[data-test-eholdings-details-view-back-button] button');
+  hasBackButton = isPresent('[data-test-eholdings-details-view-back-button]');
   clickSearchVignette = clickable('[data-test-search-vignette]');
-  clickBackButton = clickable('[data-test-eholdings-details-view-back-button] button');
+  clickBackButton = clickable('[data-test-eholdings-details-view-back-button]');
   hasErrors = isPresent('[data-test-query-list-error="providers"]');
   errorMessage = text('[data-test-query-list-error="providers"]');
   noResultsMessage = text('[data-test-query-list-not-found="providers"]');
@@ -33,7 +33,7 @@ import { hasClassBeginningWith } from './helpers';
   sortBy = value('[data-test-eholdings-search-filters="providers"] input[name="sort"]:checked');
   isSearchButtonDisabled = property('[data-test-search-submit]', 'disabled');
   isSearchVignetteHidden = hasClassBeginningWith('[data-test-search-vignette]', 'is-hidden---');
-  clickCloseButton = clickable('[data-test-eholdings-details-view-close-button] a');
+  clickCloseButton = clickable('[data-test-eholdings-details-view-close-button]');
   hasPreSearchPane = isPresent('[data-test-eholdings-pre-search-pane]');
 
   hasLoaded = computed(function () {

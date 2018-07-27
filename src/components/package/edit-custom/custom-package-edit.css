@@ -1,16 +1,5 @@
 @import '@folio/stripes-components/lib/variables';
 
-.package-edit-action-buttons {
-  align-items: flex-start;
-  border-top: 1px solid var(--minor-divider-color);
-  display: flex;
-  padding-top: 1em;
-
-  & button {
-    margin-right: 0.25em;
-  }
-}
-
 .full-view-link {
   display: none;
 
@@ -27,4 +16,3 @@
     padding: 0;
   }
 }
-

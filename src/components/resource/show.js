@@ -8,8 +8,7 @@ import {
   Icon,
   KeyValue,
   Modal,
-  ModalFooter,
-  PaneMenu
+  ModalFooter
 } from '@folio/stripes-components';
 
 import DetailsView from '../details-view';
@@ -143,17 +142,15 @@ export default class ResourceShow extends Component {
           paneSub={model.package.name}
           actionMenuItems={actionMenuItems}
           lastMenu={(
-            <PaneMenu>
-              <IconButton
-                data-test-eholdings-resource-edit-link
-                icon="edit"
-                ariaLabel={`Edit ${model.title.name}`}
-                to={{
-                  pathname: `/eholdings/resources/${model.id}/edit`,
-                  state: { eholdings: true }
-                }}
-              />
-            </PaneMenu>
+            <IconButton
+              data-test-eholdings-resource-edit-link
+              icon="edit"
+              ariaLabel={`Edit ${model.title.name}`}
+              to={{
+                pathname: `/eholdings/resources/${model.id}/edit`,
+                state: { eholdings: true }
+              }}
+            />
           )}
           bodyContent={(
             <div>

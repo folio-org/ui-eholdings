@@ -6,8 +6,7 @@ import capitalize from 'lodash/capitalize';
 import {
   Icon,
   IconButton,
-  PaneHeader,
-  PaneMenu
+  PaneHeader
 } from '@folio/stripes-components';
 
 import styles from './details-view.css';
@@ -199,25 +198,19 @@ export default class DetailsView extends Component {
       <div data-test-eholdings-details-view={type}>
         <PaneHeader
           firstMenu={queryParams.searchType ? (
-            <PaneMenu>
-              <div data-test-eholdings-details-view-close-button>
-                <IconButton
-                  icon="closeX"
-                  ariaLabel={`Close ${paneTitle}`}
-                  href={`/eholdings${router.route.location.search}`}
-                />
-              </div>
-            </PaneMenu>
+            <IconButton
+              icon="closeX"
+              ariaLabel={`Close ${paneTitle}`}
+              href={`/eholdings${router.route.location.search}`}
+              data-test-eholdings-details-view-close-button
+            />
           ) : historyState && historyState.eholdings && (
-            <PaneMenu>
-              <div data-test-eholdings-details-view-back-button>
-                <IconButton
-                  icon="left-arrow"
-                  ariaLabel="Go back"
-                  onClick={() => router.history.goBack()}
-                />
-              </div>
-            </PaneMenu>
+            <IconButton
+              icon="left-arrow"
+              ariaLabel="Go back"
+              onClick={() => router.history.goBack()}
+              data-test-eholdings-details-view-back-button
+            />
           )}
           paneTitle={(
             <span data-test-eholdings-details-view-pane-title>{paneTitle}</span>
