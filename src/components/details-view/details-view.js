@@ -5,6 +5,7 @@ import capitalize from 'lodash/capitalize';
 import { ExpandAllButton } from '@folio/stripes-components/lib/Accordion';
 
 import {
+  Accordion,
   Icon,
   IconButton,
   PaneHeader
@@ -35,15 +36,25 @@ export default class DetailsView extends Component {
       isLoading: PropTypes.bool.isRequired,
       request: PropTypes.object.isRequired
     }).isRequired,
-    paneTitle: PropTypes.oneOfType([PropTypes.string, PropTypes.element, PropTypes.node]),
-    paneSub: PropTypes.oneOfType([PropTypes.string, PropTypes.element, PropTypes.node]),
+    paneTitle: PropTypes.oneOfType([
+      PropTypes.string,
+      PropTypes.element,
+      PropTypes.node
+    ]),
+    paneSub: PropTypes.oneOfType([
+      PropTypes.string,
+      PropTypes.element,
+      PropTypes.node
+    ]),
     bodyContent: PropTypes.node.isRequired,
-    listType: PropTypes.string,
     renderList: PropTypes.func,
     actionMenuItems: PropTypes.array,
     lastMenu: PropTypes.node,
     resultsLength: PropTypes.number,
     searchModal: PropTypes.node,
+    sections: PropTypes.object.isRequired,
+    handleExpandAll: PropTypes.func.isRequired,
+    listType: PropTypes.node,
     sections: PropTypes.object,
     handleExpandAll: PropTypes.func
   };
@@ -114,31 +125,34 @@ export default class DetailsView extends Component {
    * While scrolling, we need to decide if we should enable or disable
    * the list's "sticky" behavior
    */
-  handleScroll = (e) => {
+  handleScroll = e => {
     let { isSticky } = this.state;
 
     // bail if we shouldn't handle scrolling
     if (!this.shouldHandleScroll) return;
 
     // if the list's child element hits the top, disable isSticky
-    if (this.$list.firstElementChild === e.target &&
-        e.target.scrollTop === 0 && isSticky) {
+    if (
+      this.$list.firstElementChild === e.target &&
+      e.target.scrollTop === 0 &&
+      isSticky
+    ) {
       // prevent scroll logic around bottoming out by scrolling up 1px
       this.$container.scrollTop = this.$container.scrollTop - 1;
       this.setState({ isSticky: false });
 
-    // don't do these calculations when not scrolling the container
+      // don't do these calculations when not scrolling the container
     } else if (e.currentTarget === e.target) {
       let top = e.currentTarget.scrollTop;
       let height = e.currentTarget.offsetHeight;
       let scrollHeight = e.currentTarget.scrollHeight;
       // these will be equal when scrolled all the way down
-      let bottomedOut = (top + height) === scrollHeight;
+      let bottomedOut = top + height === scrollHeight;
 
       // if bottoming out, enable isSticky
       if (bottomedOut && !isSticky) {
         this.setState({ isSticky: true });
-      // if not bottomed out, disable isSticky
+        // if not bottomed out, disable isSticky
       } else if (!bottomedOut && isSticky) {
         this.setState({ isSticky: false });
       }
@@ -151,7 +165,7 @@ export default class DetailsView extends Component {
    * up outside of the list, or when the inner list is scrolled all
    * the way up already.
    */
-  handleWheel = (e) => {
+  handleWheel = e => {
     // this does not need to run if we do not have a list element
     if (!this.$list) return;
 
@@ -184,14 +198,9 @@ export default class DetailsView extends Component {
       handleExpandAll
     } = this.props;
 
-    let {
-      router,
-      queryParams
-    } = this.context;
+    let { router, queryParams } = this.context;
 
-    let {
-      isSticky
-    } = this.state;
+    let { isSticky } = this.state;
 
     let containerClassName = cx('container', {
       locked: isSticky
@@ -268,31 +277,40 @@ export default class DetailsView extends Component {
             <Icon icon="spinner-ellipsis" />
           )}
 
-          {!!renderList && model.isLoaded && (
-            <div
-              ref={(n) => { this.$sticky = n; }}
-              className={styles.sticky}
-              data-test-eholdings-details-view-list={type}
-            >
-              <div className={styles['list-header']}>
-                <div>
-                  <h3>{capitalize(listType)}</h3>
-
+          {!!renderList &&
+            model.isLoaded && (
+              <Accordion
+                header={isListAccordionOpen ? dud : () => accordionHeader}
+                label={listType}
+                open={isListAccordionOpen}
+                className={styles['list-header']}
+              >
+                <div
+                  ref={n => {
+                    this.$sticky = n;
+                  }}
+                  className={cx(styles.sticky, styles.body)}
+                  data-test-eholdings-details-view-list={type}
+                >
+                  {accordionHeader}
                   {resultsLength > 0 && (
-                    <div data-test-eholdings-details-view-results-count>
-                      <p><small>{resultsLength} records found</small></p>
-                    </div>
+                    <KeyValue label="Records Found">
+                      <div data-test-eholdings-details-view-results-count>
+                        <FormattedNumber value={resultsLength} />
+                      </div>
+                    </KeyValue>
                   )}
+                  <div
+                    ref={n => {
+                      this.$list = n;
+                    }}
+                    className={styles.list}
+                  >
+                    {renderList(isSticky)}
+                  </div>
                 </div>
-
-                {searchModal}
-              </div>
-
-              <div ref={(n) => { this.$list = n; }} className={styles.list}>
-                {renderList(isSticky)}
-              </div>
-            </div>
-          )}
+              </Accordion>
+            )}
         </div>
       </div>
     );

@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import update from 'lodash/fp/update';
 import set from 'lodash/fp/set';
+import capitalize from 'lodash/capitalize';
+
 import {
   Accordion,
   Icon,
@@ -366,7 +368,7 @@ class PackageShow extends Component {
               </Accordion>
             </div>
           )}
-          listType="titles"
+          listType={capitalize('titles')}
           renderList={scrollable => (
             <QueryList
               type="package-titles"
