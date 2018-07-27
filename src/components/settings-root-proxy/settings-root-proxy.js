@@ -1,17 +1,15 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { reduxForm } from 'redux-form';
-import {
-  Icon,
-  Button
-} from '@folio/stripes-components';
+import { Icon } from '@folio/stripes-components';
 import isEqual from 'lodash/isEqual';
 
 import SettingsDetailPane from '../settings-detail-pane';
 import { processErrors } from '../utilities';
 import Toaster from '../toaster';
-import styles from './settings-root-proxy.css';
 import RootProxySelectField from './_fields/root-proxy-select';
+import PaneHeaderButton from '../pane-header-button';
+import styles from './settings-root-proxy.css';
 
 class SettingsRootProxy extends Component {
   static propTypes = {
@@ -20,7 +18,8 @@ class SettingsRootProxy extends Component {
     handleSubmit: PropTypes.func,
     onSubmit: PropTypes.func.isRequired,
     pristine: PropTypes.bool,
-    reset: PropTypes.func
+    reset: PropTypes.func,
+    invalid: PropTypes.bool
   };
 
   static contextTypes = {
@@ -53,7 +52,8 @@ class SettingsRootProxy extends Component {
       handleSubmit,
       onSubmit,
       pristine,
-      reset
+      reset,
+      invalid
     } = this.props;
 
     let { router } = this.context;
@@ -71,63 +71,60 @@ class SettingsRootProxy extends Component {
       });
     }
 
+    let actionMenuItems = [
+      {
+        'label': 'Cancel editing',
+        'state': { eholdings: true },
+        'onClick': reset,
+        'disabled': rootProxy.update.isPending || invalid || pristine,
+        'data-test-eholdings-settings-root-proxy-cancel-action': true
+      }
+    ];
+
     return (
-      <SettingsDetailPane
-        paneTitle="Root proxy"
+      <form
+        data-test-eholdings-settings-root-proxy
+        onSubmit={handleSubmit(onSubmit)}
+        className={styles['settings-root-proxy-form']}
       >
-        <Toaster toasts={toasts} position="bottom" />
-        <h3>Root Proxy Setting</h3>
-
-        {proxyTypes.isLoading ? (
-          <Icon icon="spinner-ellipsis" />
-        ) : (
-          <form
-            data-test-eholdings-settings-root-proxy
-            onSubmit={handleSubmit(onSubmit)}
-            className={styles['settings-root-proxy-form']}
-          >
-            <div
-              data-test-eholdings-settings-root-proxy-select
-              className={styles['settings-root-proxy-form']}
-            >
-              <RootProxySelectField proxyTypes={proxyTypes} />
-            </div>
-
-            {!pristine && (
-            <div
-              className={styles['settings-root-proxy-form-actions']}
-              data-test-eholdings-settings-root-proxy-actions
-            >
-              <div data-test-eholdings-root-proxy-cancel-button>
-                <Button
-                  disabled={rootProxy.update.isPending}
-                  type="reset"
-                  onClick={reset}
-                >
-                  Cancel
-                </Button>
-              </div>
-              <div data-test-eholdings-root-proxy-save-button>
-                <Button
-                  disabled={rootProxy.update.isPending}
-                  type="submit"
-                  buttonStyle="primary"
-                >
-                  {rootProxy.update.isPending ? 'Saving' : 'Save'}
-                </Button>
-              </div>
+        <SettingsDetailPane
+          paneTitle="Root proxy"
+          actionMenuItems={actionMenuItems}
+          lastMenu={(
+            <Fragment>
               {rootProxy.update.isPending && (
                 <Icon icon="spinner-ellipsis" />
               )}
+              <PaneHeaderButton
+                disabled={rootProxy.update.isPending || invalid || pristine}
+                type="submit"
+                buttonStyle="primary"
+                data-test-eholdings-settings-root-proxy-save-button
+              >
+                {rootProxy.update.isPending ? 'Saving' : 'Save'}
+              </PaneHeaderButton>
+            </Fragment>
+          )}
+        >
+          <Toaster toasts={toasts} position="bottom" />
+          <h3>Root Proxy Setting</h3>
+
+          {proxyTypes.isLoading ? (
+            <Icon icon="spinner-ellipsis" />
+          ) : (
+            <div data-test-eholdings-settings-root-proxy-select>
+              <RootProxySelectField proxyTypes={proxyTypes} />
             </div>
           )}
-          </form>
-        )}
 
-        <p>EBSCO KB API customers: Please access EBSCOAdmin to setup and maintain proxies.</p>
+          <p>EBSCO KB API customers: Please access EBSCOAdmin to setup and maintain proxies.</p>
 
-        <p>Warning: Changing the root proxy setting will override the proxy for all links and resources currently set to inherit the root proxy selection.</p>
-      </SettingsDetailPane>
+          <p>
+            Warning: Changing the root proxy setting will override the proxy for all links and resources currently set
+            to inherit the root proxy selection.
+          </p>
+        </SettingsDetailPane>
+      </form>
     );
   }
 }

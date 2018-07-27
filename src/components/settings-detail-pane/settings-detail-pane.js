@@ -16,11 +16,13 @@ export default class SettingsDetailPane extends Component {
   render() {
     let {
       children,
-      paneTitle
+      paneTitle,
+      ...paneProps
     } = this.props;
 
     return (
       <Pane
+        {...paneProps}
         defaultWidth="fill"
         paneTitle={paneTitle}
         firstMenu={(
@@ -32,7 +34,9 @@ export default class SettingsDetailPane extends Component {
           />
         )}
       >
-        {children}
+        <div className={styles['settings-detail-pane-body']}>
+          {children}
+        </div>
       </Pane>
     );
   }
