@@ -1,7 +1,7 @@
 import { expect } from 'chai';
 import { beforeEach, describe, it } from '@bigtest/mocha';
 
-import { describeApplication } from './helpers';
+import { describeApplication } from '../helpers/describe-application';
 import PackageShowPage from '../interactors/package-show';
 
 describeApplication('PackageShowAllowKbToAddTitles', () => {

@@ -1,7 +1,7 @@
 import { beforeEach, describe, it } from '@bigtest/mocha';
 import { expect } from 'chai';
 
-import { describeApplication } from './helpers';
+import { describeApplication } from '../helpers/describe-application';
 import PackageShowPage from '../interactors/package-show';
 
 // This test though named custom package show is essentially a Package

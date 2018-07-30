@@ -1,7 +1,7 @@
 import { beforeEach, describe, it } from '@bigtest/mocha';
 import { expect } from 'chai';
 
-import { describeApplication } from './helpers';
+import { describeApplication } from '../helpers/describe-application';
 import PackageSearchPage from '../interactors/package-search';
 import PackageShowPage from '../interactors/package-show';
 import ResourceShowPage from '../interactors/resource-show';
