@@ -1,7 +1,7 @@
 import { beforeEach, describe, it } from '@bigtest/mocha';
 import { expect } from 'chai';
 
-import { describeApplication } from './helpers';
+import { describeApplication } from '../helpers/describe-application';
 import TitleCreatePage from '../interactors/title-create';
 import TitleShowPage from '../interactors/title-show';
 import NavigationModal from '../interactors/navigation-modal';

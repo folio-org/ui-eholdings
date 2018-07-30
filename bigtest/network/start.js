@@ -2,7 +2,7 @@
 
 import Mirage, { camelize } from '@bigtest/mirage';
 import baseConfig from './config';
-import '../tests/force-fetch-polyfill';
+import './force-fetch-polyfill';
 
 const environment = process.env.NODE_ENV;
 const moduleTypes = ['scenarios', 'factories', 'fixtures', 'models', 'serializers', 'identity-managers'];

@@ -2,7 +2,7 @@ import { beforeEach, describe, it } from '@bigtest/mocha';
 import { expect } from 'chai';
 import { Response } from '@bigtest/mirage';
 
-import { describeApplication } from './helpers';
+import { describeApplication } from '../helpers/describe-application';
 import ApplicationPage from '../interactors/application';
 import SettingsPage from '../interactors/settings';
 
