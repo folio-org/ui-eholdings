@@ -2,7 +2,7 @@ import React, { Component, Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { reduxForm } from 'redux-form';
 import isEqual from 'lodash/isEqual';
-import { intlShape, injectIntl } from 'react-intl';
+import { intlShape, injectIntl, FormattedMessage } from 'react-intl';
 
 import {
   Icon,
@@ -142,6 +142,7 @@ class ResourceEditCustomTitle extends Component {
       initialValues,
       handleSubmit,
       pristine,
+      intl,
       change
     } = this.props;
 
@@ -152,7 +153,7 @@ class ResourceEditCustomTitle extends Component {
 
     let actionMenuItems = [
       {
-        'label': 'Cancel editing',
+        'label': <FormattedMessage id="ui-eholdings.actionMenu.cancelEditing" />,
         'to': {
           pathname: `/eholdings/resources/${model.id}`,
           state: { eholdings: true },
@@ -163,7 +164,7 @@ class ResourceEditCustomTitle extends Component {
 
     if (resourceSelected === true) {
       actionMenuItems.push({
-        'label': 'Remove title from holdings',
+        'label': <FormattedMessage id="ui-eholdings.resource.actionMenu.removeHolding" />,
         'state': { eholdings: true },
         'onClick': this.handleRemoveResourceFromHoldings,
         'data-test-eholdings-remove-resource-from-holdings': true
@@ -195,24 +196,31 @@ class ResourceEditCustomTitle extends Component {
                   buttonStyle="primary"
                   data-test-eholdings-resource-save-button
                 >
-                  {model.update.isPending || model.destroy.isPending ? 'Saving' : 'Save'}
+                  {model.update.isPending || model.destroy.isPending ?
+                  (<FormattedMessage id="ui-eholdings.saving" />)
+                  :
+                  (<FormattedMessage id="ui-eholdings.save" />)}
                 </PaneHeaderButton>
               </Fragment>
             }
             bodyContent={(
               <Fragment>
                 <DetailsViewSection
-                  label="Holding status"
+                  label={<FormattedMessage id="ui-eholdings.label.holdingStatus" />}
                 >
                   <label
                     data-test-eholdings-resource-holding-status
                     htmlFor="custom-resource-holding-status"
                   >
-                    <h4>{resourceSelected ? 'Selected' : 'Not selected'}</h4>
+                    <h4>{resourceSelected ?
+                      (<FormattedMessage id="ui-eholdings.selected" />)
+                      :
+                      (<FormattedMessage id="ui-eholdings.notSelected" />)}
+                    </h4>
                     <br />
                   </label>
                 </DetailsViewSection>
-                <DetailsViewSection label="Resource settings">
+                <DetailsViewSection label={<FormattedMessage id="ui-eholdings.resource.resourceSettings" />}>
                   {resourceSelected ? (
                     <Fragment>
                       <VisibilityField disabled={visibilityMessage} />
@@ -220,25 +228,25 @@ class ResourceEditCustomTitle extends Component {
                     </Fragment>
                   ) : (
                     <p data-test-eholdings-resource-edit-settings-message>
-                      Add the resource to holdings to customize resource settings.
+                      <FormattedMessage id="ui-eholdings.resource.resourceSettings.notSelected" />
                     </p>
                   )}
                 </DetailsViewSection>
 
                 <DetailsViewSection
-                  label="Coverage settings"
+                  label={<FormattedMessage id="ui-eholdings.label.coverageSettings" />}
                 >
                   {resourceSelected ? (
                     <Fragment>
-                      <h4>Coverage dates</h4>
+                      <h4><FormattedMessage id="ui-eholdings.label.coverageDates" /></h4>
                       <CustomCoverageFields
                         initialValue={initialValues.customCoverages}
                       />
 
-                      <h4>Coverage statement</h4>
+                      <h4><FormattedMessage id="ui-eholdings.label.coverageStatement" /></h4>
                       <CoverageStatementFields />
 
-                      <h4>Embargo period</h4>
+                      <h4><FormattedMessage id="ui-eholdings.resource.embargoPeriod" /></h4>
                       <CustomEmbargoFields
                         change={change}
                         showInputs={(initialValues.customEmbargoValue > 0)}
@@ -250,7 +258,7 @@ class ResourceEditCustomTitle extends Component {
                     </Fragment>
                   ) : (
                     <p data-test-eholdings-resource-edit-settings-message>
-                      Add the resource to holdings to customize coverage.
+                      <FormattedMessage id="ui-eholdings.resource.coverage.notSelected" />
                     </p>
                   )}
 
@@ -264,18 +272,21 @@ class ResourceEditCustomTitle extends Component {
         <Modal
           open={showSelectionModal}
           size="small"
-          label="Remove title from holdings?"
+          label={intl.formatMessage({ id: 'ui-eholdings.resource.modal.header' })}
           id="eholdings-resource-confirmation-modal"
           footer={(
             <ModalFooter
               primaryButton={{
-                'label': model.destroy.isPending ? 'Removing...' : 'Yes, remove',
+                'label': model.destroy.isPending ?
+                  (<FormattedMessage id="ui-eholdings.resource.modal.buttonWorking" />)
+                    :
+                  (<FormattedMessage id="ui-eholdings.resource.modal.buttonConfirm" />),
                 'onClick': this.commitSelectionToggle,
                 'disabled': model.destroy.isPending,
                 'data-test-eholdings-resource-deselection-confirmation-modal-yes': true
               }}
               secondaryButton={{
-                'label': 'No, do not remove',
+                'label': <FormattedMessage id="ui-eholdings.resource.modal.buttonCancel" />,
                 'onClick': this.cancelSelectionToggle,
                 'data-test-eholdings-resource-deselection-confirmation-modal-no': true
               }}
@@ -290,14 +301,11 @@ class ResourceEditCustomTitle extends Component {
               */
               model.title.resources.length <= 1 ? (
                 <span data-test-eholdings-deselect-final-title-warning>
-                  Are you sure you want to remove this title from your holdings?
-                  It is also the last title selected in this package. By removing
-                  this title, you will also remove this package from your holdings
-                  and all customizations will be lost.
+                  <FormattedMessage id="ui-eholdings.resource.modal.body.isCustom.lastTitle" />
                 </span>
               ) : (
                 <span data-test-eholdings-deselect-title-warning>
-                Are you sure you want to remove this title from your holdings? By removing this title, you will lose all customization to this title in this package only.
+                  <FormattedMessage id="ui-eholdings.resource.modal.body" />
                 </span>
               )
             }

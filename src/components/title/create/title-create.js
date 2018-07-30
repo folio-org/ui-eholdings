@@ -129,7 +129,7 @@ class TitleCreate extends Component {
               <DescriptionField />
               <PeerReviewedField />
             </DetailsViewSection>
-            <DetailsViewSection label={intl.formatMessage({ id: 'ui-eholdings.packageInformation' })}>
+            <DetailsViewSection label={intl.formatMessage({ id: 'ui-eholdings.label.packageInformation' })}>
               <PackageSelectField options={packageOptions} />
             </DetailsViewSection>
           </div>

@@ -239,7 +239,7 @@ class ManagedPackageEdit extends Component {
             bodyContent={(
               <Fragment>
                 <DetailsViewSection
-                  label={intl.formatMessage({ id: 'ui-eholdings.package.holdingStatus' })}
+                  label={intl.formatMessage({ id: 'ui-eholdings.label.holdingStatus' })}
                 >
                   <label
                     data-test-eholdings-package-details-selected
@@ -351,27 +351,27 @@ class ManagedPackageEdit extends Component {
         <Modal
           open={showSelectionModal}
           size="small"
-          label={intl.formatMessage({ id: 'ui-eholdings.package.modalMessageHeader' })}
+          label={intl.formatMessage({ id: 'ui-eholdings.package.modal.header' })}
           id="eholdings-package-confirmation-modal"
           footer={(
             <ModalFooter
               primaryButton={{
                 'label': model.update.isPending ?
-                  intl.formatMessage({ id: 'ui-eholdings.package.modalMessageButtonWorking' }) :
-                  intl.formatMessage({ id: 'ui-eholdings.package.modalMessageButtonConfirm' }),
+                  intl.formatMessage({ id: 'ui-eholdings.package.modal.buttonWorking' }) :
+                  intl.formatMessage({ id: 'ui-eholdings.package.modal.buttonConfirm' }),
                 'onClick': this.commitSelectionToggle,
                 'disabled': model.update.isPending,
                 'data-test-eholdings-package-deselection-confirmation-modal-yes': true
               }}
               secondaryButton={{
-                'label': intl.formatMessage({ id: 'ui-eholdings.package.modalMessageButtonCancel' }),
+                'label': intl.formatMessage({ id: 'ui-eholdings.package.modal.buttonCancel' }),
                 'onClick': this.cancelSelectionToggle,
                 'data-test-eholdings-package-deselection-confirmation-modal-no': true
               }}
             />
           )}
         >
-          <FormattedMessage id="ui-eholdings.package.modalMessageBody" />
+          <FormattedMessage id="ui-eholdings.package.modal.body" />
         </Modal>
       </div>
     );

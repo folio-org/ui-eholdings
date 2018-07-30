@@ -97,16 +97,16 @@ class PackageShow extends Component {
 
     let modalMessage = model.isCustom ?
       {
-        header: intl.formatMessage({ id: 'ui-eholdings.package.modalMessageHeader.isCustom' }),
-        body: intl.formatMessage({ id: 'ui-eholdings.package.modalMessageBody.isCustom' }),
-        buttonConfirm: intl.formatMessage({ id: 'ui-eholdings.package.modalMessageButtonConfirm.isCustom' }),
-        buttonCancel: intl.formatMessage({ id: 'ui-eholdings.package.modalMessageButtonCancel.isCustom' })
+        header: intl.formatMessage({ id: 'ui-eholdings.package.modal.header.isCustom' }),
+        body: intl.formatMessage({ id: 'ui-eholdings.package.modal.body.isCustom' }),
+        buttonConfirm: intl.formatMessage({ id: 'ui-eholdings.package.modal.buttonConfirm.isCustom' }),
+        buttonCancel: intl.formatMessage({ id: 'ui-eholdings.package.modal.buttonCancel.isCustom' })
       } :
       {
-        header: intl.formatMessage({ id: 'ui-eholdings.package.modalMessageHeader' }),
-        body: intl.formatMessage({ id: 'ui-eholdings.package.modalMessageBody' }),
-        buttonConfirm: intl.formatMessage({ id: 'ui-eholdings.package.modalMessageButtonConfirm' }),
-        buttonCancel: intl.formatMessage({ id: 'ui-eholdings.package.modalMessageButtonCancel' })
+        header: intl.formatMessage({ id: 'ui-eholdings.package.modal.header' }),
+        body: intl.formatMessage({ id: 'ui-eholdings.package.modal.body' }),
+        buttonConfirm: intl.formatMessage({ id: 'ui-eholdings.package.modal.buttonConfirm' }),
+        buttonCancel: intl.formatMessage({ id: 'ui-eholdings.package.modal.buttonCancel' })
       };
 
     let actionMenuItems = [
@@ -208,7 +208,7 @@ class PackageShow extends Component {
           )}
           bodyContent={(
             <div>
-              <Accordion label={intl.formatMessage({ id: 'ui-eholdings.package.holdingStatus' })}>
+              <Accordion label={intl.formatMessage({ id: 'ui-eholdings.label.holdingStatus' })}>
                 <SelectionStatus
                   model={model}
                   isPending={packageSelectionPending}
@@ -216,7 +216,7 @@ class PackageShow extends Component {
                   onAddToHoldings={this.props.addPackageToHoldings}
                 />
               </Accordion>
-              <Accordion label={intl.formatMessage({ id: 'ui-eholdings.packageInformation' })}>
+              <Accordion label={intl.formatMessage({ id: 'ui-eholdings.label.packageInformation' })}>
                 <KeyValue label={<FormattedMessage id="ui-eholdings.package.provider" />}>
                   <div data-test-eholdings-package-details-provider>
                     <Link to={`/eholdings/providers/${model.providerId}`}>{model.providerName}</Link>
