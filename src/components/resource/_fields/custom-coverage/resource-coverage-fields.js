@@ -25,7 +25,7 @@ class ResourceCoverageFields extends Component {
   renderCoverageFields = ({ fields }) => {
     let { initialValue, intl } = this.props;
     return (
-      <div className={styles['coverage-fields']}>
+      <div>
         {fields.length === 0
           && initialValue.length > 0
           && initialValue[0].beginCoverage

@@ -1,9 +1,5 @@
 @import '@folio/stripes-components/lib/variables';
 
-.coverage-fields {
-  max-width: 50em;
-}
-
 .coverage-fields-date-range-rows {
   list-style-type: none;
   padding: 0;

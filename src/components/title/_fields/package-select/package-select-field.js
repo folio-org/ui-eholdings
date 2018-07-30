@@ -4,7 +4,6 @@ import { Field } from 'redux-form';
 import { injectIntl, intlShape } from 'react-intl';
 
 import { Select } from '@folio/stripes-components';
-import styles from './package-select-field.css';
 
 function PackageSelectField({ intl, options }) {
   let optionsWithPlaceholder = [{
@@ -14,10 +13,7 @@ function PackageSelectField({ intl, options }) {
   }, ...options];
 
   return (
-    <div
-      data-test-eholdings-package-select-field
-      className={styles['package-select-field']}
-    >
+    <div data-test-eholdings-package-select-field>
       <Field
         name="packageId"
         component={Select}

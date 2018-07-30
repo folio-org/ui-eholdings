@@ -3,14 +3,10 @@ import { Field } from 'redux-form';
 
 import { Select } from '@folio/stripes-components';
 import { injectIntl, intlShape } from 'react-intl';
-import styles from './publication-type.css';
 
 function PublicationTypeField({ intl }) {
   return (
-    <div
-      data-test-eholdings-publication-type-field
-      className={styles['publication-type-field']}
-    >
+    <div data-test-eholdings-publication-type-field>
       <Field
         name="publicationType"
         component={Select}

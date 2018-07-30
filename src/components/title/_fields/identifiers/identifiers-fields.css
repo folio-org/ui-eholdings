@@ -2,7 +2,6 @@
 
 .identifiers-fields {
   margin: 1em 0;
-  max-width: 50em;
   padding: 0;
 
   & legend {

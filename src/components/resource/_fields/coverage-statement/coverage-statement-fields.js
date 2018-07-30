@@ -2,15 +2,11 @@ import React, { Component } from 'react';
 import { Field } from 'redux-form';
 
 import { TextArea } from '@folio/stripes-components';
-import styles from './coverage-statement-fields.css';
 
 export default class CoverageStatementFields extends Component {
   render() {
     return (
-      <div
-        data-test-eholdings-coverage-statement-textarea
-        className={styles['coverage-statement-textarea']}
-      >
+      <div data-test-eholdings-coverage-statement-textarea>
         <Field
           name="coverageStatement"
           component={TextArea}
