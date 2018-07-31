@@ -22,6 +22,7 @@ export default function PackageSearchList({
       onUpdateOffset={onUpdateOffset}
       itemHeight={84}
       notFoundMessage={`No packages found for "${params.q}".`}
+      fullWidth
       renderItem={item => (
         <PackageListItem
           showProviderName

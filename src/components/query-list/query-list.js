@@ -25,11 +25,13 @@ export default class QueryList extends Component {
     fetch: PropTypes.func.isRequired,
     renderItem: PropTypes.func.isRequired,
     onUpdateOffset: PropTypes.func,
-    length: PropTypes.number
+    length: PropTypes.number,
+    fullWidth: PropTypes.bool
   };
 
   static defaultProps = {
-    notFoundMessage: 'Not found'
+    notFoundMessage: 'Not found',
+    fullWidth: false
   }
 
   state = {
@@ -55,7 +57,8 @@ export default class QueryList extends Component {
       fetch,
       itemHeight,
       renderItem,
-      length
+      length,
+      fullWidth
     } = this.props;
     let {
       offset
@@ -87,6 +90,7 @@ export default class QueryList extends Component {
               onUpdate={this.updateOffset}
               scrollable={scrollable}
               data-test-query-list={type}
+              fullWidth={fullWidth}
             >
               {item => (
                 item.isRejected ? (

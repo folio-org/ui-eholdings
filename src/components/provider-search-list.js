@@ -22,6 +22,7 @@ export default function ProviderSearchList({
       onUpdateOffset={onUpdateOffset}
       itemHeight={68}
       notFoundMessage={`No providers found for "${params.q}".`}
+      fullWidth
       renderItem={item => (
         <ProviderListItem
           item={item.content}
