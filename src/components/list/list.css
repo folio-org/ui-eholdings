@@ -4,6 +4,10 @@
   margin: 0 auto;
   padding: 0;
 
+  &.full-width {
+    max-width: none;
+  }
+
   & li {
     border-bottom: 1px solid #eee;
     list-style-type: none;

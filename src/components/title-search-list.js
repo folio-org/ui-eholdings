@@ -22,6 +22,7 @@ export default function TitleSearchList({
       onUpdateOffset={onUpdateOffset}
       itemHeight={84}
       notFoundMessage={`No titles found for "${params.q}".`}
+      fullWidth
       renderItem={item => (
         <TitleListItem
           showPublisherAndType
