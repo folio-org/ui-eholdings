@@ -167,9 +167,38 @@
     webpack-bundle-analyzer "^2.9.1"
     yargs "^10.0.3"
 
-"@folio/stripes-components@3.0.4000452", "@folio/stripes-components@^3.0.0":
+"@folio/stripes-components@^3.0.0":
   version "3.0.4000452"
   resolved "https://repository.folio.org/repository/npm-folioci/@folio/stripes-components/-/stripes-components-3.0.4000452.tgz#a07ed79f8d237a99be7b9dfbb9219683241edca3"
+  dependencies:
+    "@folio/stripes-connect" "^3.1.3"
+    "@folio/stripes-form" "^0.8.2"
+    "@folio/stripes-react-hotkeys" "^1.0.0"
+    classnames "^2.2.5"
+    dom-helpers "^3.2.1"
+    lodash "^4.17.4"
+    moment "^2.17.1"
+    moment-range "^3.0.3"
+    moment-timezone "^0.5.14"
+    normalize.css "^7.0.0"
+    prop-types "^15.5.10"
+    prop-types-extra "^1.0.1"
+    query-string "^6.1.0"
+    react-flexbox-grid "1.1.3"
+    react-highlighter "^0.4.2"
+    react-intl "^2.4.0"
+    react-overlays "^0.8.3"
+    react-redux "^5.0.2"
+    react-router-dom "^4.1.1"
+    react-tether "^1.0.1"
+    react-transition-group "^2.2.1"
+    redux "^3.6.0"
+    redux-form "^7.0.3"
+    typeface-source-sans-pro "^0.0.44"
+
+"@folio/stripes-components@git+https://git@github.com/thefrontside/stripes-components.git#jc/accordion-css-edit":
+  version "3.0.5"
+  resolved "git+https://git@github.com/thefrontside/stripes-components.git#e07622a4d1ecccb24c1027a284f787d52999ffc7"
   dependencies:
     "@folio/stripes-connect" "^3.1.3"
     "@folio/stripes-form" "^0.8.2"
@@ -319,9 +348,9 @@
     mousetrap "^1.6.1"
     prop-types "^15.5.10"
 
-"@folio/ui-testing@github:folio-org/ui-testing#framework-only":
+"@folio/ui-testing@folio-org/ui-testing#framework-only":
   version "4.0.0"
-  resolved "https://codeload.github.com/folio-org/ui-testing/tar.gz/41c0beb5dbfd450538cfd2624a43cac519b35388"
+  resolved "https://codeload.github.com/folio-org/ui-testing/tar.gz/dff127ffed588deb5344a5fb2d74dfffdc18a9d3"
   dependencies:
     debug "^3.1.0"
     electron "2.0.0"

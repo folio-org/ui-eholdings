@@ -84,16 +84,11 @@ h4 {
   flex-direction: column;
   max-height: 100%;
 
-  & h3 {
-    color: var(--subLabelColor #999);
-    font-size: 18px;
-    font-weight: 600;
-    padding: 1rem 0;
-    margin: 0;
-
-    &:not(:only-child) {
-      padding-bottom: 0;
-    }
+  & section {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    width: 100%;
   }
 
   & .list {

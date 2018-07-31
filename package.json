@@ -54,7 +54,7 @@
     "webpack": "^4.0.0"
   },
   "dependencies": {
-    "@folio/stripes-components": "3.0.4000452",
+    "@folio/stripes-components": "git+https://git@github.com/thefrontside/stripes-components.git#jc/accordion-css-edit",
     "classnames": "^2.2.5",
     "funcadelic": "^0.4.0",
     "impagination": "^1.0.0-alpha.3",

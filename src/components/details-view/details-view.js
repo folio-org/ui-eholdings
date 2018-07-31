@@ -11,6 +11,7 @@ import {
   PaneHeader
 } from '@folio/stripes-components';
 
+import AccordionListHeader from './accordion-list-header';
 import styles from './details-view.css';
 
 const cx = classNames.bind(styles);
@@ -210,6 +211,8 @@ export default class DetailsView extends Component {
 
     let historyState = router.history.location.state;
 
+    let isListAccordionOpen = sections[listSectionId];
+
     return (
       <div data-test-eholdings-details-view={type}>
         <PaneHeader
@@ -279,42 +282,23 @@ export default class DetailsView extends Component {
             <Icon icon="spinner-ellipsis" />
           )}
 
-          {!!renderList &&
-            model.isLoaded && (
+          {!!renderList && model.isLoaded && (
+            <div
+              ref={(n) => { this.$sticky = n; }}
+              className={styles.sticky}
+              data-test-eholdings-details-view-list={type}
+            >
               <Accordion
-                header={isListAccordionOpen ? dud : () => accordionHeader}
-                label={listType}
-                open={isListAccordionOpen}
-                className={styles['list-header']}
-                id={listSectionId}
-                onToggle={onListToggle}
+                header={AccordionListHeader}
+                label={capitalize(listType)}
+                displayWhenOpen={searchModal}
+                resultsLength={resultsLength}
+                contentRef={(n) => { this.$list = n; }}
               >
-                <div
-                  ref={n => {
-                    this.$sticky = n;
-                  }}
-                  className={cx(styles.sticky, styles.body)}
-                  data-test-eholdings-details-view-list={type}
-                >
-                  {accordionHeader}
-                  {resultsLength > 0 && (
-                    <KeyValue label="Records Found">
-                      <div data-test-eholdings-details-view-results-count>
-                        <FormattedNumber value={resultsLength} />
-                      </div>
-                    </KeyValue>
-                  )}
-                  <div
-                    ref={n => {
-                      this.$list = n;
-                    }}
-                    className={styles.list}
-                  >
-                    {renderList(isSticky)}
-                  </div>
-                </div>
+                {renderList(isSticky)}
               </Accordion>
-            )}
+            </div>
+          )}
         </div>
       </div>
     );
