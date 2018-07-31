@@ -37,7 +37,7 @@ describeApplication('PackageSelection', () => {
       });
 
       it.skip('indicates it is working to get to desired state', () => {
-        expect(PackageShowPage.isSelecting).to.equal(true);
+        expect(PackageShowPage.selectionStatus.isSelecting).to.equal(true);
       });
 
       describe('when the request succeeds', () => {
@@ -46,11 +46,11 @@ describeApplication('PackageSelection', () => {
         });
 
         it('reflect the desired state was set', () => {
-          expect(PackageShowPage.isSelected).to.equal(true);
+          expect(PackageShowPage.selectionStatus.isSelected).to.equal(true);
         });
 
         it('indicates it is no longer working', () => {
-          expect(PackageShowPage.isSelecting).to.equal(false);
+          expect(PackageShowPage.selectionStatus.isSelecting).to.equal(false);
         });
 
         it('should show the package titles are all selected', () => {
@@ -70,7 +70,7 @@ describeApplication('PackageSelection', () => {
           return PackageShowPage
             .when(() => !PackageShowPage.isSelecting)
             .dropDown.clickDropDownButton()
-            .dropDownMenu.clickRemoveFromHoldings();
+            .dropDownMenu.removeFromHoldings.click();
         });
 
         describe('canceling the deselection', () => {
@@ -79,11 +79,11 @@ describeApplication('PackageSelection', () => {
           });
 
           it('does not show a loading indicator', () => {
-            expect(PackageShowPage.isSelecting).to.equal(false);
+            expect(PackageShowPage.selectionStatus.isSelecting).to.equal(false);
           });
 
           it('remains selected', () => {
-            expect(PackageShowPage.isSelected).to.equal(true);
+            expect(PackageShowPage.selectionStatus.isSelected).to.equal(true);
           });
         });
 
@@ -94,7 +94,7 @@ describeApplication('PackageSelection', () => {
           });
 
           it('indicates it is working', () => {
-            expect(PackageShowPage.isSelecting).to.equal(true);
+            expect(PackageShowPage.selectionStatus.isSelecting).to.equal(true);
           });
 
           describe('when the request succeeds', () => {
@@ -103,11 +103,11 @@ describeApplication('PackageSelection', () => {
             });
 
             it('reflect the desired state was set', () => {
-              expect(PackageShowPage.isSelected).to.equal(false);
+              expect(PackageShowPage.selectionStatus.isSelected).to.equal(false);
             });
 
             it('indicates it is no longer working', () => {
-              expect(PackageShowPage.isSelecting).to.equal(false);
+              expect(PackageShowPage.selectionStatus.isSelecting).to.equal(false);
             });
 
             it('should show the package titles are not all selected', () => {
@@ -152,11 +152,11 @@ describeApplication('PackageSelection', () => {
         });
 
         it('reflect the desired state was not set', () => {
-          expect(PackageShowPage.isSelected).to.equal(false);
+          expect(PackageShowPage.selectionStatus.isSelected).to.equal(false);
         });
 
         it('indicates it is no longer working', () => {
-          expect(PackageShowPage.isSelecting).to.equal(false);
+          expect(PackageShowPage.selectionStatus.isSelecting).to.equal(false);
         });
 
         it('shows the error as a toast', () => {

@@ -184,7 +184,7 @@ describeApplication('CustomPackageEditVisibility', () => {
       });
     });
     it('reflects the desired state of holding status', () => {
-      expect(PackageEditPage.isSelected).to.equal(true);
+      expect(PackageEditPage.selectionStatus.isSelected).to.equal(true);
     });
 
     it('disables the save button', () => {

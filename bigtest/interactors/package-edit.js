@@ -1,4 +1,5 @@
 import {
+  Interactor,
   action,
   attribute,
   clickable,
@@ -14,6 +15,7 @@ import {
 import { hasClassBeginningWith } from './helpers';
 import Toast from './toast';
 import Datepicker from './datepicker';
+import PackageSelectionStatus from './selection-status';
 
 @interactor class PackageEditNavigationModal {
   cancelNavigation = clickable('[data-test-navigation-modal-dismiss]');
@@ -33,9 +35,9 @@ import Datepicker from './datepicker';
 }
 
 @interactor class PackageEditDropDownMenu {
-  clickRemoveFromHoldings = clickable('.tether-element [data-test-eholdings-package-remove-from-holdings-action]');
-  clickAddToHoldings = clickable('.tether-element [data-test-eholdings-package-add-to-holdings-action]');
-  clickCancel = clickable('.tether-element [data-test-eholdings-package-cancel-action]');
+  addToHoldings = new Interactor('.tether-element [data-test-eholdings-package-add-to-holdings-action]');
+  removeFromHoldings = new Interactor('.tether-element [data-test-eholdings-package-remove-from-holdings-action]');
+  cancel = new Interactor('.tether-element [data-test-eholdings-package-cancel-action]');
 }
 
 @interactor class PackageEditPage {
@@ -44,19 +46,14 @@ import Datepicker from './datepicker';
   clickCancel= action(function () {
     return this
       .dropDown.clickDropDownButton()
-      .dropDownMenu.clickCancel();
+      .dropDownMenu.cancel.click();
   });
   clickSave = clickable('[data-test-eholdings-package-save-button]');
   isSavePresent = isPresent('[data-test-eholdings-package-save-button]');
   isSaveDisabled = property('[data-test-eholdings-package-save-button]', 'disabled');
   hasErrors = isPresent('[data-test-eholdings-details-view-error="package"]');
-  toggleIsSelected = clickable('[data-test-eholdings-package-details-selected] input');
   modal = new PackageEditModal('#eholdings-package-confirmation-modal');
-  selectionText = text('[data-test-eholdings-package-details-selected] h4');
-  isSelected = computed(function () {
-    return this.selectionText === 'Selected';
-  });
-  hasAddButton = isPresent('[data-test-eholdings-package-add-to-holdings-button]');
+  selectionStatus = new PackageSelectionStatus();
   clickAddButton = clickable('[data-test-eholdings-package-add-to-holdings-button]');
   hasBackButton = isPresent('[data-test-eholdings-details-view-back-button]');
   isHiddenMessage = text('[data-test-eholdings-package-details-is-hidden-reason]');
@@ -88,6 +85,26 @@ import Datepicker from './datepicker';
   dropDownMenu = new PackageEditDropDownMenu();
 
   toast = Toast;
+
+  selectPackage() {
+    return this
+      .dropDown.clickDropDownButton()
+      .dropDownMenu.addToHoldings.click();
+  }
+
+  deselectAndConfirmPackage() {
+    return this
+      .dropDown.clickDropDownButton()
+      .dropDownMenu.removeFromHoldings.click()
+      .modal.confirmDeselection();
+  }
+
+  deselectAndCancelPackage() {
+    return this
+      .dropDown.clickDropDownButton()
+      .dropDownMenu.removeFromHoldings.click()
+      .modal.cancelDeselection();
+  }
 
   name = fillable('[data-test-eholdings-package-name-field] input');
   contentType = fillable('[data-test-eholdings-package-content-type-field] select');

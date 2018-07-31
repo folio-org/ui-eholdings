@@ -170,7 +170,7 @@ describeApplication('ManagedPackageEditAllowKbToAddTitles', () => {
       });
 
       it('reflects the desired state (Selected)', () => {
-        expect(PackageEditPage.isSelected).to.be.true;
+        expect(PackageEditPage.selectionStatus.isSelected).to.be.true;
       });
 
       it('allow KB to add titles is selected true', () => {

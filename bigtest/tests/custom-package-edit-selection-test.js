@@ -30,7 +30,7 @@ describeApplication('CustomPackageEditSelection', () => {
     });
 
     it('displays the correct holdings status (ON)', () => {
-      expect(PackageEditPage.isSelected).to.equal(true);
+      expect(PackageEditPage.selectionStatus.isSelected).to.equal(true);
     });
 
     it('disables the save button', () => {
@@ -51,7 +51,7 @@ describeApplication('CustomPackageEditSelection', () => {
       beforeEach(() => {
         return PackageEditPage
           .dropDown.clickDropDownButton()
-          .dropDownMenu.clickRemoveFromHoldings();
+          .dropDownMenu.removeFromHoldings.click();
       });
 
       it('shows the deletion confirmation modal', () => {
@@ -68,7 +68,7 @@ describeApplication('CustomPackageEditSelection', () => {
         });
 
         it('reflects that the package is still selected', () => {
-          expect(PackageEditPage.isSelected).to.equal(true);
+          expect(PackageEditPage.selectionStatus.isSelected).to.equal(true);
         });
       });
 

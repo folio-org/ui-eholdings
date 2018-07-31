@@ -22,6 +22,7 @@ import DetailsViewSection from '../../details-view-section';
 import NavigationModal from '../../navigation-modal';
 import Toaster from '../../toaster';
 import PaneHeaderButton from '../../pane-header-button';
+import SelectionStatus from '../selection-status';
 import styles from './custom-package-edit.css';
 
 class CustomPackageEdit extends Component {
@@ -32,7 +33,8 @@ class CustomPackageEdit extends Component {
     model: PropTypes.object.isRequired,
     onSubmit: PropTypes.func.isRequired,
     pristine: PropTypes.bool,
-    intl: intlShape.isRequired
+    intl: intlShape.isRequired,
+    addPackageToHoldings: PropTypes.func.isRequired
   };
 
   static contextTypes = {
@@ -220,17 +222,10 @@ class CustomPackageEdit extends Component {
                 <DetailsViewSection
                   label={intl.formatMessage({ id: 'ui-eholdings.label.holdingStatus' })}
                 >
-                  <label
-                    data-test-eholdings-package-details-selected
-                    htmlFor="custom-package-details-toggle-switch"
-                  >
-                    <h4>
-                      {packageSelected ?
-                        (<FormattedMessage id="ui-eholdings.selected" />) :
-                        (<FormattedMessage id="ui-eholdings.notSelected" />)
-                      }
-                    </h4>
-                  </label>
+                  <SelectionStatus
+                    model={model}
+                    onAddToHoldings={this.props.addPackageToHoldings}
+                  />
                 </DetailsViewSection>
                 <DetailsViewSection
                   label={intl.formatMessage({ id: 'ui-eholdings.label.packageInformation' })}
