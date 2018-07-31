@@ -66,6 +66,10 @@
     font-weight: 600;
     margin: 0.25em auto 0;
   }
+
+  & button {
+    float: right;
+  }
 }
 
 h1,

@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames/bind';
 import capitalize from 'lodash/capitalize';
+import { ExpandAllButton } from '@folio/stripes-components/lib/Accordion';
 
 import {
   Icon,
@@ -42,7 +43,9 @@ export default class DetailsView extends Component {
     actionMenuItems: PropTypes.array,
     lastMenu: PropTypes.node,
     resultsLength: PropTypes.number,
-    searchModal: PropTypes.node
+    searchModal: PropTypes.node,
+    sections: PropTypes.object.isRequired,
+    handleExpandAll: PropTypes.func.isRequired
   };
 
   static contextTypes = {
@@ -176,7 +179,9 @@ export default class DetailsView extends Component {
       actionMenuItems,
       lastMenu,
       resultsLength,
-      searchModal
+      searchModal,
+      sections,
+      handleExpandAll
     } = this.props;
 
     let {
@@ -238,6 +243,15 @@ export default class DetailsView extends Component {
               >
                 {paneTitle}
               </h2>
+              {sections && (
+                <div data-test-eholdings-details-view-collapse-all-button>
+                  <ExpandAllButton
+                    accordionStatus={sections}
+                    onToggle={handleExpandAll}
+                    className={styles.expandAll}
+                  />
+                </div>
+              )}
               {paneSub && (
                 <p>{paneSub}</p>
               )}

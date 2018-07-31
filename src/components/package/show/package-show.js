@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-
+import update from 'lodash/fp/update';
+import set from 'lodash/fp/set';
 import {
   Accordion,
   Icon,
@@ -40,7 +41,13 @@ class PackageShow extends Component {
     showSelectionModal: false,
     packageSelected: this.props.model.isSelected,
     packageAllowedToAddTitles: this.props.model.allowKbToAddTitles,
-    isCoverageEditable: false
+    isCoverageEditable: false,
+    sections: {
+      packageShowHoldingStatus: true,
+      packageShowInformation: true,
+      packageShowSettings: true,
+      packageShowCoverageSettings: true,
+    }
   };
 
   static getDerivedStateFromProps(nextProps, prevState) {
@@ -81,6 +88,16 @@ class PackageShow extends Component {
     this.setState({ isCoverageEditable });
   };
 
+  handleSectionToggle = ({ id }) => {
+    let next = update(`sections.${id}`, value => !value, this.state);
+    this.setState(next);
+  }
+
+  handleExpandAll = (sections) => {
+    let next = set('sections', sections, this.state);
+    this.setState(next);
+  }
+
   render() {
     let { model, fetchPackageTitles, intl } = this.props;
     let { router, queryParams } = this.context;
@@ -88,7 +105,8 @@ class PackageShow extends Component {
       showSelectionModal,
       packageSelected,
       packageAllowedToAddTitles,
-      isCoverageEditable
+      isCoverageEditable,
+      sections
     } = this.state;
 
     let visibilityMessage = model.visibilityData.reason && `(${model.visibilityData.reason})`;
@@ -193,6 +211,8 @@ class PackageShow extends Component {
           key={model.id}
           paneTitle={model.name}
           actionMenuItems={actionMenuItems}
+          sections={sections}
+          handleExpandAll={this.handleExpandAll}
           lastMenu={(
             <IconButton
               data-test-eholdings-package-edit-link
@@ -207,13 +227,23 @@ class PackageShow extends Component {
           )}
           bodyContent={(
             <div>
-              <Accordion label={intl.formatMessage({ id: 'ui-eholdings.label.holdingStatus' })}>
+              <Accordion
+                label={intl.formatMessage({ id: 'ui-eholdings.label.holdingStatus' })}
+                open={sections.packageShowHoldingStatus}
+                id="packageShowHoldingStatus"
+                onToggle={this.handleSectionToggle}
+              >
                 <SelectionStatus
                   model={model}
                   onAddToHoldings={this.props.addPackageToHoldings}
                 />
               </Accordion>
-              <Accordion label={intl.formatMessage({ id: 'ui-eholdings.label.packageInformation' })}>
+              <Accordion
+                label={intl.formatMessage({ id: 'ui-eholdings.label.packageInformation' })}
+                open={sections.packageShowInformation}
+                id="packageShowInformation"
+                onToggle={this.handleSectionToggle}
+              >
                 <KeyValue label={<FormattedMessage id="ui-eholdings.package.provider" />}>
                   <div data-test-eholdings-package-details-provider>
                     <Link to={`/eholdings/providers/${model.providerId}`}>{model.providerName}</Link>
@@ -248,7 +278,12 @@ class PackageShow extends Component {
                   </div>
                 </KeyValue>
               </Accordion>
-              <Accordion label={intl.formatMessage({ id: 'ui-eholdings.package.packageSettings' })}>
+              <Accordion
+                label={intl.formatMessage({ id: 'ui-eholdings.package.packageSettings' })}
+                open={sections.packageShowSettings}
+                id="packageShowSettings"
+                onToggle={this.handleSectionToggle}
+              >
                 {packageSelected ? (
                   <div>
                     <KeyValue label={<FormattedMessage id="ui-eholdings.package.visibility" />}>
@@ -292,6 +327,9 @@ class PackageShow extends Component {
               <Accordion
                 label={intl.formatMessage({ id: 'ui-eholdings.package.coverageSettings' })}
                 closedByDefault={!packageSelected}
+                open={sections.packageShowCoverageSettings}
+                id="packageShowCoverageSettings"
+                onToggle={this.handleSectionToggle}
               >
                 {packageSelected ? (
                   <div>

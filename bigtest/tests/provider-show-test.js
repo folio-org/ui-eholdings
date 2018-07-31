@@ -34,6 +34,10 @@ describeApplication('ProviderShow', () => {
       expect(ProviderShowPage.nameHasFocus).to.be.true;
     });
 
+    it('displays the collapse all button', () => {
+      expect(ProviderShowPage.hasCollapseAllButton).to.be.true;
+    });
+
     it('displays the total number of packages', () => {
       expect(ProviderShowPage.numPackages).to.equal(`${provider.packagesTotal}`);
     });
@@ -64,6 +68,16 @@ describeApplication('ProviderShow', () => {
 
     it.always('should not display the back button', () => {
       expect(ProviderShowPage.hasBackButton).to.be.false;
+    });
+
+    describe('clicking the collapse all button', () => {
+      beforeEach(() => {
+        return ProviderShowPage.clickCollapseAllButton();
+      });
+
+      it('toggles the button text to expand all', () => {
+        expect(ProviderShowPage.collapseAllButtonText).to.equal('Expand all');
+      });
     });
   });
 
