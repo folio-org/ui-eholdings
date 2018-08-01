@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import { withRoot } from '@folio/stripes-core/src/components/Root/RootContext';
 
 import { Route, Switch, Redirect } from './router';
 import { reducer, epics } from './redux';
@@ -20,24 +21,26 @@ import ResourceEdit from './routes/resource-edit';
 import SettingsKnowledgeBaseRoute from './routes/settings-knowledge-base';
 import SettingsRootProxyRoute from './routes/settings-root-proxy';
 
-export default class EHoldings extends Component {
+class EHoldings extends Component {
   static propTypes = {
     match: PropTypes.shape({
       path: PropTypes.string.isRequired
     }).isRequired,
-    showSettings: PropTypes.bool
+    showSettings: PropTypes.bool,
+    root: PropTypes.shape({
+      addReducer: PropTypes.func.isRequired,
+      addEpic: PropTypes.func.isRequired,
+    })
   };
 
   static contextTypes = {
-    addReducer: PropTypes.func.isRequired,
-    addEpic: PropTypes.func.isRequired,
     router: PropTypes.object
   };
 
-  constructor(props, context) {
+  constructor(props) {
     super(props);
-    context.addReducer('eholdings', reducer);
-    context.addEpic('eholdings', epics);
+    props.root.addReducer('eholdings', reducer);
+    props.root.addEpic('eholdings', epics);
   }
 
   render() {
@@ -73,3 +76,5 @@ export default class EHoldings extends Component {
     );
   }
 }
+
+export default withRoot(EHoldings);
