@@ -135,7 +135,12 @@ class TitleCreate extends Component {
           </div>
         </form>
 
-        <NavigationModal when={!pristine && !request.isResolved} />
+        <NavigationModal
+          modalLabel={intl.formatMessage({ id: 'ui-eholdings.navModal.modalLabel' })}
+          continueLabel={intl.formatMessage({ id: 'ui-eholdings.navModal.continueLabel' })}
+          dismissLabel={intl.formatMessage({ id: 'ui-eholdings.navModal.dismissLabel' })}
+          when={!pristine && !request.isResolved}
+        />
       </div>
     );
   }

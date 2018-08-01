@@ -158,6 +158,11 @@
     "filter.resetAll": "Reset all",
     "filter.filterType": "Filter {listType}",
 
+    "navModal.modalLabel": "Confirm navigation",
+    "navModal.continueLabel": "Continue without saving",
+    "navModal.dismissLabel": "Keep editing",
+    "navModal.unsavedChangesMsg": "Your changes have not been saved. Are you sure you want to leace this page?",
+
     "validate.errors.customTitle.name": "Custom titles must have a name.",
     "validate.errors.customTitle.name.length": "Must be less than 400 characters.",
     "validate.errors.customPackage.name": "Custom packages must have a name.",

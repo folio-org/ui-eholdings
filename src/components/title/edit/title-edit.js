@@ -159,7 +159,12 @@ class TitleEdit extends Component {
                   <DescriptionField />
                   <PeerReviewedField />
                 </DetailsViewSection>
-                <NavigationModal when={!pristine && !updateRequest.isResolved} />
+                <NavigationModal
+                  modalLabel={intl.formatMessage({ id: 'ui-eholdings.navModal.modalLabel' })}
+                  continueLabel={intl.formatMessage({ id: 'ui-eholdings.navModal.continueLabel' })}
+                  dismissLabel={intl.formatMessage({ id: 'ui-eholdings.navModal.dismissLabel' })}
+                  when={!pristine && !updateRequest.isResolved}
+                />
               </Fragment>
             )}
           />

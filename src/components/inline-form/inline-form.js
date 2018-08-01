@@ -1,10 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-
-import {
-  Button,
-  Icon
-} from '@folio/stripes-components';
+import { FormattedMessage } from 'react-intl';
+import { Button, Icon } from '@folio/stripes-components';
 import styles from './inline-form.css';
 
 export default class InlineForm extends Component {
@@ -37,7 +34,7 @@ export default class InlineForm extends Component {
               type="button"
               onClick={onCancel}
             >
-              Cancel
+              <FormattedMessage id="ui-eholdings.cancel" />
             </Button>
           </div>
           <div
@@ -49,7 +46,9 @@ export default class InlineForm extends Component {
               type="submit"
               buttonStyle="primary"
             >
-              {isPending ? 'Saving' : 'Save' }
+              {isPending ?
+                (<FormattedMessage id="ui-eholdings.saving" />) :
+                (<FormattedMessage id="ui-eholdings.save" />)}
             </Button>
           </div>
           {isPending && (
