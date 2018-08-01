@@ -55,8 +55,6 @@ export default class DetailsView extends Component {
     sections: PropTypes.object.isRequired,
     handleExpandAll: PropTypes.func.isRequired,
     listType: PropTypes.node,
-    sections: PropTypes.object,
-    handleExpandAll: PropTypes.func
   };
 
   static contextTypes = {
@@ -226,12 +224,12 @@ export default class DetailsView extends Component {
               data-test-eholdings-details-view-back-button
             />
           )}
-          paneTitle={(
+          paneTitle={
             <span data-test-eholdings-details-view-pane-title>{paneTitle}</span>
-          )}
-          paneSub={(
+          }
+          paneSub={
             <span data-test-eholdings-details-view-pane-sub>{paneSub}</span>
-          )}
+          }
           actionMenuItems={actionMenuItems}
           lastMenu={lastMenu}
         />
