@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import update from 'lodash/fp/update';
 import set from 'lodash/fp/set';
-import capitalize from 'lodash/capitalize';
 
 import {
   Accordion,
@@ -49,6 +48,7 @@ class PackageShow extends Component {
       packageShowInformation: true,
       packageShowSettings: true,
       packageShowCoverageSettings: true,
+      packageShowTitles: true
     }
   };
 
@@ -368,7 +368,10 @@ class PackageShow extends Component {
               </Accordion>
             </div>
           )}
-          listType={capitalize('titles')}
+          listType="titles"
+          listSectionId="packageShowTitles"
+          onListToggle={this.handleSectionToggle}
+          resultsLength={model.resources.length}
           renderList={scrollable => (
             <QueryList
               type="package-titles"

@@ -154,7 +154,7 @@ describeApplication('ProviderShow package search', () => {
     });
 
     it('displays the number of relevant package records', () => {
-      expect(ProviderShowPage.searchResultsCount).to.equal('2 records found');
+      expect(ProviderShowPage.searchResultsCount).to.equal('2');
     });
 
     it('displays updated filter count', () => {

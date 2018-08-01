@@ -124,7 +124,9 @@ class SearchModal extends React.PureComponent {
       <Fragment>
         <div className={styles['search-filter-area']} data-test-eholdings-details-view-filters>
           {filterCount > 0 && (
-            <Badge className={styles['filter-count']}>{filterCount}</Badge>
+            <span data-test-eholdings-details-view-filters-badge>
+              <Badge className={styles['filter-count']}>{filterCount}</Badge>
+            </span>
           )}
           <IconButton
             icon="search"

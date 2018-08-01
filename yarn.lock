@@ -121,10 +121,10 @@
     eslint-plugin-react "7.9.1"
 
 "@folio/react-intl-safe-html@^1.0.1":
-  version "1.0.10008"
-  resolved "https://repository.folio.org/repository/npm-folioci/@folio/react-intl-safe-html/-/react-intl-safe-html-1.0.10008.tgz#8e25273ee0f5446faa1df9ad8fa712356fd97ace"
+  version "1.0.200010"
+  resolved "https://repository.folio.org/repository/npm-folioci/@folio/react-intl-safe-html/-/react-intl-safe-html-1.0.200010.tgz#6d3355bd55a58f85dc42d97068dd20b0c26d7e61"
   dependencies:
-    sanitize-html "^1.18.2"
+    sanitize-html "1.18.2"
 
 "@folio/stripes-cli@^1.2.0":
   version "1.2.100094"
@@ -167,38 +167,9 @@
     webpack-bundle-analyzer "^2.9.1"
     yargs "^10.0.3"
 
-"@folio/stripes-components@^3.0.0":
-  version "3.0.4000452"
-  resolved "https://repository.folio.org/repository/npm-folioci/@folio/stripes-components/-/stripes-components-3.0.4000452.tgz#a07ed79f8d237a99be7b9dfbb9219683241edca3"
-  dependencies:
-    "@folio/stripes-connect" "^3.1.3"
-    "@folio/stripes-form" "^0.8.2"
-    "@folio/stripes-react-hotkeys" "^1.0.0"
-    classnames "^2.2.5"
-    dom-helpers "^3.2.1"
-    lodash "^4.17.4"
-    moment "^2.17.1"
-    moment-range "^3.0.3"
-    moment-timezone "^0.5.14"
-    normalize.css "^7.0.0"
-    prop-types "^15.5.10"
-    prop-types-extra "^1.0.1"
-    query-string "^6.1.0"
-    react-flexbox-grid "1.1.3"
-    react-highlighter "^0.4.2"
-    react-intl "^2.4.0"
-    react-overlays "^0.8.3"
-    react-redux "^5.0.2"
-    react-router-dom "^4.1.1"
-    react-tether "^1.0.1"
-    react-transition-group "^2.2.1"
-    redux "^3.6.0"
-    redux-form "^7.0.3"
-    typeface-source-sans-pro "^0.0.44"
-
-"@folio/stripes-components@git+https://git@github.com/thefrontside/stripes-components.git#jc/accordion-css-edit":
-  version "3.0.5"
-  resolved "git+https://git@github.com/thefrontside/stripes-components.git#e07622a4d1ecccb24c1027a284f787d52999ffc7"
+"@folio/stripes-components@^3.0.0", "@folio/stripes-components@^3.0.5":
+  version "3.0.5000453"
+  resolved "https://repository.folio.org/repository/npm-folioci/@folio/stripes-components/-/stripes-components-3.0.5000453.tgz#d293fe449faa8e1802d567d1469e950da7bb0849"
   dependencies:
     "@folio/stripes-connect" "^3.1.3"
     "@folio/stripes-form" "^0.8.2"
@@ -3244,7 +3215,11 @@ electron-download@^3.0.1:
     semver "^5.3.0"
     sumchecker "^1.2.0"
 
-electron-to-chromium@^1.2.7, electron-to-chromium@^1.3.30, electron-to-chromium@^1.3.47:
+electron-to-chromium@^1.2.7, electron-to-chromium@^1.3.47:
+  version "1.3.55"
+  resolved "https://registry.yarnpkg.com/electron-to-chromium/-/electron-to-chromium-1.3.55.tgz#f150e10b20b77d9d41afcca312efe0c3b1a7fdce"
+
+electron-to-chromium@^1.3.30:
   version "1.3.54"
   resolved "https://registry.yarnpkg.com/electron-to-chromium/-/electron-to-chromium-1.3.54.tgz#2121a34b5cd2ba994ad89f8778ea9ae5ebc40cab"
 
@@ -8191,7 +8166,16 @@ react-deep-force-update@^1.0.0:
   version "1.1.1"
   resolved "https://registry.yarnpkg.com/react-deep-force-update/-/react-deep-force-update-1.1.1.tgz#bcd31478027b64b3339f108921ab520b4313dc2c"
 
-react-dom@^16.3.0, react-dom@^16.4.1:
+react-dom@^16.3.0:
+  version "16.4.2"
+  resolved "https://registry.yarnpkg.com/react-dom/-/react-dom-16.4.2.tgz#4afed569689f2c561d2b8da0b819669c38a0bda4"
+  dependencies:
+    fbjs "^0.8.16"
+    loose-envify "^1.1.0"
+    object-assign "^4.1.1"
+    prop-types "^15.6.0"
+
+react-dom@^16.4.1:
   version "16.4.1"
   resolved "https://registry.yarnpkg.com/react-dom/-/react-dom-16.4.1.tgz#7f8b0223b3a5fbe205116c56deb85de32685dad6"
   dependencies:
@@ -8235,9 +8219,9 @@ react-intl@^2.3.0, react-intl@^2.4.0:
     intl-relativeformat "^2.0.0"
     invariant "^2.1.1"
 
-react-is@^16.3.2, react-is@^16.4.1:
-  version "16.4.1"
-  resolved "https://registry.yarnpkg.com/react-is/-/react-is-16.4.1.tgz#d624c4650d2c65dbd52c72622bbf389435d9776e"
+react-is@^16.3.2, react-is@^16.4.2:
+  version "16.4.2"
+  resolved "https://registry.yarnpkg.com/react-is/-/react-is-16.4.2.tgz#84891b56c2b6d9efdee577cc83501dfc5ecead88"
 
 react-lifecycles-compat@^3.0.4:
   version "3.0.4"
@@ -8296,13 +8280,13 @@ react-router@^4.0.0, react-router@^4.1.1, react-router@^4.3.1:
     warning "^4.0.1"
 
 react-test-renderer@^16.3.1:
-  version "16.4.1"
-  resolved "https://registry.yarnpkg.com/react-test-renderer/-/react-test-renderer-16.4.1.tgz#f2fb30c2c7b517db6e5b10ed20bb6b0a7ccd8d70"
+  version "16.4.2"
+  resolved "https://registry.yarnpkg.com/react-test-renderer/-/react-test-renderer-16.4.2.tgz#4e03eca9359bb3210d4373f7547d1364218ef74e"
   dependencies:
     fbjs "^0.8.16"
     object-assign "^4.1.1"
     prop-types "^15.6.0"
-    react-is "^16.4.1"
+    react-is "^16.4.2"
 
 react-tether@^1.0.1:
   version "1.0.1"
@@ -8342,7 +8326,16 @@ react-trigger-change@^1.0.2:
   version "1.0.2"
   resolved "https://registry.yarnpkg.com/react-trigger-change/-/react-trigger-change-1.0.2.tgz#af573398ecef2475362b84f8c08c07fea23914c3"
 
-react@^16.3.0, react@^16.4.1:
+react@^16.3.0:
+  version "16.4.2"
+  resolved "https://registry.yarnpkg.com/react/-/react-16.4.2.tgz#2cd90154e3a9d9dd8da2991149fdca3c260e129f"
+  dependencies:
+    fbjs "^0.8.16"
+    loose-envify "^1.1.0"
+    object-assign "^4.1.1"
+    prop-types "^15.6.0"
+
+react@^16.4.1:
   version "16.4.1"
   resolved "https://registry.yarnpkg.com/react/-/react-16.4.1.tgz#de51ba5764b5dbcd1f9079037b862bd26b82fe32"
   dependencies:
@@ -8973,9 +8966,9 @@ safe-regex@^1.1.0:
   version "2.1.2"
   resolved "https://registry.yarnpkg.com/safer-buffer/-/safer-buffer-2.1.2.tgz#44fa161b0187b9549dd84bb91802f9bd8385cd6a"
 
-sanitize-html@^1.18.2:
-  version "1.18.3"
-  resolved "https://registry.yarnpkg.com/sanitize-html/-/sanitize-html-1.18.3.tgz#d190ecfcdf8c78bd2306c5f370c86b705191e00c"
+sanitize-html@1.18.2:
+  version "1.18.2"
+  resolved "https://registry.yarnpkg.com/sanitize-html/-/sanitize-html-1.18.2.tgz#61877ba5a910327e42880a28803c2fbafa8e4642"
   dependencies:
     chalk "^2.3.0"
     htmlparser2 "^3.9.0"

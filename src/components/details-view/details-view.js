@@ -211,7 +211,7 @@ export default class DetailsView extends Component {
 
     let historyState = router.history.location.state;
 
-    let isListAccordionOpen = sections[listSectionId];
+    let isListAccordionOpen = sections && sections[listSectionId];
 
     return (
       <div data-test-eholdings-details-view={type}>
@@ -289,11 +289,15 @@ export default class DetailsView extends Component {
               data-test-eholdings-details-view-list={type}
             >
               <Accordion
+                separator={!isSticky}
                 header={AccordionListHeader}
                 label={capitalize(listType)}
                 displayWhenOpen={searchModal}
                 resultsLength={resultsLength}
                 contentRef={(n) => { this.$list = n; }}
+                open={isListAccordionOpen}
+                id={listSectionId}
+                onToggle={onListToggle}
               >
                 {renderList(isSticky)}
               </Accordion>
