@@ -163,6 +163,17 @@
     "validate.errors.customPackage.name": "Custom packages must have a name.",
     "validate.errors.customPackage.name.length": "Must be less than 300 characters.",
 
+    "server.errors.failedBackend": "Could not retrieve configuration information",
+    "server.errors.errorDuringFetch": "There was a server error while retrieving your knowledge base configuration.",
+    "server.errors.kbNotConfigured": "Knowledge base not configured",
+    "server.errors.detectedUnconfiguredKb": "The eHoldings application detected the presence of a knowledge base, but the knowledge base does not appear to be configured.",
+    "server.errors.configureKbLinkMsg": "Please configure the knowledge base with your credentials in {link}.",
+    "server.errors.configureKbLinkText": "Settings/eHoldings",
+    "server.errors.noKbDetected": "No knowledge base detected",
+    "server.errors.kbRequired": "The eHoldings package requires a knowledge base to be present for proper operation.",
+    "server.errors.installBackend": "Please install an appropriate backend module with your instance of OKAPI.",
+
+    "date.present": "Present",
     "selected": "Selected",
     "notSelected": "Not selected",
     "addToHoldings": "Add to holdings",

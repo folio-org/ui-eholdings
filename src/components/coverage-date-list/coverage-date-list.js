@@ -21,7 +21,7 @@ class CoverageDateList extends React.Component {
 
     let endDate = endCoverage ?
       `${this.props.intl.formatDate(endCoverage, { timeZone: 'UTC' })}` :
-      'Present';
+      `${this.props.intl.formatMessage({ id: 'ui-eholdings.date.present' })}`;
 
     if (!startDate) {
       return endCoverage ? `${endDate}` : '';
