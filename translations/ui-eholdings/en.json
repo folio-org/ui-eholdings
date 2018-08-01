@@ -126,6 +126,7 @@
     "label.name.isRequired": "Name *",
     "label.sortOptions": "Sort options",
     "label.selectionStatus": "Selection status",
+    "label.search": "Search",
 
     "filter.all": "All",
     "filter.sortOptions.relevance": "Relevance",
@@ -151,7 +152,8 @@
     "filter.pubType.thesisdissertation": "Thesis & Dissertation",
     "filter.pubType.website": "Website",
     "filter.pubType.unspecified": "Unspecified",
-
+    "filter.resetAll": "Reset all",
+    "filter.filterType": "Filter {listType}",
 
     "validate.errors.customTitle.name": "Custom titles must have a name.",
     "validate.errors.customTitle.name.length": "Must be less than 400 characters.",
