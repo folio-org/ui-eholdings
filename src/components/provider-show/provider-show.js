@@ -29,7 +29,8 @@ class ProviderShow extends Component {
 
   state = {
     sections: {
-      providerShowProviderInformation: true
+      providerShowProviderInformation: true,
+      providerShowProviderList: true,
     }
   };
 
@@ -101,6 +102,8 @@ class ProviderShow extends Component {
           )}
           searchModal={searchModal}
           listType={capitalize(listType)}
+          listSectionId="providerShowProviderList"
+          onListToggle={this.handleSectionToggle}
           resultsLength={packages.length}
           renderList={scrollable => (
             <QueryList

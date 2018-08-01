@@ -55,6 +55,8 @@ export default class DetailsView extends Component {
     sections: PropTypes.object.isRequired,
     handleExpandAll: PropTypes.func.isRequired,
     listType: PropTypes.node,
+    listSectionId: PropTypes.string,
+    onListToggle: PropTypes.func.isRequired
   };
 
   static contextTypes = {
@@ -193,7 +195,9 @@ export default class DetailsView extends Component {
       resultsLength,
       searchModal,
       sections,
-      handleExpandAll
+      handleExpandAll,
+      listSectionId,
+      onListToggle
     } = this.props;
 
     let { router, queryParams } = this.context;
@@ -282,6 +286,8 @@ export default class DetailsView extends Component {
                 label={listType}
                 open={isListAccordionOpen}
                 className={styles['list-header']}
+                id={listSectionId}
+                onToggle={onListToggle}
               >
                 <div
                   ref={n => {
