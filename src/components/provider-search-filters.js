@@ -1,4 +1,5 @@
 import React from 'react';
+import { injectIntl, intlShape } from 'react-intl';
 
 import SearchFilters from './search-form/search-filters';
 
@@ -10,20 +11,27 @@ import SearchFilters from './search-form/search-filters';
  * recieve the available filters from the route and render the
  * search-filters component itself.
  */
-export default function ProviderSearchFilters(props) {
+function ProviderSearchFilters(props) {
+  let { intl } = props;
   return (
     <SearchFilters
       searchType="providers"
       availableFilters={[{
         name: 'sort',
-        label: 'Sort options',
+        label: intl.formatMessage({ id: 'ui-eholdings.label.sortOptions' }),
         defaultValue: 'relevance',
         options: [
-          { label: 'Relevance', value: 'relevance' },
-          { label: 'Provider', value: 'name' }
+          { label: intl.formatMessage({ id: 'ui-eholdings.filter.sortOptions.relevance' }), value: 'relevance' },
+          { label: intl.formatMessage({ id: 'ui-eholdings.label.provider' }), value: 'name' }
         ]
       }]}
       {...props}
     />
   );
 }
+
+ProviderSearchFilters.propTypes = {
+  intl: intlShape.isRequired
+};
+
+export default injectIntl(ProviderSearchFilters);

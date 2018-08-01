@@ -1,4 +1,5 @@
 import React from 'react';
+import { injectIntl, intlShape } from 'react-intl';
 
 import SearchFilters from './search-form/search-filters';
 
@@ -10,43 +11,50 @@ import SearchFilters from './search-form/search-filters';
  * recieve the available filters from the route and render the
  * search-filters component itself.
  */
-export default function TitleSearchFilters(props) {
+function TitleSearchFilters(props) {
+  let { intl } = props;
   return (
     <SearchFilters
       searchType="titles"
       availableFilters={[{
         name: 'selected',
-        label: 'Selection status',
+        label: intl.formatMessage({ id: 'ui-eholdings.label.selectionStatus' }),
         defaultValue: 'all',
         options: [
-          { label: 'All', value: 'all' },
-          { label: 'Selected', value: 'true' },
-          { label: 'Not selected', value: 'false' },
-          { label: 'Ordered through EBSCO', value: 'ebsco' }
+          { label: intl.formatMessage({ id: 'ui-eholdings.filter.all' }), value: 'all' },
+          { label: intl.formatMessage({ id: 'ui-eholdings.selected' }), value: 'true' },
+          { label: intl.formatMessage({ id: 'ui-eholdings.notSelected' }), value: 'false' },
+          { label: intl.formatMessage({ id: 'ui-eholdings.filter.selectionStatus.orderedThroughEbsco' }), value: 'ebsco' }
         ]
       }, {
         name: 'type',
-        label: 'Publication type',
+        label: intl.formatMessage({ id: 'ui-eholdings.label.publicationType' }),
         defaultValue: 'all',
         options: [
-          { label: 'All', value: 'all' },
-          { label: 'Audio Book', value: 'audiobook' },
-          { label: 'Book', value: 'book' },
-          { label: 'Book Series', value: 'bookseries' },
-          { label: 'Database', value: 'database' },
-          { label: 'Journal', value: 'journal' },
-          { label: 'Newsletter', value: 'newsletter' },
-          { label: 'Newspaper', value: 'newspaper' },
-          { label: 'Proceedings', value: 'proceedings' },
-          { label: 'Report', value: 'report' },
-          { label: 'Streaming Audio', value: 'streamingaudio' },
-          { label: 'Streaming Video', value: 'streamingvideo' },
-          { label: 'Thesis & Dissertation', value: 'thesisdissertation' },
-          { label: 'Website', value: 'website' },
-          { label: 'Unspecified', value: 'unspecified' }
+          { label: intl.formatMessage({ id: 'ui-eholdings.filter.all' }), value: 'all' },
+          { label: intl.formatMessage({ id: 'ui-eholdings.filter.pubType.audioBook' }), value: 'audiobook' },
+          { label: intl.formatMessage({ id: 'ui-eholdings.filter.pubType.book' }), value: 'book' },
+          { label: intl.formatMessage({ id: 'ui-eholdings.filter.pubType.bookSeries' }), value: 'bookseries' },
+          { label: intl.formatMessage({ id: 'ui-eholdings.filter.pubType.database' }), value: 'database' },
+          { label: intl.formatMessage({ id: 'ui-eholdings.filter.pubType.journal' }), value: 'journal' },
+          { label: intl.formatMessage({ id: 'ui-eholdings.filter.pubType.newsletter' }), value: 'newsletter' },
+          { label: intl.formatMessage({ id: 'ui-eholdings.filter.pubType.newspaper' }), value: 'newspaper' },
+          { label: intl.formatMessage({ id: 'ui-eholdings.filter.pubType.proceedings' }), value: 'proceedings' },
+          { label: intl.formatMessage({ id: 'ui-eholdings.filter.pubType.report' }), value: 'report' },
+          { label: intl.formatMessage({ id: 'ui-eholdings.filter.pubType.streamingAudio' }), value: 'streamingaudio' },
+          { label: intl.formatMessage({ id: 'ui-eholdings.filter.pubType.streamingVideo' }), value: 'streamingvideo' },
+          { label: intl.formatMessage({ id: 'ui-eholdings.filter.pubType.thesisdissertation' }), value: 'thesisdissertation' },
+          { label: intl.formatMessage({ id: 'ui-eholdings.filter.pubType.website' }), value: 'website' },
+          { label: intl.formatMessage({ id: 'ui-eholdings.filter.pubType.unspecified' }), value: 'unspecified' }
         ]
       }]}
       {...props}
     />
   );
 }
+
+TitleSearchFilters.propTypes = {
+  intl: intlShape.isRequired
+};
+
+export default injectIntl(TitleSearchFilters);

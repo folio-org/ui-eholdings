@@ -1,4 +1,5 @@
 import React from 'react';
+import { injectIntl, intlShape } from 'react-intl';
 
 import SearchFilters from './search-form/search-filters';
 
@@ -10,45 +11,52 @@ import SearchFilters from './search-form/search-filters';
  * recieve the available filters from the route and render the
  * search-filters component itself.
  */
-export default function PackageSearchFilters(props) {
+function PackageSearchFilters(props) {
+  let { intl } = props;
   return (
     <SearchFilters
       searchType="packages"
       availableFilters={[{
         name: 'sort',
-        label: 'Sort options',
+        label: intl.formatMessage({ id: 'ui-eholdings.label.sortOptions' }),
         defaultValue: 'relevance',
         options: [
-          { label: 'Relevance', value: 'relevance' },
-          { label: 'Package', value: 'name' }
+          { label: intl.formatMessage({ id: 'ui-eholdings.filter.sortOptions.relevance' }), value: 'relevance' },
+          { label: intl.formatMessage({ id: 'ui-eholdings.label.package' }), value: 'name' }
         ]
       },
         {
         name: 'selected',
-        label: 'Selection status',
+        label: intl.formatMessage({ id: 'ui-eholdings.label.selectionStatus' }),
         defaultValue: 'all',
         options: [
-          { label: 'All', value: 'all' },
-          { label: 'Selected', value: 'true' },
-          { label: 'Not selected', value: 'false' },
-          { label: 'Ordered through EBSCO', value: 'ebsco' }
+          { label: intl.formatMessage({ id: 'ui-eholdings.filter.all' }), value: 'all' },
+          { label: intl.formatMessage({ id: 'ui-eholdings.selected' }), value: 'true' },
+          { label: intl.formatMessage({ id: 'ui-eholdings.notSelected' }), value: 'false' },
+          { label: intl.formatMessage({ id: 'ui-eholdings.filter.selectionStatus.orderedThroughEbsco' }), value: 'ebsco' }
         ]
       }, {
         name: 'type',
-        label: 'Content type',
+        label: intl.formatMessage({ id: 'ui-eholdings.package.contentType' }),
         defaultValue: 'all',
         options: [
-          { label: 'All', value: 'all' },
-          { label: 'Aggregated Full Text', value: 'aggregatedfulltext' },
-          { label: 'Abstract and Index', value: 'abstractandindex' },
-          { label: 'E-Book', value: 'ebook' },
-          { label: 'E-Journal', value: 'ejournal' },
-          { label: 'Print', value: 'print' },
-          { label: 'Online Reference', value: 'onlinereference' },
-          { label: 'Unknown', value: 'unknown' }
+          { label: intl.formatMessage({ id: 'ui-eholdings.filter.all' }), value: 'all' },
+          { label: intl.formatMessage({ id: 'ui-eholdings.filter.contentType.aggregated' }), value: 'aggregatedfulltext' },
+          { label: intl.formatMessage({ id: 'ui-eholdings.filter.contentType.abstract' }), value: 'abstractandindex' },
+          { label: intl.formatMessage({ id: 'ui-eholdings.filter.contentType.ebook' }), value: 'ebook' },
+          { label: intl.formatMessage({ id: 'ui-eholdings.filter.contentType.ejournal' }), value: 'ejournal' },
+          { label: intl.formatMessage({ id: 'ui-eholdings.filter.contentType.print' }), value: 'print' },
+          { label: intl.formatMessage({ id: 'ui-eholdings.filter.contentType.onlineReference' }), value: 'onlinereference' },
+          { label: intl.formatMessage({ id: 'ui-eholdings.filter.contentType.unknown' }), value: 'unknown' }
         ]
       }]}
       {...props}
     />
   );
 }
+
+PackageSearchFilters.propTypes = {
+  intl: intlShape.isRequired
+};
+
+export default injectIntl(PackageSearchFilters);
