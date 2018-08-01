@@ -1,17 +1,19 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { injectIntl, intlShape } from 'react-intl';
 
 import QueryList from './query-list';
 import ProviderListItem from './provider-list-item';
 
-export default function ProviderSearchList({
-  location,
-  params,
+function ProviderSearchList({
   activeId,
-  shouldFocusItem,
   collection,
   fetch,
+  intl,
+  location,
   onUpdateOffset,
+  params,
+  shouldFocusItem,
 }, { router }) {
   return (
     <QueryList
@@ -21,7 +23,7 @@ export default function ProviderSearchList({
       collection={collection}
       onUpdateOffset={onUpdateOffset}
       itemHeight={68}
-      notFoundMessage={`No providers found for "${params.q}".`}
+      notFoundMessage={intl.formatMessage({ id: 'ui-eholdings.provider.resultsNotFound' }, { query: params.q })}
       fullWidth
       renderItem={item => (
         <ProviderListItem
@@ -43,15 +45,18 @@ export default function ProviderSearchList({
 }
 
 ProviderSearchList.propTypes = {
-  location: PropTypes.object.isRequired,
-  params: PropTypes.object.isRequired,
   activeId: PropTypes.string,
-  shouldFocusItem: PropTypes.string,
   collection: PropTypes.object.isRequired,
   fetch: PropTypes.func.isRequired,
-  onUpdateOffset: PropTypes.func.isRequired
+  intl: intlShape.isRequired,
+  location: PropTypes.object.isRequired,
+  onUpdateOffset: PropTypes.func.isRequired,
+  params: PropTypes.object.isRequired,
+  shouldFocusItem: PropTypes.string,
 };
 
 ProviderSearchList.contextTypes = {
   router: PropTypes.object
 };
+
+export default injectIntl(ProviderSearchList);

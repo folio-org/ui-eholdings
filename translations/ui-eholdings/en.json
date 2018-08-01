@@ -30,6 +30,7 @@
     "package.packageType": "Package type",
     "package.partiallySelected": "{ selectedCount } of { titleCount } titles selected",
     "package.provider": "Provider",
+    "package.resultsNotFound": "No packages found for '{query}'.",
     "package.titlesSelected": "Titles selected",
     "package.totalTitles": "Total titles",
     "package.visibility": "Show titles in package to patrons",
@@ -55,6 +56,7 @@
     "provider.providerInformation": "Provider information",
     "provider.packagesSelected": "Packages selected",
     "provider.totalPackages": "Total packages",
+    "provider.resultsNotFound": "No providers found for '{query}'.",
 
     "resource.modal.header": "Remove title from holdings?",
     "resource.show.modal.header": "Remove resource from holdings?",
@@ -97,6 +99,7 @@
     "title.toast.isFreshlySaved": "Title saved.",
     "title.addToCustomPackage": "Add to custom package",
     "title.modalMessage.addTitleToCustomPackage": "Add title to custom package",
+    "title.resultsNotFound": "No titles found for '{query}'.",
 
     "actionMenu.fullView": "Full view",
     "actionMenu.cancelEditing": "Cancel editing",
