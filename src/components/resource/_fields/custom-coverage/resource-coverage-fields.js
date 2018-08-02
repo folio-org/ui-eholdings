@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Field, FieldArray } from 'redux-form';
 import PropTypes from 'prop-types';
 import moment from 'moment';
-import { injectIntl, intlShape, FormattedDate } from 'react-intl';
+import { injectIntl, intlShape } from 'react-intl';
 
 import {
   Button,
@@ -129,8 +129,8 @@ const validateStartDateBeforeEndDate = (dateRange) => {
  * @param {} dateRange - coverage date range to validate
  * @returns {} - an error object if errors are found, or `false` otherwise
  */
-const validateDateFormat = (dateRange, locale) => {
-  moment.locale(locale);
+const validateDateFormat = (dateRange, intl) => {
+  moment.locale(intl.locale);
   let dateFormat = moment.localeData()._longDateFormat.L;
   const message = `Enter date in ${dateFormat} format.`;
 
@@ -148,7 +148,7 @@ const validateDateFormat = (dateRange, locale) => {
  * @param {} packageCoverage - parent package's custom coverage range
  * @returns {} - an error object if errors are found, or `false` otherwise
  */
-const validateWithinPackageRange = (dateRange, packageCoverage) => {
+const validateWithinPackageRange = (dateRange, packageCoverage, intl) => {
   // javascript/moment has no mechanism for "infinite", so we
   // use an absurd future date to represent the concept of "present"
   let present = moment('9999-09-09T05:00:00.000Z');
@@ -165,38 +165,36 @@ const validateWithinPackageRange = (dateRange, packageCoverage) => {
     let packageEndCoverageDate = packageEndCoverage ? moment(packageEndCoverage) : moment();
     let packageRange = moment.range(packageBeginCoverageDate, packageEndCoverageDate);
 
-    let startDate = (
-      <FormattedDate
-        value={packageBeginCoverageDate}
-        timeZone="UTC"
-        year="numeric"
-        month="numeric"
-        day="numeric"
-      />
+    let startDate = intl.formatDate(
+      packageBeginCoverageDate,
+      {
+        timeZone: 'UTC',
+        year: 'numeric',
+        month: 'numeric',
+        day: 'numeric'
+      }
     );
 
-    let endDate = packageEndCoverage ? (
-      <FormattedDate
-        value={packageEndCoverageDate}
-        timeZone="UTC"
-        year="numeric"
-        month="numeric"
-        day="numeric"
-      />
-    ) : 'Present';
+    let endDate = packageEndCoverage ?
+      intl.formatDate(
+        packageEndCoverage,
+        {
+          timeZone: 'UTC',
+          year: 'numeric',
+          month: 'numeric',
+          day: 'numeric'
+        }
+      )
+      : 'Present';
 
-    const message = (
-      <span>
-        Dates must be within package&apos;s date range ({startDate} - {endDate}).
-      </span>
-    );
+    const message = `Dates must be within package's date range (${startDate} - ${endDate}).`;
 
     let beginDateOutOfRange = !packageRange.contains(beginCoverageDate);
     let endDateOutOfRange = !packageRange.contains(endCoverageDate);
     if (beginDateOutOfRange || endDateOutOfRange) {
       return {
-        beginCoverage: beginDateOutOfRange ? message : false,
-        endCoverage: endDateOutOfRange ? message : false
+        beginCoverage: beginDateOutOfRange ? message : '',
+        endCoverage: endDateOutOfRange ? message : ''
       };
     }
   }
@@ -212,7 +210,7 @@ const validateWithinPackageRange = (dateRange, packageCoverage) => {
  * presently being considered
  * @returns {} - an error object if errors are found, or `false` otherwise
  */
-const validateNoRangeOverlaps = (dateRange, customCoverages, index) => {
+const validateNoRangeOverlaps = (dateRange, customCoverages, index, intl) => {
   let present = moment('9999-09-09T05:00:00.000Z');
 
   let beginCoverageDate = moment(dateRange.beginCoverage);
@@ -231,37 +229,34 @@ const validateNoRangeOverlaps = (dateRange, customCoverages, index) => {
     let overlapCoverageEndDate = overlapRange.endCoverage ? moment(overlapRange.endCoverage) : present;
     let overlapCoverageRange = moment.range(overlapCoverageBeginDate, overlapCoverageEndDate);
 
-    let startDate = (
-      <FormattedDate
-        value={overlapRange.beginCoverage}
-        timeZone="UTC"
-        year="numeric"
-        month="numeric"
-        day="numeric"
-      />
+    let startDate = intl.formatDate(
+      overlapRange.beginCoverage,
+      {
+        timeZone: 'UTC',
+        year: 'numeric',
+        month: 'numeric',
+        day: 'numeric'
+      }
     );
 
-    let endDate = overlapRange.endCoverage ? (
-      <FormattedDate
-        value={overlapRange.endCoverage}
-        timeZone="UTC"
-        year="numeric"
-        month="numeric"
-        day="numeric"
-      />
-    ) : 'Present';
+    let endDate = overlapRange.endCoverage ?
+      intl.formatDate(
+        overlapRange.endCoverage,
+        {
+          timeZone: 'UTC',
+          year: 'numeric',
+          month: 'numeric',
+          day: 'numeric'
+        }
+      )
+      : 'Present';
 
-    const message = (
-      <span>
-        Date range overlaps with {startDate} - {endDate}.
-      </span>
-    );
+    const message = `Date range overlaps with ${startDate} - ${endDate}.`;
 
     if (overlapCoverageRange.overlaps(coverageRange)
         || overlapCoverageRange.isEqual(coverageRange)
         || overlapCoverageRange.contains(coverageRange)) {
-      // set endCoverage: true to make box red without message
-      return { beginCoverage: message, endCoverage: true };
+      return { beginCoverage: message, endCoverage: message };
     }
   }
 
@@ -278,10 +273,10 @@ export function validate(values, props) {
     let dateRangeErrors = {};
 
     dateRangeErrors =
-      validateDateFormat(dateRange, intl.locale) ||
-      validateStartDateBeforeEndDate(dateRange) ||
-      validateNoRangeOverlaps(dateRange, values.customCoverages, index) ||
-      validateWithinPackageRange(dateRange, packageCoverage);
+      validateDateFormat(dateRange, intl) ||
+      validateStartDateBeforeEndDate(dateRange, intl) ||
+      validateNoRangeOverlaps(dateRange, values.customCoverages, index, intl) ||
+      validateWithinPackageRange(dateRange, packageCoverage, intl);
 
     errors[index] = dateRangeErrors;
   });
