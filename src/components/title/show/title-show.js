@@ -19,6 +19,7 @@ import IdentifiersList from '../../identifiers-list';
 import ContributorsList from '../../contributors-list';
 import AddToPackageForm from '../_forms/add-to-package';
 import Toaster from '../../toaster';
+import KeyValueColumns from '../../key-value-columns';
 import styles from './title-show.css';
 
 class TitleShow extends Component {
@@ -186,61 +187,68 @@ class TitleShow extends Component {
               id="titleShowTitleInformation"
               onToggle={this.handleSectionToggle}
             >
-              <ContributorsList data={model.contributors} />
+              <KeyValueColumns>
+                <div>
+                  <ContributorsList data={model.contributors} />
 
-              {model.edition && (
-                <KeyValue label={<FormattedMessage id="ui-eholdings.title.edition" />}>
-                  <div data-test-eholdings-title-show-edition>
-                    {model.edition}
-                  </div>
-                </KeyValue>
-              )}
+                  {model.edition && (
+                    <KeyValue label={<FormattedMessage id="ui-eholdings.title.edition" />}>
+                      <div data-test-eholdings-title-show-edition>
+                        {model.edition}
+                      </div>
+                    </KeyValue>
+                  )}
 
-              {model.publisherName && (
-                <KeyValue label={<FormattedMessage id="ui-eholdings.title.publisherName" />}>
-                  <div data-test-eholdings-title-show-publisher-name>
-                    {model.publisherName}
-                  </div>
-                </KeyValue>
-              )}
+                  {model.publisherName && (
+                    <KeyValue label={<FormattedMessage id="ui-eholdings.title.publisherName" />}>
+                      <div data-test-eholdings-title-show-publisher-name>
+                        {model.publisherName}
+                      </div>
+                    </KeyValue>
+                  )}
 
-              {model.publicationType && (
-                <KeyValue label={<FormattedMessage id="ui-eholdings.title.publicationType" />}>
-                  <div data-test-eholdings-title-show-publication-type>
-                    {model.publicationType}
-                  </div>
-                </KeyValue>
-              )}
+                  {model.publicationType && (
+                    <KeyValue label={<FormattedMessage id="ui-eholdings.title.publicationType" />}>
+                      <div data-test-eholdings-title-show-publication-type>
+                        {model.publicationType}
+                      </div>
+                    </KeyValue>
+                  )}
 
-              <IdentifiersList data={model.identifiers} />
+                  <IdentifiersList data={model.identifiers} />
 
-              {model.subjects.length > 0 && (
-                <KeyValue label={<FormattedMessage id="ui-eholdings.title.subjects" />}>
-                  <div data-test-eholdings-title-show-subjects-list>
-                    {model.subjects.map(subjectObj => subjectObj.subject).join('; ')}
-                  </div>
-                </KeyValue>
-              )}
-
-              <KeyValue label={<FormattedMessage id="ui-eholdings.title.peerReviewed" />}>
-                <div data-test-eholdings-peer-reviewed-field>
-                  {model.isPeerReviewed ? (<FormattedMessage id="ui-eholdings.yes" />) : (<FormattedMessage id="ui-eholdings.no" />)}
                 </div>
-              </KeyValue>
+                <div>
 
-              <KeyValue label={<FormattedMessage id="ui-eholdings.title.titleType" />}>
-                <div data-test-eholdings-title-details-type>
-                  {model.isTitleCustom ? (<FormattedMessage id="ui-eholdings.custom" />) : (<FormattedMessage id="ui-eholdings.managed" />)}
+                  {model.subjects.length > 0 && (
+                    <KeyValue label={<FormattedMessage id="ui-eholdings.title.subjects" />}>
+                      <div data-test-eholdings-title-show-subjects-list>
+                        {model.subjects.map(subjectObj => subjectObj.subject).join('; ')}
+                      </div>
+                    </KeyValue>
+                  )}
+
+                  <KeyValue label={<FormattedMessage id="ui-eholdings.title.peerReviewed" />}>
+                    <div data-test-eholdings-peer-reviewed-field>
+                      {model.isPeerReviewed ? (<FormattedMessage id="ui-eholdings.yes" />) : (<FormattedMessage id="ui-eholdings.no" />)}
+                    </div>
+                  </KeyValue>
+
+                  <KeyValue label={<FormattedMessage id="ui-eholdings.title.titleType" />}>
+                    <div data-test-eholdings-title-details-type>
+                      {model.isTitleCustom ? (<FormattedMessage id="ui-eholdings.custom" />) : (<FormattedMessage id="ui-eholdings.managed" />)}
+                    </div>
+                  </KeyValue>
+
+                  {model.description && (
+                    <KeyValue label={<FormattedMessage id="ui-eholdings.title.description" />}>
+                      <div data-test-eholdings-description-field>
+                        {model.description}
+                      </div>
+                    </KeyValue>
+                  )}
                 </div>
-              </KeyValue>
-
-              {model.description && (
-                <KeyValue label={<FormattedMessage id="ui-eholdings.title.description" />}>
-                  <div data-test-eholdings-description-field>
-                    {model.description}
-                  </div>
-                </KeyValue>
-              )}
+              </KeyValueColumns>
 
               <div className={styles['add-to-custom-package-button']}>
                 <Button

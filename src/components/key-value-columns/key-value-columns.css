@@ -1,0 +1,15 @@
+@import '@folio/stripes-components/lib/variables';
+
+.key-value-columns {
+  display: flex;
+  flex-flow: row wrap;
+
+  & > div {
+    flex: 1 0 20rem;
+    margin-right: var(--gutter);
+
+    [dir="rtl"] {
+      margin-left: var(--gutter);
+    }
+  }
+}
