@@ -243,6 +243,9 @@ export default class DetailsView extends Component {
               >
                 {paneTitle}
               </h2>
+              {paneSub && (
+                <p>{paneSub}</p>
+              )}
               {sections && (
                 <div data-test-eholdings-details-view-collapse-all-button>
                   <ExpandAllButton
@@ -251,9 +254,6 @@ export default class DetailsView extends Component {
                     className={styles.expandAll}
                   />
                 </div>
-              )}
-              {paneSub && (
-                <p>{paneSub}</p>
               )}
             </div>,
 

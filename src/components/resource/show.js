@@ -1,7 +1,8 @@
 import React, { Component, Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { intlShape, injectIntl, FormattedMessage } from 'react-intl';
-
+import update from 'lodash/fp/update';
+import set from 'lodash/fp/set';
 
 import {
   Accordion,
@@ -35,7 +36,13 @@ class ResourceShow extends Component {
 
   state = {
     showSelectionModal: false,
-    resourceSelected: this.props.model.isSelected
+    resourceSelected: this.props.model.isSelected,
+    sections: {
+      resourceShowHoldingStatus: true,
+      resourceShowInformation: true,
+      resourceShowSettings: true,
+      resourceShowCoverageSettings: true
+    }
   };
 
   static getDerivedStateFromProps({ model }, prevState) {
@@ -67,12 +74,23 @@ class ResourceShow extends Component {
     });
   };
 
+  handleSectionToggle = ({ id }) => {
+    let next = update(`sections.${id}`, value => !value, this.state);
+    this.setState(next);
+  }
+
+  handleExpandAll = (sections) => {
+    let next = set('sections', sections, this.state);
+    this.setState(next);
+  }
+
   render() {
     let { model, intl } = this.props;
     let { router } = this.context;
     let {
       showSelectionModal,
-      resourceSelected
+      resourceSelected,
+      sections
     } = this.state;
 
     let isSelectInFlight = model.update.isPending && 'isSelected' in model.update.changedAttributes;
@@ -143,6 +161,8 @@ class ResourceShow extends Component {
           paneTitle={model.title.name}
           paneSub={model.package.name}
           actionMenuItems={actionMenuItems}
+          sections={sections}
+          handleExpandAll={this.handleExpandAll}
           lastMenu={(
             <IconButton
               data-test-eholdings-resource-edit-link
@@ -156,7 +176,12 @@ class ResourceShow extends Component {
           )}
           bodyContent={(
             <div>
-              <Accordion label={<FormattedMessage id="ui-eholdings.label.holdingStatus" />}>
+              <Accordion
+                label={<FormattedMessage id="ui-eholdings.label.holdingStatus" />}
+                open={sections.resourceShowHoldingStatus}
+                id="resourceShowHoldingStatus"
+                onToggle={this.handleSectionToggle}
+              >
                 <label
                   data-test-eholdings-resource-show-selected
                   htmlFor="resource-show-toggle-switch"
@@ -185,7 +210,12 @@ class ResourceShow extends Component {
                 </label>
               </Accordion>
 
-              <Accordion label={<FormattedMessage id="ui-eholdings.resource.resourceInformation" />}>
+              <Accordion
+                label={<FormattedMessage id="ui-eholdings.resource.resourceInformation" />}
+                open={sections.resourceShowInformation}
+                id="resourceShowInformation"
+                onToggle={this.handleSectionToggle}
+              >
                 <KeyValue label={<FormattedMessage id="ui-eholdings.label.title" />}>
                   <Link to={`/eholdings/titles/${model.titleId}`}>
                     {model.title.name}
@@ -269,7 +299,12 @@ class ResourceShow extends Component {
                 )}
               </Accordion>
 
-              <Accordion label={<FormattedMessage id="ui-eholdings.resource.resourceSettings" />}>
+              <Accordion
+                label={<FormattedMessage id="ui-eholdings.resource.resourceSettings" />}
+                open={sections.resourceShowSettings}
+                id="resourceShowSettings"
+                onToggle={this.handleSectionToggle}
+              >
                 <KeyValue label={<FormattedMessage id="ui-eholdings.label.showToPatrons" />}>
                   <div data-test-eholdings-resource-show-visibility>
                     {model.visibilityData.isHidden || !resourceSelected
@@ -294,6 +329,9 @@ class ResourceShow extends Component {
               <Accordion
                 label={<FormattedMessage id="ui-eholdings.label.coverageSettings" />}
                 closedByDefault={!resourceSelected}
+                open={sections.resourceShowCoverageSettings}
+                id="resourceShowCoverageSettings"
+                onToggle={this.handleSectionToggle}
               >
                 {(resourceSelected && !isSelectInFlight) ? (
                   <Fragment>
