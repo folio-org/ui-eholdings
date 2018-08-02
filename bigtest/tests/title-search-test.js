@@ -630,7 +630,7 @@ describeApplication('TitleSearch', () => {
     });
 
     it("displays 'no results' message", () => {
-      expect(TitleSearchPage.noResultsMessage).to.equal('No titles found for "fhqwhgads".');
+      expect(TitleSearchPage.noResultsMessage).to.equal("No titles found for 'fhqwhgads'.");
     });
   });
 

@@ -375,6 +375,7 @@ class PackageShow extends Component {
               length={model.titleCount}
               scrollable={scrollable}
               itemHeight={70}
+              notFoundMessage={<FormattedMessage id="ui-eholdings.notFound" />}
               renderItem={item => (
                 <TitleListItem
                   item={item.content}
@@ -410,7 +411,12 @@ class PackageShow extends Component {
           {modalMessage.body}
         </Modal>
 
-        <NavigationModal when={isCoverageEditable} />
+        <NavigationModal
+          modalLabel={intl.formatMessage({ id: 'ui-eholdings.navModal.modalLabel' })}
+          continueLabel={intl.formatMessage({ id: 'ui-eholdings.navModal.continueLabel' })}
+          dismissLabel={intl.formatMessage({ id: 'ui-eholdings.navModal.dismissLabel' })}
+          when={isCoverageEditable}
+        />
       </div>
     );
   }

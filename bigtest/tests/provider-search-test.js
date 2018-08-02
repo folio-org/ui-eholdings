@@ -506,7 +506,7 @@ describeApplication('ProviderSearch', () => {
     });
 
     it("displays 'no results' message", () => {
-      expect(ProviderSearchPage.noResultsMessage).to.equal('No providers found for "fhqwhgads".');
+      expect(ProviderSearchPage.noResultsMessage).to.equal("No providers found for 'fhqwhgads'.");
     });
   });
 

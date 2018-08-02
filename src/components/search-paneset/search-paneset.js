@@ -106,7 +106,7 @@ export default class SearchPaneset extends React.Component { // eslint-disable-l
         className={styles['search-new-button']}
         to={`/eholdings/${this.props.resultsType}/new`}
       >
-        + New
+        <FormattedMessage id="ui-eholdings.addNew" />
       </Link>
     );
   };
@@ -130,7 +130,7 @@ export default class SearchPaneset extends React.Component { // eslint-disable-l
       newButton = this.renderNewButton();
     }
 
-    let resultsPaneSub = 'Loading...';
+    let resultsPaneSub = (<FormattedMessage id="ui-eholdings.search.loading" />);
     if (!isLoading) {
       resultsPaneSub = (
         <FormattedMessage
@@ -152,10 +152,10 @@ export default class SearchPaneset extends React.Component { // eslint-disable-l
 
         <SearchPane isHidden={hideFilters}>
           <PaneHeader
-            paneTitle="Search &amp; Filter"
+            paneTitle={(<FormattedMessage id="ui-eholdings.search.searchAndFilter" />)}
             lastMenu={resultsView ? (
               <Button buttonStyle="transparent" onClick={this.toggleFilters} className={styles['search-pane-toggle']}>
-                Apply
+                <FormattedMessage id="ui-eholdings.search.apply" />
               </Button>
             ) : null}
           />
@@ -203,7 +203,7 @@ export default class SearchPaneset extends React.Component { // eslint-disable-l
             />
             <div className={styles['pre-search-pane-content']}>
               <div className={styles['pre-search-pane-content-label']}>
-                <p>Enter a query to show search results.</p>
+                <p><FormattedMessage id="ui-eholdings.search.enterQuery" /></p>
               </div>
             </div>
           </div>

@@ -20,7 +20,10 @@ export default class QueryList extends Component {
     loadHorizon: PropTypes.number,
     itemHeight: PropTypes.number,
     scrollable: PropTypes.bool,
-    notFoundMessage: PropTypes.string,
+    notFoundMessage: PropTypes.oneOfType([
+      PropTypes.string,
+      PropTypes.node
+    ]).isRequired,
     collection: PropTypes.object.isRequired,
     fetch: PropTypes.func.isRequired,
     renderItem: PropTypes.func.isRequired,
@@ -30,7 +33,6 @@ export default class QueryList extends Component {
   };
 
   static defaultProps = {
-    notFoundMessage: 'Not found',
     fullWidth: false
   }
 

@@ -24,7 +24,7 @@ class PackageCreate extends Component {
     handleSubmit: PropTypes.func.isRequired,
     onSubmit: PropTypes.func.isRequired,
     pristine: PropTypes.bool.isRequired,
-    intl: intlShape.isRequired // eslint-disable-line react/no-unused-prop-types
+    intl: intlShape.isRequired
   };
 
   static contextTypes = {
@@ -41,6 +41,7 @@ class PackageCreate extends Component {
 
   render() {
     let {
+      intl,
       request,
       handleSubmit,
       onSubmit,
@@ -114,7 +115,12 @@ class PackageCreate extends Component {
             </DetailsViewSection>
           </div>
         </form>
-        <NavigationModal when={!pristine && !request.isResolved} />
+        <NavigationModal
+          modalLabel={intl.formatMessage({ id: 'ui-eholdings.navModal.modalLabel' })}
+          continueLabel={intl.formatMessage({ id: 'ui-eholdings.navModal.continueLabel' })}
+          dismissLabel={intl.formatMessage({ id: 'ui-eholdings.navModal.dismissLabel' })}
+          when={!pristine && !request.isResolved}
+        />
       </div>
     );
   }

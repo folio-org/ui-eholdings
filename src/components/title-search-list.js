@@ -1,17 +1,18 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { FormattedMessage } from 'react-intl';
 
 import QueryList from './query-list';
 import TitleListItem from './title-list-item';
 
 export default function TitleSearchList({
-  location,
-  params,
   activeId,
-  shouldFocusItem,
   collection,
   fetch,
-  onUpdateOffset
+  location,
+  onUpdateOffset,
+  params,
+  shouldFocusItem
 }, { router }) {
   return (
     <QueryList
@@ -21,7 +22,12 @@ export default function TitleSearchList({
       collection={collection}
       onUpdateOffset={onUpdateOffset}
       itemHeight={84}
-      notFoundMessage={`No titles found for "${params.q}".`}
+      notFoundMessage={(
+        <FormattedMessage
+          id="ui-eholdings.title.resultsNotFound"
+          values={{ query: params.q }}
+        />
+      )}
       fullWidth
       renderItem={item => (
         <TitleListItem
@@ -44,13 +50,13 @@ export default function TitleSearchList({
 }
 
 TitleSearchList.propTypes = {
-  location: PropTypes.object.isRequired,
-  params: PropTypes.object.isRequired,
   activeId: PropTypes.string,
-  shouldFocusItem: PropTypes.string,
   collection: PropTypes.object.isRequired,
   fetch: PropTypes.func.isRequired,
-  onUpdateOffset: PropTypes.func.isRequired
+  location: PropTypes.object.isRequired,
+  onUpdateOffset: PropTypes.func.isRequired,
+  params: PropTypes.object.isRequired,
+  shouldFocusItem: PropTypes.string
 };
 
 TitleSearchList.contextTypes = {

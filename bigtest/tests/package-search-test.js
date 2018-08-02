@@ -569,7 +569,7 @@ describeApplication('PackageSearch', () => {
     });
 
     it("displays 'no results' message", () => {
-      expect(PackageSearchPage.noResultsMessage).to.equal('No packages found for "fhqwhgads".');
+      expect(PackageSearchPage.noResultsMessage).to.equal("No packages found for 'fhqwhgads'.");
     });
   });
 

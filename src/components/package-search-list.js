@@ -1,17 +1,18 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { FormattedMessage } from 'react-intl';
 
 import QueryList from './query-list';
 import PackageListItem from './package-list-item';
 
 export default function PackageSearchList({
-  location,
-  params,
   activeId,
-  shouldFocusItem,
   collection,
   fetch,
-  onUpdateOffset
+  location,
+  onUpdateOffset,
+  params,
+  shouldFocusItem
 }, { router }) {
   return (
     <QueryList
@@ -21,7 +22,12 @@ export default function PackageSearchList({
       collection={collection}
       onUpdateOffset={onUpdateOffset}
       itemHeight={84}
-      notFoundMessage={`No packages found for "${params.q}".`}
+      notFoundMessage={(
+        <FormattedMessage
+          id="ui-eholdings.package.resultsNotFound"
+          values={{ query: params.q }}
+        />
+      )}
       fullWidth
       renderItem={item => (
         <PackageListItem
@@ -44,13 +50,13 @@ export default function PackageSearchList({
 }
 
 PackageSearchList.propTypes = {
-  location: PropTypes.object.isRequired,
-  params: PropTypes.object.isRequired,
   activeId: PropTypes.string,
-  shouldFocusItem: PropTypes.string,
   collection: PropTypes.object.isRequired,
   fetch: PropTypes.func.isRequired,
-  onUpdateOffset: PropTypes.func.isRequired
+  location: PropTypes.object.isRequired,
+  onUpdateOffset: PropTypes.func.isRequired,
+  params: PropTypes.object.isRequired,
+  shouldFocusItem: PropTypes.string
 };
 
 PackageSearchList.contextTypes = {

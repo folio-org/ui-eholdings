@@ -1,21 +1,18 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-
-import {
-  Modal,
-  ModalFooter
-} from '@folio/stripes-components';
+import { Modal, ModalFooter } from '@folio/stripes-components';
+import { FormattedMessage } from 'react-intl';
 
 export default class NavigationModal extends Component {
   static propTypes = {
-    when: PropTypes.bool.isRequired,
-    modalLabel: PropTypes.string,
-    continueLabel: PropTypes.string,
-    dismissLabel: PropTypes.string,
     children: PropTypes.oneOfType([
       PropTypes.func,
       PropTypes.node
-    ])
+    ]),
+    continueLabel: PropTypes.string.isRequired,
+    dismissLabel: PropTypes.string.isRequired,
+    modalLabel: PropTypes.string.isRequired,
+    when: PropTypes.bool.isRequired
   };
 
   static contextTypes = {
@@ -25,12 +22,6 @@ export default class NavigationModal extends Component {
         push: PropTypes.func.isRequired
       }).isRequired
     }).isRequired
-  };
-
-  static defaultProps = {
-    modalLabel: 'Confirm navigation',
-    continueLabel: 'Continue without saving',
-    dismissLabel: 'Keep editing'
   };
 
   constructor(props) {
@@ -125,7 +116,7 @@ export default class NavigationModal extends Component {
             />
           )}
         >
-          Your changes have not been saved. Are you sure you want to leave this page?
+          <FormattedMessage id="ui-eholdings.navModal.unsavedChangesMsg" />
         </Modal>
       );
     } else {

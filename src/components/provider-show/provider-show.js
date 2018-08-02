@@ -2,10 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import update from 'lodash/fp/update';
 import set from 'lodash/fp/set';
-import {
-  Accordion,
-  KeyValue
-} from '@folio/stripes-components';
+import { Accordion, KeyValue } from '@folio/stripes-components';
 import { FormattedNumber, FormattedMessage } from 'react-intl';
 
 import { processErrors } from '../utilities';
@@ -46,7 +43,13 @@ class ProviderShow extends Component {
   }
 
   render() {
-    let { model, packages, fetchPackages, searchModal, listType } = this.props;
+    let {
+      fetchPackages,
+      listType,
+      model,
+      packages,
+      searchModal,
+    } = this.props;
     let { queryParams } = this.context;
     let { sections } = this.state;
 
@@ -106,6 +109,7 @@ class ProviderShow extends Component {
               length={packages.length}
               scrollable={scrollable}
               itemHeight={70}
+              notFoundMessage={<FormattedMessage id="ui-eholdings.notFound" />}
               renderItem={item => (
                 <PackageListItem
                   link={item.content && `/eholdings/packages/${item.content.id}`}
