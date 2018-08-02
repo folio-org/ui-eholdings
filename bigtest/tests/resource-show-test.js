@@ -77,6 +77,10 @@ describeApplication('ResourceShow', () => {
       expect(ResourcePage.nameHasFocus).to.be.true;
     });
 
+    it('displays the collapse all button', () => {
+      expect(ResourcePage.hasCollapseAllButton).to.be.true;
+    });
+
     it('displays the edition', () => {
       expect(ResourcePage.edition).to.equal('Best Edition');
     });
@@ -131,6 +135,16 @@ describeApplication('ResourceShow', () => {
 
     it('displays the external link icon', () => {
       expect(ResourcePage.isExternalLinkIconPresent).to.be.true;
+    });
+
+    describe('clicking the collapse all button', () => {
+      beforeEach(() => {
+        return ResourcePage.clickCollapseAllButton();
+      });
+
+      it('toggles the button text to expand all', () => {
+        expect(ResourcePage.collapseAllButtonText).to.equal('Expand all');
+      });
     });
 
     describe.skip('clicking the managed url opens link in new tab', () => {
