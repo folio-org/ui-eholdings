@@ -26,7 +26,11 @@ class Toaster extends Component {
       // to pick the specific toast out when calling `onClose`
       id: PropTypes.string.isRequired,
       // the toast message that will be displayed in the UI
-      message: PropTypes.string.isRequired,
+      message: PropTypes.oneOfType([
+        PropTypes.string,
+        PropTypes.func,
+        PropTypes.node
+      ]).isRequired,
       // the time which the toast is shown
       timeout: PropTypes.number
     })).isRequired

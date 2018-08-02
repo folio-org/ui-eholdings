@@ -121,7 +121,7 @@ class PackageCreate extends Component {
 }
 
 const validate = (values, props) => {
-  return Object.assign({}, validatePackageName(values), validateCoverageDates(values, props));
+  return Object.assign({}, validatePackageName(values, props), validateCoverageDates(values, props));
 };
 
 export default injectIntl(reduxForm({
