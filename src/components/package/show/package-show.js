@@ -21,6 +21,7 @@ import NavigationModal from '../../navigation-modal';
 import Toaster from '../../toaster';
 
 import SelectionStatus from '../selection-status';
+import KeyValueColumns from '../../key-value-columns';
 import styles from './package-show.css';
 
 class PackageShow extends Component {
@@ -244,39 +245,45 @@ class PackageShow extends Component {
                 id="packageShowInformation"
                 onToggle={this.handleSectionToggle}
               >
-                <KeyValue label={<FormattedMessage id="ui-eholdings.package.provider" />}>
-                  <div data-test-eholdings-package-details-provider>
-                    <Link to={`/eholdings/providers/${model.providerId}`}>{model.providerName}</Link>
+                <KeyValueColumns>
+                  <div>
+                    <KeyValue label={<FormattedMessage id="ui-eholdings.package.provider" />}>
+                      <div data-test-eholdings-package-details-provider>
+                        <Link to={`/eholdings/providers/${model.providerId}`}>{model.providerName}</Link>
+                      </div>
+                    </KeyValue>
+
+                    {model.contentType && (
+                      <KeyValue label={<FormattedMessage id="ui-eholdings.package.contentType" />}>
+                        <div data-test-eholdings-package-details-content-type>
+                          {model.contentType}
+                        </div>
+                      </KeyValue>
+                    )}
+
+                    {model.packageType && (
+                      <KeyValue label={<FormattedMessage id="ui-eholdings.package.packageType" />}>
+                        <div data-test-eholdings-package-details-type>
+                          {model.packageType}
+                        </div>
+                      </KeyValue>
+                    )}
                   </div>
-                </KeyValue>
 
-                {model.contentType && (
-                  <KeyValue label={<FormattedMessage id="ui-eholdings.package.contentType" />}>
-                    <div data-test-eholdings-package-details-content-type>
-                      {model.contentType}
-                    </div>
-                  </KeyValue>
-                )}
+                  <div>
+                    <KeyValue label={<FormattedMessage id="ui-eholdings.package.titlesSelected" />}>
+                      <div data-test-eholdings-package-details-titles-selected>
+                        <FormattedNumber value={model.selectedCount} />
+                      </div>
+                    </KeyValue>
 
-                {model.packageType && (
-                  <KeyValue label={<FormattedMessage id="ui-eholdings.package.packageType" />}>
-                    <div data-test-eholdings-package-details-type>
-                      {model.packageType}
-                    </div>
-                  </KeyValue>
-                )}
-
-                <KeyValue label={<FormattedMessage id="ui-eholdings.package.titlesSelected" />}>
-                  <div data-test-eholdings-package-details-titles-selected>
-                    <FormattedNumber value={model.selectedCount} />
+                    <KeyValue label={<FormattedMessage id="ui-eholdings.package.totalTitles" />}>
+                      <div data-test-eholdings-package-details-titles-total>
+                        <FormattedNumber value={model.titleCount} />
+                      </div>
+                    </KeyValue>
                   </div>
-                </KeyValue>
-
-                <KeyValue label={<FormattedMessage id="ui-eholdings.package.totalTitles" />}>
-                  <div data-test-eholdings-package-details-titles-total>
-                    <FormattedNumber value={model.titleCount} />
-                  </div>
-                </KeyValue>
+                </KeyValueColumns>
               </Accordion>
               <Accordion
                 label={intl.formatMessage({ id: 'ui-eholdings.package.packageSettings' })}

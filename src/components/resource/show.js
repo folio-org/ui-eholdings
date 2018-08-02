@@ -22,6 +22,7 @@ import ContributorsList from '..//contributors-list';
 import CoverageDateList from '../coverage-date-list';
 import { isBookPublicationType, isValidCoverageList, processErrors } from '../utilities';
 import Toaster from '../toaster';
+import KeyValueColumns from '../key-value-columns';
 
 class ResourceShow extends Component {
   static propTypes = {
@@ -216,87 +217,92 @@ class ResourceShow extends Component {
                 id="resourceShowInformation"
                 onToggle={this.handleSectionToggle}
               >
-                <KeyValue label={<FormattedMessage id="ui-eholdings.label.title" />}>
-                  <Link to={`/eholdings/titles/${model.titleId}`}>
-                    {model.title.name}
-                  </Link>
-                </KeyValue>
+                <KeyValueColumns>
+                  <div>
+                    <KeyValue label={<FormattedMessage id="ui-eholdings.label.title" />}>
+                      <Link to={`/eholdings/titles/${model.titleId}`}>
+                        {model.title.name}
+                      </Link>
+                    </KeyValue>
 
-                {model.title.edition && (
-                  <KeyValue label={<FormattedMessage id="ui-eholdings.label.edition" />}>
-                    <div data-test-eholdings-resource-show-edition>
-                      {model.title.edition}
-                    </div>
-                  </KeyValue>
-                )}
+                    {model.title.edition && (
+                      <KeyValue label={<FormattedMessage id="ui-eholdings.label.edition" />}>
+                        <div data-test-eholdings-resource-show-edition>
+                          {model.title.edition}
+                        </div>
+                      </KeyValue>
+                    )}
 
-                <ContributorsList data={model.title.contributors} />
+                    <ContributorsList data={model.title.contributors} />
 
-                {model.title.publisherName && (
-                  <KeyValue label={<FormattedMessage id="ui-eholdings.label.publisher" />}>
-                    <div data-test-eholdings-resource-show-publisher-name>
-                      {model.title.publisherName}
-                    </div>
-                  </KeyValue>
-                )}
+                    {model.title.publisherName && (
+                      <KeyValue label={<FormattedMessage id="ui-eholdings.label.publisher" />}>
+                        <div data-test-eholdings-resource-show-publisher-name>
+                          {model.title.publisherName}
+                        </div>
+                      </KeyValue>
+                    )}
 
-                {model.title.publicationType && (
-                  <KeyValue label={<FormattedMessage id="ui-eholdings.label.publicationType" />}>
-                    <div data-test-eholdings-resource-show-publication-type>
-                      {model.title.publicationType}
-                    </div>
-                  </KeyValue>
-                )}
+                    {model.title.publicationType && (
+                      <KeyValue label={<FormattedMessage id="ui-eholdings.label.publicationType" />}>
+                        <div data-test-eholdings-resource-show-publication-type>
+                          {model.title.publicationType}
+                        </div>
+                      </KeyValue>
+                    )}
 
-                <IdentifiersList data={model.title.identifiers} />
+                    <IdentifiersList data={model.title.identifiers} />
 
-                {model.title.subjects.length > 0 && (
-                  <KeyValue label={<FormattedMessage id="ui-eholdings.label.subjects" />}>
-                    <div data-test-eholdings-resource-show-subjects-list>
-                      {model.title.subjects.map(subjectObj => subjectObj.subject).join('; ')}
-                    </div>
-                  </KeyValue>
-                )}
+                    {model.title.subjects.length > 0 && (
+                      <KeyValue label={<FormattedMessage id="ui-eholdings.label.subjects" />}>
+                        <div data-test-eholdings-resource-show-subjects-list>
+                          {model.title.subjects.map(subjectObj => subjectObj.subject).join('; ')}
+                        </div>
+                      </KeyValue>
+                    )}
 
-                <KeyValue label={<FormattedMessage id="ui-eholdings.label.peerReviewed" />}>
-                  <div data-test-eholdings-peer-reviewed-field>
-                    {model.title.isPeerReviewed ? 'Yes' : 'No'}
+                    <KeyValue label={<FormattedMessage id="ui-eholdings.label.peerReviewed" />}>
+                      <div data-test-eholdings-peer-reviewed-field>
+                        {model.title.isPeerReviewed ? 'Yes' : 'No'}
+                      </div>
+                    </KeyValue>
+
+                    <KeyValue label={<FormattedMessage id="ui-eholdings.label.titleType" />}>
+                      <div data-test-eholdings-package-details-type>
+                        {model.title.isTitleCustom ? 'Custom' : 'Managed'}
+                      </div>
+                    </KeyValue>
+
+                    {model.title.description && (
+                      <KeyValue label={<FormattedMessage id="ui-eholdings.label.description" />}>
+                        <div data-test-eholdings-description-field>
+                          {model.title.description}
+                        </div>
+                      </KeyValue>
+                    )}
                   </div>
-                </KeyValue>
+                  <div>
+                    <KeyValue label={<FormattedMessage id="ui-eholdings.label.package" />}>
+                      <div data-test-eholdings-resource-show-package-name>
+                        <Link to={`/eholdings/packages/${model.packageId}`}>{model.package.name}</Link>
+                      </div>
+                    </KeyValue>
 
-                <KeyValue label={<FormattedMessage id="ui-eholdings.label.titleType" />}>
-                  <div data-test-eholdings-package-details-type>
-                    {model.title.isTitleCustom ? 'Custom' : 'Managed'}
+                    <KeyValue label={<FormattedMessage id="ui-eholdings.label.provider" />}>
+                      <div data-test-eholdings-resource-show-provider-name>
+                        <Link to={`/eholdings/providers/${model.providerId}`}>{model.package.providerName}</Link>
+                      </div>
+                    </KeyValue>
+
+                    {model.package.contentType && (
+                      <KeyValue label="Package content type">
+                        <div data-test-eholdings-resource-show-content-type>
+                          {model.package.contentType}
+                        </div>
+                      </KeyValue>
+                    )}
                   </div>
-                </KeyValue>
-
-                {model.title.description && (
-                  <KeyValue label={<FormattedMessage id="ui-eholdings.label.description" />}>
-                    <div data-test-eholdings-description-field>
-                      {model.title.description}
-                    </div>
-                  </KeyValue>
-                )}
-
-                <KeyValue label={<FormattedMessage id="ui-eholdings.label.package" />}>
-                  <div data-test-eholdings-resource-show-package-name>
-                    <Link to={`/eholdings/packages/${model.packageId}`}>{model.package.name}</Link>
-                  </div>
-                </KeyValue>
-
-                <KeyValue label={<FormattedMessage id="ui-eholdings.label.provider" />}>
-                  <div data-test-eholdings-resource-show-provider-name>
-                    <Link to={`/eholdings/providers/${model.providerId}`}>{model.package.providerName}</Link>
-                  </div>
-                </KeyValue>
-
-                {model.package.contentType && (
-                  <KeyValue label="Package content type">
-                    <div data-test-eholdings-resource-show-content-type>
-                      {model.package.contentType}
-                    </div>
-                  </KeyValue>
-                )}
+                </KeyValueColumns>
               </Accordion>
 
               <Accordion
