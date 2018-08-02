@@ -44,8 +44,8 @@ export default class DetailsView extends Component {
     lastMenu: PropTypes.node,
     resultsLength: PropTypes.number,
     searchModal: PropTypes.node,
-    sections: PropTypes.object.isRequired,
-    handleExpandAll: PropTypes.func.isRequired
+    sections: PropTypes.object,
+    handleExpandAll: PropTypes.func
   };
 
   static contextTypes = {
