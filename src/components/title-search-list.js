@@ -1,15 +1,14 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { injectIntl, intlShape } from 'react-intl';
+import { FormattedMessage } from 'react-intl';
 
 import QueryList from './query-list';
 import TitleListItem from './title-list-item';
 
-function TitleSearchList({
+export default function TitleSearchList({
   activeId,
   collection,
   fetch,
-  intl,
   location,
   onUpdateOffset,
   params,
@@ -23,7 +22,12 @@ function TitleSearchList({
       collection={collection}
       onUpdateOffset={onUpdateOffset}
       itemHeight={84}
-      notFoundMessage={intl.formatMessage({ id: 'ui-eholdings.title.resultsNotFound' }, { query: params.q })}
+      notFoundMessage={(
+        <FormattedMessage
+          id="ui-eholdings.title.resultsNotFound"
+          values={{ query: params.q }}
+        />
+      )}
       fullWidth
       renderItem={item => (
         <TitleListItem
@@ -49,7 +53,6 @@ TitleSearchList.propTypes = {
   activeId: PropTypes.string,
   collection: PropTypes.object.isRequired,
   fetch: PropTypes.func.isRequired,
-  intl: intlShape.isRequired,
   location: PropTypes.object.isRequired,
   onUpdateOffset: PropTypes.func.isRequired,
   params: PropTypes.object.isRequired,
@@ -59,5 +62,3 @@ TitleSearchList.propTypes = {
 TitleSearchList.contextTypes = {
   router: PropTypes.object
 };
-
-export default injectIntl(TitleSearchList);
