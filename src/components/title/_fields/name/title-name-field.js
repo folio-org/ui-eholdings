@@ -1,6 +1,6 @@
 import React from 'react';
 import { Field } from 'redux-form';
-import { injectIntl, intlShape, FormattedMessage } from 'react-intl';
+import { injectIntl, intlShape } from 'react-intl';
 
 import { TextField } from '@folio/stripes-components';
 
@@ -23,15 +23,15 @@ TitleNameField.propTypes = {
 
 export default injectIntl(TitleNameField);
 
-export function validate(values) {
+export function validate(values, props) {
   let errors = {};
 
   if (values.name === '') {
-    errors.name = <FormattedMessage id="ui-eholdings.validate.errors.customTitle.name" />;
+    errors.name = props.intl.formatMessage({ id: 'ui-eholdings.validate.errors.customTitle.name' });
   }
 
   if (values.name.length >= 400) {
-    errors.name = <FormattedMessage id="ui-eholdings.validate.errors.customTitle.name.length" />;
+    errors.name = props.intl.formatMessage({ id: 'ui-eholdings.validate.errors.customTitle.name.length' });
   }
 
   return errors;
