@@ -3,6 +3,8 @@ import PropTypes from 'prop-types';
 import { reduxForm } from 'redux-form';
 import { Icon } from '@folio/stripes-components';
 import isEqual from 'lodash/isEqual';
+import { intlShape, injectIntl, FormattedMessage } from 'react-intl';
+
 
 import SettingsDetailPane from '../settings-detail-pane';
 import { processErrors } from '../utilities';
@@ -19,6 +21,7 @@ class SettingsRootProxy extends Component {
     onSubmit: PropTypes.func.isRequired,
     pristine: PropTypes.bool,
     reset: PropTypes.func,
+    intl: intlShape.isRequired,
     invalid: PropTypes.bool
   };
 
@@ -53,6 +56,7 @@ class SettingsRootProxy extends Component {
       onSubmit,
       pristine,
       reset,
+      intl,
       invalid
     } = this.props;
 
@@ -73,7 +77,7 @@ class SettingsRootProxy extends Component {
 
     let actionMenuItems = [
       {
-        'label': 'Cancel editing',
+        'label': intl.formatMessage({ id: 'ui-eholdings.actionMenu.cancelEditing' }),
         'state': { eholdings: true },
         'onClick': reset,
         'disabled': rootProxy.update.isPending || invalid || pristine,
@@ -101,7 +105,10 @@ class SettingsRootProxy extends Component {
                 buttonStyle="primary"
                 data-test-eholdings-settings-root-proxy-save-button
               >
-                {rootProxy.update.isPending ? 'Saving' : 'Save'}
+                {rootProxy.update.isPending ?
+                  (<FormattedMessage id="ui-eholdings.saving" />)
+                    :
+                  (<FormattedMessage id="ui-eholdings.save" />)}
               </PaneHeaderButton>
             </Fragment>
           )}
@@ -117,11 +124,10 @@ class SettingsRootProxy extends Component {
             </div>
           )}
 
-          <p>EBSCO KB API customers: Please access EBSCOAdmin to setup and maintain proxies.</p>
+          <p><FormattedMessage id="ui-eholdings.settings.rootProxy.ebsco.customer.message" /></p>
 
           <p>
-            Warning: Changing the root proxy setting will override the proxy for all links and resources currently set
-            to inherit the root proxy selection.
+            <FormattedMessage id="ui-eholdings.settings.rootProxy.warning" />
           </p>
         </SettingsDetailPane>
       </form>
@@ -129,8 +135,8 @@ class SettingsRootProxy extends Component {
   }
 }
 
-export default reduxForm({
+export default injectIntl(reduxForm({
   enableReinitialize: true,
   form: 'SettingsRootProxy',
   destroyOnUnmount: false,
-})(SettingsRootProxy);
+})(SettingsRootProxy));

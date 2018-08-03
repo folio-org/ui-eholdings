@@ -101,6 +101,9 @@
     "title.modalMessage.addTitleToCustomPackage": "Add title to custom package",
     "title.resultsNotFound": "No titles found for '{query}'.",
 
+    "settings.rootProxy.warning": "Warning: Changing the root proxy setting will override the proxy for all links and resources currently set to inherit the root proxy selection.",
+    "settings.rootProxy.ebsco.customer.message": "EBSCO KB API customers: Please access EBSCOAdmin to setup and maintain proxies.",
+
     "actionMenu.fullView": "Full view",
     "actionMenu.cancelEditing": "Cancel editing",
     "actionMenu.edit": "Edit",
@@ -167,6 +170,9 @@
     "validate.errors.customTitle.name.length": "Must be less than 400 characters.",
     "validate.errors.customPackage.name": "Custom packages must have a name.",
     "validate.errors.customPackage.name.length": "Must be less than 300 characters.",
+
+    "validate.errors.settings.customerId": "Customer ID cannot be blank",
+    "validate.errors.settings.apiKey": "API key cannot be blank",
 
     "server.errors.failedBackend": "Could not retrieve configuration information",
     "server.errors.errorDuringFetch": "There was a server error while retrieving your knowledge base configuration.",

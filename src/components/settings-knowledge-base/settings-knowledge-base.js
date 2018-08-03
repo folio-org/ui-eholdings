@@ -1,6 +1,7 @@
 import React, { Component, Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { reduxForm, Field } from 'redux-form';
+import { intlShape, injectIntl, FormattedMessage } from 'react-intl';
 import {
   Icon,
   TextField
@@ -18,6 +19,7 @@ class SettingsKnowledgeBase extends Component {
     handleSubmit: PropTypes.func,
     pristine: PropTypes.bool,
     reset: PropTypes.func,
+    intl: intlShape.isRequired,
     invalid: PropTypes.bool
   };
 
@@ -28,12 +30,13 @@ class SettingsKnowledgeBase extends Component {
       onSubmit,
       pristine,
       reset,
+      intl,
       invalid
     } = this.props;
 
     let actionMenuItems = [
       {
-        'label': 'Cancel editing',
+        'label': intl.formatMessage({ id: 'ui-eholdings.actionMenu.cancelEditing' }),
         'state': { eholdings: true },
         'onClick': reset,
         'disabled': model.update.isPending || invalid || pristine,
@@ -61,7 +64,10 @@ class SettingsKnowledgeBase extends Component {
                 buttonStyle="primary"
                 data-test-eholdings-settings-kb-save-button
               >
-                {model.update.isPending ? 'Saving' : 'Save'}
+                {model.update.isPending ?
+                  (<FormattedMessage id="ui-eholdings.saving" />)
+                    :
+                  (<FormattedMessage id="ui-eholdings.save" />)}
               </PaneHeaderButton>
             </Fragment>
           )}
@@ -107,23 +113,23 @@ class SettingsKnowledgeBase extends Component {
   }
 }
 
-const validate = (values) => {
+const validate = (values, props) => {
   let errors = {};
 
   if (values.customerId.length <= 0) {
-    errors.customerId = 'Customer ID cannot be blank.';
+    errors.customerId = props.intl.formatMessage({ id: 'ui-eholdings.validate.errors.settings.customerId' });
   }
 
   if (values.apiKey.length <= 0) {
-    errors.apiKey = 'API key cannot be blank.';
+    errors.apiKey = props.intl.formatMessage({ id: 'ui-eholdings.validate.errors.settings.apiKey' });
   }
 
   return errors;
 };
 
-export default reduxForm({
+export default injectIntl(reduxForm({
   validate,
   enableReinitialize: true,
   form: 'SettingsKnowledgeBase',
   destroyOnUnmount: false,
-})(SettingsKnowledgeBase);
+})(SettingsKnowledgeBase));
