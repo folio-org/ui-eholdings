@@ -20,12 +20,8 @@ describeApplication('With list of root proxies available to a customer', () => {
         return SettingsRootProxyPage.chooseRootProxy('microstates');
       });
 
-      it('should display cancel action button', () => {
-        expect(SettingsRootProxyPage.hasCancelButton).to.eq(true);
-      });
-
-      it('should display save action button', () => {
-        expect(SettingsRootProxyPage.hasSaveButton).to.eq(true);
+      it('should enable save action button', () => {
+        expect(SettingsRootProxyPage.saveButtonDisabled).to.eq(false);
       });
 
       describe('clicking save to update Root Proxy', () => {
@@ -37,12 +33,8 @@ describeApplication('With list of root proxies available to a customer', () => {
           expect(SettingsRootProxyPage.RootProxySelectValue).to.eq('microstates');
         });
 
-        it('should remove save button', () => {
-          expect(SettingsRootProxyPage.hasSaveButton).to.eq(false);
-        });
-
-        it('should remove cancel button', () => {
-          expect(SettingsRootProxyPage.hasCancelButton).to.eq(false);
+        it('should disable save button', () => {
+          expect(SettingsRootProxyPage.saveButtonDisabled).to.eq(true);
         });
 
         it('should show a success toast', () => {
@@ -52,19 +44,15 @@ describeApplication('With list of root proxies available to a customer', () => {
 
       describe('clicking cancel to cancel updating Root Proxy', () => {
         beforeEach(() => {
-          return SettingsRootProxyPage.cancel();
+          return SettingsRootProxyPage.clickCancel();
         });
 
         it('should display the initial root proxy', () => {
           expect(SettingsRootProxyPage.RootProxySelectValue).to.eq('bigTestJS');
         });
 
-        it('should remove save button', () => {
-          expect(SettingsRootProxyPage.hasSaveButton).to.eq(false);
-        });
-
-        it('should remove cancel button', () => {
-          expect(SettingsRootProxyPage.hasCancelButton).to.eq(false);
+        it('should disable save button', () => {
+          expect(SettingsRootProxyPage.saveButtonDisabled).to.eq(true);
         });
       });
     });

@@ -106,7 +106,7 @@ export default class SearchPaneset extends React.Component { // eslint-disable-l
         className={styles['search-new-button']}
         to={`/eholdings/${this.props.resultsType}/new`}
       >
-        <FormattedMessage id="ui-eholdings.addNew" />
+        <FormattedMessage id="ui-eholdings.search.addNew" />
       </Link>
     );
   };

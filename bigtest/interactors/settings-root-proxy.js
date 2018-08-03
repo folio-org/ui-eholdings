@@ -1,21 +1,36 @@
 import {
-  interactor,
-  fillable,
+  action,
   clickable,
-  value,
-  isPresent
+  fillable,
+  interactor,
+  property,
+  value
 } from '@bigtest/interactor';
 import Toast from './toast';
 
+@interactor class SettingsRootProxyDropDown {
+  clickDropDownButton = clickable('button');
+}
+
+@interactor class SettingsRootProxyDropDownMenu {
+  clickCancel = clickable('.tether-element [data-test-eholdings-settings-root-proxy-cancel-action]');
+}
+
 @interactor class SettingsRootProxyPage {
   RootProxySelectValue = value('[data-test-eholdings-settings-root-proxy-select] select');
-  hasSaveButton = isPresent('[data-test-eholdings-root-proxy-save-button] button');
-  hasCancelButton = isPresent('[data-test-eholdings-root-proxy-cancel-button] button');
   chooseRootProxy = fillable('[data-test-eholdings-settings-root-proxy-select] select');
-  save = clickable('[data-test-eholdings-root-proxy-save-button] button');
-  cancel = clickable('[data-test-eholdings-root-proxy-cancel-button] button');
+  save = clickable('[data-test-eholdings-settings-root-proxy-save-button]');
+  saveButtonDisabled = property('[data-test-eholdings-settings-root-proxy-save-button]', 'disabled');
 
   toast = Toast;
+
+  dropDown = new SettingsRootProxyDropDown('[class*=paneHeaderCenterInner---] [class*=dropdown---]');
+  dropDownMenu = new SettingsRootProxyDropDownMenu();
+  clickCancel= action(function () {
+    return this
+      .dropDown.clickDropDownButton()
+      .dropDownMenu.clickCancel();
+  });
 }
 
 export default new SettingsRootProxyPage('[data-test-eholdings-settings-root-proxy]');

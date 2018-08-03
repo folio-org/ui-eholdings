@@ -1,5 +1,9 @@
 @import '@folio/stripes-components/lib/variables';
 
+.settings-detail-pane-body {
+  max-width: 50em;
+}
+
 .settings-detail-pane-back-button {
   @media (--mediumUp) {
     display: none;

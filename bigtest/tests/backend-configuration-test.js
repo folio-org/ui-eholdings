@@ -57,8 +57,8 @@ describeApplication('With unconfigured backend', {
         return this.visit('/settings/eholdings/knowledge-base', () => expect(SettingsPage.$root).to.exist);
       });
 
-      it('shows the form action buttons', () => {
-        expect(SettingsPage.hasVisibleActions).to.be.true;
+      it('does not enable the save button', () => {
+        expect(SettingsPage.saveButtonDisabled).to.be.true;
       });
 
       describe('filling in incomplete data', () => {
@@ -116,8 +116,8 @@ describeApplication('With valid backend configuration', () => {
       expect(SettingsPage.apiKeyInputType).to.equal('password');
     });
 
-    it.always('does not have visible form action buttons', () => {
-      expect(SettingsPage.hasVisibleActions).to.be.false;
+    it.always('has a disabled save button', () => {
+      expect(SettingsPage.saveButtonDisabled).to.be.true;
     });
 
     describe('filling in invalid data', () => {
@@ -149,8 +149,8 @@ describeApplication('With valid backend configuration', () => {
           .fillApiKey('some-api-key');
       });
 
-      it('shows the form actions', () => {
-        expect(SettingsPage.hasVisibleActions).to.be.true;
+      it('enables the save button', () => {
+        expect(SettingsPage.saveButtonDisabled).to.be.false;
       });
 
       describe('saving the changes', () => {
@@ -166,8 +166,8 @@ describeApplication('With valid backend configuration', () => {
         it.skip('indicates that it is working');
 
         describe('when the changes succeed', () => {
-          it('hides the form actions', () => {
-            expect(SettingsPage.hasVisibleActions).to.be.false;
+          it('disables the save button', () => {
+            expect(SettingsPage.saveButtonDisabled).to.be.true;
           });
         });
       });
@@ -181,10 +181,6 @@ describeApplication('With valid backend configuration', () => {
           }, 500);
 
           return SettingsPage.save();
-        });
-
-        it.always('shows the form action buttons', () => {
-          expect(SettingsPage.hasVisibleActions).to.be.true;
         });
 
         it('enables the save button', () => {
@@ -209,7 +205,7 @@ describeApplication('With valid backend configuration', () => {
 
       describe('then hitting the cancel button', () => {
         beforeEach(() => {
-          return SettingsPage.cancel();
+          return SettingsPage.clickCancel();
         });
 
         it('reverts the changes', () => {
