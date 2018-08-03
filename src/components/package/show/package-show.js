@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import update from 'lodash/fp/update';
 import set from 'lodash/fp/set';
+
 import {
   Accordion,
   Icon,
@@ -48,6 +49,7 @@ class PackageShow extends Component {
       packageShowInformation: true,
       packageShowSettings: true,
       packageShowCoverageSettings: true,
+      packageShowTitles: true
     }
   };
 
@@ -374,6 +376,9 @@ class PackageShow extends Component {
             </div>
           )}
           listType="titles"
+          listSectionId="packageShowTitles"
+          onListToggle={this.handleSectionToggle}
+          resultsLength={model.resources.length}
           renderList={scrollable => (
             <QueryList
               type="package-titles"

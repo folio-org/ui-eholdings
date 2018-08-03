@@ -10,8 +10,8 @@ import {
   ModalFooter,
 } from '@folio/stripes-components';
 
-import SearchForm from './search-form';
-import styles from './details-view/details-view.css';
+import SearchForm from '../search-form';
+import styles from './search-modal.css';
 
 const normalize = (query = {}) => {
   return {
@@ -122,11 +122,11 @@ class SearchModal extends React.PureComponent {
 
     return (
       <Fragment>
-        <div className={styles['search-filter-area']}>
+        <div className={styles['search-filter-area']} data-test-eholdings-details-view-filters>
           {filterCount > 0 && (
-            <div data-test-eholdings-details-view-filters>
+            <span data-test-eholdings-details-view-filters-badge>
               <Badge className={styles['filter-count']}>{filterCount}</Badge>
-            </div>
+            </span>
           )}
           <IconButton
             icon="search"

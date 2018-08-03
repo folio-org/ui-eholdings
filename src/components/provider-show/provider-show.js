@@ -4,6 +4,7 @@ import update from 'lodash/fp/update';
 import set from 'lodash/fp/set';
 import { Accordion, KeyValue } from '@folio/stripes-components';
 import { FormattedNumber, FormattedMessage } from 'react-intl';
+import capitalize from 'lodash/capitalize';
 
 import { processErrors } from '../utilities';
 import DetailsView from '../details-view';
@@ -28,7 +29,8 @@ class ProviderShow extends Component {
 
   state = {
     sections: {
-      providerShowProviderInformation: true
+      providerShowProviderInformation: true,
+      providerShowProviderList: true,
     }
   };
 
@@ -99,7 +101,9 @@ class ProviderShow extends Component {
             </Accordion>
           )}
           searchModal={searchModal}
-          listType={listType}
+          listType={capitalize(listType)}
+          listSectionId="providerShowProviderList"
+          onListToggle={this.handleSectionToggle}
           resultsLength={packages.length}
           renderList={scrollable => (
             <QueryList
