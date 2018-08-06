@@ -261,6 +261,7 @@ class TitleShow extends Component {
             </Accordion>
           )}
           listType="packages"
+          resultsLength={model.resources.length}
           renderList={scrollable => (
             <ScrollView
               itemHeight={70}
