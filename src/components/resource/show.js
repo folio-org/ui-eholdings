@@ -320,7 +320,11 @@ class ResourceShow extends Component {
                 </KeyValue>
 
                 {model.url && (
-                  <KeyValue label={`${model.title.isTitleCustom ? (<FormattedMessage id="ui-eholdings.custom" />) : (<FormattedMessage id="ui-eholdings.managed" />)} URL`}>
+                  <KeyValue label={`${model.title.isTitleCustom ?
+                    intl.formatMessage({ id: 'ui-eholdings.custom' })
+                      :
+                    intl.formatMessage({ id: 'ui-eholdings.managed' })} URL`}
+                  >
                     <div data-test-eholdings-resource-show-url>
                       <ExternalLink
                         href={model.url}
