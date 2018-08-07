@@ -133,6 +133,9 @@
     "label.sortOptions": "Sort options",
     "label.selectionStatus": "Selection status",
     "label.search": "Search",
+    "label.accordionList": "Records found",
+    "label.icon.goBack": "Go back",
+    "label.icon.closeX": "Close {paneTitle}",
 
     "filter.all": "All",
     "filter.sortOptions.relevance": "Relevance",
@@ -187,7 +190,7 @@
     "search.apply": "Apply",
     "search.addNew": "+ New",
     "search.loading": "Loading...",
-    "search.searchAndFilter": "Search \\u0026 Filter",
+    "search.searchAndFilter": "Search \u0026 Filter",
     "search.enterQuery": "Enter a query to show search results.",
 
     "date.present": "Present",
@@ -200,7 +203,8 @@
     "save": "Save",
     "yes": "Yes",
     "no": "No",
-    "notFound": "Not found",
+    "error": "Error",
+    "notFound": "No results found",
     "cancel": "Cancel",
     "custom": "Custom",
     "managed": "Managed",
