@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import classNames from 'classnames/bind';
 import capitalize from 'lodash/capitalize';
 import { ExpandAllButton } from '@folio/stripes-components/lib/Accordion';
+import Measure from 'react-measure';
 
 import {
   Accordion,
@@ -288,19 +289,23 @@ export default class DetailsView extends Component {
               className={styles.sticky}
               data-test-eholdings-details-view-list={type}
             >
-              <Accordion
-                separator={!isSticky}
-                header={AccordionListHeader}
-                label={capitalize(listType)}
-                displayWhenOpen={searchModal}
-                resultsLength={resultsLength}
-                contentRef={(n) => { this.$list = n; }}
-                open={isListAccordionOpen}
-                id={listSectionId}
-                onToggle={onListToggle}
-              >
-                {renderList(isSticky)}
-              </Accordion>
+              <Measure onResize={this.handleLayout}>
+                {({ measureRef }) => (
+                  <Accordion
+                    separator={!isSticky}
+                    header={AccordionListHeader}
+                    label={capitalize(listType)}
+                    displayWhenOpen={searchModal}
+                    resultsLength={resultsLength}
+                    contentRef={(n) => { this.$list = n; measureRef(n); }}
+                    open={isListAccordionOpen}
+                    id={listSectionId}
+                    onToggle={onListToggle}
+                  >
+                    {renderList(isSticky)}
+                  </Accordion>
+                )}
+              </Measure>
             </div>
           )}
         </div>
