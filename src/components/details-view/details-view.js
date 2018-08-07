@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { intlShape, injectIntl } from 'react-intl';
 import PropTypes from 'prop-types';
 import classNames from 'classnames/bind';
 import capitalize from 'lodash/capitalize';
@@ -28,7 +29,7 @@ const cx = classNames.bind(styles);
  * various details views, which may or may not require their own
  * header component.
  */
-export default class DetailsView extends Component {
+class DetailsView extends Component {
   static propTypes = {
     type: PropTypes.string.isRequired,
     model: PropTypes.shape({
@@ -57,7 +58,8 @@ export default class DetailsView extends Component {
     handleExpandAll: PropTypes.func.isRequired,
     listType: PropTypes.node,
     listSectionId: PropTypes.string,
-    onListToggle: PropTypes.func.isRequired
+    onListToggle: PropTypes.func.isRequired,
+    intl: intlShape.isRequired
   };
 
   static contextTypes = {
@@ -198,7 +200,8 @@ export default class DetailsView extends Component {
       sections,
       handleExpandAll,
       listSectionId,
-      onListToggle
+      onListToggle,
+      intl
     } = this.props;
 
     let { router, queryParams } = this.context;
@@ -219,14 +222,14 @@ export default class DetailsView extends Component {
           firstMenu={queryParams.searchType ? (
             <IconButton
               icon="closeX"
-              ariaLabel={`Close ${paneTitle}`}
+              ariaLabel={intl.formatMessage({ id: 'ui-eholdings.label.icon.closeX' }, { paneTitle })}
               href={`/eholdings${router.route.location.search}`}
               data-test-eholdings-details-view-close-button
             />
           ) : historyState && historyState.eholdings && (
             <IconButton
               icon="left-arrow"
-              ariaLabel="Go back"
+              ariaLabel={intl.formatMessage({ id: 'ui-eholdings.label.icon.goBack' })}
               onClick={() => router.history.goBack()}
               data-test-eholdings-details-view-back-button
             />
@@ -308,3 +311,5 @@ export default class DetailsView extends Component {
     );
   }
 }
+
+export default (injectIntl(DetailsView));
