@@ -44,10 +44,6 @@ describeApplication('ResourceCoverageStatement', () => {
     it.always('does not display the coverage statement', () => {
       expect(ResourceShowPage.hasCoverageStatement).to.be.false;
     });
-
-    it('displays a message that there is no coverage statement', () => {
-      expect(ResourceShowPage.hasNoCoverageStatement).to.be.true;
-    });
   });
 
   describe('visiting the resource show page with title package not selected', () => {
