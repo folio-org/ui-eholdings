@@ -130,7 +130,7 @@ class PackageShow extends Component {
 
     let actionMenuItems = [
       {
-        label: <FormattedMessage id="ui-eholdings.actionMenu.edit" />,
+        label:<FormattedMessage id="ui-eholdings.actionMenu.edit" />,
         to: {
           pathname: `/eholdings/packages/${model.id}/edit`,
           search: router.route.location.search,
@@ -231,7 +231,7 @@ class PackageShow extends Component {
           bodyContent={(
             <div>
               <Accordion
-                label={intl.formatMessage({ id: 'ui-eholdings.label.holdingStatus' })}
+                label={<FormattedMessage id="ui-eholdings.label.holdingStatus" />}
                 open={sections.packageShowHoldingStatus}
                 id="packageShowHoldingStatus"
                 onToggle={this.handleSectionToggle}
@@ -242,7 +242,7 @@ class PackageShow extends Component {
                 />
               </Accordion>
               <Accordion
-                label={intl.formatMessage({ id: 'ui-eholdings.label.packageInformation' })}
+                label={<FormattedMessage id="ui-eholdings.label.packageInformation" />}
                 open={sections.packageShowInformation}
                 id="packageShowInformation"
                 onToggle={this.handleSectionToggle}
@@ -288,7 +288,7 @@ class PackageShow extends Component {
                 </KeyValueColumns>
               </Accordion>
               <Accordion
-                label={intl.formatMessage({ id: 'ui-eholdings.package.packageSettings' })}
+                label={<FormattedMessage id="ui-eholdings.package.packageSettings" />}
                 open={sections.packageShowSettings}
                 id="packageShowSettings"
                 onToggle={this.handleSectionToggle}
@@ -334,7 +334,7 @@ class PackageShow extends Component {
                 )}
               </Accordion>
               <Accordion
-                label={intl.formatMessage({ id: 'ui-eholdings.package.coverageSettings' })}
+                label={<FormattedMessage id="ui-eholdings.package.coverageSettings" />}
                 closedByDefault={!packageSelected}
                 open={sections.packageShowCoverageSettings}
                 id="packageShowCoverageSettings"

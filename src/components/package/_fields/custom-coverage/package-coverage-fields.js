@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Field, FieldArray } from 'redux-form';
 import PropTypes from 'prop-types';
 import moment from 'moment';
-import { injectIntl, intlShape } from 'react-intl';
+import { injectIntl, intlShape, FormattedMessage } from 'react-intl';
 
 import {
   Button,
@@ -32,7 +32,7 @@ class PackageCoverageFields extends Component {
           && initialValue[0].beginCoverage
           && (
           <p data-test-eholdings-package-coverage-fields-saving-will-remove>
-            No date ranges set. Saving will remove custom coverage.
+            <FormattedMessage id="ui-eholdings.package.noCoverageDates" />
           </p>
         )}
 
@@ -45,7 +45,7 @@ class PackageCoverageFields extends Component {
               type="button"
               onClick={() => fields.push({})}
             >
-              + Add date range
+              <FormattedMessage id="ui-eholdings.package.coverage.addDateRange" />
             </Button>
           </div>
         ) : (
@@ -115,17 +115,18 @@ export function validate(values, props) {
 
   values.customCoverages.forEach((dateRange, index) => {
     let dateRangeErrors = {};
+    let { intl } = props;
 
     if (dateRange.beginCoverage && !moment(dateRange.beginCoverage).isValid()) {
-      dateRangeErrors.beginCoverage = `Enter date in ${dateFormat} format.`;
+      dateRangeErrors.beginCoverage = intl.formatMessage({ id: 'ui-eholdings.validate.errors.dateRange.format' }, { dateFormat });
     }
 
     if (dateRange.endCoverage && !dateRange.beginCoverage) {
-      dateRangeErrors.beginCoverage = `Enter date in ${dateFormat} format.`;
+      dateRangeErrors.beginCoverage = intl.formatMessage({ id: 'ui-eholdings.validate.errors.dateRange.format' }, { dateFormat });
     }
 
     if (dateRange.endCoverage && moment(dateRange.beginCoverage).isAfter(moment(dateRange.endCoverage))) {
-      dateRangeErrors.beginCoverage = 'Start date must be before end date.';
+      dateRangeErrors.beginCoverage = intl.formatMessage({ id: 'ui-eholdings.validate.errors.dateRange.startDateBeforeEndDate' });
     }
 
     errors[index] = dateRangeErrors;

@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames/bind';
-import { FormattedNumber } from 'react-intl';
+import { FormattedNumber, FormattedMessage } from 'react-intl';
 
 import shouldFocus from '../should-focus';
 import styles from './provider-list-item.css';
@@ -45,7 +45,10 @@ function ProviderListItem({ item, link, active, onClick, headingLevel }) {
 
         &nbsp;
 
-        <span>{item.packagesTotal === 1 ? 'Package' : 'Packages'}</span>
+        <span>{item.packagesTotal === 1 ?
+          (<FormattedMessage id="ui-eholdings.label.package" />) :
+          (<FormattedMessage id="ui-eholdings.label.packages" />)}
+        </span>
       </div>
     </Link>
   );

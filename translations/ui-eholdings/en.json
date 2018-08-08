@@ -6,6 +6,8 @@
     "package.contentType": "Content type",
     "package.coverageSettings": "Coverage settings",
     "package.coverageDates": "Coverage dates",
+    "package.noCoverageDates": "No date ranges set. Saving will remove custom coverage.",
+    "package.coverage.addDateRange": "+ Add date range",
     "package.customCoverage.notSelected": "Add the package to holdings to set custom coverage dates.",
     "package.customCoverage.notSet": "No custom coverage dates set.",
     "package.customCoverageDates": "Custom coverage dates",
@@ -122,9 +124,11 @@
     "label.managed.embargoPeriod": "Managed embargo period",
     "label.custom.embargoPeriod": "Custom embargo period",
     "label.title": "Title",
+    "label.titles": "Titles",
     "label.edition": "Edition",
     "label.publisher": "Publisher",
     "label.package": "Package",
+    "label.packages": "Packages",
     "label.provider": "Provider",
     "label.publicationType": "Publication Type",
     "label.subjects": "Subjects",
@@ -161,7 +165,7 @@
     "filter.pubType.report": "Report",
     "filter.pubType.streamingAudio": "Streaming Audio",
     "filter.pubType.streamingVideo": "Streaming Video",
-    "filter.pubType.thesisdissertation": "Thesis & Dissertation",
+    "filter.pubType.thesisdissertation": "Thesis \u0026 Dissertation",
     "filter.pubType.website": "Website",
     "filter.pubType.unspecified": "Unspecified",
     "filter.resetAll": "Reset all",
@@ -170,7 +174,7 @@
     "navModal.modalLabel": "Confirm navigation",
     "navModal.continueLabel": "Continue without saving",
     "navModal.dismissLabel": "Keep editing",
-    "navModal.unsavedChangesMsg": "Your changes have not been saved. Are you sure you want to leace this page?",
+    "navModal.unsavedChangesMsg": "Your changes have not been saved. Are you sure you want to leave this page?",
 
     "validate.errors.customTitle.name": "Custom titles must have a name.",
     "validate.errors.customTitle.name.length": "Must be less than 400 characters.",
@@ -179,6 +183,9 @@
 
     "validate.errors.settings.customerId": "Customer ID cannot be blank",
     "validate.errors.settings.apiKey": "API key cannot be blank",
+
+    "validate.errors.dateRange.format": "Enter date in {dateFormat} format.",
+    "validate.errors.dateRange.startDateBeforeEndDate": "Start date must be before end date.",
 
     "server.errors.failedBackend": "Could not retrieve configuration information",
     "server.errors.errorDuringFetch": "There was a server error while retrieving your knowledge base configuration.",
@@ -214,6 +221,7 @@
     "type": "Type",
     "name": "Name",
     "id": "ID",
+    "hidden": "Hidden",
     "name.isRequired": "Name *",
     "resultCount": "{count, number} {count, plural, one {search result} other {search results}}"
 }

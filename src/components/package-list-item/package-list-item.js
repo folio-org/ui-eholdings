@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames/bind';
-import { FormattedNumber } from 'react-intl';
+import { FormattedNumber, FormattedMessage } from 'react-intl';
 
 import shouldFocus from '../should-focus';
 import styles from './package-list-item.css';
@@ -17,7 +17,7 @@ function PackageListItem({
   showProviderName,
   packageName,
   onClick,
-  headingLevel
+  headingLevel,
 }) {
   let Heading = headingLevel || 'h3';
 
@@ -54,7 +54,9 @@ function PackageListItem({
 
       <div>
         <span data-test-eholdings-package-list-item-selected>
-          {item.isSelected ? 'Selected' : 'Not selected'}
+          {item.isSelected ?
+            (<FormattedMessage id="ui-eholdings.selected" />) :
+            (<FormattedMessage id="ui-eholdings.notSelected" />)}
         </span>
 
         {showTitleCount && (
@@ -73,14 +75,17 @@ function PackageListItem({
 
             &nbsp;
 
-            <span>{item.titleCount === 1 ? 'Title' : 'Titles'}</span>
+            <span>{item.titleCount === 1 ?
+              (<FormattedMessage id="ui-eholdings.label.title" />) :
+              (<FormattedMessage id="ui-eholdings.label.titles" />)}
+            </span>
           </span>
         )}
         {item.visibilityData.isHidden && (
           <span>
               &nbsp;&bull;&nbsp;
             <span data-test-eholdings-package-list-item-title-hidden>
-              {'Hidden'}
+              {(<FormattedMessage id="ui-eholdings.hidden" />)}
             </span>
           </span>
         )}
