@@ -5,8 +5,9 @@ import TitleManager from '@folio/stripes-core/src/components/TitleManager';
 
 import { createResolver } from '../redux';
 import Provider from '../redux/provider';
+import { ProxyType, RootProxy } from '../redux/application';
 
-import View from '../components/provider-show';
+import View from '../components/provider/show';
 import SearchModal from '../components/search-modal';
 
 class ProviderShowRoute extends Component {
@@ -17,15 +18,20 @@ class ProviderShowRoute extends Component {
       }).isRequired
     }).isRequired,
     model: PropTypes.object.isRequired,
+    getProxyTypes: PropTypes.func.isRequired,
     resolver: PropTypes.object.isRequired,
     getProvider: PropTypes.func.isRequired,
-    getPackages: PropTypes.func.isRequired
+    getPackages: PropTypes.func.isRequired,
+    proxyTypes: PropTypes.object.isRequired,
+    rootProxy: PropTypes.object.isRequired
   };
 
   constructor(props) {
     super(props);
     let { providerId } = props.match.params;
     props.getProvider(providerId);
+    props.getProxyTypes();
+    props.getRootProxy();
   }
 
   state = {
@@ -78,6 +84,8 @@ class ProviderShowRoute extends Component {
           model={this.props.model}
           packages={this.getPkgResults()}
           fetchPackages={this.fetchPackages}
+          proxyTypes={this.props.proxyTypes}
+          rootProxy={this.props.rootProxy}
           listType={listType}
           searchModal={
             <SearchModal
@@ -93,17 +101,20 @@ class ProviderShowRoute extends Component {
     );
   }
 }
-
 export default connect(
   ({ eholdings: { data } }, { match }) => {
     let resolver = createResolver(data);
 
     return {
       model: resolver.find('providers', match.params.providerId),
+      proxyTypes: resolver.query('proxyTypes'),
+      rootProxy: resolver.find('rootProxies', 'root-proxy'),
       resolver
     };
   }, {
     getProvider: id => Provider.find(id, { include: 'packages' }),
-    getPackages: (id, params) => Provider.queryRelated(id, 'packages', params)
+    getPackages: (id, params) => Provider.queryRelated(id, 'packages', params),
+    getProxyTypes: () => ProxyType.query(),
+    getRootProxy: () => RootProxy.find('root-proxy')
   }
 )(ProviderShowRoute);

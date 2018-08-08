@@ -9,7 +9,7 @@ describeApplication('ProviderShow', () => {
     packages;
 
   beforeEach(function () {
-    provider = this.server.create('provider', 'withPackagesAndTitles', {
+    provider = this.server.create('provider', 'withPackagesAndTitles', 'withProxy', {
       name: 'League of Ordinary Men',
       packagesTotal: 5
     });
@@ -44,6 +44,10 @@ describeApplication('ProviderShow', () => {
 
     it('displays the number of selected packages', () => {
       expect(ProviderShowPage.numPackagesSelected).to.equal(`${provider.packagesSelected}`);
+    });
+
+    it('displays the proxy', () => {
+      expect(ProviderShowPage.proxy).to.equal(`${provider.proxy.id}`);
     });
 
     it('displays a list of packages', () => {
@@ -127,6 +131,45 @@ describeApplication('ProviderShow', () => {
       it('correctly formats the number for total package count', () => {
         expect(ProviderShowPage.numPackages).to.equal('10,000');
       });
+    });
+  });
+
+  describe('visiting the provider details page with an inherited proxy', () => {
+    beforeEach(function () {
+      let proxy = this.server.create('proxy', {
+        inherited: true,
+        id: 'bigTestJS'
+      });
+      provider.update('proxy', proxy.toJSON());
+      provider.save();
+
+      return this.visit(`/eholdings/providers/${provider.id}`, () => {
+        expect(ProviderShowPage.$root).to.exist;
+      });
+    });
+
+    it('displays the proxy prepended with Inheritied', () => {
+      expect(ProviderShowPage.proxy).to.include('Inherited');
+      expect(ProviderShowPage.proxy).to.include(`${provider.proxy.id}`);
+    });
+  });
+
+  describe('visiting the provider details page with a nil proxy', () => {
+    beforeEach(function () {
+      let proxy = this.server.create('proxy', {
+        inherited: false,
+        id: '<n>'
+      });
+      provider.update('proxy', proxy.toJSON());
+      provider.save();
+
+      return this.visit(`/eholdings/providers/${provider.id}`, () => {
+        expect(ProviderShowPage.$root).to.exist;
+      });
+    });
+
+    it.skip('displays the proxy as None', () => {
+      expect(ProviderShowPage.proxy).to.equal('None');
     });
   });
 

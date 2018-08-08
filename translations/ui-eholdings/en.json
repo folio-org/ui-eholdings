@@ -56,9 +56,12 @@
     "package.toast.isFreshlySaved": "Package saved.",
 
     "provider.providerInformation": "Provider information",
+    "provider.providerSettings": "Provider settings",
     "provider.packagesSelected": "Packages selected",
     "provider.totalPackages": "Total packages",
     "provider.resultsNotFound": "No providers found for '{query}'.",
+    "provider.proxy": "Proxy",
+    "provider.inherited": "Inherited",
 
     "resource.modal.header": "Remove title from holdings?",
     "resource.show.modal.header": "Remove resource from holdings?",

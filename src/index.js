@@ -9,6 +9,7 @@ import ApplicationRoute from './routes/application';
 import SettingsRoute from './routes/settings';
 import SearchRoute from './routes/search';
 import ProviderShow from './routes/provider-show';
+import ProviderEdit from './routes/provider-edit';
 import PackageShow from './routes/package-show';
 import PackageEdit from './routes/package-edit';
 import PackageCreate from './routes/package-create';
@@ -61,6 +62,7 @@ class EHoldings extends Component {
         <Route path={`${rootPath}/:type?/:id?`} component={SearchRoute}>
           <Switch>
             <Route path={`${rootPath}/providers/:providerId`} exact component={ProviderShow} />
+            <Route path={`${rootPath}/providers/:providerId/edit`} exact component={ProviderEdit} />
             <Route path={`${rootPath}/packages/new`} exact component={PackageCreate} />
             <Route path={`${rootPath}/packages/:packageId`} exact component={PackageShow} />
             <Route path={`${rootPath}/packages/:packageId/edit`} exact component={PackageEdit} />

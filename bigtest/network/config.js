@@ -112,6 +112,15 @@ export default function configure() {
   this.get('/proxy-types', {
     data: [
       {
+        id: '<n>',
+        type: 'proxyTypes',
+        attributes: {
+          id: '<n>',
+          name: 'None',
+          urlMask: '',
+        }
+      },
+      {
         id: 'bigTestJS',
         type: 'proxyTypes',
         attributes: {
@@ -149,6 +158,17 @@ export default function configure() {
     }
 
     return provider;
+  });
+
+  this.put('/providers/:id', ({ providers }, request) => {
+    let matchingProvider = providers.find(request.params.id);
+    let body = JSON.parse(request.requestBody);
+    let {
+      proxy
+    } = body.data.attributes;
+
+    matchingProvider.update('proxy', proxy);
+    return matchingProvider;
   });
 
   // Package resources

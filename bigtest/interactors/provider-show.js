@@ -27,6 +27,7 @@ import SearchModal from './search-modal';
   clickListSearch = clickable('[data-test-eholdings-details-view-search]');
   numFilters = text('[data-test-eholdings-details-view-filters]');
   filterBadge = isPresent('[data-test-eholdings-details-view-filters-badge]');
+  proxy = text('[data-test-eholdings-provider-details-proxy]');
 
   toast = Toast;
   searchModal = new SearchModal('#eholdings-details-view-search-modal');

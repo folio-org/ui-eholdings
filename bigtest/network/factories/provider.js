@@ -30,5 +30,38 @@ export default Factory.extend({
         });
       }
     }
-  })
+  }),
+
+  withProxy: trait({
+    afterCreate(provider, server) {
+      let proxy = server.create('proxy', {
+        inherited: false,
+        id: 'microstates'
+      });
+      provider.update('proxy', proxy.toJSON());
+      provider.save();
+    }
+  }),
+
+  withInheritedProxy: trait({
+    afterCreate(provider, server) {
+      let proxy = server.create('proxy', {
+        inherited: true,
+        id: 'bigTestJS'
+      });
+      provider.update('proxy', proxy.toJSON());
+      provider.save();
+    }
+  }),
+
+  afterCreate(provider, server) {
+    if (!provider.proxy) {
+      let proxy = server.create('proxy', {
+        inherited: false,
+        id: 'Test-Proxy'
+      });
+      provider.update('proxy', proxy.toJSON());
+      provider.save();
+    }
+  }
 });
