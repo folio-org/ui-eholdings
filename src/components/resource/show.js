@@ -371,28 +371,6 @@ class ResourceShow extends Component {
                   </KeyValue>
                 )}
 
-                {!model.coverageStatement && hasManagedCoverages && !hasCustomCoverages && (
-                  <KeyValue label={<FormattedMessage id="ui-eholdings.resource.coverageDisplay" />}>
-                    <div data-test-eholdings-resource-coverage-statement-display>
-                      <CoverageDateList
-                        coverageArray={model.managedCoverages}
-                        isYearOnly={isBookPublicationType(model.publicationType)}
-                      />
-                    </div>
-                  </KeyValue>
-                )}
-
-                {!model.coverageStatement && hasCustomCoverages && (
-                  <KeyValue label={<FormattedMessage id="ui-eholdings.resource.coverageDisplay" />}>
-                    <div data-test-eholdings-resource-coverage-statement-display>
-                      <CoverageDateList
-                        coverageArray={model.customCoverages}
-                        isYearOnly={isBookPublicationType(model.publicationType)}
-                      />
-                    </div>
-                  </KeyValue>
-                )}
-
                 {hasManagedEmbargoPeriod && !hasCustomEmbargoPeriod && (
                   <KeyValue label={<FormattedMessage id="ui-eholdings.label.managed.embargoPeriod" />}>
                     <div data-test-eholdings-resource-show-managed-embargo-period>
