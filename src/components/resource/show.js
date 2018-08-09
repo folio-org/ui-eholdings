@@ -1,4 +1,4 @@
-import React, { Component, Fragment } from 'react';
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { intlShape, injectIntl, FormattedMessage } from 'react-intl';
 import update from 'lodash/fp/update';
@@ -42,7 +42,7 @@ class ResourceShow extends Component {
       resourceShowHoldingStatus: true,
       resourceShowInformation: true,
       resourceShowSettings: true,
-      resourceShowCoverageSettings: true
+      resourceShowCoverageSettings: this.props.model.isSelected
     }
   };
 
@@ -104,13 +104,11 @@ class ResourceShow extends Component {
     let hasManagedEmbargoPeriod = model.managedEmbargoPeriod &&
       model.managedEmbargoPeriod.embargoUnit &&
       model.managedEmbargoPeriod.embargoValue;
-    let customEmbargoValue = model.customEmbargoPeriod && model.customEmbargoPeriod.embargoValue;
-    let customEmbargoUnit = model.customEmbargoPeriod && model.customEmbargoPeriod.embargoUnit;
     let hasCustomEmbargoPeriod = model.customEmbargoPeriod &&
       model.customEmbargoPeriod.embargoUnit &&
       model.customEmbargoPeriod.embargoValue;
     let hasCustomCoverages = model.customCoverages.length > 0 &&
-    isValidCoverageList(model.customCoverages);
+      isValidCoverageList(model.customCoverages);
 
     let actionMenuItems = [
       {
@@ -338,87 +336,72 @@ class ResourceShow extends Component {
 
               <Accordion
                 label={<FormattedMessage id="ui-eholdings.label.coverageSettings" />}
-                closedByDefault={!resourceSelected}
                 open={sections.resourceShowCoverageSettings}
                 id="resourceShowCoverageSettings"
                 onToggle={this.handleSectionToggle}
               >
-                {(resourceSelected && !isSelectInFlight) ? (
-                  <Fragment>
-                    <h4>Coverage dates</h4>
-                    {!hasManagedCoverages && !hasCustomCoverages && (
-                      <p data-test-eholdings-resource-no-coverage-date-label>
-                        <FormattedMessage id="ui-eholdings.resource.coverageDates.notSet" />
-                      </p>
-                    )}
 
-                    {hasManagedCoverages && (
-                      <KeyValue label={<FormattedMessage id="ui-eholdings.label.managed.coverageDates" />}>
-                        <div data-test-eholdings-resource-show-managed-coverage-list>
-                          <CoverageDateList
-                            coverageArray={model.managedCoverages}
-                            isYearOnly={isBookPublicationType(model.publicationType)}
-                          />
-                        </div>
-                      </KeyValue>
-                    )}
-
-                    {(resourceSelected && !isSelectInFlight) && (
-                    <div>
-                      {hasCustomCoverages && (
-                      <KeyValue label={<FormattedMessage id="ui-eholdings.label.custom.coverageDates" />}>
-                        <span data-test-eholdings-resource-show-custom-coverage-list>
-                          <CoverageDateList
-                            coverageArray={model.customCoverages}
-                            isYearOnly={isBookPublicationType(model.publicationType)}
-                          />
-                        </span>
-                      </KeyValue>
-                      )}
-                    </div>)}
-
-                    <h4><FormattedMessage id="ui-eholdings.label.coverageStatement" /></h4>
-                    <div>
-                      {model.coverageStatement ? (
-                        <span data-test-eholdings-resource-coverage-statement-display>
-                          {model.coverageStatement}
-                        </span>
-                     ) : (
-                       <p data-test-eholdings-resource-no-coverage-label>
-                         <FormattedMessage id="ui-eholdings.resource.coverageStatement.notSet" />
-                       </p>
-                     )}
+                {hasManagedCoverages && !hasCustomCoverages && (
+                  <KeyValue label={<FormattedMessage id="ui-eholdings.label.managed.coverageDates" />}>
+                    <div data-test-eholdings-resource-show-managed-coverage-list>
+                      <CoverageDateList
+                        coverageArray={model.managedCoverages}
+                        isYearOnly={isBookPublicationType(model.publicationType)}
+                      />
                     </div>
+                  </KeyValue>
+                )}
 
-                    <h4>Embargo period</h4>
-                    {hasManagedEmbargoPeriod && (
-                      <KeyValue label={<FormattedMessage id="ui-eholdings.label.managed.embargoPeriod" />}>
-                        <div data-test-eholdings-resource-show-managed-embargo-period>
-                          {model.managedEmbargoPeriod.embargoValue} {model.managedEmbargoPeriod.embargoUnit}
-                        </div>
-                      </KeyValue>
-                    )}
+                {hasCustomCoverages && (
+                  <KeyValue label={<FormattedMessage id="ui-eholdings.label.custom.coverageDates" />}>
+                    <div data-test-eholdings-resource-show-custom-coverage-list>
+                      <CoverageDateList
+                        coverageArray={model.customCoverages}
+                        isYearOnly={isBookPublicationType(model.publicationType)}
+                      />
+                    </div>
+                  </KeyValue>
+                )}
 
-                    {(resourceSelected && !isSelectInFlight) && (
-                      <div>
-                        {hasCustomEmbargoPeriod && (
-                          <KeyValue label={<FormattedMessage id="ui-eholdings.custom" />}>
-                            <span data-test-eholdings-resource-custom-embargo-display>
-                              {customEmbargoValue} {customEmbargoUnit}
-                            </span>
-                          </KeyValue>
-                       )}
-                      </div>
-                     )}
+                {model.coverageStatement && (
+                  <KeyValue label={<FormattedMessage id="ui-eholdings.label.custom.coverageStatement" />}>
+                    <div data-test-eholdings-resource-coverage-statement-display>
+                      {model.coverageStatement}
+                    </div>
+                  </KeyValue>
+                )}
 
-                    {!hasManagedEmbargoPeriod && !hasCustomEmbargoPeriod && (
-                    <p data-test-eholdings-resource-no-embargo-label>
-                      <FormattedMessage id="ui-eholdings.resource.embargoPeriod.notSet" />
-                    </p>
-                    )}
-                  </Fragment>
-                ) : (
-                  <p data-test-eholdings-resource-not-selected-coverage-message>Add the resource to holdings to customize coverage.</p>
+                {hasManagedEmbargoPeriod && !hasCustomEmbargoPeriod && (
+                  <KeyValue label={<FormattedMessage id="ui-eholdings.label.managed.embargoPeriod" />}>
+                    <div data-test-eholdings-resource-show-managed-embargo-period>
+                      {model.managedEmbargoPeriod.embargoValue} {model.managedEmbargoPeriod.embargoUnit}
+                    </div>
+                  </KeyValue>
+                )}
+
+                {hasCustomEmbargoPeriod && (
+                  <KeyValue label={<FormattedMessage id="ui-eholdings.label.custom.embargoPeriod" />}>
+                    <div data-test-eholdings-resource-custom-embargo-display>
+                      {model.customEmbargoPeriod.embargoValue} {model.customEmbargoPeriod.embargoUnit}
+                    </div>
+                  </KeyValue>
+                )}
+
+                {resourceSelected &&
+                  !hasManagedCoverages &&
+                  !hasCustomCoverages &&
+                  !model.coverageStatement &&
+                  !hasManagedEmbargoPeriod &&
+                  !hasCustomEmbargoPeriod && (
+                  <p data-test-eholdings-resource-not-selected-no-customization-message>
+                    <FormattedMessage id="ui-eholdings.resource.coverage.noCustomizations" />
+                  </p>
+                )}
+
+                {!resourceSelected && !hasManagedCoverages && !hasManagedEmbargoPeriod && (
+                  <p data-test-eholdings-resource-not-selected-coverage-message>
+                    <FormattedMessage id="ui-eholdings.resource.coverage.notSelected" />
+                  </p>
                 )}
               </Accordion>
             </div>

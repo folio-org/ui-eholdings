@@ -38,8 +38,8 @@ describeApplication('ResourceEmbargo', () => {
       });
     });
 
-    it('displays the managed embargo section', () => {
-      expect(ResourceShowPage.managedEmbargoPeriod).to.equal('6 Months');
+    it('does not display the managed embargo section', () => {
+      expect(ResourceShowPage.hasManagedEmbargoPeriod).to.be.false;
     });
 
     it('displays the custom embargo section', () => {
@@ -60,10 +60,6 @@ describeApplication('ResourceEmbargo', () => {
 
     it.always('does not display the custom embargo period', () => {
       expect(ResourceShowPage.hasCustomEmbargoPeriod).to.be.false;
-    });
-
-    it('displays a message that no embargo period has been set', () => {
-      expect(ResourceShowPage.hasNoEmbargoPeriod).to.be.true;
     });
   });
 
@@ -92,10 +88,6 @@ describeApplication('ResourceEmbargo', () => {
     it.always('does not display the custom embargo section', () => {
       expect(ResourceShowPage.hasCustomEmbargoPeriod).to.be.false;
     });
-
-    it('displays a message that no embargo period has been set', () => {
-      expect(ResourceShowPage.hasNoEmbargoPeriod).to.be.true;
-    });
   });
 
   describe('visiting the resource show page with no embargos', () => {
@@ -115,10 +107,6 @@ describeApplication('ResourceEmbargo', () => {
 
     it.always('does not display the custom embargo section', () => {
       expect(ResourceShowPage.hasCustomEmbargoPeriod).to.be.false;
-    });
-
-    it('displays a message that no embargo period has been set', () => {
-      expect(ResourceShowPage.hasNoEmbargoPeriod).to.be.true;
     });
   });
 

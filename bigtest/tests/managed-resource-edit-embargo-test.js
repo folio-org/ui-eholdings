@@ -87,8 +87,8 @@ describeApplication('ManagedResourceEditEmbargo', () => {
           expect(ResourceShowPage.$root).to.exist;
         });
 
-        it('shows a message that no custom embargo has been set', () => {
-          expect(ResourceShowPage.hasNoEmbargoPeriod).to.be.true;
+        it('does not show a custom embargo', () => {
+          expect(ResourceShowPage.hasCustomEmbargoPeriod).to.be.false;
         });
       });
     });

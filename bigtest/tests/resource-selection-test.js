@@ -76,6 +76,10 @@ describeApplication('ResourceSelection', () => {
         it('indicates it is no longer working', () => {
           expect(ResourcePage.isLoading).to.equal(false);
         });
+
+        it('displays a message indicating there are no coverage customizations', () => {
+          expect(ResourcePage.hasNoCustomizationsMessage).to.be.true;
+        });
       });
     });
 

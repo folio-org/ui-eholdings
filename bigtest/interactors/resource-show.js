@@ -103,6 +103,7 @@ import Toast from './toast';
   hasNoCoverageDate = isPresent('[data-test-eholdings-resource-no-coverage-date-label]');
 
   isNotSelectedCoverageMessagePresent = isPresent('[data-test-eholdings-resource-not-selected-coverage-message]');
+  hasNoCustomizationsMessage = isPresent('[data-test-eholdings-resource-not-selected-no-customization-message]');
 
   identifiersList = collection('[data-test-eholdings-identifiers-list-item]', {
     indentifierText: text()
