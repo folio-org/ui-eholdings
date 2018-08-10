@@ -73,6 +73,7 @@
     "resource.actionMenu.cancelEditing": "Cancel editing",
     "resource.resourceSettings": "Resource settings",
     "resource.coverageStatement": "Coverage statement",
+    "resource.coverageStatement.textArea": "Describes the coverage to patrons.",
     "resource.resourceInformation": "Resource information",
     "resource.embargoPeriod": "Embargo period",
     "resource.embargoPeriod.notSet": "No embargo period has been set.",
@@ -178,8 +179,10 @@
 
     "validate.errors.customTitle.name": "Custom titles must have a name.",
     "validate.errors.customTitle.name.length": "Must be less than 400 characters.",
+    "validate.errors.title.description.length": "The value entered exceeds the 1500 character limit. Please enter a value that does not exceed 1500 characters.",
     "validate.errors.customPackage.name": "Custom packages must have a name.",
     "validate.errors.customPackage.name.length": "Must be less than 300 characters.",
+    "validate.errors.coverageStatement.length": "Statement must be 350 characters or less.",
 
     "validate.errors.settings.customerId": "Customer ID cannot be blank",
     "validate.errors.settings.apiKey": "API key cannot be blank",

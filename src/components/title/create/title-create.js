@@ -153,7 +153,7 @@ const validate = (values, props) => {
     validateEdition(values),
     validatePublisherName(values),
     validateIdentifiers(values),
-    validateDescription(values),
+    validateDescription(values, props),
     validatePackageSelection(values));
 };
 

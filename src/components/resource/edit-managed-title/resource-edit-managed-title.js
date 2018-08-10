@@ -322,7 +322,7 @@ class ResourceEditManagedTitle extends Component { // eslint-disable-line react/
 }
 
 const validate = (values, props) => {
-  return Object.assign({}, validateCoverageDates(values, props), validateCoverageStatement(values), validateEmbargo(values));
+  return Object.assign({}, validateCoverageDates(values, props), validateCoverageStatement(values, props), validateEmbargo(values));
 };
 
 export default injectIntl(reduxForm({

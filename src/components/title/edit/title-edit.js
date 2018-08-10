@@ -181,7 +181,7 @@ const validate = (values, props) => {
     validateEdition(values),
     validatePublisher(values),
     validateIdentifiers(values),
-    validateDescription(values));
+    validateDescription(values, props));
 };
 
 export default injectIntl(reduxForm({

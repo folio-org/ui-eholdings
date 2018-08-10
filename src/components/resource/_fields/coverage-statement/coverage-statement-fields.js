@@ -2,26 +2,36 @@ import React, { Component } from 'react';
 import { Field } from 'redux-form';
 
 import { TextArea } from '@folio/stripes-components';
+import { injectIntl, intlShape } from 'react-intl';
 
-export default class CoverageStatementFields extends Component {
+class CoverageStatementFields extends Component {
+  static propTypes = {
+    intl: intlShape.isRequired
+  };
+
   render() {
+    let { intl } = this.props;
     return (
       <div data-test-eholdings-coverage-statement-textarea>
         <Field
           name="coverageStatement"
           component={TextArea}
-          label="Describes the coverage to patrons."
+          label={intl.formatMessage({ id:'ui-eholdings.resource.coverageStatement.textArea' })}
         />
       </div>
     );
   }
 }
 
-export function validate(values) {
+export default injectIntl(CoverageStatementFields);
+
+export function validate(values, props) {
   const errors = {};
 
   if (values.coverageStatement && values.coverageStatement.length > 350) {
-    errors.coverageStatement = 'Statement must be 350 characters or less.';
+    errors.coverageStatement = props.intl.formatMessage({
+      id: 'ui-eholdings.validate.errors.coverageStatement.length'
+    });
   }
 
   return errors;
