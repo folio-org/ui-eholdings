@@ -24,11 +24,11 @@ export default class NavigationModal extends Component {
     }).isRequired
   };
 
-  constructor(props) {
+  constructor(props, context) {
     super(props);
 
     if (props.when) {
-      this.enable();
+      this.enable(context);
     }
   }
 
@@ -49,12 +49,12 @@ export default class NavigationModal extends Component {
     this.disable();
   }
 
-  enable() {
+  enable(context = this.context) {
     if (this.unblock) {
       this.unblock();
     }
 
-    this.unblock = this.context.router.history.block((nextLocation) => {
+    this.unblock = context.router.history.block((nextLocation) => {
       this.setState({
         showModal: true,
         nextLocation
