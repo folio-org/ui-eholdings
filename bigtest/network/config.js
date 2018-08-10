@@ -268,8 +268,6 @@ export default function configure() {
     return {};
   });
 
-  this.get('/packages/:id/resources', nestedResourceRouteFor('package', 'resources'));
-
   // Title resources
   this.get('/titles', searchRouteFor('titles', (title, req) => {
     let params = req.queryParams;
@@ -326,7 +324,43 @@ export default function configure() {
   });
 
   // Resources
-  this.get('/packages/:id/resources', nestedResourceRouteFor('package', 'resources'));
+  this.get('/packages/:id/resources', nestedResourceRouteFor('package', 'resources', (resource, req) => {
+    let title = resource.title;
+    let params = req.queryParams;
+    let type = params['filter[type]'];
+    let selected = params['filter[selected]'];
+    let name = params['filter[name]'];
+    let isxn = params['filter[isxn]'];
+    let subject = params['filter[subject]'];
+    let publisher = params['filter[publisher]'];
+    let filtered = true;
+
+    if (name) {
+      filtered = title.name && includesWords(title.name, name);
+    } else if (isxn) {
+      filtered = title.identifiers && title.identifiers.some(i => includesWords(i.id, isxn));
+    } else if (subject) {
+      filtered = title.subjects && title.subjects.some(s => includesWords(s.subject, subject));
+    } else if (publisher) {
+      filtered = title.publisherName && includesWords(title.publisherName, publisher);
+    }
+
+    if (filtered && type && type !== 'all') {
+      filtered = title.publicationType.toLowerCase() === type;
+    }
+
+    if (filtered && selected) {
+      filtered = title.resources.models.some((filteredResource) => {
+        return filteredResource.isSelected.toString() === selected;
+      });
+    }
+
+    if (params.q && title.name) {
+      filtered = includesWords(title.name, params.q.toLowerCase());
+    }
+
+    return filtered;
+  }));
 
   this.get('/resources/:id', ({ resources }, request) => {
     let resource = resources.find(request.params.id);

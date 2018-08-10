@@ -16,6 +16,7 @@ import {
 import { getComputedStyle, hasClassBeginningWith } from './helpers';
 import Datepicker from './datepicker';
 import Toast from './toast';
+import SearchModal from './search-modal';
 import PackageSelectionStatus from './selection-status';
 
 @interactor class PackageShowModal {
@@ -39,6 +40,10 @@ import PackageSelectionStatus from './selection-status';
   hasAllowKbToAddTitlesToggle = isPresent('[package-details-toggle-allow-add-new-titles-switch]');
   selectionStatus = new PackageSelectionStatus();
   modal = new PackageShowModal('#eholdings-package-confirmation-modal');
+  searchModal = new SearchModal('#eholdings-details-view-search-modal');
+  searchResultsCount = text('[data-test-eholdings-details-view-results-count]');
+  numFilters = text('[data-test-eholdings-details-view-filters]');
+  clickListSearch = clickable('[data-test-eholdings-details-view-search]');
   paneTitle = text('[data-test-eholdings-details-view-pane-title]');
   contentType = text('[data-test-eholdings-package-details-content-type]');
   name = text('[data-test-eholdings-details-view-name="package"]');

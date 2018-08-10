@@ -5,6 +5,7 @@ import {
   clickable,
   property,
   value,
+  fillable,
 } from '@bigtest/interactor';
 
 export default @interactor class SearchModal {
@@ -32,6 +33,8 @@ export default @interactor class SearchModal {
       .fill('[data-test-search-field] input[name="search"]', query)
       .click('[data-test-eholdings-modal-search-button]');
   });
+
+  searchTitles = fillable('[data-test-title-search-field] input[name="search"]');
 
   clearSearch = action(function () {
     return this

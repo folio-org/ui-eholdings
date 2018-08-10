@@ -8,6 +8,7 @@ import Package from '../redux/package';
 import Resource from '../redux/resource';
 
 import View from '../components/package/show';
+import SearchModal from '../components/search-modal';
 
 class PackageShowRoute extends Component {
   static propTypes = {
@@ -38,9 +39,16 @@ class PackageShowRoute extends Component {
     props.getPackage(packageId);
   }
 
-  componentDidUpdate(prevProps) {
-    let { model: next, match, getPackage, unloadResources } = this.props;
+  state = {
+    page: 0,
+    queryId: 0,
+    pkgSearchParams: {}
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    let { model: next, match, getPackage, unloadResources, getPackageTitles } = this.props;
     let { model: old, match: oldMatch } = prevProps;
+    let { pkgSearchParams, page } = this.state;
     let { packageId } = match.params;
 
     if (!prevProps.model.destroy.isResolved && this.props.model.destroy.isResolved) {
@@ -61,6 +69,10 @@ class PackageShowRoute extends Component {
       // if an update just resolved, unfetch the package titles
     } else if (next.update.isResolved && old.update.isPending) {
       unloadResources(next.resources);
+    }
+
+    if (pkgSearchParams !== prevState.pkgSearchParams || page !== prevState.page) {
+      getPackageTitles(packageId, { ...pkgSearchParams, page });
     }
   }
   /* This method is common between package-show and package-edit routes
@@ -100,13 +112,19 @@ class PackageShowRoute extends Component {
   };
 
   fetchPackageTitles = (page) => {
-    let { match, getPackageTitles } = this.props;
-    let { packageId } = match.params;
-
-    getPackageTitles(packageId, { page });
+    this.setState({ page, queryId: ++this.state.queryId });
   };
 
+  searchTitles = (pkgSearchParams) => {
+    this.setState({
+      pkgSearchParams,
+      queryId: ++this.state.queryId
+    });
+  }
+
   render() {
+    let { pkgSearchParams, queryId } = this.state;
+
     return (
       <TitleManager record={this.props.model.name}>
         <View
@@ -117,6 +135,15 @@ class PackageShowRoute extends Component {
           toggleHidden={this.toggleHidden}
           customCoverageSubmitted={this.customCoverageSubmitted}
           toggleAllowKbToAddTitles={this.toggleAllowKbToAddTitles}
+          searchModal={
+            <SearchModal
+              key={queryId}
+              listType='titles'
+              query={pkgSearchParams}
+              onSearch={this.searchTitles}
+              onFilter={this.searchTitles}
+            />
+          }
         />
       </TitleManager>
     );
