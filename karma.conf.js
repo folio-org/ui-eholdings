@@ -65,8 +65,8 @@ module.exports = (config) => {
   }
 
   // Turn on coverage report thresholds
-  if (configuration.coverageReporter) {
-    configuration.coverageReporter.check.global = {
+  if (configuration.coverageIstanbulReporter) {
+    configuration.coverageIstanbulReporter.thresholds.global = {
       statements: 95,
       branches: 85, // should be raised after getting this % up
       functions: 95,
