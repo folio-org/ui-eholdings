@@ -323,9 +323,9 @@ class ResourceEditCustomTitle extends Component {
 const validate = (values, props) => {
   return Object.assign({},
     validateCoverageDates(values, props),
-    validateCoverageStatement(values),
-    validateUrlFields(values),
-    validateEmbargo(values));
+    validateCoverageStatement(values, props),
+    validateUrlFields(values, props),
+    validateEmbargo(values, props));
 };
 
 export default injectIntl(reduxForm({

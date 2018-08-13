@@ -181,7 +181,7 @@ class ResourceEditManagedTitle extends Component { // eslint-disable-line react/
     }
 
     let visibilityMessage = model.package.visibilityData.isHidden
-      ? '(All titles in this package are hidden)'
+      ? (<FormattedMessage id="ui-eholdings.resource.visibilityData.isHidden" />)
       : model.visibilityData.reason && `(${model.visibilityData.reason})`;
 
     return (

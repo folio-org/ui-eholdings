@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Field } from 'redux-form';
+import { intlShape, injectIntl, FormattedMessage } from 'react-intl';
 
 import {
   Button,
@@ -10,11 +11,12 @@ import {
 } from '@folio/stripes-components';
 import styles from './custom-embargo-fields.css';
 
-export default class CustomEmbargoFields extends Component {
+class CustomEmbargoFields extends Component {
   static propTypes = {
     change: PropTypes.func.isRequired,
     showInputs: PropTypes.bool,
-    initialValue: PropTypes.object
+    initialValue: PropTypes.object,
+    intl: intlShape.isRequired
   };
 
   state = {
@@ -34,7 +36,7 @@ export default class CustomEmbargoFields extends Component {
   }
 
   render() {
-    let { initialValue } = this.props;
+    let { initialValue, intl } = this.props;
     let { showInputs } = this.state;
 
     return (showInputs) ? (
@@ -46,7 +48,7 @@ export default class CustomEmbargoFields extends Component {
           <Field
             name="customEmbargoValue"
             component={TextField}
-            placeholder="Number"
+            placeholder={intl.formatMessage({ id: 'ui-eholdings.number' })}
             autoFocus={initialValue.customEmbargoValue === 0}
           />
         </div>
@@ -59,11 +61,11 @@ export default class CustomEmbargoFields extends Component {
             name="customEmbargoUnit"
             component={Select}
             dataOptions={[
-              { value: '', label: 'Select time period' },
-              { value: 'Days', label: 'Days' },
-              { value: 'Weeks', label: 'Weeks' },
-              { value: 'Months', label: 'Months' },
-              { value: 'Years', label: 'Years' }
+              { value: '', label: intl.formatMessage({ id: 'ui-eholdings.label.selectTimePeriod' }) },
+              { value: 'Days', label: intl.formatMessage({ id: 'ui-eholdings.label.days' }) },
+              { value: 'Weeks', label: intl.formatMessage({ id: 'ui-eholdings.label.weeks' }) },
+              { value: 'Months', label: intl.formatMessage({ id: 'ui-eholdings.label.months' }) },
+              { value: 'Years', label: intl.formatMessage({ id: 'ui-eholdings.label.years' }) }
             ]}
           />
         </div>
@@ -76,7 +78,7 @@ export default class CustomEmbargoFields extends Component {
             icon="hollowX"
             onClick={this.clearValues}
             size="small"
-            ariaLabel="Clear embargo period"
+            ariaLabel={intl.formatMessage({ id: 'ui-eholdings.resource.embargoPeriod.clear' })}
           />
         </div>
       </div>
@@ -85,7 +87,7 @@ export default class CustomEmbargoFields extends Component {
         {initialValue.customEmbargoValue !== 0
           && (
           <p data-test-eholdings-embargo-fields-saving-will-remove>
-            Nothing set. Saving will remove custom embargo period.
+            <FormattedMessage id="ui-eholdings.resource.embargoPeriod.saveWillRemove" />
           </p>
         )}
 
@@ -97,7 +99,7 @@ export default class CustomEmbargoFields extends Component {
             type="button"
             onClick={this.toggleInputs}
           >
-            + Add custom embargo period
+            <FormattedMessage id="ui-eholdings.resource.embargoPeriod.addCustom" />
           </Button>
         </div>
       </div>
@@ -105,20 +107,22 @@ export default class CustomEmbargoFields extends Component {
   }
 }
 
-export function validate(values) {
+export default injectIntl(CustomEmbargoFields);
+
+export function validate(values, intl) {
   const errors = {};
 
 
   if (Number.isNaN(Number(values.customEmbargoValue))) {
-    errors.customEmbargoValue = 'Must be a number';
+    errors.customEmbargoValue = intl.formatMessage({ id: 'ui-eholdings.validate.errors.embargoPeriod.number' });
   }
 
   if (values.customEmbargoValue <= 0) {
-    errors.customEmbargoValue = 'Enter number greater than 0';
+    errors.customEmbargoValue = intl.formatMessage({ id: 'ui-eholdings.validate.errors.embargoPeriod.moreThanZero' });
   }
 
   if (values.customEmbargoValue > 0 && !values.customEmbargoUnit) {
-    errors.customEmbargoUnit = 'Select a unit';
+    errors.customEmbargoUnit = intl.formatMessage({ id: 'ui-eholdings.validate.errors.embargoPeriod.unit' });
   }
   return errors;
 }

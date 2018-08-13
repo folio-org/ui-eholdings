@@ -64,7 +64,7 @@ class PackageCoverageFields extends Component {
                     name={`${dateRange}.beginCoverage`}
                     type="text"
                     component={Datepicker}
-                    label="Start date"
+                    label={<FormattedMessage id="ui-eholdings.date.startDate" />}
                     format={(value) => (value ? intl.formatDate(value, { timeZone: 'UTC' }) : '')}
                   />
                 </div>
@@ -76,7 +76,7 @@ class PackageCoverageFields extends Component {
                     name={`${dateRange}.endCoverage`}
                     type="text"
                     component={Datepicker}
-                    label="End date"
+                    label={<FormattedMessage id="ui-eholdings.date.endDate" />}
                     format={(value) => (value ? intl.formatDate(value, { timeZone: 'UTC' }) : '')}
                   />
                 </div>

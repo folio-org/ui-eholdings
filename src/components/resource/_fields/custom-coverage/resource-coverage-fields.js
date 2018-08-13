@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Field, FieldArray } from 'redux-form';
 import PropTypes from 'prop-types';
 import moment from 'moment';
-import { injectIntl, intlShape } from 'react-intl';
+import { injectIntl, intlShape, FormattedMessage } from 'react-intl';
 
 import {
   Button,
@@ -31,7 +31,7 @@ class ResourceCoverageFields extends Component {
           && initialValue[0].beginCoverage
           && (
           <p data-test-eholdings-coverage-fields-saving-will-remove>
-            No date ranges set. Saving will remove custom coverage.
+            <FormattedMessage id="ui-eholdings.package.noCoverageDates" />
           </p>
         )}
 
@@ -51,7 +51,7 @@ class ResourceCoverageFields extends Component {
                     name={`${dateRange}.beginCoverage`}
                     type="text"
                     component={Datepicker}
-                    label="Start date"
+                    label={<FormattedMessage id="ui-eholdings.date.startDate" />}
                     id="begin-coverage"
                     format={(value) => (value ? intl.formatDate(value, { timeZone: 'UTC' }) : '')}
                   />
@@ -64,7 +64,7 @@ class ResourceCoverageFields extends Component {
                     name={`${dateRange}.endCoverage`}
                     type="text"
                     component={Datepicker}
-                    label="End date"
+                    label={<FormattedMessage id="ui-eholdings.date.endDate" />}
                     id="end-coverage"
                     format={(value) => (value ? intl.formatDate(value, { timeZone: 'UTC' }) : '')}
                   />
@@ -93,7 +93,7 @@ class ResourceCoverageFields extends Component {
             type="button"
             onClick={() => fields.push({})}
           >
-            + Add date range
+            <FormattedMessage id="ui-eholdings.package.coverage.addDateRange" />
           </Button>
         </div>
       </div>
@@ -114,8 +114,8 @@ export default injectIntl(ResourceCoverageFields);
  * @param {} dateRange - coverage date range to validate
  * @returns {} - an error object if errors are found, or `false` otherwise
  */
-const validateStartDateBeforeEndDate = (dateRange) => {
-  const message = 'Start date must be before end date';
+const validateStartDateBeforeEndDate = (dateRange, intl) => {
+  const message = intl.formatMessage({ id: 'validate.errors.dateRange.startDateBeforeEndDate' });
 
   if (dateRange.endCoverage && moment(dateRange.beginCoverage).isAfter(moment(dateRange.endCoverage))) {
     return { beginCoverage: message };

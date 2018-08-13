@@ -25,11 +25,11 @@ class CoverageStatementFields extends Component {
 
 export default injectIntl(CoverageStatementFields);
 
-export function validate(values, props) {
+export function validate(values, intl) {
   const errors = {};
 
   if (values.coverageStatement && values.coverageStatement.length > 350) {
-    errors.coverageStatement = props.intl.formatMessage({
+    errors.coverageStatement = intl.formatMessage({
       id: 'ui-eholdings.validate.errors.coverageStatement.length'
     });
   }
