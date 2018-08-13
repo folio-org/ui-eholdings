@@ -8,7 +8,7 @@ import {
   PaneHeader
 } from '@folio/stripes-components';
 
-import { intlShape, injectIntl } from 'react-intl';
+import { intlShape, injectIntl, FormattedMessage } from 'react-intl';
 import DetailsViewSection from '../../details-view-section';
 import NameField, { validate as validateName } from '../_fields/name';
 import EditionField, { validate as validateEdition } from '../_fields/edition';
@@ -96,7 +96,7 @@ class TitleCreate extends Component {
             firstMenu={historyState && historyState.eholdings && (
               <IconButton
                 icon="left-arrow"
-                ariaLabel="Go back"
+                ariaLabel={<FormattedMessage id="ui-eholdings.label.icon.goBack" />}
                 onClick={this.handleCancel}
                 data-test-eholdings-details-view-back-button
               />
@@ -151,10 +151,10 @@ const validate = (values, props) => {
     validateName(values, props),
     validateContributor(values),
     validateEdition(values),
-    validatePublisherName(values),
-    validateIdentifiers(values),
+    validatePublisherName(values, props),
+    validateIdentifiers(values, props),
     validateDescription(values, props),
-    validatePackageSelection(values));
+    validatePackageSelection(values, props));
 };
 
 export default injectIntl(reduxForm({

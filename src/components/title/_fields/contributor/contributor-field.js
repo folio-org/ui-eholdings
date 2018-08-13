@@ -7,7 +7,7 @@ import {
   Button,
   IconButton
 } from '@folio/stripes-components';
-import { injectIntl, intlShape } from 'react-intl';
+import { injectIntl, intlShape, FormattedMessage } from 'react-intl';
 import styles from './contributor-field.css';
 
 class ContributorField extends Component {
@@ -42,9 +42,9 @@ class ContributorField extends Component {
                   label={intl.formatMessage({ id: 'ui-eholdings.type' })}
                   id={`${contributor}-type`}
                   dataOptions={[
-                    { value: 'author', label: 'Author' },
-                    { value: 'editor', label: 'Editor' },
-                    { value: 'illustrator', label: 'Illustrator' }
+                    { value: 'author', label: intl.formatMessage({ id: 'ui-eholdings.label.author' }) },
+                    { value: 'editor', label: intl.formatMessage({ id: 'ui-eholdings.label.editor' }) },
+                    { value: 'illustrator', label: intl.formatMessage({ id: 'ui-eholdings.label.illustrator' }) }
                   ]}
                 />
               </div>
@@ -67,7 +67,8 @@ class ContributorField extends Component {
               >
                 <IconButton
                   icon="hollowX"
-                  aria-label={`Remove ${allFields.get(index).contributor}`}
+                  aria-label={
+                    intl.formatMessage({ id: 'ui-eholdings.label.removeItem' }, { item: `${allFields.get(index).contributor}` })}
                   onClick={() => fields.remove(index)}
                   size="small"
                 />
@@ -80,7 +81,7 @@ class ContributorField extends Component {
 
     return (
       <fieldset className={styles['contributor-fields']}>
-        <legend>Contributors</legend>
+        <legend><FormattedMessage id="ui-eholdings.label.contributors" /></legend>
         {fields.length === 0
           && initialValue.length > 0
           && initialValue[0].id
@@ -111,7 +112,7 @@ class ContributorField extends Component {
   }
 }
 
-export function validate(values) {
+export function validate(values, { intl }) {
   const errors = {};
 
   values.contributors.forEach((contributorObj, index) => {
@@ -121,11 +122,11 @@ export function validate(values) {
     let isEmptyString = typeof contributor === 'string' && !contributor.trim();
 
     if (isEmptyString || isEmptyObject) {
-      contributorErrors.contributor = 'You must provide a contributor';
+      contributorErrors.contributor = intl.formatMessage({ id: 'ui-eholdings.validate.errors.contributor.empty' });
     }
 
     if (contributor && contributor.length >= 250) {
-      contributorErrors.contributor = 'A contributor must be less than 250 characters';
+      contributorErrors.contributor = intl.formatMessage({ id: 'ui-eholdings.validate.errors.contributor.exceedsLength' });
     }
 
     errors[index] = contributorErrors;

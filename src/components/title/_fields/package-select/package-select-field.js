@@ -7,7 +7,9 @@ import { Select } from '@folio/stripes-components';
 
 function PackageSelectField({ intl, options }) {
   let optionsWithPlaceholder = [{
-    label: options.length ? 'Choose a package' : '...Loading',
+    label: options.length ?
+      intl.formatMessage({ id: 'ui-eholdings.title.chooseAPackage' }) :
+      intl.formatMessage({ id: 'ui-eholdings.search.loading' }),
     disabled: true,
     value: ''
   }, ...options];
@@ -31,11 +33,11 @@ PackageSelectField.propTypes = {
 
 export default injectIntl(PackageSelectField);
 
-export function validate(values) {
+export function validate(values, { intl }) {
   let errors = {};
 
   if (!values.packageId) {
-    errors.packageId = 'Custom titles must belong to a package.';
+    errors.packageId = intl.formatMessage({ id: 'ui-eholdings.validate.errors.packageSelect.required' });
   }
 
   return errors;
