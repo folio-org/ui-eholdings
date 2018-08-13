@@ -107,6 +107,15 @@
     "title.editCustomTitle": "Edit {name}",
     "title.chooseAPackage": "Choose a package",
 
+    "settings.goBackToEholdings": "Go back to eHoldings settings",
+    "settings.kb": "Knowledge base",
+    "settings.kb.rmApiCreds": "EBSCO RM API credentials",
+    "settings.kb.customerId": "Customer ID",
+    "settings.kb.apiKey": "API Key",
+    "settings.rootProxy": "Root proxy",
+    "settings.rootProxy.updated": "Root proxy updated",
+    "settings.rootProxy.setting": "Root proxy setting",
+    "settings.rootProxy.server": "Root proxy server",
     "settings.rootProxy.warning": "Warning: Changing the root proxy setting will override the proxy for all links and resources currently set to inherit the root proxy selection.",
     "settings.rootProxy.ebsco.customer.message": "EBSCO KB API customers: Please access EBSCOAdmin to setup and maintain proxies.",
 

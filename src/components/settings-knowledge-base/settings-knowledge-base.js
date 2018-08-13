@@ -51,7 +51,7 @@ class SettingsKnowledgeBase extends Component {
         className={styles['settings-kb-form']}
       >
         <SettingsDetailPane
-          paneTitle="Knowledge base"
+          paneTitle={intl.formatMessage({ id: 'ui-eholdings.settings.kb' })}
           actionMenuItems={actionMenuItems}
           lastMenu={(
             <Fragment>
@@ -74,7 +74,7 @@ class SettingsKnowledgeBase extends Component {
         >
           <Toaster toasts={processErrors(model)} position="bottom" />
 
-          <h3>EBSCO RM API credentials</h3>
+          <h3><FormattedMessage id="ui-eholdings.settings.kb.rmApiCreds" /></h3>
 
           {model.isLoading ? (
             <Icon icon="spinner-ellipsis" />
@@ -85,7 +85,7 @@ class SettingsKnowledgeBase extends Component {
               >
                 <Field
                   id="eholdings-settings-kb-customerid"
-                  label="Customer ID"
+                  label={<FormattedMessage id="ui-eholdings.settings.kb.customerId" />}
                   name="customerId"
                   component={TextField}
                   type="text"
@@ -98,7 +98,7 @@ class SettingsKnowledgeBase extends Component {
               >
                 <Field
                   id="eholdings-settings-kb-apikey"
-                  label="API key"
+                  label={<FormattedMessage id="ui-eholdings.settings.kb.apiKey" />}
                   name="apiKey"
                   component={TextField}
                   type="password"

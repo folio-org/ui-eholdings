@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Field } from 'redux-form';
+import { FormattedMessage } from 'react-intl';
 
 import { Select } from '@folio/stripes-components';
 import styles from './root-proxy-select-field.css';
@@ -28,7 +29,7 @@ export default function RootProxySelectField({ proxyTypes }) {
         name="rootProxyServer"
         component={Select}
         dataOptions={options}
-        label="Root Proxy Server"
+        label={<FormattedMessage id="ui-eholdings.settings.rootProxy.server" />}
       />
     </div>
   );

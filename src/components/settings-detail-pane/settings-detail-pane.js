@@ -4,18 +4,21 @@ import {
   IconButton,
   Pane
 } from '@folio/stripes-components';
+import { injectIntl, intlShape } from 'react-intl';
 
 import styles from './settings-detail-pane.css';
 
-export default class SettingsDetailPane extends Component {
+class SettingsDetailPane extends Component {
   static propTypes = {
     children: PropTypes.node,
+    intl: intlShape.isRequired,
     paneTitle: PropTypes.string
   };
 
   render() {
     let {
       children,
+      intl,
       paneTitle,
       ...paneProps
     } = this.props;
@@ -29,7 +32,7 @@ export default class SettingsDetailPane extends Component {
           <IconButton
             icon="left-arrow"
             href="/settings/eholdings"
-            ariaLabel="Go back to eHoldings settings"
+            ariaLabel={intl.formatMessage({ id: 'ui-eholdings.settings.goBackToEholdings' })}
             className={styles['settings-detail-pane-back-button']}
           />
         )}
@@ -41,3 +44,5 @@ export default class SettingsDetailPane extends Component {
     );
   }
 }
+
+export default injectIntl(SettingsDetailPane);
