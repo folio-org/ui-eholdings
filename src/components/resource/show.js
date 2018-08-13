@@ -96,7 +96,7 @@ class ResourceShow extends Component {
 
     let isSelectInFlight = model.update.isPending && 'isSelected' in model.update.changedAttributes;
     let visibilityMessage = model.package.visibilityData.isHidden
-      ? '(All titles in this package are hidden)'
+      ? (<FormattedMessage id="ui-eHoldings.resource.visibilityData.isHidden" />)
       : model.visibilityData.reason && `(${model.visibilityData.reason})`;
 
     let hasManagedCoverages = model.managedCoverages.length > 0 &&
@@ -261,13 +261,17 @@ class ResourceShow extends Component {
 
                     <KeyValue label={<FormattedMessage id="ui-eholdings.label.peerReviewed" />}>
                       <div data-test-eholdings-peer-reviewed-field>
-                        {model.title.isPeerReviewed ? 'Yes' : 'No'}
+                        {model.title.isPeerReviewed ?
+                          (<FormattedMessage id="ui-eholdings.yes" />) :
+                          (<FormattedMessage id="ui-eholdings.no" />)}
                       </div>
                     </KeyValue>
 
                     <KeyValue label={<FormattedMessage id="ui-eholdings.label.titleType" />}>
                       <div data-test-eholdings-package-details-type>
-                        {model.title.isTitleCustom ? 'Custom' : 'Managed'}
+                        {model.title.isTitleCustom ?
+                          (<FormattedMessage id="ui-eholdings.custom" />) :
+                          (<FormattedMessage id="ui-eholdings.managed" />)}
                       </div>
                     </KeyValue>
 
@@ -312,8 +316,8 @@ class ResourceShow extends Component {
                 <KeyValue label={<FormattedMessage id="ui-eholdings.label.showToPatrons" />}>
                   <div data-test-eholdings-resource-show-visibility>
                     {model.visibilityData.isHidden || !resourceSelected
-                      ? `No ${visibilityMessage}`
-                      : 'Yes'}
+                      ? (<FormattedMessage id="ui-eholdings.package.visibility.no" values={{ visibilityMessage }} />)
+                      : (<FormattedMessage id="ui-eholdings.yes" />)}
                   </div>
                 </KeyValue>
 
