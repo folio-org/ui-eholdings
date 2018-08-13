@@ -177,10 +177,10 @@ class TitleEdit extends Component {
 const validate = (values, props) => {
   return Object.assign({},
     validateName(values, props),
-    validateContributor(values),
-    validateEdition(values),
-    validatePublisher(values),
-    validateIdentifiers(values),
+    validateContributor(values, props),
+    validateEdition(values, props),
+    validatePublisher(values, props),
+    validateIdentifiers(values, props),
     validateDescription(values, props));
 };
 

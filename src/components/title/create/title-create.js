@@ -96,7 +96,7 @@ class TitleCreate extends Component {
             firstMenu={historyState && historyState.eholdings && (
               <IconButton
                 icon="left-arrow"
-                ariaLabel={<FormattedMessage id="ui-eholdings.label.icon.goBack" />}
+                ariaLabel={intl.formatMessage({ id: 'ui-eholdings.label.icon.goBack' })}
                 onClick={this.handleCancel}
                 data-test-eholdings-details-view-back-button
               />

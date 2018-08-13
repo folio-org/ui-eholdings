@@ -85,7 +85,7 @@ class SettingsKnowledgeBase extends Component {
               >
                 <Field
                   id="eholdings-settings-kb-customerid"
-                  label={<FormattedMessage id="ui-eholdings.settings.kb.customerId" />}
+                  label={intl.formatMessage({ id: 'ui-eholdings.settings.kb.customerId' })}
                   name="customerId"
                   component={TextField}
                   type="text"
@@ -98,7 +98,7 @@ class SettingsKnowledgeBase extends Component {
               >
                 <Field
                   id="eholdings-settings-kb-apikey"
-                  label={<FormattedMessage id="ui-eholdings.settings.kb.apiKey" />}
+                  label={intl.formatMessage({ id: 'ui-eholdings.settings.kb.apiKey' })}
                   name="apiKey"
                   component={TextField}
                   type="password"
