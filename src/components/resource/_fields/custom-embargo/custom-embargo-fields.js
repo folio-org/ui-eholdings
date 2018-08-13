@@ -109,7 +109,7 @@ class CustomEmbargoFields extends Component {
 
 export default injectIntl(CustomEmbargoFields);
 
-export function validate(values, intl) {
+export function validate(values, { intl }) {
   const errors = {};
 
 

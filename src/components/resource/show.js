@@ -95,9 +95,9 @@ class ResourceShow extends Component {
     } = this.state;
 
     let isSelectInFlight = model.update.isPending && 'isSelected' in model.update.changedAttributes;
-    let visibilityMessage = model.package.visibilityData.isHidden
-      ? (<FormattedMessage id="ui-eHoldings.resource.visibilityData.isHidden" />)
-      : model.visibilityData.reason && `(${model.visibilityData.reason})`;
+    let visibilityMessage = model.package.visibilityData.isHidden ?
+      intl.formatMessage({ id: 'ui-eholdings.resource.visibilityData.isHidden' }) :
+      model.visibilityData.reason && `(${model.visibilityData.reason})`;
 
     let hasManagedCoverages = model.managedCoverages.length > 0 &&
       isValidCoverageList(model.managedCoverages);
@@ -190,8 +190,7 @@ class ResourceShow extends Component {
                       <Icon icon='spinner-ellipsis' />
                     ) : (
                       <h4>{resourceSelected ?
-                        (<FormattedMessage id="ui-eholdings.selected" />)
-                          :
+                        (<FormattedMessage id="ui-eholdings.selected" />) :
                         (<FormattedMessage id="ui-eholdings.notSelected" />)}
                       </h4>
                     )
@@ -297,7 +296,7 @@ class ResourceShow extends Component {
                     </KeyValue>
 
                     {model.package.contentType && (
-                      <KeyValue label="Package content type">
+                      <KeyValue label={<FormattedMessage id="ui-eholdings.resource.packageContentType" />}>
                         <div data-test-eholdings-resource-show-content-type>
                           {model.package.contentType}
                         </div>
@@ -315,9 +314,12 @@ class ResourceShow extends Component {
               >
                 <KeyValue label={<FormattedMessage id="ui-eholdings.label.showToPatrons" />}>
                   <div data-test-eholdings-resource-show-visibility>
-                    {model.visibilityData.isHidden || !resourceSelected
-                      ? (<FormattedMessage id="ui-eholdings.package.visibility.no" values={{ visibilityMessage }} />)
-                      : (<FormattedMessage id="ui-eholdings.yes" />)}
+                    {model.visibilityData.isHidden || !resourceSelected ?
+                      (<FormattedMessage
+                        id="ui-eholdings.package.visibility.no"
+                        values={{ visibilityMessage }}
+                      />) :
+                      (<FormattedMessage id="ui-eholdings.yes" />)}
                   </div>
                 </KeyValue>
 

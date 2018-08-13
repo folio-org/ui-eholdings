@@ -38,7 +38,7 @@ describeApplication('With list of root proxies available to a customer', () => {
         });
 
         it('should show a success toast', () => {
-          expect(SettingsRootProxyPage.toast.successText).to.eq('Root Proxy updated');
+          expect(SettingsRootProxyPage.toast.successText).to.eq('Root proxy updated');
         });
       });
 

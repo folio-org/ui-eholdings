@@ -172,7 +172,7 @@ class ResourceEditCustomTitle extends Component {
     }
 
     let visibilityMessage = model.package.visibilityData.isHidden
-      ? '(All titles in this package are hidden)'
+      ? (intl.formatMessage({ id: 'ui-eholdings.resource.visibilityData.isHidden' }))
       : model.visibilityData.reason && `(${model.visibilityData.reason})`;
 
     return (

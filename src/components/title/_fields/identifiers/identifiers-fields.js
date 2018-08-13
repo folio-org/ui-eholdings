@@ -57,8 +57,8 @@ class IdentifiersFields extends Component {
                     autoFocus={Object.keys(allFields.get(index)).length === 0}
                     label={intl.formatMessage({ id: 'ui-eholdings.type' })}
                     dataOptions={[
-                      { value: '0', label: intl.formatMessage({ id: 'ui-eholdings.identifier.issnOnline' }) },
-                      { value: '1', label: intl.formatMessage({ id: 'ui-eholdings.identifier.issnPrint' }) },
+                      { value: '0', label: intl.formatMessage({ id: 'ui-eholdings.label.identifier.issnOnline' }) },
+                      { value: '1', label: intl.formatMessage({ id: 'ui-eholdings.label.identifier.issnPrint' }) },
                       { value: '2', label: intl.formatMessage({ id: 'ui-eholdings.label.identifier.isbnOnline' }) },
                       { value: '3', label: intl.formatMessage({ id: 'ui-eholdings.label.identifier.isbnPrint' }) }
                     ]}

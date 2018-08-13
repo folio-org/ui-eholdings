@@ -8,7 +8,7 @@ import {
   PaneHeader
 } from '@folio/stripes-components';
 
-import { intlShape, injectIntl, FormattedMessage } from 'react-intl';
+import { intlShape, injectIntl } from 'react-intl';
 import DetailsViewSection from '../../details-view-section';
 import NameField, { validate as validateName } from '../_fields/name';
 import EditionField, { validate as validateEdition } from '../_fields/edition';

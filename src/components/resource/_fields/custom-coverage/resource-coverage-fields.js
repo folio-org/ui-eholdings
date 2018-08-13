@@ -51,7 +51,7 @@ class ResourceCoverageFields extends Component {
                     name={`${dateRange}.beginCoverage`}
                     type="text"
                     component={Datepicker}
-                    label={<FormattedMessage id="ui-eholdings.date.startDate" />}
+                    label={intl.formatMessage({ id: 'ui-eholdings.date.startDate' })}
                     id="begin-coverage"
                     format={(value) => (value ? intl.formatDate(value, { timeZone: 'UTC' }) : '')}
                   />
@@ -64,7 +64,7 @@ class ResourceCoverageFields extends Component {
                     name={`${dateRange}.endCoverage`}
                     type="text"
                     component={Datepicker}
-                    label={<FormattedMessage id="ui-eholdings.date.endDate" />}
+                    label={intl.formatMessage({ id: 'ui-eholdings.date.endDate' })}
                     id="end-coverage"
                     format={(value) => (value ? intl.formatDate(value, { timeZone: 'UTC' }) : '')}
                   />
@@ -115,7 +115,7 @@ export default injectIntl(ResourceCoverageFields);
  * @returns {} - an error object if errors are found, or `false` otherwise
  */
 const validateStartDateBeforeEndDate = (dateRange, intl) => {
-  const message = intl.formatMessage({ id: 'validate.errors.dateRange.startDateBeforeEndDate' });
+  const message = intl.formatMessage({ id: 'ui-eholdings.validate.errors.dateRange.startDateBeforeEndDate' });
 
   if (dateRange.endCoverage && moment(dateRange.beginCoverage).isAfter(moment(dateRange.endCoverage))) {
     return { beginCoverage: message };
@@ -187,7 +187,7 @@ const validateWithinPackageRange = (dateRange, packageCoverage, intl) => {
       )
       : 'Present';
 
-    const message = intl.formatMessage({ id: 'ui-eholdings.validate.errors.dateRange.packageRange' }, { startDate }, { endDate });
+    const message = intl.formatMessage({ id: 'ui-eholdings.validate.errors.dateRange.packageRange' }, { startDate, endDate });
 
     let beginDateOutOfRange = !packageRange.contains(beginCoverageDate);
     let endDateOutOfRange = !packageRange.contains(endCoverageDate);
@@ -251,7 +251,7 @@ const validateNoRangeOverlaps = (dateRange, customCoverages, index, intl) => {
       )
       : 'Present';
 
-    const message = intl.formatMessage({ id: 'ui-eholdings.validate.errors.dateRange.overlap' }, { startDate }, { endDate });
+    const message = intl.formatMessage({ id: 'ui-eholdings.validate.errors.dateRange.overlap' }, { startDate, endDate });
 
     if (overlapCoverageRange.overlaps(coverageRange)
         || overlapCoverageRange.isEqual(coverageRange)

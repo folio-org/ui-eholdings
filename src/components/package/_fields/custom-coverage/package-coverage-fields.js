@@ -64,7 +64,7 @@ class PackageCoverageFields extends Component {
                     name={`${dateRange}.beginCoverage`}
                     type="text"
                     component={Datepicker}
-                    label={<FormattedMessage id="ui-eholdings.date.startDate" />}
+                    label={intl.formatMessage({ id: 'ui-eholdings.date.startDate' })}
                     format={(value) => (value ? intl.formatDate(value, { timeZone: 'UTC' }) : '')}
                   />
                 </div>
@@ -76,7 +76,7 @@ class PackageCoverageFields extends Component {
                     name={`${dateRange}.endCoverage`}
                     type="text"
                     component={Datepicker}
-                    label={<FormattedMessage id="ui-eholdings.date.endDate" />}
+                    label={intl.formatMessage({ id: 'ui-eholdings.date.endDate' })}
                     format={(value) => (value ? intl.formatDate(value, { timeZone: 'UTC' }) : '')}
                   />
                 </div>
@@ -112,10 +112,10 @@ export function validate(values, props) {
   moment.locale(props.intl.locale);
   let dateFormat = moment.localeData()._longDateFormat.L;
   const errors = {};
+  let { intl } = props;
 
   values.customCoverages.forEach((dateRange, index) => {
     let dateRangeErrors = {};
-    let { intl } = props;
 
     if (dateRange.beginCoverage && !moment(dateRange.beginCoverage).isValid()) {
       dateRangeErrors.beginCoverage = intl.formatMessage({ id: 'ui-eholdings.validate.errors.dateRange.format' }, { dateFormat });

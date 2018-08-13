@@ -74,7 +74,7 @@ class TitleShow extends Component {
   }
 
   get lastMenu() {
-    let { model } = this.props;
+    let { model, intl } = this.props;
     let { router } = this.context;
 
     if (model.isTitleCustom) {
@@ -83,11 +83,10 @@ class TitleShow extends Component {
           data-test-eholdings-title-edit-link
           icon="edit"
           ariaLabel={
-            <FormattedMessage
-              id="ui-eholdings.title.editCustomTitle"
-              values={{ name: model.name }}
-            />
-          }
+            intl.formatMessage(
+              { id: 'ui-eholdings.title.editCustomTitle' },
+              { name: model.name }
+            )}
           to={{
             pathname: `/eholdings/titles/${model.id}/edit`,
             search: router.route.location.search,
@@ -312,6 +311,7 @@ class TitleShow extends Component {
             ref={(form) => { addToPackageForm = form; }}
             packageOptions={this.customPackageOptions}
             onSubmit={addCustomPackage}
+            {...this.props}
           />
         </Modal>
       </div>

@@ -25,7 +25,7 @@ class CoverageStatementFields extends Component {
 
 export default injectIntl(CoverageStatementFields);
 
-export function validate(values, intl) {
+export function validate(values, { intl }) {
   const errors = {};
 
   if (values.coverageStatement && values.coverageStatement.length > 350) {

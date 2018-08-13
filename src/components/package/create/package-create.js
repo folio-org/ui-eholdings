@@ -1,7 +1,7 @@
 import React, { Component, Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { reduxForm } from 'redux-form';
-import { intlShape, injectIntl } from 'react-intl';
+import { intlShape, injectIntl, FormattedMessage } from 'react-intl';
 
 import {
   Icon,
@@ -58,7 +58,7 @@ class PackageCreate extends Component {
 
     if (!request.isPending) {
       actionMenuItems.push({
-        'label': 'Cancel editing',
+        'label': intl.formatMessage({ id: 'ui-eholdings.actionMenu.cancelEditing' }),
         'state': { eholdings: true },
         'onClick': this.handleCancel,
         'data-test-eholdings-package-create-cancel-action': true
@@ -78,12 +78,12 @@ class PackageCreate extends Component {
 
         <form onSubmit={handleSubmit(onSubmit)}>
           <PaneHeader
-            paneTitle="New custom package"
+            paneTitle={<FormattedMessage id="ui-eholdings.package.create.custom" />}
             actionMenuItems={actionMenuItems}
             firstMenu={historyState && historyState.eholdings && (
               <IconButton
                 icon="left-arrow"
-                ariaLabel="Go back"
+                ariaLabel={intl.formatMessage({ id: 'ui-eholdings.label.icon.goBack' })}
                 onClick={this.handleCancel}
                 data-test-eholdings-details-view-back-button
               />
@@ -99,18 +99,26 @@ class PackageCreate extends Component {
                   buttonStyle="primary"
                   data-test-eholdings-package-create-save-button
                 >
-                  {request.isPending ? 'Saving' : 'Save'}
+                  {request.isPending ?
+                    (<FormattedMessage id="ui-eholdings.saving" />)
+                    : (<FormattedMessage id="ui-eholdings.save" />)
+                  }
                 </PaneHeaderButton>
               </Fragment>
             )}
           />
 
           <div className={styles['package-create-form-container']}>
-            <DetailsViewSection label="Package information" separator={false}>
+            <DetailsViewSection
+              label={<FormattedMessage id="ui-eholdings.package.packageInformation" />}
+              separator={false}
+            >
               <NameField />
               <ContentTypeField />
             </DetailsViewSection>
-            <DetailsViewSection label="Coverage settings">
+            <DetailsViewSection
+              label={<FormattedMessage id="ui-eholdings.label.coverageSettings" />}
+            >
               <CoverageFields />
             </DetailsViewSection>
           </div>
