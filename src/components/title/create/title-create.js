@@ -149,8 +149,8 @@ class TitleCreate extends Component {
 const validate = (values, props) => {
   return Object.assign({},
     validateName(values, props),
-    validateContributor(values),
-    validateEdition(values),
+    validateContributor(values, props),
+    validateEdition(values, props),
     validatePublisherName(values, props),
     validateIdentifiers(values, props),
     validateDescription(values, props),
