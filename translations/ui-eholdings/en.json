@@ -184,11 +184,16 @@
     "validate.errors.customPackage.name.length": "Must be less than 300 characters.",
     "validate.errors.coverageStatement.length": "Statement must be 350 characters or less.",
 
+    "validate.errors.edition.value": "Invalid value.",
+    "validate.errors.edition.length": "Value exceeds the 250 character limit.",
+
     "validate.errors.settings.customerId": "Customer ID cannot be blank",
     "validate.errors.settings.apiKey": "API key cannot be blank",
 
     "validate.errors.dateRange.format": "Enter date in {dateFormat} format.",
     "validate.errors.dateRange.startDateBeforeEndDate": "Start date must be before end date.",
+    "validate.errors.dateRange.packageRange": "Dates must be within package's date range ({startDate} - {endDate}).",
+    "validate.errors.dateRange.overlap": "Date range overlaps with {startDate} - {endDate}.",
 
     "server.errors.failedBackend": "Could not retrieve configuration information",
     "server.errors.errorDuringFetch": "There was a server error while retrieving your knowledge base configuration.",

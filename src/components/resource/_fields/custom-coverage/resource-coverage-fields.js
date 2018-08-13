@@ -132,7 +132,7 @@ const validateStartDateBeforeEndDate = (dateRange) => {
 const validateDateFormat = (dateRange, intl) => {
   moment.locale(intl.locale);
   let dateFormat = moment.localeData()._longDateFormat.L;
-  const message = `Enter date in ${dateFormat} format.`;
+  const message = intl.formatMessage({ id: 'ui-eholdings.validate.errors.dateRange.format' }, { dateFormat });
 
   if (!dateRange.beginCoverage || !moment(dateRange.beginCoverage).isValid()) {
     return { beginCoverage: message };
@@ -187,7 +187,7 @@ const validateWithinPackageRange = (dateRange, packageCoverage, intl) => {
       )
       : 'Present';
 
-    const message = `Dates must be within package's date range (${startDate} - ${endDate}).`;
+    const message = intl.formatMessage({ id: 'ui-eholdings.validate.errors.dateRange.packageRange' }, { startDate }, { endDate });
 
     let beginDateOutOfRange = !packageRange.contains(beginCoverageDate);
     let endDateOutOfRange = !packageRange.contains(endCoverageDate);
@@ -251,7 +251,7 @@ const validateNoRangeOverlaps = (dateRange, customCoverages, index, intl) => {
       )
       : 'Present';
 
-    const message = `Date range overlaps with ${startDate} - ${endDate}.`;
+    const message = intl.formatMessage({ id: 'ui-eholdings.validate.errors.dateRange.overlap' }, { startDate }, { endDate });
 
     if (overlapCoverageRange.overlaps(coverageRange)
         || overlapCoverageRange.isEqual(coverageRange)
