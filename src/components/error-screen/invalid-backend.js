@@ -7,7 +7,7 @@ import styles from './error-screen.css';
 export default function InvalidBackendErrorScreen() {
   return (
     <div className={styles['eholdings-back-end-error']} data-test-eholdings-unconfigured-backend>
-      <KeyValue label="Error">
+      <KeyValue label={<FormattedMessage id="ui-eholdings.error" />}>
         <h1><FormattedMessage id="ui-eholdings.server.errors.kbNotConfigured" /></h1>
       </KeyValue>
       <p><FormattedMessage id="ui-eholdings.server.errors.detectedUnconfiguredKb" /></p>
