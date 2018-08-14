@@ -12,22 +12,17 @@ import {
 export default @interactor class SearchModal {
   searchType = attribute('data-test-search-form', '[data-test-search-form]')
   searchFieldValue = value('[data-test-search-field] input[name="search"]');
+  isSearchButtonDisabled = property('[data-test-eholdings-modal-search-button]', 'disabled');
+  isResetButtonDisabled = property('[data-test-eholdings-modal-reset-all-button]', 'disabled');
+  clickResetAll = clickable('[data-test-eholdings-modal-reset-all-button]');
+  searchTitles = fillable('[data-test-title-search-field] input[name="search"]');
+  selectSearchField = selectable('[data-test-title-search-field] select');
+  searchDisabled = property('[data-test-search-submit]', 'disabled')
+  clickSearch = clickable('[data-test-eholdings-modal-search-button]');
 
   clickFilter = action(function (name, val) {
     return this.click(`[data-test-eholdings-search-filters] input[name="${name}"][value="${val}"]`);
   });
-
-  clickSearch = clickable('[data-test-eholdings-modal-search-button]');
-
-  getFilter(name) {
-    return this.$(`[data-test-eholdings-search-filters] input[name="${name}"]:checked`).value;
-  }
-
-  isSearchButtonDisabled = property('[data-test-eholdings-modal-search-button]', 'disabled');
-  isResetButtonDisabled = property('[data-test-eholdings-modal-reset-all-button]', 'disabled');
-  clickResetAll = clickable('[data-test-eholdings-modal-reset-all-button]');
-
-  searchDisabled = property('[data-test-search-submit]', 'disabled')
 
   search = action(function (query) {
     return this
@@ -35,12 +30,12 @@ export default @interactor class SearchModal {
       .click('[data-test-eholdings-modal-search-button]');
   });
 
-  searchTitles = fillable('[data-test-title-search-field] input[name="search"]');
-
-  selectSearchField = selectable('[data-test-title-search-field] select');
-
   clearSearch = action(function () {
     return this
       .fill('[data-test-search-field] input[name="search"]', '');
   });
+
+  getFilter(name) {
+    return this.$(`[data-test-eholdings-search-filters] input[name="${name}"]:checked`).value;
+  }
 }
