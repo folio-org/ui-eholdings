@@ -63,6 +63,8 @@
     "provider.proxy": "Proxy",
     "provider.inherited": "Inherited",
 
+    "provider.toast.isFreshlySaved": "Provider saved.",
+
     "resource.modal.header": "Remove title from holdings?",
     "resource.show.modal.header": "Remove resource from holdings?",
     "resource.modal.buttonWorking": "Removing...",

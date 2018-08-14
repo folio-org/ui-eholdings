@@ -10,6 +10,7 @@ import {
 import { processErrors } from '../../utilities';
 import DetailsView from '../../details-view';
 import DetailsViewSection from '../../details-view-section';
+import NavigationModal from '../../navigation-modal';
 import Toaster from '../../toaster';
 import ProxySelectField from '../_fields/proxy-select';
 import PaneHeaderButton from '../../pane-header-button';
@@ -44,7 +45,7 @@ class ProviderEdit extends Component {
        router.history.push({
          pathname: `/eholdings/providers/${prevProps.model.id}`,
          search: router.route.location.search,
-         state: { eholdings: true }
+         state: { eholdings: true, isFreshlySaved: true }
        });
      }
    }
@@ -126,6 +127,12 @@ class ProviderEdit extends Component {
             </div>
           )}
                  </DetailsViewSection>
+                 <NavigationModal
+                   modalLabel={intl.formatMessage({ id: 'ui-eholdings.navModal.modalLabel' })}
+                   continueLabel={intl.formatMessage({ id: 'ui-eholdings.navModal.continueLabel' })}
+                   dismissLabel={intl.formatMessage({ id: 'ui-eholdings.navModal.dismissLabel' })}
+                   when={!pristine && !model.update.isPending}
+                 />
                </Fragment>
           )}
            />

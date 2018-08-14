@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import update from 'lodash/fp/update';
 import set from 'lodash/fp/set';
 import { Accordion, Icon, IconButton, KeyValue } from '@folio/stripes-components';
-import { FormattedNumber, FormattedMessage } from 'react-intl';
+import { intlShape, injectIntl, FormattedNumber, FormattedMessage } from 'react-intl';
 import capitalize from 'lodash/capitalize';
 
 import { processErrors } from '../../utilities';
@@ -21,6 +21,7 @@ class ProviderShow extends Component {
      packages: PropTypes.object.isRequired,
      fetchPackages: PropTypes.func.isRequired,
      searchModal: PropTypes.node,
+     intl: intlShape.isRequired,
      listType: PropTypes.string.isRequired
    };
 
@@ -47,6 +48,24 @@ class ProviderShow extends Component {
     this.setState(next);
   }
 
+  get toasts() {
+    let { model, intl } = this.props;
+    let { router } = this.context;
+    let toasts = processErrors(model);
+
+    // if coming from saving edits to the package, show a success toast
+    if (router.history.action === 'PUSH' &&
+        router.history.location.state &&
+        router.history.location.state.isFreshlySaved) {
+      toasts.push({
+        id: `success-provider-saved-${model.id}`,
+        message: intl.formatMessage({ id: 'ui-eholdings.provider.toast.isFreshlySaved' }),
+        type: 'success'
+      });
+    }
+
+    return toasts;
+  }
   render() {
     let {
       fetchPackages,
@@ -83,7 +102,7 @@ class ProviderShow extends Component {
 
     return (
       <div>
-        <Toaster toasts={processErrors(model)} position="bottom" />
+        <Toaster toasts={this.toasts} position="bottom" />
 
         <DetailsView
           type="provider"
@@ -176,4 +195,4 @@ class ProviderShow extends Component {
   }
 }
 
-export default ProviderShow;
+export default injectIntl(ProviderShow);
