@@ -119,7 +119,7 @@ class ProviderEdit extends Component {
                  <DetailsViewSection
                    label={intl.formatMessage({ id: 'ui-eholdings.provider.providerSettings' })}
                  >
-                   {(proxyTypes.isLoading || rootProxy.isLoading) ? (
+                   {(!proxyTypes.request.isResolved || !rootProxy.request.isResolved) ? (
                      <Icon icon="spinner-ellipsis" />
           ) : (
             <div data-test-eholdings-provider-proxy-select>

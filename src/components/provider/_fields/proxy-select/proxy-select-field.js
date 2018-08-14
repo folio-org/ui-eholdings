@@ -7,12 +7,8 @@ import styles from './proxy-select-field.css';
 
 export default function ProxySelectField({ proxyTypes, rootProxy }) {
   let proxyTypesRecords = proxyTypes.resolver.state.proxyTypes.records;
-  let rootProxyId;
+  let rootProxyId = rootProxy.data.attributes.proxyTypeId;
   let options = [];
-
-  if (rootProxy.data && rootProxy.data.attributes) {
-    rootProxyId = rootProxy.data.attributes.proxyTypeId;
-  }
 
   if (proxyTypesRecords && rootProxyId) {
     for (let proxyTypesRecord in proxyTypesRecords) {
