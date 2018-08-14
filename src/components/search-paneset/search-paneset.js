@@ -29,7 +29,8 @@ export default class SearchPaneset extends React.Component { // eslint-disable-l
     location: PropTypes.shape({
       pathname: PropTypes.string.isRequired,
       search: PropTypes.string.isRequired
-    }).isRequired
+    }).isRequired,
+    updateFilters: PropTypes.func.isRequired
   };
 
   static contextTypes = {
@@ -40,10 +41,6 @@ export default class SearchPaneset extends React.Component { // eslint-disable-l
 
   static defaultProps = {
     totalResults: 0
-  };
-
-  state = {
-    hideFilters: this.props.hideFilters
   };
 
   // used to focus the pane title when a new search happens
@@ -68,11 +65,7 @@ export default class SearchPaneset extends React.Component { // eslint-disable-l
 
         let searchTermChanged = nextSearchParams.q !== searchParams.q;
 
-        if (searchTermChanged) {
-          this.setState({ hideFilters: true });
-        } else {
-          this.setState({ hideFilters: false });
-        }
+        this.props.updateFilters(() => searchTermChanged);
       }
     }
   }
@@ -87,11 +80,7 @@ export default class SearchPaneset extends React.Component { // eslint-disable-l
     }
   }
 
-  toggleFilters = () => {
-    this.setState(({ hideFilters }) => ({
-      hideFilters: !hideFilters
-    }));
-  };
+  toggleFilters = () => this.props.updateFilters(hideFilters => !hideFilters)
 
   closePreview = () => {
     this.context.router.history.push({
@@ -112,18 +101,17 @@ export default class SearchPaneset extends React.Component { // eslint-disable-l
   };
 
   render() {
-    let { hideFilters } = this.state;
     let {
       searchForm,
       resultsType,
       resultsView,
       detailsView,
       totalResults,
-      isLoading
+      isLoading,
+      hideFilters
     } = this.props;
 
-    // only hide filters if there are results and always hide filters when a detail view is visible
-    hideFilters = (hideFilters && !!resultsView) || !!detailsView;
+    hideFilters = hideFilters && !!resultsView;
 
     let newButton = (<PaneMenu />);
     if (resultsType === 'packages' || resultsType === 'titles') {
@@ -142,27 +130,30 @@ export default class SearchPaneset extends React.Component { // eslint-disable-l
       );
     }
 
+    let showApply = resultsView && !hideFilters;
+
     return (
       <div className={styles['search-paneset']}>
-        <SearchPaneVignette isHidden={hideFilters || !resultsView} onClick={this.toggleFilters} />
 
-        {!!detailsView && (
-          <SearchPaneVignette onClick={this.closePreview} />
+        {!detailsView && (
+          <SearchPaneVignette isHidden={hideFilters} onClick={this.toggleFilters} />
         )}
 
-        <SearchPane isHidden={hideFilters}>
-          <PaneHeader
-            paneTitle={(<FormattedMessage id="ui-eholdings.search.searchAndFilter" />)}
-            lastMenu={resultsView ? (
-              <Button buttonStyle="transparent" onClick={this.toggleFilters} className={styles['search-pane-toggle']}>
-                <FormattedMessage id="ui-eholdings.search.apply" />
-              </Button>
-            ) : null}
-          />
-          <div className={styles['scrollable-container']}>
-            {searchForm}
-          </div>
-        </SearchPane>
+        {!hideFilters &&
+          <SearchPane>
+            <PaneHeader
+              paneTitle={(<FormattedMessage id="ui-eholdings.search.searchAndFilter" />)}
+              lastMenu={showApply ? (
+                <Button buttonStyle="transparent" onClick={this.toggleFilters} className={styles['search-pane-toggle']}>
+                  <FormattedMessage id="ui-eholdings.search.apply" />
+                </Button>
+              ) : null}
+            />
+            <div className={styles['scrollable-container']}>
+              {searchForm}
+            </div>
+          </SearchPane>
+        }
 
         {resultsView ? (
           <ResultsPane>

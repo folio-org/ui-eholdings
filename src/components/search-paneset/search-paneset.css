@@ -11,17 +11,18 @@
 }
 
 @media (--largeUp) {
+  .search-pane-toggle {
+    display: none;
+  }
+}
+
+@media (--largeUp) {
   .search-paneset {
     align-items: flex-start;
     display: flex;
     flex: 0 1 auto;
     flex-flow: row nowrap;
     justify-content: flex-start;
-  }
-
-  .search-pane-toggle,
-  .results-pane-search-toggle {
-    display: none;
   }
 }
 

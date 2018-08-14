@@ -65,7 +65,8 @@ class SearchRoute extends Component { // eslint-disable-line react/no-deprecated
       sort: params.sort,
       searchString: params.q,
       searchFilter: params.filter,
-      searchField: params.searchfield
+      searchField: params.searchfield,
+      hideFilters: !!params.q
     };
   }
 
@@ -121,6 +122,10 @@ class SearchRoute extends Component { // eslint-disable-line react/no-deprecated
   handleSearchFieldChange = searchField => {
     this.setState({ searchField });
   }
+
+  updateFilters = fn => this.setState({
+    hideFilters: fn(this.state.hideFilters)
+  })
 
   /**
    * Transforms UI params into search params
@@ -304,7 +309,8 @@ class SearchRoute extends Component { // eslint-disable-line react/no-deprecated
       sort,
       searchString,
       searchFilter,
-      searchField
+      searchField,
+      hideFilters
     } = this.state;
 
     if (searchType) {
@@ -315,12 +321,13 @@ class SearchRoute extends Component { // eslint-disable-line react/no-deprecated
           <div data-test-eholdings>
             <SearchPaneset
               location={location}
-              hideFilters={!!params.q}
+              hideFilters={hideFilters}
               resultsType={searchType}
               resultsView={this.renderResults()}
               detailsView={!hideDetails && children}
               totalResults={results.length}
               isLoading={!results.hasLoaded}
+              updateFilters={this.updateFilters}
               searchForm={(
                 <SearchForm
                   sort={sort}
