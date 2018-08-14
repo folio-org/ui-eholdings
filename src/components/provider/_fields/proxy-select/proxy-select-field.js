@@ -7,10 +7,14 @@ import styles from './proxy-select-field.css';
 
 export default function ProxySelectField({ proxyTypes, rootProxy }) {
   let proxyTypesRecords = proxyTypes.resolver.state.proxyTypes.records;
-  let rootProxyId = rootProxy.data.attributes.proxyTypeId;
+  let rootProxyId;
   let options = [];
 
-  if (proxyTypesRecords) {
+  if (rootProxy.data && rootProxy.data.attributes) {
+    rootProxyId = rootProxy.data.attributes.proxyTypeId;
+  }
+
+  if (proxyTypesRecords && rootProxyId) {
     for (let proxyTypesRecord in proxyTypesRecords) {
       if (Object.prototype.hasOwnProperty.call(proxyTypesRecords, proxyTypesRecord)) {
         let selectValue = proxyTypesRecords[proxyTypesRecord].attributes.id;

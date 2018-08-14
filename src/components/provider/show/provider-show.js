@@ -17,7 +17,6 @@ import styles from './provider-show.css';
 class ProviderShow extends Component {
    static propTypes = {
      proxyTypes: PropTypes.object.isRequired,
-     rootProxy: PropTypes.object.isRequired,
      model: PropTypes.object.isRequired,
      packages: PropTypes.object.isRequired,
      fetchPackages: PropTypes.func.isRequired,
@@ -55,12 +54,11 @@ class ProviderShow extends Component {
       model,
       packages,
       searchModal,
-      proxyTypes,
-      rootProxy
+      proxyTypes
     } = this.props;
     let { router, queryParams } = this.context;
     let { sections } = this.state;
-
+    let hasProxy = model.proxy && model.proxy.id;
     let actionMenuItems = [
       {
         label: <FormattedMessage id="ui-eholdings.actionMenu.edit" />,
@@ -127,23 +125,25 @@ class ProviderShow extends Component {
                   </div>
                 </KeyValue>
               </Accordion>
-              <Accordion
-                label={<FormattedMessage id="ui-eholdings.provider.providerSettings" />}
-                open={sections.providerShowProviderSettings}
-                id="providerShowProviderSettings"
-                onToggle={this.handleSectionToggle}
-              >
-                {proxyTypes.isLoading ? (
-                  <Icon icon="spinner-ellipsis" />
-          ) : (
-            <KeyValue label={<FormattedMessage id="ui-eholdings.provider.proxy" />}>
-              <ProxyDisplay
-                model={model}
-                proxyTypes={proxyTypes}
-              />
-            </KeyValue>
+              {hasProxy && (
+                <Accordion
+                  label={<FormattedMessage id="ui-eholdings.provider.providerSettings" />}
+                  open={sections.providerShowProviderSettings}
+                  id="providerShowProviderSettings"
+                  onToggle={this.handleSectionToggle}
+                >
+                  {(proxyTypes.isLoading || model.isLoading) ? (
+                    <Icon icon="spinner-ellipsis" />
+                  ) : (
+                    <KeyValue label={<FormattedMessage id="ui-eholdings.provider.proxy" />}>
+                      <ProxyDisplay
+                        model={model}
+                        proxyTypes={proxyTypes}
+                      />
+                    </KeyValue>
+                  )}
+                </Accordion>
               )}
-              </Accordion>
             </div>
           )}
           searchModal={searchModal}

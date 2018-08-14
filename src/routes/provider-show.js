@@ -5,7 +5,7 @@ import TitleManager from '@folio/stripes-core/src/components/TitleManager';
 
 import { createResolver } from '../redux';
 import Provider from '../redux/provider';
-import { ProxyType, RootProxy } from '../redux/application';
+import { ProxyType } from '../redux/application';
 
 import View from '../components/provider/show';
 import SearchModal from '../components/search-modal';
@@ -22,8 +22,7 @@ class ProviderShowRoute extends Component {
     resolver: PropTypes.object.isRequired,
     getProvider: PropTypes.func.isRequired,
     getPackages: PropTypes.func.isRequired,
-    proxyTypes: PropTypes.object.isRequired,
-    rootProxy: PropTypes.object.isRequired
+    proxyTypes: PropTypes.object.isRequired
   };
 
   constructor(props) {
@@ -31,7 +30,6 @@ class ProviderShowRoute extends Component {
     let { providerId } = props.match.params;
     props.getProvider(providerId);
     props.getProxyTypes();
-    props.getRootProxy();
   }
 
   state = {
@@ -40,12 +38,12 @@ class ProviderShowRoute extends Component {
   }
 
   componentDidUpdate(prevProps, prevState) {
-    let { match, getPackages } = this.props;
+    let { match, getPackages, getProvider } = this.props;
     let { pkgSearchParams } = this.state;
     let { providerId } = match.params;
 
     if (providerId !== prevProps.match.params.providerId) {
-      this.props.getProvider(providerId);
+      getProvider(providerId);
     }
 
     if (pkgSearchParams !== prevState.pkgSearchParams) {
@@ -85,7 +83,6 @@ class ProviderShowRoute extends Component {
           packages={this.getPkgResults()}
           fetchPackages={this.fetchPackages}
           proxyTypes={this.props.proxyTypes}
-          rootProxy={this.props.rootProxy}
           listType={listType}
           searchModal={
             <SearchModal
@@ -108,13 +105,11 @@ export default connect(
     return {
       model: resolver.find('providers', match.params.providerId),
       proxyTypes: resolver.query('proxyTypes'),
-      rootProxy: resolver.find('rootProxies', 'root-proxy'),
       resolver
     };
   }, {
     getProvider: id => Provider.find(id, { include: 'packages' }),
     getPackages: (id, params) => Provider.queryRelated(id, 'packages', params),
-    getProxyTypes: () => ProxyType.query(),
-    getRootProxy: () => RootProxy.find('root-proxy')
+    getProxyTypes: () => ProxyType.query()
   }
 )(ProviderShowRoute);
