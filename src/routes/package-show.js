@@ -6,20 +6,10 @@ import TitleManager from '@folio/stripes-core/src/components/TitleManager';
 import { createResolver } from '../redux';
 import Package from '../redux/package';
 import Resource from '../redux/resource';
+import { transformQueryParams } from '../components/utilities';
 
 import View from '../components/package/show';
 import SearchModal from '../components/search-modal';
-
-// TODO this is out of place.
-function transformTitleQueryParams(params) {
-  let { q, searchfield = 'name', filter = {}, ...searchParams } = params;
-
-  if (searchfield === 'title') { searchfield = 'name'; }
-
-  let searchfilter = { ...filter, [searchfield]: q };
-
-  return { ...searchParams, filter: searchfilter };
-}
 
 class PackageShowRoute extends Component {
   static propTypes = {
@@ -122,7 +112,7 @@ class PackageShowRoute extends Component {
     let { getPackageTitles, match } = this.props;
     let { pkgSearchParams, page } = this.state;
     let { packageId } = match.params;
-    let params = transformTitleQueryParams({ ...pkgSearchParams });
+    let params = transformQueryParams('titles', { ...pkgSearchParams });
 
     getPackageTitles(packageId, { ...params, page });
   }

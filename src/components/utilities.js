@@ -60,3 +60,17 @@ export const processErrors = ({ request, update, destroy }) => {
 
   return [...putErrors, ...getErrors, ...destroyErrors];
 };
+
+/**
+ * Transforms UI params into search params
+ *
+ * @param {Object} parms - query param object
+ */
+export function transformQueryParams(searchType, params) {
+  if (searchType === 'titles') {
+    let { q, searchfield = 'name', filter = {}, ...searchParams } = params;
+    if (searchfield === 'title') { searchfield = 'name'; }
+    let searchfilter = { ...filter, [searchfield]: q };
+    return { ...searchParams, filter: searchfilter };
+  } else { return params; }
+}
