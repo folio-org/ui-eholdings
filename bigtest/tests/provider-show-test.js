@@ -154,7 +154,7 @@ describeApplication('ProviderShow', () => {
     });
   });
 
-  describe('visiting the provider details page with a nil proxy', () => {
+  describe('visiting the provider details page with a none proxy', () => {
     beforeEach(function () {
       let proxy = this.server.create('proxy', {
         inherited: false,
@@ -168,7 +168,7 @@ describeApplication('ProviderShow', () => {
       });
     });
 
-    it.skip('displays the proxy as None', () => {
+    it('displays the proxy as None', () => {
       expect(ProviderShowPage.proxy).to.equal('None');
     });
   });

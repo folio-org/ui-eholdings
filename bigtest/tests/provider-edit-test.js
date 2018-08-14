@@ -43,6 +43,16 @@ describeApplication('ProviderEdit', () => {
       expect(ProviderEditPage.isSaveDisabled).to.be.true;
     });
 
+    describe('clicking cancel', () => {
+      beforeEach(() => {
+        return ProviderEditPage.clickCancel();
+      });
+
+      it('goes to the provider show page', () => {
+        expect(ProviderShowPage.$root).to.exist;
+      });
+    });
+
     describe('choosing another root proxy from select', () => {
       beforeEach(() => {
         return ProviderEditPage.chooseRootProxy('bigTestJS');
@@ -54,7 +64,24 @@ describeApplication('ProviderEdit', () => {
 
       describe('clicking save to update Root Proxy', () => {
         beforeEach(() => {
-          return ProviderEditPage.save();
+          return ProviderEditPage.clickSave();
+        });
+
+        it('disables the save button', () => {
+          expect(ProviderEditPage.isSaveDisabled).to.be.true;
+        });
+
+        it('goes to the provider show page', () => {
+          expect(ProviderShowPage.$root).to.exist;
+        });
+
+        it('shows newly saved proxy', () => {
+          expect(ProviderShowPage.proxy).to.equal('bigTestJS');
+        });
+
+
+        it('shows a success toast message', () => {
+          expect(ProviderShowPage.toast.successText).to.equal('Provider saved.');
         });
       });
 
@@ -63,8 +90,8 @@ describeApplication('ProviderEdit', () => {
           return ProviderEditPage.clickCancel();
         });
 
-        it('goes to the provider show page', () => {
-          expect(ProviderShowPage.$root).to.exist;
+        it('shows a navigation confirmation modal', () => {
+          expect(ProviderEditPage.navigationModal.$root).to.exist;
         });
       });
     });
