@@ -45,7 +45,7 @@ describeApplication('Package Show Title Search', () => {
     resources[1].title.update({
       name: 'My Title 2',
       publicationType: 'book',
-      publisherName: "The Frontside"
+      publisherName: 'The Frontside'
     });
 
     resources[1].update({

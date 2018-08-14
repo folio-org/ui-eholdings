@@ -56,7 +56,7 @@ class PackageShowRoute extends Component {
     pkgSearchParams: {}
   }
 
-  componentDidUpdate(prevProps, prevState) {
+  componentDidUpdate(prevProps) {
     let { model: next, match, getPackage, unloadResources } = this.props;
     let { model: old, match: oldMatch } = prevProps;
     let { packageId } = match.params;
