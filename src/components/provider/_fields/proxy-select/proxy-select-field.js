@@ -36,6 +36,7 @@ export default function ProxySelectField({ proxyTypes, rootProxy }) {
         component={Select}
         dataOptions={options}
         label="Proxy"
+        disabled={options.length < 2}
       />
     </div>
   );

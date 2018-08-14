@@ -58,7 +58,7 @@ export default Factory.extend({
     if (!provider.proxy) {
       let proxy = server.create('proxy', {
         inherited: false,
-        id: 'Test-Proxy'
+        id: 'bigTestJS'
       });
       provider.update('proxy', proxy.toJSON());
       provider.save();
