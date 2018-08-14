@@ -8,10 +8,16 @@ import {
   text,
   is,
   attribute,
-  action
+  action,
+  isPresent
 } from '@bigtest/interactor';
 
 import Toast from './toast';
+
+@interactor class ProviderEditNavigationModal {
+  cancelNavigation = clickable('[data-test-navigation-modal-dismiss]');
+  confirmNavigation = clickable('[data-test-navigation-modal-continue]');
+}
 
 @interactor class ProviderEditDropDown {
   clickDropDownButton = clickable('button');
@@ -23,6 +29,7 @@ import Toast from './toast';
 }
 
 @interactor class ProviderEditPage {
+  navigationModal = new ProviderEditNavigationModal('#navigation-modal');
   paneTitle = text('[data-test-eholdings-details-view-pane-title]');
   name = text('[data-test-eholdings-details-view-name="provider"]');
   nameHasFocus = is('[data-test-eholdings-details-view-name="provider"]', ':focus');
@@ -33,6 +40,7 @@ import Toast from './toast';
   });
   clickSave = clickable('[data-test-eholdings-provider-save-button]');
   isSaveDisabled = property('[data-test-eholdings-provider-save-button]', 'disabled');
+  hasErrors = isPresent('[data-test-eholdings-details-view-error="package"]');
 
   ProxySelectValue = value('[data-test-eholdings-provider-proxy-select] select');
   chooseRootProxy = fillable('[data-test-eholdings-provider-proxy-select] select');
