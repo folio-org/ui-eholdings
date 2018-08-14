@@ -57,9 +57,8 @@ class PackageShowRoute extends Component {
   }
 
   componentDidUpdate(prevProps, prevState) {
-    let { model: next, match, getPackage, unloadResources, getPackageTitles } = this.props;
+    let { model: next, match, getPackage, unloadResources } = this.props;
     let { model: old, match: oldMatch } = prevProps;
-    let { pkgSearchParams, page } = this.state;
     let { packageId } = match.params;
 
     if (!prevProps.model.destroy.isResolved && this.props.model.destroy.isResolved) {
@@ -80,12 +79,6 @@ class PackageShowRoute extends Component {
       // if an update just resolved, unfetch the package titles
     } else if (next.update.isResolved && old.update.isPending) {
       unloadResources(next.resources);
-    }
-
-    if (pkgSearchParams !== prevState.pkgSearchParams || page !== prevState.page) {
-      let params = transformTitleQueryParams({ ...pkgSearchParams });
-
-      getPackageTitles(packageId, { ...params, page });
     }
   }
   /* This method is common between package-show and package-edit routes
@@ -124,14 +117,28 @@ class PackageShowRoute extends Component {
     }
   };
 
-  fetchPackageTitles = (page) => {
-    this.setState({ page, queryId: ++this.state.queryId });
+
+  fetchPackageTitles = () => {
+    let { getPackageTitles, match } = this.props;
+    let { pkgSearchParams, page } = this.state;
+    let { packageId } = match.params;
+    let params = transformTitleQueryParams({ ...pkgSearchParams });
+
+    getPackageTitles(packageId, { ...params, page });
+  }
+
+  setPage = (page) => {
+    this.setState({ page, queryId: ++this.state.queryId }, () => {
+      this.fetchPackageTitles();
+    });
   };
 
   searchTitles = (pkgSearchParams) => {
     this.setState({
       pkgSearchParams,
       queryId: ++this.state.queryId
+    }, () => {
+      this.fetchPackageTitles();
     });
   }
 
@@ -142,7 +149,7 @@ class PackageShowRoute extends Component {
       <TitleManager record={this.props.model.name}>
         <View
           model={this.props.model}
-          fetchPackageTitles={this.fetchPackageTitles}
+          fetchPackageTitles={this.setPage}
           toggleSelected={this.toggleSelected}
           addPackageToHoldings={this.addPackageToHoldings}
           toggleHidden={this.toggleHidden}
