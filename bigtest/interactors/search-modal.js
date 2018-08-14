@@ -6,6 +6,7 @@ import {
   property,
   value,
   fillable,
+  selectable,
 } from '@bigtest/interactor';
 
 export default @interactor class SearchModal {
@@ -35,6 +36,8 @@ export default @interactor class SearchModal {
   });
 
   searchTitles = fillable('[data-test-title-search-field] input[name="search"]');
+
+  selectSearchField = selectable('[data-test-title-search-field] select');
 
   clearSearch = action(function () {
     return this

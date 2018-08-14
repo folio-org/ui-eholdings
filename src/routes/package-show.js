@@ -10,6 +10,17 @@ import Resource from '../redux/resource';
 import View from '../components/package/show';
 import SearchModal from '../components/search-modal';
 
+// TODO this is out of place.
+function transformTitleQueryParams(params) {
+  let { q, searchfield = 'name', filter = {}, ...searchParams } = params;
+
+  if (searchfield === 'title') { searchfield = 'name'; }
+
+  let searchfilter = { ...filter, [searchfield]: q };
+
+  return { ...searchParams, filter: searchfilter };
+}
+
 class PackageShowRoute extends Component {
   static propTypes = {
     match: PropTypes.shape({
@@ -72,7 +83,9 @@ class PackageShowRoute extends Component {
     }
 
     if (pkgSearchParams !== prevState.pkgSearchParams || page !== prevState.page) {
-      getPackageTitles(packageId, { ...pkgSearchParams, page });
+      let params = transformTitleQueryParams({ ...pkgSearchParams });
+
+      getPackageTitles(packageId, { ...params, page });
     }
   }
   /* This method is common between package-show and package-edit routes
