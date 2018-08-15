@@ -40,7 +40,7 @@ import Toast from './toast';
   });
   clickSave = clickable('[data-test-eholdings-provider-save-button]');
   isSaveDisabled = property('[data-test-eholdings-provider-save-button]', 'disabled');
-  hasErrors = isPresent('[data-test-eholdings-details-view-error="package"]');
+  hasErrors = isPresent('[data-test-eholdings-details-view-error="provider"]');
 
   ProxySelectValue = value('[data-test-eholdings-provider-proxy-select] select');
   chooseRootProxy = fillable('[data-test-eholdings-provider-proxy-select] select');

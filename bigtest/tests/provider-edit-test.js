@@ -96,4 +96,47 @@ describeApplication('ProviderEdit', () => {
       });
     });
   });
+  describe('encountering a server error when PUTting a provider', () => {
+    beforeEach(function () {
+      this.server.put('/providers/:id', {
+        errors: [{
+          title: 'There was an error'
+        }]
+      }, 500);
+
+      return this.visit(`/eholdings/providers/${provider.id}/edit`, () => {
+        expect(ProviderEditPage.$root).to.exist;
+      });
+    });
+
+    describe('entering valid data and clicking save', () => {
+      beforeEach(() => {
+        return ProviderEditPage
+          .chooseRootProxy('bigTestJS')
+          .clickSave();
+      });
+
+      it('pops up an error', () => {
+        expect(ProviderEditPage.toast.errorText).to.equal('There was an error');
+      });
+    });
+  });
+
+  describe('encountering a server error when GETting a provider', () => {
+    beforeEach(function () {
+      this.server.get('/providers/:id', {
+        errors: [{
+          title: 'There was an error'
+        }]
+      }, 500);
+
+      return this.visit(`/eholdings/providers/${provider.id}/edit`, () => {
+        expect(ProviderEditPage.$root).to.exist;
+      });
+    });
+
+    it('dies with dignity', () => {
+      expect(ProviderEditPage.hasErrors).to.be.true;
+    });
+  });
 });
