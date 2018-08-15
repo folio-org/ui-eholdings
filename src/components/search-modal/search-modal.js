@@ -85,7 +85,7 @@ class SearchModal extends React.PureComponent {
     });
   }
 
-  handleSerchFieldChange = (searchfield) => {
+  handleSearchFieldChange = (searchfield) => {
     this.setState({
       query: normalize({
         ...this.state.query,
@@ -180,7 +180,7 @@ class SearchModal extends React.PureComponent {
               displaySearchButton={false}
               onFilterChange={this.handleFilterChange}
               onSearchChange={this.handleSearchQueryChange}
-              onSearchFieldChange={this.handleSerchFieldChange}
+              onSearchFieldChange={this.handleSearchFieldChange}
             />
           </Modal>
         )}
