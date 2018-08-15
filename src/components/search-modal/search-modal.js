@@ -4,22 +4,26 @@ import isEqual from 'lodash/isEqual';
 import { injectIntl, intlShape } from 'react-intl';
 
 import {
-  Badge,
-  IconButton,
   Modal,
   ModalFooter,
 } from '@folio/stripes-components';
 
 import SearchForm from '../search-form';
-import styles from './search-modal.css';
+import SearchBadge from './search-badge';
 
-const normalize = (query = {}) => {
+export const normalize = (query = {}) => {
   return {
     filter: query.filter || {},
     q: query.q || '',
     searchfield: query.searchfield,
     sort: query.sort
   };
+};
+
+export const filterCountFromQuery = ({ q, sort, filter }) => {
+  return [q, sort]
+    .concat(Object.values(filter))
+    .filter(Boolean).length;
 };
 
 class SearchModal extends React.PureComponent {
@@ -114,26 +118,13 @@ class SearchModal extends React.PureComponent {
 
     let queryFromProps = normalize(this.props.query);
 
-    let filterCount = [queryFromProps.q, queryFromProps.sort]
-      .concat(Object.values(queryFromProps.filter))
-      .filter(Boolean).length;
+    let filterCount = filterCountFromQuery(queryFromProps);
 
     let hasChanges = !isEqual(queryFromProps, query);
 
     return (
       <Fragment>
-        <div className={styles['search-filter-area']} data-test-eholdings-details-view-filters>
-          {filterCount > 0 && (
-            <span data-test-eholdings-details-view-filters-badge>
-              <Badge className={styles['filter-count']}>{filterCount}</Badge>
-            </span>
-          )}
-          <IconButton
-            icon="search"
-            onClick={this.toggle}
-            data-test-eholdings-details-view-search
-          />
-        </div>
+        <SearchBadge filterCount={filterCount} onClick={this.toggle} />
 
         {isModalVisible && (
           <Modal

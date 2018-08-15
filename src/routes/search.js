@@ -15,6 +15,7 @@ import PackageSearchList from '../components/package-search-list';
 import TitleSearchList from '../components/title-search-list';
 import SearchPaneset from '../components/search-paneset';
 import SearchForm from '../components/search-form';
+import { filterCountFromQuery } from '../components/search-modal';
 
 class SearchRoute extends Component { // eslint-disable-line react/no-deprecated
   static propTypes = {
@@ -315,7 +316,7 @@ class SearchRoute extends Component { // eslint-disable-line react/no-deprecated
 
     if (searchType) {
       let results = this.getResults();
-
+      
       return (
         <TitleManager record={capitalize(searchType)}>
           <div data-test-eholdings>
