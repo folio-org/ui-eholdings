@@ -58,10 +58,10 @@ class ProviderShowRoute extends Component {
   }
 
   searchPackages = (pkgSearchParams) => {
-    this.setState({
+    this.setState(({ queryId }) => ({
       pkgSearchParams,
-      queryId: ++this.state.queryId
-    });
+      queryId: (queryId + 1)
+    }));
   };
 
   fetchPackages = (page) => {
