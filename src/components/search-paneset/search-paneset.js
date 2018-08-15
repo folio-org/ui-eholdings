@@ -2,7 +2,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import {
   Button,
-  IconButton,
   PaneHeader,
   PaneMenu
 } from '@folio/stripes-components';
@@ -16,6 +15,7 @@ import PreviewPane from '../preview-pane';
 import SearchPaneVignette from '../search-pane-vignette';
 import Link from '../link';
 import styles from './search-paneset.css';
+import SearchBadge from '../search-modal/search-badge';
 
 export default class SearchPaneset extends React.Component { // eslint-disable-line react/no-deprecated
   static propTypes = {
@@ -50,23 +50,6 @@ export default class SearchPaneset extends React.Component { // eslint-disable-l
   componentDidMount() {
     if (this.props.resultsView && !this.props.detailsView) {
       this.$title.current.focus();
-    }
-  }
-
-  componentWillReceiveProps({ resultsType, location }) {
-    let isSameLocation = location.search === this.props.location.search;
-
-    if (!isSameLocation) {
-      let isSameSearchType = resultsType === this.props.resultsType;
-
-      if (isSameSearchType) {
-        let { ...nextSearchParams } = qs.parse(location.search);
-        let { ...searchParams } = qs.parse(this.props.location.search);
-
-        let searchTermChanged = nextSearchParams.q !== searchParams.q;
-
-        this.props.updateFilters(() => searchTermChanged);
-      }
     }
   }
 
@@ -167,10 +150,7 @@ export default class SearchPaneset extends React.Component { // eslint-disable-l
                 paneTitleRef={this.$title}
                 firstMenu={
                   <div className={styles['results-pane-search-toggle']}>
-                    <IconButton
-                      onClick={this.toggleFilters}
-                      icon="search"
-                    />
+                    <SearchBadge onClick={this.toggleFilters} />
                   </div>
                 }
                 lastMenu={newButton}
