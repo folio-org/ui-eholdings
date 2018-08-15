@@ -8,7 +8,6 @@ import {
 import capitalize from 'lodash/capitalize';
 import { FormattedMessage } from 'react-intl';
 
-import { qs } from '../utilities';
 import SearchPane from '../search-pane';
 import ResultsPane from '../results-pane';
 import PreviewPane from '../preview-pane';
@@ -25,6 +24,7 @@ export default class SearchPaneset extends React.Component { // eslint-disable-l
     resultsView: PropTypes.node,
     detailsView: PropTypes.node,
     totalResults: PropTypes.number,
+    filterCount: PropTypes.number,
     isLoading: PropTypes.bool,
     location: PropTypes.shape({
       pathname: PropTypes.string.isRequired,
@@ -91,7 +91,8 @@ export default class SearchPaneset extends React.Component { // eslint-disable-l
       detailsView,
       totalResults,
       isLoading,
-      hideFilters
+      hideFilters,
+      filterCount
     } = this.props;
 
     hideFilters = hideFilters && !!resultsView;
@@ -150,7 +151,7 @@ export default class SearchPaneset extends React.Component { // eslint-disable-l
                 paneTitleRef={this.$title}
                 firstMenu={
                   <div className={styles['results-pane-search-toggle']}>
-                    <SearchBadge onClick={this.toggleFilters} />
+                    <SearchBadge onClick={this.toggleFilters} filterCount={filterCount} />
                   </div>
                 }
                 lastMenu={newButton}

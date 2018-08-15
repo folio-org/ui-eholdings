@@ -2,6 +2,6 @@
   display: flex;
 
   & .filter-count {
-    margin: 0.75em 0;
+    margin: 0.75em 0 0.75em 0.75em;
   }
 }

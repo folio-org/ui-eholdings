@@ -22,7 +22,7 @@ export const normalize = (query = {}) => {
 
 export const filterCountFromQuery = ({ q, sort, filter }) => {
   return [q, sort]
-    .concat(Object.values(filter))
+    .concat(Object.values(filter || []))
     .filter(Boolean).length;
 };
 
