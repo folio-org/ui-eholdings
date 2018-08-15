@@ -130,7 +130,7 @@ class PackageShow extends Component {
 
     let actionMenuItems = [
       {
-        label:<FormattedMessage id="ui-eholdings.actionMenu.edit" />,
+        label: <FormattedMessage id="ui-eholdings.actionMenu.edit" />,
         to: {
           pathname: `/eholdings/packages/${model.id}/edit`,
           search: router.route.location.search,
