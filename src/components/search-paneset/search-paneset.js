@@ -116,6 +116,9 @@ export default class SearchPaneset extends React.Component { // eslint-disable-l
 
     let showApply = resultsView && !hideFilters;
 
+    // do not show filter count when filters are open
+    filterCount = hideFilters ? filterCount : 0;
+
     return (
       <div className={styles['search-paneset']}>
 
@@ -151,7 +154,10 @@ export default class SearchPaneset extends React.Component { // eslint-disable-l
                 paneTitleRef={this.$title}
                 firstMenu={
                   <div className={styles['results-pane-search-toggle']}>
-                    <SearchBadge onClick={this.toggleFilters} filterCount={filterCount} />
+                    <SearchBadge
+                      onClick={this.toggleFilters}
+                      filterCount={filterCount}
+                    />
                   </div>
                 }
                 lastMenu={newButton}
