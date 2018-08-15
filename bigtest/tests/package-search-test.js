@@ -72,10 +72,6 @@ describeApplication('PackageSearch', () => {
       expect(PackageSearchPage.totalResults).to.equal('3 search results');
     });
 
-    it.skip('hides search filters on smaller screen sizes (due to new search term)', () => {
-      expect(PackageSearchPage.isSearchVignetteHidden).to.equal(true);
-    });
-
     describe('clicking a search results list item', () => {
       beforeEach(() => {
         return PackageSearchPage.packageList(0).clickThrough();
@@ -115,10 +111,6 @@ describeApplication('PackageSearch', () => {
           // to the history. Ensuring the back button works as expected
           let history = this.app.history;
           expect(history.entries[history.index - 1].search).to.include('q=Package');
-        });
-
-        it.skip('hides search filters on smaller screen sizes (due to new search term)', () => {
-          expect(PackageSearchPage.isSearchVignetteHidden).to.equal(true);
         });
       });
 

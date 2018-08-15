@@ -24,8 +24,8 @@ import SearchModal from './search-modal';
   clickCollapseAllButton = clickable('[data-test-eholdings-details-view-collapse-all-button] button');
   hasErrors = isPresent('[data-test-eholdings-details-view-error="provider"]');
   errorMessage = text('[data-test-eholdings-details-view-error="provider"]');
-  clickListSearch = clickable('[data-test-eholdings-details-view-search]');
-  numFilters = text('[data-test-eholdings-details-view-filters]');
+  clickListSearch = clickable('[data-test-eholdings-search-filters="icon"]');
+  numFilters = text('[data-test-eholdings-search-filters="badge"]');
   filterBadge = isPresent('[data-test-eholdings-details-view-filters-badge]');
 
   toast = Toast;
