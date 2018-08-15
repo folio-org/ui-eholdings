@@ -135,46 +135,44 @@ class SearchModal extends React.PureComponent {
           />
         </div>
 
-        {isModalVisible && (
-          <Modal
-            open
-            size="small"
-            label={intl.formatMessage({ id: 'ui-eholdings.filter.filterType' }, { listType })}
-            onClose={this.close}
-            id="eholdings-details-view-search-modal"
-            closeOnBackgroundClick
-            dismissible
-            footer={
-              <ModalFooter
-                primaryButton={{
-                  'label': intl.formatMessage({ id: 'ui-eholdings.label.search' }),
-                  'onClick': this.updateSearch,
-                  'disabled': !hasChanges,
-                  'data-test-eholdings-modal-search-button': true
-                }}
-                secondaryButton={{
-                  'label': intl.formatMessage({ id: 'ui-eholdings.filter.resetAll' }),
-                  'onClick': this.resetSearch,
-                  'disabled': isEqual(normalize({}), this.state.query),
-                  'data-test-eholdings-modal-reset-all-button': true
-                }}
-              />
-            }
-          >
-            <SearchForm
-              searchType={listType}
-              searchString={query.q}
-              searchFilter={query.filter}
-              searchField={query.searchField}
-              sort={query.sort}
-              onSearch={this.handleListSearch}
-              displaySearchTypeSwitcher={false}
-              displaySearchButton={false}
-              onFilterChange={this.handleFilterChange}
-              onSearchChange={this.handleSearchQueryChange}
+        <Modal
+          open={isModalVisible}
+          size="small"
+          label={intl.formatMessage({ id: 'ui-eholdings.filter.filterType' }, { listType })}
+          onClose={this.close}
+          id="eholdings-details-view-search-modal"
+          closeOnBackgroundClick
+          dismissible
+          footer={
+            <ModalFooter
+              primaryButton={{
+                'label': intl.formatMessage({ id: 'ui-eholdings.label.search' }),
+                'onClick': this.updateSearch,
+                'disabled': !hasChanges,
+                'data-test-eholdings-modal-search-button': true
+              }}
+              secondaryButton={{
+                'label': intl.formatMessage({ id: 'ui-eholdings.filter.resetAll' }),
+                'onClick': this.resetSearch,
+                'disabled': isEqual(normalize({}), this.state.query),
+                'data-test-eholdings-modal-reset-all-button': true
+              }}
             />
-          </Modal>
-        )}
+          }
+        >
+          <SearchForm
+            searchType={listType}
+            searchString={query.q}
+            searchFilter={query.filter}
+            searchField={query.searchField}
+            sort={query.sort}
+            onSearch={this.handleListSearch}
+            displaySearchTypeSwitcher={false}
+            displaySearchButton={false}
+            onFilterChange={this.handleFilterChange}
+            onSearchChange={this.handleSearchQueryChange}
+          />
+        </Modal>
       </Fragment>
     );
   }
