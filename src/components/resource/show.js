@@ -95,9 +95,9 @@ class ResourceShow extends Component {
     } = this.state;
 
     let isSelectInFlight = model.update.isPending && 'isSelected' in model.update.changedAttributes;
-    let visibilityMessage = model.package.visibilityData.isHidden
-      ? '(All titles in this package are hidden)'
-      : model.visibilityData.reason && `(${model.visibilityData.reason})`;
+    let visibilityMessage = model.package.visibilityData.isHidden ?
+      intl.formatMessage({ id: 'ui-eholdings.resource.visibilityData.isHidden' }) :
+      model.visibilityData.reason && `(${model.visibilityData.reason})`;
 
     let hasManagedCoverages = model.managedCoverages.length > 0 &&
       isValidCoverageList(model.managedCoverages);
@@ -190,8 +190,7 @@ class ResourceShow extends Component {
                       <Icon icon='spinner-ellipsis' />
                     ) : (
                       <h4>{resourceSelected ?
-                        (<FormattedMessage id="ui-eholdings.selected" />)
-                          :
+                        (<FormattedMessage id="ui-eholdings.selected" />) :
                         (<FormattedMessage id="ui-eholdings.notSelected" />)}
                       </h4>
                     )
@@ -261,13 +260,17 @@ class ResourceShow extends Component {
 
                     <KeyValue label={<FormattedMessage id="ui-eholdings.label.peerReviewed" />}>
                       <div data-test-eholdings-peer-reviewed-field>
-                        {model.title.isPeerReviewed ? 'Yes' : 'No'}
+                        {model.title.isPeerReviewed ?
+                          (<FormattedMessage id="ui-eholdings.yes" />) :
+                          (<FormattedMessage id="ui-eholdings.no" />)}
                       </div>
                     </KeyValue>
 
                     <KeyValue label={<FormattedMessage id="ui-eholdings.label.titleType" />}>
                       <div data-test-eholdings-package-details-type>
-                        {model.title.isTitleCustom ? 'Custom' : 'Managed'}
+                        {model.title.isTitleCustom ?
+                          (<FormattedMessage id="ui-eholdings.custom" />) :
+                          (<FormattedMessage id="ui-eholdings.managed" />)}
                       </div>
                     </KeyValue>
 
@@ -293,7 +296,7 @@ class ResourceShow extends Component {
                     </KeyValue>
 
                     {model.package.contentType && (
-                      <KeyValue label="Package content type">
+                      <KeyValue label={<FormattedMessage id="ui-eholdings.resource.packageContentType" />}>
                         <div data-test-eholdings-resource-show-content-type>
                           {model.package.contentType}
                         </div>
@@ -311,9 +314,12 @@ class ResourceShow extends Component {
               >
                 <KeyValue label={<FormattedMessage id="ui-eholdings.label.showToPatrons" />}>
                   <div data-test-eholdings-resource-show-visibility>
-                    {model.visibilityData.isHidden || !resourceSelected
-                      ? `No ${visibilityMessage}`
-                      : 'Yes'}
+                    {model.visibilityData.isHidden || !resourceSelected ?
+                      (<FormattedMessage
+                        id="ui-eholdings.package.visibility.no"
+                        values={{ visibilityMessage }}
+                      />) :
+                      (<FormattedMessage id="ui-eholdings.yes" />)}
                   </div>
                 </KeyValue>
 

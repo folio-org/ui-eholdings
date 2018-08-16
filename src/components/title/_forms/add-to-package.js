@@ -20,14 +20,14 @@ AddTitleToPackageForm.propTypes = {
   packageOptions: PropTypes.array.isRequired
 };
 
-function validate(values) {
+function validate(values, props) {
   return Object.assign({},
-    validatePackage(values),
-    validateURL(values));
+    validatePackage(values, props),
+    validateURL(values, props));
 }
 
 export default reduxForm({
-  form: 'AppTitleToPackage',
+  form: 'AddTitleToPackage',
   enableReinitialize: true,
   destroyOnUnmount: false,
   validate

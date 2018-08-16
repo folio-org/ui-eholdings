@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import { FormattedMessage, intlShape, injectIntl } from 'react-intl';
 import Link from 'react-router-dom/Link';
 import capitalize from 'lodash/capitalize';
 import {
@@ -14,14 +15,7 @@ import styles from './search-form.css';
 
 const validSearchTypes = ['providers', 'packages', 'titles'];
 
-const searchableIndexes = [
-  { label: 'Title', value: 'title' },
-  { label: 'ISSN/ISBN', value: 'isxn' },
-  { label: 'Publisher', value: 'publisher' },
-  { label: 'Subject', value: 'subject' }
-];
-
-export default class SearchForm extends Component {
+class SearchForm extends Component {
   static propTypes = {
     searchType: PropTypes.oneOf(validSearchTypes).isRequired,
     searchTypeUrls: PropTypes.shape({
@@ -43,7 +37,8 @@ export default class SearchForm extends Component {
     isLoading: PropTypes.bool,
     onSearchChange: PropTypes.func.isRequired,
     onFilterChange: PropTypes.func.isRequired,
-    onSearchFieldChange: PropTypes.func
+    onSearchFieldChange: PropTypes.func,
+    intl: intlShape.isRequired
   };
 
   static defaultProps = {
@@ -101,12 +96,20 @@ export default class SearchForm extends Component {
       searchField,
       searchFilter,
       searchString,
-      sort
+      sort,
+      intl
     } = this.props;
     let Filters = this.getFiltersComponent(searchType);
     // sort is treated separately from the rest of the filters on submit,
     // but treated together when rendering the filters.
     let combinedFilters = { sort, ...searchFilter };
+
+    const searchableIndexes = [
+      { label: intl.formatMessage({ id: 'ui-eholdings.label.title' }), value: 'title' },
+      { label: intl.formatMessage({ id: 'ui-eholdings.label.isxn' }), value: 'isxn' },
+      { label: intl.formatMessage({ id: 'ui-eholdings.label.publisher' }), value: 'publisher' },
+      { label: intl.formatMessage({ id: 'ui-eholdings.label.subject' }), value: 'subject' }
+    ];
 
     return (
       <div className={styles['search-form-container']} data-test-search-form={searchType}>
@@ -115,7 +118,7 @@ export default class SearchForm extends Component {
             {validSearchTypes.map(type => (
               <Link
                 key={type}
-                title={`search ${type}`}
+                title={intl.formatMessage({ id: 'ui-eholdings.search.searchLink' }, { type })}
                 to={searchTypeUrls[type]}
                 className={searchType === type ? styles['is-active'] : undefined}
                 data-test-search-type-button={type}
@@ -136,8 +139,8 @@ export default class SearchForm extends Component {
                 onChange={this.handleChangeSearch}
                 onClear={this.handleClearSearch}
                 value={searchString}
-                placeholder={`Search ${searchType}...`}
-                ariaLabel={`Search ${searchType}`}
+                placeholder={intl.formatMessage({ id: 'ui-eholdings.search.searchType' }, { searchType })}
+                ariaLabel={intl.formatMessage({ id: 'ui-eholdings.search.searchType' }, { searchType })}
                 loading={isLoading}
               />
             </div>
@@ -148,8 +151,8 @@ export default class SearchForm extends Component {
                 onChange={this.handleChangeSearch}
                 onClear={this.handleClearSearch}
                 value={searchString}
-                placeholder={`Search ${searchType}...`}
-                ariaLabel={`Search ${searchType}`}
+                placeholder={intl.formatMessage({ id: 'ui-eholdings.search.searchType' }, { searchType })}
+                ariaLabel={intl.formatMessage({ id: 'ui-eholdings.search.searchType' }, { searchType })}
                 loading={isLoading}
               />
             </div>
@@ -162,7 +165,7 @@ export default class SearchForm extends Component {
               disabled={!searchString}
               data-test-search-submit
             >
-              Search
+              <FormattedMessage id="ui-eholdings.label.search" />
             </Button>
           )}
           {Filters && (
@@ -179,3 +182,4 @@ export default class SearchForm extends Component {
     );
   }
 }
+export default injectIntl(SearchForm);

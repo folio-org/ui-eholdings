@@ -22,15 +22,19 @@ EditionField.propTypes = {
 
 export default injectIntl(EditionField);
 
-export function validate(values) {
+export function validate(values, props) {
   const errors = {};
 
   if (values.edition && values.edition.trim() === '') {
-    errors.edition = 'Invalid value.';
+    errors.edition = props.intl.formatMessage({
+      id: 'ui-eholdings.validate.errors.edition.value'
+    });
   }
 
   if (values.edition && values.edition.length > 250) {
-    errors.edition = 'Value exceeds the 250 character limit.';
+    errors.edition = props.intl.formatMessage({
+      id: 'ui-eholdings.validate.errors.edition.length'
+    });
   }
 
   return errors;

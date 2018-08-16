@@ -172,7 +172,7 @@ class ResourceEditCustomTitle extends Component {
     }
 
     let visibilityMessage = model.package.visibilityData.isHidden
-      ? '(All titles in this package are hidden)'
+      ? (intl.formatMessage({ id: 'ui-eholdings.resource.visibilityData.isHidden' }))
       : model.visibilityData.reason && `(${model.visibilityData.reason})`;
 
     return (
@@ -323,9 +323,9 @@ class ResourceEditCustomTitle extends Component {
 const validate = (values, props) => {
   return Object.assign({},
     validateCoverageDates(values, props),
-    validateCoverageStatement(values),
-    validateUrlFields(values),
-    validateEmbargo(values));
+    validateCoverageStatement(values, props),
+    validateUrlFields(values, props),
+    validateEmbargo(values, props));
 };
 
 export default injectIntl(reduxForm({

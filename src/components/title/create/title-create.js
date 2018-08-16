@@ -96,7 +96,7 @@ class TitleCreate extends Component {
             firstMenu={historyState && historyState.eholdings && (
               <IconButton
                 icon="left-arrow"
-                ariaLabel="Go back"
+                ariaLabel={intl.formatMessage({ id: 'ui-eholdings.label.icon.goBack' })}
                 onClick={this.handleCancel}
                 data-test-eholdings-details-view-back-button
               />
@@ -149,12 +149,12 @@ class TitleCreate extends Component {
 const validate = (values, props) => {
   return Object.assign({},
     validateName(values, props),
-    validateContributor(values),
-    validateEdition(values),
-    validatePublisherName(values),
-    validateIdentifiers(values),
-    validateDescription(values),
-    validatePackageSelection(values));
+    validateContributor(values, props),
+    validateEdition(values, props),
+    validatePublisherName(values, props),
+    validateIdentifiers(values, props),
+    validateDescription(values, props),
+    validatePackageSelection(values, props));
 };
 
 export default injectIntl(reduxForm({

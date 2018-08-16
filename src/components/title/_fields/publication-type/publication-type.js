@@ -12,20 +12,20 @@ function PublicationTypeField({ intl }) {
         component={Select}
         label={intl.formatMessage({ id: 'ui-eholdings.title.publicationType' })}
         dataOptions={[
-          { value: 'Audio Book', label: 'Audio Book' },
-          { value: 'Book', label: 'Book' },
-          { value: 'Book Series', label: 'Book Series' },
-          { value: 'Database', label: 'Database' },
-          { value: 'Journal', label: 'Journal' },
-          { value: 'Newsletter', label: 'Newsletter' },
-          { value: 'Newspaper', label: 'Newspaper' },
-          { value: 'Proceedings', label: 'Proceedings' },
-          { value: 'Report', label: 'Report' },
-          { value: 'Streaming Audio', label: 'Streaming Audio' },
-          { value: 'Streaming Video', label: 'Streaming Video' },
-          { value: 'Thesis/Dissertation', label: 'Thesis/Disseration' },
-          { value: 'Unspecified', label: 'Unspecified' },
-          { value: 'Web Site', label: 'Web Site' }
+          { value: 'Audio Book', label: intl.formatMessage({ id: 'ui-eholdings.filter.pubType.audioBook' }) },
+          { value: 'Book', label: intl.formatMessage({ id: 'ui-eholdings.filter.pubType.book' }) },
+          { value: 'Book Series', label: intl.formatMessage({ id: 'ui-eholdings.filter.pubType.bookSeries' }) },
+          { value: 'Database', label: intl.formatMessage({ id: 'ui-eholdings.filter.pubType.database' }) },
+          { value: 'Journal', label: intl.formatMessage({ id: 'ui-eholdings.filter.pubType.journal' }) },
+          { value: 'Newsletter', label: intl.formatMessage({ id: 'ui-eholdings.filter.pubType.newsletter' }) },
+          { value: 'Newspaper', label: intl.formatMessage({ id: 'ui-eholdings.filter.pubType.newspaper' }) },
+          { value: 'Proceedings', label: intl.formatMessage({ id: 'ui-eholdings.filter.pubType.proceedings' }) },
+          { value: 'Report', label: intl.formatMessage({ id: 'ui-eholdings.filter.pubType.report' }) },
+          { value: 'Streaming Audio', label: intl.formatMessage({ id: 'ui-eholdings.filter.pubType.streamingAudio' }) },
+          { value: 'Streaming Video', label: intl.formatMessage({ id: 'ui-eholdings.filter.pubType.streamingVideo' }) },
+          { value: 'Thesis/Dissertation', label: intl.formatMessage({ id: 'ui-eholdings.filter.pubType.thesisdissertation' }) },
+          { value: 'Unspecified', label: intl.formatMessage({ id: 'ui-eholdings.filter.pubType.unspecified' }) },
+          { value: 'Web Site', label: intl.formatMessage({ id: 'ui-eholdings.filter.pubType.website' }) }
         ]}
       />
     </div>

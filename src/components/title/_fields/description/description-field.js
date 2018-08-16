@@ -22,11 +22,13 @@ DescriptionField.propTypes = {
 
 export default injectIntl(DescriptionField);
 
-export function validate(values) {
+export function validate(values, props) {
   const errors = {};
 
   if (values.description && values.description.length > 1500) {
-    errors.description = 'The value entered exceeds the 1500 character limit. Please enter a value that does not exceed 1500 characters.';
+    errors.description = props.intl.formatMessage({
+      id: 'ui-eholdings.validate.errors.title.description.length'
+    });
   }
 
   return errors;

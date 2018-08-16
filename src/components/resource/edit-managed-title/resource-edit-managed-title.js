@@ -181,7 +181,7 @@ class ResourceEditManagedTitle extends Component { // eslint-disable-line react/
     }
 
     let visibilityMessage = model.package.visibilityData.isHidden
-      ? '(All titles in this package are hidden)'
+      ? (intl.formatMessage({ id: 'ui-eholdings.resource.visibilityData.isHidden' }))
       : model.visibilityData.reason && `(${model.visibilityData.reason})`;
 
     return (
@@ -322,7 +322,7 @@ class ResourceEditManagedTitle extends Component { // eslint-disable-line react/
 }
 
 const validate = (values, props) => {
-  return Object.assign({}, validateCoverageDates(values, props), validateCoverageStatement(values), validateEmbargo(values));
+  return Object.assign({}, validateCoverageDates(values, props), validateCoverageStatement(values, props), validateEmbargo(values, props));
 };
 
 export default injectIntl(reduxForm({

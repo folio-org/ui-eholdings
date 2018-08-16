@@ -74,7 +74,7 @@ class TitleShow extends Component {
   }
 
   get lastMenu() {
-    let { model } = this.props;
+    let { model, intl } = this.props;
     let { router } = this.context;
 
     if (model.isTitleCustom) {
@@ -82,7 +82,11 @@ class TitleShow extends Component {
         <IconButton
           data-test-eholdings-title-edit-link
           icon="edit"
-          ariaLabel={`Edit ${model.name}`}
+          ariaLabel={
+            intl.formatMessage(
+              { id: 'ui-eholdings.title.editCustomTitle' },
+              { name: model.name }
+            )}
           to={{
             pathname: `/eholdings/titles/${model.id}/edit`,
             search: router.route.location.search,
@@ -96,7 +100,7 @@ class TitleShow extends Component {
   }
 
   get toasts() {
-    let { model, intl } = this.props;
+    let { model } = this.props;
     let { router } = this.context;
     let toasts = processErrors(model);
 
@@ -106,7 +110,7 @@ class TitleShow extends Component {
         router.history.location.state.isNewRecord) {
       toasts.push({
         id: `success-title-${model.id}`,
-        message: intl.formatMessage({ id: 'ui-eholdings.title.toast.isNewRecord' }),
+        message: <FormattedMessage id="ui-eholdings.title.toast.isNewRecord" />,
         type: 'success'
       });
     }
@@ -117,7 +121,7 @@ class TitleShow extends Component {
         router.history.location.state.isFreshlySaved) {
       toasts.push({
         id: `success-title-saved-${model.id}`,
-        message: intl.formatMessage({ id: 'ui-eholdings.title.toast.isFreshlySaved' }),
+        message: <FormattedMessage id="ui-eholdings.title.toast.isFreshlySaved" />,
         type: 'success'
       });
     }
@@ -307,6 +311,7 @@ class TitleShow extends Component {
             ref={(form) => { addToPackageForm = form; }}
             packageOptions={this.customPackageOptions}
             onSubmit={addCustomPackage}
+            {...this.props}
           />
         </Modal>
       </div>

@@ -70,7 +70,7 @@ class SettingsRootProxy extends Component {
         rootProxy.update.isResolved) {
       toasts.push({
         id: `root-proxy-${rootProxy.update.timestamp}`,
-        message: 'Root Proxy updated',
+        message: <FormattedMessage id="ui-eholdings.settings.rootProxy.updated" />,
         type: 'success'
       });
     }
@@ -92,7 +92,7 @@ class SettingsRootProxy extends Component {
         className={styles['settings-root-proxy-form']}
       >
         <SettingsDetailPane
-          paneTitle="Root proxy"
+          paneTitle={intl.formatMessage({ id: 'ui-eholdings.settings.rootProxy' })}
           actionMenuItems={actionMenuItems}
           lastMenu={(
             <Fragment>
@@ -114,7 +114,7 @@ class SettingsRootProxy extends Component {
           )}
         >
           <Toaster toasts={toasts} position="bottom" />
-          <h3>Root Proxy Setting</h3>
+          <h3><FormattedMessage id="ui-eholdings.settings.rootProxy.setting" /></h3>
 
           {proxyTypes.isLoading ? (
             <Icon icon="spinner-ellipsis" />

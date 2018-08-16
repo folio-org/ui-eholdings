@@ -22,11 +22,11 @@ PublisherNameField.propTypes = {
 
 export default injectIntl(PublisherNameField);
 
-export function validate(values) {
+export function validate(values, { intl }) {
   const errors = {};
 
   if (values.publisherName && values.publisherName.length > 250) {
-    errors.publisherName = 'The value entered exceeds the 250 character limit. Please enter a value that does not exceed 250 characters.';
+    errors.publisherName = intl.formatMessage({ id: 'ui-eholdings.validate.errors.publisherName.length' });
   }
 
   return errors;

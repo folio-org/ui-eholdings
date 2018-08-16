@@ -220,7 +220,7 @@ class PackageShow extends Component {
             <IconButton
               data-test-eholdings-package-edit-link
               icon="edit"
-              ariaLabel={`Edit ${model.name}`}
+              ariaLabel={intl.formatMessage({ id: 'ui-eholdings.label.editLink' }, { name: model.name })}
               to={{
                 pathname: `/eholdings/packages/${model.id}/edit`,
                 search: router.route.location.search,
@@ -300,7 +300,7 @@ class PackageShow extends Component {
                         {!model.visibilityData.isHidden ?
                           (<FormattedMessage id="ui-eholdings.yes" />)
                             :
-                          `No ${visibilityMessage}`}
+                          (<FormattedMessage id="ui-eholdings.package.visibility.no" values={{ visibilityMessage }} />)}
                       </div>
 
                       {model.visibilityData.isHidden && (
@@ -361,7 +361,7 @@ class PackageShow extends Component {
                                 month="numeric"
                                 day="numeric"
                               />
-                            ) : 'Present'}
+                            ) : (<FormattedMessage id="ui-eholdings.date.present" />)}
                           </div>
                         </KeyValue>
                       </div>

@@ -9,7 +9,7 @@ import {
   TextField
 } from '@folio/stripes-components';
 
-import { injectIntl, intlShape } from 'react-intl';
+import { injectIntl, intlShape, FormattedMessage } from 'react-intl';
 import styles from './identifiers-fields.css';
 
 class IdentifiersFields extends Component {
@@ -27,7 +27,7 @@ class IdentifiersFields extends Component {
 
     return (
       <fieldset className={styles['identifiers-fields']}>
-        <legend>Identifiers</legend>
+        <legend><FormattedMessage id="ui-eholdings.label.identifiers" /></legend>
 
         {fields.length === 0
           && initialValue.length > 0
@@ -57,10 +57,10 @@ class IdentifiersFields extends Component {
                     autoFocus={Object.keys(allFields.get(index)).length === 0}
                     label={intl.formatMessage({ id: 'ui-eholdings.type' })}
                     dataOptions={[
-                      { value: '0', label: 'ISSN (Online)' },
-                      { value: '1', label: 'ISSN (Print)' },
-                      { value: '2', label: 'ISBN (Online)' },
-                      { value: '3', label: 'ISBN (Print)' }
+                      { value: '0', label: intl.formatMessage({ id: 'ui-eholdings.label.identifier.issnOnline' }) },
+                      { value: '1', label: intl.formatMessage({ id: 'ui-eholdings.label.identifier.issnPrint' }) },
+                      { value: '2', label: intl.formatMessage({ id: 'ui-eholdings.label.identifier.isbnOnline' }) },
+                      { value: '3', label: intl.formatMessage({ id: 'ui-eholdings.label.identifier.isbnPrint' }) }
                     ]}
                   />
                 </div>
@@ -82,7 +82,8 @@ class IdentifiersFields extends Component {
                 >
                   <IconButton
                     icon="hollowX"
-                    ariaLabel={`Remove ${allFields.get(index).id}`}
+                    ariaLabel={
+                      intl.formatMessage({ id: 'ui-eholdings.label.removeItem' }, { item: `${allFields.get(index).id}` })}
                     onClick={() => fields.remove(index)}
                     size="small"
                   />
@@ -114,18 +115,18 @@ class IdentifiersFields extends Component {
   }
 }
 
-export function validate(values) {
+export function validate(values, { intl }) {
   let errors = [];
 
   values.identifiers.forEach((identifier, index) => {
     let identifierErrors = {};
 
     if (!identifier.id) {
-      identifierErrors.id = 'ID cannot be blank.';
+      identifierErrors.id = intl.formatMessage({ id: 'ui-eholdings.validate.errors.identifiers.noBlank' });
     }
 
     if (identifier.id && identifier.id.length >= 20) {
-      identifierErrors.id = 'Must be less than 20 characters.';
+      identifierErrors.id = intl.formatMessage({ id: 'ui-eholdings.validate.errors.identifiers.exceedsLength' });
     }
 
     errors[index] = identifierErrors;

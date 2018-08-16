@@ -1,20 +1,22 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Field } from 'redux-form';
+import { FormattedMessage, intlShape, injectIntl } from 'react-intl';
 
 import { RadioButtonGroup, RadioButton } from '@folio/stripes-components';
 import styles from './visibility-field.css';
 
-export default class VisibilityField extends Component {
+class VisibilityField extends Component {
   static propTypes = {
     disabled: PropTypes.oneOfType([
       PropTypes.bool,
       PropTypes.string
-    ])
+    ]),
+    intl: intlShape.isRequired
   };
 
   render() {
-    let { disabled } = this.props;
+    let { disabled, intl } = this.props;
     let disabledReason = typeof disabled === 'string' ? disabled : '';
 
     return (
@@ -24,14 +26,16 @@ export default class VisibilityField extends Component {
       >
         <Field
           name="isVisible"
-          label="Show to patrons"
+          label={<FormattedMessage id="ui-eholdings.label.showToPatrons" />}
           component={RadioButtonGroup}
           disabled={!!disabled}
         >
-          <RadioButton label="Yes" value="true" />
-          <RadioButton label={`No ${disabledReason}`} value="false" />
+          <RadioButton label={intl.formatMessage({ id: 'ui-eholdings.yes' })} value="true" />
+          <RadioButton label={intl.formatMessage({ id: 'ui-eholdings.label.no.reason' }, { disabledReason })} value="false" />
         </Field>
       </div>
     );
   }
 }
+
+export default injectIntl(VisibilityField);
