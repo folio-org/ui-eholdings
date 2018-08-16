@@ -30,9 +30,9 @@ class CustomEmbargoFields extends Component {
   }
 
   toggleInputs = () => {
-    this.setState({
-      'showInputs': !this.state.showInputs
-    });
+    this.setState(({ showInputs }) => ({
+      showInputs: !showInputs
+    }));
   }
 
   render() {

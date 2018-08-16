@@ -55,9 +55,9 @@ class Toaster extends Component {
   }
 
   destroyToast = (toastId) => {
-    let removedToast = this.state.toasts.filter(toast => toast.id !== toastId);
-
-    this.setState({ toasts: removedToast });
+    this.setState(({ toasts }) => ({
+      toasts: toasts.filter(toast => toast.id !== toastId)
+    }));
   }
 
   renderToasts() {

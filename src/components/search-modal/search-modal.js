@@ -90,22 +90,22 @@ class SearchModal extends React.PureComponent {
   }
 
   handleSearchQueryChange = q => {
-    this.setState({
+    this.setState(({ query }) => ({
       query: {
-        ...this.state.query,
+        ...query,
         q
       },
-    });
+    }));
   }
 
   handleFilterChange = (sort, filter) => {
-    this.setState({
+    this.setState(({ query }) => ({
       query: normalize({
         sort,
         filter,
-        q: this.state.query.q
+        q: query.q
       }),
-    });
+    }));
   }
 
   render() {
