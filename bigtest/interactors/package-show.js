@@ -17,6 +17,7 @@ import { getComputedStyle, hasClassBeginningWith } from './helpers';
 import Datepicker from './datepicker';
 import Toast from './toast';
 import SearchModal from './search-modal';
+import SearchBadge from './search-badge';
 import PackageSelectionStatus from './selection-status';
 
 @interactor class PackageShowModal {
@@ -42,8 +43,7 @@ import PackageSelectionStatus from './selection-status';
   modal = new PackageShowModal('#eholdings-package-confirmation-modal');
   searchModal = new SearchModal('#eholdings-details-view-search-modal');
   searchResultsCount = text('[data-test-eholdings-details-view-results-count]');
-  numFilters = text('[data-test-eholdings-details-view-filters]');
-  clickListSearch = clickable('[data-test-eholdings-details-view-search]');
+  clickListSearch = clickable('[data-test-eholdings-search-filters="icon"]');
   paneTitle = text('[data-test-eholdings-details-view-pane-title]');
   contentType = text('[data-test-eholdings-package-details-content-type]');
   name = text('[data-test-eholdings-details-view-name="package"]');
@@ -61,6 +61,7 @@ import PackageSelectionStatus from './selection-status';
   clickEditButton = clickable('[data-test-eholdings-package-edit-link]');
   dropDown= new PackageShowDropDown('[class*=paneHeaderCenterInner---] [class*=dropdown---]');
   dropDownMenu = new PackageShowDropDownMenu();
+  searchModalBadge = new SearchBadge('[data-test-eholdings-search-modal-badge]');
 
   detailPaneMouseWheel = triggerable('[data-test-eholdings-detail-pane-contents]', 'wheel', {
     bubbles: true,

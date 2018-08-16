@@ -81,7 +81,7 @@ describeApplication('Package Show Title Search', () => {
     });
 
     it('has no filters by default', () => {
-      expect(PackageShowPage.numFilters).to.equal('');
+      expect(PackageShowPage.searchModalBadge.filterText).to.equal('');
     });
 
     describe('searching for a title', () => {
