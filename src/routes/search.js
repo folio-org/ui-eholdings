@@ -15,6 +15,7 @@ import PackageSearchList from '../components/package-search-list';
 import TitleSearchList from '../components/title-search-list';
 import SearchPaneset from '../components/search-paneset';
 import SearchForm from '../components/search-form';
+import { filterCountFromQuery } from '../components/search-modal/search-modal';
 
 class SearchRoute extends Component { // eslint-disable-line react/no-deprecated
   static propTypes = {
@@ -65,7 +66,8 @@ class SearchRoute extends Component { // eslint-disable-line react/no-deprecated
       sort: params.sort,
       searchString: params.q,
       searchFilter: params.filter,
-      searchField: params.searchfield
+      searchField: params.searchfield,
+      hideFilters: !!params.q
     };
   }
 
@@ -121,6 +123,10 @@ class SearchRoute extends Component { // eslint-disable-line react/no-deprecated
   handleSearchFieldChange = searchField => {
     this.setState({ searchField });
   }
+
+  updateFilters = fn => this.setState({
+    hideFilters: fn(this.state.hideFilters)
+  })
 
   /**
    * Transforms UI params into search params
@@ -304,23 +310,32 @@ class SearchRoute extends Component { // eslint-disable-line react/no-deprecated
       sort,
       searchString,
       searchFilter,
-      searchField
+      searchField,
+      hideFilters
     } = this.state;
 
     if (searchType) {
       let results = this.getResults();
+
+      let filterCount = filterCountFromQuery({
+        sort: params.sort,
+        q: params.q,
+        filter: params.filter
+      });
 
       return (
         <TitleManager record={capitalize(searchType)}>
           <div data-test-eholdings>
             <SearchPaneset
               location={location}
-              hideFilters={!!params.q}
+              filterCount={filterCount}
+              hideFilters={hideFilters}
               resultsType={searchType}
               resultsView={this.renderResults()}
               detailsView={!hideDetails && children}
               totalResults={results.length}
               isLoading={!results.hasLoaded}
+              updateFilters={this.updateFilters}
               searchForm={(
                 <SearchForm
                   sort={sort}
