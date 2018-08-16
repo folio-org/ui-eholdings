@@ -72,10 +72,6 @@ describeApplication('ProviderSearch', () => {
       expect(ProviderSearchPage.totalResults).to.equal('3 search results');
     });
 
-    it('hides search filters on smaller screen sizes (due to new search term)', () => {
-      expect(ProviderSearchPage.isSearchVignetteHidden).to.equal(true);
-    });
-
     describe('clicking a search results list item', () => {
       beforeEach(() => {
         return ProviderSearchPage.providerList(0).clickThrough();
@@ -115,10 +111,6 @@ describeApplication('ProviderSearch', () => {
           // to the history. Ensuring the back button works as expected
           let history = this.app.history;
           expect(history.entries[history.index - 1].search).to.include('q=Provider');
-        });
-
-        it('hides search filters on smaller screen sizes (due to new search term)', () => {
-          expect(ProviderSearchPage.isSearchVignetteHidden).to.equal(true);
         });
       });
 
@@ -288,10 +280,6 @@ describeApplication('ProviderSearch', () => {
         expect(this.app.history.location.search).to.not.include('sort=relevance');
       });
 
-      it('hides search filters on smaller screen sizes (due to new search term)', () => {
-        expect(ProviderSearchPage.isSearchVignetteHidden).to.equal(true);
-      });
-
       describe('then filtering by sort options', () => {
         beforeEach(() => {
           return ProviderSearchPage.clickFilter('sort', 'name');
@@ -333,10 +321,6 @@ describeApplication('ProviderSearch', () => {
 
           it('shows the sort filter of name in the search form', () => {
             expect(ProviderSearchPage.sortBy).to.equal('name');
-          });
-
-          it('hides search filters on smaller screen sizes (due to new search term)', () => {
-            expect(ProviderSearchPage.isSearchVignetteHidden).to.equal(true);
           });
 
           describe('then clicking another search type', () => {

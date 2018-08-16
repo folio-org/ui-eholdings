@@ -13,6 +13,7 @@ import {
 } from '@bigtest/interactor';
 
 import Toast from './toast';
+import SearchBadge from './search-badge';
 
 @interactor class PackageSearchPage {
   fillSearch = fillable('[data-test-search-field] input[name="search"]');
@@ -36,6 +37,8 @@ import Toast from './toast';
   sortBy = value('[data-test-eholdings-search-filters="packages"] input[name="sort"]:checked');
   clickCloseButton = clickable('[data-test-eholdings-details-view-close-button]');
   hasPreSearchPane = isPresent('[data-test-eholdings-pre-search-pane]');
+  searchBadge = new SearchBadge('[data-test-eholdings-results-pane-search-badge]');
+  isSearchPanePresent = isPresent('[data-test-eholdings-search-pane]');
 
   toast = Toast;
 

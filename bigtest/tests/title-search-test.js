@@ -117,10 +117,6 @@ describeApplication('TitleSearch', () => {
       expect(TitleSearchPage.totalResults).to.equal('3 search results');
     });
 
-    it('hides search filters on smaller screen sizes (due to new search term)', () => {
-      expect(TitleSearchPage.isSearchVignetteHidden).to.equal(true);
-    });
-
     describe('clicking a search results list item', () => {
       beforeEach(() => {
         return TitleSearchPage.titleList(0).clickThrough();
@@ -160,10 +156,6 @@ describeApplication('TitleSearch', () => {
           // to the history. Ensuring the back button works as expected
           let history = this.app.history;
           expect(history.entries[history.index - 1].search).to.include('q=Title');
-        });
-
-        it('hides search filters on smaller screen sizes (due to new search term)', () => {
-          expect(TitleSearchPage.isSearchVignetteHidden).to.equal(true);
         });
       });
 
@@ -354,10 +346,6 @@ describeApplication('TitleSearch', () => {
       it('reflects the publisher searchfield in the URL query params', function () {
         expect(this.app.history.location.search).to.include('searchfield=publisher');
       });
-
-      it('hides search filters on smaller screen sizes (due to new search term)', () => {
-        expect(TitleSearchPage.isSearchVignetteHidden).to.equal(true);
-      });
     });
 
     describe('selecting a subject search field', () => {
@@ -374,10 +362,6 @@ describeApplication('TitleSearch', () => {
       it('reflects the subject searchfield in the URL query params', function () {
         expect(this.app.history.location.search).to.include('searchfield=subject');
       });
-
-      it('hides search filters on smaller screen sizes (due to new search term)', () => {
-        expect(TitleSearchPage.isSearchVignetteHidden).to.equal(true);
-      });
     });
 
     describe('selecting an isxn search field', () => {
@@ -393,10 +377,6 @@ describeApplication('TitleSearch', () => {
 
       it('reflects the isxn searchfield in the URL query params', function () {
         expect(this.app.history.location.search).to.include('searchfield=isxn');
-      });
-
-      it('hides search filters on smaller screen sizes (due to new search term)', () => {
-        expect(TitleSearchPage.isSearchVignetteHidden).to.equal(true);
       });
     });
 
@@ -478,10 +458,6 @@ describeApplication('TitleSearch', () => {
 
         it('shows the preview pane', () => {
           expect(TitleSearchPage.titlePreviewPaneIsPresent).to.be.true;
-        });
-
-        it('hides search filters on smaller screen sizes (due to new search term)', () => {
-          expect(TitleSearchPage.isSearchVignetteHidden).to.equal(true);
         });
       });
     });

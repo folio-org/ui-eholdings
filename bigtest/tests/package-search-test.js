@@ -72,13 +72,42 @@ describeApplication('PackageSearch', () => {
       expect(PackageSearchPage.totalResults).to.equal('3 search results');
     });
 
-    it.skip('hides search filters on smaller screen sizes (due to new search term)', () => {
-      expect(PackageSearchPage.isSearchVignetteHidden).to.equal(true);
+    describe('search badge', () => {
+      it('is present while search pane is open', () => {
+        expect(PackageSearchPage.isSearchPanePresent).to.be.true;
+        expect(PackageSearchPage.searchBadge.isPresent).to.be.true;
+      });
+
+      it('does not show the filter badge while search pane is open', () => {
+        expect(PackageSearchPage.isSearchPanePresent).to.be.true;
+        expect(PackageSearchPage.searchBadge.filterIsPresent).to.be.false;
+      });
+
+      describe('clicking on the search icon', () => {
+        beforeEach(() => PackageSearchPage.searchBadge.clickIcon());
+
+        it('closes the search pane', () => {
+          expect(PackageSearchPage.isSearchPanePresent).to.be.false;
+        });
+
+        it('shows the filter badge', () => {
+          expect(PackageSearchPage.searchBadge.filterIsPresent).to.be.true;
+        });
+
+        it('shows 1 filter', () => {
+          expect(PackageSearchPage.searchBadge.filterText).to.equal('1');
+        });
+      });
     });
+
 
     describe('clicking a search results list item', () => {
       beforeEach(() => {
         return PackageSearchPage.packageList(0).clickThrough();
+      });
+
+      it('still shows the search badge', () => {
+        expect(PackageSearchPage.searchBadge.isPresent).to.be.true;
       });
 
       it('clicked item has an active state', () => {
@@ -115,10 +144,6 @@ describeApplication('PackageSearch', () => {
           // to the history. Ensuring the back button works as expected
           let history = this.app.history;
           expect(history.entries[history.index - 1].search).to.include('q=Package');
-        });
-
-        it.skip('hides search filters on smaller screen sizes (due to new search term)', () => {
-          expect(PackageSearchPage.isSearchVignetteHidden).to.equal(true);
         });
       });
 
@@ -223,6 +248,18 @@ describeApplication('PackageSearch', () => {
 
         it.always('removes the filter from the URL query params', function () {
           expect(this.app.history.location.search).to.not.include('filter[type]');
+        });
+      });
+
+      describe('closing the filter', () => {
+        beforeEach(() => PackageSearchPage.searchBadge.clickIcon());
+
+        it('closed the search pane', () => {
+          expect(PackageSearchPage.isSearchPanePresent).to.be.false;
+        });
+
+        it('shows two filters in the badge', () => {
+          expect(PackageSearchPage.searchBadge.filterText).to.equal('2');
         });
       });
 

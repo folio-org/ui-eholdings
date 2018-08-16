@@ -11,6 +11,7 @@ import {
 
 import Toast from './toast';
 import SearchModal from './search-modal';
+import SearchBadge from './search-badge';
 
 @interactor class ProviderShowPage {
   paneTitle = text('[data-test-eholdings-details-view-pane-title]');
@@ -24,13 +25,14 @@ import SearchModal from './search-modal';
   clickCollapseAllButton = clickable('[data-test-eholdings-details-view-collapse-all-button] button');
   hasErrors = isPresent('[data-test-eholdings-details-view-error="provider"]');
   errorMessage = text('[data-test-eholdings-details-view-error="provider"]');
-  clickListSearch = clickable('[data-test-eholdings-details-view-search]');
-  numFilters = text('[data-test-eholdings-details-view-filters]');
+  clickListSearch = clickable('[data-test-eholdings-search-filters="icon"]');
+  numFilters = text('[data-test-eholdings-search-filters="badge"]');
   filterBadge = isPresent('[data-test-eholdings-details-view-filters-badge]');
   proxy = text('[data-test-eholdings-provider-details-proxy]');
 
   toast = Toast;
   searchModal = new SearchModal('#eholdings-details-view-search-modal');
+  searchModalBadge = new SearchBadge('[data-test-eholdings-search-modal-badge]');
 
   packageList = collection('[data-test-query-list="provider-packages"] li a', {
     name: text('[data-test-eholdings-package-list-item-name]'),
