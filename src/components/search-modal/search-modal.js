@@ -175,7 +175,7 @@ class SearchModal extends React.PureComponent {
               searchFilter={query.filter}
               searchField={query.searchfield}
               sort={query.sort}
-              onSearch={this.handleListSearch}
+              onSearch={this.updateSearch}
               displaySearchTypeSwitcher={false}
               displaySearchButton={false}
               onFilterChange={this.handleFilterChange}
