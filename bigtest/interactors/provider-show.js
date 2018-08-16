@@ -11,6 +11,7 @@ import {
 
 import Toast from './toast';
 import SearchModal from './search-modal';
+import SearchBadge from './search-badge';
 
 @interactor class ProviderShowPage {
   paneTitle = text('[data-test-eholdings-details-view-pane-title]');
@@ -30,6 +31,7 @@ import SearchModal from './search-modal';
 
   toast = Toast;
   searchModal = new SearchModal('#eholdings-details-view-search-modal');
+  searchModalBadge = new SearchBadge('[data-test-eholdings-search-modal-badge]');
 
   packageList = collection('[data-test-query-list="provider-packages"] li a', {
     name: text('[data-test-eholdings-package-list-item-name]'),

@@ -124,7 +124,7 @@ class SearchModal extends React.PureComponent {
 
     return (
       <Fragment>
-        <SearchBadge filterCount={filterCount} onClick={this.toggle} />
+        <SearchBadge data-test-eholdings-search-modal-badge filterCount={filterCount} onClick={this.toggle} />
 
         {isModalVisible && (
           <Modal

@@ -158,7 +158,7 @@ describeApplication('ProviderShow package search', () => {
     });
 
     it('displays updated filter count', () => {
-      expect(ProviderShowPage.numFilters).to.equal('1');
+      expect(ProviderShowPage.searchModalBadge.filterText).to.equal('1');
     });
 
     describe('then sorting by package name', () => {
@@ -205,7 +205,7 @@ describeApplication('ProviderShow package search', () => {
       });
 
       it('displays updated filter count', () => {
-        expect(ProviderShowPage.numFilters).to.equal('2');
+        expect(ProviderShowPage.searchModalBadge.filterText).to.equal('2');
       });
     });
 
@@ -221,7 +221,7 @@ describeApplication('ProviderShow package search', () => {
         expect(ProviderShowPage.packageList(0).name).to.equal('Ordinary Package');
       });
       it('displays updated filter count', () => {
-        expect(ProviderShowPage.numFilters).to.equal('2');
+        expect(ProviderShowPage.searchModalBadge.filterText).to.equal('2');
       });
     });
   });
