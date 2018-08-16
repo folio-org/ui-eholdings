@@ -127,17 +127,19 @@ export default class SearchPaneset extends React.Component { // eslint-disable-l
         )}
 
         {!hideFilters &&
-          <SearchPane>
-            <PaneHeader
-              paneTitle={(<FormattedMessage id="ui-eholdings.search.searchAndFilter" />)}
-              lastMenu={showApply ? (
-                <Button buttonStyle="transparent" onClick={this.toggleFilters} className={styles['search-pane-toggle']}>
-                  <FormattedMessage id="ui-eholdings.search.apply" />
-                </Button>
-              ) : null}
-            />
-            <div className={styles['scrollable-container']}>
-              {searchForm}
+          <SearchPane >
+            <div data-test-eholdings-search-pane>
+              <PaneHeader
+                paneTitle={(<FormattedMessage id="ui-eholdings.search.searchAndFilter" />)}
+                lastMenu={showApply ? (
+                  <Button buttonStyle="transparent" onClick={this.toggleFilters} className={styles['search-pane-toggle']}>
+                    <FormattedMessage id="ui-eholdings.search.apply" />
+                  </Button>
+                ) : null}
+              />
+              <div className={styles['scrollable-container']}>
+                {searchForm}
+              </div>
             </div>
           </SearchPane>
         }
@@ -155,6 +157,7 @@ export default class SearchPaneset extends React.Component { // eslint-disable-l
                 firstMenu={
                   <div className={styles['results-pane-search-toggle']}>
                     <SearchBadge
+                      data-test-eholdings-results-pane-search-badge
                       onClick={this.toggleFilters}
                       filterCount={filterCount}
                     />
