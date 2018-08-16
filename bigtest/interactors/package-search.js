@@ -39,7 +39,7 @@ import SearchBadge from './search-badge';
   hasPreSearchPane = isPresent('[data-test-eholdings-pre-search-pane]');
   searchBadge = new SearchBadge('[data-test-eholdings-results-pane-search-badge]');
   isSearchPanePresent = isPresent('[data-test-eholdings-search-pane]');
-  
+
   toast = Toast;
 
   hasLoaded = computed(function () {
