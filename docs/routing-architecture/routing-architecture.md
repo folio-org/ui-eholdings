@@ -159,7 +159,6 @@ As mentioned earlier, `ui-eholdings` returns a Route Component when a match is m
 
 So this Route definition: `<Route path={`${rootPath}/packages/:packageId`} exact component={PackageShow} />` would return the PackageShow Route Component.
 
-
 Route Components are responsible for dealing with fetching and sending data. This is a sample of the section of code for dealing with data.
 
 ```javascript
@@ -264,7 +263,7 @@ class PackageShow extends Component {
 }
 ```
 
-We said Route Components fetch, send, and handle data. Views have to use Routes to get data. Here is an example of the View requesting the Route to handle some data. The Route will kick off a request to update the data and return that update data back to the View.
+We said Route Components fetch, send, and handle data. Views have to go through the Routes to get data. Here is an example of the View requesting the Route to handle some data. The Route will kick off a request to update the data and return that update data back to the View.
 To send data the View invokes the function passed to it as a callback in props.
 
 ```javascript
@@ -338,3 +337,18 @@ The underling concept of seperating the concerns of fetching and sending data an
 - `Route and View Components`
 - `Container and Presentational Components`
 - `Smart and Dumb Components`.
+
+In addition, another note worthy point is the underpinnings of the `ui-eholdings` overall architecture it modeled from a another architectural pattern called MVC Model-View-Controller. The architectural design is not  1:1 mapping between the two but the fundamental concept are generally the same. In regards to `ui-eholdings` our Routes are like Controllers. They pull in Models. Models know what functions they can perform on data. And the Views display the data.
+
+If you would like to journey further into MVC and URLs in SPAs. Here are some starting points:
+
+- [model-view-controller](https://www.martinfowler.com/eaaDev/uiArchs.html)
+- [react and mvc](https://medium.com/of-all-things-tech-progress/understanding-mvc-architecture-with-react-6cd38e91fefd)
+- [Tale of two MVCs](https://www.youtube.com/watch?v=s1dhXamEAKQ)
+- [Ember and Urls](https://vimeo.com/77760308)
+
+## Data Flow
+
+Diagram of how the data flows through `ui-eholdings`. This is an example using one particular interaction that should give a general high level view. Starting from user-interaction you can follow the data as it routes through `ui-eholdings` architecture, Routes, Views and components resulting in data displayed to user.
+
+![data-flow](./images/data-flow.png)
