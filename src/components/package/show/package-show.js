@@ -31,7 +31,8 @@ class PackageShow extends Component {
     fetchPackageTitles: PropTypes.func.isRequired,
     intl: intlShape.isRequired,
     toggleSelected: PropTypes.func.isRequired,
-    addPackageToHoldings: PropTypes.func.isRequired
+    addPackageToHoldings: PropTypes.func.isRequired,
+    searchModal: PropTypes.node
   };
 
   static contextTypes = {
@@ -102,7 +103,7 @@ class PackageShow extends Component {
   }
 
   render() {
-    let { model, fetchPackageTitles, intl } = this.props;
+    let { model, fetchPackageTitles, intl, searchModal } = this.props;
     let { router, queryParams } = this.context;
     let {
       showSelectionModal,
@@ -216,6 +217,7 @@ class PackageShow extends Component {
           actionMenuItems={actionMenuItems}
           sections={sections}
           handleExpandAll={this.handleExpandAll}
+          searchModal={searchModal}
           lastMenu={(
             <IconButton
               data-test-eholdings-package-edit-link

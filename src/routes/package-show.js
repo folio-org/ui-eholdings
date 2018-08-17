@@ -6,8 +6,10 @@ import TitleManager from '@folio/stripes-core/src/components/TitleManager';
 import { createResolver } from '../redux';
 import Package from '../redux/package';
 import Resource from '../redux/resource';
+import { transformQueryParams } from '../components/utilities';
 
 import View from '../components/package/show';
+import SearchModal from '../components/search-modal';
 
 class PackageShowRoute extends Component {
   static propTypes = {
@@ -36,6 +38,12 @@ class PackageShowRoute extends Component {
     super(props);
     let { packageId } = props.match.params;
     props.getPackage(packageId);
+  }
+
+  state = {
+    page: 0,
+    queryId: 0,
+    pkgSearchParams: {}
   }
 
   componentDidUpdate(prevProps) {
@@ -99,24 +107,53 @@ class PackageShowRoute extends Component {
     }
   };
 
-  fetchPackageTitles = (page) => {
-    let { match, getPackageTitles } = this.props;
-    let { packageId } = match.params;
 
-    getPackageTitles(packageId, { page });
+  fetchPackageTitles = () => {
+    let { getPackageTitles, match } = this.props;
+    let { pkgSearchParams, page } = this.state;
+    let { packageId } = match.params;
+    let params = transformQueryParams('titles', { ...pkgSearchParams });
+
+    getPackageTitles(packageId, { ...params, page });
+  }
+
+  setPage = (page) => {
+    this.setState({ page, queryId: ++this.state.queryId }, () => {
+      this.fetchPackageTitles();
+    });
   };
 
+  searchTitles = (pkgSearchParams) => {
+    this.setState({
+      pkgSearchParams,
+      queryId: ++this.state.queryId
+    }, () => {
+      this.fetchPackageTitles();
+    });
+  }
+
   render() {
+    let { pkgSearchParams, queryId } = this.state;
+
     return (
       <TitleManager record={this.props.model.name}>
         <View
           model={this.props.model}
-          fetchPackageTitles={this.fetchPackageTitles}
+          fetchPackageTitles={this.setPage}
           toggleSelected={this.toggleSelected}
           addPackageToHoldings={this.addPackageToHoldings}
           toggleHidden={this.toggleHidden}
           customCoverageSubmitted={this.customCoverageSubmitted}
           toggleAllowKbToAddTitles={this.toggleAllowKbToAddTitles}
+          searchModal={
+            <SearchModal
+              key={queryId}
+              listType='titles'
+              query={pkgSearchParams}
+              onSearch={this.searchTitles}
+              onFilter={this.searchTitles}
+            />
+          }
         />
       </TitleManager>
     );

@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import capitalize from 'lodash/capitalize';
 import TitleManager from '@folio/stripes-core/src/components/TitleManager';
 
-import { qs } from '../components/utilities';
+import { qs, transformQueryParams } from '../components/utilities';
 import { createResolver } from '../redux';
 import Provider from '../redux/provider';
 import Package from '../redux/package';
@@ -129,21 +129,6 @@ class SearchRoute extends Component { // eslint-disable-line react/no-deprecated
   })
 
   /**
-   * Transforms UI params into search params
-   * @param {Object} parms - query param object
-   */
-
-  transformQueryParams(params) {
-    let { searchType } = this.state;
-    if (searchType === 'titles') {
-      let { q, searchfield = 'name', filter = {}, ...searchParams } = params;
-      if (searchfield === 'title') { searchfield = 'name'; }
-      let searchfilter = { ...filter, [searchfield]: q };
-      return { ...searchParams, filter: searchfilter };
-    } else { return params; }
-  }
-
-  /**
    * Uses the resolver to get a results collection for the current
    * search type and search params (including the page)
    * @returns {Collection} a collection instance
@@ -152,7 +137,7 @@ class SearchRoute extends Component { // eslint-disable-line react/no-deprecated
     let { resolver } = this.props;
     let { searchType, params } = this.state;
     let { offset = 0, ...queryParams } = params;
-    let searchParams = this.transformQueryParams(queryParams);
+    let searchParams = transformQueryParams(searchType, queryParams);
     let page = Math.floor(offset / 25) + 1;
 
     return resolver.query(searchType, {
@@ -223,8 +208,8 @@ class SearchRoute extends Component { // eslint-disable-line react/no-deprecated
    * @param {Object} params - search params for the action
    */
   search(params) {
-    let searchParams = this.transformQueryParams(params);
     let { searchType } = this.state;
+    let searchParams = transformQueryParams(searchType, params);
     if (searchType === 'providers') this.props.searchProviders(searchParams);
     if (searchType === 'packages') this.props.searchPackages(searchParams);
     if (searchType === 'titles') this.props.searchTitles(searchParams);
