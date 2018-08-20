@@ -2,6 +2,9 @@ pipeline {
   agent {
     docker 'circleci/node:9'
   }
+  environment { 
+    HOME="." 
+  }
   stages {
     stage('Fetch dependencies') {
       steps {
