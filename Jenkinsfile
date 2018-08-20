@@ -1,7 +1,9 @@
 pipeline {
-    agent { docker { image 'node:9' } }
-    environment { 
-      npm_config_cache='npm-cache'
+    agent { 
+      docker { 
+        image 'circleci/node:9' 
+        args '-v=/etc/passwd:/etc/passwd'
+      } 
     }
     stages {
         stage('build') {
