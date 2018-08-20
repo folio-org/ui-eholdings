@@ -65,6 +65,8 @@
     "provider.inherited": "Inherited",
     "provider.noPackagesSelected": "Add any package from this provider to holdings to customize provider settings.",
 
+    "provider.token": "Provider token",
+    "provider.noTokenSet": "No provider token has been set.",
     "provider.toast.isFreshlySaved": "Provider saved.",
 
     "resource.modal.header": "Remove title from holdings?",
