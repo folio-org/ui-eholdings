@@ -14,7 +14,7 @@ pipeline {
       parallel {
         stage('Lint JS') {
           steps {
-            bat "yarn eslint --max-warnings=0"
+            sh "yarn eslint --max-warnings=0"
           }
         }
         stage('Lint CSS') {
