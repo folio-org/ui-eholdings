@@ -1,22 +1,12 @@
 pipeline {
-  agent {
-    docker 'circleci/node:9'
-  }
-  environment { 
-    HOME="." 
-  }
+  agent docker:'node:6.3'
   stages {
-    stage('Fetch dependencies') {
-      steps {
-        sh 'yarn'
-        stash includes: 'node_modules/', name: 'node_modules'
-      }
+    stage('build') {
+      sh 'npm --version'
+      sh 'npm install'
     }
-    stage('Lint JS') {
-      steps {
-        unstash 'node_modules'
-        sh 'yarn eslint'
-      }
+    stage ('test') {
+      sh 'npm test'
     }
   }
 }
