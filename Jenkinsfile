@@ -1,7 +1,5 @@
 pipeline {
-    agent {
-        docker 'circleci/node:9'
-    }
+    agent docker: 'node:9'
     stages {
         stage('Build') {
             steps {
