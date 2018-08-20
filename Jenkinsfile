@@ -6,8 +6,8 @@ pipeline {
     stages {
         stage('build') {
             steps {
-                sh 'npm install'
-                sh 'npm run eslint'
+                sh 'yarn install'
+                sh 'yarn run eslint'
             }
         }
     }
