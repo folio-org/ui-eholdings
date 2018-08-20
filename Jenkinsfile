@@ -1,13 +1,13 @@
 pipeline {
     agent { docker { image 'node:9' } }
     environment { 
-      HOME="." 
+      'npm_config_cache=npm-cache'
     }
     stages {
         stage('build') {
             steps {
-                sh 'yarn install'
-                sh 'yarn run eslint'
+                sh 'npm install'
+                sh 'npm run eslint'
             }
         }
     }
