@@ -14,12 +14,12 @@ pipeline {
       parallel {
         stage('Lint JS') {
           steps {
-            bat "yarn eslint --max-warnings=0 --format junit --output-file ./artifacts/eslint/eslint.xml"
+            bat "yarn eslint --max-warnings=0"
           }
         }
         stage('Lint CSS') {
           steps {
-            sh "yarn --silent stylelint --custom-formatter './node_modules/stylelint-junit-formatter' > ./artifacts/stylelint/stylelint.xml"
+            sh "yarn stylelint"
           }
         }
       }
