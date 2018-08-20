@@ -15,12 +15,14 @@ pipeline {
       parallel {
         stage('Lint JS') {
           steps {
-            sh "yarn eslint --max-warnings=0"
+            unstash 'node_modules'
+            sh 'yarn eslint --max-warnings=0'
           }
         }
         stage('Lint CSS') {
           steps {
-            sh "yarn stylelint"
+            unstash 'node_modules'
+            sh 'yarn stylelint'
           }
         }
       }
