@@ -5,7 +5,7 @@ pipeline {
     stages {
         stage('Build') {
             steps {
-                sh 'yar install'
+                sh 'yarn install'
             }
         }
         stage('Lint JS') {
