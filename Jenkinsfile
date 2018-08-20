@@ -3,12 +3,12 @@ pipeline {
     stages {
         stage('Build') {
             steps {
-                sh 'npm install'
+                sh 'yarn install'
             }
         }
         stage('Lint JS') {
             steps {
-                sh 'npm run eslint --max-warnings=0'
+                sh 'yarn eslint --max-warnings=0'
             }
         }
     }
