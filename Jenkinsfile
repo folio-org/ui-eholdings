@@ -22,6 +22,11 @@ pipeline {
             sh "yarn stylelint"
           }
         }
+        stage('Test Chrome') {
+          steps {
+            sh "yarn test --karma.singleRun --karma.browsers=Chrome --karma.reporters mocha junit --coverage"
+          }
+        }
       }
     }
   }
