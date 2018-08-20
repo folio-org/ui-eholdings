@@ -8,6 +8,7 @@ pipeline {
     stage('Checkout') {
       steps {
         sh 'yarn install'
+        stash includes: 'node_modules/', name: 'node_modules'
       }
     }
     stage('Verify') {
@@ -20,11 +21,6 @@ pipeline {
         stage('Lint CSS') {
           steps {
             sh "yarn stylelint"
-          }
-        }
-        stage('Test Chrome') {
-          steps {
-            sh "yarn test --karma.singleRun --karma.browsers=Chrome --karma.reporters mocha junit --coverage"
           }
         }
       }
