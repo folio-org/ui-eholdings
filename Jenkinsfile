@@ -1,15 +1,23 @@
 pipeline {
-    agent { 
-      docker { 
-        image 'circleci/node:9' 
-      } 
+  agent none
+  stages {
+    stage('Fetch dependencies') {
+      agent {
+        docker 'circleci/node:9.3-stretch-browsers'
+      }
+      steps {
+        sh 'yarn'
+        stash includes: 'node_modules/', name: 'node_modules'
+      }
     }
-    stages {
-        stage('build') {
-            steps {
-                sh 'yarn install'
-                sh 'yarn run eslint'
-            }
-        }
+    stage('Lint') {
+      agent {
+        docker 'circleci/node:9.3-stretch-browsers'
+      }
+      steps {
+        unstash 'node_modules'
+        sh 'yarn lint'
+      }
     }
+  }
 }
