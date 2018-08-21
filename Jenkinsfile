@@ -14,6 +14,11 @@ node {
       userRemoteConfigs: scm.userRemoteConfigs
     ])
   }
+  dir("${env.WORKSPACE}/project") {
+    stage('NPM Install') {
+      sh 'yarn install' 
+    }
+  }
   stage('Test') {
     echo 'Building....'
   }
