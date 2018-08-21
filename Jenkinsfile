@@ -1,6 +1,11 @@
-
-buildNPM {
-  publishModDescriptor = 'yes'
-  runLint = 'no'
-  runTest = 'no'
+node {
+    stage('Build') {
+        echo 'Building....'
+    }
+    stage('Test') {
+        echo 'Building....'
+    }
+    stage('Deploy') {
+        echo 'Deploying....'
+    }
 }
