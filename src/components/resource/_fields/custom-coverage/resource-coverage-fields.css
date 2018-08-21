@@ -1,5 +1,9 @@
 @import '@folio/stripes-components/lib/variables';
 
+.coverage-fields-category {
+  margin: 0.5em 1.75em var(--controlMarginBottom);
+}
+
 .coverage-fields-date-range-rows {
   list-style-type: none;
   padding: 0;
@@ -13,7 +17,7 @@
 .coverage-fields-datepicker {
   align-self: flex-start;
   flex: 1 1 200px;
-  margin-right: 1em;
+  margin: 0 0.5em;
 }
 
 .coverage-fields-date-range-clear-row {

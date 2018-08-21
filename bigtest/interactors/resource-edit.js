@@ -125,6 +125,7 @@ import Datepicker from './datepicker';
   clickRemoveCustomEmbargoButton = clickable('[data-test-eholdings-custom-embargo-remove-row-button] button');
   isEmbargoNotShownLabelPresent = isPresent('[data-test-eholdings-resource-embargo-not-shown-label]');
   validationErrorOnCustomUrl = text('[data-test-eholdings-custom-url-textfield] [class^="feedbackError--"]');
+  managedCoverageDisplay = text('[data-test-eholdings-resource-edit-managed-coverage-list]');
 
   selectPublicationType = fillable('[data-test-eholdings-publication-type-field] select');
   publicationTypeValue = value('[data-test-eholdings-publication-type-field] select');

@@ -250,13 +250,15 @@ class ResourceEditManagedTitle extends Component { // eslint-disable-line react/
                   </DetailsViewSection>
                 )}
                 <DetailsViewSection
-                  label={<FormattedMessage id="ui-eholdings.label.coverageDates" />}
+                  label={<FormattedMessage id="ui-eholdings.label.coverageSettings" />}
                 >
                   {managedResourceSelected ? (
                     <Fragment>
-                      <h4><FormattedMessage id="ui-eholdings.label.coverageDates" /></h4>
+                      <h4><FormattedMessage id="ui-eholdings.label.dates" /></h4>
+                      <p><FormattedMessage id="ui-eholdings.resource.coverageDates.fullTextLinking" /></p>
                       <CustomCoverageFields
                         initialValue={initialValues.customCoverages}
+                        model={model}
                       />
 
                       <h4><FormattedMessage id="ui-eholdings.label.coverageStatement" /></h4>

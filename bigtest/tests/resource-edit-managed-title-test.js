@@ -41,6 +41,12 @@ describeApplication('ResourceEditManagedTitleInManagedPackage', () => {
         isHidden: true
       }
     });
+
+    resource.managedCoverages = this.server.createList('managed-coverage', 1, {
+      beginCoverage: '1969-07-16',
+      endCoverage: '1972-12-19'
+    }).map(m => m.toJSON());
+    resource.save();
   });
 
   describe('visiting the resource edit page without coverage dates, statement, or embargo', () => {
@@ -48,6 +54,10 @@ describeApplication('ResourceEditManagedTitleInManagedPackage', () => {
       return this.visit(`/eholdings/resources/${resource.titleId}/edit`, () => {
         expect(ResourceEditPage.$root).to.exist;
       });
+    });
+
+    it('displays the managed coverage dates in the form', () => {
+      expect(ResourceEditPage.managedCoverageDisplay).to.equal('1969 - 1972');
     });
 
     it('shows a form with coverage statement', () => {
