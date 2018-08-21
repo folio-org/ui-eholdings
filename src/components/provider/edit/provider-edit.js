@@ -116,17 +116,22 @@ class ProviderEdit extends Component {
             )}
              bodyContent={(
                <Fragment>
-                 <DetailsViewSection
-                   label={intl.formatMessage({ id: 'ui-eholdings.provider.providerSettings' })}
-                 >
-                   {(!proxyTypes.request.isResolved || !rootProxy.request.isResolved) ? (
-                     <Icon icon="spinner-ellipsis" />
-          ) : (
-            <div data-test-eholdings-provider-proxy-select>
-              <ProxySelectField proxyTypes={proxyTypes} rootProxy={rootProxy} />
-            </div>
-          )}
-                 </DetailsViewSection>
+                 {model.packagesSelected > 0 ? (
+                   <DetailsViewSection
+                     label={intl.formatMessage({ id: 'ui-eholdings.provider.providerSettings' })}
+                   >
+                     {(!proxyTypes.request.isResolved || !rootProxy.request.isResolved) ? (
+                       <Icon icon="spinner-ellipsis" />
+                      ) : (
+                        <div data-test-eholdings-provider-proxy-select>
+                          <ProxySelectField proxyTypes={proxyTypes} rootProxy={rootProxy} />
+                        </div>
+                      )}
+                   </DetailsViewSection>
+                 ) : (
+                   <FormattedMessage id="ui-eholdings.provider.noPackagesSelected" />
+                 )}
+
                  <NavigationModal
                    modalLabel={intl.formatMessage({ id: 'ui-eholdings.navModal.modalLabel' })}
                    continueLabel={intl.formatMessage({ id: 'ui-eholdings.navModal.continueLabel' })}
