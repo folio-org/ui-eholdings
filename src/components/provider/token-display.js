@@ -10,7 +10,9 @@ export default function TokenDisplay({ model }) {
       </div>);
   } else {
     return (
-      <span><FormattedMessage id="ui-eholdings.provider.noTokenSet" /></span>
+      <div data-test-eholdings-provider-details-token-message>
+        <span><FormattedMessage id="ui-eholdings.provider.noTokenSet" /></span>
+      </div>
     );
   }
 }

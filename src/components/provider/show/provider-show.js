@@ -167,7 +167,7 @@ class ProviderShow extends Component {
                     </KeyValue>
                   ))}
                   {hasToken && (
-                  (proxyTypes.isLoading || model.isLoading) ? (
+                  (model.isLoading) ? (
                     <Icon icon="spinner-ellipsis" />
                   ) : (
                     <KeyValue label={<FormattedMessage id="ui-eholdings.provider.token" />}>
