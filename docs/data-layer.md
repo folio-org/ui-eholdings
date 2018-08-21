@@ -215,5 +215,15 @@ The resolver for the eHoldings data layer lives in
 
 ## Motivation
 
-When we started building eHoldings project we knew that we wanted our data layer to have certain features that were not available in Stripes Connect. At the time, Stripes Connect was tightly coupled CQL and the static manifest files that it provided was not flexible enough for the error states that we wanted to surface in our components. In addition, Stripes Connect didn't provide normalization or side loading that we needed to provide a good user experience. We didn't have the resources to re-architect Stripes Connect to make it flexible for our use, so we decided to create our own data layer. There are currently conversations about adopting Apollo GraphQL instead of Stripes Connect. Apollo GraphQL has a similar feature set as the eHoldings Data Layer with the exception that data requirements are specified via queries rather than resources.
+When we started building eHoldings project we knew that we wanted our data layer to 
+have certain features that were not available in Stripes Connect. At the time, Stripes 
+Connect was tightly coupled to CQL and the static manifest files that it provided were 
+not flexible enough for the error states that we wanted to surface in our components. 
 
+In addition, Stripes Connect didn't provide normalization or side loading that we needed 
+to provide a good user experience. We didn't have the resources to re-architect Stripes 
+Connect to make it flexible for our use, so we decided to create our own data layer. 
+
+There are currently conversations about adopting Apollo GraphQL instead of Stripes Connect. 
+Apollo GraphQL has a similar feature set as the eHoldings Data Layer with the exception that 
+data requirements are specified via queries rather than resources.
