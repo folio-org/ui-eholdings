@@ -88,7 +88,6 @@
     "resource.embargoPeriod.addCustom": "+ Add custom embargo period",
     "resource.embargoPeriod.saveWillRemove": "Nothing set. Saving will remove custom embargo period.",
     "resource.managedCoverageDates.notSet": "No managed coverage dates have been set.",
-    "resource.coverageDates.fullTextLinking": "Used for full text linking.",
     "resource.coverageDates.notSet": "No coverage dates have been set.",
     "resource.coverageStatement.notSet": "No coverage statement has been set.",
     "resource.resourceSettings.notSelected": "Add the resource to holdings to customize resource settings.",
