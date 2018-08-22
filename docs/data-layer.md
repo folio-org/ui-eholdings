@@ -215,7 +215,7 @@ The resolver for the eHoldings data layer lives in
 
 ## Motivation
 
-When we started building eHoldings project we knew that we wanted our data layer to 
+When we started building eHoldings we knew that we wanted our data layer to 
 have certain features that were not available in Stripes Connect. At the time, Stripes 
 Connect was tightly coupled to CQL and the static manifest files that it provided were 
 not flexible enough for the error states that we wanted to surface in our components. 
