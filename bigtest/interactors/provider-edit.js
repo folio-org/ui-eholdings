@@ -42,10 +42,12 @@ import Toast from './toast';
   isSaveDisabled = property('[data-test-eholdings-provider-save-button]', 'disabled');
   hasErrors = isPresent('[data-test-eholdings-details-view-error="provider"]');
 
-  ProxySelectValue = value('[data-test-eholdings-provider-proxy-select] select');
+  proxySelectValue = value('[data-test-eholdings-provider-proxy-select] select');
   chooseRootProxy = fillable('[data-test-eholdings-provider-proxy-select] select');
   dropDown = new ProviderEditDropDown('[class*=paneHeaderCenterInner---] [class*=dropdown---]');
   dropDownMenu = new ProviderEditDropDownMenu();
+  hasProxySelect = isPresent('[data-test-eholdings-provider-proxy-select] select');
+  noPackagesSelected = text('[data-test-eholdings-provider-package-not-selected]');
 
   toast = Toast;
 }

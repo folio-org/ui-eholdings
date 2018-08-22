@@ -116,22 +116,25 @@ class ProviderEdit extends Component {
             )}
              bodyContent={(
                <Fragment>
-                 {model.packagesSelected > 0 ? (
-                   <DetailsViewSection
-                     label={intl.formatMessage({ id: 'ui-eholdings.provider.providerSettings' })}
-                   >
-                     {(!proxyTypes.request.isResolved || !rootProxy.request.isResolved) ? (
-                       <Icon icon="spinner-ellipsis" />
+                 <DetailsViewSection
+                   label={intl.formatMessage({ id: 'ui-eholdings.provider.providerSettings' })}
+                 >
+                   {model.packagesSelected > 0 ? (
+                     <div>
+                       {(!proxyTypes.request.isResolved || !rootProxy.request.isResolved) ? (
+                         <Icon icon="spinner-ellipsis" />
                       ) : (
                         <div data-test-eholdings-provider-proxy-select>
                           <ProxySelectField proxyTypes={proxyTypes} rootProxy={rootProxy} />
                         </div>
                       )}
-                   </DetailsViewSection>
+                     </div>
                  ) : (
-                   <FormattedMessage id="ui-eholdings.provider.noPackagesSelected" />
+                   <div data-test-eholdings-provider-package-not-selected>
+                     <FormattedMessage id="ui-eholdings.provider.noPackagesSelected" />
+                   </div>
                  )}
-
+                 </DetailsViewSection>
                  <NavigationModal
                    modalLabel={intl.formatMessage({ id: 'ui-eholdings.navModal.modalLabel' })}
                    continueLabel={intl.formatMessage({ id: 'ui-eholdings.navModal.continueLabel' })}
@@ -139,7 +142,7 @@ class ProviderEdit extends Component {
                    when={!pristine && !model.update.isPending}
                  />
                </Fragment>
-          )}
+             )}
            />
          </form>
        </Fragment>
