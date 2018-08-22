@@ -13,6 +13,7 @@ import DetailsViewSection from '../../details-view-section';
 import NavigationModal from '../../navigation-modal';
 import Toaster from '../../toaster';
 import ProxySelectField from '../_fields/proxy-select';
+import TokenField from '../_fields/token';
 import PaneHeaderButton from '../../pane-header-button';
 import styles from './provider-edit.css';
 
@@ -62,6 +63,8 @@ class ProviderEdit extends Component {
      } = this.props;
 
      let { router, queryParams } = this.context;
+     let supportsTokens = model.providerToken && model.providerToken.prompt;
+     let hasTokenValue = model.providerToken && model.providerToken.value;
 
      let actionMenuItems = [
        {
@@ -127,6 +130,12 @@ class ProviderEdit extends Component {
                         <div data-test-eholdings-provider-proxy-select>
                           <ProxySelectField proxyTypes={proxyTypes} rootProxy={rootProxy} />
                         </div>
+                      )}
+                       {supportsTokens && (
+                       <Fragment>
+                         <h4><FormattedMessage id="ui-eholdings.provider.token" /></h4>
+                         <TokenField model={model} showInputs={hasTokenValue} />
+                       </Fragment>
                       )}
                      </div>
                  ) : (
