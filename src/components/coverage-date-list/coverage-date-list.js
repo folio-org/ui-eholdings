@@ -58,6 +58,7 @@ class CoverageDateList extends React.Component {
     return (
       <div id={id} data-test-eholdings-display-coverage-list>
         { coverageArray
+          .concat() // clones original array so we aren't mutating upstream
           .sort((coverageObj1, coverageObj2) => this.compareCoverage(coverageObj1, coverageObj2))
           .map(coverageArrayObj => (isYearOnly ?
             this.formatCoverageYear(coverageArrayObj) :

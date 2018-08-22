@@ -144,6 +144,7 @@
     "label.coverageDates": "Coverage dates",
     "label.coverageSettings": "Coverage settings",
     "label.coverageStatement": "Coverage statement",
+    "label.coverageDisplay": "Coverage display",
     "label.custom.coverageStatement": "Custom coverage statement",
     "label.titleInformation": "Title information",
     "label.packageInformation": "Package information",

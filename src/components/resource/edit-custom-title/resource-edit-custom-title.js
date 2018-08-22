@@ -1,6 +1,7 @@
 import React, { Component, Fragment } from 'react';
 import PropTypes from 'prop-types';
-import { reduxForm } from 'redux-form';
+import { connect } from 'react-redux';
+import { formValueSelector, reduxForm } from 'redux-form';
 import isEqual from 'lodash/isEqual';
 import { intlShape, injectIntl, FormattedMessage } from 'react-intl';
 
@@ -9,7 +10,7 @@ import {
   Modal,
   ModalFooter
 } from '@folio/stripes-components';
-import { processErrors } from '../../utilities';
+import { processErrors, isBookPublicationType } from '../../utilities';
 
 import DetailsView from '../../details-view';
 import VisibilityField from '../_fields/visibility';
@@ -21,6 +22,7 @@ import DetailsViewSection from '../../details-view-section';
 import NavigationModal from '../../navigation-modal';
 import Toaster from '../../toaster';
 import PaneHeaderButton from '../../pane-header-button';
+import CoverageDateList from '../../coverage-date-list';
 
 class ResourceEditCustomTitle extends Component {
   static propTypes = {
@@ -30,7 +32,8 @@ class ResourceEditCustomTitle extends Component {
     onSubmit: PropTypes.func.isRequired,
     pristine: PropTypes.bool,
     change: PropTypes.func,
-    intl: intlShape.isRequired // eslint-disable-line react/no-unused-prop-types
+    intl: intlShape.isRequired,
+    customCoverageDateValues: PropTypes.array
   };
 
   static contextTypes = {
@@ -134,6 +137,22 @@ class ResourceEditCustomTitle extends Component {
         this.props.onSubmit(values);
       });
     }
+  }
+
+  renderCoverageDates = () => {
+    let { customCoverageDateValues, model } = this.props;
+    let coverageDates = model.managedCoverages;
+
+    if (customCoverageDateValues && customCoverageDateValues.length > 0) {
+      coverageDates = customCoverageDateValues;
+    }
+
+    return (
+      <CoverageDateList
+        coverageArray={coverageDates}
+        isYearOnly={isBookPublicationType(model.publicationType)}
+      />
+    );
   }
 
   render() {
@@ -245,7 +264,10 @@ class ResourceEditCustomTitle extends Component {
                       />
 
                       <h4><FormattedMessage id="ui-eholdings.label.coverageStatement" /></h4>
-                      <CoverageStatementFields />
+                      <CoverageStatementFields
+                        change={change}
+                        coverageDates={this.renderCoverageDates()}
+                      />
 
                       <h4><FormattedMessage id="ui-eholdings.resource.embargoPeriod" /></h4>
                       <CustomEmbargoFields
@@ -329,9 +351,17 @@ const validate = (values, props) => {
     validateEmbargo(values, props));
 };
 
-export default injectIntl(reduxForm({
-  validate,
-  enableReinitialize: true,
-  form: 'ResourceEditCustomTitle',
-  destroyOnUnmount: false,
-})(ResourceEditCustomTitle));
+const selector = formValueSelector('ResourceEditCustomTitle');
+
+export default injectIntl(
+  connect(state => ({
+    customCoverageDateValues: selector(state, 'customCoverages')
+  }))(
+    reduxForm({
+      validate,
+      enableReinitialize: true,
+      form: 'ResourceEditCustomTitle',
+      destroyOnUnmount: false,
+    })(ResourceEditCustomTitle)
+  )
+);
