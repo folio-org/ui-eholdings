@@ -238,9 +238,10 @@ class ResourceEditCustomTitle extends Component {
                 >
                   {resourceSelected ? (
                     <Fragment>
-                      <h4><FormattedMessage id="ui-eholdings.label.coverageDates" /></h4>
+                      <h4><FormattedMessage id="ui-eholdings.label.dates" /></h4>
                       <CustomCoverageFields
                         initialValue={initialValues.customCoverages}
+                        model={model}
                       />
 
                       <h4><FormattedMessage id="ui-eholdings.label.coverageStatement" /></h4>

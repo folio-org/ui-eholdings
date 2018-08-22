@@ -87,6 +87,7 @@
     "resource.embargoPeriod.clear": "Clear embargo period",
     "resource.embargoPeriod.addCustom": "+ Add custom embargo period",
     "resource.embargoPeriod.saveWillRemove": "Nothing set. Saving will remove custom embargo period.",
+    "resource.managedCoverageDates.notSet": "No managed coverage dates have been set.",
     "resource.coverageDates.notSet": "No coverage dates have been set.",
     "resource.coverageStatement.notSet": "No coverage statement has been set.",
     "resource.resourceSettings.notSelected": "Add the resource to holdings to customize resource settings.",
@@ -185,6 +186,7 @@
     "label.years": "Years",
     "label.no.reason": "No {disabledReason}",
     "label.editLink": "Edit {name}",
+    "label.dates": "Dates",
 
     "filter.all": "All",
     "filter.sortOptions.relevance": "Relevance",
