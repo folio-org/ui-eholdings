@@ -136,19 +136,26 @@ class ResourceEditCustomTitle extends Component {
     }
   }
 
+  clearEmbargoValues = () => {
+    let { change } = this.props;
+    return change({
+      customEmbargoValue: 0,
+      customEmbargoUnit: ''
+    });
+  }
+
   render() {
     let {
-      model,
-      initialValues,
       handleSubmit,
-      pristine,
+      initialValues,
       intl,
-      change
+      model,
+      pristine
     } = this.props;
 
     let {
-      showSelectionModal,
-      resourceSelected
+      resourceSelected,
+      showSelectionModal
     } = this.state;
 
     let actionMenuItems = [
@@ -249,7 +256,7 @@ class ResourceEditCustomTitle extends Component {
 
                       <h4><FormattedMessage id="ui-eholdings.resource.embargoPeriod" /></h4>
                       <CustomEmbargoFields
-                        change={change}
+                        onClearValues={this.clearEmbargoValues}
                         showInputs={(initialValues.customEmbargoValue > 0)}
                         initialValue={{
                           customEmbargoValue: initialValues.customEmbargoValue,

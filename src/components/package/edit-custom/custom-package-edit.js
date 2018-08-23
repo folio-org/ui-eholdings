@@ -139,11 +139,11 @@ class CustomPackageEdit extends Component {
 
   render() {
     let {
-      model,
-      initialValues,
       handleSubmit,
-      pristine,
-      intl
+      initialValues,
+      intl,
+      model,
+      pristine
     } = this.props;
 
     let {

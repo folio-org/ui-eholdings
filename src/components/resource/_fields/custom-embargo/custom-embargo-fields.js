@@ -13,7 +13,7 @@ import styles from './custom-embargo-fields.css';
 
 class CustomEmbargoFields extends Component {
   static propTypes = {
-    change: PropTypes.func.isRequired,
+    onClearValues: PropTypes.func.isRequired,
     showInputs: PropTypes.bool,
     initialValue: PropTypes.object,
     intl: intlShape.isRequired
@@ -24,9 +24,7 @@ class CustomEmbargoFields extends Component {
   };
 
   clearValues = () => {
-    this.props.change('customEmbargoValue', 0);
-    this.props.change('customEmbargoUnit', '');
-    this.toggleInputs();
+    this.props.onClearValues(() => this.toggleInputs());
   }
 
   toggleInputs = () => {

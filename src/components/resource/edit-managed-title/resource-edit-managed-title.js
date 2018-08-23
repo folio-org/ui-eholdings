@@ -135,13 +135,20 @@ class ResourceEditManagedTitle extends Component { // eslint-disable-line react/
     }
   }
 
+  clearEmbargoValues = () => {
+    let { change } = this.props;
+    return change({
+      customEmbargoValue: 0,
+      customEmbargoUnit: ''
+    });
+  }
+
   render() {
     let {
       model,
       initialValues,
       handleSubmit,
       pristine,
-      change,
       intl
     } = this.props;
 
@@ -265,7 +272,7 @@ class ResourceEditManagedTitle extends Component { // eslint-disable-line react/
 
                       <h4><FormattedMessage id="ui-eholdings.resource.embargoPeriod" /></h4>
                       <CustomEmbargoFields
-                        change={change}
+                        onClearValues={this.clearEmbargoValues}
                         showInputs={(initialValues.customEmbargoValue > 0)}
                         initialValue={{
                           customEmbargoValue: initialValues.customEmbargoValue,
@@ -323,7 +330,10 @@ class ResourceEditManagedTitle extends Component { // eslint-disable-line react/
 }
 
 const validate = (values, props) => {
-  return Object.assign({}, validateCoverageDates(values, props), validateCoverageStatement(values, props), validateEmbargo(values, props));
+  return Object.assign({},
+    validateCoverageDates(values, props),
+    validateCoverageStatement(values, props),
+    validateEmbargo(values, props));
 };
 
 export default injectIntl(reduxForm({
