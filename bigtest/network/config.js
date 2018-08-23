@@ -4,6 +4,7 @@ import { searchRouteFor, nestedResourceRouteFor, includesWords } from './helpers
 
 // typical mirage config export
 export default function configure() {
+  this.timing = 50;
   this.urlPrefix = okapi.url;
 
   // okapi endpoints
