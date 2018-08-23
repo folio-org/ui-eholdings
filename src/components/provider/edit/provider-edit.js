@@ -119,13 +119,21 @@ class ProviderEdit extends Component {
                  <DetailsViewSection
                    label={intl.formatMessage({ id: 'ui-eholdings.provider.providerSettings' })}
                  >
-                   {(!proxyTypes.request.isResolved || !rootProxy.request.isResolved) ? (
-                     <Icon icon="spinner-ellipsis" />
-          ) : (
-            <div data-test-eholdings-provider-proxy-select>
-              <ProxySelectField proxyTypes={proxyTypes} rootProxy={rootProxy} />
-            </div>
-          )}
+                   {model.packagesSelected > 0 ? (
+                     <div>
+                       {(!proxyTypes.request.isResolved || !rootProxy.request.isResolved) ? (
+                         <Icon icon="spinner-ellipsis" />
+                      ) : (
+                        <div data-test-eholdings-provider-proxy-select>
+                          <ProxySelectField proxyTypes={proxyTypes} rootProxy={rootProxy} />
+                        </div>
+                      )}
+                     </div>
+                 ) : (
+                   <div data-test-eholdings-provider-package-not-selected>
+                     <FormattedMessage id="ui-eholdings.provider.noPackagesSelected" />
+                   </div>
+                 )}
                  </DetailsViewSection>
                  <NavigationModal
                    modalLabel={intl.formatMessage({ id: 'ui-eholdings.navModal.modalLabel' })}
@@ -134,7 +142,7 @@ class ProviderEdit extends Component {
                    when={!pristine && !model.update.isPending}
                  />
                </Fragment>
-          )}
+             )}
            />
          </form>
        </Fragment>

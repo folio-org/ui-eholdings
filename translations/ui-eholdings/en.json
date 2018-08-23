@@ -63,6 +63,7 @@
     "provider.resultsNotFound": "No providers found for '{query}'.",
     "provider.proxy": "Proxy",
     "provider.inherited": "Inherited",
+    "provider.noPackagesSelected": "Add any package from this provider to holdings to customize provider settings.",
 
     "provider.toast.isFreshlySaved": "Provider saved.",
 

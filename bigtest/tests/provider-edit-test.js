@@ -12,7 +12,8 @@ describeApplication('ProviderEdit', () => {
   beforeEach(function () {
     provider = this.server.create('provider', 'withPackagesAndTitles', 'withProxy', {
       name: 'League of Ordinary Men',
-      packagesTotal: 5
+      packagesTotal: 5,
+      packagesSelected: 3
     });
 
     packages = this.server.schema.where('package', { providerId: provider.id }).models;
@@ -36,7 +37,7 @@ describeApplication('ProviderEdit', () => {
     });
 
     it('has a select field defaulted with current root proxy', () => {
-      expect(ProviderEditPage.ProxySelectValue).to.equal('microstates');
+      expect(ProviderEditPage.proxySelectValue).to.equal('microstates');
     });
 
     it('disables the save button', () => {
@@ -137,6 +138,26 @@ describeApplication('ProviderEdit', () => {
 
     it('dies with dignity', () => {
       expect(ProviderEditPage.hasErrors).to.be.true;
+    });
+  });
+
+  describe('visiting the provider edit page with no selected packages', () => {
+    beforeEach(function () {
+      let provider2 = this.server.create('provider', {
+        name: 'Sam is awesome',
+      });
+
+      return this.visit(`/eholdings/providers/${provider2.id}/edit`, () => {
+        expect(ProviderEditPage.isPresent).to.be.true;
+      });
+    });
+
+    it('does not display other fields', () => {
+      expect(ProviderEditPage.hasProxySelect).to.be.false;
+    });
+
+    it('displays add package to holdings message', () => {
+      expect(ProviderEditPage.noPackagesSelected).to.equal('Add any package from this provider to holdings to customize provider settings.');
     });
   });
 });
