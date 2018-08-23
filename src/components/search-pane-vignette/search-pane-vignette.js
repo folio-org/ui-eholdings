@@ -7,19 +7,17 @@ const cx = classNames.bind(styles);
 
 /* eslint-disable jsx-a11y/no-static-element-interactions */
 /* eslint-disable jsx-a11y/click-events-have-key-events */
-export default function SearchPaneVignette({ isHidden, onClick }) {
+export default function SearchPaneVignette({ className, onClick }) {
   return (
     <div
       data-test-search-vignette
       onClick={onClick}
-      className={cx('search-pane-vignette', {
-        'is-hidden': isHidden
-      })}
+      className={cx('search-pane-vignette', className)}
     />
   );
 }
 
 SearchPaneVignette.propTypes = {
-  isHidden: PropTypes.bool,
+  className: PropTypes.string,
   onClick: PropTypes.func
 };
