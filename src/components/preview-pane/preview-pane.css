@@ -10,13 +10,19 @@
   position: absolute;
   right: 0;
   top: 0;
-  z-index: 11;
+  z-index: 12;
   background-color: white;
 }
 
 @media (--mediumUp) {
   .preview-pane {
     width: 600px;
+
+    /* preview pane is open, but not alone */
+    &:nth-child(3),
+    &:nth-child(5) {
+      border-left: 1px solid rgba(0, 0, 0, 0.2);
+    }
   }
 }
 
@@ -24,10 +30,5 @@
   .preview-pane {
     position: relative;
     width: auto;
-
-    /* preview pane is open next to results */
-    &:nth-child(5) {
-      border-left: 1px solid rgba(0, 0, 0, 0.2);
-    }
   }
 }

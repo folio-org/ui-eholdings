@@ -102,3 +102,11 @@
     color: #fff;
   }
 }
+
+.preview-pane-vignette {
+  z-index: 11;
+}
+
+.filters-pane-vignette {
+  z-index: 13;
+}

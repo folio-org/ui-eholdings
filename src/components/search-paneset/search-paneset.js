@@ -121,13 +121,16 @@ export default class SearchPaneset extends React.Component { // eslint-disable-l
 
     return (
       <div className={styles['search-paneset']}>
+        {detailsView && (
+          <SearchPaneVignette className={styles['preview-pane-vignette']} onClick={this.closePreview} />
+        )}
 
-        {!detailsView && (
-          <SearchPaneVignette isHidden={hideFilters} onClick={this.toggleFilters} />
+        {!hideFilters && (
+          <SearchPaneVignette className={styles['filters-pane-vignette']} onClick={this.toggleFilters} />
         )}
 
         {!hideFilters &&
-          <SearchPane >
+          <SearchPane>
             <div data-test-eholdings-search-pane>
               <PaneHeader
                 paneTitle={(<FormattedMessage id="ui-eholdings.search.searchAndFilter" />)}
