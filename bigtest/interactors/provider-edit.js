@@ -5,6 +5,7 @@ import {
   property,
   value,
   fillable,
+  blurrable,
   text,
   is,
   attribute,
@@ -44,6 +45,19 @@ import Toast from './toast';
 
   proxySelectValue = value('[data-test-eholdings-provider-proxy-select] select');
   chooseRootProxy = fillable('[data-test-eholdings-provider-proxy-select] select');
+  tokenHelpText = text('[data-test-eholdings-token-fields-help-text]');
+  tokenPrompt = text('[data-test-eholdings-token-fields-prompt]');
+  tokenValue = text('[data-test-eholdings-token-value-textarea]');
+  hasAddTokenBtn = isPresent('[data-test-eholdings-token-add-button]');
+  clickAddTokenButton = clickable('[data-test-eholdings-token-add-button] button');
+  fillTokenValue = fillable('[data-test-eholdings-token-value-textarea] textarea');
+  blurTokenValue = blurrable('[data-test-eholdings-token-value-textarea] textarea');
+
+  inputTokenValue = action(function (tokenValue) {
+    return this
+      .fillTokenValue(tokenValue)
+      .blurTokenValue();
+  });
   dropDown = new ProviderEditDropDown('[class*=paneHeaderCenterInner---] [class*=dropdown---]');
   dropDownMenu = new ProviderEditDropDownMenu();
   hasProxySelect = isPresent('[data-test-eholdings-provider-proxy-select] select');
