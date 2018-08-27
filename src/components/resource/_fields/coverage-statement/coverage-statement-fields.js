@@ -64,7 +64,9 @@ export function validate(values, { intl }) {
   }
 
   if (values.hasCoverageStatement === 'yes' && values.coverageStatement.length === 0) {
-    errors.coverageStatement = 'If selected, coverage statement cannot be blank.';
+    errors.coverageStatement = intl.formatMessage({
+      id: 'validate.errors.coverageStatement.blank'
+    });
   }
 
   return errors;

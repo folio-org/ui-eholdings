@@ -228,6 +228,7 @@
     "validate.errors.customPackage.name": "Custom packages must have a name.",
     "validate.errors.customPackage.name.length": "Must be less than 300 characters.",
     "validate.errors.coverageStatement.length": "Statement must be 350 characters or less.",
+    "validate.errors.coverageStatement.blank": "Statement field cannot be blank if selected.",
 
     "validate.errors.edition.value": "Invalid value.",
     "validate.errors.edition.length": "Value exceeds the 250 character limit.",
