@@ -12,7 +12,8 @@ describeApplication('ProviderEditToken', () => {
   beforeEach(function () {
     provider = this.server.create('provider', 'withPackagesAndTitles', 'withTokenAndValue', {
       name: 'League of Ordinary Men',
-      packagesTotal: 5
+      packagesTotal: 5,
+      packagesSelected: 3
     });
 
     packages = this.server.schema.where('package', { providerId: provider.id }).models;
