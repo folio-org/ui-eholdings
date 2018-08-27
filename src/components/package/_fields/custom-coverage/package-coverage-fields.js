@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import { Field, FieldArray } from 'redux-form';
 import PropTypes from 'prop-types';
 import moment from 'moment';
@@ -7,6 +7,7 @@ import { injectIntl, intlShape, FormattedMessage } from 'react-intl';
 import {
   Button,
   Datepicker,
+  DateRangeWrapper,
   IconButton
 } from '@folio/stripes-components';
 
@@ -56,30 +57,45 @@ class PackageCoverageFields extends Component {
                 key={index}
                 className={styles['coverage-fields-date-range-row']}
               >
-                <div
-                  data-test-eholdings-coverage-fields-date-range-begin
-                  className={styles['coverage-fields-datepicker']}
-                >
-                  <Field
-                    name={`${dateRange}.beginCoverage`}
-                    type="text"
-                    component={Datepicker}
-                    label={intl.formatMessage({ id: 'ui-eholdings.date.startDate' })}
-                    format={(value) => (value ? intl.formatDate(value, { timeZone: 'UTC' }) : '')}
-                  />
-                </div>
-                <div
-                  data-test-eholdings-coverage-fields-date-range-end
-                  className={styles['coverage-fields-datepicker']}
-                >
-                  <Field
-                    name={`${dateRange}.endCoverage`}
-                    type="text"
-                    component={Datepicker}
-                    label={intl.formatMessage({ id: 'ui-eholdings.date.endDate' })}
-                    format={(value) => (value ? intl.formatDate(value, { timeZone: 'UTC' }) : '')}
-                  />
-                </div>
+                <DateRangeWrapper>
+                  {({
+                    getStartInputProps,
+                    getEndInputProps,
+                    endDateExclude,
+                    startDateExclude
+                  }) => (
+                    <Fragment>
+                      <div
+                        data-test-eholdings-coverage-fields-date-range-begin
+                        className={styles['coverage-fields-datepicker']}
+                      >
+                        <Field
+                          name={`${dateRange}.beginCoverage`}
+                          type="text"
+                          component={Datepicker}
+                          label={intl.formatMessage({ id: 'ui-eholdings.date.startDate' })}
+                          format={(value) => (value ? intl.formatDate(value, { timeZone: 'UTC' }) : '')}
+                          exclude={startDateExclude}
+                          {...getStartInputProps()}
+                        />
+                      </div>
+                      <div
+                        data-test-eholdings-coverage-fields-date-range-end
+                        className={styles['coverage-fields-datepicker']}
+                      >
+                        <Field
+                          name={`${dateRange}.endCoverage`}
+                          type="text"
+                          component={Datepicker}
+                          label={intl.formatMessage({ id: 'ui-eholdings.date.endDate' })}
+                          format={(value) => (value ? intl.formatDate(value, { timeZone: 'UTC' }) : '')}
+                          exclude={endDateExclude}
+                          {...getEndInputProps()}
+                        />
+                      </div>
+                    </Fragment>
+                  )}
+                </DateRangeWrapper>
 
                 <div
                   data-test-eholdings-coverage-fields-remove-row-button
