@@ -23,11 +23,14 @@ import Toaster from '../../toaster';
 
 import SelectionStatus from '../selection-status';
 import KeyValueColumns from '../../key-value-columns';
+import ProxyDisplay from '../../proxy-display';
 import styles from './package-show.css';
 
 class PackageShow extends Component {
   static propTypes = {
     model: PropTypes.object.isRequired,
+    proxyTypes: PropTypes.object.isRequired,
+    provider: PropTypes.object.isRequired,
     fetchPackageTitles: PropTypes.func.isRequired,
     intl: intlShape.isRequired,
     toggleSelected: PropTypes.func.isRequired,
@@ -103,7 +106,14 @@ class PackageShow extends Component {
   }
 
   render() {
-    let { model, fetchPackageTitles, intl, searchModal } = this.props;
+    let {
+      model,
+      fetchPackageTitles,
+      intl,
+      proxyTypes,
+      provider,
+      searchModal
+    } = this.props;
     let { router, queryParams } = this.context;
     let {
       showSelectionModal,
@@ -114,7 +124,7 @@ class PackageShow extends Component {
     } = this.state;
 
     let visibilityMessage = model.visibilityData.reason && `(${model.visibilityData.reason})`;
-
+    let hasProxy = model.proxy && model.proxy.id;
     let modalMessage = model.isCustom ?
       {
         header: intl.formatMessage({ id: 'ui-eholdings.package.modal.header.isCustom' }),
@@ -323,6 +333,15 @@ class PackageShow extends Component {
                           )}
                         </div>
                       </KeyValue>
+                    )}
+                    {hasProxy && (proxyTypes.isLoading || model.isLoading || provider.isLoading) ? (
+                      <Icon icon="spinner-ellipsis" />
+                    ) : (
+                      <ProxyDisplay
+                        model={model}
+                        proxyTypes={proxyTypes}
+                        higherLevelProxyId={provider.proxy && provider.proxy.id}
+                      />
                     )}
                   </div>
                 ) : (

@@ -11,6 +11,8 @@ import {
   interactor,
   property,
   text,
+  value,
+  selectable,
 } from '@bigtest/interactor';
 import { hasClassBeginningWith } from './helpers';
 import Toast from './toast';
@@ -85,6 +87,8 @@ import PackageSelectionStatus from './selection-status';
   hasReadOnlyNameFieldPresent = isPresent('[data-test-eholdings-package-readonly-name-field]');
   hasContentTypeFieldPresent = isPresent('[data-test-eholdings-package-content-type-field]');
   hasReadOnlyContentTypeFieldPresent = isPresent('[data-test-eholdings-package-details-readonly-content-type]');
+  proxySelectValue = value('[data-test-eholdings-package-proxy-select-field] select');
+  chooseProxy = selectable('[data-test-eholdings-package-proxy-select-field] select');
   dropDown = new PackageEditDropDown('[class*=paneHeaderCenterInner---] [class*=dropdown---]');
   dropDownMenu = new PackageEditDropDownMenu();
 

@@ -51,6 +51,8 @@ import PackageSelectionStatus from './selection-status';
   numTitles = text('[data-test-eholdings-package-details-titles-total]');
   numTitlesSelected = text('[data-test-eholdings-package-details-titles-selected]');
   packageType = text('[data-test-eholdings-package-details-type]');
+  hasProxy = isPresent('[data-test-eholdings-details-proxy]');
+  proxyValue = text('[data-test-eholdings-details-proxy]');
   hasErrors = isPresent('[data-test-eholdings-details-view-error="package"]');
   hasBackButton = isPresent('[data-test-eholdings-details-view-back-button]');
   hasCollapseAllButton = isPresent('[data-test-eholdings-details-view-collapse-all-button]');

@@ -14,7 +14,7 @@ describeApplication('PackageShow', () => {
       name: 'Cool Provider'
     });
 
-    providerPackage = this.server.create('package', 'withTitles', 'withCustomCoverage', {
+    providerPackage = this.server.create('package', 'withTitles', 'withCustomCoverage', 'withProxy', {
       provider,
       name: 'Cool Package',
       contentType: 'E-Book',
@@ -156,6 +156,27 @@ describeApplication('PackageShow', () => {
     });
   });
 
+  describe('viewing a managed package details page', () => {
+    beforeEach(function () {
+      providerPackage.isSelected = true;
+      return this.visit(`/eholdings/packages/${providerPackage.id}`, () => {
+        expect(PackageShowPage.$root).to.exist;
+      });
+    });
+
+    it('displays the package type as complete', () => {
+      expect(PackageShowPage.packageType).to.equal('Complete');
+    });
+
+    it('has package proxy details', () => {
+      expect(PackageShowPage.hasProxy).to.be.true;
+    });
+
+    it('displays package proxy value', () => {
+      expect(PackageShowPage.proxyValue).to.equal('microstates');
+    });
+  });
+
   describe('viewing a custom package details page', () => {
     beforeEach(function () {
       providerPackage.isCustom = true;
@@ -168,6 +189,72 @@ describeApplication('PackageShow', () => {
 
     it('displays the package type as custom', () => {
       expect(PackageShowPage.packageType).to.equal('Custom');
+    });
+
+    it('has package proxy details', () => {
+      expect(PackageShowPage.hasProxy).to.be.true;
+    });
+
+    it('displays package proxy value', () => {
+      expect(PackageShowPage.proxyValue).to.equal('microstates');
+    });
+  });
+
+  describe('visiting a managed package details page with an inherited proxy', () => {
+    beforeEach(function () {
+      provider = this.server.create('provider', 'withInheritedProxy', {
+        name: 'Cool Provider'
+      });
+
+      providerPackage = this.server.create('package', 'withTitles', 'withCustomCoverage', 'withInheritedProxy', {
+        provider,
+        name: 'Cool Package',
+        contentType: 'E-Book',
+        isSelected: true,
+        titleCount: 5,
+        packageType: 'Complete'
+      });
+      return this.visit(`/eholdings/packages/${providerPackage.id}`, () => {
+        expect(PackageShowPage.$root).to.exist;
+      });
+    });
+
+    it('displays the proxy prepended with Inherited', () => {
+      expect(PackageShowPage.hasProxy).to.be.true;
+      expect(PackageShowPage.proxyValue).to.include('Inherited');
+      expect(PackageShowPage.proxyValue).to.include(`${providerPackage.proxy.id}`);
+    });
+  });
+
+  describe('visiting a custom package details page with an inherited proxy', () => {
+    beforeEach(function () {
+      provider = this.server.create('provider', 'withInheritedProxy', {
+        name: 'Cool Provider'
+      });
+
+      providerPackage = this.server.create('package', 'withTitles', 'withCustomCoverage', 'withInheritedProxy', {
+        provider,
+        name: 'Cool Package',
+        contentType: 'E-Book',
+        isSelected: true,
+        titleCount: 5,
+        packageType: 'Custom',
+        isCustom: true
+      });
+
+      return this.visit(`/eholdings/packages/${providerPackage.id}`, () => {
+        expect(PackageShowPage.$root).to.exist;
+      });
+    });
+
+    it('displays the package type as custom', () => {
+      expect(PackageShowPage.packageType).to.equal('Custom');
+    });
+
+    it('displays the proxy prepended with Inherited', () => {
+      expect(PackageShowPage.hasProxy).to.be.true;
+      expect(PackageShowPage.proxyValue).to.include('Inherited');
+      expect(PackageShowPage.proxyValue).to.include(`${providerPackage.proxy.id}`);
     });
   });
 
@@ -233,7 +320,6 @@ describeApplication('PackageShow', () => {
       expect(PackageShowPage.hasBackButton).to.be.true;
     });
   });
-
 
   describe('encountering a server error', () => {
     beforeEach(function () {
