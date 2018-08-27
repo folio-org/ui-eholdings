@@ -45,8 +45,11 @@ import Toast from './toast';
 
   proxySelectValue = value('[data-test-eholdings-provider-proxy-select] select');
   chooseRootProxy = fillable('[data-test-eholdings-provider-proxy-select] select');
+  hasTokenHelpText = isPresent('[data-test-eholdings-token-fields-help-text]');
   tokenHelpText = text('[data-test-eholdings-token-fields-help-text]');
+  hasTokenPrompt = isPresent('[data-test-eholdings-token-fields-prompt]');
   tokenPrompt = text('[data-test-eholdings-token-fields-prompt]');
+  hasTokenValue = isPresent('[data-test-eholdings-token-value-textarea]');
   tokenValue = text('[data-test-eholdings-token-value-textarea]');
   hasAddTokenBtn = isPresent('[data-test-eholdings-token-add-button]');
   clickAddTokenButton = clickable('[data-test-eholdings-token-add-button] button');

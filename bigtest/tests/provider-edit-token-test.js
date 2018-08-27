@@ -136,5 +136,21 @@ describeApplication('ProviderEditToken', () => {
         expect(ProviderEditPage.$root).to.exist;
       });
     });
+
+    it('does not show token help text', () => {
+      expect(ProviderEditPage.hasTokenHelpText).to.equal(false);
+    });
+
+    it('does not show token help prompt', () => {
+      expect(ProviderEditPage.hasTokenPrompt).to.equal(false);
+    });
+
+    it('does not show token value', () => {
+      expect(ProviderEditPage.hasTokenValue).to.equal(false);
+    });
+
+    it('does not have add token button', () => {
+      expect(ProviderEditPage.hasAddTokenBtn).to.equal(false);
+    });
   });
 });
