@@ -6,9 +6,10 @@ import PackageSelectField, { validate as validatePackage } from '../_fields/pack
 import CustomURLField, { validate as validateURL } from '../../resource/_fields/custom-url';
 
 function AddTitleToPackageForm({ handleSubmit, onSubmit, packageOptions }) {
+  let filteredPackageOptions = packageOptions.filter(pkg => pkg.label !== '');
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
-      <PackageSelectField options={packageOptions} />
+      <PackageSelectField options={filteredPackageOptions} />
       <CustomURLField />
     </form>
   );

@@ -131,6 +131,7 @@ class TitleShow extends Component {
 
   get customPackageOptions() {
     let titlePackageIds = this.props.model.resources.map(({ id }) => id);
+    this.props.customPackages.pageSize = 100;
 
     return this.props.customPackages.map(pkg => ({
       disabled: titlePackageIds.includes(pkg.id),
