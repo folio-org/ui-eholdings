@@ -414,9 +414,9 @@
     mousetrap "^1.6.1"
     prop-types "^15.5.10"
 
-"@folio/ui-testing@github:folio-org/ui-testing#framework-only":
+"@folio/ui-testing@folio-org/ui-testing#framework-only":
   version "4.0.0"
-  resolved "https://codeload.github.com/folio-org/ui-testing/tar.gz/0e5ac5f7c1f4e444e64ac83766e79d3825329acf"
+  resolved "https://codeload.github.com/folio-org/ui-testing/tar.gz/f0c4cba7147c5dc868e8b37b27f1967e0fc654ec"
   dependencies:
     debug "^3.1.0"
     minimist "^1.2.0"

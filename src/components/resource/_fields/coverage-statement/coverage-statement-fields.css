@@ -1,0 +1,5 @@
+@import '@folio/stripes-components/lib/variables';
+
+.coverage-statement-fields-category {
+  margin: 0.5em 1.75em var(--controlMarginBottom);
+}

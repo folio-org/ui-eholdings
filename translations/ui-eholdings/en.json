@@ -144,6 +144,7 @@
     "label.coverageDates": "Coverage dates",
     "label.coverageSettings": "Coverage settings",
     "label.coverageStatement": "Coverage statement",
+    "label.coverageDisplay": "Coverage display",
     "label.custom.coverageStatement": "Custom coverage statement",
     "label.titleInformation": "Title information",
     "label.packageInformation": "Package information",
@@ -227,6 +228,7 @@
     "validate.errors.customPackage.name": "Custom packages must have a name.",
     "validate.errors.customPackage.name.length": "Must be less than 300 characters.",
     "validate.errors.coverageStatement.length": "Statement must be 350 characters or less.",
+    "validate.errors.coverageStatement.blank": "Statement field cannot be blank if selected.",
 
     "validate.errors.edition.value": "Invalid value.",
     "validate.errors.edition.length": "Value exceeds the 250 character limit.",
