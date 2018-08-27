@@ -16,7 +16,7 @@ import { processErrors, isBookPublicationType } from '../../utilities';
 import DetailsView from '../../details-view';
 import VisibilityField from '../_fields/visibility';
 import CoverageStatementFields, { validate as validateCoverageStatement } from '../_fields/coverage-statement';
-import CustomCoverageFields, { validate as validateCoverageDates } from '../_fields/custom-coverage';
+import ManagedCoverageFields, { validate as validateCoverageDates } from '../_fields/managed-coverage';
 import CustomEmbargoFields, { validate as validateEmbargo } from '../_fields/custom-embargo';
 import DetailsViewSection from '../../details-view-section';
 import NavigationModal from '../../navigation-modal';
@@ -274,7 +274,7 @@ class ResourceEditManagedTitle extends Component { // eslint-disable-line react/
                   {managedResourceSelected ? (
                     <Fragment>
                       <h4><FormattedMessage id="ui-eholdings.label.dates" /></h4>
-                      <CustomCoverageFields
+                      <ManagedCoverageFields
                         initialValue={initialValues.customCoverages}
                         model={model}
                       />
