@@ -6,7 +6,7 @@ export default function TokenDisplay({ model }) {
   if (model.providerToken.value) {
     return (
       <div data-test-eholdings-provider-details-token>
-        <span>{model.providerToken.prompt}&nbsp;:&nbsp;{model.providerToken.value}</span>
+        <span>{model.providerToken.prompt}:&nbsp;{model.providerToken.value}</span>
       </div>);
   } else {
     return (
