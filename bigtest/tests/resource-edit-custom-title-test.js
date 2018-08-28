@@ -96,10 +96,6 @@ describeApplication('ResourceEditCustomTitle', () => {
       });
     });
 
-    it('displays the managed coverage dates in the form', () => {
-      expect(ResourceEditPage.managedCoverageDisplay).to.equal('1969 - 1972');
-    });
-
     it('shows a form with coverage statement', () => {
       expect(ResourceEditPage.coverageStatement).to.equal('');
     });

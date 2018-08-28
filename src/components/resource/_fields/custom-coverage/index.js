@@ -1,1 +1,1 @@
-export { default, validate } from './resource-coverage-fields';
+export { default, validate } from './custom-coverage-fields';
