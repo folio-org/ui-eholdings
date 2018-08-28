@@ -8,13 +8,13 @@ import styles from './proxy-select-field.css';
 
 function ProxySelectField({ proxyTypes, rootProxy, intl }) {
   let proxyTypesRecords = proxyTypes.resolver.state.proxyTypes.records;
-  let rootProxyId = rootProxy.data.attributes.proxyTypeId;
+  let rootProxyId = rootProxy.data.attributes.proxyTypeId.toLowerCase();
   let options = [];
 
   if (proxyTypesRecords && rootProxyId) {
     for (let proxyTypesRecord in proxyTypesRecords) {
       if (Object.prototype.hasOwnProperty.call(proxyTypesRecords, proxyTypesRecord)) {
-        let selectValue = proxyTypesRecords[proxyTypesRecord].attributes.id;
+        let selectValue = proxyTypesRecords[proxyTypesRecord].attributes.id.toLowerCase();
         if (rootProxyId === selectValue) {
           options.push({ label: `${intl.formatMessage({ id: 'ui-eholdings.provider.inherited' })}-${proxyTypesRecords[proxyTypesRecord].attributes.name}`,
             value: proxyTypesRecords[proxyTypesRecord].attributes.id });
