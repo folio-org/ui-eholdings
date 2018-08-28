@@ -13,7 +13,7 @@ import DetailsViewSection from '../../details-view-section';
 import NavigationModal from '../../navigation-modal';
 import Toaster from '../../toaster';
 import ProxySelectField from '../_fields/proxy-select';
-import TokenField from '../_fields/token';
+import TokenField, { validate as validateToken } from '../_fields/token';
 import PaneHeaderButton from '../../pane-header-button';
 import styles from './provider-edit.css';
 
@@ -159,7 +159,12 @@ class ProviderEdit extends Component {
    }
 }
 
+const validate = (values, props) => {
+  return validateToken(values, props);
+};
+
 export default injectIntl(reduxForm({
+  validate,
   enableReinitialize: true,
   form: 'ProviderEdit',
   destroyOnUnmount: false,

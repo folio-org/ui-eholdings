@@ -256,6 +256,8 @@
     "validate.errors.customUrl.length": "Custom URLs must be 600 characters or less.",
     "validate.errors.customUrl.include": "The URL should include http:// or https://",
 
+    "validate.errors.token.length": "Tokens must be 500 characters or less.",
+
     "server.errors.failedBackend": "Could not retrieve configuration information",
     "server.errors.errorDuringFetch": "There was a server error while retrieving your knowledge base configuration.",
     "server.errors.kbNotConfigured": "Knowledge base not configured",

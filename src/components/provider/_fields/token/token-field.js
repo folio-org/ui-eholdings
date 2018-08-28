@@ -66,3 +66,14 @@ class TokenField extends Component {
 }
 
 export default injectIntl(TokenField);
+
+export function validate(values, props) {
+  const errors = {};
+  let { intl } = props;
+
+  if (values.tokenValue && values.tokenValue.length > 500) {
+    errors.tokenValue = intl.formatMessage({ id: 'ui-eholdings.validate.errors.token.length' });
+  }
+
+  return errors;
+}
