@@ -6,6 +6,7 @@ import TitleManager from '@folio/stripes-core/src/components/TitleManager';
 import { createResolver } from '../redux';
 import Resource from '../redux/resource';
 import View from '../components/resource/show';
+import { ProxyType } from '../redux/application';
 
 class ResourceShowRoute extends Component {
   static propTypes = {
@@ -17,7 +18,9 @@ class ResourceShowRoute extends Component {
     model: PropTypes.object.isRequired,
     getResource: PropTypes.func.isRequired,
     updateResource: PropTypes.func.isRequired,
-    destroyResource: PropTypes.func.isRequired
+    destroyResource: PropTypes.func.isRequired,
+    getProxyTypes: PropTypes.func.isRequired,
+    proxyTypes: PropTypes.object.isRequired,
   };
 
   static contextTypes = {
@@ -30,9 +33,10 @@ class ResourceShowRoute extends Component {
 
   constructor(props) {
     super(props);
-    let { match, getResource } = props;
+    let { match, getResource, getProxyTypes } = props;
     let { id } = match.params;
     getResource(id);
+    getProxyTypes();
   }
 
   componentDidUpdate(prevProps) {
@@ -88,6 +92,7 @@ class ResourceShowRoute extends Component {
       <TitleManager record={this.props.model.name}>
         <View
           model={this.props.model}
+          proxyTypes={this.props.proxyTypes}
           toggleSelected={this.toggleSelected}
         />
       </TitleManager>
@@ -96,10 +101,17 @@ class ResourceShowRoute extends Component {
 }
 
 export default connect(
-  ({ eholdings: { data } }, { match }) => ({
-    model: createResolver(data).find('resources', match.params.id)
-  }), {
+  ({ eholdings: { data } }, { match }) => {
+    let resolver = createResolver(data);
+
+    return {
+      model: resolver.find('resources', match.params.id),
+      proxyTypes: resolver.query('proxyTypes'),
+      resolver
+    };
+  }, {
     getResource: id => Resource.find(id, { include: ['package', 'title'] }),
+    getProxyTypes: () => ProxyType.query(),
     updateResource: model => Resource.save(model),
     destroyResource: model => Resource.destroy(model)
   }

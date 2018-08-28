@@ -17,6 +17,7 @@ class Resource {
   customEmbargoPeriod = {};
   visibilityData = {};
   coverageStatement = '';
+  proxy = {};
 
   // these are really title attributes, but have to stick around
   // until /PUT titles is available in mod-kb-ebsco

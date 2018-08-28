@@ -99,6 +99,8 @@
     "resource.coverage.noCustomizations": "No coverage customizations set.",
     "resource.toast.isFreshlySaved": "Title was updated.",
     "resource.visibilityData.isHidden": "(All titles in this package are hidden)",
+    "resource.proxy.inherited": "Inherited - {proxy}",
+    "resource.proxy":"Proxy",
 
     "title.name.isRequired": "Name *",
     "title.package.isRequired": "Package *",

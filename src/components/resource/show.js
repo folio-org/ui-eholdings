@@ -23,12 +23,14 @@ import CoverageDateList from '../coverage-date-list';
 import { isBookPublicationType, isValidCoverageList, processErrors } from '../utilities';
 import Toaster from '../toaster';
 import KeyValueColumns from '../key-value-columns';
+import ProxyDisplay from './proxy-display';
 
 class ResourceShow extends Component {
   static propTypes = {
     model: PropTypes.object.isRequired,
     toggleSelected: PropTypes.func.isRequired,
-    intl: intlShape.isRequired // eslint-disable-line react/no-unused-prop-types
+    intl: intlShape.isRequired, // eslint-disable-line react/no-unused-prop-types
+    proxyTypes: PropTypes.object.isRequired
   };
 
   static contextTypes = {
@@ -86,7 +88,7 @@ class ResourceShow extends Component {
   }
 
   render() {
-    let { model, intl } = this.props;
+    let { model, intl, proxyTypes } = this.props;
     let { router } = this.context;
     let {
       showSelectionModal,
@@ -322,6 +324,15 @@ class ResourceShow extends Component {
                       (<FormattedMessage id="ui-eholdings.yes" />)}
                   </div>
                 </KeyValue>
+
+                {(proxyTypes.isLoading || model.isLoading) ? (
+                  <Icon icon="spinner-ellipsis" />
+                ) : (
+                  <ProxyDisplay
+                    model={model}
+                    proxyTypes={proxyTypes}
+                  />
+                )}
 
                 {model.url && (
                   <KeyValue label={`${model.title.isTitleCustom ?
