@@ -134,7 +134,7 @@ class ProviderEdit extends Component {
                       )}
                        {supportsTokens && (
                        <Fragment>
-                         <h4><FormattedMessage id="ui-eholdings.provider.token" /></h4>
+                         <label><FormattedMessage id="ui-eholdings.provider.token" /></label>
                          <TokenField model={model} showInputs={hasTokenValue} />
                        </Fragment>
                       )}
