@@ -30,10 +30,7 @@ import SearchBadge from './search-badge';
   proxy = text('[data-test-eholdings-provider-details-proxy]');
   token = text('[data-test-eholdings-provider-details-token]');
   tokenMessage = text('[data-test-eholdings-provider-details-token-message]');
-
-  isTokenPresent = computed(function () {
-    try { return !!this.token; } catch (e) { return false; }
-  });
+  isTokenPresent = isPresent('[data-test-eholdings-provider-details-token]');
   toast = Toast;
   searchModal = new SearchModal('#eholdings-details-view-search-modal');
   searchModalBadge = new SearchBadge('[data-test-eholdings-search-modal-badge]');
