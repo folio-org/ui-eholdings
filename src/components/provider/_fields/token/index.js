@@ -1,1 +1,1 @@
-export { default } from './token-field';
+export { default, validate } from './token-field';

@@ -40,9 +40,10 @@ class ProviderEdit extends Component {
    componentDidUpdate(prevProps) {
      let wasPending = prevProps.model.update.isPending && !this.props.model.update.isPending;
      let needsUpdate = !isEqual(prevProps.model, this.props.model);
+     let isRejected = this.props.model.update.isRejected;
      let { router } = this.context;
 
-     if (wasPending && needsUpdate) {
+     if (wasPending && needsUpdate && !isRejected) {
        router.history.push({
          pathname: `/eholdings/providers/${prevProps.model.id}`,
          search: router.route.location.search,
