@@ -1,6 +1,6 @@
 import { Factory, faker, trait } from '@bigtest/mirage';
 
-let helpText = '<ul><li>Enter your Gale<sup></sup> site ID in the space provided below. The site ID may contain a combination of alpha/numeric characters, varying in length. <blockquote><p> Example: The site ID immediately follows /itweb/ in a URL. The site ID in the following URL is …………….</ul>';
+let helpText = '<ul><li>Enter your Gale token</li></ul>';
 
 export default Factory.extend({
   name: () => faker.company.companyName(),

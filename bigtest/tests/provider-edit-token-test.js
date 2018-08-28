@@ -7,7 +7,8 @@ import ProviderEditPage from '../interactors/provider-edit';
 
 describeApplication('ProviderEditToken', () => {
   let provider,
-    packages;
+    packages,
+    longToken;
 
   beforeEach(function () {
     provider = this.server.create('provider', 'withPackagesAndTitles', 'withTokenAndValue', {
@@ -27,8 +28,8 @@ describeApplication('ProviderEditToken', () => {
       });
     });
 
-    it.skip('has token help text', () => {
-      expect(ProviderEditPage.tokenHelpText).to.equal(provider.providerToken.helpText);
+    it('has token help text', () => {
+      expect(ProviderEditPage.tokenHelpText).to.equal('Enter your Gale token');
     });
 
     it('has token help prompt', () => {
@@ -151,6 +152,38 @@ describeApplication('ProviderEditToken', () => {
 
     it('does not have add token button', () => {
       expect(ProviderEditPage.hasAddTokenBtn).to.equal(false);
+    });
+  });
+
+  describe('visiting the provider edit page and setting token to a long value ', () => {
+    beforeEach(function () {
+      return this.visit(`/eholdings/providers/${provider.id}/edit`, () => {
+        expect(ProviderEditPage.$root).to.exist;
+      });
+    });
+
+    it('has token value', () => {
+      expect(ProviderEditPage.tokenValue).to.equal(provider.providerToken.value);
+    });
+
+    it('disables the save button', () => {
+      expect(ProviderEditPage.isSaveDisabled).to.be.true;
+    });
+
+    describe('choosing a lengthy value for token', () => {
+      beforeEach(() => {
+        longToken = 'a'.repeat(501);
+        return ProviderEditPage
+          .inputTokenValue(longToken);
+      });
+
+      it('highlights the textarea with an error state', () => {
+        expect(ProviderEditPage.tokenHasError).to.be.true;
+      });
+
+      it('displays the correct validation message', () => {
+        expect(ProviderEditPage.tokenError).to.equal('Tokens must be 500 characters or less.');
+      });
     });
   });
 });

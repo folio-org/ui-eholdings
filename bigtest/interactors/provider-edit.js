@@ -12,7 +12,7 @@ import {
   action,
   isPresent
 } from '@bigtest/interactor';
-
+import { hasClassBeginningWith } from './helpers';
 import Toast from './toast';
 
 @interactor class ProviderEditNavigationModal {
@@ -65,6 +65,9 @@ import Toast from './toast';
   dropDownMenu = new ProviderEditDropDownMenu();
   hasProxySelect = isPresent('[data-test-eholdings-provider-proxy-select] select');
   noPackagesSelected = text('[data-test-eholdings-provider-package-not-selected]');
+
+  tokenHasError = hasClassBeginningWith('[data-test-eholdings-token-value-textarea] textarea', 'hasError--');
+  tokenError = text('[data-test-eholdings-token-value-textarea] [class^="feedbackError--"]');
 
   toast = Toast;
 }
