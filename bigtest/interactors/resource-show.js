@@ -69,6 +69,7 @@ import Toast from './toast';
   deselectionModal = new ResourceShowDeselectionModal('#eholdings-resource-deselection-confirmation-modal');
   navigationModal = new ResourceShowNavigationModal('#navigation-modal');
   resourceVisibilityLabel = text('[data-test-eholdings-resource-show-visibility]');
+  proxy = text('[data-test-eholdings-resource-proxy]');
   isResourceHidden = computed(function () {
     return /^No/.test(this.resourceVisibilityLabel);
   });

@@ -49,7 +49,7 @@ describeApplication('ResourceShow', () => {
 
     title.save();
 
-    resource = this.server.create('resource', {
+    resource = this.server.create('resource', 'withProxy', {
       package: providerPackage,
       isSelected: false,
       title,
@@ -135,6 +135,10 @@ describeApplication('ResourceShow', () => {
 
     it('displays the external link icon', () => {
       expect(ResourcePage.isExternalLinkIconPresent).to.be.true;
+    });
+
+    it('displays the proxy', () => {
+      expect(ResourcePage.proxy).to.equal('Inherited - bigTestJS');
     });
 
     describe('clicking the collapse all button', () => {
