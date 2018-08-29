@@ -3,7 +3,7 @@ import { Factory, faker } from '@bigtest/mirage';
 export default Factory.extend({
   factName: () => faker.random.arrayElement([
     '[[mysiteid]]',
-    '[[yoursited]]]',
+    '[[yoursiteid]]]',
     '[[testsiteid]]'
   ]),
   prompt: () => faker.random.arrayElement([

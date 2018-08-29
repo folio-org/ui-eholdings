@@ -32,7 +32,7 @@ describeApplication('ProviderEditToken', () => {
       expect(ProviderEditPage.tokenHelpText).to.equal('Enter your Gale token');
     });
 
-    it('has token help prompt', () => {
+    it('has token prompt', () => {
       expect(ProviderEditPage.tokenPrompt).to.equal(provider.providerToken.prompt);
     });
 
@@ -118,7 +118,7 @@ describeApplication('ProviderEditToken', () => {
         expect(ProviderEditPage.tokenHelpText).to.equal('Enter your token');
       });
 
-      it('has token help prompt', () => {
+      it('has token prompt', () => {
         expect(ProviderEditPage.tokenPrompt).to.equal('/test1/');
       });
 
