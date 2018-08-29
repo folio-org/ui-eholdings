@@ -142,7 +142,7 @@ describeApplication('ProviderEditToken', () => {
       expect(ProviderEditPage.hasTokenHelpText).to.equal(false);
     });
 
-    it('does not show token help prompt', () => {
+    it('does not show token prompt', () => {
       expect(ProviderEditPage.hasTokenPrompt).to.equal(false);
     });
 
