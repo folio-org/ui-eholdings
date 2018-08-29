@@ -6,6 +6,7 @@ class Provider {
   packagesTotal = 0;
   packages = hasMany();
   proxy = {};
+  providerToken = {};
 }
 
 export default model({

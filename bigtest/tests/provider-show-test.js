@@ -9,7 +9,7 @@ describeApplication('ProviderShow', () => {
     packages;
 
   beforeEach(function () {
-    provider = this.server.create('provider', 'withPackagesAndTitles', 'withProxy', {
+    provider = this.server.create('provider', 'withPackagesAndTitles', 'withProxy', 'withTokenAndValue', {
       name: 'League of Ordinary Men',
       packagesTotal: 5
     });
@@ -48,6 +48,11 @@ describeApplication('ProviderShow', () => {
 
     it('displays the proxy', () => {
       expect(ProviderShowPage.proxy).to.equal(`${provider.proxy.id}`);
+    });
+
+    it('displays the token prompt and value', () => {
+      expect(ProviderShowPage.token).to.include(`${provider.providerToken.prompt}`);
+      expect(ProviderShowPage.token).to.include(`${provider.providerToken.value}`);
     });
 
     it('displays a list of packages', () => {
@@ -170,6 +175,46 @@ describeApplication('ProviderShow', () => {
 
     it('displays the proxy as None', () => {
       expect(ProviderShowPage.proxy).to.equal('None');
+    });
+  });
+
+  describe('visiting the provider details page with a token without value', () => {
+    beforeEach(function () {
+      let token = this.server.create('token', {
+        factName: '[[mysiteid]]',
+        prompt: '/test1/',
+        helpText: '',
+        value: ''
+      });
+      provider.update('providerToken', token.toJSON());
+      provider.save();
+
+      return this.visit(`/eholdings/providers/${provider.id}`, () => {
+        expect(ProviderShowPage.$root).to.exist;
+      });
+    });
+
+    it('does not display the token', () => {
+      expect(ProviderShowPage.isTokenPresent).to.equal(false);
+    });
+
+    it('displays a message that no provider token has been set', () => {
+      expect(ProviderShowPage.tokenMessage).to.equal('No provider token has been set.');
+    });
+  });
+
+  describe('visiting the provider details page without a token', () => {
+    beforeEach(function () {
+      provider.update('providerToken', null);
+      provider.save();
+
+      return this.visit(`/eholdings/providers/${provider.id}`, () => {
+        expect(ProviderShowPage.$root).to.exist;
+      });
+    });
+
+    it('does not display the token', () => {
+      expect(ProviderShowPage.isTokenPresent).to.equal(false);
     });
   });
 

@@ -1,5 +1,7 @@
 import { Factory, faker, trait } from '@bigtest/mirage';
 
+let helpText = '<ul><li>Enter your Gale token</li></ul>';
+
 export default Factory.extend({
   name: () => faker.company.companyName(),
   packagesTotal: 0,
@@ -54,6 +56,32 @@ export default Factory.extend({
     }
   }),
 
+  withToken: trait({
+    afterCreate(provider, server) {
+      let token = server.create('token', {
+        factName: '[[mysiteid]]',
+        prompt: '/test1/',
+        helpText,
+        value: ''
+      });
+      provider.update('providerToken', token.toJSON());
+      provider.save();
+    }
+  }),
+
+  withTokenAndValue: trait({
+    afterCreate(provider, server) {
+      let token = server.create('token', {
+        factName: '[[mysiteid]]',
+        prompt: '/test1/',
+        helpText,
+        value: 'abcdefghijk'
+      });
+      provider.update('providerToken', token.toJSON());
+      provider.save();
+    }
+  }),
+
   afterCreate(provider, server) {
     if (!provider.proxy) {
       let proxy = server.create('proxy', {
@@ -61,6 +89,17 @@ export default Factory.extend({
         id: 'bigTestJS'
       });
       provider.update('proxy', proxy.toJSON());
+      provider.save();
+    }
+
+    if (!provider.token) {
+      let token = server.create('token', {
+        factName: '[[mysiteid]]',
+        prompt: '/test1/',
+        helpText,
+        value:'abcdefghijk'
+      });
+      provider.update('providerToken', token.toJSON());
       provider.save();
     }
   }

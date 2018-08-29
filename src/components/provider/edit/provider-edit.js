@@ -13,6 +13,7 @@ import DetailsViewSection from '../../details-view-section';
 import NavigationModal from '../../navigation-modal';
 import Toaster from '../../toaster';
 import ProxySelectField from '../_fields/proxy-select';
+import TokenField, { validate as validateToken } from '../_fields/token';
 import PaneHeaderButton from '../../pane-header-button';
 import styles from './provider-edit.css';
 
@@ -39,9 +40,10 @@ class ProviderEdit extends Component {
    componentDidUpdate(prevProps) {
      let wasPending = prevProps.model.update.isPending && !this.props.model.update.isPending;
      let needsUpdate = !isEqual(prevProps.model, this.props.model);
+     let isRejected = this.props.model.update.isRejected;
      let { router } = this.context;
 
-     if (wasPending && needsUpdate) {
+     if (wasPending && needsUpdate && !isRejected) {
        router.history.push({
          pathname: `/eholdings/providers/${prevProps.model.id}`,
          search: router.route.location.search,
@@ -62,6 +64,8 @@ class ProviderEdit extends Component {
      } = this.props;
 
      let { router, queryParams } = this.context;
+     let supportsTokens = model.providerToken && model.providerToken.prompt;
+     let hasTokenValue = model.providerToken && model.providerToken.value;
 
      let actionMenuItems = [
        {
@@ -128,6 +132,12 @@ class ProviderEdit extends Component {
                           <ProxySelectField proxyTypes={proxyTypes} rootProxy={rootProxy} />
                         </div>
                       )}
+                       {supportsTokens && (
+                       <Fragment>
+                         <label><FormattedMessage id="ui-eholdings.provider.token" /></label>
+                         <TokenField model={model} showInputs={hasTokenValue} />
+                       </Fragment>
+                      )}
                      </div>
                  ) : (
                    <div data-test-eholdings-provider-package-not-selected>
@@ -150,7 +160,12 @@ class ProviderEdit extends Component {
    }
 }
 
+const validate = (values, props) => {
+  return validateToken(values, props);
+};
+
 export default injectIntl(reduxForm({
+  validate,
   enableReinitialize: true,
   form: 'ProviderEdit',
   destroyOnUnmount: false,

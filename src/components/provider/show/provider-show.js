@@ -12,6 +12,7 @@ import QueryList from '../../query-list';
 import PackageListItem from '../../package-list-item';
 import Toaster from '../../toaster';
 import ProxyDisplay from '../proxy-display';
+import TokenDisplay from '../token-display';
 import styles from './provider-show.css';
 
 class ProviderShow extends Component {
@@ -78,6 +79,9 @@ class ProviderShow extends Component {
     let { router, queryParams } = this.context;
     let { sections } = this.state;
     let hasProxy = model.proxy && model.proxy.id;
+    let hasToken = model.providerToken && model.providerToken.prompt;
+    let hasProviderSettings = hasProxy || hasToken;
+
     let actionMenuItems = [
       {
         label: <FormattedMessage id="ui-eholdings.actionMenu.edit" />,
@@ -144,14 +148,15 @@ class ProviderShow extends Component {
                   </div>
                 </KeyValue>
               </Accordion>
-              {hasProxy && (
+              {hasProviderSettings && (
                 <Accordion
                   label={<FormattedMessage id="ui-eholdings.provider.providerSettings" />}
                   open={sections.providerShowProviderSettings}
                   id="providerShowProviderSettings"
                   onToggle={this.handleSectionToggle}
                 >
-                  {(proxyTypes.isLoading || model.isLoading) ? (
+                  {hasProxy && (
+                  (proxyTypes.isLoading || model.isLoading) ? (
                     <Icon icon="spinner-ellipsis" />
                   ) : (
                     <KeyValue label={<FormattedMessage id="ui-eholdings.provider.proxy" />}>
@@ -160,7 +165,17 @@ class ProviderShow extends Component {
                         proxyTypes={proxyTypes}
                       />
                     </KeyValue>
-                  )}
+                  ))}
+                  {hasToken && (
+                  (model.isLoading) ? (
+                    <Icon icon="spinner-ellipsis" />
+                  ) : (
+                    <KeyValue label={<FormattedMessage id="ui-eholdings.provider.token" />}>
+                      <TokenDisplay
+                        model={model}
+                      />
+                    </KeyValue>
+                  ))}
                 </Accordion>
               )}
             </div>

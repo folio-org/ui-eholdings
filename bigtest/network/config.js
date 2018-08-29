@@ -164,10 +164,11 @@ export default function configure() {
     let matchingProvider = providers.find(request.params.id);
     let body = JSON.parse(request.requestBody);
     let {
-      proxy
+      proxy,
+      providerToken
     } = body.data.attributes;
-
     matchingProvider.update('proxy', proxy);
+    matchingProvider.update('providerToken', providerToken);
     return matchingProvider;
   });
 
