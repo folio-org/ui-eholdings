@@ -11,7 +11,7 @@ import DetailsView from '../../details-view';
 import QueryList from '../../query-list';
 import PackageListItem from '../../package-list-item';
 import Toaster from '../../toaster';
-import ProxyDisplay from '../proxy-display';
+import ProxyDisplay from '../../proxy-display';
 import TokenDisplay from '../token-display';
 import styles from './provider-show.css';
 
@@ -159,12 +159,10 @@ class ProviderShow extends Component {
                   (proxyTypes.isLoading || model.isLoading) ? (
                     <Icon icon="spinner-ellipsis" />
                   ) : (
-                    <KeyValue label={<FormattedMessage id="ui-eholdings.provider.proxy" />}>
-                      <ProxyDisplay
-                        model={model}
-                        proxyTypes={proxyTypes}
-                      />
-                    </KeyValue>
+                    <ProxyDisplay
+                      model={model}
+                      proxyTypes={proxyTypes}
+                    />
                   ))}
                   {hasToken && (
                   (model.isLoading) ? (

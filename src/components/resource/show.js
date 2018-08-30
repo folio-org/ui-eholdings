@@ -23,7 +23,7 @@ import CoverageDateList from '../coverage-date-list';
 import { isBookPublicationType, isValidCoverageList, processErrors } from '../utilities';
 import Toaster from '../toaster';
 import KeyValueColumns from '../key-value-columns';
-import ProxyDisplay from './proxy-display';
+import ProxyDisplay from '..//proxy-display';
 
 class ResourceShow extends Component {
   static propTypes = {

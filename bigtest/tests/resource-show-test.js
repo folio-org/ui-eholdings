@@ -138,7 +138,8 @@ describeApplication('ResourceShow', () => {
     });
 
     it('displays the proxy', () => {
-      expect(ResourcePage.proxy).to.equal('Inherited - bigTestJS');
+      expect(ResourcePage.proxy).to.include('Inherited');
+      expect(ResourcePage.proxy).to.include(`${resource.proxy.id}`);
     });
 
     describe('clicking the collapse all button', () => {
