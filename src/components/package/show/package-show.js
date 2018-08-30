@@ -304,12 +304,6 @@ class PackageShow extends Component {
                             :
                           (<FormattedMessage id="ui-eholdings.package.visibility.no" values={{ visibilityMessage }} />)}
                       </div>
-
-                      {model.visibilityData.isHidden && (
-                        <div data-test-eholdings-package-details-is-hidden>
-                          {model.visibilityData.reason}
-                        </div>
-                      )}
                     </KeyValue>
                     {!model.isCustom && (
                       <KeyValue label={<FormattedMessage id="ui-eholdings.package.packageAllowToAddTitles" />}>
