@@ -135,7 +135,7 @@ export default class SearchPaneset extends React.Component { // eslint-disable-l
               <PaneHeader
                 paneTitle={(<FormattedMessage id="ui-eholdings.search.searchAndFilter" />)}
                 lastMenu={showApply ? (
-                  <Button buttonStyle="transparent" onClick={this.toggleFilters} className={styles['search-pane-toggle']}>
+                  <Button buttonStyle="transparent" onClick={this.toggleFilters} buttonClass={styles['search-pane-toggle']}>
                     <FormattedMessage id="ui-eholdings.search.apply" />
                   </Button>
                 ) : null}

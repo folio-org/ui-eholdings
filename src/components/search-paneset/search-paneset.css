@@ -7,6 +7,7 @@
 
 .search-pane-toggle {
   height: 45px;
+  margin-bottom: 0;
   padding: 0 1em;
 }
 
