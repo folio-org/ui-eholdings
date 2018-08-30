@@ -27,7 +27,7 @@ import SearchBadge from './search-badge';
   errorMessage = text('[data-test-eholdings-details-view-error="provider"]');
   clickListSearch = clickable('[data-test-eholdings-search-filters="icon"]');
   filterBadge = isPresent('[data-test-eholdings-details-view-filters-badge]');
-  proxy = text('[data-test-eholdings-provider-details-proxy]');
+  proxy = text('[data-test-eholdings-details-proxy]');
   token = text('[data-test-eholdings-provider-details-token]');
   tokenMessage = text('[data-test-eholdings-provider-details-token-message]');
   isTokenPresent = isPresent('[data-test-eholdings-provider-details-token]');

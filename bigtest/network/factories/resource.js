@@ -55,6 +55,17 @@ export default Factory.extend({
     }
   }),
 
+  withProxy: trait({
+    afterCreate(resource, server) {
+      let proxy = server.create('proxy', {
+        inherited: true,
+        id: 'bigTestJS'
+      });
+      resource.update('proxy', proxy.toJSON());
+      resource.save();
+    }
+  }),
+
   afterCreate(resource, server) {
     if (!resource.visibilityData) {
       let visibilityData = server.create('visibility-data');
