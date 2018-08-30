@@ -70,8 +70,6 @@ import PackageSelectionStatus from './selection-status';
 
   isVisibleToPatrons = text('[data-test-eholdings-package-details-visibility-status]');
   isVisibilityStatusPresent = isPresent('[data-test-eholdings-package-details-visibility-status]');
-  isHiddenMessage = text('[data-test-eholdings-package-details-is-hidden]');
-  isHiddenMessagePresent = isPresent('[data-test-eholdings-package-details-is-hidden]');
   isHiding = hasClassBeginningWith('[data-test-eholdings-package-details-hidden] [data-test-toggle-switch]', 'is-pending--');
 
   allTitlesSelected = computed(function () {

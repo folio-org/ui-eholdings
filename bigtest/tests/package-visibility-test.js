@@ -28,12 +28,12 @@ describeApplication('PackageVisibility', () => {
       });
     });
 
-    it('displays NO (Hidden from patrons)', () => {
+    it('displays No in (Show titles in package to patrons)', () => {
       expect(PackageShowPage.isVisibleToPatrons).to.contain('No');
     });
 
-    it('displays the hidden/reason section', () => {
-      expect(PackageShowPage.isHiddenMessage).to.equal('The content is for mature audiences only.');
+    it('displays hidden reason in (Show titles in package to patrons', () => {
+      expect(PackageShowPage.isVisibleToPatrons).to.contain('The content is for mature audiences only.');
     });
   });
 
@@ -51,12 +51,8 @@ describeApplication('PackageVisibility', () => {
       });
     });
 
-    it('does not show titles in package to patrons', () => {
+    it('displays No as (Show titles in package to patrons)', () => {
       expect(PackageShowPage.isVisibleToPatrons).to.equal('No');
-    });
-
-    it('does not display the hidden/reason section', () => {
-      expect(PackageShowPage.isHiddenMessagePresent).to.be.false;
     });
   });
 
@@ -74,12 +70,8 @@ describeApplication('PackageVisibility', () => {
       });
     });
 
-    it('shows titles in package to patrons', () => {
+    it('displays Yes as (Show titles in package to patrons)', () => {
       expect(PackageShowPage.isVisibleToPatrons).to.equal('Yes');
-    });
-
-    it.always('does not display the hidden/reason section', () => {
-      expect(PackageShowPage.isHiddenMessagePresent).to.be.false;
     });
   });
 
@@ -99,10 +91,6 @@ describeApplication('PackageVisibility', () => {
 
     it('does not display visibility', () => {
       expect(PackageShowPage.isVisibilityStatusPresent).to.be.false;
-    });
-
-    it.always('does not display the hidden/reason section', () => {
-      expect(PackageShowPage.isHiddenMessagePresent).to.be.false;
     });
   });
 });
