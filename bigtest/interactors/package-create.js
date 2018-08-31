@@ -25,12 +25,12 @@ import Datepicker from './datepicker';
   hasContentType = isPresent('[data-test-eholdings-package-content-type-field]');
   chooseContentType = fillable('[data-test-eholdings-package-content-type-field] select');
   contentTypeValue = value('[data-test-eholdings-package-content-type-field] select');
-  hasAddCoverageButton = isPresent('[data-test-eholdings-coverage-fields-add-row-button]');
-  addCoverage = clickable('[data-test-eholdings-coverage-fields-add-row-button] button');
+  hasAddCoverageButton = isPresent('[data-test-eholdings-package-coverage-fields] [data-test-repeatable-field-add-item-button]');
+  addCoverage = clickable('[data-test-eholdings-package-coverage-fields] [data-test-repeatable-field-add-item-button]');
   save = clickable('[data-test-eholdings-package-create-save-button]');
   isSaveDisabled = property('[data-test-eholdings-package-create-save-button]', 'disabled');
 
-  dateRangeRowList = collection('[data-test-eholdings-coverage-fields-date-range-row]', {
+  dateRangeRowList = collection('[data-test-eholdings-package-coverage-fields] li', {
     beginDate: scoped('[data-test-eholdings-coverage-fields-date-range-begin]', Datepicker),
     endDate: scoped('[data-test-eholdings-coverage-fields-date-range-end]', Datepicker),
     fillDates(beginDate, endDate) {

@@ -1,15 +1,14 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import { Field, FieldArray } from 'redux-form';
 import PropTypes from 'prop-types';
 import moment from 'moment';
-import { injectIntl, intlShape, FormattedMessage } from 'react-intl';
+import { injectIntl, intlShape } from 'react-intl';
 
 import {
-  Button,
-  Datepicker,
-  IconButton
+  Datepicker
 } from '@folio/stripes-components';
 
+import RepeatableField from '../../../repeatable-field';
 import styles from './package-coverage-fields.css';
 
 class PackageCoverageFields extends Component {
@@ -22,86 +21,55 @@ class PackageCoverageFields extends Component {
     initialValue: []
   };
 
-  renderCoverageFields = ({ fields }) => {
-    let { initialValue, intl } = this.props;
+  renderField = (dateRange) => {
+    const { intl } = this.props;
 
     return (
-      <div className={styles['coverage-fields']}>
-        {fields.length === 0
-          && initialValue.length > 0
-          && initialValue[0].beginCoverage
-          && (
-          <p data-test-eholdings-package-coverage-fields-saving-will-remove>
-            <FormattedMessage id="ui-eholdings.package.noCoverageDates" />
-          </p>
-        )}
-
-        {fields.length === 0 ? (
-          <div
-            className={styles['coverage-fields-add-row-button']}
-            data-test-eholdings-coverage-fields-add-row-button
-          >
-            <Button
-              type="button"
-              onClick={() => fields.push({})}
-            >
-              <FormattedMessage id="ui-eholdings.package.coverage.addDateRange" />
-            </Button>
-          </div>
-        ) : (
-          <ul className={styles['coverage-fields-date-range-rows']}>
-            {fields.map((dateRange, index) => (
-              <li
-                data-test-eholdings-coverage-fields-date-range-row
-                key={index}
-                className={styles['coverage-fields-date-range-row']}
-              >
-                <div
-                  data-test-eholdings-coverage-fields-date-range-begin
-                  className={styles['coverage-fields-datepicker']}
-                >
-                  <Field
-                    name={`${dateRange}.beginCoverage`}
-                    type="text"
-                    component={Datepicker}
-                    label={intl.formatMessage({ id: 'ui-eholdings.date.startDate' })}
-                    format={(value) => (value ? intl.formatDate(value, { timeZone: 'UTC' }) : '')}
-                  />
-                </div>
-                <div
-                  data-test-eholdings-coverage-fields-date-range-end
-                  className={styles['coverage-fields-datepicker']}
-                >
-                  <Field
-                    name={`${dateRange}.endCoverage`}
-                    type="text"
-                    component={Datepicker}
-                    label={intl.formatMessage({ id: 'ui-eholdings.date.endDate' })}
-                    format={(value) => (value ? intl.formatDate(value, { timeZone: 'UTC' }) : '')}
-                  />
-                </div>
-
-                <div
-                  data-test-eholdings-coverage-fields-remove-row-button
-                  className={styles['coverage-fields-date-range-clear-row']}
-                >
-                  <IconButton
-                    icon="hollowX"
-                    onClick={() => fields.remove(index)}
-                    size="small"
-                  />
-                </div>
-              </li>
-            ))}
-          </ul>
-        )}
-      </div>
+      <Fragment>
+        <div
+          data-test-eholdings-coverage-fields-date-range-begin
+          className={styles['coverage-fields-datepicker']}
+        >
+          <Field
+            name={`${dateRange}.beginCoverage`}
+            type="text"
+            component={Datepicker}
+            label={intl.formatMessage({ id: 'ui-eholdings.date.startDate' })}
+            format={(value) => (value ? intl.formatDate(value, { timeZone: 'UTC' }) : '')}
+          />
+        </div>
+        <div
+          data-test-eholdings-coverage-fields-date-range-end
+          className={styles['coverage-fields-datepicker']}
+        >
+          <Field
+            name={`${dateRange}.endCoverage`}
+            type="text"
+            component={Datepicker}
+            label={intl.formatMessage({ id: 'ui-eholdings.date.endDate' })}
+            format={(value) => (value ? intl.formatDate(value, { timeZone: 'UTC' }) : '')}
+          />
+        </div>
+      </Fragment>
     );
-  };
+  }
 
   render() {
+    const { initialValue, intl } = this.props;
+
     return (
-      <FieldArray name="customCoverages" component={this.renderCoverageFields} />
+      <div data-test-eholdings-package-coverage-fields>
+        <FieldArray
+          addLabel={intl.formatMessage({ id: 'ui-eholdings.package.coverage.addDateRange' })}
+          component={RepeatableField}
+          emptyMessage={
+            initialValue.length > 0 && initialValue[0].beginCoverage ?
+              intl.formatMessage({ id: 'ui-eholdings.package.noCoverageDates' }) : ''
+          }
+          name="customCoverages"
+          renderField={this.renderField}
+        />
+      </div>
     );
   }
 }

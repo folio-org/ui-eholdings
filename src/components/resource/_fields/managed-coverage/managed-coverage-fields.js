@@ -1,18 +1,17 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import { Field, FieldArray } from 'redux-form';
 import PropTypes from 'prop-types';
 import moment from 'moment';
 import { injectIntl, intlShape, FormattedMessage } from 'react-intl';
 
 import {
-  Button,
   Datepicker,
-  IconButton,
   RadioButton
 } from '@folio/stripes-components';
 
 import CoverageDateList from '../../../coverage-date-list';
 import { isBookPublicationType } from '../../../utilities';
+import RepeatableField from '../../../repeatable-field';
 import styles from './managed-coverage-fields.css';
 
 class ResourceCoverageFields extends Component {
@@ -25,6 +24,41 @@ class ResourceCoverageFields extends Component {
   static defaultProps = {
     initialValue: []
   };
+
+  renderField = (dateRange) => {
+    const { intl } = this.props;
+
+    return (
+      <Fragment>
+        <div
+          data-test-eholdings-coverage-fields-date-range-begin
+          className={styles['coverage-fields-datepicker']}
+        >
+          <Field
+            name={`${dateRange}.beginCoverage`}
+            type="text"
+            component={Datepicker}
+            label={intl.formatMessage({ id: 'ui-eholdings.date.startDate' })}
+            id="begin-coverage"
+            format={(value) => (value ? intl.formatDate(value, { timeZone: 'UTC' }) : '')}
+          />
+        </div>
+        <div
+          data-test-eholdings-coverage-fields-date-range-end
+          className={styles['coverage-fields-datepicker']}
+        >
+          <Field
+            name={`${dateRange}.endCoverage`}
+            type="text"
+            component={Datepicker}
+            label={intl.formatMessage({ id: 'ui-eholdings.date.endDate' })}
+            id="end-coverage"
+            format={(value) => (value ? intl.formatDate(value, { timeZone: 'UTC' }) : '')}
+          />
+        </div>
+      </Fragment>
+    );
+  }
 
   renderCoverageFields = (fieldArrayProps) => {
     let { fields } = fieldArrayProps;
@@ -68,78 +102,16 @@ class ResourceCoverageFields extends Component {
             }}
           />
           <div className={styles['coverage-fields-category']}>
-            <div>
-              {fields.length === 0
-                && initialValue.length > 0
-                && initialValue[0].beginCoverage
-                && (
-                <p data-test-eholdings-coverage-fields-saving-will-remove>
-                  <FormattedMessage id="ui-eholdings.package.noCoverageDates" />
-                </p>
-              )}
-
-              {fields.length > 0 && (
-                <ul className={styles['coverage-fields-date-range-rows']}>
-                  {fields.map((dateRange, index) => (
-                    <li
-                      data-test-eholdings-coverage-fields-date-range-row
-                      key={index}
-                      className={styles['coverage-fields-date-range-row']}
-                    >
-                      <div
-                        data-test-eholdings-coverage-fields-date-range-begin
-                        className={styles['coverage-fields-datepicker']}
-                      >
-                        <Field
-                          name={`${dateRange}.beginCoverage`}
-                          type="text"
-                          component={Datepicker}
-                          label={intl.formatMessage({ id: 'ui-eholdings.date.startDate' })}
-                          id="begin-coverage"
-                          format={(value) => (value ? intl.formatDate(value, { timeZone: 'UTC' }) : '')}
-                        />
-                      </div>
-                      <div
-                        data-test-eholdings-coverage-fields-date-range-end
-                        className={styles['coverage-fields-datepicker']}
-                      >
-                        <Field
-                          name={`${dateRange}.endCoverage`}
-                          type="text"
-                          component={Datepicker}
-                          label={intl.formatMessage({ id: 'ui-eholdings.date.endDate' })}
-                          id="end-coverage"
-                          format={(value) => (value ? intl.formatDate(value, { timeZone: 'UTC' }) : '')}
-                        />
-                      </div>
-
-                      <div
-                        data-test-eholdings-coverage-fields-remove-row-button
-                        className={styles['coverage-fields-date-range-clear-row']}
-                      >
-                        <IconButton
-                          icon="hollowX"
-                          onClick={() => fields.remove(index)}
-                          size="small"
-                        />
-                      </div>
-                    </li>
-                  ))}
-                </ul>
-              )}
-
-              <div
-                className={styles['coverage-fields-add-row-button']}
-                data-test-eholdings-coverage-fields-add-row-button
-              >
-                <Button
-                  type="button"
-                  onClick={() => fields.push({})}
-                >
-                  <FormattedMessage id="ui-eholdings.package.coverage.addDateRange" />
-                </Button>
-              </div>
-            </div>
+            <RepeatableField
+              addLabel={intl.formatMessage({ id: 'ui-eholdings.package.coverage.addDateRange' })}
+              emptyMessage={
+                initialValue.length > 0 && initialValue[0].beginCoverage ?
+                  intl.formatMessage({ id: 'ui-eholdings.package.noCoverageDates' }) : ''
+              }
+              fields={fields}
+              name="customCoverages"
+              renderField={this.renderField}
+            />
           </div>
         </div>
       </fieldset>
@@ -148,7 +120,9 @@ class ResourceCoverageFields extends Component {
 
   render() {
     return (
-      <FieldArray name="customCoverages" component={this.renderCoverageFields} />
+      <div data-test-eholdings-resource-coverage-fields>
+        <FieldArray name="customCoverages" component={this.renderCoverageFields} />
+      </div>
     );
   }
 }
