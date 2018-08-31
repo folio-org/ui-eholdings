@@ -82,7 +82,7 @@ import PackageSelectionStatus from './selection-status';
   allowKbToAddTitlesRadio = property('[data-test-eholdings-allow-kb-to-add-titles-radio-yes]', 'checked');
   clickAllowKbToAddTitlesRadio = clickable('[data-test-eholdings-allow-kb-to-add-titles-radio-yes]');
   clickDisallowKbToAddTitlesRadio = clickable('[data-test-eholdings-allow-kb-to-add-titles-radio-no]');
-  hasCoverageDatesPresent = isPresent('[data-test-eholdings-coverage-fields-date-range-row]');
+  hasCoverageDatesPresent = isPresent('[data-test-eholdings-package-coverage-fields] li');
   hasNameFieldPresent = isPresent('[data-test-eholdings-package-name-field]');
   hasReadOnlyNameFieldPresent = isPresent('[data-test-eholdings-package-readonly-name-field]');
   hasContentTypeFieldPresent = isPresent('[data-test-eholdings-package-content-type-field]');
@@ -118,10 +118,10 @@ import PackageSelectionStatus from './selection-status';
   contentType = fillable('[data-test-eholdings-package-content-type-field] select');
   nameHasError = hasClassBeginningWith('[data-test-eholdings-package-name-field] input', 'hasError--');
 
-  dateRangeRowList = collection('[data-test-eholdings-coverage-fields-date-range-row]', {
+  dateRangeRowList = collection('[data-test-eholdings-package-coverage-fields] li', {
     beginDate: scoped('[data-test-eholdings-coverage-fields-date-range-begin]', Datepicker),
     endDate: scoped('[data-test-eholdings-coverage-fields-date-range-end]', Datepicker),
-    clickRemoveRowButton: clickable('[data-test-eholdings-coverage-fields-remove-row-button] button'),
+    clickRemoveRowButton: clickable('[data-test-repeatable-field-add-item-button]'),
     fillDates(beginDate, endDate) {
       return this.beginDate.fillAndBlur(beginDate)
         .endDate.fillAndBlur(endDate);

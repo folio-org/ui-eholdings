@@ -23,10 +23,10 @@ import {
   hasName = isPresent('[data-test-eholdings-title-name-field]');
   fillName = fillable('[data-test-eholdings-title-name-field] input');
 
-  hasContributorBtn = isPresent('[data-test-eholdings-contributor-fields-add-row-button]');
+  hasContributorBtn = isPresent('[data-test-eholdings-contributor-field] [data-test-repeatable-field-add-item-button]');
   addContributor(type, name) {
     return this
-      .click('[data-test-eholdings-contributor-fields-add-row-button] button')
+      .click('[data-test-eholdings-contributor-field] [data-test-repeatable-field-add-item-button]')
       .fill('[data-test-eholdings-contributor-type] select', type)
       .fill('[data-test-eholdings-contributor-contributor] input', name);
   }
@@ -39,7 +39,7 @@ import {
   choosePublicationType = fillable('[data-test-eholdings-publication-type-field] select');
   publicationType = value('[data-test-eholdings-publication-type-field] select');
 
-  hasIdentifiersBtn = isPresent('[data-test-eholdings-identifiers-fields-add-row-button]');
+  hasIdentifiersBtn = isPresent('[data-test-eholdings-identifiers-fields] [data-test-repeatable-field-add-item-button]');
   addIdentifier(type, id) {
     let values = {
       'ISSN (Online)': '0',
@@ -49,7 +49,7 @@ import {
     };
 
     return this
-      .click('[data-test-eholdings-identifiers-fields-add-row-button] button')
+      .click('[data-test-eholdings-identifiers-fields] [data-test-repeatable-field-add-item-button]')
       .fill('[data-test-eholdings-identifiers-fields-type] select', values[type])
       .fill('[data-test-eholdings-identifiers-fields-id] input', id);
   }
