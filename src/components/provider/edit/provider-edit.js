@@ -12,7 +12,7 @@ import DetailsView from '../../details-view';
 import DetailsViewSection from '../../details-view-section';
 import NavigationModal from '../../navigation-modal';
 import Toaster from '../../toaster';
-import ProxySelectField from '../_fields/proxy-select';
+import ProxySelectField from '../../proxy-select';
 import TokenField, { validate as validateToken } from '../_fields/token';
 import PaneHeaderButton from '../../pane-header-button';
 import styles from './provider-edit.css';

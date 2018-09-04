@@ -28,11 +28,11 @@ function ProxySelectField({ proxyTypes, rootProxy, intl }) {
 
   return (
     <div
-      data-test-eholdings-provider-proxy-select-field
+      data-test-eholdings-proxy-select-field
       className={styles['proxy-select-field']}
     >
       <Field
-        id="eholdings-providers-proxy-id"
+        id="eholdings-proxy-id"
         name="proxyId"
         component={Select}
         dataOptions={options}
