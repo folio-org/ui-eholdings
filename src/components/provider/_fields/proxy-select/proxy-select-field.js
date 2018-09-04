@@ -16,7 +16,7 @@ function ProxySelectField({ proxyTypes, rootProxy, intl }) {
       if (Object.prototype.hasOwnProperty.call(proxyTypesRecords, proxyTypesRecord)) {
         let selectValue = proxyTypesRecords[proxyTypesRecord].attributes.id.toLowerCase();
         if (rootProxyId === selectValue) {
-          options.push({ label: `${intl.formatMessage({ id: 'ui-eholdings.provider.inherited' })}-${proxyTypesRecords[proxyTypesRecord].attributes.name}`,
+          options.push({ label: `${intl.formatMessage({ id: 'ui-eholdings.proxy.inherited' })}-${proxyTypesRecords[proxyTypesRecord].attributes.name}`,
             value: proxyTypesRecords[proxyTypesRecord].attributes.id });
         } else {
           options.push({ label: proxyTypesRecords[proxyTypesRecord].attributes.name,
@@ -36,7 +36,7 @@ function ProxySelectField({ proxyTypes, rootProxy, intl }) {
         name="proxyId"
         component={Select}
         dataOptions={options}
-        label={intl.formatMessage({ id: 'ui-eholdings.provider.proxy' })}
+        label={intl.formatMessage({ id: 'ui-eholdings.proxy' })}
         disabled={options.length < 2}
       />
     </div>
