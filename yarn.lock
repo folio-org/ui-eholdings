@@ -4495,9 +4495,9 @@ fsevents@^1.2.2:
     mkdirp "0.5"
     rimraf "2"
 
-funcadelic@^0.4.0:
-  version "0.4.3"
-  resolved "https://registry.yarnpkg.com/funcadelic/-/funcadelic-0.4.3.tgz#2c46490df1421ab6af380e87bbcfd8bfb7d77370"
+funcadelic@^0.5.4:
+  version "0.5.4"
+  resolved "https://registry.yarnpkg.com/funcadelic/-/funcadelic-0.5.4.tgz#04cac2d150a81e7982c7ad9b5df0e11cb565858d"
   dependencies:
     invariant "2.2.4"
 
