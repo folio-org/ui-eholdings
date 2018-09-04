@@ -216,9 +216,9 @@ class ResourceEditCustomTitle extends Component {
                   data-test-eholdings-resource-save-button
                 >
                   {model.update.isPending || model.destroy.isPending ?
-                  (<FormattedMessage id="ui-eholdings.saving" />)
-                  :
-                  (<FormattedMessage id="ui-eholdings.save" />)}
+                    (<FormattedMessage id="ui-eholdings.saving" />)
+                    :
+                    (<FormattedMessage id="ui-eholdings.save" />)}
                 </PaneHeaderButton>
               </Fragment>
             }
@@ -231,10 +231,11 @@ class ResourceEditCustomTitle extends Component {
                     data-test-eholdings-resource-holding-status
                     htmlFor="custom-resource-holding-status"
                   >
-                    <h4>{resourceSelected ?
-                      (<FormattedMessage id="ui-eholdings.selected" />)
-                      :
-                      (<FormattedMessage id="ui-eholdings.notSelected" />)}
+                    <h4>
+                      {resourceSelected ?
+                        (<FormattedMessage id="ui-eholdings.selected" />)
+                        :
+                        (<FormattedMessage id="ui-eholdings.notSelected" />)}
                     </h4>
                     <br />
                   </label>
@@ -276,7 +277,7 @@ class ResourceEditCustomTitle extends Component {
                         initialValue={{
                           customEmbargoValue: initialValues.customEmbargoValue,
                           customEmbargoUnit: initialValues.customEmbargoUnit
-                      }}
+                        }}
                       />
                     </Fragment>
                   ) : (
@@ -307,7 +308,7 @@ class ResourceEditCustomTitle extends Component {
               primaryButton={{
                 'label': model.destroy.isPending ?
                   (<FormattedMessage id="ui-eholdings.resource.modal.buttonWorking" />)
-                    :
+                  :
                   (<FormattedMessage id="ui-eholdings.resource.modal.buttonConfirm" />),
                 'onClick': this.commitSelectionToggle,
                 'disabled': model.destroy.isPending,

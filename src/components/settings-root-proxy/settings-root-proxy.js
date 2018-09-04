@@ -107,7 +107,7 @@ class SettingsRootProxy extends Component {
               >
                 {rootProxy.update.isPending ?
                   (<FormattedMessage id="ui-eholdings.saving" />)
-                    :
+                  :
                   (<FormattedMessage id="ui-eholdings.save" />)}
               </PaneHeaderButton>
             </Fragment>

@@ -5,4 +5,3 @@
 // settings this explicity before importing the app still won't work; it
 // needs to be inside another import that happens before the app import.
 window.fetch = undefined;
-

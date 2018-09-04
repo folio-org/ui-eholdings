@@ -232,9 +232,9 @@ class ManagedPackageEdit extends Component {
                     data-test-eholdings-package-save-button
                   >
                     {model.update.isPending ?
-                    (<FormattedMessage id="ui-eholdings.saving" />)
-                    :
-                    (<FormattedMessage id="ui-eholdings.save" />)}
+                      (<FormattedMessage id="ui-eholdings.saving" />)
+                      :
+                      (<FormattedMessage id="ui-eholdings.save" />)}
                   </PaneHeaderButton>
                 )}
               </Fragment>
@@ -273,12 +273,12 @@ class ManagedPackageEdit extends Component {
                             </div>
                           </Fragment>
                         ) : (
-                          <label
+                          <div
                             data-test-eholdings-package-details-visibility
                             htmlFor="managed-package-details-visibility-switch"
                           >
                             <Icon icon="spinner-ellipsis" />
-                          </label>
+                          </div>
                         )}
                       </div>
                       <div className={styles['title-management-radios']}>
@@ -303,12 +303,12 @@ class ManagedPackageEdit extends Component {
                             </Field>
                           </Fragment>
                         ) : (
-                          <label
+                          <div
                             data-test-eholdings-package-details-allow-add-new-titles
                             htmlFor="managed-package-details-toggle-allow-add-new-titles-switch"
                           >
                             <Icon icon="spinner-ellipsis" />
-                          </label>
+                          </div>
                         )}
                       </div>
                     </DetailsViewSection>

@@ -65,8 +65,7 @@ class TitleEditRoute extends Component {
       let mergedTypeIndex = 0;
 
       if (type && subtype) {
-        mergedTypeIndex = this.flattenedIdentifiers.findIndex(row =>
-          row.type === type && row.subtype === subtype);
+        mergedTypeIndex = this.flattenedIdentifiers.findIndex(row => row.type === type && row.subtype === subtype);
       }
 
       return {

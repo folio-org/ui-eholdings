@@ -31,10 +31,10 @@ class PackageCoverageFields extends Component {
           && initialValue.length > 0
           && initialValue[0].beginCoverage
           && (
-          <p data-test-eholdings-package-coverage-fields-saving-will-remove>
-            <FormattedMessage id="ui-eholdings.package.noCoverageDates" />
-          </p>
-        )}
+            <p data-test-eholdings-package-coverage-fields-saving-will-remove>
+              <FormattedMessage id="ui-eholdings.package.noCoverageDates" />
+            </p>
+          )}
 
         {fields.length === 0 ? (
           <div

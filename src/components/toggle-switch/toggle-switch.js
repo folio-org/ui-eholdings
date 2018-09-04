@@ -51,8 +51,8 @@ export default class ToggleSwitch extends Component {
       <div
         data-test-toggle-switch
         className={cx(styles['toggle-switch'], {
-            'is-pending': isPending
-          })}
+          'is-pending': isPending
+        })}
       >
         <input
           type="checkbox"

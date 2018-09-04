@@ -66,7 +66,7 @@ class SettingsKnowledgeBase extends Component {
               >
                 {model.update.isPending ?
                   (<FormattedMessage id="ui-eholdings.saving" />)
-                    :
+                  :
                   (<FormattedMessage id="ui-eholdings.save" />)}
               </PaneHeaderButton>
             </Fragment>

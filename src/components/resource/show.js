@@ -18,12 +18,12 @@ import DetailsView from '../details-view';
 import Link from '../link';
 import ExternalLink from '../external-link/external-link';
 import IdentifiersList from '../identifiers-list';
-import ContributorsList from '..//contributors-list';
+import ContributorsList from '../contributors-list';
 import CoverageDateList from '../coverage-date-list';
 import { isBookPublicationType, isValidCoverageList, processErrors } from '../utilities';
 import Toaster from '../toaster';
 import KeyValueColumns from '../key-value-columns';
-import ProxyDisplay from '..//proxy-display';
+import ProxyDisplay from '../proxy-display';
 
 class ResourceShow extends Component {
   static propTypes = {
@@ -191,9 +191,12 @@ class ResourceShow extends Component {
                     model.update.isPending ? (
                       <Icon icon='spinner-ellipsis' />
                     ) : (
-                      <h4>{resourceSelected ?
-                        (<FormattedMessage id="ui-eholdings.selected" />) :
-                        (<FormattedMessage id="ui-eholdings.notSelected" />)}
+                      <h4>
+                        {resourceSelected ? (
+                          <FormattedMessage id="ui-eholdings.selected" />
+                        ) : (
+                          <FormattedMessage id="ui-eholdings.notSelected" />
+                        )}
                       </h4>
                     )
                   }
@@ -337,7 +340,7 @@ class ResourceShow extends Component {
                 {model.url && (
                   <KeyValue label={`${model.title.isTitleCustom ?
                     intl.formatMessage({ id: 'ui-eholdings.custom' })
-                      :
+                    :
                     intl.formatMessage({ id: 'ui-eholdings.managed' })} URL`}
                   >
                     <div data-test-eholdings-resource-show-url>
@@ -391,7 +394,7 @@ class ResourceShow extends Component {
                 {hasManagedEmbargoPeriod && !hasCustomEmbargoPeriod && (
                   <KeyValue label={<FormattedMessage id="ui-eholdings.label.managed.embargoPeriod" />}>
                     <div data-test-eholdings-resource-show-managed-embargo-period>
-                      {model.managedEmbargoPeriod.embargoValue} {model.managedEmbargoPeriod.embargoUnit}
+                      {`${model.managedEmbargoPeriod.embargoValue} ${model.managedEmbargoPeriod.embargoUnit}`}
                     </div>
                   </KeyValue>
                 )}
@@ -399,7 +402,7 @@ class ResourceShow extends Component {
                 {hasCustomEmbargoPeriod && (
                   <KeyValue label={<FormattedMessage id="ui-eholdings.label.custom.embargoPeriod" />}>
                     <div data-test-eholdings-resource-custom-embargo-display>
-                      {model.customEmbargoPeriod.embargoValue} {model.customEmbargoPeriod.embargoUnit}
+                      {`${model.customEmbargoPeriod.embargoValue} ${model.customEmbargoPeriod.embargoUnit}`}
                     </div>
                   </KeyValue>
                 )}

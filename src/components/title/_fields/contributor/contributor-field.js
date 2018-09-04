@@ -86,10 +86,10 @@ class ContributorField extends Component {
           && initialValue.length > 0
           && initialValue[0].id
           && (
-          <p data-test-eholdings-contributors-fields-saving-will-remove>
-            {intl.formatMessage({ id: 'ui-eholdings.title.contributor.notSet' })}
-          </p>
-        )}
+            <p data-test-eholdings-contributors-fields-saving-will-remove>
+              {intl.formatMessage({ id: 'ui-eholdings.title.contributor.notSet' })}
+            </p>
+          )}
         {fields.length !== 0 ? renderFields() : null}
         <div
           data-test-eholdings-contributor-fields-add-row-button

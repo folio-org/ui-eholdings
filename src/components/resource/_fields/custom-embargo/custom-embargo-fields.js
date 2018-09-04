@@ -84,8 +84,7 @@ class CustomEmbargoFields extends Component {
       </div>
     ) : (
       <div>
-        {initialValue.customEmbargoValue !== 0
-          && (
+        {initialValue.customEmbargoValue !== 0 && (
           <p data-test-eholdings-embargo-fields-saving-will-remove>
             <FormattedMessage id="ui-eholdings.resource.embargoPeriod.saveWillRemove" />
           </p>

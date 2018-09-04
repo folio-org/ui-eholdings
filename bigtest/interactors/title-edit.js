@@ -30,6 +30,7 @@ import Toast from './toast';
       .dropDown.clickDropDownButton()
       .dropDownMenu.clickCancel();
   });
+
   clickSave = clickable('[data-test-eholdings-title-save-button]');
   isSaveDisabled = property('[data-test-eholdings-title-save-button]', 'disabled');
   hasErrors = isPresent('[data-test-eholdings-details-view-error="title"]');
@@ -72,6 +73,7 @@ import Toast from './toast';
   removeContributorCollection = collection('[data-test-eholdings-contributor-fields-remove-row-button]', {
     remove: clickable('button')
   });
+
   contributorsWillBeRemoved = text('[data-test-eholdings-contributors-fields-saving-will-remove]');
 
   hasIdentifiersBtn = isPresent('[data-test-eholdings-identifiers-fields-add-row-button]');

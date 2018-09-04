@@ -25,7 +25,7 @@ function PackageSearchFilters(props) {
           { label: intl.formatMessage({ id: 'ui-eholdings.label.package' }), value: 'name' }
         ]
       },
-        {
+      {
         name: 'selected',
         label: intl.formatMessage({ id: 'ui-eholdings.label.selectionStatus' }),
         defaultValue: 'all',

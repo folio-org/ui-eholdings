@@ -47,6 +47,7 @@ import Datepicker from './datepicker';
       .dropDown.clickDropDownButton()
       .dropDownMenu.clickCancel();
   });
+
   clickSave = clickable('[data-test-eholdings-resource-save-button]');
   hasSaveButon = isPresent('[data-test-eholdings-resource-save-button]');
   hasCancelButton = isPresent('[data-test-eholdings-resource-cancel-button]');
@@ -61,9 +62,11 @@ import Datepicker from './datepicker';
     let $node = this.$('[data-test-eholdings-resource-visibility-field] input[value="false"] ~ span:last-child');
     return $node.textContent.replace(/^No(\s\((.*)\))?$/, '$2');
   });
+
   isHiddenMessagePresent = computed(function () {
     try { return !!this.isHiddenMessage; } catch (e) { return false; }
   });
+
   isVisibilityFieldPresent = isPresent('[data-test-eholdings-resource-visibility-field]');
   isResourceNotSelectedLabelPresent = isPresent('[data-test-eholdings-resource-edit-settings-message]');
 

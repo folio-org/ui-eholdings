@@ -24,6 +24,7 @@ module.exports = {
     "jsx-quotes": "off",
     "no-console": "warn",
     "prefer-const": "off",
-    "react/forbid-prop-types": "off"
+    "react/forbid-prop-types": "off",
+    "react/destructuring-assignment": "off"
   }
 };
