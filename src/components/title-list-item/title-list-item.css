@@ -1,6 +1,14 @@
 .item {
   height: 100%;
 
+  & h3,
+  & h4,
+  & div {
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+  }
+
   &.is-selected {
     background-color: #666;
     color: #fff;
@@ -13,14 +21,6 @@
     & h4 {
       color: #fff;
     }
-  }
-
-  & h3,
-  & h4,
-  & div {
-    overflow: hidden;
-    white-space: nowrap;
-    text-overflow: ellipsis;
   }
 }
 

@@ -32,6 +32,19 @@
     white-space: nowrap;
     width: calc(100% / 3);
 
+    & a + a {
+      margin-left: -1px;
+    }
+
+    &:visited {
+      color: var(--primary);
+    }
+
+    &.is-active {
+      background-color: var(--primary);
+      color: #fff;
+    }
+
     &:first-child {
       margin-left: 0;
 
@@ -46,22 +59,9 @@
       border-bottom-left-radius: 0;
     }
 
-    &:visited {
-      color: var(--primary);
-    }
-
-    &.is-active {
-      background-color: var(--primary);
-      color: #fff;
-    }
-
     &:not(:first-child):not(:last-child) {
       border-radius: 0;
     }
-  }
-
-  & a + a {
-    margin-left: -1px;
   }
 }
 
