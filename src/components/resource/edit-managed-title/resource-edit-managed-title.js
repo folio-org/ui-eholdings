@@ -24,7 +24,7 @@ import Toaster from '../../toaster';
 import PaneHeaderButton from '../../pane-header-button';
 import CoverageDateList from '../../coverage-date-list';
 
-class ResourceEditManagedTitle extends Component { // eslint-disable-line react/no-deprecated
+class ResourceEditManagedTitle extends Component {
   static propTypes = {
     model: PropTypes.object.isRequired,
     initialValues: PropTypes.object.isRequired,
@@ -51,7 +51,7 @@ class ResourceEditManagedTitle extends Component { // eslint-disable-line react/
     formValues: {}
   }
 
-  componentWillReceiveProps(nextProps) {
+  componentWillReceiveProps(nextProps) { // eslint-disable-line react/no-deprecated
     let wasPending = this.props.model.update.isPending && !nextProps.model.update.isPending;
     let needsUpdate = !isEqual(this.props.model, nextProps.model);
 
@@ -226,9 +226,9 @@ class ResourceEditManagedTitle extends Component { // eslint-disable-line react/
                     data-test-eholdings-resource-save-button
                   >
                     {model.update.isPending || model.destroy.isPending ?
-                    (<FormattedMessage id="ui-eholdings.saving" />)
-                    :
-                    (<FormattedMessage id="ui-eholdings.save" />)}
+                      (<FormattedMessage id="ui-eholdings.saving" />)
+                      :
+                      (<FormattedMessage id="ui-eholdings.save" />)}
                   </PaneHeaderButton>
                 )}
               </Fragment>
@@ -241,13 +241,15 @@ class ResourceEditManagedTitle extends Component { // eslint-disable-line react/
                   <label
                     data-test-eholdings-resource-holding-status
                     htmlFor="managed-resource-holding-status"
-                  >  {
-                    model.update.isPending ? (
+                  >
+                    {model.update.isPending ? (
                       <Icon icon='spinner-ellipsis' />
                     ) : (
-                      <h4>{managedResourceSelected ?
-                        (<FormattedMessage id="ui-eholdings.selected" />)
-                        : (<FormattedMessage id="ui-eholdings.notSelected" />)}
+                      <h4>
+                        {managedResourceSelected ?
+                          (<FormattedMessage id="ui-eholdings.selected" />)
+                          : (<FormattedMessage id="ui-eholdings.notSelected" />)
+                        }
                       </h4>
                     )
                   }
@@ -292,7 +294,7 @@ class ResourceEditManagedTitle extends Component { // eslint-disable-line react/
                         initialValue={{
                           customEmbargoValue: initialValues.customEmbargoValue,
                           customEmbargoUnit: initialValues.customEmbargoUnit
-                      }}
+                        }}
                       />
                     </Fragment>
                   ) : (
@@ -323,7 +325,7 @@ class ResourceEditManagedTitle extends Component { // eslint-disable-line react/
               primaryButton={{
                 'label': model.update.isPending ?
                   (<FormattedMessage id="ui-eholdings.resource.modal.buttonWorking" />)
-                    :
+                  :
                   (<FormattedMessage id="ui-eholdings.resource.modal.buttonConfirm" />),
                 'onClick': this.commitSelectionToggle,
                 'disabled': model.update.isPending,

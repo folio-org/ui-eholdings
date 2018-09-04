@@ -301,7 +301,7 @@ class PackageShow extends Component {
                       <div data-test-eholdings-package-details-visibility-status>
                         {!model.visibilityData.isHidden ?
                           (<FormattedMessage id="ui-eholdings.yes" />)
-                            :
+                          :
                           (<FormattedMessage id="ui-eholdings.package.visibility.no" values={{ visibilityMessage }} />)}
                       </div>
                     </KeyValue>
@@ -316,11 +316,11 @@ class PackageShow extends Component {
                                 (<FormattedMessage id="ui-eholdings.no" />)
                               }
                             </div>
-                            ) : (
-                              <div>
-                                <Icon icon="spinner-ellipsis" />
-                              </div>
-                            )}
+                          ) : (
+                            <div>
+                              <Icon icon="spinner-ellipsis" />
+                            </div>
+                          )}
                         </div>
                       </KeyValue>
                     )}
@@ -348,7 +348,8 @@ class PackageShow extends Component {
                               year="numeric"
                               month="numeric"
                               day="numeric"
-                            />&nbsp;-&nbsp;
+                            />
+                              &nbsp;-&nbsp;
                             {(model.customCoverage.endCoverage) ? (
                               <FormattedDate
                                 value={model.customCoverage.endCoverage}

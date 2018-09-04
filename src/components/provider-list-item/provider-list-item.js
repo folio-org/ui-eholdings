@@ -45,9 +45,10 @@ function ProviderListItem({ item, link, active, onClick, headingLevel }) {
 
         &nbsp;
 
-        <span>{item.packagesTotal === 1 ?
-          (<FormattedMessage id="ui-eholdings.label.package" />) :
-          (<FormattedMessage id="ui-eholdings.label.packages" />)}
+        <span>
+          {item.packagesTotal === 1 ?
+            (<FormattedMessage id="ui-eholdings.label.package" />) :
+            (<FormattedMessage id="ui-eholdings.label.packages" />)}
         </span>
       </div>
     </Link>

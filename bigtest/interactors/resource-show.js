@@ -73,9 +73,11 @@ import Toast from './toast';
   isResourceHidden = computed(function () {
     return /^No/.test(this.resourceVisibilityLabel);
   });
+
   isResourceVisible = computed(function () {
     return this.resourceVisibilityLabel === 'Yes';
   });
+
   hiddenReason = computed(function () {
     return this.isResourceHidden ? this.resourceVisibilityLabel.replace(/^No(\s\((.*)\))?$/, '$2') : '';
   });

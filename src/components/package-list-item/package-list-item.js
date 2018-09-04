@@ -75,9 +75,10 @@ function PackageListItem({
 
             &nbsp;
 
-            <span>{item.titleCount === 1 ?
-              (<FormattedMessage id="ui-eholdings.label.title" />) :
-              (<FormattedMessage id="ui-eholdings.label.titles" />)}
+            <span>
+              {item.titleCount === 1 ?
+                (<FormattedMessage id="ui-eholdings.label.title" />) :
+                (<FormattedMessage id="ui-eholdings.label.titles" />)}
             </span>
           </span>
         )}

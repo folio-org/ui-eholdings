@@ -6,14 +6,15 @@ import { FormattedMessage } from 'react-intl';
 
 export default function SelectionStatus({ model, onAddToHoldings }) {
   return (
-    <label data-test-eholdings-package-details-selected>
+    <div data-test-eholdings-package-details-selected>
       <SelectionStatusMessage model={model} />
       <br />
       <SelectionStatusButton
         model={model}
         onAddToHoldings={onAddToHoldings}
       />
-    </label>);
+    </div>
+  );
 }
 SelectionStatus.propTypes = {
   model: PropTypes.object.isRequired,

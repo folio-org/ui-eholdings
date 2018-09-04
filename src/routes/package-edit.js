@@ -120,6 +120,7 @@ class PackageEditRoute extends Component {
       updatePackage(model);
     }
   };
+
   /* This method is common between package-show and package-edit routes
    * This should be refactored once we can share model between the routes.
   */
@@ -130,6 +131,7 @@ class PackageEditRoute extends Component {
     model.allowKbToAddTitles = true;
     updatePackage(model);
   };
+
   render() {
     let { model } = this.props;
 

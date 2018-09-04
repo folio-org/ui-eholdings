@@ -71,6 +71,7 @@ class PackageShowRoute extends Component {
       unloadResources(next.resources);
     }
   }
+
   /* This method is common between package-show and package-edit routes
    * This should be refactored once we can share model between the routes.
   */
@@ -118,16 +119,19 @@ class PackageShowRoute extends Component {
   }
 
   setPage = (page) => {
-    this.setState({ page, queryId: ++this.state.queryId }, () => {
+    this.setState(({ queryId }) => ({
+      page,
+      queryId: queryId + 1
+    }), () => {
       this.fetchPackageTitles();
     });
   };
 
   searchTitles = (pkgSearchParams) => {
-    this.setState({
+    this.setState(({ queryId }) => ({
       pkgSearchParams,
-      queryId: ++this.state.queryId
-    }, () => {
+      queryId: queryId + 1
+    }), () => {
       this.fetchPackageTitles();
     });
   }

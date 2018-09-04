@@ -67,6 +67,7 @@ class ProviderShow extends Component {
 
     return toasts;
   }
+
   render() {
     let {
       fetchPackages,
@@ -156,24 +157,25 @@ class ProviderShow extends Component {
                   onToggle={this.handleSectionToggle}
                 >
                   {hasProxy && (
-                  (proxyTypes.isLoading || model.isLoading) ? (
-                    <Icon icon="spinner-ellipsis" />
-                  ) : (
-                    <ProxyDisplay
-                      model={model}
-                      proxyTypes={proxyTypes}
-                    />
-                  ))}
-                  {hasToken && (
-                  (model.isLoading) ? (
-                    <Icon icon="spinner-ellipsis" />
-                  ) : (
-                    <KeyValue label={<FormattedMessage id="ui-eholdings.provider.token" />}>
-                      <TokenDisplay
+                    (proxyTypes.isLoading || model.isLoading) ? (
+                      <Icon icon="spinner-ellipsis" />
+                    ) : (
+                      <ProxyDisplay
                         model={model}
+                        proxyTypes={proxyTypes}
                       />
-                    </KeyValue>
-                  ))}
+                    ))}
+
+                  {hasToken && (
+                    (model.isLoading) ? (
+                      <Icon icon="spinner-ellipsis" />
+                    ) : (
+                      <KeyValue label={<FormattedMessage id="ui-eholdings.provider.token" />}>
+                        <TokenDisplay
+                          model={model}
+                        />
+                      </KeyValue>
+                    ))}
                 </Accordion>
               )}
             </div>

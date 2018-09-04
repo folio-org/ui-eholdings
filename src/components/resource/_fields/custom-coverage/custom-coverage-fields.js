@@ -33,7 +33,7 @@ class ResourceCoverageFields extends Component {
           <p data-test-eholdings-coverage-fields-saving-will-remove>
             <FormattedMessage id="ui-eholdings.package.noCoverageDates" />
           </p>
-        )}
+          )}
 
         {fields.length > 0 && (
           <ul className={styles['coverage-fields-date-range-rows']}>

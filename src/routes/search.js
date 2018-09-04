@@ -17,7 +17,7 @@ import SearchPaneset from '../components/search-paneset';
 import SearchForm from '../components/search-form';
 import { filterCountFromQuery } from '../components/search-modal/search-modal';
 
-class SearchRoute extends Component { // eslint-disable-line react/no-deprecated
+class SearchRoute extends Component {
   static propTypes = {
     location: PropTypes.shape({
       pathname: PropTypes.string.isRequired,
@@ -81,7 +81,7 @@ class SearchRoute extends Component { // eslint-disable-line react/no-deprecated
     };
   }
 
-  componentWillReceiveProps(nextProps) {
+  componentWillReceiveProps(nextProps) { // eslint-disable-line react/no-deprecated
     let { location, match } = nextProps;
     let { searchType, ...params } = qs.parse(location.search);
     let hideDetails = /^\/eholdings\/?$/.test(location.pathname);
@@ -124,9 +124,9 @@ class SearchRoute extends Component { // eslint-disable-line react/no-deprecated
     this.setState({ searchField });
   }
 
-  updateFilters = fn => this.setState({
-    hideFilters: fn(this.state.hideFilters)
-  })
+  updateFilters = fn => this.setState(({ hideFilters }) => ({
+    hideFilters: fn(hideFilters)
+  }));
 
   /**
    * Uses the resolver to get a results collection for the current

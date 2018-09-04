@@ -45,6 +45,7 @@ import SearchBadge from './search-badge';
     numTitles: text('[data-test-eholdings-package-list-item-num-titles]'),
     numTitlesSelected: text('[data-test-eholdings-package-list-item-num-titles-selected]')
   });
+
   searchResultsCount = text('[data-test-eholdings-details-view-results-count]');
 
   packageListHasLoaded = computed(function () {

@@ -8,7 +8,9 @@ classNames.bind(styles);
 
 export default function ExternalLink(props) {
   return (
-    <a href={props.href} target={props.target} rel={props.rel}>{props.href}{' '}
+    <a href={props.href} target={props.target} rel={props.rel}>
+      {props.href}
+      {' '}
       <span data-test-eholdings-resource-show-external-link-icon className={styles['external-link-icon']}>
         <Icon icon="external-link" size="small" color="currentColor" />
       </span>

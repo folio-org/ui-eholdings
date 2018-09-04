@@ -8,6 +8,7 @@ class PackageContentTypeField extends Component {
   static propTypes = {
     intl: intlShape.isRequired
   }
+
   render() {
     let { intl } = this.props;
     return (

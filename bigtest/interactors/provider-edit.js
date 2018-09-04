@@ -39,6 +39,7 @@ import Toast from './toast';
       .dropDown.clickDropDownButton()
       .dropDownMenu.cancel.click();
   });
+
   clickSave = clickable('[data-test-eholdings-provider-save-button]');
   isSaveDisabled = property('[data-test-eholdings-provider-save-button]', 'disabled');
   hasErrors = isPresent('[data-test-eholdings-details-view-error="provider"]');
@@ -61,6 +62,7 @@ import Toast from './toast';
       .fillTokenValue(tokenValue)
       .blurTokenValue();
   });
+
   dropDown = new ProviderEditDropDown('[class*=paneHeaderCenterInner---] [class*=dropdown---]');
   dropDownMenu = new ProviderEditDropDownMenu();
   hasProxySelect = isPresent('[data-test-eholdings-provider-proxy-select] select');

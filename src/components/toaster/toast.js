@@ -82,7 +82,7 @@ class Toast extends Component {
         <div className={toastClass} aria-live="assertive" data-test-eholdings-toast={type}>
           {this.props.children}
 
-          <button onClick={this.hideToast}>
+          <button onClick={this.hideToast} type="button">
             <Icon icon="closeX" size="small" iconClassName={style.closeIcon} />
           </button>
         </div>

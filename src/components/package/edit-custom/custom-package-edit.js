@@ -211,9 +211,9 @@ class CustomPackageEdit extends Component {
                   data-test-eholdings-package-save-button
                 >
                   {model.update.isPending ?
-                  (<FormattedMessage id="ui-eholdings.saving" />)
-                  :
-                  (<FormattedMessage id="ui-eholdings.save" />)}
+                    (<FormattedMessage id="ui-eholdings.saving" />)
+                    :
+                    (<FormattedMessage id="ui-eholdings.save" />)}
                 </PaneHeaderButton>
               </Fragment>
             )}
@@ -232,23 +232,23 @@ class CustomPackageEdit extends Component {
                 >
                   {packageSelected ? (
                     <NameField />
-                 ) : (
-                   <KeyValue label={intl.formatMessage({ id: 'ui-eholdings.package.name' })}>
-                     <div data-test-eholdings-package-readonly-name-field>
-                       {model.name}
-                     </div>
-                   </KeyValue>
+                  ) : (
+                    <KeyValue label={intl.formatMessage({ id: 'ui-eholdings.package.name' })}>
+                      <div data-test-eholdings-package-readonly-name-field>
+                        {model.name}
+                      </div>
+                    </KeyValue>
+                  )}
 
-                 )}
                   {packageSelected ? (
                     <ContentTypeField />
-                 ) : (
-                   <KeyValue label={intl.formatMessage({ id: 'ui-eholdings.package.contentType' })}>
-                     <div data-test-eholdings-package-details-readonly-content-type>
-                       {model.contentType}
-                     </div>
-                   </KeyValue>
-                 )}
+                  ) : (
+                    <KeyValue label={intl.formatMessage({ id: 'ui-eholdings.package.contentType' })}>
+                      <div data-test-eholdings-package-details-readonly-content-type>
+                        {model.contentType}
+                      </div>
+                    </KeyValue>
+                  )}
                 </DetailsViewSection>
                 <DetailsViewSection label={intl.formatMessage({ id: 'ui-eholdings.package.packageSettings' })}>
                   {packageSelected ? (
@@ -275,12 +275,12 @@ class CustomPackageEdit extends Component {
                           </div>
                         </Fragment>
                       ) : (
-                        <label
+                        <div
                           data-test-eholdings-package-details-visibility
                           htmlFor="managed-package-details-visibility-switch"
                         >
                           <Icon icon="spinner-ellipsis" />
-                        </label>
+                        </div>
 
                       )}
                     </div>
@@ -319,8 +319,8 @@ class CustomPackageEdit extends Component {
             <ModalFooter
               primaryButton={{
                 'label': model.destroy.isPending ?
-                intl.formatMessage({ id: 'ui-eholdings.package.modal.buttonWorking.isCustom' }) :
-                intl.formatMessage({ id: 'ui-eholdings.package.modal.buttonConfirm.isCustom' }),
+                  intl.formatMessage({ id: 'ui-eholdings.package.modal.buttonWorking.isCustom' }) :
+                  intl.formatMessage({ id: 'ui-eholdings.package.modal.buttonConfirm.isCustom' }),
                 'onClick': this.commitSelectionToggle,
                 'disabled': model.destroy.isPending,
                 'data-test-eholdings-package-deselection-confirmation-modal-yes': true

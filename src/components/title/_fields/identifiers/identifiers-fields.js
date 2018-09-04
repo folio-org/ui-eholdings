@@ -36,7 +36,7 @@ class IdentifiersFields extends Component {
           <p data-test-eholdings-identifiers-fields-saving-will-remove>
             {intl.formatMessage({ id: 'ui-eholdings.title.identifier.notSet' })}
           </p>
-        )}
+          )}
 
         {fields.length > 0 && (
           <ul className={styles['identifiers-fields-rows']}>

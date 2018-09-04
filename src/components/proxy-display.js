@@ -15,8 +15,13 @@ export default function ProxyDisplay({ model, proxyTypes }) {
       <KeyValue label={<FormattedMessage id="ui-eholdings.proxy" />}>
         <div data-test-eholdings-details-proxy>
           {model.proxy.inherited ?
-            (<span><FormattedMessage id="ui-eholdings.proxy.inherited" />&nbsp;-&nbsp;{name}</span>) :
-             `${name}`}
+            (
+              <span>
+                <FormattedMessage id="ui-eholdings.proxy.inherited" />
+                &nbsp;-&nbsp;
+                {name}
+              </span>) :
+            `${name}`}
         </div>
       </KeyValue>
     );

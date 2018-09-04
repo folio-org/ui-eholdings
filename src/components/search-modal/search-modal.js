@@ -90,12 +90,12 @@ class SearchModal extends React.PureComponent {
   }
 
   handleSearchFieldChange = (searchfield) => {
-    this.setState({
+    this.setState(({ query }) => ({
       query: normalize({
-        ...this.state.query,
+        ...query,
         searchfield
-      }),
-    });
+      })
+    }));
   }
 
   handleSearchQueryChange = q => {
