@@ -56,7 +56,7 @@
   "dependencies": {
     "@folio/stripes-components": "^3.0.6",
     "classnames": "^2.2.5",
-    "funcadelic": "^0.4.0",
+    "funcadelic": "^0.5.4",
     "impagination": "^1.0.0-alpha.3",
     "inflected": "^2.0.3",
     "react-intl": "^2.4.0",
