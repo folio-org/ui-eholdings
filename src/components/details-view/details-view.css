@@ -17,27 +17,10 @@
     margin: 0 auto;
     max-width: 48rem;
     width: 100%;
-
-    & p {
-      color: var(--secondary);
-      margin: 0;
-      padding-bottom: 1rem;
-    }
   }
 
-  &.locked {
-    & .list-header {
-      border-top: 1px solid #fff;
-    }
-  }
-
-  & h4 {
-    font-size: inherit;
-    margin: 0.5em 0;
-  }
-
-  & label h4 {
-    display: inline-block;
+  &.locked .list-header {
+    border-top: 1px solid #fff;
   }
 }
 
@@ -52,6 +35,22 @@
     margin: 0.5em 1em 0 0;
   }
 
+  & h4 {
+    font-size: inherit;
+    margin: 0.5em 0;
+  }
+
+  & label h4 {
+    display: inline-block;
+  }
+
+  & h1:focus,
+  & h2:focus,
+  & h3:focus,
+  & h4:focus {
+    outline: none;
+  }
+
   & p {
     color: var(--secondary);
     font-size: 1.5em;
@@ -64,19 +63,16 @@
   }
 }
 
-h1,
-h2,
-h3,
-h4 {
-  &:focus {
-    outline: none;
-  }
-}
-
 .body {
   margin: 0 auto;
   max-width: 50rem;
   padding: 0 1rem;
+}
+
+.container .list-header p {
+  color: var(--secondary);
+  margin: 0;
+  padding-bottom: 1rem;
 }
 
 .sticky {

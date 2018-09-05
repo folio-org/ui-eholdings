@@ -48,8 +48,8 @@
     "react-hot-loader": "^4.3.6",
     "react-transition-group": "^2.2.1",
     "react-trigger-change": "^1.0.2",
-    "stylelint": "^8.2.0",
-    "stylelint-config-standard": "^17.0.0",
+    "stylelint": "^9.5.0",
+    "stylelint-config-standard": "^18.2.0",
     "stylelint-junit-formatter": "^0.2.1",
     "webpack": "^4.0.0"
   },

@@ -1,52 +1,5 @@
 @import '@folio/stripes-components/lib/variables';
 
-.toggle-switch {
-  display: inline-block;
-  position: relative;
-  height: 34px;
-  width: 60px;
-
-  & input {
-    /* makes input visually hidden but accessible */
-    position: absolute;
-    clip: rect(0, 0, 0, 0);
-    white-space: nowrap;
-    clip-path: inset(50%);
-    border: 0;
-  }
-
-  & input:checked + .toggle-switch-slider {
-    background-color: var(--success);
-  }
-
-  & input:disabled + .toggle-switch-slider {
-    background-color: var(--secondary);
-  }
-
-  & input:checked + .toggle-switch-slider::before {
-    transform: translateX(26px);
-  }
-
-  & input:disabled + .toggle-switch-slider {
-    background-color: var(--secondary);
-  }
-
-  &.is-pending .toggle-switch-slider {
-    animation: toggle-pending 3s infinite ease-in-out;
-  }
-}
-
-@keyframes toggle-pending {
-  0%,
-  100% {
-    opacity: 1;
-  }
-
-  50% {
-    opacity: 0.25;
-  }
-}
-
 .toggle-switch-slider {
   background-color: var(--labelColor);
   border-radius: 34px;
@@ -69,4 +22,47 @@
   position: absolute;
   transition: 0.4s;
   width: 26px;
+}
+
+.toggle-switch {
+  display: inline-block;
+  position: relative;
+  height: 34px;
+  width: 60px;
+
+  & input {
+    /* makes input visually hidden but accessible */
+    position: absolute;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    clip-path: inset(50%);
+    border: 0;
+  }
+
+  &.is-pending .toggle-switch-slider {
+    animation: toggle-pending 3s infinite ease-in-out;
+  }
+
+  & input:checked + .toggle-switch-slider {
+    background-color: var(--success);
+  }
+
+  & input:disabled + .toggle-switch-slider {
+    background-color: var(--secondary);
+  }
+
+  & input:checked + .toggle-switch-slider::before {
+    transform: translateX(26px);
+  }
+}
+
+@keyframes toggle-pending {
+  0%,
+  100% {
+    opacity: 1;
+  }
+
+  50% {
+    opacity: 0.25;
+  }
 }
