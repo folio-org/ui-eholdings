@@ -6,9 +6,10 @@ import { intlShape, injectIntl } from 'react-intl';
 import { Select } from '@folio/stripes-components';
 import styles from './proxy-select-field.css';
 
-function ProxySelectField({ proxyTypes, rootProxy, intl }) {
+function ProxySelectField({ proxyTypes, inheritedProxyId, intl }) {
   let proxyTypesRecords = proxyTypes.resolver.state.proxyTypes.records;
-  let rootProxyId = rootProxy.data.attributes.proxyTypeId.toLowerCase();
+  let rootProxyId = inheritedProxyId.toLowerCase();
+
   let options = [];
 
   if (proxyTypesRecords && rootProxyId) {
@@ -45,7 +46,7 @@ function ProxySelectField({ proxyTypes, rootProxy, intl }) {
 
 ProxySelectField.propTypes = {
   proxyTypes: PropTypes.object.isRequired,
-  rootProxy: PropTypes.object.isRequired,
+  inheritedProxyId: PropTypes.string.isRequired,
   intl: intlShape.isRequired
 };
 

@@ -23,9 +23,11 @@ import NavigationModal from '../../navigation-modal';
 import Toaster from '../../toaster';
 import PaneHeaderButton from '../../pane-header-button';
 import CoverageDateList from '../../coverage-date-list';
+import ProxySelectField from '../../proxy-select';
 
 class ResourceEditManagedTitle extends Component {
   static propTypes = {
+    proxyTypes: PropTypes.object.isRequired,
     model: PropTypes.object.isRequired,
     initialValues: PropTypes.object.isRequired,
     handleSubmit: PropTypes.func,
@@ -157,6 +159,7 @@ class ResourceEditManagedTitle extends Component {
   render() {
     let {
       model,
+      proxyTypes,
       initialValues,
       handleSubmit,
       pristine,
@@ -171,6 +174,8 @@ class ResourceEditManagedTitle extends Component {
 
 
     let isSelectInFlight = model.update.isPending && 'isSelected' in model.update.changedAttributes;
+
+    let inheritedProxyId = model.package.proxy.id;
 
     let actionMenuItems = [
       {
@@ -268,6 +273,15 @@ class ResourceEditManagedTitle extends Component {
                 {managedResourceSelected && (
                   <DetailsViewSection label={<FormattedMessage id="ui-eholdings.resource.resourceSettings" />}>
                     <VisibilityField disabled={visibilityMessage} />
+                    <div>
+                      {(!proxyTypes.request.isResolved) ? (
+                        <Icon icon="spinner-ellipsis" />
+                      ) : (
+                        <div data-test-eholdings-provider-proxy-select>
+                          <ProxySelectField proxyTypes={proxyTypes} inheritedProxyId={inheritedProxyId} />
+                        </div>
+                      )}
+                    </div>
                   </DetailsViewSection>
                 )}
                 <DetailsViewSection

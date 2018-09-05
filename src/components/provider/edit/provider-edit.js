@@ -129,7 +129,7 @@ class ProviderEdit extends Component {
                         <Icon icon="spinner-ellipsis" />
                       ) : (
                         <div data-test-eholdings-provider-proxy-select>
-                          <ProxySelectField proxyTypes={proxyTypes} rootProxy={rootProxy} />
+                          <ProxySelectField proxyTypes={proxyTypes} inheritedProxyId={rootProxy.data.attributes.proxyTypeId} />
                         </div>
                       )}
 

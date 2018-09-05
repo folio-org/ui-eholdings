@@ -74,6 +74,27 @@ export default Factory.extend({
     }
   }),
 
+  withProxy: trait({
+    afterCreate(resource, server) {
+      let proxy = server.create('proxy', {
+        inherited: true,
+        id: 'bigTestJS'
+      });
+      resource.update('proxy', proxy.toJSON());
+      resource.save();
+    }
+  }),
+
+  withInheritedProxy: trait({
+    afterCreate(resource, server) {
+      let proxy = server.create('proxy', {
+        inherited: true,
+        id: 'bigTestJS'
+      });
+      resource.update('proxy', proxy.toJSON());
+      resource.save();
+    }
+  }),
   withCustomCoverage: trait({
     afterCreate(packageObj, server) {
       let customCoverage = server.create('custom-coverage');
@@ -85,6 +106,14 @@ export default Factory.extend({
     if (!packageObj.visibilityData) {
       let visibilityData = server.create('visibility-data');
       packageObj.update('visibilityData', visibilityData.toJSON());
+    }
+    if (!packageObj.proxy) {
+      let proxy = server.create('proxy', {
+        inherited: false,
+        id: 'bigTestJS'
+      });
+      packageObj.update('proxy', proxy.toJSON());
+      packageObj.save();
     }
   }
 });
