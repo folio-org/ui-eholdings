@@ -386,7 +386,8 @@ export default function configure() {
       description,
       isPeerReviewed,
       edition,
-      identifiers
+      identifiers,
+      proxy
     } = body.data.attributes;
 
     matchingResource.update('isSelected', isSelected);
@@ -404,6 +405,7 @@ export default function configure() {
     matchingResource.title.update('publisherName', publisherName);
     matchingResource.title.update('edition', edition);
     matchingResource.title.update('identifiers', identifiers);
+    matchingResource.update('proxy', proxy);
 
     return matchingResource;
   });

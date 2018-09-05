@@ -64,7 +64,8 @@ class ResourceEditRoute extends Component {
       customEmbargoValue,
       customEmbargoUnit,
       customUrl,
-      isVisible
+      isVisible,
+      proxyId
     } = values;
 
     if (values.isSelected === false && model.package.isCustom) {
@@ -103,6 +104,7 @@ class ResourceEditRoute extends Component {
         embargoValue: customEmbargoValue,
         embargoUnit: customEmbargoUnit
       };
+      model.proxy.id = proxyId;
 
       updateResource(model);
     }

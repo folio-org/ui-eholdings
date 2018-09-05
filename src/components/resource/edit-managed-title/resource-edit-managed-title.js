@@ -277,7 +277,7 @@ class ResourceEditManagedTitle extends Component {
                       {(!proxyTypes.request.isResolved) ? (
                         <Icon icon="spinner-ellipsis" />
                       ) : (
-                        <div data-test-eholdings-provider-proxy-select>
+                        <div data-test-eholdings-resource-proxy-select>
                           <ProxySelectField proxyTypes={proxyTypes} inheritedProxyId={inheritedProxyId} />
                         </div>
                       )}
