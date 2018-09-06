@@ -328,12 +328,13 @@ class ResourceShow extends Component {
                   </div>
                 </KeyValue>
 
-                {(proxyTypes.isLoading || model.isLoading) ? (
+                {(!proxyTypes.request.isResolved || model.isLoading) ? (
                   <Icon icon="spinner-ellipsis" />
                 ) : (
                   <ProxyDisplay
                     model={model}
                     proxyTypes={proxyTypes}
+                    inheritedProxyId={model.package.proxy.id}
                   />
                 )}
 

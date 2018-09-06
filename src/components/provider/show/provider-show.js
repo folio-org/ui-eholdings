@@ -18,6 +18,7 @@ import styles from './provider-show.css';
 class ProviderShow extends Component {
    static propTypes = {
      proxyTypes: PropTypes.object.isRequired,
+     rootProxy: PropTypes.object.isRequired,
      model: PropTypes.object.isRequired,
      packages: PropTypes.object.isRequired,
      fetchPackages: PropTypes.func.isRequired,
@@ -75,7 +76,8 @@ class ProviderShow extends Component {
       model,
       packages,
       searchModal,
-      proxyTypes
+      proxyTypes,
+      rootProxy
     } = this.props;
     let { router, queryParams } = this.context;
     let { sections } = this.state;
@@ -157,12 +159,13 @@ class ProviderShow extends Component {
                   onToggle={this.handleSectionToggle}
                 >
                   {hasProxy && (
-                    (proxyTypes.isLoading || model.isLoading) ? (
+                    (!proxyTypes.request.isResolved || !rootProxy.request.isResolved || model.isLoading) ? (
                       <Icon icon="spinner-ellipsis" />
                     ) : (
                       <ProxyDisplay
                         model={model}
                         proxyTypes={proxyTypes}
+                        inheritedProxyId={rootProxy.data.attributes.proxyTypeId}
                       />
                     ))}
 
