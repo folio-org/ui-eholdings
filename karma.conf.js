@@ -11,7 +11,6 @@ module.exports = (config) => {
     preprocessors,
 
     browserStack: {
-      username: 'folioproject1',
       project: 'ui-eholdings'
     },
 
