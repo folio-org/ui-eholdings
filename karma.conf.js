@@ -46,7 +46,6 @@ module.exports = (config) => {
 
   // Add plugins not in Stripes CLI
   configuration.plugins = config.plugins;
-  configuration.plugins.push('karma-firefox-launcher');
   configuration.plugins.push('karma-browserstack-launcher');
 
   // Turn on coverage report thresholds
