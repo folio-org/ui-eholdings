@@ -16,7 +16,7 @@ describeApplication('ManagedResourceEditProxy', () => {
       name: 'Cool Provider'
     });
 
-    providerPackage = this.server.create('package', 'withTitles', 'withProxy', {
+    providerPackage = this.server.create('package', 'withTitles', 'withInheritedProxy', {
       provider,
       name: 'Star Wars Custom Package',
       contentType: 'Online'
