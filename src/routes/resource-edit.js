@@ -128,8 +128,7 @@ class ResourceEditRoute extends Component {
 export default connect(
   ({ eholdings: { data } }, { match }) => ({
     model: createResolver(data).find('resources', match.params.id),
-    proxyTypes: createResolver(data).query('proxyTypes'),
-    rootProxy: createResolver(data).find('rootProxies', 'root-proxy')
+    proxyTypes: createResolver(data).query('proxyTypes')
   }), {
     getResource: id => Resource.find(id, { include: ['package', 'title'] }),
     getProxyTypes: () => ProxyType.query(),

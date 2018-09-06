@@ -8,24 +8,18 @@ import styles from './proxy-select-field.css';
 
 function ProxySelectField({ proxyTypes, inheritedProxyId, intl }) {
   let proxyTypesRecords = proxyTypes.resolver.state.proxyTypes.records;
-  let rootProxyId = inheritedProxyId.toLowerCase();
+
+  let checkIfInherited = proxyTypeId => inheritedProxyId.toLowerCase() === proxyTypeId.toLowerCase();
 
   let options = [];
 
-  if (proxyTypesRecords && rootProxyId) {
-    for (let proxyTypesRecord in proxyTypesRecords) {
-      if (Object.prototype.hasOwnProperty.call(proxyTypesRecords, proxyTypesRecord)) {
-        let selectValue = proxyTypesRecords[proxyTypesRecord].attributes.id.toLowerCase();
-        if (rootProxyId === selectValue) {
-          options.push({ label: `${intl.formatMessage({ id: 'ui-eholdings.proxy.inherited' })}-${proxyTypesRecords[proxyTypesRecord].attributes.name}`,
-            value: proxyTypesRecords[proxyTypesRecord].attributes.id });
-        } else {
-          options.push({ label: proxyTypesRecords[proxyTypesRecord].attributes.name,
-            value: proxyTypesRecords[proxyTypesRecord].attributes.id });
-        }
-      }
-    }
-  }
+  options = proxyTypesRecords && Object.values(proxyTypesRecords)
+    .map(proxyType => ({
+      label: checkIfInherited(proxyType.id) ?
+        intl.formatMessage({ id: 'ui-eholdings.proxy.inherited' }, { proxy: proxyType.attributes.name }) :
+        `${proxyType.attributes.name}`,
+      value: proxyType.id
+    }));
 
   return (
     <div
