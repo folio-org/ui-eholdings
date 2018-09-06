@@ -77,8 +77,8 @@ export default Factory.extend({
   withProxy: trait({
     afterCreate(resource, server) {
       let proxy = server.create('proxy', {
-        inherited: true,
-        id: 'bigTestJS'
+        inherited: false,
+        id: 'microstates'
       });
       resource.update('proxy', proxy.toJSON());
       resource.save();
