@@ -61,11 +61,15 @@ describeApplication('ManagedResourceEditProxy', () => {
 
     describe('choosing an inherited proxy from select', () => {
       beforeEach(() => {
-        return ResourceEditPage.chooseProxy('bigTestJS');
+        return ResourceEditPage.chooseProxy('Inherited - bigTestJS');
       });
 
       it('should enable save action button', () => {
         expect(ResourceEditPage.isSaveDisabled).to.eq(false);
+      });
+
+      it('selected option has changed', () => {
+        expect(ResourceEditPage.proxySelectValue).to.equal('bigTestJS');
       });
 
       describe('clicking save to update Resource Proxy', () => {

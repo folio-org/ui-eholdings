@@ -10,7 +10,8 @@ import {
   property,
   text,
   value,
-  computed
+  computed,
+  selectable
 } from '@bigtest/interactor';
 import { hasClassBeginningWith } from './helpers';
 
@@ -136,7 +137,7 @@ import Datepicker from './datepicker';
   publisherValue = value('[data-test-eholdings-publisher-name-field] input');
   publisherHasError = hasClassBeginningWith('[data-test-eholdings-publisher-name-field] input', 'hasError--');
   proxySelectValue = value('[data-test-eholdings-resource-proxy-select] select');
-  chooseProxy = fillable('[data-test-eholdings-resource-proxy-select] select');
+  chooseProxy = selectable('[data-test-eholdings-resource-proxy-select] select');
 
   dropDown = new ResourceEditDropDown('[class*=paneHeaderCenterInner---] [class*=dropdown---]');
   dropDownMenu = new ResourceEditDropDownMenu();
