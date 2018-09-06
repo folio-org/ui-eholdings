@@ -6,7 +6,7 @@ import { KeyValue, Icon } from '@folio/stripes-components';
 export default function ProxyDisplay({ model, proxyTypes, inheritedProxyId }) {
   let proxyTypesRecords = proxyTypes.resolver.state.proxyTypes.records;
 
-  if (proxyTypesRecords && model.proxy && inheritedProxyId) {
+  if (proxyTypesRecords && model.proxy && model.proxy.id && inheritedProxyId) {
     let proxyId = model.proxy.id;
     let selectedValue = proxyTypesRecords[Object.keys(proxyTypesRecords).find(key => key.toLowerCase() === proxyId.toLowerCase())];
     let name = selectedValue.attributes.name;

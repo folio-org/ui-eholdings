@@ -9,7 +9,7 @@ import styles from './proxy-select-field.css';
 function ProxySelectField({ proxyTypes, inheritedProxyId, intl }) {
   let proxyTypesRecords = proxyTypes.resolver.state.proxyTypes.records;
 
-  let checkIfInherited = proxyTypeId => inheritedProxyId.toLowerCase() === proxyTypeId.toLowerCase();
+  let checkIfInherited = proxyTypeId => (inheritedProxyId && inheritedProxyId.toLowerCase() === proxyTypeId.toLowerCase());
 
   let options = [];
 
