@@ -137,7 +137,6 @@ import Datepicker from './datepicker';
   publisherHasError = hasClassBeginningWith('[data-test-eholdings-publisher-name-field] input', 'hasError--');
   proxySelectValue = value('[data-test-eholdings-resource-proxy-select] select');
   chooseProxy = fillable('[data-test-eholdings-resource-proxy-select] select');
-  proxySelectText = text('[data-test-eholdings-resource-proxy-select] select');
 
   dropDown = new ResourceEditDropDown('[class*=paneHeaderCenterInner---] [class*=dropdown---]');
   dropDownMenu = new ResourceEditDropDownMenu();

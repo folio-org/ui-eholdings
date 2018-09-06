@@ -5,7 +5,7 @@ import { describeApplication } from '../helpers/describe-application';
 import ResourceEditPage from '../interactors/resource-edit';
 import ResourceShowPage from '../interactors/resource-show';
 
-describeApplication('ManagedResourceEditProxy', () => {
+describeApplication('CustomResourceEditProxy', () => {
   let provider,
     providerPackage,
     title,
@@ -16,16 +16,18 @@ describeApplication('ManagedResourceEditProxy', () => {
       name: 'Cool Provider'
     });
 
-    providerPackage = this.server.create('package', 'withTitles', 'withProxy', {
+    providerPackage = this.server.create('package', 'withTitles', 'withInheritedProxy', {
       provider,
       name: 'Star Wars Custom Package',
-      contentType: 'Online'
+      contentType: 'Online',
+      isCustom: true
     });
 
     title = this.server.create('title', {
       name: 'Hans Solo Director Cut',
       publicationType: 'Streaming Video',
-      publisherName: 'Amazing Publisher'
+      publisherName: 'Amazing Publisher',
+      isTitleCustom: true
     });
 
     title.save();
@@ -37,11 +39,11 @@ describeApplication('ManagedResourceEditProxy', () => {
     });
   });
 
-  describe('visiting the resource edit page with a proxy', () => {
+  describe('visiting the resource edit page with an inherited proxy', () => {
     beforeEach(function () {
       let resourceProxy = this.server.create('proxy', {
-        inherited: false,
-        id: 'microstates'
+        inherited: true,
+        id: 'bigTestJS'
       });
       resource.update('proxy', resourceProxy.toJSON());
       resource.save();
@@ -56,12 +58,12 @@ describeApplication('ManagedResourceEditProxy', () => {
     });
 
     it('has a select field value defaulted with current resource proxy value', () => {
-      expect(ResourceEditPage.proxySelectValue).to.equal('microstates');
+      expect(ResourceEditPage.proxySelectValue).to.equal('bigTestJS');
     });
 
-    describe('choosing an inherited proxy from select', () => {
+    describe('choosing another proxy from select', () => {
       beforeEach(() => {
-        return ResourceEditPage.chooseProxy('bigTestJS');
+        return ResourceEditPage.chooseProxy('microstates');
       });
 
       it('should enable save action button', () => {
@@ -82,7 +84,7 @@ describeApplication('ManagedResourceEditProxy', () => {
         });
 
         it('shows newly saved proxy', () => {
-          expect(ResourceShowPage.proxy).to.include('bigTestJS');
+          expect(ResourceShowPage.proxy).to.include('microstates');
         });
 
         it('shows a success toast message', () => {
