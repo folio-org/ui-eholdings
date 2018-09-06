@@ -41,13 +41,6 @@ module.exports = (config) => {
         browser_version: '15.0',
         os: 'Windows',
         os_version: '10'
-      },
-      bs_ie11_windows: {
-        base: 'BrowserStack',
-        browser: 'ie',
-        browser_version: '11.0',
-        os: 'Windows',
-        os_version: '7'
       }
     }
   };
@@ -56,13 +49,6 @@ module.exports = (config) => {
   configuration.plugins = config.plugins;
   configuration.plugins.push('karma-firefox-launcher');
   configuration.plugins.push('karma-browserstack-launcher');
-
-  // Set output directory for junit reporter
-  if (config.junitReporter) {
-    configuration.junitReporter = {
-      outputDir: 'artifacts/junit/Karma'
-    };
-  }
 
   // Turn on coverage report thresholds
   if (configuration.coverageIstanbulReporter) {
