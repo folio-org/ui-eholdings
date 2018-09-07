@@ -252,13 +252,14 @@ class ResourceEditCustomTitle extends Component {
                     <Fragment>
                       <VisibilityField disabled={visibilityMessage} />
                       <div>
-                        {(!hasInheritedProxy || !proxyTypes.request.isResolved) ? (
-                          <Icon icon="spinner-ellipsis" />
-                        ) : (
-                          <div data-test-eholdings-resource-proxy-select>
-                            <ProxySelectField proxyTypes={proxyTypes} inheritedProxyId={model.package.proxy.id} />
-                          </div>
-                        )}
+                        {hasInheritedProxy && (
+                          (!proxyTypes.request.isResolved) ? (
+                            <Icon icon="spinner-ellipsis" />
+                          ) : (
+                            <div data-test-eholdings-resource-proxy-select>
+                              <ProxySelectField proxyTypes={proxyTypes} inheritedProxyId={model.package.proxy.id} />
+                            </div>
+                          ))}
                       </div>
                       <CustomUrlFields />
                     </Fragment>
