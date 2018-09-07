@@ -80,6 +80,7 @@ class ResourceEditRoute extends Component {
       model.customEmbargoPeriod = {};
       model.contributors = [];
       model.coverageStatement = '';
+      model.proxy = {};
 
       updateResource(model);
     } else if (values.isSelected && !values.customCoverages) {
