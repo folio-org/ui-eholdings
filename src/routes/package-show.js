@@ -89,6 +89,7 @@ class PackageShowRoute extends Component {
     model.isSelected = true;
     model.selectedCount = model.titleCount;
     model.allowKbToAddTitles = true;
+    model.proxy = {};
     updatePackage(model);
   };
 
