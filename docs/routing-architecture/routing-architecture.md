@@ -118,7 +118,7 @@ Not to venture too far into Stripes-core. But how do we get `showSettings` and `
 
 {
   "name": "@folio/eholdings",
-  "version": "0.1.0",
+  "version": "1.0.0",
   },
   "stripes": {
     "type": "app",
