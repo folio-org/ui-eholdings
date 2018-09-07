@@ -20,6 +20,7 @@ import NavigationModal from '../../navigation-modal';
 import Toaster from '../../toaster';
 import PaneHeaderButton from '../../pane-header-button';
 import SelectionStatus from '../selection-status';
+import ProxySelectField from '../../proxy-select';
 import styles from './managed-package-edit.css';
 
 class ManagedPackageEdit extends Component {
@@ -31,7 +32,9 @@ class ManagedPackageEdit extends Component {
     onSubmit: PropTypes.func.isRequired,
     pristine: PropTypes.bool,
     intl: intlShape.isRequired,
-    addPackageToHoldings: PropTypes.func.isRequired
+    addPackageToHoldings: PropTypes.func.isRequired,
+    proxyTypes: PropTypes.object.isRequired,
+    provider: PropTypes.object.isRequired
   };
 
   static contextTypes = {
@@ -153,6 +156,8 @@ class ManagedPackageEdit extends Component {
       initialValues,
       handleSubmit,
       pristine,
+      proxyTypes,
+      provider,
       intl
     } = this.props;
 
@@ -311,6 +316,16 @@ class ManagedPackageEdit extends Component {
                           </div>
                         )}
                       </div>
+                      {(proxyTypes.request.isResolved && provider.data.isLoaded) ? (
+                        <div data-test-eholdings-package-proxy-select-field>
+                          <ProxySelectField
+                            proxyTypes={proxyTypes}
+                            inheritedProxyId={provider.proxy.id}
+                          />
+                        </div>
+                      ) : (
+                        <Icon icon="spinner-ellipsis" />
+                      )}
                     </DetailsViewSection>
                     <DetailsViewSection
                       label={intl.formatMessage({ id: 'ui-eholdings.package.coverageSettings' })}

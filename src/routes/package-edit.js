@@ -3,9 +3,12 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import moment from 'moment';
 import TitleManager from '@folio/stripes-core/src/components/TitleManager';
+import { injectIntl, intlShape } from 'react-intl';
 
 import { createResolver } from '../redux';
+import { ProxyType } from '../redux/application';
 import Package from '../redux/package';
+import Provider from '../redux/provider';
 import Resource from '../redux/resource';
 
 import View from '../components/package/edit';
@@ -18,7 +21,12 @@ class PackageEditRoute extends Component {
       }).isRequired
     }).isRequired,
     model: PropTypes.object.isRequired,
+    intl: intlShape.isRequired,
     getPackage: PropTypes.func.isRequired,
+    getProxyTypes: PropTypes.func.isRequired,
+    getProvider: PropTypes.func.isRequired,
+    proxyTypes: PropTypes.object.isRequired,
+    provider: PropTypes.object.isRequired,
     unloadResources: PropTypes.func.isRequired,
     updatePackage: PropTypes.func.isRequired,
     destroyPackage: PropTypes.func.isRequired,
@@ -35,7 +43,10 @@ class PackageEditRoute extends Component {
   constructor(props) {
     super(props);
     let { packageId } = props.match.params;
+    let [providerId] = packageId.split('-');
     props.getPackage(packageId);
+    props.getProxyTypes();
+    props.getProvider(providerId);
   }
 
   componentDidUpdate(prevProps) {
@@ -78,6 +89,7 @@ class PackageEditRoute extends Component {
       model.visibilityData.isHidden = false;
       model.customCoverage = {};
       model.allowKbToAddTitles = false;
+      model.proxy = {};
       updatePackage(model);
     } else if (values.isSelected && !values.customCoverages) {
       model.isSelected = true;
@@ -117,6 +129,11 @@ class PackageEditRoute extends Component {
         model.contentType = values.contentType;
       }
 
+      if ('proxyId' in values) {
+        model.proxy.id = values.proxyId;
+        model.proxy.inherited = false;
+      }
+
       updatePackage(model);
     }
   };
@@ -129,16 +146,19 @@ class PackageEditRoute extends Component {
     model.isSelected = true;
     model.selectedCount = model.titleCount;
     model.allowKbToAddTitles = true;
+    model.proxy = {};
     updatePackage(model);
   };
 
   render() {
-    let { model } = this.props;
+    let { model, intl, proxyTypes, provider } = this.props;
 
     return (
-      <TitleManager record={`Edit ${this.props.model.name}`}>
+      <TitleManager record={intl.formatMessage({ id: 'ui-eholdings.label.editLink' }, { name: model.name })}>
         <View
           model={model}
+          proxyTypes={proxyTypes}
+          provider={provider}
           onSubmit={this.packageEditSubmitted}
           addPackageToHoldings={this.addPackageToHoldings}
         />
@@ -148,12 +168,21 @@ class PackageEditRoute extends Component {
 }
 
 export default connect(
-  ({ eholdings: { data } }, { match }) => ({
-    model: createResolver(data).find('packages', match.params.packageId)
-  }), {
+  ({ eholdings: { data } }, { match }) => {
+    let resolver = createResolver(data);
+    let model = resolver.find('packages', match.params.packageId);
+    return {
+      model,
+      proxyTypes: resolver.query('proxyTypes'),
+      provider: resolver.find('providers', model.providerId),
+      resolver
+    };
+  }, {
     getPackage: id => Package.find(id),
+    getProxyTypes: () => ProxyType.query(),
+    getProvider: id => Provider.find(id),
     unloadResources: collection => Resource.unload(collection),
     updatePackage: model => Package.save(model),
     destroyPackage: model => Package.destroy(model)
   }
-)(PackageEditRoute);
+)(injectIntl(PackageEditRoute));

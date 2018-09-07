@@ -95,6 +95,7 @@ export default Factory.extend({
       packageObj.save();
     }
   }),
+
   withCustomCoverage: trait({
     afterCreate(packageObj, server) {
       let customCoverage = server.create('custom-coverage');
@@ -106,7 +107,9 @@ export default Factory.extend({
     if (!packageObj.visibilityData) {
       let visibilityData = server.create('visibility-data');
       packageObj.update('visibilityData', visibilityData.toJSON());
+      packageObj.save();
     }
+
     if (!packageObj.proxy) {
       let proxy = server.create('proxy', {
         inherited: false,

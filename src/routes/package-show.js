@@ -4,7 +4,9 @@ import { connect } from 'react-redux';
 import TitleManager from '@folio/stripes-core/src/components/TitleManager';
 
 import { createResolver } from '../redux';
+import { ProxyType } from '../redux/application';
 import Package from '../redux/package';
+import Provider from '../redux/provider';
 import Resource from '../redux/resource';
 import { transformQueryParams } from '../components/utilities';
 
@@ -21,9 +23,13 @@ class PackageShowRoute extends Component {
     model: PropTypes.object.isRequired,
     getPackage: PropTypes.func.isRequired,
     getPackageTitles: PropTypes.func.isRequired,
+    getProxyTypes: PropTypes.func.isRequired,
+    getProvider: PropTypes.func.isRequired,
+    provider: PropTypes.object.isRequired,
     unloadResources: PropTypes.func.isRequired,
     updatePackage: PropTypes.func.isRequired,
     destroyPackage: PropTypes.func.isRequired,
+    proxyTypes: PropTypes.object.isRequired,
   };
 
   static contextTypes = {
@@ -37,7 +43,10 @@ class PackageShowRoute extends Component {
   constructor(props) {
     super(props);
     let { packageId } = props.match.params;
+    let [providerId] = packageId.split('-');
     props.getPackage(packageId);
+    props.getProxyTypes();
+    props.getProvider(providerId);
   }
 
   state = {
@@ -80,6 +89,7 @@ class PackageShowRoute extends Component {
     model.isSelected = true;
     model.selectedCount = model.titleCount;
     model.allowKbToAddTitles = true;
+    model.proxy = {};
     updatePackage(model);
   };
 
@@ -102,12 +112,12 @@ class PackageShowRoute extends Component {
         model.visibilityData.isHidden = false;
         model.customCoverage = {};
         model.allowKbToAddTitles = false;
+        model.proxy = {};
       }
 
       updatePackage(model);
     }
   };
-
 
   fetchPackageTitles = () => {
     let { getPackageTitles, match } = this.props;
@@ -143,6 +153,8 @@ class PackageShowRoute extends Component {
       <TitleManager record={this.props.model.name}>
         <View
           model={this.props.model}
+          proxyTypes={this.props.proxyTypes}
+          provider={this.props.provider}
           fetchPackageTitles={this.setPage}
           toggleSelected={this.toggleSelected}
           addPackageToHoldings={this.addPackageToHoldings}
@@ -165,11 +177,20 @@ class PackageShowRoute extends Component {
 }
 
 export default connect(
-  ({ eholdings: { data } }, { match }) => ({
-    model: createResolver(data).find('packages', match.params.packageId),
-  }), {
+  ({ eholdings: { data } }, { match }) => {
+    let resolver = createResolver(data);
+    let model = resolver.find('packages', match.params.packageId);
+    return {
+      model,
+      proxyTypes: resolver.query('proxyTypes'),
+      provider: resolver.find('providers', model.providerId),
+      resolver
+    };
+  }, {
     getPackage: id => Package.find(id),
     getPackageTitles: (id, params) => Package.queryRelated(id, 'resources', params),
+    getProxyTypes: () => ProxyType.query(),
+    getProvider: id => Provider.find(id),
     unloadResources: collection => Resource.unload(collection),
     updatePackage: model => Package.save(model),
     destroyPackage: model => Package.destroy(model)

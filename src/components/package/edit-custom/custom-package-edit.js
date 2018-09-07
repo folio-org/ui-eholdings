@@ -23,6 +23,7 @@ import NavigationModal from '../../navigation-modal';
 import Toaster from '../../toaster';
 import PaneHeaderButton from '../../pane-header-button';
 import SelectionStatus from '../selection-status';
+import ProxySelectField from '../../proxy-select';
 import styles from './custom-package-edit.css';
 
 class CustomPackageEdit extends Component {
@@ -33,8 +34,10 @@ class CustomPackageEdit extends Component {
     model: PropTypes.object.isRequired,
     onSubmit: PropTypes.func.isRequired,
     pristine: PropTypes.bool,
+    proxyTypes: PropTypes.object.isRequired,
     intl: intlShape.isRequired,
-    addPackageToHoldings: PropTypes.func.isRequired
+    addPackageToHoldings: PropTypes.func.isRequired,
+    provider: PropTypes.object.isRequired
   };
 
   static contextTypes = {
@@ -143,6 +146,8 @@ class CustomPackageEdit extends Component {
       initialValues,
       handleSubmit,
       pristine,
+      proxyTypes,
+      provider,
       intl
     } = this.props;
 
@@ -282,6 +287,16 @@ class CustomPackageEdit extends Component {
                           <Icon icon="spinner-ellipsis" />
                         </div>
 
+                      )}
+                      {(proxyTypes.request.isResolved && provider.data.isLoaded) ? (
+                        <div data-test-eholdings-package-proxy-select-field>
+                          <ProxySelectField
+                            proxyTypes={proxyTypes}
+                            inheritedProxyId={provider.proxy.id}
+                          />
+                        </div>
+                      ) : (
+                        <Icon icon="spinner-ellipsis" />
                       )}
                     </div>
                   ) : (

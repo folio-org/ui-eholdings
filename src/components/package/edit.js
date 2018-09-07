@@ -18,6 +18,7 @@ export default function PackageEdit({ model, ...props }) {
         beginCoverage: model.customCoverage.beginCoverage,
         endCoverage: model.customCoverage.endCoverage
       }],
+      proxyId: model.proxy.id,
       isVisible: !model.visibilityData.isHidden
     };
   } else {
@@ -28,6 +29,7 @@ export default function PackageEdit({ model, ...props }) {
         beginCoverage: model.customCoverage.beginCoverage,
         endCoverage: model.customCoverage.endCoverage
       }],
+      proxyId: model.proxy.id,
       isVisible: !model.visibilityData.isHidden,
       allowKbToAddTitles: model.allowKbToAddTitles
     };

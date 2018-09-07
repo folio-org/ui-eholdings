@@ -80,6 +80,7 @@ class ResourceShowRoute extends Component {
       model.identifiers = [];
       model.contributors = [];
       model.contributorsList = [];
+      model.proxy = {};
 
       updateResource(model);
     } else {

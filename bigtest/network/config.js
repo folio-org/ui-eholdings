@@ -226,7 +226,8 @@ export default function configure() {
       customCoverage,
       visibilityData,
       name,
-      contentType
+      contentType,
+      proxy
     } = body.data.attributes;
 
     let selectedCount = isSelected ? matchingResources.length : 0;
@@ -240,6 +241,7 @@ export default function configure() {
     matchingPackage.update('allowKbToAddTitles', allowKbToAddTitles);
     matchingPackage.update('name', name);
     matchingPackage.update('contentType', contentType);
+    matchingPackage.update('proxy', proxy);
 
     return matchingPackage;
   });
