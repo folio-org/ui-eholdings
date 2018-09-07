@@ -21,6 +21,14 @@ describeApplication('ResourceShow', () => {
       titleCount: 5
     });
 
+    let packageProxy = this.server.create('proxy', {
+      inherited: true,
+      id: 'microstates'
+    });
+
+    providerPackage.update('proxy', packageProxy.toJSON());
+    providerPackage.save();
+
     let title = this.server.create('title', {
       name: 'Best Title Ever',
       edition: 'Best Edition',
@@ -49,12 +57,19 @@ describeApplication('ResourceShow', () => {
 
     title.save();
 
-    resource = this.server.create('resource', 'withProxy', {
+    resource = this.server.create('resource', {
       package: providerPackage,
       isSelected: false,
       title,
       url: 'https://frontside.io'
     });
+
+    let proxy = this.server.create('proxy', {
+      inherited: true,
+      id: 'microstates'
+    });
+    resource.update('proxy', proxy.toJSON());
+    resource.save();
   });
 
   describe('visiting the resource page', () => {

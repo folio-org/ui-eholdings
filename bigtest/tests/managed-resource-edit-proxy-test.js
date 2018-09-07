@@ -16,11 +16,19 @@ describeApplication('ManagedResourceEditProxy', () => {
       name: 'Cool Provider'
     });
 
-    providerPackage = this.server.create('package', 'withTitles', 'withInheritedProxy', {
+    providerPackage = this.server.create('package', 'withTitles', {
       provider,
       name: 'Star Wars Custom Package',
       contentType: 'Online'
     });
+
+    let packageProxy = this.server.create('proxy', {
+      inherited: true,
+      id: 'bigTestJS'
+    });
+
+    providerPackage.update('proxy', packageProxy.toJSON());
+    providerPackage.save();
 
     title = this.server.create('title', {
       name: 'Hans Solo Director Cut',
