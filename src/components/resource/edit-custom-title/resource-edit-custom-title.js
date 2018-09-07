@@ -173,7 +173,9 @@ class ResourceEditCustomTitle extends Component {
       resourceSelected
     } = this.state;
 
-    let inheritedProxyId = model.package.proxy.id;
+    let hasInheritedProxy = model.package &&
+      model.package.proxy &&
+      model.package.proxy.id;
 
     let actionMenuItems = [
       {
@@ -250,11 +252,11 @@ class ResourceEditCustomTitle extends Component {
                     <Fragment>
                       <VisibilityField disabled={visibilityMessage} />
                       <div>
-                        {(!proxyTypes.request.isResolved) ? (
+                        {(!hasInheritedProxy || !proxyTypes.request.isResolved) ? (
                           <Icon icon="spinner-ellipsis" />
                         ) : (
                           <div data-test-eholdings-resource-proxy-select>
-                            <ProxySelectField proxyTypes={proxyTypes} inheritedProxyId={inheritedProxyId} />
+                            <ProxySelectField proxyTypes={proxyTypes} inheritedProxyId={model.package.proxy.id} />
                           </div>
                         )}
                       </div>

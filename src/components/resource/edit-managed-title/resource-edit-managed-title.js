@@ -175,7 +175,9 @@ class ResourceEditManagedTitle extends Component {
 
     let isSelectInFlight = model.update.isPending && 'isSelected' in model.update.changedAttributes;
 
-    let inheritedProxyId = model.package.proxy.id;
+    let hasInheritedProxy = model.package &&
+      model.package.proxy &&
+      model.package.proxy.id;
 
     let actionMenuItems = [
       {
@@ -274,11 +276,11 @@ class ResourceEditManagedTitle extends Component {
                   <DetailsViewSection label={<FormattedMessage id="ui-eholdings.resource.resourceSettings" />}>
                     <VisibilityField disabled={visibilityMessage} />
                     <div>
-                      {(!proxyTypes.request.isResolved) ? (
+                      {(!hasInheritedProxy || !proxyTypes.request.isResolved) ? (
                         <Icon icon="spinner-ellipsis" />
                       ) : (
                         <div data-test-eholdings-resource-proxy-select>
-                          <ProxySelectField proxyTypes={proxyTypes} inheritedProxyId={inheritedProxyId} />
+                          <ProxySelectField proxyTypes={proxyTypes} inheritedProxyId={model.package.proxy.id} />
                         </div>
                       )}
                     </div>
