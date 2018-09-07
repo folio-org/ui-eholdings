@@ -75,24 +75,24 @@ export default Factory.extend({
   }),
 
   withProxy: trait({
-    afterCreate(resource, server) {
+    afterCreate(packageObj, server) {
       let proxy = server.create('proxy', {
         inherited: false,
         id: 'microstates'
       });
-      resource.update('proxy', proxy.toJSON());
-      resource.save();
+      packageObj.update('proxy', proxy.toJSON());
+      packageObj.save();
     }
   }),
 
   withInheritedProxy: trait({
-    afterCreate(resource, server) {
+    afterCreate(packageObj, server) {
       let proxy = server.create('proxy', {
         inherited: true,
         id: 'bigTestJS'
       });
-      resource.update('proxy', proxy.toJSON());
-      resource.save();
+      packageObj.update('proxy', proxy.toJSON());
+      packageObj.save();
     }
   }),
   withCustomCoverage: trait({
