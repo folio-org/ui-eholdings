@@ -74,6 +74,27 @@ export default Factory.extend({
     }
   }),
 
+  withProxy: trait({
+    afterCreate(packageObj, server) {
+      let proxy = server.create('proxy', {
+        inherited: false,
+        id: 'microstates'
+      });
+      packageObj.update('proxy', proxy.toJSON());
+      packageObj.save();
+    }
+  }),
+
+  withInheritedProxy: trait({
+    afterCreate(packageObj, server) {
+      let proxy = server.create('proxy', {
+        inherited: true,
+        id: 'bigTestJS'
+      });
+      packageObj.update('proxy', proxy.toJSON());
+      packageObj.save();
+    }
+  }),
   withCustomCoverage: trait({
     afterCreate(packageObj, server) {
       let customCoverage = server.create('custom-coverage');
@@ -85,6 +106,14 @@ export default Factory.extend({
     if (!packageObj.visibilityData) {
       let visibilityData = server.create('visibility-data');
       packageObj.update('visibilityData', visibilityData.toJSON());
+    }
+    if (!packageObj.proxy) {
+      let proxy = server.create('proxy', {
+        inherited: false,
+        id: 'bigTestJS'
+      });
+      packageObj.update('proxy', proxy.toJSON());
+      packageObj.save();
     }
   }
 });

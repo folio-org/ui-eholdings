@@ -134,7 +134,7 @@
     "settings.rootProxy.ebsco.customer.message": "EBSCO KB API customers: Please access EBSCOAdmin to setup and maintain proxies.",
 
     "proxy": "Proxy",
-    "proxy.inherited": "Inherited",
+    "proxy.inherited": "Inherited - {proxy}",
 
     "actionMenu.fullView": "Full view",
     "actionMenu.cancelEditing": "Cancel editing",

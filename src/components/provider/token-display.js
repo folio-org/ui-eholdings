@@ -7,7 +7,9 @@ export default function TokenDisplay({ model }) {
     return (
       <div data-test-eholdings-provider-details-token>
         <span>
-          {`${model.providerToken.prompt}:&nbsp;${model.providerToken.value}`}
+          {`${model.providerToken.prompt}`}
+          :&nbsp;
+          {`${model.providerToken.value}`}
         </span>
       </div>);
   } else {

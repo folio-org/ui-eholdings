@@ -18,7 +18,8 @@ export default function ResourceEdit({ model, ...props }) {
       hasCoverageStatement: model.coverageStatement.length > 0 ? 'yes' : 'no',
       customEmbargoValue: model.customEmbargoPeriod.embargoValue,
       customEmbargoUnit: model.customEmbargoPeriod.embargoUnit,
-      customUrl: model.url
+      customUrl: model.url,
+      proxyId: model.proxy.id
     };
   } else if (model.isTitleCustom === false) {
     View = ManagedResourceEdit;
@@ -29,7 +30,8 @@ export default function ResourceEdit({ model, ...props }) {
       coverageStatement: model.coverageStatement,
       hasCoverageStatement: model.coverageStatement.length > 0 ? 'yes' : 'no',
       customEmbargoValue: model.customEmbargoPeriod.embargoValue,
-      customEmbargoUnit: model.customEmbargoPeriod.embargoUnit
+      customEmbargoUnit: model.customEmbargoPeriod.embargoUnit,
+      proxyId: model.proxy.id
     };
   }
 

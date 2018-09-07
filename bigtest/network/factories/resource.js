@@ -58,6 +58,17 @@ export default Factory.extend({
   withProxy: trait({
     afterCreate(resource, server) {
       let proxy = server.create('proxy', {
+        inherited: false,
+        id: 'microstates'
+      });
+      resource.update('proxy', proxy.toJSON());
+      resource.save();
+    }
+  }),
+
+  withInheritedProxy: trait({
+    afterCreate(resource, server) {
+      let proxy = server.create('proxy', {
         inherited: true,
         id: 'bigTestJS'
       });
@@ -88,6 +99,14 @@ export default Factory.extend({
         embargoValue: 0
       });
       resource.update('managedEmbargoPeriod', managedEmbargoPeriod.toJSON());
+      resource.save();
+    }
+    if (!resource.proxy) {
+      let proxy = server.create('proxy', {
+        inherited: false,
+        id: 'bigTestJS'
+      });
+      resource.update('proxy', proxy.toJSON());
       resource.save();
     }
   }

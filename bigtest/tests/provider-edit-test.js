@@ -56,7 +56,7 @@ describeApplication('ProviderEdit', () => {
 
     describe('choosing another root proxy from select', () => {
       beforeEach(() => {
-        return ProviderEditPage.chooseRootProxy('bigTestJS');
+        return ProviderEditPage.chooseRootProxy('Inherited - bigTestJS');
       });
 
       it('should enable save action button', () => {
@@ -77,7 +77,7 @@ describeApplication('ProviderEdit', () => {
         });
 
         it('shows newly saved proxy', () => {
-          expect(ProviderShowPage.proxy).to.equal('bigTestJS');
+          expect(ProviderShowPage.proxy).to.equal('Inherited - bigTestJS');
         });
 
 
@@ -113,7 +113,7 @@ describeApplication('ProviderEdit', () => {
     describe('entering valid data and clicking save', () => {
       beforeEach(() => {
         return ProviderEditPage
-          .chooseRootProxy('bigTestJS')
+          .chooseRootProxy('Inherited - bigTestJS')
           .clickSave();
       });
 

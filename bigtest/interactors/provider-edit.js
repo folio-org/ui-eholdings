@@ -10,7 +10,8 @@ import {
   is,
   attribute,
   action,
-  isPresent
+  isPresent,
+  selectable
 } from '@bigtest/interactor';
 import { hasClassBeginningWith } from './helpers';
 import Toast from './toast';
@@ -45,7 +46,7 @@ import Toast from './toast';
   hasErrors = isPresent('[data-test-eholdings-details-view-error="provider"]');
 
   proxySelectValue = value('[data-test-eholdings-provider-proxy-select] select');
-  chooseRootProxy = fillable('[data-test-eholdings-provider-proxy-select] select');
+  chooseRootProxy = selectable('[data-test-eholdings-provider-proxy-select] select');
   hasTokenHelpText = isPresent('[data-test-eholdings-token-fields-help-text]');
   tokenHelpText = text('[data-test-eholdings-token-fields-help-text]');
   hasTokenPrompt = isPresent('[data-test-eholdings-token-fields-prompt]');

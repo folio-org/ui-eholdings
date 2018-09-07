@@ -111,6 +111,9 @@ class ResourceShow extends Component {
       model.customEmbargoPeriod.embargoValue;
     let hasCustomCoverages = model.customCoverages.length > 0 &&
       isValidCoverageList(model.customCoverages);
+    let hasInheritedProxy = model.package &&
+      model.package.proxy &&
+      model.package.proxy.id;
 
     let actionMenuItems = [
       {
@@ -328,14 +331,16 @@ class ResourceShow extends Component {
                   </div>
                 </KeyValue>
 
-                {(proxyTypes.isLoading || model.isLoading) ? (
-                  <Icon icon="spinner-ellipsis" />
-                ) : (
-                  <ProxyDisplay
-                    model={model}
-                    proxyTypes={proxyTypes}
-                  />
-                )}
+                { hasInheritedProxy && (
+                  (!proxyTypes.request.isResolved || model.isLoading) ? (
+                    <Icon icon="spinner-ellipsis" />
+                  ) : (
+                    <ProxyDisplay
+                      model={model}
+                      proxyTypes={proxyTypes}
+                      inheritedProxyId={model.package.proxy.id}
+                    />
+                  ))}
 
                 {model.url && (
                   <KeyValue label={`${model.title.isTitleCustom ?

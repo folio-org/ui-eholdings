@@ -23,6 +23,7 @@ import NavigationModal from '../../navigation-modal';
 import Toaster from '../../toaster';
 import PaneHeaderButton from '../../pane-header-button';
 import CoverageDateList from '../../coverage-date-list';
+import ProxySelectField from '../../proxy-select';
 
 class ResourceEditCustomTitle extends Component {
   static propTypes = {
@@ -33,7 +34,8 @@ class ResourceEditCustomTitle extends Component {
     pristine: PropTypes.bool,
     change: PropTypes.func,
     intl: intlShape.isRequired,
-    customCoverageDateValues: PropTypes.array
+    customCoverageDateValues: PropTypes.array,
+    proxyTypes: PropTypes.object.isRequired
   };
 
   static contextTypes = {
@@ -158,6 +160,7 @@ class ResourceEditCustomTitle extends Component {
   render() {
     let {
       model,
+      proxyTypes,
       initialValues,
       handleSubmit,
       pristine,
@@ -169,6 +172,10 @@ class ResourceEditCustomTitle extends Component {
       showSelectionModal,
       resourceSelected
     } = this.state;
+
+    let hasInheritedProxy = model.package &&
+      model.package.proxy &&
+      model.package.proxy.id;
 
     let actionMenuItems = [
       {
@@ -244,6 +251,16 @@ class ResourceEditCustomTitle extends Component {
                   {resourceSelected ? (
                     <Fragment>
                       <VisibilityField disabled={visibilityMessage} />
+                      <div>
+                        {hasInheritedProxy && (
+                          (!proxyTypes.request.isResolved) ? (
+                            <Icon icon="spinner-ellipsis" />
+                          ) : (
+                            <div data-test-eholdings-resource-proxy-select>
+                              <ProxySelectField proxyTypes={proxyTypes} inheritedProxyId={model.package.proxy.id} />
+                            </div>
+                          ))}
+                      </div>
                       <CustomUrlFields />
                     </Fragment>
                   ) : (

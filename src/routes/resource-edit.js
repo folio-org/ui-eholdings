@@ -5,6 +5,7 @@ import moment from 'moment';
 import TitleManager from '@folio/stripes-core/src/components/TitleManager';
 
 import { createResolver } from '../redux';
+import { ProxyType } from '../redux/application';
 import Resource from '../redux/resource';
 
 import View from '../components/resource/edit';
@@ -17,9 +18,11 @@ class ResourceEditRoute extends Component {
       }).isRequired
     }).isRequired,
     model: PropTypes.object.isRequired,
+    getProxyTypes: PropTypes.func.isRequired,
     getResource: PropTypes.func.isRequired,
     updateResource: PropTypes.func.isRequired,
-    destroyResource: PropTypes.func.isRequired
+    destroyResource: PropTypes.func.isRequired,
+    proxyTypes: PropTypes.object.isRequired
   };
 
   static contextTypes = {
@@ -32,9 +35,10 @@ class ResourceEditRoute extends Component {
 
   constructor(props) {
     super(props);
-    let { match, getResource } = props;
+    let { match, getResource, getProxyTypes } = props;
     let { id } = match.params;
     getResource(id);
+    getProxyTypes();
   }
 
   componentDidUpdate(prevProps) {
@@ -60,7 +64,8 @@ class ResourceEditRoute extends Component {
       customEmbargoValue,
       customEmbargoUnit,
       customUrl,
-      isVisible
+      isVisible,
+      proxyId
     } = values;
 
     if (values.isSelected === false && model.package.isCustom) {
@@ -75,6 +80,7 @@ class ResourceEditRoute extends Component {
       model.customEmbargoPeriod = {};
       model.contributors = [];
       model.coverageStatement = '';
+      model.proxy = {};
 
       updateResource(model);
     } else if (values.isSelected && !values.customCoverages) {
@@ -99,19 +105,21 @@ class ResourceEditRoute extends Component {
         embargoValue: customEmbargoValue,
         embargoUnit: customEmbargoUnit
       };
+      model.proxy.id = proxyId;
 
       updateResource(model);
     }
   }
 
   render() {
-    let { model } = this.props;
+    let { model, proxyTypes } = this.props;
 
     return (
       <TitleManager record={`Edit ${this.props.model.name}`}>
         <View
           model={model}
           onSubmit={this.resourceEditSubmitted}
+          proxyTypes={proxyTypes}
         />
       </TitleManager>
     );
@@ -120,9 +128,11 @@ class ResourceEditRoute extends Component {
 
 export default connect(
   ({ eholdings: { data } }, { match }) => ({
-    model: createResolver(data).find('resources', match.params.id)
+    model: createResolver(data).find('resources', match.params.id),
+    proxyTypes: createResolver(data).query('proxyTypes')
   }), {
     getResource: id => Resource.find(id, { include: ['package', 'title'] }),
+    getProxyTypes: () => ProxyType.query(),
     updateResource: model => Resource.save(model),
     destroyResource: model => Resource.destroy(model)
   }
