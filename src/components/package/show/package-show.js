@@ -340,7 +340,7 @@ class PackageShow extends Component {
                       <ProxyDisplay
                         model={model}
                         proxyTypes={proxyTypes}
-                        higherLevelProxyId={provider.proxy && provider.proxy.id}
+                        inheritedProxyId={provider.proxy && provider.proxy.id}
                       />
                     )}
                   </div>

@@ -23,7 +23,7 @@ import NavigationModal from '../../navigation-modal';
 import Toaster from '../../toaster';
 import PaneHeaderButton from '../../pane-header-button';
 import SelectionStatus from '../selection-status';
-import ProxySelectField from '../_fields/proxy-select';
+import ProxySelectField from '../../proxy-select';
 import styles from './custom-package-edit.css';
 
 class CustomPackageEdit extends Component {
@@ -289,10 +289,12 @@ class CustomPackageEdit extends Component {
 
                       )}
                       {(proxyTypes.request.isResolved && provider.data.isLoaded) ? (
-                        <ProxySelectField
-                          proxyTypes={proxyTypes}
-                          inheritedProxy={provider.proxy}
-                        />
+                        <div data-test-eholdings-package-proxy-select-field>
+                          <ProxySelectField
+                            proxyTypes={proxyTypes}
+                            inheritedProxyId={provider.proxy.id}
+                          />
+                        </div>
                       ) : (
                         <Icon icon="spinner-ellipsis" />
                       )}

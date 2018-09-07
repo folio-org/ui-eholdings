@@ -54,28 +54,6 @@ export default Factory.extend({
     }
   }),
 
-  withProxy: trait({
-    afterCreate(pkg, server) {
-      let proxy = server.create('proxy', {
-        inherited: false,
-        id: 'microstates'
-      });
-      pkg.update('proxy', proxy.toJSON());
-      pkg.save();
-    }
-  }),
-
-  withInheritedProxy: trait({
-    afterCreate(pkg, server) {
-      let proxy = server.create('proxy', {
-        inherited: true,
-        id: 'bigTestJS'
-      });
-      pkg.update('proxy', proxy.toJSON());
-      pkg.save();
-    }
-  }),
-
   isHidden: trait({
     afterCreate(packageObj, server) {
       let visibilityData = server.create('visibility-data', {
@@ -117,6 +95,7 @@ export default Factory.extend({
       packageObj.save();
     }
   }),
+
   withCustomCoverage: trait({
     afterCreate(packageObj, server) {
       let customCoverage = server.create('custom-coverage');
@@ -124,21 +103,13 @@ export default Factory.extend({
     }
   }),
 
-  afterCreate(pkg, server) {
-    if (!pkg.proxy) {
-      let proxy = server.create('proxy', {
-        inherited: false,
-        id: 'bigTestJS'
-      });
-      pkg.update('proxy', proxy.toJSON());
-      pkg.save();
+  afterCreate(packageObj, server) {
+    if (!packageObj.visibilityData) {
+      let visibilityData = server.create('visibility-data');
+      packageObj.update('visibilityData', visibilityData.toJSON());
+      packageObj.save();
     }
 
-    if (!pkg.visibilityData) {
-      let visibilityData = server.create('visibility-data');
-      pkg.update('visibilityData', visibilityData.toJSON());
-      pkg.save();
-    }
     if (!packageObj.proxy) {
       let proxy = server.create('proxy', {
         inherited: false,
