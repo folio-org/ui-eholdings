@@ -111,6 +111,7 @@ class PackageShowRoute extends Component {
         model.visibilityData.isHidden = false;
         model.customCoverage = {};
         model.allowKbToAddTitles = false;
+        model.proxy = {};
       }
 
       updatePackage(model);

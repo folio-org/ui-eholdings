@@ -334,7 +334,7 @@ class PackageShow extends Component {
                         </div>
                       </KeyValue>
                     )}
-                    {hasProxy && (proxyTypes.isLoading || model.isLoading || provider.isLoading) ? (
+                    {hasProxy && (!proxyTypes.request.isResolved || model.isLoading || provider.isLoading) ? (
                       <Icon icon="spinner-ellipsis" />
                     ) : (
                       <ProxyDisplay
