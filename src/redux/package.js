@@ -15,6 +15,7 @@ class Package {
   isCustom = false;
   packageType = '';
   proxy = {};
+  packageToken = {};
 
   get isPartiallySelected() {
     return this.selectedCount > 0 && this.selectedCount !== this.titleCount;

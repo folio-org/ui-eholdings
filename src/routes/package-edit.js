@@ -4,7 +4,9 @@ import { connect } from 'react-redux';
 import moment from 'moment';
 import TitleManager from '@folio/stripes-core/src/components/TitleManager';
 import { injectIntl, intlShape } from 'react-intl';
-
+import {
+  Icon
+} from '@folio/stripes-components';
 import { createResolver } from '../redux';
 import { ProxyType } from '../redux/application';
 import Package from '../redux/package';
@@ -28,6 +30,7 @@ class PackageEditRoute extends Component {
     proxyTypes: PropTypes.object.isRequired,
     provider: PropTypes.object.isRequired,
     unloadResources: PropTypes.func.isRequired,
+    updateProvider: PropTypes.func.isRequired,
     updatePackage: PropTypes.func.isRequired,
     destroyPackage: PropTypes.func.isRequired,
   };
@@ -75,9 +78,14 @@ class PackageEditRoute extends Component {
     }
   }
 
+  providerEditSubmitted = (values) => {
+    let { provider, updateProvider } = this.props;
+    provider.providerToken.value = values.providerTokenValue;
+    updateProvider(provider);
+  };
+
   packageEditSubmitted = (values) => {
     let { model, updatePackage, destroyPackage } = this.props;
-
     // if the package is custom setting the holding status to false
     // or deselecting the package will delete the package from holdings
     if (model.isCustom && values.isSelected === false) {
@@ -133,6 +141,13 @@ class PackageEditRoute extends Component {
         model.proxy.inherited = false;
       }
 
+      if ('packageTokenValue' in values) {
+        model.packageToken.value = values.packageTokenValue;
+      }
+
+      if ('providerTokenValue' in values) {
+        this.providerEditSubmitted(values);
+      }
       updatePackage(model);
     }
   };
@@ -153,13 +168,15 @@ class PackageEditRoute extends Component {
 
     return (
       <TitleManager record={intl.formatMessage({ id: 'ui-eholdings.label.editLink' }, { name: model.name })}>
-        <View
-          model={model}
-          proxyTypes={proxyTypes}
-          provider={provider}
-          onSubmit={this.packageEditSubmitted}
-          addPackageToHoldings={this.addPackageToHoldings}
-        />
+        {model.isLoaded && provider.isLoaded ? (
+          <View
+            model={model}
+            proxyTypes={proxyTypes}
+            provider={provider}
+            onSubmit={this.packageEditSubmitted}
+            addPackageToHoldings={this.addPackageToHoldings}
+          />
+        ) : (<Icon icon="spinner-ellipsis" />)}
       </TitleManager>
     );
   }
@@ -180,6 +197,7 @@ export default connect(
     getProxyTypes: () => ProxyType.query(),
     getProvider: id => Provider.find(id),
     unloadResources: collection => Resource.unload(collection),
+    updateProvider: provider => Provider.save(provider),
     updatePackage: model => Package.save(model),
     destroyPackage: model => Package.destroy(model)
   }

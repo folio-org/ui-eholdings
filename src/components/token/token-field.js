@@ -11,12 +11,13 @@ import styles from './token-field.css';
 
 class TokenField extends Component {
   static propTypes = {
-    showInputs: PropTypes.bool,
-    model: PropTypes.object
+    tokenValue: PropTypes.string,
+    token: PropTypes.object,
+    type: PropTypes.string
   };
 
   state = {
-    showInputs: this.props.showInputs
+    showInputs: this.props.tokenValue !== null
   };
 
   toggleInputs = () => {
@@ -28,9 +29,9 @@ class TokenField extends Component {
 
   render() {
     /* eslint-disable react/no-danger */
-    let { model } = this.props;
+    let { token, type } = this.props;
     let { showInputs } = this.state;
-    let helpTextMarkup = { __html: model.providerToken.helpText };
+    let helpTextMarkup = { __html: token.helpText };
 
     return (showInputs) ? (
       <div className={styles['token-fields']}>
@@ -40,13 +41,10 @@ class TokenField extends Component {
           dangerouslySetInnerHTML={helpTextMarkup}
         />
         <div data-test-eholdings-token-fields-prompt className={styles['token-prompt-text']}>
-          {model.providerToken.prompt}
+          {token.prompt}
         </div>
         <div data-test-eholdings-token-value-textarea className={styles['token-value-textarea']}>
-          <Field
-            name="tokenValue"
-            component={TextArea}
-          />
+          {type === 'provider' ? (<Field name="providerTokenValue" component={TextArea} />) : (<Field name="packageTokenValue" component={TextArea} />)}
         </div>
       </div>
     ) : (
@@ -58,7 +56,7 @@ class TokenField extends Component {
           type="button"
           onClick={this.toggleInputs}
         >
-          <FormattedMessage id="ui-eholdings.provider.token.addToken" />
+          {type === 'provider' ? (<FormattedMessage id="ui-eholdings.provider.token.addToken" />) : (<FormattedMessage id="ui-eholdings.package.token.addToken" />)}
         </Button>
       </div>
     );
@@ -71,9 +69,12 @@ export function validate(values, props) {
   const errors = {};
   let { intl } = props;
 
-  if (values.tokenValue && values.tokenValue.length > 500) {
-    errors.tokenValue = intl.formatMessage({ id: 'ui-eholdings.validate.errors.token.length' });
+  if ((values.providerTokenValue && values.providerTokenValue.length > 500)) {
+    errors.providerTokenValue = intl.formatMessage({ id: 'ui-eholdings.validate.errors.token.length' });
   }
 
+  if ((values.packageTokenValue && values.packageTokenValue.length > 500)) {
+    errors.packageTokenValue = intl.formatMessage({ id: 'ui-eholdings.validate.errors.token.length' });
+  }
   return errors;
 }

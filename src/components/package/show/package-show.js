@@ -24,6 +24,7 @@ import Toaster from '../../toaster';
 import SelectionStatus from '../selection-status';
 import KeyValueColumns from '../../key-value-columns';
 import ProxyDisplay from '../../proxy-display';
+import TokenDisplay from '../../token-display';
 import styles from './package-show.css';
 
 class PackageShow extends Component {
@@ -125,6 +126,8 @@ class PackageShow extends Component {
 
     let visibilityMessage = model.visibilityData.reason && `(${model.visibilityData.reason})`;
     let hasProxy = model.proxy && model.proxy.id;
+    let hasProviderToken = provider.providerToken && provider.providerToken.prompt;
+    let hasPackageToken = model.packageToken && model.packageToken.prompt;
     let modalMessage = model.isCustom ?
       {
         header: intl.formatMessage({ id: 'ui-eholdings.package.modal.header.isCustom' }),
@@ -343,6 +346,28 @@ class PackageShow extends Component {
                     ) : (
                       <Icon icon="spinner-ellipsis" />
                     )}
+                    {hasProviderToken && (
+                    (provider.isLoading) ? (
+                      <Icon icon="spinner-ellipsis" />
+                    ) : (
+                      <KeyValue label={<FormattedMessage id="ui-eholdings.provider.token" />}>
+                        <TokenDisplay
+                          token={provider.providerToken}
+                          type="provider"
+                        />
+                      </KeyValue>
+                    ))}
+                    {hasPackageToken && (
+                      (model.isLoading) ? (
+                        <Icon icon="spinner-ellipsis" />
+                      ) : (
+                        <KeyValue label={<FormattedMessage id="ui-eholdings.package.token" />}>
+                          <TokenDisplay
+                            token={model.packageToken}
+                            type="package"
+                          />
+                        </KeyValue>
+                      ))}
                   </div>
                 ) : (
                   <p><FormattedMessage id="ui-eholdings.package.visibility.notSelected" /></p>

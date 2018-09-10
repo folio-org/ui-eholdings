@@ -13,7 +13,7 @@ import DetailsViewSection from '../../details-view-section';
 import NavigationModal from '../../navigation-modal';
 import Toaster from '../../toaster';
 import ProxySelectField from '../../proxy-select';
-import TokenField, { validate as validateToken } from '../_fields/token';
+import TokenField, { validate as validateToken } from '../../token';
 import PaneHeaderButton from '../../pane-header-button';
 import styles from './provider-edit.css';
 
@@ -138,7 +138,7 @@ class ProviderEdit extends Component {
                           <legend>
                             <FormattedMessage id="ui-eholdings.provider.token" />
                           </legend>
-                          <TokenField model={model} showInputs={hasTokenValue} />
+                          <TokenField token={model.providerToken} tokenValue={hasTokenValue} type="provider" />
                         </fieldset>
                       )}
                     </div>
