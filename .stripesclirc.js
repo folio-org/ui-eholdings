@@ -6,7 +6,7 @@ function mirage(config, enabled = false) {
   if (enabled) {
     console.info('Using Mirage Server'); // eslint-disable-line no-console
     return Object.assign({}, config, {
-      entry: ['./bigtest/network/boot'].concat(config.entry)
+      entry: ['./test/bigtest/network/boot'].concat(config.entry)
     });
   } else {
     return config;

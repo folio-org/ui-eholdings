@@ -1,5 +1,5 @@
 module.exports = (config) => {
-  const testIndex = './bigtest/index.js';
+  const testIndex = './test/bigtest/index.js';
   const preprocessors = {};
   preprocessors[`${testIndex}`] = ['webpack'];
 
@@ -46,7 +46,6 @@ module.exports = (config) => {
 
   // Add plugins not in Stripes CLI
   configuration.plugins = config.plugins;
-  configuration.plugins.push('karma-firefox-launcher');
   configuration.plugins.push('karma-browserstack-launcher');
 
   // Turn on coverage report thresholds

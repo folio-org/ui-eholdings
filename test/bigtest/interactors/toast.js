@@ -4,7 +4,7 @@ import {
   interactor,
   text
 } from '@bigtest/interactor';
-import style from '../../src/components/toaster/style.css';
+import style from '../../../src/components/toaster/style.css';
 
 @interactor class Toast {
   isPositionedTop = hasClass(style.top)
