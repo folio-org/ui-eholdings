@@ -92,18 +92,12 @@ jobs:
       - attach_workspace:
           at: ~/
       - run:
-          name: Install the latest Firefox ESR
-          command: |
-            sudo apt-get remove firefox-mozilla-build &&
-            sudo apt install firefox-esr &&
-            firefox --version
-      - run:
           name: Run tests
           command:
             yarn test
             --karma.singleRun
             --karma.browsers=Firefox
-            --karma.reporters mocha junit BrowserStack
+            --karma.reporters mocha junit
             --karma.junitReporter.outputDir artifacts/karma
       - store_test_results:
           path: ./artifacts
@@ -163,5 +157,8 @@ workflows:
           requires:
             - checkout-and-install
       - test-chrome:
+          requires:
+            - checkout-and-install
+      - test-firefox:
           requires:
             - checkout-and-install
