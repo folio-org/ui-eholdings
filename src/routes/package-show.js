@@ -89,7 +89,6 @@ class PackageShowRoute extends Component {
     model.isSelected = true;
     model.selectedCount = model.titleCount;
     model.allowKbToAddTitles = true;
-    model.proxy = {};
     updatePackage(model);
   };
 
@@ -112,7 +111,6 @@ class PackageShowRoute extends Component {
         model.visibilityData.isHidden = false;
         model.customCoverage = {};
         model.allowKbToAddTitles = false;
-        model.proxy = {};
       }
 
       updatePackage(model);

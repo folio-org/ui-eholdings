@@ -89,7 +89,6 @@ class PackageEditRoute extends Component {
       model.visibilityData.isHidden = false;
       model.customCoverage = {};
       model.allowKbToAddTitles = false;
-      model.proxy = {};
       updatePackage(model);
     } else if (values.isSelected && !values.customCoverages) {
       model.isSelected = true;
@@ -146,7 +145,6 @@ class PackageEditRoute extends Component {
     model.isSelected = true;
     model.selectedCount = model.titleCount;
     model.allowKbToAddTitles = true;
-    model.proxy = {};
     updatePackage(model);
   };
 
