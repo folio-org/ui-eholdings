@@ -1,8 +1,8 @@
 /* global describe, beforeEach, it */
 import { expect } from 'chai';
 
-import Resolver from '../../../src/redux/resolver';
-import model, { hasMany, belongsTo } from '../../../src/redux/model';
+import Resolver from '../../../../src/redux/resolver';
+import model, { hasMany, belongsTo } from '../../../../src/redux/model';
 
 // mock provider data that would reside in our store
 const PROVIDER_JSON = {

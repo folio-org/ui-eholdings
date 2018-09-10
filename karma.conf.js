@@ -1,5 +1,5 @@
 module.exports = (config) => {
-  const testIndex = './bigtest/index.js';
+  const testIndex = './test/bigtest/index.js';
   const preprocessors = {};
   preprocessors[`${testIndex}`] = ['webpack'];
 

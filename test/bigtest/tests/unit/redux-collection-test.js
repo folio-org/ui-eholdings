@@ -1,8 +1,8 @@
 /* global describe, beforeEach, it */
 import { expect } from 'chai';
 
-import Resolver from '../../../src/redux/resolver';
-import model, { Collection } from '../../../src/redux/model';
+import Resolver from '../../../../src/redux/resolver';
+import model, { Collection } from '../../../../src/redux/model';
 
 const STORE_FIXTURE = {
   providers: {

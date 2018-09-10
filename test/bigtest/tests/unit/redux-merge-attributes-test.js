@@ -1,6 +1,6 @@
 /* global describe, beforeEach, it */
 import { expect } from 'chai';
-import { mergeAttributes } from '../../../src/redux/helpers';
+import { mergeAttributes } from '../../../../src/redux/helpers';
 
 describe('mergeAttributes', () => {
   let existing;
