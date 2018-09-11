@@ -228,7 +228,6 @@ class SearchRoute extends Component {
     };
 
     this.updateURLParams(params);
-    this.search(params);
   };
 
   /**
