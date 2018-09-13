@@ -294,9 +294,9 @@
   dependencies:
     history "^4.7.2"
 
-"@folio/eslint-config-stripes@^3.2.0":
-  version "3.2.0"
-  resolved "https://repository.folio.org/repository/npm-folio/@folio/eslint-config-stripes/-/eslint-config-stripes-3.2.0.tgz#d37c098dc8a6853b482c848e4ee3f260c656cf30"
+"@folio/eslint-config-stripes@frontside-folio/eslint-config-stripes#jc/webpack-dependency":
+  version "3.1.1"
+  resolved "https://codeload.github.com/frontside-folio/eslint-config-stripes/tar.gz/f76a8c5f8510ad3e4b044827cdc8ac50c9b6434a"
   dependencies:
     eslint-config-airbnb "17.1.0"
     eslint-import-resolver-webpack "0.10.1"
@@ -304,6 +304,7 @@
     eslint-plugin-import "2.14.0"
     eslint-plugin-jsx-a11y "6.1.1"
     eslint-plugin-react "7.11.0"
+    webpack "^4.0.0"
 
 "@folio/react-intl-safe-html@^1.0.2":
   version "1.0.2"
