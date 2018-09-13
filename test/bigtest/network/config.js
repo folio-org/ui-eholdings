@@ -227,7 +227,8 @@ export default function configure() {
       visibilityData,
       name,
       contentType,
-      proxy
+      proxy,
+      packageToken
     } = body.data.attributes;
 
     let selectedCount = isSelected ? matchingResources.length : 0;
@@ -242,7 +243,7 @@ export default function configure() {
     matchingPackage.update('name', name);
     matchingPackage.update('contentType', contentType);
     matchingPackage.update('proxy', proxy);
-
+    matchingPackage.update('packageToken', packageToken);
     return matchingPackage;
   });
 
