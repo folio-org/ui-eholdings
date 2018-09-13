@@ -66,6 +66,16 @@ describeApplication('PackageShow', () => {
       expect(PackageShowPage.packageType).to.equal('Complete');
     });
 
+    it.skip('displays the provider token prompt and value', () => {
+      expect(PackageShowPage.token).to.include(`${provider.providerToken.prompt}`);
+      expect(PackageShowPage.token).to.include(`${provider.providerToken.value}`);
+    });
+
+    it.skip('displays the package token prompt and value', () => {
+      expect(PackageShowPage.token).to.include(`${providerPackage.packageToken.prompt}`);
+      expect(PackageShowPage.token).to.include(`${providerPackage.packageToken.value}`);
+    });
+
     it('displays a list of titles', () => {
       expect(PackageShowPage.titleList().length).to.equal(5);
     });

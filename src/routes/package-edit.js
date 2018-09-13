@@ -4,9 +4,6 @@ import { connect } from 'react-redux';
 import moment from 'moment';
 import TitleManager from '@folio/stripes-core/src/components/TitleManager';
 import { injectIntl, intlShape } from 'react-intl';
-import {
-  Icon
-} from '@folio/stripes-components';
 import { createResolver } from '../redux';
 import { ProxyType } from '../redux/application';
 import Package from '../redux/package';
