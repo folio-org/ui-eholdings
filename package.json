@@ -19,7 +19,7 @@
     "@bigtest/mirage": "^0.0.1",
     "@bigtest/mocha": "^0.5.1",
     "@bigtest/react": "^0.1.2",
-    "@folio/eslint-config-stripes": "^3.2.0",
+    "@folio/eslint-config-stripes": "frontside-folio/eslint-config-stripes#jc/webpack-dependency",
     "@folio/stripes-cli": "^1.4.0",
     "@folio/stripes-core": "^2.12.0",
     "babel-eslint": "^9.0.0",
@@ -39,8 +39,7 @@
     "react-trigger-change": "^1.0.2",
     "stylelint": "^9.5.0",
     "stylelint-config-standard": "^18.2.0",
-    "stylelint-junit-formatter": "^0.2.1",
-    "webpack": "^4.0.0"
+    "stylelint-junit-formatter": "^0.2.1"
   },
   "dependencies": {
     "@folio/stripes-components": "^3.1.0",
