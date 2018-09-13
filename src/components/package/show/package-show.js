@@ -347,16 +347,16 @@ class PackageShow extends Component {
                       <Icon icon="spinner-ellipsis" />
                     )}
                     {hasProviderToken && (
-                    (provider.isLoading) ? (
-                      <Icon icon="spinner-ellipsis" />
-                    ) : (
-                      <KeyValue label={<FormattedMessage id="ui-eholdings.provider.token" />}>
-                        <TokenDisplay
-                          token={provider.providerToken}
-                          type="provider"
-                        />
-                      </KeyValue>
-                    ))}
+                      (provider.isLoading) ? (
+                        <Icon icon="spinner-ellipsis" />
+                      ) : (
+                        <KeyValue label={<FormattedMessage id="ui-eholdings.provider.token" />}>
+                          <TokenDisplay
+                            token={provider.providerToken}
+                            type="provider"
+                          />
+                        </KeyValue>
+                      ))}
                     {hasPackageToken && (
                       (model.isLoading) ? (
                         <Icon icon="spinner-ellipsis" />
