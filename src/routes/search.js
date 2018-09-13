@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import capitalize from 'lodash/capitalize';
+import isEqual from 'lodash/isEqual';
 import { TitleManager } from '@folio/stripes-core';
 
 import { qs, transformQueryParams } from '../components/utilities';
@@ -81,35 +82,56 @@ class SearchRoute extends Component {
     };
   }
 
-  componentWillReceiveProps(nextProps) { // eslint-disable-line react/no-deprecated
+  static getDerivedStateFromProps(nextProps, prevState) {
     let { location, match } = nextProps;
     let { searchType, ...params } = qs.parse(location.search);
     let hideDetails = /^\/eholdings\/?$/.test(location.pathname);
+
+    if (!isEqual(location, prevState.location)) {
+      return {
+        ...prevState,
+        location,
+        match,
+        searchType,
+        params,
+        hideDetails,
+        sort: params.sort,
+        searchFilter: params.filter,
+        searchField: params.searchfield
+      };
+    }
+    return null;
+  }
+
+  componentDidUpdate(prevProps) {
     let shouldFocusItem = null;
 
     // cache the query so it can be restored via the search type
-    if (searchType) {
-      this.queries[searchType] = params;
-      this.path[searchType] = location.pathname;
+    if (this.state.searchType) {
+      this.queries[this.state.searchType] = this.state.params;
+      this.path[this.state.searchType] = this.state.location.pathname;
     }
 
     // when details are not visible, we need to focus the last active
     // list item as determined by the `id` URL param
-    if (hideDetails && this.props.match.params.id !== match.params.id) {
-      shouldFocusItem = this.props.match.params.id || null;
+    if (this.state.hideDetails && this.state.match.params.id !== prevProps.match.params.id) {
+      shouldFocusItem = prevProps.match.params.id || null;
     }
 
-    // always update the results state
-    this.setState({
-      hideDetails,
-      shouldFocusItem,
-      searchType,
-      params,
-      sort: params.sort,
-      searchString: params.q,
-      searchFilter: params.filter,
-      searchField: params.searchfield
-    });
+    // update searchstring state only when it actually changes in the location instead of updating it each time on
+    // input to text field. This eliminates re-rendering of the text field on each keyboard in and solves problem
+    // stated in https://issues.folio.org/browse/UIEH-558
+    // The eslint disable line that we added in the line below can be removed after we move to React 17.0
+    if (!isEqual(this.state.location, prevProps.location)) {
+      this.setState({ searchString: this.state.params.q }); // eslint-disable-line react/no-did-update-set-state
+    }
+
+    // Rest of the state is updated in getDerivedStateFromProps except the one below whose state is
+    // computed after component updates. So, update it here.
+    // The eslint disable line that we added in the line below can be removed after we move to React 17.0
+    if (!isEqual(shouldFocusItem, this.state.shouldFocusItem)) {
+      this.setState({ shouldFocusItem }); // eslint-disable-line react/no-did-update-set-state
+    }
   }
 
   handleSearchChange = (searchString) => {
