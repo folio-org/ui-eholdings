@@ -124,7 +124,7 @@ export default Factory.extend({
         factName: '[[mysiteid]]',
         prompt: '/test1/',
         helpText,
-        value: 'abcdefghijk'
+        value: 'testing package token'
       });
       packageObj.update('packageToken', token.toJSON());
       packageObj.save();
@@ -152,7 +152,7 @@ export default Factory.extend({
         factName: '[[mysiteid]]',
         prompt: '/test1/',
         helpText,
-        value:'abcdefghijk'
+        value:'testing package token'
       });
       packageObj.update('packageToken', token.toJSON());
       packageObj.save();

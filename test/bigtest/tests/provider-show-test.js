@@ -51,8 +51,8 @@ describeApplication('ProviderShow', () => {
     });
 
     it('displays the token prompt and value', () => {
-      expect(ProviderShowPage.token).to.include(`${provider.providerToken.prompt}`);
-      expect(ProviderShowPage.token).to.include(`${provider.providerToken.value}`);
+      expect(ProviderShowPage.providerToken).to.include(`${provider.providerToken.prompt}`);
+      expect(ProviderShowPage.providerToken).to.include(`${provider.providerToken.value}`);
     });
 
     it('displays a list of packages', () => {
@@ -195,11 +195,11 @@ describeApplication('ProviderShow', () => {
     });
 
     it('does not display the token', () => {
-      expect(ProviderShowPage.isTokenPresent).to.equal(false);
+      expect(ProviderShowPage.isProviderTokenPresent).to.equal(false);
     });
 
     it('displays a message that no provider token has been set', () => {
-      expect(ProviderShowPage.tokenMessage).to.equal('No provider token has been set.');
+      expect(ProviderShowPage.providerTokenMessage).to.equal('No provider token has been set.');
     });
   });
 
@@ -214,7 +214,7 @@ describeApplication('ProviderShow', () => {
     });
 
     it('does not display the token', () => {
-      expect(ProviderShowPage.isTokenPresent).to.equal(false);
+      expect(ProviderShowPage.isProviderTokenPresent).to.equal(false);
     });
   });
 

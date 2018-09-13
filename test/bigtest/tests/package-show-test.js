@@ -66,16 +66,6 @@ describeApplication('PackageShow', () => {
       expect(PackageShowPage.packageType).to.equal('Complete');
     });
 
-    it.skip('displays the provider token prompt and value', () => {
-      expect(PackageShowPage.token).to.include(`${provider.providerToken.prompt}`);
-      expect(PackageShowPage.token).to.include(`${provider.providerToken.value}`);
-    });
-
-    it.skip('displays the package token prompt and value', () => {
-      expect(PackageShowPage.token).to.include(`${providerPackage.packageToken.prompt}`);
-      expect(PackageShowPage.token).to.include(`${providerPackage.packageToken.value}`);
-    });
-
     it('displays a list of titles', () => {
       expect(PackageShowPage.titleList().length).to.equal(5);
     });
@@ -265,6 +255,36 @@ describeApplication('PackageShow', () => {
       expect(PackageShowPage.hasProxy).to.be.true;
       expect(PackageShowPage.proxyValue).to.include('Inherited');
       expect(PackageShowPage.proxyValue).to.include(`${providerPackage.proxy.id}`);
+    });
+  });
+
+  describe('visiting a managed package details page with provider and package tokens', () => {
+    beforeEach(function () {
+      provider = this.server.create('provider', {
+        name: 'Cool Provider'
+      });
+
+      providerPackage = this.server.create('package', 'withTitles', 'withCustomCoverage', 'withInheritedProxy', {
+        provider,
+        name: 'Cool Package',
+        contentType: 'E-Book',
+        isSelected: true,
+        titleCount: 5,
+        packageType: 'Complete'
+      });
+      return this.visit(`/eholdings/packages/${providerPackage.id}`, () => {
+        expect(PackageShowPage.$root).to.exist;
+      });
+    });
+
+    it('displays the provider token prompt and value', () => {
+      expect(PackageShowPage.providerToken).to.include(`${provider.providerToken.prompt}`);
+      expect(PackageShowPage.providerToken).to.include(`${provider.providerToken.value}`);
+    });
+
+    it('displays the package token prompt and value', () => {
+      expect(PackageShowPage.packageToken).to.include(`${providerPackage.packageToken.prompt}`);
+      expect(PackageShowPage.packageToken).to.include(`${providerPackage.packageToken.value}`);
     });
   });
 

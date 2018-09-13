@@ -5,7 +5,7 @@ import { FormattedMessage } from 'react-intl';
 export default function TokenDisplay({ token, type }) {
   if (token.value) {
     return (
-      <div data-test-eholdings-details-token>
+      <div data-test-eholdings-details-token={type}>
         <span>
           {`${token.prompt}`}
           :&nbsp;
@@ -14,7 +14,7 @@ export default function TokenDisplay({ token, type }) {
       </div>);
   } else {
     return (
-      <div data-test-eholdings-details-token-message>
+      <div data-test-eholdings-details-token-message={type}>
         <span>{type === 'provider' ? (<FormattedMessage id="ui-eholdings.provider.noTokenSet" />) : (<FormattedMessage id="ui-eholdings.package.noTokenSet" />)}</span>
       </div>
     );
