@@ -17,7 +17,7 @@ class TokenField extends Component {
   };
 
   state = {
-    showInputs: this.props.tokenValue !== null
+    showInputs: this.props.tokenValue
   };
 
   toggleInputs = () => {

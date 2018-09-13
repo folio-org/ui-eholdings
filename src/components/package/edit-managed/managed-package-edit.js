@@ -174,10 +174,10 @@ class ManagedPackageEdit extends Component {
 
     let visibilityMessage = model.visibilityData.reason && `(${model.visibilityData.reason})`;
 
-    let supportsProviderTokens = provider.providerToken && provider.providerToken.prompt;
-    let supportsPackageTokens = model.packageToken && model.packageToken.prompt;
-    let hasProviderTokenValue = provider.providerToken && provider.providerToken.value;
-    let hasPackageTokenValue = model.packageToken && model.packageToken.value;
+    let supportsProviderTokens = provider && provider.isLoaded && provider.providerToken && provider.providerToken.prompt;
+    let supportsPackageTokens = model && model.isLoaded && model.packageToken && model.packageToken.prompt;
+    let hasProviderTokenValue = provider && provider.isLoaded && provider.providerToken && provider.providerToken.value;
+    let hasPackageTokenValue = model && model.isLoaded && model.packageToken && model.packageToken.value;
 
     let actionMenuItems = [
       {

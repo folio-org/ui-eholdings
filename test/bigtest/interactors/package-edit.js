@@ -7,6 +7,7 @@ import {
   computed,
   scoped,
   fillable,
+  blurrable,
   isPresent,
   interactor,
   property,
@@ -91,6 +92,25 @@ import PackageSelectionStatus from './selection-status';
   chooseProxy = selectable('[data-test-eholdings-package-proxy-select-field] select');
   dropDown = new PackageEditDropDown('[class*=paneHeaderCenterInner---] [class*=dropdown---]');
   dropDownMenu = new PackageEditDropDownMenu();
+  hasTokenHelpText = isPresent('[data-test-eholdings-token-fields-help-text]');
+  tokenHelpText = text('[data-test-eholdings-token-fields-help-text]');
+  hasTokenPrompt = isPresent('[data-test-eholdings-token-fields-prompt]');
+  tokenPrompt = text('[data-test-eholdings-token-fields-prompt]');
+  hasTokenValue = isPresent('[data-test-eholdings-token-value-textarea]');
+  tokenValue = text('[data-test-eholdings-token-value-textarea]');
+  hasAddTokenBtn = isPresent('[data-test-eholdings-token-add-button]');
+  clickAddTokenButton = clickable('[data-test-eholdings-token-add-button] button');
+  fillTokenValue = fillable('[data-test-eholdings-token-value-textarea] textarea');
+  blurTokenValue = blurrable('[data-test-eholdings-token-value-textarea] textarea');
+
+  inputTokenValue = action(function (tokenValue) {
+    return this
+      .fillTokenValue(tokenValue)
+      .blurTokenValue();
+  });
+
+  tokenHasError = hasClassBeginningWith('[data-test-eholdings-token-value-textarea] textarea', 'hasError--');
+  tokenError = text('[data-test-eholdings-token-value-textarea] [class^="feedbackError--"]');
 
   toast = Toast;
 

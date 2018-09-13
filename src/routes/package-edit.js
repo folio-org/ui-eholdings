@@ -168,15 +168,13 @@ class PackageEditRoute extends Component {
 
     return (
       <TitleManager record={intl.formatMessage({ id: 'ui-eholdings.label.editLink' }, { name: model.name })}>
-        {model.isLoaded && provider.isLoaded ? (
-          <View
-            model={model}
-            proxyTypes={proxyTypes}
-            provider={provider}
-            onSubmit={this.packageEditSubmitted}
-            addPackageToHoldings={this.addPackageToHoldings}
-          />
-        ) : (<Icon icon="spinner-ellipsis" />)}
+        <View
+          model={model}
+          proxyTypes={proxyTypes}
+          provider={provider}
+          onSubmit={this.packageEditSubmitted}
+          addPackageToHoldings={this.addPackageToHoldings}
+        />
       </TitleManager>
     );
   }
