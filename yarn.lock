@@ -513,12 +513,12 @@
     mousetrap "^1.6.1"
     prop-types "^15.5.10"
 
-"@folio/stripes-smart-components@^1.7.2":
-  version "1.7.2"
-  resolved "https://repository.folio.org/repository/npm-folio/@folio/stripes-smart-components/-/stripes-smart-components-1.7.2.tgz#3f21f6d28ee95ed427b922274e9b04d56512d2ac"
+"@folio/stripes-smart-components@^1.8.0":
+  version "1.8.0"
+  resolved "https://repository.folio.org/repository/npm-folio/@folio/stripes-smart-components/-/stripes-smart-components-1.8.0.tgz#6a6be0c5ac80a771d7d036406683456ea46d6dbc"
   dependencies:
     "@folio/react-intl-safe-html" "^1.0.2"
-    "@folio/stripes-components" "^3.0.0"
+    "@folio/stripes-components" "^3.1.0"
     "@folio/stripes-core" "^2.10.2"
     "@folio/stripes-form" "^0.9.0"
     classnames "^2.2.6"
