@@ -4,7 +4,7 @@ import { expect } from 'chai';
 import { describeApplication } from '../helpers/describe-application';
 import PackageShowPage from '../interactors/package-show';
 
-describeApplication.only('PackageShow', () => {
+describeApplication('PackageShow', () => {
   let provider,
     providerPackage,
     resources;
