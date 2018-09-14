@@ -29,15 +29,15 @@ describeApplication('ProviderEditToken', () => {
     });
 
     it('has token help text', () => {
-      expect(ProviderEditPage.tokenHelpText).to.equal('Enter your Gale token');
+      expect(ProviderEditPage.providerTokenHelpText).to.equal('Enter your Gale token');
     });
 
     it('has token prompt', () => {
-      expect(ProviderEditPage.tokenPrompt).to.equal(provider.providerToken.prompt);
+      expect(ProviderEditPage.providerTokenPrompt).to.equal(provider.providerToken.prompt);
     });
 
     it('has token value', () => {
-      expect(ProviderEditPage.tokenValue).to.equal(provider.providerToken.value);
+      expect(ProviderEditPage.providerTokenValue).to.equal(provider.providerToken.value);
     });
 
     it('disables the save button', () => {
@@ -56,7 +56,7 @@ describeApplication('ProviderEditToken', () => {
 
     describe('choosing another value for token', () => {
       beforeEach(() => {
-        return ProviderEditPage.inputTokenValue('test-token');
+        return ProviderEditPage.inputProviderTokenValue('test-token');
       });
 
       it('should enable save action button', () => {
@@ -77,8 +77,8 @@ describeApplication('ProviderEditToken', () => {
         });
 
         it('shows newly saved token', () => {
-          expect(ProviderShowPage.token).to.include(`${provider.providerToken.prompt}`);
-          expect(ProviderShowPage.token).to.include('test-token');
+          expect(ProviderShowPage.providerToken).to.include(`${provider.providerToken.prompt}`);
+          expect(ProviderShowPage.providerToken).to.include('test-token');
         });
 
 
@@ -106,24 +106,24 @@ describeApplication('ProviderEditToken', () => {
     });
 
     it('has add token button', () => {
-      expect(ProviderEditPage.hasAddTokenBtn).to.be.true;
+      expect(ProviderEditPage.hasAddProviderTokenBtn).to.be.true;
     });
 
     describe('clicking add token button', () => {
       beforeEach(() => {
-        return ProviderEditPage.clickAddTokenButton();
+        return ProviderEditPage.clickAddProviderTokenButton();
       });
 
       it('has token help text', () => {
-        expect(ProviderEditPage.tokenHelpText).to.equal('Enter your token');
+        expect(ProviderEditPage.providerTokenHelpText).to.equal('Enter your token');
       });
 
       it('has token prompt', () => {
-        expect(ProviderEditPage.tokenPrompt).to.equal('/test1/');
+        expect(ProviderEditPage.providerTokenPrompt).to.equal('/test1/');
       });
 
       it('has empty token value', () => {
-        expect(ProviderEditPage.tokenValue).to.equal('');
+        expect(ProviderEditPage.providerTokenValue).to.equal('');
       });
     });
   });
@@ -139,19 +139,19 @@ describeApplication('ProviderEditToken', () => {
     });
 
     it('does not show token help text', () => {
-      expect(ProviderEditPage.hasTokenHelpText).to.equal(false);
+      expect(ProviderEditPage.hasProviderTokenHelpText).to.equal(false);
     });
 
     it('does not show token prompt', () => {
-      expect(ProviderEditPage.hasTokenPrompt).to.equal(false);
+      expect(ProviderEditPage.hasProviderTokenPrompt).to.equal(false);
     });
 
     it('does not show token value', () => {
-      expect(ProviderEditPage.hasTokenValue).to.equal(false);
+      expect(ProviderEditPage.hasProviderTokenValue).to.equal(false);
     });
 
     it('does not have add token button', () => {
-      expect(ProviderEditPage.hasAddTokenBtn).to.equal(false);
+      expect(ProviderEditPage.hasAddProviderTokenBtn).to.equal(false);
     });
   });
 
@@ -163,7 +163,7 @@ describeApplication('ProviderEditToken', () => {
     });
 
     it('has token value', () => {
-      expect(ProviderEditPage.tokenValue).to.equal(provider.providerToken.value);
+      expect(ProviderEditPage.providerTokenValue).to.equal(provider.providerToken.value);
     });
 
     it('disables the save button', () => {
@@ -174,15 +174,15 @@ describeApplication('ProviderEditToken', () => {
       beforeEach(() => {
         longToken = 'a'.repeat(501);
         return ProviderEditPage
-          .inputTokenValue(longToken);
+          .inputProviderTokenValue(longToken);
       });
 
       it('highlights the textarea with an error state', () => {
-        expect(ProviderEditPage.tokenHasError).to.be.true;
+        expect(ProviderEditPage.providerTokenHasError).to.be.true;
       });
 
       it('displays the correct validation message', () => {
-        expect(ProviderEditPage.tokenError).to.equal('Tokens must be 500 characters or less.');
+        expect(ProviderEditPage.providerTokenError).to.equal('Tokens must be 500 characters or less.');
       });
     });
   });

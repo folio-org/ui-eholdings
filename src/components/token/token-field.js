@@ -36,21 +36,21 @@ class TokenField extends Component {
     return (showInputs) ? (
       <div className={styles['token-fields']}>
         <div
-          data-test-eholdings-token-fields-help-text
+          data-test-eholdings-token-fields-help-text={type}
           className={styles['token-help-text']}
           dangerouslySetInnerHTML={helpTextMarkup}
         />
-        <div data-test-eholdings-token-fields-prompt className={styles['token-prompt-text']}>
+        <div data-test-eholdings-token-fields-prompt={type} className={styles['token-prompt-text']}>
           {token.prompt}
         </div>
-        <div data-test-eholdings-token-value-textarea className={styles['token-value-textarea']}>
+        <div data-test-eholdings-token-value-textarea={type} className={styles['token-value-textarea']}>
           {type === 'provider' ? (<Field name="providerTokenValue" component={TextArea} />) : (<Field name="packageTokenValue" component={TextArea} />)}
         </div>
       </div>
     ) : (
       <div
         className={styles['token-add-row-button']}
-        data-test-eholdings-token-add-button
+        data-test-eholdings-token-add-button={type}
       >
         <Button
           type="button"
