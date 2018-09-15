@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import ManagedPackageEdit from './edit-managed';
 import CustomPackageEdit from './edit-custom';
 
-export default function PackageEdit({ model, ...props }) {
+export default function PackageEdit({ model, provider, ...props }) {
   let initialValues = {};
   let View;
 
@@ -30,6 +30,8 @@ export default function PackageEdit({ model, ...props }) {
         endCoverage: model.customCoverage.endCoverage
       }],
       proxyId: model.proxy.id,
+      providerTokenValue: provider.providerToken.value,
+      packageTokenValue: model.packageToken.value,
       isVisible: !model.visibilityData.isHidden,
       allowKbToAddTitles: model.allowKbToAddTitles
     };
@@ -38,6 +40,7 @@ export default function PackageEdit({ model, ...props }) {
   return (
     <View
       model={model}
+      provider={provider}
       initialValues={initialValues}
       {...props}
     />
@@ -45,5 +48,6 @@ export default function PackageEdit({ model, ...props }) {
 }
 
 PackageEdit.propTypes = {
-  model: PropTypes.object.isRequired
+  model: PropTypes.object.isRequired,
+  provider: PropTypes.object.isRequired
 };

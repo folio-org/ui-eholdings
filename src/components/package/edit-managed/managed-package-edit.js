@@ -21,6 +21,7 @@ import Toaster from '../../toaster';
 import PaneHeaderButton from '../../pane-header-button';
 import SelectionStatus from '../selection-status';
 import ProxySelectField from '../../proxy-select';
+import TokenField, { validate as validateToken } from '../../token';
 import styles from './managed-package-edit.css';
 
 class ManagedPackageEdit extends Component {
@@ -172,6 +173,11 @@ class ManagedPackageEdit extends Component {
     } = this.context;
 
     let visibilityMessage = model.visibilityData.reason && `(${model.visibilityData.reason})`;
+
+    let supportsProviderTokens = provider && provider.isLoaded && provider.providerToken && provider.providerToken.prompt;
+    let supportsPackageTokens = model && model.isLoaded && model.packageToken && model.packageToken.prompt;
+    let hasProviderTokenValue = provider && provider.isLoaded && provider.providerToken && provider.providerToken.value;
+    let hasPackageTokenValue = model && model.isLoaded && model.packageToken && model.packageToken.value;
 
     let actionMenuItems = [
       {
@@ -326,6 +332,22 @@ class ManagedPackageEdit extends Component {
                       ) : (
                         <Icon icon="spinner-ellipsis" />
                       )}
+                      {supportsProviderTokens && (
+                        <fieldset>
+                          <legend>
+                            <FormattedMessage id="ui-eholdings.provider.token" />
+                          </legend>
+                          <TokenField token={provider.providerToken} tokenValue={hasProviderTokenValue} type="provider" />
+                        </fieldset>
+                      )}
+                      {supportsPackageTokens && (
+                        <fieldset>
+                          <legend>
+                            <FormattedMessage id="ui-eholdings.package.token" />
+                          </legend>
+                          <TokenField token={model.packageToken} tokenValue={hasPackageTokenValue} type="package" />
+                        </fieldset>
+                      )}
                     </DetailsViewSection>
                     <DetailsViewSection
                       label={intl.formatMessage({ id: 'ui-eholdings.package.coverageSettings' })}
@@ -377,7 +399,7 @@ class ManagedPackageEdit extends Component {
 }
 
 const validate = (values, props) => {
-  return validateCoverageDates(values, props);
+  return Object.assign({}, validateCoverageDates(values, props), validateToken(values, props));
 };
 
 export default injectIntl(reduxForm({

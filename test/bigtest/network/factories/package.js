@@ -1,5 +1,7 @@
 import { Factory, faker, trait } from '@bigtest/mirage';
 
+let helpText = '<ul><li>Enter your Gale token</li></ul>';
+
 export default Factory.extend({
   name: () => faker.commerce.productName(),
   titleCount: 0,
@@ -103,6 +105,32 @@ export default Factory.extend({
     }
   }),
 
+  withPackageToken: trait({
+    afterCreate(packageObj, server) {
+      let token = server.create('token', {
+        factName: '[[mysiteid]]',
+        prompt: '/test1/',
+        helpText,
+        value: ''
+      });
+      packageObj.update('packageToken', token.toJSON());
+      packageObj.save();
+    }
+  }),
+
+  withPackageTokenAndValue: trait({
+    afterCreate(packageObj, server) {
+      let token = server.create('token', {
+        factName: '[[mysiteid]]',
+        prompt: '/test1/',
+        helpText,
+        value: 'testing package token'
+      });
+      packageObj.update('packageToken', token.toJSON());
+      packageObj.save();
+    }
+  }),
+
   afterCreate(packageObj, server) {
     if (!packageObj.visibilityData) {
       let visibilityData = server.create('visibility-data');
@@ -116,6 +144,17 @@ export default Factory.extend({
         id: 'bigTestJS'
       });
       packageObj.update('proxy', proxy.toJSON());
+      packageObj.save();
+    }
+
+    if (!packageObj.token) {
+      let token = server.create('token', {
+        factName: '[[mysiteid]]',
+        prompt: '/test1/',
+        helpText,
+        value:'testing package token'
+      });
+      packageObj.update('packageToken', token.toJSON());
       packageObj.save();
     }
   }

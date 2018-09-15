@@ -12,7 +12,7 @@ import QueryList from '../../query-list';
 import PackageListItem from '../../package-list-item';
 import Toaster from '../../toaster';
 import ProxyDisplay from '../../proxy-display';
-import TokenDisplay from '../token-display';
+import TokenDisplay from '../../token-display';
 import styles from './provider-show.css';
 
 class ProviderShow extends Component {
@@ -175,7 +175,8 @@ class ProviderShow extends Component {
                     ) : (
                       <KeyValue label={<FormattedMessage id="ui-eholdings.provider.token" />}>
                         <TokenDisplay
-                          model={model}
+                          token={model.providerToken}
+                          type="provider"
                         />
                       </KeyValue>
                     ))}

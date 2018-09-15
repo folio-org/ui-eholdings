@@ -258,6 +258,150 @@ describeApplication('PackageShow', () => {
     });
   });
 
+  describe('visiting a managed package details page with provider and package tokens', () => {
+    beforeEach(function () {
+      providerPackage.isSelected = true;
+
+      return this.visit(`/eholdings/packages/${providerPackage.id}`, () => {
+        expect(PackageShowPage.$root).to.exist;
+      });
+    });
+
+    it('displays the provider token prompt and value', () => {
+      expect(PackageShowPage.providerToken).to.include(`${provider.providerToken.prompt}`);
+      expect(PackageShowPage.providerToken).to.include(`${provider.providerToken.value}`);
+    });
+
+    it('displays the package token prompt and value', () => {
+      expect(PackageShowPage.packageToken).to.include(`${providerPackage.packageToken.prompt}`);
+      expect(PackageShowPage.packageToken).to.include(`${providerPackage.packageToken.value}`);
+    });
+  });
+
+  describe('visiting a managed package details page with provider token value set and package token without value', () => {
+    beforeEach(function () {
+      providerPackage.isSelected = true;
+
+      let token = this.server.create('token', {
+        factName: '[[mysiteid]]',
+        prompt: '/test1/',
+        helpText: '',
+        value: ''
+      });
+
+      providerPackage.update('packageToken', token.toJSON());
+      providerPackage.save();
+
+      return this.visit(`/eholdings/packages/${providerPackage.id}`, () => {
+        expect(PackageShowPage.$root).to.exist;
+      });
+    });
+
+    it('does not display the package token', () => {
+      expect(PackageShowPage.isPackageTokenPresent).to.equal(false);
+    });
+
+    it('displays a message that no package token has been set', () => {
+      expect(PackageShowPage.packageTokenMessage).to.equal('No package token has been set.');
+    });
+
+    it('displays the provider token prompt and value', () => {
+      expect(PackageShowPage.providerToken).to.include(`${provider.providerToken.prompt}`);
+      expect(PackageShowPage.providerToken).to.include(`${provider.providerToken.value}`);
+    });
+  });
+
+  describe('visiting a managed package details with no values set for provider token and package token', () => {
+    beforeEach(function () {
+      providerPackage.isSelected = true;
+
+      let token = this.server.create('token', {
+        factName: '[[mysiteid]]',
+        prompt: '/test1/',
+        helpText: '',
+        value: ''
+      });
+      provider.update('providerToken', token.toJSON());
+      provider.save();
+
+      providerPackage.update('packageToken', token.toJSON());
+      providerPackage.save();
+
+      return this.visit(`/eholdings/packages/${providerPackage.id}`, () => {
+        expect(PackageShowPage.$root).to.exist;
+      });
+    });
+
+    it('does not display the provider token', () => {
+      expect(PackageShowPage.isProviderTokenPresent).to.equal(false);
+    });
+
+    it('displays a message that no provider token has been set', () => {
+      expect(PackageShowPage.providerTokenMessage).to.equal('No provider token has been set.');
+    });
+
+    it('does not display the package token', () => {
+      expect(PackageShowPage.isPackageTokenPresent).to.equal(false);
+    });
+
+    it('displays a message that no package token has been set', () => {
+      expect(PackageShowPage.packageTokenMessage).to.equal('No package token has been set.');
+    });
+  });
+
+  describe('visiting a managed package details with package token value set and provider token without value', () => {
+    beforeEach(function () {
+      providerPackage.isSelected = true;
+
+      let token = this.server.create('token', {
+        factName: '[[mysiteid]]',
+        prompt: '/test1/',
+        helpText: '',
+        value: ''
+      });
+      provider.update('providerToken', token.toJSON());
+      provider.save();
+
+      return this.visit(`/eholdings/packages/${providerPackage.id}`, () => {
+        expect(PackageShowPage.$root).to.exist;
+      });
+    });
+
+    it('displays the package token prompt and value', () => {
+      expect(PackageShowPage.packageToken).to.include(`${providerPackage.packageToken.prompt}`);
+      expect(PackageShowPage.packageToken).to.include(`${providerPackage.packageToken.value}`);
+    });
+
+    it('does not display the provider token', () => {
+      expect(PackageShowPage.isProviderTokenPresent).to.equal(false);
+    });
+
+    it('displays a message that no provider token has been set', () => {
+      expect(PackageShowPage.providerTokenMessage).to.equal('No provider token has been set.');
+    });
+  });
+
+  describe('visiting a managed package details page without provider and package tokens', () => {
+    beforeEach(function () {
+      providerPackage.isSelected = true;
+
+      provider.update('providerToken', null);
+      provider.save();
+
+      providerPackage.update('packageToken', null);
+      providerPackage.save();
+
+      return this.visit(`/eholdings/packages/${providerPackage.id}`, () => {
+        expect(PackageShowPage.$root).to.exist;
+      });
+    });
+
+    it('does not display both provider and package tokens', () => {
+      expect(PackageShowPage.isProviderTokenPresent).to.equal(false);
+      expect(PackageShowPage.isPackageTokenPresent).to.equal(false);
+    });
+  });
+
   describe('visiting the package details page with multiple pages of titles', () => {
     beforeEach(function () {
       this.server.loadFixtures();

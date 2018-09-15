@@ -55,7 +55,7 @@ class ProviderEditRoute extends Component {
   providerEditSubmitted = (values) => {
     let { model, updateProvider } = this.props;
     model.proxy.id = values.proxyId;
-    model.providerToken.value = values.tokenValue;
+    model.providerToken.value = values.providerTokenValue;
     updateProvider(model);
   };
 
@@ -69,7 +69,7 @@ class ProviderEditRoute extends Component {
           onSubmit={this.providerEditSubmitted}
           initialValues={{
             proxyId: model.proxy.id,
-            tokenValue: model.providerToken.value
+            providerTokenValue: model.providerToken.value
           }}
           proxyTypes={proxyTypes}
           rootProxy={rootProxy}
