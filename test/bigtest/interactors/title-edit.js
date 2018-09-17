@@ -65,26 +65,26 @@ import Toast from './toast';
   contributorHasError = hasClassBeginningWith('[data-test-eholdings-contributor-contributor] input', 'hasError--');
   contributorError = text('[data-test-eholdings-contributor-contributor] [class^="feedbackError--"]');
 
-  hasContributorBtn = isPresent('[data-test-eholdings-contributor-fields-add-row-button]');
-  clickAddContributor = clickable('[data-test-eholdings-contributor-fields-add-row-button] button');
+  hasContributorBtn = isPresent('[data-test-eholdings-contributor-field] [data-test-repeatable-field-add-item-button]');
+  clickAddContributor = clickable('[data-test-eholdings-contributor-field] [data-test-repeatable-field-add-item-button]');
   secondContributorType = fillable('[data-test-eholdings-contributor-type] select[id="contributors[1]-type"]');
   secondContributorName = fillable('[data-test-eholdings-contributor-contributor] input[id="contributors[1]-input"]');
 
-  removeContributorCollection = collection('[data-test-eholdings-contributor-fields-remove-row-button]', {
-    remove: clickable('button')
+  removeContributorCollection = collection('[data-test-eholdings-contributor-field] [data-test-repeatable-field-remove-item-button]', {
+    remove: clickable()
   });
 
-  contributorsWillBeRemoved = text('[data-test-eholdings-contributors-fields-saving-will-remove]');
+  contributorsWillBeRemoved = text('[data-test-eholdings-contributor-field] [data-test-repeatable-field-empty-message]');
 
-  hasIdentifiersBtn = isPresent('[data-test-eholdings-identifiers-fields-add-row-button]');
-  clickAddIdentifiersRowButton = clickable('[data-test-eholdings-identifiers-fields-add-row-button] button');
+  hasIdentifiersBtn = isPresent('[data-test-eholdings-identifiers-fields] [data-test-repeatable-field-add-item-button]');
+  clickAddIdentifiersRowButton = clickable('[data-test-eholdings-identifiers-fields] [data-test-repeatable-field-add-item-button]');
   secondIdentifierType = fillable('[data-test-eholdings-identifiers-fields-type] select[name="identifiers[1].flattenedType"]');
   secondIdentifierId = fillable('[data-test-eholdings-identifiers-fields-id] input[name="identifiers[1].id"]');
-  identifiersRowList = collection('[data-test-eholdings-identifiers-fields-row]', {
+  identifiersRowList = collection('[data-test-eholdings-identifiers-fields] li', {
     type: fillable('[data-test-eholdings-identifiers-fields-type] select'),
     id: fillable('[data-test-eholdings-identifiers-fields-id] input'),
     idHasError: hasClassBeginningWith('[data-test-eholdings-identifiers-fields-id] input', 'hasError--'),
-    clickRemoveRowButton: clickable('[data-test-eholdings-identifiers-fields-remove-row-button] button')
+    clickRemoveRowButton: clickable('[data-test-repeatable-field-remove-item-button]')
   });
 
   dropDown = new TitleEditDropDown('[class*=paneHeaderCenterInner---] [class*=dropdown---]');

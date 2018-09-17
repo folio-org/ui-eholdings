@@ -83,19 +83,19 @@ import Datepicker from './datepicker';
   name = fillable('[data-test-eholdings-resource-name-field] input');
   nameHasError = hasClassBeginningWith('[data-test-eholdings-resource-name-field] input', 'hasError--');
 
-  clickAddRowButton = clickable('[data-test-eholdings-coverage-fields-add-row-button] button');
+  clickAddRowButton = clickable('[data-test-eholdings-resource-coverage-fields] [data-test-repeatable-field-add-item-button]');
 
-  dateRangeRowList = collection('[data-test-eholdings-coverage-fields-date-range-row]', {
+  dateRangeRowList = collection('[data-test-eholdings-resource-coverage-fields] li', {
     beginDate: scoped('[data-test-eholdings-coverage-fields-date-range-begin]', Datepicker),
     endDate: scoped('[data-test-eholdings-coverage-fields-date-range-end]', Datepicker),
-    clickRemoveRowButton: clickable('[data-test-eholdings-coverage-fields-remove-row-button] button'),
+    clickRemoveRowButton: clickable('[data-test-repeatable-field-remove-item-button]'),
     fillDates(beginDate, endDate) {
       return this.beginDate.fillAndBlur(beginDate)
         .endDate.fillAndBlur(endDate);
     }
   });
 
-  hasSavingWillRemoveMessage = isPresent('[data-test-eholdings-coverage-fields-saving-will-remove]');
+  hasSavingWillRemoveMessage = isPresent('[data-test-eholdings-resource-coverage-fields] [data-test-repeatable-field-empty-message]');
   hasCoverageStatementArea = isPresent('[data-test-eholdings-coverage-statement-textarea] textarea');
   coverageStatement = value('[data-test-eholdings-coverage-statement-textarea] textarea');
   customUrlFieldValue = value('[data-test-eholdings-custom-url-textfield] input');
@@ -122,7 +122,7 @@ import Datepicker from './datepicker';
   blurEmbargoUnit = blurrable('[data-test-eholdings-custom-embargo-select] select');
   validationErrorOnEmbargoTextField = text('[data-test-eholdings-custom-embargo-textfield] [class^="feedbackError--"]');
   validationErrorOnEmbargoSelect = text('[data-test-eholdings-custom-embargo-select] [class^="feedbackError--"]');
-  hasAddCustomCoverageButton = isPresent('[data-test-eholdings-coverage-fields-add-row-button] button');
+  hasAddCustomCoverageButton = isPresent('[data-test-eholdings-resource-coverage-fields] [data-test-repeatable-field-add-item-button]');
   hasAddCustomEmbargoButton = isPresent('[data-test-eholdings-custom-embargo-add-row-button] button');
   clickAddCustomEmbargoButton = clickable('[data-test-eholdings-custom-embargo-add-row-button] button');
   hasSavingWillRemoveEmbargoMessage = isPresent('[data-test-eholdings-embargo-fields-saving-will-remove]');
