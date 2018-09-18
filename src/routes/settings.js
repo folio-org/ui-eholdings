@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import TitleManager from '@folio/stripes-core/src/components/TitleManager';
+import { TitleManager } from '@folio/stripes-core';
 
 import { Settings as View } from '@folio/stripes-smart-components';
 import ApplicationRoute from './application';

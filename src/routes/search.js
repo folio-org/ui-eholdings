@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import capitalize from 'lodash/capitalize';
-import TitleManager from '@folio/stripes-core/src/components/TitleManager';
+import { TitleManager } from '@folio/stripes-core';
 
 import { qs, transformQueryParams } from '../components/utilities';
 import { createResolver } from '../redux';
