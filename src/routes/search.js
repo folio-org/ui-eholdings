@@ -105,7 +105,6 @@ class SearchRoute extends Component {
 
   componentDidUpdate(prevProps) {
     let shouldFocusItem = null;
-
     // cache the query so it can be restored via the search type
     if (this.state.searchType) {
       this.queries[this.state.searchType] = this.state.params;
@@ -123,7 +122,9 @@ class SearchRoute extends Component {
     // stated in https://issues.folio.org/browse/UIEH-558
     // The eslint disable line that we added in the line below can be removed after we move to React 17.0
     if (!isEqual(this.state.location, prevProps.location)) {
-      this.setState({ searchString: this.state.params.q }); // eslint-disable-line react/no-did-update-set-state
+      this.setState(({ params }) => ({ // eslint-disable-line react/no-did-update-set-state
+        searchString: params.q
+      }));
     }
 
     // Rest of the state is updated in getDerivedStateFromProps except the one below whose state is
