@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import TitleManager from '@folio/stripes-core/src/components/TitleManager';
+import { TitleManager } from '@folio/stripes-core';
 
 import { createResolver } from '../redux';
 import { ProxyType, RootProxy } from '../redux/application';
