@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import capitalize from 'lodash/capitalize';
+import isEqual from 'lodash/isEqual';
 import { TitleManager } from '@folio/stripes-core';
 
 import { qs, transformQueryParams } from '../components/utilities';
@@ -81,35 +82,42 @@ class SearchRoute extends Component {
     };
   }
 
-  componentWillReceiveProps(nextProps) { // eslint-disable-line react/no-deprecated
+  static getDerivedStateFromProps(nextProps, prevState) {
     let { location, match } = nextProps;
     let { searchType, ...params } = qs.parse(location.search);
     let hideDetails = /^\/eholdings\/?$/.test(location.pathname);
     let shouldFocusItem = null;
 
+    if (hideDetails && match.params.id !== (prevState.match && prevState.match.params.id)) {
+      shouldFocusItem = prevState.match.params.id || null;
+    }
+    // update searchstring state only when it actually changes in the location instead of updating it each time on
+    // input to text field. This eliminates re-rendering of the text field on each keyboard in and solves problem
+    // stated in https://issues.folio.org/browse/UIEH-558
+    if (!isEqual(location, prevState.location)) {
+      return {
+        ...prevState,
+        location,
+        match,
+        searchType,
+        params,
+        hideDetails,
+        shouldFocusItem,
+        sort: params.sort,
+        searchFilter: params.filter,
+        searchField: params.searchfield,
+        searchString: params.q
+      };
+    }
+    return null;
+  }
+
+  componentDidUpdate() {
     // cache the query so it can be restored via the search type
-    if (searchType) {
-      this.queries[searchType] = params;
-      this.path[searchType] = location.pathname;
+    if (this.state.searchType) {
+      this.queries[this.state.searchType] = this.state.params;
+      this.path[this.state.searchType] = this.state.location.pathname;
     }
-
-    // when details are not visible, we need to focus the last active
-    // list item as determined by the `id` URL param
-    if (hideDetails && this.props.match.params.id !== match.params.id) {
-      shouldFocusItem = this.props.match.params.id || null;
-    }
-
-    // always update the results state
-    this.setState({
-      hideDetails,
-      shouldFocusItem,
-      searchType,
-      params,
-      sort: params.sort,
-      searchString: params.q,
-      searchFilter: params.filter,
-      searchField: params.searchfield
-    });
   }
 
   handleSearchChange = (searchString) => {
