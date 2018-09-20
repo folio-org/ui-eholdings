@@ -86,7 +86,14 @@ class SearchRoute extends Component {
     let { location, match } = nextProps;
     let { searchType, ...params } = qs.parse(location.search);
     let hideDetails = /^\/eholdings\/?$/.test(location.pathname);
+    let shouldFocusItem = null;
 
+    if (hideDetails && match.params.id !== (prevState.match && prevState.match.params.id)) {
+      shouldFocusItem = prevState.match.params.id || null;
+    }
+    // update searchstring state only when it actually changes in the location instead of updating it each time on
+    // input to text field. This eliminates re-rendering of the text field on each keyboard in and solves problem
+    // stated in https://issues.folio.org/browse/UIEH-558
     if (!isEqual(location, prevState.location)) {
       return {
         ...prevState,
@@ -95,43 +102,21 @@ class SearchRoute extends Component {
         searchType,
         params,
         hideDetails,
+        shouldFocusItem,
         sort: params.sort,
         searchFilter: params.filter,
-        searchField: params.searchfield
+        searchField: params.searchfield,
+        searchString: params.q
       };
     }
     return null;
   }
 
-  componentDidUpdate(prevProps) {
-    let shouldFocusItem = null;
+  componentDidUpdate() {
     // cache the query so it can be restored via the search type
     if (this.state.searchType) {
       this.queries[this.state.searchType] = this.state.params;
       this.path[this.state.searchType] = this.state.location.pathname;
-    }
-
-    // when details are not visible, we need to focus the last active
-    // list item as determined by the `id` URL param
-    if (this.state.hideDetails && this.state.match.params.id !== prevProps.match.params.id) {
-      shouldFocusItem = prevProps.match.params.id || null;
-    }
-
-    // update searchstring state only when it actually changes in the location instead of updating it each time on
-    // input to text field. This eliminates re-rendering of the text field on each keyboard in and solves problem
-    // stated in https://issues.folio.org/browse/UIEH-558
-    // The eslint disable line that we added in the line below can be removed after we move to React 17.0
-    if (!isEqual(this.state.location, prevProps.location)) {
-      this.setState(({ params }) => ({ // eslint-disable-line react/no-did-update-set-state
-        searchString: params.q
-      }));
-    }
-
-    // Rest of the state is updated in getDerivedStateFromProps except the one below whose state is
-    // computed after component updates. So, update it here.
-    // The eslint disable line that we added in the line below can be removed after we move to React 17.0
-    if (!isEqual(shouldFocusItem, this.state.shouldFocusItem)) {
-      this.setState({ shouldFocusItem }); // eslint-disable-line react/no-did-update-set-state
     }
   }
 
