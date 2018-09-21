@@ -54,6 +54,7 @@ class DetailsView extends Component {
     actionMenuItems: PropTypes.array,
     lastMenu: PropTypes.node,
     resultsLength: PropTypes.number,
+    metaLength: PropTypes.number,
     searchModal: PropTypes.node,
     sections: PropTypes.object,
     handleExpandAll: PropTypes.func,
@@ -197,6 +198,7 @@ class DetailsView extends Component {
       actionMenuItems,
       lastMenu,
       resultsLength,
+      metaLength,
       searchModal,
       sections,
       handleExpandAll,
@@ -300,6 +302,7 @@ class DetailsView extends Component {
                     label={capitalize(listType)}
                     displayWhenOpen={searchModal}
                     resultsLength={resultsLength}
+                    metaLength={metaLength}
                     contentRef={(n) => { this.$list = n; measureRef(n); }}
                     open={isListAccordionOpen}
                     id={listSectionId}
