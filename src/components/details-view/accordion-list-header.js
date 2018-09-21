@@ -7,7 +7,7 @@ import styles from './accordion-list-header.css';
 
 function AccordionListHeader(props) {
   let { intl } = props;
-  let showOver = props.resultsLength === 10000;
+  let showOver = props.metaLength > props.resultsLength;
 
   return (
     <div className={styles['accordion-list-header']}>
@@ -31,6 +31,7 @@ function AccordionListHeader(props) {
 
 AccordionListHeader.propTypes = {
   intl: intlShape.isRequired,
+  metaLength: PropTypes.number,
   open: PropTypes.bool,
   resultsLength: PropTypes.number
 };
