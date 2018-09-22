@@ -30,7 +30,7 @@ class ResourceShow extends Component {
   static propTypes = {
     model: PropTypes.object.isRequired,
     toggleSelected: PropTypes.func.isRequired,
-    intl: intlShape.isRequired, // eslint-disable-line react/no-unused-prop-types
+    intl: intlShape.isRequired,
     proxyTypes: PropTypes.object.isRequired,
     history: PropTypes.object.isRequired
   };
