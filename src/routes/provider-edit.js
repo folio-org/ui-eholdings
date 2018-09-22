@@ -22,15 +22,7 @@ class ProviderEditRoute extends Component {
     getProvider: PropTypes.func.isRequired,
     updateProvider: PropTypes.func.isRequired,
     proxyTypes: PropTypes.object.isRequired,
-    rootProxy: PropTypes.object.isRequired
-  };
-
-  static contextTypes = {
-    router: PropTypes.shape({
-      history: PropTypes.shape({
-        replace: PropTypes.func.isRequired
-      }).isRequired
-    }).isRequired
+    rootProxy: PropTypes.object.isRequired,
   };
 
   constructor(props) {

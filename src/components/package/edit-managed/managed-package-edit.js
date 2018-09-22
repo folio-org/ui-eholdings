@@ -1,5 +1,6 @@
 import React, { Component, Fragment } from 'react';
 import PropTypes from 'prop-types';
+import { withRouter } from 'react-router';
 import { reduxForm, Field } from 'redux-form';
 import isEqual from 'lodash/isEqual';
 import { intlShape, injectIntl, FormattedMessage } from 'react-intl';
@@ -35,16 +36,11 @@ class ManagedPackageEdit extends Component {
     intl: intlShape.isRequired,
     addPackageToHoldings: PropTypes.func.isRequired,
     proxyTypes: PropTypes.object.isRequired,
-    provider: PropTypes.object.isRequired
-  };
-
-  static contextTypes = {
-    router: PropTypes.shape({
-      history: PropTypes.shape({
-        push: PropTypes.func.isRequired
-      }).isRequired
+    provider: PropTypes.object.isRequired,
+    history: PropTypes.shape({
+      push: PropTypes.func.isRequired
     }).isRequired,
-    queryParams: PropTypes.object
+    location: PropTypes.object.isRequired
   };
 
   state = {
@@ -78,26 +74,26 @@ class ManagedPackageEdit extends Component {
   componentDidUpdate(prevProps) {
     let wasPending = prevProps.model.update.isPending && !this.props.model.update.isPending;
     let needsUpdate = !isEqual(prevProps.model, this.props.model);
-    let { router } = this.context;
+    let { history, location } = this.props;
 
     let wasUnSelected = prevProps.model.isSelected && !this.props.model.isSelected;
     let isCurrentlySelected = prevProps.model.isSelected && this.props.model.isSelected;
 
     if (wasPending && needsUpdate && (wasUnSelected || isCurrentlySelected)) {
-      router.history.push({
+      history.push({
         pathname: `/eholdings/packages/${this.props.model.id}`,
-        search: router.route.location.search,
+        search: location.search,
         state: { eholdings: true, isFreshlySaved: true }
       });
     }
   }
 
   handleCancel = () => {
-    let { router } = this.context;
+    let { history, location } = this.props;
 
-    router.history.push({
+    history.push({
       pathname: `/eholdings/packages/${this.props.model.id}`,
-      search: router.route.location.search,
+      search: location.search,
       state: { eholdings: true }
     });
   }
@@ -159,18 +155,14 @@ class ManagedPackageEdit extends Component {
       pristine,
       proxyTypes,
       provider,
-      intl
+      intl,
+      location
     } = this.props;
 
     let {
       showSelectionModal,
       packageSelected
     } = this.state;
-
-    let {
-      queryParams,
-      router
-    } = this.context;
 
     let visibilityMessage = model.visibilityData.reason && `(${model.visibilityData.reason})`;
 
@@ -184,14 +176,14 @@ class ManagedPackageEdit extends Component {
         'label': <FormattedMessage id="ui-eholdings.actionMenu.cancelEditing" />,
         'to': {
           pathname: `/eholdings/packages/${model.id}`,
-          search: router.route.location.search,
+          search: location.search,
           state: { eholdings: true }
         },
         'data-test-eholdings-package-cancel-action': true
       }
     ];
 
-    if (queryParams.searchType) {
+    if (location.search) {
       actionMenuItems.push({
         label: <FormattedMessage id="ui-eholdings.actionMenu.fullView" />,
         to: {
@@ -402,9 +394,9 @@ const validate = (values, props) => {
   return Object.assign({}, validateCoverageDates(values, props), validateToken(values, props));
 };
 
-export default injectIntl(reduxForm({
+export default injectIntl(withRouter(reduxForm({
   validate,
   enableReinitialize: true,
   form: 'ManagedPackageEdit',
   destroyOnUnmount: false,
-})(ManagedPackageEdit));
+})(ManagedPackageEdit)));

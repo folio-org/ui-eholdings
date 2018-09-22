@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import { withRouter } from 'react-router';
 import { connect } from 'react-redux';
 import { TitleManager } from '@folio/stripes-core';
 
@@ -21,14 +22,9 @@ class TitleShowRoute extends Component {
     getTitle: PropTypes.func.isRequired,
     getCustomPackages: PropTypes.func.isRequired,
     createResource: PropTypes.func.isRequired,
-    createRequest: PropTypes.object.isRequired
-  };
-
-  static contextTypes = {
-    router: PropTypes.shape({
-      history: PropTypes.shape({
-        push: PropTypes.func.isRequired
-      }).isRequired
+    createRequest: PropTypes.object.isRequired,
+    history: PropTypes.shape({
+      push: PropTypes.func.isRequired
     }).isRequired
   };
 
@@ -49,7 +45,7 @@ class TitleShowRoute extends Component {
     }
 
     if (!createRequest.isResolved && this.props.createRequest.isResolved) {
-      this.context.router.history.push(
+      this.props.history.push(
         `/eholdings/resources/${this.props.createRequest.records[0]}`,
         { eholdings: true, isNewRecord: true }
       );
@@ -103,4 +99,4 @@ export default connect(
       count: 100
     })
   }
-)(TitleShowRoute);
+)(withRouter(TitleShowRoute));

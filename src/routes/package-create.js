@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import { withRouter } from 'react-router';
 import { connect } from 'react-redux';
 import moment from 'moment';
 import { TitleManager } from '@folio/stripes-core';
@@ -12,20 +13,15 @@ import View from '../components/package/create';
 class PackageCreateRoute extends Component {
   static propTypes = {
     createRequest: PropTypes.object.isRequired,
-    createPackage: PropTypes.func.isRequired
-  };
-
-  static contextTypes = {
-    router: PropTypes.shape({
-      history: PropTypes.shape({
-        replace: PropTypes.func.isRequired
-      }).isRequired
+    createPackage: PropTypes.func.isRequired,
+    history: PropTypes.shape({
+      replace: PropTypes.func.isRequired
     }).isRequired
   };
 
   componentDidUpdate(prevProps) {
     if (!prevProps.createRequest.isResolved && this.props.createRequest.isResolved) {
-      this.context.router.history.replace(
+      this.props.history.replace(
         `/eholdings/packages/${this.props.createRequest.records[0]}`,
         { eholdings: true, isNewRecord: true }
       );
@@ -72,10 +68,10 @@ class PackageCreateRoute extends Component {
   }
 }
 
-export default connect(
+export default withRouter(connect(
   ({ eholdings: { data } }) => ({
     createRequest: createResolver(data).getRequest('create', { type: 'packages' })
   }), {
     createPackage: attrs => Package.create(attrs)
   }
-)(PackageCreateRoute);
+)(PackageCreateRoute));

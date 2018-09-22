@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import { withRouter } from 'react-router';
 import update from 'lodash/fp/update';
 import set from 'lodash/fp/set';
 
@@ -36,12 +37,9 @@ class PackageShow extends Component {
     intl: intlShape.isRequired,
     toggleSelected: PropTypes.func.isRequired,
     addPackageToHoldings: PropTypes.func.isRequired,
-    searchModal: PropTypes.node
-  };
-
-  static contextTypes = {
-    router: PropTypes.object,
-    queryParams: PropTypes.object
+    searchModal: PropTypes.node,
+    history: PropTypes.object.isRequired,
+    location: PropTypes.object.isRequired
   };
 
   state = {
@@ -113,9 +111,11 @@ class PackageShow extends Component {
       intl,
       proxyTypes,
       provider,
-      searchModal
+      searchModal,
+      history,
+      location
     } = this.props;
-    let { router, queryParams } = this.context;
+
     let {
       showSelectionModal,
       packageSelected,
@@ -147,13 +147,13 @@ class PackageShow extends Component {
         label: <FormattedMessage id="ui-eholdings.actionMenu.edit" />,
         to: {
           pathname: `/eholdings/packages/${model.id}/edit`,
-          search: router.route.location.search,
+          search: location.search,
           state: { eholdings: true }
         }
       }
     ];
 
-    if (queryParams.searchType) {
+    if (location.search) {
       actionMenuItems.push({
         label: <FormattedMessage id="ui-eholdings.actionMenu.fullView" />,
         to: {
@@ -186,9 +186,9 @@ class PackageShow extends Component {
     let toasts = processErrors(model);
 
     // if coming from creating a new custom package, show a success toast
-    if (router.history.action === 'REPLACE' &&
-        router.history.location.state &&
-        router.history.location.state.isNewRecord) {
+    if (history.action === 'REPLACE' &&
+        history.location.state &&
+        history.location.state.isNewRecord) {
       toasts.push({
         id: `success-package-creation-${model.id}`,
         message: intl.formatMessage({ id: 'ui-eholdings.package.toast.isNewRecord' }),
@@ -198,9 +198,9 @@ class PackageShow extends Component {
 
     // if coming from destroying a custom or managed title
     // from within custom-package, show a success toast
-    if (router.history.action === 'REPLACE' &&
-        router.history.location.state &&
-        router.history.location.state.isDestroyed) {
+    if (history.action === 'REPLACE' &&
+        history.location.state &&
+        history.location.state.isDestroyed) {
       toasts.push({
         id: `success-resource-destruction-${model.id}`,
         message: intl.formatMessage({ id: 'ui-eholdings.package.toast.isDestroyed' }),
@@ -209,9 +209,9 @@ class PackageShow extends Component {
     }
 
     // if coming from saving edits to the package, show a success toast
-    if (router.history.action === 'PUSH' &&
-        router.history.location.state &&
-        router.history.location.state.isFreshlySaved) {
+    if (history.action === 'PUSH' &&
+        history.location.state &&
+        history.location.state.isFreshlySaved) {
       toasts.push({
         id: `success-package-saved-${model.id}`,
         message: intl.formatMessage({ id: 'ui-eholdings.package.toast.isFreshlySaved' }),
@@ -238,7 +238,7 @@ class PackageShow extends Component {
               ariaLabel={intl.formatMessage({ id: 'ui-eholdings.label.editLink' }, { name: model.name })}
               to={{
                 pathname: `/eholdings/packages/${model.id}/edit`,
-                search: router.route.location.search,
+                search: location.search,
                 state: { eholdings: true }
               }}
             />
@@ -475,4 +475,4 @@ class PackageShow extends Component {
   }
 }
 
-export default injectIntl(PackageShow);
+export default injectIntl(withRouter(PackageShow));

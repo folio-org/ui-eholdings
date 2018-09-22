@@ -24,19 +24,14 @@ class PackageCreate extends Component {
     handleSubmit: PropTypes.func.isRequired,
     onSubmit: PropTypes.func.isRequired,
     pristine: PropTypes.bool.isRequired,
-    intl: intlShape.isRequired
-  };
-
-  static contextTypes = {
-    router: PropTypes.shape({
-      history: PropTypes.shape({
-        goBack: PropTypes.func.isRequired
-      }).isRequired
+    intl: intlShape.isRequired,
+    history: PropTypes.shape({
+      goBack: PropTypes.func.isRequired
     }).isRequired
   };
 
   handleCancel = () => {
-    this.context.router.history.goBack();
+    this.props.history.goBack();
   }
 
   render() {
@@ -45,14 +40,11 @@ class PackageCreate extends Component {
       request,
       handleSubmit,
       onSubmit,
-      pristine
+      pristine,
+      history
     } = this.props;
 
-    let {
-      router
-    } = this.context;
-
-    let historyState = router.history.location.state;
+    let historyState = history.location.state;
 
     let actionMenuItems = [];
 

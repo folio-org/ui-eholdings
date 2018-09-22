@@ -19,14 +19,9 @@ class TitleEditRoute extends Component {
     model: PropTypes.object.isRequired,
     getTitle: PropTypes.func.isRequired,
     updateResource: PropTypes.func.isRequired,
-    updateRequest: PropTypes.object
-  };
-
-  static contextTypes = {
-    router: PropTypes.shape({
-      history: PropTypes.shape({
-        push: PropTypes.func.isRequired
-      }).isRequired
+    updateRequest: PropTypes.object,
+    history: PropTypes.shape({
+      push: PropTypes.func.isRequired
     }).isRequired
   };
 
@@ -42,7 +37,7 @@ class TitleEditRoute extends Component {
     let { titleId } = match.params;
 
     if (!prevProps.updateRequest.isResolved && this.props.updateRequest.isResolved) {
-      this.context.router.history.push(
+      this.props.history.push(
         `/eholdings/titles/${this.props.model.id}`,
         { eholdings: true, isFreshlySaved: true }
       );

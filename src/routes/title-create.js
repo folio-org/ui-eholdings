@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import { withRouter } from 'react-router';
 import { connect } from 'react-redux';
 import { TitleManager } from '@folio/stripes-core';
 
@@ -14,14 +15,9 @@ class TitleCreateRoute extends Component {
     createRequest: PropTypes.object.isRequired,
     customPackages: PropTypes.object.isRequired,
     createTitle: PropTypes.func.isRequired,
-    getCustomPackages: PropTypes.func.isRequired
-  };
-
-  static contextTypes = {
-    router: PropTypes.shape({
-      history: PropTypes.shape({
-        replace: PropTypes.func.isRequired
-      }).isRequired
+    getCustomPackages: PropTypes.func.isRequired,
+    history: PropTypes.shape({
+      replace: PropTypes.func.isRequired
     }).isRequired
   };
 
@@ -31,7 +27,7 @@ class TitleCreateRoute extends Component {
 
   componentDidUpdate(prevProps) {
     if (!prevProps.createRequest.isResolved && this.props.createRequest.isResolved) {
-      this.context.router.history.replace(
+      this.props.history.replace(
         `/eholdings/titles/${this.props.createRequest.records[0]}`,
         { eholdings: true, isNewRecord: true }
       );
@@ -110,4 +106,4 @@ export default connect(
       count: 100
     })
   }
-)(TitleCreateRoute);
+)(withRouter(TitleCreateRoute));

@@ -42,7 +42,7 @@ class NavigationModal extends Component {
     this.disable();
   }
 
-  enable(context = this.context) {
+  enable() {
     if (this.unblock) {
       this.unblock();
     }

@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import { withRouter } from 'react-router';
 import { connect } from 'react-redux';
 import { TitleManager } from '@folio/stripes-core';
 
@@ -30,14 +31,10 @@ class PackageShowRoute extends Component {
     updatePackage: PropTypes.func.isRequired,
     destroyPackage: PropTypes.func.isRequired,
     proxyTypes: PropTypes.object.isRequired,
-  };
-
-  static contextTypes = {
-    router: PropTypes.shape({
-      history: PropTypes.shape({
-        replace: PropTypes.func.isRequired
-      }).isRequired
-    }).isRequired
+    history: PropTypes.shape({
+      replace: PropTypes.func.isRequired
+    }).isRequired,
+    location: PropTypes.object.isRequired
   };
 
   constructor(props) {
@@ -62,14 +59,14 @@ class PackageShowRoute extends Component {
 
     if (!prevProps.model.destroy.isResolved && this.props.model.destroy.isResolved) {
       // if package was reached based on search
-      if (this.context.router.history.location.search) {
-        this.context.router.history.replace({
+      if (this.props.location.search) {
+        this.props.history.replace({
           pathname: '/eholdings',
-          search: this.context.router.history.location.search
+          search: this.props.location.search
         }, { eholdings: true });
         // package was reached directly from url not by search
       } else {
-        this.context.router.history.replace('/eholdings?searchType=packages', { eholdings: true });
+        this.props.history.replace('/eholdings?searchType=packages', { eholdings: true });
       }
     }
 
@@ -193,4 +190,4 @@ export default connect(
     updatePackage: model => Package.save(model),
     destroyPackage: model => Package.destroy(model)
   }
-)(PackageShowRoute);
+)(withRouter(PackageShowRoute));

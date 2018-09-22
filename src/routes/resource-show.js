@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import { withRouter } from 'react-router';
 import { connect } from 'react-redux';
 import { TitleManager } from '@folio/stripes-core';
 
@@ -21,14 +22,10 @@ class ResourceShowRoute extends Component {
     destroyResource: PropTypes.func.isRequired,
     getProxyTypes: PropTypes.func.isRequired,
     proxyTypes: PropTypes.object.isRequired,
-  };
-
-  static contextTypes = {
-    router: PropTypes.shape({
-      history: PropTypes.shape({
-        replace: PropTypes.func.isRequired
-      }).isRequired
-    }).isRequired
+    history: PropTypes.shape({
+      replace: PropTypes.func.isRequired
+    }).isRequired,
+    location: PropTypes.object.isRequired
   };
 
   constructor(props) {
@@ -41,20 +38,19 @@ class ResourceShowRoute extends Component {
 
   componentDidUpdate(prevProps) {
     let wasUpdated = !this.props.model.update.isPending && prevProps.model.update.isPending && (!this.props.model.update.errors.length > 0);
-    let { router } = this.context;
-    let { match, getResource } = this.props;
+    let { match, getResource, history, location } = this.props;
     let { id } = match.params;
 
     let { packageName, packageId } = prevProps.model;
     if (!prevProps.model.destroy.isResolved && this.props.model.destroy.isResolved) {
-      this.context.router.history.replace(`/eholdings/packages/${packageId}?searchType=packages&q=${packageName}`,
+      history.replace(`/eholdings/packages/${packageId}?searchType=packages&q=${packageName}`,
         { eholdings: true, isDestroyed: true });
     }
 
     if (wasUpdated) {
-      router.history.push({
+      history.push({
         pathname: `/eholdings/resources/${this.props.model.id}`,
-        search: router.route.location.search,
+        search: location.search,
         state: { eholdings: true, isFreshlySaved: true }
       });
     }
@@ -116,4 +112,4 @@ export default connect(
     updateResource: model => Resource.save(model),
     destroyResource: model => Resource.destroy(model)
   }
-)(ResourceShowRoute);
+)(withRouter(ResourceShowRoute));

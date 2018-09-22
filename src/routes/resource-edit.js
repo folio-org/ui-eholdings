@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import { withRouter } from 'react-router';
 import { connect } from 'react-redux';
 import moment from 'moment';
 import { TitleManager } from '@folio/stripes-core';
@@ -22,14 +23,9 @@ class ResourceEditRoute extends Component {
     getResource: PropTypes.func.isRequired,
     updateResource: PropTypes.func.isRequired,
     destroyResource: PropTypes.func.isRequired,
-    proxyTypes: PropTypes.object.isRequired
-  };
-
-  static contextTypes = {
-    router: PropTypes.shape({
-      history: PropTypes.shape({
-        replace: PropTypes.func.isRequired
-      }).isRequired
+    proxyTypes: PropTypes.object.isRequired,
+    history: PropTypes.shape({
+      replace: PropTypes.func.isRequired
     }).isRequired
   };
 
@@ -47,7 +43,7 @@ class ResourceEditRoute extends Component {
     let { id } = match.params;
 
     if (!prevProps.model.destroy.isResolved && this.props.model.destroy.isResolved) {
-      this.context.router.history.replace(`/eholdings/packages/${packageId}?searchType=packages&q=${packageName}`,
+      this.props.history.replace(`/eholdings/packages/${packageId}?searchType=packages&q=${packageName}`,
         { eholdings: true, isDestroyed: true });
     }
 
@@ -136,4 +132,4 @@ export default connect(
     updateResource: model => Resource.save(model),
     destroyResource: model => Resource.destroy(model)
   }
-)(ResourceEditRoute);
+)(withRouter(ResourceEditRoute));
