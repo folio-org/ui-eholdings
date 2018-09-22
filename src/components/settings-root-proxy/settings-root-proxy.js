@@ -1,6 +1,5 @@
 import React, { Component, Fragment } from 'react';
 import PropTypes from 'prop-types';
-import { withRouter } from 'react-router';
 import { reduxForm } from 'redux-form';
 import { Icon } from '@folio/stripes-components';
 import isEqual from 'lodash/isEqual';
@@ -24,21 +23,18 @@ class SettingsRootProxy extends Component {
     reset: PropTypes.func,
     intl: intlShape.isRequired,
     invalid: PropTypes.bool,
-    history: PropTypes.shape({
-      push: PropTypes.func.isRequired
-    }).isRequired
+    onSuccessfulSave: PropTypes.func.isRequired,
+    isFreshlySaved: PropTypes.bool
   };
 
   componentDidUpdate(prevProps) {
     let wasPending = prevProps.rootProxy.update.isPending && !this.props.rootProxy.update.isPending;
     let needsUpdate = !isEqual(prevProps.rootProxy, this.props.rootProxy);
     let isRejected = this.props.rootProxy.update.isRejected;
+    const { onSuccessfulSave } = this.props;
 
     if (wasPending && needsUpdate && !isRejected) {
-      this.props.history.push({
-        pathname: '/settings/eholdings/root-proxy',
-        state: { eholdings: true, isFreshlySaved: true }
-      });
+      onSuccessfulSave();
     }
   }
 
@@ -52,14 +48,11 @@ class SettingsRootProxy extends Component {
       reset,
       intl,
       invalid,
-      history
+      isFreshlySaved
     } = this.props;
     let toasts = processErrors(rootProxy);
 
-    if (history.action === 'PUSH' &&
-        history.location.state &&
-        history.location.state.isFreshlySaved &&
-        rootProxy.update.isResolved) {
+    if (isFreshlySaved) {
       toasts.push({
         id: `root-proxy-${rootProxy.update.timestamp}`,
         message: <FormattedMessage id="ui-eholdings.settings.rootProxy.updated" />,
@@ -127,8 +120,8 @@ class SettingsRootProxy extends Component {
   }
 }
 
-export default injectIntl(withRouter(reduxForm({
+export default injectIntl(reduxForm({
   enableReinitialize: true,
   form: 'SettingsRootProxy',
   destroyOnUnmount: false,
-})(SettingsRootProxy)));
+})(SettingsRootProxy));

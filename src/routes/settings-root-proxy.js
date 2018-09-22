@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import ReactRouterPropTypes from 'react-router-prop-types';
 import { connect } from 'react-redux';
 import { TitleManager } from '@folio/stripes-core';
 
@@ -13,7 +14,8 @@ class SettingsRootProxyRoute extends Component {
     rootProxy: PropTypes.object.isRequired,
     getProxyTypes: PropTypes.func.isRequired,
     getRootProxy: PropTypes.func.isRequired,
-    updateRootProxy: PropTypes.func.isRequired
+    updateRootProxy: PropTypes.func.isRequired,
+    history: ReactRouterPropTypes.history.isRequired
   };
 
   constructor(props) {
@@ -31,7 +33,7 @@ class SettingsRootProxyRoute extends Component {
   }
 
   render() {
-    let { proxyTypes, rootProxy } = this.props;
+    let { proxyTypes, rootProxy, history } = this.props;
 
     return (
       <TitleManager page="eHoldings settings" record="Root proxy">
@@ -42,6 +44,17 @@ class SettingsRootProxyRoute extends Component {
           proxyTypes={proxyTypes}
           rootProxy={rootProxy}
           onSubmit={this.rootProxySubmitted}
+          onSuccessfulSave={() => {
+            history.push({
+              pathname: '/settings/eholdings/root-proxy',
+              state: { eholdings: true, isFreshlySaved: true }
+            });
+          }}
+          isFreshlySaved={
+            history.action === 'PUSH' &&
+            history.location.state &&
+            history.location.state.isFreshlySaved
+          }
         />
       </TitleManager>
     );
