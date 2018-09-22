@@ -10,11 +10,10 @@ function PackageSearchList({
   activeId,
   collection,
   fetch,
-  location,
   onUpdateOffset,
   params,
   shouldFocusItem,
-  history
+  onClickItem
 }) {
   return (
     <QueryList
@@ -40,11 +39,7 @@ function PackageSearchList({
           }}
           active={item.content && activeId && item.content.id === activeId}
           shouldFocus={item.content && shouldFocusItem && item.content.id === shouldFocusItem}
-          onClick={() => {
-            history.push(
-              `/eholdings/packages/${item.content.id}${location.search}`
-            );
-          }}
+          onClick={() => onClickItem(`/eholdings/packages/${item.content.id}`)}
         />
       )}
     />
@@ -55,11 +50,10 @@ PackageSearchList.propTypes = {
   activeId: PropTypes.string,
   collection: PropTypes.object.isRequired,
   fetch: PropTypes.func.isRequired,
-  location: PropTypes.object.isRequired,
   onUpdateOffset: PropTypes.func.isRequired,
   params: PropTypes.object.isRequired,
   shouldFocusItem: PropTypes.string,
-  history: PropTypes.object.isRequired
+  onClickItem: PropTypes.func.isRequired
 };
 
-export default withRouter(PackageSearchList);
+export default PackageSearchList;

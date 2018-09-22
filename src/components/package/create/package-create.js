@@ -23,17 +23,10 @@ class PackageCreate extends Component {
     request: PropTypes.object.isRequired,
     handleSubmit: PropTypes.func.isRequired,
     onSubmit: PropTypes.func.isRequired,
+    onCancel: PropTypes.func.isRequired,
     pristine: PropTypes.bool.isRequired,
-    intl: intlShape.isRequired,
-    history: PropTypes.shape({
-      goBack: PropTypes.func.isRequired
-    }).isRequired,
-    location: PropTypes.object.isRequired
+    intl: intlShape.isRequired
   };
-
-  handleCancel = () => {
-    this.props.history.goBack();
-  }
 
   render() {
     let {
@@ -41,11 +34,9 @@ class PackageCreate extends Component {
       request,
       handleSubmit,
       onSubmit,
-      pristine,
-      location
+      onCancel,
+      pristine
     } = this.props;
-
-    let historyState = location.state;
 
     let actionMenuItems = [];
 
@@ -53,7 +44,7 @@ class PackageCreate extends Component {
       actionMenuItems.push({
         'label': intl.formatMessage({ id: 'ui-eholdings.actionMenu.cancelEditing' }),
         'state': { eholdings: true },
-        'onClick': this.handleCancel,
+        'onClick': onCancel,
         'data-test-eholdings-package-create-cancel-action': true
       });
     }
@@ -73,11 +64,11 @@ class PackageCreate extends Component {
           <PaneHeader
             paneTitle={<FormattedMessage id="ui-eholdings.package.create.custom" />}
             actionMenuItems={actionMenuItems}
-            firstMenu={historyState && historyState.eholdings && (
+            firstMenu={onCancel && (
               <IconButton
                 icon="left-arrow"
                 ariaLabel={intl.formatMessage({ id: 'ui-eholdings.label.icon.goBack' })}
-                onClick={this.handleCancel}
+                onClick={onCancel}
                 data-test-eholdings-details-view-back-button
               />
             )}

@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { withRouter } from 'react-router';
+import ReactRouterPropTypes from 'react-router-prop-types';
 import { connect } from 'react-redux';
 import moment from 'moment';
 import { TitleManager } from '@folio/stripes-core';
@@ -14,9 +14,8 @@ class PackageCreateRoute extends Component {
   static propTypes = {
     createRequest: PropTypes.object.isRequired,
     createPackage: PropTypes.func.isRequired,
-    history: PropTypes.shape({
-      replace: PropTypes.func.isRequired
-    }).isRequired
+    history: ReactRouterPropTypes.history.isRequired,
+    location: ReactRouterPropTypes.location.isRequired
   };
 
   componentDidUpdate(prevProps) {
@@ -52,11 +51,14 @@ class PackageCreateRoute extends Component {
   };
 
   render() {
+    const { history, location } = this.props;
+
     return (
       <TitleManager record="New custom package">
         <View
           request={this.props.createRequest}
           onSubmit={this.packageCreateSubmitted}
+          onCancel={location.state && location.state.eholdings && history.goBack()}
           initialValues={{
             name: '',
             contentType: 'Unknown',
@@ -68,10 +70,10 @@ class PackageCreateRoute extends Component {
   }
 }
 
-export default withRouter(connect(
+export default connect(
   ({ eholdings: { data } }) => ({
     createRequest: createResolver(data).getRequest('create', { type: 'packages' })
   }), {
     createPackage: attrs => Package.create(attrs)
   }
-)(PackageCreateRoute));
+)(PackageCreateRoute);

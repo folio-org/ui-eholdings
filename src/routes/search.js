@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import ReactRouterPropTypes from 'react-router-prop-types';
 import { connect } from 'react-redux';
 import capitalize from 'lodash/capitalize';
 import isEqual from 'lodash/isEqual';
@@ -20,20 +21,9 @@ import { filterCountFromQuery } from '../components/search-modal/search-modal';
 
 class SearchRoute extends Component {
   static propTypes = {
-    location: PropTypes.shape({
-      pathname: PropTypes.string.isRequired,
-      search: PropTypes.string.isRequired
-    }).isRequired,
-    history: PropTypes.shape({
-      push: PropTypes.func.isRequired,
-      replace: PropTypes.func.isRequired,
-      location: PropTypes.object
-    }).isRequired,
-    match: PropTypes.shape({
-      params: PropTypes.shape({
-        id: PropTypes.string
-      }).isRequired
-    }).isRequired,
+    history: ReactRouterPropTypes.history.isRequired,
+    location: ReactRouterPropTypes.location.isRequired,
+    match: ReactRouterPropTypes.match.isRequired,
     searchProviders: PropTypes.func.isRequired,
     searchPackages: PropTypes.func.isRequired,
     searchTitles: PropTypes.func.isRequired,
@@ -249,7 +239,7 @@ class SearchRoute extends Component {
    * Renders the search component specific to the current search type
    */
   renderResults() {
-    let { searchType, params, shouldFocusItem } = this.state;
+    let { history, location, searchType, params, shouldFocusItem } = this.state;
     let { match: { params: { id } } } = this.props;
 
     let props = {
@@ -259,7 +249,14 @@ class SearchRoute extends Component {
       location: this.props.location,
       collection: this.getResults(),
       onUpdateOffset: this.handleOffset,
-      fetch: this.fetchPage
+      fetch: this.fetchPage,
+      onClickItem: (detailUrl) => {
+        history.push({
+          pathname: detailUrl,
+          search: location.search,
+          state: { eholdings: true }
+        });
+      }
     };
 
     if (params.q) {

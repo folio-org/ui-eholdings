@@ -9,11 +9,10 @@ export default function ProviderSearchList({
   activeId,
   collection,
   fetch,
-  location,
   onUpdateOffset,
   params,
   shouldFocusItem,
-  history
+  onClickItem
 }) {
   return (
     <QueryList
@@ -39,11 +38,7 @@ export default function ProviderSearchList({
           }}
           active={item.content && activeId && item.content.id === activeId}
           shouldFocus={item.content && shouldFocusItem && item.content.id === shouldFocusItem}
-          onClick={() => {
-            history.push(
-              `/eholdings/providers/${item.content.id}${location.search}`
-            );
-          }}
+          onClick={() => onClickItem(`/eholdings/providers/${item.content.id}`)}
         />
       )}
     />
@@ -54,9 +49,8 @@ ProviderSearchList.propTypes = {
   activeId: PropTypes.string,
   collection: PropTypes.object.isRequired,
   fetch: PropTypes.func.isRequired,
-  location: PropTypes.object.isRequired,
   onUpdateOffset: PropTypes.func.isRequired,
   params: PropTypes.object.isRequired,
   shouldFocusItem: PropTypes.string,
-  history: PropTypes.object.isRequired
+  onClickItem: PropTypes.func.isRequired
 };
