@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { withRouter } from 'react-router';
 import {
   Button,
   PaneHeader,
@@ -16,7 +17,7 @@ import Link from '../link';
 import styles from './search-paneset.css';
 import SearchBadge from '../search-modal/search-badge';
 
-export default class SearchPaneset extends React.Component { // eslint-disable-line react/no-deprecated
+class SearchPaneset extends React.Component {
   static propTypes = {
     searchForm: PropTypes.node,
     hideFilters: PropTypes.bool,
@@ -30,13 +31,10 @@ export default class SearchPaneset extends React.Component { // eslint-disable-l
       pathname: PropTypes.string.isRequired,
       search: PropTypes.string.isRequired
     }).isRequired,
-    updateFilters: PropTypes.func.isRequired
-  };
-
-  static contextTypes = {
-    router: PropTypes.shape({
-      history: PropTypes.object
-    })
+    updateFilters: PropTypes.func.isRequired,
+    history: PropTypes.shape({
+      push: PropTypes.func
+    }).isRequired
   };
 
   static defaultProps = {
@@ -66,7 +64,7 @@ export default class SearchPaneset extends React.Component { // eslint-disable-l
   toggleFilters = () => this.props.updateFilters(hideFilters => !hideFilters)
 
   closePreview = () => {
-    this.context.router.history.push({
+    this.props.history.push({
       pathname: '/eholdings',
       search: this.props.location.search
     });
@@ -202,3 +200,5 @@ export default class SearchPaneset extends React.Component { // eslint-disable-l
     );
   }
 }
+
+export default withRouter(SearchPaneset);

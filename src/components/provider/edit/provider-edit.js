@@ -1,5 +1,6 @@
 import React, { Component, Fragment } from 'react';
 import PropTypes from 'prop-types';
+import { withRouter } from 'react-router';
 import { reduxForm } from 'redux-form';
 import isEqual from 'lodash/isEqual';
 import { injectIntl, intlShape, FormattedMessage } from 'react-intl';
@@ -25,28 +26,23 @@ class ProviderEdit extends Component {
     handleSubmit: PropTypes.func,
     onSubmit: PropTypes.func.isRequired,
     pristine: PropTypes.bool,
-    intl: intlShape.isRequired
-  };
-
-  static contextTypes = {
-    router: PropTypes.shape({
-      history: PropTypes.shape({
-        push: PropTypes.func.isRequired
-      }).isRequired
+    intl: intlShape.isRequired,
+    history: PropTypes.shape({
+      push: PropTypes.func.isRequired
     }).isRequired,
-    queryParams: PropTypes.object
+    location: PropTypes.object.isRequired
   };
 
   componentDidUpdate(prevProps) {
     let wasPending = prevProps.model.update.isPending && !this.props.model.update.isPending;
     let needsUpdate = !isEqual(prevProps.model, this.props.model);
     let isRejected = this.props.model.update.isRejected;
-    let { router } = this.context;
+    let { history, location } = this.props;
 
     if (wasPending && needsUpdate && !isRejected) {
-      router.history.push({
+      history.push({
         pathname: `/eholdings/providers/${prevProps.model.id}`,
-        search: router.route.location.search,
+        search: location.search,
         state: { eholdings: true, isFreshlySaved: true }
       });
     }
@@ -60,10 +56,10 @@ class ProviderEdit extends Component {
       handleSubmit,
       onSubmit,
       pristine,
-      intl
+      intl,
+      location
     } = this.props;
 
-    let { router, queryParams } = this.context;
     let supportsTokens = model.providerToken && model.providerToken.prompt;
     let hasTokenValue = model.providerToken && model.providerToken.value;
 
@@ -72,14 +68,14 @@ class ProviderEdit extends Component {
         'label': <FormattedMessage id="ui-eholdings.actionMenu.cancelEditing" />,
         'to': {
           pathname: `/eholdings/providers/${model.id}`,
-          search: router.route.location.search,
+          search: location.search,
           state: { eholdings: true }
         },
         'data-test-eholdings-provider-cancel-action': true
       }
     ];
 
-    if (queryParams.searchType) {
+    if (location.search) {
       actionMenuItems.push({
         label: <FormattedMessage id="ui-eholdings.actionMenu.fullView" />,
         to: {
@@ -167,9 +163,9 @@ const validate = (values, props) => {
   return validateToken(values, props);
 };
 
-export default injectIntl(reduxForm({
+export default injectIntl(withRouter(reduxForm({
   validate,
   enableReinitialize: true,
   form: 'ProviderEdit',
   destroyOnUnmount: false,
-})(ProviderEdit));
+})(ProviderEdit)));

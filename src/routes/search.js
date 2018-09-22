@@ -319,7 +319,6 @@ class SearchRoute extends Component {
         <TitleManager record={capitalize(searchType)}>
           <div data-test-eholdings>
             <SearchPaneset
-              location={location}
               filterCount={filterCount}
               hideFilters={hideFilters}
               resultsType={searchType}

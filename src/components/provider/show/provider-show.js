@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import { withRouter } from 'react-router';
 import update from 'lodash/fp/update';
 import set from 'lodash/fp/set';
 import { Accordion, Icon, IconButton, KeyValue } from '@folio/stripes-components';
@@ -24,13 +25,10 @@ class ProviderShow extends Component {
      fetchPackages: PropTypes.func.isRequired,
      searchModal: PropTypes.node,
      intl: intlShape.isRequired,
-     listType: PropTypes.string.isRequired
+     listType: PropTypes.string.isRequired,
+     history: PropTypes.object.isRequired,
+     location: PropTypes.object.isRequired
    };
-
-  static contextTypes = {
-    router: PropTypes.object,
-    queryParams: PropTypes.object
-  };
 
   state = {
     sections: {
@@ -51,14 +49,13 @@ class ProviderShow extends Component {
   }
 
   get toasts() {
-    let { model, intl } = this.props;
-    let { router } = this.context;
+    let { model, intl, history } = this.props;
     let toasts = processErrors(model);
 
     // if coming from saving edits to the package, show a success toast
-    if (router.history.action === 'PUSH' &&
-        router.history.location.state &&
-        router.history.location.state.isFreshlySaved) {
+    if (history.action === 'PUSH' &&
+        history.location.state &&
+        history.location.state.isFreshlySaved) {
       toasts.push({
         id: `success-provider-saved-${model.id}`,
         message: intl.formatMessage({ id: 'ui-eholdings.provider.toast.isFreshlySaved' }),
@@ -77,9 +74,9 @@ class ProviderShow extends Component {
       packages,
       searchModal,
       proxyTypes,
-      rootProxy
+      rootProxy,
+      location
     } = this.props;
-    let { router, queryParams } = this.context;
     let { sections } = this.state;
     let hasProxy = model.proxy && model.proxy.id;
     let hasToken = model.providerToken && model.providerToken.prompt;
@@ -90,13 +87,13 @@ class ProviderShow extends Component {
         label: <FormattedMessage id="ui-eholdings.actionMenu.edit" />,
         to: {
           pathname: `/eholdings/providers/${model.id}/edit`,
-          search: router.route.location.search,
+          search: location.search,
           state: { eholdings: true }
         }
       }
     ];
 
-    if (queryParams.searchType) {
+    if (location.search) {
       actionMenuItems.push({
         label: <FormattedMessage id="ui-eholdings.actionMenu.fullView" />,
         to: {
@@ -126,7 +123,7 @@ class ProviderShow extends Component {
               ariaLabel={`Edit ${model.name}`}
               to={{
                 pathname: `/eholdings/providers/${model.id}/edit`,
-                search: router.route.location.search,
+                search: location.search,
                 state: { eholdings: true }
               }}
             />
@@ -214,4 +211,4 @@ class ProviderShow extends Component {
   }
 }
 
-export default injectIntl(ProviderShow);
+export default injectIntl(withRouter(ProviderShow));

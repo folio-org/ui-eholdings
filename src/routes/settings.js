@@ -1,22 +1,20 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import { withRouter } from 'react-router';
 import { TitleManager } from '@folio/stripes-core';
 
 import { Settings as View } from '@folio/stripes-smart-components';
 import ApplicationRoute from './application';
 
-export default class SettingsRoute extends Component {
+class SettingsRoute extends Component {
   static propTypes = {
-    children: PropTypes.node.isRequired
-  };
-
-  static contextTypes = {
-    router: PropTypes.object
+    children: PropTypes.node.isRequired,
+    location: PropTypes.object.isRequired,
+    match: PropTypes.object.isRequired
   };
 
   render() {
-    let { children } = this.props;
-    let { router } = this.context;
+    let { children, location, match } = this.props;
 
     let pages = React.Children.map(children, child => ({
       route: child.props.path,
@@ -29,9 +27,9 @@ export default class SettingsRoute extends Component {
         <TitleManager page="eHoldings settings">
           <View
             paneTitle="eHoldings"
-            activeLink={router.route.location.pathname}
-            match={router.route.match}
-            location={router.route.location}
+            activeLink={location.pathname}
+            match={match}
+            location={location}
             pages={pages}
           />
         </TitleManager>
@@ -39,3 +37,5 @@ export default class SettingsRoute extends Component {
     );
   }
 }
+
+export default withRouter(SettingsRoute);
