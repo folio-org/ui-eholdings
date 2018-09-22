@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { withRouter } from 'react-router';
 import { intlShape, injectIntl } from 'react-intl';
 import PropTypes from 'prop-types';
 import classNames from 'classnames/bind';
@@ -60,12 +61,9 @@ class DetailsView extends Component {
     listType: PropTypes.node,
     listSectionId: PropTypes.string,
     onListToggle: PropTypes.func,
-    intl: intlShape.isRequired
-  };
-
-  static contextTypes = {
-    router: PropTypes.object,
-    queryParams: PropTypes.object
+    intl: intlShape.isRequired,
+    history: PropTypes.object.isRequired,
+    location: PropTypes.object.isRequired
   };
 
   static defaultProps = {
@@ -202,10 +200,10 @@ class DetailsView extends Component {
       handleExpandAll,
       listSectionId,
       onListToggle,
-      intl
+      intl,
+      history,
+      location
     } = this.props;
-
-    let { router, queryParams } = this.context;
 
     let { isSticky } = this.state;
 
@@ -213,25 +211,25 @@ class DetailsView extends Component {
       locked: isSticky
     });
 
-    let historyState = router.history.location.state;
+    let historyState = history.location.state;
 
     let isListAccordionOpen = sections && sections[listSectionId];
 
     return (
       <div data-test-eholdings-details-view={type}>
         <PaneHeader
-          firstMenu={queryParams.searchType ? (
+          firstMenu={location.search ? (
             <IconButton
               icon="closeX"
               ariaLabel={intl.formatMessage({ id: 'ui-eholdings.label.icon.closeX' }, { paneTitle })}
-              href={`/eholdings${router.route.location.search}`}
+              href={`/eholdings${location.search}`}
               data-test-eholdings-details-view-close-button
             />
           ) : historyState && historyState.eholdings && (
             <IconButton
               icon="left-arrow"
               ariaLabel={intl.formatMessage({ id: 'ui-eholdings.label.icon.goBack' })}
-              onClick={() => router.history.goBack()}
+              onClick={() => history.goBack()}
               data-test-eholdings-details-view-back-button
             />
           )}
@@ -317,4 +315,4 @@ class DetailsView extends Component {
   }
 }
 
-export default (injectIntl(DetailsView));
+export default (injectIntl(withRouter(DetailsView)));
