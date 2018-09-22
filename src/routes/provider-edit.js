@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import ReactRouterPropTypes from 'react-router-prop-types';
+import { withRouter } from 'react-router';
 import { connect } from 'react-redux';
 import { TitleManager } from '@folio/stripes-core';
 
@@ -23,6 +25,8 @@ class ProviderEditRoute extends Component {
     updateProvider: PropTypes.func.isRequired,
     proxyTypes: PropTypes.object.isRequired,
     rootProxy: PropTypes.object.isRequired,
+    history: ReactRouterPropTypes.history.isRequired,
+    location: ReactRouterPropTypes.location.isRequired
   };
 
   constructor(props) {
@@ -52,7 +56,7 @@ class ProviderEditRoute extends Component {
   };
 
   render() {
-    let { model, proxyTypes, rootProxy } = this.props;
+    let { model, proxyTypes, rootProxy, history, location } = this.props;
 
     return (
       <TitleManager record={`Edit ${this.props.model.name}`}>
@@ -65,6 +69,19 @@ class ProviderEditRoute extends Component {
           }}
           proxyTypes={proxyTypes}
           rootProxy={rootProxy}
+          onSuccessfulSave={() => {
+            history.push({
+              pathname: `/eholdings/providers/${model.id}`,
+              search: location.search,
+              state: { eholdings: true, isFreshlySaved: true }
+            });
+          }}
+          cancelLink={{
+            pathname: `/eholdings/providers/${model.id}`,
+            search: location.search,
+            state: { eholdings: true }
+          }}
+          hasFullViewLink={location.search}
         />
       </TitleManager>
     );
@@ -82,4 +99,4 @@ export default connect(
     getProxyTypes: () => ProxyType.query(),
     getRootProxy: () => RootProxy.find('root-proxy')
   }
-)(ProviderEditRoute);
+)(withRouter(ProviderEditRoute));

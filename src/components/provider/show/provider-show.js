@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { withRouter } from 'react-router';
 import update from 'lodash/fp/update';
 import set from 'lodash/fp/set';
 import { Accordion, Icon, IconButton, KeyValue } from '@folio/stripes-components';
@@ -26,8 +25,9 @@ class ProviderShow extends Component {
      searchModal: PropTypes.node,
      intl: intlShape.isRequired,
      listType: PropTypes.string.isRequired,
-     history: PropTypes.object.isRequired,
-     location: PropTypes.object.isRequired
+     editLink: PropTypes.object.isRequired,
+     hasFullViewLink: PropTypes.bool,
+     isFreshlySaved: PropTypes.bool
    };
 
   state = {
@@ -49,13 +49,11 @@ class ProviderShow extends Component {
   }
 
   get toasts() {
-    let { model, intl, history } = this.props;
+    let { model, intl, isFreshlySaved } = this.props;
     let toasts = processErrors(model);
 
     // if coming from saving edits to the package, show a success toast
-    if (history.action === 'PUSH' &&
-        history.location.state &&
-        history.location.state.isFreshlySaved) {
+    if (isFreshlySaved) {
       toasts.push({
         id: `success-provider-saved-${model.id}`,
         message: intl.formatMessage({ id: 'ui-eholdings.provider.toast.isFreshlySaved' }),
@@ -75,7 +73,8 @@ class ProviderShow extends Component {
       searchModal,
       proxyTypes,
       rootProxy,
-      location
+      editLink,
+      hasFullViewLink
     } = this.props;
     let { sections } = this.state;
     let hasProxy = model.proxy && model.proxy.id;
@@ -85,15 +84,11 @@ class ProviderShow extends Component {
     let actionMenuItems = [
       {
         label: <FormattedMessage id="ui-eholdings.actionMenu.edit" />,
-        to: {
-          pathname: `/eholdings/providers/${model.id}/edit`,
-          search: location.search,
-          state: { eholdings: true }
-        }
+        to: editLink
       }
     ];
 
-    if (location.search) {
+    if (hasFullViewLink) {
       actionMenuItems.push({
         label: <FormattedMessage id="ui-eholdings.actionMenu.fullView" />,
         to: {
@@ -121,11 +116,7 @@ class ProviderShow extends Component {
               data-test-eholdings-provider-edit-link
               icon="edit"
               ariaLabel={`Edit ${model.name}`}
-              to={{
-                pathname: `/eholdings/providers/${model.id}/edit`,
-                search: location.search,
-                state: { eholdings: true }
-              }}
+              to={editLink}
             />
           )}
           bodyContent={(
@@ -211,4 +202,4 @@ class ProviderShow extends Component {
   }
 }
 
-export default injectIntl(withRouter(ProviderShow));
+export default injectIntl(ProviderShow);

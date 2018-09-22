@@ -1,6 +1,5 @@
 import React, { Component, Fragment } from 'react';
 import PropTypes from 'prop-types';
-import { withRouter } from 'react-router';
 import { reduxForm } from 'redux-form';
 import isEqual from 'lodash/isEqual';
 import { injectIntl, intlShape, FormattedMessage } from 'react-intl';
@@ -27,24 +26,19 @@ class ProviderEdit extends Component {
     onSubmit: PropTypes.func.isRequired,
     pristine: PropTypes.bool,
     intl: intlShape.isRequired,
-    history: PropTypes.shape({
-      push: PropTypes.func.isRequired
-    }).isRequired,
-    location: PropTypes.object.isRequired
+    onSuccessfulSave: PropTypes.func.isRequired,
+    cancelLink: PropTypes.object.isRequired,
+    hasFullViewLink: PropTypes.bool
   };
 
   componentDidUpdate(prevProps) {
     let wasPending = prevProps.model.update.isPending && !this.props.model.update.isPending;
     let needsUpdate = !isEqual(prevProps.model, this.props.model);
     let isRejected = this.props.model.update.isRejected;
-    let { history, location } = this.props;
+    let { onSuccessfulSave } = this.props;
 
     if (wasPending && needsUpdate && !isRejected) {
-      history.push({
-        pathname: `/eholdings/providers/${prevProps.model.id}`,
-        search: location.search,
-        state: { eholdings: true, isFreshlySaved: true }
-      });
+      onSuccessfulSave();
     }
   }
 
@@ -57,7 +51,8 @@ class ProviderEdit extends Component {
       onSubmit,
       pristine,
       intl,
-      location
+      cancelLink,
+      hasFullViewLink
     } = this.props;
 
     let supportsTokens = model.providerToken && model.providerToken.prompt;
@@ -66,16 +61,12 @@ class ProviderEdit extends Component {
     let actionMenuItems = [
       {
         'label': <FormattedMessage id="ui-eholdings.actionMenu.cancelEditing" />,
-        'to': {
-          pathname: `/eholdings/providers/${model.id}`,
-          search: location.search,
-          state: { eholdings: true }
-        },
+        'to': cancelLink,
         'data-test-eholdings-provider-cancel-action': true
       }
     ];
 
-    if (location.search) {
+    if (hasFullViewLink) {
       actionMenuItems.push({
         label: <FormattedMessage id="ui-eholdings.actionMenu.fullView" />,
         to: {
@@ -163,9 +154,9 @@ const validate = (values, props) => {
   return validateToken(values, props);
 };
 
-export default injectIntl(withRouter(reduxForm({
+export default injectIntl(reduxForm({
   validate,
   enableReinitialize: true,
   form: 'ProviderEdit',
   destroyOnUnmount: false,
-})(ProviderEdit)));
+})(ProviderEdit));
