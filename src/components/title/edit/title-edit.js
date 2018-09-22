@@ -1,5 +1,6 @@
 import React, { Component, Fragment } from 'react';
 import PropTypes from 'prop-types';
+import { withRouter } from 'react-router';
 import { reduxForm } from 'redux-form';
 import isEqual from 'lodash/isEqual';
 
@@ -30,38 +31,33 @@ class TitleEdit extends Component {
     onSubmit: PropTypes.func.isRequired,
     pristine: PropTypes.bool,
     updateRequest: PropTypes.object.isRequired,
-    intl: intlShape.isRequired
-  };
-
-  static contextTypes = {
-    router: PropTypes.shape({
-      history: PropTypes.shape({
-        push: PropTypes.func.isRequired
-      }).isRequired
+    intl: intlShape.isRequired,
+    history: PropTypes.shape({
+      push: PropTypes.func.isRequired
     }).isRequired,
-    queryParams: PropTypes.object
+    location: PropTypes.object.isRequired
   };
 
   componentDidUpdate(prevProps) {
     let wasPending = prevProps.model.update.isPending && !this.props.model.update.isPending;
     let needsUpdate = !isEqual(prevProps.initialValues, this.props.initialValues);
-    let { router } = this.context;
+    let { history, location } = this.props;
 
     if (wasPending && needsUpdate) {
-      router.history.push({
+      history.push({
         pathname: `/eholdings/titles/${prevProps.model.id}`,
-        search: router.route.location.search,
+        search: location.search,
         state: { eholdings: true }
       });
     }
   }
 
   handleCancel = () => {
-    let { router } = this.context;
+    let { history, location } = this.props;
 
-    router.history.push({
+    history.push({
       pathname: `/eholdings/titles/${this.props.model.id}`,
-      search: router.route.location.search,
+      search: location.search,
       state: { eholdings: true }
     });
   }
@@ -74,27 +70,23 @@ class TitleEdit extends Component {
       pristine,
       updateRequest,
       initialValues,
-      intl
+      intl,
+      location
     } = this.props;
-
-    let {
-      queryParams,
-      router
-    } = this.context;
 
     let actionMenuItems = [
       {
         'label': <FormattedMessage id="ui-eholdings.actionMenu.cancelEditing" />,
         'to': {
           pathname: `/eholdings/titles/${model.id}`,
-          search: router.route.location.search,
+          search: location.search,
           state: { eholdings: true }
         },
         'data-test-eholdings-title-cancel-action': true
       }
     ];
 
-    if (queryParams.searchType) {
+    if (location.search) {
       actionMenuItems.push({
         label: <FormattedMessage id="ui-eholdings.actionMenu.fullView" />,
         to: {
@@ -184,9 +176,9 @@ const validate = (values, props) => {
     validateDescription(values, props));
 };
 
-export default injectIntl(reduxForm({
+export default injectIntl(withRouter(reduxForm({
   validate,
   enableReinitialize: true,
   form: 'TitleEdit',
   destroyOnUnmount: false,
-})(TitleEdit));
+})(TitleEdit)));

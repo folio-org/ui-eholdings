@@ -17,11 +17,11 @@ class NavigationModal extends Component {
     history: PropTypes.object.isRequired
   };
 
-  constructor(props, context) {
+  constructor(props) {
     super(props);
 
     if (props.when) {
-      this.enable(context);
+      this.enable();
     }
   }
 

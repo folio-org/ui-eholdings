@@ -1,5 +1,6 @@
 import React, { Component, Fragment } from 'react';
 import PropTypes from 'prop-types';
+import { withRouter } from 'react-router';
 import { connect } from 'react-redux';
 import { formValueSelector, reduxForm } from 'redux-form';
 import isEqual from 'lodash/isEqual';
@@ -35,14 +36,9 @@ class ResourceEditCustomTitle extends Component {
     change: PropTypes.func,
     intl: intlShape.isRequired,
     customCoverageDateValues: PropTypes.array,
-    proxyTypes: PropTypes.object.isRequired
-  };
-
-  static contextTypes = {
-    router: PropTypes.shape({
-      history: PropTypes.shape({
-        push: PropTypes.func.isRequired
-      }).isRequired
+    proxyTypes: PropTypes.object.isRequired,
+    history: PropTypes.shape({
+      push: PropTypes.func.isRequired
     }).isRequired
   };
 
@@ -79,10 +75,10 @@ class ResourceEditCustomTitle extends Component {
   componentDidUpdate(prevProps) {
     let wasPending = prevProps.model.update.isPending && !this.props.model.update.isPending;
     let needsUpdate = !isEqual(prevProps.model, this.props.model);
-    let { router } = this.context;
+    let { history } = this.props;
 
     if (wasPending && needsUpdate) {
-      router.history.push(
+      history.push(
         `/eholdings/resources/${this.props.model.id}`,
         { eholdings: true, isFreshlySaved: true }
       );
@@ -90,7 +86,7 @@ class ResourceEditCustomTitle extends Component {
   }
 
   handleCancel = () => {
-    this.context.router.history.push(
+    this.props.history.push(
       `/eholdings/resources/${this.props.model.id}`,
       { eholdings: true }
     );
@@ -371,7 +367,7 @@ const validate = (values, props) => {
 
 const selector = formValueSelector('ResourceEditCustomTitle');
 
-export default injectIntl(
+export default injectIntl(withRouter(
   connect(state => ({
     customCoverageDateValues: selector(state, 'customCoverages')
   }))(
@@ -382,4 +378,4 @@ export default injectIntl(
       destroyOnUnmount: false,
     })(ResourceEditCustomTitle)
   )
-);
+));

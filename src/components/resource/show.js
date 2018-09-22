@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import { withRouter } from 'react-router';
 import { intlShape, injectIntl, FormattedMessage } from 'react-intl';
 import update from 'lodash/fp/update';
 import set from 'lodash/fp/set';
@@ -30,11 +31,8 @@ class ResourceShow extends Component {
     model: PropTypes.object.isRequired,
     toggleSelected: PropTypes.func.isRequired,
     intl: intlShape.isRequired, // eslint-disable-line react/no-unused-prop-types
-    proxyTypes: PropTypes.object.isRequired
-  };
-
-  static contextTypes = {
-    router: PropTypes.object
+    proxyTypes: PropTypes.object.isRequired,
+    history: PropTypes.object.isRequired
   };
 
   state = {
@@ -88,8 +86,7 @@ class ResourceShow extends Component {
   }
 
   render() {
-    let { model, intl, proxyTypes } = this.props;
-    let { router } = this.context;
+    let { model, intl, proxyTypes, history } = this.props;
     let {
       showSelectionModal,
       resourceSelected,
@@ -129,9 +126,9 @@ class ResourceShow extends Component {
 
     // if coming from updating any value on managed title in a managed package
     // show a success toast
-    if (router.history.action === 'PUSH' &&
-        router.history.location.state &&
-        router.history.location.state.isFreshlySaved) {
+    if (history.action === 'PUSH' &&
+        history.location.state &&
+        history.location.state.isFreshlySaved) {
       toasts.push({
         id: `success-package-creation-${model.id}`,
         message: <FormattedMessage id="ui-eholdings.resource.toast.isFreshlySaved" />,
@@ -475,4 +472,4 @@ class ResourceShow extends Component {
   }
 }
 
-export default injectIntl(ResourceShow);
+export default injectIntl(withRouter(ResourceShow));

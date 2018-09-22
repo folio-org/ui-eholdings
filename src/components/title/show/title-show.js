@@ -28,12 +28,8 @@ class TitleShow extends Component {
     model: PropTypes.object.isRequired,
     customPackages: PropTypes.object.isRequired,
     addCustomPackage: PropTypes.func.isRequired,
-    intl: intlShape.isRequired
-  };
-
-  static contextTypes = {
-    router: PropTypes.object,
-    queryParams: PropTypes.object
+    intl: intlShape.isRequired,
+    location: PropTypes.object.isRequired
   };
 
   state = {
@@ -44,8 +40,7 @@ class TitleShow extends Component {
   };
 
   get actionMenuItems() {
-    let { model } = this.props;
-    let { queryParams, router } = this.context;
+    let { model, location } = this.props;
     let items = [];
 
     if (model.isTitleCustom) {
@@ -53,13 +48,13 @@ class TitleShow extends Component {
         label: <FormattedMessage id="ui-eholdings.actionMenu.edit" />,
         to: {
           pathname: `/eholdings/titles/${model.id}/edit`,
-          search: router.route.location.search,
+          search: location.search,
           state: { eholdings: true }
         }
       });
     }
 
-    if (queryParams.searchType) {
+    if (location.search) {
       items.push({
         label: <FormattedMessage id="ui-eholdings.actionMenu.fullView" />,
         to: {
@@ -74,8 +69,7 @@ class TitleShow extends Component {
   }
 
   get lastMenu() {
-    let { model, intl } = this.props;
-    let { router } = this.context;
+    let { model, intl, location } = this.props;
 
     if (model.isTitleCustom) {
       return (
@@ -89,7 +83,7 @@ class TitleShow extends Component {
             )}
           to={{
             pathname: `/eholdings/titles/${model.id}/edit`,
-            search: router.route.location.search,
+            search: location.search,
             state: { eholdings: true }
           }}
         />
@@ -100,14 +94,13 @@ class TitleShow extends Component {
   }
 
   get toasts() {
-    let { model } = this.props;
-    let { router } = this.context;
+    let { model, history } = this.props;
     let toasts = processErrors(model);
 
     // if coming from creating a new custom package, show a success toast
-    if (router.history.action === 'REPLACE' &&
-        router.history.location.state &&
-        router.history.location.state.isNewRecord) {
+    if (history.action === 'REPLACE' &&
+        history.location.state &&
+        history.location.state.isNewRecord) {
       toasts.push({
         id: `success-title-${model.id}`,
         message: <FormattedMessage id="ui-eholdings.title.toast.isNewRecord" />,
@@ -116,9 +109,9 @@ class TitleShow extends Component {
     }
 
     // if coming from saving edits to the package, show a success toast
-    if (router.history.action === 'PUSH' &&
-        router.history.location.state &&
-        router.history.location.state.isFreshlySaved) {
+    if (history.action === 'PUSH' &&
+        history.location.state &&
+        history.location.state.isFreshlySaved) {
       toasts.push({
         id: `success-title-saved-${model.id}`,
         message: <FormattedMessage id="ui-eholdings.title.toast.isFreshlySaved" />,

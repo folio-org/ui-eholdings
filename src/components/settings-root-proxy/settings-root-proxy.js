@@ -1,5 +1,6 @@
 import React, { Component, Fragment } from 'react';
 import PropTypes from 'prop-types';
+import { withRouter } from 'react-router';
 import { reduxForm } from 'redux-form';
 import { Icon } from '@folio/stripes-components';
 import isEqual from 'lodash/isEqual';
@@ -22,14 +23,9 @@ class SettingsRootProxy extends Component {
     pristine: PropTypes.bool,
     reset: PropTypes.func,
     intl: intlShape.isRequired,
-    invalid: PropTypes.bool
-  };
-
-  static contextTypes = {
-    router: PropTypes.shape({
-      history: PropTypes.shape({
-        push: PropTypes.func.isRequired
-      }).isRequired
+    invalid: PropTypes.bool,
+    history: PropTypes.shape({
+      push: PropTypes.func.isRequired
     }).isRequired
   };
 
@@ -38,10 +34,8 @@ class SettingsRootProxy extends Component {
     let needsUpdate = !isEqual(prevProps.rootProxy, this.props.rootProxy);
     let isRejected = this.props.rootProxy.update.isRejected;
 
-    let { router } = this.context;
-
     if (wasPending && needsUpdate && !isRejected) {
-      router.history.push({
+      this.props.history.push({
         pathname: '/settings/eholdings/root-proxy',
         state: { eholdings: true, isFreshlySaved: true }
       });
@@ -57,16 +51,14 @@ class SettingsRootProxy extends Component {
       pristine,
       reset,
       intl,
-      invalid
+      invalid,
+      history
     } = this.props;
-
-    let { router } = this.context;
-
     let toasts = processErrors(rootProxy);
 
-    if (router.history.action === 'PUSH' &&
-        router.history.location.state &&
-        router.history.location.state.isFreshlySaved &&
+    if (history.action === 'PUSH' &&
+        history.location.state &&
+        history.location.state.isFreshlySaved &&
         rootProxy.update.isResolved) {
       toasts.push({
         id: `root-proxy-${rootProxy.update.timestamp}`,
@@ -135,8 +127,8 @@ class SettingsRootProxy extends Component {
   }
 }
 
-export default injectIntl(reduxForm({
+export default injectIntl(withRouter(reduxForm({
   enableReinitialize: true,
   form: 'SettingsRootProxy',
   destroyOnUnmount: false,
-})(SettingsRootProxy));
+})(SettingsRootProxy)));

@@ -1,5 +1,6 @@
 import React, { Component, Fragment } from 'react';
 import PropTypes from 'prop-types';
+import { withRouter } from 'react-router';
 import { connect } from 'react-redux';
 import { formValueSelector, reduxForm } from 'redux-form';
 import isEqual from 'lodash/isEqual';
@@ -35,14 +36,9 @@ class ResourceEditManagedTitle extends Component {
     pristine: PropTypes.bool,
     change: PropTypes.func,
     intl: intlShape.isRequired,
-    customCoverageDateValues: PropTypes.array
-  };
-
-  static contextTypes = {
-    router: PropTypes.shape({
-      history: PropTypes.shape({
-        push: PropTypes.func.isRequired
-      }).isRequired
+    customCoverageDateValues: PropTypes.array,
+    history: PropTypes.shape({
+      push: PropTypes.func.isRequired
     }).isRequired
   };
 
@@ -74,7 +70,7 @@ class ResourceEditManagedTitle extends Component {
 
     if (wasUnSelected || isCurrentlySelected) {
       if (wasPending && needsUpdate) {
-        this.context.router.history.push(
+        this.props.history.push(
           `/eholdings/resources/${this.props.model.id}`,
           { eholdings: true, isFreshlySaved: true }
         );
@@ -83,7 +79,7 @@ class ResourceEditManagedTitle extends Component {
   }
 
   handleCancel = () => {
-    this.context.router.history.push(
+    this.props.history.push(
       `/eholdings/resources/${this.props.model.id}`,
       { eholdings: true }
     );
@@ -369,7 +365,7 @@ const validate = (values, props) => {
 
 const selector = formValueSelector('ResourceEditManagedTitle');
 
-export default injectIntl(
+export default injectIntl(withRouter(
   connect(state => ({
     customCoverageDateValues: selector(state, 'customCoverages')
   }))(
@@ -380,4 +376,4 @@ export default injectIntl(
       destroyOnUnmount: false,
     })(ResourceEditManagedTitle)
   )
-);
+));

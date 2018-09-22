@@ -41,10 +41,6 @@ class SearchRoute extends Component {
     children: PropTypes.node.isRequired
   };
 
-  static childContextTypes = {
-    queryParams: PropTypes.object
-  };
-
   constructor(props) {
     super(props);
 
@@ -69,16 +65,6 @@ class SearchRoute extends Component {
       searchFilter: params.filter,
       searchField: params.searchfield,
       hideFilters: !!params.q
-    };
-  }
-
-  getChildContext() {
-    return {
-      // provide child components with query params that we've already parsed
-      queryParams: {
-        searchType: this.state.searchType,
-        ...this.state.params
-      }
     };
   }
 
@@ -294,7 +280,7 @@ class SearchRoute extends Component {
    * render the search paneset, otherwise simply render our children
    */
   render() {
-    let { location, children } = this.props;
+    let { children } = this.props;
     let {
       searchType,
       params,

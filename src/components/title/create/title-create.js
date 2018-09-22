@@ -1,5 +1,6 @@
 import React, { Component, Fragment } from 'react';
 import PropTypes from 'prop-types';
+import { withRouter } from 'react-router';
 import { reduxForm } from 'redux-form';
 
 import {
@@ -31,19 +32,14 @@ class TitleCreate extends Component {
     handleSubmit: PropTypes.func.isRequired,
     onSubmit: PropTypes.func.isRequired,
     pristine: PropTypes.bool.isRequired,
-    intl: intlShape.isRequired
-  };
-
-  static contextTypes = {
-    router: PropTypes.shape({
-      history: PropTypes.shape({
-        goBack: PropTypes.func.isRequired
-      }).isRequired
+    intl: intlShape.isRequired,
+    history: PropTypes.shape({
+      goBack: PropTypes.func.isRequired
     }).isRequired
   };
 
   handleCancel = () => {
-    this.context.router.history.goBack();
+    this.props.history.goBack();
   }
 
   render() {
@@ -53,14 +49,11 @@ class TitleCreate extends Component {
       handleSubmit,
       onSubmit,
       pristine,
-      intl
+      intl,
+      history
     } = this.props;
 
-    let {
-      router
-    } = this.context;
-
-    let historyState = router.history.location.state;
+    let historyState = history.location.state;
 
     let packageOptions = customPackages.map(pkg => ({
       label: pkg.name,
@@ -157,9 +150,9 @@ const validate = (values, props) => {
     validatePackageSelection(values, props));
 };
 
-export default injectIntl(reduxForm({
+export default injectIntl(withRouter(reduxForm({
   validate,
   enableReinitialize: true,
   form: 'TitleCreate',
   destroyOnUnmount: false
-})(TitleCreate));
+})(TitleCreate)));

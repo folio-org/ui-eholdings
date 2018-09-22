@@ -13,7 +13,8 @@ export default function ProviderSearchList({
   onUpdateOffset,
   params,
   shouldFocusItem,
-}, { router }) {
+  history
+}) {
   return (
     <QueryList
       type="providers"
@@ -39,7 +40,7 @@ export default function ProviderSearchList({
           active={item.content && activeId && item.content.id === activeId}
           shouldFocus={item.content && shouldFocusItem && item.content.id === shouldFocusItem}
           onClick={() => {
-            router.history.push(
+            history.push(
               `/eholdings/providers/${item.content.id}${location.search}`
             );
           }}
@@ -57,8 +58,5 @@ ProviderSearchList.propTypes = {
   onUpdateOffset: PropTypes.func.isRequired,
   params: PropTypes.object.isRequired,
   shouldFocusItem: PropTypes.string,
-};
-
-ProviderSearchList.contextTypes = {
-  router: PropTypes.object
+  history: PropTypes.object.isRequired
 };
