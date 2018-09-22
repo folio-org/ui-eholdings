@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import ReactRouterPropTypes from 'react-router-prop-types';
-import { withRouter } from 'react-router';
 import { connect } from 'react-redux';
 import { TitleManager } from '@folio/stripes-core';
 
@@ -14,11 +13,7 @@ import SearchModal from '../components/search-modal';
 
 class ProviderShowRoute extends Component {
   static propTypes = {
-    match: PropTypes.shape({
-      params: PropTypes.shape({
-        providerId: PropTypes.string.isRequired
-      }).isRequired
-    }).isRequired,
+    match: ReactRouterPropTypes.match.isRequired,
     model: PropTypes.object.isRequired,
     getProxyTypes: PropTypes.func.isRequired,
     resolver: PropTypes.object.isRequired,
@@ -134,4 +129,4 @@ export default connect(
     getProxyTypes: () => ProxyType.query(),
     getRootProxy: () => RootProxy.find('root-proxy')
   }
-)(withRouter(ProviderShowRoute));
+)(ProviderShowRoute);

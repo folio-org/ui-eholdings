@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { withRouter } from 'react-router';
+import ReactRouterPropTypes from 'react-router-prop-types';
 import { connect } from 'react-redux';
 import { TitleManager } from '@folio/stripes-core';
 
@@ -12,20 +12,14 @@ import View from '../components/title/show';
 
 class TitleShowRoute extends Component {
   static propTypes = {
-    match: PropTypes.shape({
-      params: PropTypes.shape({
-        titleId: PropTypes.string.isRequired
-      }).isRequired
-    }).isRequired,
+    match: ReactRouterPropTypes.match.isRequired,
     model: PropTypes.object.isRequired,
     customPackages: PropTypes.object.isRequired,
     getTitle: PropTypes.func.isRequired,
     getCustomPackages: PropTypes.func.isRequired,
     createResource: PropTypes.func.isRequired,
     createRequest: PropTypes.object.isRequired,
-    history: PropTypes.shape({
-      push: PropTypes.func.isRequired
-    }).isRequired
+    history: ReactRouterPropTypes.history.isRequired
   };
 
   componentDidMount() {
@@ -99,4 +93,4 @@ export default connect(
       count: 100
     })
   }
-)(withRouter(TitleShowRoute));
+)(TitleShowRoute);

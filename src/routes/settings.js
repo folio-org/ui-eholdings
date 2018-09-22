@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { withRouter } from 'react-router';
+import ReactRouterPropTypes from 'react-router-prop-types';
 import { TitleManager } from '@folio/stripes-core';
 
 import { Settings as View } from '@folio/stripes-smart-components';
@@ -9,8 +9,8 @@ import ApplicationRoute from './application';
 class SettingsRoute extends Component {
   static propTypes = {
     children: PropTypes.node.isRequired,
-    location: PropTypes.object.isRequired,
-    match: PropTypes.object.isRequired
+    location: ReactRouterPropTypes.location.isRequired,
+    match: ReactRouterPropTypes.match.isRequired
   };
 
   render() {
@@ -38,4 +38,4 @@ class SettingsRoute extends Component {
   }
 }
 
-export default withRouter(SettingsRoute);
+export default SettingsRoute;

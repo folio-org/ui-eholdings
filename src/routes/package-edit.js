@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { withRouter } from 'react-router';
+import ReactRouterPropTypes from 'react-router-prop-types';
 import { connect } from 'react-redux';
 import moment from 'moment';
 import { TitleManager } from '@folio/stripes-core';
@@ -15,11 +15,7 @@ import View from '../components/package/edit';
 
 class PackageEditRoute extends Component {
   static propTypes = {
-    match: PropTypes.shape({
-      params: PropTypes.shape({
-        packageId: PropTypes.string.isRequired
-      }).isRequired
-    }).isRequired,
+    match: ReactRouterPropTypes.match.isRequired,
     model: PropTypes.object.isRequired,
     intl: intlShape.isRequired,
     getPackage: PropTypes.func.isRequired,
@@ -31,10 +27,8 @@ class PackageEditRoute extends Component {
     updateProvider: PropTypes.func.isRequired,
     updatePackage: PropTypes.func.isRequired,
     destroyPackage: PropTypes.func.isRequired,
-    history: PropTypes.shape({
-      replace: PropTypes.func.isRequired
-    }).isRequired,
-    location: PropTypes.object.isRequired
+    history: ReactRouterPropTypes.history.isRequired,
+    location: ReactRouterPropTypes.location.isRequired
   };
 
   constructor(props) {
@@ -193,4 +187,4 @@ export default connect(
     updatePackage: model => Package.save(model),
     destroyPackage: model => Package.destroy(model)
   }
-)(injectIntl(withRouter(PackageEditRoute)));
+)(injectIntl(PackageEditRoute));

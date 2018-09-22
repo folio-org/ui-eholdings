@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { withRouter } from 'react-router';
+import ReactRouterPropTypes from 'react-router-prop-types';
 import { connect } from 'react-redux';
 import moment from 'moment';
 import { TitleManager } from '@folio/stripes-core';
@@ -13,20 +13,14 @@ import View from '../components/resource/edit';
 
 class ResourceEditRoute extends Component {
   static propTypes = {
-    match: PropTypes.shape({
-      params: PropTypes.shape({
-        id: PropTypes.string.isRequired
-      }).isRequired
-    }).isRequired,
+    match: ReactRouterPropTypes.match.isRequired,
     model: PropTypes.object.isRequired,
     getProxyTypes: PropTypes.func.isRequired,
     getResource: PropTypes.func.isRequired,
     updateResource: PropTypes.func.isRequired,
     destroyResource: PropTypes.func.isRequired,
     proxyTypes: PropTypes.object.isRequired,
-    history: PropTypes.shape({
-      replace: PropTypes.func.isRequired
-    }).isRequired
+    history: ReactRouterPropTypes.history.isRequired
   };
 
   constructor(props) {
@@ -132,4 +126,4 @@ export default connect(
     updateResource: model => Resource.save(model),
     destroyResource: model => Resource.destroy(model)
   }
-)(withRouter(ResourceEditRoute));
+)(ResourceEditRoute);

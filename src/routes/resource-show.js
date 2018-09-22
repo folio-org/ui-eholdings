@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { withRouter } from 'react-router';
+import ReactRouterPropTypes from 'react-router-prop-types';
 import { connect } from 'react-redux';
 import { TitleManager } from '@folio/stripes-core';
 
@@ -11,21 +11,15 @@ import { ProxyType } from '../redux/application';
 
 class ResourceShowRoute extends Component {
   static propTypes = {
-    match: PropTypes.shape({
-      params: PropTypes.shape({
-        id: PropTypes.string.isRequired
-      }).isRequired
-    }).isRequired,
+    match: ReactRouterPropTypes.match.isRequired,
     model: PropTypes.object.isRequired,
     getResource: PropTypes.func.isRequired,
     updateResource: PropTypes.func.isRequired,
     destroyResource: PropTypes.func.isRequired,
     getProxyTypes: PropTypes.func.isRequired,
     proxyTypes: PropTypes.object.isRequired,
-    history: PropTypes.shape({
-      replace: PropTypes.func.isRequired
-    }).isRequired,
-    location: PropTypes.object.isRequired
+    history: ReactRouterPropTypes.history.isRequired,
+    location: ReactRouterPropTypes.location.isRequired
   };
 
   constructor(props) {
@@ -112,4 +106,4 @@ export default connect(
     updateResource: model => Resource.save(model),
     destroyResource: model => Resource.destroy(model)
   }
-)(withRouter(ResourceShowRoute));
+)(ResourceShowRoute);

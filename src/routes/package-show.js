@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { withRouter } from 'react-router';
+import ReactRouterPropTypes from 'react-router-prop-types';
 import { connect } from 'react-redux';
 import { TitleManager } from '@folio/stripes-core';
 
@@ -16,11 +16,7 @@ import SearchModal from '../components/search-modal';
 
 class PackageShowRoute extends Component {
   static propTypes = {
-    match: PropTypes.shape({
-      params: PropTypes.shape({
-        packageId: PropTypes.string.isRequired
-      }).isRequired
-    }).isRequired,
+    match: ReactRouterPropTypes.match.isRequired,
     model: PropTypes.object.isRequired,
     getPackage: PropTypes.func.isRequired,
     getPackageTitles: PropTypes.func.isRequired,
@@ -31,10 +27,8 @@ class PackageShowRoute extends Component {
     updatePackage: PropTypes.func.isRequired,
     destroyPackage: PropTypes.func.isRequired,
     proxyTypes: PropTypes.object.isRequired,
-    history: PropTypes.shape({
-      replace: PropTypes.func.isRequired
-    }).isRequired,
-    location: PropTypes.object.isRequired
+    history: ReactRouterPropTypes.history.isRequired,
+    location: ReactRouterPropTypes.location.isRequired
   };
 
   constructor(props) {
@@ -190,4 +184,4 @@ export default connect(
     updatePackage: model => Package.save(model),
     destroyPackage: model => Package.destroy(model)
   }
-)(withRouter(PackageShowRoute));
+)(PackageShowRoute);

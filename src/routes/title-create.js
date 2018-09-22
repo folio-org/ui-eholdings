@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { withRouter } from 'react-router';
+import ReactRouterPropTypes from 'react-router-prop-types';
 import { connect } from 'react-redux';
 import { TitleManager } from '@folio/stripes-core';
 
@@ -16,9 +16,7 @@ class TitleCreateRoute extends Component {
     customPackages: PropTypes.object.isRequired,
     createTitle: PropTypes.func.isRequired,
     getCustomPackages: PropTypes.func.isRequired,
-    history: PropTypes.shape({
-      replace: PropTypes.func.isRequired
-    }).isRequired
+    history: ReactRouterPropTypes.history.isRequired
   };
 
   componentDidMount() {
@@ -106,4 +104,4 @@ export default connect(
       count: 100
     })
   }
-)(withRouter(TitleCreateRoute));
+)(TitleCreateRoute);
