@@ -34,10 +34,6 @@ class EHoldings extends Component {
     showSettings: PropTypes.bool
   };
 
-  static contextTypes = {
-    router: PropTypes.object
-  };
-
   constructor(props) {
     super(props);
     props.root.addReducer('eholdings', reducer);

@@ -1,7 +1,6 @@
 import React, { Component, Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { reduxForm, Field } from 'redux-form';
-import isEqual from 'lodash/isEqual';
 import { intlShape, injectIntl, FormattedMessage } from 'react-intl';
 
 import {
@@ -28,23 +27,19 @@ class ManagedPackageEdit extends Component {
   static propTypes = {
     addPackageToHoldings: PropTypes.func.isRequired,
     change: PropTypes.func,
+    fullViewLink: PropTypes.oneOfType([
+      PropTypes.string,
+      PropTypes.object
+    ]),
     handleSubmit: PropTypes.func,
     initialValues: PropTypes.object.isRequired,
     intl: intlShape.isRequired,
     model: PropTypes.object.isRequired,
+    onCancel: PropTypes.func.isRequired,
     onSubmit: PropTypes.func.isRequired,
     pristine: PropTypes.bool,
     provider: PropTypes.object.isRequired,
     proxyTypes: PropTypes.object.isRequired
-  };
-
-  static contextTypes = {
-    router: PropTypes.shape({
-      history: PropTypes.shape({
-        push: PropTypes.func.isRequired
-      }).isRequired
-    }).isRequired,
-    queryParams: PropTypes.object
   };
 
   state = {
@@ -52,9 +47,8 @@ class ManagedPackageEdit extends Component {
     allowFormToSubmit: false,
     packageSelected: this.props.initialValues.isSelected,
     formValues: {},
-    // these are used in getDerivedStateFromProps
-    packageVisible: this.props.initialValues.isVisible, // eslint-disable-line react/no-unused-state
-    initialValues: this.props.initialValues // eslint-disable-line react/no-unused-state
+    packageVisible: this.props.initialValues.isVisible,
+    initialValues: this.props.initialValues
   }
 
   static getDerivedStateFromProps(nextProps, prevState) {
@@ -73,33 +67,6 @@ class ManagedPackageEdit extends Component {
       };
     }
     return prevState;
-  }
-
-  componentDidUpdate(prevProps) {
-    let wasPending = prevProps.model.update.isPending && !this.props.model.update.isPending;
-    let needsUpdate = !isEqual(prevProps.model, this.props.model);
-    let { router } = this.context;
-
-    let wasUnSelected = prevProps.model.isSelected && !this.props.model.isSelected;
-    let isCurrentlySelected = prevProps.model.isSelected && this.props.model.isSelected;
-
-    if (wasPending && needsUpdate && (wasUnSelected || isCurrentlySelected)) {
-      router.history.push({
-        pathname: `/eholdings/packages/${this.props.model.id}`,
-        search: router.route.location.search,
-        state: { eholdings: true, isFreshlySaved: true }
-      });
-    }
-  }
-
-  handleCancel = () => {
-    let { router } = this.context;
-
-    router.history.push({
-      pathname: `/eholdings/packages/${this.props.model.id}`,
-      search: router.route.location.search,
-      state: { eholdings: true }
-    });
   }
 
   handleSelectionAction = () => {
@@ -159,18 +126,15 @@ class ManagedPackageEdit extends Component {
       pristine,
       proxyTypes,
       provider,
-      intl
+      intl,
+      onCancel,
+      fullViewLink
     } = this.props;
 
     let {
       showSelectionModal,
       packageSelected
     } = this.state;
-
-    let {
-      queryParams,
-      router
-    } = this.context;
 
     let visibilityMessage = model.visibilityData.reason && `(${model.visibilityData.reason})`;
 
@@ -182,22 +146,15 @@ class ManagedPackageEdit extends Component {
     let actionMenuItems = [
       {
         'label': <FormattedMessage id="ui-eholdings.actionMenu.cancelEditing" />,
-        'to': {
-          pathname: `/eholdings/packages/${model.id}`,
-          search: router.route.location.search,
-          state: { eholdings: true }
-        },
+        'onClick': onCancel,
         'data-test-eholdings-package-cancel-action': true
       }
     ];
 
-    if (queryParams.searchType) {
+    if (fullViewLink) {
       actionMenuItems.push({
         label: <FormattedMessage id="ui-eholdings.actionMenu.fullView" />,
-        to: {
-          pathname: `/eholdings/packages/${model.id}/edit`,
-          state: { eholdings: true }
-        },
+        to: fullViewLink,
         className: styles['full-view-link']
       });
     }

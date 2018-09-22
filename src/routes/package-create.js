@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import ReactRouterPropTypes from 'react-router-prop-types';
 import { connect } from 'react-redux';
 import moment from 'moment';
 import { TitleManager } from '@folio/stripes-core';
@@ -12,20 +13,14 @@ import View from '../components/package/create';
 class PackageCreateRoute extends Component {
   static propTypes = {
     createPackage: PropTypes.func.isRequired,
-    createRequest: PropTypes.object.isRequired
-  };
-
-  static contextTypes = {
-    router: PropTypes.shape({
-      history: PropTypes.shape({
-        replace: PropTypes.func.isRequired
-      }).isRequired
-    }).isRequired
+    createRequest: PropTypes.object.isRequired,
+    history: ReactRouterPropTypes.history.isRequired,
+    location: ReactRouterPropTypes.location.isRequired
   };
 
   componentDidUpdate(prevProps) {
     if (!prevProps.createRequest.isResolved && this.props.createRequest.isResolved) {
-      this.context.router.history.replace(
+      this.props.history.replace(
         `/eholdings/packages/${this.props.createRequest.records[0]}`,
         { eholdings: true, isNewRecord: true }
       );
@@ -56,11 +51,21 @@ class PackageCreateRoute extends Component {
   };
 
   render() {
+    const { history, location } = this.props;
+
     return (
       <TitleManager record="New custom package">
         <View
           request={this.props.createRequest}
           onSubmit={this.packageCreateSubmitted}
+          onCancel={() => (location.state && location.state.eholdings
+            ? history.goBack()
+            : history.push({
+              pathname: '/eholdings',
+              search: 'searchType=packages',
+              state: { eholdings: true }
+            }))
+          }
           initialValues={{
             name: '',
             contentType: 'Unknown',

@@ -2,9 +2,7 @@ import React, { Component, Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { reduxForm } from 'redux-form';
 import { Icon } from '@folio/stripes-components';
-import isEqual from 'lodash/isEqual';
 import { intlShape, injectIntl, FormattedMessage } from 'react-intl';
-
 
 import SettingsDetailPane from '../settings-detail-pane';
 import { processErrors } from '../utilities';
@@ -18,35 +16,13 @@ class SettingsRootProxy extends Component {
     handleSubmit: PropTypes.func,
     intl: intlShape.isRequired,
     invalid: PropTypes.bool,
+    isFreshlySaved: PropTypes.bool,
     onSubmit: PropTypes.func.isRequired,
     pristine: PropTypes.bool,
     proxyTypes: PropTypes.object.isRequired,
     reset: PropTypes.func,
     rootProxy: PropTypes.object.isRequired
   };
-
-  static contextTypes = {
-    router: PropTypes.shape({
-      history: PropTypes.shape({
-        push: PropTypes.func.isRequired
-      }).isRequired
-    }).isRequired
-  };
-
-  componentDidUpdate(prevProps) {
-    let wasPending = prevProps.rootProxy.update.isPending && !this.props.rootProxy.update.isPending;
-    let needsUpdate = !isEqual(prevProps.rootProxy, this.props.rootProxy);
-    let isRejected = this.props.rootProxy.update.isRejected;
-
-    let { router } = this.context;
-
-    if (wasPending && needsUpdate && !isRejected) {
-      router.history.push({
-        pathname: '/settings/eholdings/root-proxy',
-        state: { eholdings: true, isFreshlySaved: true }
-      });
-    }
-  }
 
   render() {
     let {
@@ -57,17 +33,12 @@ class SettingsRootProxy extends Component {
       pristine,
       reset,
       intl,
-      invalid
+      invalid,
+      isFreshlySaved
     } = this.props;
-
-    let { router } = this.context;
-
     let toasts = processErrors(rootProxy);
 
-    if (router.history.action === 'PUSH' &&
-        router.history.location.state &&
-        router.history.location.state.isFreshlySaved &&
-        rootProxy.update.isResolved) {
+    if (isFreshlySaved) {
       toasts.push({
         id: `root-proxy-${rootProxy.update.timestamp}`,
         message: <FormattedMessage id="ui-eholdings.settings.rootProxy.updated" />,

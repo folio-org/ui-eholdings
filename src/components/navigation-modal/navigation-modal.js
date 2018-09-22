@@ -1,9 +1,11 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import ReactRouterPropTypes from 'react-router-prop-types';
+import { withRouter } from 'react-router';
 import { Modal, ModalFooter } from '@folio/stripes-components';
 import { FormattedMessage } from 'react-intl';
 
-export default class NavigationModal extends Component {
+class NavigationModal extends Component {
   static propTypes = {
     children: PropTypes.oneOfType([
       PropTypes.func,
@@ -11,24 +13,16 @@ export default class NavigationModal extends Component {
     ]),
     continueLabel: PropTypes.string.isRequired,
     dismissLabel: PropTypes.string.isRequired,
+    history: ReactRouterPropTypes.history.isRequired,
     modalLabel: PropTypes.string.isRequired,
     when: PropTypes.bool.isRequired
   };
 
-  static contextTypes = {
-    router: PropTypes.shape({
-      history: PropTypes.shape({
-        block: PropTypes.func.isRequired,
-        push: PropTypes.func.isRequired
-      }).isRequired
-    }).isRequired
-  };
-
-  constructor(props, context) {
+  constructor(props) {
     super(props);
 
     if (props.when) {
-      this.enable(context);
+      this.enable();
     }
   }
 
@@ -49,12 +43,14 @@ export default class NavigationModal extends Component {
     this.disable();
   }
 
-  enable(context = this.context) {
+  enable() {
+    const { history } = this.props;
+
     if (this.unblock) {
       this.unblock();
     }
 
-    this.unblock = context.router.history.block((nextLocation) => {
+    this.unblock = history.block((nextLocation) => {
       this.setState({
         showModal: true,
         nextLocation
@@ -78,10 +74,13 @@ export default class NavigationModal extends Component {
   };
 
   continue = () => {
+    const { history } = this.props;
+    const { nextLocation } = this.state;
+
     this.disable();
 
-    if (this.state.nextLocation) {
-      this.context.router.history.push(this.state.nextLocation);
+    if (nextLocation) {
+      history.push(nextLocation);
     }
   };
 
@@ -124,3 +123,5 @@ export default class NavigationModal extends Component {
     }
   }
 }
+
+export default withRouter(NavigationModal);

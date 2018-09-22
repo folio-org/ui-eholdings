@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import ReactRouterPropTypes from 'react-router-prop-types';
 import { connect } from 'react-redux';
 import { TitleManager } from '@folio/stripes-core';
 
@@ -16,16 +17,13 @@ class ProviderShowRoute extends Component {
     getProvider: PropTypes.func.isRequired,
     getProxyTypes: PropTypes.func.isRequired,
     getRootProxy: PropTypes.func.isRequired,
-    match: PropTypes.shape({
-      params: PropTypes.shape({
-        providerId: PropTypes.string.isRequired
-      }).isRequired
-    }).isRequired,
+    history: ReactRouterPropTypes.history.isRequired,
+    location: ReactRouterPropTypes.location.isRequired,
+    match: ReactRouterPropTypes.match.isRequired,
     model: PropTypes.object.isRequired,
     proxyTypes: PropTypes.object.isRequired,
     resolver: PropTypes.object.isRequired,
-    rootProxy: PropTypes.object.isRequired,
-
+    rootProxy: PropTypes.object.isRequired
   };
 
   constructor(props) {
@@ -79,24 +77,46 @@ class ProviderShowRoute extends Component {
 
   render() {
     const listType = 'packages';
+    const { history, location, model, proxyTypes, rootProxy } = this.props;
+    const { pkgSearchParams, queryId } = this.state;
 
     return (
-      <TitleManager record={this.props.model.name}>
+      <TitleManager record={model.name}>
         <View
-          model={this.props.model}
+          model={model}
           packages={this.getPkgResults()}
           fetchPackages={this.fetchPackages}
-          proxyTypes={this.props.proxyTypes}
-          rootProxy={this.props.rootProxy}
+          proxyTypes={proxyTypes}
+          rootProxy={rootProxy}
           listType={listType}
           searchModal={
             <SearchModal
-              key={this.state.queryId}
+              key={queryId}
               listType={listType}
-              query={this.state.pkgSearchParams}
+              query={pkgSearchParams}
               onSearch={this.searchPackages}
               onFilter={this.searchPackages}
             />
+          }
+          editLink={{
+            pathname: `/eholdings/providers/${model.id}/edit`,
+            search: location.search,
+            state: { eholdings: true }
+          }}
+          isFreshlySaved={
+            history.action === 'PUSH' &&
+            history.location.state &&
+            history.location.state.isFreshlySaved
+          }
+          isDestroyed={
+            history.action === 'REPLACE' &&
+            history.location.state &&
+            history.location.state.isDestroyed
+          }
+          isNewRecord={
+            history.action === 'REPLACE' &&
+            history.location.state &&
+            history.location.state.isNewRecord
           }
         />
       </TitleManager>

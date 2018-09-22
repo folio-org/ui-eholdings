@@ -30,18 +30,24 @@ import styles from './package-show.css';
 class PackageShow extends Component {
   static propTypes = {
     addPackageToHoldings: PropTypes.func.isRequired,
+    editLink: PropTypes.oneOfType([
+      PropTypes.string,
+      PropTypes.object
+    ]).isRequired,
     fetchPackageTitles: PropTypes.func.isRequired,
+    fullViewLink: PropTypes.oneOfType([
+      PropTypes.string,
+      PropTypes.object
+    ]),
     intl: intlShape.isRequired,
+    isDestroyed: PropTypes.bool,
+    isFreshlySaved: PropTypes.bool,
+    isNewRecord: PropTypes.bool,
     model: PropTypes.object.isRequired,
     provider: PropTypes.object.isRequired,
     proxyTypes: PropTypes.object.isRequired,
     searchModal: PropTypes.node,
     toggleSelected: PropTypes.func.isRequired
-  };
-
-  static contextTypes = {
-    router: PropTypes.object,
-    queryParams: PropTypes.object
   };
 
   state = {
@@ -113,9 +119,14 @@ class PackageShow extends Component {
       intl,
       proxyTypes,
       provider,
-      searchModal
+      searchModal,
+      editLink,
+      fullViewLink,
+      isFreshlySaved,
+      isNewRecord,
+      isDestroyed
     } = this.props;
-    let { router, queryParams } = this.context;
+
     let {
       showSelectionModal,
       packageSelected,
@@ -145,21 +156,14 @@ class PackageShow extends Component {
     let actionMenuItems = [
       {
         label: <FormattedMessage id="ui-eholdings.actionMenu.edit" />,
-        to: {
-          pathname: `/eholdings/packages/${model.id}/edit`,
-          search: router.route.location.search,
-          state: { eholdings: true }
-        }
+        to: editLink
       }
     ];
 
-    if (queryParams.searchType) {
+    if (fullViewLink) {
       actionMenuItems.push({
         label: <FormattedMessage id="ui-eholdings.actionMenu.fullView" />,
-        to: {
-          pathname: `/eholdings/packages/${model.id}`,
-          state: { eholdings: true }
-        },
+        to: fullViewLink,
         className: styles['full-view-link']
       });
     }
@@ -186,9 +190,7 @@ class PackageShow extends Component {
     let toasts = processErrors(model);
 
     // if coming from creating a new custom package, show a success toast
-    if (router.history.action === 'REPLACE' &&
-        router.history.location.state &&
-        router.history.location.state.isNewRecord) {
+    if (isNewRecord) {
       toasts.push({
         id: `success-package-creation-${model.id}`,
         message: intl.formatMessage({ id: 'ui-eholdings.package.toast.isNewRecord' }),
@@ -198,9 +200,7 @@ class PackageShow extends Component {
 
     // if coming from destroying a custom or managed title
     // from within custom-package, show a success toast
-    if (router.history.action === 'REPLACE' &&
-        router.history.location.state &&
-        router.history.location.state.isDestroyed) {
+    if (isDestroyed) {
       toasts.push({
         id: `success-resource-destruction-${model.id}`,
         message: intl.formatMessage({ id: 'ui-eholdings.package.toast.isDestroyed' }),
@@ -209,9 +209,7 @@ class PackageShow extends Component {
     }
 
     // if coming from saving edits to the package, show a success toast
-    if (router.history.action === 'PUSH' &&
-        router.history.location.state &&
-        router.history.location.state.isFreshlySaved) {
+    if (isFreshlySaved) {
       toasts.push({
         id: `success-package-saved-${model.id}`,
         message: intl.formatMessage({ id: 'ui-eholdings.package.toast.isFreshlySaved' }),
@@ -236,11 +234,7 @@ class PackageShow extends Component {
               data-test-eholdings-package-edit-link
               icon="edit"
               ariaLabel={intl.formatMessage({ id: 'ui-eholdings.label.editLink' }, { name: model.name })}
-              to={{
-                pathname: `/eholdings/packages/${model.id}/edit`,
-                search: router.route.location.search,
-                state: { eholdings: true }
-              }}
+              to={editLink}
             />
           )}
           bodyContent={(

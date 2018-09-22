@@ -26,14 +26,19 @@ class TitleShow extends Component {
   static propTypes = {
     addCustomPackage: PropTypes.func.isRequired,
     customPackages: PropTypes.object.isRequired,
+    editLink: PropTypes.oneOfType([
+      PropTypes.string,
+      PropTypes.object
+    ]),
+    fullViewLink: PropTypes.oneOfType([
+      PropTypes.string,
+      PropTypes.object
+    ]),
     intl: intlShape.isRequired,
+    isFreshlySaved: PropTypes.bool,
+    isNewRecord: PropTypes.bool,
     model: PropTypes.object.isRequired,
     request: PropTypes.object.isRequired
-  };
-
-  static contextTypes = {
-    router: PropTypes.object,
-    queryParams: PropTypes.object
   };
 
   state = {
@@ -44,28 +49,20 @@ class TitleShow extends Component {
   };
 
   get actionMenuItems() {
-    let { model } = this.props;
-    let { queryParams, router } = this.context;
+    let { editLink, fullViewLink, model } = this.props;
     let items = [];
 
     if (model.isTitleCustom) {
       items.push({
         label: <FormattedMessage id="ui-eholdings.actionMenu.edit" />,
-        to: {
-          pathname: `/eholdings/titles/${model.id}/edit`,
-          search: router.route.location.search,
-          state: { eholdings: true }
-        }
+        to: editLink
       });
     }
 
-    if (queryParams.searchType) {
+    if (fullViewLink) {
       items.push({
         label: <FormattedMessage id="ui-eholdings.actionMenu.fullView" />,
-        to: {
-          pathname: `/eholdings/titles/${model.id}`,
-          state: { eholdings: true }
-        },
+        to: fullViewLink,
         className: styles['full-view-link']
       });
     }
@@ -74,10 +71,9 @@ class TitleShow extends Component {
   }
 
   get lastMenu() {
-    let { model, intl } = this.props;
-    let { router } = this.context;
+    let { model, intl, editLink } = this.props;
 
-    if (model.isTitleCustom) {
+    if (editLink) {
       return (
         <IconButton
           data-test-eholdings-title-edit-link
@@ -87,11 +83,7 @@ class TitleShow extends Component {
               { id: 'ui-eholdings.title.editCustomTitle' },
               { name: model.name }
             )}
-          to={{
-            pathname: `/eholdings/titles/${model.id}/edit`,
-            search: router.route.location.search,
-            state: { eholdings: true }
-          }}
+          to={editLink}
         />
       );
     } else {
@@ -100,14 +92,11 @@ class TitleShow extends Component {
   }
 
   get toasts() {
-    let { model } = this.props;
-    let { router } = this.context;
+    let { model, isFreshlySaved, isNewRecord } = this.props;
     let toasts = processErrors(model);
 
     // if coming from creating a new custom package, show a success toast
-    if (router.history.action === 'REPLACE' &&
-        router.history.location.state &&
-        router.history.location.state.isNewRecord) {
+    if (isNewRecord) {
       toasts.push({
         id: `success-title-${model.id}`,
         message: <FormattedMessage id="ui-eholdings.title.toast.isNewRecord" />,
@@ -116,9 +105,7 @@ class TitleShow extends Component {
     }
 
     // if coming from saving edits to the package, show a success toast
-    if (router.history.action === 'PUSH' &&
-        router.history.location.state &&
-        router.history.location.state.isFreshlySaved) {
+    if (isFreshlySaved) {
       toasts.push({
         id: `success-title-saved-${model.id}`,
         message: <FormattedMessage id="ui-eholdings.title.toast.isFreshlySaved" />,
