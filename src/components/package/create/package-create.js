@@ -27,7 +27,8 @@ class PackageCreate extends Component {
     intl: intlShape.isRequired,
     history: PropTypes.shape({
       goBack: PropTypes.func.isRequired
-    }).isRequired
+    }).isRequired,
+    location: PropTypes.object.isRequired
   };
 
   handleCancel = () => {
@@ -41,10 +42,10 @@ class PackageCreate extends Component {
       handleSubmit,
       onSubmit,
       pristine,
-      history
+      location
     } = this.props;
 
-    let historyState = history.location.state;
+    let historyState = location.state;
 
     let actionMenuItems = [];
 
