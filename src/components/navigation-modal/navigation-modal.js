@@ -43,11 +43,13 @@ class NavigationModal extends Component {
   }
 
   enable() {
+    const { history } = this.props;
+
     if (this.unblock) {
       this.unblock();
     }
 
-    this.unblock = this.props.history.block((nextLocation) => {
+    this.unblock = history.block((nextLocation) => {
       this.setState({
         showModal: true,
         nextLocation
@@ -71,10 +73,13 @@ class NavigationModal extends Component {
   };
 
   continue = () => {
+    const { history } = this.props;
+    const { nextLocation } = this.state;
+
     this.disable();
 
-    if (this.state.nextLocation) {
-      this.props.history.push(this.state.nextLocation);
+    if (nextLocation) {
+      history.push(nextLocation);
     }
   };
 
