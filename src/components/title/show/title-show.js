@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { withRouter } from 'react-router0;'
+import { withRouter } from 'react-router';
 import update from 'lodash/fp/update';
 import set from 'lodash/fp/set';
 import {
