@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import ReactRouterPropTypes from 'react-router-prop-types';
 import { connect } from 'react-redux';
+import isEqual from 'lodash/isEqual';
 import moment from 'moment';
 import { TitleManager } from '@folio/stripes-core';
 import { injectIntl, intlShape } from 'react-intl';
@@ -18,26 +20,16 @@ class PackageEditRoute extends Component {
     getPackage: PropTypes.func.isRequired,
     getProvider: PropTypes.func.isRequired,
     getProxyTypes: PropTypes.func.isRequired,
+    history: ReactRouterPropTypes.history.isRequired,
     intl: intlShape.isRequired,
-    match: PropTypes.shape({
-      params: PropTypes.shape({
-        packageId: PropTypes.string.isRequired
-      }).isRequired
-    }).isRequired,
+    location: ReactRouterPropTypes.location.isRequired,
+    match: ReactRouterPropTypes.match.isRequired,
     model: PropTypes.object.isRequired,
     provider: PropTypes.object.isRequired,
     proxyTypes: PropTypes.object.isRequired,
     unloadResources: PropTypes.func.isRequired,
     updatePackage: PropTypes.func.isRequired,
-    updateProvider: PropTypes.func.isRequired,
-  };
-
-  static contextTypes = {
-    router: PropTypes.shape({
-      history: PropTypes.shape({
-        replace: PropTypes.func.isRequired
-      }).isRequired
-    }).isRequired
+    updateProvider: PropTypes.func.isRequired
   };
 
   constructor(props) {
@@ -50,20 +42,30 @@ class PackageEditRoute extends Component {
   }
 
   componentDidUpdate(prevProps) {
-    let { model: next, match, getPackage, unloadResources } = this.props;
-    let { model: old, match: oldMatch } = prevProps;
+    let {
+      model: next,
+      match,
+      getPackage,
+      unloadResources,
+      history,
+      location
+    } = this.props;
+    let {
+      model: old,
+      match: oldMatch
+    } = prevProps;
     let { packageId } = match.params;
 
-    if (!prevProps.model.destroy.isResolved && this.props.model.destroy.isResolved) {
+    if (!prevProps.model.destroy.isResolved && next.destroy.isResolved) {
       // if package was reached based on search
-      if (this.context.router.history.location.search) {
-        this.context.router.history.replace({
+      if (location.search) {
+        history.replace({
           pathname: '/eholdings',
-          search: this.context.router.history.location.search
+          search: this.props.location.search
         }, { eholdings: true });
         // package was reached directly from url not by search
       } else {
-        this.context.router.history.replace('/eholdings?searchType=packages', { eholdings: true });
+        history.replace('/eholdings?searchType=packages', { eholdings: true });
       }
     }
 
@@ -72,6 +74,20 @@ class PackageEditRoute extends Component {
     // if an update just resolved, unfetch the package titles
     } else if (next.update.isResolved && old.update.isPending) {
       unloadResources(next.resources);
+    }
+
+    let wasPending = prevProps.model.update.isPending && !next.update.isPending;
+    let needsUpdate = !isEqual(prevProps.model, next);
+    let isRejected = this.props.model.update.isRejected;
+    let wasUnSelected = prevProps.model.isSelected && !next.isSelected;
+    let isCurrentlySelected = prevProps.model.isSelected && next.isSelected;
+
+    if (wasPending && needsUpdate && !isRejected && (wasUnSelected || isCurrentlySelected)) {
+      this.props.history.push({
+        pathname: `/eholdings/packages/${next.id}`,
+        search: this.props.location.search,
+        state: { eholdings: true, isFreshlySaved: true }
+      });
     }
   }
 
@@ -161,7 +177,7 @@ class PackageEditRoute extends Component {
   };
 
   render() {
-    let { model, intl, proxyTypes, provider } = this.props;
+    let { model, intl, proxyTypes, provider, history, location } = this.props;
 
     return (
       <TitleManager record={intl.formatMessage({ id: 'ui-eholdings.label.editLink' }, { name: model.name })}>
@@ -170,7 +186,18 @@ class PackageEditRoute extends Component {
           proxyTypes={proxyTypes}
           provider={provider}
           onSubmit={this.packageEditSubmitted}
+          onCancel={() => history.push({
+            pathname: `/eholdings/packages/${model.id}`,
+            search: location.search,
+            state: { eholdings: true }
+          })}
           addPackageToHoldings={this.addPackageToHoldings}
+          fullViewLink={location.search && {
+            to: {
+              pathname: `/eholdings/packages/${model.id}/edit`,
+              state: { eholdings: true }
+            }
+          }}
         />
       </TitleManager>
     );

@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import ReactRouterPropTypes from 'react-router-prop-types';
 import { connect } from 'react-redux';
+import isEqual from 'lodash/isEqual';
 import { TitleManager } from '@folio/stripes-core';
 
 import { createResolver } from '../redux';
@@ -11,6 +13,7 @@ class SettingsRootProxyRoute extends Component {
   static propTypes = {
     getProxyTypes: PropTypes.func.isRequired,
     getRootProxy: PropTypes.func.isRequired,
+    history: ReactRouterPropTypes.history.isRequired,
     proxyTypes: PropTypes.object.isRequired,
     rootProxy: PropTypes.object.isRequired,
     updateRootProxy: PropTypes.func.isRequired
@@ -22,6 +25,20 @@ class SettingsRootProxyRoute extends Component {
     props.getRootProxy();
   }
 
+  componentDidUpdate(prevProps) {
+    const { history, rootProxy } = this.props;
+    let wasPending = prevProps.rootProxy.update.isPending && !rootProxy.update.isPending;
+    let needsUpdate = !isEqual(prevProps.rootProxy, rootProxy);
+    let isRejected = rootProxy.update.isRejected;
+
+    if (wasPending && needsUpdate && !isRejected) {
+      history.push({
+        pathname: '/settings/eholdings/root-proxy',
+        state: { eholdings: true, isFreshlySaved: true }
+      });
+    }
+  }
+
   rootProxySubmitted = (values) => {
     let { rootProxy, updateRootProxy } = this.props;
 
@@ -31,7 +48,7 @@ class SettingsRootProxyRoute extends Component {
   }
 
   render() {
-    let { proxyTypes, rootProxy } = this.props;
+    let { proxyTypes, rootProxy, history } = this.props;
 
     return (
       <TitleManager page="eHoldings settings" record="Root proxy">
@@ -42,6 +59,11 @@ class SettingsRootProxyRoute extends Component {
           proxyTypes={proxyTypes}
           rootProxy={rootProxy}
           onSubmit={this.rootProxySubmitted}
+          isFreshlySaved={
+            history.action === 'PUSH' &&
+            history.location.state &&
+            history.location.state.isFreshlySaved
+          }
         />
       </TitleManager>
     );

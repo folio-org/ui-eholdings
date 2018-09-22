@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import ReactRouterPropTypes from 'react-router-prop-types';
 import { connect } from 'react-redux';
+import isEqual from 'lodash/isEqual';
 import { TitleManager } from '@folio/stripes-core';
 
 import { createResolver } from '../redux';
@@ -12,22 +14,12 @@ import View from '../components/title/edit';
 class TitleEditRoute extends Component {
   static propTypes = {
     getTitle: PropTypes.func.isRequired,
-    match: PropTypes.shape({
-      params: PropTypes.shape({
-        titleId: PropTypes.string.isRequired
-      }).isRequired
-    }).isRequired,
+    history: ReactRouterPropTypes.history.isRequired,
+    location: ReactRouterPropTypes.location.isRequired,
+    match: ReactRouterPropTypes.match.isRequired,
     model: PropTypes.object.isRequired,
     updateRequest: PropTypes.object,
     updateResource: PropTypes.func.isRequired
-  };
-
-  static contextTypes = {
-    router: PropTypes.shape({
-      history: PropTypes.shape({
-        push: PropTypes.func.isRequired
-      }).isRequired
-    }).isRequired
   };
 
   constructor(props) {
@@ -38,11 +30,11 @@ class TitleEditRoute extends Component {
   }
 
   componentDidUpdate(prevProps) {
-    let { match, getTitle } = this.props;
+    let { match, getTitle, history, location, model } = this.props;
     let { titleId } = match.params;
 
     if (!prevProps.updateRequest.isResolved && this.props.updateRequest.isResolved) {
-      this.context.router.history.push(
+      this.props.history.push(
         `/eholdings/titles/${this.props.model.id}`,
         { eholdings: true, isFreshlySaved: true }
       );
@@ -50,6 +42,18 @@ class TitleEditRoute extends Component {
 
     if (titleId !== prevProps.match.params.titleId) {
       getTitle(titleId);
+    }
+
+    let wasPending = prevProps.model.update.isPending && !model.update.isPending;
+    let needsUpdate = !isEqual(prevProps.model, model);
+    let isRejected = model.update.isRejected;
+
+    if (wasPending && needsUpdate && !isRejected) {
+      history.push({
+        pathname: `/eholdings/titles/${model.id}`,
+        search: location.search,
+        state: { eholdings: true, isFreshlySaved: true }
+      });
     }
   }
 
@@ -94,7 +98,9 @@ class TitleEditRoute extends Component {
   render() {
     let {
       model,
-      updateRequest
+      updateRequest,
+      history,
+      location
     } = this.props;
 
     return (
@@ -102,6 +108,11 @@ class TitleEditRoute extends Component {
         <View
           model={model}
           onSubmit={this.titleEditSubmitted}
+          onCancel={() => history.push({
+            pathname: `/eholdings/titles/${model.id}`,
+            search: location.search,
+            state: { eholdings: true }
+          })}
           updateRequest={updateRequest}
           initialValues={{
             name: model.name,
@@ -112,6 +123,12 @@ class TitleEditRoute extends Component {
             description: model.description,
             contributors: model.contributors,
             identifiers: this.mergeIdentifiers(model.identifiers)
+          }}
+          fullViewLink={location.search && {
+            to: {
+              pathname: `/eholdings/titles/${model.id}/edit`,
+              state: { eholdings: true }
+            }
           }}
         />
       </TitleManager>

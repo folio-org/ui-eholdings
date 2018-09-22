@@ -2,7 +2,6 @@ import React, { Component, Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { formValueSelector, reduxForm } from 'redux-form';
-import isEqual from 'lodash/isEqual';
 import { intlShape, injectIntl, FormattedMessage } from 'react-intl';
 
 import {
@@ -33,17 +32,10 @@ class ResourceEditCustomTitle extends Component {
     initialValues: PropTypes.object.isRequired,
     intl: intlShape.isRequired,
     model: PropTypes.object.isRequired,
+    onCancel: PropTypes.func.isRequired,
     onSubmit: PropTypes.func.isRequired,
     pristine: PropTypes.bool,
     proxyTypes: PropTypes.object.isRequired
-  };
-
-  static contextTypes = {
-    router: PropTypes.shape({
-      history: PropTypes.shape({
-        push: PropTypes.func.isRequired
-      }).isRequired
-    }).isRequired
   };
 
   state = {
@@ -74,26 +66,6 @@ class ResourceEditCustomTitle extends Component {
       };
     }
     return prevState;
-  }
-
-  componentDidUpdate(prevProps) {
-    let wasPending = prevProps.model.update.isPending && !this.props.model.update.isPending;
-    let needsUpdate = !isEqual(prevProps.model, this.props.model);
-    let { router } = this.context;
-
-    if (wasPending && needsUpdate) {
-      router.history.push(
-        `/eholdings/resources/${this.props.model.id}`,
-        { eholdings: true, isFreshlySaved: true }
-      );
-    }
-  }
-
-  handleCancel = () => {
-    this.context.router.history.push(
-      `/eholdings/resources/${this.props.model.id}`,
-      { eholdings: true }
-    );
   }
 
   handleRemoveResourceFromHoldings = () => {
@@ -165,7 +137,8 @@ class ResourceEditCustomTitle extends Component {
       handleSubmit,
       pristine,
       intl,
-      change
+      change,
+      onCancel
     } = this.props;
 
     let {
@@ -180,10 +153,7 @@ class ResourceEditCustomTitle extends Component {
     let actionMenuItems = [
       {
         'label': <FormattedMessage id="ui-eholdings.actionMenu.cancelEditing" />,
-        'to': {
-          pathname: `/eholdings/resources/${model.id}`,
-          state: { eholdings: true },
-        },
+        'onClick': onCancel,
         'data-test-eholdings-resource-cancel-action': true
       }
     ];

@@ -17,8 +17,17 @@ import styles from './provider-show.css';
 
 class ProviderShow extends Component {
    static propTypes = {
+     editLink: PropTypes.oneOfType([
+       PropTypes.string,
+       PropTypes.object
+     ]).isRequired,
      fetchPackages: PropTypes.func.isRequired,
+     fullViewLink: PropTypes.oneOfType([
+       PropTypes.string,
+       PropTypes.object
+     ]),
      intl: intlShape.isRequired,
+     isFreshlySaved: PropTypes.bool,
      listType: PropTypes.string.isRequired,
      model: PropTypes.object.isRequired,
      packages: PropTypes.object.isRequired,
@@ -26,11 +35,6 @@ class ProviderShow extends Component {
      rootProxy: PropTypes.object.isRequired,
      searchModal: PropTypes.node
    };
-
-  static contextTypes = {
-    router: PropTypes.object,
-    queryParams: PropTypes.object
-  };
 
   state = {
     sections: {
@@ -51,14 +55,11 @@ class ProviderShow extends Component {
   }
 
   get toasts() {
-    let { model, intl } = this.props;
-    let { router } = this.context;
+    let { model, intl, isFreshlySaved } = this.props;
     let toasts = processErrors(model);
 
     // if coming from saving edits to the package, show a success toast
-    if (router.history.action === 'PUSH' &&
-        router.history.location.state &&
-        router.history.location.state.isFreshlySaved) {
+    if (isFreshlySaved) {
       toasts.push({
         id: `success-provider-saved-${model.id}`,
         message: intl.formatMessage({ id: 'ui-eholdings.provider.toast.isFreshlySaved' }),
@@ -77,9 +78,10 @@ class ProviderShow extends Component {
       packages,
       searchModal,
       proxyTypes,
-      rootProxy
+      rootProxy,
+      editLink,
+      fullViewLink
     } = this.props;
-    let { router, queryParams } = this.context;
     let { sections } = this.state;
     let hasProxy = model.proxy && model.proxy.id;
     let hasToken = model.providerToken && model.providerToken.prompt;
@@ -88,21 +90,14 @@ class ProviderShow extends Component {
     let actionMenuItems = [
       {
         label: <FormattedMessage id="ui-eholdings.actionMenu.edit" />,
-        to: {
-          pathname: `/eholdings/providers/${model.id}/edit`,
-          search: router.route.location.search,
-          state: { eholdings: true }
-        }
+        to: editLink
       }
     ];
 
-    if (queryParams.searchType) {
+    if (fullViewLink) {
       actionMenuItems.push({
         label: <FormattedMessage id="ui-eholdings.actionMenu.fullView" />,
-        to: {
-          pathname: `/eholdings/providers/${model.id}`,
-          state: { eholdings: true }
-        },
+        to: fullViewLink,
         className: styles['full-view-link']
       });
     }
@@ -124,11 +119,7 @@ class ProviderShow extends Component {
               data-test-eholdings-provider-edit-link
               icon="edit"
               ariaLabel={`Edit ${model.name}`}
-              to={{
-                pathname: `/eholdings/providers/${model.id}/edit`,
-                search: router.route.location.search,
-                state: { eholdings: true }
-              }}
+              to={editLink}
             />
           )}
           bodyContent={(

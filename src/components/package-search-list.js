@@ -5,15 +5,15 @@ import { FormattedMessage } from 'react-intl';
 import QueryList from './query-list';
 import PackageListItem from './package-list-item';
 
-export default function PackageSearchList({
+function PackageSearchList({
   activeId,
   collection,
   fetch,
-  location,
   onUpdateOffset,
   params,
-  shouldFocusItem
-}, { router }) {
+  shouldFocusItem,
+  onClickItem
+}) {
   return (
     <QueryList
       type="packages"
@@ -38,11 +38,7 @@ export default function PackageSearchList({
           }}
           active={item.content && activeId && item.content.id === activeId}
           shouldFocus={item.content && shouldFocusItem && item.content.id === shouldFocusItem}
-          onClick={() => {
-            router.history.push(
-              `/eholdings/packages/${item.content.id}${location.search}`
-            );
-          }}
+          onClick={() => onClickItem(`/eholdings/packages/${item.content.id}`)}
         />
       )}
     />
@@ -53,12 +49,10 @@ PackageSearchList.propTypes = {
   activeId: PropTypes.string,
   collection: PropTypes.object.isRequired,
   fetch: PropTypes.func.isRequired,
-  location: PropTypes.object.isRequired,
+  onClickItem: PropTypes.func.isRequired,
   onUpdateOffset: PropTypes.func.isRequired,
   params: PropTypes.object.isRequired,
   shouldFocusItem: PropTypes.string
 };
 
-PackageSearchList.contextTypes = {
-  router: PropTypes.object
-};
+export default PackageSearchList;

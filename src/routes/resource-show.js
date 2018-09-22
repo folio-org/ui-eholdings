@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import ReactRouterPropTypes from 'react-router-prop-types';
 import { connect } from 'react-redux';
 import { TitleManager } from '@folio/stripes-core';
 
@@ -13,22 +14,12 @@ class ResourceShowRoute extends Component {
     destroyResource: PropTypes.func.isRequired,
     getProxyTypes: PropTypes.func.isRequired,
     getResource: PropTypes.func.isRequired,
-    match: PropTypes.shape({
-      params: PropTypes.shape({
-        id: PropTypes.string.isRequired
-      }).isRequired
-    }).isRequired,
+    history: ReactRouterPropTypes.history.isRequired,
+    location: ReactRouterPropTypes.location.isRequired,
+    match: ReactRouterPropTypes.match.isRequired,
     model: PropTypes.object.isRequired,
     proxyTypes: PropTypes.object.isRequired,
-    updateResource: PropTypes.func.isRequired,
-  };
-
-  static contextTypes = {
-    router: PropTypes.shape({
-      history: PropTypes.shape({
-        replace: PropTypes.func.isRequired
-      }).isRequired
-    }).isRequired
+    updateResource: PropTypes.func.isRequired
   };
 
   constructor(props) {
@@ -41,20 +32,19 @@ class ResourceShowRoute extends Component {
 
   componentDidUpdate(prevProps) {
     let wasUpdated = !this.props.model.update.isPending && prevProps.model.update.isPending && (!this.props.model.update.errors.length > 0);
-    let { router } = this.context;
-    let { match, getResource } = this.props;
+    let { match, getResource, history, location } = this.props;
     let { id } = match.params;
 
     let { packageName, packageId } = prevProps.model;
     if (!prevProps.model.destroy.isResolved && this.props.model.destroy.isResolved) {
-      this.context.router.history.replace(`/eholdings/packages/${packageId}?searchType=packages&q=${packageName}`,
+      history.replace(`/eholdings/packages/${packageId}?searchType=packages&q=${packageName}`,
         { eholdings: true, isDestroyed: true });
     }
 
     if (wasUpdated) {
-      router.history.push({
+      history.push({
         pathname: `/eholdings/resources/${this.props.model.id}`,
-        search: router.route.location.search,
+        search: location.search,
         state: { eholdings: true, isFreshlySaved: true }
       });
     }
@@ -89,12 +79,23 @@ class ResourceShowRoute extends Component {
   }
 
   render() {
+    const { model, proxyTypes, history } = this.props;
+
     return (
-      <TitleManager record={this.props.model.name}>
+      <TitleManager record={model.name}>
         <View
-          model={this.props.model}
-          proxyTypes={this.props.proxyTypes}
+          model={model}
+          proxyTypes={proxyTypes}
           toggleSelected={this.toggleSelected}
+          editLink={{
+            pathname: `/eholdings/resources/${model.id}/edit`,
+            state: { eholdings: true }
+          }}
+          isFreshlySaved={
+            history.action === 'PUSH' &&
+            history.location.state &&
+            history.location.state.isFreshlySaved
+          }
         />
       </TitleManager>
     );

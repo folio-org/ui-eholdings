@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import ReactRouterPropTypes from 'react-router-prop-types';
 import { connect } from 'react-redux';
 import { TitleManager } from '@folio/stripes-core';
 
@@ -20,24 +21,14 @@ class PackageShowRoute extends Component {
     getPackageTitles: PropTypes.func.isRequired,
     getProvider: PropTypes.func.isRequired,
     getProxyTypes: PropTypes.func.isRequired,
-    match: PropTypes.shape({
-      params: PropTypes.shape({
-        packageId: PropTypes.string.isRequired
-      }).isRequired
-    }).isRequired,
+    history: ReactRouterPropTypes.history.isRequired,
+    location: ReactRouterPropTypes.location.isRequired,
+    match: ReactRouterPropTypes.match.isRequired,
     model: PropTypes.object.isRequired,
     provider: PropTypes.object.isRequired,
     proxyTypes: PropTypes.object.isRequired,
     unloadResources: PropTypes.func.isRequired,
-    updatePackage: PropTypes.func.isRequired,
-  };
-
-  static contextTypes = {
-    router: PropTypes.shape({
-      history: PropTypes.shape({
-        replace: PropTypes.func.isRequired
-      }).isRequired
-    }).isRequired
+    updatePackage: PropTypes.func.isRequired
   };
 
   constructor(props) {
@@ -56,20 +47,20 @@ class PackageShowRoute extends Component {
   }
 
   componentDidUpdate(prevProps) {
-    let { model: next, match, getPackage, unloadResources } = this.props;
+    let { model: next, match, getPackage, unloadResources, history, location } = this.props;
     let { model: old, match: oldMatch } = prevProps;
     let { packageId } = match.params;
 
-    if (!prevProps.model.destroy.isResolved && this.props.model.destroy.isResolved) {
+    if (!old.destroy.isResolved && next.destroy.isResolved) {
       // if package was reached based on search
-      if (this.context.router.history.location.search) {
-        this.context.router.history.replace({
+      if (location.search) {
+        history.replace({
           pathname: '/eholdings',
-          search: this.context.router.history.location.search
+          search: location.search
         }, { eholdings: true });
         // package was reached directly from url not by search
       } else {
-        this.context.router.history.replace('/eholdings?searchType=packages', { eholdings: true });
+        history.replace('/eholdings?searchType=packages', { eholdings: true });
       }
     }
 
@@ -145,20 +136,41 @@ class PackageShowRoute extends Component {
   }
 
   render() {
+    let { history, location, model, provider, proxyTypes } = this.props;
     let { pkgSearchParams, queryId } = this.state;
 
     return (
-      <TitleManager record={this.props.model.name}>
+      <TitleManager record={model.name}>
         <View
-          model={this.props.model}
-          proxyTypes={this.props.proxyTypes}
-          provider={this.props.provider}
+          model={model}
+          proxyTypes={proxyTypes}
+          provider={provider}
           fetchPackageTitles={this.setPage}
           toggleSelected={this.toggleSelected}
           addPackageToHoldings={this.addPackageToHoldings}
           toggleHidden={this.toggleHidden}
           customCoverageSubmitted={this.customCoverageSubmitted}
           toggleAllowKbToAddTitles={this.toggleAllowKbToAddTitles}
+          editLink={{
+            pathname: `/eholdings/packages/${model.id}/edit`,
+            search: location.search,
+            state: { eholdings: true }
+          }}
+          isFreshlySaved={
+            history.action === 'PUSH' &&
+            history.location.state &&
+            history.location.state.isFreshlySaved
+          }
+          isNewRecord={
+            history.action === 'REPLACE' &&
+            history.location.state &&
+            history.location.state.isNewRecord
+          }
+          isDestroyed={
+            history.action === 'REPLACE' &&
+            history.location.state &&
+            history.location.state.isDestroyed
+          }
           searchModal={
             <SearchModal
               key={queryId}

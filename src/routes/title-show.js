@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import ReactRouterPropTypes from 'react-router-prop-types';
 import { connect } from 'react-redux';
 import { TitleManager } from '@folio/stripes-core';
 
@@ -16,20 +17,10 @@ class TitleShowRoute extends Component {
     customPackages: PropTypes.object.isRequired,
     getCustomPackages: PropTypes.func.isRequired,
     getTitle: PropTypes.func.isRequired,
-    match: PropTypes.shape({
-      params: PropTypes.shape({
-        titleId: PropTypes.string.isRequired
-      }).isRequired
-    }).isRequired,
+    history: ReactRouterPropTypes.history.isRequired,
+    location: ReactRouterPropTypes.location.isRequired,
+    match: ReactRouterPropTypes.match.isRequired,
     model: PropTypes.object.isRequired
-  };
-
-  static contextTypes = {
-    router: PropTypes.shape({
-      history: PropTypes.shape({
-        push: PropTypes.func.isRequired
-      }).isRequired
-    }).isRequired
   };
 
   componentDidMount() {
@@ -49,7 +40,7 @@ class TitleShowRoute extends Component {
     }
 
     if (!createRequest.isResolved && this.props.createRequest.isResolved) {
-      this.context.router.history.push(
+      this.props.history.push(
         `/eholdings/resources/${this.props.createRequest.records[0]}`,
         { eholdings: true, isNewRecord: true }
       );
@@ -68,7 +59,7 @@ class TitleShowRoute extends Component {
   };
 
   render() {
-    let { model, customPackages, createRequest } = this.props;
+    let { model, customPackages, createRequest, history, location } = this.props;
 
     return (
       <TitleManager record={this.props.model.name}>
@@ -77,6 +68,21 @@ class TitleShowRoute extends Component {
           model={model}
           customPackages={customPackages}
           addCustomPackage={this.createResource}
+          editLink={{
+            pathname: `/eholdings/titles/${model.id}/edit`,
+            search: location.search,
+            state: { eholdings: true }
+          }}
+          isFreshlySaved={
+            history.action === 'PUSH' &&
+            history.location.state &&
+            history.location.state.isFreshlySaved
+          }
+          isNewRecord={
+            history.action === 'REPLACE' &&
+            history.location.state &&
+            history.location.state.isNewRecord
+          }
         />
       </TitleManager>
     );

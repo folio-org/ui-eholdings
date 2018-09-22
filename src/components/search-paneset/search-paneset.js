@@ -16,27 +16,19 @@ import Link from '../link';
 import styles from './search-paneset.css';
 import SearchBadge from '../search-modal/search-badge';
 
-export default class SearchPaneset extends React.Component { // eslint-disable-line react/no-deprecated
+class SearchPaneset extends React.Component {
   static propTypes = {
     detailsView: PropTypes.node,
     filterCount: PropTypes.number,
     hideFilters: PropTypes.bool,
     isLoading: PropTypes.bool,
-    location: PropTypes.shape({
-      pathname: PropTypes.string.isRequired,
-      search: PropTypes.string.isRequired
-    }).isRequired,
+    onClosePreview: PropTypes.func.isRequired,
     resultsType: PropTypes.string,
     resultsView: PropTypes.node,
     searchForm: PropTypes.node,
+    searchLocation: PropTypes.string.isRequired,
     totalResults: PropTypes.number,
     updateFilters: PropTypes.func.isRequired
-  };
-
-  static contextTypes = {
-    router: PropTypes.shape({
-      history: PropTypes.object
-    })
   };
 
   static defaultProps = {
@@ -54,7 +46,7 @@ export default class SearchPaneset extends React.Component { // eslint-disable-l
   }
 
   componentDidUpdate(prevProps) {
-    let isNewSearch = prevProps.location.search !== this.props.location.search;
+    let isNewSearch = prevProps.searchLocation !== this.props.searchLocation;
     let isSameSearchType = prevProps.resultsType === this.props.resultsType;
 
     // focus the pane title when a new search happens within the same search type
@@ -64,13 +56,6 @@ export default class SearchPaneset extends React.Component { // eslint-disable-l
   }
 
   toggleFilters = () => this.props.updateFilters(hideFilters => !hideFilters)
-
-  closePreview = () => {
-    this.context.router.history.push({
-      pathname: '/eholdings',
-      search: this.props.location.search
-    });
-  };
 
   renderNewButton = () => {
     return (
@@ -92,7 +77,8 @@ export default class SearchPaneset extends React.Component { // eslint-disable-l
       totalResults,
       isLoading,
       hideFilters,
-      filterCount
+      filterCount,
+      onClosePreview
     } = this.props;
 
     hideFilters = hideFilters && !!resultsView;
@@ -122,7 +108,7 @@ export default class SearchPaneset extends React.Component { // eslint-disable-l
     return (
       <div className={styles['search-paneset']}>
         {detailsView && (
-          <SearchPaneVignette className={styles['preview-pane-vignette']} onClick={this.closePreview} />
+          <SearchPaneVignette className={styles['preview-pane-vignette']} onClick={onClosePreview} />
         )}
 
         {!hideFilters && (
@@ -202,3 +188,5 @@ export default class SearchPaneset extends React.Component { // eslint-disable-l
     );
   }
 }
+
+export default SearchPaneset;

@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
-import { intlShape, injectIntl } from 'react-intl';
 import PropTypes from 'prop-types';
+import ReactRouterPropTypes from 'react-router-prop-types';
+import { withRouter } from 'react-router';
+import { intlShape, injectIntl } from 'react-intl';
 import classNames from 'classnames/bind';
 import capitalize from 'lodash/capitalize';
 import { ExpandAllButton } from '@folio/stripes-components/lib/Accordion';
@@ -35,10 +37,12 @@ class DetailsView extends Component {
     actionMenuItems: PropTypes.array,
     bodyContent: PropTypes.node.isRequired,
     handleExpandAll: PropTypes.func,
+    history: ReactRouterPropTypes.history.isRequired,
     intl: intlShape.isRequired,
     lastMenu: PropTypes.node,
     listSectionId: PropTypes.string,
     listType: PropTypes.node,
+    location: ReactRouterPropTypes.location.isRequired,
     model: PropTypes.shape({
       isLoaded: PropTypes.bool.isRequired,
       isLoading: PropTypes.bool.isRequired,
@@ -61,11 +65,6 @@ class DetailsView extends Component {
     searchModal: PropTypes.node,
     sections: PropTypes.object,
     type: PropTypes.string.isRequired
-  };
-
-  static contextTypes = {
-    router: PropTypes.object,
-    queryParams: PropTypes.object
   };
 
   static defaultProps = {
@@ -202,10 +201,10 @@ class DetailsView extends Component {
       handleExpandAll,
       listSectionId,
       onListToggle,
-      intl
+      intl,
+      history,
+      location
     } = this.props;
-
-    let { router, queryParams } = this.context;
 
     let { isSticky } = this.state;
 
@@ -213,25 +212,25 @@ class DetailsView extends Component {
       locked: isSticky
     });
 
-    let historyState = router.history.location.state;
+    let historyState = history.location.state;
 
     let isListAccordionOpen = sections && sections[listSectionId];
 
     return (
       <div data-test-eholdings-details-view={type}>
         <PaneHeader
-          firstMenu={queryParams.searchType ? (
+          firstMenu={location.search ? (
             <IconButton
               icon="closeX"
               ariaLabel={intl.formatMessage({ id: 'ui-eholdings.label.icon.closeX' }, { paneTitle })}
-              href={`/eholdings${router.route.location.search}`}
+              href={`/eholdings${location.search}`}
               data-test-eholdings-details-view-close-button
             />
           ) : historyState && historyState.eholdings && (
             <IconButton
               icon="left-arrow"
               ariaLabel={intl.formatMessage({ id: 'ui-eholdings.label.icon.goBack' })}
-              onClick={() => router.history.goBack()}
+              onClick={() => history.goBack()}
               data-test-eholdings-details-view-back-button
             />
           )}
@@ -317,4 +316,4 @@ class DetailsView extends Component {
   }
 }
 
-export default (injectIntl(DetailsView));
+export default (injectIntl(withRouter(DetailsView)));
