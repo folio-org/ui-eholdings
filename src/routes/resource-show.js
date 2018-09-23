@@ -79,7 +79,7 @@ class ResourceShowRoute extends Component {
   }
 
   render() {
-    const { model, proxyTypes } = this.props;
+    const { model, proxyTypes, history } = this.props;
 
     return (
       <TitleManager record={model.name}>
@@ -91,6 +91,11 @@ class ResourceShowRoute extends Component {
             pathname: `/eholdings/resources/${model.id}/edit`,
             state: { eholdings: true }
           }}
+          isFreshlySaved={
+            history.action === 'PUSH' &&
+            history.location.state &&
+            history.location.state.isFreshlySaved
+          }
         />
       </TitleManager>
     );

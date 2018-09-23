@@ -31,8 +31,8 @@ class ResourceShow extends Component {
     toggleSelected: PropTypes.func.isRequired,
     intl: intlShape.isRequired,
     proxyTypes: PropTypes.object.isRequired,
-    history: PropTypes.object.isRequired,
-    editLink: PropTypes.object.isRequired
+    editLink: PropTypes.object.isRequired,
+    isFreshlySaved: PropTypes.bool
   };
 
   state = {
@@ -86,7 +86,7 @@ class ResourceShow extends Component {
   }
 
   render() {
-    let { model, intl, proxyTypes, history, editLink } = this.props;
+    let { model, intl, proxyTypes, editLink, isFreshlySaved } = this.props;
     let {
       showSelectionModal,
       resourceSelected,
@@ -123,9 +123,7 @@ class ResourceShow extends Component {
 
     // if coming from updating any value on managed title in a managed package
     // show a success toast
-    if (history.action === 'PUSH' &&
-        history.location.state &&
-        history.location.state.isFreshlySaved) {
+    if (isFreshlySaved) {
       toasts.push({
         id: `success-package-creation-${model.id}`,
         message: <FormattedMessage id="ui-eholdings.resource.toast.isFreshlySaved" />,
