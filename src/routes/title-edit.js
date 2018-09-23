@@ -111,6 +111,14 @@ class TitleEditRoute extends Component {
             contributors: model.contributors,
             identifiers: this.mergeIdentifiers(model.identifiers)
           }}
+          onSuccessfulSave={() => {
+            history.push({
+              pathname: `/eholdings/titles/${model.id}`,
+              search: location.search,
+              state: { eholdings: true, isFreshlySaved: true }
+            });
+          }}
+          hasFullViewLink={location.search}
         />
       </TitleManager>
     );

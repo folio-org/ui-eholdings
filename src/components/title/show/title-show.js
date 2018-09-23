@@ -28,7 +28,8 @@ class TitleShow extends Component {
     model: PropTypes.object.isRequired,
     customPackages: PropTypes.object.isRequired,
     addCustomPackage: PropTypes.func.isRequired,
-    intl: intlShape.isRequired
+    intl: intlShape.isRequired,
+    hasFullViewLink: PropTypes.bool
   };
 
   state = {
@@ -39,7 +40,7 @@ class TitleShow extends Component {
   };
 
   get actionMenuItems() {
-    let { model, location } = this.props;
+    let { model, location, hasFullViewLink } = this.props;
     let items = [];
 
     if (model.isTitleCustom) {
@@ -53,7 +54,7 @@ class TitleShow extends Component {
       });
     }
 
-    if (location.search) {
+    if (hasFullViewLink) {
       items.push({
         label: <FormattedMessage id="ui-eholdings.actionMenu.fullView" />,
         to: {

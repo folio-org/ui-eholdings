@@ -31,31 +31,18 @@ class TitleEdit extends Component {
     onCancel: PropTypes.func.isRequired,
     pristine: PropTypes.bool,
     updateRequest: PropTypes.object.isRequired,
-    intl: intlShape.isRequired
+    intl: intlShape.isRequired,
+    hasFullViewLink: PropTypes.bool,
+    onSuccessfulSave: PropTypes.func.isRequired
   };
 
   componentDidUpdate(prevProps) {
     let wasPending = prevProps.model.update.isPending && !this.props.model.update.isPending;
     let needsUpdate = !isEqual(prevProps.initialValues, this.props.initialValues);
-    let { history, location } = this.props;
 
     if (wasPending && needsUpdate) {
-      history.push({
-        pathname: `/eholdings/titles/${prevProps.model.id}`,
-        search: location.search,
-        state: { eholdings: true }
-      });
+      this.props.onSuccessfulSave();
     }
-  }
-
-  handleCancel = () => {
-    let { history, location } = this.props;
-
-    history.push({
-      pathname: `/eholdings/titles/${this.props.model.id}`,
-      search: location.search,
-      state: { eholdings: true }
-    });
   }
 
   render() {
@@ -67,8 +54,8 @@ class TitleEdit extends Component {
       updateRequest,
       initialValues,
       intl,
-      location,
-      onCancel
+      onCancel,
+      hasFullViewLink
     } = this.props;
 
     let actionMenuItems = [
@@ -79,7 +66,7 @@ class TitleEdit extends Component {
       }
     ];
 
-    if (location.search) {
+    if (hasFullViewLink) {
       actionMenuItems.push({
         label: <FormattedMessage id="ui-eholdings.actionMenu.fullView" />,
         to: {

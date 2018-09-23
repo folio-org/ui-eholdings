@@ -166,7 +166,15 @@ class PackageEditRoute extends Component {
             search: location.search,
             state: { eholdings: true }
           })}
+          onSuccessfulSave={() => {
+            history.push({
+              pathname: `/eholdings/packages/${model.id}`,
+              search: location.search,
+              state: { eholdings: true, isFreshlySaved: true }
+            });
+          }}
           addPackageToHoldings={this.addPackageToHoldings}
+          hasFullViewLink={location.search}
         />
       </TitleManager>
     );

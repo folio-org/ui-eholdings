@@ -136,12 +136,12 @@ class PackageShowRoute extends Component {
   }
 
   render() {
-    let { pkgSearchParams, queryId } = this.state;
+    let { history, location, model, pkgSearchParams, queryId } = this.state;
 
     return (
-      <TitleManager record={this.props.model.name}>
+      <TitleManager record={model.name}>
         <View
-          model={this.props.model}
+          model={model}
           proxyTypes={this.props.proxyTypes}
           provider={this.props.provider}
           fetchPackageTitles={this.setPage}
@@ -150,6 +150,16 @@ class PackageShowRoute extends Component {
           toggleHidden={this.toggleHidden}
           customCoverageSubmitted={this.customCoverageSubmitted}
           toggleAllowKbToAddTitles={this.toggleAllowKbToAddTitles}
+          editLink={{
+            pathname: `/eholdings/packages/${model.id}/edit`,
+            search: location.search,
+            state: { eholdings: true }
+          }}
+          isFreshlySaved={
+            history.action === 'PUSH' &&
+            history.location.state &&
+            history.location.state.isFreshlySaved
+          }
           searchModal={
             <SearchModal
               key={queryId}

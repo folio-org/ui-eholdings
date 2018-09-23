@@ -36,7 +36,8 @@ class ResourceEditCustomTitle extends Component {
     change: PropTypes.func,
     intl: intlShape.isRequired,
     customCoverageDateValues: PropTypes.array,
-    proxyTypes: PropTypes.object.isRequired
+    proxyTypes: PropTypes.object.isRequired,
+    onSuccessfulSave: PropTypes.func.isRequired
   };
 
   state = {
@@ -72,21 +73,10 @@ class ResourceEditCustomTitle extends Component {
   componentDidUpdate(prevProps) {
     let wasPending = prevProps.model.update.isPending && !this.props.model.update.isPending;
     let needsUpdate = !isEqual(prevProps.model, this.props.model);
-    let { history } = this.props;
 
     if (wasPending && needsUpdate) {
-      history.push(
-        `/eholdings/resources/${this.props.model.id}`,
-        { eholdings: true, isFreshlySaved: true }
-      );
+      this.props.onSuccessfulSave();
     }
-  }
-
-  handleCancel = () => {
-    this.props.history.push(
-      `/eholdings/resources/${this.props.model.id}`,
-      { eholdings: true }
-    );
   }
 
   handleRemoveResourceFromHoldings = () => {

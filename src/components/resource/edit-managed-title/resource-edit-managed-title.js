@@ -36,7 +36,8 @@ class ResourceEditManagedTitle extends Component {
     pristine: PropTypes.bool,
     change: PropTypes.func,
     intl: intlShape.isRequired,
-    customCoverageDateValues: PropTypes.array
+    customCoverageDateValues: PropTypes.array,
+    onSuccessfulSave: PropTypes.func.isRequired
   };
 
   state = {
@@ -67,19 +68,9 @@ class ResourceEditManagedTitle extends Component {
 
     if (wasUnSelected || isCurrentlySelected) {
       if (wasPending && needsUpdate) {
-        this.props.history.push(
-          `/eholdings/resources/${this.props.model.id}`,
-          { eholdings: true, isFreshlySaved: true }
-        );
+        this.props.onSuccessfulSave();
       }
     }
-  }
-
-  handleCancel = () => {
-    this.props.history.push(
-      `/eholdings/resources/${this.props.model.id}`,
-      { eholdings: true }
-    );
   }
 
   handleSelectionToggle = (e) => {

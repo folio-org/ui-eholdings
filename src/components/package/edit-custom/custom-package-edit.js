@@ -38,7 +38,9 @@ class CustomPackageEdit extends Component {
     proxyTypes: PropTypes.object.isRequired,
     intl: intlShape.isRequired,
     addPackageToHoldings: PropTypes.func.isRequired,
-    provider: PropTypes.object.isRequired
+    provider: PropTypes.object.isRequired,
+    hasFullViewLink: PropTypes.bool,
+    onSuccessfulSave: PropTypes.func.isRequired
   };
 
   state = {
@@ -74,11 +76,7 @@ class CustomPackageEdit extends Component {
     let needsUpdate = !isEqual(prevProps.model, this.props.model);
 
     if (wasPending && needsUpdate) {
-      history.push({
-        pathname: `/eholdings/packages/${this.props.model.id}`,
-        search: location.search,
-        state: { eholdings: true, isFreshlySaved: true }
-      });
+      this.props.onSuccessfulSave();
     }
   }
 
@@ -130,7 +128,8 @@ class CustomPackageEdit extends Component {
       proxyTypes,
       provider,
       intl,
-      onCancel
+      onCancel,
+      hasFullViewLink
     } = this.props;
 
     let {
@@ -148,7 +147,7 @@ class CustomPackageEdit extends Component {
       }
     ];
 
-    if (location.search) {
+    if (hasFullViewLink) {
       actionMenuItems.push({
         label: intl.formatMessage({ id: 'ui-eholdings.actionMenu.fullView' }),
         to: {

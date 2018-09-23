@@ -36,7 +36,9 @@ class ManagedPackageEdit extends Component {
     intl: intlShape.isRequired,
     addPackageToHoldings: PropTypes.func.isRequired,
     proxyTypes: PropTypes.object.isRequired,
-    provider: PropTypes.object.isRequired
+    provider: PropTypes.object.isRequired,
+    hasFullViewLink: PropTypes.bool,
+    onSuccessfulSave: PropTypes.func.isRequired
   };
 
   state = {
@@ -70,17 +72,12 @@ class ManagedPackageEdit extends Component {
   componentDidUpdate(prevProps) {
     let wasPending = prevProps.model.update.isPending && !this.props.model.update.isPending;
     let needsUpdate = !isEqual(prevProps.model, this.props.model);
-    let { history, location } = this.props;
 
     let wasUnSelected = prevProps.model.isSelected && !this.props.model.isSelected;
     let isCurrentlySelected = prevProps.model.isSelected && this.props.model.isSelected;
 
     if (wasPending && needsUpdate && (wasUnSelected || isCurrentlySelected)) {
-      history.push({
-        pathname: `/eholdings/packages/${this.props.model.id}`,
-        search: location.search,
-        state: { eholdings: true, isFreshlySaved: true }
-      });
+      this.props.onSuccessfulSave();
     }
   }
 
@@ -142,8 +139,8 @@ class ManagedPackageEdit extends Component {
       proxyTypes,
       provider,
       intl,
-      location,
-      onCancel
+      onCancel,
+      hasFullViewLink
     } = this.props;
 
     let {
@@ -166,7 +163,7 @@ class ManagedPackageEdit extends Component {
       }
     ];
 
-    if (location.search) {
+    if (hasFullViewLink) {
       actionMenuItems.push({
         label: <FormattedMessage id="ui-eholdings.actionMenu.fullView" />,
         to: {

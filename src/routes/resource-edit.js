@@ -115,7 +115,15 @@ class ResourceEditRoute extends Component {
             search: location.search,
             state: { eholdings: true }
           })}
+          onSuccessfulSave={() => {
+            history.push({
+              pathname: `/eholdings/resources/${model.id}`,
+              search: location.search,
+              state: { eholdings: true, isFreshlySaved: true }
+            });
+          }}
           proxyTypes={proxyTypes}
+          hasFullViewLink={location.search}
         />
       </TitleManager>
     );

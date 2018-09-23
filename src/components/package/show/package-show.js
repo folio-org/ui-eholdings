@@ -36,7 +36,10 @@ class PackageShow extends Component {
     intl: intlShape.isRequired,
     toggleSelected: PropTypes.func.isRequired,
     addPackageToHoldings: PropTypes.func.isRequired,
-    searchModal: PropTypes.node
+    searchModal: PropTypes.node,
+    editLink: PropTypes.object.isRequired,
+    hasFullViewLink: PropTypes.bool,
+    isFreshlySaved: PropTypes.bool
   };
 
   state = {
@@ -109,8 +112,9 @@ class PackageShow extends Component {
       proxyTypes,
       provider,
       searchModal,
-      history,
-      location
+      editLink,
+      hasFullViewLink,
+      isFreshlySaved
     } = this.props;
 
     let {
@@ -142,15 +146,11 @@ class PackageShow extends Component {
     let actionMenuItems = [
       {
         label: <FormattedMessage id="ui-eholdings.actionMenu.edit" />,
-        to: {
-          pathname: `/eholdings/packages/${model.id}/edit`,
-          search: location.search,
-          state: { eholdings: true }
-        }
+        to: editLink
       }
     ];
 
-    if (location.search) {
+    if (hasFullViewLink) {
       actionMenuItems.push({
         label: <FormattedMessage id="ui-eholdings.actionMenu.fullView" />,
         to: {
@@ -206,9 +206,7 @@ class PackageShow extends Component {
     }
 
     // if coming from saving edits to the package, show a success toast
-    if (history.action === 'PUSH' &&
-        history.location.state &&
-        history.location.state.isFreshlySaved) {
+    if (isFreshlySaved) {
       toasts.push({
         id: `success-package-saved-${model.id}`,
         message: intl.formatMessage({ id: 'ui-eholdings.package.toast.isFreshlySaved' }),
@@ -233,11 +231,7 @@ class PackageShow extends Component {
               data-test-eholdings-package-edit-link
               icon="edit"
               ariaLabel={intl.formatMessage({ id: 'ui-eholdings.label.editLink' }, { name: model.name })}
-              to={{
-                pathname: `/eholdings/packages/${model.id}/edit`,
-                search: location.search,
-                state: { eholdings: true }
-              }}
+              to={editLink}
             />
           )}
           bodyContent={(
