@@ -31,7 +31,8 @@ class ResourceShow extends Component {
     toggleSelected: PropTypes.func.isRequired,
     intl: intlShape.isRequired,
     proxyTypes: PropTypes.object.isRequired,
-    history: PropTypes.object.isRequired
+    history: PropTypes.object.isRequired,
+    editLink: PropTypes.object.isRequired
   };
 
   state = {
@@ -85,7 +86,7 @@ class ResourceShow extends Component {
   }
 
   render() {
-    let { model, intl, proxyTypes, history } = this.props;
+    let { model, intl, proxyTypes, history, editLink } = this.props;
     let {
       showSelectionModal,
       resourceSelected,
@@ -114,10 +115,7 @@ class ResourceShow extends Component {
     let actionMenuItems = [
       {
         label: <FormattedMessage id="ui-eholdings.actionMenu.edit" />,
-        to: {
-          pathname: `/eholdings/resources/${model.id}/edit`,
-          state: { eholdings: true }
-        }
+        to: editLink
       }
     ];
 
@@ -168,10 +166,7 @@ class ResourceShow extends Component {
               data-test-eholdings-resource-edit-link
               icon="edit"
               ariaLabel={`Edit ${model.title.name}`}
-              to={{
-                pathname: `/eholdings/resources/${model.id}/edit`,
-                state: { eholdings: true }
-              }}
+              to={editLink}
             />
           )}
           bodyContent={(

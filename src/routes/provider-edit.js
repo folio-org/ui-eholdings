@@ -82,7 +82,12 @@ class ProviderEditRoute extends Component {
           }}
           proxyTypes={proxyTypes}
           rootProxy={rootProxy}
-          hasFullViewLink={location.search}
+          fullViewLink={location.search && {
+            to: {
+              pathname: `/eholdings/providers/${model.id}/edit`,
+              state: { eholdings: true }
+            }
+          }}
         />
       </TitleManager>
     );

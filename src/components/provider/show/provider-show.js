@@ -26,7 +26,7 @@ class ProviderShow extends Component {
      intl: intlShape.isRequired,
      listType: PropTypes.string.isRequired,
      editLink: PropTypes.object.isRequired,
-     hasFullViewLink: PropTypes.bool,
+     fullViewLink: PropTypes.object,
      isFreshlySaved: PropTypes.bool
    };
 
@@ -74,7 +74,7 @@ class ProviderShow extends Component {
       proxyTypes,
       rootProxy,
       editLink,
-      hasFullViewLink
+      fullViewLink
     } = this.props;
     let { sections } = this.state;
     let hasProxy = model.proxy && model.proxy.id;
@@ -88,13 +88,10 @@ class ProviderShow extends Component {
       }
     ];
 
-    if (hasFullViewLink) {
+    if (fullViewLink) {
       actionMenuItems.push({
         label: <FormattedMessage id="ui-eholdings.actionMenu.fullView" />,
-        to: {
-          pathname: `/eholdings/providers/${model.id}`,
-          state: { eholdings: true }
-        },
+        to: fullViewLink,
         className: styles['full-view-link']
       });
     }

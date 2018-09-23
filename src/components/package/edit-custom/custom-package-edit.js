@@ -38,7 +38,7 @@ class CustomPackageEdit extends Component {
     intl: intlShape.isRequired,
     addPackageToHoldings: PropTypes.func.isRequired,
     provider: PropTypes.object.isRequired,
-    hasFullViewLink: PropTypes.bool
+    fullViewLink: PropTypes.object
   };
 
   state = {
@@ -118,7 +118,7 @@ class CustomPackageEdit extends Component {
       provider,
       intl,
       onCancel,
-      hasFullViewLink
+      fullViewLink
     } = this.props;
 
     let {
@@ -136,13 +136,10 @@ class CustomPackageEdit extends Component {
       }
     ];
 
-    if (hasFullViewLink) {
+    if (fullViewLink) {
       actionMenuItems.push({
         label: intl.formatMessage({ id: 'ui-eholdings.actionMenu.fullView' }),
-        to: {
-          pathname: `/eholdings/packages/${model.id}/edit`,
-          state: { eholdings: true }
-        },
+        to: fullViewLink,
         className: styles['full-view-link']
       });
     }

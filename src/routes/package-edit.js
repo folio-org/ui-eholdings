@@ -188,7 +188,12 @@ class PackageEditRoute extends Component {
             state: { eholdings: true }
           })}
           addPackageToHoldings={this.addPackageToHoldings}
-          hasFullViewLink={location.search}
+          fullViewLink={location.search && {
+            to: {
+              pathname: `/eholdings/packages/${model.id}/edit`,
+              state: { eholdings: true }
+            }
+          }}
         />
       </TitleManager>
     );

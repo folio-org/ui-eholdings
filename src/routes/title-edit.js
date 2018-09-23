@@ -124,7 +124,12 @@ class TitleEditRoute extends Component {
             contributors: model.contributors,
             identifiers: this.mergeIdentifiers(model.identifiers)
           }}
-          hasFullViewLink={location.search}
+          fullViewLink={location.search && {
+            to: {
+              pathname: `/eholdings/titles/${model.id}/edit`,
+              state: { eholdings: true }
+            }
+          }}
         />
       </TitleManager>
     );

@@ -38,7 +38,7 @@ class PackageShow extends Component {
     addPackageToHoldings: PropTypes.func.isRequired,
     searchModal: PropTypes.node,
     editLink: PropTypes.object.isRequired,
-    hasFullViewLink: PropTypes.bool,
+    fullViewLink: PropTypes.object,
     isFreshlySaved: PropTypes.bool,
     isFreshlyCreated: PropTypes.bool,
     titleFreshlyDestroyed: PropTypes.bool
@@ -115,7 +115,7 @@ class PackageShow extends Component {
       provider,
       searchModal,
       editLink,
-      hasFullViewLink,
+      fullViewLink,
       isFreshlySaved,
       isFreshlyCreated,
       titleFreshlyDestroyed
@@ -154,13 +154,10 @@ class PackageShow extends Component {
       }
     ];
 
-    if (hasFullViewLink) {
+    if (fullViewLink) {
       actionMenuItems.push({
         label: <FormattedMessage id="ui-eholdings.actionMenu.fullView" />,
-        to: {
-          pathname: `/eholdings/packages/${model.id}`,
-          state: { eholdings: true }
-        },
+        to: fullViewLink,
         className: styles['full-view-link']
       });
     }

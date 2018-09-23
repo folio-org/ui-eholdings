@@ -79,12 +79,18 @@ class ResourceShowRoute extends Component {
   }
 
   render() {
+    const { model, proxyTypes } = this.props;
+
     return (
-      <TitleManager record={this.props.model.name}>
+      <TitleManager record={model.name}>
         <View
-          model={this.props.model}
-          proxyTypes={this.props.proxyTypes}
+          model={model}
+          proxyTypes={proxyTypes}
           toggleSelected={this.toggleSelected}
+          editLink={{
+            pathname: `/eholdings/resources/${model.id}/edit`,
+            state: { eholdings: true }
+          }}
         />
       </TitleManager>
     );

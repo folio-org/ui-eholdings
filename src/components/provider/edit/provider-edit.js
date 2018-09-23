@@ -26,7 +26,7 @@ class ProviderEdit extends Component {
     onCancel: PropTypes.func.isRequired,
     pristine: PropTypes.bool,
     intl: intlShape.isRequired,
-    hasFullViewLink: PropTypes.bool
+    fullViewLink: PropTypes.object
   };
 
   render() {
@@ -39,7 +39,7 @@ class ProviderEdit extends Component {
       onCancel,
       pristine,
       intl,
-      hasFullViewLink
+      fullViewLink
     } = this.props;
 
     let supportsTokens = model.providerToken && model.providerToken.prompt;
@@ -53,13 +53,10 @@ class ProviderEdit extends Component {
       }
     ];
 
-    if (hasFullViewLink) {
+    if (fullViewLink) {
       actionMenuItems.push({
         label: <FormattedMessage id="ui-eholdings.actionMenu.fullView" />,
-        to: {
-          pathname: `/eholdings/providers/${model.id}`,
-          state: { eholdings: true }
-        },
+        to: fullViewLink,
         className: styles['full-view-link']
       });
     }

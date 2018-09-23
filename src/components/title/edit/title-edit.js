@@ -31,7 +31,7 @@ class TitleEdit extends Component {
     pristine: PropTypes.bool,
     updateRequest: PropTypes.object.isRequired,
     intl: intlShape.isRequired,
-    hasFullViewLink: PropTypes.bool,
+    fullViewLink: PropTypes.object,
   };
 
   render() {
@@ -44,7 +44,7 @@ class TitleEdit extends Component {
       initialValues,
       intl,
       onCancel,
-      hasFullViewLink
+      fullViewLink
     } = this.props;
 
     let actionMenuItems = [
@@ -55,13 +55,10 @@ class TitleEdit extends Component {
       }
     ];
 
-    if (hasFullViewLink) {
+    if (fullViewLink) {
       actionMenuItems.push({
         label: <FormattedMessage id="ui-eholdings.actionMenu.fullView" />,
-        to: {
-          pathname: `/eholdings/titles/${model.id}`,
-          state: { eholdings: true }
-        },
+        to: fullViewLink,
         className: styles['full-view-link']
       });
     }

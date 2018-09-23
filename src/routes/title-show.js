@@ -19,7 +19,8 @@ class TitleShowRoute extends Component {
     getCustomPackages: PropTypes.func.isRequired,
     createResource: PropTypes.func.isRequired,
     createRequest: PropTypes.object.isRequired,
-    history: ReactRouterPropTypes.history.isRequired
+    history: ReactRouterPropTypes.history.isRequired,
+    location: ReactRouterPropTypes.location.isRequired
   };
 
   componentDidMount() {
@@ -58,7 +59,7 @@ class TitleShowRoute extends Component {
   };
 
   render() {
-    let { model, customPackages, createRequest } = this.props;
+    let { model, customPackages, createRequest, history, location } = this.props;
 
     return (
       <TitleManager record={this.props.model.name}>
@@ -67,6 +68,21 @@ class TitleShowRoute extends Component {
           model={model}
           customPackages={customPackages}
           addCustomPackage={this.createResource}
+          editLink={model.isTitleCustom && {
+            pathname: `/eholdings/titles/${model.id}/edit`,
+            search: location.search,
+            state: { eholdings: true }
+          }}
+          isFreshlySaved={
+            history.action === 'PUSH' &&
+            history.location.state &&
+            history.location.state.isFreshlySaved
+          }
+          isFreshlyCreated={
+            history.action === 'REPLACE' &&
+            history.location.state &&
+            history.location.state.isNewRecord
+          }
         />
       </TitleManager>
     );

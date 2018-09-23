@@ -129,7 +129,12 @@ class ResourceEditRoute extends Component {
             state: { eholdings: true }
           })}
           proxyTypes={proxyTypes}
-          hasFullViewLink={location.search}
+          fullViewLink={location.search && {
+            to: {
+              pathname: `/eholdings/resources/${model.id}/edit`,
+              state: { eholdings: true }
+            }
+          }}
         />
       </TitleManager>
     );

@@ -36,7 +36,7 @@ class ManagedPackageEdit extends Component {
     addPackageToHoldings: PropTypes.func.isRequired,
     proxyTypes: PropTypes.object.isRequired,
     provider: PropTypes.object.isRequired,
-    hasFullViewLink: PropTypes.bool
+    fullViewLink: PropTypes.object
   };
 
   state = {
@@ -126,7 +126,7 @@ class ManagedPackageEdit extends Component {
       provider,
       intl,
       onCancel,
-      hasFullViewLink
+      fullViewLink
     } = this.props;
 
     let {
@@ -149,13 +149,10 @@ class ManagedPackageEdit extends Component {
       }
     ];
 
-    if (hasFullViewLink) {
+    if (fullViewLink) {
       actionMenuItems.push({
         label: <FormattedMessage id="ui-eholdings.actionMenu.fullView" />,
-        to: {
-          pathname: `/eholdings/packages/${model.id}/edit`,
-          state: { eholdings: true }
-        },
+        to: fullViewLink,
         className: styles['full-view-link']
       });
     }
