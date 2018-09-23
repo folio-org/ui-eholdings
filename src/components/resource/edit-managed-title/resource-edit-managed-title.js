@@ -1,7 +1,9 @@
 import React, { Component, Fragment } from 'react';
 import PropTypes from 'prop-types';
+import ReactRouterPropTypes from 'react-router-prop-types';
 import { connect } from 'react-redux';
 import { formValueSelector, reduxForm } from 'redux-form';
+import isEqual from 'lodash/isEqual';
 import { intlShape, injectIntl, FormattedMessage } from 'react-intl';
 
 import {
@@ -29,6 +31,7 @@ class ResourceEditManagedTitle extends Component {
     change: PropTypes.func,
     customCoverageDateValues: PropTypes.array,
     handleSubmit: PropTypes.func,
+    history: ReactRouterPropTypes.history.isRequired,
     initialValues: PropTypes.object.isRequired,
     intl: intlShape.isRequired,
     model: PropTypes.object.isRequired,
@@ -43,6 +46,35 @@ class ResourceEditManagedTitle extends Component {
     showSelectionModal: false,
     allowFormToSubmit: false,
     formValues: {}
+  }
+
+  componentWillReceiveProps(nextProps) { // eslint-disable-line react/no-deprecated
+    let wasPending = this.props.model.update.isPending && !nextProps.model.update.isPending;
+    let needsUpdate = !isEqual(this.props.model, nextProps.model);
+
+    let wasUnSelected = this.props.model.isSelected && !nextProps.model.isSelected;
+    let isCurrentlySelected = this.props.model.isSelected && nextProps.model.isSelected;
+
+    if (nextProps.initialValues.isSelected !== this.state.managedResourceSelected) {
+      this.setState({
+        managedResourceSelected: nextProps.initialValues.isSelected,
+      });
+    }
+
+    if (nextProps.model.update.errors.length) {
+      this.setState({
+        showSelectionModal: false
+      });
+    }
+
+    if (wasUnSelected || isCurrentlySelected) {
+      if (wasPending && needsUpdate) {
+        this.props.history.push(
+          `/eholdings/resources/${this.props.model.id}`,
+          { eholdings: true, isFreshlySaved: true }
+        );
+      }
+    }
   }
 
   handleSelectionToggle = (e) => {

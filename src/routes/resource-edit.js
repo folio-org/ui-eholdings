@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import ReactRouterPropTypes from 'react-router-prop-types';
 import { connect } from 'react-redux';
-import isEqual from 'lodash/isEqual';
 import moment from 'moment';
 import { TitleManager } from '@folio/stripes-core';
 
@@ -35,28 +34,16 @@ class ResourceEditRoute extends Component {
 
   componentDidUpdate(prevProps) {
     let { packageName, packageId } = prevProps.model;
-    let { match, getResource, history, location, model } = this.props;
+    let { match, getResource, history } = this.props;
     let { id } = match.params;
 
-    if (!prevProps.model.destroy.isResolved && model.destroy.isResolved) {
+    if (!prevProps.model.destroy.isResolved && this.props.model.destroy.isResolved) {
       history.replace(`/eholdings/packages/${packageId}?searchType=packages&q=${packageName}`,
         { eholdings: true, isDestroyed: true });
     }
 
     if (id !== prevProps.match.params.id) {
       getResource(id);
-    }
-
-    let wasPending = prevProps.model.update.isPending && !model.update.isPending;
-    let needsUpdate = !isEqual(prevProps.model, model);
-    let isRejected = model.update.isRejected;
-
-    if (wasPending && needsUpdate && !isRejected) {
-      history.push({
-        pathname: `/eholdings/resources/${model.id}`,
-        search: location.search,
-        state: { eholdings: true, isFreshlySaved: true }
-      });
     }
   }
 
@@ -129,12 +116,7 @@ class ResourceEditRoute extends Component {
             state: { eholdings: true }
           })}
           proxyTypes={proxyTypes}
-          fullViewLink={location.search && {
-            to: {
-              pathname: `/eholdings/resources/${model.id}/edit`,
-              state: { eholdings: true }
-            }
-          }}
+          history={history}
         />
       </TitleManager>
     );

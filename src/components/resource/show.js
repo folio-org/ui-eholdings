@@ -27,7 +27,10 @@ import ProxyDisplay from '../proxy-display';
 
 class ResourceShow extends Component {
   static propTypes = {
-    editLink: PropTypes.object.isRequired,
+    editLink: PropTypes.oneOfType([
+      PropTypes.string,
+      PropTypes.object
+    ]).isRequired,
     intl: intlShape.isRequired,
     isFreshlySaved: PropTypes.bool,
     model: PropTypes.object.isRequired,
