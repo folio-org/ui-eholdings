@@ -108,6 +108,16 @@ class ProviderShowRoute extends Component {
             history.location.state &&
             history.location.state.isFreshlySaved
           }
+          titleFreshlyDestroyed={
+            history.action === 'REPLACE' &&
+            history.location.state &&
+            history.location.state.isDestroyed
+          }
+          isFreshlyCreated={
+            history.action === 'REPLACE' &&
+            history.location.state &&
+            history.location.state.isNewRecord
+          }
         />
       </TitleManager>
     );

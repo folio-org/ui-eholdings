@@ -39,7 +39,9 @@ class PackageShow extends Component {
     searchModal: PropTypes.node,
     editLink: PropTypes.object.isRequired,
     hasFullViewLink: PropTypes.bool,
-    isFreshlySaved: PropTypes.bool
+    isFreshlySaved: PropTypes.bool,
+    isFreshlyCreated: PropTypes.bool,
+    titleFreshlyDestroyed: PropTypes.bool
   };
 
   state = {
@@ -114,7 +116,9 @@ class PackageShow extends Component {
       searchModal,
       editLink,
       hasFullViewLink,
-      isFreshlySaved
+      isFreshlySaved,
+      isFreshlyCreated,
+      titleFreshlyDestroyed
     } = this.props;
 
     let {
@@ -183,9 +187,7 @@ class PackageShow extends Component {
     let toasts = processErrors(model);
 
     // if coming from creating a new custom package, show a success toast
-    if (history.action === 'REPLACE' &&
-        history.location.state &&
-        history.location.state.isNewRecord) {
+    if (isFreshlyCreated) {
       toasts.push({
         id: `success-package-creation-${model.id}`,
         message: intl.formatMessage({ id: 'ui-eholdings.package.toast.isNewRecord' }),
@@ -195,9 +197,7 @@ class PackageShow extends Component {
 
     // if coming from destroying a custom or managed title
     // from within custom-package, show a success toast
-    if (history.action === 'REPLACE' &&
-        history.location.state &&
-        history.location.state.isDestroyed) {
+    if (titleFreshlyDestroyed) {
       toasts.push({
         id: `success-resource-destruction-${model.id}`,
         message: intl.formatMessage({ id: 'ui-eholdings.package.toast.isDestroyed' }),
