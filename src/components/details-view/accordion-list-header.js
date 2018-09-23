@@ -22,9 +22,9 @@ function AccordionListHeader(props) {
 }
 
 AccordionListHeader.propTypes = {
-  resultsLength: PropTypes.number,
+  intl: intlShape.isRequired,
   open: PropTypes.bool,
-  intl: intlShape.isRequired
+  resultsLength: PropTypes.number
 };
 
 export default injectIntl(AccordionListHeader);

@@ -17,14 +17,14 @@ import styles from './provider-show.css';
 
 class ProviderShow extends Component {
    static propTypes = {
-     proxyTypes: PropTypes.object.isRequired,
-     rootProxy: PropTypes.object.isRequired,
+     fetchPackages: PropTypes.func.isRequired,
+     intl: intlShape.isRequired,
+     listType: PropTypes.string.isRequired,
      model: PropTypes.object.isRequired,
      packages: PropTypes.object.isRequired,
-     fetchPackages: PropTypes.func.isRequired,
-     searchModal: PropTypes.node,
-     intl: intlShape.isRequired,
-     listType: PropTypes.string.isRequired
+     proxyTypes: PropTypes.object.isRequired,
+     rootProxy: PropTypes.object.isRequired,
+     searchModal: PropTypes.node
    };
 
   static contextTypes = {

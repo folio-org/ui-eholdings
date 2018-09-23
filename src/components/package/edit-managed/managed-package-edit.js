@@ -26,16 +26,16 @@ import styles from './managed-package-edit.css';
 
 class ManagedPackageEdit extends Component {
   static propTypes = {
+    addPackageToHoldings: PropTypes.func.isRequired,
     change: PropTypes.func,
-    model: PropTypes.object.isRequired,
-    initialValues: PropTypes.object.isRequired,
     handleSubmit: PropTypes.func,
+    initialValues: PropTypes.object.isRequired,
+    intl: intlShape.isRequired,
+    model: PropTypes.object.isRequired,
     onSubmit: PropTypes.func.isRequired,
     pristine: PropTypes.bool,
-    intl: intlShape.isRequired,
-    addPackageToHoldings: PropTypes.func.isRequired,
-    proxyTypes: PropTypes.object.isRequired,
-    provider: PropTypes.object.isRequired
+    provider: PropTypes.object.isRequired,
+    proxyTypes: PropTypes.object.isRequired
   };
 
   static contextTypes = {

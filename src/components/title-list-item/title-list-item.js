@@ -82,16 +82,16 @@ function TitleListItem({
 }
 
 TitleListItem.propTypes = {
+  active: PropTypes.bool,
+  headingLevel: PropTypes.string,
   item: PropTypes.object,
   link: PropTypes.oneOfType([
     PropTypes.string,
     PropTypes.object
   ]),
-  active: PropTypes.bool,
-  showSelected: PropTypes.bool,
-  showPublisherAndType: PropTypes.bool,
   onClick: PropTypes.func,
-  headingLevel: PropTypes.string
+  showPublisherAndType: PropTypes.bool,
+  showSelected: PropTypes.bool
 };
 
 // this HOC adds a prop, `shouldFocus` that will focus the component's

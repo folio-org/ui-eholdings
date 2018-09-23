@@ -32,35 +32,35 @@ const cx = classNames.bind(styles);
  */
 class DetailsView extends Component {
   static propTypes = {
-    type: PropTypes.string.isRequired,
+    actionMenuItems: PropTypes.array,
+    bodyContent: PropTypes.node.isRequired,
+    handleExpandAll: PropTypes.func,
+    intl: intlShape.isRequired,
+    lastMenu: PropTypes.node,
+    listSectionId: PropTypes.string,
+    listType: PropTypes.node,
     model: PropTypes.shape({
-      name: PropTypes.string.isRequired,
       isLoaded: PropTypes.bool.isRequired,
       isLoading: PropTypes.bool.isRequired,
+      name: PropTypes.string.isRequired,
       request: PropTypes.object.isRequired
     }).isRequired,
-    paneTitle: PropTypes.oneOfType([
-      PropTypes.string,
-      PropTypes.element,
-      PropTypes.node
-    ]),
+    onListToggle: PropTypes.func,
     paneSub: PropTypes.oneOfType([
       PropTypes.string,
       PropTypes.element,
       PropTypes.node
     ]),
-    bodyContent: PropTypes.node.isRequired,
+    paneTitle: PropTypes.oneOfType([
+      PropTypes.string,
+      PropTypes.element,
+      PropTypes.node
+    ]),
     renderList: PropTypes.func,
-    actionMenuItems: PropTypes.array,
-    lastMenu: PropTypes.node,
     resultsLength: PropTypes.number,
     searchModal: PropTypes.node,
     sections: PropTypes.object,
-    handleExpandAll: PropTypes.func,
-    listType: PropTypes.node,
-    listSectionId: PropTypes.string,
-    onListToggle: PropTypes.func,
-    intl: intlShape.isRequired
+    type: PropTypes.string.isRequired
   };
 
   static contextTypes = {

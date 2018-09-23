@@ -10,17 +10,17 @@ import { ProxyType } from '../redux/application';
 
 class ResourceShowRoute extends Component {
   static propTypes = {
+    destroyResource: PropTypes.func.isRequired,
+    getProxyTypes: PropTypes.func.isRequired,
+    getResource: PropTypes.func.isRequired,
     match: PropTypes.shape({
       params: PropTypes.shape({
         id: PropTypes.string.isRequired
       }).isRequired
     }).isRequired,
     model: PropTypes.object.isRequired,
-    getResource: PropTypes.func.isRequired,
-    updateResource: PropTypes.func.isRequired,
-    destroyResource: PropTypes.func.isRequired,
-    getProxyTypes: PropTypes.func.isRequired,
     proxyTypes: PropTypes.object.isRequired,
+    updateResource: PropTypes.func.isRequired,
   };
 
   static contextTypes = {

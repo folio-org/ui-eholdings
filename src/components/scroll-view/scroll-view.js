@@ -14,17 +14,17 @@ export default class ScrollView extends Component {
   }
 
   static propTypes = {
+    children: PropTypes.func.isRequired,
+    fullWidth: PropTypes.bool,
+    itemHeight: PropTypes.number.isRequired,
     items: PropTypes.shape({
       length: PropTypes.number.isRequired,
       slice: PropTypes.func.isRequired
     }).isRequired,
     length: PropTypes.number,
     offset: PropTypes.number,
-    scrollable: PropTypes.bool,
-    itemHeight: PropTypes.number.isRequired,
     onUpdate: PropTypes.func,
-    children: PropTypes.func.isRequired,
-    fullWidth: PropTypes.bool
+    scrollable: PropTypes.bool
   };
 
   static defaultProps = {

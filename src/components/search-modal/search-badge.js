@@ -19,6 +19,6 @@ export default function SearchBadge({ filterCount = 0, onClick, ...rest }) {
 }
 
 SearchBadge.propTypes = {
-  onClick: PropTypes.func.isRequired,
   filterCount: PropTypes.number,
+  onClick: PropTypes.func.isRequired,
 };

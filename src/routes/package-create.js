@@ -11,8 +11,8 @@ import View from '../components/package/create';
 
 class PackageCreateRoute extends Component {
   static propTypes = {
-    createRequest: PropTypes.object.isRequired,
-    createPackage: PropTypes.func.isRequired
+    createPackage: PropTypes.func.isRequired,
+    createRequest: PropTypes.object.isRequired
   };
 
   static contextTypes = {

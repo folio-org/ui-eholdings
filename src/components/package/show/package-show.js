@@ -29,14 +29,14 @@ import styles from './package-show.css';
 
 class PackageShow extends Component {
   static propTypes = {
-    model: PropTypes.object.isRequired,
-    proxyTypes: PropTypes.object.isRequired,
-    provider: PropTypes.object.isRequired,
+    addPackageToHoldings: PropTypes.func.isRequired,
     fetchPackageTitles: PropTypes.func.isRequired,
     intl: intlShape.isRequired,
-    toggleSelected: PropTypes.func.isRequired,
-    addPackageToHoldings: PropTypes.func.isRequired,
-    searchModal: PropTypes.node
+    model: PropTypes.object.isRequired,
+    provider: PropTypes.object.isRequired,
+    proxyTypes: PropTypes.object.isRequired,
+    searchModal: PropTypes.node,
+    toggleSelected: PropTypes.func.isRequired
   };
 
   static contextTypes = {

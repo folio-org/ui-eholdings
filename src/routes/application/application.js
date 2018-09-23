@@ -12,11 +12,11 @@ import styles from './application.css';
 
 class ApplicationRoute extends Component {
   static propTypes = {
-    showSettings: PropTypes.bool,
     children: PropTypes.node.isRequired,
+    getBackendStatus: PropTypes.func.isRequired,
     interfaces: PropTypes.object,
-    status: PropTypes.object.isRequired,
-    getBackendStatus: PropTypes.func.isRequired
+    showSettings: PropTypes.bool,
+    status: PropTypes.object.isRequired
   }
 
   constructor(props) {

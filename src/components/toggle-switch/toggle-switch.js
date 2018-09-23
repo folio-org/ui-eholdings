@@ -7,13 +7,13 @@ const cx = classNames.bind(styles);
 
 export default class ToggleSwitch extends Component {
   static propTypes = {
-    input: PropTypes.object,
-    onChange: PropTypes.func,
-    name: PropTypes.string,
-    id: PropTypes.string,
-    disabled: PropTypes.bool,
     checked: PropTypes.bool,
-    isPending: PropTypes.bool
+    disabled: PropTypes.bool,
+    id: PropTypes.string,
+    input: PropTypes.object,
+    isPending: PropTypes.bool,
+    name: PropTypes.string,
+    onChange: PropTypes.func
   }
 
   state = {

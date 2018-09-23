@@ -11,15 +11,15 @@ import View from '../components/title/edit';
 
 class TitleEditRoute extends Component {
   static propTypes = {
+    getTitle: PropTypes.func.isRequired,
     match: PropTypes.shape({
       params: PropTypes.shape({
         titleId: PropTypes.string.isRequired
       }).isRequired
     }).isRequired,
     model: PropTypes.object.isRequired,
-    getTitle: PropTypes.func.isRequired,
-    updateResource: PropTypes.func.isRequired,
-    updateRequest: PropTypes.object
+    updateRequest: PropTypes.object,
+    updateResource: PropTypes.func.isRequired
   };
 
   static contextTypes = {

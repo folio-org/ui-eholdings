@@ -15,14 +15,14 @@ import styles from './settings-root-proxy.css';
 
 class SettingsRootProxy extends Component {
   static propTypes = {
-    proxyTypes: PropTypes.object.isRequired,
-    rootProxy: PropTypes.object.isRequired,
     handleSubmit: PropTypes.func,
+    intl: intlShape.isRequired,
+    invalid: PropTypes.bool,
     onSubmit: PropTypes.func.isRequired,
     pristine: PropTypes.bool,
+    proxyTypes: PropTypes.object.isRequired,
     reset: PropTypes.func,
-    intl: intlShape.isRequired,
-    invalid: PropTypes.bool
+    rootProxy: PropTypes.object.isRequired
   };
 
   static contextTypes = {

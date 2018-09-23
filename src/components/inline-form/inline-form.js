@@ -6,11 +6,11 @@ import styles from './inline-form.css';
 
 export default class InlineForm extends Component {
   static propTypes = {
-    onSubmit: PropTypes.func.isRequired,
-    onCancel: PropTypes.func.isRequired,
-    pristine: PropTypes.bool.isRequired,
+    children: PropTypes.node.isRequired,
     isPending: PropTypes.bool.isRequired,
-    children: PropTypes.node.isRequired
+    onCancel: PropTypes.func.isRequired,
+    onSubmit: PropTypes.func.isRequired,
+    pristine: PropTypes.bool.isRequired
   }
 
   render() {

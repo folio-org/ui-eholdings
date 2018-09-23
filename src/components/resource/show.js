@@ -27,10 +27,10 @@ import ProxyDisplay from '../proxy-display';
 
 class ResourceShow extends Component {
   static propTypes = {
+    intl: intlShape.isRequired,
     model: PropTypes.object.isRequired,
-    toggleSelected: PropTypes.func.isRequired,
-    intl: intlShape.isRequired, // eslint-disable-line react/no-unused-prop-types
-    proxyTypes: PropTypes.object.isRequired
+    proxyTypes: PropTypes.object.isRequired,
+    toggleSelected: PropTypes.func.isRequired
   };
 
   static contextTypes = {

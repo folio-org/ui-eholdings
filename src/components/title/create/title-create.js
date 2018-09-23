@@ -26,12 +26,12 @@ import styles from './title-create.css';
 
 class TitleCreate extends Component {
   static propTypes = {
-    request: PropTypes.object.isRequired,
     customPackages: PropTypes.object.isRequired,
     handleSubmit: PropTypes.func.isRequired,
+    intl: intlShape.isRequired,
     onSubmit: PropTypes.func.isRequired,
     pristine: PropTypes.bool.isRequired,
-    intl: intlShape.isRequired
+    request: PropTypes.object.isRequired
   };
 
   static contextTypes = {

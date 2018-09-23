@@ -21,19 +21,19 @@ class Toast extends Component {
     animationPosition: PropTypes.string,
 
     // the type of toast: warn, error, or success
-    type: PropTypes.oneOf(['warn', 'error', 'success']),
-
-    // the error message is a child of the `Toast` component
     children: PropTypes.node.isRequired,
 
-    // to pick the specific toast out when calling `onClose`
+    // the error message is a child of the `Toast` component
     id: PropTypes.string.isRequired,
 
-    // called when the toast is closed
+    // to pick the specific toast out when calling `onClose`
     onClose: PropTypes.func.isRequired,
 
+    // called when the toast is closed
+    timeout: PropTypes.number,
+
     // change the amount of time the toast is displayed for
-    timeout: PropTypes.number
+    type: PropTypes.oneOf(['warn', 'error', 'success'])
   };
 
   static defaultProps = {

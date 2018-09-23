@@ -11,18 +11,18 @@ import View from '../components/provider/edit';
 
 class ProviderEditRoute extends Component {
   static propTypes = {
+    getProvider: PropTypes.func.isRequired,
+    getProxyTypes: PropTypes.func.isRequired,
+    getRootProxy: PropTypes.func.isRequired,
     match: PropTypes.shape({
       params: PropTypes.shape({
         providerId: PropTypes.string.isRequired
       }).isRequired
     }).isRequired,
     model: PropTypes.object.isRequired,
-    getProxyTypes: PropTypes.func.isRequired,
-    getRootProxy: PropTypes.func.isRequired,
-    getProvider: PropTypes.func.isRequired,
-    updateProvider: PropTypes.func.isRequired,
     proxyTypes: PropTypes.object.isRequired,
-    rootProxy: PropTypes.object.isRequired
+    rootProxy: PropTypes.object.isRequired,
+    updateProvider: PropTypes.func.isRequired
   };
 
   static contextTypes = {

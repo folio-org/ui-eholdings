@@ -11,8 +11,8 @@ import styles from './token-field.css';
 
 class TokenField extends Component {
   static propTypes = {
-    tokenValue: PropTypes.string,
     token: PropTypes.object,
+    tokenValue: PropTypes.string,
     type: PropTypes.string
   };
 

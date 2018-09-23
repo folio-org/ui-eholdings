@@ -17,28 +17,28 @@ const validSearchTypes = ['providers', 'packages', 'titles'];
 
 class SearchForm extends Component {
   static propTypes = {
-    searchType: PropTypes.oneOf(validSearchTypes).isRequired,
-    searchTypeUrls: PropTypes.shape({
-      providers: PropTypes.string.isRequired,
-      packages: PropTypes.string.isRequired,
-      titles: PropTypes.string.isRequired
-    }),
+    displaySearchButton: PropTypes.bool,
+    displaySearchTypeSwitcher: PropTypes.bool,
+    intl: intlShape.isRequired,
+    isLoading: PropTypes.bool,
+    onFilterChange: PropTypes.func.isRequired,
     onSearch: PropTypes.func.isRequired,
-    searchString: PropTypes.string,
+    onSearchChange: PropTypes.func.isRequired,
+    onSearchFieldChange: PropTypes.func,
     searchField: PropTypes.string,
     searchFilter: PropTypes.shape({
-      q: PropTypes.string,
       filter: PropTypes.object,
+      q: PropTypes.string,
       searchfield: PropTypes.string,
     }),
-    sort: PropTypes.string,
-    displaySearchTypeSwitcher: PropTypes.bool,
-    displaySearchButton: PropTypes.bool,
-    isLoading: PropTypes.bool,
-    onSearchChange: PropTypes.func.isRequired,
-    onFilterChange: PropTypes.func.isRequired,
-    onSearchFieldChange: PropTypes.func,
-    intl: intlShape.isRequired
+    searchString: PropTypes.string,
+    searchType: PropTypes.oneOf(validSearchTypes).isRequired,
+    searchTypeUrls: PropTypes.shape({
+      packages: PropTypes.string.isRequired,
+      providers: PropTypes.string.isRequired,
+      titles: PropTypes.string.isRequired
+    }),
+    sort: PropTypes.string
   };
 
   static defaultProps = {

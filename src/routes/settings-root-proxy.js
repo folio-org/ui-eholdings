@@ -9,10 +9,10 @@ import View from '../components/settings-root-proxy';
 
 class SettingsRootProxyRoute extends Component {
   static propTypes = {
-    proxyTypes: PropTypes.object.isRequired,
-    rootProxy: PropTypes.object.isRequired,
     getProxyTypes: PropTypes.func.isRequired,
     getRootProxy: PropTypes.func.isRequired,
+    proxyTypes: PropTypes.object.isRequired,
+    rootProxy: PropTypes.object.isRequired,
     updateRootProxy: PropTypes.func.isRequired
   };
 

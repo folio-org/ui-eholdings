@@ -20,25 +20,25 @@ import { filterCountFromQuery } from '../components/search-modal/search-modal';
 
 class SearchRoute extends Component {
   static propTypes = {
+    children: PropTypes.node.isRequired,
+    history: PropTypes.shape({
+      location: PropTypes.object,
+      push: PropTypes.func.isRequired,
+      replace: PropTypes.func.isRequired
+    }).isRequired,
     location: PropTypes.shape({
       pathname: PropTypes.string.isRequired,
       search: PropTypes.string.isRequired
-    }).isRequired,
-    history: PropTypes.shape({
-      push: PropTypes.func.isRequired,
-      replace: PropTypes.func.isRequired,
-      location: PropTypes.object
     }).isRequired,
     match: PropTypes.shape({
       params: PropTypes.shape({
         id: PropTypes.string
       }).isRequired
     }).isRequired,
-    searchProviders: PropTypes.func.isRequired,
-    searchPackages: PropTypes.func.isRequired,
-    searchTitles: PropTypes.func.isRequired,
     resolver: PropTypes.object.isRequired,
-    children: PropTypes.node.isRequired
+    searchPackages: PropTypes.func.isRequired,
+    searchProviders: PropTypes.func.isRequired,
+    searchTitles: PropTypes.func.isRequired
   };
 
   static childContextTypes = {

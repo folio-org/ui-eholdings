@@ -27,15 +27,15 @@ import ProxySelectField from '../../proxy-select';
 
 class ResourceEditManagedTitle extends Component {
   static propTypes = {
-    proxyTypes: PropTypes.object.isRequired,
-    model: PropTypes.object.isRequired,
-    initialValues: PropTypes.object.isRequired,
+    change: PropTypes.func,
+    customCoverageDateValues: PropTypes.array,
     handleSubmit: PropTypes.func,
+    initialValues: PropTypes.object.isRequired,
+    intl: intlShape.isRequired,
+    model: PropTypes.object.isRequired,
     onSubmit: PropTypes.func.isRequired,
     pristine: PropTypes.bool,
-    change: PropTypes.func,
-    intl: intlShape.isRequired,
-    customCoverageDateValues: PropTypes.array
+    proxyTypes: PropTypes.object.isRequired
   };
 
   static contextTypes = {
