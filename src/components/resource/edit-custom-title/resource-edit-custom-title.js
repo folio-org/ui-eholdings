@@ -2,7 +2,6 @@ import React, { Component, Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { formValueSelector, reduxForm } from 'redux-form';
-import isEqual from 'lodash/isEqual';
 import { intlShape, injectIntl, FormattedMessage } from 'react-intl';
 
 import {
@@ -36,8 +35,7 @@ class ResourceEditCustomTitle extends Component {
     change: PropTypes.func,
     intl: intlShape.isRequired,
     customCoverageDateValues: PropTypes.array,
-    proxyTypes: PropTypes.object.isRequired,
-    onSuccessfulSave: PropTypes.func.isRequired
+    proxyTypes: PropTypes.object.isRequired
   };
 
   state = {
@@ -68,15 +66,6 @@ class ResourceEditCustomTitle extends Component {
       };
     }
     return prevState;
-  }
-
-  componentDidUpdate(prevProps) {
-    let wasPending = prevProps.model.update.isPending && !this.props.model.update.isPending;
-    let needsUpdate = !isEqual(prevProps.model, this.props.model);
-
-    if (wasPending && needsUpdate) {
-      this.props.onSuccessfulSave();
-    }
   }
 
   handleRemoveResourceFromHoldings = () => {

@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import ReactRouterPropTypes from 'react-router-prop-types';
 import { connect } from 'react-redux';
+import isEqual from 'lodash/isEqual';
 import { TitleManager } from '@folio/stripes-core';
 
 import { createResolver } from '../redux';
@@ -29,7 +30,7 @@ class TitleEditRoute extends Component {
   }
 
   componentDidUpdate(prevProps) {
-    let { match, getTitle } = this.props;
+    let { match, getTitle, history, location, model } = this.props;
     let { titleId } = match.params;
 
     if (!prevProps.updateRequest.isResolved && this.props.updateRequest.isResolved) {
@@ -41,6 +42,18 @@ class TitleEditRoute extends Component {
 
     if (titleId !== prevProps.match.params.titleId) {
       getTitle(titleId);
+    }
+
+    let wasPending = prevProps.model.update.isPending && !model.update.isPending;
+    let needsUpdate = !isEqual(prevProps.model, model);
+    let isRejected = model.update.isRejected;
+
+    if (wasPending && needsUpdate && !isRejected) {
+      history.push({
+        pathname: `/eholdings/titles/${model.id}`,
+        search: location.search,
+        state: { eholdings: true, isFreshlySaved: true }
+      });
     }
   }
 
@@ -110,13 +123,6 @@ class TitleEditRoute extends Component {
             description: model.description,
             contributors: model.contributors,
             identifiers: this.mergeIdentifiers(model.identifiers)
-          }}
-          onSuccessfulSave={() => {
-            history.push({
-              pathname: `/eholdings/titles/${model.id}`,
-              search: location.search,
-              state: { eholdings: true, isFreshlySaved: true }
-            });
           }}
           hasFullViewLink={location.search}
         />

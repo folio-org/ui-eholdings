@@ -1,7 +1,6 @@
 import React, { Component, Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { reduxForm, Field } from 'redux-form';
-import isEqual from 'lodash/isEqual';
 import { intlShape, injectIntl, FormattedMessage } from 'react-intl';
 
 import {
@@ -39,8 +38,7 @@ class CustomPackageEdit extends Component {
     intl: intlShape.isRequired,
     addPackageToHoldings: PropTypes.func.isRequired,
     provider: PropTypes.object.isRequired,
-    hasFullViewLink: PropTypes.bool,
-    onSuccessfulSave: PropTypes.func.isRequired
+    hasFullViewLink: PropTypes.bool
   };
 
   state = {
@@ -69,15 +67,6 @@ class CustomPackageEdit extends Component {
       };
     }
     return prevState;
-  }
-
-  componentDidUpdate(prevProps) {
-    let wasPending = prevProps.model.update.isPending && !this.props.model.update.isPending;
-    let needsUpdate = !isEqual(prevProps.model, this.props.model);
-
-    if (wasPending && needsUpdate) {
-      this.props.onSuccessfulSave();
-    }
   }
 
   handleDeleteAction = () => {

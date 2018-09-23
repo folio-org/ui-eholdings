@@ -1,7 +1,6 @@
 import React, { Component, Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { reduxForm } from 'redux-form';
-import isEqual from 'lodash/isEqual';
 import { injectIntl, intlShape, FormattedMessage } from 'react-intl';
 import {
   Icon
@@ -27,20 +26,8 @@ class ProviderEdit extends Component {
     onCancel: PropTypes.func.isRequired,
     pristine: PropTypes.bool,
     intl: intlShape.isRequired,
-    onSuccessfulSave: PropTypes.func.isRequired,
     hasFullViewLink: PropTypes.bool
   };
-
-  componentDidUpdate(prevProps) {
-    let wasPending = prevProps.model.update.isPending && !this.props.model.update.isPending;
-    let needsUpdate = !isEqual(prevProps.model, this.props.model);
-    let isRejected = this.props.model.update.isRejected;
-    let { onSuccessfulSave } = this.props;
-
-    if (wasPending && needsUpdate && !isRejected) {
-      onSuccessfulSave();
-    }
-  }
 
   render() {
     let {

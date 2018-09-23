@@ -1,7 +1,6 @@
 import React, { Component, Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { reduxForm, Field } from 'redux-form';
-import isEqual from 'lodash/isEqual';
 import { intlShape, injectIntl, FormattedMessage } from 'react-intl';
 
 import {
@@ -37,8 +36,7 @@ class ManagedPackageEdit extends Component {
     addPackageToHoldings: PropTypes.func.isRequired,
     proxyTypes: PropTypes.object.isRequired,
     provider: PropTypes.object.isRequired,
-    hasFullViewLink: PropTypes.bool,
-    onSuccessfulSave: PropTypes.func.isRequired
+    hasFullViewLink: PropTypes.bool
   };
 
   state = {
@@ -67,18 +65,6 @@ class ManagedPackageEdit extends Component {
       };
     }
     return prevState;
-  }
-
-  componentDidUpdate(prevProps) {
-    let wasPending = prevProps.model.update.isPending && !this.props.model.update.isPending;
-    let needsUpdate = !isEqual(prevProps.model, this.props.model);
-
-    let wasUnSelected = prevProps.model.isSelected && !this.props.model.isSelected;
-    let isCurrentlySelected = prevProps.model.isSelected && this.props.model.isSelected;
-
-    if (wasPending && needsUpdate && (wasUnSelected || isCurrentlySelected)) {
-      this.props.onSuccessfulSave();
-    }
   }
 
   handleSelectionAction = () => {

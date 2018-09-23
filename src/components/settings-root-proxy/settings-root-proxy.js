@@ -2,9 +2,7 @@ import React, { Component, Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { reduxForm } from 'redux-form';
 import { Icon } from '@folio/stripes-components';
-import isEqual from 'lodash/isEqual';
 import { intlShape, injectIntl, FormattedMessage } from 'react-intl';
-
 
 import SettingsDetailPane from '../settings-detail-pane';
 import { processErrors } from '../utilities';
@@ -23,20 +21,8 @@ class SettingsRootProxy extends Component {
     reset: PropTypes.func,
     intl: intlShape.isRequired,
     invalid: PropTypes.bool,
-    onSuccessfulSave: PropTypes.func.isRequired,
     isFreshlySaved: PropTypes.bool
   };
-
-  componentDidUpdate(prevProps) {
-    let wasPending = prevProps.rootProxy.update.isPending && !this.props.rootProxy.update.isPending;
-    let needsUpdate = !isEqual(prevProps.rootProxy, this.props.rootProxy);
-    let isRejected = this.props.rootProxy.update.isRejected;
-    const { onSuccessfulSave } = this.props;
-
-    if (wasPending && needsUpdate && !isRejected) {
-      onSuccessfulSave();
-    }
-  }
 
   render() {
     let {

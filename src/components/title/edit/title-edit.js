@@ -1,7 +1,6 @@
 import React, { Component, Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { reduxForm } from 'redux-form';
-import isEqual from 'lodash/isEqual';
 
 import {
   Icon
@@ -33,17 +32,7 @@ class TitleEdit extends Component {
     updateRequest: PropTypes.object.isRequired,
     intl: intlShape.isRequired,
     hasFullViewLink: PropTypes.bool,
-    onSuccessfulSave: PropTypes.func.isRequired
   };
-
-  componentDidUpdate(prevProps) {
-    let wasPending = prevProps.model.update.isPending && !this.props.model.update.isPending;
-    let needsUpdate = !isEqual(prevProps.initialValues, this.props.initialValues);
-
-    if (wasPending && needsUpdate) {
-      this.props.onSuccessfulSave();
-    }
-  }
 
   render() {
     let {
