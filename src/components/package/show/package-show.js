@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { withRouter } from 'react-router';
 import update from 'lodash/fp/update';
 import set from 'lodash/fp/set';
 
@@ -37,9 +36,7 @@ class PackageShow extends Component {
     intl: intlShape.isRequired,
     toggleSelected: PropTypes.func.isRequired,
     addPackageToHoldings: PropTypes.func.isRequired,
-    searchModal: PropTypes.node,
-    history: PropTypes.object.isRequired,
-    location: PropTypes.object.isRequired
+    searchModal: PropTypes.node
   };
 
   state = {
@@ -475,4 +472,4 @@ class PackageShow extends Component {
   }
 }
 
-export default injectIntl(withRouter(PackageShow));
+export default injectIntl(PackageShow);

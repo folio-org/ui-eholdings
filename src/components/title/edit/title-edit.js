@@ -1,6 +1,5 @@
 import React, { Component, Fragment } from 'react';
 import PropTypes from 'prop-types';
-import { withRouter } from 'react-router';
 import { reduxForm } from 'redux-form';
 import isEqual from 'lodash/isEqual';
 
@@ -29,13 +28,10 @@ class TitleEdit extends Component {
     initialValues: PropTypes.object.isRequired,
     handleSubmit: PropTypes.func,
     onSubmit: PropTypes.func.isRequired,
+    onCancel: PropTypes.func.isRequired,
     pristine: PropTypes.bool,
     updateRequest: PropTypes.object.isRequired,
-    intl: intlShape.isRequired,
-    history: PropTypes.shape({
-      push: PropTypes.func.isRequired
-    }).isRequired,
-    location: PropTypes.object.isRequired
+    intl: intlShape.isRequired
   };
 
   componentDidUpdate(prevProps) {
@@ -71,17 +67,14 @@ class TitleEdit extends Component {
       updateRequest,
       initialValues,
       intl,
-      location
+      location,
+      onCancel
     } = this.props;
 
     let actionMenuItems = [
       {
         'label': <FormattedMessage id="ui-eholdings.actionMenu.cancelEditing" />,
-        'to': {
-          pathname: `/eholdings/titles/${model.id}`,
-          search: location.search,
-          state: { eholdings: true }
-        },
+        'onClick': onCancel,
         'data-test-eholdings-title-cancel-action': true
       }
     ];
@@ -176,9 +169,9 @@ const validate = (values, props) => {
     validateDescription(values, props));
 };
 
-export default injectIntl(withRouter(reduxForm({
+export default injectIntl(reduxForm({
   validate,
   enableReinitialize: true,
   form: 'TitleEdit',
   destroyOnUnmount: false,
-})(TitleEdit)));
+})(TitleEdit));

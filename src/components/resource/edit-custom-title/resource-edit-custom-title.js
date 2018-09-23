@@ -1,6 +1,5 @@
 import React, { Component, Fragment } from 'react';
 import PropTypes from 'prop-types';
-import { withRouter } from 'react-router';
 import { connect } from 'react-redux';
 import { formValueSelector, reduxForm } from 'redux-form';
 import isEqual from 'lodash/isEqual';
@@ -32,14 +31,12 @@ class ResourceEditCustomTitle extends Component {
     initialValues: PropTypes.object.isRequired,
     handleSubmit: PropTypes.func,
     onSubmit: PropTypes.func.isRequired,
+    onCancel: PropTypes.func.isRequired,
     pristine: PropTypes.bool,
     change: PropTypes.func,
     intl: intlShape.isRequired,
     customCoverageDateValues: PropTypes.array,
-    proxyTypes: PropTypes.object.isRequired,
-    history: PropTypes.shape({
-      push: PropTypes.func.isRequired
-    }).isRequired
+    proxyTypes: PropTypes.object.isRequired
   };
 
   state = {
@@ -161,7 +158,8 @@ class ResourceEditCustomTitle extends Component {
       handleSubmit,
       pristine,
       intl,
-      change
+      change,
+      onCancel
     } = this.props;
 
     let {
@@ -176,10 +174,7 @@ class ResourceEditCustomTitle extends Component {
     let actionMenuItems = [
       {
         'label': <FormattedMessage id="ui-eholdings.actionMenu.cancelEditing" />,
-        'to': {
-          pathname: `/eholdings/resources/${model.id}`,
-          state: { eholdings: true },
-        },
+        'onClick': onCancel,
         'data-test-eholdings-resource-cancel-action': true
       }
     ];
@@ -367,7 +362,7 @@ const validate = (values, props) => {
 
 const selector = formValueSelector('ResourceEditCustomTitle');
 
-export default injectIntl(withRouter(
+export default injectIntl(
   connect(state => ({
     customCoverageDateValues: selector(state, 'customCoverages')
   }))(
@@ -378,4 +373,4 @@ export default injectIntl(withRouter(
       destroyOnUnmount: false,
     })(ResourceEditCustomTitle)
   )
-));
+);

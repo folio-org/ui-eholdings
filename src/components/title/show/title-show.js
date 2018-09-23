@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { withRouter } from 'react-router';
 import update from 'lodash/fp/update';
 import set from 'lodash/fp/set';
 import {
@@ -29,9 +28,7 @@ class TitleShow extends Component {
     model: PropTypes.object.isRequired,
     customPackages: PropTypes.object.isRequired,
     addCustomPackage: PropTypes.func.isRequired,
-    intl: intlShape.isRequired,
-    location: PropTypes.object.isRequired,
-    history: PropTypes.object.isRequired
+    intl: intlShape.isRequired
   };
 
   state = {
@@ -315,4 +312,4 @@ class TitleShow extends Component {
   }
 }
 
-export default injectIntl(withRouter(TitleShow));
+export default injectIntl(TitleShow);

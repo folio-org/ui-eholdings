@@ -1,6 +1,5 @@
 import React, { Component, Fragment } from 'react';
 import PropTypes from 'prop-types';
-import { withRouter } from 'react-router';
 import { reduxForm, Field } from 'redux-form';
 import isEqual from 'lodash/isEqual';
 import { intlShape, injectIntl, FormattedMessage } from 'react-intl';
@@ -34,15 +33,12 @@ class CustomPackageEdit extends Component {
     initialValues: PropTypes.object.isRequired,
     model: PropTypes.object.isRequired,
     onSubmit: PropTypes.func.isRequired,
+    onCancel: PropTypes.func.isRequired,
     pristine: PropTypes.bool,
     proxyTypes: PropTypes.object.isRequired,
     intl: intlShape.isRequired,
     addPackageToHoldings: PropTypes.func.isRequired,
-    provider: PropTypes.object.isRequired,
-    history: PropTypes.shape({
-      push: PropTypes.func.isRequired
-    }).isRequired,
-    location: PropTypes.object.isRequired
+    provider: PropTypes.object.isRequired
   };
 
   state = {
@@ -76,7 +72,6 @@ class CustomPackageEdit extends Component {
   componentDidUpdate(prevProps) {
     let wasPending = prevProps.model.update.isPending && !this.props.model.update.isPending;
     let needsUpdate = !isEqual(prevProps.model, this.props.model);
-    let { history, location } = this.props;
 
     if (wasPending && needsUpdate) {
       history.push({
@@ -85,16 +80,6 @@ class CustomPackageEdit extends Component {
         state: { eholdings: true, isFreshlySaved: true }
       });
     }
-  }
-
-  handleCancel = () => {
-    let { history, location } = this.props;
-
-    history.push({
-      pathname: `/eholdings/packages/${this.props.model.id}`,
-      search: location.search,
-      state: { eholdings: true }
-    });
   }
 
   handleDeleteAction = () => {
@@ -145,7 +130,7 @@ class CustomPackageEdit extends Component {
       proxyTypes,
       provider,
       intl,
-      location
+      onCancel
     } = this.props;
 
     let {
@@ -158,11 +143,7 @@ class CustomPackageEdit extends Component {
     let actionMenuItems = [
       {
         'label': intl.formatMessage({ id: 'ui-eholdings.actionMenu.cancelEditing' }),
-        'to': {
-          pathname: `/eholdings/packages/${model.id}`,
-          search: location.search,
-          state: { eholdings: true }
-        },
+        'onClick': onCancel,
         'data-test-eholdings-package-cancel-action': true
       }
     ];
@@ -351,9 +332,9 @@ const validate = (values, props) => {
   return Object.assign({}, validatePackageName(values, props), validateCoverageDates(values, props));
 };
 
-export default injectIntl(withRouter(reduxForm({
+export default injectIntl(reduxForm({
   validate,
   form: 'CustomPackageEdit',
   enableReinitialize: true,
   destroyOnUnmount: false,
-})(CustomPackageEdit)));
+})(CustomPackageEdit));

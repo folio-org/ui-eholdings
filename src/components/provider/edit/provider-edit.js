@@ -24,10 +24,10 @@ class ProviderEdit extends Component {
     model: PropTypes.object.isRequired,
     handleSubmit: PropTypes.func,
     onSubmit: PropTypes.func.isRequired,
+    onCancel: PropTypes.func.isRequired,
     pristine: PropTypes.bool,
     intl: intlShape.isRequired,
     onSuccessfulSave: PropTypes.func.isRequired,
-    cancelLink: PropTypes.object.isRequired,
     hasFullViewLink: PropTypes.bool
   };
 
@@ -49,9 +49,9 @@ class ProviderEdit extends Component {
       rootProxy,
       handleSubmit,
       onSubmit,
+      onCancel,
       pristine,
       intl,
-      cancelLink,
       hasFullViewLink
     } = this.props;
 
@@ -61,7 +61,7 @@ class ProviderEdit extends Component {
     let actionMenuItems = [
       {
         'label': <FormattedMessage id="ui-eholdings.actionMenu.cancelEditing" />,
-        'to': cancelLink,
+        'onClick': onCancel,
         'data-test-eholdings-provider-cancel-action': true
       }
     ];

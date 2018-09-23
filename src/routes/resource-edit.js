@@ -20,7 +20,8 @@ class ResourceEditRoute extends Component {
     updateResource: PropTypes.func.isRequired,
     destroyResource: PropTypes.func.isRequired,
     proxyTypes: PropTypes.object.isRequired,
-    history: ReactRouterPropTypes.history.isRequired
+    history: ReactRouterPropTypes.history.isRequired,
+    location: ReactRouterPropTypes.location.isRequired
   };
 
   constructor(props) {
@@ -102,13 +103,18 @@ class ResourceEditRoute extends Component {
   }
 
   render() {
-    let { model, proxyTypes } = this.props;
+    let { model, proxyTypes, history, location } = this.props;
 
     return (
       <TitleManager record={`Edit ${this.props.model.name}`}>
         <View
           model={model}
           onSubmit={this.resourceEditSubmitted}
+          onCancel={() => history.push({
+            pathname: `/eholdings/resources/${model.id}`,
+            search: location.search,
+            state: { eholdings: true }
+          })}
           proxyTypes={proxyTypes}
         />
       </TitleManager>

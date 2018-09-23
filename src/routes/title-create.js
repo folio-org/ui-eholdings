@@ -16,7 +16,8 @@ class TitleCreateRoute extends Component {
     customPackages: PropTypes.object.isRequired,
     createTitle: PropTypes.func.isRequired,
     getCustomPackages: PropTypes.func.isRequired,
-    history: ReactRouterPropTypes.history.isRequired
+    history: ReactRouterPropTypes.history.isRequired,
+    location: ReactRouterPropTypes.location.isRequired
   };
 
   componentDidMount() {
@@ -60,7 +61,9 @@ class TitleCreateRoute extends Component {
   render() {
     let {
       createRequest,
-      customPackages
+      customPackages,
+      history,
+      location
     } = this.props;
 
     return (
@@ -69,6 +72,7 @@ class TitleCreateRoute extends Component {
           request={createRequest}
           customPackages={customPackages}
           onSubmit={this.createTitle}
+          onCancel={location.state && location.state.eholdings && history.goBack()}
           initialValues={{
             name: '',
             edition: '',

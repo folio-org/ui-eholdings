@@ -1,6 +1,5 @@
 import React, { Component, Fragment } from 'react';
 import PropTypes from 'prop-types';
-import { withRouter } from 'react-router';
 import { reduxForm } from 'redux-form';
 
 import {
@@ -31,16 +30,10 @@ class TitleCreate extends Component {
     customPackages: PropTypes.object.isRequired,
     handleSubmit: PropTypes.func.isRequired,
     onSubmit: PropTypes.func.isRequired,
+    onCancel: PropTypes.func.isRequired,
     pristine: PropTypes.bool.isRequired,
-    intl: intlShape.isRequired,
-    history: PropTypes.shape({
-      goBack: PropTypes.func.isRequired
-    }).isRequired
+    intl: intlShape.isRequired
   };
-
-  handleCancel = () => {
-    this.props.history.goBack();
-  }
 
   render() {
     let {
@@ -50,10 +43,8 @@ class TitleCreate extends Component {
       onSubmit,
       pristine,
       intl,
-      history
+      onCancel
     } = this.props;
-
-    let historyState = history.location.state;
 
     let packageOptions = customPackages.map(pkg => ({
       label: pkg.name,
@@ -66,7 +57,7 @@ class TitleCreate extends Component {
       actionMenuItems.push({
         'label': intl.formatMessage({ id: 'ui-eholdings.actionMenu.cancelEditing' }),
         'state': { eholdings: true },
-        'onClick': this.handleCancel,
+        'onClick': onCancel,
         'data-test-eholdings-title-create-cancel-action': true
       });
     }
@@ -86,11 +77,11 @@ class TitleCreate extends Component {
           <PaneHeader
             paneTitle={intl.formatMessage({ id: 'ui-eholdings.title.create.paneTitle' })}
             actionMenuItems={actionMenuItems}
-            firstMenu={historyState && historyState.eholdings && (
+            firstMenu={onCancel && (
               <IconButton
                 icon="left-arrow"
                 ariaLabel={intl.formatMessage({ id: 'ui-eholdings.label.icon.goBack' })}
-                onClick={this.handleCancel}
+                onClick={onCancel}
                 data-test-eholdings-details-view-back-button
               />
             )}
@@ -150,9 +141,9 @@ const validate = (values, props) => {
     validatePackageSelection(values, props));
 };
 
-export default injectIntl(withRouter(reduxForm({
+export default injectIntl(reduxForm({
   validate,
   enableReinitialize: true,
   form: 'TitleCreate',
   destroyOnUnmount: false
-})(TitleCreate)));
+})(TitleCreate));

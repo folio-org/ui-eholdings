@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { withRouter } from 'react-router';
 import { intlShape, injectIntl, FormattedMessage } from 'react-intl';
 import update from 'lodash/fp/update';
 import set from 'lodash/fp/set';
@@ -472,4 +471,4 @@ class ResourceShow extends Component {
   }
 }
 
-export default injectIntl(withRouter(ResourceShow));
+export default injectIntl(ResourceShow);

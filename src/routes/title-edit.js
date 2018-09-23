@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import ReactRouterPropTypes from 'react-router-prop-types';
 import { connect } from 'react-redux';
 import { TitleManager } from '@folio/stripes-core';
 
@@ -11,18 +12,13 @@ import View from '../components/title/edit';
 
 class TitleEditRoute extends Component {
   static propTypes = {
-    match: PropTypes.shape({
-      params: PropTypes.shape({
-        titleId: PropTypes.string.isRequired
-      }).isRequired
-    }).isRequired,
+    match: ReactRouterPropTypes.match.isRequired,
     model: PropTypes.object.isRequired,
     getTitle: PropTypes.func.isRequired,
     updateResource: PropTypes.func.isRequired,
     updateRequest: PropTypes.object,
-    history: PropTypes.shape({
-      push: PropTypes.func.isRequired
-    }).isRequired
+    history: ReactRouterPropTypes.history.isRequired,
+    location: ReactRouterPropTypes.location.isRequired
   };
 
   constructor(props) {
@@ -89,7 +85,9 @@ class TitleEditRoute extends Component {
   render() {
     let {
       model,
-      updateRequest
+      updateRequest,
+      history,
+      location
     } = this.props;
 
     return (
@@ -97,6 +95,11 @@ class TitleEditRoute extends Component {
         <View
           model={model}
           onSubmit={this.titleEditSubmitted}
+          onCancel={() => history.push({
+            pathname: `/eholdings/titles/${model.id}`,
+            search: location.search,
+            state: { eholdings: true }
+          })}
           updateRequest={updateRequest}
           initialValues={{
             name: model.name,

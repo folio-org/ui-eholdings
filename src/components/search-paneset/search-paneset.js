@@ -1,6 +1,5 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { withRouter } from 'react-router';
 import {
   Button,
   PaneHeader,
@@ -27,14 +26,9 @@ class SearchPaneset extends React.Component {
     totalResults: PropTypes.number,
     filterCount: PropTypes.number,
     isLoading: PropTypes.bool,
-    location: PropTypes.shape({
-      pathname: PropTypes.string.isRequired,
-      search: PropTypes.string.isRequired
-    }).isRequired,
     updateFilters: PropTypes.func.isRequired,
-    history: PropTypes.shape({
-      push: PropTypes.func
-    }).isRequired
+    onClosePreview: PropTypes.func.isRequired,
+    searchLocation: PropTypes.string.isRequired
   };
 
   static defaultProps = {
@@ -52,7 +46,7 @@ class SearchPaneset extends React.Component {
   }
 
   componentDidUpdate(prevProps) {
-    let isNewSearch = prevProps.location.search !== this.props.location.search;
+    let isNewSearch = prevProps.searchLocation !== this.props.searchLocation;
     let isSameSearchType = prevProps.resultsType === this.props.resultsType;
 
     // focus the pane title when a new search happens within the same search type
@@ -62,13 +56,6 @@ class SearchPaneset extends React.Component {
   }
 
   toggleFilters = () => this.props.updateFilters(hideFilters => !hideFilters)
-
-  closePreview = () => {
-    this.props.history.push({
-      pathname: '/eholdings',
-      search: this.props.location.search
-    });
-  };
 
   renderNewButton = () => {
     return (
@@ -90,7 +77,8 @@ class SearchPaneset extends React.Component {
       totalResults,
       isLoading,
       hideFilters,
-      filterCount
+      filterCount,
+      onClosePreview
     } = this.props;
 
     hideFilters = hideFilters && !!resultsView;
@@ -120,7 +108,7 @@ class SearchPaneset extends React.Component {
     return (
       <div className={styles['search-paneset']}>
         {detailsView && (
-          <SearchPaneVignette className={styles['preview-pane-vignette']} onClick={this.closePreview} />
+          <SearchPaneVignette className={styles['preview-pane-vignette']} onClick={onClosePreview} />
         )}
 
         {!hideFilters && (
@@ -201,4 +189,4 @@ class SearchPaneset extends React.Component {
   }
 }
 
-export default withRouter(SearchPaneset);
+export default SearchPaneset;

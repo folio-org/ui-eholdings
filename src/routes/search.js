@@ -277,7 +277,7 @@ class SearchRoute extends Component {
    * render the search paneset, otherwise simply render our children
    */
   render() {
-    let { children } = this.props;
+    let { children, history, location } = this.props;
     let {
       searchType,
       params,
@@ -310,6 +310,12 @@ class SearchRoute extends Component {
               totalResults={results.length}
               isLoading={!results.hasLoaded}
               updateFilters={this.updateFilters}
+              searchLocation={location.search}
+              onClosePreview={history.push({
+                pathname: '/eholdings',
+                search: location.search,
+                state: { eholdings: true }
+              })}
               searchForm={(
                 <SearchForm
                   sort={sort}

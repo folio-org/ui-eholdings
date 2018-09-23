@@ -1,6 +1,5 @@
 import React, { Component, Fragment } from 'react';
 import PropTypes from 'prop-types';
-import { withRouter } from 'react-router';
 import { reduxForm, Field } from 'redux-form';
 import isEqual from 'lodash/isEqual';
 import { intlShape, injectIntl, FormattedMessage } from 'react-intl';
@@ -32,15 +31,12 @@ class ManagedPackageEdit extends Component {
     initialValues: PropTypes.object.isRequired,
     handleSubmit: PropTypes.func,
     onSubmit: PropTypes.func.isRequired,
+    onCancel: PropTypes.func.isRequired,
     pristine: PropTypes.bool,
     intl: intlShape.isRequired,
     addPackageToHoldings: PropTypes.func.isRequired,
     proxyTypes: PropTypes.object.isRequired,
-    provider: PropTypes.object.isRequired,
-    history: PropTypes.shape({
-      push: PropTypes.func.isRequired
-    }).isRequired,
-    location: PropTypes.object.isRequired
+    provider: PropTypes.object.isRequired
   };
 
   state = {
@@ -86,16 +82,6 @@ class ManagedPackageEdit extends Component {
         state: { eholdings: true, isFreshlySaved: true }
       });
     }
-  }
-
-  handleCancel = () => {
-    let { history, location } = this.props;
-
-    history.push({
-      pathname: `/eholdings/packages/${this.props.model.id}`,
-      search: location.search,
-      state: { eholdings: true }
-    });
   }
 
   handleSelectionAction = () => {
@@ -156,7 +142,8 @@ class ManagedPackageEdit extends Component {
       proxyTypes,
       provider,
       intl,
-      location
+      location,
+      onCancel
     } = this.props;
 
     let {
@@ -174,11 +161,7 @@ class ManagedPackageEdit extends Component {
     let actionMenuItems = [
       {
         'label': <FormattedMessage id="ui-eholdings.actionMenu.cancelEditing" />,
-        'to': {
-          pathname: `/eholdings/packages/${model.id}`,
-          search: location.search,
-          state: { eholdings: true }
-        },
+        'onClick': onCancel,
         'data-test-eholdings-package-cancel-action': true
       }
     ];
@@ -394,9 +377,9 @@ const validate = (values, props) => {
   return Object.assign({}, validateCoverageDates(values, props), validateToken(values, props));
 };
 
-export default injectIntl(withRouter(reduxForm({
+export default injectIntl(reduxForm({
   validate,
   enableReinitialize: true,
   form: 'ManagedPackageEdit',
   destroyOnUnmount: false,
-})(ManagedPackageEdit)));
+})(ManagedPackageEdit));

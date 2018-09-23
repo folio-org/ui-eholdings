@@ -58,6 +58,11 @@ class ProviderEditRoute extends Component {
         <View
           model={model}
           onSubmit={this.providerEditSubmitted}
+          onCancel={() => history.push({
+            pathname: `/eholdings/providers/${model.id}`,
+            search: location.search,
+            state: { eholdings: true }
+          })}
           initialValues={{
             proxyId: model.proxy.id,
             providerTokenValue: model.providerToken.value
@@ -70,11 +75,6 @@ class ProviderEditRoute extends Component {
               search: location.search,
               state: { eholdings: true, isFreshlySaved: true }
             });
-          }}
-          cancelLink={{
-            pathname: `/eholdings/providers/${model.id}`,
-            search: location.search,
-            state: { eholdings: true }
           }}
           hasFullViewLink={location.search}
         />

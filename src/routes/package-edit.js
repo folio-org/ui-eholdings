@@ -152,7 +152,7 @@ class PackageEditRoute extends Component {
   };
 
   render() {
-    let { model, intl, proxyTypes, provider } = this.props;
+    let { model, intl, proxyTypes, provider, history, location } = this.props;
 
     return (
       <TitleManager record={intl.formatMessage({ id: 'ui-eholdings.label.editLink' }, { name: model.name })}>
@@ -161,6 +161,11 @@ class PackageEditRoute extends Component {
           proxyTypes={proxyTypes}
           provider={provider}
           onSubmit={this.packageEditSubmitted}
+          onCancel={() => history.push({
+            pathname: `/eholdings/packages/${model.id}`,
+            search: location.search,
+            state: { eholdings: true }
+          })}
           addPackageToHoldings={this.addPackageToHoldings}
         />
       </TitleManager>
