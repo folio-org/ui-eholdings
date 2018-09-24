@@ -53,15 +53,13 @@ class ResourceEditManagedTitle extends Component {
 
     if (nextProps.initialValues.isSelected !== prevState.initialValues.isSelected) {
       return {
-        ...prevState,
         initialValues: {
-          ...prevState.initialValues,
           isSelected: nextProps.initialValues.isSelected
         },
         managedResourceSelected: nextProps.initialValues.isSelected
       };
     }
-    return prevState;
+    return null;
   }
 
   handleSelectionToggle = (e) => {

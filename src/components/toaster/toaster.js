@@ -48,10 +48,10 @@ class Toaster extends Component {
     };
   }
 
-  static getDerivedStateFromProps(nextProps, prevState) {
+  static getDerivedStateFromProps(nextProps) {
     return nextProps.toasts ?
-      { ...prevState, toasts: nextProps.toasts } :
-      prevState;
+      { toasts: nextProps.toasts } :
+      null;
   }
 
   destroyToast = (toastId) => {

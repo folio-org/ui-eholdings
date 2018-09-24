@@ -55,15 +55,13 @@ class ResourceEditCustomTitle extends Component {
 
     if (nextProps.initialValues.isSelected !== prevState.initialValues.isSelected) {
       return {
-        ...prevState,
         initialValues: {
-          ...prevState.initialValues,
           isSelected: nextProps.initialValues.isSelected
         },
         resourceSelected: nextProps.initialValues.isSelected
       };
     }
-    return prevState;
+    return null;
   }
 
   handleRemoveResourceFromHoldings = () => {

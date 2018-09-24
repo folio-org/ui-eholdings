@@ -49,7 +49,6 @@ class CustomPackageEdit extends Component {
     allowFormToSubmit: false,
     packageSelected: this.props.initialValues.isSelected,
     formValues: {},
-    packageVisible: this.props.initialValues.isVisible,
     initialValues: this.props.initialValues
   }
 
@@ -60,15 +59,13 @@ class CustomPackageEdit extends Component {
 
     if (nextProps.initialValues.isSelected !== prevState.initialValues.isSelected) {
       return {
-        ...prevState,
         initialValues: {
-          ...prevState.initialValues,
           isSelected: nextProps.initialValues.isSelected
         },
         packageSelected: nextProps.initialValues.isSelected
       };
     }
-    return prevState;
+    return null;
   }
 
   handleDeleteAction = () => {

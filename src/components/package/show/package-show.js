@@ -64,16 +64,15 @@ class PackageShow extends Component {
     }
   };
 
-  static getDerivedStateFromProps(nextProps, prevState) {
+  static getDerivedStateFromProps(nextProps) {
     const { model: { allowKbToAddTitles, isSaving, isSelected } } = nextProps;
     if (!isSaving) {
       return {
-        ...prevState,
         packageSelected: isSelected,
         packageAllowedToAddTitles: allowKbToAddTitles
       };
     }
-    return prevState;
+    return null;
   }
 
   handleSelectionToggle = () => {

@@ -72,7 +72,6 @@ class SearchRoute extends Component {
     // stated in https://issues.folio.org/browse/UIEH-558
     if (!isEqual(location, prevState.location)) {
       return {
-        ...prevState,
         location,
         match,
         searchType,

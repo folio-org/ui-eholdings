@@ -51,7 +51,7 @@ class ResourceShow extends Component {
 
   static getDerivedStateFromProps({ model }, prevState) {
     return !model.isSaving ?
-      { ...prevState, resourceSelected: model.isSelected } :
+      { resourceSelected: model.isSelected } :
       prevState;
   }
 
