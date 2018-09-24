@@ -40,7 +40,7 @@ class PackageCreate extends Component {
 
     let actionMenuItems = [];
 
-    if (!request.isPending) {
+    if (!request.isPending && onCancel) {
       actionMenuItems.push({
         'label': intl.formatMessage({ id: 'ui-eholdings.actionMenu.cancelEditing' }),
         'state': { eholdings: true },
