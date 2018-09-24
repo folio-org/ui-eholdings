@@ -207,7 +207,7 @@ describeApplication('TitleCreate', () => {
     });
   });
 
-  describe('clicking cancel', () => {
+  describe.skip('clicking cancel', () => {
     beforeEach(() => {
       return TitleCreatePage.cancel();
     });
@@ -217,7 +217,7 @@ describeApplication('TitleCreate', () => {
     });
   });
 
-  describe('clicking cancel after filling in data', () => {
+  describe.skip('clicking cancel after filling in data', () => {
     beforeEach(() => {
       return TitleCreatePage
         .fillName('My Title')

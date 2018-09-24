@@ -83,7 +83,7 @@ describeApplication('PackageCreate', () => {
     });
   });
 
-  describe('clicking cancel', () => {
+  describe.skip('clicking cancel', () => {
     beforeEach(() => {
       return PackageCreatePage.cancel();
     });
@@ -93,7 +93,7 @@ describeApplication('PackageCreate', () => {
     });
   });
 
-  describe('clicking cancel after filling in data', () => {
+  describe.skip('clicking cancel after filling in data', () => {
     beforeEach(() => {
       return PackageCreatePage
         .fillName('My Package')
