@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import ReactRouterPropTypes from 'react-router-prop-types';
 import { connect } from 'react-redux';
 import isEqual from 'lodash/isEqual';
+import queryString from 'qs';
 import { TitleManager } from '@folio/stripes-core';
 
 import { createResolver } from '../redux';
@@ -102,6 +103,7 @@ class TitleEditRoute extends Component {
       history,
       location
     } = this.props;
+    const { searchType } = queryString.parse(location.search, { ignoreQueryPrefix: true });
 
     return (
       <TitleManager record={`Edit ${this.props.model.name}`}>
@@ -124,7 +126,7 @@ class TitleEditRoute extends Component {
             contributors: model.contributors,
             identifiers: this.mergeIdentifiers(model.identifiers)
           }}
-          fullViewLink={location.search && {
+          fullViewLink={searchType && {
             to: {
               pathname: `/eholdings/titles/${model.id}/edit`,
               state: { eholdings: true }

@@ -7,6 +7,7 @@ import classNames from 'classnames/bind';
 import capitalize from 'lodash/capitalize';
 import { ExpandAllButton } from '@folio/stripes-components/lib/Accordion';
 import Measure from 'react-measure';
+import queryString from 'qs';
 
 import {
   Accordion,
@@ -215,11 +216,12 @@ class DetailsView extends Component {
     let historyState = history.location.state;
 
     let isListAccordionOpen = sections && sections[listSectionId];
+    const { searchType } = queryString.parse(location.search, { ignoreQueryPrefix: true });
 
     return (
       <div data-test-eholdings-details-view={type}>
         <PaneHeader
-          firstMenu={location.search ? (
+          firstMenu={searchType ? (
             <IconButton
               icon="closeX"
               ariaLabel={intl.formatMessage({ id: 'ui-eholdings.label.icon.closeX' }, { paneTitle })}

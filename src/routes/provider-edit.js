@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import ReactRouterPropTypes from 'react-router-prop-types';
 import { connect } from 'react-redux';
 import isEqual from 'lodash/isEqual';
+import queryString from 'qs';
 import { TitleManager } from '@folio/stripes-core';
 
 import { createResolver } from '../redux';
@@ -65,6 +66,7 @@ class ProviderEditRoute extends Component {
 
   render() {
     let { model, proxyTypes, rootProxy, history, location } = this.props;
+    const { searchType } = queryString.parse(location.search, { ignoreQueryPrefix: true });
 
     return (
       <TitleManager record={`Edit ${this.props.model.name}`}>
@@ -82,7 +84,7 @@ class ProviderEditRoute extends Component {
           }}
           proxyTypes={proxyTypes}
           rootProxy={rootProxy}
-          fullViewLink={location.search && {
+          fullViewLink={searchType && {
             to: {
               pathname: `/eholdings/providers/${model.id}/edit`,
               state: { eholdings: true }

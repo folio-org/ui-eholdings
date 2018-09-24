@@ -4,6 +4,7 @@ import ReactRouterPropTypes from 'react-router-prop-types';
 import { connect } from 'react-redux';
 import isEqual from 'lodash/isEqual';
 import moment from 'moment';
+import queryString from 'qs';
 import { TitleManager } from '@folio/stripes-core';
 import { injectIntl, intlShape } from 'react-intl';
 import { createResolver } from '../redux';
@@ -178,6 +179,7 @@ class PackageEditRoute extends Component {
 
   render() {
     let { model, intl, proxyTypes, provider, history, location } = this.props;
+    const { searchType } = queryString.parse(location.search, { ignoreQueryPrefix: true });
 
     return (
       <TitleManager record={intl.formatMessage({ id: 'ui-eholdings.label.editLink' }, { name: model.name })}>
@@ -192,7 +194,7 @@ class PackageEditRoute extends Component {
             state: { eholdings: true }
           })}
           addPackageToHoldings={this.addPackageToHoldings}
-          fullViewLink={location.search && {
+          fullViewLink={searchType && {
             to: {
               pathname: `/eholdings/packages/${model.id}/edit`,
               state: { eholdings: true }
