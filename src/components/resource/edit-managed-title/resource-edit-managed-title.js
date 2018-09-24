@@ -45,31 +45,39 @@ class ResourceEditManagedTitle extends Component {
     managedResourceSelected: this.props.initialValues.isSelected,
     showSelectionModal: false,
     allowFormToSubmit: false,
-    formValues: {}
+    formValues: {},
+    initialValues: this.props.initialValues
   }
 
-  componentWillReceiveProps(nextProps) { // eslint-disable-line react/no-deprecated
-    let wasPending = this.props.model.update.isPending && !nextProps.model.update.isPending;
-    let needsUpdate = !isEqual(this.props.model, nextProps.model);
-
-    let wasUnSelected = this.props.model.isSelected && !nextProps.model.isSelected;
-    let isCurrentlySelected = this.props.model.isSelected && nextProps.model.isSelected;
-
-    if (nextProps.initialValues.isSelected !== this.state.managedResourceSelected) {
-      this.setState({
-        managedResourceSelected: nextProps.initialValues.isSelected,
-      });
-    }
-
+  static getDerivedStateFromProps(nextProps, prevState) {
     if (nextProps.model.update.errors.length) {
-      this.setState({
-        showSelectionModal: false
-      });
+      return { showSelectionModal: false };
     }
+
+    if (nextProps.initialValues.isSelected !== prevState.initialValues.isSelected) {
+      return {
+        ...prevState,
+        initialValues: {
+          ...prevState.initialValues,
+          isSelected: nextProps.initialValues.isSelected
+        },
+        managedResourceSelected: nextProps.initialValues.isSelected
+      };
+    }
+    return prevState;
+  }
+
+  componentDidUpdate(prevProps) {
+    let wasPending = prevProps.model.update.isPending && !this.props.model.update.isPending;
+    let needsUpdate = !isEqual(prevProps.model, this.props.model);
+
+    let wasUnSelected = prevProps.model.isSelected && !this.props.model.isSelected;
+    let isCurrentlySelected = prevProps.model.isSelected && this.props.model.isSelected;
+    let { history } = this.props;
 
     if (wasUnSelected || isCurrentlySelected) {
       if (wasPending && needsUpdate) {
-        this.props.history.push(
+        history.push(
           `/eholdings/resources/${this.props.model.id}`,
           { eholdings: true, isFreshlySaved: true }
         );
