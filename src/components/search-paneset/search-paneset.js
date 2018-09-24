@@ -18,18 +18,18 @@ import SearchBadge from '../search-modal/search-badge';
 
 export default class SearchPaneset extends React.Component { // eslint-disable-line react/no-deprecated
   static propTypes = {
-    searchForm: PropTypes.node,
-    hideFilters: PropTypes.bool,
-    resultsType: PropTypes.string,
-    resultsView: PropTypes.node,
     detailsView: PropTypes.node,
-    totalResults: PropTypes.number,
     filterCount: PropTypes.number,
+    hideFilters: PropTypes.bool,
     isLoading: PropTypes.bool,
     location: PropTypes.shape({
       pathname: PropTypes.string.isRequired,
       search: PropTypes.string.isRequired
     }).isRequired,
+    resultsType: PropTypes.string,
+    resultsView: PropTypes.node,
+    searchForm: PropTypes.node,
+    totalResults: PropTypes.number,
     updateFilters: PropTypes.func.isRequired
   };
 

@@ -20,11 +20,11 @@ import styles from './package-create.css';
 
 class PackageCreate extends Component {
   static propTypes = {
-    request: PropTypes.object.isRequired,
     handleSubmit: PropTypes.func.isRequired,
+    intl: intlShape.isRequired,
     onSubmit: PropTypes.func.isRequired,
     pristine: PropTypes.bool.isRequired,
-    intl: intlShape.isRequired
+    request: PropTypes.object.isRequired
   };
 
   static contextTypes = {

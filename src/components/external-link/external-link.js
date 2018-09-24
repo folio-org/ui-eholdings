@@ -20,6 +20,6 @@ export default function ExternalLink(props) {
 
 ExternalLink.propTypes = {
   href: PropTypes.string,
-  target: PropTypes.string,
-  rel: PropTypes.string
+  rel: PropTypes.string,
+  target: PropTypes.string
 };

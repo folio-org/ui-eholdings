@@ -24,13 +24,13 @@ import styles from './title-edit.css';
 
 class TitleEdit extends Component {
   static propTypes = {
-    model: PropTypes.object.isRequired,
-    initialValues: PropTypes.object.isRequired,
     handleSubmit: PropTypes.func,
+    initialValues: PropTypes.object.isRequired,
+    intl: intlShape.isRequired,
+    model: PropTypes.object.isRequired,
     onSubmit: PropTypes.func.isRequired,
     pristine: PropTypes.bool,
-    updateRequest: PropTypes.object.isRequired,
-    intl: intlShape.isRequired
+    updateRequest: PropTypes.object.isRequired
   };
 
   static contextTypes = {

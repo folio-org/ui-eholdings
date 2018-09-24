@@ -22,17 +22,17 @@ class Toaster extends Component {
     // array of toast messages to display
     toasts: PropTypes.arrayOf(PropTypes.shape({
       // the type of toast: warn, error, or success
-      type: PropTypes.string,
-      // to pick the specific toast out when calling `onClose`
       id: PropTypes.string.isRequired,
-      // the toast message that will be displayed in the UI
+      // to pick the specific toast out when calling `onClose`
       message: PropTypes.oneOfType([
         PropTypes.string,
         PropTypes.func,
         PropTypes.node
       ]).isRequired,
+      // the toast message that will be displayed in the UI
+      timeout: PropTypes.number,
       // the time which the toast is shown
-      timeout: PropTypes.number
+      type: PropTypes.string
     })).isRequired
   };
 

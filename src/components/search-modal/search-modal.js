@@ -30,8 +30,8 @@ class SearchModal extends React.PureComponent {
   static propTypes = {
     intl: intlShape.isRequired,
     listType: PropTypes.string,
-    onSearch: PropTypes.func,
     onFilter: PropTypes.func,
+    onSearch: PropTypes.func,
     query: PropTypes.object,
   };
 

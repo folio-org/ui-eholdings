@@ -56,14 +56,14 @@ function ProviderListItem({ item, link, active, onClick, headingLevel }) {
 }
 
 ProviderListItem.propTypes = {
+  active: PropTypes.bool,
+  headingLevel: PropTypes.string,
   item: PropTypes.object,
   link: PropTypes.oneOfType([
     PropTypes.string,
     PropTypes.object
   ]),
-  active: PropTypes.bool,
-  onClick: PropTypes.func,
-  headingLevel: PropTypes.string
+  onClick: PropTypes.func
 };
 
 // this HOC adds a prop, `shouldFocus` that will focus the component's

@@ -11,17 +11,17 @@ import View from '../components/title/show';
 
 class TitleShowRoute extends Component {
   static propTypes = {
+    createRequest: PropTypes.object.isRequired,
+    createResource: PropTypes.func.isRequired,
+    customPackages: PropTypes.object.isRequired,
+    getCustomPackages: PropTypes.func.isRequired,
+    getTitle: PropTypes.func.isRequired,
     match: PropTypes.shape({
       params: PropTypes.shape({
         titleId: PropTypes.string.isRequired
       }).isRequired
     }).isRequired,
-    model: PropTypes.object.isRequired,
-    customPackages: PropTypes.object.isRequired,
-    getTitle: PropTypes.func.isRequired,
-    getCustomPackages: PropTypes.func.isRequired,
-    createResource: PropTypes.func.isRequired,
-    createRequest: PropTypes.object.isRequired
+    model: PropTypes.object.isRequired
   };
 
   static contextTypes = {

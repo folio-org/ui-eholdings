@@ -39,9 +39,9 @@ function ProxySelectField({ proxyTypes, inheritedProxyId, intl }) {
 }
 
 ProxySelectField.propTypes = {
-  proxyTypes: PropTypes.object.isRequired,
   inheritedProxyId: PropTypes.string.isRequired,
-  intl: intlShape.isRequired
+  intl: intlShape.isRequired,
+  proxyTypes: PropTypes.object.isRequired
 };
 
 export default injectIntl(ProxySelectField);

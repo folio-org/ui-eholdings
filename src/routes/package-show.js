@@ -15,21 +15,21 @@ import SearchModal from '../components/search-modal';
 
 class PackageShowRoute extends Component {
   static propTypes = {
+    destroyPackage: PropTypes.func.isRequired,
+    getPackage: PropTypes.func.isRequired,
+    getPackageTitles: PropTypes.func.isRequired,
+    getProvider: PropTypes.func.isRequired,
+    getProxyTypes: PropTypes.func.isRequired,
     match: PropTypes.shape({
       params: PropTypes.shape({
         packageId: PropTypes.string.isRequired
       }).isRequired
     }).isRequired,
     model: PropTypes.object.isRequired,
-    getPackage: PropTypes.func.isRequired,
-    getPackageTitles: PropTypes.func.isRequired,
-    getProxyTypes: PropTypes.func.isRequired,
-    getProvider: PropTypes.func.isRequired,
     provider: PropTypes.object.isRequired,
+    proxyTypes: PropTypes.object.isRequired,
     unloadResources: PropTypes.func.isRequired,
     updatePackage: PropTypes.func.isRequired,
-    destroyPackage: PropTypes.func.isRequired,
-    proxyTypes: PropTypes.object.isRequired,
   };
 
   static contextTypes = {

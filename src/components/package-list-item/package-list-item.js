@@ -96,17 +96,17 @@ function PackageListItem({
 }
 
 PackageListItem.propTypes = {
+  active: PropTypes.bool,
+  headingLevel: PropTypes.string,
   item: PropTypes.object,
   link: PropTypes.oneOfType([
     PropTypes.string,
     PropTypes.object
   ]),
-  active: PropTypes.bool,
-  showTitleCount: PropTypes.bool,
-  showProviderName: PropTypes.bool,
-  packageName: PropTypes.string,
   onClick: PropTypes.func,
-  headingLevel: PropTypes.string
+  packageName: PropTypes.string,
+  showProviderName: PropTypes.bool,
+  showTitleCount: PropTypes.bool
 };
 
 // this HOC adds a prop, `shouldFocus` that will focus the component's

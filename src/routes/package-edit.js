@@ -14,22 +14,22 @@ import View from '../components/package/edit';
 
 class PackageEditRoute extends Component {
   static propTypes = {
+    destroyPackage: PropTypes.func.isRequired,
+    getPackage: PropTypes.func.isRequired,
+    getProvider: PropTypes.func.isRequired,
+    getProxyTypes: PropTypes.func.isRequired,
+    intl: intlShape.isRequired,
     match: PropTypes.shape({
       params: PropTypes.shape({
         packageId: PropTypes.string.isRequired
       }).isRequired
     }).isRequired,
     model: PropTypes.object.isRequired,
-    intl: intlShape.isRequired,
-    getPackage: PropTypes.func.isRequired,
-    getProxyTypes: PropTypes.func.isRequired,
-    getProvider: PropTypes.func.isRequired,
-    proxyTypes: PropTypes.object.isRequired,
     provider: PropTypes.object.isRequired,
+    proxyTypes: PropTypes.object.isRequired,
     unloadResources: PropTypes.func.isRequired,
-    updateProvider: PropTypes.func.isRequired,
     updatePackage: PropTypes.func.isRequired,
-    destroyPackage: PropTypes.func.isRequired,
+    updateProvider: PropTypes.func.isRequired,
   };
 
   static contextTypes = {

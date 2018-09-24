@@ -56,16 +56,16 @@ export default function SearchFilters({
 }
 
 SearchFilters.propTypes = {
-  searchType: PropTypes.string.isRequired,
   activeFilters: PropTypes.object,
   availableFilters: PropTypes.arrayOf(PropTypes.shape({
-    name: PropTypes.string.isRequired,
-    label: PropTypes.string.isRequired,
     defaultValue: PropTypes.string,
+    label: PropTypes.string.isRequired,
+    name: PropTypes.string.isRequired,
     options: PropTypes.arrayOf(PropTypes.shape({
       label: PropTypes.string.isRequired,
       value: PropTypes.string.isRequired
     })).isRequired
   })).isRequired,
-  onUpdate: PropTypes.func.isRequired
+  onUpdate: PropTypes.func.isRequired,
+  searchType: PropTypes.string.isRequired
 };

@@ -24,11 +24,11 @@ import styles from './title-show.css';
 
 class TitleShow extends Component {
   static propTypes = {
-    request: PropTypes.object.isRequired,
-    model: PropTypes.object.isRequired,
-    customPackages: PropTypes.object.isRequired,
     addCustomPackage: PropTypes.func.isRequired,
-    intl: intlShape.isRequired
+    customPackages: PropTypes.object.isRequired,
+    intl: intlShape.isRequired,
+    model: PropTypes.object.isRequired,
+    request: PropTypes.object.isRequired
   };
 
   static contextTypes = {

@@ -14,9 +14,9 @@ import styles from './custom-embargo-fields.css';
 class CustomEmbargoFields extends Component {
   static propTypes = {
     change: PropTypes.func.isRequired,
-    showInputs: PropTypes.bool,
     initialValue: PropTypes.object,
-    intl: intlShape.isRequired
+    intl: intlShape.isRequired,
+    showInputs: PropTypes.bool
   };
 
   state = {

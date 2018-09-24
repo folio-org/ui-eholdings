@@ -6,8 +6,8 @@ class CoverageDateList extends React.Component {
   static propTypes = {
     coverageArray: PropTypes.array,
     id: PropTypes.string,
-    isYearOnly: PropTypes.bool,
-    intl: intlShape.isRequired
+    intl: intlShape.isRequired,
+    isYearOnly: PropTypes.bool
   };
 
   compareCoverage(coverageObj1, coverageObj2) {

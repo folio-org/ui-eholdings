@@ -116,15 +116,15 @@ function updateDataset(props, state) {
 
 export default class Impagination extends Component {
   static propTypes = {
-    pageSize: PropTypes.number,
-    loadHorizon: PropTypes.number,
-    readOffset: PropTypes.number,
+    children: PropTypes.func.isRequired,
+    collection: PropTypes.object.isRequired,
     // this prop is most definitely used, but the way in which it gets
     // destructured from a default argument confuses eslint
     // eslint-disable-next-line react/no-unused-prop-types
     fetch: PropTypes.func.isRequired,
-    collection: PropTypes.object.isRequired,
-    children: PropTypes.func.isRequired
+    loadHorizon: PropTypes.number,
+    pageSize: PropTypes.number,
+    readOffset: PropTypes.number
   };
 
   static defaultProps = {

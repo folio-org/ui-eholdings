@@ -14,22 +14,22 @@ export default class QueryList extends Component {
   }
 
   static propTypes = {
-    type: PropTypes.string.isRequired,
-    offset: PropTypes.number,
-    pageSize: PropTypes.number,
-    loadHorizon: PropTypes.number,
+    collection: PropTypes.object.isRequired,
+    fetch: PropTypes.func.isRequired,
+    fullWidth: PropTypes.bool,
     itemHeight: PropTypes.number,
-    scrollable: PropTypes.bool,
+    length: PropTypes.number,
+    loadHorizon: PropTypes.number,
     notFoundMessage: PropTypes.oneOfType([
       PropTypes.string,
       PropTypes.node
     ]).isRequired,
-    collection: PropTypes.object.isRequired,
-    fetch: PropTypes.func.isRequired,
-    renderItem: PropTypes.func.isRequired,
+    offset: PropTypes.number,
     onUpdateOffset: PropTypes.func,
-    length: PropTypes.number,
-    fullWidth: PropTypes.bool
+    pageSize: PropTypes.number,
+    renderItem: PropTypes.func.isRequired,
+    scrollable: PropTypes.bool,
+    type: PropTypes.string.isRequired
   };
 
   static defaultProps = {

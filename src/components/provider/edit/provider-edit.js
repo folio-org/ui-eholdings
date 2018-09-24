@@ -19,13 +19,13 @@ import styles from './provider-edit.css';
 
 class ProviderEdit extends Component {
   static propTypes = {
-    proxyTypes: PropTypes.object.isRequired,
-    rootProxy: PropTypes.object.isRequired,
-    model: PropTypes.object.isRequired,
     handleSubmit: PropTypes.func,
+    intl: intlShape.isRequired,
+    model: PropTypes.object.isRequired,
     onSubmit: PropTypes.func.isRequired,
     pristine: PropTypes.bool,
-    intl: intlShape.isRequired
+    proxyTypes: PropTypes.object.isRequired,
+    rootProxy: PropTypes.object.isRequired
   };
 
   static contextTypes = {

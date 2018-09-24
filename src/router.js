@@ -39,6 +39,6 @@ export function Route({ component: Component, children, ...props }) {
 }
 
 Route.propTypes = {
-  component: PropTypes.func,
-  children: PropTypes.node
+  children: PropTypes.node,
+  component: PropTypes.func
 };

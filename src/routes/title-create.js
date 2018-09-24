@@ -12,8 +12,8 @@ import View from '../components/title/create';
 class TitleCreateRoute extends Component {
   static propTypes = {
     createRequest: PropTypes.object.isRequired,
-    customPackages: PropTypes.object.isRequired,
     createTitle: PropTypes.func.isRequired,
+    customPackages: PropTypes.object.isRequired,
     getCustomPackages: PropTypes.func.isRequired
   };
 

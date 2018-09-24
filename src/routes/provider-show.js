@@ -12,19 +12,19 @@ import SearchModal from '../components/search-modal';
 
 class ProviderShowRoute extends Component {
   static propTypes = {
+    getPackages: PropTypes.func.isRequired,
+    getProvider: PropTypes.func.isRequired,
+    getProxyTypes: PropTypes.func.isRequired,
+    getRootProxy: PropTypes.func.isRequired,
     match: PropTypes.shape({
       params: PropTypes.shape({
         providerId: PropTypes.string.isRequired
       }).isRequired
     }).isRequired,
     model: PropTypes.object.isRequired,
-    getProxyTypes: PropTypes.func.isRequired,
-    resolver: PropTypes.object.isRequired,
-    getProvider: PropTypes.func.isRequired,
-    getPackages: PropTypes.func.isRequired,
     proxyTypes: PropTypes.object.isRequired,
+    resolver: PropTypes.object.isRequired,
     rootProxy: PropTypes.object.isRequired,
-    getRootProxy: PropTypes.func.isRequired,
 
   };
 

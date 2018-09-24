@@ -14,13 +14,13 @@ import styles from './settings-knowledge-base.css';
 
 class SettingsKnowledgeBase extends Component {
   static propTypes = {
+    handleSubmit: PropTypes.func,
+    intl: intlShape.isRequired,
+    invalid: PropTypes.bool,
     model: PropTypes.object.isRequired,
     onSubmit: PropTypes.func.isRequired,
-    handleSubmit: PropTypes.func,
     pristine: PropTypes.bool,
-    reset: PropTypes.func,
-    intl: intlShape.isRequired,
-    invalid: PropTypes.bool
+    reset: PropTypes.func
   };
 
   render() {

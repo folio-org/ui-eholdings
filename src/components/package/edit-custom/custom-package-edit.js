@@ -28,16 +28,16 @@ import styles from './custom-package-edit.css';
 
 class CustomPackageEdit extends Component {
   static propTypes = {
+    addPackageToHoldings: PropTypes.func.isRequired,
     change: PropTypes.func,
     handleSubmit: PropTypes.func,
     initialValues: PropTypes.object.isRequired,
+    intl: intlShape.isRequired,
     model: PropTypes.object.isRequired,
     onSubmit: PropTypes.func.isRequired,
     pristine: PropTypes.bool,
-    proxyTypes: PropTypes.object.isRequired,
-    intl: intlShape.isRequired,
-    addPackageToHoldings: PropTypes.func.isRequired,
-    provider: PropTypes.object.isRequired
+    provider: PropTypes.object.isRequired,
+    proxyTypes: PropTypes.object.isRequired
   };
 
   static contextTypes = {
