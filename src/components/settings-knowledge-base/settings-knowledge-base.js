@@ -134,8 +134,6 @@ class SettingsKnowledgeBase extends Component {
                 />
               </div>
 
-              <p><FormattedMessage id="ui-eholdings.settings.kb.url.ebsco.customer.message" /></p>
-
               <div
                 data-test-eholdings-settings-customerid
               >
@@ -161,6 +159,8 @@ class SettingsKnowledgeBase extends Component {
                   autoComplete="off"
                 />
               </div>
+
+              <p><FormattedMessage id="ui-eholdings.settings.kb.url.ebsco.customer.message" /></p>
             </Fragment>
           )}
         </SettingsDetailPane>
