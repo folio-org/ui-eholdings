@@ -72,14 +72,7 @@ class TitleCreateRoute extends Component {
           request={createRequest}
           customPackages={customPackages}
           onSubmit={this.createTitle}
-          onCancel={() => (location.state && location.state.eholdings
-            ? history.goBack()
-            : history.push({
-              pathname: '/eholdings',
-              search: 'searchType=titles',
-              state: { eholdings: true }
-            }))
-          }
+          onCancel={() => (location.state && location.state.eholdings && history.goBack())}
           initialValues={{
             name: '',
             edition: '',

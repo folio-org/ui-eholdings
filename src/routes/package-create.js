@@ -58,14 +58,7 @@ class PackageCreateRoute extends Component {
         <View
           request={this.props.createRequest}
           onSubmit={this.packageCreateSubmitted}
-          onCancel={() => (location.state && location.state.eholdings
-            ? history.goBack()
-            : history.push({
-              pathname: '/eholdings',
-              search: 'searchType=packages',
-              state: { eholdings: true }
-            }))
-          }
+          onCancel={() => (location.state && location.state.eholdings && history.goBack())}
           initialValues={{
             name: '',
             contentType: 'Unknown',
