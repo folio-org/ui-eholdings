@@ -20,9 +20,10 @@ class SettingsKnowledgeBaseRoute extends Component {
     props.getBackendConfig();
   }
 
-  updateConfig = ({ customerId, apiKey }) => {
+  updateConfig = ({ rmapiBaseUrl, customerId, apiKey }) => {
     let { config, updateBackendConfig } = this.props;
 
+    config.rmapiBaseUrl = rmapiBaseUrl;
     config.customerId = customerId;
     config.apiKey = apiKey;
 
@@ -38,6 +39,7 @@ class SettingsKnowledgeBaseRoute extends Component {
           model={config}
           onSubmit={this.updateConfig}
           initialValues={{
+            rmapiBaseUrl: config.rmapiBaseUrl,
             customerId: config.customerId,
             apiKey: config.apiKey
           }}

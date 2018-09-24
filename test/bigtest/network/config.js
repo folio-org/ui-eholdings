@@ -80,6 +80,7 @@ export default function configure() {
       id: 'configuration',
       type: 'configurations',
       attributes: {
+        rmapiBaseUrl: 'https://sandbox.ebsco.io',
         customerId: 'some-valid-customer-id',
         apiKey: 'some-valid-api-key'
       }

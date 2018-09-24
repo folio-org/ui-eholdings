@@ -14,6 +14,7 @@ export default function unconfiguredBackendScenario(server) {
       id: 'configuration',
       type: 'configurations',
       attributes: {
+        rmapiBaseUrl: '',
         customerId: '',
         apiKey: ''
       }
