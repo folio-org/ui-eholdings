@@ -7,20 +7,28 @@ import styles from './accordion-list-header.css';
 
 function AccordionListHeader(props) {
   let { intl } = props;
-  let showOver = props.metaLength > props.resultsLength;
+  // RM API does not return exact number of results when count is over 10K
+  // For title lists, resultsLength of 10000 indicates this.
+  // For other lists (package and vendor) resultsLength of 10001 indicates this.
+  let overCount = props.listType === 'titles' ? 10000 : 10001;
+  let showOver = props.resultsLength === overCount;
+  let displayOverCount = 10000;
   return (
     <div className={styles['accordion-list-header']}>
       <AccordionHeader {...props} />
       {props.open && (
         <KeyValue label={intl.formatMessage({ id: 'ui-eholdings.label.accordionList' })}>
           <div data-test-eholdings-details-view-results-count>
-            {showOver && (
-            <span>
-              <FormattedMessage id="ui-eholdings.over" />
-              &nbsp;
-            </span>
-            )}
-            <FormattedNumber value={props.resultsLength} />
+            {showOver ? (
+              <span>
+                <FormattedMessage id="ui-eholdings.over" />
+                &nbsp;
+                <FormattedNumber value={displayOverCount} />
+              </span>
+            )
+              :
+              (<FormattedNumber value={props.resultsLength} />)
+            }
           </div>
         </KeyValue>
       )}
@@ -30,7 +38,7 @@ function AccordionListHeader(props) {
 
 AccordionListHeader.propTypes = {
   intl: intlShape.isRequired,
-  metaLength: PropTypes.number,
+  listType: PropTypes.node,
   open: PropTypes.bool,
   resultsLength: PropTypes.number
 };
