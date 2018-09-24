@@ -47,19 +47,22 @@ class ResourceEditManagedTitle extends Component {
   }
 
   static getDerivedStateFromProps(nextProps, prevState) {
+    let stateUpdates = {};
+
     if (nextProps.model.update.errors.length) {
-      return { showSelectionModal: false };
+      stateUpdates.showSelectionModal = false;
     }
 
     if (nextProps.initialValues.isSelected !== prevState.initialValues.isSelected) {
-      return {
+      Object.assign(stateUpdates, {
         initialValues: {
           isSelected: nextProps.initialValues.isSelected
         },
         managedResourceSelected: nextProps.initialValues.isSelected
-      };
+      });
     }
-    return null;
+
+    return Object.keys(stateUpdates) ? stateUpdates : null;
   }
 
   handleSelectionToggle = (e) => {
