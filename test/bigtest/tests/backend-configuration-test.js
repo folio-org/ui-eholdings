@@ -112,6 +112,10 @@ describeApplication('With valid backend configuration', () => {
       expect(SettingsPage.apiKey).to.not.equal('');
     });
 
+    it('has a dropdown for ebsco RM API url', () => {
+      expect(SettingsPage.rmapiBaseUrl).to.not.equal('');
+    });
+
     it('field for the ebsco RM API key appears with text as password hidden', () => {
       expect(SettingsPage.apiKeyInputType).to.equal('password');
     });
@@ -125,7 +129,7 @@ describeApplication('With valid backend configuration', () => {
         this.server.put('/configuration', () => {
           return new Response(422, {}, {
             errors: [{
-              title: 'RM-API credentials are invalid'
+              title: 'Invalid KB API credentials'
             }]
           });
         });
@@ -133,11 +137,12 @@ describeApplication('With valid backend configuration', () => {
         return SettingsPage
           .fillCustomerId('totally-bogus-customer-id')
           .fillApiKey('totally-bogus-api-key')
+          .chooseRMAPIUrl('https://sandbox.ebsco.io')
           .save();
       });
 
       it('reports the error to the interface', () => {
-        expect(SettingsPage.toast.errorText).to.equal('RM-API credentials are invalid');
+        expect(SettingsPage.toast.errorText).to.equal('Invalid KB API credentials');
       });
     });
 
@@ -146,7 +151,8 @@ describeApplication('With valid backend configuration', () => {
       beforeEach(() => {
         return SettingsPage
           .fillCustomerId('some-customer-id')
-          .fillApiKey('some-api-key');
+          .fillApiKey('some-api-key')
+          .chooseRMAPIUrl('https://sandbox.ebsco.io');
       });
 
       it('enables the save button', () => {
@@ -168,6 +174,10 @@ describeApplication('With valid backend configuration', () => {
         describe('when the changes succeed', () => {
           it('disables the save button', () => {
             expect(SettingsPage.saveButtonDisabled).to.be.true;
+          });
+
+          it('should show a success toast', () => {
+            expect(SettingsPage.toast.successText).to.eq('KB settings updated');
           });
         });
       });

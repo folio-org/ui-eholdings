@@ -18,6 +18,7 @@ export const Configuration = model({
   path: '/eholdings'
 })(
   class Configuration {
+    rmapiBaseUrl = '';
     customerId = '';
     apiKey = '';
   }

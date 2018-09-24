@@ -23,6 +23,8 @@ import { hasClassBeginningWith } from './helpers';
 @interactor class SettingsPage {
   customerId = value('[data-test-eholdings-settings-customerid] input');
   apiKey = value('[data-test-eholdings-settings-apikey] input');
+  rmapiBaseUrl = value('[data-test-eholdings-settings-kb-url] select');
+  chooseRMAPIUrl = fillable('[data-test-eholdings-settings-kb-url] select');
   fillCustomerId = fillable('[data-test-eholdings-settings-customerid] input');
   fillApiKey = fillable('[data-test-eholdings-settings-apikey] input');
   blurCustomerId = blurrable('[data-test-eholdings-settings-customerid] input');

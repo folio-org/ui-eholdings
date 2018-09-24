@@ -1,10 +1,12 @@
 import React, { Component, Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { reduxForm, Field } from 'redux-form';
+import isEqual from 'lodash/isEqual';
 import { intlShape, injectIntl, FormattedMessage } from 'react-intl';
 import {
   Icon,
-  TextField
+  TextField,
+  Select
 } from '@folio/stripes-components';
 import SettingsDetailPane from '../settings-detail-pane';
 import { processErrors } from '../utilities';
@@ -23,6 +25,29 @@ class SettingsKnowledgeBase extends Component {
     reset: PropTypes.func
   };
 
+  static contextTypes = {
+    router: PropTypes.shape({
+      history: PropTypes.shape({
+        push: PropTypes.func.isRequired
+      }).isRequired
+    }).isRequired
+  };
+
+  componentDidUpdate(prevProps) {
+    let wasPending = prevProps.model.update.isPending && !this.props.model.update.isPending;
+    let needsUpdate = !isEqual(prevProps.model, this.props.model);
+    let isRejected = this.props.model.update.isRejected;
+
+    let { router } = this.context;
+
+    if (wasPending && needsUpdate && !isRejected) {
+      router.history.push({
+        pathname: '/settings/eholdings/knowledge-base',
+        state: { eholdings: true, isFreshlySaved: true }
+      });
+    }
+  }
+
   render() {
     let {
       model,
@@ -33,6 +58,21 @@ class SettingsKnowledgeBase extends Component {
       intl,
       invalid
     } = this.props;
+
+    let { router } = this.context;
+
+    let toasts = processErrors(model);
+
+    if (router.history.action === 'PUSH' &&
+        router.history.location.state &&
+        router.history.location.state.isFreshlySaved &&
+        model.update.isResolved) {
+      toasts.push({
+        id: `settings-kb-${model.update.timestamp}`,
+        message: <FormattedMessage id="ui-eholdings.settings.kb.updated" />,
+        type: 'success'
+      });
+    }
 
     let actionMenuItems = [
       {
@@ -72,7 +112,7 @@ class SettingsKnowledgeBase extends Component {
             </Fragment>
           )}
         >
-          <Toaster toasts={processErrors(model)} position="bottom" />
+          <Toaster toasts={toasts} position="bottom" />
 
           <h3><FormattedMessage id="ui-eholdings.settings.kb.rmApiCreds" /></h3>
 
@@ -80,6 +120,22 @@ class SettingsKnowledgeBase extends Component {
             <Icon icon="spinner-ellipsis" />
           ) : (
             <Fragment>
+              <div
+                data-test-eholdings-settings-kb-url
+              >
+                <Field
+                  name="rmapiBaseUrl"
+                  component={Select}
+                  label={intl.formatMessage({ id: 'ui-eholdings.settings.kb.rmapiBaseUrl' })}
+                  dataOptions={[
+                    { value: 'https://sandbox.ebsco.io', label: 'Sandbox: https://sandbox.ebsco.io' },
+                    { value: 'https://api.ebsco.io', label: 'Production: https://api.ebsco.io' }
+                  ]}
+                />
+              </div>
+
+              <p><FormattedMessage id="ui-eholdings.settings.kb.url.ebsco.customer.message" /></p>
+
               <div
                 data-test-eholdings-settings-customerid
               >
