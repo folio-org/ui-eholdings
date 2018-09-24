@@ -305,5 +305,6 @@
     "number": "Number",
     "hidden": "Hidden",
     "name.isRequired": "Name *",
-    "resultCount": "{count, number} {count, plural, one {search result} other {search results}}"
-}
+    "resultCount": "{count, number} {count, plural, one {search result} other {search results}}",
+    "over": "Over"
+  }

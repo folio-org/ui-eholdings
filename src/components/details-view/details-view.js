@@ -39,6 +39,7 @@ class DetailsView extends Component {
     lastMenu: PropTypes.node,
     listSectionId: PropTypes.string,
     listType: PropTypes.node,
+    metaLength: PropTypes.number,
     model: PropTypes.shape({
       isLoaded: PropTypes.bool.isRequired,
       isLoading: PropTypes.bool.isRequired,
@@ -196,6 +197,7 @@ class DetailsView extends Component {
       paneSub,
       actionMenuItems,
       lastMenu,
+      metaLength,
       resultsLength,
       searchModal,
       sections,
@@ -300,6 +302,7 @@ class DetailsView extends Component {
                     label={capitalize(listType)}
                     displayWhenOpen={searchModal}
                     resultsLength={resultsLength}
+                    metaLength={metaLength}
                     contentRef={(n) => { this.$list = n; measureRef(n); }}
                     open={isListAccordionOpen}
                     id={listSectionId}
