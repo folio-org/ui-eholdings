@@ -84,6 +84,10 @@ describeApplication('Package Show Title Search', () => {
       expect(PackageShowPage.searchModalBadge.filterText).to.equal('');
     });
 
+    it('displays the number of relevant title records', () => {
+      expect(PackageShowPage.searchResultsCount).to.equal('3');
+    });
+
     describe('searching for a title', () => {
       beforeEach(() => {
         return PackageShowPage.clickListSearch()
@@ -171,6 +175,101 @@ describeApplication('Package Show Title Search', () => {
         it('properly filters to one result', () => {
           expect(PackageShowPage.titleList().length).to.equal(3);
         });
+      });
+    });
+  });
+
+  describe.skip('navigating to package show page with over 10k titles in package', () => {
+    beforeEach(function () {
+      this.server.get('/packages/19-5207', () => {
+        return new Response(200, {}, { 'data':{ 'id':'19-5207',
+          'type':'packages',
+          'attributes':{ 'contentType':'E-Book',
+            'customCoverage':{ 'beginCoverage':'', 'endCoverage':'' },
+            'isCustom':false,
+            'isSelected':true,
+            'name':'EBSCO eBooks',
+            'packageId':5207,
+            'packageType':'Selectable',
+            'providerId':19,
+            'providerName':'EBSCO',
+            'selectedCount':1,
+            'titleCount':1554086,
+            'vendorId':19,
+            'vendorName':'EBSCO',
+            'visibilityData':{ 'isHidden':false, 'reason':'' },
+            'allowKbToAddTitles':false,
+            'packageToken':null,
+            'proxy':{ 'id':'EZProxy', 'inherited':true } },
+          'relationships':{ 'resources':{ 'meta':{ 'included':false } }, 'vendor':{ 'meta':{ 'included':false } }, 'provider':{ 'meta':{ 'included':false } } } },
+        'jsonapi':{ 'version':'1.0' } })
+          .then(() => {
+            this.server.get('packages/19-5207/resources?page=1', () => {
+              return new Response(200, {}, { 'data':[],
+                'meta':{ 'totalResults': 10000 },
+                'jsonapi':{ 'version':'1.0' } });
+            });
+          });
+      });
+
+      return this.visit('/eholdings/packages/19-5207', () => {
+        expect(PackageShowPage.$root).to.exist;
+      });
+    });
+
+    it('displays the proper title count', () => {
+      expect(PackageShowPage.numTitles).to.equal('1,554,086');
+    });
+
+    it('displays the proper title count', () => {
+      expect(PackageShowPage.titleList().length).to.equal(10000);
+    });
+
+    it('displays the number of relevant title records', () => {
+      expect(PackageShowPage.searchResultsCount).to.equal('Over 10,000');
+    });
+  });
+
+  describe('navigating to package show page with over 10k titles in package', () => {
+    beforeEach(function () {
+      this.server.get('/packages/19-5207', { 'data':{ 'id':'19-5207',
+        'type':'packages',
+        'attributes':{ 'contentType':'E-Book',
+          'customCoverage':{ 'beginCoverage':'', 'endCoverage':'' },
+          'isCustom':false,
+          'isSelected':true,
+          'name':'EBSCO eBooks',
+          'packageId':5207,
+          'packageType':'Selectable',
+          'providerId':19,
+          'providerName':'EBSCO',
+          'selectedCount':1,
+          'titleCount':1554086,
+          'vendorId':19,
+          'vendorName':'EBSCO',
+          'visibilityData':{ 'isHidden':false, 'reason':'' },
+          'allowKbToAddTitles':false,
+          'packageToken':null,
+          'proxy':{ 'id':'EZProxy', 'inherited':true } },
+        'relationships':{ 'resources':{ 'meta':{ 'included':false } }, 'vendor':{ 'meta':{ 'included':false } }, 'provider':{ 'meta':{ 'included':false } } } },
+      'jsonapi':{ 'version':'1.0' } }, 200);
+    });
+    describe('with a package that has only 10K titles in resource list', () => {
+      beforeEach(() => {
+        this.server.get('packages/19-5207/resources?page=1', { 'data':[],
+          'meta':{ 'totalResults': 10000 },
+          'jsonapi':{ 'version':'1.0' } }, 200);
+      });
+      it('displays the proper title count', () => {
+        expect(PackageShowPage.numTitles).to.equal('1,554,086');
+      });
+
+      it('displays the proper title count', () => {
+        expect(PackageShowPage.titleList().length).to.equal(10000);
+      });
+
+      it('displays the number of relevant title records', () => {
+        expect(PackageShowPage.searchResultsCount).to.equal('Over 10,000');
       });
     });
   });
