@@ -60,6 +60,7 @@ class SearchPaneset extends React.Component {
   renderNewButton = () => {
     return (
       <Link
+        data-test-eholdings-search-new-button
         className={styles['search-new-button']}
         to={`/eholdings/${this.props.resultsType}/new`}
       >

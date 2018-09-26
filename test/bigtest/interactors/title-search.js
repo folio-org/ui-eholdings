@@ -37,6 +37,7 @@ import { hasClassBeginningWith } from './helpers';
   isSearchVignetteHidden = hasClassBeginningWith('[data-test-search-vignette]', 'is-hidden--');
   clickCloseButton = clickable('[data-test-eholdings-details-view-close-button]');
   hasPreSearchPane = isPresent('[data-test-eholdings-pre-search-pane]');
+  clickNewButton = clickable('[data-test-eholdings-search-new-button]');
 
   hasLoaded = computed(function () {
     return this.titleList().length > 0;

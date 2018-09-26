@@ -29,6 +29,7 @@ import Datepicker from './datepicker';
   addCoverage = clickable('[data-test-eholdings-package-coverage-fields] [data-test-repeatable-field-add-item-button]');
   save = clickable('[data-test-eholdings-package-create-save-button]');
   isSaveDisabled = property('[data-test-eholdings-package-create-save-button]', 'disabled');
+  hasBackButton = isPresent('[data-test-eholdings-details-view-back-button]');
 
   dateRangeRowList = collection('[data-test-eholdings-package-coverage-fields] li', {
     beginDate: scoped('[data-test-eholdings-coverage-fields-date-range-begin]', Datepicker),

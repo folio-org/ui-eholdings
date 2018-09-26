@@ -52,13 +52,17 @@ class PackageCreateRoute extends Component {
 
   render() {
     const { history, location } = this.props;
+    let onCancel = null;
+    if (location.state && location.state.eholdings) {
+      onCancel = () => history.goBack();
+    }
 
     return (
       <TitleManager record="New custom package">
         <View
           request={this.props.createRequest}
           onSubmit={this.packageCreateSubmitted}
-          onCancel={() => (location.state && location.state.eholdings && history.goBack())}
+          onCancel={onCancel}
           initialValues={{
             name: '',
             contentType: 'Unknown',

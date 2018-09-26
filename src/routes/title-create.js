@@ -66,13 +66,18 @@ class TitleCreateRoute extends Component {
       location
     } = this.props;
 
+    let onCancel = null;
+    if (location.state && location.state.eholdings) {
+      onCancel = () => history.goBack();
+    }
+
     return (
       <TitleManager record="New custom title">
         <View
           request={createRequest}
           customPackages={customPackages}
           onSubmit={this.createTitle}
-          onCancel={() => (location.state && location.state.eholdings && history.goBack())}
+          onCancel={onCancel}
           initialValues={{
             name: '',
             edition: '',
