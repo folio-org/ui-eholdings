@@ -179,26 +179,21 @@ describeApplication('Package Show Title Search', () => {
     });
   });
 
-  describe.skip('navigating to package show page with over 10k titles in package related resources meta totalResults', () => {
+  describe.only('navigating to package show page with over 10k titles in resources totalResults', () => {
     beforeEach(function () {
       let largeProviderPackage = this.server.create(
         'package',
-        'withTitles',
         {
           provider,
           name: 'Cool Large Package',
           contentType: 'E-Book',
           isSelected: false,
-          titleCount: 1,
+          titleCount: 1500000,
           packageType: 'Complete'
         }
       );
 
-      // let largeResources = this.server.schema.where('resource', {
-      //  packageId: largeProviderPackage.id
-      // }).models;
-
-      this.server.get(`packages/${largeProviderPackage.id}/resources?page=1`,
+      this.server.get(`packages/${largeProviderPackage.id}/resources`,
         { 'data':[],
           'meta':{ 'totalResults': 10000 },
           'jsonapi':{ 'version':'1.0' } }, 200);
@@ -215,7 +210,11 @@ describeApplication('Package Show Title Search', () => {
       );
     });
 
-    it('displays Over 10,000 as number of title records', () => {
+    it('displays the number of title records in package details', () => {
+      expect(PackageShowPage.numTitles).to.equal('1,500,000');
+    });
+
+    it('displays Over 10,000 as number of title records in list header', () => {
       expect(PackageShowPage.searchResultsCount).to.contain('Over');
       expect(PackageShowPage.searchResultsCount).to.contain('10,000');
     });
