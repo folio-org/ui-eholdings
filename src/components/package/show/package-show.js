@@ -420,7 +420,6 @@ class PackageShow extends Component {
           listSectionId="packageShowTitles"
           onListToggle={this.handleSectionToggle}
           resultsLength={model.resources.length}
-          metaLength={model.titleCount}
           renderList={scrollable => (
             <QueryList
               type="package-titles"
