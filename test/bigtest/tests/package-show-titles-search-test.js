@@ -179,7 +179,7 @@ describeApplication('Package Show Title Search', () => {
     });
   });
 
-  describe.only('navigating to package show page with over 10k titles in resources totalResults', () => {
+  describe('navigating to package show page with over 10k related resources', () => {
     beforeEach(function () {
       let largeProviderPackage = this.server.create(
         'package',

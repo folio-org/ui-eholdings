@@ -225,4 +225,39 @@ describeApplication('ProviderShow package search', () => {
       });
     });
   });
+
+  describe('navigating to provider show page with over 10k related packages', () => {
+    beforeEach(function () {
+      let largeProvider = this.server.create('provider',
+        {
+          name: 'Large Provider Test',
+          packagesTotal: 1500000
+        });
+
+      this.server.get(`providers/${largeProvider.id}/packages`,
+        { 'data':[],
+          'meta':{ 'totalResults': 10001 },
+          'jsonapi':{ 'version':'1.0' } }, 200);
+
+      return this.visit(
+        {
+          pathname: `/eholdings/providers/${largeProvider.id}`,
+          // our internal link component automatically sets the location state
+          state: { eholdings: true }
+        },
+        () => {
+          expect(ProviderShowPage.$root).to.exist;
+        }
+      );
+    });
+
+    it('displays the number of package records in provider details', () => {
+      expect(ProviderShowPage.numPackages).to.equal('1,500,000');
+    });
+
+    it('displays Over 10,000 as number of title records in list header', () => {
+      expect(ProviderShowPage.searchResultsCount).to.contain('Over');
+      expect(ProviderShowPage.searchResultsCount).to.contain('10,000');
+    });
+  });
 });
