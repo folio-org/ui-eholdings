@@ -304,6 +304,7 @@ class DetailsView extends Component {
                     open={isListAccordionOpen}
                     id={listSectionId}
                     onToggle={onListToggle}
+                    listType={listType}
                   >
                     {renderList(isSticky)}
                   </Accordion>

@@ -84,6 +84,10 @@ describeApplication('Package Show Title Search', () => {
       expect(PackageShowPage.searchModalBadge.filterText).to.equal('');
     });
 
+    it('displays the number of relevant title records', () => {
+      expect(PackageShowPage.searchResultsCount).to.equal('3');
+    });
+
     describe('searching for a title', () => {
       beforeEach(() => {
         return PackageShowPage.clickListSearch()
@@ -172,6 +176,47 @@ describeApplication('Package Show Title Search', () => {
           expect(PackageShowPage.titleList().length).to.equal(3);
         });
       });
+    });
+  });
+
+  describe('navigating to package show page with over 10k related resources', () => {
+    beforeEach(function () {
+      let largeProviderPackage = this.server.create(
+        'package',
+        {
+          provider,
+          name: 'Cool Large Package',
+          contentType: 'E-Book',
+          isSelected: false,
+          titleCount: 1500000,
+          packageType: 'Complete'
+        }
+      );
+
+      this.server.get(`packages/${largeProviderPackage.id}/resources`,
+        { 'data':[],
+          'meta':{ 'totalResults': 10000 },
+          'jsonapi':{ 'version':'1.0' } }, 200);
+
+      return this.visit(
+        {
+          pathname: `/eholdings/packages/${largeProviderPackage.id}`,
+          // our internal link component automatically sets the location state
+          state: { eholdings: true }
+        },
+        () => {
+          expect(PackageShowPage.$root).to.exist;
+        }
+      );
+    });
+
+    it('displays the number of title records in package details', () => {
+      expect(PackageShowPage.numTitles).to.equal('1,500,000');
+    });
+
+    it('displays Over 10,000 as number of title records in list header', () => {
+      expect(PackageShowPage.searchResultsCount).to.contain('Over');
+      expect(PackageShowPage.searchResultsCount).to.contain('10,000');
     });
   });
 });
