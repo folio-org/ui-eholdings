@@ -7,6 +7,7 @@ import set from 'lodash/fp/set';
 import {
   Accordion,
   Button,
+  Headline,
   IconButton,
   Icon,
   KeyValue,
@@ -173,7 +174,7 @@ class ResourceShow extends Component {
           bodyContent={(
             <div>
               <Accordion
-                label={<FormattedMessage id="ui-eholdings.label.holdingStatus" />}
+                label={<Headline size="large" tag="h3"><FormattedMessage id="ui-eholdings.label.holdingStatus" /></Headline>}
                 open={sections.resourceShowHoldingStatus}
                 id="resourceShowHoldingStatus"
                 onToggle={this.handleSectionToggle}
@@ -186,13 +187,13 @@ class ResourceShow extends Component {
                     model.update.isPending ? (
                       <Icon icon='spinner-ellipsis' />
                     ) : (
-                      <h4>
+                      <Headline>
                         {resourceSelected ? (
                           <FormattedMessage id="ui-eholdings.selected" />
                         ) : (
                           <FormattedMessage id="ui-eholdings.notSelected" />
                         )}
-                      </h4>
+                      </Headline>
                     )
                   }
                   <br />
@@ -209,7 +210,7 @@ class ResourceShow extends Component {
               </Accordion>
 
               <Accordion
-                label={<FormattedMessage id="ui-eholdings.resource.resourceInformation" />}
+                label={<Headline size="large" tag="h3"><FormattedMessage id="ui-eholdings.resource.resourceInformation" /></Headline>}
                 open={sections.resourceShowInformation}
                 id="resourceShowInformation"
                 onToggle={this.handleSectionToggle}
@@ -307,7 +308,7 @@ class ResourceShow extends Component {
               </Accordion>
 
               <Accordion
-                label={<FormattedMessage id="ui-eholdings.resource.resourceSettings" />}
+                label={<Headline size="large" tag="h3"><FormattedMessage id="ui-eholdings.resource.resourceSettings" /></Headline>}
                 open={sections.resourceShowSettings}
                 id="resourceShowSettings"
                 onToggle={this.handleSectionToggle}
@@ -352,7 +353,7 @@ class ResourceShow extends Component {
               </Accordion>
 
               <Accordion
-                label={<FormattedMessage id="ui-eholdings.label.coverageSettings" />}
+                label={<Headline size="large" tag="h3"><FormattedMessage id="ui-eholdings.label.coverageSettings" /></Headline>}
                 open={sections.resourceShowCoverageSettings}
                 id="resourceShowCoverageSettings"
                 onToggle={this.handleSectionToggle}

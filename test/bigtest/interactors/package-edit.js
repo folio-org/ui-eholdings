@@ -154,7 +154,7 @@ import PackageSelectionStatus from './selection-status';
 
   name = fillable('[data-test-eholdings-package-name-field] input');
   contentType = fillable('[data-test-eholdings-package-content-type-field] select');
-  nameHasError = hasClassBeginningWith('[data-test-eholdings-package-name-field] input', 'hasError--');
+  nameHasError = hasClassBeginningWith('[data-test-eholdings-package-name-field] [class*=inputGroup--]', 'hasError--');
 
   dateRangeRowList = collection('[data-test-eholdings-package-coverage-fields] li', {
     beginDate: scoped('[data-test-eholdings-coverage-fields-date-range-begin]', Datepicker),

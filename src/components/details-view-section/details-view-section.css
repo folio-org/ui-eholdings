@@ -4,7 +4,7 @@
   border-top: 1px solid var(--minor-divider-color);
   margin: 0 auto;
   max-width: 50rem;
-  padding-bottom: 1em;
+  padding: 0.83em 0;
 
   &.hide-separator {
     border-top: none;
@@ -13,7 +13,7 @@
 
 .details-view-section-label {
   color: var(--subLabelColor #999);
-  font-size: 18px;
+  font-size: var(--mediumFontSize);
   font-weight: 600;
   margin: 1em auto;
   max-width: 50rem;

@@ -29,33 +29,11 @@
   margin: 2rem auto;
   max-width: 50rem;
 
-  & h2 {
-    font-size: 2.5em;
-    font-weight: 700;
-    margin: 0.5em 1em 0 0;
-  }
-
-  & h4 {
-    font-size: inherit;
-    margin: 0.5em 0;
-  }
-
-  & label h4 {
-    display: inline-block;
-  }
-
   & h1:focus,
   & h2:focus,
   & h3:focus,
   & h4:focus {
     outline: none;
-  }
-
-  & p {
-    color: var(--secondary);
-    font-size: 1.5em;
-    font-weight: 600;
-    margin: 0.25em auto 0;
   }
 
   & button {

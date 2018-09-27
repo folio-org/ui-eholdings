@@ -5,6 +5,7 @@ import set from 'lodash/fp/set';
 import {
   Accordion,
   Button,
+  Headline,
   IconButton,
   KeyValue,
   Modal,
@@ -174,7 +175,7 @@ class TitleShow extends Component {
           lastMenu={this.lastMenu}
           bodyContent={(
             <Accordion
-              label={<FormattedMessage id="ui-eholdings.title.titleInformation" />}
+              label={<Headline size="large" tag="h3"><FormattedMessage id="ui-eholdings.title.titleInformation" /></Headline>}
               open={sections.titleShowTitleInformation}
               id="titleShowTitleInformation"
               onToggle={this.handleSectionToggle}

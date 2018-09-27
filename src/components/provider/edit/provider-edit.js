@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { reduxForm } from 'redux-form';
 import { injectIntl, intlShape, FormattedMessage } from 'react-intl';
 import {
+  Headline,
   Icon
 } from '@folio/stripes-components';
 
@@ -109,9 +110,9 @@ class ProviderEdit extends Component {
 
                       {supportsTokens && (
                         <fieldset>
-                          <legend>
+                          <Headline tag="legend">
                             <FormattedMessage id="ui-eholdings.provider.token" />
-                          </legend>
+                          </Headline>
                           <TokenField token={model.providerToken} tokenValue={hasTokenValue} type="provider" />
                         </fieldset>
                       )}

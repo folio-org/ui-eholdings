@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames/bind';
 import { FormattedNumber, FormattedMessage } from 'react-intl';
+import { Headline } from '@folio/stripes-components';
 
 import shouldFocus from '../should-focus';
 import styles from './provider-list-item.css';
@@ -10,8 +11,6 @@ import Link from '../link';
 const cx = classNames.bind(styles);
 
 function ProviderListItem({ item, link, active, onClick, headingLevel }) {
-  let Heading = headingLevel || 'h3';
-
   return !item ? (
     <div className={styles.skeleton} />
   ) : (
@@ -28,9 +27,13 @@ function ProviderListItem({ item, link, active, onClick, headingLevel }) {
         }
       }}
     >
-      <Heading data-test-eholdings-provider-list-item-name>
+      <Headline
+        data-test-eholdings-provider-list-item-name
+        margin="none"
+        tag={headingLevel || 'h3'}
+      >
         {item.name}
-      </Heading>
+      </Headline>
 
       <div data-test-eholdings-provider-list-item-selections>
         <span data-test-eholdings-provider-list-item-num-packages-selected>

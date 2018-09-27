@@ -72,7 +72,7 @@
   align-items: center;
   justify-content: center;
   height: 100%;
-  font-size: 22px;
+  font-size: var(--xLargeFontSize);
 }
 
 .search-new-button {

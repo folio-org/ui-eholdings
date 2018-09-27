@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames/bind';
 import { FormattedNumber, FormattedMessage } from 'react-intl';
+import { Headline } from '@folio/stripes-components';
 
 import shouldFocus from '../should-focus';
 import styles from './package-list-item.css';
@@ -19,8 +20,6 @@ function PackageListItem({
   onClick,
   headingLevel,
 }) {
-  let Heading = headingLevel || 'h3';
-
   return !item ? (
     <div
       className={cx('skeleton', {
@@ -42,9 +41,13 @@ function PackageListItem({
         }
       }}
     >
-      <Heading data-test-eholdings-package-list-item-name>
+      <Headline
+        data-test-eholdings-package-list-item-name
+        margin="none"
+        tag={headingLevel || 'h3'}
+      >
         {packageName || item.name}
-      </Heading>
+      </Headline>
 
       {showProviderName && (
         <div data-test-eholdings-package-list-item-provider-name>

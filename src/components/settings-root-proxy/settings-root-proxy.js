@@ -1,7 +1,7 @@
 import React, { Component, Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { reduxForm } from 'redux-form';
-import { Icon } from '@folio/stripes-components';
+import { Headline, Icon } from '@folio/stripes-components';
 import { intlShape, injectIntl, FormattedMessage } from 'react-intl';
 
 import SettingsDetailPane from '../settings-detail-pane';
@@ -85,7 +85,10 @@ class SettingsRootProxy extends Component {
           )}
         >
           <Toaster toasts={toasts} position="bottom" />
-          <h3><FormattedMessage id="ui-eholdings.settings.rootProxy.setting" /></h3>
+
+          <Headline size="xx-large" tag="h3">
+            <FormattedMessage id="ui-eholdings.settings.rootProxy.setting" />
+          </Headline>
 
           {proxyTypes.isLoading ? (
             <Icon icon="spinner-ellipsis" />

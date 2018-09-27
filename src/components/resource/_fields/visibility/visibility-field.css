@@ -2,11 +2,4 @@
   & fieldset {
     padding-left: 0;
   }
-
-  & legend {
-    color: black;
-    font-size: 1rem;
-    font-weight: normal;
-    text-transform: none;
-  }
 }
