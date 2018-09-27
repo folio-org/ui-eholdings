@@ -37,7 +37,6 @@
     "qs": "^6.5.1",
     "react": "^16.4.2",
     "react-dom": "^16.4.2",
-    "react-router-prop-types": "^1.0.4",
     "react-transition-group": "^2.2.1",
     "react-trigger-change": "^1.0.2",
     "stylelint": "^9.5.0",
@@ -54,6 +53,7 @@
     "inflected": "^2.0.3",
     "react-intl": "^2.4.0",
     "react-measure": "^2.1.0",
+    "react-router-prop-types": "^1.0.4",
     "redux-actions": "^2.2.1",
     "rxjs": "^5.5.12"
   },
