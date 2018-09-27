@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import ReactRouterPropTypes from 'react-router-prop-types';
 import { connect } from 'react-redux';
 import capitalize from 'lodash/capitalize';
 import isEqual from 'lodash/isEqual';
@@ -21,28 +22,13 @@ import { filterCountFromQuery } from '../components/search-modal/search-modal';
 class SearchRoute extends Component {
   static propTypes = {
     children: PropTypes.node.isRequired,
-    history: PropTypes.shape({
-      location: PropTypes.object,
-      push: PropTypes.func.isRequired,
-      replace: PropTypes.func.isRequired
-    }).isRequired,
-    location: PropTypes.shape({
-      pathname: PropTypes.string.isRequired,
-      search: PropTypes.string.isRequired
-    }).isRequired,
-    match: PropTypes.shape({
-      params: PropTypes.shape({
-        id: PropTypes.string
-      }).isRequired
-    }).isRequired,
+    history: ReactRouterPropTypes.history.isRequired,
+    location: ReactRouterPropTypes.location.isRequired,
+    match: ReactRouterPropTypes.match.isRequired,
     resolver: PropTypes.object.isRequired,
     searchPackages: PropTypes.func.isRequired,
     searchProviders: PropTypes.func.isRequired,
     searchTitles: PropTypes.func.isRequired
-  };
-
-  static childContextTypes = {
-    queryParams: PropTypes.object
   };
 
   constructor(props) {
@@ -72,16 +58,6 @@ class SearchRoute extends Component {
     };
   }
 
-  getChildContext() {
-    return {
-      // provide child components with query params that we've already parsed
-      queryParams: {
-        searchType: this.state.searchType,
-        ...this.state.params
-      }
-    };
-  }
-
   static getDerivedStateFromProps(nextProps, prevState) {
     let { location, match } = nextProps;
     let { searchType, ...params } = qs.parse(location.search);
@@ -96,7 +72,6 @@ class SearchRoute extends Component {
     // stated in https://issues.folio.org/browse/UIEH-558
     if (!isEqual(location, prevState.location)) {
       return {
-        ...prevState,
         location,
         match,
         searchType,
@@ -264,7 +239,7 @@ class SearchRoute extends Component {
    */
   renderResults() {
     let { searchType, params, shouldFocusItem } = this.state;
-    let { match: { params: { id } } } = this.props;
+    let { history, location, match: { params: { id } } } = this.props;
 
     let props = {
       params,
@@ -273,7 +248,14 @@ class SearchRoute extends Component {
       location: this.props.location,
       collection: this.getResults(),
       onUpdateOffset: this.handleOffset,
-      fetch: this.fetchPage
+      fetch: this.fetchPage,
+      onClickItem: (detailUrl) => {
+        history.push({
+          pathname: detailUrl,
+          search: location.search,
+          state: { eholdings: true }
+        });
+      }
     };
 
     if (params.q) {
@@ -294,7 +276,7 @@ class SearchRoute extends Component {
    * render the search paneset, otherwise simply render our children
    */
   render() {
-    let { location, children } = this.props;
+    let { children, history, location } = this.props;
     let {
       searchType,
       params,
@@ -319,7 +301,6 @@ class SearchRoute extends Component {
         <TitleManager record={capitalize(searchType)}>
           <div data-test-eholdings>
             <SearchPaneset
-              location={location}
               filterCount={filterCount}
               hideFilters={hideFilters}
               resultsType={searchType}
@@ -328,6 +309,12 @@ class SearchRoute extends Component {
               totalResults={results.length}
               isLoading={!results.hasLoaded}
               updateFilters={this.updateFilters}
+              searchLocation={location.search}
+              onClosePreview={() => history.push({
+                pathname: '/eholdings',
+                search: location.search,
+                state: { eholdings: true }
+              })}
               searchForm={(
                 <SearchForm
                   sort={sort}

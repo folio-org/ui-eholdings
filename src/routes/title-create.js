@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import ReactRouterPropTypes from 'react-router-prop-types';
 import { connect } from 'react-redux';
 import { TitleManager } from '@folio/stripes-core';
 
@@ -14,15 +15,9 @@ class TitleCreateRoute extends Component {
     createRequest: PropTypes.object.isRequired,
     createTitle: PropTypes.func.isRequired,
     customPackages: PropTypes.object.isRequired,
-    getCustomPackages: PropTypes.func.isRequired
-  };
-
-  static contextTypes = {
-    router: PropTypes.shape({
-      history: PropTypes.shape({
-        replace: PropTypes.func.isRequired
-      }).isRequired
-    }).isRequired
+    getCustomPackages: PropTypes.func.isRequired,
+    history: ReactRouterPropTypes.history.isRequired,
+    location: ReactRouterPropTypes.location.isRequired
   };
 
   componentDidMount() {
@@ -31,7 +26,7 @@ class TitleCreateRoute extends Component {
 
   componentDidUpdate(prevProps) {
     if (!prevProps.createRequest.isResolved && this.props.createRequest.isResolved) {
-      this.context.router.history.replace(
+      this.props.history.replace(
         `/eholdings/titles/${this.props.createRequest.records[0]}`,
         { eholdings: true, isNewRecord: true }
       );
@@ -66,8 +61,15 @@ class TitleCreateRoute extends Component {
   render() {
     let {
       createRequest,
-      customPackages
+      customPackages,
+      history,
+      location
     } = this.props;
+
+    let onCancel = null;
+    if (location.state && location.state.eholdings) {
+      onCancel = () => history.goBack();
+    }
 
     return (
       <TitleManager record="New custom title">
@@ -75,6 +77,7 @@ class TitleCreateRoute extends Component {
           request={createRequest}
           customPackages={customPackages}
           onSubmit={this.createTitle}
+          onCancel={onCancel}
           initialValues={{
             name: '',
             edition: '',

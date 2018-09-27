@@ -27,14 +27,15 @@ import ProxyDisplay from '../proxy-display';
 
 class ResourceShow extends Component {
   static propTypes = {
+    editLink: PropTypes.oneOfType([
+      PropTypes.string,
+      PropTypes.object
+    ]).isRequired,
     intl: intlShape.isRequired,
+    isFreshlySaved: PropTypes.bool,
     model: PropTypes.object.isRequired,
     proxyTypes: PropTypes.object.isRequired,
     toggleSelected: PropTypes.func.isRequired
-  };
-
-  static contextTypes = {
-    router: PropTypes.object
   };
 
   state = {
@@ -50,7 +51,7 @@ class ResourceShow extends Component {
 
   static getDerivedStateFromProps({ model }, prevState) {
     return !model.isSaving ?
-      { ...prevState, resourceSelected: model.isSelected } :
+      { resourceSelected: model.isSelected } :
       prevState;
   }
 
@@ -88,8 +89,7 @@ class ResourceShow extends Component {
   }
 
   render() {
-    let { model, intl, proxyTypes } = this.props;
-    let { router } = this.context;
+    let { model, intl, proxyTypes, editLink, isFreshlySaved } = this.props;
     let {
       showSelectionModal,
       resourceSelected,
@@ -118,10 +118,7 @@ class ResourceShow extends Component {
     let actionMenuItems = [
       {
         label: <FormattedMessage id="ui-eholdings.actionMenu.edit" />,
-        to: {
-          pathname: `/eholdings/resources/${model.id}/edit`,
-          state: { eholdings: true }
-        }
+        to: editLink
       }
     ];
 
@@ -129,9 +126,7 @@ class ResourceShow extends Component {
 
     // if coming from updating any value on managed title in a managed package
     // show a success toast
-    if (router.history.action === 'PUSH' &&
-        router.history.location.state &&
-        router.history.location.state.isFreshlySaved) {
+    if (isFreshlySaved) {
       toasts.push({
         id: `success-package-creation-${model.id}`,
         message: <FormattedMessage id="ui-eholdings.resource.toast.isFreshlySaved" />,
@@ -172,10 +167,7 @@ class ResourceShow extends Component {
               data-test-eholdings-resource-edit-link
               icon="edit"
               ariaLabel={`Edit ${model.title.name}`}
-              to={{
-                pathname: `/eholdings/resources/${model.id}/edit`,
-                state: { eholdings: true }
-              }}
+              to={editLink}
             />
           )}
           bodyContent={(

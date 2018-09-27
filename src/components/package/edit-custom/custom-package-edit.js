@@ -1,7 +1,6 @@
 import React, { Component, Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { reduxForm, Field } from 'redux-form';
-import isEqual from 'lodash/isEqual';
 import { intlShape, injectIntl, FormattedMessage } from 'react-intl';
 
 import {
@@ -30,23 +29,19 @@ class CustomPackageEdit extends Component {
   static propTypes = {
     addPackageToHoldings: PropTypes.func.isRequired,
     change: PropTypes.func,
+    fullViewLink: PropTypes.oneOfType([
+      PropTypes.string,
+      PropTypes.object
+    ]),
     handleSubmit: PropTypes.func,
     initialValues: PropTypes.object.isRequired,
     intl: intlShape.isRequired,
     model: PropTypes.object.isRequired,
+    onCancel: PropTypes.func.isRequired,
     onSubmit: PropTypes.func.isRequired,
     pristine: PropTypes.bool,
     provider: PropTypes.object.isRequired,
     proxyTypes: PropTypes.object.isRequired
-  };
-
-  static contextTypes = {
-    router: PropTypes.shape({
-      history: PropTypes.shape({
-        push: PropTypes.func.isRequired
-      }).isRequired
-    }).isRequired,
-    queryParams: PropTypes.object
   };
 
   state = {
@@ -54,51 +49,26 @@ class CustomPackageEdit extends Component {
     allowFormToSubmit: false,
     packageSelected: this.props.initialValues.isSelected,
     formValues: {},
-    // these are used above in getDerivedStateFromProps
-    packageVisible: this.props.initialValues.isVisible, // eslint-disable-line react/no-unused-state
-    initialValues: this.props.initialValues // eslint-disable-line react/no-unused-state
+    initialValues: this.props.initialValues
   }
 
   static getDerivedStateFromProps(nextProps, prevState) {
+    let stateUpdates = {};
+
     if (nextProps.model.destroy.errors.length) {
-      return { showSelectionModal: false };
+      stateUpdates.showSelectionModal = false;
     }
 
     if (nextProps.initialValues.isSelected !== prevState.initialValues.isSelected) {
-      return {
-        ...prevState,
+      Object.assign(stateUpdates, {
         initialValues: {
-          ...prevState.initialValues,
           isSelected: nextProps.initialValues.isSelected
         },
         packageSelected: nextProps.initialValues.isSelected
-      };
-    }
-    return prevState;
-  }
-
-  componentDidUpdate(prevProps) {
-    let wasPending = prevProps.model.update.isPending && !this.props.model.update.isPending;
-    let needsUpdate = !isEqual(prevProps.model, this.props.model);
-    let { router } = this.context;
-
-    if (wasPending && needsUpdate) {
-      router.history.push({
-        pathname: `/eholdings/packages/${this.props.model.id}`,
-        search: router.route.location.search,
-        state: { eholdings: true, isFreshlySaved: true }
       });
     }
-  }
 
-  handleCancel = () => {
-    let { router } = this.context;
-
-    router.history.push({
-      pathname: `/eholdings/packages/${this.props.model.id}`,
-      search: this.context.router.route.location.search,
-      state: { eholdings: true }
-    });
+    return Object.keys(stateUpdates) ? stateUpdates : null;
   }
 
   handleDeleteAction = () => {
@@ -148,7 +118,9 @@ class CustomPackageEdit extends Component {
       pristine,
       proxyTypes,
       provider,
-      intl
+      intl,
+      onCancel,
+      fullViewLink
     } = this.props;
 
     let {
@@ -156,32 +128,20 @@ class CustomPackageEdit extends Component {
       packageSelected
     } = this.state;
 
-    let {
-      queryParams,
-      router
-    } = this.context;
-
     let visibilityMessage = model.visibilityData.reason && `(${model.visibilityData.reason})`;
 
     let actionMenuItems = [
       {
         'label': intl.formatMessage({ id: 'ui-eholdings.actionMenu.cancelEditing' }),
-        'to': {
-          pathname: `/eholdings/packages/${model.id}`,
-          search: router.route.location.search,
-          state: { eholdings: true }
-        },
+        'onClick': onCancel,
         'data-test-eholdings-package-cancel-action': true
       }
     ];
 
-    if (queryParams.searchType) {
+    if (fullViewLink) {
       actionMenuItems.push({
         label: intl.formatMessage({ id: 'ui-eholdings.actionMenu.fullView' }),
-        to: {
-          pathname: `/eholdings/packages/${model.id}/edit`,
-          state: { eholdings: true }
-        },
+        to: fullViewLink,
         className: styles['full-view-link']
       });
     }

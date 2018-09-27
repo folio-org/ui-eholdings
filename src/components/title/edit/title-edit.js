@@ -1,7 +1,6 @@
 import React, { Component, Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { reduxForm } from 'redux-form';
-import isEqual from 'lodash/isEqual';
 
 import {
   Icon
@@ -24,47 +23,19 @@ import styles from './title-edit.css';
 
 class TitleEdit extends Component {
   static propTypes = {
+    fullViewLink: PropTypes.oneOfType([
+      PropTypes.string,
+      PropTypes.object
+    ]),
     handleSubmit: PropTypes.func,
     initialValues: PropTypes.object.isRequired,
     intl: intlShape.isRequired,
     model: PropTypes.object.isRequired,
+    onCancel: PropTypes.func.isRequired,
     onSubmit: PropTypes.func.isRequired,
     pristine: PropTypes.bool,
-    updateRequest: PropTypes.object.isRequired
+    updateRequest: PropTypes.object.isRequired,
   };
-
-  static contextTypes = {
-    router: PropTypes.shape({
-      history: PropTypes.shape({
-        push: PropTypes.func.isRequired
-      }).isRequired
-    }).isRequired,
-    queryParams: PropTypes.object
-  };
-
-  componentDidUpdate(prevProps) {
-    let wasPending = prevProps.model.update.isPending && !this.props.model.update.isPending;
-    let needsUpdate = !isEqual(prevProps.initialValues, this.props.initialValues);
-    let { router } = this.context;
-
-    if (wasPending && needsUpdate) {
-      router.history.push({
-        pathname: `/eholdings/titles/${prevProps.model.id}`,
-        search: router.route.location.search,
-        state: { eholdings: true }
-      });
-    }
-  }
-
-  handleCancel = () => {
-    let { router } = this.context;
-
-    router.history.push({
-      pathname: `/eholdings/titles/${this.props.model.id}`,
-      search: router.route.location.search,
-      state: { eholdings: true }
-    });
-  }
 
   render() {
     let {
@@ -74,33 +45,23 @@ class TitleEdit extends Component {
       pristine,
       updateRequest,
       initialValues,
-      intl
+      intl,
+      onCancel,
+      fullViewLink
     } = this.props;
-
-    let {
-      queryParams,
-      router
-    } = this.context;
 
     let actionMenuItems = [
       {
         'label': <FormattedMessage id="ui-eholdings.actionMenu.cancelEditing" />,
-        'to': {
-          pathname: `/eholdings/titles/${model.id}`,
-          search: router.route.location.search,
-          state: { eholdings: true }
-        },
+        'onClick': onCancel,
         'data-test-eholdings-title-cancel-action': true
       }
     ];
 
-    if (queryParams.searchType) {
+    if (fullViewLink) {
       actionMenuItems.push({
         label: <FormattedMessage id="ui-eholdings.actionMenu.fullView" />,
-        to: {
-          pathname: `/eholdings/titles/${model.id}`,
-          state: { eholdings: true }
-        },
+        to: fullViewLink,
         className: styles['full-view-link']
       });
     }

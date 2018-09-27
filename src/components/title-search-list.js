@@ -9,11 +9,11 @@ export default function TitleSearchList({
   activeId,
   collection,
   fetch,
-  location,
   onUpdateOffset,
   params,
-  shouldFocusItem
-}, { router }) {
+  shouldFocusItem,
+  onClickItem
+}) {
   return (
     <QueryList
       type="titles"
@@ -38,11 +38,7 @@ export default function TitleSearchList({
           }}
           active={item.content && activeId && item.content.id === activeId}
           shouldFocus={item.content && shouldFocusItem && item.content.id === shouldFocusItem}
-          onClick={() => {
-            router.history.push(
-              `/eholdings/titles/${item.content.id}${location.search}`
-            );
-          }}
+          onClick={() => onClickItem(`/eholdings/titles/${item.content.id}`)}
         />
       )}
     />
@@ -53,12 +49,8 @@ TitleSearchList.propTypes = {
   activeId: PropTypes.string,
   collection: PropTypes.object.isRequired,
   fetch: PropTypes.func.isRequired,
-  location: PropTypes.object.isRequired,
+  onClickItem: PropTypes.func.isRequired,
   onUpdateOffset: PropTypes.func.isRequired,
   params: PropTypes.object.isRequired,
   shouldFocusItem: PropTypes.string
-};
-
-TitleSearchList.contextTypes = {
-  router: PropTypes.object
 };

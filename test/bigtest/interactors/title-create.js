@@ -64,6 +64,7 @@ import {
   isPeerReviewed = property('[data-test-eholdings-peer-reviewed-field] input', 'checked');
   save = clickable('[data-test-eholdings-title-create-save-button]');
   isSaveDisabled = property('[data-test-eholdings-title-create-save-button]', 'disabled');
+  hasBackButton = isPresent('[data-test-eholdings-details-view-back-button]');
 
   dropDown = new TitleCreateDropDown('[class*=paneHeaderCenterInner---] [class*=dropdown---]');
   dropDownMenu = new TitleCreateDropDownMenu();
