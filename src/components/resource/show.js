@@ -7,6 +7,7 @@ import set from 'lodash/fp/set';
 import {
   Accordion,
   Button,
+  Headline,
   IconButton,
   Icon,
   KeyValue,
@@ -186,13 +187,13 @@ class ResourceShow extends Component {
                     model.update.isPending ? (
                       <Icon icon='spinner-ellipsis' />
                     ) : (
-                      <h4>
+                      <Headline size="small">
                         {resourceSelected ? (
                           <FormattedMessage id="ui-eholdings.selected" />
                         ) : (
                           <FormattedMessage id="ui-eholdings.notSelected" />
                         )}
-                      </h4>
+                      </Headline>
                     )
                   }
                   <br />

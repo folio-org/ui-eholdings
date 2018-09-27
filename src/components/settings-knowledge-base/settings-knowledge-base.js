@@ -4,6 +4,7 @@ import { reduxForm, Field } from 'redux-form';
 import isEqual from 'lodash/isEqual';
 import { intlShape, injectIntl, FormattedMessage } from 'react-intl';
 import {
+  Headline,
   Icon,
   TextField,
   Select
@@ -114,7 +115,9 @@ class SettingsKnowledgeBase extends Component {
         >
           <Toaster toasts={toasts} position="bottom" />
 
-          <h3><FormattedMessage id="ui-eholdings.settings.kb.rmApiCreds" /></h3>
+          <Headline size="large" tag="h3">
+            <FormattedMessage id="ui-eholdings.settings.kb.rmApiCreds" />
+          </Headline>
 
           {model.isLoading ? (
             <Icon icon="spinner-ellipsis" />

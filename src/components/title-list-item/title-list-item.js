@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames/bind';
 import { FormattedMessage } from 'react-intl';
+import { Headline } from '@folio/stripes-components';
 
 import shouldFocus from '../should-focus';
 import styles from './title-list-item.css';
@@ -18,8 +19,6 @@ function TitleListItem({
   onClick,
   headingLevel
 }) {
-  let Heading = headingLevel || 'h3';
-
   return !item ? (
     <div
       className={cx('skeleton', {
@@ -41,9 +40,13 @@ function TitleListItem({
         }
       }}
     >
-      <Heading data-test-eholdings-title-list-item-title-name>
+      <Headline
+        data-test-eholdings-title-list-item-title-name
+        size="small"
+        tag={headingLevel || 'h3'}
+      >
         {item.name}
-      </Heading>
+      </Headline>
 
       {showPublisherAndType && (
         <div>

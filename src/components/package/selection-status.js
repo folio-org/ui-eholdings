@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import { Icon, Button } from '@folio/stripes-components';
+import { Headline, Icon, Button } from '@folio/stripes-components';
 import { FormattedMessage } from 'react-intl';
 
 export default function SelectionStatus({ model, onAddToHoldings }) {
@@ -21,11 +21,25 @@ SelectionStatus.propTypes = {
   onAddToHoldings: PropTypes.func.isRequired
 };
 
+function messageFor(model) {
+  if (model.isPartiallySelected) {
+    return {
+      id: 'ui-eholdings.package.partiallySelected',
+      values: { selectedCount: model.selectedCount, titleCount: model.titleCount }
+    };
+  }
+  if (model.isSelected) {
+    return { id: 'ui-eholdings.selected' };
+  } else {
+    return { id: 'ui-eholdings.notSelected' };
+  }
+}
+
 function SelectionStatusMessage({ model }) {
   if (model.isInFlight) {
     return <Icon icon="spinner-ellipsis" />;
   } else {
-    return <h4><FormattedMessage {...messageFor(model)} /></h4>; // eslint-disable-line no-use-before-define
+    return <Headline size="small" tag="h4"><FormattedMessage {...messageFor(model)} /></Headline>;
   }
 }
 
@@ -45,20 +59,5 @@ function SelectionStatusButton({ model, onAddToHoldings }) {
     );
   } else {
     return null;
-  }
-}
-
-
-function messageFor(model) {
-  if (model.isPartiallySelected) {
-    return {
-      id: 'ui-eholdings.package.partiallySelected',
-      values: { selectedCount: model.selectedCount, titleCount: model.titleCount }
-    };
-  }
-  if (model.isSelected) {
-    return { id: 'ui-eholdings.selected' };
-  } else {
-    return { id: 'ui-eholdings.notSelected' };
   }
 }
