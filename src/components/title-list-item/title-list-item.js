@@ -42,6 +42,7 @@ function TitleListItem({
     >
       <Headline
         data-test-eholdings-title-list-item-title-name
+        margin="none"
         size="small"
         tag={headingLevel || 'h3'}
       >

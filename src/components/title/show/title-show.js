@@ -256,7 +256,7 @@ class TitleShow extends Component {
           resultsLength={model.resources.length}
           renderList={scrollable => (
             <ScrollView
-              itemHeight={70}
+              itemHeight={80}
               items={model.resources}
               scrollable={scrollable}
               data-test-query-list="title-packages"
