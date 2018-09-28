@@ -81,7 +81,7 @@ import Datepicker from './datepicker';
   toast = Toast;
 
   name = fillable('[data-test-eholdings-resource-name-field] input');
-  nameHasError = hasClassBeginningWith('[data-test-eholdings-resource-name-field] input', 'hasError--');
+  nameHasError = hasClassBeginningWith('[data-test-eholdings-resource-name-field] [class*=inputGroup--]', 'hasError--');
 
   clickAddRowButton = clickable('[data-test-eholdings-resource-coverage-fields] [data-test-repeatable-field-add-item-button]');
 
@@ -135,7 +135,7 @@ import Datepicker from './datepicker';
   publicationTypeValue = value('[data-test-eholdings-publication-type-field] select');
   fillPublisher = fillable('[data-test-eholdings-publisher-name-field] input');
   publisherValue = value('[data-test-eholdings-publisher-name-field] input');
-  publisherHasError = hasClassBeginningWith('[data-test-eholdings-publisher-name-field] input', 'hasError--');
+  publisherHasError = hasClassBeginningWith('[data-test-eholdings-publisher-name-field] [class*=inputGroup--]', 'hasError--');
   proxySelectValue = value('[data-test-eholdings-resource-proxy-select] select');
   chooseProxy = selectable('[data-test-eholdings-resource-proxy-select] select');
 
