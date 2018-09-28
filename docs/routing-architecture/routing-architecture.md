@@ -290,12 +290,12 @@ class PackageShow extends Component {
 
 export default function SelectionStatus({ onAddToHoldings }) {
   return (
-    <label data-test-eholdings-package-details-selected>
+    <div data-test-eholdings-package-details-selected>
       <SelectionStatusButton
         // pass the function into another component
         onAddToHoldings={onAddToHoldings}
       />
-    </label>);
+    </div>);
 }
 
 SelectionStatus.propTypes = {
