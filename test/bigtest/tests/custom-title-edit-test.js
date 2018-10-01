@@ -1,11 +1,12 @@
 import { expect } from 'chai';
 import { describe, beforeEach, it } from '@bigtest/mocha';
 
-import { describeApplication } from '../helpers/describe-application';
+import setupApplication from '../helpers/setup-application';
 import TitleShowPage from '../interactors/title-show';
 import TitleEditPage from '../interactors/title-edit';
 
-describeApplication('CustomTitleEdit', () => {
+describe('CustomTitleEdit', () => {
+  setupApplication();
   let provider,
     providerPackage,
     title;

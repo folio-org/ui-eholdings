@@ -1,14 +1,8 @@
-import { okapi } from 'stripes-config'; // eslint-disable-line import/no-unresolved
-import { Response } from '@bigtest/mirage';
 import { searchRouteFor, nestedResourceRouteFor, includesWords } from './helpers';
 
 // typical mirage config export
 export default function configure() {
-  this.urlPrefix = okapi.url;
-
   // okapi endpoints
-  this.get('/_/version', () => '0.0.0');
-
   this.get('_/proxy/tenants/:id/modules', [{
     id: 'mod-kb-ebsco',
     name: 'kb-ebsco',
@@ -17,48 +11,6 @@ export default function configure() {
       version: '0.0.0'
     }]
   }]);
-
-  this.get('/saml/check', {
-    ssoEnabled: false
-  });
-
-  // mod-users
-  this.get('/users', []);
-
-  // mod-config
-  this.get('/configurations/entries', {
-    configs: []
-  });
-
-  // mod-users-bl
-  this.post('/bl-users/login', () => {
-    return new Response(201, {
-      'X-Okapi-Token': `myOkapiToken:${Date.now()}`
-    }, {
-      user: {
-        username: 'testuser',
-        personal: {
-          lastName: 'User',
-          firstName: 'Test',
-          email: 'folio_admin@frontside.io',
-        }
-      },
-      permissions: {
-        permissions: []
-      }
-    });
-  });
-
-  // mod-notify
-  this.get('/notify/_self', {
-    notifications: [],
-    totalRecords: 0
-  });
-
-  this.get('/notify', {
-    notifications: [],
-    totalRecords: 0
-  });
 
   // e-holdings endpoints
   this.namespace = 'eholdings';
@@ -437,10 +389,4 @@ export default function configure() {
 
     return {};
   });
-
-  // translation bundle passthrough
-  this.pretender.get(`${__webpack_public_path__}translations/:rand.json`, this.pretender.passthrough); // eslint-disable-line
-
-  // hot-reload passthrough
-  this.pretender.get('/:rand.hot-update.json', this.pretender.passthrough);
 }

@@ -1,12 +1,13 @@
 import { beforeEach, describe, it } from '@bigtest/mocha';
 import { expect } from 'chai';
 
-import { describeApplication } from '../helpers/describe-application';
+import setupApplication from '../helpers/setup-application';
 import PackageSearchPage from '../interactors/package-search';
 import PackageShowPage from '../interactors/package-show';
 import ResourceShowPage from '../interactors/resource-show';
 
-describeApplication('PackageSearch', () => {
+describe('PackageSearch', () => {
+  setupApplication();
   let pkgs;
 
   beforeEach(function () {

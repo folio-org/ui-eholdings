@@ -1,11 +1,13 @@
 import { beforeEach, describe, it } from '@bigtest/mocha';
 import { expect } from 'chai';
 
-import { describeApplication } from '../helpers/describe-application';
+import setupApplication from '../helpers/setup-application';
 import SettingsRootProxyPage from '../interactors/settings-root-proxy';
 
 
-describeApplication('With list of root proxies available to a customer', () => {
+describe('With list of root proxies available to a customer', () => {
+  setupApplication();
+
   describe('when visiting the settings root proxy form', () => {
     beforeEach(function () {
       return this.visit('/settings/eholdings/root-proxy', () => expect(SettingsRootProxyPage.$root).to.exist);

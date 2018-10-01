@@ -1,10 +1,11 @@
 import { expect } from 'chai';
 import { beforeEach, describe, it } from '@bigtest/mocha';
 
-import { describeApplication } from '../helpers/describe-application';
+import setupApplication from '../helpers/setup-application';
 import PackageShowPage from '../interactors/package-show';
 
-describeApplication('PackageShowAllowKbToAddTitles', () => {
+describe('PackageShowAllowKbToAddTitles', () => {
+  setupApplication();
   let provider,
     pkg;
 

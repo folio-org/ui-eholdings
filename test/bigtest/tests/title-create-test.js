@@ -1,13 +1,14 @@
 import { beforeEach, describe, it } from '@bigtest/mocha';
 import { expect } from 'chai';
 
-import { describeApplication } from '../helpers/describe-application';
+import setupApplication from '../helpers/setup-application';
 import TitleCreatePage from '../interactors/title-create';
 import TitleShowPage from '../interactors/title-show';
 import TitleSearchPage from '../interactors/title-search';
 import NavigationModal from '../interactors/navigation-modal';
 
-describeApplication('TitleCreate', () => {
+describe('TitleCreate', () => {
+  setupApplication();
   let packages;
 
   describe('submitting the form', () => {

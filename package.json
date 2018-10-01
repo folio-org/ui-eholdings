@@ -14,7 +14,6 @@
     "stylelint": "stylelint \"src/**/*.css\""
   },
   "devDependencies": {
-    "@bigtest/convergence": "^0.10.0",
     "@bigtest/interactor": "^0.7.2",
     "@bigtest/mirage": "^0.0.1",
     "@bigtest/mocha": "^0.5.1",
@@ -27,9 +26,7 @@
     "babel-eslint": "^9.0.0",
     "babel-polyfill": "^6.26.0",
     "chai": "^4.0.2",
-    "chai-jquery": "^2.0.0",
     "eslint": "^5.5.0",
-    "jquery": "^3.2.1",
     "lodash": "^4.17.4",
     "mocha": "^5.2.0",
     "moment": "^2.22.2",
@@ -38,7 +35,7 @@
     "react": "^16.4.2",
     "react-dom": "^16.4.2",
     "react-transition-group": "^2.2.1",
-    "react-trigger-change": "^1.0.2",
+    "sinon": "^6.3.4",
     "stylelint": "^9.5.0",
     "stylelint-config-standard": "^18.2.0",
     "stylelint-junit-formatter": "^0.2.1",

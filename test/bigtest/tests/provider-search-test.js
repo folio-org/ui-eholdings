@@ -1,12 +1,13 @@
 import { beforeEach, describe, it } from '@bigtest/mocha';
 import { expect } from 'chai';
 
-import { describeApplication } from '../helpers/describe-application';
+import setupApplication from '../helpers/setup-application';
 import ProviderSearchPage from '../interactors/provider-search';
 import ProviderShowPage from '../interactors/provider-show';
 import PackageShowPage from '../interactors/package-show';
 
-describeApplication('ProviderSearch', () => {
+describe('ProviderSearch', () => {
+  setupApplication();
   beforeEach(function () {
     this.server.createList('provider', 3, 'withPackagesAndTitles', {
       name: i => `Provider${i + 1}`,

@@ -1,11 +1,12 @@
 import { beforeEach, describe, it } from '@bigtest/mocha';
 import { expect } from 'chai';
 
-import { describeApplication } from '../helpers/describe-application';
+import setupApplication from '../helpers/setup-application';
 import PackageShowPage from '../interactors/package-show';
 import TitleShowPage from '../interactors/title-show';
 
-describeApplication('DetailsView', () => {
+describe('DetailsView', () => {
+  setupApplication();
   beforeEach(function () {
     this.server.loadFixtures();
   });

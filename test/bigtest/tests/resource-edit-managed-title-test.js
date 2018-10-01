@@ -1,13 +1,14 @@
 import { expect } from 'chai';
 import { describe, beforeEach, it } from '@bigtest/mocha';
 
-import { describeApplication } from '../helpers/describe-application';
+import setupApplication from '../helpers/setup-application';
 import ResourceShowPage from '../interactors/resource-show';
 import ResourceEditPage from '../interactors/resource-edit';
 
 window.ResourceEditPage = ResourceEditPage;
 
-describeApplication('ResourceEditManagedTitleInManagedPackage', () => {
+describe('ResourceEditManagedTitleInManagedPackage', () => {
+  setupApplication();
   let provider,
     providerPackage,
     resource;

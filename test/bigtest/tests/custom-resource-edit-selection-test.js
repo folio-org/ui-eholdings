@@ -1,12 +1,13 @@
 import { beforeEach, describe, it } from '@bigtest/mocha';
 import { expect } from 'chai';
 
-import { describeApplication } from '../helpers/describe-application';
+import setupApplication from '../helpers/setup-application';
 import ResourcePage from '../interactors/resource-show';
 import ResourceEditPage from '../interactors/resource-edit';
 import PackageSearchPage from '../interactors/package-search';
 
-describeApplication('CustomResourceHoldingSelection', () => {
+describe('CustomResourceHoldingSelection', () => {
+  setupApplication();
   let provider,
     title,
     providerPackage,

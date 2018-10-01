@@ -1,12 +1,13 @@
 import { beforeEach, describe, it } from '@bigtest/mocha';
 import { expect } from 'chai';
 
-import { describeApplication } from '../helpers/describe-application';
+import setupApplication from '../helpers/setup-application';
 import TitleSearchPage from '../interactors/title-search';
 import TitleShowPage from '../interactors/title-show';
 import ResourceShowPage from '../interactors/resource-show';
 
-describeApplication('TitleSearch', () => {
+describe('TitleSearch', () => {
+  setupApplication();
   let titles;
 
   // Odd indexed items are assigned alternate attributes targeted in specific filtering tests
