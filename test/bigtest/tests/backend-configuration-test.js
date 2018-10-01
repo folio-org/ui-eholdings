@@ -6,7 +6,7 @@ import setupApplication from '../helpers/setup-application';
 import ApplicationPage from '../interactors/application';
 import SettingsPage from '../interactors/settings';
 
-describe('Error retrieving backend', {
+describe.skip('Error retrieving backend', {
   scenarios: ['load-error-backend'],
 
   suite() {
@@ -24,7 +24,7 @@ describe('Error retrieving backend', {
   }
 });
 
-describe('With no backend at all', {
+describe.skip('With no backend at all', {
   scenarios: ['no-backend'],
 
   suite() {
@@ -42,7 +42,7 @@ describe('With no backend at all', {
   }
 });
 
-describe('With unconfigured backend', {
+describe.skip('With unconfigured backend', {
   scenarios: ['unconfigured-backend'],
 
   suite() {
