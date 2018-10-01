@@ -48,7 +48,7 @@ import Toast from './toast';
   toast = Toast
 
   name = fillable('[data-test-eholdings-title-name-field] input');
-  nameHasError = hasClassBeginningWith('[data-test-eholdings-title-name-field] input', 'hasError--');
+  nameHasError = hasClassBeginningWith('[data-test-eholdings-title-name-field] [class*=inputGroup--]', 'hasError--');
 
   selectPublicationType = fillable('[data-test-eholdings-publication-type-field] select');
   selectContributorType = fillable('[data-test-eholdings-contributor-type] select');
@@ -57,12 +57,12 @@ import Toast from './toast';
   fillPublisher = fillable('[data-test-eholdings-publisher-name-field] input');
   editionValue = value('[data-test-eholdings-edition-field] input');
   publisherValue = value('[data-test-eholdings-publisher-name-field] input');
-  publisherHasError = hasClassBeginningWith('[data-test-eholdings-publisher-name-field] input', 'hasError--');
-  editionHasError = hasClassBeginningWith('[data-test-eholdings-edition-field] input', 'hasError--');
+  publisherHasError = hasClassBeginningWith('[data-test-eholdings-publisher-name-field] [class*=inputGroup--]', 'hasError--');
+  editionHasError = hasClassBeginningWith('[data-test-eholdings-edition-field] [class*=inputGroup--]', 'hasError--');
   fillContributor = fillable('[data-test-eholdings-contributor-contributor] input')
   publisherValue = value('[data-test-eholdings-publisher-name-field] input');
-  publisherHasError = hasClassBeginningWith('[data-test-eholdings-publisher-name-field] input', 'hasError--');
-  contributorHasError = hasClassBeginningWith('[data-test-eholdings-contributor-contributor] input', 'hasError--');
+  publisherHasError = hasClassBeginningWith('[data-test-eholdings-publisher-name-field] [class*=inputGroup--]', 'hasError--');
+  contributorHasError = hasClassBeginningWith('[data-test-eholdings-contributor-contributor] [class*=inputGroup--]', 'hasError--');
   contributorError = text('[data-test-eholdings-contributor-contributor] [class^="feedbackError--"]');
 
   hasContributorBtn = isPresent('[data-test-eholdings-contributor-field] [data-test-repeatable-field-add-item-button]');
@@ -83,7 +83,7 @@ import Toast from './toast';
   identifiersRowList = collection('[data-test-eholdings-identifiers-fields] li', {
     type: fillable('[data-test-eholdings-identifiers-fields-type] select'),
     id: fillable('[data-test-eholdings-identifiers-fields-id] input'),
-    idHasError: hasClassBeginningWith('[data-test-eholdings-identifiers-fields-id] input', 'hasError--'),
+    idHasError: hasClassBeginningWith('[data-test-eholdings-identifiers-fields-id] [class*=inputGroup--]', 'hasError--'),
     clickRemoveRowButton: clickable('[data-test-repeatable-field-remove-item-button]')
   });
 

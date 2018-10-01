@@ -187,7 +187,7 @@ class ProviderShow extends Component {
               collection={packages}
               length={packages.length}
               scrollable={scrollable}
-              itemHeight={70}
+              itemHeight={80}
               notFoundMessage={<FormattedMessage id="ui-eholdings.notFound" />}
               renderItem={item => (
                 <PackageListItem

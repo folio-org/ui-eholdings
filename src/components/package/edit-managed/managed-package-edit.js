@@ -4,6 +4,7 @@ import { reduxForm, Field } from 'redux-form';
 import { intlShape, injectIntl, FormattedMessage } from 'react-intl';
 
 import {
+  Headline,
   Icon,
   Modal,
   ModalFooter,
@@ -291,17 +292,17 @@ class ManagedPackageEdit extends Component {
                       )}
                       {supportsProviderTokens && (
                         <fieldset>
-                          <legend>
+                          <Headline tag="legend" size="small">
                             <FormattedMessage id="ui-eholdings.provider.token" />
-                          </legend>
+                          </Headline>
                           <TokenField token={provider.providerToken} tokenValue={hasProviderTokenValue} type="provider" />
                         </fieldset>
                       )}
                       {supportsPackageTokens && (
                         <fieldset>
-                          <legend>
+                          <Headline tag="legend" size="small">
                             <FormattedMessage id="ui-eholdings.package.token" />
-                          </legend>
+                          </Headline>
                           <TokenField token={model.packageToken} tokenValue={hasPackageTokenValue} type="package" />
                         </fieldset>
                       )}

@@ -5,6 +5,7 @@ import { formValueSelector, reduxForm } from 'redux-form';
 import { intlShape, injectIntl, FormattedMessage } from 'react-intl';
 
 import {
+  Headline,
   Icon,
   Modal,
   ModalFooter
@@ -205,12 +206,12 @@ class ResourceEditCustomTitle extends Component {
                     data-test-eholdings-resource-holding-status
                     htmlFor="custom-resource-holding-status"
                   >
-                    <h4>
+                    <Headline size="small">
                       {resourceSelected ?
                         (<FormattedMessage id="ui-eholdings.selected" />)
                         :
                         (<FormattedMessage id="ui-eholdings.notSelected" />)}
-                    </h4>
+                    </Headline>
                     <br />
                   </label>
                 </DetailsViewSection>
@@ -242,19 +243,23 @@ class ResourceEditCustomTitle extends Component {
                 >
                   {resourceSelected ? (
                     <Fragment>
-                      <h4><FormattedMessage id="ui-eholdings.label.dates" /></h4>
+                      <Headline size="small" tag="h4"><FormattedMessage id="ui-eholdings.label.dates" /></Headline>
                       <CustomCoverageFields
                         initialValue={initialValues.customCoverages}
                         model={model}
                       />
 
-                      <h4><FormattedMessage id="ui-eholdings.label.coverageStatement" /></h4>
+                      <Headline size="small" tag="h4">
+                        <FormattedMessage id="ui-eholdings.label.coverageStatement" />
+                      </Headline>
                       <CoverageStatementFields
                         change={change}
                         coverageDates={this.renderCoverageDates()}
                       />
 
-                      <h4><FormattedMessage id="ui-eholdings.resource.embargoPeriod" /></h4>
+                      <Headline size="small" tag="h4">
+                        <FormattedMessage id="ui-eholdings.resource.embargoPeriod" />
+                      </Headline>
                       <CustomEmbargoFields
                         change={change}
                         showInputs={(initialValues.customEmbargoValue > 0)}

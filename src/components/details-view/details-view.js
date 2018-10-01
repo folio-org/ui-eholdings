@@ -11,6 +11,7 @@ import queryString from 'qs';
 
 import {
   Accordion,
+  Headline,
   Icon,
   IconButton,
   PaneHeader
@@ -255,15 +256,24 @@ class DetailsView extends Component {
         >
           {model.isLoaded ? [
             <div key="header" className={styles.header}>
-              <h2
+              <Headline
+                size="large"
+                tag="h2"
                 tabIndex={-1}
                 ref={this.$heading}
                 data-test-eholdings-details-view-name={type}
               >
                 {paneTitle}
-              </h2>
+              </Headline>
               {paneSub && (
-                <p>{paneSub}</p>
+                <Headline
+                  bold={false}
+                  faded
+                  size="medium"
+                  tag="div"
+                >
+                  {paneSub}
+                </Headline>
               )}
               {sections && (
                 <div data-test-eholdings-details-view-collapse-all-button>
