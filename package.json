@@ -20,7 +20,7 @@
     "@bigtest/mocha": "^0.5.1",
     "@bigtest/react": "^0.1.2",
     "@folio/eslint-config-stripes": "^3.2.1",
-    "@folio/stripes-cli": "^1.4.0",
+    "@folio/stripes-cli": "frontside-folio/stripes-cli#jc/hot-loader",
     "@folio/stripes-connect": "^3.2.0",
     "@folio/stripes-core": "^2.14.0",
     "@folio/stripes-logger": "^0.0.2",

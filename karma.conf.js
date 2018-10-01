@@ -66,9 +66,8 @@ module.exports = (config) => {
     };
   }
 
-
-  // configuration.webpack.devServer.hot = false;
   // console.log(configuration);
+  // console.log(config);
 
   config.set(configuration);
 };
