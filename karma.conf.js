@@ -10,6 +10,14 @@ module.exports = (config) => {
 
     preprocessors,
 
+    // turn off hot reload in tests
+    webpack: {
+      devServer: {
+        hot: false
+      }
+    },
+
+    // BrowerStack configuration
     browserStack: {
       project: 'ui-eholdings'
     },
@@ -57,6 +65,10 @@ module.exports = (config) => {
       lines: 95
     };
   }
+
+
+  // configuration.webpack.devServer.hot = false;
+  // console.log(configuration);
 
   config.set(configuration);
 };
