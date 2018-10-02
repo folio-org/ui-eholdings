@@ -36,8 +36,6 @@ const servePlugin = {
 
 module.exports = {
   // Assign defaults to existing CLI options
-  tenant: "fs",
-  install: true,
   hasAllPerms: true,
   logCategories: '',
 
