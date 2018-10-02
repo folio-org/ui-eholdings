@@ -10,13 +10,6 @@ module.exports = (config) => {
 
     preprocessors,
 
-    // turn off hot reload in tests
-    webpack: {
-      devServer: {
-        hot: false
-      }
-    },
-
     // BrowerStack configuration
     browserStack: {
       project: 'ui-eholdings'
@@ -68,6 +61,11 @@ module.exports = (config) => {
 
   // console.log(configuration);
   // console.log(config);
+
+  // remove hmr plugin during testing
+  config.webpack.plugins = config.webpack.plugins.filter(plugin => {
+    return plugin.constructor.name !== 'HotModuleReplacementPlugin';
+  });
 
   config.set(configuration);
 };
