@@ -39,7 +39,7 @@ function SelectionStatusMessage({ model }) {
   if (model.isInFlight) {
     return <Icon icon="spinner-ellipsis" />;
   } else {
-    return <Headline size="small"><FormattedMessage {...messageFor(model)} /></Headline>;
+    return <Headline margin="none"><FormattedMessage {...messageFor(model)} /></Headline>;
   }
 }
 

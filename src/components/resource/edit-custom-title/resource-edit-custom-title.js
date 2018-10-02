@@ -206,7 +206,7 @@ class ResourceEditCustomTitle extends Component {
                     data-test-eholdings-resource-holding-status
                     htmlFor="custom-resource-holding-status"
                   >
-                    <Headline size="small">
+                    <Headline>
                       {resourceSelected ?
                         (<FormattedMessage id="ui-eholdings.selected" />)
                         :
@@ -243,13 +243,13 @@ class ResourceEditCustomTitle extends Component {
                 >
                   {resourceSelected ? (
                     <Fragment>
-                      <Headline size="small" tag="h4"><FormattedMessage id="ui-eholdings.label.dates" /></Headline>
+                      <Headline tag="h4"><FormattedMessage id="ui-eholdings.label.dates" /></Headline>
                       <CustomCoverageFields
                         initialValue={initialValues.customCoverages}
                         model={model}
                       />
 
-                      <Headline size="small" tag="h4">
+                      <Headline tag="h4">
                         <FormattedMessage id="ui-eholdings.label.coverageStatement" />
                       </Headline>
                       <CoverageStatementFields
@@ -257,7 +257,7 @@ class ResourceEditCustomTitle extends Component {
                         coverageDates={this.renderCoverageDates()}
                       />
 
-                      <Headline size="small" tag="h4">
+                      <Headline tag="h4">
                         <FormattedMessage id="ui-eholdings.resource.embargoPeriod" />
                       </Headline>
                       <CustomEmbargoFields

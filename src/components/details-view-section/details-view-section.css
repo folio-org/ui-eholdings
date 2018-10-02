@@ -4,7 +4,7 @@
   border-top: 1px solid var(--minor-divider-color);
   margin: 0 auto;
   max-width: 50rem;
-  padding: 0.83em 0;
+  padding: 0.83em 0 1em 0;
 
   &.hide-separator {
     border-top: none;

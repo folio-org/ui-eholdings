@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import update from 'lodash/fp/update';
 import set from 'lodash/fp/set';
-import { Accordion, Icon, IconButton, KeyValue } from '@folio/stripes-components';
+import { Accordion, Headline, Icon, IconButton, KeyValue } from '@folio/stripes-components';
 import { intlShape, injectIntl, FormattedNumber, FormattedMessage } from 'react-intl';
 import capitalize from 'lodash/capitalize';
 
@@ -125,7 +125,7 @@ class ProviderShow extends Component {
           bodyContent={(
             <div>
               <Accordion
-                label={<FormattedMessage id="ui-eholdings.provider.providerInformation" />}
+                label={<Headline size="large" tag="h3"><FormattedMessage id="ui-eholdings.provider.providerInformation" /></Headline>}
                 open={sections.providerShowProviderInformation}
                 id="providerShowProviderInformation"
                 onToggle={this.handleSectionToggle}
@@ -144,7 +144,7 @@ class ProviderShow extends Component {
               </Accordion>
               {hasProviderSettings && (
                 <Accordion
-                  label={<FormattedMessage id="ui-eholdings.provider.providerSettings" />}
+                  label={<Headline size="large" tag="h3"><FormattedMessage id="ui-eholdings.provider.providerSettings" /></Headline>}
                   open={sections.providerShowProviderSettings}
                   id="providerShowProviderSettings"
                   onToggle={this.handleSectionToggle}
@@ -187,7 +187,7 @@ class ProviderShow extends Component {
               collection={packages}
               length={packages.length}
               scrollable={scrollable}
-              itemHeight={80}
+              itemHeight={60}
               notFoundMessage={<FormattedMessage id="ui-eholdings.notFound" />}
               renderItem={item => (
                 <PackageListItem

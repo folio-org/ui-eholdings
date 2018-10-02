@@ -1,5 +1,8 @@
+@import '@folio/stripes-components/lib/variables';
+
 .list {
-  line-height: 1.15;
+  font-size: var(--font-size-small);
+  line-height: var(--line-height);
   max-width: 48rem;
   margin: 0 auto;
   padding: 0;
@@ -20,11 +23,11 @@
     & a {
       text-decoration: none;
       display: block;
-      padding: 1em;
+      padding: 0.5rem 1rem 0.5rem 1.5rem;
       color: #666;
 
       &:hover {
-        background-color: #efefef;
+        background-color: var(--color-fill-hover);
       }
 
       & h3,

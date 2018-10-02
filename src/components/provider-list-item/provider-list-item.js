@@ -30,7 +30,7 @@ function ProviderListItem({ item, link, active, onClick, headingLevel }) {
       <Headline
         data-test-eholdings-provider-list-item-name
         margin="none"
-        size="small"
+        size="medium"
         tag={headingLevel || 'h3'}
       >
         {item.name}

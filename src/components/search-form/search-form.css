@@ -13,6 +13,7 @@
 
 .search-switcher {
   display: block;
+  font-size: var(--font-size-small);
   margin: 0 auto 1em;
   position: relative;
   vertical-align: middle;
@@ -76,6 +77,6 @@
   }
 
   & [role="tabpanel"] {
-    padding-left: 1em;
+    margin-left: 1rem;
   }
 }

@@ -26,7 +26,7 @@
 
 .header {
   padding: 0 1rem;
-  margin: 2rem auto;
+  margin: 3rem auto 1rem auto;
   max-width: 50rem;
 
   & h1:focus,
@@ -63,6 +63,10 @@
     flex-direction: column;
     height: 100%;
     width: 100%;
+  }
+
+  & [role="tabpanel"] {
+    margin-left: 0;
   }
 
   & .list {

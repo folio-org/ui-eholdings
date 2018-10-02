@@ -115,7 +115,7 @@ class SettingsKnowledgeBase extends Component {
         >
           <Toaster toasts={toasts} position="bottom" />
 
-          <Headline size="large" tag="h3">
+          <Headline size="xx-large" tag="h3">
             <FormattedMessage id="ui-eholdings.settings.kb.rmApiCreds" />
           </Headline>
 

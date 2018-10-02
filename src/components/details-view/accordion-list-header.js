@@ -17,20 +17,22 @@ function AccordionListHeader(props) {
     <div className={styles['accordion-list-header']}>
       <AccordionHeader {...props} />
       {props.open && (
-        <KeyValue label={intl.formatMessage({ id: 'ui-eholdings.label.accordionList' })}>
-          <div data-test-eholdings-details-view-results-count>
-            {showOver ? (
-              <span>
-                <FormattedMessage id="ui-eholdings.over" />
-                &nbsp;
-                <FormattedNumber value={displayOverCount} />
-              </span>
-            )
-              :
-              (<FormattedNumber value={props.resultsLength} />)
-            }
-          </div>
-        </KeyValue>
+        <div className={styles['accordion-list-count']}>
+          <KeyValue label={intl.formatMessage({ id: 'ui-eholdings.label.accordionList' })}>
+            <div data-test-eholdings-details-view-results-count>
+              {showOver ? (
+                <span>
+                  <FormattedMessage id="ui-eholdings.over" />
+                  &nbsp;
+                  <FormattedNumber value={displayOverCount} />
+                </span>
+              )
+                :
+                (<FormattedNumber value={props.resultsLength} />)
+              }
+            </div>
+          </KeyValue>
+        </div>
       )}
     </div>
   );

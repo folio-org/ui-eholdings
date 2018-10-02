@@ -227,7 +227,7 @@ class ResourceEditManagedTitle extends Component {
                     {model.update.isPending ? (
                       <Icon icon='spinner-ellipsis' />
                     ) : (
-                      <Headline size="small">
+                      <Headline>
                         {managedResourceSelected ?
                           (<FormattedMessage id="ui-eholdings.selected" />)
                           : (<FormattedMessage id="ui-eholdings.notSelected" />)
@@ -267,7 +267,7 @@ class ResourceEditManagedTitle extends Component {
                 >
                   {managedResourceSelected ? (
                     <Fragment>
-                      <Headline size="small" tag="h4">
+                      <Headline tag="h4">
                         <FormattedMessage id="ui-eholdings.label.dates" />
                       </Headline>
                       <ManagedCoverageFields
@@ -275,7 +275,7 @@ class ResourceEditManagedTitle extends Component {
                         model={model}
                       />
 
-                      <Headline size="small" tag="h4">
+                      <Headline tag="h4">
                         <FormattedMessage id="ui-eholdings.label.coverageDisplay" />
                       </Headline>
                       <CoverageStatementFields
@@ -283,7 +283,7 @@ class ResourceEditManagedTitle extends Component {
                         coverageDates={this.renderCoverageDates()}
                       />
 
-                      <Headline size="small" tag="h4">
+                      <Headline tag="h4">
                         <FormattedMessage id="ui-eholdings.resource.embargoPeriod" />
                       </Headline>
                       <CustomEmbargoFields

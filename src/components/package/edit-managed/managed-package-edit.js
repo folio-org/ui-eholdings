@@ -292,7 +292,7 @@ class ManagedPackageEdit extends Component {
                       )}
                       {supportsProviderTokens && (
                         <fieldset>
-                          <Headline tag="legend" size="small">
+                          <Headline tag="legend">
                             <FormattedMessage id="ui-eholdings.provider.token" />
                           </Headline>
                           <TokenField token={provider.providerToken} tokenValue={hasProviderTokenValue} type="provider" />
@@ -300,7 +300,7 @@ class ManagedPackageEdit extends Component {
                       )}
                       {supportsPackageTokens && (
                         <fieldset>
-                          <Headline tag="legend" size="small">
+                          <Headline tag="legend">
                             <FormattedMessage id="ui-eholdings.package.token" />
                           </Headline>
                           <TokenField token={model.packageToken} tokenValue={hasPackageTokenValue} type="package" />

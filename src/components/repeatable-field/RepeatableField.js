@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 
 import {
   Button,
+  Headline,
   IconButton
 } from '@folio/stripes-components';
 import reduxFormFieldArray from './ReduxFormFieldArray';
@@ -39,12 +40,13 @@ class RepeatableField extends Component {
         className={css.repeatableField}
       >
         {legend && (
-          <legend
+          <Headline
+            tag="legend"
             data-test-repeatable-field-legend
             className={css.repeatableFieldLegend}
           >
             {legend}
-          </legend>
+          </Headline>
         )}
 
         {fields.length === 0 && emptyMessage && (
