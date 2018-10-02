@@ -110,7 +110,7 @@ class ProviderEdit extends Component {
 
                       {supportsTokens && (
                         <fieldset>
-                          <Headline tag="legend" size="small">
+                          <Headline tag="legend">
                             <FormattedMessage id="ui-eholdings.provider.token" />
                           </Headline>
                           <TokenField token={model.providerToken} tokenValue={hasTokenValue} type="provider" />

@@ -3,7 +3,8 @@ import PropTypes from 'prop-types';
 import { Field } from 'redux-form';
 import { FormattedMessage, intlShape, injectIntl } from 'react-intl';
 
-import { RadioButtonGroup, RadioButton } from '@folio/stripes-components';
+import RadioButton from '../../../radio-button';
+import RadioButtonGroup from '../../../radio-button-group';
 import styles from './visibility-field.css';
 
 class VisibilityField extends Component {

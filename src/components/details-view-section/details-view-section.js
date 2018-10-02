@@ -9,7 +9,7 @@ const cx = classNames.bind(styles);
 export default function DetailsViewSection(props) {
   return (
     <div className={cx('details-view-section', { 'hide-separator': !props.separator })}>
-      <Headline tag="h3" size="medium" faded>{props.label}</Headline>
+      <Headline tag="h3" size="large" faded>{props.label}</Headline>
       <div className={styles['details-view-section-value']}>
         {props.children}
       </div>

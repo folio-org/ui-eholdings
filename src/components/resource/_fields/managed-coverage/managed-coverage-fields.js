@@ -69,12 +69,10 @@ class ResourceCoverageFields extends Component {
           <RadioButton
             label={intl.formatMessage({ id: 'ui-eholdings.label.managed.coverageDates' })}
             disabled={model.managedCoverages.length === 0}
-            input={{
-              checked: (fields.length === 0 && model.managedCoverages.length > 0),
-              onChange: (e) => {
-                if (e.target.value === 'on') {
-                  fields.removeAll();
-                }
+            checked={fields.length === 0 && model.managedCoverages.length > 0}
+            onChange={(e) => {
+              if (e.target.value === 'on') {
+                fields.removeAll();
               }
             }}
           />
@@ -92,12 +90,10 @@ class ResourceCoverageFields extends Component {
         <div>
           <RadioButton
             label={intl.formatMessage({ id: 'ui-eholdings.label.custom.coverageDates' })}
-            input={{
-              checked: fields.length > 0,
-              onChange: (e) => {
-                if (e.target.value === 'on' && fields.length === 0) {
-                  fields.push({});
-                }
+            checked={fields.length > 0}
+            onChange={(e) => {
+              if (e.target.value === 'on' && fields.length === 0) {
+                fields.push({});
               }
             }}
           />

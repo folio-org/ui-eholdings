@@ -257,8 +257,9 @@ class DetailsView extends Component {
           {model.isLoaded ? [
             <div key="header" className={styles.header}>
               <Headline
-                size="large"
+                size="xx-large"
                 tag="h2"
+                margin="none"
                 tabIndex={-1}
                 ref={this.$heading}
                 data-test-eholdings-details-view-name={type}
@@ -269,7 +270,7 @@ class DetailsView extends Component {
                 <Headline
                   bold={false}
                   faded
-                  size="medium"
+                  size="large"
                   tag="div"
                 >
                   {paneSub}
@@ -308,7 +309,7 @@ class DetailsView extends Component {
                   <Accordion
                     separator={!isSticky}
                     header={AccordionListHeader}
-                    label={capitalize(listType)}
+                    label={<Headline size="large" tag="h3">{capitalize(listType)}</Headline>}
                     displayWhenOpen={searchModal}
                     resultsLength={resultsLength}
                     contentRef={(n) => { this.$list = n; measureRef(n); }}

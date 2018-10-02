@@ -21,7 +21,7 @@ export default function TitleSearchList({
       fetch={fetch}
       collection={collection}
       onUpdateOffset={onUpdateOffset}
-      itemHeight={96}
+      itemHeight={76}
       notFoundMessage={(
         <FormattedMessage
           id="ui-eholdings.title.resultsNotFound"

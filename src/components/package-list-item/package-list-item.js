@@ -44,7 +44,7 @@ function PackageListItem({
       <Headline
         data-test-eholdings-package-list-item-name
         margin="none"
-        size="small"
+        size="medium"
         tag={headingLevel || 'h3'}
       >
         {packageName || item.name}

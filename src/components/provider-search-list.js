@@ -21,7 +21,7 @@ export default function ProviderSearchList({
       fetch={fetch}
       collection={collection}
       onUpdateOffset={onUpdateOffset}
-      itemHeight={80}
+      itemHeight={60}
       notFoundMessage={(
         <FormattedMessage
           id="ui-eholdings.provider.resultsNotFound"

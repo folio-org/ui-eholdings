@@ -5,6 +5,7 @@ import set from 'lodash/fp/set';
 
 import {
   Accordion,
+  Headline,
   Icon,
   IconButton,
   KeyValue,
@@ -239,7 +240,7 @@ class PackageShow extends Component {
           bodyContent={(
             <div>
               <Accordion
-                label={<FormattedMessage id="ui-eholdings.label.holdingStatus" />}
+                label={<Headline size="large" tag="h3"><FormattedMessage id="ui-eholdings.label.holdingStatus" /></Headline>}
                 open={sections.packageShowHoldingStatus}
                 id="packageShowHoldingStatus"
                 onToggle={this.handleSectionToggle}
@@ -250,7 +251,7 @@ class PackageShow extends Component {
                 />
               </Accordion>
               <Accordion
-                label={<FormattedMessage id="ui-eholdings.label.packageInformation" />}
+                label={<Headline size="large" tag="h3"><FormattedMessage id="ui-eholdings.label.packageInformation" /></Headline>}
                 open={sections.packageShowInformation}
                 id="packageShowInformation"
                 onToggle={this.handleSectionToggle}
@@ -296,7 +297,7 @@ class PackageShow extends Component {
                 </KeyValueColumns>
               </Accordion>
               <Accordion
-                label={<FormattedMessage id="ui-eholdings.package.packageSettings" />}
+                label={<Headline size="large" tag="h3"><FormattedMessage id="ui-eholdings.package.packageSettings" /></Headline>}
                 open={sections.packageShowSettings}
                 id="packageShowSettings"
                 onToggle={this.handleSectionToggle}
@@ -367,7 +368,7 @@ class PackageShow extends Component {
                 )}
               </Accordion>
               <Accordion
-                label={<FormattedMessage id="ui-eholdings.package.coverageSettings" />}
+                label={<Headline size="large" tag="h3"><FormattedMessage id="ui-eholdings.package.coverageSettings" /></Headline>}
                 closedByDefault={!packageSelected}
                 open={sections.packageShowCoverageSettings}
                 id="packageShowCoverageSettings"
@@ -420,7 +421,7 @@ class PackageShow extends Component {
               collection={model.resources}
               length={model.titleCount}
               scrollable={scrollable}
-              itemHeight={80}
+              itemHeight={60}
               notFoundMessage={<FormattedMessage id="ui-eholdings.notFound" />}
               renderItem={item => (
                 <TitleListItem
