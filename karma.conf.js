@@ -58,5 +58,10 @@ module.exports = (config) => {
     };
   }
 
+  // remove hmr plugin during testing
+  config.webpack.plugins = config.webpack.plugins.filter(plugin => {
+    return plugin.constructor.name !== 'HotModuleReplacementPlugin';
+  });
+
   config.set(configuration);
 };
