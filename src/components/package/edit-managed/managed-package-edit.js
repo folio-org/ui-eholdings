@@ -7,10 +7,10 @@ import {
   Headline,
   Icon,
   Modal,
-  ModalFooter
+  ModalFooter,
+  RadioButton,
+  RadioButtonGroup
 } from '@folio/stripes-components';
-import RadioButton from '../../radio-button';
-import RadioButtonGroup from '../../radio-button-group';
 import { processErrors } from '../../utilities';
 
 import DetailsView from '../../details-view';
