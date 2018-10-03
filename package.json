@@ -57,7 +57,8 @@
     "react-measure": "^2.1.0",
     "react-router-prop-types": "^1.0.4",
     "redux-actions": "^2.2.1",
-    "rxjs": "^5.5.12"
+    "redux-observable": "^1.0.0",
+    "rxjs": "^6.3.3"
   },
   "peerDependencies": {
     "@folio/stripes-core": "^2.15.1",
