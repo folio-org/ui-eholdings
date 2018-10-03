@@ -1,10 +1,11 @@
 import { expect } from 'chai';
 import { describe, beforeEach, it } from '@bigtest/mocha';
 
-import { describeApplication } from '../helpers/describe-application';
+import setupApplication from '../helpers/setup-application';
 import ResourcePage from '../interactors/resource-show';
 
-describeApplication('ResourceShow', () => {
+describe('ResourceShow', () => {
+  setupApplication();
   let provider,
     providerPackage,
     resource;

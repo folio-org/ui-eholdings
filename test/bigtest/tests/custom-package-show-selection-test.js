@@ -1,7 +1,7 @@
 import { beforeEach, describe, it } from '@bigtest/mocha';
 import { expect } from 'chai';
 
-import { describeApplication } from '../helpers/describe-application';
+import setupApplication from '../helpers/setup-application';
 import PackageShowPage from '../interactors/package-show';
 
 // This test though named custom package show is essentially a Package
@@ -9,7 +9,8 @@ import PackageShowPage from '../interactors/package-show';
 // However, there are some nuances between that of a Package and CustomPackage
 // so those are excersised in this test.
 
-describeApplication('CustomPackageShowSelection', () => {
+describe('CustomPackageShowSelection', () => {
+  setupApplication();
   let provider,
     providerPackage;
 

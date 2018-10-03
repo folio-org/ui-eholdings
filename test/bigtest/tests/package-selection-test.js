@@ -2,10 +2,11 @@ import { beforeEach, describe, it } from '@bigtest/mocha';
 import { expect } from 'chai';
 import { Response } from '@bigtest/mirage';
 
-import { describeApplication } from '../helpers/describe-application';
+import setupApplication from '../helpers/setup-application';
 import PackageShowPage from '../interactors/package-show';
 
-describeApplication('PackageSelection', () => {
+describe('PackageSelection', () => {
+  setupApplication();
   let provider,
     providerPackage;
 

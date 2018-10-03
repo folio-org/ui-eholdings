@@ -2,14 +2,16 @@ import { beforeEach, describe, it } from '@bigtest/mocha';
 import { expect } from 'chai';
 import { Response } from '@bigtest/mirage';
 
-import { describeApplication } from '../helpers/describe-application';
+import setupApplication from '../helpers/setup-application';
 import ApplicationPage from '../interactors/application';
 import SettingsPage from '../interactors/settings';
 
-describeApplication('Error retrieving backend', {
+describe('Error retrieving backend', {
   scenarios: ['load-error-backend'],
 
   suite() {
+    setupApplication();
+
     describe('when trying to use the app', () => {
       beforeEach(function () {
         return this.visit('/eholdings', () => expect(ApplicationPage.$root).to.exist);
@@ -22,10 +24,12 @@ describeApplication('Error retrieving backend', {
   }
 });
 
-describeApplication('With no backend at all', {
+describe('With no backend at all', {
   scenarios: ['no-backend'],
 
   suite() {
+    setupApplication();
+
     describe('when trying to use the app', () => {
       beforeEach(function () {
         return this.visit('/eholdings', () => expect(ApplicationPage.$root).to.exist);
@@ -38,10 +42,12 @@ describeApplication('With no backend at all', {
   }
 });
 
-describeApplication('With unconfigured backend', {
+describe('With unconfigured backend', {
   scenarios: ['unconfigured-backend'],
 
   suite() {
+    setupApplication();
+
     describe('when trying to use the app', () => {
       beforeEach(function () {
         return this.visit('/eholdings', () => expect(ApplicationPage.$root).to.exist);
@@ -98,7 +104,9 @@ describeApplication('With unconfigured backend', {
   }
 });
 
-describeApplication('With valid backend configuration', () => {
+describe('With valid backend configuration', () => {
+  setupApplication();
+
   describe('when visiting the KB auth form', () => {
     beforeEach(function () {
       return this.visit('/settings/eholdings/knowledge-base', () => expect(SettingsPage.$root).to.exist);

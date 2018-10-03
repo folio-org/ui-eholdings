@@ -1,13 +1,15 @@
 import { beforeEach, describe, it } from '@bigtest/mocha';
 import { expect } from 'chai';
 
-import { describeApplication } from '../helpers/describe-application';
+import setupApplication from '../helpers/setup-application';
 import PackageCreatePage from '../interactors/package-create';
 import PackageShowPage from '../interactors/package-show';
 import PackageSearchPage from '../interactors/package-search';
 import NavigationModal from '../interactors/navigation-modal';
 
-describeApplication('PackageCreate', () => {
+describe('PackageCreate', () => {
+  setupApplication();
+
   describe('submitting the form', () => {
     beforeEach(function () {
       return this.visit('/eholdings/packages/new', () => {
