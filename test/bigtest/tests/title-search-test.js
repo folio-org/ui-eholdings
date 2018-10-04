@@ -241,7 +241,7 @@ describe('TitleSearch', () => {
       });
 
       it('reflects the filter in the URL query params', function () {
-        expect(this.app.history.location.search).to.include('filter[type]=book');
+        expect(this.location.search).to.include('filter[type]=book');
       });
 
       describe('clearing the filters', () => {
@@ -250,7 +250,7 @@ describe('TitleSearch', () => {
         });
 
         it.always('removes the filter from the URL query params', function () {
-          expect(this.app.history.location.search).to.not.include('filter[type]');
+          expect(this.location.search).to.not.include('filter[type]');
         });
 
         it('shows search filters on smaller screen sizes (due to filter change only)', () => {
@@ -290,7 +290,7 @@ describe('TitleSearch', () => {
       });
 
       it('reflects the filter in the URL query params', function () {
-        expect(this.app.history.location.search).to.include('filter[selected]=true');
+        expect(this.location.search).to.include('filter[selected]=true');
       });
 
       it('shows search filters on smaller screen sizes (due to filter change only)', () => {
@@ -303,7 +303,7 @@ describe('TitleSearch', () => {
         });
 
         it.always('removes the filter from the URL query params', function () {
-          expect(this.app.history.location.search).to.not.include('filter[selected]');
+          expect(this.location.search).to.not.include('filter[selected]');
         });
 
         it('shows search filters on smaller screen sizes (due to filter change only)', () => {
@@ -345,7 +345,7 @@ describe('TitleSearch', () => {
       });
 
       it('reflects the publisher searchfield in the URL query params', function () {
-        expect(this.app.history.location.search).to.include('searchfield=publisher');
+        expect(this.location.search).to.include('searchfield=publisher');
       });
     });
 
@@ -361,7 +361,7 @@ describe('TitleSearch', () => {
       });
 
       it('reflects the subject searchfield in the URL query params', function () {
-        expect(this.app.history.location.search).to.include('searchfield=subject');
+        expect(this.location.search).to.include('searchfield=subject');
       });
     });
 
@@ -377,7 +377,7 @@ describe('TitleSearch', () => {
       });
 
       it('reflects the isxn searchfield in the URL query params', function () {
-        expect(this.app.history.location.search).to.include('searchfield=isxn');
+        expect(this.location.search).to.include('searchfield=isxn');
       });
     });
 
@@ -476,15 +476,15 @@ describe('TitleSearch', () => {
       });
 
       it('reflects searchfield=isxn in the URL query params', function () {
-        expect(this.app.history.location.search).to.include('searchfield=isxn');
+        expect(this.location.search).to.include('searchfield=isxn');
       });
 
       it('reflects filter[type]=book in the URL query params', function () {
-        expect(this.app.history.location.search).to.include('filter[type]=book');
+        expect(this.location.search).to.include('filter[type]=book');
       });
 
       it.always('does not reflect filter[isxn] in search field', function () {
-        expect(this.app.history.location.search).to.not.include('filter[isxn]');
+        expect(this.location.search).to.not.include('filter[isxn]');
       });
 
       describe('navigating to packages search', () => {
@@ -502,15 +502,15 @@ describe('TitleSearch', () => {
           });
 
           it('reflects the isxn searchfield in the URL query params', function () {
-            expect(this.app.history.location.search).to.include('searchfield=isxn');
+            expect(this.location.search).to.include('searchfield=isxn');
           });
 
           it('reflects the pub type in the URL query params', function () {
-            expect(this.app.history.location.search).to.include('filter[type]=book');
+            expect(this.location.search).to.include('filter[type]=book');
           });
 
           it.always('does not reflect filter[isxn] in search field', function () {
-            expect(this.app.history.location.search).to.not.include('filter[isxn]');
+            expect(this.location.search).to.not.include('filter[isxn]');
           });
         });
       });
@@ -559,7 +559,7 @@ describe('TitleSearch', () => {
         });
 
         it('updates the offset in the URL', function () {
-          expect(this.app.history.location.search).to.include('offset=26');
+          expect(this.location.search).to.include('offset=26');
         });
       });
     });
@@ -577,7 +577,7 @@ describe('TitleSearch', () => {
       });
 
       it('should retain the proper offset', function () {
-        expect(this.app.history.location.search).to.include('offset=51');
+        expect(this.location.search).to.include('offset=51');
       });
 
       describe('and then scrolling up', () => {
@@ -595,7 +595,7 @@ describe('TitleSearch', () => {
         });
 
         it('updates the offset in the URL', function () {
-          expect(this.app.history.location.search).to.include('offset=0');
+          expect(this.location.search).to.include('offset=0');
         });
       });
     });

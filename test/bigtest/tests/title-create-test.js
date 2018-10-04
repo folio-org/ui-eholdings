@@ -84,7 +84,7 @@ describe('TitleCreate', () => {
       });
 
       it('redirects to the new title show page', function () {
-        expect(this.app.history.location.pathname).to.match(/^\/eholdings\/titles\/\d{1,}/);
+        expect(this.location.pathname).to.match(/^\/eholdings\/titles\/\d{1,}/);
         expect(TitleShowPage.titleName).to.equal('My Title');
         expect(TitleShowPage.packageList(0).name).to.equal('Custom Package 1');
       });
@@ -104,7 +104,7 @@ describe('TitleCreate', () => {
       });
 
       it('redirects to the new title show page with the specified contributor', function () {
-        expect(this.app.history.location.pathname).to.match(/^\/eholdings\/titles\/\d{1,}/);
+        expect(this.location.pathname).to.match(/^\/eholdings\/titles\/\d{1,}/);
         expect(TitleShowPage.contributorsList(0).text).to.equal('AuthorMe');
       });
     });
@@ -119,7 +119,7 @@ describe('TitleCreate', () => {
       });
 
       it('redirects to the new title show page with the specified edition', function () {
-        expect(this.app.history.location.pathname).to.match(/^\/eholdings\/titles\/\d{1,}/);
+        expect(this.location.pathname).to.match(/^\/eholdings\/titles\/\d{1,}/);
         expect(TitleShowPage.edition).to.equal('My Edition');
       });
     });
@@ -134,7 +134,7 @@ describe('TitleCreate', () => {
       });
 
       it('redirects to the new title show page with the specified publisher', function () {
-        expect(this.app.history.location.pathname).to.match(/^\/eholdings\/titles\/\d{1,}/);
+        expect(this.location.pathname).to.match(/^\/eholdings\/titles\/\d{1,}/);
         expect(TitleShowPage.publisherName).to.equal('Me');
       });
     });
@@ -149,7 +149,7 @@ describe('TitleCreate', () => {
       });
 
       it('redirects to the new package with the specified content type', function () {
-        expect(this.app.history.location.pathname).to.match(/^\/eholdings\/titles\/\d{1,}/);
+        expect(this.location.pathname).to.match(/^\/eholdings\/titles\/\d{1,}/);
         expect(TitleShowPage.publicationType).to.equal('Book');
       });
     });
@@ -164,7 +164,7 @@ describe('TitleCreate', () => {
       });
 
       it('redirects to the new title show page with the specified identifier', function () {
-        expect(this.app.history.location.pathname).to.match(/^\/eholdings\/titles\/\d{1,}/);
+        expect(this.location.pathname).to.match(/^\/eholdings\/titles\/\d{1,}/);
         expect(TitleShowPage.identifiersList(0).text).to.equal('ISBN (Print)90210');
       });
     });
@@ -179,7 +179,7 @@ describe('TitleCreate', () => {
       });
 
       it('redirects to the new package with the specified description', function () {
-        expect(this.app.history.location.pathname).to.match(/^\/eholdings\/titles\/\d{1,}/);
+        expect(this.location.pathname).to.match(/^\/eholdings\/titles\/\d{1,}/);
         expect(TitleShowPage.descriptionText).to.equal('This is my title');
       });
     });
@@ -193,7 +193,7 @@ describe('TitleCreate', () => {
       });
 
       it('redirects to the new package with the specified package', function () {
-        expect(this.app.history.location.pathname).to.match(/^\/eholdings\/titles\/\d{1,}/);
+        expect(this.location.pathname).to.match(/^\/eholdings\/titles\/\d{1,}/);
         expect(TitleShowPage.packageList(0).name).to.equal('Custom Package 2');
       });
     });
@@ -209,7 +209,7 @@ describe('TitleCreate', () => {
       });
 
       it('redirects to the new package with the specified content type', function () {
-        expect(this.app.history.location.pathname).to.match(/^\/eholdings\/titles\/\d{1,}/);
+        expect(this.location.pathname).to.match(/^\/eholdings\/titles\/\d{1,}/);
         expect(TitleShowPage.peerReviewedStatus).to.equal('Yes');
       });
     });
@@ -229,7 +229,7 @@ describe('TitleCreate', () => {
       });
 
       it.always('does not create the title', function () {
-        expect(this.app.history.location.pathname).to.equal('/eholdings/titles/new');
+        expect(this.location.pathname).to.equal('/eholdings/titles/new');
       });
 
       it('shows an error toast message', () => {
@@ -260,7 +260,7 @@ describe('TitleCreate', () => {
         });
 
         it('redirects to the previous page', function () {
-          expect(this.app.history.location.pathname).to.not.equal('/eholdings/titles/new');
+          expect(this.location.pathname).to.not.equal('/eholdings/titles/new');
         });
       });
 

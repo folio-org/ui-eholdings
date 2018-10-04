@@ -235,7 +235,7 @@ describe('PackageSearch', () => {
       });
 
       it('reflects the filter in the URL query params', function () {
-        expect(this.app.history.location.search).to.include('filter[type]=ebook');
+        expect(this.location.search).to.include('filter[type]=ebook');
       });
 
       it.skip('shows search filters on smaller screen sizes (due to filter change only)', () => {
@@ -248,7 +248,7 @@ describe('PackageSearch', () => {
         });
 
         it.always('removes the filter from the URL query params', function () {
-          expect(this.app.history.location.search).to.not.include('filter[type]');
+          expect(this.location.search).to.not.include('filter[type]');
         });
       });
 
@@ -292,7 +292,7 @@ describe('PackageSearch', () => {
       });
 
       it('reflects the filter in the URL query params', function () {
-        expect(this.app.history.location.search).to.include('filter[selected]=true');
+        expect(this.location.search).to.include('filter[selected]=true');
       });
 
       describe('clearing the filters', () => {
@@ -301,7 +301,7 @@ describe('PackageSearch', () => {
         });
 
         it.always('removes the filter from the URL query params', function () {
-          expect(this.app.history.location.search).to.not.include('filter[selected]');
+          expect(this.location.search).to.not.include('filter[selected]');
         });
       });
 
@@ -419,7 +419,7 @@ describe('PackageSearch', () => {
       });
 
       it.always('does not reflect the default sort=relevance in url', function () {
-        expect(this.app.history.location.search).to.not.include('sort=relevance');
+        expect(this.location.search).to.not.include('sort=relevance');
       });
 
       describe('then filtering by sort options', () => {
@@ -439,7 +439,7 @@ describe('PackageSearch', () => {
         });
 
         it('reflects the sort in the URL query params', function () {
-          expect(this.app.history.location.search).to.include('sort=name');
+          expect(this.location.search).to.include('sort=name');
         });
 
         describe('then searching for other packages', () => {
@@ -484,7 +484,7 @@ describe('PackageSearch', () => {
               });
 
               it('reflects the sort=name in the URL query params', function () {
-                expect(this.app.history.location.search).to.include('sort=name');
+                expect(this.location.search).to.include('sort=name');
               });
             });
           });
@@ -559,7 +559,7 @@ describe('PackageSearch', () => {
         });
 
         it('updates the offset in the URL', function () {
-          expect(this.app.history.location.search).to.include('offset=26');
+          expect(this.location.search).to.include('offset=26');
         });
       });
     });
@@ -577,7 +577,7 @@ describe('PackageSearch', () => {
       });
 
       it('should retain the proper offset', function () {
-        expect(this.app.history.location.search).to.include('offset=51');
+        expect(this.location.search).to.include('offset=51');
       });
 
       describe('and then scrolling up', () => {
@@ -595,7 +595,7 @@ describe('PackageSearch', () => {
         });
 
         it('updates the offset in the URL', function () {
-          expect(this.app.history.location.search).to.include('offset=0');
+          expect(this.location.search).to.include('offset=0');
         });
       });
     });

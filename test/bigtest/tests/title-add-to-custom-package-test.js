@@ -97,7 +97,7 @@ describe('TitleShow', () => {
       });
 
       it('Redirects to the newly created resource', function () {
-        expect(this.app.history.location.pathname).to.match(/^\/eholdings\/resources\/\d{1,}/);
+        expect(this.location.pathname).to.match(/^\/eholdings\/resources\/\d{1,}/);
         expect(ResourceShowPage.titleName).to.equal(title.name);
         expect(ResourceShowPage.packageName).to.equal(customPackage.name);
       });
@@ -118,7 +118,7 @@ describe('TitleShow', () => {
       });
 
       it('Redirects to the newly created resource with the specified URL', function () {
-        expect(this.app.history.location.pathname).to.match(/^\/eholdings\/resources\/\d{1,}/);
+        expect(this.location.pathname).to.match(/^\/eholdings\/resources\/\d{1,}/);
         expect(ResourceShowPage.url).to.equal('http://my.url');
       });
     });

@@ -53,7 +53,7 @@ describe('PackageCreate', () => {
       });
 
       it('redirects to the new package show page', function () {
-        expect(this.app.history.location.pathname).to.match(/^\/eholdings\/packages\/\d{1,}/);
+        expect(this.location.pathname).to.match(/^\/eholdings\/packages\/\d{1,}/);
         expect(PackageShowPage.name).to.equal('My Package');
       });
 
@@ -71,7 +71,7 @@ describe('PackageCreate', () => {
       });
 
       it('redirects to the new package with the specified content type', function () {
-        expect(this.app.history.location.pathname).to.match(/^\/eholdings\/packages\/\d{1,}/);
+        expect(this.location.pathname).to.match(/^\/eholdings\/packages\/\d{1,}/);
         expect(PackageShowPage.contentType).to.equal('Print');
       });
     });
@@ -86,7 +86,7 @@ describe('PackageCreate', () => {
       });
 
       it('redirects to the new package with custom coverages', function () {
-        expect(this.app.history.location.pathname).to.match(/^\/eholdings\/packages\/\d{1,}/);
+        expect(this.location.pathname).to.match(/^\/eholdings\/packages\/\d{1,}/);
         expect(PackageShowPage.customCoverage).to.equal('12/16/2018 - 12/18/2018');
       });
     });
@@ -105,7 +105,7 @@ describe('PackageCreate', () => {
       });
 
       it.always('does not create the new package', function () {
-        expect(this.app.history.location.pathname).to.equal('/eholdings/packages/new');
+        expect(this.location.pathname).to.equal('/eholdings/packages/new');
       });
 
       it('shows an error toast message', () => {
@@ -136,7 +136,7 @@ describe('PackageCreate', () => {
         });
 
         it('redirects to the previous page', function () {
-          expect(this.app.history.location.pathname).to.not.equal('/eholdings/packages/new');
+          expect(this.location.pathname).to.not.equal('/eholdings/packages/new');
         });
       });
 

@@ -278,7 +278,7 @@ describe('ProviderSearch', () => {
       });
 
       it.always('does not reflect the default sort=relevance in url', function () {
-        expect(this.app.history.location.search).to.not.include('sort=relevance');
+        expect(this.location.search).to.not.include('sort=relevance');
       });
 
       describe('then filtering by sort options', () => {
@@ -298,7 +298,7 @@ describe('ProviderSearch', () => {
         });
 
         it('reflects the sort in the URL query params', function () {
-          expect(this.app.history.location.search).to.include('sort=name');
+          expect(this.location.search).to.include('sort=name');
         });
 
         it('shows search filters on smaller screen sizes (due to filter change only)', () => {
@@ -347,7 +347,7 @@ describe('ProviderSearch', () => {
               });
 
               it('reflects the sort=name in the URL query params', function () {
-                expect(this.app.history.location.search).to.include('sort=name');
+                expect(this.location.search).to.include('sort=name');
               });
             });
           });
@@ -444,7 +444,7 @@ describe('ProviderSearch', () => {
         });
 
         it('updates the offset in the URL', function () {
-          expect(this.app.history.location.search).to.include('offset=26');
+          expect(this.location.search).to.include('offset=26');
         });
       });
     });
@@ -462,7 +462,7 @@ describe('ProviderSearch', () => {
       });
 
       it('should retain the proper offset', function () {
-        expect(this.app.history.location.search).to.include('offset=51');
+        expect(this.location.search).to.include('offset=51');
       });
 
       describe('and then scrolling up', () => {
@@ -479,7 +479,7 @@ describe('ProviderSearch', () => {
         });
 
         it('updates the offset in the URL', function () {
-          expect(this.app.history.location.search).to.include('offset=0');
+          expect(this.location.search).to.include('offset=0');
         });
       });
     });

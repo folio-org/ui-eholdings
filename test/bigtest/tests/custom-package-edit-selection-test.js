@@ -105,7 +105,7 @@ describe('CustomPackageEditSelection', () => {
           });
 
           it('transitions to the package search page', function () {
-            expect(this.app.history.location.search).to.include('?searchType=packages');
+            expect(this.location.search).to.include('?searchType=packages');
           });
         });
       });
