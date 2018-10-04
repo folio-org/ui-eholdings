@@ -1,7 +1,7 @@
 @import '@folio/stripes-components/lib/variables';
 
 .toggle-switch-slider {
-  background-color: var(--labelColor);
+  background-color: var(--label-color);
   border-radius: 34px;
   bottom: 0;
   cursor: pointer;

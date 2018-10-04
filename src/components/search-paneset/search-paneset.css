@@ -11,13 +11,13 @@
   padding: 0 1em;
 }
 
-@media (--largeUp) {
+@media (--large-up) {
   .search-pane-toggle {
     display: none;
   }
 }
 
-@media (--largeUp) {
+@media (--large-up) {
   .search-paneset {
     align-items: flex-start;
     display: flex;
@@ -45,12 +45,12 @@
   overflow: hidden;
   z-index: 10;
 
-  @media (--mediumUp) {
+  @media (--medium-up) {
     flex: 5 0 320px;
     flex-flow: column nowrap;
   }
 
-  @media (--largeUp) {
+  @media (--large-up) {
     margin-left: 0;
   }
 }

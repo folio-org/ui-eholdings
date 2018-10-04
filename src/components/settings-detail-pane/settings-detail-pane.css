@@ -5,7 +5,7 @@
 }
 
 .settings-detail-pane-back-button {
-  @media (--mediumUp) {
+  @media (--medium-up) {
     display: none;
   }
 }

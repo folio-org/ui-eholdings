@@ -10,7 +10,7 @@
   background-color: rgba(0, 0, 0, 0.1);
 }
 
-@media (--largeUp) {
+@media (--large-up) {
   .search-pane-vignette {
     display: none;
   }

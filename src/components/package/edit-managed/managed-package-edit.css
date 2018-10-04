@@ -3,7 +3,7 @@
 .full-view-link {
   display: none;
 
-  @media (--mediumUp) {
+  @media (--medium-up) {
     display: block;
   }
 }
