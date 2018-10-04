@@ -23,9 +23,7 @@ describe('ProviderEdit', () => {
 
   describe('visiting the provider edit page ', () => {
     beforeEach(function () {
-      return this.visit(`/eholdings/providers/${provider.id}/edit`, () => {
-        expect(ProviderEditPage.$root).to.exist;
-      });
+      this.visit(`/eholdings/providers/${provider.id}/edit`);
     });
 
     it('displays the provider name in the pane header', () => {
@@ -106,9 +104,7 @@ describe('ProviderEdit', () => {
         }]
       }, 500);
 
-      return this.visit(`/eholdings/providers/${provider.id}/edit`, () => {
-        expect(ProviderEditPage.$root).to.exist;
-      });
+      this.visit(`/eholdings/providers/${provider.id}/edit`);
     });
 
     describe('entering valid data and clicking save', () => {
@@ -132,9 +128,7 @@ describe('ProviderEdit', () => {
         }]
       }, 500);
 
-      return this.visit(`/eholdings/providers/${provider.id}/edit`, () => {
-        expect(ProviderEditPage.$root).to.exist;
-      });
+      this.visit(`/eholdings/providers/${provider.id}/edit`);
     });
 
     it('dies with dignity', () => {
@@ -148,9 +142,7 @@ describe('ProviderEdit', () => {
         name: 'Sam is awesome',
       });
 
-      return this.visit(`/eholdings/providers/${provider2.id}/edit`, () => {
-        expect(ProviderEditPage.isPresent).to.be.true;
-      });
+      this.visit(`/eholdings/providers/${provider2.id}/edit`);
     });
 
     it('does not display other fields', () => {

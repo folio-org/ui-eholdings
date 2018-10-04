@@ -10,7 +10,7 @@ describe('With list of root proxies available to a customer', () => {
 
   describe('when visiting the settings root proxy form', () => {
     beforeEach(function () {
-      return this.visit('/settings/eholdings/root-proxy', () => expect(SettingsRootProxyPage.$root).to.exist);
+      this.visit('/settings/eholdings/root-proxy');
     });
 
     it('has a select field defaulted with current root proxy', () => {
@@ -68,9 +68,7 @@ describe('With list of root proxies available to a customer', () => {
         }]
       }, 500);
 
-      return this.visit('/settings/eholdings/root-proxy', () => {
-        expect(SettingsRootProxyPage.$root).to.exist;
-      });
+      this.visit('/settings/eholdings/root-proxy');
     });
 
     describe('updating root-proxy', () => {

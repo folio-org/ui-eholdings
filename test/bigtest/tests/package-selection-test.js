@@ -28,9 +28,7 @@ describe('PackageSelection', () => {
 
   describe('visiting the package details page', () => {
     beforeEach(function () {
-      return this.visit(`/eholdings/packages/${providerPackage.id}`, () => {
-        expect(PackageShowPage.$root).to.exist;
-      });
+      this.visit(`/eholdings/packages/${providerPackage.id}`);
     });
 
     describe('successfully selecting a package title to add to my holdings', () => {

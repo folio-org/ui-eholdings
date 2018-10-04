@@ -75,9 +75,7 @@ describe('ResourceShow', () => {
 
   describe('visiting the resource page', () => {
     beforeEach(function () {
-      return this.visit(`/eholdings/resources/${resource.titleId}`, () => {
-        expect(ResourcePage.$root).to.exist;
-      });
+      this.visit(`/eholdings/resources/${resource.titleId}`);
     });
 
     it('displays the title name in the pane header', () => {
@@ -235,7 +233,7 @@ describe('ResourceShow', () => {
 
   describe('navigating to resource page', () => {
     beforeEach(function () {
-      return this.visit({
+      this.visit({
         pathname: `/eholdings/resources/${resource.id}`,
         // our internal link component automatically sets the location state
         state: { eholdings: true }
@@ -270,9 +268,7 @@ describe('ResourceShow', () => {
         title
       });
 
-      return this.visit(`/eholdings/resources/${resource.id}`, () => {
-        expect(ResourcePage.$root).to.exist;
-      });
+      this.visit(`/eholdings/resources/${resource.id}`);
     });
 
     it('displays the title name', () => {
@@ -312,9 +308,7 @@ describe('ResourceShow', () => {
         title
       });
 
-      return this.visit(`/eholdings/resources/${resource.id}`, () => {
-        expect(ResourcePage.$root).to.exist;
-      });
+      this.visit(`/eholdings/resources/${resource.id}`);
     });
 
     it('displays the title name', () => {
@@ -338,9 +332,7 @@ describe('ResourceShow', () => {
         }]
       }, 500);
 
-      return this.visit(`/eholdings/resources/${resource.id}`, () => {
-        expect(ResourcePage.$root).to.exist;
-      });
+      this.visit(`/eholdings/resources/${resource.id}`);
     });
 
     it('displays the correct error text', () => {

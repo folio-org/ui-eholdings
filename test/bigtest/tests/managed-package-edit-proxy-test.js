@@ -25,9 +25,7 @@ describe('ManagedPackageEditProxy', () => {
 
   describe('visiting the package edit page', () => {
     beforeEach(function () {
-      return this.visit(`/eholdings/packages/${providerPackage.id}/edit`, () => {
-        expect(PackageEditPage.$root).to.exist;
-      });
+      this.visit(`/eholdings/packages/${providerPackage.id}/edit`);
     });
 
     it('has a select containing the current proxy value', () => {

@@ -26,9 +26,7 @@ describe('ManagedPackageEditTokens', () => {
 
   describe('visiting the managed package edit page with provider token and value and package token and value', () => {
     beforeEach(function () {
-      return this.visit(`/eholdings/packages/${providerPackage.id}/edit`, () => {
-        expect(PackageEditPage.$root).to.exist;
-      });
+      this.visit(`/eholdings/packages/${providerPackage.id}/edit`);
     });
 
     it('has provider token help text', () => {
@@ -188,9 +186,7 @@ describe('ManagedPackageEditTokens', () => {
       provider.update('providerToken', token.toJSON());
       provider.save();
 
-      return this.visit(`/eholdings/packages/${providerPackage.id}/edit`, () => {
-        expect(PackageEditPage.$root).to.exist;
-      });
+      this.visit(`/eholdings/packages/${providerPackage.id}/edit`);
     });
 
     it('has add provider token button', () => {
@@ -239,9 +235,7 @@ describe('ManagedPackageEditTokens', () => {
       providerPackage.update('packageToken', token.toJSON());
       providerPackage.save();
 
-      return this.visit(`/eholdings/packages/${providerPackage.id}/edit`, () => {
-        expect(PackageEditPage.$root).to.exist;
-      });
+      this.visit(`/eholdings/packages/${providerPackage.id}/edit`);
     });
 
     it('has add package token button', () => {
@@ -284,9 +278,7 @@ describe('ManagedPackageEditTokens', () => {
       provider.update('providerToken', null);
       provider.save();
 
-      return this.visit(`/eholdings/packages/${providerPackage.id}/edit`, () => {
-        expect(PackageEditPage.$root).to.exist;
-      });
+      this.visit(`/eholdings/packages/${providerPackage.id}/edit`);
     });
 
     it('does not show provider token help text', () => {
@@ -323,9 +315,7 @@ describe('ManagedPackageEditTokens', () => {
       providerPackage.update('packageToken', null);
       providerPackage.save();
 
-      return this.visit(`/eholdings/packages/${providerPackage.id}/edit`, () => {
-        expect(PackageEditPage.$root).to.exist;
-      });
+      this.visit(`/eholdings/packages/${providerPackage.id}/edit`);
     });
 
     it('does not show package token help text', () => {
@@ -365,9 +355,7 @@ describe('ManagedPackageEditTokens', () => {
       providerPackage.update('packageToken', null);
       providerPackage.save();
 
-      return this.visit(`/eholdings/packages/${providerPackage.id}/edit`, () => {
-        expect(PackageEditPage.$root).to.exist;
-      });
+      this.visit(`/eholdings/packages/${providerPackage.id}/edit`);
     });
 
     it('does not show provider token help text', () => {
@@ -405,9 +393,7 @@ describe('ManagedPackageEditTokens', () => {
 
   describe('visiting the managed package edit page and setting provider token to a long value ', () => {
     beforeEach(function () {
-      return this.visit(`/eholdings/packages/${providerPackage.id}/edit`, () => {
-        expect(PackageEditPage.$root).to.exist;
-      });
+      this.visit(`/eholdings/packages/${providerPackage.id}/edit`);
     });
 
     it('has provider token value', () => {
@@ -437,9 +423,7 @@ describe('ManagedPackageEditTokens', () => {
 
   describe('visiting the managed package edit page and setting package token to a long value ', () => {
     beforeEach(function () {
-      return this.visit(`/eholdings/packages/${providerPackage.id}/edit`, () => {
-        expect(PackageEditPage.$root).to.exist;
-      });
+      this.visit(`/eholdings/packages/${providerPackage.id}/edit`);
     });
 
     it('has package token value', () => {
@@ -469,9 +453,7 @@ describe('ManagedPackageEditTokens', () => {
 
   describe('visiting the managed package edit page and setting provider and package tokens to long values ', () => {
     beforeEach(function () {
-      return this.visit(`/eholdings/packages/${providerPackage.id}/edit`, () => {
-        expect(PackageEditPage.$root).to.exist;
-      });
+      this.visit(`/eholdings/packages/${providerPackage.id}/edit`);
     });
 
     it('has provider token value', () => {

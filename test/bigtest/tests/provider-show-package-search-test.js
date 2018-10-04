@@ -35,9 +35,7 @@ describe('ProviderShow package search', () => {
       isSelected: true
     });
 
-    return this.visit(`/eholdings/providers/${provider.id}`, () => {
-      expect(ProviderShowPage.$root).to.exist;
-    });
+    this.visit(`/eholdings/providers/${provider.id}`);
   });
 
   describe('clicking the search button', () => {
@@ -240,14 +238,11 @@ describe('ProviderShow package search', () => {
           'meta':{ 'totalResults': 10001 },
           'jsonapi':{ 'version':'1.0' } }, 200);
 
-      return this.visit(
+      this.visit(
         {
           pathname: `/eholdings/providers/${largeProvider.id}`,
           // our internal link component automatically sets the location state
           state: { eholdings: true }
-        },
-        () => {
-          expect(ProviderShowPage.$root).to.exist;
         }
       );
     });

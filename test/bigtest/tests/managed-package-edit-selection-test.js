@@ -26,9 +26,7 @@ describe('ManagedPackageEditSelection', () => {
         contentType: 'E-Book',
         isSelected: false
       });
-      return this.visit(`/eholdings/packages/${providerPackage.id}/edit`, () => {
-        expect(PackageEditPage.$root).to.exist;
-      });
+      this.visit(`/eholdings/packages/${providerPackage.id}/edit`);
     });
 
     it('reflects the desired state of holding status', () => {
@@ -114,9 +112,7 @@ describe('ManagedPackageEditSelection', () => {
         contentType: 'E-Book',
         isSelected: true
       });
-      return this.visit(`/eholdings/packages/${providerPackage.id}/edit`, () => {
-        expect(PackageEditPage.$root).to.exist;
-      });
+      this.visit(`/eholdings/packages/${providerPackage.id}/edit`);
     });
 
     it('reflects the desired state of holding status', () => {
@@ -235,7 +231,7 @@ describe('ManagedPackageEditSelection', () => {
         package: pkg,
         isSelected: false
       });
-      return this.visit(`/eholdings/packages/${pkg.id}/edit`);
+      this.visit(`/eholdings/packages/${pkg.id}/edit`);
     });
     it('shows the selected # of titles and the total # of titles in the package', () => {
       expect(PackageEditPage.selectionStatus.text).to.equal('5 of 10 titles selected');

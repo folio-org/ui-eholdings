@@ -40,9 +40,7 @@ describe('ManagedResourceEditVisibility', () => {
         title
       });
 
-      return this.visit(`/eholdings/resources/${resource.id}/edit`, () => {
-        expect(ResourceEditPage.$root).to.exist;
-      });
+      this.visit(`/eholdings/resources/${resource.id}/edit`);
     });
 
     it('displays the yes visibility radio is selected', () => {
@@ -106,9 +104,7 @@ describe('ManagedResourceEditVisibility', () => {
         title
       });
 
-      return this.visit(`/eholdings/resources/${resource.id}/edit`, () => {
-        expect(ResourceEditPage.$root).to.exist;
-      });
+      this.visit(`/eholdings/resources/${resource.id}/edit`);
     });
 
     it('displays the no visibility radio is selected', () => {
@@ -152,9 +148,7 @@ describe('ManagedResourceEditVisibility', () => {
         title
       });
 
-      return this.visit(`/eholdings/resources/${resource.id}/edit`, () => {
-        expect(ResourceEditPage.$root).to.exist;
-      });
+      this.visit(`/eholdings/resources/${resource.id}/edit`);
     });
 
     it('displays the no visibility radio is selected', () => {
@@ -175,9 +169,7 @@ describe('ManagedResourceEditVisibility', () => {
         title,
         isSelected: true
       });
-      return this.visit(`/eholdings/resources/${resource.id}/edit`, () => {
-        expect(ResourceEditPage.$root).to.exist;
-      });
+      this.visit(`/eholdings/resources/${resource.id}/edit`);
     });
 
     it('displays the no visibility radio is selected', () => {
@@ -197,9 +189,7 @@ describe('ManagedResourceEditVisibility', () => {
         title
       });
 
-      return this.visit(`/eholdings/resources/${resource.id}/edit`, () => {
-        expect(ResourceEditPage.$root).to.exist;
-      });
+      this.visit(`/eholdings/resources/${resource.id}/edit`);
     });
 
     it('does not show visibility section', () => {

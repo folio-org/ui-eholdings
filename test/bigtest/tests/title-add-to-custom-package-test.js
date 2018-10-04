@@ -29,9 +29,7 @@ describe('TitleShow', () => {
       isCustom: true
     });
 
-    return this.visit(`/eholdings/titles/${title.id}`, () => {
-      expect(TitleShowPage.$root).to.exist;
-    });
+    this.visit(`/eholdings/titles/${title.id}`);
   });
 
   describe('clicking the add to custom package button', () => {

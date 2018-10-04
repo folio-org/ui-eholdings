@@ -13,7 +13,7 @@ describe('Error retrieving backend', () => {
 
   describe('when trying to use the app', () => {
     beforeEach(function () {
-      return this.visit('/eholdings', () => expect(ApplicationPage.$root).to.exist);
+      this.visit('/eholdings');
     });
 
     it('informs user that an error has occurred', () => {
@@ -29,7 +29,7 @@ describe('With no backend at all', () => {
 
   describe('when trying to use the app', () => {
     beforeEach(function () {
-      return this.visit('/eholdings', () => expect(ApplicationPage.$root).to.exist);
+      this.visit('/eholdings');
     });
 
     it('blocks access to the eholdings app and tells me that I need to install a backend', () => {
@@ -45,7 +45,7 @@ describe('With unconfigured backend', () => {
 
   describe('when trying to use the app', () => {
     beforeEach(function () {
-      return this.visit('/eholdings', () => expect(ApplicationPage.$root).to.exist);
+      this.visit('/eholdings');
     });
 
     it('blocks access to the eholdings app and points you to the configuration screen', () => {
@@ -55,7 +55,7 @@ describe('With unconfigured backend', () => {
 
   describe('when visiting the KB auth form', () => {
     beforeEach(function () {
-      return this.visit('/settings/eholdings/knowledge-base', () => expect(SettingsPage.$root).to.exist);
+      this.visit('/settings/eholdings/knowledge-base');
     });
 
     it('does not enable the save button', () => {
@@ -103,7 +103,7 @@ describe('With valid backend configuration', () => {
 
   describe('when visiting the KB auth form', () => {
     beforeEach(function () {
-      return this.visit('/settings/eholdings/knowledge-base', () => expect(SettingsPage.$root).to.exist);
+      this.visit('/settings/eholdings/knowledge-base');
     });
 
     it('has a field for the ebsco customer id', () => {

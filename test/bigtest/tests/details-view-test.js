@@ -13,9 +13,7 @@ describe('DetailsView', () => {
 
   describe('visiting a package with paged resources', () => {
     beforeEach(function () {
-      return this.visit('/eholdings/packages/paged_pkg', () => {
-        expect(PackageShowPage.isPresent).to.be.true;
-      });
+      this.visit('/eholdings/packages/paged_pkg');
     });
 
     it('has a list that fills the container', () => {
@@ -87,9 +85,7 @@ describe('DetailsView', () => {
       beforeEach(function () {
         let title = this.server.create('title');
 
-        return this.visit(`/eholdings/titles/${title.id}`, () => {
-          expect(TitleShowPage.$root).to.exist;
-        });
+        this.visit(`/eholdings/titles/${title.id}`);
       });
 
       it('has a list that does not fill the container', () => {

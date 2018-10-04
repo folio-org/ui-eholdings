@@ -45,9 +45,7 @@ describe('CustomResourceHoldingSelection', () => {
 
   describe('visiting the package details page', () => {
     beforeEach(function () {
-      return this.visit(`/eholdings/resources/${resource.titleId}/edit`, () => {
-        expect(ResourceEditPage.$root).to.exist;
-      });
+      this.visit(`/eholdings/resources/${resource.titleId}/edit`);
     });
 
     it('shows the custom package as selected in my holdings', () => {

@@ -37,9 +37,7 @@ describe('ResourceSelection', () => {
 
   describe('visiting the resource page', () => {
     beforeEach(function () {
-      return this.visit(`/eholdings/resources/${resource.id}`, () => {
-        expect(ResourcePage.$root).to.exist;
-      });
+      this.visit(`/eholdings/resources/${resource.id}`);
     });
 
     it('indicates that the resource is not yet selected', () => {

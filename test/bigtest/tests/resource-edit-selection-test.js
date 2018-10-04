@@ -38,9 +38,7 @@ describe('ResourceEditSelection', () => {
 
   describe('visiting the resource edit page with unselected resource', () => {
     beforeEach(function () {
-      return this.visit(`/eholdings/resources/${resource.id}/edit`, () => {
-        expect(ResourceEditPage.$root).to.exist;
-      });
+      this.visit(`/eholdings/resources/${resource.id}/edit`);
     });
 
     it('indicates that the resource is not yet selected', () => {

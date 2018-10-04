@@ -33,9 +33,7 @@ describe('CustomPackageShowSelection', () => {
 
   describe('visiting the package details page', () => {
     beforeEach(function () {
-      return this.visit(`/eholdings/packages/${providerPackage.id}`, () => {
-        expect(PackageShowPage.$root).to.exist;
-      });
+      this.visit(`/eholdings/packages/${providerPackage.id}`);
     });
 
     it('automatically has the custom package in my holdings', () => {

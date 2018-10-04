@@ -52,9 +52,7 @@ describe('TitleSearch', () => {
       name: 'SomethingSomethingWhoa'
     });
 
-    return this.visit('/eholdings/?searchType=titles', () => {
-      expect(TitleSearchPage.isPresent).to.be.true;
-    });
+    this.visit('/eholdings/?searchType=titles');
   });
 
   it('has a searchbox', () => {
@@ -260,9 +258,7 @@ describe('TitleSearch', () => {
 
       describe('visiting the page with an existing filter', () => {
         beforeEach(function () {
-          return this.visit('/eholdings/?searchType=titles&q=Title&filter[type]=journal', () => {
-            expect(TitleSearchPage.isPresent).to.be.true;
-          });
+          this.visit('/eholdings/?searchType=titles&q=Title&filter[type]=journal');
         });
 
         it('shows the existing filter in the search form', () => {
@@ -313,9 +309,7 @@ describe('TitleSearch', () => {
 
       describe('visiting the page with an existing filter', () => {
         beforeEach(function () {
-          return this.visit('/eholdings/?searchType=titles&q=Title&filter[selected]=false', () => {
-            expect(TitleSearchPage.isPresent).to.be.true;
-          });
+          this.visit('/eholdings/?searchType=titles&q=Title&filter[selected]=false');
         });
 
         it('shows the existing filter in the search form', () => {
@@ -393,9 +387,7 @@ describe('TitleSearch', () => {
 
     describe('visiting the page with an existing search field', () => {
       beforeEach(function () {
-        return this.visit('/eholdings/?searchType=titles&q=TestPublisher&searchfield=publisher', () => {
-          expect(TitleSearchPage.isPresent).to.be.true;
-        });
+        this.visit('/eholdings/?searchType=titles&q=TestPublisher&searchfield=publisher');
       });
 
       it('displays publisher as searchfield', () => {
@@ -566,9 +558,7 @@ describe('TitleSearch', () => {
 
     describe('navigating directly to a search page', () => {
       beforeEach(function () {
-        return this.visit('/eholdings/?searchType=titles&offset=51&q=other', () => {
-          expect(TitleSearchPage.$root).to.exist;
-        });
+        this.visit('/eholdings/?searchType=titles&offset=51&q=other');
       });
 
       it('should show the search results for that page', () => {

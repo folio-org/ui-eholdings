@@ -24,9 +24,7 @@ describe('PackageCustomCoverage', () => {
         isSelected: false
       });
 
-      return this.visit(`/eholdings/packages/${pkg.id}`, () => {
-        expect(PackageShowPage.$root).to.exist;
-      });
+      this.visit(`/eholdings/packages/${pkg.id}`);
     });
 
     it('should not display custom coverage', () => {
@@ -49,9 +47,7 @@ describe('PackageCustomCoverage', () => {
         isSelected: true
       });
 
-      return this.visit(`/eholdings/packages/${pkg.id}`, () => {
-        expect(PackageShowPage.$root).to.exist;
-      });
+      this.visit(`/eholdings/packages/${pkg.id}`);
     });
 
     it('displays the custom coverage section', () => {
@@ -96,9 +92,7 @@ describe('PackageCustomCoverage', () => {
         isSelected: true
       });
 
-      return this.visit(`/eholdings/packages/${pkg.id}`, () => {
-        expect(PackageShowPage.$root).to.exist;
-      });
+      this.visit(`/eholdings/packages/${pkg.id}`);
     });
 
     it.always('does not display the custom coverage section', () => {

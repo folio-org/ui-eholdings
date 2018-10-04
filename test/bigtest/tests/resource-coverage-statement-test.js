@@ -25,9 +25,7 @@ describe('ResourceCoverageStatement', () => {
       resource.coverageStatement = 'Only 90s kids would understand.';
       resource.save();
 
-      return this.visit(`/eholdings/resources/${resource.id}`, () => {
-        expect(ResourceShowPage.$root).to.exist;
-      });
+      this.visit(`/eholdings/resources/${resource.id}`);
     });
 
     it('displays the coverage statement', () => {
@@ -37,9 +35,7 @@ describe('ResourceCoverageStatement', () => {
 
   describe('visiting the resource show page without a coverage statement', () => {
     beforeEach(function () {
-      return this.visit(`/eholdings/resources/${resource.id}`, () => {
-        expect(ResourceShowPage.$root).to.exist;
-      });
+      this.visit(`/eholdings/resources/${resource.id}`);
     });
 
     it.always('does not display the coverage statement', () => {
@@ -51,9 +47,7 @@ describe('ResourceCoverageStatement', () => {
     beforeEach(function () {
       resource.isSelected = false;
       resource.save();
-      return this.visit(`/eholdings/resources/${resource.id}`, () => {
-        expect(ResourceShowPage.$root).to.exist;
-      });
+      this.visit(`/eholdings/resources/${resource.id}`);
     });
 
     it.always('does not display the coverage statement section', () => {

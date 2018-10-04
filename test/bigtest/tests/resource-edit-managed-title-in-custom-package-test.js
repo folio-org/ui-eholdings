@@ -43,9 +43,7 @@ describe('ResourceEditManagedTitleInCustomPackage', () => {
 
   describe('visiting the package details page', () => {
     beforeEach(function () {
-      return this.visit(`/eholdings/resources/${resource.titleId}/edit`, () => {
-        expect(ResourceEditPage.$root).to.exist;
-      });
+      this.visit(`/eholdings/resources/${resource.titleId}/edit`);
     });
 
     it('shows the managed resource as selected in my holdings', () => {

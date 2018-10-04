@@ -24,9 +24,7 @@ describe('PackageVisibility', () => {
         isSelected: true
       });
 
-      return this.visit(`/eholdings/packages/${pkg.id}`, () => {
-        expect(PackageShowPage.$root).to.exist;
-      });
+      this.visit(`/eholdings/packages/${pkg.id}`);
     });
 
     it('displays No in (Show titles in package to patrons)', () => {
@@ -47,9 +45,7 @@ describe('PackageVisibility', () => {
         isSelected: true
       });
 
-      return this.visit(`/eholdings/packages/${pkg.id}`, () => {
-        expect(PackageShowPage.$root).to.exist;
-      });
+      this.visit(`/eholdings/packages/${pkg.id}`);
     });
 
     it('displays No as (Show titles in package to patrons)', () => {
@@ -66,9 +62,7 @@ describe('PackageVisibility', () => {
         isSelected: true
       });
 
-      return this.visit(`/eholdings/packages/${pkg.id}`, () => {
-        expect(PackageShowPage.$root).to.exist;
-      });
+      this.visit(`/eholdings/packages/${pkg.id}`);
     });
 
     it('displays Yes as (Show titles in package to patrons)', () => {
@@ -85,9 +79,7 @@ describe('PackageVisibility', () => {
         isSelected: false
       });
 
-      return this.visit(`/eholdings/packages/${pkg.id}`, () => {
-        expect(PackageShowPage.$root).to.exist;
-      });
+      this.visit(`/eholdings/packages/${pkg.id}`);
     });
 
     it('does not display visibility', () => {

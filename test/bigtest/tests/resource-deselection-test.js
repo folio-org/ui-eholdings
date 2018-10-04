@@ -39,9 +39,7 @@ describe('ResourceDeselection', () => {
   describe('visiting the resource page', () => {
     describe('part of a package with only one selected title', () => {
       beforeEach(function () {
-        return this.visit(`/eholdings/resources/${resource.id}`, () => {
-          expect(ResourcePage.$root).to.exist;
-        });
+        this.visit(`/eholdings/resources/${resource.id}`);
       });
 
       it('indicates that the resource is selected', () => {
@@ -64,9 +62,7 @@ describe('ResourceDeselection', () => {
         providerPackage.titleCount = 5;
         providerPackage.selectedCount = 2;
 
-        return this.visit(`/eholdings/resources/${resource.id}`, () => {
-          expect(ResourcePage.$root).to.exist;
-        });
+        this.visit(`/eholdings/resources/${resource.id}`);
       });
 
       it('indicates that the resource is selected', () => {

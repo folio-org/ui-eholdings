@@ -58,9 +58,7 @@ describe('CustomResourceEditProxy', () => {
       resource.update('proxy', resourceProxy.toJSON());
       resource.save();
 
-      return this.visit(`/eholdings/resources/${resource.id}/edit`, () => {
-        expect(ResourceEditPage.$root).to.exist;
-      });
+      this.visit(`/eholdings/resources/${resource.id}/edit`);
     });
 
     it('disables the save button', () => {

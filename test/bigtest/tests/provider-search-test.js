@@ -19,9 +19,7 @@ describe('ProviderSearch', () => {
       name: 'Totally Awesome Co'
     });
 
-    return this.visit('/eholdings/?searchType=providers', () => {
-      expect(ProviderSearchPage.$root).to.exist;
-    });
+    this.visit('/eholdings/?searchType=providers');
   });
 
   it('has a searchbox', () => {
@@ -357,9 +355,7 @@ describe('ProviderSearch', () => {
 
     describe('visiting the page with an existing sort', () => {
       beforeEach(function () {
-        return this.visit('/eholdings/?searchType=providers&q=health&sort=name', () => {
-          expect(ProviderSearchPage.$root).to.exist;
-        });
+        this.visit('/eholdings/?searchType=providers&q=health&sort=name');
       });
 
       it('displays search field populated', () => {
@@ -451,9 +447,7 @@ describe('ProviderSearch', () => {
 
     describe('navigating directly to a search page', () => {
       beforeEach(function () {
-        return this.visit('/eholdings/?searchType=providers&offset=51&q=other', () => {
-          expect(ProviderSearchPage.$root).to.exist;
-        });
+        this.visit('/eholdings/?searchType=providers&offset=51&q=other');
       });
 
       it('should show the search results for that page', () => {

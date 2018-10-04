@@ -23,9 +23,7 @@ describe('ResourceVisibility', () => {
         title
       });
 
-      return this.visit(`/eholdings/resources/${resource.id}`, () => {
-        expect(ResourceShowPage.$root).to.exist;
-      });
+      this.visit(`/eholdings/resources/${resource.id}`);
     });
 
     it('shows titles in package to patrons', () => {
@@ -41,9 +39,7 @@ describe('ResourceVisibility', () => {
         title
       });
 
-      return this.visit(`/eholdings/resources/${resource.id}`, () => {
-        expect(ResourceShowPage.$root).to.exist;
-      });
+      this.visit(`/eholdings/resources/${resource.id}`);
     });
 
     it('does not show titles in package to patrons', () => {
@@ -59,9 +55,7 @@ describe('ResourceVisibility', () => {
         title
       });
 
-      return this.visit(`/eholdings/resources/${resource.id}`, () => {
-        expect(ResourceShowPage.$root).to.exist;
-      });
+      this.visit(`/eholdings/resources/${resource.id}`);
     });
 
     it('does not show titles in package to patrons', () => {
@@ -81,9 +75,7 @@ describe('ResourceVisibility', () => {
         title
       });
 
-      return this.visit(`/eholdings/resources/${resource.id}`, () => {
-        expect(ResourceShowPage.$root).to.exist;
-      });
+      this.visit(`/eholdings/resources/${resource.id}`);
     });
 
     it('displays it is not visibile to patrons', () => {
@@ -105,9 +97,7 @@ describe('ResourceVisibility', () => {
         isSelected: true
       });
 
-      return this.visit(`/eholdings/resources/${resource.id}`, () => {
-        expect(ResourceShowPage.$root).to.exist;
-      });
+      this.visit(`/eholdings/resources/${resource.id}`);
     });
 
     it('displays it is not visibile to patrons', () => {

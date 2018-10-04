@@ -44,9 +44,7 @@ describe('TitleShow', () => {
 
   describe('visiting the title page', () => {
     beforeEach(function () {
-      return this.visit(`/eholdings/titles/${title.id}`, () => {
-        expect(TitleShowPage.$root).to.exist;
-      });
+      this.visit(`/eholdings/titles/${title.id}`);
     });
 
     it('displays the title name in the pane header', () => {
@@ -135,12 +133,10 @@ describe('TitleShow', () => {
 
   describe('navigating to title page', () => {
     beforeEach(function () {
-      return this.visit({
+      this.visit({
         pathname: `/eholdings/titles/${title.id}`,
         // our internal link component automatically sets the location state
         state: { eholdings: true }
-      }, () => {
-        expect(TitleShowPage.$root).to.exist;
       });
     });
 
@@ -160,9 +156,7 @@ describe('TitleShow', () => {
 
       title.save();
       resources = title.resources.models;
-      return this.visit(`/eholdings/titles/${title.id}`, () => {
-        expect(TitleShowPage.$root).to.exist;
-      });
+      this.visit(`/eholdings/titles/${title.id}`);
     });
 
     it('displays the title name', () => {
@@ -209,9 +203,7 @@ describe('TitleShow', () => {
 
       title.save();
       resources = title.resources.models;
-      return this.visit(`/eholdings/titles/${title.id}`, () => {
-        expect(TitleShowPage.$root).to.exist;
-      });
+      this.visit(`/eholdings/titles/${title.id}`);
     });
 
     it('displays the title name', () => {
@@ -251,9 +243,7 @@ describe('TitleShow', () => {
     beforeEach(function () {
       this.server.loadFixtures();
 
-      return this.visit('/eholdings/titles/paged_title', () => {
-        expect(TitleShowPage.$root).to.exist;
-      });
+      this.visit('/eholdings/titles/paged_title');
     });
 
     it('should display the first page of related packages', () => {
@@ -281,9 +271,7 @@ describe('TitleShow', () => {
         subcode: 0
       }], 500);
 
-      return this.visit(`/eholdings/titles/${title.titleId}`, () => {
-        expect(TitleShowPage.$root).to.exist;
-      });
+      this.visit(`/eholdings/titles/${title.titleId}`);
     });
 
     it('displays the correct error text', () => {

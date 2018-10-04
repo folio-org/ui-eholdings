@@ -26,7 +26,7 @@ describe('ResourceManagedCoverage', () => {
 
   describe('visiting the resource page with managed coverage undefined', () => {
     beforeEach(function () {
-      return this.visit(`/eholdings/resources/${resource.id}`, () => {
+      this.visit(`/eholdings/resources/${resource.id}`, () => {
         expect(ResourceShowPage.$root).to.exist;
       });
     });
@@ -40,7 +40,7 @@ describe('ResourceManagedCoverage', () => {
     beforeEach(function () {
       resource.managedCoverages = this.server.createList('managed-coverage', 0).map(m => m.toJSON());
       resource.save();
-      return this.visit(`/eholdings/resources/${resource.id}`, () => {
+      this.visit(`/eholdings/resources/${resource.id}`, () => {
         expect(ResourceShowPage.$root).to.exist;
       });
     });
@@ -58,7 +58,7 @@ describe('ResourceManagedCoverage', () => {
       }).map(m => m.toJSON());
 
       resource.save();
-      return this.visit(`/eholdings/resources/${resource.id}`, () => {
+      this.visit(`/eholdings/resources/${resource.id}`, () => {
         expect(ResourceShowPage.$root).to.exist;
       });
     });
@@ -76,7 +76,7 @@ describe('ResourceManagedCoverage', () => {
       }).map(m => m.toJSON());
 
       resource.save();
-      return this.visit(`/eholdings/resources/${resource.id}`, () => {
+      this.visit(`/eholdings/resources/${resource.id}`, () => {
         expect(ResourceShowPage.$root).to.exist;
       });
     });
@@ -94,7 +94,7 @@ describe('ResourceManagedCoverage', () => {
       }).map(m => m.toJSON());
 
       resource.save();
-      return this.visit(`/eholdings/resources/${resource.id}`, () => {
+      this.visit(`/eholdings/resources/${resource.id}`, () => {
         expect(ResourceShowPage.$root).to.exist;
       });
     });
@@ -112,7 +112,7 @@ describe('ResourceManagedCoverage', () => {
       }).map(m => m.toJSON());
 
       resource.save();
-      return this.visit(`/eholdings/resources/${resource.id}`, () => {
+      this.visit(`/eholdings/resources/${resource.id}`, () => {
         expect(ResourceShowPage.$root).to.exist;
       });
     });
@@ -130,7 +130,7 @@ describe('ResourceManagedCoverage', () => {
       ].map(m => m.toJSON());
 
       resource.save();
-      return this.visit(`/eholdings/resources/${resource.id}`, () => {
+      this.visit(`/eholdings/resources/${resource.id}`, () => {
         expect(ResourceShowPage.$root).to.exist;
       });
     });
@@ -151,7 +151,7 @@ describe('ResourceManagedCoverage', () => {
       }).map(m => m.toJSON());
 
       resource.save();
-      return this.visit(`/eholdings/resources/${resource.id}`, () => {
+      this.visit(`/eholdings/resources/${resource.id}`, () => {
         expect(ResourceShowPage.$root).to.exist;
       });
     });
@@ -172,7 +172,7 @@ describe('ResourceManagedCoverage', () => {
       }).map(m => m.toJSON());
 
       resource.save();
-      return this.visit(`/eholdings/resources/${resource.id}`, () => {
+      this.visit(`/eholdings/resources/${resource.id}`, () => {
         expect(ResourceShowPage.$root).to.exist;
       });
     });
@@ -193,7 +193,7 @@ describe('ResourceManagedCoverage', () => {
       }).map(m => m.toJSON());
 
       resource.save();
-      return this.visit(`/eholdings/resources/${resource.id}`, () => {
+      this.visit(`/eholdings/resources/${resource.id}`, () => {
         expect(ResourceShowPage.$root).to.exist;
       });
     });
@@ -214,7 +214,7 @@ describe('ResourceManagedCoverage', () => {
       }).map(m => m.toJSON());
 
       resource.save();
-      return this.visit(`/eholdings/resources/${resource.id}`, () => {
+      this.visit(`/eholdings/resources/${resource.id}`, () => {
         expect(ResourceShowPage.$root).to.exist;
       });
     });
@@ -235,7 +235,7 @@ describe('ResourceManagedCoverage', () => {
       }).map(m => m.toJSON());
 
       resource.save();
-      return this.visit(`/eholdings/resources/${resource.id}`, () => {
+      this.visit(`/eholdings/resources/${resource.id}`, () => {
         expect(ResourceShowPage.$root).to.exist;
       });
     });

@@ -49,9 +49,7 @@ describe('CustomResourceEditEmbargo', () => {
 
       resource.save();
 
-      return this.visit(`/eholdings/resources/${resource.id}/edit`, () => {
-        expect(ResourceEditPage.$root).to.exist;
-      });
+      this.visit(`/eholdings/resources/${resource.id}/edit`);
     });
 
     it('disables the save button', () => {
@@ -99,9 +97,7 @@ describe('CustomResourceEditEmbargo', () => {
 
   describe('visiting the resource edit page without any embargos', () => {
     beforeEach(function () {
-      return this.visit(`/eholdings/resources/${resource.id}/edit`, () => {
-        expect(ResourceEditPage.$root).to.exist;
-      });
+      this.visit(`/eholdings/resources/${resource.id}/edit`);
     });
 
     it('disables the save button', () => {
@@ -265,9 +261,7 @@ describe('CustomResourceEditEmbargo', () => {
       }).toJSON();
 
       resource.save();
-      return this.visit(`/eholdings/resources/${resource.id}/edit`, () => {
-        expect(ResourceEditPage.$root).to.exist;
-      });
+      this.visit(`/eholdings/resources/${resource.id}/edit`);
     });
 
     it('shows a button to add embargo fields', () => {
@@ -281,9 +275,7 @@ describe('CustomResourceEditEmbargo', () => {
       resource.customEmbargoPeriod = null;
 
       resource.save();
-      return this.visit(`/eholdings/resources/${resource.id}/edit`, () => {
-        expect(ResourceEditPage.$root).to.exist;
-      });
+      this.visit(`/eholdings/resources/${resource.id}/edit`);
     });
 
     it('shows a button to add embargo fields', () => {
@@ -299,9 +291,7 @@ describe('CustomResourceEditEmbargo', () => {
       }).toJSON();
 
       resource.save();
-      return this.visit(`/eholdings/resources/${resource.id}/edit`, () => {
-        expect(ResourceEditPage.$root).to.exist;
-      });
+      this.visit(`/eholdings/resources/${resource.id}/edit`);
     });
 
     it('shows a form with embargo fields', () => {

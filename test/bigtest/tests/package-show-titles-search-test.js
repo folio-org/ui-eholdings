@@ -65,14 +65,11 @@ describe('Package Show Title Search', () => {
 
   describe('navigating to package show page to filter titles', () => {
     beforeEach(function () {
-      return this.visit(
+      this.visit(
         {
           pathname: `/eholdings/packages/${providerPackage.id}`,
           // our internal link component automatically sets the location state
           state: { eholdings: true }
-        },
-        () => {
-          expect(PackageShowPage.$root).to.exist;
         }
       );
     });
@@ -199,14 +196,11 @@ describe('Package Show Title Search', () => {
           'meta':{ 'totalResults': 10000 },
           'jsonapi':{ 'version':'1.0' } }, 200);
 
-      return this.visit(
+      this.visit(
         {
           pathname: `/eholdings/packages/${largeProviderPackage.id}`,
           // our internal link component automatically sets the location state
           state: { eholdings: true }
-        },
-        () => {
-          expect(PackageShowPage.$root).to.exist;
         }
       );
     });

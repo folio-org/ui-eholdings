@@ -21,9 +21,7 @@ describe('ProviderShow', () => {
 
   describe('visiting the provider details page', () => {
     beforeEach(function () {
-      return this.visit(`/eholdings/providers/${provider.id}`, () => {
-        expect(ProviderShowPage.$root).to.exist;
-      });
+      this.visit(`/eholdings/providers/${provider.id}`);
     });
 
     it('displays the provider name in the pane header', () => {
@@ -95,9 +93,7 @@ describe('ProviderShow', () => {
     beforeEach(function () {
       this.server.loadFixtures();
 
-      return this.visit('/eholdings/providers/paged_provider', () => {
-        expect(ProviderShowPage.$root).to.exist;
-      });
+      this.visit('/eholdings/providers/paged_provider');
     });
 
     it('should display the first page of related packages', () => {
@@ -124,9 +120,7 @@ describe('ProviderShow', () => {
       provider.packagesSelected = 9000;
       provider.packagesTotal = 10000;
 
-      return this.visit(`/eholdings/providers/${provider.id}`, () => {
-        expect(ProviderShowPage.$root).to.exist;
-      });
+      this.visit(`/eholdings/providers/${provider.id}`);
     });
 
     describe('viewing large providers', () => {
@@ -149,9 +143,7 @@ describe('ProviderShow', () => {
       provider.update('proxy', proxy.toJSON());
       provider.save();
 
-      return this.visit(`/eholdings/providers/${provider.id}`, () => {
-        expect(ProviderShowPage.$root).to.exist;
-      });
+      this.visit(`/eholdings/providers/${provider.id}`);
     });
 
     it('displays the proxy prepended with Inheritied', () => {
@@ -169,9 +161,7 @@ describe('ProviderShow', () => {
       provider.update('proxy', proxy.toJSON());
       provider.save();
 
-      return this.visit(`/eholdings/providers/${provider.id}`, () => {
-        expect(ProviderShowPage.$root).to.exist;
-      });
+      this.visit(`/eholdings/providers/${provider.id}`);
     });
 
     it('displays the proxy as None', () => {
@@ -190,9 +180,7 @@ describe('ProviderShow', () => {
       provider.update('providerToken', token.toJSON());
       provider.save();
 
-      return this.visit(`/eholdings/providers/${provider.id}`, () => {
-        expect(ProviderShowPage.$root).to.exist;
-      });
+      this.visit(`/eholdings/providers/${provider.id}`);
     });
 
     it('does not display the token', () => {
@@ -209,9 +197,7 @@ describe('ProviderShow', () => {
       provider.update('providerToken', null);
       provider.save();
 
-      return this.visit(`/eholdings/providers/${provider.id}`, () => {
-        expect(ProviderShowPage.$root).to.exist;
-      });
+      this.visit(`/eholdings/providers/${provider.id}`);
     });
 
     it('does not display the token', () => {
@@ -221,12 +207,10 @@ describe('ProviderShow', () => {
 
   describe('navigating to provider details page', () => {
     beforeEach(function () {
-      return this.visit({
+      this.visit({
         pathname: `/eholdings/providers/${provider.id}`,
         // our internal link component automatically sets the location state
         state: { eholdings: true }
-      }, () => {
-        expect(ProviderShowPage.$root).to.exist;
       });
     });
 
@@ -244,9 +228,7 @@ describe('ProviderShow', () => {
         }]
       }, 500);
 
-      return this.visit(`/eholdings/providers/${provider.id}`, () => {
-        expect(ProviderShowPage.$root).to.exist;
-      });
+      this.visit(`/eholdings/providers/${provider.id}`);
     });
 
     it('has an error', () => {

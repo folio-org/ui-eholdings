@@ -23,9 +23,7 @@ describe('PackageSearch', () => {
       name: 'SomethingElse'
     });
 
-    return this.visit('/eholdings/?searchType=packages', () => {
-      expect(PackageSearchPage.isPresent).to.be.true;
-    });
+    this.visit('/eholdings/?searchType=packages');
   });
 
   it('has a searchbox', () => {
@@ -266,9 +264,7 @@ describe('PackageSearch', () => {
 
       describe('visiting the page with an existing filter', () => {
         beforeEach(function () {
-          return this.visit('/eholdings/?searchType=packages&q=Package&filter[type]=ejournal', () => {
-            expect(PackageSearchPage.isPresent).to.be.true;
-          });
+          this.visit('/eholdings/?searchType=packages&q=Package&filter[type]=ejournal');
         });
 
         it('shows the existing filter in the search form', () => {
@@ -307,9 +303,7 @@ describe('PackageSearch', () => {
 
       describe('visiting the page with an existing filter', () => {
         beforeEach(function () {
-          return this.visit('/eholdings/?searchType=packages&q=Package&filter[selected]=false', () => {
-            expect(PackageSearchPage.isPresent).to.be.true;
-          });
+          this.visit('/eholdings/?searchType=packages&q=Package&filter[selected]=false');
         });
 
         it('shows the existing filter in the search form', () => {
@@ -494,9 +488,7 @@ describe('PackageSearch', () => {
 
     describe('visiting the page with an existing sort', () => {
       beforeEach(function () {
-        return this.visit('/eholdings/?searchType=packages&q=academic&sort=name', () => {
-          expect(PackageSearchPage.isPresent).to.be.true;
-        });
+        this.visit('/eholdings/?searchType=packages&q=academic&sort=name');
       });
 
       it('displays search field populated', () => {
@@ -566,9 +558,7 @@ describe('PackageSearch', () => {
 
     describe('navigating directly to a search page', () => {
       beforeEach(function () {
-        return this.visit('/eholdings/?searchType=packages&offset=51&q=other', () => {
-          expect(PackageSearchPage.isPresent).to.be.true;
-        });
+        this.visit('/eholdings/?searchType=packages&offset=51&q=other');
       });
 
       it('should show the search results for that page', () => {

@@ -25,9 +25,7 @@ describe('CustomPackageEdit', () => {
 
   describe('visiting the package edit page without coverage dates', () => {
     beforeEach(function () {
-      return this.visit(`/eholdings/packages/${providerPackage.id}/edit`, () => {
-        expect(PackageEditPage.$root).to.exist;
-      });
+      this.visit(`/eholdings/packages/${providerPackage.id}/edit`);
     });
 
     it('displays the correct holdings status', () => {
@@ -113,9 +111,7 @@ describe('CustomPackageEdit', () => {
       providerPackage.update('contentType', 'E-Book');
       providerPackage.save();
 
-      return this.visit(`/eholdings/packages/${providerPackage.id}/edit`, () => {
-        expect(PackageEditPage.$root).to.exist;
-      });
+      this.visit(`/eholdings/packages/${providerPackage.id}/edit`);
     });
 
     it('disables the save button', () => {
@@ -215,9 +211,7 @@ describe('CustomPackageEdit', () => {
         }]
       }, 500);
 
-      return this.visit(`/eholdings/packages/${providerPackage.id}/edit`, () => {
-        expect(PackageEditPage.$root).to.exist;
-      });
+      this.visit(`/eholdings/packages/${providerPackage.id}/edit`);
     });
 
     it('dies with dignity', () => {
@@ -233,9 +227,7 @@ describe('CustomPackageEdit', () => {
         }]
       }, 500);
 
-      return this.visit(`/eholdings/packages/${providerPackage.id}/edit`, () => {
-        expect(PackageEditPage.$root).to.exist;
-      });
+      this.visit(`/eholdings/packages/${providerPackage.id}/edit`);
     });
 
     describe('entering valid data and clicking save', () => {

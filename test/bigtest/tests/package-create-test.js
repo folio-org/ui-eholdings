@@ -12,9 +12,7 @@ describe('PackageCreate', () => {
 
   describe('submitting the form', () => {
     beforeEach(function () {
-      return this.visit('/eholdings/packages/new', () => {
-        expect(PackageCreatePage.$root).to.exist;
-      });
+      this.visit('/eholdings/packages/new');
     });
 
     it('has a package name field', () => {
@@ -120,9 +118,7 @@ describe('PackageCreate', () => {
 
   describe('canceling when there is router history', () => {
     beforeEach(function () {
-      return this.visit('/eholdings/?searchType=packages', () => {
-        expect(PackageSearchPage.$root).to.exist;
-      });
+      this.visit('/eholdings/?searchType=packages');
     });
 
     describe('clicking a cancel action', () => {

@@ -19,9 +19,7 @@ describe('TitleCreate', () => {
         isCustom: true
       });
 
-      return this.visit('/eholdings/titles/new', () => {
-        expect(TitleCreatePage.$root).to.exist;
-      });
+      this.visit('/eholdings/titles/new');
     });
 
     it('has a title name field', () => {
@@ -244,9 +242,7 @@ describe('TitleCreate', () => {
 
   describe('canceling when there is router history', () => {
     beforeEach(function () {
-      return this.visit('/eholdings/?searchType=titles', () => {
-        expect(TitleSearchPage.$root).to.exist;
-      });
+      this.visit('/eholdings/?searchType=titles');
     });
 
     describe('clicking a cancel action', () => {

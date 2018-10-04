@@ -70,9 +70,7 @@ describe('ResourceEditCustomTitle', () => {
         url: 'https://frontside.io'
       });
 
-      return this.visit(`/eholdings/resources/${resource.titleId}/edit`, () => {
-        expect(ResourceEditPage.$root).to.exist;
-      });
+      this.visit(`/eholdings/resources/${resource.titleId}/edit`);
     });
 
     describe('with the resource unselected', () => {
@@ -92,9 +90,7 @@ describe('ResourceEditCustomTitle', () => {
 
   describe('visiting the resource edit page without coverage dates or statements', () => {
     beforeEach(function () {
-      return this.visit(`/eholdings/resources/${resource.titleId}/edit`, () => {
-        expect(ResourceEditPage.$root).to.exist;
-      });
+      this.visit(`/eholdings/resources/${resource.titleId}/edit`);
     });
 
     it('shows a form with coverage statement', () => {
@@ -261,9 +257,7 @@ describe('ResourceEditCustomTitle', () => {
       }).toJSON();
       resource.save();
 
-      return this.visit(`/eholdings/resources/${resource.titleId}/edit`, () => {
-        expect(ResourceEditPage.$root).to.exist;
-      });
+      this.visit(`/eholdings/resources/${resource.titleId}/edit`);
     });
 
     it('shows a form with embargo fields', () => {
@@ -380,9 +374,7 @@ describe('ResourceEditCustomTitle', () => {
         }]
       }, 500);
 
-      return this.visit(`/eholdings/resources/${resource.id}/edit`, () => {
-        expect(ResourceEditPage.$root).to.exist;
-      });
+      this.visit(`/eholdings/resources/${resource.id}/edit`);
     });
 
     it('dies with dignity', () => {
@@ -398,9 +390,7 @@ describe('ResourceEditCustomTitle', () => {
         }]
       }, 500);
 
-      return this.visit(`/eholdings/resources/${resource.id}/edit`, () => {
-        expect(ResourceEditPage.$root).to.exist;
-      });
+      this.visit(`/eholdings/resources/${resource.id}/edit`);
     });
 
     describe('entering valid data and clicking save', () => {

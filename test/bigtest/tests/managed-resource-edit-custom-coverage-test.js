@@ -34,9 +34,7 @@ describe('ManagedResourceEditCustomCoverage', () => {
       resource.isSelected = true;
       resource.save();
 
-      return this.visit(`/eholdings/resources/${resource.id}/edit`, () => {
-        expect(ResourceEditPage.$root).to.exist;
-      });
+      this.visit(`/eholdings/resources/${resource.id}/edit`);
     });
 
     it('disables the save button', () => {
@@ -225,9 +223,7 @@ describe('ManagedResourceEditCustomCoverage', () => {
       resource.update('customCoverages', customCoverages.map(item => item.toJSON()));
       resource.save();
 
-      return this.visit(`/eholdings/resources/${resource.id}/edit`, () => {
-        expect(ResourcePage.$root).to.exist;
-      });
+      this.visit(`/eholdings/resources/${resource.id}/edit`);
     });
 
     it('displays the date ranges', () => {
@@ -280,9 +276,7 @@ describe('ManagedResourceEditCustomCoverage', () => {
       resource.update('customCoverages', customCoverages.map(item => item.toJSON()));
       resource.save();
 
-      return this.visit(`/eholdings/resources/${resource.id}/edit`, () => {
-        expect(ResourcePage.$root).to.exist;
-      });
+      this.visit(`/eholdings/resources/${resource.id}/edit`);
     });
 
     it('displays 2 rows for date ranges', () => {

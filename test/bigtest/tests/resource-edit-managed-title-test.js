@@ -52,9 +52,7 @@ describe('ResourceEditManagedTitleInManagedPackage', () => {
 
   describe('visiting the resource edit page without coverage dates, statement, or embargo', () => {
     beforeEach(function () {
-      return this.visit(`/eholdings/resources/${resource.titleId}/edit`, () => {
-        expect(ResourceEditPage.$root).to.exist;
-      });
+      this.visit(`/eholdings/resources/${resource.titleId}/edit`);
     });
 
     it('displays the managed coverage dates in the form', () => {
@@ -195,9 +193,7 @@ describe('ResourceEditManagedTitleInManagedPackage', () => {
       }).toJSON();
       resource.save();
 
-      return this.visit(`/eholdings/resources/${resource.titleId}/edit`, () => {
-        expect(ResourceEditPage.$root).to.exist;
-      });
+      this.visit(`/eholdings/resources/${resource.titleId}/edit`);
     });
 
     it('shows a form with the coverage field', () => {
@@ -313,9 +309,7 @@ describe('ResourceEditManagedTitleInManagedPackage', () => {
         }]
       }, 500);
 
-      return this.visit(`/eholdings/resources/${resource.id}/edit`, () => {
-        expect(ResourceEditPage.$root).to.exist;
-      });
+      this.visit(`/eholdings/resources/${resource.id}/edit`);
     });
 
     it('dies with dignity', () => {
@@ -331,9 +325,7 @@ describe('ResourceEditManagedTitleInManagedPackage', () => {
         }]
       }, 500);
 
-      return this.visit(`/eholdings/resources/${resource.id}/edit`, () => {
-        expect(ResourceEditPage.$root).to.exist;
-      });
+      this.visit(`/eholdings/resources/${resource.id}/edit`);
     });
 
     describe('entering valid data and clicking save', () => {
@@ -356,9 +348,7 @@ describe('ResourceEditManagedTitleInManagedPackage', () => {
 
   describe('visiting the resource show page', () => {
     beforeEach(function () {
-      return this.visit(`/eholdings/resources/${resource.id}`, () => {
-        expect(ResourceShowPage.$root).to.exist;
-      });
+      this.visit(`/eholdings/resources/${resource.id}`);
     });
 
     describe('clicking the edit button', () => {

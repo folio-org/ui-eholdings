@@ -59,9 +59,7 @@ describe('CustomTitleEdit', () => {
 
   describe('visiting the title edit page', () => {
     beforeEach(function () {
-      return this.visit(`/eholdings/titles/${title.id}/edit`, () => {
-        expect(TitleEditPage.$root).to.exist;
-      });
+      this.visit(`/eholdings/titles/${title.id}/edit`);
     });
 
     it('shows a field for edition', () => {
@@ -312,9 +310,7 @@ describe('CustomTitleEdit', () => {
         }]
       }, 500);
 
-      return this.visit(`/eholdings/titles/${title.id}/edit`, () => {
-        expect(TitleEditPage.$root).to.exist;
-      });
+      this.visit(`/eholdings/titles/${title.id}/edit`);
     });
 
     it('dies with dignity', () => {
@@ -330,9 +326,7 @@ describe('CustomTitleEdit', () => {
         }]
       }, 500);
 
-      return this.visit(`/eholdings/titles/${title.id}/edit`, () => {
-        expect(TitleEditPage.$root).to.exist;
-      });
+      this.visit(`/eholdings/titles/${title.id}/edit`);
     });
 
     describe('entering valid data and clicking save', () => {
@@ -352,9 +346,7 @@ describe('CustomTitleEdit', () => {
 
   describe('visiting the title show page', () => {
     beforeEach(function () {
-      return this.visit(`/eholdings/titles/${title.id}`, () => {
-        expect(TitleShowPage.$root).to.exist;
-      });
+      this.visit(`/eholdings/titles/${title.id}`);
     });
 
     describe('clicking the edit button', () => {

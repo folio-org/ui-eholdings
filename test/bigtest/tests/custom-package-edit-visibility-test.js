@@ -24,9 +24,7 @@ describe('CustomPackageEditVisibility', () => {
         contentType: 'E-Book',
         isCustom: true
       });
-      return this.visit(`/eholdings/packages/${providerPackage.id}/edit`, () => {
-        expect(PackageEditPage.$root).to.exist;
-      });
+      this.visit(`/eholdings/packages/${providerPackage.id}/edit`);
     });
 
     it('displays the correct visibility status', () => {
@@ -90,9 +88,7 @@ describe('CustomPackageEditVisibility', () => {
         contentType: 'E-Book',
         isCustom: true
       });
-      return this.visit(`/eholdings/packages/${providerPackage.id}/edit`, () => {
-        expect(PackageEditPage.$root).to.exist;
-      });
+      this.visit(`/eholdings/packages/${providerPackage.id}/edit`);
     });
 
     it('displays the correct visibility status', () => {
@@ -113,9 +109,7 @@ describe('CustomPackageEditVisibility', () => {
         isCustom: true,
         isVisible: true
       });
-      return this.visit(`/eholdings/packages/${providerPackage.id}/edit`, () => {
-        expect(PackageEditPage.$root).to.exist;
-      });
+      this.visit(`/eholdings/packages/${providerPackage.id}/edit`);
     });
 
     it('displays the correct visibility status', () => {
@@ -180,9 +174,7 @@ describe('CustomPackageEditVisibility', () => {
         isCustom: true,
         isVisible: true
       });
-      return this.visit(`/eholdings/packages/${providerPackage.id}/edit`, () => {
-        expect(PackageEditPage.$root).to.exist;
-      });
+      this.visit(`/eholdings/packages/${providerPackage.id}/edit`);
     });
     it('reflects the desired state of holding status', () => {
       expect(PackageEditPage.selectionStatus.isSelected).to.equal(true);

@@ -25,9 +25,7 @@ describe('ManagedPackageEdit', () => {
 
   describe('visiting the package edit page without coverage dates', () => {
     beforeEach(function () {
-      return this.visit(`/eholdings/packages/${providerPackage.id}/edit`, () => {
-        expect(PackageEditPage.$root).to.exist;
-      });
+      this.visit(`/eholdings/packages/${providerPackage.id}/edit`);
     });
 
     it('shows blank datepicker fields', () => {
@@ -104,9 +102,7 @@ describe('ManagedPackageEdit', () => {
       });
       providerPackage.save();
 
-      return this.visit(`/eholdings/packages/${providerPackage.id}/edit`, () => {
-        expect(PackageEditPage.$root).to.exist;
-      });
+      this.visit(`/eholdings/packages/${providerPackage.id}/edit`);
     });
 
     it('disables the save button', () => {
@@ -170,9 +166,7 @@ describe('ManagedPackageEdit', () => {
         }]
       }, 500);
 
-      return this.visit(`/eholdings/packages/${providerPackage.id}/edit`, () => {
-        expect(PackageEditPage.$root).to.exist;
-      });
+      this.visit(`/eholdings/packages/${providerPackage.id}/edit`);
     });
 
     it('dies with dignity', () => {
@@ -188,9 +182,7 @@ describe('ManagedPackageEdit', () => {
         }]
       }, 500);
 
-      return this.visit(`/eholdings/packages/${providerPackage.id}/edit`, () => {
-        expect(PackageEditPage.$root).to.exist;
-      });
+      this.visit(`/eholdings/packages/${providerPackage.id}/edit`);
     });
 
     describe('entering valid data and clicking save', () => {
@@ -208,9 +200,7 @@ describe('ManagedPackageEdit', () => {
 
   describe('visiting the package show page', () => {
     beforeEach(function () {
-      return this.visit(`/eholdings/packages/${providerPackage.id}`, () => {
-        expect(PackageShowPage.$root).to.exist;
-      });
+      this.visit(`/eholdings/packages/${providerPackage.id}`);
     });
 
     describe('clicking the edit button', () => {

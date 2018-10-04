@@ -29,9 +29,7 @@ describe('PackageShow', () => {
 
   describe('visiting the package details page', () => {
     beforeEach(function () {
-      return this.visit(`/eholdings/packages/${providerPackage.id}`, () => {
-        expect(PackageShowPage.$root).to.exist;
-      });
+      this.visit(`/eholdings/packages/${providerPackage.id}`);
     });
 
     it('displays the package name in the pane header', () => {
@@ -101,9 +99,7 @@ describe('PackageShow', () => {
           titleCount: 2
         });
 
-        return this.visit(`/eholdings/packages/${otherPackage.id}`, () => {
-          expect(PackageShowPage.$root).to.exist;
-        });
+        this.visit(`/eholdings/packages/${otherPackage.id}`);
       });
 
       it('displays the different package', () => {
@@ -134,7 +130,7 @@ describe('PackageShow', () => {
         package: pkg,
         isSelected: false
       });
-      return this.visit(`/eholdings/packages/${pkg.id}`);
+      this.visit(`/eholdings/packages/${pkg.id}`);
     });
     it('shows the selected # of titles and the total # of titles in the package', () => {
       expect(PackageShowPage.selectionStatus.text).to.equal('5 of 10 titles selected');
@@ -160,9 +156,7 @@ describe('PackageShow', () => {
   describe('viewing a managed package details page', () => {
     beforeEach(function () {
       providerPackage.isSelected = true;
-      return this.visit(`/eholdings/packages/${providerPackage.id}`, () => {
-        expect(PackageShowPage.$root).to.exist;
-      });
+      this.visit(`/eholdings/packages/${providerPackage.id}`);
     });
 
     it('displays the package type as complete', () => {
@@ -183,9 +177,7 @@ describe('PackageShow', () => {
       providerPackage.isCustom = true;
       providerPackage.packageType = 'Custom';
       providerPackage.isSelected = true;
-      return this.visit(`/eholdings/packages/${providerPackage.id}`, () => {
-        expect(PackageShowPage.$root).to.exist;
-      });
+      this.visit(`/eholdings/packages/${providerPackage.id}`);
     });
 
     it('displays the package type as custom', () => {
@@ -215,9 +207,7 @@ describe('PackageShow', () => {
         titleCount: 5,
         packageType: 'Complete'
       });
-      return this.visit(`/eholdings/packages/${providerPackage.id}`, () => {
-        expect(PackageShowPage.$root).to.exist;
-      });
+      this.visit(`/eholdings/packages/${providerPackage.id}`);
     });
 
     it('displays the proxy prepended with Inherited', () => {
@@ -243,9 +233,7 @@ describe('PackageShow', () => {
         isCustom: true
       });
 
-      return this.visit(`/eholdings/packages/${providerPackage.id}`, () => {
-        expect(PackageShowPage.$root).to.exist;
-      });
+      this.visit(`/eholdings/packages/${providerPackage.id}`);
     });
 
     it('displays the package type as custom', () => {
@@ -263,9 +251,7 @@ describe('PackageShow', () => {
     beforeEach(function () {
       providerPackage.isSelected = true;
 
-      return this.visit(`/eholdings/packages/${providerPackage.id}`, () => {
-        expect(PackageShowPage.$root).to.exist;
-      });
+      this.visit(`/eholdings/packages/${providerPackage.id}`);
     });
 
     it('displays the provider token prompt and value', () => {
@@ -293,9 +279,7 @@ describe('PackageShow', () => {
       providerPackage.update('packageToken', token.toJSON());
       providerPackage.save();
 
-      return this.visit(`/eholdings/packages/${providerPackage.id}`, () => {
-        expect(PackageShowPage.$root).to.exist;
-      });
+      this.visit(`/eholdings/packages/${providerPackage.id}`);
     });
 
     it('does not display the package token', () => {
@@ -328,9 +312,7 @@ describe('PackageShow', () => {
       providerPackage.update('packageToken', token.toJSON());
       providerPackage.save();
 
-      return this.visit(`/eholdings/packages/${providerPackage.id}`, () => {
-        expect(PackageShowPage.$root).to.exist;
-      });
+      this.visit(`/eholdings/packages/${providerPackage.id}`);
     });
 
     it('does not display the provider token', () => {
@@ -363,9 +345,7 @@ describe('PackageShow', () => {
       provider.update('providerToken', token.toJSON());
       provider.save();
 
-      return this.visit(`/eholdings/packages/${providerPackage.id}`, () => {
-        expect(PackageShowPage.$root).to.exist;
-      });
+      this.visit(`/eholdings/packages/${providerPackage.id}`);
     });
 
     it('displays the package token prompt and value', () => {
@@ -392,9 +372,7 @@ describe('PackageShow', () => {
       providerPackage.update('packageToken', null);
       providerPackage.save();
 
-      return this.visit(`/eholdings/packages/${providerPackage.id}`, () => {
-        expect(PackageShowPage.$root).to.exist;
-      });
+      this.visit(`/eholdings/packages/${providerPackage.id}`);
     });
 
     it('does not display both provider and package tokens', () => {
@@ -407,9 +385,7 @@ describe('PackageShow', () => {
     beforeEach(function () {
       this.server.loadFixtures();
 
-      return this.visit('/eholdings/packages/paged_pkg', () => {
-        expect(PackageShowPage.$root).to.exist;
-      });
+      this.visit('/eholdings/packages/paged_pkg');
     });
 
     it('should display the first page of related titles', () => {
@@ -434,9 +410,7 @@ describe('PackageShow', () => {
       providerPackage.selectedCount = 9000;
       providerPackage.titleCount = 10000;
 
-      return this.visit(`/eholdings/packages/${providerPackage.id}`, () => {
-        expect(PackageShowPage.$root).to.exist;
-      });
+      this.visit(`/eholdings/packages/${providerPackage.id}`);
     });
 
     describe('viewing large packages', () => {
@@ -452,12 +426,10 @@ describe('PackageShow', () => {
 
   describe('navigating to package show page', () => {
     beforeEach(function () {
-      return this.visit({
+      this.visit({
         pathname: `/eholdings/packages/${providerPackage.id}`,
         // our internal link component automatically sets the location state
         state: { eholdings: true }
-      }, () => {
-        expect(PackageShowPage.$root).to.exist;
       });
     });
 
@@ -474,9 +446,7 @@ describe('PackageShow', () => {
         }]
       }, 500);
 
-      return this.visit(`/eholdings/packages/${providerPackage.id}`, () => {
-        expect(PackageShowPage.$root).to.exist;
-      });
+      this.visit(`/eholdings/packages/${providerPackage.id}`);
     });
 
     it('displays the correct error text', () => {
