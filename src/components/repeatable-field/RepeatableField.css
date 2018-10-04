@@ -20,7 +20,7 @@
   margin-top: 2.25em;
   text-align: center;
 
-  @media (--mediumUp) {
+  @media (--medium-up) {
     margin-top: 1.5em;
   }
 }

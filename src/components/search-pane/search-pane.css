@@ -18,7 +18,7 @@
   }
 }
 
-@media (--mediumUp) {
+@media (--medium-up) {
   .search-pane {
     border-right: 1px solid rgba(0, 0, 0, 0.2);
     width: 320px;
@@ -30,7 +30,7 @@
   }
 }
 
-@media (--largeUp) {
+@media (--large-up) {
   .search-pane,
   .search-pane.is-hidden,
   .search-pane:only-child {

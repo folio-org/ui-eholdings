@@ -1,7 +1,7 @@
 @import '@folio/stripes-components/lib/variables';
 
 .coverage-fields-category {
-  margin: 0.5em 1.75em var(--controlMarginBottom);
+  margin: 0.5em 1.75em var(--control-margin-bottom);
 }
 
 .coverage-fields-datepicker {
