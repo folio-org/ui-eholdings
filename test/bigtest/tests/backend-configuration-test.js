@@ -6,102 +6,96 @@ import setupApplication from '../helpers/setup-application';
 import ApplicationPage from '../interactors/application';
 import SettingsPage from '../interactors/settings';
 
-describe('Error retrieving backend', {
-  scenarios: ['load-error-backend'],
+describe('Error retrieving backend', () => {
+  setupApplication({
+    scenarios: ['load-error-backend']
+  });
 
-  suite() {
-    setupApplication();
-
-    describe('when trying to use the app', () => {
-      beforeEach(function () {
-        return this.visit('/eholdings', () => expect(ApplicationPage.$root).to.exist);
-      });
-
-      it('informs user that an error has occurred', () => {
-        expect(ApplicationPage.hasBackendLoadError).to.be.true;
-      });
+  describe('when trying to use the app', () => {
+    beforeEach(function () {
+      return this.visit('/eholdings', () => expect(ApplicationPage.$root).to.exist);
     });
-  }
+
+    it('informs user that an error has occurred', () => {
+      expect(ApplicationPage.hasBackendLoadError).to.be.true;
+    });
+  });
 });
 
-describe('With no backend at all', {
-  scenarios: ['no-backend'],
+describe('With no backend at all', () => {
+  setupApplication({
+    scenarios: ['no-backend']
+  });
 
-  suite() {
-    setupApplication();
-
-    describe('when trying to use the app', () => {
-      beforeEach(function () {
-        return this.visit('/eholdings', () => expect(ApplicationPage.$root).to.exist);
-      });
-
-      it('blocks access to the eholdings app and tells me that I need to install a backend', () => {
-        expect(ApplicationPage.doesNotHaveBackend).to.be.true;
-      });
+  describe('when trying to use the app', () => {
+    beforeEach(function () {
+      return this.visit('/eholdings', () => expect(ApplicationPage.$root).to.exist);
     });
-  }
+
+    it('blocks access to the eholdings app and tells me that I need to install a backend', () => {
+      expect(ApplicationPage.doesNotHaveBackend).to.be.true;
+    });
+  });
 });
 
-describe('With unconfigured backend', {
-  scenarios: ['unconfigured-backend'],
+describe('With unconfigured backend', () => {
+  setupApplication({
+    scenarios: ['unconfigured-backend']
+  });
 
-  suite() {
-    setupApplication();
+  describe('when trying to use the app', () => {
+    beforeEach(function () {
+      return this.visit('/eholdings', () => expect(ApplicationPage.$root).to.exist);
+    });
 
-    describe('when trying to use the app', () => {
-      beforeEach(function () {
-        return this.visit('/eholdings', () => expect(ApplicationPage.$root).to.exist);
+    it('blocks access to the eholdings app and points you to the configuration screen', () => {
+      expect(ApplicationPage.backendNotConfigured).to.be.true;
+    });
+  });
+
+  describe('when visiting the KB auth form', () => {
+    beforeEach(function () {
+      return this.visit('/settings/eholdings/knowledge-base', () => expect(SettingsPage.$root).to.exist);
+    });
+
+    it('does not enable the save button', () => {
+      expect(SettingsPage.saveButtonDisabled).to.be.true;
+    });
+
+    describe('filling in incomplete data', () => {
+      beforeEach(() => {
+        return SettingsPage
+          .blurCustomerId()
+          .blurApiKey();
       });
 
-      it('blocks access to the eholdings app and points you to the configuration screen', () => {
-        expect(ApplicationPage.backendNotConfigured).to.be.true;
+      it('displays an errored state for the blank customer id', () => {
+        expect(SettingsPage.customerIdFieldIsInvalid).to.be.true;
+      });
+
+      it('displays an errored state for the blank api key', () => {
+        expect(SettingsPage.apiKeyFieldIsInvalid).to.be.true;
       });
     });
 
-    describe('when visiting the KB auth form', () => {
-      beforeEach(function () {
-        return this.visit('/settings/eholdings/knowledge-base', () => expect(SettingsPage.$root).to.exist);
+    describe('filling in incomplete data, then filling in more data', () => {
+      beforeEach(() => {
+        return SettingsPage
+          .blurCustomerId()
+          .blurApiKey()
+          .fillCustomerId('some-customer-id')
+          .fillApiKey('some-api-key');
       });
 
-      it('does not enable the save button', () => {
-        expect(SettingsPage.saveButtonDisabled).to.be.true;
+      it('does not display an error state for customer id', () => {
+        expect(SettingsPage.customerIdFieldIsInvalid).to.be.false;
       });
 
-      describe('filling in incomplete data', () => {
-        beforeEach(() => {
-          return SettingsPage
-            .blurCustomerId()
-            .blurApiKey();
-        });
-
-        it('displays an errored state for the blank customer id', () => {
-          expect(SettingsPage.customerIdFieldIsInvalid).to.be.true;
-        });
-
-        it('displays an errored state for the blank api key', () => {
-          expect(SettingsPage.apiKeyFieldIsInvalid).to.be.true;
-        });
-      });
-
-      describe('filling in incomplete data, then filling in more data', () => {
-        beforeEach(() => {
-          return SettingsPage
-            .blurCustomerId()
-            .blurApiKey()
-            .fillCustomerId('some-customer-id')
-            .fillApiKey('some-api-key');
-        });
-
-        it('does not display an error state for customer id', () => {
-          expect(SettingsPage.customerIdFieldIsInvalid).to.be.false;
-        });
-
-        it('does not display an error state for api key', () => {
-          expect(SettingsPage.apiKeyFieldIsInvalid).to.be.false;
-        });
+      it('does not display an error state for api key', () => {
+        expect(SettingsPage.apiKeyFieldIsInvalid).to.be.false;
       });
     });
-  }
+  });
 });
 
 describe('With valid backend configuration', () => {
