@@ -5,10 +5,10 @@ import moment from 'moment';
 import { injectIntl, intlShape } from 'react-intl';
 
 import {
-  Datepicker
+  Datepicker,
+  RepeatableField
 } from '@folio/stripes/components';
 
-import RepeatableField from '../../../repeatable-field';
 import styles from './custom-coverage-fields.css';
 
 class ResourceCoverageFields extends Component {

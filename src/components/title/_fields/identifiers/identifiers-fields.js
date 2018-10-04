@@ -3,12 +3,12 @@ import { Field, FieldArray } from 'redux-form';
 import PropTypes from 'prop-types';
 
 import {
+  RepeatableField,
   Select,
   TextField
 } from '@folio/stripes/components';
 
 import { injectIntl, intlShape } from 'react-intl';
-import RepeatableField from '../../../repeatable-field';
 import styles from './identifiers-fields.css';
 
 class IdentifiersFields extends Component {
