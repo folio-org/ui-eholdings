@@ -2,6 +2,7 @@ import { expect } from 'chai';
 import { describe, beforeEach, it } from '@bigtest/mocha';
 
 import setupApplication from '../helpers/setup-application';
+import setupBlockServer from '../helpers/setup-block-server';
 import PackageShowPage from '../interactors/package-show';
 import PackageEditPage from '../interactors/package-edit';
 
@@ -11,6 +12,7 @@ describe('ManagedPackageEditSelection', () => {
     providerPackage;
 
   beforeEach(function () {
+    setupBlockServer(this.server);
     provider = this.server.create('provider', {
       name: 'Cool Provider'
     });

@@ -2,6 +2,7 @@ import { beforeEach, describe, it } from '@bigtest/mocha';
 import { expect } from 'chai';
 
 import setupApplication from '../helpers/setup-application';
+import setupBlockServer from '../helpers/setup-block-server';
 import PackageShowPage from '../interactors/package-show';
 
 // This test though named custom package show is essentially a Package
@@ -11,10 +12,13 @@ import PackageShowPage from '../interactors/package-show';
 
 describe('CustomPackageShowSelection', () => {
   setupApplication();
+
   let provider,
     providerPackage;
 
   beforeEach(function () {
+    setupBlockServer(this.server);
+
     provider = this.server.create('provider', {
       name: 'Cool Provider'
     });

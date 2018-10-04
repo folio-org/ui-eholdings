@@ -2,6 +2,7 @@ import { beforeEach, describe, it } from '@bigtest/mocha';
 import { expect } from 'chai';
 
 import setupApplication from '../helpers/setup-application';
+import setupBlockServer from '../helpers/setup-block-server';
 import ResourcePage from '../interactors/resource-show';
 
 describe('ResourceSelection', () => {
@@ -11,6 +12,7 @@ describe('ResourceSelection', () => {
     resource;
 
   beforeEach(function () {
+    setupBlockServer(this.server);
     provider = this.server.create('provider', {
       name: 'Cool Provider'
     });
