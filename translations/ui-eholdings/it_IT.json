@@ -287,5 +287,6 @@
     "package.token.addToken": "+ Aggiungi token al pacchetto",
     "settings.kb.rmapiBaseUrl": "Choose API endpoint",
     "settings.kb.url.ebsco.customer.message": "EBSCO KB API customers: Configuration enables searching with eHoldings and Codex search apps.",
-    "settings.kb.updated": "KB settings updated"
+    "settings.kb.updated": "KB settings updated",
+    "over": "Over"
 }
