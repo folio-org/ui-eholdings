@@ -52,7 +52,7 @@ class PackageCreateRoute extends Component {
 
   render() {
     const { history, location } = this.props;
-    let onCancel = null;
+    let onCancel;
     if (location.state && location.state.eholdings) {
       onCancel = () => history.goBack();
     }
