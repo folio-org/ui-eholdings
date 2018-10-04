@@ -75,7 +75,7 @@ describe('TitleCreate', () => {
       beforeEach(() => {
         return TitleCreatePage
           .fillName('My Title')
-          .selectPackage(packages[0].id)
+          .selectPackage(packages[0].name)
           .save();
       });
 
@@ -99,7 +99,7 @@ describe('TitleCreate', () => {
         return TitleCreatePage
           .fillName('My Title')
           .addContributor('author', 'Me')
-          .selectPackage(packages[0].id)
+          .selectPackage(packages[0].name)
           .save();
       });
 
@@ -114,7 +114,7 @@ describe('TitleCreate', () => {
         return TitleCreatePage
           .fillName('My Title')
           .fillEdition('My Edition')
-          .selectPackage(packages[0].id)
+          .selectPackage(packages[0].name)
           .save();
       });
 
@@ -129,7 +129,7 @@ describe('TitleCreate', () => {
         return TitleCreatePage
           .fillName('My Title')
           .fillPublisher('Me')
-          .selectPackage(packages[0].id)
+          .selectPackage(packages[0].name)
           .save();
       });
 
@@ -144,7 +144,7 @@ describe('TitleCreate', () => {
         return TitleCreatePage
           .fillName('My Title')
           .choosePublicationType('Book')
-          .selectPackage(packages[0].id)
+          .selectPackage(packages[0].name)
           .save();
       });
 
@@ -159,7 +159,7 @@ describe('TitleCreate', () => {
         return TitleCreatePage
           .fillName('My Title')
           .addIdentifier('ISBN (Print)', '90210')
-          .selectPackage(packages[0].id)
+          .selectPackage(packages[0].name)
           .save();
       });
 
@@ -174,7 +174,7 @@ describe('TitleCreate', () => {
         return TitleCreatePage
           .fillName('My Title')
           .fillDescription('This is my title')
-          .selectPackage(packages[0].id)
+          .selectPackage(packages[0].name)
           .save();
       });
 
@@ -188,7 +188,7 @@ describe('TitleCreate', () => {
       beforeEach(() => {
         return TitleCreatePage
           .fillName('My Title')
-          .selectPackage(packages[1].id)
+          .selectPackage(packages[1].name)
           .save();
       });
 
@@ -204,7 +204,7 @@ describe('TitleCreate', () => {
           .fillName('My Title')
           .fillPublisher('Me')
           .togglePeerReviewed()
-          .selectPackage(packages[0].id)
+          .selectPackage(packages[0].name)
           .save();
       });
 
@@ -224,7 +224,7 @@ describe('TitleCreate', () => {
 
         return TitleCreatePage
           .fillName('My Title')
-          .selectPackage(packages[0].id)
+          .selectPackage(packages[0].name)
           .save();
       });
 

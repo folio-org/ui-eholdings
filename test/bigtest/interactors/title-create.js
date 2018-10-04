@@ -5,6 +5,7 @@ import {
   fillable,
   clickable,
   property,
+  selectable,
   value,
   count
 } from '@bigtest/interactor';
@@ -58,7 +59,7 @@ import {
   fillDescription = fillable('[data-test-eholdings-description-textarea] textarea');
   hasPackageSelect = isPresent('[data-test-eholdings-package-select-field]');
   packagesCount = count('[data-test-eholdings-package-select-field] option:not(:disabled)');
-  selectPackage = fillable('[data-test-eholdings-package-select-field] select');
+  selectPackage = selectable('[data-test-eholdings-package-select-field] select');
   hasPeerReviewed = isPresent('[data-test-eholdings-peer-reviewed-field]');
   togglePeerReviewed = clickable('[data-test-eholdings-peer-reviewed-field] input');
   isPeerReviewed = property('[data-test-eholdings-peer-reviewed-field] input', 'checked');
