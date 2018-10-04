@@ -122,8 +122,14 @@ describe('With valid backend configuration', () => {
       expect(SettingsPage.apiKeyInputType).to.equal('password');
     });
 
-    it.always('has a disabled save button', () => {
-      expect(SettingsPage.saveButtonDisabled).to.be.true;
+    describe('the page always', () => {
+      beforeEach(async function () {
+        await SettingsPage.whenLoaded();
+      });
+
+      it.always('has a disabled save button', () => {
+        expect(SettingsPage.saveButtonDisabled).to.be.true;
+      });
     });
 
     describe('filling in invalid data', () => {
