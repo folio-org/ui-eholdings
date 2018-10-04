@@ -22,7 +22,7 @@ class PackageCreate extends Component {
   static propTypes = {
     handleSubmit: PropTypes.func.isRequired,
     intl: intlShape.isRequired,
-    onCancel: PropTypes.func.isRequired,
+    onCancel: PropTypes.func,
     onSubmit: PropTypes.func.isRequired,
     pristine: PropTypes.bool.isRequired,
     request: PropTypes.object.isRequired

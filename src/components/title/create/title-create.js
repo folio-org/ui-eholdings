@@ -29,7 +29,7 @@ class TitleCreate extends Component {
     customPackages: PropTypes.object.isRequired,
     handleSubmit: PropTypes.func.isRequired,
     intl: intlShape.isRequired,
-    onCancel: PropTypes.func.isRequired,
+    onCancel: PropTypes.func,
     onSubmit: PropTypes.func.isRequired,
     pristine: PropTypes.bool.isRequired,
     request: PropTypes.object.isRequired
