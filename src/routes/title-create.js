@@ -66,7 +66,7 @@ class TitleCreateRoute extends Component {
       location
     } = this.props;
 
-    let onCancel = () => {};
+    let onCancel;
     if (location.state && location.state.eholdings) {
       onCancel = () => history.goBack();
     }
