@@ -26,9 +26,7 @@ describe('ResourceManagedCoverage', () => {
 
   describe('visiting the resource page with managed coverage undefined', () => {
     beforeEach(function () {
-      this.visit(`/eholdings/resources/${resource.id}`, () => {
-        expect(ResourceShowPage.$root).to.exist;
-      });
+      this.visit(`/eholdings/resources/${resource.id}`);
     });
 
     it.always('does not display the managed coverage section', () => {
@@ -40,9 +38,7 @@ describe('ResourceManagedCoverage', () => {
     beforeEach(function () {
       resource.managedCoverages = this.server.createList('managed-coverage', 0).map(m => m.toJSON());
       resource.save();
-      this.visit(`/eholdings/resources/${resource.id}`, () => {
-        expect(ResourceShowPage.$root).to.exist;
-      });
+      this.visit(`/eholdings/resources/${resource.id}`);
     });
 
     it.always('does not display the managed coverage section', () => {
@@ -58,9 +54,7 @@ describe('ResourceManagedCoverage', () => {
       }).map(m => m.toJSON());
 
       resource.save();
-      this.visit(`/eholdings/resources/${resource.id}`, () => {
-        expect(ResourceShowPage.$root).to.exist;
-      });
+      this.visit(`/eholdings/resources/${resource.id}`);
     });
 
     it('displays the managed coverage section for single date', () => {
@@ -76,9 +70,7 @@ describe('ResourceManagedCoverage', () => {
       }).map(m => m.toJSON());
 
       resource.save();
-      this.visit(`/eholdings/resources/${resource.id}`, () => {
-        expect(ResourceShowPage.$root).to.exist;
-      });
+      this.visit(`/eholdings/resources/${resource.id}`);
     });
 
     it('display the managed coverage section for single date (begin date and no end date)', () => {
@@ -94,9 +86,7 @@ describe('ResourceManagedCoverage', () => {
       }).map(m => m.toJSON());
 
       resource.save();
-      this.visit(`/eholdings/resources/${resource.id}`, () => {
-        expect(ResourceShowPage.$root).to.exist;
-      });
+      this.visit(`/eholdings/resources/${resource.id}`);
     });
 
     it('display the managed coverage section for single date (begin date and no end date)', () => {
@@ -112,9 +102,7 @@ describe('ResourceManagedCoverage', () => {
       }).map(m => m.toJSON());
 
       resource.save();
-      this.visit(`/eholdings/resources/${resource.id}`, () => {
-        expect(ResourceShowPage.$root).to.exist;
-      });
+      this.visit(`/eholdings/resources/${resource.id}`);
     });
 
     it('display the managed coverage section for single date (end date only)', () => {
@@ -130,9 +118,7 @@ describe('ResourceManagedCoverage', () => {
       ].map(m => m.toJSON());
 
       resource.save();
-      this.visit(`/eholdings/resources/${resource.id}`, () => {
-        expect(ResourceShowPage.$root).to.exist;
-      });
+      this.visit(`/eholdings/resources/${resource.id}`);
     });
 
     it('displays date ranges comma separated and ordered by most recent coverage to least recent coverage', () => {
@@ -151,9 +137,7 @@ describe('ResourceManagedCoverage', () => {
       }).map(m => m.toJSON());
 
       resource.save();
-      this.visit(`/eholdings/resources/${resource.id}`, () => {
-        expect(ResourceShowPage.$root).to.exist;
-      });
+      this.visit(`/eholdings/resources/${resource.id}`);
     });
 
     it('displays dates with YYYY format', () => {
@@ -172,9 +156,7 @@ describe('ResourceManagedCoverage', () => {
       }).map(m => m.toJSON());
 
       resource.save();
-      this.visit(`/eholdings/resources/${resource.id}`, () => {
-        expect(ResourceShowPage.$root).to.exist;
-      });
+      this.visit(`/eholdings/resources/${resource.id}`);
     });
 
     it('displays dates with YYYY format', () => {
@@ -193,9 +175,7 @@ describe('ResourceManagedCoverage', () => {
       }).map(m => m.toJSON());
 
       resource.save();
-      this.visit(`/eholdings/resources/${resource.id}`, () => {
-        expect(ResourceShowPage.$root).to.exist;
-      });
+      this.visit(`/eholdings/resources/${resource.id}`);
     });
 
     it('displays dates with YYYY format', () => {
@@ -214,9 +194,7 @@ describe('ResourceManagedCoverage', () => {
       }).map(m => m.toJSON());
 
       resource.save();
-      this.visit(`/eholdings/resources/${resource.id}`, () => {
-        expect(ResourceShowPage.$root).to.exist;
-      });
+      this.visit(`/eholdings/resources/${resource.id}`);
     });
 
     it('displays dates with YYYY format', () => {
@@ -235,9 +213,7 @@ describe('ResourceManagedCoverage', () => {
       }).map(m => m.toJSON());
 
       resource.save();
-      this.visit(`/eholdings/resources/${resource.id}`, () => {
-        expect(ResourceShowPage.$root).to.exist;
-      });
+      this.visit(`/eholdings/resources/${resource.id}`);
     });
 
     it.always('does not display managed coverage list', () => {
