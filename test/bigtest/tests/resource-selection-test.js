@@ -47,9 +47,10 @@ describe('ResourceSelection', () => {
     window.ResourcePage = ResourcePage;
 
     describe('successfully selecting a package title to add to my holdings via the drop down', () => {
-      beforeEach(function () {
+      beforeEach(async function () {
+        await ResourcePage.whenLoaded();
         this.server.block();
-        return ResourcePage
+        await ResourcePage
           .dropDown.clickDropDownButton()
           .dropDownMenu.clickAddToHoldings();
       });
@@ -70,6 +71,7 @@ describe('ResourceSelection', () => {
         beforeEach(function () {
           this.server.unblock();
         });
+
         it('reflects the desired state was set', () => {
           expect(ResourcePage.isResourceSelected).to.equal('Selected');
         });
@@ -85,9 +87,10 @@ describe('ResourceSelection', () => {
     });
 
     describe('successfully selecting a package title to add to my holdings via add to holdings button', () => {
-      beforeEach(function () {
+      beforeEach(async function () {
+        await ResourcePage.whenLoaded();
         this.server.block();
-        return ResourcePage.clickAddToHoldingsButton();
+        await ResourcePage.clickAddToHoldingsButton();
       });
 
       it('indicates it is working to get to desired state', () => {
@@ -95,7 +98,7 @@ describe('ResourceSelection', () => {
       });
 
       it('cannot be interacted with while the request is in flight', () => {
-        expect(ResourcePage.isAddToHoldingsButtonDisabled).to.equal(true);
+        expect(ResourcePage.isAddToHoldingsButtonDisabled).to.be.true;
       });
 
       describe('when the request succeeds', () => {
