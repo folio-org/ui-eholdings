@@ -117,14 +117,15 @@ describe('ResourceSelection', () => {
     });
 
     describe('unsuccessfully selecting a package title to add to my holdings', () => {
-      let resolveRequest;
-      beforeEach(function () {
-        this.server.put('/resources/:id', () => {
-          return new Promise((resolve) => {
-            resolveRequest = resolve;
-          });
+      beforeEach(async function () {
+        this.server.put('/resources/:id', {
+          errors: [{
+            title: 'There was an error'
+          }]
         }, 500);
-        return ResourcePage.dropDownMenu.clickAddToHoldings();
+        await ResourcePage.whenLoaded();
+        this.server.block();
+        await ResourcePage.dropDownMenu.clickAddToHoldings();
       });
 
       it('indicates it is working to get to desired state', () => {
@@ -136,14 +137,8 @@ describe('ResourceSelection', () => {
       });
 
       describe('when the request succeeds', () => {
-        beforeEach(() => {
-          let response = {
-            errors: [{
-              title: 'There was an error'
-            }]
-          };
-
-          return resolveRequest(response);
+        beforeEach(function () {
+          this.server.unblock();
         });
 
         it('reflects the desired state was not set', () => {
