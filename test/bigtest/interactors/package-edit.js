@@ -44,6 +44,11 @@ import PackageSelectionStatus from './selection-status';
 }
 
 @interactor class PackageEditPage {
+  isLoaded = isPresent('[data-test-eholdings-details-view-pane-title]');
+  whenLoaded() {
+    return this.when(() => this.isLoaded);
+  }
+
   navigationModal = new PackageEditNavigationModal('#navigation-modal');
 
   clickCancel= action(function () {
