@@ -87,7 +87,7 @@ describe('PackageShowAllowKbToAddTitles', () => {
 
     describe('selecting a package', () => {
       beforeEach(() => {
-        return PackageShowPage.selectPackage();
+        return PackageShowPage.whenLoaded().selectPackage();
       });
 
       it('reflects the desired state (Selected)', () => {
