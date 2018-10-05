@@ -32,12 +32,13 @@ describe('PackageSelection', () => {
     });
 
     describe('successfully selecting a package title to add to my holdings', () => {
-      beforeEach(function () {
+      beforeEach(async function () {
+        await await PackageShowPage.whenLoaded();
         this.server.block();
-        return PackageShowPage.selectPackage();
+        await PackageShowPage.selectPackage();
       });
 
-      it.skip('indicates it is working to get to desired state', () => {
+      it('indicates it is working to get to desired state', () => {
         expect(PackageShowPage.selectionStatus.isSelecting).to.equal(true);
       });
 
