@@ -356,6 +356,8 @@ describe('ProviderSearch', () => {
     describe('visiting the page with an existing sort', () => {
       beforeEach(function () {
         this.visit('/eholdings/?searchType=providers&q=health&sort=name');
+        // the search pane is ending up hidden by default
+        return ProviderSearchPage.searchBadge.clickIcon();
       });
 
       it('displays search field populated', () => {

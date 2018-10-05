@@ -12,6 +12,7 @@ import {
   text
 } from '@bigtest/interactor';
 import { hasClassBeginningWith } from './helpers';
+import SearchBadge from './search-badge';
 
 @interactor class ProviderSearchPage {
   fillSearch = fillable('[data-test-search-field] input[name="search"]');
@@ -35,6 +36,7 @@ import { hasClassBeginningWith } from './helpers';
   isSearchVignetteHidden = hasClassBeginningWith('[data-test-search-vignette]', 'is-hidden---');
   clickCloseButton = clickable('[data-test-eholdings-details-view-close-button]');
   hasPreSearchPane = isPresent('[data-test-eholdings-pre-search-pane]');
+  searchBadge = new SearchBadge('[data-test-eholdings-results-pane-search-badge]');
 
   hasLoaded = computed(function () {
     return this.providerList().length > 0;

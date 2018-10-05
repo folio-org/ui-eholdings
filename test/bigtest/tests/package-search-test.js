@@ -489,6 +489,8 @@ describe('PackageSearch', () => {
     describe('visiting the page with an existing sort', () => {
       beforeEach(function () {
         this.visit('/eholdings/?searchType=packages&q=academic&sort=name');
+        // the search pane is ending up hidden by default
+        return PackageSearchPage.searchBadge.clickIcon();
       });
 
       it('displays search field populated', () => {
