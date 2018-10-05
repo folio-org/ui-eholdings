@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import ReactRouterPropTypes from 'react-router-prop-types';
 import { connect } from 'react-redux';
 import isEqual from 'lodash/isEqual';
-import { TitleManager } from '@folio/stripes-core';
+import { TitleManager } from '@folio/stripes/core';
 
 import { createResolver } from '../redux';
 import { ProxyType, RootProxy } from '../redux/application';

@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import classNames from 'classnames/bind';
 import {
   Button
-} from '@folio/stripes-components';
+} from '@folio/stripes/components';
 
 import styles from './pane-header-button.css';
 

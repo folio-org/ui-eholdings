@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { KeyValue } from '@folio/stripes-components';
+import { KeyValue } from '@folio/stripes/components';
 
 export default function IdentifiersList({ data }) {
   // get rid of identifiers we received that aren't ISSN or ISBN

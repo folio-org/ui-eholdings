@@ -5,7 +5,7 @@ import {
   Button,
   Headline,
   IconButton
-} from '@folio/stripes-components';
+} from '@folio/stripes/components';
 import reduxFormFieldArray from './ReduxFormFieldArray';
 import css from './RepeatableField.css';
 

@@ -4,7 +4,7 @@ import {
   Button,
   PaneHeader,
   PaneMenu
-} from '@folio/stripes-components';
+} from '@folio/stripes/components';
 import capitalize from 'lodash/capitalize';
 import { FormattedMessage } from 'react-intl';
 

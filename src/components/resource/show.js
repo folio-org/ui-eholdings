@@ -13,7 +13,7 @@ import {
   KeyValue,
   Modal,
   ModalFooter
-} from '@folio/stripes-components';
+} from '@folio/stripes/components';
 
 import DetailsView from '../details-view';
 import Link from '../link';

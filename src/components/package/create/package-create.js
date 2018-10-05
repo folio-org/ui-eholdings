@@ -7,7 +7,7 @@ import {
   Icon,
   IconButton,
   PaneHeader
-} from '@folio/stripes-components';
+} from '@folio/stripes/components';
 
 import DetailsViewSection from '../../details-view-section';
 import NameField, { validate as validatePackageName } from '../_fields/name';

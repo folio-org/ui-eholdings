@@ -6,7 +6,7 @@ import { injectIntl, intlShape } from 'react-intl';
 import {
   Modal,
   ModalFooter,
-} from '@folio/stripes-components';
+} from '@folio/stripes/components';
 
 import SearchForm from '../search-form';
 import SearchBadge from './search-badge';

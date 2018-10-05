@@ -1,8 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { FormattedMessage, FormattedNumber, injectIntl, intlShape } from 'react-intl';
-import { KeyValue } from '@folio/stripes-components';
-import AccordionHeader from '@folio/stripes-components/lib/Accordion/headers/DefaultAccordionHeader';
+import { DefaultAccordionHeader, KeyValue } from '@folio/stripes/components';
 import styles from './accordion-list-header.css';
 
 function AccordionListHeader(props) {
@@ -15,7 +14,7 @@ function AccordionListHeader(props) {
   let displayOverCount = 10000;
   return (
     <div className={styles['accordion-list-header']}>
-      <AccordionHeader {...props} />
+      <DefaultAccordionHeader {...props} />
       {props.open && (
         <div className={styles['accordion-list-count']}>
           <KeyValue label={intl.formatMessage({ id: 'ui-eholdings.label.accordionList' })}>

@@ -1,7 +1,7 @@
 import React from 'react';
 import { Field } from 'redux-form';
 
-import { Checkbox } from '@folio/stripes-components';
+import { Checkbox } from '@folio/stripes/components';
 import { injectIntl, intlShape } from 'react-intl';
 import styles from './peer-reviewed-field.css';
 

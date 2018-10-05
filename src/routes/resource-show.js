@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import ReactRouterPropTypes from 'react-router-prop-types';
 import { connect } from 'react-redux';
-import { TitleManager } from '@folio/stripes-core';
+import { TitleManager } from '@folio/stripes/core';
 
 import { createResolver } from '../redux';
 import Resource from '../redux/resource';

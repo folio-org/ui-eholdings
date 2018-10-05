@@ -7,7 +7,7 @@ import { injectIntl, intlShape, FormattedMessage } from 'react-intl';
 import {
   Datepicker,
   RadioButton
-} from '@folio/stripes-components';
+} from '@folio/stripes/components';
 
 import CoverageDateList from '../../../coverage-date-list';
 import { isBookPublicationType } from '../../../utilities';

@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import {
   IconButton,
   Pane
-} from '@folio/stripes-components';
+} from '@folio/stripes/components';
 import { injectIntl, intlShape } from 'react-intl';
 
 import styles from './settings-detail-pane.css';

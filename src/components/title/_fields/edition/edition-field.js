@@ -1,7 +1,7 @@
 import React from 'react';
 import { Field } from 'redux-form';
 
-import { TextField } from '@folio/stripes-components';
+import { TextField } from '@folio/stripes/components';
 import { injectIntl, intlShape } from 'react-intl';
 
 function EditionField({ intl }) {

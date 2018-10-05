@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { Field } from 'redux-form';
 import { intlShape, injectIntl } from 'react-intl';
 
-import { Select } from '@folio/stripes-components';
+import { Select } from '@folio/stripes/components';
 import styles from './proxy-select-field.css';
 
 function ProxySelectField({ proxyTypes, inheritedProxyId, intl }) {

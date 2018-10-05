@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { CSSTransition } from 'react-transition-group';
 import classNames from 'classnames';
-import Icon from '@folio/stripes-components/lib/Icon';
+import { Icon } from '@folio/stripes/components';
 import capitalize from 'lodash/capitalize';
 
 import style from './style.css';

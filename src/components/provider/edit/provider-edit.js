@@ -5,7 +5,7 @@ import { injectIntl, intlShape, FormattedMessage } from 'react-intl';
 import {
   Headline,
   Icon
-} from '@folio/stripes-components';
+} from '@folio/stripes/components';
 
 import { processErrors } from '../../utilities';
 import DetailsView from '../../details-view';

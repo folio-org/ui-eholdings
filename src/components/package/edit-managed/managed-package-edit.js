@@ -10,7 +10,7 @@ import {
   ModalFooter,
   RadioButton,
   RadioButtonGroup
-} from '@folio/stripes-components';
+} from '@folio/stripes/components';
 import { processErrors } from '../../utilities';
 
 import DetailsView from '../../details-view';

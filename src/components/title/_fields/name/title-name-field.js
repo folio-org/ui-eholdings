@@ -2,7 +2,7 @@ import React from 'react';
 import { Field } from 'redux-form';
 import { injectIntl, intlShape } from 'react-intl';
 
-import { TextField } from '@folio/stripes-components';
+import { TextField } from '@folio/stripes/components';
 
 function TitleNameField({ intl }) {
   return (

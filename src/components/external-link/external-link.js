@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Icon } from '@folio/stripes-components';
+import { Icon } from '@folio/stripes/components';
 import classNames from 'classnames/bind';
 import styles from './external-link.css';
 

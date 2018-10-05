@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Field } from 'redux-form';
 import PropTypes from 'prop-types';
 
-import { RadioButton, TextArea } from '@folio/stripes-components';
+import { RadioButton, TextArea } from '@folio/stripes/components';
 import { injectIntl, intlShape } from 'react-intl';
 import styles from './coverage-statement-fields.css';
 

@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import isEqual from 'lodash/isEqual';
 import moment from 'moment';
 import queryString from 'qs';
-import { TitleManager } from '@folio/stripes-core';
+import { TitleManager } from '@folio/stripes/core';
 import { injectIntl, intlShape } from 'react-intl';
 import { createResolver } from '../redux';
 import { ProxyType } from '../redux/application';

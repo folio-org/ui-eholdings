@@ -4,7 +4,7 @@ import ReactRouterPropTypes from 'react-router-prop-types';
 import { connect } from 'react-redux';
 import capitalize from 'lodash/capitalize';
 import isEqual from 'lodash/isEqual';
-import { TitleManager } from '@folio/stripes-core';
+import { TitleManager } from '@folio/stripes/core';
 
 import { qs, transformQueryParams } from '../components/utilities';
 import { createResolver } from '../redux';

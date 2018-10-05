@@ -4,7 +4,7 @@ import { Field, FieldArray } from 'redux-form';
 import {
   Select,
   TextField
-} from '@folio/stripes-components';
+} from '@folio/stripes/components';
 import { injectIntl, intlShape } from 'react-intl';
 import RepeatableField from '../../../repeatable-field';
 import styles from './contributor-field.css';

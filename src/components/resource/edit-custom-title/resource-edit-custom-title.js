@@ -9,7 +9,7 @@ import {
   Icon,
   Modal,
   ModalFooter
-} from '@folio/stripes-components';
+} from '@folio/stripes/components';
 import { processErrors, isBookPublicationType } from '../../utilities';
 
 import DetailsView from '../../details-view';

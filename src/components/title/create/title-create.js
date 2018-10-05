@@ -6,7 +6,7 @@ import {
   Icon,
   IconButton,
   PaneHeader
-} from '@folio/stripes-components';
+} from '@folio/stripes/components';
 
 import { intlShape, injectIntl } from 'react-intl';
 import DetailsViewSection from '../../details-view-section';

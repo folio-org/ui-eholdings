@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import capitalize from 'lodash/capitalize';
-import { KeyValue } from '@folio/stripes-components';
+import { KeyValue } from '@folio/stripes/components';
 
 export default function ContributorsList({ data }) {
   let contributorsByType = data.reduce((byType, contributor) => {

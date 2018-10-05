@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import update from 'lodash/fp/update';
 import set from 'lodash/fp/set';
-import { Accordion, Headline, Icon, IconButton, KeyValue } from '@folio/stripes-components';
+import { Accordion, Headline, Icon, IconButton, KeyValue } from '@folio/stripes/components';
 import { intlShape, injectIntl, FormattedNumber, FormattedMessage } from 'react-intl';
 import capitalize from 'lodash/capitalize';
 
