@@ -1,18 +1,18 @@
 import { beforeEach, describe, it } from '@bigtest/mocha';
 import { expect } from 'chai';
 
-import { describeApplication } from '../helpers/describe-application';
+import setupApplication from '../helpers/setup-application';
 import PackageCreatePage from '../interactors/package-create';
 import PackageShowPage from '../interactors/package-show';
 import PackageSearchPage from '../interactors/package-search';
 import NavigationModal from '../interactors/navigation-modal';
 
-describeApplication('PackageCreate', () => {
+describe('PackageCreate', () => {
+  setupApplication();
+
   describe('submitting the form', () => {
     beforeEach(function () {
-      return this.visit('/eholdings/packages/new', () => {
-        expect(PackageCreatePage.$root).to.exist;
-      });
+      this.visit('/eholdings/packages/new');
     });
 
     it('has a package name field', () => {
@@ -51,7 +51,7 @@ describeApplication('PackageCreate', () => {
       });
 
       it('redirects to the new package show page', function () {
-        expect(this.app.history.location.pathname).to.match(/^\/eholdings\/packages\/\d{1,}/);
+        expect(this.location.pathname).to.match(/^\/eholdings\/packages\/\d{1,}/);
         expect(PackageShowPage.name).to.equal('My Package');
       });
 
@@ -69,7 +69,7 @@ describeApplication('PackageCreate', () => {
       });
 
       it('redirects to the new package with the specified content type', function () {
-        expect(this.app.history.location.pathname).to.match(/^\/eholdings\/packages\/\d{1,}/);
+        expect(this.location.pathname).to.match(/^\/eholdings\/packages\/\d{1,}/);
         expect(PackageShowPage.contentType).to.equal('Print');
       });
     });
@@ -84,7 +84,7 @@ describeApplication('PackageCreate', () => {
       });
 
       it('redirects to the new package with custom coverages', function () {
-        expect(this.app.history.location.pathname).to.match(/^\/eholdings\/packages\/\d{1,}/);
+        expect(this.location.pathname).to.match(/^\/eholdings\/packages\/\d{1,}/);
         expect(PackageShowPage.customCoverage).to.equal('12/16/2018 - 12/18/2018');
       });
     });
@@ -103,7 +103,7 @@ describeApplication('PackageCreate', () => {
       });
 
       it.always('does not create the new package', function () {
-        expect(this.app.history.location.pathname).to.equal('/eholdings/packages/new');
+        expect(this.location.pathname).to.equal('/eholdings/packages/new');
       });
 
       it('shows an error toast message', () => {
@@ -118,9 +118,7 @@ describeApplication('PackageCreate', () => {
 
   describe('canceling when there is router history', () => {
     beforeEach(function () {
-      return this.visit('/eholdings/?searchType=packages', () => {
-        expect(PackageSearchPage.$root).to.exist;
-      });
+      this.visit('/eholdings/?searchType=packages');
     });
 
     describe('clicking a cancel action', () => {
@@ -134,7 +132,7 @@ describeApplication('PackageCreate', () => {
         });
 
         it('redirects to the previous page', function () {
-          expect(this.app.history.location.pathname).to.not.equal('/eholdings/packages/new');
+          expect(this.location.pathname).to.not.equal('/eholdings/packages/new');
         });
       });
 

@@ -1,10 +1,11 @@
 import { beforeEach, describe, it } from '@bigtest/mocha';
 import { expect } from 'chai';
 
-import { describeApplication } from '../helpers/describe-application';
+import setupApplication from '../helpers/setup-application';
 import PackageShowPage from '../interactors/package-show';
 
-describeApplication('Package Show Title Search', () => {
+describe('Package Show Title Search', () => {
+  setupApplication();
   let provider,
     resources,
     providerPackage;
@@ -64,14 +65,11 @@ describeApplication('Package Show Title Search', () => {
 
   describe('navigating to package show page to filter titles', () => {
     beforeEach(function () {
-      return this.visit(
+      this.visit(
         {
           pathname: `/eholdings/packages/${providerPackage.id}`,
           // our internal link component automatically sets the location state
           state: { eholdings: true }
-        },
-        () => {
-          expect(PackageShowPage.$root).to.exist;
         }
       );
     });
@@ -198,14 +196,11 @@ describeApplication('Package Show Title Search', () => {
           'meta':{ 'totalResults': 10000 },
           'jsonapi':{ 'version':'1.0' } }, 200);
 
-      return this.visit(
+      this.visit(
         {
           pathname: `/eholdings/packages/${largeProviderPackage.id}`,
           // our internal link component automatically sets the location state
           state: { eholdings: true }
-        },
-        () => {
-          expect(PackageShowPage.$root).to.exist;
         }
       );
     });

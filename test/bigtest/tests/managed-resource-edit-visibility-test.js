@@ -1,11 +1,12 @@
 import { beforeEach, describe, it } from '@bigtest/mocha';
 import { expect } from 'chai';
 
-import { describeApplication } from '../helpers/describe-application';
+import setupApplication from '../helpers/setup-application';
 import ResourceEditPage from '../interactors/resource-edit';
 import ResourceShowPage from '../interactors/resource-show';
 
-describeApplication('ManagedResourceEditVisibility', () => {
+describe('ManagedResourceEditVisibility', () => {
+  setupApplication();
   let provider,
     providerPackage,
     title,
@@ -39,9 +40,7 @@ describeApplication('ManagedResourceEditVisibility', () => {
         title
       });
 
-      return this.visit(`/eholdings/resources/${resource.id}/edit`, () => {
-        expect(ResourceEditPage.$root).to.exist;
-      });
+      this.visit(`/eholdings/resources/${resource.id}/edit`);
     });
 
     it('displays the yes visibility radio is selected', () => {
@@ -66,32 +65,38 @@ describeApplication('ManagedResourceEditVisibility', () => {
       });
     });
 
-    describe('toggling the visiblity toggle', () => {
-      beforeEach(() => {
-        return ResourceEditPage.toggleIsVisible();
+    describe('editing', () => {
+      beforeEach(async () => {
+        await ResourceEditPage.whenLoaded();
       });
 
-      describe('clicking cancel', () => {
+      describe('toggling the visiblity toggle', () => {
         beforeEach(() => {
-          return ResourceEditPage.clickCancel();
+          return ResourceEditPage.toggleIsVisible();
         });
 
-        it('shows a navigation confirmation modal', () => {
-          expect(ResourceEditPage.navigationModal.$root).to.exist;
-        });
-      });
+        describe('clicking cancel', () => {
+          beforeEach(() => {
+            return ResourceEditPage.clickCancel();
+          });
 
-      describe('clicking save', () => {
-        beforeEach(() => {
-          return ResourceEditPage.clickSave();
-        });
-
-        it('goes to the resource show page', () => {
-          expect(ResourceShowPage.$root).to.exist;
+          it('shows a navigation confirmation modal', () => {
+            expect(ResourceEditPage.navigationModal.$root).to.exist;
+          });
         });
 
-        it('displays the new visibility status', () => {
-          expect(ResourceShowPage.isResourceHidden).to.be.true;
+        describe('clicking save', () => {
+          beforeEach(() => {
+            return ResourceEditPage.clickSave();
+          });
+
+          it('goes to the resource show page', () => {
+            expect(ResourceShowPage.$root).to.exist;
+          });
+
+          it('displays the new visibility status', () => {
+            expect(ResourceShowPage.isResourceHidden).to.be.true;
+          });
         });
       });
     });
@@ -105,9 +110,7 @@ describeApplication('ManagedResourceEditVisibility', () => {
         title
       });
 
-      return this.visit(`/eholdings/resources/${resource.id}/edit`, () => {
-        expect(ResourceEditPage.$root).to.exist;
-      });
+      this.visit(`/eholdings/resources/${resource.id}/edit`);
     });
 
     it('displays the no visibility radio is selected', () => {
@@ -122,22 +125,28 @@ describeApplication('ManagedResourceEditVisibility', () => {
       expect(ResourceEditPage.isSaveDisabled).to.be.true;
     });
 
-    describe('toggling the visiblity toggle', () => {
-      beforeEach(() => {
-        return ResourceEditPage.toggleIsVisible();
+    describe('editing', () => {
+      beforeEach(async () => {
+        await ResourceEditPage.whenLoaded();
       });
 
-      describe('clicking save', () => {
+      describe('toggling the visiblity toggle', () => {
         beforeEach(() => {
-          return ResourceEditPage.clickSave();
+          return ResourceEditPage.toggleIsVisible();
         });
 
-        it('goes to the resource show page', () => {
-          expect(ResourceShowPage.$root).to.exist;
-        });
+        describe('clicking save', () => {
+          beforeEach(() => {
+            return ResourceEditPage.clickSave();
+          });
 
-        it('displays the new visibility status', () => {
-          expect(ResourceShowPage.isResourceVisible).to.be.true;
+          it('goes to the resource show page', () => {
+            expect(ResourceShowPage.$root).to.exist;
+          });
+
+          it('displays the new visibility status', () => {
+            expect(ResourceShowPage.isResourceVisible).to.be.true;
+          });
         });
       });
     });
@@ -151,9 +160,7 @@ describeApplication('ManagedResourceEditVisibility', () => {
         title
       });
 
-      return this.visit(`/eholdings/resources/${resource.id}/edit`, () => {
-        expect(ResourceEditPage.$root).to.exist;
-      });
+      this.visit(`/eholdings/resources/${resource.id}/edit`);
     });
 
     it('displays the no visibility radio is selected', () => {
@@ -174,9 +181,7 @@ describeApplication('ManagedResourceEditVisibility', () => {
         title,
         isSelected: true
       });
-      return this.visit(`/eholdings/resources/${resource.id}/edit`, () => {
-        expect(ResourceEditPage.$root).to.exist;
-      });
+      this.visit(`/eholdings/resources/${resource.id}/edit`);
     });
 
     it('displays the no visibility radio is selected', () => {
@@ -196,9 +201,7 @@ describeApplication('ManagedResourceEditVisibility', () => {
         title
       });
 
-      return this.visit(`/eholdings/resources/${resource.id}/edit`, () => {
-        expect(ResourceEditPage.$root).to.exist;
-      });
+      this.visit(`/eholdings/resources/${resource.id}/edit`);
     });
 
     it('does not show visibility section', () => {

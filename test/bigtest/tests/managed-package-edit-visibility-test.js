@@ -1,11 +1,12 @@
 import { expect } from 'chai';
 import { describe, beforeEach, it } from '@bigtest/mocha';
 
-import { describeApplication } from '../helpers/describe-application';
+import setupApplication from '../helpers/setup-application';
 import PackageShowPage from '../interactors/package-show';
 import PackageEditPage from '../interactors/package-edit';
 
-describeApplication('ManagedPackageEditVisibility', () => {
+describe('ManagedPackageEditVisibility', () => {
+  setupApplication();
   let provider,
     providerPackage;
 
@@ -23,9 +24,7 @@ describeApplication('ManagedPackageEditVisibility', () => {
         contentType: 'E-Book',
         isSelected: true
       });
-      return this.visit(`/eholdings/packages/${providerPackage.id}/edit`, () => {
-        expect(PackageEditPage.$root).to.exist;
-      });
+      this.visit(`/eholdings/packages/${providerPackage.id}/edit`);
     });
 
     it('displays the correct visibility status', () => {
@@ -51,13 +50,13 @@ describeApplication('ManagedPackageEditVisibility', () => {
     });
 
     describe('toggling the visiblity field', () => {
-      beforeEach(() => {
-        return PackageEditPage.toggleIsVisible();
+      beforeEach(async () => {
+        await PackageEditPage.whenLoaded();
       });
 
       describe('clicking cancel', () => {
         beforeEach(() => {
-          return PackageEditPage.clickCancel();
+          return PackageEditPage.toggleIsVisible().clickCancel();
         });
 
         it('shows a navigation confirmation modal', () => {
@@ -67,7 +66,7 @@ describeApplication('ManagedPackageEditVisibility', () => {
 
       describe('clicking save', () => {
         beforeEach(() => {
-          return PackageEditPage.clickSave();
+          return PackageEditPage.toggleIsVisible().clickSave();
         });
 
         it('goes to the package show page', () => {
@@ -89,9 +88,7 @@ describeApplication('ManagedPackageEditVisibility', () => {
         contentType: 'E-Book',
         isSelected: true
       });
-      return this.visit(`/eholdings/packages/${providerPackage.id}/edit`, () => {
-        expect(PackageEditPage.$root).to.exist;
-      });
+      this.visit(`/eholdings/packages/${providerPackage.id}/edit`);
     });
 
     it('displays the correct visibility status', () => {
@@ -112,9 +109,7 @@ describeApplication('ManagedPackageEditVisibility', () => {
         isSelected: true,
         isVisible: true
       });
-      return this.visit(`/eholdings/packages/${providerPackage.id}/edit`, () => {
-        expect(PackageEditPage.$root).to.exist;
-      });
+      this.visit(`/eholdings/packages/${providerPackage.id}/edit`);
     });
 
     it('displays the correct visibility status', () => {
@@ -140,13 +135,13 @@ describeApplication('ManagedPackageEditVisibility', () => {
     });
 
     describe('toggling the visiblity field', () => {
-      beforeEach(() => {
-        return PackageEditPage.toggleIsVisible();
+      beforeEach(async () => {
+        await PackageEditPage.whenLoaded();
       });
 
       describe('clicking cancel', () => {
         beforeEach(() => {
-          return PackageEditPage.clickCancel();
+          return PackageEditPage.toggleIsVisible().clickCancel();
         });
 
         it('shows a navigation confirmation modal', () => {
@@ -156,7 +151,7 @@ describeApplication('ManagedPackageEditVisibility', () => {
 
       describe('clicking save', () => {
         beforeEach(() => {
-          return PackageEditPage.clickSave();
+          return PackageEditPage.toggleIsVisible().clickSave();
         });
 
         it('goes to the package show page', () => {
@@ -179,9 +174,7 @@ describeApplication('ManagedPackageEditVisibility', () => {
         isSelected: false,
         isVisible: false
       });
-      return this.visit(`/eholdings/packages/${providerPackage.id}/edit`, () => {
-        expect(PackageEditPage.$root).to.exist;
-      });
+      this.visit(`/eholdings/packages/${providerPackage.id}/edit`);
     });
 
     it('reflects the desired state of holding status', () => {

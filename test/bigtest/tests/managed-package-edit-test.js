@@ -1,11 +1,12 @@
 import { expect } from 'chai';
 import { describe, beforeEach, it } from '@bigtest/mocha';
 
-import { describeApplication } from '../helpers/describe-application';
+import setupApplication from '../helpers/setup-application';
 import PackageShowPage from '../interactors/package-show';
 import PackageEditPage from '../interactors/package-edit';
 
-describeApplication('ManagedPackageEdit', () => {
+describe('ManagedPackageEdit', () => {
+  setupApplication();
   let provider,
     providerPackage;
 
@@ -24,9 +25,7 @@ describeApplication('ManagedPackageEdit', () => {
 
   describe('visiting the package edit page without coverage dates', () => {
     beforeEach(function () {
-      return this.visit(`/eholdings/packages/${providerPackage.id}/edit`, () => {
-        expect(PackageEditPage.$root).to.exist;
-      });
+      this.visit(`/eholdings/packages/${providerPackage.id}/edit`);
     });
 
     it('shows blank datepicker fields', () => {
@@ -103,9 +102,7 @@ describeApplication('ManagedPackageEdit', () => {
       });
       providerPackage.save();
 
-      return this.visit(`/eholdings/packages/${providerPackage.id}/edit`, () => {
-        expect(PackageEditPage.$root).to.exist;
-      });
+      this.visit(`/eholdings/packages/${providerPackage.id}/edit`);
     });
 
     it('disables the save button', () => {
@@ -169,9 +166,7 @@ describeApplication('ManagedPackageEdit', () => {
         }]
       }, 500);
 
-      return this.visit(`/eholdings/packages/${providerPackage.id}/edit`, () => {
-        expect(PackageEditPage.$root).to.exist;
-      });
+      this.visit(`/eholdings/packages/${providerPackage.id}/edit`);
     });
 
     it('dies with dignity', () => {
@@ -187,9 +182,7 @@ describeApplication('ManagedPackageEdit', () => {
         }]
       }, 500);
 
-      return this.visit(`/eholdings/packages/${providerPackage.id}/edit`, () => {
-        expect(PackageEditPage.$root).to.exist;
-      });
+      this.visit(`/eholdings/packages/${providerPackage.id}/edit`);
     });
 
     describe('entering valid data and clicking save', () => {
@@ -207,9 +200,7 @@ describeApplication('ManagedPackageEdit', () => {
 
   describe('visiting the package show page', () => {
     beforeEach(function () {
-      return this.visit(`/eholdings/packages/${providerPackage.id}`, () => {
-        expect(PackageShowPage.$root).to.exist;
-      });
+      this.visit(`/eholdings/packages/${providerPackage.id}`);
     });
 
     describe('clicking the edit button', () => {

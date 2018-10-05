@@ -1,11 +1,12 @@
 import { expect } from 'chai';
 import { describe, beforeEach, it } from '@bigtest/mocha';
 
-import { describeApplication } from '../helpers/describe-application';
+import setupApplication from '../helpers/setup-application';
 import TitleShowPage from '../interactors/title-show';
 import ResourceShowPage from '../interactors/resource-show';
 
-describeApplication('TitleShow', () => {
+describe('TitleShow', () => {
+  setupApplication();
   let title;
 
   beforeEach(function () {
@@ -28,9 +29,7 @@ describeApplication('TitleShow', () => {
       isCustom: true
     });
 
-    return this.visit(`/eholdings/titles/${title.id}`, () => {
-      expect(TitleShowPage.$root).to.exist;
-    });
+    this.visit(`/eholdings/titles/${title.id}`);
   });
 
   describe('clicking the add to custom package button', () => {
@@ -96,7 +95,7 @@ describeApplication('TitleShow', () => {
       });
 
       it('Redirects to the newly created resource', function () {
-        expect(this.app.history.location.pathname).to.match(/^\/eholdings\/resources\/\d{1,}/);
+        expect(this.location.pathname).to.match(/^\/eholdings\/resources\/\d{1,}/);
         expect(ResourceShowPage.titleName).to.equal(title.name);
         expect(ResourceShowPage.packageName).to.equal(customPackage.name);
       });
@@ -117,7 +116,7 @@ describeApplication('TitleShow', () => {
       });
 
       it('Redirects to the newly created resource with the specified URL', function () {
-        expect(this.app.history.location.pathname).to.match(/^\/eholdings\/resources\/\d{1,}/);
+        expect(this.location.pathname).to.match(/^\/eholdings\/resources\/\d{1,}/);
         expect(ResourceShowPage.url).to.equal('http://my.url');
       });
     });

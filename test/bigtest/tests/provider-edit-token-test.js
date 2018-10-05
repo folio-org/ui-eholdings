@@ -1,11 +1,12 @@
 import { expect } from 'chai';
 import { describe, beforeEach, it } from '@bigtest/mocha';
 
-import { describeApplication } from '../helpers/describe-application';
+import setupApplication from '../helpers/setup-application';
 import ProviderShowPage from '../interactors/provider-show';
 import ProviderEditPage from '../interactors/provider-edit';
 
-describeApplication('ProviderEditToken', () => {
+describe('ProviderEditToken', () => {
+  setupApplication();
   let provider,
     packages,
     longToken;
@@ -23,9 +24,7 @@ describeApplication('ProviderEditToken', () => {
 
   describe('visiting the provider edit page with a token and value ', () => {
     beforeEach(function () {
-      return this.visit(`/eholdings/providers/${provider.id}/edit`, () => {
-        expect(ProviderEditPage.$root).to.exist;
-      });
+      this.visit(`/eholdings/providers/${provider.id}/edit`);
     });
 
     it('has token help text', () => {
@@ -100,9 +99,7 @@ describeApplication('ProviderEditToken', () => {
       provider.update('providerToken', token.toJSON());
       provider.save();
 
-      return this.visit(`/eholdings/providers/${provider.id}/edit`, () => {
-        expect(ProviderEditPage.$root).to.exist;
-      });
+      this.visit(`/eholdings/providers/${provider.id}/edit`);
     });
 
     it('has add token button', () => {
@@ -133,9 +130,7 @@ describeApplication('ProviderEditToken', () => {
       provider.update('providerToken', null);
       provider.save();
 
-      return this.visit(`/eholdings/providers/${provider.id}/edit`, () => {
-        expect(ProviderEditPage.$root).to.exist;
-      });
+      this.visit(`/eholdings/providers/${provider.id}/edit`);
     });
 
     it('does not show token help text', () => {
@@ -157,9 +152,7 @@ describeApplication('ProviderEditToken', () => {
 
   describe('visiting the provider edit page and setting token to a long value ', () => {
     beforeEach(function () {
-      return this.visit(`/eholdings/providers/${provider.id}/edit`, () => {
-        expect(ProviderEditPage.$root).to.exist;
-      });
+      this.visit(`/eholdings/providers/${provider.id}/edit`);
     });
 
     it('has token value', () => {

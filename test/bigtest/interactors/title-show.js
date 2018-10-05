@@ -39,6 +39,11 @@ import Toast from './toast';
 }
 
 @interactor class TitleShowPage {
+  isLoaded = isPresent('[data-test-eholdings-details-view-name="title"]');
+  whenLoaded() {
+    return this.when(() => this.isLoaded);
+  }
+
   paneTitle = text('[data-test-eholdings-details-view-pane-title]');
   titleName = text('[data-test-eholdings-details-view-name="title"]');
   nameHasFocus = is('[data-test-eholdings-details-view-name="title"]', ':focus');

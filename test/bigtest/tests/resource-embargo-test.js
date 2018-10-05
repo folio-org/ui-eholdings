@@ -1,10 +1,11 @@
 import { beforeEach, describe, it } from '@bigtest/mocha';
 import { expect } from 'chai';
 
-import { describeApplication } from '../helpers/describe-application';
+import setupApplication from '../helpers/setup-application';
 import ResourceShowPage from '../interactors/resource-show';
 
-describeApplication('ResourceEmbargo', () => {
+describe('ResourceEmbargo', () => {
+  setupApplication();
   let pkg,
     title,
     resource;
@@ -33,9 +34,7 @@ describeApplication('ResourceEmbargo', () => {
 
       resource.save();
 
-      return this.visit(`/eholdings/resources/${resource.id}`, () => {
-        expect(ResourceShowPage.$root).to.exist;
-      });
+      this.visit(`/eholdings/resources/${resource.id}`);
     });
 
     it('does not display the managed embargo section', () => {
@@ -49,9 +48,7 @@ describeApplication('ResourceEmbargo', () => {
 
   describe('visiting the resource show page without any embargos', () => {
     beforeEach(function () {
-      return this.visit(`/eholdings/resources/${resource.id}`, () => {
-        expect(ResourceShowPage.$root).to.exist;
-      });
+      this.visit(`/eholdings/resources/${resource.id}`);
     });
 
     it.always('does not display the managed embargo section', () => {
@@ -76,9 +73,7 @@ describeApplication('ResourceEmbargo', () => {
       }).toJSON();
 
       resource.save();
-      return this.visit(`/eholdings/resources/${resource.id}`, () => {
-        expect(ResourceShowPage.$root).to.exist;
-      });
+      this.visit(`/eholdings/resources/${resource.id}`);
     });
 
     it.always('does not display the managed embargo section', () => {
@@ -96,9 +91,7 @@ describeApplication('ResourceEmbargo', () => {
       resource.customEmbargoPeriod = null;
 
       resource.save();
-      return this.visit(`/eholdings/resources/${resource.id}`, () => {
-        expect(ResourceShowPage.$root).to.exist;
-      });
+      this.visit(`/eholdings/resources/${resource.id}`);
     });
 
     it.always('does not display the managed embargo section', () => {
@@ -119,9 +112,7 @@ describeApplication('ResourceEmbargo', () => {
       }).toJSON();
 
       resource.save();
-      return this.visit(`/eholdings/resources/${resource.id}`, () => {
-        expect(ResourceShowPage.$root).to.exist;
-      });
+      this.visit(`/eholdings/resources/${resource.id}`);
     });
 
     it.always('does not display the custom embargo section', () => {
@@ -141,9 +132,7 @@ describeApplication('ResourceEmbargo', () => {
       }).toJSON();
 
       resource.save();
-      return this.visit(`/eholdings/resources/${resource.id}`, () => {
-        expect(ResourceShowPage.$root).to.exist;
-      });
+      this.visit(`/eholdings/resources/${resource.id}`);
     });
 
     it('displays the custom embargo section', () => {

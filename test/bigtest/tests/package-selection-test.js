@@ -2,14 +2,17 @@ import { beforeEach, describe, it } from '@bigtest/mocha';
 import { expect } from 'chai';
 import { Response } from '@bigtest/mirage';
 
-import { describeApplication } from '../helpers/describe-application';
+import setupApplication from '../helpers/setup-application';
+import setupBlockServer from '../helpers/setup-block-server';
 import PackageShowPage from '../interactors/package-show';
 
-describeApplication('PackageSelection', () => {
+describe('PackageSelection', () => {
+  setupApplication();
   let provider,
     providerPackage;
 
   beforeEach(function () {
+    setupBlockServer(this.server);
     provider = this.server.create('provider', {
       name: 'Cool Provider'
     });
@@ -25,18 +28,17 @@ describeApplication('PackageSelection', () => {
 
   describe('visiting the package details page', () => {
     beforeEach(function () {
-      return this.visit(`/eholdings/packages/${providerPackage.id}`, () => {
-        expect(PackageShowPage.$root).to.exist;
-      });
+      this.visit(`/eholdings/packages/${providerPackage.id}`);
     });
 
     describe('successfully selecting a package title to add to my holdings', () => {
-      beforeEach(function () {
+      beforeEach(async function () {
+        await PackageShowPage.whenLoaded();
         this.server.block();
-        return PackageShowPage.selectPackage();
+        await PackageShowPage.selectPackage();
       });
 
-      it.skip('indicates it is working to get to desired state', () => {
+      it('indicates it is working to get to desired state', () => {
         expect(PackageShowPage.selectionStatus.isSelecting).to.equal(true);
       });
 
@@ -127,7 +129,7 @@ describeApplication('PackageSelection', () => {
     });
 
     describe('unsuccessfully selecting a package title to add to my holdings', () => {
-      beforeEach(function () {
+      beforeEach(async function () {
         this.server.put('/packages/:packageId', () => {
           /**
            * Blocking this request did not work solely using
@@ -138,8 +140,9 @@ describeApplication('PackageSelection', () => {
             errors: [{ title: 'There was an error' }]
           });
         });
+        await PackageShowPage.whenLoaded();
         this.server.block();
-        return PackageShowPage.selectPackage();
+        await PackageShowPage.selectPackage();
       });
 
       it.skip('indicates it is working to get to desired state', () => {

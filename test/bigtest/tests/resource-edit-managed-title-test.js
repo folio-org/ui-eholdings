@@ -1,13 +1,14 @@
 import { expect } from 'chai';
 import { describe, beforeEach, it } from '@bigtest/mocha';
 
-import { describeApplication } from '../helpers/describe-application';
+import setupApplication from '../helpers/setup-application';
 import ResourceShowPage from '../interactors/resource-show';
 import ResourceEditPage from '../interactors/resource-edit';
 
 window.ResourceEditPage = ResourceEditPage;
 
-describeApplication('ResourceEditManagedTitleInManagedPackage', () => {
+describe('ResourceEditManagedTitleInManagedPackage', () => {
+  setupApplication();
   let provider,
     providerPackage,
     resource;
@@ -51,9 +52,7 @@ describeApplication('ResourceEditManagedTitleInManagedPackage', () => {
 
   describe('visiting the resource edit page without coverage dates, statement, or embargo', () => {
     beforeEach(function () {
-      return this.visit(`/eholdings/resources/${resource.titleId}/edit`, () => {
-        expect(ResourceEditPage.$root).to.exist;
-      });
+      this.visit(`/eholdings/resources/${resource.titleId}/edit`);
     });
 
     it('displays the managed coverage dates in the form', () => {
@@ -126,49 +125,55 @@ describeApplication('ResourceEditManagedTitleInManagedPackage', () => {
       });
     });
 
-    describe('entering valid data', () => {
-      beforeEach(() => {
-        return ResourceEditPage
-          .clickAddRowButton()
-          .toggleIsVisible()
-          .dateRangeRowList(0).fillDates('12/16/2018', '12/18/2018')
-          .inputCoverageStatement('Only 90s kids would understand.')
-          .clickAddCustomEmbargoButton()
-          .inputEmbargoValue('27')
-          .blurEmbargoValue()
-          .selectEmbargoUnit('Weeks')
-          .blurEmbargoUnit();
+    describe('valid data', () => {
+      beforeEach(async function () {
+        await ResourceEditPage.whenLoaded();
       });
 
-      describe('clicking cancel', () => {
+      describe('entering it', () => {
         beforeEach(() => {
-          return ResourceEditPage.clickCancel();
+          return ResourceEditPage
+            .clickAddRowButton()
+            .toggleIsVisible()
+            .dateRangeRowList(0).fillDates('12/16/2018', '12/18/2018')
+            .inputCoverageStatement('Only 90s kids would understand.')
+            .clickAddCustomEmbargoButton()
+            .inputEmbargoValue('27')
+            .blurEmbargoValue()
+            .selectEmbargoUnit('Weeks')
+            .blurEmbargoUnit();
         });
 
-        it('shows a navigation confirmation modal', () => {
-          expect(ResourceEditPage.navigationModal.$root).to.exist;
-        });
-      });
+        describe('clicking cancel', () => {
+          beforeEach(() => {
+            return ResourceEditPage.clickCancel();
+          });
 
-      describe('clicking save', () => {
-        beforeEach(() => {
-          return ResourceEditPage.clickSave();
-        });
-
-        it('goes to the resource show page', () => {
-          expect(ResourceShowPage.$root).to.exist;
+          it('shows a navigation confirmation modal', () => {
+            expect(ResourceEditPage.navigationModal.$root).to.exist;
+          });
         });
 
-        it('shows the new statement value', () => {
-          expect(ResourceShowPage.coverageStatement).to.equal('Only 90s kids would understand.');
-        });
+        describe('clicking save', () => {
+          beforeEach(() => {
+            return ResourceEditPage.clickSave();
+          });
 
-        it('displays the saved visibility', () => {
-          expect(ResourceShowPage.isResourceVisible).to.equal(true);
-        });
+          it('goes to the resource show page', () => {
+            expect(ResourceShowPage.$root).to.exist;
+          });
 
-        it('shows the new embargo value', () => {
-          expect(ResourceShowPage.customEmbargoPeriod).to.equal('27 Weeks');
+          it('shows the new statement value', () => {
+            expect(ResourceShowPage.coverageStatement).to.equal('Only 90s kids would understand.');
+          });
+
+          it('displays the saved visibility', () => {
+            expect(ResourceShowPage.isResourceVisible).to.equal(true);
+          });
+
+          it('shows the new embargo value', () => {
+            expect(ResourceShowPage.customEmbargoPeriod).to.equal('27 Weeks');
+          });
         });
       });
     });
@@ -194,9 +199,7 @@ describeApplication('ResourceEditManagedTitleInManagedPackage', () => {
       }).toJSON();
       resource.save();
 
-      return this.visit(`/eholdings/resources/${resource.titleId}/edit`, () => {
-        expect(ResourceEditPage.$root).to.exist;
-      });
+      this.visit(`/eholdings/resources/${resource.titleId}/edit`);
     });
 
     it('shows a form with the coverage field', () => {
@@ -312,9 +315,7 @@ describeApplication('ResourceEditManagedTitleInManagedPackage', () => {
         }]
       }, 500);
 
-      return this.visit(`/eholdings/resources/${resource.id}/edit`, () => {
-        expect(ResourceEditPage.$root).to.exist;
-      });
+      this.visit(`/eholdings/resources/${resource.id}/edit`);
     });
 
     it('dies with dignity', () => {
@@ -330,9 +331,7 @@ describeApplication('ResourceEditManagedTitleInManagedPackage', () => {
         }]
       }, 500);
 
-      return this.visit(`/eholdings/resources/${resource.id}/edit`, () => {
-        expect(ResourceEditPage.$root).to.exist;
-      });
+      this.visit(`/eholdings/resources/${resource.id}/edit`);
     });
 
     describe('entering valid data and clicking save', () => {
@@ -355,9 +354,7 @@ describeApplication('ResourceEditManagedTitleInManagedPackage', () => {
 
   describe('visiting the resource show page', () => {
     beforeEach(function () {
-      return this.visit(`/eholdings/resources/${resource.id}`, () => {
-        expect(ResourceShowPage.$root).to.exist;
-      });
+      this.visit(`/eholdings/resources/${resource.id}`);
     });
 
     describe('clicking the edit button', () => {

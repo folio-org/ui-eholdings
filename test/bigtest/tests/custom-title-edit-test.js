@@ -1,11 +1,12 @@
 import { expect } from 'chai';
 import { describe, beforeEach, it } from '@bigtest/mocha';
 
-import { describeApplication } from '../helpers/describe-application';
+import setupApplication from '../helpers/setup-application';
 import TitleShowPage from '../interactors/title-show';
 import TitleEditPage from '../interactors/title-edit';
 
-describeApplication('CustomTitleEdit', () => {
+describe('CustomTitleEdit', () => {
+  setupApplication();
   let provider,
     providerPackage,
     title;
@@ -58,9 +59,7 @@ describeApplication('CustomTitleEdit', () => {
 
   describe('visiting the title edit page', () => {
     beforeEach(function () {
-      return this.visit(`/eholdings/titles/${title.id}/edit`, () => {
-        expect(TitleEditPage.$root).to.exist;
-      });
+      this.visit(`/eholdings/titles/${title.id}/edit`);
     });
 
     it('shows a field for edition', () => {
@@ -311,9 +310,7 @@ describeApplication('CustomTitleEdit', () => {
         }]
       }, 500);
 
-      return this.visit(`/eholdings/titles/${title.id}/edit`, () => {
-        expect(TitleEditPage.$root).to.exist;
-      });
+      this.visit(`/eholdings/titles/${title.id}/edit`);
     });
 
     it('dies with dignity', () => {
@@ -329,9 +326,7 @@ describeApplication('CustomTitleEdit', () => {
         }]
       }, 500);
 
-      return this.visit(`/eholdings/titles/${title.id}/edit`, () => {
-        expect(TitleEditPage.$root).to.exist;
-      });
+      this.visit(`/eholdings/titles/${title.id}/edit`);
     });
 
     describe('entering valid data and clicking save', () => {
@@ -351,9 +346,7 @@ describeApplication('CustomTitleEdit', () => {
 
   describe('visiting the title show page', () => {
     beforeEach(function () {
-      return this.visit(`/eholdings/titles/${title.id}`, () => {
-        expect(TitleShowPage.$root).to.exist;
-      });
+      this.visit(`/eholdings/titles/${title.id}`);
     });
 
     describe('clicking the edit button', () => {

@@ -36,6 +36,11 @@ import PackageSelectionStatus from './selection-status';
 }
 
 @interactor class PackageShowPage {
+  isLoaded = isPresent('[data-test-eholdings-details-view-name="package"]');
+  whenLoaded() {
+    return this.when(() => this.isLoaded);
+  }
+
   allowKbToAddTitles = text('[data-test-eholdings-package-details-allow-add-new-titles]');
   hasAllowKbToAddTitles = isPresent('[data-test-eholdings-package-details-toggle-allow-add-new-titles] input');
   hasAllowKbToAddTitlesToggle = isPresent('[package-details-toggle-allow-add-new-titles-switch]');

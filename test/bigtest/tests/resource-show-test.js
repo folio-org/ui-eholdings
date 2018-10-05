@@ -1,10 +1,11 @@
 import { expect } from 'chai';
 import { describe, beforeEach, it } from '@bigtest/mocha';
 
-import { describeApplication } from '../helpers/describe-application';
+import setupApplication from '../helpers/setup-application';
 import ResourcePage from '../interactors/resource-show';
 
-describeApplication('ResourceShow', () => {
+describe('ResourceShow', () => {
+  setupApplication();
   let provider,
     providerPackage,
     resource;
@@ -74,9 +75,7 @@ describeApplication('ResourceShow', () => {
 
   describe('visiting the resource page', () => {
     beforeEach(function () {
-      return this.visit(`/eholdings/resources/${resource.titleId}`, () => {
-        expect(ResourcePage.$root).to.exist;
-      });
+      this.visit(`/eholdings/resources/${resource.titleId}`);
     });
 
     it('displays the title name in the pane header', () => {
@@ -234,7 +233,7 @@ describeApplication('ResourceShow', () => {
 
   describe('navigating to resource page', () => {
     beforeEach(function () {
-      return this.visit({
+      this.visit({
         pathname: `/eholdings/resources/${resource.id}`,
         // our internal link component automatically sets the location state
         state: { eholdings: true }
@@ -269,9 +268,7 @@ describeApplication('ResourceShow', () => {
         title
       });
 
-      return this.visit(`/eholdings/resources/${resource.id}`, () => {
-        expect(ResourcePage.$root).to.exist;
-      });
+      this.visit(`/eholdings/resources/${resource.id}`);
     });
 
     it('displays the title name', () => {
@@ -311,9 +308,7 @@ describeApplication('ResourceShow', () => {
         title
       });
 
-      return this.visit(`/eholdings/resources/${resource.id}`, () => {
-        expect(ResourcePage.$root).to.exist;
-      });
+      this.visit(`/eholdings/resources/${resource.id}`);
     });
 
     it('displays the title name', () => {
@@ -337,9 +332,7 @@ describeApplication('ResourceShow', () => {
         }]
       }, 500);
 
-      return this.visit(`/eholdings/resources/${resource.id}`, () => {
-        expect(ResourcePage.$root).to.exist;
-      });
+      this.visit(`/eholdings/resources/${resource.id}`);
     });
 
     it('displays the correct error text', () => {

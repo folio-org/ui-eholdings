@@ -1,10 +1,11 @@
 import { beforeEach, describe, it } from '@bigtest/mocha';
 import { expect } from 'chai';
 
-import { describeApplication } from '../helpers/describe-application';
+import setupApplication from '../helpers/setup-application';
 import PackageShowPage from '../interactors/package-show';
 
-describeApplication('PackageVisibility', () => {
+describe('PackageVisibility', () => {
+  setupApplication();
   let provider,
     pkg;
 
@@ -23,9 +24,7 @@ describeApplication('PackageVisibility', () => {
         isSelected: true
       });
 
-      return this.visit(`/eholdings/packages/${pkg.id}`, () => {
-        expect(PackageShowPage.$root).to.exist;
-      });
+      this.visit(`/eholdings/packages/${pkg.id}`);
     });
 
     it('displays No in (Show titles in package to patrons)', () => {
@@ -46,9 +45,7 @@ describeApplication('PackageVisibility', () => {
         isSelected: true
       });
 
-      return this.visit(`/eholdings/packages/${pkg.id}`, () => {
-        expect(PackageShowPage.$root).to.exist;
-      });
+      this.visit(`/eholdings/packages/${pkg.id}`);
     });
 
     it('displays No as (Show titles in package to patrons)', () => {
@@ -65,9 +62,7 @@ describeApplication('PackageVisibility', () => {
         isSelected: true
       });
 
-      return this.visit(`/eholdings/packages/${pkg.id}`, () => {
-        expect(PackageShowPage.$root).to.exist;
-      });
+      this.visit(`/eholdings/packages/${pkg.id}`);
     });
 
     it('displays Yes as (Show titles in package to patrons)', () => {
@@ -84,9 +79,7 @@ describeApplication('PackageVisibility', () => {
         isSelected: false
       });
 
-      return this.visit(`/eholdings/packages/${pkg.id}`, () => {
-        expect(PackageShowPage.$root).to.exist;
-      });
+      this.visit(`/eholdings/packages/${pkg.id}`);
     });
 
     it('does not display visibility', () => {

@@ -1,11 +1,12 @@
 import { expect } from 'chai';
 import { describe, beforeEach, it } from '@bigtest/mocha';
 
-import { describeApplication } from '../helpers/describe-application';
+import setupApplication from '../helpers/setup-application';
 import PackageShowPage from '../interactors/package-show';
 import PackageEditPage from '../interactors/package-edit';
 
-describeApplication('CustomPackageEdit', () => {
+describe('CustomPackageEdit', () => {
+  setupApplication();
   let provider,
     providerPackage;
 
@@ -24,9 +25,7 @@ describeApplication('CustomPackageEdit', () => {
 
   describe('visiting the package edit page without coverage dates', () => {
     beforeEach(function () {
-      return this.visit(`/eholdings/packages/${providerPackage.id}/edit`, () => {
-        expect(PackageEditPage.$root).to.exist;
-      });
+      this.visit(`/eholdings/packages/${providerPackage.id}/edit`);
     });
 
     it('displays the correct holdings status', () => {
@@ -112,9 +111,7 @@ describeApplication('CustomPackageEdit', () => {
       providerPackage.update('contentType', 'E-Book');
       providerPackage.save();
 
-      return this.visit(`/eholdings/packages/${providerPackage.id}/edit`, () => {
-        expect(PackageEditPage.$root).to.exist;
-      });
+      this.visit(`/eholdings/packages/${providerPackage.id}/edit`);
     });
 
     it('disables the save button', () => {
@@ -214,9 +211,7 @@ describeApplication('CustomPackageEdit', () => {
         }]
       }, 500);
 
-      return this.visit(`/eholdings/packages/${providerPackage.id}/edit`, () => {
-        expect(PackageEditPage.$root).to.exist;
-      });
+      this.visit(`/eholdings/packages/${providerPackage.id}/edit`);
     });
 
     it('dies with dignity', () => {
@@ -232,9 +227,7 @@ describeApplication('CustomPackageEdit', () => {
         }]
       }, 500);
 
-      return this.visit(`/eholdings/packages/${providerPackage.id}/edit`, () => {
-        expect(PackageEditPage.$root).to.exist;
-      });
+      this.visit(`/eholdings/packages/${providerPackage.id}/edit`);
     });
 
     describe('entering valid data and clicking save', () => {

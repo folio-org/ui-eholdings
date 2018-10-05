@@ -1,9 +1,10 @@
 import { beforeEach, describe, it } from '@bigtest/mocha';
 import { expect } from 'chai';
-import { describeApplication } from '../helpers/describe-application';
+import setupApplication from '../helpers/setup-application';
 import ResourcePage from '../interactors/resource-show';
 
-describeApplication('ResourceCustomCoverage', () => {
+describe('ResourceCustomCoverage', () => {
+  setupApplication();
   let pkg,
     title,
     resource;
@@ -29,9 +30,7 @@ describeApplication('ResourceCustomCoverage', () => {
       resource.isSelected = false;
       resource.save();
 
-      return this.visit(`/eholdings/resources/${resource.id}`, () => {
-        expect(ResourcePage.$root).to.exist;
-      });
+      this.visit(`/eholdings/resources/${resource.id}`);
     });
 
     it('displays message that resource needs to be selected', () => {
@@ -53,9 +52,7 @@ describeApplication('ResourceCustomCoverage', () => {
       ];
       resource.update('customCoverages', customCoverages.map(item => item.toJSON()));
       resource.save();
-      return this.visit(`/eholdings/resources/${resource.id}`, () => {
-        expect(ResourcePage.$root).to.exist;
-      });
+      this.visit(`/eholdings/resources/${resource.id}`);
     });
 
     it('displays the date ranges', () => {
@@ -67,9 +64,7 @@ describeApplication('ResourceCustomCoverage', () => {
     beforeEach(function () {
       resource.customCoverages = this.server.createList('custom-coverage', 0).map(m => m.toJSON());
       resource.save();
-      return this.visit(`/eholdings/resources/${resource.id}`, () => {
-        expect(ResourcePage.$root).to.exist;
-      });
+      this.visit(`/eholdings/resources/${resource.id}`);
     });
 
     it.always('does not display the custom coverage section', () => {
@@ -87,9 +82,7 @@ describeApplication('ResourceCustomCoverage', () => {
       ];
       resource.update('customCoverages', customCoverages.map(item => item.toJSON()));
       resource.save();
-      return this.visit(`/eholdings/resources/${resource.id}`, () => {
-        expect(ResourcePage.$root).to.exist;
-      });
+      this.visit(`/eholdings/resources/${resource.id}`);
     });
 
     it('displays the customcoverage section for single date', () => {
@@ -104,9 +97,7 @@ describeApplication('ResourceCustomCoverage', () => {
         endCoverage: '1969-07-16'
       }).map(m => m.toJSON());
       resource.save();
-      return this.visit(`/eholdings/resources/${resource.id}`, () => {
-        expect(ResourcePage.$root).to.exist;
-      });
+      this.visit(`/eholdings/resources/${resource.id}`);
     });
 
     it('display the custom coverage section for single date (end date only)', () => {
@@ -120,9 +111,7 @@ describeApplication('ResourceCustomCoverage', () => {
         this.server.create('custom-coverage', { beginCoverage: '1974-01-01', endCoverage: '1979-12-19' }),
       ].map(m => m.toJSON());
       resource.save();
-      return this.visit(`/eholdings/resources/${resource.id}`, () => {
-        expect(ResourcePage.$root).to.exist;
-      });
+      this.visit(`/eholdings/resources/${resource.id}`);
     });
 
     it('displays date ranges comma separated and ordered by most recent coverage to least recent coverage', () => {
@@ -140,9 +129,7 @@ describeApplication('ResourceCustomCoverage', () => {
         endCoverage: '1972-12-19'
       }).map(m => m.toJSON());
       resource.save();
-      return this.visit(`/eholdings/resources/${resource.id}`, () => {
-        expect(ResourcePage.$root).to.exist;
-      });
+      this.visit(`/eholdings/resources/${resource.id}`);
     });
 
     it('displays dates with YYYY format', () => {
@@ -161,9 +148,7 @@ describeApplication('ResourceCustomCoverage', () => {
       }).map(m => m.toJSON());
 
       resource.save();
-      return this.visit(`/eholdings/resources/${resource.id}`, () => {
-        expect(ResourcePage.$root).to.exist;
-      });
+      this.visit(`/eholdings/resources/${resource.id}`);
     });
 
     it('displays dates with YYYY format', () => {
@@ -182,9 +167,7 @@ describeApplication('ResourceCustomCoverage', () => {
       }).map(m => m.toJSON());
 
       resource.save();
-      return this.visit(`/eholdings/resources/${resource.id}`, () => {
-        expect(ResourcePage.$root).to.exist;
-      });
+      this.visit(`/eholdings/resources/${resource.id}`);
     });
 
     it('displays dates with YYYY format', () => {
@@ -203,9 +186,7 @@ describeApplication('ResourceCustomCoverage', () => {
       }).map(m => m.toJSON());
 
       resource.save();
-      return this.visit(`/eholdings/resources/${resource.id}`, () => {
-        expect(ResourcePage.$root).to.exist;
-      });
+      this.visit(`/eholdings/resources/${resource.id}`);
     });
 
     it('displays dates with YYYY format', () => {
@@ -224,9 +205,7 @@ describeApplication('ResourceCustomCoverage', () => {
       }).map(m => m.toJSON());
 
       resource.save();
-      return this.visit(`/eholdings/resources/${resource.id}`, () => {
-        expect(ResourcePage.$root).to.exist;
-      });
+      this.visit(`/eholdings/resources/${resource.id}`);
     });
 
     it.always('does not display custom coverage list', () => {

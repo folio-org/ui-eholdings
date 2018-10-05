@@ -39,6 +39,11 @@ import Datepicker from './datepicker';
 }
 
 @interactor class ResourceEditPage {
+  isLoaded = isPresent('[data-test-eholdings-details-view-pane-title]');
+  whenLoaded() {
+    return this.when(() => this.isLoaded);
+  }
+
   navigationModal = new ResourceEditNavigationModal('#navigation-modal');
 
   addToHoldingsButton = isPresent('[data-test-eholdings-resource-add-to-holdings-button]');

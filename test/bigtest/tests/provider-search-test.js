@@ -1,12 +1,13 @@
 import { beforeEach, describe, it } from '@bigtest/mocha';
 import { expect } from 'chai';
 
-import { describeApplication } from '../helpers/describe-application';
+import setupApplication from '../helpers/setup-application';
 import ProviderSearchPage from '../interactors/provider-search';
 import ProviderShowPage from '../interactors/provider-show';
 import PackageShowPage from '../interactors/package-show';
 
-describeApplication('ProviderSearch', () => {
+describe('ProviderSearch', () => {
+  setupApplication();
   beforeEach(function () {
     this.server.createList('provider', 3, 'withPackagesAndTitles', {
       name: i => `Provider${i + 1}`,
@@ -18,9 +19,7 @@ describeApplication('ProviderSearch', () => {
       name: 'Totally Awesome Co'
     });
 
-    return this.visit('/eholdings/?searchType=providers', () => {
-      expect(ProviderSearchPage.$root).to.exist;
-    });
+    this.visit('/eholdings/?searchType=providers');
   });
 
   it('has a searchbox', () => {
@@ -109,7 +108,7 @@ describeApplication('ProviderSearch', () => {
         it('preserves the last history entry', function () {
           // this is a check to make sure duplicate entries are not added
           // to the history. Ensuring the back button works as expected
-          let history = this.app.history;
+          let history = this.app.props.history;
           expect(history.entries[history.index - 1].search).to.include('q=Provider');
         });
       });
@@ -277,7 +276,7 @@ describeApplication('ProviderSearch', () => {
       });
 
       it.always('does not reflect the default sort=relevance in url', function () {
-        expect(this.app.history.location.search).to.not.include('sort=relevance');
+        expect(this.location.search).to.not.include('sort=relevance');
       });
 
       describe('then filtering by sort options', () => {
@@ -297,7 +296,7 @@ describeApplication('ProviderSearch', () => {
         });
 
         it('reflects the sort in the URL query params', function () {
-          expect(this.app.history.location.search).to.include('sort=name');
+          expect(this.location.search).to.include('sort=name');
         });
 
         it('shows search filters on smaller screen sizes (due to filter change only)', () => {
@@ -346,7 +345,7 @@ describeApplication('ProviderSearch', () => {
               });
 
               it('reflects the sort=name in the URL query params', function () {
-                expect(this.app.history.location.search).to.include('sort=name');
+                expect(this.location.search).to.include('sort=name');
               });
             });
           });
@@ -356,9 +355,9 @@ describeApplication('ProviderSearch', () => {
 
     describe('visiting the page with an existing sort', () => {
       beforeEach(function () {
-        return this.visit('/eholdings/?searchType=providers&q=health&sort=name', () => {
-          expect(ProviderSearchPage.$root).to.exist;
-        });
+        this.visit('/eholdings/?searchType=providers&q=health&sort=name');
+        // the search pane is ending up hidden by default
+        return ProviderSearchPage.searchBadge.clickIcon();
       });
 
       it('displays search field populated', () => {
@@ -443,16 +442,14 @@ describeApplication('ProviderSearch', () => {
         });
 
         it('updates the offset in the URL', function () {
-          expect(this.app.history.location.search).to.include('offset=26');
+          expect(this.location.search).to.include('offset=26');
         });
       });
     });
 
     describe('navigating directly to a search page', () => {
       beforeEach(function () {
-        return this.visit('/eholdings/?searchType=providers&offset=51&q=other', () => {
-          expect(ProviderSearchPage.$root).to.exist;
-        });
+        this.visit('/eholdings/?searchType=providers&offset=51&q=other');
       });
 
       it('should show the search results for that page', () => {
@@ -461,7 +458,7 @@ describeApplication('ProviderSearch', () => {
       });
 
       it('should retain the proper offset', function () {
-        expect(this.app.history.location.search).to.include('offset=51');
+        expect(this.location.search).to.include('offset=51');
       });
 
       describe('and then scrolling up', () => {
@@ -478,7 +475,7 @@ describeApplication('ProviderSearch', () => {
         });
 
         it('updates the offset in the URL', function () {
-          expect(this.app.history.location.search).to.include('offset=0');
+          expect(this.location.search).to.include('offset=0');
         });
       });
     });

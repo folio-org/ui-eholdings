@@ -1,11 +1,12 @@
 import { expect } from 'chai';
 import { describe, beforeEach, it } from '@bigtest/mocha';
 
-import { describeApplication } from '../helpers/describe-application';
+import setupApplication from '../helpers/setup-application';
 import PackageShowPage from '../interactors/package-show';
 import PackageEditPage from '../interactors/package-edit';
 
-describeApplication('CustomPackageEditProxy', () => {
+describe('CustomPackageEditProxy', () => {
+  setupApplication();
   let provider,
     providerPackage;
 
@@ -24,9 +25,7 @@ describeApplication('CustomPackageEditProxy', () => {
 
   describe('visiting the package edit page', () => {
     beforeEach(function () {
-      return this.visit(`/eholdings/packages/${providerPackage.id}/edit`, () => {
-        expect(PackageEditPage.$root).to.exist;
-      });
+      this.visit(`/eholdings/packages/${providerPackage.id}/edit`);
     });
 
     it('has a select containing the current proxy value', () => {

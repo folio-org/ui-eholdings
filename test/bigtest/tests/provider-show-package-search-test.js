@@ -1,10 +1,11 @@
 import { beforeEach, describe, it } from '@bigtest/mocha';
 import { expect } from 'chai';
 
-import { describeApplication } from '../helpers/describe-application';
+import setupApplication from '../helpers/setup-application';
 import ProviderShowPage from '../interactors/provider-show';
 
-describeApplication('ProviderShow package search', () => {
+describe('ProviderShow package search', () => {
+  setupApplication();
   let provider,
     packages;
 
@@ -34,9 +35,7 @@ describeApplication('ProviderShow package search', () => {
       isSelected: true
     });
 
-    return this.visit(`/eholdings/providers/${provider.id}`, () => {
-      expect(ProviderShowPage.$root).to.exist;
-    });
+    this.visit(`/eholdings/providers/${provider.id}`);
   });
 
   describe('clicking the search button', () => {
@@ -239,14 +238,11 @@ describeApplication('ProviderShow package search', () => {
           'meta':{ 'totalResults': 10001 },
           'jsonapi':{ 'version':'1.0' } }, 200);
 
-      return this.visit(
+      this.visit(
         {
           pathname: `/eholdings/providers/${largeProvider.id}`,
           // our internal link component automatically sets the location state
           state: { eholdings: true }
-        },
-        () => {
-          expect(ProviderShowPage.$root).to.exist;
         }
       );
     });

@@ -1,10 +1,11 @@
 import { beforeEach, describe, it } from '@bigtest/mocha';
 import { expect } from 'chai';
 
-import { describeApplication } from '../helpers/describe-application';
+import setupApplication from '../helpers/setup-application';
 import ResourceShowPage from '../interactors/resource-show';
 
-describeApplication('ResourceCoverageStatement', () => {
+describe('ResourceCoverageStatement', () => {
+  setupApplication();
   let pkg,
     title,
     resource;
@@ -24,9 +25,7 @@ describeApplication('ResourceCoverageStatement', () => {
       resource.coverageStatement = 'Only 90s kids would understand.';
       resource.save();
 
-      return this.visit(`/eholdings/resources/${resource.id}`, () => {
-        expect(ResourceShowPage.$root).to.exist;
-      });
+      this.visit(`/eholdings/resources/${resource.id}`);
     });
 
     it('displays the coverage statement', () => {
@@ -36,9 +35,7 @@ describeApplication('ResourceCoverageStatement', () => {
 
   describe('visiting the resource show page without a coverage statement', () => {
     beforeEach(function () {
-      return this.visit(`/eholdings/resources/${resource.id}`, () => {
-        expect(ResourceShowPage.$root).to.exist;
-      });
+      this.visit(`/eholdings/resources/${resource.id}`);
     });
 
     it.always('does not display the coverage statement', () => {
@@ -50,9 +47,7 @@ describeApplication('ResourceCoverageStatement', () => {
     beforeEach(function () {
       resource.isSelected = false;
       resource.save();
-      return this.visit(`/eholdings/resources/${resource.id}`, () => {
-        expect(ResourceShowPage.$root).to.exist;
-      });
+      this.visit(`/eholdings/resources/${resource.id}`);
     });
 
     it.always('does not display the coverage statement section', () => {

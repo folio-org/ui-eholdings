@@ -32,6 +32,11 @@ import Toast from './toast';
 @interactor class ResourceShowNavigationModal {}
 
 @interactor class ResourceShowPage {
+  isLoaded = isPresent('[data-test-eholdings-details-view-name="resource"]');
+  whenLoaded() {
+    return this.when(() => this.isLoaded);
+  }
+
   titleName = text('[data-test-eholdings-details-view-name="resource"]');
   nameHasFocus = is('[data-test-eholdings-details-view-name="resource"]', ':focus');
   edition = text('[data-test-eholdings-resource-show-edition]');

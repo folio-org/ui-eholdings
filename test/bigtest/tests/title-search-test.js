@@ -1,12 +1,13 @@
 import { beforeEach, describe, it } from '@bigtest/mocha';
 import { expect } from 'chai';
 
-import { describeApplication } from '../helpers/describe-application';
+import setupApplication from '../helpers/setup-application';
 import TitleSearchPage from '../interactors/title-search';
 import TitleShowPage from '../interactors/title-show';
 import ResourceShowPage from '../interactors/resource-show';
 
-describeApplication('TitleSearch', () => {
+describe('TitleSearch', () => {
+  setupApplication();
   let titles;
 
   // Odd indexed items are assigned alternate attributes targeted in specific filtering tests
@@ -51,9 +52,7 @@ describeApplication('TitleSearch', () => {
       name: 'SomethingSomethingWhoa'
     });
 
-    return this.visit('/eholdings/?searchType=titles', () => {
-      expect(TitleSearchPage.isPresent).to.be.true;
-    });
+    this.visit('/eholdings/?searchType=titles');
   });
 
   it('has a searchbox', () => {
@@ -154,7 +153,7 @@ describeApplication('TitleSearch', () => {
         it('preserves the last history entry', function () {
           // this is a check to make sure duplicate entries are not added
           // to the history. Ensuring the back button works as expected
-          let history = this.app.history;
+          let history = this.app.props.history;
           expect(history.entries[history.index - 1].search).to.include('q=Title');
         });
       });
@@ -240,7 +239,7 @@ describeApplication('TitleSearch', () => {
       });
 
       it('reflects the filter in the URL query params', function () {
-        expect(this.app.history.location.search).to.include('filter[type]=book');
+        expect(this.location.search).to.include('filter[type]=book');
       });
 
       describe('clearing the filters', () => {
@@ -249,7 +248,7 @@ describeApplication('TitleSearch', () => {
         });
 
         it.always('removes the filter from the URL query params', function () {
-          expect(this.app.history.location.search).to.not.include('filter[type]');
+          expect(this.location.search).to.not.include('filter[type]');
         });
 
         it('shows search filters on smaller screen sizes (due to filter change only)', () => {
@@ -259,9 +258,7 @@ describeApplication('TitleSearch', () => {
 
       describe('visiting the page with an existing filter', () => {
         beforeEach(function () {
-          return this.visit('/eholdings/?searchType=titles&q=Title&filter[type]=journal', () => {
-            expect(TitleSearchPage.isPresent).to.be.true;
-          });
+          this.visit('/eholdings/?searchType=titles&q=Title&filter[type]=journal');
         });
 
         it('shows the existing filter in the search form', () => {
@@ -289,7 +286,7 @@ describeApplication('TitleSearch', () => {
       });
 
       it('reflects the filter in the URL query params', function () {
-        expect(this.app.history.location.search).to.include('filter[selected]=true');
+        expect(this.location.search).to.include('filter[selected]=true');
       });
 
       it('shows search filters on smaller screen sizes (due to filter change only)', () => {
@@ -302,7 +299,7 @@ describeApplication('TitleSearch', () => {
         });
 
         it.always('removes the filter from the URL query params', function () {
-          expect(this.app.history.location.search).to.not.include('filter[selected]');
+          expect(this.location.search).to.not.include('filter[selected]');
         });
 
         it('shows search filters on smaller screen sizes (due to filter change only)', () => {
@@ -312,9 +309,7 @@ describeApplication('TitleSearch', () => {
 
       describe('visiting the page with an existing filter', () => {
         beforeEach(function () {
-          return this.visit('/eholdings/?searchType=titles&q=Title&filter[selected]=false', () => {
-            expect(TitleSearchPage.isPresent).to.be.true;
-          });
+          this.visit('/eholdings/?searchType=titles&q=Title&filter[selected]=false');
         });
 
         it('shows the existing filter in the search form', () => {
@@ -344,7 +339,7 @@ describeApplication('TitleSearch', () => {
       });
 
       it('reflects the publisher searchfield in the URL query params', function () {
-        expect(this.app.history.location.search).to.include('searchfield=publisher');
+        expect(this.location.search).to.include('searchfield=publisher');
       });
     });
 
@@ -360,7 +355,7 @@ describeApplication('TitleSearch', () => {
       });
 
       it('reflects the subject searchfield in the URL query params', function () {
-        expect(this.app.history.location.search).to.include('searchfield=subject');
+        expect(this.location.search).to.include('searchfield=subject');
       });
     });
 
@@ -376,7 +371,7 @@ describeApplication('TitleSearch', () => {
       });
 
       it('reflects the isxn searchfield in the URL query params', function () {
-        expect(this.app.history.location.search).to.include('searchfield=isxn');
+        expect(this.location.search).to.include('searchfield=isxn');
       });
     });
 
@@ -392,9 +387,7 @@ describeApplication('TitleSearch', () => {
 
     describe('visiting the page with an existing search field', () => {
       beforeEach(function () {
-        return this.visit('/eholdings/?searchType=titles&q=TestPublisher&searchfield=publisher', () => {
-          expect(TitleSearchPage.isPresent).to.be.true;
-        });
+        this.visit('/eholdings/?searchType=titles&q=TestPublisher&searchfield=publisher');
       });
 
       it('displays publisher as searchfield', () => {
@@ -475,15 +468,15 @@ describeApplication('TitleSearch', () => {
       });
 
       it('reflects searchfield=isxn in the URL query params', function () {
-        expect(this.app.history.location.search).to.include('searchfield=isxn');
+        expect(this.location.search).to.include('searchfield=isxn');
       });
 
       it('reflects filter[type]=book in the URL query params', function () {
-        expect(this.app.history.location.search).to.include('filter[type]=book');
+        expect(this.location.search).to.include('filter[type]=book');
       });
 
       it.always('does not reflect filter[isxn] in search field', function () {
-        expect(this.app.history.location.search).to.not.include('filter[isxn]');
+        expect(this.location.search).to.not.include('filter[isxn]');
       });
 
       describe('navigating to packages search', () => {
@@ -501,15 +494,15 @@ describeApplication('TitleSearch', () => {
           });
 
           it('reflects the isxn searchfield in the URL query params', function () {
-            expect(this.app.history.location.search).to.include('searchfield=isxn');
+            expect(this.location.search).to.include('searchfield=isxn');
           });
 
           it('reflects the pub type in the URL query params', function () {
-            expect(this.app.history.location.search).to.include('filter[type]=book');
+            expect(this.location.search).to.include('filter[type]=book');
           });
 
           it.always('does not reflect filter[isxn] in search field', function () {
-            expect(this.app.history.location.search).to.not.include('filter[isxn]');
+            expect(this.location.search).to.not.include('filter[isxn]');
           });
         });
       });
@@ -558,16 +551,14 @@ describeApplication('TitleSearch', () => {
         });
 
         it('updates the offset in the URL', function () {
-          expect(this.app.history.location.search).to.include('offset=26');
+          expect(this.location.search).to.include('offset=26');
         });
       });
     });
 
     describe('navigating directly to a search page', () => {
       beforeEach(function () {
-        return this.visit('/eholdings/?searchType=titles&offset=51&q=other', () => {
-          expect(TitleSearchPage.$root).to.exist;
-        });
+        this.visit('/eholdings/?searchType=titles&offset=51&q=other');
       });
 
       it('should show the search results for that page', () => {
@@ -576,7 +567,7 @@ describeApplication('TitleSearch', () => {
       });
 
       it('should retain the proper offset', function () {
-        expect(this.app.history.location.search).to.include('offset=51');
+        expect(this.location.search).to.include('offset=51');
       });
 
       describe('and then scrolling up', () => {
@@ -584,17 +575,16 @@ describeApplication('TitleSearch', () => {
           return TitleSearchPage.scrollToOffset(0);
         });
 
-        // it might take a bit for the next request to be triggered after the scroll
-        it.always('shows the total results', () => {
+        it('shows the total results', () => {
           expect(TitleSearchPage.totalResults).to.equal('75 search results');
-        }, 500);
+        });
 
         it('shows the prev page of results', () => {
           expect(TitleSearchPage.titleList(0).name).to.equal('Other Title 5');
         });
 
         it('updates the offset in the URL', function () {
-          expect(this.app.history.location.search).to.include('offset=0');
+          expect(this.location.search).to.include('offset=0');
         });
       });
     });

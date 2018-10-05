@@ -1,10 +1,11 @@
 import { expect } from 'chai';
 import { describe, beforeEach, it } from '@bigtest/mocha';
 
-import { describeApplication } from '../helpers/describe-application';
+import setupApplication from '../helpers/setup-application';
 import TitleShowPage from '../interactors/title-show';
 
-describeApplication('TitleShow', () => {
+describe('TitleShow', () => {
+  setupApplication();
   let title,
     resources;
 
@@ -43,9 +44,7 @@ describeApplication('TitleShow', () => {
 
   describe('visiting the title page', () => {
     beforeEach(function () {
-      return this.visit(`/eholdings/titles/${title.id}`, () => {
-        expect(TitleShowPage.$root).to.exist;
-      });
+      this.visit(`/eholdings/titles/${title.id}`);
     });
 
     it('displays the title name in the pane header', () => {
@@ -134,12 +133,10 @@ describeApplication('TitleShow', () => {
 
   describe('navigating to title page', () => {
     beforeEach(function () {
-      return this.visit({
+      this.visit({
         pathname: `/eholdings/titles/${title.id}`,
         // our internal link component automatically sets the location state
         state: { eholdings: true }
-      }, () => {
-        expect(TitleShowPage.$root).to.exist;
       });
     });
 
@@ -159,9 +156,7 @@ describeApplication('TitleShow', () => {
 
       title.save();
       resources = title.resources.models;
-      return this.visit(`/eholdings/titles/${title.id}`, () => {
-        expect(TitleShowPage.$root).to.exist;
-      });
+      this.visit(`/eholdings/titles/${title.id}`);
     });
 
     it('displays the title name', () => {
@@ -176,24 +171,30 @@ describeApplication('TitleShow', () => {
       expect(TitleShowPage.publisherName).to.equal('Cool Publisher');
     });
 
-    it.always('does not display the publication type', () => {
-      expect(TitleShowPage.hasPublicationType).to.be.false;
-    });
+    describe('the page always', () => {
+      beforeEach(async function () {
+        await TitleShowPage.whenLoaded();
+      });
 
-    it.always('does not display identifiers', () => {
-      expect(TitleShowPage.identifiersList().length).to.equal(0);
-    });
+      it.always('does not display the publication type', () => {
+        expect(TitleShowPage.hasPublicationType).to.be.false;
+      });
 
-    it.always('does not display contributors', () => {
-      expect(TitleShowPage.contributorsList().length).to.equal(0);
-    });
+      it.always('does not display identifiers', () => {
+        expect(TitleShowPage.identifiersList().length).to.equal(0);
+      });
 
-    it.always('does not display package list', () => {
-      expect(TitleShowPage.packageList().length).to.equal(0);
-    });
+      it.always('does not display contributors', () => {
+        expect(TitleShowPage.contributorsList().length).to.equal(0);
+      });
 
-    it.always('does not display subjects list', () => {
-      expect(TitleShowPage.hasSubjectsList).to.be.false;
+      it.always('does not display package list', () => {
+        expect(TitleShowPage.packageList().length).to.equal(0);
+      });
+
+      it.always('does not display subjects list', () => {
+        expect(TitleShowPage.hasSubjectsList).to.be.false;
+      });
     });
   });
 
@@ -208,9 +209,7 @@ describeApplication('TitleShow', () => {
 
       title.save();
       resources = title.resources.models;
-      return this.visit(`/eholdings/titles/${title.id}`, () => {
-        expect(TitleShowPage.$root).to.exist;
-      });
+      this.visit(`/eholdings/titles/${title.id}`);
     });
 
     it('displays the title name', () => {
@@ -229,20 +228,26 @@ describeApplication('TitleShow', () => {
       expect(TitleShowPage.publicationType).to.equal('UnknownPublicationType');
     });
 
-    it.always('does not display identifiers', () => {
-      expect(TitleShowPage.hasIdentifiersList).to.be.false;
-    });
+    describe('the page always', () => {
+      beforeEach(async function () {
+        await TitleShowPage.whenLoaded();
+      });
 
-    it.always('does not display contributors', () => {
-      expect(TitleShowPage.contributorsList().length).to.equal(0);
-    });
+      it.always('does not display identifiers', () => {
+        expect(TitleShowPage.hasIdentifiersList).to.be.false;
+      });
 
-    it.always('does not display package list', () => {
-      expect(TitleShowPage.packageList().length).to.equal(0);
-    });
+      it.always('does not display contributors', () => {
+        expect(TitleShowPage.contributorsList().length).to.equal(0);
+      });
 
-    it.always('does not display subjects list', () => {
-      expect(TitleShowPage.hasSubjectsList).to.be.false;
+      it.always('does not display package list', () => {
+        expect(TitleShowPage.packageList().length).to.equal(0);
+      });
+
+      it.always('does not display subjects list', () => {
+        expect(TitleShowPage.hasSubjectsList).to.be.false;
+      });
     });
   });
 
@@ -250,9 +255,7 @@ describeApplication('TitleShow', () => {
     beforeEach(function () {
       this.server.loadFixtures();
 
-      return this.visit('/eholdings/titles/paged_title', () => {
-        expect(TitleShowPage.$root).to.exist;
-      });
+      this.visit('/eholdings/titles/paged_title');
     });
 
     it('should display the first page of related packages', () => {
@@ -280,9 +283,7 @@ describeApplication('TitleShow', () => {
         subcode: 0
       }], 500);
 
-      return this.visit(`/eholdings/titles/${title.titleId}`, () => {
-        expect(TitleShowPage.$root).to.exist;
-      });
+      this.visit(`/eholdings/titles/${title.titleId}`);
     });
 
     it('displays the correct error text', () => {

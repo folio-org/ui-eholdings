@@ -1,10 +1,11 @@
 import { beforeEach, describe, it } from '@bigtest/mocha';
 import { expect } from 'chai';
 
-import { describeApplication } from '../helpers/describe-application';
+import setupApplication from '../helpers/setup-application';
 import PackageShowPage from '../interactors/package-show';
 
-describeApplication('PackageCustomCoverage', () => {
+describe('PackageCustomCoverage', () => {
+  setupApplication();
   let provider,
     pkg;
 
@@ -23,9 +24,7 @@ describeApplication('PackageCustomCoverage', () => {
         isSelected: false
       });
 
-      return this.visit(`/eholdings/packages/${pkg.id}`, () => {
-        expect(PackageShowPage.$root).to.exist;
-      });
+      this.visit(`/eholdings/packages/${pkg.id}`);
     });
 
     it('should not display custom coverage', () => {
@@ -48,9 +47,7 @@ describeApplication('PackageCustomCoverage', () => {
         isSelected: true
       });
 
-      return this.visit(`/eholdings/packages/${pkg.id}`, () => {
-        expect(PackageShowPage.$root).to.exist;
-      });
+      this.visit(`/eholdings/packages/${pkg.id}`);
     });
 
     it('displays the custom coverage section', () => {
@@ -95,9 +92,7 @@ describeApplication('PackageCustomCoverage', () => {
         isSelected: true
       });
 
-      return this.visit(`/eholdings/packages/${pkg.id}`, () => {
-        expect(PackageShowPage.$root).to.exist;
-      });
+      this.visit(`/eholdings/packages/${pkg.id}`);
     });
 
     it.always('does not display the custom coverage section', () => {

@@ -1,10 +1,11 @@
 import { beforeEach, describe, it } from '@bigtest/mocha';
 import { expect } from 'chai';
 
-import { describeApplication } from '../helpers/describe-application';
+import setupApplication from '../helpers/setup-application';
 import ProviderShowPage from '../interactors/provider-show';
 
-describeApplication('ProviderShow', () => {
+describe('ProviderShow', () => {
+  setupApplication();
   let provider,
     packages;
 
@@ -20,9 +21,7 @@ describeApplication('ProviderShow', () => {
 
   describe('visiting the provider details page', () => {
     beforeEach(function () {
-      return this.visit(`/eholdings/providers/${provider.id}`, () => {
-        expect(ProviderShowPage.$root).to.exist;
-      });
+      this.visit(`/eholdings/providers/${provider.id}`);
     });
 
     it('displays the provider name in the pane header', () => {
@@ -94,9 +93,7 @@ describeApplication('ProviderShow', () => {
     beforeEach(function () {
       this.server.loadFixtures();
 
-      return this.visit('/eholdings/providers/paged_provider', () => {
-        expect(ProviderShowPage.$root).to.exist;
-      });
+      this.visit('/eholdings/providers/paged_provider');
     });
 
     it('should display the first page of related packages', () => {
@@ -123,9 +120,7 @@ describeApplication('ProviderShow', () => {
       provider.packagesSelected = 9000;
       provider.packagesTotal = 10000;
 
-      return this.visit(`/eholdings/providers/${provider.id}`, () => {
-        expect(ProviderShowPage.$root).to.exist;
-      });
+      this.visit(`/eholdings/providers/${provider.id}`);
     });
 
     describe('viewing large providers', () => {
@@ -148,9 +143,7 @@ describeApplication('ProviderShow', () => {
       provider.update('proxy', proxy.toJSON());
       provider.save();
 
-      return this.visit(`/eholdings/providers/${provider.id}`, () => {
-        expect(ProviderShowPage.$root).to.exist;
-      });
+      this.visit(`/eholdings/providers/${provider.id}`);
     });
 
     it('displays the proxy prepended with Inheritied', () => {
@@ -168,9 +161,7 @@ describeApplication('ProviderShow', () => {
       provider.update('proxy', proxy.toJSON());
       provider.save();
 
-      return this.visit(`/eholdings/providers/${provider.id}`, () => {
-        expect(ProviderShowPage.$root).to.exist;
-      });
+      this.visit(`/eholdings/providers/${provider.id}`);
     });
 
     it('displays the proxy as None', () => {
@@ -189,9 +180,7 @@ describeApplication('ProviderShow', () => {
       provider.update('providerToken', token.toJSON());
       provider.save();
 
-      return this.visit(`/eholdings/providers/${provider.id}`, () => {
-        expect(ProviderShowPage.$root).to.exist;
-      });
+      this.visit(`/eholdings/providers/${provider.id}`);
     });
 
     it('does not display the token', () => {
@@ -208,9 +197,7 @@ describeApplication('ProviderShow', () => {
       provider.update('providerToken', null);
       provider.save();
 
-      return this.visit(`/eholdings/providers/${provider.id}`, () => {
-        expect(ProviderShowPage.$root).to.exist;
-      });
+      this.visit(`/eholdings/providers/${provider.id}`);
     });
 
     it('does not display the token', () => {
@@ -220,12 +207,10 @@ describeApplication('ProviderShow', () => {
 
   describe('navigating to provider details page', () => {
     beforeEach(function () {
-      return this.visit({
+      this.visit({
         pathname: `/eholdings/providers/${provider.id}`,
         // our internal link component automatically sets the location state
         state: { eholdings: true }
-      }, () => {
-        expect(ProviderShowPage.$root).to.exist;
       });
     });
 
@@ -243,9 +228,7 @@ describeApplication('ProviderShow', () => {
         }]
       }, 500);
 
-      return this.visit(`/eholdings/providers/${provider.id}`, () => {
-        expect(ProviderShowPage.$root).to.exist;
-      });
+      this.visit(`/eholdings/providers/${provider.id}`);
     });
 
     it('has an error', () => {

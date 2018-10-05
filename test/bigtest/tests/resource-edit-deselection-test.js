@@ -1,11 +1,12 @@
 import { beforeEach, describe, it } from '@bigtest/mocha';
 import { expect } from 'chai';
 
-import { describeApplication } from '../helpers/describe-application';
+import setupApplication from '../helpers/setup-application';
 import ResourceShowPage from '../interactors/resource-show';
 import ResourceEditPage from '../interactors/resource-edit';
 
-describeApplication('ResourceEditDeselection', () => {
+describe('ResourceEditDeselection', () => {
+  setupApplication();
   let provider,
     title,
     providerPackage,
@@ -37,9 +38,7 @@ describeApplication('ResourceEditDeselection', () => {
 
   describe('visiting the resource page', () => {
     beforeEach(function () {
-      return this.visit(`/eholdings/resources/${resource.id}/edit`, () => {
-        expect(ResourceEditPage.$root).to.exist;
-      });
+      this.visit(`/eholdings/resources/${resource.id}/edit`);
     });
 
     it('indicates that the resource is selected', () => {

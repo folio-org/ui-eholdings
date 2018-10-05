@@ -1,10 +1,11 @@
 import { beforeEach, describe, it } from '@bigtest/mocha';
 import { expect } from 'chai';
 
-import { describeApplication } from '../helpers/describe-application';
+import setupApplication from '../helpers/setup-application';
 import ResourceShowPage from '../interactors/resource-show';
 
-describeApplication('ResourceVisibility', () => {
+describe('ResourceVisibility', () => {
+  setupApplication();
   let pkg,
     title,
     resource;
@@ -22,9 +23,7 @@ describeApplication('ResourceVisibility', () => {
         title
       });
 
-      return this.visit(`/eholdings/resources/${resource.id}`, () => {
-        expect(ResourceShowPage.$root).to.exist;
-      });
+      this.visit(`/eholdings/resources/${resource.id}`);
     });
 
     it('shows titles in package to patrons', () => {
@@ -40,9 +39,7 @@ describeApplication('ResourceVisibility', () => {
         title
       });
 
-      return this.visit(`/eholdings/resources/${resource.id}`, () => {
-        expect(ResourceShowPage.$root).to.exist;
-      });
+      this.visit(`/eholdings/resources/${resource.id}`);
     });
 
     it('does not show titles in package to patrons', () => {
@@ -58,9 +55,7 @@ describeApplication('ResourceVisibility', () => {
         title
       });
 
-      return this.visit(`/eholdings/resources/${resource.id}`, () => {
-        expect(ResourceShowPage.$root).to.exist;
-      });
+      this.visit(`/eholdings/resources/${resource.id}`);
     });
 
     it('does not show titles in package to patrons', () => {
@@ -80,9 +75,7 @@ describeApplication('ResourceVisibility', () => {
         title
       });
 
-      return this.visit(`/eholdings/resources/${resource.id}`, () => {
-        expect(ResourceShowPage.$root).to.exist;
-      });
+      this.visit(`/eholdings/resources/${resource.id}`);
     });
 
     it('displays it is not visibile to patrons', () => {
@@ -104,9 +97,7 @@ describeApplication('ResourceVisibility', () => {
         isSelected: true
       });
 
-      return this.visit(`/eholdings/resources/${resource.id}`, () => {
-        expect(ResourceShowPage.$root).to.exist;
-      });
+      this.visit(`/eholdings/resources/${resource.id}`);
     });
 
     it('displays it is not visibile to patrons', () => {

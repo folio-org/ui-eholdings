@@ -1,12 +1,13 @@
 import { beforeEach, describe, it } from '@bigtest/mocha';
 import { expect } from 'chai';
 
-import { describeApplication } from '../helpers/describe-application';
+import setupApplication from '../helpers/setup-application';
 import PackageSearchPage from '../interactors/package-search';
 import PackageShowPage from '../interactors/package-show';
 import ResourceShowPage from '../interactors/resource-show';
 
-describeApplication('PackageSearch', () => {
+describe('PackageSearch', () => {
+  setupApplication();
   let pkgs;
 
   beforeEach(function () {
@@ -22,9 +23,7 @@ describeApplication('PackageSearch', () => {
       name: 'SomethingElse'
     });
 
-    return this.visit('/eholdings/?searchType=packages', () => {
-      expect(PackageSearchPage.isPresent).to.be.true;
-    });
+    this.visit('/eholdings/?searchType=packages');
   });
 
   it('has a searchbox', () => {
@@ -142,7 +141,7 @@ describeApplication('PackageSearch', () => {
         it('preserves the last history entry', function () {
           // this is a check to make sure duplicate entries are not added
           // to the history. Ensuring the back button works as expected
-          let history = this.app.history;
+          let history = this.app.props.history;
           expect(history.entries[history.index - 1].search).to.include('q=Package');
         });
       });
@@ -234,7 +233,7 @@ describeApplication('PackageSearch', () => {
       });
 
       it('reflects the filter in the URL query params', function () {
-        expect(this.app.history.location.search).to.include('filter[type]=ebook');
+        expect(this.location.search).to.include('filter[type]=ebook');
       });
 
       it.skip('shows search filters on smaller screen sizes (due to filter change only)', () => {
@@ -247,7 +246,7 @@ describeApplication('PackageSearch', () => {
         });
 
         it.always('removes the filter from the URL query params', function () {
-          expect(this.app.history.location.search).to.not.include('filter[type]');
+          expect(this.location.search).to.not.include('filter[type]');
         });
       });
 
@@ -265,9 +264,7 @@ describeApplication('PackageSearch', () => {
 
       describe('visiting the page with an existing filter', () => {
         beforeEach(function () {
-          return this.visit('/eholdings/?searchType=packages&q=Package&filter[type]=ejournal', () => {
-            expect(PackageSearchPage.isPresent).to.be.true;
-          });
+          this.visit('/eholdings/?searchType=packages&q=Package&filter[type]=ejournal');
         });
 
         it('shows the existing filter in the search form', () => {
@@ -291,7 +288,7 @@ describeApplication('PackageSearch', () => {
       });
 
       it('reflects the filter in the URL query params', function () {
-        expect(this.app.history.location.search).to.include('filter[selected]=true');
+        expect(this.location.search).to.include('filter[selected]=true');
       });
 
       describe('clearing the filters', () => {
@@ -300,15 +297,13 @@ describeApplication('PackageSearch', () => {
         });
 
         it.always('removes the filter from the URL query params', function () {
-          expect(this.app.history.location.search).to.not.include('filter[selected]');
+          expect(this.location.search).to.not.include('filter[selected]');
         });
       });
 
       describe('visiting the page with an existing filter', () => {
         beforeEach(function () {
-          return this.visit('/eholdings/?searchType=packages&q=Package&filter[selected]=false', () => {
-            expect(PackageSearchPage.isPresent).to.be.true;
-          });
+          this.visit('/eholdings/?searchType=packages&q=Package&filter[selected]=false');
         });
 
         it('shows the existing filter in the search form', () => {
@@ -418,7 +413,7 @@ describeApplication('PackageSearch', () => {
       });
 
       it.always('does not reflect the default sort=relevance in url', function () {
-        expect(this.app.history.location.search).to.not.include('sort=relevance');
+        expect(this.location.search).to.not.include('sort=relevance');
       });
 
       describe('then filtering by sort options', () => {
@@ -438,7 +433,7 @@ describeApplication('PackageSearch', () => {
         });
 
         it('reflects the sort in the URL query params', function () {
-          expect(this.app.history.location.search).to.include('sort=name');
+          expect(this.location.search).to.include('sort=name');
         });
 
         describe('then searching for other packages', () => {
@@ -483,7 +478,7 @@ describeApplication('PackageSearch', () => {
               });
 
               it('reflects the sort=name in the URL query params', function () {
-                expect(this.app.history.location.search).to.include('sort=name');
+                expect(this.location.search).to.include('sort=name');
               });
             });
           });
@@ -493,9 +488,9 @@ describeApplication('PackageSearch', () => {
 
     describe('visiting the page with an existing sort', () => {
       beforeEach(function () {
-        return this.visit('/eholdings/?searchType=packages&q=academic&sort=name', () => {
-          expect(PackageSearchPage.isPresent).to.be.true;
-        });
+        this.visit('/eholdings/?searchType=packages&q=academic&sort=name');
+        // the search pane is ending up hidden by default
+        return PackageSearchPage.searchBadge.clickIcon();
       });
 
       it('displays search field populated', () => {
@@ -558,16 +553,14 @@ describeApplication('PackageSearch', () => {
         });
 
         it('updates the offset in the URL', function () {
-          expect(this.app.history.location.search).to.include('offset=26');
+          expect(this.location.search).to.include('offset=26');
         });
       });
     });
 
     describe('navigating directly to a search page', () => {
       beforeEach(function () {
-        return this.visit('/eholdings/?searchType=packages&offset=51&q=other', () => {
-          expect(PackageSearchPage.isPresent).to.be.true;
-        });
+        this.visit('/eholdings/?searchType=packages&offset=51&q=other');
       });
 
       it('should show the search results for that page', () => {
@@ -576,7 +569,7 @@ describeApplication('PackageSearch', () => {
       });
 
       it('should retain the proper offset', function () {
-        expect(this.app.history.location.search).to.include('offset=51');
+        expect(this.location.search).to.include('offset=51');
       });
 
       describe('and then scrolling up', () => {
@@ -584,17 +577,16 @@ describeApplication('PackageSearch', () => {
           return PackageSearchPage.scrollToOffset(0);
         });
 
-        // it might take a bit for the next request to be triggered after the scroll
-        it.always('shows the total results', () => {
+        it('shows the total results', () => {
           expect(PackageSearchPage.totalResults).to.equal('75 search results');
-        }, 500);
+        });
 
         it('shows the prev page of results', () => {
           expect(PackageSearchPage.packageList(0).name).to.equal('Other Package 5');
         });
 
         it('updates the offset in the URL', function () {
-          expect(this.app.history.location.search).to.include('offset=0');
+          expect(this.location.search).to.include('offset=0');
         });
       });
     });

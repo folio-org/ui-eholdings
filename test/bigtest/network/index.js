@@ -1,16 +1,28 @@
-/* global require */
+import { camelize } from '@bigtest/mirage';
 
-let start = () => {}; // eslint-disable-line import/no-mutable-exports
+// auto-import all mirage submodules
+const req = require.context('./', true, /\.js$/);
+const modules = req.keys().reduce((acc, modulePath) => {
+  const moduleParts = modulePath.split('/');
+  const moduleType = moduleParts[1];
+  const moduleName = moduleParts[2];
 
-// Currently we run mirage in production because the server side is
-// incomplete.
-//
-// However, when we switch over to the actual API, then we'll want to
-// protect this require with an if statement so that webpack won't attempt to
-// bundle mirage at all.
-//
-if (process.env.NODE_ENV !== 'production') {
-  start = require('./start').default; // eslint-disable-line global-require
-}
+  if (moduleName) {
+    const moduleKey = camelize(moduleName.replace('.js', ''));
 
-export default start;
+    return Object.assign(acc, {
+      [moduleType]: {
+        ...(acc[moduleType] || {}),
+        [moduleKey]: req(modulePath).default
+      }
+    });
+  } else if (modulePath === './config.js') {
+    return Object.assign(acc, {
+      baseConfig: req(modulePath).default
+    });
+  } else {
+    return acc;
+  }
+}, {});
+
+export default modules;

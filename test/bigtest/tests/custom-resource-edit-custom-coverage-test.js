@@ -1,10 +1,11 @@
 import { beforeEach, describe, it } from '@bigtest/mocha';
 import { expect } from 'chai';
-import { describeApplication } from '../helpers/describe-application';
+import setupApplication from '../helpers/setup-application';
 import ResourceEditPage from '../interactors/resource-edit';
 import ResourcePage from '../interactors/resource-show';
 
-describeApplication('CustomResourceEditCustomCoverage', () => {
+describe('CustomResourceEditCustomCoverage', () => {
+  setupApplication();
   let pkg,
     title,
     resource;
@@ -35,9 +36,7 @@ describeApplication('CustomResourceEditCustomCoverage', () => {
       resource.isSelected = true;
       resource.save();
 
-      return this.visit(`/eholdings/resources/${resource.id}/edit`, () => {
-        expect(ResourceEditPage.$root).to.exist;
-      });
+      this.visit(`/eholdings/resources/${resource.id}/edit`);
     });
 
     it('disables the save button', () => {
@@ -226,9 +225,7 @@ describeApplication('CustomResourceEditCustomCoverage', () => {
       resource.update('customCoverages', customCoverages.map(item => item.toJSON()));
       resource.save();
 
-      return this.visit(`/eholdings/resources/${resource.id}/edit`, () => {
-        expect(ResourcePage.$root).to.exist;
-      });
+      this.visit(`/eholdings/resources/${resource.id}/edit`);
     });
 
     it('displays the date ranges', () => {
@@ -281,9 +278,7 @@ describeApplication('CustomResourceEditCustomCoverage', () => {
       resource.update('customCoverages', customCoverages.map(item => item.toJSON()));
       resource.save();
 
-      return this.visit(`/eholdings/resources/${resource.id}/edit`, () => {
-        expect(ResourcePage.$root).to.exist;
-      });
+      this.visit(`/eholdings/resources/${resource.id}/edit`);
     });
 
     it('displays 2 rows for date ranges', () => {

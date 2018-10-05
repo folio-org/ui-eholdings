@@ -1,12 +1,13 @@
 import { beforeEach, describe, it } from '@bigtest/mocha';
 import { expect } from 'chai';
 
-import { describeApplication } from '../helpers/describe-application';
+import setupApplication from '../helpers/setup-application';
 import ResourcePage from '../interactors/resource-show';
 import ResourceEditPage from '../interactors/resource-edit';
 import PackageSearchPage from '../interactors/package-search';
 
-describeApplication('ResourceEditManagedTitleInCustomPackage', () => {
+describe('ResourceEditManagedTitleInCustomPackage', () => {
+  setupApplication();
   let provider,
     providerPackage,
     resource;
@@ -42,9 +43,7 @@ describeApplication('ResourceEditManagedTitleInCustomPackage', () => {
 
   describe('visiting the package details page', () => {
     beforeEach(function () {
-      return this.visit(`/eholdings/resources/${resource.titleId}/edit`, () => {
-        expect(ResourceEditPage.$root).to.exist;
-      });
+      this.visit(`/eholdings/resources/${resource.titleId}/edit`);
     });
 
     it('shows the managed resource as selected in my holdings', () => {

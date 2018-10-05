@@ -1,15 +1,18 @@
 import { beforeEach, describe, it } from '@bigtest/mocha';
 import { expect } from 'chai';
 
-import { describeApplication } from '../helpers/describe-application';
+import setupApplication from '../helpers/setup-application';
+import setupBlockServer from '../helpers/setup-block-server';
 import ResourcePage from '../interactors/resource-show';
 
-describeApplication('ResourceSelection', () => {
+describe('ResourceSelection', () => {
+  setupApplication();
   let provider,
     providerPackage,
     resource;
 
   beforeEach(function () {
+    setupBlockServer(this.server);
     provider = this.server.create('provider', {
       name: 'Cool Provider'
     });
@@ -34,9 +37,7 @@ describeApplication('ResourceSelection', () => {
 
   describe('visiting the resource page', () => {
     beforeEach(function () {
-      return this.visit(`/eholdings/resources/${resource.id}`, () => {
-        expect(ResourcePage.$root).to.exist;
-      });
+      this.visit(`/eholdings/resources/${resource.id}`);
     });
 
     it('indicates that the resource is not yet selected', () => {
@@ -46,9 +47,10 @@ describeApplication('ResourceSelection', () => {
     window.ResourcePage = ResourcePage;
 
     describe('successfully selecting a package title to add to my holdings via the drop down', () => {
-      beforeEach(function () {
+      beforeEach(async function () {
+        await ResourcePage.whenLoaded();
         this.server.block();
-        return ResourcePage
+        await ResourcePage
           .dropDown.clickDropDownButton()
           .dropDownMenu.clickAddToHoldings();
       });
@@ -69,6 +71,7 @@ describeApplication('ResourceSelection', () => {
         beforeEach(function () {
           this.server.unblock();
         });
+
         it('reflects the desired state was set', () => {
           expect(ResourcePage.isResourceSelected).to.equal('Selected');
         });
@@ -84,9 +87,10 @@ describeApplication('ResourceSelection', () => {
     });
 
     describe('successfully selecting a package title to add to my holdings via add to holdings button', () => {
-      beforeEach(function () {
+      beforeEach(async function () {
+        await ResourcePage.whenLoaded();
         this.server.block();
-        return ResourcePage.clickAddToHoldingsButton();
+        await ResourcePage.clickAddToHoldingsButton();
       });
 
       it('indicates it is working to get to desired state', () => {
@@ -94,7 +98,7 @@ describeApplication('ResourceSelection', () => {
       });
 
       it('cannot be interacted with while the request is in flight', () => {
-        expect(ResourcePage.isAddToHoldingsButtonDisabled).to.equal(true);
+        expect(ResourcePage.isAddToHoldingsButtonDisabled).to.be.true;
       });
 
       describe('when the request succeeds', () => {
@@ -113,14 +117,15 @@ describeApplication('ResourceSelection', () => {
     });
 
     describe('unsuccessfully selecting a package title to add to my holdings', () => {
-      let resolveRequest;
-      beforeEach(function () {
-        this.server.put('/resources/:id', () => {
-          return new Promise((resolve) => {
-            resolveRequest = resolve;
-          });
+      beforeEach(async function () {
+        this.server.put('/resources/:id', {
+          errors: [{
+            title: 'There was an error'
+          }]
         }, 500);
-        return ResourcePage.dropDownMenu.clickAddToHoldings();
+        await ResourcePage.whenLoaded();
+        this.server.block();
+        await ResourcePage.dropDownMenu.clickAddToHoldings();
       });
 
       it('indicates it is working to get to desired state', () => {
@@ -132,14 +137,8 @@ describeApplication('ResourceSelection', () => {
       });
 
       describe('when the request succeeds', () => {
-        beforeEach(() => {
-          let response = {
-            errors: [{
-              title: 'There was an error'
-            }]
-          };
-
-          return resolveRequest(response);
+        beforeEach(function () {
+          this.server.unblock();
         });
 
         it('reflects the desired state was not set', () => {

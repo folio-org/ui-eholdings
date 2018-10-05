@@ -1,11 +1,12 @@
 import { expect } from 'chai';
 import { describe, beforeEach, it } from '@bigtest/mocha';
 
-import { describeApplication } from '../helpers/describe-application';
+import setupApplication from '../helpers/setup-application';
 import PackageShowPage from '../interactors/package-show';
 import PackageEditPage from '../interactors/package-edit';
 
-describeApplication('ManagedPackageEditAllowKbToAddTitles', () => {
+describe('ManagedPackageEditAllowKbToAddTitles', () => {
+  setupApplication();
   let provider,
     providerPackage;
 
@@ -25,9 +26,7 @@ describeApplication('ManagedPackageEditAllowKbToAddTitles', () => {
         allowKbToAddTitles: true
       });
 
-      return this.visit(`/eholdings/packages/${providerPackage.id}/edit`, () => {
-        expect(PackageEditPage.$root).to.exist;
-      });
+      this.visit(`/eholdings/packages/${providerPackage.id}/edit`);
     });
 
     it('allowKbToAddTitles is selected to be true', () => {
@@ -88,9 +87,7 @@ describeApplication('ManagedPackageEditAllowKbToAddTitles', () => {
         isSelected: true,
         allowKbToAddTitles: false
       });
-      return this.visit(`/eholdings/packages/${providerPackage.id}/edit`, () => {
-        expect(PackageEditPage.$root).to.exist;
-      });
+      this.visit(`/eholdings/packages/${providerPackage.id}/edit`);
     });
 
     it('allowKbToAddTitles is selected to no', () => {
@@ -151,9 +148,7 @@ describeApplication('ManagedPackageEditAllowKbToAddTitles', () => {
         isSelected: false,
         allowKbToAddTitles: false
       });
-      return this.visit(`/eholdings/packages/${providerPackage.id}/edit`, () => {
-        expect(PackageEditPage.$root).to.exist;
-      });
+      this.visit(`/eholdings/packages/${providerPackage.id}/edit`);
     });
 
     it.always('does not display the allow KB to add titles toggle switch', () => {

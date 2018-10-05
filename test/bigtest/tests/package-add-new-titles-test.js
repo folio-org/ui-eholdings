@@ -1,10 +1,11 @@
 import { expect } from 'chai';
 import { beforeEach, describe, it } from '@bigtest/mocha';
 
-import { describeApplication } from '../helpers/describe-application';
+import setupApplication from '../helpers/setup-application';
 import PackageShowPage from '../interactors/package-show';
 
-describeApplication('PackageShowAllowKbToAddTitles', () => {
+describe('PackageShowAllowKbToAddTitles', () => {
+  setupApplication();
   let provider,
     pkg;
 
@@ -24,9 +25,7 @@ describeApplication('PackageShowAllowKbToAddTitles', () => {
         allowKbToAddTitles: true
       });
 
-      return this.visit(`/eholdings/packages/${pkg.id}`, () => {
-        expect(PackageShowPage.$root).to.exist;
-      });
+      this.visit(`/eholdings/packages/${pkg.id}`);
     });
 
     it('displays YES for allowing kb to select new titles', () => {
@@ -44,9 +43,7 @@ describeApplication('PackageShowAllowKbToAddTitles', () => {
         allowKbToAddTitles: false
       });
 
-      return this.visit(`/eholdings/packages/${pkg.id}`, () => {
-        expect(PackageShowPage.$root).to.exist;
-      });
+      this.visit(`/eholdings/packages/${pkg.id}`);
     });
 
     it('displays NO for allowing kb to select new titles', () => {
@@ -63,9 +60,7 @@ describeApplication('PackageShowAllowKbToAddTitles', () => {
         isSelected: false
       });
 
-      return this.visit(`/eholdings/packages/${pkg.id}`, () => {
-        expect(PackageShowPage.$root).to.exist;
-      });
+      this.visit(`/eholdings/packages/${pkg.id}`);
     });
 
     it('sets the state of allow KB to add titles to false', () => {
@@ -87,14 +82,12 @@ describeApplication('PackageShowAllowKbToAddTitles', () => {
         allowKbToAddTitles: false
       });
 
-      return this.visit(`/eholdings/packages/${pkg.id}`, () => {
-        expect(PackageShowPage.$root).to.exist;
-      });
+      this.visit(`/eholdings/packages/${pkg.id}`);
     });
 
     describe('selecting a package', () => {
       beforeEach(() => {
-        return PackageShowPage.selectPackage();
+        return PackageShowPage.whenLoaded().selectPackage();
       });
 
       it('reflects the desired state (Selected)', () => {
@@ -117,9 +110,7 @@ describeApplication('PackageShowAllowKbToAddTitles', () => {
         allowKbToAddTitles: true
       });
 
-      return this.visit(`/eholdings/packages/${pkg.id}`, () => {
-        expect(PackageShowPage.$root).to.exist;
-      });
+      this.visit(`/eholdings/packages/${pkg.id}`);
     });
 
     it('displays YES for allowing kb to select new titles', () => {
@@ -157,9 +148,7 @@ describeApplication('PackageShowAllowKbToAddTitles', () => {
         allowKbToAddTitles: true,
         titleCount: 5
       });
-      return this.visit(`/eholdings/packages/${pkg.id}`, () => {
-        expect(PackageShowPage.$root).to.exist;
-      });
+      this.visit(`/eholdings/packages/${pkg.id}`);
     });
 
     it('displays YES for allowing kb to select new titles', () => {
@@ -177,9 +166,7 @@ describeApplication('PackageShowAllowKbToAddTitles', () => {
         allowKbToAddTitles: false,
         titleCount: 5
       });
-      return this.visit(`/eholdings/packages/${pkg.id}`, () => {
-        expect(PackageShowPage.$root).to.exist;
-      });
+      this.visit(`/eholdings/packages/${pkg.id}`);
     });
 
     it('displays NO for allowing kb to select new titles', () => {

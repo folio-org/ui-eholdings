@@ -1,11 +1,12 @@
 import { expect } from 'chai';
 import { describe, beforeEach, it } from '@bigtest/mocha';
 
-import { describeApplication } from '../helpers/describe-application';
+import setupApplication from '../helpers/setup-application';
 import ResourceShowPage from '../interactors/resource-show';
 import ResourceEditPage from '../interactors/resource-edit';
 
-describeApplication('ResourceEditCustomTitle', () => {
+describe('ResourceEditCustomTitle', () => {
+  setupApplication();
   let provider,
     providerPackage,
     resource;
@@ -69,9 +70,7 @@ describeApplication('ResourceEditCustomTitle', () => {
         url: 'https://frontside.io'
       });
 
-      return this.visit(`/eholdings/resources/${resource.titleId}/edit`, () => {
-        expect(ResourceEditPage.$root).to.exist;
-      });
+      this.visit(`/eholdings/resources/${resource.titleId}/edit`);
     });
 
     describe('with the resource unselected', () => {
@@ -91,9 +90,7 @@ describeApplication('ResourceEditCustomTitle', () => {
 
   describe('visiting the resource edit page without coverage dates or statements', () => {
     beforeEach(function () {
-      return this.visit(`/eholdings/resources/${resource.titleId}/edit`, () => {
-        expect(ResourceEditPage.$root).to.exist;
-      });
+      this.visit(`/eholdings/resources/${resource.titleId}/edit`);
     });
 
     it('shows a form with coverage statement', () => {
@@ -188,58 +185,64 @@ describeApplication('ResourceEditCustomTitle', () => {
       });
     });
 
-    describe('entering valid data', () => {
-      beforeEach(() => {
-        return ResourceEditPage
-          .clickAddRowButton()
-          .toggleIsVisible()
-          .dateRangeRowList(0).fillDates('12/16/2018', '12/18/2018')
-          .inputCoverageStatement('Only 90s kids would understand.')
-          .clickAddCustomEmbargoButton()
-          .inputEmbargoValue('27')
-          .inputCustomUrlValue('https://bigtestjs.io')
-          .blurEmbargoValue()
-          .selectEmbargoUnit('Weeks')
-          .blurEmbargoUnit();
+    describe('valid data', () => {
+      beforeEach(async function () {
+        await ResourceEditPage.whenLoaded();
       });
 
-      describe('clicking cancel', () => {
+      describe('entering it', () => {
         beforeEach(() => {
-          return ResourceEditPage.clickCancel();
+          return ResourceEditPage
+            .clickAddRowButton()
+            .toggleIsVisible()
+            .dateRangeRowList(0).fillDates('12/16/2018', '12/18/2018')
+            .inputCoverageStatement('Only 90s kids would understand.')
+            .clickAddCustomEmbargoButton()
+            .inputEmbargoValue('27')
+            .inputCustomUrlValue('https://bigtestjs.io')
+            .blurEmbargoValue()
+            .selectEmbargoUnit('Weeks')
+            .blurEmbargoUnit();
         });
 
-        it('shows a navigation confirmation modal', () => {
-          expect(ResourceEditPage.navigationModal.$root).to.exist;
-        });
-      });
+        describe('clicking cancel', () => {
+          beforeEach(() => {
+            return ResourceEditPage.clickCancel();
+          });
 
-      describe('clicking save', () => {
-        beforeEach(() => {
-          return ResourceEditPage.clickSave();
-        });
-
-        it('goes to the resource show page', () => {
-          expect(ResourceShowPage.$root).to.exist;
+          it('shows a navigation confirmation modal', () => {
+            expect(ResourceEditPage.navigationModal.$root).to.exist;
+          });
         });
 
-        it('displays the saved date range', () => {
-          expect(ResourceShowPage.customCoverageList).to.equal('2018');
-        });
+        describe('clicking save', () => {
+          beforeEach(() => {
+            return ResourceEditPage.clickSave();
+          });
 
-        it('displays the saved visibility', () => {
-          expect(ResourceShowPage.isResourceVisible).to.equal(true);
-        });
+          it('goes to the resource show page', () => {
+            expect(ResourceShowPage.$root).to.exist;
+          });
 
-        it('shows the new statement value', () => {
-          expect(ResourceShowPage.coverageStatement).to.equal('Only 90s kids would understand.');
-        });
+          it('displays the saved date range', () => {
+            expect(ResourceShowPage.customCoverageList).to.equal('2018');
+          });
 
-        it('shows the new embargo value', () => {
-          expect(ResourceShowPage.customEmbargoPeriod).to.equal('27 Weeks');
-        });
+          it('displays the saved visibility', () => {
+            expect(ResourceShowPage.isResourceVisible).to.equal(true);
+          });
 
-        it('shows the new url value', () => {
-          expect(ResourceShowPage.url).to.equal('https://bigtestjs.io');
+          it('shows the new statement value', () => {
+            expect(ResourceShowPage.coverageStatement).to.equal('Only 90s kids would understand.');
+          });
+
+          it('shows the new embargo value', () => {
+            expect(ResourceShowPage.customEmbargoPeriod).to.equal('27 Weeks');
+          });
+
+          it('shows the new url value', () => {
+            expect(ResourceShowPage.url).to.equal('https://bigtestjs.io');
+          });
         });
       });
     });
@@ -260,9 +263,7 @@ describeApplication('ResourceEditCustomTitle', () => {
       }).toJSON();
       resource.save();
 
-      return this.visit(`/eholdings/resources/${resource.titleId}/edit`, () => {
-        expect(ResourceEditPage.$root).to.exist;
-      });
+      this.visit(`/eholdings/resources/${resource.titleId}/edit`);
     });
 
     it('shows a form with embargo fields', () => {
@@ -379,9 +380,7 @@ describeApplication('ResourceEditCustomTitle', () => {
         }]
       }, 500);
 
-      return this.visit(`/eholdings/resources/${resource.id}/edit`, () => {
-        expect(ResourceEditPage.$root).to.exist;
-      });
+      this.visit(`/eholdings/resources/${resource.id}/edit`);
     });
 
     it('dies with dignity', () => {
@@ -397,9 +396,7 @@ describeApplication('ResourceEditCustomTitle', () => {
         }]
       }, 500);
 
-      return this.visit(`/eholdings/resources/${resource.id}/edit`, () => {
-        expect(ResourceEditPage.$root).to.exist;
-      });
+      this.visit(`/eholdings/resources/${resource.id}/edit`);
     });
 
     describe('entering valid data and clicking save', () => {

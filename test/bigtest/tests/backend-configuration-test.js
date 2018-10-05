@@ -2,106 +2,108 @@ import { beforeEach, describe, it } from '@bigtest/mocha';
 import { expect } from 'chai';
 import { Response } from '@bigtest/mirage';
 
-import { describeApplication } from '../helpers/describe-application';
+import setupApplication from '../helpers/setup-application';
 import ApplicationPage from '../interactors/application';
 import SettingsPage from '../interactors/settings';
 
-describeApplication('Error retrieving backend', {
-  scenarios: ['load-error-backend'],
+describe('Error retrieving backend', () => {
+  setupApplication({
+    scenarios: ['load-error-backend']
+  });
 
-  suite() {
-    describe('when trying to use the app', () => {
-      beforeEach(function () {
-        return this.visit('/eholdings', () => expect(ApplicationPage.$root).to.exist);
-      });
-
-      it('informs user that an error has occurred', () => {
-        expect(ApplicationPage.hasBackendLoadError).to.be.true;
-      });
+  describe('when trying to use the app', () => {
+    beforeEach(function () {
+      this.visit('/eholdings');
     });
-  }
+
+    it('informs user that an error has occurred', () => {
+      expect(ApplicationPage.hasBackendLoadError).to.be.true;
+    });
+  });
 });
 
-describeApplication('With no backend at all', {
-  scenarios: ['no-backend'],
+describe('With no backend at all', () => {
+  setupApplication({
+    scenarios: ['no-backend']
+  });
 
-  suite() {
-    describe('when trying to use the app', () => {
-      beforeEach(function () {
-        return this.visit('/eholdings', () => expect(ApplicationPage.$root).to.exist);
-      });
-
-      it('blocks access to the eholdings app and tells me that I need to install a backend', () => {
-        expect(ApplicationPage.doesNotHaveBackend).to.be.true;
-      });
+  describe('when trying to use the app', () => {
+    beforeEach(function () {
+      this.visit('/eholdings');
     });
-  }
+
+    it('blocks access to the eholdings app and tells me that I need to install a backend', () => {
+      expect(ApplicationPage.doesNotHaveBackend).to.be.true;
+    });
+  });
 });
 
-describeApplication('With unconfigured backend', {
-  scenarios: ['unconfigured-backend'],
+describe('With unconfigured backend', () => {
+  setupApplication({
+    scenarios: ['unconfigured-backend']
+  });
 
-  suite() {
-    describe('when trying to use the app', () => {
-      beforeEach(function () {
-        return this.visit('/eholdings', () => expect(ApplicationPage.$root).to.exist);
-      });
-
-      it('blocks access to the eholdings app and points you to the configuration screen', () => {
-        expect(ApplicationPage.backendNotConfigured).to.be.true;
-      });
+  describe('when trying to use the app', () => {
+    beforeEach(function () {
+      this.visit('/eholdings');
     });
 
-    describe('when visiting the KB auth form', () => {
-      beforeEach(function () {
-        return this.visit('/settings/eholdings/knowledge-base', () => expect(SettingsPage.$root).to.exist);
-      });
-
-      it('does not enable the save button', () => {
-        expect(SettingsPage.saveButtonDisabled).to.be.true;
-      });
-
-      describe('filling in incomplete data', () => {
-        beforeEach(() => {
-          return SettingsPage
-            .blurCustomerId()
-            .blurApiKey();
-        });
-
-        it('displays an errored state for the blank customer id', () => {
-          expect(SettingsPage.customerIdFieldIsInvalid).to.be.true;
-        });
-
-        it('displays an errored state for the blank api key', () => {
-          expect(SettingsPage.apiKeyFieldIsInvalid).to.be.true;
-        });
-      });
-
-      describe('filling in incomplete data, then filling in more data', () => {
-        beforeEach(() => {
-          return SettingsPage
-            .blurCustomerId()
-            .blurApiKey()
-            .fillCustomerId('some-customer-id')
-            .fillApiKey('some-api-key');
-        });
-
-        it('does not display an error state for customer id', () => {
-          expect(SettingsPage.customerIdFieldIsInvalid).to.be.false;
-        });
-
-        it('does not display an error state for api key', () => {
-          expect(SettingsPage.apiKeyFieldIsInvalid).to.be.false;
-        });
-      });
+    it('blocks access to the eholdings app and points you to the configuration screen', () => {
+      expect(ApplicationPage.backendNotConfigured).to.be.true;
     });
-  }
-});
+  });
 
-describeApplication('With valid backend configuration', () => {
   describe('when visiting the KB auth form', () => {
     beforeEach(function () {
-      return this.visit('/settings/eholdings/knowledge-base', () => expect(SettingsPage.$root).to.exist);
+      this.visit('/settings/eholdings/knowledge-base');
+    });
+
+    it('does not enable the save button', () => {
+      expect(SettingsPage.saveButtonDisabled).to.be.true;
+    });
+
+    describe('filling in incomplete data', () => {
+      beforeEach(() => {
+        return SettingsPage
+          .blurCustomerId()
+          .blurApiKey();
+      });
+
+      it('displays an errored state for the blank customer id', () => {
+        expect(SettingsPage.customerIdFieldIsInvalid).to.be.true;
+      });
+
+      it('displays an errored state for the blank api key', () => {
+        expect(SettingsPage.apiKeyFieldIsInvalid).to.be.true;
+      });
+    });
+
+    describe('filling in incomplete data, then filling in more data', () => {
+      beforeEach(() => {
+        return SettingsPage
+          .blurCustomerId()
+          .blurApiKey()
+          .fillCustomerId('some-customer-id')
+          .fillApiKey('some-api-key');
+      });
+
+      it('does not display an error state for customer id', () => {
+        expect(SettingsPage.customerIdFieldIsInvalid).to.be.false;
+      });
+
+      it('does not display an error state for api key', () => {
+        expect(SettingsPage.apiKeyFieldIsInvalid).to.be.false;
+      });
+    });
+  });
+});
+
+describe('With valid backend configuration', () => {
+  setupApplication();
+
+  describe('when visiting the KB auth form', () => {
+    beforeEach(function () {
+      this.visit('/settings/eholdings/knowledge-base');
     });
 
     it('has a field for the ebsco customer id', () => {
@@ -120,8 +122,14 @@ describeApplication('With valid backend configuration', () => {
       expect(SettingsPage.apiKeyInputType).to.equal('password');
     });
 
-    it.always('has a disabled save button', () => {
-      expect(SettingsPage.saveButtonDisabled).to.be.true;
+    describe('the page always', () => {
+      beforeEach(async function () {
+        await SettingsPage.whenLoaded();
+      });
+
+      it.always('has a disabled save button', () => {
+        expect(SettingsPage.saveButtonDisabled).to.be.true;
+      });
     });
 
     describe('filling in invalid data', () => {
