@@ -33,7 +33,7 @@ describe('PackageSelection', () => {
 
     describe('successfully selecting a package title to add to my holdings', () => {
       beforeEach(async function () {
-        await await PackageShowPage.whenLoaded();
+        await PackageShowPage.whenLoaded();
         this.server.block();
         await PackageShowPage.selectPackage();
       });
@@ -129,7 +129,7 @@ describe('PackageSelection', () => {
     });
 
     describe('unsuccessfully selecting a package title to add to my holdings', () => {
-      beforeEach(function () {
+      beforeEach(async function () {
         this.server.put('/packages/:packageId', () => {
           /**
            * Blocking this request did not work solely using
@@ -140,8 +140,9 @@ describe('PackageSelection', () => {
             errors: [{ title: 'There was an error' }]
           });
         });
+        await PackageShowPage.whenLoaded();
         this.server.block();
-        return PackageShowPage.selectPackage();
+        await PackageShowPage.selectPackage();
       });
 
       it.skip('indicates it is working to get to desired state', () => {
