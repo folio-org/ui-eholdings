@@ -575,10 +575,9 @@ describe('TitleSearch', () => {
           return TitleSearchPage.scrollToOffset(0);
         });
 
-        // it might take a bit for the next request to be triggered after the scroll
-        it.always('shows the total results', () => {
+        it('shows the total results', () => {
           expect(TitleSearchPage.totalResults).to.equal('75 search results');
-        }, 500);
+        });
 
         it('shows the prev page of results', () => {
           expect(TitleSearchPage.titleList(0).name).to.equal('Other Title 5');
