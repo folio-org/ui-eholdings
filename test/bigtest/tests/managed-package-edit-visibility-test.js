@@ -50,13 +50,13 @@ describe('ManagedPackageEditVisibility', () => {
     });
 
     describe('toggling the visiblity field', () => {
-      beforeEach(() => {
-        return PackageEditPage.toggleIsVisible();
+      beforeEach(async () => {
+        await PackageEditPage.whenLoaded();
       });
 
       describe('clicking cancel', () => {
         beforeEach(() => {
-          return PackageEditPage.clickCancel();
+          return PackageEditPage.toggleIsVisible().clickCancel();
         });
 
         it('shows a navigation confirmation modal', () => {
@@ -66,7 +66,7 @@ describe('ManagedPackageEditVisibility', () => {
 
       describe('clicking save', () => {
         beforeEach(() => {
-          return PackageEditPage.clickSave();
+          return PackageEditPage.toggleIsVisible().clickSave();
         });
 
         it('goes to the package show page', () => {
@@ -135,13 +135,13 @@ describe('ManagedPackageEditVisibility', () => {
     });
 
     describe('toggling the visiblity field', () => {
-      beforeEach(() => {
-        return PackageEditPage.toggleIsVisible();
+      beforeEach(async () => {
+        await PackageEditPage.whenLoaded();
       });
 
       describe('clicking cancel', () => {
         beforeEach(() => {
-          return PackageEditPage.clickCancel();
+          return PackageEditPage.toggleIsVisible().clickCancel();
         });
 
         it('shows a navigation confirmation modal', () => {
@@ -151,7 +151,7 @@ describe('ManagedPackageEditVisibility', () => {
 
       describe('clicking save', () => {
         beforeEach(() => {
-          return PackageEditPage.clickSave();
+          return PackageEditPage.toggleIsVisible().clickSave();
         });
 
         it('goes to the package show page', () => {
