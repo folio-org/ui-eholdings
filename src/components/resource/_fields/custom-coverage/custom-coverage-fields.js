@@ -6,7 +6,7 @@ import { injectIntl, intlShape } from 'react-intl';
 
 import {
   Datepicker
-} from '@folio/stripes-components';
+} from '@folio/stripes/components';
 
 import RepeatableField from '../../../repeatable-field';
 import styles from './custom-coverage-fields.css';

@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { FormattedMessage } from 'react-intl';
-import { Button, Icon } from '@folio/stripes-components';
+import { Button, Icon } from '@folio/stripes/components';
 import styles from './inline-form.css';
 
 export default class InlineForm extends Component {

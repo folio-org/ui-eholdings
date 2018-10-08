@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import { Headline, Icon, Button } from '@folio/stripes-components';
+import { Headline, Icon, Button } from '@folio/stripes/components';
 import { FormattedMessage } from 'react-intl';
 
 export default function SelectionStatus({ model, onAddToHoldings }) {

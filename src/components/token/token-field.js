@@ -6,7 +6,7 @@ import { injectIntl, FormattedMessage } from 'react-intl';
 import {
   Button,
   TextArea
-} from '@folio/stripes-components';
+} from '@folio/stripes/components';
 import styles from './token-field.css';
 
 class TokenField extends Component {

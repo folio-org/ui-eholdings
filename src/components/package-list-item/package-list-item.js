@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames/bind';
 import { FormattedNumber, FormattedMessage } from 'react-intl';
-import { Headline } from '@folio/stripes-components';
+import { Headline } from '@folio/stripes/components';
 
 import shouldFocus from '../should-focus';
 import styles from './package-list-item.css';

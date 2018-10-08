@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { Field } from 'redux-form';
 import { injectIntl, intlShape } from 'react-intl';
 
-import { Select } from '@folio/stripes-components';
+import { Select } from '@folio/stripes/components';
 
 function PackageSelectField({ intl, options }) {
   let optionsWithPlaceholder = [{

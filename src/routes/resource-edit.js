@@ -4,7 +4,7 @@ import ReactRouterPropTypes from 'react-router-prop-types';
 import { connect } from 'react-redux';
 import isEqual from 'lodash/isEqual';
 import moment from 'moment';
-import { TitleManager } from '@folio/stripes-core';
+import { TitleManager } from '@folio/stripes/core';
 
 import { createResolver } from '../redux';
 import { ProxyType } from '../redux/application';

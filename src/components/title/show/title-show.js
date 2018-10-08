@@ -10,7 +10,7 @@ import {
   KeyValue,
   Modal,
   ModalFooter
-} from '@folio/stripes-components';
+} from '@folio/stripes/components';
 import { intlShape, injectIntl, FormattedMessage } from 'react-intl';
 import { processErrors } from '../../utilities';
 import DetailsView from '../../details-view';

@@ -8,7 +8,7 @@ import {
   Icon,
   TextField,
   Select
-} from '@folio/stripes-components';
+} from '@folio/stripes/components';
 import SettingsDetailPane from '../settings-detail-pane';
 import { processErrors } from '../utilities';
 import Toaster from '../toaster';

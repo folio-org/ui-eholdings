@@ -5,17 +5,17 @@ import { withRouter } from 'react-router';
 import { intlShape, injectIntl } from 'react-intl';
 import classNames from 'classnames/bind';
 import capitalize from 'lodash/capitalize';
-import { ExpandAllButton } from '@folio/stripes-components/lib/Accordion';
 import Measure from 'react-measure';
 import queryString from 'qs';
 
 import {
   Accordion,
+  ExpandAllButton,
   Headline,
   Icon,
   IconButton,
   PaneHeader
-} from '@folio/stripes-components';
+} from '@folio/stripes/components';
 
 import AccordionListHeader from './accordion-list-header';
 import styles from './details-view.css';

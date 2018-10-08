@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 
 import {
   IconButton
-} from '@folio/stripes-components';
+} from '@folio/stripes/components';
 
 export default function SearchBadge({ filterCount = 0, onClick, ...rest }) {
   return (

@@ -14,22 +14,18 @@
     "stylelint": "stylelint \"src/**/*.css\""
   },
   "devDependencies": {
-    "@bigtest/convergence": "^0.10.0",
     "@bigtest/interactor": "^0.7.2",
     "@bigtest/mirage": "^0.0.1",
     "@bigtest/mocha": "^0.5.1",
     "@bigtest/react": "^0.1.2",
     "@folio/eslint-config-stripes": "^3.2.1",
+    "@folio/stripes": "^1.0.0",
     "@folio/stripes-cli": "^1.5.0",
-    "@folio/stripes-connect": "^3.2.0",
-    "@folio/stripes-core": "2.15.2",
-    "@folio/stripes-logger": "^0.0.2",
+    "@folio/stripes-core": "^2.15.3",
     "babel-eslint": "^9.0.0",
     "babel-polyfill": "^6.26.0",
     "chai": "^4.0.2",
-    "chai-jquery": "^2.0.0",
     "eslint": "^5.5.0",
-    "jquery": "^3.2.1",
     "lodash": "^4.17.4",
     "mocha": "^5.2.0",
     "moment": "^2.22.2",
@@ -39,7 +35,6 @@
     "react-dom": "^16.4.2",
     "react-redux": "^5.0.7",
     "react-transition-group": "^2.2.1",
-    "react-trigger-change": "^1.0.2",
     "redux": "^3.0.0",
     "rxjs": "^5.0.0",
     "sinon": "^6.3.5",
@@ -49,20 +44,20 @@
     "webpack": "^4.0.0"
   },
   "dependencies": {
-    "@folio/stripes-components": "^4.0.0",
-    "@folio/stripes-smart-components": "^1.9.0",
     "classnames": "^2.2.5",
     "funcadelic": "^0.5.4",
     "impagination": "^1.0.0-alpha.3",
     "inflected": "^2.0.3",
     "react-intl": "^2.4.0",
     "react-measure": "^2.1.0",
+    "react-router": "^4.3.1",
+    "react-router-dom": "^4.3.1",
     "react-router-prop-types": "^1.0.4",
     "redux-actions": "^2.2.1",
+    "redux-form": "^7.4.2",
     "redux-observable": "^0.15.0"
   },
   "peerDependencies": {
-    "@folio/stripes-core": "^2.15.2",
     "react": "*"
   },
   "stripes": {

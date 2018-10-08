@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { injectIntl, intlShape } from 'react-intl';
 import { Field } from 'redux-form';
 
-import { Select } from '@folio/stripes-components';
+import { Select } from '@folio/stripes/components';
 
 class PackageContentTypeField extends Component {
   static propTypes = {

@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import ReactRouterPropTypes from 'react-router-prop-types';
 import { withRouter } from 'react-router';
-import { Modal, ModalFooter } from '@folio/stripes-components';
+import { Modal, ModalFooter } from '@folio/stripes/components';
 import { FormattedMessage } from 'react-intl';
 
 class NavigationModal extends Component {

@@ -6,7 +6,7 @@ import {
   Accordion,
   FilterAccordionHeader,
   RadioButton
-} from '@folio/stripes-components';
+} from '@folio/stripes/components';
 import styles from './search-form.css';
 
 export default function SearchFilters({

@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { FormattedMessage } from 'react-intl';
-import { KeyValue, Icon } from '@folio/stripes-components';
+import { KeyValue, Icon } from '@folio/stripes/components';
 
 export default function ProxyDisplay({ model, proxyTypes, inheritedProxyId }) {
   let proxyTypesRecords = proxyTypes.resolver.state.proxyTypes.records;

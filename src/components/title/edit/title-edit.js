@@ -4,7 +4,7 @@ import { reduxForm } from 'redux-form';
 
 import {
   Icon
-} from '@folio/stripes-components';
+} from '@folio/stripes/components';
 import { FormattedMessage, intlShape, injectIntl } from 'react-intl';
 import DetailsView from '../../details-view';
 import NameField, { validate as validateName } from '../_fields/name';

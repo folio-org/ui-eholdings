@@ -6,7 +6,7 @@ import capitalize from 'lodash/capitalize';
 import {
   Button,
   SearchField
-} from '@folio/stripes-components';
+} from '@folio/stripes/components';
 import ProviderSearchFilters from '../provider-search-filters';
 import PackageSearchFilters from '../package-search-filters';
 import TitleSearchFilters from '../title-search-filters';

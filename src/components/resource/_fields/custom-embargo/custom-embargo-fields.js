@@ -8,7 +8,7 @@ import {
   IconButton,
   Select,
   TextField
-} from '@folio/stripes-components';
+} from '@folio/stripes/components';
 import styles from './custom-embargo-fields.css';
 
 class CustomEmbargoFields extends Component {

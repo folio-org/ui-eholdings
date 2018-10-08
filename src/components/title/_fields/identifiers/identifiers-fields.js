@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 import {
   Select,
   TextField
-} from '@folio/stripes-components';
+} from '@folio/stripes/components';
 
 import { injectIntl, intlShape } from 'react-intl';
 import RepeatableField from '../../../repeatable-field';

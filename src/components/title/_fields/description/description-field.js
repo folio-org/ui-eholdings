@@ -1,7 +1,7 @@
 import React from 'react';
 import { Field } from 'redux-form';
 
-import { TextArea } from '@folio/stripes-components';
+import { TextArea } from '@folio/stripes/components';
 import { injectIntl, intlShape } from 'react-intl';
 
 function DescriptionField({ intl }) {

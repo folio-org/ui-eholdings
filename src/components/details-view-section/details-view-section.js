@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames/bind';
-import { Headline } from '@folio/stripes-components';
+import { Headline } from '@folio/stripes/components';
 import styles from './details-view-section.css';
 
 const cx = classNames.bind(styles);

@@ -1,7 +1,7 @@
 import React, { Component, Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { reduxForm } from 'redux-form';
-import { Headline, Icon } from '@folio/stripes-components';
+import { Headline, Icon } from '@folio/stripes/components';
 import { intlShape, injectIntl, FormattedMessage } from 'react-intl';
 
 import SettingsDetailPane from '../settings-detail-pane';
