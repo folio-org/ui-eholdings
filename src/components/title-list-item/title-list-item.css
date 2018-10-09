@@ -1,3 +1,5 @@
+@import '@folio/stripes-components/lib/variables';
+
 .item {
   height: 100%;
 
@@ -29,7 +31,7 @@
   background-repeat: no-repeat;
   background-origin: content-box;
   position: relative;
-  padding: 0.5rem 1.5rem;
+  padding: 0.5rem 1rem 0.5rem 1.5rem;
 
   /* skeleton effect */
 
@@ -44,11 +46,11 @@
       linear-gradient(#eee, #eee 0.9em, transparent 0.9em),
       linear-gradient(#eee, #eee 0.8em, transparent 0.8em);
     background-size:
-      20em 1.1em,
-      5em 1em;
+      14rem var(--font-size-medium),
+      5rem var(--font-size-small);
     background-position:
-      0 0.1em,
-      0 1.75em;
+      0 0.4rem,
+      0 1.67rem;
   }
 
   &.is-publisher-and-type-visible {
@@ -58,13 +60,13 @@
       linear-gradient(#eee, #eee 0.8em, transparent 0.8em),
       linear-gradient(#eee, #eee 0.8em, transparent 0.8em);
     background-size:
-      20em 1.1em,
-      10em 1em,
-      5em 1em;
+      14em var(--font-size-medium),
+      10em var(--font-size-small),
+      5em var(--font-size-small);
     background-position:
-      0 0.1em,
-      0 1.75em,
-      0 2.9em;
+      0 0.4rem,
+      0 1.67rem,
+      0 3.5em;
   }
 
   /* shimmer effect */
