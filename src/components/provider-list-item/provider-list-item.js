@@ -6,7 +6,7 @@ import { Headline } from '@folio/stripes/components';
 
 import shouldFocus from '../should-focus';
 import styles from './provider-list-item.css';
-import Link from '../link';
+import InternalLink from '../internal-link';
 
 const cx = classNames.bind(styles);
 
@@ -14,7 +14,7 @@ function ProviderListItem({ item, link, active, onClick, headingLevel }) {
   return !item ? (
     <div className={styles.skeleton} />
   ) : (
-    <Link
+    <InternalLink
       data-test-eholdings-provider-list-item
       to={link}
       className={cx('item', {
@@ -55,7 +55,7 @@ function ProviderListItem({ item, link, active, onClick, headingLevel }) {
             (<FormattedMessage id="ui-eholdings.label.packages" />)}
         </span>
       </div>
-    </Link>
+    </InternalLink>
   );
 }
 

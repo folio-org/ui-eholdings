@@ -6,7 +6,7 @@ import { Headline } from '@folio/stripes/components';
 
 import shouldFocus from '../should-focus';
 import styles from './title-list-item.css';
-import Link from '../link';
+import InternalLink from '../internal-link';
 
 const cx = classNames.bind(styles);
 
@@ -27,7 +27,7 @@ function TitleListItem({
       })}
     />
   ) : (
-    <Link
+    <InternalLink
       data-test-eholdings-title-list-item
       to={link}
       className={cx('item', {
@@ -81,7 +81,7 @@ function TitleListItem({
           )}
         </span>
       )}
-    </Link>
+    </InternalLink>
   );
 }
 

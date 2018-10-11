@@ -6,7 +6,7 @@ import { Headline } from '@folio/stripes/components';
 
 import shouldFocus from '../should-focus';
 import styles from './package-list-item.css';
-import Link from '../link';
+import InternalLink from '../internal-link';
 
 const cx = classNames.bind(styles);
 
@@ -28,7 +28,7 @@ function PackageListItem({
       })}
     />
   ) : (
-    <Link
+    <InternalLink
       data-test-eholdings-package-list-item
       to={link}
       className={cx('item', {
@@ -95,7 +95,7 @@ function PackageListItem({
           </span>
         )}
       </div>
-    </Link>
+    </InternalLink>
   );
 }
 

@@ -17,7 +17,7 @@ import { processErrors } from '../../utilities';
 
 import DetailsView from '../../details-view';
 import QueryList from '../../query-list';
-import Link from '../../link';
+import InternalLink from '../../internal-link';
 import TitleListItem from '../../title-list-item';
 import NavigationModal from '../../navigation-modal';
 import Toaster from '../../toaster';
@@ -260,7 +260,7 @@ class PackageShow extends Component {
                   <div>
                     <KeyValue label={<FormattedMessage id="ui-eholdings.package.provider" />}>
                       <div data-test-eholdings-package-details-provider>
-                        <Link to={`/eholdings/providers/${model.providerId}`}>{model.providerName}</Link>
+                        <InternalLink to={`/eholdings/providers/${model.providerId}`}>{model.providerName}</InternalLink>
                       </div>
                     </KeyValue>
 
