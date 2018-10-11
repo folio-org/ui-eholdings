@@ -185,7 +185,7 @@ export function createRequestReducer({
     })
   }, initialState);
 
-  return (state = initialState, action) => {
+  return (action, state = initialState) => {
     let isRequest = startsWith(action.type, '@@ui-eholdings/REQUEST');
     let isThisRequest = isRequest && action.name === name;
     let middle = isRequest && handleActions[action.type];
