@@ -13,7 +13,7 @@ import Package from '../redux/package';
 import Provider from '../redux/provider';
 import Resource from '../redux/resource';
 
-import View from '../components/package/edit';
+import View from '../components/package/package-edit';
 
 class PackageEditRoute extends Component {
   static propTypes = {

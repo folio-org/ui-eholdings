@@ -10,7 +10,7 @@ import { createResolver } from '../redux';
 import { ProxyType } from '../redux/application';
 import Resource from '../redux/resource';
 
-import View from '../components/resource/edit';
+import View from '../components/resource/resource-edit';
 
 class ResourceEditRoute extends Component {
   static propTypes = {
