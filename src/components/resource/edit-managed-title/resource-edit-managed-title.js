@@ -63,7 +63,7 @@ class ResourceEditManagedTitle extends Component {
       });
     }
 
-    return Object.keys(stateUpdates) ? stateUpdates : null;
+    return stateUpdates;
   }
 
   handleSelectionToggle = (e) => {

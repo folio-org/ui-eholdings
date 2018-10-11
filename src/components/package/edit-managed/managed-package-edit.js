@@ -67,7 +67,7 @@ class ManagedPackageEdit extends Component {
       });
     }
 
-    return Object.keys(stateUpdates) ? stateUpdates : null;
+    return stateUpdates;
   }
 
   handleSelectionAction = () => {

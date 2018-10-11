@@ -63,7 +63,7 @@ class ResourceEditCustomTitle extends Component {
       });
     }
 
-    return Object.keys(stateUpdates) ? stateUpdates : null;
+    return stateUpdates;
   }
 
   handleRemoveResourceFromHoldings = () => {
