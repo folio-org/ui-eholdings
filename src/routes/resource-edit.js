@@ -53,7 +53,7 @@ class ResourceEditRoute extends Component {
     let wasUnSelected = prevProps.model.isSelected && !model.isSelected;
     let isCurrentlySelected = prevProps.model.isSelected && model.isSelected;
 
-    if (wasPending && needsUpdate && !isRejected && ((wasUnSelected || isCurrentlySelected))) {
+    if (wasPending && needsUpdate && !isRejected && (wasUnSelected || isCurrentlySelected)) {
       history.push({
         pathname: `/eholdings/resources/${model.id}`,
         search: location.search,
