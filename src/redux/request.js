@@ -267,7 +267,7 @@ export function createRequestEpic({
       .switchMap(({ data = {}, options = {} }) => {
         let { okapi } = getState();
         let { method = 'GET' } = options;
-        let url = endpoint;
+        let url;
         let headers = {
           'X-Okapi-Tenant': okapi.tenant,
           'X-Okapi-Token': okapi.token
