@@ -65,7 +65,7 @@ export function validate(values, { intl }) {
 
   if (values.hasCoverageStatement === 'yes' && values.coverageStatement.length === 0) {
     errors.coverageStatement = intl.formatMessage({
-      id: 'validate.errors.coverageStatement.blank'
+      id: 'ui-eholdings.validate.errors.coverageStatement.blank'
     });
   }
 
