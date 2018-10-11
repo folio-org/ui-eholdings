@@ -309,7 +309,7 @@ class BaseModel {
    * @param {Object} attrs - the record's attributes
    */
   static create(attrs) {
-    let newModel = new (this)();
+    let newModel = new this.prototype.constructor();
     newModel.data.attributes = attrs;
 
     return create(this.type, newModel.serialize(), {
