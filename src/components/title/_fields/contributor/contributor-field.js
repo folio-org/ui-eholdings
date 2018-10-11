@@ -2,11 +2,11 @@ import React, { Component, Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { Field, FieldArray } from 'redux-form';
 import {
+  RepeatableField,
   Select,
   TextField
 } from '@folio/stripes/components';
 import { injectIntl, intlShape } from 'react-intl';
-import RepeatableField from '../../../repeatable-field';
 import styles from './contributor-field.css';
 
 class ContributorField extends Component {

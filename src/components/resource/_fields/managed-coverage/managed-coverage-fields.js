@@ -6,12 +6,12 @@ import { injectIntl, intlShape, FormattedMessage } from 'react-intl';
 
 import {
   Datepicker,
-  RadioButton
+  RadioButton,
+  RepeatableField
 } from '@folio/stripes/components';
 
 import CoverageDateList from '../../../coverage-date-list';
 import { isBookPublicationType } from '../../../utilities';
-import RepeatableField from '../../../repeatable-field';
 import styles from './managed-coverage-fields.css';
 
 class ResourceCoverageFields extends Component {
