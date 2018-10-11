@@ -12,7 +12,6 @@ import SearchPane from '../search-pane';
 import ResultsPane from '../results-pane';
 import PreviewPane from '../preview-pane';
 import SearchPaneVignette from '../search-pane-vignette';
-import Link from '../link';
 import styles from './search-paneset.css';
 import SearchBadge from '../search-modal/search-badge';
 
@@ -59,13 +58,17 @@ class SearchPaneset extends React.Component {
 
   renderNewButton = () => {
     return (
-      <Link
+      <Button
         data-test-eholdings-search-new-button
-        className={styles['search-new-button']}
-        to={`/eholdings/${this.props.resultsType}/new`}
+        buttonStyle="primary paneHeaderNewButton"
+        marginBottom0
+        to={{
+          pathname: `/eholdings/${this.props.resultsType}/new`,
+          state: { eholdings: true }
+        }}
       >
         <FormattedMessage id="ui-eholdings.search.addNew" />
-      </Link>
+      </Button>
     );
   };
 

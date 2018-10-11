@@ -75,36 +75,6 @@
   font-size: 22px;
 }
 
-.search-new-button {
-  padding: 0 10px;
-  height: 24px;
-  text-align: center;
-  cursor: pointer;
-  border-radius: 6px;
-  transition: background-color 0.25s, color 0.25s, opacity 0.4s, box-shadow 0s;
-  margin-left: 2px;
-  overflow: hidden;
-  white-space: nowrap;
-  line-height: 100%;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  text-decoration: none;
-  outline: 0;
-  box-shadow: 0 0 0 18px transparent;
-  opacity: 1;
-  background-color: #2b75bb;
-  border: 1px solid #2b75bb;
-  font-weight: 600;
-  color: #fff;
-  margin-right: 15px;
-  font-size: var(--font-size-small);
-
-  &:visited {
-    color: #fff;
-  }
-}
-
 .preview-pane-vignette {
   z-index: 11;
 }
