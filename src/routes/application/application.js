@@ -5,9 +5,9 @@ import { Icon } from '@folio/stripes/components';
 
 import { createResolver } from '../../redux';
 import { Status } from '../../redux/application';
-import NoBackendErrorScreen from '../../components/error-screen/no-backend';
-import FailedBackendErrorScreen from '../../components/error-screen/failed-backend';
-import InvalidBackendErrorScreen from '../../components/error-screen/invalid-backend';
+import NoBackendErrorScreen from '../../components/error-screen/no-backend-error-screen';
+import FailedBackendErrorScreen from '../../components/error-screen/failed-backend-error-screen';
+import InvalidBackendErrorScreen from '../../components/error-screen/invalid-backend-error-screen';
 import styles from './application.css';
 
 class ApplicationRoute extends Component {
