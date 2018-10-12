@@ -355,9 +355,9 @@
     uuid "^3.0.1"
 
 "@folio/stripes-core@^2.10.0", "@folio/stripes-core@^2.14.0", "@folio/stripes-core@^2.15.0", "@folio/stripes-core@^2.15.1", "@folio/stripes-core@^2.15.3":
-  version "2.15.3"
-  resolved "https://repository.folio.org/repository/npm-folio/@folio/stripes-core/-/stripes-core-2.15.3.tgz#c497f8c53ccadaeab3fd00d6993bb0b99bcbd27f"
-  integrity sha512-w3EKtK5hxi4zRbOvvNtU43+vRWiIEFJXEDww2cZPkkOSvZdX4769DlkW/YcRtsBmuEL/kDUFbahtt/nRnceVPg==
+  version "2.15.4"
+  resolved "https://repository.folio.org/repository/npm-folio/@folio/stripes-core/-/stripes-core-2.15.4.tgz#ca87ae880594f7abaa369e5f1a6bec6f6413eed3"
+  integrity sha512-SCYyTmYBAe2fPEjGaM3T/RcXibnuAximscSu/CbQhGfd7C4wzJaG/z21HFDBWPMBn01wTX1mizTP46hc1Fciqw==
   dependencies:
     "@folio/react-intl-safe-html" "^1.0.2"
     "@folio/stripes-components" "^4.0.0"
@@ -3879,9 +3879,9 @@ electron-download@^3.0.1:
     sumchecker "^1.2.0"
 
 electron-to-chromium@^1.3.47, electron-to-chromium@^1.3.73:
-  version "1.3.77"
-  resolved "https://registry.yarnpkg.com/electron-to-chromium/-/electron-to-chromium-1.3.77.tgz#9207a874a21a8fcb665bb4ff1675a11ba65517f4"
-  integrity sha512-XIfQcdU9L4qUte31fFATwptHodMH0Otf53N8y1AKxd1+79vR+2UYpLq+Z1Zbtbuy+w0xd7KwIUrvlnje/htiOg==
+  version "1.3.78"
+  resolved "https://registry.yarnpkg.com/electron-to-chromium/-/electron-to-chromium-1.3.78.tgz#ecb72b5b166ba6598efb384461d63cad74678ebf"
+  integrity sha512-p4D/5iX08c3LNep5bWn/X3dFmec1K9le6O43lgRsO/vYKBTH2smWDMDfkGlPtERFcLVkI8xdKW5EokBZODh1xg==
 
 electron@^1.4.4:
   version "1.8.8"
@@ -10774,19 +10774,18 @@ srcset@^1.0.0:
     number-is-nan "^1.0.0"
 
 sshpk@^1.7.0:
-  version "1.14.2"
-  resolved "https://registry.yarnpkg.com/sshpk/-/sshpk-1.14.2.tgz#c6fc61648a3d9c4e764fd3fcdf4ea105e492ba98"
-  integrity sha1-xvxhZIo9nE52T9P8306hBeSSupg=
+  version "1.15.1"
+  resolved "https://registry.yarnpkg.com/sshpk/-/sshpk-1.15.1.tgz#b79a089a732e346c6e0714830f36285cd38191a2"
+  integrity sha512-mSdgNUaidk+dRU5MhYtN9zebdzF2iG0cNPWy8HG+W8y+fT1JnSkh0fzzpjOa0L7P8i1Rscz38t0h4gPcKz43xA==
   dependencies:
     asn1 "~0.2.3"
     assert-plus "^1.0.0"
-    dashdash "^1.12.0"
-    getpass "^0.1.1"
-    safer-buffer "^2.0.2"
-  optionalDependencies:
     bcrypt-pbkdf "^1.0.0"
+    dashdash "^1.12.0"
     ecc-jsbn "~0.1.1"
+    getpass "^0.1.1"
     jsbn "~0.1.0"
+    safer-buffer "^2.0.2"
     tweetnacl "~0.14.0"
 
 ssri@^5.2.4:
