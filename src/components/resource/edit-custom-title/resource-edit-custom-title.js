@@ -206,7 +206,7 @@ class ResourceEditCustomTitle extends Component {
                     data-test-eholdings-resource-holding-status
                     htmlFor="custom-resource-holding-status"
                   >
-                    <Headline>
+                    <Headline margin="none">
                       {resourceSelected ?
                         (<FormattedMessage id="ui-eholdings.selected" />)
                         :
