@@ -10,7 +10,7 @@ import { createResolver } from '../redux';
 import { ProxyType } from '../redux/application';
 import Resource from '../redux/resource';
 
-import View from '../components/resource/edit';
+import View from '../components/resource/resource-edit';
 
 class ResourceEditRoute extends Component {
   static propTypes = {
@@ -53,7 +53,7 @@ class ResourceEditRoute extends Component {
     let wasUnSelected = prevProps.model.isSelected && !model.isSelected;
     let isCurrentlySelected = prevProps.model.isSelected && model.isSelected;
 
-    if (wasPending && needsUpdate && !isRejected && ((wasUnSelected || isCurrentlySelected))) {
+    if (wasPending && needsUpdate && !isRejected && (wasUnSelected || isCurrentlySelected)) {
       history.push({
         pathname: `/eholdings/resources/${model.id}`,
         search: location.search,

@@ -16,7 +16,7 @@ import {
 } from '@folio/stripes/components';
 
 import DetailsView from '../details-view';
-import Link from '../link';
+import InternalLink from '../internal-link';
 import ExternalLink from '../external-link/external-link';
 import IdentifiersList from '../identifiers-list';
 import ContributorsList from '../contributors-list';
@@ -218,9 +218,9 @@ class ResourceShow extends Component {
                 <KeyValueColumns>
                   <div>
                     <KeyValue label={<FormattedMessage id="ui-eholdings.label.title" />}>
-                      <Link to={`/eholdings/titles/${model.titleId}`}>
+                      <InternalLink to={`/eholdings/titles/${model.titleId}`}>
                         {model.title.name}
-                      </Link>
+                      </InternalLink>
                     </KeyValue>
 
                     {model.title.edition && (
@@ -286,13 +286,13 @@ class ResourceShow extends Component {
                   <div>
                     <KeyValue label={<FormattedMessage id="ui-eholdings.label.package" />}>
                       <div data-test-eholdings-resource-show-package-name>
-                        <Link to={`/eholdings/packages/${model.packageId}`}>{model.package.name}</Link>
+                        <InternalLink to={`/eholdings/packages/${model.packageId}`}>{model.package.name}</InternalLink>
                       </div>
                     </KeyValue>
 
                     <KeyValue label={<FormattedMessage id="ui-eholdings.label.provider" />}>
                       <div data-test-eholdings-resource-show-provider-name>
-                        <Link to={`/eholdings/providers/${model.providerId}`}>{model.package.providerName}</Link>
+                        <InternalLink to={`/eholdings/providers/${model.providerId}`}>{model.package.providerName}</InternalLink>
                       </div>
                     </KeyValue>
 

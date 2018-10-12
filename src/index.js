@@ -6,7 +6,7 @@ import { Route, Switch, Redirect } from './router';
 import { reducer, epics } from './redux';
 
 import ApplicationRoute from './routes/application';
-import SettingsRoute from './routes/settings';
+import SettingsRoute from './routes/settings-route';
 import SearchRoute from './routes/search';
 import ProviderShow from './routes/provider-show';
 import ProviderEdit from './routes/provider-edit';

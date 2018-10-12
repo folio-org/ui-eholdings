@@ -185,7 +185,7 @@ export function createRequestReducer({
     })
   }, initialState);
 
-  return (state = initialState, action) => {
+  return (action, state = initialState) => {
     let isRequest = startsWith(action.type, '@@ui-eholdings/REQUEST');
     let isThisRequest = isRequest && action.name === name;
     let middle = isRequest && handleActions[action.type];
@@ -267,7 +267,7 @@ export function createRequestEpic({
       .switchMap(({ data = {}, options = {} }) => {
         let { okapi } = getState();
         let { method = 'GET' } = options;
-        let url = endpoint;
+        let url;
         let headers = {
           'X-Okapi-Tenant': okapi.tenant,
           'X-Okapi-Token': okapi.token
