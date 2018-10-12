@@ -75,7 +75,7 @@ class CustomEmbargoFields extends Component {
           className={styles['custom-embargo-clear-row']}
         >
           <IconButton
-            icon="hollowX"
+            icon="trashBin"
             onClick={this.clearValues}
             size="small"
             ariaLabel={intl.formatMessage({ id: 'ui-eholdings.resource.embargoPeriod.clear' })}

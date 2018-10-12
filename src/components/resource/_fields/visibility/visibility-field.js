@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import { Field } from 'redux-form';
 import { FormattedMessage, intlShape, injectIntl } from 'react-intl';
 import { RadioButton, RadioButtonGroup } from '@folio/stripes/components';
-import styles from './visibility-field.css';
 
 class VisibilityField extends Component {
   static propTypes = {
@@ -20,7 +19,6 @@ class VisibilityField extends Component {
 
     return (
       <div
-        className={styles['visibility-field']}
         data-test-eholdings-resource-visibility-field
       >
         <Field

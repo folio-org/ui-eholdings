@@ -227,7 +227,7 @@ class ResourceEditManagedTitle extends Component {
                     {model.update.isPending ? (
                       <Icon icon='spinner-ellipsis' />
                     ) : (
-                      <Headline>
+                      <Headline margin="none">
                         {managedResourceSelected ?
                           (<FormattedMessage id="ui-eholdings.selected" />)
                           : (<FormattedMessage id="ui-eholdings.notSelected" />)
