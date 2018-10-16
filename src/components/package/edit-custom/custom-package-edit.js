@@ -4,6 +4,8 @@ import { reduxForm, Field } from 'redux-form';
 import { intlShape, injectIntl, FormattedMessage } from 'react-intl';
 
 import {
+  Accordion,
+  Headline,
   Icon,
   KeyValue,
   Modal,
@@ -11,13 +13,13 @@ import {
   RadioButton,
   RadioButtonGroup
 } from '@folio/stripes/components';
+
 import { processErrors } from '../../utilities';
 
 import DetailsView from '../../details-view';
 import NameField, { validate as validatePackageName } from '../_fields/name';
 import CoverageFields, { validate as validateCoverageDates } from '../_fields/custom-coverage';
 import ContentTypeField from '../_fields/content-type';
-import DetailsViewSection from '../../details-view-section';
 import NavigationModal from '../../navigation-modal';
 import Toaster from '../../toaster';
 import PaneHeaderButton from '../../pane-header-button';
@@ -49,8 +51,14 @@ class CustomPackageEdit extends Component {
     allowFormToSubmit: false,
     packageSelected: this.props.initialValues.isSelected,
     formValues: {},
-    initialValues: this.props.initialValues
-  }
+    initialValues: this.props.initialValues,
+    sections: {
+      packageHoldingStatus: true,
+      packageInfo: true,
+      packageSettings: true,
+      packageCoverageSettings: true,
+    }
+  };
 
   static getDerivedStateFromProps(nextProps, prevState) {
     let stateUpdates = {};
@@ -77,7 +85,7 @@ class CustomPackageEdit extends Component {
         isSelected: false
       }
     }, () => this.handleOnSubmit(this.state.formValues));
-  }
+  };
 
   commitSelectionToggle = () => {
     this.setState({
@@ -108,6 +116,34 @@ class CustomPackageEdit extends Component {
         this.props.onSubmit(values);
       });
     }
+  };
+
+  toggleSection = ({ id: sectionId }) => {
+    this.setState((prevState) => {
+      const { sections } = prevState;
+      const sectionIsExpanded = sections[sectionId];
+      return {
+        sections: {
+          ...sections,
+          [sectionId]: !sectionIsExpanded
+        }
+      };
+    });
+  };
+
+  toggleAllSections = (sections) => {
+    this.setState({ sections });
+  };
+
+  getSectionHeader(translationKey) {
+    return (
+      <Headline
+        size="large"
+        tag="h3"
+      >
+        <FormattedMessage id={translationKey} />
+      </Headline>
+    );
   }
 
   render() {
@@ -125,7 +161,8 @@ class CustomPackageEdit extends Component {
 
     let {
       showSelectionModal,
-      packageSelected
+      packageSelected,
+      sections,
     } = this.state;
 
     let visibilityMessage = model.visibilityData.reason && `(${model.visibilityData.reason})`;
@@ -164,6 +201,8 @@ class CustomPackageEdit extends Component {
             model={model}
             paneTitle={model.name}
             actionMenuItems={actionMenuItems}
+            handleExpandAll={this.toggleAllSections}
+            sections={sections}
             lastMenu={(
               <Fragment>
                 {model.update.isPending && (
@@ -184,16 +223,23 @@ class CustomPackageEdit extends Component {
             )}
             bodyContent={(
               <Fragment>
-                <DetailsViewSection
-                  label={intl.formatMessage({ id: 'ui-eholdings.label.holdingStatus' })}
+                <Accordion
+                  label={this.getSectionHeader('ui-eholdings.label.holdingStatus')}
+                  open={sections.packageHoldingStatus}
+                  id="packageHoldingStatus"
+                  onToggle={this.toggleSection}
                 >
                   <SelectionStatus
                     model={model}
                     onAddToHoldings={this.props.addPackageToHoldings}
                   />
-                </DetailsViewSection>
-                <DetailsViewSection
-                  label={intl.formatMessage({ id: 'ui-eholdings.label.packageInformation' })}
+                </Accordion>
+
+                <Accordion
+                  label={this.getSectionHeader('ui-eholdings.label.packageInformation')}
+                  open={sections.packageInfo}
+                  id="packageInfo"
+                  onToggle={this.toggleSection}
                 >
                   {packageSelected ? (
                     <NameField />
@@ -214,8 +260,14 @@ class CustomPackageEdit extends Component {
                       </div>
                     </KeyValue>
                   )}
-                </DetailsViewSection>
-                <DetailsViewSection label={intl.formatMessage({ id: 'ui-eholdings.package.packageSettings' })}>
+                </Accordion>
+
+                <Accordion
+                  label={this.getSectionHeader('ui-eholdings.package.packageSettings')}
+                  open={sections.packageSettings}
+                  id="packageSettings"
+                  onToggle={this.toggleSection}
+                >
                   {packageSelected ? (
                     <div className={styles['visibility-radios']}>
                       {this.props.initialValues.isVisible != null ? (
@@ -262,10 +314,13 @@ class CustomPackageEdit extends Component {
                   ) : (
                     <p><FormattedMessage id="ui-eholdings.package.packageSettings.notSelected" /></p>
                   )}
-                </DetailsViewSection>
+                </Accordion>
 
-                <DetailsViewSection
-                  label={intl.formatMessage({ id: 'ui-eholdings.package.coverageSettings' })}
+                <Accordion
+                  label={this.getSectionHeader('ui-eholdings.package.coverageSettings')}
+                  open={sections.packageCoverageSettings}
+                  id="packageCoverageSettings"
+                  onToggle={this.toggleSection}
                 >
                   {packageSelected ? (
                     <CoverageFields
@@ -273,7 +328,8 @@ class CustomPackageEdit extends Component {
                     />) : (
                       <p><FormattedMessage id="ui-eholdings.package.customCoverage.notSelected" /></p>
                   )}
-                </DetailsViewSection>
+                </Accordion>
+
                 <NavigationModal
                   modalLabel={intl.formatMessage({ id: 'ui-eholdings.navModal.modalLabel' })}
                   continueLabel={intl.formatMessage({ id: 'ui-eholdings.navModal.continueLabel' })}
