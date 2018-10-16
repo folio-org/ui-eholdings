@@ -119,28 +119,142 @@ describe('ManagedPackageEditSelection', () => {
       this.visit(`/eholdings/packages/${providerPackage.id}/edit`);
     });
 
-    it('reflects the desired state of holding status', () => {
-      expect(PackageEditPage.selectionStatus.isSelected).to.equal(true);
+    describe('holding status section', () => {
+      it('displays title', () => {
+        expect(PackageEditPage.holdingStatusSectionAccordion.label).to.equal('Holding status');
+      });
+
+      it('is expanded by default', () => {
+        expect(PackageEditPage.holdingStatusSectionAccordion.isOpen).to.equal(true);
+      });
+
+      describe('clicking the header', () => {
+        beforeEach(async () => {
+          await PackageEditPage.holdingStatusSectionAccordion.clickHeader();
+        });
+
+        it('collapses the section', () => {
+          expect(PackageEditPage.holdingStatusSectionAccordion.isOpen).to.be.false;
+        });
+
+        describe('clicking the header again', () => {
+          beforeEach(async () => {
+            await PackageEditPage.holdingStatusSectionAccordion.clickHeader();
+          });
+
+          it('expands the section', () => {
+            expect(PackageEditPage.holdingStatusSectionAccordion.isOpen).to.be.true;
+          });
+        });
+      });
+
+      it('reflects the desired state of holding status', () => {
+        expect(PackageEditPage.selectionStatus.isSelected).to.equal(true);
+      });
+
+      it('has hidden "Add to holdings" button', () => {
+        expect(PackageEditPage.selectionStatus.hasAddButton).to.equal(false);
+      });
     });
 
-    it('hides "Add to holdings" button', () => {
-      expect(PackageEditPage.selectionStatus.hasAddButton).to.equal(false);
+    describe('package settings section', () => {
+      it('displays title', () => {
+        expect(PackageEditPage.settingsSectionAccordion.label).to.equal('Package settings');
+      });
+
+      it('is expanded by default', () => {
+        expect(PackageEditPage.settingsSectionAccordion.isOpen).to.equal(true);
+      });
+
+      describe('clicking the header', () => {
+        beforeEach(async () => {
+          await PackageEditPage.holdingStatusSectionAccordion.clickHeader();
+        });
+
+        it('collapses the section', () => {
+          expect(PackageEditPage.holdingStatusSectionAccordion.isOpen).to.be.false;
+        });
+
+        describe('clicking the header again', () => {
+          beforeEach(async () => {
+            await PackageEditPage.holdingStatusSectionAccordion.clickHeader();
+          });
+
+          it('expands the section', () => {
+            expect(PackageEditPage.holdingStatusSectionAccordion.isOpen).to.be.true;
+          });
+        });
+      });
+
+      it('can toggle visibility', () => {
+        expect(PackageEditPage.isVisibilityFieldPresent).to.equal(true);
+      });
+
+      it('can select allow kb to add titles', () => {
+        expect(PackageEditPage.hasRadioForAllowKbToAddTitles).to.equal(true);
+      });
     });
 
-    it('can toggle visibility', () => {
-      expect(PackageEditPage.isVisibilityFieldPresent).to.equal(true);
-    });
+    describe('coverage settings section', () => {
+      it('displays title', () => {
+        expect(PackageEditPage.coverageSettingsSectionAccordion.label).to.equal('Coverage settings');
+      });
 
-    it('can select allow kb to add titles', () => {
-      expect(PackageEditPage.hasRadioForAllowKbToAddTitles).to.equal(true);
-    });
+      it('is expanded by default', () => {
+        expect(PackageEditPage.coverageSettingsSectionAccordion.isOpen).to.equal(true);
+      });
 
-    it('can edit coverage', () => {
-      expect(PackageEditPage.hasCoverageDatesPresent).to.equal(true);
+      describe('clicking the header', () => {
+        beforeEach(async () => {
+          await PackageEditPage.holdingStatusSectionAccordion.clickHeader();
+        });
+
+        it('collapses the section', () => {
+          expect(PackageEditPage.holdingStatusSectionAccordion.isOpen).to.be.false;
+        });
+
+        describe('clicking the header again', () => {
+          beforeEach(async () => {
+            await PackageEditPage.holdingStatusSectionAccordion.clickHeader();
+          });
+
+          it('expands the section', () => {
+            expect(PackageEditPage.holdingStatusSectionAccordion.isOpen).to.be.true;
+          });
+        });
+      });
+
+      it('can edit coverage', () => {
+        expect(PackageEditPage.hasCoverageDatesPresent).to.equal(true);
+      });
     });
 
     it('disables the save button', () => {
       expect(PackageEditPage.isSaveDisabled).to.be.true;
+    });
+
+    describe('clicking the "collapse all" button', () => {
+      beforeEach(async () => {
+        await PackageEditPage.sectionToggleButton.click();
+      });
+
+      it('collapses all sections', () => {
+        expect(PackageEditPage.holdingStatusSectionAccordion.isOpen).to.equal(false);
+        expect(PackageEditPage.settingsSectionAccordion.isOpen).to.equal(false);
+        expect(PackageEditPage.coverageSettingsSectionAccordion.isOpen).to.equal(false);
+      });
+
+      describe('clicking the "expand all" button ', () => {
+        beforeEach(async () => {
+          await PackageEditPage.sectionToggleButton.click();
+        });
+
+        it('expands all sections', () => {
+          expect(PackageEditPage.holdingStatusSectionAccordion.isOpen).to.equal(true);
+          expect(PackageEditPage.settingsSectionAccordion.isOpen).to.equal(true);
+          expect(PackageEditPage.coverageSettingsSectionAccordion.isOpen).to.equal(true);
+        });
+      });
     });
 
     describe('clicking cancel', () => {
