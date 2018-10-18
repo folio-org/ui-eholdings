@@ -15,6 +15,9 @@ import {
   value,
   selectable,
 } from '@bigtest/interactor';
+
+import { AccordionInteractor } from '@folio/stripes-components/lib/Accordion/tests/interactor';
+
 import { hasClassBeginningWith } from './helpers';
 import Toast from './toast';
 import Datepicker from './datepicker';
@@ -41,6 +44,12 @@ import PackageSelectionStatus from './selection-status';
   addToHoldings = new Interactor('.tether-element [data-test-eholdings-package-add-to-holdings-action]');
   removeFromHoldings = new Interactor('.tether-element [data-test-eholdings-package-remove-from-holdings-action]');
   cancel = new Interactor('.tether-element [data-test-eholdings-package-cancel-action]');
+}
+
+@interactor class SectionToggleButton {
+  exists = isPresent('[data-test-eholdings-details-view-collapse-all-button]]');
+  label = text('[data-test-eholdings-details-view-collapse-all-button]]');
+  click = clickable('[data-test-eholdings-details-view-collapse-all-button] button');
 }
 
 @interactor class PackageEditPage {
@@ -97,6 +106,10 @@ import PackageSelectionStatus from './selection-status';
   chooseProxy = selectable('[data-test-eholdings-package-proxy-select-field] select');
   dropDown = new PackageEditDropDown('[class*=paneHeaderCenterInner---] [class*=dropdown---]');
   dropDownMenu = new PackageEditDropDownMenu();
+  sectionToggleButton = new SectionToggleButton();
+  holdingStatusSectionAccordion = new AccordionInteractor('#packageHoldingStatus');
+  settingsSectionAccordion = new AccordionInteractor('#packageSettings');
+  coverageSettingsSectionAccordion = new AccordionInteractor('#packageCoverageSettings');
   hasProviderTokenHelpText = isPresent('[data-test-eholdings-token-fields-help-text="provider"]');
   providerTokenHelpText = text('[data-test-eholdings-token-fields-help-text="provider"]');
   hasProviderTokenPrompt = isPresent('[data-test-eholdings-token-fields-prompt="provider"]');

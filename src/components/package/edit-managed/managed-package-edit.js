@@ -4,6 +4,7 @@ import { reduxForm, Field } from 'redux-form';
 import { intlShape, injectIntl, FormattedMessage } from 'react-intl';
 
 import {
+  Accordion,
   Headline,
   Icon,
   Modal,
@@ -11,11 +12,11 @@ import {
   RadioButton,
   RadioButtonGroup
 } from '@folio/stripes/components';
+
 import { processErrors } from '../../utilities';
 
 import DetailsView from '../../details-view';
 import CoverageFields, { validate as validateCoverageDates } from '../_fields/custom-coverage';
-import DetailsViewSection from '../../details-view-section';
 import NavigationModal from '../../navigation-modal';
 import Toaster from '../../toaster';
 import PaneHeaderButton from '../../pane-header-button';
@@ -48,8 +49,13 @@ class ManagedPackageEdit extends Component {
     allowFormToSubmit: false,
     packageSelected: this.props.initialValues.isSelected,
     formValues: {},
-    initialValues: this.props.initialValues
-  }
+    initialValues: this.props.initialValues,
+    sections: {
+      packageHoldingStatus: true,
+      packageSettings: true,
+      packageCoverageSettings: true,
+    }
+  };
 
   static getDerivedStateFromProps(nextProps, prevState) {
     let stateUpdates = {};
@@ -86,7 +92,7 @@ class ManagedPackageEdit extends Component {
         isSelected: false
       }
     }, () => this.handleOnSubmit(this.state.formValues));
-  }
+  };
 
   commitSelectionToggle = () => {
     this.setState({
@@ -117,6 +123,34 @@ class ManagedPackageEdit extends Component {
         this.props.onSubmit(values);
       });
     }
+  };
+
+  toggleSection = ({ id: sectionId }) => {
+    this.setState((prevState) => {
+      const { sections } = prevState;
+      const sectionIsExpanded = sections[sectionId];
+      return {
+        sections: {
+          ...sections,
+          [sectionId]: !sectionIsExpanded
+        }
+      };
+    });
+  };
+
+  toggleAllSections = (sections) => {
+    this.setState({ sections });
+  };
+
+  getSectionHeader(translationKey) {
+    return (
+      <Headline
+        size="large"
+        tag="h3"
+      >
+        <FormattedMessage id={translationKey} />
+      </Headline>
+    );
   }
 
   render() {
@@ -134,7 +168,8 @@ class ManagedPackageEdit extends Component {
 
     let {
       showSelectionModal,
-      packageSelected
+      packageSelected,
+      sections
     } = this.state;
 
     let visibilityMessage = model.visibilityData.reason && `(${model.visibilityData.reason})`;
@@ -188,6 +223,8 @@ class ManagedPackageEdit extends Component {
             model={model}
             paneTitle={model.name}
             actionMenuItems={actionMenuItems}
+            handleExpandAll={this.toggleAllSections}
+            sections={sections}
             lastMenu={(
               <Fragment>
                 {model.update.isPending && (
@@ -210,17 +247,26 @@ class ManagedPackageEdit extends Component {
             )}
             bodyContent={(
               <Fragment>
-                <DetailsViewSection
-                  label={intl.formatMessage({ id: 'ui-eholdings.label.holdingStatus' })}
+                <Accordion
+                  label={this.getSectionHeader('ui-eholdings.label.holdingStatus')}
+                  open={sections.packageHoldingStatus}
+                  id="packageHoldingStatus"
+                  onToggle={this.toggleSection}
                 >
                   <SelectionStatus
                     model={model}
                     onAddToHoldings={this.props.addPackageToHoldings}
                   />
-                </DetailsViewSection>
+                </Accordion>
+
                 {packageSelected && (
                   <div>
-                    <DetailsViewSection label={intl.formatMessage({ id: 'ui-eholdings.package.packageSettings' })}>
+                    <Accordion
+                      label={this.getSectionHeader('ui-eholdings.package.packageSettings')}
+                      open={sections.packageSettings}
+                      id="packageSettings"
+                      onToggle={this.toggleSection}
+                    >
                       <div className={styles['visibility-radios']}>
                         {this.props.initialValues.isVisible != null ? (
                           <Fragment>
@@ -291,31 +337,34 @@ class ManagedPackageEdit extends Component {
                         <Icon icon="spinner-ellipsis" />
                       )}
                       {supportsProviderTokens && (
-                        <fieldset>
-                          <Headline tag="legend">
-                            <FormattedMessage id="ui-eholdings.provider.token" />
-                          </Headline>
-                          <TokenField token={provider.providerToken} tokenValue={hasProviderTokenValue} type="provider" />
-                        </fieldset>
+                      <fieldset>
+                        <Headline tag="legend">
+                          <FormattedMessage id="ui-eholdings.provider.token" />
+                        </Headline>
+                        <TokenField token={provider.providerToken} tokenValue={hasProviderTokenValue} type="provider" />
+                      </fieldset>
                       )}
                       {supportsPackageTokens && (
-                        <fieldset>
-                          <Headline tag="legend">
-                            <FormattedMessage id="ui-eholdings.package.token" />
-                          </Headline>
-                          <TokenField token={model.packageToken} tokenValue={hasPackageTokenValue} type="package" />
-                        </fieldset>
+                      <fieldset>
+                        <Headline tag="legend">
+                          <FormattedMessage id="ui-eholdings.package.token" />
+                        </Headline>
+                        <TokenField token={model.packageToken} tokenValue={hasPackageTokenValue} type="package" />
+                      </fieldset>
                       )}
-                    </DetailsViewSection>
-                    <DetailsViewSection
-                      label={intl.formatMessage({ id: 'ui-eholdings.package.coverageSettings' })}
+                    </Accordion>
+
+                    <Accordion
+                      label={this.getSectionHeader('ui-eholdings.package.coverageSettings')}
+                      open={sections.packageCoverageSettings}
+                      id="packageCoverageSettings"
+                      onToggle={this.toggleSection}
                     >
-                      <CoverageFields
-                        initialValue={initialValues.customCoverages}
-                      />
-                    </DetailsViewSection>
+                      <CoverageFields initialValue={initialValues.customCoverages} />
+                    </Accordion>
                   </div>
                 )}
+
                 <NavigationModal
                   modalLabel={intl.formatMessage({ id: 'ui-eholdings.navModal.modalLabel' })}
                   continueLabel={intl.formatMessage({ id: 'ui-eholdings.navModal.continueLabel' })}
