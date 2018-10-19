@@ -17,6 +17,14 @@ function TitleSearchFilters(props) {
     <SearchFilters
       searchType="titles"
       availableFilters={[{
+        name: 'sort',
+        label: intl.formatMessage({ id: 'ui-eholdings.label.sortOptions' }),
+        defaultValue: 'relevance',
+        options: [
+          { label: intl.formatMessage({ id: 'ui-eholdings.filter.sortOptions.relevance' }), value: 'relevance' },
+          { label: intl.formatMessage({ id: 'ui-eholdings.label.title' }), value: 'name' }
+        ]
+      }, {
         name: 'selected',
         label: intl.formatMessage({ id: 'ui-eholdings.label.selectionStatus' }),
         defaultValue: 'all',
