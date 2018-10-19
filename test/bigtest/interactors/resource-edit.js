@@ -13,6 +13,9 @@ import {
   computed,
   selectable
 } from '@bigtest/interactor';
+
+import { AccordionInteractor } from '@folio/stripes-components/lib/Accordion/tests/interactor';
+
 import { hasClassBeginningWith } from './helpers';
 
 import Toast from './toast';
@@ -38,6 +41,12 @@ import Datepicker from './datepicker';
   clickCancel = clickable('.tether-element [data-test-eholdings-resource-cancel-action]');
 }
 
+@interactor class ResourceEditToggleSectionButton {
+  exists = isPresent('[data-test-eholdings-details-view-collapse-all-button]]');
+  label = text('[data-test-eholdings-details-view-collapse-all-button]]');
+  click = clickable('[data-test-eholdings-details-view-collapse-all-button] button');
+}
+
 @interactor class ResourceEditPage {
   isLoaded = isPresent('[data-test-eholdings-details-view-pane-title]');
   whenLoaded() {
@@ -54,6 +63,11 @@ import Datepicker from './datepicker';
       .dropDownMenu.clickCancel();
   });
 
+  toggleSectionButton = new ResourceEditToggleSectionButton();
+  resourceHoldingStatusAccordion = new AccordionInteractor('#resourceShowHoldingStatus');
+  resourceSettingsAccordion = new AccordionInteractor('#resourceShowSettings');
+  resourceCoverageSettingsAccordion = new AccordionInteractor('#resourceShowCoverageSettings');
+
   clickSave = clickable('[data-test-eholdings-resource-save-button]');
   hasSaveButon = isPresent('[data-test-eholdings-resource-save-button]');
   hasCancelButton = isPresent('[data-test-eholdings-resource-cancel-button]');
@@ -63,7 +77,10 @@ import Datepicker from './datepicker';
   checkPeerReviewed = clickable('[data-test-eholdings-peer-reviewed-field] input[type=checkbox]');
   hasBackButton = isPresent('[data-test-eholdings-details-view-back-button]');
   isResourceSelected = text('[data-test-eholdings-resource-holding-status] div');
+  isResourceSelectedBoolean = isPresent('[data-test-eholdings-resource-holding-status] div');
   isResourceVisible = property('[data-test-eholdings-resource-visibility-field] input[value="true"]', 'checked');
+  isResourceShowToPatronsVisible = isPresent('[data-test-eholdings-resource-visibility-field]');
+  isCoverageSettingsDatesField = isPresent('[data-test-eholdings-resource-coverage-fields]');
   isHiddenMessage = computed(function () {
     let $node = this.$('[data-test-eholdings-resource-visibility-field] input[value="false"] ~ span:last-child');
     return $node.textContent.replace(/^No(\s\((.*)\))?$/, '$2');

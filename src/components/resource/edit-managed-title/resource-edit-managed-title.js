@@ -3,14 +3,17 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { formValueSelector, reduxForm } from 'redux-form';
 import { intlShape, injectIntl, FormattedMessage } from 'react-intl';
+import update from 'lodash/fp/update';
 
 import {
+  Accordion,
   Button,
   Headline,
   Icon,
   Modal,
   ModalFooter
 } from '@folio/stripes/components';
+
 import { processErrors, isBookPublicationType } from '../../utilities';
 
 import DetailsView from '../../details-view';
@@ -18,7 +21,6 @@ import VisibilityField from '../_fields/visibility';
 import CoverageStatementFields, { validate as validateCoverageStatement } from '../_fields/coverage-statement';
 import ManagedCoverageFields, { validate as validateCoverageDates } from '../_fields/managed-coverage';
 import CustomEmbargoFields, { validate as validateEmbargo } from '../_fields/custom-embargo';
-import DetailsViewSection from '../../details-view-section';
 import NavigationModal from '../../navigation-modal';
 import Toaster from '../../toaster';
 import PaneHeaderButton from '../../pane-header-button';
@@ -44,8 +46,13 @@ class ResourceEditManagedTitle extends Component {
     showSelectionModal: false,
     allowFormToSubmit: false,
     formValues: {},
-    initialValues: this.props.initialValues
-  }
+    initialValues: this.props.initialValues,
+    sections: {
+      resourceShowHoldingStatus: true,
+      resourceShowSettings: true,
+      resourceShowCoverageSettings: true,
+    },
+  };
 
   static getDerivedStateFromProps(nextProps, prevState) {
     let stateUpdates = {};
@@ -66,11 +73,30 @@ class ResourceEditManagedTitle extends Component {
     return stateUpdates;
   }
 
+  toggleSection = ({ id }) => {
+    const newState = update(`sections.${id}`, value => !value, this.state);
+    this.setState(newState);
+  };
+
+  toggleAllSections = (sections) => {
+    this.setState({ sections });
+  };
+
+  getSectionHeader = (translationKey) => {
+    return (
+      <Headline
+        size="large"
+        tag="h3"
+      >
+        <FormattedMessage id={translationKey} />
+      </Headline>);
+  };
+
   handleSelectionToggle = (e) => {
     this.setState({
       managedResourceSelected: e.target.checked
     });
-  }
+  };
 
   handleRemoveResourceFromHoldings = () => {
     this.setState({
@@ -78,7 +104,7 @@ class ResourceEditManagedTitle extends Component {
         isSelected: false
       }
     }, () => { this.handleOnSubmit(this.state.formValues); });
-  }
+  };
 
   handleAddResourceToHoldings = () => {
     this.setState({
@@ -86,7 +112,7 @@ class ResourceEditManagedTitle extends Component {
         isSelected: true
       }
     }, () => { this.handleOnSubmit(this.state.formValues); });
-  }
+  };
 
   commitSelectionToggle = () => {
     this.setState({
@@ -115,7 +141,7 @@ class ResourceEditManagedTitle extends Component {
         this.props.onSubmit(values);
       });
     }
-  }
+  };
 
   renderCoverageDates = () => {
     let { customCoverageDateValues, model } = this.props;
@@ -131,7 +157,7 @@ class ResourceEditManagedTitle extends Component {
         isYearOnly={isBookPublicationType(model.publicationType)}
       />
     );
-  }
+  };
 
   render() {
     let {
@@ -147,9 +173,9 @@ class ResourceEditManagedTitle extends Component {
 
     let {
       showSelectionModal,
-      managedResourceSelected
+      managedResourceSelected,
+      sections,
     } = this.state;
-
 
     let isSelectInFlight = model.update.isPending && 'isSelected' in model.update.changedAttributes;
 
@@ -195,6 +221,8 @@ class ResourceEditManagedTitle extends Component {
             paneTitle={model.title.name}
             paneSub={model.package.name}
             actionMenuItems={actionMenuItems}
+            handleExpandAll={this.toggleAllSections}
+            sections={sections}
             lastMenu={(
               <Fragment>
                 {(model.update.isPending || model.destroy.isPending) && (
@@ -217,8 +245,11 @@ class ResourceEditManagedTitle extends Component {
             )}
             bodyContent={(
               <Fragment>
-                <DetailsViewSection
-                  label={<FormattedMessage id="ui-eholdings.label.holdingStatus" />}
+                <Accordion
+                  label={this.getSectionHeader('ui-eholdings.label.holdingStatus')}
+                  open={sections.resourceShowHoldingStatus}
+                  id="resourceShowHoldingStatus"
+                  onToggle={this.toggleSection}
                 >
                   <label
                     data-test-eholdings-resource-holding-status
@@ -234,9 +265,9 @@ class ResourceEditManagedTitle extends Component {
                         }
                       </Headline>
                     )
-                  }
+                    }
                     <br />
-                    { ((!managedResourceSelected && !isSelectInFlight) || (!this.props.model.isSelected && isSelectInFlight)) && (
+                    {((!managedResourceSelected && !isSelectInFlight) || (!this.props.model.isSelected && isSelectInFlight)) && (
                       <Button
                         buttonStyle="primary"
                         onClick={this.handleAddResourceToHoldings}
@@ -246,9 +277,15 @@ class ResourceEditManagedTitle extends Component {
                         <FormattedMessage id="ui-eholdings.addToHoldings" />
                       </Button>)}
                   </label>
-                </DetailsViewSection>
+                </Accordion>
+
                 {managedResourceSelected && (
-                  <DetailsViewSection label={<FormattedMessage id="ui-eholdings.resource.resourceSettings" />}>
+                  <Accordion
+                    label={this.getSectionHeader('ui-eholdings.resource.resourceSettings')}
+                    open={sections.resourceShowSettings}
+                    id="resourceShowSettings"
+                    onToggle={this.toggleSection}
+                  >
                     <VisibilityField disabled={visibilityMessage} />
                     <div>
                       {hasInheritedProxy && (
@@ -260,10 +297,14 @@ class ResourceEditManagedTitle extends Component {
                           </div>
                         ))}
                     </div>
-                  </DetailsViewSection>
+                  </Accordion>
                 )}
-                <DetailsViewSection
-                  label={<FormattedMessage id="ui-eholdings.label.coverageSettings" />}
+
+                <Accordion
+                  label={this.getSectionHeader('ui-eholdings.label.coverageSettings')}
+                  open={sections.resourceShowCoverageSettings}
+                  id="resourceShowCoverageSettings"
+                  onToggle={this.toggleSection}
                 >
                   {managedResourceSelected ? (
                     <Fragment>
@@ -300,8 +341,8 @@ class ResourceEditManagedTitle extends Component {
                       <FormattedMessage id="ui-eholdings.resource.coverage.notSelected" />
                     </p>
                   )}
+                </Accordion>
 
-                </DetailsViewSection>
                 <NavigationModal
                   modalLabel={intl.formatMessage({ id: 'ui-eholdings.navModal.modalLabel' })}
                   continueLabel={intl.formatMessage({ id: 'ui-eholdings.navModal.continueLabel' })}
