@@ -12,10 +12,12 @@ import {
   is
 } from '@bigtest/interactor';
 import { hasClassBeginningWith } from './helpers';
+import SearchBadge from './search-badge';
 
 @interactor class TitleSearchPage {
   fillSearch = fillable('[data-test-title-search-field] input[name="search"]');
   submitSearch = clickable('[data-test-search-submit]');
+  isSearchDisabled = property('[data-test-search-submit]', 'disabled');
   isSearchButtonDisabled = property('[data-test-search-submit]', 'disabled');
   fillSearch = fillable('[data-test-title-search-field] input[name="search"]');
   submitSearch = clickable('[data-test-search-submit]');
@@ -27,6 +29,7 @@ import { hasClassBeginningWith } from './helpers';
   totalResults = text('[data-test-eholdings-search-results-header] p');
   paneTitleHasFocus = is('[data-test-eholdings-search-results-header] h2 [tabindex]', ':focus');
   titlePreviewPaneIsPresent = isPresent('[data-test-preview-pane="titles"]');
+  sortBy = value('[data-test-eholdings-search-filters="titles"] input[name="sort"]:checked');
   providerPreviewPaneIsPresent = isPresent('[data-test-preview-pane="providers"]');
   hasBackButton = isPresent('[data-test-eholdings-details-view-back-button]');
   clickSearchVignette = clickable('[data-test-search-vignette]');
@@ -36,6 +39,7 @@ import { hasClassBeginningWith } from './helpers';
   selectedSearchType = collection('[data-test-search-form-type-switcher] a[class^="is-active--"]');
   isSearchVignetteHidden = hasClassBeginningWith('[data-test-search-vignette]', 'is-hidden--');
   clickCloseButton = clickable('[data-test-eholdings-details-view-close-button]');
+  searchBadge = new SearchBadge('[data-test-eholdings-results-pane-search-badge]');
   hasPreSearchPane = isPresent('[data-test-eholdings-pre-search-pane]');
   clickNewButton = clickable('[data-test-eholdings-search-new-button]');
 
