@@ -79,6 +79,9 @@ import Toast from './toast';
     return /^No/.test(this.resourceVisibilityLabel);
   });
 
+  hasAddTokenButton = isPresent('[data-test-add-token-button]');
+  clickAddTokenButton = clickable('[data-test-add-token-button]');
+
   isResourceVisible = computed(function () {
     return this.resourceVisibilityLabel === 'Yes';
   });

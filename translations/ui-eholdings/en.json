@@ -2,6 +2,7 @@
     "meta.title": "eHoldings",
     "package.actionMenu.edit": "Edit",
     "package.addToHoldings": "Add to holdings",
+    "package.addToken": "Add token",
     "package.removeFromHoldings": "Remove from holdings",
     "package.contentType": "Content type",
     "package.coverageSettings": "Coverage settings",
@@ -69,6 +70,7 @@
 
     "package.token": "Package token",
     "package.noTokenSet": "No package token has been set.",
+    "package.tokenNeed": "Package Token need",
     "package.toast.isFreshlySaved": "Package saved.",
     "package.token.addToken": "+ Add a package level token",
 

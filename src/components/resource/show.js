@@ -115,6 +115,7 @@ class ResourceShow extends Component {
     let hasInheritedProxy = model.package &&
       model.package.proxy &&
       model.package.proxy.id;
+    const isTokenNeeded = model.data.attributes && model.data.attributes.isTokenNeeded;
 
     let actionMenuItems = [
       {
@@ -289,6 +290,18 @@ class ResourceShow extends Component {
                         <InternalLink to={`/eholdings/packages/${model.packageId}`}>{model.package.name}</InternalLink>
                       </div>
                     </KeyValue>
+
+                    {isTokenNeeded && (
+                      <KeyValue label={<FormattedMessage id="ui-eholdings.package.tokenNeed" />}>
+                        <Button
+                          data-test-add-token-button
+                          marginBottom0
+                          to={`/eholdings/packages/${model.packageId}/edit`}
+                        >
+                          <FormattedMessage id="ui-eholdings.package.addToken" />
+                        </Button>
+                      </KeyValue>
+                    )}
 
                     <KeyValue label={<FormattedMessage id="ui-eholdings.label.provider" />}>
                       <div data-test-eholdings-resource-show-provider-name>
