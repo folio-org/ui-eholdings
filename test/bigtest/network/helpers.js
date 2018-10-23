@@ -36,7 +36,7 @@ export function relevanceCompare(query) {
         return compareName.toLowerCase().includes(word) ? total + 1 : total;
       }, 0);
       if (modelCount !== modelCompareCount) {
-        return modelCount < modelCompareCount;
+        return modelCompareCount - modelCount;
       }
 
       return nameCompare(model, modelCompare);
