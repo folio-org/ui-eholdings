@@ -19,6 +19,8 @@ export default @interactor class SearchModal {
   selectSearchField = selectable('[data-test-title-search-field] select');
   searchDisabled = property('[data-test-search-submit]', 'disabled')
   clickSearch = clickable('[data-test-eholdings-modal-search-button]');
+  sortBy = value('[data-test-eholdings-search-filters="titles"] input[name="sort"]:checked');
+  resetSortFilter = clickable('#filter-titles-sort button[icon="clearX"]');
 
   clickFilter = action(function (name, val) {
     return this.click(`[data-test-eholdings-search-filters] input[name="${name}"][value="${val}"]`);
