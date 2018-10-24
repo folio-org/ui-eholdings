@@ -10,8 +10,8 @@ class CoverageDateList extends React.Component {
     isYearOnly: PropTypes.bool
   };
 
-  compareCoverage(coverageObj1, coverageObj2) {
-    return coverageObj1.beginCoverage < coverageObj2.beginCoverage;
+  compareCoveragesToBeSortedInDescOrder(coverageObj1, coverageObj2) {
+    return new Date(coverageObj2.beginCoverage) - new Date(coverageObj1.beginCoverage);
   }
 
   formatCoverageFullDate({ beginCoverage, endCoverage }) {
@@ -57,12 +57,16 @@ class CoverageDateList extends React.Component {
 
     return (
       <div id={id} data-test-eholdings-display-coverage-list>
-        { coverageArray
-          .concat() // clones original array so we aren't mutating upstream
-          .sort((coverageObj1, coverageObj2) => this.compareCoverage(coverageObj1, coverageObj2))
-          .map(coverageArrayObj => (isYearOnly ?
-            this.formatCoverageYear(coverageArrayObj) :
-            this.formatCoverageFullDate(coverageArrayObj))).join(', ')}
+        {
+          [...coverageArray]
+            .sort(this.compareCoveragesToBeSortedInDescOrder)
+            .map(coverageArrayObj => (
+              isYearOnly
+                ? this.formatCoverageYear(coverageArrayObj)
+                : this.formatCoverageFullDate(coverageArrayObj)
+            ))
+            .join(', ')
+        }
       </div>
     );
   }
