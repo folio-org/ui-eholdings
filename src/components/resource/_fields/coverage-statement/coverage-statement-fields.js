@@ -18,26 +18,28 @@ class CoverageStatementFields extends Component {
 
     return (
       <fieldset>
-        <Field
-          name="hasCoverageStatement"
-          component={RadioButton}
-          type="radio"
-          label={intl.formatMessage({ id:'ui-eholdings.label.dates' })}
-          value="no"
-          onChange={() => {
-            change('coverageStatement', '');
-          }}
-        />
-        <div className={styles['coverage-statement-fields-category']}>
-          {coverageDates}
+        <div data-test-eholdings-has-coverage-statement>
+          <Field
+            name="hasCoverageStatement"
+            component={RadioButton}
+            type="radio"
+            label={intl.formatMessage({ id:'ui-eholdings.label.dates' })}
+            value="no"
+            onChange={() => {
+              change('coverageStatement', '');
+            }}
+          />
+          <div className={styles['coverage-statement-fields-category']}>
+            {coverageDates}
+          </div>
+          <Field
+            name="hasCoverageStatement"
+            component={RadioButton}
+            type="radio"
+            label={intl.formatMessage({ id:'ui-eholdings.label.coverageStatement' })}
+            value="yes"
+          />
         </div>
-        <Field
-          name="hasCoverageStatement"
-          component={RadioButton}
-          type="radio"
-          label={intl.formatMessage({ id:'ui-eholdings.label.coverageStatement' })}
-          value="yes"
-        />
         <div data-test-eholdings-coverage-statement-textarea className={styles['coverage-statement-fields-category']}>
           <Field
             name="coverageStatement"
@@ -65,7 +67,7 @@ export function validate(values, { intl }) {
 
   if (values.hasCoverageStatement === 'yes' && values.coverageStatement.length === 0) {
     errors.coverageStatement = intl.formatMessage({
-      id: 'validate.errors.coverageStatement.blank'
+      id: 'ui-eholdings.validate.errors.coverageStatement.blank'
     });
   }
 

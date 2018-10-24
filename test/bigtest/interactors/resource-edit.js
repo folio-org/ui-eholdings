@@ -126,6 +126,10 @@ import Datepicker from './datepicker';
   coverageStatementHasError = hasClassBeginningWith('[data-test-eholdings-coverage-statement-textarea] textarea', 'hasError--');
   validationErrorOnCoverageStatement = text('[data-test-eholdings-coverage-statement-textarea] [class^="feedbackError--"]');
 
+  clickCoverageStatementRadio = action(function (val) {
+    return this.click(`[data-test-eholdings-has-coverage-statement] [value="${val}"]`);
+  });
+
   inputCoverageStatement = action(function (statement) {
     return this
       .fillCoverageStatement(statement)

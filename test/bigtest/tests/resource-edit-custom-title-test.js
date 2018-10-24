@@ -502,6 +502,27 @@ describe('ResourceEditCustomTitle', () => {
     });
   });
 
+  describe('visiting the resource edit page with a coverage statement', () => {
+    beforeEach(function () {
+      resource.coverageStatement = 'test coverage statement';
+      resource.save();
+      this.visit(`/eholdings/resources/${resource.titleId}/edit`);
+    });
+
+    describe('entering an empty coverage statement', () => {
+      beforeEach(() => {
+        return ResourceEditPage
+          .clickCoverageStatementRadio('yes')
+          .inputCoverageStatement('')
+          .clickCoverageStatementRadio('yes');
+      });
+
+      it('displays a validation error message for empty coverage statement', () => {
+        expect(ResourceEditPage.validationErrorOnCoverageStatement).to.equal('Statement field cannot be blank if selected.');
+      });
+    });
+  });
+
   describe('encountering a server error when GETting', () => {
     beforeEach(function () {
       this.server.get('/resources/:id', {
