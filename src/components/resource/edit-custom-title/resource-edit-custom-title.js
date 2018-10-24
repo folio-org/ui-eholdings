@@ -3,13 +3,16 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { formValueSelector, reduxForm } from 'redux-form';
 import { intlShape, injectIntl, FormattedMessage } from 'react-intl';
+import update from 'lodash/fp/update';
 
 import {
+  Accordion,
   Headline,
   Icon,
   Modal,
   ModalFooter
 } from '@folio/stripes/components';
+
 import { processErrors, isBookPublicationType } from '../../utilities';
 
 import DetailsView from '../../details-view';
@@ -18,7 +21,6 @@ import CustomCoverageFields, { validate as validateCoverageDates } from '../_fie
 import CustomUrlFields, { validate as validateUrlFields } from '../_fields/custom-url';
 import CoverageStatementFields, { validate as validateCoverageStatement } from '../_fields/coverage-statement';
 import CustomEmbargoFields, { validate as validateEmbargo } from '../_fields/custom-embargo';
-import DetailsViewSection from '../../details-view-section';
 import NavigationModal from '../../navigation-modal';
 import Toaster from '../../toaster';
 import PaneHeaderButton from '../../pane-header-button';
@@ -44,8 +46,13 @@ class ResourceEditCustomTitle extends Component {
     showSelectionModal: false,
     allowFormToSubmit: false,
     formValues: {},
-    initialValues: this.props.initialValues
-  }
+    initialValues: this.props.initialValues,
+    sections: {
+      resourceShowHoldingStatus: true,
+      resourceShowSettings: true,
+      resourceShowCoverageSettings: true,
+    },
+  };
 
   static getDerivedStateFromProps(nextProps, prevState) {
     let stateUpdates = {};
@@ -66,19 +73,38 @@ class ResourceEditCustomTitle extends Component {
     return stateUpdates;
   }
 
+  toggleSection = ({ id }) => {
+    const newState = update(`sections.${id}`, value => !value, this.state);
+    this.setState(newState);
+  };
+
+  toggleAllSections = (sections) => {
+    this.setState({ sections });
+  };
+
+  getSectionHeader = (translationKey) => {
+    return (
+      <Headline
+        size="large"
+        tag="h3"
+      >
+        <FormattedMessage id={translationKey} />
+      </Headline>);
+  };
+
   handleRemoveResourceFromHoldings = () => {
     this.setState({
       formValues: {
         isSelected: false
       }
     }, () => { this.handleOnSubmit(this.state.formValues); });
-  }
+  };
 
   handleSelectionToggle = (e) => {
     this.setState({
       resourceSelected: e.target.checked
     });
-  }
+  };
 
   commitSelectionToggle = () => {
     this.setState({
@@ -109,7 +135,7 @@ class ResourceEditCustomTitle extends Component {
         this.props.onSubmit(values);
       });
     }
-  }
+  };
 
   renderCoverageDates = () => {
     let { customCoverageDateValues, model } = this.props;
@@ -125,7 +151,7 @@ class ResourceEditCustomTitle extends Component {
         isYearOnly={isBookPublicationType(model.publicationType)}
       />
     );
-  }
+  };
 
   render() {
     let {
@@ -141,7 +167,8 @@ class ResourceEditCustomTitle extends Component {
 
     let {
       showSelectionModal,
-      resourceSelected
+      resourceSelected,
+      sections,
     } = this.state;
 
     let hasInheritedProxy = model.package &&
@@ -179,6 +206,8 @@ class ResourceEditCustomTitle extends Component {
             paneTitle={model.title.name}
             paneSub={model.package.name}
             actionMenuItems={actionMenuItems}
+            handleExpandAll={this.toggleAllSections}
+            sections={sections}
             lastMenu={
               <Fragment>
                 {(model.update.isPending || model.destroy.isPending) && (
@@ -199,8 +228,11 @@ class ResourceEditCustomTitle extends Component {
             }
             bodyContent={(
               <Fragment>
-                <DetailsViewSection
-                  label={<FormattedMessage id="ui-eholdings.label.holdingStatus" />}
+                <Accordion
+                  label={this.getSectionHeader('ui-eholdings.label.holdingStatus')}
+                  open={sections.resourceShowHoldingStatus}
+                  id="resourceShowHoldingStatus"
+                  onToggle={this.toggleSection}
                 >
                   <label
                     data-test-eholdings-resource-holding-status
@@ -214,8 +246,14 @@ class ResourceEditCustomTitle extends Component {
                     </Headline>
                     <br />
                   </label>
-                </DetailsViewSection>
-                <DetailsViewSection label={<FormattedMessage id="ui-eholdings.resource.resourceSettings" />}>
+                </Accordion>
+
+                <Accordion
+                  label={this.getSectionHeader('ui-eholdings.resource.resourceSettings')}
+                  open={sections.resourceShowSettings}
+                  id="resourceShowSettings"
+                  onToggle={this.toggleSection}
+                >
                   {resourceSelected ? (
                     <Fragment>
                       <VisibilityField disabled={visibilityMessage} />
@@ -236,10 +274,13 @@ class ResourceEditCustomTitle extends Component {
                       <FormattedMessage id="ui-eholdings.resource.resourceSettings.notSelected" />
                     </p>
                   )}
-                </DetailsViewSection>
+                </Accordion>
 
-                <DetailsViewSection
-                  label={<FormattedMessage id="ui-eholdings.label.coverageSettings" />}
+                <Accordion
+                  label={this.getSectionHeader('ui-eholdings.label.coverageSettings')}
+                  open={sections.resourceShowCoverageSettings}
+                  id="resourceShowCoverageSettings"
+                  onToggle={this.toggleSection}
                 >
                   {resourceSelected ? (
                     <Fragment>
@@ -274,8 +315,8 @@ class ResourceEditCustomTitle extends Component {
                       <FormattedMessage id="ui-eholdings.resource.coverage.notSelected" />
                     </p>
                   )}
+                </Accordion>
 
-                </DetailsViewSection>
                 <NavigationModal
                   modalLabel={intl.formatMessage({ id: 'ui-eholdings.navModal.modalLabel' })}
                   continueLabel={intl.formatMessage({ id: 'ui-eholdings.navModal.continueLabel' })}
@@ -312,21 +353,21 @@ class ResourceEditCustomTitle extends Component {
           )}
         >
           {
-              /*
-                we use <= here to account for the case where a user
-                selects and then immediately deselects the
-                resource
-              */
-              model.title.resources.length <= 1 ? (
-                <span data-test-eholdings-deselect-final-title-warning>
-                  <FormattedMessage id="ui-eholdings.resource.modal.body.isCustom.lastTitle" />
-                </span>
-              ) : (
-                <span data-test-eholdings-deselect-title-warning>
-                  <FormattedMessage id="ui-eholdings.resource.modal.body" />
-                </span>
-              )
-            }
+            /*
+              we use <= here to account for the case where a user
+              selects and then immediately deselects the
+              resource
+            */
+            model.title.resources.length <= 1 ? (
+              <span data-test-eholdings-deselect-final-title-warning>
+                <FormattedMessage id="ui-eholdings.resource.modal.body.isCustom.lastTitle" />
+              </span>
+            ) : (
+              <span data-test-eholdings-deselect-title-warning>
+                <FormattedMessage id="ui-eholdings.resource.modal.body" />
+              </span>
+            )
+          }
         </Modal>
       </div>
     );

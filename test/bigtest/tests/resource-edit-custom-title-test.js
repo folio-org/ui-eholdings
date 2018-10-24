@@ -93,6 +93,136 @@ describe('ResourceEditCustomTitle', () => {
       this.visit(`/eholdings/resources/${resource.titleId}/edit`);
     });
 
+    describe('section: holding status', () => {
+      it('displays the title', () => {
+        expect(ResourceEditPage.resourceHoldingStatusAccordion.label).to.equal('Holding status');
+      });
+
+      it('is expanded by default', () => {
+        expect(ResourceEditPage.resourceHoldingStatusAccordion.isOpen).to.equal(true);
+      });
+
+      describe('clicking the header', () => {
+        beforeEach(async () => {
+          await ResourceEditPage.resourceHoldingStatusAccordion.clickHeader();
+        });
+
+        it('collapses the section', () => {
+          expect(ResourceEditPage.resourceHoldingStatusAccordion.isOpen).to.be.false;
+        });
+
+        describe('clicking the header again', () => {
+          beforeEach(async () => {
+            await ResourceEditPage.resourceHoldingStatusAccordion.clickHeader();
+          });
+
+          it('expands the section', () => {
+            expect(ResourceEditPage.resourceHoldingStatusAccordion.isOpen).to.be.true;
+          });
+        });
+      });
+
+      it('reflects the desired state of holding status', () => {
+        expect(ResourceEditPage.isResourceSelectedBoolean).to.equal(true);
+      });
+
+      it('has hidden "Add to holdings" button', () => {
+        expect(ResourceEditPage.addToHoldingsButton).to.equal(false);
+      });
+    });
+
+    describe('section: resource settings', () => {
+      it('displays the title', () => {
+        expect(ResourceEditPage.resourceSettingsAccordion.label).to.equal('Resource settings');
+      });
+
+      it('is expanded by default', () => {
+        expect(ResourceEditPage.resourceSettingsAccordion.isOpen).to.equal(true);
+      });
+
+      describe('clicking the header', () => {
+        beforeEach(async () => {
+          await ResourceEditPage.resourceSettingsAccordion.clickHeader();
+        });
+
+        it('collapses the section', () => {
+          expect(ResourceEditPage.resourceSettingsAccordion.isOpen).to.be.false;
+        });
+
+        describe('clicking the header again', () => {
+          beforeEach(async () => {
+            await ResourceEditPage.resourceSettingsAccordion.clickHeader();
+          });
+
+          it('expands the section', () => {
+            expect(ResourceEditPage.resourceSettingsAccordion.isOpen).to.be.true;
+          });
+        });
+      });
+
+      it('has "Show to Patrons" field', () => {
+        expect(ResourceEditPage.isResourceShowToPatronsVisible).to.equal(true);
+      });
+    });
+
+    describe('section: coverage settings', () => {
+      it('displays the title', () => {
+        expect(ResourceEditPage.resourceSettingsAccordion.label).to.equal('Resource settings');
+      });
+
+      it('is expanded by default', () => {
+        expect(ResourceEditPage.resourceSettingsAccordion.isOpen).to.equal(true);
+      });
+
+      describe('clicking the header', () => {
+        beforeEach(async () => {
+          await ResourceEditPage.resourceSettingsAccordion.clickHeader();
+        });
+
+        it('collapses the section', () => {
+          expect(ResourceEditPage.resourceSettingsAccordion.isOpen).to.be.false;
+        });
+
+        describe('clicking the header again', () => {
+          beforeEach(async () => {
+            await ResourceEditPage.resourceSettingsAccordion.clickHeader();
+          });
+
+          it('expands the section', () => {
+            expect(ResourceEditPage.resourceSettingsAccordion.isOpen).to.be.true;
+          });
+        });
+      });
+
+      it('has "Dates" field', () => {
+        expect(ResourceEditPage.isCoverageSettingsDatesField).to.equal(true);
+      });
+    });
+
+    describe('clicking the "Collapse all" button', () => {
+      beforeEach(async () => {
+        await ResourceEditPage.toggleSectionButton.click();
+      });
+
+      it('collapses all sections', () => {
+        expect(ResourceEditPage.resourceHoldingStatusAccordion.isOpen).to.equal(false);
+        expect(ResourceEditPage.resourceSettingsAccordion.isOpen).to.equal(false);
+        expect(ResourceEditPage.resourceCoverageSettingsAccordion.isOpen).to.equal(false);
+      });
+
+      describe('clicking the "Expand all" button ', () => {
+        beforeEach(async () => {
+          await ResourceEditPage.toggleSectionButton.click();
+        });
+
+        it('expands all sections', () => {
+          expect(ResourceEditPage.resourceHoldingStatusAccordion.isOpen).to.equal(true);
+          expect(ResourceEditPage.resourceSettingsAccordion.isOpen).to.equal(true);
+          expect(ResourceEditPage.resourceCoverageSettingsAccordion.isOpen).to.equal(true);
+        });
+      });
+    });
+
     it('shows a form with coverage statement', () => {
       expect(ResourceEditPage.coverageStatement).to.equal('');
     });
