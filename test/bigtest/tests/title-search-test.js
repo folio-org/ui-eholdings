@@ -519,6 +519,199 @@ describe('TitleSearch', () => {
     });
   });
 
+  describe('title sort functionality', () => {
+    beforeEach(function () {
+      this.server.create('title', {
+        name: 'Football Digest',
+        type: 'TLI',
+        subject: 'football football'
+      });
+      this.server.create('title', {
+        name: 'Biz of Football',
+        type: 'TLI',
+        subject: 'football football'
+      });
+      this.server.create('title', {
+        name: 'Science and Medicine in Football',
+        type: 'TLI',
+        subject: 'football asd'
+      });
+      this.server.create('title', {
+        name: 'UNT Legends: a Century of Mean Green Football',
+        type: 'TLI',
+        subject: '123'
+      });
+      this.server.create('title', {
+        name: 'Analytics for everyone'
+      });
+      this.server.create('title', {
+        name: 'My Health Analytics'
+      });
+    });
+
+    describe('search form', () => {
+      it('should have search filters', () => {
+        expect(TitleSearchPage.hasSearchFilters).to.be.true;
+      });
+    });
+
+    describe('when searching for titles', () => {
+      beforeEach(() => {
+        return TitleSearchPage.search('football');
+      });
+
+      describe('when no sort options were chosen by user', () => {
+        describe('search form', () => {
+          it('should display "relevance" sort filter as the default', () => {
+            expect(TitleSearchPage.sortBy).to.equal('relevance');
+          });
+
+          it.always('should not reflect the default sort=relevance in url', function () {
+            expect(this.location.search).to.not.include('sort=relevance');
+          });
+        });
+
+        describe('the list of search results', () => {
+          it('should display title entries related to "football"', () => { // ???
+            expect(TitleSearchPage.titleList()).to.have.lengthOf(4);
+          });
+        });
+      });
+
+      describe('when "name" sort option is chosen by user', () => {
+        beforeEach(() => {
+          return TitleSearchPage.clickFilter('sort', 'name');
+        });
+
+        describe('search form', () => {
+          it('should show the sort filter of name', () => {
+            expect(TitleSearchPage.sortBy).to.equal('name');
+          });
+
+          it('should reflect the sort in the URL query params', function () {
+            expect(this.location.search).to.include('sort=name');
+          });
+
+          it('should show search filters on smaller screen sizes (due to filter change only)', () => {
+            expect(TitleSearchPage.isSearchVignetteHidden).to.equal(false);
+          });
+        });
+
+        describe('the list of search results', () => {
+          it('should show the same number of found titles', () => { // ???
+            expect(TitleSearchPage.titleList()).to.have.lengthOf(4);
+          });
+        });
+
+        describe('then searching for other titles', () => {
+          beforeEach(() => {
+            return TitleSearchPage.search('analytics');
+          });
+
+          describe('search form', () => {
+            it('should keep "name" sort filter active', () => {
+              expect(TitleSearchPage.sortBy).to.equal('name');
+            });
+
+            it('should reflect the sort in the URL query params', function () {
+              expect(this.location.search).to.include('sort=name');
+            });
+          });
+
+          describe('the list of search results', () => {
+            it('should display the titles related to "analytics"', () => { // ???
+              expect(TitleSearchPage.titleList()).to.have.lengthOf(2);
+            });
+          });
+
+          describe('then navigating to package search', () => {
+            beforeEach(() => {
+              return TitleSearchPage.changeSearchType('packages');
+            });
+
+            describe('the list of search results', () => {
+              it('should be empty', () => {
+                expect(TitleSearchPage.titleList()).to.have.lengthOf(0);
+              });
+            });
+
+            describe('then navigating back to title search', () => {
+              beforeEach(() => {
+                return TitleSearchPage.changeSearchType('titles');
+              });
+
+              describe('search form', () => {
+                it('should keep the sort filter of name', () => {
+                  expect(TitleSearchPage.sortBy).to.equal('name');
+                });
+
+                it('should reflect the sort=name in the URL query params', function () {
+                  expect(this.location.search).to.include('sort=name');
+                });
+              });
+
+              describe('the list of search results', () => {
+                it('should display the results of previous search', () => {
+                  expect(TitleSearchPage.titleList()).to.have.lengthOf(2);
+                });
+              });
+            });
+          });
+        });
+      });
+    });
+
+    describe('when visiting the page with an existing sort', () => {
+      beforeEach(function () {
+        this.visit('/eholdings/?searchType=titles&q=football&sort=name');
+        // the search pane is ending up hidden by default
+        return TitleSearchPage.searchBadge.clickIcon();
+      });
+
+      describe('search field', () => {
+        it('should be filled with proper value', () => {
+          expect(TitleSearchPage.searchFieldValue).to.equal('football');
+        });
+      });
+
+      describe('search form', () => {
+        it('should display "name" sort filter chosen', () => {
+          expect(TitleSearchPage.sortBy).to.equal('name');
+        });
+      });
+
+      describe('the list of search results', () => {
+        it('shuold display expected results', () => {
+          expect(TitleSearchPage.titleList()).to.have.lengthOf(4);
+        });
+      });
+    });
+
+    describe('when clearing the search field', () => {
+      beforeEach(() => {
+        return TitleSearchPage.fillSearch('');
+      });
+
+      describe('search button', () => {
+        it('should be disabled', () => {
+          expect(TitleSearchPage.isSearchDisabled).to.be.true;
+        });
+      });
+    });
+
+    describe('when selecting a filter without a value in the search field', () => {
+      beforeEach(() => {
+        return TitleSearchPage.clickFilter('sort', 'name');
+      });
+
+      describe('presearch pane', () => {
+        it('should be present', () => {
+          expect(TitleSearchPage.hasPreSearchPane).to.be.true;
+        });
+      });
+    });
+  });
+
   describe('with multiple pages of titles', () => {
     beforeEach(function () {
       this.server.createList('title', 75, {

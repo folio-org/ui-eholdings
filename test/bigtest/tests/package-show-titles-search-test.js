@@ -177,6 +177,64 @@ describe('Package Show Title Search', () => {
     });
   });
 
+  describe('title sort functionality', () => {
+    beforeEach(function () {
+      this.visit(
+        {
+          pathname: `/eholdings/packages/${providerPackage.id}`,
+          state: { eholdings: true }
+        }
+      );
+    });
+    describe('when no sort options are chosen by user', () => {
+      beforeEach(() => {
+        return PackageShowPage.clickListSearch();
+      });
+      describe('search form', () => {
+        it('should show "relevance" sort option as the default', () => {
+          expect(PackageShowPage.searchModal.sortBy).to.equal('relevance');
+        });
+      });
+    });
+
+    describe('when "name" sort oprion is chosen by user', () => {
+      beforeEach(() => {
+        return PackageShowPage.clickListSearch()
+          .searchModal.clickFilter('sort', 'name');
+      });
+      describe('search form', () => {
+        it('should show "name" sort option', () => {
+          expect(PackageShowPage.searchModal.sortBy).to.equal('name');
+        });
+      });
+
+      describe('then performing a search and opening the search modal again', () => {
+        beforeEach(() => {
+          return PackageShowPage.searchModal.searchTitles('title')
+            .searchModal.clickSearch()
+            .clickListSearch();
+        });
+        describe('search form', () => {
+          it('should keep previous sort option', () => {
+            expect(PackageShowPage.searchModal.sortBy).to.equal('name');
+          });
+        });
+      });
+
+      describe('then reset to default sort option', () => {
+        beforeEach(() => {
+          return PackageShowPage.searchModal.resetSortFilter();
+        });
+
+        describe('search form', () => {
+          it('should show "relevance" sort option as the default', () => {
+            expect(PackageShowPage.searchModal.sortBy).to.equal('relevance');
+          });
+        });
+      });
+    });
+  });
+
   describe('navigating to package show page with over 10k related resources', () => {
     beforeEach(function () {
       let largeProviderPackage = this.server.create(
@@ -192,9 +250,11 @@ describe('Package Show Title Search', () => {
       );
 
       this.server.get(`packages/${largeProviderPackage.id}/resources`,
-        { 'data':[],
-          'meta':{ 'totalResults': 10000 },
-          'jsonapi':{ 'version':'1.0' } }, 200);
+        {
+          'data': [],
+          'meta': { 'totalResults': 10000 },
+          'jsonapi': { 'version': '1.0' }
+        }, 200);
 
       this.visit(
         {
