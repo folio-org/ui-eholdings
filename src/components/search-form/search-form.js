@@ -113,11 +113,16 @@ class SearchForm extends Component {
 
     return (
       <div className={styles['search-form-container']} data-test-search-form={searchType}>
-        { displaySearchTypeSwitcher && (
-          <div className={styles['search-switcher']} data-test-search-form-type-switcher>
+        {displaySearchTypeSwitcher && (
+          <div className={styles['search-switcher']} role='tablist' data-test-search-form-type-switcher>
             {validSearchTypes.map(type => (
               <Link
+                role='tab'
+                aria-selected={searchType === type}
+                aria-controls={type + '-panel'}
+                id={type + '-tab'}
                 key={type}
+                tabIndex={searchType === type ? undefined : -1}
                 title={intl.formatMessage({ id: 'ui-eholdings.search.searchLink' }, { type })}
                 to={searchTypeUrls[type]}
                 className={searchType === type ? styles['is-active'] : undefined}
@@ -128,7 +133,13 @@ class SearchForm extends Component {
             ))}
           </div>
         )}
-        <form onSubmit={this.handleSearchSubmit}>
+        <form
+          onSubmit={this.handleSearchSubmit}
+          role='tabpanel'
+          aria-labelledby={searchType + '-tab'}
+          id={searchType + '-panel'}
+          tabIndex='0'
+        >
           {(searchType === 'titles') ? (
             <div data-test-title-search-field>
               <SearchField
