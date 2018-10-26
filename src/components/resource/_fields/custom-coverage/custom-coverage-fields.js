@@ -86,7 +86,7 @@ export default injectIntl(ResourceCoverageFields);
 const validateStartDateBeforeEndDate = (dateRange, intl) => {
   const message = intl.formatMessage({ id: 'ui-eholdings.validate.errors.dateRange.startDateBeforeEndDate' });
 
-  if (dateRange.endCoverage && moment(dateRange.beginCoverage).isAfter(moment(dateRange.endCoverage))) {
+  if (dateRange.endCoverage && moment.utc(dateRange.beginCoverage).isAfter(moment.utc(dateRange.endCoverage))) {
     return { beginCoverage: message };
   }
 
@@ -103,7 +103,7 @@ const validateDateFormat = (dateRange, intl) => {
   let dateFormat = moment.localeData()._longDateFormat.L;
   const message = intl.formatMessage({ id: 'ui-eholdings.validate.errors.dateRange.format' }, { dateFormat });
 
-  if (!dateRange.beginCoverage || !moment(dateRange.beginCoverage).isValid()) {
+  if (!dateRange.beginCoverage || !moment.utc(dateRange.beginCoverage).isValid()) {
     return { beginCoverage: message };
   }
 
@@ -120,18 +120,18 @@ const validateDateFormat = (dateRange, intl) => {
 const validateWithinPackageRange = (dateRange, packageCoverage, intl) => {
   // javascript/moment has no mechanism for "infinite", so we
   // use an absurd future date to represent the concept of "present"
-  let present = moment('9999-09-09T05:00:00.000Z');
+  let present = moment.utc('9999-09-09T05:00:00.000Z');
   if (packageCoverage && packageCoverage.beginCoverage) {
     let {
       beginCoverage: packageBeginCoverage,
       endCoverage: packageEndCoverage
     } = packageCoverage;
 
-    let beginCoverageDate = moment(dateRange.beginCoverage);
-    let endCoverageDate = dateRange.endCoverage ? moment(dateRange.endCoverage) : present;
+    let beginCoverageDate = moment.utc(dateRange.beginCoverage);
+    let endCoverageDate = dateRange.endCoverage ? moment.utc(dateRange.endCoverage) : present;
 
-    let packageBeginCoverageDate = moment(packageBeginCoverage);
-    let packageEndCoverageDate = packageEndCoverage ? moment(packageEndCoverage) : moment();
+    let packageBeginCoverageDate = moment.utc(packageBeginCoverage);
+    let packageEndCoverageDate = packageEndCoverage ? moment.utc(packageEndCoverage) : moment.utc();
     let packageRange = moment.range(packageBeginCoverageDate, packageEndCoverageDate);
 
     let startDate = intl.formatDate(
@@ -146,7 +146,7 @@ const validateWithinPackageRange = (dateRange, packageCoverage, intl) => {
 
     let endDate = packageEndCoverage ?
       intl.formatDate(
-        packageEndCoverage,
+        packageEndCoverageDate,
         {
           timeZone: 'UTC',
           year: 'numeric',
@@ -180,10 +180,10 @@ const validateWithinPackageRange = (dateRange, packageCoverage, intl) => {
  * @returns {} - an error object if errors are found, or `false` otherwise
  */
 const validateNoRangeOverlaps = (dateRange, customCoverages, index, intl) => {
-  let present = moment('9999-09-09T05:00:00.000Z');
+  let present = moment.utc('9999-09-09T05:00:00.000Z');
 
-  let beginCoverageDate = moment(dateRange.beginCoverage);
-  let endCoverageDate = dateRange.endCoverage ? moment(dateRange.endCoverage) : present;
+  let beginCoverageDate = moment.utc(dateRange.beginCoverage);
+  let endCoverageDate = dateRange.endCoverage ? moment.utc(dateRange.endCoverage) : present;
   let coverageRange = moment.range(beginCoverageDate, endCoverageDate);
 
   for (let overlapIndex = 0, len = customCoverages.length; overlapIndex < len; overlapIndex++) {
@@ -194,8 +194,8 @@ const validateNoRangeOverlaps = (dateRange, customCoverages, index, intl) => {
       continue; // eslint-disable-line no-continue
     }
 
-    let overlapCoverageBeginDate = moment(overlapRange.beginCoverage);
-    let overlapCoverageEndDate = overlapRange.endCoverage ? moment(overlapRange.endCoverage) : present;
+    let overlapCoverageBeginDate = moment.utc(overlapRange.beginCoverage);
+    let overlapCoverageEndDate = overlapRange.endCoverage ? moment.utc(overlapRange.endCoverage) : present;
     let overlapCoverageRange = moment.range(overlapCoverageBeginDate, overlapCoverageEndDate);
 
     let startDate = intl.formatDate(

@@ -85,7 +85,7 @@ export function validate(values, props) {
   values.customCoverages.forEach((dateRange, index) => {
     let dateRangeErrors = {};
 
-    if (dateRange.beginCoverage && !moment(dateRange.beginCoverage).isValid()) {
+    if (dateRange.beginCoverage && !moment.utc(dateRange.beginCoverage).isValid()) {
       dateRangeErrors.beginCoverage = intl.formatMessage({ id: 'ui-eholdings.validate.errors.dateRange.format' }, { dateFormat });
     }
 
@@ -93,7 +93,7 @@ export function validate(values, props) {
       dateRangeErrors.beginCoverage = intl.formatMessage({ id: 'ui-eholdings.validate.errors.dateRange.format' }, { dateFormat });
     }
 
-    if (dateRange.endCoverage && moment(dateRange.beginCoverage).isAfter(moment(dateRange.endCoverage))) {
+    if (dateRange.endCoverage && moment.utc(dateRange.beginCoverage).isAfter(moment.utc(dateRange.endCoverage))) {
       dateRangeErrors.beginCoverage = intl.formatMessage({ id: 'ui-eholdings.validate.errors.dateRange.startDateBeforeEndDate' });
     }
 

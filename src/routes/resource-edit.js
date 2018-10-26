@@ -95,8 +95,8 @@ class ResourceEditRoute extends Component {
       updateResource(model);
     } else {
       model.customCoverages = customCoverages.map((dateRange) => {
-        let beginCoverage = !dateRange.beginCoverage ? null : moment(dateRange.beginCoverage).tz('UTC').format('YYYY-MM-DD');
-        let endCoverage = !dateRange.endCoverage ? null : moment(dateRange.endCoverage).tz('UTC').format('YYYY-MM-DD');
+        let beginCoverage = !dateRange.beginCoverage ? null : moment.utc(dateRange.beginCoverage).format('YYYY-MM-DD');
+        let endCoverage = !dateRange.endCoverage ? null : moment.utc(dateRange.endCoverage).format('YYYY-MM-DD');
 
         return {
           beginCoverage,
