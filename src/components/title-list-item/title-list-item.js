@@ -51,20 +51,27 @@ function TitleListItem({
 
       {showPublisherAndType && (
         <div>
-          <span data-test-eholdings-title-list-item-publisher-name>
-            {item.publisherName}
-          </span>
-
-          <br />
-
-          <span data-test-eholdings-title-list-item-publication-type>
-            {item.publicationType}
-          </span>
+          {item.publicationType && (
+            <span data-test-eholdings-title-list-item-publication-type>
+              {item.publicationType}
+            </span>
+          )}
+          {item.publicationType && item.publisherName &&
+            '&nbsp;&bull;&nbsp;'
+          }
+          {item.publisherName && (
+            <span>
+              &nbsp;&bull;&nbsp;
+              <span data-test-eholdings-title-list-item-publisher-name>
+                {item.publisherName}
+              </span>
+            </span>
+          )}
         </div>
       )}
 
       {showSelected && (
-        <span>
+        <div>
           <span data-test-eholdings-title-list-item-title-selected>
             {item.isSelected ?
               <FormattedMessage id="ui-eholdings.selected" /> :
@@ -79,7 +86,7 @@ function TitleListItem({
               </span>
             </span>
           )}
-        </span>
+        </div>
       )}
     </InternalLink>
   );

@@ -54,19 +54,16 @@
   }
 
   &.is-publisher-and-type-visible {
-    /* 1. name  2. publisher  3. type */
+    /* 1. name  2. type and publisher */
     background-image:
       linear-gradient(#eee, #eee 0.9em, transparent 0.9em),
-      linear-gradient(#eee, #eee 0.8em, transparent 0.8em),
       linear-gradient(#eee, #eee 0.8em, transparent 0.8em);
     background-size:
       14em var(--font-size-medium),
-      10em var(--font-size-small),
-      5em var(--font-size-small);
+      10em var(--font-size-small);
     background-position:
       0 0.4rem,
-      0 1.67rem,
-      0 3.5em;
+      0 1.67rem;
   }
 
   /* shimmer effect */
