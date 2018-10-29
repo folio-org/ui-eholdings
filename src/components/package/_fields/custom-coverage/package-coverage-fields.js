@@ -35,7 +35,7 @@ class PackageCoverageFields extends Component {
             type="text"
             component={Datepicker}
             label={intl.formatMessage({ id: 'ui-eholdings.date.startDate' })}
-            format={(value) => (value ? intl.formatDate(value, { timeZone: 'UTC' }) : '')}
+            format={(value) => (value ? moment.utc(value) : '')}
           />
         </div>
         <div
@@ -47,7 +47,7 @@ class PackageCoverageFields extends Component {
             type="text"
             component={Datepicker}
             label={intl.formatMessage({ id: 'ui-eholdings.date.endDate' })}
-            format={(value) => (value ? intl.formatDate(value, { timeZone: 'UTC' }) : '')}
+            format={(value) => (value ? moment.utc(value) : '')}
           />
         </div>
       </Fragment>
