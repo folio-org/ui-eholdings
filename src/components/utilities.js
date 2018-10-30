@@ -25,10 +25,10 @@ export function isBookPublicationType(publicationType) {
 
 export function isValidCoverage(coverageObj) {
   if (coverageObj.beginCoverage) {
-    if (!moment(coverageObj.beginCoverage, 'YYYY-MM-DD').isValid()) { return false; }
+    if (!moment.utc(coverageObj.beginCoverage, 'YYYY-MM-DD').isValid()) { return false; }
   }
   if (coverageObj.endCoverage) {
-    if (!moment(coverageObj.endCoverage, 'YYYY-MM-DD').isValid()) { return false; }
+    if (!moment.utc(coverageObj.endCoverage, 'YYYY-MM-DD').isValid()) { return false; }
   }
   return true;
 }

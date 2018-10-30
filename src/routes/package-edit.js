@@ -121,8 +121,8 @@ class PackageEditRoute extends Component {
       let endCoverage = '';
 
       if (values.customCoverages[0]) {
-        beginCoverage = !values.customCoverages[0].beginCoverage ? '' : moment(values.customCoverages[0].beginCoverage).tz('UTC').format('YYYY-MM-DD');
-        endCoverage = !values.customCoverages[0].endCoverage ? '' : moment(values.customCoverages[0].endCoverage).tz('UTC').format('YYYY-MM-DD');
+        beginCoverage = !values.customCoverages[0].beginCoverage ? '' : moment.utc(values.customCoverages[0].beginCoverage).format('YYYY-MM-DD');
+        endCoverage = !values.customCoverages[0].endCoverage ? '' : moment.utc(values.customCoverages[0].endCoverage).format('YYYY-MM-DD');
       }
 
       model.customCoverage = {
