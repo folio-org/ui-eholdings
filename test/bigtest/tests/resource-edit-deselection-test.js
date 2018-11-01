@@ -100,7 +100,7 @@ describe('ResourceEditDeselection', () => {
             expect(ResourceShowPage.isUrlPresent).to.equal(true);
           });
 
-          it('reflects that the resource is deselected', () => {
+          it.skip('reflects that the resource is deselected', () => {
             expect(ResourceShowPage.isResourceSelected).to.equal('Not selected');
           });
         });

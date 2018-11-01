@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import ReactRouterPropTypes from 'react-router-prop-types';
 import { connect } from 'react-redux';
 import { TitleManager } from '@folio/stripes/core';
+import { Icon } from '@folio/stripes/components';
 
 import { createResolver } from '../redux';
 import Resource from '../redux/resource';
@@ -80,6 +81,10 @@ class ResourceShowRoute extends Component {
 
   render() {
     const { model, proxyTypes, history } = this.props;
+
+    if (model.isLoading) {
+      return <Icon icon='spinner-ellipsis' />;
+    }
 
     return (
       <TitleManager record={model.name}>

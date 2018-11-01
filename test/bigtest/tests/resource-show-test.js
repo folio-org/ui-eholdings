@@ -3,6 +3,7 @@ import { describe, beforeEach, it } from '@bigtest/mocha';
 
 import setupApplication from '../helpers/setup-application';
 import ResourcePage from '../interactors/resource-show';
+import PackageEditPage from '../interactors/package-edit';
 
 describe('ResourceShow', () => {
   setupApplication();
@@ -62,7 +63,8 @@ describe('ResourceShow', () => {
       package: providerPackage,
       isSelected: false,
       title,
-      url: 'https://frontside.io'
+      url: 'https://frontside.io',
+      isTokenNeeded: false
     });
 
     let proxy = this.server.create('proxy', {
@@ -133,6 +135,32 @@ describe('ResourceShow', () => {
 
     it('displays the package name', () => {
       expect(ResourcePage.packageName).to.equal('Cool Package');
+    });
+
+    describe('when token is not needed', () => {
+      it('should not display "Add token" button', () => {
+        expect(ResourcePage.hasAddTokenButton).to.be.false;
+      });
+    });
+
+    describe('when token is needed', () => {
+      beforeEach(() => {
+        resource.update('isTokenNeeded', true);
+      });
+
+      it('should display "Add token" button', () => {
+        expect(ResourcePage.hasAddTokenButton).to.be.true;
+      });
+
+      describe('clicking on "Add token" button', () => {
+        beforeEach(async () => {
+          await ResourcePage.clickAddTokenButton();
+        });
+
+        it('should redirect to package edit page', () => {
+          expect(PackageEditPage.$root).to.exist;
+        });
+      });
     });
 
     it('displays the content type', () => {
