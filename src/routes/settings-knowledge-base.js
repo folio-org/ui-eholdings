@@ -38,11 +38,6 @@ class SettingsKnowledgeBaseRoute extends Component {
         <View
           model={config}
           onSubmit={this.updateConfig}
-          initialValues={{
-            rmapiBaseUrl: config.rmapiBaseUrl,
-            customerId: config.customerId,
-            apiKey: config.apiKey
-          }}
         />
       </TitleManager>
     );

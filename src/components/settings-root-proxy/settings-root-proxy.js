@@ -1,8 +1,8 @@
 import React, { Component, Fragment } from 'react';
 import PropTypes from 'prop-types';
-import { reduxForm } from 'redux-form';
+import { Form } from 'react-final-form';
 import { Headline, Icon } from '@folio/stripes/components';
-import { intlShape, injectIntl, FormattedMessage } from 'react-intl';
+import { FormattedMessage } from 'react-intl';
 
 import SettingsDetailPane from '../settings-detail-pane';
 import { processErrors } from '../utilities';
@@ -11,16 +11,11 @@ import RootProxySelectField from './_fields/root-proxy-select';
 import PaneHeaderButton from '../pane-header-button';
 import styles from './settings-root-proxy.css';
 
-class SettingsRootProxy extends Component {
+export default class SettingsRootProxy extends Component {
   static propTypes = {
-    handleSubmit: PropTypes.func,
-    intl: intlShape.isRequired,
-    invalid: PropTypes.bool,
     isFreshlySaved: PropTypes.bool,
     onSubmit: PropTypes.func.isRequired,
-    pristine: PropTypes.bool,
     proxyTypes: PropTypes.object.isRequired,
-    reset: PropTypes.func,
     rootProxy: PropTypes.object.isRequired
   };
 
@@ -28,12 +23,7 @@ class SettingsRootProxy extends Component {
     let {
       rootProxy,
       proxyTypes,
-      handleSubmit,
       onSubmit,
-      pristine,
-      reset,
-      intl,
-      invalid,
       isFreshlySaved
     } = this.props;
     let toasts = processErrors(rootProxy);
@@ -46,71 +36,71 @@ class SettingsRootProxy extends Component {
       });
     }
 
-    let actionMenuItems = [
-      {
-        'label': intl.formatMessage({ id: 'ui-eholdings.actionMenu.cancelEditing' }),
-        'state': { eholdings: true },
-        'onClick': reset,
-        'disabled': rootProxy.update.isPending || invalid || pristine,
-        'data-test-eholdings-settings-root-proxy-cancel-action': true
-      }
-    ];
-
     return (
-      <form
-        data-test-eholdings-settings-root-proxy
-        onSubmit={handleSubmit(onSubmit)}
-        className={styles['settings-root-proxy-form']}
-      >
-        <SettingsDetailPane
-          paneTitle={intl.formatMessage({ id: 'ui-eholdings.settings.rootProxy' })}
-          actionMenuItems={actionMenuItems}
-          lastMenu={(
-            <Fragment>
-              {rootProxy.update.isPending && (
-                <Icon icon="spinner-ellipsis" />
+      <Form
+        onSubmit={onSubmit}
+        initialValues={{
+          rootProxyServer: rootProxy.proxyTypeId
+        }}
+        render={({ form: { reset }, handleSubmit, invalid, pristine }) => (
+          <form
+            data-test-eholdings-settings-root-proxy
+            onSubmit={handleSubmit}
+            className={styles['settings-root-proxy-form']}
+          >
+            <SettingsDetailPane
+              paneTitle={<FormattedMessage id="ui-eholdings.settings.rootProxy" />}
+              actionMenuItems={[
+                {
+                  'label': <FormattedMessage id="ui-eholdings.actionMenu.cancelEditing" />,
+                  'state': { eholdings: true },
+                  'onClick': reset,
+                  'disabled': rootProxy.update.isPending || pristine,
+                  'data-test-eholdings-settings-root-proxy-cancel-action': true
+                }
+              ]}
+              lastMenu={(
+                <Fragment>
+                  {rootProxy.update.isPending && (
+                    <Icon icon="spinner-ellipsis" />
+                  )}
+                  <PaneHeaderButton
+                    disabled={rootProxy.update.isPending || invalid || pristine}
+                    type="submit"
+                    buttonStyle="primary"
+                    data-test-eholdings-settings-root-proxy-save-button
+                  >
+                    {rootProxy.update.isPending ?
+                      (<FormattedMessage id="ui-eholdings.saving" />)
+                      :
+                      (<FormattedMessage id="ui-eholdings.save" />)}
+                  </PaneHeaderButton>
+                </Fragment>
               )}
-              <PaneHeaderButton
-                disabled={rootProxy.update.isPending || invalid || pristine}
-                type="submit"
-                buttonStyle="primary"
-                data-test-eholdings-settings-root-proxy-save-button
-              >
-                {rootProxy.update.isPending ?
-                  (<FormattedMessage id="ui-eholdings.saving" />)
-                  :
-                  (<FormattedMessage id="ui-eholdings.save" />)}
-              </PaneHeaderButton>
-            </Fragment>
-          )}
-        >
-          <Toaster toasts={toasts} position="bottom" />
+            >
+              <Toaster toasts={toasts} position="bottom" />
 
-          <Headline size="xx-large" tag="h3">
-            <FormattedMessage id="ui-eholdings.settings.rootProxy.setting" />
-          </Headline>
+              <Headline size="xx-large" tag="h3">
+                <FormattedMessage id="ui-eholdings.settings.rootProxy.setting" />
+              </Headline>
 
-          {proxyTypes.isLoading ? (
-            <Icon icon="spinner-ellipsis" />
-          ) : (
-            <div data-test-eholdings-settings-root-proxy-select>
-              <RootProxySelectField proxyTypes={proxyTypes} />
-            </div>
-          )}
+              {proxyTypes.isLoading ? (
+                <Icon icon="spinner-ellipsis" />
+              ) : (
+                <div data-test-eholdings-settings-root-proxy-select>
+                  <RootProxySelectField proxyTypes={proxyTypes} />
+                </div>
+              )}
 
-          <p><FormattedMessage id="ui-eholdings.settings.rootProxy.ebsco.customer.message" /></p>
+              <p><FormattedMessage id="ui-eholdings.settings.rootProxy.ebsco.customer.message" /></p>
 
-          <p>
-            <FormattedMessage id="ui-eholdings.settings.rootProxy.warning" />
-          </p>
-        </SettingsDetailPane>
-      </form>
+              <p>
+                <FormattedMessage id="ui-eholdings.settings.rootProxy.warning" />
+              </p>
+            </SettingsDetailPane>
+          </form>
+        )}
+      />
     );
   }
 }
-
-export default injectIntl(reduxForm({
-  enableReinitialize: true,
-  form: 'SettingsRootProxy',
-  destroyOnUnmount: false,
-})(SettingsRootProxy));
