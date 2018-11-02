@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import ReactRouterPropTypes from 'react-router-prop-types';
 import { withRouter } from 'react-router';
-import { intlShape, injectIntl } from 'react-intl';
+import { FormattedMessage } from 'react-intl';
 import classNames from 'classnames/bind';
 import capitalize from 'lodash/capitalize';
 import Measure from 'react-measure';
@@ -40,7 +40,6 @@ class DetailsView extends Component {
     bodyContent: PropTypes.node.isRequired,
     handleExpandAll: PropTypes.func,
     history: ReactRouterPropTypes.history.isRequired,
-    intl: intlShape.isRequired,
     lastMenu: PropTypes.node,
     listSectionId: PropTypes.string,
     listType: PropTypes.node,
@@ -203,7 +202,6 @@ class DetailsView extends Component {
       handleExpandAll,
       listSectionId,
       onListToggle,
-      intl,
       history,
       location
     } = this.props;
@@ -223,19 +221,30 @@ class DetailsView extends Component {
       <div data-test-eholdings-details-view={type}>
         <PaneHeader
           firstMenu={searchType ? (
-            <IconButton
-              icon="closeX"
-              ariaLabel={intl.formatMessage({ id: 'ui-eholdings.label.icon.closeX' }, { paneTitle })}
-              href={`/eholdings${location.search}`}
-              data-test-eholdings-details-view-close-button
-            />
+            <FormattedMessage
+              id="ui-eholdings.label.icon.closeX"
+              values={{ paneTitle }}
+            >
+              {ariaLabel => (
+                <IconButton
+                  icon="closeX"
+                  ariaLabel={ariaLabel}
+                  href={`/eholdings${location.search}`}
+                  data-test-eholdings-details-view-close-button
+                />
+              )}
+            </FormattedMessage>
           ) : historyState && historyState.eholdings && (
-            <IconButton
-              icon="left-arrow"
-              ariaLabel={intl.formatMessage({ id: 'ui-eholdings.label.icon.goBack' })}
-              onClick={() => history.goBack()}
-              data-test-eholdings-details-view-back-button
-            />
+            <FormattedMessage id="ui-eholdings.label.icon.goBack">
+              {ariaLabel => (
+                <IconButton
+                  icon="left-arrow"
+                  ariaLabel={ariaLabel}
+                  onClick={() => history.goBack()}
+                  data-test-eholdings-details-view-back-button
+                />
+              )}
+            </FormattedMessage>
           )}
           paneTitle={
             <span data-test-eholdings-details-view-pane-title>{paneTitle}</span>
@@ -330,4 +339,4 @@ class DetailsView extends Component {
   }
 }
 
-export default (injectIntl(withRouter(DetailsView)));
+export default (withRouter(DetailsView));

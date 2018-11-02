@@ -74,12 +74,16 @@ class CustomEmbargoFields extends Component {
           data-test-eholdings-custom-embargo-remove-row-button
           className={styles['custom-embargo-clear-row']}
         >
-          <IconButton
-            icon="trashBin"
-            onClick={this.clearValues}
-            size="small"
-            ariaLabel={intl.formatMessage({ id: 'ui-eholdings.resource.embargoPeriod.clear' })}
-          />
+          <FormattedMessage id="ui-eholdings.resource.embargoPeriod.clear">
+            {ariaLabel => (
+              <IconButton
+                icon="trashBin"
+                onClick={this.clearValues}
+                size="small"
+                ariaLabel={ariaLabel}
+              />
+            )}
+          </FormattedMessage>
         </div>
       </div>
     ) : (

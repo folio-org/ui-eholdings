@@ -8,7 +8,7 @@ import {
   PaneHeader
 } from '@folio/stripes/components';
 
-import { intlShape, injectIntl } from 'react-intl';
+import { FormattedMessage, intlShape, injectIntl } from 'react-intl';
 import DetailsViewSection from '../../details-view-section';
 import NameField, { validate as validateName } from '../_fields/name';
 import EditionField, { validate as validateEdition } from '../_fields/edition';
@@ -78,12 +78,16 @@ class TitleCreate extends Component {
             paneTitle={intl.formatMessage({ id: 'ui-eholdings.title.create.paneTitle' })}
             actionMenuItems={actionMenuItems}
             firstMenu={onCancel && (
-              <IconButton
-                icon="left-arrow"
-                ariaLabel={intl.formatMessage({ id: 'ui-eholdings.label.icon.goBack' })}
-                onClick={onCancel}
-                data-test-eholdings-details-view-back-button
-              />
+              <FormattedMessage id="ui-eholdings.label.icon.goBack">
+                {ariaLabel => (
+                  <IconButton
+                    icon="left-arrow"
+                    ariaLabel={ariaLabel}
+                    onClick={onCancel}
+                    data-test-eholdings-details-view-back-button
+                  />
+                )}
+              </FormattedMessage>
             )}
             lastMenu={(
               <Fragment>

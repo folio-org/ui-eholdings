@@ -65,12 +65,16 @@ class PackageCreate extends Component {
             paneTitle={<FormattedMessage id="ui-eholdings.package.create.custom" />}
             actionMenuItems={actionMenuItems}
             firstMenu={onCancel && (
-              <IconButton
-                icon="left-arrow"
-                ariaLabel={intl.formatMessage({ id: 'ui-eholdings.label.icon.goBack' })}
-                onClick={onCancel}
-                data-test-eholdings-details-view-back-button
-              />
+              <FormattedMessage id="ui-eholdings.label.icon.goBack">
+                {ariaLabel => (
+                  <IconButton
+                    icon="left-arrow"
+                    ariaLabel={ariaLabel}
+                    onClick={onCancel}
+                    data-test-eholdings-details-view-back-button
+                  />
+                )}
+              </FormattedMessage>
             )}
             lastMenu={(
               <Fragment>
