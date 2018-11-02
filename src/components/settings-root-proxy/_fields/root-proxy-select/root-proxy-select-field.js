@@ -1,12 +1,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Field } from 'redux-form';
-import { intlShape, injectIntl } from 'react-intl';
+import { Field } from 'react-final-form';
+import { FormattedMessage } from 'react-intl';
 
 import { Select } from '@folio/stripes/components';
 import styles from './root-proxy-select-field.css';
 
-function RootProxySelectField({ proxyTypes, intl }) {
+function RootProxySelectField({ proxyTypes }) {
   let proxyTypesRecords = proxyTypes.resolver.state.proxyTypes.records;
   let options = [];
 
@@ -29,15 +29,14 @@ function RootProxySelectField({ proxyTypes, intl }) {
         name="rootProxyServer"
         component={Select}
         dataOptions={options}
-        label={intl.formatMessage({ id: 'ui-eholdings.settings.rootProxy.server' })}
+        label={<FormattedMessage id="ui-eholdings.settings.rootProxy.server" />}
       />
     </div>
   );
 }
 
 RootProxySelectField.propTypes = {
-  intl: intlShape.isRequired,
   proxyTypes: PropTypes.object.isRequired
 };
 
-export default injectIntl(RootProxySelectField);
+export default RootProxySelectField;

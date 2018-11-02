@@ -53,9 +53,6 @@ class SettingsRootProxyRoute extends Component {
     return (
       <TitleManager page="eHoldings settings" record="Root proxy">
         <View
-          initialValues={{
-            rootProxyServer: rootProxy.proxyTypeId
-          }}
           proxyTypes={proxyTypes}
           rootProxy={rootProxy}
           onSubmit={this.rootProxySubmitted}
