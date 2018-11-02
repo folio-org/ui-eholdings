@@ -12,7 +12,7 @@ class SettingsDetailPane extends Component {
   static propTypes = {
     children: PropTypes.node,
     intl: intlShape.isRequired,
-    paneTitle: PropTypes.string
+    paneTitle: PropTypes.node
   };
 
   render() {
