@@ -13,8 +13,14 @@ function RootProxySelectField({ proxyTypes }) {
   if (proxyTypesRecords) {
     for (let proxyTypesRecord in proxyTypesRecords) {
       if (Object.prototype.hasOwnProperty.call(proxyTypesRecords, proxyTypesRecord)) {
-        options.push({ label: proxyTypesRecords[proxyTypesRecord].attributes.name,
-          value: proxyTypesRecords[proxyTypesRecord].attributes.id });
+        options.push(
+          <option
+            key={proxyTypesRecords[proxyTypesRecord].attributes.id}
+            value={proxyTypesRecords[proxyTypesRecord].attributes.id}
+          >
+            {proxyTypesRecords[proxyTypesRecord].attributes.name}
+          </option>
+        );
       }
     }
   }
@@ -28,9 +34,10 @@ function RootProxySelectField({ proxyTypes }) {
         id="eholdings-settings-root-proxy-server"
         name="rootProxyServer"
         component={Select}
-        dataOptions={options}
         label={<FormattedMessage id="ui-eholdings.settings.rootProxy.server" />}
-      />
+      >
+        {options}
+      </Field>
     </div>
   );
 }

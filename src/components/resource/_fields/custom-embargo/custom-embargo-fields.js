@@ -60,14 +60,23 @@ class CustomEmbargoFields extends Component {
           <Field
             name="customEmbargoUnit"
             component={Select}
-            dataOptions={[
-              { value: '', label: intl.formatMessage({ id: 'ui-eholdings.label.selectTimePeriod' }) },
-              { value: 'Days', label: intl.formatMessage({ id: 'ui-eholdings.label.days' }) },
-              { value: 'Weeks', label: intl.formatMessage({ id: 'ui-eholdings.label.weeks' }) },
-              { value: 'Months', label: intl.formatMessage({ id: 'ui-eholdings.label.months' }) },
-              { value: 'Years', label: intl.formatMessage({ id: 'ui-eholdings.label.years' }) }
-            ]}
-          />
+          >
+            <FormattedMessage id="ui-eholdings.label.selectTimePeriod">
+              {(message) => <option value="">{message}</option>}
+            </FormattedMessage>
+            <FormattedMessage id="ui-eholdings.label.days">
+              {(message) => <option value="Days">{message}</option>}
+            </FormattedMessage>
+            <FormattedMessage id="ui-eholdings.label.weeks">
+              {(message) => <option value="Weeks">{message}</option>}
+            </FormattedMessage>
+            <FormattedMessage id="ui-eholdings.label.months">
+              {(message) => <option value="Months">{message}</option>}
+            </FormattedMessage>
+            <FormattedMessage id="ui-eholdings.label.years">
+              {(message) => <option value="Years">{message}</option>}
+            </FormattedMessage>
+          </Field>
         </div>
 
         <div

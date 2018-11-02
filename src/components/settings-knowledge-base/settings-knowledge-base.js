@@ -120,11 +120,10 @@ export default class SettingsKnowledgeBase extends Component {
                       name="rmapiBaseUrl"
                       component={Select}
                       label={<FormattedMessage id="ui-eholdings.settings.kb.rmapiBaseUrl" />}
-                      dataOptions={[
-                        { value: 'https://sandbox.ebsco.io', label: 'Sandbox: https://sandbox.ebsco.io' },
-                        { value: 'https://api.ebsco.io', label: 'Production: https://api.ebsco.io' }
-                      ]}
-                    />
+                    >
+                      <option value="https://sandbox.ebsco.io">Sandbox: https://sandbox.ebsco.io</option>
+                      <option value="https://api.ebsco.io">Production: https://api.ebsco.io</option>
+                    </Field>
                   </div>
 
                   <div data-test-eholdings-settings-customerid>
