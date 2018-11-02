@@ -142,30 +142,36 @@ class SearchForm extends Component {
         >
           {(searchType === 'titles') ? (
             <div data-test-title-search-field>
-              <SearchField
-                name="search"
-                searchableIndexes={searchableIndexes}
-                selectedIndex={searchField}
-                onChangeIndex={this.handleChangeIndex}
-                onChange={this.handleChangeSearch}
-                onClear={this.handleClearSearch}
-                value={searchString}
-                placeholder={intl.formatMessage({ id: 'ui-eholdings.search.searchType' }, { searchType })}
-                ariaLabel={intl.formatMessage({ id: 'ui-eholdings.search.searchType' }, { searchType })}
-                loading={isLoading}
-              />
+              <FormattedMessage id="ui-eholdings.search.searchType" values={{ searchType }}>
+                {placeholder => (
+                  <SearchField
+                    name="search"
+                    searchableIndexes={searchableIndexes}
+                    selectedIndex={searchField}
+                    onChangeIndex={this.handleChangeIndex}
+                    onChange={this.handleChangeSearch}
+                    onClear={this.handleClearSearch}
+                    value={searchString}
+                    placeholder={placeholder}
+                    loading={isLoading}
+                  />
+                )}
+              </FormattedMessage>
             </div>
           ) : (
             <div data-test-search-field>
-              <SearchField
-                name="search"
-                onChange={this.handleChangeSearch}
-                onClear={this.handleClearSearch}
-                value={searchString}
-                placeholder={intl.formatMessage({ id: 'ui-eholdings.search.searchType' }, { searchType })}
-                ariaLabel={intl.formatMessage({ id: 'ui-eholdings.search.searchType' }, { searchType })}
-                loading={isLoading}
-              />
+              <FormattedMessage id="ui-eholdings.search.searchType" values={{ searchType }}>
+                {placeholder => (
+                  <SearchField
+                    name="search"
+                    onChange={this.handleChangeSearch}
+                    onClear={this.handleClearSearch}
+                    value={searchString}
+                    placeholder={placeholder}
+                    loading={isLoading}
+                  />
+                )}
+              </FormattedMessage>
             </div>
           )}
           { displaySearchButton && (

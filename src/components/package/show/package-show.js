@@ -230,12 +230,21 @@ class PackageShow extends Component {
           handleExpandAll={this.handleExpandAll}
           searchModal={searchModal}
           lastMenu={(
-            <IconButton
-              data-test-eholdings-package-edit-link
-              icon="edit"
-              ariaLabel={intl.formatMessage({ id: 'ui-eholdings.label.editLink' }, { name: model.name })}
-              to={editLink}
-            />
+            <FormattedMessage
+              id="ui-eholdings.label.editLink"
+              values={{
+                name: model.name
+              }}
+            >
+              {ariaLabel => (
+                <IconButton
+                  data-test-eholdings-package-edit-link
+                  icon="edit"
+                  ariaLabel={ariaLabel}
+                  to={editLink}
+                />
+              )}
+            </FormattedMessage>
           )}
           bodyContent={(
             <div>

@@ -4,21 +4,19 @@ import {
   IconButton,
   Pane
 } from '@folio/stripes/components';
-import { injectIntl, intlShape } from 'react-intl';
+import { FormattedMessage } from 'react-intl';
 
 import styles from './settings-detail-pane.css';
 
 class SettingsDetailPane extends Component {
   static propTypes = {
     children: PropTypes.node,
-    intl: intlShape.isRequired,
     paneTitle: PropTypes.node
   };
 
   render() {
     let {
       children,
-      intl,
       paneTitle,
       ...paneProps
     } = this.props;
@@ -29,12 +27,16 @@ class SettingsDetailPane extends Component {
         defaultWidth="fill"
         paneTitle={paneTitle}
         firstMenu={(
-          <IconButton
-            icon="left-arrow"
-            href="/settings/eholdings"
-            ariaLabel={intl.formatMessage({ id: 'ui-eholdings.settings.goBackToEholdings' })}
-            className={styles['settings-detail-pane-back-button']}
-          />
+          <FormattedMessage id="ui-eholdings.settings.goBackToEholdings">
+            {ariaLabel => (
+              <IconButton
+                icon="left-arrow"
+                href="/settings/eholdings"
+                ariaLabel={ariaLabel}
+                className={styles['settings-detail-pane-back-button']}
+              />
+            )}
+          </FormattedMessage>
         )}
       >
         <div className={styles['settings-detail-pane-body']}>
@@ -45,4 +47,4 @@ class SettingsDetailPane extends Component {
   }
 }
 
-export default injectIntl(SettingsDetailPane);
+export default SettingsDetailPane;

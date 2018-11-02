@@ -72,20 +72,26 @@ class TitleShow extends Component {
   }
 
   get lastMenu() {
-    let { model, intl, editLink } = this.props;
+    let { model, editLink } = this.props;
 
     if (editLink) {
       return (
-        <IconButton
-          data-test-eholdings-title-edit-link
-          icon="edit"
-          ariaLabel={
-            intl.formatMessage(
-              { id: 'ui-eholdings.title.editCustomTitle' },
-              { name: model.name }
-            )}
-          to={editLink}
-        />
+        <FormattedMessage
+          id="ui-eholdings.title.editCustomTitle"
+          values={{
+            id: '',
+            name: model.name
+          }}
+        >
+          {ariaLabel => (
+            <IconButton
+              data-test-eholdings-title-edit-link
+              icon="edit"
+              ariaLabel={ariaLabel}
+              to={editLink}
+            />
+          )}
+        </FormattedMessage>
       );
     } else {
       return null;
