@@ -60,7 +60,7 @@ class SearchPaneset extends React.Component {
     return (
       <Button
         data-test-eholdings-search-new-button
-        buttonStyle="primary paneHeaderNewButton"
+        buttonStyle="primary"
         marginBottom0
         to={{
           pathname: `/eholdings/${this.props.resultsType}/new`,
