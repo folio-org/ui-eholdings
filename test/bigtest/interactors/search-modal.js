@@ -15,8 +15,8 @@ export default @interactor class SearchModal {
   isSearchButtonDisabled = property('[data-test-eholdings-modal-search-button]', 'disabled');
   isResetButtonDisabled = property('[data-test-eholdings-modal-reset-all-button]', 'disabled');
   clickResetAll = clickable('[data-test-eholdings-modal-reset-all-button]');
-  searchTitles = fillable('[data-test-title-search-field] input[name="search"]');
-  selectSearchField = selectable('[data-test-title-search-field] select');
+  searchTitles = fillable('[data-test-search-field] input[name="search"]');
+  selectSearchField = selectable('[data-test-search-field] select');
   searchDisabled = property('[data-test-search-submit]', 'disabled')
   clickSearch = clickable('[data-test-eholdings-modal-search-button]');
   sortBy = value('[data-test-eholdings-search-filters="titles"] input[name="sort"]:checked');

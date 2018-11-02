@@ -22,7 +22,7 @@ import SearchBadge from './search-badge';
   hasSearchField = isPresent('[data-test-search-field] input[name="search"]');
   hasSearchFilters = isPresent('[data-test-eholdings-search-filters="packages"]');
   searchFieldValue = value('[data-test-search-field] input[name="search"]');
-  titleSearchFieldValue = value('[data-test-title-search-field] input[name="search"]');
+  titleSearchFieldValue = value('[data-test-search-field] input[name="search"]');
   hasResults = isPresent('[data-test-eholdings-search-results-header]');
   totalResults = text('[data-test-eholdings-search-results-header] p');
   paneTitleHasFocus = is('[data-test-eholdings-search-results-header] h2 [tabindex]', ':focus');
