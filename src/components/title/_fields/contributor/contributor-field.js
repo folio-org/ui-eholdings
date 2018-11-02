@@ -6,7 +6,7 @@ import {
   Select,
   TextField
 } from '@folio/stripes/components';
-import { injectIntl, intlShape } from 'react-intl';
+import { FormattedMessage, injectIntl, intlShape } from 'react-intl';
 import styles from './contributor-field.css';
 
 class ContributorField extends Component {
@@ -34,12 +34,17 @@ class ContributorField extends Component {
             autoFocus={Object.keys(fields.get(index)).length === 0}
             label={intl.formatMessage({ id: 'ui-eholdings.type' })}
             id={`${contributor}-type`}
-            dataOptions={[
-              { value: 'author', label: intl.formatMessage({ id: 'ui-eholdings.label.author' }) },
-              { value: 'editor', label: intl.formatMessage({ id: 'ui-eholdings.label.editor' }) },
-              { value: 'illustrator', label: intl.formatMessage({ id: 'ui-eholdings.label.illustrator' }) }
-            ]}
-          />
+          >
+            <FormattedMessage id="ui-eholdings.label.author">
+              {(message) => <option value="author">{message}</option>}
+            </FormattedMessage>
+            <FormattedMessage id="ui-eholdings.label.editor">
+              {(message) => <option value="editor">{message}</option>}
+            </FormattedMessage>
+            <FormattedMessage id="ui-eholdings.label.illustrator">
+              {(message) => <option value="illustrator">{message}</option>}
+            </FormattedMessage>
+          </Field>
         </div>
         <div
           data-test-eholdings-contributor-contributor

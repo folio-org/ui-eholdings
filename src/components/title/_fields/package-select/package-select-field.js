@@ -1,37 +1,38 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Field } from 'redux-form';
-import { injectIntl, intlShape } from 'react-intl';
+import { FormattedMessage } from 'react-intl';
 
 import { Select } from '@folio/stripes/components';
 
-function PackageSelectField({ intl, options }) {
-  let optionsWithPlaceholder = [{
-    label: options.length ?
-      intl.formatMessage({ id: 'ui-eholdings.title.chooseAPackage' }) :
-      intl.formatMessage({ id: 'ui-eholdings.search.loading' }),
-    disabled: true,
-    value: ''
-  }, ...options];
-
+function PackageSelectField({ options }) {
   return (
     <div data-test-eholdings-package-select-field>
       <Field
         name="packageId"
         component={Select}
-        label={intl.formatMessage({ id: 'ui-eholdings.title.package.isRequired' })}
-        dataOptions={optionsWithPlaceholder}
-      />
+        label={<FormattedMessage id="ui-eholdings.title.package.isRequired" />}
+      >
+        <option value="" disabled>
+          {options.length ? (
+            <FormattedMessage id="ui-eholdings.title.chooseAPackage" />
+          ) : (
+            <FormattedMessage id="ui-eholdings.search.loading" />
+          )}
+        </option>
+        {options.map(({ disabled, label, value }) => (
+          <option disabled={disabled} key={value} value={value}>{label}</option>
+        ))}
+      </Field>
     </div>
   );
 }
 
 PackageSelectField.propTypes = {
-  intl: intlShape.isRequired,
   options: PropTypes.array.isRequired
 };
 
-export default injectIntl(PackageSelectField);
+export default PackageSelectField;
 
 export function validate(values, props) {
   let errors = {};

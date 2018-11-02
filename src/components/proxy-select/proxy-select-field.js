@@ -1,12 +1,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Field } from 'redux-form';
-import { intlShape, injectIntl } from 'react-intl';
+import { FormattedMessage } from 'react-intl';
 
 import { Select } from '@folio/stripes/components';
 import styles from './proxy-select-field.css';
 
-function ProxySelectField({ proxyTypes, inheritedProxyId, intl }) {
+function ProxySelectField({ proxyTypes, inheritedProxyId }) {
   let proxyTypesRecords = proxyTypes.resolver.state.proxyTypes.records;
 
   let checkIfInherited = proxyTypeId => (inheritedProxyId && inheritedProxyId.toLowerCase() === proxyTypeId.toLowerCase());
@@ -14,12 +14,20 @@ function ProxySelectField({ proxyTypes, inheritedProxyId, intl }) {
   let options = [];
 
   options = proxyTypesRecords && Object.values(proxyTypesRecords)
-    .map(proxyType => ({
-      label: checkIfInherited(proxyType.id) ?
-        intl.formatMessage({ id: 'ui-eholdings.proxy.inherited' }, { proxy: proxyType.attributes.name }) :
-        `${proxyType.attributes.name}`,
-      value: proxyType.id
-    }));
+    .map(proxyType => (
+      <FormattedMessage
+        id="ui-eholdings.proxy.inherited"
+        values={{
+          proxy: proxyType.attributes.name
+        }}
+      >
+        {(message) => (
+          <option value={proxyType.id}>
+            {checkIfInherited(proxyType.id) ? message : `${proxyType.attributes.name}`}
+          </option>
+        )}
+      </FormattedMessage>
+    ));
 
   return (
     <div
@@ -30,18 +38,18 @@ function ProxySelectField({ proxyTypes, inheritedProxyId, intl }) {
         id="eholdings-proxy-id"
         name="proxyId"
         component={Select}
-        dataOptions={options}
-        label={intl.formatMessage({ id: 'ui-eholdings.proxy' })}
+        label={<FormattedMessage id="ui-eholdings.proxy" />}
         disabled={options.length < 2}
-      />
+      >
+        {options}
+      </Field>
     </div>
   );
 }
 
 ProxySelectField.propTypes = {
   inheritedProxyId: PropTypes.string.isRequired,
-  intl: intlShape.isRequired,
   proxyTypes: PropTypes.object.isRequired
 };
 
-export default injectIntl(ProxySelectField);
+export default ProxySelectField;

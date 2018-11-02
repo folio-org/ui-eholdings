@@ -1,1 +1,1 @@
-export { default } from './publication-type';
+export { default } from './publication-type-field';

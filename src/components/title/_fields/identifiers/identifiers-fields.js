@@ -8,7 +8,7 @@ import {
   TextField
 } from '@folio/stripes/components';
 
-import { injectIntl, intlShape } from 'react-intl';
+import { FormattedMessage, injectIntl, intlShape } from 'react-intl';
 import styles from './identifiers-fields.css';
 
 class IdentifiersFields extends Component {
@@ -36,13 +36,20 @@ class IdentifiersFields extends Component {
             component={Select}
             autoFocus={Object.keys(fields.get(index)).length === 0}
             label={intl.formatMessage({ id: 'ui-eholdings.type' })}
-            dataOptions={[
-              { value: '0', label: intl.formatMessage({ id: 'ui-eholdings.label.identifier.issnOnline' }) },
-              { value: '1', label: intl.formatMessage({ id: 'ui-eholdings.label.identifier.issnPrint' }) },
-              { value: '2', label: intl.formatMessage({ id: 'ui-eholdings.label.identifier.isbnOnline' }) },
-              { value: '3', label: intl.formatMessage({ id: 'ui-eholdings.label.identifier.isbnPrint' }) }
-            ]}
-          />
+          >
+            <FormattedMessage id="ui-eholdings.label.identifier.issnOnline">
+              {(message) => <option value="0">{message}</option>}
+            </FormattedMessage>
+            <FormattedMessage id="ui-eholdings.label.identifier.issnPrint">
+              {(message) => <option value="1">{message}</option>}
+            </FormattedMessage>
+            <FormattedMessage id="ui-eholdings.label.identifier.isbnOnline">
+              {(message) => <option value="2">{message}</option>}
+            </FormattedMessage>
+            <FormattedMessage id="ui-eholdings.label.identifier.isbnPrint">
+              {(message) => <option value="3">{message}</option>}
+            </FormattedMessage>
+          </Field>
         </div>
         <div
           data-test-eholdings-identifiers-fields-id
