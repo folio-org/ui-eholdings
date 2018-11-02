@@ -1,5 +1,5 @@
 import React from 'react';
-import { injectIntl, intlShape } from 'react-intl';
+import { FormattedMessage } from 'react-intl';
 
 import SearchFilters from './search-form/search-filters';
 
@@ -12,48 +12,47 @@ import SearchFilters from './search-form/search-filters';
  * search-filters component itself.
  */
 function TitleSearchFilters(props) {
-  let { intl } = props;
   return (
     <SearchFilters
       searchType="titles"
       availableFilters={[{
         name: 'sort',
-        label: intl.formatMessage({ id: 'ui-eholdings.label.sortOptions' }),
+        label: <FormattedMessage id="ui-eholdings.label.sortOptions" />,
         defaultValue: 'relevance',
         options: [
-          { label: intl.formatMessage({ id: 'ui-eholdings.filter.sortOptions.relevance' }), value: 'relevance' },
-          { label: intl.formatMessage({ id: 'ui-eholdings.label.title' }), value: 'name' }
+          { label: <FormattedMessage id="ui-eholdings.filter.sortOptions.relevance" />, value: 'relevance' },
+          { label: <FormattedMessage id="ui-eholdings.label.title" />, value: 'name' }
         ]
       }, {
         name: 'selected',
-        label: intl.formatMessage({ id: 'ui-eholdings.label.selectionStatus' }),
+        label: <FormattedMessage id="ui-eholdings.label.selectionStatus" />,
         defaultValue: 'all',
         options: [
-          { label: intl.formatMessage({ id: 'ui-eholdings.filter.all' }), value: 'all' },
-          { label: intl.formatMessage({ id: 'ui-eholdings.selected' }), value: 'true' },
-          { label: intl.formatMessage({ id: 'ui-eholdings.notSelected' }), value: 'false' },
-          { label: intl.formatMessage({ id: 'ui-eholdings.filter.selectionStatus.orderedThroughEbsco' }), value: 'ebsco' }
+          { label: <FormattedMessage id="ui-eholdings.filter.all" />, value: 'all' },
+          { label: <FormattedMessage id="ui-eholdings.selected" />, value: 'true' },
+          { label: <FormattedMessage id="ui-eholdings.notSelected" />, value: 'false' },
+          { label: <FormattedMessage id="ui-eholdings.filter.selectionStatus.orderedThroughEbsco" />, value: 'ebsco' }
         ]
       }, {
         name: 'type',
-        label: intl.formatMessage({ id: 'ui-eholdings.label.publicationType' }),
+        label: <FormattedMessage id="ui-eholdings.label.publicationType" />,
         defaultValue: 'all',
         options: [
-          { label: intl.formatMessage({ id: 'ui-eholdings.filter.all' }), value: 'all' },
-          { label: intl.formatMessage({ id: 'ui-eholdings.filter.pubType.audioBook' }), value: 'audiobook' },
-          { label: intl.formatMessage({ id: 'ui-eholdings.filter.pubType.book' }), value: 'book' },
-          { label: intl.formatMessage({ id: 'ui-eholdings.filter.pubType.bookSeries' }), value: 'bookseries' },
-          { label: intl.formatMessage({ id: 'ui-eholdings.filter.pubType.database' }), value: 'database' },
-          { label: intl.formatMessage({ id: 'ui-eholdings.filter.pubType.journal' }), value: 'journal' },
-          { label: intl.formatMessage({ id: 'ui-eholdings.filter.pubType.newsletter' }), value: 'newsletter' },
-          { label: intl.formatMessage({ id: 'ui-eholdings.filter.pubType.newspaper' }), value: 'newspaper' },
-          { label: intl.formatMessage({ id: 'ui-eholdings.filter.pubType.proceedings' }), value: 'proceedings' },
-          { label: intl.formatMessage({ id: 'ui-eholdings.filter.pubType.report' }), value: 'report' },
-          { label: intl.formatMessage({ id: 'ui-eholdings.filter.pubType.streamingAudio' }), value: 'streamingaudio' },
-          { label: intl.formatMessage({ id: 'ui-eholdings.filter.pubType.streamingVideo' }), value: 'streamingvideo' },
-          { label: intl.formatMessage({ id: 'ui-eholdings.filter.pubType.thesisdissertation' }), value: 'thesisdissertation' },
-          { label: intl.formatMessage({ id: 'ui-eholdings.filter.pubType.website' }), value: 'website' },
-          { label: intl.formatMessage({ id: 'ui-eholdings.filter.pubType.unspecified' }), value: 'unspecified' }
+          { label: <FormattedMessage id="ui-eholdings.filter.all" />, value: 'all' },
+          { label: <FormattedMessage id="ui-eholdings.filter.pubType.audioBook" />, value: 'audiobook' },
+          { label: <FormattedMessage id="ui-eholdings.filter.pubType.book" />, value: 'book' },
+          { label: <FormattedMessage id="ui-eholdings.filter.pubType.bookSeries" />, value: 'bookseries' },
+          { label: <FormattedMessage id="ui-eholdings.filter.pubType.database" />, value: 'database' },
+          { label: <FormattedMessage id="ui-eholdings.filter.pubType.journal" />, value: 'journal' },
+          { label: <FormattedMessage id="ui-eholdings.filter.pubType.newsletter" />, value: 'newsletter' },
+          { label: <FormattedMessage id="ui-eholdings.filter.pubType.newspaper" />, value: 'newspaper' },
+          { label: <FormattedMessage id="ui-eholdings.filter.pubType.proceedings" />, value: 'proceedings' },
+          { label: <FormattedMessage id="ui-eholdings.filter.pubType.report" />, value: 'report' },
+          { label: <FormattedMessage id="ui-eholdings.filter.pubType.streamingAudio" />, value: 'streamingaudio' },
+          { label: <FormattedMessage id="ui-eholdings.filter.pubType.streamingVideo" />, value: 'streamingvideo' },
+          { label: <FormattedMessage id="ui-eholdings.filter.pubType.thesisdissertation" />, value: 'thesisdissertation' },
+          { label: <FormattedMessage id="ui-eholdings.filter.pubType.website" />, value: 'website' },
+          { label: <FormattedMessage id="ui-eholdings.filter.pubType.unspecified" />, value: 'unspecified' }
         ]
       }]}
       {...props}
@@ -61,8 +60,4 @@ function TitleSearchFilters(props) {
   );
 }
 
-TitleSearchFilters.propTypes = {
-  intl: intlShape.isRequired
-};
-
-export default injectIntl(TitleSearchFilters);
+export default TitleSearchFilters;

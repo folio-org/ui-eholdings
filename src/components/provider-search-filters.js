@@ -1,5 +1,5 @@
 import React from 'react';
-import { injectIntl, intlShape } from 'react-intl';
+import { FormattedMessage } from 'react-intl';
 
 import SearchFilters from './search-form/search-filters';
 
@@ -12,17 +12,16 @@ import SearchFilters from './search-form/search-filters';
  * search-filters component itself.
  */
 function ProviderSearchFilters(props) {
-  let { intl } = props;
   return (
     <SearchFilters
       searchType="providers"
       availableFilters={[{
         name: 'sort',
-        label: intl.formatMessage({ id: 'ui-eholdings.label.sortOptions' }),
+        label: <FormattedMessage id="ui-eholdings.label.sortOptions" />,
         defaultValue: 'relevance',
         options: [
-          { label: intl.formatMessage({ id: 'ui-eholdings.filter.sortOptions.relevance' }), value: 'relevance' },
-          { label: intl.formatMessage({ id: 'ui-eholdings.label.provider' }), value: 'name' }
+          { label: <FormattedMessage id="ui-eholdings.filter.sortOptions.relevance" />, value: 'relevance' },
+          { label: <FormattedMessage id="ui-eholdings.label.provider" />, value: 'name' }
         ]
       }]}
       {...props}
@@ -30,8 +29,4 @@ function ProviderSearchFilters(props) {
   );
 }
 
-ProviderSearchFilters.propTypes = {
-  intl: intlShape.isRequired
-};
-
-export default injectIntl(ProviderSearchFilters);
+export default ProviderSearchFilters;

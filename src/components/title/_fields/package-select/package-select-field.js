@@ -34,11 +34,11 @@ PackageSelectField.propTypes = {
 
 export default PackageSelectField;
 
-export function validate(values, props) {
+export function validate(values) {
   let errors = {};
 
   if (!values.packageId) {
-    errors.packageId = props.intl.formatMessage({ id: 'ui-eholdings.validate.errors.packageSelect.required' });
+    errors.packageId = <FormattedMessage id="ui-eholdings.validate.errors.packageSelect.required" />;
   }
 
   return errors;

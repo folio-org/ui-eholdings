@@ -2,7 +2,7 @@ import React, { Component, Fragment } from 'react';
 import { Field, FieldArray } from 'redux-form';
 import PropTypes from 'prop-types';
 import moment from 'moment';
-import { injectIntl, intlShape } from 'react-intl';
+import { FormattedMessage } from 'react-intl';
 
 import {
   Datepicker,
@@ -13,8 +13,7 @@ import styles from './package-coverage-fields.css';
 
 class PackageCoverageFields extends Component {
   static propTypes = {
-    initialValue: PropTypes.array,
-    intl: intlShape.isRequired
+    initialValue: PropTypes.array
   };
 
   static defaultProps = {
@@ -22,8 +21,6 @@ class PackageCoverageFields extends Component {
   };
 
   renderField = (dateRange) => {
-    const { intl } = this.props;
-
     return (
       <Fragment>
         <div
@@ -34,7 +31,7 @@ class PackageCoverageFields extends Component {
             name={`${dateRange}.beginCoverage`}
             type="text"
             component={Datepicker}
-            label={intl.formatMessage({ id: 'ui-eholdings.date.startDate' })}
+            label={<FormattedMessage id="ui-eholdings.date.startDate" />}
             format={(value) => (value ? moment.utc(value) : '')}
           />
         </div>
@@ -46,7 +43,7 @@ class PackageCoverageFields extends Component {
             name={`${dateRange}.endCoverage`}
             type="text"
             component={Datepicker}
-            label={intl.formatMessage({ id: 'ui-eholdings.date.endDate' })}
+            label={<FormattedMessage id="ui-eholdings.date.endDate" />}
             format={(value) => (value ? moment.utc(value) : '')}
           />
         </div>
@@ -55,16 +52,16 @@ class PackageCoverageFields extends Component {
   }
 
   render() {
-    const { initialValue, intl } = this.props;
+    const { initialValue } = this.props;
 
     return (
       <div data-test-eholdings-package-coverage-fields>
         <FieldArray
-          addLabel={intl.formatMessage({ id: 'ui-eholdings.package.coverage.addDateRange' })}
+          addLabel={<FormattedMessage id="ui-eholdings.package.coverage.addDateRange" />}
           component={RepeatableField}
           emptyMessage={
             initialValue.length > 0 && initialValue[0].beginCoverage ?
-              intl.formatMessage({ id: 'ui-eholdings.package.noCoverageDates' }) : ''
+              <FormattedMessage id="ui-eholdings.package.noCoverageDates" /> : ''
           }
           name="customCoverages"
           renderField={this.renderField}
@@ -74,27 +71,27 @@ class PackageCoverageFields extends Component {
   }
 }
 
-export default injectIntl(PackageCoverageFields);
+export default PackageCoverageFields;
 
 export function validate(values, props) {
-  moment.locale(props.intl.locale);
+  let { intl } = props;
+  moment.locale(intl.locale);
   let dateFormat = moment.localeData()._longDateFormat.L;
   const errors = {};
-  let { intl } = props;
 
   values.customCoverages.forEach((dateRange, index) => {
     let dateRangeErrors = {};
 
     if (dateRange.beginCoverage && !moment.utc(dateRange.beginCoverage).isValid()) {
-      dateRangeErrors.beginCoverage = intl.formatMessage({ id: 'ui-eholdings.validate.errors.dateRange.format' }, { dateFormat });
+      dateRangeErrors.beginCoverage = <FormattedMessage id="ui-eholdings.validate.errors.dateRange.format" values={{ dateFormat }} />;
     }
 
     if (dateRange.endCoverage && !dateRange.beginCoverage) {
-      dateRangeErrors.beginCoverage = intl.formatMessage({ id: 'ui-eholdings.validate.errors.dateRange.format' }, { dateFormat });
+      dateRangeErrors.beginCoverage = <FormattedMessage id="ui-eholdings.validate.errors.dateRange.format" values={{ dateFormat }} />;
     }
 
     if (dateRange.endCoverage && moment.utc(dateRange.beginCoverage).isAfter(moment.utc(dateRange.endCoverage))) {
-      dateRangeErrors.beginCoverage = intl.formatMessage({ id: 'ui-eholdings.validate.errors.dateRange.startDateBeforeEndDate' });
+      dateRangeErrors.beginCoverage = <FormattedMessage id="ui-eholdings.validate.errors.dateRange.startDateBeforeEndDate" />;
     }
 
     errors[index] = dateRangeErrors;

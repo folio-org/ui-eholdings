@@ -59,10 +59,10 @@ SearchFilters.propTypes = {
   activeFilters: PropTypes.object,
   availableFilters: PropTypes.arrayOf(PropTypes.shape({
     defaultValue: PropTypes.string,
-    label: PropTypes.string.isRequired,
+    label: PropTypes.node.isRequired,
     name: PropTypes.string.isRequired,
     options: PropTypes.arrayOf(PropTypes.shape({
-      label: PropTypes.string.isRequired,
+      label: PropTypes.node.isRequired,
       value: PropTypes.string.isRequired
     })).isRequired
   })).isRequired,

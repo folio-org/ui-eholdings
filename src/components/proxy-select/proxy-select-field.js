@@ -16,6 +16,7 @@ function ProxySelectField({ proxyTypes, inheritedProxyId }) {
   options = proxyTypesRecords && Object.values(proxyTypesRecords)
     .map(proxyType => (
       <FormattedMessage
+        key={proxyType.id}
         id="ui-eholdings.proxy.inherited"
         values={{
           proxy: proxyType.attributes.name

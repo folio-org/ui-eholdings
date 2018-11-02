@@ -2,7 +2,7 @@ import React, { Component, Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { formValueSelector, reduxForm } from 'redux-form';
-import { intlShape, injectIntl, FormattedMessage } from 'react-intl';
+import { FormattedMessage, injectIntl } from 'react-intl';
 import update from 'lodash/fp/update';
 
 import {
@@ -33,7 +33,6 @@ class ResourceEditManagedTitle extends Component {
     customCoverageDateValues: PropTypes.array,
     handleSubmit: PropTypes.func,
     initialValues: PropTypes.object.isRequired,
-    intl: intlShape.isRequired,
     model: PropTypes.object.isRequired,
     onCancel: PropTypes.func.isRequired,
     onSubmit: PropTypes.func.isRequired,
@@ -167,7 +166,6 @@ class ResourceEditManagedTitle extends Component {
       handleSubmit,
       pristine,
       change,
-      intl,
       onCancel
     } = this.props;
 
@@ -208,7 +206,7 @@ class ResourceEditManagedTitle extends Component {
     }
 
     let visibilityMessage = model.package.visibilityData.isHidden
-      ? (intl.formatMessage({ id: 'ui-eholdings.resource.visibilityData.isHidden' }))
+      ? <FormattedMessage id="ui-eholdings.resource.visibilityData.isHidden" />
       : model.visibilityData.reason && `(${model.visibilityData.reason})`;
 
     return (
@@ -344,9 +342,9 @@ class ResourceEditManagedTitle extends Component {
                 </Accordion>
 
                 <NavigationModal
-                  modalLabel={intl.formatMessage({ id: 'ui-eholdings.navModal.modalLabel' })}
-                  continueLabel={intl.formatMessage({ id: 'ui-eholdings.navModal.continueLabel' })}
-                  dismissLabel={intl.formatMessage({ id: 'ui-eholdings.navModal.dismissLabel' })}
+                  modalLabel={<FormattedMessage id="ui-eholdings.navModal.modalLabel" />}
+                  continueLabel={<FormattedMessage id="ui-eholdings.navModal.continueLabel" />}
+                  dismissLabel={<FormattedMessage id="ui-eholdings.navModal.dismissLabel" />}
                   when={!pristine && !model.update.isPending}
                 />
               </Fragment>
@@ -357,7 +355,7 @@ class ResourceEditManagedTitle extends Component {
         <Modal
           open={showSelectionModal}
           size="small"
-          label={intl.formatMessage({ id: 'ui-eholdings.resource.modal.header' })}
+          label={<FormattedMessage id="ui-eholdings.resource.modal.header" />}
           id="eholdings-resource-confirmation-modal"
           footer={(
             <ModalFooter
@@ -386,20 +384,18 @@ class ResourceEditManagedTitle extends Component {
 }
 
 const validate = (values, props) => {
-  return Object.assign({}, validateCoverageDates(values, props), validateCoverageStatement(values, props), validateEmbargo(values, props));
+  return Object.assign({}, validateCoverageDates(values, props), validateCoverageStatement(values), validateEmbargo(values));
 };
 
 const selector = formValueSelector('ResourceEditManagedTitle');
 
-export default injectIntl(
-  connect(state => ({
-    customCoverageDateValues: selector(state, 'customCoverages')
-  }))(
-    reduxForm({
-      validate,
-      enableReinitialize: true,
-      form: 'ResourceEditManagedTitle',
-      destroyOnUnmount: false,
-    })(ResourceEditManagedTitle)
-  )
-);
+export default injectIntl(connect(state => ({
+  customCoverageDateValues: selector(state, 'customCoverages')
+}))(
+  reduxForm({
+    validate,
+    enableReinitialize: true,
+    form: 'ResourceEditManagedTitle',
+    destroyOnUnmount: false,
+  })(ResourceEditManagedTitle)
+));

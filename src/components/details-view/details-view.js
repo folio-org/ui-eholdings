@@ -339,4 +339,4 @@ class DetailsView extends Component {
   }
 }
 
-export default (withRouter(DetailsView));
+export default withRouter(DetailsView);

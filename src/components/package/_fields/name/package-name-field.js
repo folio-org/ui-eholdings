@@ -1,37 +1,33 @@
 import React from 'react';
 import { Field } from 'redux-form';
-import { injectIntl, intlShape } from 'react-intl';
+import { FormattedMessage } from 'react-intl';
 
 import { TextField } from '@folio/stripes/components';
 
-function PackageNameField({ intl }) {
+function PackageNameField() {
   return (
     <div data-test-eholdings-package-name-field>
       <Field
         name="name"
         type="text"
         component={TextField}
-        label={intl.formatMessage({ id: 'ui-eholdings.label.name.isRequired' })}
+        label={<FormattedMessage id="ui-eholdings.label.name.isRequired" />}
       />
     </div>
   );
 }
 
-PackageNameField.propTypes = {
-  intl: intlShape.isRequired
-};
+export default PackageNameField;
 
-export default injectIntl(PackageNameField);
-
-export function validate(values, props) {
+export function validate(values) {
   let errors = {};
 
   if (values.name === '') {
-    errors.name = props.intl.formatMessage({ id: 'ui-eholdings.validate.errors.customPackage.name' });
+    errors.name = <FormattedMessage id="ui-eholdings.validate.errors.customPackage.name" />;
   }
 
   if (values.name.length >= 300) {
-    errors.name = props.intl.formatMessage({ id: 'ui-eholdings.validate.errors.customPackage.name.length' });
+    errors.name = <FormattedMessage id="ui-eholdings.validate.errors.customPackage.name.length" />;
   }
 
   return errors;

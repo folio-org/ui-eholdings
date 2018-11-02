@@ -11,7 +11,7 @@ import {
   Modal,
   ModalFooter
 } from '@folio/stripes/components';
-import { intlShape, injectIntl, FormattedMessage } from 'react-intl';
+import { FormattedMessage } from 'react-intl';
 import { processErrors } from '../../utilities';
 import DetailsView from '../../details-view';
 import ScrollView from '../../scroll-view';
@@ -35,7 +35,6 @@ class TitleShow extends Component {
       PropTypes.string,
       PropTypes.object
     ]),
-    intl: intlShape.isRequired,
     isFreshlySaved: PropTypes.bool,
     isNewRecord: PropTypes.bool,
     model: PropTypes.object.isRequired,
@@ -151,7 +150,7 @@ class TitleShow extends Component {
   }
 
   render() {
-    let { model, addCustomPackage, request, intl } = this.props;
+    let { model, addCustomPackage, request } = this.props;
     let { showCustomPackageModal, sections } = this.state;
 
     // this will become a ref that will allow us to submit the form
@@ -160,10 +159,10 @@ class TitleShow extends Component {
 
     let modalMessage =
       {
-        header: intl.formatMessage({ id: 'ui-eholdings.title.modalMessage.addTitleToCustomPackage' }),
-        saving: intl.formatMessage({ id: 'ui-eholdings.saving' }),
-        submit: intl.formatMessage({ id: 'ui-eholdings.submit' }),
-        cancel: intl.formatMessage({ id: 'ui-eholdings.cancel' })
+        header: <FormattedMessage id="ui-eholdings.title.modalMessage.addTitleToCustomPackage" />,
+        saving: <FormattedMessage id="ui-eholdings.saving" />,
+        submit: <FormattedMessage id="ui-eholdings.submit" />,
+        cancel: <FormattedMessage id="ui-eholdings.cancel" />
       };
 
     return (
@@ -294,7 +293,7 @@ class TitleShow extends Component {
                 'data-test-eholdings-custom-package-modal-submit': true
               }}
               secondaryButton={{
-                'label': intl.formatMessage({ id: 'ui-eholdings.cancel' }),
+                'label': <FormattedMessage id="ui-eholdings.cancel" />,
                 'onClick': this.toggleCustomPackageModal,
                 'disabled': request.isPending,
                 'data-test-eholdings-custom-package-modal-cancel': true
@@ -314,4 +313,4 @@ class TitleShow extends Component {
   }
 }
 
-export default injectIntl(TitleShow);
+export default TitleShow;

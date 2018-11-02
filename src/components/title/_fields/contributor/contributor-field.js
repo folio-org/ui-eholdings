@@ -6,13 +6,12 @@ import {
   Select,
   TextField
 } from '@folio/stripes/components';
-import { FormattedMessage, injectIntl, intlShape } from 'react-intl';
+import { FormattedMessage } from 'react-intl';
 import styles from './contributor-field.css';
 
 class ContributorField extends Component {
   static propTypes = {
     initialValue: PropTypes.array,
-    intl: intlShape.isRequired
   };
 
   static defaultProps = {
@@ -20,8 +19,6 @@ class ContributorField extends Component {
   };
 
   renderField = (contributor, index, fields) => {
-    const { intl } = this.props;
-
     return (
       <Fragment>
         <div
@@ -32,7 +29,7 @@ class ContributorField extends Component {
             name={`${contributor}.type`}
             component={Select}
             autoFocus={Object.keys(fields.get(index)).length === 0}
-            label={intl.formatMessage({ id: 'ui-eholdings.type' })}
+            label={<FormattedMessage id="ui-eholdings.type" />}
             id={`${contributor}-type`}
           >
             <FormattedMessage id="ui-eholdings.label.author">
@@ -55,7 +52,7 @@ class ContributorField extends Component {
             type="text"
             id={`${contributor}-input`}
             component={TextField}
-            label={intl.formatMessage({ id: 'ui-eholdings.name' })}
+            label={<FormattedMessage id="ui-eholdings.name" />}
           />
         </div>
       </Fragment>
@@ -63,18 +60,18 @@ class ContributorField extends Component {
   }
 
   render() {
-    const { initialValue, intl } = this.props;
+    const { initialValue } = this.props;
 
     return (
       <div data-test-eholdings-contributor-field>
         <FieldArray
-          addLabel={intl.formatMessage({ id: 'ui-eholdings.title.contributor.addContributor' })}
+          addLabel={<FormattedMessage id="ui-eholdings.title.contributor.addContributor" />}
           component={RepeatableField}
           emptyMessage={
             initialValue.length > 0 && initialValue[0].contributor ?
-              intl.formatMessage({ id: 'ui-eholdings.title.contributor.notSet' }) : ''
+              <FormattedMessage id="ui-eholdings.title.contributor.notSet" /> : ''
           }
-          legend={intl.formatMessage({ id: 'ui-eholdings.label.contributors' })}
+          legend={<FormattedMessage id="ui-eholdings.label.contributors" />}
           name="contributors"
           renderField={this.renderField}
         />
@@ -83,7 +80,7 @@ class ContributorField extends Component {
   }
 }
 
-export function validate(values, { intl }) {
+export function validate(values) {
   const errors = {};
 
   values.contributors.forEach((contributorObj, index) => {
@@ -93,11 +90,11 @@ export function validate(values, { intl }) {
     let isEmptyString = typeof contributor === 'string' && !contributor.trim();
 
     if (isEmptyString || isEmptyObject) {
-      contributorErrors.contributor = intl.formatMessage({ id: 'ui-eholdings.validate.errors.contributor.empty' });
+      contributorErrors.contributor = <FormattedMessage id="ui-eholdings.validate.errors.contributor.empty" />;
     }
 
     if (contributor && contributor.length >= 250) {
-      contributorErrors.contributor = intl.formatMessage({ id: 'ui-eholdings.validate.errors.contributor.exceedsLength' });
+      contributorErrors.contributor = <FormattedMessage id="ui-eholdings.validate.errors.contributor.exceedsLength" />;
     }
 
     errors[index] = contributorErrors;
@@ -106,4 +103,4 @@ export function validate(values, { intl }) {
   return { contributors: errors };
 }
 
-export default injectIntl(ContributorField);
+export default ContributorField;

@@ -8,13 +8,12 @@ import {
   TextField
 } from '@folio/stripes/components';
 
-import { FormattedMessage, injectIntl, intlShape } from 'react-intl';
+import { FormattedMessage } from 'react-intl';
 import styles from './identifiers-fields.css';
 
 class IdentifiersFields extends Component {
   static propTypes = {
-    initialValue: PropTypes.array,
-    intl: intlShape.isRequired
+    initialValue: PropTypes.array
   };
 
   static defaultProps = {
@@ -22,8 +21,6 @@ class IdentifiersFields extends Component {
   };
 
   renderField = (identifier, index, fields) => {
-    const { intl } = this.props;
-
     return (
       <Fragment>
         <div
@@ -35,7 +32,7 @@ class IdentifiersFields extends Component {
             type="text"
             component={Select}
             autoFocus={Object.keys(fields.get(index)).length === 0}
-            label={intl.formatMessage({ id: 'ui-eholdings.type' })}
+            label={<FormattedMessage id="ui-eholdings.type" />}
           >
             <FormattedMessage id="ui-eholdings.label.identifier.issnOnline">
               {(message) => <option value="0">{message}</option>}
@@ -59,7 +56,7 @@ class IdentifiersFields extends Component {
             name={`${identifier}.id`}
             type="text"
             component={TextField}
-            label={intl.formatMessage({ id: 'ui-eholdings.id' })}
+            label={<FormattedMessage id="ui-eholdings.id" />}
           />
         </div>
       </Fragment>
@@ -67,18 +64,18 @@ class IdentifiersFields extends Component {
   }
 
   render() {
-    const { initialValue, intl } = this.props;
+    const { initialValue } = this.props;
 
     return (
       <div data-test-eholdings-identifiers-fields>
         <FieldArray
-          addLabel={intl.formatMessage({ id: 'ui-eholdings.title.identifier.addIdentifier' })}
+          addLabel={<FormattedMessage id="ui-eholdings.title.identifier.addIdentifier" />}
           component={RepeatableField}
           emptyMessage={
             initialValue.length > 0 && initialValue[0].id ?
-              intl.formatMessage({ id: 'ui-eholdings.title.identifier.notSet' }) : ''
+              <FormattedMessage id="ui-eholdings.title.identifier.notSet" /> : ''
           }
-          legend={intl.formatMessage({ id: 'ui-eholdings.label.identifiers' })}
+          legend={<FormattedMessage id="ui-eholdings.label.identifiers" />}
           name="identifiers"
           renderField={this.renderField}
         />
@@ -87,18 +84,18 @@ class IdentifiersFields extends Component {
   }
 }
 
-export function validate(values, { intl }) {
+export function validate(values) {
   let errors = [];
 
   values.identifiers.forEach((identifier, index) => {
     let identifierErrors = {};
 
     if (!identifier.id) {
-      identifierErrors.id = intl.formatMessage({ id: 'ui-eholdings.validate.errors.identifiers.noBlank' });
+      identifierErrors.id = <FormattedMessage id="ui-eholdings.validate.errors.identifiers.noBlank" />;
     }
 
     if (identifier.id && identifier.id.length >= 20) {
-      identifierErrors.id = intl.formatMessage({ id: 'ui-eholdings.validate.errors.identifiers.exceedsLength' });
+      identifierErrors.id = <FormattedMessage id="ui-eholdings.validate.errors.identifiers.exceedsLength" />;
     }
 
     errors[index] = identifierErrors;
@@ -107,4 +104,4 @@ export function validate(values, { intl }) {
   return { identifiers: errors };
 }
 
-export default injectIntl(IdentifiersFields);
+export default IdentifiersFields;

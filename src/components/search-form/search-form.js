@@ -1,11 +1,12 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import PropTypes from 'prop-types';
-import { FormattedMessage, intlShape, injectIntl } from 'react-intl';
+import { FormattedMessage } from 'react-intl';
 import Link from 'react-router-dom/Link';
 import capitalize from 'lodash/capitalize';
 import {
   Button,
-  SearchField
+  SearchField,
+  Select
 } from '@folio/stripes/components';
 import ProviderSearchFilters from '../provider-search-filters';
 import PackageSearchFilters from '../package-search-filters';
@@ -19,7 +20,6 @@ class SearchForm extends Component {
   static propTypes = {
     displaySearchButton: PropTypes.bool,
     displaySearchTypeSwitcher: PropTypes.bool,
-    intl: intlShape.isRequired,
     isLoading: PropTypes.bool,
     onFilterChange: PropTypes.func.isRequired,
     onSearch: PropTypes.func.isRequired,
@@ -96,20 +96,12 @@ class SearchForm extends Component {
       searchField,
       searchFilter,
       searchString,
-      sort,
-      intl
+      sort
     } = this.props;
     let Filters = this.getFiltersComponent(searchType);
     // sort is treated separately from the rest of the filters on submit,
     // but treated together when rendering the filters.
     let combinedFilters = { sort, ...searchFilter };
-
-    const searchableIndexes = [
-      { label: intl.formatMessage({ id: 'ui-eholdings.label.title' }), value: 'title' },
-      { label: intl.formatMessage({ id: 'ui-eholdings.label.isxn' }), value: 'isxn' },
-      { label: intl.formatMessage({ id: 'ui-eholdings.label.publisher' }), value: 'publisher' },
-      { label: intl.formatMessage({ id: 'ui-eholdings.label.subject' }), value: 'subject' }
-    ];
 
     return (
       <div className={styles['search-form-container']} data-test-search-form={searchType}>
@@ -123,7 +115,7 @@ class SearchForm extends Component {
                 id={type + '-tab'}
                 key={type}
                 tabIndex={searchType === type ? undefined : -1}
-                title={intl.formatMessage({ id: 'ui-eholdings.search.searchLink' }, { type })}
+                title={<FormattedMessage id="ui-eholdings.search.searchLink" values={{ type }} />}
                 to={searchTypeUrls[type]}
                 className={searchType === type ? styles['is-active'] : undefined}
                 data-test-search-type-button={type}
@@ -144,17 +136,33 @@ class SearchForm extends Component {
             <div data-test-title-search-field>
               <FormattedMessage id="ui-eholdings.search.searchType" values={{ searchType }}>
                 {placeholder => (
-                  <SearchField
-                    name="search"
-                    searchableIndexes={searchableIndexes}
-                    selectedIndex={searchField}
-                    onChangeIndex={this.handleChangeIndex}
-                    onChange={this.handleChangeSearch}
-                    onClear={this.handleClearSearch}
-                    value={searchString}
-                    placeholder={placeholder}
-                    loading={isLoading}
-                  />
+                  <Fragment>
+                    <Select
+                      onChange={this.handleChangeIndex}
+                      value={searchField}
+                    >
+                      <FormattedMessage id="ui-eholdings.label.title">
+                        {(label) => <option value="title">{label}</option>}
+                      </FormattedMessage>
+                      <FormattedMessage id="ui-eholdings.label.isxn">
+                        {(label) => <option value="isxn">{label}</option>}
+                      </FormattedMessage>
+                      <FormattedMessage id="ui-eholdings.label.publisher">
+                        {(label) => <option value="publisher">{label}</option>}
+                      </FormattedMessage>
+                      <FormattedMessage id="ui-eholdings.label.subject">
+                        {(label) => <option value="subject">{label}</option>}
+                      </FormattedMessage>
+                    </Select>
+                    <SearchField
+                      name="search"
+                      onChange={this.handleChangeSearch}
+                      onClear={this.handleClearSearch}
+                      value={searchString}
+                      placeholder={placeholder}
+                      loading={isLoading}
+                    />
+                  </Fragment>
                 )}
               </FormattedMessage>
             </div>
@@ -199,4 +207,4 @@ class SearchForm extends Component {
     );
   }
 }
-export default injectIntl(SearchForm);
+export default SearchForm;

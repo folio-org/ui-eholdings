@@ -2,33 +2,27 @@ import React from 'react';
 import { Field } from 'redux-form';
 
 import { TextArea } from '@folio/stripes/components';
-import { injectIntl, intlShape } from 'react-intl';
+import { FormattedMessage } from 'react-intl';
 
-function DescriptionField({ intl }) {
+function DescriptionField() {
   return (
     <div data-test-eholdings-description-textarea>
       <Field
         name="description"
         component={TextArea}
-        label={intl.formatMessage({ id: 'ui-eholdings.title.description' })}
+        label={<FormattedMessage id="ui-eholdings.title.description" />}
       />
     </div>
   );
 }
 
-DescriptionField.propTypes = {
-  intl: intlShape.isRequired
-};
+export default DescriptionField;
 
-export default injectIntl(DescriptionField);
-
-export function validate(values, props) {
+export function validate(values) {
   const errors = {};
 
   if (values.description && values.description.length > 1500) {
-    errors.description = props.intl.formatMessage({
-      id: 'ui-eholdings.validate.errors.title.description.length'
-    });
+    errors.description = <FormattedMessage id="ui-eholdings.validate.errors.title.description.length" />;
   }
 
   return errors;

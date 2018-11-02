@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Field } from 'redux-form';
-import { injectIntl, FormattedMessage } from 'react-intl';
+import { FormattedMessage } from 'react-intl';
 
 import {
   Button,
@@ -63,18 +63,17 @@ class TokenField extends Component {
   }
 }
 
-export default injectIntl(TokenField);
+export default TokenField;
 
-export function validate(values, props) {
+export function validate(values) {
   const errors = {};
-  let { intl } = props;
 
   if ((values.providerTokenValue && values.providerTokenValue.length > 500)) {
-    errors.providerTokenValue = intl.formatMessage({ id: 'ui-eholdings.validate.errors.token.length' });
+    errors.providerTokenValue = <FormattedMessage id="ui-eholdings.validate.errors.token.length" />;
   }
 
   if ((values.packageTokenValue && values.packageTokenValue.length > 500)) {
-    errors.packageTokenValue = intl.formatMessage({ id: 'ui-eholdings.validate.errors.token.length' });
+    errors.packageTokenValue = <FormattedMessage id="ui-eholdings.validate.errors.token.length" />;
   }
   return errors;
 }

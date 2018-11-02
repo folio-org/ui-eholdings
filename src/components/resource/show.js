@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { intlShape, injectIntl, FormattedMessage } from 'react-intl';
+import { FormattedMessage } from 'react-intl';
 import update from 'lodash/fp/update';
 import set from 'lodash/fp/set';
 
@@ -32,7 +32,6 @@ class ResourceShow extends Component {
       PropTypes.string,
       PropTypes.object
     ]).isRequired,
-    intl: intlShape.isRequired,
     isFreshlySaved: PropTypes.bool,
     model: PropTypes.object.isRequired,
     proxyTypes: PropTypes.object.isRequired,
@@ -90,7 +89,7 @@ class ResourceShow extends Component {
   }
 
   render() {
-    let { model, intl, proxyTypes, editLink, isFreshlySaved } = this.props;
+    let { model, proxyTypes, editLink, isFreshlySaved } = this.props;
     let {
       showSelectionModal,
       resourceSelected,
@@ -99,7 +98,7 @@ class ResourceShow extends Component {
 
     let isSelectInFlight = model.update.isPending && 'isSelected' in model.update.changedAttributes;
     let visibilityMessage = model.package.visibilityData.isHidden ?
-      intl.formatMessage({ id: 'ui-eholdings.resource.visibilityData.isHidden' }) :
+      <FormattedMessage id="ui-eholdings.resource.visibilityData.isHidden" /> :
       model.visibilityData.reason && `(${model.visibilityData.reason})`;
 
     let hasManagedCoverages = model.managedCoverages.length > 0 &&
@@ -349,10 +348,11 @@ class ResourceShow extends Component {
                   ))}
 
                 {model.url && (
-                  <KeyValue label={`${model.title.isTitleCustom ?
-                    intl.formatMessage({ id: 'ui-eholdings.custom' })
+                  <KeyValue label={model.title.isTitleCustom ?
+                    <FormattedMessage id="ui-eholdings.custom" />
                     :
-                    intl.formatMessage({ id: 'ui-eholdings.managed' })} URL`}
+                    <FormattedMessage id="ui-eholdings.managed" />
+                    }
                   >
                     <div data-test-eholdings-resource-show-url>
                       <ExternalLink
@@ -442,7 +442,7 @@ class ResourceShow extends Component {
         <Modal
           open={showSelectionModal}
           size="small"
-          label={intl.formatMessage({ id: 'ui-eholdings.resource.show.modal.header' })}
+          label={<FormattedMessage id="ui-eholdings.resource.show.modal.header" />}
           id="eholdings-resource-deselection-confirmation-modal"
           footer={(
             <ModalFooter
@@ -481,4 +481,4 @@ class ResourceShow extends Component {
   }
 }
 
-export default injectIntl(ResourceShow);
+export default ResourceShow;

@@ -1,11 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { FormattedMessage, FormattedNumber, injectIntl, intlShape } from 'react-intl';
+import { FormattedMessage, FormattedNumber } from 'react-intl';
 import { DefaultAccordionHeader, KeyValue } from '@folio/stripes/components';
 import styles from './accordion-list-header.css';
 
 function AccordionListHeader(props) {
-  let { intl } = props;
   // RM API does not return exact number of results when count is over 10K
   // For title lists, resultsLength of 10000 indicates this.
   // For other lists (package and provider) resultsLength of 10001 indicates this.
@@ -17,7 +16,7 @@ function AccordionListHeader(props) {
       <DefaultAccordionHeader {...props} />
       {props.open && (
         <div className={styles['accordion-list-count']}>
-          <KeyValue label={intl.formatMessage({ id: 'ui-eholdings.label.accordionList' })}>
+          <KeyValue label={<FormattedMessage id="ui-eholdings.label.accordionList" />}>
             <div data-test-eholdings-details-view-results-count>
               {showOver ? (
                 <span>
@@ -38,10 +37,9 @@ function AccordionListHeader(props) {
 }
 
 AccordionListHeader.propTypes = {
-  intl: intlShape.isRequired,
   listType: PropTypes.node,
   open: PropTypes.bool,
   resultsLength: PropTypes.number
 };
 
-export default injectIntl(AccordionListHeader);
+export default AccordionListHeader;

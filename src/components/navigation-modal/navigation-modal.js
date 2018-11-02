@@ -11,10 +11,10 @@ class NavigationModal extends Component {
       PropTypes.func,
       PropTypes.node
     ]),
-    continueLabel: PropTypes.string.isRequired,
-    dismissLabel: PropTypes.string.isRequired,
+    continueLabel: PropTypes.node.isRequired,
+    dismissLabel: PropTypes.node.isRequired,
     history: ReactRouterPropTypes.history.isRequired,
-    modalLabel: PropTypes.string.isRequired,
+    modalLabel: PropTypes.node.isRequired,
     when: PropTypes.bool.isRequired
   };
 

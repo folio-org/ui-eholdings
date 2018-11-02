@@ -8,7 +8,7 @@ import {
   PaneHeader
 } from '@folio/stripes/components';
 
-import { FormattedMessage, intlShape, injectIntl } from 'react-intl';
+import { FormattedMessage } from 'react-intl';
 import DetailsViewSection from '../../details-view-section';
 import NameField, { validate as validateName } from '../_fields/name';
 import EditionField, { validate as validateEdition } from '../_fields/edition';
@@ -28,7 +28,6 @@ class TitleCreate extends Component {
   static propTypes = {
     customPackages: PropTypes.object.isRequired,
     handleSubmit: PropTypes.func.isRequired,
-    intl: intlShape.isRequired,
     onCancel: PropTypes.func,
     onSubmit: PropTypes.func.isRequired,
     pristine: PropTypes.bool.isRequired,
@@ -42,7 +41,6 @@ class TitleCreate extends Component {
       handleSubmit,
       onSubmit,
       pristine,
-      intl,
       onCancel
     } = this.props;
 
@@ -55,7 +53,7 @@ class TitleCreate extends Component {
 
     if (!request.isPending && onCancel) {
       actionMenuItems.push({
-        'label': intl.formatMessage({ id: 'ui-eholdings.actionMenu.cancelEditing' }),
+        'label': <FormattedMessage id="ui-eholdings.actionMenu.cancelEditing" />,
         'state': { eholdings: true },
         'onClick': onCancel,
         'data-test-eholdings-title-create-cancel-action': true
@@ -75,7 +73,7 @@ class TitleCreate extends Component {
 
         <form onSubmit={handleSubmit(onSubmit)}>
           <PaneHeader
-            paneTitle={intl.formatMessage({ id: 'ui-eholdings.title.create.paneTitle' })}
+            paneTitle={<FormattedMessage id="ui-eholdings.title.create.paneTitle" />}
             actionMenuItems={actionMenuItems}
             firstMenu={onCancel && (
               <FormattedMessage id="ui-eholdings.label.icon.goBack">
@@ -100,14 +98,20 @@ class TitleCreate extends Component {
                   buttonStyle="primary"
                   data-test-eholdings-title-create-save-button
                 >
-                  {request.isPending ? intl.formatMessage({ id: 'ui-eholdings.saving' }) : intl.formatMessage({ id: 'ui-eholdings.save' })}
+                  {request.isPending ?
+                    <FormattedMessage id="ui-eholdings.saving" />
+                    : <FormattedMessage id="ui-eholdings.save" />
+                  }
                 </PaneHeaderButton>
               </Fragment>
             )}
           />
 
           <div className={styles['title-create-form-container']}>
-            <DetailsViewSection label={intl.formatMessage({ id: 'ui-eholdings.title.titleInformation' })} separator={false}>
+            <DetailsViewSection
+              label={<FormattedMessage id="ui-eholdings.title.titleInformation" />}
+              separator={false}
+            >
               <NameField />
               <ContributorField />
               <EditionField />
@@ -117,16 +121,18 @@ class TitleCreate extends Component {
               <DescriptionField />
               <PeerReviewedField />
             </DetailsViewSection>
-            <DetailsViewSection label={intl.formatMessage({ id: 'ui-eholdings.label.packageInformation' })}>
+            <DetailsViewSection
+              label={<FormattedMessage id="ui-eholdings.label.packageInformation" />}
+            >
               <PackageSelectField options={packageOptions} />
             </DetailsViewSection>
           </div>
         </form>
 
         <NavigationModal
-          modalLabel={intl.formatMessage({ id: 'ui-eholdings.navModal.modalLabel' })}
-          continueLabel={intl.formatMessage({ id: 'ui-eholdings.navModal.continueLabel' })}
-          dismissLabel={intl.formatMessage({ id: 'ui-eholdings.navModal.dismissLabel' })}
+          modalLabel={<FormattedMessage id="ui-eholdings.navModal.modalLabel" />}
+          continueLabel={<FormattedMessage id="ui-eholdings.navModal.continueLabel" />}
+          dismissLabel={<FormattedMessage id="ui-eholdings.navModal.dismissLabel" />}
           when={!pristine && !request.isResolved}
         />
       </div>
@@ -134,20 +140,20 @@ class TitleCreate extends Component {
   }
 }
 
-const validate = (values, props) => {
+const validate = (values) => {
   return Object.assign({},
-    validateName(values, props),
-    validateContributor(values, props),
-    validateEdition(values, props),
-    validatePublisherName(values, props),
-    validateIdentifiers(values, props),
-    validateDescription(values, props),
-    validatePackageSelection(values, props));
+    validateName(values),
+    validateContributor(values),
+    validateEdition(values),
+    validatePublisherName(values),
+    validateIdentifiers(values),
+    validateDescription(values),
+    validatePackageSelection(values));
 };
 
-export default injectIntl(reduxForm({
+export default reduxForm({
   validate,
   enableReinitialize: true,
   form: 'TitleCreate',
   destroyOnUnmount: false
-})(TitleCreate));
+})(TitleCreate);
