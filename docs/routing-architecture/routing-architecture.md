@@ -214,7 +214,10 @@ class PackageShow extends Component {
 
   render() {
     // get the model off props that was passed into the View
-    let { model, fetchPackageTitles } = this.props;
+    let {
+      model,
+      fetchPackageTitles
+    } = this.props;
 
     return (
           <KeyValue label={<FormattedMessage id="ui-eholdings.package.provider" />}>
