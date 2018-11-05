@@ -2,6 +2,7 @@ import React, { Component, Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { Field, FieldArray } from 'redux-form';
 import {
+  Headline,
   RepeatableField,
   Select,
   TextField
@@ -9,14 +10,24 @@ import {
 import { FormattedMessage } from 'react-intl';
 import styles from './contributor-field.css';
 
-class ContributorField extends Component {
+export default class ContributorField extends Component {
   static propTypes = {
     initialValue: PropTypes.array,
   };
 
-  static defaultProps = {
-    initialValue: []
-  };
+  validateName(value) {
+    let errors;
+
+    if (!value) {
+      errors = <FormattedMessage id="ui-eholdings.validate.errors.contributor.empty" />;
+    }
+
+    if (value && value.length >= 250) {
+      errors = <FormattedMessage id="ui-eholdings.validate.errors.contributor.exceedsLength" />;
+    }
+
+    return errors;
+  }
 
   renderField = (contributor, index, fields) => {
     return (
@@ -53,6 +64,7 @@ class ContributorField extends Component {
             id={`${contributor}-input`}
             component={TextField}
             label={<FormattedMessage id="ui-eholdings.name" />}
+            validate={this.validateName}
           />
         </div>
       </Fragment>
@@ -68,10 +80,10 @@ class ContributorField extends Component {
           addLabel={<FormattedMessage id="ui-eholdings.title.contributor.addContributor" />}
           component={RepeatableField}
           emptyMessage={
-            initialValue.length > 0 && initialValue[0].contributor ?
+            initialValue && initialValue.length > 0 && initialValue[0].contributor ?
               <FormattedMessage id="ui-eholdings.title.contributor.notSet" /> : ''
           }
-          legend={<FormattedMessage id="ui-eholdings.label.contributors" />}
+          legend={<Headline tag="h4"><FormattedMessage id="ui-eholdings.label.contributors" /></Headline>}
           name="contributors"
           renderField={this.renderField}
         />
@@ -79,28 +91,3 @@ class ContributorField extends Component {
     );
   }
 }
-
-export function validate(values) {
-  const errors = {};
-
-  values.contributors.forEach((contributorObj, index) => {
-    let contributorErrors = {};
-    let isEmptyObject = Object.keys(contributorObj).length === 0;
-    let contributor = contributorObj.contributor;
-    let isEmptyString = typeof contributor === 'string' && !contributor.trim();
-
-    if (isEmptyString || isEmptyObject) {
-      contributorErrors.contributor = <FormattedMessage id="ui-eholdings.validate.errors.contributor.empty" />;
-    }
-
-    if (contributor && contributor.length >= 250) {
-      contributorErrors.contributor = <FormattedMessage id="ui-eholdings.validate.errors.contributor.exceedsLength" />;
-    }
-
-    errors[index] = contributorErrors;
-  });
-
-  return { contributors: errors };
-}
-
-export default ContributorField;

@@ -2,8 +2,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { reduxForm } from 'redux-form';
 
-import PackageSelectField, { validate as validatePackage } from '../_fields/package-select';
-import CustomURLField, { validate as validateURL } from '../../resource/_fields/custom-url';
+import PackageSelectField from '../_fields/package-select';
+import CustomURLField from '../../resource/_fields/custom-url';
 
 function AddTitleToPackageForm({ handleSubmit, onSubmit, packageOptions }) {
   let filteredPackageOptions = packageOptions.filter(pkg => pkg.label !== '');
@@ -21,15 +21,8 @@ AddTitleToPackageForm.propTypes = {
   packageOptions: PropTypes.array.isRequired
 };
 
-function validate(values) {
-  return Object.assign({},
-    validatePackage(values),
-    validateURL(values));
-}
-
 export default reduxForm({
   form: 'AddTitleToPackage',
   enableReinitialize: true,
-  destroyOnUnmount: false,
-  validate
+  destroyOnUnmount: false
 })(AddTitleToPackageForm);

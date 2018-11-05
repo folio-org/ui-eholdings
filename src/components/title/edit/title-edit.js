@@ -7,13 +7,13 @@ import {
 } from '@folio/stripes/components';
 import { FormattedMessage } from 'react-intl';
 import DetailsView from '../../details-view';
-import NameField, { validate as validateName } from '../_fields/name';
-import EditionField, { validate as validateEdition } from '../_fields/edition';
-import PublisherNameField, { validate as validatePublisher } from '../_fields/publisher-name';
+import NameField from '../_fields/name';
+import EditionField from '../_fields/edition';
+import PublisherNameField from '../_fields/publisher-name';
 import PublicationTypeField from '../_fields/publication-type';
-import IdentifiersFields, { validate as validateIdentifiers } from '../_fields/identifiers';
-import DescriptionField, { validate as validateDescription } from '../_fields/description';
-import ContributorField, { validate as validateContributor } from '../_fields/contributor';
+import IdentifiersFields from '../_fields/identifiers';
+import DescriptionField from '../_fields/description';
+import ContributorField from '../_fields/contributor';
 import PeerReviewedField from '../_fields/peer-reviewed';
 import DetailsViewSection from '../../details-view-section';
 import NavigationModal from '../../navigation-modal';
@@ -40,10 +40,10 @@ class TitleEdit extends Component {
     let {
       model,
       handleSubmit,
+      initialValues,
       onSubmit,
       pristine,
       updateRequest,
-      initialValues,
       onCancel,
       fullViewLink
     } = this.props;
@@ -133,18 +133,7 @@ class TitleEdit extends Component {
   }
 }
 
-const validate = (values) => {
-  return Object.assign({},
-    validateName(values),
-    validateContributor(values),
-    validateEdition(values),
-    validatePublisher(values),
-    validateIdentifiers(values),
-    validateDescription(values));
-};
-
 export default reduxForm({
-  validate,
   enableReinitialize: true,
   form: 'TitleEdit',
   destroyOnUnmount: false,
