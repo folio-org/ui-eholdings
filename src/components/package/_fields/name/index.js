@@ -1,1 +1,1 @@
-export { default, validate } from './package-name-field';
+export { default } from './package-name-field';

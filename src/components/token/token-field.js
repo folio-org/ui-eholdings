@@ -9,7 +9,7 @@ import {
 } from '@folio/stripes/components';
 import styles from './token-field.css';
 
-class TokenField extends Component {
+export default class TokenField extends Component {
   static propTypes = {
     token: PropTypes.object,
     tokenValue: PropTypes.string,
@@ -26,6 +26,11 @@ class TokenField extends Component {
     }));
   }
 
+  validate(value) {
+    return value && value.length > 500 ? (
+      <FormattedMessage id="ui-eholdings.validate.errors.token.length" />
+    ) : undefined;
+  }
 
   render() {
     /* eslint-disable react/no-danger */
@@ -44,7 +49,11 @@ class TokenField extends Component {
           {token.prompt}
         </div>
         <div data-test-eholdings-token-value-textarea={type} className={styles['token-value-textarea']}>
-          {type === 'provider' ? (<Field name="providerTokenValue" component={TextArea} />) : (<Field name="packageTokenValue" component={TextArea} />)}
+          {type === 'provider' ? (
+            <Field name="providerTokenValue" component={TextArea} validate={this.validate} />
+          ) : (
+            <Field name="packageTokenValue" component={TextArea} validate={this.validate} />
+          )}
         </div>
       </div>
     ) : (
@@ -61,19 +70,4 @@ class TokenField extends Component {
       </div>
     );
   }
-}
-
-export default TokenField;
-
-export function validate(values) {
-  const errors = {};
-
-  if ((values.providerTokenValue && values.providerTokenValue.length > 500)) {
-    errors.providerTokenValue = <FormattedMessage id="ui-eholdings.validate.errors.token.length" />;
-  }
-
-  if ((values.packageTokenValue && values.packageTokenValue.length > 500)) {
-    errors.packageTokenValue = <FormattedMessage id="ui-eholdings.validate.errors.token.length" />;
-  }
-  return errors;
 }

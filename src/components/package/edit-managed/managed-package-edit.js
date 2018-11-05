@@ -1,8 +1,7 @@
 import React, { Component, Fragment } from 'react';
 import PropTypes from 'prop-types';
-import { compose } from 'redux';
 import { reduxForm, Field } from 'redux-form';
-import { FormattedMessage, injectIntl } from 'react-intl';
+import { FormattedMessage } from 'react-intl';
 
 import {
   Accordion,
@@ -23,7 +22,7 @@ import Toaster from '../../toaster';
 import PaneHeaderButton from '../../pane-header-button';
 import SelectionStatus from '../selection-status';
 import ProxySelectField from '../../proxy-select';
-import TokenField, { validate as validateToken } from '../../token';
+import TokenField from '../../token';
 import styles from './managed-package-edit.css';
 
 class ManagedPackageEdit extends Component {
@@ -401,16 +400,9 @@ class ManagedPackageEdit extends Component {
   }
 }
 
-const validate = (values, props) => {
-  return Object.assign({}, validateCoverageDates(values, props), validateToken(values));
-};
-
-export default compose(
-  injectIntl,
-  reduxForm({
-    validate,
-    enableReinitialize: true,
-    form: 'ManagedPackageEdit',
-    destroyOnUnmount: false,
-  })
-)(ManagedPackageEdit);
+export default reduxForm({
+  validate: validateCoverageDates,
+  enableReinitialize: true,
+  form: 'ManagedPackageEdit',
+  destroyOnUnmount: false,
+})(ManagedPackageEdit);

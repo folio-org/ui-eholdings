@@ -4,7 +4,21 @@ import { FormattedMessage } from 'react-intl';
 
 import { TextField } from '@folio/stripes/components';
 
-function PackageNameField() {
+const validate = (value) => {
+  let errors;
+
+  if (value === '') {
+    errors = <FormattedMessage id="ui-eholdings.validate.errors.customPackage.name" />;
+  }
+
+  if (value.length >= 300) {
+    errors = <FormattedMessage id="ui-eholdings.validate.errors.customPackage.name.length" />;
+  }
+
+  return errors;
+};
+
+export default function PackageNameField() {
   return (
     <div data-test-eholdings-package-name-field>
       <Field
@@ -12,23 +26,8 @@ function PackageNameField() {
         type="text"
         component={TextField}
         label={<FormattedMessage id="ui-eholdings.label.name.isRequired" />}
+        validate={validate}
       />
     </div>
   );
-}
-
-export default PackageNameField;
-
-export function validate(values) {
-  let errors = {};
-
-  if (values.name === '') {
-    errors.name = <FormattedMessage id="ui-eholdings.validate.errors.customPackage.name" />;
-  }
-
-  if (values.name.length >= 300) {
-    errors.name = <FormattedMessage id="ui-eholdings.validate.errors.customPackage.name.length" />;
-  }
-
-  return errors;
 }
