@@ -67,9 +67,19 @@ describe('ResourceEditDeselection', () => {
         let resolveRequest;
 
         beforeEach(function () {
-          this.server.put('/resources/:id', () => {
+          this.server.put('/resources/:id', ({ resources }, request) => {
             return new Promise((resolve) => {
-              resolveRequest = resolve;
+              resolveRequest = () => {
+                const body = JSON.parse(request.requestBody);
+                const matchingResource = resources.find(body.data.id);
+                const {
+                  isSelected,
+                } = body.data.attributes;
+
+                matchingResource.update('isSelected', isSelected);
+
+                resolve();
+              };
             });
           });
 
