@@ -1,5 +1,5 @@
 import React from 'react';
-import { Field } from 'redux-form';
+import { Field } from 'react-final-form';
 import { FormattedMessage } from 'react-intl';
 
 import { TextField } from '@folio/stripes/components';
@@ -7,11 +7,11 @@ import { TextField } from '@folio/stripes/components';
 function validate(value) {
   let errors;
 
-  if (value === '') {
+  if (value === undefined) {
     errors = <FormattedMessage id="ui-eholdings.validate.errors.customTitle.name" />;
   }
 
-  if (value.length >= 400) {
+  if (value && value.length >= 400) {
     errors = <FormattedMessage id="ui-eholdings.validate.errors.customTitle.name.length" />;
   }
 

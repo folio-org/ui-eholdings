@@ -41,10 +41,10 @@ class TitleCreateRoute extends Component {
   ]
 
   expandIdentifiers = (identifiers) => {
-    return identifiers.map(({ id, flattenedType }) => {
+    return identifiers ? identifiers.map(({ id, flattenedType }) => {
       let flattenedTypeIndex = flattenedType || 0;
       return { id, ...this.flattenedIdentifiers[flattenedTypeIndex] };
-    });
+    }) : [];
   }
 
   createTitle = (values) => {
@@ -78,17 +78,6 @@ class TitleCreateRoute extends Component {
           customPackages={customPackages}
           onSubmit={this.createTitle}
           onCancel={onCancel}
-          initialValues={{
-            name: '',
-            edition: '',
-            publisherName: '',
-            publicationType: 'Unspecified',
-            isPeerReviewed: false,
-            contributors: [],
-            identifiers: [],
-            description: '',
-            packageId: ''
-          }}
         />
       </TitleManager>
     );

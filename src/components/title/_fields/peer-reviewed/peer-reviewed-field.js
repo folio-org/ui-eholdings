@@ -1,5 +1,5 @@
 import React from 'react';
-import { Field } from 'redux-form';
+import { Field } from 'react-final-form';
 
 import { Checkbox } from '@folio/stripes/components';
 import { FormattedMessage } from 'react-intl';
@@ -15,6 +15,7 @@ function PeerReviewedField() {
         name="isPeerReviewed"
         component={Checkbox}
         label={<FormattedMessage id="ui-eholdings.title.peerReviewed" />}
+        type="checkbox"
       />
     </div>
   );

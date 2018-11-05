@@ -5,7 +5,7 @@ import setupApplication from '../helpers/setup-application';
 import TitleShowPage from '../interactors/title-show';
 import ResourceShowPage from '../interactors/resource-show';
 
-describe('TitleShow', () => {
+describe('TitleShowAddToCustomPackage', () => {
   setupApplication();
   let title;
 

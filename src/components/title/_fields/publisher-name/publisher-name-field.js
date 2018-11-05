@@ -1,11 +1,11 @@
 import React from 'react';
-import { Field } from 'redux-form';
+import { Field } from 'react-final-form';
 
 import { TextField } from '@folio/stripes/components';
 import { FormattedMessage } from 'react-intl';
 
 function validate(value) {
-  return value.length > 250 ? <FormattedMessage id="ui-eholdings.validate.errors.publisherName.length" /> : undefined;
+  return value && value.length > 250 ? <FormattedMessage id="ui-eholdings.validate.errors.publisherName.length" /> : undefined;
 }
 
 function PublisherNameField() {

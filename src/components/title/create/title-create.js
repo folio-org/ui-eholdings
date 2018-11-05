@@ -1,6 +1,7 @@
 import React, { Component, Fragment } from 'react';
 import PropTypes from 'prop-types';
-import { reduxForm } from 'redux-form';
+import { Form } from 'react-final-form';
+import arrayMutators from 'final-form-arrays';
 
 import {
   Button,
@@ -25,13 +26,11 @@ import Toaster from '../../toaster';
 import PaneHeaderButton from '../../pane-header-button';
 import styles from './title-create.css';
 
-class TitleCreate extends Component {
+export default class TitleCreate extends Component {
   static propTypes = {
     customPackages: PropTypes.object.isRequired,
-    handleSubmit: PropTypes.func.isRequired,
     onCancel: PropTypes.func,
     onSubmit: PropTypes.func.isRequired,
-    pristine: PropTypes.bool.isRequired,
     request: PropTypes.object.isRequired
   };
 
@@ -41,10 +40,11 @@ class TitleCreate extends Component {
       request
     } = this.props;
 
-    return (!request.isPending && onCancel) ? (
+    return onCancel ? (
       <Button
         data-test-eholdings-title-create-cancel-action
         buttonStyle="dropdownItem fullWidth"
+        disabled={request.isPending}
         onClick={() => {
           onToggle();
           onCancel();
@@ -57,12 +57,10 @@ class TitleCreate extends Component {
 
   render() {
     let {
-      request,
       customPackages,
-      handleSubmit,
       onSubmit,
-      pristine,
-      onCancel
+      onCancel,
+      request
     } = this.props;
 
     let packageOptions = customPackages.map(pkg => ({
@@ -80,78 +78,82 @@ class TitleCreate extends Component {
             type: 'error'
           }))}
         />
+        <Form
+          onSubmit={onSubmit}
+          mutators={{ ...arrayMutators }}
+          initialValues={{
+            publicationType: 'Unspecified'
+          }}
+          render={({ handleSubmit, pristine }) => (
+            <Fragment>
+              <form onSubmit={handleSubmit}>
+                <PaneHeader
+                  paneTitle={<FormattedMessage id="ui-eholdings.title.create.paneTitle" />}
+                  actionMenu={this.getActionMenu}
+                  firstMenu={onCancel && (
+                    <FormattedMessage id="ui-eholdings.label.icon.goBack">
+                      {ariaLabel => (
+                        <IconButton
+                          icon="left-arrow"
+                          ariaLabel={ariaLabel}
+                          onClick={onCancel}
+                          data-test-eholdings-details-view-back-button
+                        />
+                      )}
+                    </FormattedMessage>
+                  )}
+                  lastMenu={(
+                    <Fragment>
+                      {request.isPending && (
+                        <Icon icon="spinner-ellipsis" />
+                      )}
+                      <PaneHeaderButton
+                        disabled={pristine || request.isPending}
+                        type="submit"
+                        buttonStyle="primary"
+                        data-test-eholdings-title-create-save-button
+                      >
+                        {request.isPending ?
+                          <FormattedMessage id="ui-eholdings.saving" />
+                          : <FormattedMessage id="ui-eholdings.save" />
+                        }
+                      </PaneHeaderButton>
+                    </Fragment>
+                  )}
+                />
 
-        <form onSubmit={handleSubmit(onSubmit)}>
-          <PaneHeader
-            paneTitle={<FormattedMessage id="ui-eholdings.title.create.paneTitle" />}
-            actionMenu={this.getActionMenu}
-            firstMenu={onCancel && (
-              <FormattedMessage id="ui-eholdings.label.icon.goBack">
-                {ariaLabel => (
-                  <IconButton
-                    icon="left-arrow"
-                    ariaLabel={ariaLabel}
-                    onClick={onCancel}
-                    data-test-eholdings-details-view-back-button
-                  />
-                )}
-              </FormattedMessage>
-            )}
-            lastMenu={(
-              <Fragment>
-                {request.isPending && (
-                  <Icon icon="spinner-ellipsis" />
-                )}
-                <PaneHeaderButton
-                  disabled={pristine || request.isPending}
-                  type="submit"
-                  buttonStyle="primary"
-                  data-test-eholdings-title-create-save-button
-                >
-                  {request.isPending ?
-                    <FormattedMessage id="ui-eholdings.saving" />
-                    : <FormattedMessage id="ui-eholdings.save" />
-                  }
-                </PaneHeaderButton>
-              </Fragment>
-            )}
-          />
+                <div className={styles['title-create-form-container']}>
+                  <DetailsViewSection
+                    label={<FormattedMessage id="ui-eholdings.title.titleInformation" />}
+                    separator={false}
+                  >
+                    <NameField />
+                    <ContributorField />
+                    <EditionField />
+                    <PublisherNameField />
+                    <PublicationTypeField />
+                    <IdentifiersFields />
+                    <DescriptionField />
+                    <PeerReviewedField />
+                  </DetailsViewSection>
+                  <DetailsViewSection
+                    label={<FormattedMessage id="ui-eholdings.label.packageInformation" />}
+                  >
+                    <PackageSelectField options={packageOptions} />
+                  </DetailsViewSection>
+                </div>
+              </form>
 
-          <div className={styles['title-create-form-container']}>
-            <DetailsViewSection
-              label={<FormattedMessage id="ui-eholdings.title.titleInformation" />}
-              separator={false}
-            >
-              <NameField />
-              <ContributorField />
-              <EditionField />
-              <PublisherNameField />
-              <PublicationTypeField />
-              <IdentifiersFields />
-              <DescriptionField />
-              <PeerReviewedField />
-            </DetailsViewSection>
-            <DetailsViewSection
-              label={<FormattedMessage id="ui-eholdings.label.packageInformation" />}
-            >
-              <PackageSelectField options={packageOptions} />
-            </DetailsViewSection>
-          </div>
-        </form>
-
-        <NavigationModal
-          modalLabel={<FormattedMessage id="ui-eholdings.navModal.modalLabel" />}
-          continueLabel={<FormattedMessage id="ui-eholdings.navModal.continueLabel" />}
-          dismissLabel={<FormattedMessage id="ui-eholdings.navModal.dismissLabel" />}
-          when={!pristine && !request.isResolved}
+              <NavigationModal
+                modalLabel={<FormattedMessage id="ui-eholdings.navModal.modalLabel" />}
+                continueLabel={<FormattedMessage id="ui-eholdings.navModal.continueLabel" />}
+                dismissLabel={<FormattedMessage id="ui-eholdings.navModal.dismissLabel" />}
+                when={!pristine && !request.isResolved}
+              />
+            </Fragment>
+          )}
         />
       </div>
     );
   }
 }
-
-export default reduxForm({
-  enableReinitialize: true,
-  form: 'TitleCreate',
-  destroyOnUnmount: false
-})(TitleCreate);

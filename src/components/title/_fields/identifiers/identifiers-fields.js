@@ -1,6 +1,6 @@
 import React, { Component, Fragment } from 'react';
-import { Field, FieldArray } from 'redux-form';
-import PropTypes from 'prop-types';
+import { Field } from 'react-final-form';
+import { FieldArray } from 'react-final-form-arrays';
 
 import {
   Headline,
@@ -13,10 +13,6 @@ import { FormattedMessage } from 'react-intl';
 import styles from './identifiers-fields.css';
 
 export default class IdentifiersFields extends Component {
-  static propTypes = {
-    initialValue: PropTypes.array,
-  };
-
   validateId(value) {
     let errors;
 
@@ -31,7 +27,7 @@ export default class IdentifiersFields extends Component {
     return errors;
   }
 
-  renderField = (identifier, index, fields) => {
+  renderField = (identifier) => {
     return (
       <Fragment>
         <div
@@ -42,7 +38,7 @@ export default class IdentifiersFields extends Component {
             name={`${identifier}.flattenedType`}
             type="text"
             component={Select}
-            autoFocus={Object.keys(fields.get(index)).length === 0}
+            autoFocus={Object.keys(identifier).length === 0}
             label={<FormattedMessage id="ui-eholdings.type" />}
           >
             <FormattedMessage id="ui-eholdings.label.identifier.issnOnline">
@@ -76,21 +72,28 @@ export default class IdentifiersFields extends Component {
   }
 
   render() {
-    const { initialValue } = this.props;
-
     return (
       <div data-test-eholdings-identifiers-fields>
-        <FieldArray
-          addLabel={<FormattedMessage id="ui-eholdings.title.identifier.addIdentifier" />}
-          component={RepeatableField}
-          emptyMessage={
-            initialValue && initialValue.length > 0 && initialValue[0].id ?
-              <FormattedMessage id="ui-eholdings.title.identifier.notSet" /> : ''
-          }
-          legend={<Headline tag="h4"><FormattedMessage id="ui-eholdings.label.identifiers" /></Headline>}
-          name="identifiers"
-          renderField={this.renderField}
-        />
+        <FieldArray name="identifiers">
+          {({ fields, meta: { initial } }) => (
+            <RepeatableField
+              addLabel={<FormattedMessage id="ui-eholdings.title.identifier.addIdentifier" />}
+              emptyMessage={
+                initial && initial.length > 0 && initial[0].id ?
+                  <FormattedMessage id="ui-eholdings.title.identifier.notSet" /> : ''
+              }
+              fields={fields}
+              legend={
+                <Headline tag="h4">
+                  <FormattedMessage id="ui-eholdings.label.identifiers" />
+                </Headline>
+              }
+              onAdd={() => fields.push({})}
+              onRemove={index => fields.remove(index)}
+              renderField={this.renderField}
+            />
+          )}
+        </FieldArray>
       </div>
     );
   }
