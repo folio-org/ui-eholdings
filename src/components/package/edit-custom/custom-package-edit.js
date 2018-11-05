@@ -1,5 +1,6 @@
 import React, { Component, Fragment } from 'react';
 import PropTypes from 'prop-types';
+import { compose } from 'redux';
 import { reduxForm, Field } from 'redux-form';
 import { FormattedMessage, injectIntl } from 'react-intl';
 
@@ -373,9 +374,13 @@ const validate = (values, props) => {
   return Object.assign({}, validatePackageName(values), validateCoverageDates(values, props));
 };
 
-export default injectIntl(reduxForm({
-  validate,
-  form: 'CustomPackageEdit',
-  enableReinitialize: true,
-  destroyOnUnmount: false,
-})(CustomPackageEdit));
+
+export default compose(
+  injectIntl,
+  reduxForm({
+    validate,
+    form: 'CustomPackageEdit',
+    enableReinitialize: true,
+    destroyOnUnmount: false,
+  })
+)(CustomPackageEdit);

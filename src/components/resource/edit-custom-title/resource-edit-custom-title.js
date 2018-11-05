@@ -1,5 +1,6 @@
 import React, { Component, Fragment } from 'react';
 import PropTypes from 'prop-types';
+import { compose } from 'redux';
 import { connect } from 'react-redux';
 import { formValueSelector, reduxForm } from 'redux-form';
 import { FormattedMessage, injectIntl } from 'react-intl';
@@ -382,13 +383,15 @@ const validate = (values, props) => {
 
 const selector = formValueSelector('ResourceEditCustomTitle');
 
-export default injectIntl(connect(state => ({
-  customCoverageDateValues: selector(state, 'customCoverages')
-}))(
+export default compose(
+  injectIntl,
+  connect(state => ({
+    customCoverageDateValues: selector(state, 'customCoverages')
+  })),
   reduxForm({
     validate,
     enableReinitialize: true,
     form: 'ResourceEditCustomTitle',
     destroyOnUnmount: false,
-  })(ResourceEditCustomTitle)
-));
+  })
+)(ResourceEditCustomTitle);
