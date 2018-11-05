@@ -1,1 +1,1 @@
-export { default } from './show';
+export { default } from './resource-show';

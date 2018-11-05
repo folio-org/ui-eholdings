@@ -7,7 +7,7 @@ import { Icon } from '@folio/stripes/components';
 
 import { createResolver } from '../redux';
 import Resource from '../redux/resource';
-import View from '../components/resource/show';
+import View from '../components/resource/resource-show';
 import { ProxyType } from '../redux/application';
 
 class ResourceShowRoute extends Component {

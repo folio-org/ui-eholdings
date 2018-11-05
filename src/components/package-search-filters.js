@@ -1,5 +1,5 @@
 import React from 'react';
-import { injectIntl, intlShape } from 'react-intl';
+import { FormattedMessage } from 'react-intl';
 
 import SearchFilters from './search-form/search-filters';
 
@@ -12,42 +12,41 @@ import SearchFilters from './search-form/search-filters';
  * search-filters component itself.
  */
 function PackageSearchFilters(props) {
-  let { intl } = props;
   return (
     <SearchFilters
       searchType="packages"
       availableFilters={[{
         name: 'sort',
-        label: intl.formatMessage({ id: 'ui-eholdings.label.sortOptions' }),
+        label: <FormattedMessage id="ui-eholdings.label.sortOptions" />,
         defaultValue: 'relevance',
         options: [
-          { label: intl.formatMessage({ id: 'ui-eholdings.filter.sortOptions.relevance' }), value: 'relevance' },
-          { label: intl.formatMessage({ id: 'ui-eholdings.label.package' }), value: 'name' }
+          { label: <FormattedMessage id="ui-eholdings.filter.sortOptions.relevance" />, value: 'relevance' },
+          { label: <FormattedMessage id="ui-eholdings.label.package" />, value: 'name' }
         ]
       },
       {
         name: 'selected',
-        label: intl.formatMessage({ id: 'ui-eholdings.label.selectionStatus' }),
+        label: <FormattedMessage id="ui-eholdings.label.selectionStatus" />,
         defaultValue: 'all',
         options: [
-          { label: intl.formatMessage({ id: 'ui-eholdings.filter.all' }), value: 'all' },
-          { label: intl.formatMessage({ id: 'ui-eholdings.selected' }), value: 'true' },
-          { label: intl.formatMessage({ id: 'ui-eholdings.notSelected' }), value: 'false' },
-          { label: intl.formatMessage({ id: 'ui-eholdings.filter.selectionStatus.orderedThroughEbsco' }), value: 'ebsco' }
+          { label: <FormattedMessage id="ui-eholdings.filter.all" />, value: 'all' },
+          { label: <FormattedMessage id="ui-eholdings.selected" />, value: 'true' },
+          { label: <FormattedMessage id="ui-eholdings.notSelected" />, value: 'false' },
+          { label: <FormattedMessage id="ui-eholdings.filter.selectionStatus.orderedThroughEbsco" />, value: 'ebsco' }
         ]
       }, {
         name: 'type',
-        label: intl.formatMessage({ id: 'ui-eholdings.package.contentType' }),
+        label: <FormattedMessage id="ui-eholdings.package.contentType" />,
         defaultValue: 'all',
         options: [
-          { label: intl.formatMessage({ id: 'ui-eholdings.filter.all' }), value: 'all' },
-          { label: intl.formatMessage({ id: 'ui-eholdings.filter.contentType.aggregated' }), value: 'aggregatedfulltext' },
-          { label: intl.formatMessage({ id: 'ui-eholdings.filter.contentType.abstract' }), value: 'abstractandindex' },
-          { label: intl.formatMessage({ id: 'ui-eholdings.filter.contentType.ebook' }), value: 'ebook' },
-          { label: intl.formatMessage({ id: 'ui-eholdings.filter.contentType.ejournal' }), value: 'ejournal' },
-          { label: intl.formatMessage({ id: 'ui-eholdings.filter.contentType.print' }), value: 'print' },
-          { label: intl.formatMessage({ id: 'ui-eholdings.filter.contentType.onlineReference' }), value: 'onlinereference' },
-          { label: intl.formatMessage({ id: 'ui-eholdings.filter.contentType.unknown' }), value: 'unknown' }
+          { label: <FormattedMessage id="ui-eholdings.filter.all" />, value: 'all' },
+          { label: <FormattedMessage id="ui-eholdings.filter.contentType.aggregated" />, value: 'aggregatedfulltext' },
+          { label: <FormattedMessage id="ui-eholdings.filter.contentType.abstract" />, value: 'abstractandindex' },
+          { label: <FormattedMessage id="ui-eholdings.filter.contentType.ebook" />, value: 'ebook' },
+          { label: <FormattedMessage id="ui-eholdings.filter.contentType.ejournal" />, value: 'ejournal' },
+          { label: <FormattedMessage id="ui-eholdings.filter.contentType.print" />, value: 'print' },
+          { label: <FormattedMessage id="ui-eholdings.filter.contentType.onlineReference" />, value: 'onlinereference' },
+          { label: <FormattedMessage id="ui-eholdings.filter.contentType.unknown" />, value: 'unknown' }
         ]
       }]}
       {...props}
@@ -55,8 +54,4 @@ function PackageSearchFilters(props) {
   );
 }
 
-PackageSearchFilters.propTypes = {
-  intl: intlShape.isRequired
-};
-
-export default injectIntl(PackageSearchFilters);
+export default PackageSearchFilters;

@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import update from 'lodash/fp/update';
 import set from 'lodash/fp/set';
 import { Accordion, Headline, Icon, IconButton, KeyValue } from '@folio/stripes/components';
-import { intlShape, injectIntl, FormattedNumber, FormattedMessage } from 'react-intl';
+import { FormattedNumber, FormattedMessage } from 'react-intl';
 import capitalize from 'lodash/capitalize';
 
 import { processErrors } from '../../utilities';
@@ -26,7 +26,6 @@ class ProviderShow extends Component {
        PropTypes.string,
        PropTypes.object
      ]),
-     intl: intlShape.isRequired,
      isFreshlySaved: PropTypes.bool,
      listType: PropTypes.string.isRequired,
      model: PropTypes.object.isRequired,
@@ -55,14 +54,14 @@ class ProviderShow extends Component {
   }
 
   get toasts() {
-    let { model, intl, isFreshlySaved } = this.props;
+    let { model, isFreshlySaved } = this.props;
     let toasts = processErrors(model);
 
     // if coming from saving edits to the package, show a success toast
     if (isFreshlySaved) {
       toasts.push({
         id: `success-provider-saved-${model.id}`,
-        message: intl.formatMessage({ id: 'ui-eholdings.provider.toast.isFreshlySaved' }),
+        message: <FormattedMessage id="ui-eholdings.provider.toast.isFreshlySaved" />,
         type: 'success'
       });
     }
@@ -205,4 +204,4 @@ class ProviderShow extends Component {
   }
 }
 
-export default injectIntl(ProviderShow);
+export default ProviderShow;

@@ -2,7 +2,7 @@ import React, { Component, Fragment } from 'react';
 import { Field, FieldArray } from 'redux-form';
 import PropTypes from 'prop-types';
 import moment from 'moment';
-import { injectIntl, intlShape } from 'react-intl';
+import { FormattedDate, FormattedMessage } from 'react-intl';
 
 import {
   Datepicker,
@@ -13,8 +13,7 @@ import styles from './custom-coverage-fields.css';
 
 class ResourceCoverageFields extends Component {
   static propTypes = {
-    initialValue: PropTypes.array,
-    intl: intlShape.isRequired
+    initialValue: PropTypes.array
   };
 
   static defaultProps = {
@@ -22,8 +21,6 @@ class ResourceCoverageFields extends Component {
   };
 
   renderField = (dateRange) => {
-    const { intl } = this.props;
-
     return (
       <Fragment>
         <div
@@ -34,7 +31,7 @@ class ResourceCoverageFields extends Component {
             name={`${dateRange}.beginCoverage`}
             type="text"
             component={Datepicker}
-            label={intl.formatMessage({ id: 'ui-eholdings.date.startDate' })}
+            label={<FormattedMessage id="ui-eholdings.date.startDate" />}
             id="begin-coverage"
             format={(value) => (value ? moment.utc(value) : '')}
           />
@@ -47,7 +44,7 @@ class ResourceCoverageFields extends Component {
             name={`${dateRange}.endCoverage`}
             type="text"
             component={Datepicker}
-            label={intl.formatMessage({ id: 'ui-eholdings.date.endDate' })}
+            label={<FormattedMessage id="ui-eholdings.date.endDate" />}
             id="end-coverage"
             format={(value) => (value ? moment.utc(value) : '')}
           />
@@ -57,16 +54,16 @@ class ResourceCoverageFields extends Component {
   }
 
   render() {
-    const { initialValue, intl } = this.props;
+    const { initialValue } = this.props;
 
     return (
       <div data-test-eholdings-resource-coverage-fields>
         <FieldArray
-          addLabel={intl.formatMessage({ id: 'ui-eholdings.package.coverage.addDateRange' })}
+          addLabel={<FormattedMessage id="ui-eholdings.package.coverage.addDateRange" />}
           component={RepeatableField}
           emptyMessage={
             initialValue.length > 0 && initialValue[0].beginCoverage ?
-              intl.formatMessage({ id: 'ui-eholdings.package.noCoverageDates' }) : ''
+              <FormattedMessage id="ui-eholdings.package.noCoverageDates" /> : ''
           }
           name="customCoverages"
           renderField={this.renderField}
@@ -76,15 +73,15 @@ class ResourceCoverageFields extends Component {
   }
 }
 
-export default injectIntl(ResourceCoverageFields);
+export default ResourceCoverageFields;
 
 /**
  * Validator to ensure start date comes before end date chronologically
  * @param {} dateRange - coverage date range to validate
  * @returns {} - an error object if errors are found, or `false` otherwise
  */
-const validateStartDateBeforeEndDate = (dateRange, intl) => {
-  const message = intl.formatMessage({ id: 'ui-eholdings.validate.errors.dateRange.startDateBeforeEndDate' });
+const validateStartDateBeforeEndDate = (dateRange) => {
+  const message = <FormattedMessage id="ui-eholdings.validate.errors.dateRange.startDateBeforeEndDate" />;
 
   if (dateRange.endCoverage && moment.utc(dateRange.beginCoverage).isAfter(moment.utc(dateRange.endCoverage))) {
     return { beginCoverage: message };
@@ -101,7 +98,7 @@ const validateStartDateBeforeEndDate = (dateRange, intl) => {
 const validateDateFormat = (dateRange, intl) => {
   moment.locale(intl.locale);
   let dateFormat = moment.localeData()._longDateFormat.L;
-  const message = intl.formatMessage({ id: 'ui-eholdings.validate.errors.dateRange.format' }, { dateFormat });
+  const message = <FormattedMessage id="ui-eholdings.validate.errors.dateRange.format" values={{ dateFormat }} />;
 
   if (!dateRange.beginCoverage || !moment.utc(dateRange.beginCoverage).isValid()) {
     return { beginCoverage: message };
@@ -117,7 +114,7 @@ const validateDateFormat = (dateRange, intl) => {
  * @param {} packageCoverage - parent package's custom coverage range
  * @returns {} - an error object if errors are found, or `false` otherwise
  */
-const validateWithinPackageRange = (dateRange, packageCoverage, intl) => {
+const validateWithinPackageRange = (dateRange, packageCoverage) => {
   // javascript/moment has no mechanism for "infinite", so we
   // use an absurd future date to represent the concept of "present"
   let present = moment.utc('9999-09-09T05:00:00.000Z');
@@ -134,29 +131,26 @@ const validateWithinPackageRange = (dateRange, packageCoverage, intl) => {
     let packageEndCoverageDate = packageEndCoverage ? moment.utc(packageEndCoverage) : moment.utc();
     let packageRange = moment.range(packageBeginCoverageDate, packageEndCoverageDate);
 
-    let startDate = intl.formatDate(
-      packageBeginCoverageDate,
-      {
-        timeZone: 'UTC',
-        year: 'numeric',
-        month: 'numeric',
-        day: 'numeric'
-      }
-    );
+    let startDate =
+      <FormattedDate
+        value={packageBeginCoverageDate}
+        timeZone="UTC"
+        year="numeric"
+        month="numeric"
+        day="numeric"
+      />;
 
     let endDate = packageEndCoverage ?
-      intl.formatDate(
-        packageEndCoverageDate,
-        {
-          timeZone: 'UTC',
-          year: 'numeric',
-          month: 'numeric',
-          day: 'numeric'
-        }
-      )
+      <FormattedDate
+        value={packageEndCoverageDate}
+        timeZone="UTC"
+        year="numeric"
+        month="numeric"
+        day="numeric"
+      />
       : 'Present';
 
-    const message = intl.formatMessage({ id: 'ui-eholdings.validate.errors.dateRange.packageRange' }, { startDate, endDate });
+    const message = <FormattedMessage id="ui-eholdings.validate.errors.dateRange.packageRange" values={{ startDate, endDate }} />;
 
     let beginDateOutOfRange = !packageRange.contains(beginCoverageDate);
     let endDateOutOfRange = !packageRange.contains(endCoverageDate);
@@ -179,7 +173,7 @@ const validateWithinPackageRange = (dateRange, packageCoverage, intl) => {
  * presently being considered
  * @returns {} - an error object if errors are found, or `false` otherwise
  */
-const validateNoRangeOverlaps = (dateRange, customCoverages, index, intl) => {
+const validateNoRangeOverlaps = (dateRange, customCoverages, index) => {
   let present = moment.utc('9999-09-09T05:00:00.000Z');
 
   let beginCoverageDate = moment.utc(dateRange.beginCoverage);
@@ -198,29 +192,26 @@ const validateNoRangeOverlaps = (dateRange, customCoverages, index, intl) => {
     let overlapCoverageEndDate = overlapRange.endCoverage ? moment.utc(overlapRange.endCoverage) : present;
     let overlapCoverageRange = moment.range(overlapCoverageBeginDate, overlapCoverageEndDate);
 
-    let startDate = intl.formatDate(
-      overlapRange.beginCoverage,
-      {
-        timeZone: 'UTC',
-        year: 'numeric',
-        month: 'numeric',
-        day: 'numeric'
-      }
-    );
+    let startDate =
+      <FormattedDate
+        value={overlapRange.beginCoverage}
+        timeZone="UTC"
+        year="numeric"
+        month="numeric"
+        day="numeric"
+      />;
 
     let endDate = overlapRange.endCoverage ?
-      intl.formatDate(
-        overlapRange.endCoverage,
-        {
-          timeZone: 'UTC',
-          year: 'numeric',
-          month: 'numeric',
-          day: 'numeric'
-        }
-      )
+      <FormattedDate
+        value={overlapRange.endCoverage}
+        timeZone="UTC"
+        year="numeric"
+        month="numeric"
+        day="numeric"
+      />
       : 'Present';
 
-    const message = intl.formatMessage({ id: 'ui-eholdings.validate.errors.dateRange.overlap' }, { startDate, endDate });
+    const message = <FormattedMessage id="ui-eholdings.validate.errors.dateRange.overlap" values={{ startDate, endDate }} />;
 
     if (overlapCoverageRange.overlaps(coverageRange)
         || overlapCoverageRange.isEqual(coverageRange)
@@ -243,9 +234,9 @@ export function validate(values, props) {
 
     dateRangeErrors =
       validateDateFormat(dateRange, intl) ||
-      validateStartDateBeforeEndDate(dateRange, intl) ||
-      validateNoRangeOverlaps(dateRange, values.customCoverages, index, intl) ||
-      validateWithinPackageRange(dateRange, packageCoverage, intl);
+      validateStartDateBeforeEndDate(dateRange) ||
+      validateNoRangeOverlaps(dateRange, values.customCoverages, index) ||
+      validateWithinPackageRange(dateRange, packageCoverage);
 
     errors[index] = dateRangeErrors;
   });

@@ -21,10 +21,10 @@ AddTitleToPackageForm.propTypes = {
   packageOptions: PropTypes.array.isRequired
 };
 
-function validate(values, props) {
+function validate(values) {
   return Object.assign({},
-    validatePackage(values, props),
-    validateURL(values, props));
+    validatePackage(values),
+    validateURL(values));
 }
 
 export default reduxForm({

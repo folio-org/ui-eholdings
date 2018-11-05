@@ -1,7 +1,7 @@
 import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
 import isEqual from 'lodash/isEqual';
-import { injectIntl, intlShape } from 'react-intl';
+import { FormattedMessage } from 'react-intl';
 
 import {
   Modal,
@@ -28,7 +28,6 @@ export const filterCountFromQuery = ({ q, sort, filter }) => {
 
 class SearchModal extends React.PureComponent {
   static propTypes = {
-    intl: intlShape.isRequired,
     listType: PropTypes.string,
     onFilter: PropTypes.func,
     onSearch: PropTypes.func,
@@ -118,7 +117,7 @@ class SearchModal extends React.PureComponent {
   }
 
   render() {
-    let { intl, listType } = this.props;
+    let { listType } = this.props;
 
     let {
       isModalVisible,
@@ -138,7 +137,7 @@ class SearchModal extends React.PureComponent {
           <Modal
             open
             size="small"
-            label={intl.formatMessage({ id: 'ui-eholdings.filter.filterType' }, { listType })}
+            label={<FormattedMessage id="ui-eholdings.filter.filterType" values={{ listType }} />}
             onClose={this.close}
             id="eholdings-details-view-search-modal"
             closeOnBackgroundClick
@@ -146,13 +145,13 @@ class SearchModal extends React.PureComponent {
             footer={
               <ModalFooter
                 primaryButton={{
-                  'label': intl.formatMessage({ id: 'ui-eholdings.label.search' }),
+                  'label': <FormattedMessage id="ui-eholdings.label.search" />,
                   'onClick': this.updateSearch,
                   'disabled': !hasChanges,
                   'data-test-eholdings-modal-search-button': true
                 }}
                 secondaryButton={{
-                  'label': intl.formatMessage({ id: 'ui-eholdings.filter.resetAll' }),
+                  'label': <FormattedMessage id="ui-eholdings.filter.resetAll" />,
                   'onClick': this.resetSearch,
                   'disabled': isEqual(normalize({}), this.state.query),
                   'data-test-eholdings-modal-reset-all-button': true
@@ -180,4 +179,4 @@ class SearchModal extends React.PureComponent {
   }
 }
 
-export default injectIntl(SearchModal);
+export default SearchModal;

@@ -1,7 +1,7 @@
 import React, { Component, Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { reduxForm } from 'redux-form';
-import { injectIntl, intlShape, FormattedMessage } from 'react-intl';
+import { FormattedMessage } from 'react-intl';
 import {
   Headline,
   Icon
@@ -24,7 +24,6 @@ class ProviderEdit extends Component {
       PropTypes.object
     ]),
     handleSubmit: PropTypes.func,
-    intl: intlShape.isRequired,
     model: PropTypes.object.isRequired,
     onCancel: PropTypes.func.isRequired,
     onSubmit: PropTypes.func.isRequired,
@@ -42,7 +41,6 @@ class ProviderEdit extends Component {
       onSubmit,
       onCancel,
       pristine,
-      intl,
       fullViewLink
     } = this.props;
 
@@ -96,7 +94,7 @@ class ProviderEdit extends Component {
             bodyContent={(
               <Fragment>
                 <DetailsViewSection
-                  label={intl.formatMessage({ id: 'ui-eholdings.provider.providerSettings' })}
+                  label={<FormattedMessage id="ui-eholdings.provider.providerSettings" />}
                 >
                   {model.packagesSelected > 0 ? (
                     <div>
@@ -124,9 +122,9 @@ class ProviderEdit extends Component {
                   )}
                 </DetailsViewSection>
                 <NavigationModal
-                  modalLabel={intl.formatMessage({ id: 'ui-eholdings.navModal.modalLabel' })}
-                  continueLabel={intl.formatMessage({ id: 'ui-eholdings.navModal.continueLabel' })}
-                  dismissLabel={intl.formatMessage({ id: 'ui-eholdings.navModal.dismissLabel' })}
+                  modalLabel={<FormattedMessage id="ui-eholdings.navModal.modalLabel" />}
+                  continueLabel={<FormattedMessage id="ui-eholdings.navModal.continueLabel" />}
+                  dismissLabel={<FormattedMessage id="ui-eholdings.navModal.dismissLabel" />}
                   when={!pristine && !model.update.isPending}
                 />
               </Fragment>
@@ -138,13 +136,13 @@ class ProviderEdit extends Component {
   }
 }
 
-const validate = (values, props) => {
-  return validateToken(values, props);
+const validate = (values) => {
+  return validateToken(values);
 };
 
-export default injectIntl(reduxForm({
+export default reduxForm({
   validate,
   enableReinitialize: true,
   form: 'ProviderEdit',
   destroyOnUnmount: false,
-})(ProviderEdit));
+})(ProviderEdit);

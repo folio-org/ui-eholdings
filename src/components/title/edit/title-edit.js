@@ -5,7 +5,7 @@ import { reduxForm } from 'redux-form';
 import {
   Icon
 } from '@folio/stripes/components';
-import { FormattedMessage, intlShape, injectIntl } from 'react-intl';
+import { FormattedMessage } from 'react-intl';
 import DetailsView from '../../details-view';
 import NameField, { validate as validateName } from '../_fields/name';
 import EditionField, { validate as validateEdition } from '../_fields/edition';
@@ -29,7 +29,6 @@ class TitleEdit extends Component {
     ]),
     handleSubmit: PropTypes.func,
     initialValues: PropTypes.object.isRequired,
-    intl: intlShape.isRequired,
     model: PropTypes.object.isRequired,
     onCancel: PropTypes.func.isRequired,
     onSubmit: PropTypes.func.isRequired,
@@ -45,7 +44,6 @@ class TitleEdit extends Component {
       pristine,
       updateRequest,
       initialValues,
-      intl,
       onCancel,
       fullViewLink
     } = this.props;
@@ -101,7 +99,7 @@ class TitleEdit extends Component {
             bodyContent={(
               <Fragment>
                 <DetailsViewSection
-                  label={intl.formatMessage({ id: 'ui-eholdings.title.titleInformation' })}
+                  label={<FormattedMessage id="ui-eholdings.title.titleInformation" />}
                 >
                   <NameField />
 
@@ -121,9 +119,9 @@ class TitleEdit extends Component {
                   <PeerReviewedField />
                 </DetailsViewSection>
                 <NavigationModal
-                  modalLabel={intl.formatMessage({ id: 'ui-eholdings.navModal.modalLabel' })}
-                  continueLabel={intl.formatMessage({ id: 'ui-eholdings.navModal.continueLabel' })}
-                  dismissLabel={intl.formatMessage({ id: 'ui-eholdings.navModal.dismissLabel' })}
+                  modalLabel={<FormattedMessage id="ui-eholdings.navModal.modalLabel" />}
+                  continueLabel={<FormattedMessage id="ui-eholdings.navModal.continueLabel" />}
+                  dismissLabel={<FormattedMessage id="ui-eholdings.navModal.dismissLabel" />}
                   when={!pristine && !updateRequest.isResolved}
                 />
               </Fragment>
@@ -135,19 +133,19 @@ class TitleEdit extends Component {
   }
 }
 
-const validate = (values, props) => {
+const validate = (values) => {
   return Object.assign({},
-    validateName(values, props),
-    validateContributor(values, props),
-    validateEdition(values, props),
-    validatePublisher(values, props),
-    validateIdentifiers(values, props),
-    validateDescription(values, props));
+    validateName(values),
+    validateContributor(values),
+    validateEdition(values),
+    validatePublisher(values),
+    validateIdentifiers(values),
+    validateDescription(values));
 };
 
-export default injectIntl(reduxForm({
+export default reduxForm({
   validate,
   enableReinitialize: true,
   form: 'TitleEdit',
   destroyOnUnmount: false,
-})(TitleEdit));
+})(TitleEdit);

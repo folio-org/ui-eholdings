@@ -12,7 +12,7 @@ import {
   Modal,
   ModalFooter
 } from '@folio/stripes/components';
-import { intlShape, injectIntl, FormattedDate, FormattedNumber, FormattedMessage } from 'react-intl';
+import { FormattedDate, FormattedNumber, FormattedMessage } from 'react-intl';
 import { processErrors } from '../../utilities';
 
 import DetailsView from '../../details-view';
@@ -40,7 +40,6 @@ class PackageShow extends Component {
       PropTypes.string,
       PropTypes.object
     ]),
-    intl: intlShape.isRequired,
     isDestroyed: PropTypes.bool,
     isFreshlySaved: PropTypes.bool,
     isNewRecord: PropTypes.bool,
@@ -116,7 +115,6 @@ class PackageShow extends Component {
     let {
       model,
       fetchPackageTitles,
-      intl,
       proxyTypes,
       provider,
       searchModal,
@@ -141,16 +139,16 @@ class PackageShow extends Component {
     let hasPackageToken = model.packageToken && model.packageToken.prompt;
     let modalMessage = model.isCustom ?
       {
-        header: intl.formatMessage({ id: 'ui-eholdings.package.modal.header.isCustom' }),
-        body: intl.formatMessage({ id: 'ui-eholdings.package.modal.body.isCustom' }),
-        buttonConfirm: intl.formatMessage({ id: 'ui-eholdings.package.modal.buttonConfirm.isCustom' }),
-        buttonCancel: intl.formatMessage({ id: 'ui-eholdings.package.modal.buttonCancel.isCustom' })
+        header: <FormattedMessage id="ui-eholdings.package.modal.header.isCustom" />,
+        body: <FormattedMessage id="ui-eholdings.package.modal.body.isCustom" />,
+        buttonConfirm: <FormattedMessage id="ui-eholdings.package.modal.buttonConfirm.isCustom" />,
+        buttonCancel: <FormattedMessage id="ui-eholdings.package.modal.buttonCancel.isCustom" />
       } :
       {
-        header: intl.formatMessage({ id: 'ui-eholdings.package.modal.header' }),
-        body: intl.formatMessage({ id: 'ui-eholdings.package.modal.body' }),
-        buttonConfirm: intl.formatMessage({ id: 'ui-eholdings.package.modal.buttonConfirm' }),
-        buttonCancel: intl.formatMessage({ id: 'ui-eholdings.package.modal.buttonCancel' })
+        header: <FormattedMessage id="ui-eholdings.package.modal.header" />,
+        body: <FormattedMessage id="ui-eholdings.package.modal.body" />,
+        buttonConfirm: <FormattedMessage id="ui-eholdings.package.modal.buttonConfirm" />,
+        buttonCancel: <FormattedMessage id="ui-eholdings.package.modal.buttonCancel" />
       };
 
     let actionMenuItems = [
@@ -171,7 +169,7 @@ class PackageShow extends Component {
     if (packageSelected) {
       let messageId = model.isCustom ? 'deletePackage' : 'removeFromHoldings';
       actionMenuItems.push({
-        'label': intl.formatMessage({ id: `ui-eholdings.package.${messageId}` }),
+        'label': <FormattedMessage id={`ui-eholdings.package.${messageId}`} />,
         'state': { eholdings: true },
         'data-test-eholdings-package-remove-from-holdings-action': true,
         'onClick': this.handleSelectionToggle
@@ -180,7 +178,7 @@ class PackageShow extends Component {
     if (!packageSelected || model.isPartiallySelected) {
       let messageId = model.isPartiallySelected ? 'addAllToHoldings' : 'addToHoldings';
       actionMenuItems.push({
-        'label': intl.formatMessage({ id: `ui-eholdings.${messageId}` }),
+        'label': <FormattedMessage id={`ui-eholdings.${messageId}`} />,
         'state': { eholdings: true },
         'data-test-eholdings-package-add-to-holdings-action': true,
         'onClick': this.props.addPackageToHoldings
@@ -193,7 +191,7 @@ class PackageShow extends Component {
     if (isNewRecord) {
       toasts.push({
         id: `success-package-creation-${model.id}`,
-        message: intl.formatMessage({ id: 'ui-eholdings.package.toast.isNewRecord' }),
+        message: <FormattedMessage id="ui-eholdings.package.toast.isNewRecord" />,
         type: 'success'
       });
     }
@@ -203,7 +201,7 @@ class PackageShow extends Component {
     if (isDestroyed) {
       toasts.push({
         id: `success-resource-destruction-${model.id}`,
-        message: intl.formatMessage({ id: 'ui-eholdings.package.toast.isDestroyed' }),
+        message: <FormattedMessage id="ui-eholdings.package.toast.isDestroyed" />,
         type: 'success'
       });
     }
@@ -212,7 +210,7 @@ class PackageShow extends Component {
     if (isFreshlySaved) {
       toasts.push({
         id: `success-package-saved-${model.id}`,
-        message: intl.formatMessage({ id: 'ui-eholdings.package.toast.isFreshlySaved' }),
+        message: <FormattedMessage id="ui-eholdings.package.toast.isFreshlySaved" />,
         type: 'success'
       });
     }
@@ -468,9 +466,9 @@ class PackageShow extends Component {
         </Modal>
 
         <NavigationModal
-          modalLabel={intl.formatMessage({ id: 'ui-eholdings.navModal.modalLabel' })}
-          continueLabel={intl.formatMessage({ id: 'ui-eholdings.navModal.continueLabel' })}
-          dismissLabel={intl.formatMessage({ id: 'ui-eholdings.navModal.dismissLabel' })}
+          modalLabel={<FormattedMessage id="ui-eholdings.navModal.modalLabel" />}
+          continueLabel={<FormattedMessage id="ui-eholdings.navModal.continueLabel" />}
+          dismissLabel={<FormattedMessage id="ui-eholdings.navModal.dismissLabel" />}
           when={isCoverageEditable}
         />
       </div>
@@ -478,4 +476,4 @@ class PackageShow extends Component {
   }
 }
 
-export default injectIntl(PackageShow);
+export default PackageShow;

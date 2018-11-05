@@ -6,7 +6,7 @@ import isEqual from 'lodash/isEqual';
 import moment from 'moment';
 import queryString from 'qs';
 import { TitleManager } from '@folio/stripes/core';
-import { injectIntl, intlShape } from 'react-intl';
+import { FormattedMessage } from 'react-intl';
 import { createResolver } from '../redux';
 import { ProxyType } from '../redux/application';
 import Package from '../redux/package';
@@ -22,7 +22,6 @@ class PackageEditRoute extends Component {
     getProvider: PropTypes.func.isRequired,
     getProxyTypes: PropTypes.func.isRequired,
     history: ReactRouterPropTypes.history.isRequired,
-    intl: intlShape.isRequired,
     location: ReactRouterPropTypes.location.isRequired,
     match: ReactRouterPropTypes.match.isRequired,
     model: PropTypes.object.isRequired,
@@ -178,30 +177,34 @@ class PackageEditRoute extends Component {
   };
 
   render() {
-    let { model, intl, proxyTypes, provider, history, location } = this.props;
+    let { model, proxyTypes, provider, history, location } = this.props;
     const { searchType } = queryString.parse(location.search, { ignoreQueryPrefix: true });
 
     return (
-      <TitleManager record={intl.formatMessage({ id: 'ui-eholdings.label.editLink' }, { name: model.name })}>
-        <View
-          model={model}
-          proxyTypes={proxyTypes}
-          provider={provider}
-          onSubmit={this.packageEditSubmitted}
-          onCancel={() => history.push({
-            pathname: `/eholdings/packages/${model.id}`,
-            search: location.search,
-            state: { eholdings: true }
-          })}
-          addPackageToHoldings={this.addPackageToHoldings}
-          fullViewLink={searchType && {
-            to: {
-              pathname: `/eholdings/packages/${model.id}/edit`,
-              state: { eholdings: true }
-            }
-          }}
-        />
-      </TitleManager>
+      <FormattedMessage id="ui-eholdings.label.editLink" values={{ name: model.name }}>
+        {pageTitle => (
+          <TitleManager record={pageTitle}>
+            <View
+              model={model}
+              proxyTypes={proxyTypes}
+              provider={provider}
+              onSubmit={this.packageEditSubmitted}
+              onCancel={() => history.push({
+                pathname: `/eholdings/packages/${model.id}`,
+                search: location.search,
+                state: { eholdings: true }
+              })}
+              addPackageToHoldings={this.addPackageToHoldings}
+              fullViewLink={searchType && {
+                to: {
+                  pathname: `/eholdings/packages/${model.id}/edit`,
+                  state: { eholdings: true }
+                }
+              }}
+            />
+          </TitleManager>
+        )}
+      </FormattedMessage>
     );
   }
 }
@@ -225,4 +228,4 @@ export default connect(
     updatePackage: model => Package.save(model),
     destroyPackage: model => Package.destroy(model)
   }
-)(injectIntl(PackageEditRoute));
+)(PackageEditRoute);

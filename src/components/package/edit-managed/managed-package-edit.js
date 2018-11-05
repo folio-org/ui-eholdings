@@ -1,7 +1,8 @@
 import React, { Component, Fragment } from 'react';
 import PropTypes from 'prop-types';
+import { compose } from 'redux';
 import { reduxForm, Field } from 'redux-form';
-import { intlShape, injectIntl, FormattedMessage } from 'react-intl';
+import { FormattedMessage, injectIntl } from 'react-intl';
 
 import {
   Accordion,
@@ -35,7 +36,6 @@ class ManagedPackageEdit extends Component {
     ]),
     handleSubmit: PropTypes.func,
     initialValues: PropTypes.object.isRequired,
-    intl: intlShape.isRequired,
     model: PropTypes.object.isRequired,
     onCancel: PropTypes.func.isRequired,
     onSubmit: PropTypes.func.isRequired,
@@ -161,7 +161,6 @@ class ManagedPackageEdit extends Component {
       pristine,
       proxyTypes,
       provider,
-      intl,
       onCancel,
       fullViewLink
     } = this.props;
@@ -197,7 +196,7 @@ class ManagedPackageEdit extends Component {
 
     if (packageSelected) {
       actionMenuItems.push({
-        'label': intl.formatMessage({ id: 'ui-eholdings.package.removeFromHoldings' }),
+        'label': <FormattedMessage id="ui-eholdings.package.removeFromHoldings" />,
         'state': { eholdings: true },
         'data-test-eholdings-package-remove-from-holdings-action': true,
         'onClick': this.handleDeselectionAction
@@ -207,7 +206,7 @@ class ManagedPackageEdit extends Component {
     if (!packageSelected || model.isPartiallySelected) {
       let messageId = model.isPartiallySelected ? 'addAllToHoldings' : 'addToHoldings';
       actionMenuItems.push({
-        'label': intl.formatMessage({ id: `ui-eholdings.${messageId}` }),
+        'label': <FormattedMessage id={`ui-eholdings.${messageId}`} />,
         'state': { eholdings: true },
         'data-test-eholdings-package-add-to-holdings-action': true,
         'onClick': this.props.addPackageToHoldings
@@ -272,16 +271,13 @@ class ManagedPackageEdit extends Component {
                           <Fragment>
                             <div data-test-eholdings-package-visibility-field>
                               <Field
-                                label={intl.formatMessage({ id: 'ui-eholdings.package.visibility' })}
+                                label={<FormattedMessage id="ui-eholdings.package.visibility" />}
                                 name="isVisible"
                                 component={RadioButtonGroup}
                               >
-                                <RadioButton label={intl.formatMessage({ id: 'ui-eholdings.yes' })} value="true" />
+                                <RadioButton label={<FormattedMessage id="ui-eholdings.yes" />} value="true" />
                                 <RadioButton
-                                  label={intl.formatMessage(
-                                    { id: 'ui-eholdings.package.visibility.no' },
-                                    { visibilityMessage }
-                                  )}
+                                  label={<FormattedMessage id="ui-eholdings.package.visibility.no" values={{ visibilityMessage }} />}
                                   value="false"
                                 />
                               </Field>
@@ -300,18 +296,18 @@ class ManagedPackageEdit extends Component {
                         {this.props.initialValues.allowKbToAddTitles != null ? (
                           <Fragment>
                             <Field
-                              label={intl.formatMessage({ id: 'ui-eholdings.package.packageAllowToAddTitles' })}
+                              label={<FormattedMessage id="ui-eholdings.package.packageAllowToAddTitles" />}
                               name="allowKbToAddTitles"
                               data-test-eholdings-allow-kb-to-add-titles-radios
                               component={RadioButtonGroup}
                             >
                               <RadioButton
-                                label={intl.formatMessage({ id: 'ui-eholdings.yes' })}
+                                label={<FormattedMessage id="ui-eholdings.yes" />}
                                 value="true"
                                 data-test-eholdings-allow-kb-to-add-titles-radio-yes
                               />
                               <RadioButton
-                                label={intl.formatMessage({ id: 'ui-eholdings.no' })}
+                                label={<FormattedMessage id="ui-eholdings.no" />}
                                 value="false"
                                 data-test-eholdings-allow-kb-to-add-titles-radio-no
                               />
@@ -366,9 +362,9 @@ class ManagedPackageEdit extends Component {
                 )}
 
                 <NavigationModal
-                  modalLabel={intl.formatMessage({ id: 'ui-eholdings.navModal.modalLabel' })}
-                  continueLabel={intl.formatMessage({ id: 'ui-eholdings.navModal.continueLabel' })}
-                  dismissLabel={intl.formatMessage({ id: 'ui-eholdings.navModal.dismissLabel' })}
+                  modalLabel={<FormattedMessage id="ui-eholdings.navModal.modalLabel" />}
+                  continueLabel={<FormattedMessage id="ui-eholdings.navModal.continueLabel" />}
+                  dismissLabel={<FormattedMessage id="ui-eholdings.navModal.dismissLabel" />}
                   when={!pristine && !model.update.isPending}
                 />
               </Fragment>
@@ -378,20 +374,20 @@ class ManagedPackageEdit extends Component {
         <Modal
           open={showSelectionModal}
           size="small"
-          label={intl.formatMessage({ id: 'ui-eholdings.package.modal.header' })}
+          label={<FormattedMessage id="ui-eholdings.package.modal.header" />}
           id="eholdings-package-confirmation-modal"
           footer={(
             <ModalFooter
               primaryButton={{
                 'label': model.update.isPending ?
-                  intl.formatMessage({ id: 'ui-eholdings.package.modal.buttonWorking' }) :
-                  intl.formatMessage({ id: 'ui-eholdings.package.modal.buttonConfirm' }),
+                  <FormattedMessage id="ui-eholdings.package.modal.buttonWorking" /> :
+                  <FormattedMessage id="ui-eholdings.package.modal.buttonConfirm" />,
                 'onClick': this.commitSelectionToggle,
                 'disabled': model.update.isPending,
                 'data-test-eholdings-package-deselection-confirmation-modal-yes': true
               }}
               secondaryButton={{
-                'label': intl.formatMessage({ id: 'ui-eholdings.package.modal.buttonCancel' }),
+                'label': <FormattedMessage id="ui-eholdings.package.modal.buttonCancel" />,
                 'onClick': this.cancelSelectionToggle,
                 'data-test-eholdings-package-deselection-confirmation-modal-no': true
               }}
@@ -406,12 +402,15 @@ class ManagedPackageEdit extends Component {
 }
 
 const validate = (values, props) => {
-  return Object.assign({}, validateCoverageDates(values, props), validateToken(values, props));
+  return Object.assign({}, validateCoverageDates(values, props), validateToken(values));
 };
 
-export default injectIntl(reduxForm({
-  validate,
-  enableReinitialize: true,
-  form: 'ManagedPackageEdit',
-  destroyOnUnmount: false,
-})(ManagedPackageEdit));
+export default compose(
+  injectIntl,
+  reduxForm({
+    validate,
+    enableReinitialize: true,
+    form: 'ManagedPackageEdit',
+    destroyOnUnmount: false,
+  })
+)(ManagedPackageEdit);

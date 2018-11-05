@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Field } from 'redux-form';
-import { intlShape, injectIntl, FormattedMessage } from 'react-intl';
+import { FormattedMessage } from 'react-intl';
 
 import {
   Button,
@@ -15,7 +15,6 @@ class CustomEmbargoFields extends Component {
   static propTypes = {
     change: PropTypes.func.isRequired,
     initialValue: PropTypes.object,
-    intl: intlShape.isRequired,
     showInputs: PropTypes.bool
   };
 
@@ -36,7 +35,7 @@ class CustomEmbargoFields extends Component {
   }
 
   render() {
-    let { initialValue, intl } = this.props;
+    let { initialValue } = this.props;
     let { showInputs } = this.state;
 
     return (showInputs) ? (
@@ -48,7 +47,7 @@ class CustomEmbargoFields extends Component {
           <Field
             name="customEmbargoValue"
             component={TextField}
-            placeholder={intl.formatMessage({ id: 'ui-eholdings.number' })}
+            placeholder={<FormattedMessage id="ui-eholdings.number" />}
             autoFocus={initialValue.customEmbargoValue === 0}
           />
         </div>
@@ -119,22 +118,21 @@ class CustomEmbargoFields extends Component {
   }
 }
 
-export default injectIntl(CustomEmbargoFields);
+export default CustomEmbargoFields;
 
-export function validate(values, { intl }) {
+export function validate(values) {
   const errors = {};
 
-
   if (Number.isNaN(Number(values.customEmbargoValue))) {
-    errors.customEmbargoValue = intl.formatMessage({ id: 'ui-eholdings.validate.errors.embargoPeriod.number' });
+    errors.customEmbargoValue = <FormattedMessage id="ui-eholdings.validate.errors.embargoPeriod.number" />;
   }
 
   if (values.customEmbargoValue <= 0) {
-    errors.customEmbargoValue = intl.formatMessage({ id: 'ui-eholdings.validate.errors.embargoPeriod.moreThanZero' });
+    errors.customEmbargoValue = <FormattedMessage id="ui-eholdings.validate.errors.embargoPeriod.moreThanZero" />;
   }
 
   if (values.customEmbargoValue > 0 && !values.customEmbargoUnit) {
-    errors.customEmbargoUnit = intl.formatMessage({ id: 'ui-eholdings.validate.errors.embargoPeriod.unit' });
+    errors.customEmbargoUnit = <FormattedMessage id="ui-eholdings.validate.errors.embargoPeriod.unit" />;
   }
   return errors;
 }

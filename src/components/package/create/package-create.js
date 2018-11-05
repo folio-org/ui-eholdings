@@ -1,7 +1,8 @@
 import React, { Component, Fragment } from 'react';
 import PropTypes from 'prop-types';
+import { compose } from 'redux';
 import { reduxForm } from 'redux-form';
-import { intlShape, injectIntl, FormattedMessage } from 'react-intl';
+import { FormattedMessage, injectIntl } from 'react-intl';
 
 import {
   Icon,
@@ -21,7 +22,6 @@ import styles from './package-create.css';
 class PackageCreate extends Component {
   static propTypes = {
     handleSubmit: PropTypes.func.isRequired,
-    intl: intlShape.isRequired,
     onCancel: PropTypes.func,
     onSubmit: PropTypes.func.isRequired,
     pristine: PropTypes.bool.isRequired,
@@ -30,7 +30,6 @@ class PackageCreate extends Component {
 
   render() {
     let {
-      intl,
       request,
       handleSubmit,
       onSubmit,
@@ -42,7 +41,7 @@ class PackageCreate extends Component {
 
     if (!request.isPending && onCancel) {
       actionMenuItems.push({
-        'label': intl.formatMessage({ id: 'ui-eholdings.actionMenu.cancelEditing' }),
+        'label': <FormattedMessage id="ui-eholdings.actionMenu.cancelEditing" />,
         'state': { eholdings: true },
         'onClick': onCancel,
         'data-test-eholdings-package-create-cancel-action': true
@@ -112,9 +111,9 @@ class PackageCreate extends Component {
           </div>
         </form>
         <NavigationModal
-          modalLabel={intl.formatMessage({ id: 'ui-eholdings.navModal.modalLabel' })}
-          continueLabel={intl.formatMessage({ id: 'ui-eholdings.navModal.continueLabel' })}
-          dismissLabel={intl.formatMessage({ id: 'ui-eholdings.navModal.dismissLabel' })}
+          modalLabel={<FormattedMessage id="ui-eholdings.navModal.modalLabel" />}
+          continueLabel={<FormattedMessage id="ui-eholdings.navModal.continueLabel" />}
+          dismissLabel={<FormattedMessage id="ui-eholdings.navModal.dismissLabel" />}
           when={!pristine && !request.isResolved}
         />
       </div>
@@ -123,12 +122,15 @@ class PackageCreate extends Component {
 }
 
 const validate = (values, props) => {
-  return Object.assign({}, validatePackageName(values, props), validateCoverageDates(values, props));
+  return Object.assign({}, validatePackageName(values), validateCoverageDates(values, props));
 };
 
-export default injectIntl(reduxForm({
-  validate,
-  enableReinitialize: true,
-  form: 'PackageCreate',
-  destroyOnUnmount: false
-})(PackageCreate));
+export default compose(
+  injectIntl,
+  reduxForm({
+    validate,
+    enableReinitialize: true,
+    form: 'PackageCreate',
+    destroyOnUnmount: false
+  })
+)(PackageCreate);

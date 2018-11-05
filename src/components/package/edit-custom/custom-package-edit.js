@@ -1,7 +1,8 @@
 import React, { Component, Fragment } from 'react';
 import PropTypes from 'prop-types';
+import { compose } from 'redux';
 import { reduxForm, Field } from 'redux-form';
-import { intlShape, injectIntl, FormattedMessage } from 'react-intl';
+import { FormattedMessage, injectIntl } from 'react-intl';
 
 import {
   Accordion,
@@ -37,7 +38,6 @@ class CustomPackageEdit extends Component {
     ]),
     handleSubmit: PropTypes.func,
     initialValues: PropTypes.object.isRequired,
-    intl: intlShape.isRequired,
     model: PropTypes.object.isRequired,
     onCancel: PropTypes.func.isRequired,
     onSubmit: PropTypes.func.isRequired,
@@ -154,7 +154,6 @@ class CustomPackageEdit extends Component {
       pristine,
       proxyTypes,
       provider,
-      intl,
       onCancel,
       fullViewLink
     } = this.props;
@@ -169,7 +168,7 @@ class CustomPackageEdit extends Component {
 
     let actionMenuItems = [
       {
-        'label': intl.formatMessage({ id: 'ui-eholdings.actionMenu.cancelEditing' }),
+        'label': <FormattedMessage id="ui-eholdings.actionMenu.cancelEditing" />,
         'onClick': onCancel,
         'data-test-eholdings-package-cancel-action': true
       }
@@ -177,7 +176,7 @@ class CustomPackageEdit extends Component {
 
     if (fullViewLink) {
       actionMenuItems.push({
-        label: intl.formatMessage({ id: 'ui-eholdings.actionMenu.fullView' }),
+        label: <FormattedMessage id="ui-eholdings.actionMenu.fullView" />,
         to: fullViewLink,
         className: styles['full-view-link']
       });
@@ -185,7 +184,7 @@ class CustomPackageEdit extends Component {
 
     if (packageSelected) {
       actionMenuItems.push({
-        'label': intl.formatMessage({ id: 'ui-eholdings.package.deletePackage' }),
+        'label': <FormattedMessage id="ui-eholdings.package.deletePackage" />,
         'state': { eholdings: true },
         'data-test-eholdings-package-remove-from-holdings-action': true,
         'onClick': this.handleDeleteAction
@@ -244,7 +243,7 @@ class CustomPackageEdit extends Component {
                   {packageSelected ? (
                     <NameField />
                   ) : (
-                    <KeyValue label={intl.formatMessage({ id: 'ui-eholdings.package.name' })}>
+                    <KeyValue label={<FormattedMessage id="ui-eholdings.package.name" />}>
                       <div data-test-eholdings-package-readonly-name-field>
                         {model.name}
                       </div>
@@ -254,7 +253,7 @@ class CustomPackageEdit extends Component {
                   {packageSelected ? (
                     <ContentTypeField />
                   ) : (
-                    <KeyValue label={intl.formatMessage({ id: 'ui-eholdings.package.contentType' })}>
+                    <KeyValue label={<FormattedMessage id="ui-eholdings.package.contentType" />}>
                       <div data-test-eholdings-package-details-readonly-content-type>
                         {model.contentType}
                       </div>
@@ -274,17 +273,17 @@ class CustomPackageEdit extends Component {
                         <Fragment>
                           <div data-test-eholdings-package-visibility-field>
                             <Field
-                              label={intl.formatMessage({ id: 'ui-eholdings.package.visibility' })}
+                              label={<FormattedMessage id="ui-eholdings.package.visibility" />}
                               name="isVisible"
                               component={RadioButtonGroup}
                             >
-                              <RadioButton label={intl.formatMessage({ id: 'ui-eholdings.yes' })} value="true" />
+                              <RadioButton label={<FormattedMessage id="ui-eholdings.yes" />} value="true" />
                               <RadioButton
                                 label={
-                                  intl.formatMessage(
-                                    { id: 'ui-eholdings.package.visibility.no' },
-                                    { visibilityMessage }
-                                  )
+                                  <FormattedMessage
+                                    id="ui-eholdings.package.visibility.no"
+                                    values={{ visibilityMessage }}
+                                  />
                                 }
                                 value="false"
                               />
@@ -331,9 +330,9 @@ class CustomPackageEdit extends Component {
                 </Accordion>
 
                 <NavigationModal
-                  modalLabel={intl.formatMessage({ id: 'ui-eholdings.navModal.modalLabel' })}
-                  continueLabel={intl.formatMessage({ id: 'ui-eholdings.navModal.continueLabel' })}
-                  dismissLabel={intl.formatMessage({ id: 'ui-eholdings.navModal.dismissLabel' })}
+                  modalLabel={<FormattedMessage id="ui-eholdings.navModal.modalLabel" />}
+                  continueLabel={<FormattedMessage id="ui-eholdings.navModal.continueLabel" />}
+                  dismissLabel={<FormattedMessage id="ui-eholdings.navModal.dismissLabel" />}
                   when={!pristine && !model.update.isPending}
                 />
               </Fragment>
@@ -344,20 +343,20 @@ class CustomPackageEdit extends Component {
         <Modal
           open={showSelectionModal}
           size="small"
-          label={intl.formatMessage({ id: 'ui-eholdings.package.modal.header.isCustom' })}
+          label={<FormattedMessage id="ui-eholdings.package.modal.header.isCustom" />}
           id="eholdings-package-confirmation-modal"
           footer={(
             <ModalFooter
               primaryButton={{
                 'label': model.destroy.isPending ?
-                  intl.formatMessage({ id: 'ui-eholdings.package.modal.buttonWorking.isCustom' }) :
-                  intl.formatMessage({ id: 'ui-eholdings.package.modal.buttonConfirm.isCustom' }),
+                  <FormattedMessage id="ui-eholdings.package.modal.buttonWorking.isCustom" /> :
+                  <FormattedMessage id="ui-eholdings.package.modal.buttonConfirm.isCustom" />,
                 'onClick': this.commitSelectionToggle,
                 'disabled': model.destroy.isPending,
                 'data-test-eholdings-package-deselection-confirmation-modal-yes': true
               }}
               secondaryButton={{
-                'label': intl.formatMessage({ id: 'ui-eholdings.package.modal.buttonCancel.isCustom' }),
+                'label': <FormattedMessage id="ui-eholdings.package.modal.buttonCancel.isCustom" />,
                 'onClick': this.cancelSelectionToggle,
                 'data-test-eholdings-package-deselection-confirmation-modal-no': true
               }}
@@ -372,12 +371,16 @@ class CustomPackageEdit extends Component {
 }
 
 const validate = (values, props) => {
-  return Object.assign({}, validatePackageName(values, props), validateCoverageDates(values, props));
+  return Object.assign({}, validatePackageName(values), validateCoverageDates(values, props));
 };
 
-export default injectIntl(reduxForm({
-  validate,
-  form: 'CustomPackageEdit',
-  enableReinitialize: true,
-  destroyOnUnmount: false,
-})(CustomPackageEdit));
+
+export default compose(
+  injectIntl,
+  reduxForm({
+    validate,
+    form: 'CustomPackageEdit',
+    enableReinitialize: true,
+    destroyOnUnmount: false,
+  })
+)(CustomPackageEdit);
