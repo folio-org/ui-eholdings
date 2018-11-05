@@ -20,15 +20,13 @@ export default class CustomUrlFields extends Component {
 
   render() {
     return (
-      <div>
-        <div data-test-eholdings-custom-url-textfield>
-          <Field
-            name="customUrl"
-            component={TextField}
-            label={<FormattedMessage id="ui-eholdings.customUrl" />}
-            validate={this.validate}
-          />
-        </div>
+      <div data-test-eholdings-custom-url-textfield>
+        <Field
+          name="customUrl"
+          component={TextField}
+          label={<FormattedMessage id="ui-eholdings.customUrl" />}
+          validate={this.validate}
+        />
       </div>
     );
   }
