@@ -5,6 +5,10 @@ import { FormattedMessage } from 'react-intl';
 
 import { Select } from '@folio/stripes/components';
 
+function validate(value) {
+  return value ? undefined : <FormattedMessage id="ui-eholdings.validate.errors.packageSelect.required" />;
+}
+
 function PackageSelectField({ options }) {
   return (
     <div data-test-eholdings-package-select-field>
@@ -12,14 +16,21 @@ function PackageSelectField({ options }) {
         name="packageId"
         component={Select}
         label={<FormattedMessage id="ui-eholdings.title.package.isRequired" />}
+        validate={validate}
       >
-        <option value="" disabled>
-          {options.length ? (
-            <FormattedMessage id="ui-eholdings.title.chooseAPackage" />
-          ) : (
-            <FormattedMessage id="ui-eholdings.search.loading" />
-          )}
-        </option>
+        {options.length ? (
+          <FormattedMessage id="ui-eholdings.title.chooseAPackage">
+            {option => (
+              <option value="" disabled>{option}</option>
+            )}
+          </FormattedMessage>
+        ) : (
+          <FormattedMessage id="ui-eholdings.search.loading">
+            {option => (
+              <option value="" disabled>{option}</option>
+            )}
+          </FormattedMessage>
+        )}
         {options.map(({ disabled, label, value }) => (
           <option disabled={disabled} key={value} value={value}>{label}</option>
         ))}
@@ -33,13 +44,3 @@ PackageSelectField.propTypes = {
 };
 
 export default PackageSelectField;
-
-export function validate(values) {
-  let errors = {};
-
-  if (!values.packageId) {
-    errors.packageId = <FormattedMessage id="ui-eholdings.validate.errors.packageSelect.required" />;
-  }
-
-  return errors;
-}

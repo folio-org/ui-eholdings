@@ -1,1 +1,1 @@
-export { default, validate } from './publisher-name';
+export { default } from './publisher-name-field';

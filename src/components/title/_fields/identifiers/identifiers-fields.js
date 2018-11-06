@@ -3,6 +3,7 @@ import { Field, FieldArray } from 'redux-form';
 import PropTypes from 'prop-types';
 
 import {
+  Headline,
   RepeatableField,
   Select,
   TextField
@@ -11,14 +12,24 @@ import {
 import { FormattedMessage } from 'react-intl';
 import styles from './identifiers-fields.css';
 
-class IdentifiersFields extends Component {
+export default class IdentifiersFields extends Component {
   static propTypes = {
-    initialValue: PropTypes.array
+    initialValue: PropTypes.array,
   };
 
-  static defaultProps = {
-    initialValue: []
-  };
+  validateId(value) {
+    let errors;
+
+    if (!value) {
+      errors = <FormattedMessage id="ui-eholdings.validate.errors.identifiers.noBlank" />;
+    }
+
+    if (value && value.length >= 20) {
+      errors = <FormattedMessage id="ui-eholdings.validate.errors.identifiers.exceedsLength" />;
+    }
+
+    return errors;
+  }
 
   renderField = (identifier, index, fields) => {
     return (
@@ -57,6 +68,7 @@ class IdentifiersFields extends Component {
             type="text"
             component={TextField}
             label={<FormattedMessage id="ui-eholdings.id" />}
+            validate={this.validateId}
           />
         </div>
       </Fragment>
@@ -72,10 +84,10 @@ class IdentifiersFields extends Component {
           addLabel={<FormattedMessage id="ui-eholdings.title.identifier.addIdentifier" />}
           component={RepeatableField}
           emptyMessage={
-            initialValue.length > 0 && initialValue[0].id ?
+            initialValue && initialValue.length > 0 && initialValue[0].id ?
               <FormattedMessage id="ui-eholdings.title.identifier.notSet" /> : ''
           }
-          legend={<FormattedMessage id="ui-eholdings.label.identifiers" />}
+          legend={<Headline tag="h4"><FormattedMessage id="ui-eholdings.label.identifiers" /></Headline>}
           name="identifiers"
           renderField={this.renderField}
         />
@@ -83,25 +95,3 @@ class IdentifiersFields extends Component {
     );
   }
 }
-
-export function validate(values) {
-  let errors = [];
-
-  values.identifiers.forEach((identifier, index) => {
-    let identifierErrors = {};
-
-    if (!identifier.id) {
-      identifierErrors.id = <FormattedMessage id="ui-eholdings.validate.errors.identifiers.noBlank" />;
-    }
-
-    if (identifier.id && identifier.id.length >= 20) {
-      identifierErrors.id = <FormattedMessage id="ui-eholdings.validate.errors.identifiers.exceedsLength" />;
-    }
-
-    errors[index] = identifierErrors;
-  });
-
-  return { identifiers: errors };
-}
-
-export default IdentifiersFields;

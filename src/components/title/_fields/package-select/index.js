@@ -1,1 +1,1 @@
-export { default, validate } from './package-select-field';
+export { default } from './package-select-field';

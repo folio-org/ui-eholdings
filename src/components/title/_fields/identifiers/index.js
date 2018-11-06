@@ -1,1 +1,1 @@
-export { default, validate } from './identifiers-fields';
+export { default } from './identifiers-fields';

@@ -1,1 +1,1 @@
-export { default, validate } from './contributor-field';
+export { default } from './contributor-field';
