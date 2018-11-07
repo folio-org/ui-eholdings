@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { withRoot } from '@folio/stripes-core/src/components/Root/RootContext';
+import { hot } from 'react-hot-loader';
 
 import { Route, Switch, Redirect } from './router';
 import { reducer, epics } from './redux';
@@ -75,4 +76,4 @@ class EHoldings extends Component {
   }
 }
 
-export default withRoot(EHoldings);
+export default hot(module)(withRoot(EHoldings));
