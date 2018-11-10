@@ -288,5 +288,7 @@
     "settings.kb.rmapiBaseUrl": "Escolha o API endpoint",
     "settings.kb.url.ebsco.customer.message": "Clientes da API EBSCO KB: a configuração permite pesquisar no Acervo digital e aplicativos de pesquisa do Codex.",
     "settings.kb.updated": "Configurações de KB atualizadas",
-    "over": "Sobre"
+    "over": "Sobre",
+    "package.addToken": "Adicionar token",
+    "package.tokenNeed": "Necessário token de pacote"
 }

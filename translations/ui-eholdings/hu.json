@@ -288,5 +288,7 @@
     "settings.kb.rmapiBaseUrl": "Válasszon API végpont",
     "settings.kb.url.ebsco.customer.message": "EBSCO KB API ügyfelek: A konfiguráció lehetővé teszi az eHoldings és a Codex keresőalkalmazások keresését.",
     "settings.kb.updated": "KB beállítások frissítve",
-    "over": "Vége"
+    "over": "Vége",
+    "package.addToken": "Add token",
+    "package.tokenNeed": "Package Token need"
 }
