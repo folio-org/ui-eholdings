@@ -19,7 +19,7 @@ import { processErrors, isBookPublicationType } from '../../utilities';
 import DetailsView from '../../details-view';
 import VisibilityField from '../_fields/visibility';
 import CustomCoverageFields, { validate as validateCoverageDates } from '../_fields/custom-coverage';
-import CustomUrlFields, { validate as validateUrlFields } from '../_fields/custom-url';
+import CustomUrlFields from '../_fields/custom-url';
 import CoverageStatementFields, { validate as validateCoverageStatement } from '../_fields/coverage-statement';
 import CustomEmbargoFields, { validate as validateEmbargo } from '../_fields/custom-embargo';
 import NavigationModal from '../../navigation-modal';
@@ -377,7 +377,6 @@ const validate = (values, props) => {
   return Object.assign({},
     validateCoverageDates(values, props),
     validateCoverageStatement(values),
-    validateUrlFields(values),
     validateEmbargo(values));
 };
 
