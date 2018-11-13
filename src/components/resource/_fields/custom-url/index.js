@@ -1,1 +1,1 @@
-export { default, validate } from './custom-url-fields';
+export { default } from './custom-url-fields';
