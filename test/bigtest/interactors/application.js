@@ -9,4 +9,4 @@ import {
   hasBackendLoadError = isPresent('[data-test-eholdings-application-rejected]');
 }
 
-export default new ApplicationPage('[data-test-eholdings-application]');
+export default new ApplicationPage();
