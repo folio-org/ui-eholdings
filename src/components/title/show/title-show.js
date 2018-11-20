@@ -21,6 +21,7 @@ import ContributorsList from '../../contributors-list';
 import AddToPackageForm from '../_forms/add-to-package';
 import Toaster from '../../toaster';
 import KeyValueColumns from '../../key-value-columns';
+import FullViewLink from '../../full-view-link';
 import styles from './title-show.css';
 
 class TitleShow extends Component {
@@ -67,13 +68,7 @@ class TitleShow extends Component {
         )}
 
         {fullViewLink && (
-          <Button
-            buttonClass={styles['full-view-link']}
-            buttonStyle="dropdownItem fullWidth"
-            to={fullViewLink}
-          >
-            <FormattedMessage id="ui-eholdings.actionMenu.fullView" />
-          </Button>
+          <FullViewLink to={fullViewLink} />
         )}
       </Fragment>
     ) : null;

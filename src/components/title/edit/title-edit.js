@@ -20,7 +20,7 @@ import DetailsViewSection from '../../details-view-section';
 import NavigationModal from '../../navigation-modal';
 import Toaster from '../../toaster';
 import PaneHeaderButton from '../../pane-header-button';
-import styles from './title-edit.css';
+import FullViewLink from '../../full-view-link';
 
 class TitleEdit extends Component {
   static propTypes = {
@@ -57,13 +57,7 @@ class TitleEdit extends Component {
         </Button>
 
         {fullViewLink && (
-          <Button
-            buttonClass={styles['full-view-link']}
-            buttonStyle="dropdownItem fullWidth"
-            to={fullViewLink}
-          >
-            <FormattedMessage id="ui-eholdings.actionMenu.fullView" />
-          </Button>
+          <FullViewLink to={fullViewLink} />
         )}
       </Fragment>
     );

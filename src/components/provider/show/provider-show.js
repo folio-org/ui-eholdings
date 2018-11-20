@@ -20,7 +20,7 @@ import PackageListItem from '../../package-list-item';
 import Toaster from '../../toaster';
 import ProxyDisplay from '../../proxy-display';
 import TokenDisplay from '../../token-display';
-import styles from './provider-show.css';
+import FullViewLink from '../../full-view-link';
 
 class ProviderShow extends Component {
    static propTypes = {
@@ -92,13 +92,7 @@ class ProviderShow extends Component {
         </Button>
 
         {fullViewLink && (
-          <Button
-            buttonClass={styles['full-view-link']}
-            buttonStyle="dropdownItem fullWidth"
-            to={fullViewLink}
-          >
-            <FormattedMessage id="ui-eholdings.actionMenu.fullView" />
-          </Button>
+          <FullViewLink to={fullViewLink} />
         )}
       </Fragment>
     );

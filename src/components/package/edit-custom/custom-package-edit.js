@@ -26,6 +26,7 @@ import Toaster from '../../toaster';
 import PaneHeaderButton from '../../pane-header-button';
 import SelectionStatus from '../selection-status';
 import ProxySelectField from '../../proxy-select';
+import FullViewLink from '../../full-view-link';
 import styles from './custom-package-edit.css';
 
 class CustomPackageEdit extends Component {
@@ -168,13 +169,7 @@ class CustomPackageEdit extends Component {
         </Button>
 
         {fullViewLink && (
-          <Button
-            buttonClass={styles['full-view-link']}
-            buttonStyle="dropdownItem fullWidth"
-            to={fullViewLink}
-          >
-            <FormattedMessage id="ui-eholdings.actionMenu.fullView" />
-          </Button>
+          <FullViewLink to={fullViewLink} />
         )}
 
         {packageSelected && (

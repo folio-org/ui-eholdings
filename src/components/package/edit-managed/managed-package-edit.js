@@ -24,6 +24,7 @@ import PaneHeaderButton from '../../pane-header-button';
 import SelectionStatus from '../selection-status';
 import ProxySelectField from '../../proxy-select';
 import TokenField from '../../token';
+import FullViewLink from '../../full-view-link';
 import styles from './managed-package-edit.css';
 
 class ManagedPackageEdit extends Component {
@@ -178,20 +179,12 @@ class ManagedPackageEdit extends Component {
         </Button>
 
         {fullViewLink && (
-          <Button
-            data-test-eholdings-package-cancel-action
-            buttonClass={styles['full-view-link']}
-            buttonStyle="dropdownItem fullWidth"
-            to={fullViewLink}
-          >
-            <FormattedMessage id="ui-eholdings.actionMenu.fullView" />
-          </Button>
+          <FullViewLink to={fullViewLink} />
         )}
 
         {packageSelected && (
           <Button
             data-test-eholdings-package-remove-from-holdings-action
-            buttonClass={styles['full-view-link']}
             buttonStyle="dropdownItem fullWidth"
             onClick={() => {
               onToggle();

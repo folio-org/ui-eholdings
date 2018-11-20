@@ -16,7 +16,7 @@ import Toaster from '../../toaster';
 import ProxySelectField from '../../proxy-select';
 import TokenField from '../../token';
 import PaneHeaderButton from '../../pane-header-button';
-import styles from './provider-edit.css';
+import FullViewLink from '../../full-view-link';
 
 class ProviderEdit extends Component {
   static propTypes = {
@@ -53,13 +53,7 @@ class ProviderEdit extends Component {
         </Button>
 
         {fullViewLink && (
-          <Button
-            buttonClass={styles['full-view-link']}
-            buttonStyle="dropdownItem fullWidth"
-            to={fullViewLink}
-          >
-            <FormattedMessage id="ui-eholdings.actionMenu.fullView" />
-          </Button>
+          <FullViewLink to={fullViewLink} />
         )}
       </Fragment>
     );

@@ -1,13 +1,3 @@
-@import '@folio/stripes-components/lib/variables';
-
-.full-view-link {
-  display: none;
-
-  @media (--medium-up) {
-    display: block;
-  }
-}
-
 .visibility-radios {
   margin-top: 2em;
 

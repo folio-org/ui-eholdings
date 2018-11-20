@@ -27,7 +27,7 @@ import SelectionStatus from '../selection-status';
 import KeyValueColumns from '../../key-value-columns';
 import ProxyDisplay from '../../proxy-display';
 import TokenDisplay from '../../token-display';
-import styles from './package-show.css';
+import FullViewLink from '../../full-view-link';
 
 class PackageShow extends Component {
   static propTypes = {
@@ -131,13 +131,7 @@ class PackageShow extends Component {
         </Button>
 
         {fullViewLink && (
-          <Button
-            buttonClass={styles['full-view-link']}
-            buttonStyle="dropdownItem fullWidth"
-            to={fullViewLink}
-          >
-            <FormattedMessage id="ui-eholdings.actionMenu.fullView" />
-          </Button>
+          <FullViewLink to={fullViewLink} />
         )}
 
         {packageSelected && (
