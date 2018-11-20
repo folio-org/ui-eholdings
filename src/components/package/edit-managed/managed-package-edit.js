@@ -5,6 +5,7 @@ import { FormattedMessage } from 'react-intl';
 
 import {
   Accordion,
+  Button,
   Headline,
   Icon,
   Modal,
@@ -152,6 +153,73 @@ class ManagedPackageEdit extends Component {
     );
   }
 
+  getActionMenu = ({ onToggle }) => {
+    const {
+      addPackageToHoldings,
+      fullViewLink,
+      model,
+      onCancel
+    } = this.props;
+
+    const { packageSelected } = this.state;
+
+    return (
+      <Fragment>
+        <Button
+          data-test-eholdings-package-cancel-action
+          buttonStyle="dropdownItem fullWidth"
+          onClick={() => {
+            onToggle();
+            onCancel();
+          }}
+          disabled={model.update.isPending}
+        >
+          <FormattedMessage id="ui-eholdings.actionMenu.cancelEditing" />
+        </Button>
+
+        {fullViewLink && (
+          <Button
+            data-test-eholdings-package-cancel-action
+            buttonClass={styles['full-view-link']}
+            buttonStyle="dropdownItem fullWidth"
+            to={fullViewLink}
+          >
+            <FormattedMessage id="ui-eholdings.actionMenu.fullView" />
+          </Button>
+        )}
+
+        {packageSelected && (
+          <Button
+            data-test-eholdings-package-remove-from-holdings-action
+            buttonClass={styles['full-view-link']}
+            buttonStyle="dropdownItem fullWidth"
+            onClick={() => {
+              onToggle();
+              this.handleDeselectionAction();
+            }}
+          >
+            <FormattedMessage id="ui-eholdings.package.removeFromHoldings" />
+          </Button>
+        )}
+
+        {(!packageSelected || model.isPartiallySelected) && (
+          <Button
+            data-test-eholdings-package-add-to-holdings-action
+            buttonStyle="dropdownItem fullWidth"
+            onClick={() => {
+              onToggle();
+              addPackageToHoldings();
+            }}
+          >
+            <FormattedMessage
+              id={`ui-eholdings.${(model.isPartiallySelected ? 'addAllToHoldings' : 'addToHoldings')}`}
+            />
+          </Button>
+        )}
+      </Fragment>
+    );
+  }
+
   render() {
     let {
       model,
@@ -159,9 +227,7 @@ class ManagedPackageEdit extends Component {
       handleSubmit,
       pristine,
       proxyTypes,
-      provider,
-      onCancel,
-      fullViewLink
+      provider
     } = this.props;
 
     let {
@@ -177,41 +243,6 @@ class ManagedPackageEdit extends Component {
     let hasProviderTokenValue = provider && provider.isLoaded && provider.providerToken && provider.providerToken.value;
     let hasPackageTokenValue = model && model.isLoaded && model.packageToken && model.packageToken.value;
 
-    let actionMenuItems = [
-      {
-        'label': <FormattedMessage id="ui-eholdings.actionMenu.cancelEditing" />,
-        'onClick': onCancel,
-        'data-test-eholdings-package-cancel-action': true
-      }
-    ];
-
-    if (fullViewLink) {
-      actionMenuItems.push({
-        label: <FormattedMessage id="ui-eholdings.actionMenu.fullView" />,
-        to: fullViewLink,
-        className: styles['full-view-link']
-      });
-    }
-
-    if (packageSelected) {
-      actionMenuItems.push({
-        'label': <FormattedMessage id="ui-eholdings.package.removeFromHoldings" />,
-        'state': { eholdings: true },
-        'data-test-eholdings-package-remove-from-holdings-action': true,
-        'onClick': this.handleDeselectionAction
-      });
-    }
-
-    if (!packageSelected || model.isPartiallySelected) {
-      let messageId = model.isPartiallySelected ? 'addAllToHoldings' : 'addToHoldings';
-      actionMenuItems.push({
-        'label': <FormattedMessage id={`ui-eholdings.${messageId}`} />,
-        'state': { eholdings: true },
-        'data-test-eholdings-package-add-to-holdings-action': true,
-        'onClick': this.props.addPackageToHoldings
-      });
-    }
-
     return (
       <div>
         <Toaster toasts={processErrors(model)} position="bottom" />
@@ -220,7 +251,7 @@ class ManagedPackageEdit extends Component {
             type="package"
             model={model}
             paneTitle={model.name}
-            actionMenuItems={actionMenuItems}
+            actionMenu={this.getActionMenu}
             handleExpandAll={this.toggleAllSections}
             sections={sections}
             lastMenu={(

@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { reduxForm } from 'redux-form';
 
 import {
+  Button,
   Icon
 } from '@folio/stripes/components';
 import { FormattedMessage } from 'react-intl';
@@ -36,6 +37,38 @@ class TitleEdit extends Component {
     updateRequest: PropTypes.object.isRequired,
   };
 
+  getActionMenu = ({ onToggle }) => {
+    const {
+      fullViewLink,
+      onCancel
+    } = this.props;
+
+    return (
+      <Fragment>
+        <Button
+          data-test-eholdings-title-cancel-action
+          buttonStyle="dropdownItem fullWidth"
+          onClick={() => {
+            onToggle();
+            onCancel();
+          }}
+        >
+          <FormattedMessage id="ui-eholdings.actionMenu.cancelEditing" />
+        </Button>
+
+        {fullViewLink && (
+          <Button
+            buttonClass={styles['full-view-link']}
+            buttonStyle="dropdownItem fullWidth"
+            to={fullViewLink}
+          >
+            <FormattedMessage id="ui-eholdings.actionMenu.fullView" />
+          </Button>
+        )}
+      </Fragment>
+    );
+  }
+
   render() {
     let {
       model,
@@ -43,26 +76,8 @@ class TitleEdit extends Component {
       initialValues,
       onSubmit,
       pristine,
-      updateRequest,
-      onCancel,
-      fullViewLink
+      updateRequest
     } = this.props;
-
-    let actionMenuItems = [
-      {
-        'label': <FormattedMessage id="ui-eholdings.actionMenu.cancelEditing" />,
-        'onClick': onCancel,
-        'data-test-eholdings-title-cancel-action': true
-      }
-    ];
-
-    if (fullViewLink) {
-      actionMenuItems.push({
-        label: <FormattedMessage id="ui-eholdings.actionMenu.fullView" />,
-        to: fullViewLink,
-        className: styles['full-view-link']
-      });
-    }
 
     return (
       <Fragment>
@@ -80,7 +95,7 @@ class TitleEdit extends Component {
             type="title"
             model={model}
             paneTitle={model.name}
-            actionMenuItems={actionMenuItems}
+            actionMenu={this.getActionMenu}
             lastMenu={(
               <Fragment>
                 {model.update.isPending && (

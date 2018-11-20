@@ -5,6 +5,7 @@ import { FormattedMessage } from 'react-intl';
 
 import {
   Accordion,
+  Button,
   Headline,
   Icon,
   KeyValue,
@@ -145,6 +146,53 @@ class CustomPackageEdit extends Component {
     );
   }
 
+  getActionMenu = ({ onToggle }) => {
+    const {
+      fullViewLink,
+      onCancel
+    } = this.props;
+
+    const { packageSelected } = this.state;
+
+    return (
+      <Fragment>
+        <Button
+          data-test-eholdings-package-cancel-action
+          buttonStyle="dropdownItem fullWidth"
+          onClick={() => {
+            onToggle();
+            onCancel();
+          }}
+        >
+          <FormattedMessage id="ui-eholdings.actionMenu.cancelEditing" />
+        </Button>
+
+        {fullViewLink && (
+          <Button
+            buttonClass={styles['full-view-link']}
+            buttonStyle="dropdownItem fullWidth"
+            to={fullViewLink}
+          >
+            <FormattedMessage id="ui-eholdings.actionMenu.fullView" />
+          </Button>
+        )}
+
+        {packageSelected && (
+          <Button
+            data-test-eholdings-package-remove-from-holdings-action
+            buttonStyle="dropdownItem fullWidth"
+            onClick={() => {
+              onToggle();
+              this.handleDeleteAction();
+            }}
+          >
+            <FormattedMessage id="ui-eholdings.package.deletePackage" />
+          </Button>
+        )}
+      </Fragment>
+    );
+  }
+
   render() {
     let {
       model,
@@ -152,9 +200,7 @@ class CustomPackageEdit extends Component {
       handleSubmit,
       pristine,
       proxyTypes,
-      provider,
-      onCancel,
-      fullViewLink
+      provider
     } = this.props;
 
     let {
@@ -165,31 +211,6 @@ class CustomPackageEdit extends Component {
 
     let visibilityMessage = model.visibilityData.reason && `(${model.visibilityData.reason})`;
 
-    let actionMenuItems = [
-      {
-        'label': <FormattedMessage id="ui-eholdings.actionMenu.cancelEditing" />,
-        'onClick': onCancel,
-        'data-test-eholdings-package-cancel-action': true
-      }
-    ];
-
-    if (fullViewLink) {
-      actionMenuItems.push({
-        label: <FormattedMessage id="ui-eholdings.actionMenu.fullView" />,
-        to: fullViewLink,
-        className: styles['full-view-link']
-      });
-    }
-
-    if (packageSelected) {
-      actionMenuItems.push({
-        'label': <FormattedMessage id="ui-eholdings.package.deletePackage" />,
-        'state': { eholdings: true },
-        'data-test-eholdings-package-remove-from-holdings-action': true,
-        'onClick': this.handleDeleteAction
-      });
-    }
-
     return (
       <div>
         <Toaster toasts={processErrors(model)} position="bottom" />
@@ -198,7 +219,7 @@ class CustomPackageEdit extends Component {
             type="package"
             model={model}
             paneTitle={model.name}
-            actionMenuItems={actionMenuItems}
+            actionMenu={this.getActionMenu}
             handleExpandAll={this.toggleAllSections}
             sections={sections}
             lastMenu={(

@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { FormattedMessage } from 'react-intl';
 import update from 'lodash/fp/update';
@@ -88,6 +88,46 @@ class ResourceShow extends Component {
     this.setState(next);
   }
 
+  getActionMenu = ({ onToggle }) => {
+    const { editLink } = this.props;
+    const { resourceSelected } = this.state;
+
+    return (
+      <Fragment>
+        <Button
+          buttonStyle="dropdownItem fullWidth"
+          to={editLink}
+        >
+          <FormattedMessage id="ui-eholdings.actionMenu.edit" />
+        </Button>
+
+        {resourceSelected ? (
+          <Button
+            data-test-eholdings-remove-resource-from-holdings
+            buttonStyle="dropdownItem fullWidth"
+            onClick={() => {
+              onToggle();
+              this.handleHoldingStatus();
+            }}
+          >
+            <FormattedMessage id="ui-eholdings.resource.actionMenu.removeHolding" />
+          </Button>
+        ) : (
+          <Button
+            data-test-eholdings-add-resource-to-holdings
+            buttonStyle="dropdownItem fullWidth"
+            onClick={() => {
+              onToggle();
+              this.handleHoldingStatus();
+            }}
+          >
+            <FormattedMessage id="ui-eholdings.resource.actionMenu.addHolding" />
+          </Button>
+        )}
+      </Fragment>
+    );
+  }
+
   render() {
     let { model, proxyTypes, editLink, isFreshlySaved } = this.props;
     let {
@@ -116,13 +156,6 @@ class ResourceShow extends Component {
       model.package.proxy.id;
     const isTokenNeeded = model.data.attributes && model.data.attributes.isTokenNeeded;
 
-    let actionMenuItems = [
-      {
-        label: <FormattedMessage id="ui-eholdings.actionMenu.edit" />,
-        to: editLink
-      }
-    ];
-
     let toasts = processErrors(model);
 
     // if coming from updating any value on managed title in a managed package
@@ -135,22 +168,6 @@ class ResourceShow extends Component {
       });
     }
 
-    if (resourceSelected === true) {
-      actionMenuItems.push({
-        'label': <FormattedMessage id="ui-eholdings.resource.actionMenu.removeHolding" />,
-        'state': { eholdings: true },
-        'onClick': this.handleHoldingStatus,
-        'data-test-eholdings-remove-resource-from-holdings': true
-      });
-    } else if (resourceSelected === false) {
-      actionMenuItems.push({
-        'label': <FormattedMessage id="ui-eholdings.resource.actionMenu.addHolding" />,
-        'state': { eholdings: true },
-        'onClick': this.handleHoldingStatus,
-        'data-test-eholdings-add-resource-to-holdings': true
-      });
-    }
-
     return (
       <div>
         <Toaster toasts={toasts} position="bottom" />
@@ -160,7 +177,7 @@ class ResourceShow extends Component {
           model={model}
           paneTitle={model.title.name}
           paneSub={model.package.name}
-          actionMenuItems={actionMenuItems}
+          actionMenu={this.getActionMenu}
           sections={sections}
           handleExpandAll={this.handleExpandAll}
           lastMenu={(

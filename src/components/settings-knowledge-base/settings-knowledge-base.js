@@ -4,6 +4,7 @@ import { Field, Form } from 'react-final-form';
 import isEqual from 'lodash/isEqual';
 import { FormattedMessage } from 'react-intl';
 import {
+  Button,
   Headline,
   Icon,
   TextField,
@@ -74,15 +75,16 @@ export default class SettingsKnowledgeBase extends Component {
             onSubmit={handleSubmit}
             tagName="form"
             paneTitle={<FormattedMessage id="ui-eholdings.settings.kb" />}
-            actionMenuItems={[
-              {
-                'label': <FormattedMessage id="ui-eholdings.actionMenu.cancelEditing" />,
-                'state': { eholdings: true },
-                'onClick': reset,
-                'disabled': model.update.isPending || pristine,
-                'data-test-eholdings-settings-kb-cancel-action': true
-              }
-            ]}
+            actionMenu={() => (
+              <Button
+                data-test-eholdings-settings-kb-cancel-action
+                buttonStyle="dropdownItem fullWidth"
+                disabled={model.update.isPending || pristine}
+                onClick={reset}
+              >
+                <FormattedMessage id="ui-eholdings.actionMenu.cancelEditing" />
+              </Button>
+            )}
             lastMenu={(
               <Fragment>
                 {model.update.isPending && (

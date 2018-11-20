@@ -4,6 +4,7 @@ import { reduxForm } from 'redux-form';
 import { FormattedMessage } from 'react-intl';
 
 import {
+  Button,
   Icon,
   IconButton,
   PaneHeader
@@ -27,6 +28,27 @@ class PackageCreate extends Component {
     request: PropTypes.object.isRequired
   };
 
+  getActionMenu = ({ onToggle }) => {
+    const {
+      request,
+      onCancel
+    } = this.props;
+
+    return onCancel ? (
+      <Button
+        data-test-eholdings-package-create-cancel-action
+        buttonStyle="dropdownItem fullWidth"
+        onClick={() => {
+          onToggle();
+          onCancel();
+        }}
+        disabled={request.isPending}
+      >
+        <FormattedMessage id="ui-eholdings.actionMenu.cancelEditing" />
+      </Button>
+    ) : null;
+  }
+
   render() {
     let {
       request,
@@ -35,17 +57,6 @@ class PackageCreate extends Component {
       onCancel,
       pristine
     } = this.props;
-
-    let actionMenuItems = [];
-
-    if (!request.isPending && onCancel) {
-      actionMenuItems.push({
-        'label': <FormattedMessage id="ui-eholdings.actionMenu.cancelEditing" />,
-        'state': { eholdings: true },
-        'onClick': onCancel,
-        'data-test-eholdings-package-create-cancel-action': true
-      });
-    }
 
     return (
       <div data-test-eholdings-package-create>
@@ -61,7 +72,7 @@ class PackageCreate extends Component {
         <form onSubmit={handleSubmit(onSubmit)}>
           <PaneHeader
             paneTitle={<FormattedMessage id="ui-eholdings.package.create.custom" />}
-            actionMenuItems={actionMenuItems}
+            actionMenu={this.getActionMenu}
             firstMenu={onCancel && (
               <FormattedMessage id="ui-eholdings.label.icon.goBack">
                 {ariaLabel => (

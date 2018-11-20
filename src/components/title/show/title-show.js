@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import PropTypes from 'prop-types';
 import update from 'lodash/fp/update';
 import set from 'lodash/fp/set';
@@ -48,26 +48,35 @@ class TitleShow extends Component {
     }
   };
 
-  get actionMenuItems() {
-    let { editLink, fullViewLink, model } = this.props;
-    let items = [];
+  getActionMenu = () => {
+    const {
+      editLink,
+      fullViewLink,
+      model
+    } = this.props;
 
-    if (model.isTitleCustom) {
-      items.push({
-        label: <FormattedMessage id="ui-eholdings.actionMenu.edit" />,
-        to: editLink
-      });
-    }
+    return (model.isTitleCustom || fullViewLink) ? (
+      <Fragment>
+        {model.isTitleCustom && (
+          <Button
+            buttonStyle="dropdownItem fullWidth"
+            to={editLink}
+          >
+            <FormattedMessage id="ui-eholdings.actionMenu.edit" />
+          </Button>
+        )}
 
-    if (fullViewLink) {
-      items.push({
-        label: <FormattedMessage id="ui-eholdings.actionMenu.fullView" />,
-        to: fullViewLink,
-        className: styles['full-view-link']
-      });
-    }
-
-    return items;
+        {fullViewLink && (
+          <Button
+            buttonClass={styles['full-view-link']}
+            buttonStyle="dropdownItem fullWidth"
+            to={fullViewLink}
+          >
+            <FormattedMessage id="ui-eholdings.actionMenu.fullView" />
+          </Button>
+        )}
+      </Fragment>
+    ) : null;
   }
 
   get lastMenu() {
@@ -174,7 +183,7 @@ class TitleShow extends Component {
           model={model}
           key={model.id}
           paneTitle={model.name}
-          actionMenuItems={this.actionMenuItems}
+          actionMenu={this.getActionMenu}
           sections={sections}
           handleExpandAll={this.handleExpandAll}
           lastMenu={this.lastMenu}
