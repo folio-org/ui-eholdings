@@ -1,10 +1,11 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import PropTypes from 'prop-types';
 import update from 'lodash/fp/update';
 import set from 'lodash/fp/set';
 
 import {
   Accordion,
+  Button,
   Headline,
   Icon,
   IconButton,
@@ -26,7 +27,7 @@ import SelectionStatus from '../selection-status';
 import KeyValueColumns from '../../key-value-columns';
 import ProxyDisplay from '../../proxy-display';
 import TokenDisplay from '../../token-display';
-import styles from './package-show.css';
+import FullViewLink from '../../full-view-link';
 
 class PackageShow extends Component {
   static propTypes = {
@@ -111,6 +112,61 @@ class PackageShow extends Component {
     this.setState(next);
   }
 
+  getActionMenu = ({ onToggle }) => {
+    const {
+      editLink,
+      fullViewLink,
+      model
+    } = this.props;
+
+    const { packageSelected } = this.state;
+
+    return (
+      <Fragment>
+        <Button
+          buttonStyle="dropdownItem fullWidth"
+          to={editLink}
+        >
+          <FormattedMessage id="ui-eholdings.actionMenu.edit" />
+        </Button>
+
+        {fullViewLink && (
+          <FullViewLink to={fullViewLink} />
+        )}
+
+        {packageSelected && (
+          <Button
+            data-test-eholdings-package-remove-from-holdings-action
+            buttonStyle="dropdownItem fullWidth"
+            onClick={() => {
+              onToggle();
+              this.handleSelectionToggle();
+            }}
+          >
+            <FormattedMessage
+              id={`ui-eholdings.package.${(model.isCustom ? 'deletePackage' : 'removeFromHoldings')}`}
+            />
+          </Button>
+        )}
+
+        {(!packageSelected || model.isPartiallySelected) && (
+          <Button
+            data-test-eholdings-package-add-to-holdings-action
+            buttonStyle="dropdownItem fullWidth"
+            onClick={() => {
+              onToggle();
+              this.props.addPackageToHoldings();
+            }}
+          >
+            <FormattedMessage
+              id={`ui-eholdings.${(model.isPartiallySelected ? 'addAllToHoldings' : 'addToHoldings')}`}
+            />
+          </Button>
+        )}
+      </Fragment>
+    );
+  }
+
   render() {
     let {
       model,
@@ -119,7 +175,6 @@ class PackageShow extends Component {
       provider,
       searchModal,
       editLink,
-      fullViewLink,
       isFreshlySaved,
       isNewRecord,
       isDestroyed
@@ -150,40 +205,6 @@ class PackageShow extends Component {
         buttonConfirm: <FormattedMessage id="ui-eholdings.package.modal.buttonConfirm" />,
         buttonCancel: <FormattedMessage id="ui-eholdings.package.modal.buttonCancel" />
       };
-
-    let actionMenuItems = [
-      {
-        label: <FormattedMessage id="ui-eholdings.actionMenu.edit" />,
-        to: editLink
-      }
-    ];
-
-    if (fullViewLink) {
-      actionMenuItems.push({
-        label: <FormattedMessage id="ui-eholdings.actionMenu.fullView" />,
-        to: fullViewLink,
-        className: styles['full-view-link']
-      });
-    }
-
-    if (packageSelected) {
-      let messageId = model.isCustom ? 'deletePackage' : 'removeFromHoldings';
-      actionMenuItems.push({
-        'label': <FormattedMessage id={`ui-eholdings.package.${messageId}`} />,
-        'state': { eholdings: true },
-        'data-test-eholdings-package-remove-from-holdings-action': true,
-        'onClick': this.handleSelectionToggle
-      });
-    }
-    if (!packageSelected || model.isPartiallySelected) {
-      let messageId = model.isPartiallySelected ? 'addAllToHoldings' : 'addToHoldings';
-      actionMenuItems.push({
-        'label': <FormattedMessage id={`ui-eholdings.${messageId}`} />,
-        'state': { eholdings: true },
-        'data-test-eholdings-package-add-to-holdings-action': true,
-        'onClick': this.props.addPackageToHoldings
-      });
-    }
 
     let toasts = processErrors(model);
 
@@ -223,7 +244,7 @@ class PackageShow extends Component {
           model={model}
           key={model.id}
           paneTitle={model.name}
-          actionMenuItems={actionMenuItems}
+          actionMenu={this.getActionMenu}
           sections={sections}
           handleExpandAll={this.handleExpandAll}
           searchModal={searchModal}

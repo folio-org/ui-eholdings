@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { reduxForm } from 'redux-form';
 import { FormattedMessage } from 'react-intl';
 import {
+  Button,
   Headline,
   Icon
 } from '@folio/stripes/components';
@@ -15,7 +16,7 @@ import Toaster from '../../toaster';
 import ProxySelectField from '../../proxy-select';
 import TokenField from '../../token';
 import PaneHeaderButton from '../../pane-header-button';
-import styles from './provider-edit.css';
+import FullViewLink from '../../full-view-link';
 
 class ProviderEdit extends Component {
   static propTypes = {
@@ -32,6 +33,32 @@ class ProviderEdit extends Component {
     rootProxy: PropTypes.object.isRequired
   };
 
+  getActionMenu = ({ onToggle }) => {
+    const {
+      fullViewLink,
+      onCancel
+    } = this.props;
+
+    return (
+      <Fragment>
+        <Button
+          data-test-eholdings-provider-cancel-action
+          buttonStyle="dropdownItem fullWidth"
+          onClick={() => {
+            onToggle();
+            onCancel();
+          }}
+        >
+          <FormattedMessage id="ui-eholdings.actionMenu.cancelEditing" />
+        </Button>
+
+        {fullViewLink && (
+          <FullViewLink to={fullViewLink} />
+        )}
+      </Fragment>
+    );
+  }
+
   render() {
     let {
       model,
@@ -39,29 +66,11 @@ class ProviderEdit extends Component {
       rootProxy,
       handleSubmit,
       onSubmit,
-      onCancel,
       pristine,
-      fullViewLink
     } = this.props;
 
     let supportsTokens = model.providerToken && model.providerToken.prompt;
     let hasTokenValue = model.providerToken && model.providerToken.value;
-
-    let actionMenuItems = [
-      {
-        'label': <FormattedMessage id="ui-eholdings.actionMenu.cancelEditing" />,
-        'onClick': onCancel,
-        'data-test-eholdings-provider-cancel-action': true
-      }
-    ];
-
-    if (fullViewLink) {
-      actionMenuItems.push({
-        label: <FormattedMessage id="ui-eholdings.actionMenu.fullView" />,
-        to: fullViewLink,
-        className: styles['full-view-link']
-      });
-    }
 
     return (
       <Fragment>
@@ -72,7 +81,7 @@ class ProviderEdit extends Component {
             model={model}
             key={model.id}
             paneTitle={model.name}
-            actionMenuItems={actionMenuItems}
+            actionMenu={this.getActionMenu}
             lastMenu={(
               <Fragment>
                 {model.update.isPending && (

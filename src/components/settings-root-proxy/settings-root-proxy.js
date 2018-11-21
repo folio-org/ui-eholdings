@@ -1,7 +1,11 @@
 import React, { Component, Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { Form } from 'react-final-form';
-import { Headline, Icon } from '@folio/stripes/components';
+import {
+  Button,
+  Headline,
+  Icon
+} from '@folio/stripes/components';
 import { FormattedMessage } from 'react-intl';
 
 import SettingsDetailPane from '../settings-detail-pane';
@@ -47,15 +51,16 @@ export default class SettingsRootProxy extends Component {
             onSubmit={handleSubmit}
             tagName="form"
             paneTitle={<FormattedMessage id="ui-eholdings.settings.rootProxy" />}
-            actionMenuItems={[
-              {
-                'label': <FormattedMessage id="ui-eholdings.actionMenu.cancelEditing" />,
-                'state': { eholdings: true },
-                'onClick': reset,
-                'disabled': rootProxy.update.isPending || pristine,
-                'data-test-eholdings-settings-root-proxy-cancel-action': true
-              }
-            ]}
+            actionMenu={() => (
+              <Button
+                data-test-eholdings-settings-root-proxy-cancel-action
+                buttonStyle="dropdownItem fullWidth"
+                disabled={rootProxy.update.isPending || pristine}
+                onClick={reset}
+              >
+                <FormattedMessage id="ui-eholdings.actionMenu.cancelEditing" />
+              </Button>
+            )}
             lastMenu={(
               <Fragment>
                 {rootProxy.update.isPending && (

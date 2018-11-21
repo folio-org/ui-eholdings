@@ -36,7 +36,10 @@ const cx = classNames.bind(styles);
  */
 class DetailsView extends Component {
   static propTypes = {
-    actionMenuItems: PropTypes.array,
+    actionMenu: PropTypes.oneOfType([
+      PropTypes.func,
+      PropTypes.node
+    ]),
     bodyContent: PropTypes.node.isRequired,
     handleExpandAll: PropTypes.func,
     history: ReactRouterPropTypes.history.isRequired,
@@ -194,7 +197,7 @@ class DetailsView extends Component {
       renderList,
       paneTitle,
       paneSub,
-      actionMenuItems,
+      actionMenu,
       lastMenu,
       resultsLength,
       searchModal,
@@ -252,7 +255,7 @@ class DetailsView extends Component {
           paneSub={
             <span data-test-eholdings-details-view-pane-sub>{paneSub}</span>
           }
-          actionMenuItems={actionMenuItems}
+          actionMenu={actionMenu}
           lastMenu={lastMenu}
         />
 

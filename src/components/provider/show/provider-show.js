@@ -1,8 +1,15 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import PropTypes from 'prop-types';
 import update from 'lodash/fp/update';
 import set from 'lodash/fp/set';
-import { Accordion, Headline, Icon, IconButton, KeyValue } from '@folio/stripes/components';
+import {
+  Accordion,
+  Button,
+  Headline,
+  Icon,
+  IconButton,
+  KeyValue
+} from '@folio/stripes/components';
 import { FormattedNumber, FormattedMessage } from 'react-intl';
 import capitalize from 'lodash/capitalize';
 
@@ -13,7 +20,7 @@ import PackageListItem from '../../package-list-item';
 import Toaster from '../../toaster';
 import ProxyDisplay from '../../proxy-display';
 import TokenDisplay from '../../token-display';
-import styles from './provider-show.css';
+import FullViewLink from '../../full-view-link';
 
 class ProviderShow extends Component {
    static propTypes = {
@@ -69,6 +76,28 @@ class ProviderShow extends Component {
     return toasts;
   }
 
+  getActionMenu = () => {
+    const {
+      editLink,
+      fullViewLink
+    } = this.props;
+
+    return (
+      <Fragment>
+        <Button
+          buttonStyle="dropdownItem fullWidth"
+          to={editLink}
+        >
+          <FormattedMessage id="ui-eholdings.actionMenu.edit" />
+        </Button>
+
+        {fullViewLink && (
+          <FullViewLink to={fullViewLink} />
+        )}
+      </Fragment>
+    );
+  }
+
   render() {
     let {
       fetchPackages,
@@ -78,28 +107,12 @@ class ProviderShow extends Component {
       searchModal,
       proxyTypes,
       rootProxy,
-      editLink,
-      fullViewLink
+      editLink
     } = this.props;
     let { sections } = this.state;
     let hasProxy = model.proxy && model.proxy.id;
     let hasToken = model.providerToken && model.providerToken.prompt;
     let hasProviderSettings = hasProxy || hasToken;
-
-    let actionMenuItems = [
-      {
-        label: <FormattedMessage id="ui-eholdings.actionMenu.edit" />,
-        to: editLink
-      }
-    ];
-
-    if (fullViewLink) {
-      actionMenuItems.push({
-        label: <FormattedMessage id="ui-eholdings.actionMenu.fullView" />,
-        to: fullViewLink,
-        className: styles['full-view-link']
-      });
-    }
 
     return (
       <div>
@@ -110,7 +123,7 @@ class ProviderShow extends Component {
           model={model}
           key={model.id}
           paneTitle={model.name}
-          actionMenuItems={actionMenuItems}
+          actionMenu={this.getActionMenu}
           sections={sections}
           handleExpandAll={this.handleExpandAll}
           lastMenu={(

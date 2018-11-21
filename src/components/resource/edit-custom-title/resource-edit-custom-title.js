@@ -8,6 +8,7 @@ import update from 'lodash/fp/update';
 
 import {
   Accordion,
+  Button,
   Headline,
   Icon,
   Modal,
@@ -153,6 +154,39 @@ class ResourceEditCustomTitle extends Component {
     );
   };
 
+  getActionMenu = ({ onToggle }) => {
+    const { onCancel } = this.props;
+    const { resourceSelected } = this.state;
+
+    return (
+      <Fragment>
+        <Button
+          data-test-eholdings-resource-cancel-action
+          buttonStyle="dropdownItem fullWidth"
+          onClick={() => {
+            onToggle();
+            onCancel();
+          }}
+        >
+          <FormattedMessage id="ui-eholdings.actionMenu.cancelEditing" />
+        </Button>
+
+        {resourceSelected && (
+          <Button
+            data-test-eholdings-remove-resource-from-holdings
+            buttonStyle="dropdownItem fullWidth"
+            onClick={() => {
+              onToggle();
+              this.handleRemoveResourceFromHoldings();
+            }}
+          >
+            <FormattedMessage id="ui-eholdings.resource.actionMenu.removeHolding" />
+          </Button>
+        )}
+      </Fragment>
+    );
+  }
+
   render() {
     let {
       model,
@@ -160,8 +194,7 @@ class ResourceEditCustomTitle extends Component {
       initialValues,
       handleSubmit,
       pristine,
-      change,
-      onCancel
+      change
     } = this.props;
 
     let {
@@ -173,23 +206,6 @@ class ResourceEditCustomTitle extends Component {
     let hasInheritedProxy = model.package &&
       model.package.proxy &&
       model.package.proxy.id;
-
-    let actionMenuItems = [
-      {
-        'label': <FormattedMessage id="ui-eholdings.actionMenu.cancelEditing" />,
-        'onClick': onCancel,
-        'data-test-eholdings-resource-cancel-action': true
-      }
-    ];
-
-    if (resourceSelected === true) {
-      actionMenuItems.push({
-        'label': <FormattedMessage id="ui-eholdings.resource.actionMenu.removeHolding" />,
-        'state': { eholdings: true },
-        'onClick': this.handleRemoveResourceFromHoldings,
-        'data-test-eholdings-remove-resource-from-holdings': true
-      });
-    }
 
     let visibilityMessage = model.package.visibilityData.isHidden
       ? <FormattedMessage id="ui-eholdings.resource.visibilityData.isHidden" />
@@ -204,7 +220,7 @@ class ResourceEditCustomTitle extends Component {
             model={model}
             paneTitle={model.title.name}
             paneSub={model.package.name}
-            actionMenuItems={actionMenuItems}
+            actionMenu={this.getActionMenu}
             handleExpandAll={this.toggleAllSections}
             sections={sections}
             lastMenu={
