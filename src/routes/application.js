@@ -3,12 +3,11 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Icon } from '@folio/stripes/components';
 
-import { createResolver } from '../../redux';
-import { Status } from '../../redux/application';
-import NoBackendErrorScreen from '../../components/error-screen/no-backend-error-screen';
-import FailedBackendErrorScreen from '../../components/error-screen/failed-backend-error-screen';
-import InvalidBackendErrorScreen from '../../components/error-screen/invalid-backend-error-screen';
-import styles from './application.css';
+import { createResolver } from '../redux';
+import { Status } from '../redux/application';
+import NoBackendErrorScreen from '../components/error-screen/no-backend-error-screen';
+import FailedBackendErrorScreen from '../components/error-screen/failed-backend-error-screen';
+import InvalidBackendErrorScreen from '../components/error-screen/invalid-backend-error-screen';
 
 class ApplicationRoute extends Component {
   static propTypes = {
@@ -33,17 +32,15 @@ class ApplicationRoute extends Component {
     } = this.props;
 
     return (
-      <div className={styles['eholdings-application']} data-test-eholdings-application>
-        {version ? (status.isLoading ? (
-          <Icon icon="spinner-ellipsis" />
-        ) : status.request.isRejected ? (
-          <FailedBackendErrorScreen />
-        ) : status.isLoaded && (
-          !(showSettings || status.isConfigurationValid)
-            ? <InvalidBackendErrorScreen />
-            : children
-        )) : <NoBackendErrorScreen />}
-      </div>
+      version ? (status.isLoading ? (
+        <Icon icon="spinner-ellipsis" />
+      ) : status.request.isRejected ? (
+        <FailedBackendErrorScreen />
+      ) : status.isLoaded && (
+        !(showSettings || status.isConfigurationValid)
+          ? <InvalidBackendErrorScreen />
+          : children
+      )) : <NoBackendErrorScreen />
     );
   }
 }

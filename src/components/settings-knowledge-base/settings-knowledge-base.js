@@ -13,7 +13,6 @@ import SettingsDetailPane from '../settings-detail-pane';
 import { processErrors } from '../utilities';
 import Toaster from '../toaster';
 import PaneHeaderButton from '../pane-header-button';
-import styles from './settings-knowledge-base.css';
 
 export default class SettingsKnowledgeBase extends Component {
   static propTypes = {
@@ -70,93 +69,90 @@ export default class SettingsKnowledgeBase extends Component {
         onSubmit={onSubmit}
         initialValues={model.data.attributes}
         render={({ form: { reset }, handleSubmit, invalid, pristine }) => (
-          <form
-            onSubmit={handleSubmit}
+          <SettingsDetailPane
             data-test-eholdings-settings
-            className={styles['settings-kb-form']}
+            onSubmit={handleSubmit}
+            tagName="form"
+            paneTitle={<FormattedMessage id="ui-eholdings.settings.kb" />}
+            actionMenuItems={[
+              {
+                'label': <FormattedMessage id="ui-eholdings.actionMenu.cancelEditing" />,
+                'state': { eholdings: true },
+                'onClick': reset,
+                'disabled': model.update.isPending || pristine,
+                'data-test-eholdings-settings-kb-cancel-action': true
+              }
+            ]}
+            lastMenu={(
+              <Fragment>
+                {model.update.isPending && (
+                  <Icon icon="spinner-ellipsis" />
+                )}
+                <PaneHeaderButton
+                  disabled={model.update.isPending || invalid || pristine}
+                  type="submit"
+                  buttonStyle="primary"
+                  data-test-eholdings-settings-kb-save-button
+                >
+                  {model.update.isPending ?
+                    (<FormattedMessage id="ui-eholdings.saving" />)
+                    :
+                    (<FormattedMessage id="ui-eholdings.save" />)}
+                </PaneHeaderButton>
+              </Fragment>
+            )}
           >
-            <SettingsDetailPane
-              paneTitle={<FormattedMessage id="ui-eholdings.settings.kb" />}
-              actionMenuItems={[
-                {
-                  'label': <FormattedMessage id="ui-eholdings.actionMenu.cancelEditing" />,
-                  'state': { eholdings: true },
-                  'onClick': reset,
-                  'disabled': model.update.isPending || pristine,
-                  'data-test-eholdings-settings-kb-cancel-action': true
-                }
-              ]}
-              lastMenu={(
-                <Fragment>
-                  {model.update.isPending && (
-                    <Icon icon="spinner-ellipsis" />
-                  )}
-                  <PaneHeaderButton
-                    disabled={model.update.isPending || invalid || pristine}
-                    type="submit"
-                    buttonStyle="primary"
-                    data-test-eholdings-settings-kb-save-button
+            <Toaster toasts={toasts} position="bottom" />
+
+            <Headline size="xx-large" tag="h3">
+              <FormattedMessage id="ui-eholdings.settings.kb.rmApiCreds" />
+            </Headline>
+
+            {model.isLoading ? (
+              <Icon icon="spinner-ellipsis" />
+            ) : (
+              <Fragment>
+                <div data-test-eholdings-settings-kb-url>
+                  <Field
+                    name="rmapiBaseUrl"
+                    component={Select}
+                    label={<FormattedMessage id="ui-eholdings.settings.kb.rmapiBaseUrl" />}
                   >
-                    {model.update.isPending ?
-                      (<FormattedMessage id="ui-eholdings.saving" />)
-                      :
-                      (<FormattedMessage id="ui-eholdings.save" />)}
-                  </PaneHeaderButton>
-                </Fragment>
-              )}
-            >
-              <Toaster toasts={toasts} position="bottom" />
+                    <option value="https://sandbox.ebsco.io">Sandbox: https://sandbox.ebsco.io</option>
+                    <option value="https://api.ebsco.io">Production: https://api.ebsco.io</option>
+                  </Field>
+                </div>
 
-              <Headline size="xx-large" tag="h3">
-                <FormattedMessage id="ui-eholdings.settings.kb.rmApiCreds" />
-              </Headline>
+                <div data-test-eholdings-settings-customerid>
+                  <Field
+                    label={<FormattedMessage id="ui-eholdings.settings.kb.customerId" />}
+                    name="customerId"
+                    component={TextField}
+                    type="text"
+                    autoComplete="off"
+                    validate={value => (
+                      value ? undefined : <FormattedMessage id="ui-eholdings.validate.errors.settings.customerId" />
+                    )}
+                  />
+                </div>
 
-              {model.isLoading ? (
-                <Icon icon="spinner-ellipsis" />
-              ) : (
-                <Fragment>
-                  <div data-test-eholdings-settings-kb-url>
-                    <Field
-                      name="rmapiBaseUrl"
-                      component={Select}
-                      label={<FormattedMessage id="ui-eholdings.settings.kb.rmapiBaseUrl" />}
-                    >
-                      <option value="https://sandbox.ebsco.io">Sandbox: https://sandbox.ebsco.io</option>
-                      <option value="https://api.ebsco.io">Production: https://api.ebsco.io</option>
-                    </Field>
-                  </div>
+                <div data-test-eholdings-settings-apikey>
+                  <Field
+                    label={<FormattedMessage id="ui-eholdings.settings.kb.apiKey" />}
+                    name="apiKey"
+                    component={TextField}
+                    type="password"
+                    autoComplete="off"
+                    validate={value => (
+                      value ? undefined : <FormattedMessage id="ui-eholdings.validate.errors.settings.apiKey" />
+                    )}
+                  />
+                </div>
 
-                  <div data-test-eholdings-settings-customerid>
-                    <Field
-                      label={<FormattedMessage id="ui-eholdings.settings.kb.customerId" />}
-                      name="customerId"
-                      component={TextField}
-                      type="text"
-                      autoComplete="off"
-                      validate={value => (
-                        value ? undefined : <FormattedMessage id="ui-eholdings.validate.errors.settings.customerId" />
-                      )}
-                    />
-                  </div>
-
-                  <div data-test-eholdings-settings-apikey>
-                    <Field
-                      label={<FormattedMessage id="ui-eholdings.settings.kb.apiKey" />}
-                      name="apiKey"
-                      component={TextField}
-                      type="password"
-                      autoComplete="off"
-                      validate={value => (
-                        value ? undefined : <FormattedMessage id="ui-eholdings.validate.errors.settings.apiKey" />
-                      )}
-                    />
-                  </div>
-
-                  <p><FormattedMessage id="ui-eholdings.settings.kb.url.ebsco.customer.message" /></p>
-                </Fragment>
-              )}
-            </SettingsDetailPane>
-          </form>
+                <p><FormattedMessage id="ui-eholdings.settings.kb.url.ebsco.customer.message" /></p>
+              </Fragment>
+            )}
+          </SettingsDetailPane>
         )}
       />
     );
