@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import PackageSelectField from '../_fields/package-select';
 import CustomURLField from '../_fields/custom-url';
 
-function AddTitleToPackageForm({ packageOptions }) {
+function AddTitleToPackage({ packageOptions }) {
   let filteredPackageOptions = packageOptions.filter(pkg => pkg.label !== '');
   return (
     <Fragment>
@@ -14,8 +14,8 @@ function AddTitleToPackageForm({ packageOptions }) {
   );
 }
 
-AddTitleToPackageForm.propTypes = {
+AddTitleToPackage.propTypes = {
   packageOptions: PropTypes.array.isRequired
 };
 
-export default AddTitleToPackageForm;
+export default AddTitleToPackage;

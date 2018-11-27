@@ -19,7 +19,7 @@ import ScrollView from '../../scroll-view';
 import PackageListItem from '../../package-list-item';
 import IdentifiersList from '../../identifiers-list';
 import ContributorsList from '../../contributors-list';
-import AddToPackageForm from '../_forms/add-title-to-package-form';
+import AddTitleToPackage from '../_field-groups/add-title-to-package';
 import Toaster from '../../toaster';
 import KeyValueColumns from '../../key-value-columns';
 import FullViewLink from '../../full-view-link';
@@ -307,7 +307,7 @@ class TitleShow extends Component {
                 />
               )}
             >
-              <AddToPackageForm
+              <AddTitleToPackage
                 packageOptions={this.customPackageOptions}
                 {...this.props}
               />
