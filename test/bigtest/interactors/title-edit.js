@@ -51,7 +51,6 @@ import Toast from './toast';
   nameHasError = hasClassBeginningWith('[data-test-eholdings-title-name-field] [class*=inputGroup--]', 'hasError--');
 
   selectPublicationType = fillable('[data-test-eholdings-publication-type-field] select');
-  selectContributorType = fillable('[data-test-eholdings-contributor-type] select');
   publicationTypeValue = value('[data-test-eholdings-publication-type-field] select');
   fillEdition = fillable('[data-test-eholdings-edition-field] input');
   fillPublisher = fillable('[data-test-eholdings-publisher-name-field] input');
@@ -59,27 +58,23 @@ import Toast from './toast';
   publisherValue = value('[data-test-eholdings-publisher-name-field] input');
   publisherHasError = hasClassBeginningWith('[data-test-eholdings-publisher-name-field] [class*=inputGroup--]', 'hasError--');
   editionHasError = hasClassBeginningWith('[data-test-eholdings-edition-field] [class*=inputGroup--]', 'hasError--');
-  fillContributor = fillable('[data-test-eholdings-contributor-contributor] input')
   publisherValue = value('[data-test-eholdings-publisher-name-field] input');
   publisherHasError = hasClassBeginningWith('[data-test-eholdings-publisher-name-field] [class*=inputGroup--]', 'hasError--');
   contributorHasError = hasClassBeginningWith('[data-test-eholdings-contributor-contributor] [class*=inputGroup--]', 'hasError--');
   contributorError = text('[data-test-eholdings-contributor-contributor] [class^="feedbackError--"]');
 
-  hasContributorBtn = isPresent('[data-test-eholdings-contributor-field] [data-test-repeatable-field-add-item-button]');
-  clickAddContributor = clickable('[data-test-eholdings-contributor-field] [data-test-repeatable-field-add-item-button]');
-  secondContributorType = fillable('[data-test-eholdings-contributor-type] select[id="contributors[1]-type"]');
-  secondContributorName = fillable('[data-test-eholdings-contributor-contributor] input[id="contributors[1]-input"]');
-
-  removeContributorCollection = collection('[data-test-eholdings-contributor-field] [data-test-repeatable-field-remove-item-button]', {
-    remove: clickable()
+  hasContributorBtn = isPresent('[data-test-eholdings-contributors-fields] [data-test-repeatable-field-add-item-button]');
+  clickAddContributor = clickable('[data-test-eholdings-contributors-fields] [data-test-repeatable-field-add-item-button]');
+  contributorsRowList = collection('[data-test-eholdings-contributors-fields] li', {
+    type: fillable('[data-test-eholdings-contributor-type] select'),
+    contributor: fillable('[data-test-eholdings-contributor-contributor] input'),
+    clickRemoveRowButton: clickable('[data-test-repeatable-field-remove-item-button]')
   });
 
-  contributorsWillBeRemoved = text('[data-test-eholdings-contributor-field] [data-test-repeatable-field-empty-message]');
+  contributorsWillBeRemoved = text('[data-test-eholdings-contributors-fields] [data-test-repeatable-field-empty-message]');
 
   hasIdentifiersBtn = isPresent('[data-test-eholdings-identifiers-fields] [data-test-repeatable-field-add-item-button]');
   clickAddIdentifiersRowButton = clickable('[data-test-eholdings-identifiers-fields] [data-test-repeatable-field-add-item-button]');
-  secondIdentifierType = fillable('[data-test-eholdings-identifiers-fields-type] select[name="identifiers[1].flattenedType"]');
-  secondIdentifierId = fillable('[data-test-eholdings-identifiers-fields-id] input[name="identifiers[1].id"]');
   identifiersRowList = collection('[data-test-eholdings-identifiers-fields] li', {
     type: fillable('[data-test-eholdings-identifiers-fields-type] select'),
     id: fillable('[data-test-eholdings-identifiers-fields-id] input'),

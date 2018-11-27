@@ -108,8 +108,8 @@ describe('CustomTitleEdit', () => {
     describe('adding a second contributor', () => {
       beforeEach(() => {
         return TitleEditPage.clickAddContributor()
-          .secondContributorType('editor')
-          .secondContributorName('Ron');
+          .contributorsRowList(1).type('editor')
+          .contributorsRowList(1).contributor('Ron'); // eslint-disable-line newline-per-chained-call
       });
 
       describe('clicking save', () => {
@@ -131,8 +131,8 @@ describe('CustomTitleEdit', () => {
     describe('adding a second identifier', () => {
       beforeEach(() => {
         return TitleEditPage.clickAddIdentifiersRowButton()
-          .secondIdentifierType('0')
-          .secondIdentifierId('81803');
+          .identifiersRowList(1).type('0')
+          .identifiersRowList(1).id('81803'); // eslint-disable-line newline-per-chained-call
       });
 
       describe('clicking save', () => {
@@ -154,7 +154,7 @@ describe('CustomTitleEdit', () => {
     describe('entering a long contributor name', () => {
       beforeEach(() => {
         return TitleEditPage
-          .fillContributor(new Array(255 + 1).join('a'))
+          .contributorsRowList(0).contributor(new Array(255 + 1).join('a'))
           .clickSave();
       });
 
@@ -167,8 +167,8 @@ describe('CustomTitleEdit', () => {
     describe('Removing all contributors when they were previously set', () => {
       beforeEach(() => {
         return TitleEditPage
-          .removeContributorCollection(0)
-          .remove();
+          .contributorsRowList(0)
+          .clickRemoveRowButton();
       });
 
       it('displays a message saying they will be removed on save', () => {
@@ -184,7 +184,8 @@ describe('CustomTitleEdit', () => {
           .fillEdition(`In the realm of narrative psychology, a person’s life story is not a Wikipedia biography of the facts and
             events of a life, but rather the way a person integrates those facts and events internally—picks them apart and weaves them back
             together to make meaning. `)
-          .fillContributor('')
+          .clickAddContributor()
+          .contributorsRowList(0).contributor('') // eslint-disable-line newline-per-chained-call
           .fillPublisher(`The only prerequisite is that it makes you happy.
             If it makes you happy then it's good. All kinds of happy little splashes.
             I started painting as a hobby when I was little. I didn't know I had any talent.
@@ -243,8 +244,8 @@ describe('CustomTitleEdit', () => {
         return TitleEditPage
           .fillEdition('testing edition again')
           .fillPublisher('Not So Awesome Publisher')
-          .fillContributor('Awesome Author')
-          .selectContributorType('Editor')
+          .contributorsRowList(0).type('Editor') // eslint-disable-line newline-per-chained-call
+          .contributorsRowList(0).contributor('Awesome Author') // eslint-disable-line newline-per-chained-call
           .clickAddIdentifiersRowButton()
           .identifiersRowList(1).id('1111') // eslint-disable-line newline-per-chained-call
           .fillDescription('What a super helpful description. Wow.')
@@ -279,7 +280,7 @@ describe('CustomTitleEdit', () => {
         });
 
         it('reflects the new contributor', () => {
-          expect(TitleShowPage.contributorsList(0).text).to.equal('Awesome Author');
+          expect(TitleShowPage.contributorsList(0).contributorName).to.equal('Awesome Author');
         });
 
         it('shows the new ISSN', () => {

@@ -4730,6 +4730,11 @@ fill-range@^4.0.0:
     repeat-string "^1.6.1"
     to-regex-range "^2.1.0"
 
+final-form-arrays@^1.1.0:
+  version "1.1.0"
+  resolved "https://registry.yarnpkg.com/final-form-arrays/-/final-form-arrays-1.1.0.tgz#006cfb6be9a5b0b264ac044fbdad3381ede81b66"
+  integrity sha512-iIrM1uotREIJaVctjM9zwcprpJNjH6RBxtOYBE1GxD5XV1UUMvka1LhUtkxB56ZJvgZe13v/+T/MpMxk6Kg/lw==
+
 final-form@^4.10.0:
   version "4.11.0"
   resolved "https://registry.yarnpkg.com/final-form/-/final-form-4.11.0.tgz#81750bda11b82c3ddf7b27092f29ebe427f8a560"
@@ -9475,6 +9480,13 @@ react-dom@^16.3.0, react-dom@^16.4.2:
     object-assign "^4.1.1"
     prop-types "^15.6.2"
     scheduler "^0.11.2"
+
+react-final-form-arrays@^1.1.0:
+  version "1.1.0"
+  resolved "https://registry.yarnpkg.com/react-final-form-arrays/-/react-final-form-arrays-1.1.0.tgz#ac1232d26483b996a5f57395aab4886a1b01d9a0"
+  integrity sha512-DcNUoWxY7Ty7QeO/F/WVmX3BCssGUF6P+UCRjiVbX4halM1h/24BHxcWIEI7zr+pIfCY9YNsXWmcKgo0XrMerQ==
+  dependencies:
+    react-lifecycles-compat "^3.0.4"
 
 react-final-form@^3.6.7:
   version "3.7.0"

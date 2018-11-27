@@ -1,6 +1,7 @@
 import React, { Component, Fragment } from 'react';
 import PropTypes from 'prop-types';
-import { reduxForm } from 'redux-form';
+import { Form } from 'react-final-form';
+import arrayMutators from 'final-form-arrays';
 
 import {
   Button,
@@ -22,18 +23,16 @@ import Toaster from '../../toaster';
 import PaneHeaderButton from '../../pane-header-button';
 import FullViewLink from '../../full-view-link';
 
-class TitleEdit extends Component {
+export default class TitleEdit extends Component {
   static propTypes = {
     fullViewLink: PropTypes.oneOfType([
       PropTypes.string,
       PropTypes.object
     ]),
-    handleSubmit: PropTypes.func,
     initialValues: PropTypes.object.isRequired,
     model: PropTypes.object.isRequired,
     onCancel: PropTypes.func.isRequired,
     onSubmit: PropTypes.func.isRequired,
-    pristine: PropTypes.bool,
     updateRequest: PropTypes.object.isRequired,
   };
 
@@ -65,11 +64,9 @@ class TitleEdit extends Component {
 
   render() {
     let {
-      model,
-      handleSubmit,
       initialValues,
+      model,
       onSubmit,
-      pristine,
       updateRequest
     } = this.props;
 
@@ -83,67 +80,59 @@ class TitleEdit extends Component {
             type: 'error'
           }))}
         />
-
-        <form onSubmit={handleSubmit(onSubmit)}>
-          <DetailsView
-            type="title"
-            model={model}
-            paneTitle={model.name}
-            actionMenu={this.getActionMenu}
-            lastMenu={(
-              <Fragment>
-                {model.update.isPending && (
-                  <Icon icon="spinner-ellipsis" />
+        <Form
+          onSubmit={onSubmit}
+          initialValues={initialValues}
+          mutators={{ ...arrayMutators }}
+          render={({ handleSubmit, pristine }) => (
+            <form onSubmit={handleSubmit}>
+              <DetailsView
+                type="title"
+                model={model}
+                paneTitle={model.name}
+                actionMenu={this.getActionMenu}
+                lastMenu={(
+                  <Fragment>
+                    {model.update.isPending && (
+                      <Icon icon="spinner-ellipsis" />
+                    )}
+                    <PaneHeaderButton
+                      disabled={pristine || model.update.isPending}
+                      type="submit"
+                      buttonStyle="primary"
+                      data-test-eholdings-title-save-button
+                    >
+                      {model.update.isPending ? (<FormattedMessage id="ui-eholdings.saving" />) : (<FormattedMessage id="ui-eholdings.save" />)}
+                    </PaneHeaderButton>
+                  </Fragment>
                 )}
-                <PaneHeaderButton
-                  disabled={pristine || model.update.isPending}
-                  type="submit"
-                  buttonStyle="primary"
-                  data-test-eholdings-title-save-button
-                >
-                  {model.update.isPending ? (<FormattedMessage id="ui-eholdings.saving" />) : (<FormattedMessage id="ui-eholdings.save" />)}
-                </PaneHeaderButton>
-              </Fragment>
-            )}
-            bodyContent={(
-              <Fragment>
-                <DetailsViewSection
-                  label={<FormattedMessage id="ui-eholdings.title.titleInformation" />}
-                >
-                  <NameField />
-
-                  <ContributorField
-                    initialValue={initialValues.contributors}
-                  />
-
-                  <EditionField />
-                  <PublisherNameField />
-                  <PublicationTypeField />
-
-                  <IdentifiersFields
-                    initialValue={initialValues.identifiers}
-                  />
-
-                  <DescriptionField />
-                  <PeerReviewedField />
-                </DetailsViewSection>
-                <NavigationModal
-                  modalLabel={<FormattedMessage id="ui-eholdings.navModal.modalLabel" />}
-                  continueLabel={<FormattedMessage id="ui-eholdings.navModal.continueLabel" />}
-                  dismissLabel={<FormattedMessage id="ui-eholdings.navModal.dismissLabel" />}
-                  when={!pristine && !updateRequest.isResolved}
-                />
-              </Fragment>
-            )}
-          />
-        </form>
+                bodyContent={(
+                  <Fragment>
+                    <DetailsViewSection
+                      label={<FormattedMessage id="ui-eholdings.title.titleInformation" />}
+                    >
+                      <NameField />
+                      <ContributorField />
+                      <EditionField />
+                      <PublisherNameField />
+                      <PublicationTypeField />
+                      <IdentifiersFields />
+                      <DescriptionField />
+                      <PeerReviewedField />
+                    </DetailsViewSection>
+                    <NavigationModal
+                      modalLabel={<FormattedMessage id="ui-eholdings.navModal.modalLabel" />}
+                      continueLabel={<FormattedMessage id="ui-eholdings.navModal.continueLabel" />}
+                      dismissLabel={<FormattedMessage id="ui-eholdings.navModal.dismissLabel" />}
+                      when={!pristine && !updateRequest.isResolved}
+                    />
+                  </Fragment>
+                )}
+              />
+            </form>
+          )}
+        />
       </Fragment>
     );
   }
 }
-
-export default reduxForm({
-  enableReinitialize: true,
-  form: 'TitleEdit',
-  destroyOnUnmount: false,
-})(TitleEdit);

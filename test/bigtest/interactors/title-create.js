@@ -24,10 +24,10 @@ import {
   hasName = isPresent('[data-test-eholdings-title-name-field]');
   fillName = fillable('[data-test-eholdings-title-name-field] input');
 
-  hasContributorBtn = isPresent('[data-test-eholdings-contributor-field] [data-test-repeatable-field-add-item-button]');
+  hasContributorBtn = isPresent('[data-test-eholdings-contributors-fields] [data-test-repeatable-field-add-item-button]');
   addContributor(type, name) {
     return this
-      .click('[data-test-eholdings-contributor-field] [data-test-repeatable-field-add-item-button]')
+      .click('[data-test-eholdings-contributors-fields] [data-test-repeatable-field-add-item-button]')
       .fill('[data-test-eholdings-contributor-type] select', type)
       .fill('[data-test-eholdings-contributor-contributor] input', name);
   }
