@@ -232,7 +232,7 @@ describe('CustomResourceEditEmbargo', () => {
             });
 
             it('rejects embargo value', () => {
-              expect(ResourceEditPage.validationErrorOnEmbargoTextField).to.equal('Enter number greater than 0');
+              expect(ResourceEditPage.validationErrorOnEmbargoTextField).to.equal('Must be a number');
             });
           });
 

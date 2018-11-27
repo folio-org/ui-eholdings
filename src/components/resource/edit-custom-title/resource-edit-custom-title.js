@@ -1,9 +1,9 @@
 import React, { Component, Fragment } from 'react';
 import PropTypes from 'prop-types';
-import { compose } from 'redux';
-import { connect } from 'react-redux';
-import { formValueSelector, reduxForm } from 'redux-form';
-import { FormattedMessage, injectIntl } from 'react-intl';
+import { Form, FormSpy } from 'react-final-form';
+import arrayMutators from 'final-form-arrays';
+import createDecorator from 'final-form-calculate';
+import { FormattedMessage } from 'react-intl';
 import update from 'lodash/fp/update';
 
 import {
@@ -19,26 +19,41 @@ import { processErrors, isBookPublicationType } from '../../utilities';
 
 import DetailsView from '../../details-view';
 import VisibilityField from '../_fields/visibility';
-import CustomCoverageFields, { validate as validateCoverageDates } from '../_fields/custom-coverage';
+import CustomCoverageFields from '../_fields/custom-coverage';
 import CustomUrlFields from '../_fields/custom-url';
-import CoverageStatementFields, { validate as validateCoverageStatement } from '../_fields/coverage-statement';
-import CustomEmbargoFields, { validate as validateEmbargo } from '../_fields/custom-embargo';
+import CoverageStatementFields from '../_fields/coverage-statement';
+import CustomEmbargoFields from '../_fields/custom-embargo';
 import NavigationModal from '../../navigation-modal';
 import Toaster from '../../toaster';
 import PaneHeaderButton from '../../pane-header-button';
 import CoverageDateList from '../../coverage-date-list';
 import ProxySelectField from '../../proxy-select';
 
-class ResourceEditCustomTitle extends Component {
+const coverageStatementDecorator = createDecorator(
+  {
+    field: 'hasCoverageStatement',
+    updates: {
+      coverageStatement: (hasCoverageStatement, { coverageStatement }) => {
+        return (hasCoverageStatement === 'no') ? '' : coverageStatement;
+      }
+    }
+  },
+  {
+    field: 'coverageStatement',
+    updates: {
+      hasCoverageStatement: (coverageStatement) => {
+        return (coverageStatement && coverageStatement.length) > 0 ? 'yes' : 'no';
+      }
+    }
+  }
+);
+
+export default class ResourceEditCustomTitle extends Component {
   static propTypes = {
-    change: PropTypes.func,
-    customCoverageDateValues: PropTypes.array,
-    handleSubmit: PropTypes.func,
     initialValues: PropTypes.object.isRequired,
     model: PropTypes.object.isRequired,
     onCancel: PropTypes.func.isRequired,
     onSubmit: PropTypes.func.isRequired,
-    pristine: PropTypes.bool,
     proxyTypes: PropTypes.object.isRequired
   };
 
@@ -113,12 +128,12 @@ class ResourceEditCustomTitle extends Component {
     }, () => { this.handleOnSubmit(this.state.formValues); });
   };
 
-  cancelSelectionToggle = () => {
+  cancelSelectionToggle = (change) => {
     this.setState({
       showSelectionModal: false,
       resourceSelected: true,
     }, () => {
-      this.props.change('isSelected', true);
+      change('isSelected', true);
     });
   };
 
@@ -139,25 +154,32 @@ class ResourceEditCustomTitle extends Component {
   };
 
   renderCoverageDates = () => {
-    let { customCoverageDateValues, model } = this.props;
-    let coverageDates = model.managedCoverages;
-
-    if (customCoverageDateValues && customCoverageDateValues.length > 0) {
-      coverageDates = customCoverageDateValues;
-    }
-
-    const nonEmptyCoverageDates = coverageDates
-      .filter((currentCoverageDate) => Object.keys(currentCoverageDate).length !== 0);
-
-    if (nonEmptyCoverageDates.length === 0) {
-      return null;
-    }
-
     return (
-      <CoverageDateList
-        coverageArray={nonEmptyCoverageDates}
-        isYearOnly={isBookPublicationType(model.publicationType)}
-      />
+      <FormSpy subscription={{ values: true }}>
+        {({ values }) => {
+          const { model } = this.props;
+          const { customCoverages: customCoverageDateValues } = values;
+          let coverageDates = model.managedCoverages;
+
+          if (customCoverageDateValues && customCoverageDateValues.length > 0) {
+            coverageDates = customCoverageDateValues;
+          }
+
+          const nonEmptyCoverageDates = coverageDates
+            .filter((currentCoverageDate) => Object.keys(currentCoverageDate).length !== 0);
+
+          if (nonEmptyCoverageDates.length === 0) {
+            return null;
+          }
+
+          return (
+            <CoverageDateList
+              coverageArray={nonEmptyCoverageDates}
+              isYearOnly={isBookPublicationType(model.publicationType)}
+            />
+          );
+        }}
+      </FormSpy>
     );
   };
 
@@ -199,9 +221,6 @@ class ResourceEditCustomTitle extends Component {
       model,
       proxyTypes,
       initialValues,
-      handleSubmit,
-      pristine,
-      change
     } = this.props;
 
     let {
@@ -219,203 +238,184 @@ class ResourceEditCustomTitle extends Component {
       : model.visibilityData.reason && `(${model.visibilityData.reason})`;
 
     return (
-      <div>
-        <Toaster toasts={processErrors(model)} position="bottom" />
-        <form onSubmit={handleSubmit(this.handleOnSubmit)}>
-          <DetailsView
-            type="resource"
-            model={model}
-            paneTitle={model.title.name}
-            paneSub={model.package.name}
-            actionMenu={this.getActionMenu}
-            handleExpandAll={this.toggleAllSections}
-            sections={sections}
-            lastMenu={
-              <Fragment>
-                {(model.update.isPending || model.destroy.isPending) && (
-                  <Icon icon="spinner-ellipsis" />
-                )}
-                <PaneHeaderButton
-                  disabled={pristine || model.update.isPending || model.destroy.isPending}
-                  type="submit"
-                  buttonStyle="primary"
-                  data-test-eholdings-resource-save-button
-                >
-                  {model.update.isPending || model.destroy.isPending ?
-                    (<FormattedMessage id="ui-eholdings.saving" />)
-                    :
-                    (<FormattedMessage id="ui-eholdings.save" />)}
-                </PaneHeaderButton>
-              </Fragment>
-            }
-            bodyContent={(
-              <Fragment>
-                <Accordion
-                  label={this.getSectionHeader('ui-eholdings.label.holdingStatus')}
-                  open={sections.resourceShowHoldingStatus}
-                  id="resourceShowHoldingStatus"
-                  onToggle={this.toggleSection}
-                >
-                  <label
-                    data-test-eholdings-resource-holding-status
-                    htmlFor="custom-resource-holding-status"
-                  >
-                    <Headline margin="none">
-                      {resourceSelected ?
-                        (<FormattedMessage id="ui-eholdings.selected" />)
+      <Form
+        onSubmit={this.handleOnSubmit}
+        decorators={[coverageStatementDecorator]}
+        mutators={{ ...arrayMutators }}
+        initialValues={initialValues}
+        render={({ handleSubmit, pristine, form: { change } }) => (
+          <div>
+            <Toaster toasts={processErrors(model)} position="bottom" />
+            <form onSubmit={handleSubmit}>
+              <DetailsView
+                type="resource"
+                model={model}
+                paneTitle={model.title.name}
+                paneSub={model.package.name}
+                actionMenu={this.getActionMenu}
+                handleExpandAll={this.toggleAllSections}
+                sections={sections}
+                lastMenu={
+                  <Fragment>
+                    {(model.update.isPending || model.destroy.isPending) && (
+                      <Icon icon="spinner-ellipsis" />
+                    )}
+                    <PaneHeaderButton
+                      disabled={pristine || model.update.isPending || model.destroy.isPending}
+                      type="submit"
+                      buttonStyle="primary"
+                      data-test-eholdings-resource-save-button
+                    >
+                      {model.update.isPending || model.destroy.isPending ?
+                        (<FormattedMessage id="ui-eholdings.saving" />)
                         :
-                        (<FormattedMessage id="ui-eholdings.notSelected" />)}
-                    </Headline>
-                    <br />
-                  </label>
-                </Accordion>
+                        (<FormattedMessage id="ui-eholdings.save" />)}
+                    </PaneHeaderButton>
+                  </Fragment>
+                }
+                bodyContent={(
+                  <Fragment>
+                    <Accordion
+                      label={this.getSectionHeader('ui-eholdings.label.holdingStatus')}
+                      open={sections.resourceShowHoldingStatus}
+                      id="resourceShowHoldingStatus"
+                      onToggle={this.toggleSection}
+                    >
+                      <label
+                        data-test-eholdings-resource-holding-status
+                        htmlFor="custom-resource-holding-status"
+                      >
+                        <Headline margin="none">
+                          {resourceSelected ?
+                            (<FormattedMessage id="ui-eholdings.selected" />)
+                            :
+                            (<FormattedMessage id="ui-eholdings.notSelected" />)}
+                        </Headline>
+                        <br />
+                      </label>
+                    </Accordion>
 
-                <Accordion
-                  label={this.getSectionHeader('ui-eholdings.resource.resourceSettings')}
-                  open={sections.resourceShowSettings}
-                  id="resourceShowSettings"
-                  onToggle={this.toggleSection}
-                >
-                  {resourceSelected ? (
-                    <Fragment>
-                      <VisibilityField disabled={visibilityMessage} />
-                      <div>
-                        {hasInheritedProxy && (
-                          (!proxyTypes.request.isResolved) ? (
-                            <Icon icon="spinner-ellipsis" />
-                          ) : (
-                            <div data-test-eholdings-resource-proxy-select>
-                              <ProxySelectField proxyTypes={proxyTypes} inheritedProxyId={model.package.proxy.id} />
-                            </div>
-                          ))}
-                      </div>
-                      <CustomUrlFields />
-                    </Fragment>
-                  ) : (
-                    <p data-test-eholdings-resource-edit-settings-message>
-                      <FormattedMessage id="ui-eholdings.resource.resourceSettings.notSelected" />
-                    </p>
-                  )}
-                </Accordion>
+                    <Accordion
+                      label={this.getSectionHeader('ui-eholdings.resource.resourceSettings')}
+                      open={sections.resourceShowSettings}
+                      id="resourceShowSettings"
+                      onToggle={this.toggleSection}
+                    >
+                      {resourceSelected ? (
+                        <Fragment>
+                          <VisibilityField disabled={visibilityMessage} />
+                          <div>
+                            {hasInheritedProxy && (
+                              (!proxyTypes.request.isResolved) ? (
+                                <Icon icon="spinner-ellipsis" />
+                              ) : (
+                                <div data-test-eholdings-resource-proxy-select>
+                                  <ProxySelectField proxyTypes={proxyTypes} inheritedProxyId={model.package.proxy.id} />
+                                </div>
+                              ))}
+                          </div>
+                          <CustomUrlFields />
+                        </Fragment>
+                      ) : (
+                        <p data-test-eholdings-resource-edit-settings-message>
+                          <FormattedMessage id="ui-eholdings.resource.resourceSettings.notSelected" />
+                        </p>
+                      )}
+                    </Accordion>
 
-                <Accordion
-                  label={this.getSectionHeader('ui-eholdings.label.coverageSettings')}
-                  open={sections.resourceShowCoverageSettings}
-                  id="resourceShowCoverageSettings"
-                  onToggle={this.toggleSection}
-                >
-                  {resourceSelected ? (
-                    <Fragment>
-                      <Headline tag="h4"><FormattedMessage id="ui-eholdings.label.dates" /></Headline>
-                      <CustomCoverageFields
-                        initial={initialValues.customCoverages}
-                        model={model}
-                      />
+                    <Accordion
+                      label={this.getSectionHeader('ui-eholdings.label.coverageSettings')}
+                      open={sections.resourceShowCoverageSettings}
+                      id="resourceShowCoverageSettings"
+                      onToggle={this.toggleSection}
+                    >
+                      {resourceSelected ? (
+                        <Fragment>
+                          <Headline tag="h4"><FormattedMessage id="ui-eholdings.label.dates" /></Headline>
+                          <CustomCoverageFields
+                            model={model}
+                          />
 
-                      <Headline tag="h4">
-                        <FormattedMessage id="ui-eholdings.label.coverageStatement" />
-                      </Headline>
-                      <CoverageStatementFields
-                        change={change}
-                        coverageDates={this.renderCoverageDates()}
-                      />
+                          <Headline tag="h4">
+                            <FormattedMessage id="ui-eholdings.label.coverageStatement" />
+                          </Headline>
+                          <CoverageStatementFields
+                            coverageDates={this.renderCoverageDates()}
+                          />
 
-                      <Headline tag="h4">
-                        <FormattedMessage id="ui-eholdings.resource.embargoPeriod" />
-                      </Headline>
-                      <CustomEmbargoFields
-                        change={change}
-                        showInputs={(initialValues.customEmbargoValue > 0)}
-                        initial={{
-                          customEmbargoValue: initialValues.customEmbargoValue,
-                          customEmbargoUnit: initialValues.customEmbargoUnit
-                        }}
-                      />
-                    </Fragment>
-                  ) : (
-                    <p data-test-eholdings-resource-edit-settings-message>
-                      <FormattedMessage id="ui-eholdings.resource.coverage.notSelected" />
-                    </p>
-                  )}
-                </Accordion>
-              </Fragment>
-            )}
-          />
-        </form>
+                          <Headline tag="h4">
+                            <FormattedMessage id="ui-eholdings.resource.embargoPeriod" />
+                          </Headline>
+                          <CustomEmbargoFields
+                            change={change}
+                            showInputs={(initialValues.customEmbargoValue > 0)}
+                            initial={{
+                              customEmbargoValue: initialValues.customEmbargoValue,
+                              customEmbargoUnit: initialValues.customEmbargoUnit
+                            }}
+                          />
+                        </Fragment>
+                      ) : (
+                        <p data-test-eholdings-resource-edit-settings-message>
+                          <FormattedMessage id="ui-eholdings.resource.coverage.notSelected" />
+                        </p>
+                      )}
+                    </Accordion>
+                  </Fragment>
+                )}
+              />
+            </form>
 
+            <NavigationModal when={!pristine && !model.update.isResolved} />
 
-        <NavigationModal when={!pristine && !model.update.isPending} />
-
-        <Modal
-          open={showSelectionModal}
-          size="small"
-          label={<FormattedMessage id="ui-eholdings.resource.modal.header" />}
-          id="eholdings-resource-confirmation-modal"
-          footer={(
-            <ModalFooter>
-              <Button
-                data-test-eholdings-resource-deselection-confirmation-modal-yes
-                buttonStyle="primary"
-                disabled={model.destroy.isPending}
-                onClick={this.commitSelectionToggle}
-              >
-                {(model.destroy.isPending ?
-                  <FormattedMessage id="ui-eholdings.resource.modal.buttonWorking" /> :
-                  <FormattedMessage id="ui-eholdings.resource.modal.buttonConfirm" />)}
-              </Button>
-              <Button
-                data-test-eholdings-resource-deselection-confirmation-modal-no
-                onClick={this.cancelSelectionToggle}
-              >
-                <FormattedMessage id="ui-eholdings.resource.modal.buttonCancel" />
-              </Button>
-            </ModalFooter>
-          )}
-        >
-          {
-            /*
-              we use <= here to account for the case where a user
-              selects and then immediately deselects the
-              resource
-            */
-            model.package.titleCount <= 1
-              ? (
-                <span data-test-eholdings-deselect-final-title-warning>
-                  <FormattedMessage id="ui-eholdings.resource.modal.body.isCustom.lastTitle" />
-                </span>
-              )
-              : (
-                <span data-test-eholdings-deselect-title-warning>
-                  <FormattedMessage id="ui-eholdings.resource.modal.body" />
-                </span>
-              )
-          }
-        </Modal>
-      </div>
+            <Modal
+              open={showSelectionModal}
+              size="small"
+              label={<FormattedMessage id="ui-eholdings.resource.modal.header" />}
+              id="eholdings-resource-confirmation-modal"
+              footer={(
+                <ModalFooter>
+                  <Button
+                    data-test-eholdings-resource-deselection-confirmation-modal-yes
+                    buttonStyle="primary"
+                    disabled={model.destroy.isPending}
+                    onClick={this.commitSelectionToggle}
+                  >
+                    {(model.destroy.isPending ?
+                      <FormattedMessage id="ui-eholdings.resource.modal.buttonWorking" /> :
+                      <FormattedMessage id="ui-eholdings.resource.modal.buttonConfirm" />)}
+                  </Button>
+                  <Button
+                    data-test-eholdings-resource-deselection-confirmation-modal-no
+                    onClick={() => this.cancelSelectionToggle(change)}
+                  >
+                    <FormattedMessage id="ui-eholdings.resource.modal.buttonCancel" />
+                  </Button>
+                </ModalFooter>
+              )}
+            >
+              {
+                /*
+                  we use <= here to account for the case where a user
+                  selects and then immediately deselects the
+                  resource
+                */
+                model.package.titleCount <= 1
+                  ? (
+                    <span data-test-eholdings-deselect-final-title-warning>
+                      <FormattedMessage id="ui-eholdings.resource.modal.body.isCustom.lastTitle" />
+                    </span>
+                  )
+                  : (
+                    <span data-test-eholdings-deselect-title-warning>
+                      <FormattedMessage id="ui-eholdings.resource.modal.body" />
+                    </span>
+                  )
+              }
+            </Modal>
+          </div>
+        )}
+      />
     );
   }
 }
-
-const validate = (values, props) => {
-  const { intl: { locale }, model } = props;
-
-  return Object.assign({},
-    validateCoverageDates(values, locale, model),
-    validateCoverageStatement(values),
-    validateEmbargo(values));
-};
-
-const selector = formValueSelector('ResourceEditCustomTitle');
-
-export default compose(
-  injectIntl,
-  connect(state => ({
-    customCoverageDateValues: selector(state, 'customCoverages')
-  })),
-  reduxForm({
-    validate,
-    enableReinitialize: true,
-    form: 'ResourceEditCustomTitle',
-    destroyOnUnmount: false,
-  })
-)(ResourceEditCustomTitle);

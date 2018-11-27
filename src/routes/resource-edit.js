@@ -105,7 +105,7 @@ class ResourceEditRoute extends Component {
       });
       model.isSelected = values.isSelected;
       model.url = customUrl;
-      model.visibilityData.isHidden = isVisible === 'false';
+      model.visibilityData.isHidden = !isVisible;
       model.coverageStatement = coverageStatement;
       model.customEmbargoPeriod = {
         embargoValue: customEmbargoValue,

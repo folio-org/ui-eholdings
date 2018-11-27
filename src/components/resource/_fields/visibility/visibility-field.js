@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { Field } from 'redux-form';
+import { Field } from 'react-final-form';
 import { FormattedMessage } from 'react-intl';
-import { RadioButton, RadioButtonGroup } from '@folio/stripes/components';
+import { Headline, RadioButton } from '@folio/stripes/components';
 
 class VisibilityField extends Component {
   static propTypes = {
@@ -17,25 +17,40 @@ class VisibilityField extends Component {
     let disabledReason = typeof disabled === 'boolean' ? '' : disabled;
 
     return (
-      <div
+      <fieldset
         data-test-eholdings-resource-visibility-field
       >
+        <Headline tag="legend" size="small" margin="x-large">
+          <FormattedMessage id="ui-eholdings.label.showToPatrons" />
+        </Headline>
+
         <Field
-          name="isVisible"
-          label={<FormattedMessage id="ui-eholdings.label.showToPatrons" />}
-          component={RadioButtonGroup}
+          component={RadioButton}
           disabled={!!disabled}
-        >
-          <RadioButton
-            label={<FormattedMessage id="ui-eholdings.yes" />}
-            value="true"
-          />
-          <RadioButton
-            label={<FormattedMessage id="ui-eholdings.label.no.reason" values={{ disabledReason }} />}
-            value="false"
-          />
-        </Field>
-      </div>
+          format={value => value.toString()}
+          label={<FormattedMessage id="ui-eholdings.yes" />}
+          name="isVisible"
+          parse={value => value === 'true'}
+          type="radio"
+          value="true"
+        />
+
+        <Field
+          component={RadioButton}
+          disabled={!!disabled}
+          format={value => value.toString()}
+          label={
+            <FormattedMessage
+              id="ui-eholdings.label.no.reason"
+              values={{ disabledReason }}
+            />
+          }
+          name="isVisible"
+          parse={value => value === 'true'}
+          type="radio"
+          value="false"
+        />
+      </fieldset>
     );
   }
 }

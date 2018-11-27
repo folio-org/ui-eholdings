@@ -1,1 +1,1 @@
-export { default, validate } from './custom-embargo-fields';
+export { default } from './custom-embargo-fields';
