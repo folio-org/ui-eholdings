@@ -7,7 +7,7 @@ import { TextField } from '@folio/stripes/components';
 function validate(value) {
   let errors;
 
-  if (value === undefined) {
+  if (!value) {
     errors = <FormattedMessage id="ui-eholdings.validate.errors.customTitle.name" />;
   }
 
