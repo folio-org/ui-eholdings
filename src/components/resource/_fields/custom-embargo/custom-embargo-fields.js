@@ -85,7 +85,7 @@ class CustomEmbargoFields extends Component {
           <FormattedMessage id="ui-eholdings.resource.embargoPeriod.clear">
             {ariaLabel => (
               <IconButton
-                icon="trashBin"
+                icon="trash"
                 onClick={this.clearValues}
                 size="small"
                 ariaLabel={ariaLabel}

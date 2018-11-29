@@ -83,7 +83,7 @@ class Toast extends Component {
           {this.props.children}
 
           <button onClick={this.hideToast} type="button">
-            <Icon icon="closeX" size="small" iconClassName={style.closeIcon} />
+            <Icon icon="times" size="small" iconClassName={style.closeIcon} />
           </button>
         </div>
       </CSSTransition>

@@ -77,7 +77,7 @@ class PackageCreate extends Component {
               <FormattedMessage id="ui-eholdings.label.icon.goBack">
                 {ariaLabel => (
                   <IconButton
-                    icon="left-arrow"
+                    icon="arrow-left"
                     ariaLabel={ariaLabel}
                     onClick={onCancel}
                     data-test-eholdings-details-view-back-button

@@ -56,7 +56,7 @@ import SearchBadge from './search-badge';
   });
 
   clearFilter = action(function (name) {
-    return this.click(`#filter-packages-${name} button[icon="clearX"]`);
+    return this.click(`#filter-packages-${name} button[icon="times-circle-solid"]`);
   });
 
   getFilter(name) {

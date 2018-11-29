@@ -230,7 +230,7 @@ class DetailsView extends Component {
             >
               {ariaLabel => (
                 <IconButton
-                  icon="closeX"
+                  icon="times"
                   ariaLabel={ariaLabel}
                   href={`/eholdings${location.search}`}
                   data-test-eholdings-details-view-close-button
@@ -241,7 +241,7 @@ class DetailsView extends Component {
             <FormattedMessage id="ui-eholdings.label.icon.goBack">
               {ariaLabel => (
                 <IconButton
-                  icon="left-arrow"
+                  icon="arrow-left"
                   ariaLabel={ariaLabel}
                   onClick={() => history.goBack()}
                   data-test-eholdings-details-view-back-button
