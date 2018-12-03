@@ -75,7 +75,7 @@ import SearchBadge from './search-badge';
   });
 
   clearFilter = action(function (name) {
-    return this.click(`#filter-titles-${name} button[icon="clearX"]`);
+    return this.click(`#filter-titles-${name} button[icon="times-circle-solid"]`);
   });
 
   changeSearchType = action(function (searchType) {

@@ -30,7 +30,7 @@ class SettingsDetailPane extends Component {
           <FormattedMessage id="ui-eholdings.settings.goBackToEholdings">
             {ariaLabel => (
               <IconButton
-                icon="left-arrow"
+                icon="arrow-left"
                 href="/settings/eholdings"
                 ariaLabel={ariaLabel}
                 className={styles['settings-detail-pane-back-button']}
