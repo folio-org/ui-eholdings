@@ -2,11 +2,15 @@ import React, { Component, Fragment } from 'react';
 import { Field, FieldArray } from 'redux-form';
 import PropTypes from 'prop-types';
 import moment from 'moment';
-import { FormattedMessage, injectIntl, intlShape } from 'react-intl';
+import {
+  FormattedMessage,
+  injectIntl,
+  intlShape,
+} from 'react-intl';
 
 import {
   Datepicker,
-  RepeatableField
+  RepeatableField,
 } from '@folio/stripes/components';
 
 import styles from './package-coverage-fields.css';
@@ -14,12 +18,18 @@ import styles from './package-coverage-fields.css';
 class PackageCoverageFields extends Component {
   static propTypes = {
     initialValue: PropTypes.array,
-    intl: intlShape
+    intl: intlShape,
   };
 
   static defaultProps = {
-    initialValue: []
+    initialValue: [],
   };
+
+  constructor(props) {
+    super(props);
+
+    this.state = { coverageDateAmount: 1 };
+  }
 
   validateCoverageDate = (value) => {
     const { intl } = this.props;
@@ -28,13 +38,19 @@ class PackageCoverageFields extends Component {
     let errors;
 
     if (value && !moment.utc(value).isValid()) {
-      errors = <FormattedMessage id="ui-eholdings.validate.errors.dateRange.format" values={{ dateFormat }} />;
+      errors = (
+        <FormattedMessage
+          id="ui-eholdings.validate.errors.dateRange.format"
+          values={{ dateFormat }}
+        />);
     }
 
     return errors;
   }
 
   renderField = (dateRange) => {
+    const formatField = (value) => (value ? moment.utc(value) : '');
+
     return (
       <Fragment>
         <div
@@ -46,7 +62,7 @@ class PackageCoverageFields extends Component {
             type="text"
             component={Datepicker}
             label={<FormattedMessage id="ui-eholdings.date.startDate" />}
-            format={(value) => (value ? moment.utc(value) : '')}
+            format={formatField}
             validate={this.validateCoverageDate}
           />
         </div>
@@ -59,7 +75,7 @@ class PackageCoverageFields extends Component {
             type="text"
             component={Datepicker}
             label={<FormattedMessage id="ui-eholdings.date.endDate" />}
-            format={(value) => (value ? moment.utc(value) : '')}
+            format={formatField}
             validate={this.validateCoverageDate}
           />
         </div>
@@ -67,20 +83,57 @@ class PackageCoverageFields extends Component {
     );
   }
 
-  render() {
-    const { initialValue } = this.props;
+  renderRepeatableField = (fieldArrayProps) => {
+    const {
+      fields,
+      name,
+    } = fieldArrayProps;
 
+    const { initialValue } = this.props;
+    const { coverageDateAmount } = this.state;
+
+    const onAddField = () => {
+      fields.push({});
+
+      this.setState((prevState) => ({
+        coverageDateAmount: prevState.coverageDateAmount + 1,
+      }));
+    };
+
+    const onRemoveField = (index) => {
+      fields.remove(index);
+
+      this.setState((prevState) => ({
+        coverageDateAmount: prevState.coverageDateAmount - 1,
+      }));
+    };
+
+    const hasAddButton = coverageDateAmount === 0 || (coverageDateAmount === 1 && !initialValue[0]);
+
+    return (
+      <RepeatableField
+        addLabel={hasAddButton
+          ? <FormattedMessage id="ui-eholdings.package.coverage.addDateRange" />
+          : null}
+        emptyMessage={
+          initialValue.length > 0 && initialValue[0].beginCoverage ?
+            <FormattedMessage id="ui-eholdings.package.noCoverageDates" /> : null
+        }
+        fields={fields}
+        name={name}
+        onAdd={onAddField}
+        onRemove={onRemoveField}
+        renderField={this.renderField}
+      />
+    );
+  };
+
+  render() {
     return (
       <div data-test-eholdings-package-coverage-fields>
         <FieldArray
-          addLabel={<FormattedMessage id="ui-eholdings.package.coverage.addDateRange" />}
-          component={RepeatableField}
-          emptyMessage={
-            initialValue.length > 0 && initialValue[0].beginCoverage ?
-              <FormattedMessage id="ui-eholdings.package.noCoverageDates" /> : ''
-          }
+          component={this.renderRepeatableField}
           name="customCoverages"
-          renderField={this.renderField}
         />
       </div>
     );
@@ -95,7 +148,10 @@ export function validate(values) {
   values.customCoverages.forEach((dateRange, index) => {
     let dateRangeErrors = {};
 
-    if (dateRange.endCoverage && moment.utc(dateRange.beginCoverage).isAfter(moment.utc(dateRange.endCoverage))) {
+    const isCorrectDateCoverage = dateRange.endCoverage
+      && moment.utc(dateRange.beginCoverage).isAfter(moment.utc(dateRange.endCoverage));
+
+    if (isCorrectDateCoverage) {
       dateRangeErrors.beginCoverage = <FormattedMessage id="ui-eholdings.validate.errors.dateRange.startDateBeforeEndDate" />;
     }
 

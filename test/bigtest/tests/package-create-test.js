@@ -87,6 +87,10 @@ describe('PackageCreate', () => {
         expect(this.location.pathname).to.match(/^\/eholdings\/packages\/\d{1,}/);
         expect(PackageShowPage.customCoverage).to.equal('12/16/2018 - 12/18/2018');
       });
+
+      it('has not the add coverage button', () => {
+        expect(PackageCreatePage.hasAddCoverageButton).to.be.false;
+      });
     });
 
     describe('getting an error when creating a new package', () => {
