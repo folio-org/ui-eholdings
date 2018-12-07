@@ -15,6 +15,8 @@ import {
 
 import styles from './package-coverage-fields.css';
 
+const COVERAGE_DATE_AMOUNT = 1;
+
 class PackageCoverageFields extends Component {
   static propTypes = {
     initialValue: PropTypes.array,
@@ -28,7 +30,7 @@ class PackageCoverageFields extends Component {
   constructor(props) {
     super(props);
 
-    this.state = { coverageDateAmount: 1 };
+    this.state = { coverageDateAmount: COVERAGE_DATE_AMOUNT };
   }
 
   validateCoverageDate = (value) => {
