@@ -30,7 +30,11 @@ import SearchBadge from './search-badge';
   hasErrors = isPresent('[data-test-query-list-error="providers"]');
   errorMessage = text('[data-test-query-list-error="providers"]');
   noResultsMessage = text('[data-test-query-list-not-found="providers"]');
-  selectedSearchType = collection('[data-test-search-form-type-switcher] a[class^="is-active--"]');
+  selectedSearchType = collection([
+    '[data-test-search-form-type-switcher] a[class^="primary--"]',
+    '[data-test-search-form-type-switcher] a[class*=" primary--"]'
+  ].join(','));
+
   sortBy = value('[data-test-eholdings-search-filters="providers"] input[name="sort"]:checked');
   isSearchButtonDisabled = property('[data-test-search-submit]', 'disabled');
   isSearchVignetteHidden = hasClassBeginningWith('[data-test-search-vignette]', 'is-hidden---');

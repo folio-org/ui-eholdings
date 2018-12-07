@@ -33,7 +33,11 @@ import SearchBadge from './search-badge';
   hasErrors = isPresent('[data-test-query-list-error="packages"]');
   errorMessage = text('[data-test-query-list-error="packages"]');
   noResultsMessage = text('[data-test-query-list-not-found="packages"]');
-  selectedSearchType = collection('[data-test-search-form-type-switcher] a[class^="is-active--"]');
+  selectedSearchType = collection([
+    '[data-test-search-form-type-switcher] a[class^="primary--"]',
+    '[data-test-search-form-type-switcher] a[class*=" primary--"]'
+  ].join(','));
+
   sortBy = value('[data-test-eholdings-search-filters="packages"] input[name="sort"]:checked');
   clickCloseButton = clickable('[data-test-eholdings-details-view-close-button]');
   hasPreSearchPane = isPresent('[data-test-eholdings-pre-search-pane]');

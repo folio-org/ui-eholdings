@@ -36,7 +36,11 @@ import SearchBadge from './search-badge';
   hasErrors = isPresent('[data-test-query-list-error="titles"]');
   errorMessage = text('[data-test-query-list-error="titles"]');
   noResultsMessage = text('[data-test-query-list-not-found="titles"]');
-  selectedSearchType = collection('[data-test-search-form-type-switcher] a[class^="is-active--"]');
+  selectedSearchType = collection([
+    '[data-test-search-form-type-switcher] a[class^="primary--"]',
+    '[data-test-search-form-type-switcher] a[class*=" primary--"]'
+  ].join(','));
+
   isSearchVignetteHidden = hasClassBeginningWith('[data-test-search-vignette]', 'is-hidden--');
   clickCloseButton = clickable('[data-test-eholdings-details-view-close-button]');
   searchBadge = new SearchBadge('[data-test-eholdings-results-pane-search-badge]');
