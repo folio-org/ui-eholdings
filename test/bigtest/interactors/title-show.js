@@ -66,6 +66,7 @@ import Toast from './toast';
   peerReviewedStatus = text('[data-test-eholdings-peer-reviewed-field]');
   descriptionText = text('[data-test-eholdings-description-field]');
   clickEditButton = clickable('[data-test-eholdings-title-edit-link]');
+  hasEditButton = isPresent('[data-test-eholdings-title-edit-link]');
 
   toast = Toast
 

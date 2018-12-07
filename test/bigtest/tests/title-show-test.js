@@ -56,6 +56,10 @@ describe('TitleShow', () => {
       expect(TitleShowPage.nameHasFocus).to.be.true;
     });
 
+    it.always('does not display the edit button for a managed title', () => {
+      expect(TitleShowPage.hasEditButton).to.be.false;
+    });
+
     it('displays the collapse all button', () => {
       expect(TitleShowPage.hasCollapseAllButton).to.be.true;
     });
@@ -272,6 +276,24 @@ describe('TitleShow', () => {
         // the 5th item, is the topmost visible item in the list
         expect(TitleShowPage.packageList(4).name).to.equal('Title Package 26');
       });
+    });
+  });
+
+  describe('viewing a custom title', () => {
+    beforeEach(function () {
+      title = this.server.create('title', {
+        name: 'Cool Title',
+        edition: 'Cool Edition',
+        publisherName: 'Cool Publisher',
+        publicationType: 'UnknownPublicationType',
+        isTitleCustom: true
+      });
+
+      this.visit(`/eholdings/titles/${title.id}`);
+    });
+
+    it('displays the edit button for a custom title', () => {
+      expect(TitleShowPage.hasEditButton).to.be.true;
     });
   });
 

@@ -78,7 +78,7 @@ class TitleShow extends Component {
   get lastMenu() {
     let { model, editLink } = this.props;
 
-    if (editLink) {
+    if (editLink && model.isTitleCustom) {
       return (
         <FormattedMessage
           id="ui-eholdings.title.editCustomTitle"
