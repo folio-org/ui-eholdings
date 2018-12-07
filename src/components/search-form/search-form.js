@@ -114,7 +114,6 @@ class SearchForm extends Component {
                 aria-controls={type + '-panel'}
                 id={type + '-tab'}
                 key={type}
-                tabIndex={searchType === type ? undefined : -1}
                 title={<FormattedMessage id="ui-eholdings.search.searchLink" values={{ type }} />}
                 to={searchTypeUrls[type]}
                 className={searchType === type ? styles['is-active'] : undefined}
@@ -130,7 +129,6 @@ class SearchForm extends Component {
           role='tabpanel'
           aria-labelledby={searchType + '-tab'}
           id={searchType + '-panel'}
-          tabIndex='0'
         >
           {(searchType === 'titles') ? (
             <div data-test-title-search-field>
