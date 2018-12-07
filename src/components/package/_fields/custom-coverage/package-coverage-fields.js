@@ -42,14 +42,15 @@ class PackageCoverageFields extends Component {
         <FormattedMessage
           id="ui-eholdings.validate.errors.dateRange.format"
           values={{ dateFormat }}
-        />);
+        />
+      );
     }
 
     return errors;
   }
 
   renderField = (dateRange) => {
-    const formatField = (value) => (value ? moment.utc(value) : '');
+    const formatField = value => (value ? moment.utc(value) : '');
 
     return (
       <Fragment>
@@ -109,16 +110,19 @@ class PackageCoverageFields extends Component {
     };
 
     const hasAddButton = coverageDateAmount === 0 || (coverageDateAmount === 1 && !initialValue[0]);
+    const hasEmptyMessage = initialValue.length > 0 && initialValue[0].beginCoverage;
+    const addLabel = hasAddButton
+      ? <FormattedMessage id="ui-eholdings.package.coverage.addDateRange" />
+      : null;
+
+    const emptyMessage = hasEmptyMessage
+      ? <FormattedMessage id="ui-eholdings.package.noCoverageDates" />
+      : null;
 
     return (
       <RepeatableField
-        addLabel={hasAddButton
-          ? <FormattedMessage id="ui-eholdings.package.coverage.addDateRange" />
-          : null}
-        emptyMessage={
-          initialValue.length > 0 && initialValue[0].beginCoverage ?
-            <FormattedMessage id="ui-eholdings.package.noCoverageDates" /> : null
-        }
+        addLabel={addLabel}
+        emptyMessage={emptyMessage}
         fields={fields}
         name={name}
         onAdd={onAddField}
