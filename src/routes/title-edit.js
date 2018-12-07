@@ -34,6 +34,14 @@ class TitleEditRoute extends Component {
     let { match, getTitle, history, location, model } = this.props;
     let { titleId } = match.params;
 
+    // prevent being able to visit an edit form for uneditable managed titles
+    if (model.isLoaded && !model.isTitleCustom) {
+      history.replace({
+        pathname: `/eholdings/titles/${model.id}`,
+        search: location.search,
+      }, { eholdings: true });
+    }
+
     if (!prevProps.updateRequest.isResolved && this.props.updateRequest.isResolved) {
       this.props.history.push(
         `/eholdings/titles/${this.props.model.id}`,
