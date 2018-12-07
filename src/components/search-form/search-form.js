@@ -130,11 +130,11 @@ class SearchForm extends Component {
           aria-labelledby={searchType + '-tab'}
           id={searchType + '-panel'}
         >
-          {(searchType === 'titles') ? (
-            <div data-test-title-search-field>
-              <FormattedMessage id="ui-eholdings.search.searchType" values={{ searchType }}>
-                {placeholder => (
-                  <Fragment>
+          <div data-test-search-field>
+            <FormattedMessage id="ui-eholdings.search.searchType" values={{ searchType }}>
+              {placeholder => (
+                <Fragment>
+                  {(searchType === 'titles') && (
                     <Select
                       onChange={this.handleChangeIndex}
                       value={searchField}
@@ -152,22 +152,7 @@ class SearchForm extends Component {
                         {(label) => <option value="subject">{label}</option>}
                       </FormattedMessage>
                     </Select>
-                    <SearchField
-                      name="search"
-                      onChange={this.handleChangeSearch}
-                      onClear={this.handleClearSearch}
-                      value={searchString}
-                      placeholder={placeholder}
-                      loading={isLoading}
-                    />
-                  </Fragment>
-                )}
-              </FormattedMessage>
-            </div>
-          ) : (
-            <div data-test-search-field>
-              <FormattedMessage id="ui-eholdings.search.searchType" values={{ searchType }}>
-                {placeholder => (
+                  )}
                   <SearchField
                     name="search"
                     onChange={this.handleChangeSearch}
@@ -176,10 +161,11 @@ class SearchForm extends Component {
                     placeholder={placeholder}
                     loading={isLoading}
                   />
-                )}
-              </FormattedMessage>
-            </div>
-          )}
+                </Fragment>
+              )}
+            </FormattedMessage>
+          </div>
+
           { displaySearchButton && (
             <Button
               type="submit"
@@ -193,7 +179,6 @@ class SearchForm extends Component {
           )}
           {Filters && (
             <div>
-              <hr />
               <Filters
                 activeFilters={combinedFilters}
                 onUpdate={this.handleUpdateFilter}

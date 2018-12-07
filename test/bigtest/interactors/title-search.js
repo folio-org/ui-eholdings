@@ -15,16 +15,16 @@ import { hasClassBeginningWith } from './helpers';
 import SearchBadge from './search-badge';
 
 @interactor class TitleSearchPage {
-  fillSearch = fillable('[data-test-title-search-field] input[name="search"]');
+  fillSearch = fillable('[data-test-search-field] input[name="search"]');
   submitSearch = clickable('[data-test-search-submit]');
   isSearchDisabled = property('[data-test-search-submit]', 'disabled');
   isSearchButtonDisabled = property('[data-test-search-submit]', 'disabled');
-  fillSearch = fillable('[data-test-title-search-field] input[name="search"]');
+  fillSearch = fillable('[data-test-search-field] input[name="search"]');
   submitSearch = clickable('[data-test-search-submit]');
-  hasSearchField = isPresent('[data-test-title-search-field] input[name="search"]');
-  searchFieldValue = value('[data-test-title-search-field] input[name="search"]');
+  hasSearchField = isPresent('[data-test-search-field] input[name="search"]');
+  searchFieldValue = value('[data-test-search-field] input[name="search"]');
   providerOrPackageSearchFieldValue = value('[data-test-search-field] input[name="search"]');
-  searchFieldSelectValue = value('[data-test-title-search-field] select');
+  searchFieldSelectValue = value('[data-test-search-field] select');
   hasSearchFilters = isPresent('[data-test-eholdings-search-filters="titles"]');
   totalResults = text('[data-test-eholdings-search-results-header] p');
   paneTitleHasFocus = is('[data-test-eholdings-search-results-header] h2 [tabindex]', ':focus');
@@ -57,7 +57,7 @@ import SearchBadge from './search-badge';
   });
 
   selectSearchField = action(function (searchfield) {
-    return this.fill('[data-test-title-search-field] select', searchfield);
+    return this.fill('[data-test-search-field] select', searchfield);
   });
 
   search = action(function (query) {
