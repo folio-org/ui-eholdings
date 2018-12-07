@@ -1,7 +1,6 @@
 import React, { Component, Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { FormattedMessage } from 'react-intl';
-import Link from 'react-router-dom/Link';
 import capitalize from 'lodash/capitalize';
 import {
   Button,
@@ -108,19 +107,18 @@ class SearchForm extends Component {
         {displaySearchTypeSwitcher && (
           <div className={styles['search-switcher']} role='tablist' data-test-search-form-type-switcher>
             {validSearchTypes.map(type => (
-              <Link
+              <Button
                 role='tab'
                 aria-selected={searchType === type}
                 aria-controls={type + '-panel'}
                 id={type + '-tab'}
                 key={type}
-                title={<FormattedMessage id="ui-eholdings.search.searchLink" values={{ type }} />}
                 to={searchTypeUrls[type]}
-                className={searchType === type ? styles['is-active'] : undefined}
+                buttonStyle={searchType === type ? 'primary' : 'default'}
                 data-test-search-type-button={type}
               >
                 {capitalize(type)}
-              </Link>
+              </Button>
             ))}
           </div>
         )}
