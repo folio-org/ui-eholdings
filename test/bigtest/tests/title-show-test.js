@@ -56,7 +56,7 @@ describe('TitleShow', () => {
       expect(TitleShowPage.nameHasFocus).to.be.true;
     });
 
-    it('does not display the edit button for a managed title', () => {
+    it.always('does not display the edit button for a managed title', () => {
       expect(TitleShowPage.hasEditButton).to.be.false;
     });
 
