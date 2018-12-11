@@ -309,7 +309,7 @@ class SearchRoute extends Component {
               totalResults={results.length}
               isLoading={!results.hasLoaded}
               updateFilters={this.updateFilters}
-              searchLocation={location.search}
+              location={location}
               onClosePreview={() => history.push({
                 pathname: '/eholdings',
                 search: location.search,

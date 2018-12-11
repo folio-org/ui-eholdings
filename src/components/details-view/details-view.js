@@ -88,6 +88,8 @@ class DetailsView extends Component {
 
     // if the heading exists on mount, focus it
     if (this.$heading.current) {
+      // TODO: fix safari auto-scrolling to this focused element when
+      // it is off-screen during the pane enter animation
       this.$heading.current.focus();
     }
   }

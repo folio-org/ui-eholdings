@@ -1,31 +1,25 @@
-import React from 'react';
+import React, { Component, cloneElement } from 'react';
 import PropTypes from 'prop-types';
-import {
-  Button,
-  PaneHeader,
-  PaneMenu
-} from '@folio/stripes/components';
+import { Button, PaneMenu } from '@folio/stripes/components';
 import capitalize from 'lodash/capitalize';
 import { FormattedMessage } from 'react-intl';
 
-import SearchPane from '../search-pane';
-import ResultsPane from '../results-pane';
-import PreviewPane from '../preview-pane';
-import SearchPaneVignette from '../search-pane-vignette';
+import Paneset, { Pane } from '../paneset';
+
 import styles from './search-paneset.css';
 import SearchBadge from '../search-modal/search-badge';
 
-class SearchPaneset extends React.Component {
+export default class SearchPaneset extends Component {
   static propTypes = {
     detailsView: PropTypes.node,
     filterCount: PropTypes.number,
     hideFilters: PropTypes.bool,
     isLoading: PropTypes.bool,
+    location: PropTypes.object.isRequired,
     onClosePreview: PropTypes.func.isRequired,
     resultsType: PropTypes.string,
     resultsView: PropTypes.node,
     searchForm: PropTypes.node,
-    searchLocation: PropTypes.string.isRequired,
     totalResults: PropTypes.number,
     updateFilters: PropTypes.func.isRequired
   };
@@ -34,18 +28,36 @@ class SearchPaneset extends React.Component {
     totalResults: 0
   };
 
+
+  // The `detailsView` is a <Switch> component which, by default, uses it's
+  // location context to determine the correct route to render. By manually
+  // providing a location prop, we can safely animate it when the real route
+  // changes and manually update it's location after the animation.
+  static getDerivedStateFromProps(nextProps, nextState) {
+    let { detailsView, location } = nextProps;
+
+    return {
+      detailsView: detailsView
+        ? cloneElement(detailsView, { location })
+        : nextState.detailsView,
+      showDetailsView: !!detailsView
+    };
+  }
+
+  state = {};
+
   // used to focus the pane title when a new search happens
   $title = React.createRef(); // eslint-disable-line react/sort-comp
 
   // focus the pane title if we mounted with existing search results and no details view
   componentDidMount() {
-    if (this.props.resultsView && !this.props.detailsView) {
+    if (this.props.resultsView && !this.props.detailsView && this.$title.current) {
       this.$title.current.focus();
     }
   }
 
   componentDidUpdate(prevProps) {
-    let isNewSearch = prevProps.searchLocation !== this.props.searchLocation;
+    let isNewSearch = prevProps.location.search !== this.props.location.search;
     let isSameSearchType = prevProps.resultsType === this.props.resultsType;
 
     // focus the pane title when a new search happens within the same search type
@@ -54,7 +66,13 @@ class SearchPaneset extends React.Component {
     }
   }
 
-  toggleFilters = () => this.props.updateFilters(hideFilters => !hideFilters)
+  toggleFilters = () => {
+    this.props.updateFilters(hideFilters => !hideFilters);
+  };
+
+  clearDetailsView = () => {
+    this.setState({ detailsView: null });
+  };
 
   renderNewButton = () => {
     return (
@@ -77,13 +95,16 @@ class SearchPaneset extends React.Component {
       searchForm,
       resultsType,
       resultsView,
-      detailsView,
       totalResults,
       isLoading,
       hideFilters,
       filterCount,
       onClosePreview
     } = this.props;
+    let {
+      detailsView,
+      showDetailsView
+    } = this.state;
 
     hideFilters = hideFilters && !!resultsView;
 
@@ -110,87 +131,69 @@ class SearchPaneset extends React.Component {
     filterCount = hideFilters ? filterCount : 0;
 
     return (
-      <div className={styles['search-paneset']}>
-        {detailsView && (
-          <SearchPaneVignette className={styles['preview-pane-vignette']} onClick={onClosePreview} />
-        )}
+      <Paneset>
+        <Pane
+          aside
+          onDismiss={this.toggleFilters}
+          visible={!hideFilters}
+          className={styles['search-pane']}
+          paneTitle={(<FormattedMessage id="ui-eholdings.search.searchAndFilter" />)}
+          lastMenu={showApply ? (
+            <Button
+              buttonStyle="transparent"
+              onClick={this.toggleFilters}
+              buttonClass={styles['search-pane-toggle']}
+            >
+              <FormattedMessage id="ui-eholdings.search.apply" />
+            </Button>
+          ) : null}
+          data-test-eholdings-search-pane
+        >
+          {searchForm}
+        </Pane>
 
-        {!hideFilters && (
-          <SearchPaneVignette className={styles['filters-pane-vignette']} onClick={this.toggleFilters} />
-        )}
-
-        {!hideFilters &&
-          <SearchPane>
-            <div data-test-eholdings-search-pane>
-              <PaneHeader
-                paneTitle={(<FormattedMessage id="ui-eholdings.search.searchAndFilter" />)}
-                lastMenu={showApply ? (
-                  <Button buttonStyle="transparent" onClick={this.toggleFilters} buttonClass={styles['search-pane-toggle']}>
-                    <FormattedMessage id="ui-eholdings.search.apply" />
-                  </Button>
-                ) : null}
-              />
-              <div className={styles['scrollable-container']}>
-                {searchForm}
-              </div>
-            </div>
-          </SearchPane>
-        }
-
-        {resultsView ? (
-          <ResultsPane>
-            <div data-test-eholdings-search-results-header>
-              <PaneHeader
-                appIcon={{
-                  app: 'eholdings'
-                }}
-                paneTitle={capitalize(resultsType)}
-                paneSub={resultsPaneSub}
-                paneTitleRef={this.$title}
-                firstMenu={
-                  <div className={styles['results-pane-search-toggle']}>
-                    <SearchBadge
-                      data-test-eholdings-results-pane-search-badge
-                      onClick={this.toggleFilters}
-                      filterCount={filterCount}
-                    />
-                  </div>
-                }
-                lastMenu={newButton}
+        <Pane
+          static
+          flexGrow={5}
+          appIcon={{ app: 'eholdings' }}
+          paneTitle={capitalize(resultsType)}
+          paneSub={resultsView && resultsPaneSub}
+          paneTitleRef={this.$title}
+          firstMenu={resultsView ? (
+            <div className={styles['results-pane-search-toggle']}>
+              <SearchBadge
+                data-test-eholdings-results-pane-search-badge
+                onClick={this.toggleFilters}
+                filterCount={filterCount}
               />
             </div>
-            <div className={styles['scrollable-container']}>
-              {resultsView}
-            </div>
-          </ResultsPane>
-        ) : (
-          <div
-            data-test-eholdings-pre-search-pane
-            className={styles['pre-search-pane']}
-          >
-            <PaneHeader
-              appIcon={{
-                app: 'eholdings'
-              }}
-              paneTitle={capitalize(resultsType)}
-              lastMenu={newButton}
-            />
-            <div className={styles['pre-search-pane-content']}>
+          ) : null}
+          lastMenu={newButton}
+          data-test-results-pane
+        >
+          {resultsView || (
+            <div
+              className={styles['pre-search-pane-content']}
+              data-test-eholdings-pre-search-pane
+            >
               <div className={styles['pre-search-pane-content-label']}>
                 <p><FormattedMessage id="ui-eholdings.search.enterQuery" /></p>
               </div>
             </div>
-          </div>
-        )}
+          )}
+        </Pane>
 
-        {!!detailsView && (
-          <PreviewPane previewType={resultsType}>
-            {detailsView}
-          </PreviewPane>
-        )}
-      </div>
+        <Pane
+          flexGrow={11}
+          className={styles['search-detail-pane']}
+          onDismiss={onClosePreview}
+          onExited={this.clearDetailsView}
+          visible={!!showDetailsView}
+          data-test-preview-pane={resultsType}
+        >
+          {detailsView}
+        </Pane>
+      </Paneset>
     );
   }
 }
-
-export default SearchPaneset;

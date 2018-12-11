@@ -1,57 +1,12 @@
 @import '@folio/stripes-components/lib/variables';
 
-.search-paneset {
-  height: calc(100vh - 45px);
-  position: relative;
-}
-
 .search-pane-toggle {
   height: 45px;
   margin-bottom: 0;
   padding: 0 1em;
-}
-
-@media (--large-up) {
-  .search-pane-toggle {
-    display: none;
-  }
-}
-
-@media (--large-up) {
-  .search-paneset {
-    align-items: flex-start;
-    display: flex;
-    flex: 0 1 auto;
-    flex-flow: row nowrap;
-    justify-content: flex-start;
-  }
-}
-
-.search-heading {
-  text-align: center;
-}
-
-.scrollable-container {
-  height: calc(100vh - 90px);
-  overflow-y: auto;
-  -webkit-overflow-scroll: touch;
-}
-
-.pre-search-pane {
-  background: #fff;
-  display: block;
-  margin-left: 320px;
-  height: 100%;
-  overflow: hidden;
-  z-index: 10;
-
-  @media (--medium-up) {
-    flex: 5 0 320px;
-    flex-flow: column nowrap;
-  }
 
   @media (--large-up) {
-    margin-left: 0;
+    display: none;
   }
 }
 
@@ -73,12 +28,4 @@
   justify-content: center;
   height: 100%;
   font-size: 22px;
-}
-
-.preview-pane-vignette {
-  z-index: 11;
-}
-
-.filters-pane-vignette {
-  z-index: 13;
 }
