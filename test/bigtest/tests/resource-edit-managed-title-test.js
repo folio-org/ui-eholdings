@@ -5,8 +5,6 @@ import setupApplication from '../helpers/setup-application';
 import ResourceShowPage from '../interactors/resource-show';
 import ResourceEditPage from '../interactors/resource-edit';
 
-window.ResourceEditPage = ResourceEditPage;
-
 describe('ResourceEditManagedTitleInManagedPackage', () => {
   setupApplication();
   let provider,
@@ -43,15 +41,18 @@ describe('ResourceEditManagedTitleInManagedPackage', () => {
       }
     });
 
-    resource.managedCoverages = this.server.createList('managed-coverage', 1, {
-      beginCoverage: '1969-07-16',
-      endCoverage: '1972-12-19'
-    }).map(m => m.toJSON());
     resource.save();
   });
 
   describe('visiting the resource edit page without coverage dates, statement, or embargo', () => {
     beforeEach(function () {
+      resource.managedCoverages = this.server.createList('managed-coverage', 1, {
+        beginCoverage: '1969-07-16',
+        endCoverage: '1972-12-19'
+      }).map(item => item.toJSON());
+
+      resource.save();
+
       this.visit(`/eholdings/resources/${resource.titleId}/edit`);
     });
 
@@ -305,6 +306,56 @@ describe('ResourceEditManagedTitleInManagedPackage', () => {
 
       it('has "Dates" field', () => {
         expect(ResourceEditPage.isCoverageSettingsDatesField).to.equal(true);
+      });
+
+      describe('when there are only empty custom coverage date ranges', () => {
+        beforeEach(function () {
+          const customCoverages = [
+            this.server.create('custom-coverage', {}),
+            this.server.create('custom-coverage', {}),
+          ];
+          resource.update('customCoverages', customCoverages.map(item => item.toJSON()));
+        });
+
+        it('should display dates row as empty', () => {
+          expect(ResourceEditPage.isCoverageDisplayDatesExists).to.equal(false);
+        });
+      });
+
+      describe('when there is only 1 filled custom coverage date range', () => {
+        beforeEach(function () {
+          const customCoverages = [
+            this.server.create('custom-coverage', {
+              beginCoverage: '2018-01-01',
+              endCoverage: '2019-12-31',
+            }),
+          ];
+          resource.update('customCoverages', customCoverages.map(item => item.toJSON()));
+        });
+
+        it('should display the date range without a separator', () => {
+          expect(ResourceEditPage.coverageDisplayDates).to.equal('2018 - 2019');
+        });
+      });
+
+      describe('when there are at least 2 ranges are filled', () => {
+        beforeEach(function () {
+          const customCoverages = [
+            this.server.create('custom-coverage', {
+              beginCoverage: '2018-01-01',
+              endCoverage: '2019-07-31'
+            }),
+            this.server.create('custom-coverage', {
+              beginCoverage: '2019-01-01',
+              endCoverage: '2020-12-31'
+            }),
+          ];
+          resource.update('customCoverages', customCoverages.map(item => item.toJSON()));
+        });
+
+        it('should display ranges separated with comma', () => {
+          expect(ResourceEditPage.coverageDisplayDates).to.equal('2019 - 2020, 2018 - 2019');
+        });
       });
     });
 
