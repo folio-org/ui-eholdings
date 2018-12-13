@@ -238,7 +238,7 @@ describe('CustomResourceEditCustomCoverage', () => {
         return ResourceEditPage.dateRangeRowList(0).clickRemoveRowButton();
       });
 
-      it.always('displays the saving will remove message', () => {
+      it('displays the saving will remove message', () => {
         expect(ResourceEditPage.hasSavingWillRemoveMessage).to.be.true;
       });
 
