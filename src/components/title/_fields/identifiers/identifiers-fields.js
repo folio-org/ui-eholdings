@@ -4,6 +4,7 @@ import { FieldArray } from 'react-final-form-arrays';
 
 import {
   Headline,
+  Icon,
   RepeatableField,
   Select,
   TextField
@@ -77,7 +78,11 @@ export default class IdentifiersFields extends Component {
         <FieldArray name="identifiers">
           {({ fields, meta: { initial } }) => (
             <RepeatableField
-              addLabel={<FormattedMessage id="ui-eholdings.title.identifier.addIdentifier" />}
+              addLabel={
+                <Icon icon="plus-sign">
+                  <FormattedMessage id="ui-eholdings.title.identifier.addIdentifier" />
+                </Icon>
+              }
               emptyMessage={
                 initial && initial.length > 0 && initial[0].id ?
                   <FormattedMessage id="ui-eholdings.title.identifier.notSet" /> : ''

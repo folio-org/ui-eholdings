@@ -10,6 +10,7 @@ import {
 
 import {
   Datepicker,
+  Icon,
   RepeatableField,
 } from '@folio/stripes/components';
 
@@ -114,7 +115,7 @@ class PackageCoverageFields extends Component {
     const hasAddButton = coverageDateAmount === 0 || (coverageDateAmount === 1 && !initialValue[0]);
     const hasEmptyMessage = initialValue.length > 0 && initialValue[0].beginCoverage;
     const addLabel = hasAddButton
-      ? <FormattedMessage id="ui-eholdings.package.coverage.addDateRange" />
+      ? <Icon icon="plus-sign"><FormattedMessage id="ui-eholdings.package.coverage.addDateRange" /></Icon>
       : null;
 
     const emptyMessage = hasEmptyMessage

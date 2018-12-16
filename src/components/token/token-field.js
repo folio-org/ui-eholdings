@@ -5,6 +5,7 @@ import { FormattedMessage } from 'react-intl';
 
 import {
   Button,
+  Icon,
   TextArea
 } from '@folio/stripes/components';
 import styles from './token-field.css';
@@ -65,7 +66,13 @@ export default class TokenField extends Component {
           type="button"
           onClick={this.toggleInputs}
         >
-          {type === 'provider' ? (<FormattedMessage id="ui-eholdings.provider.token.addToken" />) : (<FormattedMessage id="ui-eholdings.package.token.addToken" />)}
+          <Icon icon="plus-sign">
+            {type === 'provider' ? (
+              <FormattedMessage id="ui-eholdings.provider.token.addToken" />
+            ) : (
+              <FormattedMessage id="ui-eholdings.package.token.addToken" />
+            )}
+          </Icon>
         </Button>
       </div>
     );
