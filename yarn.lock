@@ -4743,6 +4743,11 @@ final-form-arrays@^1.1.0:
   resolved "https://registry.yarnpkg.com/final-form-arrays/-/final-form-arrays-1.1.0.tgz#006cfb6be9a5b0b264ac044fbdad3381ede81b66"
   integrity sha512-iIrM1uotREIJaVctjM9zwcprpJNjH6RBxtOYBE1GxD5XV1UUMvka1LhUtkxB56ZJvgZe13v/+T/MpMxk6Kg/lw==
 
+final-form-focus@^1.1.0:
+  version "1.1.0"
+  resolved "https://registry.yarnpkg.com/final-form-focus/-/final-form-focus-1.1.0.tgz#a4b0e6792dda637461d448a20f594d57e3380411"
+  integrity sha512-sWmW50rjNFMwItJk+CkuelRmOC6PHwabE/awuJN/YR0T8oWkDH5DV/MwnjJ5iCKpXf6f1+gZLBZkLeeRGvENOw==
+
 final-form@^4.10.0:
   version "4.11.0"
   resolved "https://registry.yarnpkg.com/final-form/-/final-form-4.11.0.tgz#81750bda11b82c3ddf7b27092f29ebe427f8a560"
