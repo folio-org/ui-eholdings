@@ -11,7 +11,7 @@ import {
   text,
   value,
   computed,
-  selectable
+  selectable,
 } from '@bigtest/interactor';
 
 import { AccordionInteractor } from '@folio/stripes-components/lib/Accordion/tests/interactor';
@@ -116,6 +116,9 @@ import Datepicker from './datepicker';
         .endDate.fillAndBlur(endDate);
     }
   });
+
+  coverageDisplayDates = text('[data-test-eholdings-display-coverage-list]');
+  isCoverageDisplayDatesExists = isPresent('[data-test-eholdings-display-coverage-list]');
 
   hasSavingWillRemoveMessage = isPresent('[data-test-eholdings-resource-coverage-fields] [data-test-repeatable-field-empty-message]');
   hasCoverageStatementArea = isPresent('[data-test-eholdings-coverage-statement-textarea] textarea');

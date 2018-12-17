@@ -146,9 +146,16 @@ class ResourceEditCustomTitle extends Component {
       coverageDates = customCoverageDateValues;
     }
 
+    const nonEmptyCoverageDates = coverageDates
+      .filter((currentCoverageDate) => Object.keys(currentCoverageDate).length !== 0);
+
+    if (nonEmptyCoverageDates.length === 0) {
+      return null;
+    }
+
     return (
       <CoverageDateList
-        coverageArray={coverageDates}
+        coverageArray={nonEmptyCoverageDates}
         isYearOnly={isBookPublicationType(model.publicationType)}
       />
     );
