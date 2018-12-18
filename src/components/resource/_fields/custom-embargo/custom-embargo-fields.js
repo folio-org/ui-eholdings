@@ -5,6 +5,7 @@ import { FormattedMessage } from 'react-intl';
 
 import {
   Button,
+  Icon,
   IconButton,
   Select,
   TextField
@@ -110,7 +111,9 @@ class CustomEmbargoFields extends Component {
             type="button"
             onClick={this.toggleInputs}
           >
-            <FormattedMessage id="ui-eholdings.resource.embargoPeriod.addCustom" />
+            <Icon icon="plus-sign">
+              <FormattedMessage id="ui-eholdings.resource.embargoPeriod.addCustom" />
+            </Icon>
           </Button>
         </div>
       </div>

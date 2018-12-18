@@ -6,6 +6,7 @@ import { FormattedDate, FormattedMessage } from 'react-intl';
 
 import {
   Datepicker,
+  Icon,
   RadioButton,
   RepeatableField
 } from '@folio/stripes/components';
@@ -96,7 +97,11 @@ class ResourceCoverageFields extends Component {
           />
           <div className={styles['coverage-fields-category']}>
             <RepeatableField
-              addLabel={<FormattedMessage id="ui-eholdings.package.coverage.addDateRange" />}
+              addLabel={
+                <Icon icon="plus-sign">
+                  <FormattedMessage id="ui-eholdings.package.coverage.addDateRange" />
+                </Icon>
+              }
               emptyMessage={
                 initialValue.length > 0 && initialValue[0].beginCoverage ?
                   <FormattedMessage id="ui-eholdings.package.noCoverageDates" /> : ''
