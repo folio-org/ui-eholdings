@@ -89,51 +89,54 @@ export default class TitleEdit extends Component {
           decorators={[focusOnErrors]}
           mutators={{ ...arrayMutators }}
           render={({ handleSubmit, pristine }) => (
-            <form onSubmit={handleSubmit}>
-              <DetailsView
-                type="title"
-                model={model}
-                paneTitle={model.name}
-                actionMenu={this.getActionMenu}
-                lastMenu={(
-                  <Fragment>
-                    {model.update.isPending && (
-                      <Icon icon="spinner-ellipsis" />
-                    )}
-                    <PaneHeaderButton
-                      disabled={pristine || model.update.isPending}
-                      type="submit"
-                      buttonStyle="primary"
-                      data-test-eholdings-title-save-button
-                    >
-                      {model.update.isPending ? (<FormattedMessage id="ui-eholdings.saving" />) : (<FormattedMessage id="ui-eholdings.save" />)}
-                    </PaneHeaderButton>
-                  </Fragment>
-                )}
-                bodyContent={(
-                  <Fragment>
-                    <DetailsViewSection
-                      label={<FormattedMessage id="ui-eholdings.title.titleInformation" />}
-                    >
-                      <NameField />
-                      <ContributorField />
-                      <EditionField />
-                      <PublisherNameField />
-                      <PublicationTypeField />
-                      <IdentifiersFields />
-                      <DescriptionField />
-                      <PeerReviewedField />
-                    </DetailsViewSection>
-                    <NavigationModal
-                      modalLabel={<FormattedMessage id="ui-eholdings.navModal.modalLabel" />}
-                      continueLabel={<FormattedMessage id="ui-eholdings.navModal.continueLabel" />}
-                      dismissLabel={<FormattedMessage id="ui-eholdings.navModal.dismissLabel" />}
-                      when={!pristine && !updateRequest.isResolved}
-                    />
-                  </Fragment>
-                )}
+            <Fragment>
+              <form onSubmit={handleSubmit}>
+                <DetailsView
+                  type="title"
+                  model={model}
+                  paneTitle={model.name}
+                  actionMenu={this.getActionMenu}
+                  lastMenu={(
+                    <Fragment>
+                      {model.update.isPending && (
+                        <Icon icon="spinner-ellipsis" />
+                      )}
+                      <PaneHeaderButton
+                        disabled={pristine || model.update.isPending}
+                        type="submit"
+                        buttonStyle="primary"
+                        data-test-eholdings-title-save-button
+                      >
+                        {model.update.isPending ? (<FormattedMessage id="ui-eholdings.saving" />) : (<FormattedMessage id="ui-eholdings.save" />)}
+                      </PaneHeaderButton>
+                    </Fragment>
+                  )}
+                  bodyContent={(
+                    <Fragment>
+                      <DetailsViewSection
+                        label={<FormattedMessage id="ui-eholdings.title.titleInformation" />}
+                      >
+                        <NameField />
+                        <ContributorField />
+                        <EditionField />
+                        <PublisherNameField />
+                        <PublicationTypeField />
+                        <IdentifiersFields />
+                        <DescriptionField />
+                        <PeerReviewedField />
+                      </DetailsViewSection>
+                    </Fragment>
+                  )}
+                />
+              </form>
+
+              <NavigationModal
+                modalLabel={<FormattedMessage id="ui-eholdings.navModal.modalLabel" />}
+                continueLabel={<FormattedMessage id="ui-eholdings.navModal.continueLabel" />}
+                dismissLabel={<FormattedMessage id="ui-eholdings.navModal.dismissLabel" />}
+                when={!pristine && !updateRequest.isResolved}
               />
-            </form>
+            </Fragment>
           )}
         />
       </Fragment>

@@ -383,17 +383,18 @@ class ManagedPackageEdit extends Component {
                     </Accordion>
                   </div>
                 )}
-
-                <NavigationModal
-                  modalLabel={<FormattedMessage id="ui-eholdings.navModal.modalLabel" />}
-                  continueLabel={<FormattedMessage id="ui-eholdings.navModal.continueLabel" />}
-                  dismissLabel={<FormattedMessage id="ui-eholdings.navModal.dismissLabel" />}
-                  when={!pristine && !model.update.isPending}
-                />
               </Fragment>
             )}
           />
         </form>
+
+        <NavigationModal
+          modalLabel={<FormattedMessage id="ui-eholdings.navModal.modalLabel" />}
+          continueLabel={<FormattedMessage id="ui-eholdings.navModal.continueLabel" />}
+          dismissLabel={<FormattedMessage id="ui-eholdings.navModal.dismissLabel" />}
+          when={!pristine && !model.update.isPending}
+        />
+
         <Modal
           open={showSelectionModal}
           size="small"

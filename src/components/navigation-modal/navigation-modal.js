@@ -73,6 +73,11 @@ class NavigationModal extends Component {
     });
   };
 
+  submit = (event) => {
+    event.preventDefault();
+    this.dismiss();
+  }
+
   continue = () => {
     const { history } = this.props;
     const { nextLocation } = this.state;
@@ -100,11 +105,13 @@ class NavigationModal extends Component {
           open={showModal}
           label={modalLabel}
           onClose={this.dismiss}
+          wrappingElement="form"
+          onSubmit={this.submit}
           footer={(
             <ModalFooter
               primaryButton={{
                 'label': dismissLabel,
-                'onClick': this.dismiss,
+                'type': 'submit',
                 'data-test-navigation-modal-dismiss': true
               }}
               secondaryButton={{
