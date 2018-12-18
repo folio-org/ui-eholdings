@@ -130,12 +130,7 @@ export default class TitleEdit extends Component {
                 />
               </form>
 
-              <NavigationModal
-                modalLabel={<FormattedMessage id="ui-eholdings.navModal.modalLabel" />}
-                continueLabel={<FormattedMessage id="ui-eholdings.navModal.continueLabel" />}
-                dismissLabel={<FormattedMessage id="ui-eholdings.navModal.dismissLabel" />}
-                when={!pristine && !updateRequest.isResolved}
-              />
+              <NavigationModal when={!pristine && !updateRequest.isResolved} />
             </Fragment>
           )}
         />

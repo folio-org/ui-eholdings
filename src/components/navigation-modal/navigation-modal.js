@@ -11,10 +11,7 @@ class NavigationModal extends Component {
       PropTypes.func,
       PropTypes.node
     ]),
-    continueLabel: PropTypes.node.isRequired,
-    dismissLabel: PropTypes.node.isRequired,
     history: ReactRouterPropTypes.history.isRequired,
-    modalLabel: PropTypes.node.isRequired,
     when: PropTypes.bool.isRequired
   };
 
@@ -90,7 +87,7 @@ class NavigationModal extends Component {
   };
 
   render() {
-    let { when, modalLabel, continueLabel, dismissLabel, children } = this.props;
+    let { when, children } = this.props;
     let { showModal } = this.state;
 
     if (typeof children === 'function') {
@@ -103,19 +100,19 @@ class NavigationModal extends Component {
           id="navigation-modal"
           size="small"
           open={showModal}
-          label={modalLabel}
+          label={<FormattedMessage id="ui-eholdings.navModal.modalLabel" />}
           onClose={this.dismiss}
           wrappingElement="form"
           onSubmit={this.submit}
           footer={(
             <ModalFooter
               primaryButton={{
-                'label': dismissLabel,
+                'label': <FormattedMessage id="ui-eholdings.navModal.dismissLabel" />,
                 'type': 'submit',
                 'data-test-navigation-modal-dismiss': true
               }}
               secondaryButton={{
-                'label': continueLabel,
+                'label': <FormattedMessage id="ui-eholdings.navModal.continueLabel" />,
                 'onClick': this.continue,
                 'data-test-navigation-modal-continue': true
               }}
