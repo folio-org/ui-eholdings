@@ -23,9 +23,9 @@ class SettingsKnowledgeBaseRoute extends Component {
   updateConfig = ({ rmapiBaseUrl, customerId, apiKey }) => {
     let { config, updateBackendConfig } = this.props;
 
-    config.rmapiBaseUrl = rmapiBaseUrl;
-    config.customerId = customerId;
-    config.apiKey = apiKey;
+    config.data.attributes.rmapiBaseUrl = rmapiBaseUrl;
+    config.data.attributes.customerId = customerId;
+    config.data.attributes.apiKey = apiKey;
 
     updateBackendConfig(config);
   };
