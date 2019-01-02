@@ -130,22 +130,22 @@ export function validate(values) {
   } = values;
 
   const errors = {};
-  const customEmbargoValueIsDemical = Number(values.customEmbargoValue) % 1 !== 0
+  const customEmbargoValueIsDecimal = Number(values.customEmbargoValue) % 1 !== 0
     || (customEmbargoValue && customEmbargoValue.toString().indexOf('.') !== -1);
 
   if (customEmbargoValue <= 0) {
     errors.customEmbargoValue = <FormattedMessage id="ui-eholdings.validate.errors.embargoPeriod.moreThanZero" />;
   }
 
-  if (customEmbargoValueIsDemical) {
-    errors.customEmbargoValue = <FormattedMessage id="ui-eholdings.validate.errors.embargoPeriod.demical" />;
+  if (customEmbargoValueIsDecimal) {
+    errors.customEmbargoValue = <FormattedMessage id="ui-eholdings.validate.errors.embargoPeriod.decimal" />;
   }
 
   if (Number.isNaN(Number(customEmbargoValue))) {
     errors.customEmbargoValue = <FormattedMessage id="ui-eholdings.validate.errors.embargoPeriod.number" />;
   }
 
-  if (!customEmbargoValueIsDemical && customEmbargoValue > 0 && !customEmbargoUnit) {
+  if (!customEmbargoValueIsDecimal && customEmbargoValue > 0 && !customEmbargoUnit) {
     errors.customEmbargoUnit = <FormattedMessage id="ui-eholdings.validate.errors.embargoPeriod.unit" />;
   }
   return errors;
