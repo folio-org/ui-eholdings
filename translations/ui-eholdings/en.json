@@ -262,6 +262,7 @@
 
     "validate.errors.embargoPeriod.moreThanZero": "Enter number greater than 0",
     "validate.errors.embargoPeriod.number": "Must be a number",
+    "validate.errors.embargoPeriod.demical": "Decimal is not allowed",
     "validate.errors.embargoPeriod.unit": "Select a unit",
     "validate.errors.customUrl.length": "Custom URLs must be 600 characters or less.",
     "validate.errors.customUrl.include": "The URL should include http:// or https://",
