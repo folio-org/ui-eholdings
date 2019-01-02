@@ -5,7 +5,7 @@ import setupApplication from '../helpers/setup-application';
 import ResourceEditPage from '../interactors/resource-edit';
 import ResourceShowPage from '../interactors/resource-show';
 
-describe('CustomResourceEditEmbargo', () => {
+describe.only('CustomResourceEditEmbargo', () => {
   setupApplication();
   let provider,
     providerPackage,
@@ -207,6 +207,19 @@ describe('CustomResourceEditEmbargo', () => {
 
             it('rejects embargo value', () => {
               expect(ResourceEditPage.validationErrorOnEmbargoTextField).to.equal('Must be a number');
+            });
+          });
+
+          describe('decimal custom embargo value should throw validation error', () => {
+            beforeEach(() => {
+              return ResourceEditPage
+                .inputEmbargoValue('1.5')
+                .selectEmbargoUnit('Months')
+                .clickSave();
+            });
+
+            it('rejects embargo value', () => {
+              expect(ResourceEditPage.validationErrorOnEmbargoTextField).to.equal('Decimal is not allowed');
             });
           });
 
