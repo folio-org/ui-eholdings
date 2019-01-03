@@ -1,6 +1,7 @@
 import React, { Component, Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { Form } from 'react-final-form';
+import createDecorator from 'final-form-focus';
 import {
   Button,
   Headline,
@@ -13,6 +14,8 @@ import { processErrors } from '../utilities';
 import Toaster from '../toaster';
 import RootProxySelectField from './_fields/root-proxy-select';
 import PaneHeaderButton from '../pane-header-button';
+
+const focusOnErrors = createDecorator();
 
 export default class SettingsRootProxy extends Component {
   static propTypes = {
@@ -45,6 +48,7 @@ export default class SettingsRootProxy extends Component {
         initialValues={{
           rootProxyServer: rootProxy.proxyTypeId
         }}
+        decorators={[focusOnErrors]}
         render={({ form: { reset }, handleSubmit, invalid, pristine }) => (
           <SettingsDetailPane
             data-test-eholdings-settings-root-proxy
