@@ -4,6 +4,8 @@ import { FormattedMessage } from 'react-intl';
 
 import { TextField } from '@folio/stripes/components';
 
+const MAX_CHARACTER_LENGTH = 200;
+
 const validate = (value) => {
   let errors;
 
@@ -11,8 +13,13 @@ const validate = (value) => {
     errors = <FormattedMessage id="ui-eholdings.validate.errors.customPackage.name" />;
   }
 
-  if (value.length >= 300) {
-    errors = <FormattedMessage id="ui-eholdings.validate.errors.customPackage.name.length" />;
+  if (value.length >= MAX_CHARACTER_LENGTH) {
+    errors = (
+      <FormattedMessage
+        id="ui-eholdings.validate.errors.customPackage.name.length"
+        values={{ amount: MAX_CHARACTER_LENGTH }}
+      />
+    );
   }
 
   return errors;
