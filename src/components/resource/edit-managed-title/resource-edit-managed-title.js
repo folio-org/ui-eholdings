@@ -337,7 +337,7 @@ class ResourceEditManagedTitle extends Component {
                         <FormattedMessage id="ui-eholdings.label.dates" />
                       </Headline>
                       <ManagedCoverageFields
-                        initialValue={initialValues.customCoverages}
+                        initial={initialValues.customCoverages}
                         model={model}
                       />
 
@@ -355,7 +355,7 @@ class ResourceEditManagedTitle extends Component {
                       <CustomEmbargoFields
                         change={change}
                         showInputs={(initialValues.customEmbargoValue > 0)}
-                        initialValue={{
+                        initial={{
                           customEmbargoValue: initialValues.customEmbargoValue,
                           customEmbargoUnit: initialValues.customEmbargoUnit
                         }}

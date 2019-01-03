@@ -20,12 +20,12 @@ const COVERAGE_DATE_AMOUNT = 1;
 
 class PackageCoverageFields extends Component {
   static propTypes = {
-    initialValue: PropTypes.array,
+    initial: PropTypes.array,
     intl: intlShape,
   };
 
   static defaultProps = {
-    initialValue: [],
+    initial: [],
   };
 
   constructor(props) {
@@ -93,7 +93,7 @@ class PackageCoverageFields extends Component {
       name,
     } = fieldArrayProps;
 
-    const { initialValue } = this.props;
+    const { initial } = this.props;
     const { coverageDateAmount } = this.state;
 
     const onAddField = () => {
@@ -112,8 +112,8 @@ class PackageCoverageFields extends Component {
       }));
     };
 
-    const hasAddButton = coverageDateAmount === 0 || (coverageDateAmount === 1 && !initialValue[0]);
-    const hasEmptyMessage = initialValue.length > 0 && initialValue[0].beginCoverage;
+    const hasAddButton = coverageDateAmount === 0 || (coverageDateAmount === 1 && !initial[0]);
+    const hasEmptyMessage = initial.length > 0 && initial[0].beginCoverage;
     const addLabel = hasAddButton
       ? <Icon icon="plus-sign"><FormattedMessage id="ui-eholdings.package.coverage.addDateRange" /></Icon>
       : null;

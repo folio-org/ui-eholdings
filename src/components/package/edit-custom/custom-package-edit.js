@@ -338,7 +338,7 @@ class CustomPackageEdit extends Component {
                 >
                   {packageSelected ? (
                     <CoverageFields
-                      initialValue={initialValues.customCoverages}
+                      initial={initialValues.customCoverages}
                     />) : (
                       <p><FormattedMessage id="ui-eholdings.package.customCoverage.notSelected" /></p>
                   )}

@@ -14,11 +14,11 @@ import styles from './custom-coverage-fields.css';
 
 class ResourceCoverageFields extends Component {
   static propTypes = {
-    initialValue: PropTypes.array
+    initial: PropTypes.array
   };
 
   static defaultProps = {
-    initialValue: []
+    initial: []
   };
 
   renderField = (dateRange) => {
@@ -55,7 +55,7 @@ class ResourceCoverageFields extends Component {
   }
 
   render() {
-    const { initialValue } = this.props;
+    const { initial } = this.props;
 
     return (
       <div data-test-eholdings-resource-coverage-fields>
@@ -67,7 +67,7 @@ class ResourceCoverageFields extends Component {
           }
           component={RepeatableField}
           emptyMessage={
-            initialValue.length > 0 && initialValue[0].beginCoverage ?
+            initial.length > 0 && initial[0].beginCoverage ?
               <FormattedMessage id="ui-eholdings.package.noCoverageDates" /> : ''
           }
           name="customCoverages"

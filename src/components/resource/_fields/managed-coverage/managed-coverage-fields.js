@@ -17,12 +17,12 @@ import styles from './managed-coverage-fields.css';
 
 class ResourceCoverageFields extends Component {
   static propTypes = {
-    initialValue: PropTypes.array,
+    initial: PropTypes.array,
     model: PropTypes.object.isRequired
   };
 
   static defaultProps = {
-    initialValue: []
+    initial: []
   };
 
   renderField = (dateRange) => {
@@ -60,7 +60,7 @@ class ResourceCoverageFields extends Component {
 
   renderCoverageFields = (fieldArrayProps) => {
     let { fields } = fieldArrayProps;
-    let { initialValue, model } = this.props;
+    let { initial, model } = this.props;
     return (
       <fieldset>
         <div>
@@ -103,7 +103,7 @@ class ResourceCoverageFields extends Component {
                 </Icon>
               }
               emptyMessage={
-                initialValue.length > 0 && initialValue[0].beginCoverage ?
+                initial.length > 0 && initial[0].beginCoverage ?
                   <FormattedMessage id="ui-eholdings.package.noCoverageDates" /> : ''
               }
               fields={fields}

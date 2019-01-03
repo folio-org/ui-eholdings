@@ -379,7 +379,7 @@ class ManagedPackageEdit extends Component {
                       id="packageCoverageSettings"
                       onToggle={this.toggleSection}
                     >
-                      <CoverageFields initialValue={initialValues.customCoverages} />
+                      <CoverageFields initial={initialValues.customCoverages} />
                     </Accordion>
                   </div>
                 )}

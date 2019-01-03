@@ -15,7 +15,7 @@ import styles from './custom-embargo-fields.css';
 class CustomEmbargoFields extends Component {
   static propTypes = {
     change: PropTypes.func.isRequired,
-    initialValue: PropTypes.object,
+    initial: PropTypes.object,
     showInputs: PropTypes.bool
   };
 
@@ -36,7 +36,7 @@ class CustomEmbargoFields extends Component {
   }
 
   render() {
-    let { initialValue } = this.props;
+    let { initial } = this.props;
     let { showInputs } = this.state;
 
     return (showInputs) ? (
@@ -51,7 +51,7 @@ class CustomEmbargoFields extends Component {
                 name="customEmbargoValue"
                 component={TextField}
                 placeholder={placeholder}
-                autoFocus={initialValue.customEmbargoValue === 0}
+                autoFocus={initial.customEmbargoValue === 0}
               />
             )}
           </FormattedMessage>
@@ -101,7 +101,7 @@ class CustomEmbargoFields extends Component {
       </div>
     ) : (
       <div>
-        {initialValue.customEmbargoValue !== 0 && (
+        {initial.customEmbargoValue !== 0 && (
           <p data-test-eholdings-embargo-fields-saving-will-remove>
             <FormattedMessage id="ui-eholdings.resource.embargoPeriod.saveWillRemove" />
           </p>
