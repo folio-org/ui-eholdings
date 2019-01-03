@@ -45,12 +45,16 @@ class CustomEmbargoFields extends Component {
           data-test-eholdings-custom-embargo-textfield
           className={styles['custom-embargo-text-field']}
         >
-          <Field
-            name="customEmbargoValue"
-            component={TextField}
-            placeholder={<FormattedMessage id="ui-eholdings.number" />}
-            autoFocus={initialValue.customEmbargoValue === 0}
-          />
+          <FormattedMessage id="ui-eholdings.number">
+            {placeholder => (
+              <Field
+                name="customEmbargoValue"
+                component={TextField}
+                placeholder={placeholder}
+                autoFocus={initialValue.customEmbargoValue === 0}
+              />
+            )}
+          </FormattedMessage>
         </div>
 
         <div
