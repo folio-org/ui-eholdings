@@ -56,7 +56,7 @@ class CoverageStatementFields extends Component {
 export default CoverageStatementFields;
 
 export function validate(values) {
-  const errors = {};
+  let errors = {};
 
   if (values.coverageStatement && values.coverageStatement.length > 350) {
     errors.coverageStatement = <FormattedMessage id="ui-eholdings.validate.errors.coverageStatement.length" />;
