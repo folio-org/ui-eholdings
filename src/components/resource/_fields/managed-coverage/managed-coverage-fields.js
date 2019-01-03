@@ -58,9 +58,9 @@ class ResourceCoverageFields extends Component {
     );
   }
 
-  renderCoverageFields = (fieldArrayProps) => {
-    let { fields } = fieldArrayProps;
-    let { initial, model } = this.props;
+  renderCoverageFields = ({ fields, name }) => {
+    const { initial, model } = this.props;
+
     return (
       <fieldset>
         <div>
@@ -107,7 +107,7 @@ class ResourceCoverageFields extends Component {
                   <FormattedMessage id="ui-eholdings.package.noCoverageDates" /> : ''
               }
               fields={fields}
-              name="customCoverages"
+              name={name}
               onAdd={() => fields.push({})}
               onRemove={(index) => fields.remove(index)}
               renderField={this.renderField}
@@ -121,7 +121,10 @@ class ResourceCoverageFields extends Component {
   render() {
     return (
       <div data-test-eholdings-resource-coverage-fields>
-        <FieldArray name="customCoverages" component={this.renderCoverageFields} />
+        <FieldArray
+          component={this.renderCoverageFields}
+          name="customCoverages"
+        />
       </div>
     );
   }
