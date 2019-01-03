@@ -210,6 +210,19 @@ describe('CustomResourceEditEmbargo', () => {
             });
           });
 
+          describe('decimal custom embargo value should throw validation error', () => {
+            beforeEach(() => {
+              return ResourceEditPage
+                .inputEmbargoValue('1.5')
+                .selectEmbargoUnit('Months')
+                .clickSave();
+            });
+
+            it('rejects embargo value', () => {
+              expect(ResourceEditPage.validationErrorOnEmbargoTextField).to.equal('Decimal is not allowed');
+            });
+          });
+
           describe('blank custom embargo value should throw validation error', () => {
             beforeEach(() => {
               return ResourceEditPage

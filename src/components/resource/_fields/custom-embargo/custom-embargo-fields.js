@@ -124,17 +124,28 @@ class CustomEmbargoFields extends Component {
 export default CustomEmbargoFields;
 
 export function validate(values) {
+  const {
+    customEmbargoValue,
+    customEmbargoUnit,
+  } = values;
+
   const errors = {};
+  const customEmbargoValueIsDecimal = Number(values.customEmbargoValue) % 1 !== 0
+    || (customEmbargoValue && customEmbargoValue.toString().indexOf('.') !== -1);
 
-  if (Number.isNaN(Number(values.customEmbargoValue))) {
-    errors.customEmbargoValue = <FormattedMessage id="ui-eholdings.validate.errors.embargoPeriod.number" />;
-  }
-
-  if (values.customEmbargoValue <= 0) {
+  if (customEmbargoValue <= 0) {
     errors.customEmbargoValue = <FormattedMessage id="ui-eholdings.validate.errors.embargoPeriod.moreThanZero" />;
   }
 
-  if (values.customEmbargoValue > 0 && !values.customEmbargoUnit) {
+  if (customEmbargoValueIsDecimal) {
+    errors.customEmbargoValue = <FormattedMessage id="ui-eholdings.validate.errors.embargoPeriod.decimal" />;
+  }
+
+  if (Number.isNaN(Number(customEmbargoValue))) {
+    errors.customEmbargoValue = <FormattedMessage id="ui-eholdings.validate.errors.embargoPeriod.number" />;
+  }
+
+  if (!customEmbargoValueIsDecimal && customEmbargoValue > 0 && !customEmbargoUnit) {
     errors.customEmbargoUnit = <FormattedMessage id="ui-eholdings.validate.errors.embargoPeriod.unit" />;
   }
   return errors;
