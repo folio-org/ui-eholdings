@@ -149,8 +149,8 @@ const validateStartDateBeforeEndDate = (dateRange) => {
  * @param {} dateRange - coverage date range to validate
  * @returns {} - an error object if errors are found, or `false` otherwise
  */
-const validateDateFormat = (dateRange, intl) => {
-  moment.locale(intl.locale);
+const validateDateFormat = (dateRange, locale) => {
+  moment.locale(locale);
   let dateFormat = moment.localeData()._longDateFormat.L;
   const message = <FormattedMessage id="ui-eholdings.validate.errors.dateRange.format" values={{ dateFormat }} />;
 
@@ -278,17 +278,15 @@ const validateNoRangeOverlaps = (dateRange, customCoverages, index) => {
   return false;
 };
 
-export function validate(values, props) {
+export function validate(values, locale, model) {
   let errors = [];
-  let { intl, model } = props;
-
   let packageCoverage = model.package.customCoverage;
 
   values.customCoverages.forEach((dateRange, index) => {
     let dateRangeErrors = {};
 
     dateRangeErrors =
-      validateDateFormat(dateRange, intl) ||
+      validateDateFormat(dateRange, locale) ||
       validateStartDateBeforeEndDate(dateRange) ||
       validateNoRangeOverlaps(dateRange, values.customCoverages, index) ||
       validateWithinPackageRange(dateRange, packageCoverage);

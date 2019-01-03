@@ -411,7 +411,12 @@ class ResourceEditManagedTitle extends Component {
 }
 
 const validate = (values, props) => {
-  return Object.assign({}, validateCoverageDates(values, props), validateCoverageStatement(values), validateEmbargo(values));
+  const { intl: { locale }, model } = props;
+
+  return Object.assign({},
+    validateCoverageDates(values, locale, model),
+    validateCoverageStatement(values),
+    validateEmbargo(values));
 };
 
 const selector = formValueSelector('ResourceEditManagedTitle');
