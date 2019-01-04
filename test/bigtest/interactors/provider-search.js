@@ -11,7 +11,6 @@ import {
   value,
   text
 } from '@bigtest/interactor';
-import { hasClassBeginningWith } from './helpers';
 import SearchBadge from './search-badge';
 
 @interactor class ProviderSearchPage {
@@ -20,12 +19,12 @@ import SearchBadge from './search-badge';
   hasSearchField = isPresent('[data-test-search-field] input[name="search"]');
   hasSearchFilters = isPresent('[data-test-eholdings-search-filters="providers"]');
   searchFieldValue = value('[data-test-search-field] input[name="search"]');
-  totalResults = text('[data-test-eholdings-search-results-header] p');
-  paneTitleHasFocus = is('[data-test-eholdings-search-results-header] h2 [tabindex]', ':focus');
+  totalResults = text('[data-test-results-pane] [data-test-pane-header] p');
+  paneTitleHasFocus = is('[data-test-results-pane] [data-test-pane-header] h2 [tabindex]', ':focus');
   providerPreviewPaneIsPresent = isPresent('[data-test-preview-pane="providers"]');
   packagePreviewPaneIsPresent = isPresent('[data-test-preview-pane="packages"]');
   hasBackButton = isPresent('[data-test-eholdings-details-view-back-button]');
-  clickSearchVignette = clickable('[data-test-search-vignette]');
+  clickSearchVignette = clickable('[data-test-pane-vignette]');
   clickBackButton = clickable('[data-test-eholdings-details-view-back-button]');
   hasErrors = isPresent('[data-test-query-list-error="providers"]');
   errorMessage = text('[data-test-query-list-error="providers"]');
@@ -37,7 +36,7 @@ import SearchBadge from './search-badge';
 
   sortBy = value('[data-test-eholdings-search-filters="providers"] input[name="sort"]:checked');
   isSearchButtonDisabled = property('[data-test-search-submit]', 'disabled');
-  isSearchVignetteHidden = hasClassBeginningWith('[data-test-search-vignette]', 'is-hidden---');
+  isSearchVignetteHidden = isPresent('[data-test-pane-vignette]');
   clickCloseButton = clickable('[data-test-eholdings-details-view-close-button]');
   hasPreSearchPane = isPresent('[data-test-eholdings-pre-search-pane]');
   searchBadge = new SearchBadge('[data-test-eholdings-results-pane-search-badge]');

@@ -1,0 +1,9 @@
+.paneset {
+  align-items: stretch;
+  justify-content: flex-start;
+  display: flex;
+  height: 100%;
+  overflow: hidden;
+  position: absolute;
+  width: 100%;
+}
