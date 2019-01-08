@@ -19,6 +19,10 @@ class CustomEmbargoFields extends Component {
     showInputs: PropTypes.bool
   };
 
+  static defaultProps = {
+    initial: []
+  };
+
   state = {
     showInputs: this.props.showInputs
   };
