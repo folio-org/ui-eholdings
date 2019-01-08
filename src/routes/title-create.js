@@ -17,7 +17,8 @@ class TitleCreateRoute extends Component {
     customPackages: PropTypes.object.isRequired,
     getCustomPackages: PropTypes.func.isRequired,
     history: ReactRouterPropTypes.history.isRequired,
-    location: ReactRouterPropTypes.location.isRequired
+    location: ReactRouterPropTypes.location.isRequired,
+    removeCreateRequests: PropTypes.func.isRequired,
   };
 
   componentDidMount() {
@@ -38,7 +39,7 @@ class TitleCreateRoute extends Component {
     { type: 'ISSN', subtype: 'Print' },
     { type: 'ISBN', subtype: 'Online' },
     { type: 'ISBN', subtype: 'Print' }
-  ]
+  ];
 
   expandIdentifiers = (identifiers) => {
     return identifiers ? identifiers.map(({ id, flattenedType }) => {
@@ -60,10 +61,10 @@ class TitleCreateRoute extends Component {
 
   render() {
     let {
-      createRequest,
       customPackages,
       history,
-      location
+      location,
+      removeCreateRequests,
     } = this.props;
 
     let onCancel;
@@ -74,10 +75,11 @@ class TitleCreateRoute extends Component {
     return (
       <TitleManager record="New custom title">
         <View
-          request={createRequest}
+          request={this.props.createRequest}
           customPackages={customPackages}
           onSubmit={this.createTitle}
           onCancel={onCancel}
+          removeCreateRequests={removeCreateRequests}
         />
       </TitleManager>
     );
@@ -97,6 +99,7 @@ export default connect(
     };
   }, {
     createTitle: attrs => Title.create(attrs),
+    removeCreateRequests: () => Title.removeCreateRequests(),
     getCustomPackages: () => Package.query({
       filter: { custom: true },
       count: 100

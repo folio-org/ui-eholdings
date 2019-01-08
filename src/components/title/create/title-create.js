@@ -31,8 +31,13 @@ export default class TitleCreate extends Component {
     customPackages: PropTypes.object.isRequired,
     onCancel: PropTypes.func,
     onSubmit: PropTypes.func.isRequired,
-    request: PropTypes.object.isRequired
+    removeCreateRequests: PropTypes.func.isRequired,
+    request: PropTypes.object.isRequired,
   };
+
+  componentWillUnmount() {
+    this.props.removeCreateRequests();
+  }
 
   getActionMenu = ({ onToggle }) => {
     const {

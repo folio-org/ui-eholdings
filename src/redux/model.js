@@ -1,7 +1,15 @@
 import dasherize from 'lodash/kebabCase';
 import { pluralize } from 'inflected';
 import { qs } from '../components/utilities';
-import { find, query, save, unload, destroy, create } from './data';
+import {
+  find,
+  query,
+  save,
+  unload,
+  destroy,
+  create,
+  removeCreateRequests,
+} from './data';
 
 /**
  * Collection object which provides the request state object created
@@ -270,6 +278,13 @@ class BaseModel {
       path: this.pathFor(id),
       include
     });
+  }
+
+  /**
+   * Action creator for removing create requests for specific model's resource
+   */
+  static removeCreateRequests() {
+    return removeCreateRequests(this.type);
   }
 
   /**
