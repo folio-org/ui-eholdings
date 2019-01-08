@@ -290,5 +290,6 @@
     "settings.kb.updated": "تم تحديث إعدادات KB",
     "over": "على",
     "package.addToken": "إضافة رمز",
-    "package.tokenNeed": "يحتاج رمز الحزمة إلى"
+    "package.tokenNeed": "يحتاج رمز الحزمة إلى",
+    "validate.errors.embargoPeriod.decimal": "Decimal is not allowed"
 }

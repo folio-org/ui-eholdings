@@ -290,5 +290,6 @@
     "settings.kb.updated": "Configurações de KB atualizadas",
     "over": "Sobre",
     "package.addToken": "Adicionar token",
-    "package.tokenNeed": "Necessário token de pacote"
+    "package.tokenNeed": "Necessário token de pacote",
+    "validate.errors.embargoPeriod.decimal": "Decimal não é permitido"
 }
