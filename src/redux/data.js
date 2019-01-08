@@ -314,7 +314,7 @@ const handlers = {
       requests: Object.keys(store.requests).reduce((reqs, timestamp) => {
         let request = store.requests[timestamp];
 
-        // if the request does not include any unloaded ids, keep it
+        // if the request does not create one - keep it
         if (request.type !== 'create') {
           reqs[timestamp] = request;
         }
