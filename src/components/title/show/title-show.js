@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import update from 'lodash/fp/update';
 import set from 'lodash/fp/set';
 import { Form } from 'react-final-form';
+import createDecorator from 'final-form-focus';
 import {
   Accordion,
   Button,
@@ -24,6 +25,8 @@ import Toaster from '../../toaster';
 import KeyValueColumns from '../../key-value-columns';
 import FullViewLink from '../../full-view-link';
 import styles from './title-show.css';
+
+const focusOnErrors = createDecorator();
 
 class TitleShow extends Component {
   static propTypes = {
@@ -282,6 +285,7 @@ class TitleShow extends Component {
 
         <Form
           onSubmit={addCustomPackage}
+          decorators={[focusOnErrors]}
           render={({ handleSubmit }) => (
             <Modal
               open={showCustomPackageModal}

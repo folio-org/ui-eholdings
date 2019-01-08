@@ -239,7 +239,7 @@
     "validate.errors.customTitle.name.length": "Must be less than 400 characters.",
     "validate.errors.title.description.length": "The value entered exceeds the 1500 character limit. Please enter a value that does not exceed 1500 characters.",
     "validate.errors.customPackage.name": "Custom packages must have a name.",
-    "validate.errors.customPackage.name.length": "Must be less than 300 characters.",
+    "validate.errors.customPackage.name.length": "Must be less than {amount} characters.",
     "validate.errors.coverageStatement.length": "Statement must be 350 characters or less.",
     "validate.errors.coverageStatement.blank": "Statement field cannot be blank if selected.",
 
@@ -262,6 +262,7 @@
 
     "validate.errors.embargoPeriod.moreThanZero": "Enter number greater than 0",
     "validate.errors.embargoPeriod.number": "Must be a number",
+    "validate.errors.embargoPeriod.decimal": "Decimal is not allowed",
     "validate.errors.embargoPeriod.unit": "Select a unit",
     "validate.errors.customUrl.length": "Custom URLs must be 600 characters or less.",
     "validate.errors.customUrl.include": "The URL should include http:// or https://",

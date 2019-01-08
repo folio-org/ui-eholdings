@@ -2,6 +2,7 @@ import React, { Component, Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { Form } from 'react-final-form';
 import arrayMutators from 'final-form-arrays';
+import createDecorator from 'final-form-focus';
 
 import {
   Button,
@@ -25,6 +26,8 @@ import NavigationModal from '../../navigation-modal';
 import Toaster from '../../toaster';
 import PaneHeaderButton from '../../pane-header-button';
 import styles from './title-create.css';
+
+const focusOnErrors = createDecorator();
 
 export default class TitleCreate extends Component {
   static propTypes = {
@@ -85,10 +88,11 @@ export default class TitleCreate extends Component {
         />
         <Form
           onSubmit={onSubmit}
-          mutators={{ ...arrayMutators }}
           initialValues={{
             publicationType: 'Unspecified'
           }}
+          decorators={[focusOnErrors]}
+          mutators={{ ...arrayMutators }}
           render={({ handleSubmit, pristine }) => (
             <Fragment>
               <form onSubmit={handleSubmit}>

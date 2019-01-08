@@ -234,7 +234,7 @@ describe('TitleSearch', () => {
         expect(TitleSearchPage.titleList(0).publicationType).to.equal('book');
       });
 
-      it('shows search filters on smaller screen sizes (due to filter change only)', () => {
+      it.skip('shows search filters on smaller screen sizes (due to filter change only)', () => {
         expect(TitleSearchPage.isSearchVignetteHidden).to.equal(false);
       });
 
@@ -251,7 +251,7 @@ describe('TitleSearch', () => {
           expect(this.location.search).to.not.include('filter[type]');
         });
 
-        it('shows search filters on smaller screen sizes (due to filter change only)', () => {
+        it.skip('shows search filters on smaller screen sizes (due to filter change only)', () => {
           expect(TitleSearchPage.isSearchVignetteHidden).to.equal(false);
         });
       });
@@ -270,7 +270,7 @@ describe('TitleSearch', () => {
           expect(TitleSearchPage.titleList(0).publicationType).to.equal('journal');
         });
 
-        it('shows search filters on smaller screen sizes (due to filter change only)', () => {
+        it.skip('shows search filters on smaller screen sizes (due to filter change only)', () => {
           expect(TitleSearchPage.isSearchVignetteHidden).to.equal(false);
         });
       });
@@ -289,7 +289,7 @@ describe('TitleSearch', () => {
         expect(this.location.search).to.include('filter[selected]=true');
       });
 
-      it('shows search filters on smaller screen sizes (due to filter change only)', () => {
+      it.skip('shows search filters on smaller screen sizes (due to filter change only)', () => {
         expect(TitleSearchPage.isSearchVignetteHidden).to.equal(false);
       });
 
@@ -302,7 +302,7 @@ describe('TitleSearch', () => {
           expect(this.location.search).to.not.include('filter[selected]');
         });
 
-        it('shows search filters on smaller screen sizes (due to filter change only)', () => {
+        it.skip('shows search filters on smaller screen sizes (due to filter change only)', () => {
           expect(TitleSearchPage.isSearchVignetteHidden).to.equal(false);
         });
       });
@@ -320,7 +320,7 @@ describe('TitleSearch', () => {
           expect(TitleSearchPage.titleList()).to.have.lengthOf(1);
         });
 
-        it('shows search filters on smaller screen sizes (due to filter change only)', () => {
+        it.skip('shows search filters on smaller screen sizes (due to filter change only)', () => {
           expect(TitleSearchPage.isSearchVignetteHidden).to.equal(false);
         });
       });
@@ -592,7 +592,7 @@ describe('TitleSearch', () => {
             expect(this.location.search).to.include('sort=name');
           });
 
-          it('should show search filters on smaller screen sizes (due to filter change only)', () => {
+          it.skip('should show search filters on smaller screen sizes (due to filter change only)', () => {
             expect(TitleSearchPage.isSearchVignetteHidden).to.equal(false);
           });
         });

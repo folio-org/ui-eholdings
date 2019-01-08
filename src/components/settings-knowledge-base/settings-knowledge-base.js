@@ -1,6 +1,7 @@
 import React, { Component, Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { Field, Form } from 'react-final-form';
+import createDecorator from 'final-form-focus';
 import isEqual from 'lodash/isEqual';
 import { FormattedMessage } from 'react-intl';
 import {
@@ -14,6 +15,8 @@ import SettingsDetailPane from '../settings-detail-pane';
 import { processErrors } from '../utilities';
 import Toaster from '../toaster';
 import PaneHeaderButton from '../pane-header-button';
+
+const focusOnErrors = createDecorator();
 
 export default class SettingsKnowledgeBase extends Component {
   static propTypes = {
@@ -69,6 +72,7 @@ export default class SettingsKnowledgeBase extends Component {
       <Form
         onSubmit={onSubmit}
         initialValues={model.data.attributes}
+        decorators={[focusOnErrors]}
         render={({ form: { reset }, handleSubmit, invalid, pristine }) => (
           <SettingsDetailPane
             data-test-eholdings-settings

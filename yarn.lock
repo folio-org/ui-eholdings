@@ -4743,6 +4743,11 @@ final-form-arrays@^1.1.0:
   resolved "https://registry.yarnpkg.com/final-form-arrays/-/final-form-arrays-1.1.0.tgz#006cfb6be9a5b0b264ac044fbdad3381ede81b66"
   integrity sha512-iIrM1uotREIJaVctjM9zwcprpJNjH6RBxtOYBE1GxD5XV1UUMvka1LhUtkxB56ZJvgZe13v/+T/MpMxk6Kg/lw==
 
+final-form-focus@^1.1.0:
+  version "1.1.0"
+  resolved "https://registry.yarnpkg.com/final-form-focus/-/final-form-focus-1.1.0.tgz#a4b0e6792dda637461d448a20f594d57e3380411"
+  integrity sha512-sWmW50rjNFMwItJk+CkuelRmOC6PHwabE/awuJN/YR0T8oWkDH5DV/MwnjJ5iCKpXf6f1+gZLBZkLeeRGvENOw==
+
 final-form@^4.10.0:
   version "4.11.0"
   resolved "https://registry.yarnpkg.com/final-form/-/final-form-4.11.0.tgz#81750bda11b82c3ddf7b27092f29ebe427f8a560"
@@ -9685,7 +9690,7 @@ react-transform-hmr@^1.0.3:
     global "^4.3.0"
     react-proxy "^1.1.7"
 
-react-transition-group@^2.0.0, react-transition-group@^2.2.0, react-transition-group@^2.2.1, react-transition-group@^2.4.0:
+react-transition-group@^2.0.0, react-transition-group@^2.2.0, react-transition-group@^2.2.1, react-transition-group@^2.4.0, react-transition-group@^2.5.0:
   version "2.5.0"
   resolved "https://registry.yarnpkg.com/react-transition-group/-/react-transition-group-2.5.0.tgz#70bca0e3546102c4dc5cf3f5f57f73447cce6874"
   integrity sha512-qYB3JBF+9Y4sE4/Mg/9O6WFpdoYjeeYqx0AFb64PTazVy8RPMiE3A47CG9QmM4WJ/mzDiZYslV+Uly6O1Erlgw==

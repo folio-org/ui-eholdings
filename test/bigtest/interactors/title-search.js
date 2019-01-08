@@ -11,7 +11,6 @@ import {
   text,
   is
 } from '@bigtest/interactor';
-import { hasClassBeginningWith } from './helpers';
 import SearchBadge from './search-badge';
 
 @interactor class TitleSearchPage {
@@ -26,13 +25,13 @@ import SearchBadge from './search-badge';
   providerOrPackageSearchFieldValue = value('[data-test-search-field] input[name="search"]');
   searchFieldSelectValue = value('[data-test-search-field] select');
   hasSearchFilters = isPresent('[data-test-eholdings-search-filters="titles"]');
-  totalResults = text('[data-test-eholdings-search-results-header] p');
-  paneTitleHasFocus = is('[data-test-eholdings-search-results-header] h2 [tabindex]', ':focus');
+  totalResults = text('[data-test-results-pane] [data-test-pane-header] p');
+  paneTitleHasFocus = is('[data-test-results-pane] [data-test-pane-header] h2 [tabindex]', ':focus');
   titlePreviewPaneIsPresent = isPresent('[data-test-preview-pane="titles"]');
   sortBy = value('[data-test-eholdings-search-filters="titles"] input[name="sort"]:checked');
   providerPreviewPaneIsPresent = isPresent('[data-test-preview-pane="providers"]');
   hasBackButton = isPresent('[data-test-eholdings-details-view-back-button]');
-  clickSearchVignette = clickable('[data-test-search-vignette]');
+  clickSearchVignette = clickable('[data-test-pane-vignette]');
   hasErrors = isPresent('[data-test-query-list-error="titles"]');
   errorMessage = text('[data-test-query-list-error="titles"]');
   noResultsMessage = text('[data-test-query-list-not-found="titles"]');
@@ -41,7 +40,7 @@ import SearchBadge from './search-badge';
     '[data-test-search-form-type-switcher] a[class*=" primary--"]'
   ].join(','));
 
-  isSearchVignetteHidden = hasClassBeginningWith('[data-test-search-vignette]', 'is-hidden--');
+  isSearchVignetteHidden = isPresent('[data-test-pane-vignette]');
   clickCloseButton = clickable('[data-test-eholdings-details-view-close-button]');
   searchBadge = new SearchBadge('[data-test-eholdings-results-pane-search-badge]');
   hasPreSearchPane = isPresent('[data-test-eholdings-pre-search-pane]');

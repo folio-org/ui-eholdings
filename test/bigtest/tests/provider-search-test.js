@@ -299,7 +299,7 @@ describe('ProviderSearch', () => {
           expect(this.location.search).to.include('sort=name');
         });
 
-        it('shows search filters on smaller screen sizes (due to filter change only)', () => {
+        it.skip('shows search filters on smaller screen sizes (due to filter change only)', () => {
           expect(ProviderSearchPage.isSearchVignetteHidden).to.equal(false);
         });
 
