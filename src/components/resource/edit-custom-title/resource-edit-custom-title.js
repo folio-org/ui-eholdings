@@ -380,7 +380,7 @@ class ResourceEditCustomTitle extends Component {
               selects and then immediately deselects the
               resource
             */
-            model.title.resources.length <= 1 ? (
+            model.package.titleCount <= 1 ? (
               <span data-test-eholdings-deselect-final-title-warning>
                 <FormattedMessage id="ui-eholdings.resource.modal.body.isCustom.lastTitle" />
               </span>
