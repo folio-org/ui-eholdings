@@ -25,8 +25,13 @@ class PackageCreate extends Component {
     onCancel: PropTypes.func,
     onSubmit: PropTypes.func.isRequired,
     pristine: PropTypes.bool.isRequired,
+    removeCreateRequests: PropTypes.func.isRequired,
     request: PropTypes.object.isRequired
   };
+
+  componentWillUnmount() {
+    this.props.removeCreateRequests();
+  }
 
   getActionMenu = ({ onToggle }) => {
     const {

@@ -15,7 +15,8 @@ class PackageCreateRoute extends Component {
     createPackage: PropTypes.func.isRequired,
     createRequest: PropTypes.object.isRequired,
     history: ReactRouterPropTypes.history.isRequired,
-    location: ReactRouterPropTypes.location.isRequired
+    location: ReactRouterPropTypes.location.isRequired,
+    removeCreateRequests: PropTypes.func.isRequired,
   };
 
   componentDidUpdate(prevProps) {
@@ -51,7 +52,11 @@ class PackageCreateRoute extends Component {
   };
 
   render() {
-    const { history, location } = this.props;
+    const {
+      history,
+      location,
+      removeCreateRequests,
+    } = this.props;
     let onCancel;
     if (location.state && location.state.eholdings) {
       onCancel = () => history.goBack();
@@ -63,6 +68,7 @@ class PackageCreateRoute extends Component {
           request={this.props.createRequest}
           onSubmit={this.packageCreateSubmitted}
           onCancel={onCancel}
+          removeCreateRequests={removeCreateRequests}
           initialValues={{
             name: '',
             contentType: 'Unknown',
@@ -78,6 +84,7 @@ export default connect(
   ({ eholdings: { data } }) => ({
     createRequest: createResolver(data).getRequest('create', { type: 'packages', pageSize: 100 })
   }), {
-    createPackage: attrs => Package.create(attrs)
+    createPackage: attrs => Package.create(attrs),
+    removeCreateRequests: () => Package.removeCreateRequests(),
   }
 )(PackageCreateRoute);
