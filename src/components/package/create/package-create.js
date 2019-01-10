@@ -125,12 +125,7 @@ class PackageCreate extends Component {
             </DetailsViewSection>
           </div>
         </form>
-        <NavigationModal
-          modalLabel={<FormattedMessage id="ui-eholdings.navModal.modalLabel" />}
-          continueLabel={<FormattedMessage id="ui-eholdings.navModal.continueLabel" />}
-          dismissLabel={<FormattedMessage id="ui-eholdings.navModal.dismissLabel" />}
-          when={!pristine && !request.isResolved}
-        />
+        <NavigationModal when={!pristine && !request.isResolved} />
       </div>
     );
   }

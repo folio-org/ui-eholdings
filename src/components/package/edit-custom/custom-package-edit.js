@@ -343,17 +343,12 @@ class CustomPackageEdit extends Component {
                       <p><FormattedMessage id="ui-eholdings.package.customCoverage.notSelected" /></p>
                   )}
                 </Accordion>
-
-                <NavigationModal
-                  modalLabel={<FormattedMessage id="ui-eholdings.navModal.modalLabel" />}
-                  continueLabel={<FormattedMessage id="ui-eholdings.navModal.continueLabel" />}
-                  dismissLabel={<FormattedMessage id="ui-eholdings.navModal.dismissLabel" />}
-                  when={!pristine && !model.update.isPending}
-                />
               </Fragment>
             )}
           />
         </form>
+
+        <NavigationModal when={!pristine && !model.update.isPending} />
 
         <Modal
           open={showSelectionModal}

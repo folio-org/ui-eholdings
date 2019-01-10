@@ -486,12 +486,7 @@ class PackageShow extends Component {
           {modalMessage.body}
         </Modal>
 
-        <NavigationModal
-          modalLabel={<FormattedMessage id="ui-eholdings.navModal.modalLabel" />}
-          continueLabel={<FormattedMessage id="ui-eholdings.navModal.continueLabel" />}
-          dismissLabel={<FormattedMessage id="ui-eholdings.navModal.dismissLabel" />}
-          when={isCoverageEditable}
-        />
+        <NavigationModal when={isCoverageEditable} />
       </div>
     );
   }
