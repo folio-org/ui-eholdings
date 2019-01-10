@@ -308,7 +308,7 @@ class ResourceEditCustomTitle extends Component {
                     <Fragment>
                       <Headline tag="h4"><FormattedMessage id="ui-eholdings.label.dates" /></Headline>
                       <CustomCoverageFields
-                        initialValue={initialValues.customCoverages}
+                        initial={initialValues.customCoverages}
                         model={model}
                       />
 
@@ -326,7 +326,7 @@ class ResourceEditCustomTitle extends Component {
                       <CustomEmbargoFields
                         change={change}
                         showInputs={(initialValues.customEmbargoValue > 0)}
-                        initialValue={{
+                        initial={{
                           customEmbargoValue: initialValues.customEmbargoValue,
                           customEmbargoUnit: initialValues.customEmbargoUnit
                         }}
