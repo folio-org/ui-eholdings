@@ -82,7 +82,7 @@ class PackageCreateRoute extends Component {
 
 export default connect(
   ({ eholdings: { data } }) => ({
-    createRequest: createResolver(data).getRequest('create', { type: 'packages' })
+    createRequest: createResolver(data).getRequest('create', { type: 'packages', pageSize: 100 })
   }), {
     createPackage: attrs => Package.create(attrs),
     removeCreateRequests: () => Package.removeCreateRequests(),
