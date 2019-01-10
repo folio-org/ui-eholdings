@@ -65,6 +65,7 @@ class TitleCreateRoute extends Component {
       history,
       location,
       removeCreateRequests,
+      createRequest,
     } = this.props;
 
     let onCancel;
@@ -75,7 +76,7 @@ class TitleCreateRoute extends Component {
     return (
       <TitleManager record="New custom title">
         <View
-          request={this.props.createRequest}
+          request={createRequest}
           customPackages={customPackages}
           onSubmit={this.createTitle}
           onCancel={onCancel}
