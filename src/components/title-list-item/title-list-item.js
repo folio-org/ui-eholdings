@@ -56,9 +56,6 @@ function TitleListItem({
               {item.publicationType}
             </span>
           )}
-          {item.publicationType && item.publisherName &&
-            '&nbsp;&bull;&nbsp;'
-          }
           {item.publisherName && (
             <span>
               &nbsp;&bull;&nbsp;
