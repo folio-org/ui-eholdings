@@ -31,7 +31,7 @@ function PackageSelectField({ options }) {
             )}
           </FormattedMessage>
         )}
-        {options.map(({ disabled, label, value }) => (
+        {options.filter(option => option.label !== '').map(({ disabled, label, value }) => (
           <option disabled={disabled} key={value} value={value}>{label}</option>
         ))}
       </Field>
