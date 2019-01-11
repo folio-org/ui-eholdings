@@ -78,10 +78,6 @@ class ProviderEditRoute extends Component {
             search: location.search,
             state: { eholdings: true }
           })}
-          initialValues={{
-            proxyId: model.proxy.id,
-            providerTokenValue: model.providerToken.value
-          }}
           proxyTypes={proxyTypes}
           rootProxy={rootProxy}
           fullViewLink={searchType && {
