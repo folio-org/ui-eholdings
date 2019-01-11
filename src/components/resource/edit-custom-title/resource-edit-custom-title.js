@@ -393,8 +393,10 @@ class ResourceEditCustomTitle extends Component {
 }
 
 const validate = (values, props) => {
+  const { intl: { locale }, model } = props;
+
   return Object.assign({},
-    validateCoverageDates(values, props),
+    validateCoverageDates(values, locale, model),
     validateCoverageStatement(values),
     validateEmbargo(values));
 };

@@ -137,7 +137,7 @@ export function validate(values) {
     customEmbargoUnit,
   } = values;
 
-  const errors = {};
+  let errors = {};
   const customEmbargoValueIsDecimal = Number(values.customEmbargoValue) % 1 !== 0
     || (customEmbargoValue && customEmbargoValue.toString().indexOf('.') !== -1);
 

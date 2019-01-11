@@ -120,7 +120,7 @@ class PackageCoverageFields extends Component {
 export default injectIntl(PackageCoverageFields);
 
 export function validate(values) {
-  const errors = {};
+  let errors = {};
 
   values.customCoverages.forEach((dateRange, index) => {
     let dateRangeErrors = {};
