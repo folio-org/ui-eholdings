@@ -380,15 +380,17 @@ class ResourceEditCustomTitle extends Component {
               selects and then immediately deselects the
               resource
             */
-            model.package.titleCount <= 1 ? (
-              <span data-test-eholdings-deselect-final-title-warning>
-                <FormattedMessage id="ui-eholdings.resource.modal.body.isCustom.lastTitle" />
-              </span>
-            ) : (
-              <span data-test-eholdings-deselect-title-warning>
-                <FormattedMessage id="ui-eholdings.resource.modal.body" />
-              </span>
-            )
+            model.package.titleCount <= 1
+              ? (
+                <span data-test-eholdings-deselect-final-title-warning>
+                  <FormattedMessage id="ui-eholdings.resource.modal.body.isCustom.lastTitle" />
+                </span>
+              )
+              : (
+                <span data-test-eholdings-deselect-title-warning>
+                  <FormattedMessage id="ui-eholdings.resource.modal.body" />
+                </span>
+              )
           }
         </Modal>
       </div>

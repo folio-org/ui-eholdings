@@ -2,7 +2,6 @@ import { beforeEach, describe, it } from '@bigtest/mocha';
 import { expect } from 'chai';
 
 import setupApplication from '../helpers/setup-application';
-import ResourcePage from '../interactors/resource-show';
 import ResourceEditPage from '../interactors/resource-edit';
 import PackageSearchPage from '../interactors/package-search';
 
@@ -57,14 +56,38 @@ describe('CustomResourceHoldingSelection', () => {
     });
 
     describe('deselecting a custom resource', () => {
-      beforeEach(() => {
-        return ResourcePage
-          .dropDown.clickDropDownButton()
-          .dropDownMenu.clickRemoveFromHoldings();
+      describe('when the package has more than 1 title', () => {
+        beforeEach(function () {
+          providerPackage.titleCount = 20;
+          this.visit(`/eholdings/resources/${resource.titleId}/edit`);
+
+          return ResourceEditPage
+            .dropDown.clickDropDownButton()
+            .dropDownMenu.clickRemoveFromHoldings();
+        });
+
+        describe('confirmation modal', () => {
+          it('warns that we are deseslecting a title', () => {
+            expect(ResourceEditPage.modal.hasDeselectTitleWarning).to.be.true;
+          });
+        });
       });
 
-      it('shows the confirmation modal', () => {
-        expect(ResourceEditPage.modal.isPresent).to.equal(true);
+      describe('when deselecting the last title in the package', () => {
+        beforeEach(function () {
+          providerPackage.titleCount = 1;
+          this.visit(`/eholdings/resources/${resource.titleId}/edit`);
+
+          return ResourceEditPage
+            .dropDown.clickDropDownButton()
+            .dropDownMenu.clickRemoveFromHoldings();
+        });
+
+        describe('confirmation modal', () => {
+          it('warns that we are deseslecting the last title in the package', () => {
+            expect(ResourceEditPage.modal.hasDeselectFinalTitleWarning).to.be.true;
+          });
+        });
       });
 
       describe('confirming to continue deselection', () => {
@@ -77,7 +100,7 @@ describe('CustomResourceHoldingSelection', () => {
 
         let resolveRequest;
 
-        beforeEach(function () {
+        beforeEach(async function () {
           this.server.delete('/resources/:id', ({ resources }, request) => {
             let matchingResource = resources.find(request.params.id);
 
@@ -90,7 +113,10 @@ describe('CustomResourceHoldingSelection', () => {
             });
           });
 
-          return ResourceEditPage.modal.confirmDeselection();
+          await ResourceEditPage
+            .dropDown.clickDropDownButton()
+            .dropDownMenu.clickRemoveFromHoldings();
+          await ResourceEditPage.modal.confirmDeselection();
         });
 
         it('should keep confirmation modal on screen until requests responds', () => {
@@ -132,8 +158,11 @@ describe('CustomResourceHoldingSelection', () => {
       });
 
       describe('canceling the save and discontinue deselection', () => {
-        beforeEach(() => {
-          return ResourceEditPage.modal.cancelDeselection();
+        beforeEach(async () => {
+          await ResourceEditPage
+            .dropDown.clickDropDownButton()
+            .dropDownMenu.clickRemoveFromHoldings();
+          await ResourceEditPage.modal.cancelDeselection();
         });
 
         it('should not transition to package search page', () => {
@@ -151,7 +180,7 @@ describe('CustomResourceHoldingSelection', () => {
           }]
         }, 500);
 
-        return ResourcePage
+        return ResourceEditPage
           .dropDown.clickDropDownButton()
           .dropDownMenu.clickRemoveFromHoldings();
       });
