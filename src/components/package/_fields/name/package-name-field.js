@@ -1,5 +1,5 @@
 import React from 'react';
-import { Field } from 'redux-form';
+import { Field } from 'react-final-form';
 import { FormattedMessage } from 'react-intl';
 
 import { TextField } from '@folio/stripes/components';
@@ -9,11 +9,11 @@ const MAX_CHARACTER_LENGTH = 200;
 const validate = (value) => {
   let errors;
 
-  if (value === '') {
+  if (!value) {
     errors = <FormattedMessage id="ui-eholdings.validate.errors.customPackage.name" />;
   }
 
-  if (value.length >= MAX_CHARACTER_LENGTH) {
+  if (value && value.length >= MAX_CHARACTER_LENGTH) {
     errors = (
       <FormattedMessage
         id="ui-eholdings.validate.errors.customPackage.name.length"

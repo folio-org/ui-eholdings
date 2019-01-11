@@ -69,11 +69,6 @@ class PackageCreateRoute extends Component {
           onSubmit={this.packageCreateSubmitted}
           onCancel={onCancel}
           removeCreateRequests={removeCreateRequests}
-          initialValues={{
-            name: '',
-            contentType: 'Unknown',
-            customCoverages: []
-          }}
         />
       </TitleManager>
     );

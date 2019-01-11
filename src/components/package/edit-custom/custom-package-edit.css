@@ -1,7 +1,3 @@
 .visibility-radios {
-  margin-top: 2em;
-
-  & fieldset {
-    padding: 0;
-  }
+  margin: 1em 0;
 }

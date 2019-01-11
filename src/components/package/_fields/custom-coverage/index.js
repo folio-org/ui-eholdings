@@ -1,1 +1,1 @@
-export { default, validate } from './package-coverage-fields';
+export { default } from './package-coverage-fields';
