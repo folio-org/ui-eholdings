@@ -22,7 +22,7 @@ class PackageCoverageFields extends Component {
   };
 
   validateDateRange = (values) => {
-    const errorArray = [];
+    let errorArray = [];
 
     values.forEach(({ beginCoverage, endCoverage }) => {
       const errors = {};
@@ -34,11 +34,7 @@ class PackageCoverageFields extends Component {
       errorArray.push(errors);
     });
 
-    if (errorArray.some(object => Object.keys(object).length)) {
-      return errorArray;
-    } else {
-      return undefined;
-    }
+    return errorArray;
   }
 
   validateCoverageDate = (value) => {
