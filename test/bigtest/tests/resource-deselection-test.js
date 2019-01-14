@@ -59,10 +59,10 @@ describe('ResourceDeselection', () => {
       });
 
       describe('deselecting custom title', () => {
-        beforeEach(function () {
+        beforeEach(async function () {
           title.isTitleCustom = true;
           this.visit(`/eholdings/resources/${resource.id}`);
-          return ResourcePage.dropDownMenu.clickRemoveFromHoldings();
+          await ResourcePage.dropDownMenu.clickRemoveFromHoldings();
         });
 
         describe('deselection modal', () => {

@@ -57,11 +57,11 @@ describe('CustomResourceHoldingSelection', () => {
 
     describe('deselecting a custom resource', () => {
       describe('when the package has more than 1 title', () => {
-        beforeEach(function () {
+        beforeEach(async function () {
           providerPackage.titleCount = 20;
           this.visit(`/eholdings/resources/${resource.titleId}/edit`);
 
-          return ResourceEditPage
+          await ResourceEditPage
             .dropDown.clickDropDownButton()
             .dropDownMenu.clickRemoveFromHoldings();
         });
@@ -74,11 +74,11 @@ describe('CustomResourceHoldingSelection', () => {
       });
 
       describe('when deselecting the last title in the package', () => {
-        beforeEach(function () {
+        beforeEach(async function () {
           providerPackage.titleCount = 1;
           this.visit(`/eholdings/resources/${resource.titleId}/edit`);
 
-          return ResourceEditPage
+          await ResourceEditPage
             .dropDown.clickDropDownButton()
             .dropDownMenu.clickRemoveFromHoldings();
         });

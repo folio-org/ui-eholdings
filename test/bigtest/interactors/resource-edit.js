@@ -40,8 +40,8 @@ import Datepicker from './datepicker';
 }
 
 @interactor class ResourceEditDropDownMenu {
-  clickRemoveFromHoldings = clickable('.tether-element [data-test-eholdings-remove-resource-from-holdings]');
-  clickCancel = clickable('.tether-element [data-test-eholdings-resource-cancel-action]');
+  clickRemoveFromHoldings = clickable('[data-test-eholdings-remove-resource-from-holdings]');
+  clickCancel = clickable('[data-test-eholdings-resource-cancel-action]');
 }
 
 @interactor class ResourceEditToggleSectionButton {
