@@ -134,11 +134,11 @@ class PackageEditRoute extends Component {
       }
 
       if ('isVisible' in values) {
-        model.visibilityData.isHidden = !(values.isVisible === 'true'); // turn string into boolean
+        model.visibilityData.isHidden = !values.isVisible;
       }
 
       if ('allowKbToAddTitles' in values) {
-        model.allowKbToAddTitles = values.allowKbToAddTitles === 'true'; // turn string into boolean
+        model.allowKbToAddTitles = values.allowKbToAddTitles;
       }
 
       if ('name' in values) {
@@ -161,6 +161,7 @@ class PackageEditRoute extends Component {
       if ('providerTokenValue' in values) {
         this.providerEditSubmitted(values);
       }
+
       updatePackage(model);
     }
   };

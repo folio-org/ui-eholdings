@@ -1,6 +1,6 @@
 import React, { Component, Fragment } from 'react';
-import { Field, FieldArray } from 'redux-form';
-import PropTypes from 'prop-types';
+import { Field } from 'react-final-form';
+import { FieldArray } from 'react-final-form-arrays';
 import moment from 'moment';
 import {
   FormattedMessage,
@@ -18,13 +18,24 @@ import styles from './package-coverage-fields.css';
 
 class PackageCoverageFields extends Component {
   static propTypes = {
-    initial: PropTypes.array,
     intl: intlShape,
   };
 
-  static defaultProps = {
-    initial: [],
-  };
+  validateDateRange = (values) => {
+    let errorArray = [];
+
+    values.forEach(({ beginCoverage, endCoverage }) => {
+      const errors = {};
+
+      if (endCoverage && !moment.utc(endCoverage).isAfter(moment.utc(beginCoverage))) {
+        errors.beginCoverage = <FormattedMessage id="ui-eholdings.validate.errors.dateRange.startDateBeforeEndDate" />;
+      }
+
+      errorArray.push(errors);
+    });
+
+    return errorArray;
+  }
 
   validateCoverageDate = (value) => {
     const { intl } = this.props;
@@ -79,9 +90,7 @@ class PackageCoverageFields extends Component {
     );
   }
 
-  renderRepeatableField = ({ fields, name }) => {
-    const { initial } = this.props;
-
+  renderRepeatableField = ({ fields, name, meta: { initial } }) => {
     const hasAddButton = fields.length === 0 || (fields.length === 1 && !initial[0]);
     const hasEmptyMessage = initial.length > 0 && initial[0].beginCoverage;
     const addLabel = hasAddButton
@@ -111,6 +120,7 @@ class PackageCoverageFields extends Component {
         <FieldArray
           component={this.renderRepeatableField}
           name="customCoverages"
+          validate={this.validateDateRange}
         />
       </div>
     );
@@ -118,22 +128,3 @@ class PackageCoverageFields extends Component {
 }
 
 export default injectIntl(PackageCoverageFields);
-
-export function validate(values) {
-  let errors = {};
-
-  values.customCoverages.forEach((dateRange, index) => {
-    let dateRangeErrors = {};
-
-    const isCorrectDateCoverage = dateRange.endCoverage
-      && moment.utc(dateRange.beginCoverage).isAfter(moment.utc(dateRange.endCoverage));
-
-    if (isCorrectDateCoverage) {
-      dateRangeErrors.beginCoverage = <FormattedMessage id="ui-eholdings.validate.errors.dateRange.startDateBeforeEndDate" />;
-    }
-
-    errors[index] = dateRangeErrors;
-  });
-
-  return { customCoverages: errors };
-}

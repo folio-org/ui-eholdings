@@ -1,6 +1,7 @@
 import React, { Component, Fragment } from 'react';
 import PropTypes from 'prop-types';
-import { reduxForm } from 'redux-form';
+import { Form } from 'react-final-form';
+import arrayMutators from 'final-form-arrays';
 import { FormattedMessage } from 'react-intl';
 
 import {
@@ -12,19 +13,23 @@ import {
 
 import DetailsViewSection from '../../details-view-section';
 import NameField from '../_fields/name';
-import CoverageFields, { validate as validateCoverageDates } from '../_fields/custom-coverage';
+import CoverageFields from '../_fields/custom-coverage';
 import ContentTypeField from '../_fields/content-type';
 import NavigationModal from '../../navigation-modal';
 import Toaster from '../../toaster';
 import PaneHeaderButton from '../../pane-header-button';
 import styles from './package-create.css';
 
-class PackageCreate extends Component {
+const initialValues = {
+  name: '',
+  contentType: 'Unknown',
+  customCoverages: []
+};
+
+export default class PackageCreate extends Component {
   static propTypes = {
-    handleSubmit: PropTypes.func.isRequired,
     onCancel: PropTypes.func,
     onSubmit: PropTypes.func.isRequired,
-    pristine: PropTypes.bool.isRequired,
     removeCreateRequests: PropTypes.func.isRequired,
     request: PropTypes.object.isRequired
   };
@@ -57,83 +62,81 @@ class PackageCreate extends Component {
   render() {
     let {
       request,
-      handleSubmit,
-      onSubmit,
       onCancel,
-      pristine
+      onSubmit,
     } = this.props;
 
     return (
-      <div data-test-eholdings-package-create>
-        <Toaster
-          position="bottom"
-          toasts={request.errors.map(({ title }, index) => ({
-            id: `error-${request.timestamp}-${index}`,
-            message: title,
-            type: 'error'
-          }))}
-        />
+      <Form
+        initialValues={initialValues}
+        mutators={{ ...arrayMutators }}
+        onSubmit={onSubmit}
+        render={({ handleSubmit, pristine }) => (
+          <div data-test-eholdings-package-create>
+            <Toaster
+              position="bottom"
+              toasts={request.errors.map(({ title }, index) => ({
+                id: `error-${request.timestamp}-${index}`,
+                message: title,
+                type: 'error'
+              }))}
+            />
 
-        <form onSubmit={handleSubmit(onSubmit)}>
-          <PaneHeader
-            paneTitle={<FormattedMessage id="ui-eholdings.package.create.custom" />}
-            actionMenu={this.getActionMenu}
-            firstMenu={onCancel && (
-              <FormattedMessage id="ui-eholdings.label.icon.goBack">
-                {ariaLabel => (
-                  <IconButton
-                    icon="arrow-left"
-                    ariaLabel={ariaLabel}
-                    onClick={onCancel}
-                    data-test-eholdings-details-view-back-button
-                  />
+            <form onSubmit={handleSubmit}>
+              <PaneHeader
+                paneTitle={<FormattedMessage id="ui-eholdings.package.create.custom" />}
+                actionMenu={this.getActionMenu}
+                firstMenu={onCancel && (
+                  <FormattedMessage id="ui-eholdings.label.icon.goBack">
+                    {ariaLabel => (
+                      <IconButton
+                        icon="arrow-left"
+                        ariaLabel={ariaLabel}
+                        onClick={onCancel}
+                        data-test-eholdings-details-view-back-button
+                      />
+                    )}
+                  </FormattedMessage>
                 )}
-              </FormattedMessage>
-            )}
-            lastMenu={(
-              <Fragment>
-                {request.isPending && (
-                  <Icon icon="spinner-ellipsis" />
+                lastMenu={(
+                  <Fragment>
+                    {request.isPending && (
+                      <Icon icon="spinner-ellipsis" />
+                    )}
+                    <PaneHeaderButton
+                      disabled={pristine || request.isPending}
+                      type="submit"
+                      buttonStyle="primary"
+                      data-test-eholdings-package-create-save-button
+                    >
+                      {request.isPending ?
+                        (<FormattedMessage id="ui-eholdings.saving" />)
+                        : (<FormattedMessage id="ui-eholdings.save" />)
+                      }
+                    </PaneHeaderButton>
+                  </Fragment>
                 )}
-                <PaneHeaderButton
-                  disabled={pristine || request.isPending}
-                  type="submit"
-                  buttonStyle="primary"
-                  data-test-eholdings-package-create-save-button
+              />
+
+              <div className={styles['package-create-form-container']}>
+                <DetailsViewSection
+                  label={<FormattedMessage id="ui-eholdings.package.packageInformation" />}
+                  separator={false}
                 >
-                  {request.isPending ?
-                    (<FormattedMessage id="ui-eholdings.saving" />)
-                    : (<FormattedMessage id="ui-eholdings.save" />)
-                  }
-                </PaneHeaderButton>
-              </Fragment>
-            )}
-          />
-
-          <div className={styles['package-create-form-container']}>
-            <DetailsViewSection
-              label={<FormattedMessage id="ui-eholdings.package.packageInformation" />}
-              separator={false}
-            >
-              <NameField />
-              <ContentTypeField />
-            </DetailsViewSection>
-            <DetailsViewSection
-              label={<FormattedMessage id="ui-eholdings.label.coverageSettings" />}
-            >
-              <CoverageFields />
-            </DetailsViewSection>
+                  <NameField />
+                  <ContentTypeField />
+                </DetailsViewSection>
+                <DetailsViewSection
+                  label={<FormattedMessage id="ui-eholdings.label.coverageSettings" />}
+                >
+                  <CoverageFields />
+                </DetailsViewSection>
+              </div>
+            </form>
+            <NavigationModal when={!pristine && !request.isResolved} />
           </div>
-        </form>
-        <NavigationModal when={!pristine && !request.isResolved} />
-      </div>
+        )}
+      />
     );
   }
 }
-
-export default reduxForm({
-  validate: validateCoverageDates,
-  enableReinitialize: true,
-  form: 'PackageCreate',
-  destroyOnUnmount: false
-})(PackageCreate);
