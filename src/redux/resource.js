@@ -10,7 +10,7 @@ class Resource {
   package = belongsTo();
   title = belongsTo();
   isSelected = false;
-  url = '';
+  url = null;
   managedCoverages = [];
   customCoverages = [];
   managedEmbargoPeriod = {};
@@ -31,6 +31,42 @@ class Resource {
   isTitleCustom = false;
   isPeerReviewed = false;
   description = '';
+
+  serialize() {
+    let data = {
+      id: this.id,
+      type: this.type,
+      attributes: {
+        name: this.name,
+        titleId: this.titleId,
+        providerId: this.providerId,
+        providerName: this.providerName,
+        packageId: this.packageId,
+        packageName: this.packageName,
+        isSelected: this.isSelected,
+        url: this.url,
+        managedCoverages: this.managedCoverages,
+        customCoverages: this.customCoverages,
+        managedEmbargoPeriod: this.managedEmbargoPeriod,
+        customEmbargoPeriod: this.customEmbargoPeriod,
+        visibilityData: this.visibilityData,
+        coverageStatement: this.coverageStatement,
+        proxy: this.proxy,
+        publisherName: this.publisherName,
+        edition: this.edition,
+        publicationType: this.publicationType,
+        contentType: this.contentType,
+        subjects: this.subjects,
+        contributors: this.contributors,
+        identifiers: this.identifiers,
+        isTitleCustom: this.isTitleCustom,
+        isPeerReviewed: this.isPeerReviewed,
+        description: this.description,
+      }
+    };
+
+    return { data };
+  }
 }
 
 export default model({
