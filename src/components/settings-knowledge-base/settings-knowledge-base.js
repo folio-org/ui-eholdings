@@ -47,6 +47,15 @@ export default class SettingsKnowledgeBase extends Component {
     }
   }
 
+  getInitialValues() {
+    const { attributes } = this.props.model.data;
+    const initialValues = {
+      rmapiBaseUrl: 'https://sandbox.ebsco.io',
+    };
+
+    return Object.assign(initialValues, attributes);
+  }
+
   render() {
     let {
       model,
@@ -71,7 +80,7 @@ export default class SettingsKnowledgeBase extends Component {
     return (
       <Form
         onSubmit={onSubmit}
-        initialValues={model.data.attributes}
+        initialValues={this.getInitialValues()}
         decorators={[focusOnErrors]}
         render={({ form: { reset }, handleSubmit, invalid, pristine }) => (
           <SettingsDetailPane
