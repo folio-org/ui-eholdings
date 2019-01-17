@@ -21,6 +21,20 @@ export const Configuration = model({
     rmapiBaseUrl = '';
     customerId = '';
     apiKey = '';
+
+    serialize() {
+      let data = {
+        id: this.id,
+        type: this.type,
+        attributes: {
+          rmapiBaseUrl: this.rmapiBaseUrl,
+          customerId: this.customerId,
+          apiKey: this.apiKey,
+        }
+      };
+
+      return { data };
+    }
   }
 );
 
