@@ -5,7 +5,7 @@ import { TextArea } from '@folio/stripes/components';
 import { FormattedMessage } from 'react-intl';
 
 function validate(value) {
-  return value && value.length > 1500 ?
+  return value && value.length > 400 ?
     <FormattedMessage id="ui-eholdings.validate.errors.title.description.length" /> : undefined;
 }
 
