@@ -380,22 +380,24 @@ class ResourceEditManagedTitle extends Component {
           label={<FormattedMessage id="ui-eholdings.resource.modal.header" />}
           id="eholdings-resource-confirmation-modal"
           footer={(
-            <ModalFooter
-              primaryButton={{
-                'label': model.update.isPending ?
-                  (<FormattedMessage id="ui-eholdings.resource.modal.buttonWorking" />)
-                  :
-                  (<FormattedMessage id="ui-eholdings.resource.modal.buttonConfirm" />),
-                'onClick': this.commitSelectionToggle,
-                'disabled': model.update.isPending,
-                'data-test-eholdings-resource-deselection-confirmation-modal-yes': true
-              }}
-              secondaryButton={{
-                'label': <FormattedMessage id="ui-eholdings.resource.modal.buttonCancel" />,
-                'onClick': this.cancelSelectionToggle,
-                'data-test-eholdings-resource-deselection-confirmation-modal-no': true
-              }}
-            />
+            <ModalFooter>
+              <Button
+                data-test-eholdings-resource-deselection-confirmation-modal-yes
+                buttonStyle="primary"
+                disabled={model.update.isPending}
+                onClick={this.commitSelectionToggle}
+              >
+                {(model.update.isPending ?
+                  <FormattedMessage id="ui-eholdings.resource.modal.buttonWorking" /> :
+                  <FormattedMessage id="ui-eholdings.resource.modal.buttonConfirm" />)}
+              </Button>
+              <Button
+                data-test-eholdings-resource-deselection-confirmation-modal-no
+                onClick={this.cancelSelectionToggle}
+              >
+                <FormattedMessage id="ui-eholdings.resource.modal.buttonCancel" />
+              </Button>
+            </ModalFooter>
           )}
         >
           <FormattedMessage id="ui-eholdings.resource.modal.body" />

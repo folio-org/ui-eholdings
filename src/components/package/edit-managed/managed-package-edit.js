@@ -422,21 +422,24 @@ export default class ManagedPackageEdit extends Component {
               label={<FormattedMessage id="ui-eholdings.package.modal.header" />}
               id="eholdings-package-confirmation-modal"
               footer={(
-                <ModalFooter
-                  primaryButton={{
-                    'label': model.update.isPending ?
+                <ModalFooter>
+                  <Button
+                    data-test-eholdings-package-deselection-confirmation-modal-yes
+                    buttonStyle="primary"
+                    disabled={model.update.isPending}
+                    onClick={this.commitSelectionToggle}
+                  >
+                    {(model.update.isPending ?
                       <FormattedMessage id="ui-eholdings.package.modal.buttonWorking" /> :
-                      <FormattedMessage id="ui-eholdings.package.modal.buttonConfirm" />,
-                    'onClick': this.commitSelectionToggle,
-                    'disabled': model.update.isPending,
-                    'data-test-eholdings-package-deselection-confirmation-modal-yes': true
-                  }}
-                  secondaryButton={{
-                    'label': <FormattedMessage id="ui-eholdings.package.modal.buttonCancel" />,
-                    'onClick': () => this.cancelSelectionToggle(change),
-                    'data-test-eholdings-package-deselection-confirmation-modal-no': true
-                  }}
-                />
+                      <FormattedMessage id="ui-eholdings.package.modal.buttonConfirm" />)}
+                  </Button>
+                  <Button
+                    data-test-eholdings-package-deselection-confirmation-modal-no
+                    onClick={() => this.cancelSelectionToggle(change)}
+                  >
+                    <FormattedMessage id="ui-eholdings.package.modal.buttonCancel" />
+                  </Button>
+                </ModalFooter>
               )}
             >
               <FormattedMessage id="ui-eholdings.package.modal.body" />

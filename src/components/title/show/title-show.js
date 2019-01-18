@@ -295,20 +295,23 @@ class TitleShow extends Component {
               onSubmit={handleSubmit}
               wrappingElement="form"
               footer={(
-                <ModalFooter
-                  primaryButton={{
-                    'label': request.isPending ? (modalMessage.saving) : (modalMessage.submit),
-                    'type': 'submit',
-                    'disabled': request.isPending,
-                    'data-test-eholdings-custom-package-modal-submit': true
-                  }}
-                  secondaryButton={{
-                    'label': <FormattedMessage id="ui-eholdings.cancel" />,
-                    'onClick': this.toggleCustomPackageModal,
-                    'disabled': request.isPending,
-                    'data-test-eholdings-custom-package-modal-cancel': true
-                  }}
-                />
+                <ModalFooter>
+                  <Button
+                    data-test-eholdings-custom-package-modal-submit
+                    buttonStyle="primary"
+                    disabled={request.isPending}
+                    type="submit"
+                  >
+                    {request.isPending ? (modalMessage.saving) : (modalMessage.submit)}
+                  </Button>
+                  <Button
+                    data-test-eholdings-custom-package-modal-cancel
+                    disabled={request.isPending}
+                    onClick={this.toggleCustomPackageModal}
+                  >
+                    <FormattedMessage id="ui-eholdings.cancel" />
+                  </Button>
+                </ModalFooter>
               )}
             >
               <AddTitleToPackage

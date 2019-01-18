@@ -373,21 +373,24 @@ export default class CustomPackageEdit extends Component {
               label={<FormattedMessage id="ui-eholdings.package.modal.header.isCustom" />}
               id="eholdings-package-confirmation-modal"
               footer={(
-                <ModalFooter
-                  primaryButton={{
-                    'label': model.destroy.isPending ?
+                <ModalFooter>
+                  <Button
+                    data-test-eholdings-package-deselection-confirmation-modal-yes
+                    buttonStyle="primary"
+                    disabled={model.destroy.isPending}
+                    onClick={this.commitSelectionToggle}
+                  >
+                    {(model.destroy.isPending ?
                       <FormattedMessage id="ui-eholdings.package.modal.buttonWorking.isCustom" /> :
-                      <FormattedMessage id="ui-eholdings.package.modal.buttonConfirm.isCustom" />,
-                    'onClick': this.commitSelectionToggle,
-                    'disabled': model.destroy.isPending,
-                    'data-test-eholdings-package-deselection-confirmation-modal-yes': true
-                  }}
-                  secondaryButton={{
-                    'label': <FormattedMessage id="ui-eholdings.package.modal.buttonCancel.isCustom" />,
-                    'onClick': () => this.cancelSelectionToggle(change),
-                    'data-test-eholdings-package-deselection-confirmation-modal-no': true
-                  }}
-                />
+                      <FormattedMessage id="ui-eholdings.package.modal.buttonConfirm.isCustom" />)}
+                  </Button>
+                  <Button
+                    data-test-eholdings-package-deselection-confirmation-modal-no
+                    onClick={() => this.cancelSelectionToggle(change)}
+                  >
+                    <FormattedMessage id="ui-eholdings.package.modal.buttonCancel.isCustom" />
+                  </Button>
+                </ModalFooter>
               )}
             >
               <FormattedMessage id="ui-eholdings.package.modal.body.isCustom" />
