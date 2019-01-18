@@ -302,7 +302,7 @@ class TitleShow extends Component {
                     disabled={request.isPending}
                     type="submit"
                   >
-                    {request.isPending ? (modalMessage.saving) : (modalMessage.submit)}
+                    {request.isPending ? modalMessage.saving : modalMessage.submit}
                   </Button>
                   <Button
                     data-test-eholdings-custom-package-modal-cancel
