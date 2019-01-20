@@ -79,7 +79,6 @@ export default class Pane extends Component {
   render() {
     const {
       actionMenu,
-      actionMenuItems,
       appIcon,
       aside,
       children,
@@ -169,7 +168,6 @@ export default class Pane extends Component {
                     appIcon={appIcon}
                     firstMenu={firstMenu}
                     lastMenu={lastMenu}
-                    actionMenuItems={actionMenuItems}
                     actionMenu={actionMenu}
                   />
                 </div>
