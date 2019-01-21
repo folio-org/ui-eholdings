@@ -365,7 +365,7 @@ export default class CustomPackageEdit extends Component {
               />
             </form>
 
-            <NavigationModal when={!pristine && !model.update.isPending} />
+            <NavigationModal when={!pristine && !model.update.isPending && !model.update.isResolved} />
 
             <Modal
               open={showSelectionModal}

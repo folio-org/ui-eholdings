@@ -137,7 +137,7 @@ export default class ProviderEdit extends Component {
                 )}
               />
             </form>
-            <NavigationModal when={!pristine && !model.update.isPending} />
+            <NavigationModal when={!pristine && !model.update.isPending && !model.update.isResolved} />
           </Fragment>
         )}
       />

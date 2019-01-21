@@ -137,7 +137,7 @@ export default class PackageCreate extends Component {
               </Pane>
             </Paneset>
 
-            <NavigationModal when={!pristine && !request.isResolved} />
+            <NavigationModal when={!pristine && !request.isPending && !request.isResolved} />
           </div>
         )}
       />
