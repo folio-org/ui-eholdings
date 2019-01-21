@@ -5,6 +5,7 @@ import {
   Form
 } from 'react-final-form';
 import arrayMutators from 'final-form-arrays';
+import createFocusDecorator from 'final-form-focus';
 import { FormattedMessage } from 'react-intl';
 
 import {
@@ -31,6 +32,8 @@ import SelectionStatus from '../selection-status';
 import ProxySelectField from '../../proxy-select';
 import FullViewLink from '../../full-view-link';
 import styles from './custom-package-edit.css';
+
+const focusOnErrors = createFocusDecorator();
 
 export default class CustomPackageEdit extends Component {
   static propTypes = {
@@ -207,6 +210,7 @@ export default class CustomPackageEdit extends Component {
     return (
       <Form
         onSubmit={this.handleOnSubmit}
+        decorators={[focusOnErrors]}
         mutators={{ ...arrayMutators }}
         initialValues={initialValues}
         render={({ handleSubmit, pristine, form: { change } }) => (

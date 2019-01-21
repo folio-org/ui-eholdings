@@ -2,7 +2,8 @@ import React, { Component, Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { Form, FormSpy } from 'react-final-form';
 import arrayMutators from 'final-form-arrays';
-import createDecorator from 'final-form-calculate';
+import createCalculateDecorator from 'final-form-calculate';
+import createFocusDecorator from 'final-form-focus';
 import { FormattedMessage } from 'react-intl';
 import update from 'lodash/fp/update';
 
@@ -28,7 +29,7 @@ import PaneHeaderButton from '../../pane-header-button';
 import CoverageDateList from '../../coverage-date-list';
 import ProxySelectField from '../../proxy-select';
 
-const coverageStatementDecorator = createDecorator(
+const coverageStatementDecorator = createCalculateDecorator(
   {
     field: 'hasCoverageStatement',
     updates: {
@@ -46,6 +47,8 @@ const coverageStatementDecorator = createDecorator(
     }
   }
 );
+
+const focusOnErrors = createFocusDecorator();
 
 export default class ResourceEditManagedTitle extends Component {
   static propTypes = {
@@ -258,7 +261,7 @@ export default class ResourceEditManagedTitle extends Component {
     return (
       <Form
         onSubmit={this.handleOnSubmit}
-        decorators={[coverageStatementDecorator]}
+        decorators={[coverageStatementDecorator, focusOnErrors]}
         mutators={{ ...arrayMutators }}
         initialValues={initialValues}
         render={({ handleSubmit, pristine, form: { change } }) => (

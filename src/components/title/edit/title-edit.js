@@ -2,7 +2,7 @@ import React, { Component, Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { Form } from 'react-final-form';
 import arrayMutators from 'final-form-arrays';
-import createDecorator from 'final-form-focus';
+import createFocusDecorator from 'final-form-focus';
 
 import {
   Button,
@@ -24,7 +24,7 @@ import Toaster from '../../toaster';
 import PaneHeaderButton from '../../pane-header-button';
 import FullViewLink from '../../full-view-link';
 
-const focusOnErrors = createDecorator();
+const focusOnErrors = createFocusDecorator();
 
 export default class TitleEdit extends Component {
   static propTypes = {

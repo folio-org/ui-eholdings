@@ -1,7 +1,7 @@
 import React, { Component, Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { Form } from 'react-final-form';
-import createDecorator from 'final-form-focus';
+import createFocusDecorator from 'final-form-focus';
 import {
   Button,
   Headline,
@@ -15,7 +15,7 @@ import Toaster from '../toaster';
 import RootProxySelectField from './_fields/root-proxy-select';
 import PaneHeaderButton from '../pane-header-button';
 
-const focusOnErrors = createDecorator();
+const focusOnErrors = createFocusDecorator();
 
 export default class SettingsRootProxy extends Component {
   static propTypes = {

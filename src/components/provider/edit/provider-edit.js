@@ -1,6 +1,7 @@
 import React, { Component, Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { Form } from 'react-final-form';
+import createFocusDecorator from 'final-form-focus';
 import { FormattedMessage } from 'react-intl';
 import {
   Button,
@@ -17,6 +18,8 @@ import ProxySelectField from '../../proxy-select';
 import TokenField from '../../token';
 import PaneHeaderButton from '../../pane-header-button';
 import FullViewLink from '../../full-view-link';
+
+const focusOnErrors = createFocusDecorator();
 
 export default class ProviderEdit extends Component {
   static propTypes = {
@@ -70,6 +73,7 @@ export default class ProviderEdit extends Component {
 
     return (
       <Form
+        decorators={[focusOnErrors]}
         onSubmit={onSubmit}
         initialValues={{
           proxyId: model.proxy.id,

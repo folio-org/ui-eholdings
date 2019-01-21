@@ -2,6 +2,7 @@ import React, { Component, Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { Form } from 'react-final-form';
 import arrayMutators from 'final-form-arrays';
+import createFocusDecorator from 'final-form-focus';
 import { FormattedMessage } from 'react-intl';
 
 import {
@@ -25,6 +26,8 @@ const initialValues = {
   contentType: 'Unknown',
   customCoverages: []
 };
+
+const focusOnErrors = createFocusDecorator();
 
 export default class PackageCreate extends Component {
   static propTypes = {
@@ -69,6 +72,7 @@ export default class PackageCreate extends Component {
     return (
       <Form
         initialValues={initialValues}
+        decorators={[focusOnErrors]}
         mutators={{ ...arrayMutators }}
         onSubmit={onSubmit}
         render={({ handleSubmit, pristine }) => (
