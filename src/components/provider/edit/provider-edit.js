@@ -13,8 +13,8 @@ import DetailsView from '../../details-view';
 import DetailsViewSection from '../../details-view-section';
 import NavigationModal from '../../navigation-modal';
 import Toaster from '../../toaster';
-import ProxySelectField from '../_fields/proxy-select';
-import TokenField from '../_fields/token';
+import ProxySelectField from '../../proxy-select';
+import TokenField from '../../token';
 import PaneHeaderButton from '../../pane-header-button';
 import FullViewLink from '../../full-view-link';
 

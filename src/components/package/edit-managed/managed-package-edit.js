@@ -25,8 +25,8 @@ import NavigationModal from '../../navigation-modal';
 import Toaster from '../../toaster';
 import PaneHeaderButton from '../../pane-header-button';
 import SelectionStatus from '../selection-status';
-import ProxySelectField from '../_fields/proxy-select';
-import TokenField from '../_fields/token';
+import ProxySelectField from '../../proxy-select';
+import TokenField from '../../token';
 import FullViewLink from '../../full-view-link';
 import styles from './managed-package-edit.css';
 
