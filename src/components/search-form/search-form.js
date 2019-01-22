@@ -4,6 +4,7 @@ import { FormattedMessage } from 'react-intl';
 import capitalize from 'lodash/capitalize';
 import {
   Button,
+  ButtonGroup,
   SearchField,
   Select
 } from '@folio/stripes/components';
@@ -105,7 +106,11 @@ class SearchForm extends Component {
     return (
       <div className={styles['search-form-container']} data-test-search-form={searchType}>
         {displaySearchTypeSwitcher && (
-          <div className={styles['search-switcher']} role='tablist' data-test-search-form-type-switcher>
+          <ButtonGroup
+            data-test-search-form-type-switcher
+            fullWidth
+            role='tablist'
+          >
             {validSearchTypes.map(type => (
               <Button
                 role='tab'
@@ -120,7 +125,7 @@ class SearchForm extends Component {
                 {capitalize(type)}
               </Button>
             ))}
-          </div>
+          </ButtonGroup>
         )}
         <form
           onSubmit={this.handleSearchSubmit}
