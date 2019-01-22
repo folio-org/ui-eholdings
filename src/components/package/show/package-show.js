@@ -469,18 +469,21 @@ class PackageShow extends Component {
           label={modalMessage.header}
           id="eholdings-package-confirmation-modal"
           footer={(
-            <ModalFooter
-              primaryButton={{
-                'label': modalMessage.buttonConfirm,
-                'onClick': this.commitSelectionToggle,
-                'data-test-eholdings-package-deselection-confirmation-modal-yes': true
-              }}
-              secondaryButton={{
-                'label': modalMessage.buttonCancel,
-                'onClick': this.cancelSelectionToggle,
-                'data-test-eholdings-package-deselection-confirmation-modal-no': true
-              }}
-            />
+            <ModalFooter>
+              <Button
+                data-test-eholdings-package-deselection-confirmation-modal-yes
+                buttonStyle="primary"
+                onClick={this.commitSelectionToggle}
+              >
+                {modalMessage.buttonConfirm}
+              </Button>
+              <Button
+                data-test-eholdings-package-deselection-confirmation-modal-no
+                onClick={this.cancelSelectionToggle}
+              >
+                {modalMessage.buttonCancel}
+              </Button>
+            </ModalFooter>
           )}
         >
           {modalMessage.body}

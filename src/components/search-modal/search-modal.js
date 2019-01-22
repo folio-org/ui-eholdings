@@ -4,6 +4,7 @@ import isEqual from 'lodash/isEqual';
 import { FormattedMessage } from 'react-intl';
 
 import {
+  Button,
   Modal,
   ModalFooter,
 } from '@folio/stripes/components';
@@ -143,20 +144,23 @@ class SearchModal extends React.PureComponent {
             closeOnBackgroundClick
             dismissible
             footer={
-              <ModalFooter
-                primaryButton={{
-                  'label': <FormattedMessage id="ui-eholdings.label.search" />,
-                  'onClick': this.updateSearch,
-                  'disabled': !hasChanges,
-                  'data-test-eholdings-modal-search-button': true
-                }}
-                secondaryButton={{
-                  'label': <FormattedMessage id="ui-eholdings.filter.resetAll" />,
-                  'onClick': this.resetSearch,
-                  'disabled': isEqual(normalize({}), this.state.query),
-                  'data-test-eholdings-modal-reset-all-button': true
-                }}
-              />
+              <ModalFooter>
+                <Button
+                  data-test-eholdings-modal-search-button
+                  buttonStyle="primary"
+                  disabled={!hasChanges}
+                  onClick={this.updateSearch}
+                >
+                  <FormattedMessage id="ui-eholdings.label.search" />
+                </Button>
+                <Button
+                  data-test-eholdings-modal-reset-all-button
+                  disabled={isEqual(normalize({}), this.state.query)}
+                  onClick={this.resetSearch}
+                >
+                  <FormattedMessage id="ui-eholdings.filter.resetAll" />
+                </Button>
+              </ModalFooter>
             }
           >
             <SearchForm

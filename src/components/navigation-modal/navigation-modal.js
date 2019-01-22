@@ -2,7 +2,11 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import ReactRouterPropTypes from 'react-router-prop-types';
 import { withRouter } from 'react-router';
-import { Modal, ModalFooter } from '@folio/stripes/components';
+import {
+  Button,
+  Modal,
+  ModalFooter,
+} from '@folio/stripes/components';
 import { FormattedMessage } from 'react-intl';
 
 class NavigationModal extends Component {
@@ -105,18 +109,21 @@ class NavigationModal extends Component {
           wrappingElement="form"
           onSubmit={this.submit}
           footer={(
-            <ModalFooter
-              primaryButton={{
-                'label': <FormattedMessage id="ui-eholdings.navModal.dismissLabel" />,
-                'type': 'submit',
-                'data-test-navigation-modal-dismiss': true
-              }}
-              secondaryButton={{
-                'label': <FormattedMessage id="ui-eholdings.navModal.continueLabel" />,
-                'onClick': this.continue,
-                'data-test-navigation-modal-continue': true
-              }}
-            />
+            <ModalFooter>
+              <Button
+                data-test-navigation-modal-dismiss
+                buttonStyle="primary"
+                type="submit"
+              >
+                <FormattedMessage id="ui-eholdings.navModal.dismissLabel" />
+              </Button>
+              <Button
+                data-test-navigation-modal-continue
+                onClick={this.continue}
+              >
+                <FormattedMessage id="ui-eholdings.navModal.continueLabel" />
+              </Button>
+            </ModalFooter>
           )}
         >
           <FormattedMessage id="ui-eholdings.navModal.unsavedChangesMsg" />
