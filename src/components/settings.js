@@ -8,9 +8,10 @@ import {
   NavList,
   NavListItem,
   NavListSection,
-  Pane,
   PaneBackLink,
 } from '@folio/stripes/components';
+
+import { Pane } from './paneset';
 
 class Settings extends Component {
   static propTypes = {
@@ -27,7 +28,8 @@ class Settings extends Component {
     return (
       <Fragment>
         <Pane
-          defaultWidth="fill"
+          static
+          flexGrow={1}
           paneTitle={
             <Headline tag="h3" margin="none">
               <FormattedMessage id="ui-eholdings.meta.title" />

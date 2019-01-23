@@ -39,12 +39,17 @@ export default class Pane extends Component {
     onExited: PropTypes.func,
     onExiting: PropTypes.func,
 
+    // determines whether the pane content has padding
+    padContent: PropTypes.bool,
+
     // used for panes which will always be visible. this is usually
     // just a single pane such as the results pane in search
     static: PropTypes.bool,
 
     // subheader
     subheader: PropTypes.node,
+
+    tagName: PropTypes.string,
 
     // toggles the pane visibility. when mounting for the first time,
     // the pane will mount in its desired state, only animating when
@@ -53,6 +58,8 @@ export default class Pane extends Component {
   };
 
   static defaultProps = {
+    padContent: true,
+    tagName: 'section',
     visible: true
   };
 
@@ -93,11 +100,13 @@ export default class Pane extends Component {
       onExit,
       onExiting, // eslint-disable-line no-unused-vars
       onExited,
+      padContent,
       paneSub,
       paneTitle,
       paneTitleRef,
       static: isStatic,
       subheader,
+      tagName,
       visible,
       ...rest
     } = this.props;
@@ -105,7 +114,7 @@ export default class Pane extends Component {
       entered
     } = this.state;
 
-    let Element = aside ? 'aside' : 'section';
+    let Element = aside ? 'aside' : tagName;
     let animDuration = 300;
 
     return (
@@ -175,7 +184,11 @@ export default class Pane extends Component {
 
               {subheader}
 
-              <div className={css.content}>
+              <div
+                className={cx('content', {
+                  hasPadding: padContent
+                })}
+              >
                 {children}
               </div>
             </div>
