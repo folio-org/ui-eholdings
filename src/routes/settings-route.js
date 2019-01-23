@@ -3,35 +3,24 @@ import PropTypes from 'prop-types';
 import ReactRouterPropTypes from 'react-router-prop-types';
 import { TitleManager } from '@folio/stripes/core';
 
-import { Settings as View } from '@folio/stripes/smart-components';
+import View from '../components/settings';
 import ApplicationRoute from './application';
 
 class SettingsRoute extends Component {
   static propTypes = {
     children: PropTypes.node.isRequired,
     location: ReactRouterPropTypes.location.isRequired,
-    match: ReactRouterPropTypes.match.isRequired
   };
 
   render() {
-    let { children, location, match } = this.props;
-
-    let pages = React.Children.map(children, child => ({
-      route: child.props.path,
-      label: child.props.name,
-      component: child.props.component
-    }));
+    const { children, location } = this.props;
 
     return (
       <ApplicationRoute showSettings>
         <TitleManager page="eHoldings settings">
-          <View
-            paneTitle="eHoldings"
-            activeLink={location.pathname}
-            match={match}
-            location={location}
-            pages={pages}
-          />
+          <View location={location}>
+            {children}
+          </View>
         </TitleManager>
       </ApplicationRoute>
     );
