@@ -257,17 +257,17 @@
   dependencies:
     history "^4.7.2"
 
-"@folio/eslint-config-stripes@^3.2.1":
-  version "3.2.1"
-  resolved "https://repository.folio.org/repository/npm-folio/@folio/eslint-config-stripes/-/eslint-config-stripes-3.2.1.tgz#25a07fdebaf16610d5af0e0da1d12b0a1a340a3d"
-  integrity sha512-73IEG6LaqbZlvTyySHB/D2qt2N3Uk5ObgWU6wlLLxbsMvRZSTEz1vn2hbOnEJXALh/QNQjx7jo0KcTbyw/b7cw==
+"@folio/eslint-config-stripes@^4.0.1":
+  version "4.0.1"
+  resolved "https://repository.folio.org/repository/npm-folio/@folio/eslint-config-stripes/-/eslint-config-stripes-4.0.1.tgz#094ad85b7d2bd6c48a7f894ddd376a8253a68ccb"
+  integrity sha512-EFb8Ix06al7PCdvOwJElBbOhbkgDU3SXzwarx1klL7loIERE0hnSTOwe8DYIH0W5iLMiuxg2NE5ca08Unf4XrA==
   dependencies:
     eslint-config-airbnb "17.1.0"
     eslint-import-resolver-webpack "0.10.1"
-    eslint-plugin-babel "5.1.0"
+    eslint-plugin-babel "5.3.0"
     eslint-plugin-import "2.14.0"
-    eslint-plugin-jsx-a11y "6.1.1"
-    eslint-plugin-react "7.11.0"
+    eslint-plugin-jsx-a11y "6.1.2"
+    eslint-plugin-react "7.12.4"
     webpack "^4.0.0"
 
 "@folio/react-intl-safe-html@^1.0.2":
@@ -4150,7 +4150,7 @@ error-stack-parser@^1.3.6:
   dependencies:
     stackframe "^0.3.1"
 
-es-abstract@^1.12.0, es-abstract@^1.5.1, es-abstract@^1.7.0:
+es-abstract@^1.11.0, es-abstract@^1.12.0, es-abstract@^1.5.1, es-abstract@^1.7.0:
   version "1.13.0"
   resolved "https://registry.yarnpkg.com/es-abstract/-/es-abstract-1.13.0.tgz#ac86145fdd5099d8dd49558ccba2eaf9b88e24e9"
   integrity sha512-vDZfg/ykNxQVwup/8E1BZhVzFfBxs9NqMzGcvIJrqg5k2/5Za2bWo40dK2J1pgLngZ7c+Shh8lwYtLGyrwPutg==
@@ -4272,17 +4272,17 @@ eslint-import-resolver-webpack@0.10.1:
     semver "^5.3.0"
 
 eslint-module-utils@^2.2.0:
-  version "2.2.0"
-  resolved "https://registry.yarnpkg.com/eslint-module-utils/-/eslint-module-utils-2.2.0.tgz#b270362cd88b1a48ad308976ce7fa54e98411746"
-  integrity sha1-snA2LNiLGkitMIl2zn+lTphBF0Y=
+  version "2.3.0"
+  resolved "https://registry.yarnpkg.com/eslint-module-utils/-/eslint-module-utils-2.3.0.tgz#546178dab5e046c8b562bbb50705e2456d7bda49"
+  integrity sha512-lmDJgeOOjk8hObTysjqH7wyMi+nsHwwvfBykwfhjR1LNdd7C2uFJBvx4OpWYpXOw4df1yE1cDEVd1yLHitk34w==
   dependencies:
     debug "^2.6.8"
-    pkg-dir "^1.0.0"
+    pkg-dir "^2.0.0"
 
-eslint-plugin-babel@5.1.0:
-  version "5.1.0"
-  resolved "https://registry.yarnpkg.com/eslint-plugin-babel/-/eslint-plugin-babel-5.1.0.tgz#9c76e476162041e50b6ba69aa4eae3bdd6a4e1c3"
-  integrity sha512-HBkv9Q0LU/IhNUauC8TrbhcN79Yq/+xh2bYTOcv6KMaV2tsvVphkHwDTJ9r3C6mJUnmxrtzT3DQfrWj0rOISqQ==
+eslint-plugin-babel@5.3.0:
+  version "5.3.0"
+  resolved "https://registry.yarnpkg.com/eslint-plugin-babel/-/eslint-plugin-babel-5.3.0.tgz#2e7f251ccc249326da760c1a4c948a91c32d0023"
+  integrity sha512-HPuNzSPE75O+SnxHIafbW5QB45r2w78fxqwK3HmjqIUoPfPzVrq6rD+CINU3yzoDSzEhUkX07VUphbF73Lth/w==
   dependencies:
     eslint-rule-composer "^0.3.0"
 
@@ -4302,10 +4302,10 @@ eslint-plugin-import@2.14.0:
     read-pkg-up "^2.0.0"
     resolve "^1.6.0"
 
-eslint-plugin-jsx-a11y@6.1.1:
-  version "6.1.1"
-  resolved "https://registry.yarnpkg.com/eslint-plugin-jsx-a11y/-/eslint-plugin-jsx-a11y-6.1.1.tgz#7bf56dbe7d47d811d14dbb3ddff644aa656ce8e1"
-  integrity sha512-JsxNKqa3TwmPypeXNnI75FntkUktGzI1wSa1LgNZdSOMI+B4sxnr1lSF8m8lPiz4mKiC+14ysZQM4scewUrP7A==
+eslint-plugin-jsx-a11y@6.1.2:
+  version "6.1.2"
+  resolved "https://registry.yarnpkg.com/eslint-plugin-jsx-a11y/-/eslint-plugin-jsx-a11y-6.1.2.tgz#69bca4890b36dcf0fe16dd2129d2d88b98f33f88"
+  integrity sha512-7gSSmwb3A+fQwtw0arguwMdOdzmKUgnUcbSNlo+GjKLAQFuC2EZxWqG9XHRI8VscBJD5a8raz3RuxQNFW+XJbw==
   dependencies:
     aria-query "^3.0.0"
     array-includes "^3.0.3"
@@ -4316,16 +4316,18 @@ eslint-plugin-jsx-a11y@6.1.1:
     has "^1.0.3"
     jsx-ast-utils "^2.0.1"
 
-eslint-plugin-react@7.11.0:
-  version "7.11.0"
-  resolved "https://registry.yarnpkg.com/eslint-plugin-react/-/eslint-plugin-react-7.11.0.tgz#b3124af974c4da978e62a57ea49a7bc26f11e76d"
-  integrity sha512-SJOh2p3Mr1nbp/Nd5odTuSn2rvaMvO5DaOpuAGc9Sc+Gcxqkyffb1mqQGIKB9tWQJlvrfsrzWnMJexZJ7YRDUw==
+eslint-plugin-react@7.12.4:
+  version "7.12.4"
+  resolved "https://registry.yarnpkg.com/eslint-plugin-react/-/eslint-plugin-react-7.12.4.tgz#b1ecf26479d61aee650da612e425c53a99f48c8c"
+  integrity sha512-1puHJkXJY+oS1t467MjbqjvX53uQ05HXwjqDgdbGBqf5j9eeydI54G3KwiJmWciQ0HTBacIKw2jgwSBSH3yfgQ==
   dependencies:
     array-includes "^3.0.3"
     doctrine "^2.1.0"
     has "^1.0.3"
     jsx-ast-utils "^2.0.1"
+    object.fromentries "^2.0.0"
     prop-types "^15.6.2"
+    resolve "^1.9.0"
 
 eslint-restricted-globals@^0.1.1:
   version "0.1.1"
@@ -8289,6 +8291,16 @@ object.entries@^1.0.4:
     function-bind "^1.1.1"
     has "^1.0.3"
 
+object.fromentries@^2.0.0:
+  version "2.0.0"
+  resolved "https://registry.yarnpkg.com/object.fromentries/-/object.fromentries-2.0.0.tgz#49a543d92151f8277b3ac9600f1e930b189d30ab"
+  integrity sha512-9iLiI6H083uiqUuvzyY6qrlmc/Gz8hLQFOcb/Ri/0xXFkSNS3ctV+CbE6yM2+AnkYfOB3dGjdzC0wrMLIhQICA==
+  dependencies:
+    define-properties "^1.1.2"
+    es-abstract "^1.11.0"
+    function-bind "^1.1.1"
+    has "^1.0.1"
+
 object.getownpropertydescriptors@^2.0.3:
   version "2.0.3"
   resolved "https://registry.yarnpkg.com/object.getownpropertydescriptors/-/object.getownpropertydescriptors-2.0.3.tgz#8758c846f5b407adab0f236e0986f14b051caa16"
@@ -10403,10 +10415,17 @@ resolve-url@^0.2.1:
   resolved "https://registry.yarnpkg.com/resolve-url/-/resolve-url-0.2.1.tgz#2c637fe77c893afd2a663fe21aa9080068e2052a"
   integrity sha1-LGN/53yJOv0qZj/iGqkIAGjiBSo=
 
-resolve@^1.1.7, resolve@^1.3.2, resolve@^1.4.0, resolve@^1.5.0, resolve@^1.6.0:
+resolve@^1.1.7, resolve@^1.3.2:
   version "1.9.0"
   resolved "https://registry.yarnpkg.com/resolve/-/resolve-1.9.0.tgz#a14c6fdfa8f92a7df1d996cb7105fa744658ea06"
   integrity sha512-TZNye00tI67lwYvzxCxHGjwTNlUV70io54/Ed4j6PscB8xVfuBJpRenI/o6dVk0cY0PYTY27AgCoGGxRnYuItQ==
+  dependencies:
+    path-parse "^1.0.6"
+
+resolve@^1.4.0, resolve@^1.5.0, resolve@^1.6.0, resolve@^1.9.0:
+  version "1.10.0"
+  resolved "https://registry.yarnpkg.com/resolve/-/resolve-1.10.0.tgz#3bdaaeaf45cc07f375656dfd2e54ed0810b101ba"
+  integrity sha512-3sUr9aq5OfSg2S9pNtPA9hL1FVEAjvfOC4leW0SNf/mpnaakz2a9femSd6LqAww2RaFctwyf1lCqnTHuF1rxDg==
   dependencies:
     path-parse "^1.0.6"
 
