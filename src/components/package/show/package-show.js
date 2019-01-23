@@ -449,7 +449,7 @@ class PackageShow extends Component {
               collection={model.resources}
               length={model.titleCount}
               scrollable={scrollable}
-              itemHeight={60}
+              itemHeight={53}
               notFoundMessage={<FormattedMessage id="ui-eholdings.notFound" />}
               renderItem={item => (
                 <TitleListItem

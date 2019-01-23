@@ -21,7 +21,7 @@ function PackageSearchList({
       fetch={fetch}
       collection={collection}
       onUpdateOffset={onUpdateOffset}
-      itemHeight={80}
+      itemHeight={70}
       notFoundMessage={(
         <FormattedMessage
           id="ui-eholdings.package.resultsNotFound"
