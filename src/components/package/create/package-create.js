@@ -8,9 +8,9 @@ import {
   Button,
   Icon,
   IconButton,
-  PaneHeader
 } from '@folio/stripes/components';
 
+import Paneset, { Pane } from '../../paneset';
 import DetailsViewSection from '../../details-view-section';
 import NameField from '../_fields/name';
 import CoverageFields from '../_fields/custom-coverage';
@@ -82,8 +82,11 @@ export default class PackageCreate extends Component {
               }))}
             />
 
-            <form onSubmit={handleSubmit}>
-              <PaneHeader
+            <Paneset>
+              <Pane
+                onSubmit={handleSubmit}
+                tagName="form"
+                flexGrow={1}
                 paneTitle={<FormattedMessage id="ui-eholdings.package.create.custom" />}
                 actionMenu={this.getActionMenu}
                 firstMenu={onCancel && (
@@ -116,23 +119,24 @@ export default class PackageCreate extends Component {
                     </PaneHeaderButton>
                   </Fragment>
                 )}
-              />
+              >
+                <div className={styles['package-create-form-container']}>
+                  <DetailsViewSection
+                    label={<FormattedMessage id="ui-eholdings.package.packageInformation" />}
+                    separator={false}
+                  >
+                    <NameField />
+                    <ContentTypeField />
+                  </DetailsViewSection>
+                  <DetailsViewSection
+                    label={<FormattedMessage id="ui-eholdings.label.coverageSettings" />}
+                  >
+                    <CoverageFields />
+                  </DetailsViewSection>
+                </div>
+              </Pane>
+            </Paneset>
 
-              <div className={styles['package-create-form-container']}>
-                <DetailsViewSection
-                  label={<FormattedMessage id="ui-eholdings.package.packageInformation" />}
-                  separator={false}
-                >
-                  <NameField />
-                  <ContentTypeField />
-                </DetailsViewSection>
-                <DetailsViewSection
-                  label={<FormattedMessage id="ui-eholdings.label.coverageSettings" />}
-                >
-                  <CoverageFields />
-                </DetailsViewSection>
-              </div>
-            </form>
             <NavigationModal when={!pristine && !request.isResolved} />
           </div>
         )}

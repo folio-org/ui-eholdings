@@ -8,10 +8,10 @@ import {
   Button,
   Icon,
   IconButton,
-  PaneHeader
 } from '@folio/stripes/components';
 
 import { FormattedMessage } from 'react-intl';
+import Paneset, { Pane } from '../../paneset';
 import DetailsViewSection from '../../details-view-section';
 import NameField from '../_fields/name';
 import EditionField from '../_fields/edition';
@@ -95,8 +95,11 @@ export default class TitleCreate extends Component {
           mutators={{ ...arrayMutators }}
           render={({ handleSubmit, pristine }) => (
             <Fragment>
-              <form onSubmit={handleSubmit}>
-                <PaneHeader
+              <Paneset>
+                <Pane
+                  onSubmit={handleSubmit}
+                  tagName="form"
+                  flexGrow={1}
                   paneTitle={<FormattedMessage id="ui-eholdings.title.create.paneTitle" />}
                   actionMenu={this.getActionMenu}
                   firstMenu={onCancel && (
@@ -129,29 +132,29 @@ export default class TitleCreate extends Component {
                       </PaneHeaderButton>
                     </Fragment>
                   )}
-                />
-
-                <div className={styles['title-create-form-container']}>
-                  <DetailsViewSection
-                    label={<FormattedMessage id="ui-eholdings.title.titleInformation" />}
-                    separator={false}
-                  >
-                    <NameField />
-                    <ContributorField />
-                    <EditionField />
-                    <PublisherNameField />
-                    <PublicationTypeField />
-                    <IdentifiersFields />
-                    <DescriptionField />
-                    <PeerReviewedField />
-                  </DetailsViewSection>
-                  <DetailsViewSection
-                    label={<FormattedMessage id="ui-eholdings.label.packageInformation" />}
-                  >
-                    <PackageSelectField options={packageOptions} />
-                  </DetailsViewSection>
-                </div>
-              </form>
+                >
+                  <div className={styles['title-create-form-container']}>
+                    <DetailsViewSection
+                      label={<FormattedMessage id="ui-eholdings.title.titleInformation" />}
+                      separator={false}
+                    >
+                      <NameField />
+                      <ContributorField />
+                      <EditionField />
+                      <PublisherNameField />
+                      <PublicationTypeField />
+                      <IdentifiersFields />
+                      <DescriptionField />
+                      <PeerReviewedField />
+                    </DetailsViewSection>
+                    <DetailsViewSection
+                      label={<FormattedMessage id="ui-eholdings.label.packageInformation" />}
+                    >
+                      <PackageSelectField options={packageOptions} />
+                    </DetailsViewSection>
+                  </div>
+                </Pane>
+              </Paneset>
 
               <NavigationModal when={!pristine && !request.isResolved} />
             </Fragment>
