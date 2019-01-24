@@ -64,6 +64,10 @@
   height: 100%;
   overflow: auto;
   width: 100%;
+
+  &.hasPadding {
+    padding: 1rem;
+  }
 }
 
 .vignette {

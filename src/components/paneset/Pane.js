@@ -14,11 +14,6 @@ export default class Pane extends Component {
     // eslint-disable-next-line react/forbid-foreign-prop-types
     ...PaneHeader.propTypes,
 
-    // used for panes that animate from the opposite direction and are
-    // only tangentially related to the main content (such as
-    // navigation in settings, or filters in search)
-    aside: PropTypes.bool,
-
     // pane contents
     children: PropTypes.node,
 
@@ -39,12 +34,21 @@ export default class Pane extends Component {
     onExited: PropTypes.func,
     onExiting: PropTypes.func,
 
+    // determines whether the pane content has padding
+    padContent: PropTypes.bool,
+
     // used for panes which will always be visible. this is usually
     // just a single pane such as the results pane in search
     static: PropTypes.bool,
 
     // subheader
     subheader: PropTypes.node,
+
+    // should be set to "aside" for panes that
+    // animate from the opposite direction and are
+    // only tangentially related to the main content (such as
+    // navigation in settings, or filters in search)
+    tagName: PropTypes.string,
 
     // toggles the pane visibility. when mounting for the first time,
     // the pane will mount in its desired state, only animating when
@@ -53,6 +57,8 @@ export default class Pane extends Component {
   };
 
   static defaultProps = {
+    padContent: true,
+    tagName: 'section',
     visible: true
   };
 
@@ -80,7 +86,6 @@ export default class Pane extends Component {
     const {
       actionMenu,
       appIcon,
-      aside,
       children,
       className,
       firstMenu,
@@ -93,11 +98,13 @@ export default class Pane extends Component {
       onExit,
       onExiting, // eslint-disable-line no-unused-vars
       onExited,
+      padContent,
       paneSub,
       paneTitle,
       paneTitleRef,
       static: isStatic,
       subheader,
+      tagName,
       visible,
       ...rest
     } = this.props;
@@ -105,7 +112,7 @@ export default class Pane extends Component {
       entered
     } = this.state;
 
-    let Element = aside ? 'aside' : 'section';
+    let Element = tagName;
     let animDuration = 300;
 
     return (
@@ -124,7 +131,7 @@ export default class Pane extends Component {
             }}
           >
             <div
-              className={cx('vignette', { aside })}
+              className={cx('vignette', { aside: tagName === 'aside' })}
               onClick={onDismiss}
               aria-hidden="true"
               data-test-pane-vignette
@@ -152,7 +159,7 @@ export default class Pane extends Component {
         >
           <Element
             className={cx('pane', {
-              aside,
+              aside: tagName === 'aside',
               static: isStatic
             }, className)}
             style={entered ? { flexGrow } : null}
@@ -175,7 +182,11 @@ export default class Pane extends Component {
 
               {subheader}
 
-              <div className={css.content}>
+              <div
+                className={cx('content', {
+                  hasPadding: padContent
+                })}
+              >
                 {children}
               </div>
             </div>
