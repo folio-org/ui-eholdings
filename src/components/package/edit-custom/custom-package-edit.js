@@ -5,6 +5,7 @@ import {
   Form
 } from 'react-final-form';
 import arrayMutators from 'final-form-arrays';
+import createFocusDecorator from 'final-form-focus';
 import { FormattedMessage } from 'react-intl';
 
 import {
@@ -28,9 +29,11 @@ import NavigationModal from '../../navigation-modal';
 import Toaster from '../../toaster';
 import PaneHeaderButton from '../../pane-header-button';
 import SelectionStatus from '../selection-status';
-import ProxySelectField from '../_fields/proxy-select';
+import ProxySelectField from '../../proxy-select';
 import FullViewLink from '../../full-view-link';
 import styles from './custom-package-edit.css';
+
+const focusOnErrors = createFocusDecorator();
 
 export default class CustomPackageEdit extends Component {
   static propTypes = {
@@ -207,6 +210,7 @@ export default class CustomPackageEdit extends Component {
     return (
       <Form
         onSubmit={this.handleOnSubmit}
+        decorators={[focusOnErrors]}
         mutators={{ ...arrayMutators }}
         initialValues={initialValues}
         render={({ handleSubmit, pristine, form: { change } }) => (
@@ -365,7 +369,7 @@ export default class CustomPackageEdit extends Component {
               />
             </form>
 
-            <NavigationModal when={!pristine && !model.update.isPending} />
+            <NavigationModal when={!pristine && !model.update.isPending && !model.update.isResolved} />
 
             <Modal
               open={showSelectionModal}

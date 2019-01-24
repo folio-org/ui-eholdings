@@ -1,19 +1,32 @@
 import React, { Component } from 'react';
-import { Field } from 'redux-form';
+import { Field } from 'react-final-form';
 import PropTypes from 'prop-types';
 
 import { RadioButton, TextArea } from '@folio/stripes/components';
 import { FormattedMessage } from 'react-intl';
 import styles from './coverage-statement-fields.css';
 
-class CoverageStatementFields extends Component {
+function validate(value, { hasCoverageStatement }) {
+  let error;
+
+  if (value && value.length > 350) {
+    error = <FormattedMessage id="ui-eholdings.validate.errors.coverageStatement.length" />;
+  }
+
+  if (hasCoverageStatement === 'yes' && !value) {
+    error = <FormattedMessage id="ui-eholdings.validate.errors.coverageStatement.blank" />;
+  }
+
+  return error;
+}
+
+export default class CoverageStatementFields extends Component {
   static propTypes = {
-    change: PropTypes.func.isRequired,
     coverageDates: PropTypes.node
   };
 
   render() {
-    let { change, coverageDates } = this.props;
+    let { coverageDates } = this.props;
 
     return (
       <fieldset>
@@ -24,9 +37,6 @@ class CoverageStatementFields extends Component {
             type="radio"
             label={<FormattedMessage id="ui-eholdings.label.dates" />}
             value="no"
-            onChange={() => {
-              change('coverageStatement', '');
-            }}
           />
           <div className={styles['coverage-statement-fields-category']}>
             {coverageDates}
@@ -43,28 +53,10 @@ class CoverageStatementFields extends Component {
           <Field
             name="coverageStatement"
             component={TextArea}
-            onChange={(e, newValue) => {
-              change('hasCoverageStatement', (newValue.length > 0) ? 'yes' : 'no');
-            }}
+            validate={validate}
           />
         </div>
       </fieldset>
     );
   }
-}
-
-export default CoverageStatementFields;
-
-export function validate(values) {
-  let errors = {};
-
-  if (values.coverageStatement && values.coverageStatement.length > 350) {
-    errors.coverageStatement = <FormattedMessage id="ui-eholdings.validate.errors.coverageStatement.length" />;
-  }
-
-  if (values.hasCoverageStatement === 'yes' && values.coverageStatement.length === 0) {
-    errors.coverageStatement = <FormattedMessage id="ui-eholdings.validate.errors.coverageStatement.blank" />;
-  }
-
-  return errors;
 }

@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import update from 'lodash/fp/update';
 import set from 'lodash/fp/set';
 import { Form } from 'react-final-form';
-import createDecorator from 'final-form-focus';
+import createFocusDecorator from 'final-form-focus';
 import {
   Accordion,
   Button,
@@ -26,7 +26,7 @@ import KeyValueColumns from '../../key-value-columns';
 import FullViewLink from '../../full-view-link';
 import styles from './title-show.css';
 
-const focusOnErrors = createDecorator();
+const focusOnErrors = createFocusDecorator();
 const ITEM_HEIGHT = 53;
 
 class TitleShow extends Component {
