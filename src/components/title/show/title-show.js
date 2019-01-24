@@ -27,6 +27,7 @@ import FullViewLink from '../../full-view-link';
 import styles from './title-show.css';
 
 const focusOnErrors = createDecorator();
+const ITEM_HEIGHT = 53;
 
 class TitleShow extends Component {
   static propTypes = {
@@ -266,7 +267,7 @@ class TitleShow extends Component {
           resultsLength={model.resources.length}
           renderList={scrollable => (
             <ScrollView
-              itemHeight={53}
+              itemHeight={ITEM_HEIGHT}
               items={model.resources}
               scrollable={scrollable}
               data-test-query-list="title-packages"

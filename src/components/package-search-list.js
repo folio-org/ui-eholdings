@@ -5,6 +5,8 @@ import { FormattedMessage } from 'react-intl';
 import QueryList from './query-list';
 import PackageListItem from './package-list-item';
 
+const ITEM_HEIGHT = 70;
+
 function PackageSearchList({
   activeId,
   collection,
@@ -21,7 +23,7 @@ function PackageSearchList({
       fetch={fetch}
       collection={collection}
       onUpdateOffset={onUpdateOffset}
-      itemHeight={70}
+      itemHeight={ITEM_HEIGHT}
       notFoundMessage={(
         <FormattedMessage
           id="ui-eholdings.package.resultsNotFound"

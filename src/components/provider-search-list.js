@@ -5,6 +5,8 @@ import { FormattedMessage } from 'react-intl';
 import QueryList from './query-list';
 import ProviderListItem from './provider-list-item';
 
+const ITEM_HEIGHT = 53;
+
 export default function ProviderSearchList({
   activeId,
   collection,
@@ -21,7 +23,7 @@ export default function ProviderSearchList({
       fetch={fetch}
       collection={collection}
       onUpdateOffset={onUpdateOffset}
-      itemHeight={53}
+      itemHeight={ITEM_HEIGHT}
       notFoundMessage={(
         <FormattedMessage
           id="ui-eholdings.provider.resultsNotFound"

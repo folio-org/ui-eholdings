@@ -22,6 +22,8 @@ import ProxyDisplay from '../../proxy-display';
 import TokenDisplay from '../../token-display';
 import FullViewLink from '../../full-view-link';
 
+const ITEM_HEIGHT = 53;
+
 class ProviderShow extends Component {
    static propTypes = {
      editLink: PropTypes.oneOfType([
@@ -199,7 +201,7 @@ class ProviderShow extends Component {
               collection={packages}
               length={packages.length}
               scrollable={scrollable}
-              itemHeight={53}
+              itemHeight={ITEM_HEIGHT}
               notFoundMessage={<FormattedMessage id="ui-eholdings.notFound" />}
               renderItem={item => (
                 <PackageListItem
