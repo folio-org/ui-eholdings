@@ -29,6 +29,8 @@ import ProxyDisplay from '../../proxy-display';
 import TokenDisplay from '../../token-display';
 import FullViewLink from '../../full-view-link';
 
+const ITEM_HEIGHT = 53;
+
 class PackageShow extends Component {
   static propTypes = {
     addPackageToHoldings: PropTypes.func.isRequired,
@@ -449,7 +451,7 @@ class PackageShow extends Component {
               collection={model.resources}
               length={model.titleCount}
               scrollable={scrollable}
-              itemHeight={60}
+              itemHeight={ITEM_HEIGHT}
               notFoundMessage={<FormattedMessage id="ui-eholdings.notFound" />}
               renderItem={item => (
                 <TitleListItem

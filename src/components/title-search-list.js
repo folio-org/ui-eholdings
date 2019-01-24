@@ -5,6 +5,8 @@ import { FormattedMessage } from 'react-intl';
 import QueryList from './query-list';
 import TitleListItem from './title-list-item';
 
+const ITEM_HEIGHT = 53;
+
 export default function TitleSearchList({
   activeId,
   collection,
@@ -21,7 +23,7 @@ export default function TitleSearchList({
       fetch={fetch}
       collection={collection}
       onUpdateOffset={onUpdateOffset}
-      itemHeight={60}
+      itemHeight={ITEM_HEIGHT}
       notFoundMessage={(
         <FormattedMessage
           id="ui-eholdings.title.resultsNotFound"
