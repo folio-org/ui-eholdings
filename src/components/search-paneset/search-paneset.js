@@ -133,7 +133,7 @@ export default class SearchPaneset extends Component {
     return (
       <Paneset>
         <Pane
-          aside
+          tagName="aside"
           onDismiss={this.toggleFilters}
           visible={!hideFilters}
           className={styles['search-pane']}

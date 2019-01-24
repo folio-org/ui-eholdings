@@ -14,11 +14,6 @@ export default class Pane extends Component {
     // eslint-disable-next-line react/forbid-foreign-prop-types
     ...PaneHeader.propTypes,
 
-    // used for panes that animate from the opposite direction and are
-    // only tangentially related to the main content (such as
-    // navigation in settings, or filters in search)
-    aside: PropTypes.bool,
-
     // pane contents
     children: PropTypes.node,
 
@@ -49,6 +44,10 @@ export default class Pane extends Component {
     // subheader
     subheader: PropTypes.node,
 
+    // should be set to "aside" for panes that
+    // animate from the opposite direction and are
+    // only tangentially related to the main content (such as
+    // navigation in settings, or filters in search)
     tagName: PropTypes.string,
 
     // toggles the pane visibility. when mounting for the first time,
@@ -87,7 +86,6 @@ export default class Pane extends Component {
     const {
       actionMenu,
       appIcon,
-      aside,
       children,
       className,
       firstMenu,
@@ -114,7 +112,7 @@ export default class Pane extends Component {
       entered
     } = this.state;
 
-    let Element = aside ? 'aside' : tagName;
+    let Element = tagName;
     let animDuration = 300;
 
     return (
@@ -133,7 +131,7 @@ export default class Pane extends Component {
             }}
           >
             <div
-              className={cx('vignette', { aside })}
+              className={cx('vignette', { aside: tagName === 'aside' })}
               onClick={onDismiss}
               aria-hidden="true"
               data-test-pane-vignette
@@ -161,7 +159,7 @@ export default class Pane extends Component {
         >
           <Element
             className={cx('pane', {
-              aside,
+              aside: tagName === 'aside',
               static: isStatic
             }, className)}
             style={entered ? { flexGrow } : null}
