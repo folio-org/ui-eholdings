@@ -77,24 +77,24 @@ class ResourceEditRoute extends Component {
     if (values.isSelected === false && model.package.isCustom) {
       destroyResource(model);
     } else if (values.isSelected === false) {
-      model.isSelected = false;
-      model.customCoverages = [];
-      model.visibilityData.isHidden = false;
-      model.identifiersList = [];
-      model.identifiers = [];
-      model.customStatement = '';
-      model.customEmbargoPeriod = {};
-      model.contributors = [];
-      model.coverageStatement = '';
-      model.proxy = {};
-
-      updateResource(model);
+      updateResource(Object.assign(model, {
+        isSelected: false,
+        customCoverages: [],
+        visibilityData: { isHidden: false },
+        identifiersList: [],
+        identifiers: [],
+        customStatement: '',
+        customEmbargoPeriod: {},
+        contributors: [],
+        coverageStatement: '',
+        proxy: {},
+      }));
     } else if (values.isSelected && !values.customCoverages) {
-      model.isSelected = true;
-
-      updateResource(model);
+      updateResource(Object.assign(model, {
+        isSelected: true,
+      }));
     } else {
-      model.customCoverages = customCoverages.map((dateRange) => {
+      const newCustomCoverages = customCoverages.map((dateRange) => {
         let beginCoverage = !dateRange.beginCoverage ? null : moment.utc(dateRange.beginCoverage).format('YYYY-MM-DD');
         let endCoverage = !dateRange.endCoverage ? null : moment.utc(dateRange.endCoverage).format('YYYY-MM-DD');
 
@@ -103,17 +103,19 @@ class ResourceEditRoute extends Component {
           endCoverage
         };
       });
-      model.isSelected = values.isSelected;
-      model.url = customUrl;
-      model.visibilityData.isHidden = !isVisible;
-      model.coverageStatement = coverageStatement;
-      model.customEmbargoPeriod = {
-        embargoValue: customEmbargoValue,
-        embargoUnit: customEmbargoUnit
-      };
-      model.proxy.id = proxyId;
 
-      updateResource(model);
+      updateResource(Object.assign(model, {
+        customCoverages: newCustomCoverages,
+        isSelected: values.isSelected,
+        url: customUrl,
+        visibilityData: { isHidden: !isVisible },
+        coverageStatement,
+        customEmbargoPeriod: {
+          embargoValue: customEmbargoValue,
+          embargoUnit: customEmbargoUnit
+        },
+        proxy: { id: proxyId },
+      }));
     }
   }
 
