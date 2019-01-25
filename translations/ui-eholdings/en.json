@@ -237,7 +237,7 @@
 
     "validate.errors.customTitle.name": "Custom titles must have a name.",
     "validate.errors.customTitle.name.length": "Must be less than 400 characters.",
-    "validate.errors.title.description.length": "The value entered exceeds the 400 character limit. Please enter a value that does not exceed 400 characters.",
+    "validate.errors.title.description.length": "The value entered exceeds the {amount} character limit. Please enter a value that does not exceed {amount} characters.",
     "validate.errors.customPackage.name": "Custom packages must have a name.",
     "validate.errors.customPackage.name.length": "Must not exceed {amount} characters.",
     "validate.errors.coverageStatement.length": "Statement must be 350 characters or less.",
