@@ -135,10 +135,8 @@ class TitleEditRoute extends Component {
             identifiers: this.mergeIdentifiers(model.identifiers)
           }}
           fullViewLink={searchType && {
-            to: {
-              pathname: `/eholdings/titles/${model.id}/edit`,
-              state: { eholdings: true }
-            }
+            pathname: `/eholdings/titles/${model.id}/edit`,
+            state: { eholdings: true }
           }}
         />
       </TitleManager>

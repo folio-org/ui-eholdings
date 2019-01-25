@@ -4,6 +4,7 @@ import ReactRouterPropTypes from 'react-router-prop-types';
 import { connect } from 'react-redux';
 import { TitleManager } from '@folio/stripes/core';
 
+import queryString from 'qs';
 import { createResolver } from '../redux';
 import Title from '../redux/title';
 import Package from '../redux/package';
@@ -60,6 +61,7 @@ class TitleShowRoute extends Component {
 
   render() {
     let { model, customPackages, createRequest, history, location } = this.props;
+    const { searchType } = queryString.parse(location.search, { ignoreQueryPrefix: true });
 
     return (
       <TitleManager record={this.props.model.name}>
@@ -72,6 +74,10 @@ class TitleShowRoute extends Component {
             pathname: `/eholdings/titles/${model.id}/edit`,
             search: location.search,
             state: { eholdings: true }
+          }}
+          fullViewLink={searchType && {
+            pathname: `/eholdings/titles/${model.id}`,
+            state: { eholdings: true },
           }}
           isFreshlySaved={
             history.action === 'PUSH' &&

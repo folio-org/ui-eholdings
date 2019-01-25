@@ -33,6 +33,7 @@ class PackageEditRoute extends Component {
   };
 
   constructor(props) {
+    debugger;
     super(props);
     let { packageId } = props.match.params;
     let [providerId] = packageId.split('-');
@@ -42,6 +43,7 @@ class PackageEditRoute extends Component {
   }
 
   componentDidUpdate(prevProps) {
+    debugger;
     let {
       model: next,
       match,
@@ -197,10 +199,8 @@ class PackageEditRoute extends Component {
               })}
               addPackageToHoldings={this.addPackageToHoldings}
               fullViewLink={searchType && {
-                to: {
-                  pathname: `/eholdings/packages/${model.id}/edit`,
-                  state: { eholdings: true }
-                }
+                pathname: `/eholdings/packages/${model.id}/edit`,
+                state: { eholdings: true },
               }}
             />
           </TitleManager>

@@ -221,7 +221,7 @@ class DetailsView extends Component {
 
     let isListAccordionOpen = sections && sections[listSectionId];
     const { searchType } = queryString.parse(location.search, { ignoreQueryPrefix: true });
-
+    debugger;
     return (
       <div data-test-eholdings-details-view={type}>
         <PaneHeader

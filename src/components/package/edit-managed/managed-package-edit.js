@@ -59,6 +59,7 @@ export default class ManagedPackageEdit extends Component {
   };
 
   static getDerivedStateFromProps(nextProps, prevState) {
+    debugger;
     let stateUpdates = {};
 
     if (nextProps.model.update.errors.length) {

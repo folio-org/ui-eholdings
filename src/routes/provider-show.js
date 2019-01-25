@@ -4,6 +4,7 @@ import ReactRouterPropTypes from 'react-router-prop-types';
 import { connect } from 'react-redux';
 import { TitleManager } from '@folio/stripes/core';
 
+import queryString from 'qs';
 import { createResolver } from '../redux';
 import Provider from '../redux/provider';
 import { ProxyType, RootProxy } from '../redux/application';
@@ -79,6 +80,7 @@ class ProviderShowRoute extends Component {
     const listType = 'packages';
     const { history, location, model, proxyTypes, rootProxy } = this.props;
     const { pkgSearchParams, queryId } = this.state;
+    const { searchType } = queryString.parse(location.search, { ignoreQueryPrefix: true });
 
     return (
       <TitleManager record={model.name}>
@@ -102,6 +104,10 @@ class ProviderShowRoute extends Component {
             pathname: `/eholdings/providers/${model.id}/edit`,
             search: location.search,
             state: { eholdings: true }
+          }}
+          fullViewLink={searchType && {
+            pathname: `/eholdings/providers/${model.id}`,
+            state: { eholdings: true },
           }}
           isFreshlySaved={
             history.action === 'PUSH' &&

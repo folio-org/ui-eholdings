@@ -81,10 +81,8 @@ class ProviderEditRoute extends Component {
           proxyTypes={proxyTypes}
           rootProxy={rootProxy}
           fullViewLink={searchType && {
-            to: {
-              pathname: `/eholdings/providers/${model.id}/edit`,
-              state: { eholdings: true }
-            }
+            pathname: `/eholdings/providers/${model.id}/edit`,
+            state: { eholdings: true },
           }}
         />
       </TitleManager>

@@ -4,6 +4,7 @@ import ReactRouterPropTypes from 'react-router-prop-types';
 import { connect } from 'react-redux';
 import { TitleManager } from '@folio/stripes/core';
 
+import queryString from 'qs';
 import { createResolver } from '../redux';
 import { ProxyType } from '../redux/application';
 import Package from '../redux/package';
@@ -138,6 +139,7 @@ class PackageShowRoute extends Component {
   render() {
     let { history, location, model, provider, proxyTypes } = this.props;
     let { pkgSearchParams, queryId } = this.state;
+    const { searchType } = queryString.parse(location.search, { ignoreQueryPrefix: true });
 
     return (
       <TitleManager record={model.name}>
@@ -155,6 +157,10 @@ class PackageShowRoute extends Component {
             pathname: `/eholdings/packages/${model.id}/edit`,
             search: location.search,
             state: { eholdings: true }
+          }}
+          fullViewLink={searchType && {
+            pathname: `/eholdings/packages/${model.id}`,
+            state: { eholdings: true },
           }}
           isFreshlySaved={
             history.action === 'PUSH' &&

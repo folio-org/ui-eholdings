@@ -7,124 +7,82 @@ import { FormattedMessage } from 'react-intl';
 
 class NavigationModal extends Component {
   static propTypes = {
-    children: PropTypes.oneOfType([
-      PropTypes.func,
-      PropTypes.node
-    ]),
     history: ReactRouterPropTypes.history.isRequired,
     when: PropTypes.bool.isRequired
   };
 
   constructor(props) {
     super(props);
-
-    if (props.when) {
-      this.enable();
-    }
+    this.state = { nextLocation: null, openModal: false };
+    this.onCancel = this.onCancel.bind(this);
+    this.onConfirm = this.onConfirm.bind(this);
   }
 
-  state = {
-    showModal: false,
-    nextLocation: null
-  };
-
-  componentDidUpdate({ when }) {
-    if (this.props.when && !when) {
-      this.enable();
-    } else if (!this.props.when) {
-      this.disable();
-    }
+  componentDidMount() {
+    this.unblock = this.props.history.block((nextLocation) => {
+      if (this.props.when) {
+        this.setState({
+          openModal: true,
+          nextLocation
+        });
+      }
+      return !this.props.when;
+    });
   }
 
   componentWillUnmount() {
-    this.disable();
+    debugger;
+    this.unblock();
   }
-
-  enable() {
-    const { history } = this.props;
-
-    if (this.unblock) {
-      this.unblock();
-    }
-
-    this.unblock = history.block((nextLocation) => {
-      this.setState({
-        showModal: true,
-        nextLocation
-      });
-
-      return false;
-    });
-  }
-
-  disable() {
-    if (this.unblock) {
-      this.unblock();
-      this.unblock = null;
-    }
-  }
-
-  dismiss = () => {
-    this.setState({
-      showModal: false
-    });
-  };
 
   submit = (event) => {
     event.preventDefault();
-    this.dismiss();
+    this.onCancel();
   }
 
-  continue = () => {
-    const { history } = this.props;
-    const { nextLocation } = this.state;
+  onCancel() {
+    debugger;
+    this.setState({ nextLocation: null, openModal: false });
+  }
 
-    this.disable();
+  onConfirm() {
+    this.navigateToNextLocation();
+  }
 
-    if (nextLocation) {
-      history.push(nextLocation);
-    }
-  };
+  navigateToNextLocation() {
+    debugger;
+    this.unblock();
+    this.props.history.push(this.state.nextLocation.pathname);
+  }
 
   render() {
-    let { when, children } = this.props;
-    let { showModal } = this.state;
-
-    if (typeof children === 'function') {
-      children = children(this.continue, this.dismiss);
-    }
-
-    if (when) {
-      return (
-        <Modal
-          id="navigation-modal"
-          size="small"
-          open={showModal}
-          label={<FormattedMessage id="ui-eholdings.navModal.modalLabel" />}
-          onClose={this.dismiss}
-          wrappingElement="form"
-          onSubmit={this.submit}
-          footer={(
-            <ModalFooter
-              primaryButton={{
-                'label': <FormattedMessage id="ui-eholdings.navModal.dismissLabel" />,
-                'type': 'submit',
-                'data-test-navigation-modal-dismiss': true
-              }}
-              secondaryButton={{
-                'label': <FormattedMessage id="ui-eholdings.navModal.continueLabel" />,
-                'onClick': this.continue,
-                'data-test-navigation-modal-continue': true
-              }}
-            />
-          )}
-        >
-          <FormattedMessage id="ui-eholdings.navModal.unsavedChangesMsg" />
-        </Modal>
-      );
-    } else {
-      return null;
-    }
+    return (
+      <Modal
+        id="navigation-modal"
+        size="small"
+        open={this.state.openModal}
+        label={<FormattedMessage id="ui-eholdings.navModal.modalLabel" />}
+        wrappingElement="form"
+        onClose={this.onCancel}
+        onSubmit={this.submit}
+        footer={(
+          <ModalFooter
+            primaryButton={{
+              'label': <FormattedMessage id="ui-eholdings.navModal.dismissLabel" />,
+              'type': 'submit',
+              'data-test-navigation-modal-dismiss': true
+            }}
+            secondaryButton={{
+              'label': <FormattedMessage id="ui-eholdings.navModal.continueLabel" />,
+              'onClick': this.onConfirm,
+              'data-test-navigation-modal-continue': true
+            }}
+          />
+        )}
+      >
+        <FormattedMessage id="ui-eholdings.navModal.unsavedChangesMsg" />
+      </Modal>
+    );
   }
 }
 

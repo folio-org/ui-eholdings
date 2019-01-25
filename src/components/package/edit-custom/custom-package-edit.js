@@ -62,6 +62,7 @@ export default class CustomPackageEdit extends Component {
   };
 
   static getDerivedStateFromProps(nextProps, prevState) {
+    debugger;
     let stateUpdates = {};
 
     if (nextProps.model.destroy.errors.length) {
@@ -169,7 +170,7 @@ export default class CustomPackageEdit extends Component {
         </Button>
 
         {fullViewLink && (
-          <FullViewLink to={fullViewLink} />
+          <FullViewLink onClick={onToggle} to={fullViewLink} />
         )}
 
         {packageSelected && (
@@ -365,7 +366,7 @@ export default class CustomPackageEdit extends Component {
               />
             </form>
 
-            <NavigationModal when={!pristine && !model.update.isPending} />
+            <NavigationModal when={!pristine && !model.update.isPending && !model.update.isResolved} />
 
             <Modal
               open={showSelectionModal}
