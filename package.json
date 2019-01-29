@@ -1,6 +1,6 @@
 {
   "name": "@folio/eholdings",
-  "version": "1.3.0",
+  "version": "1.4.0",
   "description": "FOLIO UI module for eHoldings",
   "main": "src/index.js",
   "repository": "https://github.com/folio-org/ui-eholdings",
@@ -79,7 +79,7 @@
       }
     ],
     "okapiInterfaces": {
-      "eholdings": "0.1"
+      "eholdings": "1.0"
     },
     "permissionSets": [
       {
