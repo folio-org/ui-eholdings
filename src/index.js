@@ -47,12 +47,10 @@ class EHoldings extends Component {
       match: { path: rootPath }
     } = this.props;
 
-    // The settings routes below are passed on to the SettingsRoute, which parses
-    // them into an array and sends them on to the stripes-components <Settings>
     return showSettings ? (
       <Route path={rootPath} component={SettingsRoute}>
-        <Route path="knowledge-base" exact component={SettingsKnowledgeBaseRoute} name="Knowledge base" />
-        <Route path="root-proxy" exact component={SettingsRootProxyRoute} name="Root proxy" />
+        <Route path={`${rootPath}/knowledge-base`} exact component={SettingsKnowledgeBaseRoute} />
+        <Route path={`${rootPath}/root-proxy`} exact component={SettingsRootProxyRoute} />
       </Route>
     ) : (
       <Route path={rootPath} component={ApplicationRoute}>

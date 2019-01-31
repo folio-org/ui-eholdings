@@ -133,7 +133,7 @@ export default class SearchPaneset extends Component {
     return (
       <Paneset>
         <Pane
-          aside
+          tagName="aside"
           onDismiss={this.toggleFilters}
           visible={!hideFilters}
           className={styles['search-pane']}
@@ -155,6 +155,7 @@ export default class SearchPaneset extends Component {
         <Pane
           static
           flexGrow={5}
+          padContent={false}
           appIcon={{ app: 'eholdings' }}
           paneTitle={capitalize(resultsType)}
           paneSub={resultsView && resultsPaneSub}
@@ -185,6 +186,7 @@ export default class SearchPaneset extends Component {
 
         <Pane
           flexGrow={11}
+          padContent={false}
           className={styles['search-detail-pane']}
           onDismiss={onClosePreview}
           onExited={this.clearDetailsView}

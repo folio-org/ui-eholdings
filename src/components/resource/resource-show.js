@@ -474,18 +474,21 @@ class ResourceShow extends Component {
           label={<FormattedMessage id="ui-eholdings.resource.show.modal.header" />}
           id="eholdings-resource-deselection-confirmation-modal"
           footer={(
-            <ModalFooter
-              primaryButton={{
-                'label': <FormattedMessage id="ui-eholdings.resource.modal.buttonConfirm" />,
-                'onClick': this.commitSelectionToggle,
-                'data-test-eholdings-resource-deselection-confirmation-modal-yes': true
-              }}
-              secondaryButton={{
-                'label': <FormattedMessage id="ui-eholdings.resource.modal.buttonCancel" />,
-                'onClick': this.cancelSelectionToggle,
-                'data-test-eholdings-resource-deselection-confirmation-modal-no': true
-              }}
-            />
+            <ModalFooter>
+              <Button
+                data-test-eholdings-resource-deselection-confirmation-modal-yes
+                buttonStyle="primary"
+                onClick={this.commitSelectionToggle}
+              >
+                <FormattedMessage id="ui-eholdings.resource.modal.buttonConfirm" />
+              </Button>
+              <Button
+                data-test-eholdings-resource-deselection-confirmation-modal-no
+                onClick={this.cancelSelectionToggle}
+              >
+                <FormattedMessage id="ui-eholdings.resource.modal.buttonCancel" />
+              </Button>
+            </ModalFooter>
           )}
         >
           {
@@ -494,15 +497,17 @@ class ResourceShow extends Component {
                selects and then immediately deselects the
                resource
             */
-            (model.title.resources.length <= 1 && model.title.isTitleCustom) ? (
-              <span data-test-eholdings-deselect-final-title-warning>
-                <FormattedMessage id="ui-eholdings.resource.modal.body.isCustom.lastTitle" />
-              </span>
-            ) : (
-              <span data-test-eholdings-deselect-title-warning>
-                <FormattedMessage id="ui-eholdings.resource.show.modal.body" />
-              </span>
-            )
+            model.package.titleCount <= 1 && model.title.isTitleCustom
+              ? (
+                <span data-test-eholdings-deselect-final-title-warning>
+                  <FormattedMessage id="ui-eholdings.resource.modal.body.isCustom.lastTitle" />
+                </span>
+              )
+              : (
+                <span data-test-eholdings-deselect-title-warning>
+                  <FormattedMessage id="ui-eholdings.resource.show.modal.body" />
+                </span>
+              )
           }
         </Modal>
       </div>

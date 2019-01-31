@@ -1,6 +1,7 @@
 import React, { Component, Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { Form } from 'react-final-form';
+import createFocusDecorator from 'final-form-focus';
 import { FormattedMessage } from 'react-intl';
 import {
   Button,
@@ -13,9 +14,11 @@ import DetailsView from '../../details-view';
 import DetailsViewSection from '../../details-view-section';
 import NavigationModal from '../../navigation-modal';
 import Toaster from '../../toaster';
-import ProxySelectField from '../_fields/proxy-select';
-import TokenField from '../_fields/token';
+import ProxySelectField from '../../proxy-select';
+import TokenField from '../../token';
 import PaneHeaderButton from '../../pane-header-button';
+
+const focusOnErrors = createFocusDecorator();
 
 export default class ProviderEdit extends Component {
   static propTypes = {
@@ -74,6 +77,7 @@ export default class ProviderEdit extends Component {
 
     return (
       <Form
+        decorators={[focusOnErrors]}
         onSubmit={onSubmit}
         initialValues={{
           proxyId: model.proxy.id,
@@ -141,7 +145,7 @@ export default class ProviderEdit extends Component {
                 )}
               />
             </form>
-            <NavigationModal when={!pristine && !model.update.isPending} />
+            <NavigationModal when={!pristine && !model.update.isPending && !model.update.isResolved} />
           </Fragment>
         )}
       />

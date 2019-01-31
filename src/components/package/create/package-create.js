@@ -2,15 +2,16 @@ import React, { Component, Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { Form } from 'react-final-form';
 import arrayMutators from 'final-form-arrays';
+import createFocusDecorator from 'final-form-focus';
 import { FormattedMessage } from 'react-intl';
 
 import {
   Button,
   Icon,
   IconButton,
-  PaneHeader
 } from '@folio/stripes/components';
 
+import Paneset, { Pane } from '../../paneset';
 import DetailsViewSection from '../../details-view-section';
 import NameField from '../_fields/name';
 import CoverageFields from '../_fields/custom-coverage';
@@ -25,6 +26,8 @@ const initialValues = {
   contentType: 'Unknown',
   customCoverages: []
 };
+
+const focusOnErrors = createFocusDecorator();
 
 export default class PackageCreate extends Component {
   static propTypes = {
@@ -65,12 +68,13 @@ export default class PackageCreate extends Component {
       onCancel,
       onSubmit,
     } = this.props;
-    
+
     const paneTitle = <FormattedMessage id="ui-eholdings.package.create.custom" />;
 
     return (
       <Form
         initialValues={initialValues}
+        decorators={[focusOnErrors]}
         mutators={{ ...arrayMutators }}
         onSubmit={onSubmit}
         render={({ handleSubmit, pristine }) => (
@@ -84,8 +88,11 @@ export default class PackageCreate extends Component {
               }))}
             />
 
-            <form onSubmit={handleSubmit}>
-              <PaneHeader
+            <Paneset>
+              <Pane
+                onSubmit={handleSubmit}
+                tagName="form"
+                flexGrow={1}
                 paneTitle={paneTitle}
                 actionMenu={this.getActionMenu}
                 firstMenu={onCancel && (
@@ -121,24 +128,25 @@ export default class PackageCreate extends Component {
                     </PaneHeaderButton>
                   </Fragment>
                 )}
-              />
+              >
+                <div className={styles['package-create-form-container']}>
+                  <DetailsViewSection
+                    label={<FormattedMessage id="ui-eholdings.package.packageInformation" />}
+                    separator={false}
+                  >
+                    <NameField />
+                    <ContentTypeField />
+                  </DetailsViewSection>
+                  <DetailsViewSection
+                    label={<FormattedMessage id="ui-eholdings.label.coverageSettings" />}
+                  >
+                    <CoverageFields />
+                  </DetailsViewSection>
+                </div>
+              </Pane>
+            </Paneset>
 
-              <div className={styles['package-create-form-container']}>
-                <DetailsViewSection
-                  label={<FormattedMessage id="ui-eholdings.package.packageInformation" />}
-                  separator={false}
-                >
-                  <NameField />
-                  <ContentTypeField />
-                </DetailsViewSection>
-                <DetailsViewSection
-                  label={<FormattedMessage id="ui-eholdings.label.coverageSettings" />}
-                >
-                  <CoverageFields />
-                </DetailsViewSection>
-              </div>
-            </form>
-            <NavigationModal when={!pristine && !request.isResolved} />
+            <NavigationModal when={!pristine && !request.isPending && !request.isResolved} />
           </div>
         )}
       />

@@ -296,7 +296,7 @@ describe('ResourceEditCustomTitle', () => {
       });
 
       it('displays a validation error for embargo', () => {
-        expect(ResourceEditPage.validationErrorOnEmbargoTextField).to.equal('Enter number greater than 0');
+        expect(ResourceEditPage.validationErrorOnEmbargoTextField).to.equal('Must be a number');
       });
 
       it('displays a custom url validation error message', () => {
@@ -503,7 +503,7 @@ describe('ResourceEditCustomTitle', () => {
       });
 
       it('displays a validation error for embargo', () => {
-        expect(ResourceEditPage.validationErrorOnEmbargoTextField).to.equal('Enter number greater than 0');
+        expect(ResourceEditPage.validationErrorOnEmbargoTextField).to.equal('Must be a number');
       });
     });
 

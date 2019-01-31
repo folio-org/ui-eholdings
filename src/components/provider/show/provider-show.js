@@ -21,6 +21,8 @@ import Toaster from '../../toaster';
 import ProxyDisplay from '../../proxy-display';
 import TokenDisplay from '../../token-display';
 
+const ITEM_HEIGHT = 53;
+
 class ProviderShow extends Component {
    static propTypes = {
      fetchPackages: PropTypes.func.isRequired,
@@ -206,7 +208,7 @@ class ProviderShow extends Component {
               collection={packages}
               length={packages.length}
               scrollable={scrollable}
-              itemHeight={60}
+              itemHeight={ITEM_HEIGHT}
               notFoundMessage={<FormattedMessage id="ui-eholdings.notFound" />}
               renderItem={item => (
                 <PackageListItem

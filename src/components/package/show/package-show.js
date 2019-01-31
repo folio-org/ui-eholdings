@@ -28,6 +28,8 @@ import KeyValueColumns from '../../key-value-columns';
 import ProxyDisplay from '../../proxy-display';
 import TokenDisplay from '../../token-display';
 
+const ITEM_HEIGHT = 53;
+
 class PackageShow extends Component {
   static propTypes = {
     addPackageToHoldings: PropTypes.func.isRequired,
@@ -447,7 +449,7 @@ class PackageShow extends Component {
               collection={model.resources}
               length={model.titleCount}
               scrollable={scrollable}
-              itemHeight={60}
+              itemHeight={ITEM_HEIGHT}
               notFoundMessage={<FormattedMessage id="ui-eholdings.notFound" />}
               renderItem={item => (
                 <TitleListItem
@@ -467,18 +469,21 @@ class PackageShow extends Component {
           label={modalMessage.header}
           id="eholdings-package-confirmation-modal"
           footer={(
-            <ModalFooter
-              primaryButton={{
-                'label': modalMessage.buttonConfirm,
-                'onClick': this.commitSelectionToggle,
-                'data-test-eholdings-package-deselection-confirmation-modal-yes': true
-              }}
-              secondaryButton={{
-                'label': modalMessage.buttonCancel,
-                'onClick': this.cancelSelectionToggle,
-                'data-test-eholdings-package-deselection-confirmation-modal-no': true
-              }}
-            />
+            <ModalFooter>
+              <Button
+                data-test-eholdings-package-deselection-confirmation-modal-yes
+                buttonStyle="primary"
+                onClick={this.commitSelectionToggle}
+              >
+                {modalMessage.buttonConfirm}
+              </Button>
+              <Button
+                data-test-eholdings-package-deselection-confirmation-modal-no
+                onClick={this.cancelSelectionToggle}
+              >
+                {modalMessage.buttonCancel}
+              </Button>
+            </ModalFooter>
           )}
         >
           {modalMessage.body}

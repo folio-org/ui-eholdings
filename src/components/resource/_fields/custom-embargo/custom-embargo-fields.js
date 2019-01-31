@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { Field } from 'redux-form';
+import { Field } from 'react-final-form';
 import { FormattedMessage } from 'react-intl';
 
 import {
@@ -12,7 +12,37 @@ import {
 } from '@folio/stripes/components';
 import styles from './custom-embargo-fields.css';
 
-class CustomEmbargoFields extends Component {
+function validateEmbargoValue(value) {
+  let error;
+  const customEmbargoValueIsDecimal = Number(value) % 1 !== 0
+    || (value && value.toString().indexOf('.') !== -1);
+
+  if (value <= 0) {
+    error = <FormattedMessage id="ui-eholdings.validate.errors.embargoPeriod.moreThanZero" />;
+  }
+
+  if (customEmbargoValueIsDecimal) {
+    error = <FormattedMessage id="ui-eholdings.validate.errors.embargoPeriod.decimal" />;
+  }
+
+  if (Number.isNaN(Number(value))) {
+    error = <FormattedMessage id="ui-eholdings.validate.errors.embargoPeriod.number" />;
+  }
+
+  return error;
+}
+
+function validateEmbargoUnit(value, { customEmbargoValue }) {
+  let error;
+
+  if (customEmbargoValue > 0 && !value) {
+    error = <FormattedMessage id="ui-eholdings.validate.errors.embargoPeriod.unit" />;
+  }
+
+  return error;
+}
+
+export default class CustomEmbargoFields extends Component {
   static propTypes = {
     change: PropTypes.func.isRequired,
     initial: PropTypes.object,
@@ -56,6 +86,7 @@ class CustomEmbargoFields extends Component {
                 component={TextField}
                 placeholder={placeholder}
                 autoFocus={initial.customEmbargoValue === 0}
+                validate={validateEmbargoValue}
               />
             )}
           </FormattedMessage>
@@ -68,6 +99,7 @@ class CustomEmbargoFields extends Component {
           <Field
             name="customEmbargoUnit"
             component={Select}
+            validate={validateEmbargoUnit}
           >
             <FormattedMessage id="ui-eholdings.label.selectTimePeriod">
               {(message) => <option value="">{message}</option>}
@@ -127,34 +159,4 @@ class CustomEmbargoFields extends Component {
       </div>
     );
   }
-}
-
-export default CustomEmbargoFields;
-
-export function validate(values) {
-  const {
-    customEmbargoValue,
-    customEmbargoUnit,
-  } = values;
-
-  let errors = {};
-  const customEmbargoValueIsDecimal = Number(values.customEmbargoValue) % 1 !== 0
-    || (customEmbargoValue && customEmbargoValue.toString().indexOf('.') !== -1);
-
-  if (customEmbargoValue <= 0) {
-    errors.customEmbargoValue = <FormattedMessage id="ui-eholdings.validate.errors.embargoPeriod.moreThanZero" />;
-  }
-
-  if (customEmbargoValueIsDecimal) {
-    errors.customEmbargoValue = <FormattedMessage id="ui-eholdings.validate.errors.embargoPeriod.decimal" />;
-  }
-
-  if (Number.isNaN(Number(customEmbargoValue))) {
-    errors.customEmbargoValue = <FormattedMessage id="ui-eholdings.validate.errors.embargoPeriod.number" />;
-  }
-
-  if (!customEmbargoValueIsDecimal && customEmbargoValue > 0 && !customEmbargoUnit) {
-    errors.customEmbargoUnit = <FormattedMessage id="ui-eholdings.validate.errors.embargoPeriod.unit" />;
-  }
-  return errors;
 }

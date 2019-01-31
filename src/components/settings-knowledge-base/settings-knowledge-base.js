@@ -1,7 +1,7 @@
 import React, { Component, Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { Field, Form } from 'react-final-form';
-import createDecorator from 'final-form-focus';
+import createFocusDecorator from 'final-form-focus';
 import isEqual from 'lodash/isEqual';
 import { FormattedMessage } from 'react-intl';
 import {
@@ -16,7 +16,7 @@ import { processErrors } from '../utilities';
 import Toaster from '../toaster';
 import PaneHeaderButton from '../pane-header-button';
 
-const focusOnErrors = createDecorator();
+const focusOnErrors = createFocusDecorator();
 
 export default class SettingsKnowledgeBase extends Component {
   static propTypes = {
@@ -47,6 +47,15 @@ export default class SettingsKnowledgeBase extends Component {
     }
   }
 
+  getInitialValues() {
+    const { attributes } = this.props.model.data;
+    const initialValues = {
+      rmapiBaseUrl: 'https://sandbox.ebsco.io',
+    };
+
+    return Object.assign(initialValues, attributes);
+  }
+
   render() {
     let {
       model,
@@ -71,7 +80,7 @@ export default class SettingsKnowledgeBase extends Component {
     return (
       <Form
         onSubmit={onSubmit}
-        initialValues={model.data.attributes}
+        initialValues={this.getInitialValues()}
         decorators={[focusOnErrors]}
         render={({ form: { reset }, handleSubmit, invalid, pristine }) => (
           <SettingsDetailPane

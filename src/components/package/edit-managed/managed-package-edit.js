@@ -5,6 +5,7 @@ import {
   Form
 } from 'react-final-form';
 import arrayMutators from 'final-form-arrays';
+import createFocusDecorator from 'final-form-focus';
 import { FormattedMessage } from 'react-intl';
 
 import {
@@ -25,9 +26,11 @@ import NavigationModal from '../../navigation-modal';
 import Toaster from '../../toaster';
 import PaneHeaderButton from '../../pane-header-button';
 import SelectionStatus from '../selection-status';
-import ProxySelectField from '../_fields/proxy-select';
-import TokenField from '../_fields/token';
+import ProxySelectField from '../../proxy-select';
+import TokenField from '../../token';
 import styles from './managed-package-edit.css';
+
+const focusOnErrors = createFocusDecorator();
 
 export default class ManagedPackageEdit extends Component {
   static propTypes = {
@@ -241,6 +244,7 @@ export default class ManagedPackageEdit extends Component {
     return (
       <Form
         onSubmit={this.handleOnSubmit}
+        decorators={[focusOnErrors]}
         mutators={{ ...arrayMutators }}
         initialValues={initialValues}
         render={({ handleSubmit, pristine, form: { change } }) => (
@@ -418,7 +422,7 @@ export default class ManagedPackageEdit extends Component {
               />
             </form>
 
-            <NavigationModal when={!pristine && !model.update.isPending} />
+            <NavigationModal when={!pristine && !model.update.isPending && !model.update.isResolved} />
 
             <Modal
               open={showSelectionModal}
@@ -426,21 +430,24 @@ export default class ManagedPackageEdit extends Component {
               label={<FormattedMessage id="ui-eholdings.package.modal.header" />}
               id="eholdings-package-confirmation-modal"
               footer={(
-                <ModalFooter
-                  primaryButton={{
-                    'label': model.update.isPending ?
+                <ModalFooter>
+                  <Button
+                    data-test-eholdings-package-deselection-confirmation-modal-yes
+                    buttonStyle="primary"
+                    disabled={model.update.isPending}
+                    onClick={this.commitSelectionToggle}
+                  >
+                    {(model.update.isPending ?
                       <FormattedMessage id="ui-eholdings.package.modal.buttonWorking" /> :
-                      <FormattedMessage id="ui-eholdings.package.modal.buttonConfirm" />,
-                    'onClick': this.commitSelectionToggle,
-                    'disabled': model.update.isPending,
-                    'data-test-eholdings-package-deselection-confirmation-modal-yes': true
-                  }}
-                  secondaryButton={{
-                    'label': <FormattedMessage id="ui-eholdings.package.modal.buttonCancel" />,
-                    'onClick': () => this.cancelSelectionToggle(change),
-                    'data-test-eholdings-package-deselection-confirmation-modal-no': true
-                  }}
-                />
+                      <FormattedMessage id="ui-eholdings.package.modal.buttonConfirm" />)}
+                  </Button>
+                  <Button
+                    data-test-eholdings-package-deselection-confirmation-modal-no
+                    onClick={() => this.cancelSelectionToggle(change)}
+                  >
+                    <FormattedMessage id="ui-eholdings.package.modal.buttonCancel" />
+                  </Button>
+                </ModalFooter>
               )}
             >
               <FormattedMessage id="ui-eholdings.package.modal.body" />

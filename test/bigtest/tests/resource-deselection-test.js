@@ -46,13 +46,29 @@ describe('ResourceDeselection', () => {
         expect(ResourcePage.isResourceSelected).to.equal('Selected');
       });
 
-      describe('deselecting', () => {
+      describe('deselecting managed title', () => {
         beforeEach(() => {
           return ResourcePage.dropDownMenu.clickRemoveFromHoldings();
         });
 
-        it('warns the user they are deselecting the final title in the package', () => {
-          expect(ResourcePage.deselectionModal.hasDeselectTitleWarning).to.be.true;
+        describe('deselection modal', () => {
+          it('warns the user they are deselecting a title', () => {
+            expect(ResourcePage.deselectionModal.hasDeselectTitleWarning).to.be.true;
+          });
+        });
+      });
+
+      describe('deselecting custom title', () => {
+        beforeEach(async function () {
+          title.isTitleCustom = true;
+          this.visit(`/eholdings/resources/${resource.id}`);
+          await ResourcePage.dropDownMenu.clickRemoveFromHoldings();
+        });
+
+        describe('deselection modal', () => {
+          it('warns the user they are deselecting the final title in the package', () => {
+            expect(ResourcePage.deselectionModal.hasDeselectFinalTitleWarning).to.be.true;
+          });
         });
       });
     });

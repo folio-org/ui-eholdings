@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import {
-  IconButton,
-  Pane
+  PaneCloseLink,
 } from '@folio/stripes/components';
 import { FormattedMessage } from 'react-intl';
 
+import { Pane } from '../paneset';
 import styles from './settings-detail-pane.css';
 
 class SettingsDetailPane extends Component {
@@ -24,16 +24,14 @@ class SettingsDetailPane extends Component {
     return (
       <Pane
         {...paneProps}
-        defaultWidth="fill"
         paneTitle={paneTitle}
+        flexGrow={3}
         firstMenu={(
           <FormattedMessage id="ui-eholdings.settings.goBackToEholdings">
             {ariaLabel => (
-              <IconButton
-                icon="arrow-left"
-                href="/settings/eholdings"
+              <PaneCloseLink
                 ariaLabel={ariaLabel}
-                className={styles['settings-detail-pane-back-button']}
+                to="/settings/eholdings"
               />
             )}
           </FormattedMessage>

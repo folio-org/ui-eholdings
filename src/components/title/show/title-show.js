@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import update from 'lodash/fp/update';
 import set from 'lodash/fp/set';
 import { Form } from 'react-final-form';
-import createDecorator from 'final-form-focus';
+import createFocusDecorator from 'final-form-focus';
 import {
   Accordion,
   Button,
@@ -25,7 +25,8 @@ import Toaster from '../../toaster';
 import KeyValueColumns from '../../key-value-columns';
 import styles from './title-show.css';
 
-const focusOnErrors = createDecorator();
+const focusOnErrors = createFocusDecorator();
+const ITEM_HEIGHT = 53;
 
 class TitleShow extends Component {
   static propTypes = {
@@ -267,7 +268,7 @@ class TitleShow extends Component {
           resultsLength={model.resources.length}
           renderList={scrollable => (
             <ScrollView
-              itemHeight={60}
+              itemHeight={ITEM_HEIGHT}
               items={model.resources}
               scrollable={scrollable}
               data-test-query-list="title-packages"
@@ -296,20 +297,23 @@ class TitleShow extends Component {
               onSubmit={handleSubmit}
               wrappingElement="form"
               footer={(
-                <ModalFooter
-                  primaryButton={{
-                    'label': request.isPending ? (modalMessage.saving) : (modalMessage.submit),
-                    'type': 'submit',
-                    'disabled': request.isPending,
-                    'data-test-eholdings-custom-package-modal-submit': true
-                  }}
-                  secondaryButton={{
-                    'label': <FormattedMessage id="ui-eholdings.cancel" />,
-                    'onClick': this.toggleCustomPackageModal,
-                    'disabled': request.isPending,
-                    'data-test-eholdings-custom-package-modal-cancel': true
-                  }}
-                />
+                <ModalFooter>
+                  <Button
+                    data-test-eholdings-custom-package-modal-submit
+                    buttonStyle="primary"
+                    disabled={request.isPending}
+                    type="submit"
+                  >
+                    {request.isPending ? modalMessage.saving : modalMessage.submit}
+                  </Button>
+                  <Button
+                    data-test-eholdings-custom-package-modal-cancel
+                    disabled={request.isPending}
+                    onClick={this.toggleCustomPackageModal}
+                  >
+                    <FormattedMessage id="ui-eholdings.cancel" />
+                  </Button>
+                </ModalFooter>
               )}
             >
               <AddTitleToPackage

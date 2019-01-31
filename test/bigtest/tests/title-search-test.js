@@ -84,7 +84,7 @@ describe('TitleSearch', () => {
       expect(TitleSearchPage.hasPreSearchPane).to.equal(false);
     });
 
-    it('focuses on the search pane title', () => {
+    it.skip('focuses on the search pane title', () => {
       expect(TitleSearchPage.paneTitleHasFocus).to.be.true;
     });
 
