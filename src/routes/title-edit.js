@@ -12,6 +12,8 @@ import Resource from '../redux/resource';
 
 import View from '../components/title/edit';
 
+import { historyActions } from '../constants';
+
 class TitleEditRoute extends Component {
   static propTypes = {
     getTitle: PropTypes.func.isRequired,
@@ -112,17 +114,30 @@ class TitleEditRoute extends Component {
       location
     } = this.props;
     const { searchType } = queryString.parse(location.search, { ignoreQueryPrefix: true });
+    const viewRouteHistoryAction = searchType ? historyActions.PUSH : historyActions.REPLACE;
+    const viewRouteState = {
+      pathname: `/eholdings/titles/${model.id}`,
+      search: location.search,
+      state: {
+        eholdings: true,
+        action: viewRouteHistoryAction,
+      }
+    };
+    const fullViewRouteState = {
+      pathname: `/eholdings/titles/${model.id}/edit`,
+      state: { eholdings: true },
+    };
 
     return (
       <TitleManager record={`Edit ${this.props.model.name}`}>
         <View
           model={model}
           onSubmit={this.titleEditSubmitted}
-          onCancel={() => history.push({
-            pathname: `/eholdings/titles/${model.id}`,
-            search: location.search,
-            state: { eholdings: true }
-          })}
+          onCancel={() => (
+            searchType
+              ? history.push(viewRouteState)
+              : history.replace(viewRouteState)
+          )}
           updateRequest={updateRequest}
           initialValues={{
             name: model.name,
@@ -134,10 +149,10 @@ class TitleEditRoute extends Component {
             contributors: model.contributors,
             identifiers: this.mergeIdentifiers(model.identifiers)
           }}
-          fullViewLink={searchType && {
-            pathname: `/eholdings/titles/${model.id}/edit`,
-            state: { eholdings: true }
-          }}
+          onFullView={searchType
+            ? () => history.push(fullViewRouteState)
+            : undefined
+          }
         />
       </TitleManager>
     );

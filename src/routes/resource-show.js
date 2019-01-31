@@ -82,6 +82,13 @@ class ResourceShowRoute extends Component {
   render() {
     const { model, proxyTypes, history } = this.props;
 
+    const editRouteState = {
+      pathname: `/eholdings/resources/${model.id}/edit`,
+      state: {
+        eholdings: true,
+      },
+    };
+
     if (model.isLoading) {
       return <Icon icon='spinner-ellipsis' />;
     }
@@ -92,10 +99,7 @@ class ResourceShowRoute extends Component {
           model={model}
           proxyTypes={proxyTypes}
           toggleSelected={this.toggleSelected}
-          editLink={{
-            pathname: `/eholdings/resources/${model.id}/edit`,
-            state: { eholdings: true }
-          }}
+          onEdit={() => history.replace(editRouteState)}
           isFreshlySaved={
             history.action === 'PUSH' &&
             history.location.state &&

@@ -16,16 +16,12 @@ import Toaster from '../../toaster';
 import ProxySelectField from '../_fields/proxy-select';
 import TokenField from '../_fields/token';
 import PaneHeaderButton from '../../pane-header-button';
-import FullViewLink from '../../full-view-link';
 
 export default class ProviderEdit extends Component {
   static propTypes = {
-    fullViewLink: PropTypes.oneOfType([
-      PropTypes.string,
-      PropTypes.object
-    ]),
     model: PropTypes.object.isRequired,
     onCancel: PropTypes.func.isRequired,
+    onFullView: PropTypes.func,
     onSubmit: PropTypes.func.isRequired,
     proxyTypes: PropTypes.object.isRequired,
     rootProxy: PropTypes.object.isRequired
@@ -33,7 +29,7 @@ export default class ProviderEdit extends Component {
 
   getActionMenu = ({ onToggle }) => {
     const {
-      fullViewLink,
+      onFullView,
       onCancel
     } = this.props;
 
@@ -50,8 +46,16 @@ export default class ProviderEdit extends Component {
           <FormattedMessage id="ui-eholdings.actionMenu.cancelEditing" />
         </Button>
 
-        {fullViewLink && (
-          <FullViewLink to={fullViewLink} />
+        {onFullView && (
+          <Button
+            buttonStyle="dropdownItem fullWidth"
+            onClick={() => {
+              onToggle();
+              onFullView();
+            }}
+          >
+            <FormattedMessage id="ui-eholdings.actionMenu.fullView" />
+          </Button>
         )}
       </Fragment>
     );

@@ -2,8 +2,13 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import ReactRouterPropTypes from 'react-router-prop-types';
 import { withRouter } from 'react-router';
-import { Modal, ModalFooter } from '@folio/stripes/components';
+import {
+  Modal,
+  ModalFooter,
+  Button,
+} from '@folio/stripes/components';
 import { FormattedMessage } from 'react-intl';
+import { historyActions } from '../../constants';
 
 class NavigationModal extends Component {
   static propTypes = {
@@ -14,8 +19,6 @@ class NavigationModal extends Component {
   constructor(props) {
     super(props);
     this.state = { nextLocation: null, openModal: false };
-    this.onCancel = this.onCancel.bind(this);
-    this.onConfirm = this.onConfirm.bind(this);
   }
 
   componentDidMount() {
@@ -31,28 +34,31 @@ class NavigationModal extends Component {
   }
 
   componentWillUnmount() {
-    debugger;
     this.unblock();
   }
 
   submit = (event) => {
     event.preventDefault();
     this.onCancel();
-  }
+  };
 
-  onCancel() {
-    debugger;
+  onCancel = () => {
     this.setState({ nextLocation: null, openModal: false });
-  }
+  };
 
-  onConfirm() {
+  onConfirm = () => {
     this.navigateToNextLocation();
-  }
+  };
 
   navigateToNextLocation() {
-    debugger;
     this.unblock();
-    this.props.history.push(this.state.nextLocation.pathname);
+    if (this.state.nextLocation.state
+      && this.state.nextLocation.state.action
+      && this.state.nextLocation.state.action === historyActions.REPLACE) {
+      this.props.history.replace(this.state.nextLocation);
+    } else {
+      this.props.history.push(this.state.nextLocation);
+    }
   }
 
   render() {
@@ -66,18 +72,21 @@ class NavigationModal extends Component {
         onClose={this.onCancel}
         onSubmit={this.submit}
         footer={(
-          <ModalFooter
-            primaryButton={{
-              'label': <FormattedMessage id="ui-eholdings.navModal.dismissLabel" />,
-              'type': 'submit',
-              'data-test-navigation-modal-dismiss': true
-            }}
-            secondaryButton={{
-              'label': <FormattedMessage id="ui-eholdings.navModal.continueLabel" />,
-              'onClick': this.onConfirm,
-              'data-test-navigation-modal-continue': true
-            }}
-          />
+          <ModalFooter>
+            <Button
+              data-test-navigation-modal-dismiss
+              buttonStyle="primary"
+              type="submit"
+            >
+              <FormattedMessage id="ui-eholdings.navModal.dismissLabel" />
+            </Button>
+            <Button
+              data-test-navigation-modal-continue
+              onClick={this.onConfirm}
+            >
+              <FormattedMessage id="ui-eholdings.navModal.continueLabel" />
+            </Button>
+          </ModalFooter>
         )}
       >
         <FormattedMessage id="ui-eholdings.navModal.unsavedChangesMsg" />

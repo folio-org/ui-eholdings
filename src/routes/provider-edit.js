@@ -12,6 +12,8 @@ import { ProxyType, RootProxy } from '../redux/application';
 
 import View from '../components/provider/edit';
 
+import { historyActions } from '../constants';
+
 class ProviderEditRoute extends Component {
   static propTypes = {
     getProvider: PropTypes.func.isRequired,
@@ -67,23 +69,36 @@ class ProviderEditRoute extends Component {
   render() {
     let { model, proxyTypes, rootProxy, history, location } = this.props;
     const { searchType } = queryString.parse(location.search, { ignoreQueryPrefix: true });
+    const viewRouteHistoryAction = searchType ? historyActions.PUSH : historyActions.REPLACE;
+    const viewRouteState = {
+      pathname: `/eholdings/providers/${model.id}`,
+      search: location.search,
+      state: {
+        eholdings: true,
+        action: viewRouteHistoryAction,
+      }
+    };
+    const fullViewRouteState = {
+      pathname: `/eholdings/providers/${model.id}/edit`,
+      state: { eholdings: true },
+    };
 
     return (
       <TitleManager record={`Edit ${this.props.model.name}`}>
         <View
           model={model}
           onSubmit={this.providerEditSubmitted}
-          onCancel={() => history.push({
-            pathname: `/eholdings/providers/${model.id}`,
-            search: location.search,
-            state: { eholdings: true }
-          })}
+          onCancel={() => (
+            searchType
+              ? history.push(viewRouteState)
+              : history.replace(viewRouteState)
+          )}
           proxyTypes={proxyTypes}
           rootProxy={rootProxy}
-          fullViewLink={searchType && {
-            pathname: `/eholdings/providers/${model.id}/edit`,
-            state: { eholdings: true },
-          }}
+          onFullView={searchType
+            ? () => history.push(fullViewRouteState)
+            : undefined
+          }
         />
       </TitleManager>
     );

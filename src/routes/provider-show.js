@@ -80,7 +80,18 @@ class ProviderShowRoute extends Component {
     const listType = 'packages';
     const { history, location, model, proxyTypes, rootProxy } = this.props;
     const { pkgSearchParams, queryId } = this.state;
-    const { searchType } = queryString.parse(location.search, { ignoreQueryPrefix: true });
+    const { searchType } = queryString.parse(location.search, { ignoreQueryPrefix: true });    
+    const editRouteState = {
+      pathname: `/eholdings/providers/${model.id}/edit`,
+      search: location.search,
+      state: {
+        eholdings: true,
+      }
+    };
+    const fullViewRouteState = {
+      pathname: `/eholdings/providers/${model.id}`,
+      state: { eholdings: true },
+    };
 
     return (
       <TitleManager record={model.name}>
@@ -100,15 +111,15 @@ class ProviderShowRoute extends Component {
               onFilter={this.searchPackages}
             />
           }
-          editLink={{
-            pathname: `/eholdings/providers/${model.id}/edit`,
-            search: location.search,
-            state: { eholdings: true }
-          }}
-          fullViewLink={searchType && {
-            pathname: `/eholdings/providers/${model.id}`,
-            state: { eholdings: true },
-          }}
+          onEdit={() => (
+            searchType
+              ? history.push(editRouteState)
+              : history.replace(editRouteState)
+          )}
+          onFullView={searchType
+            ? () => history.push(fullViewRouteState)
+            : undefined
+          }
           isFreshlySaved={
             history.action === 'PUSH' &&
             history.location.state &&

@@ -41,7 +41,7 @@ class TitleShowRoute extends Component {
     }
 
     if (!createRequest.isResolved && this.props.createRequest.isResolved) {
-      this.props.history.push(
+      this.props.history.replace(
         `/eholdings/resources/${this.props.createRequest.records[0]}`,
         { eholdings: true, isNewRecord: true }
       );
@@ -62,6 +62,17 @@ class TitleShowRoute extends Component {
   render() {
     let { model, customPackages, createRequest, history, location } = this.props;
     const { searchType } = queryString.parse(location.search, { ignoreQueryPrefix: true });
+    const editRouteState = {
+      pathname: `/eholdings/titles/${model.id}/edit`,
+      search: location.search,
+      state: {
+        eholdings: true,
+      }
+    };
+    const fullViewRouteState = {
+      pathname: `/eholdings/titles/${model.id}`,
+      state: { eholdings: true },
+    };
 
     return (
       <TitleManager record={this.props.model.name}>
@@ -70,15 +81,15 @@ class TitleShowRoute extends Component {
           model={model}
           customPackages={customPackages}
           addCustomPackage={this.createResource}
-          editLink={{
-            pathname: `/eholdings/titles/${model.id}/edit`,
-            search: location.search,
-            state: { eholdings: true }
-          }}
-          fullViewLink={searchType && {
-            pathname: `/eholdings/titles/${model.id}`,
-            state: { eholdings: true },
-          }}
+          onEdit={() => (
+            searchType
+              ? history.push(editRouteState)
+              : history.replace(editRouteState)
+          )}
+          onFullView={searchType
+            ? () => history.push(fullViewRouteState)
+            : undefined
+          }
           isFreshlySaved={
             history.action === 'PUSH' &&
             history.location.state &&

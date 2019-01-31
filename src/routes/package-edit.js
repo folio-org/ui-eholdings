@@ -15,6 +15,8 @@ import Resource from '../redux/resource';
 
 import View from '../components/package/package-edit';
 
+import { historyActions } from '../constants';
+
 class PackageEditRoute extends Component {
   static propTypes = {
     destroyPackage: PropTypes.func.isRequired,
@@ -33,7 +35,6 @@ class PackageEditRoute extends Component {
   };
 
   constructor(props) {
-    debugger;
     super(props);
     let { packageId } = props.match.params;
     let [providerId] = packageId.split('-');
@@ -43,7 +44,6 @@ class PackageEditRoute extends Component {
   }
 
   componentDidUpdate(prevProps) {
-    debugger;
     let {
       model: next,
       match,
@@ -85,7 +85,7 @@ class PackageEditRoute extends Component {
     let isCurrentlySelected = prevProps.model.isSelected && next.isSelected;
 
     if (wasPending && needsUpdate && !isRejected && (wasUnSelected || isCurrentlySelected)) {
-      this.props.history.push({
+      history.push({
         pathname: `/eholdings/packages/${next.id}`,
         search: this.props.location.search,
         state: { eholdings: true, isFreshlySaved: true }
@@ -180,8 +180,33 @@ class PackageEditRoute extends Component {
   };
 
   render() {
-    let { model, proxyTypes, provider, history, location } = this.props;
+    const {
+      model,
+      proxyTypes,
+      provider,
+      history,
+      location,
+    } = this.props;
+
     const { searchType } = queryString.parse(location.search, { ignoreQueryPrefix: true });
+
+    const viewRouteHistoryAction = searchType
+      ? historyActions.PUSH
+      : historyActions.REPLACE;
+
+    const viewRouteState = {
+      pathname: `/eholdings/packages/${model.id}`,
+      search: location.search,
+      state: {
+        eholdings: true,
+        action: viewRouteHistoryAction,
+      }
+    };
+
+    const fullViewRouteState = {
+      pathname: `/eholdings/packages/${model.id}/edit`,
+      state: { eholdings: true },
+    };
 
     return (
       <FormattedMessage id="ui-eholdings.label.editLink" values={{ name: model.name }}>
@@ -192,16 +217,16 @@ class PackageEditRoute extends Component {
               proxyTypes={proxyTypes}
               provider={provider}
               onSubmit={this.packageEditSubmitted}
-              onCancel={() => history.push({
-                pathname: `/eholdings/packages/${model.id}`,
-                search: location.search,
-                state: { eholdings: true }
-              })}
+              onCancel={() => (
+                searchType
+                  ? history.push(viewRouteState)
+                  : history.replace(viewRouteState)
+              )}
               addPackageToHoldings={this.addPackageToHoldings}
-              fullViewLink={searchType && {
-                pathname: `/eholdings/packages/${model.id}/edit`,
-                state: { eholdings: true },
-              }}
+              onFullView={searchType
+                ? () => history.push(fullViewRouteState)
+                : undefined
+              }
             />
           </TitleManager>
         )}

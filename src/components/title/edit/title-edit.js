@@ -22,26 +22,22 @@ import DetailsViewSection from '../../details-view-section';
 import NavigationModal from '../../navigation-modal';
 import Toaster from '../../toaster';
 import PaneHeaderButton from '../../pane-header-button';
-import FullViewLink from '../../full-view-link';
 
 const focusOnErrors = createDecorator();
 
 export default class TitleEdit extends Component {
   static propTypes = {
-    fullViewLink: PropTypes.oneOfType([
-      PropTypes.string,
-      PropTypes.object
-    ]),
     initialValues: PropTypes.object.isRequired,
     model: PropTypes.object.isRequired,
     onCancel: PropTypes.func.isRequired,
+    onFullView: PropTypes.func,
     onSubmit: PropTypes.func.isRequired,
     updateRequest: PropTypes.object.isRequired,
   };
 
   getActionMenu = ({ onToggle }) => {
     const {
-      fullViewLink,
+      onFullView,
       onCancel
     } = this.props;
 
@@ -58,8 +54,16 @@ export default class TitleEdit extends Component {
           <FormattedMessage id="ui-eholdings.actionMenu.cancelEditing" />
         </Button>
 
-        {fullViewLink && (
-          <FullViewLink to={fullViewLink} />
+        {onFullView && (
+          <Button
+            buttonStyle="dropdownItem fullWidth"
+            onClick={() => {
+              onToggle();
+              onFullView();
+            }}
+          >
+            <FormattedMessage id="ui-eholdings.actionMenu.fullView" />
+          </Button>
         )}
       </Fragment>
     );

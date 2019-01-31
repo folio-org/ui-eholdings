@@ -12,6 +12,8 @@ import Resource from '../redux/resource';
 
 import View from '../components/resource/resource-edit';
 
+import { historyActions } from '../constants';
+
 class ResourceEditRoute extends Component {
   static propTypes = {
     destroyResource: PropTypes.func.isRequired,
@@ -120,16 +122,21 @@ class ResourceEditRoute extends Component {
   render() {
     let { model, proxyTypes, history, location } = this.props;
 
+    const viewRouteState = {
+      pathname: `/eholdings/resources/${model.id}`,
+      search: location.search,
+      state: {
+        eholdings: true,
+        action: historyActions.REPLACE,
+      }
+    };
+
     return (
       <TitleManager record={`Edit ${model.name}`}>
         <View
           model={model}
           onSubmit={this.resourceEditSubmitted}
-          onCancel={() => history.push({
-            pathname: `/eholdings/resources/${model.id}`,
-            search: location.search,
-            state: { eholdings: true }
-          })}
+          onCancel={() => history.replace(viewRouteState)}
           proxyTypes={proxyTypes}
         />
       </TitleManager>

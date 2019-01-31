@@ -29,7 +29,7 @@ class PackageShowRoute extends Component {
     provider: PropTypes.object.isRequired,
     proxyTypes: PropTypes.object.isRequired,
     unloadResources: PropTypes.func.isRequired,
-    updatePackage: PropTypes.func.isRequired
+    updatePackage: PropTypes.func.isRequired,
   };
 
   constructor(props) {
@@ -140,7 +140,19 @@ class PackageShowRoute extends Component {
     let { history, location, model, provider, proxyTypes } = this.props;
     let { pkgSearchParams, queryId } = this.state;
     const { searchType } = queryString.parse(location.search, { ignoreQueryPrefix: true });
-
+    const editRouteState = {
+      pathname: `/eholdings/packages/${model.id}/edit`,
+      search: location.search,
+      state: {
+        eholdings: true,
+      },
+    };
+    const fullViewRouteState = {
+      pathname: `/eholdings/packages/${model.id}`,
+      state: {
+        eholdings: true,
+      },
+    };
     return (
       <TitleManager record={model.name}>
         <View
@@ -153,15 +165,15 @@ class PackageShowRoute extends Component {
           toggleHidden={this.toggleHidden}
           customCoverageSubmitted={this.customCoverageSubmitted}
           toggleAllowKbToAddTitles={this.toggleAllowKbToAddTitles}
-          editLink={{
-            pathname: `/eholdings/packages/${model.id}/edit`,
-            search: location.search,
-            state: { eholdings: true }
-          }}
-          fullViewLink={searchType && {
-            pathname: `/eholdings/packages/${model.id}`,
-            state: { eholdings: true },
-          }}
+          onEdit={() => (
+            searchType
+              ? history.push(editRouteState)
+              : history.replace(editRouteState)
+          )}
+          onFullView={searchType
+            ? () => history.push(fullViewRouteState)
+            : undefined
+          }
           isFreshlySaved={
             history.action === 'PUSH' &&
             history.location.state &&
