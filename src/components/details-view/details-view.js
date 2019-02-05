@@ -240,20 +240,35 @@ class DetailsView extends Component {
                   />
                 )}
               </FormattedMessage>
-            : historyState && historyState.eholdings &&
-              <FormattedMessage
-                id="ui-eholdings.label.icon.closeX"
-                values={{ paneTitle }}
-              >
-                {ariaLabel => (
-                  <IconButton
-                    icon="times"
-                    ariaLabel={ariaLabel}
-                    onClick={() => history.goBack()}
-                    data-test-eholdings-details-view-back-button
-                  />
-                )}
-              </FormattedMessage>
+            : historyState && historyState.eholdings
+              ?
+                <FormattedMessage
+                  id="ui-eholdings.label.icon.closeX"
+                  values={{ paneTitle }}
+                >
+                  {ariaLabel => (
+                    <IconButton
+                      icon="times"
+                      ariaLabel={ariaLabel}
+                      onClick={() => history.goBack()}
+                      data-test-eholdings-details-view-back-button
+                    />
+                  )}
+                </FormattedMessage>
+              :
+                <FormattedMessage
+                  id="ui-eholdings.label.icon.closeX"
+                  values={{ paneTitle }}
+                >
+                  {ariaLabel => (
+                    <IconButton
+                      icon="times"
+                      ariaLabel={ariaLabel}
+                      href="/eholdings"
+                      data-test-eholdings-details-view-back-button
+                    />
+                  )}
+                </FormattedMessage>
           }
           paneTitle={
             <span data-test-eholdings-details-view-pane-title>{paneTitle}</span>

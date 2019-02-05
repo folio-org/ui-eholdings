@@ -12,8 +12,6 @@ import Resource from '../redux/resource';
 
 import View from '../components/resource/resource-edit';
 
-import { historyActions } from '../constants';
-
 class ResourceEditRoute extends Component {
   static propTypes = {
     destroyResource: PropTypes.func.isRequired,
@@ -129,7 +127,6 @@ class ResourceEditRoute extends Component {
       search: location.search,
       state: {
         eholdings: true,
-        action: historyActions.REPLACE,
       }
     };
 

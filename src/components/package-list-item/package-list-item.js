@@ -31,7 +31,6 @@ function PackageListItem({
     <InternalLink
       data-test-eholdings-package-list-item
       to={link}
-      replace
       className={cx('item', {
         'is-selected': active
       })}

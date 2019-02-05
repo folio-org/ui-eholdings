@@ -309,7 +309,7 @@ export default class ManagedPackageEdit extends Component {
 
                                 <Field
                                   component={RadioButton}
-                                  format={value => value.toString()}
+                                  format={value => typeof value !== 'undefined' && value !== null && value.toString()}
                                   label={<FormattedMessage id="ui-eholdings.yes" />}
                                   name="isVisible"
                                   parse={value => value === 'true'}
@@ -319,7 +319,7 @@ export default class ManagedPackageEdit extends Component {
 
                                 <Field
                                   component={RadioButton}
-                                  format={value => value.toString()}
+                                  format={value => typeof value !== 'undefined' && value !== null && value.toString()}
                                   label={
                                     <FormattedMessage
                                       id="ui-eholdings.package.visibility.no"
@@ -351,7 +351,7 @@ export default class ManagedPackageEdit extends Component {
                                 <Field
                                   data-test-eholdings-allow-kb-to-add-titles-radio-yes
                                   component={RadioButton}
-                                  format={value => value && value.toString()}
+                                  format={value => typeof value !== 'undefined' && value !== null && value.toString()}
                                   label={<FormattedMessage id="ui-eholdings.yes" />}
                                   name="allowKbToAddTitles"
                                   parse={value => value === 'true'}
@@ -362,7 +362,7 @@ export default class ManagedPackageEdit extends Component {
                                 <Field
                                   data-test-eholdings-allow-kb-to-add-titles-radio-no
                                   component={RadioButton}
-                                  format={value => value.toString()}
+                                  format={value => typeof value !== 'undefined' && value !== null && value.toString()}
                                   label={<FormattedMessage id="ui-eholdings.no" />}
                                   name="allowKbToAddTitles"
                                   parse={value => value === 'true'}

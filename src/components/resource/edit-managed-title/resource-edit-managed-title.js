@@ -398,7 +398,7 @@ export default class ResourceEditManagedTitle extends Component {
               />
             </form>
 
-            <NavigationModal when={!pristine && !model.update.isPending && !model.update.isResolved} />
+            <NavigationModal historyAction="REPLACE" when={!pristine && !model.update.isPending && !model.update.isResolved} />
 
             <Modal
               open={showSelectionModal}

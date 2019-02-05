@@ -80,7 +80,7 @@ class ProviderShowRoute extends Component {
     const listType = 'packages';
     const { history, location, model, proxyTypes, rootProxy } = this.props;
     const { pkgSearchParams, queryId } = this.state;
-    const { searchType } = queryString.parse(location.search, { ignoreQueryPrefix: true });    
+    const { searchType } = queryString.parse(location.search, { ignoreQueryPrefix: true });
     const editRouteState = {
       pathname: `/eholdings/providers/${model.id}/edit`,
       search: location.search,

@@ -12,8 +12,6 @@ import Resource from '../redux/resource';
 
 import View from '../components/title/edit';
 
-import { historyActions } from '../constants';
-
 class TitleEditRoute extends Component {
   static propTypes = {
     getTitle: PropTypes.func.isRequired,
@@ -113,15 +111,13 @@ class TitleEditRoute extends Component {
       history,
       location
     } = this.props;
+
     const { searchType } = queryString.parse(location.search, { ignoreQueryPrefix: true });
-    const viewRouteHistoryAction = searchType ? historyActions.PUSH : historyActions.REPLACE;
+
     const viewRouteState = {
       pathname: `/eholdings/titles/${model.id}`,
       search: location.search,
-      state: {
-        eholdings: true,
-        action: viewRouteHistoryAction,
-      }
+      state: { eholdings: true },
     };
     const fullViewRouteState = {
       pathname: `/eholdings/titles/${model.id}/edit`,

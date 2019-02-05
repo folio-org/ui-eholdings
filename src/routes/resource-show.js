@@ -84,9 +84,7 @@ class ResourceShowRoute extends Component {
 
     const editRouteState = {
       pathname: `/eholdings/resources/${model.id}/edit`,
-      state: {
-        eholdings: true,
-      },
+      state: { eholdings: true },
     };
 
     if (model.isLoading) {

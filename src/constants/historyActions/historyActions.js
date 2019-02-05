@@ -1,6 +1,6 @@
 const historyActions = {
-  PUSH: 'push',
-  REPLACE: 'replace',
+  PUSH: 'PUSH',
+  REPLACE: 'REPLACE',
 };
 
 export default historyActions;

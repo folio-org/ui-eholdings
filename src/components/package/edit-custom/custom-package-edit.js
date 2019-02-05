@@ -305,7 +305,7 @@ export default class CustomPackageEdit extends Component {
 
                               <Field
                                 component={RadioButton}
-                                format={value => value.toString()}
+                                format={value => typeof value !== 'undefined' && value !== null && value.toString()}
                                 label={<FormattedMessage id="ui-eholdings.yes" />}
                                 name="isVisible"
                                 parse={value => value === 'true'}
@@ -315,7 +315,7 @@ export default class CustomPackageEdit extends Component {
 
                               <Field
                                 component={RadioButton}
-                                format={value => value.toString()}
+                                format={value => typeof value !== 'undefined' && value !== null && value.toString()}
                                 label={
                                   <FormattedMessage
                                     id="ui-eholdings.package.visibility.no"

@@ -15,8 +15,6 @@ import Resource from '../redux/resource';
 
 import View from '../components/package/package-edit';
 
-import { historyActions } from '../constants';
-
 class PackageEditRoute extends Component {
   static propTypes = {
     destroyPackage: PropTypes.func.isRequired,
@@ -190,16 +188,11 @@ class PackageEditRoute extends Component {
 
     const { searchType } = queryString.parse(location.search, { ignoreQueryPrefix: true });
 
-    const viewRouteHistoryAction = searchType
-      ? historyActions.PUSH
-      : historyActions.REPLACE;
-
     const viewRouteState = {
       pathname: `/eholdings/packages/${model.id}`,
       search: location.search,
       state: {
         eholdings: true,
-        action: viewRouteHistoryAction,
       }
     };
 

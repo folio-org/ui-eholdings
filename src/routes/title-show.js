@@ -11,6 +11,8 @@ import Package from '../redux/package';
 import Resource from '../redux/resource';
 import View from '../components/title/show';
 
+import { historyActions } from '../constants';
+
 class TitleShowRoute extends Component {
   static propTypes = {
     createRequest: PropTypes.object.isRequired,
@@ -41,7 +43,7 @@ class TitleShowRoute extends Component {
     }
 
     if (!createRequest.isResolved && this.props.createRequest.isResolved) {
-      this.props.history.replace(
+      this.props.history.push(
         `/eholdings/resources/${this.props.createRequest.records[0]}`,
         { eholdings: true, isNewRecord: true }
       );
@@ -65,9 +67,7 @@ class TitleShowRoute extends Component {
     const editRouteState = {
       pathname: `/eholdings/titles/${model.id}/edit`,
       search: location.search,
-      state: {
-        eholdings: true,
-      }
+      state: { eholdings: true },
     };
     const fullViewRouteState = {
       pathname: `/eholdings/titles/${model.id}`,

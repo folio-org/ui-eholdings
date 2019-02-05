@@ -12,8 +12,6 @@ import { ProxyType, RootProxy } from '../redux/application';
 
 import View from '../components/provider/edit';
 
-import { historyActions } from '../constants';
-
 class ProviderEditRoute extends Component {
   static propTypes = {
     getProvider: PropTypes.func.isRequired,
@@ -69,13 +67,11 @@ class ProviderEditRoute extends Component {
   render() {
     let { model, proxyTypes, rootProxy, history, location } = this.props;
     const { searchType } = queryString.parse(location.search, { ignoreQueryPrefix: true });
-    const viewRouteHistoryAction = searchType ? historyActions.PUSH : historyActions.REPLACE;
     const viewRouteState = {
       pathname: `/eholdings/providers/${model.id}`,
       search: location.search,
       state: {
         eholdings: true,
-        action: viewRouteHistoryAction,
       }
     };
     const fullViewRouteState = {

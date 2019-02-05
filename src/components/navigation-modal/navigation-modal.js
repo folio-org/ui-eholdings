@@ -13,6 +13,7 @@ import { historyActions } from '../../constants';
 class NavigationModal extends Component {
   static propTypes = {
     history: ReactRouterPropTypes.history.isRequired,
+    historyActon: PropTypes.string,
     when: PropTypes.bool.isRequired
   };
 
@@ -52,9 +53,8 @@ class NavigationModal extends Component {
 
   navigateToNextLocation() {
     this.unblock();
-    if (this.state.nextLocation.state
-      && this.state.nextLocation.state.action
-      && this.state.nextLocation.state.action === historyActions.REPLACE) {
+    if ((this.props.historyActon && this.props.historyActon === historyActions.REPLACE)
+      || this.props.history.action === historyActions.REPLACE) {
       this.props.history.replace(this.state.nextLocation);
     } else {
       this.props.history.push(this.state.nextLocation);
