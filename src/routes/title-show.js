@@ -11,8 +11,6 @@ import Package from '../redux/package';
 import Resource from '../redux/resource';
 import View from '../components/title/show';
 
-import { historyActions } from '../constants';
-
 class TitleShowRoute extends Component {
   static propTypes = {
     createRequest: PropTypes.object.isRequired,

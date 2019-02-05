@@ -8,7 +8,7 @@ import {
   Button,
 } from '@folio/stripes/components';
 import { FormattedMessage } from 'react-intl';
-import { historyActions } from '../../constants';
+import historyActions from '../../constants/historyActions';
 
 class NavigationModal extends Component {
   static propTypes = {
