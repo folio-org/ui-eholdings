@@ -120,7 +120,7 @@ describe('TitleShow', () => {
       expect(TitleShowPage.packageList(0).isSelected).to.equal(resources[0].isSelected);
     });
 
-    it.always('should display back (close) button', () => {
+    it('should display back (close) button', () => {
       expect(TitleShowPage.hasBackButton).to.be.true;
     });
 

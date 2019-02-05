@@ -77,7 +77,7 @@ describe('PackageShow', () => {
       expect(PackageShowPage.titleList(0).isSelectedLabel).to.equal((resources[0].isSelected ? 'Selected' : 'Not selected'));
     });
 
-    it.skip('should not display a back (close) button', () => {
+    it('should display a back (close) button', () => {
       expect(PackageShowPage.hasBackButton).to.be.true;
     });
 

@@ -209,7 +209,7 @@ describe('ResourceShow', () => {
       expect(ResourcePage.isResourceSelected).to.equal('Not selected');
     });
 
-    it.always('should display the back (close) button', () => {
+    it('should display the back (close) button', () => {
       expect(ResourcePage.hasBackButton).to.be.true;
     });
 

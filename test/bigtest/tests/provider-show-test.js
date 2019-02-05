@@ -74,7 +74,7 @@ describe('ProviderShow', () => {
       expect(ProviderShowPage.packageList(0).isPackageHidden).to.equal(packages[0].visibilityData.isHidden);
     });
 
-    it.always('should display the back (close) button', () => {
+    it('should display the back (close) button', () => {
       expect(ProviderShowPage.hasBackButton).to.be.true;
     });
 
