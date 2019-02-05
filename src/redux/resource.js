@@ -33,18 +33,24 @@ class Resource {
   description = '';
 
   serialize() {
-    let data = {
+    const data = {
       id: this.id,
       type: this.type,
       attributes: {
-        name: this.name,
+        packageId: this.packageId,
         titleId: this.titleId,
+        url: this.url,
+      },
+    };
+
+    if (this.data.attributes.name) {
+      data.attributes = {
+        ...data.attributes,
+        name: this.name,
         providerId: this.providerId,
         providerName: this.providerName,
-        packageId: this.packageId,
         packageName: this.packageName,
         isSelected: this.isSelected,
-        url: this.url,
         managedCoverages: this.managedCoverages,
         customCoverages: this.customCoverages,
         managedEmbargoPeriod: this.managedEmbargoPeriod,
@@ -55,15 +61,14 @@ class Resource {
         publisherName: this.publisherName,
         edition: this.edition,
         publicationType: this.publicationType,
-        contentType: this.contentType,
         subjects: this.subjects,
         contributors: this.contributors,
         identifiers: this.identifiers,
         isTitleCustom: this.isTitleCustom,
         isPeerReviewed: this.isPeerReviewed,
         description: this.description,
-      }
-    };
+      };
+    }
 
     return { data };
   }
