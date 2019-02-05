@@ -120,8 +120,8 @@ describe('TitleShow', () => {
       expect(TitleShowPage.packageList(0).isSelected).to.equal(resources[0].isSelected);
     });
 
-    it.always('should not display back button', () => {
-      expect(TitleShowPage.hasBackButton).to.be.false;
+    it.always('should display back (close) button', () => {
+      expect(TitleShowPage.hasBackButton).to.be.true;
     });
 
     describe('clicking the collapse all button', () => {

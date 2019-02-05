@@ -209,8 +209,8 @@ describe('ResourceShow', () => {
       expect(ResourcePage.isResourceSelected).to.equal('Not selected');
     });
 
-    it.always('should not display the back button', () => {
-      expect(ResourcePage.hasBackButton).to.be.false;
+    it.always('should display the back (close) button', () => {
+      expect(ResourcePage.hasBackButton).to.be.true;
     });
 
     describe('toggling is selected with errors', () => {
