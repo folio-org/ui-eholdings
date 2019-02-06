@@ -54,7 +54,7 @@ class SearchRoute extends Component {
       searchString: params.q,
       searchFilter: params.filter,
       searchField: params.searchfield,
-      hideFilters: !!params.q
+      hideFilters: false,
     };
   }
 
