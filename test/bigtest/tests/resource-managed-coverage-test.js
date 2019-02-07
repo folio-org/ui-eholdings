@@ -62,22 +62,6 @@ describe('ResourceManagedCoverage', () => {
     });
   });
 
-  describe('visiting the resource page with single managed coverage (endCoverage null)', () => {
-    beforeEach(function () {
-      resource.managedCoverages = this.server.createList('managed-coverage', 1, {
-        beginCoverage: '1969-07-16',
-        endCoverage: null
-      }).map(m => m.toJSON());
-
-      resource.save();
-      this.visit(`/eholdings/resources/${resource.id}`);
-    });
-
-    it('display the managed coverage section for single date (begin date and no end date)', () => {
-      expect(ResourceShowPage.managedCoverageList).to.equal('7/16/1969 - Present');
-    });
-  });
-
   describe('visiting the resource page with single managed coverage (endCoverage empty)', () => {
     beforeEach(function () {
       resource.managedCoverages = this.server.createList('managed-coverage', 1, {
