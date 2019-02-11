@@ -190,6 +190,10 @@ class DetailsView extends Component {
     }
   };
 
+  handleClose = () => {
+    this.props.history.goBack();
+  }
+
   render() {
     let {
       type,
@@ -225,32 +229,51 @@ class DetailsView extends Component {
     return (
       <div data-test-eholdings-details-view={type}>
         <PaneHeader
-          firstMenu={searchType ? (
-            <FormattedMessage
-              id="ui-eholdings.label.icon.closeX"
-              values={{ paneTitle }}
-            >
-              {ariaLabel => (
-                <IconButton
-                  icon="times"
-                  ariaLabel={ariaLabel}
-                  href={`/eholdings${location.search}`}
-                  data-test-eholdings-details-view-close-button
-                />
-              )}
-            </FormattedMessage>
-          ) : historyState && historyState.eholdings && (
-            <FormattedMessage id="ui-eholdings.label.icon.goBack">
-              {ariaLabel => (
-                <IconButton
-                  icon="arrow-left"
-                  ariaLabel={ariaLabel}
-                  onClick={() => history.goBack()}
-                  data-test-eholdings-details-view-back-button
-                />
-              )}
-            </FormattedMessage>
-          )}
+          firstMenu={searchType
+            ?
+              <FormattedMessage
+                id="ui-eholdings.label.icon.closeX"
+                values={{ paneTitle }}
+              >
+                {ariaLabel => (
+                  <IconButton
+                    icon="times"
+                    ariaLabel={ariaLabel}
+                    href={`/eholdings${location.search}`}
+                    data-test-eholdings-details-view-close-button
+                  />
+                )}
+              </FormattedMessage>
+            : historyState && historyState.eholdings
+              ?
+                <FormattedMessage
+                  id="ui-eholdings.label.icon.closeX"
+                  values={{ paneTitle }}
+                >
+                  {ariaLabel => (
+                    <IconButton
+                      icon="times"
+                      ariaLabel={ariaLabel}
+                      onClick={this.handleClose}
+                      data-test-eholdings-details-view-back-button
+                    />
+                  )}
+                </FormattedMessage>
+              :
+                <FormattedMessage
+                  id="ui-eholdings.label.icon.closeX"
+                  values={{ paneTitle }}
+                >
+                  {ariaLabel => (
+                    <IconButton
+                      icon="times"
+                      ariaLabel={ariaLabel}
+                      href="/eholdings"
+                      data-test-eholdings-details-view-back-button
+                    />
+                  )}
+                </FormattedMessage>
+          }
           paneTitle={
             <span data-test-eholdings-details-view-pane-title>{paneTitle}</span>
           }

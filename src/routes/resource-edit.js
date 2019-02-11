@@ -119,19 +119,35 @@ class ResourceEditRoute extends Component {
     }
   }
 
-  render() {
-    let { model, proxyTypes, history, location } = this.props;
+  handleCancel = () => {
+    const {
+      history,
+      model,
+      location,
+    } = this.props;
 
+    const viewRouteState = {
+      pathname: `/eholdings/resources/${model.id}`,
+      search: location.search,
+      state: {
+        eholdings: true,
+      }
+    };
+
+    history.replace(viewRouteState);
+  }
+
+  render() {
+    let {
+      model,
+      proxyTypes,
+    } = this.props;
     return (
       <TitleManager record={`Edit ${model.name}`}>
         <View
           model={model}
           onSubmit={this.resourceEditSubmitted}
-          onCancel={() => history.push({
-            pathname: `/eholdings/resources/${model.id}`,
-            search: location.search,
-            state: { eholdings: true }
-          })}
+          onCancel={this.handleCancel}
           proxyTypes={proxyTypes}
         />
       </TitleManager>

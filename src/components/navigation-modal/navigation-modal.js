@@ -3,135 +3,100 @@ import PropTypes from 'prop-types';
 import ReactRouterPropTypes from 'react-router-prop-types';
 import { withRouter } from 'react-router';
 import {
-  Button,
   Modal,
   ModalFooter,
+  Button,
 } from '@folio/stripes/components';
 import { FormattedMessage } from 'react-intl';
+import historyActions from '../../constants/historyActions';
+
+const INITIAL_MODAL_STATE = {
+  nextLocation: null,
+  openModal: false,
+};
 
 class NavigationModal extends Component {
   static propTypes = {
-    children: PropTypes.oneOfType([
-      PropTypes.func,
-      PropTypes.node
-    ]),
     history: ReactRouterPropTypes.history.isRequired,
+    historyAction: PropTypes.string,
     when: PropTypes.bool.isRequired
   };
 
   constructor(props) {
     super(props);
-
-    if (props.when) {
-      this.enable();
-    }
+    this.state = INITIAL_MODAL_STATE;
   }
 
-  state = {
-    showModal: false,
-    nextLocation: null
-  };
-
-  componentDidUpdate({ when }) {
-    if (this.props.when && !when) {
-      this.enable();
-    } else if (!this.props.when) {
-      this.disable();
-    }
+  componentDidMount() {
+    this.unblock = this.props.history.block((nextLocation) => {
+      if (this.props.when) {
+        this.setState({
+          openModal: true,
+          nextLocation
+        });
+      }
+      return !this.props.when;
+    });
   }
 
   componentWillUnmount() {
-    this.disable();
+    this.unblock();
   }
-
-  enable() {
-    const { history } = this.props;
-
-    if (this.unblock) {
-      this.unblock();
-    }
-
-    this.unblock = history.block((nextLocation) => {
-      this.setState({
-        showModal: true,
-        nextLocation
-      });
-
-      return false;
-    });
-  }
-
-  disable() {
-    if (this.unblock) {
-      this.unblock();
-      this.unblock = null;
-    }
-  }
-
-  dismiss = () => {
-    this.setState({
-      showModal: false
-    });
-  };
 
   submit = (event) => {
     event.preventDefault();
-    this.dismiss();
-  }
-
-  continue = () => {
-    const { history } = this.props;
-    const { nextLocation } = this.state;
-
-    this.disable();
-
-    if (nextLocation) {
-      history.push(nextLocation);
-    }
+    this.onCancel();
   };
 
-  render() {
-    let { when, children } = this.props;
-    let { showModal } = this.state;
+  onCancel = () => {
+    this.setState(INITIAL_MODAL_STATE);
+  };
 
-    if (typeof children === 'function') {
-      children = children(this.continue, this.dismiss);
-    }
+  onConfirm = () => {
+    this.navigateToNextLocation();
+  };
 
-    if (when) {
-      return (
-        <Modal
-          id="navigation-modal"
-          size="small"
-          open={showModal}
-          label={<FormattedMessage id="ui-eholdings.navModal.modalLabel" />}
-          onClose={this.dismiss}
-          wrappingElement="form"
-          onSubmit={this.submit}
-          footer={(
-            <ModalFooter>
-              <Button
-                data-test-navigation-modal-dismiss
-                buttonStyle="primary"
-                type="submit"
-              >
-                <FormattedMessage id="ui-eholdings.navModal.dismissLabel" />
-              </Button>
-              <Button
-                data-test-navigation-modal-continue
-                onClick={this.continue}
-              >
-                <FormattedMessage id="ui-eholdings.navModal.continueLabel" />
-              </Button>
-            </ModalFooter>
-          )}
-        >
-          <FormattedMessage id="ui-eholdings.navModal.unsavedChangesMsg" />
-        </Modal>
-      );
+  navigateToNextLocation() {
+    this.unblock();
+    if ((this.props.historyAction && this.props.historyAction === historyActions.REPLACE)
+      || this.props.history.action === historyActions.REPLACE) {
+      this.props.history.replace(this.state.nextLocation);
     } else {
-      return null;
+      this.props.history.push(this.state.nextLocation);
     }
+  }
+
+  render() {
+    return (
+      <Modal
+        id="navigation-modal"
+        size="small"
+        open={this.state.openModal}
+        label={<FormattedMessage id="ui-eholdings.navModal.modalLabel" />}
+        wrappingElement="form"
+        onClose={this.onCancel}
+        onSubmit={this.submit}
+        footer={(
+          <ModalFooter>
+            <Button
+              data-test-navigation-modal-dismiss
+              buttonStyle="primary"
+              type="submit"
+            >
+              <FormattedMessage id="ui-eholdings.navModal.dismissLabel" />
+            </Button>
+            <Button
+              data-test-navigation-modal-continue
+              onClick={this.onConfirm}
+            >
+              <FormattedMessage id="ui-eholdings.navModal.continueLabel" />
+            </Button>
+          </ModalFooter>
+        )}
+      >
+        <FormattedMessage id="ui-eholdings.navModal.unsavedChangesMsg" />
+      </Modal>
+    );
   }
 }
 

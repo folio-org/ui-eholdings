@@ -69,6 +69,8 @@ export default class PackageCreate extends Component {
       onSubmit,
     } = this.props;
 
+    const paneTitle = <FormattedMessage id="ui-eholdings.package.create.custom" />;
+
     return (
       <Form
         initialValues={initialValues}
@@ -91,13 +93,16 @@ export default class PackageCreate extends Component {
                 onSubmit={handleSubmit}
                 tagName="form"
                 flexGrow={1}
-                paneTitle={<FormattedMessage id="ui-eholdings.package.create.custom" />}
+                paneTitle={paneTitle}
                 actionMenu={this.getActionMenu}
                 firstMenu={onCancel && (
-                  <FormattedMessage id="ui-eholdings.label.icon.goBack">
+                  <FormattedMessage
+                    id="ui-eholdings.label.icon.closeX"
+                    values={{ paneTitle }}
+                  >
                     {ariaLabel => (
                       <IconButton
-                        icon="arrow-left"
+                        icon="times"
                         ariaLabel={ariaLabel}
                         onClick={onCancel}
                         data-test-eholdings-details-view-back-button

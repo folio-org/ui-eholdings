@@ -28,12 +28,9 @@ import ProxyDisplay from '../proxy-display';
 
 class ResourceShow extends Component {
   static propTypes = {
-    editLink: PropTypes.oneOfType([
-      PropTypes.string,
-      PropTypes.object
-    ]).isRequired,
     isFreshlySaved: PropTypes.bool,
     model: PropTypes.object.isRequired,
+    onEdit: PropTypes.func.isRequired,
     proxyTypes: PropTypes.object.isRequired,
     toggleSelected: PropTypes.func.isRequired
   };
@@ -89,14 +86,14 @@ class ResourceShow extends Component {
   }
 
   getActionMenu = ({ onToggle }) => {
-    const { editLink } = this.props;
+    const { onEdit } = this.props;
     const { resourceSelected } = this.state;
 
     return (
       <Fragment>
         <Button
           buttonStyle="dropdownItem fullWidth"
-          to={editLink}
+          onClick={onEdit}
         >
           <FormattedMessage id="ui-eholdings.actionMenu.edit" />
         </Button>
@@ -129,7 +126,13 @@ class ResourceShow extends Component {
   }
 
   render() {
-    let { model, proxyTypes, editLink, isFreshlySaved } = this.props;
+    let {
+      model,
+      proxyTypes,
+      onEdit,
+      isFreshlySaved
+    } = this.props;
+
     let {
       showSelectionModal,
       resourceSelected,
@@ -181,12 +184,21 @@ class ResourceShow extends Component {
           sections={sections}
           handleExpandAll={this.handleExpandAll}
           lastMenu={(
-            <IconButton
-              data-test-eholdings-resource-edit-link
-              icon="edit"
-              ariaLabel={`Edit ${model.title.name}`}
-              to={editLink}
-            />
+            <FormattedMessage
+              id="ui-eholdings.label.editLink"
+              values={{
+                name: model.name
+              }}
+            >
+              {ariaLabel => (
+                <IconButton
+                  data-test-eholdings-resource-edit-link
+                  icon="edit"
+                  ariaLabel={ariaLabel}
+                  onClick={onEdit}
+                />
+              )}
+            </FormattedMessage>
           )}
           bodyContent={(
             <div>

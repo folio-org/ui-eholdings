@@ -27,26 +27,19 @@ import SelectionStatus from '../selection-status';
 import KeyValueColumns from '../../key-value-columns';
 import ProxyDisplay from '../../proxy-display';
 import TokenDisplay from '../../token-display';
-import FullViewLink from '../../full-view-link';
 
 const ITEM_HEIGHT = 53;
 
 class PackageShow extends Component {
   static propTypes = {
     addPackageToHoldings: PropTypes.func.isRequired,
-    editLink: PropTypes.oneOfType([
-      PropTypes.string,
-      PropTypes.object
-    ]).isRequired,
     fetchPackageTitles: PropTypes.func.isRequired,
-    fullViewLink: PropTypes.oneOfType([
-      PropTypes.string,
-      PropTypes.object
-    ]),
     isDestroyed: PropTypes.bool,
     isFreshlySaved: PropTypes.bool,
     isNewRecord: PropTypes.bool,
     model: PropTypes.object.isRequired,
+    onEdit: PropTypes.func.isRequired,
+    onFullView: PropTypes.func,
     provider: PropTypes.object.isRequired,
     proxyTypes: PropTypes.object.isRequired,
     searchModal: PropTypes.node,
@@ -116,8 +109,8 @@ class PackageShow extends Component {
 
   getActionMenu = ({ onToggle }) => {
     const {
-      editLink,
-      fullViewLink,
+      onEdit,
+      onFullView,
       model
     } = this.props;
 
@@ -127,13 +120,18 @@ class PackageShow extends Component {
       <Fragment>
         <Button
           buttonStyle="dropdownItem fullWidth"
-          to={editLink}
+          onClick={onEdit}
         >
           <FormattedMessage id="ui-eholdings.actionMenu.edit" />
         </Button>
 
-        {fullViewLink && (
-          <FullViewLink to={fullViewLink} />
+        {onFullView && (
+          <Button
+            buttonStyle="dropdownItem fullWidth"
+            onClick={onFullView}
+          >
+            <FormattedMessage id="ui-eholdings.actionMenu.fullView" />
+          </Button>
         )}
 
         {packageSelected && (
@@ -176,10 +174,10 @@ class PackageShow extends Component {
       proxyTypes,
       provider,
       searchModal,
-      editLink,
       isFreshlySaved,
       isNewRecord,
-      isDestroyed
+      isDestroyed,
+      onEdit,
     } = this.props;
 
     let {
@@ -262,7 +260,7 @@ class PackageShow extends Component {
                   data-test-eholdings-package-edit-link
                   icon="edit"
                   ariaLabel={ariaLabel}
-                  to={editLink}
+                  onClick={onEdit}
                 />
               )}
             </FormattedMessage>

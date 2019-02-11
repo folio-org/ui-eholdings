@@ -28,7 +28,6 @@ import PaneHeaderButton from '../../pane-header-button';
 import SelectionStatus from '../selection-status';
 import ProxySelectField from '../../proxy-select';
 import TokenField from '../../token';
-import FullViewLink from '../../full-view-link';
 import styles from './managed-package-edit.css';
 
 const focusOnErrors = createFocusDecorator();
@@ -36,13 +35,10 @@ const focusOnErrors = createFocusDecorator();
 export default class ManagedPackageEdit extends Component {
   static propTypes = {
     addPackageToHoldings: PropTypes.func.isRequired,
-    fullViewLink: PropTypes.oneOfType([
-      PropTypes.string,
-      PropTypes.object
-    ]),
     initialValues: PropTypes.object.isRequired,
     model: PropTypes.object.isRequired,
     onCancel: PropTypes.func.isRequired,
+    onFullView: PropTypes.func,
     onSubmit: PropTypes.func.isRequired,
     provider: PropTypes.object.isRequired,
     proxyTypes: PropTypes.object.isRequired
@@ -160,7 +156,7 @@ export default class ManagedPackageEdit extends Component {
   getActionMenu = ({ onToggle }) => {
     const {
       addPackageToHoldings,
-      fullViewLink,
+      onFullView,
       model,
       onCancel
     } = this.props;
@@ -181,8 +177,16 @@ export default class ManagedPackageEdit extends Component {
           <FormattedMessage id="ui-eholdings.actionMenu.cancelEditing" />
         </Button>
 
-        {fullViewLink && (
-          <FullViewLink to={fullViewLink} />
+        {onFullView && (
+          <Button
+            buttonStyle="dropdownItem fullWidth"
+            onClick={() => {
+              onToggle();
+              onFullView();
+            }}
+          >
+            <FormattedMessage id="ui-eholdings.actionMenu.fullView" />
+          </Button>
         )}
 
         {packageSelected && (
@@ -305,7 +309,7 @@ export default class ManagedPackageEdit extends Component {
 
                                 <Field
                                   component={RadioButton}
-                                  format={value => value.toString()}
+                                  format={value => typeof value !== 'undefined' && value !== null && value.toString()}
                                   label={<FormattedMessage id="ui-eholdings.yes" />}
                                   name="isVisible"
                                   parse={value => value === 'true'}
@@ -315,7 +319,7 @@ export default class ManagedPackageEdit extends Component {
 
                                 <Field
                                   component={RadioButton}
-                                  format={value => value.toString()}
+                                  format={value => typeof value !== 'undefined' && value !== null && value.toString()}
                                   label={
                                     <FormattedMessage
                                       id="ui-eholdings.package.visibility.no"
@@ -347,7 +351,7 @@ export default class ManagedPackageEdit extends Component {
                                 <Field
                                   data-test-eholdings-allow-kb-to-add-titles-radio-yes
                                   component={RadioButton}
-                                  format={value => value && value.toString()}
+                                  format={value => typeof value !== 'undefined' && value !== null && value.toString()}
                                   label={<FormattedMessage id="ui-eholdings.yes" />}
                                   name="allowKbToAddTitles"
                                   parse={value => value === 'true'}
@@ -358,7 +362,7 @@ export default class ManagedPackageEdit extends Component {
                                 <Field
                                   data-test-eholdings-allow-kb-to-add-titles-radio-no
                                   component={RadioButton}
-                                  format={value => value && value.toString()}
+                                  format={value => typeof value !== 'undefined' && value !== null && value.toString()}
                                   label={<FormattedMessage id="ui-eholdings.no" />}
                                   name="allowKbToAddTitles"
                                   parse={value => value === 'true'}

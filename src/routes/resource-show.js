@@ -79,6 +79,20 @@ class ResourceShowRoute extends Component {
     }
   }
 
+  handleEdit = () => {
+    const {
+      model,
+      history,
+    } = this.props;
+
+    const editRouteState = {
+      pathname: `/eholdings/resources/${model.id}/edit`,
+      state: { eholdings: true },
+    };
+
+    history.replace(editRouteState);
+  }
+
   render() {
     const { model, proxyTypes, history } = this.props;
 
@@ -92,10 +106,7 @@ class ResourceShowRoute extends Component {
           model={model}
           proxyTypes={proxyTypes}
           toggleSelected={this.toggleSelected}
-          editLink={{
-            pathname: `/eholdings/resources/${model.id}/edit`,
-            state: { eholdings: true }
-          }}
+          onEdit={this.handleEdit}
           isFreshlySaved={
             history.action === 'PUSH' &&
             history.location.state &&

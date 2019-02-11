@@ -64,28 +64,63 @@ class ProviderEditRoute extends Component {
     updateProvider(model);
   };
 
+  getSearchType = () => {
+    const { searchType } = queryString.parse(this.props.location.search, { ignoreQueryPrefix: true });
+    return searchType;
+  }
+
+  handleFullView = () => {
+    const {
+      history,
+      model,
+    } = this.props;
+
+    const fullViewRouteState = {
+      pathname: `/eholdings/providers/${model.id}/edit`,
+      state: { eholdings: true },
+    };
+
+    history.push(fullViewRouteState);
+  }
+
+  handleCancel = () => {
+    const {
+      history,
+      model,
+      location,
+    } = this.props;
+
+    const viewRouteState = {
+      pathname: `/eholdings/providers/${model.id}`,
+      search: location.search,
+      state: {
+        eholdings: true,
+      }
+    };
+
+    if (this.getSearchType()) {
+      history.push(viewRouteState);
+    }
+
+    history.replace(viewRouteState);
+  }
+
   render() {
-    let { model, proxyTypes, rootProxy, history, location } = this.props;
-    const { searchType } = queryString.parse(location.search, { ignoreQueryPrefix: true });
+    const {
+      model,
+      proxyTypes,
+      rootProxy,
+    } = this.props;
 
     return (
       <TitleManager record={`Edit ${this.props.model.name}`}>
         <View
           model={model}
           onSubmit={this.providerEditSubmitted}
-          onCancel={() => history.push({
-            pathname: `/eholdings/providers/${model.id}`,
-            search: location.search,
-            state: { eholdings: true }
-          })}
+          onCancel={this.handleCancel}
           proxyTypes={proxyTypes}
           rootProxy={rootProxy}
-          fullViewLink={searchType && {
-            to: {
-              pathname: `/eholdings/providers/${model.id}/edit`,
-              state: { eholdings: true }
-            }
-          }}
+          onFullView={this.getSearchType() && this.handleFullView}
         />
       </TitleManager>
     );

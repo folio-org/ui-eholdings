@@ -30,7 +30,6 @@ import Toaster from '../../toaster';
 import PaneHeaderButton from '../../pane-header-button';
 import SelectionStatus from '../selection-status';
 import ProxySelectField from '../../proxy-select';
-import FullViewLink from '../../full-view-link';
 import styles from './custom-package-edit.css';
 
 const focusOnErrors = createFocusDecorator();
@@ -38,13 +37,10 @@ const focusOnErrors = createFocusDecorator();
 export default class CustomPackageEdit extends Component {
   static propTypes = {
     addPackageToHoldings: PropTypes.func.isRequired,
-    fullViewLink: PropTypes.oneOfType([
-      PropTypes.string,
-      PropTypes.object
-    ]),
     initialValues: PropTypes.object.isRequired,
     model: PropTypes.object.isRequired,
     onCancel: PropTypes.func.isRequired,
+    onFullView: PropTypes.func,
     onSubmit: PropTypes.func.isRequired,
     provider: PropTypes.object.isRequired,
     proxyTypes: PropTypes.object.isRequired
@@ -66,7 +62,6 @@ export default class CustomPackageEdit extends Component {
 
   static getDerivedStateFromProps(nextProps, prevState) {
     let stateUpdates = {};
-
     if (nextProps.model.destroy.errors.length) {
       stateUpdates.showSelectionModal = false;
     }
@@ -152,7 +147,7 @@ export default class CustomPackageEdit extends Component {
 
   getActionMenu = ({ onToggle }) => {
     const {
-      fullViewLink,
+      onFullView,
       onCancel
     } = this.props;
 
@@ -171,8 +166,16 @@ export default class CustomPackageEdit extends Component {
           <FormattedMessage id="ui-eholdings.actionMenu.cancelEditing" />
         </Button>
 
-        {fullViewLink && (
-          <FullViewLink to={fullViewLink} />
+        {onFullView && (
+          <Button
+            buttonStyle="dropdownItem fullWidth"
+            onClick={() => {
+              onToggle();
+              onFullView();
+            }}
+          >
+            <FormattedMessage id="ui-eholdings.actionMenu.fullView" />
+          </Button>
         )}
 
         {packageSelected && (
@@ -302,7 +305,7 @@ export default class CustomPackageEdit extends Component {
 
                               <Field
                                 component={RadioButton}
-                                format={value => value.toString()}
+                                format={value => typeof value !== 'undefined' && value !== null && value.toString()}
                                 label={<FormattedMessage id="ui-eholdings.yes" />}
                                 name="isVisible"
                                 parse={value => value === 'true'}
@@ -312,7 +315,7 @@ export default class CustomPackageEdit extends Component {
 
                               <Field
                                 component={RadioButton}
-                                format={value => value.toString()}
+                                format={value => typeof value !== 'undefined' && value !== null && value.toString()}
                                 label={
                                   <FormattedMessage
                                     id="ui-eholdings.package.visibility.no"

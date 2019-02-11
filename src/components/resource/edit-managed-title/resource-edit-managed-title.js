@@ -29,6 +29,8 @@ import PaneHeaderButton from '../../pane-header-button';
 import CoverageDateList from '../../coverage-date-list';
 import ProxySelectField from '../../proxy-select';
 
+import historyActions from '../../../constants/historyActions';
+
 const coverageStatementDecorator = createCalculateDecorator(
   {
     field: 'hasCoverageStatement',
@@ -398,7 +400,7 @@ export default class ResourceEditManagedTitle extends Component {
               />
             </form>
 
-            <NavigationModal when={!pristine && !model.update.isPending && !model.update.isResolved} />
+            <NavigationModal historyAction={historyActions.REPLACE} when={!pristine && !model.update.isPending && !model.update.isResolved} />
 
             <Modal
               open={showSelectionModal}

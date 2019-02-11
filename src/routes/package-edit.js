@@ -83,7 +83,7 @@ class PackageEditRoute extends Component {
     let isCurrentlySelected = prevProps.model.isSelected && next.isSelected;
 
     if (wasPending && needsUpdate && !isRejected && (wasUnSelected || isCurrentlySelected)) {
-      this.props.history.push({
+      history.push({
         pathname: `/eholdings/packages/${next.id}`,
         search: this.props.location.search,
         state: { eholdings: true, isFreshlySaved: true }
@@ -177,9 +177,53 @@ class PackageEditRoute extends Component {
     updatePackage(model);
   };
 
+  getSearchType = () => {
+    const { searchType } = queryString.parse(this.props.location.search, { ignoreQueryPrefix: true });
+    return searchType;
+  }
+
+  handleFullView = () => {
+    const {
+      history,
+      model,
+    } = this.props;
+
+    const fullViewRouteState = {
+      pathname: `/eholdings/packages/${model.id}/edit`,
+      state: { eholdings: true },
+    };
+
+    history.push(fullViewRouteState);
+  }
+
+  handleCancel = () => {
+    const {
+      history,
+      model,
+      location,
+    } = this.props;
+
+    const viewRouteState = {
+      pathname: `/eholdings/packages/${model.id}`,
+      search: location.search,
+      state: {
+        eholdings: true,
+      }
+    };
+
+    if (this.getSearchType()) {
+      history.push(viewRouteState);
+    }
+
+    history.replace(viewRouteState);
+  }
+
   render() {
-    let { model, proxyTypes, provider, history, location } = this.props;
-    const { searchType } = queryString.parse(location.search, { ignoreQueryPrefix: true });
+    const {
+      model,
+      proxyTypes,
+      provider,
+    } = this.props;
 
     return (
       <FormattedMessage id="ui-eholdings.label.editLink" values={{ name: model.name }}>
@@ -190,18 +234,9 @@ class PackageEditRoute extends Component {
               proxyTypes={proxyTypes}
               provider={provider}
               onSubmit={this.packageEditSubmitted}
-              onCancel={() => history.push({
-                pathname: `/eholdings/packages/${model.id}`,
-                search: location.search,
-                state: { eholdings: true }
-              })}
+              onCancel={this.handleCancel}
               addPackageToHoldings={this.addPackageToHoldings}
-              fullViewLink={searchType && {
-                to: {
-                  pathname: `/eholdings/packages/${model.id}/edit`,
-                  state: { eholdings: true }
-                }
-              }}
+              onFullView={this.getSearchType() && this.handleFullView}
             />
           </TitleManager>
         )}

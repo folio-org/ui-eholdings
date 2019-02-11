@@ -4,6 +4,7 @@ import ReactRouterPropTypes from 'react-router-prop-types';
 import { connect } from 'react-redux';
 import { TitleManager } from '@folio/stripes/core';
 
+import queryString from 'qs';
 import { createResolver } from '../redux';
 import Provider from '../redux/provider';
 import { ProxyType, RootProxy } from '../redux/application';
@@ -75,10 +76,61 @@ class ProviderShowRoute extends Component {
     this.searchPackages({ ...pkgSearchParams, page });
   };
 
+  getSearchType = () => {
+    const { searchType } = queryString.parse(this.props.location.search, { ignoreQueryPrefix: true });
+    return searchType;
+  }
+
+  handleFullView = () => {
+    const {
+      history,
+      model,
+    } = this.props;
+
+    const fullViewRouteState = {
+      pathname: `/eholdings/providers/${model.id}`,
+      state: { eholdings: true },
+    };
+
+    history.push(fullViewRouteState);
+  }
+
+  handleEdit = () => {
+    const {
+      history,
+      model,
+      location,
+    } = this.props;
+
+    const editRouteState = {
+      pathname: `/eholdings/providers/${model.id}/edit`,
+      search: location.search,
+      state: {
+        eholdings: true,
+      }
+    };
+
+    if (this.getSearchType()) {
+      history.push(editRouteState);
+    }
+
+    history.replace(editRouteState);
+  }
+
   render() {
     const listType = 'packages';
-    const { history, location, model, proxyTypes, rootProxy } = this.props;
-    const { pkgSearchParams, queryId } = this.state;
+
+    const {
+      history,
+      model,
+      proxyTypes,
+      rootProxy,
+    } = this.props;
+
+    const {
+      pkgSearchParams,
+      queryId,
+    } = this.state;
 
     return (
       <TitleManager record={model.name}>
@@ -98,11 +150,8 @@ class ProviderShowRoute extends Component {
               onFilter={this.searchPackages}
             />
           }
-          editLink={{
-            pathname: `/eholdings/providers/${model.id}/edit`,
-            search: location.search,
-            state: { eholdings: true }
-          }}
+          onEdit={this.handleEdit}
+          onFullView={this.getSearchType() && this.handleFullView}
           isFreshlySaved={
             history.action === 'PUSH' &&
             history.location.state &&

@@ -4,6 +4,7 @@ import ReactRouterPropTypes from 'react-router-prop-types';
 import { connect } from 'react-redux';
 import { TitleManager } from '@folio/stripes/core';
 
+import queryString from 'qs';
 import { createResolver } from '../redux';
 import { ProxyType } from '../redux/application';
 import Package from '../redux/package';
@@ -28,7 +29,7 @@ class PackageShowRoute extends Component {
     provider: PropTypes.object.isRequired,
     proxyTypes: PropTypes.object.isRequired,
     unloadResources: PropTypes.func.isRequired,
-    updatePackage: PropTypes.func.isRequired
+    updatePackage: PropTypes.func.isRequired,
   };
 
   constructor(props) {
@@ -135,9 +136,60 @@ class PackageShowRoute extends Component {
     });
   }
 
+  getSearchType = () => {
+    const { searchType } = queryString.parse(this.props.location.search, { ignoreQueryPrefix: true });
+    return searchType;
+  }
+
+  handleFullView = () => {
+    const {
+      history,
+      model,
+    } = this.props;
+
+    const fullViewRouteState = {
+      pathname: `/eholdings/packages/${model.id}`,
+      state: {
+        eholdings: true,
+      },
+    };
+
+    history.push(fullViewRouteState);
+  }
+
+  handleEdit = () => {
+    const {
+      history,
+      model,
+      location,
+    } = this.props;
+
+    const editRouteState = {
+      pathname: `/eholdings/packages/${model.id}/edit`,
+      search: location.search,
+      state: {
+        eholdings: true,
+      },
+    };
+
+    if (this.getSearchType()) {
+      history.push(editRouteState);
+    }
+
+    history.replace(editRouteState);
+  }
+
   render() {
-    let { history, location, model, provider, proxyTypes } = this.props;
-    let { pkgSearchParams, queryId } = this.state;
+    const {
+      history,
+      model,
+      provider,
+      proxyTypes,
+    } = this.props;
+    const {
+      pkgSearchParams,
+      queryId,
+    } = this.state;
 
     return (
       <TitleManager record={model.name}>
@@ -151,11 +203,8 @@ class PackageShowRoute extends Component {
           toggleHidden={this.toggleHidden}
           customCoverageSubmitted={this.customCoverageSubmitted}
           toggleAllowKbToAddTitles={this.toggleAllowKbToAddTitles}
-          editLink={{
-            pathname: `/eholdings/packages/${model.id}/edit`,
-            search: location.search,
-            state: { eholdings: true }
-          }}
+          onEdit={this.handleEdit}
+          onFullView={this.getSearchType() && this.handleFullView}
           isFreshlySaved={
             history.action === 'PUSH' &&
             history.location.state &&

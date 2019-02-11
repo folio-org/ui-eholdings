@@ -76,6 +76,8 @@ export default class TitleCreate extends Component {
       value: pkg.id
     }));
 
+    const paneTitle = <FormattedMessage id="ui-eholdings.title.create.paneTitle" />;
+
     return (
       <div data-test-eholdings-title-create>
         <Toaster
@@ -100,13 +102,16 @@ export default class TitleCreate extends Component {
                   onSubmit={handleSubmit}
                   tagName="form"
                   flexGrow={1}
-                  paneTitle={<FormattedMessage id="ui-eholdings.title.create.paneTitle" />}
+                  paneTitle={paneTitle}
                   actionMenu={this.getActionMenu}
                   firstMenu={onCancel && (
-                    <FormattedMessage id="ui-eholdings.label.icon.goBack">
+                    <FormattedMessage
+                      id="ui-eholdings.label.icon.closeX"
+                      values={{ paneTitle }}
+                    >
                       {ariaLabel => (
                         <IconButton
-                          icon="arrow-left"
+                          icon="times"
                           ariaLabel={ariaLabel}
                           onClick={onCancel}
                           data-test-eholdings-details-view-back-button

@@ -23,7 +23,6 @@ import ContributorsList from '../../contributors-list';
 import AddTitleToPackage from '../_field-groups/add-title-to-package';
 import Toaster from '../../toaster';
 import KeyValueColumns from '../../key-value-columns';
-import FullViewLink from '../../full-view-link';
 import styles from './title-show.css';
 
 const focusOnErrors = createFocusDecorator();
@@ -33,17 +32,11 @@ class TitleShow extends Component {
   static propTypes = {
     addCustomPackage: PropTypes.func.isRequired,
     customPackages: PropTypes.object.isRequired,
-    editLink: PropTypes.oneOfType([
-      PropTypes.string,
-      PropTypes.object
-    ]),
-    fullViewLink: PropTypes.oneOfType([
-      PropTypes.string,
-      PropTypes.object
-    ]),
     isFreshlySaved: PropTypes.bool,
     isNewRecord: PropTypes.bool,
     model: PropTypes.object.isRequired,
+    onEdit: PropTypes.func.isRequired,
+    onFullView: PropTypes.func,
     request: PropTypes.object.isRequired
   };
 
@@ -56,33 +49,41 @@ class TitleShow extends Component {
 
   getActionMenu = () => {
     const {
-      editLink,
-      fullViewLink,
+      onEdit,
+      onFullView,
       model
     } = this.props;
 
-    return (model.isTitleCustom || fullViewLink) ? (
+    return (model.isTitleCustom || onFullView) ? (
       <Fragment>
         {model.isTitleCustom && (
           <Button
             buttonStyle="dropdownItem fullWidth"
-            to={editLink}
+            onClick={onEdit}
           >
             <FormattedMessage id="ui-eholdings.actionMenu.edit" />
           </Button>
         )}
 
-        {fullViewLink && (
-          <FullViewLink to={fullViewLink} />
+        {onFullView && (
+          <Button
+            buttonStyle="dropdownItem fullWidth"
+            onClick={onFullView}
+          >
+            <FormattedMessage id="ui-eholdings.actionMenu.fullView" />
+          </Button>
         )}
       </Fragment>
     ) : null;
   }
 
   get lastMenu() {
-    let { model, editLink } = this.props;
+    const {
+      model,
+      onEdit,
+    } = this.props;
 
-    if (editLink && model.isTitleCustom) {
+    if (onEdit && model.isTitleCustom) {
       return (
         <FormattedMessage
           id="ui-eholdings.title.editCustomTitle"
@@ -96,7 +97,7 @@ class TitleShow extends Component {
               data-test-eholdings-title-edit-link
               icon="edit"
               ariaLabel={ariaLabel}
-              to={editLink}
+              onClick={onEdit}
             />
           )}
         </FormattedMessage>

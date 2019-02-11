@@ -20,28 +20,21 @@ import PackageListItem from '../../package-list-item';
 import Toaster from '../../toaster';
 import ProxyDisplay from '../../proxy-display';
 import TokenDisplay from '../../token-display';
-import FullViewLink from '../../full-view-link';
 
 const ITEM_HEIGHT = 53;
 
 class ProviderShow extends Component {
    static propTypes = {
-     editLink: PropTypes.oneOfType([
-       PropTypes.string,
-       PropTypes.object
-     ]).isRequired,
      fetchPackages: PropTypes.func.isRequired,
-     fullViewLink: PropTypes.oneOfType([
-       PropTypes.string,
-       PropTypes.object
-     ]),
      isFreshlySaved: PropTypes.bool,
      listType: PropTypes.string.isRequired,
      model: PropTypes.object.isRequired,
+     onEdit: PropTypes.func.isRequired,
+     onFullView: PropTypes.func,
      packages: PropTypes.object.isRequired,
      proxyTypes: PropTypes.object.isRequired,
      rootProxy: PropTypes.object.isRequired,
-     searchModal: PropTypes.node
+     searchModal: PropTypes.node,
    };
 
   state = {
@@ -80,21 +73,26 @@ class ProviderShow extends Component {
 
   getActionMenu = () => {
     const {
-      editLink,
-      fullViewLink
+      onEdit,
+      onFullView,
     } = this.props;
 
     return (
       <Fragment>
         <Button
           buttonStyle="dropdownItem fullWidth"
-          to={editLink}
+          onClick={onEdit}
         >
           <FormattedMessage id="ui-eholdings.actionMenu.edit" />
         </Button>
 
-        {fullViewLink && (
-          <FullViewLink to={fullViewLink} />
+        {onFullView && (
+          <Button
+            buttonStyle="dropdownItem fullWidth"
+            onClick={onFullView}
+          >
+            <FormattedMessage id="ui-eholdings.actionMenu.fullView" />
+          </Button>
         )}
       </Fragment>
     );
@@ -109,7 +107,7 @@ class ProviderShow extends Component {
       searchModal,
       proxyTypes,
       rootProxy,
-      editLink
+      onEdit,
     } = this.props;
     let { sections } = this.state;
     let hasProxy = model.proxy && model.proxy.id;
@@ -129,12 +127,21 @@ class ProviderShow extends Component {
           sections={sections}
           handleExpandAll={this.handleExpandAll}
           lastMenu={(
-            <IconButton
-              data-test-eholdings-provider-edit-link
-              icon="edit"
-              ariaLabel={`Edit ${model.name}`}
-              to={editLink}
-            />
+            <FormattedMessage
+              id="ui-eholdings.label.editLink"
+              values={{
+                name: model.name
+              }}
+            >
+              {ariaLabel => (
+                <IconButton
+                  data-test-eholdings-provider-edit-link
+                  icon="edit"
+                  ariaLabel={ariaLabel}
+                  onClick={onEdit}
+                />
+              )}
+            </FormattedMessage>
           )}
           bodyContent={(
             <div>
