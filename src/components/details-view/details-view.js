@@ -191,7 +191,7 @@ class DetailsView extends Component {
   };
 
   handleClose = () => {
-    this.props.history.goBack()
+    this.props.history.goBack();
   }
 
   render() {
