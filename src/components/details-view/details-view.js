@@ -190,6 +190,10 @@ class DetailsView extends Component {
     }
   };
 
+  handleClose = () => {
+    this.props.history.goBack()
+  }
+
   render() {
     let {
       type,
@@ -250,7 +254,7 @@ class DetailsView extends Component {
                     <IconButton
                       icon="times"
                       ariaLabel={ariaLabel}
-                      onClick={() => history.goBack()}
+                      onClick={this.handleClose}
                       data-test-eholdings-details-view-back-button
                     />
                   )}

@@ -59,18 +59,52 @@ class TitleShowRoute extends Component {
     });
   };
 
-  render() {
-    let { model, customPackages, createRequest, history, location } = this.props;
-    const { searchType } = queryString.parse(location.search, { ignoreQueryPrefix: true });
+  getSearchType = () => {
+    const { searchType } = queryString.parse(this.props.location.search, { ignoreQueryPrefix: true });
+    return searchType;
+  }
+
+  handleFullView = () => {
+    const {
+      history,
+      model,
+    } = this.props;
+
+    const fullViewRouteState = {
+      pathname: `/eholdings/titles/${model.id}`,
+      state: { eholdings: true },
+    };
+
+    history.push(fullViewRouteState);
+  }
+
+  handleEdit = () => {
+    const {
+      history,
+      model,
+      location,
+    } = this.props;
+
     const editRouteState = {
       pathname: `/eholdings/titles/${model.id}/edit`,
       search: location.search,
       state: { eholdings: true },
     };
-    const fullViewRouteState = {
-      pathname: `/eholdings/titles/${model.id}`,
-      state: { eholdings: true },
-    };
+
+    if (this.getSearchType()) {
+      history.push(editRouteState);
+    }
+
+    history.replace(editRouteState);
+  }
+
+  render() {
+    let {
+      model,
+      customPackages,
+      createRequest,
+      history,
+    } = this.props;
 
     return (
       <TitleManager record={this.props.model.name}>
@@ -79,15 +113,8 @@ class TitleShowRoute extends Component {
           model={model}
           customPackages={customPackages}
           addCustomPackage={this.createResource}
-          onEdit={() => (
-            searchType
-              ? history.push(editRouteState)
-              : history.replace(editRouteState)
-          )}
-          onFullView={searchType
-            ? () => history.push(fullViewRouteState)
-            : undefined
-          }
+          onEdit={this.handleEdit}
+          onFullView={this.getSearchType() && this.handleFullView}
           isFreshlySaved={
             history.action === 'PUSH' &&
             history.location.state &&

@@ -81,7 +81,7 @@ class ProviderShow extends Component {
       <Fragment>
         <Button
           buttonStyle="dropdownItem fullWidth"
-          onClick={() => onEdit()}
+          onClick={onEdit}
         >
           <FormattedMessage id="ui-eholdings.actionMenu.edit" />
         </Button>
@@ -89,7 +89,7 @@ class ProviderShow extends Component {
         {onFullView && (
           <Button
             buttonStyle="dropdownItem fullWidth"
-            onClick={() => onFullView()}
+            onClick={onFullView}
           >
             <FormattedMessage id="ui-eholdings.actionMenu.fullView" />
           </Button>
@@ -138,7 +138,7 @@ class ProviderShow extends Component {
                   data-test-eholdings-provider-edit-link
                   icon="edit"
                   ariaLabel={ariaLabel}
-                  onClick={() => onEdit()}
+                  onClick={onEdit}
                 />
               )}
             </FormattedMessage>

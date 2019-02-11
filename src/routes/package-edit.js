@@ -177,16 +177,31 @@ class PackageEditRoute extends Component {
     updatePackage(model);
   };
 
-  render() {
+  getSearchType = () => {
+    const { searchType } = queryString.parse(this.props.location.search, { ignoreQueryPrefix: true });
+    return searchType;
+  }
+
+  handleFullView = () => {
     const {
-      model,
-      proxyTypes,
-      provider,
       history,
-      location,
+      model,
     } = this.props;
 
-    const { searchType } = queryString.parse(location.search, { ignoreQueryPrefix: true });
+    const fullViewRouteState = {
+      pathname: `/eholdings/packages/${model.id}/edit`,
+      state: { eholdings: true },
+    };
+
+    history.push(fullViewRouteState);
+  }
+
+  handleCancel = () => {
+    const {
+      history,
+      model,
+      location,
+    } = this.props;
 
     const viewRouteState = {
       pathname: `/eholdings/packages/${model.id}`,
@@ -196,10 +211,19 @@ class PackageEditRoute extends Component {
       }
     };
 
-    const fullViewRouteState = {
-      pathname: `/eholdings/packages/${model.id}/edit`,
-      state: { eholdings: true },
-    };
+    if (this.getSearchType()) {
+      history.push(viewRouteState);
+    }
+
+    history.replace(viewRouteState);
+  }
+
+  render() {
+    const {
+      model,
+      proxyTypes,
+      provider,
+    } = this.props;
 
     return (
       <FormattedMessage id="ui-eholdings.label.editLink" values={{ name: model.name }}>
@@ -210,16 +234,9 @@ class PackageEditRoute extends Component {
               proxyTypes={proxyTypes}
               provider={provider}
               onSubmit={this.packageEditSubmitted}
-              onCancel={() => (
-                searchType
-                  ? history.push(viewRouteState)
-                  : history.replace(viewRouteState)
-              )}
+              onCancel={this.handleCancel}
               addPackageToHoldings={this.addPackageToHoldings}
-              onFullView={searchType
-                ? () => history.push(fullViewRouteState)
-                : undefined
-              }
+              onFullView={this.getSearchType() && this.handleFullView}
             />
           </TitleManager>
         )}

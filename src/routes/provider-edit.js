@@ -64,9 +64,32 @@ class ProviderEditRoute extends Component {
     updateProvider(model);
   };
 
-  render() {
-    let { model, proxyTypes, rootProxy, history, location } = this.props;
-    const { searchType } = queryString.parse(location.search, { ignoreQueryPrefix: true });
+  getSearchType = () => {
+    const { searchType } = queryString.parse(this.props.location.search, { ignoreQueryPrefix: true });
+    return searchType;
+  }
+
+  handleFullView = () => {
+    const {
+      history,
+      model,
+    } = this.props;
+
+    const fullViewRouteState = {
+      pathname: `/eholdings/providers/${model.id}/edit`,
+      state: { eholdings: true },
+    };
+
+    history.push(fullViewRouteState);
+  }
+
+  handleCancel = () => {
+    const {
+      history,
+      model,
+      location,
+    } = this.props;
+
     const viewRouteState = {
       pathname: `/eholdings/providers/${model.id}`,
       search: location.search,
@@ -74,27 +97,30 @@ class ProviderEditRoute extends Component {
         eholdings: true,
       }
     };
-    const fullViewRouteState = {
-      pathname: `/eholdings/providers/${model.id}/edit`,
-      state: { eholdings: true },
-    };
+
+    if (this.getSearchType()) {
+      history.push(viewRouteState);
+    }
+
+    history.replace(viewRouteState);
+  }
+
+  render() {
+    const {
+      model,
+      proxyTypes,
+      rootProxy,
+    } = this.props;
 
     return (
       <TitleManager record={`Edit ${this.props.model.name}`}>
         <View
           model={model}
           onSubmit={this.providerEditSubmitted}
-          onCancel={() => (
-            searchType
-              ? history.push(viewRouteState)
-              : history.replace(viewRouteState)
-          )}
+          onCancel={this.handleCancel}
           proxyTypes={proxyTypes}
           rootProxy={rootProxy}
-          onFullView={searchType
-            ? () => history.push(fullViewRouteState)
-            : undefined
-          }
+          onFullView={this.getSearchType() && this.handleFullView}
         />
       </TitleManager>
     );

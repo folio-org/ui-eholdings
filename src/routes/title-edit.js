@@ -95,6 +95,45 @@ class TitleEditRoute extends Component {
     });
   }
 
+  getSearchType = () => {
+    const { searchType } = queryString.parse(this.props.location.search, { ignoreQueryPrefix: true });
+    return searchType;
+  }
+
+  handleFullView = () => {
+    const {
+      history,
+      model,
+    } = this.props;
+
+    const fullViewRouteState = {
+      pathname: `/eholdings/titles/${model.id}/edit`,
+      state: { eholdings: true },
+    };
+
+    history.push(fullViewRouteState);
+  }
+
+  handleCancel = () => {
+    const {
+      history,
+      model,
+      location,
+    } = this.props;
+
+    const viewRouteState = {
+      pathname: `/eholdings/titles/${model.id}`,
+      search: location.search,
+      state: { eholdings: true },
+    };
+
+    if (this.getSearchType()) {
+      history.push(viewRouteState);
+    }
+
+    history.replace(viewRouteState);
+  }
+
   titleEditSubmitted = (values) => {
     let { model, updateResource } = this.props;
     let resource = model.resources.records[0];
@@ -108,32 +147,14 @@ class TitleEditRoute extends Component {
     let {
       model,
       updateRequest,
-      history,
-      location
     } = this.props;
-
-    const { searchType } = queryString.parse(location.search, { ignoreQueryPrefix: true });
-
-    const viewRouteState = {
-      pathname: `/eholdings/titles/${model.id}`,
-      search: location.search,
-      state: { eholdings: true },
-    };
-    const fullViewRouteState = {
-      pathname: `/eholdings/titles/${model.id}/edit`,
-      state: { eholdings: true },
-    };
 
     return (
       <TitleManager record={`Edit ${this.props.model.name}`}>
         <View
           model={model}
           onSubmit={this.titleEditSubmitted}
-          onCancel={() => (
-            searchType
-              ? history.push(viewRouteState)
-              : history.replace(viewRouteState)
-          )}
+          onCancel={this.handleCancel}
           updateRequest={updateRequest}
           initialValues={{
             name: model.name,
@@ -145,10 +166,7 @@ class TitleEditRoute extends Component {
             contributors: model.contributors,
             identifiers: this.mergeIdentifiers(model.identifiers)
           }}
-          onFullView={searchType
-            ? () => history.push(fullViewRouteState)
-            : undefined
-          }
+          onFullView={this.getSearchType() && this.handleFullView}
         />
       </TitleManager>
     );

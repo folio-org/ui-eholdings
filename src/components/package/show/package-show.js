@@ -120,7 +120,7 @@ class PackageShow extends Component {
       <Fragment>
         <Button
           buttonStyle="dropdownItem fullWidth"
-          onClick={() => onEdit()}
+          onClick={onEdit}
         >
           <FormattedMessage id="ui-eholdings.actionMenu.edit" />
         </Button>
@@ -128,7 +128,7 @@ class PackageShow extends Component {
         {onFullView && (
           <Button
             buttonStyle="dropdownItem fullWidth"
-            onClick={() => onFullView()}
+            onClick={onFullView}
           >
             <FormattedMessage id="ui-eholdings.actionMenu.fullView" />
           </Button>
@@ -260,7 +260,7 @@ class PackageShow extends Component {
                   data-test-eholdings-package-edit-link
                   icon="edit"
                   ariaLabel={ariaLabel}
-                  onClick={() => onEdit()}
+                  onClick={onEdit}
                 />
               )}
             </FormattedMessage>

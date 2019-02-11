@@ -371,7 +371,10 @@ export default class ResourceEditCustomTitle extends Component {
               />
             </form>
 
-            <NavigationModal historyAction={historyActions.REPLACE} when={!pristine && !model.update.isPending && !model.update.isResolved} />
+            <NavigationModal
+              historyAction={historyActions.REPLACE}
+              when={!pristine && !model.update.isPending && !model.update.isResolved}
+            />
 
             <Modal
               open={showSelectionModal}

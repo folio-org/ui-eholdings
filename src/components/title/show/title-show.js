@@ -59,7 +59,7 @@ class TitleShow extends Component {
         {model.isTitleCustom && (
           <Button
             buttonStyle="dropdownItem fullWidth"
-            onClick={() => onEdit()}
+            onClick={onEdit}
           >
             <FormattedMessage id="ui-eholdings.actionMenu.edit" />
           </Button>
@@ -68,7 +68,7 @@ class TitleShow extends Component {
         {onFullView && (
           <Button
             buttonStyle="dropdownItem fullWidth"
-            onClick={() => onFullView()}
+            onClick={onFullView}
           >
             <FormattedMessage id="ui-eholdings.actionMenu.fullView" />
           </Button>
@@ -97,7 +97,7 @@ class TitleShow extends Component {
               data-test-eholdings-title-edit-link
               icon="edit"
               ariaLabel={ariaLabel}
-              onClick={() => onEdit()}
+              onClick={onEdit}
             />
           )}
         </FormattedMessage>

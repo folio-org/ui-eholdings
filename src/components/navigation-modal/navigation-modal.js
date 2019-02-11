@@ -10,16 +10,21 @@ import {
 import { FormattedMessage } from 'react-intl';
 import historyActions from '../../constants/historyActions';
 
+const INITIAL_MODAL_STATE = {
+  nextLocation: null,
+  openModal: false,
+};
+
 class NavigationModal extends Component {
   static propTypes = {
     history: ReactRouterPropTypes.history.isRequired,
-    historyActon: PropTypes.string,
+    historyAction: PropTypes.string,
     when: PropTypes.bool.isRequired
   };
 
   constructor(props) {
     super(props);
-    this.state = { nextLocation: null, openModal: false };
+    this.state = INITIAL_MODAL_STATE;
   }
 
   componentDidMount() {
@@ -44,7 +49,7 @@ class NavigationModal extends Component {
   };
 
   onCancel = () => {
-    this.setState({ nextLocation: null, openModal: false });
+    this.setState(INITIAL_MODAL_STATE);
   };
 
   onConfirm = () => {
@@ -53,7 +58,7 @@ class NavigationModal extends Component {
 
   navigateToNextLocation() {
     this.unblock();
-    if ((this.props.historyActon && this.props.historyActon === historyActions.REPLACE)
+    if ((this.props.historyAction && this.props.historyAction === historyActions.REPLACE)
       || this.props.history.action === historyActions.REPLACE) {
       this.props.history.replace(this.state.nextLocation);
     } else {

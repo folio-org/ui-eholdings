@@ -136,10 +136,34 @@ class PackageShowRoute extends Component {
     });
   }
 
-  render() {
-    let { history, location, model, provider, proxyTypes } = this.props;
-    let { pkgSearchParams, queryId } = this.state;
-    const { searchType } = queryString.parse(location.search, { ignoreQueryPrefix: true });
+  getSearchType = () => {
+    const { searchType } = queryString.parse(this.props.location.search, { ignoreQueryPrefix: true });
+    return searchType;
+  }
+
+  handleFullView = () => {
+    const {
+      history,
+      model,
+    } = this.props;
+
+    const fullViewRouteState = {
+      pathname: `/eholdings/packages/${model.id}`,
+      state: {
+        eholdings: true,
+      },
+    };
+
+    history.push(fullViewRouteState);
+  }
+
+  handleEdit = () => {
+    const {
+      history,
+      model,
+      location,
+    } = this.props;
+
     const editRouteState = {
       pathname: `/eholdings/packages/${model.id}/edit`,
       search: location.search,
@@ -147,12 +171,26 @@ class PackageShowRoute extends Component {
         eholdings: true,
       },
     };
-    const fullViewRouteState = {
-      pathname: `/eholdings/packages/${model.id}`,
-      state: {
-        eholdings: true,
-      },
-    };
+
+    if (this.getSearchType()) {
+      history.push(editRouteState);
+    }
+
+    history.replace(editRouteState);
+  }
+
+  render() {
+    const {
+      history,
+      model,
+      provider,
+      proxyTypes,
+    } = this.props;
+    const {
+      pkgSearchParams,
+      queryId,
+    } = this.state;
+
     return (
       <TitleManager record={model.name}>
         <View
@@ -165,15 +203,8 @@ class PackageShowRoute extends Component {
           toggleHidden={this.toggleHidden}
           customCoverageSubmitted={this.customCoverageSubmitted}
           toggleAllowKbToAddTitles={this.toggleAllowKbToAddTitles}
-          onEdit={() => (
-            searchType
-              ? history.push(editRouteState)
-              : history.replace(editRouteState)
-          )}
-          onFullView={searchType
-            ? () => history.push(fullViewRouteState)
-            : undefined
-          }
+          onEdit={this.handleEdit}
+          onFullView={this.getSearchType() && this.handleFullView}
           isFreshlySaved={
             history.action === 'PUSH' &&
             history.location.state &&

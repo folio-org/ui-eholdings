@@ -93,7 +93,7 @@ class ResourceShow extends Component {
       <Fragment>
         <Button
           buttonStyle="dropdownItem fullWidth"
-          onClick={() => onEdit()}
+          onClick={onEdit}
         >
           <FormattedMessage id="ui-eholdings.actionMenu.edit" />
         </Button>
@@ -195,7 +195,7 @@ class ResourceShow extends Component {
                   data-test-eholdings-resource-edit-link
                   icon="edit"
                   ariaLabel={ariaLabel}
-                  onClick={() => onEdit()}
+                  onClick={onEdit}
                 />
               )}
             </FormattedMessage>
