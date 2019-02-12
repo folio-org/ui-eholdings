@@ -97,6 +97,7 @@
         "displayName": "eHoldings: Can view providers, packages, titles",
         "visible": true,
         "subPermissions": [
+          "module.eholdings.enabled",
           "ui-eholdings.packages.collection.get",
           "ui-eholdings.packages.item.get",
           "ui-eholdings.providers.collection.get",
@@ -111,6 +112,7 @@
         "displayName": "eHoldings: Can select/unselect packages and titles to/from your holdings",
         "visible": true,
         "subPermissions": [
+          "ui-eholdings.records.view",
           "ui-eholdings.packages.item.put",
           "ui-eholdings.resources.item.put"
         ]
@@ -129,6 +131,7 @@
         "displayName": "eHoldings: Can create and delete custom packages and titles",
         "visible": true,
         "subPermissions": [
+          "ui-eholdings.records.edit",
           "ui-eholdings.packages.collection.post",
           "ui-eholdings.resources.collection.post",
           "ui-eholdings.titles.collection.post",
