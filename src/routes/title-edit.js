@@ -4,7 +4,9 @@ import ReactRouterPropTypes from 'react-router-prop-types';
 import { connect } from 'react-redux';
 import isEqual from 'lodash/isEqual';
 import queryString from 'qs';
+
 import { TitleManager } from '@folio/stripes/core';
+import { Icon } from '@folio/stripes-components';
 
 import { createResolver } from '../redux';
 import Title from '../redux/title';
@@ -153,8 +155,8 @@ class TitleEditRoute extends Component {
     updateTitle(Object.assign(model, newValues));
   }
 
-  render() {
-    let {
+  renderView() {
+    const {
       model,
       updateRequest,
     } = this.props;
@@ -180,6 +182,17 @@ class TitleEditRoute extends Component {
         />
       </TitleManager>
     );
+  }
+
+  render() {
+    let { model } = this.props;
+
+    return model.isLoaded
+      ? this.renderView()
+      : <Icon
+        icon="spinner-ellipsis"
+        iconSize="small"
+      />;
   }
 }
 

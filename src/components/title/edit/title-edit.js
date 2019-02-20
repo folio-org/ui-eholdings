@@ -35,6 +35,10 @@ export default class TitleEdit extends Component {
     updateRequest: PropTypes.object.isRequired,
   };
 
+  state = {
+    initialValues: this.props.initialValues,
+  }
+
   getActionMenu = ({ onToggle }) => {
     const {
       onFullView,
@@ -71,11 +75,12 @@ export default class TitleEdit extends Component {
 
   render() {
     let {
-      initialValues,
       model,
       onSubmit,
       updateRequest
     } = this.props;
+
+    const { initialValues } = this.state;
 
     return (
       <Fragment>
