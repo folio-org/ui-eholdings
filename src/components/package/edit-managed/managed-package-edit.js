@@ -35,7 +35,6 @@ const focusOnErrors = createFocusDecorator();
 export default class ManagedPackageEdit extends Component {
   static propTypes = {
     addPackageToHoldings: PropTypes.func.isRequired,
-    initialValues: PropTypes.object.isRequired,
     model: PropTypes.object.isRequired,
     onCancel: PropTypes.func.isRequired,
     onFullView: PropTypes.func,
@@ -44,12 +43,48 @@ export default class ManagedPackageEdit extends Component {
     proxyTypes: PropTypes.object.isRequired
   };
 
+  static getDerivedStateFromProps(nextProps, prevState) {
+    let stateUpdates = {};
+    const { initialValues } = prevState;
+    const {
+      model,
+      provider,
+    } = nextProps;
+
+    const providerTokenWasLoaded = !initialValues.providerTokenValue && provider.providerToken.value;
+    const selectionStatusChanged = model.isSelected !== initialValues.isSelected;
+
+    if (selectionStatusChanged || providerTokenWasLoaded) {
+      stateUpdates = {
+        initialValues: {
+          isSelected: model.isSelected,
+          customCoverages: [{
+            beginCoverage: model.customCoverage.beginCoverage,
+            endCoverage: model.customCoverage.endCoverage
+          }],
+          proxyId: model.proxy.id,
+          providerTokenValue: provider.providerToken.value,
+          packageTokenValue: model.packageToken.value,
+          isVisible: !model.visibilityData.isHidden,
+          allowKbToAddTitles: model.allowKbToAddTitles
+        },
+        packageSelected: model.isSelected
+      };
+    }
+
+    if (model.update.errors.length) {
+      stateUpdates.showSelectionModal = false;
+    }
+
+    return stateUpdates;
+  }
+
   state = {
     showSelectionModal: false,
     allowFormToSubmit: false,
-    packageSelected: this.props.initialValues.isSelected,
+    packageSelected: this.props.model.isSelected,
     formValues: {},
-    initialValues: this.props.initialValues,
+    initialValues: this.getInitialValuesFromModel(),
     sections: {
       packageHoldingStatus: true,
       packageSettings: true,
@@ -57,23 +92,24 @@ export default class ManagedPackageEdit extends Component {
     }
   };
 
-  static getDerivedStateFromProps(nextProps, prevState) {
-    let stateUpdates = {};
+  getInitialValuesFromModel() {
+    const {
+      model,
+      provider,
+    } = this.props;
 
-    if (nextProps.model.update.errors.length) {
-      stateUpdates.showSelectionModal = false;
-    }
-
-    if (nextProps.initialValues.isSelected !== prevState.initialValues.isSelected) {
-      Object.assign(stateUpdates, {
-        initialValues: {
-          isSelected: nextProps.initialValues.isSelected
-        },
-        packageSelected: nextProps.initialValues.isSelected
-      });
-    }
-
-    return stateUpdates;
+    return {
+      isSelected: model.isSelected,
+      customCoverages: [{
+        beginCoverage: model.customCoverage.beginCoverage,
+        endCoverage: model.customCoverage.endCoverage
+      }],
+      proxyId: model.proxy.id,
+      providerTokenValue: provider.providerToken.value,
+      packageTokenValue: model.packageToken.value,
+      isVisible: !model.visibilityData.isHidden,
+      allowKbToAddTitles: model.allowKbToAddTitles
+    };
   }
 
   handleSelectionAction = () => {
@@ -223,12 +259,12 @@ export default class ManagedPackageEdit extends Component {
   render() {
     let {
       model,
-      initialValues,
       proxyTypes,
       provider
     } = this.props;
 
     let {
+      initialValues,
       showSelectionModal,
       packageSelected,
       sections
@@ -301,7 +337,7 @@ export default class ManagedPackageEdit extends Component {
                           onToggle={this.toggleSection}
                         >
                           <div className={styles['visibility-radios']}>
-                            {this.props.initialValues.isVisible != null ? (
+                            {initialValues.isVisible !== null ? (
                               <fieldset data-test-eholdings-package-visibility-field>
                                 <Headline tag="legend" size="small" margin="x-large">
                                   <FormattedMessage id="ui-eholdings.package.visibility" />
@@ -342,7 +378,7 @@ export default class ManagedPackageEdit extends Component {
                             )}
                           </div>
                           <div className={styles['title-management-radios']}>
-                            {this.props.initialValues.allowKbToAddTitles != null ? (
+                            {initialValues.allowKbToAddTitles !== null ? (
                               <fieldset data-test-eholdings-allow-kb-to-add-titles-radios>
                                 <Headline tag="legend" size="small" margin="x-large">
                                   <FormattedMessage id="ui-eholdings.package.packageAllowToAddTitles" />
