@@ -184,15 +184,35 @@ class TitleEditRoute extends Component {
     );
   }
 
+  indicateModelIsNotLoaded() {
+    const { model } = this.props;
+
+    return model.request.isRejected
+      ? this.renderRequestErrorMessage()
+      : (
+        <Icon
+          icon="spinner-ellipsis"
+          iconSize="small"
+        />
+      );
+  }
+
+  renderRequestErrorMessage() {
+    const { model } = this.props;
+
+    return (
+      <p data-test-eholdings-title-edit-error>
+        {model.request.errors[0].title}
+      </p>
+    );
+  }
+
   render() {
     let { model } = this.props;
 
     return model.isLoaded
       ? this.renderView()
-      : <Icon
-        icon="spinner-ellipsis"
-        iconSize="small"
-      />;
+      : this.indicateModelIsNotLoaded();
   }
 }
 

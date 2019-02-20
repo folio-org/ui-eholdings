@@ -12,6 +12,29 @@ export default class PackageEdit extends React.Component {
     provider: PropTypes.object.isRequired
   };
 
+  renderRequestErrorMessage() {
+    const { model } = this.props;
+
+    return (
+      <p data-test-eholdings-package-edit-error>
+        {model.request.errors[0].title}
+      </p>
+    );
+  }
+
+  indicateModelIsNotLoaded() {
+    const { model } = this.props;
+
+    return model.request.isRejected
+      ? this.renderRequestErrorMessage()
+      : (
+        <Icon
+          icon="spinner-ellipsis"
+          iconSize="small"
+        />
+      );
+  }
+
   renderView() {
     const {
       model,
@@ -37,9 +60,6 @@ export default class PackageEdit extends React.Component {
 
     return model.isLoaded
       ? this.renderView()
-      : <Icon
-        icon="spinner-ellipsis"
-        iconSize="small"
-      />;
+      : this.indicateModelIsNotLoaded();
   }
 }

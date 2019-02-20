@@ -69,7 +69,7 @@ import PackageSelectionStatus from './selection-status';
   clickSave = clickable('[data-test-eholdings-package-save-button]');
   isSavePresent = isPresent('[data-test-eholdings-package-save-button]');
   isSaveDisabled = property('[data-test-eholdings-package-save-button]', 'disabled');
-  hasErrors = isPresent('[data-test-eholdings-details-view-error="package"]');
+  hasErrors = isPresent('[data-test-eholdings-package-edit-error]');
   modal = new PackageEditModal('#eholdings-package-confirmation-modal');
   selectionStatus = new PackageSelectionStatus();
   clickAddButton = clickable('[data-test-eholdings-package-add-to-holdings-button]');
@@ -185,4 +185,4 @@ import PackageSelectionStatus from './selection-status';
   });
 }
 
-export default new PackageEditPage('[data-test-eholdings-details-view="package"]');
+export default new PackageEditPage();

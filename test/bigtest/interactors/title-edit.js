@@ -33,7 +33,7 @@ import Toast from './toast';
 
   clickSave = clickable('[data-test-eholdings-title-save-button]');
   isSaveDisabled = property('[data-test-eholdings-title-save-button]', 'disabled');
-  hasErrors = isPresent('[data-test-eholdings-details-view-error="title"]');
+  hasErrors = isPresent('[data-test-eholdings-title-edit-error]');
   isPeerReviewed = property('[data-test-eholdings-peer-reviewed-field] input[type=checkbox]', 'checked');
   checkPeerReviewed = clickable('[data-test-eholdings-peer-reviewed-field] input[type=checkbox]');
 
@@ -86,4 +86,4 @@ import Toast from './toast';
   dropDownMenu = new TitleEditDropDownMenu();
 }
 
-export default new TitleEditPage('[data-test-eholdings-details-view="title"]');
+export default new TitleEditPage();
