@@ -43,7 +43,11 @@ describe('CustomTitleEdit', () => {
           id: '11133394'
         }
       ],
-      isTitleCustom: true
+      isTitleCustom: true,
+      description: 'custom description',
+      tags: {
+        tagList: [],
+      },
     });
 
     title.save();
@@ -71,7 +75,7 @@ describe('CustomTitleEdit', () => {
     });
 
     it('shows a description field', () => {
-      expect(TitleEditPage.descriptionField).to.equal('');
+      expect(TitleEditPage.descriptionField).to.equal('custom description');
     });
 
     it('shows a contributor field', () => {
@@ -321,7 +325,7 @@ describe('CustomTitleEdit', () => {
 
   describe('encountering a server error when PUTting', () => {
     beforeEach(function () {
-      this.server.put('/resources/:id', {
+      this.server.put('/titles/:id', {
         errors: [{
           title: 'There was an error'
         }]
