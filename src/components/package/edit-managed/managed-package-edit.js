@@ -47,32 +47,40 @@ export default class ManagedPackageEdit extends Component {
     let stateUpdates = {};
     const { initialValues } = prevState;
     const {
-      model,
-      provider,
+      model: {
+        isSelected,
+        customCoverage,
+        proxy,
+        packageToken,
+        visibilityData,
+        allowKbToAddTitles,
+        update,
+      },
+      provider: { providerToken },
     } = nextProps;
 
-    const providerTokenWasLoaded = !initialValues.providerTokenValue && provider.providerToken.value;
-    const selectionStatusChanged = model.isSelected !== initialValues.isSelected;
+    const providerTokenWasLoaded = !initialValues.providerTokenValue && providerToken.value;
+    const selectionStatusChanged = isSelected !== initialValues.isSelected;
 
     if (selectionStatusChanged || providerTokenWasLoaded) {
       stateUpdates = {
         initialValues: {
-          isSelected: model.isSelected,
+          isSelected,
           customCoverages: [{
-            beginCoverage: model.customCoverage.beginCoverage,
-            endCoverage: model.customCoverage.endCoverage
+            beginCoverage: customCoverage.beginCoverage,
+            endCoverage: customCoverage.endCoverage
           }],
-          proxyId: model.proxy.id,
-          providerTokenValue: provider.providerToken.value,
-          packageTokenValue: model.packageToken.value,
-          isVisible: !model.visibilityData.isHidden,
-          allowKbToAddTitles: model.allowKbToAddTitles
+          proxyId: proxy.id,
+          providerTokenValue: providerToken.value,
+          packageTokenValue: packageToken.value,
+          isVisible: !visibilityData.isHidden,
+          allowKbToAddTitles,
         },
-        packageSelected: model.isSelected
+        packageSelected: isSelected
       };
     }
 
-    if (model.update.errors.length) {
+    if (update.errors.length) {
       stateUpdates.showSelectionModal = false;
     }
 
@@ -94,21 +102,28 @@ export default class ManagedPackageEdit extends Component {
 
   getInitialValuesFromModel() {
     const {
-      model,
-      provider,
+      model: {
+        isSelected,
+        customCoverage,
+        proxy,
+        packageToken,
+        visibilityData,
+        allowKbToAddTitles,
+      },
+      provider: { providerToken },
     } = this.props;
 
     return {
-      isSelected: model.isSelected,
+      isSelected,
       customCoverages: [{
-        beginCoverage: model.customCoverage.beginCoverage,
-        endCoverage: model.customCoverage.endCoverage
+        beginCoverage: customCoverage.beginCoverage,
+        endCoverage: customCoverage.endCoverage
       }],
-      proxyId: model.proxy.id,
-      providerTokenValue: provider.providerToken.value,
-      packageTokenValue: model.packageToken.value,
-      isVisible: !model.visibilityData.isHidden,
-      allowKbToAddTitles: model.allowKbToAddTitles
+      proxyId: proxy.id,
+      providerTokenValue: providerToken.value,
+      packageTokenValue: packageToken.value,
+      isVisible: !visibilityData.isHidden,
+      allowKbToAddTitles,
     };
   }
 

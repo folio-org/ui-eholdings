@@ -47,29 +47,37 @@ export default class CustomPackageEdit extends Component {
 
   static getDerivedStateFromProps(nextProps, prevState) {
     let stateUpdates = {};
-    const { model } = nextProps;
     const { initialValues } = prevState;
+    const {
+      isSelected,
+      name,
+      contentType,
+      customCoverage,
+      proxy,
+      visibilityData,
+      destroy,
+    } = nextProps.model;
 
-    const selectionStatusChanged = model.isSelected !== initialValues.isSelected;
+    const selectionStatusChanged = isSelected !== initialValues.isSelected;
 
     if (selectionStatusChanged) {
       stateUpdates = {
         initialValues: {
-          isSelected: model.isSelected,
-          name: model.name,
-          contentType: model.contentType,
+          isSelected,
+          name,
+          contentType,
           customCoverages: [{
-            beginCoverage: model.customCoverage.beginCoverage,
-            endCoverage: model.customCoverage.endCoverage
+            beginCoverage: customCoverage.beginCoverage,
+            endCoverage: customCoverage.endCoverage
           }],
-          proxyId: model.proxy.id,
-          isVisible: !model.visibilityData.isHidden
+          proxyId: proxy.id,
+          isVisible: !visibilityData.isHidden
         },
-        packageSelected: model.isSelected
+        packageSelected: isSelected
       };
     }
 
-    if (model.destroy.errors.length) {
+    if (destroy.errors.length) {
       stateUpdates.showSelectionModal = false;
     }
 
@@ -91,18 +99,25 @@ export default class CustomPackageEdit extends Component {
   };
 
   getInitialValuesFromModel() {
-    const { model } = this.props;
+    const {
+      name,
+      contentType,
+      isSelected,
+      customCoverage,
+      proxy,
+      visibilityData,
+    } = this.props.model;
 
     return {
-      name: model.name,
-      contentType: model.contentType,
-      isSelected: model.isSelected,
+      name,
+      contentType,
+      isSelected,
       customCoverages: [{
-        beginCoverage: model.customCoverage.beginCoverage,
-        endCoverage: model.customCoverage.endCoverage
+        beginCoverage: customCoverage.beginCoverage,
+        endCoverage: customCoverage.endCoverage
       }],
-      proxyId: model.proxy.id,
-      isVisible: !model.visibilityData.isHidden
+      proxyId: proxy.id,
+      isVisible: !visibilityData.isHidden
     };
   }
 
