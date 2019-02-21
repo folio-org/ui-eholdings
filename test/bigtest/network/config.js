@@ -280,6 +280,19 @@ export default function config() {
     return title;
   });
 
+  this.put('/titles/:id', (schema, request) => {
+    const body = JSON.parse(request.requestBody);
+
+    return {
+      data: {
+        ...body.data,
+        attributes: {
+          ...body.data.attributes,
+        }
+      },
+    };
+  });
+
   // Resources
   this.get('/packages/:id/resources', nestedResourceRouteFor('package', 'resources', (resource, req) => {
     let title = resource.title;

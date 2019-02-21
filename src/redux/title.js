@@ -2,16 +2,20 @@ import model, { hasMany } from './model';
 
 class Title {
   name = '';
-  edition = '';
-  publisherName = '';
+  isPeerReviewed = false;
+  isSelected = false;
+  isTitleCustom = false;
   publicationType = '';
-  subjects = [];
+  publisherName = '';
+  edition = '';
+  description = '';
   contributors = [];
   identifiers = [];
+  subjects = [];
   resources = hasMany();
-  isTitleCustom = false;
-  isPeerReviewed = false;
-  description = '';
+  tags = {
+    tagList: [],
+  };
 
   // slightly customized serializer that adds included resources to
   // new title record payloads
@@ -21,11 +25,17 @@ class Title {
     let payload = { data };
 
     data.attributes = Object.keys(attributes).reduce((attrs, attr) => {
+      const isAttributeExcluded = this[attr] === null;
+
+      if (isAttributeExcluded) return attrs;
+
       return Object.assign(attrs, { [attr]: this[attr] });
     }, {});
 
-    // when serizing a new title we need to include any new resources
-    if (!this.id && resources) {
+    // when serializing a new title we need to include any new resources
+    const isTitleNew = !this.id;
+
+    if (isTitleNew && resources) {
       payload.included = resources.map((resource) => ({
         type: 'resource',
         attributes: resource
