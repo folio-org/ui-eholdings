@@ -50,11 +50,6 @@ export default class CustomPackageEdit extends Component {
     const { initialValues } = prevState;
     const {
       isSelected,
-      name,
-      contentType,
-      customCoverage,
-      proxy,
-      visibilityData,
       destroy,
     } = nextProps.model;
 
@@ -62,17 +57,7 @@ export default class CustomPackageEdit extends Component {
 
     if (selectionStatusChanged) {
       stateUpdates = {
-        initialValues: {
-          isSelected,
-          name,
-          contentType,
-          customCoverages: [{
-            beginCoverage: customCoverage.beginCoverage,
-            endCoverage: customCoverage.endCoverage
-          }],
-          proxyId: proxy.id,
-          isVisible: !visibilityData.isHidden
-        },
+        initialValues: CustomPackageEdit.getInitialValues(nextProps.model),
         packageSelected: isSelected
       };
     }
@@ -84,21 +69,7 @@ export default class CustomPackageEdit extends Component {
     return stateUpdates;
   }
 
-  state = {
-    showSelectionModal: false,
-    allowFormToSubmit: false,
-    packageSelected: this.props.model.isSelected,
-    formValues: {},
-    initialValues: this.getInitialValuesFromModel(),
-    sections: {
-      packageHoldingStatus: true,
-      packageInfo: true,
-      packageSettings: true,
-      packageCoverageSettings: true,
-    }
-  };
-
-  getInitialValuesFromModel() {
+  static getInitialValues(model) {
     const {
       name,
       contentType,
@@ -106,20 +77,33 @@ export default class CustomPackageEdit extends Component {
       customCoverage,
       proxy,
       visibilityData,
-    } = this.props.model;
+    } = model;
 
     return {
       name,
       contentType,
       isSelected,
       customCoverages: [{
-        beginCoverage: customCoverage.beginCoverage,
-        endCoverage: customCoverage.endCoverage
+        ...customCoverage
       }],
       proxyId: proxy.id,
       isVisible: !visibilityData.isHidden
     };
   }
+
+  state = {
+    showSelectionModal: false,
+    allowFormToSubmit: false,
+    packageSelected: this.props.model.isSelected,
+    formValues: {},
+    initialValues: CustomPackageEdit.getInitialValues(this.props.model),
+    sections: {
+      packageHoldingStatus: true,
+      packageInfo: true,
+      packageSettings: true,
+      packageCoverageSettings: true,
+    }
+  };
 
   handleDeleteAction = () => {
     this.setState({

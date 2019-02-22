@@ -49,11 +49,6 @@ export default class ManagedPackageEdit extends Component {
     const {
       model: {
         isSelected,
-        customCoverage,
-        proxy,
-        packageToken,
-        visibilityData,
-        allowKbToAddTitles,
         update,
       },
       provider: { providerToken },
@@ -64,18 +59,7 @@ export default class ManagedPackageEdit extends Component {
 
     if (selectionStatusChanged || providerTokenWasLoaded) {
       stateUpdates = {
-        initialValues: {
-          isSelected,
-          customCoverages: [{
-            beginCoverage: customCoverage.beginCoverage,
-            endCoverage: customCoverage.endCoverage
-          }],
-          proxyId: proxy.id,
-          providerTokenValue: providerToken.value,
-          packageTokenValue: packageToken.value,
-          isVisible: !visibilityData.isHidden,
-          allowKbToAddTitles,
-        },
+        initialValues: ManagedPackageEdit.getInitialValues(nextProps.model, nextProps.provider),
         packageSelected: isSelected
       };
     }
@@ -87,37 +71,21 @@ export default class ManagedPackageEdit extends Component {
     return stateUpdates;
   }
 
-  state = {
-    showSelectionModal: false,
-    allowFormToSubmit: false,
-    packageSelected: this.props.model.isSelected,
-    formValues: {},
-    initialValues: this.getInitialValuesFromModel(),
-    sections: {
-      packageHoldingStatus: true,
-      packageSettings: true,
-      packageCoverageSettings: true,
-    }
-  };
-
-  getInitialValuesFromModel() {
+  static getInitialValues(model, { providerToken }) {
     const {
-      model: {
-        isSelected,
-        customCoverage,
-        proxy,
-        packageToken,
-        visibilityData,
-        allowKbToAddTitles,
-      },
-      provider: { providerToken },
-    } = this.props;
+      isSelected,
+      customCoverage,
+      proxy,
+      packageToken,
+      visibilityData,
+      allowKbToAddTitles,
+
+    } = model;
 
     return {
       isSelected,
       customCoverages: [{
-        beginCoverage: customCoverage.beginCoverage,
-        endCoverage: customCoverage.endCoverage
+        ...customCoverage,
       }],
       proxyId: proxy.id,
       providerTokenValue: providerToken.value,
@@ -126,6 +94,19 @@ export default class ManagedPackageEdit extends Component {
       allowKbToAddTitles,
     };
   }
+
+  state = {
+    showSelectionModal: false,
+    allowFormToSubmit: false,
+    packageSelected: this.props.model.isSelected,
+    formValues: {},
+    initialValues: ManagedPackageEdit.getInitialValues(this.props.model, this.props.provider),
+    sections: {
+      packageHoldingStatus: true,
+      packageSettings: true,
+      packageCoverageSettings: true,
+    }
+  };
 
   handleSelectionAction = () => {
     this.setState({
