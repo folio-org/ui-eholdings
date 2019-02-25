@@ -30,21 +30,21 @@ import Tags from '../../tags';
 const ITEM_HEIGHT = 53;
 
 class ProviderShow extends Component {
-   static propTypes = {
-     fetchPackages: PropTypes.func.isRequired,
-     isFreshlySaved: PropTypes.bool,
-     listType: PropTypes.string.isRequired,
-     model: PropTypes.object.isRequired,
-     onEdit: PropTypes.func.isRequired,
-     onFullView: PropTypes.func,
-     packages: PropTypes.object.isRequired,
-     proxyTypes: PropTypes.object.isRequired,
-     rootProxy: PropTypes.object.isRequired,
-     searchModal: PropTypes.node,
-     tagsModel: PropTypes.object,
-     updateEntityTags: PropTypes.func.isRequired,
-     updateFolioTags: PropTypes.func.isRequired,
-   };
+  static propTypes = {
+    fetchPackages: PropTypes.func.isRequired,
+    isFreshlySaved: PropTypes.bool,
+    listType: PropTypes.string.isRequired,
+    model: PropTypes.object.isRequired,
+    onEdit: PropTypes.func.isRequired,
+    onFullView: PropTypes.func,
+    packages: PropTypes.object.isRequired,
+    proxyTypes: PropTypes.object.isRequired,
+    rootProxy: PropTypes.object.isRequired,
+    searchModal: PropTypes.node,
+    tagsModel: PropTypes.object,
+    updateEntityTags: PropTypes.func.isRequired,
+    updateFolioTags: PropTypes.func.isRequired,
+  };
 
   state = {
     sections: {
@@ -108,29 +108,189 @@ class ProviderShow extends Component {
     );
   }
 
-  render() {
-    let {
-      fetchPackages,
-      listType,
-      model,
-      packages,
-      searchModal,
+  getBodyContent() {
+    const {
       proxyTypes,
       rootProxy,
-      onEdit,
+      model,
       tagsModel,
       updateEntityTags,
       updateFolioTags,
     } = this.props;
-    let { sections } = this.state;
-    let hasProxy = model.proxy && model.proxy.id;
-    let hasToken = model.providerToken && model.providerToken.prompt;
+
+    const {
+      sections,
+    } = this.state;
+
+    const hasProxy = model.proxy && model.proxy.id;
+    const hasToken = model.providerToken && model.providerToken.prompt;
     const hasProviderSettings = hasProxy || hasToken;
     const hasSelectedPackages = model.packagesSelected > 0;
 
     return (
       <div>
-        <Toaster toasts={this.toasts} position="bottom" />
+        {
+          hasSelectedPackages && (
+            <Accordion
+              label={<Headline size="large" tag="h3"><FormattedMessage id="ui-eholdings.tags" /></Headline>}
+              open={sections.providerShowTags}
+              id="providerShowTags"
+              onToggle={this.handleSectionToggle}
+              displayWhenClosed={
+                <Badge sixe='small'>
+                  <span data-test-eholdings-provider-tags-bage>
+                    <FormattedNumber value={getEntityTags(model).length} />
+                  </span>
+                </Badge>
+              }
+            >
+              {(!tagsModel.request.isResolved || model.isLoading)
+                ? <Icon icon="spinner-ellipsis" />
+                : (
+                  <Tags
+                    updateEntityTags={updateEntityTags}
+                    updateFolioTags={updateFolioTags}
+                    model={model}
+                    tags={getTagLabelsArr(tagsModel)}
+                  />
+                )
+              }
+            </Accordion>
+          )
+        }
+        <Accordion
+          label={<Headline size="large" tag="h3"><FormattedMessage id="ui-eholdings.provider.providerInformation" /></Headline>}
+          open={sections.providerShowProviderInformation}
+          id="providerShowProviderInformation"
+          onToggle={this.handleSectionToggle}
+        >
+          <KeyValue label={<FormattedMessage id="ui-eholdings.provider.packagesSelected" />}>
+            <div data-test-eholdings-provider-details-packages-selected>
+              <FormattedNumber value={model.packagesSelected} />
+            </div>
+          </KeyValue>
+
+          <KeyValue label={<FormattedMessage id="ui-eholdings.provider.totalPackages" />}>
+            <div data-test-eholdings-provider-details-packages-total>
+              <FormattedNumber value={model.packagesTotal} />
+            </div>
+          </KeyValue>
+        </Accordion>
+        {hasProviderSettings && (
+          <Accordion
+            label={<Headline size="large" tag="h3"><FormattedMessage id="ui-eholdings.provider.providerSettings" /></Headline>}
+            open={sections.providerShowProviderSettings}
+            id="providerShowProviderSettings"
+            onToggle={this.handleSectionToggle}
+          >
+            {
+              hasProxy && (
+                !proxyTypes.request.isResolved || !rootProxy.request.isResolved || model.isLoading
+                  ? <Icon icon="spinner-ellipsis" />
+                  : (
+                    <ProxyDisplay
+                      model={model}
+                      proxyTypes={proxyTypes}
+                      inheritedProxyId={rootProxy.data.attributes.proxyTypeId}
+                    />
+                  )
+              )
+            }
+
+            {
+              hasToken && (
+                model.isLoading
+                  ? <Icon icon="spinner-ellipsis" />
+                  : (
+                    <KeyValue label={<FormattedMessage id="ui-eholdings.provider.token" />}>
+                      <TokenDisplay
+                        token={model.providerToken}
+                        type="provider"
+                      />
+                    </KeyValue>
+                  )
+              )
+            }
+          </Accordion>
+        )}
+      </div>
+    );
+  }
+
+  renderPackagesListItem = (item) => {
+    const itemLink = item.content && `/eholdings/packages/${item.content.id}`;
+
+    return (
+      <PackageListItem
+        link={itemLink}
+        item={item.content}
+        showTitleCount
+        headingLevel='h4'
+      />
+    );
+  }
+
+  renderPackagesList = (scrollable) => {
+    const {
+      fetchPackages,
+      packages,
+    } = this.props;
+
+    return (
+      <QueryList
+        type="provider-packages"
+        fetch={fetchPackages}
+        collection={packages}
+        length={packages.length}
+        scrollable={scrollable}
+        itemHeight={ITEM_HEIGHT}
+        notFoundMessage={<FormattedMessage id="ui-eholdings.notFound" />}
+        renderItem={this.renderPackagesListItem}
+      />
+    );
+  }
+
+  getLastMenu() {
+    const {
+      model,
+      onEdit,
+    } = this.props;
+
+    return (
+      <FormattedMessage
+        id="ui-eholdings.label.editLink"
+        values={{
+          name: model.name
+        }}
+      >
+        {ariaLabel => (
+          <IconButton
+            data-test-eholdings-provider-edit-link
+            icon="edit"
+            ariaLabel={ariaLabel}
+            onClick={onEdit}
+          />
+        )}
+      </FormattedMessage>
+    );
+  }
+
+  render() {
+    const {
+      listType,
+      model,
+      packages,
+      searchModal,
+    } = this.props;
+
+    const { sections } = this.state;
+
+    return (
+      <div>
+        <Toaster
+          toasts={this.toasts}
+          position="bottom"
+        />
 
         <DetailsView
           type="provider"
@@ -140,127 +300,14 @@ class ProviderShow extends Component {
           actionMenu={this.getActionMenu}
           sections={sections}
           handleExpandAll={this.handleExpandAll}
-          lastMenu={(
-            <FormattedMessage
-              id="ui-eholdings.label.editLink"
-              values={{
-                name: model.name
-              }}
-            >
-              {ariaLabel => (
-                <IconButton
-                  data-test-eholdings-provider-edit-link
-                  icon="edit"
-                  ariaLabel={ariaLabel}
-                  onClick={onEdit}
-                />
-              )}
-            </FormattedMessage>
-          )}
-          bodyContent={(
-            <div>
-              {hasSelectedPackages && (
-                <Accordion
-                  label={<Headline size="large" tag="h3"><FormattedMessage id="ui-eholdings.tags" /></Headline>}
-                  open={sections.providerShowTags}
-                  id="providerShowTags"
-                  onToggle={this.handleSectionToggle}
-                  displayWhenClosed={
-                    <Badge sixe='small'>
-                      <span data-test-eholdings-provider-tags-bage>
-                        <FormattedNumber value={getEntityTags(model).length} />
-                      </span>
-                    </Badge>
-                  }
-                >
-                  {(!tagsModel.request.isResolved || model.isLoading)
-                    ? <Icon icon="spinner-ellipsis" />
-                    : (
-                      <Tags
-                        updateEntityTags={updateEntityTags}
-                        updateFolioTags={updateFolioTags}
-                        model={model}
-                        tags={getTagLabelsArr(tagsModel)}
-                      />
-                    )
-                  }
-                </Accordion>
-              )}
-              <Accordion
-                label={<Headline size="large" tag="h3"><FormattedMessage id="ui-eholdings.provider.providerInformation" /></Headline>}
-                open={sections.providerShowProviderInformation}
-                id="providerShowProviderInformation"
-                onToggle={this.handleSectionToggle}
-              >
-                <KeyValue label={<FormattedMessage id="ui-eholdings.provider.packagesSelected" />}>
-                  <div data-test-eholdings-provider-details-packages-selected>
-                    <FormattedNumber value={model.packagesSelected} />
-                  </div>
-                </KeyValue>
-
-                <KeyValue label={<FormattedMessage id="ui-eholdings.provider.totalPackages" />}>
-                  <div data-test-eholdings-provider-details-packages-total>
-                    <FormattedNumber value={model.packagesTotal} />
-                  </div>
-                </KeyValue>
-              </Accordion>
-              {hasProviderSettings && (
-                <Accordion
-                  label={<Headline size="large" tag="h3"><FormattedMessage id="ui-eholdings.provider.providerSettings" /></Headline>}
-                  open={sections.providerShowProviderSettings}
-                  id="providerShowProviderSettings"
-                  onToggle={this.handleSectionToggle}
-                >
-                  {hasProxy && (
-                    (!proxyTypes.request.isResolved || !rootProxy.request.isResolved || model.isLoading) ? (
-                      <Icon icon="spinner-ellipsis" />
-                    ) : (
-                      <ProxyDisplay
-                        model={model}
-                        proxyTypes={proxyTypes}
-                        inheritedProxyId={rootProxy.data.attributes.proxyTypeId}
-                      />
-                    ))}
-
-                  {hasToken && (
-                    (model.isLoading) ? (
-                      <Icon icon="spinner-ellipsis" />
-                    ) : (
-                      <KeyValue label={<FormattedMessage id="ui-eholdings.provider.token" />}>
-                        <TokenDisplay
-                          token={model.providerToken}
-                          type="provider"
-                        />
-                      </KeyValue>
-                    ))}
-                </Accordion>
-              )}
-            </div>
-          )}
+          lastMenu={this.getLastMenu()}
+          bodyContent={this.getBodyContent()}
           searchModal={searchModal}
           listType={capitalize(listType)}
           listSectionId="providerShowProviderList"
           onListToggle={this.handleSectionToggle}
           resultsLength={packages.length}
-          renderList={scrollable => (
-            <QueryList
-              type="provider-packages"
-              fetch={fetchPackages}
-              collection={packages}
-              length={packages.length}
-              scrollable={scrollable}
-              itemHeight={ITEM_HEIGHT}
-              notFoundMessage={<FormattedMessage id="ui-eholdings.notFound" />}
-              renderItem={item => (
-                <PackageListItem
-                  link={item.content && `/eholdings/packages/${item.content.id}`}
-                  item={item.content}
-                  showTitleCount
-                  headingLevel='h4'
-                />
-              )}
-            />
-          )}
+          renderList={this.renderPackagesList}
         />
       </div>
     );
