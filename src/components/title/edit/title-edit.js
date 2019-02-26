@@ -35,10 +35,6 @@ export default class TitleEdit extends Component {
     updateRequest: PropTypes.object.isRequired,
   };
 
-  state = {
-    initialValues: this.props.initialValues,
-  }
-
   getActionMenu = ({ onToggle }) => {
     const {
       onFullView,
@@ -77,10 +73,9 @@ export default class TitleEdit extends Component {
     let {
       model,
       onSubmit,
-      updateRequest
+      updateRequest,
+      initialValues,
     } = this.props;
-
-    const { initialValues } = this.state;
 
     return (
       <Fragment>
@@ -95,6 +90,7 @@ export default class TitleEdit extends Component {
         <Form
           onSubmit={onSubmit}
           initialValues={initialValues}
+          initialValuesEqual={() => true}
           decorators={[focusOnErrors]}
           mutators={{ ...arrayMutators }}
           render={({ handleSubmit, pristine }) => (
