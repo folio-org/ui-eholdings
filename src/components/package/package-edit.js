@@ -1,53 +1,65 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
+import { Icon } from '@folio/stripes-components';
+
 import ManagedPackageEdit from './edit-managed';
 import CustomPackageEdit from './edit-custom';
 
-export default function PackageEdit({ model, provider, ...props }) {
-  let initialValues = {};
-  let View;
+export default class PackageEdit extends React.Component {
+  static propTypes = {
+    model: PropTypes.object.isRequired,
+    provider: PropTypes.object.isRequired
+  };
 
-  if (model.isCustom) {
-    View = CustomPackageEdit;
-    initialValues = {
-      name: model.name,
-      contentType: model.contentType,
-      isSelected: model.isSelected,
-      customCoverages: [{
-        beginCoverage: model.customCoverage.beginCoverage,
-        endCoverage: model.customCoverage.endCoverage
-      }],
-      proxyId: model.proxy.id,
-      isVisible: !model.visibilityData.isHidden
-    };
-  } else {
-    View = ManagedPackageEdit;
-    initialValues = {
-      isSelected: model.isSelected,
-      customCoverages: [{
-        beginCoverage: model.customCoverage.beginCoverage,
-        endCoverage: model.customCoverage.endCoverage
-      }],
-      proxyId: model.proxy.id,
-      providerTokenValue: provider.providerToken.value,
-      packageTokenValue: model.packageToken.value,
-      isVisible: !model.visibilityData.isHidden,
-      allowKbToAddTitles: model.allowKbToAddTitles
-    };
+  renderRequestErrorMessage() {
+    const { model } = this.props;
+
+    return (
+      <p data-test-eholdings-package-edit-error>
+        {model.request.errors[0].title}
+      </p>
+    );
   }
 
-  return (
-    <View
-      model={model}
-      provider={provider}
-      initialValues={initialValues}
-      {...props}
-    />
-  );
-}
+  indicateModelIsNotLoaded() {
+    const { model } = this.props;
 
-PackageEdit.propTypes = {
-  model: PropTypes.object.isRequired,
-  provider: PropTypes.object.isRequired
-};
+    return model.request.isRejected
+      ? this.renderRequestErrorMessage()
+      : (
+        <Icon
+          icon="spinner-ellipsis"
+          iconSize="small"
+        />
+      );
+  }
+
+  renderView() {
+    const {
+      model,
+      provider,
+      ...props
+    } = this.props;
+
+    const View = model.isCustom
+      ? CustomPackageEdit
+      : ManagedPackageEdit;
+
+    return (
+      <View
+        model={model}
+        provider={provider}
+        {...props}
+      />
+    );
+  }
+
+  render() {
+    const { model } = this.props;
+
+    return model.isLoaded
+      ? this.renderView()
+      : this.indicateModelIsNotLoaded();
+  }
+}
