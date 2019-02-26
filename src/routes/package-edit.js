@@ -27,6 +27,7 @@ class PackageEditRoute extends Component {
     model: PropTypes.object.isRequired,
     provider: PropTypes.object.isRequired,
     proxyTypes: PropTypes.object.isRequired,
+    removeUpdateRequests: PropTypes.func.isRequired,
     unloadResources: PropTypes.func.isRequired,
     updatePackage: PropTypes.func.isRequired,
     updateProvider: PropTypes.func.isRequired
@@ -89,6 +90,10 @@ class PackageEditRoute extends Component {
         state: { eholdings: true, isFreshlySaved: true }
       });
     }
+  }
+
+  componentWillUnmount() {
+    this.props.removeUpdateRequests();
   }
 
   providerEditSubmitted = (values) => {
@@ -262,6 +267,7 @@ export default connect(
     unloadResources: collection => Resource.unload(collection),
     updateProvider: provider => Provider.save(provider),
     updatePackage: model => Package.save(model),
-    destroyPackage: model => Package.destroy(model)
+    destroyPackage: model => Package.destroy(model),
+    removeUpdateRequests: () => Package.removeRequests('update'),
   }
 )(PackageEditRoute);
