@@ -4,6 +4,7 @@ import ReactRouterPropTypes from 'react-router-prop-types';
 import { connect } from 'react-redux';
 import capitalize from 'lodash/capitalize';
 import isEqual from 'lodash/isEqual';
+import { FormattedMessage } from 'react-intl';
 import { TitleManager } from '@folio/stripes/core';
 
 import { qs, transformQueryParams } from '../components/utilities';
@@ -304,6 +305,7 @@ class SearchRoute extends Component {
               filterCount={filterCount}
               hideFilters={hideFilters}
               resultsType={searchType}
+              resultsLabel={<FormattedMessage id={`ui-eholdings.search.searchType.${searchType}`} />}
               resultsView={this.renderResults()}
               detailsView={!hideDetails && children}
               totalResults={results.length}

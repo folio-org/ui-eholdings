@@ -286,7 +286,10 @@
     "search.enterQuery": "Enter a query to show search results.",
     "search.searchType": "Search {searchType}",
     "search.searchLink": "search {type}",
-
+    "search.searchType.titles": "Titles",
+    "search.searchType.packages": "Packages",
+    "search.searchType.providers": "Providers",
+        
     "date.present": "Present",
     "date.startDate": "Start date",
     "date.endDate": "End date",
