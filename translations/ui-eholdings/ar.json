@@ -273,7 +273,7 @@
     "number": "رقم",
     "hidden": "مخفي",
     "name.isRequired": "الاسم *",
-    "resultCount": "count, number} {count, plural, one {نتيجة بحث} other {نتائج بحث}}",
+    "resultCount": "{count, number} {count, plural, one {نتيجة بحث} other {نتائج بحث}}",
     "label.coverageDisplay": "عرض الغلاف",
     "validate.errors.coverageStatement.blank": "لا يمكن ترك حقل البيان فارغًا إذا تم تحديده.",
     "provider.token": "رمز مقدم الخدمة",
