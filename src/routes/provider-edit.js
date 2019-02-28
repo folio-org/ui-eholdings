@@ -22,8 +22,9 @@ class ProviderEditRoute extends Component {
     match: ReactRouterPropTypes.match.isRequired,
     model: PropTypes.object.isRequired,
     proxyTypes: PropTypes.object.isRequired,
+    removeUpdateRequests: PropTypes.func.isRequired,
     rootProxy: PropTypes.object.isRequired,
-    updateProvider: PropTypes.func.isRequired
+    updateProvider: PropTypes.func.isRequired,
   };
 
   constructor(props) {
@@ -55,6 +56,10 @@ class ProviderEditRoute extends Component {
         state: { eholdings: true, isFreshlySaved: true }
       });
     }
+  }
+
+  componentWillUnmount() {
+    this.props.removeUpdateRequests();
   }
 
   providerEditSubmitted = (values) => {
@@ -136,6 +141,7 @@ export default connect(
     getProvider: id => Provider.find(id),
     updateProvider: model => Provider.save(model),
     getProxyTypes: () => ProxyType.query(),
-    getRootProxy: () => RootProxy.find('root-proxy')
+    getRootProxy: () => RootProxy.find('root-proxy'),
+    removeUpdateRequests: () => Provider.removeRequests('update'),
   }
 )(ProviderEditRoute);

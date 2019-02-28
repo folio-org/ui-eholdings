@@ -20,6 +20,7 @@ class TitleEditRoute extends Component {
     location: ReactRouterPropTypes.location.isRequired,
     match: ReactRouterPropTypes.match.isRequired,
     model: PropTypes.object.isRequired,
+    removeUpdateRequests: PropTypes.func.isRequired,
     updateRequest: PropTypes.object,
     updateTitle: PropTypes.func.isRequired
   };
@@ -65,6 +66,10 @@ class TitleEditRoute extends Component {
         state: { eholdings: true, isFreshlySaved: true }
       });
     }
+  }
+
+  componentWillUnmount() {
+    this.props.removeUpdateRequests();
   }
 
   flattenedIdentifiers = [
@@ -222,6 +227,7 @@ export default connect(
     updateRequest: createResolver(data).getRequest('update', { type: 'titles' })
   }), {
     getTitle: id => Title.find(id, { include: 'resources' }),
-    updateTitle: model => Title.save(model)
+    updateTitle: model => Title.save(model),
+    removeUpdateRequests: () => Title.removeRequests('update'),
   }
 )(TitleEditRoute);
