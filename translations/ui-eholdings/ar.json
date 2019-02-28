@@ -291,5 +291,11 @@
     "over": "على",
     "package.addToken": "إضافة رمز",
     "package.tokenNeed": "يحتاج رمز الحزمة إلى",
-    "validate.errors.embargoPeriod.decimal": "غير مسموح بالأرقام العشرية"
+    "validate.errors.embargoPeriod.decimal": "غير مسموح بالأرقام العشرية",
+    "search.searchType.titles": "Titles",
+    "search.searchType.packages": "Packages",
+    "search.searchType.providers": "Providers",
+    "provider.providerTags": "Tags",
+    "provider.labels": "Labels",
+    "tags.addTagFor": "Add tag for: <strong>{filter}</strong>"
 }

@@ -291,5 +291,11 @@
     "over": "Over",
     "package.addToken": "Add token",
     "package.tokenNeed": "Package token need",
-    "validate.errors.embargoPeriod.decimal": "Decimal is not allowed"
+    "validate.errors.embargoPeriod.decimal": "Decimal is not allowed",
+    "search.searchType.titles": "Titles",
+    "search.searchType.packages": "Packages",
+    "search.searchType.providers": "Providers",
+    "provider.providerTags": "Tags",
+    "provider.labels": "Labels",
+    "tags.addTagFor": "Add tag for: <strong>{filter}</strong>"
 }
