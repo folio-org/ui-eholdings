@@ -1,5 +1,4 @@
 import {
-  isEqual,
   uniq,
   difference,
   sortBy,
@@ -108,6 +107,7 @@ export default class Tags extends React.Component {
       const match2 = tag2.value.match(regex);
       if (match1) return -1;
       if (match2) return 1;
+
       return (tag1.value < tag2.value) ? -1 : 1;
     });
 
@@ -116,7 +116,6 @@ export default class Tags extends React.Component {
 
   addTag = ({ inputValue }) => {
     const tag = inputValue.replace(/\s|\|/g, '').toLowerCase();
-    // eslint-disable-next-line react/no-access-state-in-setstate
     const entityTags = this.getTagsList().concat(tag);
     this.onAdd(entityTags);
   }
@@ -124,22 +123,42 @@ export default class Tags extends React.Component {
   renderTag = ({ filterValue, exactMatch }) => {
     if (exactMatch || !filterValue) {
       return null;
-    } else {
-      return (
-        <div>
-          <SafeHTMLMessage
-            id="ui-eholdings.tags.addTagFor"
-            values={{ filter: filterValue }}
-          />
-        </div>
-      );
     }
+
+    return (
+      <div>
+        <SafeHTMLMessage
+          id="ui-eholdings.tags.addTagFor"
+          values={{ filter: filterValue }}
+        />
+      </div>
+    );
+  }
+
+  getSortedDataOptions = () => {
+    const { tags = [] } = this.props;
+    const dataOptions = tags.map(tag => {
+      return {
+        value: tag.label.toLowerCase(),
+        label: tag.label.toLowerCase(),
+      };
+    });
+
+    return sortBy(dataOptions, ['value']);
+  }
+
+  getSortedTagList = () => {
+    const tagsList = this.getTagsList().map(tag => {
+      return {
+        value: tag.toLowerCase(),
+        label: tag.toLowerCase(),
+      };
+    });
+
+    return sortBy(tagsList, ['value']);
   }
 
   render() {
-    const { tags = [] } = this.props;
-    const dataOptions = tags.map(t => ({ value: t.label.toLowerCase(), label: t.label.toLowerCase() }));
-    const tagsList = this.getTagsList().map(tag => ({ value: tag.toLowerCase(), label: tag.toLowerCase() }));
     const addAction = { onSelect: this.addTag, render: this.renderTag };
     const actions = [addAction];
 
@@ -156,8 +175,8 @@ export default class Tags extends React.Component {
                   filter={this.filterItems}
                   emptyMessage=" "
                   onChange={this.onChange}
-                  dataOptions={sortBy(dataOptions, ['value'])}
-                  value={sortBy(tagsList, ['value'])}
+                  dataOptions={this.getSortedDataOptions()}
+                  value={this.getSortedTagList()}
                 />
               )}
             </FormattedMessage>
