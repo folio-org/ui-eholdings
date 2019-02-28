@@ -1,7 +1,7 @@
 import React, { Component, Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { FormattedMessage } from 'react-intl';
-import capitalize from 'lodash/capitalize';
+
 import {
   Button,
   ButtonGroup,
@@ -122,7 +122,7 @@ class SearchForm extends Component {
                 buttonStyle={searchType === type ? 'primary' : 'default'}
                 data-test-search-type-button={type}
               >
-                {capitalize(type)}
+                <FormattedMessage id={`ui-eholdings.search.searchType.${type}`} />
               </Button>
             ))}
           </ButtonGroup>

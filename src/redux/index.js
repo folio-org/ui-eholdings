@@ -6,6 +6,8 @@ import ProviderModel from './provider';
 import PackageModel from './package';
 import TitleModel from './title';
 import ResourceModel from './resource';
+import TagModel from './tag';
+
 import {
   Status as StatusModel,
   Configuration as ConfigurationModel,
@@ -27,7 +29,8 @@ export const createResolver = (state) => {
     StatusModel,
     ConfigurationModel,
     ProxyTypeModel,
-    RootProxyModel
+    RootProxyModel,
+    TagModel,
   ]);
 };
 

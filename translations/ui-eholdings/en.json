@@ -56,6 +56,8 @@
     "package.toast.isNewRecord": "Custom package created.",
     "package.toast.isDestroyed": "Title removed from package.",
 
+    "provider.providerTags": "Tags",
+    "provider.labels": "Labels",
     "provider.providerInformation": "Provider information",
     "provider.providerSettings": "Provider settings",
     "provider.packagesSelected": "Packages selected",
@@ -126,6 +128,8 @@
     "title.resultsNotFound": "No titles found for '{query}'.",
     "title.editCustomTitle": "Edit {name}",
     "title.chooseAPackage": "Choose a package",
+    
+    "tags.addTagFor": "Add tag for: <strong>{filter}</strong>",
 
     "settings.goBackToEholdings": "Go back to eHoldings settings",
     "settings.kb": "Knowledge base",
@@ -286,7 +290,10 @@
     "search.enterQuery": "Enter a query to show search results.",
     "search.searchType": "Search {searchType}",
     "search.searchLink": "search {type}",
-
+    "search.searchType.titles": "Titles",
+    "search.searchType.packages": "Packages",
+    "search.searchType.providers": "Providers",
+        
     "date.present": "Present",
     "date.startDate": "Start date",
     "date.endDate": "End date",

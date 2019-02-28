@@ -205,6 +205,32 @@ describe('ProviderShow', () => {
     });
   });
 
+  describe('visiting the provider details page without selected packages', () => {
+    beforeEach(function () {
+      provider.packagesSelected = 0;
+      provider.packagesTotal = 1;
+
+      this.visit(`/eholdings/providers/${provider.id}`);
+    });
+
+    it('it does not display the tags', () => {
+      expect(ProviderShowPage.isTagsPresent).to.equal(false);
+    });
+  });
+
+  describe('visiting the provider details page with selected packages', () => {
+    beforeEach(function () {
+      provider.packagesSelected = 10;
+      provider.packagesTotal = 10;
+
+      this.visit(`/eholdings/providers/${provider.id}`);
+    });
+
+    it('does display the tags', () => {
+      expect(ProviderShowPage.isTagsPresent).to.equal(true);
+    });
+  });
+
   describe('navigating to provider details page', () => {
     beforeEach(function () {
       this.visit({

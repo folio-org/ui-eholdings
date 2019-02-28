@@ -1,7 +1,6 @@
 import React, { Component, cloneElement } from 'react';
 import PropTypes from 'prop-types';
 import { Button, PaneMenu } from '@folio/stripes/components';
-import capitalize from 'lodash/capitalize';
 import { FormattedMessage } from 'react-intl';
 
 import Paneset, { Pane } from '../paneset';
@@ -17,6 +16,7 @@ export default class SearchPaneset extends Component {
     isLoading: PropTypes.bool,
     location: PropTypes.object.isRequired,
     onClosePreview: PropTypes.func.isRequired,
+    resultsLabel: PropTypes.element,
     resultsType: PropTypes.string,
     resultsView: PropTypes.node,
     searchForm: PropTypes.node,
@@ -93,6 +93,7 @@ export default class SearchPaneset extends Component {
   render() {
     let {
       searchForm,
+      resultsLabel,
       resultsType,
       resultsView,
       totalResults,
@@ -157,7 +158,7 @@ export default class SearchPaneset extends Component {
           flexGrow={5}
           padContent={false}
           appIcon={{ app: 'eholdings' }}
-          paneTitle={capitalize(resultsType)}
+          paneTitle={resultsLabel}
           paneSub={resultsView && resultsPaneSub}
           paneTitleRef={this.$title}
           firstMenu={resultsView ? (
