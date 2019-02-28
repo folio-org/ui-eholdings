@@ -281,7 +281,7 @@ class BaseModel {
   }
 
   /**
-   * Action creator for removing create requests for specific model's resource
+   * Action creator for removing requests of given type for specific model's resource
    */
   static removeRequests(requestType) {
     return removeRequests(this.type, requestType);
