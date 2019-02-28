@@ -10,6 +10,7 @@ import { ProxyType } from '../redux/application';
 import Package from '../redux/package';
 import Provider from '../redux/provider';
 import Resource from '../redux/resource';
+import Tag from '../redux/tag';
 import { transformQueryParams } from '../components/utilities';
 
 import View from '../components/package/show';
@@ -22,13 +23,17 @@ class PackageShowRoute extends Component {
     getPackageTitles: PropTypes.func.isRequired,
     getProvider: PropTypes.func.isRequired,
     getProxyTypes: PropTypes.func.isRequired,
+    getTags: PropTypes.func.isRequired,
     history: ReactRouterPropTypes.history.isRequired,
     location: ReactRouterPropTypes.location.isRequired,
     match: ReactRouterPropTypes.match.isRequired,
     model: PropTypes.object.isRequired,
     provider: PropTypes.object.isRequired,
     proxyTypes: PropTypes.object.isRequired,
+    tagsModel: PropTypes.object.isRequired,
     unloadResources: PropTypes.func.isRequired,
+    updateEntityTags: PropTypes.func.isRequired,
+    updateFolioTags: PropTypes.func.isRequired,
     updatePackage: PropTypes.func.isRequired,
   };
 
@@ -39,6 +44,7 @@ class PackageShowRoute extends Component {
     props.getPackage(packageId);
     props.getProxyTypes();
     props.getProvider(providerId);
+    props.getTags();
   }
 
   state = {
@@ -183,8 +189,11 @@ class PackageShowRoute extends Component {
     const {
       history,
       model,
+      tagsModel,
       provider,
       proxyTypes,
+      updateEntityTags,
+      updateFolioTags,
     } = this.props;
     const {
       pkgSearchParams,
@@ -195,6 +204,9 @@ class PackageShowRoute extends Component {
       <TitleManager record={model.name}>
         <View
           model={model}
+          tagsModel={tagsModel}
+          updateEntityTags={updateEntityTags}
+          updateFolioTags={updateFolioTags}
           proxyTypes={proxyTypes}
           provider={provider}
           fetchPackageTitles={this.setPage}
@@ -243,15 +255,19 @@ export default connect(
       model,
       proxyTypes: resolver.query('proxyTypes'),
       provider: resolver.find('providers', model.providerId),
+      tagsModel: resolver.query('tags'),
       resolver
     };
   }, {
     getPackage: id => Package.find(id),
     getPackageTitles: (id, params) => Package.queryRelated(id, 'resources', params),
     getProxyTypes: () => ProxyType.query(),
+    getTags: () => Tag.query(),
     getProvider: id => Provider.find(id),
     unloadResources: collection => Resource.unload(collection),
     updatePackage: model => Package.save(model),
+    updateEntityTags: (model) => Package.save(model),
+    updateFolioTags: (model) => Tag.create(model),
     destroyPackage: model => Package.destroy(model)
   }
 )(PackageShowRoute);

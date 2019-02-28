@@ -64,6 +64,7 @@ import PackageSelectionStatus from './selection-status';
   providerToken = text('[data-test-eholdings-details-token="provider"]');
   providerTokenMessage = text('[data-test-eholdings-details-token-message="provider"]');
   isProviderTokenPresent = isPresent('[data-test-eholdings-details-token="provider"]');
+  isTagsPresent = isPresent('[data-test-eholdings-details-tags]');
   hasErrors = isPresent('[data-test-eholdings-details-view-error="package"]');
   hasBackButton = isPresent('[data-test-eholdings-details-view-back-button]');
   hasCollapseAllButton = isPresent('[data-test-eholdings-details-view-collapse-all-button]');
