@@ -37,7 +37,6 @@ const focusOnErrors = createFocusDecorator();
 export default class CustomPackageEdit extends Component {
   static propTypes = {
     addPackageToHoldings: PropTypes.func.isRequired,
-    initialValues: PropTypes.object.isRequired,
     model: PropTypes.object.isRequired,
     onCancel: PropTypes.func.isRequired,
     onFullView: PropTypes.func,
@@ -46,12 +45,58 @@ export default class CustomPackageEdit extends Component {
     proxyTypes: PropTypes.object.isRequired
   };
 
+  static getDerivedStateFromProps(nextProps, prevState) {
+    let stateUpdates = {};
+    const { initialValues } = prevState;
+    const {
+      isSelected,
+      destroy,
+    } = nextProps.model;
+
+    const selectionStatusChanged = isSelected !== initialValues.isSelected;
+
+    if (selectionStatusChanged) {
+      stateUpdates = {
+        initialValues: CustomPackageEdit.getInitialValues(nextProps.model),
+        packageSelected: isSelected
+      };
+    }
+
+    if (destroy.errors.length) {
+      stateUpdates.showSelectionModal = false;
+    }
+
+    return stateUpdates;
+  }
+
+  static getInitialValues(model) {
+    const {
+      name,
+      contentType,
+      isSelected,
+      customCoverage,
+      proxy,
+      visibilityData,
+    } = model;
+
+    return {
+      name,
+      contentType,
+      isSelected,
+      customCoverages: [{
+        ...customCoverage
+      }],
+      proxyId: proxy.id,
+      isVisible: !visibilityData.isHidden
+    };
+  }
+
   state = {
     showSelectionModal: false,
     allowFormToSubmit: false,
-    packageSelected: this.props.initialValues.isSelected,
+    packageSelected: this.props.model.isSelected,
     formValues: {},
-    initialValues: this.props.initialValues,
+    initialValues: CustomPackageEdit.getInitialValues(this.props.model),
     sections: {
       packageHoldingStatus: true,
       packageInfo: true,
@@ -59,24 +104,6 @@ export default class CustomPackageEdit extends Component {
       packageCoverageSettings: true,
     }
   };
-
-  static getDerivedStateFromProps(nextProps, prevState) {
-    let stateUpdates = {};
-    if (nextProps.model.destroy.errors.length) {
-      stateUpdates.showSelectionModal = false;
-    }
-
-    if (nextProps.initialValues.isSelected !== prevState.initialValues.isSelected) {
-      Object.assign(stateUpdates, {
-        initialValues: {
-          isSelected: nextProps.initialValues.isSelected
-        },
-        packageSelected: nextProps.initialValues.isSelected
-      });
-    }
-
-    return stateUpdates;
-  }
 
   handleDeleteAction = () => {
     this.setState({
@@ -197,12 +224,12 @@ export default class CustomPackageEdit extends Component {
   render() {
     let {
       model,
-      initialValues,
       proxyTypes,
       provider
     } = this.props;
 
     let {
+      initialValues,
       showSelectionModal,
       packageSelected,
       sections,
@@ -294,7 +321,7 @@ export default class CustomPackageEdit extends Component {
                     >
                       {packageSelected ? (
                         <div className={styles['visibility-radios']}>
-                          {this.props.initialValues.isVisible != null ? (
+                          {initialValues.isVisible !== null ? (
                             <fieldset
                               data-test-eholdings-package-visibility-field
                               className={styles['visibility-radios']}

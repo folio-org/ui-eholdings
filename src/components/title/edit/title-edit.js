@@ -71,10 +71,10 @@ export default class TitleEdit extends Component {
 
   render() {
     let {
-      initialValues,
       model,
       onSubmit,
-      updateRequest
+      updateRequest,
+      initialValues,
     } = this.props;
 
     return (
@@ -90,6 +90,7 @@ export default class TitleEdit extends Component {
         <Form
           onSubmit={onSubmit}
           initialValues={initialValues}
+          initialValuesEqual={() => true}
           decorators={[focusOnErrors]}
           mutators={{ ...arrayMutators }}
           render={({ handleSubmit, pristine }) => (

@@ -4,11 +4,12 @@ import ReactRouterPropTypes from 'react-router-prop-types';
 import { connect } from 'react-redux';
 import isEqual from 'lodash/isEqual';
 import queryString from 'qs';
+
 import { TitleManager } from '@folio/stripes/core';
+import { Icon } from '@folio/stripes-components';
 
 import { createResolver } from '../redux';
 import Title from '../redux/title';
-import Resource from '../redux/resource';
 
 import View from '../components/title/edit';
 
@@ -20,7 +21,7 @@ class TitleEditRoute extends Component {
     match: ReactRouterPropTypes.match.isRequired,
     model: PropTypes.object.isRequired,
     updateRequest: PropTypes.object,
-    updateResource: PropTypes.func.isRequired
+    updateTitle: PropTypes.func.isRequired
   };
 
   constructor(props) {
@@ -135,16 +136,27 @@ class TitleEditRoute extends Component {
   }
 
   titleEditSubmitted = (values) => {
-    let { model, updateResource } = this.props;
-    let resource = model.resources.records[0];
-    updateResource(Object.assign(resource, {
+    const {
+      model,
+      updateTitle,
+    } = this.props;
+
+    const excludedAttrs = {
+      subjects: null,
+      isTitleCustom: null,
+    };
+
+    const newValues = {
       ...values,
-      identifiers: this.expandIdentifiers(values.identifiers)
-    }));
+      identifiers: this.expandIdentifiers(values.identifiers),
+      ...excludedAttrs,
+    };
+
+    updateTitle(Object.assign(model, newValues));
   }
 
-  render() {
-    let {
+  renderView() {
+    const {
       model,
       updateRequest,
     } = this.props;
@@ -171,14 +183,45 @@ class TitleEditRoute extends Component {
       </TitleManager>
     );
   }
+
+  indicateModelIsNotLoaded() {
+    const { model } = this.props;
+
+    return model.request.isRejected
+      ? this.renderRequestErrorMessage()
+      : (
+        <Icon
+          icon="spinner-ellipsis"
+          iconSize="small"
+        />
+      );
+  }
+
+  renderRequestErrorMessage() {
+    const { model } = this.props;
+
+    return (
+      <p data-test-eholdings-title-edit-error>
+        {model.request.errors[0].title}
+      </p>
+    );
+  }
+
+  render() {
+    let { model } = this.props;
+
+    return model.isLoaded
+      ? this.renderView()
+      : this.indicateModelIsNotLoaded();
+  }
 }
 
 export default connect(
   ({ eholdings: { data } }, { match }) => ({
     model: createResolver(data).find('titles', match.params.titleId),
-    updateRequest: createResolver(data).getRequest('update', { type: 'resources' })
+    updateRequest: createResolver(data).getRequest('update', { type: 'titles' })
   }), {
     getTitle: id => Title.find(id, { include: 'resources' }),
-    updateResource: model => Resource.save(model)
+    updateTitle: model => Title.save(model)
   }
 )(TitleEditRoute);
