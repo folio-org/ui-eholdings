@@ -13,9 +13,6 @@ class Title {
   identifiers = [];
   subjects = [];
   resources = hasMany();
-  isTitleCustom = false;
-  isPeerReviewed = false;
-  description = '';
   tags = {
     tagList: [],
   };

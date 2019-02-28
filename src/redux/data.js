@@ -585,7 +585,7 @@ const getHeaders = (method, { okapi }, url) => {
   };
 
   if (method === 'PUT' || method === 'POST') {
-    if (url.indexOf('eholdings') > 0) {
+    if (url.includes('eholdings')) {
       contentType = 'application/vnd.api+json';
     }
     headers['Content-Type'] = contentType;
