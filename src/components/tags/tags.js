@@ -23,17 +23,6 @@ export default class Tags extends React.Component {
     super(props);
     this.onChange = this.onChange.bind(this);
     this.filterItems = this.filterItems.bind(this);
-    this.state = { entityTags: [] };
-  }
-
-  static getDerivedStateFromProps(nextProps, prevState) {
-    const nextTags = get(nextProps, ['model', 'tags', 'tagList'], []);
-
-    if (!isEqual(nextTags, prevState.entityTags)) {
-      return { entityTags: nextTags };
-    }
-
-    return null;
   }
 
   onAdd(tags) {
@@ -46,8 +35,7 @@ export default class Tags extends React.Component {
       model,
       updateEntityTags,
     } = this.props;
-    const entityTags = get(model, ['tags', 'tagList'], []);
-    const tagList = entityTags.filter(t => t !== tag);
+    const tagList = this.getTagsList().filter(t => t !== tag);
 
     model.tags = { tagList };
     updateEntityTags(model);
@@ -59,9 +47,8 @@ export default class Tags extends React.Component {
       model,
       updateEntityTags,
     } = this.props;
-    const entityTags = get(model, ['tags', 'tagList'], []);
 
-    model.tags = { tagList: sortBy(uniq([...tags, ...entityTags])) };
+    model.tags = { tagList: sortBy(uniq([...tags, ...this.getTagsList()])) };
     updateEntityTags(model);
   }
 
@@ -86,24 +73,27 @@ export default class Tags extends React.Component {
       model,
       updateEntityTags,
     } = this.props;
-    const entityTags = get(model, ['tags', 'tagList'], []);
-    const tagList = entityTags.filter(t => (t !== tag));
+    const tagList = this.getTagsList().filter(t => (t !== tag));
 
     model.tags = { tagList };
     updateEntityTags(model);
   }
 
+  getTagsList() {
+    return get(this.props.model, ['tags', 'tagList'], []);
+  }
+
 
   onChange(tags) {
+    const tagsList = this.getTagsList();
+
     const entityTags = tags.map(t => t.value);
-    if (tags.length < this.state.entityTags.length) {
-      const tag = difference(this.state.entityTags, tags.map(t => t.value));
+    if (tags.length < tagsList.length) {
+      const tag = difference(tagsList, tags.map(t => t.value));
       this.onRemove(tag[0]);
     } else {
       this.onAdd(entityTags);
     }
-
-    this.setState({ entityTags });
   }
 
   filterItems(filter, list) {
@@ -127,8 +117,7 @@ export default class Tags extends React.Component {
   addTag = ({ inputValue }) => {
     const tag = inputValue.replace(/\s|\|/g, '').toLowerCase();
     // eslint-disable-next-line react/no-access-state-in-setstate
-    const entityTags = this.state.entityTags.concat(tag);
-    this.setState({ entityTags });
+    const entityTags = this.getTagsList().concat(tag);
     this.onAdd(entityTags);
   }
 
@@ -149,9 +138,8 @@ export default class Tags extends React.Component {
 
   render() {
     const { tags = [] } = this.props;
-    const { entityTags } = this.state;
     const dataOptions = tags.map(t => ({ value: t.label.toLowerCase(), label: t.label.toLowerCase() }));
-    const tagsList = entityTags.map(tag => ({ value: tag.toLowerCase(), label: tag.toLowerCase() }));
+    const tagsList = this.getTagsList().map(tag => ({ value: tag.toLowerCase(), label: tag.toLowerCase() }));
     const addAction = { onSelect: this.addTag, render: this.renderTag };
     const actions = [addAction];
 
