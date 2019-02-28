@@ -2,13 +2,15 @@ import React, { Component, Fragment } from 'react';
 import PropTypes from 'prop-types';
 import update from 'lodash/fp/update';
 import set from 'lodash/fp/set';
+import get from 'lodash/get';
 import {
   Accordion,
   Button,
   Headline,
   Icon,
   IconButton,
-  KeyValue
+  KeyValue,
+  Badge,
 } from '@folio/stripes/components';
 import { FormattedNumber, FormattedMessage } from 'react-intl';
 import capitalize from 'lodash/capitalize';
@@ -20,6 +22,7 @@ import PackageListItem from '../../package-list-item';
 import Toaster from '../../toaster';
 import ProxyDisplay from '../../proxy-display';
 import TokenDisplay from '../../token-display';
+import Tags from '../../tags';
 
 const ITEM_HEIGHT = 53;
 
@@ -35,10 +38,14 @@ class ProviderShow extends Component {
      proxyTypes: PropTypes.object.isRequired,
      rootProxy: PropTypes.object.isRequired,
      searchModal: PropTypes.node,
+     tagsModel: PropTypes.object,
+     updateEntityTags: PropTypes.func.isRequired,
+     updateFolioTags: PropTypes.func.isRequired,
    };
 
   state = {
     sections: {
+      providerShowTags: true,
       providerShowProviderInformation: true,
       providerShowProviderSettings: true,
       providerShowProviderList: true,
@@ -108,11 +115,18 @@ class ProviderShow extends Component {
       proxyTypes,
       rootProxy,
       onEdit,
+      tagsModel,
+      updateEntityTags,
+      updateFolioTags,
     } = this.props;
     let { sections } = this.state;
     let hasProxy = model.proxy && model.proxy.id;
     let hasToken = model.providerToken && model.providerToken.prompt;
-    let hasProviderSettings = hasProxy || hasToken;
+    const hasProviderSettings = hasProxy || hasToken;
+    const tagRecords = get(tagsModel, ['resolver', 'state', 'tags', 'records'], {});
+    const tagLabelsArr = Object.values(tagRecords).map((tag) => tag.attributes);
+    const hasSelectedPackages = model.packagesSelected > 0;
+    const entityTags = get(model, ['tags', 'tagList'], []);
 
     return (
       <div>
@@ -145,6 +159,33 @@ class ProviderShow extends Component {
           )}
           bodyContent={(
             <div>
+              {hasSelectedPackages && (
+                <Accordion
+                  label={<Headline size="large" tag="h3"><FormattedMessage id="ui-eholdings.provider.providerTags" /></Headline>}
+                  open={sections.providerShowTags}
+                  id="providerShowTags"
+                  onToggle={this.handleSectionToggle}
+                  displayWhenClosed={
+                    <Badge sixe='small'>
+                      <span data-test-eholdings-provider-tags-bage>
+                        <FormattedNumber value={entityTags.length} />
+                      </span>
+                    </Badge>
+                  }
+                >
+                  {(!tagsModel.request.isResolved || model.isLoading)
+                    ? <Icon icon="spinner-ellipsis" />
+                    : (
+                      <Tags
+                        updateEntityTags={updateEntityTags}
+                        updateFolioTags={updateFolioTags}
+                        model={model}
+                        tags={tagLabelsArr}
+                      />
+                    )
+                  }
+                </Accordion>
+              )}
               <Accordion
                 label={<Headline size="large" tag="h3"><FormattedMessage id="ui-eholdings.provider.providerInformation" /></Headline>}
                 open={sections.providerShowProviderInformation}
