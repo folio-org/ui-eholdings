@@ -291,5 +291,11 @@
     "over": "过",
     "package.addToken": "添加令牌",
     "package.tokenNeed": "需要包令牌",
-    "validate.errors.embargoPeriod.decimal": "不允许小数"
+    "validate.errors.embargoPeriod.decimal": "不允许小数",
+    "search.searchType.titles": "Titles",
+    "search.searchType.packages": "Packages",
+    "search.searchType.providers": "Providers",
+    "provider.providerTags": "Tags",
+    "provider.labels": "Labels",
+    "tags.addTagFor": "Add tag for: <strong>{filter}</strong>"
 }
