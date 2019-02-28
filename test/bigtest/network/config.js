@@ -11,6 +11,21 @@ export default function config() {
       version: '0.0.0'
     }]
   }]);
+  // tags endpoint
+  this.get('/tags', {
+    tags:[
+      {
+        id: '1',
+        label: 'urgent',
+        description: 'Requires urgent attention',
+      },
+      {
+        id: '2',
+        label: 'not urgent',
+        description: 'Requires not urgent attention',
+      },
+    ]
+  });
 
   // e-holdings endpoints
   this.namespace = 'eholdings';

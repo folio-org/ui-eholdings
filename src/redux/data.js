@@ -3,6 +3,7 @@ import 'rxjs/add/observable/from';
 import 'rxjs/add/observable/of';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/catch';
+import get from 'lodash/get';
 
 import { qs } from '../components/utilities';
 import { mergeRelationships, mergeAttributes } from './helpers';
@@ -129,10 +130,33 @@ export const unload = (type, ids) => ({
  * @param {Object} payload - payload sent with the request
  */
 const resolve = (request, body, payload = {}) => {
-  let data = body && body.data ? body.data : payload.data;
-  let meta = body ? (body.meta || {}) : {};
   let records = [];
   let ids = [];
+  let meta = {};
+  let data;
+  switch (request.resource) {
+    case 'tags':
+      if (body.tags) {
+        data = body.tags.map((tag) => {
+          return {
+            id: tag.id,
+            type: request.resource,
+            attributes: tag,
+          };
+        });
+      } else {
+        data = {
+          type:'tags',
+          id: body.id,
+          attributes: body,
+        };
+      }
+      meta.totalResults = get(body, ['totalRecords'], {});
+      break;
+    default:
+      data = get(body, ['data'], payload.data);
+      meta = get(body, ['meta'], {});
+  }
 
   // on request where neither a body or payload is sent
   // such as a delete request we need to pick id off request
@@ -442,7 +466,7 @@ const handlers = {
         if (request.type === 'destroy' || !request.records.some(id => data.ids.includes(id))) {
           reqs[timestamp] = request;
 
-        // if a query request includes unloaded ids, flag is with `hasUnloaded`
+          // if a query request includes unloaded ids, flag is with `hasUnloaded`
         } else if (request.type === 'query') {
           reqs[timestamp] = {
             ...request,
@@ -550,16 +574,21 @@ const handlers = {
  * @param {String} method - request method
  * @param {String} state.okapi.tenant - the Okapi tenant
  * @param {String} state.okapi.token - the Okapi user token
+ * @param {String} url - the request url
  * @returns {Object} headers for a new request
  */
-const getHeaders = (method, { okapi }) => {
+const getHeaders = (method, { okapi }, url) => {
+  let contentType = 'application/json';
   let headers = {
     'X-Okapi-Tenant': okapi.tenant,
     'X-Okapi-Token': okapi.token
   };
 
   if (method === 'PUT' || method === 'POST') {
-    headers['Content-Type'] = 'application/vnd.api+json';
+    if (url.indexOf('eholdings') > 0) {
+      contentType = 'application/vnd.api+json';
+    }
+    headers['Content-Type'] = contentType;
   }
 
   return headers;
@@ -616,7 +645,8 @@ export function epic(action$, { getState }) {
 
       // used for the actual request
       let url = `${state.okapi.url}${data.path}`;
-      let headers = getHeaders(method, state);
+
+      let headers = getHeaders(method, state, url);
       let body;
 
       // if we're querying a set of records, data.params are the

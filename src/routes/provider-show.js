@@ -4,9 +4,11 @@ import ReactRouterPropTypes from 'react-router-prop-types';
 import { connect } from 'react-redux';
 import { TitleManager } from '@folio/stripes/core';
 
+
 import queryString from 'qs';
 import { createResolver } from '../redux';
 import Provider from '../redux/provider';
+import Tag from '../redux/tag';
 import { ProxyType, RootProxy } from '../redux/application';
 
 import View from '../components/provider/show';
@@ -18,13 +20,17 @@ class ProviderShowRoute extends Component {
     getProvider: PropTypes.func.isRequired,
     getProxyTypes: PropTypes.func.isRequired,
     getRootProxy: PropTypes.func.isRequired,
+    getTags: PropTypes.func.isRequired,
     history: ReactRouterPropTypes.history.isRequired,
     location: ReactRouterPropTypes.location.isRequired,
     match: ReactRouterPropTypes.match.isRequired,
     model: PropTypes.object.isRequired,
     proxyTypes: PropTypes.object.isRequired,
     resolver: PropTypes.object.isRequired,
-    rootProxy: PropTypes.object.isRequired
+    rootProxy: PropTypes.object.isRequired,
+    tagsModel: PropTypes.object.isRequired,
+    updateEntityTags: PropTypes.func.isRequired,
+    updateFolioTags: PropTypes.func.isRequired,
   };
 
   constructor(props) {
@@ -33,6 +39,7 @@ class ProviderShowRoute extends Component {
     props.getProvider(providerId);
     props.getProxyTypes();
     props.getRootProxy();
+    props.getTags();
   }
 
   state = {
@@ -125,6 +132,9 @@ class ProviderShowRoute extends Component {
       model,
       proxyTypes,
       rootProxy,
+      tagsModel,
+      updateEntityTags,
+      updateFolioTags,
     } = this.props;
 
     const {
@@ -136,11 +146,14 @@ class ProviderShowRoute extends Component {
       <TitleManager record={model.name}>
         <View
           model={model}
+          tagsModel={tagsModel}
           packages={this.getPkgResults()}
           fetchPackages={this.fetchPackages}
           proxyTypes={proxyTypes}
           rootProxy={rootProxy}
           listType={listType}
+          updateEntityTags={updateEntityTags}
+          updateFolioTags={updateFolioTags}
           searchModal={
             <SearchModal
               key={queryId}
@@ -175,10 +188,10 @@ class ProviderShowRoute extends Component {
 export default connect(
   ({ eholdings: { data } }, { match }) => {
     let resolver = createResolver(data);
-
     return {
       model: resolver.find('providers', match.params.providerId),
       proxyTypes: resolver.query('proxyTypes'),
+      tagsModel: resolver.query('tags'),
       rootProxy: resolver.find('rootProxies', 'root-proxy'),
       resolver
     };
@@ -186,6 +199,9 @@ export default connect(
     getProvider: id => Provider.find(id, { include: 'packages' }),
     getPackages: (id, params) => Provider.queryRelated(id, 'packages', params),
     getProxyTypes: () => ProxyType.query(),
+    getTags: () => Tag.query(),
+    updateEntityTags: (model) => Provider.save(model),
+    updateFolioTags: (model) => Tag.create(model),
     getRootProxy: () => RootProxy.find('root-proxy')
   }
 )(ProviderShowRoute);

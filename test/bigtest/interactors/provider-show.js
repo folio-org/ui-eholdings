@@ -31,6 +31,7 @@ import SearchBadge from './search-badge';
   providerToken = text('[data-test-eholdings-details-token="provider"]');
   providerTokenMessage = text('[data-test-eholdings-details-token-message="provider"]');
   isProviderTokenPresent = isPresent('[data-test-eholdings-details-token="provider"]');
+  isTagsPresent = isPresent('[data-test-eholdings-details-tags]');
   toast = Toast;
   searchModal = new SearchModal('#eholdings-details-view-search-modal');
   searchModalBadge = new SearchBadge('[data-test-eholdings-search-modal-badge]');

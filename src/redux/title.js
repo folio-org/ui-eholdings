@@ -12,6 +12,10 @@ class Title {
   isTitleCustom = false;
   isPeerReviewed = false;
   description = '';
+  tags = {
+    tagList: [],
+  };
+
 
   // slightly customized serializer that adds included resources to
   // new title record payloads

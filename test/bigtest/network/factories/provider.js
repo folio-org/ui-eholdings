@@ -6,7 +6,9 @@ export default Factory.extend({
   name: () => faker.company.companyName(),
   packagesTotal: 0,
   packagesSelected: 0,
-
+  tags: {
+    tagList: [],
+  },
   withPackagesAndTitles: trait({
     afterCreate(provider, server) {
       // If packagesTotal is greater than zero, we'll auto-create the packages
