@@ -16,6 +16,9 @@ class Package {
   packageType = '';
   proxy = {};
   packageToken = {};
+  tags = {
+    tagList: []
+  };
 
   get isPartiallySelected() {
     return this.selectedCount > 0 && this.selectedCount !== this.titleCount;

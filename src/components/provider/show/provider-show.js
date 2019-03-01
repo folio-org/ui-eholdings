@@ -105,6 +105,15 @@ class ProviderShow extends Component {
     );
   }
 
+  getEntityTags = () => {
+    return get(this.props.model, ['tags', 'tagList'], []);
+  };
+
+  getTagLabelsArr = () => {
+    const tagRecords = get(this.props.tagsModel, ['resolver', 'state', 'tags', 'records'], {});
+    return Object.values(tagRecords).map((tag) => tag.attributes);
+  };
+
   render() {
     let {
       fetchPackages,
@@ -123,10 +132,7 @@ class ProviderShow extends Component {
     let hasProxy = model.proxy && model.proxy.id;
     let hasToken = model.providerToken && model.providerToken.prompt;
     const hasProviderSettings = hasProxy || hasToken;
-    const tagRecords = get(tagsModel, ['resolver', 'state', 'tags', 'records'], {});
-    const tagLabelsArr = Object.values(tagRecords).map((tag) => tag.attributes);
     const hasSelectedPackages = model.packagesSelected > 0;
-    const entityTags = get(model, ['tags', 'tagList'], []);
 
     return (
       <div>
@@ -168,7 +174,7 @@ class ProviderShow extends Component {
                   displayWhenClosed={
                     <Badge sixe='small'>
                       <span data-test-eholdings-provider-tags-bage>
-                        <FormattedNumber value={entityTags.length} />
+                        <FormattedNumber value={this.getEntityTags().length} />
                       </span>
                     </Badge>
                   }
@@ -180,7 +186,7 @@ class ProviderShow extends Component {
                         updateEntityTags={updateEntityTags}
                         updateFolioTags={updateFolioTags}
                         model={model}
-                        tags={tagLabelsArr}
+                        tags={this.getTagLabelsArr()}
                       />
                     )
                   }

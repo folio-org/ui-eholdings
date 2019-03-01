@@ -25,7 +25,9 @@ export default Factory.extend({
     'Partial',
     'Variable'
   ]),
-
+  tags: {
+    tagList: [],
+  },
   withTitles: trait({
     afterCreate(packageObj, server) {
       // If titleCount is greater than zero, we'll auto-create the package titles

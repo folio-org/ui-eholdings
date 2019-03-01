@@ -36,6 +36,10 @@ describe('PackageShow', () => {
       expect(PackageShowPage.paneTitle).to.equal('Cool Package');
     });
 
+    it('does not display tags accordion', () => {
+      expect(PackageShowPage.isTagsPresent).to.equal(false);
+    });
+
     it('displays and focuses on the package name', () => {
       expect(PackageShowPage.name).to.equal('Cool Package');
       expect(PackageShowPage.nameHasFocus).to.be.true;
@@ -115,6 +119,7 @@ describe('PackageShow', () => {
 
   describe('viewing a partially selected package', () => {
     let pkg;
+
     beforeEach(function () {
       pkg = this.server.create('package', {
         provider,
@@ -132,12 +137,19 @@ describe('PackageShow', () => {
       });
       this.visit(`/eholdings/packages/${pkg.id}`);
     });
+
     it('shows the selected # of titles and the total # of titles in the package', () => {
       expect(PackageShowPage.selectionStatus.text).to.equal('5 of 10 titles selected');
     });
+
     it('has a button to add all of the remaining titles by selecting the entire package directly in the detail record', () => {
       expect(PackageShowPage.selectionStatus.buttonText).to.equal('Add all to holdings');
     });
+
+    it('does not display tags accordion', () => {
+      expect(PackageShowPage.isTagsPresent).to.equal(false);
+    });
+
     describe('inspecting the menu', () => {
       beforeEach(() => {
         return PackageShowPage.dropDown.clickDropDownButton();
@@ -159,6 +171,10 @@ describe('PackageShow', () => {
       this.visit(`/eholdings/packages/${providerPackage.id}`);
     });
 
+    it('display tags accordion', () => {
+      expect(PackageShowPage.isTagsPresent).to.equal(true);
+    });
+
     it('displays the package type as complete', () => {
       expect(PackageShowPage.packageType).to.equal('Complete');
     });
@@ -178,6 +194,10 @@ describe('PackageShow', () => {
       providerPackage.packageType = 'Custom';
       providerPackage.isSelected = true;
       this.visit(`/eholdings/packages/${providerPackage.id}`);
+    });
+
+    it('display tags accordion', () => {
+      expect(PackageShowPage.isTagsPresent).to.equal(true);
     });
 
     it('displays the package type as custom', () => {

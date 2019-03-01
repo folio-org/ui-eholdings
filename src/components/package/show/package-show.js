@@ -2,6 +2,7 @@ import React, { Component, Fragment } from 'react';
 import PropTypes from 'prop-types';
 import update from 'lodash/fp/update';
 import set from 'lodash/fp/set';
+import get from 'lodash/get';
 
 import {
   Accordion,
@@ -11,7 +12,8 @@ import {
   IconButton,
   KeyValue,
   Modal,
-  ModalFooter
+  ModalFooter,
+  Badge,
 } from '@folio/stripes/components';
 import { FormattedDate, FormattedNumber, FormattedMessage } from 'react-intl';
 import { processErrors } from '../../utilities';
@@ -27,6 +29,7 @@ import SelectionStatus from '../selection-status';
 import KeyValueColumns from '../../key-value-columns';
 import ProxyDisplay from '../../proxy-display';
 import TokenDisplay from '../../token-display';
+import Tags from '../../tags';
 
 const ITEM_HEIGHT = 53;
 
@@ -43,7 +46,10 @@ class PackageShow extends Component {
     provider: PropTypes.object.isRequired,
     proxyTypes: PropTypes.object.isRequired,
     searchModal: PropTypes.node,
-    toggleSelected: PropTypes.func.isRequired
+    tagsModel: PropTypes.object,
+    toggleSelected: PropTypes.func.isRequired,
+    updateEntityTags: PropTypes.func.isRequired,
+    updateFolioTags: PropTypes.func.isRequired,
   };
 
   state = {
@@ -52,6 +58,7 @@ class PackageShow extends Component {
     packageAllowedToAddTitles: this.props.model.allowKbToAddTitles,
     isCoverageEditable: false,
     sections: {
+      packageShowTags: true,
       packageShowHoldingStatus: true,
       packageShowInformation: true,
       packageShowSettings: true,
@@ -165,7 +172,16 @@ class PackageShow extends Component {
         )}
       </Fragment>
     );
-  }
+  };
+
+  getEntityTags = () => {
+    return get(this.props.model, ['tags', 'tagList'], []);
+  };
+
+  getTagLabelsArr = () => {
+    const tagRecords = get(this.props.tagsModel, ['resolver', 'state', 'tags', 'records'], {});
+    return Object.values(tagRecords).map((tag) => tag.attributes);
+  };
 
   render() {
     let {
@@ -178,6 +194,9 @@ class PackageShow extends Component {
       isNewRecord,
       isDestroyed,
       onEdit,
+      tagsModel,
+      updateEntityTags,
+      updateFolioTags,
     } = this.props;
 
     let {
@@ -267,6 +286,33 @@ class PackageShow extends Component {
           )}
           bodyContent={(
             <div>
+              {packageSelected && (
+                <Accordion
+                  label={<Headline size="large" tag="h3"><FormattedMessage id="ui-eholdings.provider.providerTags" /></Headline>}
+                  open={sections.providerShowTags}
+                  id="providerShowTags"
+                  onToggle={this.handleSectionToggle}
+                  displayWhenClosed={
+                    <Badge sixe='small'>
+                      <span data-test-eholdings-provider-tags-bage>
+                        <FormattedNumber value={this.getEntityTags().length} />
+                      </span>
+                    </Badge>
+                  }
+                >
+                  {(!tagsModel.request.isResolved || model.isLoading)
+                    ? <Icon icon="spinner-ellipsis" />
+                    : (
+                      <Tags
+                        updateEntityTags={updateEntityTags}
+                        updateFolioTags={updateFolioTags}
+                        model={model}
+                        tags={this.getTagLabelsArr()}
+                      />
+                    )
+                  }
+                </Accordion>
+              )}
               <Accordion
                 label={<Headline size="large" tag="h3"><FormattedMessage id="ui-eholdings.label.holdingStatus" /></Headline>}
                 open={sections.packageShowHoldingStatus}
