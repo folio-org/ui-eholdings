@@ -80,6 +80,6 @@ export default connect(
     createRequest: createResolver(data).getRequest('create', { type: 'packages', pageSize: 100 })
   }), {
     createPackage: attrs => Package.create(attrs),
-    removeCreateRequests: () => Package.removeCreateRequests(),
+    removeCreateRequests: () => Package.removeRequests('create'),
   }
 )(PackageCreateRoute);

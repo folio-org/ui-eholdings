@@ -101,7 +101,7 @@ export default connect(
     };
   }, {
     createTitle: attrs => Title.create(attrs),
-    removeCreateRequests: () => Title.removeCreateRequests(),
+    removeCreateRequests: () => Title.removeRequests('create'),
     getCustomPackages: () => Package.query({
       filter: { custom: true },
       count: 100,

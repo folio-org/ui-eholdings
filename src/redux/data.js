@@ -18,7 +18,7 @@ export const actionTypes = {
   RESOLVE: '@@ui-eholdings/db/RESOLVE',
   REJECT: '@@ui-eholdings/db/REJECT',
   UNLOAD: '@@ui-eholdings/db/UNLOAD',
-  REMOVE_CREATE_REQUESTS: '@@ui-eholdings/db/REMOVE_CREATE_REQUESTS'
+  REMOVE_REQUESTS: '@@ui-eholdings/db/REMOVE_REQUESTS',
 };
 
 /**
@@ -203,10 +203,11 @@ const reject = (request, errors, data) => ({
  * for specific resource type
  * @param {String} type - resource type
  */
-export const removeCreateRequests = (type) => ({
-  type: actionTypes.REMOVE_CREATE_REQUESTS,
+export const removeRequests = (resourceType, requestType) => ({
+  type: actionTypes.REMOVE_REQUESTS,
   data: {
-    type,
+    resourceType,
+    requestType,
   }
 });
 
@@ -330,16 +331,17 @@ const handlers = {
   /**
    * Handles reducing the data store when removing the create requests
    * @param {Object} state - data store state
-   * @param {Object} action.data - include the data about the ctrate request type
+   * @param {String} action.data.resourceType - the type of recource whose requests should be removed
+   * @param {String} action.data.requestType - the type of requests which should be removed
    */
-  [actionTypes.REMOVE_CREATE_REQUESTS]: (state, { data }) => {
-    return reduceData(data.type, state, store => ({
+  [actionTypes.REMOVE_REQUESTS]: (state, { data }) => {
+    return reduceData(data.resourceType, state, store => ({
 
       requests: Object.keys(store.requests).reduce((reqs, timestamp) => {
         let request = store.requests[timestamp];
 
-        // if the request does not create one - keep it
-        if (request.type !== 'create') {
+        // keep the request only if it's not of the type which we want to remove
+        if (request.type !== data.requestType) {
           reqs[timestamp] = request;
         }
         return reqs;
