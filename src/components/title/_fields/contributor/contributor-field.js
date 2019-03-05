@@ -57,7 +57,7 @@ export default class ContributorField extends Component {
         <Field
           name={`${contributor}.type`}
           component={Select}
-          autoFocus={Object.keys(contributor).length === 0}
+          autoFocus
           label={<FormattedMessage id="ui-eholdings.type" />}
           id={`${contributor}-type`}
           validate={this.validateContributorType}
