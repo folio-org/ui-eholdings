@@ -71,7 +71,7 @@ export default class ContributorField extends Component {
   renderContributorTypeOptions() {
     return contributorTypeOptions.map(({ value, translationIdEnding }) => (
       <FormattedMessage id={`ui-eholdings.label.${translationIdEnding}`}>
-        {(message) => <option value={value}>{message}</option>}
+        {message => <option value={value}>{message}</option>}
       </FormattedMessage>
     ));
   }
@@ -120,7 +120,8 @@ export default class ContributorField extends Component {
       <div data-test-eholdings-contributors-fields>
         <FieldArray name="contributors">
           {({ fields, meta: { initial } }) => {
-            const emptyMessage = initial && initial.length > 0 && initial[0].contributor
+            const areInitialValuesPassed = initial && initial.length;
+            const emptyMessage = areInitialValuesPassed
               ? <FormattedMessage id="ui-eholdings.title.contributor.notSet" />
               : '';
 
@@ -131,7 +132,7 @@ export default class ContributorField extends Component {
                 fields={fields}
                 legend={legend}
                 onAdd={() => this.addNewField(fields)}
-                onRemove={index => fields.remove(index)}
+                onRemove={fields.remove}
                 renderField={this.renderFields}
               />
             );
