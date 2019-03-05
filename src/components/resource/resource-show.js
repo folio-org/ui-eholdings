@@ -8,6 +8,11 @@ import update from 'lodash/fp/update';
 import set from 'lodash/fp/set';
 
 import {
+  IfPermission,
+  withStripes,
+} from '@folio/stripes-core';
+
+import {
   Accordion,
   Button,
   Badge,
@@ -43,6 +48,9 @@ class ResourceShow extends Component {
     model: PropTypes.object.isRequired,
     onEdit: PropTypes.func.isRequired,
     proxyTypes: PropTypes.object.isRequired,
+    stripes: PropTypes.shape({
+      hasPerm: PropTypes.func.isRequired,
+    }),
     tagsModel: PropTypes.object,
     toggleSelected: PropTypes.func.isRequired,
     updateEntityTags: PropTypes.func.isRequired,
@@ -101,19 +109,36 @@ class ResourceShow extends Component {
   }
 
   getActionMenu = ({ onToggle }) => {
-    const { onEdit } = this.props;
+    const {
+      onEdit,
+      stripes,
+    } = this.props;
+
+    const hasEditPermission = stripes.hasPerm('ui-eholdings.records.edit');
+    const hasSelectionPermission = stripes.hasPerm('ui-eholdings.package-title.select-unselect');
+    const isMenuNeeded = hasEditPermission || hasSelectionPermission;
+
+    return isMenuNeeded && (
+      <Fragment>
+        {hasEditPermission &&
+          <Button
+            buttonStyle="dropdownItem fullWidth"
+            onClick={onEdit}
+          >
+            <FormattedMessage id="ui-eholdings.actionMenu.edit" />
+          </Button>
+        }
+        {hasSelectionPermission && this.renderSelectionButton(onToggle)}
+      </Fragment>
+    );
+  }
+
+  renderSelectionButton(onToggle) {
     const { resourceSelected } = this.state;
 
     return (
-      <Fragment>
-        <Button
-          buttonStyle="dropdownItem fullWidth"
-          onClick={onEdit}
-        >
-          <FormattedMessage id="ui-eholdings.actionMenu.edit" />
-        </Button>
-
-        {resourceSelected ? (
+      resourceSelected
+        ? (
           <Button
             data-test-eholdings-remove-resource-from-holdings
             buttonStyle="dropdownItem fullWidth"
@@ -124,7 +149,8 @@ class ResourceShow extends Component {
           >
             <FormattedMessage id="ui-eholdings.resource.actionMenu.removeHolding" />
           </Button>
-        ) : (
+        )
+        : (
           <Button
             data-test-eholdings-add-resource-to-holdings
             buttonStyle="dropdownItem fullWidth"
@@ -135,8 +161,34 @@ class ResourceShow extends Component {
           >
             <FormattedMessage id="ui-eholdings.resource.actionMenu.addHolding" />
           </Button>
-        )}
-      </Fragment>
+        )
+    );
+  }
+
+  renderLastMenu() {
+    const {
+      model: { name },
+      onEdit,
+    } = this.props;
+
+    return (
+      <IfPermission perm="ui-eholdings.records.edit">
+        <FormattedMessage
+          id="ui-eholdings.label.editLink"
+          values={{
+            name,
+          }}
+        >
+          {ariaLabel => (
+            <IconButton
+              data-test-eholdings-resource-edit-link
+              icon="edit"
+              ariaLabel={ariaLabel}
+              onClick={onEdit}
+            />
+          )}
+        </FormattedMessage>
+      </IfPermission>
     );
   }
 
@@ -144,7 +196,6 @@ class ResourceShow extends Component {
     let {
       model,
       proxyTypes,
-      onEdit,
       isFreshlySaved,
       tagsModel,
       updateEntityTags,
@@ -201,23 +252,7 @@ class ResourceShow extends Component {
           actionMenu={this.getActionMenu}
           sections={sections}
           handleExpandAll={this.handleExpandAll}
-          lastMenu={(
-            <FormattedMessage
-              id="ui-eholdings.label.editLink"
-              values={{
-                name: model.name
-              }}
-            >
-              {ariaLabel => (
-                <IconButton
-                  data-test-eholdings-resource-edit-link
-                  icon="edit"
-                  ariaLabel={ariaLabel}
-                  onClick={onEdit}
-                />
-              )}
-            </FormattedMessage>
-          )}
+          lastMenu={this.renderLastMenu()}
           bodyContent={(
             <div>
               {resourceSelected &&
@@ -272,14 +307,17 @@ class ResourceShow extends Component {
                   }
                   <br />
                   { ((!resourceSelected && !isSelectInFlight) || (!this.props.model.isSelected && isSelectInFlight)) && (
-                    <Button
-                      buttonStyle="primary"
-                      onClick={this.handleHoldingStatus}
-                      disabled={model.destroy.isPending || isSelectInFlight}
-                      data-test-eholdings-resource-add-to-holdings-button
-                    >
-                      <FormattedMessage id="ui-eholdings.addToHoldings" />
-                    </Button>)}
+                    <IfPermission perm="ui-eholdings.package-title.select-unselect">
+                      <Button
+                        buttonStyle="primary"
+                        onClick={this.handleHoldingStatus}
+                        disabled={model.destroy.isPending || isSelectInFlight}
+                        data-test-eholdings-resource-add-to-holdings-button
+                      >
+                        <FormattedMessage id="ui-eholdings.addToHoldings" />
+                      </Button>
+                    </IfPermission>
+                  )}
                 </label>
               </Accordion>
 
@@ -560,4 +598,4 @@ class ResourceShow extends Component {
   }
 }
 
-export default ResourceShow;
+export default withStripes(ResourceShow);

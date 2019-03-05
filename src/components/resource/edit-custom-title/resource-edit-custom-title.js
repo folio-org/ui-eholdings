@@ -7,6 +7,7 @@ import createFocusDecorator from 'final-form-focus';
 import { FormattedMessage } from 'react-intl';
 import update from 'lodash/fp/update';
 
+import { IfPermission } from '@folio/stripes-core';
 import {
   Accordion,
   Button,
@@ -206,16 +207,18 @@ export default class ResourceEditCustomTitle extends Component {
         </Button>
 
         {resourceSelected && (
-          <Button
-            data-test-eholdings-remove-resource-from-holdings
-            buttonStyle="dropdownItem fullWidth"
-            onClick={() => {
-              onToggle();
-              this.handleRemoveResourceFromHoldings();
-            }}
-          >
-            <FormattedMessage id="ui-eholdings.resource.actionMenu.removeHolding" />
-          </Button>
+          <IfPermission perm="ui-eholdings.package-title.select-unselect">
+            <Button
+              data-test-eholdings-remove-resource-from-holdings
+              buttonStyle="dropdownItem fullWidth"
+              onClick={() => {
+                onToggle();
+                this.handleRemoveResourceFromHoldings();
+              }}
+            >
+              <FormattedMessage id="ui-eholdings.resource.actionMenu.removeHolding" />
+            </Button>
+          </IfPermission>
         )}
       </Fragment>
     );

@@ -85,7 +85,8 @@
       {
         "permissionName": "module.eholdings.enabled",
         "displayName": "UI: eHoldings module is enabled",
-        "visible": true
+        "visible": true,
+        "subPermissions": ["kb-ebsco.all"]
       },
       {
         "permissionName": "settings.eholdings.enabled",
@@ -93,28 +94,12 @@
         "visible": true
       },
       {
-        "permissionName": "ui-eholdings.records.view",
-        "displayName": "eHoldings: Can view providers, packages, titles",
-        "visible": true,
-        "subPermissions": [
-          "module.eholdings.enabled",
-          "ui-eholdings.packages.collection.get",
-          "ui-eholdings.packages.item.get",
-          "ui-eholdings.providers.collection.get",
-          "ui-eholdings.providers.item.get",
-          "ui-eholdings.resources.item.get",
-          "ui-eholdings.titles.collection.get",
-          "ui-eholdings.titles.item.get"
-        ]
-      },
-      {
         "permissionName": "ui-eholdings.package-title.select-unselect",
         "displayName": "eHoldings: Can select/unselect packages and titles to/from your holdings",
         "visible": true,
         "subPermissions": [
-          "ui-eholdings.records.view",
-          "ui-eholdings.packages.item.put",
-          "ui-eholdings.resources.item.put"
+          "kb-ebsco.packages.item.put",
+          "kb-ebsco.resources.item.put"
         ]
       },
       {
@@ -122,8 +107,9 @@
         "displayName": "eHoldings: Can edit providers, packages, titles detail records",
         "visible": true,
         "subPermissions": [
-          "ui-eholdings.package-title.select-unselect",
-          "ui-eholdings.providers.item.put"
+          "kb-ebsco.packages.item.put",
+          "kb-ebsco.resources.item.put",
+          "kb-ebsco.providers.item.put"
         ]
       },
       {
@@ -132,11 +118,11 @@
         "visible": true,
         "subPermissions": [
           "ui-eholdings.records.edit",
-          "ui-eholdings.packages.collection.post",
-          "ui-eholdings.resources.collection.post",
-          "ui-eholdings.titles.collection.post",
-          "ui-eholdings.packages.item.delete",
-          "ui-eholdings.resources.item.delete"
+          "kb-ebsco.packages.collection.post",
+          "kb-ebsco.resources.collection.post",
+          "kb-ebsco.titles.collection.post",
+          "kb-ebsco.packages.item.delete",
+          "kb-ebsco.resources.item.delete"
         ]
       }
     ]

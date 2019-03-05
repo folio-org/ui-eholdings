@@ -8,6 +8,7 @@ import arrayMutators from 'final-form-arrays';
 import createFocusDecorator from 'final-form-focus';
 import { FormattedMessage } from 'react-intl';
 
+import { IfPermission } from '@folio/stripes-core';
 import {
   Accordion,
   Button,
@@ -206,16 +207,18 @@ export default class CustomPackageEdit extends Component {
         )}
 
         {packageSelected && (
-          <Button
-            data-test-eholdings-package-remove-from-holdings-action
-            buttonStyle="dropdownItem fullWidth"
-            onClick={() => {
-              onToggle();
-              this.handleDeleteAction();
-            }}
-          >
-            <FormattedMessage id="ui-eholdings.package.deletePackage" />
-          </Button>
+          <IfPermission perm="ui-eholdings.titles-packages.create-delete">
+            <Button
+              data-test-eholdings-package-remove-from-holdings-action
+              buttonStyle="dropdownItem fullWidth"
+              onClick={() => {
+                onToggle();
+                this.handleDeleteAction();
+              }}
+            >
+              <FormattedMessage id="ui-eholdings.package.deletePackage" />
+            </Button>
+          </IfPermission>
         )}
       </Fragment>
     );

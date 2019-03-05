@@ -1,18 +1,25 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-
-import { Headline, Icon, Button } from '@folio/stripes/components';
 import { FormattedMessage } from 'react-intl';
+
+import { IfPermission } from '@folio/stripes-core';
+import {
+  Headline,
+  Icon,
+  Button,
+} from '@folio/stripes/components';
 
 export default function SelectionStatus({ model, onAddToHoldings }) {
   return (
     <div data-test-eholdings-package-details-selected>
       <SelectionStatusMessage model={model} />
       <br />
-      <SelectionStatusButton
-        model={model}
-        onAddToHoldings={onAddToHoldings}
-      />
+      <IfPermission perm="ui-eholdings.package-title.select-unselect">
+        <SelectionStatusButton
+          model={model}
+          onAddToHoldings={onAddToHoldings}
+        />
+      </IfPermission>
     </div>
   );
 }

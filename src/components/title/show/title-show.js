@@ -1,9 +1,21 @@
 import React, { Component, Fragment } from 'react';
 import PropTypes from 'prop-types';
-import update from 'lodash/fp/update';
-import set from 'lodash/fp/set';
+import {
+  FormattedMessage,
+  FormattedNumber,
+} from 'react-intl';
+
 import { Form } from 'react-final-form';
 import createFocusDecorator from 'final-form-focus';
+
+import update from 'lodash/fp/update';
+import set from 'lodash/fp/set';
+
+import {
+  withStripes,
+  IfPermission,
+} from '@folio/stripes-core';
+
 import {
   Accordion,
   Button,
@@ -15,15 +27,13 @@ import {
   Badge,
   Icon,
 } from '@folio/stripes/components';
-import {
-  FormattedMessage,
-  FormattedNumber,
-} from 'react-intl';
+
 import {
   processErrors,
   getEntityTags,
   getTagLabelsArr,
 } from '../../utilities';
+
 import DetailsView from '../../details-view';
 import ScrollView from '../../scroll-view';
 import PackageListItem from '../../package-list-item';
@@ -48,6 +58,9 @@ class TitleShow extends Component {
     onEdit: PropTypes.func.isRequired,
     onFullView: PropTypes.func,
     request: PropTypes.object.isRequired,
+    stripes: PropTypes.shape({
+      hasPerm: PropTypes.func.isRequired,
+    }).isRequired,
     tagsModel: PropTypes.object,
     updateEntityTags: PropTypes.func.isRequired,
     updateFolioTags: PropTypes.func.isRequired,
@@ -63,22 +76,28 @@ class TitleShow extends Component {
 
   getActionMenu = () => {
     const {
+      stripes,
       onEdit,
       onFullView,
-      model
+      model: { isTitleCustom },
     } = this.props;
 
-    return (model.isTitleCustom || onFullView) ? (
-      <Fragment>
-        {model.isTitleCustom && (
-          <Button
-            buttonStyle="dropdownItem fullWidth"
-            onClick={onEdit}
-          >
-            <FormattedMessage id="ui-eholdings.actionMenu.edit" />
-          </Button>
-        )}
+    const hasEditPermission = stripes.hasPerm('ui-eholdings.records.edit');
+    const isEditButtonNeeded = hasEditPermission && isTitleCustom;
+    const isMenuNeeded = onFullView || isEditButtonNeeded;
 
+    return isMenuNeeded && (
+      <Fragment>
+        {isEditButtonNeeded && (
+          <IfPermission perm="ui-eholdings.records.edit">
+            <Button
+              buttonStyle="dropdownItem fullWidth"
+              onClick={onEdit}
+            >
+              <FormattedMessage id="ui-eholdings.actionMenu.edit" />
+            </Button>
+          </IfPermission>
+        )}
         {onFullView && (
           <Button
             buttonStyle="dropdownItem fullWidth"
@@ -88,7 +107,7 @@ class TitleShow extends Component {
           </Button>
         )}
       </Fragment>
-    ) : null;
+    );
   }
 
   get lastMenu() {
@@ -99,22 +118,23 @@ class TitleShow extends Component {
 
     if (onEdit && model.isTitleCustom) {
       return (
-        <FormattedMessage
-          id="ui-eholdings.title.editCustomTitle"
-          values={{
-            id: '',
-            name: model.name
-          }}
-        >
-          {ariaLabel => (
-            <IconButton
-              data-test-eholdings-title-edit-link
-              icon="edit"
-              ariaLabel={ariaLabel}
-              onClick={onEdit}
-            />
-          )}
-        </FormattedMessage>
+        <IfPermission perm="ui-eholdings.records.edit">
+          <FormattedMessage
+            id="ui-eholdings.title.editCustomTitle"
+            values={{
+              name: model.name
+            }}
+          >
+            {ariaLabel => (
+              <IconButton
+                data-test-eholdings-title-edit-link
+                icon="edit"
+                ariaLabel={ariaLabel}
+                onClick={onEdit}
+              />
+            )}
+          </FormattedMessage>
+        </IfPermission>
       );
     } else {
       return null;
@@ -378,4 +398,4 @@ class TitleShow extends Component {
   }
 }
 
-export default TitleShow;
+export default withStripes(TitleShow);

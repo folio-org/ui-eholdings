@@ -1,15 +1,20 @@
 import React, { Component, Fragment } from 'react';
 import PropTypes from 'prop-types';
-import update from 'lodash/fp/update';
-import set from 'lodash/fp/set';
-import hasIn from 'lodash/fp/hasIn';
 import {
   FormattedDate,
   FormattedNumber,
   FormattedMessage,
 } from 'react-intl';
 
-import { Pluggable } from '@folio/stripes-core';
+import update from 'lodash/fp/update';
+import set from 'lodash/fp/set';
+import hasIn from 'lodash/fp/hasIn';
+
+import {
+  Pluggable,
+  IfPermission,
+} from '@folio/stripes-core';
+
 import {
   Accordion,
   Button,
@@ -136,59 +141,28 @@ class PackageShow extends Component {
 
     const { packageSelected } = this.state;
 
+    const isAddButtonNeeded = !packageSelected || model.isPartiallySelected;
+
     return (
       <Fragment>
-        <Button
-          buttonStyle="dropdownItem fullWidth"
-          onClick={onEdit}
-        >
-          <FormattedMessage id="ui-eholdings.actionMenu.edit" />
-        </Button>
-
-        {
-          onFullView && (
-            <Button
-              buttonStyle="dropdownItem fullWidth"
-              onClick={onFullView}
-            >
-              <FormattedMessage id="ui-eholdings.actionMenu.fullView" />
-            </Button>
-          )
-        }
-
-        {
-          packageSelected && (
-            <Button
-              data-test-eholdings-package-remove-from-holdings-action
-              buttonStyle="dropdownItem fullWidth"
-              onClick={() => {
-                onToggle();
-                this.handleSelectionToggle();
-              }}
-            >
-              <FormattedMessage
-                id={`ui-eholdings.package.${(model.isCustom ? 'deletePackage' : 'removeFromHoldings')}`}
-              />
-            </Button>
-          )
-        }
-
-        {
-          (!packageSelected || model.isPartiallySelected) && (
-            <Button
-              data-test-eholdings-package-add-to-holdings-action
-              buttonStyle="dropdownItem fullWidth"
-              onClick={() => {
-                onToggle();
-                this.props.addPackageToHoldings();
-              }}
-            >
-              <FormattedMessage
-                id={`ui-eholdings.${(model.isPartiallySelected ? 'addAllToHoldings' : 'addToHoldings')}`}
-              />
-            </Button>
-          )
-        }
+        <IfPermission perm="ui-eholdings.records.edit">
+          <Button
+            buttonStyle="dropdownItem fullWidth"
+            onClick={onEdit}
+          >
+            <FormattedMessage id="ui-eholdings.actionMenu.edit" />
+          </Button>
+        </IfPermission>
+        {onFullView && (
+          <Button
+            buttonStyle="dropdownItem fullWidth"
+            onClick={onFullView}
+          >
+            <FormattedMessage id="ui-eholdings.actionMenu.fullView" />
+          </Button>
+        )}
+        {packageSelected && this.renderRemoveFromHoldingsButton(onToggle)}
+        {isAddButtonNeeded && this.renderAddToHoldingsButton(onToggle)}
       </Fragment>
     );
   };
@@ -346,7 +320,7 @@ class PackageShow extends Component {
                 >
                   <FormattedMessage id="ui-eholdings.tags" />
                 </Headline>
-                )
+              )
               }
               open={sections.providerShowTags}
               id="providerShowTags"
@@ -545,31 +519,6 @@ class PackageShow extends Component {
     );
   }
 
-  getLastMenu() {
-    const {
-      model,
-      onEdit,
-    } = this.props;
-
-    return (
-      <FormattedMessage
-        id="ui-eholdings.label.editLink"
-        values={{
-          name: model.name
-        }}
-      >
-        {ariaLabel => (
-          <IconButton
-            data-test-eholdings-package-edit-link
-            icon="edit"
-            ariaLabel={ariaLabel}
-            onClick={onEdit}
-          />
-        )}
-      </FormattedMessage>
-    );
-  }
-
   renderTitlesListItem = (item) => {
     return (
       <TitleListItem
@@ -598,6 +547,87 @@ class PackageShow extends Component {
         notFoundMessage={<FormattedMessage id="ui-eholdings.notFound" />}
         renderItem={this.renderTitlesListItem}
       />
+    );
+  }
+
+  renderRemoveFromHoldingsButton(onToggle) {
+    const {
+      model: { isCustom },
+    } = this.props;
+
+    const requiredPermission = isCustom
+      ? 'ui-eholdings.titles-packages.create-delete'
+      : 'ui-eholdings.package-title.select-unselect';
+
+    const translationId = isCustom
+      ? 'ui-eholdings.package.deletePackage'
+      : 'ui-eholdings.package.removeFromHoldings';
+
+    return (
+      <IfPermission perm={requiredPermission}>
+        <Button
+          data-test-eholdings-package-remove-from-holdings-action
+          buttonStyle="dropdownItem fullWidth"
+          onClick={() => {
+            onToggle();
+            this.handleSelectionToggle();
+          }}
+        >
+          <FormattedMessage id={translationId} />
+        </Button>
+      </IfPermission>
+    );
+  }
+
+  renderAddToHoldingsButton(onToggle) {
+    const {
+      model: { isPartiallySelected },
+    } = this.props;
+
+    const translationIdEnding = isPartiallySelected
+      ? 'addAllToHoldings'
+      : 'addToHoldings';
+
+    return (
+      <IfPermission perm="ui-eholdings.package-title.select-unselect">
+        <Button
+          data-test-eholdings-package-add-to-holdings-action
+          buttonStyle="dropdownItem fullWidth"
+          onClick={() => {
+            onToggle();
+            this.props.addPackageToHoldings();
+          }}
+        >
+          <FormattedMessage id={`ui-eholdings.${translationIdEnding}`} />
+        </Button>
+      </IfPermission>
+    );
+  }
+
+  renderLastMenu() {
+    const {
+      model: { name },
+      onEdit,
+    } = this.props;
+
+    return (
+      <IfPermission perm="ui-eholdings.records.edit">
+        <FormattedMessage
+          id="ui-eholdings.label.editLink"
+          values={{
+            name,
+          }}
+        >
+          {ariaLabel => (
+            <IconButton
+              data-test-eholdings-package-edit-link
+              icon="edit"
+              ariaLabel={ariaLabel}
+              onClick={onEdit}
+            />
+          )}
+        </FormattedMessage>
+      </IfPermission>
     );
   }
 
@@ -678,8 +708,8 @@ class PackageShow extends Component {
           sections={sections}
           handleExpandAll={this.handleExpandAll}
           searchModal={searchModal}
-          lastMenu={this.getLastMenu()}
           bodyContent={this.getBodyContent()}
+          lastMenu={this.renderLastMenu()}
           listType="titles"
           listSectionId="packageShowTitles"
           onListToggle={this.handleSectionToggle}

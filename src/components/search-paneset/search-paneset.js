@@ -1,7 +1,12 @@
 import React, { Component, cloneElement } from 'react';
 import PropTypes from 'prop-types';
-import { Button, PaneMenu } from '@folio/stripes/components';
 import { FormattedMessage } from 'react-intl';
+
+import { IfPermission } from '@folio/stripes-core';
+import {
+  Button,
+  PaneMenu,
+} from '@folio/stripes/components';
 
 import Paneset, { Pane } from '../paneset';
 
@@ -76,17 +81,19 @@ export default class SearchPaneset extends Component {
 
   renderNewButton = () => {
     return (
-      <Button
-        data-test-eholdings-search-new-button
-        buttonStyle="primary"
-        marginBottom0
-        to={{
-          pathname: `/eholdings/${this.props.resultsType}/new`,
-          state: { eholdings: true }
-        }}
-      >
-        <FormattedMessage id="ui-eholdings.search.addNew" />
-      </Button>
+      <IfPermission perm="ui-eholdings.titles-packages.create-delete">
+        <Button
+          data-test-eholdings-search-new-button
+          buttonStyle="primary"
+          marginBottom0
+          to={{
+            pathname: `/eholdings/${this.props.resultsType}/new`,
+            state: { eholdings: true }
+          }}
+        >
+          <FormattedMessage id="ui-eholdings.search.addNew" />
+        </Button>
+      </IfPermission>
     );
   };
 
