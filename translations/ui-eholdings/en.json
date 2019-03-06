@@ -1,5 +1,11 @@
 {
     "meta.title": "eHoldings",
+    "add": "Add",
+    "startDate": "Start Date",
+    "name": "Name",
+    "status": "Status",
+    "agreements": "Agreements",
+    "agreements.notFound": "No agreements found",
     "package.actionMenu.edit": "Edit",
     "package.addToHoldings": "Add to holdings",
     "package.addToken": "Add token",
