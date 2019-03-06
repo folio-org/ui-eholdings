@@ -1,8 +1,17 @@
 import React, { Component, Fragment } from 'react';
 import PropTypes from 'prop-types';
-import update from 'lodash/fp/update';
-import set from 'lodash/fp/set';
+import {
+  update,
+  set,
+  get,
+} from 'lodash/fp';
+import {
+  FormattedDate,
+  FormattedNumber,
+  FormattedMessage,
+} from 'react-intl';
 
+import { Pluggable } from '@folio/stripes-core';
 import {
   Accordion,
   Button,
@@ -14,20 +23,19 @@ import {
   ModalFooter,
   Badge,
 } from '@folio/stripes/components';
-import { FormattedDate, FormattedNumber, FormattedMessage } from 'react-intl';
+
 import {
   processErrors,
   getEntityTags,
   getTagLabelsArr,
 } from '../../utilities';
-
 import DetailsView from '../../details-view';
 import QueryList from '../../query-list';
 import InternalLink from '../../internal-link';
+import AgreementsList from '../../agreements-list';
 import TitleListItem from '../../title-list-item';
 import NavigationModal from '../../navigation-modal';
 import Toaster from '../../toaster';
-
 import SelectionStatus from '../selection-status';
 import KeyValueColumns from '../../key-value-columns';
 import ProxyDisplay from '../../proxy-display';
@@ -39,11 +47,14 @@ const ITEM_HEIGHT = 53;
 class PackageShow extends Component {
   static propTypes = {
     addPackageToHoldings: PropTypes.func.isRequired,
+    agreements: PropTypes.object,
     fetchPackageTitles: PropTypes.func.isRequired,
+    getAgreements: PropTypes.func.isRequired,
     isDestroyed: PropTypes.bool,
     isFreshlySaved: PropTypes.bool,
     isNewRecord: PropTypes.bool,
     model: PropTypes.object.isRequired,
+    onAddAgreement: PropTypes.func.isRequired,
     onEdit: PropTypes.func.isRequired,
     onFullView: PropTypes.func,
     provider: PropTypes.object.isRequired,
@@ -66,8 +77,9 @@ class PackageShow extends Component {
       packageShowInformation: true,
       packageShowSettings: true,
       packageShowCoverageSettings: true,
+      packageShowAgreements: true,
       packageShowTitles: true
-    }
+    },
   };
 
   static getDerivedStateFromProps(nextProps) {
@@ -135,76 +147,453 @@ class PackageShow extends Component {
           <FormattedMessage id="ui-eholdings.actionMenu.edit" />
         </Button>
 
-        {onFullView && (
-          <Button
-            buttonStyle="dropdownItem fullWidth"
-            onClick={onFullView}
-          >
-            <FormattedMessage id="ui-eholdings.actionMenu.fullView" />
-          </Button>
-        )}
+        {
+          onFullView && (
+            <Button
+              buttonStyle="dropdownItem fullWidth"
+              onClick={onFullView}
+            >
+              <FormattedMessage id="ui-eholdings.actionMenu.fullView" />
+            </Button>
+          )
+        }
 
-        {packageSelected && (
-          <Button
-            data-test-eholdings-package-remove-from-holdings-action
-            buttonStyle="dropdownItem fullWidth"
-            onClick={() => {
-              onToggle();
-              this.handleSelectionToggle();
-            }}
-          >
-            <FormattedMessage
-              id={`ui-eholdings.package.${(model.isCustom ? 'deletePackage' : 'removeFromHoldings')}`}
-            />
-          </Button>
-        )}
+        {
+          packageSelected && (
+            <Button
+              data-test-eholdings-package-remove-from-holdings-action
+              buttonStyle="dropdownItem fullWidth"
+              onClick={() => {
+                onToggle();
+                this.handleSelectionToggle();
+              }}
+            >
+              <FormattedMessage
+                id={`ui-eholdings.package.${(model.isCustom ? 'deletePackage' : 'removeFromHoldings')}`}
+              />
+            </Button>
+          )
+        }
 
-        {(!packageSelected || model.isPartiallySelected) && (
-          <Button
-            data-test-eholdings-package-add-to-holdings-action
-            buttonStyle="dropdownItem fullWidth"
-            onClick={() => {
-              onToggle();
-              this.props.addPackageToHoldings();
-            }}
-          >
-            <FormattedMessage
-              id={`ui-eholdings.${(model.isPartiallySelected ? 'addAllToHoldings' : 'addToHoldings')}`}
-            />
-          </Button>
-        )}
+        {
+          (!packageSelected || model.isPartiallySelected) && (
+            <Button
+              data-test-eholdings-package-add-to-holdings-action
+              buttonStyle="dropdownItem fullWidth"
+              onClick={() => {
+                onToggle();
+                this.props.addPackageToHoldings();
+              }}
+            >
+              <FormattedMessage
+                id={`ui-eholdings.${(model.isPartiallySelected ? 'addAllToHoldings' : 'addToHoldings')}`}
+              />
+            </Button>
+          )
+        }
       </Fragment>
     );
   };
 
-  render() {
-    let {
+  getAgreementsSectionHeader = () => {
+    return (
+      <Headline
+        size="large"
+        tag="h3"
+      >
+        <FormattedMessage id="ui-eholdings.agreements" />
+      </Headline>
+    );
+  }
+
+  renderFindAgreementTrigger = (props) => {
+    return (
+      <Button {...props}>
+        <FormattedMessage id="ui-eholdings.add" />
+      </Button>
+    );
+  }
+
+  getAgreementsSectionButtons() {
+    return (
+      <Pluggable
+        dataKey="package-show-find-agreement"
+        type="find-agreement"
+        renderTrigger={this.renderFindAgreementTrigger}
+        onAgreementSelected={this.onSelectAgreementHandler}
+      />
+    );
+  }
+
+  renderPackageSettings() {
+    const {
       model,
-      fetchPackageTitles,
       proxyTypes,
       provider,
-      searchModal,
-      isFreshlySaved,
-      isNewRecord,
-      isDestroyed,
+    } = this.props;
+
+    const {
+      packageAllowedToAddTitles,
+    } = this.state;
+
+    const visibilityMessage = model.visibilityData.reason && `(${model.visibilityData.reason})`;
+    const hasProxy = !!get(model, 'proxy.id');
+    const hasProviderToken = !!get(provider, 'provider.providerToken.prompt');
+    const hasPackageToken = !!get(model, 'packageToken.prompt');
+
+    return (
+      <div>
+        <KeyValue label={<FormattedMessage id="ui-eholdings.package.visibility" />}>
+          <div data-test-eholdings-package-details-visibility-status>
+            {
+              !model.visibilityData.isHidden
+                ? <FormattedMessage id="ui-eholdings.yes" />
+                : <FormattedMessage id="ui-eholdings.package.visibility.no" values={{ visibilityMessage }} />
+            }
+          </div>
+        </KeyValue>
+        {
+          !model.isCustom && (
+            <KeyValue label={<FormattedMessage id="ui-eholdings.package.packageAllowToAddTitles" />}>
+              <div>
+                {
+                  packageAllowedToAddTitles !== null
+                    ? (
+                      <div data-test-eholdings-package-details-allow-add-new-titles>
+                        {packageAllowedToAddTitles ?
+                          (<FormattedMessage id="ui-eholdings.yes" />)
+                          :
+                          (<FormattedMessage id="ui-eholdings.no" />)
+                        }
+                      </div>
+                    )
+                    : (
+                      <div>
+                        <Icon icon="spinner-ellipsis" />
+                      </div>
+                    )
+                }
+              </div>
+            </KeyValue>
+          )
+        }
+        {
+          hasProxy && proxyTypes.request.isResolved && model.isLoaded && provider.isLoaded
+            ? (
+              <ProxyDisplay
+                model={model}
+                proxyTypes={proxyTypes}
+                inheritedProxyId={provider.proxy && provider.proxy.id}
+              />
+            )
+            : <Icon icon="spinner-ellipsis" />
+        }
+        {
+          hasProviderToken && (
+            provider.isLoading
+              ? <Icon icon="spinner-ellipsis" />
+              : (
+                <KeyValue label={<FormattedMessage id="ui-eholdings.provider.token" />}>
+                  <TokenDisplay
+                    token={provider.providerToken}
+                    type="provider"
+                  />
+                </KeyValue>
+              )
+          )
+        }
+        {
+          hasPackageToken && (
+            model.isLoading
+              ? <Icon icon="spinner-ellipsis" />
+              : (
+                <KeyValue label={<FormattedMessage id="ui-eholdings.package.token" />}>
+                  <TokenDisplay
+                    token={model.packageToken}
+                    type="package"
+                  />
+                </KeyValue>
+              )
+          )
+        }
+      </div>
+    );
+  }
+
+  getBodyContent() {
+    const {
+      model,
+      agreements,
       onEdit,
       tagsModel,
       updateEntityTags,
       updateFolioTags,
     } = this.props;
 
+    const {
+      sections,
+      packageSelected,
+    } = this.state;
+
+    return (
+      <div>
+        {
+          packageSelected && (
+            <Accordion
+              label={<Headline size="large" tag="h3"><FormattedMessage id="ui-eholdings.tags" /></Headline>}
+              open={sections.providerShowTags}
+              id="providerShowTags"
+              onToggle={this.handleSectionToggle}
+              displayWhenClosed={
+                <Badge sixe='small'>
+                  <span data-test-eholdings-provider-tags-bage>
+                    <FormattedNumber value={getEntityTags(model).length} />
+                  </span>
+                </Badge>
+              }
+            >
+              {(!tagsModel.request.isResolved || model.isLoading)
+                ? <Icon icon="spinner-ellipsis" />
+                : (
+                  <Tags
+                    updateEntityTags={updateEntityTags}
+                    updateFolioTags={updateFolioTags}
+                    model={model}
+                    tags={getTagLabelsArr(tagsModel)}
+                  />
+                )
+              }
+            </Accordion>
+          )
+        }
+        <Accordion
+          label={<Headline size="large" tag="h3"><FormattedMessage id="ui-eholdings.label.holdingStatus" /></Headline>}
+          open={sections.packageShowHoldingStatus}
+          id="packageShowHoldingStatus"
+          onToggle={this.handleSectionToggle}
+        >
+          <SelectionStatus
+            model={model}
+            onAddToHoldings={this.props.addPackageToHoldings}
+          />
+        </Accordion>
+
+        <Accordion
+          label={<Headline size="large" tag="h3"><FormattedMessage id="ui-eholdings.label.packageInformation" /></Headline>}
+          open={sections.packageShowInformation}
+          id="packageShowInformation"
+          onToggle={this.handleSectionToggle}
+        >
+          <KeyValueColumns>
+            <div>
+              <KeyValue label={<FormattedMessage id="ui-eholdings.package.provider" />}>
+                <div data-test-eholdings-package-details-provider>
+                  <InternalLink to={`/eholdings/providers/${model.providerId}`}>{model.providerName}</InternalLink>
+                </div>
+              </KeyValue>
+
+              {
+                model.contentType && (
+                  <KeyValue label={<FormattedMessage id="ui-eholdings.package.contentType" />}>
+                    <div data-test-eholdings-package-details-content-type>
+                      {model.contentType}
+                    </div>
+                  </KeyValue>
+                )
+              }
+
+              {
+                model.packageType && (
+                  <KeyValue label={<FormattedMessage id="ui-eholdings.package.packageType" />}>
+                    <div data-test-eholdings-package-details-type>
+                      {model.packageType}
+                    </div>
+                  </KeyValue>
+                )
+              }
+            </div>
+
+            <div>
+              <KeyValue label={<FormattedMessage id="ui-eholdings.package.titlesSelected" />}>
+                <div data-test-eholdings-package-details-titles-selected>
+                  <FormattedNumber value={model.selectedCount} />
+                </div>
+              </KeyValue>
+
+              <KeyValue label={<FormattedMessage id="ui-eholdings.package.totalTitles" />}>
+                <div data-test-eholdings-package-details-titles-total>
+                  <FormattedNumber value={model.titleCount} />
+                </div>
+              </KeyValue>
+            </div>
+          </KeyValueColumns>
+        </Accordion>
+
+        <Accordion
+          label={<Headline size="large" tag="h3"><FormattedMessage id="ui-eholdings.package.packageSettings" /></Headline>}
+          open={sections.packageShowSettings}
+          id="packageShowSettings"
+          onToggle={this.handleSectionToggle}
+        >
+          {
+            packageSelected
+              ? this.renderPackageSettings()
+              : <p><FormattedMessage id="ui-eholdings.package.visibility.notSelected" /></p>
+          }
+        </Accordion>
+
+        <Accordion
+          label={<Headline size="large" tag="h3"><FormattedMessage id="ui-eholdings.package.coverageSettings" /></Headline>}
+          closedByDefault={!packageSelected}
+          open={sections.packageShowCoverageSettings}
+          id="packageShowCoverageSettings"
+          onToggle={this.handleSectionToggle}
+        >
+          {
+            packageSelected
+              ? (
+                <div>
+                  {
+                    model.customCoverage.beginCoverage
+                      ? (
+                        <div>
+                          <KeyValue label={<FormattedMessage id="ui-eholdings.package.customCoverageDates" />}>
+                            <div data-test-eholdings-package-details-custom-coverage-display>
+                              <FormattedDate
+                                value={model.customCoverage.beginCoverage}
+                                timeZone="UTC"
+                                year="numeric"
+                                month="numeric"
+                                day="numeric"
+                              />
+                              &nbsp;-&nbsp;
+                              {
+                                (model.customCoverage.endCoverage)
+                                  ? (
+                                    <FormattedDate
+                                      value={model.customCoverage.endCoverage}
+                                      timeZone="UTC"
+                                      year="numeric"
+                                      month="numeric"
+                                      day="numeric"
+                                    />
+                                  )
+                                  : <FormattedMessage id="ui-eholdings.date.present" />
+                              }
+                            </div>
+                          </KeyValue>
+                        </div>
+                      )
+                      : <p><FormattedMessage id="ui-eholdings.package.customCoverage.notSet" /></p>
+                  }
+                </div>
+              )
+              : <p><FormattedMessage id="ui-eholdings.package.customCoverage.notSelected" /></p>
+          }
+        </Accordion>
+
+        <Accordion
+          id="packageShowAgreements"
+          label={this.getAgreementsSectionHeader()}
+          open={sections.packageShowAgreements}
+          displayWhenOpen={this.getAgreementsSectionButtons()}
+          onToggle={this.handleSectionToggle}
+        >
+          <AgreementsList agreements={agreements} />
+        </Accordion>
+      </div>
+    );
+  }
+
+  getLastMenu() {
+    const {
+      model,
+      onEdit,
+    } = this.props;
+
+    return (
+      (
+        <FormattedMessage
+          id="ui-eholdings.label.editLink"
+          values={{
+            name: model.name
+          }}
+        >
+          {ariaLabel => (
+            <IconButton
+              data-test-eholdings-package-edit-link
+              icon="edit"
+              ariaLabel={ariaLabel}
+              onClick={onEdit}
+            />
+          )}
+        </FormattedMessage>
+      )
+    );
+  }
+
+  renderTitlesListItem = (item) => {
+    return (
+      <TitleListItem
+        item={item.content}
+        link={item.content && `/eholdings/resources/${item.content.id}`}
+        showSelected
+        headingLevel='h4'
+      />
+    );
+  }
+
+  renderTitlesList = (scrollable) => {
+    const {
+      model,
+      fetchPackageTitles,
+    } = this.props;
+
+    return (
+      <QueryList
+        type="package-titles"
+        fetch={fetchPackageTitles}
+        collection={model.resources}
+        length={model.titleCount}
+        scrollable={scrollable}
+        itemHeight={ITEM_HEIGHT}
+        notFoundMessage={<FormattedMessage id="ui-eholdings.notFound" />}
+        renderItem={this.renderTitlesListItem}
+      />
+    );
+  }
+
+  renderAgreementsListItem(item) {
+    return (
+      <TitleListItem
+        item={item.content}
+        link={item.content && `/erm/sas/${item.content.id}`}
+        showSelected
+        headingLevel='h4'
+      />
+    );
+  }
+
+  onSelectAgreementHandler = (agreement) => {
+    this.props.onAddAgreement(agreement);
+  }
+
+  render() {
+    let {
+      model,
+      searchModal,
+      isFreshlySaved,
+      isNewRecord,
+      isDestroyed,
+      agreements,
+    } = this.props;
+
     let {
       showSelectionModal,
-      packageSelected,
-      packageAllowedToAddTitles,
       isCoverageEditable,
       sections
     } = this.state;
 
-    let visibilityMessage = model.visibilityData.reason && `(${model.visibilityData.reason})`;
-    let hasProxy = model.proxy && model.proxy.id;
-    let hasProviderToken = provider.providerToken && provider.providerToken.prompt;
-    let hasPackageToken = model.packageToken && model.packageToken.prompt;
     let modalMessage = model.isCustom ?
       {
         header: <FormattedMessage id="ui-eholdings.package.modal.header.isCustom" />,
@@ -219,7 +608,17 @@ class PackageShow extends Component {
         buttonCancel: <FormattedMessage id="ui-eholdings.package.modal.buttonCancel" />
       };
 
-    let toasts = processErrors(model);
+    let toasts = [
+      ...processErrors(model),
+    ];
+
+    if (get(agreements, 'error')) {
+      toasts.push({
+        type: 'error',
+        id: 'agreements-error',
+        message: agreements.error,
+      });
+    }
 
     // if coming from creating a new custom package, show a success toast
     if (isNewRecord) {
@@ -251,7 +650,11 @@ class PackageShow extends Component {
 
     return (
       <div>
-        <Toaster toasts={toasts} position="bottom" />
+        <Toaster
+          toasts={toasts}
+          position="bottom"
+        />
+
         <DetailsView
           type="package"
           model={model}
@@ -261,246 +664,13 @@ class PackageShow extends Component {
           sections={sections}
           handleExpandAll={this.handleExpandAll}
           searchModal={searchModal}
-          lastMenu={(
-            <FormattedMessage
-              id="ui-eholdings.label.editLink"
-              values={{
-                name: model.name
-              }}
-            >
-              {ariaLabel => (
-                <IconButton
-                  data-test-eholdings-package-edit-link
-                  icon="edit"
-                  ariaLabel={ariaLabel}
-                  onClick={onEdit}
-                />
-              )}
-            </FormattedMessage>
-          )}
-          bodyContent={(
-            <div>
-              {packageSelected && (
-                <Accordion
-                  label={<Headline size="large" tag="h3"><FormattedMessage id="ui-eholdings.tags" /></Headline>}
-                  open={sections.providerShowTags}
-                  id="providerShowTags"
-                  onToggle={this.handleSectionToggle}
-                  displayWhenClosed={
-                    <Badge sixe='small'>
-                      <span data-test-eholdings-provider-tags-bage>
-                        <FormattedNumber value={getEntityTags(model).length} />
-                      </span>
-                    </Badge>
-                  }
-                >
-                  {(!tagsModel.request.isResolved || model.isLoading)
-                    ? <Icon icon="spinner-ellipsis" />
-                    : (
-                      <Tags
-                        updateEntityTags={updateEntityTags}
-                        updateFolioTags={updateFolioTags}
-                        model={model}
-                        tags={getTagLabelsArr(tagsModel)}
-                      />
-                    )
-                  }
-                </Accordion>
-              )}
-              <Accordion
-                label={<Headline size="large" tag="h3"><FormattedMessage id="ui-eholdings.label.holdingStatus" /></Headline>}
-                open={sections.packageShowHoldingStatus}
-                id="packageShowHoldingStatus"
-                onToggle={this.handleSectionToggle}
-              >
-                <SelectionStatus
-                  model={model}
-                  onAddToHoldings={this.props.addPackageToHoldings}
-                />
-              </Accordion>
-              <Accordion
-                label={<Headline size="large" tag="h3"><FormattedMessage id="ui-eholdings.label.packageInformation" /></Headline>}
-                open={sections.packageShowInformation}
-                id="packageShowInformation"
-                onToggle={this.handleSectionToggle}
-              >
-                <KeyValueColumns>
-                  <div>
-                    <KeyValue label={<FormattedMessage id="ui-eholdings.package.provider" />}>
-                      <div data-test-eholdings-package-details-provider>
-                        <InternalLink to={`/eholdings/providers/${model.providerId}`}>{model.providerName}</InternalLink>
-                      </div>
-                    </KeyValue>
-
-                    {model.contentType && (
-                      <KeyValue label={<FormattedMessage id="ui-eholdings.package.contentType" />}>
-                        <div data-test-eholdings-package-details-content-type>
-                          {model.contentType}
-                        </div>
-                      </KeyValue>
-                    )}
-
-                    {model.packageType && (
-                      <KeyValue label={<FormattedMessage id="ui-eholdings.package.packageType" />}>
-                        <div data-test-eholdings-package-details-type>
-                          {model.packageType}
-                        </div>
-                      </KeyValue>
-                    )}
-                  </div>
-
-                  <div>
-                    <KeyValue label={<FormattedMessage id="ui-eholdings.package.titlesSelected" />}>
-                      <div data-test-eholdings-package-details-titles-selected>
-                        <FormattedNumber value={model.selectedCount} />
-                      </div>
-                    </KeyValue>
-
-                    <KeyValue label={<FormattedMessage id="ui-eholdings.package.totalTitles" />}>
-                      <div data-test-eholdings-package-details-titles-total>
-                        <FormattedNumber value={model.titleCount} />
-                      </div>
-                    </KeyValue>
-                  </div>
-                </KeyValueColumns>
-              </Accordion>
-              <Accordion
-                label={<Headline size="large" tag="h3"><FormattedMessage id="ui-eholdings.package.packageSettings" /></Headline>}
-                open={sections.packageShowSettings}
-                id="packageShowSettings"
-                onToggle={this.handleSectionToggle}
-              >
-                {packageSelected ? (
-                  <div>
-                    <KeyValue label={<FormattedMessage id="ui-eholdings.package.visibility" />}>
-                      <div data-test-eholdings-package-details-visibility-status>
-                        {!model.visibilityData.isHidden ?
-                          (<FormattedMessage id="ui-eholdings.yes" />)
-                          :
-                          (<FormattedMessage id="ui-eholdings.package.visibility.no" values={{ visibilityMessage }} />)}
-                      </div>
-                    </KeyValue>
-                    {!model.isCustom && (
-                      <KeyValue label={<FormattedMessage id="ui-eholdings.package.packageAllowToAddTitles" />}>
-                        <div>
-                          {packageAllowedToAddTitles != null ? (
-                            <div data-test-eholdings-package-details-allow-add-new-titles>
-                              {packageAllowedToAddTitles ?
-                                (<FormattedMessage id="ui-eholdings.yes" />)
-                                :
-                                (<FormattedMessage id="ui-eholdings.no" />)
-                              }
-                            </div>
-                          ) : (
-                            <div>
-                              <Icon icon="spinner-ellipsis" />
-                            </div>
-                          )}
-                        </div>
-                      </KeyValue>
-                    )}
-                    {hasProxy && (proxyTypes.request.isResolved && model.isLoaded && provider.isLoaded) ? (
-                      <ProxyDisplay
-                        model={model}
-                        proxyTypes={proxyTypes}
-                        inheritedProxyId={provider.proxy && provider.proxy.id}
-                      />
-                    ) : (
-                      <Icon icon="spinner-ellipsis" />
-                    )}
-                    {hasProviderToken && (
-                      (provider.isLoading) ? (
-                        <Icon icon="spinner-ellipsis" />
-                      ) : (
-                        <KeyValue label={<FormattedMessage id="ui-eholdings.provider.token" />}>
-                          <TokenDisplay
-                            token={provider.providerToken}
-                            type="provider"
-                          />
-                        </KeyValue>
-                      ))}
-                    {hasPackageToken && (
-                      (model.isLoading) ? (
-                        <Icon icon="spinner-ellipsis" />
-                      ) : (
-                        <KeyValue label={<FormattedMessage id="ui-eholdings.package.token" />}>
-                          <TokenDisplay
-                            token={model.packageToken}
-                            type="package"
-                          />
-                        </KeyValue>
-                      ))}
-                  </div>
-                ) : (
-                  <p><FormattedMessage id="ui-eholdings.package.visibility.notSelected" /></p>
-                )}
-              </Accordion>
-              <Accordion
-                label={<Headline size="large" tag="h3"><FormattedMessage id="ui-eholdings.package.coverageSettings" /></Headline>}
-                closedByDefault={!packageSelected}
-                open={sections.packageShowCoverageSettings}
-                id="packageShowCoverageSettings"
-                onToggle={this.handleSectionToggle}
-              >
-                {packageSelected ? (
-                  <div>
-                    {model.customCoverage.beginCoverage ? (
-                      <div>
-                        <KeyValue label={<FormattedMessage id="ui-eholdings.package.customCoverageDates" />}>
-                          <div data-test-eholdings-package-details-custom-coverage-display>
-                            <FormattedDate
-                              value={model.customCoverage.beginCoverage}
-                              timeZone="UTC"
-                              year="numeric"
-                              month="numeric"
-                              day="numeric"
-                            />
-                              &nbsp;-&nbsp;
-                            {(model.customCoverage.endCoverage) ? (
-                              <FormattedDate
-                                value={model.customCoverage.endCoverage}
-                                timeZone="UTC"
-                                year="numeric"
-                                month="numeric"
-                                day="numeric"
-                              />
-                            ) : (<FormattedMessage id="ui-eholdings.date.present" />)}
-                          </div>
-                        </KeyValue>
-                      </div>
-                    ) : (
-                      <p><FormattedMessage id="ui-eholdings.package.customCoverage.notSet" /></p>
-                    )}
-                  </div>
-                ) : (
-                  <p><FormattedMessage id="ui-eholdings.package.customCoverage.notSelected" /></p>
-                )}
-              </Accordion>
-            </div>
-          )}
+          lastMenu={this.getLastMenu()}
+          bodyContent={this.getBodyContent()}
           listType="titles"
           listSectionId="packageShowTitles"
           onListToggle={this.handleSectionToggle}
           resultsLength={model.resources.length}
-          renderList={scrollable => (
-            <QueryList
-              type="package-titles"
-              fetch={fetchPackageTitles}
-              collection={model.resources}
-              length={model.titleCount}
-              scrollable={scrollable}
-              itemHeight={ITEM_HEIGHT}
-              notFoundMessage={<FormattedMessage id="ui-eholdings.notFound" />}
-              renderItem={item => (
-                <TitleListItem
-                  item={item.content}
-                  link={item.content && `/eholdings/resources/${item.content.id}`}
-                  showSelected
-                  headingLevel='h4'
-                />
-              )}
-            />
-          )}
+          renderList={this.renderTitlesList}
         />
 
         <Modal
