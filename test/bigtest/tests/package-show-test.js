@@ -85,6 +85,52 @@ describe('PackageShow', () => {
       expect(PackageShowPage.hasBackButton).to.be.true;
     });
 
+    describe('agreements section', () => {
+      it('should display open accordion by default', () => {
+        expect(PackageShowPage.agreementsSection.isExpanded).to.be.true;
+      });
+
+      it('should display a 3 items in the list of agreements', () => {
+        expect(PackageShowPage.agreementsSection.agreements().length).to.equal(3);
+      });
+
+      it('should display agreements sorted by start date in descending order by default', () => {
+        expect(PackageShowPage.agreementsSection.startDateColumnSortDirection).to.equal('descending');
+      });
+
+      describe('after first click on start date column header', () => {
+        beforeEach(async () => {
+          await PackageShowPage.agreementsSection.clickStartDateColumnHeader();
+        });
+
+        it('should change agreements start date sorting order to ascending', () => {
+          expect(PackageShowPage.agreementsSection.startDateColumnSortDirection).to.equal('ascending');
+        });
+
+        describe('after second click on start date column header', () => {
+          beforeEach(async () => {
+            await PackageShowPage.agreementsSection.clickStartDateColumnHeader()
+          });
+  
+          it('should change agreements start date sorting order to descending', () => {
+            expect(PackageShowPage.agreementsSection.startDateColumnSortDirection).to.equal('descending');
+          });
+        });
+      });
+
+      describe('after click on first agreement', () => {
+        beforeEach(async () => {
+          await PackageShowPage.agreementsSection.agreements(0).click();
+        });
+
+        it('should redirect to agreement details page', function () {
+          const itemDetailsUrl = '/erm/view/2c918098689ba8f70168a349f1160027';
+
+          expect(this.location.pathname).to.contain(itemDetailsUrl);
+        });
+      });
+    });
+
     describe('clicking the collapse all button', () => {
       beforeEach(() => {
         return PackageShowPage.clickCollapseAllButton();

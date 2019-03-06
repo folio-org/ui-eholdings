@@ -11,7 +11,7 @@ import {
   text,
   triggerable,
   is,
-  attribute
+  attribute,
 } from '@bigtest/interactor';
 import { getComputedStyle, hasClassBeginningWith } from './helpers';
 import Datepicker from './datepicker';
@@ -35,8 +35,16 @@ import PackageSelectionStatus from './selection-status';
   removeFromHoldings = new Interactor('.tether-element [data-test-eholdings-package-remove-from-holdings-action]');
 }
 
+@interactor class AgreementsSection {
+  isExpanded = !!attribute('#accordion-toggle-button-packageShowAgreements', 'aria-expanded');
+  agreements = collection('[data-test-package-show-agreements-list-item]');
+  clickStartDateColumnHeader = clickable('#clickable-list-column-startdate');
+  startDateColumnSortDirection = attribute('#list-column-startdate', 'aria-sort');
+}
+
 @interactor class PackageShowPage {
   isLoaded = isPresent('[data-test-eholdings-details-view-name="package"]');
+
   whenLoaded() {
     return this.when(() => this.isLoaded);
   }
@@ -132,6 +140,9 @@ import PackageSelectionStatus from './selection-status';
   endDate = scoped('[data-test-eholdings-coverage-fields-date-range-end]', Datepicker);
 
   toast = Toast;
+
+  agreementsSection = new AgreementsSection('#packageShowAgreements');
+  findAgreementsModalIsVisible = isPresent('[class^="modal"] #list-agreements');
 
   selectPackage() {
     return this

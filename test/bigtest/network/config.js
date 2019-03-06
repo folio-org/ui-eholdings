@@ -27,6 +27,54 @@ export default function config() {
     ]
   });
 
+  this.get('/erm/sas', {
+    results: [
+      { "id": "2c918098689ba8f70168a349f1160027", "contacts": [], "tags": [], "startDate": "2019-01-01T00:01:00Z", "items": [], "historyLines": [], "name": "Test", "orgs": [], "agreementStatus": { "id": "2c918098689ba8f701689baa48e40011", "value": "active", "label": "Active" }, "description": "Test description" },
+      { "id": "2c918098689ba8f70168a36a44220028", "contacts": [], "tags": [], "startDate": "2019-01-01T00:01:00Z", "items": [], "historyLines": [], "name": "test 1", "orgs": [{ "id": "2c918098689ba8f70168a36dc97a002b", "org": { "id": "2c918098689ba8f70168a36da25a0029", "name": "EBSCO" }, "role": { "id": "2c918098689ba8f701689baa492d001f", "value": "subscriber", "label": "Subscriber" }, "owner": { "id": "2c918098689ba8f70168a36a44220028" } }, { "id": "2c918098689ba8f70168a36dc97a002a", "owner": { "id": "2c918098689ba8f70168a36a44220028" } }], "agreementStatus": { "id": "2c918098689ba8f701689baa48e40011", "value": "active", "label": "Active" } },
+      { "id": "2c918098689ba8f70168a45f3142002c", "contacts": [], "tags": [], "startDate": "2019-01-01T00:01:00Z", "items": [], "historyLines": [], "name": "test", "orgs": [], "agreementStatus": { "id": "2c918098689ba8f701689baa48e40011", "value": "active", "label": "Active" } },
+    ],
+    pageSize: 10,
+    page: 1,
+    totalPages: 1,
+    meta: {},
+    totalRecords: 7,
+    total: 7,
+  });
+
+  this.put('/erm/sas/:id', (data, request) => {
+    return {
+      "id": request.id,
+      "contacts": [],
+      "tags": [],
+      "startDate": "2019-01-01T00:01:00Z",
+      "items": [],
+      "historyLines": [],
+      "name": "Kingston Package",
+      "orgs": [
+        {
+          "id": "2c918098689ba8f70168cd490ca60032",
+          "org": {
+            "id": "2c918098689ba8f70168cd48eed70031",
+            "name": "Kingston"
+          },
+          "role": {
+            "id": "2c918098689ba8f701689baa49360021",
+            "value": "subscription_agent",
+            "label": "Subscription Agent"
+          },
+          "owner": {
+            "id": "2c918098689ba8f70168a46055f9002d"
+          }
+        }
+      ],
+      "agreementStatus": {
+        "id": "2c918098689ba8f701689baa48e40011",
+        "value": "active",
+        "label": "Active",
+      },
+    }
+  });
+
   // e-holdings endpoints
   this.namespace = 'eholdings';
 
@@ -61,14 +109,14 @@ export default function config() {
   // Current root proxy
   this.get('/root-proxy', {
     data:
-      {
+    {
+      id: 'root-proxy',
+      type: 'rootProxies',
+      attributes: {
         id: 'root-proxy',
-        type: 'rootProxies',
-        attributes: {
-          id: 'root-proxy',
-          proxyTypeId: 'bigTestJS'
-        }
+        proxyTypeId: 'bigTestJS'
       }
+    }
   });
 
   // update root proxy
