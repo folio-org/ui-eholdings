@@ -17,8 +17,15 @@ import {
 
 import {
   reducer as dataReducer,
-  epic as dataEpic
+  epic as dataEpic,
 } from './data';
+
+import agreementsReducer from './reducers';
+
+import {
+  getAgreementsEpic,
+  attachAgreementEpic,
+} from './epics';
 
 export const createResolver = (state) => {
   return new Resolver(state, [
@@ -35,9 +42,16 @@ export const createResolver = (state) => {
 };
 
 export const reducer = combineReducers({
-  data: dataReducer
+  data: (state = {}, action) => {
+    return {
+      ...dataReducer(state, action),
+      agreements: agreementsReducer(state.agreements, action),
+    };
+  }
 });
 
 export const epics = combineEpics(
-  dataEpic
+  dataEpic,
+  getAgreementsEpic,
+  attachAgreementEpic,
 );

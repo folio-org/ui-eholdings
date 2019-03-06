@@ -111,7 +111,7 @@ describe('PackageShow', () => {
           beforeEach(async () => {
             await PackageShowPage.agreementsSection.clickStartDateColumnHeader()
           });
-  
+
           it('should change agreements start date sorting order to descending', () => {
             expect(PackageShowPage.agreementsSection.startDateColumnSortDirection).to.equal('descending');
           });
