@@ -96,7 +96,7 @@ describe('TitleCreate', () => {
       beforeEach(() => {
         return TitleCreatePage
           .fillName('My Title')
-          .addContributor('author', 'Me')
+          .addContributor('Author', 'Me')
           .selectPackage(packages[0].name)
           .save();
       });
