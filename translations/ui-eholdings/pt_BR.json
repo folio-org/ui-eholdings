@@ -292,10 +292,10 @@
     "package.addToken": "Adicionar token",
     "package.tokenNeed": "Necessário token de pacote",
     "validate.errors.embargoPeriod.decimal": "Decimal não é permitido",
-    "search.searchType.titles": "Titles",
-    "search.searchType.packages": "Packages",
-    "search.searchType.providers": "Providers",
+    "search.searchType.titles": "Títulos",
+    "search.searchType.packages": "Pacotes",
+    "search.searchType.providers": "Provedores",
     "provider.providerTags": "Tags",
-    "provider.labels": "Labels",
-    "tags.addTagFor": "Add tag for: <strong>{filter}</strong>"
+    "provider.labels": "Rótulos",
+    "tags.addTagFor": "Adicionar tag para: <strong>{filtro}</strong>"
 }
