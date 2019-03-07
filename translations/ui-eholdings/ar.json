@@ -292,10 +292,10 @@
     "package.addToken": "إضافة رمز",
     "package.tokenNeed": "يحتاج رمز الحزمة إلى",
     "validate.errors.embargoPeriod.decimal": "غير مسموح بالأرقام العشرية",
-    "search.searchType.titles": "Titles",
-    "search.searchType.packages": "Packages",
-    "search.searchType.providers": "Providers",
-    "provider.providerTags": "Tags",
-    "provider.labels": "Labels",
-    "tags.addTagFor": "Add tag for: <strong>{filter}</strong>"
+    "search.searchType.titles": "العناوين",
+    "search.searchType.packages": "حزم",
+    "search.searchType.providers": "مقدمي الخدمات",
+    "provider.providerTags": "الوسوم",
+    "provider.labels": "ملصقات",
+    "tags.addTagFor": "إضافة وسم لـ: <strong>{filter}</strong>"
 }

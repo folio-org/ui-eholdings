@@ -80,7 +80,7 @@ describe('CustomTitleEdit', () => {
 
     it('shows a contributor field', () => {
       expect(TitleEditPage.contributorValue).to.equal('Foo');
-      expect(TitleEditPage.contributorType).to.equal('author');
+      expect(TitleEditPage.contributorType).to.equal('Author');
     });
 
     it('shows add contributor button', () => {
@@ -112,7 +112,7 @@ describe('CustomTitleEdit', () => {
     describe('adding a second contributor', () => {
       beforeEach(() => {
         return TitleEditPage.clickAddContributor()
-          .contributorsRowList(1).type('editor')
+          .contributorsRowList(1).type('Editor')
           .contributorsRowList(1).contributor('Ron'); // eslint-disable-line newline-per-chained-call
       });
 
