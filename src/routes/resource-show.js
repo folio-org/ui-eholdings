@@ -9,26 +9,37 @@ import { createResolver } from '../redux';
 import Resource from '../redux/resource';
 import View from '../components/resource/resource-show';
 import { ProxyType } from '../redux/application';
+import Tag from '../redux/tag';
 
 class ResourceShowRoute extends Component {
   static propTypes = {
     destroyResource: PropTypes.func.isRequired,
     getProxyTypes: PropTypes.func.isRequired,
     getResource: PropTypes.func.isRequired,
+    getTags: PropTypes.func.isRequired,
     history: ReactRouterPropTypes.history.isRequired,
     location: ReactRouterPropTypes.location.isRequired,
     match: ReactRouterPropTypes.match.isRequired,
     model: PropTypes.object.isRequired,
     proxyTypes: PropTypes.object.isRequired,
-    updateResource: PropTypes.func.isRequired
+    tagsModel: PropTypes.object.isRequired,
+    updateEntityTags: PropTypes.func.isRequired,
+    updateFolioTags: PropTypes.func.isRequired,
+    updateResource: PropTypes.func.isRequired,
   };
 
   constructor(props) {
     super(props);
-    let { match, getResource, getProxyTypes } = props;
-    let { id } = match.params;
+    const {
+      match,
+      getResource,
+      getProxyTypes,
+      getTags,
+    } = props;
+    const { id } = match.params;
     getResource(id);
     getProxyTypes();
+    getTags();
   }
 
   componentDidUpdate(prevProps) {
@@ -94,7 +105,14 @@ class ResourceShowRoute extends Component {
   }
 
   render() {
-    const { model, proxyTypes, history } = this.props;
+    const {
+      model,
+      proxyTypes,
+      history,
+      tagsModel,
+      updateEntityTags,
+      updateFolioTags,
+    } = this.props;
 
     if (model.isLoading) {
       return <Icon icon='spinner-ellipsis' />;
@@ -104,6 +122,9 @@ class ResourceShowRoute extends Component {
       <TitleManager record={model.name}>
         <View
           model={model}
+          tagsModel={tagsModel}
+          updateEntityTags={updateEntityTags}
+          updateFolioTags={updateFolioTags}
           proxyTypes={proxyTypes}
           toggleSelected={this.toggleSelected}
           onEdit={this.handleEdit}
@@ -124,6 +145,7 @@ export default connect(
 
     return {
       model: resolver.find('resources', match.params.id),
+      tagsModel: resolver.query('tags'),
       proxyTypes: resolver.query('proxyTypes'),
       resolver
     };
@@ -131,6 +153,9 @@ export default connect(
     getResource: id => Resource.find(id, { include: ['package', 'title'] }),
     getProxyTypes: () => ProxyType.query(),
     updateResource: model => Resource.save(model),
+    updateEntityTags: model => Resource.save(model),
+    updateFolioTags: model => Tag.create(model),
+    getTags: () => Tag.query(),
     destroyResource: model => Resource.destroy(model)
   }
 )(ResourceShowRoute);

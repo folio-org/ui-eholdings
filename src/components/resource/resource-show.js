@@ -1,12 +1,16 @@
 import React, { Component, Fragment } from 'react';
 import PropTypes from 'prop-types';
-import { FormattedMessage } from 'react-intl';
+import {
+  FormattedMessage,
+  FormattedNumber,
+} from 'react-intl';
 import update from 'lodash/fp/update';
 import set from 'lodash/fp/set';
 
 import {
   Accordion,
   Button,
+  Badge,
   Headline,
   IconButton,
   Icon,
@@ -21,8 +25,15 @@ import ExternalLink from '../external-link/external-link';
 import IdentifiersList from '../identifiers-list';
 import ContributorsList from '../contributors-list';
 import CoverageDateList from '../coverage-date-list';
-import { isBookPublicationType, isValidCoverageList, processErrors } from '../utilities';
+import {
+  isBookPublicationType,
+  isValidCoverageList,
+  processErrors,
+  getEntityTags,
+  getTagLabelsArr,
+} from '../utilities';
 import Toaster from '../toaster';
+import Tags from '../tags';
 import KeyValueColumns from '../key-value-columns';
 import ProxyDisplay from '../proxy-display';
 
@@ -32,13 +43,17 @@ class ResourceShow extends Component {
     model: PropTypes.object.isRequired,
     onEdit: PropTypes.func.isRequired,
     proxyTypes: PropTypes.object.isRequired,
-    toggleSelected: PropTypes.func.isRequired
+    tagsModel: PropTypes.object,
+    toggleSelected: PropTypes.func.isRequired,
+    updateEntityTags: PropTypes.func.isRequired,
+    updateFolioTags: PropTypes.func.isRequired,
   };
 
   state = {
     showSelectionModal: false,
     resourceSelected: this.props.model.isSelected,
     sections: {
+      resourceShowTags: true,
       resourceShowHoldingStatus: true,
       resourceShowInformation: true,
       resourceShowSettings: true,
@@ -130,7 +145,10 @@ class ResourceShow extends Component {
       model,
       proxyTypes,
       onEdit,
-      isFreshlySaved
+      isFreshlySaved,
+      tagsModel,
+      updateEntityTags,
+      updateFolioTags,
     } = this.props;
 
     let {
@@ -202,6 +220,33 @@ class ResourceShow extends Component {
           )}
           bodyContent={(
             <div>
+              {resourceSelected &&
+                <Accordion
+                  label={<Headline size="large" tag="h3"><FormattedMessage id="ui-eholdings.tags" /></Headline>}
+                  open={sections.providerShowTags}
+                  id="resourceShowTags"
+                  onToggle={this.handleSectionToggle}
+                  displayWhenClosed={
+                    <Badge sixe='small'>
+                      <span data-test-eholdings-resource-tags-bage>
+                        <FormattedNumber value={getEntityTags(model).length} />
+                      </span>
+                    </Badge>
+                  }
+                >
+                  {(!tagsModel.request.isResolved || model.isLoading)
+                    ? <Icon icon="spinner-ellipsis" />
+                    : (
+                      <Tags
+                        updateEntityTags={updateEntityTags}
+                        updateFolioTags={updateFolioTags}
+                        model={model}
+                        tags={getTagLabelsArr(tagsModel)}
+                      />
+                    )
+                  }
+                </Accordion>
+              }
               <Accordion
                 label={<Headline size="large" tag="h3"><FormattedMessage id="ui-eholdings.label.holdingStatus" /></Headline>}
                 open={sections.resourceShowHoldingStatus}

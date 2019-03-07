@@ -143,6 +143,22 @@ describe('ResourceShow', () => {
       });
     });
 
+    describe('when resource is not selected', () => {
+      it('should not display tags accordion', () => {
+        expect(ResourcePage.isTagsPresent).to.be.false;
+      });
+    });
+
+    describe('when resource is selected', () => {
+      beforeEach(() => {
+        resource.update('isSelected', true);
+      });
+
+      it('should display tags accordion', () => {
+        expect(ResourcePage.isTagsPresent).to.be.true;
+      });
+    });
+
     describe('when token is needed', () => {
       beforeEach(() => {
         resource.update('isTokenNeeded', true);

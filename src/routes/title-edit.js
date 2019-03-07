@@ -146,15 +146,9 @@ class TitleEditRoute extends Component {
       updateTitle,
     } = this.props;
 
-    const excludedAttrs = {
-      subjects: null,
-      isTitleCustom: null,
-    };
-
     const newValues = {
       ...values,
       identifiers: this.expandIdentifiers(values.identifiers),
-      ...excludedAttrs,
     };
 
     updateTitle(Object.assign(model, newValues));

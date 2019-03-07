@@ -18,6 +18,9 @@ class Resource {
   visibilityData = {};
   coverageStatement = '';
   proxy = {};
+  tags = {
+    tagList: [],
+  };
 
   // these are really title attributes, but have to stick around
   // until /PUT titles is available in mod-kb-ebsco
@@ -67,6 +70,7 @@ class Resource {
         isTitleCustom: this.isTitleCustom,
         isPeerReviewed: this.isPeerReviewed,
         description: this.description,
+        tags: this.tags,
       };
     }
 

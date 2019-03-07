@@ -56,7 +56,6 @@
     "package.toast.isNewRecord": "Custom package created.",
     "package.toast.isDestroyed": "Title removed from package.",
 
-    "provider.providerTags": "Tags",
     "provider.labels": "Labels",
     "provider.providerInformation": "Provider information",
     "provider.providerSettings": "Provider settings",
@@ -129,6 +128,7 @@
     "title.editCustomTitle": "Edit {name}",
     "title.chooseAPackage": "Choose a package",
     
+    "tags": "Tags",
     "tags.addTagFor": "Add tag for: <strong>{filter}</strong>",
 
     "settings.goBackToEholdings": "Go back to eHoldings settings",

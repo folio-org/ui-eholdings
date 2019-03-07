@@ -63,6 +63,7 @@ import Toast from './toast';
   clickBackButton = clickable('[data-test-eholdings-details-view-back-button]');
   paneTitle = text('[data-test-eholdings-details-view-pane-title]');
   paneSub = text('[data-test-eholdings-details-view-pane-sub]');
+  isTagsPresent = isPresent('[data-test-eholdings-details-tags]');
   isSelectedToggleDisabled = property('[data-test-eholdings-resource-show-selected] input[type=checkbox]', 'disabled');
   toggleIsSelected = clickable('[data-test-eholdings-resource-show-holding-status] input');
   isEditingCustomEmbargo = isPresent('[data-test-eholdings-embargo-form] form');

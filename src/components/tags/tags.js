@@ -46,7 +46,6 @@ export default class Tags extends React.Component {
       model,
       updateEntityTags,
     } = this.props;
-
     model.tags = { tagList: sortBy(uniq([...tags, ...this.getTagsList()])) };
     updateEntityTags(model);
   }
