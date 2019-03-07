@@ -26,6 +26,9 @@ export default Factory.extend({
   isPeerReviewed: false,
   edition: '',
   description: '',
+  tags: {
+    tagList: [],
+  },
 
   withPackages: trait({
     afterCreate(title, server) {

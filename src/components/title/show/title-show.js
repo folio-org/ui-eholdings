@@ -11,10 +11,19 @@ import {
   IconButton,
   KeyValue,
   Modal,
-  ModalFooter
+  ModalFooter,
+  Badge,
+  Icon,
 } from '@folio/stripes/components';
-import { FormattedMessage } from 'react-intl';
-import { processErrors } from '../../utilities';
+import {
+  FormattedMessage,
+  FormattedNumber,
+} from 'react-intl';
+import {
+  processErrors,
+  getEntityTags,
+  getTagLabelsArr,
+} from '../../utilities';
 import DetailsView from '../../details-view';
 import ScrollView from '../../scroll-view';
 import PackageListItem from '../../package-list-item';
@@ -22,6 +31,7 @@ import IdentifiersList from '../../identifiers-list';
 import ContributorsList from '../../contributors-list';
 import AddTitleToPackage from '../_field-groups/add-title-to-package';
 import Toaster from '../../toaster';
+import Tags from '../../tags';
 import KeyValueColumns from '../../key-value-columns';
 import styles from './title-show.css';
 
@@ -37,12 +47,16 @@ class TitleShow extends Component {
     model: PropTypes.object.isRequired,
     onEdit: PropTypes.func.isRequired,
     onFullView: PropTypes.func,
-    request: PropTypes.object.isRequired
+    request: PropTypes.object.isRequired,
+    tagsModel: PropTypes.object,
+    updateEntityTags: PropTypes.func.isRequired,
+    updateFolioTags: PropTypes.func.isRequired,
   };
 
   state = {
     showCustomPackageModal: false,
     sections: {
+      titleShowTags: true,
       titleShowTitleInformation: true
     }
   };
@@ -160,16 +174,23 @@ class TitleShow extends Component {
   }
 
   render() {
-    let { model, addCustomPackage, request } = this.props;
+    const {
+      model,
+      addCustomPackage,
+      request,
+      tagsModel,
+      updateEntityTags,
+      updateFolioTags,
+    } = this.props;
     let { showCustomPackageModal, sections } = this.state;
 
     let modalMessage =
-      {
-        header: <FormattedMessage id="ui-eholdings.title.modalMessage.addTitleToCustomPackage" />,
-        saving: <FormattedMessage id="ui-eholdings.saving" />,
-        submit: <FormattedMessage id="ui-eholdings.submit" />,
-        cancel: <FormattedMessage id="ui-eholdings.cancel" />
-      };
+    {
+      header: <FormattedMessage id="ui-eholdings.title.modalMessage.addTitleToCustomPackage" />,
+      saving: <FormattedMessage id="ui-eholdings.saving" />,
+      submit: <FormattedMessage id="ui-eholdings.submit" />,
+      cancel: <FormattedMessage id="ui-eholdings.cancel" />
+    };
 
     return (
       <div>
@@ -185,84 +206,113 @@ class TitleShow extends Component {
           handleExpandAll={this.handleExpandAll}
           lastMenu={this.lastMenu}
           bodyContent={(
-            <Accordion
-              label={<Headline size="large" tag="h3"><FormattedMessage id="ui-eholdings.title.titleInformation" /></Headline>}
-              open={sections.titleShowTitleInformation}
-              id="titleShowTitleInformation"
-              onToggle={this.handleSectionToggle}
-            >
-              <KeyValueColumns>
-                <div>
-                  <ContributorsList data={model.contributors} />
-
-                  {model.edition && (
-                    <KeyValue label={<FormattedMessage id="ui-eholdings.title.edition" />}>
-                      <div data-test-eholdings-title-show-edition>
-                        {model.edition}
-                      </div>
-                    </KeyValue>
-                  )}
-
-                  {model.publisherName && (
-                    <KeyValue label={<FormattedMessage id="ui-eholdings.title.publisherName" />}>
-                      <div data-test-eholdings-title-show-publisher-name>
-                        {model.publisherName}
-                      </div>
-                    </KeyValue>
-                  )}
-
-                  {model.publicationType && (
-                    <KeyValue label={<FormattedMessage id="ui-eholdings.title.publicationType" />}>
-                      <div data-test-eholdings-title-show-publication-type>
-                        {model.publicationType}
-                      </div>
-                    </KeyValue>
-                  )}
-
-                  <IdentifiersList data={model.identifiers} />
-
-                </div>
-                <div>
-
-                  {model.subjects.length > 0 && (
-                    <KeyValue label={<FormattedMessage id="ui-eholdings.title.subjects" />}>
-                      <div data-test-eholdings-title-show-subjects-list>
-                        {model.subjects.map(subjectObj => subjectObj.subject).join('; ')}
-                      </div>
-                    </KeyValue>
-                  )}
-
-                  <KeyValue label={<FormattedMessage id="ui-eholdings.title.peerReviewed" />}>
-                    <div data-test-eholdings-peer-reviewed-field>
-                      {model.isPeerReviewed ? (<FormattedMessage id="ui-eholdings.yes" />) : (<FormattedMessage id="ui-eholdings.no" />)}
-                    </div>
-                  </KeyValue>
-
-                  <KeyValue label={<FormattedMessage id="ui-eholdings.title.titleType" />}>
-                    <div data-test-eholdings-title-details-type>
-                      {model.isTitleCustom ? (<FormattedMessage id="ui-eholdings.custom" />) : (<FormattedMessage id="ui-eholdings.managed" />)}
-                    </div>
-                  </KeyValue>
-
-                  {model.description && (
-                    <KeyValue label={<FormattedMessage id="ui-eholdings.title.description" />}>
-                      <div data-test-eholdings-description-field>
-                        {model.description}
-                      </div>
-                    </KeyValue>
-                  )}
-                </div>
-              </KeyValueColumns>
-
-              <div className={styles['add-to-custom-package-button']}>
-                <Button
-                  data-test-eholdings-add-to-custom-package-button
-                  onClick={this.toggleCustomPackageModal}
+            <Fragment>
+              { model.isTitleCustom &&
+                <Accordion
+                  label={<Headline size="large" tag="h3"><FormattedMessage id="ui-eholdings.tags" /></Headline>}
+                  open={sections.providerShowTags}
+                  id="titleShowTags"
+                  onToggle={this.handleSectionToggle}
+                  displayWhenClosed={
+                    <Badge sixe='small'>
+                      <span data-test-eholdings-provider-tags-bage>
+                        <FormattedNumber value={getEntityTags(model).length} />
+                      </span>
+                    </Badge>
+                  }
                 >
-                  <FormattedMessage id="ui-eholdings.title.addToCustomPackage" />
-                </Button>
-              </div>
-            </Accordion>
+                  {(!tagsModel.request.isResolved || model.isLoading)
+                    ? <Icon icon="spinner-ellipsis" />
+                    : (
+                      <Tags
+                        updateEntityTags={updateEntityTags}
+                        updateFolioTags={updateFolioTags}
+                        model={model}
+                        tags={getTagLabelsArr(tagsModel)}
+                      />
+                    )
+                  }
+                </Accordion>
+              }
+              <Accordion
+                label={<Headline size="large" tag="h3"><FormattedMessage id="ui-eholdings.title.titleInformation" /></Headline>}
+                open={sections.titleShowTitleInformation}
+                id="titleShowTitleInformation"
+                onToggle={this.handleSectionToggle}
+              >
+                <KeyValueColumns>
+                  <div>
+                    <ContributorsList data={model.contributors} />
+
+                    {model.edition && (
+                      <KeyValue label={<FormattedMessage id="ui-eholdings.title.edition" />}>
+                        <div data-test-eholdings-title-show-edition>
+                          {model.edition}
+                        </div>
+                      </KeyValue>
+                    )}
+
+                    {model.publisherName && (
+                      <KeyValue label={<FormattedMessage id="ui-eholdings.title.publisherName" />}>
+                        <div data-test-eholdings-title-show-publisher-name>
+                          {model.publisherName}
+                        </div>
+                      </KeyValue>
+                    )}
+
+                    {model.publicationType && (
+                      <KeyValue label={<FormattedMessage id="ui-eholdings.title.publicationType" />}>
+                        <div data-test-eholdings-title-show-publication-type>
+                          {model.publicationType}
+                        </div>
+                      </KeyValue>
+                    )}
+
+                    <IdentifiersList data={model.identifiers} />
+
+                  </div>
+                  <div>
+
+                    {model.subjects.length > 0 && (
+                      <KeyValue label={<FormattedMessage id="ui-eholdings.title.subjects" />}>
+                        <div data-test-eholdings-title-show-subjects-list>
+                          {model.subjects.map(subjectObj => subjectObj.subject).join('; ')}
+                        </div>
+                      </KeyValue>
+                    )}
+
+                    <KeyValue label={<FormattedMessage id="ui-eholdings.title.peerReviewed" />}>
+                      <div data-test-eholdings-peer-reviewed-field>
+                        {model.isPeerReviewed ? (<FormattedMessage id="ui-eholdings.yes" />) : (<FormattedMessage id="ui-eholdings.no" />)}
+                      </div>
+                    </KeyValue>
+
+                    <KeyValue label={<FormattedMessage id="ui-eholdings.title.titleType" />}>
+                      <div data-test-eholdings-title-details-type>
+                        {model.isTitleCustom ? (<FormattedMessage id="ui-eholdings.custom" />) : (<FormattedMessage id="ui-eholdings.managed" />)}
+                      </div>
+                    </KeyValue>
+
+                    {model.description && (
+                      <KeyValue label={<FormattedMessage id="ui-eholdings.title.description" />}>
+                        <div data-test-eholdings-description-field>
+                          {model.description}
+                        </div>
+                      </KeyValue>
+                    )}
+                  </div>
+                </KeyValueColumns>
+
+                <div className={styles['add-to-custom-package-button']}>
+                  <Button
+                    data-test-eholdings-add-to-custom-package-button
+                    onClick={this.toggleCustomPackageModal}
+                  >
+                    <FormattedMessage id="ui-eholdings.title.addToCustomPackage" />
+                  </Button>
+                </div>
+              </Accordion>
+            </Fragment>
           )}
           listType="packages"
           resultsLength={model.resources.length}

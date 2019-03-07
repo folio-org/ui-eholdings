@@ -295,6 +295,10 @@ describe('TitleShow', () => {
     it('displays the edit button for a custom title', () => {
       expect(TitleShowPage.hasEditButton).to.be.true;
     });
+
+    it('displays tags accordion for a custom title', () => {
+      expect(TitleShowPage.isTagsPresent).to.be.true;
+    });
   });
 
   describe('encountering a server error', () => {

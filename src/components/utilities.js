@@ -1,5 +1,6 @@
 import moment from 'moment';
 import queryString from 'qs';
+import get from 'lodash/get';
 
 export function isBookPublicationType(publicationType) {
   let publicationTypeIsBook = {
@@ -74,3 +75,19 @@ export function transformQueryParams(searchType, params) {
     return { ...searchParams, filter: searchfilter };
   } else { return params; }
 }
+/**
+ *  Getter helper for the entity tags
+ * @param {Object} entityModel - entity model that has tags attibute as tags:{taglist:[]}
+ */
+export const getEntityTags = (entityModel) => {
+  return get(entityModel, ['tags', 'tagList'], []);
+};
+
+/**
+ *
+ * @param {Object} entityModel - entity model that has tags attibute as tags:{taglist:[]}
+ */
+export const getTagLabelsArr = (tagsModel) => {
+  const tagRecords = get(tagsModel, ['resolver', 'state', 'tags', 'records'], {});
+  return Object.values(tagRecords).map((tag) => tag.attributes);
+};

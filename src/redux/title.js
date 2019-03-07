@@ -23,11 +23,12 @@ class Title {
     let data = { id: this.id, type: this.type };
     let { resources, ...attributes } = this.data.attributes;
     let payload = { data };
+    const readOnlyAttributes = ['isTitleCustom', 'subjects'];
 
     data.attributes = Object.keys(attributes).reduce((attrs, attr) => {
-      const isAttributeExcluded = this[attr] === null;
+      const isReadOnly = readOnlyAttributes.includes(attr);
 
-      if (isAttributeExcluded) return attrs;
+      if (isReadOnly) return attrs;
 
       return Object.assign(attrs, { [attr]: this[attr] });
     }, {});
@@ -41,7 +42,6 @@ class Title {
         attributes: resource
       }));
     }
-
     return payload;
   }
 }

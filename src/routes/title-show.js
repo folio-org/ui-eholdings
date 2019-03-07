@@ -9,6 +9,7 @@ import { createResolver } from '../redux';
 import Title from '../redux/title';
 import Package from '../redux/package';
 import Resource from '../redux/resource';
+import Tag from '../redux/tag';
 import View from '../components/title/show';
 
 class TitleShowRoute extends Component {
@@ -17,19 +18,30 @@ class TitleShowRoute extends Component {
     createResource: PropTypes.func.isRequired,
     customPackages: PropTypes.object.isRequired,
     getCustomPackages: PropTypes.func.isRequired,
+    getTags: PropTypes.func.isRequired,
     getTitle: PropTypes.func.isRequired,
     history: ReactRouterPropTypes.history.isRequired,
     location: ReactRouterPropTypes.location.isRequired,
     match: ReactRouterPropTypes.match.isRequired,
-    model: PropTypes.object.isRequired
+    model: PropTypes.object.isRequired,
+    tagsModel: PropTypes.object.isRequired,
+    updateEntityTags: PropTypes.func.isRequired,
+    updateFolioTags: PropTypes.func.isRequired,
   };
 
   componentDidMount() {
-    let { match, getTitle, getCustomPackages } = this.props;
-    let { titleId } = match.params;
+    const {
+      match,
+      getTitle,
+      getCustomPackages,
+      getTags,
+    } = this.props;
+
+    const { titleId } = match.params;
 
     getTitle(titleId);
     getCustomPackages();
+    getTags();
   }
 
   componentDidUpdate(prevProps) {
@@ -99,16 +111,22 @@ class TitleShowRoute extends Component {
   }
 
   render() {
-    let {
+    const {
       model,
       customPackages,
       createRequest,
       history,
+      tagsModel,
+      updateEntityTags,
+      updateFolioTags,
     } = this.props;
 
     return (
       <TitleManager record={this.props.model.name}>
         <View
+          tagsModel={tagsModel}
+          updateEntityTags={updateEntityTags}
+          updateFolioTags={updateFolioTags}
           request={createRequest}
           model={model}
           customPackages={customPackages}
@@ -138,6 +156,7 @@ export default connect(
     return {
       model: resolver.find('titles', match.params.titleId),
       createRequest: resolver.getRequest('create', { type: 'resources' }),
+      tagsModel: resolver.query('tags'),
       customPackages: resolver.query('packages', {
         filter: { custom: true },
         count: 100
@@ -145,6 +164,9 @@ export default connect(
     };
   }, {
     getTitle: id => Title.find(id, { include: 'resources' }),
+    getTags: () => Tag.query(),
+    updateEntityTags: (model) => Title.save(model),
+    updateFolioTags: (model) => Tag.create(model),
     createResource: attrs => Resource.create(attrs),
     getCustomPackages: () => Package.query({
       filter: { custom: true },

@@ -67,6 +67,7 @@ import Toast from './toast';
   descriptionText = text('[data-test-eholdings-description-field]');
   clickEditButton = clickable('[data-test-eholdings-title-edit-link]');
   hasEditButton = isPresent('[data-test-eholdings-title-edit-link]');
+  isTagsPresent = isPresent('[data-test-eholdings-details-tags]');
 
   toast = Toast
 

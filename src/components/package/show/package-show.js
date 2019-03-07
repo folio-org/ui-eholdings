@@ -2,7 +2,6 @@ import React, { Component, Fragment } from 'react';
 import PropTypes from 'prop-types';
 import update from 'lodash/fp/update';
 import set from 'lodash/fp/set';
-import get from 'lodash/get';
 
 import {
   Accordion,
@@ -16,7 +15,11 @@ import {
   Badge,
 } from '@folio/stripes/components';
 import { FormattedDate, FormattedNumber, FormattedMessage } from 'react-intl';
-import { processErrors } from '../../utilities';
+import {
+  processErrors,
+  getEntityTags,
+  getTagLabelsArr,
+} from '../../utilities';
 
 import DetailsView from '../../details-view';
 import QueryList from '../../query-list';
@@ -174,15 +177,6 @@ class PackageShow extends Component {
     );
   };
 
-  getEntityTags = () => {
-    return get(this.props.model, ['tags', 'tagList'], []);
-  };
-
-  getTagLabelsArr = () => {
-    const tagRecords = get(this.props.tagsModel, ['resolver', 'state', 'tags', 'records'], {});
-    return Object.values(tagRecords).map((tag) => tag.attributes);
-  };
-
   render() {
     let {
       model,
@@ -288,14 +282,14 @@ class PackageShow extends Component {
             <div>
               {packageSelected && (
                 <Accordion
-                  label={<Headline size="large" tag="h3"><FormattedMessage id="ui-eholdings.provider.providerTags" /></Headline>}
+                  label={<Headline size="large" tag="h3"><FormattedMessage id="ui-eholdings.tags" /></Headline>}
                   open={sections.providerShowTags}
                   id="providerShowTags"
                   onToggle={this.handleSectionToggle}
                   displayWhenClosed={
                     <Badge sixe='small'>
                       <span data-test-eholdings-provider-tags-bage>
-                        <FormattedNumber value={this.getEntityTags().length} />
+                        <FormattedNumber value={getEntityTags(model).length} />
                       </span>
                     </Badge>
                   }
@@ -307,7 +301,7 @@ class PackageShow extends Component {
                         updateEntityTags={updateEntityTags}
                         updateFolioTags={updateFolioTags}
                         model={model}
-                        tags={this.getTagLabelsArr()}
+                        tags={getTagLabelsArr(tagsModel)}
                       />
                     )
                   }
