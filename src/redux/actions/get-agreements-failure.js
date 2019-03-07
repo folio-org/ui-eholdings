@@ -8,4 +8,4 @@ export function getAgreementsFailure(payload) {
       isLoading: false,
     },
   };
-};
+}

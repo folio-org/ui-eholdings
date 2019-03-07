@@ -1,1 +1,1 @@
-export * from './select-agreements';
+export { default } from './select-agreements';

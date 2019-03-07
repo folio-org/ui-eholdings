@@ -18,9 +18,7 @@ import {
   getAgreements,
   attachAgreement,
 } from '../redux/actions';
-import {
-  selectAgreements,
-} from '../redux/selectors';
+import selectAgreements from '../redux/selectors';
 import { transformQueryParams } from '../components/utilities';
 
 import View from '../components/package/show';
@@ -115,7 +113,7 @@ class PackageShowRoute extends Component {
       label: name,
     };
 
-    this.props.attachAgreement({ id: match.params.packageId, agreement });
+    this.props.attachAgreement({ id, referenceId: match.params.packageId, agreement });
   };
 
   toggleSelected = () => {
@@ -158,7 +156,7 @@ class PackageShowRoute extends Component {
     } = this.props;
 
     this.props.getAgreements({
-      referenceId:  match.params.packageId,
+      referenceId: match.params.packageId,
     });
   }
 

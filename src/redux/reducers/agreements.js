@@ -2,9 +2,6 @@ import {
   GET_AGREEMENTS,
   GET_AGREEMENTS_SUCCESS,
   GET_AGREEMENTS_FAILURE,
-  ATTACH_AGREEMENT,
-  ATTACH_AGREEMENT_SUCCESS,
-  ATTACH_AGREEMENT_FAILURE,
 } from '../actions';
 
 const handlers = {
@@ -22,7 +19,7 @@ const handlers = {
         ...state[referenceId],
         isLoading,
       },
-    }
+    };
   },
   [GET_AGREEMENTS_SUCCESS]: (state, action) => {
     const {
@@ -54,15 +51,6 @@ const handlers = {
         error,
       }
     };
-  },
-  [ATTACH_AGREEMENT]: (state, action) => {
-    return state;
-  },
-  [ATTACH_AGREEMENT_SUCCESS]: (state, action) => {
-    return state;
-  },
-  [ATTACH_AGREEMENT_FAILURE]: (state, action) => {
-    return state;
   },
 };
 

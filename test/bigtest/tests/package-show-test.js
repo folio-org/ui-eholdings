@@ -94,37 +94,13 @@ describe('PackageShow', () => {
         expect(PackageShowPage.agreementsSection.agreements().length).to.equal(3);
       });
 
-      it('should display agreements sorted by start date in descending order by default', () => {
-        expect(PackageShowPage.agreementsSection.startDateColumnSortDirection).to.equal('descending');
-      });
-
-      describe('after first click on start date column header', () => {
-        beforeEach(async () => {
-          await PackageShowPage.agreementsSection.clickStartDateColumnHeader();
-        });
-
-        it('should change agreements start date sorting order to ascending', () => {
-          expect(PackageShowPage.agreementsSection.startDateColumnSortDirection).to.equal('ascending');
-        });
-
-        describe('after second click on start date column header', () => {
-          beforeEach(async () => {
-            await PackageShowPage.agreementsSection.clickStartDateColumnHeader()
-          });
-
-          it('should change agreements start date sorting order to descending', () => {
-            expect(PackageShowPage.agreementsSection.startDateColumnSortDirection).to.equal('descending');
-          });
-        });
-      });
-
       describe('after click on first agreement', () => {
         beforeEach(async () => {
           await PackageShowPage.agreementsSection.agreements(0).click();
         });
 
         it('should redirect to agreement details page', function () {
-          const itemDetailsUrl = '/erm/view/2c918098689ba8f70168a349f1160027';
+          const itemDetailsUrl = '/erm/agreements/view/2c918098689ba8f70168a349f1160027';
 
           expect(this.location.pathname).to.contain(itemDetailsUrl);
         });

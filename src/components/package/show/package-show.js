@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import {
   update,
   set,
-  get,
+  hasIn,
 } from 'lodash/fp';
 import {
   FormattedDate,
@@ -237,9 +237,9 @@ class PackageShow extends Component {
     } = this.state;
 
     const visibilityMessage = model.visibilityData.reason && `(${model.visibilityData.reason})`;
-    const hasProxy = !!get(model, 'proxy.id');
-    const hasProviderToken = !!get(provider, 'provider.providerToken.prompt');
-    const hasPackageToken = !!get(model, 'packageToken.prompt');
+    const hasProxy = hasIn('proxy.id', model);
+    const hasProviderToken = hasIn('providerToken.prompt', provider);
+    const hasPackageToken = hasIn('packageToken.prompt', model);
 
     return (
       <div>
@@ -323,8 +323,8 @@ class PackageShow extends Component {
   getBodyContent() {
     const {
       model,
+      getAgreements,
       agreements,
-      onEdit,
       tagsModel,
       updateEntityTags,
       updateFolioTags,
@@ -499,7 +499,10 @@ class PackageShow extends Component {
           displayWhenOpen={this.getAgreementsSectionButtons()}
           onToggle={this.handleSectionToggle}
         >
-          <AgreementsList agreements={agreements} />
+          <AgreementsList
+            getAgreements={getAgreements}
+            agreements={agreements}
+          />
         </Accordion>
       </div>
     );
@@ -585,7 +588,6 @@ class PackageShow extends Component {
       isFreshlySaved,
       isNewRecord,
       isDestroyed,
-      agreements,
     } = this.props;
 
     let {
@@ -611,14 +613,6 @@ class PackageShow extends Component {
     let toasts = [
       ...processErrors(model),
     ];
-
-    if (get(agreements, 'error')) {
-      toasts.push({
-        type: 'error',
-        id: 'agreements-error',
-        message: agreements.error,
-      });
-    }
 
     // if coming from creating a new custom package, show a success toast
     if (isNewRecord) {

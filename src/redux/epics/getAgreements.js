@@ -10,13 +10,10 @@ import {
   getAgreementsFailure,
 } from '../actions';
 
-import { getHeaders } from './common';
-
-const parseResponseBody = (response) => {
-  return response.text().then((text) => {
-    try { return JSON.parse(text); } catch (e) { return text; }
-  });
-};
+import {
+  getHeaders,
+  parseResponseBody,
+} from './common';
 
 export default function getAgreementsEpic(action$, store) {
   const {

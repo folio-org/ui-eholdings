@@ -7,16 +7,14 @@ import 'rxjs/add/operator/catch';
 import {
   ATTACH_AGREEMENT,
   getAgreements,
+  attachAgreementSuccess,
   attachAgreementFailure,
 } from '../actions';
 
-import { getHeaders } from './common';
-
-const parseResponseBody = (response) => {
-  return response.text().then((text) => {
-    try { return JSON.parse(text); } catch (e) { return text; }
-  });
-};
+import {
+  getHeaders,
+  parseResponseBody,
+} from './common';
 
 export default function attachAgreementEpic(action$, store) {
   const {
@@ -55,7 +53,10 @@ export default function attachAgreementEpic(action$, store) {
         .then(([ok, body]) => (ok ? body : Promise.reject(body)));
 
       return Observable.from(promise)
-        .map(() => getAgreements({ referenceId: payload.referenceId }))
-        .catch(error => Observable.of(attachAgreementFailure(error)));
+        .map(() => {
+          attachAgreementSuccess();
+          return getAgreements({ referenceId: payload.referenceId });
+        })
+        .catch(error => Observable.of(attachAgreementFailure({ error })));
     });
 }

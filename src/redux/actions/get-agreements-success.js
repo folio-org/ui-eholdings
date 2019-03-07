@@ -8,4 +8,4 @@ export function getAgreementsSuccess(payload) {
       isLoading: false,
     },
   };
-};
+}

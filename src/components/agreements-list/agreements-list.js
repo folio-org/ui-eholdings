@@ -21,10 +21,15 @@ const COLUMN_WIDTHS = {
 export default class AgreementsList extends React.Component {
   static propTypes = {
     agreements: PropTypes.object,
+    getAgreements: PropTypes.func.isRequired,
   }
 
   static defaultProps = {
     agreements: {},
+  }
+
+  componentDidMount() {
+    this.props.getAgreements();
   }
 
   rowFormatter = (row) => {
@@ -93,25 +98,17 @@ export default class AgreementsList extends React.Component {
   }
 
   renderMultiColumnList = (ariaLabel) => {
-    const {
-      agreements: {
-        total,
-      },
-    } = this.props;
-
     return (
       <MultiColumnList
         id="agreements-list"
         interactive
         ariaLabel={ariaLabel}
-        totalCount={total}
         contentData={this.getResults()}
         visibleColumns={COLUMN_NAMES}
         columnMapping={this.getColumnsMap()}
         columnWidths={COLUMN_WIDTHS}
         isEmptyMessage={<FormattedMessage id="ui-eholdings.agreements.notFound" />}
         rowFormatter={this.rowFormatter}
-        onHeaderClick={this.onHeaderClickHandler}
       />
     );
   }
