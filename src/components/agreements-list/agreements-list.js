@@ -76,13 +76,14 @@ export default class AgreementsList extends React.Component {
 
         return {
           id,
-          startDate: <FormattedDate
-            value={startDate}
-            timeZone="UTC"
-            year="numeric"
-            month="numeric"
-            day="numeric"
-          />,
+          startDate: (
+            <FormattedDate
+              value={startDate}
+              year="numeric"
+              month="numeric"
+              day="numeric"
+            />
+          ),
           status: agreementStatus.label,
           name,
         };
