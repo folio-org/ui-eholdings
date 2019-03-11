@@ -1,2 +1,2 @@
-export { default as getAgreementsEpic } from './getAgreements';
-export { default as attachAgreementEpic } from './attachAgreement';
+export { default as getAgreements } from './get-agreements';
+export { default as attachAgreement } from './attach-agreement';

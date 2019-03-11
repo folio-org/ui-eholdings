@@ -25,13 +25,13 @@ const handlers = {
     const {
       payload: {
         referenceId,
-        agreements,
+        agreements: agreementsItems,
       },
     } = action;
 
     return {
       ...state,
-      [referenceId]: { ...agreements },
+      [referenceId]: { ...agreementsItems },
     };
   },
   [GET_AGREEMENTS_FAILURE]: (state, action) => {
@@ -54,10 +54,12 @@ const handlers = {
   },
 };
 
-export default function agreementsReducer(state = {}, action) {
+export default function agreements(state, action) {
+  const currentState = state || {};
+
   if (handlers[action.type]) {
-    return handlers[action.type](state, action);
+    return handlers[action.type](currentState, action);
   } else {
-    return state;
+    return currentState;
   }
 }

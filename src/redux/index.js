@@ -20,11 +20,11 @@ import {
   epic as dataEpic,
 } from './data';
 
-import agreementsReducer from './reducers';
+import agreements from './reducers';
 
 import {
-  getAgreementsEpic,
-  attachAgreementEpic,
+  getAgreements,
+  attachAgreement,
 } from './epics';
 
 export const createResolver = (state) => {
@@ -42,16 +42,18 @@ export const createResolver = (state) => {
 };
 
 export const reducer = combineReducers({
-  data: (state = {}, action) => {
+  data: (state, action) => {
+    const currentState = state || {};
+
     return {
-      ...dataReducer(state, action),
-      agreements: agreementsReducer(state.agreements, action),
+      ...dataReducer(currentState, action),
+      agreements: agreements(currentState.agreements, action),
     };
   }
 });
 
 export const epics = combineEpics(
   dataEpic,
-  getAgreementsEpic,
-  attachAgreementEpic,
+  getAgreements,
+  attachAgreement,
 );

@@ -15,7 +15,7 @@ import {
   parseResponseBody,
 } from './common';
 
-export default function getAgreementsEpic(action$, store) {
+export default function getAgreements(action$, store) {
   const {
     getState,
   } = store;

@@ -515,23 +515,21 @@ class PackageShow extends Component {
     } = this.props;
 
     return (
-      (
-        <FormattedMessage
-          id="ui-eholdings.label.editLink"
-          values={{
-            name: model.name
-          }}
-        >
-          {ariaLabel => (
-            <IconButton
-              data-test-eholdings-package-edit-link
-              icon="edit"
-              ariaLabel={ariaLabel}
-              onClick={onEdit}
-            />
-          )}
-        </FormattedMessage>
-      )
+      <FormattedMessage
+        id="ui-eholdings.label.editLink"
+        values={{
+          name: model.name
+        }}
+      >
+        {ariaLabel => (
+          <IconButton
+            data-test-eholdings-package-edit-link
+            icon="edit"
+            ariaLabel={ariaLabel}
+            onClick={onEdit}
+          />
+        )}
+      </FormattedMessage>
     );
   }
 
