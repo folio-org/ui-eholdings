@@ -18,6 +18,12 @@ const COLUMN_WIDTHS = {
   status: '30%',
 };
 
+const columnsMap = {
+  startDate: <FormattedMessage id="ui-eholdings.startDate" />,
+  name: <FormattedMessage id="ui-eholdings.name" />,
+  status: <FormattedMessage id="ui-eholdings.status" />,
+};
+
 export default class AgreementsList extends React.Component {
   static propTypes = {
     agreements: PropTypes.object,
@@ -90,14 +96,6 @@ export default class AgreementsList extends React.Component {
       });
   }
 
-  getColumnsMap = () => {
-    return {
-      startDate: <FormattedMessage id="ui-eholdings.startDate" />,
-      name: <FormattedMessage id="ui-eholdings.name" />,
-      status: <FormattedMessage id="ui-eholdings.status" />,
-    };
-  }
-
   renderMultiColumnList = (ariaLabel) => {
     return (
       <MultiColumnList
@@ -106,7 +104,7 @@ export default class AgreementsList extends React.Component {
         ariaLabel={ariaLabel}
         contentData={this.getResults()}
         visibleColumns={COLUMN_NAMES}
-        columnMapping={this.getColumnsMap()}
+        columnMapping={columnsMap}
         columnWidths={COLUMN_WIDTHS}
         isEmptyMessage={<FormattedMessage id="ui-eholdings.agreements.notFound" />}
         rowFormatter={this.rowFormatter}

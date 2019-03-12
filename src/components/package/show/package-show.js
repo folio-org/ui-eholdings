@@ -220,7 +220,7 @@ class PackageShow extends Component {
         dataKey="package-show-find-agreement"
         type="find-agreement"
         renderTrigger={this.renderFindAgreementTrigger}
-        onAgreementSelected={this.onSelectAgreementHandler}
+        onAgreementSelected={this.props.onAddAgreement}
       />
     );
   }
@@ -562,21 +562,6 @@ class PackageShow extends Component {
         renderItem={this.renderTitlesListItem}
       />
     );
-  }
-
-  renderAgreementsListItem(item) {
-    return (
-      <TitleListItem
-        item={item.content}
-        link={item.content && `/erm/sas/${item.content.id}`}
-        showSelected
-        headingLevel='h4'
-      />
-    );
-  }
-
-  onSelectAgreementHandler = (agreement) => {
-    this.props.onAddAgreement(agreement);
   }
 
   render() {
