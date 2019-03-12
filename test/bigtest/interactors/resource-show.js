@@ -31,6 +31,13 @@ import Toast from './toast';
 
 @interactor class ResourceShowNavigationModal {}
 
+@interactor class AgreementsSection {
+  isExpanded = !!attribute('#accordion-toggle-button-resourceShowAgreements', 'aria-expanded');
+  agreements = collection('[data-test-agreements-list-item]');
+  clickStartDateColumnHeader = clickable('#clickable-list-column-startdate');
+  startDateColumnSortDirection = attribute('#list-column-startdate', 'aria-sort');
+}
+
 @interactor class ResourceShowPage {
   isLoaded = isPresent('[data-test-eholdings-details-view-name="resource"]');
   whenLoaded() {
@@ -124,6 +131,8 @@ import Toast from './toast';
   contributorsList = collection('[data-test-eholdings-contributors-list-item]', {
     contributorText: text()
   });
+
+  agreementsSection = new AgreementsSection('#resourceShowAgreements');
 }
 
 export default new ResourceShowPage('[data-test-eholdings-details-view="resource"]');

@@ -50,6 +50,7 @@ class ResourceShow extends Component {
     getAgreements: PropTypes.func.isRequired,
     isFreshlySaved: PropTypes.bool,
     model: PropTypes.object.isRequired,
+    onAddAgreement: PropTypes.object.isRequired,
     onEdit: PropTypes.func.isRequired,
     proxyTypes: PropTypes.object.isRequired,
     stripes: PropTypes.shape({
@@ -270,6 +271,8 @@ class ResourceShow extends Component {
     const isTokenNeeded = model.data.attributes && model.data.attributes.isTokenNeeded;
 
     let toasts = processErrors(model);
+    const addToEholdingsButtonIsAvailable = (!resourceSelected && !isSelectInFlight)
+     || (!model.isSelected && isSelectInFlight);
 
     // if coming from updating any value on managed title in a managed package
     // show a success toast
@@ -353,18 +356,20 @@ class ResourceShow extends Component {
                       )
                   }
                   <br />
-                  {((!resourceSelected && !isSelectInFlight) || (!this.props.model.isSelected && isSelectInFlight)) && (
-                    <IfPermission perm="ui-eholdings.package-title.select-unselect">
-                      <Button
-                        buttonStyle="primary"
-                        onClick={this.handleHoldingStatus}
-                        disabled={model.destroy.isPending || isSelectInFlight}
-                        data-test-eholdings-resource-add-to-holdings-button
-                      >
-                        <FormattedMessage id="ui-eholdings.addToHoldings" />
-                      </Button>
-                    </IfPermission>
-                  )}
+                  {
+                    addToEholdingsButtonIsAvailable && (
+                      <IfPermission perm="ui-eholdings.package-title.select-unselect">
+                        <Button
+                          buttonStyle="primary"
+                          onClick={this.handleHoldingStatus}
+                          disabled={model.destroy.isPending || isSelectInFlight}
+                          data-test-eholdings-resource-add-to-holdings-button
+                        >
+                          <FormattedMessage id="ui-eholdings.addToHoldings" />
+                        </Button>
+                      </IfPermission>
+                    )
+                  }
                 </label>
               </Accordion>
 
