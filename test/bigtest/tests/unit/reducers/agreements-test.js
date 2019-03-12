@@ -1,4 +1,4 @@
-/* global describe, beforeEach, it */
+/* global describe, it */
 import { expect } from 'chai';
 
 import agreements from '../../../../../src/redux/reducers';
