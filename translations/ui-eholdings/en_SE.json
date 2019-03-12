@@ -297,5 +297,6 @@
     "search.searchType.providers": "Providers",
     "provider.providerTags": "Tags",
     "provider.labels": "Labels",
-    "tags.addTagFor": "Add tag for: <strong>{filter}</strong>"
+    "tags.addTagFor": "Add tag for: <strong>{filter}</strong>",
+    "tags": "Tags"
 }

@@ -297,5 +297,6 @@
     "search.searchType.providers": "Provedores",
     "provider.providerTags": "Tags",
     "provider.labels": "Rótulos",
-    "tags.addTagFor": "Adicionar tag para: <strong>{filtro}</strong>"
+    "tags.addTagFor": "Adicionar tag para: <strong>{filtro}</strong>",
+    "tags": "Tags"
 }
