@@ -25,13 +25,14 @@ const handlers = {
     const {
       payload: {
         referenceId,
-        agreements: agreementsItems,
+        isLoading,
+        agreements: agreementsData,
       },
     } = action;
 
     return {
       ...state,
-      [referenceId]: { ...agreementsItems },
+      [referenceId]: { ...agreementsData, isLoading },
     };
   },
   [GET_AGREEMENTS_FAILURE]: (state, action) => {
