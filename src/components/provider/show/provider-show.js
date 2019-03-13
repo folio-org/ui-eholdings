@@ -1,8 +1,20 @@
 import React, { Component, Fragment } from 'react';
 import PropTypes from 'prop-types';
+import {
+  FormattedNumber,
+  FormattedMessage,
+} from 'react-intl';
+
 import update from 'lodash/fp/update';
 import set from 'lodash/fp/set';
 import hasIn from 'lodash/fp/hasIn';
+import capitalize from 'lodash/capitalize';
+
+import {
+  withStripes,
+  IfPermission,
+} from '@folio/stripes-core';
+
 import {
   Accordion,
   Button,
@@ -12,14 +24,13 @@ import {
   KeyValue,
   Badge,
 } from '@folio/stripes/components';
-import { FormattedNumber, FormattedMessage } from 'react-intl';
-import capitalize from 'lodash/capitalize';
 
 import {
   processErrors,
   getEntityTags,
   getTagLabelsArr,
 } from '../../utilities';
+
 import DetailsView from '../../details-view';
 import QueryList from '../../query-list';
 import PackageListItem from '../../package-list-item';
@@ -42,6 +53,9 @@ class ProviderShow extends Component {
     proxyTypes: PropTypes.object.isRequired,
     rootProxy: PropTypes.object.isRequired,
     searchModal: PropTypes.node,
+    stripes: PropTypes.shape({
+      hasPerm: PropTypes.func.isRequired,
+    }).isRequired,
     tagsModel: PropTypes.object,
     updateEntityTags: PropTypes.func.isRequired,
     updateFolioTags: PropTypes.func.isRequired,
@@ -84,18 +98,24 @@ class ProviderShow extends Component {
 
   getActionMenu = () => {
     const {
+      stripes,
       onEdit,
       onFullView,
     } = this.props;
 
-    return (
+    const hasEditPermission = stripes.hasPerm('ui-eholdings.records.edit');
+    const isMenuNeeded = onFullView || hasEditPermission;
+
+    return isMenuNeeded && (
       <Fragment>
-        <Button
-          buttonStyle="dropdownItem fullWidth"
-          onClick={onEdit}
-        >
-          <FormattedMessage id="ui-eholdings.actionMenu.edit" />
-        </Button>
+        {hasEditPermission && (
+          <Button
+            buttonStyle="dropdownItem fullWidth"
+            onClick={onEdit}
+          >
+            <FormattedMessage id="ui-eholdings.actionMenu.edit" />
+          </Button>
+        )}
 
         {onFullView && (
           <Button
@@ -106,6 +126,33 @@ class ProviderShow extends Component {
           </Button>
         )}
       </Fragment>
+    );
+  }
+
+  renderLastMenu() {
+    let {
+      model: { name },
+      onEdit,
+    } = this.props;
+
+    return (
+      <IfPermission perm="ui-eholdings.records.edit">
+        <FormattedMessage
+          id="ui-eholdings.label.editLink"
+          values={{
+            name,
+          }}
+        >
+          {ariaLabel => (
+            <IconButton
+              data-test-eholdings-provider-edit-link
+              icon="edit"
+              ariaLabel={ariaLabel}
+              onClick={onEdit}
+            />
+          )}
+        </FormattedMessage>
+      </IfPermission>
     );
   }
 
@@ -291,31 +338,6 @@ class ProviderShow extends Component {
     );
   }
 
-  getLastMenu() {
-    const {
-      model,
-      onEdit,
-    } = this.props;
-
-    return (
-      <FormattedMessage
-        id="ui-eholdings.label.editLink"
-        values={{
-          name: model.name
-        }}
-      >
-        {ariaLabel => (
-          <IconButton
-            data-test-eholdings-provider-edit-link
-            icon="edit"
-            ariaLabel={ariaLabel}
-            onClick={onEdit}
-          />
-        )}
-      </FormattedMessage>
-    );
-  }
-
   render() {
     const {
       listType,
@@ -341,8 +363,8 @@ class ProviderShow extends Component {
           actionMenu={this.getActionMenu}
           sections={sections}
           handleExpandAll={this.handleExpandAll}
-          lastMenu={this.getLastMenu()}
           bodyContent={this.getBodyContent()}
+          lastMenu={this.renderLastMenu()}
           searchModal={searchModal}
           listType={capitalize(listType)}
           listSectionId="providerShowProviderList"
@@ -355,4 +377,4 @@ class ProviderShow extends Component {
   }
 }
 
-export default ProviderShow;
+export default withStripes(ProviderShow);

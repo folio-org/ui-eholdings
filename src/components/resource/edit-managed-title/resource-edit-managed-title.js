@@ -16,6 +16,8 @@ import {
   ModalFooter
 } from '@folio/stripes/components';
 
+import { IfPermission } from '@folio/stripes-core';
+
 import { processErrors, isBookPublicationType } from '../../utilities';
 
 import DetailsView from '../../details-view';
@@ -195,7 +197,6 @@ export default class ResourceEditManagedTitle extends Component {
 
   getActionMenu = ({ onToggle }) => {
     const { onCancel } = this.props;
-    const { managedResourceSelected } = this.state;
 
     return (
       <Fragment>
@@ -209,32 +210,39 @@ export default class ResourceEditManagedTitle extends Component {
         >
           <FormattedMessage id="ui-eholdings.actionMenu.cancelEditing" />
         </Button>
-
-        {managedResourceSelected ? (
-          <Button
-            data-test-eholdings-remove-resource-from-holdings
-            buttonStyle="dropdownItem fullWidth"
-            onClick={() => {
-              onToggle();
-              this.handleRemoveResourceFromHoldings();
-            }}
-          >
-            <FormattedMessage id="ui-eholdings.resource.actionMenu.removeHolding" />
-          </Button>
-        ) : (
-          <Button
-            data-test-eholdings-add-resource-to-holdings
-            buttonStyle="dropdownItem fullWidth"
-            onClick={() => {
-              onToggle();
-              this.handleAddResourceToHoldings();
-            }}
-          >
-            <FormattedMessage id="ui-eholdings.resource.actionMenu.addHolding" />
-          </Button>
-        )}
+        <IfPermission perm="ui-eholdings.package-title.select-unselect">
+          {this.renderSelectionButton(onToggle)}
+        </IfPermission>
       </Fragment>
     );
+  }
+
+  renderSelectionButton(onToggle) {
+    return this.state.managedResourceSelected
+      ? (
+        <Button
+          data-test-eholdings-remove-resource-from-holdings
+          buttonStyle="dropdownItem fullWidth"
+          onClick={() => {
+            onToggle();
+            this.handleRemoveResourceFromHoldings();
+          }}
+        >
+          <FormattedMessage id="ui-eholdings.resource.actionMenu.removeHolding" />
+        </Button>
+      )
+      : (
+        <Button
+          data-test-eholdings-add-resource-to-holdings
+          buttonStyle="dropdownItem fullWidth"
+          onClick={() => {
+            onToggle();
+            this.handleAddResourceToHoldings();
+          }}
+        >
+          <FormattedMessage id="ui-eholdings.resource.actionMenu.addHolding" />
+        </Button>
+      );
   }
 
   render() {
@@ -323,14 +331,17 @@ export default class ResourceEditManagedTitle extends Component {
                         }
                         <br />
                         {((!managedResourceSelected && !isSelectInFlight) || (!this.props.model.isSelected && isSelectInFlight)) && (
-                          <Button
-                            buttonStyle="primary"
-                            onClick={this.handleAddResourceToHoldings}
-                            disabled={isSelectInFlight}
-                            data-test-eholdings-resource-add-to-holdings-button
-                          >
-                            <FormattedMessage id="ui-eholdings.addToHoldings" />
-                          </Button>)}
+                          <IfPermission perm="ui-eholdings.package-title.select-unselect">
+                            <Button
+                              buttonStyle="primary"
+                              onClick={this.handleAddResourceToHoldings}
+                              disabled={isSelectInFlight}
+                              data-test-eholdings-resource-add-to-holdings-button
+                            >
+                              <FormattedMessage id="ui-eholdings.addToHoldings" />
+                            </Button>
+                          </IfPermission>
+                        )}
                       </label>
                     </Accordion>
 

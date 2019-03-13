@@ -8,6 +8,7 @@ import arrayMutators from 'final-form-arrays';
 import createFocusDecorator from 'final-form-focus';
 import { FormattedMessage } from 'react-intl';
 
+import { IfPermission } from '@folio/stripes-core';
 import {
   Accordion,
   Button,
@@ -187,13 +188,14 @@ export default class ManagedPackageEdit extends Component {
 
   getActionMenu = ({ onToggle }) => {
     const {
-      addPackageToHoldings,
       onFullView,
       model,
       onCancel
     } = this.props;
 
     const { packageSelected } = this.state;
+
+    const isAddButtonNeeded = !packageSelected || model.isPartiallySelected;
 
     return (
       <Fragment>
@@ -221,34 +223,52 @@ export default class ManagedPackageEdit extends Component {
           </Button>
         )}
 
-        {packageSelected && (
-          <Button
-            data-test-eholdings-package-remove-from-holdings-action
-            buttonStyle="dropdownItem fullWidth"
-            onClick={() => {
-              onToggle();
-              this.handleDeselectionAction();
-            }}
-          >
-            <FormattedMessage id="ui-eholdings.package.removeFromHoldings" />
-          </Button>
-        )}
-
-        {(!packageSelected || model.isPartiallySelected) && (
-          <Button
-            data-test-eholdings-package-add-to-holdings-action
-            buttonStyle="dropdownItem fullWidth"
-            onClick={() => {
-              onToggle();
-              addPackageToHoldings();
-            }}
-          >
-            <FormattedMessage
-              id={`ui-eholdings.${(model.isPartiallySelected ? 'addAllToHoldings' : 'addToHoldings')}`}
-            />
-          </Button>
-        )}
+        <IfPermission perm="ui-eholdings.package-title.select-unselect">
+          {packageSelected && this.renderRemoveFromHoldingsButton(onToggle)}
+          {isAddButtonNeeded && this.renderAddToHoldingsButton(onToggle)}
+        </IfPermission>
       </Fragment>
+    );
+  }
+
+  renderRemoveFromHoldingsButton(onToggle) {
+    return (
+      <Button
+        data-test-eholdings-package-remove-from-holdings-action
+        buttonStyle="dropdownItem fullWidth"
+        onClick={() => {
+          onToggle();
+          this.handleDeselectionAction();
+        }}
+      >
+        <FormattedMessage id="ui-eholdings.package.removeFromHoldings" />
+      </Button>
+    );
+  }
+
+  renderAddToHoldingsButton(onToggle) {
+    const {
+      model: { isPartiallySelected },
+      addPackageToHoldings,
+    } = this.props;
+
+    const translationIdEnding = isPartiallySelected
+      ? 'addAllToHoldings'
+      : 'addToHoldings';
+
+    return (
+      <Button
+        data-test-eholdings-package-add-to-holdings-action
+        buttonStyle="dropdownItem fullWidth"
+        onClick={() => {
+          onToggle();
+          addPackageToHoldings();
+        }}
+      >
+        <FormattedMessage
+          id={`ui-eholdings.${translationIdEnding}`}
+        />
+      </Button>
     );
   }
 
