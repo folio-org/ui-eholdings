@@ -123,7 +123,7 @@ class ProviderShow extends Component {
       model: { name },
       onEdit,
     } = this.props;
-  
+
     return (
       <IfPermission perm="ui-eholdings.records.edit">
         <FormattedMessage

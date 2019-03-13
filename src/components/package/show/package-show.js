@@ -320,8 +320,7 @@ class PackageShow extends Component {
                 >
                   <FormattedMessage id="ui-eholdings.tags" />
                 </Headline>
-              )
-              }
+              )}
               open={sections.providerShowTags}
               id="providerShowTags"
               onToggle={this.handleSectionToggle}
