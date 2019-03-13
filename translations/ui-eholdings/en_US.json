@@ -298,5 +298,10 @@
     "provider.providerTags": "Tags",
     "provider.labels": "Labels",
     "tags.addTagFor": "Add tag for: <strong>{filter}</strong>",
-    "tags": "Tags"
+    "tags": "Tags",
+    "add": "Add",
+    "startDate": "Start date",
+    "status": "Status",
+    "agreements": "Agreements",
+    "agreements.notFound": "No agreements found"
 }

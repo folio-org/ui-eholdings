@@ -298,5 +298,10 @@
     "provider.providerTags": "Tags",
     "provider.labels": "Rótulos",
     "tags.addTagFor": "Adicionar tag para: <strong>{filtro}</strong>",
-    "tags": "Tags"
+    "tags": "Tags",
+    "add": "Adicionar",
+    "startDate": "Data de início",
+    "status": "Status",
+    "agreements": "Contratos",
+    "agreements.notFound": "Nenhum contrato encontrado"
 }
