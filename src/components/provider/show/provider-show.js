@@ -10,7 +10,11 @@ import set from 'lodash/fp/set';
 import hasIn from 'lodash/fp/hasIn';
 import capitalize from 'lodash/capitalize';
 
-import { IfPermission } from '@folio/stripes-core';
+import {
+  withStripes,
+  IfPermission,
+} from '@folio/stripes-core';
+
 import {
   Accordion,
   Button,
@@ -49,6 +53,9 @@ class ProviderShow extends Component {
     proxyTypes: PropTypes.object.isRequired,
     rootProxy: PropTypes.object.isRequired,
     searchModal: PropTypes.node,
+    stripes: PropTypes.shape({
+      hasPerm: PropTypes.func.isRequired,
+    }).isRequired,
     tagsModel: PropTypes.object,
     updateEntityTags: PropTypes.func.isRequired,
     updateFolioTags: PropTypes.func.isRequired,
@@ -91,20 +98,24 @@ class ProviderShow extends Component {
 
   getActionMenu = () => {
     const {
+      stripes,
       onEdit,
       onFullView,
     } = this.props;
 
-    return (
+    const hasEditPermission = stripes.hasPerm('ui-eholdings.records.edit');
+    const isMenuNeeded = onFullView || hasEditPermission;
+
+    return isMenuNeeded && (
       <Fragment>
-        <IfPermission perm="ui-eholdings.records.edit">
+        {hasEditPermission && (
           <Button
             buttonStyle="dropdownItem fullWidth"
             onClick={onEdit}
           >
             <FormattedMessage id="ui-eholdings.actionMenu.edit" />
           </Button>
-        </IfPermission>
+        )}
 
         {onFullView && (
           <Button
@@ -366,4 +377,4 @@ class ProviderShow extends Component {
   }
 }
 
-export default ProviderShow;
+export default withStripes(ProviderShow);

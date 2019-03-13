@@ -11,6 +11,7 @@ import set from 'lodash/fp/set';
 import hasIn from 'lodash/fp/hasIn';
 
 import {
+  withStripes,
   Pluggable,
   IfPermission,
 } from '@folio/stripes-core';
@@ -63,6 +64,9 @@ class PackageShow extends Component {
     provider: PropTypes.object.isRequired,
     proxyTypes: PropTypes.object.isRequired,
     searchModal: PropTypes.node,
+    stripes: PropTypes.shape({
+      hasPerm: PropTypes.func.isRequired,
+    }).isRequired,
     tagsModel: PropTypes.object,
     toggleSelected: PropTypes.func.isRequired,
     updateEntityTags: PropTypes.func.isRequired,
@@ -134,6 +138,7 @@ class PackageShow extends Component {
 
   getActionMenu = ({ onToggle }) => {
     const {
+      stripes,
       onEdit,
       onFullView,
       model
@@ -141,18 +146,21 @@ class PackageShow extends Component {
 
     const { packageSelected } = this.state;
 
+    const hasEditPermission = stripes.hasPerm('ui-eholdings.records.edit');
+    const hasSelectionPermission = stripes.hasPerm('ui-eholdings.package-title.select-unselect');
     const isAddButtonNeeded = !packageSelected || model.isPartiallySelected;
+    const isMenuNeeded = hasEditPermission || hasSelectionPermission || onFullView;
 
-    return (
+    return isMenuNeeded && (
       <Fragment>
-        <IfPermission perm="ui-eholdings.records.edit">
+        {hasEditPermission &&
           <Button
             buttonStyle="dropdownItem fullWidth"
             onClick={onEdit}
           >
             <FormattedMessage id="ui-eholdings.actionMenu.edit" />
           </Button>
-        </IfPermission>
+        }
         {onFullView && (
           <Button
             buttonStyle="dropdownItem fullWidth"
@@ -748,4 +756,4 @@ class PackageShow extends Component {
   }
 }
 
-export default PackageShow;
+export default withStripes(PackageShow);
