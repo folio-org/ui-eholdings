@@ -96,26 +96,24 @@ export default class AgreementsList extends React.Component {
       });
   }
 
-  renderMultiColumnList = (ariaLabel) => {
-    return (
-      <MultiColumnList
-        id="agreements-list"
-        interactive
-        ariaLabel={ariaLabel}
-        contentData={this.getResults()}
-        visibleColumns={COLUMN_NAMES}
-        columnMapping={columnsMap}
-        columnWidths={COLUMN_WIDTHS}
-        isEmptyMessage={<FormattedMessage id="ui-eholdings.agreements.notFound" />}
-        rowFormatter={this.rowFormatter}
-      />
-    );
-  }
-
   render() {
     return (
       <FormattedMessage id="ui-eholdings.agreements">
-        {(ariaLabel) => this.renderMultiColumnList(ariaLabel)}
+        {
+          (ariaLabel) => (
+            <MultiColumnList
+              id="agreements-list"
+              interactive
+              ariaLabel={ariaLabel}
+              contentData={this.getResults()}
+              visibleColumns={COLUMN_NAMES}
+              columnMapping={columnsMap}
+              columnWidths={COLUMN_WIDTHS}
+              isEmptyMessage={<FormattedMessage id="ui-eholdings.agreements.notFound" />}
+              rowFormatter={this.rowFormatter}
+            />
+          )
+        }
       </FormattedMessage>
     );
   }

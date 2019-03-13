@@ -2,6 +2,7 @@ import React, { Component, Fragment } from 'react';
 import PropTypes from 'prop-types';
 import update from 'lodash/fp/update';
 import set from 'lodash/fp/set';
+import hasIn from 'lodash/fp/hasIn';
 import {
   Accordion,
   Button,
@@ -108,22 +109,76 @@ class ProviderShow extends Component {
     );
   }
 
-  getBodyContent() {
+  renderTags() {
     const {
-      proxyTypes,
-      rootProxy,
       model,
       tagsModel,
       updateEntityTags,
       updateFolioTags,
     } = this.props;
 
+    const tagsIsLoading = !tagsModel.request.isResolved || model.isLoading;
+
+    return tagsIsLoading
+      ? <Icon icon="spinner-ellipsis" />
+      : (
+        <Tags
+          updateEntityTags={updateEntityTags}
+          updateFolioTags={updateFolioTags}
+          model={model}
+          tags={getTagLabelsArr(tagsModel)}
+        />
+      );
+  }
+
+  renderProxy() {
+    const {
+      proxyTypes,
+      rootProxy,
+      model,
+    } = this.props;
+
+    const proxyIsLoading = !proxyTypes.request.isResolved || !rootProxy.request.isResolved || model.isLoading;
+
+    return proxyIsLoading
+      ? <Icon icon="spinner-ellipsis" />
+      : (
+        <ProxyDisplay
+          model={model}
+          proxyTypes={proxyTypes}
+          inheritedProxyId={rootProxy.data.attributes.proxyTypeId}
+        />
+      );
+  }
+
+  renderToken() {
+    const {
+      model,
+    } = this.props;
+
+    return model.isLoading
+      ? <Icon icon="spinner-ellipsis" />
+      : (
+        <KeyValue label={<FormattedMessage id="ui-eholdings.provider.token" />}>
+          <TokenDisplay
+            token={model.providerToken}
+            type="provider"
+          />
+        </KeyValue>
+      );
+  }
+
+  getBodyContent() {
+    const {
+      model,
+    } = this.props;
+
     const {
       sections,
     } = this.state;
 
-    const hasProxy = model.proxy && model.proxy.id;
-    const hasToken = model.providerToken && model.providerToken.prompt;
+    const hasProxy = hasIn('proxy.id', model);
+    const hasToken = hasIn('providerToken.prompt', model);
     const hasProviderSettings = hasProxy || hasToken;
     const hasSelectedPackages = model.packagesSelected > 0;
 
@@ -132,7 +187,14 @@ class ProviderShow extends Component {
         {
           hasSelectedPackages && (
             <Accordion
-              label={<Headline size="large" tag="h3"><FormattedMessage id="ui-eholdings.tags" /></Headline>}
+              label={(
+                <Headline
+                  size="large"
+                  tag="h3"
+                >
+                  <FormattedMessage id="ui-eholdings.tags" />
+                </Headline>
+              )}
               open={sections.providerShowTags}
               id="providerShowTags"
               onToggle={this.handleSectionToggle}
@@ -144,22 +206,19 @@ class ProviderShow extends Component {
                 </Badge>
               }
             >
-              {(!tagsModel.request.isResolved || model.isLoading)
-                ? <Icon icon="spinner-ellipsis" />
-                : (
-                  <Tags
-                    updateEntityTags={updateEntityTags}
-                    updateFolioTags={updateFolioTags}
-                    model={model}
-                    tags={getTagLabelsArr(tagsModel)}
-                  />
-                )
-              }
+              {this.renderTags()}
             </Accordion>
           )
         }
         <Accordion
-          label={<Headline size="large" tag="h3"><FormattedMessage id="ui-eholdings.provider.providerInformation" /></Headline>}
+          label={(
+            <Headline
+              size="large"
+              tag="h3"
+            >
+              <FormattedMessage id="ui-eholdings.provider.providerInformation" />
+            </Headline>
+          )}
           open={sections.providerShowProviderInformation}
           id="providerShowProviderInformation"
           onToggle={this.handleSectionToggle}
@@ -176,43 +235,25 @@ class ProviderShow extends Component {
             </div>
           </KeyValue>
         </Accordion>
-        {hasProviderSettings && (
-          <Accordion
-            label={<Headline size="large" tag="h3"><FormattedMessage id="ui-eholdings.provider.providerSettings" /></Headline>}
-            open={sections.providerShowProviderSettings}
-            id="providerShowProviderSettings"
-            onToggle={this.handleSectionToggle}
-          >
-            {
-              hasProxy && (
-                !proxyTypes.request.isResolved || !rootProxy.request.isResolved || model.isLoading
-                  ? <Icon icon="spinner-ellipsis" />
-                  : (
-                    <ProxyDisplay
-                      model={model}
-                      proxyTypes={proxyTypes}
-                      inheritedProxyId={rootProxy.data.attributes.proxyTypeId}
-                    />
-                  )
-              )
-            }
-
-            {
-              hasToken && (
-                model.isLoading
-                  ? <Icon icon="spinner-ellipsis" />
-                  : (
-                    <KeyValue label={<FormattedMessage id="ui-eholdings.provider.token" />}>
-                      <TokenDisplay
-                        token={model.providerToken}
-                        type="provider"
-                      />
-                    </KeyValue>
-                  )
-              )
-            }
-          </Accordion>
-        )}
+        {
+          hasProviderSettings && (
+            <Accordion
+              label={(
+                <Headline
+                  size="large"
+                  tag="h3"
+                >
+                  <FormattedMessage id="ui-eholdings.provider.providerSettings" />
+                </Headline>
+              )}
+              open={sections.providerShowProviderSettings}
+              id="providerShowProviderSettings"
+              onToggle={this.handleSectionToggle}
+            >
+              {hasProxy && this.renderProxy()}
+              {hasToken && this.renderToken()}
+            </Accordion>
+          )}
       </div>
     );
   }

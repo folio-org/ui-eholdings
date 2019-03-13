@@ -1,10 +1,8 @@
 import React, { Component, Fragment } from 'react';
 import PropTypes from 'prop-types';
-import {
-  update,
-  set,
-  hasIn,
-} from 'lodash/fp';
+import update from 'lodash/fp/update';
+import set from 'lodash/fp/set';
+import hasIn from 'lodash/fp/hasIn';
 import {
   FormattedDate,
   FormattedNumber,
@@ -240,6 +238,7 @@ class PackageShow extends Component {
     const hasProxy = hasIn('proxy.id', model);
     const hasProviderToken = hasIn('providerToken.prompt', provider);
     const hasPackageToken = hasIn('packageToken.prompt', model);
+    const isProxyAvailable = hasProxy && proxyTypes.request.isResolved && model.isLoaded && provider.isLoaded;
 
     return (
       <div>
@@ -278,7 +277,7 @@ class PackageShow extends Component {
           )
         }
         {
-          hasProxy && proxyTypes.request.isResolved && model.isLoaded && provider.isLoaded
+          isProxyAvailable
             ? (
               <ProxyDisplay
                 model={model}
@@ -340,7 +339,15 @@ class PackageShow extends Component {
         {
           packageSelected && (
             <Accordion
-              label={<Headline size="large" tag="h3"><FormattedMessage id="ui-eholdings.tags" /></Headline>}
+              label={(
+                <Headline
+                  size="large"
+                  tag="h3"
+                >
+                  <FormattedMessage id="ui-eholdings.tags" />
+                </Headline>
+                )
+              }
               open={sections.providerShowTags}
               id="providerShowTags"
               onToggle={this.handleSectionToggle}
@@ -367,7 +374,14 @@ class PackageShow extends Component {
           )
         }
         <Accordion
-          label={<Headline size="large" tag="h3"><FormattedMessage id="ui-eholdings.label.holdingStatus" /></Headline>}
+          label={(
+            <Headline
+              size="large"
+              tag="h3"
+            >
+              <FormattedMessage id="ui-eholdings.label.holdingStatus" />
+            </Headline>
+          )}
           open={sections.packageShowHoldingStatus}
           id="packageShowHoldingStatus"
           onToggle={this.handleSectionToggle}
@@ -379,7 +393,14 @@ class PackageShow extends Component {
         </Accordion>
 
         <Accordion
-          label={<Headline size="large" tag="h3"><FormattedMessage id="ui-eholdings.label.packageInformation" /></Headline>}
+          label={(
+            <Headline
+              size="large"
+              tag="h3"
+            >
+              <FormattedMessage id="ui-eholdings.label.packageInformation" />
+            </Headline>
+          )}
           open={sections.packageShowInformation}
           id="packageShowInformation"
           onToggle={this.handleSectionToggle}
@@ -388,7 +409,9 @@ class PackageShow extends Component {
             <div>
               <KeyValue label={<FormattedMessage id="ui-eholdings.package.provider" />}>
                 <div data-test-eholdings-package-details-provider>
-                  <InternalLink to={`/eholdings/providers/${model.providerId}`}>{model.providerName}</InternalLink>
+                  <InternalLink to={`/eholdings/providers/${model.providerId}`}>
+                    {model.providerName}
+                  </InternalLink>
                 </div>
               </KeyValue>
 
@@ -430,7 +453,14 @@ class PackageShow extends Component {
         </Accordion>
 
         <Accordion
-          label={<Headline size="large" tag="h3"><FormattedMessage id="ui-eholdings.package.packageSettings" /></Headline>}
+          label={(
+            <Headline
+              size="large"
+              tag="h3"
+            >
+              <FormattedMessage id="ui-eholdings.package.packageSettings" />
+            </Headline>
+          )}
           open={sections.packageShowSettings}
           id="packageShowSettings"
           onToggle={this.handleSectionToggle}
@@ -443,7 +473,14 @@ class PackageShow extends Component {
         </Accordion>
 
         <Accordion
-          label={<Headline size="large" tag="h3"><FormattedMessage id="ui-eholdings.package.coverageSettings" /></Headline>}
+          label={(
+            <Headline
+              size="large"
+              tag="h3"
+            >
+              <FormattedMessage id="ui-eholdings.package.coverageSettings" />
+            </Headline>
+          )}
           closedByDefault={!packageSelected}
           open={sections.packageShowCoverageSettings}
           id="packageShowCoverageSettings"
