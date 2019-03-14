@@ -299,9 +299,9 @@
     "provider.labels": "ملصقات",
     "tags.addTagFor": "إضافة وسم لـ: <strong>{filter}</strong>",
     "tags": "الوسوم",
-    "add": "Add",
-    "startDate": "Start Date",
-    "status": "Status",
-    "agreements": "Agreements",
-    "agreements.notFound": "No agreements found"
+    "add": "إضافة",
+    "startDate": "تاريخ البدء",
+    "status": "الحالة",
+    "agreements": "الاتفاقيات",
+    "agreements.notFound": "لم يتم العثور على اتفاقيات"
 }
