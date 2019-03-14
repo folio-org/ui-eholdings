@@ -125,7 +125,6 @@
         "displayName": "eHoldings: Can create and delete custom packages and titles",
         "visible": true,
         "subPermissions": [
-          "ui-eholdings.records.edit",
           "kb-ebsco.packages.collection.post",
           "kb-ebsco.resources.collection.post",
           "kb-ebsco.titles.collection.post",
