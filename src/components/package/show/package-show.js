@@ -139,6 +139,7 @@ class PackageShow extends Component {
   getActionMenu = ({ onToggle }) => {
     const {
       stripes,
+      model: { isCustom },
       onEdit,
       onFullView,
       model
@@ -146,10 +147,16 @@ class PackageShow extends Component {
 
     const { packageSelected } = this.state;
 
+    const requiredRemovingPermission = isCustom
+      ? 'ui-eholdings.titles-packages.create-delete'
+      : 'ui-eholdings.package-title.select-unselect';
+
+    const hasRequiredRemovingPermission = stripes.hasPerm(requiredRemovingPermission);
     const hasEditPermission = stripes.hasPerm('ui-eholdings.records.edit');
     const hasSelectionPermission = stripes.hasPerm('ui-eholdings.package-title.select-unselect');
-    const isAddButtonNeeded = !packageSelected || model.isPartiallySelected;
-    const isMenuNeeded = hasEditPermission || hasSelectionPermission || onFullView;
+    const isAddButtonNeeded = (!packageSelected || model.isPartiallySelected) && hasSelectionPermission;
+    const isRemoveButtonNeeded = packageSelected && hasRequiredRemovingPermission;
+    const isMenuNeeded = hasEditPermission || onFullView || isAddButtonNeeded || isRemoveButtonNeeded;
 
     return isMenuNeeded && (
       <Fragment>
@@ -169,7 +176,7 @@ class PackageShow extends Component {
             <FormattedMessage id="ui-eholdings.actionMenu.fullView" />
           </Button>
         )}
-        {packageSelected && this.renderRemoveFromHoldingsButton(onToggle)}
+        {isRemoveButtonNeeded && this.renderRemoveFromHoldingsButton(onToggle)}
         {isAddButtonNeeded && this.renderAddToHoldingsButton(onToggle)}
       </Fragment>
     );
@@ -562,27 +569,21 @@ class PackageShow extends Component {
       model: { isCustom },
     } = this.props;
 
-    const requiredPermission = isCustom
-      ? 'ui-eholdings.titles-packages.create-delete'
-      : 'ui-eholdings.package-title.select-unselect';
-
     const translationId = isCustom
       ? 'ui-eholdings.package.deletePackage'
       : 'ui-eholdings.package.removeFromHoldings';
 
     return (
-      <IfPermission perm={requiredPermission}>
-        <Button
-          data-test-eholdings-package-remove-from-holdings-action
-          buttonStyle="dropdownItem fullWidth"
-          onClick={() => {
-            onToggle();
-            this.handleSelectionToggle();
-          }}
-        >
-          <FormattedMessage id={translationId} />
-        </Button>
-      </IfPermission>
+      <Button
+        data-test-eholdings-package-remove-from-holdings-action
+        buttonStyle="dropdownItem fullWidth"
+        onClick={() => {
+          onToggle();
+          this.handleSelectionToggle();
+        }}
+      >
+        <FormattedMessage id={translationId} />
+      </Button>
     );
   }
 
