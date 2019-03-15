@@ -56,7 +56,7 @@ export default class AgreementsList extends React.Component {
         key={id}
       >
         <Link
-          data-test-package-show-agreements-list-item
+          data-test-agreements-list-item
           to={ermAgreementUrl}
           aria-label={ariaLabel}
           className={rowClass}

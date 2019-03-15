@@ -8,6 +8,7 @@ import update from 'lodash/fp/update';
 import set from 'lodash/fp/set';
 
 import {
+  Pluggable,
   IfPermission,
   withStripes,
 } from '@folio/stripes-core';
@@ -30,6 +31,7 @@ import ExternalLink from '../external-link/external-link';
 import IdentifiersList from '../identifiers-list';
 import ContributorsList from '../contributors-list';
 import CoverageDateList from '../coverage-date-list';
+import AgreementsList from '../agreements-list';
 import {
   isBookPublicationType,
   isValidCoverageList,
@@ -44,8 +46,11 @@ import ProxyDisplay from '../proxy-display';
 
 class ResourceShow extends Component {
   static propTypes = {
+    agreements: PropTypes.object,
+    getAgreements: PropTypes.func.isRequired,
     isFreshlySaved: PropTypes.bool,
     model: PropTypes.object.isRequired,
+    onAddAgreement: PropTypes.object.isRequired,
     onEdit: PropTypes.func.isRequired,
     proxyTypes: PropTypes.object.isRequired,
     stripes: PropTypes.shape({
@@ -65,7 +70,8 @@ class ResourceShow extends Component {
       resourceShowHoldingStatus: true,
       resourceShowInformation: true,
       resourceShowSettings: true,
-      resourceShowCoverageSettings: this.props.model.isSelected
+      resourceShowCoverageSettings: this.props.model.isSelected,
+      resourceShowAgreements: true,
     }
   };
 
@@ -192,6 +198,40 @@ class ResourceShow extends Component {
     );
   }
 
+  getAgreementsSectionHeader = () => {
+    return (
+      <Headline
+        size="large"
+        tag="h3"
+      >
+        <FormattedMessage id="ui-eholdings.agreements" />
+      </Headline>
+    );
+  }
+
+  renderFindAgreementTrigger = (props) => {
+    return (
+      <Button {...props}>
+        <FormattedMessage id="ui-eholdings.add" />
+      </Button>
+    );
+  }
+
+  getAgreementsSectionButtons() {
+    const {
+      onAddAgreement,
+    } = this.props;
+
+    return (
+      <Pluggable
+        dataKey="resource-show-find-agreement"
+        type="find-agreement"
+        renderTrigger={this.renderFindAgreementTrigger}
+        onAgreementSelected={onAddAgreement}
+      />
+    );
+  }
+
   render() {
     let {
       model,
@@ -200,6 +240,8 @@ class ResourceShow extends Component {
       tagsModel,
       updateEntityTags,
       updateFolioTags,
+      agreements,
+      getAgreements,
     } = this.props;
 
     let {
@@ -229,6 +271,8 @@ class ResourceShow extends Component {
     const isTokenNeeded = model.data.attributes && model.data.attributes.isTokenNeeded;
 
     let toasts = processErrors(model);
+    const addToEholdingsButtonIsAvailable = (!resourceSelected && !isSelectInFlight)
+     || (!model.isSelected && isSelectInFlight);
 
     // if coming from updating any value on managed title in a managed package
     // show a success toast
@@ -293,31 +337,39 @@ class ResourceShow extends Component {
                   htmlFor="resource-show-toggle-switch"
                 >
                   {
-                    model.update.isPending ? (
-                      <Icon icon='spinner-ellipsis' />
-                    ) : (
-                      <Headline margin="none">
-                        {resourceSelected ? (
-                          <FormattedMessage id="ui-eholdings.selected" />
-                        ) : (
-                          <FormattedMessage id="ui-eholdings.notSelected" />
-                        )}
-                      </Headline>
-                    )
+                    model.update.isPending
+                      ? (
+                        <Icon icon='spinner-ellipsis' />
+                      )
+                      : (
+                        <Headline margin="none">
+                          {
+                            resourceSelected
+                              ? (
+                                <FormattedMessage id="ui-eholdings.selected" />
+                              )
+                              : (
+                                <FormattedMessage id="ui-eholdings.notSelected" />
+                              )
+                          }
+                        </Headline>
+                      )
                   }
                   <br />
-                  { ((!resourceSelected && !isSelectInFlight) || (!this.props.model.isSelected && isSelectInFlight)) && (
-                    <IfPermission perm="ui-eholdings.package-title.select-unselect">
-                      <Button
-                        buttonStyle="primary"
-                        onClick={this.handleHoldingStatus}
-                        disabled={model.destroy.isPending || isSelectInFlight}
-                        data-test-eholdings-resource-add-to-holdings-button
-                      >
-                        <FormattedMessage id="ui-eholdings.addToHoldings" />
-                      </Button>
-                    </IfPermission>
-                  )}
+                  {
+                    addToEholdingsButtonIsAvailable && (
+                      <IfPermission perm="ui-eholdings.package-title.select-unselect">
+                        <Button
+                          buttonStyle="primary"
+                          onClick={this.handleHoldingStatus}
+                          disabled={model.destroy.isPending || isSelectInFlight}
+                          data-test-eholdings-resource-add-to-holdings-button
+                        >
+                          <FormattedMessage id="ui-eholdings.addToHoldings" />
+                        </Button>
+                      </IfPermission>
+                    )
+                  }
                 </label>
               </Accordion>
 
@@ -448,23 +500,28 @@ class ResourceShow extends Component {
                   </div>
                 </KeyValue>
 
-                { hasInheritedProxy && (
-                  (!proxyTypes.request.isResolved || model.isLoading) ? (
-                    <Icon icon="spinner-ellipsis" />
-                  ) : (
-                    <ProxyDisplay
-                      model={model}
-                      proxyTypes={proxyTypes}
-                      inheritedProxyId={model.package.proxy.id}
-                    />
-                  ))}
+                {
+                  hasInheritedProxy && (
+                    !proxyTypes.request.isResolved || model.isLoading
+                      ? (
+                        <Icon icon="spinner-ellipsis" />
+                      )
+                      : (
+                        <ProxyDisplay
+                          model={model}
+                          proxyTypes={proxyTypes}
+                          inheritedProxyId={model.package.proxy.id}
+                        />
+                      )
+                  )
+                }
 
                 {model.url && (
                   <KeyValue label={model.title.isTitleCustom ?
                     <FormattedMessage id="ui-eholdings.custom" />
                     :
                     <FormattedMessage id="ui-eholdings.managed" />
-                    }
+                  }
                   >
                     <div data-test-eholdings-resource-show-url>
                       <ExternalLink
@@ -530,22 +587,37 @@ class ResourceShow extends Component {
                   </KeyValue>
                 )}
 
-                {resourceSelected &&
+                {
+                  resourceSelected &&
                   !hasManagedCoverages &&
                   !hasCustomCoverages &&
                   !model.coverageStatement &&
                   !hasManagedEmbargoPeriod &&
                   !hasCustomEmbargoPeriod && (
-                  <p data-test-eholdings-resource-not-selected-no-customization-message>
-                    <FormattedMessage id="ui-eholdings.resource.coverage.noCustomizations" />
-                  </p>
-                )}
+                    <p data-test-eholdings-resource-not-selected-no-customization-message>
+                      <FormattedMessage id="ui-eholdings.resource.coverage.noCustomizations" />
+                    </p>
+                  )
+                }
 
                 {!resourceSelected && !hasManagedCoverages && !hasManagedEmbargoPeriod && (
                   <p data-test-eholdings-resource-not-selected-coverage-message>
                     <FormattedMessage id="ui-eholdings.resource.coverage.notSelected" />
                   </p>
                 )}
+              </Accordion>
+
+              <Accordion
+                id="resourceShowAgreements"
+                label={this.getAgreementsSectionHeader()}
+                open={sections.resourceShowAgreements}
+                displayWhenOpen={this.getAgreementsSectionButtons()}
+                onToggle={this.handleSectionToggle}
+              >
+                <AgreementsList
+                  getAgreements={getAgreements}
+                  agreements={agreements}
+                />
               </Accordion>
             </div>
           )}

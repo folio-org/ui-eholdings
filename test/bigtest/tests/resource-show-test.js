@@ -137,6 +137,28 @@ describe('ResourceShow', () => {
       expect(ResourcePage.packageName).to.equal('Cool Package');
     });
 
+    describe('agreements section', () => {
+      it('should display open accordion by default', () => {
+        expect(ResourcePage.agreementsSection.isExpanded).to.be.true;
+      });
+
+      it('should display a 3 items in the list of agreements', () => {
+        expect(ResourcePage.agreementsSection.agreements().length).to.equal(3);
+      });
+
+      describe('after click on first agreement', () => {
+        beforeEach(async () => {
+          await ResourcePage.agreementsSection.agreements(0).click();
+        });
+
+        it('should redirect to agreement details page', function () {
+          const itemDetailsUrl = '/erm/agreements/view/2c918098689ba8f70168a349f1160027';
+
+          expect(this.location.pathname).to.contain(itemDetailsUrl);
+        });
+      });
+    });
+
     describe('when token is not needed', () => {
       it('should not display "Add token" button', () => {
         expect(ResourcePage.hasAddTokenButton).to.be.false;
