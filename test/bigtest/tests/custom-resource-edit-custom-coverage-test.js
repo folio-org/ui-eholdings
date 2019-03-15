@@ -267,29 +267,30 @@ describe('CustomResourceEditCustomCoverage', () => {
       resource.isSelected = true;
       let customCoverages = [
         this.server.create('custom-coverage', {
+          beginCoverage: '2018-12-17',
+          endCoverage: '2018-12-20'
+        }),
+        this.server.create('custom-coverage', {
           beginCoverage: '2018-12-01',
           endCoverage: '2018-12-15'
         }),
-        this.server.create('custom-coverage', {
-          beginCoverage: '2018-12-17',
-          endCoverage: '2018-12-20'
-        })
       ];
+
       resource.update('customCoverages', customCoverages.map(item => item.toJSON()));
       resource.save();
 
       this.visit(`/eholdings/resources/${resource.id}/edit`);
     });
 
-    it('displays 2 rows for date ranges', () => {
+    it('displays correct number of rows for date ranges', () => {
       expect(ResourceEditPage.dateRangeRowList().length).to.equal(2);
     });
 
-    it('displays 2 rows for date ranges', () => {
-      expect(ResourceEditPage.dateRangeRowList(0).beginDate.inputValue).to.equal('12/01/2018');
-      expect(ResourceEditPage.dateRangeRowList(0).endDate.inputValue).to.equal('12/15/2018');
-      expect(ResourceEditPage.dateRangeRowList(1).beginDate.inputValue).to.equal('12/17/2018');
-      expect(ResourceEditPage.dateRangeRowList(1).endDate.inputValue).to.equal('12/20/2018');
+    it('date strings are formatted properly', () => {
+      expect(ResourceEditPage.dateRangeRowList(0).beginDate.inputValue).to.equal('12/17/2018');
+      expect(ResourceEditPage.dateRangeRowList(0).endDate.inputValue).to.equal('12/20/2018');
+      expect(ResourceEditPage.dateRangeRowList(1).beginDate.inputValue).to.equal('12/01/2018');
+      expect(ResourceEditPage.dateRangeRowList(1).endDate.inputValue).to.equal('12/15/2018');
     });
   });
 });
