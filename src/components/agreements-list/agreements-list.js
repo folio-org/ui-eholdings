@@ -27,15 +27,10 @@ const columnsMap = {
 export default class AgreementsList extends React.Component {
   static propTypes = {
     agreements: PropTypes.object,
-    getAgreements: PropTypes.func.isRequired,
   }
 
   static defaultProps = {
     agreements: {},
-  }
-
-  componentDidMount() {
-    this.props.getAgreements();
   }
 
   rowFormatter = (row) => {

@@ -10,19 +10,10 @@ import Resource from '../redux/resource';
 import View from '../components/resource/resource-show';
 import { ProxyType } from '../redux/application';
 import Tag from '../redux/tag';
-import {
-  getAgreements,
-  attachAgreement,
-} from '../redux/actions';
-
-import selectAgreements from '../redux/selectors';
 
 class ResourceShowRoute extends Component {
   static propTypes = {
-    agreements: PropTypes.object,
-    attachAgreement: PropTypes.func.isRequired,
     destroyResource: PropTypes.func.isRequired,
-    getAgreements: PropTypes.func.isRequired,
     getProxyTypes: PropTypes.func.isRequired,
     getResource: PropTypes.func.isRequired,
     getTags: PropTypes.func.isRequired,
@@ -113,23 +104,6 @@ class ResourceShowRoute extends Component {
     history.replace(editRouteState);
   }
 
-  onAddAgreementHandler = ({ name, id }) => {
-    const agreement = {
-      type: 'external',
-      authority: 'EKB',
-      reference: this.props.match.params.id,
-      label: name,
-    };
-
-    this.props.attachAgreement({ id, referenceId: this.props.match.params.id, agreement });
-  };
-
-  getAgreementsHandler = () => {
-    this.props.getAgreements({
-      referenceId: this.props.match.params.id,
-    });
-  }
-
   render() {
     const {
       model,
@@ -138,7 +112,6 @@ class ResourceShowRoute extends Component {
       tagsModel,
       updateEntityTags,
       updateFolioTags,
-      agreements,
     } = this.props;
 
     if (model.isLoading) {
@@ -160,9 +133,6 @@ class ResourceShowRoute extends Component {
             history.location.state &&
             history.location.state.isFreshlySaved
           }
-          agreements={agreements}
-          getAgreements={this.getAgreementsHandler}
-          onAddAgreement={this.onAddAgreementHandler}
         />
       </TitleManager>
     );
@@ -182,7 +152,6 @@ export default connect(
       tagsModel: resolver.query('tags'),
       proxyTypes: resolver.query('proxyTypes'),
       resolver,
-      agreements: selectAgreements(store, match.params.id),
     };
   }, {
     getResource: id => Resource.find(id, { include: ['package', 'title'] }),
@@ -192,7 +161,5 @@ export default connect(
     updateFolioTags: model => Tag.create(model),
     getTags: () => Tag.query(),
     destroyResource: model => Resource.destroy(model),
-    getAgreements: (data) => getAgreements(data),
-    attachAgreement: (data) => attachAgreement(data),
   }
 )(ResourceShowRoute);
