@@ -14,11 +14,6 @@ import Package from '../redux/package';
 import Provider from '../redux/provider';
 import Resource from '../redux/resource';
 import Tag from '../redux/tag';
-import {
-  getAgreements,
-  attachAgreement,
-} from '../redux/actions';
-import selectAgreements from '../redux/selectors';
 import { transformQueryParams } from '../components/utilities';
 
 import View from '../components/package/show';
@@ -26,10 +21,7 @@ import SearchModal from '../components/search-modal';
 
 class PackageShowRoute extends Component {
   static propTypes = {
-    agreements: PropTypes.object,
-    attachAgreement: PropTypes.func.isRequired,
     destroyPackage: PropTypes.func.isRequired,
-    getAgreements: PropTypes.func.isRequired,
     getPackage: PropTypes.func.isRequired,
     getPackageTitles: PropTypes.func.isRequired,
     getProvider: PropTypes.func.isRequired,
@@ -132,21 +124,6 @@ class PackageShowRoute extends Component {
     updatePackage(model);
   };
 
-  attachAgreementToPackage = ({ name, id }) => {
-    const {
-      match,
-    } = this.props;
-
-    const agreement = {
-      type: 'external',
-      authority: 'EKB',
-      reference: match.params.packageId,
-      label: name,
-    };
-
-    this.props.attachAgreement({ id, referenceId: match.params.packageId, agreement });
-  };
-
   toggleSelected = () => {
     let { model, updatePackage, destroyPackage } = this.props;
     // if the package is custom setting the holding status to false
@@ -177,15 +154,14 @@ class PackageShowRoute extends Component {
     this.searchTitles({ ...pkgSearchParams, page });
   }
 
-  getAgreementsHandler = () => {
-    const {
-      match,
-    } = this.props;
-
-    this.props.getAgreements({
-      referenceId: match.params.packageId,
+  setPage = (page) => {
+    this.setState(({ queryId }) => ({
+      page,
+      queryId: queryId + 1
+    }), () => {
+      this.fetchPackageTitles();
     });
-  }
+  };
 
   searchTitles = (pkgSearchParams) => {
     this.setState(({ queryId }) => ({
@@ -246,7 +222,6 @@ class PackageShowRoute extends Component {
       proxyTypes,
       updateEntityTags,
       updateFolioTags,
-      agreements,
     } = this.props;
     const {
       pkgSearchParams,
@@ -261,17 +236,14 @@ class PackageShowRoute extends Component {
           packageTitles={this.getTitleResults()}
           updateEntityTags={updateEntityTags}
           updateFolioTags={updateFolioTags}
-          agreements={agreements}
           proxyTypes={proxyTypes}
           provider={provider}
-          getAgreements={this.getAgreementsHandler}
-          fetchPackageTitles={this.fetchPackageTitles}
+          fetchPackageTitles={this.setPage}
           toggleSelected={this.toggleSelected}
           addPackageToHoldings={this.addPackageToHoldings}
           toggleHidden={this.toggleHidden}
           customCoverageSubmitted={this.customCoverageSubmitted}
           toggleAllowKbToAddTitles={this.toggleAllowKbToAddTitles}
-          onAddAgreement={this.attachAgreementToPackage}
           onEdit={this.handleEdit}
           onFullView={this.getSearchType() && this.handleFullView}
           isFreshlySaved={
@@ -321,7 +293,6 @@ export default connect(
       provider: resolver.find('providers', model.providerId),
       tagsModel: resolver.query('tags'),
       resolver,
-      agreements: selectAgreements(store, match.params.packageId),
     };
   },
   {
@@ -330,12 +301,10 @@ export default connect(
     getProxyTypes: () => ProxyType.query(),
     getTags: () => Tag.query(),
     getProvider: id => Provider.find(id),
-    getAgreements: (data) => getAgreements(data),
     unloadResources: collection => Resource.unload(collection),
     updatePackage: model => Package.save(model),
     updateEntityTags: (model) => Package.save(model),
     updateFolioTags: (model) => Tag.create(model),
     destroyPackage: model => Package.destroy(model),
-    attachAgreement: (data) => attachAgreement(data),
   }
 )(PackageShowRoute);

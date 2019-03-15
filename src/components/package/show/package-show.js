@@ -12,7 +12,6 @@ import hasIn from 'lodash/fp/hasIn';
 
 import {
   withStripes,
-  Pluggable,
   IfPermission,
 } from '@folio/stripes-core';
 
@@ -36,7 +35,6 @@ import {
 import DetailsView from '../../details-view';
 import QueryList from '../../query-list';
 import InternalLink from '../../internal-link';
-import AgreementsList from '../../agreements-list';
 import TitleListItem from '../../title-list-item';
 import NavigationModal from '../../navigation-modal';
 import Toaster from '../../toaster';
@@ -45,20 +43,18 @@ import KeyValueColumns from '../../key-value-columns';
 import ProxyDisplay from '../../proxy-display';
 import TokenDisplay from '../../token-display';
 import Tags from '../../tags';
+import AgreementsSection from '../../../features';
 
 const ITEM_HEIGHT = 53;
 
 class PackageShow extends Component {
   static propTypes = {
     addPackageToHoldings: PropTypes.func.isRequired,
-    agreements: PropTypes.object,
     fetchPackageTitles: PropTypes.func.isRequired,
-    getAgreements: PropTypes.func.isRequired,
     isDestroyed: PropTypes.bool,
     isFreshlySaved: PropTypes.bool,
     isNewRecord: PropTypes.bool,
     model: PropTypes.object.isRequired,
-    onAddAgreement: PropTypes.func.isRequired,
     onEdit: PropTypes.func.isRequired,
     onFullView: PropTypes.func,
     packageTitles: PropTypes.object.isRequired,
@@ -183,36 +179,6 @@ class PackageShow extends Component {
     );
   };
 
-  getAgreementsSectionHeader = () => {
-    return (
-      <Headline
-        size="large"
-        tag="h3"
-      >
-        <FormattedMessage id="ui-eholdings.agreements" />
-      </Headline>
-    );
-  }
-
-  renderFindAgreementTrigger = (props) => {
-    return (
-      <Button {...props}>
-        <FormattedMessage id="ui-eholdings.add" />
-      </Button>
-    );
-  }
-
-  getAgreementsSectionButtons() {
-    return (
-      <Pluggable
-        dataKey="package-show-find-agreement"
-        type="find-agreement"
-        renderTrigger={this.renderFindAgreementTrigger}
-        onAgreementSelected={this.props.onAddAgreement}
-      />
-    );
-  }
-
   renderPackageSettings() {
     const {
       model,
@@ -312,8 +278,6 @@ class PackageShow extends Component {
   getBodyContent() {
     const {
       model,
-      getAgreements,
-      agreements,
       tagsModel,
       updateEntityTags,
       updateFolioTags,
@@ -518,18 +482,12 @@ class PackageShow extends Component {
           }
         </Accordion>
 
-        <Accordion
+        <AgreementsSection
           id="packageShowAgreements"
-          label={this.getAgreementsSectionHeader()}
-          open={sections.packageShowAgreements}
-          displayWhenOpen={this.getAgreementsSectionButtons()}
+          referenceId={model.id}
+          isOpen={sections.packageShowAgreements}
           onToggle={this.handleSectionToggle}
-        >
-          <AgreementsList
-            getAgreements={getAgreements}
-            agreements={agreements}
-          />
-        </Accordion>
+        />
       </div>
     );
   }

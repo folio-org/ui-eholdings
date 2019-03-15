@@ -17,11 +17,13 @@ import {
 
 import selectAgreements from '../../redux/selectors';
 import {
-  attachAgreement,
-  getAgreements,
+  attachAgreement as attachAgreementAction,
+  getAgreements as getAgreementsAction,
 } from '../../redux/actions';
 
 import AgreementsList from '../../components/agreements-list';
+
+import Agreement from './model';
 
 class AgreementsSection extends Component {
   static propTypes = {
@@ -35,9 +37,12 @@ class AgreementsSection extends Component {
   }
 
   componentDidMount() {
-    this.props.getAgreements({
-      referenceId: this.props.referenceId,
-    });
+    const {
+      getAgreements,
+      referenceId,
+    } = this.props;
+
+    getAgreements({ referenceId });
   }
 
   getAgreementsSectionHeader = () => {
@@ -60,29 +65,27 @@ class AgreementsSection extends Component {
   }
 
   getAgreementsSectionButtons() {
-    const {
-      onAddAgreement,
-    } = this.props;
-
     return (
       <Pluggable
         dataKey="find-agreements"
         type="find-agreement"
         renderTrigger={this.renderFindAgreementTrigger}
-        onAgreementSelected={onAddAgreement}
+        onAgreementSelected={this.onAddAgreementHandler}
       />
     );
   }
 
   onAddAgreementHandler = ({ name, id }) => {
-    const agreement = {
-      type: 'external',
-      authority: 'EKB',
-      reference: this.props.referenceId,
-      label: name,
-    };
+    const {
+      referenceId,
+      attachAgreement,
+    } = this.props;
 
-    this.props.attachAgreement({ id, referenceId: this.props.referenceId, agreement });
+    attachAgreement({
+      id,
+      referenceId,
+      agreement: new Agreement({ reference: referenceId, label: name }),
+    });
   };
 
   render() {
@@ -96,8 +99,8 @@ class AgreementsSection extends Component {
     return (
       <Accordion
         id={id}
-        label={this.getAgreementsSectionHeader()}
         open={isOpen}
+        label={this.getAgreementsSectionHeader()}
         displayWhenOpen={this.getAgreementsSectionButtons()}
         onToggle={onToggle}
       >
@@ -111,7 +114,7 @@ export default connect(
   (store, { referenceId }) => ({
     agreements: selectAgreements(store, referenceId),
   }), {
-    getAgreements: (data) => getAgreements(data),
-    attachAgreement: (data) => attachAgreement(data),
+    getAgreements: getAgreementsAction,
+    attachAgreement: attachAgreementAction,
   }
 )(AgreementsSection);

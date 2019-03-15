@@ -8,6 +8,7 @@ import { Link } from 'react-router-dom';
 
 import {
   MultiColumnList,
+  Icon,
 } from '@folio/stripes/components';
 
 
@@ -92,24 +93,26 @@ export default class AgreementsList extends React.Component {
   }
 
   render() {
-    return (
-      <FormattedMessage id="ui-eholdings.agreements">
-        {
-          (ariaLabel) => (
-            <MultiColumnList
-              id="agreements-list"
-              interactive
-              ariaLabel={ariaLabel}
-              contentData={this.getResults()}
-              visibleColumns={COLUMN_NAMES}
-              columnMapping={columnsMap}
-              columnWidths={COLUMN_WIDTHS}
-              isEmptyMessage={<FormattedMessage id="ui-eholdings.agreements.notFound" />}
-              rowFormatter={this.rowFormatter}
-            />
-          )
-        }
-      </FormattedMessage>
-    );
+    return this.props.agreements.isLoading
+      ? <Icon icon="spinner-ellipsis" />
+      : (
+        <FormattedMessage id="ui-eholdings.agreements">
+          {
+            (ariaLabel) => (
+              <MultiColumnList
+                id="agreements-list"
+                interactive
+                ariaLabel={ariaLabel}
+                contentData={this.getResults()}
+                visibleColumns={COLUMN_NAMES}
+                columnMapping={columnsMap}
+                columnWidths={COLUMN_WIDTHS}
+                isEmptyMessage={<FormattedMessage id="ui-eholdings.agreements.notFound" />}
+                rowFormatter={this.rowFormatter}
+              />
+            )
+          }
+        </FormattedMessage>
+      );
   }
 }

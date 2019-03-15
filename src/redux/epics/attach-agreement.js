@@ -36,7 +36,7 @@ export default function attachAgreement(action$, store) {
       const requestOptions = {
         headers: getHeaders(state),
         method: PUT,
-        body: {
+        body: JSON.stringify({
           items:[
             {
               type: 'external',
@@ -45,7 +45,7 @@ export default function attachAgreement(action$, store) {
               label: payload.name,
             }
           ],
-        },
+        }),
       };
 
       const promise = fetch(url, requestOptions)

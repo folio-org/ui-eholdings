@@ -47,7 +47,6 @@ class ResourceShow extends Component {
   static propTypes = {
     isFreshlySaved: PropTypes.bool,
     model: PropTypes.object.isRequired,
-    onAddAgreement: PropTypes.object.isRequired,
     onEdit: PropTypes.func.isRequired,
     proxyTypes: PropTypes.object.isRequired,
     stripes: PropTypes.shape({
