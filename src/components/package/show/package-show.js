@@ -43,7 +43,7 @@ import KeyValueColumns from '../../key-value-columns';
 import ProxyDisplay from '../../proxy-display';
 import TokenDisplay from '../../token-display';
 import Tags from '../../tags';
-import AgreementsSection from '../../../features';
+import AgreementsAccordion from '../../../features';
 
 const ITEM_HEIGHT = 53;
 
@@ -482,7 +482,7 @@ class PackageShow extends Component {
           }
         </Accordion>
 
-        <AgreementsSection
+        <AgreementsAccordion
           id="packageShowAgreements"
           referenceId={model.id}
           isOpen={sections.packageShowAgreements}

@@ -13,6 +13,7 @@ import {
 import {
   getHeaders,
   parseResponseBody,
+  pickAgreementProps,
 } from './common';
 
 export default function getAgreements(action$, store) {
@@ -24,16 +25,16 @@ export default function getAgreements(action$, store) {
     .ofType(GET_AGREEMENTS)
     .mergeMap((action) => {
       const {
-        payload,
         payload: {
           referenceId,
+          isLoading,
         },
       } = action;
 
       const state = getState();
       const method = 'GET';
 
-      const url = `${state.okapi.url}/erm/sas?filters=items.reference=${referenceId}&sort=startDate=desc&stats=true`;
+      const url = `${state.okapi.url}/erm/sas?filters=items.reference=${referenceId}&sort=startDate=desc`;
 
       const requestOptions = {
         headers: getHeaders(state),
@@ -46,10 +47,10 @@ export default function getAgreements(action$, store) {
 
       return Observable
         .from(promise)
-        .map(responseBody => getAgreementsSuccess({
-          agreements: responseBody,
-          ...payload,
+        .map(agreements => getAgreementsSuccess({
+          items: agreements.map(pickAgreementProps),
+          isLoading,
         }))
-        .catch(error => Observable.of(getAgreementsFailure({ referenceId, error })));
+        .catch(error => Observable.of(getAgreementsFailure({ error, isLoading })));
     });
 }

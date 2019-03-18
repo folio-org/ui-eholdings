@@ -6,20 +6,22 @@ import {
   GET_AGREEMENTS,
   GET_AGREEMENTS_SUCCESS,
   GET_AGREEMENTS_FAILURE,
+  ADD_AGREEMENT,
 } from '../../../../../src/redux/actions';
 
 describe('(reducer) agreements', () => {
   it('should return the initial state', () => {
-    expect(agreements(undefined, {})).to.deep.equal({});
+    expect(agreements(undefined, {})).to.deep.equal({
+      isLoading: false,
+      items: [],
+      error: null,
+    });
   });
 
   it('should handle GET_AGREEMENTS', () => {
     const actualState = {
-      123: {
-        results: 'results',
-        quantity: 2,
-        isLoading: false,
-      }
+      items: 'items',
+      isLoading: false,
     };
     const action = {
       type: GET_AGREEMENTS,
@@ -29,11 +31,9 @@ describe('(reducer) agreements', () => {
       }
     };
     const expectedState = {
-      123: {
-        results: 'results',
-        quantity: 2,
-        isLoading: true,
-      },
+      items: 'items',
+      isLoading: true,
+      referenceId: '123',
     };
 
     expect(agreements(actualState, action)).to.deep.equal(expectedState);
@@ -46,16 +46,13 @@ describe('(reducer) agreements', () => {
       payload: {
         referenceId: '123',
         isLoading: false,
-        agreements: {
-          results: 'results',
-        },
+        items: 'items',
       }
     };
     const expectedState = {
-      123: {
-        isLoading: false,
-        results: 'results',
-      },
+      items: 'items',
+      isLoading: false,
+      referenceId: '123',
     };
 
     expect(agreements(actualState, action)).to.deep.equal(expectedState);
@@ -63,10 +60,8 @@ describe('(reducer) agreements', () => {
 
   it('should handle GET_AGREEMENTS_FAILURE', () => {
     const actualState = {
-      123: {
-        results: 'results',
-        isLoading: true,
-      }
+      items: 'items',
+      isLoading: true,
     };
     const action = {
       type: GET_AGREEMENTS_FAILURE,
@@ -77,11 +72,34 @@ describe('(reducer) agreements', () => {
       }
     };
     const expectedState = {
-      123: {
-        results: 'results',
-        isLoading: false,
-        error: 'error',
-      },
+      items: 'items',
+      isLoading: false,
+      error: 'error',
+      referenceId: '123',
+    };
+
+    expect(agreements(actualState, action)).to.deep.equal(expectedState);
+  });
+
+  it('should handle ADD_AGREEMENT', () => {
+    const actualState = {
+      items: [
+        { id: 1 },
+        { id: 2 }
+      ],
+    };
+    const action = {
+      type: ADD_AGREEMENT,
+      payload: {
+        id: 5,
+      }
+    };
+    const expectedState = {
+      items: [
+        { id: 1 },
+        { id: 2 },
+        { id: 5 },
+      ],
     };
 
     expect(agreements(actualState, action)).to.deep.equal(expectedState);

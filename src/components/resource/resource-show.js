@@ -30,7 +30,7 @@ import ExternalLink from '../external-link/external-link';
 import IdentifiersList from '../identifiers-list';
 import ContributorsList from '../contributors-list';
 import CoverageDateList from '../coverage-date-list';
-import AgreementsSection from '../../features';
+import AgreementsAccordion from '../../features';
 import {
   isBookPublicationType,
   isValidCoverageList,
@@ -568,7 +568,7 @@ class ResourceShow extends Component {
                 )}
               </Accordion>
 
-              <AgreementsSection
+              <AgreementsAccordion
                 id="resourceShowAgreements"
                 referenceId={model.id}
                 isOpen={sections.resourceShowAgreements}

@@ -27,11 +27,7 @@ const columnsMap = {
 
 export default class AgreementsList extends React.Component {
   static propTypes = {
-    agreements: PropTypes.object,
-  }
-
-  static defaultProps = {
-    agreements: {},
+    agreements: PropTypes.object.isRequired,
   }
 
   rowFormatter = (row) => {
@@ -65,16 +61,14 @@ export default class AgreementsList extends React.Component {
   };
 
   getResults() {
-    const results = this.props.agreements.results || [];
-
-    return results
-      .map(result => {
+    return this.props.agreements.items
+      .map(agreement => {
         const {
           id,
           name,
           startDate,
           agreementStatus,
-        } = result;
+        } = agreement;
 
         return {
           id,

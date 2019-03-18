@@ -6,14 +6,15 @@ import 'rxjs/add/operator/catch';
 
 import {
   ATTACH_AGREEMENT,
-  getAgreements,
   attachAgreementSuccess,
   attachAgreementFailure,
+  addAgreement,
 } from '../actions';
 
 import {
   getHeaders,
   parseResponseBody,
+  pickAgreementProps,
 } from './common';
 
 export default function attachAgreement(action$, store) {
@@ -25,24 +26,28 @@ export default function attachAgreement(action$, store) {
     .ofType(ATTACH_AGREEMENT)
     .mergeMap((action) => {
       const {
-        payload,
+        payload: {
+          isLoading,
+          id,
+          referenceId,
+          name,
+        },
       } = action;
 
       const state = getState();
-      const PUT = 'PUT';
 
-      const url = `${state.okapi.url}/erm/sas/${payload.id}`;
+      const url = `${state.okapi.url}/erm/sas/${id}`;
 
       const requestOptions = {
         headers: getHeaders(state),
-        method: PUT,
+        method: 'PUT',
         body: JSON.stringify({
           items:[
             {
               type: 'external',
               authority: 'EKB',
-              reference: payload.referenceId,
-              label: payload.name,
+              reference: referenceId,
+              label: name,
             }
           ],
         }),
@@ -53,10 +58,10 @@ export default function attachAgreement(action$, store) {
         .then(([ok, body]) => (ok ? body : Promise.reject(body)));
 
       return Observable.from(promise)
-        .map(() => {
+        .map((agreement) => {
           attachAgreementSuccess();
-          return getAgreements({ referenceId: payload.referenceId });
+          return addAgreement(pickAgreementProps(agreement));
         })
-        .catch(error => Observable.of(attachAgreementFailure({ error })));
+        .catch(error => Observable.of(attachAgreementFailure({ error, isLoading })));
     });
 }

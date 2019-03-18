@@ -27,7 +27,7 @@ import Agreement from './model';
 
 class AgreementsSection extends Component {
   static propTypes = {
-    agreements: PropTypes.object,
+    agreements: PropTypes.array.isRequired,
     attachAgreement: PropTypes.func.isRequired,
     getAgreements: PropTypes.func.isRequired,
     id: PropTypes.string.isRequired,
@@ -42,7 +42,7 @@ class AgreementsSection extends Component {
       referenceId,
     } = this.props;
 
-    getAgreements({ referenceId });
+    getAgreements(referenceId);
   }
 
   getAgreementsSectionHeader = () => {
@@ -111,8 +111,8 @@ class AgreementsSection extends Component {
 }
 
 export default connect(
-  (store, { referenceId }) => ({
-    agreements: selectAgreements(store, referenceId),
+  (store) => ({
+    agreements: selectAgreements(store),
   }), {
     getAgreements: getAgreementsAction,
     attachAgreement: attachAgreementAction,
