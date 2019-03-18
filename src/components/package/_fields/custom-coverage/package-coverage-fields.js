@@ -1,12 +1,14 @@
 import React, { Component, Fragment } from 'react';
 import { Field } from 'react-final-form';
 import { FieldArray } from 'react-final-form-arrays';
-import moment from 'moment';
 import {
   FormattedMessage,
   injectIntl,
   intlShape,
 } from 'react-intl';
+
+import moment from 'moment';
+import isEqual from 'lodash/isEqual';
 
 import {
   Datepicker,
@@ -119,6 +121,7 @@ class PackageCoverageFields extends Component {
       <div data-test-eholdings-package-coverage-fields>
         <FieldArray
           component={this.renderRepeatableField}
+          isEqual={isEqual}
           name="customCoverages"
           validate={this.validateDateRange}
         />

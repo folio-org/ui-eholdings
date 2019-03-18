@@ -1,9 +1,17 @@
 import React, { Component, Fragment } from 'react';
+import PropTypes from 'prop-types';
+import {
+  FormattedDate,
+  FormattedMessage,
+  injectIntl,
+  intlShape,
+} from 'react-intl';
+
 import { Field } from 'react-final-form';
 import { FieldArray } from 'react-final-form-arrays';
-import PropTypes from 'prop-types';
+
 import moment from 'moment';
-import { FormattedDate, FormattedMessage, injectIntl, intlShape } from 'react-intl';
+import isEqual from 'lodash/isEqual';
 
 import {
   Datepicker,
@@ -14,6 +22,7 @@ import {
 
 import CoverageDateList from '../../../coverage-date-list';
 import { isBookPublicationType } from '../../../utilities';
+
 import styles from './managed-coverage-fields.css';
 
 class ResourceCoverageFields extends Component {
@@ -285,6 +294,7 @@ class ResourceCoverageFields extends Component {
       <div data-test-eholdings-resource-coverage-fields>
         <FieldArray
           component={this.renderCoverageFields}
+          isEqual={isEqual}
           name="customCoverages"
           validate={this.validateDateRange}
         />
