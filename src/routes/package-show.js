@@ -41,6 +41,7 @@ class PackageShowRoute extends Component {
     model: PropTypes.object.isRequired,
     provider: PropTypes.object.isRequired,
     proxyTypes: PropTypes.object.isRequired,
+    resolver: PropTypes.object.isRequired,
     tagsModel: PropTypes.object.isRequired,
     unloadResources: PropTypes.func.isRequired,
     updateEntityTags: PropTypes.func.isRequired,
@@ -59,15 +60,29 @@ class PackageShowRoute extends Component {
   }
 
   state = {
-    page: 0,
     queryId: 0,
     pkgSearchParams: {}
   }
 
-  componentDidUpdate(prevProps) {
-    let { model: next, match, getPackage, unloadResources, history, location } = this.props;
-    let { model: old, match: oldMatch } = prevProps;
-    let { packageId } = match.params;
+  componentDidUpdate(prevProps, prevState) {
+    const {
+      model: next,
+      match,
+      getPackage,
+      unloadResources,
+      history,
+      location,
+      getPackageTitles,
+    } = this.props;
+
+    const { pkgSearchParams } = this.state;
+
+    const {
+      model: old,
+      match: oldMatch,
+    } = prevProps;
+
+    const { packageId } = match.params;
 
     if (!old.destroy.isResolved && next.destroy.isResolved) {
       // if package was reached based on search
@@ -88,6 +103,22 @@ class PackageShowRoute extends Component {
     } else if (next.update.isResolved && old.update.isPending) {
       unloadResources(next.resources);
     }
+
+    if (pkgSearchParams !== prevState.pkgSearchParams) {
+      const params = transformQueryParams('titles', pkgSearchParams);
+      getPackageTitles(packageId, { ...params });
+    }
+  }
+
+  getTitleResults() {
+    let { match, resolver } = this.props;
+    let { pkgSearchParams } = this.state;
+    let { packageId } = match.params;
+    const params = transformQueryParams('titles', pkgSearchParams);
+    const collection = resolver.query('resources', params, {
+      path: `${Package.pathFor(packageId)}/resources`
+    });
+    return collection;
   }
 
   /* This method is common between package-show and package-edit routes
@@ -141,13 +172,9 @@ class PackageShowRoute extends Component {
     }
   };
 
-  fetchPackageTitles = () => {
-    let { getPackageTitles, match } = this.props;
-    let { pkgSearchParams, page } = this.state;
-    let { packageId } = match.params;
-    let params = transformQueryParams('titles', { ...pkgSearchParams });
-
-    getPackageTitles(packageId, { ...params, page });
+  fetchPackageTitles = (page) => {
+    let { pkgSearchParams } = this.state;
+    this.searchTitles({ ...pkgSearchParams, page });
   }
 
   getAgreementsHandler = () => {
@@ -160,22 +187,11 @@ class PackageShowRoute extends Component {
     });
   }
 
-  setPage = (page) => {
-    this.setState(({ queryId }) => ({
-      page,
-      queryId: queryId + 1
-    }), () => {
-      this.fetchPackageTitles();
-    });
-  };
-
   searchTitles = (pkgSearchParams) => {
     this.setState(({ queryId }) => ({
       pkgSearchParams,
-      queryId: queryId + 1
-    }), () => {
-      this.fetchPackageTitles();
-    });
+      queryId: (queryId + 1)
+    }));
   }
 
   getSearchType = () => {
@@ -242,13 +258,14 @@ class PackageShowRoute extends Component {
         <View
           model={model}
           tagsModel={tagsModel}
+          packageTitles={this.getTitleResults()}
           updateEntityTags={updateEntityTags}
           updateFolioTags={updateFolioTags}
           agreements={agreements}
           proxyTypes={proxyTypes}
           provider={provider}
           getAgreements={this.getAgreementsHandler}
-          fetchPackageTitles={this.setPage}
+          fetchPackageTitles={this.fetchPackageTitles}
           toggleSelected={this.toggleSelected}
           addPackageToHoldings={this.addPackageToHoldings}
           toggleHidden={this.toggleHidden}
