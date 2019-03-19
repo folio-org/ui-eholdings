@@ -67,8 +67,7 @@ class ResourceEditRoute extends Component {
     let {
       coverageStatement,
       customCoverages,
-      customEmbargoValue,
-      customEmbargoUnit,
+      customEmbargoPeriod,
       customUrl,
       isVisible,
       proxyId
@@ -110,10 +109,7 @@ class ResourceEditRoute extends Component {
         url: customUrl,
         visibilityData: { isHidden: !isVisible },
         coverageStatement,
-        customEmbargoPeriod: {
-          embargoValue: customEmbargoValue,
-          embargoUnit: customEmbargoUnit
-        },
+        customEmbargoPeriod: customEmbargoPeriod[0] || { embargoValue: 0 },
         proxy: { id: proxyId },
       }));
     }

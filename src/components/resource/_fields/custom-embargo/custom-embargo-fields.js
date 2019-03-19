@@ -1,15 +1,18 @@
 import React, { Component } from 'react';
-import PropTypes from 'prop-types';
 import { Field } from 'react-final-form';
+import { FieldArray } from 'react-final-form-arrays';
 import { FormattedMessage } from 'react-intl';
+
+import isEqual from 'lodash/isEqual';
 
 import {
   Button,
   Icon,
   IconButton,
   Select,
-  TextField
+  TextField,
 } from '@folio/stripes/components';
+
 import styles from './custom-embargo-fields.css';
 
 function validateEmbargoValue(value) {
@@ -43,105 +46,95 @@ function validateEmbargoUnit(value, { customEmbargoValue }) {
 }
 
 export default class CustomEmbargoFields extends Component {
-  static propTypes = {
-    change: PropTypes.func.isRequired,
-    initial: PropTypes.object,
-    showInputs: PropTypes.bool
-  };
-
-  static defaultProps = {
-    initial: []
-  };
-
-  state = {
-    showInputs: this.props.showInputs
-  };
-
-  clearValues = () => {
-    this.props.change('customEmbargoValue', 0);
-    this.props.change('customEmbargoUnit', '');
-    this.toggleInputs();
-  }
-
-  toggleInputs = () => {
-    this.setState(({ showInputs }) => ({
-      showInputs: !showInputs
-    }));
-  }
-
-  render() {
-    let { initial } = this.props;
-    let { showInputs } = this.state;
-
-    return (showInputs) ? (
-      <div className={styles['custom-embargo-fields']}>
-        <div
-          data-test-eholdings-custom-embargo-textfield
-          className={styles['custom-embargo-text-field']}
-        >
-          <FormattedMessage id="ui-eholdings.number">
-            {placeholder => (
-              <Field
-                name="customEmbargoValue"
-                component={TextField}
-                placeholder={placeholder}
-                autoFocus={initial.customEmbargoValue === 0}
-                validate={validateEmbargoValue}
-              />
-            )}
-          </FormattedMessage>
-        </div>
-
-        <div
-          data-test-eholdings-custom-embargo-select
-          className={styles['custom-embargo-select']}
-        >
-          <Field
-            name="customEmbargoUnit"
-            component={Select}
-            validate={validateEmbargoUnit}
-          >
-            <FormattedMessage id="ui-eholdings.label.selectTimePeriod">
-              {(message) => <option value="">{message}</option>}
-            </FormattedMessage>
-            <FormattedMessage id="ui-eholdings.label.days">
-              {(message) => <option value="Days">{message}</option>}
-            </FormattedMessage>
-            <FormattedMessage id="ui-eholdings.label.weeks">
-              {(message) => <option value="Weeks">{message}</option>}
-            </FormattedMessage>
-            <FormattedMessage id="ui-eholdings.label.months">
-              {(message) => <option value="Months">{message}</option>}
-            </FormattedMessage>
-            <FormattedMessage id="ui-eholdings.label.years">
-              {(message) => <option value="Years">{message}</option>}
-            </FormattedMessage>
-          </Field>
-        </div>
-
-        <div
-          data-test-eholdings-custom-embargo-remove-row-button
-          className={styles['custom-embargo-clear-row']}
-        >
-          <FormattedMessage id="ui-eholdings.resource.embargoPeriod.clear">
-            {ariaLabel => (
-              <IconButton
-                icon="trash"
-                onClick={this.clearValues}
-                size="small"
-                ariaLabel={ariaLabel}
-              />
-            )}
-          </FormattedMessage>
-        </div>
+  renderInputs(fields, initial) {
+    const embargoValueField = (
+      <div
+        data-test-eholdings-custom-embargo-textfield
+        className={styles['custom-embargo-text-field']}
+      >
+        <FormattedMessage id="ui-eholdings.number">
+          {placeholder => (
+            <Field
+              name={`${fields.name}[0].embargoValue`}
+              component={TextField}
+              placeholder={placeholder}
+              autoFocus={!initial.length}
+              validate={validateEmbargoValue}
+            />
+          )}
+        </FormattedMessage>
       </div>
-    ) : (
+    );
+
+    const embargoUnitField = (
+      <div
+        data-test-eholdings-custom-embargo-select
+        className={styles['custom-embargo-select']}
+      >
+        <Field
+          name={`${fields.name}[0].embargoUnit`}
+          component={Select}
+          validate={validateEmbargoUnit}
+        >
+          <FormattedMessage id="ui-eholdings.label.selectTimePeriod">
+            {(message) => <option value="">{message}</option>}
+          </FormattedMessage>
+          <FormattedMessage id="ui-eholdings.label.days">
+            {(message) => <option value="Days">{message}</option>}
+          </FormattedMessage>
+          <FormattedMessage id="ui-eholdings.label.weeks">
+            {(message) => <option value="Weeks">{message}</option>}
+          </FormattedMessage>
+          <FormattedMessage id="ui-eholdings.label.months">
+            {(message) => <option value="Months">{message}</option>}
+          </FormattedMessage>
+          <FormattedMessage id="ui-eholdings.label.years">
+            {(message) => <option value="Years">{message}</option>}
+          </FormattedMessage>
+        </Field>
+      </div>
+    );
+
+    const removeButton = (
+      <div
+        data-test-eholdings-custom-embargo-remove-row-button
+        className={styles['custom-embargo-clear-row']}
+      >
+        <FormattedMessage id="ui-eholdings.resource.embargoPeriod.clear">
+          {ariaLabel => (
+            <IconButton
+              icon="trash"
+              onClick={fields.pop}
+              size="small"
+              ariaLabel={ariaLabel}
+            />
+          )}
+        </FormattedMessage>
+      </div>
+    );
+
+    return (
+      <div className={styles['custom-embargo-fields']}>
+        {embargoValueField}
+        {embargoUnitField}
+        {removeButton}
+      </div>
+    );
+  }
+
+  renderAddButton(fields, initial) {
+    const removalWarning = (
+      <p data-test-eholdings-embargo-fields-saving-will-remove>
+        <FormattedMessage id="ui-eholdings.resource.embargoPeriod.saveWillRemove" />
+      </p>
+    );
+
+    return (
       <div>
-        {initial.customEmbargoValue !== 0 && (
-          <p data-test-eholdings-embargo-fields-saving-will-remove>
-            <FormattedMessage id="ui-eholdings.resource.embargoPeriod.saveWillRemove" />
-          </p>
-        )}
+        {initial.length
+          ? removalWarning
+          : null
+        }
 
         <div
           className={styles['custom-embargo-add-row-button']}
@@ -149,7 +142,7 @@ export default class CustomEmbargoFields extends Component {
         >
           <Button
             type="button"
-            onClick={this.toggleInputs}
+            onClick={() => { fields.push({ embargoValue: 0 }); }}
           >
             <Icon icon="plus-sign">
               <FormattedMessage id="ui-eholdings.resource.embargoPeriod.addCustom" />
@@ -157,6 +150,22 @@ export default class CustomEmbargoFields extends Component {
           </Button>
         </div>
       </div>
+    );
+  }
+
+  renderEmbargoField = ({ fields, meta: { initial } }) => {
+    return fields.value.length
+      ? this.renderInputs(fields, initial)
+      : this.renderAddButton(fields, initial);
+  }
+
+  render() {
+    return (
+      <FieldArray
+        isEqual={isEqual}
+        render={this.renderEmbargoField}
+        name="customEmbargoPeriod"
+      />
     );
   }
 }

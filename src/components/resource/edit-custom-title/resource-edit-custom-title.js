@@ -56,7 +56,6 @@ const focusOnErrors = createFocusDecorator();
 
 export default class ResourceEditCustomTitle extends Component {
   static propTypes = {
-    initialValues: PropTypes.object.isRequired,
     model: PropTypes.object.isRequired,
     onCancel: PropTypes.func.isRequired,
     onSubmit: PropTypes.func.isRequired,
@@ -64,11 +63,11 @@ export default class ResourceEditCustomTitle extends Component {
   };
 
   state = {
-    resourceSelected: this.props.initialValues.isSelected,
+    resourceSelected: this.props.model.isSelected,
     showSelectionModal: false,
     allowFormToSubmit: false,
     formValues: {},
-    initialValues: this.props.initialValues,
+    initialValues: this.getInitialValuesFromModel(),
     sections: {
       resourceShowHoldingStatus: true,
       resourceShowSettings: true,
@@ -83,16 +82,52 @@ export default class ResourceEditCustomTitle extends Component {
       stateUpdates.showSelectionModal = false;
     }
 
-    if (nextProps.initialValues.isSelected !== prevState.initialValues.isSelected) {
+    if (nextProps.model.isSelected !== prevState.initialValues.isSelected) {
       Object.assign(stateUpdates, {
         initialValues: {
-          isSelected: nextProps.initialValues.isSelected
+          isSelected: nextProps.model.isSelected
         },
-        resourceSelected: nextProps.initialValues.isSelected
+        resourceSelected: nextProps.model.isSelected
       });
     }
 
     return stateUpdates;
+  }
+
+  getInitialValuesFromModel() {
+    const {
+      isSelected,
+      visibilityData,
+      customCoverages,
+      coverageStatement,
+      customEmbargoPeriod,
+      url,
+      proxy,
+    } = this.props.model;
+
+    const hasCoverageStatement = coverageStatement.length > 0
+      ? 'yes'
+      : 'no';
+
+    const initialValues = {
+      isSelected,
+      customCoverages,
+      coverageStatement,
+      hasCoverageStatement,
+      customUrl: url,
+      proxyId: proxy.id,
+      isVisible: !visibilityData.isHidden,
+      customEmbargoPeriod: []
+    };
+
+    if (customEmbargoPeriod.embargoValue) {
+      initialValues.customEmbargoPeriod = [{
+        embargoValue: customEmbargoPeriod.embargoValue,
+        embargoUnit: customEmbargoPeriod.embargoUnit,
+      }];
+    }
+
+    return initialValues;
   }
 
   toggleSection = ({ id }) => {
@@ -228,20 +263,20 @@ export default class ResourceEditCustomTitle extends Component {
     let {
       model,
       proxyTypes,
-      initialValues,
     } = this.props;
 
     let {
       showSelectionModal,
       resourceSelected,
       sections,
+      initialValues,
     } = this.state;
 
-    let hasInheritedProxy = model.package &&
+    const hasInheritedProxy = model.package &&
       model.package.proxy &&
       model.package.proxy.id;
 
-    let visibilityMessage = model.package.visibilityData.isHidden
+    const visibilityMessage = model.package.visibilityData.isHidden
       ? <FormattedMessage id="ui-eholdings.resource.visibilityData.isHidden" />
       : model.visibilityData.reason && `(${model.visibilityData.reason})`;
 
@@ -354,14 +389,7 @@ export default class ResourceEditCustomTitle extends Component {
                           <Headline tag="h4">
                             <FormattedMessage id="ui-eholdings.resource.embargoPeriod" />
                           </Headline>
-                          <CustomEmbargoFields
-                            change={change}
-                            showInputs={(initialValues.customEmbargoValue > 0)}
-                            initial={{
-                              customEmbargoValue: initialValues.customEmbargoValue,
-                              customEmbargoUnit: initialValues.customEmbargoUnit
-                            }}
-                          />
+                          <CustomEmbargoFields />
                         </Fragment>
                       ) : (
                         <p data-test-eholdings-resource-edit-settings-message>

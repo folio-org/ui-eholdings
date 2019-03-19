@@ -5,7 +5,9 @@ import arrayMutators from 'final-form-arrays';
 import createCalculateDecorator from 'final-form-calculate';
 import createFocusDecorator from 'final-form-focus';
 import { FormattedMessage } from 'react-intl';
+
 import update from 'lodash/fp/update';
+import isEqual from 'lodash/isEqual';
 
 import {
   Accordion,
@@ -56,7 +58,6 @@ const focusOnErrors = createFocusDecorator();
 
 export default class ResourceEditManagedTitle extends Component {
   static propTypes = {
-    initialValues: PropTypes.object.isRequired,
     model: PropTypes.object.isRequired,
     onCancel: PropTypes.func.isRequired,
     onSubmit: PropTypes.func.isRequired,
@@ -64,11 +65,11 @@ export default class ResourceEditManagedTitle extends Component {
   };
 
   state = {
-    managedResourceSelected: this.props.initialValues.isSelected,
+    managedResourceSelected: this.props.model.isSelected,
     showSelectionModal: false,
     allowFormToSubmit: false,
     formValues: {},
-    initialValues: this.props.initialValues,
+    initialValues: this.getInitialValuesFromModel(),
     sections: {
       resourceShowHoldingStatus: true,
       resourceShowSettings: true,
@@ -77,22 +78,58 @@ export default class ResourceEditManagedTitle extends Component {
   };
 
   static getDerivedStateFromProps(nextProps, prevState) {
+    // debugger;
     let stateUpdates = {};
 
     if (nextProps.model.update.errors.length) {
       stateUpdates.showSelectionModal = false;
     }
 
-    if (nextProps.initialValues.isSelected !== prevState.initialValues.isSelected) {
+    if (nextProps.model.isSelected !== prevState.initialValues.isSelected) {
       Object.assign(stateUpdates, {
         initialValues: {
-          isSelected: nextProps.initialValues.isSelected
+          isSelected: nextProps.model.isSelected
         },
-        managedResourceSelected: nextProps.initialValues.isSelected
+        managedResourceSelected: nextProps.model.isSelected
       });
     }
+    const customEmbargoChanged = !isEqual(nextProps.model.customEmbargoPeriod, prevState.initialValues.customEmbargoPeriod[0]);    
 
     return stateUpdates;
+  }
+
+  getInitialValuesFromModel() {
+    const {
+      isSelected,
+      visibilityData,
+      customCoverages,
+      coverageStatement,
+      customEmbargoPeriod,
+      proxy
+    } = this.props.model;
+
+    const hasCoverageStatement = coverageStatement.length > 0
+      ? 'yes'
+      : 'no';
+
+    const initialValues = {
+      isSelected,
+      isVisible: !visibilityData.isHidden,
+      customCoverages,
+      coverageStatement,
+      hasCoverageStatement,
+      proxyId: proxy.id,
+      customEmbargoPeriod: []
+    };
+
+    if (customEmbargoPeriod.embargoValue) {
+      initialValues.customEmbargoPeriod = [{
+        embargoValue: customEmbargoPeriod.embargoValue,
+        embargoUnit: customEmbargoPeriod.embargoUnit,
+      }];
+    }
+
+    return initialValues;
   }
 
   toggleSection = ({ id }) => {
@@ -246,25 +283,25 @@ export default class ResourceEditManagedTitle extends Component {
   }
 
   render() {
-    let {
+    const {
       model,
       proxyTypes,
-      initialValues,
     } = this.props;
 
-    let {
+    const {
       showSelectionModal,
       managedResourceSelected,
       sections,
+      initialValues,
     } = this.state;
 
-    let isSelectInFlight = model.update.isPending && 'isSelected' in model.update.changedAttributes;
+    const isSelectInFlight = model.update.isPending && 'isSelected' in model.update.changedAttributes;
 
-    let hasInheritedProxy = model.package &&
+    const hasInheritedProxy = model.package &&
       model.package.proxy &&
       model.package.proxy.id;
 
-    let visibilityMessage = model.package.visibilityData.isHidden
+    const visibilityMessage = model.package.visibilityData.isHidden
       ? <FormattedMessage id="ui-eholdings.resource.visibilityData.isHidden" />
       : model.visibilityData.reason && `(${model.visibilityData.reason})`;
 
@@ -273,6 +310,7 @@ export default class ResourceEditManagedTitle extends Component {
         onSubmit={this.handleOnSubmit}
         decorators={[coverageStatementDecorator, focusOnErrors]}
         mutators={{ ...arrayMutators }}
+        initialValuesEqual={() => true}
         initialValues={initialValues}
         render={({ handleSubmit, pristine, form: { change } }) => (
           <div>
@@ -327,8 +365,7 @@ export default class ResourceEditManagedTitle extends Component {
                               : (<FormattedMessage id="ui-eholdings.notSelected" />)
                             }
                           </Headline>
-                        )
-                        }
+                        )}
                         <br />
                         {((!managedResourceSelected && !isSelectInFlight) || (!this.props.model.isSelected && isSelectInFlight)) && (
                           <IfPermission perm="ui-eholdings.package-title.select-unselect">
@@ -391,14 +428,7 @@ export default class ResourceEditManagedTitle extends Component {
                           <Headline tag="h4">
                             <FormattedMessage id="ui-eholdings.resource.embargoPeriod" />
                           </Headline>
-                          <CustomEmbargoFields
-                            change={change}
-                            showInputs={(initialValues.customEmbargoValue > 0)}
-                            initial={{
-                              customEmbargoValue: initialValues.customEmbargoValue,
-                              customEmbargoUnit: initialValues.customEmbargoUnit
-                            }}
-                          />
+                          <CustomEmbargoFields />
                         </Fragment>
                       ) : (
                         <p data-test-eholdings-resource-edit-settings-message>
