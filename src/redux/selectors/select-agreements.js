@@ -1,3 +1,3 @@
-export default function selectAgreements(store, id) {
-  return store.eholdings.data.agreements[id];
+export default function selectAgreements(store) {
+  return store.eholdings.data.agreements;
 }

@@ -8,7 +8,6 @@ import update from 'lodash/fp/update';
 import set from 'lodash/fp/set';
 
 import {
-  Pluggable,
   IfPermission,
   withStripes,
 } from '@folio/stripes-core';
@@ -31,7 +30,7 @@ import ExternalLink from '../external-link/external-link';
 import IdentifiersList from '../identifiers-list';
 import ContributorsList from '../contributors-list';
 import CoverageDateList from '../coverage-date-list';
-import AgreementsList from '../agreements-list';
+import AgreementsAccordion from '../../features';
 import {
   isBookPublicationType,
   isValidCoverageList,
@@ -46,11 +45,8 @@ import ProxyDisplay from '../proxy-display';
 
 class ResourceShow extends Component {
   static propTypes = {
-    agreements: PropTypes.object,
-    getAgreements: PropTypes.func.isRequired,
     isFreshlySaved: PropTypes.bool,
     model: PropTypes.object.isRequired,
-    onAddAgreement: PropTypes.object.isRequired,
     onEdit: PropTypes.func.isRequired,
     proxyTypes: PropTypes.object.isRequired,
     stripes: PropTypes.shape({
@@ -198,39 +194,6 @@ class ResourceShow extends Component {
     );
   }
 
-  getAgreementsSectionHeader = () => {
-    return (
-      <Headline
-        size="large"
-        tag="h3"
-      >
-        <FormattedMessage id="ui-eholdings.agreements" />
-      </Headline>
-    );
-  }
-
-  renderFindAgreementTrigger = (props) => {
-    return (
-      <Button {...props}>
-        <FormattedMessage id="ui-eholdings.add" />
-      </Button>
-    );
-  }
-
-  getAgreementsSectionButtons() {
-    const {
-      onAddAgreement,
-    } = this.props;
-
-    return (
-      <Pluggable
-        dataKey="resource-show-find-agreement"
-        type="find-agreement"
-        renderTrigger={this.renderFindAgreementTrigger}
-        onAgreementSelected={onAddAgreement}
-      />
-    );
-  }
 
   render() {
     let {
@@ -240,8 +203,6 @@ class ResourceShow extends Component {
       tagsModel,
       updateEntityTags,
       updateFolioTags,
-      agreements,
-      getAgreements,
     } = this.props;
 
     let {
@@ -607,18 +568,12 @@ class ResourceShow extends Component {
                 )}
               </Accordion>
 
-              <Accordion
+              <AgreementsAccordion
                 id="resourceShowAgreements"
-                label={this.getAgreementsSectionHeader()}
-                open={sections.resourceShowAgreements}
-                displayWhenOpen={this.getAgreementsSectionButtons()}
+                referenceId={model.id}
+                isOpen={sections.resourceShowAgreements}
                 onToggle={this.handleSectionToggle}
-              >
-                <AgreementsList
-                  getAgreements={getAgreements}
-                  agreements={agreements}
-                />
-              </Accordion>
+              />
             </div>
           )}
         />

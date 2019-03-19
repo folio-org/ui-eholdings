@@ -1,10 +1,10 @@
 export const GET_AGREEMENTS = 'GET_AGREEMENTS';
 
-export function getAgreements(payload) {
+export function getAgreements(referenceId) {
   return {
     type: GET_AGREEMENTS,
     payload: {
-      ...payload,
+      referenceId,
       isLoading: true,
     },
   };

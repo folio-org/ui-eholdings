@@ -8,15 +8,15 @@ import {
 
 describe('(action) getAgreements', () => {
   it('should create an action to get agreements', () => {
-    const payload = { testProp: 'prop' };
+    const referenceId = 'referenceId';
     const expectedAction = {
       type: GET_AGREEMENTS,
       payload: {
-        testProp: 'prop',
+        referenceId,
         isLoading: true,
       },
     };
 
-    expect(getAgreements(payload)).to.deep.equal(expectedAction);
+    expect(getAgreements(referenceId)).to.deep.equal(expectedAction);
   });
 });
