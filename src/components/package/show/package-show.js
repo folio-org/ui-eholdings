@@ -61,6 +61,7 @@ class PackageShow extends Component {
     onAddAgreement: PropTypes.func.isRequired,
     onEdit: PropTypes.func.isRequired,
     onFullView: PropTypes.func,
+    packageTitles: PropTypes.object.isRequired,
     provider: PropTypes.object.isRequired,
     proxyTypes: PropTypes.object.isRequired,
     searchModal: PropTypes.node,
@@ -546,7 +547,7 @@ class PackageShow extends Component {
 
   renderTitlesList = (scrollable) => {
     const {
-      model,
+      packageTitles,
       fetchPackageTitles,
     } = this.props;
 
@@ -554,8 +555,8 @@ class PackageShow extends Component {
       <QueryList
         type="package-titles"
         fetch={fetchPackageTitles}
-        collection={model.resources}
-        length={model.titleCount}
+        collection={packageTitles}
+        length={packageTitles.length}
         scrollable={scrollable}
         itemHeight={ITEM_HEIGHT}
         notFoundMessage={<FormattedMessage id="ui-eholdings.notFound" />}
