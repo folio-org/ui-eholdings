@@ -154,15 +154,6 @@ class PackageShowRoute extends Component {
     this.searchTitles({ ...pkgSearchParams, page });
   }
 
-  setPage = (page) => {
-    this.setState(({ queryId }) => ({
-      page,
-      queryId: queryId + 1
-    }), () => {
-      this.fetchPackageTitles();
-    });
-  };
-
   searchTitles = (pkgSearchParams) => {
     this.setState(({ queryId }) => ({
       pkgSearchParams,
@@ -238,7 +229,7 @@ class PackageShowRoute extends Component {
           updateFolioTags={updateFolioTags}
           proxyTypes={proxyTypes}
           provider={provider}
-          fetchPackageTitles={this.setPage}
+          fetchPackageTitles={this.fetchPackageTitles}
           toggleSelected={this.toggleSelected}
           addPackageToHoldings={this.addPackageToHoldings}
           toggleHidden={this.toggleHidden}
