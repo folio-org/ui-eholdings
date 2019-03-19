@@ -25,9 +25,9 @@ import AgreementsList from '../../components/agreements-list';
 
 import Agreement from './model';
 
-class AgreementsSection extends Component {
+class AgreementsAccordion extends Component {
   static propTypes = {
-    agreements: PropTypes.array.isRequired,
+    agreements: PropTypes.object.isRequired,
     attachAgreement: PropTypes.func.isRequired,
     getAgreements: PropTypes.func.isRequired,
     id: PropTypes.string.isRequired,
@@ -45,7 +45,7 @@ class AgreementsSection extends Component {
     getAgreements(referenceId);
   }
 
-  getAgreementsSectionHeader = () => {
+  getAgreementsAccordionHeader = () => {
     return (
       <Headline
         size="large"
@@ -64,7 +64,7 @@ class AgreementsSection extends Component {
     );
   }
 
-  getAgreementsSectionButtons() {
+  getAgreementsAccordionButtons() {
     return (
       <Pluggable
         dataKey="find-agreements"
@@ -100,8 +100,8 @@ class AgreementsSection extends Component {
       <Accordion
         id={id}
         open={isOpen}
-        label={this.getAgreementsSectionHeader()}
-        displayWhenOpen={this.getAgreementsSectionButtons()}
+        label={this.getAgreementsAccordionHeader()}
+        displayWhenOpen={this.getAgreementsAccordionButtons()}
         onToggle={onToggle}
       >
         <AgreementsList agreements={agreements} />
@@ -117,4 +117,4 @@ export default connect(
     getAgreements: getAgreementsAction,
     attachAgreement: attachAgreementAction,
   }
-)(AgreementsSection);
+)(AgreementsAccordion);
