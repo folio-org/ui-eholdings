@@ -290,42 +290,39 @@ class PackageShow extends Component {
 
     return (
       <div>
-        {
-          packageSelected && (
-            <Accordion
-              label={(
-                <Headline
-                  size="large"
-                  tag="h3"
-                >
-                  <FormattedMessage id="ui-eholdings.tags" />
-                </Headline>
-              )}
-              open={sections.providerShowTags}
-              id="providerShowTags"
-              onToggle={this.handleSectionToggle}
-              displayWhenClosed={
-                <Badge sixe='small'>
-                  <span data-test-eholdings-provider-tags-bage>
-                    <FormattedNumber value={getEntityTags(model).length} />
-                  </span>
-                </Badge>
-              }
+        <Accordion
+          label={(
+            <Headline
+              size="large"
+              tag="h3"
             >
-              {(!tagsModel.request.isResolved || model.isLoading)
-                ? <Icon icon="spinner-ellipsis" />
-                : (
-                  <Tags
-                    updateEntityTags={updateEntityTags}
-                    updateFolioTags={updateFolioTags}
-                    model={model}
-                    tags={getTagLabelsArr(tagsModel)}
-                  />
-                )
-              }
-            </Accordion>
-          )
-        }
+              <FormattedMessage id="ui-eholdings.tags" />
+            </Headline>
+          )}
+          open={sections.providerShowTags}
+          id="providerShowTags"
+          onToggle={this.handleSectionToggle}
+          displayWhenClosed={
+            <Badge sixe='small'>
+              <span data-test-eholdings-provider-tags-bage>
+                <FormattedNumber value={getEntityTags(model).length} />
+              </span>
+            </Badge>
+          }
+        >
+          {(!tagsModel.request.isResolved || model.isLoading)
+            ? <Icon icon="spinner-ellipsis" />
+            : (
+              <Tags
+                updateEntityTags={updateEntityTags}
+                updateFolioTags={updateFolioTags}
+                model={model}
+                tags={getTagLabelsArr(tagsModel)}
+              />
+            )
+          }
+        </Accordion>
+
         <Accordion
           label={(
             <Headline
