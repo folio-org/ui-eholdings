@@ -227,36 +227,32 @@ class ProviderShow extends Component {
     const hasProxy = hasIn('proxy.id', model);
     const hasToken = hasIn('providerToken.prompt', model);
     const hasProviderSettings = hasProxy || hasToken;
-    const hasSelectedPackages = model.packagesSelected > 0;
 
     return (
       <div>
-        {
-          hasSelectedPackages && (
-            <Accordion
-              label={(
-                <Headline
-                  size="large"
-                  tag="h3"
-                >
-                  <FormattedMessage id="ui-eholdings.tags" />
-                </Headline>
-              )}
-              open={sections.providerShowTags}
-              id="providerShowTags"
-              onToggle={this.handleSectionToggle}
-              displayWhenClosed={
-                <Badge sixe='small'>
-                  <span data-test-eholdings-provider-tags-bage>
-                    <FormattedNumber value={getEntityTags(model).length} />
-                  </span>
-                </Badge>
-              }
+        <Accordion
+          label={(
+            <Headline
+              size="large"
+              tag="h3"
             >
-              {this.renderTags()}
-            </Accordion>
-          )
-        }
+              <FormattedMessage id="ui-eholdings.tags" />
+            </Headline>
+          )}
+          open={sections.providerShowTags}
+          id="providerShowTags"
+          onToggle={this.handleSectionToggle}
+          displayWhenClosed={
+            <Badge sixe='small'>
+              <span data-test-eholdings-provider-tags-bage>
+                <FormattedNumber value={getEntityTags(model).length} />
+              </span>
+            </Badge>
+          }
+        >
+          {this.renderTags()}
+        </Accordion>
+
         <Accordion
           label={(
             <Headline
