@@ -35,10 +35,10 @@ function validateEmbargoValue(value) {
   return error;
 }
 
-function validateEmbargoUnit(value, { customEmbargoValue }) {
+function validateEmbargoUnit(embargoUnitValue, { customEmbargoPeriod }) {
   let error;
 
-  if (customEmbargoValue > 0 && !value) {
+  if (customEmbargoPeriod.length && customEmbargoPeriod[0].embargoValue > 0 && !embargoUnitValue) {
     error = <FormattedMessage id="ui-eholdings.validate.errors.embargoPeriod.unit" />;
   }
 
@@ -71,27 +71,31 @@ export default class CustomEmbargoFields extends Component {
         data-test-eholdings-custom-embargo-select
         className={styles['custom-embargo-select']}
       >
-        <Field
-          name={`${fields.name}[0].embargoUnit`}
-          component={Select}
-          validate={validateEmbargoUnit}
+        <FormattedMessage
+          id="ui-eholdings.label.selectTimePeriod"
         >
-          <FormattedMessage id="ui-eholdings.label.selectTimePeriod">
-            {(message) => <option value="">{message}</option>}
-          </FormattedMessage>
-          <FormattedMessage id="ui-eholdings.label.days">
-            {(message) => <option value="Days">{message}</option>}
-          </FormattedMessage>
-          <FormattedMessage id="ui-eholdings.label.weeks">
-            {(message) => <option value="Weeks">{message}</option>}
-          </FormattedMessage>
-          <FormattedMessage id="ui-eholdings.label.months">
-            {(message) => <option value="Months">{message}</option>}
-          </FormattedMessage>
-          <FormattedMessage id="ui-eholdings.label.years">
-            {(message) => <option value="Years">{message}</option>}
-          </FormattedMessage>
-        </Field>
+          {placeholder => (
+            <Field
+              name={`${fields.name}[0].embargoUnit`}
+              component={Select}
+              validate={validateEmbargoUnit}
+              placeholder={placeholder}
+            >
+              <FormattedMessage id="ui-eholdings.label.days">
+                {(message) => <option value="Days">{message}</option>}
+              </FormattedMessage>
+              <FormattedMessage id="ui-eholdings.label.weeks">
+                {(message) => <option value="Weeks">{message}</option>}
+              </FormattedMessage>
+              <FormattedMessage id="ui-eholdings.label.months">
+                {(message) => <option value="Months">{message}</option>}
+              </FormattedMessage>
+              <FormattedMessage id="ui-eholdings.label.years">
+                {(message) => <option value="Years">{message}</option>}
+              </FormattedMessage>
+            </Field>
+          )}
+        </FormattedMessage>
       </div>
     );
 

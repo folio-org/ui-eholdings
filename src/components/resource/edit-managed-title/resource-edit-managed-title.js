@@ -7,7 +7,6 @@ import createFocusDecorator from 'final-form-focus';
 import { FormattedMessage } from 'react-intl';
 
 import update from 'lodash/fp/update';
-import isEqual from 'lodash/isEqual';
 
 import {
   Accordion,
@@ -78,7 +77,6 @@ export default class ResourceEditManagedTitle extends Component {
   };
 
   static getDerivedStateFromProps(nextProps, prevState) {
-    // debugger;
     let stateUpdates = {};
 
     if (nextProps.model.update.errors.length) {
@@ -93,7 +91,6 @@ export default class ResourceEditManagedTitle extends Component {
         managedResourceSelected: nextProps.model.isSelected
       });
     }
-    const customEmbargoChanged = !isEqual(nextProps.model.customEmbargoPeriod, prevState.initialValues.customEmbargoPeriod[0]);    
 
     return stateUpdates;
   }

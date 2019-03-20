@@ -11,6 +11,28 @@ export default class ResourceEdit extends Component {
     model: PropTypes.object.isRequired
   };
 
+  renderRequestErrorMessage() {
+    const { model } = this.props;
+
+    return (
+      <p data-test-eholdings-resource-edit-error>
+        {model.request.errors[0].title}
+      </p>
+    );
+  }
+
+  indicateModelIsNotLoaded() {
+    const { model } = this.props;
+
+    return model.request.isRejected
+      ? this.renderRequestErrorMessage()
+      : (
+        <Icon
+          icon="spinner-ellipsis"
+          iconSize="small"
+        />
+      );
+  }
 
   renderView() {
     const {
@@ -37,11 +59,6 @@ export default class ResourceEdit extends Component {
 
     return isLoaded
       ? this.renderView()
-      : (
-        <Icon
-          icon="spinner-ellipsis"
-          iconSize="small"
-        />
-      );
+      : this.indicateModelIsNotLoaded();
   }
 }
