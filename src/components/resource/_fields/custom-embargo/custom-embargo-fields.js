@@ -35,10 +35,11 @@ function validateEmbargoValue(value) {
   return error;
 }
 
-function validateEmbargoUnit(embargoUnitValue, { customEmbargoPeriod }) {
+function validateEmbargoUnit(embargoUnit, { customEmbargoPeriod }) {
   let error;
+  const embargoValueIsSet = customEmbargoPeriod.length && customEmbargoPeriod[0].embargoValue > 0;
 
-  if (customEmbargoPeriod.length && customEmbargoPeriod[0].embargoValue > 0 && !embargoUnitValue) {
+  if (embargoValueIsSet && !embargoUnit) {
     error = <FormattedMessage id="ui-eholdings.validate.errors.embargoPeriod.unit" />;
   }
 
@@ -46,34 +47,13 @@ function validateEmbargoUnit(embargoUnitValue, { customEmbargoPeriod }) {
 }
 
 export default class CustomEmbargoFields extends Component {
-  renderInputs(fields, initial) {
-    const embargoValueField = (
-      <div
-        data-test-eholdings-custom-embargo-textfield
-        className={styles['custom-embargo-text-field']}
-      >
-        <FormattedMessage id="ui-eholdings.number">
-          {placeholder => (
-            <Field
-              name={`${fields.name}[0].embargoValue`}
-              component={TextField}
-              placeholder={placeholder}
-              autoFocus={!initial.length}
-              validate={validateEmbargoValue}
-            />
-          )}
-        </FormattedMessage>
-      </div>
-    );
-
-    const embargoUnitField = (
+  renderEmbargoUnitField(fields) {
+    return (
       <div
         data-test-eholdings-custom-embargo-select
         className={styles['custom-embargo-select']}
       >
-        <FormattedMessage
-          id="ui-eholdings.label.selectTimePeriod"
-        >
+        <FormattedMessage id="ui-eholdings.label.selectTimePeriod">
           {placeholder => (
             <Field
               name={`${fields.name}[0].embargoUnit`}
@@ -98,8 +78,31 @@ export default class CustomEmbargoFields extends Component {
         </FormattedMessage>
       </div>
     );
+  }
 
-    const removeButton = (
+  renderEmbargoValueField(fields, initialValues) {
+    return (
+      <div
+        data-test-eholdings-custom-embargo-textfield
+        className={styles['custom-embargo-text-field']}
+      >
+        <FormattedMessage id="ui-eholdings.number">
+          {placeholder => (
+            <Field
+              name={`${fields.name}[0].embargoValue`}
+              component={TextField}
+              placeholder={placeholder}
+              autoFocus={!initialValues.length}
+              validate={validateEmbargoValue}
+            />
+          )}
+        </FormattedMessage>
+      </div>
+    );
+  }
+
+  renderRemoveButton(fields) {
+    return (
       <div
         data-test-eholdings-custom-embargo-remove-row-button
         className={styles['custom-embargo-clear-row']}
@@ -116,17 +119,19 @@ export default class CustomEmbargoFields extends Component {
         </FormattedMessage>
       </div>
     );
+  }
 
+  renderInputs(fields, initialValues) {
     return (
       <div className={styles['custom-embargo-fields']}>
-        {embargoValueField}
-        {embargoUnitField}
-        {removeButton}
+        {this.renderEmbargoValueField(fields, initialValues)}
+        {this.renderEmbargoUnitField(fields)}
+        {this.renderRemoveButton(fields)}
       </div>
     );
   }
 
-  renderAddButton(fields, initial) {
+  renderAddButton(fields, initialValues) {
     const removalWarning = (
       <p data-test-eholdings-embargo-fields-saving-will-remove>
         <FormattedMessage id="ui-eholdings.resource.embargoPeriod.saveWillRemove" />
@@ -135,11 +140,7 @@ export default class CustomEmbargoFields extends Component {
 
     return (
       <div>
-        {initial.length
-          ? removalWarning
-          : null
-        }
-
+        {!!initialValues.length && removalWarning}
         <div
           className={styles['custom-embargo-add-row-button']}
           data-test-eholdings-custom-embargo-add-row-button
@@ -157,10 +158,15 @@ export default class CustomEmbargoFields extends Component {
     );
   }
 
-  renderEmbargoField = ({ fields, meta: { initial } }) => {
+  renderEmbargoField = ({ fields, meta: { initial: initialValues } }) => {
+    const fieldsData = [
+      fields,
+      initialValues,
+    ];
+
     return fields.value.length
-      ? this.renderInputs(fields, initial)
-      : this.renderAddButton(fields, initial);
+      ? this.renderInputs(...fieldsData)
+      : this.renderAddButton(...fieldsData);
   }
 
   render() {

@@ -8,7 +8,10 @@ import CustomResourceEdit from './edit-custom-title';
 
 export default class ResourceEdit extends Component {
   static propTypes = {
-    model: PropTypes.object.isRequired
+    model: PropTypes.object.isRequired,
+    onCancel: PropTypes.func.isRequired,
+    onSubmit: PropTypes.func.isRequired,
+    proxyTypes: PropTypes.object.isRequired,
   };
 
   renderRequestErrorMessage() {
@@ -39,7 +42,7 @@ export default class ResourceEdit extends Component {
       model,
       ...props
     } = this.props;
-
+    
     const View = model.isTitleCustom
       ? CustomResourceEdit
       : ManagedResourceEdit;

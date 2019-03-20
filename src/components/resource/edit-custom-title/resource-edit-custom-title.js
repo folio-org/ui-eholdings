@@ -30,7 +30,10 @@ import PaneHeaderButton from '../../pane-header-button';
 import CoverageDateList from '../../coverage-date-list';
 import ProxySelectField from '../../proxy-select';
 
-import historyActions from '../../../constants/historyActions';
+import {
+  historyActions,
+  coverageStatementStatuses,
+} from '../../../constants';
 
 const focusOnErrors = createFocusDecorator();
 
@@ -86,8 +89,8 @@ export default class ResourceEditCustomTitle extends Component {
     } = this.props.model;
 
     const hasCoverageStatement = coverageStatement.length > 0
-      ? 'yes'
-      : 'no';
+      ? coverageStatementStatuses.YES
+      : coverageStatementStatuses.NO;
 
     return {
       isSelected,

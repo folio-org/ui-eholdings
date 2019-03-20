@@ -1,19 +1,30 @@
 import createCalculateDecorator from 'final-form-calculate';
 
+import { coverageStatementStatuses } from '../../../../constants';
+
+const {
+  YES,
+  NO,
+} = coverageStatementStatuses;
+
 export default createCalculateDecorator(
   {
     field: 'hasCoverageStatement',
     updates: {
-      coverageStatement: (hasCoverageStatement, { coverageStatement }) => {
-        return (hasCoverageStatement === 'no') ? '' : coverageStatement;
+      coverageStatement: (hasCoverageStatementValue, formValues) => {
+        return hasCoverageStatementValue === NO
+          ? ''
+          : formValues.coverageStatement;
       }
     }
   },
   {
     field: 'coverageStatement',
     updates: {
-      hasCoverageStatement: (coverageStatement) => {
-        return (coverageStatement && coverageStatement.length) > 0 ? 'yes' : 'no';
+      hasCoverageStatement: (coverageStatementValue) => {
+        return coverageStatementValue && coverageStatementValue.length
+          ? YES
+          : NO;
       }
     }
   }

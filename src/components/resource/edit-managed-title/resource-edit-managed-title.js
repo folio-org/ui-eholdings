@@ -6,6 +6,8 @@ import createFocusDecorator from 'final-form-focus';
 import { FormattedMessage } from 'react-intl';
 
 import update from 'lodash/fp/update';
+import hasIn from 'lodash/hasIn';
+import get from 'lodash/get';
 
 import {
   Accordion,
@@ -31,7 +33,10 @@ import CoverageDateList from '../../coverage-date-list';
 import PaneHeaderButton from '../../pane-header-button';
 import DetailsView from '../../details-view';
 
-import historyActions from '../../../constants/historyActions';
+import {
+  historyActions,
+  coverageStatementStatuses,
+} from '../../../constants';
 
 const focusOnErrors = createFocusDecorator();
 
@@ -86,8 +91,8 @@ export default class ResourceEditManagedTitle extends Component {
     } = this.props.model;
 
     const hasCoverageStatement = coverageStatement.length > 0
-      ? 'yes'
-      : 'no';
+      ? coverageStatementStatuses.YES
+      : coverageStatementStatuses.NO;
 
     return {
       isSelected,
@@ -263,12 +268,8 @@ export default class ResourceEditManagedTitle extends Component {
       initialValues,
     } = this.state;
 
-    const isSelectInFlight = model.update.isPending && 'isSelected' in model.update.changedAttributes;
-
-    const hasInheritedProxy = model.package &&
-      model.package.proxy &&
-      model.package.proxy.id;
-
+    const isSelectInFlight = model.update.isPending && hasIn(model.update.changedAttributes, 'isSelected');
+    const hasInheritedProxy = get(model, 'package.proxy.id', false);
     const visibilityMessage = model.package.visibilityData.isHidden
       ? <FormattedMessage id="ui-eholdings.resource.visibilityData.isHidden" />
       : model.visibilityData.reason && `(${model.visibilityData.reason})`;
