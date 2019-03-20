@@ -23,7 +23,7 @@ import { processErrors, isBookPublicationType } from '../../utilities';
 import CoverageStatementFields, { coverageStatementDecorator } from '../_fields/coverage-statement';
 import VisibilityField from '../_fields/visibility';
 import Toaster from '../../toaster';
-import CustomEmbargoFields from '../_fields/custom-embargo';
+import CustomEmbargoFields, { getEmbargoInitial } from '../_fields/custom-embargo';
 import NavigationModal from '../../navigation-modal';
 import ProxySelectField from '../../proxy-select';
 import ManagedCoverageFields from '../_fields/managed-coverage';
@@ -89,24 +89,15 @@ export default class ResourceEditManagedTitle extends Component {
       ? 'yes'
       : 'no';
 
-    const initialValues = {
+    return {
       isSelected,
       isVisible: !visibilityData.isHidden,
       customCoverages,
       coverageStatement,
       hasCoverageStatement,
       proxyId: proxy.id,
-      customEmbargoPeriod: []
+      customEmbargoPeriod: getEmbargoInitial(customEmbargoPeriod)
     };
-
-    if (customEmbargoPeriod.embargoValue) {
-      initialValues.customEmbargoPeriod = [{
-        embargoValue: customEmbargoPeriod.embargoValue,
-        embargoUnit: customEmbargoPeriod.embargoUnit,
-      }];
-    }
-
-    return initialValues;
   }
 
   toggleSection = ({ id }) => {

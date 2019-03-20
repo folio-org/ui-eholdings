@@ -23,7 +23,7 @@ import VisibilityField from '../_fields/visibility';
 import CustomCoverageFields from '../_fields/custom-coverage';
 import CustomUrlFields from '../_fields/custom-url';
 import CoverageStatementFields, { coverageStatementDecorator } from '../_fields/coverage-statement';
-import CustomEmbargoFields from '../_fields/custom-embargo';
+import CustomEmbargoFields, { getEmbargoInitial } from '../_fields/custom-embargo';
 import NavigationModal from '../../navigation-modal';
 import Toaster from '../../toaster';
 import PaneHeaderButton from '../../pane-header-button';
@@ -89,7 +89,7 @@ export default class ResourceEditCustomTitle extends Component {
       ? 'yes'
       : 'no';
 
-    const initialValues = {
+    return {
       isSelected,
       customCoverages,
       coverageStatement,
@@ -97,17 +97,8 @@ export default class ResourceEditCustomTitle extends Component {
       customUrl: url,
       proxyId: proxy.id,
       isVisible: !visibilityData.isHidden,
-      customEmbargoPeriod: []
+      customEmbargoPeriod: getEmbargoInitial(customEmbargoPeriod)
     };
-
-    if (customEmbargoPeriod.embargoValue) {
-      initialValues.customEmbargoPeriod = [{
-        embargoValue: customEmbargoPeriod.embargoValue,
-        embargoUnit: customEmbargoPeriod.embargoUnit,
-      }];
-    }
-
-    return initialValues;
   }
 
   toggleSection = ({ id }) => {
