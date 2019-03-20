@@ -2,7 +2,6 @@ import React, { Component, Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { Form, FormSpy } from 'react-final-form';
 import arrayMutators from 'final-form-arrays';
-import createCalculateDecorator from 'final-form-calculate';
 import createFocusDecorator from 'final-form-focus';
 import { FormattedMessage } from 'react-intl';
 
@@ -21,37 +20,18 @@ import { IfPermission } from '@folio/stripes-core';
 
 import { processErrors, isBookPublicationType } from '../../utilities';
 
-import DetailsView from '../../details-view';
+import CoverageStatementFields, { coverageStatementDecorator } from '../_fields/coverage-statement';
 import VisibilityField from '../_fields/visibility';
-import CoverageStatementFields from '../_fields/coverage-statement';
-import ManagedCoverageFields from '../_fields/managed-coverage';
+import Toaster from '../../toaster';
 import CustomEmbargoFields from '../_fields/custom-embargo';
 import NavigationModal from '../../navigation-modal';
-import Toaster from '../../toaster';
-import PaneHeaderButton from '../../pane-header-button';
-import CoverageDateList from '../../coverage-date-list';
 import ProxySelectField from '../../proxy-select';
+import ManagedCoverageFields from '../_fields/managed-coverage';
+import CoverageDateList from '../../coverage-date-list';
+import PaneHeaderButton from '../../pane-header-button';
+import DetailsView from '../../details-view';
 
 import historyActions from '../../../constants/historyActions';
-
-const coverageStatementDecorator = createCalculateDecorator(
-  {
-    field: 'hasCoverageStatement',
-    updates: {
-      coverageStatement: (hasCoverageStatement, { coverageStatement }) => {
-        return (hasCoverageStatement === 'no') ? '' : coverageStatement;
-      }
-    }
-  },
-  {
-    field: 'coverageStatement',
-    updates: {
-      hasCoverageStatement: (coverageStatement) => {
-        return (coverageStatement && coverageStatement.length) > 0 ? 'yes' : 'no';
-      }
-    }
-  }
-);
 
 const focusOnErrors = createFocusDecorator();
 

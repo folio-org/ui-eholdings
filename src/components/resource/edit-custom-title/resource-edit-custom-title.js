@@ -2,7 +2,6 @@ import React, { Component, Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { Form, FormSpy } from 'react-final-form';
 import arrayMutators from 'final-form-arrays';
-import createCalculateDecorator from 'final-form-calculate';
 import createFocusDecorator from 'final-form-focus';
 import { FormattedMessage } from 'react-intl';
 import update from 'lodash/fp/update';
@@ -23,7 +22,7 @@ import DetailsView from '../../details-view';
 import VisibilityField from '../_fields/visibility';
 import CustomCoverageFields from '../_fields/custom-coverage';
 import CustomUrlFields from '../_fields/custom-url';
-import CoverageStatementFields from '../_fields/coverage-statement';
+import CoverageStatementFields, { coverageStatementDecorator } from '../_fields/coverage-statement';
 import CustomEmbargoFields from '../_fields/custom-embargo';
 import NavigationModal from '../../navigation-modal';
 import Toaster from '../../toaster';
@@ -32,25 +31,6 @@ import CoverageDateList from '../../coverage-date-list';
 import ProxySelectField from '../../proxy-select';
 
 import historyActions from '../../../constants/historyActions';
-
-const coverageStatementDecorator = createCalculateDecorator(
-  {
-    field: 'hasCoverageStatement',
-    updates: {
-      coverageStatement: (hasCoverageStatement, { coverageStatement }) => {
-        return (hasCoverageStatement === 'no') ? '' : coverageStatement;
-      }
-    }
-  },
-  {
-    field: 'coverageStatement',
-    updates: {
-      hasCoverageStatement: (coverageStatement) => {
-        return (coverageStatement && coverageStatement.length) > 0 ? 'yes' : 'no';
-      }
-    }
-  }
-);
 
 const focusOnErrors = createFocusDecorator();
 
