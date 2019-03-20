@@ -100,8 +100,8 @@ export default class ResourceEditManagedTitle extends Component {
       customCoverages,
       coverageStatement,
       hasCoverageStatement,
+      customEmbargoPeriod: getEmbargoInitial(customEmbargoPeriod),
       proxyId: proxy.id,
-      customEmbargoPeriod: getEmbargoInitial(customEmbargoPeriod)
     };
   }
 
