@@ -4,7 +4,9 @@ import { Form, FormSpy } from 'react-final-form';
 import arrayMutators from 'final-form-arrays';
 import createFocusDecorator from 'final-form-focus';
 import { FormattedMessage } from 'react-intl';
+
 import update from 'lodash/fp/update';
+import get from 'lodash/get';
 
 import { IfPermission } from '@folio/stripes-core';
 import {
@@ -89,8 +91,8 @@ export default class ResourceEditCustomTitle extends Component {
     } = this.props.model;
 
     const hasCoverageStatement = coverageStatement.length > 0
-      ? coverageStatementStatuses.YES
-      : coverageStatementStatuses.NO;
+      ? coverageStatementStatuses.YES_STATUS
+      : coverageStatementStatuses.NO_STATUS;
 
     return {
       isSelected,
@@ -246,10 +248,7 @@ export default class ResourceEditCustomTitle extends Component {
       initialValues,
     } = this.state;
 
-    const hasInheritedProxy = model.package &&
-      model.package.proxy &&
-      model.package.proxy.id;
-
+    const hasInheritedProxy = get(model, 'package.proxy.id');
     const visibilityMessage = model.package.visibilityData.isHidden
       ? <FormattedMessage id="ui-eholdings.resource.visibilityData.isHidden" />
       : model.visibilityData.reason && `(${model.visibilityData.reason})`;

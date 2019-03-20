@@ -1,6 +1,6 @@
 const coverageStatementStatuses = {
-  YES: 'yes',
-  NO: 'no',
+  YES_STATUS: 'yes',
+  NO_STATUS: 'no',
 };
 
 export default coverageStatementStatuses;

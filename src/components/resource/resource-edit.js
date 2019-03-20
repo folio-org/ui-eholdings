@@ -42,7 +42,7 @@ export default class ResourceEdit extends Component {
       model,
       ...props
     } = this.props;
-    
+
     const View = model.isTitleCustom
       ? CustomResourceEdit
       : ManagedResourceEdit;
