@@ -260,33 +260,32 @@ class ResourceShow extends Component {
           lastMenu={this.renderLastMenu()}
           bodyContent={(
             <div>
-              {resourceSelected &&
-                <Accordion
-                  label={<Headline size="large" tag="h3"><FormattedMessage id="ui-eholdings.tags" /></Headline>}
-                  open={sections.providerShowTags}
-                  id="resourceShowTags"
-                  onToggle={this.handleSectionToggle}
-                  displayWhenClosed={
-                    <Badge sixe='small'>
-                      <span data-test-eholdings-resource-tags-bage>
-                        <FormattedNumber value={getEntityTags(model).length} />
-                      </span>
-                    </Badge>
+              <Accordion
+                label={<Headline size="large" tag="h3"><FormattedMessage id="ui-eholdings.tags" /></Headline>}
+                open={sections.providerShowTags}
+                id="resourceShowTags"
+                onToggle={this.handleSectionToggle}
+                displayWhenClosed={
+                  <Badge sixe='small'>
+                    <span data-test-eholdings-resource-tags-bage>
+                      <FormattedNumber value={getEntityTags(model).length} />
+                    </span>
+                  </Badge>
                   }
-                >
-                  {(!tagsModel.request.isResolved || model.isLoading)
-                    ? <Icon icon="spinner-ellipsis" />
-                    : (
-                      <Tags
-                        updateEntityTags={updateEntityTags}
-                        updateFolioTags={updateFolioTags}
-                        model={model}
-                        tags={getTagLabelsArr(tagsModel)}
-                      />
-                    )
+              >
+                {(!tagsModel.request.isResolved || model.isLoading)
+                  ? <Icon icon="spinner-ellipsis" />
+                  : (
+                    <Tags
+                      updateEntityTags={updateEntityTags}
+                      updateFolioTags={updateFolioTags}
+                      model={model}
+                      tags={getTagLabelsArr(tagsModel)}
+                    />
+                  )
                   }
-                </Accordion>
-              }
+              </Accordion>
+
               <Accordion
                 label={<Headline size="large" tag="h3"><FormattedMessage id="ui-eholdings.label.holdingStatus" /></Headline>}
                 open={sections.resourceShowHoldingStatus}
