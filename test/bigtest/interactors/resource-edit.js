@@ -75,7 +75,7 @@ import Datepicker from './datepicker';
   hasSaveButon = isPresent('[data-test-eholdings-resource-save-button]');
   hasCancelButton = isPresent('[data-test-eholdings-resource-cancel-button]');
   isSaveDisabled = property('[data-test-eholdings-resource-save-button]', 'disabled');
-  hasErrors = isPresent('[data-test-eholdings-details-view-error="resource"]');
+  hasErrors = isPresent('[data-test-eholdings-resource-edit-error]');
   isPeerReviewed = property('[data-test-eholdings-peer-reviewed-field] input[type=checkbox]', 'checked');
   checkPeerReviewed = clickable('[data-test-eholdings-peer-reviewed-field] input[type=checkbox]');
   hasBackButton = isPresent('[data-test-eholdings-details-view-back-button]');
@@ -175,4 +175,4 @@ import Datepicker from './datepicker';
   dropDownMenu = new ResourceEditDropDownMenu();
 }
 
-export default new ResourceEditPage('[data-test-eholdings-details-view="resource"]');
+export default new ResourceEditPage();

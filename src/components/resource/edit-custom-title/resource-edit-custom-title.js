@@ -2,10 +2,11 @@ import React, { Component, Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { Form, FormSpy } from 'react-final-form';
 import arrayMutators from 'final-form-arrays';
-import createCalculateDecorator from 'final-form-calculate';
 import createFocusDecorator from 'final-form-focus';
 import { FormattedMessage } from 'react-intl';
+
 import update from 'lodash/fp/update';
+import hasIn from 'lodash/hasIn';
 
 import { IfPermission } from '@folio/stripes-core';
 import {
@@ -23,40 +24,24 @@ import DetailsView from '../../details-view';
 import VisibilityField from '../_fields/visibility';
 import CustomCoverageFields from '../_fields/custom-coverage';
 import CustomUrlFields from '../_fields/custom-url';
-import CoverageStatementFields from '../_fields/coverage-statement';
-import CustomEmbargoFields from '../_fields/custom-embargo';
+import CoverageStatementFields, { coverageStatementDecorator } from '../_fields/coverage-statement';
+import CustomEmbargoFields, { getEmbargoInitial } from '../_fields/custom-embargo';
 import NavigationModal from '../../navigation-modal';
 import Toaster from '../../toaster';
 import PaneHeaderButton from '../../pane-header-button';
 import CoverageDateList from '../../coverage-date-list';
 import ProxySelectField from '../../proxy-select';
 
-import historyActions from '../../../constants/historyActions';
 
-const coverageStatementDecorator = createCalculateDecorator(
-  {
-    field: 'hasCoverageStatement',
-    updates: {
-      coverageStatement: (hasCoverageStatement, { coverageStatement }) => {
-        return (hasCoverageStatement === 'no') ? '' : coverageStatement;
-      }
-    }
-  },
-  {
-    field: 'coverageStatement',
-    updates: {
-      hasCoverageStatement: (coverageStatement) => {
-        return (coverageStatement && coverageStatement.length) > 0 ? 'yes' : 'no';
-      }
-    }
-  }
-);
+import {
+  historyActions,
+  coverageStatementExistenceStatuses,
+} from '../../../constants';
 
 const focusOnErrors = createFocusDecorator();
 
 export default class ResourceEditCustomTitle extends Component {
   static propTypes = {
-    initialValues: PropTypes.object.isRequired,
     model: PropTypes.object.isRequired,
     onCancel: PropTypes.func.isRequired,
     onSubmit: PropTypes.func.isRequired,
@@ -64,11 +49,11 @@ export default class ResourceEditCustomTitle extends Component {
   };
 
   state = {
-    resourceSelected: this.props.initialValues.isSelected,
+    resourceSelected: this.props.model.isSelected,
     showSelectionModal: false,
     allowFormToSubmit: false,
     formValues: {},
-    initialValues: this.props.initialValues,
+    initialValues: this.getInitialValuesFromModel(),
     sections: {
       resourceShowHoldingStatus: true,
       resourceShowSettings: true,
@@ -83,16 +68,43 @@ export default class ResourceEditCustomTitle extends Component {
       stateUpdates.showSelectionModal = false;
     }
 
-    if (nextProps.initialValues.isSelected !== prevState.initialValues.isSelected) {
+    if (nextProps.model.isSelected !== prevState.initialValues.isSelected) {
       Object.assign(stateUpdates, {
         initialValues: {
-          isSelected: nextProps.initialValues.isSelected
+          isSelected: nextProps.model.isSelected
         },
-        resourceSelected: nextProps.initialValues.isSelected
+        resourceSelected: nextProps.model.isSelected
       });
     }
 
     return stateUpdates;
+  }
+
+  getInitialValuesFromModel() {
+    const {
+      isSelected,
+      visibilityData,
+      customCoverages,
+      coverageStatement,
+      customEmbargoPeriod,
+      url,
+      proxy,
+    } = this.props.model;
+
+    const hasCoverageStatement = coverageStatement.length > 0
+      ? coverageStatementExistenceStatuses.YES
+      : coverageStatementExistenceStatuses.NO;
+
+    return {
+      isSelected,
+      customCoverages,
+      coverageStatement,
+      hasCoverageStatement,
+      customUrl: url,
+      proxyId: proxy.id,
+      isVisible: !visibilityData.isHidden,
+      customEmbargoPeriod: getEmbargoInitial(customEmbargoPeriod)
+    };
   }
 
   toggleSection = ({ id }) => {
@@ -228,20 +240,17 @@ export default class ResourceEditCustomTitle extends Component {
     let {
       model,
       proxyTypes,
-      initialValues,
     } = this.props;
 
     let {
       showSelectionModal,
       resourceSelected,
       sections,
+      initialValues,
     } = this.state;
 
-    let hasInheritedProxy = model.package &&
-      model.package.proxy &&
-      model.package.proxy.id;
-
-    let visibilityMessage = model.package.visibilityData.isHidden
+    const hasInheritedProxy = hasIn(model, 'package.proxy.id');
+    const visibilityMessage = model.package.visibilityData.isHidden
       ? <FormattedMessage id="ui-eholdings.resource.visibilityData.isHidden" />
       : model.visibilityData.reason && `(${model.visibilityData.reason})`;
 
@@ -354,14 +363,7 @@ export default class ResourceEditCustomTitle extends Component {
                           <Headline tag="h4">
                             <FormattedMessage id="ui-eholdings.resource.embargoPeriod" />
                           </Headline>
-                          <CustomEmbargoFields
-                            change={change}
-                            showInputs={(initialValues.customEmbargoValue > 0)}
-                            initial={{
-                              customEmbargoValue: initialValues.customEmbargoValue,
-                              customEmbargoUnit: initialValues.customEmbargoUnit
-                            }}
-                          />
+                          <CustomEmbargoFields />
                         </Fragment>
                       ) : (
                         <p data-test-eholdings-resource-edit-settings-message>
