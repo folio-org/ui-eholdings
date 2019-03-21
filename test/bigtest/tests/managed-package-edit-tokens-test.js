@@ -177,7 +177,7 @@ describe('ManagedPackageEditTokens', () => {
 
   describe('visiting the managed package edit page with a provider token without a value and package token with value', () => {
     beforeEach(function () {
-      let token = this.server.create('token', {
+      const token = this.server.create('token', {
         factName: '[[mysiteid]]',
         prompt: '/test1/',
         helpText: '<ul><li>Enter your token</li></ul>',
@@ -226,7 +226,7 @@ describe('ManagedPackageEditTokens', () => {
 
   describe('visiting the managed package edit page with a provider token with a value and package token without value', () => {
     beforeEach(function () {
-      let token = this.server.create('token', {
+      const token = this.server.create('token', {
         factName: '[[mysiteid]]',
         prompt: '/test1/',
         helpText: '<ul><li>Enter your token</li></ul>',

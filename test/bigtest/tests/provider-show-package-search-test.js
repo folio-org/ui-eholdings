@@ -227,7 +227,7 @@ describe('ProviderShow package search', () => {
 
   describe('navigating to provider show page with over 10k related packages', () => {
     beforeEach(function () {
-      let largeProvider = this.server.create('provider',
+      const largeProvider = this.server.create('provider',
         {
           name: 'Large Provider Test',
           packagesTotal: 1500000

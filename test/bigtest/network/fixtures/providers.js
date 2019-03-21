@@ -1,7 +1,7 @@
 import padStart from 'lodash/padStart';
 
 // provider with pages of packages
-let pagedProvider = {
+const pagedProvider = {
   id: 'paged_provider',
   name: 'Paged Provider',
   packageIds: new Array(50).fill().map((_, i) => {
@@ -10,7 +10,7 @@ let pagedProvider = {
 };
 
 // related provider for the paged package and paged title
-let relatedProvider = {
+const relatedProvider = {
   id: 'rel_provider',
   name: 'Related Provider'
 };

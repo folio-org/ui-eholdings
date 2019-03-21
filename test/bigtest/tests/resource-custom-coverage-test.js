@@ -44,7 +44,7 @@ describe('ResourceCustomCoverage', () => {
 
   describe('visiting a selected resource show page with custom coverage', () => {
     beforeEach(function () {
-      let customCoverages = [
+      const customCoverages = [
         this.server.create('custom-coverage', {
           beginCoverage: '1969-07-16',
           endCoverage: '1972-12-19'
@@ -74,7 +74,7 @@ describe('ResourceCustomCoverage', () => {
 
   describe('visiting the resource page with single custom coverage', () => {
     beforeEach(function () {
-      let customCoverages = [
+      const customCoverages = [
         this.server.create('custom-coverage', {
           beginCoverage: '1969-07-16',
           endCoverage: '1972-12-19'

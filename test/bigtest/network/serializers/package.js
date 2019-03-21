@@ -11,7 +11,7 @@ function mapPackageProvider(hash, provider) {
 
 export default ApplicationSerializer.extend({
   getHashForResource(pkg) {
-    let hash = ApplicationSerializer.prototype.getHashForResource.apply(this, arguments); // eslint-disable-line prefer-rest-params
+    const hash = ApplicationSerializer.prototype.getHashForResource.apply(this, arguments); // eslint-disable-line prefer-rest-params
 
     if (Array.isArray(hash)) {
       return hash.map((h, i) => mapPackageProvider(h, pkg.models[i].provider));

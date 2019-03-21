@@ -24,7 +24,7 @@ describe('mergeRelationships', () => {
     });
 
     it('does not overwrite populated keys with empty incoming data', () => {
-      let result = lazy.merged(existing, incoming);
+      const result = lazy.merged(existing, incoming);
       expect(result.providers.data).to.equal('data');
     });
   });
@@ -37,7 +37,7 @@ describe('mergeRelationships', () => {
     });
 
     it('replaces existing data with incoming data', () => {
-      let result = lazy.merged(existing, incoming);
+      const result = lazy.merged(existing, incoming);
       expect(result.providers.data).to.equal('no, this data');
     });
   });

@@ -20,7 +20,7 @@ describe('mergeAttributes', () => {
     });
 
     it('does not overwrite populated keys with empty incoming data', () => {
-      let result = mergeAttributes(existing, incoming);
+      const result = mergeAttributes(existing, incoming);
       expect(result.description).to.equal('description');
       expect(result.isSelected).to.be.false;
     });
@@ -35,7 +35,7 @@ describe('mergeAttributes', () => {
     });
 
     it('replaces existing data with incoming data', () => {
-      let result = mergeAttributes(existing, incoming);
+      const result = mergeAttributes(existing, incoming);
       expect(result.description).to.equal('no, this description');
       expect(result.isSelected).to.be.true;
     });

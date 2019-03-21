@@ -42,7 +42,7 @@ import {
 
   hasIdentifiersBtn = isPresent('[data-test-eholdings-identifiers-fields] [data-test-repeatable-field-add-item-button]');
   addIdentifier(type, id) {
-    let values = {
+    const values = {
       'ISSN (Online)': '0',
       'ISSN (Print)': '1',
       'ISBN (Online)': '2',

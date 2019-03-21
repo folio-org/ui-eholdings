@@ -42,7 +42,7 @@ class EHoldings extends Component {
   }
 
   render() {
-    let {
+    const {
       showSettings,
       match: { path: rootPath }
     } = this.props;

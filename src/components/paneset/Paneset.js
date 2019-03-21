@@ -6,7 +6,7 @@ import css from './Paneset.css';
 function nodeOfType(Type) {
   // eslint-disable-next-line consistent-return
   return (props, propName, componentName) => {
-    for (let child of Children.toArray(props[propName])) {
+    for (const child of Children.toArray(props[propName])) {
       if (!(child.type.prototype instanceof Type)) {
         return new Error(`\`${componentName}\` ${propName} should be of type \`${Type.name}\`.`);
       }

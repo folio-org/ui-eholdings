@@ -20,9 +20,9 @@ class Title {
   // slightly customized serializer that adds included resources to
   // new title record payloads
   serialize() {
-    let data = { id: this.id, type: this.type };
-    let { resources, ...attributes } = this.data.attributes;
-    let payload = { data };
+    const data = { id: this.id, type: this.type };
+    const { resources, ...attributes } = this.data.attributes;
+    const payload = { data };
     const readOnlyAttributes = ['isTitleCustom', 'subjects'];
 
     data.attributes = Object.keys(attributes).reduce((attrs, attr) => {

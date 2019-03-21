@@ -35,15 +35,15 @@ class PackageEditRoute extends Component {
 
   constructor(props) {
     super(props);
-    let { packageId } = props.match.params;
-    let [providerId] = packageId.split('-');
+    const { packageId } = props.match.params;
+    const [providerId] = packageId.split('-');
     props.getPackage(packageId);
     props.getProxyTypes();
     props.getProvider(providerId);
   }
 
   componentDidUpdate(prevProps) {
-    let {
+    const {
       model: next,
       match,
       getPackage,
@@ -51,11 +51,11 @@ class PackageEditRoute extends Component {
       history,
       location
     } = this.props;
-    let {
+    const {
       model: old,
       match: oldMatch
     } = prevProps;
-    let { packageId } = match.params;
+    const { packageId } = match.params;
 
     if (!prevProps.model.destroy.isResolved && next.destroy.isResolved) {
       // if package was reached based on search
@@ -77,11 +77,11 @@ class PackageEditRoute extends Component {
       unloadResources(next.resources);
     }
 
-    let wasPending = prevProps.model.update.isPending && !next.update.isPending;
-    let needsUpdate = !isEqual(prevProps.model, next);
-    let isRejected = this.props.model.update.isRejected;
-    let wasUnSelected = prevProps.model.isSelected && !next.isSelected;
-    let isCurrentlySelected = prevProps.model.isSelected && next.isSelected;
+    const wasPending = prevProps.model.update.isPending && !next.update.isPending;
+    const needsUpdate = !isEqual(prevProps.model, next);
+    const isRejected = this.props.model.update.isRejected;
+    const wasUnSelected = prevProps.model.isSelected && !next.isSelected;
+    const isCurrentlySelected = prevProps.model.isSelected && next.isSelected;
 
     if (wasPending && needsUpdate && !isRejected && (wasUnSelected || isCurrentlySelected)) {
       history.push({
@@ -97,13 +97,13 @@ class PackageEditRoute extends Component {
   }
 
   providerEditSubmitted = (values) => {
-    let { provider, updateProvider } = this.props;
+    const { provider, updateProvider } = this.props;
     provider.providerToken.value = values.providerTokenValue;
     updateProvider(provider);
   };
 
   packageEditSubmitted = (values) => {
-    let { model, updatePackage, destroyPackage } = this.props;
+    const { model, updatePackage, destroyPackage } = this.props;
     // if the package is custom setting the holding status to false
     // or deselecting the package will delete the package from holdings
     if (model.isCustom && values.isSelected === false) {
@@ -175,7 +175,7 @@ class PackageEditRoute extends Component {
    * This should be refactored once we can share model between the routes.
   */
   addPackageToHoldings = () => {
-    let { model, updatePackage } = this.props;
+    const { model, updatePackage } = this.props;
     model.isSelected = true;
     model.selectedCount = model.titleCount;
     model.allowKbToAddTitles = true;
@@ -252,8 +252,8 @@ class PackageEditRoute extends Component {
 
 export default connect(
   ({ eholdings: { data } }, { match }) => {
-    let resolver = createResolver(data);
-    let model = resolver.find('packages', match.params.packageId);
+    const resolver = createResolver(data);
+    const model = resolver.find('packages', match.params.packageId);
     return {
       model,
       proxyTypes: resolver.query('proxyTypes'),

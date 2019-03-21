@@ -29,7 +29,7 @@ class PackageCreateRoute extends Component {
   }
 
   packageCreateSubmitted = (values) => {
-    let attrs = {};
+    const attrs = {};
 
     if (values.customCoverages[0]) {
       attrs.customCoverage = {

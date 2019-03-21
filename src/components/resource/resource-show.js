@@ -96,12 +96,12 @@ class ResourceShow extends Component {
   };
 
   handleSectionToggle = ({ id }) => {
-    let next = update(`sections.${id}`, value => !value, this.state);
+    const next = update(`sections.${id}`, value => !value, this.state);
     this.setState(next);
   }
 
   handleExpandAll = (sections) => {
-    let next = set('sections', sections, this.state);
+    const next = set('sections', sections, this.state);
     this.setState(next);
   }
 
@@ -191,7 +191,7 @@ class ResourceShow extends Component {
 
 
   render() {
-    let {
+    const {
       model,
       proxyTypes,
       isFreshlySaved,
@@ -200,33 +200,33 @@ class ResourceShow extends Component {
       updateFolioTags,
     } = this.props;
 
-    let {
+    const {
       showSelectionModal,
       resourceSelected,
       sections
     } = this.state;
 
-    let isSelectInFlight = model.update.isPending && 'isSelected' in model.update.changedAttributes;
-    let visibilityMessage = model.package.visibilityData.isHidden ?
+    const isSelectInFlight = model.update.isPending && 'isSelected' in model.update.changedAttributes;
+    const visibilityMessage = model.package.visibilityData.isHidden ?
       <FormattedMessage id="ui-eholdings.resource.visibilityData.isHidden" /> :
       model.visibilityData.reason && `(${model.visibilityData.reason})`;
 
-    let hasManagedCoverages = model.managedCoverages.length > 0 &&
+    const hasManagedCoverages = model.managedCoverages.length > 0 &&
       isValidCoverageList(model.managedCoverages);
-    let hasManagedEmbargoPeriod = model.managedEmbargoPeriod &&
+    const hasManagedEmbargoPeriod = model.managedEmbargoPeriod &&
       model.managedEmbargoPeriod.embargoUnit &&
       model.managedEmbargoPeriod.embargoValue;
-    let hasCustomEmbargoPeriod = model.customEmbargoPeriod &&
+    const hasCustomEmbargoPeriod = model.customEmbargoPeriod &&
       model.customEmbargoPeriod.embargoUnit &&
       model.customEmbargoPeriod.embargoValue;
-    let hasCustomCoverages = model.customCoverages.length > 0 &&
+    const hasCustomCoverages = model.customCoverages.length > 0 &&
       isValidCoverageList(model.customCoverages);
-    let hasInheritedProxy = model.package &&
+    const hasInheritedProxy = model.package &&
       model.package.proxy &&
       model.package.proxy.id;
     const isTokenNeeded = model.data.attributes && model.data.attributes.isTokenNeeded;
 
-    let toasts = processErrors(model);
+    const toasts = processErrors(model);
     const addToEholdingsButtonIsAvailable = (!resourceSelected && !isSelectInFlight)
      || (!model.isSelected && isSelectInFlight);
 

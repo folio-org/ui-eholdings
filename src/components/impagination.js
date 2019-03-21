@@ -21,8 +21,8 @@ function patchDatasetState(dataset) {
      */
     slice: {
       value(start, end) {
-        let last = Math.min(end, this.length) - 1;
-        let ret = [];
+        const last = Math.min(end, this.length) - 1;
+        const ret = [];
 
         for (let i = start; i <= last; i++) {
           ret.push(this.getRecord(i));
@@ -37,12 +37,12 @@ function patchDatasetState(dataset) {
      */
     pagesWithinHorizon: {
       get() {
-        let withinHorizon = [];
+        const withinHorizon = [];
 
         // this private api is useful for getting the min and max pages in
         // a load horizon; it simply does some math around the readOffset
         // and loadHorizon properties so we also don't have to do it here
-        let { minLoadHorizon, maxLoadHorizon } = this._getLoadHorizons();
+        const { minLoadHorizon, maxLoadHorizon } = this._getLoadHorizons();
 
         for (let i = minLoadHorizon; i < maxLoadHorizon; i++) {
           withinHorizon.push(this.getPage(i));
@@ -57,11 +57,11 @@ function patchDatasetState(dataset) {
 //  Updates the dataset immutably and triggers the `fetch` property
 //  when there are unrequested pages.
 function updateDataset(props, state) {
-  let { collection, pageSize, loadHorizon, readOffset, fetch } = props;
+  const { collection, pageSize, loadHorizon, readOffset, fetch } = props;
   let dataset = state.dataset;
 
-  let isNewCollection = collection.key !== state.collection.key;
-  let hasUnloaded = patchDatasetState(dataset).pagesWithinHorizon.some(({ offset }) => {
+  const isNewCollection = collection.key !== state.collection.key;
+  const hasUnloaded = patchDatasetState(dataset).pagesWithinHorizon.some(({ offset }) => {
     return collection.getPage(offset + 1).request.hasUnloaded;
   });
 
@@ -99,7 +99,7 @@ function updateDataset(props, state) {
   // resolve or reject all pages within the load horizon
   patchDatasetState(dataset).pagesWithinHorizon.forEach((page) => {
     // we use a 1-based page number
-    let { request, records } = collection.getPage(page.offset + 1);
+    const { request, records } = collection.getPage(page.offset + 1);
 
     if (page.isRequested && !request.hasUnloaded) {
       if (request.isResolved) {
@@ -156,7 +156,7 @@ export default class Impagination extends Component {
   // state. Notice we do not import React because we are not using any
   // JSX in this component
   render() {
-    let dataset = patchDatasetState(this.state.dataset);
+    const dataset = patchDatasetState(this.state.dataset);
     return this.props.children(dataset);
   }
 }

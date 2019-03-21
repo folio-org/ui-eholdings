@@ -23,7 +23,7 @@ describe('ManagedResourceEditProxy', () => {
       contentType: 'Online'
     });
 
-    let packageProxy = this.server.create('proxy', {
+    const packageProxy = this.server.create('proxy', {
       inherited: true,
       id: 'bigTestJS'
     });
@@ -48,7 +48,7 @@ describe('ManagedResourceEditProxy', () => {
 
   describe('visiting the resource edit page with a proxy', () => {
     beforeEach(function () {
-      let resourceProxy = this.server.create('proxy', {
+      const resourceProxy = this.server.create('proxy', {
         inherited: false,
         id: 'microstates'
       });

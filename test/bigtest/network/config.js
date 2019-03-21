@@ -224,7 +224,7 @@ export default function config() {
   }));
 
   this.get('/providers/:id', ({ providers }, request) => {
-    let provider = providers.find(request.params.id);
+    const provider = providers.find(request.params.id);
 
     if (provider && provider.packages.length > 25) {
       provider.packages = provider.packages.slice(0, 25);
@@ -234,9 +234,9 @@ export default function config() {
   });
 
   this.put('/providers/:id', ({ providers }, request) => {
-    let matchingProvider = providers.find(request.params.id);
-    let body = JSON.parse(request.requestBody);
-    let {
+    const matchingProvider = providers.find(request.params.id);
+    const body = JSON.parse(request.requestBody);
+    const {
       proxy,
       providerToken
     } = body.data.attributes;
@@ -246,11 +246,11 @@ export default function config() {
   });
 
   // Package resources
-  let packagesFilter = (pkg, req) => {
-    let params = req.queryParams;
-    let type = params['filter[type]'];
-    let selected = params['filter[selected]'];
-    let custom = params['filter[custom]'];
+  const packagesFilter = (pkg, req) => {
+    const params = req.queryParams;
+    const type = params['filter[type]'];
+    const selected = params['filter[selected]'];
+    const custom = params['filter[custom]'];
     let filtered = true;
 
     if (params.q && pkg.name) {
@@ -277,7 +277,7 @@ export default function config() {
   this.get('/providers/:id/packages', nestedResourceRouteFor('provider', 'packages', packagesFilter));
 
   this.get('/packages/:id', ({ packages }, request) => {
-    let pkg = packages.find(request.params.id);
+    const pkg = packages.find(request.params.id);
 
     if (pkg && pkg.resources.length > 25) {
       pkg.resources = pkg.resources.slice(0, 25);
@@ -287,13 +287,13 @@ export default function config() {
   });
 
   this.put('/packages/:id', ({ packages, resources }, request) => {
-    let matchingPackage = packages.find(request.params.id);
-    let matchingResources = resources.where({
+    const matchingPackage = packages.find(request.params.id);
+    const matchingResources = resources.where({
       packageId: request.params.id
     });
 
-    let body = JSON.parse(request.requestBody);
-    let {
+    const body = JSON.parse(request.requestBody);
+    const {
       isSelected,
       allowKbToAddTitles,
       customCoverage,
@@ -304,7 +304,7 @@ export default function config() {
       packageToken
     } = body.data.attributes;
 
-    let selectedCount = isSelected ? matchingResources.length : 0;
+    const selectedCount = isSelected ? matchingResources.length : 0;
 
     matchingResources.update('isSelected', isSelected);
     matchingResources.update('visibilityData', visibilityData);
@@ -321,10 +321,10 @@ export default function config() {
   });
 
   this.post('/packages', ({ packages }, request) => {
-    let body = JSON.parse(request.requestBody);
-    let pkg = packages.create(body.data.attributes);
+    const body = JSON.parse(request.requestBody);
+    const pkg = packages.create(body.data.attributes);
 
-    let { customCoverages } = body.data.attributes;
+    const { customCoverages } = body.data.attributes;
 
     pkg.update('customCoverages', customCoverages);
     pkg.update('isSelected', true);
@@ -334,8 +334,8 @@ export default function config() {
   });
 
   this.delete('/packages/:id', ({ packages, resources }, request) => {
-    let matchingPackage = packages.find(request.params.id);
-    let matchingResources = resources.where({
+    const matchingPackage = packages.find(request.params.id);
+    const matchingResources = resources.where({
       packageId: request.params.id
     });
 
@@ -347,13 +347,13 @@ export default function config() {
 
   // Title resources
   this.get('/titles', searchRouteFor('titles', (title, req) => {
-    let params = req.queryParams;
-    let type = params['filter[type]'];
-    let selected = params['filter[selected]'];
-    let name = params['filter[name]'];
-    let isxn = params['filter[isxn]'];
-    let subject = params['filter[subject]'];
-    let publisher = params['filter[publisher]'];
+    const params = req.queryParams;
+    const type = params['filter[type]'];
+    const selected = params['filter[selected]'];
+    const name = params['filter[name]'];
+    const isxn = params['filter[isxn]'];
+    const subject = params['filter[subject]'];
+    const publisher = params['filter[publisher]'];
     let filtered = true;
 
     if (name) {
@@ -384,15 +384,15 @@ export default function config() {
   });
 
   this.post('/titles', (schema, request) => {
-    let body = JSON.parse(request.requestBody);
-    let title = schema.titles.create(body.data.attributes);
+    const body = JSON.parse(request.requestBody);
+    const title = schema.titles.create(body.data.attributes);
 
     title.update('isSelected', true);
     title.update('isTitleCustom', true);
 
-    for (let include of body.included) {
+    for (const include of body.included) {
       if (include.type === 'resource') {
-        let pkg = schema.packages.find(include.attributes.packageId);
+        const pkg = schema.packages.find(include.attributes.packageId);
         schema.resources.create({ package: pkg, title });
       }
     }
@@ -415,14 +415,14 @@ export default function config() {
 
   // Resources
   this.get('/packages/:id/resources', nestedResourceRouteFor('package', 'resources', (resource, req) => {
-    let title = resource.title;
-    let params = req.queryParams;
-    let type = params['filter[type]'];
-    let selected = params['filter[selected]'];
-    let name = params['filter[name]'];
-    let isxn = params['filter[isxn]'];
-    let subject = params['filter[subject]'];
-    let publisher = params['filter[publisher]'];
+    const title = resource.title;
+    const params = req.queryParams;
+    const type = params['filter[type]'];
+    const selected = params['filter[selected]'];
+    const name = params['filter[name]'];
+    const isxn = params['filter[isxn]'];
+    const subject = params['filter[subject]'];
+    const publisher = params['filter[publisher]'];
     let filtered = true;
 
     if (name) {
@@ -453,15 +453,15 @@ export default function config() {
   }));
 
   this.get('/resources/:id', ({ resources }, request) => {
-    let resource = resources.find(request.params.id);
+    const resource = resources.find(request.params.id);
 
     return resource;
   });
 
   this.put('/resources/:id', ({ resources }, request) => {
-    let matchingResource = resources.find(request.params.id);
-    let body = JSON.parse(request.requestBody);
-    let {
+    const matchingResource = resources.find(request.params.id);
+    const body = JSON.parse(request.requestBody);
+    const {
       isSelected,
       visibilityData,
       contributors,
@@ -500,11 +500,11 @@ export default function config() {
   });
 
   this.post('/resources', ({ resources, packages }, request) => {
-    let body = JSON.parse(request.requestBody);
-    let { packageId, titleId, url } = body.data.attributes;
-    let { providerId } = packages.find(packageId);
+    const body = JSON.parse(request.requestBody);
+    const { packageId, titleId, url } = body.data.attributes;
+    const { providerId } = packages.find(packageId);
 
-    let resource = resources.create({
+    const resource = resources.create({
       isSelected: true,
       providerId,
       packageId,
@@ -516,7 +516,7 @@ export default function config() {
   });
 
   this.delete('/resources/:id', ({ resources }, request) => {
-    let matchingResource = resources.find(request.params.id);
+    const matchingResource = resources.find(request.params.id);
 
     matchingResource.destroy();
 

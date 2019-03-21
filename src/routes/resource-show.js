@@ -43,11 +43,11 @@ class ResourceShowRoute extends Component {
   }
 
   componentDidUpdate(prevProps) {
-    let wasUpdated = !this.props.model.update.isPending && prevProps.model.update.isPending && (!this.props.model.update.errors.length > 0);
-    let { match, getResource, history, location } = this.props;
-    let { id } = match.params;
+    const wasUpdated = !this.props.model.update.isPending && prevProps.model.update.isPending && (!this.props.model.update.errors.length > 0);
+    const { match, getResource, history, location } = this.props;
+    const { id } = match.params;
 
-    let { packageName, packageId } = prevProps.model;
+    const { packageName, packageId } = prevProps.model;
     if (!prevProps.model.destroy.isResolved && this.props.model.destroy.isResolved) {
       history.replace(`/eholdings/packages/${packageId}?searchType=packages&q=${packageName}`,
         { eholdings: true, isDestroyed: true });
@@ -67,7 +67,7 @@ class ResourceShowRoute extends Component {
   }
 
   toggleSelected = () => {
-    let { model, updateResource, destroyResource } = this.props;
+    const { model, updateResource, destroyResource } = this.props;
     model.isSelected = !model.isSelected;
 
     if (model.isSelected === false && model.package.isCustom) {
@@ -145,7 +145,7 @@ export default connect(
       eholdings: { data },
     } = store;
 
-    let resolver = createResolver(data);
+    const resolver = createResolver(data);
 
     return {
       model: resolver.find('resources', match.params.id),

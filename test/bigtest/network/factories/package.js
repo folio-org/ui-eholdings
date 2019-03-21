@@ -1,6 +1,6 @@
 import { Factory, faker, trait } from '@bigtest/mirage';
 
-let helpText = '<ul><li>Enter your Gale token</li></ul>';
+const helpText = '<ul><li>Enter your Gale token</li></ul>';
 
 export default Factory.extend({
   name: () => faker.commerce.productName(),
@@ -52,7 +52,7 @@ export default Factory.extend({
 
   withProvider: trait({
     afterCreate(packageObj, server) {
-      let provider = server.create('provider');
+      const provider = server.create('provider');
       packageObj.provider = provider;
       packageObj.save();
     }
@@ -60,7 +60,7 @@ export default Factory.extend({
 
   isHidden: trait({
     afterCreate(packageObj, server) {
-      let visibilityData = server.create('visibility-data', {
+      const visibilityData = server.create('visibility-data', {
         isHidden: true,
         reason: 'The content is for mature audiences only.'
       });
@@ -70,7 +70,7 @@ export default Factory.extend({
 
   isHiddenWithoutReason: trait({
     afterCreate(packageObj, server) {
-      let visibilityData = server.create('visibility-data', {
+      const visibilityData = server.create('visibility-data', {
         isHidden: true,
         reason: ''
       });
@@ -80,7 +80,7 @@ export default Factory.extend({
 
   withProxy: trait({
     afterCreate(packageObj, server) {
-      let proxy = server.create('proxy', {
+      const proxy = server.create('proxy', {
         inherited: false,
         id: 'microstates'
       });
@@ -91,7 +91,7 @@ export default Factory.extend({
 
   withInheritedProxy: trait({
     afterCreate(packageObj, server) {
-      let proxy = server.create('proxy', {
+      const proxy = server.create('proxy', {
         inherited: true,
         id: 'bigTestJS'
       });
@@ -102,14 +102,14 @@ export default Factory.extend({
 
   withCustomCoverage: trait({
     afterCreate(packageObj, server) {
-      let customCoverage = server.create('custom-coverage');
+      const customCoverage = server.create('custom-coverage');
       packageObj.update('customCoverage', customCoverage.toJSON());
     }
   }),
 
   withPackageToken: trait({
     afterCreate(packageObj, server) {
-      let token = server.create('token', {
+      const token = server.create('token', {
         factName: '[[mysiteid]]',
         prompt: '/test1/',
         helpText,
@@ -122,7 +122,7 @@ export default Factory.extend({
 
   withPackageTokenAndValue: trait({
     afterCreate(packageObj, server) {
-      let token = server.create('token', {
+      const token = server.create('token', {
         factName: '[[mysiteid]]',
         prompt: '/test1/',
         helpText,
@@ -135,13 +135,13 @@ export default Factory.extend({
 
   afterCreate(packageObj, server) {
     if (!packageObj.visibilityData) {
-      let visibilityData = server.create('visibility-data');
+      const visibilityData = server.create('visibility-data');
       packageObj.update('visibilityData', visibilityData.toJSON());
       packageObj.save();
     }
 
     if (!packageObj.proxy) {
-      let proxy = server.create('proxy', {
+      const proxy = server.create('proxy', {
         inherited: false,
         id: 'bigTestJS'
       });
@@ -150,7 +150,7 @@ export default Factory.extend({
     }
 
     if (!packageObj.token) {
-      let token = server.create('token', {
+      const token = server.create('token', {
         factName: '[[mysiteid]]',
         prompt: '/test1/',
         helpText,

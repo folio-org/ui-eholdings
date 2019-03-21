@@ -62,9 +62,9 @@ class Toast extends Component {
   }
 
   render() {
-    let { isOpen } = this.state;
-    let { type, animationPosition } = this.props;
-    let toastClass = classNames({
+    const { isOpen } = this.state;
+    const { type, animationPosition } = this.props;
+    const toastClass = classNames({
       [style.toast]: true,
       [style[type]]: true
     });

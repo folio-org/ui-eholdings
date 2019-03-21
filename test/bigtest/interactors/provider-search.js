@@ -60,7 +60,7 @@ import SearchBadge from './search-badge';
   scrollToOffset = action(function (readOffset) {
     return this.find('[data-test-query-list="providers"] li')
       .do((firstItem) => {
-        let scrollOffset = firstItem.offsetHeight * readOffset;
+        const scrollOffset = firstItem.offsetHeight * readOffset;
         return this.scroll('[data-test-query-list="providers"]', { top: scrollOffset });
       })
       .run();

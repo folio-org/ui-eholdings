@@ -4,13 +4,13 @@ import { FormattedMessage } from 'react-intl';
 import { KeyValue, Icon } from '@folio/stripes/components';
 
 export default function ProxyDisplay({ model, proxyTypes, inheritedProxyId }) {
-  let proxyTypesRecords = proxyTypes.resolver.state.proxyTypes.records;
+  const proxyTypesRecords = proxyTypes.resolver.state.proxyTypes.records;
 
   if (proxyTypesRecords && model.proxy && model.proxy.id && inheritedProxyId) {
-    let proxyId = model.proxy.id;
-    let selectedValue = proxyTypesRecords[Object.keys(proxyTypesRecords).find(key => key.toLowerCase() === proxyId.toLowerCase())];
-    let name = selectedValue.attributes.name;
-    let checkIfInherited = inheritedProxyId.toLowerCase() === proxyId.toLowerCase();
+    const proxyId = model.proxy.id;
+    const selectedValue = proxyTypesRecords[Object.keys(proxyTypesRecords).find(key => key.toLowerCase() === proxyId.toLowerCase())];
+    const name = selectedValue.attributes.name;
+    const checkIfInherited = inheritedProxyId.toLowerCase() === proxyId.toLowerCase();
 
     return (
       <KeyValue label={<FormattedMessage id="ui-eholdings.proxy" />}>

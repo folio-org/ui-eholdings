@@ -34,7 +34,7 @@ describe('PackageCustomCoverage', () => {
 
   describe('visiting the package show page with custom coverage', () => {
     beforeEach(function () {
-      let customCoverage = this.server.create('custom-coverage', {
+      const customCoverage = this.server.create('custom-coverage', {
         beginCoverage: '1969-07-16',
         endCoverage: '1972-12-19'
       }).toJSON();

@@ -24,7 +24,7 @@ class PackageCoverageFields extends Component {
   };
 
   validateDateRange = (values) => {
-    let errorArray = [];
+    const errorArray = [];
 
     values.forEach(({ beginCoverage, endCoverage }) => {
       const errors = {};
@@ -42,7 +42,7 @@ class PackageCoverageFields extends Component {
   validateCoverageDate = (value) => {
     const { intl } = this.props;
     moment.locale(intl.locale);
-    let dateFormat = moment.localeData()._longDateFormat.L;
+    const dateFormat = moment.localeData()._longDateFormat.L;
     let errors;
 
     if (value && !moment.utc(value).isValid()) {

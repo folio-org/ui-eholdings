@@ -66,18 +66,18 @@ class ProviderShow extends Component {
   };
 
   handleSectionToggle = ({ id }) => {
-    let next = update(`sections.${id}`, value => !value, this.state);
+    const next = update(`sections.${id}`, value => !value, this.state);
     this.setState(next);
   }
 
   handleExpandAll = (sections) => {
-    let next = set('sections', sections, this.state);
+    const next = set('sections', sections, this.state);
     this.setState(next);
   }
 
   get toasts() {
-    let { model, isFreshlySaved } = this.props;
-    let toasts = processErrors(model);
+    const { model, isFreshlySaved } = this.props;
+    const toasts = processErrors(model);
 
     // if coming from saving edits to the package, show a success toast
     if (isFreshlySaved) {
@@ -125,7 +125,7 @@ class ProviderShow extends Component {
   }
 
   renderLastMenu() {
-    let {
+    const {
       model: { name },
       onEdit,
     } = this.props;

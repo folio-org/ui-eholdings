@@ -214,7 +214,7 @@ describe('ManagedResourceEditCustomCoverage', () => {
   describe('visiting a selected custom resource edit page with custom coverage', () => {
     beforeEach(function () {
       resource.isSelected = true;
-      let customCoverages = [
+      const customCoverages = [
         this.server.create('custom-coverage', {
           beginCoverage: '2018-12-16',
           endCoverage: '2018-12-19'
@@ -263,7 +263,7 @@ describe('ManagedResourceEditCustomCoverage', () => {
   describe('visiting a selected custom resource edit page with multiple custom coverages', () => {
     beforeEach(function () {
       resource.isSelected = true;
-      let customCoverages = [
+      const customCoverages = [
         this.server.create('custom-coverage', {
           beginCoverage: '2018-12-01',
           endCoverage: '2018-12-15'

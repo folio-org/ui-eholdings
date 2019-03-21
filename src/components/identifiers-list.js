@@ -4,10 +4,10 @@ import { KeyValue } from '@folio/stripes/components';
 
 export default function IdentifiersList({ data }) {
   // get rid of identifiers we received that aren't ISSN or ISBN
-  let filteredData = data.filter(identifier => ['ISSN', 'ISBN'].includes(identifier.type));
+  const filteredData = data.filter(identifier => ['ISSN', 'ISBN'].includes(identifier.type));
 
   // turn type and subtype into compound types
-  let identifiersWithCompoundTypes = filteredData.map((identifier) => {
+  const identifiersWithCompoundTypes = filteredData.map((identifier) => {
     let compoundType = identifier.type;
 
     if (identifier.subtype !== 'Empty') {
@@ -21,8 +21,8 @@ export default function IdentifiersList({ data }) {
   });
 
   // group by type/subtype combination
-  let identifiersByType = identifiersWithCompoundTypes.reduce((byType, identifier) => {
-    let key = identifier.compoundType;
+  const identifiersByType = identifiersWithCompoundTypes.reduce((byType, identifier) => {
+    const key = identifier.compoundType;
     byType[key] = byType[key] || [];
     byType[key].push(identifier.id);
     return byType;

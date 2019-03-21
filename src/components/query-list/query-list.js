@@ -49,7 +49,7 @@ export default class QueryList extends Component {
   };
 
   render() {
-    let {
+    const {
       type,
       pageSize,
       loadHorizon,
@@ -62,7 +62,7 @@ export default class QueryList extends Component {
       length,
       fullWidth
     } = this.props;
-    let {
+    const {
       offset
     } = this.state;
 

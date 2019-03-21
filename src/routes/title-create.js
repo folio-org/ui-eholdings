@@ -43,13 +43,13 @@ class TitleCreateRoute extends Component {
 
   expandIdentifiers = (identifiers) => {
     return identifiers ? identifiers.map(({ id, flattenedType }) => {
-      let flattenedTypeIndex = flattenedType || 0;
+      const flattenedTypeIndex = flattenedType || 0;
       return { id, ...this.flattenedIdentifiers[flattenedTypeIndex] };
     }) : [];
   }
 
   createTitle = (values) => {
-    let { packageId, ...attrs } = values;
+    const { packageId, ...attrs } = values;
 
     // a resource is created along with the title
     attrs.resources = [{ packageId }];
@@ -60,7 +60,7 @@ class TitleCreateRoute extends Component {
   };
 
   render() {
-    let {
+    const {
       customPackages,
       history,
       location,
@@ -89,7 +89,7 @@ class TitleCreateRoute extends Component {
 
 export default connect(
   ({ eholdings: { data } }) => {
-    let resolver = createResolver(data);
+    const resolver = createResolver(data);
 
     return {
       createRequest: resolver.getRequest('create', { type: 'titles' }),

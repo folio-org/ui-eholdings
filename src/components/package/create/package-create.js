@@ -63,7 +63,7 @@ export default class PackageCreate extends Component {
   }
 
   render() {
-    let {
+    const {
       request,
       onCancel,
       onSubmit,

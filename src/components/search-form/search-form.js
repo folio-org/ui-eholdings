@@ -61,7 +61,7 @@ class SearchForm extends Component {
   };
 
   handleUpdateFilter = (filter) => {
-    let { sort, ...searchFilter } = filter;
+    const { sort, ...searchFilter } = filter;
 
     this.props.onFilterChange(sort, searchFilter);
   };
@@ -87,7 +87,7 @@ class SearchForm extends Component {
   };
 
   render() {
-    let {
+    const {
       searchType,
       searchTypeUrls,
       displaySearchTypeSwitcher,
@@ -98,10 +98,10 @@ class SearchForm extends Component {
       searchString,
       sort
     } = this.props;
-    let Filters = this.getFiltersComponent(searchType);
+    const Filters = this.getFiltersComponent(searchType);
     // sort is treated separately from the rest of the filters on submit,
     // but treated together when rendering the filters.
-    let combinedFilters = { sort, ...searchFilter };
+    const combinedFilters = { sort, ...searchFilter };
 
     return (
       <div className={styles['search-form-container']} data-test-search-form={searchType}>

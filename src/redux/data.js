@@ -251,7 +251,7 @@ const getRecord = (store, id) => (
  * @param {Function} fn - the actual reducing function
  */
 const reduceData = (type, state, fn) => {
-  let store = state[type] || {
+  const store = state[type] || {
     requests: {},
     records: {}
   };
@@ -271,7 +271,7 @@ const reduceData = (type, state, fn) => {
  * @returns {Array} array of error objects
  */
 const formatErrors = (errors) => {
-  let format = (err) => {
+  const format = (err) => {
     if (typeof err === 'string') {
       return { title: err };
     } else if (err && err.message) {
@@ -298,11 +298,11 @@ const formatErrors = (errors) => {
  * @returns {Object} set of attributes with change
  */
 const getChangedAttributes = (oldData, newData) => {
-  let diffData = Object.create(null);
-  let newDataKeys = Object.keys(newData);
+  const diffData = Object.create(null);
+  const newDataKeys = Object.keys(newData);
 
   for (let i = 0, length = newDataKeys.length; i < length; i++) {
-    let key = newDataKeys[i];
+    const key = newDataKeys[i];
     if (oldData[key] !== newData[key]) {
       diffData[key] = {
         prev: oldData[key],
@@ -327,7 +327,7 @@ const handlers = {
     return reduceData(data.resourceType, state, store => ({
 
       requests: Object.keys(store.requests).reduce((reqs, timestamp) => {
-        let request = store.requests[timestamp];
+        const request = store.requests[timestamp];
 
         // keep the request only if it's not of the type which we want to remove
         if (request.type !== data.requestType) {
@@ -382,7 +382,7 @@ const handlers = {
    */
   [actionTypes.SAVE]: (state, { data, payload }) => {
     return reduceData(data.type, state, (store) => {
-      let record = getRecord(store, data.params.id);
+      const record = getRecord(store, data.params.id);
 
       return {
         requests: {
@@ -452,7 +452,7 @@ const handlers = {
 
       // remove requests for this record and flag query requests with `hasUnloaded`
       requests: Object.keys(store.requests).reduce((reqs, timestamp) => {
-        let request = store.requests[timestamp];
+        const request = store.requests[timestamp];
 
         // if the request does not include any unloaded ids, keep it
         if (request.type === 'destroy' || !request.records.some(id => data.ids.includes(id))) {
@@ -478,7 +478,7 @@ const handlers = {
    * @param {Array} action.records - array of resolved records
    */
   [actionTypes.RESOLVE]: (state, action) => {
-    let { request, records } = action;
+    const { request, records } = action;
     // first we reduce the request state object
     let next = reduceData(request.resource, state, store => ({
       requests: {
@@ -499,7 +499,7 @@ const handlers = {
       // then we reduce each record in the set of records
       next = records.reduce((next, record) => { // eslint-disable-line no-shadow
         return reduceData(record.type, next, (store) => {
-          let recordState = getRecord(store, record.id);
+          const recordState = getRecord(store, record.id);
 
           return {
             records: {
@@ -571,7 +571,7 @@ const handlers = {
  */
 const getHeaders = (method, { okapi }, url) => {
   let contentType = 'application/json';
-  let headers = {
+  const headers = {
     'X-Okapi-Tenant': okapi.tenant,
     'X-Okapi-Token': okapi.token
   };
@@ -618,7 +618,7 @@ export function reducer(state = {}, action) { // NOSONAR
  * @param {Function} store.getState - get's the most recent redux state
  */
 export function epic(action$, { getState }) {
-  let actionMethods = {
+  const actionMethods = {
     [actionTypes.QUERY]: 'GET',
     [actionTypes.FIND]: 'GET',
     [actionTypes.SAVE]: 'PUT',
@@ -629,16 +629,16 @@ export function epic(action$, { getState }) {
   return action$
     .filter(({ type }) => actionMethods[type])
     .mergeMap(({ type, data, payload }) => {
-      let state = getState();
-      let method = actionMethods[type];
+      const state = getState();
+      const method = actionMethods[type];
 
       // the request object created from this action
-      let request = state.eholdings.data[data.type].requests[data.timestamp];
+      const request = state.eholdings.data[data.type].requests[data.timestamp];
 
       // used for the actual request
       let url = `${state.okapi.url}${data.path}`;
 
-      let headers = getHeaders(method, state, url);
+      const headers = getHeaders(method, state, url);
       let body;
 
       // if we're querying a set of records, data.params are the
@@ -661,7 +661,7 @@ export function epic(action$, { getState }) {
       }
 
       // request which rejects when not OK
-      let promise = fetch(url, { headers, method, body })
+      const promise = fetch(url, { headers, method, body })
         .then(response => Promise.all([response.ok, parseResponseBody(response)]))
         .then(([ok, body]) => (ok ? body : Promise.reject(body.errors))); // eslint-disable-line no-shadow
 

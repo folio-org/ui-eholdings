@@ -225,20 +225,20 @@ export default class CustomPackageEdit extends Component {
   }
 
   render() {
-    let {
+    const {
       model,
       proxyTypes,
       provider
     } = this.props;
 
-    let {
+    const {
       initialValues,
       showSelectionModal,
       packageSelected,
       sections,
     } = this.state;
 
-    let visibilityMessage = model.visibilityData.reason && `(${model.visibilityData.reason})`;
+    const visibilityMessage = model.visibilityData.reason && `(${model.visibilityData.reason})`;
 
     return (
       <Form

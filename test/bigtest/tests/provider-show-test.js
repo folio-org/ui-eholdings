@@ -136,7 +136,7 @@ describe('ProviderShow', () => {
 
   describe('visiting the provider details page with an inherited proxy', () => {
     beforeEach(function () {
-      let proxy = this.server.create('proxy', {
+      const proxy = this.server.create('proxy', {
         inherited: true,
         id: 'bigTestJS'
       });
@@ -154,7 +154,7 @@ describe('ProviderShow', () => {
 
   describe('visiting the provider details page with a none proxy', () => {
     beforeEach(function () {
-      let proxy = this.server.create('proxy', {
+      const proxy = this.server.create('proxy', {
         inherited: false,
         id: '<n>'
       });
@@ -171,7 +171,7 @@ describe('ProviderShow', () => {
 
   describe('visiting the provider details page with a token without value', () => {
     beforeEach(function () {
-      let token = this.server.create('token', {
+      const token = this.server.create('token', {
         factName: '[[mysiteid]]',
         prompt: '/test1/',
         helpText: '',

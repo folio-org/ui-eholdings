@@ -25,7 +25,7 @@ describe('ResourceEditManagedTitleInCustomPackage', () => {
       isSelected: true
     });
 
-    let title = this.server.create('title', {
+    const title = this.server.create('title', {
       name: 'Empire Strikes Back Directors Cut',
       publicationType: 'Streaming Video',
       publisherName: 'Amazing Publisher',

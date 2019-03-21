@@ -12,7 +12,7 @@ export default Factory.extend({
 
   withTitle: trait({
     afterCreate(resource, server) {
-      let title = server.create('title', 'withSubjects', 'withContributors', 'withIdentifiers');
+      const title = server.create('title', 'withSubjects', 'withContributors', 'withIdentifiers');
       resource.title = title;
       resource.save();
     }
@@ -20,7 +20,7 @@ export default Factory.extend({
 
   withPackage: trait({
     afterCreate(resource, server) {
-      let packageObj = server.create('package', 'withProvider');
+      const packageObj = server.create('package', 'withProvider');
       resource.update({
         package: packageObj
       });
@@ -30,7 +30,7 @@ export default Factory.extend({
 
   withManagedCoverage: trait({
     afterCreate(resource, server) {
-      let managedCoverages = server.createList('managed-coverage', 1);
+      const managedCoverages = server.createList('managed-coverage', 1);
       resource.update('managedCoverages', managedCoverages.map(item => item.toJSON()));
       resource.save();
     }
@@ -38,7 +38,7 @@ export default Factory.extend({
 
   isHidden: trait({
     afterCreate(resource, server) {
-      let visibilityData = server.create('visibility-data', {
+      const visibilityData = server.create('visibility-data', {
         isHidden: true,
         reason: 'The content is for mature audiences only.'
       });
@@ -49,7 +49,7 @@ export default Factory.extend({
 
   isHiddenWithoutReason: trait({
     afterCreate(resource, server) {
-      let visibilityData = server.create('visibility-data', {
+      const visibilityData = server.create('visibility-data', {
         isHidden: true,
         reason: ''
       });
@@ -60,7 +60,7 @@ export default Factory.extend({
 
   withProxy: trait({
     afterCreate(resource, server) {
-      let proxy = server.create('proxy', {
+      const proxy = server.create('proxy', {
         inherited: false,
         id: 'microstates'
       });
@@ -71,7 +71,7 @@ export default Factory.extend({
 
   withInheritedProxy: trait({
     afterCreate(resource, server) {
-      let proxy = server.create('proxy', {
+      const proxy = server.create('proxy', {
         inherited: true,
         id: 'bigTestJS'
       });
@@ -82,13 +82,13 @@ export default Factory.extend({
 
   afterCreate(resource, server) {
     if (!resource.visibilityData) {
-      let visibilityData = server.create('visibility-data');
+      const visibilityData = server.create('visibility-data');
       resource.update('visibilityData', visibilityData.toJSON());
       resource.save();
     }
 
     if (!resource.customEmbargoPeriod) {
-      let customEmbargoPeriod = server.create('embargo-period', {
+      const customEmbargoPeriod = server.create('embargo-period', {
         embargoUnit: '',
         embargoValue: 0
       });
@@ -97,7 +97,7 @@ export default Factory.extend({
     }
 
     if (!resource.managedEmbargoPeriod) {
-      let managedEmbargoPeriod = server.create('embargo-period', {
+      const managedEmbargoPeriod = server.create('embargo-period', {
         embargoUnit: '',
         embargoValue: 0
       });
@@ -105,7 +105,7 @@ export default Factory.extend({
       resource.save();
     }
     if (!resource.proxy) {
-      let proxy = server.create('proxy', {
+      const proxy = server.create('proxy', {
         inherited: false,
         id: 'bigTestJS'
       });

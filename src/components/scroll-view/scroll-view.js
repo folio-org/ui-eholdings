@@ -73,15 +73,15 @@ export default class ScrollView extends Component {
 
   // debounce the `onUpdate` prop
   triggerUpdate = debounce((offset) => {
-    let { onUpdate } = this.props;
+    const { onUpdate } = this.props;
     if (onUpdate) onUpdate(offset);
   }, 300);
 
   // Sets the list's scrollTop based on the itemHeight and
   // current offset
   setScrollOffset() {
-    let { itemHeight } = this.props;
-    let { offset } = this.state;
+    const { itemHeight } = this.props;
+    const { offset } = this.state;
 
     // $list is populated via the ref in the render method below
     if (this.$list) {
@@ -93,10 +93,10 @@ export default class ScrollView extends Component {
   // position. Also calls `onUpdate` when an item has crossed the
   // threshold of what's considered to be active in the view
   handleScroll = (e) => {
-    let { itemHeight } = this.props;
+    const { itemHeight } = this.props;
 
-    let top = e.currentTarget.scrollTop;
-    let offset = Math.floor(top / itemHeight);
+    const top = e.currentTarget.scrollTop;
+    const offset = Math.floor(top / itemHeight);
 
     // update impagination's readOffset
     if (this.state.offset !== offset) {
@@ -106,11 +106,11 @@ export default class ScrollView extends Component {
 
   // Handles updating our visible items count based on the list height
   handleListLayout = () => {
-    let { itemHeight } = this.props;
+    const { itemHeight } = this.props;
 
     if (this.$list) {
-      let listHeight = this.$list.offsetHeight;
-      let visibleItems = Math.ceil(listHeight / itemHeight);
+      const listHeight = this.$list.offsetHeight;
+      const visibleItems = Math.ceil(listHeight / itemHeight);
 
       if (visibleItems !== this.state.visibleItems) {
         this.setState({ visibleItems });
@@ -119,18 +119,18 @@ export default class ScrollView extends Component {
   };
 
   renderChildren() {
-    let { items, length, itemHeight, children } = this.props;
-    let { offset, visibleItems } = this.state;
+    const { items, length, itemHeight, children } = this.props;
+    const { offset, visibleItems } = this.state;
 
-    let threshold = 5;
-    let lower = Math.max(offset - threshold, 0);
-    let upper = Math.min(offset + visibleItems + threshold, (length || items.length) - 1);
+    const threshold = 5;
+    const lower = Math.max(offset - threshold, 0);
+    const upper = Math.min(offset + visibleItems + threshold, (length || items.length) - 1);
 
     // slice the visible items and map them to `children`
     return items.slice(lower, upper + 1).map((item, i) => {
-      let index = lower + i;
+      const index = lower + i;
 
-      let style = {
+      const style = {
         height: itemHeight,
         top: itemHeight * index
       };
@@ -145,7 +145,6 @@ export default class ScrollView extends Component {
 
   render() {
     // strip all other props to pass along the rest to the div
-    // eslint-disable-next-line no-unused-vars
     const {
       items,
       length,
@@ -159,6 +158,7 @@ export default class ScrollView extends Component {
       offset,
       visibleItems,
     } = this.state;
+
 
     let listHeight = (length || items.length) * itemHeight;
 

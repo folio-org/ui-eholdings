@@ -39,7 +39,7 @@ export default class ToggleSwitch extends Component {
   }
 
   render() {
-    let { isPending, id, name, disabled, checked } = this.props;
+    const { isPending, id, name, disabled, checked } = this.props;
     let inputChecked;
     if (this.props.input && this.props.checked) {
       inputChecked = this.state.inputChecked;

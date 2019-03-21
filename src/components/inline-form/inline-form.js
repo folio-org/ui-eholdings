@@ -14,7 +14,7 @@ export default class InlineForm extends Component {
   }
 
   render() {
-    let {
+    const {
       pristine,
       isPending,
       onSubmit,
