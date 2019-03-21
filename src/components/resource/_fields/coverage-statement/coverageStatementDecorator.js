@@ -1,13 +1,13 @@
 import createCalculateDecorator from 'final-form-calculate';
 
-import { coverageStatementStatuses } from '../../../../constants';
+import { coverageStatementExistenceStatuses } from '../../../../constants';
 
 export default createCalculateDecorator(
   {
     field: 'hasCoverageStatement',
     updates: {
       coverageStatement: (hasCoverageStatementValue, formValues) => {
-        return hasCoverageStatementValue === coverageStatementStatuses.NO_STATUS
+        return hasCoverageStatementValue === coverageStatementExistenceStatuses.NO
           ? ''
           : formValues.coverageStatement;
       }
@@ -18,8 +18,8 @@ export default createCalculateDecorator(
     updates: {
       hasCoverageStatement: (coverageStatementValue) => {
         return coverageStatementValue && coverageStatementValue.length
-          ? coverageStatementStatuses.YES_STATUS
-          : coverageStatementStatuses.NO_STATUS;
+          ? coverageStatementExistenceStatuses.YES
+          : coverageStatementExistenceStatuses.NO;
       }
     }
   }

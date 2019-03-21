@@ -103,13 +103,15 @@ class ResourceEditRoute extends Component {
         };
       });
 
+      const defaultEmbargoPeriod = { embargoValue: 0 };
+
       updateResource(Object.assign(model, {
         customCoverages: newCustomCoverages,
         isSelected: values.isSelected,
         url: customUrl,
         visibilityData: { isHidden: !isVisible },
         coverageStatement,
-        customEmbargoPeriod: customEmbargoPeriod[0] || { embargoValue: 0 },
+        customEmbargoPeriod: customEmbargoPeriod[0] || defaultEmbargoPeriod,
         proxy: { id: proxyId },
       }));
     }

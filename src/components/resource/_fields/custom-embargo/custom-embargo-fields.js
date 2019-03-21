@@ -47,7 +47,7 @@ function validateEmbargoUnit(embargoUnit, { customEmbargoPeriod }) {
 }
 
 export default class CustomEmbargoFields extends Component {
-  renderEmbargoUnitField(fields) {
+  renderEmbargoUnitField({ name: fieldsName }) {
     return (
       <div
         data-test-eholdings-custom-embargo-select
@@ -56,7 +56,7 @@ export default class CustomEmbargoFields extends Component {
         <FormattedMessage id="ui-eholdings.label.selectTimePeriod">
           {placeholder => (
             <Field
-              name={`${fields.name}[0].embargoUnit`}
+              name={`${fieldsName}[0].embargoUnit`}
               component={Select}
               validate={validateEmbargoUnit}
               placeholder={placeholder}

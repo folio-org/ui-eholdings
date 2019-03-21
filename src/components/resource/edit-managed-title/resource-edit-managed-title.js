@@ -7,7 +7,6 @@ import { FormattedMessage } from 'react-intl';
 
 import update from 'lodash/fp/update';
 import hasIn from 'lodash/hasIn';
-import get from 'lodash/get';
 
 import {
   Accordion,
@@ -35,7 +34,7 @@ import DetailsView from '../../details-view';
 
 import {
   historyActions,
-  coverageStatementStatuses,
+  coverageStatementExistenceStatuses,
 } from '../../../constants';
 
 const focusOnErrors = createFocusDecorator();
@@ -91,8 +90,8 @@ export default class ResourceEditManagedTitle extends Component {
     } = this.props.model;
 
     const hasCoverageStatement = coverageStatement.length > 0
-      ? coverageStatementStatuses.YES_STATUS
-      : coverageStatementStatuses.NO_STATUS;
+      ? coverageStatementExistenceStatuses.YES
+      : coverageStatementExistenceStatuses.NO;
 
     return {
       isSelected,
@@ -269,7 +268,7 @@ export default class ResourceEditManagedTitle extends Component {
     } = this.state;
 
     const isSelectInFlight = model.update.isPending && hasIn(model.update.changedAttributes, 'isSelected');
-    const hasInheritedProxy = get(model, 'package.proxy.id');
+    const hasInheritedProxy = hasIn(model, 'package.proxy.id');
     const visibilityMessage = model.package.visibilityData.isHidden
       ? <FormattedMessage id="ui-eholdings.resource.visibilityData.isHidden" />
       : model.visibilityData.reason && `(${model.visibilityData.reason})`;

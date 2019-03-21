@@ -6,7 +6,7 @@ import createFocusDecorator from 'final-form-focus';
 import { FormattedMessage } from 'react-intl';
 
 import update from 'lodash/fp/update';
-import get from 'lodash/get';
+import hasIn from 'lodash/hasIn';
 
 import { IfPermission } from '@folio/stripes-core';
 import {
@@ -32,9 +32,10 @@ import PaneHeaderButton from '../../pane-header-button';
 import CoverageDateList from '../../coverage-date-list';
 import ProxySelectField from '../../proxy-select';
 
+
 import {
   historyActions,
-  coverageStatementStatuses,
+  coverageStatementExistenceStatuses,
 } from '../../../constants';
 
 const focusOnErrors = createFocusDecorator();
@@ -91,8 +92,8 @@ export default class ResourceEditCustomTitle extends Component {
     } = this.props.model;
 
     const hasCoverageStatement = coverageStatement.length > 0
-      ? coverageStatementStatuses.YES_STATUS
-      : coverageStatementStatuses.NO_STATUS;
+      ? coverageStatementExistenceStatuses.YES
+      : coverageStatementExistenceStatuses.NO;
 
     return {
       isSelected,
@@ -248,7 +249,7 @@ export default class ResourceEditCustomTitle extends Component {
       initialValues,
     } = this.state;
 
-    const hasInheritedProxy = get(model, 'package.proxy.id');
+    const hasInheritedProxy = hasIn(model, 'package.proxy.id');
     const visibilityMessage = model.package.visibilityData.isHidden
       ? <FormattedMessage id="ui-eholdings.resource.visibilityData.isHidden" />
       : model.visibilityData.reason && `(${model.visibilityData.reason})`;
