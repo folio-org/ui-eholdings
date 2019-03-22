@@ -67,8 +67,7 @@ class ResourceEditRoute extends Component {
     let {
       coverageStatement,
       customCoverages,
-      customEmbargoValue,
-      customEmbargoUnit,
+      customEmbargoPeriod,
       customUrl,
       isVisible,
       proxyId
@@ -104,16 +103,15 @@ class ResourceEditRoute extends Component {
         };
       });
 
+      const defaultEmbargoPeriod = { embargoValue: 0 };
+
       updateResource(Object.assign(model, {
         customCoverages: newCustomCoverages,
         isSelected: values.isSelected,
         url: customUrl,
         visibilityData: { isHidden: !isVisible },
         coverageStatement,
-        customEmbargoPeriod: {
-          embargoValue: customEmbargoValue,
-          embargoUnit: customEmbargoUnit
-        },
+        customEmbargoPeriod: customEmbargoPeriod[0] || defaultEmbargoPeriod,
         proxy: { id: proxyId },
       }));
     }

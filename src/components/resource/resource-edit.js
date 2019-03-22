@@ -1,49 +1,67 @@
-import React from 'react';
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+
+import { Icon } from '@folio/stripes-components';
 
 import ManagedResourceEdit from './edit-managed-title';
 import CustomResourceEdit from './edit-custom-title';
 
-export default function ResourceEdit({ model, ...props }) {
-  let initialValues = {};
-  let View;
+export default class ResourceEdit extends Component {
+  static propTypes = {
+    model: PropTypes.object.isRequired,
+    onCancel: PropTypes.func.isRequired,
+    onSubmit: PropTypes.func.isRequired,
+    proxyTypes: PropTypes.object.isRequired,
+  };
 
-  if (model.isTitleCustom === true || model.destroy.params.isTitleCustom === true) {
-    View = CustomResourceEdit;
-    initialValues = {
-      isSelected: model.isSelected,
-      isVisible: !model.visibilityData.isHidden,
-      customCoverages: model.customCoverages,
-      coverageStatement: model.coverageStatement,
-      hasCoverageStatement: model.coverageStatement.length > 0 ? 'yes' : 'no',
-      customEmbargoValue: model.customEmbargoPeriod.embargoValue,
-      customEmbargoUnit: model.customEmbargoPeriod.embargoUnit,
-      customUrl: model.url,
-      proxyId: model.proxy.id
-    };
-  } else if (model.isTitleCustom === false) {
-    View = ManagedResourceEdit;
-    initialValues = {
-      isSelected: model.isSelected,
-      isVisible: !model.visibilityData.isHidden,
-      customCoverages: model.customCoverages,
-      coverageStatement: model.coverageStatement,
-      hasCoverageStatement: model.coverageStatement.length > 0 ? 'yes' : 'no',
-      customEmbargoValue: model.customEmbargoPeriod.embargoValue,
-      customEmbargoUnit: model.customEmbargoPeriod.embargoUnit,
-      proxyId: model.proxy.id
-    };
+  renderRequestErrorMessage() {
+    const { model } = this.props;
+
+    return (
+      <p data-test-eholdings-resource-edit-error>
+        {model.request.errors[0].title}
+      </p>
+    );
   }
 
-  return (
-    <View
-      model={model}
-      initialValues={initialValues}
-      {...props}
-    />
-  );
-}
+  indicateModelIsNotLoaded() {
+    const { model } = this.props;
 
-ResourceEdit.propTypes = {
-  model: PropTypes.object.isRequired
-};
+    return model.request.isRejected
+      ? this.renderRequestErrorMessage()
+      : (
+        <Icon
+          icon="spinner-ellipsis"
+          iconSize="small"
+        />
+      );
+  }
+
+  renderView() {
+    const {
+      model,
+      ...props
+    } = this.props;
+
+    const View = model.isTitleCustom
+      ? CustomResourceEdit
+      : ManagedResourceEdit;
+
+    return (
+      <View
+        model={model}
+        {...props}
+      />
+    );
+  }
+
+  render() {
+    const {
+      model: { isLoaded },
+    } = this.props;
+
+    return isLoaded
+      ? this.renderView()
+      : this.indicateModelIsNotLoaded();
+  }
+}
