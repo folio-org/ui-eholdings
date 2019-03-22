@@ -141,10 +141,10 @@ const resolve = (request, body, payload = {}) => {
 
   if (request.resource === 'tags') {
     data = getTagsData(request, body);
-    meta.totalResults = get(body, ['totalRecords'], {});
+    meta.totalResults = get(body, 'totalRecords', {});
   } else {
-    data = get(body, ['data'], payload.data);
-    meta = get(body, ['meta'], {});
+    data = get(body, 'data', payload.data);
+    meta = get(body, 'meta', {});
   }
 
   // on request where neither a body or payload is sent
@@ -446,6 +446,7 @@ const handlers = {
       records: data.ids.reduce((records, id) => {
         const newRecordsMap = { ...records };
         delete newRecordsMap[id];
+
         return newRecordsMap;
       }, store.records),
 
