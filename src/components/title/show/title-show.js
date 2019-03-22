@@ -1,9 +1,6 @@
 import React, { Component, Fragment } from 'react';
 import PropTypes from 'prop-types';
-import {
-  FormattedMessage,
-  FormattedNumber,
-} from 'react-intl';
+import { FormattedMessage } from 'react-intl';
 
 import { Form } from 'react-final-form';
 import createFocusDecorator from 'final-form-focus';
@@ -24,15 +21,9 @@ import {
   KeyValue,
   Modal,
   ModalFooter,
-  Badge,
-  Icon,
 } from '@folio/stripes/components';
 
-import {
-  processErrors,
-  getEntityTags,
-  getTagLabelsArr,
-} from '../../utilities';
+import { processErrors } from '../../utilities';
 
 import DetailsView from '../../details-view';
 import ScrollView from '../../scroll-view';
@@ -41,7 +32,7 @@ import IdentifiersList from '../../identifiers-list';
 import ContributorsList from '../../contributors-list';
 import AddTitleToPackage from '../_field-groups/add-title-to-package';
 import Toaster from '../../toaster';
-import Tags from '../../tags';
+import TagsAccordion from '../../tags';
 import KeyValueColumns from '../../key-value-columns';
 import styles from './title-show.css';
 
@@ -213,7 +204,7 @@ class TitleShow extends Component {
     };
 
     return (
-      <div>
+      <Fragment>
         <Toaster toasts={this.toasts} position="bottom" />
 
         <DetailsView
@@ -227,31 +218,15 @@ class TitleShow extends Component {
           lastMenu={this.lastMenu}
           bodyContent={(
             <Fragment>
-              <Accordion
-                label={<Headline size="large" tag="h3"><FormattedMessage id="ui-eholdings.tags" /></Headline>}
-                open={sections.providerShowTags}
+              <TagsAccordion
                 id="titleShowTags"
+                model={model}
                 onToggle={this.handleSectionToggle}
-                displayWhenClosed={
-                  <Badge sixe='small'>
-                    <span data-test-eholdings-provider-tags-bage>
-                      <FormattedNumber value={getEntityTags(model).length} />
-                    </span>
-                  </Badge>
-                  }
-              >
-                {(!tagsModel.request.isResolved || model.isLoading)
-                  ? <Icon icon="spinner-ellipsis" />
-                  : (
-                    <Tags
-                      updateEntityTags={updateEntityTags}
-                      updateFolioTags={updateFolioTags}
-                      model={model}
-                      tags={getTagLabelsArr(tagsModel)}
-                    />
-                  )
-                  }
-              </Accordion>
+                open={sections.titleShowTags}
+                tagsModel={tagsModel}
+                updateFolioTags={updateFolioTags}
+                updateEntityTags={updateEntityTags}
+              />
 
               <Accordion
                 label={<Headline size="large" tag="h3"><FormattedMessage id="ui-eholdings.title.titleInformation" /></Headline>}
@@ -392,7 +367,7 @@ class TitleShow extends Component {
             </Modal>
           )}
         />
-      </div>
+      </Fragment>
     );
   }
 }

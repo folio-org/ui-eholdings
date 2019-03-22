@@ -22,14 +22,9 @@ import {
   Icon,
   IconButton,
   KeyValue,
-  Badge,
 } from '@folio/stripes/components';
 
-import {
-  processErrors,
-  getEntityTags,
-  getTagLabelsArr,
-} from '../../utilities';
+import { processErrors } from '../../utilities';
 
 import DetailsView from '../../details-view';
 import QueryList from '../../query-list';
@@ -37,7 +32,7 @@ import PackageListItem from '../../package-list-item';
 import Toaster from '../../toaster';
 import ProxyDisplay from '../../proxy-display';
 import TokenDisplay from '../../token-display';
-import Tags from '../../tags';
+import TagsAccordion from '../../tags';
 
 const ITEM_HEIGHT = 53;
 
@@ -156,28 +151,6 @@ class ProviderShow extends Component {
     );
   }
 
-  renderTags() {
-    const {
-      model,
-      tagsModel,
-      updateEntityTags,
-      updateFolioTags,
-    } = this.props;
-
-    const tagsIsLoading = !tagsModel.request.isResolved || model.isLoading;
-
-    return tagsIsLoading
-      ? <Icon icon="spinner-ellipsis" />
-      : (
-        <Tags
-          updateEntityTags={updateEntityTags}
-          updateFolioTags={updateFolioTags}
-          model={model}
-          tags={getTagLabelsArr(tagsModel)}
-        />
-      );
-  }
-
   renderProxy() {
     const {
       proxyTypes,
@@ -218,6 +191,9 @@ class ProviderShow extends Component {
   getBodyContent() {
     const {
       model,
+      tagsModel,
+      updateFolioTags,
+      updateEntityTags
     } = this.props;
 
     const {
@@ -230,28 +206,15 @@ class ProviderShow extends Component {
 
     return (
       <div>
-        <Accordion
-          label={(
-            <Headline
-              size="large"
-              tag="h3"
-            >
-              <FormattedMessage id="ui-eholdings.tags" />
-            </Headline>
-          )}
-          open={sections.providerShowTags}
+        <TagsAccordion
           id="providerShowTags"
+          model={model}
           onToggle={this.handleSectionToggle}
-          displayWhenClosed={
-            <Badge sixe='small'>
-              <span data-test-eholdings-provider-tags-bage>
-                <FormattedNumber value={getEntityTags(model).length} />
-              </span>
-            </Badge>
-          }
-        >
-          {this.renderTags()}
-        </Accordion>
+          open={sections.providerShowTags}
+          tagsModel={tagsModel}
+          updateFolioTags={updateFolioTags}
+          updateEntityTags={updateEntityTags}
+        />
 
         <Accordion
           label={(
@@ -345,7 +308,7 @@ class ProviderShow extends Component {
     const { sections } = this.state;
 
     return (
-      <div>
+      <Fragment>
         <Toaster
           toasts={this.toasts}
           position="bottom"
@@ -368,7 +331,7 @@ class ProviderShow extends Component {
           resultsLength={packages.length}
           renderList={this.renderPackagesList}
         />
-      </div>
+      </Fragment>
     );
   }
 }
