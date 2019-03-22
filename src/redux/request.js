@@ -290,7 +290,7 @@ export function createRequestEpic({
         } else if (defaultParams) {
           let query = { ...defaultParams, ...data };
 
-          if (Object.keys(query)) {
+          if (Object.keys(query).length) {
             let searchQuery = '';
 
             // TODO: make the same for all search types, right now only

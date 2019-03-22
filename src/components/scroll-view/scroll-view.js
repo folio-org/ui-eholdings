@@ -146,7 +146,7 @@ export default class ScrollView extends Component {
   render() {
     // strip all other props to pass along the rest to the div
     // eslint-disable-next-line no-unused-vars
-    let { items, length, itemHeight, offset: _, onUpdate, scrollable, fullWidth, ...props } = this.props;
+    let { items, length, itemHeight, onUpdate, scrollable, fullWidth, ...props } = this.props;
     let { offset, visibleItems } = this.state;
     let listHeight = (length || items.length) * itemHeight;
 
