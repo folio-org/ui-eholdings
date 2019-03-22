@@ -24,14 +24,9 @@ import {
   KeyValue,
   Modal,
   ModalFooter,
-  Badge,
 } from '@folio/stripes/components';
 
-import {
-  processErrors,
-  getEntityTags,
-  getTagLabelsArr,
-} from '../../utilities';
+import { processErrors } from '../../utilities';
 import DetailsView from '../../details-view';
 import QueryList from '../../query-list';
 import InternalLink from '../../internal-link';
@@ -42,7 +37,7 @@ import SelectionStatus from '../selection-status';
 import KeyValueColumns from '../../key-value-columns';
 import ProxyDisplay from '../../proxy-display';
 import TokenDisplay from '../../token-display';
-import Tags from '../../tags';
+import TagsAccordion from '../../tags';
 import AgreementsAccordion from '../../../features';
 
 const ITEM_HEIGHT = 53;
@@ -289,39 +284,16 @@ class PackageShow extends Component {
     } = this.state;
 
     return (
-      <div>
-        <Accordion
-          label={(
-            <Headline
-              size="large"
-              tag="h3"
-            >
-              <FormattedMessage id="ui-eholdings.tags" />
-            </Headline>
-          )}
-          open={sections.providerShowTags}
-          id="providerShowTags"
+      <Fragment>
+        <TagsAccordion
+          id="packageShowTags"
+          model={model}
           onToggle={this.handleSectionToggle}
-          displayWhenClosed={
-            <Badge sixe='small'>
-              <span data-test-eholdings-provider-tags-bage>
-                <FormattedNumber value={getEntityTags(model).length} />
-              </span>
-            </Badge>
-          }
-        >
-          {(!tagsModel.request.isResolved || model.isLoading)
-            ? <Icon icon="spinner-ellipsis" />
-            : (
-              <Tags
-                updateEntityTags={updateEntityTags}
-                updateFolioTags={updateFolioTags}
-                model={model}
-                tags={getTagLabelsArr(tagsModel)}
-              />
-            )
-          }
-        </Accordion>
+          open={sections.packageShowTags}
+          tagsModel={tagsModel}
+          updateFolioTags={updateFolioTags}
+          updateEntityTags={updateEntityTags}
+        />
 
         <Accordion
           label={(
@@ -485,7 +457,7 @@ class PackageShow extends Component {
           isOpen={sections.packageShowAgreements}
           onToggle={this.handleSectionToggle}
         />
-      </div>
+      </Fragment>
     );
   }
 

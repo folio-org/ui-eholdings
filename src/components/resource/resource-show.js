@@ -1,9 +1,6 @@
 import React, { Component, Fragment } from 'react';
 import PropTypes from 'prop-types';
-import {
-  FormattedMessage,
-  FormattedNumber,
-} from 'react-intl';
+import { FormattedMessage } from 'react-intl';
 import update from 'lodash/fp/update';
 import set from 'lodash/fp/set';
 
@@ -15,7 +12,6 @@ import {
 import {
   Accordion,
   Button,
-  Badge,
   Headline,
   IconButton,
   Icon,
@@ -35,11 +31,9 @@ import {
   isBookPublicationType,
   isValidCoverageList,
   processErrors,
-  getEntityTags,
-  getTagLabelsArr,
 } from '../utilities';
 import Toaster from '../toaster';
-import Tags from '../tags';
+import TagsAccordion from '../tags';
 import KeyValueColumns from '../key-value-columns';
 import ProxyDisplay from '../proxy-display';
 
@@ -246,7 +240,7 @@ class ResourceShow extends Component {
     }
 
     return (
-      <div>
+      <Fragment>
         <Toaster toasts={toasts} position="bottom" />
 
         <DetailsView
@@ -259,34 +253,17 @@ class ResourceShow extends Component {
           handleExpandAll={this.handleExpandAll}
           lastMenu={this.renderLastMenu()}
           bodyContent={(
-            <div>
-              {resourceSelected &&
-                <Accordion
-                  label={<Headline size="large" tag="h3"><FormattedMessage id="ui-eholdings.tags" /></Headline>}
-                  open={sections.providerShowTags}
-                  id="resourceShowTags"
-                  onToggle={this.handleSectionToggle}
-                  displayWhenClosed={
-                    <Badge sixe='small'>
-                      <span data-test-eholdings-resource-tags-bage>
-                        <FormattedNumber value={getEntityTags(model).length} />
-                      </span>
-                    </Badge>
-                  }
-                >
-                  {(!tagsModel.request.isResolved || model.isLoading)
-                    ? <Icon icon="spinner-ellipsis" />
-                    : (
-                      <Tags
-                        updateEntityTags={updateEntityTags}
-                        updateFolioTags={updateFolioTags}
-                        model={model}
-                        tags={getTagLabelsArr(tagsModel)}
-                      />
-                    )
-                  }
-                </Accordion>
-              }
+            <Fragment>
+              <TagsAccordion
+                id="resourceShowTags"
+                model={model}
+                onToggle={this.handleSectionToggle}
+                open={sections.providerShowTags}
+                tagsModel={tagsModel}
+                updateFolioTags={updateFolioTags}
+                updateEntityTags={updateEntityTags}
+              />
+
               <Accordion
                 label={<Headline size="large" tag="h3"><FormattedMessage id="ui-eholdings.label.holdingStatus" /></Headline>}
                 open={sections.resourceShowHoldingStatus}
@@ -574,7 +551,7 @@ class ResourceShow extends Component {
                 isOpen={sections.resourceShowAgreements}
                 onToggle={this.handleSectionToggle}
               />
-            </div>
+            </Fragment>
           )}
         />
 
@@ -620,7 +597,7 @@ class ResourceShow extends Component {
               )
           }
         </Modal>
-      </div>
+      </Fragment>
     );
   }
 }

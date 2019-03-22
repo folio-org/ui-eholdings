@@ -1,1 +1,1 @@
-export { default } from './tags';
+export { default } from './tags-accordion';
