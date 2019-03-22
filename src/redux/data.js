@@ -114,7 +114,7 @@ export const destroy = (type, payload, { path }) => ({
 });
 
 /**
- * Action creator for uloading a record
+ * Action creator for unloading a record
  * @param {String} type - resource type
  * @param {String|[String]} ids - one or more record ids
  */
@@ -320,7 +320,7 @@ const handlers = {
   /**
    * Handles reducing the data store when removing the create requests
    * @param {Object} state - data store state
-   * @param {String} action.data.resourceType - the type of recource whose requests should be removed
+   * @param {String} action.data.resourceType - the type of resource whose requests should be removed
    * @param {String} action.data.requestType - the type of requests which should be removed
    */
   [actionTypes.REMOVE_REQUESTS]: (state, { data }) => {
@@ -449,7 +449,7 @@ const handlers = {
         return newRecordsMap;
       }, store.records),
 
-      // remove reqeusts for this record and flag query requests with `hasUnloaded`
+      // remove requests for this record and flag query requests with `hasUnloaded`
       requests: Object.keys(store.requests).reduce((reqs, timestamp) => {
         let request = store.requests[timestamp];
 

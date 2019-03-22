@@ -63,7 +63,7 @@ const rejectRequest = (name, error) => ({
  * Creates a reducer that responds to three basic request actions to
  * provide promise-like state properties for the request.
  *
- * - REQUEST_MAKE sets `isPending` to `true` and reinits the default
+ * - REQUEST_MAKE sets `isPending` to `true` and re-inits the default
  * promise-like properties.
  * - REQUEST_RESOLVE sets `isPending` to `false`, `isResolved` to
  * `true`, and `content` to the action's payload.
@@ -72,7 +72,7 @@ const rejectRequest = (name, error) => ({
  *
  * In order for request reducers to receive actions from a specific
  * request epic, the names of each reducer/epic combo must match
- * exactly. Additonally, it must be unique to a reducer/epic combo,
+ * exactly. Additionally, it must be unique to a reducer/epic combo,
  * otherwise other epics with the same name will trigger the reducer.
  *
  * if `handleActions` is provided, other actions can be included in
@@ -107,7 +107,7 @@ const rejectRequest = (name, error) => ({
  * related epic.
  *
  * if `handleRequests` is provided, the reducer is given the
- * oppurtinity to reduce _other_ request actions. The keys of this
+ * opportunity to reduce _other_ request actions. The keys of this
  * object should be names of other request reducer/epic combos.
  *
  * For example, if you would like to update the contents of the
@@ -127,9 +127,9 @@ const rejectRequest = (name, error) => ({
  *   }
  *
  * @param {string} name - name of this request reducer; must match a
- * corrisponding request epic
+ * corresponding request epic
  * @param {mixed} [initialContent=null] - initial `content` property
- * for this request; usually an empy object or array
+ * for this request; usually an empty object or array
  * @param {object} [handleActions={}] - additional actions to handle
  * in this reducer; provided request actions are reduced twice to
  * preserve the promise-like state
@@ -225,7 +225,7 @@ function parseResponseBody(response) {
  *
  * In order for request epics to handle actions for a specific
  * request reducer, the names of each reducer/epic combo must match
- * exactly. Additonally, it must be unique to a reducer/epic combo,
+ * exactly. Additionally, it must be unique to a reducer/epic combo,
  * otherwise other request actions with the same name will trigger
  * the epic.
  *
@@ -233,7 +233,7 @@ function parseResponseBody(response) {
  * `options` arguments provided to the request action. This should
  * return serialized data to send with the request (params or body).
  *
- * The `deserialize` function will simply recieve the payload from the
+ * The `deserialize` function will simply receive the payload from the
  * request's response along with the `options` argument provided to
  * the initial request's action.
  *
@@ -242,7 +242,7 @@ function parseResponseBody(response) {
  * empty object. Key-values will be used as defaults for the query.
  *
  * @param {string} name - name of this request epic; must match a
- * corrisponding request reducer
+ * corresponding request reducer
  * @param {string|function} [endpoint=''] - string or generator which when
  * combined with `okapi.url` will become the request URL
  * @param {object|false} [defaultParams=false] - when `false` this request has
