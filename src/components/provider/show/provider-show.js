@@ -205,7 +205,7 @@ class ProviderShow extends Component {
     const hasProviderSettings = hasProxy || hasToken;
 
     return (
-      <div>
+      <Fragment>
         <TagsAccordion
           id="providerShowTags"
           model={model}
@@ -260,7 +260,7 @@ class ProviderShow extends Component {
               {hasToken && this.renderToken()}
             </Accordion>
           )}
-      </div>
+      </Fragment>
     );
   }
 

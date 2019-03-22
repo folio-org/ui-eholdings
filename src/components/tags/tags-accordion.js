@@ -36,7 +36,6 @@ export default class TagsAccordion extends React.Component {
       tagsModel,
       updateFolioTags,
       updateEntityTags
-
     } = this.props;
 
     return (
