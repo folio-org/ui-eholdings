@@ -604,7 +604,7 @@ const parseResponseBody = (response) => {
  * @param {Object} state - data store state leaf
  * @param {Object} action - redux action being dispatched
  */
-export function reducer(state, action) {
+export function reducer(state = {}, action) { // NOSONAR
   if (handlers[action.type]) {
     return handlers[action.type](state, action);
   } else {

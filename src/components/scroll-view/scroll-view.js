@@ -152,7 +152,7 @@ export default class ScrollView extends Component {
       itemHeight,
       scrollable,
       fullWidth,
-      ...props
+      ...restProps
     } = this.props;
 
     const {
@@ -172,7 +172,7 @@ export default class ScrollView extends Component {
         ref={(n) => { this.$list = n; }}
         className={cx('list', { locked: !scrollable })}
         onScroll={this.handleScroll}
-        {...props}
+        {...restProps}
       >
         <List
           fullWidth={fullWidth}
