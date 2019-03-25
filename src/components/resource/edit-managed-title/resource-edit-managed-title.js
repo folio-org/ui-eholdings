@@ -27,7 +27,7 @@ import Toaster from '../../toaster';
 import CustomEmbargoFields, { getEmbargoInitial } from '../_fields/custom-embargo';
 import NavigationModal from '../../navigation-modal';
 import ProxySelectField from '../../proxy-select';
-import ManagedCoverageFields from '../_fields/managed-coverage';
+import CoverageFields from '../_fields/resource-coverage-fields';
 import CoverageDateList from '../../coverage-date-list';
 import PaneHeaderButton from '../../pane-header-button';
 import DetailsView from '../../details-view';
@@ -382,9 +382,7 @@ export default class ResourceEditManagedTitle extends Component {
                           <Headline tag="h4">
                             <FormattedMessage id="ui-eholdings.label.dates" />
                           </Headline>
-                          <ManagedCoverageFields
-                            model={model}
-                          />
+                          <CoverageFields model={model} />
 
                           <Headline tag="h4">
                             <FormattedMessage id="ui-eholdings.label.coverageDisplay" />
