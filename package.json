@@ -1,6 +1,6 @@
 {
   "name": "@folio/eholdings",
-  "version": "1.4.0",
+  "version": "1.5.0",
   "description": "FOLIO UI module for eHoldings",
   "main": "src/index.js",
   "repository": "https://github.com/folio-org/ui-eholdings",
