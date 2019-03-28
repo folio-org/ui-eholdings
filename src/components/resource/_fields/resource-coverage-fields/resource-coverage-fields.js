@@ -14,6 +14,7 @@ import {
 
 import moment from 'moment';
 import isEqual from 'lodash/isEqual';
+import has from 'lodash/has';
 
 import {
   Icon,
@@ -48,7 +49,15 @@ class ResourceCoverageFields extends Component {
     return validateDateRange(values, locale, packageDateRange);
   }
 
-  renderCustomCoverageFields = ({ fields, name: fieldsName, meta: { initial: initialValues } }) => {
+  renderCustomCoverageFields = (formData) => {
+    const {
+      fields,
+      name: fieldsName,
+      meta: {
+        initial: initialValues,
+      },
+    } = formData;
+
     return (
       <RepeatableField
         addLabel={
@@ -57,7 +66,7 @@ class ResourceCoverageFields extends Component {
           </Icon>
         }
         emptyMessage={
-          initialValues.length > 0 && initialValues[0].beginCoverage
+          has(initialValues, '[0].beginCoverage')
             ? <FormattedMessage id="ui-eholdings.package.noCoverageDates" />
             : ''
         }
@@ -70,9 +79,36 @@ class ResourceCoverageFields extends Component {
     );
   }
 
-  renderManagedCoverageFields = ({ fields, name: fieldsName, meta: { initial: initialValues } }) => {
+  formatDate(value) {
+    return value
+      ? moment.utc(value)
+      : '';
+  }
+
+  renderManagedCoverageFields = (formData) => {
     const { model } = this.props;
-    const managedCoveragesExist = model.managedCoverages.length > 0;
+    const {
+      fields,
+      name: fieldsName,
+      meta: {
+        initial: initialValues,
+      },
+    } = formData;
+
+    const managedCoveragesExist = model.managedCoverages.length;
+
+    const switchToManagedCoverages = (e) => {
+      if (e.target.value === 'on') {
+        fields.removeAll();
+      }
+    };
+
+    const switchToCustomCoverages = (e) => {
+      if (e.target.value === 'on' && fields.length === 0) {
+        fields.push({});
+      }
+    };
+
     return (
       <fieldset>
         <div>
@@ -80,11 +116,7 @@ class ResourceCoverageFields extends Component {
             label={<FormattedMessage id="ui-eholdings.label.managed.coverageDates" />}
             disabled={!managedCoveragesExist}
             checked={fields.length === 0 && managedCoveragesExist}
-            onChange={(e) => {
-              if (e.target.value === 'on') {
-                fields.removeAll();
-              }
-            }}
+            onChange={switchToManagedCoverages}
           />
           <div
             className={styles['coverage-fields-category']}
@@ -97,9 +129,7 @@ class ResourceCoverageFields extends Component {
                   isYearOnly={isBookPublicationType(model.publicationType)}
                 />
               )
-              : (
-                <p><FormattedMessage id="ui-eholdings.resource.managedCoverageDates.notSet" /></p>
-              )
+              : <p><FormattedMessage id="ui-eholdings.resource.managedCoverageDates.notSet" /></p>
             }
           </div>
         </div>
@@ -107,11 +137,7 @@ class ResourceCoverageFields extends Component {
           <RadioButton
             label={<FormattedMessage id="ui-eholdings.label.custom.coverageDates" />}
             checked={fields.length > 0}
-            onChange={(e) => {
-              if (e.target.value === 'on' && fields.length === 0) {
-                fields.push({});
-              }
-            }}
+            onChange={switchToCustomCoverages}
           />
           <div className={styles['coverage-fields-category']}>
             <RepeatableField
@@ -121,14 +147,14 @@ class ResourceCoverageFields extends Component {
                 </Icon>
               }
               emptyMessage={
-                initialValues.length > 0 && initialValues[0].beginCoverage
+                has(initialValues, '[0].beginCoverage')
                   ? <FormattedMessage id="ui-eholdings.package.noCoverageDates" />
                   : ''
               }
               fields={fields}
               name={fieldsName}
               onAdd={() => fields.push({})}
-              onRemove={(index) => fields.remove(index)}
+              onRemove={fields.remove}
               renderField={this.renderField}
             />
           </div>
@@ -154,7 +180,7 @@ class ResourceCoverageFields extends Component {
             component={Datepicker}
             label={<FormattedMessage id="ui-eholdings.date.startDate" />}
             id="begin-coverage"
-            format={(value) => (value ? moment.utc(value) : '')}
+            format={this.formatDate}
           />
         </div>
         <div
@@ -167,7 +193,7 @@ class ResourceCoverageFields extends Component {
             component={Datepicker}
             label={<FormattedMessage id="ui-eholdings.date.endDate" />}
             id="end-coverage"
-            format={(value) => (value ? moment.utc(value) : '')}
+            format={this.formatDate}
           />
         </div>
       </Fragment>
