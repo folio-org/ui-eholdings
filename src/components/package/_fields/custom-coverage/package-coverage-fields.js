@@ -100,7 +100,7 @@ class PackageCoverageFields extends Component {
       : null;
 
     const emptyMessage = hasEmptyMessage
-      ? <FormattedMessage id="ui-eholdings.package.noCoverageDates" />
+      ? <FormattedMessage id="ui-eholdings.package-resource.coverageDates.savingWillRemove" />
       : null;
 
     return (

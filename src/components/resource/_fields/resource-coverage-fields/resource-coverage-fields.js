@@ -30,6 +30,8 @@ import { isBookPublicationType } from '../../../utilities';
 
 import styles from './resource-coverage-fields.css';
 
+const COVERAGE_STATEMENT_ON_STATUS = 'on';
+
 class ResourceCoverageFields extends Component {
   static propTypes = {
     intl: intlShape.isRequired,
@@ -65,11 +67,7 @@ class ResourceCoverageFields extends Component {
             <FormattedMessage id="ui-eholdings.package.coverage.addDateRange" />
           </Icon>
         }
-        emptyMessage={
-          has(initialValues, '[0].beginCoverage')
-            ? <FormattedMessage id="ui-eholdings.package.noCoverageDates" />
-            : ''
-        }
+        emptyMessage={this.renderEmptyMessage(initialValues)}
         fields={fields}
         name={fieldsName}
         onAdd={() => fields.push({})}
@@ -98,13 +96,13 @@ class ResourceCoverageFields extends Component {
     const managedCoveragesExist = model.managedCoverages.length;
 
     const switchToManagedCoverages = (e) => {
-      if (e.target.value === 'on') {
+      if (e.target.value === COVERAGE_STATEMENT_ON_STATUS) {
         fields.removeAll();
       }
     };
 
     const switchToCustomCoverages = (e) => {
-      if (e.target.value === 'on' && fields.length === 0) {
+      if (e.target.value === COVERAGE_STATEMENT_ON_STATUS && !fields.length) {
         fields.push({});
       }
     };
@@ -146,11 +144,7 @@ class ResourceCoverageFields extends Component {
                   <FormattedMessage id="ui-eholdings.package.coverage.addDateRange" />
                 </Icon>
               }
-              emptyMessage={
-                has(initialValues, '[0].beginCoverage')
-                  ? <FormattedMessage id="ui-eholdings.package.noCoverageDates" />
-                  : ''
-              }
+              emptyMessage={this.renderEmptyMessage(initialValues)}
               fields={fields}
               name={fieldsName}
               onAdd={() => fields.push({})}
@@ -198,6 +192,14 @@ class ResourceCoverageFields extends Component {
         </div>
       </Fragment>
     );
+  }
+
+  renderEmptyMessage(initialValues) {
+    const isCoverageDatesRemoved = has(initialValues, '[0].beginCoverage');
+
+    return isCoverageDatesRemoved
+      ? <FormattedMessage id="ui-eholdings.package-resource.coverageDates.savingWillRemove" />
+      : '';
   }
 
   render() {

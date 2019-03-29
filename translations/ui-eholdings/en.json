@@ -14,7 +14,6 @@
     "package.contentType": "Content type",
     "package.coverageSettings": "Coverage settings",
     "package.coverageDates": "Coverage dates",
-    "package.noCoverageDates": "No date ranges set. Saving will remove custom coverage.",
     "package.coverage.addDateRange": "Add date range",
     "package.customCoverage.notSelected": "Add the package to holdings to set custom coverage dates.",
     "package.customCoverage.notSet": "No custom coverage dates set.",
@@ -111,6 +110,8 @@
     "resource.coverage.noCustomizations": "No coverage customizations set.",
     "resource.toast.isFreshlySaved": "Title was updated.",
     "resource.visibilityData.isHidden": "(All titles in this package are hidden)",
+
+    "package-resource.coverageDates.savingWillRemove": "No date ranges set. Saving will remove custom coverage.",
 
     "title.name.isRequired": "Name *",
     "title.package.isRequired": "Package *",
@@ -320,7 +321,6 @@
     "customUrl": "Custom URL",
     "managed": "Managed",
     "type": "Type",
-    "name": "Name",
     "id": "ID",
     "number": "Number",
     "hidden": "Hidden",
