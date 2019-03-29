@@ -20,6 +20,7 @@ import {
   ModalFooter
 } from '@folio/stripes/components';
 
+import { entityAuthorityTypes } from '../../constants';
 import DetailsView from '../details-view';
 import InternalLink from '../internal-link';
 import ExternalLink from '../external-link/external-link';
@@ -547,7 +548,8 @@ class ResourceShow extends Component {
 
               <AgreementsAccordion
                 id="resourceShowAgreements"
-                referenceId={model.id}
+                refId={model.id}
+                refType={entityAuthorityTypes.RESOURCE}
                 isOpen={sections.resourceShowAgreements}
                 onToggle={this.handleSectionToggle}
               />

@@ -3,12 +3,13 @@ import { expect } from 'chai';
 
 import setupApplication from '../helpers/setup-application';
 import PackageShowPage from '../interactors/package-show';
+import { entityAuthorityTypes } from '../../../src/constants';
 
 describe('PackageShow', () => {
   setupApplication();
-  let provider,
-    providerPackage,
-    resources;
+  let provider;
+  let providerPackage;
+  let resources;
 
   beforeEach(function () {
     provider = this.server.create('provider', {
@@ -88,6 +89,22 @@ describe('PackageShow', () => {
     describe('agreements section', () => {
       it('should display open accordion by default', () => {
         expect(PackageShowPage.agreementsSection.isExpanded).to.be.true;
+      });
+
+      it('should display "New" button', () => {
+        expect(PackageShowPage.agreementsSection.hasNewButton).to.be.true;
+      });
+
+      describe('after click on "New" button', () => {
+        beforeEach(async () => {
+          await PackageShowPage.agreementsSection.clickNewButton();
+        });
+
+        it('should redirect to create page of agreements app', function () {
+          const agreementCreatePageUrl = `/erm/agreements?layer=create&authority=${entityAuthorityTypes.PACKAGE}&referenceId=${providerPackage.id}`;
+
+          expect(this.location.pathname + this.location.search).to.contain(agreementCreatePageUrl);
+        });
       });
 
       it('should display a 3 items in the list of agreements', () => {

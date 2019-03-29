@@ -38,8 +38,8 @@ import PackageSelectionStatus from './selection-status';
 @interactor class AgreementsSection {
   isExpanded = !!attribute('#accordion-toggle-button-packageShowAgreements', 'aria-expanded');
   agreements = collection('[data-test-agreements-list-item]');
-  clickStartDateColumnHeader = clickable('#clickable-list-column-startdate');
-  startDateColumnSortDirection = attribute('#list-column-startdate', 'aria-sort');
+  hasNewButton = isPresent('[data-test-new-button]');
+  clickNewButton = clickable('[data-test-new-button]');
 }
 
 @interactor class PackageShowPage {
