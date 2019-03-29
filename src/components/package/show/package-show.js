@@ -26,6 +26,7 @@ import {
   ModalFooter,
 } from '@folio/stripes/components';
 
+import { entityAuthorityTypes } from '../../../constants';
 import { processErrors } from '../../utilities';
 import DetailsView from '../../details-view';
 import QueryList from '../../query-list';
@@ -453,7 +454,8 @@ class PackageShow extends Component {
 
         <AgreementsAccordion
           id="packageShowAgreements"
-          referenceId={model.id}
+          refId={model.id}
+          refType={entityAuthorityTypes.PACKAGE}
           isOpen={sections.packageShowAgreements}
           onToggle={this.handleSectionToggle}
         />

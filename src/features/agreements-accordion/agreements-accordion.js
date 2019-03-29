@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import {
@@ -33,16 +33,17 @@ class AgreementsAccordion extends Component {
     id: PropTypes.string.isRequired,
     isOpen: PropTypes.bool,
     onToggle: PropTypes.func,
-    referenceId: PropTypes.string.isRequired,
+    refId: PropTypes.string.isRequired,
+    refType: PropTypes.string,
   }
 
   componentDidMount() {
     const {
       getAgreements,
-      referenceId,
+      refId,
     } = this.props;
 
-    getAgreements(referenceId);
+    getAgreements(refId);
   }
 
   getAgreementsAccordionHeader = () => {
@@ -65,26 +66,39 @@ class AgreementsAccordion extends Component {
   }
 
   getAgreementsAccordionButtons() {
+    const {
+      refType,
+      refId,
+    } = this.props;
+
     return (
-      <Pluggable
-        dataKey="find-agreements"
-        type="find-agreement"
-        renderTrigger={this.renderFindAgreementTrigger}
-        onAgreementSelected={this.onAddAgreementHandler}
-      />
+      <Fragment>
+        <Pluggable
+          dataKey="find-agreements"
+          type="find-agreement"
+          renderTrigger={this.renderFindAgreementTrigger}
+          onAgreementSelected={this.onAddAgreementHandler}
+        />
+        <Button
+          data-test-new-button
+          to={`/erm/agreements?layer=create&authority=${refType}&referenceId=${refId}`}
+        >
+          <FormattedMessage id="ui-eholdings.new" />
+        </Button>
+      </Fragment>
     );
   }
 
   onAddAgreementHandler = ({ name, id }) => {
     const {
-      referenceId,
+      refId,
       attachAgreement,
     } = this.props;
 
     attachAgreement({
       id,
-      referenceId,
-      agreement: new Agreement({ reference: referenceId, label: name }),
+      refId,
+      agreement: new Agreement({ reference: refId, label: name }),
     });
   };
 

@@ -4,12 +4,13 @@ import { describe, beforeEach, it } from '@bigtest/mocha';
 import setupApplication from '../helpers/setup-application';
 import ResourcePage from '../interactors/resource-show';
 import PackageEditPage from '../interactors/package-edit';
+import { entityAuthorityTypes } from '../../../src/constants';
 
 describe('ResourceShow', () => {
   setupApplication();
-  let provider,
-    providerPackage,
-    resource;
+  let provider;
+  let providerPackage;
+  let resource;
 
   beforeEach(function () {
     provider = this.server.create('provider', {
@@ -137,9 +138,25 @@ describe('ResourceShow', () => {
       expect(ResourcePage.packageName).to.equal('Cool Package');
     });
 
-    describe('agreements section', () => {
+    describe.only('agreements section', () => {
       it('should display open accordion by default', () => {
         expect(ResourcePage.agreementsSection.isExpanded).to.be.true;
+      });
+
+      it('should display "New" button', () => {
+        expect(ResourcePage.agreementsSection.hasNewButton).to.be.true;
+      });
+
+      describe('after click on "New" button', () => {
+        beforeEach(async () => {
+          await ResourcePage.agreementsSection.clickNewButton();
+        });
+
+        it('should redirect to create page of agreements app', function () {
+          const agreementCreatePageUrl = `/erm/agreements?layer=create&authority=${entityAuthorityTypes.RESOURCE}&referenceId=${resource.id}`;
+
+          expect(this.location.pathname + this.location.search).to.contain(agreementCreatePageUrl);
+        });
       });
 
       it('should display a 3 items in the list of agreements', () => {
