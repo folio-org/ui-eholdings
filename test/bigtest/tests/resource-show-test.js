@@ -138,7 +138,7 @@ describe('ResourceShow', () => {
       expect(ResourcePage.packageName).to.equal('Cool Package');
     });
 
-    describe.only('agreements section', () => {
+    describe('agreements section', () => {
       it('should display open accordion by default', () => {
         expect(ResourcePage.agreementsSection.isExpanded).to.be.true;
       });
