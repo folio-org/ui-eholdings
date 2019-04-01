@@ -91,35 +91,51 @@ describe('PackageShow', () => {
         expect(PackageShowPage.agreementsSection.isExpanded).to.be.true;
       });
 
-      it('should display "New" button', () => {
-        expect(PackageShowPage.agreementsSection.hasNewButton).to.be.true;
+      describe('when open', () => {
+        it('should display "New" button', () => {
+          expect(PackageShowPage.agreementsSection.hasNewButton).to.be.true;
+        });
+
+        describe('after click on "New" button', () => {
+          beforeEach(async () => {
+            await PackageShowPage.agreementsSection.clickNewButton();
+          });
+
+          it('should redirect to create page of agreements app', function () {
+            const agreementCreatePageUrl = `/erm/agreements?layer=create&authority=${entityAuthorityTypes.PACKAGE}&referenceId=${providerPackage.id}`;
+
+            expect(this.location.pathname + this.location.search).to.contain(agreementCreatePageUrl);
+          });
+        });
+
+        it('should not display badge with agreements quantity', () => {
+          expect(PackageShowPage.agreementsSection.hasBadge).to.be.false;
+        });
+
+        it('should display a 3 items in the list of agreements', () => {
+          expect(PackageShowPage.agreementsSection.agreements().length).to.equal(3);
+        });
+
+        describe('after click on first agreement', () => {
+          beforeEach(async () => {
+            await PackageShowPage.agreementsSection.agreements(0).click();
+          });
+
+          it('should redirect to agreement details page', function () {
+            const itemDetailsUrl = '/erm/agreements/view/2c918098689ba8f70168a349f1160027';
+
+            expect(this.location.pathname).to.contain(itemDetailsUrl);
+          });
+        });
       });
 
-      describe('after click on "New" button', () => {
+      describe('when closed', () => {
         beforeEach(async () => {
-          await PackageShowPage.agreementsSection.clickNewButton();
+          await PackageShowPage.agreementsSection.clickSection();
         });
 
-        it('should redirect to create page of agreements app', function () {
-          const agreementCreatePageUrl = `/erm/agreements?layer=create&authority=${entityAuthorityTypes.PACKAGE}&referenceId=${providerPackage.id}`;
-
-          expect(this.location.pathname + this.location.search).to.contain(agreementCreatePageUrl);
-        });
-      });
-
-      it('should display a 3 items in the list of agreements', () => {
-        expect(PackageShowPage.agreementsSection.agreements().length).to.equal(3);
-      });
-
-      describe('after click on first agreement', () => {
-        beforeEach(async () => {
-          await PackageShowPage.agreementsSection.agreements(0).click();
-        });
-
-        it('should redirect to agreement details page', function () {
-          const itemDetailsUrl = '/erm/agreements/view/2c918098689ba8f70168a349f1160027';
-
-          expect(this.location.pathname).to.contain(itemDetailsUrl);
+        it('should display badge with agreements quantity equal to 3', () => {
+          expect(PackageShowPage.agreementsSection.agreementsQuantity).to.equal('3');
         });
       });
     });

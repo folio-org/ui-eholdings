@@ -2,7 +2,8 @@
 
 ## [1.6.0]
 
-* Add New button to agreements accordion on Package and Resource show pages for redirecting the user to creation page.
+* Add New button to agreements accordion on Package and Resource show pages for redirecting the user to creation page. (UIEH-629, UIEH-631)
+* Add badge with agreements quantity to agreements section on Package and Resource show pages (UIEH-680)
 
 ## [1.5.0](https://github.com/folio-org/ui-eholdings/tree/v1.5.0) (2019-03-25)
 
