@@ -13,6 +13,7 @@ import {
   Accordion,
   Headline,
   Button,
+  Badge,
 } from '@folio/stripes/components';
 
 import selectAgreements from '../../redux/selectors';
@@ -91,6 +92,14 @@ class AgreementsAccordion extends Component {
     );
   }
 
+  renderBadge() {
+    return (
+      <Badge>
+        {this.props.agreements.items.length}
+      </Badge>
+    );
+  }
+
   onAddAgreementHandler = ({ name, id }) => {
     const {
       refId,
@@ -118,6 +127,7 @@ class AgreementsAccordion extends Component {
         open={isOpen}
         label={this.getAgreementsAccordionHeader()}
         displayWhenOpen={this.getAgreementsAccordionButtons()}
+        displayWhenClosed={this.renderBadge()}
         onToggle={onToggle}
       >
         <AgreementsList agreements={agreements} />
