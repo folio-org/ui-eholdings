@@ -9,6 +9,8 @@ import {
   text,
   is
 } from '@bigtest/interactor';
+
+import AgreementsAccordion from './agreements-accordion';
 import Toast from './toast';
 
 
@@ -30,13 +32,6 @@ import Toast from './toast';
 }
 
 @interactor class ResourceShowNavigationModal {}
-
-@interactor class AgreementsSection {
-  isExpanded = !!attribute('#accordion-toggle-button-resourceShowAgreements', 'aria-expanded');
-  agreements = collection('[data-test-agreements-list-item]');
-  hasNewButton = isPresent('[data-test-new-button]');
-  clickNewButton = clickable('[data-test-new-button]');
-}
 
 @interactor class ResourceShowPage {
   isLoaded = isPresent('[data-test-eholdings-details-view-name="resource"]');
@@ -132,7 +127,7 @@ import Toast from './toast';
     contributorText: text()
   });
 
-  agreementsSection = new AgreementsSection('#resourceShowAgreements');
+  agreementsSection = new AgreementsAccordion('#resourceShowAgreements');
 }
 
 export default new ResourceShowPage('[data-test-eholdings-details-view="resource"]');

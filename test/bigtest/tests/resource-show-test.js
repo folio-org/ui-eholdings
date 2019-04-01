@@ -143,35 +143,51 @@ describe('ResourceShow', () => {
         expect(ResourcePage.agreementsSection.isExpanded).to.be.true;
       });
 
-      it('should display "New" button', () => {
-        expect(ResourcePage.agreementsSection.hasNewButton).to.be.true;
+      describe('when open', () => {
+        it('should display "New" button', () => {
+          expect(ResourcePage.agreementsSection.hasNewButton).to.be.true;
+        });
+
+        describe('after click on "New" button', () => {
+          beforeEach(async () => {
+            await ResourcePage.agreementsSection.clickNewButton();
+          });
+
+          it('should redirect to create page of agreements app', function () {
+            const agreementCreatePageUrl = `/erm/agreements?layer=create&authority=${entityAuthorityTypes.RESOURCE}&referenceId=${resource.id}`;
+
+            expect(this.location.pathname + this.location.search).to.contain(agreementCreatePageUrl);
+          });
+        });
+
+        it('should not display badge with agreements quantity', () => {
+          expect(ResourcePage.agreementsSection.hasBadge).to.be.false;
+        });
+
+        it('should display a 3 items in the list of agreements', () => {
+          expect(ResourcePage.agreementsSection.agreements().length).to.equal(3);
+        });
+
+        describe('after click on first agreement', () => {
+          beforeEach(async () => {
+            await ResourcePage.agreementsSection.agreements(0).click();
+          });
+
+          it('should redirect to agreement details page', function () {
+            const itemDetailsUrl = '/erm/agreements/view/2c918098689ba8f70168a349f1160027';
+
+            expect(this.location.pathname).to.contain(itemDetailsUrl);
+          });
+        });
       });
 
-      describe('after click on "New" button', () => {
+      describe('when closed', () => {
         beforeEach(async () => {
-          await ResourcePage.agreementsSection.clickNewButton();
+          await ResourcePage.agreementsSection.clickSection();
         });
 
-        it('should redirect to create page of agreements app', function () {
-          const agreementCreatePageUrl = `/erm/agreements?layer=create&authority=${entityAuthorityTypes.RESOURCE}&referenceId=${resource.id}`;
-
-          expect(this.location.pathname + this.location.search).to.contain(agreementCreatePageUrl);
-        });
-      });
-
-      it('should display a 3 items in the list of agreements', () => {
-        expect(ResourcePage.agreementsSection.agreements().length).to.equal(3);
-      });
-
-      describe('after click on first agreement', () => {
-        beforeEach(async () => {
-          await ResourcePage.agreementsSection.agreements(0).click();
-        });
-
-        it('should redirect to agreement details page', function () {
-          const itemDetailsUrl = '/erm/agreements/view/2c918098689ba8f70168a349f1160027';
-
-          expect(this.location.pathname).to.contain(itemDetailsUrl);
+        it('should display badge with agreements quantity equal to 3', () => {
+          expect(ResourcePage.agreementsSection.agreementsQuantity).to.equal('3');
         });
       });
     });

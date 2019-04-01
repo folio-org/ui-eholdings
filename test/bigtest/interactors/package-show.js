@@ -13,7 +13,12 @@ import {
   is,
   attribute,
 } from '@bigtest/interactor';
-import { getComputedStyle, hasClassBeginningWith } from './helpers';
+
+import AgreementsAccordion from './agreements-accordion';
+import {
+  getComputedStyle,
+  hasClassBeginningWith,
+} from './helpers';
 import Datepicker from './datepicker';
 import Toast from './toast';
 import SearchModal from './search-modal';
@@ -33,13 +38,6 @@ import PackageSelectionStatus from './selection-status';
 @interactor class PackageShowDropDownMenu {
   addToHoldings = new Interactor('.tether-element [data-test-eholdings-package-add-to-holdings-action]');
   removeFromHoldings = new Interactor('.tether-element [data-test-eholdings-package-remove-from-holdings-action]');
-}
-
-@interactor class AgreementsSection {
-  isExpanded = !!attribute('#accordion-toggle-button-packageShowAgreements', 'aria-expanded');
-  agreements = collection('[data-test-agreements-list-item]');
-  hasNewButton = isPresent('[data-test-new-button]');
-  clickNewButton = clickable('[data-test-new-button]');
 }
 
 @interactor class PackageShowPage {
@@ -141,7 +139,7 @@ import PackageSelectionStatus from './selection-status';
 
   toast = Toast;
 
-  agreementsSection = new AgreementsSection('#packageShowAgreements');
+  agreementsSection = new AgreementsAccordion('#packageShowAgreements');
   findAgreementsModalIsVisible = isPresent('[class^="modal"] #list-agreements');
 
   selectPackage() {
