@@ -57,8 +57,6 @@
     "provider.packagesSelected": "Pacotes selecionados",
     "provider.totalPackages": "Pacotes totais",
     "provider.resultsNotFound": "Nenhum fornecedor encontrado para '{query}'.",
-    "provider.proxy": "Proxy",
-    "provider.inherited": "Herdado",
     "provider.noPackagesSelected": "Adicione qualquer pacote desse provedor ao acervo para personalizar as configurações do fornecedor.",
     "provider.toast.isFreshlySaved": "Provedor salvo.",
     "resource.modal.header": "Remover título do acervo?",
@@ -295,7 +293,6 @@
     "search.searchType.titles": "Títulos",
     "search.searchType.packages": "Pacotes",
     "search.searchType.providers": "Provedores",
-    "provider.providerTags": "Tags",
     "provider.labels": "Rótulos",
     "tags.addTagFor": "Adicionar tag para: <strong>{filtro}</strong>",
     "tags": "Tags",
@@ -303,5 +300,6 @@
     "startDate": "Data de início",
     "status": "Status",
     "agreements": "Contratos",
-    "agreements.notFound": "Nenhum contrato encontrado"
+    "agreements.notFound": "Nenhum contrato encontrado",
+    "new": "Novo"
 }

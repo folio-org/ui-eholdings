@@ -57,8 +57,6 @@
     "provider.packagesSelected": "Kiválasztott csomagok",
     "provider.totalPackages": "Összes csomag",
     "provider.resultsNotFound": "Nincs szolgáltató a '{query}' számára.",
-    "provider.proxy": "Meghatalmazott",
-    "provider.inherited": "Örökölt",
     "provider.noPackagesSelected": "Adjon hozzá minden csomagot e szolgáltatótól a szolgáltatói beállítások testreszabásához.",
     "provider.toast.isFreshlySaved": "Szolgáltató mentve.",
     "resource.modal.header": "Eltávolítja a címet az állományból?",
@@ -295,7 +293,6 @@
     "search.searchType.titles": "Titles",
     "search.searchType.packages": "Packages",
     "search.searchType.providers": "Providers",
-    "provider.providerTags": "Tags",
     "provider.labels": "Labels",
     "tags.addTagFor": "Add tag for: <strong>{filter}</strong>",
     "tags": "Tags",
@@ -303,5 +300,6 @@
     "startDate": "Start Date",
     "status": "Status",
     "agreements": "Agreements",
-    "agreements.notFound": "No agreements found"
+    "agreements.notFound": "No agreements found",
+    "new": "New"
 }

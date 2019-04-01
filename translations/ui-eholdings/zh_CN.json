@@ -57,8 +57,6 @@
     "provider.packagesSelected": "已选择的包",
     "provider.totalPackages": "所有包",
     "provider.resultsNotFound": "找不到“{query}”的提供者。",
-    "provider.proxy": "代理",
-    "provider.inherited": "已继承",
     "provider.noPackagesSelected": "将此提供者的任何包添加到馆藏以自定义提供者设置。",
     "provider.toast.isFreshlySaved": "提供者已保存。",
     "resource.modal.header": "从馆藏中删除",
@@ -295,7 +293,6 @@
     "search.searchType.titles": "Titles",
     "search.searchType.packages": "Packages",
     "search.searchType.providers": "Providers",
-    "provider.providerTags": "Tags",
     "provider.labels": "Labels",
     "tags.addTagFor": "Add tag for: <strong>{filter}</strong>",
     "tags": "Tags",
@@ -303,5 +300,6 @@
     "startDate": "Start Date",
     "status": "Status",
     "agreements": "Agreements",
-    "agreements.notFound": "No agreements found"
+    "agreements.notFound": "No agreements found",
+    "new": "New"
 }

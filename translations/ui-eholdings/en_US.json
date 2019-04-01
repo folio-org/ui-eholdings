@@ -57,8 +57,6 @@
     "provider.packagesSelected": "Packages selected",
     "provider.totalPackages": "Total packages",
     "provider.resultsNotFound": "No providers found for '{query}'.",
-    "provider.proxy": "Proxy",
-    "provider.inherited": "Inherited",
     "provider.noPackagesSelected": "Add any package from this provider to holdings to customize provider settings.",
     "provider.toast.isFreshlySaved": "Provider saved.",
     "resource.modal.header": "Remove title from holdings?",
@@ -295,7 +293,6 @@
     "search.searchType.titles": "Titles",
     "search.searchType.packages": "Packages",
     "search.searchType.providers": "Providers",
-    "provider.providerTags": "Tags",
     "provider.labels": "Labels",
     "tags.addTagFor": "Add tag for: <strong>{filter}</strong>",
     "tags": "Tags",
@@ -303,5 +300,6 @@
     "startDate": "Start date",
     "status": "Status",
     "agreements": "Agreements",
-    "agreements.notFound": "No agreements found"
+    "agreements.notFound": "No agreements found",
+    "new": "New"
 }
