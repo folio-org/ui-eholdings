@@ -57,8 +57,6 @@
     "provider.packagesSelected": "الحزم المحددة",
     "provider.totalPackages": "إجمالي الحزم",
     "provider.resultsNotFound": "لم يتم العثور على أي مزودين لـ \"{query}\".",
-    "provider.proxy": "النائب",
-    "provider.inherited": "موروث",
     "provider.noPackagesSelected": "أضف أي حزمة من هذا المزود إلى المقتنيات لتخصيص إعدادات المزود.",
     "provider.toast.isFreshlySaved": "تم حفظ المزود",
     "resource.modal.header": "إزالة العنوان من المقتنيات؟",
@@ -295,7 +293,6 @@
     "search.searchType.titles": "العناوين",
     "search.searchType.packages": "الحزم",
     "search.searchType.providers": "المزودين",
-    "provider.providerTags": "الوسوم",
     "provider.labels": "ملصقات",
     "tags.addTagFor": "إضافة وسم لـ: <strong>{filter}</strong>",
     "tags": "الوسوم",
@@ -303,5 +300,6 @@
     "startDate": "تاريخ البدء",
     "status": "الحالة",
     "agreements": "الاتفاقيات",
-    "agreements.notFound": "لم يتم العثور على اتفاقيات"
+    "agreements.notFound": "لم يتم العثور على اتفاقيات",
+    "new": "جديد"
 }
