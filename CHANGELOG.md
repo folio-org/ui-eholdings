@@ -1,5 +1,9 @@
 # Change history for ui-eholdings
 
+## [1.6.0]
+
+* Add New button to agreements accordion on Package and Resource show pages for redirecting the user to creation page.
+
 ## [1.5.0](https://github.com/folio-org/ui-eholdings/tree/v1.5.0) (2019-03-25)
 
 * Apply permissions. Define UI permissions (UIEH-501)

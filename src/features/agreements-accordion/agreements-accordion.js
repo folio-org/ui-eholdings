@@ -24,6 +24,7 @@ import {
 import AgreementsList from '../../components/agreements-list';
 
 import Agreement from './model';
+import styles from './agreements-accordion.css';
 
 class AgreementsAccordion extends Component {
   static propTypes = {
@@ -81,6 +82,7 @@ class AgreementsAccordion extends Component {
         />
         <Button
           data-test-new-button
+          buttonClass={styles['new-button']}
           to={`/erm/agreements?layer=create&authority=${refType}&referenceId=${refId}`}
         >
           <FormattedMessage id="ui-eholdings.new" />
