@@ -22,7 +22,7 @@ import { processErrors, isBookPublicationType } from '../../utilities';
 
 import DetailsView from '../../details-view';
 import VisibilityField from '../_fields/visibility';
-import CustomCoverageFields from '../_fields/custom-coverage';
+import CoverageFields from '../_fields/resource-coverage-fields';
 import CustomUrlFields from '../_fields/custom-url';
 import CoverageStatementFields, { coverageStatementDecorator } from '../_fields/coverage-statement';
 import CustomEmbargoFields, { getEmbargoInitial } from '../_fields/custom-embargo';
@@ -349,9 +349,7 @@ export default class ResourceEditCustomTitle extends Component {
                       {resourceSelected ? (
                         <Fragment>
                           <Headline tag="h4"><FormattedMessage id="ui-eholdings.label.dates" /></Headline>
-                          <CustomCoverageFields
-                            model={model}
-                          />
+                          <CoverageFields model={model} />
 
                           <Headline tag="h4">
                             <FormattedMessage id="ui-eholdings.label.coverageStatement" />
