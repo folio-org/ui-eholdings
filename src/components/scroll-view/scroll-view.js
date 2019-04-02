@@ -146,8 +146,20 @@ export default class ScrollView extends Component {
   render() {
     // strip all other props to pass along the rest to the div
     // eslint-disable-next-line no-unused-vars
-    let { items, length, itemHeight, offset: _, onUpdate, scrollable, fullWidth, ...props } = this.props;
-    let { offset, visibleItems } = this.state;
+    const {
+      items,
+      length,
+      itemHeight,
+      scrollable,
+      fullWidth,
+      ...restProps
+    } = this.props;
+
+    const {
+      offset,
+      visibleItems,
+    } = this.state;
+
     let listHeight = (length || items.length) * itemHeight;
 
     // list height should be at least enough for the offset
@@ -160,7 +172,7 @@ export default class ScrollView extends Component {
         ref={(n) => { this.$list = n; }}
         className={cx('list', { locked: !scrollable })}
         onScroll={this.handleScroll}
-        {...props}
+        {...restProps}
       >
         <List
           fullWidth={fullWidth}

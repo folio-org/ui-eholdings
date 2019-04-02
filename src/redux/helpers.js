@@ -35,3 +35,27 @@ export function mergeAttributes(existing, incoming) {
 
   return append(existing, incoming);
 }
+
+/**
+ * Helper to format tags data retrieved from resolved
+ * request according to JSON:API specification
+ * @param {Object} request - the request state object associated with
+ * the request being resolved
+ * @param {Object} body - returned body
+ * @returns {Object|Array} tags data object or array formatted according to JSON:API
+ */
+export const getTagsData = (request, body) => {
+  if (!body.tags) {
+    return {
+      type: request.resource,
+      id: body.id,
+      attributes: body,
+    };
+  }
+
+  return body.tags.map((tag) => ({
+    id: tag.id,
+    type: request.resource,
+    attributes: tag,
+  }));
+};

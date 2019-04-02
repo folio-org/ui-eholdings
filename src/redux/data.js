@@ -6,7 +6,11 @@ import 'rxjs/add/operator/catch';
 import get from 'lodash/get';
 
 import { qs } from '../components/utilities';
-import { mergeRelationships, mergeAttributes } from './helpers';
+import {
+  mergeRelationships,
+  mergeAttributes,
+  getTagsData,
+} from './helpers';
 
 // actions
 export const actionTypes = {
@@ -110,7 +114,7 @@ export const destroy = (type, payload, { path }) => ({
 });
 
 /**
- * Action creator for uloading a record
+ * Action creator for unloading a record
  * @param {String} type - resource type
  * @param {String|[String]} ids - one or more record ids
  */
@@ -134,28 +138,13 @@ const resolve = (request, body, payload = {}) => {
   let ids = [];
   let meta = {};
   let data;
-  switch (request.resource) {
-    case 'tags':
-      if (body.tags) {
-        data = body.tags.map((tag) => {
-          return {
-            id: tag.id,
-            type: request.resource,
-            attributes: tag,
-          };
-        });
-      } else {
-        data = {
-          type:'tags',
-          id: body.id,
-          attributes: body,
-        };
-      }
-      meta.totalResults = get(body, ['totalRecords'], {});
-      break;
-    default:
-      data = get(body, ['data'], payload.data);
-      meta = get(body, ['meta'], {});
+
+  if (request.resource === 'tags') {
+    data = getTagsData(request, body);
+    meta.totalResults = get(body, 'totalRecords', {});
+  } else {
+    data = get(body, 'data', payload.data);
+    meta = get(body, 'meta', {});
   }
 
   // on request where neither a body or payload is sent
@@ -331,7 +320,7 @@ const handlers = {
   /**
    * Handles reducing the data store when removing the create requests
    * @param {Object} state - data store state
-   * @param {String} action.data.resourceType - the type of recource whose requests should be removed
+   * @param {String} action.data.resourceType - the type of resource whose requests should be removed
    * @param {String} action.data.requestType - the type of requests which should be removed
    */
   [actionTypes.REMOVE_REQUESTS]: (state, { data }) => {
@@ -455,12 +444,13 @@ const handlers = {
     return reduceData(data.type, state, store => ({
       // remove the records from the store
       records: data.ids.reduce((records, id) => {
-        // eslint-disable-next-line no-unused-vars
-        let { [id]: r, ...rest } = records;
-        return rest;
+        const newRecordsMap = { ...records };
+        delete newRecordsMap[id];
+
+        return newRecordsMap;
       }, store.records),
 
-      // remove reqeusts for this record and flag query requests with `hasUnloaded`
+      // remove requests for this record and flag query requests with `hasUnloaded`
       requests: Object.keys(store.requests).reduce((reqs, timestamp) => {
         let request = store.requests[timestamp];
 
@@ -614,7 +604,7 @@ const parseResponseBody = (response) => {
  * @param {Object} state - data store state leaf
  * @param {Object} action - redux action being dispatched
  */
-export function reducer(state = {}, action) {
+export function reducer(state = {}, action) { // NOSONAR
   if (handlers[action.type]) {
     return handlers[action.type](state, action);
   } else {
