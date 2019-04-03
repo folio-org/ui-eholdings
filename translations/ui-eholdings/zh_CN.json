@@ -6,7 +6,6 @@
     "package.contentType": "内容类型",
     "package.coverageSettings": "收录范围设置",
     "package.coverageDates": "收录范围日期",
-    "package.noCoverageDates": "没有设置日期范围。保存将删除自定义收录范围。",
     "package.coverage.addDateRange": "添加日期范围",
     "package.customCoverage.notSelected": "将包添加到馆藏以设置自定义收录范围日期。",
     "package.customCoverage.notSet": "未设置自定义收录范围日期。",
@@ -301,5 +300,6 @@
     "status": "Status",
     "agreements": "Agreements",
     "agreements.notFound": "No agreements found",
-    "new": "New"
+    "new": "New",
+    "package-resource.coverageDates.savingWillRemove": "No date ranges set. Saving will remove custom coverage."
 }
