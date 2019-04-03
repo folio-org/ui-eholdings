@@ -6,7 +6,6 @@
     "package.contentType": "نوع المحتوى",
     "package.coverageSettings": "إعدادات التغطية",
     "package.coverageDates": "تواريخ التغطية",
-    "package.noCoverageDates": "لم يتم ضبط نطاقات للتواريخ. سيؤدي الحفظ إلى إزالة التغطية المخصصة.",
     "package.coverage.addDateRange": "إضافة نطاق تاريخ",
     "package.customCoverage.notSelected": "أضف الحزمة إلى المقتنيات لضبط تواريخ تغطية مخصصة.",
     "package.customCoverage.notSet": "لم يتم ضبط تواريخ تغطية مخصصة.",
@@ -301,5 +300,6 @@
     "status": "الحالة",
     "agreements": "الاتفاقيات",
     "agreements.notFound": "لم يتم العثور على اتفاقيات",
-    "new": "جديد"
+    "new": "جديد",
+    "package-resource.coverageDates.savingWillRemove": "لم يتم ضبط نطاقات للتواريخ. سيؤدي الحفظ إلى إزالة التغطية المخصصة."
 }
