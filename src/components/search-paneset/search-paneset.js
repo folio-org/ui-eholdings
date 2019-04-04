@@ -27,7 +27,6 @@ export default class SearchPaneset extends Component {
     isLoading: PropTypes.bool,
     location: PropTypes.object.isRequired,
     onClosePreview: PropTypes.func.isRequired,
-    resultsLabel: PropTypes.element,
     resultsType: PropTypes.string,
     resultsView: PropTypes.node,
     searchForm: PropTypes.node,
