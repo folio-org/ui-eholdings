@@ -6,7 +6,6 @@
     "package.contentType": "Tartalom típusa",
     "package.coverageSettings": "Lefedettség beállítása",
     "package.coverageDates": "Lefedettségi dátumok",
-    "package.noCoverageDates": "Nincs meghatározott dátumtartomány. A mentés eltávolítja az egyéni lefedettséget.",
     "package.coverage.addDateRange": "Dátumtartomány hozzáadása",
     "package.customCoverage.notSelected": "Adja hozzá a csomagot az állományhoz az egyedi lefedettségi dátum beállításához!",
     "package.customCoverage.notSet": "Nincsenek egyedi lefedettségi dátumok beállítva.",
@@ -301,5 +300,6 @@
     "status": "Status",
     "agreements": "Agreements",
     "agreements.notFound": "No agreements found",
-    "new": "New"
+    "new": "New",
+    "package-resource.coverageDates.savingWillRemove": "No date ranges set. Saving will remove custom coverage."
 }

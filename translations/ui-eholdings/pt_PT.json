@@ -6,7 +6,6 @@
     "package.contentType": "Tipo de conteúdo",
     "package.coverageSettings": "Definições de cobertura",
     "package.coverageDates": "Datas de cobertura",
-    "package.noCoverageDates": "Nenhum intervalo de datas definido. Guardar irá remover a cobertura personalizada.",
     "package.coverage.addDateRange": "Adicionar intervalo de datas",
     "package.customCoverage.notSelected": "Adicione o pacote ao acervo para definir datas de cobertura personalizadas.",
     "package.customCoverage.notSet": "Nenhuma data de cobertura personalizada definida.",
@@ -301,5 +300,6 @@
     "status": "Status",
     "agreements": "Agreements",
     "agreements.notFound": "No agreements found",
-    "new": "New"
+    "new": "New",
+    "package-resource.coverageDates.savingWillRemove": "No date ranges set. Saving will remove custom coverage."
 }
