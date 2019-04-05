@@ -332,9 +332,9 @@
     "name.isRequired": "Name *",
     "resultCount": "{count, number} {count, plural, one {search result} other {search results}}",
     "over": "Over",
-    "contributorType.Author": "{count, plural, one {Author} other {Authors}}",
-    "contributorType.Illustrator": "{count, plural, one {Illustrator} other {Illustrators}}",
-    "contributorType.Editor": "{count, plural, one {Editor} other {Editors}}",
+    "contributorType.author": "{count, plural, one {Author} other {Authors}}",
+    "contributorType.illustrator": "{count, plural, one {Illustrator} other {Illustrators}}",
+    "contributorType.editor": "{count, plural, one {Editor} other {Editors}}",
     "listType.packages": "Packages",
     "listType.titles": "Titles"
   }
