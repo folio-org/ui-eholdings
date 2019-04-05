@@ -6,7 +6,6 @@
     "package.contentType": "Content type",
     "package.coverageSettings": "Coverage settings",
     "package.coverageDates": "Coverage dates",
-    "package.noCoverageDates": "No date ranges set. Saving will remove custom coverage.",
     "package.coverage.addDateRange": "Aggiungi intervallo di date",
     "package.customCoverage.notSelected": "Add the package to holdings to set custom coverage dates.",
     "package.customCoverage.notSet": "No custom coverage dates set.",
@@ -301,5 +300,6 @@
     "status": "Status",
     "agreements": "Agreements",
     "agreements.notFound": "No agreements found",
-    "new": "New"
+    "new": "New",
+    "package-resource.coverageDates.savingWillRemove": "No date ranges set. Saving will remove custom coverage."
 }
