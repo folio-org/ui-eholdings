@@ -213,6 +213,9 @@
     "label.years": "Years",
     "label.no.reason": "No {disabledReason}",
     "label.editLink": "Edit {name}",
+    "label.create.title": "New custom title",
+    "label.create.package": "New custom package",
+    "label.settings": "eHoldings settings",
     "label.dates": "Dates",
 
     "filter.all": "All",
@@ -241,6 +244,8 @@
     "filter.pubType.unspecified": "Unspecified",
     "filter.resetAll": "Reset all",
     "filter.filterType": "Filter {listType}",
+    "filter.filterType.packages": "Filter packages",
+    "filter.filterType.titles": "Filter titles",
 
     "navModal.modalLabel": "Confirm navigation",
     "navModal.continueLabel": "Continue without saving",
@@ -326,5 +331,10 @@
     "hidden": "Hidden",
     "name.isRequired": "Name *",
     "resultCount": "{count, number} {count, plural, one {search result} other {search results}}",
-    "over": "Over"
+    "over": "Over",
+    "contributorType.Author": "{count, plural, one {Author} other {Authors}}",
+    "contributorType.Illustrator": "{count, plural, one {Illustrator} other {Illustrators}}",
+    "contributorType.Editor": "{count, plural, one {Editor} other {Editors}}",
+    "listType.packages": "Packages",
+    "listType.titles": "Titles"
   }

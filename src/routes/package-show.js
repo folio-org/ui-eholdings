@@ -15,6 +15,7 @@ import Provider from '../redux/provider';
 import Resource from '../redux/resource';
 import Tag from '../redux/tag';
 import { transformQueryParams } from '../components/utilities';
+import { listTypes } from '../constants';
 
 import View from '../components/package/show';
 import SearchModal from '../components/search-modal';
@@ -255,7 +256,7 @@ class PackageShowRoute extends Component {
           searchModal={
             <SearchModal
               key={queryId}
-              listType='titles'
+              listType={listTypes.TITLES}
               query={pkgSearchParams}
               onSearch={this.searchTitles}
               onFilter={this.searchTitles}

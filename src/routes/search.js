@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import ReactRouterPropTypes from 'react-router-prop-types';
 import { connect } from 'react-redux';
-import capitalize from 'lodash/capitalize';
 import isEqual from 'lodash/isEqual';
 import { FormattedMessage } from 'react-intl';
 import { TitleManager } from '@folio/stripes/core';
@@ -18,6 +17,7 @@ import PackageSearchList from '../components/package-search-list';
 import TitleSearchList from '../components/title-search-list';
 import SearchPaneset from '../components/search-paneset';
 import SearchForm from '../components/search-form';
+import { searchTypes } from '../constants';
 import { filterCountFromQuery } from '../components/search-modal/search-modal';
 
 class SearchRoute extends Component {
@@ -154,7 +154,12 @@ class SearchRoute extends Component {
    * @returns {Object} key value pair of search type urls
    */
   getSearchTypeUrls() {
-    return ['providers', 'packages', 'titles'].reduce((locations, type) => {
+    const searchTypesArr = [
+      searchTypes.PROVIDERS,
+      searchTypes.PACKAGES,
+      searchTypes.TITLES
+    ];
+    return searchTypesArr.reduce((locations, type) => {
       let lastQuery = this.queries[type] || {};
       let lastPath = this.path[type] || '/eholdings';
       let url = this.buildSearchUrl(lastPath, lastQuery, type);
@@ -194,9 +199,9 @@ class SearchRoute extends Component {
   search(params) {
     let { searchType } = this.state;
     let searchParams = transformQueryParams(searchType, params);
-    if (searchType === 'providers') this.props.searchProviders(searchParams);
-    if (searchType === 'packages') this.props.searchPackages(searchParams);
-    if (searchType === 'titles') this.props.searchTitles(searchParams);
+    if (searchType === searchTypes.PROVIDERS) this.props.searchProviders(searchParams);
+    if (searchType === searchTypes.PACKAGES) this.props.searchPackages(searchParams);
+    if (searchType === searchTypes.TITLES) this.props.searchTitles(searchParams);
   }
 
   /**
@@ -260,11 +265,11 @@ class SearchRoute extends Component {
     };
 
     if (params.q) {
-      if (searchType === 'providers') {
+      if (searchType === searchTypes.PROVIDERS) {
         return <ProviderSearchList {...props} />;
-      } else if (searchType === 'packages') {
+      } else if (searchType === searchTypes.PACKAGES) {
         return <PackageSearchList {...props} />;
-      } else if (searchType === 'titles') {
+      } else if (searchType === searchTypes.TITLES) {
         return <TitleSearchList {...props} />;
       }
     }
@@ -290,51 +295,54 @@ class SearchRoute extends Component {
     } = this.state;
 
     if (searchType) {
-      let results = this.getResults();
-
-      let filterCount = filterCountFromQuery({
+      const results = this.getResults();
+      const filterCount = filterCountFromQuery({
         sort: params.sort,
         q: params.q,
         filter: params.filter
       });
 
       return (
-        <TitleManager record={capitalize(searchType)}>
-          <div data-test-eholdings>
-            <SearchPaneset
-              filterCount={filterCount}
-              hideFilters={hideFilters}
-              resultsType={searchType}
-              resultsLabel={<FormattedMessage id={`ui-eholdings.search.searchType.${searchType}`} />}
-              resultsView={this.renderResults()}
-              detailsView={!hideDetails && children}
-              totalResults={results.length}
-              isLoading={!results.hasLoaded}
-              updateFilters={this.updateFilters}
-              location={location}
-              onClosePreview={() => history.push({
-                pathname: '/eholdings',
-                search: location.search,
-                state: { eholdings: true }
-              })}
-              searchForm={(
-                <SearchForm
-                  sort={sort}
-                  searchType={searchType}
-                  searchString={searchString}
-                  searchFilter={searchFilter}
-                  searchField={searchField}
-                  searchTypeUrls={this.getSearchTypeUrls()}
-                  isLoading={!!params.q && !results.hasLoaded}
-                  onSearch={this.handleSearch}
-                  onSearchFieldChange={this.handleSearchFieldChange}
-                  onFilterChange={this.handleFilterChange}
-                  onSearchChange={this.handleSearchChange}
+        <FormattedMessage id={`ui-eholdings.search.searchType.${searchType}`}>
+          {label => (
+            <TitleManager record={label}>
+              <div data-test-eholdings>
+                <SearchPaneset
+                  filterCount={filterCount}
+                  hideFilters={hideFilters}
+                  resultsType={searchType}
+                  resultsLabel={label}
+                  resultsView={this.renderResults()}
+                  detailsView={!hideDetails && children}
+                  totalResults={results.length}
+                  isLoading={!results.hasLoaded}
+                  updateFilters={this.updateFilters}
+                  location={location}
+                  onClosePreview={() => history.push({
+                    pathname: '/eholdings',
+                    search: location.search,
+                    state: { eholdings: true }
+                  })}
+                  searchForm={(
+                    <SearchForm
+                      sort={sort}
+                      searchType={searchType}
+                      searchString={searchString}
+                      searchFilter={searchFilter}
+                      searchField={searchField}
+                      searchTypeUrls={this.getSearchTypeUrls()}
+                      isLoading={!!params.q && !results.hasLoaded}
+                      onSearch={this.handleSearch}
+                      onSearchFieldChange={this.handleSearchFieldChange}
+                      onFilterChange={this.handleFilterChange}
+                      onSearchChange={this.handleSearchChange}
+                    />
+                  )}
                 />
-              )}
-            />
-          </div>
-        </TitleManager>
+              </div>
+            </TitleManager>
+          )}
+        </FormattedMessage>
       );
     } else {
       return children;

@@ -259,7 +259,7 @@ class ResourceShow extends Component {
                 id="resourceShowTags"
                 model={model}
                 onToggle={this.handleSectionToggle}
-                open={sections.providerShowTags}
+                open={sections.resourceShowTags}
                 tagsModel={tagsModel}
                 updateFolioTags={updateFolioTags}
                 updateEntityTags={updateEntityTags}

@@ -5,6 +5,7 @@ import { connect } from 'react-redux';
 import isEqual from 'lodash/isEqual';
 import moment from 'moment';
 import { TitleManager } from '@folio/stripes/core';
+import { FormattedMessage } from 'react-intl';
 
 import { createResolver } from '../redux';
 import { ProxyType } from '../redux/application';
@@ -141,14 +142,18 @@ class ResourceEditRoute extends Component {
       proxyTypes,
     } = this.props;
     return (
-      <TitleManager record={`Edit ${model.name}`}>
-        <View
-          model={model}
-          onSubmit={this.resourceEditSubmitted}
-          onCancel={this.handleCancel}
-          proxyTypes={proxyTypes}
-        />
-      </TitleManager>
+      <FormattedMessage id="ui-eholdings.label.editLink" values={{ name: model.name }}>
+        {pageTitle => (
+          <TitleManager record={pageTitle}>
+            <View
+              model={model}
+              onSubmit={this.resourceEditSubmitted}
+              onCancel={this.handleCancel}
+              proxyTypes={proxyTypes}
+            />
+          </TitleManager>
+        )}
+      </FormattedMessage>
     );
   }
 }

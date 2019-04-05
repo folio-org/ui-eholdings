@@ -26,7 +26,10 @@ import {
   ModalFooter,
 } from '@folio/stripes/components';
 
-import { entityAuthorityTypes } from '../../../constants';
+import {
+  entityAuthorityTypes,
+  listTypes,
+} from '../../../constants';
 import { processErrors } from '../../utilities';
 import DetailsView from '../../details-view';
 import QueryList from '../../query-list';
@@ -648,7 +651,7 @@ class PackageShow extends Component {
           searchModal={searchModal}
           bodyContent={this.getBodyContent()}
           lastMenu={this.renderLastMenu()}
-          listType="titles"
+          listType={listTypes.TITLES}
           listSectionId="packageShowTitles"
           onListToggle={this.handleSectionToggle}
           resultsLength={model.resources.length}

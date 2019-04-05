@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { TitleManager } from '@folio/stripes/core';
+import { FormattedMessage } from 'react-intl';
 
 import { createResolver } from '../redux';
 import { Configuration } from '../redux/application';
@@ -34,12 +35,23 @@ class SettingsKnowledgeBaseRoute extends Component {
     let { config } = this.props;
 
     return (
-      <TitleManager page="eHoldings settings" record="Knowledge base">
-        <View
-          model={config}
-          onSubmit={this.updateConfig}
-        />
-      </TitleManager>
+      <FormattedMessage id="ui-eholdings.label.settings">
+        {pageLabel => (
+          <FormattedMessage id="ui-eholdings.settings.kb">
+            {recordLabel => (
+              <TitleManager
+                page={pageLabel}
+                record={recordLabel}
+              >
+                <View
+                  model={config}
+                  onSubmit={this.updateConfig}
+                />
+              </TitleManager>
+            )}
+          </FormattedMessage>
+        )}
+      </FormattedMessage>
     );
   }
 }

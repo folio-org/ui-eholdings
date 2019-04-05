@@ -7,6 +7,7 @@ import moment from 'moment';
 import queryString from 'qs';
 import { TitleManager } from '@folio/stripes/core';
 import { FormattedMessage } from 'react-intl';
+
 import { createResolver } from '../redux';
 import { ProxyType } from '../redux/application';
 import Package from '../redux/package';

@@ -133,12 +133,16 @@ class SearchModal extends React.PureComponent {
 
     return (
       <Fragment>
-        <SearchBadge data-test-eholdings-search-modal-badge filterCount={filterCount} onClick={this.toggle} />
+        <SearchBadge
+          data-test-eholdings-search-modal-badge
+          filterCount={filterCount}
+          onClick={this.toggle}
+        />
         {isModalVisible && (
           <Modal
             open
             size="small"
-            label={<FormattedMessage id="ui-eholdings.filter.filterType" values={{ listType }} />}
+            label={<FormattedMessage id={`ui-eholdings.filter.filterType.${listType}`} />}
             onClose={this.close}
             id="eholdings-details-view-search-modal"
             closeOnBackgroundClick

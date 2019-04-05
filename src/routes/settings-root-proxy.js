@@ -4,6 +4,7 @@ import ReactRouterPropTypes from 'react-router-prop-types';
 import { connect } from 'react-redux';
 import isEqual from 'lodash/isEqual';
 import { TitleManager } from '@folio/stripes/core';
+import { FormattedMessage } from 'react-intl';
 
 import { createResolver } from '../redux';
 import { ProxyType, RootProxy } from '../redux/application';
@@ -51,18 +52,29 @@ class SettingsRootProxyRoute extends Component {
     let { proxyTypes, rootProxy, history } = this.props;
 
     return (
-      <TitleManager page="eHoldings settings" record="Root proxy">
-        <View
-          proxyTypes={proxyTypes}
-          rootProxy={rootProxy}
-          onSubmit={this.rootProxySubmitted}
-          isFreshlySaved={
-            history.action === 'PUSH' &&
-            history.location.state &&
-            history.location.state.isFreshlySaved
-          }
-        />
-      </TitleManager>
+      <FormattedMessage id="ui-eholdings.label.settings">
+        {pageLabel => (
+          <FormattedMessage id="ui-eholdings.settings.rootProxy">
+            {recordLabel => (
+              <TitleManager
+                page={pageLabel}
+                record={recordLabel}
+              >
+                <View
+                  proxyTypes={proxyTypes}
+                  rootProxy={rootProxy}
+                  onSubmit={this.rootProxySubmitted}
+                  isFreshlySaved={
+                    history.action === 'PUSH' &&
+                    history.location.state &&
+                    history.location.state.isFreshlySaved
+                  }
+                />
+              </TitleManager>
+            )}
+          </FormattedMessage>
+        )}
+      </FormattedMessage>
     );
   }
 }

@@ -4,6 +4,7 @@ import ReactRouterPropTypes from 'react-router-prop-types';
 import { connect } from 'react-redux';
 import isEqual from 'lodash/isEqual';
 import queryString from 'qs';
+import { FormattedMessage } from 'react-intl';
 
 import { TitleManager } from '@folio/stripes/core';
 import { Icon } from '@folio/stripes-components';
@@ -161,25 +162,29 @@ class TitleEditRoute extends Component {
     } = this.props;
 
     return (
-      <TitleManager record={`Edit ${this.props.model.name}`}>
-        <View
-          model={model}
-          onSubmit={this.titleEditSubmitted}
-          onCancel={this.handleCancel}
-          updateRequest={updateRequest}
-          initialValues={{
-            name: model.name,
-            edition: model.edition,
-            isPeerReviewed: model.isPeerReviewed,
-            publicationType: model.publicationType,
-            publisherName: model.publisherName,
-            description: model.description,
-            contributors: model.contributors,
-            identifiers: this.mergeIdentifiers(model.identifiers)
-          }}
-          onFullView={this.getSearchType() && this.handleFullView}
-        />
-      </TitleManager>
+      <FormattedMessage id="ui-eholdings.label.editLink" values={{ name: model.name }}>
+        {pageTitle => (
+          <TitleManager record={pageTitle}>
+            <View
+              model={model}
+              onSubmit={this.titleEditSubmitted}
+              onCancel={this.handleCancel}
+              updateRequest={updateRequest}
+              initialValues={{
+                name: model.name,
+                edition: model.edition,
+                isPeerReviewed: model.isPeerReviewed,
+                publicationType: model.publicationType,
+                publisherName: model.publisherName,
+                description: model.description,
+                contributors: model.contributors,
+                identifiers: this.mergeIdentifiers(model.identifiers)
+              }}
+              onFullView={this.getSearchType() && this.handleFullView}
+            />
+          </TitleManager>
+        )}
+      </FormattedMessage>
     );
   }
 

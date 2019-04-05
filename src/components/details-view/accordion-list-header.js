@@ -3,12 +3,13 @@ import PropTypes from 'prop-types';
 import { FormattedMessage, FormattedNumber } from 'react-intl';
 import { DefaultAccordionHeader, KeyValue } from '@folio/stripes/components';
 import styles from './accordion-list-header.css';
+import { listTypes } from '../../constants';
 
 function AccordionListHeader(props) {
   // RM API does not return exact number of results when count is over 10K
   // For title lists, resultsLength of 10000 indicates this.
   // For other lists (package and provider) resultsLength of 10001 indicates this.
-  let overCount = props.listType === 'titles' ? 10000 : 10001;
+  let overCount = props.listType === listTypes.TITLES ? 10000 : 10001;
   let showOver = props.resultsLength === overCount;
   let displayOverCount = 10000;
   return (

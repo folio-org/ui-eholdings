@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import ReactRouterPropTypes from 'react-router-prop-types';
 import { connect } from 'react-redux';
 import { TitleManager } from '@folio/stripes/core';
+import { FormattedMessage } from 'react-intl';
 
 import { createResolver } from '../redux';
 import Title from '../redux/title';
@@ -74,15 +75,19 @@ class TitleCreateRoute extends Component {
     }
 
     return (
-      <TitleManager record="New custom title">
-        <View
-          request={createRequest}
-          customPackages={customPackages}
-          onSubmit={this.createTitle}
-          onCancel={onCancel}
-          removeCreateRequests={removeCreateRequests}
-        />
-      </TitleManager>
+      <FormattedMessage id="ui-eholdings.label.create.title">
+        {pageTitle => (
+          <TitleManager record={pageTitle}>
+            <View
+              request={createRequest}
+              customPackages={customPackages}
+              onSubmit={this.createTitle}
+              onCancel={onCancel}
+              removeCreateRequests={removeCreateRequests}
+            />
+          </TitleManager>
+        )}
+      </FormattedMessage>
     );
   }
 }

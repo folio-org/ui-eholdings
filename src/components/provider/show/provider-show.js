@@ -8,7 +8,6 @@ import {
 import update from 'lodash/fp/update';
 import set from 'lodash/fp/set';
 import hasIn from 'lodash/fp/hasIn';
-import capitalize from 'lodash/capitalize';
 
 import {
   withStripes,
@@ -325,7 +324,7 @@ class ProviderShow extends Component {
           bodyContent={this.getBodyContent()}
           lastMenu={this.renderLastMenu()}
           searchModal={searchModal}
-          listType={capitalize(listType)}
+          listType={listType}
           listSectionId="providerShowProviderList"
           onListToggle={this.handleSectionToggle}
           resultsLength={packages.length}
