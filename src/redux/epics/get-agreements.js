@@ -34,7 +34,7 @@ export default function getAgreements(action$, store) {
       const state = getState();
       const method = 'GET';
 
-      const url = `${state.okapi.url}/erm/sas?filters=items.reference=${referenceId}&sort=startDate=desc`;
+      const url = `${state.okapi.url}/erm/sas?filters=items.reference=${referenceId}&sort=startDate;desc`;
 
       const requestOptions = {
         headers: getHeaders(state),

@@ -1,11 +1,14 @@
 export default class Agreement {
+  id = '';
   type = 'external';
-  authority = 'EKB';
+  authority = '';
   reference = '';
   label = '';
 
-  constructor({ reference, label }) {
-    this.reference = reference;
+  constructor({ id, refId, authorityType, label }) {
+    this.id = id;
+    this.reference = refId;
+    this.authority = authorityType;
     this.label = label;
   }
 }
