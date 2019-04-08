@@ -14,10 +14,11 @@ export default function ContributorsList({ data }) {
   return (
     <div>
       {Object.keys(contributorsByType).map((contibutorType) => {
+        const contributorTypeTranslation = contibutorType.toLowerCase();
         const names = contributorsByType[contibutorType];
         const label = (
           <FormattedMessage
-            id={`ui-eholdings.contributorType.${contibutorType}`}
+            id={`ui-eholdings.contributorType.${contributorTypeTranslation}`}
             values={{
               count: names.length
             }}
