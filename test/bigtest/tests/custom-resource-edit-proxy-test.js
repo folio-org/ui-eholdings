@@ -24,7 +24,7 @@ describe('CustomResourceEditProxy', () => {
       isCustom: true
     });
 
-    let packageProxy = this.server.create('proxy', {
+    const packageProxy = this.server.create('proxy', {
       inherited: true,
       id: 'bigTestJS'
     });
@@ -51,7 +51,7 @@ describe('CustomResourceEditProxy', () => {
 
   describe('visiting the resource edit page with an inherited proxy', () => {
     beforeEach(function () {
-      let resourceProxy = this.server.create('proxy', {
+      const resourceProxy = this.server.create('proxy', {
         inherited: true,
         id: 'bigTestJS'
       });

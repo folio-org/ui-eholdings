@@ -28,9 +28,9 @@ class SettingsRootProxyRoute extends Component {
 
   componentDidUpdate(prevProps) {
     const { history, rootProxy } = this.props;
-    let wasPending = prevProps.rootProxy.update.isPending && !rootProxy.update.isPending;
-    let needsUpdate = !isEqual(prevProps.rootProxy, rootProxy);
-    let isRejected = rootProxy.update.isRejected;
+    const wasPending = prevProps.rootProxy.update.isPending && !rootProxy.update.isPending;
+    const needsUpdate = !isEqual(prevProps.rootProxy, rootProxy);
+    const isRejected = rootProxy.update.isRejected;
 
     if (wasPending && needsUpdate && !isRejected) {
       history.push({
@@ -41,7 +41,7 @@ class SettingsRootProxyRoute extends Component {
   }
 
   rootProxySubmitted = (values) => {
-    let { rootProxy, updateRootProxy } = this.props;
+    const { rootProxy, updateRootProxy } = this.props;
 
     rootProxy.proxyTypeId = values.rootProxyServer;
 
@@ -49,7 +49,7 @@ class SettingsRootProxyRoute extends Component {
   }
 
   render() {
-    let { proxyTypes, rootProxy, history } = this.props;
+    const { proxyTypes, rootProxy, history } = this.props;
 
     return (
       <FormattedMessage id="ui-eholdings.label.settings">

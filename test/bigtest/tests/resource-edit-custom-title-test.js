@@ -23,7 +23,7 @@ describe('ResourceEditCustomTitle', () => {
       titleCount: 5
     });
 
-    let title = this.server.create('title', {
+    const title = this.server.create('title', {
       name: 'Best Title Ever',
       publicationType: 'Streaming Video',
       publisherName: 'Amazing Publisher',
@@ -51,7 +51,7 @@ describe('ResourceEditCustomTitle', () => {
 
   describe('visting the custom resource edit page but the resource is unselected', () => {
     beforeEach(function () {
-      let title = this.server.create('title', {
+      const title = this.server.create('title', {
         name: 'Best Title Ever',
         publicationType: 'Streaming Video',
         publisherName: 'Amazing Publisher',
@@ -380,7 +380,7 @@ describe('ResourceEditCustomTitle', () => {
 
   describe('visiting the resource edit page with coverage dates, statements, and embargo', () => {
     beforeEach(function () {
-      let customCoverages = [
+      const customCoverages = [
         this.server.create('custom-coverage', {
           beginCoverage: '1969-07-16',
           endCoverage: '1972-12-19'

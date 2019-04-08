@@ -10,7 +10,7 @@ import styles from './pane-header-button.css';
 classNames.bind(styles);
 
 export default function PaneHeaderButton(props) {
-  let { children, ...rest } = props;
+  const { children, ...rest } = props;
   return (
     <Button
       buttonClass={styles['pane-header-button']}

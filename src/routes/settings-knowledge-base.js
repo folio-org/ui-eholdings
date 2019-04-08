@@ -22,7 +22,7 @@ class SettingsKnowledgeBaseRoute extends Component {
   }
 
   updateConfig = ({ rmapiBaseUrl, customerId, apiKey }) => {
-    let { config, updateBackendConfig } = this.props;
+    const { config, updateBackendConfig } = this.props;
 
     config.rmapiBaseUrl = rmapiBaseUrl;
     config.customerId = customerId;
@@ -32,7 +32,7 @@ class SettingsKnowledgeBaseRoute extends Component {
   };
 
   render() {
-    let { config } = this.props;
+    const { config } = this.props;
 
     return (
       <FormattedMessage id="ui-eholdings.label.settings">

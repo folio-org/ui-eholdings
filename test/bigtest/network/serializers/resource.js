@@ -26,7 +26,7 @@ function mapResourceAttrs(hash, resource) {
 
 export default ApplicationSerializer.extend({
   getHashForResource(resource) {
-    let hash = ApplicationSerializer.prototype.getHashForResource.apply(this, arguments); // eslint-disable-line prefer-rest-params
+    const hash = ApplicationSerializer.prototype.getHashForResource.apply(this, arguments); // eslint-disable-line prefer-rest-params
 
     if (Array.isArray(hash)) {
       return hash.map((h, i) => mapResourceAttrs(h, resource.models[i]));

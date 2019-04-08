@@ -79,12 +79,12 @@ import PackageSelectionStatus from './selection-status';
   isVisibilityFieldPresent = isPresent('[data-test-eholdings-package-visibility-field]');
   isVisibleToPatrons = property('[data-test-eholdings-package-visibility-field] input[value="true"]', 'checked');
   toggleIsVisible() {
-    let isVisible = (!this.isVisibleToPatrons).toString();
+    const isVisible = (!this.isVisibleToPatrons).toString();
     return this.click(`[data-test-eholdings-package-visibility-field] input[value="${isVisible}"]`);
   }
 
   isHiddenMessage = computed(function () {
-    let $node = this.$('[data-test-eholdings-package-visibility-field] input[value="false"] ~ span:last-child');
+    const $node = this.$('[data-test-eholdings-package-visibility-field] input[value="false"] ~ span:last-child');
     return $node.textContent.replace(/^No(\s\((.*)\))?$/, '$2');
   });
 

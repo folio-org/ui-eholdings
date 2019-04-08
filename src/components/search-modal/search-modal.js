@@ -78,7 +78,7 @@ class SearchModal extends React.PureComponent {
   }
 
   handleListSearch = (params) => {
-    let { query } = this.props;
+    const { query } = this.props;
 
     if (this.props.onSearch) {
       this.props.onSearch(params);
@@ -118,18 +118,18 @@ class SearchModal extends React.PureComponent {
   }
 
   render() {
-    let { listType } = this.props;
+    const { listType } = this.props;
 
-    let {
+    const {
       isModalVisible,
       query
     } = this.state;
 
-    let queryFromProps = normalize(this.props.query);
+    const queryFromProps = normalize(this.props.query);
 
-    let filterCount = filterCountFromQuery(queryFromProps);
+    const filterCount = filterCountFromQuery(queryFromProps);
 
-    let hasChanges = !isEqual(queryFromProps, query);
+    const hasChanges = !isEqual(queryFromProps, query);
 
     return (
       <Fragment>

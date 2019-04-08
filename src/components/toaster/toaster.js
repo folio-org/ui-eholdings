@@ -61,8 +61,8 @@ class Toaster extends Component {
   }
 
   renderToasts() {
-    let { position } = this.props;
-    let { toasts } = this.state;
+    const { position } = this.props;
+    const { toasts } = this.state;
 
     if (!toasts.length) { return null; }
 
@@ -83,8 +83,8 @@ class Toaster extends Component {
   }
 
   render() {
-    let { position } = this.props;
-    let containerClass = classNames({
+    const { position } = this.props;
+    const containerClass = classNames({
       [style.container]: true,
       [style[position]]: true
     });

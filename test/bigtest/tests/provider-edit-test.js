@@ -138,7 +138,7 @@ describe('ProviderEdit', () => {
 
   describe('visiting the provider edit page with no selected packages', () => {
     beforeEach(function () {
-      let provider2 = this.server.create('provider', {
+      const provider2 = this.server.create('provider', {
         name: 'Sam is awesome',
       });
 

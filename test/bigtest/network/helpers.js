@@ -6,8 +6,8 @@
  *  base for a case insensitive sort
  */
 export function nameCompare(model, modelCompare) {
-  let name = model.attributes.name;
-  let compareName = modelCompare.attributes.name;
+  const name = model.attributes.name;
+  const compareName = modelCompare.attributes.name;
   if (name && compareName) {
     return name.localeCompare(compareName, undefined, { numeric: true, sensitivity: 'base' });
   }
@@ -24,15 +24,15 @@ export function nameCompare(model, modelCompare) {
  */
 export function relevanceCompare(query) {
   return function RelSort(model, modelCompare) {
-    let name = model.attributes.name;
-    let compareName = modelCompare.attributes.name;
+    const name = model.attributes.name;
+    const compareName = modelCompare.attributes.name;
     if (name && compareName) {
-      let words = query.split(' ');
+      const words = query.split(' ');
       words.push(query);
-      let modelCount = words.reduce((total, word) => {
+      const modelCount = words.reduce((total, word) => {
         return name.toLowerCase().includes(word) ? total + 1 : total;
       }, 0);
-      let modelCompareCount = words.reduce((total, word) => {
+      const modelCompareCount = words.reduce((total, word) => {
         return compareName.toLowerCase().includes(word) ? total + 1 : total;
       }, 0);
       if (modelCount !== modelCompareCount) {
@@ -52,10 +52,10 @@ export function relevanceCompare(query) {
  */
 export function getQuery(resourceType, req) {
   if (resourceType === 'titles') {
-    let name = req.queryParams['filter[name]'];
-    let isxn = req.queryParams['filter[isxn]'];
-    let subject = req.queryParams['filter[subject]'];
-    let publisher = req.queryParams['filter[publisher]'];
+    const name = req.queryParams['filter[name]'];
+    const isxn = req.queryParams['filter[isxn]'];
+    const subject = req.queryParams['filter[subject]'];
+    const publisher = req.queryParams['filter[publisher]'];
 
     if (name) {
       return name.toLowerCase();
@@ -97,21 +97,21 @@ export function includesWords(testString, query) {
  */
 export function searchRouteFor(resourceType, filter) {
   return function (schema, req) { // eslint-disable-line func-names
-    let page = Math.max(parseInt(req.queryParams.page || 1, 10), 1);
-    let count = parseInt(req.queryParams.count || 25, 10);
-    let offset = (page - 1) * count;
+    const page = Math.max(parseInt(req.queryParams.page || 1, 10), 1);
+    const count = parseInt(req.queryParams.count || 25, 10);
+    const offset = (page - 1) * count;
 
-    let collection = schema[resourceType];
+    const collection = schema[resourceType];
     // `resourceType` is typically pluralized, the serializer is not
-    let serializerType = `${resourceType.slice(0, -1)}-list`;
-    let json = this.serialize(collection.all().filter((model) => {
+    const serializerType = `${resourceType.slice(0, -1)}-list`;
+    const json = this.serialize(collection.all().filter((model) => {
       return filter(model, req);
     }), serializerType);
 
     json.meta = { totalResults: json.data.length };
 
-    let sort = req.queryParams.sort;
-    let query = getQuery(resourceType, req);
+    const sort = req.queryParams.sort;
+    const query = getQuery(resourceType, req);
 
     if (sort && sort === 'name') {
       json.data = json.data.sort(nameCompare);
@@ -134,16 +134,16 @@ export function searchRouteFor(resourceType, filter) {
  */
 export function nestedResourceRouteFor(foreignKey, resourceType, filter = () => true) {
   return function (schema, req) { // eslint-disable-line func-names
-    let page = Math.max(parseInt(req.queryParams.page || 1, 10), 1);
-    let count = parseInt(req.queryParams.count || 25, 10);
-    let offset = (page - 1) * count;
+    const page = Math.max(parseInt(req.queryParams.page || 1, 10), 1);
+    const count = parseInt(req.queryParams.count || 25, 10);
+    const offset = (page - 1) * count;
 
-    let json = this.serialize(schema[resourceType].where({
+    const json = this.serialize(schema[resourceType].where({
       [`${foreignKey}Id`]: req.params.id
     }).filter((model) => filter(model, req)));
 
-    let sort = req.queryParams.sort;
-    let query = getQuery(resourceType, req);
+    const sort = req.queryParams.sort;
+    const query = getQuery(resourceType, req);
 
     if (sort && sort === 'name') {
       json.data = json.data.sort(nameCompare);

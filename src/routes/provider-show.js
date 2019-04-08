@@ -36,7 +36,7 @@ class ProviderShowRoute extends Component {
 
   constructor(props) {
     super(props);
-    let { providerId } = props.match.params;
+    const { providerId } = props.match.params;
     props.getProvider(providerId);
     props.getProxyTypes();
     props.getRootProxy();
@@ -49,9 +49,9 @@ class ProviderShowRoute extends Component {
   }
 
   componentDidUpdate(prevProps, prevState) {
-    let { match, getPackages, getProvider } = this.props;
-    let { pkgSearchParams } = this.state;
-    let { providerId } = match.params;
+    const { match, getPackages, getProvider } = this.props;
+    const { pkgSearchParams } = this.state;
+    const { providerId } = match.params;
 
     if (providerId !== prevProps.match.params.providerId) {
       getProvider(providerId);
@@ -63,9 +63,9 @@ class ProviderShowRoute extends Component {
   }
 
   getPkgResults() {
-    let { match, resolver } = this.props;
-    let { pkgSearchParams } = this.state;
-    let { providerId } = match.params;
+    const { match, resolver } = this.props;
+    const { pkgSearchParams } = this.state;
+    const { providerId } = match.params;
 
     return resolver.query('packages', pkgSearchParams, {
       path: `${Provider.pathFor(providerId)}/packages`
@@ -80,7 +80,7 @@ class ProviderShowRoute extends Component {
   };
 
   fetchPackages = (page) => {
-    let { pkgSearchParams } = this.state;
+    const { pkgSearchParams } = this.state;
     this.searchPackages({ ...pkgSearchParams, page });
   };
 
@@ -186,7 +186,7 @@ class ProviderShowRoute extends Component {
 }
 export default connect(
   ({ eholdings: { data } }, { match }) => {
-    let resolver = createResolver(data);
+    const resolver = createResolver(data);
     return {
       model: resolver.find('providers', match.params.providerId),
       proxyTypes: resolver.query('proxyTypes'),

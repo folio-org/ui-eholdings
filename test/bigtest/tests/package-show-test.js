@@ -152,7 +152,7 @@ describe('PackageShow', () => {
 
     describe('then visiting another package details page', () => {
       beforeEach(function () {
-        let otherPackage = this.server.create('package', 'withTitles', {
+        const otherPackage = this.server.create('package', 'withTitles', {
           provider,
           name: 'Other Package',
           titleCount: 2
@@ -344,7 +344,7 @@ describe('PackageShow', () => {
     beforeEach(function () {
       providerPackage.isSelected = true;
 
-      let token = this.server.create('token', {
+      const token = this.server.create('token', {
         factName: '[[mysiteid]]',
         prompt: '/test1/',
         helpText: '',
@@ -375,7 +375,7 @@ describe('PackageShow', () => {
     beforeEach(function () {
       providerPackage.isSelected = true;
 
-      let token = this.server.create('token', {
+      const token = this.server.create('token', {
         factName: '[[mysiteid]]',
         prompt: '/test1/',
         helpText: '',
@@ -411,7 +411,7 @@ describe('PackageShow', () => {
     beforeEach(function () {
       providerPackage.isSelected = true;
 
-      let token = this.server.create('token', {
+      const token = this.server.create('token', {
         factName: '[[mysiteid]]',
         prompt: '/test1/',
         helpText: '',

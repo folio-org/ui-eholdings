@@ -44,8 +44,8 @@ class PackageShowRoute extends Component {
 
   constructor(props) {
     super(props);
-    let { packageId } = props.match.params;
-    let [providerId] = packageId.split('-');
+    const { packageId } = props.match.params;
+    const [providerId] = packageId.split('-');
     props.getPackage(packageId);
     props.getProxyTypes();
     props.getProvider(providerId);
@@ -104,9 +104,9 @@ class PackageShowRoute extends Component {
   }
 
   getTitleResults() {
-    let { match, resolver } = this.props;
-    let { pkgSearchParams } = this.state;
-    let { packageId } = match.params;
+    const { match, resolver } = this.props;
+    const { pkgSearchParams } = this.state;
+    const { packageId } = match.params;
     const params = transformQueryParams('titles', pkgSearchParams);
     const collection = resolver.query('resources', params, {
       path: `${Package.pathFor(packageId)}/resources`
@@ -118,7 +118,7 @@ class PackageShowRoute extends Component {
    * This should be refactored once we can share model between the routes.
   */
   addPackageToHoldings = () => {
-    let { model, updatePackage } = this.props;
+    const { model, updatePackage } = this.props;
     model.isSelected = true;
     model.selectedCount = model.titleCount;
     model.allowKbToAddTitles = true;
@@ -126,7 +126,7 @@ class PackageShowRoute extends Component {
   };
 
   toggleSelected = () => {
-    let { model, updatePackage, destroyPackage } = this.props;
+    const { model, updatePackage, destroyPackage } = this.props;
     // if the package is custom setting the holding status to false
     // or deselecting the package will delete the package from holdings
     if (model.isCustom && !model.isSelected === false) {
@@ -151,7 +151,7 @@ class PackageShowRoute extends Component {
   };
 
   fetchPackageTitles = (page) => {
-    let { pkgSearchParams } = this.state;
+    const { pkgSearchParams } = this.state;
     this.searchTitles({ ...pkgSearchParams, page });
   }
 

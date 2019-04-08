@@ -15,7 +15,7 @@ class SettingsDetailPane extends Component {
   };
 
   render() {
-    let {
+    const {
       children,
       paneTitle,
       ...paneProps

@@ -34,9 +34,9 @@ export default class TokenField extends Component {
 
   render() {
     /* eslint-disable react/no-danger */
-    let { token, type } = this.props;
-    let { showInputs } = this.state;
-    let helpTextMarkup = { __html: token.helpText };
+    const { token, type } = this.props;
+    const { showInputs } = this.state;
+    const helpTextMarkup = { __html: token.helpText };
 
     return (showInputs) ? (
       <div>

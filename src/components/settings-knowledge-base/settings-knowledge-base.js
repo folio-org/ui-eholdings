@@ -33,11 +33,11 @@ export default class SettingsKnowledgeBase extends Component {
   };
 
   componentDidUpdate(prevProps) {
-    let wasPending = prevProps.model.update.isPending && !this.props.model.update.isPending;
-    let needsUpdate = !isEqual(prevProps.model, this.props.model);
-    let isRejected = this.props.model.update.isRejected;
+    const wasPending = prevProps.model.update.isPending && !this.props.model.update.isPending;
+    const needsUpdate = !isEqual(prevProps.model, this.props.model);
+    const isRejected = this.props.model.update.isRejected;
 
-    let { router } = this.context;
+    const { router } = this.context;
 
     if (wasPending && needsUpdate && !isRejected) {
       router.history.push({
@@ -57,14 +57,14 @@ export default class SettingsKnowledgeBase extends Component {
   }
 
   render() {
-    let {
+    const {
       model,
       onSubmit
     } = this.props;
 
-    let { router } = this.context;
+    const { router } = this.context;
 
-    let toasts = processErrors(model);
+    const toasts = processErrors(model);
 
     if (router.history.action === 'PUSH' &&
         router.history.location.state &&

@@ -9,9 +9,11 @@ function AccordionListHeader(props) {
   // RM API does not return exact number of results when count is over 10K
   // For title lists, resultsLength of 10000 indicates this.
   // For other lists (package and provider) resultsLength of 10001 indicates this.
-  let overCount = props.listType === listTypes.TITLES ? 10000 : 10001;
-  let showOver = props.resultsLength === overCount;
-  let displayOverCount = 10000;
+  const overCount = props.listType === listTypes.TITLES
+    ? 10000
+    : 10001;
+  const showOver = props.resultsLength === overCount;
+  const displayOverCount = 10000;
   return (
     <div className={styles['accordion-list-header']}>
       <DefaultAccordionHeader {...props} />

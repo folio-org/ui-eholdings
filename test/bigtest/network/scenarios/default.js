@@ -1,7 +1,7 @@
 /* istanbul ignore file */
 export default function defaultScenario(server) {
   function createProvider(name, packages = []) {
-    let provider = server.create('provider', {
+    const provider = server.create('provider', {
       packagesTotal: packages.length,
       name
     });
@@ -11,13 +11,13 @@ export default function defaultScenario(server) {
     });
   }
 
-  let customProvider = server.create('provider', {
+  const customProvider = server.create('provider', {
     name: 'Atlanta A&T Library',
     packagesSelected: 1,
     packagesTotal: 1
   });
 
-  let customPackage = server.create('package', {
+  const customPackage = server.create('package', {
     provider: customProvider,
     name: 'Atlanta A&T Drumming Books',
     contentType: 'AggregatedFullText',
@@ -27,7 +27,7 @@ export default function defaultScenario(server) {
     titleCount: 1
   });
 
-  let customTitle = server.create('title', {
+  const customTitle = server.create('title', {
     name: 'Single, Double, and Triple Paradiddles',
     isTitleCustom: true,
     isPeerReviewed: false,

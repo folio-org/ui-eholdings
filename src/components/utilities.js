@@ -3,7 +3,7 @@ import queryString from 'qs';
 import get from 'lodash/get';
 
 export function isBookPublicationType(publicationType) {
-  let publicationTypeIsBook = {
+  const publicationTypeIsBook = {
     'All': false,
     'Audiobook': true,
     'Book': true,
@@ -48,16 +48,16 @@ export const qs = {
 };
 
 export const processErrors = ({ request, update, destroy }) => {
-  let processErrorsSet = ({ errors, timestamp }) => errors.map((error, index) => ({
+  const processErrorsSet = ({ errors, timestamp }) => errors.map((error, index) => ({
     message: error.title,
     type: 'error',
     id: `error-${timestamp}-${index}`
   }));
 
-  let hasErrors = update.isRejected || request.isRejected || destroy.isRejected;
-  let putErrors = hasErrors ? processErrorsSet(update) : [];
-  let getErrors = hasErrors ? processErrorsSet(request) : [];
-  let destroyErrors = hasErrors ? processErrorsSet(destroy) : [];
+  const hasErrors = update.isRejected || request.isRejected || destroy.isRejected;
+  const putErrors = hasErrors ? processErrorsSet(update) : [];
+  const getErrors = hasErrors ? processErrorsSet(request) : [];
+  const destroyErrors = hasErrors ? processErrorsSet(destroy) : [];
 
   return [...putErrors, ...getErrors, ...destroyErrors];
 };
@@ -69,12 +69,31 @@ export const processErrors = ({ request, update, destroy }) => {
  */
 export function transformQueryParams(searchType, params) {
   if (searchType === 'titles') {
-    let { q, searchfield = 'name', filter = {}, ...searchParams } = params;
-    if (searchfield === 'title') { searchfield = 'name'; }
-    let searchfilter = { ...filter, [searchfield]: q };
-    return { ...searchParams, filter: searchfilter };
-  } else { return params; }
+    const {
+      q,
+      filter = {},
+      ...searchParams
+    } = params;
+
+    let { searchfield = 'name' } = params;
+
+    if (searchfield === 'title') {
+      searchfield = 'name';
+    }
+
+    const searchfilter = {
+      ...filter,
+      [searchfield]: q
+    };
+
+    return {
+      ...searchParams,
+      filter: searchfilter
+    };
+  }
+  return params;
 }
+
 /**
  *  Getter helper for the entity tags
  * @param {Object} entityModel - entity model that has tags attibute as tags:{taglist:[]}

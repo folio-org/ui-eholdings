@@ -64,14 +64,14 @@ export default class TitleCreate extends Component {
   }
 
   render() {
-    let {
+    const {
       customPackages,
       onSubmit,
       onCancel,
       request
     } = this.props;
 
-    let packageOptions = customPackages.map(pkg => ({
+    const packageOptions = customPackages.map(pkg => ({
       label: pkg.name,
       value: pkg.id
     }));

@@ -90,7 +90,7 @@ describe('ProviderEditToken', () => {
 
   describe('visiting the provider edit page with a token without a value ', () => {
     beforeEach(function () {
-      let token = this.server.create('token', {
+      const token = this.server.create('token', {
         factName: '[[mysiteid]]',
         prompt: '/test1/',
         helpText: '<ul><li>Enter your token</li></ul>',

@@ -13,8 +13,8 @@ class VisibilityField extends Component {
   };
 
   render() {
-    let { disabled } = this.props;
-    let disabledReason = typeof disabled === 'boolean' ? '' : disabled;
+    const { disabled } = this.props;
+    const disabledReason = typeof disabled === 'boolean' ? '' : disabled;
 
     return (
       <fieldset

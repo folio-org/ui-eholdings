@@ -70,7 +70,7 @@ export default class TitleEdit extends Component {
   }
 
   render() {
-    let {
+    const {
       model,
       onSubmit,
       updateRequest,

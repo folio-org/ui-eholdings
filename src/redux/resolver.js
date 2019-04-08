@@ -29,7 +29,7 @@ export default class Resolver {
    * @throws {Error} when the model can not be found
    */
   modelFor(type) {
-    let ModelClass = this.models[type];
+    const ModelClass = this.models[type];
 
     if (!ModelClass) {
       throw Error(`Could not resolve model for "${type}"`);
@@ -51,11 +51,11 @@ export default class Resolver {
    * the provided data
    */
   getRequest(type, data, filter = () => true) {
-    let store = this.state[data.type];
-    let params = Object.keys(data.params || {});
+    const store = this.state[data.type];
+    const params = Object.keys(data.params || {});
 
     // used when the request is not found
-    let emptyRequest = {
+    const emptyRequest = {
       timestamp: 0,
       type,
       params: data.params || {},
@@ -69,10 +69,10 @@ export default class Resolver {
 
     if (store) {
       return Object.keys(store.requests).reduce((ret, timestamp) => {
-        let request = store.requests[timestamp];
+        const request = store.requests[timestamp];
         let isMatch = request.type === type &&
           params.every(key => isEqual(request.params[key], data.params[key]));
-        let isNewer = timestamp > ret.timestamp;
+        const isNewer = timestamp > ret.timestamp;
 
         // if a path was specified, ensure it too matches
         if (isMatch && Object.hasOwnProperty.call(data, 'path')) {
@@ -125,7 +125,7 @@ export default class Resolver {
    * @returns {Model} the model for the record
    */
   find(type, id) {
-    let ModelClass = this.modelFor(type);
+    const ModelClass = this.modelFor(type);
     return new ModelClass(id, this);
   }
 }

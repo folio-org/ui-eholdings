@@ -1,6 +1,6 @@
 import { Factory, faker, trait } from '@bigtest/mirage';
 
-let helpText = '<ul><li>Enter your Gale token</li></ul>';
+const helpText = '<ul><li>Enter your Gale token</li></ul>';
 
 export default Factory.extend({
   name: () => faker.company.companyName(),
@@ -38,7 +38,7 @@ export default Factory.extend({
 
   withProxy: trait({
     afterCreate(provider, server) {
-      let proxy = server.create('proxy', {
+      const proxy = server.create('proxy', {
         inherited: false,
         id: 'microstates'
       });
@@ -49,7 +49,7 @@ export default Factory.extend({
 
   withInheritedProxy: trait({
     afterCreate(provider, server) {
-      let proxy = server.create('proxy', {
+      const proxy = server.create('proxy', {
         inherited: true,
         id: 'bigTestJS'
       });
@@ -60,7 +60,7 @@ export default Factory.extend({
 
   withToken: trait({
     afterCreate(provider, server) {
-      let token = server.create('token', {
+      const token = server.create('token', {
         factName: '[[mysiteid]]',
         prompt: '/test1/',
         helpText,
@@ -73,7 +73,7 @@ export default Factory.extend({
 
   withTokenAndValue: trait({
     afterCreate(provider, server) {
-      let token = server.create('token', {
+      const token = server.create('token', {
         factName: '[[mysiteid]]',
         prompt: '/test1/',
         helpText,
@@ -86,7 +86,7 @@ export default Factory.extend({
 
   afterCreate(provider, server) {
     if (!provider.proxy) {
-      let proxy = server.create('proxy', {
+      const proxy = server.create('proxy', {
         inherited: false,
         id: 'bigTestJS'
       });
@@ -95,7 +95,7 @@ export default Factory.extend({
     }
 
     if (!provider.token) {
-      let token = server.create('token', {
+      const token = server.create('token', {
         factName: '[[mysiteid]]',
         prompt: '/test1/',
         helpText,

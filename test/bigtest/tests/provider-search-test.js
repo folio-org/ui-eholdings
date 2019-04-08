@@ -108,7 +108,7 @@ describe('ProviderSearch', () => {
         it('preserves the last history entry', function () {
           // this is a check to make sure duplicate entries are not added
           // to the history. Ensuring the back button works as expected
-          let history = this.app.props.history;
+          const history = this.app.props.history;
           expect(history.entries[history.index - 1].search).to.include('q=Provider');
         });
       });

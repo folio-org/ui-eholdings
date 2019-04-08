@@ -5,7 +5,7 @@ import { FormattedMessage } from 'react-intl';
 import { KeyValue } from '@folio/stripes/components';
 
 export default function ContributorsList({ data }) {
-  let contributorsByType = data.reduce((byType, contributor) => {
+  const contributorsByType = data.reduce((byType, contributor) => {
     byType[contributor.type] = byType[contributor.type] || [];
     byType[contributor.type].push(contributor.contributor);
     return byType;

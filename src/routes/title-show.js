@@ -45,8 +45,8 @@ class TitleShowRoute extends Component {
   }
 
   componentDidUpdate(prevProps) {
-    let { match, createRequest } = prevProps;
-    let { titleId } = this.props.match.params;
+    const { match, createRequest } = prevProps;
+    const { titleId } = this.props.match.params;
 
     if (match.params.titleId !== titleId) {
       this.props.getTitle(titleId);
@@ -61,8 +61,8 @@ class TitleShowRoute extends Component {
   }
 
   createResource = ({ packageId, customUrl }) => {
-    let { match, createResource } = this.props;
-    let { titleId } = match.params;
+    const { match, createResource } = this.props;
+    const { titleId } = match.params;
 
     createResource({
       url: customUrl,
@@ -151,7 +151,7 @@ class TitleShowRoute extends Component {
 
 export default connect(
   ({ eholdings: { data } }, { match }) => {
-    let resolver = createResolver(data);
+    const resolver = createResolver(data);
 
     return {
       model: resolver.find('titles', match.params.titleId),
