@@ -61,7 +61,7 @@ export default class ResourceEditManagedTitle extends Component {
   };
 
   static getDerivedStateFromProps(nextProps, prevState) {
-    let stateUpdates = {};
+    const stateUpdates = {};
 
     if (nextProps.model.update.errors.length) {
       stateUpdates.showSelectionModal = false;

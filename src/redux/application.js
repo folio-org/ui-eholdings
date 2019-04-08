@@ -23,7 +23,7 @@ export const Configuration = model({
     apiKey = '';
 
     serialize() {
-      let data = {
+      const data = {
         id: this.id,
         type: this.type,
         attributes: {

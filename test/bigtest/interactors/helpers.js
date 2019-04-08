@@ -8,7 +8,7 @@ export const hasClassBeginningWith = (selector, className) => {
 
 export const getComputedStyle = (selector, className) => {
   return computed(function () {
-    let element = this.$(selector);
+    const element = this.$(selector);
     return window.getComputedStyle(element)[className];
   });
 };

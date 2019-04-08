@@ -24,7 +24,7 @@ describe('ResourceShow', () => {
       titleCount: 5
     });
 
-    let packageProxy = this.server.create('proxy', {
+    const packageProxy = this.server.create('proxy', {
       inherited: true,
       id: 'microstates'
     });
@@ -32,7 +32,7 @@ describe('ResourceShow', () => {
     providerPackage.update('proxy', packageProxy.toJSON());
     providerPackage.save();
 
-    let title = this.server.create('title', {
+    const title = this.server.create('title', {
       name: 'Best Title Ever',
       edition: 'Best Edition',
       publicationType: 'Streaming Video',
@@ -68,7 +68,7 @@ describe('ResourceShow', () => {
       isTokenNeeded: false
     });
 
-    let proxy = this.server.create('proxy', {
+    const proxy = this.server.create('proxy', {
       inherited: true,
       id: 'microstates'
     });
@@ -355,7 +355,7 @@ describe('ResourceShow', () => {
         titleCount: 5
       });
 
-      let title = this.server.create('title', {
+      const title = this.server.create('title', {
         name: 'Best Title Ever',
         edition: 'Best Edition Ever',
         publicationType: ''
@@ -396,7 +396,7 @@ describe('ResourceShow', () => {
         titleCount: 5
       });
 
-      let title = this.server.create('title', {
+      const title = this.server.create('title', {
         name: 'Best Title Ever',
         publicationType: 'UnknownPublicationType'
       });

@@ -26,7 +26,7 @@ export default class CoverageStatementFields extends Component {
   };
 
   render() {
-    let { coverageDates } = this.props;
+    const { coverageDates } = this.props;
 
     return (
       <fieldset>

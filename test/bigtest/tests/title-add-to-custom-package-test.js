@@ -43,8 +43,8 @@ describe('TitleShowAddToCustomPackage', () => {
 
     it('contains a list of custom packages with existing relationships disabled', () => {
       // index `0` is the "Choose a package" placeholder option
-      let first = TitleShowPage.customPackageModal.packages(1);
-      let second = TitleShowPage.customPackageModal.packages(2);
+      const first = TitleShowPage.customPackageModal.packages(1);
+      const second = TitleShowPage.customPackageModal.packages(2);
 
       expect(first.text).to.equal('Custom Package 1');
       expect(first.isDisabled).to.be.true;

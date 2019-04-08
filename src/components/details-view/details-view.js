@@ -95,7 +95,7 @@ class DetailsView extends Component {
   }
 
   componentDidUpdate(prevProps) {
-    let { model } = this.props;
+    const { model } = this.props;
 
     // if the model just finished loading focus the heading
     if (!prevProps.model.isLoaded && model.isLoaded) {
@@ -115,8 +115,8 @@ class DetailsView extends Component {
    */
   handleLayout = () => {
     if (this.$container && this.$sticky && this.$list) {
-      let stickyHeight = this.$sticky.offsetHeight;
-      let containerHeight = this.$container.offsetHeight;
+      const stickyHeight = this.$sticky.offsetHeight;
+      const containerHeight = this.$container.offsetHeight;
 
       this.shouldHandleScroll = stickyHeight >= containerHeight;
 
@@ -135,7 +135,7 @@ class DetailsView extends Component {
    * the list's "sticky" behavior
    */
   handleScroll = e => {
-    let { isSticky } = this.state;
+    const { isSticky } = this.state;
 
     // bail if we shouldn't handle scrolling
     if (!this.shouldHandleScroll) return;
@@ -152,11 +152,11 @@ class DetailsView extends Component {
 
       // don't do these calculations when not scrolling the container
     } else if (e.currentTarget === e.target) {
-      let top = e.currentTarget.scrollTop;
-      let height = e.currentTarget.offsetHeight;
-      let scrollHeight = e.currentTarget.scrollHeight;
+      const top = e.currentTarget.scrollTop;
+      const height = e.currentTarget.offsetHeight;
+      const scrollHeight = e.currentTarget.scrollHeight;
       // these will be equal when scrolled all the way down
-      let bottomedOut = top + height === scrollHeight;
+      const bottomedOut = top + height === scrollHeight;
 
       // if bottoming out, enable isSticky
       if (bottomedOut && !isSticky) {
@@ -178,10 +178,10 @@ class DetailsView extends Component {
     // this does not need to run if we do not have a list element
     if (!this.$list) return;
 
-    let { isSticky } = this.state;
-    let scrollingUp = e.deltaY < 0;
-    let notInList = !this.$list.contains(e.target);
-    let listAtTop = this.$list.firstElementChild.scrollTop === 0;
+    const { isSticky } = this.state;
+    const scrollingUp = e.deltaY < 0;
+    const notInList = !this.$list.contains(e.target);
+    const listAtTop = this.$list.firstElementChild.scrollTop === 0;
 
     if (isSticky && scrollingUp && (notInList || listAtTop)) {
       // prevent scroll logic around bottoming out by scrolling up 1px
@@ -195,7 +195,7 @@ class DetailsView extends Component {
   }
 
   render() {
-    let {
+    const {
       type,
       model,
       bodyContent,
@@ -215,15 +215,15 @@ class DetailsView extends Component {
       location
     } = this.props;
 
-    let { isSticky } = this.state;
+    const { isSticky } = this.state;
 
-    let containerClassName = cx('container', {
+    const containerClassName = cx('container', {
       locked: isSticky
     });
 
-    let historyState = history.location.state;
+    const historyState = history.location.state;
 
-    let isListAccordionOpen = sections && sections[listSectionId];
+    const isListAccordionOpen = sections && sections[listSectionId];
     const { searchType } = queryString.parse(location.search, { ignoreQueryPrefix: true });
 
     return (

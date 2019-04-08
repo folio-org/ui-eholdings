@@ -34,11 +34,11 @@ class CoverageDateList extends React.Component {
   }
 
   formatCoverageFullDate({ beginCoverage, endCoverage }) {
-    let startDate = beginCoverage ?
+    const startDate = beginCoverage ?
       <FormattedDate value={beginCoverage} timeZone="UTC" /> :
       '';
 
-    let endDate = endCoverage ?
+    const endDate = endCoverage ?
       <FormattedDate value={endCoverage} timeZone="UTC" /> :
       <FormattedMessage id="ui-eholdings.date.present" />;
 
@@ -56,11 +56,11 @@ class CoverageDateList extends React.Component {
   }
 
   formatCoverageYear({ beginCoverage, endCoverage }) {
-    let startYear = beginCoverage ?
+    const startYear = beginCoverage ?
       <FormattedDate value={beginCoverage} timeZone="UTC" year="numeric" /> :
       '';
 
-    let endYear = endCoverage ?
+    const endYear = endCoverage ?
       <FormattedDate value={endCoverage} timeZone="UTC" year="numeric" /> :
       '';
 
@@ -80,7 +80,7 @@ class CoverageDateList extends React.Component {
   }
 
   render() {
-    let {
+    const {
       coverageArray,
       id,
       isYearOnly

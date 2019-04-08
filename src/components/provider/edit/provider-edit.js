@@ -65,15 +65,15 @@ export default class ProviderEdit extends Component {
   }
 
   render() {
-    let {
+    const {
       model,
       proxyTypes,
       rootProxy,
       onSubmit,
     } = this.props;
 
-    let supportsTokens = model.providerToken && model.providerToken.prompt;
-    let hasTokenValue = model.providerToken && model.providerToken.value;
+    const supportsTokens = model.providerToken && model.providerToken.prompt;
+    const hasTokenValue = model.providerToken && model.providerToken.value;
 
     return (
       <Form

@@ -22,8 +22,8 @@ import {
  */
 export class Collection {
   constructor({ type, params = {}, path }, resolver) {
-    let { page = 1, ...queryParams } = params;
-    let { pageSize = 25 } = queryParams;
+    const { page = 1, ...queryParams } = params;
+    const { pageSize = 25 } = queryParams;
 
     this.type = type;
     this.params = params;
@@ -61,7 +61,7 @@ export class Collection {
         });
       }
 
-      let records = request.records.map((id) => {
+      const records = request.records.map((id) => {
         return this.resolver.find(this.type, id);
       });
 
@@ -79,10 +79,10 @@ export class Collection {
    */
   getRecord(offset) {
     if (!this.records[offset]) {
-      let pageOffset = Math.floor(offset / this.pageSize);
-      let recordOffset = offset % this.pageSize;
-      let page = this.getPage(pageOffset + 1);
-      let record = page.records[recordOffset];
+      const pageOffset = Math.floor(offset / this.pageSize);
+      const recordOffset = offset % this.pageSize;
+      const page = this.getPage(pageOffset + 1);
+      const record = page.records[recordOffset];
 
       // the record does not exist, return an empty one
       if (!record) {
@@ -103,11 +103,11 @@ export class Collection {
    */
   get request() {
     // eslint-disable-next-line no-unused-vars
-    let { page, ...queryParams } = this.params;
+    const { page, ...queryParams } = this.params;
 
     // without including the page param, this will return the last
     // query request for any page of this collection
-    let request = this.resolver.getRequest('query', {
+    const request = this.resolver.getRequest('query', {
       type: this.type,
       params: queryParams,
       path: this.path
@@ -135,7 +135,7 @@ export class Collection {
    * @returns {Number} total pages
    */
   get totalPages() {
-    let total = Math.ceil(this.length / this.pageSize);
+    const total = Math.ceil(this.length / this.pageSize);
 
     // cache the total for this instance
     Object.defineProperty(this, 'totalPages', {
@@ -155,7 +155,7 @@ export class Collection {
   map(callback, ctx) {
     let offset = 0;
     let record = this.getRecord(offset);
-    let ret = [];
+    const ret = [];
 
     while (offset < this.length || record.id) {
       ret.push(callback.call(ctx, record, offset));
@@ -173,11 +173,11 @@ export class Collection {
    * @returns {Array} array of records for the range
    */
   slice(start, end) {
-    let last = Math.min(end, this.length) - 1;
-    let ret = [];
+    const last = Math.min(end, this.length) - 1;
+    const ret = [];
 
     for (let i = start; i <= last; i++) {
-      let record = this.getRecord(i);
+      const record = this.getRecord(i);
 
       if (record.id) {
         ret.push(record);
@@ -195,8 +195,8 @@ export class Collection {
    * @returns {Boolean}
    */
   get isLoading() {
-    let { request } = this.getPage(this.currentPage);
-    let isRequested = !!request.timestamp || !!this.length;
+    const { request } = this.getPage(this.currentPage);
+    const isRequested = !!request.timestamp || !!this.length;
     return request.isPending || !isRequested;
   }
 
@@ -215,7 +215,7 @@ export class Collection {
    */
   get hasUnloaded() {
     let hasUnloaded = !!this.getPage(this.currentPage).request.hasUnloaded;
-    let pageLimit = this.totalPages;
+    const pageLimit = this.totalPages;
     let page = 1;
 
     // find the first page up to a page limit with an unloaded record
@@ -324,7 +324,7 @@ class BaseModel {
    * @param {Object} attrs - the record's attributes
    */
   static create(attrs) {
-    let newModel = new this.prototype.constructor();
+    const newModel = new this.prototype.constructor();
     newModel.data.attributes = attrs;
 
     return create(this.type, newModel.serialize(), {
@@ -384,13 +384,13 @@ class BaseModel {
    * @returns {Object} JSON API serialized data
    */
   serialize() {
-    let data = {
+    const data = {
       id: this.id,
       type: this.type,
       attributes: {}
     };
 
-    for (let attr of Object.keys(this.data.attributes)) {
+    for (const attr of Object.keys(this.data.attributes)) {
       data.attributes[attr] = this[attr];
     }
 
@@ -402,7 +402,7 @@ class BaseModel {
    * @returns {Object} the find request state object
    */
   get request() {
-    let request = this.resolver.getRequest('find', {
+    const request = this.resolver.getRequest('find', {
       type: this.type,
       params: { id: this.id }
     });
@@ -420,7 +420,7 @@ class BaseModel {
    * @returns {Object} the update request state object
    */
   get update() {
-    let update = this.resolver.getRequest('update', {
+    const update = this.resolver.getRequest('update', {
       type: this.type,
       params: { id: this.id }
     });
@@ -438,7 +438,7 @@ class BaseModel {
    * @returns {Object} the delete request state object
    */
   get destroy() {
-    let destroyReq = this.resolver.getRequest('destroy', {
+    const destroyReq = this.resolver.getRequest('destroy', {
       type: this.type,
       params: { id: this.id }
     });
@@ -528,10 +528,10 @@ function describeHasMany(key, relType = key) {
 function describeBelongsTo(key, relType = pluralize(key)) {
   return {
     get() {
-      let Model = this.resolver.modelFor(relType);
+      const Model = this.resolver.modelFor(relType);
       let model = new Model(null, this.resolver); // eslint-disable-line no-shadow
 
-      let relId = `${key}Id`;
+      const relId = `${key}Id`;
 
       // check for related records first based on `relationship` if it exists
       if (hasOwnProperty(this.data.relationships, key) && this.data.relationships[key].data) {
@@ -585,20 +585,20 @@ function describeAttribute(key, defaultValue) {
  */
 export default function model({ type, path } = {}) {
   return (Class) => {
-    let modelType = type || pluralize(Class.name).toLowerCase();
-    let modelPath = path || `/${modelType}`;
+    const modelType = type || pluralize(Class.name).toLowerCase();
+    const modelPath = path || `/${modelType}`;
 
-    let instance = new Class();
-    let properties = Object.getOwnPropertyNames(instance);
-    let relTypes = {};
+    const instance = new Class();
+    const properties = Object.getOwnPropertyNames(instance);
+    const relTypes = {};
 
     // strip the constructor so not to override the BaseModel constructor
     // eslint-disable-next-line no-unused-vars
-    let { constructor, ...proto } = Object.getOwnPropertyDescriptors(Class.prototype);
+    const { constructor, ...proto } = Object.getOwnPropertyDescriptors(Class.prototype);
 
     for (let i = 0, l = properties.length; i < l; i++) {
-      let key = properties[i];
-      let value = instance[key];
+      const key = properties[i];
+      const value = instance[key];
 
       if (value && hasOwnProperty(value, '_hasMany')) {
         proto[key] = describeHasMany(key, value._hasMany);

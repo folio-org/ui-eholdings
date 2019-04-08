@@ -89,7 +89,7 @@ describe('DetailsView', () => {
 
     describe('then visiting a title page with few resources', () => {
       beforeEach(function () {
-        let title = this.server.create('title');
+        const title = this.server.create('title');
 
         this.visit(`/eholdings/titles/${title.id}`);
       });

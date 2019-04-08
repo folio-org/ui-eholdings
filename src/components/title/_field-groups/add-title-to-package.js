@@ -5,7 +5,7 @@ import PackageSelectField from '../_fields/package-select';
 import CustomURLField from '../_fields/custom-url';
 
 function AddTitleToPackage({ packageOptions }) {
-  let filteredPackageOptions = packageOptions.filter(pkg => pkg.label !== '');
+  const filteredPackageOptions = packageOptions.filter(pkg => pkg.label !== '');
   return (
     <Fragment>
       <PackageSelectField options={filteredPackageOptions} />

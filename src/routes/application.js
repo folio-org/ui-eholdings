@@ -24,7 +24,7 @@ class ApplicationRoute extends Component {
   }
 
   render() {
-    let {
+    const {
       status,
       interfaces: { eholdings: version },
       showSettings,

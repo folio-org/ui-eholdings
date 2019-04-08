@@ -1,7 +1,7 @@
 import padStart from 'lodash/padStart';
 
 // title with pages of resources
-let pagedTitle = {
+const pagedTitle = {
   id: 'paged_title',
   name: 'Paged Title',
   resourceIds: new Array(50).fill().map((_, i) => {
@@ -10,7 +10,7 @@ let pagedTitle = {
 };
 
 // related titles for the paged package resources
-let packageTitles = new Array(50).fill().map((_, i) => {
+const packageTitles = new Array(50).fill().map((_, i) => {
   return {
     id: `pkg_title_${padStart(i, 3, '0')}`,
     name: `Package Title ${i + 1}`

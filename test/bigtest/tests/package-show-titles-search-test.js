@@ -237,7 +237,7 @@ describe('Package Show Title Search', () => {
 
   describe('navigating to package show page with over 10k related resources', () => {
     beforeEach(function () {
-      let largeProviderPackage = this.server.create(
+      const largeProviderPackage = this.server.create(
         'package',
         {
           provider,

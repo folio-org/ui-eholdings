@@ -67,7 +67,7 @@ export default class Pane extends Component {
   };
 
   handleEntering = () => {
-    let { onEntering } = this.props;
+    const { onEntering } = this.props;
 
     this.setState({ entered: true }, () => {
       if (onEntering) onEntering();
@@ -75,7 +75,7 @@ export default class Pane extends Component {
   };
 
   handleExiting = () => {
-    let { onExiting } = this.props;
+    const { onExiting } = this.props;
 
     this.setState({ entered: false }, () => {
       if (onExiting) onExiting();
@@ -112,8 +112,8 @@ export default class Pane extends Component {
       entered
     } = this.state;
 
-    let Element = tagName;
-    let animDuration = 300;
+    const Element = tagName;
+    const animDuration = 300;
 
     return (
       <Fragment>

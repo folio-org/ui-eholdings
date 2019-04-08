@@ -29,8 +29,8 @@ class ProviderEditRoute extends Component {
 
   constructor(props) {
     super(props);
-    let { match, getProvider, getProxyTypes, getRootProxy } = props;
-    let { providerId } = match.params;
+    const { match, getProvider, getProxyTypes, getRootProxy } = props;
+    const { providerId } = match.params;
     getProvider(providerId);
     getProxyTypes();
     getRootProxy();
@@ -38,16 +38,16 @@ class ProviderEditRoute extends Component {
 
 
   componentDidUpdate(prevProps) {
-    let { match, getProvider, history, location, model } = this.props;
-    let { providerId } = match.params;
+    const { match, getProvider, history, location, model } = this.props;
+    const { providerId } = match.params;
 
     if (providerId !== prevProps.match.params.providerId) {
       getProvider(providerId);
     }
 
-    let wasPending = prevProps.model.update.isPending && !model.update.isPending;
-    let needsUpdate = !isEqual(prevProps.model, model);
-    let isRejected = model.update.isRejected;
+    const wasPending = prevProps.model.update.isPending && !model.update.isPending;
+    const needsUpdate = !isEqual(prevProps.model, model);
+    const isRejected = model.update.isRejected;
 
     if (wasPending && needsUpdate && !isRejected) {
       history.push({
@@ -63,7 +63,7 @@ class ProviderEditRoute extends Component {
   }
 
   providerEditSubmitted = (values) => {
-    let { model, updateProvider } = this.props;
+    const { model, updateProvider } = this.props;
     model.proxy.id = values.proxyId;
     model.providerToken.value = values.providerTokenValue;
     updateProvider(model);

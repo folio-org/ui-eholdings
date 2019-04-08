@@ -26,13 +26,13 @@ export default class SettingsRootProxy extends Component {
   };
 
   render() {
-    let {
+    const {
       rootProxy,
       proxyTypes,
       onSubmit,
       isFreshlySaved
     } = this.props;
-    let toasts = processErrors(rootProxy);
+    const toasts = processErrors(rootProxy);
 
     if (isFreshlySaved) {
       toasts.push({

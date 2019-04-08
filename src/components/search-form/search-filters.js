@@ -44,12 +44,12 @@ export default function SearchFilters({
                 value={value}
                 checked={isChecked}
                 onChange={() => {
-                  let replaced = {
+                  const replaced = {
                     ...activeFilters,
                     // if this option is a default, clear the filter
                     [name]: value === defaultValue ? undefined : value
                   };
-                  let withoutDefault = filter(item => item.value !== undefined, replaced);
+                  const withoutDefault = filter(item => item.value !== undefined, replaced);
 
                   return onUpdate(withoutDefault);
                 }}

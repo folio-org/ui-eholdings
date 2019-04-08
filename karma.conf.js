@@ -3,7 +3,7 @@ module.exports = (config) => {
   const preprocessors = {};
   preprocessors[`${testIndex}`] = ['webpack'];
 
-  let configuration = {
+  const configuration = {
     files: [
       { pattern: testIndex, watched: false },
     ],

@@ -102,7 +102,7 @@ describe('CustomResourceHoldingSelection', () => {
 
         beforeEach(async function () {
           this.server.delete('/resources/:id', ({ resources }, request) => {
-            let matchingResource = resources.find(request.params.id);
+            const matchingResource = resources.find(request.params.id);
 
             matchingResource.destroy();
 

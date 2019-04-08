@@ -23,7 +23,6 @@ module.exports = {
     "import/no-extraneous-dependencies": "off",
     "jsx-quotes": "off",
     "no-console": "warn",
-    "prefer-const": "off",
     "react/forbid-prop-types": "off",
     "react/destructuring-assignment": "off",
     "react/sort-prop-types": ["error"]

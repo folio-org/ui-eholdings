@@ -39,7 +39,7 @@ export default class SearchPaneset extends Component {
   // providing a location prop, we can safely animate it when the real route
   // changes and manually update it's location after the animation.
   static getDerivedStateFromProps(nextProps, nextState) {
-    let { detailsView, location } = nextProps;
+    const { detailsView, location } = nextProps;
 
     return {
       detailsView: detailsView
@@ -62,8 +62,8 @@ export default class SearchPaneset extends Component {
   }
 
   componentDidUpdate(prevProps) {
-    let isNewSearch = prevProps.location.search !== this.props.location.search;
-    let isSameSearchType = prevProps.resultsType === this.props.resultsType;
+    const isNewSearch = prevProps.location.search !== this.props.location.search;
+    const isSameSearchType = prevProps.resultsType === this.props.resultsType;
 
     // focus the pane title when a new search happens within the same search type
     if (isNewSearch && isSameSearchType && this.$title.current) {
@@ -98,7 +98,7 @@ export default class SearchPaneset extends Component {
   };
 
   render() {
-    let {
+    const {
       searchForm,
       resultsLabel,
       resultsType,
@@ -109,12 +109,13 @@ export default class SearchPaneset extends Component {
       filterCount,
       onClosePreview
     } = this.props;
-    let {
+
+    const {
       detailsView,
       showDetailsView
     } = this.state;
 
-    hideFilters = hideFilters && !!resultsView;
+    const areFiltersHidden = hideFilters && !!resultsView;
 
     let newButton = (<PaneMenu />);
     if (resultsType === 'packages' || resultsType === 'titles') {
@@ -133,10 +134,12 @@ export default class SearchPaneset extends Component {
       );
     }
 
-    let showApply = resultsView && !hideFilters;
+    const showApply = resultsView && !areFiltersHidden;
 
     // do not show filter count when filters are open
-    filterCount = hideFilters ? filterCount : 0;
+    const filterCountToDisplay = areFiltersHidden
+      ? filterCount
+      : 0;
 
     return (
       <Paneset>
@@ -173,7 +176,7 @@ export default class SearchPaneset extends Component {
               <SearchBadge
                 data-test-eholdings-results-pane-search-badge
                 onClick={this.toggleFilters}
-                filterCount={filterCount}
+                filterCount={filterCountToDisplay}
               />
             </div>
           ) : null}

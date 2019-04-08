@@ -4,7 +4,7 @@ import capitalize from 'lodash/capitalize';
 import { KeyValue } from '@folio/stripes/components';
 
 export default function ContributorsList({ data }) {
-  let contributorsByType = data.reduce((byType, contributor) => {
+  const contributorsByType = data.reduce((byType, contributor) => {
     byType[contributor.type] = byType[contributor.type] || [];
     byType[contributor.type].push(contributor.contributor);
     return byType;
@@ -13,7 +13,7 @@ export default function ContributorsList({ data }) {
   return (
     <div>
       {Object.keys(contributorsByType).map((key) => {
-        let names = contributorsByType[key];
+        const names = contributorsByType[key];
         let capitalizedKey = capitalize(key);
 
         // would be better with a pluralization tool

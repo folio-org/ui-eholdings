@@ -27,16 +27,16 @@ class ResourceEditRoute extends Component {
 
   constructor(props) {
     super(props);
-    let { match, getResource, getProxyTypes } = props;
-    let { id } = match.params;
+    const { match, getResource, getProxyTypes } = props;
+    const { id } = match.params;
     getResource(id);
     getProxyTypes();
   }
 
   componentDidUpdate(prevProps) {
-    let { packageName, packageId } = prevProps.model;
-    let { match, getResource, history, location, model } = this.props;
-    let { id } = match.params;
+    const { packageName, packageId } = prevProps.model;
+    const { match, getResource, history, location, model } = this.props;
+    const { id } = match.params;
 
     if (!prevProps.model.destroy.isResolved && this.props.model.destroy.isResolved) {
       history.replace(`/eholdings/packages/${packageId}?searchType=packages&q=${packageName}`,
@@ -47,11 +47,11 @@ class ResourceEditRoute extends Component {
       getResource(id);
     }
 
-    let wasPending = prevProps.model.update.isPending && !model.update.isPending;
-    let needsUpdate = !isEqual(prevProps.model, model);
-    let isRejected = model.update.isRejected;
-    let wasUnSelected = prevProps.model.isSelected && !model.isSelected;
-    let isCurrentlySelected = prevProps.model.isSelected && model.isSelected;
+    const wasPending = prevProps.model.update.isPending && !model.update.isPending;
+    const needsUpdate = !isEqual(prevProps.model, model);
+    const isRejected = model.update.isRejected;
+    const wasUnSelected = prevProps.model.isSelected && !model.isSelected;
+    const isCurrentlySelected = prevProps.model.isSelected && model.isSelected;
 
     if (wasPending && needsUpdate && !isRejected && (wasUnSelected || isCurrentlySelected)) {
       history.push({
@@ -63,8 +63,8 @@ class ResourceEditRoute extends Component {
   }
 
   resourceEditSubmitted = (values) => {
-    let { model, updateResource, destroyResource } = this.props;
-    let {
+    const { model, updateResource, destroyResource } = this.props;
+    const {
       coverageStatement,
       customCoverages,
       customEmbargoPeriod,
@@ -94,8 +94,8 @@ class ResourceEditRoute extends Component {
       }));
     } else {
       const newCustomCoverages = customCoverages.map((dateRange) => {
-        let beginCoverage = !dateRange.beginCoverage ? null : moment.utc(dateRange.beginCoverage).format('YYYY-MM-DD');
-        let endCoverage = !dateRange.endCoverage ? null : moment.utc(dateRange.endCoverage).format('YYYY-MM-DD');
+        const beginCoverage = !dateRange.beginCoverage ? null : moment.utc(dateRange.beginCoverage).format('YYYY-MM-DD');
+        const endCoverage = !dateRange.endCoverage ? null : moment.utc(dateRange.endCoverage).format('YYYY-MM-DD');
 
         return {
           beginCoverage,
@@ -136,7 +136,7 @@ class ResourceEditRoute extends Component {
   }
 
   render() {
-    let {
+    const {
       model,
       proxyTypes,
     } = this.props;

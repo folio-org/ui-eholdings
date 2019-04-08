@@ -273,25 +273,25 @@ export default class ManagedPackageEdit extends Component {
   }
 
   render() {
-    let {
+    const {
       model,
       proxyTypes,
       provider
     } = this.props;
 
-    let {
+    const {
       initialValues,
       showSelectionModal,
       packageSelected,
       sections
     } = this.state;
 
-    let visibilityMessage = model.visibilityData.reason && `(${model.visibilityData.reason})`;
+    const visibilityMessage = model.visibilityData.reason && `(${model.visibilityData.reason})`;
 
-    let supportsProviderTokens = provider && provider.isLoaded && provider.providerToken && provider.providerToken.prompt;
-    let supportsPackageTokens = model && model.isLoaded && model.packageToken && model.packageToken.prompt;
-    let hasProviderTokenValue = provider && provider.isLoaded && provider.providerToken && provider.providerToken.value;
-    let hasPackageTokenValue = model && model.isLoaded && model.packageToken && model.packageToken.value;
+    const supportsProviderTokens = provider && provider.isLoaded && provider.providerToken && provider.providerToken.prompt;
+    const supportsPackageTokens = model && model.isLoaded && model.packageToken && model.packageToken.prompt;
+    const hasProviderTokenValue = provider && provider.isLoaded && provider.providerToken && provider.providerToken.value;
+    const hasPackageTokenValue = model && model.isLoaded && model.packageToken && model.packageToken.value;
 
     return (
       <Form

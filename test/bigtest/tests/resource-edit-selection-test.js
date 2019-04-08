@@ -25,7 +25,7 @@ describe('ResourceEditSelection', () => {
       titleCount: 5
     });
 
-    let title = this.server.create('title', {
+    const title = this.server.create('title', {
       publicationType: 'Streaming Video'
     });
 

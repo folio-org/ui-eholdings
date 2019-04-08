@@ -1,8 +1,8 @@
 export default function setupBlockServer(server) {
   server.block = function block() {
-    let { pretender } = this;
-    let blocks = [];
-    let _handlerFor = pretender._handlerFor;
+    const { pretender } = this;
+    const blocks = [];
+    const _handlerFor = pretender._handlerFor;
     pretender._handlerFor = (...args) => {
       return {
         handler(request) {

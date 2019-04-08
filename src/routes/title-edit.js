@@ -27,14 +27,14 @@ class TitleEditRoute extends Component {
 
   constructor(props) {
     super(props);
-    let { match, getTitle } = props;
-    let { titleId } = match.params;
+    const { match, getTitle } = props;
+    const { titleId } = match.params;
     getTitle(titleId);
   }
 
   componentDidUpdate(prevProps) {
-    let { match, getTitle, history, location, model } = this.props;
-    let { titleId } = match.params;
+    const { match, getTitle, history, location, model } = this.props;
+    const { titleId } = match.params;
 
     // prevent being able to visit an edit form for uneditable managed titles
     if (model.isLoaded && !model.isTitleCustom) {
@@ -55,9 +55,9 @@ class TitleEditRoute extends Component {
       getTitle(titleId);
     }
 
-    let wasPending = prevProps.model.update.isPending && !model.update.isPending;
-    let needsUpdate = !isEqual(prevProps.model, model);
-    let isRejected = model.update.isRejected;
+    const wasPending = prevProps.model.update.isPending && !model.update.isPending;
+    const needsUpdate = !isEqual(prevProps.model, model);
+    const isRejected = model.update.isRejected;
 
     if (wasPending && needsUpdate && !isRejected) {
       history.push({
@@ -96,7 +96,7 @@ class TitleEditRoute extends Component {
 
   expandIdentifiers = (identifiers) => {
     return identifiers.map(({ id, flattenedType }) => {
-      let flattenedTypeIndex = flattenedType || 0;
+      const flattenedTypeIndex = flattenedType || 0;
       return { id, ...this.flattenedIdentifiers[flattenedTypeIndex] };
     });
   }
@@ -207,7 +207,7 @@ class TitleEditRoute extends Component {
   }
 
   render() {
-    let { model } = this.props;
+    const { model } = this.props;
 
     return model.isLoaded
       ? this.renderView()

@@ -133,8 +133,8 @@ class TitleShow extends Component {
   }
 
   get toasts() {
-    let { model, isFreshlySaved, isNewRecord } = this.props;
-    let toasts = processErrors(model);
+    const { model, isFreshlySaved, isNewRecord } = this.props;
+    const toasts = processErrors(model);
 
     // if coming from creating a new custom package, show a success toast
     if (isNewRecord) {
@@ -158,7 +158,7 @@ class TitleShow extends Component {
   }
 
   get customPackageOptions() {
-    let titlePackageIds = this.props.model.resources.map(({ id }) => id);
+    const titlePackageIds = this.props.model.resources.map(({ id }) => id);
     this.props.customPackages.pageSize = 100;
 
     return this.props.customPackages.map(pkg => ({
@@ -175,12 +175,12 @@ class TitleShow extends Component {
   }
 
   handleSectionToggle = ({ id }) => {
-    let next = update(`sections.${id}`, value => !value, this.state);
+    const next = update(`sections.${id}`, value => !value, this.state);
     this.setState(next);
   }
 
   handleExpandAll = (sections) => {
-    let next = set('sections', sections, this.state);
+    const next = set('sections', sections, this.state);
     this.setState(next);
   }
 
@@ -193,9 +193,9 @@ class TitleShow extends Component {
       updateEntityTags,
       updateFolioTags,
     } = this.props;
-    let { showCustomPackageModal, sections } = this.state;
+    const { showCustomPackageModal, sections } = this.state;
 
-    let modalMessage =
+    const modalMessage =
     {
       header: <FormattedMessage id="ui-eholdings.title.modalMessage.addTitleToCustomPackage" />,
       saving: <FormattedMessage id="ui-eholdings.saving" />,

@@ -120,12 +120,12 @@ class PackageShow extends Component {
   };
 
   handleSectionToggle = ({ id }) => {
-    let next = update(`sections.${id}`, value => !value, this.state);
+    const next = update(`sections.${id}`, value => !value, this.state);
     this.setState(next);
   }
 
   handleExpandAll = (sections) => {
-    let next = set('sections', sections, this.state);
+    const next = set('sections', sections, this.state);
     this.setState(next);
   }
 
@@ -570,7 +570,7 @@ class PackageShow extends Component {
   }
 
   render() {
-    let {
+    const {
       model,
       searchModal,
       isFreshlySaved,
@@ -578,13 +578,13 @@ class PackageShow extends Component {
       isDestroyed,
     } = this.props;
 
-    let {
+    const {
       showSelectionModal,
       isCoverageEditable,
       sections
     } = this.state;
 
-    let modalMessage = model.isCustom ?
+    const modalMessage = model.isCustom ?
       {
         header: <FormattedMessage id="ui-eholdings.package.modal.header.isCustom" />,
         body: <FormattedMessage id="ui-eholdings.package.modal.body.isCustom" />,
@@ -598,7 +598,7 @@ class PackageShow extends Component {
         buttonCancel: <FormattedMessage id="ui-eholdings.package.modal.buttonCancel" />
       };
 
-    let toasts = [
+    const toasts = [
       ...processErrors(model),
     ];
 

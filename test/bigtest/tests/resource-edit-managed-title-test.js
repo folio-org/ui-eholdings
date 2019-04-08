@@ -23,7 +23,7 @@ describe('ResourceEditManagedTitleInManagedPackage', () => {
       titleCount: 5
     });
 
-    let title = this.server.create('title', {
+    const title = this.server.create('title', {
       name: 'Best Title Ever',
       publicationType: 'Streaming Video',
       publisherName: 'Amazing Publisher'
@@ -183,7 +183,7 @@ describe('ResourceEditManagedTitleInManagedPackage', () => {
   describe('visiting the resource edit page with coverage dates, statement, and embargo', () => {
     beforeEach(function () {
       resource.coverageStatement = 'Use this one weird trick to get access.';
-      let customCoverages = [
+      const customCoverages = [
         this.server.create('custom-coverage', {
           beginCoverage: '1969-07-16',
           endCoverage: '1972-12-19'

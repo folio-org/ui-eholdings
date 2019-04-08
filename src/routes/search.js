@@ -36,7 +36,7 @@ class SearchRoute extends Component {
     super(props);
 
     // the current location's query params, minus the search type
-    let { searchType, ...params } = qs.parse(props.location.search);
+    const { searchType, ...params } = qs.parse(props.location.search);
 
     // cache queries so we can restore them with the search type buttons
     this.queries = {};
@@ -60,9 +60,9 @@ class SearchRoute extends Component {
   }
 
   static getDerivedStateFromProps(nextProps, prevState) {
-    let { location, match } = nextProps;
-    let { searchType, ...params } = qs.parse(location.search);
-    let hideDetails = /^\/eholdings\/?$/.test(location.pathname);
+    const { location, match } = nextProps;
+    const { searchType, ...params } = qs.parse(location.search);
+    const hideDetails = /^\/eholdings\/?$/.test(location.pathname);
     let shouldFocusItem = null;
 
     if (hideDetails && match.params.id !== (prevState.match && prevState.match.params.id)) {
@@ -118,11 +118,11 @@ class SearchRoute extends Component {
    * @returns {Collection} a collection instance
    */
   getResults() {
-    let { resolver } = this.props;
-    let { searchType, params } = this.state;
-    let { offset = 0, ...queryParams } = params;
-    let searchParams = transformQueryParams(searchType, queryParams);
-    let page = Math.floor(offset / 25) + 1;
+    const { resolver } = this.props;
+    const { searchType, params } = this.state;
+    const { offset = 0, ...queryParams } = params;
+    const searchParams = transformQueryParams(searchType, queryParams);
+    const page = Math.floor(offset / 25) + 1;
 
     return resolver.query(searchType, {
       filter: undefined,
@@ -139,7 +139,7 @@ class SearchRoute extends Component {
    * @returns {String} the final url for a search type, including a query
    */
   buildSearchUrl(pathname, query = '', searchType = this.state.searchType) {
-    let queryString = typeof query === 'string' ? query : qs.stringify(query);
+    const queryString = typeof query === 'string' ? query : qs.stringify(query);
     let url = `${pathname}?searchType=${searchType}`;
 
     if (queryString) {
@@ -155,9 +155,9 @@ class SearchRoute extends Component {
    */
   getSearchTypeUrls() {
     return ['providers', 'packages', 'titles'].reduce((locations, type) => {
-      let lastQuery = this.queries[type] || {};
-      let lastPath = this.path[type] || '/eholdings';
-      let url = this.buildSearchUrl(lastPath, lastQuery, type);
+      const lastQuery = this.queries[type] || {};
+      const lastPath = this.path[type] || '/eholdings';
+      const url = this.buildSearchUrl(lastPath, lastQuery, type);
       return { ...locations, [type]: url };
     }, {});
   }
@@ -167,7 +167,7 @@ class SearchRoute extends Component {
    * @param {Object} params - query param object
    */
   updateURLParams(params) {
-    let { location, history } = this.props;
+    const { location, history } = this.props;
 
     // if the new query is different from our location, update the location
     if (qs.stringify(params) !== qs.stringify(this.state.params)) {
@@ -192,8 +192,8 @@ class SearchRoute extends Component {
    * @param {Object} params - search params for the action
    */
   search(params) {
-    let { searchType } = this.state;
-    let searchParams = transformQueryParams(searchType, params);
+    const { searchType } = this.state;
+    const searchParams = transformQueryParams(searchType, params);
     if (searchType === 'providers') this.props.searchProviders(searchParams);
     if (searchType === 'packages') this.props.searchPackages(searchParams);
     if (searchType === 'titles') this.props.searchTitles(searchParams);
@@ -204,7 +204,7 @@ class SearchRoute extends Component {
    * @param {Object} params - query param object
    */
   handleSearch = () => {
-    let params = {
+    const params = {
       q: this.state.searchString,
       filter: this.state.searchFilter,
       sort: this.state.sort,
@@ -221,7 +221,7 @@ class SearchRoute extends Component {
    * has been scrolled to
    */
   handleOffset = (offset) => {
-    let { params } = this.state;
+    const { params } = this.state;
     this.updateURLParams({ ...params, offset });
   };
 
@@ -231,7 +231,7 @@ class SearchRoute extends Component {
    */
   fetchPage = (page) => {
     // eslint-disable-next-line no-unused-vars
-    let { offset, ...params } = this.state.params;
+    const { offset, ...params } = this.state.params;
     this.search({ ...params, page });
   };
 
@@ -239,10 +239,10 @@ class SearchRoute extends Component {
    * Renders the search component specific to the current search type
    */
   renderResults() {
-    let { searchType, params, shouldFocusItem } = this.state;
-    let { history, location, match: { params: { id } } } = this.props;
+    const { searchType, params, shouldFocusItem } = this.state;
+    const { history, location, match: { params: { id } } } = this.props;
 
-    let props = {
+    const props = {
       params,
       activeId: id,
       shouldFocusItem,
@@ -277,8 +277,8 @@ class SearchRoute extends Component {
    * render the search paneset, otherwise simply render our children
    */
   render() {
-    let { children, history, location } = this.props;
-    let {
+    const { children, history, location } = this.props;
+    const {
       searchType,
       params,
       hideDetails,
@@ -290,9 +290,9 @@ class SearchRoute extends Component {
     } = this.state;
 
     if (searchType) {
-      let results = this.getResults();
+      const results = this.getResults();
 
-      let filterCount = filterCountFromQuery({
+      const filterCount = filterCountFromQuery({
         sort: params.sort,
         q: params.q,
         filter: params.filter

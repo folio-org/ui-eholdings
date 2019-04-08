@@ -85,7 +85,7 @@ import Datepicker from './datepicker';
   isResourceShowToPatronsVisible = isPresent('[data-test-eholdings-resource-visibility-field]');
   isCoverageSettingsDatesField = isPresent('[data-test-eholdings-resource-coverage-fields]');
   isHiddenMessage = computed(function () {
-    let $node = this.$('[data-test-eholdings-resource-visibility-field] input[value="false"] ~ span:last-child');
+    const $node = this.$('[data-test-eholdings-resource-visibility-field] input[value="false"] ~ span:last-child');
     return $node.textContent.replace(/^No(\s\((.*)\))?$/, '$2');
   });
 
@@ -98,7 +98,7 @@ import Datepicker from './datepicker';
 
   toggleIsSelected = clickable('[data-test-eholdings-resource-holding-status] input');
   toggleIsVisible() {
-    let isVisible = (!this.isResourceVisible).toString();
+    const isVisible = (!this.isResourceVisible).toString();
     return this.click(`[data-test-eholdings-resource-visibility-field] input[value="${isVisible}"]`);
   }
 

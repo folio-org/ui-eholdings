@@ -62,7 +62,7 @@ export default class ResourceEditCustomTitle extends Component {
   };
 
   static getDerivedStateFromProps(nextProps, prevState) {
-    let stateUpdates = {};
+    const stateUpdates = {};
 
     if (nextProps.model.destroy.errors.length) {
       stateUpdates.showSelectionModal = false;
@@ -237,12 +237,12 @@ export default class ResourceEditCustomTitle extends Component {
   }
 
   render() {
-    let {
+    const {
       model,
       proxyTypes,
     } = this.props;
 
-    let {
+    const {
       showSelectionModal,
       resourceSelected,
       sections,
