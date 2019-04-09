@@ -12,6 +12,7 @@ import Paneset, { Pane } from '../paneset';
 
 import styles from './search-paneset.css';
 import SearchBadge from '../search-modal/search-badge';
+import { searchTypes } from '../../constants';
 
 export default class SearchPaneset extends Component {
   static propTypes = {
@@ -21,7 +22,7 @@ export default class SearchPaneset extends Component {
     isLoading: PropTypes.bool,
     location: PropTypes.object.isRequired,
     onClosePreview: PropTypes.func.isRequired,
-    resultsLabel: PropTypes.element,
+    resultsLabel: PropTypes.node,
     resultsType: PropTypes.string,
     resultsView: PropTypes.node,
     searchForm: PropTypes.node,
@@ -118,7 +119,7 @@ export default class SearchPaneset extends Component {
     const areFiltersHidden = hideFilters && !!resultsView;
 
     let newButton = (<PaneMenu />);
-    if (resultsType === 'packages' || resultsType === 'titles') {
+    if (resultsType === searchTypes.PACKAGES || resultsType === searchTypes.TITLES) {
       newButton = this.renderNewButton();
     }
 

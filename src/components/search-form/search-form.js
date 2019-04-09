@@ -13,9 +13,13 @@ import PackageSearchFilters from '../package-search-filters';
 import TitleSearchFilters from '../title-search-filters';
 
 import styles from './search-form.css';
+import { searchTypes } from '../../constants';
 
-const validSearchTypes = ['providers', 'packages', 'titles'];
-
+const validSearchTypes = [
+  searchTypes.PROVIDERS,
+  searchTypes.PACKAGES,
+  searchTypes.TITLES
+];
 class SearchForm extends Component {
   static propTypes = {
     displaySearchButton: PropTypes.bool,
@@ -75,11 +79,11 @@ class SearchForm extends Component {
    * for the current searchType
    */
   getFiltersComponent = (searchType) => {
-    if (searchType === 'titles') {
+    if (searchType === searchTypes.TITLES) {
       return TitleSearchFilters;
-    } else if (searchType === 'packages') {
+    } else if (searchType === searchTypes.PACKAGES) {
       return PackageSearchFilters;
-    } else if (searchType === 'providers') {
+    } else if (searchType === searchTypes.PROVIDERS) {
       return ProviderSearchFilters;
     }
 
@@ -134,10 +138,10 @@ class SearchForm extends Component {
           id={searchType + '-panel'}
         >
           <div data-test-search-field>
-            <FormattedMessage id="ui-eholdings.search.searchType" values={{ searchType }}>
+            <FormattedMessage id={`ui-eholdings.search.searchType.${searchType}`}>
               {placeholder => (
                 <Fragment>
-                  {(searchType === 'titles') && (
+                  {(searchType === searchTypes.TITLES) && (
                     <Select
                       onChange={this.handleChangeIndex}
                       value={searchField}

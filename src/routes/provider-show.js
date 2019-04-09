@@ -13,6 +13,7 @@ import { ProxyType, RootProxy } from '../redux/application';
 
 import View from '../components/provider/show';
 import SearchModal from '../components/search-modal';
+import { listTypes } from '../constants';
 
 class ProviderShowRoute extends Component {
   static propTypes = {
@@ -125,8 +126,6 @@ class ProviderShowRoute extends Component {
   }
 
   render() {
-    const listType = 'packages';
-
     const {
       history,
       model,
@@ -151,13 +150,13 @@ class ProviderShowRoute extends Component {
           fetchPackages={this.fetchPackages}
           proxyTypes={proxyTypes}
           rootProxy={rootProxy}
-          listType={listType}
+          listType={listTypes.PACKAGES}
           updateEntityTags={updateEntityTags}
           updateFolioTags={updateFolioTags}
           searchModal={
             <SearchModal
               key={queryId}
-              listType={listType}
+              listType={listTypes.PACKAGES}
               query={pkgSearchParams}
               onSearch={this.searchPackages}
               onFilter={this.searchPackages}

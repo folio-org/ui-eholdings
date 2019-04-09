@@ -122,7 +122,7 @@ class TitleShowRoute extends Component {
     } = this.props;
 
     return (
-      <TitleManager record={this.props.model.name}>
+      <TitleManager record={model.name}>
         <View
           tagsModel={tagsModel}
           updateEntityTags={updateEntityTags}

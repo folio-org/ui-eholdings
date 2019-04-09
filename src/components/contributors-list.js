@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import capitalize from 'lodash/capitalize';
+import { FormattedMessage } from 'react-intl';
+
 import { KeyValue } from '@folio/stripes/components';
 
 export default function ContributorsList({ data }) {
@@ -12,18 +13,21 @@ export default function ContributorsList({ data }) {
 
   return (
     <div>
-      {Object.keys(contributorsByType).map((key) => {
-        const names = contributorsByType[key];
-        let capitalizedKey = capitalize(key);
-
-        // would be better with a pluralization tool
-        if (names.length > 1) {
-          capitalizedKey = `${capitalizedKey}s`;
-        }
+      {Object.keys(contributorsByType).map((contibutorType) => {
+        const contributorTypeTranslation = contibutorType.toLowerCase();
+        const names = contributorsByType[contibutorType];
+        const label = (
+          <FormattedMessage
+            id={`ui-eholdings.contributorType.${contributorTypeTranslation}`}
+            values={{
+              count: names.length
+            }}
+          />
+        );
 
         return (
-          <div key={key} data-test-eholdings-contributors-list-item>
-            <KeyValue label={capitalizedKey}>
+          <div key={contibutorType} data-test-eholdings-contributors-list-item>
+            <KeyValue label={label}>
               <div data-test-eholdings-contributor-names>
                 {names.join('; ')}
               </div>

@@ -24,7 +24,7 @@ import {
 } from '@folio/stripes/components';
 
 import { processErrors } from '../../utilities';
-
+import { listTypes } from '../../../constants';
 import DetailsView from '../../details-view';
 import ScrollView from '../../scroll-view';
 import PackageListItem from '../../package-list-item';
@@ -308,7 +308,7 @@ class TitleShow extends Component {
               </Accordion>
             </Fragment>
           )}
-          listType="packages"
+          listType={listTypes.PACKAGES}
           resultsLength={model.resources.length}
           renderList={scrollable => (
             <ScrollView

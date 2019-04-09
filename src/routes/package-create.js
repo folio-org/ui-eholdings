@@ -4,6 +4,7 @@ import ReactRouterPropTypes from 'react-router-prop-types';
 import { connect } from 'react-redux';
 import moment from 'moment';
 import { TitleManager } from '@folio/stripes/core';
+import { FormattedMessage } from 'react-intl';
 
 import { createResolver } from '../redux';
 import Package from '../redux/package';
@@ -63,14 +64,18 @@ class PackageCreateRoute extends Component {
     }
 
     return (
-      <TitleManager record="New custom package">
-        <View
-          request={this.props.createRequest}
-          onSubmit={this.packageCreateSubmitted}
-          onCancel={onCancel}
-          removeCreateRequests={removeCreateRequests}
-        />
-      </TitleManager>
+      <FormattedMessage id="ui-eholdings.label.create.package">
+        {pageTitle => (
+          <TitleManager record={pageTitle}>
+            <View
+              request={this.props.createRequest}
+              onSubmit={this.packageCreateSubmitted}
+              onCancel={onCancel}
+              removeCreateRequests={removeCreateRequests}
+            />
+          </TitleManager>
+        )}
+      </FormattedMessage>
     );
   }
 }

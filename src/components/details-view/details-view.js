@@ -4,7 +4,6 @@ import ReactRouterPropTypes from 'react-router-prop-types';
 import { withRouter } from 'react-router';
 import { FormattedMessage } from 'react-intl';
 import classNames from 'classnames/bind';
-import capitalize from 'lodash/capitalize';
 import Measure from 'react-measure';
 import queryString from 'qs';
 
@@ -346,7 +345,14 @@ class DetailsView extends Component {
                   <Accordion
                     separator={!isSticky}
                     header={AccordionListHeader}
-                    label={<Headline size="large" tag="h3">{capitalize(listType)}</Headline>}
+                    label={(
+                      <Headline
+                        size="large"
+                        tag="h3"
+                      >
+                        <FormattedMessage id={`ui-eholdings.listType.${listType}`} />
+                      </Headline>
+                    )}
                     displayWhenOpen={searchModal}
                     resultsLength={resultsLength}
                     contentRef={(n) => { this.$list = n; measureRef(n); }}

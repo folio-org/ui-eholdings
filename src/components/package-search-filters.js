@@ -2,7 +2,7 @@ import React from 'react';
 import { FormattedMessage } from 'react-intl';
 
 import SearchFilters from './search-form/search-filters';
-
+import { searchTypes } from '../constants';
 /**
  * Renders search filters with specific package filters.
  *
@@ -14,7 +14,7 @@ import SearchFilters from './search-form/search-filters';
 function PackageSearchFilters(props) {
   return (
     <SearchFilters
-      searchType="packages"
+      searchType={searchTypes.PACKAGES}
       availableFilters={[{
         name: 'sort',
         label: <FormattedMessage id="ui-eholdings.label.sortOptions" />,
