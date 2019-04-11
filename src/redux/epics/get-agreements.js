@@ -16,6 +16,20 @@ import {
   pickAgreementProps,
 } from './common';
 
+const createUrl = (baseUrl, refId) => {
+  const url = new URL(`${baseUrl}/erm/sas`);
+  const searchParams = {
+    filters: `items.reference=${refId}`,
+    sort: 'startDate;desc',
+  };
+
+  Object.keys(searchParams).forEach((paramName) => {
+    url.searchParams.append(paramName, searchParams[paramName]);
+  });
+
+  return url;
+};
+
 export default function getAgreements(action$, store) {
   const {
     getState,
@@ -26,7 +40,7 @@ export default function getAgreements(action$, store) {
     .mergeMap((action) => {
       const {
         payload: {
-          referenceId,
+          refId,
           isLoading,
         },
       } = action;
@@ -34,12 +48,12 @@ export default function getAgreements(action$, store) {
       const state = getState();
       const method = 'GET';
 
-      const url = `${state.okapi.url}/erm/sas?filters=items.reference=${referenceId}&sort=startDate=desc`;
-
       const requestOptions = {
         headers: getHeaders(state),
         method,
       };
+
+      const url = createUrl(state.okapi.url, refId);
 
       const promise = fetch(url, requestOptions)
         .then(response => Promise.all([response.ok, parseResponseBody(response)]))

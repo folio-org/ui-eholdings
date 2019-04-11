@@ -103,14 +103,18 @@ class AgreementsAccordion extends Component {
   onAddAgreementHandler = ({ name, id }) => {
     const {
       refId,
+      refType,
       attachAgreement,
     } = this.props;
 
-    attachAgreement({
+    const agreementParams = {
       id,
       refId,
-      agreement: new Agreement({ reference: refId, label: name }),
-    });
+      authorityType: refType,
+      label: name,
+    };
+
+    attachAgreement(new Agreement(agreementParams));
   };
 
   render() {
