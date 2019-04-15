@@ -301,5 +301,15 @@
     "agreements": "Contratos",
     "agreements.notFound": "Nenhum contrato encontrado",
     "new": "Novo",
-    "package-resource.coverageDates.savingWillRemove": "Nenhum intervalo de datas definido. Salvar removerá a cobertura personalizada."
+    "package-resource.coverageDates.savingWillRemove": "Nenhum intervalo de datas definido. Salvar removerá a cobertura personalizada.",
+    "label.create.title": "Novo título personalizado",
+    "label.create.package": "Novo pacote personalizado",
+    "label.settings": "Configurações de eHoldings",
+    "filter.filterType.packages": "Filtrar pacotes",
+    "filter.filterType.titles": "Filtrar títulos",
+    "contributorType.author": "{count, plural, one {Autor} other {Autores}}",
+    "contributorType.illustrator": "{count, plural, one {Ilustrador} other {Ilustradores}}",
+    "contributorType.editor": "{count, plural, one {Editor} other {Editores}}",
+    "listType.packages": "Pacotes",
+    "listType.titles": "Títulos"
 }
