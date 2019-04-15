@@ -301,5 +301,15 @@
     "agreements": "الاتفاقيات",
     "agreements.notFound": "لم يتم العثور على اتفاقيات",
     "new": "جديد",
-    "package-resource.coverageDates.savingWillRemove": "لم يتم ضبط نطاقات للتواريخ. سيؤدي الحفظ إلى إزالة التغطية المخصصة."
+    "package-resource.coverageDates.savingWillRemove": "لم يتم ضبط نطاقات للتواريخ. سيؤدي الحفظ إلى إزالة التغطية المخصصة.",
+    "label.create.title": "عنوان مخصص جديد",
+    "label.create.package": "حزمة مخصصة جديدة",
+    "label.settings": "إعدادات المقتنيات الإلكترونية",
+    "filter.filterType.packages": "تنقيح الحزم",
+    "filter.filterType.titles": "تنقيح العناوين",
+    "contributorType.author": "{count, plural, zero {} one {مؤلف} two {} few {} many {} other {مؤلفين}}",
+    "contributorType.illustrator": "{count, plural, zero {} one {رسام توضيحي} two {} few {} many {} other {رسامين توضيحيين}}",
+    "contributorType.editor": "{count, plural, zero {} one {محرر} two {} few {} many {} other {محررين}}",
+    "listType.packages": "الحزم",
+    "listType.titles": "العناوين"
 }
