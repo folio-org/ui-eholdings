@@ -11,12 +11,8 @@
     "test": "stripes test karma",
     "lint": "eslint ./ && stylelint \"src/**/*.css\"",
     "eslint": "eslint ./",
-    "stylelint": "stylelint \"src/**/*.css\""
-  },
-  "husky": {
-    "hooks": {
-      "pre-push": "yarn lint"
-    }
+    "stylelint": "stylelint \"src/**/*.css\"",
+    "postinstall": "chmod +x .hooks/pre-commit && git config --local core.hooksPath ./.hooks"
   },
   "devDependencies": {
     "@bigtest/interactor": "^0.7.2",
@@ -31,7 +27,6 @@
     "babel-polyfill": "^6.26.0",
     "chai": "^4.0.2",
     "eslint": "^5.5.0",
-    "husky": "^1.3.1",
     "lodash": "^4.17.4",
     "mocha": "^5.2.0",
     "moment": "^2.22.2",
