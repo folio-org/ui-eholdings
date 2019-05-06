@@ -338,7 +338,11 @@
     "listType.packages": "Packages",
     "listType.titles": "Titles",
 
-    "notes.entityType.provider": "{count, plural, one {provider} other {providers}}",
-    "notes.entityType.package": "{count, plural, one {package} other {packages}}",
-    "notes.entityType.title": "{count, plural, one {title} other {titles}}"
+    "notes.entityType.provider": "Provider",
+    "notes.entityType.package": "Package",
+    "notes.entityType.title": "Title",
+
+    "notes.entityType.provider.pluralized": "{count, plural, one {{count} provider} other {{count} providers}}",
+    "notes.entityType.package.pluralized": "{count, plural, one {{count} package} other {{count} packages}}",
+    "notes.entityType.title.pluralized": "{count, plural, one {{count} title} other {{count} titles}}"
   }

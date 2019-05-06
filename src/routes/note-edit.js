@@ -1,13 +1,18 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { FormattedMessage } from 'react-intl';
 
 import { TitleManager } from '@folio/stripes/core';
 import { NoteForm } from '@folio/stripes-smart-components';
 
 
-const entityTypeTranslations = {
+const entityTypePluralizedTranslationKeyMap = {
+  provider: 'ui-eholdings.notes.entityType.provider.pluralized',
+  package: 'ui-eholdings.notes.entityType.package.pluralized',
+  title: 'ui-eholdings.notes.entityType.title.pluralized',
+};
+
+const entityTypeTranslationKeyMap = {
   provider: 'ui-eholdings.notes.entityType.provider',
   package: 'ui-eholdings.notes.entityType.package',
   title: 'ui-eholdings.notes.entityType.title',
@@ -32,8 +37,8 @@ class NoteEditRoute extends Component {
 
     const noteData = {
       type: '2',
-      title: 'Note title',
-      content: 'Some details go here...',
+      title: 'Some note title',
+      content: '<b>The note content is <u>here</u></b>',
     };
 
     const noteMetadata = {
@@ -62,7 +67,8 @@ class NoteEditRoute extends Component {
           noteTypes={noteTypes}
           referredRecord={referredRecord}
           linkedRecords={linkedRecords}
-          entityTypeTranslations={entityTypeTranslations}
+          entityTypeTranslationKeyMap={entityTypeTranslationKeyMap}
+          entityTypePluralizedTranslationKeyMap={entityTypePluralizedTranslationKeyMap}
           paneHeaderAppIcon="eholdings"
         />
       </TitleManager>
@@ -84,11 +90,11 @@ export default connect(
     ],
   }), {
     onSubmit: (values) => {
-      console.log(values);
-      
+      console.log('submit', values);
       return { type: 'noteEdit', payload: { noteId: 'id', noteData: values } };
     },
     onCancel: () => {
+      console.log('cancel');
       return { type: 'cancelNoteEdit' };
     },
   }

@@ -6,7 +6,7 @@ import { FormattedMessage } from 'react-intl';
 import { TitleManager } from '@folio/stripes/core';
 import { NoteForm } from '@folio/stripes-smart-components';
 
-const entityTypeTranslations = {
+const entityTypeTranslationKeyMap = {
   provider: 'ui-eholdings.notes.entityType.provider',
   package: 'ui-eholdings.notes.entityType.package',
   title: 'ui-eholdings.notes.entityType.title',
@@ -43,7 +43,7 @@ class NoteCreateRoute extends Component {
               onCancel={onCancel}
               noteTypes={noteTypes}
               referredRecord={referredRecord}
-              entityTypeTranslations={entityTypeTranslations}
+              entityTypeTranslationKeyMap={entityTypeTranslationKeyMap}
               paneHeaderAppIcon="eholdings"
             />
           </TitleManager>
@@ -67,11 +67,11 @@ export default connect(
     ],
   }), {
     onSubmit: (values) => {
-      console.log(values);
-      
+      console.log('submit', values);
       return { type: 'noteCreate', payload: { noteData: values } };
     },
     onCancel: () => {
+      console.log('cancel');
       return { type: 'cancelNoteCreate' };
     },
   }
