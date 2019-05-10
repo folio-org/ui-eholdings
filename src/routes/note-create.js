@@ -1,10 +1,18 @@
 import React, { Component } from 'react';
+import ReactRouterPropTypes from 'react-router-prop-types';
 import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
 import { FormattedMessage } from 'react-intl';
+
+import queryString from 'qs';
 
 import { TitleManager } from '@folio/stripes/core';
 import { NoteForm } from '@folio/stripes-smart-components';
+
+const entityTypesPaths = {
+  provider: 'providers',
+  package: 'packages',
+  resource: 'resources',
+};
 
 const entityTypeTranslationKeyMap = {
   provider: 'ui-eholdings.notes.entityType.provider',
@@ -12,26 +20,68 @@ const entityTypeTranslationKeyMap = {
   title: 'ui-eholdings.notes.entityType.title',
 };
 
-class NoteCreateRoute extends Component {
+const noteTypes = [
+  { value: '1', label: 'type 1' },
+  { value: '2', label: 'type 2' },
+  { value: '3', label: 'type 3' },
+];
+
+export default class NoteCreateRoute extends Component {
   static propTypes = {
-    noteTypes: PropTypes.arrayOf(PropTypes.shape({
-      label: PropTypes.string,
-      value: PropTypes.string,
-    })).isRequired,
-    onCancel: PropTypes.func.isRequired,
-    onSubmit: PropTypes.func.isRequired,
+    history: ReactRouterPropTypes.history.isRequired,
+    location: ReactRouterPropTypes.location.isRequired,
   };
+
+  constructor(props) {
+    super(props);
+
+    this.referredEntityData = this.retreiveReferredEntityDataFromQueryParams();
+  }
+
+  onCancel = () => {
+    this.goToPreviousLocation();
+  }
+
+  onNoteSaved = () => {
+    this.goToPreviousLocation();
+  }
+
+
+  goToPreviousLocation = () => {
+    const {
+      type,
+      id,
+    } = this.referredEntityData;
+
+    const entityTypePath = entityTypesPaths[type];
+
+    this.props.history.push({
+      pathname: `/eholdings/${entityTypePath}/${id}`
+    });
+  }
+
+  retreiveReferredEntityDataFromQueryParams() {
+    const parsedParams = queryString.parse(this.props.location.search, {
+      ignoreQueryPrefix: true
+    });
+
+    return {
+      type: parsedParams.referredType,
+      name: parsedParams.referredName,
+      id: parsedParams.referredId,
+    };
+  }
 
   render() {
     const {
-      noteTypes,
-      onSubmit,
-      onCancel,
-    } = this.props;
+      name,
+      type,
+    } = this.referredEntityData;
 
-    const referredRecord = {
-      type: 'provider',
-      name: 'EBSCO',
+    // TODO: find a better name
+    const referredEntityData = {
+      name,
+      type,
     };
 
     return (
@@ -39,12 +89,13 @@ class NoteCreateRoute extends Component {
         {pageTitle => (
           <TitleManager record={pageTitle}>
             <NoteForm
-              onSubmit={onSubmit}
-              onCancel={onCancel}
+              onSubmit={this.onNoteSaved}
+              onCancel={this.onCancel}
               noteTypes={noteTypes}
-              referredRecord={referredRecord}
+              referredEntityData={referredEntityData}
               entityTypeTranslationKeyMap={entityTypeTranslationKeyMap}
               paneHeaderAppIcon="eholdings"
+              submitSucceeded={false}
             />
           </TitleManager>
         )}
@@ -52,27 +103,3 @@ class NoteCreateRoute extends Component {
     );
   }
 }
-
-export default connect(
-  () => ({
-    noteTypes: [
-      {
-        label: 'type 1',
-        value: '1',
-      },
-      {
-        label: 'type 2',
-        value: '2',
-      }
-    ],
-  }), {
-    onSubmit: (values) => {
-      console.log('submit', values);
-      return { type: 'noteCreate', payload: { noteData: values } };
-    },
-    onCancel: () => {
-      console.log('cancel');
-      return { type: 'cancelNoteCreate' };
-    },
-  }
-)(NoteCreateRoute);
