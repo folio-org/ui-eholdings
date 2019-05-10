@@ -1,9 +1,12 @@
 # Change history for ui-eholdings
 
-## [1.6.0]
+## [1.6.0](https://github.com/folio-org/ui-eholdings/tree/v1.6.0) (2019-05-10)
+[Full Changelog](https://github.com/folio-org/ui-eholdings/compare/v1.5.0...v1.6.0)
 
 * Add New button to agreements accordion on Package and Resource show pages for redirecting the user to creation page. (UIEH-629, UIEH-631)
 * Add badge with agreements quantity to agreements section on Package and Resource show pages (UIEH-680)
+* Fixed translation for capitalized strings (UIEH-651)
+* Fix agreements attach functionality (UIEH-684)
 
 ## [1.5.0](https://github.com/folio-org/ui-eholdings/tree/v1.5.0) (2019-03-25)
 
