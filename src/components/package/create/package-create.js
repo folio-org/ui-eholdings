@@ -16,7 +16,7 @@ import DetailsViewSection from '../../details-view-section';
 import NameField from '../_fields/name';
 import CoverageFields from '../_fields/custom-coverage';
 import ContentTypeField from '../_fields/content-type';
-import NavigationModal from '@folio/stripes-smart-components/lib/Notes/NavigationModal';
+import NavigationModal from '../../navigation-modal';
 import Toaster from '../../toaster';
 import PaneHeaderButton from '../../pane-header-button';
 import styles from './package-create.css';

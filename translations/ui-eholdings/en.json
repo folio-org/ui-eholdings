@@ -341,8 +341,9 @@
     "notes.entityType.provider": "Provider",
     "notes.entityType.package": "Package",
     "notes.entityType.title": "Title",
+    "notes.entityType.resource": "Resource",
 
     "notes.entityType.provider.pluralized": "{count, plural, one {{count} provider} other {{count} providers}}",
     "notes.entityType.package.pluralized": "{count, plural, one {{count} package} other {{count} packages}}",
-    "notes.entityType.title.pluralized": "{count, plural, one {{count} title} other {{count} titles}}"
+    "notes.entityType.resource.pluralized": "{count, plural, one {{count} resource} other {{count} resources}}"
   }
