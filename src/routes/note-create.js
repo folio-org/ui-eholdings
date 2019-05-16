@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import ReactRouterPropTypes from 'react-router-prop-types';
+import { Redirect } from 'react-router';
 
 import { NoteCreatePage } from '@folio/stripes-smart-components';
 
@@ -13,8 +14,6 @@ export default class NoteCreateRoute extends Component {
     }).isRequired,
     location: ReactRouterPropTypes.location.isRequired,
   };
-
-  referredEntityData = this.getReferredEntityData();
 
   getReferredEntityData() {
     const {
@@ -31,16 +30,22 @@ export default class NoteCreateRoute extends Component {
   }
 
   render() {
-    const { goBack } = this.props.history;
+    const {
+      history,
+      location,
+    } = this.props;
 
-    return (
-      <NoteCreatePage
-        referredEntityData={this.referredEntityData}
-        entityTypesTranslationKeys={entityTypesTranslationKeys}
-        paneHeaderAppIcon="eholdings"
-        domain="eholdings"
-        navigateBack={goBack}
-      />
-    );
+
+    return location.state
+      ? (
+        <NoteCreatePage
+          referredEntityData={this.getReferredEntityData()}
+          entityTypesTranslationKeys={entityTypesTranslationKeys}
+          paneHeaderAppIcon="eholdings"
+          domain="eholdings"
+          navigateBack={history.goBack}
+        />
+      )
+      : <Redirect to="/eholdings" />;
   }
 }
