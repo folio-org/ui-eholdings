@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import ReactRouterPropTypes from 'react-router-prop-types';
 import { Redirect } from 'react-router';
 
-import { NoteCreatePage } from '@folio/stripes-smart-components';
+import { NoteCreatePage } from '@folio/stripes/smart-components';
 
 import { entityTypesTranslationKeys } from '../constants';
 
@@ -34,7 +34,6 @@ export default class NoteCreateRoute extends Component {
       history,
       location,
     } = this.props;
-
 
     return location.state
       ? (
