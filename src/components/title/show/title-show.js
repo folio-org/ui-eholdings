@@ -32,7 +32,6 @@ import IdentifiersList from '../../identifiers-list';
 import ContributorsList from '../../contributors-list';
 import AddTitleToPackage from '../_field-groups/add-title-to-package';
 import Toaster from '../../toaster';
-import TagsAccordion from '../../tags';
 import KeyValueColumns from '../../key-value-columns';
 import styles from './title-show.css';
 
@@ -52,9 +51,6 @@ class TitleShow extends Component {
     stripes: PropTypes.shape({
       hasPerm: PropTypes.func.isRequired,
     }).isRequired,
-    tagsModel: PropTypes.object,
-    updateEntityTags: PropTypes.func.isRequired,
-    updateFolioTags: PropTypes.func.isRequired,
   };
 
   state = {
@@ -189,9 +185,6 @@ class TitleShow extends Component {
       model,
       addCustomPackage,
       request,
-      tagsModel,
-      updateEntityTags,
-      updateFolioTags,
     } = this.props;
     const { showCustomPackageModal, sections } = this.state;
 
@@ -218,15 +211,6 @@ class TitleShow extends Component {
           lastMenu={this.lastMenu}
           bodyContent={(
             <Fragment>
-              <TagsAccordion
-                id="titleShowTags"
-                model={model}
-                onToggle={this.handleSectionToggle}
-                open={sections.titleShowTags}
-                tagsModel={tagsModel}
-                updateFolioTags={updateFolioTags}
-                updateEntityTags={updateEntityTags}
-              />
 
               <Accordion
                 label={<Headline size="large" tag="h3"><FormattedMessage id="ui-eholdings.title.titleInformation" /></Headline>}
