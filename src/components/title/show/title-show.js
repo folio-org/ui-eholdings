@@ -210,7 +210,6 @@ class TitleShow extends Component {
           handleExpandAll={this.handleExpandAll}
           lastMenu={this.lastMenu}
           bodyContent={(
-            <Fragment>
 
               <Accordion
                 label={<Headline size="large" tag="h3"><FormattedMessage id="ui-eholdings.title.titleInformation" /></Headline>}
@@ -290,7 +289,7 @@ class TitleShow extends Component {
                   </Button>
                 </div>
               </Accordion>
-            </Fragment>
+
           )}
           listType={listTypes.PACKAGES}
           resultsLength={model.resources.length}
