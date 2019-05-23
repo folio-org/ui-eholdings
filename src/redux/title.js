@@ -13,9 +13,7 @@ class Title {
   identifiers = [];
   subjects = [];
   resources = hasMany();
-  tags = {
-    tagList: [],
-  };
+
 
   // slightly customized serializer that adds included resources to
   // new title record payloads

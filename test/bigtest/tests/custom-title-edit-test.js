@@ -45,9 +45,6 @@ describe('CustomTitleEdit', () => {
       ],
       isTitleCustom: true,
       description: 'custom description',
-      tags: {
-        tagList: [],
-      },
     });
 
     title.save();
