@@ -6,7 +6,7 @@ import { Redirect } from 'react-router';
 import { NoteCreatePage } from '@folio/stripes/smart-components';
 
 import {
-  entityTypesTranslationKeys,
+  entityTypeTranslationKeys,
   DOMAIN_NAME,
   APP_ICON_NAME,
 } from '../constants';
@@ -18,6 +18,20 @@ export default class NoteCreateRoute extends Component {
     }).isRequired,
     location: ReactRouterPropTypes.location.isRequired,
   };
+
+  renderCreatePage() {
+    const { history } = this.props;
+
+    return (
+      <NoteCreatePage
+        referredEntityData={this.getReferredEntityData()}
+        entityTypeTranslationKeys={entityTypeTranslationKeys}
+        paneHeaderAppIcon={APP_ICON_NAME}
+        domain={DOMAIN_NAME}
+        navigateBack={history.goBack}
+      />
+    );
+  }
 
   getReferredEntityData() {
     const {
@@ -34,21 +48,10 @@ export default class NoteCreateRoute extends Component {
   }
 
   render() {
-    const {
-      history,
-      location,
-    } = this.props;
+    const { location } = this.props;
 
     return location.state
-      ? (
-        <NoteCreatePage
-          referredEntityData={this.getReferredEntityData()}
-          entityTypesTranslationKeys={entityTypesTranslationKeys}
-          paneHeaderAppIcon={APP_ICON_NAME}
-          domain={DOMAIN_NAME}
-          navigateBack={history.goBack}
-        />
-      )
+      ? this.renderCreatePage()
       : <Redirect to="/eholdings" />;
   }
 }
