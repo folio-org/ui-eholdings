@@ -10,7 +10,7 @@ import faker from 'faker';
 import {
   NoteFormInteractor,
   NotesAccordionInteractor,
-} from '@folio/stripes-smart-components';
+} from '@folio/stripes/smart-components';
 
 import setupApplication from '../helpers/setup-application';
 
