@@ -19,6 +19,7 @@ import TitleEdit from './routes/title-edit';
 import TitleCreate from './routes/title-create';
 import ResourceShow from './routes/resource-show';
 import ResourceEdit from './routes/resource-edit';
+import NoteCreate from './routes/note-create';
 
 import SettingsKnowledgeBaseRoute from './routes/settings-knowledge-base';
 import SettingsRootProxyRoute from './routes/settings-root-proxy';
@@ -66,6 +67,7 @@ class EHoldings extends Component {
             <Route path={`${rootPath}/titles/:titleId/edit`} exact component={TitleEdit} />
             <Route path={`${rootPath}/resources/:id`} exact component={ResourceShow} />
             <Route path={`${rootPath}/resources/:id/edit`} exact component={ResourceEdit} />
+            <Route path={`${rootPath}/notes/new`} exact component={NoteCreate} />
             <Route render={() => (<Redirect to={`${rootPath}?searchType=providers`} />)} />
           </Switch>
         </Route>
