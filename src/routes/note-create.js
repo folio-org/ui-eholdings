@@ -5,7 +5,11 @@ import { Redirect } from 'react-router';
 
 import { NoteCreatePage } from '@folio/stripes/smart-components';
 
-import { entityTypesTranslationKeys } from '../constants';
+import {
+  entityTypesTranslationKeys,
+  DOMAIN_NAME,
+  APP_ICON_NAME,
+} from '../constants';
 
 export default class NoteCreateRoute extends Component {
   static propTypes = {
@@ -40,8 +44,8 @@ export default class NoteCreateRoute extends Component {
         <NoteCreatePage
           referredEntityData={this.getReferredEntityData()}
           entityTypesTranslationKeys={entityTypesTranslationKeys}
-          paneHeaderAppIcon="eholdings"
-          domain="eholdings"
+          paneHeaderAppIcon={APP_ICON_NAME}
+          domain={DOMAIN_NAME}
           navigateBack={history.goBack}
         />
       )
