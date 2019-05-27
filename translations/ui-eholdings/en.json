@@ -336,5 +336,10 @@
     "contributorType.illustrator": "{count, plural, one {Illustrator} other {Illustrators}}",
     "contributorType.editor": "{count, plural, one {Editor} other {Editors}}",
     "listType.packages": "Packages",
-    "listType.titles": "Titles"
+    "listType.titles": "Titles",
+
+    "notes.entityType.provider": "Provider",
+    "notes.entityType.package": "Package",
+    "notes.entityType.title": "Title",
+    "notes.entityType.resource": "Resource"
   }
