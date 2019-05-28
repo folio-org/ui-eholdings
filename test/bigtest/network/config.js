@@ -42,6 +42,145 @@ export default function config() {
     ]
   });
 
+  this.get('/notes/:id', {
+    id: 'f428c19a-f866-4d84-80b7-2340f948f06f',
+    typeId: '2d7b5166-92f0-4ea2-af89-7da2974ef1e7',
+    domain: 'eholdings',
+    title: 'BU Campus Access Issues123',
+    content: 'There have been access issues at the BU campus since the weekend',
+    creator: {
+      lastName: 'ADMINISTRATOR',
+      firstName: 'DIKU'
+    },
+    metadata: {
+      createdDate: '2019-05-21T11:53:34.802+0000',
+      createdByUserId: '587006b9-ad56-523e-ad4e-17a9b4afb396',
+      createdByUsername: 'diku_admin',
+      updatedDate: '2019-05-21T11:53:34.802+0000',
+      updatedByUserId: '587006b9-ad56-523e-ad4e-17a9b4afb396'
+    },
+    links: [
+      {
+        id: '583-2356521',
+        type: 'package'
+      }
+    ]
+  });
+
+  this.put('/notes/:id', {
+    id: 'f428c19a-f866-4d84-80b7-2340f948f06f',
+    typeId: '2d7b5166-92f0-4ea2-af89-7da2974ef1e7',
+    domain: 'eholdings',
+    title: 'BU Campus Access Issues123',
+    content: 'There have been access issues at the BU campus since the weekend',
+    creator: {
+      lastName: 'ADMINISTRATOR',
+      firstName: 'DIKU'
+    },
+    metadata: {
+      createdDate: '2019-05-21T11:53:34.802+0000',
+      createdByUserId: '587006b9-ad56-523e-ad4e-17a9b4afb396',
+      createdByUsername: 'diku_admin',
+      updatedDate: '2019-05-21T11:53:34.802+0000',
+      updatedByUserId: '587006b9-ad56-523e-ad4e-17a9b4afb396'
+    },
+    links: [
+      {
+        id: '583-2356521',
+        type: 'package'
+      }
+    ]
+  });
+
+  this.get('/note-types', {
+    noteTypes: [
+      {
+        id: '1',
+        name: 'type 1',
+      },
+      {
+        id: '2',
+        name: 'type 2',
+      },
+    ],
+    totalRecords: 2,
+  });
+
+  this.post('/notes', {
+    id: 'f428c19a-f866-4d84-80b7-2340f948f06f',
+    typeId: '2d7b5166-92f0-4ea2-af89-7da2974ef1e7',
+    domain: 'eholdings',
+    title: 'BU Campus Access Issues123',
+    content: 'There have been access issues at the BU campus since the weekend',
+    creator: {
+      lastName: 'ADMINISTRATOR',
+      firstName: 'DIKU'
+    },
+    metadata: {
+      createdDate: '2019-05-21T11:53:34.802+0000',
+      createdByUserId: '587006b9-ad56-523e-ad4e-17a9b4afb396',
+      createdByUsername: 'diku_admin',
+      updatedDate: '2019-05-21T11:53:34.802+0000',
+      updatedByUserId: '587006b9-ad56-523e-ad4e-17a9b4afb396'
+    },
+    links: [
+      {
+        id: '583-2356521',
+        type: 'package'
+      }
+    ]
+  });
+
+  this.get('/notes/:id', {
+    id: 'f428c19a-f866-4d84-80b7-2340f948f06f',
+    typeId: '2d7b5166-92f0-4ea2-af89-7da2974ef1e7',
+    domain: 'eholdings',
+    title: 'BU Campus Access Issues123',
+    content: 'There have been access issues at the BU campus since the weekend',
+    creator: {
+      lastName: 'ADMINISTRATOR',
+      firstName: 'DIKU'
+    },
+    metadata: {
+      createdDate: '2019-05-21T11:53:34.802+0000',
+      createdByUserId: '587006b9-ad56-523e-ad4e-17a9b4afb396',
+      createdByUsername: 'diku_admin',
+      updatedDate: '2019-05-21T11:53:34.802+0000',
+      updatedByUserId: '587006b9-ad56-523e-ad4e-17a9b4afb396'
+    },
+    links: [
+      {
+        id: '583-2356521',
+        type: 'package'
+      }
+    ]
+  });
+
+  this.put('/notes/:id', {
+    id: 'f428c19a-f866-4d84-80b7-2340f948f06f',
+    typeId: '2d7b5166-92f0-4ea2-af89-7da2974ef1e7',
+    domain: 'eholdings',
+    title: 'BU Campus Access Issues123',
+    content: 'There have been access issues at the BU campus since the weekend',
+    creator: {
+      lastName: 'ADMINISTRATOR',
+      firstName: 'DIKU'
+    },
+    metadata: {
+      createdDate: '2019-05-21T11:53:34.802+0000',
+      createdByUserId: '587006b9-ad56-523e-ad4e-17a9b4afb396',
+      createdByUsername: 'diku_admin',
+      updatedDate: '2019-05-21T11:53:34.802+0000',
+      updatedByUserId: '587006b9-ad56-523e-ad4e-17a9b4afb396'
+    },
+    links: [
+      {
+        id: '583-2356521',
+        type: 'package'
+      }
+    ]
+  });
+
   this.get('_/proxy/tenants/:id/modules', [{
     id: 'mod-kb-ebsco',
     name: 'kb-ebsco',
@@ -52,7 +191,7 @@ export default function config() {
   }]);
   // tags endpoint
   this.get('/tags', {
-    tags:[
+    tags: [
       {
         id: '1',
         label: 'urgent',
