@@ -7,13 +7,13 @@ import { NoteEditPage } from '@folio/stripes/smart-components';
 import {
   entityTypeTranslationKeys,
   entityTypePluralizedTranslationKeys,
+  APP_ICON_NAME,
+  DOMAIN_NAME,
 } from '../constants';
 
 export default class NoteEditRoute extends Component {
   static propTypes = {
-    history: PropTypes.shape({
-      goBack: PropTypes.func.isRequired,
-    }).isRequired,
+    history: ReactRouterPropTypes.history.isRequired,
     location: ReactRouterPropTypes.location.isRequired,
     match: ReactRouterPropTypes.match.isRequired,
   };
@@ -36,12 +36,19 @@ export default class NoteEditRoute extends Component {
     const {
       match,
       history,
+      location,
     } = this.props;
 
-    const { id } = match.params;
-    const noteViewUrl = `/eholdings/notes/${id}`;
+    const replaceActionNeeded = !location.state;
 
-    history.replace(noteViewUrl);
+    if (replaceActionNeeded) {
+      const { id } = match.params;
+      const noteViewUrl = `/eholdings/notes/${id}`;
+
+      history.replace(noteViewUrl);
+    } else {
+      history.goBack();
+    }
   }
 
   render() {
@@ -59,8 +66,8 @@ export default class NoteEditRoute extends Component {
         referredEntityData={referredEntityData}
         entityTypeTranslationKeys={entityTypeTranslationKeys}
         entityTypePluralizedTranslationKeys={entityTypePluralizedTranslationKeys}
-        paneHeaderAppIcon="eholdings"
-        domain="eholdings"
+        paneHeaderAppIcon={APP_ICON_NAME}
+        domain={DOMAIN_NAME}
         navigateBack={this.goToNoteView}
         noteId={id}
       />
