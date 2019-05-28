@@ -4,6 +4,7 @@ export { default as listTypes } from './listTypes';
 export { default as searchTypes } from './searchTypes';
 export { default as entityAuthorityTypes } from './entity-authority-types';
 export { default as entityTypes } from './entityTypes';
-export { default as entityTypesTranslationKeys } from './entityTypesTranslationKeys';
 export { default as DOMAIN_NAME } from './domainName';
 export { default as APP_ICON_NAME } from './appIconName';
+export { default as entityTypeTranslationKeys } from './entityTypeTranslationKeys';
+export { default as entityTypePluralizedTranslationKeys } from './entityTypePluralizedTranslationKeys';
