@@ -10,6 +10,7 @@ import {
   DOMAIN_NAME,
   APP_ICON_NAME,
 } from '../constants';
+import { formatNoteReferrerEntityData } from '../components/utilities';
 
 export default class NoteCreateRoute extends Component {
   static propTypes = {
@@ -24,27 +25,13 @@ export default class NoteCreateRoute extends Component {
 
     return (
       <NoteCreatePage
-        referredEntityData={this.getReferredEntityData()}
+        referredEntityData={formatNoteReferrerEntityData(this.props.location.state)}
         entityTypeTranslationKeys={entityTypeTranslationKeys}
         paneHeaderAppIcon={APP_ICON_NAME}
         domain={DOMAIN_NAME}
         navigateBack={history.goBack}
       />
     );
-  }
-
-  getReferredEntityData() {
-    const {
-      entityName: name,
-      entityType: type,
-      entityId: id,
-    } = this.props.location.state;
-
-    return {
-      name,
-      type,
-      id,
-    };
   }
 
   render() {
