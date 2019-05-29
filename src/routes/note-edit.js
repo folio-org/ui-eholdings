@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-import PropTypes from 'prop-types';
 import ReactRouterPropTypes from 'react-router-prop-types';
+import PropTypes from 'prop-types';
 
 import { NoteEditPage } from '@folio/stripes/smart-components';
 
@@ -16,22 +16,12 @@ export default class NoteEditRoute extends Component {
   static propTypes = {
     history: ReactRouterPropTypes.history.isRequired,
     location: ReactRouterPropTypes.location.isRequired,
-    match: ReactRouterPropTypes.match.isRequired,
+    match: PropTypes.shape({
+      params: PropTypes.shape({
+        id: PropTypes.string.isRequired,
+      }).isRequired,
+    }).isRequired,
   };
-
-  getReferredEntityData() {
-    const {
-      entityName: name,
-      entityType: type,
-      entityId: id,
-    } = this.props.location.state;
-
-    return {
-      name,
-      type,
-      id,
-    };
-  }
 
   goToNoteView = () => {
     const {

@@ -13,10 +13,7 @@ import {
 
 class NoteViewRoute extends Component {
   static propTypes = {
-    history: PropTypes.shape({
-      goBack: PropTypes.func.isRequired,
-      push: PropTypes.func.isRequired,
-    }).isRequired,
+    history: ReactRouterPropTypes.history.isRequired,
     location: ReactRouterPropTypes.location.isRequired,
     match: PropTypes.shape({
       params: PropTypes.shape({
