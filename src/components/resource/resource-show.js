@@ -9,6 +9,8 @@ import {
   withStripes,
 } from '@folio/stripes-core';
 
+import { NotesSmartAccordion } from '@folio/stripes/smart-components';
+
 import {
   Accordion,
   Button,
@@ -552,6 +554,15 @@ class ResourceShow extends Component {
                 refType={entityAuthorityTypes.RESOURCE}
                 isOpen={sections.resourceShowAgreements}
                 onToggle={this.handleSectionToggle}
+              />
+
+              <NotesSmartAccordion
+                domainName="eholdings"
+                entityName={model.name}
+                entityType="resource"
+                entityId={model.id}
+                pathToNoteCreate="/eholdings/notes/new"
+                pathToNoteDetails="/eholdings/notes"
               />
             </Fragment>
           )}
