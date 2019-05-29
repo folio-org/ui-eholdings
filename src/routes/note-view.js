@@ -4,23 +4,12 @@ import ReactRouterPropTypes from 'react-router-prop-types';
 
 import { NoteViewPage } from '@folio/stripes/smart-components';
 
+import { formatNoteReferrerEntityData } from '../components/utilities';
 import {
+  entityTypeTranslationKeys,
+  entityTypePluralizedTranslationKeys,
   APP_ICON_NAME,
 } from '../constants';
-
-const entityTypeTranslationKeys = {
-  provider: 'ui-eholdings.notes.entityType.provider',
-  package: 'ui-eholdings.notes.entityType.package',
-  title: 'ui-eholdings.notes.entityType.title',
-  resource: 'ui-eholdings.notes.entityType.resource',
-};
-
-const entityTypePluralizedTranslationKeys = {
-  provider: 'ui-eholdings.notes.entityType.provider.pluralized',
-  package: 'ui-eholdings.notes.entityType.package.pluralized',
-  title: 'ui-eholdings.notes.entityType.title.pluralized',
-  resource: 'ui-eholdings.notes.entityType.resource.pluralized',
-};
 
 class NoteViewRoute extends Component {
   static propTypes = {
@@ -36,52 +25,51 @@ class NoteViewRoute extends Component {
     }).isRequired,
   };
 
-  getReferredEntityData() {
-    if (this.props.location.state) {
-      const {
-        entityName: name,
-        entityType: type,
-        entityId: id,
-      } = this.props.location.state;
+  onEdit = () => {
+    const {
+      history,
+      location,
+      match,
+    } = this.props;
 
-      return {
-        name,
-        type,
-        id,
-      };
-    }
+    history.replace({
+      pathname: `/eholdings/notes/${match.params.noteId}/edit/`,
+      state: location.state,
+    });
+  };
 
-    return false;
-  }
-
-  onEdit = (noteId) => {
+  navigateBack = () => {
     const {
       history,
       location,
     } = this.props;
 
-    history.push({
-      pathname: `/eholdings/notes/${noteId}/edit/`,
-      state: location.state,
-    });
-  }
+    if (location.state) {
+      history.goBack();
+    } else {
+      history.push({
+        pathname: '/eholdings',
+      });
+    }
+  };
 
   render() {
     const {
-      history,
       match,
+      location,
     } = this.props;
 
     const { noteId } = match.params;
+    const referredEntityData = formatNoteReferrerEntityData(location.state);
 
     return (
       <NoteViewPage
         entityTypeTranslationKeys={entityTypeTranslationKeys}
         entityTypePluralizedTranslationKeys={entityTypePluralizedTranslationKeys}
-        navigateBack={history.goBack}
+        navigateBack={this.navigateBack}
         onEdit={this.onEdit}
         paneHeaderAppIcon={APP_ICON_NAME}
-        referredEntityData={this.getReferredEntityData()}
+        referredEntityData={referredEntityData}
         noteId={noteId}
       />
     );

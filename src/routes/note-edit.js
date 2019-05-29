@@ -4,6 +4,7 @@ import ReactRouterPropTypes from 'react-router-prop-types';
 
 import { NoteEditPage } from '@folio/stripes/smart-components';
 
+import { formatNoteReferrerEntityData } from '../components/utilities';
 import {
   entityTypeTranslationKeys,
   entityTypePluralizedTranslationKeys,
@@ -39,16 +40,13 @@ export default class NoteEditRoute extends Component {
       location,
     } = this.props;
 
-    const replaceActionNeeded = !location.state;
+    const { id } = match.params;
+    const noteViewUrl = `/eholdings/notes/${id}`;
 
-    if (replaceActionNeeded) {
-      const { id } = match.params;
-      const noteViewUrl = `/eholdings/notes/${id}`;
-
-      history.replace(noteViewUrl);
-    } else {
-      history.goBack();
-    }
+    history.replace({
+      pathname: noteViewUrl,
+      state: location.state,
+    });
   }
 
   render() {
@@ -59,7 +57,7 @@ export default class NoteEditRoute extends Component {
 
     const { id } = match.params;
 
-    const referredEntityData = location.state && this.getReferredEntityData();
+    const referredEntityData = formatNoteReferrerEntityData(location.state);
 
     return (
       <NoteEditPage
