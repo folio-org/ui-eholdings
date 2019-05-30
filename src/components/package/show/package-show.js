@@ -30,7 +30,10 @@ import {
 
 import {
   entityAuthorityTypes,
+  entityTypes,
   listTypes,
+  DOMAIN_NAME,
+  paths,
 } from '../../../constants';
 import { processErrors } from '../../utilities';
 import DetailsView from '../../details-view';
@@ -466,12 +469,12 @@ class PackageShow extends Component {
         />
 
         <NotesSmartAccordion
-          domainName="eholdings"
+          domainName={DOMAIN_NAME}
           entityName={model.name}
-          entityType="package"
+          entityType={entityTypes.PACKAGE}
           entityId={model.id}
-          pathToNoteCreate="/eholdings/notes/new"
-          pathToNoteDetails="/eholdings/notes"
+          pathToNoteCreate={paths.NOTE_CREATE}
+          pathToNoteDetails={paths.NOTES}
         />
       </Fragment>
     );

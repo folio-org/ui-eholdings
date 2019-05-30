@@ -14,6 +14,8 @@ import {
   IfPermission,
 } from '@folio/stripes-core';
 
+import { NotesSmartAccordion } from '@folio/stripes/smart-components';
+
 import {
   Accordion,
   Button,
@@ -24,6 +26,11 @@ import {
 } from '@folio/stripes/components';
 
 import { processErrors } from '../../utilities';
+import {
+  entityTypes,
+  DOMAIN_NAME,
+  paths,
+} from '../../../constants';
 
 import DetailsView from '../../details-view';
 import QueryList from '../../query-list';
@@ -240,6 +247,7 @@ class ProviderShow extends Component {
             </div>
           </KeyValue>
         </Accordion>
+
         {
           hasProviderSettings && (
             <Accordion
@@ -258,7 +266,17 @@ class ProviderShow extends Component {
               {hasProxy && this.renderProxy()}
               {hasToken && this.renderToken()}
             </Accordion>
-          )}
+          )
+        }
+
+        <NotesSmartAccordion
+          domainName={DOMAIN_NAME}
+          entityName={model.name}
+          entityType={entityTypes.PROVIDER}
+          entityId={model.id}
+          pathToNoteCreate={paths.NOTE_CREATE}
+          pathToNoteDetails={paths.NOTES}
+        />
       </Fragment>
     );
   }

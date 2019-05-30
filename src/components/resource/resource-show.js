@@ -9,6 +9,8 @@ import {
   withStripes,
 } from '@folio/stripes-core';
 
+import { NotesSmartAccordion } from '@folio/stripes/smart-components';
+
 import {
   Accordion,
   Button,
@@ -20,7 +22,12 @@ import {
   ModalFooter
 } from '@folio/stripes/components';
 
-import { entityAuthorityTypes } from '../../constants';
+import {
+  entityAuthorityTypes,
+  entityTypes,
+  paths,
+  DOMAIN_NAME,
+} from '../../constants';
 import DetailsView from '../details-view';
 import InternalLink from '../internal-link';
 import ExternalLink from '../external-link/external-link';
@@ -552,6 +559,15 @@ class ResourceShow extends Component {
                 refType={entityAuthorityTypes.RESOURCE}
                 isOpen={sections.resourceShowAgreements}
                 onToggle={this.handleSectionToggle}
+              />
+
+              <NotesSmartAccordion
+                domainName={DOMAIN_NAME}
+                entityName={model.name}
+                entityType={entityTypes.RESOURCE}
+                entityId={model.id}
+                pathToNoteCreate={paths.NOTE_CREATE}
+                pathToNoteDetails={paths.NOTES}
               />
             </Fragment>
           )}
