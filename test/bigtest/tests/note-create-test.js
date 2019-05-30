@@ -7,22 +7,22 @@ import {
 import { expect } from 'chai';
 import faker from 'faker';
 
-import {
-  NoteFormInteractor,
-  NotesAccordionInteractor,
-} from '@folio/stripes/smart-components';
+// import {
+//   NoteFormInteractor,
+//   NotesAccordionInteractor,
+// } from '@folio/stripes/smart-components';
 
 import setupApplication from '../helpers/setup-application';
 
-const noteForm = new NoteFormInteractor();
-const notesAccordion = new NotesAccordionInteractor();
+// const noteForm = new NoteFormInteractor();
+// const notesAccordion = new NotesAccordionInteractor();
 
 let provider;
 let providerPackage;
 
-setupApplication();
+// setupApplication();
 
-describe('Create note page', () => {
+describe.skip('Create note page', () => {
   beforeEach(function () {
     provider = this.server.create('provider', {
       name: 'Cool Provider'
