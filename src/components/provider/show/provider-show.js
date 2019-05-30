@@ -26,6 +26,11 @@ import {
 } from '@folio/stripes/components';
 
 import { processErrors } from '../../utilities';
+import {
+  entityTypes,
+  DOMAIN_NAME,
+  paths,
+} from '../../../constants';
 
 import DetailsView from '../../details-view';
 import QueryList from '../../query-list';
@@ -242,6 +247,7 @@ class ProviderShow extends Component {
             </div>
           </KeyValue>
         </Accordion>
+
         {
           hasProviderSettings && (
             <Accordion
@@ -264,12 +270,12 @@ class ProviderShow extends Component {
         }
 
         <NotesSmartAccordion
-          domainName="eholdings"
+          domainName={DOMAIN_NAME}
           entityName={model.name}
-          entityType="provider"
+          entityType={entityTypes.PROVIDER}
           entityId={model.id}
-          pathToNoteCreate="/eholdings/notes/new"
-          pathToNoteDetails="/eholdings/notes"
+          pathToNoteCreate={paths.NOTE_CREATE}
+          pathToNoteDetails={paths.NOTES}
         />
       </Fragment>
     );

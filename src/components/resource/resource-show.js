@@ -22,7 +22,12 @@ import {
   ModalFooter
 } from '@folio/stripes/components';
 
-import { entityAuthorityTypes } from '../../constants';
+import {
+  entityAuthorityTypes,
+  entityTypes,
+  paths,
+  DOMAIN_NAME,
+} from '../../constants';
 import DetailsView from '../details-view';
 import InternalLink from '../internal-link';
 import ExternalLink from '../external-link/external-link';
@@ -557,12 +562,12 @@ class ResourceShow extends Component {
               />
 
               <NotesSmartAccordion
-                domainName="eholdings"
+                domainName={DOMAIN_NAME}
                 entityName={model.name}
-                entityType="resource"
+                entityType={entityTypes.RESOURCE}
                 entityId={model.id}
-                pathToNoteCreate="/eholdings/notes/new"
-                pathToNoteDetails="/eholdings/notes"
+                pathToNoteCreate={paths.NOTE_CREATE}
+                pathToNoteDetails={paths.NOTES}
               />
             </Fragment>
           )}
