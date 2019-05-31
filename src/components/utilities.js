@@ -110,3 +110,21 @@ export const getTagLabelsArr = (tagsModel) => {
   const tagRecords = get(tagsModel, ['resolver', 'state', 'tags', 'records'], {});
   return Object.values(tagRecords).map((tag) => tag.attributes);
 };
+
+export function formatNoteReferrerEntityData(data) {
+  if (data) {
+    const {
+      entityName: name,
+      entityType: type,
+      entityId: id,
+    } = data;
+
+    return {
+      name,
+      type,
+      id,
+    };
+  }
+
+  return false;
+}

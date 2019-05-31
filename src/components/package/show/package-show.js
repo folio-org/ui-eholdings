@@ -15,6 +15,8 @@ import {
   IfPermission,
 } from '@folio/stripes-core';
 
+import { NotesSmartAccordion } from '@folio/stripes/smart-components';
+
 import {
   Accordion,
   Button,
@@ -28,7 +30,10 @@ import {
 
 import {
   entityAuthorityTypes,
+  entityTypes,
   listTypes,
+  DOMAIN_NAME,
+  paths,
 } from '../../../constants';
 import { processErrors } from '../../utilities';
 import DetailsView from '../../details-view';
@@ -461,6 +466,15 @@ class PackageShow extends Component {
           refType={entityAuthorityTypes.PACKAGE}
           isOpen={sections.packageShowAgreements}
           onToggle={this.handleSectionToggle}
+        />
+
+        <NotesSmartAccordion
+          domainName={DOMAIN_NAME}
+          entityName={model.name}
+          entityType={entityTypes.PACKAGE}
+          entityId={model.id}
+          pathToNoteCreate={paths.NOTE_CREATE}
+          pathToNoteDetails={paths.NOTES}
         />
       </Fragment>
     );
