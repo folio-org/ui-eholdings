@@ -75,6 +75,8 @@ class PackageShowRoute extends Component {
       match: oldMatch,
     } = prevProps;
 
+    const tagsChanged = old.tags.tagList.length !== next.tags.tagList.length;
+
     const { packageId } = match.params;
 
     if (!old.destroy.isResolved && next.destroy.isResolved) {
@@ -93,7 +95,7 @@ class PackageShowRoute extends Component {
     if (packageId !== oldMatch.params.packageId) {
       getPackage(packageId);
       // if an update just resolved, unfetch the package titles
-    } else if (next.update.isResolved && old.update.isPending) {
+    } else if (next.update.isResolved && old.update.isPending && !tagsChanged) {
       unloadResources(next.resources);
     }
 
