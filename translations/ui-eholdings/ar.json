@@ -311,5 +311,13 @@
     "contributorType.illustrator": "{count, plural, zero {} one {رسام توضيحي} two {} few {} many {} other {رسامين توضيحيين}}",
     "contributorType.editor": "{count, plural, zero {} one {محرر} two {} few {} many {} other {محررين}}",
     "listType.packages": "الحزم",
-    "listType.titles": "العناوين"
+    "listType.titles": "العناوين",
+    "notes.entityType.provider": "Provider",
+    "notes.entityType.package": "الحزمة",
+    "notes.entityType.title": "العنوان",
+    "notes.entityType.resource": "المورد",
+    "notes.entityType.provider.pluralized": "{count} {count, plural, one {provider} other {providers}}",
+    "notes.entityType.package.pluralized": "{count} {count, plural, one {package} other {packages}}",
+    "notes.entityType.resource.pluralized": "{count} {count, plural, one {resource} other {resources}}",
+    "notes.entityType.title.pluralized": "{count} {count, plural, one {title} other {titles}}"
 }
