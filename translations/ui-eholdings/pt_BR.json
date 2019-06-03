@@ -311,5 +311,13 @@
     "contributorType.illustrator": "{count, plural, one {Ilustrador} other {Ilustradores}}",
     "contributorType.editor": "{count, plural, one {Editor} other {Editores}}",
     "listType.packages": "Pacotes",
-    "listType.titles": "Títulos"
+    "listType.titles": "Títulos",
+    "notes.entityType.provider": "Fornecedor",
+    "notes.entityType.package": "Pacote",
+    "notes.entityType.title": "Título",
+    "notes.entityType.resource": "Recurso",
+    "notes.entityType.provider.pluralized": "{count} {count, plural, one {fornecedor} other {fornecedores}}",
+    "notes.entityType.package.pluralized": "{count} {count, plural, one {pacote} other {pacotes}}",
+    "notes.entityType.resource.pluralized": "{count} {count, plural, one {recurso} other {recursos}}",
+    "notes.entityType.title.pluralized": "{count} {count, plural, one {título} other {títulos}}"
 }
