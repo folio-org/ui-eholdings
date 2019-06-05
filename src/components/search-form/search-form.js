@@ -3,11 +3,14 @@ import PropTypes from 'prop-types';
 import { FormattedMessage } from 'react-intl';
 
 import {
+  Accordion,
   Button,
   ButtonGroup,
+  Icon,
   SearchField,
   Select
 } from '@folio/stripes/components';
+import { MultiSelectionFilter } from '@folio/stripes/smart-components';
 import ProviderSearchFilters from '../provider-search-filters';
 import PackageSearchFilters from '../package-search-filters';
 import TitleSearchFilters from '../title-search-filters';
@@ -42,7 +45,8 @@ class SearchForm extends Component {
       providers: PropTypes.string.isRequired,
       titles: PropTypes.string.isRequired
     }),
-    sort: PropTypes.string
+    sort: PropTypes.string,
+    tagsModel: PropTypes.object.isRequired
   };
 
   static defaultProps = {
@@ -89,6 +93,29 @@ class SearchForm extends Component {
 
     return null;
   };
+
+  renderTagFilter() {
+    const {
+      tagsModel,
+    } = this.props;
+
+    return tagsModel.isLoading
+      ? <Icon icon="spinner-ellipsis" />
+      : (
+        <Accordion>
+          <MultiSelectionFilter
+            id="tags-filter"
+            dataOptions={
+              tagsModel.map(tag => ({
+                value: tag.label.toLowerCase(),
+                label: tag.label.toLowerCase()
+              }))
+              }
+            name="tags"
+          />
+        </Accordion>
+      );
+  }
 
   render() {
     const {
@@ -190,6 +217,7 @@ class SearchForm extends Component {
                 activeFilters={combinedFilters}
                 onUpdate={this.handleUpdateFilter}
               />
+              {this.renderTagFilter()}
             </div>
           )}
         </form>
