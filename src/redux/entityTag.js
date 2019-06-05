@@ -1,10 +1,10 @@
 import model from './model';
 
-class EntityTag {
+class Tag {
   value = '';
 }
 
 export default model({
-  type: 'entityTags',
+  type: 'tags',
   path: '/eholdings/tags'
-})(EntityTag);
+})(Tag);
