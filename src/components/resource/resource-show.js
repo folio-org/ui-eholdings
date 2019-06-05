@@ -70,6 +70,7 @@ class ResourceShow extends Component {
       resourceShowSettings: true,
       resourceShowCoverageSettings: this.props.model.isSelected,
       resourceShowAgreements: true,
+      resourceShowNotes: true,
     }
   };
 
@@ -562,6 +563,9 @@ class ResourceShow extends Component {
               />
 
               <NotesSmartAccordion
+                id="resourceShowNotes"
+                open={sections.resourceShowNotes}
+                onToggle={this.handleSectionToggle}
                 domainName={DOMAIN_NAME}
                 entityName={model.name}
                 entityType={entityTypes.RESOURCE}
