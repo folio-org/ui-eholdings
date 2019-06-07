@@ -7,7 +7,7 @@ import setupApplication from '../helpers/setup-application';
 import ResourceEditPage from '../interactors/resource-edit';
 import ResourcePage from '../interactors/resource-show';
 
-describe('CustomResourceEditCustomCoverage', () => {
+describe.only('CustomResourceEditCustomCoverage', () => {
   setupApplication();
   let pkg,
     title,
@@ -119,7 +119,8 @@ describe('CustomResourceEditCustomCoverage', () => {
           beforeEach(() => {
             return ResourceEditPage.dateRangeRowList(0)
               .fillDates('16/12/2018', '')
-              .dateRangeRowList(0).beginDate.clearInput();
+              .dateRangeRowList(0).beginDate.clearInput()
+              .clickSave();
           });
 
           it('indicates validation error on begin date', () => {
@@ -136,7 +137,8 @@ describe('CustomResourceEditCustomCoverage', () => {
         describe('entering an end date before a start date', () => {
           beforeEach(() => {
             return ResourceEditPage.dateRangeRowList(0)
-              .fillDates('12/18/2018', '12/16/2018');
+              .fillDates('12/18/2018', '12/16/2018')
+              .clickSave();
           });
 
           it('indicates validation error on begin date', () => {
@@ -153,7 +155,8 @@ describe('CustomResourceEditCustomCoverage', () => {
         describe('entering a date range outside of package coverage range', () => {
           beforeEach(() => {
             return ResourceEditPage.dateRangeRowList(0)
-              .fillDates('11/16/2018', '01/14/2019');
+              .fillDates('11/16/2018', '01/14/2019')
+              .clickSave();
           });
 
           it('indicates validation error on begin date', () => {
@@ -179,7 +182,8 @@ describe('CustomResourceEditCustomCoverage', () => {
 
         describe('entering overlapping date ranges', () => {
           beforeEach(() => {
-            return ResourceEditPage.dateRangeRowList(0).fillDates('12/16/2018', '12/20/2018');
+            return ResourceEditPage.dateRangeRowList(0)
+              .fillDates('12/16/2018', '12/20/2018');
           });
 
           describe('clicking the add date range button', () => {
@@ -193,7 +197,9 @@ describe('CustomResourceEditCustomCoverage', () => {
 
             describe('entering overlapping ranges', () => {
               beforeEach(() => {
-                return ResourceEditPage.dateRangeRowList(1).fillDates('12/18/2018', '12/19/2018');
+                return ResourceEditPage.dateRangeRowList(1)
+                  .fillDates('12/18/2018', '12/19/2018')
+                  .clickSave();
               });
 
               it('indicates validation error on begin dates', () => {
