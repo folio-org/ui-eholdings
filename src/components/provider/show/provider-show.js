@@ -68,6 +68,7 @@ class ProviderShow extends Component {
       providerShowProviderInformation: true,
       providerShowProviderSettings: true,
       providerShowProviderList: true,
+      providerShowNotes: true,
     }
   };
 
@@ -270,6 +271,9 @@ class ProviderShow extends Component {
         }
 
         <NotesSmartAccordion
+          id="providerShowNotes"
+          open={sections.providerShowNotes}
+          onToggle={this.handleSectionToggle}
           domainName={DOMAIN_NAME}
           entityName={model.name}
           entityType={entityTypes.PROVIDER}

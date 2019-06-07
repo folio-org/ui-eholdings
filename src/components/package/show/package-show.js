@@ -86,7 +86,8 @@ class PackageShow extends Component {
       packageShowSettings: true,
       packageShowCoverageSettings: true,
       packageShowAgreements: true,
-      packageShowTitles: true
+      packageShowTitles: true,
+      packageShowNotes: true,
     },
   };
 
@@ -469,6 +470,9 @@ class PackageShow extends Component {
         />
 
         <NotesSmartAccordion
+          id="packageShowNotes"
+          open={sections.packageShowNotes}
+          onToggle={this.handleSectionToggle}
           domainName={DOMAIN_NAME}
           entityName={model.name}
           entityType={entityTypes.PACKAGE}
