@@ -1,13 +1,17 @@
 import React, { Component, Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { FormattedMessage } from 'react-intl';
+import update from 'lodash/fp/update';
 
 import {
+  Accordion,
   Button,
   ButtonGroup,
+  InfoPopover,
   SearchField,
   Select
 } from '@folio/stripes/components';
+import { MultiSelectionFilter } from '@folio/stripes/smart-components';
 import ProviderSearchFilters from '../provider-search-filters';
 import PackageSearchFilters from '../package-search-filters';
 import TitleSearchFilters from '../title-search-filters';
@@ -42,13 +46,25 @@ class SearchForm extends Component {
       providers: PropTypes.string.isRequired,
       titles: PropTypes.string.isRequired
     }),
-    sort: PropTypes.string
+    sort: PropTypes.string,
+    tagsModel: PropTypes.object.isRequired
   };
 
   static defaultProps = {
     displaySearchTypeSwitcher: true,
     displaySearchButton: true,
     searchString: '',
+  };
+
+  state = {
+    sections: {
+      tagFilter: true,
+    },
+  };
+
+  toggleSection = ({ id }) => {
+    const newState = update(`sections.${id}`, value => !value, this.state);
+    this.setState(newState);
   };
 
   handleSearchSubmit = (e) => {
@@ -73,6 +89,10 @@ class SearchForm extends Component {
   handleChangeIndex = (e) => {
     this.props.onSearchFieldChange(e.target.value);
   };
+
+  handleUpdateTagFilter = (e) => {
+    return e.target.value;
+  }
 
   /**
    * Returns the component that is responsible for rendering filters
@@ -100,8 +120,12 @@ class SearchForm extends Component {
       searchField,
       searchFilter,
       searchString,
-      sort
+      sort,
+      tagsModel
     } = this.props;
+    const {
+      sections,
+    } = this.state;
     const Filters = this.getFiltersComponent(searchType);
     // sort is treated separately from the rest of the filters on submit,
     // but treated together when rendering the filters.
@@ -192,6 +216,29 @@ class SearchForm extends Component {
               />
             </div>
           )}
+          <div>
+            <InfoPopover
+              content="Tags filter cannot be combined with search or other filters"
+            />
+            <Accordion
+              label={<FormattedMessage id="ui-eholdings.tags" />}
+              open={sections.tagFilter}
+              id="tagFilter"
+              onToggle={this.toggleSection}
+            >
+              <MultiSelectionFilter
+                name='tag filter'
+                dataOptions={
+                  tagsModel.map(tag => ({
+                    label: tag.label,
+                    value: tag.value
+                  }))
+                }
+                // onChange=
+                selectedValues={this.handleUpdateTagFilter}
+              />
+            </Accordion>
+          </div>
         </form>
       </div>
     );
