@@ -4,7 +4,7 @@ import setupApplication from '../helpers/setup-application';
 import ResourceEditPage from '../interactors/resource-edit';
 import ResourcePage from '../interactors/resource-show';
 
-describe.only('ManagedResourceEditCustomCoverage', () => {
+describe('ManagedResourceEditCustomCoverage', () => {
   setupApplication();
   let pkg,
     title,

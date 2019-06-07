@@ -7,7 +7,7 @@ import setupApplication from '../helpers/setup-application';
 import ResourceEditPage from '../interactors/resource-edit';
 import ResourcePage from '../interactors/resource-show';
 
-describe.only('CustomResourceEditCustomCoverage', () => {
+describe('CustomResourceEditCustomCoverage', () => {
   setupApplication();
   let pkg,
     title,
