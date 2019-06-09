@@ -312,12 +312,12 @@
     "contributorType.editor": "{count, plural, zero {} one {محرر} two {} few {} many {} other {محررين}}",
     "listType.packages": "الحزم",
     "listType.titles": "العناوين",
-    "notes.entityType.provider": "Provider",
+    "notes.entityType.provider": "مقدم الخدمة",
     "notes.entityType.package": "الحزمة",
     "notes.entityType.title": "العنوان",
     "notes.entityType.resource": "المورد",
-    "notes.entityType.provider.pluralized": "{count} {count, plural, one {provider} other {providers}}",
-    "notes.entityType.package.pluralized": "{count} {count, plural, one {package} other {packages}}",
-    "notes.entityType.resource.pluralized": "{count} {count, plural, one {resource} other {resources}}",
-    "notes.entityType.title.pluralized": "{count} {count, plural, one {title} other {titles}}"
+    "notes.entityType.provider.pluralized": "{count} {count, plural, one {مقدم خدمة} other {مقدم خدمة}}",
+    "notes.entityType.package.pluralized": "{count} {count, plural, one {حزمة} other {حزمة}}",
+    "notes.entityType.resource.pluralized": "{count} {count, plural, one {مورد} other {مورد}}",
+    "notes.entityType.title.pluralized": "{count} {count, plural, one {عنوان} other {عنوان}}"
 }
