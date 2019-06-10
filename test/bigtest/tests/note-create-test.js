@@ -8,22 +8,20 @@ import {
 import { expect } from 'chai';
 import faker from 'faker';
 
-// import {
-//   NoteFormInteractor,
-//   NotesAccordionInteractor,
-// } from '@folio/stripes/smart-components';
+import NoteFormInteractor from '../interactors/note-form';
+import NotesAccordion from '../interactors/notes-accordion';
 
 import setupApplication from '../helpers/setup-application';
 
-// const noteForm = new NoteFormInteractor();
-// const notesAccordion = new NotesAccordionInteractor();
+const notesAccordion = new NotesAccordion();
+const noteForm = new NoteFormInteractor();
 
 let provider;
 let providerPackage;
 
-// setupApplication();
+setupApplication();
 
-describe.skip('Create note page', () => {
+describe('Create note page', () => {
   beforeEach(function () {
     provider = this.server.create('provider', {
       name: 'Cool Provider'
@@ -40,7 +38,7 @@ describe.skip('Create note page', () => {
   describe('when the create note page is visited using notes accordion', () => {
     beforeEach(async function () {
       this.visit(`/eholdings/packages/${providerPackage.id}`);
-      await notesAccordion.clickOnNoteNewButton();
+      await notesAccordion.newButton.click();
     });
 
     describe('and the form is pristine', () => {
