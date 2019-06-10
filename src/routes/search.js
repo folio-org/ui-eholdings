@@ -109,6 +109,10 @@ class SearchRoute extends Component {
     this.setState({ sort, searchFilter }, () => this.handleSearch());
   }
 
+  handleTagFilterChange = (searchFilter) => {
+    this.setState({ searchFilter }, () => this.handleSearch());
+  }
+
   handleSearchFieldChange = searchField => {
     this.setState({ searchField });
   }
@@ -269,7 +273,14 @@ class SearchRoute extends Component {
       }
     };
 
-    if (params.q) {
+    const {
+      filter = {}
+    } = params;
+
+
+    const { tags = '' } = filter;
+
+    if (params.q || tags) {
       if (searchType === searchTypes.PROVIDERS) {
         return <ProviderSearchList {...props} />;
       } else if (searchType === searchTypes.PACKAGES) {
@@ -342,6 +353,7 @@ class SearchRoute extends Component {
                       onSearchFieldChange={this.handleSearchFieldChange}
                       onFilterChange={this.handleFilterChange}
                       onSearchChange={this.handleSearchChange}
+                      onTagFilterChange={this.handleTagFilterChange}
                     />
                   )}
                 />

@@ -3,6 +3,10 @@ import PropTypes from 'prop-types';
 import { FormattedMessage } from 'react-intl';
 
 import {
+  sortBy
+} from 'lodash';
+
+import {
   Accordion,
   Button,
   ButtonGroup,
@@ -32,6 +36,7 @@ class SearchForm extends Component {
     onSearch: PropTypes.func.isRequired,
     onSearchChange: PropTypes.func.isRequired,
     onSearchFieldChange: PropTypes.func,
+    onTagFilterChange: PropTypes.func.isRequired,
     searchField: PropTypes.string,
     searchFilter: PropTypes.shape({
       filter: PropTypes.object,
@@ -74,6 +79,13 @@ class SearchForm extends Component {
     this.props.onFilterChange(sort, searchFilter);
   };
 
+  handleUpdateTagFilter = (filter) => {
+    const tagFilter = {
+      tags: filter.values.join(',')
+    };
+    this.props.onTagFilterChange(tagFilter);
+  };
+
   handleChangeIndex = (e) => {
     this.props.onSearchFieldChange(e.target.value);
   };
@@ -94,6 +106,21 @@ class SearchForm extends Component {
     return null;
   };
 
+  getSortedTagList = () => {
+    const {
+      searchFilter
+    } = this.props;
+
+    const { tags = '' } = searchFilter;
+    const tagsList = tags.split(',').map(tag => {
+      return {
+        value: tag.toLowerCase(),
+        label: tag.toLowerCase(),
+      };
+    });
+    return sortBy(tagsList, ['value']);
+  }
+
   renderTagFilter() {
     const {
       tagsModel,
@@ -112,6 +139,8 @@ class SearchForm extends Component {
               }))
               }
             name="tags"
+            onChange={this.handleUpdateTagFilter}
+            value={this.getSortedTagList}
           />
         </Accordion>
       );
