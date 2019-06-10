@@ -99,11 +99,12 @@ describe('DetailsView', () => {
       });
 
       describe('scrolling to the bottom of the container', () => {
-        beforeEach(() => {
+        beforeEach(async () => {
+          await TitleShowPage.whenLoaded();
           TitleShowPage.detailsPaneScrollTop(TitleShowPage.detailsPaneScrollsHeight);
         });
 
-        it.always('does not disable scrolling the container', () => {
+        it('does not disable scrolling the container', () => {
           expect(TitleShowPage.detailsPaneContentsOverFlowY).to.eq('auto');
         });
       });
