@@ -3,10 +3,6 @@ import PropTypes from 'prop-types';
 import { FormattedMessage } from 'react-intl';
 
 import {
-  sortBy
-} from 'lodash';
-
-import {
   Accordion,
   Button,
   ButtonGroup,
@@ -106,25 +102,24 @@ class SearchForm extends Component {
     return null;
   };
 
-  getSortedTagList = () => {
-    const {
-      searchFilter
-    } = this.props;
-
-    const { tags = '' } = searchFilter;
-    const tagsList = tags.split(',').map(tag => {
-      return {
-        value: tag.toLowerCase(),
-        label: tag.toLowerCase(),
-      };
-    });
-    return sortBy(tagsList, ['value']);
-  }
-
   renderTagFilter() {
     const {
       tagsModel,
     } = this.props;
+
+    const {
+      searchFilter = {}
+    } = this.props;
+
+    const {
+      tags = ''
+    } = searchFilter;
+
+    const tagsList = tags ? tags.split(',').map(tag => {
+      return tag.toLowerCase();
+    }) : [];
+
+    const activeFilters = tagsList.sort();
 
     return tagsModel.isLoading
       ? <Icon icon="spinner-ellipsis" />
@@ -140,7 +135,9 @@ class SearchForm extends Component {
               }
             name="tags"
             onChange={this.handleUpdateTagFilter}
-            value={this.getSortedTagList}
+            selectedValues={
+              activeFilters
+              }
           />
         </Accordion>
       );
