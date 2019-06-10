@@ -5,7 +5,7 @@ import setupApplication from '../helpers/setup-application';
 import PackageShowPage from '../interactors/package-show';
 import TitleShowPage from '../interactors/title-show';
 
-describe('DetailsView', () => {
+describe.only('DetailsView', () => {
   setupApplication();
   beforeEach(function () {
     this.server.loadFixtures();
@@ -99,11 +99,13 @@ describe('DetailsView', () => {
       });
 
       describe('scrolling to the bottom of the container', () => {
-        beforeEach(() => {
+        beforeEach(async () => {
+          await TitleShowPage.whenLoaded();
           TitleShowPage.detailsPaneScrollTop(TitleShowPage.detailsPaneScrollsHeight);
         });
 
-        it.always('does not disable scrolling the container', () => {
+        it('does not disable scrolling the container', () => {
+          console.log('TitleShowPage.detailsPaneContentsOverFlowY', JSON.stringify(TitleShowPage.detailsPaneContentsOverFlowY));
           expect(TitleShowPage.detailsPaneContentsOverFlowY).to.eq('auto');
         });
       });

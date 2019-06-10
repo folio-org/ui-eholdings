@@ -71,7 +71,7 @@ import Toast from './toast';
   toast = Toast
 
   detailsPaneScrollTop = action(function (offset) {
-    return this.find('[data-test-query-list="package-titles"]')
+    return this.find('[data-test-query-list="title-packages"]')
       .do(() => {
         return this.scroll('[data-test-eholdings-detail-pane-contents]', {
           top: offset
