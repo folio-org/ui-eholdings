@@ -5,7 +5,7 @@ import setupApplication from '../helpers/setup-application';
 import PackageShowPage from '../interactors/package-show';
 import TitleShowPage from '../interactors/title-show';
 
-describe.only('DetailsView', () => {
+describe('DetailsView', () => {
   setupApplication();
   beforeEach(function () {
     this.server.loadFixtures();
