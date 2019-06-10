@@ -105,7 +105,6 @@ describe('DetailsView', () => {
         });
 
         it('does not disable scrolling the container', () => {
-          console.log('TitleShowPage.detailsPaneContentsOverFlowY', JSON.stringify(TitleShowPage.detailsPaneContentsOverFlowY));
           expect(TitleShowPage.detailsPaneContentsOverFlowY).to.eq('auto');
         });
       });
