@@ -1,7 +1,18 @@
 # Change history for ui-eholdings
 
+## [1.7.0](https://github.com/folio-org/ui-eholdings/tree/v1.7.0) (2019-06-11)
+[Full Changelog](https://github.com/folio-org/ui-eholdings/compare/v1.5.0...v1.7.0)
+
+* Fixed tests related to the datepicker (UIEH-725)
+* Fix toggling of the notes accordions (UIEH-718)
+* Add Notes accordion to Provider and Resource view pages (UIEH-690)
+* Provider/Package/Resource: View a note page (UIEH-698)
+* Provider/Package/Resource: Create a note page (UIEH-693)
+* Title: Remove Tags functionality (UIEH-685)
+* Notes accordion for package show page (UIEH-691)
+* Create note page (UIEH-693) 
+
 ## [1.6.0](https://github.com/folio-org/ui-eholdings/tree/v1.6.0) (2019-05-10)
-[Full Changelog](https://github.com/folio-org/ui-eholdings/compare/v1.5.0...v1.6.0)
 
 * Add New button to agreements accordion on Package and Resource show pages for redirecting the user to creation page. (UIEH-629, UIEH-631)
 * Add badge with agreements quantity to agreements section on Package and Resource show pages (UIEH-680)
