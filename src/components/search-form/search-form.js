@@ -140,11 +140,15 @@ class SearchForm extends Component {
       ? <Icon icon="spinner-ellipsis" />
       : (
         <div>
-          <InfoPopover
-            content={<FormattedMessage id="ui-eholdings.tags.filter.cannot.combine" />}
-          />
           <Accordion
-            label={<FormattedMessage id="ui-eholdings.tags" />}
+            label={
+              <fragment>
+                <InfoPopover
+                  content={<FormattedMessage id="ui-eholdings.tags.filter.cannot.combine" />}
+                />
+                <FormattedMessage id="ui-eholdings.tags" />
+              </fragment>
+            }
             open={sections.tagFilter}
             id="tagFilter"
             separator={false}
