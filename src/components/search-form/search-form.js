@@ -1,12 +1,15 @@
 import React, { Component, Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { FormattedMessage } from 'react-intl';
+import update from 'lodash/fp/update';
 
 import {
   Accordion,
   Button,
   ButtonGroup,
+  FilterAccordionHeader,
   Icon,
+  InfoPopover,
   SearchField,
   Select
 } from '@folio/stripes/components';
@@ -54,6 +57,17 @@ class SearchForm extends Component {
     displaySearchTypeSwitcher: true,
     displaySearchButton: true,
     searchString: '',
+  };
+
+  state = {
+    sections: {
+      tagFilter: false,
+    },
+  };
+
+  toggleSection = ({ id }) => {
+    const newState = update(`sections.${id}`, value => !value, this.state);
+    this.setState(newState);
   };
 
   handleSearchSubmit = (e) => {
@@ -109,6 +123,10 @@ class SearchForm extends Component {
     } = this.props;
 
     const {
+      sections,
+    } = this.state;
+
+    const {
       tags = ''
     } = searchFilter;
 
@@ -121,22 +139,37 @@ class SearchForm extends Component {
     return tagsModel.isLoading
       ? <Icon icon="spinner-ellipsis" />
       : (
-        <Accordion>
-          <MultiSelectionFilter
-            id="tags-filter"
-            dataOptions={
+        <div>
+          <InfoPopover
+            content={<FormattedMessage id="ui-eholdings.tags.filter.cannot.combine" />}
+          />
+          <Accordion
+            label={<FormattedMessage id="ui-eholdings.tags" />}
+            open={sections.tagFilter}
+            id="tagFilter"
+            separator={false}
+            closedByDefault
+            header={FilterAccordionHeader}
+            onToggle={this.toggleSection}
+            displayClearButton={activeFilters.length > 0}
+            onClearFilter={() => this.props.onTagFilterChange({ tags: undefined })}
+          >
+            <MultiSelectionFilter
+              id="tags-filter"
+              dataOptions={
               tagsModel.map(tag => ({
                 value: tag.label.toLowerCase(),
                 label: tag.label.toLowerCase()
               }))
               }
-            name="tags"
-            onChange={this.handleUpdateTagFilter}
-            selectedValues={
+              name="tags"
+              onChange={this.handleUpdateTagFilter}
+              selectedValues={
               activeFilters
               }
-          />
-        </Accordion>
+            />
+          </Accordion>
+        </div>
       );
   }
 
