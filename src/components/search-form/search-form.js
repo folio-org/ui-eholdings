@@ -1,3 +1,6 @@
+import {
+  sortBy
+} from 'lodash';
 import React, { Component, Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { FormattedMessage } from 'react-intl';
@@ -116,6 +119,18 @@ class SearchForm extends Component {
     return null;
   };
 
+  getSortedDataOptions = () => {
+    const { tagsModel = [] } = this.props;
+    const dataOptions = tagsModel.map(tag => {
+      return {
+        value: tag.label.toLowerCase(),
+        label: tag.label.toLowerCase(),
+      };
+    });
+
+    return sortBy(dataOptions, ['value']);
+  }
+
   renderTagFilter() {
     const {
       tagsModel,
@@ -160,12 +175,7 @@ class SearchForm extends Component {
           >
             <MultiSelectionFilter
               id="tags-filter"
-              dataOptions={
-              tagsModel.map(tag => ({
-                value: tag.label.toLowerCase(),
-                label: tag.label.toLowerCase()
-              }))
-              }
+              dataOptions={this.getSortedDataOptions()}
               name="tags"
               onChange={this.handleUpdateTagFilter}
               selectedValues={
@@ -277,7 +287,7 @@ class SearchForm extends Component {
                 activeFilters={combinedFilters}
                 onUpdate={this.handleUpdateFilter}
               />
-              {(searchType === searchTypes.PROVIDERS) && this.renderTagFilter()}
+              {this.renderTagFilter()}
             </div>
           )}
         </form>
