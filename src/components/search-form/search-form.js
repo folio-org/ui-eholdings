@@ -105,9 +105,6 @@ class SearchForm extends Component {
   renderTagFilter() {
     const {
       tagsModel,
-    } = this.props;
-
-    const {
       searchFilter = {}
     } = this.props;
 
