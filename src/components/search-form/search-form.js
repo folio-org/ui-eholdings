@@ -240,7 +240,7 @@ class SearchForm extends Component {
                 activeFilters={combinedFilters}
                 onUpdate={this.handleUpdateFilter}
               />
-              {this.renderTagFilter()}
+              {(searchType === searchTypes.PROVIDERS) && this.renderTagFilter()}
             </div>
           )}
         </form>
