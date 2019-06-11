@@ -22,7 +22,7 @@ describe('Error retrieving backend', () => {
   });
 });
 
-describe.only('With no backend at all', () => {
+describe('With no backend at all', () => {
   setupApplication({
     scenarios: ['no-backend']
   });
@@ -38,7 +38,7 @@ describe.only('With no backend at all', () => {
   });
 });
 
-describe.only('With unconfigured backend', () => {
+describe('With unconfigured backend', () => {
   setupApplication({
     scenarios: ['unconfigured-backend']
   });
@@ -98,7 +98,7 @@ describe.only('With unconfigured backend', () => {
   });
 });
 
-describe.only('With valid backend configuration', () => {
+describe('With valid backend configuration', () => {
   setupApplication();
 
   describe('when visiting the KB auth form', () => {
