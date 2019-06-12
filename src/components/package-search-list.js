@@ -24,10 +24,14 @@ function PackageSearchList({
       collection={collection}
       onUpdateOffset={onUpdateOffset}
       itemHeight={ITEM_HEIGHT}
-      notFoundMessage={(
+      notFoundMessage={params.q ? (
+        <FormattedMessage
+          id="ui-eholdings.package.resultsNotFoundForQuery"
+          values={{ query: params.q }}
+        />
+      ) : (
         <FormattedMessage
           id="ui-eholdings.package.resultsNotFound"
-          values={{ query: params.q }}
         />
       )}
       fullWidth

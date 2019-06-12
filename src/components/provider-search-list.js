@@ -24,13 +24,16 @@ export default function ProviderSearchList({
       collection={collection}
       onUpdateOffset={onUpdateOffset}
       itemHeight={ITEM_HEIGHT}
-      notFoundMessage={(
+      notFoundMessage={params.q ? (
         <FormattedMessage
-          id="ui-eholdings.provider.resultsNotFound"
+          id="ui-eholdings.provider.resultsNotFoundForQuery"
           values={{ query: params.q }}
         />
+      ) : (
+        <FormattedMessage
+          id="ui-eholdings.provider.resultsNotFound"
+        />
       )}
-
       fullWidth
       renderItem={item => (
         <ProviderListItem
