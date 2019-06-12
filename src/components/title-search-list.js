@@ -24,10 +24,14 @@ export default function TitleSearchList({
       collection={collection}
       onUpdateOffset={onUpdateOffset}
       itemHeight={ITEM_HEIGHT}
-      notFoundMessage={(
+      notFoundMessage={params.q ? (
+        <FormattedMessage
+          id="ui-eholdings.title.resultsNotFoundForQuery"
+          values={{ query: params.q }}
+        />
+      ) : (
         <FormattedMessage
           id="ui-eholdings.title.resultsNotFound"
-          values={{ query: params.q }}
         />
       )}
       fullWidth
