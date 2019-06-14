@@ -30,6 +30,10 @@ describe('ProviderSearch', () => {
     expect(ProviderSearchPage.isSearchButtonDisabled).to.equal(true);
   });
 
+  it('has tag filter', () => {
+    expect(ProviderSearchPage.hasTagFilter).to.equal(true);
+  });
+
   it('has a pre-results pane', () => {
     expect(ProviderSearchPage.hasPreSearchPane).to.equal(true);
   });
@@ -409,6 +413,62 @@ describe('ProviderSearch', () => {
           expect(ProviderSearchPage.providerList(2).name).to.equal('My Health Analytics 10');
         });
       });
+    });
+  });
+
+  describe.skip('filtering providers by tags', () => {
+    beforeEach(function () {
+      const allTags = ['urgent', 'not urgent'];
+
+      const urgentTag = this.server.create('tags', {
+        tagList: allTags.slice(0)
+      }).toJSON();
+
+      this.server.create('provider', {
+        name: 'Test Urgent Tag',
+        urgentTag
+      });
+
+      const notUrgentTag = this.server.create('tags', {
+        tagList: allTags.slice(1),
+      }).toJSON();
+
+      this.server.create('provider', {
+        name: 'Test Not Urgent Tag',
+        notUrgentTag
+      });
+
+      const bothTags = this.server.create('tags', {
+        tagList: allTags,
+      }).toJSON();
+
+      this.server.create('provider', {
+        name: 'Test Both Tags',
+        bothTags
+      });
+      this.server.create('provider', {
+        name: 'Test No Tags'
+      });
+    });
+
+    describe('clicking to open tags accordion', () => {
+      beforeEach(async () => {
+        await ProviderSearchPage.tagFilter.clickTagsAccordion();
+      });
+    });
+
+    it("displays tag filter with empty value'", () => {
+      expect(ProviderSearchPage.tagFilter.selectTags.val).to.equal('');
+    });
+
+    describe('selecting tag urgent', () => {
+      beforeEach(async () => {
+        await ProviderSearchPage.tagFilter.selectTags.selectAndBlur('urgent');
+      });
+    });
+
+    it('displays providers tagged as urgent', () => {
+      expect(ProviderSearchPage.providerList()).to.have.lengthOf(2);
     });
   });
 

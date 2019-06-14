@@ -64,7 +64,7 @@ class SearchForm extends Component {
 
   state = {
     sections: {
-      tagFilter: false,
+      accordionTagfilter: false,
     },
   };
 
@@ -154,18 +154,18 @@ class SearchForm extends Component {
     return tagsModel.isLoading
       ? <Icon icon="spinner-ellipsis" />
       : (
-        <div>
+        <div data-test-eholdings-tag-filter>
           <Accordion
             label={
-              <fragment>
+              <Fragment>
                 <InfoPopover
                   content={<FormattedMessage id="ui-eholdings.tags.filter.cannot.combine" />}
                 />
                 <FormattedMessage id="ui-eholdings.tags" />
-              </fragment>
+              </Fragment>
             }
             open={sections.tagFilter}
-            id="tagFilter"
+            id="accordionTagfilter"
             separator={false}
             closedByDefault
             header={FilterAccordionHeader}
@@ -174,7 +174,7 @@ class SearchForm extends Component {
             onClearFilter={() => this.props.onTagFilterChange({ tags: undefined })}
           >
             <MultiSelectionFilter
-              id="tags-filter"
+              id="selectTagFilter"
               dataOptions={this.getSortedDataOptions()}
               name="tags"
               onChange={this.handleUpdateTagFilter}

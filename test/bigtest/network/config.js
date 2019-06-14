@@ -394,8 +394,14 @@ export default function config() {
 
   // Provider resources
   this.get('/providers', searchRouteFor('providers', (provider, req) => {
+    const params = req.queryParams;
+    const tags = params['filter[tags]'];
+
     if (req.queryParams.q && provider.name) {
       return includesWords(provider.name, req.queryParams.q.toLowerCase());
+    } else if (tags) {
+      // tags is comma separated list -- check if provider has at least one of the tags
+      return tags.split(',').some(item => provider.tags.tagList.includes(item));
     } else {
       return !!provider.name;
     }
@@ -416,10 +422,12 @@ export default function config() {
     const body = JSON.parse(request.requestBody);
     const {
       proxy,
-      providerToken
+      providerToken,
+      tags
     } = body.data.attributes;
     matchingProvider.update('proxy', proxy);
     matchingProvider.update('providerToken', providerToken);
+    matchingProvider.update('tags', tags);
     return matchingProvider;
   });
 
