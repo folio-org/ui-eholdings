@@ -287,7 +287,7 @@ class SearchForm extends Component {
                 activeFilters={combinedFilters}
                 onUpdate={this.handleUpdateFilter}
               />
-              {(searchType === searchTypes.PROVIDERS) && this.renderTagFilter()}
+              { this.renderTagFilter() }
             </div>
           )}
         </form>

@@ -258,6 +258,7 @@ class PackageShowRoute extends Component {
           searchModal={
             <SearchModal
               key={queryId}
+              tagsModel={tagsModel}
               listType={listTypes.TITLES}
               query={pkgSearchParams}
               onSearch={this.searchTitles}
