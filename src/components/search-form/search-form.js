@@ -149,7 +149,7 @@ class SearchForm extends Component {
       return tag.toLowerCase();
     }) : [];
 
-    const activeFilters = tagsList.sort();
+    tagsList.sort();
 
     return tagsModel.isLoading
       ? <Icon icon="spinner-ellipsis" />
@@ -170,7 +170,7 @@ class SearchForm extends Component {
             closedByDefault
             header={FilterAccordionHeader}
             onToggle={this.toggleSection}
-            displayClearButton={activeFilters.length > 0}
+            displayClearButton={tagsList.length > 0}
             onClearFilter={() => this.props.onTagFilterChange({ tags: undefined })}
           >
             <MultiSelectionFilter
@@ -179,7 +179,7 @@ class SearchForm extends Component {
               name="tags"
               onChange={this.handleUpdateTagFilter}
               selectedValues={
-              activeFilters
+              tagsList
               }
             />
           </Accordion>
