@@ -12,8 +12,11 @@ import {
   text
 } from '@bigtest/interactor';
 
+import MultiSelectInteractor from '@folio/stripes-components/lib/MultiSelection/tests/interactor';
+import { AccordionInteractor } from '@folio/stripes-components/lib/Accordion/tests/interactor';
+
 import SearchBadge from './search-badge';
-import TagFilter from './tag-filter';
+
 
 @interactor class ProviderSearchPage {
   fillSearch = fillable('[data-test-search-field] input[name="search"]');
@@ -43,7 +46,8 @@ import TagFilter from './tag-filter';
   clickCloseButton = clickable('[data-test-eholdings-details-view-close-button]');
   hasPreSearchPane = isPresent('[data-test-eholdings-pre-search-pane]');
   searchBadge = new SearchBadge('[data-test-eholdings-results-pane-search-badge]');
-  tagFilter = TagFilter;
+  tagsAccordion = new AccordionInteractor('#accordionTagFilter');
+  tagsSelect = new MultiSelectInteractor('#selectTagFilter');
 
   hasLoaded = computed(function () {
     return this.providerList().length > 0;

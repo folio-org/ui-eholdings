@@ -416,7 +416,7 @@ describe('ProviderSearch', () => {
     });
   });
 
-  describe.skip('filtering providers by tags', () => {
+  describe('filtering providers by tags', () => {
     beforeEach(function () {
       const allTags = ['urgent', 'not urgent'];
 
@@ -424,51 +424,87 @@ describe('ProviderSearch', () => {
         tagList: allTags.slice(0)
       }).toJSON();
 
-      this.server.create('provider', {
-        name: 'Test Urgent Tag',
-        urgentTag
+      const urgentProvider = this.server.create('provider', {
+        name: 'Test Urgent Tag'
       });
+
+      urgentProvider.update('tags', urgentTag);
 
       const notUrgentTag = this.server.create('tags', {
         tagList: allTags.slice(1),
       }).toJSON();
 
-      this.server.create('provider', {
-        name: 'Test Not Urgent Tag',
-        notUrgentTag
+      const notUrgentProvider = this.server.create('provider', {
+        name: 'Test Not Urgent Tag'
       });
+
+      notUrgentProvider.update('tags', notUrgentTag);
 
       const bothTags = this.server.create('tags', {
         tagList: allTags,
       }).toJSON();
 
-      this.server.create('provider', {
-        name: 'Test Both Tags',
-        bothTags
+      const bothProvider = this.server.create('provider', {
+        name: 'Test Both Tags'
       });
+
+      bothProvider.update('tags', bothTags);
+
       this.server.create('provider', {
         name: 'Test No Tags'
       });
     });
 
+    it('displays accordion with label Tags', () => {
+      expect(ProviderSearchPage.tagsAccordion.label).to.equal('Tags');
+    });
+
+    it('displays accordion as closed', () => {
+      expect(ProviderSearchPage.tagsAccordion.isOpen).to.equal(true);
+    });
+
+    /*
     describe('clicking to open tags accordion', () => {
       beforeEach(async () => {
-        await ProviderSearchPage.tagFilter.clickTagsAccordion();
+        await ProviderSearchPage.tagsAccordion.clickHeader();
       });
+
+      it('expands the section', () => {
+        expect(ProviderSearchPage.tagsAccordion.isOpen).to.be.true;
+      });
+      */
+
+    it('displays tag filter with empty value', () => {
+      expect(ProviderSearchPage.tagsSelect.values()).to.deep.equal([]);
     });
 
-    it("displays tag filter with empty value'", () => {
-      expect(ProviderSearchPage.tagFilter.selectTags.val).to.equal('');
-    });
-
-    describe('selecting tag urgent', () => {
+    describe('after click on urgent option', () => {
       beforeEach(async () => {
-        await ProviderSearchPage.tagFilter.selectTags.selectAndBlur('urgent');
+        await ProviderSearchPage.tagsSelect.options(1).clickOption();
       });
-    });
 
-    it('displays providers tagged as urgent', () => {
-      expect(ProviderSearchPage.providerList()).to.have.lengthOf(2);
+      it('should display selected value', () => {
+        expect(ProviderSearchPage.tagsSelect.values(0).valLabel).to.equal('urgent');
+      });
+
+      it('displays providers tagged as urgent', () => {
+        expect(ProviderSearchPage.providerList()).to.have.lengthOf(2);
+      });
+
+      describe('after click on non urgent option', () => {
+        beforeEach(async () => {
+          await ProviderSearchPage.tagsSelect.options(0).clickOption();
+        });
+        it('should display selected value', () => {
+          expect(ProviderSearchPage.tagsSelect.values(0).valLabel).to.equal('not urgent');
+          expect(ProviderSearchPage.tagsSelect.values(1).valLabel).to.equal('urgent');
+        });
+
+        it('displays providers tagged as urgent', () => {
+          expect(ProviderSearchPage.providerList()).to.have.lengthOf(3);
+        });
+      });
+    //  });
     });
   });
 
