@@ -455,10 +455,6 @@ describe('ProviderSearch', () => {
       });
     });
 
-    it('displays accordion with label Tags', () => {
-      expect(ProviderSearchPage.tagsAccordion.label).to.equal('Tags');
-    });
-
     it('displays accordion as closed', () => {
       expect(ProviderSearchPage.tagsAccordion.isOpen).to.equal(false);
     });
