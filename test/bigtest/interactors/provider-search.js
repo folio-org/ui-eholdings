@@ -48,6 +48,15 @@ import SearchBadge from './search-badge';
   searchBadge = new SearchBadge('[data-test-eholdings-results-pane-search-badge]');
   tagsAccordion = new AccordionInteractor('#accordionTagFilter');
   tagsSelect = new MultiSelectInteractor('#selectTagFilter');
+  hasClearTagFilter = isPresent('#accordionTagFilter button[icon="times-circle-solid"]');
+
+  clearTagFilter = action(function () {
+    return this.click('#accordionTagFilter button[icon="times-circle-solid"]');
+  });
+
+  clickTagHeader = action(function () {
+    return this.click('#accordionTagFilter button[class^="filterSetHeader--"]');
+  });
 
   hasLoaded = computed(function () {
     return this.providerList().length > 0;

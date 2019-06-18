@@ -424,31 +424,28 @@ describe('ProviderSearch', () => {
         tagList: allTags.slice(0)
       }).toJSON();
 
-      const urgentProvider = this.server.create('provider', {
-        name: 'Test Urgent Tag'
+      this.server.create('provider', {
+        name: 'Test Urgent Tag',
+        tags: urgentTag
       });
-
-      urgentProvider.update('tags', urgentTag);
 
       const notUrgentTag = this.server.create('tags', {
         tagList: allTags.slice(1),
       }).toJSON();
 
-      const notUrgentProvider = this.server.create('provider', {
-        name: 'Test Not Urgent Tag'
+      this.server.create('provider', {
+        name: 'Test Not Urgent Tag',
+        tags: notUrgentTag
       });
-
-      notUrgentProvider.update('tags', notUrgentTag);
 
       const bothTags = this.server.create('tags', {
         tagList: allTags,
       }).toJSON();
 
-      const bothProvider = this.server.create('provider', {
-        name: 'Test Both Tags'
+      this.server.create('provider', {
+        name: 'Test Both Tags',
+        tags: bothTags
       });
-
-      bothProvider.update('tags', bothTags);
 
       this.server.create('provider', {
         name: 'Test No Tags'
@@ -461,10 +458,10 @@ describe('ProviderSearch', () => {
 
     describe('clicking to open tags accordion', () => {
       beforeEach(async () => {
-        await ProviderSearchPage.tagsAccordion.clickHeader();
+        ProviderSearchPage.clickTagHeader();
       });
 
-      it('expands the section', () => {
+      it.skip('expands the section', () => {
         expect(ProviderSearchPage.tagsAccordion.isOpen).to.be.true;
       });
 
@@ -485,6 +482,10 @@ describe('ProviderSearch', () => {
           expect(ProviderSearchPage.providerList()).to.have.lengthOf(2);
         });
 
+        it('should display the clear tag filter button', () => {
+          expect(ProviderSearchPage.hasClearTagFilter).to.be.true;
+        });
+
         describe('after click on non urgent option', () => {
           beforeEach(async () => {
             await ProviderSearchPage.tagsSelect.options(0).clickOption();
@@ -494,8 +495,26 @@ describe('ProviderSearch', () => {
             expect(ProviderSearchPage.tagsSelect.values(1).valLabel).to.equal('urgent');
           });
 
-          it('displays providers tagged as urgent', () => {
+          it('displays providers tagged as urgent and non urgent', () => {
             expect(ProviderSearchPage.providerList()).to.have.lengthOf(3);
+          });
+
+          describe('clearing the filters', () => {
+            beforeEach(() => {
+              return ProviderSearchPage.clearTagFilter();
+            });
+
+            it('displays tag filter with empty value', () => {
+              expect(ProviderSearchPage.tagsSelect.values()).to.deep.equal([]);
+            });
+
+            it('displays no provider results', () => {
+              expect(ProviderSearchPage.providerList()).to.have.lengthOf(0);
+            });
+
+            it.always('removes the filter from the URL query params', function () {
+              expect(this.location.search).to.not.include('filter[tags]');
+            });
           });
         });
       });
