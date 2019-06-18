@@ -249,6 +249,33 @@ class SearchRoute extends Component {
     this.search({ ...params, page });
   };
 
+  notFoundMessage = (searchType) => {
+    const { params } = this.state;
+    let idWithQuery; let idnoQuery;
+
+    if (searchType === searchTypes.PROVIDERS) {
+      idWithQuery = 'ui-eholdings.provider.resultsNotFoundForQuery';
+      idnoQuery = 'ui-eholdings.provider.resultsNotFound';
+    } else if (searchType === searchTypes.PACKAGES) {
+      idWithQuery = 'ui-eholdings.package.resultsNotFoundForQuery';
+      idnoQuery = 'ui-eholdings.package.resultsNotFound';
+    } else if (searchType === searchTypes.TITLES) {
+      idWithQuery = 'ui-eholdings.title.resultsNotFoundForQuery';
+      idnoQuery = 'ui-eholdings.title.resultsNotFound';
+    }
+    return params.q ? (
+      <FormattedMessage
+        id={idWithQuery}
+        values={{ query: params.q }}
+      />
+    ) : (
+      <FormattedMessage
+        id={idnoQuery}
+      />
+    );
+  };
+
+
   /**
    * Renders the search component specific to the current search type
    */
@@ -270,7 +297,8 @@ class SearchRoute extends Component {
           search: location.search,
           state: { eholdings: true }
         });
-      }
+      },
+      notFoundMessage: this.notFoundMessage(searchType)
     };
 
     const {
@@ -279,6 +307,7 @@ class SearchRoute extends Component {
 
 
     const { tags = '' } = filter;
+
 
     if (params.q || tags) {
       if (searchType === searchTypes.PROVIDERS) {

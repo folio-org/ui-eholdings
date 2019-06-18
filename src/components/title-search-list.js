@@ -1,6 +1,5 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { FormattedMessage } from 'react-intl';
 
 import QueryList from './query-list';
 import TitleListItem from './title-list-item';
@@ -11,6 +10,7 @@ export default function TitleSearchList({
   activeId,
   collection,
   fetch,
+  notFoundMessage,
   onUpdateOffset,
   params,
   shouldFocusItem,
@@ -24,16 +24,7 @@ export default function TitleSearchList({
       collection={collection}
       onUpdateOffset={onUpdateOffset}
       itemHeight={ITEM_HEIGHT}
-      notFoundMessage={params.q ? (
-        <FormattedMessage
-          id="ui-eholdings.title.resultsNotFoundForQuery"
-          values={{ query: params.q }}
-        />
-      ) : (
-        <FormattedMessage
-          id="ui-eholdings.title.resultsNotFound"
-        />
-      )}
+      notFoundMessage={notFoundMessage}
       fullWidth
       renderItem={item => (
         <TitleListItem
@@ -55,6 +46,7 @@ TitleSearchList.propTypes = {
   activeId: PropTypes.string,
   collection: PropTypes.object.isRequired,
   fetch: PropTypes.func.isRequired,
+  notFoundMessage: PropTypes.string,
   onClickItem: PropTypes.func.isRequired,
   onUpdateOffset: PropTypes.func.isRequired,
   params: PropTypes.object.isRequired,
