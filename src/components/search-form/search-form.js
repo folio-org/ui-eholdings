@@ -12,7 +12,6 @@ import {
   ButtonGroup,
   FilterAccordionHeader,
   Icon,
-  InfoPopover,
   SearchField,
   Select
 } from '@folio/stripes/components';
@@ -157,12 +156,7 @@ class SearchForm extends Component {
         <div data-test-eholdings-tag-filter>
           <Accordion
             label={
-              <Fragment>
-                <InfoPopover
-                  content={<FormattedMessage id="ui-eholdings.tags.filter.cannot.combine" />}
-                />
-                <FormattedMessage id="ui-eholdings.tags" />
-              </Fragment>
+              <FormattedMessage id="ui-eholdings.tags" />
             }
             open={sections.tagFilter}
             id="accordionTagFilter"
@@ -173,15 +167,20 @@ class SearchForm extends Component {
             displayClearButton={tagsList.length > 0}
             onClearFilter={() => this.props.onTagFilterChange({ tags: undefined })}
           >
-            <MultiSelectionFilter
-              id="selectTagFilter"
-              dataOptions={this.getSortedDataOptions()}
-              name="tags"
-              onChange={this.handleUpdateTagFilter}
-              selectedValues={
+            <div className={styles['tag-filters']}>
+              <div data-test-eholdings-tag-message>
+                <FormattedMessage id="ui-eholdings.tags.filter.cannot.combine" />
+              </div>
+              <MultiSelectionFilter
+                id="selectTagFilter"
+                dataOptions={this.getSortedDataOptions()}
+                name="tags"
+                onChange={this.handleUpdateTagFilter}
+                selectedValues={
               tagsList
               }
-            />
+              />
+            </div>
           </Accordion>
         </div>
       );
