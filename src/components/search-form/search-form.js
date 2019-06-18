@@ -64,7 +64,7 @@ class SearchForm extends Component {
 
   state = {
     sections: {
-      accordionTagfilter: true,
+      accordionTagfilter: false,
     },
   };
 
@@ -167,7 +167,7 @@ class SearchForm extends Component {
             open={sections.tagFilter}
             id="accordionTagFilter"
             separator={false}
-            closedByDefault={false}
+            closedByDefault
             header={FilterAccordionHeader}
             onToggle={this.toggleSection}
             displayClearButton={tagsList.length > 0}

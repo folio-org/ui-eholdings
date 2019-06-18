@@ -460,10 +460,9 @@ describe('ProviderSearch', () => {
     });
 
     it('displays accordion as closed', () => {
-      expect(ProviderSearchPage.tagsAccordion.isOpen).to.equal(true);
+      expect(ProviderSearchPage.tagsAccordion.isOpen).to.equal(false);
     });
 
-    /*
     describe('clicking to open tags accordion', () => {
       beforeEach(async () => {
         await ProviderSearchPage.tagsAccordion.clickHeader();
@@ -472,39 +471,38 @@ describe('ProviderSearch', () => {
       it('expands the section', () => {
         expect(ProviderSearchPage.tagsAccordion.isOpen).to.be.true;
       });
-      */
 
-    it('displays tag filter with empty value', () => {
-      expect(ProviderSearchPage.tagsSelect.values()).to.deep.equal([]);
-    });
-
-    describe('after click on urgent option', () => {
-      beforeEach(async () => {
-        await ProviderSearchPage.tagsSelect.options(1).clickOption();
+      it('displays tag filter with empty value', () => {
+        expect(ProviderSearchPage.tagsSelect.values()).to.deep.equal([]);
       });
 
-      it('should display selected value', () => {
-        expect(ProviderSearchPage.tagsSelect.values(0).valLabel).to.equal('urgent');
-      });
-
-      it('displays providers tagged as urgent', () => {
-        expect(ProviderSearchPage.providerList()).to.have.lengthOf(2);
-      });
-
-      describe('after click on non urgent option', () => {
+      describe('after click on urgent option', () => {
         beforeEach(async () => {
-          await ProviderSearchPage.tagsSelect.options(0).clickOption();
+          await ProviderSearchPage.tagsSelect.options(1).clickOption();
         });
+
         it('should display selected value', () => {
-          expect(ProviderSearchPage.tagsSelect.values(0).valLabel).to.equal('not urgent');
-          expect(ProviderSearchPage.tagsSelect.values(1).valLabel).to.equal('urgent');
+          expect(ProviderSearchPage.tagsSelect.values(0).valLabel).to.equal('urgent');
         });
 
         it('displays providers tagged as urgent', () => {
-          expect(ProviderSearchPage.providerList()).to.have.lengthOf(3);
+          expect(ProviderSearchPage.providerList()).to.have.lengthOf(2);
+        });
+
+        describe('after click on non urgent option', () => {
+          beforeEach(async () => {
+            await ProviderSearchPage.tagsSelect.options(0).clickOption();
+          });
+          it('should display selected value', () => {
+            expect(ProviderSearchPage.tagsSelect.values(0).valLabel).to.equal('not urgent');
+            expect(ProviderSearchPage.tagsSelect.values(1).valLabel).to.equal('urgent');
+          });
+
+          it('displays providers tagged as urgent', () => {
+            expect(ProviderSearchPage.providerList()).to.have.lengthOf(3);
+          });
         });
       });
-    //  });
     });
   });
 
