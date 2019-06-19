@@ -465,6 +465,12 @@ describe('ProviderSearch', () => {
         expect(ProviderSearchPage.tagsAccordion.isOpen).to.be.true;
       });
 
+      it('displays tag filter with available options', () => {
+        expect(ProviderSearchPage.tagsSelect.optionCount).to.equal(2);
+        expect(ProviderSearchPage.tagsSelect.options(0).label).to.equal('not urgent');
+        expect(ProviderSearchPage.tagsSelect.options(1).label).to.equal('urgent');
+      });
+
       it('displays tag filter with empty value', () => {
         expect(ProviderSearchPage.tagsSelect.values()).to.deep.equal([]);
       });
@@ -474,29 +480,34 @@ describe('ProviderSearch', () => {
           await ProviderSearchPage.tagsSelect.options(1).clickOption();
         });
 
-        it('should display selected value', () => {
+        it('should display selected value as urgent', () => {
           expect(ProviderSearchPage.tagsSelect.values(0).valLabel).to.equal('urgent');
         });
 
         it('displays providers tagged as urgent', () => {
           expect(ProviderSearchPage.providerList()).to.have.lengthOf(2);
-        });
-
-        it('should display the clear tag filter button', () => {
-          expect(ProviderSearchPage.hasClearTagFilter).to.be.true;
+          expect(ProviderSearchPage.providerList(0).name).to.equal('Test Both Tags');
+          expect(ProviderSearchPage.providerList(1).name).to.equal('Test Urgent Tag');
         });
 
         describe('after click on non urgent option', () => {
           beforeEach(async () => {
             await ProviderSearchPage.tagsSelect.options(0).clickOption();
           });
-          it('should display selected value', () => {
+          it('should display selected values of not urgent and urgent', () => {
             expect(ProviderSearchPage.tagsSelect.values(0).valLabel).to.equal('not urgent');
             expect(ProviderSearchPage.tagsSelect.values(1).valLabel).to.equal('urgent');
           });
 
           it('displays providers tagged as urgent and non urgent', () => {
             expect(ProviderSearchPage.providerList()).to.have.lengthOf(3);
+            expect(ProviderSearchPage.providerList(0).name).to.equal('Test Both Tags');
+            expect(ProviderSearchPage.providerList(1).name).to.equal('Test Not Urgent Tag');
+            expect(ProviderSearchPage.providerList(2).name).to.equal('Test Urgent Tag');
+          });
+
+          it('should display the clear tag filter button', () => {
+            expect(ProviderSearchPage.hasClearTagFilter).to.be.true;
           });
 
           describe('clearing the filters', () => {
