@@ -588,6 +588,7 @@ describe('PackageSearch', () => {
       });
     });
   });
+
   describe('with multiple pages of packages', () => {
     beforeEach(function () {
       this.server.createList('package', 75, {
