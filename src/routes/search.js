@@ -110,7 +110,7 @@ class SearchRoute extends Component {
   }
 
   handleTagFilterChange = (searchFilter) => {
-    this.setState({ searchFilter }, () => this.handleSearch());
+    this.setState({ searchFilter, searchString: '' }, () => this.handleSearch());
   }
 
   handleSearchFieldChange = searchField => {

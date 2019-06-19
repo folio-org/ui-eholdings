@@ -510,21 +510,37 @@ describe('ProviderSearch', () => {
             expect(ProviderSearchPage.hasClearTagFilter).to.be.true;
           });
 
-          describe('clearing the filters', () => {
-            beforeEach(() => {
-              return ProviderSearchPage.clearTagFilter();
+          describe('removing not urgent tag filter', () => {
+            beforeEach(async () => {
+              await ProviderSearchPage.tagsSelect.values(0).clickRemoveButton();
             });
 
-            it('displays tag filter with empty value', () => {
-              expect(ProviderSearchPage.tagsSelect.values()).to.deep.equal([]);
+            it('should display selected values of urgent', () => {
+              expect(ProviderSearchPage.tagsSelect.values(0).valLabel).to.equal('urgent');
             });
 
-            it('displays no provider results', () => {
-              expect(ProviderSearchPage.providerList()).to.have.lengthOf(0);
+            it('displays providers tagged as urgent', () => {
+              expect(ProviderSearchPage.providerList()).to.have.lengthOf(2);
+              expect(ProviderSearchPage.providerList(0).name).to.equal('Test Both Tags');
+              expect(ProviderSearchPage.providerList(1).name).to.equal('Test Urgent Tag');
             });
 
-            it.always('removes the filter from the URL query params', function () {
-              expect(this.location.search).to.not.include('filter[tags]');
+            describe('clearing the filters', () => {
+              beforeEach(() => {
+                return ProviderSearchPage.clearTagFilter();
+              });
+
+              it('displays tag filter with empty value', () => {
+                expect(ProviderSearchPage.tagsSelect.values()).to.deep.equal([]);
+              });
+
+              it('displays no provider results', () => {
+                expect(ProviderSearchPage.providerList()).to.have.lengthOf(0);
+              });
+
+              it.always('removes the filter from the URL query params', function () {
+                expect(this.location.search).to.not.include('filter[tags]');
+              });
             });
           });
         });

@@ -4,6 +4,7 @@ import {
 import React, { Component, Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { FormattedMessage } from 'react-intl';
+import update from 'lodash/fp/update';
 
 import {
   Accordion,
@@ -60,6 +61,18 @@ class SearchForm extends Component {
     searchString: '',
   };
 
+  state = {
+    sections: {
+      accordionTagFilter: false,
+    },
+  };
+
+   toggleSection = ({ id }) => {
+     const newState = update(`sections.${id}`, value => !value, this.state);
+     this.setState(newState);
+   };
+
+
   handleSearchSubmit = (e) => {
     e.preventDefault();
     this.props.onSearch();
@@ -81,7 +94,7 @@ class SearchForm extends Component {
 
   handleUpdateTagFilter = (filter) => {
     const tagFilter = {
-      tags: filter.values.join(',')
+      tags: filter.values.length > 0 ? filter.values.join(',') : undefined
     };
     this.props.onTagFilterChange(tagFilter);
   };
@@ -128,6 +141,10 @@ class SearchForm extends Component {
       tags = ''
     } = searchFilter;
 
+    const {
+      sections,
+    } = this.state;
+
     const tagsList = tags ? tags.split(',').map(tag => {
       return tag.toLowerCase();
     }) : [];
@@ -144,10 +161,12 @@ class SearchForm extends Component {
             }
             id="accordionTagFilter"
             separator={false}
+            open={sections.accordionTagFilter}
             closedByDefault
             header={FilterAccordionHeader}
             displayClearButton={tagsList.length > 0}
             onClearFilter={() => this.props.onTagFilterChange({ tags: undefined })}
+            onToggle={this.toggleSection}
           >
             <div className={styles['tag-filters']}>
               <div data-test-eholdings-tag-message>
