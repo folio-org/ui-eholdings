@@ -452,16 +452,16 @@ describe('ProviderSearch', () => {
       });
     });
 
-    it('displays accordion as closed', () => {
+    it('displays tags accordion as closed', () => {
       expect(ProviderSearchPage.tagsAccordion.isOpen).to.equal(false);
     });
 
     describe('clicking to open tags accordion', () => {
       beforeEach(async () => {
-        ProviderSearchPage.clickTagHeader();
+        await ProviderSearchPage.clickTagHeader();
       });
 
-      it.skip('expands the section', () => {
+      it('displays tags accordion as expanded', () => {
         expect(ProviderSearchPage.tagsAccordion.isOpen).to.be.true;
       });
 

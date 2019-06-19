@@ -61,17 +61,6 @@ class SearchForm extends Component {
     searchString: '',
   };
 
-  state = {
-    sections: {
-      accordionTagfilter: false,
-    },
-  };
-
-  toggleSection = ({ id }) => {
-    const newState = update(`sections.${id}`, value => !value, this.state);
-    this.setState(newState);
-  };
-
   handleSearchSubmit = (e) => {
     e.preventDefault();
     this.props.onSearch();
@@ -137,10 +126,6 @@ class SearchForm extends Component {
     } = this.props;
 
     const {
-      sections,
-    } = this.state;
-
-    const {
       tags = ''
     } = searchFilter;
 
@@ -155,15 +140,15 @@ class SearchForm extends Component {
       : (
         <div data-test-eholdings-tag-filter>
           <Accordion
+            key="accordionTagFilter"
+            name="accordionTagFilter"
             label={
               <FormattedMessage id="ui-eholdings.tags" />
             }
-            open={sections.tagFilter}
             id="accordionTagFilter"
             separator={false}
             closedByDefault
             header={FilterAccordionHeader}
-            onToggle={this.toggleSection}
             displayClearButton={tagsList.length > 0}
             onClearFilter={() => this.props.onTagFilterChange({ tags: undefined })}
           >
