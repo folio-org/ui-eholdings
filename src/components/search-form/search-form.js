@@ -4,7 +4,6 @@ import {
 import React, { Component, Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { FormattedMessage } from 'react-intl';
-import update from 'lodash/fp/update';
 
 import {
   Accordion,
@@ -140,8 +139,6 @@ class SearchForm extends Component {
       : (
         <div data-test-eholdings-tag-filter>
           <Accordion
-            key="accordionTagFilter"
-            name="accordionTagFilter"
             label={
               <FormattedMessage id="ui-eholdings.tags" />
             }
