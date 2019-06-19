@@ -523,6 +523,71 @@ describe('PackageSearch', () => {
     });
   });
 
+  describe('filtering packages by tags', () => {
+    beforeEach(function () {
+      const allTags = ['urgent', 'not urgent'];
+
+      const urgentTag = this.server.create('tags', {
+        tagList: allTags.slice(0)
+      }).toJSON();
+
+      this.server.create('package', {
+        name: 'Test Urgent Tag',
+        tags: urgentTag
+      });
+    });
+
+    it('displays tags accordion as closed', () => {
+      expect(PackageSearchPage.tagsSection.tagsAccordion.isOpen).to.equal(false);
+    });
+
+    describe('clicking to open tags accordion', () => {
+      beforeEach(async () => {
+        await PackageSearchPage.tagsSection.clickTagHeader();
+      });
+
+      it('displays tags accordion as expanded', () => {
+        expect(PackageSearchPage.tagsSection.tagsAccordion.isOpen).to.be.true;
+      });
+
+      describe('after click on urgent option', () => {
+        beforeEach(async () => {
+          await PackageSearchPage.tagsSection.tagsSelect.options(1).clickOption();
+        });
+
+        it('should display selected value as urgent', () => {
+          expect(PackageSearchPage.tagsSection.tagsSelect.values(0).valLabel).to.equal('urgent');
+        });
+
+        it('displays packages tagged as urgent', () => {
+          expect(PackageSearchPage.packageList()).to.have.lengthOf(1);
+          expect(PackageSearchPage.packageList(0).name).to.equal('Test Urgent Tag');
+        });
+
+        it('should display the clear tag filter button', () => {
+          expect(PackageSearchPage.tagsSection.hasClearTagFilter).to.be.true;
+        });
+
+        describe('clearing the filters', () => {
+          beforeEach(() => {
+            return PackageSearchPage.tagsSection.clearTagFilter();
+          });
+
+          it('displays tag filter with empty value', () => {
+            expect(PackageSearchPage.tagsSection.tagsSelect.values()).to.deep.equal([]);
+          });
+
+          it('displays no package results', () => {
+            expect(PackageSearchPage.packageList()).to.have.lengthOf(0);
+          });
+
+          it.always('removes the filter from the URL query params', function () {
+            expect(this.location.search).to.not.include('filter[tags]');
+          });
+        });
+      });
+    });
+  });
   describe('with multiple pages of packages', () => {
     beforeEach(function () {
       this.server.createList('package', 75, {

@@ -453,35 +453,35 @@ describe('ProviderSearch', () => {
     });
 
     it('displays tags accordion as closed', () => {
-      expect(ProviderSearchPage.tagsAccordion.isOpen).to.equal(false);
+      expect(ProviderSearchPage.tagsSection.tagsAccordion.isOpen).to.equal(false);
     });
 
     describe('clicking to open tags accordion', () => {
       beforeEach(async () => {
-        await ProviderSearchPage.clickTagHeader();
+        await ProviderSearchPage.tagsSection.clickTagHeader();
       });
 
       it('displays tags accordion as expanded', () => {
-        expect(ProviderSearchPage.tagsAccordion.isOpen).to.be.true;
+        expect(ProviderSearchPage.tagsSection.tagsAccordion.isOpen).to.be.true;
       });
 
       it('displays tag filter with available options', () => {
-        expect(ProviderSearchPage.tagsSelect.optionCount).to.equal(2);
-        expect(ProviderSearchPage.tagsSelect.options(0).label).to.equal('not urgent');
-        expect(ProviderSearchPage.tagsSelect.options(1).label).to.equal('urgent');
+        expect(ProviderSearchPage.tagsSection.tagsSelect.optionCount).to.equal(2);
+        expect(ProviderSearchPage.tagsSection.tagsSelect.options(0).label).to.equal('not urgent');
+        expect(ProviderSearchPage.tagsSection.tagsSelect.options(1).label).to.equal('urgent');
       });
 
       it('displays tag filter with empty value', () => {
-        expect(ProviderSearchPage.tagsSelect.values()).to.deep.equal([]);
+        expect(ProviderSearchPage.tagsSection.tagsSelect.values()).to.deep.equal([]);
       });
 
       describe('after click on urgent option', () => {
         beforeEach(async () => {
-          await ProviderSearchPage.tagsSelect.options(1).clickOption();
+          await ProviderSearchPage.tagsSection.tagsSelect.options(1).clickOption();
         });
 
         it('should display selected value as urgent', () => {
-          expect(ProviderSearchPage.tagsSelect.values(0).valLabel).to.equal('urgent');
+          expect(ProviderSearchPage.tagsSection.tagsSelect.values(0).valLabel).to.equal('urgent');
         });
 
         it('displays providers tagged as urgent', () => {
@@ -492,11 +492,11 @@ describe('ProviderSearch', () => {
 
         describe('after click on non urgent option', () => {
           beforeEach(async () => {
-            await ProviderSearchPage.tagsSelect.options(0).clickOption();
+            await ProviderSearchPage.tagsSection.tagsSelect.options(0).clickOption();
           });
           it('should display selected values of not urgent and urgent', () => {
-            expect(ProviderSearchPage.tagsSelect.values(0).valLabel).to.equal('not urgent');
-            expect(ProviderSearchPage.tagsSelect.values(1).valLabel).to.equal('urgent');
+            expect(ProviderSearchPage.tagsSection.tagsSelect.values(0).valLabel).to.equal('not urgent');
+            expect(ProviderSearchPage.tagsSection.tagsSelect.values(1).valLabel).to.equal('urgent');
           });
 
           it('displays providers tagged as urgent and non urgent', () => {
@@ -507,16 +507,16 @@ describe('ProviderSearch', () => {
           });
 
           it('should display the clear tag filter button', () => {
-            expect(ProviderSearchPage.hasClearTagFilter).to.be.true;
+            expect(ProviderSearchPage.tagsSection.hasClearTagFilter).to.be.true;
           });
 
           describe('removing not urgent tag filter', () => {
             beforeEach(async () => {
-              await ProviderSearchPage.tagsSelect.values(0).clickRemoveButton();
+              await ProviderSearchPage.tagsSection.tagsSelect.values(0).clickRemoveButton();
             });
 
             it('should display selected values of urgent', () => {
-              expect(ProviderSearchPage.tagsSelect.values(0).valLabel).to.equal('urgent');
+              expect(ProviderSearchPage.tagsSection.tagsSelect.values(0).valLabel).to.equal('urgent');
             });
 
             it('displays providers tagged as urgent', () => {
@@ -527,11 +527,11 @@ describe('ProviderSearch', () => {
 
             describe('clearing the filters', () => {
               beforeEach(() => {
-                return ProviderSearchPage.clearTagFilter();
+                return ProviderSearchPage.tagsSection.clearTagFilter();
               });
 
               it('displays tag filter with empty value', () => {
-                expect(ProviderSearchPage.tagsSelect.values()).to.deep.equal([]);
+                expect(ProviderSearchPage.tagsSection.tagsSelect.values()).to.deep.equal([]);
               });
 
               it('displays no provider results', () => {

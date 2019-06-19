@@ -12,8 +12,7 @@ import {
   text
 } from '@bigtest/interactor';
 
-import MultiSelectInteractor from '@folio/stripes-components/lib/MultiSelection/tests/interactor';
-import { AccordionInteractor } from '@folio/stripes-components/lib/Accordion/tests/interactor';
+import TagsAccordion from './tags-accordion';
 
 import SearchBadge from './search-badge';
 
@@ -46,17 +45,7 @@ import SearchBadge from './search-badge';
   clickCloseButton = clickable('[data-test-eholdings-details-view-close-button]');
   hasPreSearchPane = isPresent('[data-test-eholdings-pre-search-pane]');
   searchBadge = new SearchBadge('[data-test-eholdings-results-pane-search-badge]');
-  tagsAccordion = new AccordionInteractor('#accordionTagFilter');
-  tagsSelect = new MultiSelectInteractor('#selectTagFilter');
-  hasClearTagFilter = isPresent('#accordionTagFilter button[icon="times-circle-solid"]');
-
-  clearTagFilter = action(function () {
-    return this.click('#accordionTagFilter button[icon="times-circle-solid"]');
-  });
-
-  clickTagHeader = action(function () {
-    return this.click('#accordionTagFilter button[class^="filterSetHeader--"]');
-  });
+  tagsSection = new TagsAccordion('[data-test-eholdings-tag-filter]');
 
   hasLoaded = computed(function () {
     return this.providerList().length > 0;
