@@ -46,7 +46,10 @@ PackageSearchList.propTypes = {
   activeId: PropTypes.string,
   collection: PropTypes.object.isRequired,
   fetch: PropTypes.func.isRequired,
-  notFoundMessage: PropTypes.string,
+  notFoundMessage: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.node
+  ]),
   onClickItem: PropTypes.func.isRequired,
   onUpdateOffset: PropTypes.func.isRequired,
   params: PropTypes.object.isRequired,
