@@ -6,7 +6,7 @@ import isEqual from 'lodash/isEqual';
 import { FormattedMessage } from 'react-intl';
 import { TitleManager } from '@folio/stripes/core';
 
-import { qs, transformQueryParams } from '../components/utilities';
+import { qs, transformQueryParams, getResultsNotFoundTranslationKey } from '../components/utilities';
 import { createResolver } from '../redux';
 import Provider from '../redux/provider';
 import Package from '../redux/package';
@@ -251,26 +251,15 @@ class SearchRoute extends Component {
 
   notFoundMessage = (searchType) => {
     const { params } = this.state;
-    let idWithQuery; let idnoQuery;
-
-    if (searchType === searchTypes.PROVIDERS) {
-      idWithQuery = 'ui-eholdings.provider.resultsNotFoundForQuery';
-      idnoQuery = 'ui-eholdings.provider.resultsNotFound';
-    } else if (searchType === searchTypes.PACKAGES) {
-      idWithQuery = 'ui-eholdings.package.resultsNotFoundForQuery';
-      idnoQuery = 'ui-eholdings.package.resultsNotFound';
-    } else if (searchType === searchTypes.TITLES) {
-      idWithQuery = 'ui-eholdings.title.resultsNotFoundForQuery';
-      idnoQuery = 'ui-eholdings.title.resultsNotFound';
-    }
+    const translationKey = getResultsNotFoundTranslationKey(searchType, params.q);
     return params.q ? (
       <FormattedMessage
-        id={idWithQuery}
+        id={translationKey}
         values={{ query: params.q }}
       />
     ) : (
       <FormattedMessage
-        id={idnoQuery}
+        id={translationKey}
       />
     );
   };
