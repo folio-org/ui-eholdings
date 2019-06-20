@@ -112,6 +112,7 @@ class SearchModal extends React.PureComponent {
       query: normalize({
         sort,
         filter,
+        searchfield: query.searchfield,
         q: query.q
       }),
     }));
