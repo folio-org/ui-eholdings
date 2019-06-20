@@ -8,6 +8,7 @@ import {
   scoped,
   property,
   value,
+  text,
   isVisible
 } from '@bigtest/interactor';
 
@@ -19,17 +20,15 @@ import {
 @interactor class NotesList {
   isDisplayed = isPresent();
 
-  notes = collection('[class^="mcl"]', {
-    click: clickable(),
-  });
-
   clickNote(noteIndex) {
     return this.notes(noteIndex).click();
   }
 }
 
 @interactor class NotesAccordion {
-  isDisplayed = isPresent('#packageShowNotes');
+  packageNotesAccordionIsDisplayed = isPresent('#packageShowNotes');
+  providerNotesAccordionIsDisplayed = isPresent('#providerShowNotes');
+  resourceNotesAccordionIsDisplayed = isPresent('#resourceShowNotes');
 
   assignButtonDisplayed = isPresent('[data-test-notes-accordion-assign-button]');
   newButtonDisplayed = isPresent('[data-test-notes-accordion-new-button]');
@@ -43,6 +42,11 @@ import {
   notesList = new NotesList('#notes-list');
 
   notesListIsDisplayed = isPresent('#notes-list');
+
+  notes = collection('#notes-list [class^="mclRow"]', {
+    click: clickable(),
+    title: text('[class^="mclCell":last-child]'),
+  });
 }
 
 

@@ -1,4 +1,4 @@
-import { beforeEach, describe, it } from '@bigtest/mocha';
+import { beforeEach, afterEach, describe, it } from '@bigtest/mocha';
 import { expect } from 'chai';
 import faker from 'faker';
 
@@ -14,26 +14,26 @@ const notesModal = new NotesModal();
 const noteForm = new NoteForm();
 const noteView = new NoteView();
 
-describe.only('Package view', function () {
+describe.only('Resource view', function () {
   setupApplication();
 
-  let provider;
-  let providerPackage;
+  let pkg;
+  let title;
   let noteType;
-  let packageNote;
+  let resource;
+  let resourceNote;
 
   beforeEach(function () {
-    provider = this.server.create('provider', {
-      name: 'Cool Provider'
+    pkg = this.server.create('package', 'withProvider');
+
+    title = this.server.create('title', {
+      publicationType: 'Journal'
     });
 
-    providerPackage = this.server.create('package', 'withTitles', 'withCustomCoverage', 'withProxy', {
-      provider,
-      name: 'Cool Package',
-      contentType: 'E-Book',
-      isSelected: false,
-      titleCount: 5,
-      packageType: 'Complete'
+    resource = this.server.create('resource', {
+      package: pkg,
+      title,
+      isSelected: true
     });
 
     noteType = this.server.create('note-type', {
@@ -41,10 +41,10 @@ describe.only('Package view', function () {
       name: 'Test note type',
     });
 
-    packageNote = this.server.create('note', {
+    resourceNote = this.server.create('note', {
       type: noteType.name,
       typeId: noteType.id,
-      links: [{ type: 'package', id: providerPackage.id }],
+      links: [{ type: 'resource', id: resource.id }],
     });
 
     this.server.create('note', {
@@ -62,11 +62,11 @@ describe.only('Package view', function () {
 
   describe('when the package details page is visited', () => {
     beforeEach(async function () {
-      this.visit(`/eholdings/packages/${providerPackage.id}`);
+      this.visit(`/eholdings/resources/${resource.id}`);
     });
 
     it('should display notes accordion', () => {
-      expect(notesAccordion.packageNotesAccordionIsDisplayed).to.be.true;
+      expect(notesAccordion.resourceNotesAccordionIsDisplayed).to.be.true;
     });
 
     it('notes accordion should contain 1 note', () => {
@@ -104,7 +104,7 @@ describe.only('Package view', function () {
         });
 
         it('should redirect to previous location', function () {
-          expect(this.location.pathname + this.location.search).to.equal(`/eholdings/packages/${providerPackage.id}`);
+          expect(this.location.pathname + this.location.search).to.equal(`/eholdings/resources/${resource.id}`);
         });
       });
 
@@ -171,7 +171,7 @@ describe.only('Package view', function () {
               });
 
               it('should redirect to previous page', function () {
-                expect(this.location.pathname + this.location.search).to.equal(`/eholdings/packages/${providerPackage.id}`);
+                expect(this.location.pathname + this.location.search).to.equal(`/eholdings/resources/${resource.id}`);
               });
             });
           });
@@ -182,11 +182,11 @@ describe.only('Package view', function () {
             });
 
             it('should redirect to previous page', function () {
-              expect(this.location.pathname + this.location.search).to.equal(`/eholdings/packages/${providerPackage.id}`);
+              expect(this.location.pathname + this.location.search).to.equal(`/eholdings/resources/${resource.id}`);
             });
 
-            it('notes accordion should contain 2 notes', () => {
-              expect(notesAccordion.notes().length).to.equal(2);
+            it('notes accordion should contain 1 note', () => {
+              expect(notesAccordion.notes().length).to.equal(1);
             });
           });
         });
@@ -273,7 +273,7 @@ describe.only('Package view', function () {
       });
 
       it('should redirect to note view page', function () {
-        expect(this.location.pathname + this.location.search).to.equal(`/eholdings/notes/${packageNote.id}`);
+        expect(this.location.pathname + this.location.search).to.equal(`/eholdings/notes/${resourceNote.id}`);
       });
 
       it('should display general information accordion', () => {
@@ -281,15 +281,15 @@ describe.only('Package view', function () {
       });
 
       it('should display correct note type', () => {
-        expect(noteView.noteType).to.equal(packageNote.type);
+        expect(noteView.noteType).to.equal(resourceNote.type);
       });
 
       it('should display correct note title', () => {
-        expect(noteView.noteTitle).to.equal(packageNote.title);
+        expect(noteView.noteTitle).to.equal(resourceNote.title);
       });
 
       it('should display correct note details', () => {
-        expect(noteView.noteDetails).to.equal(packageNote.content);
+        expect(noteView.noteDetails).to.equal(resourceNote.content);
       });
 
       it('should display assignments information accordion', () => {
@@ -297,11 +297,11 @@ describe.only('Package view', function () {
       });
 
       it('should display correct referred entity type', () => {
-        expect(noteView.referredEntityType.toLowerCase()).to.equal('package');
+        expect(noteView.referredEntityType).to.equal('Resource');
       });
 
       it('should display correct referred entity name', () => {
-        expect(noteView.referredEntityName).to.equal(providerPackage.name);
+        expect(noteView.referredEntityName).to.equal(title.name);
       });
 
       describe('and close button is clicked', () => {
@@ -310,7 +310,7 @@ describe.only('Package view', function () {
         });
 
         it('should redirect to previous location', function () {
-          expect(this.location.pathname + this.location.search).to.equal(`/eholdings/packages/${providerPackage.id}`);
+          expect(this.location.pathname + this.location.search).to.equal(`/eholdings/resources/${resource.id}`);
         });
       });
 
@@ -339,7 +339,7 @@ describe.only('Package view', function () {
           });
 
           it('should redirect to package view page', function () {
-            expect(this.location.pathname + this.location.search).to.equal(`/eholdings/packages/${providerPackage.id}`);
+            expect(this.location.pathname + this.location.search).to.equal(`/eholdings/resources/${resource.id}`);
           });
         });
       });
@@ -350,7 +350,7 @@ describe.only('Package view', function () {
         });
 
         it('should redirect to note edit page', function () {
-          expect(this.location.pathname + this.location.search).to.equal(`/eholdings/notes/${packageNote.id}/edit/`);
+          expect(this.location.pathname + this.location.search).to.equal(`/eholdings/notes/${resourceNote.id}/edit/`);
         });
 
         it('should display general information accordion', () => {
@@ -358,7 +358,7 @@ describe.only('Package view', function () {
         });
 
         it('should display correct note title', () => {
-          expect(noteForm.noteTitleField.value).to.equal(packageNote.title);
+          expect(noteForm.noteTitleField.value).to.equal(resourceNote.title);
         });
 
         it('should display correct note type', () => {
@@ -366,7 +366,7 @@ describe.only('Package view', function () {
         });
 
         it('should display correct note details', () => {
-          expect(noteForm.noteDetailsField.value).to.equal(packageNote.content);
+          expect(noteForm.noteDetailsField.value).to.equal(resourceNote.content);
         });
 
         it('should display assignments information accordion', () => {
@@ -374,11 +374,11 @@ describe.only('Package view', function () {
         });
 
         it('should display correct referred entity type', () => {
-          expect(noteForm.referredEntityType.toLowerCase()).to.equal('package');
+          expect(noteForm.referredEntityType).to.equal('Resource');
         });
 
         it('should display correct referred entity name', () => {
-          expect(noteForm.referredEntityName).to.equal(providerPackage.name);
+          expect(noteForm.referredEntityName).to.equal(title.name);
         });
 
         it('should disable save button', () => {
@@ -391,7 +391,7 @@ describe.only('Package view', function () {
           });
 
           it('should redirect to previous page', function () {
-            expect(this.location.pathname + this.location.search).to.equal(`/eholdings/notes/${packageNote.id}`);
+            expect(this.location.pathname + this.location.search).to.equal(`/eholdings/notes/${resourceNote.id}`);
           });
         });
 
@@ -411,7 +411,7 @@ describe.only('Package view', function () {
               });
 
               it('should not redirect to previous location', function () {
-                expect(this.location.pathname + this.location.search).to.equal(`/eholdings/notes/${packageNote.id}/edit/`);
+                expect(this.location.pathname + this.location.search).to.equal(`/eholdings/notes/${resourceNote.id}/edit/`);
               });
             });
           });
@@ -444,7 +444,7 @@ describe.only('Package view', function () {
                 });
 
                 it('should keep the user on the same page', function () {
-                  expect(this.location.pathname + this.location.search).to.equal(`/eholdings/notes/${packageNote.id}/edit/`);
+                  expect(this.location.pathname + this.location.search).to.equal(`/eholdings/notes/${resourceNote.id}/edit/`);
                 });
               });
 
@@ -458,7 +458,7 @@ describe.only('Package view', function () {
                 });
 
                 it('should redirect to previous page', function () {
-                  expect(this.location.pathname + this.location.search).to.equal(`/eholdings/notes/${packageNote.id}`);
+                  expect(this.location.pathname + this.location.search).to.equal(`/eholdings/notes/${resourceNote.id}`);
                 });
               });
             });
@@ -482,7 +482,7 @@ describe.only('Package view', function () {
                 });
 
                 it('should keep the user on the same page', function () {
-                  expect(this.location.pathname + this.location.search).to.equal(`/eholdings/notes/${packageNote.id}/edit/`);
+                  expect(this.location.pathname + this.location.search).to.equal(`/eholdings/notes/${resourceNote.id}/edit/`);
                 });
               });
 
@@ -496,7 +496,7 @@ describe.only('Package view', function () {
                 });
 
                 it('should redirect to previous page', function () {
-                  expect(this.location.pathname + this.location.search).to.equal(`/eholdings/notes/${packageNote.id}`);
+                  expect(this.location.pathname + this.location.search).to.equal(`/eholdings/notes/${resourceNote.id}`);
                 });
               });
             });
@@ -507,7 +507,7 @@ describe.only('Package view', function () {
               });
 
               it('should redirect to previous page', function () {
-                expect(this.location.pathname + this.location.search).to.equal(`/eholdings/notes/${packageNote.id}`);
+                expect(this.location.pathname + this.location.search).to.equal(`/eholdings/notes/${resourceNote.id}`);
               });
             });
           });

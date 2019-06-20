@@ -2,228 +2,102 @@ import { searchRouteFor, nestedResourceRouteFor, includesWords } from './helpers
 
 // typical mirage config export
 export default function config() {
+  const server = this;
   // okapi endpoints
-  this.get('/note-types', {
-    noteTypes: [
-      {
-        id: 'typeId1',
-        name: 'type 1',
-      },
-      {
-        id: 'typeId2',
-        name: 'type 2',
-      },
-    ],
-    totalRecords: 2,
+  this.get('/note-types', ({ noteTypes }) => {
+    return noteTypes.all();
   });
 
-  this.post('/notes', {
-    id: 'f428c19a-f866-4d84-80b7-2340f948f06f',
-    typeId: 'typeId1',
-    domain: 'eholdings',
-    title: 'BU Campus Access Issues123',
-    content: 'There have been access issues at the BU campus since the weekend',
-    creator: {
-      lastName: 'ADMINISTRATOR',
-      firstName: 'DIKU'
-    },
-    metadata: {
-      createdDate: '2019-05-21T11:53:34.802+0000',
-      createdByUserId: '587006b9-ad56-523e-ad4e-17a9b4afb396',
-      createdByUsername: 'diku_admin',
-      updatedDate: '2019-05-21T11:53:34.802+0000',
-      updatedByUserId: '587006b9-ad56-523e-ad4e-17a9b4afb396'
-    },
-    links: [
-      {
-        id: '583-2356521',
-        type: 'package'
-      }
-    ]
+  this.post('/note-types', (request) => {
+    const noteTypeData = JSON.parse(request.requestBody);
+    return server.create('note-type', noteTypeData);
   });
 
-  this.get('/notes', {
-    notes: [
-      {
-        id: 'ae06766f-f57a-4490-b0e3-9c70d23a26dd',
-        typeId: '3013e008-7d12-4a46-b199-a23fe18019af',
-        type: 'test',
-        domain: 'eholdings',
-        title: 'another note',
-        creator: {
-          lastName: 'ADMINISTRATOR',
-          firstName: 'DIKU'
-        },
-        metadata: {
-          createdDate: '2019-06-05T02:41:21.169+0000',
-          createdByUserId: '0170cb79-7bbe-5062-95ed-25c9510dd1da',
-          createdByUsername: 'diku_admin',
-          updatedDate: '2019-06-05T02:41:21.169+0000',
-          updatedByUserId: '0170cb79-7bbe-5062-95ed-25c9510dd1da',
-          updatedByUsername: 'undefined'
-        },
-        links: [{
-          id: '350-1207861',
-          type: 'package'
-        }, {
-          id: '123355',
-          type: 'provider'
-        }]
-      },
-      {
-        id: '1h0676s63-f57a-4413-b043-9c7fdg3a26da',
-        typeId: '3013e008-7d12-4a46-b199-a23fe18019af',
-        type: 'some note',
-        domain: 'eholdings',
-        title: 'some note',
-        creator: {
-          lastName: 'ADMINISTRATOR',
-          firstName: 'DIKU'
-        },
-        metadata: {
-          createdDate: '2019-06-05T02:41:21.169+0000',
-          createdByUserId: '0170cb79-7bbe-5062-95ed-25c9510dd1da',
-          createdByUsername: 'diku_admin',
-          updatedDate: '2019-06-05T02:41:21.169+0000',
-          updatedByUserId: '0170cb79-7bbe-5062-95ed-25c9510dd1da',
-          updatedByUsername: 'undefined'
-        },
-        links: [{
-          id: '1',
-          type: 'package'
-        }, {
-          id: '123355',
-          type: 'provider'
-        }]
-      }
-    ],
-    totalRecords: 1
+  this.put('/note-types/:id', ({ noteTypes }, { params, requestBody }) => {
+    const body = JSON.parse(requestBody);
+
+    console.log(body);
+
+    return noteTypes.find(params.id).update(body);
   });
 
-  this.get('/notes/:id', {
-    id: 'f428c19a-f866-4d84-80b7-2340f948f06f',
-    typeId: '2d7b5166-92f0-4ea2-af89-7da2974ef1e7',
-    domain: 'eholdings',
-    title: 'BU Campus Access Issues123',
-    content: 'There have been access issues at the BU campus since the weekend',
-    creator: {
-      lastName: 'ADMINISTRATOR',
-      firstName: 'DIKU'
-    },
-    metadata: {
-      createdDate: '2019-05-21T11:53:34.802+0000',
-      createdByUserId: '587006b9-ad56-523e-ad4e-17a9b4afb396',
-      createdByUsername: 'diku_admin',
-      updatedDate: '2019-05-21T11:53:34.802+0000',
-      updatedByUserId: '587006b9-ad56-523e-ad4e-17a9b4afb396'
-    },
-    links: [
-      {
-        id: '583-2356521',
-        type: 'package'
-      }
-    ]
+  this.delete('/note-types/:id', ({ noteTypes }, { params }) => {
+    return noteTypes.find(params.id).destroy();
   });
 
-  this.put('/notes/:id', {
-    id: 'f428c19a-f866-4d84-80b7-2340f948f06f',
-    typeId: '2d7b5166-92f0-4ea2-af89-7da2974ef1e7',
-    domain: 'eholdings',
-    title: 'BU Campus Access Issues123',
-    content: 'There have been access issues at the BU campus since the weekend',
-    creator: {
-      lastName: 'ADMINISTRATOR',
-      firstName: 'DIKU'
-    },
-    metadata: {
-      createdDate: '2019-05-21T11:53:34.802+0000',
-      createdByUserId: '587006b9-ad56-523e-ad4e-17a9b4afb396',
-      createdByUsername: 'diku_admin',
-      updatedDate: '2019-05-21T11:53:34.802+0000',
-      updatedByUserId: '587006b9-ad56-523e-ad4e-17a9b4afb396'
-    },
-    links: [
-      {
-        id: '583-2356521',
-        type: 'package'
+  this.get('/note-links/domain/eholdings/type/:type/id/:id', ({ notes }, { params, queryParams }) => {
+    if (queryParams.status === 'all') {
+      return notes.all();
+    }
+
+    return notes.where((note) => {
+      let matches = false;
+
+      for (let i = 0; i < note.links.length; i++) {
+        if (note.links[i].type === params.type && note.links[i].id === params.id) {
+          matches = true;
+          if (queryParams.status === 'assigned') {
+            return true;
+          }
+        }
       }
-    ]
+      if (!matches && queryParams.status === 'unassigned') {
+        return true;
+      }
+
+      return false;
+    });
   });
 
-  this.post('/notes', {
-    id: 'f428c19a-f866-4d84-80b7-2340f948f06f',
-    typeId: '2d7b5166-92f0-4ea2-af89-7da2974ef1e7',
-    domain: 'eholdings',
-    title: 'BU Campus Access Issues123',
-    content: 'There have been access issues at the BU campus since the weekend',
-    creator: {
-      lastName: 'ADMINISTRATOR',
-      firstName: 'DIKU'
-    },
-    metadata: {
-      createdDate: '2019-05-21T11:53:34.802+0000',
-      createdByUserId: '587006b9-ad56-523e-ad4e-17a9b4afb396',
-      createdByUsername: 'diku_admin',
-      updatedDate: '2019-05-21T11:53:34.802+0000',
-      updatedByUserId: '587006b9-ad56-523e-ad4e-17a9b4afb396'
-    },
-    links: [
-      {
-        id: '583-2356521',
-        type: 'package'
+
+  this.put('/note-links/type/:type/id/:id', ({ notes }, { params, requestBody }) => {
+    const body = JSON.parse(requestBody);
+
+    body.notes.forEach((note) => {
+      const dbNote = notes.find(note.id);
+      const links = [...dbNote.links];
+
+      if (note.status === 'ASSIGNED') {
+        links.push({
+          id: params.id,
+          type: params.type,
+        });
+      } else {
+        for (let i = 0; i < links.length; i++) {
+          if (links[i].type === params.type && links[i].id === params.id) {
+            links.splice(i, 1);
+            break;
+          }
+        }
       }
-    ]
+
+      dbNote.update({ links });
+    });
   });
 
-  this.get('/notes/:id', {
-    id: 'f428c19a-f866-4d84-80b7-2340f948f06f',
-    typeId: '2d7b5166-92f0-4ea2-af89-7da2974ef1e7',
-    domain: 'eholdings',
-    title: 'BU Campus Access Issues123',
-    content: 'There have been access issues at the BU campus since the weekend',
-    creator: {
-      lastName: 'ADMINISTRATOR',
-      firstName: 'DIKU'
-    },
-    metadata: {
-      createdDate: '2019-05-21T11:53:34.802+0000',
-      createdByUserId: '587006b9-ad56-523e-ad4e-17a9b4afb396',
-      createdByUsername: 'diku_admin',
-      updatedDate: '2019-05-21T11:53:34.802+0000',
-      updatedByUserId: '587006b9-ad56-523e-ad4e-17a9b4afb396'
-    },
-    links: [
-      {
-        id: '583-2356521',
-        type: 'package'
-      }
-    ]
+  this.get('/notes/:id', ({ notes }, { params }) => {
+    return notes.find(params.id);
   });
 
-  this.put('/notes/:id', {
-    id: 'f428c19a-f866-4d84-80b7-2340f948f06f',
-    typeId: '2d7b5166-92f0-4ea2-af89-7da2974ef1e7',
-    domain: 'eholdings',
-    title: 'BU Campus Access Issues123',
-    content: 'There have been access issues at the BU campus since the weekend',
-    creator: {
-      lastName: 'ADMINISTRATOR',
-      firstName: 'DIKU'
-    },
-    metadata: {
-      createdDate: '2019-05-21T11:53:34.802+0000',
-      createdByUserId: '587006b9-ad56-523e-ad4e-17a9b4afb396',
-      createdByUsername: 'diku_admin',
-      updatedDate: '2019-05-21T11:53:34.802+0000',
-      updatedByUserId: '587006b9-ad56-523e-ad4e-17a9b4afb396'
-    },
-    links: [
-      {
-        id: '583-2356521',
-        type: 'package'
-      }
-    ]
+  this.post('/notes', (_, { requestBody }) => {
+    const noteData = JSON.parse(requestBody);
+
+    return this.create('note', noteData);
   });
+
+  this.put('/notes/:id', ({ notes, noteTypes }, { params, requestBody }) => {
+    const noteData = JSON.parse(requestBody);
+    const noteTypeName = noteTypes.find(noteData.typeId).attrs.name;
+
+    return notes.find(params.id).update({
+      ...noteData,
+      type: noteTypeName,
+    });
+  });
+
+  this.delete('/notes/:id', ({ notes }, { params }) => {
+    return notes.find(params.id).destroy();
+  }, 204);
 
   this.get('_/proxy/tenants/:id/modules', [{
     id: 'mod-kb-ebsco',
