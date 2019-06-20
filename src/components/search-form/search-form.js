@@ -122,9 +122,10 @@ class SearchForm extends Component {
   getSortedDataOptions = () => {
     const { tagsModel = [] } = this.props;
     const dataOptions = tagsModel.map(tag => {
+      const tagDisplay = tag.label.toLowerCase();
       return {
-        value: tag.label.toLowerCase(),
-        label: tag.label.toLowerCase(),
+        value: tagDisplay,
+        label: tagDisplay,
       };
     });
 
@@ -156,9 +157,7 @@ class SearchForm extends Component {
       : (
         <div data-test-eholdings-tag-filter>
           <Accordion
-            label={
-              <FormattedMessage id="ui-eholdings.tags" />
-            }
+            label={<FormattedMessage id="ui-eholdings.tags" />}
             id="accordionTagFilter"
             separator={false}
             open={sections.accordionTagFilter}
@@ -177,9 +176,7 @@ class SearchForm extends Component {
                 dataOptions={this.getSortedDataOptions()}
                 name="tags"
                 onChange={this.handleUpdateTagFilter}
-                selectedValues={
-              tagsList
-              }
+                selectedValues={tagsList}
               />
             </div>
           </Accordion>
