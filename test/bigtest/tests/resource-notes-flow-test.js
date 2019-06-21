@@ -179,14 +179,15 @@ describe('Resource view', function () {
           describe('and save button was clicked', () => {
             beforeEach(async () => {
               await noteForm.saveButton.click();
+              await wait(5000);
             });
 
             it('should redirect to previous page', function () {
               expect(this.location.pathname + this.location.search).to.equal(`/eholdings/resources/${resource.id}`);
             });
 
-            it('notes accordion should contain 1 note', () => {
-              expect(notesAccordion.notes().length).to.equal(1);
+            it.only('notes accordion should contain 2 notes', () => {
+              expect(notesAccordion.notes().length).to.equal(2);
             });
           });
         });
