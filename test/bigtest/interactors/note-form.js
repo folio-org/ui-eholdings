@@ -28,9 +28,9 @@ import {
 }
 
 @interactor class FormField {
-  enterText(text) {
+  enterText(string) {
     return this
-      .fill(text)
+      .fill(string)
       .blur();
   }
 

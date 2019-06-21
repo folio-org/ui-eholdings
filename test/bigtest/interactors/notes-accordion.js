@@ -1,13 +1,8 @@
 import {
-  action,
   interactor,
   isPresent,
-  fillable,
   clickable,
   collection,
-  scoped,
-  property,
-  value,
   text,
   isVisible
 } from '@bigtest/interactor';
