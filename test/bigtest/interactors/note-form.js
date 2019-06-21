@@ -51,11 +51,9 @@ import {
   noteTypesSelect = new Select('[data-test-note-types-field]');
   noteTitleField = new FormField('[data-test-note-title-field]');
   noteDetailsField = new NoteDetailsField('.ql-editor');
-
   hasTitleLengthError = isPresent('[data-test-character-limit-error="title"]');
   hasTitleMissingError = isPresent('[data-test-title-missing-error]');
   navigationModalIsOpened = isPresent('#navigation-modal');
-
   clickCancelNavigationButton = clickable('[data-test-navigation-modal-dismiss]');
   clickContinueNavigationButton = clickable('[data-test-navigation-modal-continue]');
   referredEntityType = text('[data-test-referred-entity-type]');

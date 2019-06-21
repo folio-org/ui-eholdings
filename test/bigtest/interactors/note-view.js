@@ -23,7 +23,6 @@ import {
   referredEntityName = text('[data-test-referred-entity-name]');
   clickPaneHeaderButton = clickable('[class^="paneHeaderCenterButton"]');
   clickDeleteButton = clickable('[data-test-note-delete]');
-
   deleteConfirmationModalIsDisplayed = isPresent('#confirm-delete-note');
   deleteConfirmationModal = new DeleteConfirmationModal('#confirm-delete-note');
 

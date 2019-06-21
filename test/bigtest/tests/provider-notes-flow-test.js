@@ -53,7 +53,6 @@ describe.only('Provider view', function () {
   describe('when the provider details page is visited', () => {
     beforeEach(async function () {
       this.visit(`/eholdings/providers/${provider.id}`);
-      await wait(5000);
     });
 
     it('should display notes accordion', () => {
