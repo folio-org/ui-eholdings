@@ -1,6 +1,5 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { FormattedMessage } from 'react-intl';
 
 import QueryList from './query-list';
 import ProviderListItem from './provider-list-item';
@@ -11,6 +10,7 @@ export default function ProviderSearchList({
   activeId,
   collection,
   fetch,
+  notFoundMessage,
   onUpdateOffset,
   params,
   shouldFocusItem,
@@ -24,13 +24,7 @@ export default function ProviderSearchList({
       collection={collection}
       onUpdateOffset={onUpdateOffset}
       itemHeight={ITEM_HEIGHT}
-      notFoundMessage={(
-        <FormattedMessage
-          id="ui-eholdings.provider.resultsNotFound"
-          values={{ query: params.q }}
-        />
-      )}
-
+      notFoundMessage={notFoundMessage}
       fullWidth
       renderItem={item => (
         <ProviderListItem
@@ -51,6 +45,10 @@ ProviderSearchList.propTypes = {
   activeId: PropTypes.string,
   collection: PropTypes.object.isRequired,
   fetch: PropTypes.func.isRequired,
+  notFoundMessage: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.node
+  ]),
   onClickItem: PropTypes.func.isRequired,
   onUpdateOffset: PropTypes.func.isRequired,
   params: PropTypes.object.isRequired,

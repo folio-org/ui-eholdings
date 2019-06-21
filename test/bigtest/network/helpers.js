@@ -117,6 +117,8 @@ export function searchRouteFor(resourceType, filter) {
       json.data = json.data.sort(nameCompare);
     } else if (query) {
       json.data = json.data.sort(relevanceCompare(query));
+    } else {
+      json.data = json.data.sort(nameCompare);
     }
 
     json.data = json.data.slice(offset, offset + count);

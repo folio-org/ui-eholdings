@@ -1,13 +1,21 @@
+import {
+  sortBy
+} from 'lodash';
 import React, { Component, Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { FormattedMessage } from 'react-intl';
+import update from 'lodash/fp/update';
 
 import {
+  Accordion,
   Button,
   ButtonGroup,
+  FilterAccordionHeader,
+  Icon,
   SearchField,
   Select
 } from '@folio/stripes/components';
+import { MultiSelectionFilter } from '@folio/stripes/smart-components';
 import ProviderSearchFilters from '../provider-search-filters';
 import PackageSearchFilters from '../package-search-filters';
 import TitleSearchFilters from '../title-search-filters';
@@ -29,6 +37,7 @@ class SearchForm extends Component {
     onSearch: PropTypes.func.isRequired,
     onSearchChange: PropTypes.func.isRequired,
     onSearchFieldChange: PropTypes.func,
+    onTagFilterChange: PropTypes.func.isRequired,
     searchField: PropTypes.string,
     searchFilter: PropTypes.shape({
       filter: PropTypes.object,
@@ -42,7 +51,8 @@ class SearchForm extends Component {
       providers: PropTypes.string.isRequired,
       titles: PropTypes.string.isRequired
     }),
-    sort: PropTypes.string
+    sort: PropTypes.string,
+    tagsModel: PropTypes.object.isRequired
   };
 
   static defaultProps = {
@@ -50,6 +60,18 @@ class SearchForm extends Component {
     displaySearchButton: true,
     searchString: '',
   };
+
+  state = {
+    sections: {
+      accordionTagFilter: false,
+    },
+  };
+
+   toggleSection = ({ id }) => {
+     const newState = update(`sections.${id}`, value => !value, this.state);
+     this.setState(newState);
+   };
+
 
   handleSearchSubmit = (e) => {
     e.preventDefault();
@@ -68,6 +90,13 @@ class SearchForm extends Component {
     const { sort, ...searchFilter } = filter;
 
     this.props.onFilterChange(sort, searchFilter);
+  };
+
+  handleUpdateTagFilter = (filter) => {
+    const tagFilter = {
+      tags: filter.values.length > 0 ? filter.values.join(',') : undefined
+    };
+    this.props.onTagFilterChange(tagFilter);
   };
 
   handleChangeIndex = (e) => {
@@ -89,6 +118,71 @@ class SearchForm extends Component {
 
     return null;
   };
+
+  getSortedDataOptions = () => {
+    const { tagsModel = [] } = this.props;
+    const dataOptions = tagsModel.map(tag => {
+      const tagDisplay = tag.label.toLowerCase();
+      return {
+        value: tagDisplay,
+        label: tagDisplay,
+      };
+    });
+
+    return sortBy(dataOptions, ['value']);
+  }
+
+  renderTagFilter() {
+    const {
+      tagsModel,
+      searchFilter = {}
+    } = this.props;
+
+    const {
+      tags = ''
+    } = searchFilter;
+
+    const {
+      sections,
+    } = this.state;
+
+    const tagsList = tags ? tags.split(',').map(tag => {
+      return tag.toLowerCase();
+    }) : [];
+
+    tagsList.sort();
+
+    return tagsModel.isLoading
+      ? <Icon icon="spinner-ellipsis" />
+      : (
+        <div data-test-eholdings-tag-filter>
+          <Accordion
+            label={<FormattedMessage id="ui-eholdings.tags" />}
+            id="accordionTagFilter"
+            separator={false}
+            open={sections.accordionTagFilter}
+            closedByDefault
+            header={FilterAccordionHeader}
+            displayClearButton={tagsList.length > 0}
+            onClearFilter={() => this.props.onTagFilterChange({ tags: undefined })}
+            onToggle={this.toggleSection}
+          >
+            <div className={styles['tag-filters']}>
+              <div data-test-eholdings-tag-message>
+                <FormattedMessage id="ui-eholdings.tags.filter.cannot.combine" />
+              </div>
+              <MultiSelectionFilter
+                id="selectTagFilter"
+                dataOptions={this.getSortedDataOptions()}
+                name="tags"
+                onChange={this.handleUpdateTagFilter}
+                selectedValues={tagsList}
+              />
+            </div>
+          </Accordion>
+        </div>
+      );
+  }
 
   render() {
     const {
@@ -186,6 +280,7 @@ class SearchForm extends Component {
           )}
           {Filters && (
             <div>
+              { this.renderTagFilter() }
               <Filters
                 activeFilters={combinedFilters}
                 onUpdate={this.handleUpdateFilter}

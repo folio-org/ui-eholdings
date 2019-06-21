@@ -11,6 +11,8 @@ import {
   text,
   is
 } from '@bigtest/interactor';
+
+import TagsAccordion from './tags-accordion';
 import SearchBadge from './search-badge';
 
 @interactor class TitleSearchPage {
@@ -21,6 +23,7 @@ import SearchBadge from './search-badge';
   fillSearch = fillable('[data-test-search-field] input[name="search"]');
   submitSearch = clickable('[data-test-search-submit]');
   hasSearchField = isPresent('[data-test-search-field] input[name="search"]');
+  hasTagFilter = isPresent('[data-test-eholdings-tag-filter]');
   searchFieldValue = value('[data-test-search-field] input[name="search"]');
   providerOrPackageSearchFieldValue = value('[data-test-search-field] input[name="search"]');
   searchFieldSelectValue = value('[data-test-search-field] select');
@@ -45,6 +48,7 @@ import SearchBadge from './search-badge';
   searchBadge = new SearchBadge('[data-test-eholdings-results-pane-search-badge]');
   hasPreSearchPane = isPresent('[data-test-eholdings-pre-search-pane]');
   clickNewButton = clickable('[data-test-eholdings-search-new-button]');
+  tagsSection = new TagsAccordion('[data-test-eholdings-tag-filter]');
 
   hasLoaded = computed(function () {
     return this.titleList().length > 0;

@@ -21,6 +21,11 @@
   }
 }
 
+.tag-filters {
+  margin-top: 0.5em;
+  margin-left: 1rem;
+}
+
 .search-field {
   margin-bottom: calc(var(--control-margin-bottom) / 2);
 }

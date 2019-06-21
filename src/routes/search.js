@@ -6,11 +6,12 @@ import isEqual from 'lodash/isEqual';
 import { FormattedMessage } from 'react-intl';
 import { TitleManager } from '@folio/stripes/core';
 
-import { qs, transformQueryParams } from '../components/utilities';
+import { qs, transformQueryParams, getResultsNotFoundTranslationKey } from '../components/utilities';
 import { createResolver } from '../redux';
 import Provider from '../redux/provider';
 import Package from '../redux/package';
 import Title from '../redux/title';
+import Tag from '../redux/tag';
 
 import ProviderSearchList from '../components/provider-search-list';
 import PackageSearchList from '../components/package-search-list';
@@ -23,13 +24,15 @@ import { filterCountFromQuery } from '../components/search-modal/search-modal';
 class SearchRoute extends Component {
   static propTypes = {
     children: PropTypes.node.isRequired,
+    getTags: PropTypes.func.isRequired,
     history: ReactRouterPropTypes.history.isRequired,
     location: ReactRouterPropTypes.location.isRequired,
     match: ReactRouterPropTypes.match.isRequired,
     resolver: PropTypes.object.isRequired,
     searchPackages: PropTypes.func.isRequired,
     searchProviders: PropTypes.func.isRequired,
-    searchTitles: PropTypes.func.isRequired
+    searchTitles: PropTypes.func.isRequired,
+    tagsModel: PropTypes.object.isRequired,
   };
 
   constructor(props) {
@@ -41,6 +44,8 @@ class SearchRoute extends Component {
     // cache queries so we can restore them with the search type buttons
     this.queries = {};
     this.path = {};
+
+    props.getTags();
 
     if (searchType) {
       this.queries[searchType] = params;
@@ -101,7 +106,11 @@ class SearchRoute extends Component {
   }
 
   handleFilterChange = (sort, searchFilter) => {
-    this.setState({ sort, searchFilter }, () => this.handleSearch());
+    this.setState({ sort, searchFilter }, this.handleSearch);
+  }
+
+  handleTagFilterChange = (searchFilter) => {
+    this.setState({ searchFilter, searchString: '' }, this.handleSearch);
   }
 
   handleSearchFieldChange = searchField => {
@@ -240,6 +249,22 @@ class SearchRoute extends Component {
     this.search({ ...params, page });
   };
 
+  notFoundMessage = (searchType) => {
+    const { params } = this.state;
+    const translationKey = getResultsNotFoundTranslationKey(searchType, params.q);
+    return params.q ? (
+      <FormattedMessage
+        id={translationKey}
+        values={{ query: params.q }}
+      />
+    ) : (
+      <FormattedMessage
+        id={translationKey}
+      />
+    );
+  };
+
+
   /**
    * Renders the search component specific to the current search type
    */
@@ -261,10 +286,19 @@ class SearchRoute extends Component {
           search: location.search,
           state: { eholdings: true }
         });
-      }
+      },
+      notFoundMessage: this.notFoundMessage(searchType)
     };
 
-    if (params.q) {
+    const {
+      filter = {}
+    } = params;
+
+
+    const { tags = '' } = filter;
+
+
+    if (params.q || tags) {
       if (searchType === searchTypes.PROVIDERS) {
         return <ProviderSearchList {...props} />;
       } else if (searchType === searchTypes.PACKAGES) {
@@ -282,7 +316,7 @@ class SearchRoute extends Component {
    * render the search paneset, otherwise simply render our children
    */
   render() {
-    const { children, history, location } = this.props;
+    const { children, history, location, tagsModel } = this.props;
     const {
       searchType,
       params,
@@ -330,12 +364,14 @@ class SearchRoute extends Component {
                       searchString={searchString}
                       searchFilter={searchFilter}
                       searchField={searchField}
+                      tagsModel={tagsModel}
                       searchTypeUrls={this.getSearchTypeUrls()}
                       isLoading={!!params.q && !results.hasLoaded}
                       onSearch={this.handleSearch}
                       onSearchFieldChange={this.handleSearchFieldChange}
                       onFilterChange={this.handleFilterChange}
                       onSearchChange={this.handleSearchChange}
+                      onTagFilterChange={this.handleTagFilterChange}
                     />
                   )}
                 />
@@ -351,11 +387,16 @@ class SearchRoute extends Component {
 }
 
 export default connect(
-  ({ eholdings: { data } }) => ({
-    resolver: createResolver(data)
-  }), {
+  ({ eholdings: { data } }) => {
+    const resolver = createResolver(data);
+    return {
+      tagsModel: resolver.query('tags'),
+      resolver
+    };
+  }, {
     searchProviders: params => Provider.query(params),
     searchPackages: params => Package.query(params),
-    searchTitles: params => Title.query(params)
+    searchTitles: params => Title.query(params),
+    getTags: () => Tag.query()
   }
 )(SearchRoute);

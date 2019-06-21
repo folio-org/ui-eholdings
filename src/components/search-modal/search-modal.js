@@ -33,6 +33,7 @@ class SearchModal extends React.PureComponent {
     onFilter: PropTypes.func,
     onSearch: PropTypes.func,
     query: PropTypes.object,
+    tagsModel: PropTypes.object.isRequired,
   };
 
   state = {
@@ -62,18 +63,12 @@ class SearchModal extends React.PureComponent {
   }
 
   updateSearch = () => {
-    this.setState({
-      isModalVisible: false,
-    });
-
+    this.close();
     this.updateFilter(this.state.query);
   }
 
   resetSearch = () => {
-    this.setState({
-      isModalVisible: false,
-    });
-
+    this.close();
     this.updateFilter({});
   }
 
@@ -118,8 +113,21 @@ class SearchModal extends React.PureComponent {
     }));
   }
 
+  handleTagFilterChange = (filter) => {
+    this.setState(({ query }) => ({
+      query: normalize({
+        sort: query.sort,
+        filter,
+        q: query.q
+      }),
+    }), () => {
+      this.updateFilter(this.state.query);
+      this.close();
+    });
+  }
+
   render() {
-    const { listType } = this.props;
+    const { listType, tagsModel } = this.props;
 
     const {
       isModalVisible,
@@ -169,6 +177,7 @@ class SearchModal extends React.PureComponent {
             }
           >
             <SearchForm
+              tagsModel={tagsModel}
               searchType={listType}
               searchString={query.q}
               searchFilter={query.filter}
@@ -180,6 +189,7 @@ class SearchModal extends React.PureComponent {
               onFilterChange={this.handleFilterChange}
               onSearchChange={this.handleSearchQueryChange}
               onSearchFieldChange={this.handleSearchFieldChange}
+              onTagFilterChange={this.handleTagFilterChange}
             />
           </Modal>
         )}

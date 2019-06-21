@@ -1,6 +1,7 @@
 import { Factory, faker, trait } from '@bigtest/mirage';
 
 const helpText = '<ul><li>Enter your Gale token</li></ul>';
+const defaultTags = ['urgent', 'not urgent'];
 
 export default Factory.extend({
   name: () => faker.company.companyName(),
@@ -80,6 +81,16 @@ export default Factory.extend({
         value: 'abcdefghijk'
       });
       provider.update('providerToken', token.toJSON());
+      provider.save();
+    }
+  }),
+
+  withTags: trait({
+    afterCreate(provider, server) {
+      const tags = server.create('tags', {
+        tagList: defaultTags
+      });
+      provider.update('tags', tags.toJSON());
       provider.save();
     }
   }),

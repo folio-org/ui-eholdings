@@ -11,13 +11,18 @@ import {
   value,
   text
 } from '@bigtest/interactor';
+
+import TagsAccordion from './tags-accordion';
+
 import SearchBadge from './search-badge';
+
 
 @interactor class ProviderSearchPage {
   fillSearch = fillable('[data-test-search-field] input[name="search"]');
   submitSearch = clickable('[data-test-search-submit]');
   hasSearchField = isPresent('[data-test-search-field] input[name="search"]');
   hasSearchFilters = isPresent('[data-test-eholdings-search-filters="providers"]');
+  hasTagFilter = isPresent('[data-test-eholdings-tag-filter]');
   searchFieldValue = value('[data-test-search-field] input[name="search"]');
   totalResults = text('[data-test-results-pane] [data-test-pane-header] p');
   paneTitleHasFocus = is('[data-test-results-pane] [data-test-pane-header] h2 [tabindex]', ':focus');
@@ -40,6 +45,7 @@ import SearchBadge from './search-badge';
   clickCloseButton = clickable('[data-test-eholdings-details-view-close-button]');
   hasPreSearchPane = isPresent('[data-test-eholdings-pre-search-pane]');
   searchBadge = new SearchBadge('[data-test-eholdings-results-pane-search-badge]');
+  tagsSection = new TagsAccordion('[data-test-eholdings-tag-filter]');
 
   hasLoaded = computed(function () {
     return this.providerList().length > 0;

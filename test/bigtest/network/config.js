@@ -394,8 +394,14 @@ export default function config() {
 
   // Provider resources
   this.get('/providers', searchRouteFor('providers', (provider, req) => {
+    const params = req.queryParams;
+    const tags = params['filter[tags]'];
+
     if (req.queryParams.q && provider.name) {
       return includesWords(provider.name, req.queryParams.q.toLowerCase());
+    } else if (tags) {
+      // tags is comma separated list -- check if provider has at least one of the tags
+      return tags.split(',').some(item => provider.tags.tagList.includes(item));
     } else {
       return !!provider.name;
     }
@@ -416,10 +422,12 @@ export default function config() {
     const body = JSON.parse(request.requestBody);
     const {
       proxy,
-      providerToken
+      providerToken,
+      tags
     } = body.data.attributes;
     matchingProvider.update('proxy', proxy);
     matchingProvider.update('providerToken', providerToken);
+    matchingProvider.update('tags', tags);
     return matchingProvider;
   });
 
@@ -429,7 +437,12 @@ export default function config() {
     const type = params['filter[type]'];
     const selected = params['filter[selected]'];
     const custom = params['filter[custom]'];
+    const tags = params['filter[tags]'];
     let filtered = true;
+
+    if (filtered && tags) {
+      return tags.split(',').some(item => pkg.tags.tagList.includes(item));
+    }
 
     if (params.q && pkg.name) {
       filtered = includesWords(pkg.name, params.q.toLowerCase());
@@ -479,7 +492,8 @@ export default function config() {
       name,
       contentType,
       proxy,
-      packageToken
+      packageToken,
+      tags
     } = body.data.attributes;
 
     const selectedCount = isSelected ? matchingResources.length : 0;
@@ -495,6 +509,7 @@ export default function config() {
     matchingPackage.update('contentType', contentType);
     matchingPackage.update('proxy', proxy);
     matchingPackage.update('packageToken', packageToken);
+    matchingPackage.update('tags', tags);
     return matchingPackage;
   });
 
@@ -532,7 +547,12 @@ export default function config() {
     const isxn = params['filter[isxn]'];
     const subject = params['filter[subject]'];
     const publisher = params['filter[publisher]'];
+    const tags = params['filter[tags]'];
     let filtered = true;
+
+    if (tags) {
+      return tags.split(',').some(item => title.tags.tagList.includes(item));
+    }
 
     if (name) {
       filtered = title.name && includesWords(title.name, name);
@@ -601,7 +621,12 @@ export default function config() {
     const isxn = params['filter[isxn]'];
     const subject = params['filter[subject]'];
     const publisher = params['filter[publisher]'];
+    const tags = params['filter[tags]'];
     let filtered = true;
+
+    if (tags) {
+      return tags.split(',').some(item => title.tags.tagList.includes(item));
+    }
 
     if (name) {
       filtered = title.name && includesWords(title.name, name);
@@ -654,7 +679,8 @@ export default function config() {
       isPeerReviewed,
       edition,
       identifiers,
-      proxy
+      proxy,
+      tags
     } = body.data.attributes;
 
     matchingResource.update('isSelected', isSelected);
@@ -673,6 +699,8 @@ export default function config() {
     matchingResource.title.update('edition', edition);
     matchingResource.title.update('identifiers', identifiers);
     matchingResource.update('proxy', proxy);
+    matchingResource.update('tags', tags);
+
 
     return matchingResource;
   });

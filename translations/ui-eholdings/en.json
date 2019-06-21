@@ -39,7 +39,9 @@
     "package.packageType": "Package type",
     "package.partiallySelected": "{ selectedCount } of { titleCount } titles selected",
     "package.provider": "Provider",
-    "package.resultsNotFound": "No packages found for '{query}'.",
+    "package.resultsNotFoundForQuery": "No packages found for '{query}'.",
+    "package.resultsNotFound": "No packages found.",
+
     "package.titlesSelected": "Titles selected",
     "package.totalTitles": "Total titles",
     "package.visibility": "Show titles in package to patrons",
@@ -67,7 +69,8 @@
     "provider.providerSettings": "Provider settings",
     "provider.packagesSelected": "Packages selected",
     "provider.totalPackages": "Total packages",
-    "provider.resultsNotFound": "No providers found for '{query}'.",
+    "provider.resultsNotFound": "No providers found.",
+    "provider.resultsNotFoundForQuery": "No providers found for '{query}'.",
     "provider.noPackagesSelected": "Add any package from this provider to holdings to customize provider settings.",
 
     "provider.token": "Provider token",
@@ -132,12 +135,14 @@
     "title.toast.isFreshlySaved": "Title saved.",
     "title.addToCustomPackage": "Add to custom package",
     "title.modalMessage.addTitleToCustomPackage": "Add title to custom package",
-    "title.resultsNotFound": "No titles found for '{query}'.",
+    "title.resultsNotFoundForQuery": "No titles found for '{query}'.",
+    "title.resultsNotFound": "No titles found.",
     "title.editCustomTitle": "Edit {name}",
     "title.chooseAPackage": "Choose a package",
-    
+
     "tags": "Tags",
     "tags.addTagFor": "Add tag for: <strong>{filter}</strong>",
+    "tags.filter.cannot.combine" : "Tags filter cannot be combined with search or other filters",
 
     "settings.goBackToEholdings": "Go back to eHoldings settings",
     "settings.kb": "Knowledge base",
@@ -306,7 +311,7 @@
     "search.searchType.titles": "Titles",
     "search.searchType.packages": "Packages",
     "search.searchType.providers": "Providers",
-        
+
     "date.present": "Present",
     "date.startDate": "Start date",
     "date.endDate": "End date",
@@ -346,4 +351,5 @@
     "notes.entityType.package.pluralized": "{count} {count, plural, one {package} other {packages}}",
     "notes.entityType.resource.pluralized": "{count} {count, plural, one {resource} other {resources}}",
     "notes.entityType.title.pluralized": "{count} {count, plural, one {title} other {titles}}"
+
   }

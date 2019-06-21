@@ -12,6 +12,8 @@ import {
   is
 } from '@bigtest/interactor';
 
+import TagsAccordion from './tags-accordion';
+
 import Toast from './toast';
 import SearchBadge from './search-badge';
 
@@ -21,6 +23,7 @@ import SearchBadge from './search-badge';
   isSearchDisabled = property('[data-test-search-submit]', 'disabled');
   hasSearchField = isPresent('[data-test-search-field] input[name="search"]');
   hasSearchFilters = isPresent('[data-test-eholdings-search-filters="packages"]');
+  hasTagFilter = isPresent('[data-test-eholdings-tag-filter]');
   searchFieldValue = value('[data-test-search-field] input[name="search"]');
   titleSearchFieldValue = value('[data-test-search-field] input[name="search"]');
   hasResults = isPresent('[data-test-results-pane] [data-test-pane-header] p');
@@ -44,6 +47,7 @@ import SearchBadge from './search-badge';
   searchBadge = new SearchBadge('[data-test-eholdings-results-pane-search-badge]');
   isSearchPanePresent = isPresent('[data-test-eholdings-search-pane]');
   clickNewButton = clickable('[data-test-eholdings-search-new-button]');
+  tagsSection = new TagsAccordion('[data-test-eholdings-tag-filter]');
 
   toast = Toast;
 

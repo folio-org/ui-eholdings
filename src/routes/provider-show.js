@@ -155,6 +155,7 @@ class ProviderShowRoute extends Component {
           updateFolioTags={updateFolioTags}
           searchModal={
             <SearchModal
+              tagsModel={tagsModel}
               key={queryId}
               listType={listTypes.PACKAGES}
               query={pkgSearchParams}

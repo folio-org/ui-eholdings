@@ -1,6 +1,7 @@
 import moment from 'moment';
 import queryString from 'qs';
 import get from 'lodash/get';
+import { searchTypes } from '../constants';
 
 export function isBookPublicationType(publicationType) {
   const publicationTypeIsBook = {
@@ -127,4 +128,16 @@ export function formatNoteReferrerEntityData(data) {
   }
 
   return false;
+}
+
+export function getResultsNotFoundTranslationKey(searchType, hasQuery) {
+  let TranslationKey = '';
+  if (searchType === searchTypes.PROVIDERS) {
+    TranslationKey = hasQuery ? 'ui-eholdings.provider.resultsNotFoundForQuery' : 'ui-eholdings.provider.resultsNotFound';
+  } else if (searchType === searchTypes.PACKAGES) {
+    TranslationKey = hasQuery ? 'ui-eholdings.package.resultsNotFoundForQuery' : 'ui-eholdings.package.resultsNotFound';
+  } else {
+    TranslationKey = hasQuery ? 'ui-eholdings.title.resultsNotFoundForQuery' : 'ui-eholdings.title.resultsNotFound';
+  }
+  return TranslationKey;
 }

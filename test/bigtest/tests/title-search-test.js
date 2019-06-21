@@ -712,6 +712,72 @@ describe('TitleSearch', () => {
     });
   });
 
+  describe('filtering title by tags', () => {
+    beforeEach(function () {
+      const allTags = ['urgent', 'not urgent'];
+
+      const urgentTag = this.server.create('tags', {
+        tagList: allTags.slice(0)
+      }).toJSON();
+
+      this.server.create('title', {
+        name: 'Test Urgent Tag',
+        tags: urgentTag
+      });
+    });
+
+    it('displays tags accordion as closed', () => {
+      expect(TitleSearchPage.tagsSection.tagsAccordion.isOpen).to.equal(false);
+    });
+
+    describe('clicking to open tags accordion', () => {
+      beforeEach(async () => {
+        await TitleSearchPage.tagsSection.clickTagHeader();
+      });
+
+      it('displays tags accordion as expanded', () => {
+        expect(TitleSearchPage.tagsSection.tagsAccordion.isOpen).to.be.true;
+      });
+
+      describe('after click on urgent option', () => {
+        beforeEach(async () => {
+          await TitleSearchPage.tagsSection.tagsSelect.options(1).clickOption();
+        });
+
+        it('should display selected value as urgent', () => {
+          expect(TitleSearchPage.tagsSection.tagsSelect.values(0).valLabel).to.equal('urgent');
+        });
+
+        it('displays titles tagged as urgent', () => {
+          expect(TitleSearchPage.titleList()).to.have.lengthOf(1);
+          expect(TitleSearchPage.titleList(0).name).to.equal('Test Urgent Tag');
+        });
+
+        it('should display the clear tag filter button', () => {
+          expect(TitleSearchPage.tagsSection.hasClearTagFilter).to.be.true;
+        });
+
+        describe('clearing the filters', () => {
+          beforeEach(() => {
+            return TitleSearchPage.tagsSection.clearTagFilter();
+          });
+
+          it('displays tag filter with empty value', () => {
+            expect(TitleSearchPage.tagsSection.tagsSelect.values()).to.deep.equal([]);
+          });
+
+          it('displays no title results', () => {
+            expect(TitleSearchPage.titleList()).to.have.lengthOf(0);
+          });
+
+          it.always('removes the filter from the URL query params', function () {
+            expect(this.location.search).to.not.include('filter[tags]');
+          });
+        });
+      });
+    });
+  });
+
   describe('with multiple pages of titles', () => {
     beforeEach(function () {
       this.server.createList('title', 75, {
