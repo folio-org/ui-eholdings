@@ -38,7 +38,7 @@ export default Factory.extend({
 
       randomNoteType.update({
         usage: {
-          noteTotal: randomNoteType.attrs.usage.noteTotal
+          noteTotal: ++randomNoteType.attrs.usage.noteTotal
         }
       });
     } else {
@@ -51,7 +51,7 @@ export default Factory.extend({
 
       noteType.update({
         usage: {
-          noteTotal: noteType.attrs.usage.noteTotal
+          noteTotal: ++noteType.attrs.usage.noteTotal
         }
       });
     }

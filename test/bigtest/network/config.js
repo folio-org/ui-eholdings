@@ -4,21 +4,18 @@ import { searchRouteFor, nestedResourceRouteFor, includesWords } from './helpers
 export default function config() {
   const server = this;
   // okapi endpoints
-  this.get('/note-types', ({ noteTypes }) => {
-    return noteTypes.all();
-  });
+  this.get('/note-types');
 
-  this.post('/note-types', (request) => {
-    const noteTypeData = JSON.parse(request.requestBody);
+  this.post('/note-types', ({ requestBody }) => {
+    const noteTypeData = JSON.parse(requestBody);
+
     return server.create('note-type', noteTypeData);
   });
 
   this.put('/note-types/:id', ({ noteTypes }, { params, requestBody }) => {
-    const body = JSON.parse(requestBody);
+    const noteTypeData = JSON.parse(requestBody);
 
-    console.log(body);
-
-    return noteTypes.find(params.id).update(body);
+    return noteTypes.find(params.id).update(noteTypeData);
   });
 
   this.delete('/note-types/:id', ({ noteTypes }, { params }) => {
@@ -95,9 +92,22 @@ export default function config() {
     });
   });
 
-  this.delete('/notes/:id', ({ notes }, { params }) => {
+  this.delete('/notes/:id', ({ notes, noteTypes }, { params }) => {
+    const note = notes.find(params.id);
+    const noteType = noteTypes.find(note.attrs.typeId);
+    console.log('note type', noteType);
+
+    noteType.update({
+      usage: {
+        noteTotal: --noteType.attrs.usage.noteTotal,
+      },
+    });
+
+    console.log('note type2', noteType);
+
+
     return notes.find(params.id).destroy();
-  }, 204);
+  });
 
   this.get('_/proxy/tenants/:id/modules', [{
     id: 'mod-kb-ebsco',

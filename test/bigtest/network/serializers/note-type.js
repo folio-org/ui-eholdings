@@ -1,9 +1,9 @@
 import ApplicationSerializer from './application';
 
 export default ApplicationSerializer.extend({
-  serialize(x) {
-    return x.models
-      ? x.models.reduce((response, noteType) => {
+  serialize(db) {
+    return db.models
+      ? db.models.reduce((response, noteType) => {
         return {
           noteTypes: [
             ...response.noteTypes,
@@ -12,6 +12,6 @@ export default ApplicationSerializer.extend({
           totalRecords: ++response.totalRecords
         };
       }, { noteTypes: [], totalRecords: 0 })
-      : x.attrs;
+      : db.attrs;
   }
 });
