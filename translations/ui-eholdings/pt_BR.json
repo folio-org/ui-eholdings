@@ -31,7 +31,7 @@
     "package.packageType": "Tipo de pacote",
     "package.partiallySelected": "{selectedCount} de {titleCount} títulos selecionados",
     "package.provider": "Fornecedor",
-    "package.resultsNotFound": "Nenhum pacote encontrado para '{query}'.",
+    "package.resultsNotFound": "Nenhum pacote encontrado.",
     "package.titlesSelected": "Títulos selecionados",
     "package.totalTitles": "Total de títulos",
     "package.visibility": "Mostrar títulos no pacote para usuários",
@@ -55,7 +55,7 @@
     "provider.providerSettings": "Configurações do provedor",
     "provider.packagesSelected": "Pacotes selecionados",
     "provider.totalPackages": "Pacotes totais",
-    "provider.resultsNotFound": "Nenhum fornecedor encontrado para '{query}'.",
+    "provider.resultsNotFound": "Nenhum fornecedor encontrado.",
     "provider.noPackagesSelected": "Adicione qualquer pacote desse provedor ao acervo para personalizar as configurações do fornecedor.",
     "provider.toast.isFreshlySaved": "Provedor salvo.",
     "resource.modal.header": "Remover título do acervo?",
@@ -106,7 +106,7 @@
     "title.toast.isFreshlySaved": "Título salvo.",
     "title.addToCustomPackage": "Adicionar ao pacote personalizado",
     "title.modalMessage.addTitleToCustomPackage": "Adicionar título ao pacote personalizado",
-    "title.resultsNotFound": "Nenhum título encontrado para \"{query}\".",
+    "title.resultsNotFound": "Nenhum título encontrado.",
     "title.editCustomTitle": "Editar {name}",
     "title.chooseAPackage": "Escolha um pacote",
     "settings.goBackToEholdings": "Volte para as configurações do Acervo digital",
@@ -319,5 +319,9 @@
     "notes.entityType.provider.pluralized": "{count} {count, plural, one {fornecedor} other {fornecedores}}",
     "notes.entityType.package.pluralized": "{count} {count, plural, one {pacote} other {pacotes}}",
     "notes.entityType.resource.pluralized": "{count} {count, plural, one {recurso} other {recursos}}",
-    "notes.entityType.title.pluralized": "{count} {count, plural, one {título} other {títulos}}"
+    "notes.entityType.title.pluralized": "{count} {count, plural, one {título} other {títulos}}",
+    "package.resultsNotFoundForQuery": "Nenhum pacote encontrado para '{query}'.",
+    "provider.resultsNotFoundForQuery": "Nenhum fornecedor encontrado para '{query}'.",
+    "title.resultsNotFoundForQuery": "Nenhum título encontrado para '{query}'.",
+    "tags.filter.cannot.combine": "Tags filter cannot be combined with search or other filters"
 }
