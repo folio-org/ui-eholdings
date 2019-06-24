@@ -319,5 +319,9 @@
     "notes.entityType.provider.pluralized": "{count} {count, plural, one {مقدم خدمة} other {مقدم خدمة}}",
     "notes.entityType.package.pluralized": "{count} {count, plural, one {حزمة} other {حزمة}}",
     "notes.entityType.resource.pluralized": "{count} {count, plural, one {مورد} other {مورد}}",
-    "notes.entityType.title.pluralized": "{count} {count, plural, one {عنوان} other {عنوان}}"
+    "notes.entityType.title.pluralized": "{count} {count, plural, one {عنوان} other {عنوان}}",
+    "package.resultsNotFoundForQuery": "لم يتم العثور على أي حزم ل '{query}'.",
+    "provider.resultsNotFoundForQuery": "لم يتم العثور على أي مقدمي خدمة لـ '{query}'.",
+    "title.resultsNotFoundForQuery": "لم يتم العثور على أي عناوين لـ '{query}'.",
+    "tags.filter.cannot.combine": "لا يمكن دمج منقح الوسوم مع البحث أو المنقحات الأخرى"
 }
