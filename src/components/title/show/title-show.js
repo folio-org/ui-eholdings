@@ -298,7 +298,7 @@ class TitleShow extends Component {
               itemHeight={ITEM_HEIGHT}
               items={model.resources}
               scrollable={scrollable}
-              data-test-query-list="title-packages"
+              queryListName="title-packages"
             >
               {item => (
                 <PackageListItem
