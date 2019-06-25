@@ -323,5 +323,5 @@
     "package.resultsNotFoundForQuery": "Nenhum pacote encontrado para '{query}'.",
     "provider.resultsNotFoundForQuery": "Nenhum fornecedor encontrado para '{query}'.",
     "title.resultsNotFoundForQuery": "Nenhum título encontrado para '{query}'.",
-    "tags.filter.cannot.combine": "Tags filter cannot be combined with search or other filters"
+    "tags.filter.cannot.combine": "O filtro de tags não pode ser combinado com pesquisa ou outros filtros"
 }
