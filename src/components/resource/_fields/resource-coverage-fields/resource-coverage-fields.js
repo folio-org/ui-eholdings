@@ -133,7 +133,7 @@ class ResourceCoverageFields extends Component {
         </div>
         <div>
           <RadioButton
-            label={<FormattedMessage id="ui-eholdings.label.custom.coverageDates" />}
+            label={<FormattedMessage id="ui-eholdings.label.edit.custom.coverageDates" />}
             checked={fields.length > 0}
             onChange={switchToCustomCoverages}
           />
