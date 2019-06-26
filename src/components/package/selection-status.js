@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { FormattedMessage } from 'react-intl';
+import { FormattedMessage, FormattedNumber } from 'react-intl';
 
 import { IfPermission } from '@folio/stripes-core';
 import {
@@ -32,7 +32,7 @@ function messageFor(model) {
   if (model.isPartiallySelected) {
     return {
       id: 'ui-eholdings.package.partiallySelected',
-      values: { selectedCount: model.selectedCount, titleCount: model.titleCount }
+      values: { selectedCount: <FormattedNumber value={model.selectedCount} />, titleCount: <FormattedNumber value={model.titleCount} /> }
     };
   }
   if (model.isSelected) {
