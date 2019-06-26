@@ -96,14 +96,18 @@ describe('TitleCreate', () => {
       beforeEach(() => {
         return TitleCreatePage
           .fillName('My Title')
-          .addContributor('Author', 'Me')
+          .clickAddContributor()
+          .contributorsRowList(0).type('author')
+          .contributorsRowList(0).contributor('Me') // eslint-disable-line newline-per-chained-call
           .selectPackage(packages[0].name)
           .save();
       });
-
+      it('goes to the title show page', () => {
+        expect(TitleShowPage.$root).to.exist;
+      });
       it('redirects to the new title show page with the specified contributor', function () {
-        expect(this.location.pathname).to.match(/^\/eholdings\/titles\/\d{1,}/);
-        expect(TitleShowPage.contributorsList(0).text).to.equal('AuthorMe');
+        expect(TitleShowPage.contributorsList(0).contributorName).to.equal('Me');
+        expect(TitleShowPage.contributorsList(0).contributorType).to.equal('Author');
       });
     });
 

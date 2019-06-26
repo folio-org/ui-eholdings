@@ -7,7 +7,8 @@ import {
   property,
   selectable,
   value,
-  count
+  count,
+  collection,
 } from '@bigtest/interactor';
 
 @interactor class TitleCreateDropDown {
@@ -25,12 +26,13 @@ import {
   fillName = fillable('[data-test-eholdings-title-name-field] input');
 
   hasContributorBtn = isPresent('[data-test-eholdings-contributors-fields] [data-test-repeatable-field-add-item-button]');
-  addContributor(type, name) {
-    return this
-      .click('[data-test-eholdings-contributors-fields] [data-test-repeatable-field-add-item-button]')
-      .fill('[data-test-eholdings-contributor-type] select', type)
-      .fill('[data-test-eholdings-contributor-contributor] input', name);
-  }
+  hasContributorBtn = isPresent('[data-test-eholdings-contributors-fields] [data-test-repeatable-field-add-item-button]');
+  clickAddContributor = clickable('[data-test-eholdings-contributors-fields] [data-test-repeatable-field-add-item-button]');
+  contributorsRowList = collection('[data-test-eholdings-contributors-fields] li', {
+    type: fillable('[data-test-eholdings-contributor-type] select'),
+    contributor: fillable('[data-test-eholdings-contributor-contributor] input'),
+    clickRemoveRowButton: clickable('[data-test-repeatable-field-remove-item-button]')
+  });
 
   hasEdition = isPresent('[data-test-eholdings-edition-field]');
   fillEdition = fillable('[data-test-eholdings-edition-field] input');

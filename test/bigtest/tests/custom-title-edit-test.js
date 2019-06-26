@@ -109,7 +109,7 @@ describe('CustomTitleEdit', () => {
     describe('adding a second contributor', () => {
       beforeEach(() => {
         return TitleEditPage.clickAddContributor()
-          .contributorsRowList(1).type('Editor')
+          .contributorsRowList(1).type('editor')
           .contributorsRowList(1).contributor('Ron'); // eslint-disable-line newline-per-chained-call
       });
 

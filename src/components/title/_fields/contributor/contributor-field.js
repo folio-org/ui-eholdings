@@ -14,15 +14,15 @@ import styles from './contributor-field.css';
 
 const contributorTypeOptions = [
   {
-    value: 'Author',
+    value: 'author',
     translationIdEnding: 'author'
   },
   {
-    value: 'Editor',
+    value: 'editor',
     translationIdEnding: 'editor'
   },
   {
-    value: 'Illustrator',
+    value: 'illustrator',
     translationIdEnding: 'illustrator'
   },
 ];
