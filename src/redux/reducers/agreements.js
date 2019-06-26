@@ -23,7 +23,8 @@ const handlers = {
 
     return {
       ...state,
-      ...payload,
+      isLoading: false,
+      items: [...payload.items],
     };
   },
   [GET_AGREEMENTS_FAILURE]: (state, action) => {

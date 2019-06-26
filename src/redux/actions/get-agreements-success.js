@@ -1,11 +1,10 @@
 export const GET_AGREEMENTS_SUCCESS = 'GET_AGREEMENTS_SUCCESS';
 
-export function getAgreementsSuccess(payload) {
+export function getAgreementsSuccess(agreements) {
   return {
     type: GET_AGREEMENTS_SUCCESS,
     payload: {
-      ...payload,
-      isLoading: false,
+      items: [...agreements],
     },
   };
 }

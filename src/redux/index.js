@@ -23,9 +23,11 @@ import {
 import agreements from './reducers';
 
 import {
-  getAgreements,
-  attachAgreement,
+  createGetAgreementsEpic,
+  createAttachAgreementEpic,
 } from './epics';
+
+import agreementsApi from '../api/agreements';
 
 export const createResolver = (state) => {
   return new Resolver(state, [
@@ -54,6 +56,6 @@ export const reducer = combineReducers({
 
 export const epics = combineEpics(
   dataEpic,
-  getAgreements,
-  attachAgreement,
+  createGetAgreementsEpic({ agreementsApi }),
+  createAttachAgreementEpic({ agreementsApi }),
 );

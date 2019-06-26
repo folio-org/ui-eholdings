@@ -44,15 +44,12 @@ describe('(reducer) agreements', () => {
     const action = {
       type: GET_AGREEMENTS_SUCCESS,
       payload: {
-        referenceId: '123',
-        isLoading: false,
-        items: 'items',
+        items: ['item1', 'item2'],
       }
     };
     const expectedState = {
-      items: 'items',
+      items: action.payload.items,
       isLoading: false,
-      referenceId: '123',
     };
 
     expect(agreements(actualState, action)).to.deep.equal(expectedState);
