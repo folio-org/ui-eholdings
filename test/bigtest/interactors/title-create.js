@@ -26,7 +26,6 @@ import {
   fillName = fillable('[data-test-eholdings-title-name-field] input');
 
   hasContributorBtn = isPresent('[data-test-eholdings-contributors-fields] [data-test-repeatable-field-add-item-button]');
-  hasContributorBtn = isPresent('[data-test-eholdings-contributors-fields] [data-test-repeatable-field-add-item-button]');
   clickAddContributor = clickable('[data-test-eholdings-contributors-fields] [data-test-repeatable-field-add-item-button]');
   contributorsRowList = collection('[data-test-eholdings-contributors-fields] li', {
     type: fillable('[data-test-eholdings-contributor-type] select'),
