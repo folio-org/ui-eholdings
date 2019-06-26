@@ -2,183 +2,111 @@ import { searchRouteFor, nestedResourceRouteFor, includesWords } from './helpers
 
 // typical mirage config export
 export default function config() {
+  const server = this;
   // okapi endpoints
-  this.get('/note-types', {
-    noteTypes: [
-      {
-        id: '1',
-        name: 'type 1',
+  this.get('/note-types');
+
+  this.post('/note-types', ({ requestBody }) => {
+    const noteTypeData = JSON.parse(requestBody);
+
+    return server.create('note-type', noteTypeData);
+  });
+
+  this.put('/note-types/:id', ({ noteTypes }, { params, requestBody }) => {
+    const noteTypeData = JSON.parse(requestBody);
+
+    return noteTypes.find(params.id).update(noteTypeData);
+  });
+
+  this.delete('/note-types/:id', ({ noteTypes }, { params }) => {
+    return noteTypes.find(params.id).destroy();
+  });
+
+  this.get('/note-links/domain/eholdings/type/:type/id/:id', ({ notes }, { params, queryParams }) => {
+    if (queryParams.status === 'all') {
+      return notes.all();
+    }
+
+    return notes.where((note) => {
+      let matches = false;
+
+      for (let i = 0; i < note.links.length; i++) {
+        if (note.links[i].type === params.type && note.links[i].id === params.id) {
+          matches = true;
+          if (queryParams.status === 'assigned') {
+            return true;
+          }
+        }
+      }
+      if (!matches && queryParams.status === 'unassigned') {
+        return true;
+      }
+
+      return false;
+    });
+  });
+
+
+  this.put('/note-links/type/:type/id/:id', ({ notes }, { params, requestBody }) => {
+    const body = JSON.parse(requestBody);
+
+    body.notes.forEach((note) => {
+      const dbNote = notes.find(note.id);
+      const links = [...dbNote.links];
+
+      if (note.status === 'ASSIGNED') {
+        links.push({
+          id: params.id,
+          type: params.type,
+        });
+      } else {
+        for (let i = 0; i < links.length; i++) {
+          if (links[i].type === params.type && links[i].id === params.id) {
+            links.splice(i, 1);
+            break;
+          }
+        }
+      }
+
+      dbNote.update({ links });
+    });
+  });
+
+  this.get('/notes/:id', ({ notes }, { params }) => {
+    return notes.find(params.id);
+  });
+
+  this.post('/notes', (_, { requestBody }) => {
+    const noteData = JSON.parse(requestBody);
+
+    return this.create('note', noteData);
+  });
+
+  this.put('/notes/:id', ({ notes, noteTypes }, { params, requestBody }) => {
+    const noteData = JSON.parse(requestBody);
+    const noteTypeName = noteTypes.find(noteData.typeId).attrs.name;
+
+    return notes.find(params.id).update({
+      ...noteData,
+      type: noteTypeName,
+    });
+  });
+
+  this.delete('/notes/:id', ({ notes, noteTypes }, { params }) => {
+    const note = notes.find(params.id);
+    const noteType = noteTypes.find(note.attrs.typeId);
+    console.log('note type', noteType);
+
+    noteType.update({
+      usage: {
+        noteTotal: --noteType.attrs.usage.noteTotal,
       },
-      {
-        id: '2',
-        name: 'type 2',
-      },
-    ],
-    totalRecords: 2,
-  });
+    });
 
-  this.post('/notes', {
-    id: 'f428c19a-f866-4d84-80b7-2340f948f06f',
-    typeId: '2d7b5166-92f0-4ea2-af89-7da2974ef1e7',
-    domain: 'eholdings',
-    title: 'BU Campus Access Issues123',
-    content: 'There have been access issues at the BU campus since the weekend',
-    creator: {
-      lastName: 'ADMINISTRATOR',
-      firstName: 'DIKU'
-    },
-    metadata: {
-      createdDate: '2019-05-21T11:53:34.802+0000',
-      createdByUserId: '587006b9-ad56-523e-ad4e-17a9b4afb396',
-      createdByUsername: 'diku_admin',
-      updatedDate: '2019-05-21T11:53:34.802+0000',
-      updatedByUserId: '587006b9-ad56-523e-ad4e-17a9b4afb396'
-    },
-    links: [
-      {
-        id: '583-2356521',
-        type: 'package'
-      }
-    ]
-  });
+    console.log('note type2', noteType);
 
-  this.get('/notes/:id', {
-    id: 'f428c19a-f866-4d84-80b7-2340f948f06f',
-    typeId: '2d7b5166-92f0-4ea2-af89-7da2974ef1e7',
-    domain: 'eholdings',
-    title: 'BU Campus Access Issues123',
-    content: 'There have been access issues at the BU campus since the weekend',
-    creator: {
-      lastName: 'ADMINISTRATOR',
-      firstName: 'DIKU'
-    },
-    metadata: {
-      createdDate: '2019-05-21T11:53:34.802+0000',
-      createdByUserId: '587006b9-ad56-523e-ad4e-17a9b4afb396',
-      createdByUsername: 'diku_admin',
-      updatedDate: '2019-05-21T11:53:34.802+0000',
-      updatedByUserId: '587006b9-ad56-523e-ad4e-17a9b4afb396'
-    },
-    links: [
-      {
-        id: '583-2356521',
-        type: 'package'
-      }
-    ]
-  });
 
-  this.put('/notes/:id', {
-    id: 'f428c19a-f866-4d84-80b7-2340f948f06f',
-    typeId: '2d7b5166-92f0-4ea2-af89-7da2974ef1e7',
-    domain: 'eholdings',
-    title: 'BU Campus Access Issues123',
-    content: 'There have been access issues at the BU campus since the weekend',
-    creator: {
-      lastName: 'ADMINISTRATOR',
-      firstName: 'DIKU'
-    },
-    metadata: {
-      createdDate: '2019-05-21T11:53:34.802+0000',
-      createdByUserId: '587006b9-ad56-523e-ad4e-17a9b4afb396',
-      createdByUsername: 'diku_admin',
-      updatedDate: '2019-05-21T11:53:34.802+0000',
-      updatedByUserId: '587006b9-ad56-523e-ad4e-17a9b4afb396'
-    },
-    links: [
-      {
-        id: '583-2356521',
-        type: 'package'
-      }
-    ]
-  });
-
-  this.get('/note-types', {
-    noteTypes: [
-      {
-        id: '1',
-        name: 'type 1',
-      },
-      {
-        id: '2',
-        name: 'type 2',
-      },
-    ],
-    totalRecords: 2,
-  });
-
-  this.post('/notes', {
-    id: 'f428c19a-f866-4d84-80b7-2340f948f06f',
-    typeId: '2d7b5166-92f0-4ea2-af89-7da2974ef1e7',
-    domain: 'eholdings',
-    title: 'BU Campus Access Issues123',
-    content: 'There have been access issues at the BU campus since the weekend',
-    creator: {
-      lastName: 'ADMINISTRATOR',
-      firstName: 'DIKU'
-    },
-    metadata: {
-      createdDate: '2019-05-21T11:53:34.802+0000',
-      createdByUserId: '587006b9-ad56-523e-ad4e-17a9b4afb396',
-      createdByUsername: 'diku_admin',
-      updatedDate: '2019-05-21T11:53:34.802+0000',
-      updatedByUserId: '587006b9-ad56-523e-ad4e-17a9b4afb396'
-    },
-    links: [
-      {
-        id: '583-2356521',
-        type: 'package'
-      }
-    ]
-  });
-
-  this.get('/notes/:id', {
-    id: 'f428c19a-f866-4d84-80b7-2340f948f06f',
-    typeId: '2d7b5166-92f0-4ea2-af89-7da2974ef1e7',
-    domain: 'eholdings',
-    title: 'BU Campus Access Issues123',
-    content: 'There have been access issues at the BU campus since the weekend',
-    creator: {
-      lastName: 'ADMINISTRATOR',
-      firstName: 'DIKU'
-    },
-    metadata: {
-      createdDate: '2019-05-21T11:53:34.802+0000',
-      createdByUserId: '587006b9-ad56-523e-ad4e-17a9b4afb396',
-      createdByUsername: 'diku_admin',
-      updatedDate: '2019-05-21T11:53:34.802+0000',
-      updatedByUserId: '587006b9-ad56-523e-ad4e-17a9b4afb396'
-    },
-    links: [
-      {
-        id: '583-2356521',
-        type: 'package'
-      }
-    ]
-  });
-
-  this.put('/notes/:id', {
-    id: 'f428c19a-f866-4d84-80b7-2340f948f06f',
-    typeId: '2d7b5166-92f0-4ea2-af89-7da2974ef1e7',
-    domain: 'eholdings',
-    title: 'BU Campus Access Issues123',
-    content: 'There have been access issues at the BU campus since the weekend',
-    creator: {
-      lastName: 'ADMINISTRATOR',
-      firstName: 'DIKU'
-    },
-    metadata: {
-      createdDate: '2019-05-21T11:53:34.802+0000',
-      createdByUserId: '587006b9-ad56-523e-ad4e-17a9b4afb396',
-      createdByUsername: 'diku_admin',
-      updatedDate: '2019-05-21T11:53:34.802+0000',
-      updatedByUserId: '587006b9-ad56-523e-ad4e-17a9b4afb396'
-    },
-    links: [
-      {
-        id: '583-2356521',
-        type: 'package'
-      }
-    ]
+    return notes.find(params.id).destroy();
   });
 
   this.get('_/proxy/tenants/:id/modules', [{
