@@ -2,7 +2,11 @@ import React, { Component, cloneElement } from 'react';
 import PropTypes from 'prop-types';
 import { FormattedMessage } from 'react-intl';
 
-import { IfPermission } from '@folio/stripes-core';
+import {
+  IfPermission,
+  AppIcon
+} from '@folio/stripes-core';
+
 import {
   Button,
   PaneMenu,
@@ -12,7 +16,10 @@ import Paneset, { Pane } from '../paneset';
 
 import styles from './search-paneset.css';
 import SearchBadge from '../search-modal/search-badge';
-import { searchTypes } from '../../constants';
+import {
+  searchTypes,
+  APP_ICON_NAME
+} from '../../constants';
 
 export default class SearchPaneset extends Component {
   static propTypes = {
@@ -168,7 +175,7 @@ export default class SearchPaneset extends Component {
           static
           flexGrow={5}
           padContent={false}
-          appIcon={{ app: 'eholdings' }}
+          appIcon={<AppIcon app={APP_ICON_NAME} />}
           paneTitle={resultsLabel}
           paneSub={resultsView && resultsPaneSub}
           paneTitleRef={this.$title}

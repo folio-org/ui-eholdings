@@ -9,6 +9,8 @@ import {
   selectable,
 } from '@bigtest/interactor';
 
+import TagsAccordion from './tags-accordion';
+
 export default @interactor class SearchModal {
   searchType = attribute('data-test-search-form', '[data-test-search-form]')
   searchFieldValue = value('[data-test-search-field] input[name="search"]');
@@ -21,6 +23,7 @@ export default @interactor class SearchModal {
   clickSearch = clickable('[data-test-eholdings-modal-search-button]');
   sortBy = value('[data-test-eholdings-search-filters="titles"] input[name="sort"]:checked');
   resetSortFilter = clickable('#filter-titles-sort button[icon="times-circle-solid"]');
+  tagsSection = new TagsAccordion('[data-test-eholdings-tag-filter]');
 
   clickFilter = action(function (name, val) {
     return this.click(`[data-test-eholdings-search-filters] input[name="${name}"][value="${val}"]`);

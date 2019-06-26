@@ -105,4 +105,7 @@ export default function defaultScenario(server) {
   server.createList('provider', 5, 'withPackagesAndTitles', {
     get packagesTotal() { return Math.floor(Math.random() * 10) + 1; }
   });
+
+  server.createList('note-type', 10);
+  server.createList('note', 40);
 }
