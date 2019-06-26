@@ -9,6 +9,8 @@ import {
   is
 } from '@bigtest/interactor';
 
+import TagsAccordion from './tags-accordion';
+
 import Toast from './toast';
 import SearchModal from './search-modal';
 import SearchBadge from './search-badge';
@@ -61,6 +63,8 @@ import SearchBadge from './search-badge';
         });
       });
   })
+
+  tagsSection = new TagsAccordion('[data-test-eholdings-tag-filter]');
 }
 
 export default new ProviderShowPage('[data-test-eholdings-details-view="provider"]');

@@ -24,15 +24,30 @@ describe('ProviderShow package search', () => {
       contentType: 'Print'
     }));
 
+    packages[0].update({
+      tags: {
+        tagList: ['urgent']
+      }
+    });
+
+    packages[1].update({
+      tags: {
+        tagList: ['urgent']
+      }
+    });
+
     packages[2].update({
       name: 'Ordinary Package',
       contentType: 'eBook',
-      isSelected: false
+      isSelected: false,
+      tags: {
+        tagList: ['not urgent', 'urgent']
+      }
     });
 
     packages[4].update({
       name: 'Other Ordinary Package',
-      isSelected: true
+      isSelected: true,
     });
 
     this.visit(`/eholdings/providers/${provider.id}`);
@@ -89,6 +104,87 @@ describe('ProviderShow package search', () => {
         });
         it('applies the changes and closes the modal', () => {
           expect(ProviderShowPage.searchModal.isPresent).to.be.false;
+        });
+      });
+    });
+
+    describe('filtering packages by tags', () => {
+      it('shows the accordion with tags filter', () => {
+        expect(ProviderShowPage.searchModal.tagsSection.tagsAccordion.isPresent).to.be.true;
+      });
+
+      it('accordion is closed by default', () => {
+        expect(ProviderShowPage.searchModal.tagsSection.tagsAccordion.isOpen).to.be.false;
+      });
+
+      describe('after click on accordion header', () => {
+        beforeEach(async () => {
+          await ProviderShowPage.searchModal.tagsSection.clickTagHeader();
+        });
+
+        it('should expand the accordion', () => {
+          expect(ProviderShowPage.searchModal.tagsSection.tagsAccordion.isOpen).to.be.true;
+        });
+      });
+
+      describe('after doing a couple of clicks on accordion header', () => {
+        beforeEach(async () => {
+          await ProviderShowPage.searchModal.tagsSection.clickTagHeader();
+          await ProviderShowPage.searchModal.tagsSection.clickTagHeader();
+        });
+
+        it('should collapse the accordion', () => {
+          expect(ProviderShowPage.searchModal.tagsSection.tagsAccordion.isOpen).to.be.false;
+        });
+      });
+
+      it('displays tag filter with empty value by default', () => {
+        expect(ProviderShowPage.searchModal.tagsSection.tagsSelect.values()).to.deep.equal([]);
+      });
+
+      describe('after click on "urgent" option', () => {
+        beforeEach(async () => {
+          await ProviderShowPage.searchModal.tagsSection.tagsSelect.options(1).clickOption();
+        });
+
+        it('should close search modal', () => {
+          expect(ProviderShowPage.searchModal.isPresent).to.be.false;
+        });
+
+        it('should display packages tagged as urgent', () => {
+          expect(ProviderShowPage.packageList()).to.have.lengthOf(3);
+        });
+      });
+
+      describe('when some of the tags was selected and do tags clear', () => {
+        beforeEach(async () => {
+          await ProviderShowPage.searchModal.tagsSection.tagsSelect.options(0).clickOption();
+          await ProviderShowPage.clickListSearch();
+          await ProviderShowPage.searchModal.tagsSection.clearTagFilter();
+        });
+
+        it('should close search modal', () => {
+          expect(ProviderShowPage.searchModal.isPresent).to.be.false;
+        });
+
+        it('should display empty list of packages', () => {
+          expect(ProviderShowPage.packageList()).to.have.lengthOf(5);
+        });
+      });
+
+      describe('when "urgent" and "not urgent" tags are selected', () => {
+        beforeEach(async () => {
+          await ProviderShowPage.searchModal.tagsSection.tagsSelect.options(1).clickOption();
+          await ProviderShowPage.clickListSearch();
+          await ProviderShowPage.searchModal.tagsSection.tagsSelect.options(0).clickOption();
+        });
+
+        it('should close search modal', () => {
+          expect(ProviderShowPage.searchModal.isPresent).to.be.false;
+        });
+
+        it('displays packages tagged as "not urgent" and "urgent"', () => {
+          expect(ProviderShowPage.packageList()).to.have.lengthOf(3);
         });
       });
     });

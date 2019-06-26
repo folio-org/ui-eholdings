@@ -118,7 +118,7 @@ export default function config() {
     }]
   }]);
   // tags endpoint
-  this.get('/tags', {
+  this.get('/tags', ({
     tags: [
       {
         id: '1',
@@ -131,7 +131,7 @@ export default function config() {
         description: 'Requires not urgent attention',
       },
     ]
-  });
+  }));
 
   this.get('/erm/sas', [
     {

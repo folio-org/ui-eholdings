@@ -15,6 +15,7 @@ import {
 } from '@bigtest/interactor';
 
 import AgreementsAccordion from './agreements-accordion';
+import TagsAccordion from './tags-accordion';
 import {
   getComputedStyle,
   hasClassBeginningWith,
@@ -141,6 +142,8 @@ import PackageSelectionStatus from './selection-status';
 
   agreementsSection = new AgreementsAccordion('#packageShowAgreements');
   findAgreementsModalIsVisible = isPresent('[class^="modal"] #list-agreements');
+
+  tagsSection = new TagsAccordion('[data-test-eholdings-tag-filter]');
 
   selectPackage() {
     return this

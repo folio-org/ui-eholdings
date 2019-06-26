@@ -1,6 +1,8 @@
-import { action,
+import {
+  action,
   isPresent,
-  interactor } from '@bigtest/interactor';
+  interactor,
+} from '@bigtest/interactor';
 
 import MultiSelectInteractor from '@folio/stripes-components/lib/MultiSelection/tests/interactor';
 import { AccordionInteractor } from '@folio/stripes-components/lib/Accordion/tests/interactor';
