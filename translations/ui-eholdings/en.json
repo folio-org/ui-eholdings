@@ -181,6 +181,7 @@
     "label.showToPatrons": "Show to patrons",
     "label.managed.coverageDates": "Managed coverage dates",
     "label.custom.coverageDates": "Custom coverage dates",
+    "label.edit.custom.coverageDates": "Custom coverage dates (enter multiple date ranges in descending order)",
     "label.managed.embargoPeriod": "Managed embargo period",
     "label.custom.embargoPeriod": "Custom embargo period",
     "label.title": "Title",
