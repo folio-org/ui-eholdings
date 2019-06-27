@@ -323,5 +323,6 @@
     "package.resultsNotFoundForQuery": "لم يتم العثور على أي حزم ل '{query}'.",
     "provider.resultsNotFoundForQuery": "لم يتم العثور على أي مقدمي خدمة لـ '{query}'.",
     "title.resultsNotFoundForQuery": "لم يتم العثور على أي عناوين لـ '{query}'.",
-    "tags.filter.cannot.combine": "لا يمكن دمج منقح الوسوم مع البحث أو المنقحات الأخرى"
+    "tags.filter.cannot.combine": "لا يمكن دمج منقح الوسوم مع البحث أو المنقحات الأخرى",
+    "label.edit.custom.coverageDates": "تواريخ التغطية المخصصة (قم بإدخال نطاقات زمنية متعددة بترتيب تنازلي)"
 }
