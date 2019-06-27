@@ -43,10 +43,19 @@ describe('Package Show Title Search', () => {
       isSelected: true,
     });
 
+    resources[0].title.update({
+      tags: {
+        tagList: ['urgent', 'not urgent']
+      }
+    });
+
     resources[1].title.update({
       name: 'My Title 2',
       publicationType: 'book',
-      publisherName: 'The Frontside'
+      publisherName: 'The Frontside',
+      tags: {
+        tagList: ['urgent']
+      }
     });
 
     resources[1].update({
@@ -55,7 +64,10 @@ describe('Package Show Title Search', () => {
 
     resources[2].title.update({
       name: 'SUPER Duper 3',
-      publicationType: 'book'
+      publicationType: 'book',
+      tags: {
+        tagList: ['urgent']
+      }
     });
 
     resources[2].update({
@@ -172,6 +184,91 @@ describe('Package Show Title Search', () => {
 
         it('properly filters to one result', () => {
           expect(PackageShowPage.titleList().length).to.equal(3);
+        });
+      });
+    });
+
+    describe('filtering resources by tags', () => {
+      beforeEach(async () => {
+        await PackageShowPage.clickListSearch();
+      });
+
+      it('shows the accordion with tags filter', () => {
+        expect(PackageShowPage.searchModal.tagsSection.tagsAccordion.isPresent).to.be.true;
+      });
+
+      it('accordion is closed by default', () => {
+        expect(PackageShowPage.searchModal.tagsSection.tagsAccordion.isOpen).to.be.false;
+      });
+
+      describe('after click on accordion header', () => {
+        beforeEach(async () => {
+          await PackageShowPage.searchModal.tagsSection.clickTagHeader();
+        });
+
+        it('should expand the accordion', () => {
+          expect(PackageShowPage.searchModal.tagsSection.tagsAccordion.isOpen).to.be.true;
+        });
+      });
+
+      describe('after doing a couple of clicks on accordion header', () => {
+        beforeEach(async () => {
+          await PackageShowPage.searchModal.tagsSection.clickTagHeader();
+          await PackageShowPage.searchModal.tagsSection.clickTagHeader();
+        });
+
+        it('should collapse the accordion', () => {
+          expect(PackageShowPage.searchModal.tagsSection.tagsAccordion.isOpen).to.be.false;
+        });
+      });
+
+      it('displays tag filter with empty value by default', () => {
+        expect(PackageShowPage.searchModal.tagsSection.tagsSelect.values()).to.deep.equal([]);
+      });
+
+      describe('after click on "urgent" option', () => {
+        beforeEach(async () => {
+          await PackageShowPage.searchModal.tagsSection.tagsSelect.options(1).clickOption();
+        });
+
+        it('should close search modal', () => {
+          expect(PackageShowPage.searchModal.isPresent).to.be.false;
+        });
+
+        it('should display resources tagged as urgent', () => {
+          expect(PackageShowPage.titleList()).to.have.lengthOf(3);
+        });
+      });
+
+      describe('when some of the tags was selected and do tags clear', () => {
+        beforeEach(async () => {
+          await PackageShowPage.searchModal.tagsSection.tagsSelect.options(0).clickOption();
+          await PackageShowPage.clickListSearch();
+          await PackageShowPage.searchModal.tagsSection.clearTagFilter();
+        });
+
+        it('should close search modal', () => {
+          expect(PackageShowPage.searchModal.isPresent).to.be.false;
+        });
+
+        it('should display empty list of resources', () => {
+          expect(PackageShowPage.titleList()).to.have.lengthOf(3);
+        });
+      });
+
+      describe('when "urgent" and "not urgent" tags are selected', () => {
+        beforeEach(async () => {
+          await PackageShowPage.searchModal.tagsSection.tagsSelect.options(1).clickOption();
+          await PackageShowPage.clickListSearch();
+          await PackageShowPage.searchModal.tagsSection.tagsSelect.options(0).clickOption();
+        });
+
+        it('should close search modal', () => {
+          expect(PackageShowPage.searchModal.isPresent).to.be.false;
+        });
+
+        it('displays resources tagged as "not urgent" and "urgent"', () => {
+          expect(PackageShowPage.titleList()).to.have.lengthOf(3);
         });
       });
     });
