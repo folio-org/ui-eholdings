@@ -91,7 +91,7 @@ export default class QueryList extends Component {
               itemHeight={itemHeight}
               onUpdate={this.updateOffset}
               scrollable={scrollable}
-              data-test-query-list={type}
+              queryListName={type}
               fullWidth={fullWidth}
             >
               {item => (

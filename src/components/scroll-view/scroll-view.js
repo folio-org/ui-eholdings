@@ -24,7 +24,8 @@ export default class ScrollView extends Component {
     length: PropTypes.number,
     offset: PropTypes.number,
     onUpdate: PropTypes.func,
-    scrollable: PropTypes.bool
+    queryListName: PropTypes.string.isRequired,
+    scrollable: PropTypes.bool,
   };
 
   static defaultProps = {
@@ -53,8 +54,8 @@ export default class ScrollView extends Component {
       // props are outdated, need to call onUpdate
       if (this.props.offset !== this.state.offset) {
         this.triggerUpdate(this.state.offset);
-      // if props updated when the state did, we have a new offset we
-      // need to scroll to
+        // if props updated when the state did, we have a new offset we
+        // need to scroll to
       } else if (prevProps.offset !== this.props.offset) {
         this.setScrollOffset();
       }
@@ -144,14 +145,13 @@ export default class ScrollView extends Component {
   }
 
   render() {
-    // strip all other props to pass along the rest to the div
     const {
       items,
       length,
       itemHeight,
       scrollable,
       fullWidth,
-      ...restProps
+      queryListName
     } = this.props;
 
     const {
@@ -172,7 +172,7 @@ export default class ScrollView extends Component {
         ref={(n) => { this.$list = n; }}
         className={cx('list', { locked: !scrollable })}
         onScroll={this.handleScroll}
-        {...restProps}
+        data-test-query-list={queryListName}
       >
         <List
           fullWidth={fullWidth}
