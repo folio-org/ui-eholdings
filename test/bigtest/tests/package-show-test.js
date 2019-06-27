@@ -102,7 +102,7 @@ describe('PackageShow', () => {
           });
 
           it('should redirect to create page of agreements app', function () {
-            const agreementCreatePageUrl = `/erm/agreements?layer=create&authority=${entityAuthorityTypes.PACKAGE}&referenceId=${providerPackage.id}`;
+            const agreementCreatePageUrl = `/erm/agreements/create?authority=${entityAuthorityTypes.PACKAGE}&referenceId=${providerPackage.id}`;
 
             expect(this.location.pathname + this.location.search).to.contain(agreementCreatePageUrl);
           });
@@ -122,7 +122,7 @@ describe('PackageShow', () => {
           });
 
           it('should redirect to agreement details page', function () {
-            const itemDetailsUrl = '/erm/agreements/view/2c918098689ba8f70168a349f1160027';
+            const itemDetailsUrl = '/erm/agreements/2c918098689ba8f70168a349f1160027';
 
             expect(this.location.pathname).to.contain(itemDetailsUrl);
           });

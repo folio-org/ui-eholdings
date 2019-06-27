@@ -39,7 +39,7 @@ export default class AgreementsList extends React.Component {
       labelStrings,
     } = row;
 
-    const ermAgreementUrl = `/erm/agreements/view/${id}`;
+    const ermAgreementUrl = `/erm/agreements/${id}`;
     const ariaLabel = labelStrings && labelStrings.join('...');
 
     return (
