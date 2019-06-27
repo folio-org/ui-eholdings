@@ -5,7 +5,7 @@ import setupApplication from '../helpers/setup-application';
 import TitleShowPage from '../interactors/title-show';
 import TitleEditPage from '../interactors/title-edit';
 
-describe('CustomTitleEdit', () => {
+describe.only('CustomTitleEdit', () => {
   setupApplication();
   let provider,
     providerPackage,
@@ -77,7 +77,7 @@ describe('CustomTitleEdit', () => {
 
     it('shows a contributor field', () => {
       expect(TitleEditPage.contributorValue).to.equal('Foo');
-      expect(TitleEditPage.contributorType).to.equal('Author');
+      expect(TitleEditPage.contributorType).to.equal('author');
     });
 
     it('shows add contributor button', () => {
