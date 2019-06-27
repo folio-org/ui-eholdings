@@ -5,7 +5,7 @@ import setupApplication from '../helpers/setup-application';
 import TitleShowPage from '../interactors/title-show';
 import TitleEditPage from '../interactors/title-edit';
 
-describe.only('CustomTitleEdit', () => {
+describe('CustomTitleEdit', () => {
   setupApplication();
   let provider,
     providerPackage,
