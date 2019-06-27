@@ -13,11 +13,11 @@ export default function ContributorsList({ data }) {
 
   return (
     <div>
-      {Object.keys(contributorsByType).map((contibutorType) => {
-        const names = contributorsByType[contibutorType];
+      {Object.keys(contributorsByType).map((contributorType) => {
+        const names = contributorsByType[contributorType];
         const label = (
           <FormattedMessage
-            id={`ui-eholdings.contributorType.${contibutorType}`}
+            id={`ui-eholdings.contributorType.${contributorType}`}
             values={{
               count: names.length
             }}
@@ -25,7 +25,7 @@ export default function ContributorsList({ data }) {
         );
 
         return (
-          <div key={contibutorType} data-test-eholdings-contributors-list-item>
+          <div key={contributorType} data-test-eholdings-contributors-list-item>
             <KeyValue label={label}>
               <div data-test-eholdings-contributor-names>
                 {names.join('; ')}
