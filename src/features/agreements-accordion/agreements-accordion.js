@@ -84,7 +84,7 @@ class AgreementsAccordion extends Component {
         <Button
           data-test-new-button
           buttonClass={styles['new-button']}
-          to={`/erm/agreements?layer=create&authority=${refType}&referenceId=${refId}`}
+          to={`/erm/agreements/create?authority=${refType}&referenceId=${refId}`}
         >
           <FormattedMessage id="ui-eholdings.new" />
         </Button>
