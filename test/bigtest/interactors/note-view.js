@@ -5,6 +5,8 @@ import {
   text
 } from '@bigtest/interactor';
 
+import { AccordionInteractor } from '@folio/stripes-components/lib/Accordion/tests/interactor';
+
 @interactor class DeleteConfirmationModal {
   clickCancelButton = clickable('[data-test-confirmation-modal-cancel-button]');
   clickConfirmButton = clickable('[data-test-confirmation-modal-confirm-button]');
@@ -25,6 +27,7 @@ import {
   clickDeleteButton = clickable('[data-test-note-delete]');
   deleteConfirmationModalIsDisplayed = isPresent('#confirm-delete-note');
   deleteConfirmationModal = new DeleteConfirmationModal('#confirm-delete-note');
+  assignmentAccordion = new AccordionInteractor('#assigned');
 
   performDeleteNoteAction() {
     return this.clickPaneHeaderButton()
