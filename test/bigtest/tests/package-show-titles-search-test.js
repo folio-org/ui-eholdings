@@ -115,11 +115,24 @@ describe('Package Show Title Search', () => {
       });
     });
 
+    describe('when the search modal is open', () => {
+      beforeEach(async () => {
+        await PackageShowPage.clickListSearch();
+      });
+
+      it('all filter accordions should be collapsed', () => {
+        PackageShowPage.searchModal.filterAccordions().forEach(accordion => {
+          expect(accordion.isOpen).to.be.false;
+        });
+      });
+    });
+
     describe('searching for a title with the selected filter', () => {
-      beforeEach(() => {
-        return PackageShowPage.clickListSearch()
-          .searchModal.clickFilter('selected', 'true')
-          .searchModal.clickSearch();
+      beforeEach(async () => {
+        await PackageShowPage.clickListSearch();
+        await PackageShowPage.searchModal.toggleAccordion('#accordion-toggle-button-filter-titles-selected');
+        await PackageShowPage.searchModal.clickFilter('selected', 'true');
+        await PackageShowPage.searchModal.clickSearch();
       });
 
       it('properly filters the results', () => {
@@ -128,10 +141,11 @@ describe('Package Show Title Search', () => {
     });
 
     describe('searching for a title with the publication type filter', () => {
-      beforeEach(() => {
-        return PackageShowPage.clickListSearch()
-          .searchModal.clickFilter('type', 'report')
-          .searchModal.clickSearch();
+      beforeEach(async () => {
+        await PackageShowPage.clickListSearch();
+        await PackageShowPage.searchModal.toggleAccordion('#accordion-toggle-button-filter-titles-type');
+        await PackageShowPage.searchModal.clickFilter('type', 'report');
+        await PackageShowPage.searchModal.clickSearch();
       });
 
       it('properly filters to one result', () => {
@@ -294,10 +308,11 @@ describe('Package Show Title Search', () => {
       });
     });
 
-    describe('when "name" sort oprion is chosen by user', () => {
-      beforeEach(() => {
-        return PackageShowPage.clickListSearch()
-          .searchModal.clickFilter('sort', 'name');
+    describe('when "name" sort option is chosen by user', () => {
+      beforeEach(async () => {
+        await PackageShowPage.clickListSearch();
+        await PackageShowPage.searchModal.toggleAccordion('#accordion-toggle-button-filter-titles-sort');
+        await PackageShowPage.searchModal.clickFilter('sort', 'name');
       });
       describe('search form', () => {
         it('should show "name" sort option', () => {

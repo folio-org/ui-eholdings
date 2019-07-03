@@ -38,6 +38,12 @@ describe('ProviderSearch', () => {
     expect(ProviderSearchPage.hasPreSearchPane).to.equal(true);
   });
 
+  it('filter accordions should be collapsed by default', () => {
+    expect(ProviderSearchPage.tagsFilterAccordion.isOpen).to.be.false;
+    expect(ProviderSearchPage.sortFilterAccordion.isOpen).to.be.false;
+  });
+
+
   describe('searching for a provider', () => {
     beforeEach(() => {
       return ProviderSearchPage.search('Provider');
@@ -284,8 +290,9 @@ describe('ProviderSearch', () => {
       });
 
       describe('then filtering by sort options', () => {
-        beforeEach(() => {
-          return ProviderSearchPage.clickFilter('sort', 'name');
+        beforeEach(async () => {
+          await ProviderSearchPage.toggleAccordion('#accordion-toggle-button-filter-providers-sort');
+          await ProviderSearchPage.clickFilter('sort', 'name');
         });
 
         it('displays the providers sorted by provider name', () => {
@@ -394,8 +401,9 @@ describe('ProviderSearch', () => {
     });
 
     describe('selecting a filter without a value in the search field', () => {
-      beforeEach(() => {
-        return ProviderSearchPage.clickFilter('sort', 'name');
+      beforeEach(async () => {
+        await ProviderSearchPage.toggleAccordion('#accordion-toggle-button-filter-providers-sort');
+        await ProviderSearchPage.clickFilter('sort', 'name');
       });
 
       it('should not perform an empty search', () => {

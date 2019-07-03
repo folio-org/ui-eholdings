@@ -38,6 +38,13 @@ describe('PackageSearch', () => {
     expect(PackageSearchPage.hasPreSearchPane).to.equal(true);
   });
 
+  it('filter accordions should be collapsed by default', () => {
+    expect(PackageSearchPage.tagsFilterAccordion.isOpen).to.be.false;
+    expect(PackageSearchPage.typeFilterAccordion.isOpen).to.be.false;
+    expect(PackageSearchPage.sortFilterAccordion.isOpen).to.be.false;
+    expect(PackageSearchPage.selectionFilterAccordion.isOpen).to.be.false;
+  });
+
   describe('searching for a package', () => {
     beforeEach(() => {
       return PackageSearchPage.search('Package');
@@ -224,8 +231,9 @@ describe('PackageSearch', () => {
     });
 
     describe('filtering by content type', () => {
-      beforeEach(() => {
-        return PackageSearchPage.clickFilter('type', 'ebook');
+      beforeEach(async () => {
+        await PackageSearchPage.toggleAccordion('#accordion-toggle-button-filter-packages-type');
+        await PackageSearchPage.clickFilter('type', 'ebook');
       });
 
       it('only shows results for ebook content types', () => {
@@ -278,8 +286,9 @@ describe('PackageSearch', () => {
     });
 
     describe('filtering by selection status', () => {
-      beforeEach(() => {
-        return PackageSearchPage.clickFilter('selected', 'true');
+      beforeEach(async () => {
+        await PackageSearchPage.toggleAccordion('#accordion-toggle-button-filter-packages-selected');
+        await PackageSearchPage.clickFilter('selected', 'true');
       });
 
       it('only shows results for selected packages', () => {
@@ -417,8 +426,9 @@ describe('PackageSearch', () => {
       });
 
       describe('then filtering by sort options', () => {
-        beforeEach(() => {
-          return PackageSearchPage.clickFilter('sort', 'name');
+        beforeEach(async () => {
+          await PackageSearchPage.toggleAccordion('#accordion-toggle-button-filter-packages-sort');
+          await PackageSearchPage.clickFilter('sort', 'name');
         });
 
         it('displays the packages sorted by package name', () => {
