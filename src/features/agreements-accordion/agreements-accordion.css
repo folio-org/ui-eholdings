@@ -1,3 +1,6 @@
-a.new-button {
-  margin-left: 10px;
+
+@import "@folio/stripes-components/lib/variables.css";
+
+a.new-button  {
+  margin-left: var(--gutter-static);
 }
