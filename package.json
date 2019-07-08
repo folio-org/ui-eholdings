@@ -15,7 +15,7 @@
   },
   "husky": {
     "hooks": {
-      "pre-push": "yarn lint"
+      "pre-push": "yarn lint >&2"
     }
   },
   "devDependencies": {
