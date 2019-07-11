@@ -5,7 +5,6 @@ export function getAgreementsFailure(payload) {
     type: GET_AGREEMENTS_FAILURE,
     payload: {
       ...payload,
-      isLoading: false,
     },
   };
 }
