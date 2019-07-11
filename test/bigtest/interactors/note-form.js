@@ -10,6 +10,8 @@ import {
   text,
 } from '@bigtest/interactor';
 
+import { AccordionInteractor } from '@folio/stripes-components/lib/Accordion/tests/interactor';
+
 @interactor class Select {
   selectOption = selectable();
   blur = blurrable();
@@ -60,6 +62,7 @@ import {
   referredEntityName = text('[data-test-referred-entity-name]');
   clickPaneHeaderButton = clickable('[class^="paneHeaderCenterButton"]');
   clickDropdownCancelButton = clickable('[data-test-leave-note-form]');
+  assignmentAccordion = new AccordionInteractor('#assigned');
 
   enterNoteData(noteType, noteTitle) {
     return this.noteTypesSelect.selectAndBlur(noteType)

@@ -94,6 +94,10 @@ describe('Package view', function () {
         expect(this.location.pathname).to.equal('/eholdings/notes/new');
       });
 
+      it('displays assignment accordion as closed', () => {
+        expect(noteForm.assignmentAccordion.isOpen).to.equal(false);
+      });
+
       it('should disable save button', () => {
         expect(noteForm.saveButton.isDisabled).to.be.true;
       });
@@ -294,6 +298,10 @@ describe('Package view', function () {
 
       it('should display assignments information accordion', () => {
         expect(noteView.assignmentInformationAccordionIsDisplayed).to.be.true;
+      });
+
+      it('displays assignment accordion as closed', () => {
+        expect(noteView.assignmentAccordion.isOpen).to.equal(false);
       });
 
       it('should display correct referred entity type', () => {
