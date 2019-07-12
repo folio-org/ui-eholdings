@@ -23,7 +23,7 @@ export default function SearchFilters({
           name={name}
           label={label}
           separator={false}
-          closedByDefault={false}
+          closedByDefault
           header={FilterAccordionHeader}
           displayClearButton={!!activeFilters[name] && activeFilters[name] !== defaultValue}
           onClearFilter={() => onUpdate({ ...activeFilters, [name]: undefined })}

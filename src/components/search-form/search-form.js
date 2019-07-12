@@ -155,7 +155,10 @@ class SearchForm extends Component {
     return tagsModel.isLoading
       ? <Icon icon="spinner-ellipsis" />
       : (
-        <div data-test-eholdings-tag-filter>
+        <div
+          className={styles['search-filters']}
+          data-test-eholdings-tag-filter
+        >
           <Accordion
             label={<FormattedMessage id="ui-eholdings.tags" />}
             id="accordionTagFilter"
@@ -167,18 +170,19 @@ class SearchForm extends Component {
             onClearFilter={() => this.props.onTagFilterChange({ tags: undefined })}
             onToggle={this.toggleSection}
           >
-            <div className={styles['tag-filters']}>
-              <div data-test-eholdings-tag-message>
-                <FormattedMessage id="ui-eholdings.tags.filter.cannot.combine" />
-              </div>
-              <MultiSelectionFilter
-                id="selectTagFilter"
-                dataOptions={this.getSortedDataOptions()}
-                name="tags"
-                onChange={this.handleUpdateTagFilter}
-                selectedValues={tagsList}
-              />
-            </div>
+            <span
+              className={styles['tags-search-warning']}
+              data-test-eholdings-tag-message
+            >
+              <FormattedMessage id="ui-eholdings.tags.filter.cannot.combine" />
+            </span>
+            <MultiSelectionFilter
+              id="selectTagFilter"
+              dataOptions={this.getSortedDataOptions()}
+              name="tags"
+              onChange={this.handleUpdateTagFilter}
+              selectedValues={tagsList}
+            />
           </Accordion>
         </div>
       );

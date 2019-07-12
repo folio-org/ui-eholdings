@@ -75,6 +75,13 @@ describe('TitleSearch', () => {
     expect(TitleSearchPage.hasPreSearchPane).to.equal(true);
   });
 
+  it('filter accordions should be collapsed by default', () => {
+    expect(TitleSearchPage.tagsFilterAccordion.isOpen).to.be.false;
+    expect(TitleSearchPage.typeFilterAccordion.isOpen).to.be.false;
+    expect(TitleSearchPage.sortFilterAccordion.isOpen).to.be.false;
+    expect(TitleSearchPage.selectionFilterAccordion.isOpen).to.be.false;
+  });
+
   describe('searching for a title', () => {
     beforeEach(() => {
       return TitleSearchPage.search('Title');
@@ -225,8 +232,9 @@ describe('TitleSearch', () => {
     });
 
     describe('filtering by publication type', () => {
-      beforeEach(() => {
-        return TitleSearchPage.clickFilter('type', 'book');
+      beforeEach(async () => {
+        await TitleSearchPage.toggleAccordion('#accordion-toggle-button-filter-titles-type');
+        await TitleSearchPage.clickFilter('type', 'book');
       });
 
       it('only shows results for book publication types', () => {
@@ -277,8 +285,9 @@ describe('TitleSearch', () => {
     });
 
     describe('filtering by selection status', () => {
-      beforeEach(() => {
-        return TitleSearchPage.clickFilter('selected', 'true');
+      beforeEach(async () => {
+        await TitleSearchPage.toggleAccordion('#accordion-toggle-button-filter-titles-selected');
+        await TitleSearchPage.clickFilter('selected', 'true');
       });
 
       it('only shows results for selected titles', () => {
@@ -456,11 +465,11 @@ describe('TitleSearch', () => {
     });
 
     describe('selecting both a search field and a search filter', () => {
-      beforeEach(() => {
-        return TitleSearchPage
-          .selectSearchField('isxn')
-          .clickFilter('type', 'book')
-          .search('999-999');
+      beforeEach(async () => {
+        await TitleSearchPage.selectSearchField('isxn');
+        await TitleSearchPage.toggleAccordion('#accordion-toggle-button-filter-titles-type');
+        await TitleSearchPage.clickFilter('type', 'book');
+        await TitleSearchPage.search('999-999');
       });
       it('only shows results having both isxn and book pub type', () => {
         expect(TitleSearchPage.titleList()).to.have.lengthOf(1);
@@ -579,8 +588,9 @@ describe('TitleSearch', () => {
       });
 
       describe('when "name" sort option is chosen by user', () => {
-        beforeEach(() => {
-          return TitleSearchPage.clickFilter('sort', 'name');
+        beforeEach(async () => {
+          await TitleSearchPage.toggleAccordion('#accordion-toggle-button-filter-titles-sort');
+          await TitleSearchPage.clickFilter('sort', 'name');
         });
 
         describe('search form', () => {
@@ -700,8 +710,9 @@ describe('TitleSearch', () => {
     });
 
     describe('when selecting a filter without a value in the search field', () => {
-      beforeEach(() => {
-        return TitleSearchPage.clickFilter('sort', 'name');
+      beforeEach(async () => {
+        await TitleSearchPage.toggleAccordion('#accordion-toggle-button-filter-titles-sort');
+        await TitleSearchPage.clickFilter('sort', 'name');
       });
 
       describe('presearch pane', () => {

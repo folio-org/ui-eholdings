@@ -86,8 +86,9 @@ describe('ProviderShow package search', () => {
     });
 
     describe('with filter change', () => {
-      beforeEach(() => {
-        return ProviderShowPage.searchModal.clickFilter('sort', 'name');
+      beforeEach(async () => {
+        await ProviderShowPage.searchModal.toggleAccordion('#accordion-toggle-button-filter-packages-sort');
+        await ProviderShowPage.searchModal.clickFilter('sort', 'name');
       });
 
       it('enables the search button', () => {
@@ -190,6 +191,18 @@ describe('ProviderShow package search', () => {
     });
   });
 
+  describe('when the search modal is open', () => {
+    beforeEach(async () => {
+      await ProviderShowPage.clickListSearch();
+    });
+
+    it('all filter accordions should be collapsed', () => {
+      ProviderShowPage.searchModal.filterAccordions().forEach(accordion => {
+        expect(accordion.isOpen).to.be.false;
+      });
+    });
+  });
+
   describe('filter package by search term', () => {
     beforeEach(() => {
       return ProviderShowPage.clickListSearch()
@@ -257,10 +270,11 @@ describe('ProviderShow package search', () => {
     });
 
     describe('then sorting by package name', () => {
-      beforeEach(() => {
-        return ProviderShowPage.clickListSearch()
-          .searchModal.clickFilter('sort', 'name')
-          .searchModal.clickSearch();
+      beforeEach(async () => {
+        await ProviderShowPage.clickListSearch();
+        await ProviderShowPage.searchModal.toggleAccordion('#accordion-toggle-button-filter-packages-sort');
+        await ProviderShowPage.searchModal.clickFilter('sort', 'name');
+        await ProviderShowPage.searchModal.clickSearch();
       });
 
       it('displays packages matching the search term ordered by name', () => {
@@ -288,10 +302,11 @@ describe('ProviderShow package search', () => {
     });
 
     describe('then filtering the packages by selection status', () => {
-      beforeEach(() => {
-        return ProviderShowPage.clickListSearch()
-          .searchModal.clickFilter('selected', 'true')
-          .searchModal.clickSearch();
+      beforeEach(async () => {
+        await ProviderShowPage.clickListSearch();
+        await ProviderShowPage.searchModal.toggleAccordion('#accordion-toggle-button-filter-packages-selected');
+        await ProviderShowPage.searchModal.clickFilter('selected', 'true');
+        await ProviderShowPage.searchModal.clickSearch();
       });
 
       it('displays selected packages matching the search term', () => {
@@ -305,10 +320,11 @@ describe('ProviderShow package search', () => {
     });
 
     describe('then filtering the packages by content type', () => {
-      beforeEach(() => {
-        return ProviderShowPage.clickListSearch()
-          .searchModal.clickFilter('type', 'ebook')
-          .searchModal.clickSearch();
+      beforeEach(async () => {
+        await ProviderShowPage.clickListSearch();
+        await ProviderShowPage.searchModal.toggleAccordion('#accordion-toggle-button-filter-packages-type');
+        await ProviderShowPage.searchModal.clickFilter('type', 'ebook');
+        await ProviderShowPage.searchModal.clickSearch();
       });
 
       it('displays packages matching the search term and content type', () => {
@@ -330,9 +346,11 @@ describe('ProviderShow package search', () => {
         });
 
       this.server.get(`providers/${largeProvider.id}/packages`,
-        { 'data':[],
-          'meta':{ 'totalResults': 10001 },
-          'jsonapi':{ 'version':'1.0' } }, 200);
+        {
+          'data': [],
+          'meta': { 'totalResults': 10001 },
+          'jsonapi': { 'version': '1.0' }
+        }, 200);
 
       this.visit(
         {
