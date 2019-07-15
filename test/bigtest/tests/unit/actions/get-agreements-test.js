@@ -13,6 +13,7 @@ describe('(action) getAgreements', () => {
       type: GET_AGREEMENTS,
       payload: {
         refId,
+        isLoading: true,
       },
     };
 
