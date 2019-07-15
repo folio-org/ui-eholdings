@@ -8,11 +8,12 @@ import {
 
 describe('(action) getAgreementsSuccess', () => {
   it('should create an action to handle get agreements success', () => {
-    const payload = ['agreement1', 'agreement2'];
+    const payload = { testProp: 'prop' };
     const expectedAction = {
       type: GET_AGREEMENTS_SUCCESS,
       payload: {
-        items: payload,
+        testProp: 'prop',
+        isLoading: false,
       },
     };
 

@@ -27,6 +27,7 @@ describe('(reducer) agreements', () => {
       type: GET_AGREEMENTS,
       payload: {
         referenceId: '123',
+        isLoading: true,
       }
     };
     const expectedState = {
@@ -39,19 +40,19 @@ describe('(reducer) agreements', () => {
   });
 
   it('should handle GET_AGREEMENTS_SUCCESS', () => {
-    const actualState = {
-      items: ['item3', 'item4', 'item5'],
-      isLoading: true,
-    };
+    const actualState = {};
     const action = {
       type: GET_AGREEMENTS_SUCCESS,
       payload: {
-        items: ['item1', 'item2'],
+        referenceId: '123',
+        isLoading: false,
+        items: 'items',
       }
     };
     const expectedState = {
-      items: action.payload.items,
+      items: 'items',
       isLoading: false,
+      referenceId: '123',
     };
 
     expect(agreements(actualState, action)).to.deep.equal(expectedState);
@@ -65,6 +66,8 @@ describe('(reducer) agreements', () => {
     const action = {
       type: GET_AGREEMENTS_FAILURE,
       payload: {
+        referenceId: '123',
+        isLoading: false,
         error: 'error',
       }
     };
@@ -72,6 +75,7 @@ describe('(reducer) agreements', () => {
       items: 'items',
       isLoading: false,
       error: 'error',
+      referenceId: '123',
     };
 
     expect(agreements(actualState, action)).to.deep.equal(expectedState);

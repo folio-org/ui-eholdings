@@ -1,14 +1,8 @@
-import {
-  of,
-} from 'rxjs';
-
-import { ofType } from 'redux-observable';
-
-import {
-  map,
-  mergeMap,
-  catchError,
-} from 'rxjs/operators';
+import { Observable } from 'rxjs/Observable';
+import 'rxjs/add/observable/from';
+import 'rxjs/add/observable/of';
+import 'rxjs/add/operator/map';
+import 'rxjs/add/operator/catch';
 
 import {
   GET_AGREEMENTS,
@@ -16,31 +10,61 @@ import {
   getAgreementsFailure,
 } from '../actions';
 
-import { getHeaders } from './common';
+import {
+  getHeaders,
+  parseResponseBody,
+  pickAgreementProps,
+} from './common';
 
-export default ({ agreementsApi }) => (action$, store) => {
+const createUrl = (baseUrl, refId) => {
+  const url = new URL(`${baseUrl}/erm/sas`);
+  const searchParams = {
+    filters: `items.reference=${refId}`,
+    sort: 'startDate;desc',
+  };
+
+  Object.keys(searchParams).forEach((paramName) => {
+    url.searchParams.append(paramName, searchParams[paramName]);
+  });
+
+  return url;
+};
+
+export default function getAgreements(action$, store) {
   const {
     getState,
   } = store;
 
-  const state = getState();
-
-  return action$.pipe(
-    ofType(GET_AGREEMENTS),
-    mergeMap(action => {
+  return action$
+    .ofType(GET_AGREEMENTS)
+    .mergeMap((action) => {
       const {
         payload: {
           refId,
           isLoading,
-        }
+        },
       } = action;
 
-      return agreementsApi
-        .getAll(state.okapi.url, getHeaders(state), refId)
-        .pipe(
-          map(response => getAgreementsSuccess(response)),
-          catchError(error => of(getAgreementsFailure({ error, isLoading })))
-        );
-    })
-  );
-};
+      const state = getState();
+      const method = 'GET';
+
+      const requestOptions = {
+        headers: getHeaders(state),
+        method,
+      };
+
+      const url = createUrl(state.okapi.url, refId);
+
+      const promise = fetch(url, requestOptions)
+        .then(response => Promise.all([response.ok, parseResponseBody(response)]))
+        .then(([ok, body]) => (ok ? body : Promise.reject(body)));
+
+      return Observable
+        .from(promise)
+        .map(agreements => getAgreementsSuccess({
+          items: agreements.map(pickAgreementProps),
+          isLoading,
+        }))
+        .catch(error => Observable.of(getAgreementsFailure({ error, isLoading })));
+    });
+}
