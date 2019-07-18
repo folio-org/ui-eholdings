@@ -1,6 +1,8 @@
 import { combineReducers } from 'redux';
 import { combineEpics } from 'redux-observable';
 
+import { agreementsApi } from '../api';
+
 import Resolver from './resolver';
 import ProviderModel from './provider';
 import PackageModel from './package';
@@ -23,9 +25,9 @@ import {
 import agreements from './reducers';
 
 import {
-  getAgreements,
-  attachAgreement,
   updateEntityTags,
+  createGetAgreementsEpic,
+  createAttachAgreementEpic,
 } from './epics';
 
 export const createResolver = (state) => {
@@ -55,7 +57,7 @@ export const reducer = combineReducers({
 
 export const epics = combineEpics(
   dataEpic,
-  getAgreements,
-  attachAgreement,
-  updateEntityTags
+  updateEntityTags,
+  createGetAgreementsEpic({ agreementsApi }),
+  createAttachAgreementEpic({ agreementsApi }),
 );
