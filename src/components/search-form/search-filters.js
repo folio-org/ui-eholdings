@@ -13,7 +13,8 @@ export default function SearchFilters({
   searchType,
   activeFilters = {},
   availableFilters,
-  onUpdate
+  onUpdate,
+  disabled,
 }) {
   return (
     <div className={styles['search-filters']} data-test-eholdings-search-filters={searchType}>
@@ -43,6 +44,7 @@ export default function SearchFilters({
                 label={radioBtnLabel}
                 value={value}
                 checked={isChecked}
+                disabled={name !== 'sort' && disabled}
                 onChange={() => {
                   const replaced = {
                     ...activeFilters,
@@ -73,6 +75,7 @@ SearchFilters.propTypes = {
       value: PropTypes.string.isRequired
     })).isRequired
   })).isRequired,
+  disabled: PropTypes.bool.isRequired,
   onUpdate: PropTypes.func.isRequired,
   searchType: PropTypes.string.isRequired
 };

@@ -13,7 +13,8 @@ import {
   FilterAccordionHeader,
   Icon,
   SearchField,
-  Select
+  Select,
+  Checkbox,
 } from '@folio/stripes/components';
 import { MultiSelectionFilter } from '@folio/stripes/smart-components';
 import ProviderSearchFilters from '../provider-search-filters';
@@ -35,9 +36,11 @@ class SearchForm extends Component {
     isLoading: PropTypes.bool,
     onFilterChange: PropTypes.func.isRequired,
     onSearch: PropTypes.func.isRequired,
+    onSearchByTagsToggle: PropTypes.func.isRequired,
     onSearchChange: PropTypes.func.isRequired,
     onSearchFieldChange: PropTypes.func,
     onTagFilterChange: PropTypes.func.isRequired,
+    searchByTagsEnabled: PropTypes.bool.isRequired,
     searchField: PropTypes.string,
     searchFilter: PropTypes.shape({
       filter: PropTypes.object,
@@ -67,10 +70,10 @@ class SearchForm extends Component {
     },
   };
 
-   toggleSection = ({ id }) => {
-     const newState = update(`sections.${id}`, value => !value, this.state);
-     this.setState(newState);
-   };
+  toggleSection = ({ id }) => {
+    const newState = update(`sections.${id}`, value => !value, this.state);
+    this.setState(newState);
+  };
 
 
   handleSearchSubmit = (e) => {
@@ -132,10 +135,28 @@ class SearchForm extends Component {
     return sortBy(dataOptions, ['value']);
   }
 
+  renderSearchByTagsCheckbox() {
+    return (
+      <Checkbox
+        checked={this.props.searchByTagsEnabled}
+        label={(
+          <span
+            className={styles['tags-search-warning']}
+            data-test-eholdings-tag-message
+          >
+            <FormattedMessage id="ui-eholdings.tags.filter.cannot.combine" />
+          </span>
+        )}
+        onClick={this.props.onSearchByTagsToggle}
+      />
+    );
+  }
+
   renderTagFilter() {
     const {
       tagsModel,
-      searchFilter = {}
+      searchByTagsEnabled,
+      searchFilter = {},
     } = this.props;
 
     const {
@@ -170,18 +191,14 @@ class SearchForm extends Component {
             onClearFilter={() => this.props.onTagFilterChange({ tags: undefined })}
             onToggle={this.toggleSection}
           >
-            <span
-              className={styles['tags-search-warning']}
-              data-test-eholdings-tag-message
-            >
-              <FormattedMessage id="ui-eholdings.tags.filter.cannot.combine" />
-            </span>
+            {this.renderSearchByTagsCheckbox()}
             <MultiSelectionFilter
               id="selectTagFilter"
               dataOptions={this.getSortedDataOptions()}
               name="tags"
               onChange={this.handleUpdateTagFilter}
               selectedValues={tagsList}
+              disabled={!searchByTagsEnabled}
             />
           </Accordion>
         </div>
@@ -198,7 +215,8 @@ class SearchForm extends Component {
       searchField,
       searchFilter,
       searchString,
-      sort
+      sort,
+      searchByTagsEnabled
     } = this.props;
     const Filters = this.getFiltersComponent(searchType);
     // sort is treated separately from the rest of the filters on submit,
@@ -265,18 +283,19 @@ class SearchForm extends Component {
                     value={searchString}
                     placeholder={placeholder}
                     loading={isLoading}
+                    disabled={searchByTagsEnabled}
                   />
                 </Fragment>
               )}
             </FormattedMessage>
           </div>
 
-          { displaySearchButton && (
+          {displaySearchButton && (
             <Button
               type="submit"
               buttonStyle="primary"
               fullWidth
-              disabled={!searchString}
+              disabled={!searchString || searchByTagsEnabled}
               data-test-search-submit
             >
               <FormattedMessage id="ui-eholdings.label.search" />
@@ -284,10 +303,11 @@ class SearchForm extends Component {
           )}
           {Filters && (
             <div>
-              { this.renderTagFilter() }
+              {this.renderTagFilter()}
               <Filters
                 activeFilters={combinedFilters}
                 onUpdate={this.handleUpdateFilter}
+                disabled={searchByTagsEnabled}
               />
             </div>
           )}
