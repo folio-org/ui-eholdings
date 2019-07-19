@@ -244,15 +244,8 @@ class SearchRoute extends Component {
    * Update the url to match new search params
    * @param {Object} params - query param object
    */
-  updateURLParams = () => {
+  updateURLParams = (params) => {
     const { location, history } = this.props;
-
-    const params = {
-      q: this.state.submittedSearchString,
-      filter: this.state.submittedSearchFilters,
-      sort: this.state.sort,
-      searchfield: this.state.searchField
-    };
 
     // if the new query is different from our location, update the location
     if (qs.stringify(params) !== qs.stringify(this.state.params)) {
@@ -289,7 +282,21 @@ class SearchRoute extends Component {
    * @param {Object} params - query param object
    */
   handleSearch = () => {
-    this.updateURLParams();
+    const {
+      submittedSearchString,
+      submittedSearchFilters,
+      sort,
+      searchField,
+    } = this.state;
+
+    const params = {
+      q: submittedSearchString,
+      filter: submittedSearchFilters,
+      searchfield: searchField,
+      sort,
+    };
+
+    this.updateURLParams(params);
   };
 
   handleSearchButtonClick = () => {

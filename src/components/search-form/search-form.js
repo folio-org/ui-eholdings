@@ -148,6 +148,7 @@ class SearchForm extends Component {
           </span>
         )}
         onClick={this.props.onSearchByTagsToggle}
+        data-test-tags-checkbox
       />
     );
   }
