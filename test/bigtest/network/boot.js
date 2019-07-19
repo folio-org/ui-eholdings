@@ -1,4 +1,4 @@
-import startMirage from '@folio/stripes-core/test/bigtest/network/start';
+import { startMirage } from '@folio/stripes/core/test';
 import mirageOptions from '.';
 
 /**
