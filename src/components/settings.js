@@ -43,13 +43,13 @@ class Settings extends Component {
             <NavListSection
               activeLink={pathname}
             >
-              <IfPermission perm="module.eholdings.enabled">
+              <IfPermission perm="ui-eholdings.settings.kb">
                 <NavListItem to="/settings/eholdings/knowledge-base">
                   <FormattedMessage id="ui-eholdings.settings.kb" />
                 </NavListItem>
               </IfPermission>
 
-              <IfPermission perm="module.eholdings.enabled">
+              <IfPermission perm="ui-eholdings.settings.root-proxy">
                 <NavListItem to="/settings/eholdings/root-proxy">
                   <FormattedMessage id="ui-eholdings.settings.rootProxy" />
                 </NavListItem>
