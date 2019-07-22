@@ -1,5 +1,9 @@
 # Change history for ui-eholdings
 
+## 1.8.0 (IN PROGRESS)
+
+* Use granular permissions for settings items (UITEN-35)
+
 ## [1.7.0](https://github.com/folio-org/ui-eholdings/tree/v1.7.0) (2019-06-11)
 [Full Changelog](https://github.com/folio-org/ui-eholdings/compare/v1.5.0...v1.7.0)
 
