@@ -1,6 +1,9 @@
 import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
-import isEqual from 'lodash/isEqual';
+import {
+  isEqual,
+  hasIn,
+} from 'lodash';
 import { FormattedMessage } from 'react-intl';
 
 import {
@@ -38,14 +41,28 @@ class SearchModal extends React.PureComponent {
 
   state = {
     isModalVisible: false,
-    query: normalize(this.props.query)
+    query: normalize(this.props.query),
+    searchByTagsEnabled: hasIn(this.props.query, 'filter.tags'),
   };
 
   updateFilter(query) {
+    let searchQuery;
+
+    if (!this.state.searchByTagsEnabled || query.q !== '') {
+      searchQuery = query.q;
+    }
+
+    const filter = { ...query.filter };
+
+    if (!this.state.searchByTagsEnabled) {
+      delete filter.tags;
+    }
+
     if (this.props.onFilter) {
       this.props.onFilter({
         ...query,
-        q: query.q === '' ? undefined : query.q
+        filter,
+        q: searchQuery
       });
     }
   }
@@ -84,6 +101,12 @@ class SearchModal extends React.PureComponent {
     });
   }
 
+  toggleSearchByTags = () => {
+    this.setState(currentState => ({
+      searchByTagsEnabled: !currentState.searchByTagsEnabled
+    }));
+  };
+
   handleSearchFieldChange = (searchfield) => {
     this.setState(({ query }) => ({
       query: normalize({
@@ -118,7 +141,6 @@ class SearchModal extends React.PureComponent {
       query: normalize({
         sort: query.sort,
         filter,
-        q: query.q
       }),
     }), () => {
       this.updateFilter(this.state.query);
@@ -131,7 +153,8 @@ class SearchModal extends React.PureComponent {
 
     const {
       isModalVisible,
-      query
+      query,
+      searchByTagsEnabled,
     } = this.state;
 
     const queryFromProps = normalize(this.props.query);
@@ -190,6 +213,8 @@ class SearchModal extends React.PureComponent {
               onSearchChange={this.handleSearchQueryChange}
               onSearchFieldChange={this.handleSearchFieldChange}
               onTagFilterChange={this.handleTagFilterChange}
+              searchByTagsEnabled={searchByTagsEnabled}
+              onSearchByTagsToggle={this.toggleSearchByTags}
             />
           </Modal>
         )}
