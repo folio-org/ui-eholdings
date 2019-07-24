@@ -1,6 +1,6 @@
 {
   "name": "@folio/eholdings",
-  "version": "1.7.0",
+  "version": "1.8.0",
   "description": "FOLIO UI module for eHoldings",
   "main": "src/index.js",
   "repository": "https://github.com/folio-org/ui-eholdings",
@@ -73,9 +73,10 @@
     "react": "*"
   },
   "stripes": {
-    "actsAs": ["app", "settings"],
+    "type": "app",
     "displayName": "ui-eholdings.meta.title",
     "route": "/eholdings",
+    "hasSettings": true,
     "icons": [
       {
         "name": "app",
