@@ -46,14 +46,15 @@ export default function getAgreements(action$, store) {
       } = action;
 
       const state = getState();
+
       const method = 'GET';
 
+      const url = createUrl(state.okapi.url, refId);
+
       const requestOptions = {
-        headers: getHeaders(state),
+        headers: getHeaders(method, state, url),
         method,
       };
-
-      const url = createUrl(state.okapi.url, refId);
 
       const promise = fetch(url, requestOptions)
         .then(response => Promise.all([response.ok, parseResponseBody(response)]))

@@ -25,6 +25,7 @@ import agreements from './reducers';
 import {
   getAgreements,
   attachAgreement,
+  updateEntityTags,
 } from './epics';
 
 export const createResolver = (state) => {
@@ -56,4 +57,5 @@ export const epics = combineEpics(
   dataEpic,
   getAgreements,
   attachAgreement,
+  updateEntityTags
 );

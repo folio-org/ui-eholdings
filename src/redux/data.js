@@ -4,6 +4,7 @@ import 'rxjs/add/observable/of';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/catch';
 import get from 'lodash/get';
+import omit from 'lodash/omit';
 
 import { qs } from '../components/utilities';
 import {
@@ -23,6 +24,7 @@ export const actionTypes = {
   REJECT: '@@ui-eholdings/db/REJECT',
   UNLOAD: '@@ui-eholdings/db/UNLOAD',
   REMOVE_REQUESTS: '@@ui-eholdings/db/REMOVE_REQUESTS',
+  UPDATE_TAG_ON_ENTITY: '@@ui-eholdings/db/UPDATE_TAG_ON_ENTITY',
 };
 
 /**
@@ -200,6 +202,22 @@ export const removeRequests = (resourceType, requestType) => ({
   }
 });
 
+/**
+ * Action creator for updating tags in the store
+ * for specific resource type
+ * @param {String} type - resource type
+ */
+export const updateTagOnEntity = (resourceType, id, tags) => {
+  return {
+    type: actionTypes.UPDATE_TAG_ON_ENTITY,
+    data: {
+      resourceType,
+      id,
+      tags,
+    }
+  };
+};
+
 
 /**
  * Helper for creating request state objects
@@ -336,6 +354,22 @@ const handlers = {
         return reqs;
       }, {})
     }));
+  },
+
+  [actionTypes.UPDATE_TAG_ON_ENTITY]: (state, { data }) => {
+    debugger;
+    const redusedData = reduceData(data.resourceType, state, (store) => ({
+      records: {
+        ...store.records,
+        [data.id]: {
+          ...getRecord(store, data.id),
+          tags: Object.assign({}, {
+            tagList: Object.assign([], data.tags),
+          }),
+        }
+      }
+    }));
+    return redusedData;
   },
 
   /**
@@ -611,7 +645,6 @@ export function reducer(state = {}, action) { // NOSONAR
     return state;
   }
 }
-
 /**
  * The epic used to actually make a requests when an action is dispatched
  * @param {Observable} action$ - the observable action

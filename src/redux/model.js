@@ -9,6 +9,7 @@ import {
   destroy,
   create,
   removeRequests,
+  updateTagOnEntity,
 } from './data';
 
 /**
@@ -285,6 +286,13 @@ class BaseModel {
    */
   static removeRequests(requestType) {
     return removeRequests(this.type, requestType);
+  }
+
+  /**
+   * Action creator for updating tags for specific model's resource
+   */
+  static updateTagOnEntity(id, tags) {
+    return updateTagOnEntity(this.type, id, tags);
   }
 
   /**

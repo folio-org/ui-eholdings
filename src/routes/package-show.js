@@ -16,6 +16,7 @@ import Resource from '../redux/resource';
 import Tag from '../redux/tag';
 import { transformQueryParams } from '../components/utilities';
 import { listTypes } from '../constants';
+import tagActions from '../redux/actions/entity-tags';
 
 import View from '../components/package/show';
 import SearchModal from '../components/search-modal';
@@ -281,7 +282,7 @@ export default connect(
 
     const resolver = createResolver(data);
     const model = resolver.find('packages', match.params.packageId);
-
+    debugger;
     return {
       model,
       proxyTypes: resolver.query('proxyTypes'),
@@ -298,7 +299,7 @@ export default connect(
     getProvider: id => Provider.find(id),
     unloadResources: collection => Resource.unload(collection),
     updatePackage: model => Package.save(model),
-    updateEntityTags: (model) => Package.save(model),
+    updateEntityTags: (model) => tagActions.updateEntityTags(model),
     updateFolioTags: (model) => Tag.create(model),
     destroyPackage: model => Package.destroy(model),
   }
