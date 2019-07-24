@@ -1,6 +1,7 @@
 # Change history for ui-eholdings
 
-## [1.8.0](https://github.com/folio-org/ui-eholdings/tree/v1.8.0) (2019-07-22)
+## [1.8.0](https://github.com/folio-org/ui-eholdings/tree/v1.8.0) (2019-07-24)
+[Full Changelog](https://github.com/folio-org/ui-eholdings/compare/v1.5.0...v1.8.0)
 * Make search filters collapsed by default(UIEH-737)
 * Update URLs leading to Agreements app(ERM-253)
 * Add filter by tags support(UIEH-710, UIEH-711, UIEH-634)
@@ -11,7 +12,6 @@
 * Use granular permissions for settings items (UITEN-35)
 
 ## [1.7.0](https://github.com/folio-org/ui-eholdings/tree/v1.7.0) (2019-06-11)
-[Full Changelog](https://github.com/folio-org/ui-eholdings/compare/v1.5.0...v1.7.0)
 
 * Fixed tests related to the datepicker (UIEH-725)
 * Fix toggling of the notes accordions (UIEH-718)

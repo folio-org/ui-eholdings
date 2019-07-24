@@ -73,9 +73,10 @@
     "react": "*"
   },
   "stripes": {
-    "actsAs": ["app", "settings"],
+    "type": "app",
     "displayName": "ui-eholdings.meta.title",
     "route": "/eholdings",
+    "hasSettings": true,
     "icons": [
       {
         "name": "app",
