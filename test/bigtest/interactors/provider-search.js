@@ -23,6 +23,7 @@ import SearchBadge from './search-badge';
   fillSearch = fillable('[data-test-search-field] input[name="search"]');
   submitSearch = clickable('[data-test-search-submit]');
   hasSearchField = isPresent('[data-test-search-field] input[name="search"]');
+  searchFieldIsDisabled = property('[data-test-search-field] input[name="search"]', 'disabled');
   hasSearchFilters = isPresent('[data-test-eholdings-search-filters="providers"]');
   hasTagFilter = isPresent('[data-test-eholdings-tag-filter]');
   searchFieldValue = value('[data-test-search-field] input[name="search"]');

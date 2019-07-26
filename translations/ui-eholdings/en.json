@@ -142,7 +142,6 @@
 
     "tags": "Tags",
     "tags.addTagFor": "Add tag for: <strong>{filter}</strong>",
-    "tags.filter.cannot.combine" : "Tags filter cannot be combined with search or other filters",
 
     "settings.goBackToEholdings": "Go back to eHoldings settings",
     "settings.kb": "Knowledge base",
@@ -312,6 +311,7 @@
     "search.searchType.titles": "Titles",
     "search.searchType.packages": "Packages",
     "search.searchType.providers": "Providers",
+    "search.searchByTagsOnly" : "Search by tags only",
 
     "date.present": "Present",
     "date.startDate": "Start date",

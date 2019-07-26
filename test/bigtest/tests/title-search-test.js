@@ -67,6 +67,10 @@ describe('TitleSearch', () => {
     expect(TitleSearchPage.hasSearchFilters).to.be.true;
   });
 
+  it('search field should be enabled', () => {
+    expect(TitleSearchPage.searchFieldIsDisabled).to.be.false;
+  });
+
   it('has disabled search button', () => {
     expect(TitleSearchPage.isSearchButtonDisabled).to.be.true;
   });
@@ -80,6 +84,14 @@ describe('TitleSearch', () => {
     expect(TitleSearchPage.typeFilterAccordion.isOpen).to.be.false;
     expect(TitleSearchPage.sortFilterAccordion.isOpen).to.be.false;
     expect(TitleSearchPage.selectionFilterAccordion.isOpen).to.be.false;
+  });
+
+  it('should display tags multiselect disabled by default', () => {
+    expect(TitleSearchPage.tagsSection.tagsMultiselectIsDisabled).to.be.true;
+  });
+
+  it('search by tags tags checkbox should be not checked', () => {
+    expect(TitleSearchPage.tagsSection.tagsCheckboxIsChecked).to.be.false;
   });
 
   describe('searching for a title', () => {
@@ -263,25 +275,6 @@ describe('TitleSearch', () => {
           expect(TitleSearchPage.isSearchVignetteHidden).to.equal(false);
         });
       });
-
-      describe('visiting the page with an existing filter', () => {
-        beforeEach(function () {
-          this.visit('/eholdings/?searchType=titles&q=Title&filter[type]=journal');
-        });
-
-        it('shows the existing filter in the search form', () => {
-          expect(TitleSearchPage.getFilter('type')).to.equal('journal');
-        });
-
-        it('only shows results for journal publication types', () => {
-          expect(TitleSearchPage.titleList()).to.have.lengthOf(2);
-          expect(TitleSearchPage.titleList(0).publicationType).to.equal('journal');
-        });
-
-        it.skip('shows search filters on smaller screen sizes (due to filter change only)', () => {
-          expect(TitleSearchPage.isSearchVignetteHidden).to.equal(false);
-        });
-      });
     });
 
     describe('filtering by selection status', () => {
@@ -309,24 +302,6 @@ describe('TitleSearch', () => {
 
         it.always('removes the filter from the URL query params', function () {
           expect(this.location.search).to.not.include('filter[selected]');
-        });
-
-        it.skip('shows search filters on smaller screen sizes (due to filter change only)', () => {
-          expect(TitleSearchPage.isSearchVignetteHidden).to.equal(false);
-        });
-      });
-
-      describe('visiting the page with an existing filter', () => {
-        beforeEach(function () {
-          this.visit('/eholdings/?searchType=titles&q=Title&filter[selected]=false');
-        });
-
-        it('shows the existing filter in the search form', () => {
-          expect(TitleSearchPage.getFilter('selected')).to.equal('false');
-        });
-
-        it('only shows results for non-selected titles', () => {
-          expect(TitleSearchPage.titleList()).to.have.lengthOf(1);
         });
 
         it.skip('shows search filters on smaller screen sizes (due to filter change only)', () => {
@@ -391,24 +366,6 @@ describe('TitleSearch', () => {
 
       it('maintains the previous search', () => {
         expect(TitleSearchPage.searchFieldValue).to.equal('Title');
-      });
-    });
-
-    describe('visiting the page with an existing search field', () => {
-      beforeEach(function () {
-        this.visit('/eholdings/?searchType=titles&q=TestPublisher&searchfield=publisher');
-      });
-
-      it('displays publisher as searchfield', () => {
-        expect(TitleSearchPage.searchFieldSelectValue).to.eql('publisher');
-      });
-
-      it('displays search field populated', () => {
-        expect(TitleSearchPage.searchFieldValue).to.equal('TestPublisher');
-      });
-
-      it('only shows results for searchfield and query', () => {
-        expect(TitleSearchPage.titleList()).to.have.lengthOf(1);
       });
     });
 
@@ -524,6 +481,93 @@ describe('TitleSearch', () => {
 
       it('has disabled search button', () => {
         expect(TitleSearchPage.isSearchButtonDisabled).to.be.true;
+      });
+    });
+  });
+
+  describe('visiting the page with an existing search field', () => {
+    beforeEach(function () {
+      this.visit('/eholdings/?searchType=titles&q=TestPublisher&searchfield=publisher');
+    });
+
+    it('displays publisher as searchfield', () => {
+      expect(TitleSearchPage.searchFieldSelectValue).to.eql('publisher');
+    });
+
+    it('displays search field populated', () => {
+      expect(TitleSearchPage.searchFieldValue).to.equal('TestPublisher');
+    });
+
+    it('only shows results for searchfield and query', () => {
+      expect(TitleSearchPage.titleList()).to.have.lengthOf(1);
+    });
+  });
+
+  describe('visiting the page with an existing type filter', () => {
+    beforeEach(function () {
+      this.visit('/eholdings/?searchType=titles&q=Title&filter[type]=journal');
+    });
+
+    it('shows the existing filter in the search form', () => {
+      expect(TitleSearchPage.getFilter('type')).to.equal('journal');
+    });
+
+    it('only shows results for journal publication types', () => {
+      expect(TitleSearchPage.titleList()).to.have.lengthOf(2);
+      expect(TitleSearchPage.titleList(0).publicationType).to.equal('journal');
+    });
+
+    it.skip('shows search filters on smaller screen sizes (due to filter change only)', () => {
+      expect(TitleSearchPage.isSearchVignetteHidden).to.equal(false);
+    });
+  });
+
+  describe('visiting the page with an existing selection filter', () => {
+    beforeEach(function () {
+      this.visit('/eholdings/?searchType=titles&q=Title&filter[selected]=false');
+    });
+
+    it('shows the existing filter in the search form', () => {
+      expect(TitleSearchPage.getFilter('selected')).to.equal('false');
+    });
+
+    it('only shows results for non-selected titles', () => {
+      expect(TitleSearchPage.titleList()).to.have.lengthOf(1);
+    });
+
+    it.skip('shows search filters on smaller screen sizes (due to filter change only)', () => {
+      expect(TitleSearchPage.isSearchVignetteHidden).to.equal(false);
+    });
+  });
+
+  describe('visiting the page with an existing tags filter', () => {
+    beforeEach(async function () {
+      this.visit('/eholdings?searchType=titles&filter[tags]=urgent');
+    });
+
+    it('displays tags accordion as closed', () => {
+      expect(TitleSearchPage.tagsSection.tagsAccordion.isOpen).to.equal(false);
+    });
+
+    describe('clicking to open tags accordion', () => {
+      beforeEach(async () => {
+        await TitleSearchPage.tagsSection.clickTagHeader();
+      });
+
+      it('displays tags accordion as expanded', () => {
+        expect(TitleSearchPage.tagsSection.tagsAccordion.isOpen).to.be.true;
+      });
+
+      it('should display tags multiselect enabled', () => {
+        expect(TitleSearchPage.tagsSection.tagsMultiselectIsDisabled).to.be.false;
+      });
+
+      it('search by tags tags checkbox should be checked', () => {
+        expect(TitleSearchPage.tagsSection.tagsCheckboxIsChecked).to.be.true;
+      });
+
+      it('should display selected value as urgent', () => {
+        expect(TitleSearchPage.tagsSection.tagsSelect.values(0).valLabel).to.equal('urgent');
       });
     });
   });
@@ -750,39 +794,66 @@ describe('TitleSearch', () => {
         expect(TitleSearchPage.tagsSection.tagsAccordion.isOpen).to.be.true;
       });
 
-      describe('after click on urgent option', () => {
+      it('should display tags multiselect disabled by default', () => {
+        expect(TitleSearchPage.tagsSection.tagsMultiselectIsDisabled).to.be.true;
+      });
+
+      it('search by tags tags checkbox should be not checked', () => {
+        expect(TitleSearchPage.tagsSection.tagsCheckboxIsChecked).to.be.false;
+      });
+
+
+      describe('and search by tags was enabled', () => {
         beforeEach(async () => {
-          await TitleSearchPage.tagsSection.tagsSelect.options(1).clickOption();
+          await TitleSearchPage.tagsSection.toggleSearchByTags();
         });
 
-        it('should display selected value as urgent', () => {
-          expect(TitleSearchPage.tagsSection.tagsSelect.values(0).valLabel).to.equal('urgent');
+        it('search field should be disabled', () => {
+          expect(TitleSearchPage.searchFieldIsDisabled).to.be.true;
         });
 
-        it('displays titles tagged as urgent', () => {
-          expect(TitleSearchPage.titleList()).to.have.lengthOf(1);
-          expect(TitleSearchPage.titleList(0).name).to.equal('Test Urgent Tag');
+        it('should display tags multiselect enabled', () => {
+          expect(TitleSearchPage.tagsSection.tagsMultiselectIsDisabled).to.be.false;
         });
 
-        it('should display the clear tag filter button', () => {
-          expect(TitleSearchPage.tagsSection.hasClearTagFilter).to.be.true;
+        it('search by tags tags checkbox should be checked', () => {
+          expect(TitleSearchPage.tagsSection.tagsCheckboxIsChecked).to.be.true;
         });
 
-        describe('clearing the filters', () => {
-          beforeEach(() => {
-            return TitleSearchPage.tagsSection.clearTagFilter();
+        describe('after click on urgent option', () => {
+          beforeEach(async () => {
+            await TitleSearchPage.tagsSection.tagsSelect.options(1).clickOption();
           });
 
-          it('displays tag filter with empty value', () => {
-            expect(TitleSearchPage.tagsSection.tagsSelect.values()).to.deep.equal([]);
+          it('should display selected value as urgent', () => {
+            expect(TitleSearchPage.tagsSection.tagsSelect.values(0).valLabel).to.equal('urgent');
           });
 
-          it('displays no title results', () => {
-            expect(TitleSearchPage.titleList()).to.have.lengthOf(0);
+          it('displays titles tagged as urgent', () => {
+            expect(TitleSearchPage.titleList()).to.have.lengthOf(1);
+            expect(TitleSearchPage.titleList(0).name).to.equal('Test Urgent Tag');
           });
 
-          it.always('removes the filter from the URL query params', function () {
-            expect(this.location.search).to.not.include('filter[tags]');
+          it('should display the clear tag filter button', () => {
+            expect(TitleSearchPage.tagsSection.hasClearTagFilter).to.be.true;
+          });
+
+          describe('clearing the filters', () => {
+            beforeEach(() => {
+              return TitleSearchPage.tagsSection.clearTagFilter();
+            });
+
+            it('displays tag filter with empty value', () => {
+              expect(TitleSearchPage.tagsSection.tagsSelect.values()).to.deep.equal([]);
+            });
+
+            it('displays no title results', () => {
+              expect(TitleSearchPage.titleList()).to.have.lengthOf(0);
+            });
+
+            it.always('removes the filter from the URL query params', function () {
+              expect(this.location.search).to.not.include('filter[tags]');
+            });
           });
         });
       });

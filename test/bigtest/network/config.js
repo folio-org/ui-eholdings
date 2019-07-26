@@ -95,16 +95,12 @@ export default function config() {
   this.delete('/notes/:id', ({ notes, noteTypes }, { params }) => {
     const note = notes.find(params.id);
     const noteType = noteTypes.find(note.attrs.typeId);
-    console.log('note type', noteType);
 
     noteType.update({
       usage: {
         noteTotal: --noteType.attrs.usage.noteTotal,
       },
     });
-
-    console.log('note type2', noteType);
-
 
     return notes.find(params.id).destroy();
   });
