@@ -17,6 +17,7 @@ import TagsAccordion from './tags-accordion';
 export default @interactor class SearchModal {
   searchType = attribute('data-test-search-form', '[data-test-search-form]')
   searchFieldValue = value('[data-test-search-field] input[name="search"]');
+  searchFieldIsDisabled = property('[data-test-search-field] input[name="search"]', 'disabled');
   isSearchButtonDisabled = property('[data-test-eholdings-modal-search-button]', 'disabled');
   isResetButtonDisabled = property('[data-test-eholdings-modal-reset-all-button]', 'disabled');
   clickResetAll = clickable('[data-test-eholdings-modal-reset-all-button]');

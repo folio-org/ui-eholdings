@@ -44,7 +44,7 @@ export default function SearchFilters({
                 label={radioBtnLabel}
                 value={value}
                 checked={isChecked}
-                disabled={name !== 'sort' && disabled}
+                disabled={disabled}
                 onChange={() => {
                   const replaced = {
                     ...activeFilters,

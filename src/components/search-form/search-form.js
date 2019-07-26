@@ -144,7 +144,7 @@ class SearchForm extends Component {
             className={styles['tags-search-warning']}
             data-test-eholdings-tag-message
           >
-            <FormattedMessage id="ui-eholdings.tags.filter.cannot.combine" />
+            <FormattedMessage id="ui-eholdings.search.searchByTagsOnly" />
           </span>
         )}
         onClick={this.props.onSearchByTagsToggle}
