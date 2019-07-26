@@ -129,18 +129,20 @@ class SearchRoute extends Component {
       draftSearchFilters,
     } = this.state;
 
-    this.setState(currentState => ({
-      searchByTagsEnabled: !currentState.searchByTagsEnabled
-    }), () => {
-      if (searchByTagsEnabled && hasIn(draftSearchFilters, 'tags')) {
-        this.setState((prevState) => ({
+    const searchByTagsIsExpected = !searchByTagsEnabled && hasIn(draftSearchFilters, 'tags');
+
+    this.setState(currentState => {
+      return searchByTagsIsExpected
+        ? {
+          searchByTagsEnabled: !currentState.searchByTagsEnabled,
           submittedSearchString: '',
           submittedSearchFilters: {
-            tags: prevState.draftSearchFilters.tags,
+            tags: currentState.draftSearchFilters.tags,
           },
-        }), this.handleSearch);
-      }
-    });
+
+        }
+        : { searchByTagsEnabled: !currentState.searchByTagsEnabled };
+    }, this.handleSearch);
   };
 
   handleSearchChange = draftSearchString => {
