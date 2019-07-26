@@ -124,10 +124,15 @@ class SearchRoute extends Component {
   }
 
   toggleSearchByTags = () => {
+    const {
+      searchByTagsEnabled,
+      draftSearchFilters,
+    } = this.state;
+
     this.setState(currentState => ({
       searchByTagsEnabled: !currentState.searchByTagsEnabled
     }), () => {
-      if (this.state.searchByTagsEnabled && hasIn(this.state.draftSearchFilters, 'tags')) {
+      if (searchByTagsEnabled && hasIn(draftSearchFilters, 'tags')) {
         this.setState((prevState) => ({
           submittedSearchString: '',
           submittedSearchFilters: {

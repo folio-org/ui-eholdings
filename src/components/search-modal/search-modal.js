@@ -46,15 +46,17 @@ class SearchModal extends React.PureComponent {
   };
 
   updateFilter(query) {
+    const { searchByTagsEnabled } = this.state;
+
     let searchQuery;
 
-    if (!this.state.searchByTagsEnabled && query.q !== '') {
+    if (!searchByTagsEnabled && query.q !== '') {
       searchQuery = query.q;
     }
 
     const filter = { ...query.filter };
 
-    if (!this.state.searchByTagsEnabled) {
+    if (!searchByTagsEnabled) {
       delete filter.tags;
     }
 

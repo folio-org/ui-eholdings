@@ -136,9 +136,14 @@ class SearchForm extends Component {
   }
 
   renderSearchByTagsCheckbox() {
+    const {
+      searchByTagsEnabled,
+      onSearchByTagsToggle,
+    } = this.props;
+
     return (
       <Checkbox
-        checked={this.props.searchByTagsEnabled}
+        checked={searchByTagsEnabled}
         label={(
           <span
             className={styles['tags-search-warning']}
@@ -147,7 +152,7 @@ class SearchForm extends Component {
             <FormattedMessage id="ui-eholdings.search.searchByTagsOnly" />
           </span>
         )}
-        onClick={this.props.onSearchByTagsToggle}
+        onClick={onSearchByTagsToggle}
         data-test-tags-checkbox
       />
     );
