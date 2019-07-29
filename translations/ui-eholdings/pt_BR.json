@@ -323,6 +323,6 @@
     "package.resultsNotFoundForQuery": "Nenhum pacote encontrado para '{query}'.",
     "provider.resultsNotFoundForQuery": "Nenhum fornecedor encontrado para '{query}'.",
     "title.resultsNotFoundForQuery": "Nenhum título encontrado para '{query}'.",
-    "tags.filter.cannot.combine": "O filtro de tags não pode ser combinado com pesquisa ou outros filtros",
-    "label.edit.custom.coverageDates": "Datas de cobertura personalizadas (insira vários intervalos de datas em ordem decrescente)"
+    "label.edit.custom.coverageDates": "Datas de cobertura personalizadas (insira vários intervalos de datas em ordem decrescente)",
+    "search.searchByTagsOnly": "Pesquisar apenas por tags"
 }
