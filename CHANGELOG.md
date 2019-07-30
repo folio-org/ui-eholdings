@@ -1,5 +1,9 @@
 # Change history for ui-eholdings
 
+## 1.9.0 (IN PROGRESS)
+
+* Restore eHoldings to the settings menu (UIEH-757, UITEN-35)
+
 ## [1.8.0](https://github.com/folio-org/ui-eholdings/tree/v1.8.0) (2019-07-24)
 [Full Changelog](https://github.com/folio-org/ui-eholdings/compare/v1.5.0...v1.8.0)
 * Make search filters collapsed by default(UIEH-737)

@@ -99,11 +99,18 @@
         ]
       },
       {
+        "permissionName": "settings.eholdings.enabled",
+        "displayName": "Settings (eHoldings): display list of settings pages",
+        "subPermissions": [
+          "settings.enabled"
+        ]
+      },
+      {
         "permissionName": "ui-eholdings.settings.kb",
         "displayName": "Settings (eHoldings): configure EBSCO RM API credentials",
         "visible": true,
         "subPermissions": [
-          "settings.enabled"
+          "settings.eholdings.enabled"
         ]
       },
       {
@@ -111,7 +118,7 @@
         "displayName": "Settings (eHoldings): configure root proxy setting",
         "visible": true,
         "subPermissions": [
-          "settings.enabled"
+          "settings.eholdings.enabled"
         ]
       },
       {
