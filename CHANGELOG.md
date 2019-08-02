@@ -1,11 +1,12 @@
 # Change history for ui-eholdings
 
-## 1.9.0 (IN PROGRESS)
+## [1.9.0](https://github.com/folio-org/ui-eholdings/tree/v1.9.0) (2019-08-02)
+[Full Changelog](https://github.com/folio-org/ui-eholdings/compare/v1.5.0...v1.9.0)
 
 * Restore eHoldings to the settings menu (UIEH-757, UITEN-35)
 
 ## [1.8.0](https://github.com/folio-org/ui-eholdings/tree/v1.8.0) (2019-07-24)
-[Full Changelog](https://github.com/folio-org/ui-eholdings/compare/v1.5.0...v1.8.0)
+
 * Make search filters collapsed by default(UIEH-737)
 * Update URLs leading to Agreements app(ERM-253)
 * Add filter by tags support(UIEH-710, UIEH-711, UIEH-634)
