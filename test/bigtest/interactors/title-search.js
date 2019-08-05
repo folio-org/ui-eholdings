@@ -21,6 +21,7 @@ import SearchBadge from './search-badge';
   fillSearch = fillable('[data-test-search-field] input[name="search"]');
   submitSearch = clickable('[data-test-search-submit]');
   isSearchDisabled = property('[data-test-search-submit]', 'disabled');
+  searchFieldIsDisabled = property('[data-test-search-field] input[name="search"]', 'disabled');
   isSearchButtonDisabled = property('[data-test-search-submit]', 'disabled');
   fillSearch = fillable('[data-test-search-field] input[name="search"]');
   submitSearch = clickable('[data-test-search-submit]');

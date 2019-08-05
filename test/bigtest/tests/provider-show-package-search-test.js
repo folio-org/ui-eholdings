@@ -66,6 +66,16 @@ describe('ProviderShow package search', () => {
       expect(ProviderShowPage.searchModal.searchFieldValue).to.equal('');
     });
 
+    it('text field should be enabled', () => {
+      expect(ProviderShowPage.searchModal.searchFieldIsDisabled).to.be.false;
+    });
+
+    it('all filter accordions should be collapsed', () => {
+      ProviderShowPage.searchModal.filterAccordions().forEach(accordion => {
+        expect(accordion.isOpen).to.be.false;
+      });
+    });
+
     it('has default filters selected', () => {
       expect(ProviderShowPage.searchModal.getFilter('sort')).to.equal('relevance');
       expect(ProviderShowPage.searchModal.getFilter('selected')).to.equal('all');
@@ -126,6 +136,11 @@ describe('ProviderShow package search', () => {
         it('should expand the accordion', () => {
           expect(ProviderShowPage.searchModal.tagsSection.tagsAccordion.isOpen).to.be.true;
         });
+
+        it('search by tags should be disabled', () => {
+          expect(ProviderShowPage.searchModal.tagsSection.tagsCheckboxIsChecked).to.be.false;
+          expect(ProviderShowPage.searchModal.tagsSection.tagsMultiselectIsDisabled).to.be.true;
+        });
       });
 
       describe('after doing a couple of clicks on accordion header', () => {
@@ -143,62 +158,65 @@ describe('ProviderShow package search', () => {
         expect(ProviderShowPage.searchModal.tagsSection.tagsSelect.values()).to.deep.equal([]);
       });
 
-      describe('after click on "urgent" option', () => {
+      describe('after enabling search by tags', () => {
         beforeEach(async () => {
-          await ProviderShowPage.searchModal.tagsSection.tagsSelect.options(1).clickOption();
+          await ProviderShowPage.searchModal.tagsSection.toggleSearchByTags();
         });
 
-        it('should close search modal', () => {
-          expect(ProviderShowPage.searchModal.isPresent).to.be.false;
+        it('search by tags should be enabled', () => {
+          expect(ProviderShowPage.searchModal.tagsSection.tagsCheckboxIsChecked).to.be.true;
+          expect(ProviderShowPage.searchModal.tagsSection.tagsMultiselectIsDisabled).to.be.false;
         });
 
-        it('should display packages tagged as urgent', () => {
-          expect(ProviderShowPage.packageList()).to.have.lengthOf(3);
-        });
-      });
-
-      describe('when some of the tags was selected and do tags clear', () => {
-        beforeEach(async () => {
-          await ProviderShowPage.searchModal.tagsSection.tagsSelect.options(0).clickOption();
-          await ProviderShowPage.clickListSearch();
-          await ProviderShowPage.searchModal.tagsSection.clearTagFilter();
+        it('search by query should be disabled', () => {
+          expect(ProviderShowPage.searchModal.searchFieldIsDisabled).to.be.true;
         });
 
-        it('should close search modal', () => {
-          expect(ProviderShowPage.searchModal.isPresent).to.be.false;
+        describe('after click on "urgent" option', () => {
+          beforeEach(async () => {
+            await ProviderShowPage.searchModal.tagsSection.tagsSelect.options(1).clickOption();
+          });
+
+          it('should close search modal', () => {
+            expect(ProviderShowPage.searchModal.isPresent).to.be.false;
+          });
+
+          it('should display packages tagged as urgent', () => {
+            expect(ProviderShowPage.packageList()).to.have.lengthOf(3);
+          });
         });
 
-        it('should display empty list of packages', () => {
-          expect(ProviderShowPage.packageList()).to.have.lengthOf(5);
+        describe('when some of the tags was selected and do tags clear', () => {
+          beforeEach(async () => {
+            await ProviderShowPage.searchModal.tagsSection.tagsSelect.options(0).clickOption();
+            await ProviderShowPage.clickListSearch();
+            await ProviderShowPage.searchModal.tagsSection.clearTagFilter();
+          });
+
+          it('should close search modal', () => {
+            expect(ProviderShowPage.searchModal.isPresent).to.be.false;
+          });
+
+          it('should display empty list of packages', () => {
+            expect(ProviderShowPage.packageList()).to.have.lengthOf(5);
+          });
         });
-      });
 
-      describe('when "urgent" and "not urgent" tags are selected', () => {
-        beforeEach(async () => {
-          await ProviderShowPage.searchModal.tagsSection.tagsSelect.options(1).clickOption();
-          await ProviderShowPage.clickListSearch();
-          await ProviderShowPage.searchModal.tagsSection.tagsSelect.options(0).clickOption();
+        describe('when "urgent" and "not urgent" tags are selected', () => {
+          beforeEach(async () => {
+            await ProviderShowPage.searchModal.tagsSection.tagsSelect.options(1).clickOption();
+            await ProviderShowPage.clickListSearch();
+            await ProviderShowPage.searchModal.tagsSection.tagsSelect.options(0).clickOption();
+          });
+
+          it('should close search modal', () => {
+            expect(ProviderShowPage.searchModal.isPresent).to.be.false;
+          });
+
+          it('displays packages tagged as "not urgent" and "urgent"', () => {
+            expect(ProviderShowPage.packageList()).to.have.lengthOf(3);
+          });
         });
-
-        it('should close search modal', () => {
-          expect(ProviderShowPage.searchModal.isPresent).to.be.false;
-        });
-
-        it('displays packages tagged as "not urgent" and "urgent"', () => {
-          expect(ProviderShowPage.packageList()).to.have.lengthOf(3);
-        });
-      });
-    });
-  });
-
-  describe('when the search modal is open', () => {
-    beforeEach(async () => {
-      await ProviderShowPage.clickListSearch();
-    });
-
-    it('all filter accordions should be collapsed', () => {
-      ProviderShowPage.searchModal.filterAccordions().forEach(accordion => {
-        expect(accordion.isOpen).to.be.false;
       });
     });
   });
