@@ -9,7 +9,6 @@ import { FormattedMessage } from 'react-intl';
 import SafeHTMLMessage from '@folio/react-intl-safe-html';
 import { MultiSelection } from '@folio/stripes-components';
 
-
 export default class Tags extends React.Component {
   static propTypes = {
     entityTags: PropTypes.arrayOf(PropTypes.string),
