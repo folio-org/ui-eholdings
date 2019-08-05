@@ -58,7 +58,6 @@ class ProviderShow extends Component {
       hasPerm: PropTypes.func.isRequired,
     }).isRequired,
     tagsModel: PropTypes.object,
-    updateEntityTags: PropTypes.func.isRequired,
     updateFolioTags: PropTypes.func.isRequired,
   };
 
@@ -200,7 +199,6 @@ class ProviderShow extends Component {
       model,
       tagsModel,
       updateFolioTags,
-      updateEntityTags
     } = this.props;
 
     const {
@@ -220,7 +218,6 @@ class ProviderShow extends Component {
           open={sections.providerShowTags}
           tagsModel={tagsModel}
           updateFolioTags={updateFolioTags}
-          updateEntityTags={updateEntityTags}
         />
 
         <Accordion

@@ -4,14 +4,20 @@ import 'rxjs/add/observable/of';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/catch';
 import get from 'lodash/get';
-import omit from 'lodash/omit';
 
 import { qs } from '../components/utilities';
 import {
   mergeRelationships,
   mergeAttributes,
   getTagsData,
+  getChangedAttributes,
+  formatErrors,
+  reduceData,
+  getRecord,
+  makeRequest,
 } from './helpers';
+import entityTagsActionTypes from './constants/entityTagsActionTypes';
+import entityTagsReducers from './reducers/entityTags';
 
 // actions
 export const actionTypes = {
@@ -24,7 +30,7 @@ export const actionTypes = {
   REJECT: '@@ui-eholdings/db/REJECT',
   UNLOAD: '@@ui-eholdings/db/UNLOAD',
   REMOVE_REQUESTS: '@@ui-eholdings/db/REMOVE_REQUESTS',
-  UPDATE_TAG_ON_ENTITY: '@@ui-eholdings/db/UPDATE_TAG_ON_ENTITY',
+  ...entityTagsActionTypes,
 };
 
 /**
@@ -202,138 +208,13 @@ export const removeRequests = (resourceType, requestType) => ({
   }
 });
 
-/**
- * Action creator for updating tags in the store
- * for specific resource type
- * @param {String} type - resource type
- */
-export const updateTagOnEntity = (resourceType, id, tags) => {
-  return {
-    type: actionTypes.UPDATE_TAG_ON_ENTITY,
-    data: {
-      resourceType,
-      id,
-      tags,
-    }
-  };
-};
-
-
-/**
- * Helper for creating request state objects
- * @param {String} type - one of 'query', 'find', or 'update'
- * @param {Number} data.timestamp - the action timestamp
- * @param {String} data.type - the resource type
- * @param {Object} data.params - request params
- */
-const makeRequest = (type, data) => {
-  return {
-    [data.timestamp]: {
-      timestamp: data.timestamp,
-      type,
-      path: data.path,
-      resource: data.type,
-      params: data.params,
-      isPending: true,
-      isResolved: false,
-      isRejected: false,
-      records: data.params.id ? [data.params.id] : [],
-      changedAttributes: data.changedAttributes,
-      meta: {},
-      errors: []
-    }
-  };
-};
-
-/**
- * Helper for retrieving or creating a record from the resource
- * type's state leaf
- * @param {Object} store - the resource type's state leaf
- * @param {String} id - the record's id
- */
-const getRecord = (store, id) => (
-  store.records[id] || {
-    id,
-    isLoading: true,
-    isLoaded: false,
-    isSaving: false,
-    attributes: {},
-    relationships: {}
-  }
-);
-
-/**
- * Reducer helper to reduce a specific resource type's state leaf
- * @param {String} type - the resource type
- * @param {Object} state - current resource type state
- * @param {Function} fn - the actual reducing function
- */
-const reduceData = (type, state, fn) => {
-  const store = state[type] || {
-    requests: {},
-    records: {}
-  };
-
-  return {
-    ...state,
-    [type]: {
-      ...store,
-      ...fn(store)
-    }
-  };
-};
-
-/**
- * Helper for formatting errors returned from a rejected response
- * @param {Mixed} errors - the error or errors
- * @returns {Array} array of error objects
- */
-const formatErrors = (errors) => {
-  const format = (err) => {
-    if (typeof err === 'string') {
-      return { title: err };
-    } else if (err && err.message) {
-      return { title: err.message };
-    } else if (err && err.title) {
-      return err;
-    } else {
-      return { title: 'An unknown error occurred' };
-    }
-  };
-
-  if (Array.isArray(errors)) {
-    return errors.map(format);
-  } else {
-    return [format(errors)];
-  }
-};
-
-/**
- * Helper for calculating the difference between old and new state
- * with model.save(). Borrows heavily from Ember Data.
- * @param {Object} oldData - current state of attributes in store
- * @param {Object} newData - requested new state of attributes
- * @returns {Object} set of attributes with change
- */
-const getChangedAttributes = (oldData, newData) => {
-  const diffData = Object.create(null);
-  const newDataKeys = Object.keys(newData);
-
-  for (let i = 0, length = newDataKeys.length; i < length; i++) {
-    const key = newDataKeys[i];
-    if (oldData[key] !== newData[key]) {
-      diffData[key] = {
-        prev: oldData[key],
-        next: newData[key]
-      };
-    }
-  }
-
-  return diffData;
-};
-
 // reducer handlers
 const handlers = {
+
+  /**
+   * Handles reducing of entity tags updating on all the resources.
+   */
+  ...entityTagsReducers,
 
   /**
    * Handles reducing the data store when removing the create requests
@@ -354,22 +235,6 @@ const handlers = {
         return reqs;
       }, {})
     }));
-  },
-
-  [actionTypes.UPDATE_TAG_ON_ENTITY]: (state, { data }) => {
-    debugger;
-    const redusedData = reduceData(data.resourceType, state, (store) => ({
-      records: {
-        ...store.records,
-        [data.id]: {
-          ...getRecord(store, data.id),
-          tags: Object.assign({}, {
-            tagList: Object.assign([], data.tags),
-          }),
-        }
-      }
-    }));
-    return redusedData;
   },
 
   /**
