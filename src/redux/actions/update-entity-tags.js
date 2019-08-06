@@ -9,6 +9,6 @@ export default function updateEntityTags(type, { id, data }, path) {
       params: { id },
       timestamp: Date.now()
     },
-    payload: data
+    payload: { data }
   };
 }
