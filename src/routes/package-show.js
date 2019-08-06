@@ -37,7 +37,6 @@ class PackageShowRoute extends Component {
     resolver: PropTypes.object.isRequired,
     tagsModel: PropTypes.object.isRequired,
     unloadResources: PropTypes.func.isRequired,
-    updateEntityTags: PropTypes.func.isRequired,
     updateFolioTags: PropTypes.func.isRequired,
     updatePackage: PropTypes.func.isRequired,
   };
@@ -214,7 +213,6 @@ class PackageShowRoute extends Component {
       tagsModel,
       provider,
       proxyTypes,
-      updateEntityTags,
       updateFolioTags,
     } = this.props;
     const {
@@ -228,7 +226,6 @@ class PackageShowRoute extends Component {
           model={model}
           tagsModel={tagsModel}
           packageTitles={this.getTitleResults()}
-          updateEntityTags={updateEntityTags}
           updateFolioTags={updateFolioTags}
           proxyTypes={proxyTypes}
           provider={provider}
@@ -278,10 +275,8 @@ export default connect(
     } = store;
 
     const { match } = ownProps;
-
     const resolver = createResolver(data);
     const model = resolver.find('packages', match.params.packageId);
-
     return {
       model,
       proxyTypes: resolver.query('proxyTypes'),
@@ -298,7 +293,6 @@ export default connect(
     getProvider: id => Provider.find(id),
     unloadResources: collection => Resource.unload(collection),
     updatePackage: model => Package.save(model),
-    updateEntityTags: (model) => Package.save(model),
     updateFolioTags: (model) => Tag.create(model),
     destroyPackage: model => Package.destroy(model),
   }

@@ -30,7 +30,6 @@ class ProviderShowRoute extends Component {
     resolver: PropTypes.object.isRequired,
     rootProxy: PropTypes.object.isRequired,
     tagsModel: PropTypes.object.isRequired,
-    updateEntityTags: PropTypes.func.isRequired,
     updateFolioTags: PropTypes.func.isRequired,
   };
 
@@ -132,7 +131,6 @@ class ProviderShowRoute extends Component {
       proxyTypes,
       rootProxy,
       tagsModel,
-      updateEntityTags,
       updateFolioTags,
     } = this.props;
 
@@ -151,7 +149,6 @@ class ProviderShowRoute extends Component {
           proxyTypes={proxyTypes}
           rootProxy={rootProxy}
           listType={listTypes.PACKAGES}
-          updateEntityTags={updateEntityTags}
           updateFolioTags={updateFolioTags}
           searchModal={
             <SearchModal
@@ -200,7 +197,6 @@ export default connect(
     getPackages: (id, params) => Provider.queryRelated(id, 'packages', params),
     getProxyTypes: () => ProxyType.query(),
     getTags: () => Tag.query(),
-    updateEntityTags: (model) => Provider.save(model),
     updateFolioTags: (model) => Tag.create(model),
     getRootProxy: () => RootProxy.find('root-proxy')
   }

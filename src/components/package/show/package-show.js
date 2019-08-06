@@ -70,7 +70,6 @@ class PackageShow extends Component {
     }).isRequired,
     tagsModel: PropTypes.object,
     toggleSelected: PropTypes.func.isRequired,
-    updateEntityTags: PropTypes.func.isRequired,
     updateFolioTags: PropTypes.func.isRequired,
   };
 
@@ -284,7 +283,6 @@ class PackageShow extends Component {
     const {
       model,
       tagsModel,
-      updateEntityTags,
       updateFolioTags,
     } = this.props;
 
@@ -302,7 +300,6 @@ class PackageShow extends Component {
           open={sections.packageShowTags}
           tagsModel={tagsModel}
           updateFolioTags={updateFolioTags}
-          updateEntityTags={updateEntityTags}
         />
 
         <Accordion

@@ -31,12 +31,12 @@ export default function attachAgreement(action$, store) {
       } = action;
 
       const state = getState();
-
+      const method = 'PUT';
       const url = `${state.okapi.url}/erm/sas/${agreement.id}`;
 
       const requestOptions = {
-        headers: getHeaders(state),
-        method: 'PUT',
+        headers: getHeaders(method, state, url),
+        method,
         body: JSON.stringify({
           items:[omit(agreement, ['id'])],
         }),
