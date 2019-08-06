@@ -30,23 +30,22 @@ export default class Tags extends React.Component {
   }
 
   formatTagUpdatePayload(model) {
-    const data = {
-      payload: {
-        data: {
-          type: 'tags',
-          attributes: {
-            name: model.name,
-            tags: model.tags,
-          },
+    const tagData = {
+      data: {
+        type: 'tags',
+        attributes: {
+          name: model.name,
+          tags: model.tags,
         },
       },
       id: model.id,
     };
+
     if (model.type === 'packages') {
-      data.payload.data.attributes.contentType = model.contentType;
+      tagData.data.attributes.contentType = model.contentType;
     }
 
-    return data;
+    return tagData;
   }
 
   onRemove = (tag) => {

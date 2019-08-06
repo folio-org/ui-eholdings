@@ -17,7 +17,7 @@ import {
   makeRequest,
 } from './helpers';
 import entityTagsActionTypes from './constants/entityTagsActionTypes';
-import entityTagsReducers from './reducers/entityTags';
+import entityTagsReducers from './reducers/entityTagsReducers';
 
 // actions
 export const actionTypes = {

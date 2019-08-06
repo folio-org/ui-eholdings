@@ -7,6 +7,7 @@ import {
 } from '../helpers';
 
 const entityTagsReducers = {
+
   [entityTagsActionTypes.UPDATE_ENTITY_TAGS]: (state, { data, payload }) => {
     return reduceData(data.type, state, (store) => {
       const record = getRecord(store, data.params.id);
@@ -31,7 +32,7 @@ const entityTagsReducers = {
 
   [entityTagsActionTypes.UPDATE_TAG_ON_ENTITY_SUCCESS]: (state, action) => {
     const { request, records, data } = action;
-    let next = reduceData(request.resource, state, store => ({
+    const reducedRequests = reduceData(request.resource, state, store => ({
       requests: {
         ...store.requests,
         [request.timestamp]: {
@@ -43,8 +44,9 @@ const entityTagsReducers = {
         }
       }
     }));
-    next = records.reduce((next, record) => { // eslint-disable-line no-shadow
-      return reduceData(data.type, next, (store) => {
+
+    return records.reduce((reducedData, record) => {
+      return reduceData(data.type, reducedData, (store) => {
         const recordState = getRecord(store, data.id);
 
         return {
@@ -65,9 +67,7 @@ const entityTagsReducers = {
           }
         };
       });
-    }, next);
-
-    return next;
+    }, reducedRequests);
   },
 };
 

@@ -19,7 +19,7 @@ export default function updateEntityTags(action$, store) {
     .ofType(entityTagsActionTypes.UPDATE_ENTITY_TAGS)
     .mergeMap(({ data, payload }) => {
       const state = getState();
-      const url = `${state.okapi.url}/eholdings/${data.type}/${data.params.id}/tags`;
+      const url = `${state.okapi.url}/eholdings/${data.path}/tags`;
       const method = 'PUT';
 
       // the request object created from this action
