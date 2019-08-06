@@ -81,7 +81,7 @@ export default class Tags extends React.Component {
 
     const newTag = difference(newTags, tags.map(t => t.label.toLowerCase()));
 
-    if (!newTag || !newTag.length) return;
+    if (!newTag.length) return;
 
     updateFolioTags({
       label: newTag[0],
@@ -95,7 +95,7 @@ export default class Tags extends React.Component {
       updateEntityTags,
       entityTags
     } = this.props;
-    const tagList = entityTags.filter(t => (t !== tag));
+    const tagList = entityTags.filter(t => t !== tag);
 
     model.tags = { tagList };
 
