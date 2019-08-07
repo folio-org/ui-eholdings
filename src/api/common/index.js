@@ -1,2 +1,2 @@
-// eslint-disable-next-line import/prefer-default-export
 export { default as parseResponseBody } from './parse-response-body';
+export { default as getHeaders } from './get-headers';

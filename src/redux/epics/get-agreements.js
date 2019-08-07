@@ -9,10 +9,6 @@ import {
   getAgreementsFailure,
 } from '../actions';
 
-import {
-  getHeaders,
-} from './common';
-
 export default ({ agreementsApi }) => (action$, store) => {
   const {
     getState,
@@ -31,7 +27,7 @@ export default ({ agreementsApi }) => (action$, store) => {
       } = action;
 
       return agreementsApi
-        .getAll(state.okapi.url, getHeaders(null, state, ''), refId)
+        .getAll(state.okapi, refId)
         .map(response => getAgreementsSuccess(response))
         .catch(error => Observable.of(getAgreementsFailure({ error, isLoading })));
     });

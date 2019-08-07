@@ -1,3 +1,2 @@
-export { default as getHeaders } from './get-headers';
-export { default as parseResponseBody } from './parse-response-body';
+// eslint-disable-next-line import/prefer-default-export
 export { default as pickAgreementProps } from './pick-agreement-props';

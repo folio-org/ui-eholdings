@@ -4,7 +4,10 @@ import 'rxjs/add/observable/of';
 import 'rxjs/add/operator/catch';
 import { omit } from 'lodash';
 
-import { parseResponseBody } from './common';
+import {
+  parseResponseBody,
+  getHeaders,
+} from './common';
 
 const API_URL = '/erm/sas';
 
@@ -34,26 +37,28 @@ const doRequest = (url, params) => {
 };
 
 export default {
-  getAll: (baseUrl, baseHeaders, refId) => {
-    const params = {
-      method: 'GET',
-      headers: baseHeaders,
-    };
+  getAll: (okapi, refId) => {
+    const method = 'GET';
+    const url = createUrl(okapi.url, refId);
 
-    const url = createUrl(baseUrl, refId);
+    const params = {
+      method,
+      headers: getHeaders(method, okapi, url),
+    };
 
     return doRequest(url, params);
   },
-  attachAgreement: (baseUrl, baseHeaders, agreement) => {
+  attachAgreement: (okapi, agreement) => {
+    const method = 'PUT';
+    const url = `${okapi.url}${API_URL}/${agreement.id}`;
+
     const params = {
-      method: 'PUT',
-      headers: baseHeaders,
+      method,
+      headers: getHeaders(method, okapi, url),
       body: JSON.stringify({
         items:[omit(agreement, ['id'])],
       }),
     };
-
-    const url = `${baseUrl}${API_URL}/${agreement.id}`;
 
     return doRequest(url, params);
   }

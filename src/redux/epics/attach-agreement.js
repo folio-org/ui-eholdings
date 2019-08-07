@@ -11,7 +11,6 @@ import {
 } from '../actions';
 
 import {
-  getHeaders,
   pickAgreementProps,
 } from './common';
 
@@ -30,7 +29,7 @@ export default ({ agreementsApi }) => (action$, store) => {
       } = action;
 
       return agreementsApi
-        .attachAgreement(state.okapi.url, getHeaders(null, state, ''), agreement)
+        .attachAgreement(state.okapi, agreement)
         .map((currentAgreement) => {
           attachAgreementSuccess();
           return addAgreement(pickAgreementProps(currentAgreement));

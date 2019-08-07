@@ -7,6 +7,10 @@ import get from 'lodash/get';
 
 import { qs } from '../components/utilities';
 import {
+  getHeaders,
+  parseResponseBody,
+} from '../api/common';
+import {
   mergeRelationships,
   mergeAttributes,
   getTagsData,
@@ -459,45 +463,6 @@ const handlers = {
   }
 };
 
-
-/**
- * Helper for creating headers when making a request
- * @param {String} method - request method
- * @param {String} state.okapi.tenant - the Okapi tenant
- * @param {String} state.okapi.token - the Okapi user token
- * @param {String} url - the request url
- * @returns {Object} headers for a new request
- */
-const getHeaders = (method, { okapi }, url) => {
-  let contentType = 'application/json';
-  const headers = {
-    'X-Okapi-Tenant': okapi.tenant,
-    'X-Okapi-Token': okapi.token
-  };
-
-  if (method === 'PUT' || method === 'POST') {
-    if (url.includes('eholdings')) {
-      contentType = 'application/vnd.api+json';
-    }
-    headers['Content-Type'] = contentType;
-  }
-
-  return headers;
-};
-
-/**
- * Sometimes the response from the server (or mirage) does not include a
- * body (null). This causes `response.json()` to error with something like
- * "unexpected end of input". This workaround uses `response.text()` and
- * when there are any errors parsing it using `JSON.parse`, the text is
- * returned instead.
- */
-const parseResponseBody = (response) => {
-  return response.text().then((text) => {
-    try { return JSON.parse(text); } catch (e) { return text; }
-  });
-};
-
 /**
  * The main data store reducer simply uses the handlers defined above
  * @param {Object} state - data store state leaf
@@ -536,7 +501,7 @@ export function epic(action$, { getState }) {
       // used for the actual request
       let url = `${state.okapi.url}${data.path}`;
 
-      const headers = getHeaders(method, state, url);
+      const headers = getHeaders(method, state.okapi, url);
       let body;
 
       // if we're querying a set of records, data.params are the

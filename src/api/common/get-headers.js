@@ -7,18 +7,17 @@
  * @param {String} url - the request url
  * @returns {Object} headers for a new request
  */
-export default function getHeaders(method, { okapi }, url) {
-  let contentType = 'application/json';
+export default function (method, okapi, url) {
   const headers = {
+    'Content-Type': 'application/json',
     'X-Okapi-Tenant': okapi.tenant,
     'X-Okapi-Token': okapi.token
   };
 
   if (method === 'PUT' || method === 'POST') {
     if (url.includes('eholdings')) {
-      contentType = 'application/vnd.api+json';
+      headers['Content-Type'] = 'application/vnd.api+json';
     }
-    headers['Content-Type'] = contentType;
   }
 
   return headers;
