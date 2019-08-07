@@ -56,7 +56,6 @@ class ResourceShow extends Component {
     }),
     tagsModel: PropTypes.object,
     toggleSelected: PropTypes.func.isRequired,
-    updateEntityTags: PropTypes.func.isRequired,
     updateFolioTags: PropTypes.func.isRequired,
   };
 
@@ -204,7 +203,6 @@ class ResourceShow extends Component {
       proxyTypes,
       isFreshlySaved,
       tagsModel,
-      updateEntityTags,
       updateFolioTags,
     } = this.props;
 
@@ -270,7 +268,6 @@ class ResourceShow extends Component {
                 open={sections.resourceShowTags}
                 tagsModel={tagsModel}
                 updateFolioTags={updateFolioTags}
-                updateEntityTags={updateEntityTags}
               />
 
               <Accordion

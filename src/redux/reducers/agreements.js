@@ -13,6 +13,7 @@ const handlers = {
 
     return {
       ...state,
+      isLoading: true,
       ...payload,
     };
   },
@@ -23,17 +24,19 @@ const handlers = {
 
     return {
       ...state,
-      ...payload,
+      isLoading: false,
+      items: [...payload.items],
     };
   },
   [GET_AGREEMENTS_FAILURE]: (state, action) => {
     const {
-      payload,
+      payload: { error },
     } = action;
 
     return {
       ...state,
-      ...payload,
+      isLoading: false,
+      error,
     };
   },
   [ADD_AGREEMENT]: (state, action) => {
