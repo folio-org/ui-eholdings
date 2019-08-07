@@ -1,9 +1,7 @@
 import { Observable } from 'rxjs/Observable';
-import 'rxjs/add/observable/from';
 import 'rxjs/add/observable/of';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/catch';
-import omit from 'lodash/omit';
 
 import {
   ATTACH_AGREEMENT,
@@ -13,44 +11,29 @@ import {
 } from '../actions';
 
 import {
-  getHeaders,
-  parseResponseBody,
   pickAgreementProps,
 } from './common';
 
-export default function attachAgreement(action$, store) {
+export default ({ agreementsApi }) => (action$, store) => {
   const {
     getState,
   } = store;
 
+  const state = getState();
+
   return action$
-    .ofType(ATTACH_AGREEMENT)
-    .mergeMap((action) => {
+    .filter(action => action.type === ATTACH_AGREEMENT)
+    .mergeMap(action => {
       const {
         payload: agreement,
       } = action;
 
-      const state = getState();
-      const method = 'PUT';
-      const url = `${state.okapi.url}/erm/sas/${agreement.id}`;
-
-      const requestOptions = {
-        headers: getHeaders(method, state, url),
-        method,
-        body: JSON.stringify({
-          items:[omit(agreement, ['id'])],
-        }),
-      };
-
-      const promise = fetch(url, requestOptions)
-        .then(response => Promise.all([response.ok, parseResponseBody(response)]))
-        .then(([ok, body]) => (ok ? body : Promise.reject(body)));
-
-      return Observable.from(promise)
+      return agreementsApi
+        .attachAgreement(state.okapi, agreement)
         .map((currentAgreement) => {
           attachAgreementSuccess();
           return addAgreement(pickAgreementProps(currentAgreement));
         })
         .catch(error => Observable.of(attachAgreementFailure({ error })));
     });
-}
+};

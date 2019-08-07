@@ -10,7 +10,7 @@ import entityTagsActionTypes from '../constants/entityTagsActionTypes';
 import {
   getHeaders,
   parseResponseBody,
-} from './common';
+} from '../../api/common';
 
 export default function updateEntityTags(action$, store) {
   const { getState } = store;
@@ -26,7 +26,7 @@ export default function updateEntityTags(action$, store) {
       const request = state.eholdings.data[data.type].requests[data.timestamp];
 
       const requestOptions = {
-        headers: getHeaders(method, state, url),
+        headers: getHeaders(method, state.okapi, url),
         method,
         body: JSON.stringify(payload),
       };

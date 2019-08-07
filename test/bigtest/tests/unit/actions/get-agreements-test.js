@@ -11,10 +11,7 @@ describe('(action) getAgreements', () => {
     const refId = 'referenceId';
     const expectedAction = {
       type: GET_AGREEMENTS,
-      payload: {
-        refId,
-        isLoading: true,
-      },
+      payload: { refId },
     };
 
     expect(getAgreements(refId)).to.deep.equal(expectedAction);
