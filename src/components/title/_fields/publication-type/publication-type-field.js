@@ -13,7 +13,7 @@ export default function PublicationTypeField() {
         label={<FormattedMessage id="ui-eholdings.title.publicationType" />}
       >
         <FormattedMessage id="ui-eholdings.filter.pubType.audioBook">
-          {(message) => <option value="Audio Book">{message}</option>}
+          {(message) => <option value="Audiobook">{message}</option>}
         </FormattedMessage>
         <FormattedMessage id="ui-eholdings.filter.pubType.book">
           {(message) => <option value="Book">{message}</option>}
