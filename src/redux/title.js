@@ -19,17 +19,19 @@ class Title {
   // new title record payloads
   serialize() {
     const data = { id: this.id, type: this.type };
-    const { resources, ...attributes } = this.data.attributes;
+    const { resources } = this.data.attributes;
     const payload = { data };
-    const readOnlyAttributes = ['isTitleCustom', 'subjects'];
 
-    data.attributes = Object.keys(attributes).reduce((attrs, attr) => {
-      const isReadOnly = readOnlyAttributes.includes(attr);
-
-      if (isReadOnly) return attrs;
-
-      return Object.assign(attrs, { [attr]: this[attr] });
-    }, {});
+    data.attributes = {
+      contributors: this.contributors,
+      description: this.description,
+      edition: this.edition,
+      identifiers: this.identifiers,
+      isPeerReviewed: this.isPeerReviewed,
+      name: this.name,
+      publicationType: this.publicationType,
+      publisherName: this.publisherName,
+    };
 
     // when serializing a new title we need to include any new resources
     const isTitleNew = !this.id;
