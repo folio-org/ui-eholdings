@@ -73,6 +73,7 @@ class PackageCoverageFields extends Component {
             label={<FormattedMessage id="ui-eholdings.date.startDate" />}
             format={formatField}
             validate={this.validateCoverageDate}
+            timeZone="UTC"
           />
         </div>
         <div
@@ -86,6 +87,7 @@ class PackageCoverageFields extends Component {
             label={<FormattedMessage id="ui-eholdings.date.endDate" />}
             format={formatField}
             validate={this.validateCoverageDate}
+            timeZone="UTC"
           />
         </div>
       </Fragment>
