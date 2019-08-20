@@ -1,7 +1,7 @@
 import {
   action,
   clickable,
-  fillable,
+  selectable,
   interactor,
   property,
   value
@@ -18,7 +18,7 @@ import Toast from './toast';
 
 @interactor class SettingsRootProxyPage {
   RootProxySelectValue = value('[data-test-eholdings-settings-root-proxy-select] select');
-  chooseRootProxy = fillable('[data-test-eholdings-settings-root-proxy-select] select');
+  chooseRootProxy = selectable('[data-test-eholdings-settings-root-proxy-select] select');
   save = clickable('[data-test-eholdings-settings-root-proxy-save-button]');
   saveButtonDisabled = property('[data-test-eholdings-settings-root-proxy-save-button]', 'disabled');
 
