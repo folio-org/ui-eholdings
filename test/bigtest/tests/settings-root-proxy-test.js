@@ -10,7 +10,7 @@ describe('With list of root proxies available to a customer', () => {
 
   describe('when visiting the settings root proxy form', () => {
     beforeEach(async function () {
-      await this.visit('/settings/eholdings/root-proxy');
+      this.visit('/settings/eholdings/root-proxy');
       await wait(1000);
     });
 
@@ -63,7 +63,7 @@ describe('With list of root proxies available to a customer', () => {
         }]
       }, 500);
 
-      await this.visit('/settings/eholdings/root-proxy');
+      this.visit('/settings/eholdings/root-proxy');
       await wait(2000);
     });
 
