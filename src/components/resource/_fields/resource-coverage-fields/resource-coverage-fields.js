@@ -175,6 +175,7 @@ class ResourceCoverageFields extends Component {
             label={<FormattedMessage id="ui-eholdings.date.startDate" />}
             id="begin-coverage"
             format={this.formatDate}
+            timeZone="UTC"
           />
         </div>
         <div
@@ -188,6 +189,7 @@ class ResourceCoverageFields extends Component {
             label={<FormattedMessage id="ui-eholdings.date.endDate" />}
             id="end-coverage"
             format={this.formatDate}
+            timeZone="UTC"
           />
         </div>
       </Fragment>
