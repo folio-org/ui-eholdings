@@ -391,7 +391,7 @@ class BaseModel {
     };
 
     for (const attr of Object.keys(this.data.attributes)) {
-      data.attributes[attr] = this[attr];
+      if (attr !== 'tags') data.attributes[attr] = this[attr];
     }
 
     return { data };
