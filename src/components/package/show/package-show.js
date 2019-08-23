@@ -654,25 +654,25 @@ class PackageShow extends Component {
           toasts={toasts}
           position="bottom"
         />
-
-        <DetailsView
-          type="package"
-          model={model}
-          key={model.id}
-          paneTitle={model.name}
-          actionMenu={this.getActionMenu}
-          sections={sections}
-          handleExpandAll={this.handleExpandAll}
-          searchModal={searchModal}
-          bodyContent={this.getBodyContent()}
-          lastMenu={this.renderLastMenu()}
-          listType={listTypes.TITLES}
-          listSectionId="packageShowTitles"
-          onListToggle={this.handleSectionToggle}
-          resultsLength={model.resources.length}
-          renderList={this.renderTitlesList}
-        />
-
+        <div role="tablist">
+          <DetailsView
+            type="package"
+            model={model}
+            key={model.id}
+            paneTitle={model.name}
+            actionMenu={this.getActionMenu}
+            sections={sections}
+            handleExpandAll={this.handleExpandAll}
+            searchModal={searchModal}
+            bodyContent={this.getBodyContent()}
+            lastMenu={this.renderLastMenu()}
+            listType={listTypes.TITLES}
+            listSectionId="packageShowTitles"
+            onListToggle={this.handleSectionToggle}
+            resultsLength={model.resources.length}
+            renderList={this.renderTitlesList}
+          />
+        </div>
         <Modal
           open={showSelectionModal}
           size="small"

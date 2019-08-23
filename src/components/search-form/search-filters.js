@@ -22,7 +22,11 @@ export default function SearchFilters({
         <Accordion
           key={name}
           name={name}
-          label={label}
+          label={
+            <span id={`filter-${searchType}-${name}-label`}>
+              {label}
+            </span>
+          }
           separator={false}
           closedByDefault
           header={FilterAccordionHeader}
@@ -30,34 +34,39 @@ export default function SearchFilters({
           onClearFilter={() => onUpdate({ ...activeFilters, [name]: undefined })}
           id={`filter-${searchType}-${name}`}
         >
-          {options.map(({ label: radioBtnLabel, value }, i) => {
-            const isChecked = value === (activeFilters[name] || defaultValue);
+          <div
+            role="radiogroup"
+            aria-labelledby={`filter-${searchType}-${name}-label`}
+          >
+            {options.map(({ label: radioBtnLabel, value }, i) => {
+              const isChecked = value === (activeFilters[name] || defaultValue);
 
-            return (
-              <RadioButton
-                role="radio"
-                aria-checked={isChecked}
-                tabIndex={isChecked ? 0 : -1}
-                key={i}
-                name={name}
-                id={`eholdings-search-filters-${searchType}-${name}-${value}`}
-                label={radioBtnLabel}
-                value={value}
-                checked={isChecked}
-                disabled={disabled}
-                onChange={() => {
-                  const replaced = {
-                    ...activeFilters,
-                    // if this option is a default, clear the filter
-                    [name]: value === defaultValue ? undefined : value
-                  };
-                  const withoutDefault = filter(item => item.value !== undefined, replaced);
+              return (
+                <RadioButton
+                  role="radio"
+                  aria-checked={isChecked}
+                  tabIndex={isChecked ? 0 : -1}
+                  key={i}
+                  name={name}
+                  id={`eholdings-search-filters-${searchType}-${name}-${value}`}
+                  label={radioBtnLabel}
+                  value={value}
+                  checked={isChecked}
+                  disabled={disabled}
+                  onChange={() => {
+                    const replaced = {
+                      ...activeFilters,
+                      // if this option is a default, clear the filter
+                      [name]: value === defaultValue ? undefined : value
+                    };
+                    const withoutDefault = filter(item => item.value !== undefined, replaced);
 
-                  return onUpdate(withoutDefault);
-                }}
-              />
-            );
-          })}
+                    return onUpdate(withoutDefault);
+                  }}
+                />
+              );
+            })}
+          </div>
         </Accordion>
       ))}
     </div>

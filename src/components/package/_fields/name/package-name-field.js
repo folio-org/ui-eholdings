@@ -28,13 +28,18 @@ const validate = (value) => {
 export default function PackageNameField() {
   return (
     <div data-test-eholdings-package-name-field>
-      <Field
-        name="name"
-        type="text"
-        component={TextField}
-        label={<FormattedMessage id="ui-eholdings.label.name.isRequired" />}
-        validate={validate}
-      />
+      <FormattedMessage id="ui-eholdings.label.name">
+        {(ariaLabel) => (
+          <Field
+            name="name"
+            type="text"
+            component={TextField}
+            label={<FormattedMessage id="ui-eholdings.label.name.isRequired" />}
+            validate={validate}
+            ariaLabel={ariaLabel}
+          />
+        )}
+      </FormattedMessage>
     </div>
   );
 }
