@@ -60,13 +60,18 @@ export default class IdentifiersFields extends Component {
           data-test-eholdings-identifiers-fields-id
           className={styles['identifiers-fields-field']}
         >
-          <Field
-            name={`${identifier}.id`}
-            type="text"
-            component={TextField}
-            label={<FormattedMessage id="ui-eholdings.id" />}
-            validate={this.validateId}
-          />
+          <FormattedMessage id="ui-eholdings.id">
+            {(fieldName) => (
+              <Field
+                name={`${identifier}.id`}
+                type="text"
+                component={TextField}
+                label={fieldName}
+                validate={this.validateId}
+                ariaLabel={fieldName}
+              />
+            )}
+          </FormattedMessage>
         </div>
       </Fragment>
     );

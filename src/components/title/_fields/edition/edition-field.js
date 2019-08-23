@@ -21,12 +21,17 @@ function validate(value) {
 export default function EditionField() {
   return (
     <div data-test-eholdings-edition-field>
-      <Field
-        name="edition"
-        component={TextField}
-        label={<FormattedMessage id="ui-eholdings.title.edition" />}
-        validate={validate}
-      />
+      <FormattedMessage id="ui-eholdings.title.edition">
+        {(fieldName) => (
+          <Field
+            name="edition"
+            component={TextField}
+            label={fieldName}
+            validate={validate}
+            ariaLabel={fieldName}
+          />
+        )}
+      </FormattedMessage>
     </div>
   );
 }

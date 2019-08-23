@@ -255,7 +255,6 @@ class SearchForm extends Component {
         )}
         <form
           onSubmit={this.handleSearchSubmit}
-          role='tabpanel'
           aria-labelledby={searchType + '-tab'}
           id={searchType + '-panel'}
         >
@@ -264,33 +263,43 @@ class SearchForm extends Component {
               {placeholder => (
                 <Fragment>
                   {(searchType === searchTypes.TITLES) && (
-                    <Select
-                      onChange={this.handleChangeIndex}
-                      value={searchField}
-                    >
-                      <FormattedMessage id="ui-eholdings.label.title">
-                        {(label) => <option value="title">{label}</option>}
-                      </FormattedMessage>
-                      <FormattedMessage id="ui-eholdings.label.isxn">
-                        {(label) => <option value="isxn">{label}</option>}
-                      </FormattedMessage>
-                      <FormattedMessage id="ui-eholdings.label.publisher">
-                        {(label) => <option value="publisher">{label}</option>}
-                      </FormattedMessage>
-                      <FormattedMessage id="ui-eholdings.label.subject">
-                        {(label) => <option value="subject">{label}</option>}
-                      </FormattedMessage>
-                    </Select>
+                    <FormattedMessage id="ui-eholdings.search.selectFieldToSearch">
+                      {(ariaLabel) => (
+                        <Select
+                          onChange={this.handleChangeIndex}
+                          value={searchField}
+                          aria-label={ariaLabel}
+                        >
+                          <FormattedMessage id="ui-eholdings.label.title">
+                            {(label) => <option value="title">{label}</option>}
+                          </FormattedMessage>
+                          <FormattedMessage id="ui-eholdings.label.isxn">
+                            {(label) => <option value="isxn">{label}</option>}
+                          </FormattedMessage>
+                          <FormattedMessage id="ui-eholdings.label.publisher">
+                            {(label) => <option value="publisher">{label}</option>}
+                          </FormattedMessage>
+                          <FormattedMessage id="ui-eholdings.label.subject">
+                            {(label) => <option value="subject">{label}</option>}
+                          </FormattedMessage>
+                        </Select>
+                      )}
+                    </FormattedMessage>
                   )}
-                  <SearchField
-                    name="search"
-                    onChange={this.handleChangeSearch}
-                    onClear={this.handleClearSearch}
-                    value={searchString}
-                    placeholder={placeholder}
-                    loading={isLoading}
-                    disabled={searchByTagsEnabled}
-                  />
+                  <FormattedMessage id="ui-eholdings.search.enterYourSearch">
+                    {(ariaLabel) => (
+                      <SearchField
+                        name="search"
+                        onChange={this.handleChangeSearch}
+                        onClear={this.handleClearSearch}
+                        value={searchString}
+                        placeholder={placeholder}
+                        loading={isLoading}
+                        disabled={searchByTagsEnabled}
+                        ariaLabel={ariaLabel}
+                      />
+                    )}
+                  </FormattedMessage>
                 </Fragment>
               )}
             </FormattedMessage>
@@ -308,7 +317,7 @@ class SearchForm extends Component {
             </Button>
           )}
           {Filters && (
-            <div>
+            <div role="tablist">
               {this.renderTagFilter()}
               <Filters
                 activeFilters={combinedFilters}

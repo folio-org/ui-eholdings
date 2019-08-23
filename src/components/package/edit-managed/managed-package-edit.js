@@ -303,175 +303,185 @@ export default class ManagedPackageEdit extends Component {
           <div>
             <Toaster toasts={processErrors(model)} position="bottom" />
             <form onSubmit={handleSubmit}>
-              <DetailsView
-                type="package"
-                model={model}
-                paneTitle={model.name}
-                actionMenu={this.getActionMenu}
-                handleExpandAll={this.toggleAllSections}
-                sections={sections}
-                lastMenu={(
-                  <Fragment>
-                    {model.update.isPending && (
-                      <Icon icon="spinner-ellipsis" />
-                    )}
-                    {model.isSelected && (
-                      <PaneHeaderButton
-                        disabled={pristine || model.update.isPending}
-                        type="submit"
-                        buttonStyle="primary"
-                        data-test-eholdings-package-save-button
+              <div role="tablist">
+                <DetailsView
+                  type="package"
+                  model={model}
+                  paneTitle={model.name}
+                  actionMenu={this.getActionMenu}
+                  handleExpandAll={this.toggleAllSections}
+                  sections={sections}
+                  lastMenu={(
+                    <Fragment>
+                      {model.update.isPending && (
+                        <Icon icon="spinner-ellipsis" />
+                      )}
+                      {model.isSelected && (
+                        <PaneHeaderButton
+                          disabled={pristine || model.update.isPending}
+                          type="submit"
+                          buttonStyle="primary"
+                          data-test-eholdings-package-save-button
+                        >
+                          {model.update.isPending ?
+                            (<FormattedMessage id="ui-eholdings.saving" />)
+                            :
+                            (<FormattedMessage id="ui-eholdings.save" />)}
+                        </PaneHeaderButton>
+                      )}
+                    </Fragment>
+                  )}
+                  bodyContent={(
+                    <Fragment>
+                      <Accordion
+                        label={this.getSectionHeader('ui-eholdings.label.holdingStatus')}
+                        open={sections.packageHoldingStatus}
+                        id="packageHoldingStatus"
+                        onToggle={this.toggleSection}
                       >
-                        {model.update.isPending ?
-                          (<FormattedMessage id="ui-eholdings.saving" />)
-                          :
-                          (<FormattedMessage id="ui-eholdings.save" />)}
-                      </PaneHeaderButton>
-                    )}
-                  </Fragment>
-                )}
-                bodyContent={(
-                  <Fragment>
-                    <Accordion
-                      label={this.getSectionHeader('ui-eholdings.label.holdingStatus')}
-                      open={sections.packageHoldingStatus}
-                      id="packageHoldingStatus"
-                      onToggle={this.toggleSection}
-                    >
-                      <SelectionStatus
-                        model={model}
-                        onAddToHoldings={this.props.addPackageToHoldings}
-                      />
-                    </Accordion>
+                        <SelectionStatus
+                          model={model}
+                          onAddToHoldings={this.props.addPackageToHoldings}
+                        />
+                      </Accordion>
 
-                    {packageSelected && (
-                      <div>
-                        <Accordion
-                          label={this.getSectionHeader('ui-eholdings.package.packageSettings')}
-                          open={sections.packageSettings}
-                          id="packageSettings"
-                          onToggle={this.toggleSection}
-                        >
-                          <div className={styles['visibility-radios']}>
-                            {initialValues.isVisible !== null ? (
-                              <fieldset data-test-eholdings-package-visibility-field>
-                                <Headline tag="legend" size="small" margin="x-large">
-                                  <FormattedMessage id="ui-eholdings.package.visibility" />
-                                </Headline>
+                      {packageSelected && (
+                        <div>
+                          <Accordion
+                            label={this.getSectionHeader('ui-eholdings.package.packageSettings')}
+                            open={sections.packageSettings}
+                            id="packageSettings"
+                            onToggle={this.toggleSection}
+                          >
+                            <div className={styles['visibility-radios']}>
+                              {initialValues.isVisible !== null ? (
+                                <fieldset data-test-eholdings-package-visibility-field>
+                                  <Headline tag="legend" size="small" margin="x-large">
+                                    <FormattedMessage id="ui-eholdings.package.visibility" />
+                                  </Headline>
 
-                                <Field
-                                  component={RadioButton}
-                                  format={value => typeof value !== 'undefined' && value !== null && value.toString()}
-                                  label={<FormattedMessage id="ui-eholdings.yes" />}
-                                  name="isVisible"
-                                  parse={value => value === 'true'}
-                                  type="radio"
-                                  value="true"
-                                />
+                                  <Field
+                                    component={RadioButton}
+                                    format={value => typeof value !== 'undefined' && value !== null && value.toString()}
+                                    label={<FormattedMessage id="ui-eholdings.yes" />}
+                                    name="isVisible"
+                                    parse={value => value === 'true'}
+                                    type="radio"
+                                    value="true"
+                                  />
 
-                                <Field
-                                  component={RadioButton}
-                                  format={value => typeof value !== 'undefined' && value !== null && value.toString()}
-                                  label={
-                                    <FormattedMessage
-                                      id="ui-eholdings.package.visibility.no"
-                                      values={{ visibilityMessage }}
-                                    />
-                                  }
-                                  name="isVisible"
-                                  parse={value => value === 'true'}
-                                  type="radio"
-                                  value="false"
-                                />
-                              </fieldset>
-                            ) : (
-                              <div
-                                data-test-eholdings-package-details-visibility
-                                htmlFor="managed-package-details-visibility-switch"
-                              >
-                                <Icon icon="spinner-ellipsis" />
-                              </div>
-                            )}
-                          </div>
-                          <div className={styles['title-management-radios']}>
-                            {initialValues.allowKbToAddTitles !== null ? (
-                              <fieldset data-test-eholdings-allow-kb-to-add-titles-radios>
-                                <Headline tag="legend" size="small" margin="x-large">
-                                  <FormattedMessage id="ui-eholdings.package.packageAllowToAddTitles" />
-                                </Headline>
-
-                                <Field
-                                  data-test-eholdings-allow-kb-to-add-titles-radio-yes
-                                  component={RadioButton}
-                                  format={value => typeof value !== 'undefined' && value !== null && value.toString()}
-                                  label={<FormattedMessage id="ui-eholdings.yes" />}
-                                  name="allowKbToAddTitles"
-                                  parse={value => value === 'true'}
-                                  type="radio"
-                                  value="true"
-                                />
-
-                                <Field
-                                  data-test-eholdings-allow-kb-to-add-titles-radio-no
-                                  component={RadioButton}
-                                  format={value => typeof value !== 'undefined' && value !== null && value.toString()}
-                                  label={<FormattedMessage id="ui-eholdings.no" />}
-                                  name="allowKbToAddTitles"
-                                  parse={value => value === 'true'}
-                                  type="radio"
-                                  value="false"
-                                />
-                              </fieldset>
-                            ) : (
-                              <div
-                                data-test-eholdings-package-details-allow-add-new-titles
-                                htmlFor="managed-package-details-toggle-allow-add-new-titles-switch"
-                              >
-                                <Icon icon="spinner-ellipsis" />
-                              </div>
-                            )}
-                          </div>
-                          {(proxyTypes.request.isResolved && provider.data.isLoaded) ? (
-                            <div data-test-eholdings-package-proxy-select-field>
-                              <ProxySelectField
-                                proxyTypes={proxyTypes}
-                                inheritedProxyId={provider.proxy.id}
-                              />
+                                  <Field
+                                    component={RadioButton}
+                                    format={value => typeof value !== 'undefined' && value !== null && value.toString()}
+                                    label={
+                                      <FormattedMessage
+                                        id="ui-eholdings.package.visibility.no"
+                                        values={{ visibilityMessage }}
+                                      />
+                                    }
+                                    name="isVisible"
+                                    parse={value => value === 'true'}
+                                    type="radio"
+                                    value="false"
+                                  />
+                                </fieldset>
+                              ) : (
+                                <div
+                                  data-test-eholdings-package-details-visibility
+                                  htmlFor="managed-package-details-visibility-switch"
+                                >
+                                  <Icon icon="spinner-ellipsis" />
+                                </div>
+                              )}
                             </div>
-                          ) : (
-                            <Icon icon="spinner-ellipsis" />
-                          )}
-                          {supportsProviderTokens && (
-                          <fieldset>
-                            <Headline tag="legend">
-                              <FormattedMessage id="ui-eholdings.provider.token" />
-                            </Headline>
-                            <TokenField token={provider.providerToken} tokenValue={hasProviderTokenValue} type="provider" />
-                          </fieldset>
-                          )}
-                          {supportsPackageTokens && (
-                          <fieldset>
-                            <Headline tag="legend">
-                              <FormattedMessage id="ui-eholdings.package.token" />
-                            </Headline>
-                            <TokenField token={model.packageToken} tokenValue={hasPackageTokenValue} type="package" />
-                          </fieldset>
-                          )}
-                        </Accordion>
+                            <div className={styles['title-management-radios']}>
+                              {initialValues.allowKbToAddTitles !== null ? (
+                                <fieldset data-test-eholdings-allow-kb-to-add-titles-radios>
+                                  <Headline tag="legend" size="small" margin="x-large">
+                                    <FormattedMessage id="ui-eholdings.package.packageAllowToAddTitles" />
+                                  </Headline>
 
-                        <Accordion
-                          label={this.getSectionHeader('ui-eholdings.package.coverageSettings')}
-                          open={sections.packageCoverageSettings}
-                          id="packageCoverageSettings"
-                          onToggle={this.toggleSection}
-                        >
-                          <CoverageFields initial={initialValues.customCoverages} />
-                        </Accordion>
-                      </div>
-                    )}
-                  </Fragment>
-                )}
-              />
+                                  <Field
+                                    data-test-eholdings-allow-kb-to-add-titles-radio-yes
+                                    component={RadioButton}
+                                    format={value => typeof value !== 'undefined' && value !== null && value.toString()}
+                                    label={<FormattedMessage id="ui-eholdings.yes" />}
+                                    name="allowKbToAddTitles"
+                                    parse={value => value === 'true'}
+                                    type="radio"
+                                    value="true"
+                                  />
+
+                                  <Field
+                                    data-test-eholdings-allow-kb-to-add-titles-radio-no
+                                    component={RadioButton}
+                                    format={value => typeof value !== 'undefined' && value !== null && value.toString()}
+                                    label={<FormattedMessage id="ui-eholdings.no" />}
+                                    name="allowKbToAddTitles"
+                                    parse={value => value === 'true'}
+                                    type="radio"
+                                    value="false"
+                                  />
+                                </fieldset>
+                              ) : (
+                                <div
+                                  data-test-eholdings-package-details-allow-add-new-titles
+                                  htmlFor="managed-package-details-toggle-allow-add-new-titles-switch"
+                                >
+                                  <Icon icon="spinner-ellipsis" />
+                                </div>
+                              )}
+                            </div>
+                            {(proxyTypes.request.isResolved && provider.data.isLoaded) ? (
+                              <div data-test-eholdings-package-proxy-select-field>
+                                <ProxySelectField
+                                  proxyTypes={proxyTypes}
+                                  inheritedProxyId={provider.proxy.id}
+                                />
+                              </div>
+                            ) : (
+                              <Icon icon="spinner-ellipsis" />
+                            )}
+                            {supportsProviderTokens && (
+                              <fieldset>
+                                <Headline tag="legend">
+                                  <FormattedMessage id="ui-eholdings.provider.token" />
+                                </Headline>
+                                <TokenField
+                                  token={provider.providerToken}
+                                  tokenValue={hasProviderTokenValue}
+                                  type="provider"
+                                />
+                              </fieldset>
+                            )}
+                            {supportsPackageTokens && (
+                              <fieldset>
+                                <Headline tag="legend">
+                                  <FormattedMessage id="ui-eholdings.package.token" />
+                                </Headline>
+                                <TokenField
+                                  token={model.packageToken}
+                                  tokenValue={hasPackageTokenValue}
+                                  type="package"
+                                />
+                              </fieldset>
+                            )}
+                          </Accordion>
+
+                          <Accordion
+                            label={this.getSectionHeader('ui-eholdings.package.coverageSettings')}
+                            open={sections.packageCoverageSettings}
+                            id="packageCoverageSettings"
+                            onToggle={this.toggleSection}
+                          >
+                            <CoverageFields initial={initialValues.customCoverages} />
+                          </Accordion>
+                        </div>
+                      )}
+                    </Fragment>
+                  )}
+                />
+              </div>
             </form>
 
             <NavigationModal when={!pristine && !model.update.isPending && !model.update.isResolved} />

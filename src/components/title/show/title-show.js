@@ -199,7 +199,6 @@ class TitleShow extends Component {
     return (
       <Fragment>
         <Toaster toasts={this.toasts} position="bottom" />
-
         <DetailsView
           type="title"
           model={model}
@@ -209,6 +208,7 @@ class TitleShow extends Component {
           sections={sections}
           handleExpandAll={this.handleExpandAll}
           lastMenu={this.lastMenu}
+          ariaRole="tablist"
           bodyContent={(
 
             <Accordion

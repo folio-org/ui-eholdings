@@ -39,6 +39,7 @@ class DetailsView extends Component {
       PropTypes.func,
       PropTypes.node
     ]),
+    ariaRole: PropTypes.string,
     bodyContent: PropTypes.node.isRequired,
     handleExpandAll: PropTypes.func,
     history: ReactRouterPropTypes.history.isRequired,
@@ -211,7 +212,8 @@ class DetailsView extends Component {
       listSectionId,
       onListToggle,
       history,
-      location
+      location,
+      ariaRole,
     } = this.props;
 
     const { isSticky } = this.state;
@@ -322,9 +324,43 @@ class DetailsView extends Component {
                 </div>
               )}
             </div>,
-
-            <div key="body" className={styles.body}>
-              {bodyContent}
+            <div role={ariaRole}>
+              <div key="body" className={styles.body}>
+                {bodyContent}
+              </div>
+              {!!renderList && (
+                <div
+                  ref={(n) => { this.$sticky = n; }}
+                  className={styles.sticky}
+                  data-test-eholdings-details-view-list={type}
+                >
+                  <Measure onResize={this.handleLayout}>
+                    {({ measureRef }) => (
+                      <Accordion
+                        separator={!isSticky}
+                        header={AccordionListHeader}
+                        label={(
+                          <Headline
+                            size="large"
+                            tag="h3"
+                          >
+                            <FormattedMessage id={`ui-eholdings.listType.${listType}`} />
+                          </Headline>
+                        )}
+                        displayWhenOpen={searchModal}
+                        resultsLength={resultsLength}
+                        contentRef={(n) => { this.$list = n; measureRef(n); }}
+                        open={isListAccordionOpen}
+                        id={listSectionId}
+                        onToggle={onListToggle}
+                        listType={listType}
+                      >
+                        {renderList(isSticky)}
+                      </Accordion>
+                    )}
+                  </Measure>
+                </div>
+              )}
             </div>
           ] : model.request.isRejected ? (
             <p data-test-eholdings-details-view-error={type}>
@@ -332,40 +368,6 @@ class DetailsView extends Component {
             </p>
           ) : (
             <Icon icon="spinner-ellipsis" />
-          )}
-
-          {!!renderList && model.isLoaded && (
-            <div
-              ref={(n) => { this.$sticky = n; }}
-              className={styles.sticky}
-              data-test-eholdings-details-view-list={type}
-            >
-              <Measure onResize={this.handleLayout}>
-                {({ measureRef }) => (
-                  <Accordion
-                    separator={!isSticky}
-                    header={AccordionListHeader}
-                    label={(
-                      <Headline
-                        size="large"
-                        tag="h3"
-                      >
-                        <FormattedMessage id={`ui-eholdings.listType.${listType}`} />
-                      </Headline>
-                    )}
-                    displayWhenOpen={searchModal}
-                    resultsLength={resultsLength}
-                    contentRef={(n) => { this.$list = n; measureRef(n); }}
-                    open={isListAccordionOpen}
-                    id={listSectionId}
-                    onToggle={onListToggle}
-                    listType={listType}
-                  >
-                    {renderList(isSticky)}
-                  </Accordion>
-                )}
-              </Measure>
-            </div>
           )}
         </div>
       </div>
