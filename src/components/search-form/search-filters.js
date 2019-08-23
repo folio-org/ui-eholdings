@@ -18,57 +18,61 @@ export default function SearchFilters({
 }) {
   return (
     <div className={styles['search-filters']} data-test-eholdings-search-filters={searchType}>
-      {availableFilters.map(({ name, label, defaultValue, options }) => (
-        <Accordion
-          key={name}
-          name={name}
-          label={
-            <span id={`filter-${searchType}-${name}-label`}>
-              {label}
-            </span>
-          }
-          separator={false}
-          closedByDefault
-          header={FilterAccordionHeader}
-          displayClearButton={!!activeFilters[name] && activeFilters[name] !== defaultValue}
-          onClearFilter={() => onUpdate({ ...activeFilters, [name]: undefined })}
-          id={`filter-${searchType}-${name}`}
-        >
-          <div
-            role="radiogroup"
-            aria-labelledby={`filter-${searchType}-${name}-label`}
+      {availableFilters.map(({ name, label, defaultValue, options }) => {
+        const accordionLabelId = `filter-${searchType}-${name}-label`;
+
+        return (
+          <Accordion
+            key={name}
+            name={name}
+            label={
+              <span id={accordionLabelId}>
+                {label}
+              </span>
+            }
+            separator={false}
+            closedByDefault
+            header={FilterAccordionHeader}
+            displayClearButton={!!activeFilters[name] && activeFilters[name] !== defaultValue}
+            onClearFilter={() => onUpdate({ ...activeFilters, [name]: undefined })}
+            id={`filter-${searchType}-${name}`}
           >
-            {options.map(({ label: radioBtnLabel, value }, i) => {
-              const isChecked = value === (activeFilters[name] || defaultValue);
+            <div
+              role="radiogroup"
+              aria-labelledby={accordionLabelId}
+            >
+              {options.map(({ label: radioBtnLabel, value }, i) => {
+                const isChecked = value === (activeFilters[name] || defaultValue);
 
-              return (
-                <RadioButton
-                  role="radio"
-                  aria-checked={isChecked}
-                  tabIndex={isChecked ? 0 : -1}
-                  key={i}
-                  name={name}
-                  id={`eholdings-search-filters-${searchType}-${name}-${value}`}
-                  label={radioBtnLabel}
-                  value={value}
-                  checked={isChecked}
-                  disabled={disabled}
-                  onChange={() => {
-                    const replaced = {
-                      ...activeFilters,
-                      // if this option is a default, clear the filter
-                      [name]: value === defaultValue ? undefined : value
-                    };
-                    const withoutDefault = filter(item => item.value !== undefined, replaced);
+                return (
+                  <RadioButton
+                    role="radio"
+                    aria-checked={isChecked}
+                    tabIndex={isChecked ? 0 : -1}
+                    key={i}
+                    name={name}
+                    id={`eholdings-search-filters-${searchType}-${name}-${value}`}
+                    label={radioBtnLabel}
+                    value={value}
+                    checked={isChecked}
+                    disabled={disabled}
+                    onChange={() => {
+                      const replaced = {
+                        ...activeFilters,
+                        // if this option is a default, clear the filter
+                        [name]: value === defaultValue ? undefined : value
+                      };
+                      const withoutDefault = filter(item => item.value !== undefined, replaced);
 
-                    return onUpdate(withoutDefault);
-                  }}
-                />
-              );
-            })}
-          </div>
-        </Accordion>
-      ))}
+                      return onUpdate(withoutDefault);
+                    }}
+                  />
+                );
+              })}
+            </div>
+          </Accordion>
+        );
+      })}
     </div>
   );
 }

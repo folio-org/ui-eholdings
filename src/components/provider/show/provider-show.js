@@ -331,25 +331,24 @@ class ProviderShow extends Component {
           toasts={this.toasts}
           position="bottom"
         />
-        <div role="tablist">
-          <DetailsView
-            type="provider"
-            model={model}
-            key={model.id}
-            paneTitle={model.name}
-            actionMenu={this.getActionMenu}
-            sections={sections}
-            handleExpandAll={this.handleExpandAll}
-            bodyContent={this.getBodyContent()}
-            lastMenu={this.renderLastMenu()}
-            searchModal={searchModal}
-            listType={listType}
-            listSectionId="providerShowProviderList"
-            onListToggle={this.handleSectionToggle}
-            resultsLength={packages.length}
-            renderList={this.renderPackagesList}
-          />
-        </div>
+        <DetailsView
+          type="provider"
+          model={model}
+          key={model.id}
+          paneTitle={model.name}
+          actionMenu={this.getActionMenu}
+          sections={sections}
+          handleExpandAll={this.handleExpandAll}
+          bodyContent={this.getBodyContent()}
+          lastMenu={this.renderLastMenu()}
+          searchModal={searchModal}
+          listType={listType}
+          listSectionId="providerShowProviderList"
+          onListToggle={this.handleSectionToggle}
+          resultsLength={packages.length}
+          renderList={this.renderPackagesList}
+          role="tablist"
+        />
       </Fragment>
     );
   }

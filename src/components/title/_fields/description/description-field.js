@@ -18,13 +18,13 @@ export default function DescriptionField() {
   return (
     <div data-test-eholdings-description-textarea>
       <FormattedMessage id="ui-eholdings.title.description">
-        {(description) => (
+        {(ariaLabel) => (
           <Field
             name="description"
             component={TextArea}
-            label={description}
+            label={ariaLabel}
             validate={validate}
-            aria-label={description}
+            aria-label={ariaLabel}
           />
         )}
       </FormattedMessage>

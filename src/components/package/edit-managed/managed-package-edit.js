@@ -447,7 +447,11 @@ export default class ManagedPackageEdit extends Component {
                                 <Headline tag="legend">
                                   <FormattedMessage id="ui-eholdings.provider.token" />
                                 </Headline>
-                                <TokenField token={provider.providerToken} tokenValue={hasProviderTokenValue} type="provider" />
+                                <TokenField
+                                  token={provider.providerToken}
+                                  tokenValue={hasProviderTokenValue}
+                                  type="provider"
+                                />
                               </fieldset>
                             )}
                             {supportsPackageTokens && (
@@ -455,7 +459,11 @@ export default class ManagedPackageEdit extends Component {
                                 <Headline tag="legend">
                                   <FormattedMessage id="ui-eholdings.package.token" />
                                 </Headline>
-                                <TokenField token={model.packageToken} tokenValue={hasPackageTokenValue} type="package" />
+                                <TokenField
+                                  token={model.packageToken}
+                                  tokenValue={hasPackageTokenValue}
+                                  type="package"
+                                />
                               </fieldset>
                             )}
                           </Accordion>
