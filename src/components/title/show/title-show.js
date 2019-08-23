@@ -208,7 +208,7 @@ class TitleShow extends Component {
           sections={sections}
           handleExpandAll={this.handleExpandAll}
           lastMenu={this.lastMenu}
-          role="tablist"
+          ariaRole="tablist"
           bodyContent={(
 
             <Accordion

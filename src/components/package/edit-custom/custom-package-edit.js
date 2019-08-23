@@ -257,7 +257,7 @@ export default class CustomPackageEdit extends Component {
                 actionMenu={this.getActionMenu}
                 handleExpandAll={this.toggleAllSections}
                 sections={sections}
-                role="tablist"
+                ariaRole="tablist"
                 lastMenu={(
                   <Fragment>
                     {model.update.isPending && (

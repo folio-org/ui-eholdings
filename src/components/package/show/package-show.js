@@ -670,7 +670,7 @@ class PackageShow extends Component {
           onListToggle={this.handleSectionToggle}
           resultsLength={model.resources.length}
           renderList={this.renderTitlesList}
-          role="tablist"
+          ariaRole="tablist"
         />
         <Modal
           open={showSelectionModal}

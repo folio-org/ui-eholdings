@@ -39,6 +39,7 @@ class DetailsView extends Component {
       PropTypes.func,
       PropTypes.node
     ]),
+    ariaRole: PropTypes.string,
     bodyContent: PropTypes.node.isRequired,
     handleExpandAll: PropTypes.func,
     history: ReactRouterPropTypes.history.isRequired,
@@ -65,7 +66,6 @@ class DetailsView extends Component {
     ]),
     renderList: PropTypes.func,
     resultsLength: PropTypes.number,
-    role: PropTypes.string,
     searchModal: PropTypes.node,
     sections: PropTypes.object,
     type: PropTypes.string.isRequired
@@ -212,7 +212,8 @@ class DetailsView extends Component {
       listSectionId,
       onListToggle,
       history,
-      location
+      location,
+      ariaRole,
     } = this.props;
 
     const { isSticky } = this.state;
@@ -323,7 +324,7 @@ class DetailsView extends Component {
                 </div>
               )}
             </div>,
-            <div role={this.props.role}>
+            <div role={ariaRole}>
               <div key="body" className={styles.body}>
                 {bodyContent}
               </div>

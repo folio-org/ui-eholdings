@@ -347,7 +347,7 @@ class ProviderShow extends Component {
           onListToggle={this.handleSectionToggle}
           resultsLength={packages.length}
           renderList={this.renderPackagesList}
-          role="tablist"
+          ariaRole="tablist"
         />
       </Fragment>
     );
