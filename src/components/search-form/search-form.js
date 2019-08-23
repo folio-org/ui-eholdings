@@ -263,7 +263,7 @@ class SearchForm extends Component {
               {placeholder => (
                 <Fragment>
                   {(searchType === searchTypes.TITLES) && (
-                    <FormattedMessage id="ui-eholdings.search.searchField">
+                    <FormattedMessage id="ui-eholdings.search.selectFieldToSearch">
                       {(ariaLabel) => (
                         <Select
                           onChange={this.handleChangeIndex}
@@ -286,10 +286,7 @@ class SearchForm extends Component {
                       )}
                     </FormattedMessage>
                   )}
-                  <FormattedMessage
-                    id="ui-eholdings.search.enterQueryToSearchFor"
-                    values={{ searchType }}
-                  >
+                  <FormattedMessage id="ui-eholdings.search.enterYourSearch">
                     {(ariaLabel) => (
                       <SearchField
                         name="search"
