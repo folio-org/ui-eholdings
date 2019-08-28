@@ -1,4 +1,4 @@
-import React, { Component, Fragment } from 'react';
+import React, { Component } from 'react';
 import { Field } from 'react-final-form';
 import { FieldArray } from 'react-final-form-arrays';
 import {
@@ -12,7 +12,6 @@ import isEqual from 'lodash/isEqual';
 
 import {
   Datepicker,
-  Icon,
   RepeatableField,
 } from '@folio/stripes/components';
 
