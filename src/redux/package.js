@@ -4,7 +4,7 @@ class Package {
   name = '';
   providerId = null;
   providerName = '';
-  isSelected = null;
+  isSelected = false;
   allowKbToAddTitles = null; // This could default to false after RM API starts sending this attribute in packages list to mod-kb-ebsco
   contentType = '';
   selectedCount = 0;
