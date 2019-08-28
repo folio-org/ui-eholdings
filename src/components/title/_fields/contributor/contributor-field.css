@@ -1,6 +1,14 @@
-.contributor-fields-contributor,
-.contributor-fields-type {
+.contributor-fields {
+  display: flex;
+}
+
+.contributor-fields-type,
+.contributor-fields-name {
   align-self: flex-start;
   flex: 1 1 200px;
   margin-right: 1em;
+}
+
+.contributor-fields-name {
+  margin-right: 0;
 }

@@ -52,7 +52,7 @@ export default class ContributorField extends Component {
     return (
       <div
         data-test-eholdings-contributor-type
-        className={styles['contributor-fields-contributor']}
+        className={styles['contributor-fields-type']}
       >
         <Field
           name={`${contributor}.type`}
@@ -80,7 +80,7 @@ export default class ContributorField extends Component {
     return (
       <div
         data-test-eholdings-contributor-contributor
-        className={styles['contributor-fields-contributor']}
+        className={styles['contributor-fields-name']}
       >
         <Field
           name={`${contributor}.contributor`}
@@ -96,19 +96,15 @@ export default class ContributorField extends Component {
 
   renderFields = (contributor) => {
     return (
-      <Fragment>
+      <div className={styles['contributor-fields']}>
         {this.renderContributorTypeField(contributor)}
         {this.renderContributorNameField(contributor)}
-      </Fragment>
+      </div>
     );
   }
 
   render() {
-    const addLabel = (
-      <Icon icon="plus-sign">
-        <FormattedMessage id="ui-eholdings.title.contributor.addContributor" />
-      </Icon>
-    );
+    const addLabel = <FormattedMessage id="ui-eholdings.title.contributor.addContributor" />;
 
     const legend = (
       <Headline tag="h4">

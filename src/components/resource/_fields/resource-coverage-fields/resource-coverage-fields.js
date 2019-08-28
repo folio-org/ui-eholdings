@@ -1,7 +1,4 @@
-import React, {
-  Component,
-  Fragment
-} from 'react';
+import React, { Component } from 'react';
 
 import PropTypes from 'prop-types';
 import { Field } from 'react-final-form';
@@ -17,7 +14,6 @@ import isEqual from 'lodash/isEqual';
 import has from 'lodash/has';
 
 import {
-  Icon,
   RepeatableField,
   Datepicker,
   RadioButton,
@@ -62,11 +58,7 @@ class ResourceCoverageFields extends Component {
 
     return (
       <RepeatableField
-        addLabel={
-          <Icon icon="plus-sign">
-            <FormattedMessage id="ui-eholdings.package.coverage.addDateRange" />
-          </Icon>
-        }
+        addLabel={<FormattedMessage id="ui-eholdings.package.coverage.addDateRange" />}
         emptyMessage={this.renderEmptyMessage(initialValues)}
         fields={fields}
         name={fieldsName}
@@ -139,11 +131,7 @@ class ResourceCoverageFields extends Component {
           />
           <div className={styles['coverage-fields-category']}>
             <RepeatableField
-              addLabel={
-                <Icon icon="plus-sign">
-                  <FormattedMessage id="ui-eholdings.package.coverage.addDateRange" />
-                </Icon>
-              }
+              addLabel={<FormattedMessage id="ui-eholdings.package.coverage.addDateRange" />}
               emptyMessage={this.renderEmptyMessage(initialValues)}
               fields={fields}
               name={fieldsName}
@@ -163,7 +151,7 @@ class ResourceCoverageFields extends Component {
       : 'managed-coverage-fields-datepicker';
 
     return (
-      <Fragment>
+      <div className={styles['coverage-fields']}>
         <div
           data-test-eholdings-coverage-fields-date-range-begin
           className={styles[className]}
@@ -192,7 +180,7 @@ class ResourceCoverageFields extends Component {
             timeZone="UTC"
           />
         </div>
-      </Fragment>
+      </div>
     );
   }
 

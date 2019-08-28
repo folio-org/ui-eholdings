@@ -61,7 +61,7 @@ class PackageCoverageFields extends Component {
     const formatField = value => (value ? moment.utc(value) : '');
 
     return (
-      <Fragment>
+      <div className={styles['coverage-fields']}>
         <div
           data-test-eholdings-coverage-fields-date-range-begin
           className={styles['coverage-fields-datepicker']}
@@ -90,7 +90,7 @@ class PackageCoverageFields extends Component {
             timeZone="UTC"
           />
         </div>
-      </Fragment>
+      </div>
     );
   }
 
@@ -98,7 +98,7 @@ class PackageCoverageFields extends Component {
     const hasAddButton = fields.length === 0 || (fields.length === 1 && !initial[0]);
     const hasEmptyMessage = initial.length > 0 && initial[0].beginCoverage;
     const addLabel = hasAddButton
-      ? <Icon icon="plus-sign"><FormattedMessage id="ui-eholdings.package.coverage.addDateRange" /></Icon>
+      ? <FormattedMessage id="ui-eholdings.package.coverage.addDateRange" />
       : null;
 
     const emptyMessage = hasEmptyMessage

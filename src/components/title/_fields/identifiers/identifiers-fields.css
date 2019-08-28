@@ -1,5 +1,13 @@
+.identifiers-fields {
+  display: flex;
+}
+
 .identifiers-fields-field {
   align-self: flex-start;
   flex: 1 1 200px;
   margin-right: 1em;
+}
+
+.identifiers-fields-field:last-child {
+  margin-right: 0;
 }

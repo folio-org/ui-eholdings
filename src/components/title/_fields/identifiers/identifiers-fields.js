@@ -30,7 +30,7 @@ export default class IdentifiersFields extends Component {
 
   renderField = (identifier) => {
     return (
-      <Fragment>
+      <div className={styles['identifiers-fields']}>
         <div
           data-test-eholdings-identifiers-fields-type
           className={styles['identifiers-fields-field']}
@@ -73,7 +73,7 @@ export default class IdentifiersFields extends Component {
             )}
           </FormattedMessage>
         </div>
-      </Fragment>
+      </div>
     );
   }
 
@@ -83,11 +83,7 @@ export default class IdentifiersFields extends Component {
         <FieldArray name="identifiers">
           {({ fields, meta: { initial } }) => (
             <RepeatableField
-              addLabel={
-                <Icon icon="plus-sign">
-                  <FormattedMessage id="ui-eholdings.title.identifier.addIdentifier" />
-                </Icon>
-              }
+              addLabel={<FormattedMessage id="ui-eholdings.title.identifier.addIdentifier" />}
               emptyMessage={
                 initial && initial.length > 0 && initial[0].id ?
                   <FormattedMessage id="ui-eholdings.title.identifier.notSet" /> : ''
