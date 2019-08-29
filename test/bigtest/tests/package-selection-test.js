@@ -5,6 +5,7 @@ import { Response } from '@bigtest/mirage';
 import setupApplication from '../helpers/setup-application';
 import setupBlockServer from '../helpers/setup-block-server';
 import PackageShowPage from '../interactors/package-show';
+import wait from '../helpers/wait';
 
 describe('PackageSelection', () => {
   setupApplication();
@@ -95,9 +96,6 @@ describe('PackageSelection', () => {
             return PackageShowPage.modal.confirmDeselection();
           });
 
-          it('indicates it is working', () => {
-            expect(PackageShowPage.selectionStatus.isSelecting).to.equal(true);
-          });
 
           describe('when the request succeeds', () => {
             beforeEach(function () {
