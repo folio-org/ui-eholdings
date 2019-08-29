@@ -20,6 +20,35 @@ class Package {
     tagList: []
   };
 
+  serialize() {
+    const data = {
+      id: this.id,
+      type: this.type,
+      attributes: {},
+    };
+    const isNewPackage = !this.id;
+
+    if (isNewPackage) {
+      for (const attr of Object.keys(this.data.attributes)) {
+        data.attributes[attr] = this[attr];
+      }
+    } else {
+      data.attributes = {
+        name: this.name,
+        isSelected: this.isSelected,
+        allowKbToAddTitles: this.allowKbToAddTitles,
+        contentType: this.contentType,
+        customCoverage: this.customCoverage,
+        visibilityData: this.visibilityData,
+        isCustom: this.isCustom,
+        proxy: this.proxy,
+        packageToken: this.packageToken,
+      };
+    }
+
+    return { data };
+  }
+
   get isPartiallySelected() {
     return this.selectedCount > 0 && this.selectedCount !== this.titleCount;
   }
