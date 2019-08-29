@@ -6,10 +6,11 @@ import {
   Headline,
   RepeatableField,
   Select,
-  TextField
+  TextField,
+  Row,
+  Col,
 } from '@folio/stripes/components';
 import { FormattedMessage } from 'react-intl';
-import styles from './contributor-field.css';
 
 const contributorTypeOptions = [
   {
@@ -49,21 +50,20 @@ export default class ContributorField extends Component {
 
   renderContributorTypeField(contributor) {
     return (
-      <div
-        data-test-eholdings-contributor-type
-        className={styles['contributor-fields-type']}
-      >
-        <Field
-          name={`${contributor}.type`}
-          component={Select}
-          autoFocus
-          label={<FormattedMessage id="ui-eholdings.type" />}
-          id={`${contributor}-type`}
-          validate={this.validateContributorType}
-        >
-          {this.renderContributorTypeOptions()}
-        </Field>
-      </div>
+      <Col md xs={12}>
+        <div data-test-eholdings-contributor-type>
+          <Field
+            name={`${contributor}.type`}
+            component={Select}
+            autoFocus
+            label={<FormattedMessage id="ui-eholdings.type" />}
+            id={`${contributor}-type`}
+            validate={this.validateContributorType}
+          >
+            {this.renderContributorTypeOptions()}
+          </Field>
+        </div>
+      </Col>
     );
   }
 
@@ -77,28 +77,27 @@ export default class ContributorField extends Component {
 
   renderContributorNameField(contributor) {
     return (
-      <div
-        data-test-eholdings-contributor-contributor
-        className={styles['contributor-fields-name']}
-      >
-        <Field
-          name={`${contributor}.contributor`}
-          type="text"
-          id={`${contributor}-input`}
-          component={TextField}
-          label={<FormattedMessage id="ui-eholdings.name" />}
-          validate={this.validateName}
-        />
-      </div>
+      <Col md xs={12}>
+        <div data-test-eholdings-contributor-contributor>
+          <Field
+            name={`${contributor}.contributor`}
+            type="text"
+            id={`${contributor}-input`}
+            component={TextField}
+            label={<FormattedMessage id="ui-eholdings.name" />}
+            validate={this.validateName}
+          />
+        </div>
+      </Col>
     );
   }
 
   renderFields = (contributor) => {
     return (
-      <div className={styles['contributor-fields']}>
+      <Row>
         {this.renderContributorTypeField(contributor)}
         {this.renderContributorNameField(contributor)}
-      </div>
+      </Row>
     );
   }
 

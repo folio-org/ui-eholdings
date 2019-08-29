@@ -17,6 +17,8 @@ import {
   RepeatableField,
   Datepicker,
   RadioButton,
+  Row,
+  Col,
 } from '@folio/stripes/components';
 
 import CoverageDateList from '../../../coverage-date-list';
@@ -146,41 +148,35 @@ class ResourceCoverageFields extends Component {
   };
 
   renderField = (dateRange) => {
-    const className = this.props.model.isTitleCustom
-      ? 'custom-coverage-fields-datepicker'
-      : 'managed-coverage-fields-datepicker';
-
     return (
-      <div className={styles['coverage-fields']}>
-        <div
-          data-test-eholdings-coverage-fields-date-range-begin
-          className={styles[className]}
-        >
-          <Field
-            name={`${dateRange}.beginCoverage`}
-            type="text"
-            component={Datepicker}
-            label={<FormattedMessage id="ui-eholdings.date.startDate" />}
-            id="begin-coverage"
-            format={this.formatDate}
-            timeZone="UTC"
-          />
-        </div>
-        <div
-          data-test-eholdings-coverage-fields-date-range-end
-          className={styles[className]}
-        >
-          <Field
-            name={`${dateRange}.endCoverage`}
-            type="text"
-            component={Datepicker}
-            label={<FormattedMessage id="ui-eholdings.date.endDate" />}
-            id="end-coverage"
-            format={this.formatDate}
-            timeZone="UTC"
-          />
-        </div>
-      </div>
+      <Row>
+        <Col md xs={12}>
+          <div data-test-eholdings-coverage-fields-date-range-begin>
+            <Field
+              name={`${dateRange}.beginCoverage`}
+              type="text"
+              component={Datepicker}
+              label={<FormattedMessage id="ui-eholdings.date.startDate" />}
+              id="begin-coverage"
+              format={this.formatDate}
+              timeZone="UTC"
+            />
+          </div>
+        </Col>
+        <Col md xs={12}>
+          <div data-test-eholdings-coverage-fields-date-range-end>
+            <Field
+              name={`${dateRange}.endCoverage`}
+              type="text"
+              component={Datepicker}
+              label={<FormattedMessage id="ui-eholdings.date.endDate" />}
+              id="end-coverage"
+              format={this.formatDate}
+              timeZone="UTC"
+            />
+          </div>
+        </Col>
+      </Row>
     );
   }
 

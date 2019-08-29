@@ -6,11 +6,12 @@ import {
   Headline,
   RepeatableField,
   Select,
-  TextField
+  TextField,
+  Col,
+  Row,
 } from '@folio/stripes/components';
 
 import { FormattedMessage } from 'react-intl';
-import styles from './identifiers-fields.css';
 
 export default class IdentifiersFields extends Component {
   validateId(value) {
@@ -29,50 +30,48 @@ export default class IdentifiersFields extends Component {
 
   renderField = (identifier) => {
     return (
-      <div className={styles['identifiers-fields']}>
-        <div
-          data-test-eholdings-identifiers-fields-type
-          className={styles['identifiers-fields-field']}
-        >
-          <Field
-            name={`${identifier}.flattenedType`}
-            type="text"
-            component={Select}
-            autoFocus={Object.keys(identifier).length === 0}
-            label={<FormattedMessage id="ui-eholdings.type" />}
-          >
-            <FormattedMessage id="ui-eholdings.label.identifier.issnOnline">
-              {(message) => <option value="0">{message}</option>}
+      <Row>
+        <Col md xs={12}>
+          <div data-test-eholdings-identifiers-fields-type>
+            <Field
+              name={`${identifier}.flattenedType`}
+              type="text"
+              component={Select}
+              autoFocus={Object.keys(identifier).length === 0}
+              label={<FormattedMessage id="ui-eholdings.type" />}
+            >
+              <FormattedMessage id="ui-eholdings.label.identifier.issnOnline">
+                {(message) => <option value="0">{message}</option>}
+              </FormattedMessage>
+              <FormattedMessage id="ui-eholdings.label.identifier.issnPrint">
+                {(message) => <option value="1">{message}</option>}
+              </FormattedMessage>
+              <FormattedMessage id="ui-eholdings.label.identifier.isbnOnline">
+                {(message) => <option value="2">{message}</option>}
+              </FormattedMessage>
+              <FormattedMessage id="ui-eholdings.label.identifier.isbnPrint">
+                {(message) => <option value="3">{message}</option>}
+              </FormattedMessage>
+            </Field>
+          </div>
+        </Col>
+        <Col md xs={12}>
+          <div data-test-eholdings-identifiers-fields-id>
+            <FormattedMessage id="ui-eholdings.id">
+              {(fieldName) => (
+                <Field
+                  name={`${identifier}.id`}
+                  type="text"
+                  component={TextField}
+                  label={fieldName}
+                  validate={this.validateId}
+                  ariaLabel={fieldName}
+                />
+              )}
             </FormattedMessage>
-            <FormattedMessage id="ui-eholdings.label.identifier.issnPrint">
-              {(message) => <option value="1">{message}</option>}
-            </FormattedMessage>
-            <FormattedMessage id="ui-eholdings.label.identifier.isbnOnline">
-              {(message) => <option value="2">{message}</option>}
-            </FormattedMessage>
-            <FormattedMessage id="ui-eholdings.label.identifier.isbnPrint">
-              {(message) => <option value="3">{message}</option>}
-            </FormattedMessage>
-          </Field>
-        </div>
-        <div
-          data-test-eholdings-identifiers-fields-id
-          className={styles['identifiers-fields-field']}
-        >
-          <FormattedMessage id="ui-eholdings.id">
-            {(fieldName) => (
-              <Field
-                name={`${identifier}.id`}
-                type="text"
-                component={TextField}
-                label={fieldName}
-                validate={this.validateId}
-                ariaLabel={fieldName}
-              />
-            )}
-          </FormattedMessage>
-        </div>
-      </div>
+          </div>
+        </Col>
+      </Row>
     );
   }
 

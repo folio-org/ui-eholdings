@@ -13,9 +13,10 @@ import isEqual from 'lodash/isEqual';
 import {
   Datepicker,
   RepeatableField,
+  Col,
+  Row,
 } from '@folio/stripes/components';
 
-import styles from './package-coverage-fields.css';
 
 class PackageCoverageFields extends Component {
   static propTypes = {
@@ -60,36 +61,34 @@ class PackageCoverageFields extends Component {
     const formatField = value => (value ? moment.utc(value) : '');
 
     return (
-      <div className={styles['coverage-fields']}>
-        <div
-          data-test-eholdings-coverage-fields-date-range-begin
-          className={styles['coverage-fields-datepicker']}
-        >
-          <Field
-            name={`${dateRange}.beginCoverage`}
-            type="text"
-            component={Datepicker}
-            label={<FormattedMessage id="ui-eholdings.date.startDate" />}
-            format={formatField}
-            validate={this.validateCoverageDate}
-            timeZone="UTC"
-          />
-        </div>
-        <div
-          data-test-eholdings-coverage-fields-date-range-end
-          className={styles['coverage-fields-datepicker']}
-        >
-          <Field
-            name={`${dateRange}.endCoverage`}
-            type="text"
-            component={Datepicker}
-            label={<FormattedMessage id="ui-eholdings.date.endDate" />}
-            format={formatField}
-            validate={this.validateCoverageDate}
-            timeZone="UTC"
-          />
-        </div>
-      </div>
+      <Row>
+        <Col md xs={12}>
+          <div data-test-eholdings-coverage-fields-date-range-begin>
+            <Field
+              name={`${dateRange}.beginCoverage`}
+              type="text"
+              component={Datepicker}
+              label={<FormattedMessage id="ui-eholdings.date.startDate" />}
+              format={formatField}
+              validate={this.validateCoverageDate}
+              timeZone="UTC"
+            />
+          </div>
+        </Col>
+        <Col md xs={12}>
+          <div data-test-eholdings-coverage-fields-date-range-end>
+            <Field
+              name={`${dateRange}.endCoverage`}
+              type="text"
+              component={Datepicker}
+              label={<FormattedMessage id="ui-eholdings.date.endDate" />}
+              format={formatField}
+              validate={this.validateCoverageDate}
+              timeZone="UTC"
+            />
+          </div>
+        </Col>
+      </Row>
     );
   }
 
