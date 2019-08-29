@@ -1,7 +1,4 @@
-import React, {
-  Component,
-  Fragment
-} from 'react';
+import React, { Component } from 'react';
 
 import PropTypes from 'prop-types';
 import { Field } from 'react-final-form';
@@ -17,10 +14,11 @@ import isEqual from 'lodash/isEqual';
 import has from 'lodash/has';
 
 import {
-  Icon,
   RepeatableField,
   Datepicker,
   RadioButton,
+  Row,
+  Col,
 } from '@folio/stripes/components';
 
 import CoverageDateList from '../../../coverage-date-list';
@@ -62,11 +60,7 @@ class ResourceCoverageFields extends Component {
 
     return (
       <RepeatableField
-        addLabel={
-          <Icon icon="plus-sign">
-            <FormattedMessage id="ui-eholdings.package.coverage.addDateRange" />
-          </Icon>
-        }
+        addLabel={<FormattedMessage id="ui-eholdings.package.coverage.addDateRange" />}
         emptyMessage={this.renderEmptyMessage(initialValues)}
         fields={fields}
         name={fieldsName}
@@ -139,11 +133,7 @@ class ResourceCoverageFields extends Component {
           />
           <div className={styles['coverage-fields-category']}>
             <RepeatableField
-              addLabel={
-                <Icon icon="plus-sign">
-                  <FormattedMessage id="ui-eholdings.package.coverage.addDateRange" />
-                </Icon>
-              }
+              addLabel={<FormattedMessage id="ui-eholdings.package.coverage.addDateRange" />}
               emptyMessage={this.renderEmptyMessage(initialValues)}
               fields={fields}
               name={fieldsName}
@@ -158,15 +148,12 @@ class ResourceCoverageFields extends Component {
   };
 
   renderField = (dateRange) => {
-    const className = this.props.model.isTitleCustom
-      ? 'custom-coverage-fields-datepicker'
-      : 'managed-coverage-fields-datepicker';
-
     return (
-      <Fragment>
-        <div
+      <Row>
+        <Col
+          md
+          xs={12}
           data-test-eholdings-coverage-fields-date-range-begin
-          className={styles[className]}
         >
           <Field
             name={`${dateRange}.beginCoverage`}
@@ -177,10 +164,11 @@ class ResourceCoverageFields extends Component {
             format={this.formatDate}
             timeZone="UTC"
           />
-        </div>
-        <div
+        </Col>
+        <Col
+          md
+          xs={12}
           data-test-eholdings-coverage-fields-date-range-end
-          className={styles[className]}
         >
           <Field
             name={`${dateRange}.endCoverage`}
@@ -191,8 +179,8 @@ class ResourceCoverageFields extends Component {
             format={this.formatDate}
             timeZone="UTC"
           />
-        </div>
-      </Fragment>
+        </Col>
+      </Row>
     );
   }
 
