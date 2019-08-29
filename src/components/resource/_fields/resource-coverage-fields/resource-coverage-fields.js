@@ -150,31 +150,35 @@ class ResourceCoverageFields extends Component {
   renderField = (dateRange) => {
     return (
       <Row>
-        <Col md xs={12}>
-          <div data-test-eholdings-coverage-fields-date-range-begin>
-            <Field
-              name={`${dateRange}.beginCoverage`}
-              type="text"
-              component={Datepicker}
-              label={<FormattedMessage id="ui-eholdings.date.startDate" />}
-              id="begin-coverage"
-              format={this.formatDate}
-              timeZone="UTC"
-            />
-          </div>
+        <Col
+          md
+          xs={12}
+          data-test-eholdings-coverage-fields-date-range-begin
+        >
+          <Field
+            name={`${dateRange}.beginCoverage`}
+            type="text"
+            component={Datepicker}
+            label={<FormattedMessage id="ui-eholdings.date.startDate" />}
+            id="begin-coverage"
+            format={this.formatDate}
+            timeZone="UTC"
+          />
         </Col>
-        <Col md xs={12}>
-          <div data-test-eholdings-coverage-fields-date-range-end>
-            <Field
-              name={`${dateRange}.endCoverage`}
-              type="text"
-              component={Datepicker}
-              label={<FormattedMessage id="ui-eholdings.date.endDate" />}
-              id="end-coverage"
-              format={this.formatDate}
-              timeZone="UTC"
-            />
-          </div>
+        <Col
+          md
+          xs={12}
+          data-test-eholdings-coverage-fields-date-range-end
+        >
+          <Field
+            name={`${dateRange}.endCoverage`}
+            type="text"
+            component={Datepicker}
+            label={<FormattedMessage id="ui-eholdings.date.endDate" />}
+            id="end-coverage"
+            format={this.formatDate}
+            timeZone="UTC"
+          />
         </Col>
       </Row>
     );

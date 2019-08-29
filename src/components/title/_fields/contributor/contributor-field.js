@@ -50,19 +50,21 @@ export default class ContributorField extends Component {
 
   renderContributorTypeField(contributor) {
     return (
-      <Col md xs={12}>
-        <div data-test-eholdings-contributor-type>
-          <Field
-            name={`${contributor}.type`}
-            component={Select}
-            autoFocus
-            label={<FormattedMessage id="ui-eholdings.type" />}
-            id={`${contributor}-type`}
-            validate={this.validateContributorType}
-          >
-            {this.renderContributorTypeOptions()}
-          </Field>
-        </div>
+      <Col
+        md
+        xs={12}
+        data-test-eholdings-contributor-type
+      >
+        <Field
+          name={`${contributor}.type`}
+          component={Select}
+          autoFocus
+          label={<FormattedMessage id="ui-eholdings.type" />}
+          id={`${contributor}-type`}
+          validate={this.validateContributorType}
+        >
+          {this.renderContributorTypeOptions()}
+        </Field>
       </Col>
     );
   }
@@ -77,17 +79,19 @@ export default class ContributorField extends Component {
 
   renderContributorNameField(contributor) {
     return (
-      <Col md xs={12}>
-        <div data-test-eholdings-contributor-contributor>
-          <Field
-            name={`${contributor}.contributor`}
-            type="text"
-            id={`${contributor}-input`}
-            component={TextField}
-            label={<FormattedMessage id="ui-eholdings.name" />}
-            validate={this.validateName}
-          />
-        </div>
+      <Col
+        md
+        xs={12}
+        data-test-eholdings-contributor-contributor
+      >
+        <Field
+          name={`${contributor}.contributor`}
+          type="text"
+          id={`${contributor}-input`}
+          component={TextField}
+          label={<FormattedMessage id="ui-eholdings.name" />}
+          validate={this.validateName}
+        />
       </Col>
     );
   }

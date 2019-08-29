@@ -62,31 +62,35 @@ class PackageCoverageFields extends Component {
 
     return (
       <Row>
-        <Col md xs={12}>
-          <div data-test-eholdings-coverage-fields-date-range-begin>
-            <Field
-              name={`${dateRange}.beginCoverage`}
-              type="text"
-              component={Datepicker}
-              label={<FormattedMessage id="ui-eholdings.date.startDate" />}
-              format={formatField}
-              validate={this.validateCoverageDate}
-              timeZone="UTC"
-            />
-          </div>
+        <Col
+          md
+          xs={12}
+          data-test-eholdings-coverage-fields-date-range-begin
+        >
+          <Field
+            name={`${dateRange}.beginCoverage`}
+            type="text"
+            component={Datepicker}
+            label={<FormattedMessage id="ui-eholdings.date.startDate" />}
+            format={formatField}
+            validate={this.validateCoverageDate}
+            timeZone="UTC"
+          />
         </Col>
-        <Col md xs={12}>
-          <div data-test-eholdings-coverage-fields-date-range-end>
-            <Field
-              name={`${dateRange}.endCoverage`}
-              type="text"
-              component={Datepicker}
-              label={<FormattedMessage id="ui-eholdings.date.endDate" />}
-              format={formatField}
-              validate={this.validateCoverageDate}
-              timeZone="UTC"
-            />
-          </div>
+        <Col
+          md
+          xs={12}
+          data-test-eholdings-coverage-fields-date-range-end
+        >
+          <Field
+            name={`${dateRange}.endCoverage`}
+            type="text"
+            component={Datepicker}
+            label={<FormattedMessage id="ui-eholdings.date.endDate" />}
+            format={formatField}
+            validate={this.validateCoverageDate}
+            timeZone="UTC"
+          />
         </Col>
       </Row>
     );
