@@ -5,7 +5,6 @@ import { Response } from '@bigtest/mirage';
 import setupApplication from '../helpers/setup-application';
 import setupBlockServer from '../helpers/setup-block-server';
 import PackageShowPage from '../interactors/package-show';
-import wait from '../helpers/wait';
 
 describe('PackageSelection', () => {
   setupApplication();
