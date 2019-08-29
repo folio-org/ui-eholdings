@@ -10,6 +10,20 @@ class Provider {
   tags = {
     tagList: []
   };
+
+  serialize() {
+    const data = {
+      id: this.id,
+      type: this.type,
+      attributes: {
+        packagesSelected: this.packagesSelected,
+        proxy:this.proxy,
+        providerToken: this.providerToken,
+      },
+    };
+
+    return { data };
+  }
 }
 
 export default model({
