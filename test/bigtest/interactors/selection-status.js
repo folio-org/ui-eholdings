@@ -14,6 +14,6 @@ export default @interactor class PackageSelectionStatus {
     return this.selectionText === 'Selected';
   });
 
-  isSelecting = isPresent('[data-test-eholdings-package-details-selected] [class*=icon---][class*=iconSpinner]');
+  isSelecting = isPresent('[data-test-eholdings-package-details-selected] [class*=icon---] [class*=icon-spinner]');
   hasAddButton = isPresent('[data-test-eholdings-package-add-to-holdings-button]');
 }

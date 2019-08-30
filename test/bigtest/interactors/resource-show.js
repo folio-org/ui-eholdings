@@ -57,7 +57,7 @@ import Toast from './toast';
   hasContentType = isPresent('[data-test-eholdings-resource-show-content-type]');
   hasErrors = isPresent('[data-test-eholdings-details-view-error="resource"]');
   isResourceSelected = text('[data-test-eholdings-resource-show-selected] div');
-  isLoading = isPresent('[data-test-eholdings-resource-show-selected] [class*=icon---][class*=iconSpinner]');
+  isLoading = isPresent('[data-test-eholdings-resource-show-selected] [class*=icon---] [class*=icon-spinner]');
   hasBackButton = isPresent('[data-test-eholdings-details-view-back-button]');
   hasCollapseAllButton = isPresent('[data-test-eholdings-details-view-collapse-all-button]');
   collapseAllButtonText = text('[data-test-eholdings-details-view-collapse-all-button]');
