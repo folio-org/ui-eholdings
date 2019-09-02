@@ -1,5 +1,10 @@
 @import '@folio/stripes-components/lib/variables';
 
+.search-pane {
+  flex-basis: 320px;
+  flex-shrink: 0;
+}
+
 .search-pane-toggle {
   height: 45px;
   margin-bottom: 0;
