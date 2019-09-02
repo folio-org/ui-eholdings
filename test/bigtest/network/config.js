@@ -475,7 +475,9 @@ export default function config() {
     let filtered = true;
 
     if (tags) {
-      return tags.split(',').some(item => title.tags.tagList.includes(item));
+      return tags.split(',').some(item => {
+        return title.resources.models.some((resource => resource.tags.tagList.includes(item)));
+      });
     }
 
     if (name) {
