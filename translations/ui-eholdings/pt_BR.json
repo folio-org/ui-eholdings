@@ -324,5 +324,8 @@
     "provider.resultsNotFoundForQuery": "Nenhum fornecedor encontrado para '{query}'.",
     "title.resultsNotFoundForQuery": "Nenhum título encontrado para '{query}'.",
     "label.edit.custom.coverageDates": "Datas de cobertura personalizadas (insira vários intervalos de datas em ordem decrescente)",
-    "search.searchByTagsOnly": "Pesquisar apenas por tags"
+    "search.searchByTagsOnly": "Pesquisar apenas por tags",
+    "filter.togglePane": "Ocultar painel de filtros",
+    "search.enterYourSearch": "Digite sua pesquisa",
+    "search.selectFieldToSearch": "Selecione um campo para pesquisar"
 }

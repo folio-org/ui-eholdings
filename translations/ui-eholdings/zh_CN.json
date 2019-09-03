@@ -324,5 +324,8 @@
     "provider.resultsNotFoundForQuery": "找不到“{query}”的提供者。",
     "title.resultsNotFoundForQuery": "找不到“{query}”的标题。",
     "label.edit.custom.coverageDates": "自定义覆盖日期（按降序输入多个日期范围）",
-    "search.searchByTagsOnly": "Search by tags only"
+    "search.searchByTagsOnly": "Search by tags only",
+    "filter.togglePane": "Toggle filters pane",
+    "search.enterYourSearch": "Enter your search",
+    "search.selectFieldToSearch": "Select a field to search"
 }
