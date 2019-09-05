@@ -26,6 +26,7 @@ export default class CustomUrlFields extends Component {
           component={TextField}
           label={<FormattedMessage id="ui-eholdings.customUrl" />}
           validate={this.validate}
+          onBlur={null} // preventing validation that is in onBlur
         />
       </div>
     );
