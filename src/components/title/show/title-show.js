@@ -195,6 +195,8 @@ class TitleShow extends Component {
       submit: <FormattedMessage id="ui-eholdings.submit" />,
       cancel: <FormattedMessage id="ui-eholdings.cancel" />
     };
+    let submit;
+    const submitAddToCustomPackage = (event) => submit(event);
 
     return (
       <Fragment>
@@ -312,44 +314,48 @@ class TitleShow extends Component {
           )}
         />
 
-        <Form
-          onSubmit={addCustomPackage}
-          decorators={[focusOnErrors]}
-          render={({ handleSubmit }) => (
-            <Modal
-              open={showCustomPackageModal}
-              size="small"
-              label={modalMessage.header}
-              id="eholdings-custom-package-modal"
-              onSubmit={handleSubmit}
-              wrappingElement="form"
-              footer={(
-                <ModalFooter>
-                  <Button
-                    data-test-eholdings-custom-package-modal-submit
-                    buttonStyle="primary"
-                    disabled={request.isPending}
-                    type="submit"
-                  >
-                    {request.isPending ? modalMessage.saving : modalMessage.submit}
-                  </Button>
-                  <Button
-                    data-test-eholdings-custom-package-modal-cancel
-                    disabled={request.isPending}
-                    onClick={this.toggleCustomPackageModal}
-                  >
-                    <FormattedMessage id="ui-eholdings.cancel" />
-                  </Button>
-                </ModalFooter>
-              )}
-            >
-              <AddTitleToPackage
-                packageOptions={this.customPackageOptions}
-                {...this.props}
-              />
-            </Modal>
+        <Modal
+          open={showCustomPackageModal}
+          size="small"
+          label={modalMessage.header}
+          id="eholdings-custom-package-modal"
+          wrappingElement="form"
+          footer={(
+            <ModalFooter>
+              <Button
+                data-test-eholdings-custom-package-modal-submit
+                buttonStyle="primary"
+                disabled={request.isPending}
+                onClick={submitAddToCustomPackage}
+              >
+                {request.isPending ? modalMessage.saving : modalMessage.submit}
+              </Button>
+              <Button
+                data-test-eholdings-custom-package-modal-cancel
+                disabled={request.isPending}
+                onClick={this.toggleCustomPackageModal}
+              >
+                <FormattedMessage id="ui-eholdings.cancel" />
+              </Button>
+            </ModalFooter>
           )}
-        />
+        >
+          <Form
+            onSubmit={addCustomPackage}
+            decorators={[focusOnErrors]}
+            render={({ handleSubmit }) => {
+              submit = handleSubmit;
+              return (
+                <form>
+                  <AddTitleToPackage
+                    packageOptions={this.customPackageOptions}
+                  />
+                </form>
+              );
+            }}
+          />
+        </Modal>
+
       </Fragment>
     );
   }
