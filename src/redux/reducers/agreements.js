@@ -2,8 +2,11 @@ import {
   GET_AGREEMENTS,
   GET_AGREEMENTS_SUCCESS,
   GET_AGREEMENTS_FAILURE,
+  ATTACH_AGREEMENT_FAILURE,
   ADD_AGREEMENT,
 } from '../actions';
+
+import { formatErrors } from '../helpers';
 
 const handlers = {
   [GET_AGREEMENTS]: (state, action) => {
@@ -30,13 +33,20 @@ const handlers = {
   },
   [GET_AGREEMENTS_FAILURE]: (state, action) => {
     const {
-      payload: { error },
+      payload: { errors },
     } = action;
 
     return {
       ...state,
       isLoading: false,
-      error,
+      errors: formatErrors(errors),
+    };
+  },
+  [ATTACH_AGREEMENT_FAILURE]: (state, action) => {
+    return {
+      ...state,
+      isLoading: false,
+      errors: formatErrors(action.payload.errors),
     };
   },
   [ADD_AGREEMENT]: (state, action) => {
@@ -63,15 +73,13 @@ const handlers = {
 const initialState = {
   isLoading: false,
   items: [],
-  error: null,
+  errors: [],
 };
 
 export default function agreements(state, action) {
   const currentState = state || initialState;
 
-  if (handlers[action.type]) {
-    return handlers[action.type](currentState, action);
-  } else {
-    return currentState;
-  }
+  return handlers[action.type]
+    ? handlers[action.type](currentState, action)
+    : currentState;
 }
