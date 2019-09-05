@@ -22,13 +22,12 @@ export default ({ agreementsApi }) => (action$, store) => {
       const {
         payload: {
           refId,
-          isLoading,
         },
       } = action;
 
       return agreementsApi
         .getAll(state.okapi, refId)
         .map(response => getAgreementsSuccess(response))
-        .catch(error => Observable.of(getAgreementsFailure({ error, isLoading })));
+        .catch(errors => Observable.of(getAgreementsFailure({ errors })));
     });
 };

@@ -2,6 +2,8 @@ import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/observable/from';
 import 'rxjs/add/observable/of';
 import 'rxjs/add/operator/catch';
+import 'rxjs/add/observable/throw';
+
 import { omit } from 'lodash';
 
 import {
@@ -30,9 +32,6 @@ const doRequest = (url, params) => {
     .switchMap(response => {
       const body = parseResponseBody(response);
       return response.ok ? body : Observable.throw(body);
-    })
-    .catch(err => {
-      return Observable.of(err);
     });
 };
 
