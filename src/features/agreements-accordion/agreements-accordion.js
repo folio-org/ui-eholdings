@@ -16,6 +16,8 @@ import {
   Badge,
 } from '@folio/stripes/components';
 
+import Toaster from '../../components/toaster';
+
 import selectAgreements from '../../redux/selectors';
 import {
   attachAgreement as attachAgreementAction,
@@ -57,6 +59,15 @@ class AgreementsAccordion extends Component {
         <FormattedMessage id="ui-eholdings.agreements" />
       </Headline>
     );
+  }
+
+  getToastErrors() {
+    return this.props.agreements.errors.map((error) => {
+      return {
+        message: error.title,
+        type: 'error',
+      };
+    });
   }
 
   renderFindAgreementTrigger = (props) => {
@@ -126,16 +137,23 @@ class AgreementsAccordion extends Component {
     } = this.props;
 
     return (
-      <Accordion
-        id={id}
-        open={isOpen}
-        label={this.getAgreementsAccordionHeader()}
-        displayWhenOpen={this.getAgreementsAccordionButtons()}
-        displayWhenClosed={this.renderBadge()}
-        onToggle={onToggle}
-      >
-        <AgreementsList agreements={agreements} />
-      </Accordion>
+      <Fragment>
+        <Accordion
+          id={id}
+          open={isOpen}
+          label={this.getAgreementsAccordionHeader()}
+          displayWhenOpen={this.getAgreementsAccordionButtons()}
+          displayWhenClosed={this.renderBadge()}
+          onToggle={onToggle}
+        >
+          <AgreementsList agreements={agreements} />
+        </Accordion>
+
+        <Toaster
+          position="bottom"
+          toasts={this.getToastErrors()}
+        />
+      </Fragment>
     );
   }
 }
