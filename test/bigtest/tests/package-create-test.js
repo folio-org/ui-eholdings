@@ -74,6 +74,18 @@ describe('PackageCreate', () => {
       });
     });
 
+    describe('adding custom coverage', () => {
+      beforeEach(async () => {
+        await PackageCreatePage
+          .fillName('My Package')
+          .addCoverage();
+      });
+
+      it('does not display "Add date range" button when there is 1 date range row', () => {
+        expect(PackageCreatePage.hasAddCoverageButton).to.be.false;
+      });
+    });
+
     describe('creating a new package with custom coverages', () => {
       beforeEach(() => {
         return PackageCreatePage

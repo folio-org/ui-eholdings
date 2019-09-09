@@ -97,7 +97,7 @@ class PackageCoverageFields extends Component {
   }
 
   renderRepeatableField = ({ fields, name, meta: { initial } }) => {
-    const hasAddButton = fields.length === 0 || (fields.length === 1 && !initial[0]);
+    const hasAddButton = fields.length === 0;
     const hasEmptyMessage = initial.length > 0 && initial[0].beginCoverage;
     const addLabel = hasAddButton
       ? <FormattedMessage id="ui-eholdings.package.coverage.addDateRange" />
