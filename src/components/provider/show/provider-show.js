@@ -331,7 +331,6 @@ class ProviderShow extends Component {
           toasts={this.toasts}
           position="bottom"
         />
-
         <DetailsView
           type="provider"
           model={model}
@@ -348,6 +347,7 @@ class ProviderShow extends Component {
           onListToggle={this.handleSectionToggle}
           resultsLength={packages.length}
           renderList={this.renderPackagesList}
+          ariaRole="tablist"
         />
       </Fragment>
     );

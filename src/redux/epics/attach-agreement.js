@@ -34,6 +34,6 @@ export default ({ agreementsApi }) => (action$, store) => {
           attachAgreementSuccess();
           return addAgreement(pickAgreementProps(currentAgreement));
         })
-        .catch(error => Observable.of(attachAgreementFailure({ error })));
+        .catch(errors => Observable.of(attachAgreementFailure({ errors })));
     });
 };

@@ -775,10 +775,14 @@ describe('TitleSearch', () => {
         tagList: allTags.slice(0)
       }).toJSON();
 
-      this.server.create('title', {
+      const title = this.server.create('title', 'withPackages', {
         name: 'Test Urgent Tag',
-        tags: urgentTag
       });
+
+      const taggedResource = title.resources.models[0];
+
+      taggedResource.tags = urgentTag;
+      taggedResource.save();
     });
 
     it('displays tags accordion as closed', () => {

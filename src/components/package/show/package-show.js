@@ -654,7 +654,6 @@ class PackageShow extends Component {
           toasts={toasts}
           position="bottom"
         />
-
         <DetailsView
           type="package"
           model={model}
@@ -671,8 +670,8 @@ class PackageShow extends Component {
           onListToggle={this.handleSectionToggle}
           resultsLength={model.resources.length}
           renderList={this.renderTitlesList}
+          ariaRole="tablist"
         />
-
         <Modal
           open={showSelectionModal}
           size="small"

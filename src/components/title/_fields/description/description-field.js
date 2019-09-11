@@ -17,12 +17,17 @@ function validate(value) {
 export default function DescriptionField() {
   return (
     <div data-test-eholdings-description-textarea>
-      <Field
-        name="description"
-        component={TextArea}
-        label={<FormattedMessage id="ui-eholdings.title.description" />}
-        validate={validate}
-      />
+      <FormattedMessage id="ui-eholdings.title.description">
+        {(ariaLabel) => (
+          <Field
+            name="description"
+            component={TextArea}
+            label={ariaLabel}
+            validate={validate}
+            aria-label={ariaLabel}
+          />
+        )}
+      </FormattedMessage>
     </div>
   );
 }

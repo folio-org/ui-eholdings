@@ -7,6 +7,7 @@ import {
   GET_AGREEMENTS_SUCCESS,
   GET_AGREEMENTS_FAILURE,
   ADD_AGREEMENT,
+  ATTACH_AGREEMENT_FAILURE,
 } from '../../../../../src/redux/actions';
 
 describe('(reducer) agreements', () => {
@@ -14,7 +15,7 @@ describe('(reducer) agreements', () => {
     expect(agreements(undefined, {})).to.deep.equal({
       isLoading: false,
       items: [],
-      error: null,
+      errors: [],
     });
   });
 
@@ -64,14 +65,32 @@ describe('(reducer) agreements', () => {
     };
     const action = {
       type: GET_AGREEMENTS_FAILURE,
-      payload: {
-        error: 'error',
-      }
+      payload: { errors: 'error' }
     };
     const expectedState = {
       items: 'items',
       isLoading: false,
-      error: 'error',
+      errors: [
+        { title: 'error' },
+      ],
+    };
+
+    expect(agreements(actualState, action)).to.deep.equal(expectedState);
+  });
+
+  it('should handle ATTACH_AGREEMENT_FAILURE', () => {
+    const actualState = {
+      isLoading: true,
+    };
+    const action = {
+      type: ATTACH_AGREEMENT_FAILURE,
+      payload: { errors: 'error' }
+    };
+    const expectedState = {
+      isLoading: false,
+      errors: [
+        { title: 'error' },
+      ],
     };
 
     expect(agreements(actualState, action)).to.deep.equal(expectedState);

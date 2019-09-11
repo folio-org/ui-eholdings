@@ -295,7 +295,7 @@
     "provider.labels": "Labels",
     "tags.addTagFor": "Add tag for: <strong>{filter}</strong>",
     "tags": "Tags",
-    "add": "Add",
+    "add": "Aggiungi",
     "startDate": "Start Date",
     "status": "Status",
     "agreements": "Agreements",
@@ -324,5 +324,8 @@
     "provider.resultsNotFoundForQuery": "No providers found for '{query}'.",
     "title.resultsNotFoundForQuery": "No titles found for '{query}'.",
     "label.edit.custom.coverageDates": "Custom coverage dates (enter multiple date ranges in descending order)",
-    "search.searchByTagsOnly": "Search by tags only"
+    "search.searchByTagsOnly": "Search by tags only",
+    "filter.togglePane": "Toggle filters pane",
+    "search.enterYourSearch": "Enter your search",
+    "search.selectFieldToSearch": "Select a field to search"
 }

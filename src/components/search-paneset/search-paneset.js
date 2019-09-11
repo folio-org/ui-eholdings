@@ -152,11 +152,12 @@ export default class SearchPaneset extends Component {
     return (
       <Paneset>
         <Pane
-          tagName="aside"
+          tagName="section"
           onDismiss={this.toggleFilters}
           visible={!hideFilters}
           className={styles['search-pane']}
           paneTitle={(<FormattedMessage id="ui-eholdings.search.searchAndFilter" />)}
+          paneHeaderId="search-pane-header"
           lastMenu={showApply ? (
             <Button
               buttonStyle="transparent"

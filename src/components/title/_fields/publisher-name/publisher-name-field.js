@@ -11,12 +11,17 @@ function validate(value) {
 function PublisherNameField() {
   return (
     <div data-test-eholdings-publisher-name-field>
-      <Field
-        name="publisherName"
-        component={TextField}
-        label={<FormattedMessage id="ui-eholdings.title.publisherName" />}
-        validate={validate}
-      />
+      <FormattedMessage id="ui-eholdings.title.publisherName">
+        {(fieldName) => (
+          <Field
+            name="publisherName"
+            component={TextField}
+            label={fieldName}
+            validate={validate}
+            ariaLabel={fieldName}
+          />
+        )}
+      </FormattedMessage>
     </div>
   );
 }

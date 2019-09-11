@@ -1,16 +1,16 @@
-import React, { Component, Fragment } from 'react';
+import React, { Component } from 'react';
 import { Field } from 'react-final-form';
 import { FieldArray } from 'react-final-form-arrays';
 
 import {
   Headline,
-  Icon,
   RepeatableField,
   Select,
-  TextField
+  TextField,
+  Row,
+  Col,
 } from '@folio/stripes/components';
 import { FormattedMessage } from 'react-intl';
-import styles from './contributor-field.css';
 
 const contributorTypeOptions = [
   {
@@ -50,9 +50,10 @@ export default class ContributorField extends Component {
 
   renderContributorTypeField(contributor) {
     return (
-      <div
+      <Col
+        md
+        xs={12}
         data-test-eholdings-contributor-type
-        className={styles['contributor-fields-contributor']}
       >
         <Field
           name={`${contributor}.type`}
@@ -64,7 +65,7 @@ export default class ContributorField extends Component {
         >
           {this.renderContributorTypeOptions()}
         </Field>
-      </div>
+      </Col>
     );
   }
 
@@ -78,9 +79,10 @@ export default class ContributorField extends Component {
 
   renderContributorNameField(contributor) {
     return (
-      <div
+      <Col
+        md
+        xs={12}
         data-test-eholdings-contributor-contributor
-        className={styles['contributor-fields-contributor']}
       >
         <Field
           name={`${contributor}.contributor`}
@@ -90,25 +92,21 @@ export default class ContributorField extends Component {
           label={<FormattedMessage id="ui-eholdings.name" />}
           validate={this.validateName}
         />
-      </div>
+      </Col>
     );
   }
 
   renderFields = (contributor) => {
     return (
-      <Fragment>
+      <Row>
         {this.renderContributorTypeField(contributor)}
         {this.renderContributorNameField(contributor)}
-      </Fragment>
+      </Row>
     );
   }
 
   render() {
-    const addLabel = (
-      <Icon icon="plus-sign">
-        <FormattedMessage id="ui-eholdings.title.contributor.addContributor" />
-      </Icon>
-    );
+    const addLabel = <FormattedMessage id="ui-eholdings.title.contributor.addContributor" />;
 
     const legend = (
       <Headline tag="h4">
