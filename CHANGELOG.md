@@ -1,5 +1,22 @@
 # Change history for ui-eholdings
 
+## [2.0.0](https://github.com/folio-org/ui-eholdings/tree/v2.0.0) (2019-09-11)
+[Full Changelog](https://github.com/folio-org/ui-eholdings/compare/v1.9.0...v2.0.0)
+
+* Update tags endpoints(UIEH-745, UIEH-747, UIEH-748)
+* Fix audiobook misspelling causing inability to create a title(UIEH-763)
+* Update translation strings
+* Updated react-final-form and related dependencies(UIEH-770)
+* Remove tags from resource/package/provider PUT payload(UIEH-769)
+* Fix accessibility issues(UIEH-750)
+* Put repeatable fields on a single line(UIEH-773)
+* Fix height of the pane container to fit all content(UIEH-760)
+* Updated serializes to exclude not used attrs from PUT package and provider payloads(UIEH-777, UIEH-778)
+* Fix mirage handler for GET titles with tags filter(UIEH-758)
+* Add error handling for agreements endpoints(UIEH-766)
+* Fixed add to custom package modal(UIEH-761, UIEH-762)
+* Disallow to create more than 1 date coverage range on Package create page(UIEH-782)
+
 ## [1.9.0](https://github.com/folio-org/ui-eholdings/tree/v1.9.0) (2019-08-02)
 [Full Changelog](https://github.com/folio-org/ui-eholdings/compare/v1.5.0...v1.9.0)
 
