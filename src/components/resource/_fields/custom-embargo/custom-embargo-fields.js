@@ -111,7 +111,6 @@ export default class CustomEmbargoFields extends Component {
             <IconButton
               icon="trash"
               onClick={fields.pop}
-              size="small"
               ariaLabel={ariaLabel}
             />
           )}
