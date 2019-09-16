@@ -1,6 +1,7 @@
 import { beforeEach, describe, it } from '@bigtest/mocha';
 import { expect } from 'chai';
-import faker from 'faker';
+import { faker } from '@bigtest/mirage';
+
 
 import setupApplication from '../helpers/setup-application';
 import NotesAccordion from '../interactors/notes-accordion';
@@ -274,6 +275,7 @@ describe('Resource view', function () {
     describe('and a note in the notes list was clicked', () => {
       beforeEach(async () => {
         await notesAccordion.notes(0).click();
+        await noteView.whenLoaded();
       });
 
       it('should redirect to note view page', function () {
@@ -355,6 +357,7 @@ describe('Resource view', function () {
       describe('and edit button is clicked', () => {
         beforeEach(async () => {
           await noteView.clickEditButton();
+          await noteForm.when(() => noteForm.formFieldsAccordionIsDisplayed);
         });
 
         it('should redirect to note edit page', function () {

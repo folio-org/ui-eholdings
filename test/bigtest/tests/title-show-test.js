@@ -150,7 +150,7 @@ describe('TitleShow', () => {
   });
 
   describe('visiting the title page with some attributes undefined', () => {
-    beforeEach(function () {
+    beforeEach(async function () {
       title = this.server.create('title', {
         name: 'Cool Title',
         edition: 'Cool Edition',
@@ -161,6 +161,7 @@ describe('TitleShow', () => {
       title.save();
       resources = title.resources.models;
       this.visit(`/eholdings/titles/${title.id}`);
+      await TitleShowPage.whenLoaded();
     });
 
     it('displays the title name', () => {

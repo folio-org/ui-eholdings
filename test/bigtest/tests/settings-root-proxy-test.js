@@ -19,8 +19,8 @@ describe('With list of root proxies available to a customer', () => {
     });
 
     describe('choosing another root proxy from select', () => {
-      beforeEach(() => {
-        return SettingsRootProxyPage
+      beforeEach(async () => {
+        await SettingsRootProxyPage
           .chooseRootProxy('microstates')
           .save();
       });

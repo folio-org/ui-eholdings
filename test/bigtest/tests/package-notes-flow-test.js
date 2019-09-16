@@ -274,6 +274,7 @@ describe('Package view', function () {
     describe('and a note in the notes list was clicked', () => {
       beforeEach(async () => {
         await notesAccordion.notes(0).click();
+        await noteView.whenLoaded();
       });
 
       it('should redirect to note view page', function () {
@@ -355,6 +356,7 @@ describe('Package view', function () {
       describe('and edit button is clicked', () => {
         beforeEach(async () => {
           await noteView.clickEditButton();
+          await noteForm.when(() => noteForm.formFieldsAccordionIsDisplayed);
         });
 
         it('should redirect to note edit page', function () {

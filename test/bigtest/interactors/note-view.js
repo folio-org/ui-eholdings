@@ -14,6 +14,11 @@ import { AccordionInteractor } from '@folio/stripes-components/lib/Accordion/tes
 }
 
 @interactor class NoteView {
+  isLoaded = isPresent('[class^=note-view-content]');
+  whenLoaded() {
+    return this.when(() => this.isLoaded);
+  }
+
   noteType = text('[data-test-note-view-note-type]');
   noteTitle = text('[data-test-note-view-note-title]');
   noteDetails = text('[data-test-note-view-note-details]');
