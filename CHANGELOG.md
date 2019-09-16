@@ -1,5 +1,11 @@
 # Change history for ui-eholdings
 
+## [2.0.1](https://github.com/folio-org/ui-eholdings/tree/v2.0.1) (2019-09-16)
+[Full Changelog](https://github.com/folio-org/ui-eholdings/compare/v2.0.0...v2.0.1)
+
+* Regenerate yarn.lock for pointing all packages to npm-folio registry
+* Fix tests for Notes
+
 ## [2.0.0](https://github.com/folio-org/ui-eholdings/tree/v2.0.0) (2019-09-11)
 [Full Changelog](https://github.com/folio-org/ui-eholdings/compare/v1.9.0...v2.0.0)
 
