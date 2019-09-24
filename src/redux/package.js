@@ -43,6 +43,7 @@ class Package {
         isCustom: this.isCustom,
         proxy: this.proxy,
         packageToken: this.packageToken,
+        isFullPackage: this.isSelected && !this.isPartiallySelected,
       };
     }
 
