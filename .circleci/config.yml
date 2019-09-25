@@ -7,7 +7,7 @@ jobs:
     steps:
       - checkout
       - restore_cache:
-          key: package-v1-{{ checksum "package.lock" }}
+          key: package-v1-{{ checksum "package.json" }}
       - run:
           name: Install dependencies
           command: yarn install
@@ -15,7 +15,7 @@ jobs:
           root: ~/
           paths: project
       - save_cache:
-          key: package-v1-{{ checksum "yarn.lock" }}
+          key: package-v1-{{ checksum "package.json" }}
           paths:
             - ~/project/node_modules
 
