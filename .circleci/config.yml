@@ -7,7 +7,10 @@ jobs:
     steps:
       - checkout
       - restore_cache:
-          key: package-v1-{{ checksum "package.json" }}
+          keys:
+            - source-v1-{{ .Branch }}-{{ .Revision }}
+            - source-v1-{{ .Branch }}-
+            - source-v1-
       - run:
           name: Install dependencies
           command: yarn install
@@ -15,7 +18,7 @@ jobs:
           root: ~/
           paths: project
       - save_cache:
-          key: package-v1-{{ checksum "package.json" }}
+          key: source-v1-{{ .Branch }}-{{ .Revision }}
           paths:
             - ~/project/node_modules
 
