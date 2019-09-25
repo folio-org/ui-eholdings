@@ -7,10 +7,9 @@ jobs:
     steps:
       - checkout
       - restore_cache:
-          keys:
-            - source-v1-{{ .Branch }}-{{ .Revision }}
-            - source-v1-{{ .Branch }}-
-            - source-v1-
+          keys: 
+            - v1-node-modules-{{ checksum "yarn.lock" }}
+            - v1-node-modules-
       - run:
           name: Install dependencies
           command: yarn install
@@ -18,7 +17,7 @@ jobs:
           root: ~/
           paths: project
       - save_cache:
-          key: source-v1-{{ .Branch }}-{{ .Revision }}
+          key: v1-node-modules-{{ checksum "yarn.lock" }}
           paths:
             - ~/project/node_modules
 
