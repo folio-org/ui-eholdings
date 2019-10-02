@@ -445,7 +445,7 @@ export default function config() {
     return matchingPackage;
   });
 
-  this.put('/packages/:id', ({ packages, resources }, request) => {
+  this.put('/packages/:id/tags', ({ packages }, request) => {
     const matchingPackage = packages.find(request.params.id);
     const body = JSON.parse(request.requestBody);
     const {
@@ -453,7 +453,7 @@ export default function config() {
     } = body.data.attributes;
 
     matchingPackage.update('tags', tags);
-    
+
     return matchingPackage;
   });
 
@@ -644,7 +644,7 @@ export default function config() {
     matchingResource.title.update('edition', edition);
     matchingResource.title.update('identifiers', identifiers);
     matchingResource.update('proxy', proxy);
-   
+
     return matchingResource;
   });
   this.put('/resources/:id/tags', ({ resources }, request) => {
