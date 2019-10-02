@@ -80,19 +80,12 @@ describe('TitleSearch', () => {
   });
 
   it('filter accordions should be collapsed by default', () => {
-    expect(TitleSearchPage.tagsFilterAccordion.isOpen).to.be.false;
+    expect(TitleSearchPage.tagsSection.tagsAccordion.isOpen).to.be.false;
     expect(TitleSearchPage.typeFilterAccordion.isOpen).to.be.false;
     expect(TitleSearchPage.sortFilterAccordion.isOpen).to.be.false;
     expect(TitleSearchPage.selectionFilterAccordion.isOpen).to.be.false;
   });
 
-  it('should display tags multiselect disabled by default', () => {
-    expect(TitleSearchPage.tagsSection.tagsMultiselectIsDisabled).to.be.true;
-  });
-
-  it('search by tags tags checkbox should be not checked', () => {
-    expect(TitleSearchPage.tagsSection.tagsCheckboxIsChecked).to.be.false;
-  });
 
   describe('searching for a title', () => {
     beforeEach(() => {
@@ -805,7 +798,6 @@ describe('TitleSearch', () => {
       it('search by tags tags checkbox should be not checked', () => {
         expect(TitleSearchPage.tagsSection.tagsCheckboxIsChecked).to.be.false;
       });
-
 
       describe('and search by tags was enabled', () => {
         beforeEach(async () => {
