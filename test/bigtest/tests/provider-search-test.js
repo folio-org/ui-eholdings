@@ -38,20 +38,12 @@ describe('ProviderSearch', () => {
     expect(ProviderSearchPage.searchFieldIsDisabled).to.be.false;
   });
 
-  it('should display tags multiselect disabled by default', () => {
-    expect(ProviderSearchPage.tagsSection.tagsMultiselectIsDisabled).to.be.true;
-  });
-
-  it('search by tags tags checkbox should be not checked', () => {
-    expect(ProviderSearchPage.tagsSection.tagsCheckboxIsChecked).to.be.false;
-  });
-
   it('has a pre-results pane', () => {
     expect(ProviderSearchPage.hasPreSearchPane).to.equal(true);
   });
 
   it('filter accordions should be collapsed by default', () => {
-    expect(ProviderSearchPage.tagsFilterAccordion.isOpen).to.be.false;
+    expect(ProviderSearchPage.tagsSection.tagsAccordion.isOpen).to.be.false;
     expect(ProviderSearchPage.sortFilterAccordion.isOpen).to.be.false;
   });
 

@@ -44,7 +44,6 @@ import SearchBadge from './search-badge';
     '[data-test-search-form-type-switcher] a[class*=" primary--"]'
   ].join(','));
 
-  tagsFilterAccordion = new AccordionInteractor('#accordionTagFilter');
   sortFilterAccordion = new AccordionInteractor('#filter-packages-sort');
   selectionFilterAccordion = new AccordionInteractor('#filter-packages-selected');
   typeFilterAccordion = new AccordionInteractor('#filter-packages-type');

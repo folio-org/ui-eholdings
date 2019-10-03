@@ -49,7 +49,6 @@ import SearchBadge from './search-badge';
   hasPreSearchPane = isPresent('[data-test-eholdings-pre-search-pane]');
   searchBadge = new SearchBadge('[data-test-eholdings-results-pane-search-badge]');
   tagsSection = new TagsAccordion('[data-test-eholdings-tag-filter]');
-  tagsFilterAccordion = new AccordionInteractor('#accordionTagFilter');
   sortFilterAccordion = new AccordionInteractor('#filter-providers-sort');
   hasLoaded = computed(function () {
     return this.providerList().length > 0;

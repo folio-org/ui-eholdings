@@ -347,10 +347,19 @@ export default function config() {
     const {
       proxy,
       providerToken,
-      tags
     } = body.data.attributes;
     matchingProvider.update('proxy', proxy);
     matchingProvider.update('providerToken', providerToken);
+
+    return matchingProvider;
+  });
+
+  this.put('/providers/:id/tags', ({ providers }, request) => {
+    const matchingProvider = providers.find(request.params.id);
+    const body = JSON.parse(request.requestBody);
+    const {
+      tags
+    } = body.data.attributes;
     matchingProvider.update('tags', tags);
     return matchingProvider;
   });
@@ -417,7 +426,6 @@ export default function config() {
       contentType,
       proxy,
       packageToken,
-      tags
     } = body.data.attributes;
 
     const selectedCount = isSelected ? matchingResources.length : 0;
@@ -433,7 +441,19 @@ export default function config() {
     matchingPackage.update('contentType', contentType);
     matchingPackage.update('proxy', proxy);
     matchingPackage.update('packageToken', packageToken);
+
+    return matchingPackage;
+  });
+
+  this.put('/packages/:id/tags', ({ packages }, request) => {
+    const matchingPackage = packages.find(request.params.id);
+    const body = JSON.parse(request.requestBody);
+    const {
+      tags
+    } = body.data.attributes;
+
     matchingPackage.update('tags', tags);
+
     return matchingPackage;
   });
 
@@ -606,7 +626,6 @@ export default function config() {
       edition,
       identifiers,
       proxy,
-      tags
     } = body.data.attributes;
 
     matchingResource.update('isSelected', isSelected);
@@ -625,12 +644,20 @@ export default function config() {
     matchingResource.title.update('edition', edition);
     matchingResource.title.update('identifiers', identifiers);
     matchingResource.update('proxy', proxy);
-    matchingResource.update('tags', tags);
-
 
     return matchingResource;
   });
+  this.put('/resources/:id/tags', ({ resources }, request) => {
+    const matchingResource = resources.find(request.params.id);
+    const body = JSON.parse(request.requestBody);
+    const {
+      tags
+    } = body.data.attributes;
 
+    matchingResource.update('tags', tags);
+
+    return matchingResource;
+  });
   this.post('/resources', ({ resources, packages }, request) => {
     const body = JSON.parse(request.requestBody);
     const { packageId, titleId, url } = body.data.attributes;
