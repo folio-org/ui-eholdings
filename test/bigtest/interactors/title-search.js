@@ -52,7 +52,6 @@ import SearchBadge from './search-badge';
   hasPreSearchPane = isPresent('[data-test-eholdings-pre-search-pane]');
   clickNewButton = clickable('[data-test-eholdings-search-new-button]');
   tagsSection = new TagsAccordion('[data-test-eholdings-tag-filter]');
-  tagsFilterAccordion = new AccordionInteractor('#accordionTagFilter');
   sortFilterAccordion = new AccordionInteractor('#filter-titles-sort');
   selectionFilterAccordion = new AccordionInteractor('#filter-titles-selected');
   typeFilterAccordion = new AccordionInteractor('#filter-titles-type');

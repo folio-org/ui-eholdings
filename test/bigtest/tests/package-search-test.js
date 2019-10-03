@@ -38,12 +38,18 @@ describe('PackageSearch', () => {
     expect(PackageSearchPage.searchFieldIsDisabled).to.be.false;
   });
 
-  it('should display tags multiselect disabled by default', () => {
-    expect(PackageSearchPage.tagsSection.tagsMultiselectIsDisabled).to.be.true;
-  });
+  describe('clicking to open tags accordion', () => {
+    beforeEach(async () => {
+      await PackageSearchPage.tagsSection.clickTagHeader();
+    });
 
-  it('search by tags tags checkbox should be not checked', () => {
-    expect(PackageSearchPage.tagsSection.tagsCheckboxIsChecked).to.be.false;
+    it('should display tags multiselect disabled by default', () => {
+      expect(PackageSearchPage.tagsSection.tagsMultiselectIsDisabled).to.be.true;
+    });
+
+    it('search by tags tags checkbox should be not checked', () => {
+      expect(PackageSearchPage.tagsSection.tagsCheckboxIsChecked).to.be.false;
+    });
   });
 
   it('has a pre-results pane', () => {
@@ -51,7 +57,7 @@ describe('PackageSearch', () => {
   });
 
   it('filter accordions should be collapsed by default', () => {
-    expect(PackageSearchPage.tagsFilterAccordion.isOpen).to.be.false;
+    expect(PackageSearchPage.tagsSection.tagsAccordion.isOpen).to.be.false;
     expect(PackageSearchPage.typeFilterAccordion.isOpen).to.be.false;
     expect(PackageSearchPage.sortFilterAccordion.isOpen).to.be.false;
     expect(PackageSearchPage.selectionFilterAccordion.isOpen).to.be.false;
