@@ -12,9 +12,9 @@ import {
   Select
 } from '@folio/stripes/components';
 import SettingsDetailPane from '../settings-detail-pane';
-import { processErrors } from '../utilities';
-import Toaster from '../toaster';
-import PaneHeaderButton from '../pane-header-button';
+import { processErrors } from '../../utilities';
+import Toaster from '../../toaster';
+import PaneHeaderButton from '../../pane-header-button';
 
 const focusOnErrors = createFocusDecorator();
 

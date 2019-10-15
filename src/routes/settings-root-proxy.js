@@ -8,7 +8,7 @@ import { FormattedMessage } from 'react-intl';
 
 import { createResolver } from '../redux';
 import { ProxyType, RootProxy } from '../redux/application';
-import View from '../components/settings-root-proxy';
+import View from '../components/settings/settings-root-proxy';
 
 class SettingsRootProxyRoute extends Component {
   static propTypes = {
