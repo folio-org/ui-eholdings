@@ -2,11 +2,9 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import {
   PaneCloseLink,
+  Pane,
 } from '@folio/stripes/components';
 import { FormattedMessage } from 'react-intl';
-
-import { Pane } from '../paneset';
-import styles from './settings-detail-pane.css';
 
 class SettingsDetailPane extends Component {
   static propTypes = {
@@ -25,7 +23,7 @@ class SettingsDetailPane extends Component {
       <Pane
         {...paneProps}
         paneTitle={paneTitle}
-        flexGrow={3}
+        defaultWidth="fill"
         firstMenu={(
           <FormattedMessage id="ui-eholdings.settings.goBackToEholdings">
             {ariaLabel => (
@@ -37,9 +35,7 @@ class SettingsDetailPane extends Component {
           </FormattedMessage>
         )}
       >
-        <div className={styles['settings-detail-pane-body']}>
-          {children}
-        </div>
+        {children}
       </Pane>
     );
   }

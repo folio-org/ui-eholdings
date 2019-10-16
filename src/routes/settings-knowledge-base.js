@@ -7,7 +7,7 @@ import { FormattedMessage } from 'react-intl';
 import { createResolver } from '../redux';
 import { Configuration } from '../redux/application';
 
-import View from '../components/settings-knowledge-base';
+import View from '../components/settings/settings-knowledge-base';
 
 class SettingsKnowledgeBaseRoute extends Component {
   static propTypes = {

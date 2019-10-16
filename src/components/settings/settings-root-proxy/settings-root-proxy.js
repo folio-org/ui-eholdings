@@ -10,10 +10,10 @@ import {
 import { FormattedMessage } from 'react-intl';
 
 import SettingsDetailPane from '../settings-detail-pane';
-import { processErrors } from '../utilities';
-import Toaster from '../toaster';
+import { processErrors } from '../../utilities';
+import Toaster from '../../toaster';
 import RootProxySelectField from './_fields/root-proxy-select';
-import PaneHeaderButton from '../pane-header-button';
+import PaneHeaderButton from '../../pane-header-button';
 
 const focusOnErrors = createFocusDecorator();
 

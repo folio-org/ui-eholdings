@@ -9,9 +9,10 @@ import {
   NavListItem,
   NavListSection,
   PaneBackLink,
+  Pane,
 } from '@folio/stripes/components';
 
-import { Pane } from './paneset';
+import css from './settings.css';
 
 class Settings extends Component {
   static propTypes = {
@@ -28,8 +29,7 @@ class Settings extends Component {
     return (
       <Fragment>
         <Pane
-          static
-          flexGrow={1}
+          defaultWidth="30%"
           paneTitle={
             <Headline tag="h3" margin="none">
               <FormattedMessage id="ui-eholdings.meta.title" />
@@ -42,6 +42,7 @@ class Settings extends Component {
           <NavList>
             <NavListSection
               activeLink={pathname}
+              className={css.listSection}
             >
               <IfPermission perm="ui-eholdings.settings.kb">
                 <NavListItem to="/settings/eholdings/knowledge-base">
