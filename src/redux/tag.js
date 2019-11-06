@@ -14,6 +14,6 @@ class Tag {
 }
 export default model({
   type: 'tags',
-  path: '/tags'
+  path: '/tags?limit=100000'
 
 })(Tag);
