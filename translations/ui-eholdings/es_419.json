@@ -325,7 +325,7 @@
     "title.resultsNotFoundForQuery": "No titles found for '{query}'.",
     "label.edit.custom.coverageDates": "Custom coverage dates (enter multiple date ranges in descending order)",
     "search.searchByTagsOnly": "Search by tags only",
-    "filter.togglePane": "Toggle filters pane",
-    "search.enterYourSearch": "Enter your search",
-    "search.selectFieldToSearch": "Select a field to search"
+    "filter.togglePane": "Alternar panel de filtros",
+    "search.enterYourSearch": "Introduzca su búsqueda",
+    "search.selectFieldToSearch": "Seleccione un campo para buscar"
 }
