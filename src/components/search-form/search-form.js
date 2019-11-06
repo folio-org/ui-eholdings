@@ -290,6 +290,7 @@ class SearchForm extends Component {
                     {(ariaLabel) => (
                       <SearchField
                         name="search"
+                        autoFocus
                         onChange={this.handleChangeSearch}
                         onClear={this.handleClearSearch}
                         value={searchString}
