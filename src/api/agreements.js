@@ -29,8 +29,8 @@ const createUrl = (baseUrl, refId) => {
 
 const doRequest = (url, params) => {
   const promise = fetch(url, params)
-        .then(response => Promise.all([response.ok, parseResponseBody(response)]))
-        .then(([ok, body]) => (ok ? body : Promise.reject(body)));
+    .then(response => Promise.all([response.ok, parseResponseBody(response)]))
+    .then(([ok, body]) => (ok ? body : Promise.reject(body)));
   
   return Observable.from(promise)
 };
