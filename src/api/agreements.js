@@ -11,7 +11,7 @@ import {
   getHeaders,
 } from './common';
 
-const API_URL = '/erm/sass';
+const API_URL = '/erm/sas';
 
 const createUrl = (baseUrl, refId) => {
   const url = new URL(`${baseUrl}${API_URL}`);
