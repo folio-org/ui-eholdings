@@ -11,7 +11,7 @@ import {
   getHeaders,
 } from './common';
 
-const API_URL = '/erm/sas';
+const API_URL = '/erm/sass';
 
 const createUrl = (baseUrl, refId) => {
   const url = new URL(`${baseUrl}${API_URL}`);
@@ -28,10 +28,11 @@ const createUrl = (baseUrl, refId) => {
 };
 
 const doRequest = (url, params) => {
-  return Observable.from(fetch(url, params))
-    .switchMap(response => {
-      const body = parseResponseBody(response);
-      return response.ok ? body : Observable.throw(body);
+  return Observable.from(promise)
+    .switchMap(async response => {
+      const body = await parseResponseBody(response); 
+      
+      return response.ok ? body : Observable.throw((body));
     });
 };
 
