@@ -9,8 +9,10 @@ import {
   interactor,
   value,
   text,
-  is
+  is,
 } from '@bigtest/interactor';
+
+import { AccordionInteractor } from '@folio/stripes-components/lib/Accordion/tests/interactor';
 
 import TagsAccordion from './tags-accordion';
 
@@ -22,6 +24,7 @@ import SearchBadge from './search-badge';
   submitSearch = clickable('[data-test-search-submit]');
   isSearchDisabled = property('[data-test-search-submit]', 'disabled');
   hasSearchField = isPresent('[data-test-search-field] input[name="search"]');
+  searchFieldIsDisabled = property('[data-test-search-field] input[name="search"]', 'disabled');
   hasSearchFilters = isPresent('[data-test-eholdings-search-filters="packages"]');
   hasTagFilter = isPresent('[data-test-eholdings-tag-filter]');
   searchFieldValue = value('[data-test-search-field] input[name="search"]');
@@ -41,6 +44,9 @@ import SearchBadge from './search-badge';
     '[data-test-search-form-type-switcher] a[class*=" primary--"]'
   ].join(','));
 
+  sortFilterAccordion = new AccordionInteractor('#filter-packages-sort');
+  selectionFilterAccordion = new AccordionInteractor('#filter-packages-selected');
+  typeFilterAccordion = new AccordionInteractor('#filter-packages-type');
   sortBy = value('[data-test-eholdings-search-filters="packages"] input[name="sort"]:checked');
   clickCloseButton = clickable('[data-test-eholdings-details-view-close-button]');
   hasPreSearchPane = isPresent('[data-test-eholdings-pre-search-pane]');
@@ -57,6 +63,10 @@ import SearchBadge from './search-badge';
 
   changeSearchType = action(function (searchType) {
     return this.click(`[data-test-search-type-button="${searchType}"]`);
+  });
+
+  toggleAccordion = action(function (accordionId) {
+    return this.click(accordionId);
   });
 
   clickFilter = action(function (name, val) {

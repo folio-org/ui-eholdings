@@ -34,8 +34,33 @@ describe('PackageSearch', () => {
     expect(PackageSearchPage.isSearchDisabled).to.be.true;
   });
 
+  it('search field should be enabled', () => {
+    expect(PackageSearchPage.searchFieldIsDisabled).to.be.false;
+  });
+
+  describe('clicking to open tags accordion', () => {
+    beforeEach(async () => {
+      await PackageSearchPage.tagsSection.clickTagHeader();
+    });
+
+    it('should display tags multiselect disabled by default', () => {
+      expect(PackageSearchPage.tagsSection.tagsMultiselectIsDisabled).to.be.true;
+    });
+
+    it('search by tags tags checkbox should be not checked', () => {
+      expect(PackageSearchPage.tagsSection.tagsCheckboxIsChecked).to.be.false;
+    });
+  });
+
   it('has a pre-results pane', () => {
     expect(PackageSearchPage.hasPreSearchPane).to.equal(true);
+  });
+
+  it('filter accordions should be collapsed by default', () => {
+    expect(PackageSearchPage.tagsSection.tagsAccordion.isOpen).to.be.false;
+    expect(PackageSearchPage.typeFilterAccordion.isOpen).to.be.false;
+    expect(PackageSearchPage.sortFilterAccordion.isOpen).to.be.false;
+    expect(PackageSearchPage.selectionFilterAccordion.isOpen).to.be.false;
   });
 
   describe('searching for a package', () => {
@@ -224,8 +249,9 @@ describe('PackageSearch', () => {
     });
 
     describe('filtering by content type', () => {
-      beforeEach(() => {
-        return PackageSearchPage.clickFilter('type', 'ebook');
+      beforeEach(async () => {
+        await PackageSearchPage.toggleAccordion('#accordion-toggle-button-filter-packages-type');
+        await PackageSearchPage.clickFilter('type', 'ebook');
       });
 
       it('only shows results for ebook content types', () => {
@@ -261,25 +287,12 @@ describe('PackageSearch', () => {
           expect(PackageSearchPage.searchBadge.filterText).to.equal('2');
         });
       });
-
-      describe('visiting the page with an existing filter', () => {
-        beforeEach(function () {
-          this.visit('/eholdings/?searchType=packages&q=Package&filter[type]=ejournal');
-        });
-
-        it('shows the existing filter in the search form', () => {
-          expect(PackageSearchPage.getFilter('type')).to.equal('ejournal');
-        });
-
-        it('only shows results for e-journal content types', () => {
-          expect(PackageSearchPage.packageList()).to.have.lengthOf(2);
-        });
-      });
     });
 
     describe('filtering by selection status', () => {
-      beforeEach(() => {
-        return PackageSearchPage.clickFilter('selected', 'true');
+      beforeEach(async () => {
+        await PackageSearchPage.toggleAccordion('#accordion-toggle-button-filter-packages-selected');
+        await PackageSearchPage.clickFilter('selected', 'true');
       });
 
       it('only shows results for selected packages', () => {
@@ -300,21 +313,8 @@ describe('PackageSearch', () => {
           expect(this.location.search).to.not.include('filter[selected]');
         });
       });
-
-      describe('visiting the page with an existing filter', () => {
-        beforeEach(function () {
-          this.visit('/eholdings/?searchType=packages&q=Package&filter[selected]=false');
-        });
-
-        it('shows the existing filter in the search form', () => {
-          expect(PackageSearchPage.getFilter('selected')).to.equal('false');
-        });
-
-        it('only shows results for non-selected packages', () => {
-          expect(PackageSearchPage.packageList()).to.have.lengthOf(1);
-        });
-      });
     });
+
 
     describe('with a more specific query', () => {
       beforeEach(() => {
@@ -369,6 +369,68 @@ describe('PackageSearch', () => {
     });
   });
 
+  describe('visiting the page with an existing filter', () => {
+    beforeEach(async function () {
+      this.visit('/eholdings?searchType=packages&q=Package&filter[type]=ejournal');
+    });
+
+    it('shows the existing filter in the search form', () => {
+      expect(PackageSearchPage.getFilter('type')).to.equal('ejournal');
+    });
+
+    it('only shows results for e-journal content types', () => {
+      expect(PackageSearchPage.packageList()).to.have.lengthOf(2);
+    });
+  });
+
+  describe('visiting the page with an existing tags filter', () => {
+    beforeEach(function () {
+      const allTags = ['urgent', 'not urgent'];
+
+      const urgentTag = this.server.create('tags', {
+        tagList: allTags.slice(0)
+      }).toJSON();
+
+      this.server.create('package', {
+        name: 'Test Urgent Tag',
+        tags: urgentTag
+      });
+
+      this.visit('/eholdings?searchType=packages&filter[tags]=urgent');
+    });
+
+    it('displays tags accordion as closed', () => {
+      expect(PackageSearchPage.tagsSection.tagsAccordion.isOpen).to.equal(false);
+    });
+
+    describe('clicking to open tags accordion', () => {
+      beforeEach(async () => {
+        await PackageSearchPage.tagsSection.clickTagHeader();
+      });
+
+      it('displays tags accordion as expanded', () => {
+        expect(PackageSearchPage.tagsSection.tagsAccordion.isOpen).to.be.true;
+      });
+
+      it('should display tags multiselect enabled', () => {
+        expect(PackageSearchPage.tagsSection.tagsMultiselectIsDisabled).to.be.false;
+      });
+
+      it('search by tags tags checkbox should be checked', () => {
+        expect(PackageSearchPage.tagsSection.tagsCheckboxIsChecked).to.be.true;
+      });
+
+      it('should display selected value as urgent', () => {
+        expect(PackageSearchPage.tagsSection.tagsSelect.values(0).valLabel).to.equal('urgent');
+      });
+
+      it('displays packages tagged as urgent', () => {
+        expect(PackageSearchPage.packageList()).to.have.lengthOf(1);
+        expect(PackageSearchPage.packageList(0).name).to.equal('Test Urgent Tag');
+      });
+    });
+  });
+
   describe('sorting packages', () => {
     beforeEach(function () {
       this.server.create('package', {
@@ -417,8 +479,9 @@ describe('PackageSearch', () => {
       });
 
       describe('then filtering by sort options', () => {
-        beforeEach(() => {
-          return PackageSearchPage.clickFilter('sort', 'name');
+        beforeEach(async () => {
+          await PackageSearchPage.toggleAccordion('#accordion-toggle-button-filter-packages-sort');
+          await PackageSearchPage.clickFilter('sort', 'name');
         });
 
         it('displays the packages sorted by package name', () => {
@@ -550,39 +613,65 @@ describe('PackageSearch', () => {
         expect(PackageSearchPage.tagsSection.tagsAccordion.isOpen).to.be.true;
       });
 
-      describe('after click on urgent option', () => {
+      it('should display tags multiselect disabled by default', () => {
+        expect(PackageSearchPage.tagsSection.tagsMultiselectIsDisabled).to.be.true;
+      });
+
+      it('search by tags tags checkbox should be not checked', () => {
+        expect(PackageSearchPage.tagsSection.tagsCheckboxIsChecked).to.be.false;
+      });
+
+      describe('and search by tags was enabled', () => {
         beforeEach(async () => {
-          await PackageSearchPage.tagsSection.tagsSelect.options(1).clickOption();
+          await PackageSearchPage.tagsSection.toggleSearchByTags();
         });
 
-        it('should display selected value as urgent', () => {
-          expect(PackageSearchPage.tagsSection.tagsSelect.values(0).valLabel).to.equal('urgent');
+        it('search field should be disabled', () => {
+          expect(PackageSearchPage.searchFieldIsDisabled).to.be.true;
         });
 
-        it('displays packages tagged as urgent', () => {
-          expect(PackageSearchPage.packageList()).to.have.lengthOf(1);
-          expect(PackageSearchPage.packageList(0).name).to.equal('Test Urgent Tag');
+        it('should display tags multiselect enabled', () => {
+          expect(PackageSearchPage.tagsSection.tagsMultiselectIsDisabled).to.be.false;
         });
 
-        it('should display the clear tag filter button', () => {
-          expect(PackageSearchPage.tagsSection.hasClearTagFilter).to.be.true;
+        it('search by tags tags checkbox should be checked', () => {
+          expect(PackageSearchPage.tagsSection.tagsCheckboxIsChecked).to.be.true;
         });
 
-        describe('clearing the filters', () => {
-          beforeEach(() => {
-            return PackageSearchPage.tagsSection.clearTagFilter();
+        describe('after click on urgent option', () => {
+          beforeEach(async () => {
+            await PackageSearchPage.tagsSection.tagsSelect.options(1).clickOption();
           });
 
-          it('displays tag filter with empty value', () => {
-            expect(PackageSearchPage.tagsSection.tagsSelect.values()).to.deep.equal([]);
+          it('should display selected value as urgent', () => {
+            expect(PackageSearchPage.tagsSection.tagsSelect.values(0).valLabel).to.equal('urgent');
           });
 
-          it('displays no package results', () => {
-            expect(PackageSearchPage.packageList()).to.have.lengthOf(0);
+          it('displays packages tagged as urgent', () => {
+            expect(PackageSearchPage.packageList()).to.have.lengthOf(1);
+            expect(PackageSearchPage.packageList(0).name).to.equal('Test Urgent Tag');
           });
 
-          it.always('removes the filter from the URL query params', function () {
-            expect(this.location.search).to.not.include('filter[tags]');
+          it('should display the clear tag filter button', () => {
+            expect(PackageSearchPage.tagsSection.hasClearTagFilter).to.be.true;
+          });
+
+          describe('clearing the filters', () => {
+            beforeEach(() => {
+              return PackageSearchPage.tagsSection.clearTagFilter();
+            });
+
+            it('displays tag filter with empty value', () => {
+              expect(PackageSearchPage.tagsSection.tagsSelect.values()).to.deep.equal([]);
+            });
+
+            it('displays no package results', () => {
+              expect(PackageSearchPage.packageList()).to.have.lengthOf(0);
+            });
+
+            it.always('removes the filter from the URL query params', function () {
+              expect(this.location.search).to.not.include('filter[tags]');
+            });
           });
         });
       });

@@ -8,10 +8,11 @@ import {
   Button,
   Icon,
   IconButton,
+  Pane,
+  Paneset
 } from '@folio/stripes/components';
 
 import { FormattedMessage } from 'react-intl';
-import Paneset, { Pane } from '../../paneset';
 import DetailsViewSection from '../../details-view-section';
 import NameField from '../_fields/name';
 import EditionField from '../_fields/edition';
@@ -101,7 +102,7 @@ export default class TitleCreate extends Component {
                 <Pane
                   onSubmit={handleSubmit}
                   tagName="form"
-                  flexGrow={1}
+                  defaultWidth="fill"
                   paneTitle={paneTitle}
                   actionMenu={this.getActionMenu}
                   firstMenu={onCancel && (

@@ -1,4 +1,5 @@
 import React from 'react';
+import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import {
   FormattedMessage,
@@ -10,14 +11,14 @@ import {
   Icon,
   Badge,
 } from '@folio/stripes/components';
-import {
-  getEntityTags,
-  getTagLabelsArr,
-} from '../utilities';
+import { getTagLabelsArr } from '../utilities';
 import Tags from './tags';
+import selectEntityTags from '../../redux/selectors/select-entity-tags';
+import { updateEntityTags as updateEntityTagsAction } from '../../redux/actions';
 
-export default class TagsAccordion extends React.Component {
+class TagsAccordion extends React.Component {
   static propTypes = {
+    entityTags: PropTypes.arrayOf(PropTypes.string),
     id: PropTypes.string.isRequired,
     model: PropTypes.object.isRequired,
     onToggle: PropTypes.func.isRequired,
@@ -35,7 +36,8 @@ export default class TagsAccordion extends React.Component {
       open,
       tagsModel,
       updateFolioTags,
-      updateEntityTags
+      updateEntityTags,
+      entityTags,
     } = this.props;
 
     return (
@@ -54,7 +56,7 @@ export default class TagsAccordion extends React.Component {
         displayWhenClosed={
           <Badge sixe='small'>
             <span>
-              <FormattedNumber value={getEntityTags(model).length} />
+              <FormattedNumber value={entityTags.length} />
             </span>
           </Badge>
         }
@@ -63,9 +65,10 @@ export default class TagsAccordion extends React.Component {
           ? <Icon icon="spinner-ellipsis" />
           : (
             <Tags
-              updateEntityTags={updateEntityTags}
               updateFolioTags={updateFolioTags}
+              entityTags={entityTags}
               model={model}
+              updateEntityTags={updateEntityTags}
               tags={getTagLabelsArr(tagsModel)}
             />
           )
@@ -74,3 +77,11 @@ export default class TagsAccordion extends React.Component {
     );
   }
 }
+
+export default connect(
+  (store, ownProps) => ({
+    entityTags: selectEntityTags(ownProps.model.type, ownProps.model.id, store),
+  }), {
+    updateEntityTags: updateEntityTagsAction,
+  }
+)(TagsAccordion);

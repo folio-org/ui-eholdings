@@ -21,13 +21,18 @@ function validate(value) {
 function TitleNameField() {
   return (
     <div data-test-eholdings-title-name-field>
-      <Field
-        name="name"
-        type="text"
-        component={TextField}
-        label={<FormattedMessage id="ui-eholdings.label.name.isRequired" />}
-        validate={validate}
-      />
+      <FormattedMessage id="ui-eholdings.label.name">
+        {(ariaLabel) => (
+          <Field
+            name="name"
+            type="text"
+            component={TextField}
+            label={<FormattedMessage id="ui-eholdings.label.name.isRequired" />}
+            validate={validate}
+            ariaLabel={ariaLabel}
+          />
+        )}
+      </FormattedMessage>
     </div>
   );
 }

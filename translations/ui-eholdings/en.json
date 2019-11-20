@@ -142,7 +142,6 @@
 
     "tags": "Tags",
     "tags.addTagFor": "Add tag for: <strong>{filter}</strong>",
-    "tags.filter.cannot.combine" : "Tags filter cannot be combined with search or other filters",
 
     "settings.goBackToEholdings": "Go back to eHoldings settings",
     "settings.kb": "Knowledge base",
@@ -234,7 +233,7 @@
     "filter.contentType.print": "Print",
     "filter.contentType.onlineReference": "Online Reference",
     "filter.contentType.unknown": "Unknown",
-    "filter.pubType.audioBook": "Audio Book",
+    "filter.pubType.audioBook": "Audiobook",
     "filter.pubType.book": "Book",
     "filter.pubType.bookSeries": "Book Series",
     "filter.pubType.database": "Database",
@@ -252,6 +251,7 @@
     "filter.filterType": "Filter {listType}",
     "filter.filterType.packages": "Filter packages",
     "filter.filterType.titles": "Filter titles",
+    "filter.togglePane": "Toggle filters pane",
 
     "navModal.modalLabel": "Confirm navigation",
     "navModal.continueLabel": "Continue without saving",
@@ -307,11 +307,14 @@
     "search.loading": "Loading...",
     "search.searchAndFilter": "Search \u0026 filter",
     "search.enterQuery": "Enter a query to show search results.",
+    "search.enterYourSearch": "Enter your search",
     "search.searchType": "Search {searchType}",
     "search.searchLink": "search {type}",
     "search.searchType.titles": "Titles",
     "search.searchType.packages": "Packages",
     "search.searchType.providers": "Providers",
+    "search.searchByTagsOnly" : "Search by tags only",
+    "search.selectFieldToSearch" : "Select a field to search",
 
     "date.present": "Present",
     "date.startDate": "Start date",

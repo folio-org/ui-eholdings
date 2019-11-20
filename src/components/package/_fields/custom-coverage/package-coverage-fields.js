@@ -1,4 +1,4 @@
-import React, { Component, Fragment } from 'react';
+import React, { Component } from 'react';
 import { Field } from 'react-final-form';
 import { FieldArray } from 'react-final-form-arrays';
 import {
@@ -12,11 +12,11 @@ import isEqual from 'lodash/isEqual';
 
 import {
   Datepicker,
-  Icon,
   RepeatableField,
+  Col,
+  Row,
 } from '@folio/stripes/components';
 
-import styles from './package-coverage-fields.css';
 
 class PackageCoverageFields extends Component {
   static propTypes = {
@@ -61,10 +61,11 @@ class PackageCoverageFields extends Component {
     const formatField = value => (value ? moment.utc(value) : '');
 
     return (
-      <Fragment>
-        <div
+      <Row>
+        <Col
+          md
+          xs={12}
           data-test-eholdings-coverage-fields-date-range-begin
-          className={styles['coverage-fields-datepicker']}
         >
           <Field
             name={`${dateRange}.beginCoverage`}
@@ -73,11 +74,13 @@ class PackageCoverageFields extends Component {
             label={<FormattedMessage id="ui-eholdings.date.startDate" />}
             format={formatField}
             validate={this.validateCoverageDate}
+            timeZone="UTC"
           />
-        </div>
-        <div
+        </Col>
+        <Col
+          md
+          xs={12}
           data-test-eholdings-coverage-fields-date-range-end
-          className={styles['coverage-fields-datepicker']}
         >
           <Field
             name={`${dateRange}.endCoverage`}
@@ -86,17 +89,18 @@ class PackageCoverageFields extends Component {
             label={<FormattedMessage id="ui-eholdings.date.endDate" />}
             format={formatField}
             validate={this.validateCoverageDate}
+            timeZone="UTC"
           />
-        </div>
-      </Fragment>
+        </Col>
+      </Row>
     );
   }
 
   renderRepeatableField = ({ fields, name, meta: { initial } }) => {
-    const hasAddButton = fields.length === 0 || (fields.length === 1 && !initial[0]);
+    const hasAddButton = fields.length === 0;
     const hasEmptyMessage = initial.length > 0 && initial[0].beginCoverage;
     const addLabel = hasAddButton
-      ? <Icon icon="plus-sign"><FormattedMessage id="ui-eholdings.package.coverage.addDateRange" /></Icon>
+      ? <FormattedMessage id="ui-eholdings.package.coverage.addDateRange" />
       : null;
 
     const emptyMessage = hasEmptyMessage

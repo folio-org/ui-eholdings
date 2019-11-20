@@ -9,9 +9,10 @@ import {
   Button,
   Icon,
   IconButton,
+  Pane,
+  Paneset,
 } from '@folio/stripes/components';
 
-import Paneset, { Pane } from '../../paneset';
 import DetailsViewSection from '../../details-view-section';
 import NameField from '../_fields/name';
 import CoverageFields from '../_fields/custom-coverage';
@@ -92,7 +93,7 @@ export default class PackageCreate extends Component {
               <Pane
                 onSubmit={handleSubmit}
                 tagName="form"
-                flexGrow={1}
+                defaultWidth="fill"
                 paneTitle={paneTitle}
                 actionMenu={this.getActionMenu}
                 firstMenu={onCancel && (

@@ -98,73 +98,50 @@ describe('Package Show Title Search', () => {
       expect(PackageShowPage.searchResultsCount).to.equal('3');
     });
 
-    describe('searching for a title', () => {
-      beforeEach(() => {
-        return PackageShowPage.clickListSearch()
-          .searchModal.searchTitles('My Title')
-          .searchModal.clickSearch();
+    describe('when the search modal is open', () => {
+      beforeEach(async () => {
+        await PackageShowPage.clickListSearch();
       });
 
-      it('properly filters the results', () => {
-        expect(PackageShowPage.titleList(0).name).to.equal('My Title 1');
-        expect(PackageShowPage.titleList(1).name).to.equal('My Title 2');
+      it('all filter accordions should be collapsed', () => {
+        PackageShowPage.searchModal.filterAccordions().forEach(accordion => {
+          expect(accordion.isOpen).to.be.false;
+        });
       });
 
-      it('has the right amount of titles displayed', () => {
-        expect(PackageShowPage.titleList().length).to.equal(2);
-      });
-    });
+      describe('searching for a title', () => {
+        beforeEach(async () => {
+          await PackageShowPage.searchModal.searchTitles('My Title');
+          await PackageShowPage.searchModal.clickSearch();
+        });
 
-    describe('searching for a title with the selected filter', () => {
-      beforeEach(() => {
-        return PackageShowPage.clickListSearch()
-          .searchModal.clickFilter('selected', 'true')
-          .searchModal.clickSearch();
-      });
+        it('properly filters the results', () => {
+          expect(PackageShowPage.titleList(0).name).to.equal('My Title 1');
+          expect(PackageShowPage.titleList(1).name).to.equal('My Title 2');
+        });
 
-      it('properly filters the results', () => {
-        expect(PackageShowPage.titleList().length).to.equal(1);
-      });
-    });
-
-    describe('searching for a title with the publication type filter', () => {
-      beforeEach(() => {
-        return PackageShowPage.clickListSearch()
-          .searchModal.clickFilter('type', 'report')
-          .searchModal.clickSearch();
+        it('has the right amount of titles displayed', () => {
+          expect(PackageShowPage.titleList().length).to.equal(2);
+        });
       });
 
-      it('properly filters to one result', () => {
-        expect(PackageShowPage.titleList().length).to.equal(1);
+      describe('searching for a title with the selected filter', () => {
+        beforeEach(async () => {
+          await PackageShowPage.searchModal.toggleAccordion('#accordion-toggle-button-filter-titles-selected');
+          await PackageShowPage.searchModal.clickFilter('selected', 'true');
+          await PackageShowPage.searchModal.clickSearch();
+        });
+
+        it('properly filters the results', () => {
+          expect(PackageShowPage.titleList().length).to.equal(1);
+        });
       });
 
-      it('has the right title name', () => {
-        expect(PackageShowPage.titleList(0).name).to.equal('My Title 1');
-      });
-    });
-
-    describe('searching for a title by title publisher filter', () => {
-      beforeEach(() => {
-        return PackageShowPage.clickListSearch()
-          .searchModal.selectSearchField('Publisher')
-          .searchModal.searchTitles('The Frontside')
-          .searchModal.clickSearch();
-      });
-
-      it('properly filters to one result', () => {
-        expect(PackageShowPage.titleList().length).to.equal(1);
-      });
-
-      it('has the right title name', () => {
-        expect(PackageShowPage.titleList(0).name).to.equal('My Title 2');
-      });
-
-      describe('changing the filter to subject', () => {
-        beforeEach(() => {
-          return PackageShowPage.clickListSearch()
-            .searchModal.selectSearchField('Subject')
-            .searchModal.searchTitles('FooBar')
-            .searchModal.clickSearch();
+      describe('searching for a title with the publication type filter', () => {
+        beforeEach(async () => {
+          await PackageShowPage.searchModal.toggleAccordion('#accordion-toggle-button-filter-titles-type');
+          await PackageShowPage.searchModal.clickFilter('type', 'report');
+          await PackageShowPage.searchModal.clickSearch();
         });
 
         it('properly filters to one result', () => {
@@ -176,38 +153,131 @@ describe('Package Show Title Search', () => {
         });
       });
 
-      describe('resetting the search', () => {
-        beforeEach(() => {
-          return PackageShowPage.clickListSearch()
-            .searchModal.clickResetAll();
+      describe('searching for a title by title publisher filter', () => {
+        beforeEach(async () => {
+          await PackageShowPage.searchModal.selectSearchField('Publisher');
+          await PackageShowPage.searchModal.searchTitles('The Frontside');
+          await PackageShowPage.searchModal.clickSearch();
         });
 
         it('properly filters to one result', () => {
-          expect(PackageShowPage.titleList().length).to.equal(3);
+          expect(PackageShowPage.titleList().length).to.equal(1);
+        });
+
+        it('has the right title name', () => {
+          expect(PackageShowPage.titleList(0).name).to.equal('My Title 2');
+        });
+
+        describe('changing the filter to subject', () => {
+          beforeEach(async () => {
+            await PackageShowPage.clickListSearch();
+            await PackageShowPage.searchModal.selectSearchField('Subject');
+            await PackageShowPage.searchModal.searchTitles('FooBar');
+            await PackageShowPage.searchModal.clickSearch();
+          });
+
+          it('properly filters to one result', () => {
+            expect(PackageShowPage.titleList().length).to.equal(1);
+          });
+
+          it('has the right title name', () => {
+            expect(PackageShowPage.titleList(0).name).to.equal('My Title 1');
+          });
+        });
+
+        describe('resetting the search', () => {
+          beforeEach(async () => {
+            await PackageShowPage.clickListSearch();
+            await PackageShowPage.searchModal.clickResetAll();
+          });
+
+          it('properly filters to one result', () => {
+            expect(PackageShowPage.titleList().length).to.equal(3);
+          });
         });
       });
-    });
 
-    describe('filtering resources by tags', () => {
-      beforeEach(async () => {
-        await PackageShowPage.clickListSearch();
-      });
-
-      it('shows the accordion with tags filter', () => {
-        expect(PackageShowPage.searchModal.tagsSection.tagsAccordion.isPresent).to.be.true;
-      });
-
-      it('accordion is closed by default', () => {
-        expect(PackageShowPage.searchModal.tagsSection.tagsAccordion.isOpen).to.be.false;
-      });
-
-      describe('after click on accordion header', () => {
+      describe('after click on tags accordion header', () => {
         beforeEach(async () => {
           await PackageShowPage.searchModal.tagsSection.clickTagHeader();
         });
 
         it('should expand the accordion', () => {
           expect(PackageShowPage.searchModal.tagsSection.tagsAccordion.isOpen).to.be.true;
+        });
+
+        it('search by tags should be disabled', () => {
+          expect(PackageShowPage.searchModal.tagsSection.tagsCheckboxIsChecked).to.be.false;
+          expect(PackageShowPage.searchModal.tagsSection.tagsMultiselectIsDisabled).to.be.true;
+        });
+
+        it('search by query should be enabled', () => {
+          expect(PackageShowPage.searchModal.searchFieldIsDisabled).to.be.false;
+        });
+
+        it('displays tag filter with empty value by default', () => {
+          expect(PackageShowPage.searchModal.tagsSection.tagsSelect.values()).to.deep.equal([]);
+        });
+
+        describe('after enabling search by tags', () => {
+          beforeEach(async () => {
+            await PackageShowPage.searchModal.tagsSection.toggleSearchByTags();
+          });
+
+          it('search by tags should be enabled', () => {
+            expect(PackageShowPage.searchModal.tagsSection.tagsCheckboxIsChecked).to.be.true;
+            expect(PackageShowPage.searchModal.tagsSection.tagsMultiselectIsDisabled).to.be.false;
+          });
+
+          it('search by query should be disabled', () => {
+            expect(PackageShowPage.searchModal.searchFieldIsDisabled).to.be.true;
+          });
+
+          describe('after click on "urgent" option', () => {
+            beforeEach(async () => {
+              await PackageShowPage.searchModal.tagsSection.tagsSelect.options(1).clickOption();
+            });
+
+            it('should close search modal', () => {
+              expect(PackageShowPage.searchModal.isPresent).to.be.false;
+            });
+
+            it('should display resources tagged as urgent', () => {
+              expect(PackageShowPage.titleList()).to.have.lengthOf(3);
+            });
+          });
+
+          describe('when some of the tags was selected and do tags clear', () => {
+            beforeEach(async () => {
+              await PackageShowPage.searchModal.tagsSection.tagsSelect.options(0).clickOption();
+              await PackageShowPage.clickListSearch();
+              await PackageShowPage.searchModal.tagsSection.clearTagFilter();
+            });
+
+            it('should close search modal', () => {
+              expect(PackageShowPage.searchModal.isPresent).to.be.false;
+            });
+
+            it('should display empty list of resources', () => {
+              expect(PackageShowPage.titleList()).to.have.lengthOf(3);
+            });
+          });
+
+          describe('when "urgent" and "not urgent" tags are selected', () => {
+            beforeEach(async () => {
+              await PackageShowPage.searchModal.tagsSection.tagsSelect.options(1).clickOption();
+              await PackageShowPage.clickListSearch();
+              await PackageShowPage.searchModal.tagsSection.tagsSelect.options(0).clickOption();
+            });
+
+            it('should close search modal', () => {
+              expect(PackageShowPage.searchModal.isPresent).to.be.false;
+            });
+
+            it('displays resources tagged as "not urgent" and "urgent"', () => {
+              expect(PackageShowPage.titleList()).to.have.lengthOf(3);
+            });
+          });
         });
       });
 
@@ -219,56 +289,6 @@ describe('Package Show Title Search', () => {
 
         it('should collapse the accordion', () => {
           expect(PackageShowPage.searchModal.tagsSection.tagsAccordion.isOpen).to.be.false;
-        });
-      });
-
-      it('displays tag filter with empty value by default', () => {
-        expect(PackageShowPage.searchModal.tagsSection.tagsSelect.values()).to.deep.equal([]);
-      });
-
-      describe('after click on "urgent" option', () => {
-        beforeEach(async () => {
-          await PackageShowPage.searchModal.tagsSection.tagsSelect.options(1).clickOption();
-        });
-
-        it('should close search modal', () => {
-          expect(PackageShowPage.searchModal.isPresent).to.be.false;
-        });
-
-        it('should display resources tagged as urgent', () => {
-          expect(PackageShowPage.titleList()).to.have.lengthOf(3);
-        });
-      });
-
-      describe('when some of the tags was selected and do tags clear', () => {
-        beforeEach(async () => {
-          await PackageShowPage.searchModal.tagsSection.tagsSelect.options(0).clickOption();
-          await PackageShowPage.clickListSearch();
-          await PackageShowPage.searchModal.tagsSection.clearTagFilter();
-        });
-
-        it('should close search modal', () => {
-          expect(PackageShowPage.searchModal.isPresent).to.be.false;
-        });
-
-        it('should display empty list of resources', () => {
-          expect(PackageShowPage.titleList()).to.have.lengthOf(3);
-        });
-      });
-
-      describe('when "urgent" and "not urgent" tags are selected', () => {
-        beforeEach(async () => {
-          await PackageShowPage.searchModal.tagsSection.tagsSelect.options(1).clickOption();
-          await PackageShowPage.clickListSearch();
-          await PackageShowPage.searchModal.tagsSection.tagsSelect.options(0).clickOption();
-        });
-
-        it('should close search modal', () => {
-          expect(PackageShowPage.searchModal.isPresent).to.be.false;
-        });
-
-        it('displays resources tagged as "not urgent" and "urgent"', () => {
-          expect(PackageShowPage.titleList()).to.have.lengthOf(3);
         });
       });
     });
@@ -294,10 +314,11 @@ describe('Package Show Title Search', () => {
       });
     });
 
-    describe('when "name" sort oprion is chosen by user', () => {
-      beforeEach(() => {
-        return PackageShowPage.clickListSearch()
-          .searchModal.clickFilter('sort', 'name');
+    describe('when "name" sort option is chosen by user', () => {
+      beforeEach(async () => {
+        await PackageShowPage.clickListSearch();
+        await PackageShowPage.searchModal.toggleAccordion('#accordion-toggle-button-filter-titles-sort');
+        await PackageShowPage.searchModal.clickFilter('sort', 'name');
       });
       describe('search form', () => {
         it('should show "name" sort option', () => {

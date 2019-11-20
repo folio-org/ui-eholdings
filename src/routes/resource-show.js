@@ -23,7 +23,6 @@ class ResourceShowRoute extends Component {
     model: PropTypes.object.isRequired,
     proxyTypes: PropTypes.object.isRequired,
     tagsModel: PropTypes.object.isRequired,
-    updateEntityTags: PropTypes.func.isRequired,
     updateFolioTags: PropTypes.func.isRequired,
     updateResource: PropTypes.func.isRequired,
   };
@@ -110,7 +109,6 @@ class ResourceShowRoute extends Component {
       proxyTypes,
       history,
       tagsModel,
-      updateEntityTags,
       updateFolioTags,
     } = this.props;
 
@@ -123,7 +121,6 @@ class ResourceShowRoute extends Component {
         <View
           model={model}
           tagsModel={tagsModel}
-          updateEntityTags={updateEntityTags}
           updateFolioTags={updateFolioTags}
           proxyTypes={proxyTypes}
           toggleSelected={this.toggleSelected}
@@ -157,7 +154,6 @@ export default connect(
     getResource: id => Resource.find(id, { include: ['package', 'title'] }),
     getProxyTypes: () => ProxyType.query(),
     updateResource: model => Resource.save(model),
-    updateEntityTags: model => Resource.save(model),
     updateFolioTags: model => Tag.create(model),
     getTags: () => Tag.query(),
     destroyResource: model => Resource.destroy(model),

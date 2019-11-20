@@ -13,7 +13,8 @@ import {
   FilterAccordionHeader,
   Icon,
   SearchField,
-  Select
+  Select,
+  Checkbox,
 } from '@folio/stripes/components';
 import { MultiSelectionFilter } from '@folio/stripes/smart-components';
 import ProviderSearchFilters from '../provider-search-filters';
@@ -35,9 +36,11 @@ class SearchForm extends Component {
     isLoading: PropTypes.bool,
     onFilterChange: PropTypes.func.isRequired,
     onSearch: PropTypes.func.isRequired,
+    onSearchByTagsToggle: PropTypes.func.isRequired,
     onSearchChange: PropTypes.func.isRequired,
     onSearchFieldChange: PropTypes.func,
     onTagFilterChange: PropTypes.func.isRequired,
+    searchByTagsEnabled: PropTypes.bool.isRequired,
     searchField: PropTypes.string,
     searchFilter: PropTypes.shape({
       filter: PropTypes.object,
@@ -67,10 +70,10 @@ class SearchForm extends Component {
     },
   };
 
-   toggleSection = ({ id }) => {
-     const newState = update(`sections.${id}`, value => !value, this.state);
-     this.setState(newState);
-   };
+  toggleSection = ({ id }) => {
+    const newState = update(`sections.${id}`, value => !value, this.state);
+    this.setState(newState);
+  };
 
 
   handleSearchSubmit = (e) => {
@@ -132,10 +135,34 @@ class SearchForm extends Component {
     return sortBy(dataOptions, ['value']);
   }
 
+  renderSearchByTagsCheckbox() {
+    const {
+      searchByTagsEnabled,
+      onSearchByTagsToggle,
+    } = this.props;
+
+    return (
+      <Checkbox
+        checked={searchByTagsEnabled}
+        label={(
+          <span
+            className={styles['tags-search-warning']}
+            data-test-eholdings-tag-message
+          >
+            <FormattedMessage id="ui-eholdings.search.searchByTagsOnly" />
+          </span>
+        )}
+        onClick={onSearchByTagsToggle}
+        data-test-tags-checkbox
+      />
+    );
+  }
+
   renderTagFilter() {
     const {
       tagsModel,
-      searchFilter = {}
+      searchByTagsEnabled,
+      searchFilter = {},
     } = this.props;
 
     const {
@@ -155,7 +182,10 @@ class SearchForm extends Component {
     return tagsModel.isLoading
       ? <Icon icon="spinner-ellipsis" />
       : (
-        <div data-test-eholdings-tag-filter>
+        <div
+          className={styles['search-filters']}
+          data-test-eholdings-tag-filter
+        >
           <Accordion
             label={<FormattedMessage id="ui-eholdings.tags" />}
             id="accordionTagFilter"
@@ -167,18 +197,15 @@ class SearchForm extends Component {
             onClearFilter={() => this.props.onTagFilterChange({ tags: undefined })}
             onToggle={this.toggleSection}
           >
-            <div className={styles['tag-filters']}>
-              <div data-test-eholdings-tag-message>
-                <FormattedMessage id="ui-eholdings.tags.filter.cannot.combine" />
-              </div>
-              <MultiSelectionFilter
-                id="selectTagFilter"
-                dataOptions={this.getSortedDataOptions()}
-                name="tags"
-                onChange={this.handleUpdateTagFilter}
-                selectedValues={tagsList}
-              />
-            </div>
+            {this.renderSearchByTagsCheckbox()}
+            <MultiSelectionFilter
+              id="selectTagFilter"
+              dataOptions={this.getSortedDataOptions()}
+              name="tags"
+              onChange={this.handleUpdateTagFilter}
+              selectedValues={tagsList}
+              disabled={!searchByTagsEnabled}
+            />
           </Accordion>
         </div>
       );
@@ -194,7 +221,8 @@ class SearchForm extends Component {
       searchField,
       searchFilter,
       searchString,
-      sort
+      sort,
+      searchByTagsEnabled
     } = this.props;
     const Filters = this.getFiltersComponent(searchType);
     // sort is treated separately from the rest of the filters on submit,
@@ -227,7 +255,6 @@ class SearchForm extends Component {
         )}
         <form
           onSubmit={this.handleSearchSubmit}
-          role='tabpanel'
           aria-labelledby={searchType + '-tab'}
           id={searchType + '-panel'}
         >
@@ -236,54 +263,67 @@ class SearchForm extends Component {
               {placeholder => (
                 <Fragment>
                   {(searchType === searchTypes.TITLES) && (
-                    <Select
-                      onChange={this.handleChangeIndex}
-                      value={searchField}
-                    >
-                      <FormattedMessage id="ui-eholdings.label.title">
-                        {(label) => <option value="title">{label}</option>}
-                      </FormattedMessage>
-                      <FormattedMessage id="ui-eholdings.label.isxn">
-                        {(label) => <option value="isxn">{label}</option>}
-                      </FormattedMessage>
-                      <FormattedMessage id="ui-eholdings.label.publisher">
-                        {(label) => <option value="publisher">{label}</option>}
-                      </FormattedMessage>
-                      <FormattedMessage id="ui-eholdings.label.subject">
-                        {(label) => <option value="subject">{label}</option>}
-                      </FormattedMessage>
-                    </Select>
+                    <FormattedMessage id="ui-eholdings.search.selectFieldToSearch">
+                      {(ariaLabel) => (
+                        <Select
+                          onChange={this.handleChangeIndex}
+                          value={searchField}
+                          aria-label={ariaLabel}
+                        >
+                          <FormattedMessage id="ui-eholdings.label.title">
+                            {(label) => <option value="title">{label}</option>}
+                          </FormattedMessage>
+                          <FormattedMessage id="ui-eholdings.label.isxn">
+                            {(label) => <option value="isxn">{label}</option>}
+                          </FormattedMessage>
+                          <FormattedMessage id="ui-eholdings.label.publisher">
+                            {(label) => <option value="publisher">{label}</option>}
+                          </FormattedMessage>
+                          <FormattedMessage id="ui-eholdings.label.subject">
+                            {(label) => <option value="subject">{label}</option>}
+                          </FormattedMessage>
+                        </Select>
+                      )}
+                    </FormattedMessage>
                   )}
-                  <SearchField
-                    name="search"
-                    onChange={this.handleChangeSearch}
-                    onClear={this.handleClearSearch}
-                    value={searchString}
-                    placeholder={placeholder}
-                    loading={isLoading}
-                  />
+                  <FormattedMessage id="ui-eholdings.search.enterYourSearch">
+                    {(ariaLabel) => (
+                      <SearchField
+                        name="search"
+                        autoFocus
+                        onChange={this.handleChangeSearch}
+                        onClear={this.handleClearSearch}
+                        value={searchString}
+                        placeholder={placeholder}
+                        loading={isLoading}
+                        disabled={searchByTagsEnabled}
+                        ariaLabel={ariaLabel}
+                      />
+                    )}
+                  </FormattedMessage>
                 </Fragment>
               )}
             </FormattedMessage>
           </div>
 
-          { displaySearchButton && (
+          {displaySearchButton && (
             <Button
               type="submit"
               buttonStyle="primary"
               fullWidth
-              disabled={!searchString}
+              disabled={!searchString || searchByTagsEnabled}
               data-test-search-submit
             >
               <FormattedMessage id="ui-eholdings.label.search" />
             </Button>
           )}
           {Filters && (
-            <div>
-              { this.renderTagFilter() }
+            <div role="tablist">
+              {this.renderTagFilter()}
               <Filters
                 activeFilters={combinedFilters}
                 onUpdate={this.handleUpdateFilter}
+                disabled={searchByTagsEnabled}
               />
             </div>
           )}

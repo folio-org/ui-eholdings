@@ -95,9 +95,6 @@ describe('PackageSelection', () => {
             return PackageShowPage.modal.confirmDeselection();
           });
 
-          it('indicates it is working', () => {
-            expect(PackageShowPage.selectionStatus.isSelecting).to.equal(true);
-          });
 
           describe('when the request succeeds', () => {
             beforeEach(function () {

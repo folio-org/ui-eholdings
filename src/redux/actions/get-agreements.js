@@ -5,7 +5,6 @@ export function getAgreements(refId) {
     type: GET_AGREEMENTS,
     payload: {
       refId,
-      isLoading: true,
     },
   };
 }

@@ -7,10 +7,21 @@ import get from 'lodash/get';
 
 import { qs } from '../components/utilities';
 import {
+  getHeaders,
+  parseResponseBody,
+} from '../api/common';
+import {
   mergeRelationships,
   mergeAttributes,
   getTagsData,
+  getChangedAttributes,
+  formatErrors,
+  reduceData,
+  getRecord,
+  makeRequest,
 } from './helpers';
+import entityTagsActionTypes from './constants/entityTagsActionTypes';
+import entityTagsReducers from './reducers/entityTagsReducers';
 
 // actions
 export const actionTypes = {
@@ -23,6 +34,7 @@ export const actionTypes = {
   REJECT: '@@ui-eholdings/db/REJECT',
   UNLOAD: '@@ui-eholdings/db/UNLOAD',
   REMOVE_REQUESTS: '@@ui-eholdings/db/REMOVE_REQUESTS',
+  ...entityTagsActionTypes,
 };
 
 /**
@@ -200,122 +212,13 @@ export const removeRequests = (resourceType, requestType) => ({
   }
 });
 
-
-/**
- * Helper for creating request state objects
- * @param {String} type - one of 'query', 'find', or 'update'
- * @param {Number} data.timestamp - the action timestamp
- * @param {String} data.type - the resource type
- * @param {Object} data.params - request params
- */
-const makeRequest = (type, data) => {
-  return {
-    [data.timestamp]: {
-      timestamp: data.timestamp,
-      type,
-      path: data.path,
-      resource: data.type,
-      params: data.params,
-      isPending: true,
-      isResolved: false,
-      isRejected: false,
-      records: data.params.id ? [data.params.id] : [],
-      changedAttributes: data.changedAttributes,
-      meta: {},
-      errors: []
-    }
-  };
-};
-
-/**
- * Helper for retrieving or creating a record from the resource
- * type's state leaf
- * @param {Object} store - the resource type's state leaf
- * @param {String} id - the record's id
- */
-const getRecord = (store, id) => (
-  store.records[id] || {
-    id,
-    isLoading: true,
-    isLoaded: false,
-    isSaving: false,
-    attributes: {},
-    relationships: {}
-  }
-);
-
-/**
- * Reducer helper to reduce a specific resource type's state leaf
- * @param {String} type - the resource type
- * @param {Object} state - current resource type state
- * @param {Function} fn - the actual reducing function
- */
-const reduceData = (type, state, fn) => {
-  const store = state[type] || {
-    requests: {},
-    records: {}
-  };
-
-  return {
-    ...state,
-    [type]: {
-      ...store,
-      ...fn(store)
-    }
-  };
-};
-
-/**
- * Helper for formatting errors returned from a rejected response
- * @param {Mixed} errors - the error or errors
- * @returns {Array} array of error objects
- */
-const formatErrors = (errors) => {
-  const format = (err) => {
-    if (typeof err === 'string') {
-      return { title: err };
-    } else if (err && err.message) {
-      return { title: err.message };
-    } else if (err && err.title) {
-      return err;
-    } else {
-      return { title: 'An unknown error occurred' };
-    }
-  };
-
-  if (Array.isArray(errors)) {
-    return errors.map(format);
-  } else {
-    return [format(errors)];
-  }
-};
-
-/**
- * Helper for calculating the difference between old and new state
- * with model.save(). Borrows heavily from Ember Data.
- * @param {Object} oldData - current state of attributes in store
- * @param {Object} newData - requested new state of attributes
- * @returns {Object} set of attributes with change
- */
-const getChangedAttributes = (oldData, newData) => {
-  const diffData = Object.create(null);
-  const newDataKeys = Object.keys(newData);
-
-  for (let i = 0, length = newDataKeys.length; i < length; i++) {
-    const key = newDataKeys[i];
-    if (oldData[key] !== newData[key]) {
-      diffData[key] = {
-        prev: oldData[key],
-        next: newData[key]
-      };
-    }
-  }
-
-  return diffData;
-};
-
 // reducer handlers
 const handlers = {
+
+  /**
+   * Handles reducing of entity tags updating on all the resources.
+   */
+  ...entityTagsReducers,
 
   /**
    * Handles reducing the data store when removing the create requests
@@ -560,45 +463,6 @@ const handlers = {
   }
 };
 
-
-/**
- * Helper for creating headers when making a request
- * @param {String} method - request method
- * @param {String} state.okapi.tenant - the Okapi tenant
- * @param {String} state.okapi.token - the Okapi user token
- * @param {String} url - the request url
- * @returns {Object} headers for a new request
- */
-const getHeaders = (method, { okapi }, url) => {
-  let contentType = 'application/json';
-  const headers = {
-    'X-Okapi-Tenant': okapi.tenant,
-    'X-Okapi-Token': okapi.token
-  };
-
-  if (method === 'PUT' || method === 'POST') {
-    if (url.includes('eholdings')) {
-      contentType = 'application/vnd.api+json';
-    }
-    headers['Content-Type'] = contentType;
-  }
-
-  return headers;
-};
-
-/**
- * Sometimes the response from the server (or mirage) does not include a
- * body (null). This causes `response.json()` to error with something like
- * "unexpected end of input". This workaround uses `response.text()` and
- * when there are any errors parsing it using `JSON.parse`, the text is
- * returned instead.
- */
-const parseResponseBody = (response) => {
-  return response.text().then((text) => {
-    try { return JSON.parse(text); } catch (e) { return text; }
-  });
-};
-
 /**
  * The main data store reducer simply uses the handlers defined above
  * @param {Object} state - data store state leaf
@@ -611,7 +475,6 @@ export function reducer(state = {}, action) { // NOSONAR
     return state;
   }
 }
-
 /**
  * The epic used to actually make a requests when an action is dispatched
  * @param {Observable} action$ - the observable action
@@ -638,7 +501,7 @@ export function epic(action$, { getState }) {
       // used for the actual request
       let url = `${state.okapi.url}${data.path}`;
 
-      const headers = getHeaders(method, state, url);
+      const headers = getHeaders(method, state.okapi, url);
       let body;
 
       // if we're querying a set of records, data.params are the

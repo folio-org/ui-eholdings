@@ -66,6 +66,16 @@ describe('ProviderShow package search', () => {
       expect(ProviderShowPage.searchModal.searchFieldValue).to.equal('');
     });
 
+    it('text field should be enabled', () => {
+      expect(ProviderShowPage.searchModal.searchFieldIsDisabled).to.be.false;
+    });
+
+    it('all filter accordions should be collapsed', () => {
+      ProviderShowPage.searchModal.filterAccordions().forEach(accordion => {
+        expect(accordion.isOpen).to.be.false;
+      });
+    });
+
     it('has default filters selected', () => {
       expect(ProviderShowPage.searchModal.getFilter('sort')).to.equal('relevance');
       expect(ProviderShowPage.searchModal.getFilter('selected')).to.equal('all');
@@ -86,8 +96,9 @@ describe('ProviderShow package search', () => {
     });
 
     describe('with filter change', () => {
-      beforeEach(() => {
-        return ProviderShowPage.searchModal.clickFilter('sort', 'name');
+      beforeEach(async () => {
+        await ProviderShowPage.searchModal.toggleAccordion('#accordion-toggle-button-filter-packages-sort');
+        await ProviderShowPage.searchModal.clickFilter('sort', 'name');
       });
 
       it('enables the search button', () => {
@@ -125,6 +136,11 @@ describe('ProviderShow package search', () => {
         it('should expand the accordion', () => {
           expect(ProviderShowPage.searchModal.tagsSection.tagsAccordion.isOpen).to.be.true;
         });
+
+        it('search by tags should be disabled', () => {
+          expect(ProviderShowPage.searchModal.tagsSection.tagsCheckboxIsChecked).to.be.false;
+          expect(ProviderShowPage.searchModal.tagsSection.tagsMultiselectIsDisabled).to.be.true;
+        });
       });
 
       describe('after doing a couple of clicks on accordion header', () => {
@@ -142,49 +158,64 @@ describe('ProviderShow package search', () => {
         expect(ProviderShowPage.searchModal.tagsSection.tagsSelect.values()).to.deep.equal([]);
       });
 
-      describe('after click on "urgent" option', () => {
+      describe('after enabling search by tags', () => {
         beforeEach(async () => {
-          await ProviderShowPage.searchModal.tagsSection.tagsSelect.options(1).clickOption();
+          await ProviderShowPage.searchModal.tagsSection.toggleSearchByTags();
         });
 
-        it('should close search modal', () => {
-          expect(ProviderShowPage.searchModal.isPresent).to.be.false;
+        it('search by tags should be enabled', () => {
+          expect(ProviderShowPage.searchModal.tagsSection.tagsCheckboxIsChecked).to.be.true;
+          expect(ProviderShowPage.searchModal.tagsSection.tagsMultiselectIsDisabled).to.be.false;
         });
 
-        it('should display packages tagged as urgent', () => {
-          expect(ProviderShowPage.packageList()).to.have.lengthOf(3);
-        });
-      });
-
-      describe('when some of the tags was selected and do tags clear', () => {
-        beforeEach(async () => {
-          await ProviderShowPage.searchModal.tagsSection.tagsSelect.options(0).clickOption();
-          await ProviderShowPage.clickListSearch();
-          await ProviderShowPage.searchModal.tagsSection.clearTagFilter();
+        it('search by query should be disabled', () => {
+          expect(ProviderShowPage.searchModal.searchFieldIsDisabled).to.be.true;
         });
 
-        it('should close search modal', () => {
-          expect(ProviderShowPage.searchModal.isPresent).to.be.false;
+        describe('after click on "urgent" option', () => {
+          beforeEach(async () => {
+            await ProviderShowPage.searchModal.tagsSection.tagsSelect.options(1).clickOption();
+          });
+
+          it('should close search modal', () => {
+            expect(ProviderShowPage.searchModal.isPresent).to.be.false;
+          });
+
+          it('should display packages tagged as urgent', () => {
+            expect(ProviderShowPage.packageList()).to.have.lengthOf(3);
+          });
         });
 
-        it('should display empty list of packages', () => {
-          expect(ProviderShowPage.packageList()).to.have.lengthOf(5);
-        });
-      });
+        describe('when some of the tags was selected and do tags clear', () => {
+          beforeEach(async () => {
+            await ProviderShowPage.searchModal.tagsSection.tagsSelect.options(0).clickOption();
+            await ProviderShowPage.clickListSearch();
+            await ProviderShowPage.searchModal.tagsSection.clearTagFilter();
+          });
 
-      describe('when "urgent" and "not urgent" tags are selected', () => {
-        beforeEach(async () => {
-          await ProviderShowPage.searchModal.tagsSection.tagsSelect.options(1).clickOption();
-          await ProviderShowPage.clickListSearch();
-          await ProviderShowPage.searchModal.tagsSection.tagsSelect.options(0).clickOption();
+          it('should close search modal', () => {
+            expect(ProviderShowPage.searchModal.isPresent).to.be.false;
+          });
+
+          it('should display empty list of packages', () => {
+            expect(ProviderShowPage.packageList()).to.have.lengthOf(5);
+          });
         });
 
-        it('should close search modal', () => {
-          expect(ProviderShowPage.searchModal.isPresent).to.be.false;
-        });
+        describe('when "urgent" and "not urgent" tags are selected', () => {
+          beforeEach(async () => {
+            await ProviderShowPage.searchModal.tagsSection.tagsSelect.options(1).clickOption();
+            await ProviderShowPage.clickListSearch();
+            await ProviderShowPage.searchModal.tagsSection.tagsSelect.options(0).clickOption();
+          });
 
-        it('displays packages tagged as "not urgent" and "urgent"', () => {
-          expect(ProviderShowPage.packageList()).to.have.lengthOf(3);
+          it('should close search modal', () => {
+            expect(ProviderShowPage.searchModal.isPresent).to.be.false;
+          });
+
+          it('displays packages tagged as "not urgent" and "urgent"', () => {
+            expect(ProviderShowPage.packageList()).to.have.lengthOf(3);
+          });
         });
       });
     });
@@ -257,10 +288,11 @@ describe('ProviderShow package search', () => {
     });
 
     describe('then sorting by package name', () => {
-      beforeEach(() => {
-        return ProviderShowPage.clickListSearch()
-          .searchModal.clickFilter('sort', 'name')
-          .searchModal.clickSearch();
+      beforeEach(async () => {
+        await ProviderShowPage.clickListSearch();
+        await ProviderShowPage.searchModal.toggleAccordion('#accordion-toggle-button-filter-packages-sort');
+        await ProviderShowPage.searchModal.clickFilter('sort', 'name');
+        await ProviderShowPage.searchModal.clickSearch();
       });
 
       it('displays packages matching the search term ordered by name', () => {
@@ -288,10 +320,11 @@ describe('ProviderShow package search', () => {
     });
 
     describe('then filtering the packages by selection status', () => {
-      beforeEach(() => {
-        return ProviderShowPage.clickListSearch()
-          .searchModal.clickFilter('selected', 'true')
-          .searchModal.clickSearch();
+      beforeEach(async () => {
+        await ProviderShowPage.clickListSearch();
+        await ProviderShowPage.searchModal.toggleAccordion('#accordion-toggle-button-filter-packages-selected');
+        await ProviderShowPage.searchModal.clickFilter('selected', 'true');
+        await ProviderShowPage.searchModal.clickSearch();
       });
 
       it('displays selected packages matching the search term', () => {
@@ -305,10 +338,11 @@ describe('ProviderShow package search', () => {
     });
 
     describe('then filtering the packages by content type', () => {
-      beforeEach(() => {
-        return ProviderShowPage.clickListSearch()
-          .searchModal.clickFilter('type', 'ebook')
-          .searchModal.clickSearch();
+      beforeEach(async () => {
+        await ProviderShowPage.clickListSearch();
+        await ProviderShowPage.searchModal.toggleAccordion('#accordion-toggle-button-filter-packages-type');
+        await ProviderShowPage.searchModal.clickFilter('type', 'ebook');
+        await ProviderShowPage.searchModal.clickSearch();
       });
 
       it('displays packages matching the search term and content type', () => {
@@ -330,9 +364,11 @@ describe('ProviderShow package search', () => {
         });
 
       this.server.get(`providers/${largeProvider.id}/packages`,
-        { 'data':[],
-          'meta':{ 'totalResults': 10001 },
-          'jsonapi':{ 'version':'1.0' } }, 200);
+        {
+          'data': [],
+          'meta': { 'totalResults': 10001 },
+          'jsonapi': { 'version': '1.0' }
+        }, 200);
 
       this.visit(
         {

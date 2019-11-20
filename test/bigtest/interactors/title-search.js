@@ -12,6 +12,8 @@ import {
   is
 } from '@bigtest/interactor';
 
+import { AccordionInteractor } from '@folio/stripes-components/lib/Accordion/tests/interactor';
+
 import TagsAccordion from './tags-accordion';
 import SearchBadge from './search-badge';
 
@@ -19,6 +21,7 @@ import SearchBadge from './search-badge';
   fillSearch = fillable('[data-test-search-field] input[name="search"]');
   submitSearch = clickable('[data-test-search-submit]');
   isSearchDisabled = property('[data-test-search-submit]', 'disabled');
+  searchFieldIsDisabled = property('[data-test-search-field] input[name="search"]', 'disabled');
   isSearchButtonDisabled = property('[data-test-search-submit]', 'disabled');
   fillSearch = fillable('[data-test-search-field] input[name="search"]');
   submitSearch = clickable('[data-test-search-submit]');
@@ -49,6 +52,9 @@ import SearchBadge from './search-badge';
   hasPreSearchPane = isPresent('[data-test-eholdings-pre-search-pane]');
   clickNewButton = clickable('[data-test-eholdings-search-new-button]');
   tagsSection = new TagsAccordion('[data-test-eholdings-tag-filter]');
+  sortFilterAccordion = new AccordionInteractor('#filter-titles-sort');
+  selectionFilterAccordion = new AccordionInteractor('#filter-titles-selected');
+  typeFilterAccordion = new AccordionInteractor('#filter-titles-type');
 
   hasLoaded = computed(function () {
     return this.titleList().length > 0;
@@ -61,6 +67,10 @@ import SearchBadge from './search-badge';
           top: firstItem.offsetHeight * readOffset
         });
       });
+  });
+
+  toggleAccordion = action(function (accordionId) {
+    return this.click(accordionId);
   });
 
   selectSearchField = action(function (searchfield) {

@@ -70,7 +70,6 @@ class Resource {
         isTitleCustom: this.isTitleCustom,
         isPeerReviewed: this.isPeerReviewed,
         description: this.description,
-        tags: this.tags,
       };
     }
 

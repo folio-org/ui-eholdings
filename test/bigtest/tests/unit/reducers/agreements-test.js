@@ -7,6 +7,7 @@ import {
   GET_AGREEMENTS_SUCCESS,
   GET_AGREEMENTS_FAILURE,
   ADD_AGREEMENT,
+  ATTACH_AGREEMENT_FAILURE,
 } from '../../../../../src/redux/actions';
 
 describe('(reducer) agreements', () => {
@@ -14,7 +15,7 @@ describe('(reducer) agreements', () => {
     expect(agreements(undefined, {})).to.deep.equal({
       isLoading: false,
       items: [],
-      error: null,
+      errors: [],
     });
   });
 
@@ -27,7 +28,6 @@ describe('(reducer) agreements', () => {
       type: GET_AGREEMENTS,
       payload: {
         referenceId: '123',
-        isLoading: true,
       }
     };
     const expectedState = {
@@ -40,19 +40,19 @@ describe('(reducer) agreements', () => {
   });
 
   it('should handle GET_AGREEMENTS_SUCCESS', () => {
-    const actualState = {};
+    const actualState = {
+      items: ['item3', 'item4', 'item5'],
+      isLoading: true,
+    };
     const action = {
       type: GET_AGREEMENTS_SUCCESS,
       payload: {
-        referenceId: '123',
-        isLoading: false,
-        items: 'items',
+        items: ['item1', 'item2'],
       }
     };
     const expectedState = {
-      items: 'items',
+      items: action.payload.items,
       isLoading: false,
-      referenceId: '123',
     };
 
     expect(agreements(actualState, action)).to.deep.equal(expectedState);
@@ -65,17 +65,32 @@ describe('(reducer) agreements', () => {
     };
     const action = {
       type: GET_AGREEMENTS_FAILURE,
-      payload: {
-        referenceId: '123',
-        isLoading: false,
-        error: 'error',
-      }
+      payload: { errors: 'error' }
     };
     const expectedState = {
       items: 'items',
       isLoading: false,
-      error: 'error',
-      referenceId: '123',
+      errors: [
+        { title: 'error' },
+      ],
+    };
+
+    expect(agreements(actualState, action)).to.deep.equal(expectedState);
+  });
+
+  it('should handle ATTACH_AGREEMENT_FAILURE', () => {
+    const actualState = {
+      isLoading: true,
+    };
+    const action = {
+      type: ATTACH_AGREEMENT_FAILURE,
+      payload: { errors: 'error' }
+    };
+    const expectedState = {
+      isLoading: false,
+      errors: [
+        { title: 'error' },
+      ],
     };
 
     expect(agreements(actualState, action)).to.deep.equal(expectedState);

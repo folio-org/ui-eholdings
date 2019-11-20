@@ -9,7 +9,7 @@ import moment from 'moment';
 /**
    * Validator to ensure begin date is present and entered dates are valid
    * @param {} dateRange - coverage date range to validate
-   * @returns {} - an error object if errors are found, or `false` otherwise
+   * @returns {} - an error object if errors are found, or `undefined` otherwise
    */
 const validateDateFormat = (dateRange, locale) => {
   moment.locale(locale);
@@ -20,13 +20,13 @@ const validateDateFormat = (dateRange, locale) => {
     return { beginCoverage: message };
   }
 
-  return false;
+  return undefined;
 };
 
 /**
  * Validator to ensure start date comes before end date chronologically
  * @param {} dateRange - coverage date range to validate
- * @returns {} - an error object if errors are found, or `false` otherwise
+ * @returns {} - an error object if errors are found, or `undefined` otherwise
  */
 const validateStartDateBeforeEndDate = (dateRange) => {
   const message = <FormattedMessage id="ui-eholdings.validate.errors.dateRange.startDateBeforeEndDate" />;
@@ -35,7 +35,7 @@ const validateStartDateBeforeEndDate = (dateRange) => {
     return { beginCoverage: message };
   }
 
-  return false;
+  return undefined;
 };
 
 /**
@@ -44,7 +44,7 @@ const validateStartDateBeforeEndDate = (dateRange) => {
  * @param {} customCoverages - all custom coverage ranges present in edit form
  * @param {} index - index in the field array indicating which coverage range is
  * presently being considered
- * @returns {} - an error object if errors are found, or `false` otherwise
+ * @returns {} - an error object if errors are found, or `undefined` otherwise
  */
 const validateNoRangeOverlaps = (dateRange, customCoverages, index) => {
   const present = moment.utc('9999-09-09T05:00:00.000Z');
@@ -93,14 +93,14 @@ const validateNoRangeOverlaps = (dateRange, customCoverages, index) => {
     }
   }
 
-  return false;
+  return undefined;
 };
 
 /**
  * Validator to ensure all coverage ranges are within the parent package's
  * custom coverage range if one is present
  * @param {} resourceDateRange - coverage date range to validate
- * @returns {} - an error object if errors are found, or `false` otherwise
+ * @returns {} - an error object if errors are found, or `undefined` otherwise
  */
 const validateWithinPackageRange = (resourceDateRange, packageDateRange) => {
   const {
@@ -148,7 +148,7 @@ const validateWithinPackageRange = (resourceDateRange, packageDateRange) => {
       };
     }
   }
-  return false;
+  return undefined;
 };
 
 const validateDateRange = (values, locale, packageDateRange) => {

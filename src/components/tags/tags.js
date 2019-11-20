@@ -2,7 +2,6 @@ import {
   uniq,
   difference,
   sortBy,
-  get,
 } from 'lodash';
 import React from 'react';
 import PropTypes from 'prop-types';
@@ -12,6 +11,7 @@ import { MultiSelection } from '@folio/stripes-components';
 
 export default class Tags extends React.Component {
   static propTypes = {
+    entityTags: PropTypes.arrayOf(PropTypes.string),
     model: PropTypes.object.isRequired,
     tags: PropTypes.arrayOf(PropTypes.object),
     updateEntityTags: PropTypes.func.isRequired,
@@ -29,26 +29,48 @@ export default class Tags extends React.Component {
     this.saveTags(tags);
   }
 
-  onRemove(tag) {
+  formatTagUpdatePayload(model) {
+    const tagData = {
+      data: {
+        type: 'tags',
+        attributes: {
+          name: model.name,
+          tags: model.tags,
+        },
+      },
+      id: model.id,
+    };
+
+    if (model.type === 'packages') {
+      tagData.data.attributes.contentType = model.contentType;
+    }
+
+    return tagData;
+  }
+
+  onRemove = (tag) => {
     const {
       model,
       updateEntityTags,
+      entityTags,
     } = this.props;
-    const tagList = this.getTagsList().filter(t => t !== tag);
+    const tagList = entityTags.filter(t => t !== tag);
 
     model.tags = { tagList };
-    updateEntityTags(model);
-  }
+
+    updateEntityTags(model.type, this.formatTagUpdatePayload(model), `${model.type}/${model.id}`);
+  };
 
   // add tag to the list of entity tags
-  saveEntityTags(tags) {
+  saveEntityTags = (tags) => {
     const {
       model,
       updateEntityTags,
+      entityTags,
     } = this.props;
-    model.tags = { tagList: sortBy(uniq([...tags, ...this.getTagsList()])) };
-    updateEntityTags(model);
-  }
+    model.tags = { tagList: sortBy(uniq([...tags, ...entityTags])) };
+    updateEntityTags(model.type, this.formatTagUpdatePayload(model), `${model.type}/${model.id}`);
+  };
 
   // add tags to global list of tags
   saveTags(newTags) {
@@ -59,31 +81,29 @@ export default class Tags extends React.Component {
 
     const newTag = difference(newTags, tags.map(t => t.label.toLowerCase()));
 
-    if (!newTag || !newTag.length) return;
+    if (!newTag.length) return;
+
     updateFolioTags({
       label: newTag[0],
       description: newTag[0],
     });
   }
 
-  handleRemove(tag) {
+  handleRemove = (tag) => {
     const {
       model,
       updateEntityTags,
+      entityTags
     } = this.props;
-    const tagList = this.getTagsList().filter(t => (t !== tag));
+    const tagList = entityTags.filter(t => t !== tag);
 
     model.tags = { tagList };
-    updateEntityTags(model);
-  }
 
-  getTagsList() {
-    return get(this.props.model, ['tags', 'tagList'], []);
-  }
-
+    updateEntityTags(model.type, this.formatTagUpdatePayload(model), `${model.type}/${model.id}`);
+  };
 
   onChange(tags) {
-    const tagsList = this.getTagsList();
+    const tagsList = this.props.entityTags;
 
     const entityTags = tags.map(t => t.value);
     if (tags.length < tagsList.length) {
@@ -115,7 +135,7 @@ export default class Tags extends React.Component {
 
   addTag = ({ inputValue }) => {
     const tag = inputValue.replace(/\s|\|/g, '').toLowerCase();
-    const entityTags = this.getTagsList().concat(tag);
+    const entityTags = this.props.entityTags.concat(tag);
     this.onAdd(entityTags);
   }
 
@@ -147,7 +167,7 @@ export default class Tags extends React.Component {
   }
 
   getSortedTagList = () => {
-    const tagsList = this.getTagsList().map(tag => {
+    const tagsList = this.props.entityTags.map(tag => {
       return {
         value: tag.toLowerCase(),
         label: tag.toLowerCase(),

@@ -21,9 +21,9 @@
   }
 }
 
-.tag-filters {
+.tags-search-warning {
   margin-top: 0.5em;
-  margin-left: 1rem;
+  display: inline-block;
 }
 
 .search-field {

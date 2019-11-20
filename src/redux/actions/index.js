@@ -5,3 +5,6 @@ export * from './get-agreements';
 export * from './get-agreements-success';
 export * from './get-agreements-failure';
 export * from './add-agreement';
+export { default as updateEntityTags } from './update-entity-tags';
+export { default as updateEntityTagsSuccess } from './update-entity-tags-success';
+export { default as updateEntityTagsFailure } from './update-entity-tags-failure';

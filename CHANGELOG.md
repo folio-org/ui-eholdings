@@ -1,7 +1,48 @@
 # Change history for ui-eholdings
 
+## [2.0.2](https://github.com/folio-org/ui-eholdings/tree/v2.0.2) (2019-09-25)
+[Full Changelog](https://github.com/folio-org/ui-eholdings/compare/v2.0.0...v2.0.2)
+
+* Fix BigTest imports (UIEH-793)
+* Add isFullPackage flag (UIEH-787)
+
+## [2.0.1](https://github.com/folio-org/ui-eholdings/tree/v2.0.1) (2019-09-16)
+
+* Regenerate yarn.lock for pointing all packages to npm-folio registry
+* Fix tests for Notes
+
+## [2.0.0](https://github.com/folio-org/ui-eholdings/tree/v2.0.0) (2019-09-11)
+
+* Update tags endpoints(UIEH-745, UIEH-747, UIEH-748)
+* Fix audiobook misspelling causing inability to create a title(UIEH-763)
+* Update translation strings
+* Updated react-final-form and related dependencies(UIEH-770)
+* Remove tags from resource/package/provider PUT payload(UIEH-769)
+* Fix accessibility issues(UIEH-750)
+* Put repeatable fields on a single line(UIEH-773)
+* Fix height of the pane container to fit all content(UIEH-760)
+* Updated serializes to exclude not used attrs from PUT package and provider payloads(UIEH-777, UIEH-778)
+* Fix mirage handler for GET titles with tags filter(UIEH-758)
+* Add error handling for agreements endpoints(UIEH-766)
+* Fixed add to custom package modal(UIEH-761, UIEH-762)
+* Disallow to create more than 1 date coverage range on Package create page(UIEH-782)
+
+## [1.9.0](https://github.com/folio-org/ui-eholdings/tree/v1.9.0) (2019-08-02)
+
+* Restore eHoldings to the settings menu (UIEH-757, UITEN-35)
+
+## [1.8.0](https://github.com/folio-org/ui-eholdings/tree/v1.8.0) (2019-07-24)
+
+* Make search filters collapsed by default(UIEH-737)
+* Update URLs leading to Agreements app(ERM-253)
+* Add filter by tags support(UIEH-710, UIEH-711, UIEH-634)
+* Remove convertion to lower case of contributor type(UIEH-687)
+* Indicate descending order for custom coverage date ranges(UIEH-734)
+* Pass AppIcon instance to Pane props(UIEH-728)
+* Add numeric formatting for "Titles Selected" and "Total Number of Titles" in package-show page(UIEH-735)
+* Use granular permissions for settings items (UITEN-35)
+
 ## [1.7.0](https://github.com/folio-org/ui-eholdings/tree/v1.7.0) (2019-06-11)
-[Full Changelog](https://github.com/folio-org/ui-eholdings/compare/v1.5.0...v1.7.0)
 
 * Fixed tests related to the datepicker (UIEH-725)
 * Fix toggling of the notes accordions (UIEH-718)

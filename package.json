@@ -1,6 +1,6 @@
 {
   "name": "@folio/eholdings",
-  "version": "1.7.0",
+  "version": "2.0.2",
   "description": "FOLIO UI module for eHoldings",
   "main": "src/index.js",
   "repository": "https://github.com/folio-org/ui-eholdings",
@@ -15,7 +15,7 @@
   },
   "husky": {
     "hooks": {
-      "pre-push": "yarn lint"
+      "pre-push": "yarn lint >&2"
     }
   },
   "devDependencies": {
@@ -24,9 +24,8 @@
     "@bigtest/mocha": "^0.5.1",
     "@bigtest/react": "^0.1.2",
     "@folio/eslint-config-stripes": "^4.0.1",
-    "@folio/stripes": "^2.0.0",
-    "@folio/stripes-cli": "^1.7.0",
-    "@folio/stripes-core": "^3.0.0",
+    "@folio/stripes": "^2.6.0",
+    "@folio/stripes-cli": "^1.8.0",
     "babel-eslint": "^9.0.0",
     "babel-polyfill": "^6.26.0",
     "chai": "^4.0.2",
@@ -50,16 +49,16 @@
   },
   "dependencies": {
     "classnames": "^2.2.5",
-    "final-form": "^4.10.0",
-    "final-form-arrays": "^1.1.0",
-    "final-form-focus": "^1.1.0",
-    "final-form-calculate": "^1.2.1",
+    "final-form": "^4.18.2",
+    "final-form-arrays": "^3.0.1",
+    "final-form-focus": "^1.1.2",
+    "final-form-calculate": "^1.3.1",
     "funcadelic": "^0.5.4",
     "impagination": "^1.0.0-alpha.3",
     "inflected": "^2.0.3",
     "prop-types": "^15.6.2",
-    "react-final-form": "^3.6.7",
-    "react-final-form-arrays": "^1.1.0",
+    "react-final-form": "^6.3.0",
+    "react-final-form-arrays": "^3.1.0",
     "react-hot-loader": "^4.3.12",
     "react-intl": "^2.4.0",
     "react-measure": "^2.1.0",
@@ -70,13 +69,13 @@
     "redux-observable": "^0.15.0"
   },
   "peerDependencies": {
+    "@folio/stripes": "^2.6.0",
     "react": "*"
   },
   "stripes": {
-    "type": "app",
+    "actsAs": ["app", "settings"],
     "displayName": "ui-eholdings.meta.title",
     "route": "/eholdings",
-    "hasSettings": true,
     "icons": [
       {
         "name": "app",
@@ -85,9 +84,9 @@
       }
     ],
     "okapiInterfaces": {
-      "eholdings": "1.0",
+      "eholdings": "2.0",
       "tags": "1.0",
-      "erm": "1.0"
+      "erm": "1.0 2.0"
     },
     "permissionSets": [
       {
@@ -101,7 +100,25 @@
       {
         "permissionName": "settings.eholdings.enabled",
         "displayName": "Settings (eHoldings): display list of settings pages",
-        "visible": true
+        "subPermissions": [
+          "settings.enabled"
+        ]
+      },
+      {
+        "permissionName": "ui-eholdings.settings.kb",
+        "displayName": "Settings (eHoldings): configure EBSCO RM API credentials",
+        "visible": true,
+        "subPermissions": [
+          "settings.eholdings.enabled"
+        ]
+      },
+      {
+        "permissionName": "ui-eholdings.settings.root-proxy",
+        "displayName": "Settings (eHoldings): configure root proxy setting",
+        "visible": true,
+        "subPermissions": [
+          "settings.eholdings.enabled"
+        ]
       },
       {
         "permissionName": "ui-eholdings.package-title.select-unselect",

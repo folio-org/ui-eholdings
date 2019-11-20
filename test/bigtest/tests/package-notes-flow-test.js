@@ -94,6 +94,10 @@ describe('Package view', function () {
         expect(this.location.pathname).to.equal('/eholdings/notes/new');
       });
 
+      it('displays assignment accordion as closed', () => {
+        expect(noteForm.assignmentAccordion.isOpen).to.equal(false);
+      });
+
       it('should disable save button', () => {
         expect(noteForm.saveButton.isDisabled).to.be.true;
       });
@@ -270,6 +274,7 @@ describe('Package view', function () {
     describe('and a note in the notes list was clicked', () => {
       beforeEach(async () => {
         await notesAccordion.notes(0).click();
+        await noteView.whenLoaded();
       });
 
       it('should redirect to note view page', function () {
@@ -294,6 +299,10 @@ describe('Package view', function () {
 
       it('should display assignments information accordion', () => {
         expect(noteView.assignmentInformationAccordionIsDisplayed).to.be.true;
+      });
+
+      it('displays assignment accordion as closed', () => {
+        expect(noteView.assignmentAccordion.isOpen).to.equal(false);
       });
 
       it('should display correct referred entity type', () => {
@@ -347,6 +356,7 @@ describe('Package view', function () {
       describe('and edit button is clicked', () => {
         beforeEach(async () => {
           await noteView.clickEditButton();
+          await noteForm.when(() => noteForm.formFieldsAccordionIsDisplayed);
         });
 
         it('should redirect to note edit page', function () {

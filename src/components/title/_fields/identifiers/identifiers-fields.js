@@ -1,17 +1,17 @@
-import React, { Component, Fragment } from 'react';
+import React, { Component } from 'react';
 import { Field } from 'react-final-form';
 import { FieldArray } from 'react-final-form-arrays';
 
 import {
   Headline,
-  Icon,
   RepeatableField,
   Select,
-  TextField
+  TextField,
+  Col,
+  Row,
 } from '@folio/stripes/components';
 
 import { FormattedMessage } from 'react-intl';
-import styles from './identifiers-fields.css';
 
 export default class IdentifiersFields extends Component {
   validateId(value) {
@@ -30,10 +30,11 @@ export default class IdentifiersFields extends Component {
 
   renderField = (identifier) => {
     return (
-      <Fragment>
-        <div
+      <Row>
+        <Col
+          md
+          xs={12}
           data-test-eholdings-identifiers-fields-type
-          className={styles['identifiers-fields-field']}
         >
           <Field
             name={`${identifier}.flattenedType`}
@@ -55,20 +56,26 @@ export default class IdentifiersFields extends Component {
               {(message) => <option value="3">{message}</option>}
             </FormattedMessage>
           </Field>
-        </div>
-        <div
+        </Col>
+        <Col
+          md
+          xs={12}
           data-test-eholdings-identifiers-fields-id
-          className={styles['identifiers-fields-field']}
         >
-          <Field
-            name={`${identifier}.id`}
-            type="text"
-            component={TextField}
-            label={<FormattedMessage id="ui-eholdings.id" />}
-            validate={this.validateId}
-          />
-        </div>
-      </Fragment>
+          <FormattedMessage id="ui-eholdings.id">
+            {(fieldName) => (
+              <Field
+                name={`${identifier}.id`}
+                type="text"
+                component={TextField}
+                label={fieldName}
+                validate={this.validateId}
+                ariaLabel={fieldName}
+              />
+            )}
+          </FormattedMessage>
+        </Col>
+      </Row>
     );
   }
 
@@ -78,11 +85,7 @@ export default class IdentifiersFields extends Component {
         <FieldArray name="identifiers">
           {({ fields, meta: { initial } }) => (
             <RepeatableField
-              addLabel={
-                <Icon icon="plus-sign">
-                  <FormattedMessage id="ui-eholdings.title.identifier.addIdentifier" />
-                </Icon>
-              }
+              addLabel={<FormattedMessage id="ui-eholdings.title.identifier.addIdentifier" />}
               emptyMessage={
                 initial && initial.length > 0 && initial[0].id ?
                   <FormattedMessage id="ui-eholdings.title.identifier.notSet" /> : ''

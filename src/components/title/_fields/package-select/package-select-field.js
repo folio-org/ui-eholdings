@@ -17,6 +17,7 @@ function PackageSelectField({ options }) {
         component={Select}
         label={<FormattedMessage id="ui-eholdings.title.package.isRequired" />}
         validate={validate}
+        onBlur={null} // preventing validation that is in onBlur
       >
         {options.length ? (
           <FormattedMessage id="ui-eholdings.title.chooseAPackage">

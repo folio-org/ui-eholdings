@@ -75,8 +75,8 @@ describe('ManagedPackageEdit', () => {
       });
 
       describe('clicking save', () => {
-        beforeEach(() => {
-          return PackageEditPage.clickSave();
+        beforeEach(async () => {
+          await PackageEditPage.clickSave();
         });
 
         it('goes to the package show page', () => {

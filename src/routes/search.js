@@ -2,11 +2,20 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import ReactRouterPropTypes from 'react-router-prop-types';
 import { connect } from 'react-redux';
-import isEqual from 'lodash/isEqual';
 import { FormattedMessage } from 'react-intl';
+import {
+  isEqual,
+  hasIn,
+} from 'lodash';
+
 import { TitleManager } from '@folio/stripes/core';
 
-import { qs, transformQueryParams, getResultsNotFoundTranslationKey } from '../components/utilities';
+import {
+  qs,
+  transformQueryParams,
+  getResultsNotFoundTranslationKey
+} from '../components/utilities';
+
 import { createResolver } from '../redux';
 import Provider from '../redux/provider';
 import Package from '../redux/package';
@@ -57,10 +66,13 @@ class SearchRoute extends Component {
       searchType,
       params,
       sort: params.sort,
-      searchString: params.q,
-      searchFilter: params.filter,
+      submittedSearchString: params.q,
+      draftSearchString: params.q,
+      submittedSearchFilters: params.filter || {},
+      draftSearchFilters: params.filter,
       searchField: params.searchfield,
       hideFilters: false,
+      searchByTagsEnabled: false
     };
   }
 
@@ -68,6 +80,8 @@ class SearchRoute extends Component {
     const { location, match } = nextProps;
     const { searchType, ...params } = qs.parse(location.search);
     const hideDetails = /^\/eholdings\/?$/.test(location.pathname);
+    const searchTypeChanged = searchType !== prevState.searchType;
+    const urlContainsTagsFilter = hasIn(params, ['filter', 'tags']);
     let shouldFocusItem = null;
 
     if (hideDetails && match.params.id !== (prevState.match && prevState.match.params.id)) {
@@ -85,11 +99,19 @@ class SearchRoute extends Component {
         hideDetails,
         shouldFocusItem,
         sort: params.sort,
-        searchFilter: params.filter,
+        submittedSearchFilters: params.filter || {},
+        draftSearchFilters: searchTypeChanged
+          ? params.filter
+          : prevState.draftSearchFilters,
         searchField: params.searchfield,
-        searchString: params.q
+        submittedSearchString: params.q,
+        draftSearchString: searchTypeChanged
+          ? params.q
+          : prevState.draftSearchString,
+        searchByTagsEnabled: urlContainsTagsFilter,
       };
     }
+
     return null;
   }
 
@@ -101,17 +123,66 @@ class SearchRoute extends Component {
     }
   }
 
-  handleSearchChange = (searchString) => {
-    this.setState({ searchString });
-  }
+  toggleSearchByTags = () => {
+    const {
+      searchByTagsEnabled,
+      draftSearchFilters,
+    } = this.state;
 
-  handleFilterChange = (sort, searchFilter) => {
-    this.setState({ sort, searchFilter }, this.handleSearch);
-  }
+    const searchByTagsIsExpected = !searchByTagsEnabled && hasIn(draftSearchFilters, 'tags');
 
-  handleTagFilterChange = (searchFilter) => {
-    this.setState({ searchFilter, searchString: '' }, this.handleSearch);
-  }
+    this.setState(currentState => {
+      return searchByTagsIsExpected
+        ? {
+          searchByTagsEnabled: !currentState.searchByTagsEnabled,
+          submittedSearchString: '',
+          submittedSearchFilters: {
+            tags: currentState.draftSearchFilters.tags,
+          },
+
+        }
+        : { searchByTagsEnabled: !currentState.searchByTagsEnabled };
+    }, this.handleSearch);
+  };
+
+  handleSearchChange = draftSearchString => {
+    this.setState({ draftSearchString });
+  };
+
+  handleFilterChange = (sort, searchFilters) => {
+    this.setState(prevState => {
+      return {
+        sort,
+        submittedSearchFilters: prevState.sort !== sort
+          ? prevState.submittedSearchFilters
+          : {
+            ...searchFilters,
+            tags: undefined
+          },
+        draftSearchFilters: searchFilters
+      };
+    }, this.handleSearch);
+  };
+
+  resetTagsFilter = () => {
+    this.setState(prevState => ({
+      submittedSearchFilters: {
+        ...prevState.draftSearchFilters,
+        tags: undefined
+      }
+    }), this.handleSearch);
+  };
+
+  handleTagFilterChange = tagFilter => {
+    this.setState(prevState => ({
+      submittedSearchFilters: tagFilter,
+      draftSearchFilters: {
+        ...prevState.submittedSearchFilters,
+        ...tagFilter
+      },
+      submittedSearchString: '',
+    }), this.handleSearch);
+  };
 
   handleSearchFieldChange = searchField => {
     this.setState({ searchField });
@@ -180,7 +251,7 @@ class SearchRoute extends Component {
    * Update the url to match new search params
    * @param {Object} params - query param object
    */
-  updateURLParams(params) {
+  updateURLParams = (params) => {
     const { location, history } = this.props;
 
     // if the new query is different from our location, update the location
@@ -199,7 +270,7 @@ class SearchRoute extends Component {
         history.push(url);
       }
     }
-  }
+  };
 
   /**
    * Dispatches a search action specific to the current search type
@@ -218,14 +289,27 @@ class SearchRoute extends Component {
    * @param {Object} params - query param object
    */
   handleSearch = () => {
+    const {
+      submittedSearchString,
+      submittedSearchFilters,
+      sort,
+      searchField,
+    } = this.state;
+
     const params = {
-      q: this.state.searchString,
-      filter: this.state.searchFilter,
-      sort: this.state.sort,
-      searchfield: this.state.searchField
+      q: submittedSearchString,
+      filter: submittedSearchFilters,
+      searchfield: searchField,
+      sort,
     };
 
     this.updateURLParams(params);
+  };
+
+  handleSearchButtonClick = () => {
+    this.setState(currentState => ({
+      submittedSearchString: currentState.draftSearchString,
+    }), this.resetTagsFilter);
   };
 
   /**
@@ -234,7 +318,7 @@ class SearchRoute extends Component {
    * @param {Number} offset - the read offset the QueryList component
    * has been scrolled to
    */
-  handleOffset = (offset) => {
+  handleOffset = offset => {
     const { params } = this.state;
     this.updateURLParams({ ...params, offset });
   };
@@ -257,11 +341,7 @@ class SearchRoute extends Component {
         id={translationKey}
         values={{ query: params.q }}
       />
-    ) : (
-      <FormattedMessage
-        id={translationKey}
-      />
-    );
+    ) : <FormattedMessage id={translationKey} />;
   };
 
 
@@ -322,10 +402,11 @@ class SearchRoute extends Component {
       params,
       hideDetails,
       sort,
-      searchString,
-      searchFilter,
+      draftSearchString,
+      draftSearchFilters,
       searchField,
-      hideFilters
+      hideFilters,
+      searchByTagsEnabled,
     } = this.state;
 
     if (searchType) {
@@ -361,17 +442,19 @@ class SearchRoute extends Component {
                     <SearchForm
                       sort={sort}
                       searchType={searchType}
-                      searchString={searchString}
-                      searchFilter={searchFilter}
+                      searchString={draftSearchString}
+                      searchFilter={draftSearchFilters}
                       searchField={searchField}
+                      searchByTagsEnabled={searchByTagsEnabled}
                       tagsModel={tagsModel}
                       searchTypeUrls={this.getSearchTypeUrls()}
                       isLoading={!!params.q && !results.hasLoaded}
-                      onSearch={this.handleSearch}
+                      onSearch={this.handleSearchButtonClick}
                       onSearchFieldChange={this.handleSearchFieldChange}
                       onFilterChange={this.handleFilterChange}
                       onSearchChange={this.handleSearchChange}
                       onTagFilterChange={this.handleTagFilterChange}
+                      onSearchByTagsToggle={this.toggleSearchByTags}
                     />
                   )}
                 />

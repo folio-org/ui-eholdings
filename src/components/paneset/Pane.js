@@ -36,6 +36,7 @@ export default class Pane extends Component {
 
     // determines whether the pane content has padding
     padContent: PropTypes.bool,
+    paneHeaderId: PropTypes.string.isRequired,
 
     // used for panes which will always be visible. this is usually
     // just a single pane such as the results pane in search
@@ -106,6 +107,7 @@ export default class Pane extends Component {
       subheader,
       tagName,
       visible,
+      paneHeaderId,
       ...rest
     } = this.props;
     const {
@@ -176,6 +178,7 @@ export default class Pane extends Component {
                     firstMenu={firstMenu}
                     lastMenu={lastMenu}
                     actionMenu={actionMenu}
+                    id={paneHeaderId}
                   />
                 </div>
               )}

@@ -7,7 +7,6 @@ import isEqual from 'lodash/isEqual';
 
 import {
   Button,
-  Icon,
   IconButton,
   Select,
   TextField,
@@ -112,7 +111,6 @@ export default class CustomEmbargoFields extends Component {
             <IconButton
               icon="trash"
               onClick={fields.pop}
-              size="small"
               ariaLabel={ariaLabel}
             />
           )}
@@ -149,9 +147,7 @@ export default class CustomEmbargoFields extends Component {
             type="button"
             onClick={() => { fields.push({ embargoValue: 0 }); }}
           >
-            <Icon icon="plus-sign">
-              <FormattedMessage id="ui-eholdings.resource.embargoPeriod.addCustom" />
-            </Icon>
+            <FormattedMessage id="ui-eholdings.resource.embargoPeriod.addCustom" />
           </Button>
         </div>
       </div>
