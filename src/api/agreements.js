@@ -28,11 +28,11 @@ const createUrl = (baseUrl, refId) => {
 };
 
 const doRequest = (url, params) => {
-  return Observable.from(fetch(url, params))
-    .switchMap(response => {
-      const body = parseResponseBody(response);
-      return response.ok ? body : Observable.throw(body);
-    });
+  const promise = fetch(url, params)
+    .then(response => Promise.all([response.ok, parseResponseBody(response)]))
+    .then(([ok, body]) => (ok ? body : Promise.reject(body)));
+
+  return Observable.from(promise);
 };
 
 export default {
