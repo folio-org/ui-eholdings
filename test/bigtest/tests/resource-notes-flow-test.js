@@ -15,7 +15,7 @@ const notesModal = new NotesModal();
 const noteForm = new NoteForm();
 const noteView = new NoteView();
 
-describe('Resource view', function () {
+describe.skip('Resource view', function () {
   setupApplication();
 
   let pkg;

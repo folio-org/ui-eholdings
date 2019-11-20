@@ -6,7 +6,7 @@ import ProviderSearchPage from '../interactors/provider-search';
 import ProviderShowPage from '../interactors/provider-show';
 import PackageShowPage from '../interactors/package-show';
 
-describe('ProviderSearch', () => {
+describe.skip('ProviderSearch', () => {
   setupApplication();
   beforeEach(function () {
     this.server.createList('provider', 3, 'withPackagesAndTitles', {

@@ -5,7 +5,7 @@ import setupApplication from '../helpers/setup-application';
 import PackageShowPage from '../interactors/package-show';
 import PackageEditPage from '../interactors/package-edit';
 
-describe('ManagedPackageEditTokens', () => {
+describe.skip('ManagedPackageEditTokens', () => {
   setupApplication();
   let provider,
     providerPackage,

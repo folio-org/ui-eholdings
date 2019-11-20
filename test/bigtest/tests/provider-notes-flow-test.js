@@ -14,7 +14,7 @@ const noteForm = new NoteForm();
 const noteView = new NoteView();
 const notesAccordion = new NotesAccordion();
 
-describe('Provider view', function () {
+describe.skip('Provider view', function () {
   setupApplication();
 
   let provider;

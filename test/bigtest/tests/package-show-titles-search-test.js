@@ -4,7 +4,7 @@ import { expect } from 'chai';
 import setupApplication from '../helpers/setup-application';
 import PackageShowPage from '../interactors/package-show';
 
-describe('Package Show Title Search', () => {
+describe.skip('Package Show Title Search', () => {
   setupApplication();
   let provider,
     resources,

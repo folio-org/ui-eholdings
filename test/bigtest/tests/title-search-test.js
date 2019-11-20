@@ -6,7 +6,7 @@ import TitleSearchPage from '../interactors/title-search';
 import TitleShowPage from '../interactors/title-show';
 import ResourceShowPage from '../interactors/resource-show';
 
-describe('TitleSearch', () => {
+describe.skip('TitleSearch', () => {
   setupApplication();
   let titles;
 

@@ -6,7 +6,7 @@ import ResourcePage from '../interactors/resource-show';
 import PackageEditPage from '../interactors/package-edit';
 import { entityAuthorityTypes } from '../../../src/constants';
 
-describe('ResourceShow', () => {
+describe.skip('ResourceShow', () => {
   setupApplication();
   let provider;
   let providerPackage;

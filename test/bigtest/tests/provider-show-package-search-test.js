@@ -4,7 +4,7 @@ import { expect } from 'chai';
 import setupApplication from '../helpers/setup-application';
 import ProviderShowPage from '../interactors/provider-show';
 
-describe('ProviderShow package search', () => {
+describe.skip('ProviderShow package search', () => {
   setupApplication();
   let provider,
     packages;

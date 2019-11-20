@@ -5,7 +5,7 @@ import setupApplication from '../helpers/setup-application';
 import PackageShowPage from '../interactors/package-show';
 import { entityAuthorityTypes } from '../../../src/constants';
 
-describe('PackageShow', () => {
+describe.skip('PackageShow', () => {
   setupApplication();
   let provider;
   let providerPackage;

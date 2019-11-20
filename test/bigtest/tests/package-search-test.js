@@ -6,7 +6,7 @@ import PackageSearchPage from '../interactors/package-search';
 import PackageShowPage from '../interactors/package-show';
 import ResourceShowPage from '../interactors/resource-show';
 
-describe('PackageSearch', () => {
+describe.skip('PackageSearch', () => {
   setupApplication();
   let pkgs;
 

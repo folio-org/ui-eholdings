@@ -6,7 +6,7 @@ import setupBlockServer from '../helpers/setup-block-server';
 import PackageShowPage from '../interactors/package-show';
 import PackageEditPage from '../interactors/package-edit';
 
-describe('ManagedPackageEditSelection', () => {
+describe.skip('ManagedPackageEditSelection', () => {
   setupApplication();
   let provider,
     providerPackage;

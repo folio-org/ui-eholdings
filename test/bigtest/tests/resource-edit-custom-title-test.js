@@ -5,7 +5,7 @@ import setupApplication from '../helpers/setup-application';
 import ResourceShowPage from '../interactors/resource-show';
 import ResourceEditPage from '../interactors/resource-edit';
 
-describe('ResourceEditCustomTitle', () => {
+describe.skip('ResourceEditCustomTitle', () => {
   setupApplication();
   let provider,
     providerPackage,
