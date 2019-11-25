@@ -1,7 +1,7 @@
 /* global describe, it */
 import { expect } from 'chai';
 
-import selectAgreements from '../../../../../src/redux/selectors/select-agreements';
+import { selectAgreements } from '../../../../../src/redux/selectors';
 
 describe('(selector) selectAgreements', () => {
   it('should select agreements', () => {
