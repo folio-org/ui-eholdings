@@ -94,7 +94,8 @@
         "displayName": "UI: eHoldings module is enabled",
         "visible": true,
         "subPermissions": [
-          "kb-ebsco.all"
+          "kb-ebsco.all",
+          "tags.all"
         ]
       },
       {
