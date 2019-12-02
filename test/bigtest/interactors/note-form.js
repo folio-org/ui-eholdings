@@ -67,7 +67,6 @@ import { AccordionInteractor } from '@folio/stripes-components/lib/Accordion/tes
     return this.noteTypesSelect.selectAndBlur(noteType)
       .noteTitleField.enterText(noteTitle);
   }
-
 }
 
 export default NoteForm;
