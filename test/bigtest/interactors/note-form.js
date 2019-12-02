@@ -60,18 +60,12 @@ import { AccordionInteractor } from '@folio/stripes-components/lib/Accordion/tes
   clickContinueNavigationButton = clickable('[data-test-navigation-modal-continue]');
   referredEntityType = text('[data-test-referred-entity-type]');
   referredEntityName = text('[data-test-referred-entity-name]');
-  clickPaneHeaderButton = clickable('[class^="paneHeaderCenterButton"]');
-  clickDropdownCancelButton = clickable('[data-test-leave-note-form]');
+  clickCancelButton = clickable('[data-test-cancel-editing-note-form]');
   assignmentAccordion = new AccordionInteractor('#assigned');
 
   enterNoteData(noteType, noteTitle) {
     return this.noteTypesSelect.selectAndBlur(noteType)
       .noteTitleField.enterText(noteTitle);
-  }
-
-  openDropdownAndClickCloseButton() {
-    return this.clickPaneHeaderButton()
-      .clickDropdownCancelButton();
   }
 }
 

@@ -20,7 +20,6 @@ import Toaster from '../../components/toaster';
 
 import {
   selectAgreements,
-  selectUserPermissions,
 } from '../../redux/selectors';
 import {
   attachAgreement as attachAgreementAction,
@@ -42,17 +41,19 @@ class AgreementsAccordion extends Component {
     onToggle: PropTypes.func,
     refId: PropTypes.string.isRequired,
     refType: PropTypes.string,
-    userPermissions: PropTypes.objectOf(PropTypes.bool),
+    stripes: PropTypes.shape({
+      hasPerm: PropTypes.func.isRequired,
+    }).isRequired,
   }
 
   componentDidMount() {
     const {
       getAgreements,
       refId,
-      userPermissions,
+      stripes,
     } = this.props;
 
-    if (userPermissions['erm.agreements.collection.get']) {
+    if (stripes.hasPerm('erm.agreements.collection.get')) {
       getAgreements(refId);
     }
   }
@@ -168,7 +169,6 @@ class AgreementsAccordion extends Component {
 export default connect(
   (store) => ({
     agreements: selectAgreements(store),
-    userPermissions: selectUserPermissions(store),
   }), {
     getAgreements: getAgreementsAction,
     attachAgreement: attachAgreementAction,

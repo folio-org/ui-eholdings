@@ -204,6 +204,7 @@ class ResourceShow extends Component {
       isFreshlySaved,
       tagsModel,
       updateFolioTags,
+      stripes,
     } = this.props;
 
     const {
@@ -553,6 +554,7 @@ class ResourceShow extends Component {
 
               <AgreementsAccordion
                 id="resourceShowAgreements"
+                stripes={stripes}
                 refId={model.id}
                 refType={entityAuthorityTypes.RESOURCE}
                 isOpen={sections.resourceShowAgreements}

@@ -395,9 +395,9 @@ describe('Package view', function () {
           expect(noteForm.saveButton.isDisabled).to.be.true;
         });
 
-        describe('and dropdown close button is clicked', () => {
+        describe('and cancel editing button is clicked', () => {
           beforeEach(async () => {
-            await noteForm.openDropdownAndClickCloseButton();
+            await noteForm.clickCancelButton();
           });
 
           it('should redirect to previous page', function () {
@@ -473,9 +473,9 @@ describe('Package view', function () {
               });
             });
 
-            describe('and dropdown close button was clicked', () => {
+            describe('and cancel editing button was clicked', () => {
               beforeEach(async () => {
-                await noteForm.openDropdownAndClickCloseButton();
+                await noteForm.clickCancelButton();
               });
 
               it('should display navigation modal', function () {
