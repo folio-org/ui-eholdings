@@ -284,6 +284,7 @@ class PackageShow extends Component {
       model,
       tagsModel,
       updateFolioTags,
+      stripes,
     } = this.props;
 
     const {
@@ -460,6 +461,7 @@ class PackageShow extends Component {
 
         <AgreementsAccordion
           id="packageShowAgreements"
+          stripes={stripes}
           refId={model.id}
           refType={entityAuthorityTypes.PACKAGE}
           isOpen={sections.packageShowAgreements}

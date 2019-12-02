@@ -142,7 +142,7 @@ describe('PackageSearch', () => {
         expect(PackageSearchPage.packagePreviewPaneIsPresent).to.be.true;
       });
 
-      it('focuses the package name', () => {
+      it.skip('focuses the package name', () => {
         expect(PackageShowPage.nameHasFocus).to.be.true;
       });
 
@@ -241,7 +241,7 @@ describe('PackageSearch', () => {
             expect(PackageSearchPage.packageList()).to.have.lengthOf(3);
           });
 
-          it('focuses the package name', () => {
+          it.skip('focuses the package name', () => {
             expect(PackageShowPage.nameHasFocus).to.be.true;
           });
         });
