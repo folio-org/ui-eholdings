@@ -21,29 +21,29 @@ describe('Provider view', function () {
   let noteType;
   let providerNote;
 
-  beforeEach(function () {
-    provider = this.server.create('provider', {
+  beforeEach(async function () {
+    provider = await this.server.create('provider', {
       name: 'Cool Provider'
     });
 
-    noteType = this.server.create('note-type', {
+    noteType = await this.server.create('note-type', {
       id: 'noteType1',
       name: 'Test note type',
     });
 
-    providerNote = this.server.create('note', {
+    providerNote = await this.server.create('note', {
       type: noteType.name,
       typeId: noteType.id,
       links: [{ type: 'provider', id: provider.id }],
     });
 
-    this.server.create('note', {
+    await this.server.create('note', {
       type: noteType.name,
       typeId: noteType.id,
       links: [{ type: 'package', id: '1' }],
     });
 
-    this.server.create('note', {
+    await this.server.create('note', {
       type: noteType.name,
       typeId: noteType.id,
       links: [{ type: 'package', id: '2' }],
@@ -52,7 +52,7 @@ describe('Provider view', function () {
 
   describe('when the provider details page is visited', () => {
     beforeEach(async function () {
-      this.visit(`/eholdings/providers/${provider.id}`);
+      await this.visit(`/eholdings/providers/${provider.id}`);
     });
 
     it('should display notes accordion', () => {
@@ -207,7 +207,7 @@ describe('Provider view', function () {
       describe('and search query was entered', () => {
         beforeEach(async () => {
           await notesModal.enterSearchQuery('some note');
-          await wait(300);
+          await wait(1000);
         });
 
         it('should enable search button', () => {

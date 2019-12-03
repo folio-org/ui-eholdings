@@ -24,37 +24,37 @@ describe('Resource view', function () {
   let resource;
   let resourceNote;
 
-  beforeEach(function () {
-    pkg = this.server.create('package', 'withProvider');
+  beforeEach( async function () {
+    pkg = await this.server.create('package', 'withProvider');
 
-    title = this.server.create('title', {
+    title = await this.server.create('title', {
       publicationType: 'Journal'
     });
 
-    resource = this.server.create('resource', {
+    resource = await this.server.create('resource', {
       package: pkg,
       title,
       isSelected: true
     });
 
-    noteType = this.server.create('note-type', {
+    noteType = await this.server.create('note-type', {
       id: 'noteType1',
       name: 'Test note type',
     });
 
-    resourceNote = this.server.create('note', {
+    resourceNote = await this.server.create('note', {
       type: noteType.name,
       typeId: noteType.id,
       links: [{ type: 'resource', id: resource.id }],
     });
 
-    this.server.create('note', {
+    await this.server.create('note', {
       type: noteType.name,
       typeId: noteType.id,
       links: [{ type: 'provider', id: '1' }],
     });
 
-    this.server.create('note', {
+    await this.server.create('note', {
       type: noteType.name,
       typeId: noteType.id,
       links: [{ type: 'provider', id: '2' }],
@@ -63,7 +63,7 @@ describe('Resource view', function () {
 
   describe('when the package details page is visited', () => {
     beforeEach(async function () {
-      this.visit(`/eholdings/resources/${resource.id}`);
+      await this.visit(`/eholdings/resources/${resource.id}`);
     });
 
     it('should display notes accordion', () => {
@@ -218,7 +218,7 @@ describe('Resource view', function () {
       describe('and search query was entered', () => {
         beforeEach(async () => {
           await notesModal.enterSearchQuery('some note');
-          await wait(300);
+          await wait(1000);
         });
 
         it('should enable search button', () => {
