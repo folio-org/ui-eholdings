@@ -7,13 +7,13 @@ import TitleShowPage from '../interactors/title-show';
 
 describe('DetailsView', () => {
   setupApplication();
-  beforeEach(function () {
-    this.server.loadFixtures();
+  beforeEach(async function () {
+    await this.server.loadFixtures();
   });
 
   describe('visiting a package with paged resources', () => {
-    beforeEach(function () {
-      this.visit('/eholdings/packages/paged_pkg');
+    beforeEach(async function () {
+      await this.visit('/eholdings/packages/paged_pkg');
     });
 
     it('has a list that fills the container', () => {
@@ -88,10 +88,10 @@ describe('DetailsView', () => {
     });
 
     describe('then visiting a title page with few resources', () => {
-      beforeEach(function () {
-        const title = this.server.create('title');
+      beforeEach(async function () {
+        const title = await this.server.create('title');
 
-        this.visit(`/eholdings/titles/${title.id}`);
+        await this.visit(`/eholdings/titles/${title.id}`);
       });
 
       it('has a list that does not fill the container', () => {
@@ -101,7 +101,7 @@ describe('DetailsView', () => {
       describe('scrolling to the bottom of the container', () => {
         beforeEach(async () => {
           await TitleShowPage.whenLoaded();
-          TitleShowPage.detailsPaneScrollTop(TitleShowPage.detailsPaneScrollsHeight);
+          await TitleShowPage.detailsPaneScrollTop(TitleShowPage.detailsPaneScrollsHeight);
         });
 
         it('does not disable scrolling the container', () => {

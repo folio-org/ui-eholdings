@@ -21,11 +21,11 @@ describe('ResourceCoverageStatement', () => {
   });
 
   describe('visiting the resource show page with a coverage statement', () => {
-    beforeEach(function () {
+    beforeEach(async function () {
       resource.coverageStatement = 'Only 90s kids would understand.';
-      resource.save();
+      await resource.save();
 
-      this.visit(`/eholdings/resources/${resource.id}`);
+      await this.visit(`/eholdings/resources/${resource.id}`);
     });
 
     it('displays the coverage statement', () => {
@@ -34,8 +34,8 @@ describe('ResourceCoverageStatement', () => {
   });
 
   describe('visiting the resource show page without a coverage statement', () => {
-    beforeEach(function () {
-      this.visit(`/eholdings/resources/${resource.id}`);
+    beforeEach(async function () {
+      await this.visit(`/eholdings/resources/${resource.id}`);
     });
 
     it.always('does not display the coverage statement', () => {
@@ -44,10 +44,10 @@ describe('ResourceCoverageStatement', () => {
   });
 
   describe('visiting the resource show page with title package not selected', () => {
-    beforeEach(function () {
+    beforeEach(async function () {
       resource.isSelected = false;
-      resource.save();
-      this.visit(`/eholdings/resources/${resource.id}`);
+      await resource.save();
+      await this.visit(`/eholdings/resources/${resource.id}`);
     });
 
     it.always('does not display the coverage statement section', () => {

@@ -17,8 +17,8 @@ describe('ManagedPackageEditAllowKbToAddTitles', () => {
   });
 
   describe('visiting the package edit page with allowing KB to add new titles on', () => {
-    beforeEach(function () {
-      providerPackage = this.server.create('package', {
+    beforeEach(async function () {
+      providerPackage = await this.server.create('package', {
         provider,
         name: 'Cool Package',
         contentType: 'E-Book',
@@ -26,7 +26,7 @@ describe('ManagedPackageEditAllowKbToAddTitles', () => {
         allowKbToAddTitles: true
       });
 
-      this.visit(`/eholdings/packages/${providerPackage.id}/edit`);
+      await this.visit(`/eholdings/packages/${providerPackage.id}/edit`);
     });
 
     it('allowKbToAddTitles is selected to be true', () => {
@@ -79,15 +79,15 @@ describe('ManagedPackageEditAllowKbToAddTitles', () => {
   });
 
   describe('visiting the package edit page with allowing KB to add new titles off', () => {
-    beforeEach(function () {
-      providerPackage = this.server.create('package', {
+    beforeEach(async function () {
+      providerPackage = await this.server.create('package', {
         provider,
         name: 'Cool Package',
         contentType: 'E-Book',
         isSelected: true,
         allowKbToAddTitles: false
       });
-      this.visit(`/eholdings/packages/${providerPackage.id}/edit`);
+      await this.visit(`/eholdings/packages/${providerPackage.id}/edit`);
     });
 
     it('allowKbToAddTitles is selected to no', () => {
@@ -140,15 +140,15 @@ describe('ManagedPackageEditAllowKbToAddTitles', () => {
   });
 
   describe('visiting the package edit page with a package that is not selected', () => {
-    beforeEach(function () {
-      providerPackage = this.server.create('package', {
+    beforeEach(async function () {
+      providerPackage = await this.server.create('package', {
         provider,
         name: 'Cool Package',
         contentType: 'E-Book',
         isSelected: false,
         allowKbToAddTitles: false
       });
-      this.visit(`/eholdings/packages/${providerPackage.id}/edit`);
+      await this.visit(`/eholdings/packages/${providerPackage.id}/edit`);
     });
 
     it.always('does not display the allow KB to add titles toggle switch', () => {

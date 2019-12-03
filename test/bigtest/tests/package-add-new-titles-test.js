@@ -16,8 +16,8 @@ describe('PackageShowAllowKbToAddTitles', () => {
   });
 
   describe('visiting the package show page with a selected package allowing KB to add new titles', () => {
-    beforeEach(function () {
-      pkg = this.server.create('package', {
+    beforeEach(async function () {
+      pkg = await this.server.create('package', {
         provider,
         name: 'Cool Package',
         contentType: 'E-Book',
@@ -25,7 +25,7 @@ describe('PackageShowAllowKbToAddTitles', () => {
         allowKbToAddTitles: true
       });
 
-      this.visit(`/eholdings/packages/${pkg.id}`);
+      await this.visit(`/eholdings/packages/${pkg.id}`);
     });
 
     it('displays YES for allowing kb to select new titles', () => {
@@ -34,8 +34,8 @@ describe('PackageShowAllowKbToAddTitles', () => {
   });
 
   describe('visiting the package show page with a selected package not allowing KB to add new titles', () => {
-    beforeEach(function () {
-      pkg = this.server.create('package', {
+    beforeEach(async function () {
+      pkg = await this.server.create('package', {
         provider,
         name: 'Cool Package',
         contentType: 'E-Book',
@@ -43,7 +43,7 @@ describe('PackageShowAllowKbToAddTitles', () => {
         allowKbToAddTitles: false
       });
 
-      this.visit(`/eholdings/packages/${pkg.id}`);
+      await this.visit(`/eholdings/packages/${pkg.id}`);
     });
 
     it('displays NO for allowing kb to select new titles', () => {
@@ -52,15 +52,15 @@ describe('PackageShowAllowKbToAddTitles', () => {
   });
 
   describe('visiting the package show page with a package that is not selected', () => {
-    beforeEach(function () {
-      pkg = this.server.create('package', {
+    beforeEach(async function () {
+      pkg = await this.server.create('package', {
         provider,
         name: 'Cool Package',
         contentType: 'ebook',
         isSelected: false
       });
 
-      this.visit(`/eholdings/packages/${pkg.id}`);
+      await this.visit(`/eholdings/packages/${pkg.id}`);
     });
 
     it('sets the state of allow KB to add titles to false', () => {
@@ -73,8 +73,8 @@ describe('PackageShowAllowKbToAddTitles', () => {
   });
 
   describe('visiting the package show page with a package that is not selected', () => {
-    beforeEach(function () {
-      pkg = this.server.create('package', {
+    beforeEach(async function () {
+      pkg = await this.server.create('package', {
         provider,
         name: 'Cool Package',
         contentType: 'ebook',
@@ -82,7 +82,7 @@ describe('PackageShowAllowKbToAddTitles', () => {
         allowKbToAddTitles: false
       });
 
-      this.visit(`/eholdings/packages/${pkg.id}`);
+      await this.visit(`/eholdings/packages/${pkg.id}`);
     });
 
     describe('selecting a package', () => {
@@ -101,8 +101,8 @@ describe('PackageShowAllowKbToAddTitles', () => {
   });
 
   describe('visiting the package show page with a package that is selected and de-selecting a package', () => {
-    beforeEach(function () {
-      pkg = this.server.create('package', {
+    beforeEach(async function () {
+      pkg = await this.server.create('package', {
         provider,
         name: 'Cool Package',
         contentType: 'ebook',
@@ -110,7 +110,7 @@ describe('PackageShowAllowKbToAddTitles', () => {
         allowKbToAddTitles: true
       });
 
-      this.visit(`/eholdings/packages/${pkg.id}`);
+      await this.visit(`/eholdings/packages/${pkg.id}`);
     });
 
     it('displays YES for allowing kb to select new titles', () => {
@@ -139,8 +139,8 @@ describe('PackageShowAllowKbToAddTitles', () => {
   });
 
   describe('visiting the package details page allowing KB to add new titles', () => {
-    beforeEach(function () {
-      pkg = this.server.create('package', 'withTitles', {
+    beforeEach(async function () {
+      pkg = await this.server.create('package', 'withTitles', {
         provider,
         name: 'Cool Package',
         contentType: 'E-Book',
@@ -148,7 +148,7 @@ describe('PackageShowAllowKbToAddTitles', () => {
         allowKbToAddTitles: true,
         titleCount: 5
       });
-      this.visit(`/eholdings/packages/${pkg.id}`);
+      await this.visit(`/eholdings/packages/${pkg.id}`);
     });
 
     it('displays YES for allowing kb to select new titles', () => {
@@ -157,8 +157,8 @@ describe('PackageShowAllowKbToAddTitles', () => {
   });
 
   describe('visiting the package details page not allowing KB to add new titles', () => {
-    beforeEach(function () {
-      pkg = this.server.create('package', 'withTitles', {
+    beforeEach(async function () {
+      pkg = await this.server.create('package', 'withTitles', {
         provider,
         name: 'Cool Package',
         contentType: 'E-Book',
@@ -166,7 +166,7 @@ describe('PackageShowAllowKbToAddTitles', () => {
         allowKbToAddTitles: false,
         titleCount: 5
       });
-      this.visit(`/eholdings/packages/${pkg.id}`);
+      await this.visit(`/eholdings/packages/${pkg.id}`);
     });
 
     it('displays NO for allowing kb to select new titles', () => {

@@ -11,19 +11,19 @@ describe('CustomTitleEdit', () => {
     providerPackage,
     title;
 
-  beforeEach(function () {
-    provider = this.server.create('provider', {
+  beforeEach(async function () {
+    provider = await this.server.create('provider', {
       name: 'Cool Provider'
     });
 
-    providerPackage = this.server.create('package', 'withTitles', {
+    providerPackage = await this.server.create('package', 'withTitles', {
       provider,
       name: 'Cool Package',
       contentType: 'E-Book',
       titleCount: 5
     });
 
-    title = this.server.create('title', {
+    title = await this.server.create('title', {
       name: 'Best Title Ever',
       edition: 'Test Edition',
       publicationType: 'Streaming Video',
@@ -47,9 +47,9 @@ describe('CustomTitleEdit', () => {
       description: 'custom description',
     });
 
-    title.save();
+    await title.save();
 
-    this.server.create('resource', {
+    await this.server.create('resource', {
       package: providerPackage,
       isSelected: true,
       title,
@@ -59,8 +59,8 @@ describe('CustomTitleEdit', () => {
   });
 
   describe('visiting the title edit page', () => {
-    beforeEach(function () {
-      this.visit(`/eholdings/titles/${title.id}/edit`);
+    beforeEach(async function () {
+      await this.visit(`/eholdings/titles/${title.id}/edit`);
     });
 
     it('shows a field for edition', () => {
@@ -305,14 +305,14 @@ describe('CustomTitleEdit', () => {
   });
 
   describe('encountering a server error when GETting', () => {
-    beforeEach(function () {
-      this.server.get('/titles/:id', {
+    beforeEach(async function () {
+      await this.server.get('/titles/:id', {
         errors: [{
           title: 'There was an error'
         }]
       }, 500);
 
-      this.visit(`/eholdings/titles/${title.id}/edit`);
+      await this.visit(`/eholdings/titles/${title.id}/edit`);
     });
 
     it('dies with dignity', () => {
@@ -321,14 +321,14 @@ describe('CustomTitleEdit', () => {
   });
 
   describe('encountering a server error when PUTting', () => {
-    beforeEach(function () {
-      this.server.put('/titles/:id', {
+    beforeEach(async function () {
+      await this.server.put('/titles/:id', {
         errors: [{
           title: 'There was an error'
         }]
       }, 500);
 
-      this.visit(`/eholdings/titles/${title.id}/edit`);
+      await this.visit(`/eholdings/titles/${title.id}/edit`);
     });
 
     describe('entering valid data and clicking save', () => {
@@ -347,8 +347,8 @@ describe('CustomTitleEdit', () => {
   });
 
   describe('visiting the title show page', () => {
-    beforeEach(function () {
-      this.visit(`/eholdings/titles/${title.id}`);
+    beforeEach(async function () {
+      await this.visit(`/eholdings/titles/${title.id}`);
     });
 
     describe('clicking the edit button', () => {

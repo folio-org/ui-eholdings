@@ -30,11 +30,11 @@ describe('ManagedResourceEditCustomCoverage', () => {
   });
 
   describe('visiting a selected managed resource edit page without custom coverage', () => {
-    beforeEach(function () {
+    beforeEach(async function () {
       resource.isSelected = true;
-      resource.save();
+      await resource.save();
 
-      this.visit(`/eholdings/resources/${resource.id}/edit`);
+      await this.visit(`/eholdings/resources/${resource.id}/edit`);
     });
 
     it('disables the save button', () => {
@@ -95,8 +95,9 @@ describe('ManagedResourceEditCustomCoverage', () => {
         });
 
         describe('clicking save', () => {
-          beforeEach(() => {
-            return ResourceEditPage.clickSave();
+          beforeEach(async () => {
+            await ResourceEditPage.clickSave();
+            await ResourceShowPage.whenLoaded();
           });
 
           it('goes to the resource show page', () => {
@@ -218,18 +219,18 @@ describe('ManagedResourceEditCustomCoverage', () => {
   });
 
   describe('visiting a selected custom resource edit page with custom coverage', () => {
-    beforeEach(function () {
+    beforeEach(async function () {
       resource.isSelected = true;
       const customCoverages = [
-        this.server.create('custom-coverage', {
+        await this.server.create('custom-coverage', {
           beginCoverage: '2018-12-16',
           endCoverage: '2018-12-19'
         })
       ];
-      resource.update('customCoverages', customCoverages.map(item => item.toJSON()));
-      resource.save();
+      await resource.update('customCoverages', customCoverages.map(item => item.toJSON()));
+      await resource.save();
 
-      this.visit(`/eholdings/resources/${resource.id}/edit`);
+      await this.visit(`/eholdings/resources/${resource.id}/edit`);
     });
 
     it('displays the date ranges', () => {
@@ -251,8 +252,9 @@ describe('ManagedResourceEditCustomCoverage', () => {
       });
 
       describe('clicking save', () => {
-        beforeEach(() => {
-          return ResourceEditPage.clickSave();
+        beforeEach(async () => {
+          await ResourceEditPage.clickSave();
+          await ResourcePage.whenLoaded();
         });
 
         it('goes to the resource show page', () => {
@@ -267,22 +269,22 @@ describe('ManagedResourceEditCustomCoverage', () => {
   });
 
   describe('visiting a selected custom resource edit page with multiple custom coverages', () => {
-    beforeEach(function () {
+    beforeEach(async function () {
       resource.isSelected = true;
       const customCoverages = [
-        this.server.create('custom-coverage', {
+        await this.server.create('custom-coverage', {
           beginCoverage: '2018-12-01',
           endCoverage: '2018-12-15'
         }),
-        this.server.create('custom-coverage', {
+        await this.server.create('custom-coverage', {
           beginCoverage: '2018-12-17',
           endCoverage: '2018-12-20'
         })
       ];
-      resource.update('customCoverages', customCoverages.map(item => item.toJSON()));
-      resource.save();
+      await resource.update('customCoverages', customCoverages.map(item => item.toJSON()));
+      await resource.save();
 
-      this.visit(`/eholdings/resources/${resource.id}/edit`);
+      await this.visit(`/eholdings/resources/${resource.id}/edit`);
     });
 
     it('displays 2 rows for date ranges', () => {

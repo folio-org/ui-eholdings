@@ -50,17 +50,17 @@ describe('ResourceEditCustomTitle', () => {
   });
 
   describe('visting the custom resource edit page but the resource is unselected', () => {
-    beforeEach(function () {
-      const title = this.server.create('title', {
+    beforeEach(async function () {
+      const title = await this.server.create('title', {
         name: 'Best Title Ever',
         publicationType: 'Streaming Video',
         publisherName: 'Amazing Publisher',
         isTitleCustom: true
       });
 
-      title.save();
+      await title.save();
 
-      resource = this.server.create('resource', {
+      resource = await this.server.create('resource', {
         package: providerPackage,
         isSelected: false,
         visibilityData: {
@@ -70,7 +70,7 @@ describe('ResourceEditCustomTitle', () => {
         url: 'https://frontside.io'
       });
 
-      this.visit(`/eholdings/resources/${resource.titleId}/edit`);
+      await this.visit(`/eholdings/resources/${resource.titleId}/edit`);
     });
 
     describe('with the resource unselected', () => {
@@ -89,8 +89,8 @@ describe('ResourceEditCustomTitle', () => {
   });
 
   describe('visiting the resource edit page without coverage dates or statements', () => {
-    beforeEach(function () {
-      this.visit(`/eholdings/resources/${resource.titleId}/edit`);
+    beforeEach(async function () {
+      await this.visit(`/eholdings/resources/${resource.titleId}/edit`);
     });
 
     describe('section: holding status', () => {
@@ -244,8 +244,9 @@ describe('ResourceEditCustomTitle', () => {
     });
 
     describe('clicking cancel', () => {
-      beforeEach(() => {
-        return ResourceEditPage.clickCancel();
+      beforeEach(async () => {
+        await ResourceEditPage.clickCancel();
+        await ResourceShowPage.whenLoaded();
       });
 
       it('goes to the resource show page', () => {
@@ -254,8 +255,8 @@ describe('ResourceEditCustomTitle', () => {
     });
 
     describe('entering an invalid url', () => {
-      beforeEach(() => {
-        return ResourceEditPage
+      beforeEach(async () => {
+        await ResourceEditPage
           .inputCustomUrlValue('no-http.com')
           .clickSave();
       });
@@ -267,8 +268,8 @@ describe('ResourceEditCustomTitle', () => {
     });
 
     describe('entering a blank url', () => {
-      beforeEach(() => {
-        return ResourceEditPage
+      beforeEach(async () => {
+        await ResourceEditPage
           .inputCustomUrlValue('')
           .clickSave();
       });
@@ -279,8 +280,8 @@ describe('ResourceEditCustomTitle', () => {
     });
 
     describe('entering invalid data', () => {
-      beforeEach(() => {
-        return ResourceEditPage
+      beforeEach(async () => {
+        await ResourceEditPage
           .clickAddRowButton()
           .dateRangeRowList(0).fillDates('12/18/2018', '12/16/2018')
           .clickAddCustomEmbargoButton()
@@ -321,8 +322,8 @@ describe('ResourceEditCustomTitle', () => {
       });
 
       describe('entering it', () => {
-        beforeEach(() => {
-          return ResourceEditPage
+        beforeEach(async () => {
+          await ResourceEditPage
             .clickAddRowButton()
             .toggleIsVisible()
             .dateRangeRowList(0).fillDates('12/16/2018', '12/18/2018')
@@ -336,8 +337,8 @@ describe('ResourceEditCustomTitle', () => {
         });
 
         describe('clicking cancel', () => {
-          beforeEach(() => {
-            return ResourceEditPage.clickCancel();
+          beforeEach(async () => {
+            await ResourceEditPage.clickCancel();
           });
 
           it('shows a navigation confirmation modal', () => {
@@ -346,8 +347,9 @@ describe('ResourceEditCustomTitle', () => {
         });
 
         describe('clicking save', () => {
-          beforeEach(() => {
-            return ResourceEditPage.clickSave();
+          beforeEach(async () => {
+            await ResourceEditPage.clickSave();
+            await ResourceShowPage.whenLoaded();
           });
 
           it('goes to the resource show page', () => {
@@ -379,21 +381,21 @@ describe('ResourceEditCustomTitle', () => {
   });
 
   describe('visiting the resource edit page with coverage dates, statements, and embargo', () => {
-    beforeEach(function () {
+    beforeEach(async function () {
       const customCoverages = [
-        this.server.create('custom-coverage', {
+        await this.server.create('custom-coverage', {
           beginCoverage: '1969-07-16',
           endCoverage: '1972-12-19'
         })
       ];
-      resource.update('customCoverages', customCoverages.map(item => item.toJSON()));
+      await resource.update('customCoverages', customCoverages.map(item => item.toJSON()));
       resource.customEmbargoPeriod = this.server.create('embargo-period', {
         embargoUnit: 'Months',
         embargoValue: 6
       }).toJSON();
-      resource.save();
+      await resource.save();
 
-      this.visit(`/eholdings/resources/${resource.titleId}/edit`);
+      await this.visit(`/eholdings/resources/${resource.titleId}/edit`);
     });
 
     it('shows a form with embargo fields', () => {
@@ -416,8 +418,9 @@ describe('ResourceEditCustomTitle', () => {
     });
 
     describe('clicking cancel', () => {
-      beforeEach(() => {
-        return ResourceEditPage.clickCancel();
+      beforeEach(async () => {
+        await ResourceEditPage.clickCancel();
+        await ResourceShowPage.whenLoaded();
       });
 
       it('goes to the resource show page', () => {
@@ -430,12 +433,12 @@ describe('ResourceEditCustomTitle', () => {
     });
 
     describe('when there are only empty custom coverage date ranges', () => {
-      beforeEach(function () {
+      beforeEach(async function () {
         const customCoverages = [
-          this.server.create('custom-coverage', {}),
-          this.server.create('custom-coverage', {}),
+          await this.server.create('custom-coverage', {}),
+          await this.server.create('custom-coverage', {}),
         ];
-        resource.update('customCoverages', customCoverages.map(item => item.toJSON()));
+        await resource.update('customCoverages', customCoverages.map(item => item.toJSON()));
       });
 
       it('should display dates row as empty', () => {
@@ -444,14 +447,14 @@ describe('ResourceEditCustomTitle', () => {
     });
 
     describe('when there is only 1 filled custom coverage date range', () => {
-      beforeEach(function () {
+      beforeEach(async function () {
         const customCoverages = [
-          this.server.create('custom-coverage', {
+          await this.server.create('custom-coverage', {
             beginCoverage: '2018-01-01',
             endCoverage: '2019-12-31',
           }),
         ];
-        resource.update('customCoverages', customCoverages.map(item => item.toJSON()));
+        await resource.update('customCoverages', customCoverages.map(item => item.toJSON()));
       });
 
       it('should display the date range without a separator', () => {
@@ -460,18 +463,18 @@ describe('ResourceEditCustomTitle', () => {
     });
 
     describe('when there are at least 2 ranges are filled', () => {
-      beforeEach(function () {
+      beforeEach(async function () {
         const customCoverages = [
-          this.server.create('custom-coverage', {
+          await this.server.create('custom-coverage', {
             beginCoverage: '2018-01-01',
             endCoverage: '2019-07-31'
           }),
-          this.server.create('custom-coverage', {
+          await this.server.create('custom-coverage', {
             beginCoverage: '2019-01-01',
             endCoverage: '2020-12-31'
           }),
         ];
-        resource.update('customCoverages', customCoverages.map(item => item.toJSON()));
+        await resource.update('customCoverages', customCoverages.map(item => item.toJSON()));
       });
 
       it('should display ranges separated with comma', () => {
@@ -480,8 +483,8 @@ describe('ResourceEditCustomTitle', () => {
     });
 
     describe('entering invalid data', () => {
-      beforeEach(() => {
-        return ResourceEditPage
+      beforeEach(async () => {
+        await ResourceEditPage
           .dateRangeRowList(0).fillDates('12/18/2018', '12/16/2018')
           .inputCoverageStatement(`Lorem ipsum dolor sit amet, consectetuer adipiscing elit.
             Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis
@@ -508,8 +511,8 @@ describe('ResourceEditCustomTitle', () => {
     });
 
     describe('entering valid data', () => {
-      beforeEach(() => {
-        return ResourceEditPage
+      beforeEach(async () => {
+        await ResourceEditPage
           .dateRangeRowList(0).fillDates('12/16/2018', '12/18/2018')
           .inputCoverageStatement('Refinance your home loans.')
           .inputEmbargoValue('27')
@@ -519,8 +522,8 @@ describe('ResourceEditCustomTitle', () => {
       });
 
       describe('clicking cancel', () => {
-        beforeEach(() => {
-          return ResourceEditPage.clickCancel();
+        beforeEach(async () => {
+          await ResourceEditPage.clickCancel();
         });
 
         it('shows a navigation confirmation modal', () => {
@@ -529,8 +532,9 @@ describe('ResourceEditCustomTitle', () => {
       });
 
       describe('clicking save', () => {
-        beforeEach(() => {
-          return ResourceEditPage.clickSave();
+        beforeEach(async () => {
+          await ResourceEditPage.clickSave();
+          await ResourceShowPage.whenLoaded();
         });
 
         it('goes to the resource show page', () => {
@@ -553,15 +557,15 @@ describe('ResourceEditCustomTitle', () => {
   });
 
   describe('visiting the resource edit page with a coverage statement', () => {
-    beforeEach(function () {
+    beforeEach(async function () {
       resource.coverageStatement = 'test coverage statement';
-      resource.save();
-      this.visit(`/eholdings/resources/${resource.titleId}/edit`);
+      await resource.save();
+      await this.visit(`/eholdings/resources/${resource.titleId}/edit`);
     });
 
     describe('entering an empty coverage statement', () => {
-      beforeEach(() => {
-        return ResourceEditPage
+      beforeEach(async () => {
+        await ResourceEditPage
           .clickCoverageStatementRadio('yes')
           .inputCoverageStatement('')
           .clickCoverageStatementRadio('yes');
@@ -574,14 +578,14 @@ describe('ResourceEditCustomTitle', () => {
   });
 
   describe('encountering a server error when GETting', () => {
-    beforeEach(function () {
-      this.server.get('/resources/:id', {
+    beforeEach(async function () {
+      await this.server.get('/resources/:id', {
         errors: [{
           title: 'There was an error'
         }]
       }, 500);
 
-      this.visit(`/eholdings/resources/${resource.id}/edit`);
+      await this.visit(`/eholdings/resources/${resource.id}/edit`);
     });
 
     it('dies with dignity', () => {
@@ -590,19 +594,19 @@ describe('ResourceEditCustomTitle', () => {
   });
 
   describe('encountering a server error when PUTting', () => {
-    beforeEach(function () {
-      this.server.put('/resources/:id', {
+    beforeEach(async function () {
+      await this.server.put('/resources/:id', {
         errors: [{
           title: 'There was an error'
         }]
       }, 500);
 
-      this.visit(`/eholdings/resources/${resource.id}/edit`);
+      await this.visit(`/eholdings/resources/${resource.id}/edit`);
     });
 
     describe('entering valid data and clicking save', () => {
-      beforeEach(() => {
-        return ResourceEditPage
+      beforeEach(async () => {
+        await ResourceEditPage
           .inputCoverageStatement('10 ways to fail at everything')
           .clickAddCustomEmbargoButton()
           .inputEmbargoValue('27')

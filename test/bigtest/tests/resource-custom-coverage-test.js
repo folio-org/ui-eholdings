@@ -26,11 +26,11 @@ describe('ResourceCustomCoverage', () => {
   });
 
   describe('visiting an unselected resource show page', () => {
-    beforeEach(function () {
+    beforeEach(async function () {
       resource.isSelected = false;
       resource.save();
 
-      this.visit(`/eholdings/resources/${resource.id}`);
+      await this.visit(`/eholdings/resources/${resource.id}`);
     });
 
     it('displays message that resource needs to be selected', () => {
@@ -43,16 +43,16 @@ describe('ResourceCustomCoverage', () => {
   });
 
   describe('visiting a selected resource show page with custom coverage', () => {
-    beforeEach(function () {
+    beforeEach(async function () {
       const customCoverages = [
-        this.server.create('custom-coverage', {
+        await this.server.create('custom-coverage', {
           beginCoverage: '1969-07-16',
           endCoverage: '1972-12-19'
         })
       ];
-      resource.update('customCoverages', customCoverages.map(item => item.toJSON()));
-      resource.save();
-      this.visit(`/eholdings/resources/${resource.id}`);
+      await resource.update('customCoverages', customCoverages.map(item => item.toJSON()));
+      await resource.save();
+      await this.visit(`/eholdings/resources/${resource.id}`);
     });
 
     it('displays the date ranges', () => {
@@ -61,10 +61,10 @@ describe('ResourceCustomCoverage', () => {
   });
 
   describe('visiting the resource show page with empty (0 length) custom coverage array', () => {
-    beforeEach(function () {
-      resource.customCoverages = this.server.createList('custom-coverage', 0).map(m => m.toJSON());
-      resource.save();
-      this.visit(`/eholdings/resources/${resource.id}`);
+    beforeEach(async function () {
+      resource.customCoverages = await this.server.createList('custom-coverage', 0).map(m => m.toJSON());
+      await resource.save();
+      await this.visit(`/eholdings/resources/${resource.id}`);
     });
 
     it.always('does not display the custom coverage section', () => {
@@ -73,16 +73,16 @@ describe('ResourceCustomCoverage', () => {
   });
 
   describe('visiting the resource page with single custom coverage', () => {
-    beforeEach(function () {
+    beforeEach(async function () {
       const customCoverages = [
-        this.server.create('custom-coverage', {
+        await this.server.create('custom-coverage', {
           beginCoverage: '1969-07-16',
           endCoverage: '1972-12-19'
         })
       ];
-      resource.update('customCoverages', customCoverages.map(item => item.toJSON()));
-      resource.save();
-      this.visit(`/eholdings/resources/${resource.id}`);
+      await resource.update('customCoverages', customCoverages.map(item => item.toJSON()));
+      await resource.save();
+      await this.visit(`/eholdings/resources/${resource.id}`);
     });
 
     it('displays the customcoverage section for single date', () => {
@@ -91,13 +91,13 @@ describe('ResourceCustomCoverage', () => {
   });
 
   describe('visiting the resource page with single custom coverage (beginCoverage empty)', () => {
-    beforeEach(function () {
-      resource.customCoverages = this.server.createList('custom-coverage', 1, {
+    beforeEach(async function () {
+      resource.customCoverages = await this.server.createList('custom-coverage', 1, {
         beginCoverage: '',
         endCoverage: '1969-07-16'
       }).map(m => m.toJSON());
-      resource.save();
-      this.visit(`/eholdings/resources/${resource.id}`);
+      await resource.save();
+      await this.visit(`/eholdings/resources/${resource.id}`);
     });
 
     it('display the custom coverage section for single date (end date only)', () => {
@@ -105,13 +105,13 @@ describe('ResourceCustomCoverage', () => {
     });
   });
   describe('visiting the resource show page with multiple custom coverage dates', () => {
-    beforeEach(function () {
+    beforeEach(async function () {
       resource.customCoverages = [
-        this.server.create('custom-coverage', { beginCoverage: '1969-07-16', endCoverage: '1972-12-19' }),
-        this.server.create('custom-coverage', { beginCoverage: '1974-01-01', endCoverage: '1979-12-19' }),
+        await this.server.create('custom-coverage', { beginCoverage: '1969-07-16', endCoverage: '1972-12-19' }),
+        await this.server.create('custom-coverage', { beginCoverage: '1974-01-01', endCoverage: '1979-12-19' }),
       ].map(m => m.toJSON());
-      resource.save();
-      this.visit(`/eholdings/resources/${resource.id}`);
+      await resource.save();
+      await this.visit(`/eholdings/resources/${resource.id}`);
     });
 
     it('displays date ranges comma separated and ordered by most recent coverage to least recent coverage', () => {
@@ -120,16 +120,16 @@ describe('ResourceCustomCoverage', () => {
   });
 
   describe('visiting the resource page with custom coverage and year only publication type, multiple years', () => {
-    beforeEach(function () {
+    beforeEach(async function () {
       title.publicationType = 'Audiobook';
-      title.save();
+      await title.save();
 
-      resource.customCoverages = this.server.createList('custom-coverage', 1, {
+      resource.customCoverages = await this.server.createList('custom-coverage', 1, {
         beginCoverage: '1969-07-16',
         endCoverage: '1972-12-19'
       }).map(m => m.toJSON());
-      resource.save();
-      this.visit(`/eholdings/resources/${resource.id}`);
+      await resource.save();
+      await this.visit(`/eholdings/resources/${resource.id}`);
     });
 
     it('displays dates with YYYY format', () => {
@@ -138,17 +138,17 @@ describe('ResourceCustomCoverage', () => {
   });
 
   describe('visiting the resource page with custom coverage and year only publication type single year', () => {
-    beforeEach(function () {
+    beforeEach(async function () {
       title.publicationType = 'Audiobook';
-      title.save();
+      await title.save();
 
-      resource.customCoverages = this.server.createList('custom-coverage', 1, {
+      resource.customCoverages = await this.server.createList('custom-coverage', 1, {
         beginCoverage: '1969-01-01',
         endCoverage: '1969-05-01'
       }).map(m => m.toJSON());
 
-      resource.save();
-      this.visit(`/eholdings/resources/${resource.id}`);
+      await resource.save();
+      await this.visit(`/eholdings/resources/${resource.id}`);
     });
 
     it('displays dates with YYYY format', () => {
@@ -157,17 +157,17 @@ describe('ResourceCustomCoverage', () => {
   });
 
   describe('visiting the resource page with custom coverage and year only publication type missing end year', () => {
-    beforeEach(function () {
+    beforeEach(async function () {
       title.publicationType = 'Audiobook';
-      title.save();
+      await title.save();
 
-      resource.customCoverages = this.server.createList('custom-coverage', 1, {
+      resource.customCoverages = await this.server.createList('custom-coverage', 1, {
         beginCoverage: '1969-01-01',
         endCoverage: ''
       }).map(m => m.toJSON());
 
-      resource.save();
-      this.visit(`/eholdings/resources/${resource.id}`);
+      await resource.save();
+      await this.visit(`/eholdings/resources/${resource.id}`);
     });
 
     it('displays dates with YYYY format', () => {
@@ -176,17 +176,17 @@ describe('ResourceCustomCoverage', () => {
   });
 
   describe('visiting the resource page with custom coverage and year only publication type missing begin year', () => {
-    beforeEach(function () {
+    beforeEach(async function () {
       title.publicationType = 'Audiobook';
-      title.save();
+      await title.save();
 
-      resource.customCoverages = this.server.createList('custom-coverage', 1, {
+      resource.customCoverages = await this.server.createList('custom-coverage', 1, {
         beginCoverage: '',
         endCoverage: '1969-01-01'
       }).map(m => m.toJSON());
 
-      resource.save();
-      this.visit(`/eholdings/resources/${resource.id}`);
+      await resource.save();
+      await this.visit(`/eholdings/resources/${resource.id}`);
     });
 
     it('displays dates with YYYY format', () => {
@@ -195,17 +195,17 @@ describe('ResourceCustomCoverage', () => {
   });
 
   describe('visiting the resource page with custom coverage and year only publication type missing begin and end year', () => {
-    beforeEach(function () {
+    beforeEach(async function () {
       title.publicationType = 'Audiobook';
-      title.save();
+      await title.save();
 
-      resource.customCoverage = this.server.createList('custom-coverage', 1, {
+      resource.customCoverage = await this.server.createList('custom-coverage', 1, {
         beginCoverage: '',
         endCoverage: ''
       }).map(m => m.toJSON());
 
-      resource.save();
-      this.visit(`/eholdings/resources/${resource.id}`);
+      await resource.save();
+      await this.visit(`/eholdings/resources/${resource.id}`);
     });
 
     it.always('does not display custom coverage list', () => {

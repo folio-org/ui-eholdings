@@ -45,15 +45,15 @@ describe('ResourceEditManagedTitleInManagedPackage', () => {
   });
 
   describe('visiting the resource edit page without coverage dates, statement, or embargo', () => {
-    beforeEach(function () {
-      resource.managedCoverages = this.server.createList('managed-coverage', 1, {
+    beforeEach(async function () {
+      resource.managedCoverages = await this.server.createList('managed-coverage', 1, {
         beginCoverage: '1969-07-16',
         endCoverage: '1972-12-19'
       }).map(item => item.toJSON());
 
-      resource.save();
+      await resource.save();
 
-      this.visit(`/eholdings/resources/${resource.titleId}/edit`);
+      await this.visit(`/eholdings/resources/${resource.titleId}/edit`);
     });
 
     it('displays the managed coverage dates in the form', () => {
@@ -73,8 +73,9 @@ describe('ResourceEditManagedTitleInManagedPackage', () => {
     });
 
     describe('clicking cancel', () => {
-      beforeEach(() => {
-        return ResourceEditPage.clickCancel();
+      beforeEach(async () => {
+        await ResourceEditPage.clickCancel();
+        await ResourceShowPage.whenLoaded();
       });
 
       it('goes to the resource show page', () => {
@@ -182,26 +183,26 @@ describe('ResourceEditManagedTitleInManagedPackage', () => {
   });
 
   describe('visiting the resource edit page with coverage dates, statement, and embargo', () => {
-    beforeEach(function () {
+    beforeEach(async function () {
       resource.coverageStatement = 'Use this one weird trick to get access.';
       const customCoverages = [
-        this.server.create('custom-coverage', {
+        await this.server.create('custom-coverage', {
           beginCoverage: '1969-07-16',
           endCoverage: '1972-12-19'
         }),
-        this.server.create('custom-coverage', {
+        await this.server.create('custom-coverage', {
           beginCoverage: '1973-01-01',
           endCoverage: '1979-12-31'
         })
       ];
-      resource.update('customCoverages', customCoverages.map(item => item.toJSON()));
+      await resource.update('customCoverages', customCoverages.map(item => item.toJSON()));
       resource.customEmbargoPeriod = this.server.create('embargo-period', {
         embargoUnit: 'Months',
         embargoValue: 6
       }).toJSON();
-      resource.save();
+      await resource.save();
 
-      this.visit(`/eholdings/resources/${resource.titleId}/edit`);
+      await this.visit(`/eholdings/resources/${resource.titleId}/edit`);
     });
 
     describe('section: holding status', () => {
@@ -408,8 +409,9 @@ describe('ResourceEditManagedTitleInManagedPackage', () => {
     });
 
     describe('clicking cancel', () => {
-      beforeEach(() => {
-        return ResourceEditPage.clickCancel();
+      beforeEach(async () => {
+        await ResourceEditPage.clickCancel();
+        await ResourceShowPage.whenLoaded();
       });
 
       it('goes to the resource show page', () => {
@@ -471,8 +473,9 @@ describe('ResourceEditManagedTitleInManagedPackage', () => {
       });
 
       describe('clicking save', () => {
-        beforeEach(() => {
-          return ResourceEditPage.clickSave();
+        beforeEach(async () => {
+          await ResourceEditPage.clickSave();
+          await ResourceShowPage.whenLoaded();
         });
 
         it('goes to the resource show page', () => {
@@ -491,10 +494,10 @@ describe('ResourceEditManagedTitleInManagedPackage', () => {
   });
 
   describe('visiting the resource edit page with a coverage statement', () => {
-    beforeEach(function () {
+    beforeEach(async function () {
       resource.coverageStatement = 'test coverage statement';
       resource.save();
-      this.visit(`/eholdings/resources/${resource.titleId}/edit`);
+      await this.visit(`/eholdings/resources/${resource.titleId}/edit`);
     });
 
     describe('entering an empty coverage statement', () => {
@@ -512,14 +515,14 @@ describe('ResourceEditManagedTitleInManagedPackage', () => {
   });
 
   describe('encountering a server error when GETting', () => {
-    beforeEach(function () {
-      this.server.get('/resources/:id', {
+    beforeEach(async function () {
+     await this.server.get('/resources/:id', {
         errors: [{
           title: 'There was an error'
         }]
       }, 500);
 
-      this.visit(`/eholdings/resources/${resource.id}/edit`);
+      await this.visit(`/eholdings/resources/${resource.id}/edit`);
     });
 
     it('dies with dignity', () => {
@@ -528,19 +531,19 @@ describe('ResourceEditManagedTitleInManagedPackage', () => {
   });
 
   describe('encountering a server error when PUTting', () => {
-    beforeEach(function () {
-      this.server.put('/resources/:id', {
+    beforeEach(async function () {
+      await this.server.put('/resources/:id', {
         errors: [{
           title: 'There was an error'
         }]
       }, 500);
 
-      this.visit(`/eholdings/resources/${resource.id}/edit`);
+      await this.visit(`/eholdings/resources/${resource.id}/edit`);
     });
 
     describe('entering valid data and clicking save', () => {
-      beforeEach(() => {
-        return ResourceEditPage
+      beforeEach(async () => {
+        await ResourceEditPage
           .inputCoverageStatement('10 ways to fail at everything')
           .clickAddCustomEmbargoButton()
           .inputEmbargoValue('27')
@@ -557,8 +560,8 @@ describe('ResourceEditManagedTitleInManagedPackage', () => {
   });
 
   describe('visiting the resource show page', () => {
-    beforeEach(function () {
-      this.visit(`/eholdings/resources/${resource.id}`);
+    beforeEach(async function () {
+      await this.visit(`/eholdings/resources/${resource.id}`);
     });
 
     describe('clicking the edit button', () => {

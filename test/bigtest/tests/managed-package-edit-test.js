@@ -24,8 +24,8 @@ describe('ManagedPackageEdit', () => {
   });
 
   describe('visiting the package edit page without coverage dates', () => {
-    beforeEach(function () {
-      this.visit(`/eholdings/packages/${providerPackage.id}/edit`);
+    beforeEach(async function () {
+      await this.visit(`/eholdings/packages/${providerPackage.id}/edit`);
     });
 
     it('shows blank datepicker fields', () => {
@@ -95,14 +95,14 @@ describe('ManagedPackageEdit', () => {
   });
 
   describe('visiting the package edit page with coverage dates', () => {
-    beforeEach(function () {
-      providerPackage.update('customCoverage', {
+    beforeEach(async function () {
+      await providerPackage.update('customCoverage', {
         beginCoverage: '1969-07-16',
         endCoverage: '1972-12-19'
       });
-      providerPackage.save();
+      await providerPackage.save();
 
-      this.visit(`/eholdings/packages/${providerPackage.id}/edit`);
+      await this.visit(`/eholdings/packages/${providerPackage.id}/edit`);
     });
 
     it('disables the save button', () => {
@@ -159,14 +159,14 @@ describe('ManagedPackageEdit', () => {
   });
 
   describe('encountering a server error when GETting', () => {
-    beforeEach(function () {
-      this.server.get('/packages/:id', {
+    beforeEach(async function () {
+      await this.server.get('/packages/:id', {
         errors: [{
           title: 'There was an error'
         }]
       }, 500);
 
-      this.visit(`/eholdings/packages/${providerPackage.id}/edit`);
+      await this.visit(`/eholdings/packages/${providerPackage.id}/edit`);
     });
 
     it('dies with dignity', () => {
@@ -175,14 +175,14 @@ describe('ManagedPackageEdit', () => {
   });
 
   describe('encountering a server error when PUTting', () => {
-    beforeEach(function () {
-      this.server.put('/packages/:id', {
+    beforeEach(async function () {
+      await this.server.put('/packages/:id', {
         errors: [{
           title: 'There was an error'
         }]
       }, 500);
 
-      this.visit(`/eholdings/packages/${providerPackage.id}/edit`);
+      await this.visit(`/eholdings/packages/${providerPackage.id}/edit`);
     });
 
     describe('entering valid data and clicking save', () => {
@@ -199,8 +199,8 @@ describe('ManagedPackageEdit', () => {
   });
 
   describe('visiting the package show page', () => {
-    beforeEach(function () {
-      this.visit(`/eholdings/packages/${providerPackage.id}`);
+    beforeEach(async function () {
+      await this.visit(`/eholdings/packages/${providerPackage.id}`);
     });
 
     describe('clicking the edit button', () => {

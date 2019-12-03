@@ -10,12 +10,12 @@ describe('Package Show Title Search', () => {
     resources,
     providerPackage;
 
-  beforeEach(function () {
-    provider = this.server.create('provider', {
+  beforeEach(async function () {
+    provider = await this.server.create('provider', {
       name: 'Cool Provider'
     });
 
-    providerPackage = this.server.create(
+    providerPackage = await this.server.create(
       'package',
       'withTitles',
       'withCustomCoverage',
@@ -29,27 +29,27 @@ describe('Package Show Title Search', () => {
       }
     );
 
-    resources = this.server.schema.where('resource', {
+    resources = await this.server.schema.where('resource', {
       packageId: providerPackage.id
     }).models;
 
-    resources[0].title.update({
+    await resources[0].title.update({
       name: 'My Title 1',
       publicationType: 'report',
       subjects: [this.server.create('subject', { subject: 'FooBar' }).toJSON()],
     });
 
-    resources[0].update({
+    await resources[0].update({
       isSelected: true,
     });
 
-    resources[0].title.update({
+    await resources[0].title.update({
       tags: {
         tagList: ['urgent', 'not urgent']
       }
     });
 
-    resources[1].title.update({
+    await resources[1].title.update({
       name: 'My Title 2',
       publicationType: 'book',
       publisherName: 'The Frontside',
@@ -58,11 +58,11 @@ describe('Package Show Title Search', () => {
       }
     });
 
-    resources[1].update({
+    await resources[1].update({
       isSelected: false
     });
 
-    resources[2].title.update({
+    await resources[2].title.update({
       name: 'SUPER Duper 3',
       publicationType: 'book',
       tags: {
@@ -70,14 +70,14 @@ describe('Package Show Title Search', () => {
       }
     });
 
-    resources[2].update({
+    await resources[2].update({
       isSelected: false
     });
   });
 
   describe('navigating to package show page to filter titles', () => {
-    beforeEach(function () {
-      this.visit(
+    beforeEach(async function () {
+      await this.visit(
         {
           pathname: `/eholdings/packages/${providerPackage.id}`,
           // our internal link component automatically sets the location state
@@ -295,8 +295,8 @@ describe('Package Show Title Search', () => {
   });
 
   describe('title sort functionality', () => {
-    beforeEach(function () {
-      this.visit(
+    beforeEach(async function () {
+      await this.visit(
         {
           pathname: `/eholdings/packages/${providerPackage.id}`,
           state: { eholdings: true }
@@ -354,8 +354,8 @@ describe('Package Show Title Search', () => {
   });
 
   describe('navigating to package show page with over 10k related resources', () => {
-    beforeEach(function () {
-      const largeProviderPackage = this.server.create(
+    beforeEach(async function () {
+      const largeProviderPackage = await this.server.create(
         'package',
         {
           provider,
@@ -367,14 +367,14 @@ describe('Package Show Title Search', () => {
         }
       );
 
-      this.server.get(`packages/${largeProviderPackage.id}/resources`,
+      await this.server.get(`packages/${largeProviderPackage.id}/resources`,
         {
           'data': [],
           'meta': { 'totalResults': 10000 },
           'jsonapi': { 'version': '1.0' }
         }, 200);
 
-      this.visit(
+      await this.visit(
         {
           pathname: `/eholdings/packages/${largeProviderPackage.id}`,
           // our internal link component automatically sets the location state

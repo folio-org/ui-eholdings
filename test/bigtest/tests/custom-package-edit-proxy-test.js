@@ -24,8 +24,8 @@ describe('CustomPackageEditProxy', () => {
   });
 
   describe('visiting the package edit page', () => {
-    beforeEach(function () {
-      this.visit(`/eholdings/packages/${providerPackage.id}/edit`);
+    beforeEach(async function () {
+      await this.visit(`/eholdings/packages/${providerPackage.id}/edit`);
     });
 
     it('has a select containing the current proxy value', () => {

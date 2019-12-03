@@ -17,14 +17,14 @@ describe('ManagedPackageEditVisibility', () => {
   });
 
   describe('visiting the package edit page with a hidden package and a hidden reason', () => {
-    beforeEach(function () {
-      providerPackage = this.server.create('package', 'isHidden', {
+    beforeEach(async function () {
+      providerPackage = await this.server.create('package', 'isHidden', {
         provider,
         name: 'Cool Package',
         contentType: 'E-Book',
         isSelected: true
       });
-      this.visit(`/eholdings/packages/${providerPackage.id}/edit`);
+      await this.visit(`/eholdings/packages/${providerPackage.id}/edit`);
     });
 
     it('displays the correct visibility status', () => {
@@ -81,14 +81,14 @@ describe('ManagedPackageEditVisibility', () => {
   });
 
   describe('visiting the package edit page with a hidden package without a hidden reason', () => {
-    beforeEach(function () {
+    beforeEach(async function () {
       providerPackage = this.server.create('package', 'isHiddenWithoutReason', {
         provider,
         name: 'Cool Package',
         contentType: 'E-Book',
         isSelected: true
       });
-      this.visit(`/eholdings/packages/${providerPackage.id}/edit`);
+      await this.visit(`/eholdings/packages/${providerPackage.id}/edit`);
     });
 
     it('displays the correct visibility status', () => {
@@ -101,15 +101,15 @@ describe('ManagedPackageEditVisibility', () => {
   });
 
   describe('visiting the package edit page with a package that is not hidden', () => {
-    beforeEach(function () {
-      providerPackage = this.server.create('package', {
+    beforeEach(async function () {
+      providerPackage = await this.server.create('package', {
         provider,
         name: 'Cool Package',
         contentType: 'E-Book',
         isSelected: true,
         isVisible: true
       });
-      this.visit(`/eholdings/packages/${providerPackage.id}/edit`);
+      await this.visit(`/eholdings/packages/${providerPackage.id}/edit`);
     });
 
     it('displays the correct visibility status', () => {
@@ -166,15 +166,15 @@ describe('ManagedPackageEditVisibility', () => {
   });
 
   describe('visiting the package edit page with a deselected package', () => {
-    beforeEach(function () {
-      providerPackage = this.server.create('package', {
+    beforeEach(async function () {
+      providerPackage = await this.server.create('package', {
         provider,
         name: 'Cool Package',
         contentType: 'E-Book',
         isSelected: false,
         isVisible: false
       });
-      this.visit(`/eholdings/packages/${providerPackage.id}/edit`);
+      await this.visit(`/eholdings/packages/${providerPackage.id}/edit`);
     });
 
     it('reflects the desired state of holding status', () => {

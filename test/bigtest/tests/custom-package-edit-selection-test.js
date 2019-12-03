@@ -24,8 +24,8 @@ describe('CustomPackageEditSelection', () => {
   });
 
   describe('visiting the package edit page', () => {
-    beforeEach(function () {
-      this.visit(`/eholdings/packages/${providerPackage.id}/edit`);
+    beforeEach(async function () {
+      await this.visit(`/eholdings/packages/${providerPackage.id}/edit`);
     });
 
     it('displays the correct holdings status (ON)', () => {
@@ -297,14 +297,14 @@ describe('CustomPackageEditSelection', () => {
       describe('clicking confirm', () => {
         let resolveRequest;
 
-        beforeEach(function () {
-          this.server.put('/packages/:id', () => {
+        beforeEach(async function () {
+          await this.server.put('/packages/:id', () => {
             return new Promise((resolve) => {
               resolveRequest = resolve;
             });
           });
 
-          return PackageEditPage.modal.confirmDeselection();
+          await PackageEditPage.modal.confirmDeselection();
         });
 
         it('should keep confirmation modal on screen until requests responds', () => {
@@ -321,8 +321,9 @@ describe('CustomPackageEditSelection', () => {
         });
 
         describe('when request resolves', () => {
-          beforeEach(() => {
-            return resolveRequest();
+          beforeEach(async () => {
+            await resolveRequest();
+            await PackageShowPage.whenLoaded();
           });
 
           it('goes to the resource show page', () => {

@@ -23,8 +23,8 @@ describe('ProviderEditToken', () => {
   });
 
   describe('visiting the provider edit page with a token and value ', () => {
-    beforeEach(function () {
-      this.visit(`/eholdings/providers/${provider.id}/edit`);
+    beforeEach(async function () {
+      await this.visit(`/eholdings/providers/${provider.id}/edit`);
     });
 
     it('has token help text', () => {
@@ -89,17 +89,17 @@ describe('ProviderEditToken', () => {
   });
 
   describe('visiting the provider edit page with a token without a value ', () => {
-    beforeEach(function () {
-      const token = this.server.create('token', {
+    beforeEach(async function () {
+      const token = await this.server.create('token', {
         factName: '[[mysiteid]]',
         prompt: '/test1/',
         helpText: '<ul><li>Enter your token</li></ul>',
         value: ''
       });
-      provider.update('providerToken', token.toJSON());
-      provider.save();
+      await provider.update('providerToken', token.toJSON());
+      await provider.save();
 
-      this.visit(`/eholdings/providers/${provider.id}/edit`);
+      await this.visit(`/eholdings/providers/${provider.id}/edit`);
     });
 
     it('has add token button', () => {
@@ -126,11 +126,10 @@ describe('ProviderEditToken', () => {
   });
 
   describe('visiting the provider edit page without a token', () => {
-    beforeEach(function () {
-      provider.update('providerToken', null);
-      provider.save();
-
-      this.visit(`/eholdings/providers/${provider.id}/edit`);
+    beforeEach(async function () {
+      await provider.update('providerToken', null);
+      await provider.save();
+      await this.visit(`/eholdings/providers/${provider.id}/edit`);
     });
 
     it('does not show token help text', () => {
@@ -151,8 +150,8 @@ describe('ProviderEditToken', () => {
   });
 
   describe('visiting the provider edit page and setting token to a long value ', () => {
-    beforeEach(function () {
-      this.visit(`/eholdings/providers/${provider.id}/edit`);
+    beforeEach(async function () {
+      await this.visit(`/eholdings/providers/${provider.id}/edit`);
     });
 
     it('has token value', () => {

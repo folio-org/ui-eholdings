@@ -16,15 +16,15 @@ describe('PackageCustomCoverage', () => {
   });
 
   describe('visiting the package show page and package is not selected', () => {
-    beforeEach(function () {
-      pkg = this.server.create('package', {
+    beforeEach(async function () {
+      pkg = await this.server.create('package', {
         provider,
         name: 'Cool Package',
         contentType: 'ebook',
         isSelected: false
       });
 
-      this.visit(`/eholdings/packages/${pkg.id}`);
+      await this.visit(`/eholdings/packages/${pkg.id}`);
     });
 
     it('should not display custom coverage', () => {
@@ -33,13 +33,13 @@ describe('PackageCustomCoverage', () => {
   });
 
   describe('visiting the package show page with custom coverage', () => {
-    beforeEach(function () {
-      const customCoverage = this.server.create('custom-coverage', {
+    beforeEach(async function () {
+      const customCoverage = await this.server.create('custom-coverage', {
         beginCoverage: '1969-07-16',
         endCoverage: '1972-12-19'
       }).toJSON();
 
-      pkg = this.server.create('package', {
+      pkg = await this.server.create('package', {
         customCoverage,
         provider,
         name: 'Cool Package',
@@ -47,7 +47,7 @@ describe('PackageCustomCoverage', () => {
         isSelected: true
       });
 
-      this.visit(`/eholdings/packages/${pkg.id}`);
+      await this.visit(`/eholdings/packages/${pkg.id}`);
     });
 
     it('displays the custom coverage section', () => {
@@ -84,15 +84,15 @@ describe('PackageCustomCoverage', () => {
   });
 
   describe('visiting the package show page with a package without custom coverage', () => {
-    beforeEach(function () {
-      pkg = this.server.create('package', {
+    beforeEach(async function () {
+      pkg = await this.server.create('package', {
         provider,
         packageName: 'Cool Package',
         contentType: 'ebook',
         isSelected: true
       });
 
-      this.visit(`/eholdings/packages/${pkg.id}`);
+      await this.visit(`/eholdings/packages/${pkg.id}`);
     });
 
     it.always('does not display the custom coverage section', () => {

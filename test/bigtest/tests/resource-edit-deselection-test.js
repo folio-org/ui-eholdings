@@ -37,8 +37,8 @@ describe('ResourceEditDeselection', () => {
   });
 
   describe('visiting the resource page', () => {
-    beforeEach(function () {
-      this.visit(`/eholdings/resources/${resource.id}/edit`);
+    beforeEach(async function () {
+      await this.visit(`/eholdings/resources/${resource.id}/edit`);
     });
 
     it('indicates that the resource is selected', () => {
@@ -46,8 +46,8 @@ describe('ResourceEditDeselection', () => {
     });
 
     describe('deselecting the resource', () => {
-      beforeEach(() => {
-        return ResourceShowPage
+      beforeEach(async () => {
+        await ResourceShowPage
           .dropDown.clickDropDownButton()
           .dropDownMenu.clickRemoveFromHoldings();
       });
@@ -102,8 +102,9 @@ describe('ResourceEditDeselection', () => {
         });
 
         describe('when request resolves', () => {
-          beforeEach(() => {
-            resolveRequest();
+          beforeEach(async () => {
+            await resolveRequest();
+            await ResourceShowPage.whenLoaded();
           });
 
           it('goes to the resource show page', () => {

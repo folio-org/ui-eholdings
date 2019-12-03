@@ -37,8 +37,8 @@ describe('ResourceEditSelection', () => {
   });
 
   describe('visiting the resource edit page with unselected resource', () => {
-    beforeEach(function () {
-      this.visit(`/eholdings/resources/${resource.id}/edit`);
+    beforeEach(async function () {
+      await this.visit(`/eholdings/resources/${resource.id}/edit`);
     });
 
     it('indicates that the resource is not yet selected', () => {

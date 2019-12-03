@@ -9,27 +9,27 @@ describe('TitleShowAddToCustomPackage', () => {
   setupApplication();
   let title;
 
-  beforeEach(function () {
-    title = this.server.create('title', 'withPackages', {
+  beforeEach(async function () {
+    title = await this.server.create('title', 'withPackages', {
       name: 'Cool Title',
       publisherName: 'Cool Publisher',
       publicationType: 'Website'
     });
 
     // make sure one of these packages are custom
-    title.resources.models[0].package.update({
+    await title.resources.models[0].package.update({
       name: 'Custom Package 1',
       isCustom: true
     });
 
     // new custom package for assignment
-    this.server.create('package', {
+    await this.server.create('package', {
       name: 'Custom Package 2',
       provider: this.server.create('provider'),
       isCustom: true
     });
 
-    this.visit(`/eholdings/titles/${title.id}`);
+    await this.visit(`/eholdings/titles/${title.id}`);
   });
 
   describe('clicking the add to custom package button', () => {

@@ -35,14 +35,14 @@ describe('CustomResourceEditVisibility', () => {
   });
 
   describe('visiting the resource edit page and hiding a resource', () => {
-    beforeEach(function () {
-      resource = this.server.create('resource', {
+    beforeEach(async function () {
+      resource = await this.server.create('resource', {
         package: providerPackage,
         isSelected: true,
         title
       });
 
-      this.visit(`/eholdings/resources/${resource.id}/edit`);
+      await this.visit(`/eholdings/resources/${resource.id}/edit`);
     });
 
     it('displays the yes visibility radio is selected', () => {
@@ -58,8 +58,9 @@ describe('CustomResourceEditVisibility', () => {
     });
 
     describe('clicking cancel', () => {
-      beforeEach(() => {
-        return ResourceEditPage.clickCancel();
+      beforeEach(async () => {
+        await ResourceEditPage.clickCancel();
+        await ResourceShowPage.whenLoaded();
       });
 
       it('goes to the resource show page', () => {
@@ -88,8 +89,9 @@ describe('CustomResourceEditVisibility', () => {
         });
 
         describe('clicking save', () => {
-          beforeEach(() => {
-            return ResourceEditPage.clickSave();
+          beforeEach(async () => {
+            await ResourceEditPage.clickSave();
+            await ResourceShowPage.whenLoaded();
           });
 
           it('goes to the resource show page', () => {
@@ -105,14 +107,14 @@ describe('CustomResourceEditVisibility', () => {
   });
 
   describe('visiting the resource edit page and showing a hidden without reason resource', () => {
-    beforeEach(function () {
-      resource = this.server.create('resource', 'isHiddenWithoutReason', {
+    beforeEach(async function () {
+      resource = await this.server.create('resource', 'isHiddenWithoutReason', {
         package: providerPackage,
         isSelected: true,
         title
       });
 
-      this.visit(`/eholdings/resources/${resource.id}/edit`);
+      await this.visit(`/eholdings/resources/${resource.id}/edit`);
     });
 
     it('displays the no visibility radio is selected', () => {
@@ -138,8 +140,9 @@ describe('CustomResourceEditVisibility', () => {
         });
 
         describe('clicking save', () => {
-          beforeEach(() => {
-            return ResourceEditPage.clickSave();
+          beforeEach(async () => {
+            await ResourceEditPage.clickSave();
+            await ResourceShowPage.whenLoaded();
           });
 
           it('goes to the resource show page', () => {
@@ -155,14 +158,14 @@ describe('CustomResourceEditVisibility', () => {
   });
 
   describe('visiting the resource edit page with a hidden resource and a reason', () => {
-    beforeEach(function () {
-      resource = this.server.create('resource', 'isHidden', {
+    beforeEach(async function () {
+      resource = await this.server.create('resource', 'isHidden', {
         package: providerPackage,
         isSelected: true,
         title
       });
 
-      this.visit(`/eholdings/resources/${resource.id}/edit`);
+      await this.visit(`/eholdings/resources/${resource.id}/edit`);
     });
 
     it('displays the no visibility radio is selected', () => {
@@ -175,15 +178,15 @@ describe('CustomResourceEditVisibility', () => {
   });
 
   describe('visiting the resource edit page and all titles in package are hidden', () => {
-    beforeEach(function () {
+    beforeEach(async function () {
       providerPackage.visibilityData.isHidden = true;
       providerPackage.visibilityData.reason = 'Hidden by EP';
-      resource = this.server.create('resource', 'isHidden', {
+      resource = await this.server.create('resource', 'isHidden', {
         package: providerPackage,
         title,
         isSelected: true
       });
-      this.visit(`/eholdings/resources/${resource.id}/edit`);
+      await this.visit(`/eholdings/resources/${resource.id}/edit`);
     });
 
     it('displays the no visibility radio is selected', () => {
@@ -196,14 +199,14 @@ describe('CustomResourceEditVisibility', () => {
   });
 
   describe('visiting the resource edit page with a custom (default selected) resource', () => {
-    beforeEach(function () {
-      resource = this.server.create('resource', {
+    beforeEach(async function () {
+      resource = await this.server.create('resource', {
         package: providerPackage,
         isSelected: true,
         title
       });
 
-      this.visit(`/eholdings/resources/${resource.id}/edit`);
+      await this.visit(`/eholdings/resources/${resource.id}/edit`);
     });
 
     it('reflects the desired state of holding status', () => {

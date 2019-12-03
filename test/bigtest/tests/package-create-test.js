@@ -11,8 +11,8 @@ describe('PackageCreate', () => {
   setupApplication();
 
   describe('submitting the form', () => {
-    beforeEach(function () {
-      this.visit('/eholdings/packages/new');
+    beforeEach(async function () {
+      await this.visit('/eholdings/packages/new');
     });
 
     it('has a package name field', () => {
@@ -133,8 +133,8 @@ describe('PackageCreate', () => {
   });
 
   describe('canceling when there is router history', () => {
-    beforeEach(function () {
-      this.visit('/eholdings/?searchType=packages');
+    beforeEach(async function () {
+      await this.visit('/eholdings/?searchType=packages');
     });
 
     describe('clicking a cancel action', () => {

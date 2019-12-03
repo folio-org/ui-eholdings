@@ -47,15 +47,15 @@ describe('ManagedResourceEditProxy', () => {
   });
 
   describe('visiting the resource edit page with a proxy', () => {
-    beforeEach(function () {
-      const resourceProxy = this.server.create('proxy', {
+    beforeEach(async function () {
+      const resourceProxy = await this.server.create('proxy', {
         inherited: false,
         id: 'microstates'
       });
-      resource.update('proxy', resourceProxy.toJSON());
-      resource.save();
+      await resource.update('proxy', resourceProxy.toJSON());
+      await resource.save();
 
-      this.visit(`/eholdings/resources/${resource.id}/edit`);
+      await this.visit(`/eholdings/resources/${resource.id}/edit`);
     });
 
     it('disables the save button', () => {
@@ -80,8 +80,9 @@ describe('ManagedResourceEditProxy', () => {
       });
 
       describe('clicking save to update Resource Proxy', () => {
-        beforeEach(() => {
-          return ResourceEditPage.clickSave();
+        beforeEach(async () => {
+          await ResourceEditPage.clickSave();
+          await ResourceShowPage.whenLoaded();
         });
 
         it('disables the save button', () => {

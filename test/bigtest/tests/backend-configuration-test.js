@@ -12,8 +12,8 @@ describe('Error retrieving backend', () => {
   });
 
   describe('when trying to use the app', () => {
-    beforeEach(function () {
-      this.visit('/eholdings');
+    beforeEach(async function () {
+      await this.visit('/eholdings');
     });
 
     it('informs user that an error has occurred', () => {
@@ -28,8 +28,8 @@ describe('With no backend at all', () => {
   });
 
   describe('when trying to use the app', () => {
-    beforeEach(function () {
-      this.visit('/eholdings');
+    beforeEach(async function () {
+      await this.visit('/eholdings');
     });
 
     it('blocks access to the eholdings app and tells me that I need to install a backend', () => {
@@ -44,8 +44,8 @@ describe('With unconfigured backend', () => {
   });
 
   describe('when trying to use the app', () => {
-    beforeEach(function () {
-      this.visit('/eholdings');
+    beforeEach(async function () {
+      await this.visit('/eholdings');
     });
 
     it('blocks access to the eholdings app and points you to the configuration screen', () => {
@@ -54,8 +54,8 @@ describe('With unconfigured backend', () => {
   });
 
   describe('when visiting the KB auth form', () => {
-    beforeEach(function () {
-      this.visit('/settings/eholdings/knowledge-base');
+    beforeEach(async function () {
+      await this.visit('/settings/eholdings/knowledge-base');
     });
 
     it('does not enable the save button', () => {
@@ -102,8 +102,8 @@ describe('With valid backend configuration', () => {
   setupApplication();
 
   describe('when visiting the KB auth form', () => {
-    beforeEach(function () {
-      this.visit('/settings/eholdings/knowledge-base');
+    beforeEach(async function () {
+      await this.visit('/settings/eholdings/knowledge-base');
     });
 
     it('has a field for the ebsco customer id', () => {
@@ -133,8 +133,8 @@ describe('With valid backend configuration', () => {
     });
 
     describe('filling in invalid data', () => {
-      beforeEach(function () {
-        this.server.put('/configuration', () => {
+      beforeEach(async function () {
+        await this.server.put('/configuration', () => {
           return new Response(422, {}, {
             errors: [{
               title: 'Invalid KB API credentials'
@@ -191,8 +191,8 @@ describe('With valid backend configuration', () => {
       });
 
       describe('when saving the changes fail', () => {
-        beforeEach(function () {
-          this.server.put('/configuration', {
+        beforeEach(async function () {
+          await this.server.put('/configuration', {
             errors: [{
               title: 'an error has occurred'
             }]

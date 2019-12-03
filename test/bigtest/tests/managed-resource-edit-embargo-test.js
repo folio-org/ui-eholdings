@@ -39,15 +39,15 @@ describe('ManagedResourceEditEmbargo', () => {
   });
 
   describe('visiting the resource edit page with a custom embargo', () => {
-    beforeEach(function () {
-      resource.customEmbargoPeriod = this.server.create('embargo-period', {
+    beforeEach(async function () {
+      resource.customEmbargoPeriod = await this.server.create('embargo-period', {
         embargoUnit: 'Weeks',
         embargoValue: 9
       }).toJSON();
 
-      resource.save();
+      await resource.save();
 
-      this.visit(`/eholdings/resources/${resource.id}/edit`);
+      await this.visit(`/eholdings/resources/${resource.id}/edit`);
     });
 
     it('disables the save button', () => {
@@ -78,8 +78,9 @@ describe('ManagedResourceEditEmbargo', () => {
       });
 
       describe('clicking save', () => {
-        beforeEach(() => {
-          return ResourceEditPage.clickSave();
+        beforeEach(async () => {
+          await ResourceEditPage.clickSave();
+          await ResourceShowPage.whenLoaded();
         });
 
         it('goes to the resource show page', () => {
@@ -94,8 +95,8 @@ describe('ManagedResourceEditEmbargo', () => {
   });
 
   describe('visiting the resource edit page without any embargos', () => {
-    beforeEach(function () {
-      this.visit(`/eholdings/resources/${resource.id}/edit`);
+    beforeEach(async function () {
+      await this.visit(`/eholdings/resources/${resource.id}/edit`);
     });
 
     it('disables the save button', () => {
@@ -124,8 +125,9 @@ describe('ManagedResourceEditEmbargo', () => {
       });
 
       describe('clicking cancel', () => {
-        beforeEach(() => {
-          return ResourceEditPage.clickCancel();
+        beforeEach(async () => {
+          await ResourceEditPage.clickCancel();
+          await ResourceShowPage.whenLoaded();
         });
 
         it('goes to the resource show page', () => {
@@ -252,14 +254,14 @@ describe('ManagedResourceEditEmbargo', () => {
   });
 
   describe('visiting the resource edit page with embargos with null values', () => {
-    beforeEach(function () {
-      resource.customEmbargoPeriod = this.server.create('embargo-period', {
+    beforeEach(async function () {
+      resource.customEmbargoPeriod = await this.server.create('embargo-period', {
         embargoUnit: 'Weeks',
         embargoValue: null
       }).toJSON();
 
-      resource.save();
-      this.visit(`/eholdings/resources/${resource.id}/edit`);
+      await resource.save();
+      await this.visit(`/eholdings/resources/${resource.id}/edit`);
     });
 
     it('shows a button to add embargo fields', () => {
@@ -268,12 +270,12 @@ describe('ManagedResourceEditEmbargo', () => {
   });
 
   describe('visiting the resource edit page with no embargos', () => {
-    beforeEach(function () {
+    beforeEach(async function () {
       resource.managedEmbargoPeriod = null;
       resource.customEmbargoPeriod = null;
 
-      resource.save();
-      this.visit(`/eholdings/resources/${resource.id}/edit`);
+      await resource.save();
+      await this.visit(`/eholdings/resources/${resource.id}/edit`);
     });
 
     it('shows a button to add embargo fields', () => {
@@ -282,15 +284,15 @@ describe('ManagedResourceEditEmbargo', () => {
   });
 
   describe('visiting the resource edit page with title package not selected', () => {
-    beforeEach(function () {
+    beforeEach(async function () {
       resource.isSelected = false;
-      resource.customEmbargoPeriod = this.server.create('embargo-period', {
+      resource.customEmbargoPeriod = await this.server.create('embargo-period', {
         embargoUnit: 'Weeks',
         embargoValue: null
       }).toJSON();
 
-      resource.save();
-      this.visit(`/eholdings/resources/${resource.id}/edit`);
+      await resource.save();
+      await this.visit(`/eholdings/resources/${resource.id}/edit`);
     });
 
     it('should not show the embargo section', () => {
@@ -299,14 +301,14 @@ describe('ManagedResourceEditEmbargo', () => {
   });
 
   describe('visiting the resource edit page with title package selected', () => {
-    beforeEach(function () {
-      resource.customEmbargoPeriod = this.server.create('embargo-period', {
+    beforeEach(async function () {
+      resource.customEmbargoPeriod = await this.server.create('embargo-period', {
         embargoUnit: 'Weeks',
         embargoValue: 10
       }).toJSON();
 
-      resource.save();
-      this.visit(`/eholdings/resources/${resource.id}/edit`);
+      await resource.save();
+      await this.visit(`/eholdings/resources/${resource.id}/edit`);
     });
 
     it('shows a form with embargo fields', () => {

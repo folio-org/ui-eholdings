@@ -42,8 +42,8 @@ describe('ResourceEditManagedTitleInCustomPackage', () => {
   });
 
   describe('visiting the package details page', () => {
-    beforeEach(function () {
-      this.visit(`/eholdings/resources/${resource.titleId}/edit`);
+    beforeEach(async function () {
+      await this.visit(`/eholdings/resources/${resource.titleId}/edit`);
     });
 
     it('shows the managed resource as selected in my holdings', () => {
@@ -56,8 +56,8 @@ describe('ResourceEditManagedTitleInCustomPackage', () => {
 
 
     describe('removing a managed resource', () => {
-      beforeEach(() => {
-        return ResourcePage
+      beforeEach(async () => {
+        await ResourcePage
           .dropDown.clickDropDownButton()
           .dropDownMenu.clickRemoveFromHoldings();
       });
@@ -101,14 +101,14 @@ describe('ResourceEditManagedTitleInCustomPackage', () => {
     });
 
     describe('unsuccessfully deselecting a managed resource', () => {
-      beforeEach(function () {
-        this.server.delete('/resources/:id', {
+      beforeEach(async function () {
+        await this.server.delete('/resources/:id', {
           errors: [{
             title: 'There was an error.'
           }]
         }, 500);
 
-        return ResourcePage
+        await ResourcePage
           .dropDown.clickDropDownButton()
           .dropDownMenu.clickRemoveFromHoldings();
       });

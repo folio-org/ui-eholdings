@@ -19,14 +19,14 @@ describe('ManagedPackageEditSelection', () => {
   });
 
   describe('visiting the package edit page with an unselected package', () => {
-    beforeEach(function () {
-      providerPackage = this.server.create('package', {
+    beforeEach(async function () {
+      providerPackage = await this.server.create('package', {
         provider,
         name: 'Cool Package',
         contentType: 'E-Book',
         isSelected: false
       });
-      this.visit(`/eholdings/packages/${providerPackage.id}/edit`);
+      await this.visit(`/eholdings/packages/${providerPackage.id}/edit`);
     });
 
     it('reflects the desired state of holding status', () => {
@@ -109,14 +109,14 @@ describe('ManagedPackageEditSelection', () => {
   });
 
   describe('visiting the package edit page with a totally selected package', () => {
-    beforeEach(function () {
-      providerPackage = this.server.create('package', {
+    beforeEach(async function () {
+      providerPackage = await this.server.create('package', {
         provider,
         name: 'Cool Package',
         contentType: 'E-Book',
         isSelected: true
       });
-      this.visit(`/eholdings/packages/${providerPackage.id}/edit`);
+      await this.visit(`/eholdings/packages/${providerPackage.id}/edit`);
     });
 
     describe('holding status section', () => {
@@ -319,8 +319,9 @@ describe('ManagedPackageEditSelection', () => {
         });
 
         describe('when request resolves', () => {
-          beforeEach(() => {
-            return resolveRequest();
+          beforeEach(async () => {
+            await resolveRequest();
+            await ResourceShowPage.whenLoaded();
           });
 
           it('goes to the resource show page', () => {
@@ -334,22 +335,22 @@ describe('ManagedPackageEditSelection', () => {
 
   describe('visiting the package edit page with a partially selected package', () => {
     let pkg;
-    beforeEach(function () {
-      pkg = this.server.create('package', {
+    beforeEach(async function () {
+      pkg = await this.server.create('package', {
         provider,
         name: 'Partial Package',
         selectedCount: 5,
         titleCount: 10
       });
-      this.server.createList('resource', 5, 'withTitle', {
+      await this.server.createList('resource', 5, 'withTitle', {
         package: pkg,
         isSelected: true
       });
-      this.server.createList('resource', 5, 'withTitle', {
+      await this.server.createList('resource', 5, 'withTitle', {
         package: pkg,
         isSelected: false
       });
-      this.visit(`/eholdings/packages/${pkg.id}/edit`);
+      await this.visit(`/eholdings/packages/${pkg.id}/edit`);
     });
 
     it('shows the selected # of titles and the total # of titles in the package', () => {
@@ -377,73 +378,60 @@ describe('ManagedPackageEditSelection', () => {
     describe('clicking the menu item to add all to holdings', () => {
       beforeEach(async function () {
         await PackageEditPage.whenLoaded();
-        this.server.block();
+        await this.server.block();
         await PackageEditPage.selectPackage();
+        await this.server.unblock();
       });
 
-      it.skip('indicates it is working to get to desired state', () => {
-        expect(PackageEditPage.selectionStatus.isSelecting).to.equal(true);
+      it('reflects that the package has been selected', () => {
+        expect(PackageEditPage.selectionStatus.isSelected).to.equal(true);
       });
 
-      describe('when the request succeeds', () => {
-        beforeEach(function () {
-          return this.server.unblock();
+      describe('inspecting the menu', () => {
+        beforeEach(async () => {
+          await PackageEditPage.dropDown.clickDropDownButton();
         });
 
-        it('reflects that the package has been selected', () => {
-          expect(PackageEditPage.selectionStatus.isSelected).to.equal(true);
+        it('does not have menu item to add all to holdings', () => {
+          expect(PackageEditPage.dropDownMenu.addToHoldings.isPresent).to.equal(false);
         });
 
-        describe('inspecting the menu', () => {
-          beforeEach(() => {
-            return PackageEditPage.dropDown.clickDropDownButton();
-          });
-
-          it('does not have menu item to add all to holdings', () => {
-            expect(PackageEditPage.dropDownMenu.addToHoldings.isPresent).to.equal(false);
-          });
-
-          it('has menu item to remove the entire package from holdings', () => {
-            expect(PackageEditPage.dropDownMenu.removeFromHoldings.isVisible).to.equal(true);
-          });
-        });
-      });
-    });
-
-    describe('clicking the "Add all to holdings" button', () => {
-      beforeEach(async function () {
-        await PackageEditPage.whenLoaded();
-        this.server.block();
-        await PackageEditPage.selectPackage();
-      });
-
-      it.skip('indicates it is working to get to desired state', () => {
-        expect(PackageEditPage.selectionStatus.isSelecting).to.equal(true);
-      });
-
-      describe('when the request succeeds', () => {
-        beforeEach(function () {
-          return this.server.unblock();
-        });
-
-        it('reflects that the package has been selected', () => {
-          expect(PackageEditPage.selectionStatus.isSelected).to.equal(true);
-        });
-
-        describe('inspecting the menu', () => {
-          beforeEach(() => {
-            return PackageEditPage.dropDown.clickDropDownButton();
-          });
-
-          it('does not have menu item to add all to holdings', () => {
-            expect(PackageEditPage.dropDownMenu.addToHoldings.isPresent).to.equal(false);
-          });
-
-          it('has menu item to remove the entire package from holdings', () => {
-            expect(PackageEditPage.dropDownMenu.removeFromHoldings.isVisible).to.equal(true);
-          });
+        it('has menu item to remove the entire package from holdings', () => {
+          expect(PackageEditPage.dropDownMenu.removeFromHoldings.isVisible).to.equal(true);
         });
       });
     });
   });
+
+  describe('clicking the "Add all to holdings" button when the request succeeds', () => {
+    beforeEach(async function () {
+      await PackageEditPage.whenLoaded();
+      await this.server.block();
+      await PackageEditPage.selectPackage();
+      await this.server.unblock();
+    });
+    
+    it('reflects that the package has been selected', () => {
+      expect(PackageEditPage.selectionStatus.isSelected).to.equal(true);
+    });
+  });
+
+  describe('clicking the "Add all to holdings" button when the request succeeds inspecting the menu', () => {
+    beforeEach(async function () {
+      await PackageEditPage.whenLoaded();
+      await this.server.block();
+      await PackageEditPage.selectPackage();
+      await this.server.unblock();
+      await PackageEditPage.dropDown.clickDropDownButton();
+    });
+
+    it('does not have menu item to add all to holdings', () => {
+      expect(PackageEditPage.dropDownMenu.addToHoldings.isPresent).to.equal(false);
+    });
+
+    it('has menu item to remove the entire package from holdings', () => {
+      expect(PackageEditPage.dropDownMenu.removeFromHoldings.isVisible).to.equal(true);
+    });
+  });
 });
+

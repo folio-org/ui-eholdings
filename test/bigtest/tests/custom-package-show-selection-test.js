@@ -16,14 +16,14 @@ describe('CustomPackageShowSelection', () => {
   let provider,
     providerPackage;
 
-  beforeEach(function () {
-    setupBlockServer(this.server);
+  beforeEach(async function () {
+    await setupBlockServer(this.server);
 
-    provider = this.server.create('provider', {
+    provider = await this.server.create('provider', {
       name: 'Cool Provider'
     });
 
-    providerPackage = this.server.create('package', 'withTitles', {
+    providerPackage = await this.server.create('package', 'withTitles', {
       provider,
       name: 'Cool Custom Package',
       contentType: 'E-Book',
@@ -32,8 +32,8 @@ describe('CustomPackageShowSelection', () => {
   });
 
   describe('visiting the package details page', () => {
-    beforeEach(function () {
-      this.visit(`/eholdings/packages/${providerPackage.id}`);
+    beforeEach(async function () {
+      await this.visit(`/eholdings/packages/${providerPackage.id}`);
     });
 
     it('automatically has the custom package in my holdings', () => {
@@ -57,26 +57,17 @@ describe('CustomPackageShowSelection', () => {
         });
       });
 
-      describe('confirming the deselection', () => {
-        beforeEach(function () {
-          this.server.block();
-          return PackageShowPage.modal.confirmDeselection();
+      describe('confirming the deselection when the request succeeds', () => {
+        beforeEach(async function () {
+          await this.server.block();
+          await PackageShowPage.modal.confirmDeselection();
+          await this.server.unblock();
+          await PackageShowPage
+            .when(() => !PackageShowPage.isSelecting);
         });
 
-        it('indicates it is working to get to desired state', () => {
-          expect(PackageShowPage.selectionStatus.isSelecting).to.equal(true);
-        });
-
-        describe('when the request succeeds', () => {
-          beforeEach(function () {
-            this.server.unblock();
-            return PackageShowPage
-              .when(() => !PackageShowPage.isSelecting);
-          });
-
-          it('removes package detail pane', () => {
-            expect(PackageShowPage.isPresent).to.equal(false);
-          });
+        it('removes package detail pane', () => {
+          expect(PackageShowPage.isPresent).to.equal(false);
         });
       });
     });
@@ -85,8 +76,8 @@ describe('CustomPackageShowSelection', () => {
     // put is only on updating a custom packge.
 
     describe('unsuccessfully deselecting a custom package', () => {
-      beforeEach(function () {
-        this.server.delete('/packages/:packageId', {
+      beforeEach(async function () {
+        await this.server.delete('/packages/:packageId', {
           errors: [{
             title: 'There was an error'
           }]

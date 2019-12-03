@@ -38,8 +38,8 @@ describe('ResourceDeselection', () => {
 
   describe('visiting the resource page', () => {
     describe('part of a package with only one selected title', () => {
-      beforeEach(function () {
-        this.visit(`/eholdings/resources/${resource.id}`);
+      beforeEach(async function () {
+        await this.visit(`/eholdings/resources/${resource.id}`);
       });
 
       it('indicates that the resource is selected', () => {
@@ -47,8 +47,8 @@ describe('ResourceDeselection', () => {
       });
 
       describe('deselecting managed title', () => {
-        beforeEach(() => {
-          return ResourcePage.dropDownMenu.clickRemoveFromHoldings();
+        beforeEach(async () => {
+          await ResourcePage.dropDownMenu.clickRemoveFromHoldings();
         });
 
         describe('deselection modal', () => {
@@ -61,7 +61,7 @@ describe('ResourceDeselection', () => {
       describe('deselecting custom title', () => {
         beforeEach(async function () {
           title.isTitleCustom = true;
-          this.visit(`/eholdings/resources/${resource.id}`);
+          await this.visit(`/eholdings/resources/${resource.id}`);
           await ResourcePage.dropDownMenu.clickRemoveFromHoldings();
         });
 
@@ -74,11 +74,11 @@ describe('ResourceDeselection', () => {
     });
 
     describe('part of a package with several selected titles', () => {
-      beforeEach(function () {
+      beforeEach(async function () {
         providerPackage.titleCount = 5;
         providerPackage.selectedCount = 2;
 
-        this.visit(`/eholdings/resources/${resource.id}`);
+        await this.visit(`/eholdings/resources/${resource.id}`);
       });
 
       it('indicates that the resource is selected', () => {
@@ -86,8 +86,8 @@ describe('ResourceDeselection', () => {
       });
 
       describe('deselecting', () => {
-        beforeEach(() => {
-          return ResourcePage
+        beforeEach(async () => {
+          await ResourcePage
             .dropDown.clickDropDownButton()
             .dropDownMenu.clickRemoveFromHoldings();
         });
@@ -97,8 +97,8 @@ describe('ResourceDeselection', () => {
         });
 
         describe('canceling the deselection', () => {
-          beforeEach(() => {
-            return ResourcePage.deselectionModal.cancelDeselection();
+          beforeEach(async () => {
+            await ResourcePage.deselectionModal.cancelDeselection();
           });
 
           it('reverts back to the selected state', () => {
@@ -107,8 +107,8 @@ describe('ResourceDeselection', () => {
         });
 
         describe('confirming the deselection', () => {
-          beforeEach(() => {
-            return ResourcePage.deselectionModal.confirmDeselection();
+          beforeEach(async () => {
+            await ResourcePage.deselectionModal.confirmDeselection();
           });
 
           it('remains on Resource Page', () => {

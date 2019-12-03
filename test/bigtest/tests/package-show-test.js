@@ -29,8 +29,8 @@ describe('PackageShow', () => {
   });
 
   describe('visiting the package details page', () => {
-    beforeEach(function () {
-      this.visit(`/eholdings/packages/${providerPackage.id}`);
+    beforeEach(async function () {
+      await this.visit(`/eholdings/packages/${providerPackage.id}`);
     });
 
     it('displays the package name in the pane header', () => {
@@ -154,14 +154,14 @@ describe('PackageShow', () => {
     });
 
     describe('then visiting another package details page', () => {
-      beforeEach(function () {
-        const otherPackage = this.server.create('package', 'withTitles', {
+      beforeEach(async function () {
+        const otherPackage = await this.server.create('package', 'withTitles', {
           provider,
           name: 'Other Package',
           titleCount: 2
         });
 
-        this.visit(`/eholdings/packages/${otherPackage.id}`);
+        await this.visit(`/eholdings/packages/${otherPackage.id}`);
       });
 
       it('displays the different package', () => {
@@ -178,22 +178,22 @@ describe('PackageShow', () => {
   describe('viewing a partially selected package', () => {
     let pkg;
 
-    beforeEach(function () {
-      pkg = this.server.create('package', {
+    beforeEach(async function () {
+      pkg = await this.server.create('package', {
         provider,
         name: 'Partial Package',
         selectedCount: 5,
         titleCount: 10
       });
-      this.server.createList('resource', 5, 'withTitle', {
+      await this.server.createList('resource', 5, 'withTitle', {
         package: pkg,
         isSelected: true
       });
-      this.server.createList('resource', 5, 'withTitle', {
+      await this.server.createList('resource', 5, 'withTitle', {
         package: pkg,
         isSelected: false
       });
-      this.visit(`/eholdings/packages/${pkg.id}`);
+      await this.visit(`/eholdings/packages/${pkg.id}`);
     });
 
     it('shows the selected # of titles and the total # of titles in the package', () => {
@@ -209,8 +209,8 @@ describe('PackageShow', () => {
     });
 
     describe('inspecting the menu', () => {
-      beforeEach(() => {
-        return PackageShowPage.dropDown.clickDropDownButton();
+      beforeEach(async () => {
+        await PackageShowPage.dropDown.clickDropDownButton();
       });
 
       it('has menu item to add all remaining titles from this packages', () => {
@@ -224,9 +224,9 @@ describe('PackageShow', () => {
   });
 
   describe('viewing a managed package details page', () => {
-    beforeEach(function () {
+    beforeEach(async function () {
       providerPackage.isSelected = true;
-      this.visit(`/eholdings/packages/${providerPackage.id}`);
+      await this.visit(`/eholdings/packages/${providerPackage.id}`);
     });
 
     it('display tags accordion', () => {
@@ -247,11 +247,11 @@ describe('PackageShow', () => {
   });
 
   describe('viewing a custom package details page', () => {
-    beforeEach(function () {
+    beforeEach(async function () {
       providerPackage.isCustom = true;
       providerPackage.packageType = 'Custom';
       providerPackage.isSelected = true;
-      this.visit(`/eholdings/packages/${providerPackage.id}`);
+      await this.visit(`/eholdings/packages/${providerPackage.id}`);
     });
 
     it('display tags accordion', () => {
@@ -272,12 +272,12 @@ describe('PackageShow', () => {
   });
 
   describe('visiting a managed package details page with an inherited proxy', () => {
-    beforeEach(function () {
-      provider = this.server.create('provider', 'withInheritedProxy', {
+    beforeEach(async function () {
+      provider = await this.server.create('provider', 'withInheritedProxy', {
         name: 'Cool Provider'
       });
 
-      providerPackage = this.server.create('package', 'withTitles', 'withCustomCoverage', 'withInheritedProxy', {
+      providerPackage = await this.server.create('package', 'withTitles', 'withCustomCoverage', 'withInheritedProxy', {
         provider,
         name: 'Cool Package',
         contentType: 'E-Book',
@@ -285,7 +285,7 @@ describe('PackageShow', () => {
         titleCount: 5,
         packageType: 'Complete'
       });
-      this.visit(`/eholdings/packages/${providerPackage.id}`);
+      await this.visit(`/eholdings/packages/${providerPackage.id}`);
     });
 
     it('displays the proxy prepended with Inherited', () => {
@@ -296,12 +296,12 @@ describe('PackageShow', () => {
   });
 
   describe('visiting a custom package details page with an inherited proxy', () => {
-    beforeEach(function () {
-      provider = this.server.create('provider', 'withInheritedProxy', {
+    beforeEach(async function () {
+      provider = await this.server.create('provider', 'withInheritedProxy', {
         name: 'Cool Provider'
       });
 
-      providerPackage = this.server.create('package', 'withTitles', 'withCustomCoverage', 'withInheritedProxy', {
+      providerPackage = await this.server.create('package', 'withTitles', 'withCustomCoverage', 'withInheritedProxy', {
         provider,
         name: 'Cool Package',
         contentType: 'E-Book',
@@ -311,7 +311,7 @@ describe('PackageShow', () => {
         isCustom: true
       });
 
-      this.visit(`/eholdings/packages/${providerPackage.id}`);
+      await this.visit(`/eholdings/packages/${providerPackage.id}`);
     });
 
     it('displays the package type as custom', () => {
@@ -326,10 +326,10 @@ describe('PackageShow', () => {
   });
 
   describe('visiting a managed package details page with provider and package tokens', () => {
-    beforeEach(function () {
+    beforeEach(async function () {
       providerPackage.isSelected = true;
 
-      this.visit(`/eholdings/packages/${providerPackage.id}`);
+      await this.visit(`/eholdings/packages/${providerPackage.id}`);
     });
 
     it('displays the provider token prompt and value', () => {
@@ -344,20 +344,20 @@ describe('PackageShow', () => {
   });
 
   describe('visiting a managed package details page with provider token value set and package token without value', () => {
-    beforeEach(function () {
+    beforeEach(async function () {
       providerPackage.isSelected = true;
 
-      const token = this.server.create('token', {
+      const token = await this.server.create('token', {
         factName: '[[mysiteid]]',
         prompt: '/test1/',
         helpText: '',
         value: ''
       });
 
-      providerPackage.update('packageToken', token.toJSON());
-      providerPackage.save();
+      await providerPackage.update('packageToken', token.toJSON());
+      await providerPackage.save();
 
-      this.visit(`/eholdings/packages/${providerPackage.id}`);
+      await this.visit(`/eholdings/packages/${providerPackage.id}`);
     });
 
     it('does not display the package token', () => {
@@ -375,22 +375,20 @@ describe('PackageShow', () => {
   });
 
   describe('visiting a managed package details with no values set for provider token and package token', () => {
-    beforeEach(function () {
+    beforeEach(async function () {
       providerPackage.isSelected = true;
 
-      const token = this.server.create('token', {
+      const token = await this.server.create('token', {
         factName: '[[mysiteid]]',
         prompt: '/test1/',
         helpText: '',
         value: ''
       });
-      provider.update('providerToken', token.toJSON());
-      provider.save();
-
-      providerPackage.update('packageToken', token.toJSON());
-      providerPackage.save();
-
-      this.visit(`/eholdings/packages/${providerPackage.id}`);
+      await provider.update('providerToken', token.toJSON());
+      await provider.save();
+      await providerPackage.update('packageToken', token.toJSON());
+      await providerPackage.save();
+      await this.visit(`/eholdings/packages/${providerPackage.id}`);
     });
 
     it('does not display the provider token', () => {
@@ -411,19 +409,19 @@ describe('PackageShow', () => {
   });
 
   describe('visiting a managed package details with package token value set and provider token without value', () => {
-    beforeEach(function () {
+    beforeEach(async function () {
       providerPackage.isSelected = true;
 
-      const token = this.server.create('token', {
+      const token = await this.server.create('token', {
         factName: '[[mysiteid]]',
         prompt: '/test1/',
         helpText: '',
         value: ''
       });
-      provider.update('providerToken', token.toJSON());
-      provider.save();
+      await provider.update('providerToken', token.toJSON());
+      await provider.save();
 
-      this.visit(`/eholdings/packages/${providerPackage.id}`);
+      await this.visit(`/eholdings/packages/${providerPackage.id}`);
     });
 
     it('displays the package token prompt and value', () => {
@@ -441,16 +439,13 @@ describe('PackageShow', () => {
   });
 
   describe('visiting a managed package details page without provider and package tokens', () => {
-    beforeEach(function () {
+    beforeEach(async function () {
       providerPackage.isSelected = true;
-
-      provider.update('providerToken', null);
-      provider.save();
-
-      providerPackage.update('packageToken', null);
-      providerPackage.save();
-
-      this.visit(`/eholdings/packages/${providerPackage.id}`);
+      await provider.update('providerToken', null);
+      await provider.save();
+      await providerPackage.update('packageToken', null);
+      await providerPackage.save();
+      await this.visit(`/eholdings/packages/${providerPackage.id}`);
     });
 
     it('does not display both provider and package tokens', () => {
@@ -460,10 +455,10 @@ describe('PackageShow', () => {
   });
 
   describe('visiting the package details page with multiple pages of titles', () => {
-    beforeEach(function () {
-      this.server.loadFixtures();
+    beforeEach(async function () {
+      await this.server.loadFixtures();
 
-      this.visit('/eholdings/packages/paged_pkg');
+      await this.visit('/eholdings/packages/paged_pkg');
     });
 
     it('should display the first page of related titles', () => {
@@ -484,11 +479,11 @@ describe('PackageShow', () => {
   });
 
   describe('visiting the package details page for a large package', () => {
-    beforeEach(function () {
+    beforeEach(async function () {
       providerPackage.selectedCount = 9000;
       providerPackage.titleCount = 10000;
 
-      this.visit(`/eholdings/packages/${providerPackage.id}`);
+      await this.visit(`/eholdings/packages/${providerPackage.id}`);
     });
 
     describe('viewing large packages', () => {
@@ -503,8 +498,8 @@ describe('PackageShow', () => {
   });
 
   describe('navigating to package show page', () => {
-    beforeEach(function () {
-      this.visit({
+    beforeEach(async function () {
+      await this.visit({
         pathname: `/eholdings/packages/${providerPackage.id}`,
         // our internal link component automatically sets the location state
         state: { eholdings: true }
@@ -517,14 +512,14 @@ describe('PackageShow', () => {
   });
 
   describe('encountering a server error', () => {
-    beforeEach(function () {
-      this.server.get('/packages/:packageId', {
+    beforeEach(async function () {
+      await this.server.get('/packages/:packageId', {
         errors: [{
           title: 'There was an error'
         }]
       }, 500);
 
-      this.visit(`/eholdings/packages/${providerPackage.id}`);
+      await this.visit(`/eholdings/packages/${providerPackage.id}`);
     });
 
     it('displays the correct error text', () => {

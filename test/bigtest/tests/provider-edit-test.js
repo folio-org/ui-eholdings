@@ -22,8 +22,8 @@ describe('ProviderEdit', () => {
   });
 
   describe('visiting the provider edit page ', () => {
-    beforeEach(function () {
-      this.visit(`/eholdings/providers/${provider.id}/edit`);
+    beforeEach(async function () {
+      await this.visit(`/eholdings/providers/${provider.id}/edit`);
     });
 
     it('displays the provider name in the pane header', () => {
@@ -100,14 +100,14 @@ describe('ProviderEdit', () => {
     });
   });
   describe('encountering a server error when PUTting a provider', () => {
-    beforeEach(function () {
-      this.server.put('/providers/:id', {
+    beforeEach(async function () {
+      await this.server.put('/providers/:id', {
         errors: [{
           title: 'There was an error'
         }]
       }, 500);
 
-      this.visit(`/eholdings/providers/${provider.id}/edit`);
+      await this.visit(`/eholdings/providers/${provider.id}/edit`);
     });
 
     describe('entering valid data and clicking save', () => {
@@ -124,14 +124,14 @@ describe('ProviderEdit', () => {
   });
 
   describe('encountering a server error when GETting a provider', () => {
-    beforeEach(function () {
-      this.server.get('/providers/:id', {
+    beforeEach(async function () {
+      await this.server.get('/providers/:id', {
         errors: [{
           title: 'There was an error'
         }]
       }, 500);
 
-      this.visit(`/eholdings/providers/${provider.id}/edit`);
+      await this.visit(`/eholdings/providers/${provider.id}/edit`);
     });
 
     it('dies with dignity', () => {
@@ -140,12 +140,12 @@ describe('ProviderEdit', () => {
   });
 
   describe('visiting the provider edit page with no selected packages', () => {
-    beforeEach(function () {
-      const provider2 = this.server.create('provider', {
+    beforeEach(async function () {
+      const provider2 = await this.server.create('provider', {
         name: 'Sam is awesome',
       });
 
-      this.visit(`/eholdings/providers/${provider2.id}/edit`);
+      await this.visit(`/eholdings/providers/${provider2.id}/edit`);
     });
 
     it('does not display other fields', () => {

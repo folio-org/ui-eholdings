@@ -9,19 +9,19 @@ describe('ProviderShow', () => {
   let provider,
     packages;
 
-  beforeEach(function () {
-    provider = this.server.create('provider', 'withPackagesAndTitles', 'withProxy', 'withTokenAndValue', {
+  beforeEach(async function () {
+    provider = await this.server.create('provider', 'withPackagesAndTitles', 'withProxy', 'withTokenAndValue', {
       name: 'League of Ordinary Men',
       packagesTotal: 5
     });
 
-    packages = this.server.schema.where('package', { providerId: provider.id }).models;
+    packages = await this.server.schema.where('package', { providerId: provider.id }).models;
     packages[0].visibilityData.isHidden = true;
   });
 
   describe('visiting the provider details page', () => {
-    beforeEach(function () {
-      this.visit(`/eholdings/providers/${provider.id}`);
+    beforeEach(async function () {
+      await this.visit(`/eholdings/providers/${provider.id}`);
     });
 
     it('displays the provider name in the pane header', () => {
@@ -82,8 +82,8 @@ describe('ProviderShow', () => {
     });
 
     describe('clicking the collapse all button', () => {
-      beforeEach(() => {
-        return ProviderShowPage.clickCollapseAllButton();
+      beforeEach(async () => {
+        await ProviderShowPage.clickCollapseAllButton();
       });
 
       it('toggles the button text to expand all', () => {
@@ -93,10 +93,9 @@ describe('ProviderShow', () => {
   });
 
   describe('visiting the provider details page with multiple pages of packages', () => {
-    beforeEach(function () {
-      this.server.loadFixtures();
-
-      this.visit('/eholdings/providers/paged_provider');
+    beforeEach(async function () {
+      await this.server.loadFixtures();
+      await this.visit('/eholdings/providers/paged_provider');
     });
 
     it('should display the first page of related packages', () => {
@@ -104,8 +103,8 @@ describe('ProviderShow', () => {
     });
 
     describe('scrolling down the list of packages', () => {
-      beforeEach(() => {
-        return ProviderShowPage
+      beforeEach(async () => {
+        await ProviderShowPage
           .when(() => ProviderShowPage.packageListHasLoaded)
           .scrollToPackageOffset(26);
       });
@@ -119,11 +118,11 @@ describe('ProviderShow', () => {
   });
 
   describe('visiting the provider details page for a large provider', () => {
-    beforeEach(function () {
+    beforeEach(async function () {
       provider.packagesSelected = 9000;
       provider.packagesTotal = 10000;
 
-      this.visit(`/eholdings/providers/${provider.id}`);
+      await this.visit(`/eholdings/providers/${provider.id}`);
     });
 
     describe('viewing large providers', () => {
@@ -138,15 +137,15 @@ describe('ProviderShow', () => {
   });
 
   describe('visiting the provider details page with an inherited proxy', () => {
-    beforeEach(function () {
-      const proxy = this.server.create('proxy', {
+    beforeEach(async function () {
+      const proxy = await this.server.create('proxy', {
         inherited: true,
         id: 'bigTestJS'
       });
-      provider.update('proxy', proxy.toJSON());
-      provider.save();
+      await provider.update('proxy', proxy.toJSON());
+      await provider.save();
 
-      this.visit(`/eholdings/providers/${provider.id}`);
+      await this.visit(`/eholdings/providers/${provider.id}`);
     });
 
     it('displays the proxy prepended with Inheritied', () => {
@@ -156,15 +155,15 @@ describe('ProviderShow', () => {
   });
 
   describe('visiting the provider details page with a none proxy', () => {
-    beforeEach(function () {
-      const proxy = this.server.create('proxy', {
+    beforeEach(async function () {
+      const proxy = await this.server.create('proxy', {
         inherited: false,
         id: '<n>'
       });
-      provider.update('proxy', proxy.toJSON());
-      provider.save();
+      await provider.update('proxy', proxy.toJSON());
+      await provider.save();
 
-      this.visit(`/eholdings/providers/${provider.id}`);
+      await this.visit(`/eholdings/providers/${provider.id}`);
     });
 
     it('displays the proxy as None', () => {
@@ -173,17 +172,17 @@ describe('ProviderShow', () => {
   });
 
   describe('visiting the provider details page with a token without value', () => {
-    beforeEach(function () {
-      const token = this.server.create('token', {
+    beforeEach(async function () {
+      const token = await this.server.create('token', {
         factName: '[[mysiteid]]',
         prompt: '/test1/',
         helpText: '',
         value: ''
       });
-      provider.update('providerToken', token.toJSON());
-      provider.save();
+      await provider.update('providerToken', token.toJSON());
+      await provider.save();
 
-      this.visit(`/eholdings/providers/${provider.id}`);
+      await this.visit(`/eholdings/providers/${provider.id}`);
     });
 
     it('does not display the token', () => {
@@ -196,11 +195,11 @@ describe('ProviderShow', () => {
   });
 
   describe('visiting the provider details page without a token', () => {
-    beforeEach(function () {
-      provider.update('providerToken', null);
-      provider.save();
+    beforeEach(async function () {
+      await provider.update('providerToken', null);
+      await provider.save();
 
-      this.visit(`/eholdings/providers/${provider.id}`);
+      await this.visit(`/eholdings/providers/${provider.id}`);
     });
 
     it('does not display the token', () => {
@@ -209,11 +208,11 @@ describe('ProviderShow', () => {
   });
 
   describe('visiting the provider details page without selected packages', () => {
-    beforeEach(function () {
+    beforeEach(async function () {
       provider.packagesSelected = 0;
       provider.packagesTotal = 1;
 
-      this.visit(`/eholdings/providers/${provider.id}`);
+      await this.visit(`/eholdings/providers/${provider.id}`);
     });
 
     it('it does not display the tags', () => {
@@ -222,11 +221,11 @@ describe('ProviderShow', () => {
   });
 
   describe('visiting the provider details page with selected packages', () => {
-    beforeEach(function () {
+    beforeEach(async function () {
       provider.packagesSelected = 10;
       provider.packagesTotal = 10;
 
-      this.visit(`/eholdings/providers/${provider.id}`);
+      await this.visit(`/eholdings/providers/${provider.id}`);
     });
 
     it('does display the tags', () => {
@@ -235,8 +234,8 @@ describe('ProviderShow', () => {
   });
 
   describe('navigating to provider details page', () => {
-    beforeEach(function () {
-      this.visit({
+    beforeEach(async function () {
+      await this.visit({
         pathname: `/eholdings/providers/${provider.id}`,
         // our internal link component automatically sets the location state
         state: { eholdings: true }
@@ -250,14 +249,14 @@ describe('ProviderShow', () => {
 
 
   describe('encountering a server error', () => {
-    beforeEach(function () {
-      this.server.get('/providers/:id', {
+    beforeEach(async function () {
+      await this.server.get('/providers/:id', {
         errors: [{
           title: 'There was an error'
         }]
       }, 500);
 
-      this.visit(`/eholdings/providers/${provider.id}`);
+      await this.visit(`/eholdings/providers/${provider.id}`);
     });
 
     it('has an error', () => {

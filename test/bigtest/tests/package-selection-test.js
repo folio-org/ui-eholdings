@@ -27,14 +27,14 @@ describe('PackageSelection', () => {
   });
 
   describe('visiting the package details page', () => {
-    beforeEach(function () {
-      this.visit(`/eholdings/packages/${providerPackage.id}`);
+    beforeEach(async function () {
+      await this.visit(`/eholdings/packages/${providerPackage.id}`);
     });
 
     describe('successfully selecting a package title to add to my holdings', () => {
       beforeEach(async function () {
         await PackageShowPage.whenLoaded();
-        this.server.block();
+        await this.server.block();
         await PackageShowPage.selectPackage();
       });
 
@@ -43,8 +43,8 @@ describe('PackageSelection', () => {
       });
 
       describe('when the request succeeds', () => {
-        beforeEach(function () {
-          this.server.unblock();
+        beforeEach(async function () {
+          await this.server.unblock();
         });
 
         it('reflect the desired state was set', () => {
@@ -65,11 +65,11 @@ describe('PackageSelection', () => {
       });
 
       describe('and deselecting the package', () => {
-        beforeEach(function () {
-          this.server.unblock();
+        beforeEach(async function () {
+          await this.server.unblock();
           // many thanks to elrick for catching the need for
           // the `when` here
-          return PackageShowPage
+          await PackageShowPage
             .when(() => !PackageShowPage.isSelecting)
             .dropDown.clickDropDownButton()
             .dropDownMenu.removeFromHoldings.click();
@@ -90,15 +90,15 @@ describe('PackageSelection', () => {
         });
 
         describe('confirming the deselection', () => {
-          beforeEach(function () {
-            this.server.block();
-            return PackageShowPage.modal.confirmDeselection();
+          beforeEach(async function () {
+            await this.server.block();
+            await PackageShowPage.modal.confirmDeselection();
           });
 
 
           describe('when the request succeeds', () => {
-            beforeEach(function () {
-              this.server.unblock();
+            beforeEach(async function () {
+              await this.server.unblock();
             });
 
             it('reflect the desired state was set', () => {
@@ -127,7 +127,7 @@ describe('PackageSelection', () => {
 
     describe('unsuccessfully selecting a package title to add to my holdings', () => {
       beforeEach(async function () {
-        this.server.put('/packages/:packageId', () => {
+        await this.server.put('/packages/:packageId', () => {
           /**
            * Blocking this request did not work solely using
            * the mirage endpoint shorthand. We have to manually
@@ -138,7 +138,7 @@ describe('PackageSelection', () => {
           });
         });
         await PackageShowPage.whenLoaded();
-        this.server.block();
+        await this.server.block();
         await PackageShowPage.selectPackage();
       });
 
@@ -147,8 +147,8 @@ describe('PackageSelection', () => {
       });
 
       describe('when the request fails', () => {
-        beforeEach(function () {
-          this.server.unblock();
+        beforeEach(async function () {
+          await this.server.unblock();
         });
 
         it('reflect the desired state was not set', () => {

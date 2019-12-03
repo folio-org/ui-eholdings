@@ -16,14 +16,14 @@ describe('ResourceVisibility', () => {
   });
 
   describe('visiting the resource show page with a visible resource and is selected', () => {
-    beforeEach(function () {
-      resource = this.server.create('resource', {
+    beforeEach(async function () {
+      resource = await this.server.create('resource', {
         package: pkg,
         isSelected: true,
         title
       });
 
-      this.visit(`/eholdings/resources/${resource.id}`);
+      await this.visit(`/eholdings/resources/${resource.id}`);
     });
 
     it('shows titles in package to patrons', () => {
@@ -32,14 +32,14 @@ describe('ResourceVisibility', () => {
   });
 
   describe('visiting the resource show page with a resource that is not selected', () => {
-    beforeEach(function () {
-      resource = this.server.create('resource', {
+    beforeEach(async function () {
+      resource = await this.server.create('resource', {
         package: pkg,
         isSelected: false,
         title
       });
 
-      this.visit(`/eholdings/resources/${resource.id}`);
+      await this.visit(`/eholdings/resources/${resource.id}`);
     });
 
     it('does not show titles in package to patrons', () => {
@@ -48,14 +48,14 @@ describe('ResourceVisibility', () => {
   });
 
   describe('visiting the resource show page with a hidden resource and a reason', () => {
-    beforeEach(function () {
-      resource = this.server.create('resource', 'isHidden', {
+    beforeEach(async function () {
+      resource = await this.server.create('resource', 'isHidden', {
         package: pkg,
         isSelected: true,
         title
       });
 
-      this.visit(`/eholdings/resources/${resource.id}`);
+      await this.visit(`/eholdings/resources/${resource.id}`);
     });
 
     it('does not show titles in package to patrons', () => {
@@ -68,14 +68,14 @@ describe('ResourceVisibility', () => {
   });
 
   describe('visiting the resource show page with a hidden resource and no reason', () => {
-    beforeEach(function () {
-      resource = this.server.create('resource', 'isHiddenWithoutReason', {
+    beforeEach(async function () {
+      resource = await this.server.create('resource', 'isHiddenWithoutReason', {
         package: pkg,
         isSelected: true,
         title
       });
 
-      this.visit(`/eholdings/resources/${resource.id}`);
+      await this.visit(`/eholdings/resources/${resource.id}`);
     });
 
     it('displays it is not visibile to patrons', () => {
@@ -88,16 +88,16 @@ describe('ResourceVisibility', () => {
   });
 
   describe('visiting the resource show page and all titles in package are hidden', () => {
-    beforeEach(function () {
+    beforeEach(async function () {
       pkg.visibilityData.isHidden = true;
       pkg.visibilityData.reason = 'Hidden by EP';
-      resource = this.server.create('resource', 'isHidden', {
+      resource = await this.server.create('resource', 'isHidden', {
         package: pkg,
         title,
         isSelected: true
       });
 
-      this.visit(`/eholdings/resources/${resource.id}`);
+      await this.visit(`/eholdings/resources/${resource.id}`);
     });
 
     it('displays it is not visibile to patrons', () => {

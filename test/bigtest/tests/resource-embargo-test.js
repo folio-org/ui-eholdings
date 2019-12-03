@@ -21,20 +21,20 @@ describe('ResourceEmbargo', () => {
   });
 
   describe('visiting the resource show page with custom and managed embargos', () => {
-    beforeEach(function () {
-      resource.managedEmbargoPeriod = this.server.create('embargo-period', {
+    beforeEach(async function () {
+      resource.managedEmbargoPeriod = await this.server.create('embargo-period', {
         embargoUnit: 'Months',
         embargoValue: 6
       }).toJSON();
 
-      resource.customEmbargoPeriod = this.server.create('embargo-period', {
+      resource.customEmbargoPeriod = await this.server.create('embargo-period', {
         embargoUnit: 'Weeks',
         embargoValue: 9
       }).toJSON();
 
-      resource.save();
+      await resource.save();
 
-      this.visit(`/eholdings/resources/${resource.id}`);
+      await this.visit(`/eholdings/resources/${resource.id}`);
     });
 
     it('does not display the managed embargo section', () => {
@@ -47,8 +47,8 @@ describe('ResourceEmbargo', () => {
   });
 
   describe('visiting the resource show page without any embargos', () => {
-    beforeEach(function () {
-      this.visit(`/eholdings/resources/${resource.id}`);
+    beforeEach(async function () {
+      await this.visit(`/eholdings/resources/${resource.id}`);
     });
 
     it.always('does not display the managed embargo section', () => {
@@ -61,19 +61,19 @@ describe('ResourceEmbargo', () => {
   });
 
   describe('visiting the resource show page with embargos with null values', () => {
-    beforeEach(function () {
-      resource.managedEmbargoPeriod = this.server.create('embargo-period', {
+    beforeEach(async function () {
+      resource.managedEmbargoPeriod = await this.server.create('embargo-period', {
         embargoUnit: 'Months',
         embargoValue: null
       }).toJSON();
 
-      resource.customEmbargoPeriod = this.server.create('embargo-period', {
+      resource.customEmbargoPeriod = await this.server.create('embargo-period', {
         embargoUnit: 'Weeks',
         embargoValue: null
       }).toJSON();
 
-      resource.save();
-      this.visit(`/eholdings/resources/${resource.id}`);
+      await resource.save();
+      await this.visit(`/eholdings/resources/${resource.id}`);
     });
 
     it.always('does not display the managed embargo section', () => {
@@ -86,12 +86,12 @@ describe('ResourceEmbargo', () => {
   });
 
   describe('visiting the resource show page with no embargos', () => {
-    beforeEach(function () {
+    beforeEach(async function () {
       resource.managedEmbargoPeriod = null;
       resource.customEmbargoPeriod = null;
 
-      resource.save();
-      this.visit(`/eholdings/resources/${resource.id}`);
+      await resource.save();
+      await this.visit(`/eholdings/resources/${resource.id}`);
     });
 
     it.always('does not display the managed embargo section', () => {
@@ -104,15 +104,15 @@ describe('ResourceEmbargo', () => {
   });
 
   describe('visiting the resource show page with title package not selected', () => {
-    beforeEach(function () {
+    beforeEach(async function () {
       resource.isSelected = false;
-      resource.customEmbargoPeriod = this.server.create('embargo-period', {
+      resource.customEmbargoPeriod = await this.server.create('embargo-period', {
         embargoUnit: 'Weeks',
         embargoValue: null
       }).toJSON();
 
-      resource.save();
-      this.visit(`/eholdings/resources/${resource.id}`);
+      await resource.save();
+      await this.visit(`/eholdings/resources/${resource.id}`);
     });
 
     it.always('does not display the custom embargo section', () => {
@@ -125,14 +125,14 @@ describe('ResourceEmbargo', () => {
   });
 
   describe('visiting the resource show page with title package selected', () => {
-    beforeEach(function () {
-      resource.customEmbargoPeriod = this.server.create('embargo-period', {
+    beforeEach(async function () {
+      resource.customEmbargoPeriod = await this.server.create('embargo-period', {
         embargoUnit: 'Weeks',
         embargoValue: 10
       }).toJSON();
 
-      resource.save();
-      this.visit(`/eholdings/resources/${resource.id}`);
+      await resource.save();
+      await this.visit(`/eholdings/resources/${resource.id}`);
     });
 
     it('displays the custom embargo section', () => {

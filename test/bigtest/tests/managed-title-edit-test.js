@@ -16,8 +16,8 @@ describe('ManagedTitleEdit', () => {
   });
 
   describe('trying to edit a managed title', () => {
-    beforeEach(function () {
-      this.visit(`/eholdings/titles/${title.id}/edit`);
+    beforeEach(async function () {
+      await this.visit(`/eholdings/titles/${title.id}/edit`);
     });
 
     it('redirects to the title show page', () => {

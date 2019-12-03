@@ -9,34 +9,34 @@ describe('ProviderShow package search', () => {
   let provider,
     packages;
 
-  beforeEach(function () {
-    provider = this.server.create('provider', 'withPackagesAndTitles', {
+  beforeEach(async function () {
+    provider = await this.server.create('provider', 'withPackagesAndTitles', {
       name: 'League of Ordinary Men',
       packagesTotal: 5
     });
 
-    packages = this.server.schema.where('package', {
+    packages = await this.server.schema.where('package', {
       providerId: provider.id
     }).models;
 
-    packages.forEach((p, i) => p.update({
+    await packages.forEach((p, i) => p.update({
       name: `Package ${i}`,
       contentType: 'Print'
     }));
 
-    packages[0].update({
+    await packages[0].update({
       tags: {
         tagList: ['urgent']
       }
     });
 
-    packages[1].update({
+    await packages[1].update({
       tags: {
         tagList: ['urgent']
       }
     });
 
-    packages[2].update({
+    await packages[2].update({
       name: 'Ordinary Package',
       contentType: 'eBook',
       isSelected: false,
@@ -45,17 +45,17 @@ describe('ProviderShow package search', () => {
       }
     });
 
-    packages[4].update({
+    await packages[4].update({
       name: 'Other Ordinary Package',
       isSelected: true,
     });
 
-    this.visit(`/eholdings/providers/${provider.id}`);
+    await this.visit(`/eholdings/providers/${provider.id}`);
   });
 
   describe('clicking the search button', () => {
-    beforeEach(() => {
-      return ProviderShowPage.clickListSearch();
+    beforeEach(async () => {
+      await ProviderShowPage.clickListSearch();
     });
 
     it('shows the package search modal', () => {
@@ -222,8 +222,8 @@ describe('ProviderShow package search', () => {
   });
 
   describe('filter package by search term', () => {
-    beforeEach(() => {
-      return ProviderShowPage.clickListSearch()
+    beforeEach(async () => {
+      await ProviderShowPage.clickListSearch()
         .searchModal.search('ordinary');
     });
 
@@ -234,8 +234,8 @@ describe('ProviderShow package search', () => {
     });
 
     describe('clearing the search and saving', () => {
-      beforeEach(() => {
-        return ProviderShowPage.clickListSearch()
+      beforeEach(async () => {
+        await ProviderShowPage.clickListSearch()
           .searchModal.clearSearch();
       });
 
@@ -252,8 +252,8 @@ describe('ProviderShow package search', () => {
       });
 
       describe('applying the cleared search changes', () => {
-        beforeEach(() => {
-          return ProviderShowPage.searchModal.clickSearch();
+        beforeEach(async () => {
+          await ProviderShowPage.searchModal.clickSearch();
         });
 
         it('applies the change and closes the modal', () => {
@@ -268,8 +268,8 @@ describe('ProviderShow package search', () => {
   });
 
   describe('searching for specific packages', () => {
-    beforeEach(() => {
-      return ProviderShowPage.clickListSearch()
+    beforeEach(async () => {
+      await ProviderShowPage.clickListSearch()
         .searchModal.search('other ordinary');
     });
 
@@ -356,21 +356,21 @@ describe('ProviderShow package search', () => {
   });
 
   describe('navigating to provider show page with over 10k related packages', () => {
-    beforeEach(function () {
-      const largeProvider = this.server.create('provider',
+    beforeEach(async function () {
+      const largeProvider = await this.server.create('provider',
         {
           name: 'Large Provider Test',
           packagesTotal: 1500000
         });
 
-      this.server.get(`providers/${largeProvider.id}/packages`,
+      await this.server.get(`providers/${largeProvider.id}/packages`,
         {
           'data': [],
           'meta': { 'totalResults': 10001 },
           'jsonapi': { 'version': '1.0' }
         }, 200);
 
-      this.visit(
+      await this.visit(
         {
           pathname: `/eholdings/providers/${largeProvider.id}`,
           // our internal link component automatically sets the location state

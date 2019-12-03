@@ -25,8 +25,8 @@ describe('ManagedPackageEditTokens', () => {
   });
 
   describe('visiting the managed package edit page with provider token and value and package token and value', () => {
-    beforeEach(function () {
-      this.visit(`/eholdings/packages/${providerPackage.id}/edit`);
+    beforeEach(async function () {
+      await this.visit(`/eholdings/packages/${providerPackage.id}/edit`);
     });
 
     it('has provider token help text', () => {
@@ -176,8 +176,8 @@ describe('ManagedPackageEditTokens', () => {
   });
 
   describe('visiting the managed package edit page with a provider token without a value and package token with value', () => {
-    beforeEach(function () {
-      const token = this.server.create('token', {
+    beforeEach(async function () {
+      const token = await this.server.create('token', {
         factName: '[[mysiteid]]',
         prompt: '/test1/',
         helpText: '<ul><li>Enter your token</li></ul>',
@@ -186,7 +186,7 @@ describe('ManagedPackageEditTokens', () => {
       provider.update('providerToken', token.toJSON());
       provider.save();
 
-      this.visit(`/eholdings/packages/${providerPackage.id}/edit`);
+      await this.visit(`/eholdings/packages/${providerPackage.id}/edit`);
     });
 
     it('has add provider token button', () => {
@@ -225,17 +225,17 @@ describe('ManagedPackageEditTokens', () => {
   });
 
   describe('visiting the managed package edit page with a provider token with a value and package token without value', () => {
-    beforeEach(function () {
-      const token = this.server.create('token', {
+    beforeEach(async function () {
+      const token = await this.server.create('token', {
         factName: '[[mysiteid]]',
         prompt: '/test1/',
         helpText: '<ul><li>Enter your token</li></ul>',
         value: ''
       });
-      providerPackage.update('packageToken', token.toJSON());
-      providerPackage.save();
+      await providerPackage.update('packageToken', token.toJSON());
+      await providerPackage.save();
 
-      this.visit(`/eholdings/packages/${providerPackage.id}/edit`);
+      await this.visit(`/eholdings/packages/${providerPackage.id}/edit`);
     });
 
     it('has add package token button', () => {
@@ -274,11 +274,11 @@ describe('ManagedPackageEditTokens', () => {
   });
 
   describe('visiting the managed package edit page without a provider token', () => {
-    beforeEach(function () {
-      provider.update('providerToken', null);
-      provider.save();
+    beforeEach(async function () {
+      await provider.update('providerToken', null);
+      await provider.save();
 
-      this.visit(`/eholdings/packages/${providerPackage.id}/edit`);
+      await this.visit(`/eholdings/packages/${providerPackage.id}/edit`);
     });
 
     it('does not show provider token help text', () => {
@@ -311,11 +311,11 @@ describe('ManagedPackageEditTokens', () => {
   });
 
   describe('visiting the managed package edit page without a package token', () => {
-    beforeEach(function () {
-      providerPackage.update('packageToken', null);
-      providerPackage.save();
+    beforeEach(async function () {
+      await providerPackage.update('packageToken', null);
+      await providerPackage.save();
 
-      this.visit(`/eholdings/packages/${providerPackage.id}/edit`);
+      await this.visit(`/eholdings/packages/${providerPackage.id}/edit`);
     });
 
     it('does not show package token help text', () => {
@@ -348,14 +348,14 @@ describe('ManagedPackageEditTokens', () => {
   });
 
   describe('visiting the managed package edit page without a provider and package tokens', () => {
-    beforeEach(function () {
-      provider.update('providerToken', null);
-      provider.save();
+    beforeEach(async function () {
+      await provider.update('providerToken', null);
+      await provider.save();
 
-      providerPackage.update('packageToken', null);
-      providerPackage.save();
+      await providerPackage.update('packageToken', null);
+      await providerPackage.save();
 
-      this.visit(`/eholdings/packages/${providerPackage.id}/edit`);
+      await this.visit(`/eholdings/packages/${providerPackage.id}/edit`);
     });
 
     it('does not show provider token help text', () => {
@@ -392,8 +392,8 @@ describe('ManagedPackageEditTokens', () => {
   });
 
   describe('visiting the managed package edit page and setting provider token to a long value ', () => {
-    beforeEach(function () {
-      this.visit(`/eholdings/packages/${providerPackage.id}/edit`);
+    beforeEach(async function () {
+      await this.visit(`/eholdings/packages/${providerPackage.id}/edit`);
     });
 
     it('has provider token value', () => {
@@ -422,8 +422,8 @@ describe('ManagedPackageEditTokens', () => {
   });
 
   describe('visiting the managed package edit page and setting package token to a long value ', () => {
-    beforeEach(function () {
-      this.visit(`/eholdings/packages/${providerPackage.id}/edit`);
+    beforeEach(async function () {
+      await this.visit(`/eholdings/packages/${providerPackage.id}/edit`);
     });
 
     it('has package token value', () => {
@@ -452,8 +452,8 @@ describe('ManagedPackageEditTokens', () => {
   });
 
   describe('visiting the managed package edit page and setting provider and package tokens to long values ', () => {
-    beforeEach(function () {
-      this.visit(`/eholdings/packages/${providerPackage.id}/edit`);
+    beforeEach(async function () {
+      await this.visit(`/eholdings/packages/${providerPackage.id}/edit`);
     });
 
     it('has provider token value', () => {

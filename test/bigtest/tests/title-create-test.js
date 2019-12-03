@@ -12,14 +12,14 @@ describe('TitleCreate', () => {
   let packages;
 
   describe('submitting the form', () => {
-    beforeEach(function () {
-      packages = this.server.createList('package', 2, {
+    beforeEach(async function () {
+      packages = await this.server.createList('package', 2, {
         name: i => `Custom Package ${i + 1}`,
         provider: this.server.create('provider'),
         isCustom: true
       });
 
-      this.visit('/eholdings/titles/new');
+      await this.visit('/eholdings/titles/new');
     });
 
     it('has a title name field', () => {
@@ -245,8 +245,8 @@ describe('TitleCreate', () => {
   });
 
   describe('canceling when there is router history', () => {
-    beforeEach(function () {
-      this.visit('/eholdings/?searchType=titles');
+    beforeEach(async function () {
+      await this.visit('/eholdings/?searchType=titles');
     });
 
     describe('clicking a cancel action', () => {

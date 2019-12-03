@@ -43,8 +43,8 @@ describe('CustomResourceHoldingSelection', () => {
 
 
   describe('visiting the package details page', () => {
-    beforeEach(function () {
-      this.visit(`/eholdings/resources/${resource.titleId}/edit`);
+    beforeEach(async function () {
+      await this.visit(`/eholdings/resources/${resource.titleId}/edit`);
     });
 
     it('shows the custom package as selected in my holdings', () => {
@@ -59,7 +59,7 @@ describe('CustomResourceHoldingSelection', () => {
       describe('when the package has more than 1 title', () => {
         beforeEach(async function () {
           providerPackage.titleCount = 20;
-          this.visit(`/eholdings/resources/${resource.titleId}/edit`);
+          await this.visit(`/eholdings/resources/${resource.titleId}/edit`);
 
           await ResourceEditPage
             .dropDown.clickDropDownButton()
@@ -76,7 +76,7 @@ describe('CustomResourceHoldingSelection', () => {
       describe('when deselecting the last title in the package', () => {
         beforeEach(async function () {
           providerPackage.titleCount = 1;
-          this.visit(`/eholdings/resources/${resource.titleId}/edit`);
+          await this.visit(`/eholdings/resources/${resource.titleId}/edit`);
 
           await ResourceEditPage
             .dropDown.clickDropDownButton()
@@ -101,7 +101,7 @@ describe('CustomResourceHoldingSelection', () => {
         let resolveRequest;
 
         beforeEach(async function () {
-          this.server.delete('/resources/:id', ({ resources }, request) => {
+          await this.server.delete('/resources/:id', ({ resources }, request) => {
             const matchingResource = resources.find(request.params.id);
 
             matchingResource.destroy();
@@ -173,8 +173,8 @@ describe('CustomResourceHoldingSelection', () => {
     });
 
     describe('unsuccessfully deselecting a custom resource', () => {
-      beforeEach(function () {
-        this.server.delete('/resources/:id', {
+      beforeEach(async function () {
+        await this.server.delete('/resources/:id', {
           errors: [{
             title: 'There was an error'
           }]

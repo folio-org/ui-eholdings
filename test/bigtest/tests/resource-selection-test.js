@@ -36,8 +36,8 @@ describe('ResourceSelection', () => {
   });
 
   describe('visiting the resource page', () => {
-    beforeEach(function () {
-      this.visit(`/eholdings/resources/${resource.id}`);
+    beforeEach(async function () {
+      await this.visit(`/eholdings/resources/${resource.id}`);
     });
 
     it('indicates that the resource is not yet selected', () => {
@@ -49,7 +49,7 @@ describe('ResourceSelection', () => {
     describe('successfully selecting a package title to add to my holdings via the drop down', () => {
       beforeEach(async function () {
         await ResourcePage.whenLoaded();
-        this.server.block();
+        await this.server.block();
         await ResourcePage
           .dropDown.clickDropDownButton()
           .dropDownMenu.clickAddToHoldings();
@@ -68,8 +68,8 @@ describe('ResourceSelection', () => {
       });
 
       describe('when the request succeeds', () => {
-        beforeEach(function () {
-          this.server.unblock();
+        beforeEach(async function () {
+          await this.server.unblock();
         });
 
         it('reflects the desired state was set', () => {
@@ -89,7 +89,7 @@ describe('ResourceSelection', () => {
     describe('successfully selecting a package title to add to my holdings via add to holdings button', () => {
       beforeEach(async function () {
         await ResourcePage.whenLoaded();
-        this.server.block();
+        await this.server.block();
         await ResourcePage.clickAddToHoldingsButton();
       });
 
@@ -102,8 +102,8 @@ describe('ResourceSelection', () => {
       });
 
       describe('when the request succeeds', () => {
-        beforeEach(function () {
-          this.server.unblock();
+        beforeEach(async function () {
+          await this.server.unblock();
         });
 
         it('reflects the desired state was set', () => {
@@ -118,13 +118,13 @@ describe('ResourceSelection', () => {
 
     describe('unsuccessfully selecting a package title to add to my holdings', () => {
       beforeEach(async function () {
-        this.server.put('/resources/:id', {
+        await this.server.put('/resources/:id', {
           errors: [{
             title: 'There was an error'
           }]
         }, 500);
         await ResourcePage.whenLoaded();
-        this.server.block();
+        await this.server.block();
         await ResourcePage.dropDownMenu.clickAddToHoldings();
       });
 
@@ -137,8 +137,8 @@ describe('ResourceSelection', () => {
       });
 
       describe('when the request succeeds', () => {
-        beforeEach(function () {
-          this.server.unblock();
+        beforeEach(async function () {
+          await this.server.unblock();
         });
 
         it('reflects the desired state was not set', () => {
