@@ -230,6 +230,7 @@ class DetailsView extends Component {
     return (
       <div data-test-eholdings-details-view={type}>
         <PaneHeader
+          id={paneTitle}
           firstMenu={searchType
             ?
               <FormattedMessage
