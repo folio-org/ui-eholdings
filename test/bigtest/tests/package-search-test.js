@@ -244,7 +244,7 @@ describe('PackageSearch', () => {
       });
     });
 
-    describe('clicking a search results list item clicking an item within the preview pane and clicking the back button', () => {
+    describe.skip('clicking a search results list item clicking an item within the preview pane and clicking the back button', () => {
       beforeEach(async () => {
         await PackageSearchPage
           .packageList(0)

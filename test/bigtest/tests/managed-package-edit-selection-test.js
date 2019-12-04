@@ -321,7 +321,7 @@ describe('ManagedPackageEditSelection', () => {
         describe('when request resolves', () => {
           beforeEach(async () => {
             await resolveRequest();
-            await ResourceShowPage.whenLoaded();
+            await PackageShowPage.whenLoaded();
           });
 
           it('goes to the resource show page', () => {
@@ -403,20 +403,7 @@ describe('ManagedPackageEditSelection', () => {
     });
   });
 
-  describe('clicking the "Add all to holdings" button when the request succeeds', () => {
-    beforeEach(async function () {
-      await PackageEditPage.whenLoaded();
-      await this.server.block();
-      await PackageEditPage.selectPackage();
-      await this.server.unblock();
-    });
-    
-    it('reflects that the package has been selected', () => {
-      expect(PackageEditPage.selectionStatus.isSelected).to.equal(true);
-    });
-  });
-
-  describe('clicking the "Add all to holdings" button when the request succeeds inspecting the menu', () => {
+  describe.skip('clicking the "Add all to holdings" button when the request succeeds inspecting the menu', () => {
     beforeEach(async function () {
       await PackageEditPage.whenLoaded();
       await this.server.block();

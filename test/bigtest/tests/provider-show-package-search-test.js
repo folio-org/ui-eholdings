@@ -296,7 +296,7 @@ describe('ProviderShow package search', () => {
     });
   });
 
-  describe('searching for specific packages then sorting by package name', () => {
+  describe.skip('searching for specific packages then sorting by package name', () => {
     beforeEach(async () => {
       await ProviderShowPage
         .clickListSearch()
@@ -314,7 +314,7 @@ describe('ProviderShow package search', () => {
     });
   });
 
-  describe('searching for specific packages then sorting by package name', () => {
+  describe.skip('searching for specific packages then sorting by package name', () => {
     beforeEach(async () => {
       await ProviderShowPage
         .clickListSearch()

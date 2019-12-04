@@ -97,7 +97,7 @@ describe('ManagedResourceEditCustomCoverage', () => {
         describe('clicking save', () => {
           beforeEach(async () => {
             await ResourceEditPage.clickSave();
-            await ResourceShowPage.whenLoaded();
+            await ResourcePage.whenLoaded();
           });
 
           it('goes to the resource show page', () => {
@@ -113,7 +113,8 @@ describe('ManagedResourceEditCustomCoverage', () => {
       describe('entering an invalid date range', () => {
         describe('entering an invalid begin date format', () => {
           beforeEach(() => {
-            return ResourceEditPage.dateRangeRowList(0)
+            return ResourceEditPage
+              .dateRangeRowList(0)
               .fillDates('16/12/2018', '')
               .dateRangeRowList(0).beginDate.clearInput()
               .clickSave();
