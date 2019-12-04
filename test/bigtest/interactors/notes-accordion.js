@@ -16,7 +16,18 @@ import {
   packageNotesAccordionIsDisplayed = isPresent('#packageShowNotes');
   providerNotesAccordionIsDisplayed = isPresent('#providerShowNotes');
   resourceNotesAccordionIsDisplayed = isPresent('#resourceShowNotes');
+  
+  whenPackageNotesAccordionLoaded() {
+    return this.when(() => this.packageNotesAccordionIsDisplayed);
+  }
 
+  whenProviderNotesAccordionLoaded() {
+    return this.when(() => this.providerNotesAccordionIsDisplayed);
+  }
+
+  whenResourceNotesAccordionLoaded() {
+    return this.when(() => this.resourceNotesAccordionIsDisplayed);
+  }
   assignButtonDisplayed = isPresent('[data-test-notes-accordion-assign-button]');
   newButtonDisplayed = isPresent('[data-test-notes-accordion-new-button]');
   clickAssignButton = clickable('[data-test-notes-accordion-assign-button]');

@@ -12,26 +12,26 @@ describe('ManagedResourceEditEmbargo', () => {
     title,
     resource;
 
-  beforeEach(function () {
-    provider = this.server.create('provider', {
+  beforeEach(async function () {
+    provider = await this.server.create('provider', {
       name: 'Cool Provider'
     });
 
-    providerPackage = this.server.create('package', 'withTitles', {
+    providerPackage = await this.server.create('package', 'withTitles', {
       provider,
       name: 'Star Wars Custom Package',
       contentType: 'Online'
     });
 
-    title = this.server.create('title', {
+    title = await this.server.create('title', {
       name: 'Hans Solo Director Cut',
       publicationType: 'Streaming Video',
       publisherName: 'Amazing Publisher'
     });
 
-    title.save();
+    await title.save();
 
-    resource = this.server.create('resource', {
+    resource = await this.server.create('resource', {
       package: providerPackage,
       isSelected: true,
       title
@@ -44,10 +44,9 @@ describe('ManagedResourceEditEmbargo', () => {
         embargoUnit: 'Weeks',
         embargoValue: 9
       }).toJSON();
-
       await resource.save();
-
       await this.visit(`/eholdings/resources/${resource.id}/edit`);
+      await ResourceEditPage.whenLoaded();
     });
 
     it('disables the save button', () => {
@@ -60,8 +59,8 @@ describe('ManagedResourceEditEmbargo', () => {
     });
 
     describe('clicking (x) remove embargo button', () => {
-      beforeEach(() => {
-        return ResourceEditPage
+      beforeEach(async () => {
+        await ResourceEditPage
           .clickRemoveCustomEmbargoButton();
       });
 
@@ -76,20 +75,22 @@ describe('ManagedResourceEditEmbargo', () => {
       it('shows a button to add embargo fields', () => {
         expect(ResourceEditPage.hasAddCustomEmbargoButton).to.be.true;
       });
+    });
 
-      describe('clicking save', () => {
-        beforeEach(async () => {
-          await ResourceEditPage.clickSave();
-          await ResourceShowPage.whenLoaded();
-        });
+    describe('clicking (x) remove embargo button clicking save', () => {
+      beforeEach(async () => {
+        await ResourceEditPage
+          .clickRemoveCustomEmbargoButton()
+          .clickSave();
+        await ResourceShowPage.whenLoaded();        
+      });
 
-        it('goes to the resource show page', () => {
-          expect(ResourceShowPage.$root).to.exist;
-        });
+      it('goes to the resource show page', () => {
+        expect(ResourceShowPage.$root).to.exist;
+      });
 
-        it('does not show a custom embargo', () => {
-          expect(ResourceShowPage.hasCustomEmbargoPeriod).to.be.false;
-        });
+      it('does not show a custom embargo', () => {
+        expect(ResourceShowPage.hasCustomEmbargoPeriod).to.be.false;
       });
     });
   });
@@ -97,6 +98,7 @@ describe('ManagedResourceEditEmbargo', () => {
   describe('visiting the resource edit page without any embargos', () => {
     beforeEach(async function () {
       await this.visit(`/eholdings/resources/${resource.id}/edit`);
+      await ResourceEditPage.whenLoaded();
     });
 
     it('disables the save button', () => {
@@ -108,8 +110,8 @@ describe('ManagedResourceEditEmbargo', () => {
     });
 
     describe('clicking the add custom embargo button', () => {
-      beforeEach(() => {
-        return ResourceEditPage.clickAddCustomEmbargoButton();
+      beforeEach(async () => {
+        await ResourceEditPage.clickAddCustomEmbargoButton();
       });
 
       it('removes the add custom embargo button', () => {
@@ -135,119 +137,129 @@ describe('ManagedResourceEditEmbargo', () => {
         });
       });
 
-      describe('entering valid custom embargo value and selecting unit', () => {
-        describe('with valid embargo value and unit', () => {
-          beforeEach(() => {
-            return ResourceEditPage
-              .inputEmbargoValue('30')
-              .selectEmbargoUnit('Weeks');
-          });
+      describe('entering valid custom embargo value and selecting unit with valid embargo value and unit', () => {
+        beforeEach(async () => {
+          await ResourceEditPage
+            .inputEmbargoValue('30')
+            .selectEmbargoUnit('Weeks');
+        });
+        it('accepts valid custom embargo value', () => {
+          expect(ResourceEditPage.customEmbargoTextFieldValue).to.equal('30');
+        });
 
-          it('accepts valid custom embargo value', () => {
-            expect(ResourceEditPage.customEmbargoTextFieldValue).to.equal('30');
-          });
+        it('accepts valid custom select value', () => {
+          expect(ResourceEditPage.customEmbargoSelectValue).to.equal('Weeks');
+        });
+      });
 
-          it('accepts valid custom select value', () => {
-            expect(ResourceEditPage.customEmbargoSelectValue).to.equal('Weeks');
-          });
+      describe('entering valid custom embargo value and selecting unit with valid embargo value and unit cancelling updated custom embargo', () => {
+        beforeEach(async () => {
+          await ResourceEditPage
+            .inputEmbargoValue('30')
+            .selectEmbargoUnit('Weeks')
+            .clickRemoveCustomEmbargoButton();
+        });
+        it('displays the button to add custom embargo', () => {
+          expect(ResourceEditPage.hasAddCustomEmbargoButton).to.be.true;
+        });
+        it('does not display custom embargo text field', () => {
+          expect(ResourceEditPage.hasCustomEmbargoTextField).to.be.false;
+        });
 
-          describe('cancelling updated custom embargo', () => {
-            beforeEach(() => {
-              return ResourceEditPage.clickRemoveCustomEmbargoButton();
-            });
+        it('does not display custom embargo select field', () => {
+          expect(ResourceEditPage.hasCustomEmbargoSelect).to.be.false;
+        });
+      });
+      
+      describe('entering valid custom embargo value and selecting unit with valid embargo value and unit clicking (x) remove embargo button', () => {
+        beforeEach(async () => {
+          await ResourceEditPage
+            .inputEmbargoValue('30')
+            .selectEmbargoUnit('Weeks')
+            .inputEmbargoValue('50')
+            .clickRemoveCustomEmbargoButton();
+        });
+        it('does not show the custom embargo text field', () => {
+          expect(ResourceEditPage.hasCustomEmbargoTextField).to.be.false;
+        });
 
-            it('displays the button to add custom embargo', () => {
-              expect(ResourceEditPage.hasAddCustomEmbargoButton).to.be.true;
-            });
-            it('does not display custom embargo text field', () => {
-              expect(ResourceEditPage.hasCustomEmbargoTextField).to.be.false;
-            });
+        it('does not show the custom embargo select', () => {
+          expect(ResourceEditPage.hasCustomEmbargoSelect).to.be.false;
+        });
+      });
 
-            it('does not display custom embargo select field', () => {
-              expect(ResourceEditPage.hasCustomEmbargoSelect).to.be.false;
-            });
-          });
+      describe('entering valid custom embargo value and selecting unit with valid embargo value and unit custom embargo value as zero with a valid unit should throw validation error', () => {
+        beforeEach(async () => {
+          await ResourceEditPage
+            .inputEmbargoValue('30')
+            .selectEmbargoUnit('Weeks')
+            .inputEmbargoValue(0)
+            .selectEmbargoUnit('Months')
+            .clickSave();
+        });
 
-          describe('clicking (x) remove embargo button', () => {
-            beforeEach(() => {
-              return ResourceEditPage
-                .inputEmbargoValue('50')
-                .clickRemoveCustomEmbargoButton();
-            });
+        it('rejects embargo value', () => {
+          expect(ResourceEditPage.validationErrorOnEmbargoTextField).to.equal('Enter number greater than 0');
+        });
+      });
 
-            it('does not show the custom embargo text field', () => {
-              expect(ResourceEditPage.hasCustomEmbargoTextField).to.be.false;
-            });
+      describe('entering valid custom embargo value and selecting unit with valid embargo value and unit custom embargo value that cannot be parsed as number should throw validation error', () => {
+        beforeEach(async () => {
+          await ResourceEditPage
+            .inputEmbargoValue('30')
+            .selectEmbargoUnit('Weeks')
+            .inputEmbargoValue('abcdef')
+            .selectEmbargoUnit('Months')
+            .clickSave();
+        });
 
-            it('does not show the custom embargo select', () => {
-              expect(ResourceEditPage.hasCustomEmbargoSelect).to.be.false;
-            });
-          });
+        it('rejects embargo value', () => {
+          expect(ResourceEditPage.validationErrorOnEmbargoTextField).to.equal('Must be a number');
+        });
+      });
 
-          describe('custom embargo value as zero with a valid unit should throw validation error', () => {
-            beforeEach(() => {
-              return ResourceEditPage
-                .inputEmbargoValue(0)
-                .selectEmbargoUnit('Months')
-                .clickSave();
-            });
+      describe('entering valid custom embargo value and selecting unit with valid embargo value and unit blank custom embargo value should throw validation error', () => {
+        beforeEach(async () => {
+          await ResourceEditPage
+            .inputEmbargoValue('30')
+            .selectEmbargoUnit('Weeks')
+            .inputEmbargoValue('')
+            .selectEmbargoUnit('Months')
+            .clickSave();
+        });
+        
+        it('rejects embargo value', () => {
+          expect(ResourceEditPage.validationErrorOnEmbargoTextField).to.equal('Must be a number');
+        });
+      });
 
-            it('rejects embargo value', () => {
-              expect(ResourceEditPage.validationErrorOnEmbargoTextField).to.equal('Enter number greater than 0');
-            });
-          });
+      describe('entering valid custom embargo value and selecting unit with valid embargo value and unit custom embargo value greater than zero and empty unit should throw validation error', () => {
+        beforeEach(async () => {
+          await ResourceEditPage
+            .inputEmbargoValue('30')
+            .selectEmbargoUnit('Weeks')
+            .selectEmbargoUnit('')
+            .inputEmbargoValue('50')
+            .clickSave();
+        });
 
-          describe('custom embargo value that cannot be parsed as number should throw validation error', () => {
-            beforeEach(() => {
-              return ResourceEditPage
-                .inputEmbargoValue('abcdef')
-                .selectEmbargoUnit('Months')
-                .clickSave();
-            });
+        it('', () => {
+          expect(ResourceEditPage.validationErrorOnEmbargoSelect).to.equal('Select a unit');
+        });
+      });
 
-            it('rejects embargo value', () => {
-              expect(ResourceEditPage.validationErrorOnEmbargoTextField).to.equal('Must be a number');
-            });
-          });
+      describe('entering valid custom embargo value and selecting unit with valid embargo value and unit custom embargo value greater than zero and null unit should throw validation error', () => {
+        beforeEach(async () => {
+          await ResourceEditPage
+            .inputEmbargoValue('30')
+            .selectEmbargoUnit('Weeks')
+            .selectEmbargoUnit(null)
+            .inputEmbargoValue('50')
+            .clickSave();
+        });
 
-          describe('blank custom embargo value should throw validation error', () => {
-            beforeEach(() => {
-              return ResourceEditPage
-                .inputEmbargoValue('')
-                .selectEmbargoUnit('Months')
-                .clickSave();
-            });
-
-            it('rejects embargo value', () => {
-              expect(ResourceEditPage.validationErrorOnEmbargoTextField).to.equal('Must be a number');
-            });
-          });
-
-          describe('custom embargo value greater than zero and empty unit should throw validation error', () => {
-            beforeEach(() => {
-              return ResourceEditPage
-                .selectEmbargoUnit('')
-                .inputEmbargoValue('50')
-                .clickSave();
-            });
-
-            it('rejects embargo value', () => {
-              expect(ResourceEditPage.validationErrorOnEmbargoSelect).to.equal('Select a unit');
-            });
-          });
-
-          describe('custom embargo value greater than zero and null unit should throw validation error', () => {
-            beforeEach(() => {
-              return ResourceEditPage
-                .selectEmbargoUnit(null)
-                .inputEmbargoValue('50')
-                .clickSave();
-            });
-
-            it('rejects embargo value', () => {
-              expect(ResourceEditPage.validationErrorOnEmbargoSelect).to.equal('Select a unit');
-            });
-          });
+        it('rejects embargo value', () => {
+          expect(ResourceEditPage.validationErrorOnEmbargoSelect).to.equal('Select a unit');
         });
       });
     });
@@ -262,6 +274,7 @@ describe('ManagedResourceEditEmbargo', () => {
 
       await resource.save();
       await this.visit(`/eholdings/resources/${resource.id}/edit`);
+      await ResourceEditPage.whenLoaded();
     });
 
     it('shows a button to add embargo fields', () => {
@@ -276,6 +289,7 @@ describe('ManagedResourceEditEmbargo', () => {
 
       await resource.save();
       await this.visit(`/eholdings/resources/${resource.id}/edit`);
+      await ResourceEditPage.whenLoaded();
     });
 
     it('shows a button to add embargo fields', () => {
@@ -293,6 +307,7 @@ describe('ManagedResourceEditEmbargo', () => {
 
       await resource.save();
       await this.visit(`/eholdings/resources/${resource.id}/edit`);
+      await ResourceEditPage.whenLoaded();
     });
 
     it('should not show the embargo section', () => {
@@ -309,6 +324,7 @@ describe('ManagedResourceEditEmbargo', () => {
 
       await resource.save();
       await this.visit(`/eholdings/resources/${resource.id}/edit`);
+      await ResourceEditPage.whenLoaded();
     });
 
     it('shows a form with embargo fields', () => {

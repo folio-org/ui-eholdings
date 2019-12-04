@@ -64,8 +64,8 @@ describe('PackageSearch', () => {
   });
 
   describe('searching for a package', () => {
-    beforeEach(() => {
-      return PackageSearchPage.search('Package');
+    beforeEach(async () => {
+      await PackageSearchPage.search('Package');
     });
 
     it('removes the pre-results pane', () => {
@@ -124,10 +124,9 @@ describe('PackageSearch', () => {
       });
     });
 
-
     describe('clicking a search results list item', () => {
-      beforeEach(() => {
-        return PackageSearchPage.packageList(0).clickThrough();
+      beforeEach(async () => {
+        await PackageSearchPage.packageList(0).clickThrough();
       });
 
       it('still shows the search badge', () => {
@@ -149,109 +148,130 @@ describe('PackageSearch', () => {
       it.always('should not display button in UI', () => {
         expect(PackageSearchPage.hasBackButton).to.be.false;
       });
+    });
 
-      describe('conducting a new search', () => {
-        beforeEach(() => {
-          return PackageSearchPage.search('SomethingElse');
-        });
-
-        it('displays the total number of search results', () => {
-          expect(PackageSearchPage.totalResults).to.equal('1 search result');
-        });
-
-        it('removes the preview detail pane', () => {
-          expect(PackageSearchPage.packagePreviewPaneIsPresent).to.be.false;
-        });
-
-        it('preserves the last history entry', function () {
-          // this is a check to make sure duplicate entries are not added
-          // to the history. Ensuring the back button works as expected
-          const history = this.app.props.history;
-          expect(history.entries[history.index - 1].search).to.include('q=Package');
-        });
+    describe('clicking a search results list item conducting a new search', () => {
+      beforeEach(async () => {
+        await PackageSearchPage
+          .packageList(0)
+          .clickThrough()
+          .search('SomethingElse');
+      });
+      it('displays the total number of search results', () => {
+        expect(PackageSearchPage.totalResults).to.equal('1 search result');
       });
 
-      describe('selecting a package', () => {
-        beforeEach(() => {
-          return PackageShowPage.selectPackage();
-        });
-
-        it('reflects the selection in the results list', () => {
-          expect(PackageSearchPage.packageList(0).isSelected).to.be.true;
-        });
+      it('removes the preview detail pane', () => {
+        expect(PackageSearchPage.packagePreviewPaneIsPresent).to.be.false;
       });
 
-      // the browser needs to be a specific size for this test to pass
-      describe.skip('clicking the vignette behind the preview pane', () => {
-        beforeEach(() => {
-          return PackageSearchPage.clickSearchVignette();
-        });
-
-        it('hides the preview pane', () => {
-          expect(PackageSearchPage.packagePreviewPaneIsPresent).to.be.false;
-        });
+      it('preserves the last history entry', function () {
+        // this is a check to make sure duplicate entries are not added
+        // to the history. Ensuring the back button works as expected
+        const history = this.app.props.history;
+        expect(history.entries[history.index - 1].search).to.include('q=Package');
       });
 
-      describe('clicking the close button on the preview pane', () => {
-        beforeEach(() => {
-          return PackageSearchPage.clickCloseButton();
-        });
+    });
 
-        it('hides the preview pane', () => {
-          expect(PackageSearchPage.packagePreviewPaneIsPresent).to.be.false;
-        });
-
-        it('displays the original search', () => {
-          expect(PackageSearchPage.searchFieldValue).to.equal('Package');
-        });
-
-        it('displays the original search results', () => {
-          expect(PackageSearchPage.packageList()).to.have.lengthOf(3);
-        });
-
-        it.skip('focuses the last active item', () => {
-          expect(PackageSearchPage.packageList(0).isActive).to.be.false;
-          expect(PackageSearchPage.packageList(0).hasFocus).to.be.true;
-        });
+    describe('clicking a search results list item selecting a package', () => {
+      beforeEach(async () => {
+        await PackageSearchPage
+          .packageList(0)
+          .clickThrough()
+          .selectPackage();
       });
 
-      describe('clicking an item within the preview pane', () => {
-        beforeEach(() => {
-          return PackageSearchPage.packageTitleList(0).clickToTitle();
-        });
+      it('reflects the selection in the results list', () => {
+        expect(PackageSearchPage.packageList(0).isSelected).to.be.true;
+      });
+    });
 
-        it('hides the search ui', () => {
-          expect(PackageSearchPage.isPresent).to.be.false;
-        });
+    describe('clicking a search results list item clicking the close button on the preview pane', () => {
+      beforeEach(async () => {
+        await PackageSearchPage
+          .packageList(0)
+          .clickThrough()
+          .clickCloseButton();
+      });
 
-        it.skip('focuses the resource name', () => {
-          expect(ResourceShowPage.nameHasFocus).to.be.true;
-        });
+      it('hides the preview pane', () => {
+        expect(PackageSearchPage.packagePreviewPaneIsPresent).to.be.false;
+      });
 
-        describe('and clicking the back button', () => {
-          beforeEach(() => {
-            return ResourceShowPage.clickBackButton();
-          });
+      it('displays the original search', () => {
+        expect(PackageSearchPage.searchFieldValue).to.equal('Package');
+      });
 
-          it('displays the original search', () => {
-            expect(PackageSearchPage.searchFieldValue).to.equal('Package');
-          });
+      it('displays the original search results', () => {
+        expect(PackageSearchPage.packageList()).to.have.lengthOf(3);
+      });
 
-          it('displays the original search results', () => {
-            expect(PackageSearchPage.packageList()).to.have.lengthOf(3);
-          });
+      it.skip('focuses the last active item', () => {
+        expect(PackageSearchPage.packageList(0).isActive).to.be.false;
+        expect(PackageSearchPage.packageList(0).hasFocus).to.be.true;
+      });
+    });
 
-          it.skip('focuses the package name', () => {
-            expect(PackageShowPage.nameHasFocus).to.be.true;
-          });
-        });
+    // the browser needs to be a specific size for this test to pass
+    describe.skip('clicking a search results list item clicking the vignette behind the preview pane', () => {
+      beforeEach(async () => {
+        await PackageSearchPage
+          .packageList(0)
+          .clickThrough()
+          .clickSearchVignette();
+      });
+      
+      it('hides the preview pane', () => {
+        expect(PackageSearchPage.packagePreviewPaneIsPresent).to.be.false;
+      });
+    });
+
+    describe('clicking a search results list item clicking an item within the preview pane', () => {
+      beforeEach(async () => {
+        await PackageSearchPage
+          .packageList(0)
+          .clickThrough()
+          .packageTitleList(0)
+          .clickToTitle();
+      });
+      it('hides the search ui', () => {
+        expect(PackageSearchPage.isPresent).to.be.false;
+      });
+
+      it.skip('focuses the resource name', () => {
+        expect(ResourceShowPage.nameHasFocus).to.be.true;
+      });
+    });
+
+    describe('clicking a search results list item clicking an item within the preview pane and clicking the back button', () => {
+      beforeEach(async () => {
+        await PackageSearchPage
+          .packageList(0)
+          .clickThrough()
+          .packageTitleList(0)
+          .clickToTitle()
+          .clickBackButton();
+      });
+
+      it('displays the original search', () => {
+        expect(PackageSearchPage.searchFieldValue).to.equal('Package');
+      });
+
+      it('displays the original search results', () => {
+        expect(PackageSearchPage.packageList()).to.have.lengthOf(3);
+      });
+
+      it.skip('focuses the package name', () => {
+        expect(PackageShowPage.nameHasFocus).to.be.true;
       });
     });
 
     describe('filtering by content type', () => {
       beforeEach(async () => {
-        await PackageSearchPage.toggleAccordion('#accordion-toggle-button-filter-packages-type');
-        await PackageSearchPage.clickFilter('type', 'ebook');
+        await PackageSearchPage
+          .toggleAccordion('#accordion-toggle-button-filter-packages-type')
+          .clickFilter('type', 'ebook');
       });
 
       it('only shows results for ebook content types', () => {
@@ -265,27 +285,34 @@ describe('PackageSearch', () => {
       it.skip('shows search filters on smaller screen sizes (due to filter change only)', () => {
         expect(PackageSearchPage.isSearchVignetteHidden).to.equal(false);
       });
+    });
 
-      describe('clearing the filters', () => {
-        beforeEach(() => {
-          return PackageSearchPage.clearFilter('type');
-        });
-
-        it.always('removes the filter from the URL query params', function () {
-          expect(this.location.search).to.not.include('filter[type]');
-        });
+    describe('filtering by content type and clearing the filters', () => {
+      beforeEach(async () => {
+        await PackageSearchPage
+          .toggleAccordion('#accordion-toggle-button-filter-packages-type')
+          .clickFilter('type', 'ebook')
+          .clearFilter('type');
       });
 
-      describe('closing the filter', () => {
-        beforeEach(() => PackageSearchPage.searchBadge.clickIcon());
+      it.always('removes the filter from the URL query params', function () {
+        expect(this.location.search).to.not.include('filter[type]');
+      });
+    });
 
-        it('closed the search pane', () => {
-          expect(PackageSearchPage.isSearchPanePresent).to.be.false;
-        });
+    describe('filtering by content type and closing the filter', () => {
+      beforeEach(async () => {
+        await PackageSearchPage.toggleAccordion('#accordion-toggle-button-filter-packages-type');
+        await PackageSearchPage.clickFilter('type', 'ebook');
+        await PackageSearchPage.searchBadge.clickIcon()
+      });
 
-        it('shows two filters in the badge', () => {
-          expect(PackageSearchPage.searchBadge.filterText).to.equal('2');
-        });
+      it('closed the search pane', () => {
+        expect(PackageSearchPage.isSearchPanePresent).to.be.false;
+      });
+
+      it('shows two filters in the badge', () => {
+        expect(PackageSearchPage.searchBadge.filterText).to.equal('2');
       });
     });
 
@@ -303,15 +330,17 @@ describe('PackageSearch', () => {
       it('reflects the filter in the URL query params', function () {
         expect(this.location.search).to.include('filter[selected]=true');
       });
+    });
 
-      describe('clearing the filters', () => {
-        beforeEach(() => {
-          return PackageSearchPage.clearFilter('selected');
-        });
+    describe('filtering by selection status and clearing the filters', () => {
+      beforeEach(async () => {
+        await PackageSearchPage.toggleAccordion('#accordion-toggle-button-filter-packages-selected');
+        await PackageSearchPage.clickFilter('selected', 'true');
+        await PackageSearchPage.clearFilter('selected');
+      });
 
-        it.always('removes the filter from the URL query params', function () {
-          expect(this.location.search).to.not.include('filter[selected]');
-        });
+      it.always('removes the filter from the URL query params', function () {
+        expect(this.location.search).to.not.include('filter[selected]');
       });
     });
 
@@ -348,23 +377,25 @@ describe('PackageSearch', () => {
       it('does not show the preview pane', () => {
         expect(PackageSearchPage.titlePreviewPaneIsPresent).to.be.false;
       });
+    });
+    describe('clicking another search type and navigating back to packages search', () => {
+      beforeEach(() => {
+        return PackageSearchPage
+          .packageList(0).click()
+          .changeSearchType('titles')
+          .changeSearchType('packages');
+      });
 
-      describe('navigating back to packages search', () => {
-        beforeEach(() => {
-          return PackageSearchPage.changeSearchType('packages');
-        });
+      it('displays the original search', () => {
+        expect(PackageSearchPage.searchFieldValue).to.equal('Package');
+      });
 
-        it('displays the original search', () => {
-          expect(PackageSearchPage.searchFieldValue).to.equal('Package');
-        });
+      it('displays the original search results', () => {
+        expect(PackageSearchPage.packageList()).to.have.lengthOf(3);
+      });
 
-        it('displays the original search results', () => {
-          expect(PackageSearchPage.packageList()).to.have.lengthOf(3);
-        });
-
-        it('shows the preview pane', () => {
-          expect(PackageSearchPage.packagePreviewPaneIsPresent).to.be.true;
-        });
+      it('shows the preview pane', () => {
+        expect(PackageSearchPage.packagePreviewPaneIsPresent).to.be.true;
       });
     });
   });
@@ -451,8 +482,8 @@ describe('PackageSearch', () => {
     });
 
     describe('searching for packages', () => {
-      beforeEach(() => {
-        return PackageSearchPage.search('academic search');
+      beforeEach(async () => {
+        await PackageSearchPage.search('academic search');
       });
 
       it('has search filters', () => {
@@ -477,75 +508,90 @@ describe('PackageSearch', () => {
       it.always('does not reflect the default sort=relevance in url', function () {
         expect(this.location.search).to.not.include('sort=relevance');
       });
+    });
 
-      describe('then filtering by sort options', () => {
-        beforeEach(async () => {
-          await PackageSearchPage.toggleAccordion('#accordion-toggle-button-filter-packages-sort');
-          await PackageSearchPage.clickFilter('sort', 'name');
-        });
 
-        it('displays the packages sorted by package name', () => {
-          expect(PackageSearchPage.packageList(0).name).to.equal('Academic ASAP');
-          expect(PackageSearchPage.packageList(1).name).to.equal('Academic Search Elite');
-          expect(PackageSearchPage.packageList(2).name).to.equal('Academic Search Premier');
-          expect(PackageSearchPage.packageList(3).name).to.equal('Search Networks');
-        });
+    describe('searching for packages and then filtering by sort options', () => {
+      beforeEach(async () => {
+        await PackageSearchPage.search('academic search');
+        await PackageSearchPage.toggleAccordion('#accordion-toggle-button-filter-packages-sort');
+        await PackageSearchPage.clickFilter('sort', 'name');
+      });
 
-        it('shows the sort filter of name in the search form', () => {
-          expect(PackageSearchPage.getFilter('sort')).to.equal('name');
-        });
+      it('displays the packages sorted by package name', () => {
+        expect(PackageSearchPage.packageList(0).name).to.equal('Academic ASAP');
+        expect(PackageSearchPage.packageList(1).name).to.equal('Academic Search Elite');
+        expect(PackageSearchPage.packageList(2).name).to.equal('Academic Search Premier');
+        expect(PackageSearchPage.packageList(3).name).to.equal('Search Networks');
+      });
 
-        it('reflects the sort in the URL query params', function () {
-          expect(this.location.search).to.include('sort=name');
-        });
+      it('shows the sort filter of name in the search form', () => {
+        expect(PackageSearchPage.getFilter('sort')).to.equal('name');
+      });
 
-        describe('then searching for other packages', () => {
-          beforeEach(() => {
-            return PackageSearchPage.search('search');
-          });
+      it('reflects the sort in the URL query params', function () {
+        expect(this.location.search).to.include('sort=name');
+      });
+    });
 
-          it('keeps the sort filter of name in the search form', () => {
-            expect(PackageSearchPage.getFilter('sort')).to.equal('name');
-          });
+    describe('searching for packages and then filtering by sort options and then searching for other packages', () => {
+      beforeEach(async () => {
+        await PackageSearchPage.search('academic search');
+        await PackageSearchPage.toggleAccordion('#accordion-toggle-button-filter-packages-sort');
+        await PackageSearchPage.clickFilter('sort', 'name');
+        await PackageSearchPage.search('search');
+      });
 
-          it('displays the packages sorted by package name', () => {
-            expect(PackageSearchPage.packageList(0).name).to.equal('Academic Search Elite');
-            expect(PackageSearchPage.packageList(1).name).to.equal('Academic Search Premier');
-            expect(PackageSearchPage.packageList(2).name).to.equal('Search Networks');
-          });
+      it('keeps the sort filter of name in the search form', () => {
+        expect(PackageSearchPage.getFilter('sort')).to.equal('name');
+      });
 
-          it('shows the sort filter of name in the search form', () => {
-            expect(PackageSearchPage.getFilter('sort')).to.equal('name');
-          });
+      it('displays the packages sorted by package name', () => {
+        expect(PackageSearchPage.packageList(0).name).to.equal('Academic Search Elite');
+        expect(PackageSearchPage.packageList(1).name).to.equal('Academic Search Premier');
+        expect(PackageSearchPage.packageList(2).name).to.equal('Search Networks');
+      });
 
-          describe('then clicking another search type', () => {
-            beforeEach(() => {
-              return PackageSearchPage.changeSearchType('titles');
-            });
+      it('shows the sort filter of name in the search form', () => {
+        expect(PackageSearchPage.getFilter('sort')).to.equal('name');
+      });
+    });
 
-            it('does not display any results', () => {
-              expect(PackageSearchPage.hasResults).to.be.false;
-            });
+    describe('searching for packages and then filtering by sort options and then searching for other packages and then clicking another search type', () => {
+      beforeEach(async () => {
+        await PackageSearchPage
+          .search('academic search')
+          .toggleAccordion('#accordion-toggle-button-filter-packages-sort')
+          .clickFilter('sort', 'name')
+          .search('search')
+          .changeSearchType('titles');
+      });
+      it('does not display any results', () => {
+        expect(PackageSearchPage.hasResults).to.be.false;
+      });
+    });
 
-            describe('navigating back to packages search', () => {
-              beforeEach(() => {
-                return PackageSearchPage.changeSearchType('packages');
-              });
+    describe('searching for packages and then filtering by sort options and then searching for other packages and then clicking another search type navigating back to packages search', () => {
+      beforeEach(async () => {
+        await PackageSearchPage
+          .search('academic search')
+          .toggleAccordion('#accordion-toggle-button-filter-packages-sort')
+          .clickFilter('sort', 'name')
+          .search('search')
+          .changeSearchType('titles')
+          .changeSearchType('packages');
+      });
 
-              it('keeps the sort filter of name in the search form', () => {
-                expect(PackageSearchPage.getFilter('sort')).to.equal('name');
-              });
+      it('keeps the sort filter of name in the search form', () => {
+        expect(PackageSearchPage.getFilter('sort')).to.equal('name');
+      });
 
-              it('displays the last results', () => {
-                expect(PackageSearchPage.packageList()).to.have.lengthOf(3);
-              });
+      it('displays the last results', () => {
+        expect(PackageSearchPage.packageList()).to.have.lengthOf(3);
+      });
 
-              it('reflects the sort=name in the URL query params', function () {
-                expect(this.location.search).to.include('sort=name');
-              });
-            });
-          });
-        });
+      it('reflects the sort=name in the URL query params', function () {
+        expect(this.location.search).to.include('sort=name');
       });
     });
 

@@ -232,40 +232,48 @@ describe('ProviderShow package search', () => {
       expect(ProviderShowPage.packageList(0).name).to.equal('Ordinary Package');
       expect(ProviderShowPage.packageList(1).name).to.equal('Other Ordinary Package');
     });
+  });
 
-    describe('clearing the search and saving', () => {
-      beforeEach(async () => {
-        await ProviderShowPage.clickListSearch()
-          .searchModal.clearSearch();
-      });
+  describe('filter package by search term clearing the search and saving', () => {
+    beforeEach(async () => {
+      await ProviderShowPage
+        .clickListSearch()
+        .searchModal.search('ordinary')
+        .clickListSearch()
+        .searchModal.clearSearch();
+    });
+    it('shows empty search', () => {
+      expect(ProviderShowPage.searchModal.searchFieldValue).to.equal('');
+    });
 
-      it('shows empty search', () => {
-        expect(ProviderShowPage.searchModal.searchFieldValue).to.equal('');
-      });
+    it('enables the search button', () => {
+      expect(ProviderShowPage.searchModal.isSearchButtonDisabled).to.be.false;
+    });
 
-      it('enables the search button', () => {
-        expect(ProviderShowPage.searchModal.isSearchButtonDisabled).to.be.false;
-      });
-
-      it('disables the reset all button', () => {
-        expect(ProviderShowPage.searchModal.isResetButtonDisabled).to.be.true;
-      });
-
-      describe('applying the cleared search changes', () => {
-        beforeEach(async () => {
-          await ProviderShowPage.searchModal.clickSearch();
-        });
-
-        it('applies the change and closes the modal', () => {
-          expect(ProviderShowPage.searchModal.isPresent).to.be.false;
-        });
-
-        it('displays unfiltered list by search term', () => {
-          expect(ProviderShowPage.packageList()).to.have.lengthOf(5);
-        });
-      });
+    it('disables the reset all button', () => {
+      expect(ProviderShowPage.searchModal.isResetButtonDisabled).to.be.true;
     });
   });
+
+  describe('filter package by search term clearing the search and saving applying the cleared search changes', () => {
+    beforeEach(async () => {
+      await ProviderShowPage
+        .clickListSearch()
+        .searchModal.search('ordinary')
+        .clickListSearch()
+        .searchModal.clearSearch()
+        .searchModal.clickSearch();
+    });
+
+    it('applies the change and closes the modal', () => {
+      expect(ProviderShowPage.searchModal.isPresent).to.be.false;
+    });
+
+    it('displays unfiltered list by search term', () => {
+      expect(ProviderShowPage.packageList()).to.have.lengthOf(5);
+    });
+  });
+
 
   describe('searching for specific packages', () => {
     beforeEach(async () => {
@@ -286,74 +294,91 @@ describe('ProviderShow package search', () => {
     it('displays updated filter count', () => {
       expect(ProviderShowPage.searchModalBadge.filterText).to.equal('1');
     });
+  });
 
-    describe('then sorting by package name', () => {
-      beforeEach(async () => {
-        await ProviderShowPage.clickListSearch();
-        await ProviderShowPage.searchModal.toggleAccordion('#accordion-toggle-button-filter-packages-sort');
-        await ProviderShowPage.searchModal.clickFilter('sort', 'name');
-        await ProviderShowPage.searchModal.clickSearch();
-      });
-
-      it('displays packages matching the search term ordered by name', () => {
-        expect(ProviderShowPage.packageList()).to.have.lengthOf(2);
-        expect(ProviderShowPage.packageList(0).name).to.equal('Ordinary Package');
-        expect(ProviderShowPage.packageList(1).name).to.equal('Other Ordinary Package');
-      });
-
-      describe('resetting all filters', () => {
-        // open modal
-        // click reset all button
-        beforeEach(() => {
-          return ProviderShowPage.clickListSearch()
-            .searchModal.clickResetAll();
-        });
-
-        it('closes the modal', () => {
-          expect(ProviderShowPage.searchModal.isPresent).to.be.false;
-        });
-
-        it('shows unfiltered list', () => {
-          expect(ProviderShowPage.packageList()).to.have.lengthOf(5);
-        });
-      });
+  describe('searching for specific packages then sorting by package name', () => {
+    beforeEach(async () => {
+      await ProviderShowPage
+        .clickListSearch()
+        .searchModal.search('other ordinary')
+        .clickListSearch()
+        .searchModal.toggleAccordion('#accordion-toggle-button-filter-packages-sort')
+        .searchModal.clickFilter('sort', 'name')
+        .searchModal.clickFilter();
     });
 
-    describe('then filtering the packages by selection status', () => {
-      beforeEach(async () => {
-        await ProviderShowPage.clickListSearch();
-        await ProviderShowPage.searchModal.toggleAccordion('#accordion-toggle-button-filter-packages-selected');
-        await ProviderShowPage.searchModal.clickFilter('selected', 'true');
-        await ProviderShowPage.searchModal.clickSearch();
-      });
-
-      it('displays selected packages matching the search term', () => {
-        expect(ProviderShowPage.packageList()).to.have.lengthOf(1);
-        expect(ProviderShowPage.packageList(0).name).to.equal('Other Ordinary Package');
-      });
-
-      it('displays updated filter count', () => {
-        expect(ProviderShowPage.searchModalBadge.filterText).to.equal('2');
-      });
-    });
-
-    describe('then filtering the packages by content type', () => {
-      beforeEach(async () => {
-        await ProviderShowPage.clickListSearch();
-        await ProviderShowPage.searchModal.toggleAccordion('#accordion-toggle-button-filter-packages-type');
-        await ProviderShowPage.searchModal.clickFilter('type', 'ebook');
-        await ProviderShowPage.searchModal.clickSearch();
-      });
-
-      it('displays packages matching the search term and content type', () => {
-        expect(ProviderShowPage.packageList()).to.have.lengthOf(1);
-        expect(ProviderShowPage.packageList(0).name).to.equal('Ordinary Package');
-      });
-      it('displays updated filter count', () => {
-        expect(ProviderShowPage.searchModalBadge.filterText).to.equal('2');
-      });
+    it('displays packages matching the search term ordered by name', () => {
+      expect(ProviderShowPage.packageList()).to.have.lengthOf(2);
+      expect(ProviderShowPage.packageList(0).name).to.equal('Ordinary Package');
+      expect(ProviderShowPage.packageList(1).name).to.equal('Other Ordinary Package');
     });
   });
+
+  describe('searching for specific packages then sorting by package name', () => {
+    beforeEach(async () => {
+      await ProviderShowPage
+        .clickListSearch()
+        .searchModal.search('other ordinary')
+        .clickListSearch()
+        .searchModal.toggleAccordion('#accordion-toggle-button-filter-packages-sort')
+        .searchModal.clickFilter('sort', 'name')
+        .searchModal.clickFilter()
+        .clickListSearch()
+        .searchModal.clickResetAll();
+    });
+
+    it('closes the modal', () => {
+      expect(ProviderShowPage.searchModal.isPresent).to.be.false;
+    });
+
+    it('shows unfiltered list', () => {
+      expect(ProviderShowPage.packageList()).to.have.lengthOf(5);
+    });
+  });
+
+  describe('searching for specific packages then filtering the packages by selection status', () => {
+    beforeEach(async () => {
+      await ProviderShowPage
+        .clickListSearch()
+        .searchModal.search('other ordinary')
+        .clickListSearch()
+        .searchModal.toggleAccordion('#accordion-toggle-button-filter-packages-selected')
+        .searchModal.clickFilter('selected', 'true')
+        .searchModal.clickSearch()
+
+    });
+
+    it('displays selected packages matching the search term', () => {
+      expect(ProviderShowPage.packageList()).to.have.lengthOf(1);
+      expect(ProviderShowPage.packageList(0).name).to.equal('Other Ordinary Package');
+    });
+
+    it('displays updated filter count', () => {
+      expect(ProviderShowPage.searchModalBadge.filterText).to.equal('2');
+    });
+  });
+
+  describe('searching for specific packages', () => {
+    beforeEach(async () => {
+      await ProviderShowPage
+        .clickListSearch()
+        .searchModal.search('other ordinary')
+        .clickListSearch()
+        .searchModal.toggleAccordion('#accordion-toggle-button-filter-packages-type')
+        .searchModal.clickFilter('type', 'ebook')
+        .searchModal.clickSearch();
+
+    });
+
+    it('displays packages matching the search term and content type', () => {
+      expect(ProviderShowPage.packageList()).to.have.lengthOf(1);
+      expect(ProviderShowPage.packageList(0).name).to.equal('Ordinary Package');
+    });
+    it('displays updated filter count', () => {
+      expect(ProviderShowPage.searchModalBadge.filterText).to.equal('2');
+    });
+  });
+
 
   describe('navigating to provider show page with over 10k related packages', () => {
     beforeEach(async function () {

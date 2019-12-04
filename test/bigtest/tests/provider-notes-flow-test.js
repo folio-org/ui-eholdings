@@ -53,10 +53,7 @@ describe('Provider view', function () {
   describe('when the provider details page is visited', () => {
     beforeEach(async function () {
       await this.visit(`/eholdings/providers/${provider.id}`);
-    });
-
-    it('should display notes accordion', () => {
-      expect(notesAccordion.providerNotesAccordionIsDisplayed).to.be.true;
+      await notesAccordion.whenProviderNotesAccordionLoaded();
     });
 
     it('notes accordion should contain 1 note', () => {
@@ -91,99 +88,82 @@ describe('Provider view', function () {
       it('should disable save button', () => {
         expect(noteForm.saveButton.isDisabled).to.be.true;
       });
+    });
 
-      describe('and close button was clicked', () => {
-        beforeEach(async () => {
-          await noteForm.closeButton.click();
-        });
-
-        it('should redirect to previous location', function () {
-          expect(this.location.pathname + this.location.search).to.equal(`/eholdings/providers/${provider.id}`);
-        });
+    describe('and new button was clicked and close button was clicked', () => {
+      beforeEach(async () => {
+        await notesAccordion.newButton.click();
+        await noteForm.closeButton.click();
       });
 
-      describe('and the form is touched', () => {
-        describe('and note title length is exceeded', () => {
-          beforeEach(async () => {
-            await noteForm.noteTitleField.enterText(faker.lorem.words(100));
-          });
+      it('should redirect to previous location', function () {
+        expect(this.location.pathname + this.location.search).to.equal(`/eholdings/providers/${provider.id}`);
+      });
+    });
 
-          it('should display title length error', () => {
-            expect(noteForm.hasTitleLengthError).to.be.true;
-          });
+    describe('and new button was clicked and the form is touched and note title length is exceeded', () => {
+      beforeEach(async () => {
+        await notesAccordion.newButton.click();
+        await noteForm.noteTitleField.enterText(faker.lorem.words(100));
+      });
 
-          describe('and save button is clicked', () => {
-            beforeEach(async () => {
-              await noteForm.saveButton.click();
-            });
+      it('should display title length error', () => {
+        expect(noteForm.hasTitleLengthError).to.be.true;
+      });
+    });
 
-            it('should not redirect to previous location', function () {
-              expect(this.location.pathname + this.location.search).to.equal('/eholdings/notes/new');
-            });
-          });
-        });
+    describe('and new button was clicked and the form is touched and note title length is exceeded and save button is clicked', () => {
+      beforeEach(async () => {
+        await notesAccordion.newButton.click();
+        await noteForm.noteTitleField.enterText(faker.lorem.words(100));
+        await noteForm.saveButton.click();
+      });
 
-        describe('and correct note data was entered', () => {
-          beforeEach(async () => {
-            await noteForm.enterNoteData(noteType.name, 'some note title');
-          });
+      it('should not redirect to previous location', function () {
+        expect(this.location.pathname + this.location.search).to.equal('/eholdings/notes/new');
+      });
+    });
 
-          it('should enable save button', () => {
-            expect(noteForm.saveButton.isDisabled).to.be.false;
-          });
+    describe('and new button was clicked and the form is touched and correct note data was entered', () => {
+      beforeEach(async () => {
+        await notesAccordion.newButton.click();
+        await noteForm.enterNoteData(noteType.name, 'some note title');
+      });
+      it('should enable save button', () => {
+        expect(noteForm.saveButton.isDisabled).to.be.false;
+      });
+    });
 
-          describe('and close button was clicked', () => {
-            beforeEach(async () => {
-              await noteForm.closeButton.click();
-            });
+    describe('and new button was clicked and the form is touched and correct note data was entered and close button was clicked', () => {
+      beforeEach(async () => {
+        await notesAccordion.newButton.click();
+        await noteForm.enterNoteData(noteType.name, 'some note title');
+        await noteForm.closeButton.click();
+        await noteForm.clickContinueNavigationButton();
+      });
 
-            it('should display navigation modal', function () {
-              expect(noteForm.navigationModalIsOpened).to.be.true;
-            });
+      it('should close navigation modal', () => {
+        expect(noteForm.navigationModalIsOpened).to.be.false;
+      });
 
-            describe('and cancel navigation button was clicked', () => {
-              beforeEach(async () => {
-                await noteForm.clickCancelNavigationButton();
-              });
+      it('should redirect to previous page', function () {
+        expect(this.location.pathname + this.location.search).to.equal(`/eholdings/providers/${provider.id}`);
+      });
+    });
 
-              it('should close navigation modal', () => {
-                expect(noteForm.navigationModalIsOpened).to.be.false;
-              });
+    describe('and new button was clicked and the form is touched and correct note data was entered and save button was clicked', () => {
+      beforeEach(async () => {
+        await notesAccordion.newButton.click();
+        await noteForm.enterNoteData(noteType.name, 'some note title');
+        await noteForm.saveButton.click();
+      });
+      
+      it('should redirect to previous page', function () {
+        expect(this.location.pathname + this.location.search).to.equal(`/eholdings/providers/${provider.id}`);
+      });
 
-              it('should keep the user on the same page', function () {
-                expect(this.location.pathname + this.location.search).to.equal('/eholdings/notes/new');
-              });
-            });
-
-            describe('and continue navigation button was clicked', () => {
-              beforeEach(async () => {
-                await noteForm.clickContinueNavigationButton();
-              });
-
-              it('should close navigation modal', () => {
-                expect(noteForm.navigationModalIsOpened).to.be.false;
-              });
-
-              it('should redirect to previous page', function () {
-                expect(this.location.pathname + this.location.search).to.equal(`/eholdings/providers/${provider.id}`);
-              });
-            });
-          });
-
-          describe('and save button was clicked', () => {
-            beforeEach(async () => {
-              await noteForm.saveButton.click();
-            });
-
-            it('should redirect to previous page', function () {
-              expect(this.location.pathname + this.location.search).to.equal(`/eholdings/providers/${provider.id}`);
-            });
-
-            it('notes accordion should contain 1 note', () => {
-              expect(notesAccordion.notes().length).to.equal(1);
-            });
-          });
-        });
+      it('notes accordion should contain 1 note', () => {
+        expect(notesAccordion.notes().length).to.equal(1);
       });
     });
 
