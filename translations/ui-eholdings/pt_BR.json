@@ -327,5 +327,6 @@
     "search.searchByTagsOnly": "Pesquisar apenas por tags",
     "filter.togglePane": "Ocultar painel de filtros",
     "search.enterYourSearch": "Digite sua pesquisa",
-    "search.selectFieldToSearch": "Selecione um campo para pesquisar"
+    "search.selectFieldToSearch": "Selecione um campo para pesquisar",
+    "tags.filter": "Filtro de Tags"
 }
