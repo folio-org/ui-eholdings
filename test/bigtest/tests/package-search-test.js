@@ -174,7 +174,7 @@ describe('PackageSearch', () => {
 
     });
 
-    describe('clicking a search results list item selecting a package', () => {
+    describe.skip('clicking a search results list item selecting a package', () => {
       beforeEach(async () => {
         await PackageSearchPage
           .packageList(0)

@@ -316,14 +316,10 @@ describe('ResourceEditCustomTitle', () => {
       });
     });
 
-    describe('valid data', () => {
+    describe('valid data clicking cancel', () => {
       beforeEach(async function () {
         await ResourceEditPage.whenLoaded();
-      });
-
-      describe('entering it', () => {
-        beforeEach(async () => {
-          await ResourceEditPage
+        await ResourceEditPage
             .clickAddRowButton()
             .toggleIsVisible()
             .dateRangeRowList(0).fillDates('12/16/2018', '12/18/2018')
@@ -333,49 +329,51 @@ describe('ResourceEditCustomTitle', () => {
             .inputCustomUrlValue('https://bigtestjs.io')
             .blurEmbargoValue()
             .selectEmbargoUnit('Weeks')
-            .blurEmbargoUnit();
-        });
+            .blurEmbargoUnit()
+            .clickCancel();
+      });
+    });
 
-        describe('clicking cancel', () => {
-          beforeEach(async () => {
-            await ResourceEditPage.clickCancel();
-          });
+    describe('valid data', () => {
+      beforeEach(async function () {
+        await ResourceEditPage.whenLoaded();
+        await ResourceEditPage
+            .clickAddRowButton()
+            .toggleIsVisible()
+            .dateRangeRowList(0).fillDates('12/16/2018', '12/18/2018')
+            .inputCoverageStatement('Only 90s kids would understand.')
+            .clickAddCustomEmbargoButton()
+            .inputEmbargoValue('27')
+            .inputCustomUrlValue('https://bigtestjs.io')
+            .blurEmbargoValue()
+            .selectEmbargoUnit('Weeks')
+            .blurEmbargoUnit()
+            .clickSave();
+          await ResourceShowPage.whenLoaded();
+      });
 
-          it('shows a navigation confirmation modal', () => {
-            expect(ResourceEditPage.navigationModal.$root).to.exist;
-          });
-        });
+      it('goes to the resource show page', () => {
+        expect(ResourceShowPage.$root).to.exist;
+      });
 
-        describe('clicking save', () => {
-          beforeEach(async () => {
-            await ResourceEditPage.clickSave();
-            await ResourceShowPage.whenLoaded();
-          });
+      it('displays the saved date range', () => {
+        expect(ResourceShowPage.customCoverageList).to.equal('2018');
+      });
 
-          it('goes to the resource show page', () => {
-            expect(ResourceShowPage.$root).to.exist;
-          });
+      it('displays the saved visibility', () => {
+        expect(ResourceShowPage.isResourceVisible).to.equal(true);
+      });
 
-          it('displays the saved date range', () => {
-            expect(ResourceShowPage.customCoverageList).to.equal('2018');
-          });
+      it('shows the new statement value', () => {
+        expect(ResourceShowPage.coverageStatement).to.equal('Only 90s kids would understand.');
+      });
 
-          it('displays the saved visibility', () => {
-            expect(ResourceShowPage.isResourceVisible).to.equal(true);
-          });
+      it('shows the new embargo value', () => {
+        expect(ResourceShowPage.customEmbargoPeriod).to.equal('27 Weeks');
+      });
 
-          it('shows the new statement value', () => {
-            expect(ResourceShowPage.coverageStatement).to.equal('Only 90s kids would understand.');
-          });
-
-          it('shows the new embargo value', () => {
-            expect(ResourceShowPage.customEmbargoPeriod).to.equal('27 Weeks');
-          });
-
-          it('shows the new url value', () => {
-            expect(ResourceShowPage.url).to.equal('https://bigtestjs.io');
-          });
-        });
+      it('shows the new url value', () => {
+        expect(ResourceShowPage.url).to.equal('https://bigtestjs.io');
       });
     });
   });
