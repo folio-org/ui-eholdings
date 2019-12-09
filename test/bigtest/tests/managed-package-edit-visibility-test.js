@@ -92,7 +92,6 @@ describe('ManagedPackageEditVisibility', function () {
         isSelected: true
       });
       await this.visit(`/eholdings/packages/${providerPackage.id}/edit`);
-      await PackageEditPage.whenLoaded();
     });
 
     it('displays the correct visibility status', () => {
@@ -114,7 +113,6 @@ describe('ManagedPackageEditVisibility', function () {
         isVisible: true
       });
       await this.visit(`/eholdings/packages/${providerPackage.id}/edit`);
-      await PackageEditPage.whenLoaded();
     });
 
     it('displays the correct visibility status', () => {

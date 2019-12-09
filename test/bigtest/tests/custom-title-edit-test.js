@@ -316,7 +316,6 @@ describe('CustomTitleEdit', function () {
       }, 500);
 
       await this.visit(`/eholdings/titles/${title.id}/edit`);
-      await TitleEditPage.whenLoaded();
     });
 
     it('dies with dignity', () => {

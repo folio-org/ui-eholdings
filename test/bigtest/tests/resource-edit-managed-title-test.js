@@ -204,7 +204,6 @@ describe('ResourceEditManagedTitleInManagedPackage', function () {
       await resource.save();
 
       await this.visit(`/eholdings/resources/${resource.titleId}/edit`);
-      await ResourceEditPage.whenLoaded();
     });
 
     describe('section: holding status', () => {

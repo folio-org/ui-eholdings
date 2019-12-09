@@ -169,7 +169,6 @@ describe('ManagedPackageEdit', function () {
       }, 500);
 
       await this.visit(`/eholdings/packages/${providerPackage.id}/edit`);
-      await PackageEditPage.whenLoaded();
     });
 
     it('dies with dignity', () => {

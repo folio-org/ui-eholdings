@@ -5,7 +5,9 @@ import setupApplication from '../helpers/setup-application';
 import ResourceEditPage from '../interactors/resource-edit';
 import ResourceShowPage from '../interactors/resource-show';
 
-describe('CustomResourceEditVisibility', () => {
+describe('CustomResourceEditVisibility', function () {
+  // some of the beforeEach blocks seem to timeout in CI
+  this.timeout(5000);
   setupApplication();
   let provider,
     providerPackage,
@@ -43,7 +45,6 @@ describe('CustomResourceEditVisibility', () => {
       });
 
       await this.visit(`/eholdings/resources/${resource.id}/edit`);
-      await ResourceEditPage.whenLoaded();
     });
 
     it('displays the yes visibility radio is selected', () => {
@@ -116,7 +117,6 @@ describe('CustomResourceEditVisibility', () => {
       });
 
       await this.visit(`/eholdings/resources/${resource.id}/edit`);
-      await ResourceEditPage.whenLoaded();
     });
 
     it('displays the no visibility radio is selected', () => {
