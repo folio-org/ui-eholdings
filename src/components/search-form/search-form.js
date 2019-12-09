@@ -198,14 +198,21 @@ class SearchForm extends Component {
             onToggle={this.toggleSection}
           >
             {this.renderSearchByTagsCheckbox()}
-            <MultiSelectionFilter
-              id="selectTagFilter"
-              dataOptions={this.getSortedDataOptions()}
-              name="tags"
-              onChange={this.handleUpdateTagFilter}
-              selectedValues={tagsList}
-              disabled={!searchByTagsEnabled}
-            />
+            <FormattedMessage id="ui-eholdings.tags.filter">
+              {
+                label => (
+                  <MultiSelectionFilter
+                    id="selectTagFilter"
+                    ariaLabel={label}
+                    dataOptions={this.getSortedDataOptions()}
+                    name="tags"
+                    onChange={this.handleUpdateTagFilter}
+                    selectedValues={tagsList}
+                    disabled={!searchByTagsEnabled}
+                  />
+                )
+              }
+            </FormattedMessage>
           </Accordion>
         </div>
       );

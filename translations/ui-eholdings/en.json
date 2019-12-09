@@ -142,6 +142,7 @@
 
     "tags": "Tags",
     "tags.addTagFor": "Add tag for: <strong>{filter}</strong>",
+    "tags.filter": "Tags filter",
 
     "settings.goBackToEholdings": "Go back to eHoldings settings",
     "settings.kb": "Knowledge base",

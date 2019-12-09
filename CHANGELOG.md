@@ -1,7 +1,20 @@
 # Change history for ui-eholdings
 
+## [2.1.0](https://github.com/folio-org/ui-eholdings/tree/v2.1.0) (2019-12-04)
+
+* Fixed tests for the notes & for the agreements (STSMACOM-270)
+* Fix pane header ids for details view and search paneset. Provide aria label for tags multiselect. (UIEH-780)
+* Added tags.all permission to package.json (UIEH-807)
+* Add condition to do agreements GET only when it is allowed (UIEH-800)
+* Lock react-final-form 6.3.0 version (UIEH-803)
+* Fixed error handling for agriments related api calls (UIEH-797)
+* Retrieve up to 100k of requested tags instead of 10 (UIEH-796)
+* Set focus on search box when accessing the eholdings (UIEH-790)
+* Substitute custom eholdings panels for Titles new and Packages new routes with the one from stripes (UIEH-795)
+* Refactor settings to use Panes from stripes-components (UIEH-794)
+* Support erm interface v2.0
+
 ## [2.0.2](https://github.com/folio-org/ui-eholdings/tree/v2.0.2) (2019-09-25)
-[Full Changelog](https://github.com/folio-org/ui-eholdings/compare/v2.0.0...v2.0.2)
 
 * Fix BigTest imports (UIEH-793)
 * Add isFullPackage flag (UIEH-787)

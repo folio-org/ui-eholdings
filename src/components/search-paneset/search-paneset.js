@@ -180,6 +180,7 @@ export default class SearchPaneset extends Component {
           paneTitle={resultsLabel}
           paneSub={resultsView && resultsPaneSub}
           paneTitleRef={this.$title}
+          paneHeaderId="search-results"
           firstMenu={resultsView ? (
             <div className={styles['results-pane-search-toggle']}>
               <SearchBadge
