@@ -63,9 +63,11 @@ describe('With unconfigured backend', () => {
     });
 
     describe('filling in incomplete data', () => {
-      beforeEach(() => {
-        return SettingsPage
+      beforeEach(async () => {
+        await SettingsPage
+          .focusCustomerId()
           .blurCustomerId()
+          .focusApiKey()
           .blurApiKey();
       });
 

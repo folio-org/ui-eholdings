@@ -87,12 +87,12 @@ describe('PackageCreate', () => {
     });
 
     describe('creating a new package with custom coverages', () => {
-      beforeEach(() => {
-        return PackageCreatePage
-          .fillName('My Package')
-          .addCoverage()
-          .dateRangeRowList(0).fillDates('12/16/2018', '12/18/2018')
-          .save();
+      beforeEach(async () => {
+        await PackageCreatePage.fillName('My Package');
+        await PackageCreatePage.addCoverage();
+        await PackageCreatePage.dateRangeRowList(0).fillDates('12/16/2018', '12/18/2018');
+        await PackageCreatePage.save();
+        await PackageShowPage.whenLoaded();
       });
 
       it('redirects to the new package with custom coverages', function () {

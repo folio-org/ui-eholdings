@@ -11,6 +11,7 @@ import {
 } from '@bigtest/interactor';
 
 import { AccordionInteractor } from '@folio/stripes-components/lib/Accordion/tests/interactor';
+import focusable from '@bigtest/interactor/src/interactions/focusable';
 
 @interactor class Select {
   selectOption = selectable();
@@ -30,12 +31,15 @@ import { AccordionInteractor } from '@folio/stripes-components/lib/Accordion/tes
 }
 
 @interactor class FormField {
-  enterText(string) {
+  async enterText(string) {
+
     return this
+      .focus()
       .fill(string)
       .blur();
   }
-
+  
+  focus= focusable();
   blur = blurrable();
   fill = fillable();
   value = value();

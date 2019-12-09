@@ -7,7 +7,8 @@ import {
   interactor,
   property,
   value,
-  isPresent
+  isPresent,
+  focusable,
 } from '@bigtest/interactor';
 import Toast from './toast';
 
@@ -33,6 +34,8 @@ import { hasClassBeginningWith } from './helpers';
   chooseRMAPIUrl = fillable('[data-test-eholdings-settings-kb-url] select');
   fillCustomerId = fillable('[data-test-eholdings-settings-customerid] input');
   fillApiKey = fillable('[data-test-eholdings-settings-apikey] input');
+  focusApiKey = focusable('[data-test-eholdings-settings-apikey] input');
+  focusCustomerId = focusable('[data-test-eholdings-settings-customerid] input');
   blurCustomerId = blurrable('[data-test-eholdings-settings-customerid] input');
   blurApiKey = blurrable('[data-test-eholdings-settings-apikey] input');
   customerIdFieldIsInvalid = hasClassBeginningWith('[data-test-eholdings-settings-customerid] [class*=inputGroup--]', 'hasError--');

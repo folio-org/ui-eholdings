@@ -5,6 +5,7 @@ import {
   collection,
   scoped,
   fillable,
+  focusable,
   isPresent,
   interactor,
   property,
@@ -114,9 +115,10 @@ import Datepicker from './datepicker';
     beginDate: scoped('[data-test-eholdings-coverage-fields-date-range-begin]', Datepicker),
     endDate: scoped('[data-test-eholdings-coverage-fields-date-range-end]', Datepicker),
     clickRemoveRowButton: clickable('[data-test-repeatable-field-remove-item-button]'),
-    fillDates(beginDate, endDate) {
-      return this.beginDate.fillAndBlur(beginDate)
-        .endDate.fillAndBlur(endDate);
+    async fillDates(beginDate, endDate) {
+      await this.beginDate.fillAndBlur(beginDate)
+      await this.endDate.fillAndBlur(endDate);
+      return this;
     }
   });
 
@@ -128,6 +130,7 @@ import Datepicker from './datepicker';
   coverageStatement = value('[data-test-eholdings-coverage-statement-textarea] textarea');
   customUrlFieldValue = value('[data-test-eholdings-custom-url-textfield] input');
   fillCoverageStatement = fillable('[data-test-eholdings-coverage-statement-textarea] textarea');
+  focusCoverageStatement = focusable('[data-test-eholdings-coverage-statement-textarea] textarea');
   blurCoverageStatement = blurrable('[data-test-eholdings-coverage-statement-textarea] textarea');
   coverageStatementHasError = hasClassBeginningWith('[data-test-eholdings-coverage-statement-textarea] textarea', 'hasError--');
   validationErrorOnCoverageStatement = text('[data-test-eholdings-coverage-statement-textarea] [class^="feedbackError--"]');
@@ -138,6 +141,7 @@ import Datepicker from './datepicker';
 
   inputCoverageStatement = action(function (statement) {
     return this
+      .focusCoverageStatement()
       .fillCoverageStatement(statement)
       .blurCoverageStatement();
   });

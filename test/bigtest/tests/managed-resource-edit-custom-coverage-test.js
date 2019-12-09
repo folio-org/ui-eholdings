@@ -84,8 +84,8 @@ describe('ManagedResourceEditCustomCoverage', () => {
       });
 
       describe('entering a valid date range', () => {
-        beforeEach(() => {
-          return ResourceEditPage.dateRangeRowList(0)
+        beforeEach(async () => {
+          await ResourceEditPage.dateRangeRowList(0)
             .fillDates('12/16/2018', '12/18/2018');
         });
 
@@ -112,12 +112,10 @@ describe('ManagedResourceEditCustomCoverage', () => {
 
       describe('entering an invalid date range', () => {
         describe('entering an invalid begin date format', () => {
-          beforeEach(() => {
-            return ResourceEditPage
-              .dateRangeRowList(0)
-              .fillDates('16/12/2018', '')
-              .dateRangeRowList(0).beginDate.clearInput()
-              .clickSave();
+          beforeEach(async () => {
+            await ResourceEditPage.dateRangeRowList(0).fillDates('16/12/2018', '');
+            await ResourceEditPage.dateRangeRowList(0).beginDate.clearInput();
+            await ResourceEditPage.clickSave();
           });
 
           it('indicates validation error on begin date', () => {
@@ -132,10 +130,9 @@ describe('ManagedResourceEditCustomCoverage', () => {
         });
 
         describe('entering an end date before a start date', () => {
-          beforeEach(() => {
-            return ResourceEditPage.dateRangeRowList(0)
-              .fillDates('12/18/2018', '12/16/2018')
-              .clickSave();
+          beforeEach(async () => {
+            await ResourceEditPage.dateRangeRowList(0).fillDates('12/18/2018', '12/16/2018')
+            await ResourceEditPage.clickSave();
           });
 
           it('indicates validation error on begin date', () => {
@@ -150,10 +147,9 @@ describe('ManagedResourceEditCustomCoverage', () => {
         });
 
         describe('entering a date range outside of package coverage range', () => {
-          beforeEach(() => {
-            return ResourceEditPage.dateRangeRowList(0)
-              .fillDates('11/16/2018', '01/14/2019')
-              .clickSave();
+          beforeEach(async () => {
+            await ResourceEditPage.dateRangeRowList(0).fillDates('11/16/2018', '01/14/2019')
+            await ResourceEditPage.clickSave();
           });
 
           it('indicates validation error on begin date', () => {
@@ -178,14 +174,14 @@ describe('ManagedResourceEditCustomCoverage', () => {
         });
 
         describe('entering overlapping date ranges', () => {
-          beforeEach(() => {
-            return ResourceEditPage.dateRangeRowList(0)
+          beforeEach(async () => {
+            await ResourceEditPage.dateRangeRowList(0)
               .fillDates('12/16/2018', '12/20/2018');
           });
 
           describe('clicking the add date range button', () => {
-            beforeEach(() => {
-              return ResourceEditPage.clickAddRowButton();
+            beforeEach(async () => {
+              await ResourceEditPage.clickAddRowButton();
             });
 
             it('adds another row of date inputs', () => {
@@ -193,10 +189,9 @@ describe('ManagedResourceEditCustomCoverage', () => {
             });
 
             describe('entering overlapping ranges', () => {
-              beforeEach(() => {
-                return ResourceEditPage.dateRangeRowList(1)
-                  .fillDates('12/18/2018', '12/19/2018')
-                  .clickSave();
+              beforeEach(async () => {
+                await ResourceEditPage.dateRangeRowList(1).fillDates('12/18/2018', '12/19/2018')
+                await ResourceEditPage.clickSave();
               });
 
               it('indicates validation error on begin dates', () => {
@@ -240,8 +235,8 @@ describe('ManagedResourceEditCustomCoverage', () => {
     });
 
     describe('removing the only row', () => {
-      beforeEach(() => {
-        return ResourceEditPage.dateRangeRowList(0).clickRemoveRowButton();
+      beforeEach(async () => {
+        await ResourceEditPage.dateRangeRowList(0).clickRemoveRowButton();
       });
 
       it('displays the saving will remove message', () => {

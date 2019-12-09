@@ -223,8 +223,8 @@ describe('ProviderShow package search', () => {
 
   describe('filter package by search term', () => {
     beforeEach(async () => {
-      await ProviderShowPage.clickListSearch()
-        .searchModal.search('ordinary');
+      await ProviderShowPage.clickListSearch();
+      await ProviderShowPage.searchModal.search('ordinary');
     });
 
     it('displays filtered list', () => {
@@ -236,11 +236,10 @@ describe('ProviderShow package search', () => {
 
   describe('filter package by search term clearing the search and saving', () => {
     beforeEach(async () => {
-      await ProviderShowPage
-        .clickListSearch()
-        .searchModal.search('ordinary')
-        .clickListSearch()
-        .searchModal.clearSearch();
+      await ProviderShowPage.clickListSearch();
+      await ProviderShowPage.searchModal.search('ordinary');
+      await ProviderShowPage.clickListSearch();
+      await ProviderShowPage.searchModal.clearSearch();
     });
     it('shows empty search', () => {
       expect(ProviderShowPage.searchModal.searchFieldValue).to.equal('');
@@ -257,12 +256,11 @@ describe('ProviderShow package search', () => {
 
   describe('filter package by search term clearing the search and saving applying the cleared search changes', () => {
     beforeEach(async () => {
-      await ProviderShowPage
-        .clickListSearch()
-        .searchModal.search('ordinary')
-        .clickListSearch()
-        .searchModal.clearSearch()
-        .searchModal.clickSearch();
+      await ProviderShowPage.clickListSearch();
+      await ProviderShowPage.searchModal.search('ordinary');
+      await ProviderShowPage.clickListSearch();
+      await ProviderShowPage.searchModal.clearSearch();
+      await ProviderShowPage.searchModal.clickSearch();
     });
 
     it('applies the change and closes the modal', () => {
@@ -277,8 +275,8 @@ describe('ProviderShow package search', () => {
 
   describe('searching for specific packages', () => {
     beforeEach(async () => {
-      await ProviderShowPage.clickListSearch()
-        .searchModal.search('other ordinary');
+      await ProviderShowPage.clickListSearch();
+      await ProviderShowPage.searchModal.search('other ordinary');
     });
 
     it('displays packages matching the search term', () => {
@@ -296,15 +294,14 @@ describe('ProviderShow package search', () => {
     });
   });
 
-  describe.skip('searching for specific packages then sorting by package name', () => {
+  describe('searching for specific packages then sorting by package name', () => {
     beforeEach(async () => {
-      await ProviderShowPage
-        .clickListSearch()
-        .searchModal.search('other ordinary')
-        .clickListSearch()
-        .searchModal.toggleAccordion('#accordion-toggle-button-filter-packages-sort')
-        .searchModal.clickFilter('sort', 'name')
-        .searchModal.clickFilter();
+      await ProviderShowPage.clickListSearch();
+      await ProviderShowPage.searchModal.search('other ordinary');
+      await ProviderShowPage.clickListSearch();
+      await ProviderShowPage.searchModal.toggleAccordion('#accordion-toggle-button-filter-packages-sort');
+      await ProviderShowPage.searchModal.clickFilter('sort', 'name');
+      await ProviderShowPage.searchModal.clickFilter();
     });
 
     it('displays packages matching the search term ordered by name', () => {
@@ -316,15 +313,14 @@ describe('ProviderShow package search', () => {
 
   describe.skip('searching for specific packages then sorting by package name', () => {
     beforeEach(async () => {
-      await ProviderShowPage
-        .clickListSearch()
-        .searchModal.search('other ordinary')
-        .clickListSearch()
-        .searchModal.toggleAccordion('#accordion-toggle-button-filter-packages-sort')
-        .searchModal.clickFilter('sort', 'name')
-        .searchModal.clickFilter()
-        .clickListSearch()
-        .searchModal.clickResetAll();
+      await ProviderShowPage.clickListSearch();
+      await ProviderShowPage.searchModal.search('other ordinary');
+      await ProviderShowPage.clickListSearch();
+      await ProviderShowPage.searchModal.toggleAccordion('#accordion-toggle-button-filter-packages-sort');
+      await ProviderShowPage.searchModal.clickFilter('sort', 'name');
+      await ProviderShowPage.searchModal.clickFilter();
+      await ProviderShowPage.clickListSearch();
+      await ProviderShowPage.searchModal.clickResetAll();
     });
 
     it('closes the modal', () => {
@@ -338,13 +334,12 @@ describe('ProviderShow package search', () => {
 
   describe('searching for specific packages then filtering the packages by selection status', () => {
     beforeEach(async () => {
-      await ProviderShowPage
-        .clickListSearch()
-        .searchModal.search('other ordinary')
-        .clickListSearch()
-        .searchModal.toggleAccordion('#accordion-toggle-button-filter-packages-selected')
-        .searchModal.clickFilter('selected', 'true')
-        .searchModal.clickSearch()
+      await ProviderShowPage.clickListSearch();
+      await ProviderShowPage.searchModal.search('other ordinary');
+      await ProviderShowPage.clickListSearch();
+      await ProviderShowPage.searchModal.toggleAccordion('#accordion-toggle-button-filter-packages-selected');
+      await ProviderShowPage.searchModal.clickFilter('selected', 'true');
+      await ProviderShowPage.searchModal.clickSearch();
 
     });
 
@@ -360,13 +355,12 @@ describe('ProviderShow package search', () => {
 
   describe('searching for specific packages', () => {
     beforeEach(async () => {
-      await ProviderShowPage
-        .clickListSearch()
-        .searchModal.search('other ordinary')
-        .clickListSearch()
-        .searchModal.toggleAccordion('#accordion-toggle-button-filter-packages-type')
-        .searchModal.clickFilter('type', 'ebook')
-        .searchModal.clickSearch();
+      await ProviderShowPage.clickListSearch();
+      await ProviderShowPage.searchModal.search('other ordinary');
+      await ProviderShowPage.clickListSearch();
+      await ProviderShowPage.searchModal.toggleAccordion('#accordion-toggle-button-filter-packages-type');
+      await ProviderShowPage.searchModal.clickFilter('type', 'ebook');
+      await ProviderShowPage.searchModal.clickSearch();
 
     });
 

@@ -48,10 +48,9 @@ describe('ManagedPackageEdit', () => {
     });
 
     describe('entering invalid data', () => {
-      beforeEach(() => {
-        return PackageEditPage
-          .dateRangeRowList(0).fillDates('12/18/2018', '12/16/2018')
-          .clickSave();
+      beforeEach(async () => {
+        await PackageEditPage.dateRangeRowList(0).fillDates('12/18/2018', '12/16/2018');
+        await PackageEditPage.clickSave();
       });
 
       it('displays a validation error for coverage', () => {
@@ -60,13 +59,13 @@ describe('ManagedPackageEdit', () => {
     });
 
     describe('entering valid data', () => {
-      beforeEach(() => {
-        return PackageEditPage.dateRangeRowList(0).fillDates('12/16/2018', '12/18/2018');
+      beforeEach(async () => {
+        await PackageEditPage.dateRangeRowList(0).fillDates('12/16/2018', '12/18/2018');
       });
 
       describe('clicking cancel', () => {
-        beforeEach(() => {
-          return PackageEditPage.clickCancel();
+        beforeEach(async () => {
+          await PackageEditPage.clickCancel();
         });
 
         it('shows a navigation confirmation modal', () => {
@@ -120,10 +119,9 @@ describe('ManagedPackageEdit', () => {
     });
 
     describe('entering invalid data', () => {
-      beforeEach(() => {
-        return PackageEditPage
-          .dateRangeRowList(0).fillDates('12/18/2018', '12/16/2018')
-          .clickSave();
+      beforeEach(async () => {
+        await PackageEditPage.dateRangeRowList(0).fillDates('12/18/2018', '12/16/2018');
+        await PackageEditPage.clickSave();
       });
 
       it('displays a validation error for coverage', () => {
@@ -132,13 +130,13 @@ describe('ManagedPackageEdit', () => {
     });
 
     describe('entering valid data', () => {
-      beforeEach(() => {
-        return PackageEditPage.dateRangeRowList(0).fillDates('12/16/2018', '12/18/2018');
+      beforeEach(async () => {
+        await PackageEditPage.dateRangeRowList(0).fillDates('12/16/2018', '12/18/2018');
       });
 
       describe('clicking cancel', () => {
-        beforeEach(() => {
-          return PackageEditPage.clickCancel();
+        beforeEach(async () => {
+          await PackageEditPage.clickCancel();
         });
 
         it('shows a navigation confirmation modal', () => {
@@ -147,8 +145,8 @@ describe('ManagedPackageEdit', () => {
       });
 
       describe('clicking save', () => {
-        beforeEach(() => {
-          return PackageEditPage.clickSave();
+        beforeEach(async () => {
+          await PackageEditPage.clickSave();
         });
 
         it('goes to the package show page', () => {
@@ -186,10 +184,9 @@ describe('ManagedPackageEdit', () => {
     });
 
     describe('entering valid data and clicking save', () => {
-      beforeEach(() => {
-        return PackageEditPage
-          .dateRangeRowList(0).fillDates('12/16/2018', '12/18/2018')
-          .clickSave();
+      beforeEach(async () => {
+        await PackageEditPage.dateRangeRowList(0).fillDates('12/16/2018', '12/18/2018');
+        await PackageEditPage.clickSave();
       });
 
       it('pops up an error', () => {
@@ -204,8 +201,8 @@ describe('ManagedPackageEdit', () => {
     });
 
     describe('clicking the edit button', () => {
-      beforeEach(() => {
-        return PackageShowPage.clickEditButton();
+      beforeEach(async () => {
+        await PackageShowPage.clickEditButton();
       });
 
       it('should display the back button in pane header', () => {

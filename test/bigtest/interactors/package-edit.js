@@ -7,6 +7,7 @@ import {
   computed,
   scoped,
   fillable,
+  focusable,
   blurrable,
   isPresent,
   interactor,
@@ -119,6 +120,7 @@ import PackageSelectionStatus from './selection-status';
   hasAddProviderTokenBtn = isPresent('[data-test-eholdings-token-add-button="provider"]');
   clickAddProviderTokenButton = clickable('[data-test-eholdings-token-add-button="provider"] button');
   fillProviderTokenValue = fillable('[data-test-eholdings-token-value-textarea="provider"] textarea');
+  focusProviderTokenValue = focusable('[data-test-eholdings-token-value-textarea="provider"] textarea');
   blurProviderTokenValue = blurrable('[data-test-eholdings-token-value-textarea="provider"] textarea');
   hasPackageTokenHelpText = isPresent('[data-test-eholdings-token-fields-help-text="package"]');
   packageTokenHelpText = text('[data-test-eholdings-token-fields-help-text="package"]');
@@ -129,18 +131,25 @@ import PackageSelectionStatus from './selection-status';
   hasAddPackageTokenBtn = isPresent('[data-test-eholdings-token-add-button="package"]');
   clickAddPackageTokenButton = clickable('[data-test-eholdings-token-add-button="package"] button');
   fillPackageTokenValue = fillable('[data-test-eholdings-token-value-textarea="package"] textarea');
+  focusPackageTokenValue = focusable('[data-test-eholdings-token-value-textarea="package"] textarea');
   blurPackageTokenValue = blurrable('[data-test-eholdings-token-value-textarea="package"] textarea');
 
-  inputProviderTokenValue = action(function (tokenValue) {
-    return this
+  inputProviderTokenValue = action(async function (tokenValue) {
+    await this
+      .focusProviderTokenValue()
       .fillProviderTokenValue(tokenValue)
       .blurProviderTokenValue();
+
+    return this;
   });
 
-  inputPackageTokenValue = action(function (tokenValue) {
-    return this
+  inputPackageTokenValue = action(async function (tokenValue) {
+    await this
+      .focusPackageTokenValue()
       .fillPackageTokenValue(tokenValue)
       .blurPackageTokenValue();
+
+    return this;
   });
 
   providerTokenHasError = hasClassBeginningWith('[data-test-eholdings-token-value-textarea="provider"] textarea', 'hasError--');
@@ -178,9 +187,11 @@ import PackageSelectionStatus from './selection-status';
     beginDate: scoped('[data-test-eholdings-coverage-fields-date-range-begin]', Datepicker),
     endDate: scoped('[data-test-eholdings-coverage-fields-date-range-end]', Datepicker),
     clickRemoveRowButton: clickable('[data-test-repeatable-field-add-item-button]'),
-    fillDates(beginDate, endDate) {
-      return this.beginDate.fillAndBlur(beginDate)
-        .endDate.fillAndBlur(endDate);
+    async fillDates(beginDate, endDate) {
+      await this.beginDate.fillAndBlur(beginDate);
+      await this.endDate.fillAndBlur(endDate);
+      
+      return this;
     }
   });
 }

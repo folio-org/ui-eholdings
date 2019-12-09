@@ -405,10 +405,9 @@ describe('ManagedPackageEditTokens', () => {
     });
 
     describe('choosing a lengthy value for provider token', () => {
-      beforeEach(() => {
+      beforeEach(async () => {
         longToken = 'a'.repeat(501);
-        return PackageEditPage
-          .inputProviderTokenValue(longToken);
+        await PackageEditPage.inputProviderTokenValue(longToken);
       });
 
       it('highlights the provider token textarea with an error state', () => {
@@ -424,6 +423,7 @@ describe('ManagedPackageEditTokens', () => {
   describe('visiting the managed package edit page and setting package token to a long value ', () => {
     beforeEach(async function () {
       await this.visit(`/eholdings/packages/${providerPackage.id}/edit`);
+      await PackageEditPage.whenLoaded();
     });
 
     it('has package token value', () => {
@@ -437,8 +437,7 @@ describe('ManagedPackageEditTokens', () => {
     describe('choosing a lengthy value for package token', () => {
       beforeEach(() => {
         longToken = 'a'.repeat(501);
-        return PackageEditPage
-          .inputPackageTokenValue(longToken);
+        return PackageEditPage.inputPackageTokenValue(longToken);
       });
 
       it('highlights the package token textarea with an error state', () => {
@@ -469,11 +468,11 @@ describe('ManagedPackageEditTokens', () => {
     });
 
     describe('choosing lengthy values for provider and package tokens', () => {
-      beforeEach(() => {
+      beforeEach(async () => {
         longToken = 'a'.repeat(501);
-        return PackageEditPage.inputProviderTokenValue(longToken)
-          .then(() => {
-            return PackageEditPage.inputPackageTokenValue(longToken);
+        await PackageEditPage.inputProviderTokenValue(longToken)
+          .then(async () => {
+            await PackageEditPage.inputPackageTokenValue(longToken);
           });
       });
 

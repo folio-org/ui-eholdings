@@ -256,9 +256,8 @@ describe('ResourceEditCustomTitle', () => {
 
     describe('entering an invalid url', () => {
       beforeEach(async () => {
-        await ResourceEditPage
-          .inputCustomUrlValue('no-http.com')
-          .clickSave();
+        await ResourceEditPage.inputCustomUrlValue('no-http.com')
+        await ResourceEditPage.clickSave();
       });
 
       it('displays a custom url validation error message', () => {
@@ -269,9 +268,8 @@ describe('ResourceEditCustomTitle', () => {
 
     describe('entering a blank url', () => {
       beforeEach(async () => {
-        await ResourceEditPage
-          .inputCustomUrlValue('')
-          .clickSave();
+        await ResourceEditPage.inputCustomUrlValue('');
+        await ResourceEditPage.clickSave();
       });
 
       it('goes to the show page & does not display a URL', () => {
@@ -281,15 +279,14 @@ describe('ResourceEditCustomTitle', () => {
 
     describe('entering invalid data', () => {
       beforeEach(async () => {
-        await ResourceEditPage
-          .clickAddRowButton()
-          .dateRangeRowList(0).fillDates('12/18/2018', '12/16/2018')
-          .clickAddCustomEmbargoButton()
-          .inputEmbargoValue('')
-          .inputCustomUrlValue(`http://${new Array(610 + 1).join('a')}`) // create a 610 char string
-          .blurEmbargoValue()
-          .selectEmbargoUnit('Weeks')
-          .clickSave();
+        await ResourceEditPage.clickAddRowButton();
+        await ResourceEditPage.dateRangeRowList(0).fillDates('12/18/2018', '12/16/2018');
+        await ResourceEditPage.clickAddCustomEmbargoButton();
+        await ResourceEditPage.inputEmbargoValue('');
+        await ResourceEditPage.inputCustomUrlValue(`http://${new Array(610 + 1).join('a')}`) // create a 610 char string
+        await ResourceEditPage.blurEmbargoValue()
+        await ResourceEditPage.selectEmbargoUnit('Weeks')
+        await ResourceEditPage.clickSave();
       });
 
       it('displays a validation error for coverage', () => {
@@ -319,37 +316,35 @@ describe('ResourceEditCustomTitle', () => {
     describe('valid data clicking cancel', () => {
       beforeEach(async function () {
         await ResourceEditPage.whenLoaded();
-        await ResourceEditPage
-            .clickAddRowButton()
-            .toggleIsVisible()
-            .dateRangeRowList(0).fillDates('12/16/2018', '12/18/2018')
-            .inputCoverageStatement('Only 90s kids would understand.')
-            .clickAddCustomEmbargoButton()
-            .inputEmbargoValue('27')
-            .inputCustomUrlValue('https://bigtestjs.io')
-            .blurEmbargoValue()
-            .selectEmbargoUnit('Weeks')
-            .blurEmbargoUnit()
-            .clickCancel();
+        await ResourceEditPage.clickAddRowButton();
+        await ResourceEditPage.toggleIsVisible();
+        await ResourceEditPage.dateRangeRowList(0).fillDates('12/16/2018', '12/18/2018');
+        await ResourceEditPage.inputCoverageStatement('Only 90s kids would understand.');
+        await ResourceEditPage.clickAddCustomEmbargoButton();
+        await ResourceEditPage.inputEmbargoValue('27');
+        await ResourceEditPage.inputCustomUrlValue('https://bigtestjs.io');
+        await ResourceEditPage.blurEmbargoValue();
+        await ResourceEditPage.selectEmbargoUnit('Weeks');
+        await ResourceEditPage.blurEmbargoUnit();
+        await ResourceEditPage.clickCancel();
       });
     });
 
     describe('valid data', () => {
       beforeEach(async function () {
         await ResourceEditPage.whenLoaded();
-        await ResourceEditPage
-            .clickAddRowButton()
-            .toggleIsVisible()
-            .dateRangeRowList(0).fillDates('12/16/2018', '12/18/2018')
-            .inputCoverageStatement('Only 90s kids would understand.')
-            .clickAddCustomEmbargoButton()
-            .inputEmbargoValue('27')
-            .inputCustomUrlValue('https://bigtestjs.io')
-            .blurEmbargoValue()
-            .selectEmbargoUnit('Weeks')
-            .blurEmbargoUnit()
-            .clickSave();
-          await ResourceShowPage.whenLoaded();
+        await ResourceEditPage.clickAddRowButton();
+        await ResourceEditPage.toggleIsVisible();
+        await ResourceEditPage.dateRangeRowList(0).fillDates('12/16/2018', '12/18/2018');
+        await ResourceEditPage.inputCoverageStatement('Only 90s kids would understand.');
+        await ResourceEditPage.clickAddCustomEmbargoButton();
+        await ResourceEditPage.inputEmbargoValue('27');
+        await ResourceEditPage.inputCustomUrlValue('https://bigtestjs.io');
+        await ResourceEditPage.blurEmbargoValue();
+        await ResourceEditPage.selectEmbargoUnit('Weeks');
+        await ResourceEditPage.blurEmbargoUnit();
+        await ResourceEditPage.clickSave();
+        await ResourceShowPage.whenLoaded();
       });
 
       it('goes to the resource show page', () => {
@@ -406,8 +401,8 @@ describe('ResourceEditCustomTitle', () => {
     });
 
     describe('removing custom embargo', () => {
-      beforeEach(() => {
-        return ResourceEditPage.clickRemoveCustomEmbargoButton();
+      beforeEach(async () => {
+        await ResourceEditPage.clickRemoveCustomEmbargoButton();
       });
 
       it('shows a message that saving will remove embargo', () => {
@@ -482,17 +477,16 @@ describe('ResourceEditCustomTitle', () => {
 
     describe('entering invalid data', () => {
       beforeEach(async () => {
-        await ResourceEditPage
-          .dateRangeRowList(0).fillDates('12/18/2018', '12/16/2018')
-          .inputCoverageStatement(`Lorem ipsum dolor sit amet, consectetuer adipiscing elit.
+        await ResourceEditPage.dateRangeRowList(0).fillDates('12/18/2018', '12/16/2018');
+        await ResourceEditPage.inputCoverageStatement(`Lorem ipsum dolor sit amet, consectetuer adipiscing elit.
             Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis
             dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec,
             pellentesque eu, pretium quis, sem. Nulla consequat massa quis enim. Donec pede justo,
-            fringilla vel, aliquet nec, vulputate e`)
-          .inputEmbargoValue('')
-          .blurEmbargoValue()
-          .selectEmbargoUnit('Weeks')
-          .clickSave();
+            fringilla vel, aliquet nec, vulputate e`);
+        await ResourceEditPage.inputEmbargoValue('');
+        await ResourceEditPage.blurEmbargoValue();
+        await ResourceEditPage.selectEmbargoUnit('Weeks');
+        await ResourceEditPage.clickSave();
       });
 
       it('displays a validation error for coverage', () => {
@@ -510,13 +504,12 @@ describe('ResourceEditCustomTitle', () => {
 
     describe('entering valid data', () => {
       beforeEach(async () => {
-        await ResourceEditPage
-          .dateRangeRowList(0).fillDates('12/16/2018', '12/18/2018')
-          .inputCoverageStatement('Refinance your home loans.')
-          .inputEmbargoValue('27')
-          .blurEmbargoValue()
-          .selectEmbargoUnit('Weeks')
-          .blurEmbargoUnit();
+        await ResourceEditPage.dateRangeRowList(0).fillDates('12/16/2018', '12/18/2018');
+        await ResourceEditPage.inputCoverageStatement('Refinance your home loans.');
+        await ResourceEditPage.inputEmbargoValue('27');
+        await ResourceEditPage.blurEmbargoValue();
+        await ResourceEditPage.selectEmbargoUnit('Weeks');
+        await ResourceEditPage.blurEmbargoUnit();
       });
 
       describe('clicking cancel', () => {
@@ -559,14 +552,14 @@ describe('ResourceEditCustomTitle', () => {
       resource.coverageStatement = 'test coverage statement';
       await resource.save();
       await this.visit(`/eholdings/resources/${resource.titleId}/edit`);
+      await ResourceEditPage.whenLoaded();
     });
 
     describe('entering an empty coverage statement', () => {
       beforeEach(async () => {
-        await ResourceEditPage
-          .clickCoverageStatementRadio('yes')
-          .inputCoverageStatement('')
-          .clickCoverageStatementRadio('yes');
+        await ResourceEditPage.clickCoverageStatementRadio('yes');
+        await ResourceEditPage.inputCoverageStatement('');
+        await ResourceEditPage.clickCoverageStatementRadio('yes');
       });
 
       it('displays a validation error message for empty coverage statement', () => {
@@ -604,14 +597,13 @@ describe('ResourceEditCustomTitle', () => {
 
     describe('entering valid data and clicking save', () => {
       beforeEach(async () => {
-        await ResourceEditPage
-          .inputCoverageStatement('10 ways to fail at everything')
-          .clickAddCustomEmbargoButton()
-          .inputEmbargoValue('27')
-          .blurEmbargoValue()
-          .selectEmbargoUnit('Weeks')
-          .blurEmbargoUnit()
-          .clickSave();
+        await ResourceEditPage.inputCoverageStatement('10 ways to fail at everything');
+        await ResourceEditPage.clickAddCustomEmbargoButton();
+        await ResourceEditPage.inputEmbargoValue('27');
+        await ResourceEditPage.blurEmbargoValue();
+        await ResourceEditPage.selectEmbargoUnit('Weeks');
+        await ResourceEditPage.blurEmbargoUnit();
+        await ResourceEditPage.clickSave();
       });
 
       it('pops up an error', () => {

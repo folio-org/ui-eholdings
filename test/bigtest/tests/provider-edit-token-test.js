@@ -163,10 +163,9 @@ describe('ProviderEditToken', () => {
     });
 
     describe('choosing a lengthy value for token', () => {
-      beforeEach(() => {
+      beforeEach(async () => {
         longToken = 'a'.repeat(501);
-        return ProviderEditPage
-          .inputProviderTokenValue(longToken);
+        await ProviderEditPage.inputProviderTokenValue(longToken);
       });
 
       it('highlights the textarea with an error state', () => {

@@ -34,9 +34,11 @@ import Datepicker from './datepicker';
   dateRangeRowList = collection('[data-test-eholdings-package-coverage-fields] li', {
     beginDate: scoped('[data-test-eholdings-coverage-fields-date-range-begin]', Datepicker),
     endDate: scoped('[data-test-eholdings-coverage-fields-date-range-end]', Datepicker),
-    fillDates(beginDate, endDate) {
-      return this.beginDate.fillAndBlur(beginDate)
-        .endDate.fillAndBlur(endDate);
+    async fillDates(beginDate, endDate) {
+      await this.beginDate.fillAndBlur(beginDate);
+      await this.endDate.fillAndBlur(endDate);
+
+      return this;
     }
   });
 
