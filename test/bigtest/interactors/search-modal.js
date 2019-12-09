@@ -31,14 +31,18 @@ export default @interactor class SearchModal {
   sortFilterAccordion = new AccordionInteractor('#filter-packages-sort');
   selectionFilterAccordion = new AccordionInteractor('#filter-packages-selected');
   typeFilterAccordion = new AccordionInteractor('#filter-packages-type');
-  toggleAccordion = action(function (accordionId) {
-    return this.click(accordionId);
+  toggleAccordion = action(async function (accordionId) {
+    await this.click(accordionId);
+
+    return this;
   });
 
   filterAccordions = collection('[class^="accordion--"]', AccordionInteractor);
 
-  clickFilter = action(function (name, val) {
-    return this.click(`[data-test-eholdings-search-filters] input[name="${name}"][value="${val}"]`);
+  clickFilter = action(async function (name, val) {
+    await this.click(`[data-test-eholdings-search-filters] input[name="${name}"][value="${val}"]`);
+    
+    return this;
   });
 
   search = action(async function (query) {
@@ -48,9 +52,10 @@ export default @interactor class SearchModal {
     return this;
   });
 
-  clearSearch = action(function () {
-    return this
-      .fill('[data-test-search-field] input[name="search"]', '');
+  clearSearch = action(async function () {
+    await this.fill('[data-test-search-field] input[name="search"]', '');
+
+    return this;
   });
 
   getFilter(name) {

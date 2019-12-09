@@ -301,7 +301,7 @@ describe('ProviderShow package search', () => {
       await ProviderShowPage.clickListSearch();
       await ProviderShowPage.searchModal.toggleAccordion('#accordion-toggle-button-filter-packages-sort');
       await ProviderShowPage.searchModal.clickFilter('sort', 'name');
-      await ProviderShowPage.searchModal.clickFilter();
+      await ProviderShowPage.searchModal.clickSearch();
     });
 
     it('displays packages matching the search term ordered by name', () => {
