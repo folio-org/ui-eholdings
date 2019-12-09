@@ -7,11 +7,11 @@ import PackageShowPage from '../interactors/package-show';
 import ResourceShowPage from '../interactors/resource-show';
 
 describe('PackageSearch', function () {
-  // some of the beforeEach blocks seem to timeout in CI
-  this.timeout(5000);
   setupApplication();
   let pkgs;
-
+  // some of the beforeEach blocks seem to timeout in CI
+  this.timeout(5000);
+  
   beforeEach(async function () {
     pkgs = await this.server.createList('package', 3, 'withProvider', 'withTitles', {
       name: i => `Package${i + 1}`,

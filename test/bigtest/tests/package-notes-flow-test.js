@@ -370,10 +370,6 @@ describe('Package view', function () {
         expect(this.location.pathname + this.location.search).to.equal(`/eholdings/notes/${packageNote.id}/edit/`);
       });
 
-      it('should display general information accordion', () => {
-        expect(noteForm.formFieldsAccordionIsDisplayed).to.be.true;
-      });
-
       it('should display correct note title', () => {
         expect(noteForm.noteTitleField.value).to.equal(packageNote.title);
       });
