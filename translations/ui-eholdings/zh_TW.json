@@ -327,5 +327,6 @@
     "search.searchByTagsOnly": "仅按标签搜索",
     "filter.togglePane": "切换筛选面板",
     "search.enterYourSearch": "输入搜索",
-    "search.selectFieldToSearch": "选择搜索字段"
+    "search.selectFieldToSearch": "选择搜索字段",
+    "tags.filter": "Tags filter"
 }
