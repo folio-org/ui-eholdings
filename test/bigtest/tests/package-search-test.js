@@ -6,7 +6,7 @@ import PackageSearchPage from '../interactors/package-search';
 import PackageShowPage from '../interactors/package-show';
 import ResourceShowPage from '../interactors/resource-show';
 
-describe('PackageSearch', () => {
+describe('PackageSearch', function () {
   // some of the beforeEach blocks seem to timeout in CI
   this.timeout(5000);
   setupApplication();
@@ -406,6 +406,7 @@ describe('PackageSearch', () => {
   describe('visiting the page with an existing filter', () => {
     beforeEach(async function () {
       await this.visit('/eholdings?searchType=packages&q=Package&filter[type]=ejournal');
+      await PackageSearchPage.whenLoaded();
     });
 
     it('shows the existing filter in the search form', () => {
@@ -431,6 +432,7 @@ describe('PackageSearch', () => {
       });
 
       await this.visit('/eholdings?searchType=packages&filter[tags]=urgent');
+      await PackageSearchPage.whenLoaded();
     });
 
     it('displays tags accordion as closed', () => {
@@ -601,6 +603,7 @@ describe('PackageSearch', () => {
     describe('visiting the page with an existing sort', () => {
       beforeEach(async function () {
         await this.visit('/eholdings/?searchType=packages&q=academic&sort=name');
+        await PackageSearchPage.whenLoaded();
         // the search pane is ending up hidden by default
         await PackageSearchPage.searchBadge.clickIcon();
       });
@@ -765,6 +768,7 @@ describe('PackageSearch', () => {
     describe('navigating directly to a search page', () => {
       beforeEach(async function () {
         await this.visit('/eholdings/?searchType=packages&offset=51&q=other');
+        await PackageSearchPage.whenLoaded();
       });
 
       it('should show the search results for that page', () => {

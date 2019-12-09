@@ -5,7 +5,7 @@ import setupApplication from '../helpers/setup-application';
 import ProviderShowPage from '../interactors/provider-show';
 import ProviderEditPage from '../interactors/provider-edit';
 
-describe('ProviderEditToken', () => {
+describe('ProviderEditToken', function () {
   // some of the beforeEach blocks seem to timeout in CI
   this.timeout(5000);
   setupApplication();

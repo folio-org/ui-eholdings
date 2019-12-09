@@ -6,7 +6,7 @@ import TitleSearchPage from '../interactors/title-search';
 import TitleShowPage from '../interactors/title-show';
 import ResourceShowPage from '../interactors/resource-show';
 
-describe('TitleSearch', () => {
+describe('TitleSearch', function () {
   // some of the beforeEach blocks seem to timeout in CI
   this.timeout(5000);
   setupApplication();

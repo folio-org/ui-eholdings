@@ -6,7 +6,7 @@ import setupApplication from '../helpers/setup-application';
 import ApplicationPage from '../interactors/application';
 import SettingsPage from '../interactors/settings';
 
-describe('Error retrieving backend', () => {
+describe('Error retrieving backend', function () {
   // some of the beforeEach blocks seem to timeout in CI
   this.timeout(5000);
   setupApplication({
@@ -24,7 +24,7 @@ describe('Error retrieving backend', () => {
   });
 });
 
-describe('With no backend at all', () => {
+describe('With no backend at all', function () {
   // some of the beforeEach blocks seem to timeout in CI
   this.timeout(5000);
   setupApplication({
@@ -42,7 +42,7 @@ describe('With no backend at all', () => {
   });
 });
 
-describe('With unconfigured backend', () => {
+describe('With unconfigured backend', function () {
   // some of the beforeEach blocks seem to timeout in CI
   this.timeout(5000);
   setupApplication({
@@ -107,7 +107,7 @@ describe('With unconfigured backend', () => {
   });
 });
 
-describe('With valid backend configuration', () => {
+describe('With valid backend configuration', function () {
   // some of the beforeEach blocks seem to timeout in CI
   this.timeout(5000);
   setupApplication();

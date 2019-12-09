@@ -5,7 +5,7 @@ import setupApplication from '../helpers/setup-application';
 import SettingsRootProxyPage from '../interactors/settings-root-proxy';
 import wait from '../helpers/wait';
 
-describe('With list of root proxies available to a customer', () => {
+describe('With list of root proxies available to a customer', function () {
   // some of the beforeEach blocks seem to timeout in CI
   this.timeout(5000);
   setupApplication();

@@ -4,7 +4,7 @@ import { expect } from 'chai';
 import setupApplication from '../helpers/setup-application';
 import ProviderShowPage from '../interactors/provider-show';
 
-describe('ProviderShow package search', () => {
+describe('ProviderShow package search', function () {
   // some of the beforeEach blocks seem to timeout in CI
   this.timeout(5000);
   setupApplication();
