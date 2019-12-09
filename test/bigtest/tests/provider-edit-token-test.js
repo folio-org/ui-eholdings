@@ -6,9 +6,9 @@ import ProviderShowPage from '../interactors/provider-show';
 import ProviderEditPage from '../interactors/provider-edit';
 
 describe('ProviderEditToken', function () {
+  setupApplication();
   // some of the beforeEach blocks seem to timeout in CI
   this.timeout(5000);
-  setupApplication();
   let provider,
     packages,
     longToken;

@@ -7,9 +7,9 @@ import PackageShowPage from '../interactors/package-show';
 import PackageEditPage from '../interactors/package-edit';
 
 describe('ManagedPackageEditSelection', function () {
+  setupApplication();
   // some of the beforeEach blocks seem to timeout in CI
   this.timeout(5000);
-  setupApplication();
   let provider,
     providerPackage;
 

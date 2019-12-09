@@ -7,10 +7,9 @@ import ProviderShowPage from '../interactors/provider-show';
 import PackageShowPage from '../interactors/package-show';
 
 describe('ProviderSearch', function () {
+  setupApplication();
   // some of the beforeEach blocks seem to timeout in CI
   this.timeout(5000);
-  setupApplication();
-
   beforeEach(async function () {
     await this.server.createList('provider', 3, 'withPackagesAndTitles', {
       name: i => `Provider${i + 1}`,

@@ -7,9 +7,9 @@ import TitleShowPage from '../interactors/title-show';
 import ResourceShowPage from '../interactors/resource-show';
 
 describe('TitleSearch', function () {
+  setupApplication();
   // some of the beforeEach blocks seem to timeout in CI
   this.timeout(5000);
-  setupApplication();
   let titles;
 
   // Odd indexed items are assigned alternate attributes targeted in specific filtering tests

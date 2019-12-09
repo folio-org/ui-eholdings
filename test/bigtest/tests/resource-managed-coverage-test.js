@@ -5,9 +5,9 @@ import setupApplication from '../helpers/setup-application';
 import ResourceShowPage from '../interactors/resource-show';
 
 describe('ResourceManagedCoverage', function () {
+  setupApplication();
   // some of the beforeEach blocks seem to timeout in CI
   this.timeout(5000);
-  setupApplication();
   let pkg,
     title,
     resource;

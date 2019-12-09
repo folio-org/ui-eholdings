@@ -6,9 +6,9 @@ import TitleShowPage from '../interactors/title-show';
 import TitleEditPage from '../interactors/title-edit';
 
 describe('CustomTitleEdit', function () {
+  setupApplication();
   // some of the beforeEach blocks seem to timeout in CI
   this.timeout(5000);
-  setupApplication();
   let provider,
     providerPackage,
     title;

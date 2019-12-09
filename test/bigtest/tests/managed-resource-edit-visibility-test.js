@@ -6,9 +6,9 @@ import ResourceEditPage from '../interactors/resource-edit';
 import ResourceShowPage from '../interactors/resource-show';
 
 describe('ManagedResourceEditVisibility', function () {
+  setupApplication();
   // some of the beforeEach blocks seem to timeout in CI
   this.timeout(5000);
-  setupApplication();
   let provider,
     providerPackage,
     title,

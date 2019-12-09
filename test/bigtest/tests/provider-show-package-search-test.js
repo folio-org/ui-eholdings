@@ -5,9 +5,9 @@ import setupApplication from '../helpers/setup-application';
 import ProviderShowPage from '../interactors/provider-show';
 
 describe('ProviderShow package search', function () {
+  setupApplication();
   // some of the beforeEach blocks seem to timeout in CI
   this.timeout(5000);
-  setupApplication();
   let provider,
     packages;
 

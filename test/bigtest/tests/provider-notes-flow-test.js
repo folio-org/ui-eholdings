@@ -15,11 +15,9 @@ const noteView = new NoteView();
 const notesAccordion = new NotesAccordion();
 
 describe('Provider view', function () {
+  setupApplication();
   // some of the beforeEach blocks seem to timeout in CI
   this.timeout(5000);
-
-  setupApplication();
-
   let provider;
   let noteType;
   let providerNote;
