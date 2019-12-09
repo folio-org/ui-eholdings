@@ -5,13 +5,15 @@ import {
   clickable,
   collection,
   is,
-  blurrable
+  blurrable,
+  focusable,
 } from '@bigtest/interactor';
 
 @interactor class NotesModal {
   isDisplayed = isPresent('[data-test-notes-modal]');
   searchButtonIsDisabled = is('[data-test-notes-modal-search-button]', ':disabled');
   clickSearchButton = clickable('[data-test-notes-modal-search-button]');
+  focusSearchQuery = focusable('[data-test-notes-modal-search-field]');
   enterSearchQuery = fillable('[data-test-notes-modal-search-field]');
   blurSearchInput = blurrable('[data-test-notes-modal-search-field]');
   emptyMessageIsDisplayed = isPresent('[class^="mclEmptyMessage"]');
@@ -24,9 +26,12 @@ import {
     checkboxIsSelected: is('[class^="mclCell"]:first-child [data-test-notes-modal-assignment-checkbox]', ':checked'),
   });
 
-  performSearch(query) {
-    return this.enterSearchQuery(query)
-      .blurSearchInput();
+  async performSearch(query) {
+    await this.focusSearchQuery();
+    await this.enterSearchQuery(query);
+    await this.blurSearchInput();
+
+    return this;
   }
 }
 

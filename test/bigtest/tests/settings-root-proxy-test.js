@@ -6,12 +6,14 @@ import SettingsRootProxyPage from '../interactors/settings-root-proxy';
 import wait from '../helpers/wait';
 
 describe('With list of root proxies available to a customer', () => {
+  // some of the beforeEach blocks seem to timeout in CI
+  this.timeout(5000);
   setupApplication();
 
   describe('when visiting the settings root proxy form', () => {
     beforeEach(async function () {
       await this.visit('/settings/eholdings/root-proxy');
-      await wait(1000);
+      await SettingsRootProxyPage.whenLoaded();
     });
 
     it('has a select field defaulted with current root proxy', () => {
@@ -20,9 +22,8 @@ describe('With list of root proxies available to a customer', () => {
 
     describe('choosing another root proxy from select', () => {
       beforeEach(async () => {
-        await SettingsRootProxyPage
-          .chooseRootProxy('microstates')
-          .save();
+        await SettingsRootProxyPage.chooseRootProxy('microstates');
+        await SettingsRootProxyPage.save();
       });
 
       it('should display the updated root proxy', () => {

@@ -6,6 +6,9 @@ import ResourceShowPage from '../interactors/resource-show';
 import ResourceEditPage from '../interactors/resource-edit';
 
 describe('ResourceEditCustomTitle', () => {
+  // some of the beforeEach blocks seem to timeout in CI
+  this.timeout(5000);
+
   setupApplication();
   let provider,
     providerPackage,
@@ -256,7 +259,7 @@ describe('ResourceEditCustomTitle', () => {
 
     describe('entering an invalid url', () => {
       beforeEach(async () => {
-        await ResourceEditPage.inputCustomUrlValue('no-http.com')
+        await ResourceEditPage.inputCustomUrlValue('no-http.com');
         await ResourceEditPage.clickSave();
       });
 
@@ -283,9 +286,9 @@ describe('ResourceEditCustomTitle', () => {
         await ResourceEditPage.dateRangeRowList(0).fillDates('12/18/2018', '12/16/2018');
         await ResourceEditPage.clickAddCustomEmbargoButton();
         await ResourceEditPage.inputEmbargoValue('');
-        await ResourceEditPage.inputCustomUrlValue(`http://${new Array(610 + 1).join('a')}`) // create a 610 char string
-        await ResourceEditPage.blurEmbargoValue()
-        await ResourceEditPage.selectEmbargoUnit('Weeks')
+        await ResourceEditPage.inputCustomUrlValue(`http://${new Array(610 + 1).join('a')}`); // create a 610 char string
+        await ResourceEditPage.blurEmbargoValue();
+        await ResourceEditPage.selectEmbargoUnit('Weeks');
         await ResourceEditPage.clickSave();
       });
 

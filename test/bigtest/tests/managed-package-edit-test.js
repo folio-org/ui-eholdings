@@ -6,6 +6,8 @@ import PackageShowPage from '../interactors/package-show';
 import PackageEditPage from '../interactors/package-edit';
 
 describe('ManagedPackageEdit', () => {
+  // some of the beforeEach blocks seem to timeout in CI
+  this.timeout(5000);
   setupApplication();
   let provider,
     providerPackage;
@@ -26,6 +28,7 @@ describe('ManagedPackageEdit', () => {
   describe('visiting the package edit page without coverage dates', () => {
     beforeEach(async function () {
       await this.visit(`/eholdings/packages/${providerPackage.id}/edit`);
+      await PackageEditPage.whenLoaded();
     });
 
     it('shows blank datepicker fields', () => {
@@ -102,6 +105,7 @@ describe('ManagedPackageEdit', () => {
       await providerPackage.save();
 
       await this.visit(`/eholdings/packages/${providerPackage.id}/edit`);
+      await PackageEditPage.whenLoaded();
     });
 
     it('disables the save button', () => {
@@ -165,6 +169,7 @@ describe('ManagedPackageEdit', () => {
       }, 500);
 
       await this.visit(`/eholdings/packages/${providerPackage.id}/edit`);
+      await PackageEditPage.whenLoaded();
     });
 
     it('dies with dignity', () => {
@@ -181,6 +186,7 @@ describe('ManagedPackageEdit', () => {
       }, 500);
 
       await this.visit(`/eholdings/packages/${providerPackage.id}/edit`);
+      await PackageEditPage.whenLoaded();
     });
 
     describe('entering valid data and clicking save', () => {
@@ -198,6 +204,7 @@ describe('ManagedPackageEdit', () => {
   describe('visiting the package show page', () => {
     beforeEach(async function () {
       await this.visit(`/eholdings/packages/${providerPackage.id}`);
+      await PackageEditPage.whenLoaded();
     });
 
     describe('clicking the edit button', () => {

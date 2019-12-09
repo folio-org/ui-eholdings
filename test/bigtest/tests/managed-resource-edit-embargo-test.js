@@ -79,10 +79,9 @@ describe('ManagedResourceEditEmbargo', () => {
 
     describe('clicking (x) remove embargo button clicking save', () => {
       beforeEach(async () => {
-        await ResourceEditPage
-          .clickRemoveCustomEmbargoButton()
-          .clickSave();
-        await ResourceShowPage.whenLoaded();        
+        await ResourceEditPage.clickRemoveCustomEmbargoButton();
+        await ResourceEditPage.clickSave();
+        await ResourceShowPage.whenLoaded();
       });
 
       it('goes to the resource show page', () => {
@@ -170,7 +169,7 @@ describe('ManagedResourceEditEmbargo', () => {
           expect(ResourceEditPage.hasCustomEmbargoSelect).to.be.false;
         });
       });
-      
+
       describe('entering valid custom embargo value and selecting unit with valid embargo value and unit clicking (x) remove embargo button', () => {
         beforeEach(async () => {
           await ResourceEditPage
@@ -227,7 +226,7 @@ describe('ManagedResourceEditEmbargo', () => {
             .selectEmbargoUnit('Months')
             .clickSave();
         });
-        
+
         it('rejects embargo value', () => {
           expect(ResourceEditPage.validationErrorOnEmbargoTextField).to.equal('Must be a number');
         });

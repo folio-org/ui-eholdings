@@ -15,6 +15,9 @@ const noteView = new NoteView();
 const notesAccordion = new NotesAccordion();
 
 describe('Provider view', function () {
+  // some of the beforeEach blocks seem to timeout in CI
+  this.timeout(5000);
+
   setupApplication();
 
   let provider;
@@ -157,7 +160,7 @@ describe('Provider view', function () {
         await noteForm.enterNoteData(noteType.name, 'some note title');
         await noteForm.saveButton.click();
       });
-      
+
       it('should redirect to previous page', function () {
         expect(this.location.pathname + this.location.search).to.equal(`/eholdings/providers/${provider.id}`);
       });
@@ -222,7 +225,6 @@ describe('Provider view', function () {
             beforeEach(async () => {
               await notesModal.notes(0).clickCheckbox();
             });
-
             describe('and save button was clicked', () => {
               beforeEach(async () => {
                 await notesModal.clickSaveButton();

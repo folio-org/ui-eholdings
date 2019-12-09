@@ -6,6 +6,8 @@ import PackageShowPage from '../interactors/package-show';
 import PackageEditPage from '../interactors/package-edit';
 
 describe('CustomPackageEditSelection', () => {
+  // some of the beforeEach blocks seem to timeout in CI
+  this.timeout(5000);
   setupApplication();
   let provider,
     providerPackage;
@@ -26,6 +28,7 @@ describe('CustomPackageEditSelection', () => {
   describe('visiting the package edit page', () => {
     beforeEach(async function () {
       await this.visit(`/eholdings/packages/${providerPackage.id}/edit`);
+      await PackageEditPage.whenLoaded();
     });
 
     it('displays the correct holdings status (ON)', () => {
@@ -111,14 +114,15 @@ describe('CustomPackageEditSelection', () => {
   });
 
   describe('visiting the package edit page with a totally selected package', () => {
-    beforeEach(function () {
-      providerPackage = this.server.create('package', {
+    beforeEach(async function () {
+      providerPackage = await this.server.create('package', {
         provider,
         name: 'Cool Package',
         contentType: 'E-Book',
         isSelected: true
       });
-      this.visit(`/eholdings/packages/${providerPackage.id}/edit`);
+      await this.visit(`/eholdings/packages/${providerPackage.id}/edit`);
+      await PackageEditPage.whenLoaded();
     });
 
     describe('holding status section', () => {

@@ -6,6 +6,8 @@ import PackageShowPage from '../interactors/package-show';
 import PackageEditPage from '../interactors/package-edit';
 
 describe('CustomPackageEditVisibility', () => {
+  // some of the beforeEach blocks seem to timeout in CI
+  this.timeout(5000);
   setupApplication();
   let provider,
     providerPackage;
@@ -25,6 +27,7 @@ describe('CustomPackageEditVisibility', () => {
         isCustom: true
       });
       await this.visit(`/eholdings/packages/${providerPackage.id}/edit`);
+      await PackageEditPage.whenLoaded();
     });
 
     it('displays the correct visibility status', () => {
@@ -89,6 +92,7 @@ describe('CustomPackageEditVisibility', () => {
         isCustom: true
       });
       await this.visit(`/eholdings/packages/${providerPackage.id}/edit`);
+      await PackageEditPage.whenLoaded();
     });
 
     it('displays the correct visibility status', () => {
@@ -110,6 +114,7 @@ describe('CustomPackageEditVisibility', () => {
         isVisible: true
       });
       await this.visit(`/eholdings/packages/${providerPackage.id}/edit`);
+      await PackageEditPage.whenLoaded();
     });
 
     it('displays the correct visibility status', () => {
@@ -175,6 +180,7 @@ describe('CustomPackageEditVisibility', () => {
         isVisible: true
       });
       await this.visit(`/eholdings/packages/${providerPackage.id}/edit`);
+      await PackageEditPage.whenLoaded();
     });
     it('reflects the desired state of holding status', () => {
       expect(PackageEditPage.selectionStatus.isSelected).to.equal(true);

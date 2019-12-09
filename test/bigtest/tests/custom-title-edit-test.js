@@ -6,6 +6,8 @@ import TitleShowPage from '../interactors/title-show';
 import TitleEditPage from '../interactors/title-edit';
 
 describe('CustomTitleEdit', () => {
+  // some of the beforeEach blocks seem to timeout in CI
+  this.timeout(5000);
   setupApplication();
   let provider,
     providerPackage,
@@ -61,6 +63,7 @@ describe('CustomTitleEdit', () => {
   describe('visiting the title edit page', () => {
     beforeEach(async function () {
       await this.visit(`/eholdings/titles/${title.id}/edit`);
+      await TitleEditPage.whenLoaded();
     });
 
     it('shows a field for edition', () => {
@@ -313,6 +316,7 @@ describe('CustomTitleEdit', () => {
       }, 500);
 
       await this.visit(`/eholdings/titles/${title.id}/edit`);
+      await TitleEditPage.whenLoaded();
     });
 
     it('dies with dignity', () => {
@@ -329,6 +333,7 @@ describe('CustomTitleEdit', () => {
       }, 500);
 
       await this.visit(`/eholdings/titles/${title.id}/edit`);
+      await TitleEditPage.whenLoaded();
     });
 
     describe('entering valid data and clicking save', () => {
@@ -349,6 +354,7 @@ describe('CustomTitleEdit', () => {
   describe('visiting the title show page', () => {
     beforeEach(async function () {
       await this.visit(`/eholdings/titles/${title.id}`);
+      await TitleEditPage.whenLoaded();
     });
 
     describe('clicking the edit button', () => {

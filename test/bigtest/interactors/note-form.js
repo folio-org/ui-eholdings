@@ -32,13 +32,14 @@ import focusable from '@bigtest/interactor/src/interactions/focusable';
 
 @interactor class FormField {
   async enterText(string) {
-
-    return this
+    await this
       .focus()
       .fill(string)
       .blur();
+
+    return this;
   }
-  
+
   focus= focusable();
   blur = blurrable();
   fill = fillable();

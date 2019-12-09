@@ -6,6 +6,8 @@ import PackageShowPage from '../interactors/package-show';
 import PackageEditPage from '../interactors/package-edit';
 
 describe('CustomPackageEdit', () => {
+  // some of the beforeEach blocks seem to timeout in CI
+  this.timeout(5000);
   setupApplication();
   let provider,
     providerPackage;
@@ -26,6 +28,7 @@ describe('CustomPackageEdit', () => {
   describe('visiting the package edit page without coverage dates', () => {
     beforeEach(async function () {
       await this.visit(`/eholdings/packages/${providerPackage.id}/edit`);
+      await PackageEditPage.whenLoaded();
     });
 
     it('displays the correct holdings status', () => {
@@ -42,7 +45,7 @@ describe('CustomPackageEdit', () => {
     });
 
     describe('clicking cancel', () => {
-      beforeEach( async () => {
+      beforeEach(async () => {
         await PackageEditPage.clickCancel();
       });
 
@@ -111,6 +114,7 @@ describe('CustomPackageEdit', () => {
       await providerPackage.save();
 
       await this.visit(`/eholdings/packages/${providerPackage.id}/edit`);
+      await PackageEditPage.whenLoaded();
     });
 
     it('disables the save button', () => {
@@ -145,8 +149,8 @@ describe('CustomPackageEdit', () => {
 
     describe('entering valid data', () => {
       beforeEach(async () => {
-        await PackageEditPage.name('A Different Name')
-        await PackageEditPage.contentType('E-Journal')
+        await PackageEditPage.name('A Different Name');
+        await PackageEditPage.contentType('E-Journal');
         await PackageEditPage.dateRangeRowList(0).fillDates('12/16/2018', '12/18/2018');
       });
 
@@ -209,6 +213,7 @@ describe('CustomPackageEdit', () => {
       }, 500);
 
       await this.visit(`/eholdings/packages/${providerPackage.id}/edit`);
+      await PackageEditPage.whenLoaded();
     });
 
     it('dies with dignity', () => {
@@ -225,6 +230,7 @@ describe('CustomPackageEdit', () => {
       }, 500);
 
       await this.visit(`/eholdings/packages/${providerPackage.id}/edit`);
+      await PackageEditPage.whenLoaded();
     });
 
     describe('entering valid data and clicking save', () => {

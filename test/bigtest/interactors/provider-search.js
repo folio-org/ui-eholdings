@@ -20,6 +20,12 @@ import SearchBadge from './search-badge';
 
 
 @interactor class ProviderSearchPage {
+  isLoaded = isPresent('[data-test-eholdings-search-filters="providers"]');
+
+  whenLoaded() {
+    return this.when(() => this.isLoaded);
+  }
+
   fillSearch = fillable('[data-test-search-field] input[name="search"]');
   submitSearch = clickable('[data-test-search-submit]');
   hasSearchField = isPresent('[data-test-search-field] input[name="search"]');

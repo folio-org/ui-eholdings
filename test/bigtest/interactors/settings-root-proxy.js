@@ -4,7 +4,8 @@ import {
   selectable,
   interactor,
   property,
-  value
+  value,
+  isPresent,
 } from '@bigtest/interactor';
 import Toast from './toast';
 
@@ -17,6 +18,12 @@ import Toast from './toast';
 }
 
 @interactor class SettingsRootProxyPage {
+  isLoaded = isPresent('[data-test-eholdings-settings-root-proxy-select] select');
+
+  whenLoaded() {
+    return this.when(() => this.isLoaded);
+  }
+
   RootProxySelectValue = value('[data-test-eholdings-settings-root-proxy-select] select');
   chooseRootProxy = selectable('[data-test-eholdings-settings-root-proxy-select] select');
   save = clickable('[data-test-eholdings-settings-root-proxy-save-button]');

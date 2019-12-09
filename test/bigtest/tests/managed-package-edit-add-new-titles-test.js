@@ -6,6 +6,9 @@ import PackageShowPage from '../interactors/package-show';
 import PackageEditPage from '../interactors/package-edit';
 
 describe('ManagedPackageEditAllowKbToAddTitles', () => {
+  // some of the beforeEach blocks seem to timeout in CI
+  this.timeout(5000);
+
   setupApplication();
   let provider,
     providerPackage;
@@ -27,6 +30,7 @@ describe('ManagedPackageEditAllowKbToAddTitles', () => {
       });
 
       await this.visit(`/eholdings/packages/${providerPackage.id}/edit`);
+      await PackageEditPage.whenLoaded();
     });
 
     it('allowKbToAddTitles is selected to be true', () => {
@@ -38,8 +42,8 @@ describe('ManagedPackageEditAllowKbToAddTitles', () => {
     });
 
     describe('clicking cancel', () => {
-      beforeEach(() => {
-        return PackageEditPage.clickCancel();
+      beforeEach(async () => {
+        await PackageEditPage.clickCancel();
       });
 
       it('goes to the package show page', () => {
@@ -48,13 +52,13 @@ describe('ManagedPackageEditAllowKbToAddTitles', () => {
     });
 
     describe('changing the allowKbToAddTitles selection', () => {
-      beforeEach(() => {
-        return PackageEditPage.clickDisallowKbToAddTitlesRadio();
+      beforeEach(async () => {
+        await PackageEditPage.clickDisallowKbToAddTitlesRadio();
       });
 
       describe('clicking cancel', () => {
-        beforeEach(() => {
-          return PackageEditPage.clickCancel();
+        beforeEach(async () => {
+          await PackageEditPage.clickCancel();
         });
 
         it('shows a navigation confirmation modal', () => {
@@ -63,8 +67,8 @@ describe('ManagedPackageEditAllowKbToAddTitles', () => {
       });
 
       describe('clicking save', () => {
-        beforeEach(() => {
-          return PackageEditPage.clickSave();
+        beforeEach(async () => {
+          await PackageEditPage.clickSave();
         });
 
         it('goes to the package show page', () => {
@@ -88,6 +92,7 @@ describe('ManagedPackageEditAllowKbToAddTitles', () => {
         allowKbToAddTitles: false
       });
       await this.visit(`/eholdings/packages/${providerPackage.id}/edit`);
+      await PackageEditPage.whenLoaded();
     });
 
     it('allowKbToAddTitles is selected to no', () => {
@@ -99,8 +104,8 @@ describe('ManagedPackageEditAllowKbToAddTitles', () => {
     });
 
     describe('clicking cancel', () => {
-      beforeEach(() => {
-        return PackageEditPage.clickCancel();
+      beforeEach(async () => {
+        await PackageEditPage.clickCancel();
       });
 
       it('goes to the package show page', () => {
@@ -109,13 +114,13 @@ describe('ManagedPackageEditAllowKbToAddTitles', () => {
     });
 
     describe('toggling the allowKbToAddTitles toggle', () => {
-      beforeEach(() => {
-        return PackageEditPage.clickAllowKbToAddTitlesRadio();
+      beforeEach(async () => {
+        await PackageEditPage.clickAllowKbToAddTitlesRadio();
       });
 
       describe('clicking cancel', () => {
-        beforeEach(() => {
-          return PackageEditPage.clickCancel();
+        beforeEach(async () => {
+          await PackageEditPage.clickCancel();
         });
 
         it('shows a navigation confirmation modal', () => {
@@ -124,8 +129,9 @@ describe('ManagedPackageEditAllowKbToAddTitles', () => {
       });
 
       describe('clicking save', () => {
-        beforeEach(() => {
-          return PackageEditPage.clickSave();
+        beforeEach(async () => {
+          await PackageEditPage.clickSave();
+          await PackageShowPage.whenLoaded();
         });
 
         it('goes to the package show page', () => {
@@ -149,6 +155,7 @@ describe('ManagedPackageEditAllowKbToAddTitles', () => {
         allowKbToAddTitles: false
       });
       await this.visit(`/eholdings/packages/${providerPackage.id}/edit`);
+      await PackageEditPage.whenLoaded();
     });
 
     it.always('does not display the allow KB to add titles toggle switch', () => {

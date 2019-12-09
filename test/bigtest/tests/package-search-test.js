@@ -7,6 +7,8 @@ import PackageShowPage from '../interactors/package-show';
 import ResourceShowPage from '../interactors/resource-show';
 
 describe('PackageSearch', () => {
+  // some of the beforeEach blocks seem to timeout in CI
+  this.timeout(5000);
   setupApplication();
   let pkgs;
 
@@ -24,6 +26,7 @@ describe('PackageSearch', () => {
     });
 
     await this.visit('/eholdings/?searchType=packages');
+    await PackageSearchPage.whenLoaded();
   });
 
   it('has a searchbox', () => {
@@ -157,6 +160,7 @@ describe('PackageSearch', () => {
           .clickThrough()
           .search('SomethingElse');
       });
+
       it('displays the total number of search results', () => {
         expect(PackageSearchPage.totalResults).to.equal('1 search result');
       });
@@ -171,7 +175,6 @@ describe('PackageSearch', () => {
         const history = this.app.props.history;
         expect(history.entries[history.index - 1].search).to.include('q=Package');
       });
-
     });
 
     describe.skip('clicking a search results list item selecting a package', () => {
@@ -221,7 +224,7 @@ describe('PackageSearch', () => {
           .clickThrough()
           .clickSearchVignette();
       });
-      
+
       it('hides the preview pane', () => {
         expect(PackageSearchPage.packagePreviewPaneIsPresent).to.be.false;
       });
@@ -304,7 +307,7 @@ describe('PackageSearch', () => {
       beforeEach(async () => {
         await PackageSearchPage.toggleAccordion('#accordion-toggle-button-filter-packages-type');
         await PackageSearchPage.clickFilter('type', 'ebook');
-        await PackageSearchPage.searchBadge.clickIcon()
+        await PackageSearchPage.searchBadge.clickIcon();
       });
 
       it('closed the search pane', () => {

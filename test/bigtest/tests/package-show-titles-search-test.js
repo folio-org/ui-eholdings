@@ -5,6 +5,8 @@ import setupApplication from '../helpers/setup-application';
 import PackageShowPage from '../interactors/package-show';
 
 describe('Package Show Title Search', () => {
+  // some of the beforeEach blocks seem to timeout in CI
+  this.timeout(5000);
   setupApplication();
   let provider,
     resources,
@@ -84,6 +86,7 @@ describe('Package Show Title Search', () => {
           state: { eholdings: true }
         }
       );
+      await PackageShowPage.whenLoaded();
     });
 
     it('displays the proper title count', () => {
@@ -302,6 +305,7 @@ describe('Package Show Title Search', () => {
           state: { eholdings: true }
         }
       );
+      await PackageShowPage.whenLoaded();
     });
     describe('when no sort options are chosen by user', () => {
       beforeEach(() => {
@@ -327,10 +331,10 @@ describe('Package Show Title Search', () => {
       });
 
       describe('then performing a search and opening the search modal again', () => {
-        beforeEach(() => {
-          return PackageShowPage.searchModal.searchTitles('title')
-            .searchModal.clickSearch()
-            .clickListSearch();
+        beforeEach(async () => {
+          await PackageShowPage.searchModal.searchTitles('title');
+          await PackageShowPage.searchModal.clickSearch();
+          await PackageShowPage.clickListSearch();
         });
         describe('search form', () => {
           it('should keep previous sort option', () => {
@@ -340,8 +344,8 @@ describe('Package Show Title Search', () => {
       });
 
       describe('then reset to default sort option', () => {
-        beforeEach(() => {
-          return PackageShowPage.searchModal.resetSortFilter();
+        beforeEach(async () => {
+          await PackageShowPage.searchModal.resetSortFilter();
         });
 
         describe('search form', () => {
@@ -381,6 +385,7 @@ describe('Package Show Title Search', () => {
           state: { eholdings: true }
         }
       );
+      await PackageShowPage.whenLoaded();
     });
 
     it('displays the number of title records in package details', () => {

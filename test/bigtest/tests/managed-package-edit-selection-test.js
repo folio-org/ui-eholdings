@@ -7,6 +7,8 @@ import PackageShowPage from '../interactors/package-show';
 import PackageEditPage from '../interactors/package-edit';
 
 describe('ManagedPackageEditSelection', () => {
+  // some of the beforeEach blocks seem to timeout in CI
+  this.timeout(5000);
   setupApplication();
   let provider,
     providerPackage;
@@ -27,6 +29,7 @@ describe('ManagedPackageEditSelection', () => {
         isSelected: false
       });
       await this.visit(`/eholdings/packages/${providerPackage.id}/edit`);
+      await PackageEditPage.whenLoaded();
     });
 
     it('reflects the desired state of holding status', () => {
@@ -117,6 +120,7 @@ describe('ManagedPackageEditSelection', () => {
         isSelected: true
       });
       await this.visit(`/eholdings/packages/${providerPackage.id}/edit`);
+      await PackageEditPage.whenLoaded();
     });
 
     describe('holding status section', () => {
@@ -351,6 +355,7 @@ describe('ManagedPackageEditSelection', () => {
         isSelected: false
       });
       await this.visit(`/eholdings/packages/${pkg.id}/edit`);
+      await PackageEditPage.whenLoaded();
     });
 
     it('shows the selected # of titles and the total # of titles in the package', () => {
@@ -421,4 +426,3 @@ describe('ManagedPackageEditSelection', () => {
     });
   });
 });
-

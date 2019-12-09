@@ -7,6 +7,8 @@ import TitleShowPage from '../interactors/title-show';
 import ResourceShowPage from '../interactors/resource-show';
 
 describe('TitleSearch', () => {
+  // some of the beforeEach blocks seem to timeout in CI
+  this.timeout(5000);
   setupApplication();
   let titles;
 
@@ -53,6 +55,7 @@ describe('TitleSearch', () => {
     });
 
     await this.visit('/eholdings/?searchType=titles');
+    await TitleSearchPage.whenLoaded();
   });
 
   it('has a searchbox', () => {
@@ -171,8 +174,8 @@ describe('TitleSearch', () => {
       });
 
       describe.skip('clicking the vignette behind the preview pane', () => {
-        beforeEach(() => {
-          return TitleSearchPage.clickSearchVignette();
+        beforeEach(async () => {
+          await TitleSearchPage.clickSearchVignette();
         });
 
         it('hides the preview pane', () => {
@@ -181,8 +184,8 @@ describe('TitleSearch', () => {
       });
 
       describe('clicking the close button on the preview pane', () => {
-        beforeEach(() => {
-          return TitleSearchPage.clickCloseButton();
+        beforeEach(async () => {
+          await TitleSearchPage.clickCloseButton();
         });
 
         it('hides the preview pane', () => {
@@ -204,8 +207,8 @@ describe('TitleSearch', () => {
       });
 
       describe('clicking an item within the preview pane', () => {
-        beforeEach(() => {
-          return TitleSearchPage.packageTitleList(0).clickToPackage();
+        beforeEach(async () => {
+          await TitleSearchPage.packageTitleList(0).clickToPackage();
         });
 
         it('hides the search ui', () => {
@@ -217,8 +220,8 @@ describe('TitleSearch', () => {
         });
 
         describe('and clicking the back button', () => {
-          beforeEach(() => {
-            return ResourceShowPage.clickBackButton();
+          beforeEach(async () => {
+            await ResourceShowPage.clickBackButton();
           });
 
           it('displays the original search', () => {
@@ -373,10 +376,9 @@ describe('TitleSearch', () => {
     });
 
     describe('clicking another search type', () => {
-      beforeEach(() => {
-        return TitleSearchPage
-          .titleList(0).click()
-          .changeSearchType('providers');
+      beforeEach(async () => {
+        await TitleSearchPage.titleList(0).click();
+        await TitleSearchPage.changeSearchType('providers');
       });
 
       it('only shows one search type as selected', () => {
@@ -481,6 +483,7 @@ describe('TitleSearch', () => {
   describe('visiting the page with an existing search field', () => {
     beforeEach(async function () {
       await this.visit('/eholdings/?searchType=titles&q=TestPublisher&searchfield=publisher');
+      await TitleSearchPage.whenLoaded();
     });
 
     it('displays publisher as searchfield', () => {
@@ -499,6 +502,7 @@ describe('TitleSearch', () => {
   describe('visiting the page with an existing type filter', () => {
     beforeEach(async function () {
       await this.visit('/eholdings/?searchType=titles&q=Title&filter[type]=journal');
+      await TitleSearchPage.whenLoaded();
     });
 
     it('shows the existing filter in the search form', () => {
@@ -518,6 +522,7 @@ describe('TitleSearch', () => {
   describe('visiting the page with an existing selection filter', () => {
     beforeEach(async function () {
       await this.visit('/eholdings/?searchType=titles&q=Title&filter[selected]=false');
+      await TitleSearchPage.whenLoaded();
     });
 
     it('shows the existing filter in the search form', () => {
@@ -536,6 +541,7 @@ describe('TitleSearch', () => {
   describe('visiting the page with an existing tags filter', () => {
     beforeEach(async function () {
       await this.visit('/eholdings?searchType=titles&filter[tags]=urgent');
+      await TitleSearchPage.whenLoaded();
     });
 
     it('displays tags accordion as closed', () => {
@@ -711,6 +717,7 @@ describe('TitleSearch', () => {
     describe('when visiting the page with an existing sort', () => {
       beforeEach(async function () {
         await this.visit('/eholdings/?searchType=titles&q=football&sort=name');
+        await TitleSearchPage.whenLoaded();
         // the search pane is ending up hidden by default
         await TitleSearchPage.searchBadge.clickIcon();
       });
@@ -896,6 +903,7 @@ describe('TitleSearch', () => {
     describe('navigating directly to a search page', () => {
       beforeEach(async function () {
         await this.visit('/eholdings/?searchType=titles&offset=51&q=other');
+        await TitleSearchPage.whenLoaded();
       });
 
       it('should show the search results for that page', () => {

@@ -7,6 +7,8 @@ import ApplicationPage from '../interactors/application';
 import SettingsPage from '../interactors/settings';
 
 describe('Error retrieving backend', () => {
+  // some of the beforeEach blocks seem to timeout in CI
+  this.timeout(5000);
   setupApplication({
     scenarios: ['load-error-backend']
   });
@@ -23,6 +25,8 @@ describe('Error retrieving backend', () => {
 });
 
 describe('With no backend at all', () => {
+  // some of the beforeEach blocks seem to timeout in CI
+  this.timeout(5000);
   setupApplication({
     scenarios: ['no-backend']
   });
@@ -39,6 +43,8 @@ describe('With no backend at all', () => {
 });
 
 describe('With unconfigured backend', () => {
+  // some of the beforeEach blocks seem to timeout in CI
+  this.timeout(5000);
   setupApplication({
     scenarios: ['unconfigured-backend']
   });
@@ -56,6 +62,7 @@ describe('With unconfigured backend', () => {
   describe('when visiting the KB auth form', () => {
     beforeEach(async function () {
       await this.visit('/settings/eholdings/knowledge-base');
+      await SettingsPage.whenLoaded();
     });
 
     it('does not enable the save button', () => {
@@ -101,11 +108,14 @@ describe('With unconfigured backend', () => {
 });
 
 describe('With valid backend configuration', () => {
+  // some of the beforeEach blocks seem to timeout in CI
+  this.timeout(5000);
   setupApplication();
 
   describe('when visiting the KB auth form', () => {
     beforeEach(async function () {
       await this.visit('/settings/eholdings/knowledge-base');
+      await SettingsPage.whenLoaded();
     });
 
     it('has a field for the ebsco customer id', () => {

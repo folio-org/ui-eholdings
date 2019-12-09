@@ -18,6 +18,12 @@ import TagsAccordion from './tags-accordion';
 import SearchBadge from './search-badge';
 
 @interactor class TitleSearchPage {
+  isLoaded = isPresent('[data-test-eholdings-search-filters="titles"]');
+
+  whenLoaded() {
+    return this.when(() => this.isLoaded);
+  }
+
   fillSearch = fillable('[data-test-search-field] input[name="search"]');
   submitSearch = clickable('[data-test-search-submit]');
   isSearchDisabled = property('[data-test-search-submit]', 'disabled');

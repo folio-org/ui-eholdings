@@ -5,6 +5,8 @@ import setupApplication from '../helpers/setup-application';
 import ProviderShowPage from '../interactors/provider-show';
 
 describe('ProviderShow package search', () => {
+  // some of the beforeEach blocks seem to timeout in CI
+  this.timeout(5000);
   setupApplication();
   let provider,
     packages;
@@ -340,7 +342,6 @@ describe('ProviderShow package search', () => {
       await ProviderShowPage.searchModal.toggleAccordion('#accordion-toggle-button-filter-packages-selected');
       await ProviderShowPage.searchModal.clickFilter('selected', 'true');
       await ProviderShowPage.searchModal.clickSearch();
-
     });
 
     it('displays selected packages matching the search term', () => {
@@ -361,7 +362,6 @@ describe('ProviderShow package search', () => {
       await ProviderShowPage.searchModal.toggleAccordion('#accordion-toggle-button-filter-packages-type');
       await ProviderShowPage.searchModal.clickFilter('type', 'ebook');
       await ProviderShowPage.searchModal.clickSearch();
-
     });
 
     it('displays packages matching the search term and content type', () => {

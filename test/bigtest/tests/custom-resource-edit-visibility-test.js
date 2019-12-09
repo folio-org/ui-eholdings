@@ -43,6 +43,7 @@ describe('CustomResourceEditVisibility', () => {
       });
 
       await this.visit(`/eholdings/resources/${resource.id}/edit`);
+      await ResourceEditPage.whenLoaded();
     });
 
     it('displays the yes visibility radio is selected', () => {
@@ -115,6 +116,7 @@ describe('CustomResourceEditVisibility', () => {
       });
 
       await this.visit(`/eholdings/resources/${resource.id}/edit`);
+      await ResourceEditPage.whenLoaded();
     });
 
     it('displays the no visibility radio is selected', () => {
@@ -166,6 +168,7 @@ describe('CustomResourceEditVisibility', () => {
       });
 
       await this.visit(`/eholdings/resources/${resource.id}/edit`);
+      await ResourceEditPage.whenLoaded();
     });
 
     it('displays the no visibility radio is selected', () => {
@@ -187,6 +190,7 @@ describe('CustomResourceEditVisibility', () => {
         isSelected: true
       });
       await this.visit(`/eholdings/resources/${resource.id}/edit`);
+      await ResourceEditPage.whenLoaded();
     });
 
     it('displays the no visibility radio is selected', () => {
@@ -207,6 +211,7 @@ describe('CustomResourceEditVisibility', () => {
       });
 
       await this.visit(`/eholdings/resources/${resource.id}/edit`);
+      await ResourceEditPage.whenLoaded();
     });
 
     it('reflects the desired state of holding status', () => {

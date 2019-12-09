@@ -15,6 +15,9 @@ const noteForm = new NoteForm();
 const noteView = new NoteView();
 
 describe('Package view', function () {
+  // some of the beforeEach blocks seem to timeout in CI
+  this.timeout(5000);
+
   setupApplication();
 
   let provider;
@@ -63,6 +66,7 @@ describe('Package view', function () {
   describe('when the package details page is visited', () => {
     beforeEach(async function () {
       await this.visit(`/eholdings/packages/${providerPackage.id}`);
+      await notesAccordion.whenPackageNotesAccordionLoaded();
     });
 
     it('should display notes accordion', () => {
@@ -214,7 +218,7 @@ describe('Package view', function () {
         expect(notesModal.emptyMessageIsDisplayed).to.be.true;
       });
     });
-    
+
     describe('and assign button was clicked and search query was entered', () => {
       beforeEach(async () => {
         await notesAccordion.assignButton.click();
@@ -234,7 +238,7 @@ describe('Package view', function () {
         await wait(1000);
         await notesModal.selectUnassignedFilter();
       });
-      
+
       it('notes list should contain 2 notes', () => {
         expect(notesModal.notes().length).to.equal(2);
       });
@@ -249,7 +253,7 @@ describe('Package view', function () {
       beforeEach(async () => {
         await notesAccordion.assignButton.click();
         await notesModal.enterSearchQuery('some note');
-        await wait(1000)
+        await wait(1000);
         await notesModal.clickSearchButton();
       });
 
@@ -329,7 +333,7 @@ describe('Package view', function () {
         expect(this.location.pathname + this.location.search).to.equal(`/eholdings/packages/${providerPackage.id}`);
       });
     });
-    
+
     describe('and a note in the notes list was clicked and delete button was clicked', () => {
       beforeEach(async () => {
         await notesAccordion.notes(0).click();
@@ -340,7 +344,6 @@ describe('Package view', function () {
       it('should open confirmation modal', () => {
         expect(noteView.deleteConfirmationModalIsDisplayed).to.be.true;
       });
-
     });
 
     describe('and a note in the notes list was clicked and delete button was clicked and cancel button was clicked ', () => {
@@ -350,7 +353,7 @@ describe('Package view', function () {
         await noteView.performDeleteNoteAction();
         await noteView.deleteConfirmationModal.clickCancelButton();
       });
-      
+
       it('should close confirmation modal', () => {
         expect(noteView.deleteConfirmationModalIsDisplayed).to.be.false;
       });
@@ -422,7 +425,7 @@ describe('Package view', function () {
         await noteForm.when(() => noteForm.formFieldsAccordionIsDisplayed);
         await noteForm.noteTitleField.enterText(faker.lorem.words(100));
       });
-      
+
       it('should display title length error', () => {
         expect(noteForm.hasTitleLengthError).to.be.true;
       });
@@ -489,7 +492,6 @@ describe('Package view', function () {
       it('should keep the user on the same page', function () {
         expect(this.location.pathname + this.location.search).to.equal(`/eholdings/notes/${packageNote.id}/edit/`);
       });
-
     });
 
     describe('and a note in the notes list was clicked and edit button is clicked and the form is touched and correct note data was entered and close button was clicked and continue navigation button was clicked', () => {
@@ -580,6 +582,5 @@ describe('Package view', function () {
         expect(this.location.pathname + this.location.search).to.equal(`/eholdings/notes/${packageNote.id}`);
       });
     });
-
   });
 });

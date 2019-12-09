@@ -152,7 +152,7 @@ describe('CustomResourceEditCustomCoverage', () => {
 
         describe('entering a date range outside of package coverage range', () => {
           beforeEach(async () => {
-            await ResourceEditPage.dateRangeRowList(0).fillDates('11/16/2018', '01/14/2019')
+            await ResourceEditPage.dateRangeRowList(0).fillDates('11/16/2018', '01/14/2019');
             await ResourceEditPage.clickSave();
           });
 

@@ -190,7 +190,7 @@ import PackageSelectionStatus from './selection-status';
     async fillDates(beginDate, endDate) {
       await this.beginDate.fillAndBlur(beginDate);
       await this.endDate.fillAndBlur(endDate);
-      
+
       return this;
     }
   });

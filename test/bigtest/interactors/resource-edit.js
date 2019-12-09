@@ -116,7 +116,7 @@ import Datepicker from './datepicker';
     endDate: scoped('[data-test-eholdings-coverage-fields-date-range-end]', Datepicker),
     clickRemoveRowButton: clickable('[data-test-repeatable-field-remove-item-button]'),
     async fillDates(beginDate, endDate) {
-      await this.beginDate.fillAndBlur(beginDate)
+      await this.beginDate.fillAndBlur(beginDate);
       await this.endDate.fillAndBlur(endDate);
       return this;
     }

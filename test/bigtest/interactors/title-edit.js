@@ -31,6 +31,11 @@ import Toast from './toast';
       .dropDownMenu.clickCancel();
   });
 
+  isLoaded = isPresent('[data-test-eholdings-details-view-pane-title]');
+  whenLoaded() {
+    return this.when(() => this.isLoaded);
+  }
+
   clickSave = clickable('[data-test-eholdings-title-save-button]');
   isSaveDisabled = property('[data-test-eholdings-title-save-button]', 'disabled');
   hasErrors = isPresent('[data-test-eholdings-title-edit-error]');

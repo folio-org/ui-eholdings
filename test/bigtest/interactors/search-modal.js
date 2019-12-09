@@ -41,14 +41,14 @@ export default @interactor class SearchModal {
 
   clickFilter = action(async function (name, val) {
     await this.click(`[data-test-eholdings-search-filters] input[name="${name}"][value="${val}"]`);
-    
+
     return this;
   });
 
   search = action(async function (query) {
     await this.fill('[data-test-search-field] input[name="search"]', query);
     await this.click('[data-test-eholdings-modal-search-button]');
-    
+
     return this;
   });
 

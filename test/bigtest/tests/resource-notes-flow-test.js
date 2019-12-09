@@ -16,6 +16,9 @@ const noteForm = new NoteForm();
 const noteView = new NoteView();
 
 describe('Resource view', function () {
+  // some of the beforeEach blocks seem to timeout in CI
+  this.timeout(5000);
+
   setupApplication();
 
   let pkg;
@@ -24,7 +27,7 @@ describe('Resource view', function () {
   let resource;
   let resourceNote;
 
-  beforeEach( async function () {
+  beforeEach(async function () {
     pkg = await this.server.create('package', 'withProvider');
 
     title = await this.server.create('title', {
@@ -64,6 +67,7 @@ describe('Resource view', function () {
   describe('when the package details page is visited', () => {
     beforeEach(async function () {
       await this.visit(`/eholdings/resources/${resource.id}`);
+      await notesAccordion.whenResourceNotesAccordionLoaded();
     });
 
     it('should display notes accordion', () => {

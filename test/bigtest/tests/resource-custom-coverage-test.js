@@ -4,6 +4,8 @@ import setupApplication from '../helpers/setup-application';
 import ResourcePage from '../interactors/resource-show';
 
 describe('ResourceCustomCoverage', () => {
+  // some of the beforeEach blocks seem to timeout in CI
+  this.timeout(5000);
   setupApplication();
   let pkg,
     title,
@@ -31,6 +33,7 @@ describe('ResourceCustomCoverage', () => {
       resource.save();
 
       await this.visit(`/eholdings/resources/${resource.id}`);
+      await ResourcePage.whenLoaded();
     });
 
     it('displays message that resource needs to be selected', () => {
@@ -53,6 +56,7 @@ describe('ResourceCustomCoverage', () => {
       await resource.update('customCoverages', customCoverages.map(item => item.toJSON()));
       await resource.save();
       await this.visit(`/eholdings/resources/${resource.id}`);
+      await ResourcePage.whenLoaded();
     });
 
     it('displays the date ranges', () => {
@@ -65,6 +69,7 @@ describe('ResourceCustomCoverage', () => {
       resource.customCoverages = await this.server.createList('custom-coverage', 0).map(m => m.toJSON());
       await resource.save();
       await this.visit(`/eholdings/resources/${resource.id}`);
+      await ResourcePage.whenLoaded();
     });
 
     it.always('does not display the custom coverage section', () => {
@@ -83,6 +88,7 @@ describe('ResourceCustomCoverage', () => {
       await resource.update('customCoverages', customCoverages.map(item => item.toJSON()));
       await resource.save();
       await this.visit(`/eholdings/resources/${resource.id}`);
+      await ResourcePage.whenLoaded();
     });
 
     it('displays the customcoverage section for single date', () => {
@@ -98,6 +104,7 @@ describe('ResourceCustomCoverage', () => {
       }).map(m => m.toJSON());
       await resource.save();
       await this.visit(`/eholdings/resources/${resource.id}`);
+      await ResourcePage.whenLoaded();
     });
 
     it('display the custom coverage section for single date (end date only)', () => {
@@ -112,6 +119,7 @@ describe('ResourceCustomCoverage', () => {
       ].map(m => m.toJSON());
       await resource.save();
       await this.visit(`/eholdings/resources/${resource.id}`);
+      await ResourcePage.whenLoaded();
     });
 
     it('displays date ranges comma separated and ordered by most recent coverage to least recent coverage', () => {
@@ -130,6 +138,7 @@ describe('ResourceCustomCoverage', () => {
       }).map(m => m.toJSON());
       await resource.save();
       await this.visit(`/eholdings/resources/${resource.id}`);
+      await ResourcePage.whenLoaded();
     });
 
     it('displays dates with YYYY format', () => {
@@ -149,6 +158,7 @@ describe('ResourceCustomCoverage', () => {
 
       await resource.save();
       await this.visit(`/eholdings/resources/${resource.id}`);
+      await ResourcePage.whenLoaded();
     });
 
     it('displays dates with YYYY format', () => {
@@ -168,6 +178,7 @@ describe('ResourceCustomCoverage', () => {
 
       await resource.save();
       await this.visit(`/eholdings/resources/${resource.id}`);
+      await ResourcePage.whenLoaded();
     });
 
     it('displays dates with YYYY format', () => {
@@ -187,6 +198,7 @@ describe('ResourceCustomCoverage', () => {
 
       await resource.save();
       await this.visit(`/eholdings/resources/${resource.id}`);
+      await ResourcePage.whenLoaded();
     });
 
     it('displays dates with YYYY format', () => {
@@ -206,6 +218,7 @@ describe('ResourceCustomCoverage', () => {
 
       await resource.save();
       await this.visit(`/eholdings/resources/${resource.id}`);
+      await ResourcePage.whenLoaded();
     });
 
     it.always('does not display custom coverage list', () => {

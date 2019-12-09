@@ -6,6 +6,8 @@ import ResourceShowPage from '../interactors/resource-show';
 import ResourceEditPage from '../interactors/resource-edit';
 
 describe('ResourceEditManagedTitleInManagedPackage', () => {
+  // some of the beforeEach blocks seem to timeout in CI
+  this.timeout(5000);
   setupApplication();
   let provider,
     providerPackage,
@@ -54,6 +56,7 @@ describe('ResourceEditManagedTitleInManagedPackage', () => {
       await resource.save();
 
       await this.visit(`/eholdings/resources/${resource.titleId}/edit`);
+      await ResourceEditPage.whenLoaded();
     });
 
     it('displays the managed coverage dates in the form', () => {
@@ -201,6 +204,7 @@ describe('ResourceEditManagedTitleInManagedPackage', () => {
       await resource.save();
 
       await this.visit(`/eholdings/resources/${resource.titleId}/edit`);
+      await ResourceEditPage.whenLoaded();
     });
 
     describe('section: holding status', () => {
@@ -512,7 +516,7 @@ describe('ResourceEditManagedTitleInManagedPackage', () => {
 
   describe('encountering a server error when GETting', () => {
     beforeEach(async function () {
-     await this.server.get('/resources/:id', {
+      await this.server.get('/resources/:id', {
         errors: [{
           title: 'There was an error'
         }]
@@ -539,12 +543,12 @@ describe('ResourceEditManagedTitleInManagedPackage', () => {
 
     describe('entering valid data and clicking save', () => {
       beforeEach(async () => {
-        await ResourceEditPage.inputCoverageStatement('10 ways to fail at everything')
-        await ResourceEditPage.clickAddCustomEmbargoButton()
-        await ResourceEditPage.inputEmbargoValue('27')
-        await ResourceEditPage.blurEmbargoValue()
-        await ResourceEditPage.selectEmbargoUnit('Weeks')
-        await ResourceEditPage.blurEmbargoUnit()
+        await ResourceEditPage.inputCoverageStatement('10 ways to fail at everything');
+        await ResourceEditPage.clickAddCustomEmbargoButton();
+        await ResourceEditPage.inputEmbargoValue('27');
+        await ResourceEditPage.blurEmbargoValue();
+        await ResourceEditPage.selectEmbargoUnit('Weeks');
+        await ResourceEditPage.blurEmbargoUnit();
         await ResourceEditPage.clickSave();
       });
 

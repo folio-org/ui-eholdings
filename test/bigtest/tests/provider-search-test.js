@@ -7,7 +7,10 @@ import ProviderShowPage from '../interactors/provider-show';
 import PackageShowPage from '../interactors/package-show';
 
 describe('ProviderSearch', () => {
+  // some of the beforeEach blocks seem to timeout in CI
+  this.timeout(5000);
   setupApplication();
+
   beforeEach(async function () {
     await this.server.createList('provider', 3, 'withPackagesAndTitles', {
       name: i => `Provider${i + 1}`,
@@ -20,6 +23,7 @@ describe('ProviderSearch', () => {
     });
 
     await this.visit('/eholdings/?searchType=providers');
+    await ProviderSearchPage.whenLoaded();
   });
 
   it('has a searchbox', () => {
@@ -361,7 +365,8 @@ describe('ProviderSearch', () => {
       beforeEach(async function () {
         await this.visit('/eholdings/?searchType=providers&q=health&sort=name');
         // the search pane is ending up hidden by default
-        return ProviderSearchPage.searchBadge.clickIcon();
+        await ProviderSearchPage.whenLoaded();
+        await ProviderSearchPage.searchBadge.clickIcon();
       });
 
       it('displays search field populated', () => {
@@ -384,8 +389,8 @@ describe('ProviderSearch', () => {
     });
 
     describe('clearing the search field', () => {
-      beforeEach(() => {
-        return ProviderSearchPage.clearSearch();
+      beforeEach(async () => {
+        await ProviderSearchPage.clearSearch();
       });
 
       it('has disabled search button', () => {
@@ -404,8 +409,8 @@ describe('ProviderSearch', () => {
       });
 
       describe('then adding a search term', () => {
-        beforeEach(() => {
-          return ProviderSearchPage.search('health');
+        beforeEach(async () => {
+          await ProviderSearchPage.search('health');
         });
 
         it('should apply selected filter to the results', () => {

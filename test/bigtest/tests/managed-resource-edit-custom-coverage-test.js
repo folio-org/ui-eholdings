@@ -131,7 +131,7 @@ describe('ManagedResourceEditCustomCoverage', () => {
 
         describe('entering an end date before a start date', () => {
           beforeEach(async () => {
-            await ResourceEditPage.dateRangeRowList(0).fillDates('12/18/2018', '12/16/2018')
+            await ResourceEditPage.dateRangeRowList(0).fillDates('12/18/2018', '12/16/2018');
             await ResourceEditPage.clickSave();
           });
 
@@ -148,7 +148,7 @@ describe('ManagedResourceEditCustomCoverage', () => {
 
         describe('entering a date range outside of package coverage range', () => {
           beforeEach(async () => {
-            await ResourceEditPage.dateRangeRowList(0).fillDates('11/16/2018', '01/14/2019')
+            await ResourceEditPage.dateRangeRowList(0).fillDates('11/16/2018', '01/14/2019');
             await ResourceEditPage.clickSave();
           });
 
@@ -190,7 +190,7 @@ describe('ManagedResourceEditCustomCoverage', () => {
 
             describe('entering overlapping ranges', () => {
               beforeEach(async () => {
-                await ResourceEditPage.dateRangeRowList(1).fillDates('12/18/2018', '12/19/2018')
+                await ResourceEditPage.dateRangeRowList(1).fillDates('12/18/2018', '12/19/2018');
                 await ResourceEditPage.clickSave();
               });
 
