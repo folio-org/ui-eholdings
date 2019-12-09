@@ -327,5 +327,6 @@
     "search.searchByTagsOnly": "بحث بواسطة الوسوم فقط",
     "filter.togglePane": "تبديل لوحة المنقحات",
     "search.enterYourSearch": "قم بإدخال بحثك",
-    "search.selectFieldToSearch": "اختر حقل للبحث"
+    "search.selectFieldToSearch": "اختر حقل للبحث",
+    "tags.filter": "منقح الوسوم"
 }

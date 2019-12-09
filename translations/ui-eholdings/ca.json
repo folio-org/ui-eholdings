@@ -327,5 +327,6 @@
     "search.searchByTagsOnly": "Search by tags only",
     "filter.togglePane": "Toggle filters pane",
     "search.enterYourSearch": "Enter your search",
-    "search.selectFieldToSearch": "Select a field to search"
+    "search.selectFieldToSearch": "Select a field to search",
+    "tags.filter": "Tags filter"
 }
