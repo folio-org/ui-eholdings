@@ -1,5 +1,4 @@
 import {
-  action,
   attribute,
   blurrable,
   clickable,
@@ -9,24 +8,16 @@ import {
   value,
   isPresent
 } from '@bigtest/interactor';
-import Toast from './toast';
 
+import Toast from './toast';
 import { hasClassBeginningWith } from './helpers';
 
-@interactor class SettingsKBDropDown {
-  clickDropDownButton = clickable('button');
-}
-
-@interactor class SettingsKBDropDownMenu {
-  clickCancel = clickable('.tether-element [data-test-eholdings-settings-kb-cancel-action]');
-}
-
 @interactor class SettingsPage {
-  isLoaded = isPresent('[data-test-eholdings-settings-customerid]');
   whenLoaded() {
     return this.when(() => this.isLoaded);
   }
 
+  isLoaded = isPresent('[data-test-eholdings-settings-customerid]');
   customerId = value('[data-test-eholdings-settings-customerid] input');
   apiKey = value('[data-test-eholdings-settings-apikey] input');
   rmapiBaseUrl = value('[data-test-eholdings-settings-kb-url] select');
@@ -38,18 +29,11 @@ import { hasClassBeginningWith } from './helpers';
   customerIdFieldIsInvalid = hasClassBeginningWith('[data-test-eholdings-settings-customerid] [class*=inputGroup--]', 'hasError--');
   apiKeyFieldIsInvalid = hasClassBeginningWith('[data-test-eholdings-settings-apikey] [class*=inputGroup--]', 'hasError--');
   save = clickable('[data-test-eholdings-settings-kb-save-button]');
+  cancel = clickable('[data-test-eholdings-settings-kb-cancel-button]');
   saveButtonDisabled = property('[data-test-eholdings-settings-kb-save-button]', 'disabled');
   apiKeyInputType = attribute('[data-test-eholdings-settings-apikey] input', 'type');
 
   toast = Toast;
-
-  dropDown = new SettingsKBDropDown('[class*=paneHeaderCenterInner---] [class*=dropdown---]');
-  dropDownMenu = new SettingsKBDropDownMenu();
-  clickCancel= action(function () {
-    return this
-      .dropDown.clickDropDownButton()
-      .dropDownMenu.clickCancel();
-  });
 }
 
 export default new SettingsPage('[data-test-eholdings-settings]');
