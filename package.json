@@ -19,8 +19,7 @@
     }
   },
   "devDependencies": {
-    "@bigtest/convergence": "^1.0.0",
-    "@bigtest/interactor": "^0.9.3",
+    "@bigtest/interactor": "^0.7.2",
     "@bigtest/mirage": "^0.0.1",
     "@bigtest/mocha": "^0.5.2",
     "@bigtest/react": "^0.1.2",
