@@ -9,12 +9,12 @@ import {
   Headline,
   Icon,
   TextField,
-  Select
+  Select,
+  PaneFooter,
 } from '@folio/stripes/components';
 import SettingsDetailPane from '../settings-detail-pane';
 import { processErrors } from '../../utilities';
 import Toaster from '../../toaster';
-import PaneHeaderButton from '../../pane-header-button';
 
 const focusOnErrors = createFocusDecorator();
 
@@ -56,20 +56,60 @@ export default class SettingsKnowledgeBase extends Component {
     return Object.assign(initialValues, attributes);
   }
 
+  renderPaneFooter({ handleSubmit, invalid, pristine, reset }) {
+    const {
+      model,
+    } = this.props;
+
+    const cancelButton = (
+      <Button
+        data-test-eholdings-settings-kb-cancel-button
+        buttonStyle="default mega"
+        marginBottom0
+        disabled={model.update.isPending || pristine}
+        onClick={reset}
+      >
+        <FormattedMessage id="stripes-components.cancel" />
+      </Button>
+    );
+
+    const saveButton = (
+      <Button
+        buttonStyle="primary mega"
+        data-test-eholdings-settings-kb-save-button
+        disabled={model.update.isPending || invalid || pristine}
+        marginBottom0
+        onClick={handleSubmit}
+        type="submit"
+      >
+        <FormattedMessage id="stripes-components.saveAndClose" />
+      </Button>
+    );
+
+    return (
+      <PaneFooter
+        renderStart={cancelButton}
+        renderEnd={saveButton}
+      />
+    );
+  }
+
   render() {
     const {
       model,
-      onSubmit
+      onSubmit,
     } = this.props;
 
     const { router } = this.context;
 
     const toasts = processErrors(model);
 
-    if (router.history.action === 'PUSH' &&
-        router.history.location.state &&
-        router.history.location.state.isFreshlySaved &&
-        model.update.isResolved) {
+    if (
+      router.history.action === 'PUSH' &&
+      router.history.location.state &&
+      router.history.location.state.isFreshlySaved &&
+      model.update.isResolved
+    ) {
       toasts.push({
         id: `settings-kb-${model.update.timestamp}`,
         message: <FormattedMessage id="ui-eholdings.settings.kb.updated" />,
@@ -84,38 +124,12 @@ export default class SettingsKnowledgeBase extends Component {
         decorators={[focusOnErrors]}
         render={({ form: { reset }, handleSubmit, invalid, pristine }) => (
           <SettingsDetailPane
+            id="knowledge-base-form"
             data-test-eholdings-settings
             onSubmit={handleSubmit}
             tagName="form"
             paneTitle={<FormattedMessage id="ui-eholdings.settings.kb" />}
-            actionMenu={() => (
-              <Button
-                data-test-eholdings-settings-kb-cancel-action
-                buttonStyle="dropdownItem fullWidth"
-                disabled={model.update.isPending || pristine}
-                onClick={reset}
-              >
-                <FormattedMessage id="ui-eholdings.actionMenu.cancelEditing" />
-              </Button>
-            )}
-            lastMenu={(
-              <Fragment>
-                {model.update.isPending && (
-                  <Icon icon="spinner-ellipsis" />
-                )}
-                <PaneHeaderButton
-                  disabled={model.update.isPending || invalid || pristine}
-                  type="submit"
-                  buttonStyle="primary"
-                  data-test-eholdings-settings-kb-save-button
-                >
-                  {model.update.isPending ?
-                    (<FormattedMessage id="ui-eholdings.saving" />)
-                    :
-                    (<FormattedMessage id="ui-eholdings.save" />)}
-                </PaneHeaderButton>
-              </Fragment>
-            )}
+            footer={this.renderPaneFooter({ handleSubmit, invalid, pristine, reset })}
           >
             <Toaster toasts={toasts} position="bottom" />
 

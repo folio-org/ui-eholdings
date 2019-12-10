@@ -1,10 +1,11 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import {
-  PaneCloseLink,
-  Pane,
-} from '@folio/stripes/components';
 import { FormattedMessage } from 'react-intl';
+
+import {
+  Pane,
+  PaneCloseLink,
+} from '@folio/stripes/components';
 
 class SettingsDetailPane extends Component {
   static propTypes = {

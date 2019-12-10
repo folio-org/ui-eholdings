@@ -5,7 +5,8 @@ import createFocusDecorator from 'final-form-focus';
 import {
   Button,
   Headline,
-  Icon
+  Icon,
+  PaneFooter,
 } from '@folio/stripes/components';
 import { FormattedMessage } from 'react-intl';
 
@@ -13,7 +14,6 @@ import SettingsDetailPane from '../settings-detail-pane';
 import { processErrors } from '../../utilities';
 import Toaster from '../../toaster';
 import RootProxySelectField from './_fields/root-proxy-select';
-import PaneHeaderButton from '../../pane-header-button';
 
 const focusOnErrors = createFocusDecorator();
 
@@ -24,6 +24,44 @@ export default class SettingsRootProxy extends Component {
     proxyTypes: PropTypes.object.isRequired,
     rootProxy: PropTypes.object.isRequired
   };
+
+  renderPaneFooter({ handleSubmit, invalid, pristine, reset }) {
+    const {
+      rootProxy,
+    } = this.props;
+
+    const cancelButton = (
+      <Button
+        data-test-eholdings-settings-root-proxy-cancel-button
+        buttonStyle="default mega"
+        disabled={rootProxy.update.isPending || pristine}
+        onClick={reset}
+        marginBottom0
+      >
+        <FormattedMessage id="stripes-components.cancel" />
+      </Button>
+    );
+
+    const saveButton = (
+      <Button
+        buttonStyle="primary mega"
+        data-test-eholdings-settings-root-proxy-save-button
+        disabled={rootProxy.update.isPending || invalid || pristine}
+        marginBottom0
+        onClick={handleSubmit}
+        type="submit"
+      >
+        <FormattedMessage id="stripes-components.saveAndClose" />
+      </Button>
+    );
+
+    return (
+      <PaneFooter
+        renderStart={cancelButton}
+        renderEnd={saveButton}
+      />
+    );
+  }
 
   render() {
     const {
@@ -52,37 +90,11 @@ export default class SettingsRootProxy extends Component {
         render={({ form: { reset }, handleSubmit, invalid, pristine }) => (
           <SettingsDetailPane
             data-test-eholdings-settings-root-proxy
+            id="root-proxy-form"
             onSubmit={handleSubmit}
             tagName="form"
             paneTitle={<FormattedMessage id="ui-eholdings.settings.rootProxy" />}
-            actionMenu={() => (
-              <Button
-                data-test-eholdings-settings-root-proxy-cancel-action
-                buttonStyle="dropdownItem fullWidth"
-                disabled={rootProxy.update.isPending || pristine}
-                onClick={reset}
-              >
-                <FormattedMessage id="ui-eholdings.actionMenu.cancelEditing" />
-              </Button>
-            )}
-            lastMenu={(
-              <Fragment>
-                {rootProxy.update.isPending && (
-                  <Icon icon="spinner-ellipsis" />
-                )}
-                <PaneHeaderButton
-                  disabled={rootProxy.update.isPending || invalid || pristine}
-                  type="submit"
-                  buttonStyle="primary"
-                  data-test-eholdings-settings-root-proxy-save-button
-                >
-                  {rootProxy.update.isPending ?
-                    (<FormattedMessage id="ui-eholdings.saving" />)
-                    :
-                    (<FormattedMessage id="ui-eholdings.save" />)}
-                </PaneHeaderButton>
-              </Fragment>
-            )}
+            footer={this.renderPaneFooter({ handleSubmit, invalid, pristine, reset })}
           >
             <Toaster toasts={toasts} position="bottom" />
 
