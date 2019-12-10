@@ -16,7 +16,7 @@ import {
 }
 
 @interactor class TitleCreateDropDownMenu {
-  clickCancel = clickable('.tether-element [data-test-eholdings-title-create-cancel-action]');
+  clickCancel = clickable('[data-test-eholdings-title-create-cancel-action]');
 }
 
 @interactor class TitleCreatePage {

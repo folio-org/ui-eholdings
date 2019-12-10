@@ -14,7 +14,7 @@ import Toast from './toast';
 }
 
 @interactor class SettingsRootProxyDropDownMenu {
-  clickCancel = clickable('.tether-element [data-test-eholdings-settings-root-proxy-cancel-action]');
+  clickCancel = clickable('[data-test-eholdings-settings-root-proxy-cancel-action]');
 }
 
 @interactor class SettingsRootProxyPage {

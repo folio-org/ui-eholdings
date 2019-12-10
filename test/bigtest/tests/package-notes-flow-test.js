@@ -185,6 +185,7 @@ describe('Package view', function () {
           describe('and save button was clicked', () => {
             beforeEach(async () => {
               await noteForm.saveButton.click();
+              await notesAccordion.whenPackageNotesAccordionLoaded();
             });
 
             it('should redirect to previous page', function () {
@@ -267,6 +268,7 @@ describe('Package view', function () {
         await notesModal.selectUnassignedFilter();
         await notesModal.notes(0).clickCheckbox();
         await notesModal.clickSaveButton();
+        await notesAccordion.whenPackageNotesAccordionLoaded();
       });
 
       it('should close notes modal', () => {

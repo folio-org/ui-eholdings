@@ -27,8 +27,8 @@ import {
   });
 
   async performSearch(query) {
-    await this.focusSearchQuery();
     await this.enterSearchQuery(query);
+    
     await this.blurSearchInput();
 
     return this;

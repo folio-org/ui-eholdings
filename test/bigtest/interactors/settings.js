@@ -19,7 +19,7 @@ import { hasClassBeginningWith } from './helpers';
 }
 
 @interactor class SettingsKBDropDownMenu {
-  clickCancel = clickable('.tether-element [data-test-eholdings-settings-kb-cancel-action]');
+  clickCancel = clickable('[data-test-eholdings-settings-kb-cancel-action]');
 }
 
 @interactor class SettingsPage {

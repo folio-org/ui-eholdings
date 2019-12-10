@@ -186,6 +186,7 @@ describe('Resource view', function () {
           describe('and save button was clicked', () => {
             beforeEach(async () => {
               await noteForm.saveButton.click();
+              await notesAccordion.whenResourceNotesAccordionLoaded();
             });
 
             it('should redirect to previous page', function () {
@@ -251,23 +252,19 @@ describe('Resource view', function () {
             expect(notesModal.notes(1).checkboxIsSelected).to.be.false;
           });
 
-          describe('and the first note in the list was checked', () => {
+          describe('and the first note in the list was checked and save button was clicked', () => {
             beforeEach(async () => {
               await notesModal.notes(0).clickCheckbox();
+              await notesModal.clickSaveButton();
+              await notesAccordion.whenResourceNotesAccordionLoaded();
             });
 
-            describe('and save button was clicked', () => {
-              beforeEach(async () => {
-                await notesModal.clickSaveButton();
-              });
+            it('should close notes modal', () => {
+              expect(notesModal.isDisplayed).to.be.false;
+            });
 
-              it('should close notes modal', () => {
-                expect(notesModal.isDisplayed).to.be.false;
-              });
-
-              it('notes accordion should contain 2 notes', () => {
-                expect(notesAccordion.notes().length).to.equal(2);
-              });
+            it('notes accordion should contain 2 notes', () => {
+              expect(notesAccordion.notes().length).to.equal(2);
             });
           });
         });

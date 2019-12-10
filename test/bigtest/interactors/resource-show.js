@@ -27,8 +27,8 @@ import Toast from './toast';
 }
 
 @interactor class ResourceShowDropDownMenu {
-  clickRemoveFromHoldings = clickable('.tether-element [data-test-eholdings-remove-resource-from-holdings]');
-  clickAddToHoldings = clickable('.tether-element [data-test-eholdings-add-resource-to-holdings]');
+  clickRemoveFromHoldings = clickable('[data-test-eholdings-remove-resource-from-holdings]');
+  clickAddToHoldings = clickable('[data-test-eholdings-add-resource-to-holdings]');
 }
 
 @interactor class ResourceShowNavigationModal {}
