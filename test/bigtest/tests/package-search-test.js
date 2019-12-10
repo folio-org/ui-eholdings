@@ -11,7 +11,7 @@ describe('PackageSearch', function () {
   let pkgs;
   // some of the beforeEach blocks seem to timeout in CI
   this.timeout(5000);
-  
+
   beforeEach(async function () {
     pkgs = await this.server.createList('package', 3, 'withProvider', 'withTitles', {
       name: i => `Package${i + 1}`,
@@ -402,8 +402,8 @@ describe('PackageSearch', function () {
       });
     });
   });
-  
-  //TODO move test out as the previous visit without query params break the test
+
+  // TODO move test out as the previous visit without query params break the test
   describe.skip('visiting the page with an existing filter', () => {
     beforeEach(function () {
       this.visit('/eholdings?searchType=packages&q=Package&filter[type]=ejournal');
@@ -457,7 +457,7 @@ describe('PackageSearch', function () {
         expect(PackageSearchPage.tagsSection.tagsCheckboxIsChecked).to.be.true;
       });
 
-      // TODO move the test out to avoid nested visits 
+      // TODO move the test out to avoid nested visits
       it.skip('should display selected value as urgent', () => {
         expect(PackageSearchPage.tagsSection.tagsSelect.values(0).valLabel).to.equal('urgent');
       });
@@ -602,7 +602,7 @@ describe('PackageSearch', function () {
       });
     });
 
-    //TODO move test up to avoid nested visits
+    // TODO move test up to avoid nested visits
     describe.skip('visiting the page with an existing sort', () => {
       beforeEach(async function () {
         await this.visit('/eholdings/?searchType=packages&q=academic&sort=name');

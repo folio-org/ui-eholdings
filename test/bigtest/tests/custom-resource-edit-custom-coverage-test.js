@@ -10,7 +10,7 @@ import ResourcePage from '../interactors/resource-show';
 describe('CustomResourceEditCustomCoverage', function () {
   setupApplication();
   // some of the beforeEach blocks seem to timeout in CI
-   this.timeout(5000);
+  this.timeout(5000);
   let pkg,
     title,
     resource;

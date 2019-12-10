@@ -480,7 +480,7 @@ describe('TitleSearch', function () {
     });
   });
 
-  //TODO move the test up to avoid nested visits
+  // TODO move the test up to avoid nested visits
   describe.skip('visiting the page with an existing search field', () => {
     beforeEach(async function () {
       await this.visit('/eholdings/?searchType=titles&q=TestPublisher&searchfield=publisher');
@@ -499,7 +499,7 @@ describe('TitleSearch', function () {
     });
   });
 
-  //TODO move up to avoid nested visits
+  // TODO move up to avoid nested visits
   describe.skip('visiting the page with an existing type filter', () => {
     beforeEach(async function () {
       await this.visit('/eholdings/?searchType=titles&q=Title&filter[type]=journal');
@@ -519,8 +519,8 @@ describe('TitleSearch', function () {
       expect(TitleSearchPage.isSearchVignetteHidden).to.equal(false);
     });
   });
-  
-  //TODO move up to avoid nested visits
+
+  // TODO move up to avoid nested visits
   describe.skip('visiting the page with an existing selection filter', () => {
     beforeEach(async function () {
       await this.visit('/eholdings/?searchType=titles&q=Title&filter[selected]=false');
@@ -539,8 +539,8 @@ describe('TitleSearch', function () {
       expect(TitleSearchPage.isSearchVignetteHidden).to.equal(false);
     });
   });
-  
-  //Move up to avoid nested visits
+
+  // Move up to avoid nested visits
   describe.skip('visiting the page with an existing tags filter', () => {
     beforeEach(async function () {
       await this.visit('/eholdings?searchType=titles&filter[tags]=urgent');
@@ -716,8 +716,8 @@ describe('TitleSearch', function () {
         });
       });
     });
-    
-    //TODO move up to avoid nested visits 
+
+    // TODO move up to avoid nested visits
     describe.skip('when visiting the page with an existing sort', () => {
       beforeEach(async function () {
         await this.visit('/eholdings/?searchType=titles&q=football&sort=name');

@@ -360,7 +360,7 @@ describe('ProviderSearch', function () {
       });
     });
 
-    //TODO move the test up to avoid nested visits
+    // TODO move the test up to avoid nested visits
     describe.skip('visiting the page with an existing sort', () => {
       beforeEach(async function () {
         await this.visit('/eholdings/?searchType=providers&q=health&sort=name');
@@ -571,7 +571,7 @@ describe('ProviderSearch', function () {
     });
   });
 
-  //Move up to avoid nested visits
+  // Move up to avoid nested visits
   describe.skip('visiting the page with an existing tags filter', () => {
     beforeEach(async function () {
       const allTags = ['urgent', 'not urgent'];
