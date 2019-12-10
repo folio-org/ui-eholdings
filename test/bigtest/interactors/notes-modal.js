@@ -28,12 +28,10 @@ import {
 
   async performSearch(query) {
     await this.enterSearchQuery(query);
-    
     await this.blurSearchInput();
 
     return this;
   }
 }
-
 
 export default NotesModal;

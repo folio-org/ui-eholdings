@@ -48,11 +48,10 @@
     "webpack": "^4.0.0"
   },
   "dependencies": {
-    "@bigtest/convergence": "^1.1.2",
     "classnames": "^2.2.5",
     "final-form": "4.18.2",
     "final-form-arrays": "3.0.1",
-    "final-form-calculate": "^1.3.1",
+    "final-form-calculate": "§1.3.1",
     "final-form-focus": "1.1.2",
     "funcadelic": "^0.5.4",
     "impagination": "^1.0.0-alpha.3",
