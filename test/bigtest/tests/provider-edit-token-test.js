@@ -46,8 +46,8 @@ describe('ProviderEditToken', function () {
     });
 
     describe('clicking cancel', () => {
-      beforeEach(() => {
-        return ProviderEditPage.clickCancel();
+      beforeEach(async () => {
+        await ProviderEditPage.clickCancel();
       });
 
       it('goes to the provider show page', () => {
@@ -56,8 +56,8 @@ describe('ProviderEditToken', function () {
     });
 
     describe('choosing another value for token', () => {
-      beforeEach(() => {
-        return ProviderEditPage.inputProviderTokenValue('test-token');
+      beforeEach(async () => {
+        await ProviderEditPage.inputProviderTokenValue('test-token');
       });
 
       it('should enable save action button', () => {
@@ -65,8 +65,8 @@ describe('ProviderEditToken', function () {
       });
 
       describe('clicking save to update token value', () => {
-        beforeEach(() => {
-          return ProviderEditPage.clickSave();
+        beforeEach(async () => {
+          await ProviderEditPage.clickSave();
         });
 
         it('disables the save button', () => {
@@ -109,8 +109,8 @@ describe('ProviderEditToken', function () {
     });
 
     describe('clicking add token button', () => {
-      beforeEach(() => {
-        return ProviderEditPage.clickAddProviderTokenButton();
+      beforeEach(async () => {
+        await ProviderEditPage.clickAddProviderTokenButton();
       });
 
       it('has token help text', () => {

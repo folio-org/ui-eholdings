@@ -14,26 +14,26 @@ describe('CustomResourceEditVisibility', function () {
     title,
     resource;
 
-  beforeEach(function () {
-    provider = this.server.create('provider', {
+  beforeEach(async function () {
+    provider = await this.server.create('provider', {
       name: 'Cool Provider'
     });
 
-    providerPackage = this.server.create('package', 'withTitles', {
+    providerPackage = await this.server.create('package', 'withTitles', {
       provider,
       name: 'Star Wars Custom Package',
       contentType: 'Online',
       isCustom: true
     });
 
-    title = this.server.create('title', {
+    title = await this.server.create('title', {
       name: 'Hans Solo Director Cut',
       publicationType: 'Streaming Video',
       publisherName: 'Amazing Publisher',
       isTitleCustom: true
     });
 
-    title.save();
+    await title.save();
   });
 
   describe('visiting the resource edit page and hiding a resource', () => {
@@ -45,6 +45,7 @@ describe('CustomResourceEditVisibility', function () {
       });
 
       await this.visit(`/eholdings/resources/${resource.id}/edit`);
+      await ResourceEditPage.whenLoaded();
     });
 
     it('displays the yes visibility radio is selected', () => {
@@ -76,13 +77,13 @@ describe('CustomResourceEditVisibility', function () {
       });
 
       describe('toggling the visibility toggle', () => {
-        beforeEach(() => {
-          return ResourceEditPage.toggleIsVisible();
+        beforeEach(async () => {
+          await ResourceEditPage.toggleIsVisible();
         });
 
         describe('clicking cancel', () => {
-          beforeEach(() => {
-            return ResourceEditPage.clickCancel();
+          beforeEach(async () => {
+            await ResourceEditPage.clickCancel();
           });
 
           it('shows a navigation confirmation modal', () => {
@@ -137,8 +138,8 @@ describe('CustomResourceEditVisibility', function () {
       });
 
       describe('toggling the visibility toggle', () => {
-        beforeEach(() => {
-          return ResourceEditPage.toggleIsVisible();
+        beforeEach(async () => {
+          await ResourceEditPage.toggleIsVisible();
         });
 
         describe('clicking save', () => {

@@ -52,8 +52,8 @@ describe('ProviderSearch', function () {
 
 
   describe('searching for a provider', () => {
-    beforeEach(() => {
-      return ProviderSearchPage.search('Provider');
+    beforeEach(async () => {
+      await ProviderSearchPage.search('Provider');
     });
 
     it('removes the pre-results pane', () => {
@@ -89,8 +89,8 @@ describe('ProviderSearch', function () {
     });
 
     describe('clicking a search results list item', () => {
-      beforeEach(() => {
-        return ProviderSearchPage.providerList(0).clickThrough();
+      beforeEach(async () => {
+        await ProviderSearchPage.providerList(0).clickThrough();
       });
 
       it('clicked item has an active state', () => {
@@ -110,8 +110,8 @@ describe('ProviderSearch', function () {
       });
 
       describe('conducting a new search', () => {
-        beforeEach(() => {
-          return ProviderSearchPage.search('Totally Awesome Co');
+        beforeEach(async () => {
+          await ProviderSearchPage.search('Totally Awesome Co');
         });
 
         it('displays the total number of search results', () => {
@@ -141,8 +141,8 @@ describe('ProviderSearch', function () {
       });
 
       describe('clicking the close button on the preview pane', () => {
-        beforeEach(() => {
-          return ProviderSearchPage.clickCloseButton();
+        beforeEach(async () => {
+          await ProviderSearchPage.clickCloseButton();
         });
 
         it('hides the preview pane', () => {
@@ -164,8 +164,8 @@ describe('ProviderSearch', function () {
       });
 
       describe('clicking an item within the preview pane', () => {
-        beforeEach(() => {
-          return ProviderSearchPage.providerPackageList(0).clickToPackage();
+        beforeEach(async () => {
+          await ProviderSearchPage.providerPackageList(0).clickToPackage();
         });
 
         it('hides the search UI', () => {
@@ -177,8 +177,8 @@ describe('ProviderSearch', function () {
         });
 
         describe('and clicking the back button', () => {
-          beforeEach(() => {
-            return PackageShowPage.clickBackButton();
+          beforeEach(async () => {
+            await PackageShowPage.clickBackButton();
           });
 
           it('displays the original search', () => {
@@ -197,8 +197,8 @@ describe('ProviderSearch', function () {
     });
 
     describe('filtering the search results further', () => {
-      beforeEach(() => {
-        return ProviderSearchPage.search('Provider1');
+      beforeEach(async () => {
+        await ProviderSearchPage.search('Provider1');
       });
 
       it('only shows a single result', () => {
@@ -207,10 +207,9 @@ describe('ProviderSearch', function () {
     });
 
     describe('clicking another search type', () => {
-      beforeEach(() => {
-        return ProviderSearchPage
-          .providerList(0).clickThrough()
-          .changeSearchType('packages');
+      beforeEach(async () => {
+        await ProviderSearchPage.providerList(0).clickThrough();
+        await ProviderSearchPage.changeSearchType('packages');
       });
 
       it('only shows one search type as selected', () => {
@@ -230,8 +229,8 @@ describe('ProviderSearch', function () {
       });
 
       describe('navigating back to providers search', () => {
-        beforeEach(() => {
-          return ProviderSearchPage.changeSearchType('providers');
+        beforeEach(async () => {
+          await ProviderSearchPage.changeSearchType('providers');
         });
 
         it('displays the original search', () => {
@@ -250,20 +249,20 @@ describe('ProviderSearch', function () {
   });
 
   describe('sorting providers', () => {
-    beforeEach(function () {
-      this.server.create('provider', {
+    beforeEach(async function () {
+      await this.server.create('provider', {
         name: 'Health Associations'
       });
-      this.server.create('provider', {
+      await this.server.create('provider', {
         name: 'Analytics for everyone'
       });
-      this.server.create('provider', {
+      await this.server.create('provider', {
         name: 'Non Matching'
       });
-      this.server.create('provider', {
+      await this.server.create('provider', {
         name: 'My Health Analytics 2'
       });
-      this.server.create('provider', {
+      await this.server.create('provider', {
         name: 'My Health Analytics 10'
       });
     });
@@ -422,37 +421,37 @@ describe('ProviderSearch', function () {
   });
 
   describe('filtering providers by tags', () => {
-    beforeEach(function () {
+    beforeEach(async function () {
       const allTags = ['urgent', 'not urgent'];
 
-      const urgentTag = this.server.create('tags', {
+      const urgentTag = await this.server.create('tags', {
         tagList: allTags.slice(0)
       }).toJSON();
 
-      this.server.create('provider', {
+      await this.server.create('provider', {
         name: 'Test Urgent Tag',
         tags: urgentTag
       });
 
-      const notUrgentTag = this.server.create('tags', {
+      const notUrgentTag = await this.server.create('tags', {
         tagList: allTags.slice(1),
       }).toJSON();
 
-      this.server.create('provider', {
+      await this.server.create('provider', {
         name: 'Test Not Urgent Tag',
         tags: notUrgentTag
       });
 
-      const bothTags = this.server.create('tags', {
+      const bothTags = await this.server.create('tags', {
         tagList: allTags,
       }).toJSON();
 
-      this.server.create('provider', {
+      await this.server.create('provider', {
         name: 'Test Both Tags',
         tags: bothTags
       });
 
-      this.server.create('provider', {
+      await this.server.create('provider', {
         name: 'Test No Tags'
       });
     });
@@ -628,8 +627,8 @@ describe('ProviderSearch', function () {
     });
 
     describe('searching for providers', () => {
-      beforeEach(() => {
-        return ProviderSearchPage.search('other');
+      beforeEach(async () => {
+        await ProviderSearchPage.search('other');
       });
 
       it('shows the first page of results', () => {
@@ -637,8 +636,8 @@ describe('ProviderSearch', function () {
       });
 
       describe('and then scrolling down', () => {
-        beforeEach(() => {
-          return ProviderSearchPage
+        beforeEach(async () => {
+          await ProviderSearchPage
             .when(() => ProviderSearchPage.hasLoaded)
             .do(() => ProviderSearchPage.scrollToOffset(26));
         });
@@ -658,6 +657,7 @@ describe('ProviderSearch', function () {
     describe('navigating directly to a search page', () => {
       beforeEach(async function () {
         await this.visit('/eholdings/?searchType=providers&offset=51&q=other');
+        await ProviderSearchPage.whenLoaded();
       });
 
       it('should show the search results for that page', () => {
@@ -670,8 +670,8 @@ describe('ProviderSearch', function () {
       });
 
       describe('and then scrolling up', () => {
-        beforeEach(() => {
-          return ProviderSearchPage.scrollToOffset(0);
+        beforeEach(async () => {
+          await ProviderSearchPage.scrollToOffset(0);
         });
 
         it('shows the total results', () => {
@@ -690,8 +690,8 @@ describe('ProviderSearch', function () {
   });
 
   describe("searching for the provider 'fhqwhgads'", () => {
-    beforeEach(() => {
-      return ProviderSearchPage.search('fhqwhgads');
+    beforeEach(async () => {
+      await ProviderSearchPage.search('fhqwhgads');
     });
 
     it("displays 'no results' message", () => {
@@ -700,14 +700,14 @@ describe('ProviderSearch', function () {
   });
 
   describe('encountering a server error', () => {
-    beforeEach(function () {
-      this.server.get('/providers', {
+    beforeEach(async function () {
+      await this.server.get('/providers', {
         errors: [{
           title: 'There was an error'
         }]
       }, 500);
 
-      return ProviderSearchPage.search("this doesn't matter");
+      await ProviderSearchPage.search("this doesn't matter");
     });
 
     it('shows an error', () => {

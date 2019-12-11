@@ -13,8 +13,8 @@ describe('ManagedPackageEditAllowKbToAddTitles', function () {
   let provider,
     providerPackage;
 
-  beforeEach(function () {
-    provider = this.server.create('provider', {
+  beforeEach(async function () {
+    provider = await this.server.create('provider', {
       name: 'Cool Provider'
     });
   });
@@ -167,8 +167,8 @@ describe('ManagedPackageEditAllowKbToAddTitles', function () {
     });
 
     describe('toggling the selected toggle', () => {
-      beforeEach(() => {
-        return PackageEditPage.clickAddButton();
+      beforeEach(async () => {
+        await PackageEditPage.clickAddButton();
       });
 
       it('reflects the desired state (Selected)', () => {

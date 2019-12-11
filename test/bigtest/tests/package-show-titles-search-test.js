@@ -203,6 +203,7 @@ describe('Package Show Title Search', function () {
       describe('after click on tags accordion header', () => {
         beforeEach(async () => {
           await PackageShowPage.searchModal.tagsSection.clickTagHeader();
+          await PackageShowPage.when(() => PackageShowPage.searchModal.tagsSection.tagsSelect.isPresent);
         });
 
         it('should expand the accordion', () => {
@@ -308,8 +309,8 @@ describe('Package Show Title Search', function () {
       await PackageShowPage.whenLoaded();
     });
     describe('when no sort options are chosen by user', () => {
-      beforeEach(() => {
-        return PackageShowPage.clickListSearch();
+      beforeEach(async () => {
+        await PackageShowPage.clickListSearch();
       });
       describe('search form', () => {
         it('should show "relevance" sort option as the default', () => {

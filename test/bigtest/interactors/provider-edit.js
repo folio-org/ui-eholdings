@@ -5,7 +5,6 @@ import {
   property,
   value,
   fillable,
-  focusable,
   blurrable,
   text,
   is,
@@ -56,13 +55,11 @@ import Toast from './toast';
   providerTokenValue = text('[data-test-eholdings-token-value-textarea="provider"]');
   hasAddProviderTokenBtn = isPresent('[data-test-eholdings-token-add-button="provider"]');
   clickAddProviderTokenButton = clickable('[data-test-eholdings-token-add-button="provider"] button');
-  focusProviderTokenValue = focusable('[data-test-eholdings-token-value-textarea="provider"] textarea');
   fillProviderTokenValue = fillable('[data-test-eholdings-token-value-textarea="provider"] textarea');
   blurProviderTokenValue = blurrable('[data-test-eholdings-token-value-textarea="provider"] textarea');
 
   inputProviderTokenValue = action(function (tokenValue) {
     return this
-      .focusProviderTokenValue()
       .fillProviderTokenValue(tokenValue)
       .blurProviderTokenValue();
   });

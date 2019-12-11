@@ -47,8 +47,8 @@ describe('ProviderEdit', () => {
     });
 
     describe('clicking cancel', () => {
-      beforeEach(() => {
-        return ProviderEditPage.clickCancel();
+      beforeEach(async () => {
+        await ProviderEditPage.clickCancel();
       });
 
       it('goes to the provider show page', () => {
@@ -57,8 +57,8 @@ describe('ProviderEdit', () => {
     });
 
     describe('choosing another root proxy from select', () => {
-      beforeEach(() => {
-        return ProviderEditPage.chooseRootProxy('Inherited - bigTestJS');
+      beforeEach(async () => {
+        await ProviderEditPage.chooseRootProxy('Inherited - bigTestJS');
       });
 
       it('should enable save action button', () => {
@@ -66,8 +66,8 @@ describe('ProviderEdit', () => {
       });
 
       describe('clicking save to update Root Proxy', () => {
-        beforeEach(() => {
-          return ProviderEditPage.clickSave();
+        beforeEach(async () => {
+          await ProviderEditPage.clickSave();
         });
 
         it('disables the save button', () => {
@@ -89,8 +89,8 @@ describe('ProviderEdit', () => {
       });
 
       describe('clicking cancel', () => {
-        beforeEach(() => {
-          return ProviderEditPage.clickCancel();
+        beforeEach(async () => {
+          await ProviderEditPage.clickCancel();
         });
 
         it('shows a navigation confirmation modal', () => {
@@ -111,8 +111,8 @@ describe('ProviderEdit', () => {
     });
 
     describe('entering valid data and clicking save', () => {
-      beforeEach(() => {
-        return ProviderEditPage
+      beforeEach(async () => {
+        await ProviderEditPage
           .chooseRootProxy('Inherited - bigTestJS')
           .clickSave();
       });

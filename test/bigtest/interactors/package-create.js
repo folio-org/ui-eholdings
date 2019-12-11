@@ -44,10 +44,11 @@ import Datepicker from './datepicker';
 
   dropDown = new PackageCreateDropDown('[class*=paneHeaderCenterInner---] [class*=dropdown---]');
   dropDownMenu = new PackageCreateDropDownMenu();
-  cancel= action(function () {
-    return this
-      .dropDown.clickDropDownButton()
-      .dropDownMenu.clickCancel();
+  cancel= action(async function () {
+    await this.dropDown.clickDropDownButton();
+    await this.dropDownMenu.clickCancel();
+
+    return this;
   });
 }
 

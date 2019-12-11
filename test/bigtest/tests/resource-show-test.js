@@ -12,27 +12,27 @@ describe('ResourceShow', () => {
   let providerPackage;
   let resource;
 
-  beforeEach(function () {
-    provider = this.server.create('provider', {
+  beforeEach(async function () {
+    provider = await this.server.create('provider', {
       name: 'Cool Provider'
     });
 
-    providerPackage = this.server.create('package', 'withTitles', {
+    providerPackage = await this.server.create('package', 'withTitles', {
       provider,
       name: 'Cool Package',
       contentType: 'E-Book',
       titleCount: 5
     });
 
-    const packageProxy = this.server.create('proxy', {
+    const packageProxy = await this.server.create('proxy', {
       inherited: true,
       id: 'microstates'
     });
 
-    providerPackage.update('proxy', packageProxy.toJSON());
-    providerPackage.save();
+    await providerPackage.update('proxy', packageProxy.toJSON());
+    await providerPackage.save();
 
-    const title = this.server.create('title', {
+    const title = await this.server.create('title', {
       name: 'Best Title Ever',
       edition: 'Best Edition',
       publicationType: 'Streaming Video',
@@ -40,27 +40,27 @@ describe('ResourceShow', () => {
     });
 
     title.identifiers = [
-      this.server.create('identifier', { type: 'ISBN', subtype: 'Print', id: '978-0547928210' }),
-      this.server.create('identifier', { type: 'ISBN', subtype: 'Print', id: '978-0547928203' }),
-      this.server.create('identifier', { type: 'ISBN', subtype: 'Online', id: '978-0547928197' }),
-      this.server.create('identifier', { type: 'ISBN', subtype: 'Empty', id: '978-0547928227' }),
-      this.server.create('identifier', { type: 'Mid', subtype: 'someothersubtype', id: 'someothertypeofid' })
+      await this.server.create('identifier', { type: 'ISBN', subtype: 'Print', id: '978-0547928210' }),
+      await this.server.create('identifier', { type: 'ISBN', subtype: 'Print', id: '978-0547928203' }),
+      await this.server.create('identifier', { type: 'ISBN', subtype: 'Online', id: '978-0547928197' }),
+      await this.server.create('identifier', { type: 'ISBN', subtype: 'Empty', id: '978-0547928227' }),
+      await this.server.create('identifier', { type: 'Mid', subtype: 'someothersubtype', id: 'someothertypeofid' })
     ].map(m => m.toJSON());
 
     title.contributors = [
-      this.server.create('contributor', { type: 'author', contributor: 'Writer, Sally' }),
-      this.server.create('contributor', { type: 'author', contributor: 'Wordsmith, Jane' }),
-      this.server.create('contributor', { type: 'illustrator', contributor: 'Artist, John' })
+      await this.server.create('contributor', { type: 'author', contributor: 'Writer, Sally' }),
+      await this.server.create('contributor', { type: 'author', contributor: 'Wordsmith, Jane' }),
+      await this.server.create('contributor', { type: 'illustrator', contributor: 'Artist, John' })
     ].map(m => m.toJSON());
 
     title.subjects = [
-      this.server.create('subject', { type: 'TLI', subject: 'Writing' }),
-      this.server.create('subject', { type: 'TLI', subject: 'Words' }),
+      await this.server.create('subject', { type: 'TLI', subject: 'Writing' }),
+      await this.server.create('subject', { type: 'TLI', subject: 'Words' }),
     ].map(m => m.toJSON());
 
-    title.save();
+    await title.save();
 
-    resource = this.server.create('resource', {
+    resource = await this.server.create('resource', {
       package: providerPackage,
       isSelected: false,
       title,
@@ -68,17 +68,18 @@ describe('ResourceShow', () => {
       isTokenNeeded: false
     });
 
-    const proxy = this.server.create('proxy', {
+    const proxy = await this.server.create('proxy', {
       inherited: true,
       id: 'microstates'
     });
-    resource.update('proxy', proxy.toJSON());
-    resource.save();
+    await resource.update('proxy', proxy.toJSON());
+    await resource.save();
   });
 
   describe('visiting the resource page', () => {
     beforeEach(async function () {
       await this.visit(`/eholdings/resources/${resource.titleId}`);
+      await ResourcePage.whenLoaded();
     });
 
     it('displays the title name in the pane header', () => {
@@ -209,8 +210,8 @@ describe('ResourceShow', () => {
     });
 
     describe('when resource is selected', () => {
-      beforeEach(() => {
-        resource.update('isSelected', true);
+      beforeEach(async () => {
+        await resource.update('isSelected', true);
       });
 
       it('should display tags accordion', () => {
@@ -219,8 +220,8 @@ describe('ResourceShow', () => {
     });
 
     describe('when token is needed', () => {
-      beforeEach(() => {
-        resource.update('isTokenNeeded', true);
+      beforeEach(async () => {
+        await resource.update('isTokenNeeded', true);
       });
 
       it('should display "Add token" button', () => {
@@ -260,8 +261,8 @@ describe('ResourceShow', () => {
     });
 
     describe('clicking the collapse all button', () => {
-      beforeEach(() => {
-        return ResourcePage.clickCollapseAllButton();
+      beforeEach(async () => {
+        await ResourcePage.clickCollapseAllButton();
       });
 
       it('toggles the button text to expand all', () => {
@@ -270,8 +271,8 @@ describe('ResourceShow', () => {
     });
 
     describe.skip('clicking the managed url opens link in new tab', () => {
-      beforeEach(() => {
-        ResourcePage.clickManagedURL();
+      beforeEach(async () => {
+        await ResourcePage.clickManagedURL();
       });
 
       it('opens in new tab', () => {
@@ -412,6 +413,7 @@ describe('ResourceShow', () => {
       });
 
       await this.visit(`/eholdings/resources/${resource.id}`);
+      await ResourcePage.whenLoaded();
     });
 
     it('displays the title name', () => {

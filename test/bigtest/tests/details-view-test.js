@@ -14,6 +14,7 @@ describe('DetailsView', () => {
   describe('visiting a package with paged resources', () => {
     beforeEach(async function () {
       await this.visit('/eholdings/packages/paged_pkg');
+      await PackageShowPage.whenLoaded();
     });
 
     it('has a list that fills the container', () => {
@@ -30,8 +31,8 @@ describe('DetailsView', () => {
       });
 
       describe('to the bottom of the container', () => {
-        beforeEach(() => {
-          return PackageShowPage
+        beforeEach(async () => {
+          await PackageShowPage
             .detailsPaneScrollTop(PackageShowPage.detailsPaneContentScrollHeight);
         });
 
@@ -44,8 +45,8 @@ describe('DetailsView', () => {
         });
 
         describe('up to the top of the list', () => {
-          beforeEach(() => {
-            return PackageShowPage.scrollToTitleOffset(0);
+          beforeEach(async () => {
+            await PackageShowPage.scrollToTitleOffset(0);
           });
 
           it('enables scrolling the container', () => {
@@ -58,8 +59,8 @@ describe('DetailsView', () => {
         });
 
         describe('part of the way up the title list', () => {
-          beforeEach(() => {
-            return PackageShowPage.scrollToTitleOffset(10);
+          beforeEach(async () => {
+            await PackageShowPage.scrollToTitleOffset(10);
           });
 
           it('disables scrolling the container', () => {
@@ -72,8 +73,8 @@ describe('DetailsView', () => {
         });
 
         describe('up with the mousewheel to the top of the title list', () => {
-          beforeEach(() => {
-            return PackageShowPage.detailPaneMouseWheel();
+          beforeEach(async () => {
+            await PackageShowPage.detailPaneMouseWheel();
           });
 
           it('enables scrolling the container', () => {
@@ -92,6 +93,7 @@ describe('DetailsView', () => {
         const title = await this.server.create('title');
 
         await this.visit(`/eholdings/titles/${title.id}`);
+        await TitleShowPage.whenLoaded();
       });
 
       it('has a list that does not fill the container', () => {
@@ -100,7 +102,6 @@ describe('DetailsView', () => {
 
       describe('scrolling to the bottom of the container', () => {
         beforeEach(async () => {
-          await TitleShowPage.whenLoaded();
           await TitleShowPage.detailsPaneScrollTop(TitleShowPage.detailsPaneScrollsHeight);
         });
 

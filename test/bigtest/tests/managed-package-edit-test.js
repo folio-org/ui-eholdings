@@ -12,12 +12,12 @@ describe('ManagedPackageEdit', function () {
   let provider,
     providerPackage;
 
-  beforeEach(function () {
-    provider = this.server.create('provider', {
+  beforeEach(async function () {
+    provider = await this.server.create('provider', {
       name: 'Cool Provider'
     });
 
-    providerPackage = this.server.create('package', {
+    providerPackage = await this.server.create('package', {
       provider,
       name: 'Cool Package',
       contentType: 'E-Book',
@@ -41,8 +41,8 @@ describe('ManagedPackageEdit', function () {
     });
 
     describe('clicking cancel', () => {
-      beforeEach(() => {
-        return PackageEditPage.clickCancel();
+      beforeEach(async () => {
+        await PackageEditPage.clickCancel();
       });
 
       it('goes to the package show page', () => {
@@ -113,8 +113,8 @@ describe('ManagedPackageEdit', function () {
     });
 
     describe('clicking cancel', () => {
-      beforeEach(() => {
-        return PackageEditPage.clickCancel();
+      beforeEach(async () => {
+        await PackageEditPage.clickCancel();
       });
 
       it('goes to the package show page', () => {

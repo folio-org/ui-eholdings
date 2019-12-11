@@ -13,12 +13,12 @@ describe('ManagedPackageEditTokens', function () {
     providerPackage,
     longToken;
 
-  beforeEach(function () {
-    provider = this.server.create('provider', 'withTokenAndValue', {
+  beforeEach(async function () {
+    provider = await this.server.create('provider', 'withTokenAndValue', {
       name: 'Cool Provider'
     });
 
-    providerPackage = this.server.create('package', 'withPackageTokenAndValue', {
+    providerPackage = await this.server.create('package', 'withPackageTokenAndValue', {
       provider,
       name: 'Cool Package',
       contentType: 'E-Book',
@@ -61,8 +61,8 @@ describe('ManagedPackageEditTokens', function () {
     });
 
     describe('clicking cancel', () => {
-      beforeEach(() => {
-        return PackageEditPage.clickCancel();
+      beforeEach(async () => {
+        await PackageEditPage.clickCancel();
       });
 
       it('goes to the package show page', () => {
@@ -71,8 +71,8 @@ describe('ManagedPackageEditTokens', function () {
     });
 
     describe('updating provider token', () => {
-      beforeEach(() => {
-        return PackageEditPage.inputProviderTokenValue('test-provider-token');
+      beforeEach(async () => {
+        await PackageEditPage.inputProviderTokenValue('test-provider-token');
       });
 
       it('should enable save action button', () => {
@@ -80,8 +80,8 @@ describe('ManagedPackageEditTokens', function () {
       });
 
       describe('clicking save to update provider token value', () => {
-        beforeEach(() => {
-          return PackageEditPage.clickSave();
+        beforeEach(async () => {
+          await PackageEditPage.clickSave();
         });
 
         it('disables the save button', () => {
@@ -104,8 +104,8 @@ describe('ManagedPackageEditTokens', function () {
     });
 
     describe('updating package token', () => {
-      beforeEach(() => {
-        return PackageEditPage.inputPackageTokenValue('test-package-token');
+      beforeEach(async () => {
+        await PackageEditPage.inputPackageTokenValue('test-package-token');
       });
 
       it('should enable save action button', () => {
@@ -113,8 +113,8 @@ describe('ManagedPackageEditTokens', function () {
       });
 
       describe('clicking save to update package token value', () => {
-        beforeEach(() => {
-          return PackageEditPage.clickSave();
+        beforeEach(async () => {
+          await PackageEditPage.clickSave();
         });
 
         it('disables the save button', () => {
@@ -137,24 +137,20 @@ describe('ManagedPackageEditTokens', function () {
     });
 
     describe('updating package and provider tokens', () => {
-      beforeEach(() => {
-        return PackageEditPage.inputProviderTokenValue('test-provider-token')
-          .then(() => {
-            return PackageEditPage.inputPackageTokenValue('test-package-token');
-          });
+      beforeEach(async () => {
+        await PackageEditPage.inputProviderTokenValue('test-provider-token')
+        await PackageEditPage.inputPackageTokenValue('test-package-token');
       });
+
 
       it('should enable save action button', () => {
         expect(PackageEditPage.isSaveDisabled).to.eq(false);
       });
 
       describe('clicking save to update provider and package token value', () => {
-        beforeEach(() => {
-          return PackageEditPage.clickSave();
-        });
-
-        it('disables the save button', () => {
-          expect(PackageEditPage.isSaveDisabled).to.be.true;
+        beforeEach(async () => {
+          await PackageEditPage.clickSave();
+          await PackageShowPage.whenLoaded();
         });
 
         it('goes to the package show page', () => {
@@ -188,7 +184,6 @@ describe('ManagedPackageEditTokens', function () {
       });
       provider.update('providerToken', token.toJSON());
       provider.save();
-
       await this.visit(`/eholdings/packages/${providerPackage.id}/edit`);
       await PackageEditPage.whenLoaded();
     });
@@ -210,8 +205,8 @@ describe('ManagedPackageEditTokens', function () {
     });
 
     describe('clicking add provider token button', () => {
-      beforeEach(() => {
-        return PackageEditPage.clickAddProviderTokenButton();
+      beforeEach(async () => {
+        await PackageEditPage.clickAddProviderTokenButton();
       });
 
       it('has provider token help text', () => {
@@ -238,7 +233,6 @@ describe('ManagedPackageEditTokens', function () {
       });
       await providerPackage.update('packageToken', token.toJSON());
       await providerPackage.save();
-
       await this.visit(`/eholdings/packages/${providerPackage.id}/edit`);
       await PackageEditPage.whenLoaded();
     });
@@ -260,8 +254,8 @@ describe('ManagedPackageEditTokens', function () {
     });
 
     describe('clicking add package token button', () => {
-      beforeEach(() => {
-        return PackageEditPage.clickAddPackageTokenButton();
+      beforeEach(async () => {
+        await PackageEditPage.clickAddPackageTokenButton();
       });
 
       it('has package token help text', () => {
@@ -282,7 +276,6 @@ describe('ManagedPackageEditTokens', function () {
     beforeEach(async function () {
       await provider.update('providerToken', null);
       await provider.save();
-
       await this.visit(`/eholdings/packages/${providerPackage.id}/edit`);
       await PackageEditPage.whenLoaded();
     });
@@ -320,7 +313,6 @@ describe('ManagedPackageEditTokens', function () {
     beforeEach(async function () {
       await providerPackage.update('packageToken', null);
       await providerPackage.save();
-
       await this.visit(`/eholdings/packages/${providerPackage.id}/edit`);
       await PackageEditPage.whenLoaded();
     });
@@ -358,10 +350,8 @@ describe('ManagedPackageEditTokens', function () {
     beforeEach(async function () {
       await provider.update('providerToken', null);
       await provider.save();
-
       await providerPackage.update('packageToken', null);
       await providerPackage.save();
-
       await this.visit(`/eholdings/packages/${providerPackage.id}/edit`);
       await PackageEditPage.whenLoaded();
     });
@@ -444,9 +434,9 @@ describe('ManagedPackageEditTokens', function () {
     });
 
     describe('choosing a lengthy value for package token', () => {
-      beforeEach(() => {
+      beforeEach(async () => {
         longToken = 'a'.repeat(501);
-        return PackageEditPage.inputPackageTokenValue(longToken);
+        await PackageEditPage.inputPackageTokenValue(longToken);
       });
 
       it('highlights the package token textarea with an error state', () => {
@@ -480,10 +470,8 @@ describe('ManagedPackageEditTokens', function () {
     describe('choosing lengthy values for provider and package tokens', () => {
       beforeEach(async () => {
         longToken = 'a'.repeat(501);
-        await PackageEditPage.inputProviderTokenValue(longToken)
-          .then(async () => {
-            await PackageEditPage.inputPackageTokenValue(longToken);
-          });
+        await PackageEditPage.inputProviderTokenValue(longToken);
+        await PackageEditPage.inputPackageTokenValue(longToken);
       });
 
       it('highlights the provider token textarea with an error state', () => {

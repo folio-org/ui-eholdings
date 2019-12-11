@@ -14,24 +14,24 @@ describe('ManagedResourceEditVisibility', function () {
     title,
     resource;
 
-  beforeEach(function () {
-    provider = this.server.create('provider', {
+  beforeEach(async function () {
+    provider = await this.server.create('provider', {
       name: 'Cool Provider'
     });
 
-    providerPackage = this.server.create('package', 'withTitles', {
+    providerPackage = await this.server.create('package', 'withTitles', {
       provider,
       name: 'Star Wars Custom Package',
       contentType: 'Online'
     });
 
-    title = this.server.create('title', {
+    title = await this.server.create('title', {
       name: 'Hans Solo Director Cut',
       publicationType: 'Streaming Video',
       publisherName: 'Amazing Publisher'
     });
 
-    title.save();
+    await title.save();
   });
 
   describe('visiting the managed resource edit page and hiding a resource', () => {
@@ -43,6 +43,7 @@ describe('ManagedResourceEditVisibility', function () {
       });
 
       await this.visit(`/eholdings/resources/${resource.id}/edit`);
+      await ResourceEditPage.whenLoaded();
     });
 
     it('displays the yes visibility radio is selected', () => {
@@ -74,13 +75,13 @@ describe('ManagedResourceEditVisibility', function () {
       });
 
       describe('toggling the visiblity toggle', () => {
-        beforeEach(() => {
-          return ResourceEditPage.toggleIsVisible();
+        beforeEach(async () => {
+          await ResourceEditPage.toggleIsVisible();
         });
 
         describe('clicking cancel', () => {
-          beforeEach(() => {
-            return ResourceEditPage.clickCancel();
+          beforeEach(async () => {
+            await ResourceEditPage.clickCancel();
           });
 
           it('shows a navigation confirmation modal', () => {
@@ -115,6 +116,7 @@ describe('ManagedResourceEditVisibility', function () {
       });
 
       await this.visit(`/eholdings/resources/${resource.id}/edit`);
+      await ResourceEditPage.whenLoaded();
     });
 
     it('displays the no visibility radio is selected', () => {
@@ -135,8 +137,8 @@ describe('ManagedResourceEditVisibility', function () {
       });
 
       describe('toggling the visiblity toggle', () => {
-        beforeEach(() => {
-          return ResourceEditPage.toggleIsVisible();
+        beforeEach(async () => {
+          await ResourceEditPage.toggleIsVisible();
         });
 
         describe('clicking save', () => {

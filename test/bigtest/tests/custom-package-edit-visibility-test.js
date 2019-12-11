@@ -12,8 +12,8 @@ describe('CustomPackageEditVisibility', function () {
   let provider,
     providerPackage;
 
-  beforeEach(function () {
-    provider = this.server.create('provider', {
+  beforeEach(async function () {
+    provider = await this.server.create('provider', {
       name: 'Cool Provider'
     });
   });
@@ -43,8 +43,8 @@ describe('CustomPackageEditVisibility', function () {
     });
 
     describe('clicking cancel', () => {
-      beforeEach(() => {
-        return PackageEditPage.clickCancel();
+      beforeEach(async () => {
+        await PackageEditPage.clickCancel();
       });
 
       it('goes to the package show page', () => {
@@ -58,8 +58,8 @@ describe('CustomPackageEditVisibility', function () {
       });
 
       describe('clicking cancel', () => {
-        beforeEach(() => {
-          return PackageEditPage.toggleIsVisible().clickCancel();
+        beforeEach(async () => {
+          await PackageEditPage.toggleIsVisible().clickCancel();
         });
 
         it('shows a navigation confirmation modal', () => {
@@ -68,8 +68,8 @@ describe('CustomPackageEditVisibility', function () {
       });
 
       describe('clicking save', () => {
-        beforeEach(() => {
-          return PackageEditPage.toggleIsVisible().clickSave();
+        beforeEach(async () => {
+          await PackageEditPage.toggleIsVisible().clickSave();
         });
 
         it('goes to the package show page', () => {
@@ -92,6 +92,7 @@ describe('CustomPackageEditVisibility', function () {
         isCustom: true
       });
       await this.visit(`/eholdings/packages/${providerPackage.id}/edit`);
+      await PackageEditPage.whenLoaded();
     });
 
     it('displays the correct visibility status', () => {
@@ -128,8 +129,8 @@ describe('CustomPackageEditVisibility', function () {
     });
 
     describe('clicking cancel', () => {
-      beforeEach(() => {
-        return PackageEditPage.clickCancel();
+      beforeEach(async () => {
+        await PackageEditPage.clickCancel();
       });
 
       it('goes to the package show page', () => {
@@ -143,8 +144,8 @@ describe('CustomPackageEditVisibility', function () {
       });
 
       describe('clicking cancel', () => {
-        beforeEach(() => {
-          return PackageEditPage.toggleIsVisible().clickCancel();
+        beforeEach(async () => {
+          await PackageEditPage.toggleIsVisible().clickCancel();
         });
 
         it('shows a navigation confirmation modal', () => {
@@ -153,8 +154,9 @@ describe('CustomPackageEditVisibility', function () {
       });
 
       describe('clicking save', () => {
-        beforeEach(() => {
-          return PackageEditPage.toggleIsVisible().clickSave();
+        beforeEach(async () => {
+          await PackageEditPage.toggleIsVisible().clickSave();
+          await PackageShowPage.whenLoaded();
         });
 
         it('goes to the package show page', () => {

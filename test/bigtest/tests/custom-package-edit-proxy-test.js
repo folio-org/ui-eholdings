@@ -26,6 +26,7 @@ describe('CustomPackageEditProxy', () => {
   describe('visiting the package edit page', () => {
     beforeEach(async function () {
       await this.visit(`/eholdings/packages/${providerPackage.id}/edit`);
+      await PackageEditPage.whenLoaded();
     });
 
     it('has a select containing the current proxy value', () => {
@@ -33,8 +34,8 @@ describe('CustomPackageEditProxy', () => {
     });
 
     describe('selecting a new proxy value', () => {
-      beforeEach(() => {
-        return PackageEditPage.chooseProxy('Inherited - bigTestJS');
+      beforeEach(async () => {
+        await PackageEditPage.chooseProxy('Inherited - bigTestJS');
       });
 
       it('enables the save button', () => {
@@ -46,8 +47,8 @@ describe('CustomPackageEditProxy', () => {
       });
 
       describe('saving the new proxy value', () => {
-        beforeEach(() => {
-          return PackageEditPage.clickSave();
+        beforeEach(async () => {
+          await PackageEditPage.clickSave();
         });
 
         it('enables the save button', () => {

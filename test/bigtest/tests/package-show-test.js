@@ -11,12 +11,12 @@ describe('PackageShow', () => {
   let providerPackage;
   let resources;
 
-  beforeEach(function () {
-    provider = this.server.create('provider', {
+  beforeEach(async function () {
+    provider = await this.server.create('provider', {
       name: 'Cool Provider'
     });
 
-    providerPackage = this.server.create('package', 'withTitles', 'withCustomCoverage', 'withProxy', {
+    providerPackage = await this.server.create('package', 'withTitles', 'withCustomCoverage', 'withProxy', {
       provider,
       name: 'Cool Package',
       contentType: 'E-Book',
@@ -25,21 +25,18 @@ describe('PackageShow', () => {
       packageType: 'Complete'
     });
 
-    resources = this.server.schema.where('resource', { packageId: providerPackage.id }).models;
+    resources = await this.server.schema.where('resource', { packageId: providerPackage.id }).models;
   });
 
   describe('visiting the package details page', () => {
     beforeEach(async function () {
       await this.visit(`/eholdings/packages/${providerPackage.id}`);
       await PackageShowPage.whenLoaded();
+      await PackageShowPage.when(() => PackageShowPage.agreementsSection.isPresent);
     });
 
     it('displays the package name in the pane header', () => {
       expect(PackageShowPage.paneTitle).to.equal('Cool Package');
-    });
-
-    it('does not display tags accordion', () => {
-      expect(PackageShowPage.isTagsPresent).to.equal(false);
     });
 
     it('displays package name', () => {
@@ -146,8 +143,8 @@ describe('PackageShow', () => {
     });
 
     describe('clicking the collapse all button', () => {
-      beforeEach(() => {
-        return PackageShowPage.clickCollapseAllButton();
+      beforeEach(async () => {
+        await PackageShowPage.clickCollapseAllButton();
       });
 
       it('toggles the button text to expand all', () => {
@@ -196,6 +193,8 @@ describe('PackageShow', () => {
         isSelected: false
       });
       await this.visit(`/eholdings/packages/${pkg.id}`);
+      await PackageShowPage.whenLoaded();
+      await PackageShowPage.when(() => PackageShowPage.agreementsSection.isPresent);
     });
 
     it('shows the selected # of titles and the total # of titles in the package', () => {
@@ -204,10 +203,6 @@ describe('PackageShow', () => {
 
     it('has a button to add all of the remaining titles by selecting the entire package directly in the detail record', () => {
       expect(PackageShowPage.selectionStatus.buttonText).to.equal('Add all to holdings');
-    });
-
-    it('does not display tags accordion', () => {
-      expect(PackageShowPage.isTagsPresent).to.equal(false);
     });
 
     describe('inspecting the menu', () => {
@@ -254,6 +249,7 @@ describe('PackageShow', () => {
       providerPackage.packageType = 'Custom';
       providerPackage.isSelected = true;
       await this.visit(`/eholdings/packages/${providerPackage.id}`);
+      await PackageShowPage.whenLoaded();
     });
 
     it('display tags accordion', () => {
@@ -288,6 +284,7 @@ describe('PackageShow', () => {
         packageType: 'Complete'
       });
       await this.visit(`/eholdings/packages/${providerPackage.id}`);
+      await PackageShowPage.whenLoaded();
     });
 
     it('displays the proxy prepended with Inherited', () => {
@@ -314,6 +311,7 @@ describe('PackageShow', () => {
       });
 
       await this.visit(`/eholdings/packages/${providerPackage.id}`);
+      await PackageShowPage.whenLoaded();
     });
 
     it('displays the package type as custom', () => {
@@ -332,6 +330,7 @@ describe('PackageShow', () => {
       providerPackage.isSelected = true;
 
       await this.visit(`/eholdings/packages/${providerPackage.id}`);
+      await PackageShowPage.whenLoaded();
     });
 
     it('displays the provider token prompt and value', () => {
@@ -360,6 +359,7 @@ describe('PackageShow', () => {
       await providerPackage.save();
 
       await this.visit(`/eholdings/packages/${providerPackage.id}`);
+      await PackageShowPage.whenLoaded();
     });
 
     it('does not display the package token', () => {
@@ -391,6 +391,7 @@ describe('PackageShow', () => {
       await providerPackage.update('packageToken', token.toJSON());
       await providerPackage.save();
       await this.visit(`/eholdings/packages/${providerPackage.id}`);
+      await PackageShowPage.whenLoaded();
     });
 
     it('does not display the provider token', () => {
@@ -424,6 +425,7 @@ describe('PackageShow', () => {
       await provider.save();
 
       await this.visit(`/eholdings/packages/${providerPackage.id}`);
+      await PackageShowPage.whenLoaded();
     });
 
     it('displays the package token prompt and value', () => {
@@ -448,6 +450,7 @@ describe('PackageShow', () => {
       await providerPackage.update('packageToken', null);
       await providerPackage.save();
       await this.visit(`/eholdings/packages/${providerPackage.id}`);
+      await PackageShowPage.whenLoaded();
     });
 
     it('does not display both provider and package tokens', () => {
@@ -461,6 +464,7 @@ describe('PackageShow', () => {
       await this.server.loadFixtures();
 
       await this.visit('/eholdings/packages/paged_pkg');
+      await PackageShowPage.whenLoaded();
     });
 
     it('should display the first page of related titles', () => {
@@ -486,6 +490,7 @@ describe('PackageShow', () => {
       providerPackage.titleCount = 10000;
 
       await this.visit(`/eholdings/packages/${providerPackage.id}`);
+      await PackageShowPage.whenLoaded();
     });
 
     describe('viewing large packages', () => {
@@ -506,6 +511,7 @@ describe('PackageShow', () => {
         // our internal link component automatically sets the location state
         state: { eholdings: true }
       });
+      await PackageShowPage.whenLoaded();
     });
 
     it('should display the back button in UI', () => {

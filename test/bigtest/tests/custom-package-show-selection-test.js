@@ -41,15 +41,14 @@ describe('CustomPackageShowSelection', () => {
     });
 
     describe('deselecting a custom package', () => {
-      beforeEach(() => {
-        return PackageShowPage
-          .dropDown.clickDropDownButton()
-          .dropDownMenu.removeFromHoldings.click();
+      beforeEach(async () => {
+        await PackageShowPage.dropDown.clickDropDownButton();
+        await PackageShowPage.dropDownMenu.removeFromHoldings.click();
       });
 
       describe('canceling the deselection', () => {
-        beforeEach(() => {
-          return PackageShowPage.modal.cancelDeselection();
+        beforeEach(async () => {
+          await PackageShowPage.modal.cancelDeselection();
         });
 
         it('reverts back to the selected state', () => {
@@ -62,8 +61,7 @@ describe('CustomPackageShowSelection', () => {
           await this.server.block();
           await PackageShowPage.modal.confirmDeselection();
           await this.server.unblock();
-          await PackageShowPage
-            .when(() => !PackageShowPage.isSelecting);
+          await PackageShowPage.when(() => !PackageShowPage.isSelecting);
         });
 
         it('removes package detail pane', () => {
@@ -83,9 +81,8 @@ describe('CustomPackageShowSelection', () => {
           }]
         }, 500);
 
-        return PackageShowPage
-          .dropDown.clickDropDownButton()
-          .dropDownMenu.removeFromHoldings.click();
+        await PackageShowPage.dropDown.clickDropDownButton();
+        await PackageShowPage.dropDownMenu.removeFromHoldings.click();
       });
 
       it('shows a confirmation dialog', () => {
@@ -93,8 +90,8 @@ describe('CustomPackageShowSelection', () => {
       });
 
       describe('confirming the deselection', () => {
-        beforeEach(() => {
-          return PackageShowPage.modal.confirmDeselection();
+        beforeEach(async () => {
+          await PackageShowPage.modal.confirmDeselection();
         });
 
         it('reflect the desired state was not set', () => {

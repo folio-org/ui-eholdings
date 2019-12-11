@@ -15,22 +15,22 @@ describe('CustomResourceEditCustomCoverage', function () {
     title,
     resource;
 
-  beforeEach(function () {
-    pkg = this.server.create('package', 'withProvider');
+  beforeEach(async function () {
+    pkg = await this.server.create('package', 'withProvider');
 
     pkg.customCoverage = {
       beginCoverage: '2018-12-01',
       endCoverage: '2018-12-31'
     };
     pkg.isCustom = true;
-    pkg.save();
+    await pkg.save();
 
-    title = this.server.create('title', {
+    title = await this.server.create('title', {
       publicationType: 'Journal',
       isTitleCustom: true
     });
 
-    resource = this.server.create('resource', {
+    resource = await this.server.create('resource', {
       package: pkg,
       title
     });
@@ -42,6 +42,7 @@ describe('CustomResourceEditCustomCoverage', function () {
       await resource.save();
 
       await this.visit(`/eholdings/resources/${resource.id}/edit`);
+      await ResourceEditPage.whenLoaded();
     });
 
     it('disables the save button', () => {
@@ -53,8 +54,8 @@ describe('CustomResourceEditCustomCoverage', function () {
     });
 
     describe('clicking the add date range button', () => {
-      beforeEach(() => {
-        return ResourceEditPage.clickAddRowButton();
+      beforeEach(async () => {
+        await ResourceEditPage.clickAddRowButton();
       });
 
       it('shows a single row of inputs', () => {
@@ -62,8 +63,8 @@ describe('CustomResourceEditCustomCoverage', function () {
       });
 
       describe('clicking the add date range button', () => {
-        beforeEach(() => {
-          return ResourceEditPage.clickAddRowButton();
+        beforeEach(async () => {
+          await ResourceEditPage.clickAddRowButton();
         });
 
         it('adds another row of date inputs', () => {
@@ -76,8 +77,8 @@ describe('CustomResourceEditCustomCoverage', function () {
         });
 
         describe('clicking the clear row button', () => {
-          beforeEach(() => {
-            return ResourceEditPage.dateRangeRowList(1).clickRemoveRowButton();
+          beforeEach(async () => {
+            await ResourceEditPage.dateRangeRowList(1).clickRemoveRowButton();
           });
 
           it('removes the new row', () => {
@@ -181,8 +182,7 @@ describe('CustomResourceEditCustomCoverage', function () {
 
         describe('entering overlapping date ranges', () => {
           beforeEach(async () => {
-            await ResourceEditPage.dateRangeRowList(0)
-              .fillDates('12/16/2018', '12/20/2018');
+            await ResourceEditPage.dateRangeRowList(0).fillDates('12/16/2018', '12/20/2018');
           });
 
           describe('clicking the add date range button', () => {
@@ -233,6 +233,7 @@ describe('CustomResourceEditCustomCoverage', function () {
       await resource.save();
 
       await this.visit(`/eholdings/resources/${resource.id}/edit`);
+      await ResourceEditPage.whenLoaded();
     });
 
     it('displays the date ranges', () => {
@@ -288,6 +289,7 @@ describe('CustomResourceEditCustomCoverage', function () {
       await resource.save();
 
       await this.visit(`/eholdings/resources/${resource.id}/edit`);
+      await ResourceEditPage.whenLoaded();
     });
 
     it('displays correct number of rows for date ranges', () => {

@@ -8,8 +8,8 @@ describe('ManagedTitleEdit', () => {
   setupApplication();
   let title;
 
-  beforeEach(function () {
-    title = this.server.create('title', {
+  beforeEach(async function () {
+    title = await this.server.create('title', {
       name: 'Best Title Ever',
       isTitleCustom: false
     });

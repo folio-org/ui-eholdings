@@ -12,37 +12,37 @@ describe('CustomResourceEditProxy', () => {
     title,
     resource;
 
-  beforeEach(function () {
-    provider = this.server.create('provider', {
+  beforeEach(async function () {
+    provider = await this.server.create('provider', {
       name: 'Cool Provider'
     });
 
-    providerPackage = this.server.create('package', 'withTitles', {
+    providerPackage = await this.server.create('package', 'withTitles', {
       provider,
       name: 'Star Wars Custom Package',
       contentType: 'Online',
       isCustom: true
     });
 
-    const packageProxy = this.server.create('proxy', {
+    const packageProxy = await this.server.create('proxy', {
       inherited: true,
       id: 'bigTestJS'
     });
 
-    providerPackage.update('proxy', packageProxy.toJSON());
-    providerPackage.save();
+    await providerPackage.update('proxy', packageProxy.toJSON());
+    await providerPackage.save();
 
 
-    title = this.server.create('title', {
+    title = await this.server.create('title', {
       name: 'Hans Solo Director Cut',
       publicationType: 'Streaming Video',
       publisherName: 'Amazing Publisher',
       isTitleCustom: true
     });
 
-    title.save();
+    await title.save();
 
-    resource = this.server.create('resource', {
+    resource = await this.server.create('resource', {
       package: providerPackage,
       isSelected: true,
       title
@@ -55,10 +55,11 @@ describe('CustomResourceEditProxy', () => {
         inherited: true,
         id: 'bigTestJS'
       });
+
       await resource.update('proxy', resourceProxy.toJSON());
       await resource.save();
-
       await this.visit(`/eholdings/resources/${resource.id}/edit`);
+      await ResourceEditPage.whenLoaded();
     });
 
     it('disables the save button', () => {
@@ -70,8 +71,8 @@ describe('CustomResourceEditProxy', () => {
     });
 
     describe('choosing another proxy from select', () => {
-      beforeEach(() => {
-        return ResourceEditPage.chooseProxy('microstates');
+      beforeEach(async () => {
+        await ResourceEditPage.chooseProxy('microstates');
       });
 
       it('should enable save action button', () => {

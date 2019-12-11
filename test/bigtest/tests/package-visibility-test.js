@@ -25,6 +25,7 @@ describe('PackageVisibility', () => {
       });
 
       await this.visit(`/eholdings/packages/${pkg.id}`);
+      await PackageShowPage.whenLoaded();
     });
 
     it('displays No in (Show titles in package to patrons)', () => {
@@ -46,6 +47,7 @@ describe('PackageVisibility', () => {
       });
 
       await this.visit(`/eholdings/packages/${pkg.id}`);
+      await PackageShowPage.whenLoaded();
     });
 
     it('displays No as (Show titles in package to patrons)', () => {
@@ -63,6 +65,7 @@ describe('PackageVisibility', () => {
       });
 
       await this.visit(`/eholdings/packages/${pkg.id}`);
+      await PackageShowPage.whenLoaded();
     });
 
     it('displays Yes as (Show titles in package to patrons)', () => {
@@ -80,6 +83,7 @@ describe('PackageVisibility', () => {
       });
 
       await this.visit(`/eholdings/packages/${pkg.id}`);
+      await PackageShowPage.whenLoaded();
     });
 
     it('does not display visibility', () => {

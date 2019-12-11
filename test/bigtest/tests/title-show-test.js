@@ -4,13 +4,14 @@ import { describe, beforeEach, it } from '@bigtest/mocha';
 import setupApplication from '../helpers/setup-application';
 import TitleShowPage from '../interactors/title-show';
 
-describe('TitleShow', () => {
+describe('TitleShow', function () {
   setupApplication();
   let title,
     resources;
 
-  beforeEach(function () {
-    title = this.server.create('title', 'withPackages', {
+  beforeEach(async function () {
+    this.timeout(5000);
+    title = await this.server.create('title', 'withPackages', {
       name: 'Cool Title',
       edition: 'Cool Edition',
       publisherName: 'Cool Publisher',
@@ -18,26 +19,26 @@ describe('TitleShow', () => {
     });
 
     title.subjects = [
-      this.server.create('subject', { subject: 'Cool Subject 1' }),
-      this.server.create('subject', { subject: 'Cool Subject 2' }),
-      this.server.create('subject', { subject: 'Cool Subject 3' })
+      await this.server.create('subject', { subject: 'Cool Subject 1' }),
+      await this.server.create('subject', { subject: 'Cool Subject 2' }),
+      await this.server.create('subject', { subject: 'Cool Subject 3' })
     ].map(m => m.toJSON());
 
     title.identifiers = [
-      this.server.create('identifier', { type: 'ISBN', subtype: 'Print', id: '978-0547928210' }),
-      this.server.create('identifier', { type: 'ISBN', subtype: 'Print', id: '978-0547928203' }),
-      this.server.create('identifier', { type: 'ISBN', subtype: 'Online', id: '978-0547928197' }),
-      this.server.create('identifier', { type: 'ISBN', subtype: 'Empty', id: '978-0547928227' }),
-      this.server.create('identifier', { type: 'Mid', subtype: 'someothersubtype', id: 'someothertypeofid' })
+      await this.server.create('identifier', { type: 'ISBN', subtype: 'Print', id: '978-0547928210' }),
+      await this.server.create('identifier', { type: 'ISBN', subtype: 'Print', id: '978-0547928203' }),
+      await this.server.create('identifier', { type: 'ISBN', subtype: 'Online', id: '978-0547928197' }),
+      await this.server.create('identifier', { type: 'ISBN', subtype: 'Empty', id: '978-0547928227' }),
+      await this.server.create('identifier', { type: 'Mid', subtype: 'someothersubtype', id: 'someothertypeofid' })
     ].map(m => m.toJSON());
 
     title.contributors = [
-      this.server.create('contributor', { type: 'author', contributor: 'Writer, Sally' }),
-      this.server.create('contributor', { type: 'author', contributor: 'Wordsmith, Jane' }),
-      this.server.create('contributor', { type: 'illustrator', contributor: 'Artist, John' })
+      await this.server.create('contributor', { type: 'author', contributor: 'Writer, Sally' }),
+      await this.server.create('contributor', { type: 'author', contributor: 'Wordsmith, Jane' }),
+      await this.server.create('contributor', { type: 'illustrator', contributor: 'Artist, John' })
     ].map(m => m.toJSON());
 
-    title.save();
+    await title.save();
 
     resources = title.resources.models;
   });
@@ -45,6 +46,7 @@ describe('TitleShow', () => {
   describe('visiting the title page', () => {
     beforeEach(async function () {
       await this.visit(`/eholdings/titles/${title.id}`);
+      await TitleShowPage.whenLoaded();
     });
 
     it('displays the title name in the pane header', () => {
@@ -129,8 +131,8 @@ describe('TitleShow', () => {
     });
 
     describe('clicking the collapse all button', () => {
-      beforeEach(() => {
-        return TitleShowPage.clickCollapseAllButton();
+      beforeEach(async () => {
+        await TitleShowPage.clickCollapseAllButton();
       });
 
       it('toggles the button text to expand all', () => {
@@ -146,6 +148,7 @@ describe('TitleShow', () => {
         // our internal link component automatically sets the location state
         state: { eholdings: true }
       });
+      await TitleShowPage.whenLoaded();
     });
 
     it('should display the back button in UI', () => {
@@ -219,6 +222,7 @@ describe('TitleShow', () => {
       await title.save();
       resources = title.resources.models;
       await this.visit(`/eholdings/titles/${title.id}`);
+      await TitleShowPage.whenLoaded();
     });
 
     it('displays the title name', () => {
@@ -265,22 +269,11 @@ describe('TitleShow', () => {
       await this.server.loadFixtures();
 
       await this.visit('/eholdings/titles/paged_title');
+      await TitleShowPage.whenLoaded();
     });
 
     it('should display the first page of related packages', () => {
       expect(TitleShowPage.packageList(0).name).to.equal('Title Package 1');
-    });
-
-    describe.skip('scrolling down the list of packages', () => {
-      beforeEach(() => {
-        return TitleShowPage.scrollToPackageOffset(26);
-      });
-
-      it('should display the next page of related packages', () => {
-        // when the list is scrolled, it has a threshold of 5 items. index 4,
-        // the 5th item, is the topmost visible item in the list
-        expect(TitleShowPage.packageList(4).name).to.equal('Title Package 26');
-      });
     });
   });
 
@@ -295,6 +288,7 @@ describe('TitleShow', () => {
       });
 
       await this.visit(`/eholdings/titles/${title.id}`);
+      await TitleShowPage.whenLoaded();
     });
 
     it('displays the edit button for a custom title', () => {

@@ -122,8 +122,8 @@ describe('CustomPackageEdit', function () {
     });
 
     describe('clicking cancel', () => {
-      beforeEach(() => {
-        return PackageEditPage.clickCancel();
+      beforeEach(async () => {
+        await PackageEditPage.clickCancel();
       });
 
       it('goes to the package show page', () => {
@@ -155,8 +155,8 @@ describe('CustomPackageEdit', function () {
       });
 
       describe('clicking cancel', () => {
-        beforeEach(() => {
-          return PackageEditPage.clickCancel();
+        beforeEach(async () => {
+          await PackageEditPage.clickCancel();
         });
 
         it('shows a navigation confirmation modal', () => {
@@ -164,8 +164,8 @@ describe('CustomPackageEdit', function () {
         });
 
         describe('confirming to continue without saving', () => {
-          beforeEach(() => {
-            return PackageEditPage.navigationModal.confirmNavigation();
+          beforeEach(async () => {
+            await PackageEditPage.navigationModal.confirmNavigation();
           });
 
           it('navigates from editing page', () => {
@@ -174,8 +174,8 @@ describe('CustomPackageEdit', function () {
         });
 
         describe('confirming to keep editing', () => {
-          beforeEach(() => {
-            return PackageEditPage.navigationModal.cancelNavigation();
+          beforeEach(async () => {
+            await PackageEditPage.navigationModal.cancelNavigation();
           });
 
           it('reamins on the editing page', () => {
@@ -185,8 +185,8 @@ describe('CustomPackageEdit', function () {
       });
 
       describe('clicking save', () => {
-        beforeEach(() => {
-          return PackageEditPage.clickSave();
+        beforeEach(async () => {
+          await PackageEditPage.clickSave();
         });
 
         it('goes to the package show page', () => {

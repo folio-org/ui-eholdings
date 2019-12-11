@@ -7,17 +7,17 @@ import PackageEditPage from '../interactors/package-edit';
 
 describe('CustomPackageEditSelection', function () {
   setupApplication();
-  // some of the beforeEach blocks seem to timeout in CI
-  this.timeout(5000);
   let provider,
     providerPackage;
 
-  beforeEach(function () {
-    provider = this.server.create('provider', {
+  beforeEach(async function () {
+      // some of the beforeEach blocks seem to timeout in CI
+  this.timeout(5000);
+    provider = await this.server.create('provider', {
       name: 'Cool Provider'
     });
 
-    providerPackage = this.server.create('package', {
+    providerPackage = await this.server.create('package', {
       provider,
       name: 'Cool Package',
       contentType: 'E-Book',
@@ -40,8 +40,8 @@ describe('CustomPackageEditSelection', function () {
     });
 
     describe('clicking cancel', () => {
-      beforeEach(() => {
-        return PackageEditPage.clickCancel();
+      beforeEach(async () => {
+        await PackageEditPage.clickCancel();
       });
 
       it('goes to the package show page', () => {
@@ -50,10 +50,9 @@ describe('CustomPackageEditSelection', function () {
     });
 
     describe('deleting the custom package', () => {
-      beforeEach(() => {
-        return PackageEditPage
-          .dropDown.clickDropDownButton()
-          .dropDownMenu.removeFromHoldings.click();
+      beforeEach(async () => {
+        await PackageEditPage.dropDown.clickDropDownButton();
+        await PackageEditPage.dropDownMenu.removeFromHoldings.click();
       });
 
       it('shows the deletion confirmation modal', () => {
@@ -61,8 +60,8 @@ describe('CustomPackageEditSelection', function () {
       });
 
       describe('clicking cancel', () => {
-        beforeEach(() => {
-          return PackageEditPage.modal.cancelDeselection();
+        beforeEach(async () => {
+          await PackageEditPage.modal.cancelDeselection();
         });
 
         it('should stay on the edit page', () => {
@@ -77,14 +76,14 @@ describe('CustomPackageEditSelection', function () {
       describe('clicking confirm', () => {
         let resolveRequest;
 
-        beforeEach(function () {
-          this.server.delete('/packages/:id', () => {
+        beforeEach(async function () {
+          await this.server.delete('/packages/:id', () => {
             return new Promise((resolve) => {
               resolveRequest = resolve;
             });
           });
 
-          return PackageEditPage.modal.confirmDeselection();
+          await PackageEditPage.modal.confirmDeselection();
         });
 
         it('should keep confirmation modal on screen until requests responds', () => {
@@ -264,8 +263,8 @@ describe('CustomPackageEditSelection', function () {
     });
 
     describe('clicking cancel', () => {
-      beforeEach(() => {
-        return PackageEditPage.clickCancel();
+      beforeEach(async () => {
+        await PackageEditPage.clickCancel();
       });
 
       it('goes to the package show page', () => {
@@ -274,10 +273,9 @@ describe('CustomPackageEditSelection', function () {
     });
 
     describe('deselecting the package', () => {
-      beforeEach(() => {
-        return PackageEditPage
-          .dropDown.clickDropDownButton()
-          .dropDownMenu.removeFromHoldings.click();
+      beforeEach(async () => {
+        await PackageEditPage.dropDown.clickDropDownButton();
+        await PackageEditPage.dropDownMenu.removeFromHoldings.click();
       });
 
       it('shows the deselection confirmation modal', () => {
@@ -285,8 +283,8 @@ describe('CustomPackageEditSelection', function () {
       });
 
       describe('clicking cancel', () => {
-        beforeEach(() => {
-          return PackageEditPage.modal.cancelDeselection();
+        beforeEach(async () => {
+          await PackageEditPage.modal.cancelDeselection();
         });
 
         it('should stay on the edit page', () => {

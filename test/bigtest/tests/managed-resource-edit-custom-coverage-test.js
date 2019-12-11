@@ -12,20 +12,20 @@ describe('ManagedResourceEditCustomCoverage', function () {
     title,
     resource;
 
-  beforeEach(function () {
-    pkg = this.server.create('package', 'withProvider');
+  beforeEach(async function () {
+    pkg = await this.server.create('package', 'withProvider');
 
     pkg.customCoverage = {
       beginCoverage: '2018-12-01',
       endCoverage: '2018-12-31'
     };
-    pkg.save();
+    await pkg.save();
 
-    title = this.server.create('title', {
+    title = await this.server.create('title', {
       publicationType: 'Journal'
     });
 
-    resource = this.server.create('resource', {
+    resource = await this.server.create('resource', {
       package: pkg,
       title
     });
@@ -37,6 +37,7 @@ describe('ManagedResourceEditCustomCoverage', function () {
       await resource.save();
 
       await this.visit(`/eholdings/resources/${resource.id}/edit`);
+      await ResourceEditPage.whenLoaded();
     });
 
     it('disables the save button', () => {
@@ -48,8 +49,8 @@ describe('ManagedResourceEditCustomCoverage', function () {
     });
 
     describe('clicking the add date range button', () => {
-      beforeEach(() => {
-        return ResourceEditPage.clickAddRowButton();
+      beforeEach(async () => {
+        await ResourceEditPage.clickAddRowButton();
       });
 
       it('shows a single row of inputs', () => {
@@ -57,8 +58,8 @@ describe('ManagedResourceEditCustomCoverage', function () {
       });
 
       describe('clicking the add date range button', () => {
-        beforeEach(() => {
-          return ResourceEditPage.clickAddRowButton();
+        beforeEach(async () => {
+          await ResourceEditPage.clickAddRowButton();
         });
 
         it('adds another row of date inputs', () => {
@@ -71,8 +72,8 @@ describe('ManagedResourceEditCustomCoverage', function () {
         });
 
         describe('clicking the clear row button', () => {
-          beforeEach(() => {
-            return ResourceEditPage.dateRangeRowList(1).clickRemoveRowButton();
+          beforeEach(async () => {
+            await ResourceEditPage.dateRangeRowList(1).clickRemoveRowButton();
           });
 
           it('removes the new row', () => {
@@ -87,8 +88,7 @@ describe('ManagedResourceEditCustomCoverage', function () {
 
       describe('entering a valid date range', () => {
         beforeEach(async () => {
-          await ResourceEditPage.dateRangeRowList(0)
-            .fillDates('12/16/2018', '12/18/2018');
+          await ResourceEditPage.dateRangeRowList(0).fillDates('12/16/2018', '12/18/2018');
         });
 
         it('shows the input as changed', () => {
@@ -177,8 +177,7 @@ describe('ManagedResourceEditCustomCoverage', function () {
 
         describe('entering overlapping date ranges', () => {
           beforeEach(async () => {
-            await ResourceEditPage.dateRangeRowList(0)
-              .fillDates('12/16/2018', '12/20/2018');
+            await ResourceEditPage.dateRangeRowList(0).fillDates('12/16/2018', '12/20/2018');
           });
 
           describe('clicking the add date range button', () => {
@@ -229,6 +228,7 @@ describe('ManagedResourceEditCustomCoverage', function () {
       await resource.save();
 
       await this.visit(`/eholdings/resources/${resource.id}/edit`);
+      await ResourceEditPage.whenLoaded();
     });
 
     it('displays the date ranges', () => {
@@ -281,8 +281,8 @@ describe('ManagedResourceEditCustomCoverage', function () {
       ];
       await resource.update('customCoverages', customCoverages.map(item => item.toJSON()));
       await resource.save();
-
       await this.visit(`/eholdings/resources/${resource.id}/edit`);
+      await ResourceEditPage.whenLoaded();
     });
 
     it('displays 2 rows for date ranges', () => {

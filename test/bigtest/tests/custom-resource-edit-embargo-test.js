@@ -12,28 +12,28 @@ describe('CustomResourceEditEmbargo', () => {
     title,
     resource;
 
-  beforeEach(function () {
-    provider = this.server.create('provider', {
+  beforeEach(async function () {
+    provider = await this.server.create('provider', {
       name: 'Cool Provider'
     });
 
-    providerPackage = this.server.create('package', 'withTitles', {
+    providerPackage = await this.server.create('package', 'withTitles', {
       provider,
       name: 'Star Wars Custom Package',
       contentType: 'Online',
       isCustom: true
     });
 
-    title = this.server.create('title', {
+    title = await this.server.create('title', {
       name: 'Hans Solo Director Cut',
       publicationType: 'Streaming Video',
       publisherName: 'Amazing Publisher',
       isTitleCustom: true
     });
 
-    title.save();
+    await title.save();
 
-    resource = this.server.create('resource', {
+    resource = await this.server.create('resource', {
       package: providerPackage,
       isSelected: true,
       title
@@ -48,8 +48,8 @@ describe('CustomResourceEditEmbargo', () => {
       }).toJSON();
 
       await resource.save();
-
       await this.visit(`/eholdings/resources/${resource.id}/edit`);
+      await ResourceEditPage.whenLoaded();
     });
 
     it('disables the save button', () => {
@@ -62,9 +62,8 @@ describe('CustomResourceEditEmbargo', () => {
     });
 
     describe('clicking (x) remove embargo button', () => {
-      beforeEach(() => {
-        return ResourceEditPage
-          .clickRemoveCustomEmbargoButton();
+      beforeEach(async () => {
+        await ResourceEditPage.clickRemoveCustomEmbargoButton();
       });
 
       it('does not show the custom embargo text field', () => {
@@ -99,6 +98,7 @@ describe('CustomResourceEditEmbargo', () => {
   describe('visiting the resource edit page without any embargos', () => {
     beforeEach(async function () {
       await this.visit(`/eholdings/resources/${resource.id}/edit`);
+      await ResourceEditPage.whenLoaded();
     });
 
     it('disables the save button', () => {
@@ -110,8 +110,8 @@ describe('CustomResourceEditEmbargo', () => {
     });
 
     describe('clicking the add custom embargo button', () => {
-      beforeEach(() => {
-        return ResourceEditPage.clickAddCustomEmbargoButton();
+      beforeEach(async () => {
+        await ResourceEditPage.clickAddCustomEmbargoButton();
       });
 
       it('removes the add custom embargo button', () => {
@@ -154,8 +154,8 @@ describe('CustomResourceEditEmbargo', () => {
           });
 
           describe('cancelling updated custom embargo', () => {
-            beforeEach(() => {
-              return ResourceEditPage.clickRemoveCustomEmbargoButton();
+            beforeEach(async () => {
+              await ResourceEditPage.clickRemoveCustomEmbargoButton();
             });
 
             it('displays the button to add custom embargo', () => {
@@ -171,8 +171,8 @@ describe('CustomResourceEditEmbargo', () => {
           });
 
           describe('clicking (x) remove embargo button', () => {
-            beforeEach(() => {
-              return ResourceEditPage
+            beforeEach(async () => {
+              await ResourceEditPage
                 .inputEmbargoValue('50')
                 .clickRemoveCustomEmbargoButton();
             });
@@ -187,8 +187,8 @@ describe('CustomResourceEditEmbargo', () => {
           });
 
           describe('custom embargo value as zero with a valid unit should throw validation error', () => {
-            beforeEach(() => {
-              return ResourceEditPage
+            beforeEach(async () => {
+              await ResourceEditPage
                 .inputEmbargoValue(0)
                 .selectEmbargoUnit('Months')
                 .clickSave();
@@ -200,8 +200,8 @@ describe('CustomResourceEditEmbargo', () => {
           });
 
           describe('custom embargo value that cannot be parsed as number should throw validation error', () => {
-            beforeEach(() => {
-              return ResourceEditPage
+            beforeEach(async () => {
+              await ResourceEditPage
                 .inputEmbargoValue('abcdef')
                 .selectEmbargoUnit('Months')
                 .clickSave();
@@ -213,8 +213,8 @@ describe('CustomResourceEditEmbargo', () => {
           });
 
           describe('decimal custom embargo value should throw validation error', () => {
-            beforeEach(() => {
-              return ResourceEditPage
+            beforeEach(async () => {
+              await ResourceEditPage
                 .inputEmbargoValue('1.5')
                 .selectEmbargoUnit('Months')
                 .clickSave();
@@ -226,8 +226,8 @@ describe('CustomResourceEditEmbargo', () => {
           });
 
           describe('blank custom embargo value should throw validation error', () => {
-            beforeEach(() => {
-              return ResourceEditPage
+            beforeEach(async () => {
+              await ResourceEditPage
                 .inputEmbargoValue('')
                 .selectEmbargoUnit('Months')
                 .clickSave();
@@ -239,8 +239,8 @@ describe('CustomResourceEditEmbargo', () => {
           });
 
           describe('custom embargo value greater than zero and empty unit should throw validation error', () => {
-            beforeEach(() => {
-              return ResourceEditPage
+            beforeEach(async () => {
+              await ResourceEditPage
                 .selectEmbargoUnit('')
                 .inputEmbargoValue('50')
                 .clickSave();
@@ -252,8 +252,8 @@ describe('CustomResourceEditEmbargo', () => {
           });
 
           describe('custom embargo value greater than zero and null unit should throw validation error', () => {
-            beforeEach(() => {
-              return ResourceEditPage
+            beforeEach(async () => {
+              await ResourceEditPage
                 .selectEmbargoUnit(null)
                 .inputEmbargoValue('50')
                 .clickSave();
@@ -277,6 +277,7 @@ describe('CustomResourceEditEmbargo', () => {
 
       await resource.save();
       await this.visit(`/eholdings/resources/${resource.id}/edit`);
+      await ResourceEditPage.whenLoaded();
     });
 
     it('shows a button to add embargo fields', () => {
@@ -291,6 +292,7 @@ describe('CustomResourceEditEmbargo', () => {
 
       await resource.save();
       await this.visit(`/eholdings/resources/${resource.id}/edit`);
+      await ResourceEditPage.whenLoaded();
     });
 
     it('shows a button to add embargo fields', () => {
@@ -307,6 +309,7 @@ describe('CustomResourceEditEmbargo', () => {
 
       await resource.save();
       await this.visit(`/eholdings/resources/${resource.id}/edit`);
+      await ResourceEditPage.whenLoaded();
     });
 
     it('shows a form with embargo fields', () => {

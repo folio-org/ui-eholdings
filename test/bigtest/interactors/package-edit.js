@@ -136,7 +136,6 @@ import PackageSelectionStatus from './selection-status';
 
   inputProviderTokenValue = action(async function (tokenValue) {
     await this
-      .focusProviderTokenValue()
       .fillProviderTokenValue(tokenValue)
       .blurProviderTokenValue();
 
@@ -145,7 +144,6 @@ import PackageSelectionStatus from './selection-status';
 
   inputPackageTokenValue = action(async function (tokenValue) {
     await this
-      .focusPackageTokenValue()
       .fillPackageTokenValue(tokenValue)
       .blurPackageTokenValue();
 

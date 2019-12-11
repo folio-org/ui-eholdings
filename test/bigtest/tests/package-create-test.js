@@ -40,8 +40,8 @@ describe('PackageCreate', () => {
     });
 
     describe('creating a new package', () => {
-      beforeEach(() => {
-        return PackageCreatePage
+      beforeEach(async () => {
+        await PackageCreatePage
           .fillName('My Package')
           .save();
       });
@@ -61,8 +61,8 @@ describe('PackageCreate', () => {
     });
 
     describe('creating a new package with a specified content type', () => {
-      beforeEach(() => {
-        return PackageCreatePage
+      beforeEach(async () => {
+        await PackageCreatePage
           .fillName('My Package')
           .chooseContentType('Print')
           .save();
@@ -106,14 +106,14 @@ describe('PackageCreate', () => {
     });
 
     describe('getting an error when creating a new package', () => {
-      beforeEach(function () {
-        this.server.post('/packages', {
+      beforeEach(async function () {
+        await this.server.post('/packages', {
           errors: [{
             title: 'There was an error'
           }]
         }, 500);
 
-        return PackageCreatePage
+        await PackageCreatePage
           .fillName('My Package')
           .save();
       });
@@ -135,16 +135,17 @@ describe('PackageCreate', () => {
   describe('canceling when there is router history', () => {
     beforeEach(async function () {
       await this.visit('/eholdings/?searchType=packages');
+      await PackageSearchPage.whenLoaded();
     });
 
     describe('clicking a cancel action', () => {
-      beforeEach(function () {
-        return PackageSearchPage.clickNewButton();
+      beforeEach(async function () {
+        await PackageSearchPage.clickNewButton();
       });
 
       describe('clicking cancel', () => {
-        beforeEach(() => {
-          return PackageCreatePage.cancel();
+        beforeEach(async () => {
+          await PackageCreatePage.cancel();
         });
 
         it('redirects to the previous page', function () {
@@ -153,8 +154,8 @@ describe('PackageCreate', () => {
       });
 
       describe('clicking cancel after filling in data', () => {
-        beforeEach(() => {
-          return PackageCreatePage
+        beforeEach(async () => {
+          await PackageCreatePage
             .fillName('My Package')
             .cancel();
         });

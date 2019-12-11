@@ -100,8 +100,8 @@ describe('CustomTitleEdit', function () {
     });
 
     describe('clicking cancel', () => {
-      beforeEach(() => {
-        return TitleEditPage.clickCancel();
+      beforeEach(async () => {
+        await TitleEditPage.clickCancel();
       });
 
       it('goes to the title show page', () => {
@@ -110,15 +110,14 @@ describe('CustomTitleEdit', function () {
     });
 
     describe('adding a second contributor', () => {
-      beforeEach(() => {
-        return TitleEditPage.clickAddContributor()
-          .contributorsRowList(1).type('editor')
-          .contributorsRowList(1).contributor('Ron'); // eslint-disable-line newline-per-chained-call
+      beforeEach(async () => {
+        await TitleEditPage.clickAddContributor().contributorsRowList(1).type('editor');
+        await TitleEditPage.clickAddContributor().contributorsRowList(1).contributor('Ron');
       });
 
       describe('clicking save', () => {
-        beforeEach(() => {
-          return TitleEditPage.clickSave();
+        beforeEach(async () => {
+          await TitleEditPage.clickSave();
         });
 
         it('goes to the title show page', () => {
@@ -133,10 +132,9 @@ describe('CustomTitleEdit', function () {
     });
 
     describe('adding a second identifier', () => {
-      beforeEach(() => {
-        return TitleEditPage.clickAddIdentifiersRowButton()
-          .identifiersRowList(1).type('0')
-          .identifiersRowList(1).id('81803'); // eslint-disable-line newline-per-chained-call
+      beforeEach(async () => {
+        await TitleEditPage.clickAddIdentifiersRowButton().identifiersRowList(1).type('0');
+        await TitleEditPage.clickAddIdentifiersRowButton().identifiersRowList(1).id('81803');
       });
 
       describe('clicking save', () => {
@@ -156,10 +154,9 @@ describe('CustomTitleEdit', function () {
     });
 
     describe('entering a long contributor name', () => {
-      beforeEach(() => {
-        return TitleEditPage
-          .contributorsRowList(0).contributor(new Array(255 + 1).join('a'))
-          .clickSave();
+      beforeEach(async () => {
+        await TitleEditPage.contributorsRowList(0).contributor(new Array(255 + 1).join('a'));
+        await TitleEditPage.clickSave();
       });
 
       it('displays the correct validation message', () => {
@@ -169,8 +166,8 @@ describe('CustomTitleEdit', function () {
     });
 
     describe('Removing all contributors when they were previously set', () => {
-      beforeEach(() => {
-        return TitleEditPage
+      beforeEach(async () => {
+        await TitleEditPage
           .contributorsRowList(0)
           .clickRemoveRowButton();
       });
@@ -182,28 +179,27 @@ describe('CustomTitleEdit', function () {
     });
 
     describe('entering invalid data', () => {
-      beforeEach(() => {
-        return TitleEditPage
-          .name('')
-          .fillEdition(`In the realm of narrative psychology, a person’s life story is not a Wikipedia biography of the facts and
+      beforeEach(async () => {
+        await TitleEditPage.name('');
+        await TitleEditPage.fillEdition(`In the realm of narrative psychology, a person’s life story is not a Wikipedia biography of the facts and
             events of a life, but rather the way a person integrates those facts and events internally—picks them apart and weaves them back
-            together to make meaning. `)
-          .clickAddContributor()
-          .contributorsRowList(0).contributor('') // eslint-disable-line newline-per-chained-call
-          .fillPublisher(`The only prerequisite is that it makes you happy.
+            together to make meaning. `);
+        await TitleEditPage.clickAddContributor();
+        await TitleEditPage.contributorsRowList(0).contributor('');
+        await TitleEditPage.fillPublisher(`The only prerequisite is that it makes you happy.
             If it makes you happy then it's good. All kinds of happy little splashes.
             I started painting as a hobby when I was little. I didn't know I had any talent.
             I believe talent is just a pursued interest. Anybody can do what I do.
             We'll put some happy little leaves here and there. Go out on a limb - that's where the fruit is.
-            God gave you this gift of imagination. Use it.`)
-          .clickAddIdentifiersRowButton()
-          .identifiersRowList(0).id('00000-00000-00000-00000') // eslint-disable-line newline-per-chained-call
-          .fillDescription(`Trees cover up a multitude of sins. If you don't think every day is a good day - try missing a few. You'll see. Put light against light - you have nothing. Put dark against dark - you have nothing. It's the contrast of light and dark that each give the other one meaning. Water's like me. It's laaazy. Boy, it always looks for the easiest way to do things We might as well make some Almighty mountains today as well, what the heck.
+            God gave you this gift of imagination. Use it.`);
+        await TitleEditPage.clickAddIdentifiersRowButton();
+        await TitleEditPage.identifiersRowList(0).id('00000-00000-00000-00000');
+        await TitleEditPage.fillDescription(`Trees cover up a multitude of sins. If you don't think every day is a good day - try missing a few. You'll see. Put light against light - you have nothing. Put dark against dark - you have nothing. It's the contrast of light and dark that each give the other one meaning. Water's like me. It's laaazy. Boy, it always looks for the easiest way to do things We might as well make some Almighty mountains today as well, what the heck.
             You have to make these big decisions. Just take out whatever you don't want. It'll change your entire perspective. We artists are a different breed of people. We're a happy bunch.
             All you need to paint is a few tools, a little instruction, and a vision in your mind. Exercising the imagination, experimenting with talents, being creative; these things, to me, are truly the windows to your soul. I guess that would be considered a UFO. A big cotton ball in the sky.
             La-da-da-da-dah. Just be happy. Clouds are free. They just float around the sky all day and have fun. Let your heart take you to wherever you want to be. Anyone can paint. You don't have to be crazy to do this but it does help. Everyone needs a friend. Friends are the most valuable things in the world.
-            Every time you practice, you learn more. This is a happy place, little squirrels live here and play. Each highlight must have it's own private shadow. If what you're doing doesn't make you happy - you're doing the wrong thing. At home you have unlimited time. Nice little fluffy clouds laying around in the sky being lazy.`)
-          .clickSave();
+            Every time you practice, you learn more. This is a happy place, little squirrels live here and play. Each highlight must have it's own private shadow. If what you're doing doesn't make you happy - you're doing the wrong thing. At home you have unlimited time. Nice little fluffy clouds laying around in the sky being lazy.`);
+        await TitleEditPage.clickSave();
       });
 
       it('displays a validation error for the name', () => {
@@ -229,8 +225,8 @@ describe('CustomTitleEdit', function () {
     });
 
     describe('entering empty spaces for edition', () => {
-      beforeEach(() => {
-        return TitleEditPage
+      beforeEach(async () => {
+        await TitleEditPage
           .name('some name')
           .fillEdition('        ')
           .fillPublisher('some publisher')
@@ -244,21 +240,20 @@ describe('CustomTitleEdit', function () {
     });
 
     describe('entering valid data', () => {
-      beforeEach(() => {
-        return TitleEditPage
-          .fillEdition('testing edition again')
-          .fillPublisher('Not So Awesome Publisher')
-          .contributorsRowList(0).type('Editor') // eslint-disable-line newline-per-chained-call
-          .contributorsRowList(0).contributor('Awesome Author') // eslint-disable-line newline-per-chained-call
-          .clickAddIdentifiersRowButton()
-          .identifiersRowList(1).id('1111') // eslint-disable-line newline-per-chained-call
-          .fillDescription('What a super helpful description. Wow.')
-          .checkPeerReviewed();
+      beforeEach(async () => {
+        await TitleEditPage.fillEdition('testing edition again');
+        await TitleEditPage.fillPublisher('Not So Awesome Publisher');
+        await TitleEditPage.contributorsRowList(0).type('Editor');
+        await TitleEditPage.contributorsRowList(0).contributor('Awesome Author');
+        await TitleEditPage.clickAddIdentifiersRowButton();
+        await TitleEditPage.identifiersRowList(1).id('1111');
+        await TitleEditPage.fillDescription('What a super helpful description. Wow.');
+        await TitleEditPage.checkPeerReviewed();
       });
 
       describe('clicking cancel', () => {
-        beforeEach(() => {
-          return TitleEditPage.clickCancel();
+        beforeEach(async () => {
+          await TitleEditPage.clickCancel();
         });
 
         it('shows a navigation confirmation modal', () => {
@@ -267,8 +262,8 @@ describe('CustomTitleEdit', function () {
       });
 
       describe('clicking save', () => {
-        beforeEach(() => {
-          return TitleEditPage.clickSave();
+        beforeEach(async () => {
+          await TitleEditPage.clickSave();
         });
 
         it('goes to the title show page', () => {
@@ -336,8 +331,8 @@ describe('CustomTitleEdit', function () {
     });
 
     describe('entering valid data and clicking save', () => {
-      beforeEach(() => {
-        return TitleEditPage
+      beforeEach(async () => {
+        await TitleEditPage
           .checkPeerReviewed()
           .name('A Different Name')
           .fillEdition('A Different Edition')
@@ -357,8 +352,8 @@ describe('CustomTitleEdit', function () {
     });
 
     describe('clicking the edit button', () => {
-      beforeEach(() => {
-        return TitleShowPage.clickEditButton();
+      beforeEach(async () => {
+        await TitleShowPage.clickEditButton();
       });
 
       it('should display the back button in pane header', () => {

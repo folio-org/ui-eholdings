@@ -13,9 +13,9 @@ describe('ManagedPackageEditSelection', function () {
   let provider,
     providerPackage;
 
-  beforeEach(function () {
-    setupBlockServer(this.server);
-    provider = this.server.create('provider', {
+  beforeEach(async function () {
+    await setupBlockServer(this.server);
+    provider = await this.server.create('provider', {
       name: 'Cool Provider'
     });
   });
@@ -57,8 +57,8 @@ describe('ManagedPackageEditSelection', function () {
     });
 
     describe('clicking cancel', () => {
-      beforeEach(() => {
-        return PackageEditPage.clickCancel();
+      beforeEach(async () => {
+        await PackageEditPage.clickCancel();
       });
 
       it('goes to the package show page', () => {
@@ -72,8 +72,8 @@ describe('ManagedPackageEditSelection', function () {
       });
 
       describe('via "Add to holdings" button', () => {
-        beforeEach(() => {
-          return PackageEditPage.clickAddButton();
+        beforeEach(async () => {
+          await PackageEditPage.clickAddButton();
         });
 
         it('stays on the edit page', () => {
@@ -90,10 +90,9 @@ describe('ManagedPackageEditSelection', function () {
       });
 
       describe('via dropdown action', () => {
-        beforeEach(() => {
-          return PackageEditPage
-            .dropDown.clickDropDownButton()
-            .dropDownMenu.addToHoldings.click();
+        beforeEach(async () => {
+          await PackageEditPage.dropDown.clickDropDownButton();
+          await PackageEditPage.dropDownMenu.addToHoldings.click();
         });
 
         it('stays on the edit page', () => {
@@ -262,8 +261,8 @@ describe('ManagedPackageEditSelection', function () {
     });
 
     describe('clicking cancel', () => {
-      beforeEach(() => {
-        return PackageEditPage.clickCancel();
+      beforeEach(async () => {
+        await PackageEditPage.clickCancel();
       });
 
       it('goes to the package show page', () => {
@@ -272,10 +271,9 @@ describe('ManagedPackageEditSelection', function () {
     });
 
     describe('deselecting the package', () => {
-      beforeEach(() => {
-        return PackageEditPage
-          .dropDown.clickDropDownButton()
-          .dropDownMenu.removeFromHoldings.click();
+      beforeEach(async () => {
+        await PackageEditPage.dropDown.clickDropDownButton();
+        await PackageEditPage.dropDownMenu.removeFromHoldings.click();
       });
 
       it('shows the deselection confirmation modal', () => {
@@ -283,8 +281,8 @@ describe('ManagedPackageEditSelection', function () {
       });
 
       describe('clicking cancel', () => {
-        beforeEach(() => {
-          return PackageEditPage.modal.cancelDeselection();
+        beforeEach(async () => {
+          await PackageEditPage.modal.cancelDeselection();
         });
 
         it('should stay on the edit page', () => {
@@ -299,14 +297,14 @@ describe('ManagedPackageEditSelection', function () {
       describe('clicking confirm', () => {
         let resolveRequest;
 
-        beforeEach(function () {
-          this.server.put('/packages/:id', () => {
+        beforeEach(async function () {
+          await this.server.put('/packages/:id', () => {
             return new Promise((resolve) => {
               resolveRequest = resolve;
             });
           });
 
-          return PackageEditPage.modal.confirmDeselection();
+          await PackageEditPage.modal.confirmDeselection();
         });
 
         it('should keep confirmation modal on screen until requests responds', () => {
@@ -367,8 +365,8 @@ describe('ManagedPackageEditSelection', function () {
     });
 
     describe('inspecting the menu', () => {
-      beforeEach(() => {
-        return PackageEditPage.dropDown.clickDropDownButton();
+      beforeEach(async () => {
+        await PackageEditPage.dropDown.clickDropDownButton();
       });
 
       it('has menu item to add all remaining titles from this packages', () => {

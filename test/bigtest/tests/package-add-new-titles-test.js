@@ -9,8 +9,8 @@ describe('PackageShowAllowKbToAddTitles', () => {
   let provider,
     pkg;
 
-  beforeEach(function () {
-    provider = this.server.create('provider', {
+  beforeEach(async function () {
+    provider = await this.server.create('provider', {
       name: 'Cool Provider'
     });
   });
@@ -26,6 +26,7 @@ describe('PackageShowAllowKbToAddTitles', () => {
       });
 
       await this.visit(`/eholdings/packages/${pkg.id}`);
+      await PackageShowPage.whenLoaded();
     });
 
     it('displays YES for allowing kb to select new titles', () => {
@@ -44,6 +45,7 @@ describe('PackageShowAllowKbToAddTitles', () => {
       });
 
       await this.visit(`/eholdings/packages/${pkg.id}`);
+      await PackageShowPage.whenLoaded();
     });
 
     it('displays NO for allowing kb to select new titles', () => {
@@ -61,6 +63,7 @@ describe('PackageShowAllowKbToAddTitles', () => {
       });
 
       await this.visit(`/eholdings/packages/${pkg.id}`);
+      await PackageShowPage.whenLoaded();
     });
 
     it('sets the state of allow KB to add titles to false', () => {
@@ -83,11 +86,12 @@ describe('PackageShowAllowKbToAddTitles', () => {
       });
 
       await this.visit(`/eholdings/packages/${pkg.id}`);
+      await PackageShowPage.whenLoaded();
     });
 
     describe('selecting a package', () => {
-      beforeEach(() => {
-        return PackageShowPage.whenLoaded().selectPackage();
+      beforeEach(async () => {
+        await PackageShowPage.selectPackage();
       });
 
       it('reflects the desired state (Selected)', () => {
@@ -111,6 +115,7 @@ describe('PackageShowAllowKbToAddTitles', () => {
       });
 
       await this.visit(`/eholdings/packages/${pkg.id}`);
+      await PackageShowPage.whenLoaded();
     });
 
     it('displays YES for allowing kb to select new titles', () => {
@@ -118,8 +123,8 @@ describe('PackageShowAllowKbToAddTitles', () => {
     });
 
     describe('toggling to deselect a package and confirming deselection', () => {
-      beforeEach(() => {
-        return PackageShowPage.deselectAndConfirmPackage();
+      beforeEach(async () => {
+        await PackageShowPage.deselectAndConfirmPackage();
       });
 
       it('removes allow KB to add titles toggle switch', () => {
@@ -128,8 +133,8 @@ describe('PackageShowAllowKbToAddTitles', () => {
     });
 
     describe('toggling to deselect a package and canceling deselection', () => {
-      beforeEach(() => {
-        return PackageShowPage.deselectAndCancelPackage();
+      beforeEach(async () => {
+        await PackageShowPage.deselectAndCancelPackage();
       });
 
       it('displays YES for allowing kb to select new titles', () => {
@@ -149,6 +154,7 @@ describe('PackageShowAllowKbToAddTitles', () => {
         titleCount: 5
       });
       await this.visit(`/eholdings/packages/${pkg.id}`);
+      await PackageShowPage.whenLoaded();
     });
 
     it('displays YES for allowing kb to select new titles', () => {
@@ -167,6 +173,7 @@ describe('PackageShowAllowKbToAddTitles', () => {
         titleCount: 5
       });
       await this.visit(`/eholdings/packages/${pkg.id}`);
+      await PackageShowPage.whenLoaded();
     });
 
     it('displays NO for allowing kb to select new titles', () => {

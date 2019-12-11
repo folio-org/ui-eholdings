@@ -112,8 +112,8 @@ describe('ProviderShow package search', function () {
       });
 
       describe('applying filters', () => {
-        beforeEach(() => {
-          return ProviderShowPage.searchModal.clickSearch();
+        beforeEach(async () => {
+          await ProviderShowPage.searchModal.clickSearch();
         });
         it('applies the changes and closes the modal', () => {
           expect(ProviderShowPage.searchModal.isPresent).to.be.false;

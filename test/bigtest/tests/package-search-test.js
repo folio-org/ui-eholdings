@@ -111,7 +111,7 @@ describe('PackageSearch', function () {
       });
 
       describe('clicking on the search icon', () => {
-        beforeEach(() => PackageSearchPage.searchBadge.clickIcon());
+        beforeEach(async () => await PackageSearchPage.searchBadge.clickIcon());
 
         it('closes the search pane', () => {
           expect(PackageSearchPage.isSearchPanePresent).to.be.false;
@@ -349,8 +349,8 @@ describe('PackageSearch', function () {
 
 
     describe('with a more specific query', () => {
-      beforeEach(() => {
-        return PackageSearchPage.search('Package1');
+      beforeEach(async () => {
+        await PackageSearchPage.search('Package1');
       });
 
       it('only shows a single result', () => {
@@ -359,10 +359,9 @@ describe('PackageSearch', function () {
     });
 
     describe('clicking another search type', () => {
-      beforeEach(() => {
-        return PackageSearchPage
-          .packageList(0).click()
-          .changeSearchType('titles');
+      beforeEach(async () => {
+        await PackageSearchPage.packageList(0).click();
+        await PackageSearchPage.changeSearchType('titles');
       });
 
       it('only shows one search type as selected', () => {
@@ -382,11 +381,10 @@ describe('PackageSearch', function () {
       });
     });
     describe('clicking another search type and navigating back to packages search', () => {
-      beforeEach(() => {
-        return PackageSearchPage
-          .packageList(0).click()
-          .changeSearchType('titles')
-          .changeSearchType('packages');
+      beforeEach(async () => {
+        await PackageSearchPage.packageList(0).click();
+        await PackageSearchPage.changeSearchType('titles');
+        await PackageSearchPage.changeSearchType('packages');
       });
 
       it('displays the original search', () => {
@@ -470,20 +468,20 @@ describe('PackageSearch', function () {
   });
 
   describe('sorting packages', () => {
-    beforeEach(function () {
-      this.server.create('package', {
+    beforeEach(async function () {
+      await this.server.create('package', {
         name: 'Academic ASAP'
       });
-      this.server.create('package', {
+      await this.server.create('package', {
         name: 'Search Networks'
       });
-      this.server.create('package', {
+      await this.server.create('package', {
         name: 'Non Matching'
       });
-      this.server.create('package', {
+      await this.server.create('package', {
         name: 'Academic Search Elite'
       });
-      this.server.create('package', {
+      await this.server.create('package', {
         name: 'Academic Search Premier'
       });
     });
@@ -630,8 +628,8 @@ describe('PackageSearch', function () {
     });
 
     describe('clearing the search field', () => {
-      beforeEach(() => {
-        return PackageSearchPage.fillSearch('');
+      beforeEach(async () => {
+        await PackageSearchPage.fillSearch('');
       });
 
       it('has disabled search button', () => {
@@ -711,8 +709,8 @@ describe('PackageSearch', function () {
           });
 
           describe('clearing the filters', () => {
-            beforeEach(() => {
-              return PackageSearchPage.tagsSection.clearTagFilter();
+            beforeEach(async () => {
+              await PackageSearchPage.tagsSection.clearTagFilter();
             });
 
             it('displays tag filter with empty value', () => {
@@ -733,15 +731,15 @@ describe('PackageSearch', function () {
   });
 
   describe('with multiple pages of packages', () => {
-    beforeEach(function () {
-      this.server.createList('package', 75, {
+    beforeEach(async function () {
+      await this.server.createList('package', 75, {
         name: i => `Other Package ${i + 1}`
       });
     });
 
     describe('searching for packages', () => {
-      beforeEach(() => {
-        return PackageSearchPage.search('other');
+      beforeEach(async () => {
+        await PackageSearchPage.search('other');
       });
 
       it('shows the first page of results', () => {
@@ -749,10 +747,9 @@ describe('PackageSearch', function () {
       });
 
       describe('and then scrolling down', () => {
-        beforeEach(() => {
-          return PackageSearchPage
-            .when(() => PackageSearchPage.hasLoaded)
-            .scrollToOffset(26);
+        beforeEach(async () => {
+          await PackageSearchPage.when(() => PackageSearchPage.hasLoaded);
+          await PackageSearchPage.scrollToOffset(26);
         });
 
         it('shows the next page of results', () => {
@@ -783,8 +780,8 @@ describe('PackageSearch', function () {
       });
 
       describe('and then scrolling up', () => {
-        beforeEach(() => {
-          return PackageSearchPage.scrollToOffset(0);
+        beforeEach(async () => {
+          await PackageSearchPage.scrollToOffset(0);
         });
 
         it('shows the total results', () => {
@@ -803,8 +800,8 @@ describe('PackageSearch', function () {
   });
 
   describe("searching for the package 'fhqwhgads'", () => {
-    beforeEach(() => {
-      return PackageSearchPage.search('fhqwhgads');
+    beforeEach(async () => {
+      await PackageSearchPage.search('fhqwhgads');
     });
 
     it("displays 'no results' message", () => {
@@ -813,14 +810,14 @@ describe('PackageSearch', function () {
   });
 
   describe('encountering a server error', () => {
-    beforeEach(function () {
-      this.server.get('/packages', {
+    beforeEach(async function () {
+      await this.server.get('/packages', {
         errors: [{
           title: 'There was an error'
         }]
       }, 500);
 
-      return PackageSearchPage.search("this doesn't matter");
+      await PackageSearchPage.search("this doesn't matter");
     });
 
     it('dies with dignity', () => {

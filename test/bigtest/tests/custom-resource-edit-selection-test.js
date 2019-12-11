@@ -12,28 +12,28 @@ describe('CustomResourceHoldingSelection', () => {
     providerPackage,
     resource;
 
-  beforeEach(function () {
-    provider = this.server.create('provider', {
+  beforeEach(async function () {
+    provider = await this.server.create('provider', {
       name: 'Cool Provider'
     });
 
-    providerPackage = this.server.create('package', 'withTitles', {
+    providerPackage = await this.server.create('package', 'withTitles', {
       provider,
       name: 'Star Wars Custom Package',
       contentType: 'Online',
       isCustom: true
     });
 
-    title = this.server.create('title', {
+    title = await this.server.create('title', {
       name: 'Hans Solo Director Cut',
       publicationType: 'Streaming Video',
       publisherName: 'Amazing Publisher',
       isTitleCustom: true
     });
 
-    title.save();
+    await title.save();
 
-    resource = this.server.create('resource', {
+    resource = await this.server.create('resource', {
       package: providerPackage,
       title,
       url: 'https://www.frontside.io',
@@ -45,6 +45,7 @@ describe('CustomResourceHoldingSelection', () => {
   describe('visiting the package details page', () => {
     beforeEach(async function () {
       await this.visit(`/eholdings/resources/${resource.titleId}/edit`);
+      await ResourceEditPage.whenLoaded();
     });
 
     it('shows the custom package as selected in my holdings', () => {
@@ -60,10 +61,9 @@ describe('CustomResourceHoldingSelection', () => {
         beforeEach(async function () {
           providerPackage.titleCount = 20;
           await this.visit(`/eholdings/resources/${resource.titleId}/edit`);
-
-          await ResourceEditPage
-            .dropDown.clickDropDownButton()
-            .dropDownMenu.clickRemoveFromHoldings();
+          await ResourceEditPage.whenLoaded();
+          await ResourceEditPage.dropDown.clickDropDownButton();
+          await ResourceEditPage.dropDownMenu.clickRemoveFromHoldings();
         });
 
         describe('confirmation modal', () => {
@@ -77,10 +77,9 @@ describe('CustomResourceHoldingSelection', () => {
         beforeEach(async function () {
           providerPackage.titleCount = 1;
           await this.visit(`/eholdings/resources/${resource.titleId}/edit`);
-
-          await ResourceEditPage
-            .dropDown.clickDropDownButton()
-            .dropDownMenu.clickRemoveFromHoldings();
+          await ResourceEditPage.whenLoaded();
+          await ResourceEditPage.dropDown.clickDropDownButton();
+          await ResourceEditPage.dropDownMenu.clickRemoveFromHoldings();
         });
 
         describe('confirmation modal', () => {
@@ -103,9 +102,7 @@ describe('CustomResourceHoldingSelection', () => {
         beforeEach(async function () {
           await this.server.delete('/resources/:id', ({ resources }, request) => {
             const matchingResource = resources.find(request.params.id);
-
             matchingResource.destroy();
-
             // return {};
 
             return new Promise((resolve) => {
@@ -113,9 +110,8 @@ describe('CustomResourceHoldingSelection', () => {
             });
           });
 
-          await ResourceEditPage
-            .dropDown.clickDropDownButton()
-            .dropDownMenu.clickRemoveFromHoldings();
+          await ResourceEditPage.dropDown.clickDropDownButton()
+          await ResourceEditPage.dropDownMenu.clickRemoveFromHoldings();
           await ResourceEditPage.modal.confirmDeselection();
         });
 
@@ -135,8 +131,8 @@ describe('CustomResourceHoldingSelection', () => {
         });
 
         describe('when the request resolves', () => {
-          beforeEach(() => {
-            resolveRequest();
+          beforeEach(async () => {
+            await resolveRequest();
           });
 
           it('transition to package search page', () => {
@@ -159,9 +155,8 @@ describe('CustomResourceHoldingSelection', () => {
 
       describe('canceling the save and discontinue deselection', () => {
         beforeEach(async () => {
-          await ResourceEditPage
-            .dropDown.clickDropDownButton()
-            .dropDownMenu.clickRemoveFromHoldings();
+          await ResourceEditPage.dropDown.clickDropDownButton()
+          await ResourceEditPage.dropDownMenu.clickRemoveFromHoldings();
           await ResourceEditPage.modal.cancelDeselection();
         });
 
@@ -180,9 +175,8 @@ describe('CustomResourceHoldingSelection', () => {
           }]
         }, 500);
 
-        return ResourceEditPage
-          .dropDown.clickDropDownButton()
-          .dropDownMenu.clickRemoveFromHoldings();
+        await ResourceEditPage.dropDown.clickDropDownButton()
+        await ResourceEditPage.dropDownMenu.clickRemoveFromHoldings();
       });
 
       it('shows a confirmation modal', () => {
@@ -190,8 +184,8 @@ describe('CustomResourceHoldingSelection', () => {
       });
 
       describe('confirm and continue deselection', () => {
-        beforeEach(() => {
-          return ResourceEditPage.modal.confirmDeselection();
+        beforeEach(async () => {
+          await ResourceEditPage.modal.confirmDeselection();
         });
 
         it('cannot be interacted with while the request is in flight', () => {

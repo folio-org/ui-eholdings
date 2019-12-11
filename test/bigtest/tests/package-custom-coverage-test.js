@@ -9,8 +9,8 @@ describe('PackageCustomCoverage', () => {
   let provider,
     pkg;
 
-  beforeEach(function () {
-    provider = this.server.create('provider', {
+  beforeEach(async function () {
+    provider = await this.server.create('provider', {
       name: 'Cool Provider'
     });
   });
@@ -25,6 +25,7 @@ describe('PackageCustomCoverage', () => {
       });
 
       await this.visit(`/eholdings/packages/${pkg.id}`);
+      await PackageShowPage.whenLoaded();
     });
 
     it('should not display custom coverage', () => {
@@ -48,6 +49,7 @@ describe('PackageCustomCoverage', () => {
       });
 
       await this.visit(`/eholdings/packages/${pkg.id}`);
+      await PackageShowPage.whenLoaded();
     });
 
     it('displays the custom coverage section', () => {
@@ -63,8 +65,8 @@ describe('PackageCustomCoverage', () => {
     });
 
     describe('clicking to toggle and deselect package and confirming deselection', () => {
-      beforeEach(() => {
-        return PackageShowPage.deselectAndConfirmPackage();
+      beforeEach(async () => {
+        await PackageShowPage.deselectAndConfirmPackage();
       });
 
       it('removes the custom coverage', () => {
@@ -73,8 +75,8 @@ describe('PackageCustomCoverage', () => {
     });
 
     describe('clicking to toggle and deselect package and canceling deselection', () => {
-      beforeEach(() => {
-        return PackageShowPage.deselectAndCancelPackage();
+      beforeEach(async () => {
+        await PackageShowPage.deselectAndCancelPackage();
       });
 
       it.always('does not remove the custom coverage', () => {
@@ -93,6 +95,7 @@ describe('PackageCustomCoverage', () => {
       });
 
       await this.visit(`/eholdings/packages/${pkg.id}`);
+      await PackageShowPage.whenLoaded();
     });
 
     it.always('does not display the custom coverage section', () => {
