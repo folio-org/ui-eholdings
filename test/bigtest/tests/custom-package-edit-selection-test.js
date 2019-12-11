@@ -11,8 +11,8 @@ describe('CustomPackageEditSelection', function () {
     providerPackage;
 
   beforeEach(async function () {
-      // some of the beforeEach blocks seem to timeout in CI
-  this.timeout(5000);
+    // some of the beforeEach blocks seem to timeout in CI
+    this.timeout(5000);
     provider = await this.server.create('provider', {
       name: 'Cool Provider'
     });

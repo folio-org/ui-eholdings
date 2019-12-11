@@ -110,7 +110,7 @@ describe('CustomResourceHoldingSelection', () => {
             });
           });
 
-          await ResourceEditPage.dropDown.clickDropDownButton()
+          await ResourceEditPage.dropDown.clickDropDownButton();
           await ResourceEditPage.dropDownMenu.clickRemoveFromHoldings();
           await ResourceEditPage.modal.confirmDeselection();
         });
@@ -155,7 +155,7 @@ describe('CustomResourceHoldingSelection', () => {
 
       describe('canceling the save and discontinue deselection', () => {
         beforeEach(async () => {
-          await ResourceEditPage.dropDown.clickDropDownButton()
+          await ResourceEditPage.dropDown.clickDropDownButton();
           await ResourceEditPage.dropDownMenu.clickRemoveFromHoldings();
           await ResourceEditPage.modal.cancelDeselection();
         });
@@ -175,7 +175,7 @@ describe('CustomResourceHoldingSelection', () => {
           }]
         }, 500);
 
-        await ResourceEditPage.dropDown.clickDropDownButton()
+        await ResourceEditPage.dropDown.clickDropDownButton();
         await ResourceEditPage.dropDownMenu.clickRemoveFromHoldings();
       });
 

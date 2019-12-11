@@ -111,7 +111,9 @@ describe('PackageSearch', function () {
       });
 
       describe('clicking on the search icon', () => {
-        beforeEach(async () => await PackageSearchPage.searchBadge.clickIcon());
+        beforeEach(async () => {
+          await PackageSearchPage.searchBadge.clickIcon();
+        });
 
         it('closes the search pane', () => {
           expect(PackageSearchPage.isSearchPanePresent).to.be.false;

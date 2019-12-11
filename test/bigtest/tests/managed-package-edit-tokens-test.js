@@ -138,7 +138,7 @@ describe('ManagedPackageEditTokens', function () {
 
     describe('updating package and provider tokens', () => {
       beforeEach(async () => {
-        await PackageEditPage.inputProviderTokenValue('test-provider-token')
+        await PackageEditPage.inputProviderTokenValue('test-provider-token');
         await PackageEditPage.inputPackageTokenValue('test-package-token');
       });
 
