@@ -174,6 +174,7 @@ describe('ResourceShow', () => {
         describe('after click on first agreement', () => {
           beforeEach(async () => {
             await ResourcePage.agreementsSection.agreements(0).click();
+            await ResourcePage.when(() => ResourcePage.agreementsSection.hasAgreementsList );
           });
 
           it('should redirect to agreement details page', function () {

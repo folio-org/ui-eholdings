@@ -13,27 +13,27 @@ describe('ResourceEditManagedTitleInManagedPackage', function () {
     providerPackage,
     resource;
 
-  beforeEach(function () {
-    provider = this.server.create('provider', {
+  beforeEach(async function () {
+    provider = await this.server.create('provider', {
       name: 'Cool Provider'
     });
 
-    providerPackage = this.server.create('package', 'withTitles', {
+    providerPackage = await this.server.create('package', 'withTitles', {
       provider,
       name: 'Cool Package',
       contentType: 'E-Book',
       titleCount: 5
     });
 
-    const title = this.server.create('title', {
+    const title = await this.server.create('title', {
       name: 'Best Title Ever',
       publicationType: 'Streaming Video',
       publisherName: 'Amazing Publisher'
     });
 
-    title.save();
+    await title.save();
 
-    resource = this.server.create('resource', {
+    resource = await this.server.create('resource', {
       package: providerPackage,
       isSelected: true,
       title,
@@ -43,7 +43,7 @@ describe('ResourceEditManagedTitleInManagedPackage', function () {
       }
     });
 
-    resource.save();
+    await resource.save();
   });
 
   describe('visiting the resource edit page without coverage dates, statement, or embargo', () => {
@@ -54,9 +54,9 @@ describe('ResourceEditManagedTitleInManagedPackage', function () {
       }).map(item => item.toJSON());
 
       await resource.save();
-
       await this.visit(`/eholdings/resources/${resource.titleId}/edit`);
       await ResourceEditPage.whenLoaded();
+      await ResourceEditPage.when(() => ResourceEditPage.hasManagedCoverage);
     });
 
     it('displays the managed coverage dates in the form', () => {
@@ -197,50 +197,61 @@ describe('ResourceEditManagedTitleInManagedPackage', function () {
         })
       ];
       await resource.update('customCoverages', customCoverages.map(item => item.toJSON()));
-      resource.customEmbargoPeriod = this.server.create('embargo-period', {
+      resource.customEmbargoPeriod = await this.server.create('embargo-period', {
         embargoUnit: 'Months',
         embargoValue: 6
       }).toJSON();
       await resource.save();
 
       await this.visit(`/eholdings/resources/${resource.titleId}/edit`);
+      await ResourceEditPage.whenLoaded();
+    });
+    
+    it('section: holding status displays the title', () => {
+      expect(ResourceEditPage.resourceHoldingStatusAccordion.label).to.equal('Holding status');
     });
 
-    describe('section: holding status', () => {
-      it('displays the title', () => {
-        expect(ResourceEditPage.resourceHoldingStatusAccordion.label).to.equal('Holding status');
+    it('section: holding status is expanded by default', () => {
+      expect(ResourceEditPage.resourceHoldingStatusAccordion.isOpen).to.equal(true);
+    });
+
+    it('section: holding status reflects the desired state of holding status', () => {
+      expect(ResourceEditPage.isResourceSelectedBoolean).to.equal(true);
+    });
+
+    it('section: holding status has hidden "Add to holdings" button', () => {
+      expect(ResourceEditPage.addToHoldingsButton).to.equal(false);
+    });
+
+    it('section: coverage settings displays the title', () => {
+      expect(ResourceEditPage.resourceSettingsAccordion.label).to.equal('Resource settings');
+    });
+
+    it('section: coverage settings is expanded by default', () => {
+      expect(ResourceEditPage.resourceSettingsAccordion.isOpen).to.equal(true);
+    });
+
+    it('section: coverage settings has "Dates" field', () => {
+      expect(ResourceEditPage.isCoverageSettingsDatesField).to.equal(true);
+    });
+
+    describe('section: holding status clicking the header', () => {
+      beforeEach(async () => {
+        await ResourceEditPage.resourceHoldingStatusAccordion.clickHeader();
       });
 
-      it('is expanded by default', () => {
-        expect(ResourceEditPage.resourceHoldingStatusAccordion.isOpen).to.equal(true);
+      it('collapses the section', () => {
+        expect(ResourceEditPage.resourceHoldingStatusAccordion.isOpen).to.be.false;
       });
 
-      describe('clicking the header', () => {
+      describe('clicking the header again', () => {
         beforeEach(async () => {
           await ResourceEditPage.resourceHoldingStatusAccordion.clickHeader();
         });
 
-        it('collapses the section', () => {
-          expect(ResourceEditPage.resourceHoldingStatusAccordion.isOpen).to.be.false;
+        it('expands the section', () => {
+          expect(ResourceEditPage.resourceHoldingStatusAccordion.isOpen).to.be.true;
         });
-
-        describe('clicking the header again', () => {
-          beforeEach(async () => {
-            await ResourceEditPage.resourceHoldingStatusAccordion.clickHeader();
-          });
-
-          it('expands the section', () => {
-            expect(ResourceEditPage.resourceHoldingStatusAccordion.isOpen).to.be.true;
-          });
-        });
-      });
-
-      it('reflects the desired state of holding status', () => {
-        expect(ResourceEditPage.isResourceSelectedBoolean).to.equal(true);
-      });
-
-      it('has hidden "Add to holdings" button', () => {
-        expect(ResourceEditPage.addToHoldingsButton).to.equal(false);
       });
     });
 
@@ -278,87 +289,73 @@ describe('ResourceEditManagedTitleInManagedPackage', function () {
       });
     });
 
-    describe('section: coverage settings', () => {
-      it('displays the title', () => {
-        expect(ResourceEditPage.resourceSettingsAccordion.label).to.equal('Resource settings');
+    describe('section: coverage settings clicking the header', () => {
+      beforeEach(async () => {
+        await ResourceEditPage.resourceSettingsAccordion.clickHeader();
       });
 
-      it('is expanded by default', () => {
-        expect(ResourceEditPage.resourceSettingsAccordion.isOpen).to.equal(true);
+      it('collapses the section', () => {
+        expect(ResourceEditPage.resourceSettingsAccordion.isOpen).to.be.false;
       });
 
-      describe('clicking the header', () => {
+      describe('clicking the header again', () => {
         beforeEach(async () => {
           await ResourceEditPage.resourceSettingsAccordion.clickHeader();
         });
 
-        it('collapses the section', () => {
-          expect(ResourceEditPage.resourceSettingsAccordion.isOpen).to.be.false;
-        });
-
-        describe('clicking the header again', () => {
-          beforeEach(async () => {
-            await ResourceEditPage.resourceSettingsAccordion.clickHeader();
-          });
-
-          it('expands the section', () => {
-            expect(ResourceEditPage.resourceSettingsAccordion.isOpen).to.be.true;
-          });
+        it('expands the section', () => {
+          expect(ResourceEditPage.resourceSettingsAccordion.isOpen).to.be.true;
         });
       });
+    });
 
-      it('has "Dates" field', () => {
-        expect(ResourceEditPage.isCoverageSettingsDatesField).to.equal(true);
+    describe.skip('section: coverage settings when there are only empty custom coverage date ranges', () => {
+      beforeEach(async function () {
+        const customCoverages = [
+          await this.server.create('custom-coverage', {}),
+          await this.server.create('custom-coverage', {}),
+        ];
+        await resource.update('customCoverages', customCoverages.map(item => item.toJSON()));
       });
 
-      describe('when there are only empty custom coverage date ranges', () => {
-        beforeEach(function () {
-          const customCoverages = [
-            this.server.create('custom-coverage', {}),
-            this.server.create('custom-coverage', {}),
-          ];
-          resource.update('customCoverages', customCoverages.map(item => item.toJSON()));
-        });
+      it('should display dates row as empty', () => {
+        expect(ResourceEditPage.isCoverageDisplayDatesExists).to.equal(false);
+      });
+    });
 
-        it('should display dates row as empty', () => {
-          expect(ResourceEditPage.isCoverageDisplayDatesExists).to.equal(false);
-        });
+    describe('section: coverage settings when there is only 1 filled custom coverage date range', () => {
+      beforeEach(async function () {
+        const customCoverages = [
+          await this.server.create('custom-coverage', {
+            beginCoverage: '2018-01-01',
+            endCoverage: '2019-12-31',
+          }),
+        ];
+        await resource.update('customCoverages', customCoverages.map(item => item.toJSON()));
       });
 
-      describe('when there is only 1 filled custom coverage date range', () => {
-        beforeEach(function () {
-          const customCoverages = [
-            this.server.create('custom-coverage', {
-              beginCoverage: '2018-01-01',
-              endCoverage: '2019-12-31',
-            }),
-          ];
-          resource.update('customCoverages', customCoverages.map(item => item.toJSON()));
-        });
+      it('should display the date range without a separator', () => {
+        expect(ResourceEditPage.coverageDisplayDates).to.equal('2018 - 2019');
+      });
+    });
 
-        it('should display the date range without a separator', () => {
-          expect(ResourceEditPage.coverageDisplayDates).to.equal('2018 - 2019');
-        });
+    describe('section: coverage settings when there are at least 2 ranges are filled', () => {
+      beforeEach(async function () {
+        const customCoverages = [
+          await this.server.create('custom-coverage', {
+            beginCoverage: '2018-01-01',
+            endCoverage: '2019-07-31'
+          }),
+          await this.server.create('custom-coverage', {
+            beginCoverage: '2019-01-01',
+            endCoverage: '2020-12-31'
+          }),
+        ];
+        await resource.update('customCoverages', customCoverages.map(item => item.toJSON()));
       });
 
-      describe('when there are at least 2 ranges are filled', () => {
-        beforeEach(function () {
-          const customCoverages = [
-            this.server.create('custom-coverage', {
-              beginCoverage: '2018-01-01',
-              endCoverage: '2019-07-31'
-            }),
-            this.server.create('custom-coverage', {
-              beginCoverage: '2019-01-01',
-              endCoverage: '2020-12-31'
-            }),
-          ];
-          resource.update('customCoverages', customCoverages.map(item => item.toJSON()));
-        });
-
-        it('should display ranges separated with comma', () => {
-          expect(ResourceEditPage.coverageDisplayDates).to.equal('2019 - 2020, 2018 - 2019');
-        });
+      it('should display ranges separated with comma', () => {
+        expect(ResourceEditPage.coverageDisplayDates).to.equal('2019 - 2020, 2018 - 2019');
       });
     });
 
@@ -495,7 +492,7 @@ describe('ResourceEditManagedTitleInManagedPackage', function () {
   describe('visiting the resource edit page with a coverage statement', () => {
     beforeEach(async function () {
       resource.coverageStatement = 'test coverage statement';
-      resource.save();
+      await resource.save();
       await this.visit(`/eholdings/resources/${resource.titleId}/edit`);
       await ResourceEditPage.whenLoaded();
     });
@@ -560,11 +557,13 @@ describe('ResourceEditManagedTitleInManagedPackage', function () {
   describe('visiting the resource show page', () => {
     beforeEach(async function () {
       await this.visit(`/eholdings/resources/${resource.id}`);
+      await ResourceShowPage.whenLoaded();
     });
 
     describe('clicking the edit button', () => {
-      beforeEach(() => {
-        return ResourceShowPage.clickEditButton();
+      beforeEach(async () => {
+        await ResourceShowPage.clickEditButton();
+        await ResourceEditPage.whenLoaded();
       });
 
       it('should display the back button in pane header', () => {

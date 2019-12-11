@@ -44,6 +44,7 @@ describe('ResourceEditManagedTitleInCustomPackage', () => {
   describe('visiting the package details page', () => {
     beforeEach(async function () {
       await this.visit(`/eholdings/resources/${resource.titleId}/edit`);
+      await ResourceEditPage.whenLoaded();
     });
 
     it('shows the managed resource as selected in my holdings', () => {
@@ -55,48 +56,28 @@ describe('ResourceEditManagedTitleInCustomPackage', () => {
     });
 
 
-    describe('removing a managed resource', () => {
+    describe('removing a managed resource confirming the save and continue deselection', () => {
       beforeEach(async () => {
-        await ResourcePage
-          .dropDown.clickDropDownButton()
-          .dropDownMenu.clickRemoveFromHoldings();
+        await ResourcePage.dropDown.clickDropDownButton()
+        await ResourcePage.dropDownMenu.clickRemoveFromHoldings();
+        await ResourceEditPage.when(() => ResourceEditPage.modal.isPresent);
+        await ResourceEditPage.modal.confirmDeselection();
       });
 
-      it('shows the confirmation modal', () => {
-        expect(ResourceEditPage.modal.isPresent).to.equal(true);
+      it('transition to package search page', () => {
+        expect(PackageSearchPage.isPresent).to.equal(true);
       });
 
-      describe('confirming the save and continue deselection', () => {
-        beforeEach(() => {
-          return ResourceEditPage.modal.confirmDeselection();
-        });
-
-        it('transition to package search page', () => {
-          expect(PackageSearchPage.isPresent).to.equal(true);
-        });
-
-        it('has search prefilled with package name', () => {
-          expect(PackageSearchPage.searchFieldValue).to.equal('Star Wars Custom Package');
-        });
-
-        it('does not have an association to the above package', () => {
-          expect(PackageSearchPage.packageTitleList().length).to.equal(0);
-        });
-
-        it('has a success Toast notification', () => {
-          expect(PackageSearchPage.toast.successText).to.equal('Title removed from package.');
-        });
+      it('has search prefilled with package name', () => {
+        expect(PackageSearchPage.searchFieldValue).to.equal('Star Wars Custom Package');
       });
 
-      describe('canceling the save and discontinue deselection', () => {
-        beforeEach(() => {
-          return ResourceEditPage.modal.cancelDeselection();
-        });
+      it('does not have an association to the above package', () => {
+        expect(PackageSearchPage.packageTitleList().length).to.equal(0);
+      });
 
-        it('should not transition to title search page', () => {
-          expect(PackageSearchPage.isPresent).to.equal(false);
-          expect(ResourceEditPage.isPresent).to.equal(true);
-        });
+      it('has a success Toast notification', () => {
+        expect(PackageSearchPage.toast.successText).to.equal('Title removed from package.');
       });
     });
 
@@ -108,14 +89,14 @@ describe('ResourceEditManagedTitleInCustomPackage', () => {
           }]
         }, 500);
 
-        await ResourcePage
-          .dropDown.clickDropDownButton()
-          .dropDownMenu.clickRemoveFromHoldings();
+        await ResourcePage.dropDown.clickDropDownButton();
+        await ResourcePage.dropDownMenu.clickRemoveFromHoldings();
+        await ResourceEditPage.when(() => ResourceEditPage.modal.isPresent);
       });
 
       describe('confirming the deselection', () => {
-        beforeEach(() => {
-          return ResourceEditPage.modal.confirmDeselection();
+        beforeEach(async () => {
+          await ResourceEditPage.modal.confirmDeselection();
         });
 
         it('shows a toasts with an error message', () => {
