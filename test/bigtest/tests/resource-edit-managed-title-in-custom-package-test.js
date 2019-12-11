@@ -58,7 +58,7 @@ describe('ResourceEditManagedTitleInCustomPackage', () => {
 
     describe('removing a managed resource confirming the save and continue deselection', () => {
       beforeEach(async () => {
-        await ResourcePage.dropDown.clickDropDownButton()
+        await ResourcePage.dropDown.clickDropDownButton();
         await ResourcePage.dropDownMenu.clickRemoveFromHoldings();
         await ResourceEditPage.when(() => ResourceEditPage.modal.isPresent);
         await ResourceEditPage.modal.confirmDeselection();

@@ -206,7 +206,7 @@ describe('ResourceEditManagedTitleInManagedPackage', function () {
       await this.visit(`/eholdings/resources/${resource.titleId}/edit`);
       await ResourceEditPage.whenLoaded();
     });
-    
+
     it('section: holding status displays the title', () => {
       expect(ResourceEditPage.resourceHoldingStatusAccordion.label).to.equal('Holding status');
     });
