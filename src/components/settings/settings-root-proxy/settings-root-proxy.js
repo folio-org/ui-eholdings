@@ -10,7 +10,7 @@ import {
 } from '@folio/stripes/components';
 import { FormattedMessage } from 'react-intl';
 
-import SettingsDetailPane from '../settings-detail-pane';
+import SettingsForm from '../settings-form';
 import { processErrors } from '../../utilities';
 import Toaster from '../../toaster';
 import RootProxySelectField from './_fields/root-proxy-select';
@@ -25,50 +25,12 @@ export default class SettingsRootProxy extends Component {
     rootProxy: PropTypes.object.isRequired
   };
 
-  renderPaneFooter({ handleSubmit, invalid, pristine, reset }) {
-    const {
-      rootProxy,
-    } = this.props;
-
-    const cancelButton = (
-      <Button
-        data-test-eholdings-settings-root-proxy-cancel-button
-        buttonStyle="default mega"
-        disabled={rootProxy.update.isPending || pristine}
-        onClick={reset}
-        marginBottom0
-      >
-        <FormattedMessage id="stripes-components.cancel" />
-      </Button>
-    );
-
-    const saveButton = (
-      <Button
-        buttonStyle="primary mega"
-        data-test-eholdings-settings-root-proxy-save-button
-        disabled={rootProxy.update.isPending || invalid || pristine}
-        marginBottom0
-        onClick={handleSubmit}
-        type="submit"
-      >
-        <FormattedMessage id="stripes-components.saveAndClose" />
-      </Button>
-    );
-
-    return (
-      <PaneFooter
-        renderStart={cancelButton}
-        renderEnd={saveButton}
-      />
-    );
-  }
-
   render() {
     const {
       rootProxy,
       proxyTypes,
       onSubmit,
-      isFreshlySaved
+      isFreshlySaved,
     } = this.props;
     const toasts = processErrors(rootProxy);
 
@@ -87,14 +49,13 @@ export default class SettingsRootProxy extends Component {
           rootProxyServer: rootProxy.proxyTypeId
         }}
         decorators={[focusOnErrors]}
-        render={({ form: { reset }, handleSubmit, invalid, pristine }) => (
-          <SettingsDetailPane
+        render={(formState) => (
+          <SettingsForm
             data-test-eholdings-settings-root-proxy
             id="root-proxy-form"
-            onSubmit={handleSubmit}
-            tagName="form"
-            paneTitle={<FormattedMessage id="ui-eholdings.settings.rootProxy" />}
-            footer={this.renderPaneFooter({ handleSubmit, invalid, pristine, reset })}
+            formState={formState}
+            updateIsPending={rootProxy.update.isPending}
+            title={<FormattedMessage id="ui-eholdings.settings.rootProxy" />}
           >
             <Toaster toasts={toasts} position="bottom" />
 
@@ -106,7 +67,7 @@ export default class SettingsRootProxy extends Component {
               <Icon icon="spinner-ellipsis" />
             ) : (
               <div data-test-eholdings-settings-root-proxy-select>
-                <RootProxySelectField proxyTypes={proxyTypes} />
+                <RootProxySelectField proxyTypes={proxyTypes} value={formState.values.rootProxyServer} />
               </div>
             )}
 
@@ -115,7 +76,7 @@ export default class SettingsRootProxy extends Component {
             <p>
               <FormattedMessage id="ui-eholdings.settings.rootProxy.warning" />
             </p>
-          </SettingsDetailPane>
+          </SettingsForm>
         )}
       />
     );

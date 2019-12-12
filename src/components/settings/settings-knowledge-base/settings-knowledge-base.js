@@ -5,14 +5,13 @@ import createFocusDecorator from 'final-form-focus';
 import isEqual from 'lodash/isEqual';
 import { FormattedMessage } from 'react-intl';
 import {
-  Button,
   Headline,
   Icon,
   TextField,
   Select,
-  PaneFooter,
 } from '@folio/stripes/components';
-import SettingsDetailPane from '../settings-detail-pane';
+
+import SettingsForm from '../settings-form';
 import { processErrors } from '../../utilities';
 import Toaster from '../../toaster';
 
@@ -56,44 +55,6 @@ export default class SettingsKnowledgeBase extends Component {
     return Object.assign(initialValues, attributes);
   }
 
-  renderPaneFooter({ handleSubmit, invalid, pristine, reset }) {
-    const {
-      model,
-    } = this.props;
-
-    const cancelButton = (
-      <Button
-        data-test-eholdings-settings-kb-cancel-button
-        buttonStyle="default mega"
-        marginBottom0
-        disabled={model.update.isPending || pristine}
-        onClick={reset}
-      >
-        <FormattedMessage id="stripes-components.cancel" />
-      </Button>
-    );
-
-    const saveButton = (
-      <Button
-        buttonStyle="primary mega"
-        data-test-eholdings-settings-kb-save-button
-        disabled={model.update.isPending || invalid || pristine}
-        marginBottom0
-        onClick={handleSubmit}
-        type="submit"
-      >
-        <FormattedMessage id="stripes-components.saveAndClose" />
-      </Button>
-    );
-
-    return (
-      <PaneFooter
-        renderStart={cancelButton}
-        renderEnd={saveButton}
-      />
-    );
-  }
-
   render() {
     const {
       model,
@@ -122,14 +83,13 @@ export default class SettingsKnowledgeBase extends Component {
         onSubmit={onSubmit}
         initialValues={this.getInitialValues()}
         decorators={[focusOnErrors]}
-        render={({ form: { reset }, handleSubmit, invalid, pristine }) => (
-          <SettingsDetailPane
+        render={(formState) => (
+          <SettingsForm
             id="knowledge-base-form"
-            data-test-eholdings-settings
-            onSubmit={handleSubmit}
-            tagName="form"
-            paneTitle={<FormattedMessage id="ui-eholdings.settings.kb" />}
-            footer={this.renderPaneFooter({ handleSubmit, invalid, pristine, reset })}
+            data-test-eholdings-settings-kb
+            formState={formState}
+            updateIsPending={model.update.isPending}
+            title={<FormattedMessage id="ui-eholdings.settings.kb" />}
           >
             <Toaster toasts={toasts} position="bottom" />
 
@@ -181,7 +141,7 @@ export default class SettingsKnowledgeBase extends Component {
                 <p><FormattedMessage id="ui-eholdings.settings.kb.url.ebsco.customer.message" /></p>
               </Fragment>
             )}
-          </SettingsDetailPane>
+          </SettingsForm>
         )}
       />
     );
