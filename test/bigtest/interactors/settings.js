@@ -13,11 +13,12 @@ import Toast from './toast';
 import { hasClassBeginningWith } from './helpers';
 
 @interactor class SettingsPage {
+  isLoaded = isPresent('[data-test-eholdings-settings-customerid]');
+
   whenLoaded() {
     return this.when(() => this.isLoaded);
   }
 
-  isLoaded = isPresent('[data-test-eholdings-settings-customerid]');
   customerId = value('[data-test-eholdings-settings-customerid] input');
   apiKey = value('[data-test-eholdings-settings-apikey] input');
   rmapiBaseUrl = value('[data-test-eholdings-settings-kb-url] select');

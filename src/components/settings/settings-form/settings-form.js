@@ -12,9 +12,13 @@ import {
 export default class SettingsForm extends Component {
   static propTypes = {
     children: PropTypes.node,
-    formState: PropTypes.object.isRequired,
-    onCancel: PropTypes.func.isRequired,
-    onSave: PropTypes.func.isRequired,
+    formState: PropTypes.shape({
+      form: PropTypes.object,
+      handleSubmit: PropTypes.func.isRequired,
+      invalid: PropTypes.bool,
+      pristine: PropTypes.bool,
+      updateIsPending: PropTypes.bool,
+    }).isRequired,
     title: PropTypes.node,
   };
 

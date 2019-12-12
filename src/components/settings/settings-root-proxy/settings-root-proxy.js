@@ -65,7 +65,10 @@ export default class SettingsRootProxy extends Component {
               <Icon icon="spinner-ellipsis" />
             ) : (
               <div data-test-eholdings-settings-root-proxy-select>
-                <RootProxySelectField proxyTypes={proxyTypes} value={formState.values.rootProxyServer} />
+                <RootProxySelectField
+                  proxyTypes={proxyTypes}
+                  value={formState.values.rootProxyServer}
+                />
               </div>
             )}
 

@@ -209,8 +209,8 @@ describe('With valid backend configuration', () => {
       });
 
       describe('when the validation fails', () => {
-        beforeEach(() => {
-          return SettingsPage.fillCustomerId('');
+        beforeEach(async () => {
+          await SettingsPage.fillCustomerId('');
         });
 
         it('does not enable the save button', () => {
