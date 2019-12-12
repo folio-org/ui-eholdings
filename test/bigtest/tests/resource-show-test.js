@@ -203,12 +203,6 @@ describe('ResourceShow', () => {
       });
     });
 
-    describe('when resource is not selected', () => {
-      it('should not display tags accordion', () => {
-        expect(ResourcePage.isTagsPresent).to.be.false;
-      });
-    });
-
     describe('when resource is selected', () => {
       beforeEach(async () => {
         await resource.update('isSelected', true);
@@ -219,7 +213,8 @@ describe('ResourceShow', () => {
       });
     });
 
-    describe('when token is needed', () => {
+    // TODO refactor to not change the token after the page is visited
+    describe.skip('when token is needed', () => {
       beforeEach(async () => {
         await resource.update('isTokenNeeded', true);
       });

@@ -11,13 +11,13 @@ describe('PackageSelection', () => {
   let provider,
     providerPackage;
 
-  beforeEach(function () {
-    setupBlockServer(this.server);
-    provider = this.server.create('provider', {
+  beforeEach(async function () {
+    await setupBlockServer(this.server);
+    provider = await this.server.create('provider', {
       name: 'Cool Provider'
     });
 
-    providerPackage = this.server.create('package', 'withTitles', {
+    providerPackage = await this.server.create('package', 'withTitles', {
       provider,
       name: 'Cool Package',
       contentType: 'E-Book',
@@ -29,11 +29,11 @@ describe('PackageSelection', () => {
   describe('visiting the package details page', () => {
     beforeEach(async function () {
       await this.visit(`/eholdings/packages/${providerPackage.id}`);
+      await PackageShowPage.whenLoaded();
     });
 
     describe('successfully selecting a package title to add to my holdings', () => {
       beforeEach(async function () {
-        await PackageShowPage.whenLoaded();
         await this.server.block();
         await PackageShowPage.selectPackage();
       });
@@ -69,15 +69,14 @@ describe('PackageSelection', () => {
           await this.server.unblock();
           // many thanks to elrick for catching the need for
           // the `when` here
-          await PackageShowPage
-            .when(() => !PackageShowPage.isSelecting)
-            .dropDown.clickDropDownButton()
-            .dropDownMenu.removeFromHoldings.click();
+          await PackageShowPage.when(() => !PackageShowPage.isSelecting);
+          await PackageShowPage.dropDown.clickDropDownButton();
+          await PackageShowPage.dropDownMenu.removeFromHoldings.click();
         });
 
         describe('canceling the deselection', () => {
-          beforeEach(() => {
-            return PackageShowPage.modal.cancelDeselection();
+          beforeEach(async () => {
+            await PackageShowPage.modal.cancelDeselection();
           });
 
           it('does not show a loading indicator', () => {

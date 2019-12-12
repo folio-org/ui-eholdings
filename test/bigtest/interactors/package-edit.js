@@ -75,8 +75,6 @@ import PackageSelectionStatus from './selection-status';
   selectionStatus = new PackageSelectionStatus();
   clickAddButton = clickable('[data-test-eholdings-package-add-to-holdings-button]');
   hasBackButton = isPresent('[data-test-eholdings-details-view-back-button]');
-  isHiddenMessage = text('[data-test-eholdings-package-details-is-hidden-reason]');
-  isHiddenMessagePresent = isPresent('[data-test-eholdings-package-details-is-hidden-reason]');
   isVisibilityFieldPresent = isPresent('[data-test-eholdings-package-visibility-field]');
   isVisibleToPatrons = property('[data-test-eholdings-package-visibility-field] input[value="true"]', 'checked');
   toggleIsVisible() {
@@ -87,10 +85,6 @@ import PackageSelectionStatus from './selection-status';
   isHiddenMessage = computed(function () {
     const $node = this.$('[data-test-eholdings-package-visibility-field] input[value="false"] ~ span:last-child');
     return $node.textContent.replace(/^No(\s\((.*)\))?$/, '$2');
-  });
-
-  isHiddenMessagePresent = computed(function () {
-    try { return !!this.isHiddenMessage; } catch (e) { return false; }
   });
 
   hasRadioForAllowKbToAddTitles = isPresent('[data-test-eholdings-allow-kb-to-add-titles-radios]');

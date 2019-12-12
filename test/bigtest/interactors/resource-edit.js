@@ -90,10 +90,6 @@ import Datepicker from './datepicker';
     return $node.textContent.replace(/^No(\s\((.*)\))?$/, '$2');
   });
 
-  isHiddenMessagePresent = computed(function () {
-    try { return !!this.isHiddenMessage; } catch (e) { return false; }
-  });
-
   isVisibilityFieldPresent = isPresent('[data-test-eholdings-resource-visibility-field]');
   isResourceNotSelectedLabelPresent = isPresent('[data-test-eholdings-resource-edit-settings-message]');
 

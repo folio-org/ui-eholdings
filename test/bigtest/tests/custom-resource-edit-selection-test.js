@@ -7,38 +7,69 @@ import PackageSearchPage from '../interactors/package-search';
 
 describe('CustomResourceHoldingSelection', () => {
   setupApplication();
-  let provider,
-    title,
+  let provider1,
+    provider2,
+    title1,
+    title2,
     providerPackage,
-    resource;
+    providerPackageWithOneTitle,
+    resource,
+    resourceWithOneTitle;
 
   beforeEach(async function () {
-    provider = await this.server.create('provider', {
-      name: 'Cool Provider'
+    provider1 = this.server.create('provider', {
+      name: 'Cool Provider1'
     });
-
-    providerPackage = await this.server.create('package', 'withTitles', {
-      provider,
+    provider2 = this.server.create('provider', {
+      name: 'Cool Provider2'
+    });
+    provider1.save();
+    provider2.save();
+    providerPackage = this.server.create('package', 'withTitles', {
+      provider: provider2,
+      name: 'Star Wars Custom Package111',
+      contentType: 'Online',
+      isCustom: true,
+      titleCount: 20,
+    });
+    providerPackage.save();
+    providerPackageWithOneTitle = this.server.create('package', 'withTitles', {
+      provider: provider1,
       name: 'Star Wars Custom Package',
       contentType: 'Online',
-      isCustom: true
+      isCustom: true,
+      titleCount: 1,
     });
-
-    title = await this.server.create('title', {
+    providerPackageWithOneTitle.save();
+    title1 = this.server.create('title', {
       name: 'Hans Solo Director Cut',
       publicationType: 'Streaming Video',
       publisherName: 'Amazing Publisher',
       isTitleCustom: true
     });
+    title2 = this.server.create('title', {
+      name: 'Hans Solo Director Cut2',
+      publicationType: 'Streaming Video2',
+      publisherName: 'Amazing Publisher2',
+      isTitleCustom: true
+    });
 
-    await title.save();
-
-    resource = await this.server.create('resource', {
+    title1.save();
+    title2.save();
+    resource = this.server.create('resource', {
       package: providerPackage,
-      title,
+      title: title1,
       url: 'https://www.frontside.io',
       isSelected: true
     });
+    resourceWithOneTitle = this.server.create('resource', {
+      package: providerPackageWithOneTitle,
+      title: title2,
+      url: 'https://www.frontside.io',
+      isSelected: true
+    });
+    resource.save();
+    resourceWithOneTitle.save();
   });
 
 
@@ -57,34 +88,17 @@ describe('CustomResourceHoldingSelection', () => {
     });
 
     describe('deselecting a custom resource', () => {
-      describe('when the package has more than 1 title', () => {
-        beforeEach(async function () {
-          providerPackage.titleCount = 20;
-          await this.visit(`/eholdings/resources/${resource.titleId}/edit`);
-          await ResourceEditPage.whenLoaded();
-          await ResourceEditPage.dropDown.clickDropDownButton();
-          await ResourceEditPage.dropDownMenu.clickRemoveFromHoldings();
-        });
-
-        describe('confirmation modal', () => {
-          it('warns that we are deseslecting a title', () => {
-            expect(ResourceEditPage.modal.hasDeselectTitleWarning).to.be.true;
-          });
-        });
-      });
-
       describe('when deselecting the last title in the package', () => {
         beforeEach(async function () {
-          providerPackage.titleCount = 1;
-          await this.visit(`/eholdings/resources/${resource.titleId}/edit`);
           await ResourceEditPage.whenLoaded();
           await ResourceEditPage.dropDown.clickDropDownButton();
           await ResourceEditPage.dropDownMenu.clickRemoveFromHoldings();
+          await ResourceEditPage.when(() => ResourceEditPage.modal.isPresent);
         });
 
         describe('confirmation modal', () => {
           it('warns that we are deseslecting the last title in the package', () => {
-            expect(ResourceEditPage.modal.hasDeselectFinalTitleWarning).to.be.true;
+            expect(ResourceEditPage.modal.hasDeselectTitleWarning).to.be.true;
           });
         });
       });
@@ -112,6 +126,7 @@ describe('CustomResourceHoldingSelection', () => {
 
           await ResourceEditPage.dropDown.clickDropDownButton();
           await ResourceEditPage.dropDownMenu.clickRemoveFromHoldings();
+          await ResourceEditPage.when(() => ResourceEditPage.modal.isPresent);
           await ResourceEditPage.modal.confirmDeselection();
         });
 
@@ -140,11 +155,7 @@ describe('CustomResourceHoldingSelection', () => {
           });
 
           it('has search prefilled with package name', () => {
-            expect(PackageSearchPage.searchFieldValue).to.equal('Star Wars Custom Package');
-          });
-
-          it('does not have an association to the above package', () => {
-            expect(PackageSearchPage.packageTitleList().length).to.equal(0);
+            expect(PackageSearchPage.searchFieldValue).to.equal('Star Wars Custom Package111');
           });
 
           it('has a success Toast notification', () => {
@@ -157,6 +168,7 @@ describe('CustomResourceHoldingSelection', () => {
         beforeEach(async () => {
           await ResourceEditPage.dropDown.clickDropDownButton();
           await ResourceEditPage.dropDownMenu.clickRemoveFromHoldings();
+          await ResourceEditPage.when(() => ResourceEditPage.modal.isPresent);
           await ResourceEditPage.modal.cancelDeselection();
         });
 
@@ -177,6 +189,7 @@ describe('CustomResourceHoldingSelection', () => {
 
         await ResourceEditPage.dropDown.clickDropDownButton();
         await ResourceEditPage.dropDownMenu.clickRemoveFromHoldings();
+        await ResourceEditPage.when(() => ResourceEditPage.modal.isPresent);
       });
 
       it('shows a confirmation modal', () => {
@@ -206,6 +219,20 @@ describe('CustomResourceHoldingSelection', () => {
           });
         });
       });
+    });
+  });
+
+  describe('visiting the package details page with and deselecting a custom resource with one title shows cofirmation modal', () => {
+    beforeEach(async function () {
+      await this.visit(`/eholdings/resources/${resourceWithOneTitle.titleId}/edit`);
+      await ResourceEditPage.whenLoaded();
+      await ResourceEditPage.dropDown.clickDropDownButton();
+      await ResourceEditPage.dropDownMenu.clickRemoveFromHoldings();
+      await ResourceEditPage.when(() => ResourceEditPage.modal.isPresent);
+    });
+
+    it('warns that we are deseslecting a title', () => {
+      expect(ResourceEditPage.modal.hasDeselectFinalTitleWarning).to.be.true;
     });
   });
 });

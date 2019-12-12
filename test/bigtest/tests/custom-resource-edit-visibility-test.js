@@ -52,10 +52,6 @@ describe('CustomResourceEditVisibility', function () {
       expect(ResourceEditPage.isResourceVisible).to.be.true;
     });
 
-    it('does not display hidden message', () => {
-      expect(ResourceEditPage.isHiddenMessagePresent).to.equal(false);
-    });
-
     it('disables the save button', () => {
       expect(ResourceEditPage.isSaveDisabled).to.be.true;
     });
@@ -122,10 +118,6 @@ describe('CustomResourceEditVisibility', function () {
 
     it('displays the no visibility radio is selected', () => {
       expect(ResourceEditPage.isResourceVisible).to.be.false;
-    });
-
-    it('does not display hidden message', () => {
-      expect(ResourceEditPage.isHiddenMessagePresent).to.equal(false);
     });
 
     it('disables the save button', () => {

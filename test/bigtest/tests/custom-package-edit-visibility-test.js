@@ -98,10 +98,6 @@ describe('CustomPackageEditVisibility', function () {
     it('displays the correct visibility status', () => {
       expect(PackageEditPage.isVisibleToPatrons).to.be.false;
     });
-
-    it('does not display the hidden/reason section', () => {
-      expect(PackageEditPage.isHiddenMessagePresent).to.be.false;
-    });
   });
 
   describe('visiting the package edit page with a package that is not hidden', () => {
@@ -114,14 +110,11 @@ describe('CustomPackageEditVisibility', function () {
         isVisible: true
       });
       await this.visit(`/eholdings/packages/${providerPackage.id}/edit`);
+      await PackageEditPage.whenLoaded();
     });
 
     it('displays the correct visibility status', () => {
       expect(PackageEditPage.isVisibleToPatrons).to.be.true;
-    });
-
-    it('does not display hidden message', () => {
-      expect(PackageEditPage.isHiddenMessagePresent).to.equal(false);
     });
 
     it('disables the save button', () => {

@@ -49,8 +49,6 @@ describe('CustomTitleEdit', function () {
       description: 'custom description',
     });
 
-    await title.save();
-
     await this.server.create('resource', {
       package: providerPackage,
       isSelected: true,
@@ -111,8 +109,9 @@ describe('CustomTitleEdit', function () {
 
     describe('adding a second contributor', () => {
       beforeEach(async () => {
-        await TitleEditPage.clickAddContributor().contributorsRowList(1).type('editor');
-        await TitleEditPage.clickAddContributor().contributorsRowList(1).contributor('Ron');
+        await TitleEditPage.clickAddContributor();
+        await TitleEditPage.contributorsRowList(1).type('editor');
+        await TitleEditPage.contributorsRowList(1).contributor('Ron');
       });
 
       describe('clicking save', () => {
@@ -133,8 +132,9 @@ describe('CustomTitleEdit', function () {
 
     describe('adding a second identifier', () => {
       beforeEach(async () => {
-        await TitleEditPage.clickAddIdentifiersRowButton().identifiersRowList(1).type('0');
-        await TitleEditPage.clickAddIdentifiersRowButton().identifiersRowList(1).id('81803');
+        await TitleEditPage.clickAddIdentifiersRowButton();
+        await TitleEditPage.identifiersRowList(1).type('0');
+        await TitleEditPage.identifiersRowList(1).id('81803');
       });
 
       describe('clicking save', () => {
