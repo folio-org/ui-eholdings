@@ -16,7 +16,7 @@ import Datepicker from './datepicker';
 }
 
 @interactor class PackageCreateDropDownMenu {
-  clickCancel = clickable('.tether-element [data-test-eholdings-package-create-cancel-action]');
+  clickCancel = clickable('[data-test-eholdings-package-create-cancel-action]');
 }
 
 @interactor class PackageCreatePage {

@@ -28,12 +28,12 @@ import { hasClassBeginningWith } from './helpers';
   blurApiKey = blurrable('[data-test-eholdings-settings-apikey] input');
   customerIdFieldIsInvalid = hasClassBeginningWith('[data-test-eholdings-settings-customerid] [class*=inputGroup--]', 'hasError--');
   apiKeyFieldIsInvalid = hasClassBeginningWith('[data-test-eholdings-settings-apikey] [class*=inputGroup--]', 'hasError--');
-  save = clickable('[data-test-eholdings-settings-kb-save-button]');
-  cancel = clickable('[data-test-eholdings-settings-kb-cancel-button]');
-  saveButtonDisabled = property('[data-test-eholdings-settings-kb-save-button]', 'disabled');
+  save = clickable('[data-test-eholdings-settings-form-save-button]');
+  cancel = clickable('[data-test-eholdings-settings-form-cancel-button]');
+  saveButtonDisabled = property('[data-test-eholdings-settings-form-save-button]', 'disabled');
   apiKeyInputType = attribute('[data-test-eholdings-settings-apikey] input', 'type');
 
   toast = Toast;
 }
 
-export default new SettingsPage('[data-test-eholdings-settings]');
+export default new SettingsPage('[data-test-eholdings-settings-kb]');

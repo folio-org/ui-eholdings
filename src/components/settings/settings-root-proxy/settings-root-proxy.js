@@ -3,10 +3,8 @@ import PropTypes from 'prop-types';
 import { Form } from 'react-final-form';
 import createFocusDecorator from 'final-form-focus';
 import {
-  Button,
   Headline,
   Icon,
-  PaneFooter,
 } from '@folio/stripes/components';
 import { FormattedMessage } from 'react-intl';
 
