@@ -19,7 +19,7 @@ import Toast from './toast';
 }
 
 @interactor class TitleEditDropDownMenu {
-  clickCancel = clickable('.tether-element [data-test-eholdings-title-cancel-action]');
+  clickCancel = clickable('[data-test-eholdings-title-cancel-action]');
 }
 
 @interactor class TitleEditPage {

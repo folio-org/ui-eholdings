@@ -37,8 +37,8 @@ import PackageSelectionStatus from './selection-status';
 }
 
 @interactor class PackageShowDropDownMenu {
-  addToHoldings = new Interactor('.tether-element [data-test-eholdings-package-add-to-holdings-action]');
-  removeFromHoldings = new Interactor('.tether-element [data-test-eholdings-package-remove-from-holdings-action]');
+  addToHoldings = new Interactor('[data-test-eholdings-package-add-to-holdings-action]');
+  removeFromHoldings = new Interactor('[data-test-eholdings-package-remove-from-holdings-action]');
 }
 
 @interactor class PackageShowPage {

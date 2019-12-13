@@ -27,7 +27,7 @@ import Toast from './toast';
 }
 
 @interactor class ProviderEditDropDownMenu {
-   cancel = new Interactor('.tether-element [data-test-eholdings-provider-cancel-action]');
+   cancel = new Interactor('[data-test-eholdings-provider-cancel-action]');
 }
 
 @interactor class ProviderEditPage {

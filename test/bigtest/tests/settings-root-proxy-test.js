@@ -39,10 +39,10 @@ describe('With list of root proxies available to a customer', () => {
     });
 
     describe('clicking cancel to cancel updating Root Proxy', () => {
-      beforeEach(() => {
-        return SettingsRootProxyPage
+      beforeEach(async () => {
+        await SettingsRootProxyPage
           .chooseRootProxy('microstates')
-          .clickCancel();
+          .cancel();
       });
 
       it('should display the initial root proxy', () => {
@@ -69,7 +69,9 @@ describe('With list of root proxies available to a customer', () => {
 
     describe('updating root-proxy', () => {
       beforeEach(async () => {
-        await SettingsRootProxyPage.chooseRootProxy('microstates').save();
+        await SettingsRootProxyPage
+          .chooseRootProxy('microstates')
+          .save();
       });
 
       it('should show a error toast', () => {
