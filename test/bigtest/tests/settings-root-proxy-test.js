@@ -3,7 +3,6 @@ import { expect } from 'chai';
 
 import setupApplication from '../helpers/setup-application';
 import SettingsRootProxyPage from '../interactors/settings-root-proxy';
-import wait from '../helpers/wait';
 
 describe.skip('With list of root proxies available to a customer', function () {
   setupApplication();
