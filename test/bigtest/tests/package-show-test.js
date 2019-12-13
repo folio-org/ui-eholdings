@@ -5,18 +5,18 @@ import setupApplication from '../helpers/setup-application';
 import PackageShowPage from '../interactors/package-show';
 import { entityAuthorityTypes } from '../../../src/constants';
 
-describe('PackageShow', () => {
-  setupApplication();
+describe('PackageShow', async function () {
+  await setupApplication();
   let provider;
   let providerPackage;
   let resources;
 
   beforeEach(async function () {
-    provider = this.server.create('provider', {
+    provider = await this.server.create('provider', {
       name: 'Cool Provider'
     });
 
-    providerPackage = this.server.create('package', 'withTitles', 'withCustomCoverage', 'withProxy', {
+    providerPackage = await this.server.create('package', 'withTitles', 'withCustomCoverage', 'withProxy', {
       provider,
       name: 'Cool Package',
       contentType: 'E-Book',
@@ -25,7 +25,7 @@ describe('PackageShow', () => {
       packageType: 'Complete'
     });
 
-    resources = this.server.schema.where('resource', { packageId: providerPackage.id }).models;
+    resources = await this.server.schema.where('resource', { packageId: providerPackage.id }).models;
   });
 
   describe('visiting the package details page', () => {
