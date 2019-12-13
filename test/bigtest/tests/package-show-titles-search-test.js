@@ -4,7 +4,7 @@ import { expect } from 'chai';
 import setupApplication from '../helpers/setup-application';
 import PackageShowPage from '../interactors/package-show';
 
-//Refactor to move all the server interaction to the scenario
+// Refactor to move all the server interaction to the scenario
 describe.skip('Package Show Title Search', function () {
   setupApplication();
   // some of the beforeEach blocks seem to timeout in CI
