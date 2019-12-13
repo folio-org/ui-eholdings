@@ -357,7 +357,7 @@
     eslint-plugin-react-hooks "^1.6.0"
     webpack "^4.0.0"
 
-"@folio/react-intl-safe-html@^1.0.2":
+"@folio/react-intl-safe-html@^1.0.2", "@folio/react-intl-safe-html@^1.0.3":
   version "1.0.3"
   resolved "https://repository.folio.org/repository/npm-folio/@folio/react-intl-safe-html/-/react-intl-safe-html-1.0.3.tgz#3080f7b0aa94d8d7744da7028a39138fd17a2815"
   integrity sha512-9V7KEi6IJrnG9IZQrtfZLN8IgRGTtAhAZS0CaHcfOlvPXTXogPfaQbi3klXFtFvbfgrzyrjswG+9ZWDIXDwmQA==
