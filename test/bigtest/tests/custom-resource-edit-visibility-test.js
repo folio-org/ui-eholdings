@@ -5,7 +5,7 @@ import setupApplication from '../helpers/setup-application';
 import ResourceEditPage from '../interactors/resource-edit';
 import ResourceShowPage from '../interactors/resource-show';
 
-describe.skip('CustomResourceEditVisibility', function () {
+describe('CustomResourceEditVisibility', function () {
   setupApplication();
   // some of the beforeEach blocks seem to timeout in CI
   this.timeout(5000);

@@ -5,7 +5,7 @@ import setupApplication from '../helpers/setup-application';
 import ResourceEditPage from '../interactors/resource-edit';
 import PackageSearchPage from '../interactors/package-search';
 
-describe.skip('CustomResourceHoldingSelection', () => {
+describe('CustomResourceHoldingSelection', () => {
   setupApplication();
   let provider1,
     provider2,

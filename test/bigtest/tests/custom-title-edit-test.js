@@ -5,7 +5,7 @@ import setupApplication from '../helpers/setup-application';
 import TitleShowPage from '../interactors/title-show';
 import TitleEditPage from '../interactors/title-edit';
 
-describe.skip('CustomTitleEdit', function () {
+describe('CustomTitleEdit', function () {
   setupApplication();
   // some of the beforeEach blocks seem to timeout in CI
   this.timeout(5000);
