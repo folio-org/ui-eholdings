@@ -5,7 +5,7 @@ import setupApplication from '../helpers/setup-application';
 import ProviderShowPage from '../interactors/provider-show';
 import ProviderEditPage from '../interactors/provider-edit';
 
-describe('ProviderEdit', () => {
+describe.skip('ProviderEdit', () => {
   setupApplication();
   let provider,
     packages;

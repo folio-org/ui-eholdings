@@ -4,7 +4,7 @@ import { expect } from 'chai';
 import setupApplication from '../helpers/setup-application';
 import ResourceShowPage from '../interactors/resource-show';
 
-describe('ResourceEmbargo', () => {
+describe.skip('ResourceEmbargo', () => {
   setupApplication();
   let pkg,
     title,

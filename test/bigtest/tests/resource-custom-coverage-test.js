@@ -3,7 +3,7 @@ import { expect } from 'chai';
 import setupApplication from '../helpers/setup-application';
 import ResourcePage from '../interactors/resource-show';
 
-describe('ResourceCustomCoverage', function () {
+describe.skip('ResourceCustomCoverage', function () {
   setupApplication();
   // some of the beforeEach blocks seem to timeout in CI
   this.timeout(5000);

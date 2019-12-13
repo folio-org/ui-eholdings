@@ -5,7 +5,7 @@ import setupApplication from '../helpers/setup-application';
 import ResourcePage from '../interactors/resource-show';
 import PackageSearchPage from '../interactors/package-search';
 
-describe('ResourceDeselection', () => {
+describe.skip('ResourceDeselection', () => {
   setupApplication();
   let provider,
     title,

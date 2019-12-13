@@ -104,7 +104,7 @@ describe('PackageShowAllowKbToAddTitles', () => {
     });
   });
 
-  describe('visiting the package show page with a package that is selected and de-selecting a package', () => {
+  describe.skip('visiting the package show page with a package that is selected and de-selecting a package', () => {
     beforeEach(async function () {
       pkg = await this.server.create('package', {
         provider,

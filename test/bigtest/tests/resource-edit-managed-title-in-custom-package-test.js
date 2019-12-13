@@ -6,7 +6,7 @@ import ResourcePage from '../interactors/resource-show';
 import ResourceEditPage from '../interactors/resource-edit';
 import PackageSearchPage from '../interactors/package-search';
 
-describe('ResourceEditManagedTitleInCustomPackage', () => {
+describe.skip('ResourceEditManagedTitleInCustomPackage', () => {
   setupApplication();
   let provider,
     providerPackage,

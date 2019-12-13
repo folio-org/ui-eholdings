@@ -77,10 +77,9 @@ import PackageSelectionStatus from './selection-status';
   hasBackButton = isPresent('[data-test-eholdings-details-view-back-button]');
   isVisibilityFieldPresent = isPresent('[data-test-eholdings-package-visibility-field]');
   isVisibleToPatrons = property('[data-test-eholdings-package-visibility-field] input[value="true"]', 'checked');
-  async toggleIsVisible() {
+  toggleIsVisible() {
     const isVisible = (!this.isVisibleToPatrons).toString();
-    await this.click(`[data-test-eholdings-package-visibility-field] input[value="${isVisible}"]`);
-    return this;
+    return this.click(`[data-test-eholdings-package-visibility-field] input[value="${isVisible}"]`);
   }
 
   isHiddenMessage = computed(function () {

@@ -4,7 +4,7 @@ import { describe, beforeEach, it } from '@bigtest/mocha';
 import setupApplication from '../helpers/setup-application';
 import TitleShowPage from '../interactors/title-show';
 
-describe('ManagedTitleEdit', () => {
+describe.skip('ManagedTitleEdit', () => {
   setupApplication();
   let title;
 

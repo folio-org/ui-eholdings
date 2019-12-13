@@ -5,7 +5,7 @@ import setupApplication from '../helpers/setup-application';
 import ResourceEditPage from '../interactors/resource-edit';
 import ResourceShowPage from '../interactors/resource-show';
 
-describe('ManagedResourceEditProxy', () => {
+describe.skip('ManagedResourceEditProxy', () => {
   setupApplication();
   let provider,
     providerPackage,

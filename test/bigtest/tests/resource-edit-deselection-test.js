@@ -6,7 +6,7 @@ import ResourceShowPage from '../interactors/resource-show';
 import ResourceEditPage from '../interactors/resource-edit';
 import wait from '../helpers/wait';
 
-describe('ResourceEditDeselection', () => {
+describe.skip('ResourceEditDeselection', () => {
   setupApplication();
   let provider,
     title,

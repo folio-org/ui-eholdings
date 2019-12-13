@@ -5,7 +5,7 @@ import setupApplication from '../helpers/setup-application';
 import PackageShowPage from '../interactors/package-show';
 import PackageEditPage from '../interactors/package-edit';
 
-describe('CustomPackageEditProxy', () => {
+describe.skip('CustomPackageEditProxy', () => {
   setupApplication();
   let provider,
     providerPackage;

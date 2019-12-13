@@ -7,7 +7,7 @@ import TitleShowPage from '../interactors/title-show';
 import TitleSearchPage from '../interactors/title-search';
 import NavigationModal from '../interactors/navigation-modal';
 
-describe('TitleCreate', function () {
+describe.skip('TitleCreate', function () {
   setupApplication();
   // some of the beforeEach blocks seem to timeout in CI
   this.timeout(5000);

@@ -4,7 +4,7 @@ import { expect } from 'chai';
 import setupApplication from '../helpers/setup-application';
 import PackageShowPage from '../interactors/package-show';
 
-describe('PackageVisibility', () => {
+describe.skip('PackageVisibility', () => {
   setupApplication();
   let provider,
     pkg;

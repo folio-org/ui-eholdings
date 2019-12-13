@@ -5,7 +5,7 @@ import setupApplication from '../helpers/setup-application';
 import setupBlockServer from '../helpers/setup-block-server';
 import ResourcePage from '../interactors/resource-show';
 
-describe('ResourceSelection', () => {
+describe.skip('ResourceSelection', () => {
   setupApplication();
   let provider,
     providerPackage,

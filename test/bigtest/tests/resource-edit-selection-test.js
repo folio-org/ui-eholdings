@@ -5,9 +5,7 @@ import setupApplication from '../helpers/setup-application';
 import ResourceShowPage from '../interactors/resource-show';
 import ResourceEditPage from '../interactors/resource-edit';
 
-window.ResourceEditPage = ResourceEditPage;
-
-describe('ResourceEditSelection', () => {
+describe.skip('ResourceEditSelection', () => {
   setupApplication();
   let provider,
     providerPackage,

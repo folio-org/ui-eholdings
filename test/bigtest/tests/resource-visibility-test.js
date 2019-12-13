@@ -4,7 +4,7 @@ import { expect } from 'chai';
 import setupApplication from '../helpers/setup-application';
 import ResourceShowPage from '../interactors/resource-show';
 
-describe('ResourceVisibility', () => {
+describe.skip('ResourceVisibility', () => {
   setupApplication();
   let pkg,
     title,

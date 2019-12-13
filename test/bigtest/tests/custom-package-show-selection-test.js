@@ -10,7 +10,7 @@ import PackageShowPage from '../interactors/package-show';
 // However, there are some nuances between that of a Package and CustomPackage
 // so those are excersised in this test.
 
-describe('CustomPackageShowSelection', () => {
+describe.skip('CustomPackageShowSelection', () => {
   setupApplication();
 
   let provider,
