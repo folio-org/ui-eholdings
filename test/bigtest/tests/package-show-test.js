@@ -12,11 +12,11 @@ describe('PackageShow', () => {
   let resources;
 
   beforeEach(async function () {
-    provider = await this.server.create('provider', {
+    provider = this.server.create('provider', {
       name: 'Cool Provider'
     });
 
-    providerPackage = await this.server.create('package', 'withTitles', 'withCustomCoverage', 'withProxy', {
+    providerPackage = this.server.create('package', 'withTitles', 'withCustomCoverage', 'withProxy', {
       provider,
       name: 'Cool Package',
       contentType: 'E-Book',
@@ -25,7 +25,7 @@ describe('PackageShow', () => {
       packageType: 'Complete'
     });
 
-    resources = await this.server.schema.where('resource', { packageId: providerPackage.id }).models;
+    resources = this.server.schema.where('resource', { packageId: providerPackage.id }).models;
   });
 
   describe('visiting the package details page', () => {
