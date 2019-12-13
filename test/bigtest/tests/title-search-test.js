@@ -873,7 +873,7 @@ describe('TitleSearch', function () {
       });
     });
   });
-  
+
   // TODO refactor to move the server configuration before the visit
   describe.skip('with multiple pages of titles', () => {
     beforeEach(function () {

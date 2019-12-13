@@ -312,7 +312,7 @@ describe('PackageSearch', function () {
         await PackageSearchPage.searchBadge.clickIcon();
       });
 
-      // TODO Refactor 
+      // TODO Refactor
       it.skip('closed the search pane', () => {
         expect(PackageSearchPage.isSearchPanePresent).to.be.false;
       });

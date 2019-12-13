@@ -95,7 +95,7 @@ describe('ManagedPackageEditVisibility', function () {
       await PackageEditPage.whenLoaded();
     });
 
-    it.only('displays the correct visibility status', () => {
+    it('displays the correct visibility status', () => {
       expect(PackageEditPage.isVisibleToPatrons).to.be.false;
     });
   });
