@@ -85,10 +85,11 @@ import SearchBadge from './search-badge';
       .run();
   })
 
-  search(query) {
-    return this
-      .fillSearch(query)
-      .submitSearch();
+  async search(query) {
+    await this.fillSearch(query);
+    await this.submitSearch();
+
+    return this;
   }
 
   providerList = collection('[data-test-eholdings-provider-list-item]', {

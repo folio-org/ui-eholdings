@@ -4,6 +4,7 @@ import { describe, beforeEach, it } from '@bigtest/mocha';
 import setupApplication from '../helpers/setup-application';
 import ResourceShowPage from '../interactors/resource-show';
 import ResourceEditPage from '../interactors/resource-edit';
+import wait from '../helpers/wait';
 
 describe('ResourceEditManagedTitleInManagedPackage', function () {
   setupApplication();
@@ -150,6 +151,7 @@ describe('ResourceEditManagedTitleInManagedPackage', function () {
         describe('clicking cancel', () => {
           beforeEach(async () => {
             await ResourceEditPage.clickCancel();
+            await ResourceEditPage.when(() => ResourceEditPage.navigationModal.isPresent);
           });
 
           it('shows a navigation confirmation modal', () => {
@@ -187,24 +189,25 @@ describe('ResourceEditManagedTitleInManagedPackage', function () {
     beforeEach(async function () {
       resource.coverageStatement = 'Use this one weird trick to get access.';
       const customCoverages = [
-        await this.server.create('custom-coverage', {
+        this.server.create('custom-coverage', {
           beginCoverage: '1969-07-16',
           endCoverage: '1972-12-19'
         }),
-        await this.server.create('custom-coverage', {
+        this.server.create('custom-coverage', {
           beginCoverage: '1973-01-01',
           endCoverage: '1979-12-31'
         })
       ];
-      await resource.update('customCoverages', customCoverages.map(item => item.toJSON()));
-      resource.customEmbargoPeriod = await this.server.create('embargo-period', {
+      resource.update('customCoverages', customCoverages.map(item => item.toJSON()));
+      resource.customEmbargoPeriod = this.server.create('embargo-period', {
         embargoUnit: 'Months',
         embargoValue: 6
       }).toJSON();
-      await resource.save();
+      resource.save();
 
       await this.visit(`/eholdings/resources/${resource.titleId}/edit`);
       await ResourceEditPage.whenLoaded();
+      await wait(2000);
     });
 
     it('section: holding status displays the title', () => {
@@ -463,6 +466,7 @@ describe('ResourceEditManagedTitleInManagedPackage', function () {
       describe('clicking cancel', () => {
         beforeEach(async () => {
           await ResourceEditPage.clickCancel();
+          await ResourceEditPage.when(() => ResourceEditPage.navigationModal.isPresent);
         });
 
         it('shows a navigation confirmation modal', () => {

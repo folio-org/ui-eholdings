@@ -4,6 +4,7 @@ import { expect } from 'chai';
 import setupApplication from '../helpers/setup-application';
 import ResourceShowPage from '../interactors/resource-show';
 import ResourceEditPage from '../interactors/resource-edit';
+import wait from '../helpers/wait';
 
 describe('ResourceEditDeselection', () => {
   setupApplication();
@@ -105,6 +106,7 @@ describe('ResourceEditDeselection', () => {
           beforeEach(async () => {
             await resolveRequest();
             await ResourceShowPage.whenLoaded();
+            await wait(2000);
           });
 
           it('goes to the resource show page', () => {

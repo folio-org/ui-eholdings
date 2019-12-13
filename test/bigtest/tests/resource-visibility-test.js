@@ -98,6 +98,7 @@ describe('ResourceVisibility', () => {
       });
 
       await this.visit(`/eholdings/resources/${resource.id}`);
+      await ResourceShowPage.when(() => ResourceShowPage.isPresent);
     });
 
     it('displays it is not visibile to patrons', () => {

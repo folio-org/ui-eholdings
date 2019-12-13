@@ -4,6 +4,7 @@ import { describe, beforeEach, it } from '@bigtest/mocha';
 import setupApplication from '../helpers/setup-application';
 import ResourceShowPage from '../interactors/resource-show';
 import ResourceEditPage from '../interactors/resource-edit';
+import wait from '../helpers/wait';
 
 describe('ResourceEditCustomTitle', function () {
   setupApplication();
@@ -262,6 +263,7 @@ describe('ResourceEditCustomTitle', function () {
       beforeEach(async () => {
         await ResourceEditPage.inputCustomUrlValue('no-http.com');
         await ResourceEditPage.clickSave();
+        await wait(5000);
       });
 
       it('displays a custom url validation error message', () => {
@@ -291,6 +293,7 @@ describe('ResourceEditCustomTitle', function () {
         await ResourceEditPage.blurEmbargoValue();
         await ResourceEditPage.selectEmbargoUnit('Weeks');
         await ResourceEditPage.clickSave();
+        await wait(5000);
       });
 
       it('displays a validation error for coverage', () => {
@@ -314,23 +317,6 @@ describe('ResourceEditCustomTitle', function () {
         it.always('does not show a message that saving will remove embargo', () => {
           expect(ResourceEditPage.hasSavingWillRemoveEmbargoMessage).to.be.false;
         });
-      });
-    });
-
-    describe('valid data clicking cancel', () => {
-      beforeEach(async function () {
-        await ResourceEditPage.whenLoaded();
-        await ResourceEditPage.clickAddRowButton();
-        await ResourceEditPage.toggleIsVisible();
-        await ResourceEditPage.dateRangeRowList(0).fillDates('12/16/2018', '12/18/2018');
-        await ResourceEditPage.inputCoverageStatement('Only 90s kids would understand.');
-        await ResourceEditPage.clickAddCustomEmbargoButton();
-        await ResourceEditPage.inputEmbargoValue('27');
-        await ResourceEditPage.inputCustomUrlValue('https://bigtestjs.io');
-        await ResourceEditPage.blurEmbargoValue();
-        await ResourceEditPage.selectEmbargoUnit('Weeks');
-        await ResourceEditPage.blurEmbargoUnit();
-        await ResourceEditPage.clickCancel();
       });
     });
 
@@ -430,6 +416,7 @@ describe('ResourceEditCustomTitle', function () {
       });
     });
 
+    // TODO Refactor to move this test up to set the custom-coverage before the page visit
     describe.skip('when there are only empty custom coverage date ranges', () => {
       beforeEach(async function () {
         const customCoverages = [

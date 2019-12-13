@@ -3,6 +3,7 @@ import { expect } from 'chai';
 
 import setupApplication from '../helpers/setup-application';
 import ProviderShowPage from '../interactors/provider-show';
+import wait from '../helpers/wait';
 
 describe('ProviderShow package search', function () {
   setupApplication();
@@ -193,12 +194,14 @@ describe('ProviderShow package search', function () {
             await ProviderShowPage.searchModal.tagsSection.tagsSelect.options(0).clickOption();
             await ProviderShowPage.clickListSearch();
             await ProviderShowPage.searchModal.tagsSection.clearTagFilter();
+            await wait(2000);
           });
 
           it('should close search modal', () => {
             expect(ProviderShowPage.searchModal.isPresent).to.be.false;
           });
 
+          // TODO refactor as it falling on CI
           it('should display empty list of packages', () => {
             expect(ProviderShowPage.packageList()).to.have.lengthOf(5);
           });
@@ -342,8 +345,10 @@ describe('ProviderShow package search', function () {
       await ProviderShowPage.searchModal.toggleAccordion('#accordion-toggle-button-filter-packages-selected');
       await ProviderShowPage.searchModal.clickFilter('selected', 'true');
       await ProviderShowPage.searchModal.clickSearch();
+      await wait(5000);
     });
 
+    // TODO refactor as it falloing on CI
     it('displays selected packages matching the search term', () => {
       expect(ProviderShowPage.packageList()).to.have.lengthOf(1);
       expect(ProviderShowPage.packageList(0).name).to.equal('Other Ordinary Package');

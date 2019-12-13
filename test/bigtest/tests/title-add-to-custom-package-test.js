@@ -64,8 +64,8 @@ describe('TitleShowAddToCustomPackage', () => {
     });
 
     describe('clicking submit', () => {
-      beforeEach(() => {
-        return TitleShowPage.customPackageModal.submit();
+      beforeEach(async () => {
+        await TitleShowPage.customPackageModal.submit();
       });
 
       it('shows an error with no selected package', () => {
@@ -94,6 +94,7 @@ describe('TitleShowAddToCustomPackage', () => {
         expect(TitleShowPage.customPackageModal.isCancelDisabled).to.be.true;
       });
 
+      // TODO refactor to ensure that ResourceShowPage is loaded
       it('Redirects to the newly created resource', function () {
         expect(this.location.pathname).to.match(/^\/eholdings\/resources\/\d{1,}/);
         expect(ResourceShowPage.titleName).to.equal(title.name);

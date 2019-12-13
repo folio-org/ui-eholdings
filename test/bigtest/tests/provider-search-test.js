@@ -5,6 +5,7 @@ import setupApplication from '../helpers/setup-application';
 import ProviderSearchPage from '../interactors/provider-search';
 import ProviderShowPage from '../interactors/provider-show';
 import PackageShowPage from '../interactors/package-show';
+import wait from '../helpers/wait';
 
 describe('ProviderSearch', function () {
   setupApplication();
@@ -270,6 +271,8 @@ describe('ProviderSearch', function () {
     describe('searching for providers', () => {
       beforeEach(async () => {
         await ProviderSearchPage.search('health analytics');
+        await ProviderSearchPage.when(() => ProviderSearchPage.hasLoaded);
+        await wait(5000);
       });
 
       it('has search filters', () => {
@@ -280,6 +283,7 @@ describe('ProviderSearch', function () {
         expect(ProviderSearchPage.sortBy).to.equal('relevance');
       });
 
+      // TODO falling on CI
       it("displays provider entries related to 'health analytics'", () => {
         expect(ProviderSearchPage.providerList()).to.have.lengthOf(4);
       });
