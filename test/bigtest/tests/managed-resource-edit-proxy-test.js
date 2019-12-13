@@ -7,7 +7,7 @@ import ResourceShowPage from '../interactors/resource-show';
 
 // TODO refactor move the test server setup to the scenario
 describe.skip('ManagedResourceEditProxy', async () => {
-  await setupApplication();
+  setupApplication();
   let provider,
     providerPackage,
     title,

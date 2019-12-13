@@ -7,7 +7,7 @@ import { entityAuthorityTypes } from '../../../src/constants';
 
 // Refactor by splittintg the tests and using the scenarios to avoid setting up the server inside the tests
 describe.skip('PackageShow', async function () {
-  await setupApplication();
+  setupApplication();
   let provider;
   let providerPackage;
   let resources;
@@ -153,7 +153,7 @@ describe.skip('PackageShow', async function () {
       });
     });
 
-    // TODO refavor to move up the nested visit 
+    // TODO refavor to move up the nested visit
     describe.skip('then visiting another package details page', () => {
       beforeEach(async function () {
         const otherPackage = await this.server.create('package', 'withTitles', {
