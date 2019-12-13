@@ -7,7 +7,7 @@ import PackageShowPage from '../interactors/package-show';
 import PackageSearchPage from '../interactors/package-search';
 import NavigationModal from '../interactors/navigation-modal';
 
-describe.skip('PackageCreate', () => {
+describe('PackageCreate', () => {
   setupApplication();
 
   describe('submitting the form', () => {

@@ -6,7 +6,7 @@ import setupApplication from '../helpers/setup-application';
 import setupBlockServer from '../helpers/setup-block-server';
 import PackageShowPage from '../interactors/package-show';
 
-describe.skip('PackageSelection', () => {
+describe('PackageSelection', () => {
   setupApplication();
   let provider,
     providerPackage;
