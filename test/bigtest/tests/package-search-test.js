@@ -7,24 +7,11 @@ import PackageShowPage from '../interactors/package-show';
 import ResourceShowPage from '../interactors/resource-show';
 
 describe('PackageSearch', function () {
-  setupApplication();
-  let pkgs;
-  // some of the beforeEach blocks seem to timeout in CI
-  this.timeout(5000);
+  setupApplication({
+    scenarios: ['defaultScenario', 'packageSearch']
+  });
 
   beforeEach(async function () {
-    pkgs = await this.server.createList('package', 3, 'withProvider', 'withTitles', {
-      name: i => `Package${i + 1}`,
-      isSelected: i => !!i,
-      titleCount: 3,
-      selectedCount: i => i,
-      contentType: i => (!i ? 'ebook' : 'ejournal')
-    });
-
-    await this.server.create('package', 'withProvider', {
-      name: 'SomethingElse'
-    });
-
     await this.visit('/eholdings/?searchType=packages');
     await PackageSearchPage.whenLoaded();
   });
@@ -54,6 +41,7 @@ describe('PackageSearch', function () {
 
   describe('clicking to open tags accordion', () => {
     beforeEach(async () => {
+      await PackageSearchPage.when(() => PackageSearchPage.tagsSection.isPresent);
       await PackageSearchPage.tagsSection.clickTagHeader();
     });
 
@@ -85,10 +73,6 @@ describe('PackageSearch', function () {
 
     it('displays the package name in the list', () => {
       expect(PackageSearchPage.packageList(0).name).to.equal('Package1');
-    });
-
-    it('displays the package provider name name in the list', () => {
-      expect(PackageSearchPage.packageList(0).providerName).to.equal(pkgs[0].provider.name);
     });
 
     it('displays a loading indicator where the total results will be', () => {
@@ -179,25 +163,12 @@ describe('PackageSearch', function () {
       });
     });
 
-    describe.skip('clicking a search results list item selecting a package', () => {
-      beforeEach(async () => {
-        await PackageSearchPage
-          .packageList(0)
-          .clickThrough()
-          .selectPackage();
-      });
-
-      it('reflects the selection in the results list', () => {
-        expect(PackageSearchPage.packageList(0).isSelected).to.be.true;
-      });
-    });
-
     describe('clicking a search results list item clicking the close button on the preview pane', () => {
       beforeEach(async () => {
         await PackageSearchPage
           .packageList(0)
-          .clickThrough()
-          .clickCloseButton();
+          .clickThrough();
+        await PackageSearchPage.clickCloseButton();
       });
 
       it('hides the preview pane', () => {
@@ -246,49 +217,6 @@ describe('PackageSearch', function () {
 
       it.skip('focuses the resource name', () => {
         expect(ResourceShowPage.nameHasFocus).to.be.true;
-      });
-    });
-
-    describe.skip('clicking a search results list item clicking an item within the preview pane and clicking the back button', () => {
-      beforeEach(async () => {
-        await PackageSearchPage
-          .packageList(0)
-          .clickThrough()
-          .packageTitleList(0)
-          .clickToTitle()
-          .clickBackButton();
-      });
-
-      it('displays the original search', () => {
-        expect(PackageSearchPage.searchFieldValue).to.equal('Package');
-      });
-
-      it('displays the original search results', () => {
-        expect(PackageSearchPage.packageList()).to.have.lengthOf(3);
-      });
-
-      it.skip('focuses the package name', () => {
-        expect(PackageShowPage.nameHasFocus).to.be.true;
-      });
-    });
-
-    describe('filtering by content type', () => {
-      beforeEach(async () => {
-        await PackageSearchPage
-          .toggleAccordion('#accordion-toggle-button-filter-packages-type')
-          .clickFilter('type', 'ebook');
-      });
-
-      it('only shows results for ebook content types', () => {
-        expect(PackageSearchPage.packageList()).to.have.lengthOf(1);
-      });
-
-      it('reflects the filter in the URL query params', function () {
-        expect(this.location.search).to.include('filter[type]=ebook');
-      });
-
-      it.skip('shows search filters on smaller screen sizes (due to filter change only)', () => {
-        expect(PackageSearchPage.isSearchVignetteHidden).to.equal(false);
       });
     });
 
@@ -401,6 +329,16 @@ describe('PackageSearch', function () {
       it('shows the preview pane', () => {
         expect(PackageSearchPage.packagePreviewPaneIsPresent).to.be.true;
       });
+    });
+  });
+
+  describe("searching for the package 'fhqwhgads'", () => {
+    beforeEach(async () => {
+      await PackageSearchPage.search('fhqwhgads');
+    });
+
+    it("displays 'no results' message", () => {
+      expect(PackageSearchPage.noResultsMessage).to.equal("No packages found for 'fhqwhgads'.");
     });
   });
 
@@ -803,32 +741,6 @@ describe('PackageSearch', function () {
           expect(this.location.search).to.include('offset=0');
         });
       });
-    });
-  });
-
-  describe("searching for the package 'fhqwhgads'", () => {
-    beforeEach(async () => {
-      await PackageSearchPage.search('fhqwhgads');
-    });
-
-    it("displays 'no results' message", () => {
-      expect(PackageSearchPage.noResultsMessage).to.equal("No packages found for 'fhqwhgads'.");
-    });
-  });
-
-  describe('encountering a server error', () => {
-    beforeEach(async function () {
-      await this.server.get('/packages', {
-        errors: [{
-          title: 'There was an error'
-        }]
-      }, 500);
-
-      await PackageSearchPage.search("this doesn't matter");
-    });
-
-    it('dies with dignity', () => {
-      expect(PackageSearchPage.hasErrors).to.be.true;
     });
   });
 });

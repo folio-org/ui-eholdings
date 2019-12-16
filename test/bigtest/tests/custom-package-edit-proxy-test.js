@@ -5,27 +5,15 @@ import setupApplication from '../helpers/setup-application';
 import PackageShowPage from '../interactors/package-show';
 import PackageEditPage from '../interactors/package-edit';
 
-describe('CustomPackageEditProxy', () => {
+describe('CustomPackageEditProxy', async function () {
   setupApplication();
-  let provider,
-    providerPackage;
-
-  beforeEach(function () {
-    provider = this.server.create('provider', {
-      name: 'Cool Provider'
-    });
-
-    providerPackage = this.server.create('package', 'withProxy', {
-      provider,
-      name: 'Cool Package',
-      contentType: 'E-Book',
-      isCustom: true
-    });
-  });
 
   describe('visiting the package edit page', () => {
+    setupApplication({
+      scenarios: ['customPackageEditProxy']
+    });
     beforeEach(async function () {
-      await this.visit(`/eholdings/packages/${providerPackage.id}/edit`);
+      await this.visit('/eholdings/packages/testId/edit');
       await PackageEditPage.whenLoaded();
     });
 

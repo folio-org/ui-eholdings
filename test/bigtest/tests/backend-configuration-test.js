@@ -7,8 +7,6 @@ import ApplicationPage from '../interactors/application';
 import SettingsPage from '../interactors/settings';
 
 describe('Error retrieving backend', function () {
-  // some of the beforeEach blocks seem to timeout in CI
-  this.timeout(5000);
   setupApplication({
     scenarios: ['load-error-backend']
   });
@@ -25,8 +23,6 @@ describe('Error retrieving backend', function () {
 });
 
 describe('With no backend at all', function () {
-  // some of the beforeEach blocks seem to timeout in CI
-  this.timeout(5000);
   setupApplication({
     scenarios: ['no-backend']
   });
@@ -43,8 +39,6 @@ describe('With no backend at all', function () {
 });
 
 describe('With unconfigured backend', function () {
-  // some of the beforeEach blocks seem to timeout in CI
-  this.timeout(5000);
   setupApplication({
     scenarios: ['unconfigured-backend']
   });
@@ -108,8 +102,6 @@ describe('With unconfigured backend', function () {
 });
 
 describe('With valid backend configuration', function () {
-  // some of the beforeEach blocks seem to timeout in CI
-  this.timeout(5000);
   setupApplication();
 
   describe('when visiting the KB auth form', () => {
