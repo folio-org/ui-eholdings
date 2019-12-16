@@ -59,7 +59,7 @@ describe('PackageSearch', function () {
       await PackageSearchPage.search('Package');
     });
 
-    it('removes the pre-results pane', () => {
+    it.skip('removes the pre-results pane', () => {
       expect(PackageSearchPage.hasPreSearchPane).to.equal(false);
     });
 
