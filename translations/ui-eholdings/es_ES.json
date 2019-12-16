@@ -185,7 +185,7 @@
     "filter.contentType.print": "Print",
     "filter.contentType.onlineReference": "Online Reference",
     "filter.contentType.unknown": "Unknown",
-    "filter.pubType.audioBook": "Audiobook",
+    "filter.pubType.audioBook": "Audiolibro",
     "filter.pubType.book": "Book",
     "filter.pubType.bookSeries": "Book Series",
     "filter.pubType.database": "Database",
@@ -328,5 +328,5 @@
     "filter.togglePane": "Alternar panel de filtros",
     "search.enterYourSearch": "Introduzca su búsqueda",
     "search.selectFieldToSearch": "Seleccione un campo para buscar",
-    "tags.filter": "Tags filter"
+    "tags.filter": "Filtro de etiquetas"
 }
