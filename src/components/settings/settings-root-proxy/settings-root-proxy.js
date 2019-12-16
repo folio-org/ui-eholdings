@@ -1,19 +1,17 @@
-import React, { Component, Fragment } from 'react';
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Form } from 'react-final-form';
 import createFocusDecorator from 'final-form-focus';
 import {
-  Button,
   Headline,
-  Icon
+  Icon,
 } from '@folio/stripes/components';
 import { FormattedMessage } from 'react-intl';
 
-import SettingsDetailPane from '../settings-detail-pane';
+import SettingsForm from '../settings-form';
 import { processErrors } from '../../utilities';
 import Toaster from '../../toaster';
 import RootProxySelectField from './_fields/root-proxy-select';
-import PaneHeaderButton from '../../pane-header-button';
 
 const focusOnErrors = createFocusDecorator();
 
@@ -30,7 +28,7 @@ export default class SettingsRootProxy extends Component {
       rootProxy,
       proxyTypes,
       onSubmit,
-      isFreshlySaved
+      isFreshlySaved,
     } = this.props;
     const toasts = processErrors(rootProxy);
 
@@ -49,40 +47,13 @@ export default class SettingsRootProxy extends Component {
           rootProxyServer: rootProxy.proxyTypeId
         }}
         decorators={[focusOnErrors]}
-        render={({ form: { reset }, handleSubmit, invalid, pristine }) => (
-          <SettingsDetailPane
+        render={(formState) => (
+          <SettingsForm
             data-test-eholdings-settings-root-proxy
-            onSubmit={handleSubmit}
-            tagName="form"
-            paneTitle={<FormattedMessage id="ui-eholdings.settings.rootProxy" />}
-            actionMenu={() => (
-              <Button
-                data-test-eholdings-settings-root-proxy-cancel-action
-                buttonStyle="dropdownItem fullWidth"
-                disabled={rootProxy.update.isPending || pristine}
-                onClick={reset}
-              >
-                <FormattedMessage id="ui-eholdings.actionMenu.cancelEditing" />
-              </Button>
-            )}
-            lastMenu={(
-              <Fragment>
-                {rootProxy.update.isPending && (
-                  <Icon icon="spinner-ellipsis" />
-                )}
-                <PaneHeaderButton
-                  disabled={rootProxy.update.isPending || invalid || pristine}
-                  type="submit"
-                  buttonStyle="primary"
-                  data-test-eholdings-settings-root-proxy-save-button
-                >
-                  {rootProxy.update.isPending ?
-                    (<FormattedMessage id="ui-eholdings.saving" />)
-                    :
-                    (<FormattedMessage id="ui-eholdings.save" />)}
-                </PaneHeaderButton>
-              </Fragment>
-            )}
+            id="root-proxy-form"
+            formState={formState}
+            updateIsPending={rootProxy.update.isPending}
+            title={<FormattedMessage id="ui-eholdings.settings.rootProxy" />}
           >
             <Toaster toasts={toasts} position="bottom" />
 
@@ -94,7 +65,10 @@ export default class SettingsRootProxy extends Component {
               <Icon icon="spinner-ellipsis" />
             ) : (
               <div data-test-eholdings-settings-root-proxy-select>
-                <RootProxySelectField proxyTypes={proxyTypes} />
+                <RootProxySelectField
+                  proxyTypes={proxyTypes}
+                  value={formState.values.rootProxyServer}
+                />
               </div>
             )}
 
@@ -103,7 +77,7 @@ export default class SettingsRootProxy extends Component {
             <p>
               <FormattedMessage id="ui-eholdings.settings.rootProxy.warning" />
             </p>
-          </SettingsDetailPane>
+          </SettingsForm>
         )}
       />
     );

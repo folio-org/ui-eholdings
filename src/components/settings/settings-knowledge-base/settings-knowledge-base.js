@@ -5,16 +5,15 @@ import createFocusDecorator from 'final-form-focus';
 import isEqual from 'lodash/isEqual';
 import { FormattedMessage } from 'react-intl';
 import {
-  Button,
   Headline,
   Icon,
   TextField,
-  Select
+  Select,
 } from '@folio/stripes/components';
-import SettingsDetailPane from '../settings-detail-pane';
+
+import SettingsForm from '../settings-form';
 import { processErrors } from '../../utilities';
 import Toaster from '../../toaster';
-import PaneHeaderButton from '../../pane-header-button';
 
 const focusOnErrors = createFocusDecorator();
 
@@ -59,17 +58,19 @@ export default class SettingsKnowledgeBase extends Component {
   render() {
     const {
       model,
-      onSubmit
+      onSubmit,
     } = this.props;
 
     const { router } = this.context;
 
     const toasts = processErrors(model);
 
-    if (router.history.action === 'PUSH' &&
-        router.history.location.state &&
-        router.history.location.state.isFreshlySaved &&
-        model.update.isResolved) {
+    if (
+      router.history.action === 'PUSH' &&
+      router.history.location.state &&
+      router.history.location.state.isFreshlySaved &&
+      model.update.isResolved
+    ) {
       toasts.push({
         id: `settings-kb-${model.update.timestamp}`,
         message: <FormattedMessage id="ui-eholdings.settings.kb.updated" />,
@@ -82,40 +83,13 @@ export default class SettingsKnowledgeBase extends Component {
         onSubmit={onSubmit}
         initialValues={this.getInitialValues()}
         decorators={[focusOnErrors]}
-        render={({ form: { reset }, handleSubmit, invalid, pristine }) => (
-          <SettingsDetailPane
-            data-test-eholdings-settings
-            onSubmit={handleSubmit}
-            tagName="form"
-            paneTitle={<FormattedMessage id="ui-eholdings.settings.kb" />}
-            actionMenu={() => (
-              <Button
-                data-test-eholdings-settings-kb-cancel-action
-                buttonStyle="dropdownItem fullWidth"
-                disabled={model.update.isPending || pristine}
-                onClick={reset}
-              >
-                <FormattedMessage id="ui-eholdings.actionMenu.cancelEditing" />
-              </Button>
-            )}
-            lastMenu={(
-              <Fragment>
-                {model.update.isPending && (
-                  <Icon icon="spinner-ellipsis" />
-                )}
-                <PaneHeaderButton
-                  disabled={model.update.isPending || invalid || pristine}
-                  type="submit"
-                  buttonStyle="primary"
-                  data-test-eholdings-settings-kb-save-button
-                >
-                  {model.update.isPending ?
-                    (<FormattedMessage id="ui-eholdings.saving" />)
-                    :
-                    (<FormattedMessage id="ui-eholdings.save" />)}
-                </PaneHeaderButton>
-              </Fragment>
-            )}
+        render={(formState) => (
+          <SettingsForm
+            id="knowledge-base-form"
+            data-test-eholdings-settings-kb
+            formState={formState}
+            updateIsPending={model.update.isPending}
+            title={<FormattedMessage id="ui-eholdings.settings.kb" />}
           >
             <Toaster toasts={toasts} position="bottom" />
 
@@ -167,7 +141,7 @@ export default class SettingsKnowledgeBase extends Component {
                 <p><FormattedMessage id="ui-eholdings.settings.kb.url.ebsco.customer.message" /></p>
               </Fragment>
             )}
-          </SettingsDetailPane>
+          </SettingsForm>
         )}
       />
     );

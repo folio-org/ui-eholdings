@@ -185,11 +185,9 @@ describe('With valid backend configuration', function () {
         });
 
         // mirage may respond too quick to properly test loading states
-        it.skip('disables the save button', () => {
+        it('disables the save button', () => {
           expect(SettingsPage.saveButtonDisabled).to.be.true;
         });
-
-        it.skip('indicates that it is working');
 
         describe('when the changes succeed', () => {
           it('disables the save button', () => {
@@ -223,9 +221,8 @@ describe('With valid backend configuration', function () {
       });
 
       describe('when the validation fails', () => {
-        beforeEach(() => {
-          return SettingsPage
-            .fillCustomerId('');
+        beforeEach(async () => {
+          await SettingsPage.fillCustomerId('');
         });
 
         it('does not enable the save button', () => {
@@ -233,10 +230,9 @@ describe('With valid backend configuration', function () {
         });
       });
 
-      // Will be refactored after cancel button moving to footer
-      describe.skip('then hitting the cancel button', () => {
-        beforeEach(() => {
-          return SettingsPage.clickCancel();
+      describe('then hitting the cancel button', () => {
+        beforeEach(async () => {
+          await SettingsPage.cancel();
         });
 
         it('reverts the changes', () => {
