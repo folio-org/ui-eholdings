@@ -371,10 +371,6 @@ describe('TitleSearch', function () {
         expect(this.location.search).to.include('filter[type]=book');
       });
 
-      it.always('does not reflect filter[isxn] in search field', function () {
-        expect(this.location.search).to.not.include('filter[isxn]');
-      });
-
       describe('navigating to packages search', () => {
         beforeEach(async () => {
           await TitleSearchPage.changeSearchType('packages');
@@ -395,10 +391,6 @@ describe('TitleSearch', function () {
 
           it('reflects the pub type in the URL query params', function () {
             expect(this.location.search).to.include('filter[type]=book');
-          });
-
-          it.always('does not reflect filter[isxn] in search field', function () {
-            expect(this.location.search).to.not.include('filter[isxn]');
           });
         });
       });
