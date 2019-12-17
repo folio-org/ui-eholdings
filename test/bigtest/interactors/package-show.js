@@ -145,24 +145,27 @@ import PackageSelectionStatus from './selection-status';
 
   tagsSection = new TagsAccordion('[data-test-eholdings-tag-filter]');
 
-  selectPackage() {
-    return this
-      .dropDown.clickDropDownButton()
-      .dropDownMenu.addToHoldings.click();
+  async selectPackage() {
+     await this.dropDown.clickDropDownButton();
+     await this.dropDownMenu.addToHoldings.click();
+
+     return this;
   }
 
-  deselectAndConfirmPackage() {
-    return this
-      .dropDown.clickDropDownButton()
-      .dropDownMenu.removeFromHoldings.click()
-      .modal.confirmDeselection();
+  async deselectAndConfirmPackage() {
+    await this.dropDown.clickDropDownButton();
+    await this.dropDownMenu.removeFromHoldings.click();
+    await this.modal.confirmDeselection();
+
+    return this;
   }
 
-  deselectAndCancelPackage() {
-    return this
-      .dropDown.clickDropDownButton()
-      .dropDownMenu.removeFromHoldings.click()
-      .modal.cancelDeselection();
+  async deselectAndCancelPackage() {
+    await this.dropDown.clickDropDownButton();
+    await this.dropDownMenu.removeFromHoldings.click();
+    await this.modal.cancelDeselection();
+
+    return this;
   }
 }
 

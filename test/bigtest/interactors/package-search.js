@@ -96,10 +96,11 @@ import SearchBadge from './search-badge';
       });
   });
 
-  search = action(function (query) {
-    return this
-      .fillSearch(query)
-      .submitSearch();
+  search = action( async function (query) {
+    await this.fillSearch(query);
+    await this.submitSearch();
+
+    return this;
   });
 
   packageList = collection('[data-test-eholdings-package-list-item]', {

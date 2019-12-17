@@ -7,21 +7,12 @@ import ProviderShowPage from '../interactors/provider-show';
 import PackageShowPage from '../interactors/package-show';
 import wait from '../helpers/wait';
 
-describe.skip('ProviderSearch', function () {
-  setupApplication();
-  // some of the beforeEach blocks seem to timeout in CI
-  this.timeout(5000);
+describe('ProviderSearch', function () {
+  setupApplication({
+    scenarios: ['providerSearch']
+  });
+
   beforeEach(async function () {
-    await this.server.createList('provider', 3, 'withPackagesAndTitles', {
-      name: i => `Provider${i + 1}`,
-      packagesSelected: 1,
-      packagesTotal: 3
-    });
-
-    await this.server.create('provider', {
-      name: 'Totally Awesome Co'
-    });
-
     await this.visit('/eholdings/?searchType=providers');
     await ProviderSearchPage.whenLoaded();
   });
@@ -128,16 +119,6 @@ describe.skip('ProviderSearch', function () {
           // to the history. Ensuring the back button works as expected
           const history = this.app.props.history;
           expect(history.entries[history.index - 1].search).to.include('q=Provider');
-        });
-      });
-
-      describe.skip('clicking the vignette behind the preview pane', () => {
-        beforeEach(() => {
-          return ProviderSearchPage.clickSearchVignette();
-        });
-
-        it('hides the preview pane', () => {
-          expect(ProviderSearchPage.providerPreviewPaneIsPresent).to.be.false;
         });
       });
 
@@ -249,359 +230,154 @@ describe.skip('ProviderSearch', function () {
     });
   });
 
-  describe('sorting providers', () => {
-    beforeEach(async function () {
-      await this.server.create('provider', {
-        name: 'Health Associations'
-      });
-      await this.server.create('provider', {
-        name: 'Analytics for everyone'
-      });
-      await this.server.create('provider', {
-        name: 'Non Matching'
-      });
-      await this.server.create('provider', {
-        name: 'My Health Analytics 2'
-      });
-      await this.server.create('provider', {
-        name: 'My Health Analytics 10'
-      });
+  describe("searching for the provider 'fhqwhgads'", () => {
+    beforeEach(async () => {
+      await ProviderSearchPage.search('fhqwhgads');
     });
 
-    describe('searching for providers', () => {
-      beforeEach(async () => {
-        await ProviderSearchPage.search('health analytics');
-        await ProviderSearchPage.when(() => ProviderSearchPage.hasLoaded);
-        await wait(5000);
-      });
+    it("displays 'no results' message", () => {
+      expect(ProviderSearchPage.noResultsMessage).to.equal("No providers found for 'fhqwhgads'.");
+    });
+  });
+});
 
-      it('has search filters', () => {
-        expect(ProviderSearchPage.hasSearchFilters).to.be.true;
-      });
+describe('ProviderSearch encountering a server error', () => {
+  setupApplication({
+    scenarios: ['providerSearchError']
+  });
 
-      it('shows the default sort filter of relevance in the search form', () => {
-        expect(ProviderSearchPage.sortBy).to.equal('relevance');
-      });
+  beforeEach(async function () {
+    await this.visit('/eholdings/?searchType=providers');
+    await ProviderSearchPage.whenLoaded();
+    await ProviderSearchPage.search("this doesn't matter");
+  });
 
-      // TODO falling on CI
-      it("displays provider entries related to 'health analytics'", () => {
-        expect(ProviderSearchPage.providerList()).to.have.lengthOf(4);
-      });
+  it('shows an error', () => {
+    expect(ProviderSearchPage.hasErrors).to.be.true;
+  });
 
-      it('displays the providers sorted by relevance', () => {
-        expect(ProviderSearchPage.providerList(0).name).to.equal('My Health Analytics 2');
-        expect(ProviderSearchPage.providerList(1).name).to.equal('My Health Analytics 10');
-        expect(ProviderSearchPage.providerList(2).name).to.equal('Analytics for everyone');
-        expect(ProviderSearchPage.providerList(3).name).to.equal('Health Associations');
-      });
+  it('displays the error message returned from the server', () => {
+    expect(ProviderSearchPage.errorMessage).to.equal('There was an error');
+  });
+});
 
-      it.always('does not reflect the default sort=relevance in url', function () {
-        expect(this.location.search).to.not.include('sort=relevance');
-      });
+describe('ProviderSearch with multiple pages of providers', () => {
+  setupApplication({
+    scenarios: ['providerSearchMultipleProviderPages']
+  })
+
+  beforeEach(async function () {
+    await this.visit('/eholdings/?searchType=providers');
+    await ProviderSearchPage.whenLoaded();
+  });
+
+  describe('searching for providers', () => {
+    beforeEach(async () => {
+      await ProviderSearchPage.search('other');
     });
 
-    describe('searching for providers and then filtering by sort options', () => {
-      beforeEach(async () => {
-        await ProviderSearchPage.search('health analytics');
-        await ProviderSearchPage.toggleAccordion('#accordion-toggle-button-filter-providers-sort');
-        await ProviderSearchPage.clickFilter('sort', 'name');
-      });
-      it('displays the providers sorted by provider name', () => {
-        expect(ProviderSearchPage.providerList(0).name).to.equal('Analytics for everyone');
-        expect(ProviderSearchPage.providerList(1).name).to.equal('Health Associations');
-        expect(ProviderSearchPage.providerList(2).name).to.equal('My Health Analytics 2');
-        expect(ProviderSearchPage.providerList(3).name).to.equal('My Health Analytics 10');
-      });
-
-      it('shows the sort filter of name in the search form', () => {
-        expect(ProviderSearchPage.sortBy).to.equal('name');
-      });
-
-      it('reflects the sort in the URL query params', function () {
-        expect(this.location.search).to.include('sort=name');
-      });
-
-      it.skip('shows search filters on smaller screen sizes (due to filter change only)', () => {
-        expect(ProviderSearchPage.isSearchVignetteHidden).to.equal(false);
-      });
+    it('shows the first page of results', () => {
+      expect(ProviderSearchPage.providerList(0).name).to.equal('Other Provider 5');
     });
 
-    describe('searching for providers and then filtering by sort options then searching for other providers then clicking another search type', () => {
+    describe('and then scrolling down', () => {
       beforeEach(async () => {
         await ProviderSearchPage
-          .search('health analytics')
-          .toggleAccordion('#accordion-toggle-button-filter-providers-sort')
-          .clickFilter('sort', 'name')
-          .search('analytics')
-          .changeSearchType('packages');
-      });
-      it('does not display any results', () => {
-        expect(ProviderSearchPage.providerList()).to.have.lengthOf(0);
-      });
-    });
-
-    describe('searching for providers and then filtering by sort options then searching for other providers then clicking another search type navigating back to providers search', () => {
-      beforeEach(async () => {
-        await ProviderSearchPage
-          .search('health analytics')
-          .toggleAccordion('#accordion-toggle-button-filter-providers-sort')
-          .clickFilter('sort', 'name')
-          .search('analytics')
-          .changeSearchType('packages')
-          .changeSearchType('providers');
-      });
-      it('keeps the sort filter of name in the search form', () => {
-        expect(ProviderSearchPage.sortBy).to.equal('name');
+          .when(() => ProviderSearchPage.hasLoaded)
+          .do(() => ProviderSearchPage.scrollToOffset(26));
       });
 
-      it('displays the last results', () => {
-        expect(ProviderSearchPage.providerList()).to.have.lengthOf(3);
+      it('shows the next page of results', () => {
+        // when the list is scrolled, it has a threshold of 5 items. index 4,
+        // the 5th item, is the topmost visible item in the list
+        expect(ProviderSearchPage.providerList(4).name).to.equal('Other Provider 30');
       });
 
-      it('reflects the sort=name in the URL query params', function () {
-        expect(this.location.search).to.include('sort=name');
-      });
-    });
-
-    // TODO move the test up to avoid nested visits
-    describe.skip('visiting the page with an existing sort', () => {
-      beforeEach(async function () {
-        await this.visit('/eholdings/?searchType=providers&q=health&sort=name');
-        // the search pane is ending up hidden by default
-        await ProviderSearchPage.searchBadge.clickIcon();
-      });
-
-      it('displays search field populated', () => {
-        expect(ProviderSearchPage.searchFieldValue).to.equal('health');
-      });
-
-      it('displays the sort filter of name as selected in the search form', () => {
-        expect(ProviderSearchPage.sortBy).to.equal('name');
-      });
-
-      it('displays the expected results', () => {
-        expect(ProviderSearchPage.providerList()).to.have.lengthOf(3);
-      });
-
-      it('displays results sorted by name', () => {
-        expect(ProviderSearchPage.providerList(0).name).to.equal('Health Associations');
-        expect(ProviderSearchPage.providerList(1).name).to.equal('My Health Analytics 2');
-        expect(ProviderSearchPage.providerList(2).name).to.equal('My Health Analytics 10');
-      });
-    });
-
-    describe('clearing the search field', () => {
-      beforeEach(async () => {
-        await ProviderSearchPage.clearSearch();
-      });
-
-      it('has disabled search button', () => {
-        expect(ProviderSearchPage.isSearchButtonDisabled).to.equal(true);
-      });
-    });
-
-    describe('selecting a filter without a value in the search field', () => {
-      beforeEach(async () => {
-        await ProviderSearchPage.toggleAccordion('#accordion-toggle-button-filter-providers-sort');
-        await ProviderSearchPage.clickFilter('sort', 'name');
-      });
-
-      it('should not perform an empty search', () => {
-        expect(ProviderSearchPage.hasPreSearchPane).to.be.true;
-      });
-
-      describe('then adding a search term', () => {
-        beforeEach(async () => {
-          await ProviderSearchPage.search('health');
-        });
-
-        it('should apply selected filter to the results', () => {
-          expect(ProviderSearchPage.providerList(0).name).to.equal('Health Associations');
-          expect(ProviderSearchPage.providerList(1).name).to.equal('My Health Analytics 2');
-          expect(ProviderSearchPage.providerList(2).name).to.equal('My Health Analytics 10');
-        });
+      it('updates the offset in the URL', function () {
+        expect(this.location.search).to.include('offset=26');
       });
     });
   });
+});
 
-  describe('filtering providers by tags', () => {
-    beforeEach(async function () {
-      const allTags = ['urgent', 'not urgent'];
+describe('ProviderSearch with multiple pages of providers navigating directly to a search page', () => {
+  setupApplication({
+    scenarios: ['providerSearchMultipleProviderPages']
+  })
 
-      const urgentTag = await this.server.create('tags', {
-        tagList: allTags.slice(0)
-      }).toJSON();
-
-      await this.server.create('provider', {
-        name: 'Test Urgent Tag',
-        tags: urgentTag
-      });
-
-      const notUrgentTag = await this.server.create('tags', {
-        tagList: allTags.slice(1),
-      }).toJSON();
-
-      await this.server.create('provider', {
-        name: 'Test Not Urgent Tag',
-        tags: notUrgentTag
-      });
-
-      const bothTags = await this.server.create('tags', {
-        tagList: allTags,
-      }).toJSON();
-
-      await this.server.create('provider', {
-        name: 'Test Both Tags',
-        tags: bothTags
-      });
-
-      await this.server.create('provider', {
-        name: 'Test No Tags'
-      });
-    });
-
-    it('displays tags accordion as closed', () => {
-      expect(ProviderSearchPage.tagsSection.tagsAccordion.isOpen).to.equal(false);
-    });
-
-    describe('clicking to open tags accordion', () => {
-      beforeEach(async () => {
-        await ProviderSearchPage.tagsSection.clickTagHeader();
-      });
-
-      it('displays tags accordion as expanded', () => {
-        expect(ProviderSearchPage.tagsSection.tagsAccordion.isOpen).to.be.true;
-      });
-
-      it('displays tag filter with available options', () => {
-        expect(ProviderSearchPage.tagsSection.tagsSelect.optionCount).to.equal(2);
-        expect(ProviderSearchPage.tagsSection.tagsSelect.options(0).label).to.equal('not urgent');
-        expect(ProviderSearchPage.tagsSection.tagsSelect.options(1).label).to.equal('urgent');
-      });
-
-      it('displays tag filter with empty value', () => {
-        expect(ProviderSearchPage.tagsSection.tagsSelect.values()).to.deep.equal([]);
-      });
-
-      describe('and search by tags was enabled', () => {
-        beforeEach(async () => {
-          await ProviderSearchPage.tagsSection.toggleSearchByTags();
-        });
-
-        it('search field should be disabled', () => {
-          expect(ProviderSearchPage.searchFieldIsDisabled).to.be.true;
-        });
-
-        it('should display tags multiselect enabled', () => {
-          expect(ProviderSearchPage.tagsSection.tagsMultiselectIsDisabled).to.be.false;
-        });
-
-        it('search by tags tags checkbox should be checked', () => {
-          expect(ProviderSearchPage.tagsSection.tagsCheckboxIsChecked).to.be.true;
-        });
-
-        describe('after click on urgent option', () => {
-          beforeEach(async () => {
-            await ProviderSearchPage.tagsSection.tagsSelect.options(1).clickOption();
-          });
-
-          it('should display selected value as urgent', () => {
-            expect(ProviderSearchPage.tagsSection.tagsSelect.values(0).valLabel).to.equal('urgent');
-          });
-
-          it('displays providers tagged as urgent', () => {
-            expect(ProviderSearchPage.providerList()).to.have.lengthOf(2);
-            expect(ProviderSearchPage.providerList(0).name).to.equal('Test Both Tags');
-            expect(ProviderSearchPage.providerList(1).name).to.equal('Test Urgent Tag');
-          });
-
-          describe('after click on non urgent option', () => {
-            beforeEach(async () => {
-              await ProviderSearchPage.tagsSection.tagsSelect.options(0).clickOption();
-            });
-            it('should display selected values of not urgent and urgent', () => {
-              expect(ProviderSearchPage.tagsSection.tagsSelect.values(0).valLabel).to.equal('not urgent');
-              expect(ProviderSearchPage.tagsSection.tagsSelect.values(1).valLabel).to.equal('urgent');
-            });
-
-            it('displays providers tagged as urgent and non urgent', () => {
-              expect(ProviderSearchPage.providerList()).to.have.lengthOf(3);
-              expect(ProviderSearchPage.providerList(0).name).to.equal('Test Both Tags');
-              expect(ProviderSearchPage.providerList(1).name).to.equal('Test Not Urgent Tag');
-              expect(ProviderSearchPage.providerList(2).name).to.equal('Test Urgent Tag');
-            });
-
-            it('should display the clear tag filter button', () => {
-              expect(ProviderSearchPage.tagsSection.hasClearTagFilter).to.be.true;
-            });
-
-            describe('removing not urgent tag filter', () => {
-              beforeEach(async () => {
-                await ProviderSearchPage.tagsSection.tagsSelect.values(0).clickRemoveButton();
-              });
-
-              it('should display selected values of urgent', () => {
-                expect(ProviderSearchPage.tagsSection.tagsSelect.values(0).valLabel).to.equal('urgent');
-              });
-
-              it('displays providers tagged as urgent', () => {
-                expect(ProviderSearchPage.providerList()).to.have.lengthOf(2);
-                expect(ProviderSearchPage.providerList(0).name).to.equal('Test Both Tags');
-                expect(ProviderSearchPage.providerList(1).name).to.equal('Test Urgent Tag');
-              });
-
-              describe('clearing the filters', () => {
-                beforeEach(async () => {
-                  await ProviderSearchPage.tagsSection.clearTagFilter();
-                });
-
-                it('displays tag filter with empty value', () => {
-                  expect(ProviderSearchPage.tagsSection.tagsSelect.values()).to.deep.equal([]);
-                });
-
-                it('displays no provider results', () => {
-                  expect(ProviderSearchPage.providerList()).to.have.lengthOf(0);
-                });
-
-                it.always('removes the filter from the URL query params', function () {
-                  expect(this.location.search).to.not.include('filter[tags]');
-                });
-              });
-            });
-          });
-        });
-      });
-    });
+  beforeEach(async function () {
+    await this.visit('/eholdings/?searchType=providers&offset=51&q=other');
+    await ProviderSearchPage.whenLoaded();
   });
 
-  // Move up to avoid nested visits
-  describe.skip('visiting the page with an existing tags filter', () => {
-    beforeEach(async function () {
-      const allTags = ['urgent', 'not urgent'];
+  it('should show the search results for that page', () => {
+    // see comment above about providerList index number
+    expect(ProviderSearchPage.providerList(4).name).to.equal('Other Provider 55');
+  });
 
-      const urgentTag = await this.server.create('tags', {
-        tagList: allTags.slice(0)
-      }).toJSON();
+  it('should retain the proper offset', function () {
+    expect(this.location.search).to.include('offset=51');
+  });
 
-      await this.server.create('provider', {
-        name: 'Test Urgent Tag',
-        tags: urgentTag
-      });
-
-      await this.visit('/eholdings?searchType=providers&filter[tags]=urgent');
+  describe('and then scrolling up', () => {
+    beforeEach(async () => {
+      await ProviderSearchPage.scrollToOffset(0);
     });
 
-    it('displays tags accordion as closed', () => {
-      expect(ProviderSearchPage.tagsSection.tagsAccordion.isOpen).to.equal(false);
+    it('shows the total results', () => {
+      expect(ProviderSearchPage.totalResults).to.equal('75 search results');
     });
 
-    describe('clicking to open tags accordion', () => {
+    it('shows the prev page of results', () => {
+      expect(ProviderSearchPage.providerList(0).name).to.equal('Other Provider 5');
+    });
+
+    it('updates the offset in the URL', function () {
+      expect(this.location.search).to.include('offset=0');
+    });
+  });
+});
+
+describe('ProviderSearch filtering providers by tags', () => {
+  setupApplication({
+    scenarios: ['providerSearchFilteringByTags']
+  })
+
+  beforeEach(async function () {
+    await this.visit('/eholdings/?searchType=providers');
+    await ProviderSearchPage.whenLoaded();
+  });
+
+  it('displays tags accordion as closed', () => {
+    expect(ProviderSearchPage.tagsSection.tagsAccordion.isOpen).to.equal(false);
+  });
+
+  describe('clicking to open tags accordion', () => {
+    beforeEach(async () => {
+      await ProviderSearchPage.tagsSection.clickTagHeader();
+    });
+
+    it('displays tags accordion as expanded', () => {
+      expect(ProviderSearchPage.tagsSection.tagsAccordion.isOpen).to.be.true;
+    });
+
+    it('displays tag filter with available options', () => {
+      expect(ProviderSearchPage.tagsSection.tagsSelect.optionCount).to.equal(2);
+      expect(ProviderSearchPage.tagsSection.tagsSelect.options(0).label).to.equal('not urgent');
+      expect(ProviderSearchPage.tagsSection.tagsSelect.options(1).label).to.equal('urgent');
+    });
+
+    it('displays tag filter with empty value', () => {
+      expect(ProviderSearchPage.tagsSection.tagsSelect.values()).to.deep.equal([]);
+    });
+
+    describe('and search by tags was enabled', () => {
       beforeEach(async () => {
-        await ProviderSearchPage.tagsSection.clickTagHeader();
+        await ProviderSearchPage.tagsSection.toggleSearchByTags();
       });
 
-      it('displays tags accordion as expanded', () => {
-        expect(ProviderSearchPage.tagsSection.tagsAccordion.isOpen).to.be.true;
+      it('search field should be disabled', () => {
+        expect(ProviderSearchPage.searchFieldIsDisabled).to.be.true;
       });
 
       it('should display tags multiselect enabled', () => {
@@ -612,114 +388,242 @@ describe.skip('ProviderSearch', function () {
         expect(ProviderSearchPage.tagsSection.tagsCheckboxIsChecked).to.be.true;
       });
 
-      it('should display selected value as urgent', () => {
-        expect(ProviderSearchPage.tagsSection.tagsSelect.values(0).valLabel).to.equal('urgent');
-      });
-
-      it('displays packages tagged as urgent', () => {
-        expect(ProviderSearchPage.providerList()).to.have.lengthOf(1);
-        expect(ProviderSearchPage.providerList(0).name).to.equal('Test Urgent Tag');
-      });
-    });
-  });
-
-  describe('with multiple pages of providers', () => {
-    beforeEach(async function () {
-      await this.server.createList('provider', 75, {
-        name: i => `Other Provider ${i + 1}`
-      });
-    });
-
-    describe('searching for providers', () => {
-      beforeEach(async () => {
-        await ProviderSearchPage.search('other');
-      });
-
-      it('shows the first page of results', () => {
-        expect(ProviderSearchPage.providerList(0).name).to.equal('Other Provider 5');
-      });
-
-      describe('and then scrolling down', () => {
+      describe('after click on urgent option', () => {
         beforeEach(async () => {
-          await ProviderSearchPage
-            .when(() => ProviderSearchPage.hasLoaded)
-            .do(() => ProviderSearchPage.scrollToOffset(26));
+          await ProviderSearchPage.tagsSection.tagsSelect.options(1).clickOption();
         });
 
-        it('shows the next page of results', () => {
-          // when the list is scrolled, it has a threshold of 5 items. index 4,
-          // the 5th item, is the topmost visible item in the list
-          expect(ProviderSearchPage.providerList(4).name).to.equal('Other Provider 30');
+        it('should display selected value as urgent', () => {
+          expect(ProviderSearchPage.tagsSection.tagsSelect.values(0).valLabel).to.equal('urgent');
         });
 
-        it('updates the offset in the URL', function () {
-          expect(this.location.search).to.include('offset=26');
-        });
-      });
-    });
-
-    describe('navigating directly to a search page', () => {
-      beforeEach(async function () {
-        await this.visit('/eholdings/?searchType=providers&offset=51&q=other');
-        await ProviderSearchPage.whenLoaded();
-      });
-
-      it('should show the search results for that page', () => {
-        // see comment above about providerList index number
-        expect(ProviderSearchPage.providerList(4).name).to.equal('Other Provider 55');
-      });
-
-      it('should retain the proper offset', function () {
-        expect(this.location.search).to.include('offset=51');
-      });
-
-      describe('and then scrolling up', () => {
-        beforeEach(async () => {
-          await ProviderSearchPage.scrollToOffset(0);
+        it('displays providers tagged as urgent', () => {
+          expect(ProviderSearchPage.providerList()).to.have.lengthOf(2);
+          expect(ProviderSearchPage.providerList(0).name).to.equal('Test Both Tags');
+          expect(ProviderSearchPage.providerList(1).name).to.equal('Test Urgent Tag');
         });
 
-        it('shows the total results', () => {
-          expect(ProviderSearchPage.totalResults).to.equal('75 search results');
-        });
+        describe('after click on non urgent option', () => {
+          beforeEach(async () => {
+            await ProviderSearchPage.tagsSection.tagsSelect.options(0).clickOption();
+          });
+          it('should display selected values of not urgent and urgent', () => {
+            expect(ProviderSearchPage.tagsSection.tagsSelect.values(0).valLabel).to.equal('not urgent');
+            expect(ProviderSearchPage.tagsSection.tagsSelect.values(1).valLabel).to.equal('urgent');
+          });
 
-        it('shows the prev page of results', () => {
-          expect(ProviderSearchPage.providerList(0).name).to.equal('Other Provider 5');
-        });
+          it('displays providers tagged as urgent and non urgent', () => {
+            expect(ProviderSearchPage.providerList()).to.have.lengthOf(3);
+            expect(ProviderSearchPage.providerList(0).name).to.equal('Test Both Tags');
+            expect(ProviderSearchPage.providerList(1).name).to.equal('Test Not Urgent Tag');
+            expect(ProviderSearchPage.providerList(2).name).to.equal('Test Urgent Tag');
+          });
 
-        it('updates the offset in the URL', function () {
-          expect(this.location.search).to.include('offset=0');
+          it('should display the clear tag filter button', () => {
+            expect(ProviderSearchPage.tagsSection.hasClearTagFilter).to.be.true;
+          });
+
+          describe('removing not urgent tag filter', () => {
+            beforeEach(async () => {
+              await ProviderSearchPage.tagsSection.tagsSelect.values(0).clickRemoveButton();
+            });
+
+            it('should display selected values of urgent', () => {
+              expect(ProviderSearchPage.tagsSection.tagsSelect.values(0).valLabel).to.equal('urgent');
+            });
+
+            it('displays providers tagged as urgent', () => {
+              expect(ProviderSearchPage.providerList()).to.have.lengthOf(2);
+              expect(ProviderSearchPage.providerList(0).name).to.equal('Test Both Tags');
+              expect(ProviderSearchPage.providerList(1).name).to.equal('Test Urgent Tag');
+            });
+
+            describe('clearing the filters', () => {
+              beforeEach(async () => {
+                await ProviderSearchPage.tagsSection.clearTagFilter();
+              });
+
+              it('displays tag filter with empty value', () => {
+                expect(ProviderSearchPage.tagsSection.tagsSelect.values()).to.deep.equal([]);
+              });
+
+              it('displays no provider results', () => {
+                expect(ProviderSearchPage.providerList()).to.have.lengthOf(0);
+              });
+
+              it.always('removes the filter from the URL query params', function () {
+                expect(this.location.search).to.not.include('filter[tags]');
+              });
+            });
+          });
         });
       });
     });
   });
+});
 
-  describe("searching for the provider 'fhqwhgads'", () => {
+describe('ProviderSearch sorting providers', () => {
+  setupApplication({
+    scenarios: ['providerSearchSorting']
+  })
+
+  beforeEach(async function () {
+    await this.visit('/eholdings/?searchType=providers');
+    await ProviderSearchPage.whenLoaded();
+  });
+
+  describe('searching for providers', () => {
     beforeEach(async () => {
-      await ProviderSearchPage.search('fhqwhgads');
+      await ProviderSearchPage.search('health analytics');
+      await ProviderSearchPage.when(() => ProviderSearchPage.hasLoaded);
     });
 
-    it("displays 'no results' message", () => {
-      expect(ProviderSearchPage.noResultsMessage).to.equal("No providers found for 'fhqwhgads'.");
+    it('has search filters', () => {
+      expect(ProviderSearchPage.hasSearchFilters).to.be.true;
+    });
+
+    it('shows the default sort filter of relevance in the search form', () => {
+      expect(ProviderSearchPage.sortBy).to.equal('relevance');
+    });
+
+    // TODO falling on CI
+    it("displays provider entries related to 'health analytics'", () => {
+      expect(ProviderSearchPage.providerList()).to.have.lengthOf(4);
+    });
+
+    it('displays the providers sorted by relevance', () => {
+      expect(ProviderSearchPage.providerList(0).name).to.equal('My Health Analytics 2');
+      expect(ProviderSearchPage.providerList(1).name).to.equal('My Health Analytics 10');
+      expect(ProviderSearchPage.providerList(2).name).to.equal('Analytics for everyone');
+      expect(ProviderSearchPage.providerList(3).name).to.equal('Health Associations');
+    });
+
+    it.always('does not reflect the default sort=relevance in url', function () {
+      expect(this.location.search).to.not.include('sort=relevance');
     });
   });
 
-  describe('encountering a server error', () => {
-    beforeEach(async function () {
-      await this.server.get('/providers', {
-        errors: [{
-          title: 'There was an error'
-        }]
-      }, 500);
-
-      await ProviderSearchPage.search("this doesn't matter");
+  describe('searching for providers and then filtering by sort options', () => {
+    beforeEach(async () => {
+      await ProviderSearchPage.search('health analytics');
+      await ProviderSearchPage.toggleAccordion('#accordion-toggle-button-filter-providers-sort');
+      await ProviderSearchPage.clickFilter('sort', 'name');
+    });
+    it('displays the providers sorted by provider name', () => {
+      expect(ProviderSearchPage.providerList(0).name).to.equal('Analytics for everyone');
+      expect(ProviderSearchPage.providerList(1).name).to.equal('Health Associations');
+      expect(ProviderSearchPage.providerList(2).name).to.equal('My Health Analytics 2');
+      expect(ProviderSearchPage.providerList(3).name).to.equal('My Health Analytics 10');
     });
 
-    it('shows an error', () => {
-      expect(ProviderSearchPage.hasErrors).to.be.true;
+    it('shows the sort filter of name in the search form', () => {
+      expect(ProviderSearchPage.sortBy).to.equal('name');
     });
 
-    it('displays the error message returned from the server', () => {
-      expect(ProviderSearchPage.errorMessage).to.equal('There was an error');
+    it('reflects the sort in the URL query params', function () {
+      expect(this.location.search).to.include('sort=name');
     });
+
+    it.skip('shows search filters on smaller screen sizes (due to filter change only)', () => {
+      expect(ProviderSearchPage.isSearchVignetteHidden).to.equal(false);
+    });
+  });
+
+  describe('searching for providers and then filtering by sort options then searching for other providers then clicking another search type', () => {
+    beforeEach(async () => {
+      await ProviderSearchPage.search('health analytics');
+      await ProviderSearchPage.toggleAccordion('#accordion-toggle-button-filter-providers-sort');
+      await ProviderSearchPage.clickFilter('sort', 'name');
+      await ProviderSearchPage.search('analytics');
+      await ProviderSearchPage.changeSearchType('packages');
+    });
+    it('does not display any results', () => {
+      expect(ProviderSearchPage.providerList()).to.have.lengthOf(0);
+    });
+  });
+
+  describe('searching for providers and then filtering by sort options then searching for other providers then clicking another search type navigating back to providers search', () => {
+    beforeEach(async () => {
+      await ProviderSearchPage.search('health analytics');
+      await ProviderSearchPage.toggleAccordion('#accordion-toggle-button-filter-providers-sort');
+      await ProviderSearchPage.clickFilter('sort', 'name');
+      await ProviderSearchPage.search('analytics');
+      await ProviderSearchPage.changeSearchType('packages');
+      await ProviderSearchPage.changeSearchType('providers');
+    });
+    it('keeps the sort filter of name in the search form', () => {
+      expect(ProviderSearchPage.sortBy).to.equal('name');
+    });
+
+    it('displays the last results', () => {
+      expect(ProviderSearchPage.providerList()).to.have.lengthOf(3);
+    });
+
+    it('reflects the sort=name in the URL query params', function () {
+      expect(this.location.search).to.include('sort=name');
+    });
+  });
+
+  describe('clearing the search field', () => {
+    beforeEach(async () => {
+      await ProviderSearchPage.clearSearch();
+    });
+
+    it('has disabled search button', () => {
+      expect(ProviderSearchPage.isSearchButtonDisabled).to.equal(true);
+    });
+  });
+
+  describe('selecting a filter without a value in the search field', () => {
+    beforeEach(async () => {
+      await ProviderSearchPage.toggleAccordion('#accordion-toggle-button-filter-providers-sort');
+      await ProviderSearchPage.clickFilter('sort', 'name');
+    });
+
+    it('should not perform an empty search', () => {
+      expect(ProviderSearchPage.hasPreSearchPane).to.be.true;
+    });
+
+    describe('then adding a search term', () => {
+      beforeEach(async () => {
+        await ProviderSearchPage.search('health');
+      });
+
+      it('should apply selected filter to the results', () => {
+        expect(ProviderSearchPage.providerList(0).name).to.equal('Health Associations');
+        expect(ProviderSearchPage.providerList(1).name).to.equal('My Health Analytics 2');
+        expect(ProviderSearchPage.providerList(2).name).to.equal('My Health Analytics 10');
+      });
+    });
+  });
+});
+
+describe('ProviderSearch sorting providers visiting the page with an existing sort', () => {
+  setupApplication({
+    scenarios: ['providerSearchSorting']
+  })
+
+  beforeEach(async function () {
+    await this.visit('/eholdings/?searchType=providers&q=health&sort=name');
+    await ProviderSearchPage.whenLoaded();
+    await ProviderSearchPage.searchBadge.clickIcon();
+  });
+
+  it('displays search field populated', () => {
+    expect(ProviderSearchPage.searchFieldValue).to.equal('health');
+  });
+
+  it('displays the sort filter of name as selected in the search form', () => {
+    expect(ProviderSearchPage.sortBy).to.equal('name');
+  });
+
+  it('displays the expected results', () => {
+    expect(ProviderSearchPage.providerList()).to.have.lengthOf(3);
+  });
+
+  it('displays results sorted by name', () => {
+    expect(ProviderSearchPage.providerList(0).name).to.equal('Health Associations');
+    expect(ProviderSearchPage.providerList(1).name).to.equal('My Health Analytics 2');
+    expect(ProviderSearchPage.providerList(2).name).to.equal('My Health Analytics 10');
   });
 });

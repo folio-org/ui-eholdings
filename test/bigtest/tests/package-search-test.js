@@ -59,10 +59,6 @@ describe('PackageSearch', function () {
       await PackageSearchPage.search('Package');
     });
 
-    it.skip('removes the pre-results pane', () => {
-      expect(PackageSearchPage.hasPreSearchPane).to.equal(false);
-    });
-
     it.skip('focuses on the search pane title', () => {
       expect(PackageSearchPage.paneTitleHasFocus).to.be.true;
     });
@@ -143,8 +139,8 @@ describe('PackageSearch', function () {
       beforeEach(async () => {
         await PackageSearchPage
           .packageList(0)
-          .clickThrough()
-          .search('SomethingElse');
+          .clickThrough();
+        await PackageSearchPage.search('SomethingElse');
       });
 
       it('displays the total number of search results', () => {
@@ -194,8 +190,8 @@ describe('PackageSearch', function () {
       beforeEach(async () => {
         await PackageSearchPage
           .packageList(0)
-          .clickThrough()
-          .clickSearchVignette();
+          .clickThrough();
+        await PackageSearchPage.clickSearchVignette();
       });
 
       it('hides the preview pane', () => {
@@ -222,10 +218,9 @@ describe('PackageSearch', function () {
 
     describe('filtering by content type and clearing the filters', () => {
       beforeEach(async () => {
-        await PackageSearchPage
-          .toggleAccordion('#accordion-toggle-button-filter-packages-type')
-          .clickFilter('type', 'ebook')
-          .clearFilter('type');
+        await PackageSearchPage.toggleAccordion('#accordion-toggle-button-filter-packages-type');
+        await PackageSearchPage.clickFilter('type', 'ebook');
+        await PackageSearchPage.clearFilter('type');
       });
 
       it.always('removes the filter from the URL query params', function () {

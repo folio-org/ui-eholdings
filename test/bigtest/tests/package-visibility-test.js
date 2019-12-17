@@ -4,90 +4,66 @@ import { expect } from 'chai';
 import setupApplication from '../helpers/setup-application';
 import PackageShowPage from '../interactors/package-show';
 
-describe('PackageVisibility', () => {
-  setupApplication();
-  let provider,
-    pkg;
-
-  beforeEach(function () {
-    provider = this.server.create('provider', {
-      name: 'Cool Provider'
-    });
+describe('PackageVisibility visiting the package show page with a package that is not selected', () => {
+  setupApplication({
+    scenarios: ['packageVisibilityNotSelected']
+  })
+  beforeEach(async function () {
+    await this.visit('/eholdings/packages/testId');
+    await PackageShowPage.whenLoaded();
   });
 
-  describe('visiting the package show page with a hidden package with a hidden reason', () => {
-    beforeEach(async function () {
-      pkg = await this.server.create('package', 'isHidden', {
-        provider,
-        name: 'Cool Package',
-        contentType: 'E-Book',
-        isSelected: true
-      });
+  it('does not display visibility', () => {
+    expect(PackageShowPage.isVisibilityStatusPresent).to.be.false;
+  });
+});
 
-      await this.visit(`/eholdings/packages/${pkg.id}`);
-      await PackageShowPage.whenLoaded();
-    });
-
-    it('displays No in (Show titles in package to patrons)', () => {
-      expect(PackageShowPage.isVisibleToPatrons).to.contain('No');
-    });
-
-    it('displays hidden reason in (Show titles in package to patrons', () => {
-      expect(PackageShowPage.isVisibleToPatrons).to.contain('The content is for mature audiences only.');
-    });
+describe('PackageVisibility visiting the package show page with a hidden package with a hidden reason', () => {
+  setupApplication({
+    scenarios: ['packageVisibilityHiddenReason']
+  });
+  
+  beforeEach(async function () {
+    await this.visit('/eholdings/packages/testId');
+    await PackageShowPage.whenLoaded();
   });
 
-  describe('visiting the package show page with a hidden package without a hidden reason', () => {
-    beforeEach(async function () {
-      pkg = await this.server.create('package', 'isHiddenWithoutReason', {
-        provider,
-        name: 'Cool Package',
-        contentType: 'E-Book',
-        isSelected: true
-      });
-
-      await this.visit(`/eholdings/packages/${pkg.id}`);
-      await PackageShowPage.whenLoaded();
-    });
-
-    it('displays No as (Show titles in package to patrons)', () => {
-      expect(PackageShowPage.isVisibleToPatrons).to.equal('No');
-    });
+  it('displays No in (Show titles in package to patrons)', () => {
+    expect(PackageShowPage.isVisibleToPatrons).to.contain('No');
   });
 
-  describe('visiting the package show page with a package that is not hidden', () => {
-    beforeEach(async function () {
-      pkg = await this.server.create('package', {
-        provider,
-        name: 'Cool Package',
-        contentType: 'ebook',
-        isSelected: true
-      });
+  it('displays hidden reason in (Show titles in package to patrons', () => {
+    expect(PackageShowPage.isVisibleToPatrons).to.contain('The content is for mature audiences only.');
+  });
+});
 
-      await this.visit(`/eholdings/packages/${pkg.id}`);
-      await PackageShowPage.whenLoaded();
-    });
-
-    it('displays Yes as (Show titles in package to patrons)', () => {
-      expect(PackageShowPage.isVisibleToPatrons).to.equal('Yes');
-    });
+describe('PackageVisibility visiting the package show page with a hidden package without a hidden reason', () => {
+  setupApplication({
+    scenarios: ['packageVisibilityNoHiddenReason']
   });
 
-  describe('visiting the package show page with a package that is not selected', () => {
-    beforeEach(async function () {
-      pkg = await this.server.create('package', {
-        provider,
-        name: 'Cool Package',
-        contentType: 'ebook',
-        isSelected: false
-      });
+  beforeEach(async function () {
+    await this.visit('/eholdings/packages/testId');
+    await PackageShowPage.whenLoaded();
+  });
 
-      await this.visit(`/eholdings/packages/${pkg.id}`);
-      await PackageShowPage.whenLoaded();
-    });
+  it('displays No as (Show titles in package to patrons)', () => {
+    expect(PackageShowPage.isVisibleToPatrons).to.equal('No');
+  });
+});
 
-    it('does not display visibility', () => {
-      expect(PackageShowPage.isVisibilityStatusPresent).to.be.false;
-    });
+
+describe('PackageVisibility visiting the package show page with a package that is not hidden', () => {
+  setupApplication({
+    scenarios: ['packageVisibilityNotHidden']
+  });
+
+  beforeEach(async function () {
+    await this.visit('/eholdings/packages/testId');
+    await PackageShowPage.whenLoaded();
+  });
+
+  it('displays Yes as (Show titles in package to patrons)', () => {
+    expect(PackageShowPage.isVisibleToPatrons).to.equal('Yes');
   });
 });

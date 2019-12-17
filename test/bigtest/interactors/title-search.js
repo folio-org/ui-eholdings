@@ -75,18 +75,23 @@ import SearchBadge from './search-badge';
       });
   });
 
-  toggleAccordion = action(function (accordionId) {
-    return this.click(accordionId);
+  toggleAccordion = action(async function (accordionId) {
+    await this.click(accordionId);
+
+    return this;
   });
 
-  selectSearchField = action(function (searchfield) {
-    return this.fill('[data-test-search-field] select', searchfield);
+  selectSearchField = action(async function (searchfield) {
+    await this.fill('[data-test-search-field] select', searchfield);
+
+    return this;
   });
 
-  search = action(function (query) {
-    return this
-      .fillSearch(query)
-      .submitSearch();
+  search = action(async function (query) {
+    await this.fillSearch(query);
+    await this.submitSearch();
+
+    return this;
   });
 
   getFilter(name) {
