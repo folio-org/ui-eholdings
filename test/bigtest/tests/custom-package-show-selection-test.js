@@ -33,7 +33,7 @@ describe('CustomPackageShowSelection', () => {
 
   describe('visiting the package details page', () => {
     beforeEach(async function () {
-      await this.visit(`/eholdings/packages/${providerPackage.id}`);
+      this.visit(`/eholdings/packages/${providerPackage.id}`);
     });
 
     it('automatically has the custom package in my holdings', () => {

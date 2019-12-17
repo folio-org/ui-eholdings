@@ -13,7 +13,7 @@ describe('DetailsView', () => {
 
   describe('visiting a package with paged resources', () => {
     beforeEach(async function () {
-      await this.visit('/eholdings/packages/paged_pkg');
+      this.visit('/eholdings/packages/paged_pkg');
       await PackageShowPage.whenLoaded();
     });
 
@@ -92,7 +92,7 @@ describe('DetailsView', () => {
       beforeEach(async function () {
         const title = await this.server.create('title');
 
-        await this.visit(`/eholdings/titles/${title.id}`);
+        this.visit(`/eholdings/titles/${title.id}`);
         await TitleShowPage.whenLoaded();
       });
 

@@ -34,7 +34,7 @@ describe.skip('ResourceEmbargo', () => {
 
       await resource.save();
 
-      await this.visit(`/eholdings/resources/${resource.id}`);
+      this.visit(`/eholdings/resources/${resource.id}`);
     });
 
     it('does not display the managed embargo section', () => {
@@ -48,7 +48,7 @@ describe.skip('ResourceEmbargo', () => {
 
   describe('visiting the resource show page without any embargos', () => {
     beforeEach(async function () {
-      await this.visit(`/eholdings/resources/${resource.id}`);
+      this.visit(`/eholdings/resources/${resource.id}`);
     });
 
     it.always('does not display the managed embargo section', () => {
@@ -73,7 +73,7 @@ describe.skip('ResourceEmbargo', () => {
       }).toJSON();
 
       await resource.save();
-      await this.visit(`/eholdings/resources/${resource.id}`);
+      this.visit(`/eholdings/resources/${resource.id}`);
     });
 
     it.always('does not display the managed embargo section', () => {
@@ -91,7 +91,7 @@ describe.skip('ResourceEmbargo', () => {
       resource.customEmbargoPeriod = null;
 
       await resource.save();
-      await this.visit(`/eholdings/resources/${resource.id}`);
+      this.visit(`/eholdings/resources/${resource.id}`);
     });
 
     it.always('does not display the managed embargo section', () => {
@@ -112,7 +112,7 @@ describe.skip('ResourceEmbargo', () => {
       }).toJSON();
 
       await resource.save();
-      await this.visit(`/eholdings/resources/${resource.id}`);
+      this.visit(`/eholdings/resources/${resource.id}`);
     });
 
     it.always('does not display the custom embargo section', () => {
@@ -132,7 +132,7 @@ describe.skip('ResourceEmbargo', () => {
       }).toJSON();
 
       await resource.save();
-      await this.visit(`/eholdings/resources/${resource.id}`);
+      this.visit(`/eholdings/resources/${resource.id}`);
     });
 
     it('displays the custom embargo section', () => {
@@ -144,15 +144,14 @@ describe.skip('ResourceEmbargo', () => {
     });
 
     describe('removing the title package via drop down', () => {
-      beforeEach(() => {
-        return ResourceShowPage
-          .dropDown.clickDropDownButton()
-          .dropDownMenu.clickRemoveFromHoldings();
+      beforeEach(async () => {
+        await ResourceShowPage.dropDown.clickDropDownButton();
+        await ResourceShowPage.dropDownMenu.clickRemoveFromHoldings();
       });
 
       describe('and confirming deselection', () => {
-        beforeEach(() => {
-          return ResourceShowPage.deselectionModal.confirmDeselection();
+        beforeEach(async () => {
+          await ResourceShowPage.deselectionModal.confirmDeselection();
         });
 
         it('removes custom embargo', () => {
@@ -165,8 +164,8 @@ describe.skip('ResourceEmbargo', () => {
       });
 
       describe('and canceling deselection', () => {
-        beforeEach(() => {
-          return ResourceShowPage.deselectionModal.cancelDeselection();
+        beforeEach(async () => {
+          await ResourceShowPage.deselectionModal.cancelDeselection();
         });
 
         it('does not remove custom embargo', () => {

@@ -23,7 +23,7 @@ describe.skip('ProviderEdit', () => {
 
   describe('visiting the provider edit page ', () => {
     beforeEach(async function () {
-      await this.visit(`/eholdings/providers/${provider.id}/edit`);
+      this.visit(`/eholdings/providers/${provider.id}/edit`);
     });
 
     it('displays the provider name in the pane header', () => {
@@ -107,7 +107,7 @@ describe.skip('ProviderEdit', () => {
         }]
       }, 500);
 
-      await this.visit(`/eholdings/providers/${provider.id}/edit`);
+      this.visit(`/eholdings/providers/${provider.id}/edit`);
     });
 
     describe('entering valid data and clicking save', () => {
@@ -131,7 +131,7 @@ describe.skip('ProviderEdit', () => {
         }]
       }, 500);
 
-      await this.visit(`/eholdings/providers/${provider.id}/edit`);
+      this.visit(`/eholdings/providers/${provider.id}/edit`);
     });
 
     it('dies with dignity', () => {
@@ -145,7 +145,7 @@ describe.skip('ProviderEdit', () => {
         name: 'Sam is awesome',
       });
 
-      await this.visit(`/eholdings/providers/${provider2.id}/edit`);
+      this.visit(`/eholdings/providers/${provider2.id}/edit`);
     });
 
     it('does not display other fields', () => {

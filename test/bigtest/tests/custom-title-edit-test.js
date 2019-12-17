@@ -60,7 +60,7 @@ describe('CustomTitleEdit', function () {
 
   describe('visiting the title edit page', () => {
     beforeEach(async function () {
-      await this.visit(`/eholdings/titles/${title.id}/edit`);
+      this.visit(`/eholdings/titles/${title.id}/edit`);
       await TitleEditPage.whenLoaded();
     });
 
@@ -138,8 +138,8 @@ describe('CustomTitleEdit', function () {
       });
 
       describe('clicking save', () => {
-        beforeEach(() => {
-          return TitleEditPage.clickSave();
+        beforeEach(async () => {
+          await TitleEditPage.clickSave();
         });
 
         it('goes to the title show page', () => {
@@ -310,7 +310,7 @@ describe('CustomTitleEdit', function () {
         }]
       }, 500);
 
-      await this.visit(`/eholdings/titles/${title.id}/edit`);
+      this.visit(`/eholdings/titles/${title.id}/edit`);
     });
 
     it('dies with dignity', () => {
@@ -326,7 +326,7 @@ describe('CustomTitleEdit', function () {
         }]
       }, 500);
 
-      await this.visit(`/eholdings/titles/${title.id}/edit`);
+      this.visit(`/eholdings/titles/${title.id}/edit`);
       await TitleEditPage.whenLoaded();
     });
 
@@ -347,7 +347,7 @@ describe('CustomTitleEdit', function () {
 
   describe('visiting the title show page', () => {
     beforeEach(async function () {
-      await this.visit(`/eholdings/titles/${title.id}`);
+      this.visit(`/eholdings/titles/${title.id}`);
       await TitleEditPage.whenLoaded();
     });
 

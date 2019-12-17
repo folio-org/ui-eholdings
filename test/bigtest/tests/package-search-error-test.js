@@ -10,7 +10,7 @@ describe('PackageSearch', function () {
   });
 
   beforeEach(async function () {
-    await this.visit('/eholdings/?searchType=packages');
+    this.visit('/eholdings/?searchType=packages');
     await PackageSearchPage.whenLoaded();
   });
 

@@ -43,7 +43,7 @@ describe.skip('ResourceEditManagedTitleInCustomPackage', () => {
 
   describe('visiting the package details page', () => {
     beforeEach(async function () {
-      await this.visit(`/eholdings/resources/${resource.titleId}/edit`);
+      this.visit(`/eholdings/resources/${resource.titleId}/edit`);
       await ResourceEditPage.whenLoaded();
     });
 

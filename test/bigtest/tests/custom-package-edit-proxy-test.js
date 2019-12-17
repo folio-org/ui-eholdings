@@ -13,7 +13,7 @@ describe('CustomPackageEditProxy', async function () {
       scenarios: ['customPackageEditProxy']
     });
     beforeEach(async function () {
-      await this.visit('/eholdings/packages/testId/edit');
+      this.visit('/eholdings/packages/testId/edit');
       await PackageEditPage.whenLoaded();
     });
 

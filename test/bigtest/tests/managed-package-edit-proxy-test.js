@@ -25,7 +25,7 @@ describe('ManagedPackageEditProxy', () => {
 
   describe('visiting the package edit page', () => {
     beforeEach(async function () {
-      await this.visit(`/eholdings/packages/${providerPackage.id}/edit`);
+      this.visit(`/eholdings/packages/${providerPackage.id}/edit`);
       await PackageEditPage.whenLoaded();
     });
 

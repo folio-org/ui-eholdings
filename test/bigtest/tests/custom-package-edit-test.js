@@ -27,7 +27,7 @@ describe('CustomPackageEdit', function () {
 
   describe('visiting the package edit page without coverage dates', () => {
     beforeEach(async function () {
-      await this.visit(`/eholdings/packages/${providerPackage.id}/edit`);
+      this.visit(`/eholdings/packages/${providerPackage.id}/edit`);
       await PackageEditPage.whenLoaded();
     });
 
@@ -113,7 +113,7 @@ describe('CustomPackageEdit', function () {
       await providerPackage.update('contentType', 'E-Book');
       await providerPackage.save();
 
-      await this.visit(`/eholdings/packages/${providerPackage.id}/edit`);
+      this.visit(`/eholdings/packages/${providerPackage.id}/edit`);
       await PackageEditPage.whenLoaded();
     });
 
@@ -212,7 +212,7 @@ describe('CustomPackageEdit', function () {
         }]
       }, 500);
 
-      await this.visit(`/eholdings/packages/${providerPackage.id}/edit`);
+      this.visit(`/eholdings/packages/${providerPackage.id}/edit`);
     });
 
     it('dies with dignity', () => {
@@ -228,7 +228,7 @@ describe('CustomPackageEdit', function () {
         }]
       }, 500);
 
-      await this.visit(`/eholdings/packages/${providerPackage.id}/edit`);
+      this.visit(`/eholdings/packages/${providerPackage.id}/edit`);
       await PackageEditPage.whenLoaded();
     });
 

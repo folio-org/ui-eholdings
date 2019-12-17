@@ -58,7 +58,7 @@ describe('CustomResourceEditProxy', () => {
 
       await resource.update('proxy', resourceProxy.toJSON());
       await resource.save();
-      await this.visit(`/eholdings/resources/${resource.id}/edit`);
+      this.visit(`/eholdings/resources/${resource.id}/edit`);
       await ResourceEditPage.whenLoaded();
     });
 

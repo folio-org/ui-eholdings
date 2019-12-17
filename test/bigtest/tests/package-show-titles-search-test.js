@@ -80,7 +80,7 @@ describe.skip('Package Show Title Search', function () {
 
   describe('navigating to package show page to filter titles', () => {
     beforeEach(async function () {
-      await this.visit(
+      this.visit(
         {
           pathname: `/eholdings/packages/${providerPackage.id}`,
           // our internal link component automatically sets the location state
@@ -304,7 +304,7 @@ describe.skip('Package Show Title Search', function () {
 
   describe('title sort functionality', () => {
     beforeEach(async function () {
-      await this.visit(
+      this.visit(
         {
           pathname: `/eholdings/packages/${providerPackage.id}`,
           state: { eholdings: true }
@@ -383,7 +383,7 @@ describe.skip('Package Show Title Search', function () {
           'jsonapi': { 'version': '1.0' }
         }, 200);
 
-      await this.visit(
+      this.visit(
         {
           pathname: `/eholdings/packages/${largeProviderPackage.id}`,
           // our internal link component automatically sets the location state

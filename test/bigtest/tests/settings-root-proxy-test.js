@@ -11,7 +11,7 @@ describe.skip('With list of root proxies available to a customer', function () {
 
   describe('when visiting the settings root proxy form', () => {
     beforeEach(async function () {
-      await this.visit('/settings/eholdings/root-proxy');
+      this.visit('/settings/eholdings/root-proxy');
       await SettingsRootProxyPage.whenLoaded();
     });
 
@@ -63,7 +63,7 @@ describe.skip('With list of root proxies available to a customer', function () {
         }]
       }, 500);
 
-      await this.visit('/settings/eholdings/root-proxy');
+      this.visit('/settings/eholdings/root-proxy');
       await SettingsRootProxyPage.whenLoaded(() => SettingsRootProxyPage.isPresent);
     });
 

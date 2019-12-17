@@ -55,7 +55,7 @@ describe.skip('ManagedResourceEditProxy', async () => {
       });
       await resource.update('proxy', resourceProxy.toJSON());
       await resource.save();
-      await this.visit(`/eholdings/resources/${resource.id}/edit`);
+      this.visit(`/eholdings/resources/${resource.id}/edit`);
     });
 
     it('disables the save button', () => {

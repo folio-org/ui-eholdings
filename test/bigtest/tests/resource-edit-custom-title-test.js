@@ -73,7 +73,7 @@ describe.skip('ResourceEditCustomTitle', function () {
         url: 'https://frontside.io'
       });
 
-      await this.visit(`/eholdings/resources/${resource.titleId}/edit`);
+      this.visit(`/eholdings/resources/${resource.titleId}/edit`);
       await ResourceEditPage.whenLoaded();
     });
 
@@ -94,7 +94,7 @@ describe.skip('ResourceEditCustomTitle', function () {
 
   describe('visiting the resource edit page without coverage dates or statements', () => {
     beforeEach(async function () {
-      await this.visit(`/eholdings/resources/${resource.titleId}/edit`);
+      this.visit(`/eholdings/resources/${resource.titleId}/edit`);
       await ResourceEditPage.whenLoaded();
     });
 
@@ -310,8 +310,8 @@ describe.skip('ResourceEditCustomTitle', function () {
       });
 
       describe('removing custom embargo', () => {
-        beforeEach(() => {
-          return ResourceEditPage.clickRemoveCustomEmbargoButton();
+        beforeEach(async () => {
+          await ResourceEditPage.clickRemoveCustomEmbargoButton();
         });
 
         it.always('does not show a message that saving will remove embargo', () => {
@@ -378,7 +378,7 @@ describe.skip('ResourceEditCustomTitle', function () {
       }).toJSON();
       await resource.save();
 
-      await this.visit(`/eholdings/resources/${resource.titleId}/edit`);
+      this.visit(`/eholdings/resources/${resource.titleId}/edit`);
       await ResourceEditPage.whenLoaded();
     });
 
@@ -545,7 +545,7 @@ describe.skip('ResourceEditCustomTitle', function () {
     beforeEach(async function () {
       resource.coverageStatement = 'test coverage statement';
       await resource.save();
-      await this.visit(`/eholdings/resources/${resource.titleId}/edit`);
+      this.visit(`/eholdings/resources/${resource.titleId}/edit`);
       await ResourceEditPage.whenLoaded();
     });
 
@@ -570,7 +570,7 @@ describe.skip('ResourceEditCustomTitle', function () {
         }]
       }, 500);
 
-      await this.visit(`/eholdings/resources/${resource.id}/edit`);
+      this.visit(`/eholdings/resources/${resource.id}/edit`);
     });
 
     it('dies with dignity', () => {
@@ -586,7 +586,7 @@ describe.skip('ResourceEditCustomTitle', function () {
         }]
       }, 500);
 
-      await this.visit(`/eholdings/resources/${resource.id}/edit`);
+      this.visit(`/eholdings/resources/${resource.id}/edit`);
     });
 
     describe('entering valid data and clicking save', () => {

@@ -12,7 +12,7 @@ describe('PackageSearch', function () {
   });
 
   beforeEach(async function () {
-    await this.visit('/eholdings/?searchType=packages');
+    this.visit('/eholdings/?searchType=packages');
     await PackageSearchPage.whenLoaded();
   });
 
@@ -366,7 +366,7 @@ describe('PackageSearch', function () {
         tags: urgentTag
       });
 
-      await this.visit('/eholdings?searchType=packages&filter[tags]=urgent');
+      this.visit('/eholdings?searchType=packages&filter[tags]=urgent');
     });
 
     it('displays tags accordion as closed', () => {
@@ -540,7 +540,7 @@ describe('PackageSearch', function () {
     // TODO move test up to avoid nested visits
     describe.skip('visiting the page with an existing sort', () => {
       beforeEach(async function () {
-        await this.visit('/eholdings/?searchType=packages&q=academic&sort=name');
+        this.visit('/eholdings/?searchType=packages&q=academic&sort=name');
         // the search pane is ending up hidden by default
         await PackageSearchPage.searchBadge.clickIcon();
       });
@@ -706,7 +706,7 @@ describe('PackageSearch', function () {
     // TODO refactor to avoid nested visits
     describe.skip('navigating directly to a search page', () => {
       beforeEach(async function () {
-        await this.visit('/eholdings/?searchType=packages&offset=51&q=other');
+        this.visit('/eholdings/?searchType=packages&offset=51&q=other');
         await PackageSearchPage.whenLoaded();
       });
 

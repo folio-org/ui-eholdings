@@ -12,7 +12,7 @@ describe('CustomResourceEditCustomCoverage', function () {
 
   describe('visiting a selected custom resource edit page with custom coverage', () => {
     beforeEach(async function () {
-      await this.visit('/eholdings/resources/testId/edit');
+      this.visit('/eholdings/resources/testId/edit');
       await ResourceEditPage.whenLoaded();
     });
 

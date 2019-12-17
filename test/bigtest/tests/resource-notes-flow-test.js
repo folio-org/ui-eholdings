@@ -64,7 +64,7 @@ describe.skip('Resource view', function () {
 
   describe('when the package details page is visited', () => {
     beforeEach(async function () {
-      await this.visit(`/eholdings/resources/${resource.id}`);
+      this.visit(`/eholdings/resources/${resource.id}`);
       await notesAccordion.whenResourceNotesAccordionLoaded();
     });
 

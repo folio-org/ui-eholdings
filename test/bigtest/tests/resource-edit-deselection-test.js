@@ -39,7 +39,7 @@ describe.skip('ResourceEditDeselection', () => {
 
   describe('visiting the resource page', () => {
     beforeEach(async function () {
-      await this.visit(`/eholdings/resources/${resource.id}/edit`);
+      this.visit(`/eholdings/resources/${resource.id}/edit`);
     });
 
     it('indicates that the resource is selected', () => {
@@ -67,8 +67,8 @@ describe.skip('ResourceEditDeselection', () => {
          */
         let resolveRequest;
 
-        beforeEach(function () {
-          this.server.put('/resources/:id', ({ resources }, request) => {
+        beforeEach(async function () {
+          await this.server.put('/resources/:id', ({ resources }, request) => {
             return new Promise((resolve) => {
               resolveRequest = () => {
                 const body = JSON.parse(request.requestBody);
@@ -84,7 +84,7 @@ describe.skip('ResourceEditDeselection', () => {
             });
           });
 
-          return ResourceEditPage.modal.confirmDeselection();
+          await ResourceEditPage.modal.confirmDeselection();
         });
 
         it('should keep confirmation modal on screen until requests responds', () => {

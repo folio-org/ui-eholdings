@@ -29,12 +29,12 @@ describe.skip('TitleShowAddToCustomPackage', () => {
       isCustom: true
     });
 
-    await this.visit(`/eholdings/titles/${title.id}`);
+    this.visit(`/eholdings/titles/${title.id}`);
   });
 
   describe('clicking the add to custom package button', () => {
-    beforeEach(() => {
-      return TitleShowPage.clickAddToCustomPackageButton();
+    beforeEach(async () => {
+      await TitleShowPage.clickAddToCustomPackageButton();
     });
 
     it('shows the modal for adding a custom package', () => {
@@ -54,8 +54,8 @@ describe.skip('TitleShowAddToCustomPackage', () => {
     });
 
     describe('clicking cancel', () => {
-      beforeEach(() => {
-        return TitleShowPage.customPackageModal.cancel();
+      beforeEach(async () => {
+        await TitleShowPage.customPackageModal.cancel();
       });
 
       it('dismisses the modal', () => {
@@ -76,14 +76,13 @@ describe.skip('TitleShowAddToCustomPackage', () => {
     describe('selecting a package and clicking submit', () => {
       let customPackage;
 
-      beforeEach(function () {
-        customPackage = this.server.schema.packages.findBy({
+      beforeEach(async function () {
+        customPackage = await this.server.schema.packages.findBy({
           name: 'Custom Package 2'
         });
 
-        return TitleShowPage
-          .customPackageModal.choosePackage(customPackage.id)
-          .customPackageModal.submit();
+        await TitleShowPage.customPackageModal.choosePackage(customPackage.id);
+        await TitleShowPage.customPackageModal.submit();
       });
 
       it('disables the submit button', () => {
@@ -105,15 +104,14 @@ describe.skip('TitleShowAddToCustomPackage', () => {
     describe('adding a URL and clicking submit', () => {
       let customPackage;
 
-      beforeEach(function () {
-        customPackage = this.server.schema.packages.findBy({
+      beforeEach(async function () {
+        customPackage = await this.server.schema.packages.findBy({
           name: 'Custom Package 2'
         });
 
-        return TitleShowPage
-          .customPackageModal.choosePackage(customPackage.id)
-          .customPackageModal.fillUrl('http://my.url')
-          .customPackageModal.submit();
+        await TitleShowPage.customPackageModal.choosePackage(customPackage.id);
+        await TitleShowPage.customPackageModal.fillUrl('http://my.url');
+        await TitleShowPage.customPackageModal.submit();
       });
 
       it('Redirects to the newly created resource with the specified URL', function () {

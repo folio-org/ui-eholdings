@@ -36,7 +36,7 @@ describe('ManagedResourceEditCustomCoverage', function () {
       resource.isSelected = true;
       await resource.save();
 
-      await this.visit(`/eholdings/resources/${resource.id}/edit`);
+      this.visit(`/eholdings/resources/${resource.id}/edit`);
       await ResourceEditPage.whenLoaded();
     });
 
@@ -227,7 +227,7 @@ describe('ManagedResourceEditCustomCoverage', function () {
       await resource.update('customCoverages', customCoverages.map(item => item.toJSON()));
       await resource.save();
 
-      await this.visit(`/eholdings/resources/${resource.id}/edit`);
+      this.visit(`/eholdings/resources/${resource.id}/edit`);
       await ResourceEditPage.whenLoaded();
     });
 
@@ -281,7 +281,7 @@ describe('ManagedResourceEditCustomCoverage', function () {
       ];
       await resource.update('customCoverages', customCoverages.map(item => item.toJSON()));
       await resource.save();
-      await this.visit(`/eholdings/resources/${resource.id}/edit`);
+      this.visit(`/eholdings/resources/${resource.id}/edit`);
       await ResourceEditPage.whenLoaded();
     });
 

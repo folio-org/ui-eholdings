@@ -32,7 +32,7 @@ describe.skip('ResourceCustomCoverage', function () {
       resource.isSelected = false;
       resource.save();
 
-      await this.visit(`/eholdings/resources/${resource.id}`);
+      this.visit(`/eholdings/resources/${resource.id}`);
       await ResourcePage.whenLoaded();
     });
 
@@ -55,7 +55,7 @@ describe.skip('ResourceCustomCoverage', function () {
       ];
       await resource.update('customCoverages', customCoverages.map(item => item.toJSON()));
       await resource.save();
-      await this.visit(`/eholdings/resources/${resource.id}`);
+      this.visit(`/eholdings/resources/${resource.id}`);
       await ResourcePage.whenLoaded();
     });
 
@@ -68,7 +68,7 @@ describe.skip('ResourceCustomCoverage', function () {
     beforeEach(async function () {
       resource.customCoverages = await this.server.createList('custom-coverage', 0).map(m => m.toJSON());
       await resource.save();
-      await this.visit(`/eholdings/resources/${resource.id}`);
+      this.visit(`/eholdings/resources/${resource.id}`);
       await ResourcePage.whenLoaded();
     });
 
@@ -87,7 +87,7 @@ describe.skip('ResourceCustomCoverage', function () {
       ];
       await resource.update('customCoverages', customCoverages.map(item => item.toJSON()));
       await resource.save();
-      await this.visit(`/eholdings/resources/${resource.id}`);
+      this.visit(`/eholdings/resources/${resource.id}`);
       await ResourcePage.whenLoaded();
     });
 
@@ -103,7 +103,7 @@ describe.skip('ResourceCustomCoverage', function () {
         endCoverage: '1969-07-16'
       }).map(m => m.toJSON());
       await resource.save();
-      await this.visit(`/eholdings/resources/${resource.id}`);
+      this.visit(`/eholdings/resources/${resource.id}`);
       await ResourcePage.whenLoaded();
     });
 
@@ -118,7 +118,7 @@ describe.skip('ResourceCustomCoverage', function () {
         await this.server.create('custom-coverage', { beginCoverage: '1974-01-01', endCoverage: '1979-12-19' }),
       ].map(m => m.toJSON());
       await resource.save();
-      await this.visit(`/eholdings/resources/${resource.id}`);
+      this.visit(`/eholdings/resources/${resource.id}`);
       await ResourcePage.whenLoaded();
     });
 
@@ -137,7 +137,7 @@ describe.skip('ResourceCustomCoverage', function () {
         endCoverage: '1972-12-19'
       }).map(m => m.toJSON());
       await resource.save();
-      await this.visit(`/eholdings/resources/${resource.id}`);
+      this.visit(`/eholdings/resources/${resource.id}`);
       await ResourcePage.whenLoaded();
     });
 
@@ -157,7 +157,7 @@ describe.skip('ResourceCustomCoverage', function () {
       }).map(m => m.toJSON());
 
       await resource.save();
-      await this.visit(`/eholdings/resources/${resource.id}`);
+      this.visit(`/eholdings/resources/${resource.id}`);
       await ResourcePage.whenLoaded();
     });
 
@@ -177,7 +177,7 @@ describe.skip('ResourceCustomCoverage', function () {
       }).map(m => m.toJSON());
 
       await resource.save();
-      await this.visit(`/eholdings/resources/${resource.id}`);
+      this.visit(`/eholdings/resources/${resource.id}`);
       await ResourcePage.whenLoaded();
     });
 
@@ -197,7 +197,7 @@ describe.skip('ResourceCustomCoverage', function () {
       }).map(m => m.toJSON());
 
       await resource.save();
-      await this.visit(`/eholdings/resources/${resource.id}`);
+      this.visit(`/eholdings/resources/${resource.id}`);
       await ResourcePage.whenLoaded();
     });
 
@@ -217,7 +217,7 @@ describe.skip('ResourceCustomCoverage', function () {
       }).map(m => m.toJSON());
 
       await resource.save();
-      await this.visit(`/eholdings/resources/${resource.id}`);
+      this.visit(`/eholdings/resources/${resource.id}`);
       await ResourcePage.whenLoaded();
     });
 

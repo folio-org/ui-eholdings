@@ -28,7 +28,7 @@ describe.skip('ResourceManagedCoverage', function () {
 
   describe('visiting the resource page with managed coverage undefined', () => {
     beforeEach(async function () {
-      await this.visit(`/eholdings/resources/${resource.id}`);
+      this.visit(`/eholdings/resources/${resource.id}`);
       await ResourceShowPage.whenLoaded();
     });
 
@@ -41,7 +41,7 @@ describe.skip('ResourceManagedCoverage', function () {
     beforeEach(async function () {
       resource.managedCoverages = await this.server.createList('managed-coverage', 0).map(m => m.toJSON());
       await resource.save();
-      await this.visit(`/eholdings/resources/${resource.id}`);
+      this.visit(`/eholdings/resources/${resource.id}`);
       await ResourceShowPage.whenLoaded();
     });
 
@@ -58,7 +58,7 @@ describe.skip('ResourceManagedCoverage', function () {
       }).map(m => m.toJSON());
 
       await resource.save();
-      await this.visit(`/eholdings/resources/${resource.id}`);
+      this.visit(`/eholdings/resources/${resource.id}`);
       await ResourceShowPage.whenLoaded();
     });
 
@@ -75,7 +75,7 @@ describe.skip('ResourceManagedCoverage', function () {
       }).map(m => m.toJSON());
 
       await resource.save();
-      await this.visit(`/eholdings/resources/${resource.id}`);
+      this.visit(`/eholdings/resources/${resource.id}`);
       await ResourceShowPage.whenLoaded();
     });
 
@@ -92,7 +92,7 @@ describe.skip('ResourceManagedCoverage', function () {
       }).map(m => m.toJSON());
 
       await resource.save();
-      await this.visit(`/eholdings/resources/${resource.id}`);
+      this.visit(`/eholdings/resources/${resource.id}`);
       await ResourceShowPage.whenLoaded();
     });
 
@@ -109,7 +109,7 @@ describe.skip('ResourceManagedCoverage', function () {
       ].map(m => m.toJSON());
 
       await resource.save();
-      await this.visit(`/eholdings/resources/${resource.id}`);
+      this.visit(`/eholdings/resources/${resource.id}`);
       await ResourceShowPage.whenLoaded();
     });
 
@@ -129,7 +129,7 @@ describe.skip('ResourceManagedCoverage', function () {
       }).map(m => m.toJSON());
 
       await resource.save();
-      await this.visit(`/eholdings/resources/${resource.id}`);
+      this.visit(`/eholdings/resources/${resource.id}`);
       await ResourceShowPage.whenLoaded();
     });
 
@@ -149,7 +149,7 @@ describe.skip('ResourceManagedCoverage', function () {
       }).map(m => m.toJSON());
 
       await resource.save();
-      await this.visit(`/eholdings/resources/${resource.id}`);
+      this.visit(`/eholdings/resources/${resource.id}`);
       await ResourceShowPage.whenLoaded();
     });
 
@@ -169,7 +169,7 @@ describe.skip('ResourceManagedCoverage', function () {
       }).map(m => m.toJSON());
 
       await resource.save();
-      await this.visit(`/eholdings/resources/${resource.id}`);
+      this.visit(`/eholdings/resources/${resource.id}`);
       await ResourceShowPage.whenLoaded();
     });
 
@@ -189,7 +189,7 @@ describe.skip('ResourceManagedCoverage', function () {
       }).map(m => m.toJSON());
 
       await resource.save();
-      await this.visit(`/eholdings/resources/${resource.id}`);
+      this.visit(`/eholdings/resources/${resource.id}`);
       await ResourceShowPage.whenLoaded();
     });
 
@@ -209,7 +209,7 @@ describe.skip('ResourceManagedCoverage', function () {
       }).map(m => m.toJSON());
 
       await resource.save();
-      await this.visit(`/eholdings/resources/${resource.id}`);
+      this.visit(`/eholdings/resources/${resource.id}`);
       await ResourceShowPage.whenLoaded();
     });
 

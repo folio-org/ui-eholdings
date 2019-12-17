@@ -53,7 +53,7 @@ describe.skip('ProviderShow package search', function () {
       isSelected: true,
     });
 
-    await this.visit(`/eholdings/providers/${provider.id}`);
+    this.visit(`/eholdings/providers/${provider.id}`);
   });
 
   describe('clicking the search button', () => {
@@ -394,7 +394,7 @@ describe.skip('ProviderShow package search', function () {
           'jsonapi': { 'version': '1.0' }
         }, 200);
 
-      await this.visit(
+      this.visit(
         {
           pathname: `/eholdings/providers/${largeProvider.id}`,
           // our internal link component automatically sets the location state

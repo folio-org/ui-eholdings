@@ -11,7 +11,7 @@ describe('ManagedResourceEditVisibility visiting the managed resource edit page 
   });
 
   beforeEach(async function () {
-    await this.visit('/eholdings/resources/test/edit');
+    this.visit('/eholdings/resources/test/edit');
     await ResourceEditPage.whenLoaded();
   });
 
@@ -72,7 +72,7 @@ describe('ManagedResourceEditVisibility visiting the resource edit page and show
   });
 
   beforeEach(async function () {
-    await this.visit('/eholdings/resources/test/edit');
+    this.visit('/eholdings/resources/test/edit');
     await ResourceEditPage.whenLoaded();
   });
 
@@ -118,7 +118,7 @@ describe('ManagedResourceEditVisibility visiting the resource edit page with a h
   });
 
   beforeEach(async function () {
-    await this.visit('/eholdings/resources/test/edit');
+    this.visit('/eholdings/resources/test/edit');
     await ResourceEditPage.whenLoaded();
   });
 
@@ -133,7 +133,7 @@ describe('ManagedResourceEditVisibility visiting the resource edit page and all 
   });
 
   beforeEach(async function () {
-    await this.visit('/eholdings/resources/test/edit');
+    this.visit('/eholdings/resources/test/edit');
     await ResourceEditPage.whenLoaded();
   });
 
@@ -148,7 +148,7 @@ describe('ManagedResourceEditVisibility visiting the resource edit page with a r
   });
 
   beforeEach(async function () {
-    await this.visit('/eholdings/resources/test/edit');
+    this.visit('/eholdings/resources/test/edit');
     await ResourceEditPage.whenLoaded();
   });
 

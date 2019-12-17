@@ -75,7 +75,7 @@ describe('CustomResourceHoldingSelection', () => {
 
   describe('visiting the package details page', () => {
     beforeEach(async function () {
-      await this.visit(`/eholdings/resources/${resource.titleId}/edit`);
+      this.visit(`/eholdings/resources/${resource.titleId}/edit`);
       await ResourceEditPage.whenLoaded();
     });
 
@@ -117,8 +117,6 @@ describe('CustomResourceHoldingSelection', () => {
           await this.server.delete('/resources/:id', ({ resources }, request) => {
             const matchingResource = resources.find(request.params.id);
             matchingResource.destroy();
-            // return {};
-
             return new Promise((resolve) => {
               resolveRequest = resolve;
             });
@@ -224,7 +222,7 @@ describe('CustomResourceHoldingSelection', () => {
 
   describe('visiting the package details page with and deselecting a custom resource with one title shows cofirmation modal', () => {
     beforeEach(async function () {
-      await this.visit(`/eholdings/resources/${resourceWithOneTitle.titleId}/edit`);
+      this.visit(`/eholdings/resources/${resourceWithOneTitle.titleId}/edit`);
       await ResourceEditPage.whenLoaded();
       await ResourceEditPage.dropDown.clickDropDownButton();
       await ResourceEditPage.dropDownMenu.clickRemoveFromHoldings();

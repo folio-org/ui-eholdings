@@ -26,7 +26,7 @@ describe.skip('ProviderEditToken', function () {
 
   describe('visiting the provider edit page with a token and value ', () => {
     beforeEach(async function () {
-      await this.visit(`/eholdings/providers/${provider.id}/edit`);
+      this.visit(`/eholdings/providers/${provider.id}/edit`);
     });
 
     it('has token help text', () => {
@@ -101,7 +101,7 @@ describe.skip('ProviderEditToken', function () {
       await provider.update('providerToken', token.toJSON());
       await provider.save();
 
-      await this.visit(`/eholdings/providers/${provider.id}/edit`);
+      this.visit(`/eholdings/providers/${provider.id}/edit`);
     });
 
     it('has add token button', () => {
@@ -131,7 +131,7 @@ describe.skip('ProviderEditToken', function () {
     beforeEach(async function () {
       await provider.update('providerToken', null);
       await provider.save();
-      await this.visit(`/eholdings/providers/${provider.id}/edit`);
+      this.visit(`/eholdings/providers/${provider.id}/edit`);
     });
 
     it('does not show token help text', () => {
@@ -153,7 +153,7 @@ describe.skip('ProviderEditToken', function () {
 
   describe('visiting the provider edit page and setting token to a long value ', () => {
     beforeEach(async function () {
-      await this.visit(`/eholdings/providers/${provider.id}/edit`);
+      this.visit(`/eholdings/providers/${provider.id}/edit`);
     });
 
     it('has token value', () => {

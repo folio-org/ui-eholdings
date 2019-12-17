@@ -78,7 +78,7 @@ describe.skip('ResourceShow', () => {
 
   describe('visiting the resource page', () => {
     beforeEach(async function () {
-      await this.visit(`/eholdings/resources/${resource.titleId}`);
+      this.visit(`/eholdings/resources/${resource.titleId}`);
       await ResourcePage.whenLoaded();
     });
 
@@ -333,7 +333,7 @@ describe.skip('ResourceShow', () => {
 
   describe('navigating to resource page', () => {
     beforeEach(async function () {
-      await this.visit({
+      this.visit({
         pathname: `/eholdings/resources/${resource.id}`,
         // our internal link component automatically sets the location state
         state: { eholdings: true }
@@ -368,7 +368,7 @@ describe.skip('ResourceShow', () => {
         title
       });
 
-      await this.visit(`/eholdings/resources/${resource.id}`);
+      this.visit(`/eholdings/resources/${resource.id}`);
     });
 
     it('displays the title name', () => {
@@ -408,7 +408,7 @@ describe.skip('ResourceShow', () => {
         title
       });
 
-      await this.visit(`/eholdings/resources/${resource.id}`);
+      this.visit(`/eholdings/resources/${resource.id}`);
       await ResourcePage.whenLoaded();
     });
 
@@ -433,7 +433,7 @@ describe.skip('ResourceShow', () => {
         }]
       }, 500);
 
-      await this.visit(`/eholdings/resources/${resource.id}`);
+      this.visit(`/eholdings/resources/${resource.id}`);
     });
 
     it('displays the correct error text', () => {

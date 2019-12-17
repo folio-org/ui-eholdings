@@ -23,7 +23,7 @@ describe.skip('ResourceVisibility', () => {
         title
       });
 
-      await this.visit(`/eholdings/resources/${resource.id}`);
+      this.visit(`/eholdings/resources/${resource.id}`);
     });
 
     it('shows titles in package to patrons', () => {
@@ -39,7 +39,7 @@ describe.skip('ResourceVisibility', () => {
         title
       });
 
-      await this.visit(`/eholdings/resources/${resource.id}`);
+      this.visit(`/eholdings/resources/${resource.id}`);
     });
 
     it('does not show titles in package to patrons', () => {
@@ -55,7 +55,7 @@ describe.skip('ResourceVisibility', () => {
         title
       });
 
-      await this.visit(`/eholdings/resources/${resource.id}`);
+      this.visit(`/eholdings/resources/${resource.id}`);
     });
 
     it('does not show titles in package to patrons', () => {
@@ -75,7 +75,7 @@ describe.skip('ResourceVisibility', () => {
         title
       });
 
-      await this.visit(`/eholdings/resources/${resource.id}`);
+      this.visit(`/eholdings/resources/${resource.id}`);
     });
 
     it('displays it is not visibile to patrons', () => {
@@ -97,7 +97,7 @@ describe.skip('ResourceVisibility', () => {
         isSelected: true
       });
 
-      await this.visit(`/eholdings/resources/${resource.id}`);
+      this.visit(`/eholdings/resources/${resource.id}`);
       await ResourceShowPage.when(() => ResourceShowPage.isPresent);
     });
 

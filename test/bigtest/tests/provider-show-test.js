@@ -21,7 +21,7 @@ describe.skip('ProviderShow', () => {
 
   describe('visiting the provider details page', () => {
     beforeEach(async function () {
-      await this.visit(`/eholdings/providers/${provider.id}`);
+      this.visit(`/eholdings/providers/${provider.id}`);
     });
 
     it('displays the provider name in the pane header', () => {
@@ -95,7 +95,7 @@ describe.skip('ProviderShow', () => {
   describe('visiting the provider details page with multiple pages of packages', () => {
     beforeEach(async function () {
       await this.server.loadFixtures();
-      await this.visit('/eholdings/providers/paged_provider');
+      this.visit('/eholdings/providers/paged_provider');
     });
 
     it('should display the first page of related packages', () => {
@@ -122,7 +122,7 @@ describe.skip('ProviderShow', () => {
       provider.packagesSelected = 9000;
       provider.packagesTotal = 10000;
 
-      await this.visit(`/eholdings/providers/${provider.id}`);
+      this.visit(`/eholdings/providers/${provider.id}`);
     });
 
     describe('viewing large providers', () => {
@@ -145,7 +145,7 @@ describe.skip('ProviderShow', () => {
       await provider.update('proxy', proxy.toJSON());
       await provider.save();
 
-      await this.visit(`/eholdings/providers/${provider.id}`);
+      this.visit(`/eholdings/providers/${provider.id}`);
     });
 
     it('displays the proxy prepended with Inheritied', () => {
@@ -163,7 +163,7 @@ describe.skip('ProviderShow', () => {
       await provider.update('proxy', proxy.toJSON());
       await provider.save();
 
-      await this.visit(`/eholdings/providers/${provider.id}`);
+      this.visit(`/eholdings/providers/${provider.id}`);
     });
 
     it('displays the proxy as None', () => {
@@ -182,7 +182,7 @@ describe.skip('ProviderShow', () => {
       await provider.update('providerToken', token.toJSON());
       await provider.save();
 
-      await this.visit(`/eholdings/providers/${provider.id}`);
+      this.visit(`/eholdings/providers/${provider.id}`);
     });
 
     it('does not display the token', () => {
@@ -199,7 +199,7 @@ describe.skip('ProviderShow', () => {
       await provider.update('providerToken', null);
       await provider.save();
 
-      await this.visit(`/eholdings/providers/${provider.id}`);
+      this.visit(`/eholdings/providers/${provider.id}`);
     });
 
     it('does not display the token', () => {
@@ -212,7 +212,7 @@ describe.skip('ProviderShow', () => {
       provider.packagesSelected = 0;
       provider.packagesTotal = 1;
 
-      await this.visit(`/eholdings/providers/${provider.id}`);
+      this.visit(`/eholdings/providers/${provider.id}`);
     });
 
     it('it does not display the tags', () => {
@@ -225,7 +225,7 @@ describe.skip('ProviderShow', () => {
       provider.packagesSelected = 10;
       provider.packagesTotal = 10;
 
-      await this.visit(`/eholdings/providers/${provider.id}`);
+      this.visit(`/eholdings/providers/${provider.id}`);
     });
 
     it('does display the tags', () => {
@@ -235,7 +235,7 @@ describe.skip('ProviderShow', () => {
 
   describe('navigating to provider details page', () => {
     beforeEach(async function () {
-      await this.visit({
+      this.visit({
         pathname: `/eholdings/providers/${provider.id}`,
         // our internal link component automatically sets the location state
         state: { eholdings: true }
@@ -256,7 +256,7 @@ describe.skip('ProviderShow', () => {
         }]
       }, 500);
 
-      await this.visit(`/eholdings/providers/${provider.id}`);
+      this.visit(`/eholdings/providers/${provider.id}`);
     });
 
     it('has an error', () => {

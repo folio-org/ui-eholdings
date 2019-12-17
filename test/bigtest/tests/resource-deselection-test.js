@@ -39,7 +39,7 @@ describe.skip('ResourceDeselection', () => {
   describe('visiting the resource page', () => {
     describe('part of a package with only one selected title', () => {
       beforeEach(async function () {
-        await this.visit(`/eholdings/resources/${resource.id}`);
+        this.visit(`/eholdings/resources/${resource.id}`);
       });
 
       it('indicates that the resource is selected', () => {
@@ -61,7 +61,7 @@ describe.skip('ResourceDeselection', () => {
       describe('deselecting custom title', () => {
         beforeEach(async function () {
           title.isTitleCustom = true;
-          await this.visit(`/eholdings/resources/${resource.id}`);
+          this.visit(`/eholdings/resources/${resource.id}`);
           await ResourcePage.dropDownMenu.clickRemoveFromHoldings();
         });
 
@@ -78,7 +78,7 @@ describe.skip('ResourceDeselection', () => {
         providerPackage.titleCount = 5;
         providerPackage.selectedCount = 2;
 
-        await this.visit(`/eholdings/resources/${resource.id}`);
+        this.visit(`/eholdings/resources/${resource.id}`);
       });
 
       it('indicates that the resource is selected', () => {

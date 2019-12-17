@@ -28,7 +28,7 @@ describe('ManagedPackageEditSelection', function () {
         contentType: 'E-Book',
         isSelected: false
       });
-      await this.visit(`/eholdings/packages/${providerPackage.id}/edit`);
+      this.visit(`/eholdings/packages/${providerPackage.id}/edit`);
       await PackageEditPage.whenLoaded();
     });
 
@@ -118,7 +118,7 @@ describe('ManagedPackageEditSelection', function () {
         contentType: 'E-Book',
         isSelected: true
       });
-      await this.visit(`/eholdings/packages/${providerPackage.id}/edit`);
+      this.visit(`/eholdings/packages/${providerPackage.id}/edit`);
       await PackageEditPage.whenLoaded();
     });
 
@@ -352,7 +352,7 @@ describe('ManagedPackageEditSelection', function () {
         package: pkg,
         isSelected: false
       });
-      await this.visit(`/eholdings/packages/${pkg.id}/edit`);
+      this.visit(`/eholdings/packages/${pkg.id}/edit`);
       await PackageEditPage.whenLoaded();
     });
 

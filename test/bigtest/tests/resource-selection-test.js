@@ -37,7 +37,7 @@ describe.skip('ResourceSelection', () => {
 
   describe('visiting the resource page', () => {
     beforeEach(async function () {
-      await this.visit(`/eholdings/resources/${resource.id}`);
+      this.visit(`/eholdings/resources/${resource.id}`);
     });
 
     it('indicates that the resource is not yet selected', () => {

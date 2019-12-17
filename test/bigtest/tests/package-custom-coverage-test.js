@@ -24,7 +24,7 @@ describe('PackageCustomCoverage', () => {
         isSelected: false
       });
 
-      await this.visit(`/eholdings/packages/${pkg.id}`);
+      this.visit(`/eholdings/packages/${pkg.id}`);
       await PackageShowPage.whenLoaded();
     });
 
@@ -48,7 +48,7 @@ describe('PackageCustomCoverage', () => {
         isSelected: true
       });
 
-      await this.visit(`/eholdings/packages/${pkg.id}`);
+      this.visit(`/eholdings/packages/${pkg.id}`);
       await PackageShowPage.whenLoaded();
     });
 
@@ -94,7 +94,7 @@ describe('PackageCustomCoverage', () => {
         isSelected: true
       });
 
-      await this.visit(`/eholdings/packages/${pkg.id}`);
+      this.visit(`/eholdings/packages/${pkg.id}`);
       await PackageShowPage.whenLoaded();
     });
 

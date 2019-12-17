@@ -12,7 +12,7 @@ describe('ProviderSearch', function () {
   });
 
   beforeEach(async function () {
-    await this.visit('/eholdings/?searchType=providers');
+    this.visit('/eholdings/?searchType=providers');
     await ProviderSearchPage.whenLoaded();
   });
 
@@ -245,7 +245,7 @@ describe('ProviderSearch encountering a server error', () => {
   });
 
   beforeEach(async function () {
-    await this.visit('/eholdings/?searchType=providers');
+    this.visit('/eholdings/?searchType=providers');
     await ProviderSearchPage.whenLoaded();
     await ProviderSearchPage.search("this doesn't matter");
   });
@@ -265,7 +265,7 @@ describe('ProviderSearch with multiple pages of providers', () => {
   });
 
   beforeEach(async function () {
-    await this.visit('/eholdings/?searchType=providers');
+    this.visit('/eholdings/?searchType=providers');
     await ProviderSearchPage.whenLoaded();
   });
 
@@ -304,7 +304,7 @@ describe('ProviderSearch with multiple pages of providers navigating directly to
   });
 
   beforeEach(async function () {
-    await this.visit('/eholdings/?searchType=providers&offset=51&q=other');
+    this.visit('/eholdings/?searchType=providers&offset=51&q=other');
     await ProviderSearchPage.whenLoaded();
   });
 
@@ -342,7 +342,7 @@ describe('ProviderSearch filtering providers by tags', () => {
   });
 
   beforeEach(async function () {
-    await this.visit('/eholdings/?searchType=providers');
+    this.visit('/eholdings/?searchType=providers');
     await ProviderSearchPage.whenLoaded();
   });
 
@@ -466,7 +466,7 @@ describe('ProviderSearch sorting providers', () => {
   });
 
   beforeEach(async function () {
-    await this.visit('/eholdings/?searchType=providers');
+    this.visit('/eholdings/?searchType=providers');
     await ProviderSearchPage.whenLoaded();
   });
 
@@ -602,7 +602,7 @@ describe('ProviderSearch sorting providers visiting the page with an existing so
   });
 
   beforeEach(async function () {
-    await this.visit('/eholdings/?searchType=providers&q=health&sort=name');
+    this.visit('/eholdings/?searchType=providers&q=health&sort=name');
     await ProviderSearchPage.whenLoaded();
     await ProviderSearchPage.searchBadge.clickIcon();
   });

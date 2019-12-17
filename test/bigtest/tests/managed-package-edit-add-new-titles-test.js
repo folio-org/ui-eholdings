@@ -29,7 +29,7 @@ describe('ManagedPackageEditAllowKbToAddTitles', function () {
         allowKbToAddTitles: true
       });
 
-      await this.visit(`/eholdings/packages/${providerPackage.id}/edit`);
+      this.visit(`/eholdings/packages/${providerPackage.id}/edit`);
       await PackageEditPage.whenLoaded();
     });
 
@@ -91,7 +91,7 @@ describe('ManagedPackageEditAllowKbToAddTitles', function () {
         isSelected: true,
         allowKbToAddTitles: false
       });
-      await this.visit(`/eholdings/packages/${providerPackage.id}/edit`);
+      this.visit(`/eholdings/packages/${providerPackage.id}/edit`);
       await PackageEditPage.whenLoaded();
     });
 
@@ -154,7 +154,7 @@ describe('ManagedPackageEditAllowKbToAddTitles', function () {
         isSelected: false,
         allowKbToAddTitles: false
       });
-      await this.visit(`/eholdings/packages/${providerPackage.id}/edit`);
+      this.visit(`/eholdings/packages/${providerPackage.id}/edit`);
       await PackageEditPage.whenLoaded();
     });
 

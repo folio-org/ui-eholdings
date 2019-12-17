@@ -10,7 +10,7 @@ describe('PackageVisibility visiting the package show page with a package that i
   });
 
   beforeEach(async function () {
-    await this.visit('/eholdings/packages/testId');
+    this.visit('/eholdings/packages/testId');
     await PackageShowPage.whenLoaded();
   });
 
@@ -25,7 +25,7 @@ describe('PackageVisibility visiting the package show page with a hidden package
   });
 
   beforeEach(async function () {
-    await this.visit('/eholdings/packages/testId');
+    this.visit('/eholdings/packages/testId');
     await PackageShowPage.whenLoaded();
   });
 
@@ -44,7 +44,7 @@ describe('PackageVisibility visiting the package show page with a hidden package
   });
 
   beforeEach(async function () {
-    await this.visit('/eholdings/packages/testId');
+    this.visit('/eholdings/packages/testId');
     await PackageShowPage.whenLoaded();
   });
 
@@ -60,7 +60,7 @@ describe('PackageVisibility visiting the package show page with a package that i
   });
 
   beforeEach(async function () {
-    await this.visit('/eholdings/packages/testId');
+    this.visit('/eholdings/packages/testId');
     await PackageShowPage.whenLoaded();
   });
 

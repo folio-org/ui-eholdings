@@ -25,7 +25,7 @@ describe('PackageShowAllowKbToAddTitles', () => {
         allowKbToAddTitles: true
       });
 
-      await this.visit(`/eholdings/packages/${pkg.id}`);
+      this.visit(`/eholdings/packages/${pkg.id}`);
       await PackageShowPage.whenLoaded();
     });
 
@@ -44,7 +44,7 @@ describe('PackageShowAllowKbToAddTitles', () => {
         allowKbToAddTitles: false
       });
 
-      await this.visit(`/eholdings/packages/${pkg.id}`);
+      this.visit(`/eholdings/packages/${pkg.id}`);
       await PackageShowPage.whenLoaded();
     });
 
@@ -62,7 +62,7 @@ describe('PackageShowAllowKbToAddTitles', () => {
         isSelected: false
       });
 
-      await this.visit(`/eholdings/packages/${pkg.id}`);
+      this.visit(`/eholdings/packages/${pkg.id}`);
       await PackageShowPage.whenLoaded();
     });
 
@@ -85,7 +85,7 @@ describe('PackageShowAllowKbToAddTitles', () => {
         allowKbToAddTitles: false
       });
 
-      await this.visit(`/eholdings/packages/${pkg.id}`);
+      this.visit(`/eholdings/packages/${pkg.id}`);
       await PackageShowPage.whenLoaded();
     });
 
@@ -114,7 +114,7 @@ describe('PackageShowAllowKbToAddTitles', () => {
         allowKbToAddTitles: true
       });
 
-      await this.visit(`/eholdings/packages/${pkg.id}`);
+      this.visit(`/eholdings/packages/${pkg.id}`);
       await PackageShowPage.whenLoaded();
     });
 
@@ -153,7 +153,7 @@ describe('PackageShowAllowKbToAddTitles', () => {
         allowKbToAddTitles: true,
         titleCount: 5
       });
-      await this.visit(`/eholdings/packages/${pkg.id}`);
+      this.visit(`/eholdings/packages/${pkg.id}`);
       await PackageShowPage.whenLoaded();
     });
 
@@ -172,7 +172,7 @@ describe('PackageShowAllowKbToAddTitles', () => {
         allowKbToAddTitles: false,
         titleCount: 5
       });
-      await this.visit(`/eholdings/packages/${pkg.id}`);
+      this.visit(`/eholdings/packages/${pkg.id}`);
       await PackageShowPage.whenLoaded();
     });
 

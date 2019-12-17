@@ -53,7 +53,7 @@ describe.skip('Provider view', function () {
 
   describe('when the provider details page is visited', () => {
     beforeEach(async function () {
-      await this.visit(`/eholdings/providers/${provider.id}`);
+      this.visit(`/eholdings/providers/${provider.id}`);
       await notesAccordion.whenProviderNotesAccordionLoaded();
     });
 

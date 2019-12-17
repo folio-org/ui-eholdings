@@ -12,7 +12,7 @@ describe('ManagedPackageEdit', function () {
 
   describe('visiting the package edit page without coverage dates', () => {
     beforeEach(async function () {
-      await this.visit('/eholdings/packages/testId/edit');
+      this.visit('/eholdings/packages/testId/edit');
       await PackageEditPage.whenLoaded();
     });
 
@@ -87,7 +87,7 @@ describe('ManagedPackageEdit', function () {
         }]
       }, 500);
 
-      await this.visit('/eholdings/packages/testId/edit');
+      this.visit('/eholdings/packages/testId/edit');
       await PackageEditPage.whenLoaded();
     });
 
@@ -105,7 +105,7 @@ describe('ManagedPackageEdit', function () {
 
   describe('visiting the package show page', () => {
     beforeEach(async function () {
-      await this.visit('/eholdings/packages/testId');
+      this.visit('/eholdings/packages/testId');
       await PackageEditPage.whenLoaded();
     });
 
@@ -127,7 +127,7 @@ describe('ManagedPackageEdit visiting the package edit page with coverage dates'
   });
 
   beforeEach(async function () {
-    await this.visit('/eholdings/packages/managedPackageEditWithCustomCoverage/edit');
+    this.visit('/eholdings/packages/managedPackageEditWithCustomCoverage/edit');
     await PackageEditPage.whenLoaded();
   });
 
@@ -187,7 +187,7 @@ describe('ManagedPackageEdit encountering a server error when GETting', () => {
   });
 
   beforeEach(async function () {
-    await this.visit('/eholdings/packages/testId/edit');
+    this.visit('/eholdings/packages/testId/edit');
   });
 
   it('dies with dignity', () => {

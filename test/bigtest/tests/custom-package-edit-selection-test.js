@@ -27,7 +27,7 @@ describe('CustomPackageEditSelection', function () {
 
   describe('visiting the package edit page', () => {
     beforeEach(async function () {
-      await this.visit(`/eholdings/packages/${providerPackage.id}/edit`);
+      this.visit(`/eholdings/packages/${providerPackage.id}/edit`);
       await PackageEditPage.whenLoaded();
     });
 
@@ -100,8 +100,8 @@ describe('CustomPackageEditSelection', function () {
         });
 
         describe('when the request resolves', () => {
-          beforeEach(() => {
-            return resolveRequest();
+          beforeEach(async () => {
+            await resolveRequest();
           });
 
           it('transitions to the package search page', function () {
@@ -120,7 +120,7 @@ describe('CustomPackageEditSelection', function () {
         contentType: 'E-Book',
         isSelected: true
       });
-      await this.visit(`/eholdings/packages/${providerPackage.id}/edit`);
+      this.visit(`/eholdings/packages/${providerPackage.id}/edit`);
       await PackageEditPage.whenLoaded();
     });
 

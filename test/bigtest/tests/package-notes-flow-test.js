@@ -63,7 +63,7 @@ describe.skip('Package view', function () {
 
   describe('when the package details page is visited', () => {
     beforeEach(async function () {
-      await this.visit(`/eholdings/packages/${providerPackage.id}`);
+      this.visit(`/eholdings/packages/${providerPackage.id}`);
       await notesAccordion.whenPackageNotesAccordionLoaded();
     });
 

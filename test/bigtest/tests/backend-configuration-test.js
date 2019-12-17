@@ -12,7 +12,7 @@ describe('Error retrieving backend', function () {
 
   describe('when trying to use the app', () => {
     beforeEach(async function () {
-      await this.visit('/eholdings');
+      this.visit('/eholdings');
     });
 
     it('informs user that an error has occurred', () => {
@@ -28,7 +28,7 @@ describe('With no backend at all', function () {
 
   describe('when trying to use the app', () => {
     beforeEach(async function () {
-      await this.visit('/eholdings');
+      this.visit('/eholdings');
     });
 
     it('blocks access to the eholdings app and tells me that I need to install a backend', () => {
@@ -44,7 +44,7 @@ describe('With unconfigured backend', function () {
 
   describe('when trying to use the app', () => {
     beforeEach(async function () {
-      await this.visit('/eholdings');
+      this.visit('/eholdings');
     });
 
     it('blocks access to the eholdings app and points you to the configuration screen', () => {
@@ -54,7 +54,7 @@ describe('With unconfigured backend', function () {
 
   describe('when visiting the KB auth form', () => {
     beforeEach(async function () {
-      await this.visit('/settings/eholdings/knowledge-base');
+      this.visit('/settings/eholdings/knowledge-base');
       await SettingsPage.whenLoaded();
     });
 
@@ -81,12 +81,11 @@ describe('With unconfigured backend', function () {
     });
 
     describe('filling in incomplete data, then filling in more data', () => {
-      beforeEach(() => {
-        return SettingsPage
-          .blurCustomerId()
-          .blurApiKey()
-          .fillCustomerId('some-customer-id')
-          .fillApiKey('some-api-key');
+      beforeEach(async () => {
+        await SettingsPage.blurCustomerId();
+        await SettingsPage.blurApiKey();
+        await SettingsPage.fillCustomerId('some-customer-id');
+        await SettingsPage.fillApiKey('some-api-key');
       });
 
       it('does not display an error state for customer id', () => {
@@ -105,7 +104,7 @@ describe('With valid backend configuration', function () {
 
   describe('when visiting the KB auth form', () => {
     beforeEach(async function () {
-      await this.visit('/settings/eholdings/knowledge-base');
+      this.visit('/settings/eholdings/knowledge-base');
       await SettingsPage.whenLoaded();
     });
 
@@ -192,7 +191,7 @@ describe('With valid backend configuration when saving the changes fail', () => 
   });
 
   beforeEach(async function () {
-    await this.visit('/settings/eholdings/knowledge-base');
+    this.visit('/settings/eholdings/knowledge-base');
     await SettingsPage.whenLoaded();
     await SettingsPage.fillCustomerId('some-customer-id');
     await SettingsPage.fillApiKey('some-api-key');
@@ -215,7 +214,7 @@ describe('filling in invalid data', () => {
   });
 
   beforeEach(async function () {
-    await this.visit('/settings/eholdings/knowledge-base');
+    this.visit('/settings/eholdings/knowledge-base');
     await SettingsPage.whenLoaded();
     await SettingsPage.fillCustomerId('totally-bogus-customer-id');
     await SettingsPage.fillApiKey('totally-bogus-api-key');

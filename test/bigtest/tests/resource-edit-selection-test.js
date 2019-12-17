@@ -36,7 +36,7 @@ describe.skip('ResourceEditSelection', () => {
 
   describe('visiting the resource edit page with unselected resource', () => {
     beforeEach(async function () {
-      await this.visit(`/eholdings/resources/${resource.id}/edit`);
+      this.visit(`/eholdings/resources/${resource.id}/edit`);
     });
 
     it('indicates that the resource is not yet selected', () => {
@@ -61,8 +61,8 @@ describe.skip('ResourceEditSelection', () => {
     });
 
     describe('successfully adding a resource to holdings using button', () => {
-      beforeEach(() => {
-        return ResourceShowPage.clickAddToHoldingsButton();
+      beforeEach(async () => {
+        await ResourceShowPage.clickAddToHoldingsButton();
       });
 
       it('reflects the desired state (Selected)', () => {
@@ -75,13 +75,14 @@ describe.skip('ResourceEditSelection', () => {
     });
 
     describe('adding a package title to my holdings but request fails', () => {
-      beforeEach(function () {
-        this.server.put('/resources/:id', {
+      beforeEach(async function () {
+        await this.server.put('/resources/:id', {
           errors: [{
             title: 'There was an error'
           }]
         }, 500);
-        return ResourceShowPage.clickAddToHoldingsButton();
+
+        await ResourceShowPage.clickAddToHoldingsButton();
       });
 
       describe('when the request fails', () => {

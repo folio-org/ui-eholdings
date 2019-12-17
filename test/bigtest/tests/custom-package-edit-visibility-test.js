@@ -26,7 +26,7 @@ describe('CustomPackageEditVisibility', function () {
         contentType: 'E-Book',
         isCustom: true
       });
-      await this.visit(`/eholdings/packages/${providerPackage.id}/edit`);
+      this.visit(`/eholdings/packages/${providerPackage.id}/edit`);
       await PackageEditPage.whenLoaded();
     });
 
@@ -87,7 +87,7 @@ describe('CustomPackageEditVisibility', function () {
         contentType: 'E-Book',
         isCustom: true
       });
-      await this.visit(`/eholdings/packages/${providerPackage.id}/edit`);
+      this.visit(`/eholdings/packages/${providerPackage.id}/edit`);
       await PackageEditPage.whenLoaded();
     });
 
@@ -105,7 +105,7 @@ describe('CustomPackageEditVisibility', function () {
         isCustom: true,
         isVisible: true
       });
-      await this.visit(`/eholdings/packages/${providerPackage.id}/edit`);
+      this.visit(`/eholdings/packages/${providerPackage.id}/edit`);
       await PackageEditPage.whenLoaded();
     });
 
@@ -168,7 +168,7 @@ describe('CustomPackageEditVisibility', function () {
         isCustom: true,
         isVisible: true
       });
-      await this.visit(`/eholdings/packages/${providerPackage.id}/edit`);
+      this.visit(`/eholdings/packages/${providerPackage.id}/edit`);
       await PackageEditPage.whenLoaded();
     });
     it('reflects the desired state of holding status', () => {

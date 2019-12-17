@@ -44,7 +44,7 @@ describe('CustomResourceEditVisibility', function () {
         title
       });
 
-      await this.visit(`/eholdings/resources/${resource.id}/edit`);
+      this.visit(`/eholdings/resources/${resource.id}/edit`);
       await ResourceEditPage.whenLoaded();
     });
 
@@ -113,7 +113,7 @@ describe('CustomResourceEditVisibility', function () {
         title
       });
 
-      await this.visit(`/eholdings/resources/${resource.id}/edit`);
+      this.visit(`/eholdings/resources/${resource.id}/edit`);
     });
 
     it('displays the no visibility radio is selected', () => {
@@ -160,7 +160,7 @@ describe('CustomResourceEditVisibility', function () {
         title
       });
 
-      await this.visit(`/eholdings/resources/${resource.id}/edit`);
+      this.visit(`/eholdings/resources/${resource.id}/edit`);
       await ResourceEditPage.whenLoaded();
     });
 
@@ -178,7 +178,7 @@ describe('CustomResourceEditVisibility', function () {
         title,
         isSelected: true
       });
-      await this.visit(`/eholdings/resources/${resource.id}/edit`);
+      this.visit(`/eholdings/resources/${resource.id}/edit`);
       await ResourceEditPage.whenLoaded();
     });
 
@@ -195,7 +195,7 @@ describe('CustomResourceEditVisibility', function () {
         title
       });
 
-      await this.visit(`/eholdings/resources/${resource.id}/edit`);
+      this.visit(`/eholdings/resources/${resource.id}/edit`);
       await ResourceEditPage.whenLoaded();
     });
 

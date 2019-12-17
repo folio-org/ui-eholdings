@@ -44,7 +44,7 @@ describe.skip('TitleShow', function () {
 
   describe('visiting the title page', () => {
     beforeEach(async function () {
-      await this.visit(`/eholdings/titles/${title.id}`);
+      this.visit(`/eholdings/titles/${title.id}`);
       await TitleShowPage.whenLoaded();
     });
 
@@ -142,7 +142,7 @@ describe.skip('TitleShow', function () {
 
   describe('navigating to title page', () => {
     beforeEach(async function () {
-      await this.visit({
+      this.visit({
         pathname: `/eholdings/titles/${title.id}`,
         // our internal link component automatically sets the location state
         state: { eholdings: true }
@@ -166,7 +166,7 @@ describe.skip('TitleShow', function () {
 
       title.save();
       resources = title.resources.models;
-      await this.visit(`/eholdings/titles/${title.id}`);
+      this.visit(`/eholdings/titles/${title.id}`);
       await TitleShowPage.whenLoaded();
     });
 
@@ -220,7 +220,7 @@ describe.skip('TitleShow', function () {
 
       title.save();
       resources = title.resources.models;
-      await this.visit(`/eholdings/titles/${title.id}`);
+      this.visit(`/eholdings/titles/${title.id}`);
       await TitleShowPage.whenLoaded();
     });
 
@@ -261,7 +261,7 @@ describe.skip('TitleShow', function () {
     beforeEach(async function () {
       this.server.loadFixtures();
 
-      await this.visit('/eholdings/titles/paged_title');
+      this.visit('/eholdings/titles/paged_title');
       await TitleShowPage.whenLoaded();
     });
 
@@ -280,7 +280,7 @@ describe.skip('TitleShow', function () {
         isTitleCustom: true
       });
 
-      await this.visit(`/eholdings/titles/${title.id}`);
+      this.visit(`/eholdings/titles/${title.id}`);
       await TitleShowPage.whenLoaded();
     });
 
@@ -297,7 +297,7 @@ describe.skip('TitleShow', function () {
         subcode: 0
       }], 500);
 
-      await this.visit(`/eholdings/titles/${title.titleId}`);
+      this.visit(`/eholdings/titles/${title.titleId}`);
     });
 
     it('displays the correct error text', () => {

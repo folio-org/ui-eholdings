@@ -12,7 +12,7 @@ describe('PackageCreate', () => {
 
   describe('submitting the form', () => {
     beforeEach(async function () {
-      await this.visit('/eholdings/packages/new');
+      this.visit('/eholdings/packages/new');
     });
 
     it('has a package name field', () => {
@@ -134,7 +134,7 @@ describe('PackageCreate', () => {
 
   describe('canceling when there is router history', () => {
     beforeEach(async function () {
-      await this.visit('/eholdings/?searchType=packages');
+      this.visit('/eholdings/?searchType=packages');
       await PackageSearchPage.whenLoaded();
     });
 

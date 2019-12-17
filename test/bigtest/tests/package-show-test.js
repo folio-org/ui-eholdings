@@ -31,7 +31,7 @@ describe.skip('PackageShow', async function () {
 
   describe('visiting the package details page', () => {
     beforeEach(async function () {
-      await this.visit(`/eholdings/packages/${providerPackage.id}`);
+      this.visit(`/eholdings/packages/${providerPackage.id}`);
       await PackageShowPage.whenLoaded();
       await PackageShowPage.when(() => PackageShowPage.agreementsSection.isPresent);
     });
@@ -162,7 +162,7 @@ describe.skip('PackageShow', async function () {
           titleCount: 2
         });
 
-        await this.visit(`/eholdings/packages/${otherPackage.id}`);
+        this.visit(`/eholdings/packages/${otherPackage.id}`);
       });
 
       it('displays the different package', () => {
@@ -195,7 +195,7 @@ describe.skip('PackageShow', async function () {
         package: pkg,
         isSelected: false
       });
-      await this.visit(`/eholdings/packages/${pkg.id}`);
+      this.visit(`/eholdings/packages/${pkg.id}`);
       await PackageShowPage.whenLoaded();
       await PackageShowPage.when(() => PackageShowPage.agreementsSection.isPresent);
     });
@@ -226,7 +226,7 @@ describe.skip('PackageShow', async function () {
   describe('viewing a managed package details page', () => {
     beforeEach(async function () {
       providerPackage.isSelected = true;
-      await this.visit(`/eholdings/packages/${providerPackage.id}`);
+      this.visit(`/eholdings/packages/${providerPackage.id}`);
     });
 
     it('display tags accordion', () => {
@@ -252,7 +252,7 @@ describe.skip('PackageShow', async function () {
       providerPackage.isCustom = true;
       providerPackage.packageType = 'Custom';
       providerPackage.isSelected = true;
-      await this.visit(`/eholdings/packages/${providerPackage.id}`);
+      this.visit(`/eholdings/packages/${providerPackage.id}`);
       await PackageShowPage.whenLoaded();
     });
 
@@ -287,7 +287,7 @@ describe.skip('PackageShow', async function () {
         titleCount: 5,
         packageType: 'Complete'
       });
-      await this.visit(`/eholdings/packages/${providerPackage.id}`);
+      this.visit(`/eholdings/packages/${providerPackage.id}`);
       await PackageShowPage.whenLoaded();
     });
 
@@ -314,7 +314,7 @@ describe.skip('PackageShow', async function () {
         isCustom: true
       });
 
-      await this.visit(`/eholdings/packages/${providerPackage.id}`);
+      this.visit(`/eholdings/packages/${providerPackage.id}`);
       await PackageShowPage.whenLoaded();
     });
 
@@ -333,7 +333,7 @@ describe.skip('PackageShow', async function () {
     beforeEach(async function () {
       providerPackage.isSelected = true;
 
-      await this.visit(`/eholdings/packages/${providerPackage.id}`);
+      this.visit(`/eholdings/packages/${providerPackage.id}`);
       await PackageShowPage.whenLoaded();
     });
 
@@ -362,7 +362,7 @@ describe.skip('PackageShow', async function () {
       await providerPackage.update('packageToken', token.toJSON());
       await providerPackage.save();
 
-      await this.visit(`/eholdings/packages/${providerPackage.id}`);
+      this.visit(`/eholdings/packages/${providerPackage.id}`);
       await PackageShowPage.whenLoaded();
     });
 
@@ -394,7 +394,7 @@ describe.skip('PackageShow', async function () {
       await provider.save();
       await providerPackage.update('packageToken', token.toJSON());
       await providerPackage.save();
-      await this.visit(`/eholdings/packages/${providerPackage.id}`);
+      this.visit(`/eholdings/packages/${providerPackage.id}`);
       await PackageShowPage.whenLoaded();
     });
 
@@ -428,7 +428,7 @@ describe.skip('PackageShow', async function () {
       await provider.update('providerToken', token.toJSON());
       await provider.save();
 
-      await this.visit(`/eholdings/packages/${providerPackage.id}`);
+      this.visit(`/eholdings/packages/${providerPackage.id}`);
       await PackageShowPage.whenLoaded();
     });
 
@@ -453,7 +453,7 @@ describe.skip('PackageShow', async function () {
       await provider.save();
       await providerPackage.update('packageToken', null);
       await providerPackage.save();
-      await this.visit(`/eholdings/packages/${providerPackage.id}`);
+      this.visit(`/eholdings/packages/${providerPackage.id}`);
       await PackageShowPage.whenLoaded();
     });
 
@@ -467,7 +467,7 @@ describe.skip('PackageShow', async function () {
     beforeEach(async function () {
       await this.server.loadFixtures();
 
-      await this.visit('/eholdings/packages/paged_pkg');
+      this.visit('/eholdings/packages/paged_pkg');
       await PackageShowPage.whenLoaded();
     });
 
@@ -476,8 +476,8 @@ describe.skip('PackageShow', async function () {
     });
 
     describe.skip('scrolling down the list of titles', () => {
-      beforeEach(() => {
-        return PackageShowPage.scrollToTitleOffset(26);
+      beforeEach(async () => {
+        await PackageShowPage.scrollToTitleOffset(26);
       });
 
       it('should display the next page of related titles', () => {
@@ -493,7 +493,7 @@ describe.skip('PackageShow', async function () {
       providerPackage.selectedCount = 9000;
       providerPackage.titleCount = 10000;
 
-      await this.visit(`/eholdings/packages/${providerPackage.id}`);
+      this.visit(`/eholdings/packages/${providerPackage.id}`);
       await PackageShowPage.whenLoaded();
     });
 
@@ -510,7 +510,7 @@ describe.skip('PackageShow', async function () {
 
   describe('navigating to package show page', () => {
     beforeEach(async function () {
-      await this.visit({
+      this.visit({
         pathname: `/eholdings/packages/${providerPackage.id}`,
         // our internal link component automatically sets the location state
         state: { eholdings: true }
@@ -531,7 +531,7 @@ describe.skip('PackageShow', async function () {
         }]
       }, 500);
 
-      await this.visit(`/eholdings/packages/${providerPackage.id}`);
+      this.visit(`/eholdings/packages/${providerPackage.id}`);
     });
 
     it('displays the correct error text', () => {

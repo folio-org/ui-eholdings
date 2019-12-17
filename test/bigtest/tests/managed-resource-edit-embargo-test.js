@@ -45,7 +45,7 @@ describe('ManagedResourceEditEmbargo', () => {
         embargoValue: 9
       }).toJSON();
       await resource.save();
-      await this.visit(`/eholdings/resources/${resource.id}/edit`);
+      this.visit(`/eholdings/resources/${resource.id}/edit`);
       await ResourceEditPage.whenLoaded();
     });
 
@@ -96,7 +96,7 @@ describe('ManagedResourceEditEmbargo', () => {
 
   describe('visiting the resource edit page without any embargos', () => {
     beforeEach(async function () {
-      await this.visit(`/eholdings/resources/${resource.id}/edit`);
+      this.visit(`/eholdings/resources/${resource.id}/edit`);
       await ResourceEditPage.whenLoaded();
     });
 
@@ -272,7 +272,7 @@ describe('ManagedResourceEditEmbargo', () => {
       }).toJSON();
 
       await resource.save();
-      await this.visit(`/eholdings/resources/${resource.id}/edit`);
+      this.visit(`/eholdings/resources/${resource.id}/edit`);
       await ResourceEditPage.whenLoaded();
     });
 
@@ -287,7 +287,7 @@ describe('ManagedResourceEditEmbargo', () => {
       resource.customEmbargoPeriod = null;
 
       await resource.save();
-      await this.visit(`/eholdings/resources/${resource.id}/edit`);
+      this.visit(`/eholdings/resources/${resource.id}/edit`);
       await ResourceEditPage.whenLoaded();
     });
 
@@ -305,7 +305,7 @@ describe('ManagedResourceEditEmbargo', () => {
       }).toJSON();
 
       await resource.save();
-      await this.visit(`/eholdings/resources/${resource.id}/edit`);
+      this.visit(`/eholdings/resources/${resource.id}/edit`);
       await ResourceEditPage.whenLoaded();
     });
 
@@ -322,7 +322,7 @@ describe('ManagedResourceEditEmbargo', () => {
       }).toJSON();
 
       await resource.save();
-      await this.visit(`/eholdings/resources/${resource.id}/edit`);
+      this.visit(`/eholdings/resources/${resource.id}/edit`);
       await ResourceEditPage.whenLoaded();
     });
 
