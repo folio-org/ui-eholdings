@@ -531,7 +531,8 @@ describe('TitleSearch visiting the page with an existing tags filter', () => {
 describe('TitleSearch title sort functionality', () => {
   setupApplication({
     scenarios: ['titleSearchSorting']
-  })
+  });
+
   beforeEach(async function () {
     await this.visit('/eholdings/?searchType=titles');
     await TitleSearchPage.whenLoaded();
@@ -711,7 +712,7 @@ describe('TitleSearch filtering title by tags', () => {
   setupApplication({
     scenarios: ['titleSearchFilteredByTags']
   });
-  
+
   beforeEach(async function () {
     await this.visit('/eholdings/?searchType=titles');
     await TitleSearchPage.whenLoaded();
@@ -876,7 +877,8 @@ describe('TitleSearch with multiple pages of titles avigating directly to a sear
 describe('TitleSearch encountering a server error', () => {
   setupApplication({
     scenarios: ['titleSearchError']
-  })
+  });
+
   beforeEach(async function () {
     await this.visit('/eholdings/?searchType=titles');
     await TitleSearchPage.search("this doesn't matter");
@@ -886,4 +888,3 @@ describe('TitleSearch encountering a server error', () => {
     expect(TitleSearchPage.hasErrors).to.be.true;
   });
 });
-

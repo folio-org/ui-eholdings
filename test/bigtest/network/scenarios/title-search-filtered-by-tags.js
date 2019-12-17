@@ -38,7 +38,7 @@ export default async function titleSearchFilteredByTags(server) {
   await server.create('title', {
     name: 'SomethingSomethingWhoa'
   });
-  
+
   const allTags = ['urgent', 'not urgent'];
 
   const urgentTag = server.create('tags', {

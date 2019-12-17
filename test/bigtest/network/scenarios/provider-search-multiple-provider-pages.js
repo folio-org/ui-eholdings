@@ -8,7 +8,7 @@ export default async function providerSearchMultipleProviderPages(server) {
   await server.create('provider', {
     name: 'Totally Awesome Co'
   });
-  
+
   await server.createList('provider', 75, {
     name: i => `Other Provider ${i + 1}`
   });

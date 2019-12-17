@@ -96,7 +96,7 @@ import SearchBadge from './search-badge';
       });
   });
 
-  search = action( async function (query) {
+  search = action(async function (query) {
     await this.fillSearch(query);
     await this.submitSearch();
 

@@ -80,7 +80,7 @@ import PackageSelectionStatus from './selection-status';
   clickBackButton = clickable('[data-test-eholdings-details-view-back-button]');
   detailsPaneContentScrollHeight = property('[data-test-eholdings-detail-pane-contents]', 'scrollHeight');
   clickEditButton = clickable('[data-test-eholdings-package-edit-link]');
-  dropDown= new PackageShowDropDown('[class*=paneHeaderCenterInner---] [class*=dropdown---]');
+  dropDown = new PackageShowDropDown('[class*=paneHeaderCenterInner---] [class*=dropdown---]');
   dropDownMenu = new PackageShowDropDownMenu();
   searchModalBadge = new SearchBadge('[data-test-eholdings-search-modal-badge]');
 
@@ -146,10 +146,10 @@ import PackageSelectionStatus from './selection-status';
   tagsSection = new TagsAccordion('[data-test-eholdings-tag-filter]');
 
   async selectPackage() {
-     await this.dropDown.clickDropDownButton();
-     await this.dropDownMenu.addToHoldings.click();
+    await this.dropDown.clickDropDownButton();
+    await this.dropDownMenu.addToHoldings.click();
 
-     return this;
+    return this;
   }
 
   async deselectAndConfirmPackage() {

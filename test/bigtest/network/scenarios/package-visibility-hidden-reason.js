@@ -11,5 +11,4 @@ export default async function packageVisibilityHiddenReason(server) {
     isSelected: true,
     id: 'testId',
   });
-
 }

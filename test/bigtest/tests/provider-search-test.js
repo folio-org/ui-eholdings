@@ -5,7 +5,6 @@ import setupApplication from '../helpers/setup-application';
 import ProviderSearchPage from '../interactors/provider-search';
 import ProviderShowPage from '../interactors/provider-show';
 import PackageShowPage from '../interactors/package-show';
-import wait from '../helpers/wait';
 
 describe('ProviderSearch', function () {
   setupApplication({
@@ -264,7 +263,7 @@ describe('ProviderSearch encountering a server error', () => {
 describe('ProviderSearch with multiple pages of providers', () => {
   setupApplication({
     scenarios: ['providerSearchMultipleProviderPages']
-  })
+  });
 
   beforeEach(async function () {
     await this.visit('/eholdings/?searchType=providers');
@@ -303,7 +302,7 @@ describe('ProviderSearch with multiple pages of providers', () => {
 describe('ProviderSearch with multiple pages of providers navigating directly to a search page', () => {
   setupApplication({
     scenarios: ['providerSearchMultipleProviderPages']
-  })
+  });
 
   beforeEach(async function () {
     await this.visit('/eholdings/?searchType=providers&offset=51&q=other');
@@ -341,7 +340,7 @@ describe('ProviderSearch with multiple pages of providers navigating directly to
 describe('ProviderSearch filtering providers by tags', () => {
   setupApplication({
     scenarios: ['providerSearchFilteringByTags']
-  })
+  });
 
   beforeEach(async function () {
     await this.visit('/eholdings/?searchType=providers');
@@ -465,7 +464,7 @@ describe('ProviderSearch filtering providers by tags', () => {
 describe('ProviderSearch sorting providers', () => {
   setupApplication({
     scenarios: ['providerSearchSorting']
-  })
+  });
 
   beforeEach(async function () {
     await this.visit('/eholdings/?searchType=providers');
@@ -601,7 +600,7 @@ describe('ProviderSearch sorting providers', () => {
 describe('ProviderSearch sorting providers visiting the page with an existing sort', () => {
   setupApplication({
     scenarios: ['providerSearchSorting']
-  })
+  });
 
   beforeEach(async function () {
     await this.visit('/eholdings/?searchType=providers&q=health&sort=name');

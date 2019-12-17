@@ -7,7 +7,8 @@ import PackageShowPage from '../interactors/package-show';
 describe('PackageVisibility visiting the package show page with a package that is not selected', () => {
   setupApplication({
     scenarios: ['packageVisibilityNotSelected']
-  })
+  });
+
   beforeEach(async function () {
     await this.visit('/eholdings/packages/testId');
     await PackageShowPage.whenLoaded();
@@ -22,7 +23,7 @@ describe('PackageVisibility visiting the package show page with a hidden package
   setupApplication({
     scenarios: ['packageVisibilityHiddenReason']
   });
-  
+
   beforeEach(async function () {
     await this.visit('/eholdings/packages/testId');
     await PackageShowPage.whenLoaded();
