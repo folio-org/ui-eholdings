@@ -51,8 +51,8 @@ describe('TitleSearch', function () {
 
 
   describe('searching for a title', () => {
-    beforeEach(() => {
-      return TitleSearchPage.search('Title');
+    beforeEach(async () => {
+      await TitleSearchPage.search('Title');
     });
 
     it('removes the pre-results pane', () => {
@@ -105,8 +105,8 @@ describe('TitleSearch', function () {
       });
 
       describe('conducting a new search', () => {
-        beforeEach(() => {
-          return TitleSearchPage.search('SomethingSomethingWhoa');
+        beforeEach(async () => {
+          await TitleSearchPage.search('SomethingSomethingWhoa');
         });
 
         it('displays the total number of search results', () => {

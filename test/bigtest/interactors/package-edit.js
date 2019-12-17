@@ -4,7 +4,6 @@ import {
   attribute,
   clickable,
   collection,
-  computed,
   scoped,
   fillable,
   focusable,
@@ -81,11 +80,6 @@ import PackageSelectionStatus from './selection-status';
     const isVisible = (!this.isVisibleToPatrons).toString();
     return this.click(`[data-test-eholdings-package-visibility-field] input[value="${isVisible}"]`);
   }
-
-  isHiddenMessage = computed(function () {
-    const $node = this.$('[data-test-eholdings-package-visibility-field] input[value="false"] ~ span:last-child');
-    return $node.textContent.replace(/^No(\s\((.*)\))?$/, '$2');
-  });
 
   hasRadioForAllowKbToAddTitles = isPresent('[data-test-eholdings-allow-kb-to-add-titles-radios]');
   disallowKbToAddTitlesRadio = property('[data-test-eholdings-allow-kb-to-add-titles-radio-no]', 'checked')

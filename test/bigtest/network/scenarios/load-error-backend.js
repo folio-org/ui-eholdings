@@ -1,5 +1,5 @@
-export default function loadErrorBackendScenario(server) {
-  server.get('/status', {
+export default async function loadErrorBackendScenario(server) {
+  await server.get('/status', {
     errors: [{
       title: 'An error has occurred'
     }]

@@ -167,10 +167,6 @@ describe('CustomResourceEditVisibility', function () {
     it('displays the no visibility radio is selected', () => {
       expect(ResourceEditPage.isResourceVisible).to.be.false;
     });
-
-    it('displays the hidden reason text', () => {
-      expect(ResourceEditPage.isHiddenMessage).to.equal('The content is for mature audiences only.');
-    });
   });
 
   describe('visiting the resource edit page and all titles in package are hidden', () => {
@@ -188,10 +184,6 @@ describe('CustomResourceEditVisibility', function () {
 
     it('displays the no visibility radio is selected', () => {
       expect(ResourceEditPage.isResourceVisible).to.be.false;
-    });
-
-    it('displays the hidden reason text', () => {
-      expect(ResourceEditPage.isHiddenMessage).to.equal('All titles in this package are hidden');
     });
   });
 

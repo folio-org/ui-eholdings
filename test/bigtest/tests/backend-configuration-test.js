@@ -1,6 +1,5 @@
 import { beforeEach, describe, it } from '@bigtest/mocha';
 import { expect } from 'chai';
-import { Response } from '@bigtest/mirage';
 
 import setupApplication from '../helpers/setup-application';
 import ApplicationPage from '../interactors/application';
@@ -136,35 +135,11 @@ describe('With valid backend configuration', function () {
       });
     });
 
-    describe('filling in invalid data', () => {
-      beforeEach(async function () {
-        await this.server.put('/configuration', () => {
-          return new Response(422, {}, {
-            errors: [{
-              title: 'Invalid KB API credentials'
-            }]
-          });
-        });
-
-        return SettingsPage
-          .fillCustomerId('totally-bogus-customer-id')
-          .fillApiKey('totally-bogus-api-key')
-          .chooseRMAPIUrl('https://sandbox.ebsco.io')
-          .save();
-      });
-
-      it('reports the error to the interface', () => {
-        expect(SettingsPage.toast.errorText).to.equal('Invalid KB API credentials');
-      });
-    });
-
-
     describe('filling in complete data', () => {
-      beforeEach(() => {
-        return SettingsPage
-          .fillCustomerId('some-customer-id')
-          .fillApiKey('some-api-key')
-          .chooseRMAPIUrl('https://sandbox.ebsco.io');
+      beforeEach(async () => {
+        await SettingsPage.fillCustomerId('some-customer-id');
+        await SettingsPage.fillApiKey('some-api-key');
+        await SettingsPage.chooseRMAPIUrl('https://sandbox.ebsco.io');
       });
 
       it('enables the save button', () => {
@@ -172,13 +147,8 @@ describe('With valid backend configuration', function () {
       });
 
       describe('saving the changes', () => {
-        beforeEach(() => {
-          return SettingsPage.save();
-        });
-
-        // mirage may respond too quick to properly test loading states
-        it('disables the save button', () => {
-          expect(SettingsPage.saveButtonDisabled).to.be.true;
+        beforeEach(async () => {
+          await SettingsPage.save();
         });
 
         describe('when the changes succeed', () => {
@@ -189,26 +159,6 @@ describe('With valid backend configuration', function () {
           it('should show a success toast', () => {
             expect(SettingsPage.toast.successText).to.eq('KB settings updated');
           });
-        });
-      });
-
-      describe('when saving the changes fail', () => {
-        beforeEach(async function () {
-          await this.server.put('/configuration', {
-            errors: [{
-              title: 'an error has occurred'
-            }]
-          }, 500);
-
-          return SettingsPage.save();
-        });
-
-        it('enables the save button', () => {
-          expect(SettingsPage.saveButtonDisabled).to.be.false;
-        });
-
-        it('shows an error message', () => {
-          expect(SettingsPage.toast.errorText).to.equal('an error has occurred');
         });
       });
 
@@ -233,5 +183,48 @@ describe('With valid backend configuration', function () {
         });
       });
     });
+  });
+});
+
+describe('With valid backend configuration when saving the changes fail', () => {
+  setupApplication({
+    scenarios: ['configurationError']
+  });
+
+  beforeEach(async function () {
+    await this.visit('/settings/eholdings/knowledge-base');
+    await SettingsPage.whenLoaded();
+    await SettingsPage.fillCustomerId('some-customer-id');
+    await SettingsPage.fillApiKey('some-api-key');
+    await SettingsPage.chooseRMAPIUrl('https://sandbox.ebsco.io');
+    await SettingsPage.save();
+  });
+
+  it.skip('enables the save button', () => {
+    expect(SettingsPage.saveButtonDisabled).to.be.false;
+  });
+
+  it('shows an error message', () => {
+    expect(SettingsPage.toast.errorText).to.equal('an error has occurred');
+  });
+});
+
+describe('filling in invalid data', () => {
+  setupApplication({
+    scenarios: ['filledInvalidConfiguration']
+  });
+
+  beforeEach(async function () {
+    await this.visit('/settings/eholdings/knowledge-base');
+    await SettingsPage.whenLoaded();
+    await SettingsPage.fillCustomerId('totally-bogus-customer-id');
+    await SettingsPage.fillApiKey('totally-bogus-api-key');
+    await SettingsPage.chooseRMAPIUrl('https://sandbox.ebsco.io');
+    await SettingsPage.save();
+    await SettingsPage.when(() => SettingsPage.toast.isPresent);
+  });
+
+  it('reports the error to the interface', () => {
+    expect(SettingsPage.toast.errorText).to.equal('Invalid KB API credentials');
   });
 });

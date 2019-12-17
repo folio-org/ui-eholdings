@@ -34,10 +34,6 @@ describe('CustomPackageEditVisibility', function () {
       expect(PackageEditPage.isVisibleToPatrons).to.be.false;
     });
 
-    it('displays the hidden/reason section', () => {
-      expect(PackageEditPage.isHiddenMessage).to.equal('The content is for mature audiences only.');
-    });
-
     it('disables the save button', () => {
       expect(PackageEditPage.isSaveDisabled).to.be.true;
     });

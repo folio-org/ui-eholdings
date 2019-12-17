@@ -11,7 +11,6 @@ import {
   property,
   text,
   value,
-  computed,
   selectable,
 } from '@bigtest/interactor';
 
@@ -85,10 +84,6 @@ import Datepicker from './datepicker';
   isResourceVisible = property('[data-test-eholdings-resource-visibility-field] input[value="true"]', 'checked');
   isResourceShowToPatronsVisible = isPresent('[data-test-eholdings-resource-visibility-field]');
   isCoverageSettingsDatesField = isPresent('[data-test-eholdings-resource-coverage-fields]');
-  isHiddenMessage = computed(function () {
-    const $node = this.$('[data-test-eholdings-resource-visibility-field] input[value="false"] ~ span:last-child');
-    return $node.textContent.replace(/^No(\s\((.*)\))?$/, '$2');
-  });
 
   isVisibilityFieldPresent = isPresent('[data-test-eholdings-resource-visibility-field]');
   isResourceNotSelectedLabelPresent = isPresent('[data-test-eholdings-resource-edit-settings-message]');

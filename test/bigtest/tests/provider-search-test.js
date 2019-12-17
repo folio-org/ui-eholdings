@@ -41,7 +41,6 @@ describe('ProviderSearch', function () {
     expect(ProviderSearchPage.sortFilterAccordion.isOpen).to.be.false;
   });
 
-
   describe('searching for a provider', () => {
     beforeEach(async () => {
       await ProviderSearchPage.search('Provider');
