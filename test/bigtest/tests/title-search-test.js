@@ -312,78 +312,108 @@ describe('TitleSearch filtering title by tags', () => {
   it('displays tags accordion as closed', () => {
     expect(TitleSearchPage.tagsSection.tagsAccordion.isOpen).to.equal(false);
   });
+});
 
-  describe('clicking to open tags accordion', () => {
-    beforeEach(async () => {
-      await TitleSearchPage.tagsSection.clickTagHeader();
-    });
+describe('TitleSearch filtering title by tags clicking to open tags accordion', () => {
+  setupApplication({
+    scenarios: ['titleSearchFilteredByTags']
+  });
 
-    it('displays tags accordion as expanded', () => {
-      expect(TitleSearchPage.tagsSection.tagsAccordion.isOpen).to.be.true;
-    });
+  beforeEach(async function () {
+    this.visit('/eholdings/?searchType=titles');
+    await TitleSearchPage.whenLoaded();
+    await TitleSearchPage.tagsSection.clickTagHeader();
+  });
 
-    it('should display tags multiselect disabled by default', () => {
-      expect(TitleSearchPage.tagsSection.tagsMultiselectIsDisabled).to.be.true;
-    });
+  it('displays tags accordion as expanded', () => {
+    expect(TitleSearchPage.tagsSection.tagsAccordion.isOpen).to.be.true;
+  });
 
-    it('search by tags tags checkbox should be not checked', () => {
-      expect(TitleSearchPage.tagsSection.tagsCheckboxIsChecked).to.be.false;
-    });
+  it('should display tags multiselect disabled by default', () => {
+    expect(TitleSearchPage.tagsSection.tagsMultiselectIsDisabled).to.be.true;
+  });
 
-    describe('and search by tags was enabled', () => {
-      beforeEach(async () => {
-        await TitleSearchPage.tagsSection.toggleSearchByTags();
-      });
+  it('search by tags tags checkbox should be not checked', () => {
+    expect(TitleSearchPage.tagsSection.tagsCheckboxIsChecked).to.be.false;
+  });
+});
 
-      it('search field should be disabled', () => {
-        expect(TitleSearchPage.searchFieldIsDisabled).to.be.true;
-      });
+describe('TitleSearch filtering by tags and open tags accordion and search by tags was enabled', () => {
+  setupApplication({
+    scenarios: ['titleSearchFilteredByTags']
+  });
 
-      it('should display tags multiselect enabled', () => {
-        expect(TitleSearchPage.tagsSection.tagsMultiselectIsDisabled).to.be.false;
-      });
+  beforeEach(async function () {
+    this.visit('/eholdings/?searchType=titles');
+    await TitleSearchPage.whenLoaded();
+    await TitleSearchPage.tagsSection.clickTagHeader();
+    await TitleSearchPage.tagsSection.toggleSearchByTags();
+  });
 
-      it('search by tags tags checkbox should be checked', () => {
-        expect(TitleSearchPage.tagsSection.tagsCheckboxIsChecked).to.be.true;
-      });
+  it('search field should be disabled', () => {
+    expect(TitleSearchPage.searchFieldIsDisabled).to.be.true;
+  });
 
-      describe('after click on urgent option', () => {
-        beforeEach(async () => {
-          await TitleSearchPage.tagsSection.tagsSelect.options(1).clickOption();
-        });
+  it('should display tags multiselect enabled', () => {
+    expect(TitleSearchPage.tagsSection.tagsMultiselectIsDisabled).to.be.false;
+  });
 
-        it('should display selected value as urgent', () => {
-          expect(TitleSearchPage.tagsSection.tagsSelect.values(0).valLabel).to.equal('urgent');
-        });
+  it('search by tags tags checkbox should be checked', () => {
+    expect(TitleSearchPage.tagsSection.tagsCheckboxIsChecked).to.be.true;
+  });
+});
 
-        it('displays titles tagged as urgent', () => {
-          expect(TitleSearchPage.titleList()).to.have.lengthOf(1);
-          expect(TitleSearchPage.titleList(0).name).to.equal('Test Urgent Tag');
-        });
+describe('TitleSearch filtering by tags and open tags accordion and search by tags was enabled after click on urgent option', () => {
+  setupApplication({
+    scenarios: ['titleSearchFilteredByTags']
+  });
 
-        it('should display the clear tag filter button', () => {
-          expect(TitleSearchPage.tagsSection.hasClearTagFilter).to.be.true;
-        });
+  beforeEach(async function () {
+    this.visit('/eholdings/?searchType=titles');
+    await TitleSearchPage.whenLoaded();
+    await TitleSearchPage.tagsSection.clickTagHeader();
+    await TitleSearchPage.tagsSection.toggleSearchByTags();
+    await TitleSearchPage.tagsSection.tagsSelect.options(1).clickOption();
+  });
 
-        describe('clearing the filters', () => {
-          beforeEach(async () => {
-            await TitleSearchPage.tagsSection.clearTagFilter();
-          });
+  it('should display selected value as urgent', () => {
+    expect(TitleSearchPage.tagsSection.tagsSelect.values(0).valLabel).to.equal('urgent');
+  });
 
-          it('displays tag filter with empty value', () => {
-            expect(TitleSearchPage.tagsSection.tagsSelect.values()).to.deep.equal([]);
-          });
+  it('displays titles tagged as urgent', () => {
+    expect(TitleSearchPage.titleList()).to.have.lengthOf(1);
+    expect(TitleSearchPage.titleList(0).name).to.equal('Test Urgent Tag');
+  });
 
-          it('displays no title results', () => {
-            expect(TitleSearchPage.titleList()).to.have.lengthOf(0);
-          });
+  it('should display the clear tag filter button', () => {
+    expect(TitleSearchPage.tagsSection.hasClearTagFilter).to.be.true;
+  });
+});
 
-          it.always('removes the filter from the URL query params', function () {
-            expect(this.location.search).to.not.include('filter[tags]');
-          });
-        });
-      });
-    });
+describe('TitleSearch filtering by tags and open tags accordion and search by tags was enabled after click on urgent option and clearing the filters', () => {
+  setupApplication({
+    scenarios: ['titleSearchFilteredByTags']
+  });
+
+  beforeEach(async function () {
+    this.visit('/eholdings/?searchType=titles');
+    await TitleSearchPage.whenLoaded();
+    await TitleSearchPage.tagsSection.clickTagHeader();
+    await TitleSearchPage.tagsSection.toggleSearchByTags();
+    await TitleSearchPage.tagsSection.tagsSelect.options(1).clickOption();
+    await TitleSearchPage.tagsSection.clearTagFilter();
+  });
+
+  it('displays tag filter with empty value', () => {
+    expect(TitleSearchPage.tagsSection.tagsSelect.values()).to.deep.equal([]);
+  });
+
+  it('displays no title results', () => {
+    expect(TitleSearchPage.titleList()).to.have.lengthOf(0);
+  });
+
+  it.always('removes the filter from the URL query params', function () {
+    expect(this.location.search).to.not.include('filter[tags]');
   });
 });
 

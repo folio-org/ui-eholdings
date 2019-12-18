@@ -95,7 +95,7 @@ describe('PackageSearch', function () {
           await PackageSearchPage.searchBadge.clickIcon();
         });
 
-        it.skip('closes the search pane', () => {
+        it('closes the search pane', () => {
           expect(PackageSearchPage.isSearchPanePresent).to.be.false;
         });
 
