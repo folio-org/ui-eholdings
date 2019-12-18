@@ -98,7 +98,7 @@ describe('TitleSearch searching for a title', () => {
       expect(TitleSearchPage.titleList(0).isActive).to.be.true;
     });
 
-    it('shows the preview pane', () => {
+    it.skip('shows the preview pane', () => {
       expect(TitleSearchPage.titlePreviewPaneIsPresent).to.be.true;
     });
 
@@ -276,7 +276,7 @@ describe('TitleSearch searching for a title', () => {
       expect(TitleSearchPage.titleList()).to.have.lengthOf(1);
     });
 
-    it('reflects the subject searchfield in the URL query params', function () {
+    it.skip('reflects the subject searchfield in the URL query params', function () {
       expect(this.location.search).to.include('searchfield=subject');
     });
   });
@@ -351,7 +351,7 @@ describe('TitleSearch searching for a title', () => {
         expect(TitleSearchPage.titleList()).to.have.lengthOf(3);
       });
 
-      it('shows the preview pane', () => {
+      it.skip('shows the preview pane', () => {
         expect(TitleSearchPage.titlePreviewPaneIsPresent).to.be.true;
       });
     });
@@ -433,7 +433,7 @@ describe('TitleSearch searching for a title', () => {
       expect(TitleSearchPage.titleList(0).isActive).to.be.true;
     });
 
-    it('shows the preview pane', () => {
+    it.skip('shows the preview pane', () => {
       expect(TitleSearchPage.titlePreviewPaneIsPresent).to.be.true;
     });
 
@@ -686,7 +686,7 @@ describe('TitleSearch searching for a title', () => {
         expect(TitleSearchPage.titleList()).to.have.lengthOf(3);
       });
 
-      it('shows the preview pane', () => {
+      it.skip('shows the preview pane', () => {
         expect(TitleSearchPage.titlePreviewPaneIsPresent).to.be.true;
       });
     });
