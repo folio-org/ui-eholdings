@@ -711,8 +711,6 @@ describe('TitleSearch', () => {
     describe('when visiting the page with an existing sort', () => {
       beforeEach(function () {
         this.visit('/eholdings/?searchType=titles&q=football&sort=name');
-        // the search pane is ending up hidden by default
-        return TitleSearchPage.searchBadge.clickIcon();
       });
 
       describe('search field', () => {

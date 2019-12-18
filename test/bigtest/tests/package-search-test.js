@@ -96,42 +96,72 @@ describe('PackageSearch', () => {
       expect(PackageSearchPage.totalResults).to.equal('3 search results');
     });
 
-    describe('search badge', () => {
+    describe('collapse filter pane button', () => {
       it('is present while search pane is open', () => {
         expect(PackageSearchPage.isSearchPanePresent).to.be.true;
-        expect(PackageSearchPage.searchBadge.isPresent).to.be.true;
+        expect(PackageSearchPage.collapseFilterPaneButton.isPresent).to.be.true;
       });
 
-      it('does not show the filter badge while search pane is open', () => {
-        expect(PackageSearchPage.isSearchPanePresent).to.be.true;
-        expect(PackageSearchPage.searchBadge.filterIsPresent).to.be.false;
+      it('does not show expand filter pane button with badge while search pane is open', () => {
+        expect(PackageSearchPage.expandFilterPaneButton.isPresent).to.be.false;
       });
 
       describe('clicking on the search icon', () => {
-        beforeEach(() => PackageSearchPage.searchBadge.clickIcon());
+        beforeEach(() => PackageSearchPage.collapseFilterPaneButton.click());
 
         it('closes the search pane', () => {
           expect(PackageSearchPage.isSearchPanePresent).to.be.false;
+          expect(PackageSearchPage.collapseFilterPaneButton.isPresent).to.be.false;
+        });
+
+        it('shows expand filter pane button', () => {
+          expect(PackageSearchPage.expandFilterPaneButton.isPresent).to.be.true;
         });
 
         it('shows the filter badge', () => {
-          expect(PackageSearchPage.searchBadge.filterIsPresent).to.be.true;
+          expect(PackageSearchPage.expandFilterPaneButton.badgeIsPresent).to.be.true;
         });
 
         it('shows 1 filter', () => {
-          expect(PackageSearchPage.searchBadge.filterText).to.equal('1');
+          expect(PackageSearchPage.expandFilterPaneButton.badgeText).to.be.equal('1');
+        });
+
+        describe('click on the expand filter pane button', () => {
+          beforeEach(() => PackageSearchPage.expandFilterPaneButton.clickIcon());
+
+          it('opens the search pane', () => {
+            expect(PackageSearchPage.isSearchPanePresent).to.be.true;
+          });
+
+          it('collapse fitlre pane button is present', () => {
+            expect(PackageSearchPage.collapseFilterPaneButton.isPresent).to.be.true;
+          });
+
+          it('expand filter pane button does not present', () => {
+            expect(PackageSearchPage.expandFilterPaneButton.isPresent).to.be.false;
+          });
         });
       });
     });
 
+    describe('collapse search and filter pane without applied filters', () => {
+      beforeEach(async function () {
+        this.visit('/eholdings/');
+        await PackageSearchPage.collapseFilterPaneButton.click();
+      });
+
+      it('expand filter pane button displays without badge', () => {
+        expect(PackageSearchPage.expandFilterPaneButton.badgeIsPresent).to.be.false;
+      });
+    });
 
     describe('clicking a search results list item', () => {
       beforeEach(() => {
         return PackageSearchPage.packageList(0).clickThrough();
       });
 
-      it('still shows the search badge', () => {
-        expect(PackageSearchPage.searchBadge.isPresent).to.be.true;
+      it('still shows the collapse search & filter pane button', () => {
+        expect(PackageSearchPage.collapseFilterPaneButton.isPresent).to.be.true;
       });
 
       it('clicked item has an active state', () => {
@@ -277,14 +307,14 @@ describe('PackageSearch', () => {
       });
 
       describe('closing the filter', () => {
-        beforeEach(() => PackageSearchPage.searchBadge.clickIcon());
+        beforeEach(() => PackageSearchPage.collapseFilterPaneButton.click());
 
         it('closed the search pane', () => {
           expect(PackageSearchPage.isSearchPanePresent).to.be.false;
         });
 
         it('shows two filters in the badge', () => {
-          expect(PackageSearchPage.searchBadge.filterText).to.equal('2');
+          expect(PackageSearchPage.expandFilterPaneButton.badgeText).to.equal('2');
         });
       });
     });
@@ -552,8 +582,6 @@ describe('PackageSearch', () => {
     describe('visiting the page with an existing sort', () => {
       beforeEach(function () {
         this.visit('/eholdings/?searchType=packages&q=academic&sort=name');
-        // the search pane is ending up hidden by default
-        return PackageSearchPage.searchBadge.clickIcon();
       });
 
       it('displays search field populated', () => {

@@ -11,14 +11,18 @@ import {
   Button,
   PaneMenu,
 } from '@folio/stripes/components';
+import {
+  CollapseFilterPaneButton,
+  ExpandFilterPaneButton,
+} from '@folio/stripes/smart-components';
 
 import Paneset, { Pane } from '../paneset';
 
 import styles from './search-paneset.css';
-import SearchBadge from '../search-modal/search-badge';
+
 import {
   searchTypes,
-  APP_ICON_NAME
+  APP_ICON_NAME,
 } from '../../constants';
 
 export default class SearchPaneset extends Component {
@@ -120,7 +124,7 @@ export default class SearchPaneset extends Component {
 
     const {
       detailsView,
-      showDetailsView
+      showDetailsView,
     } = this.state;
 
     const areFiltersHidden = hideFilters && !!resultsView;
@@ -142,8 +146,6 @@ export default class SearchPaneset extends Component {
       );
     }
 
-    const showApply = resultsView && !areFiltersHidden;
-
     // do not show filter count when filters are open
     const filterCountToDisplay = areFiltersHidden
       ? filterCount
@@ -151,26 +153,23 @@ export default class SearchPaneset extends Component {
 
     return (
       <Paneset>
-        <Pane
-          tagName="section"
-          onDismiss={this.toggleFilters}
-          visible={!hideFilters}
-          className={styles['search-pane']}
-          paneTitle={(<FormattedMessage id="ui-eholdings.search.searchAndFilter" />)}
-          paneHeaderId="search-pane-header"
-          lastMenu={showApply ? (
-            <Button
-              buttonStyle="transparent"
-              onClick={this.toggleFilters}
-              buttonClass={styles['search-pane-toggle']}
-            >
-              <FormattedMessage id="ui-eholdings.search.apply" />
-            </Button>
-          ) : null}
-          data-test-eholdings-search-pane
-        >
-          {searchForm}
-        </Pane>
+        { !hideFilters &&
+          <Pane
+            tagName="section"
+            onDismiss={this.toggleFilters}
+            className={styles['search-pane']}
+            paneTitle={(<FormattedMessage id="ui-eholdings.search.searchAndFilter" />)}
+            paneHeaderId="search-pane-header"
+            lastMenu={
+              <PaneMenu>
+                <CollapseFilterPaneButton onClick={this.toggleFilters} />
+              </PaneMenu>
+            }
+            data-test-eholdings-search-pane
+          >
+            {searchForm}
+          </Pane>
+        }
 
         <Pane
           static
@@ -181,15 +180,14 @@ export default class SearchPaneset extends Component {
           paneSub={resultsView && resultsPaneSub}
           paneTitleRef={this.$title}
           paneHeaderId="search-results"
-          firstMenu={resultsView ? (
-            <div className={styles['results-pane-search-toggle']}>
-              <SearchBadge
-                data-test-eholdings-results-pane-search-badge
+          firstMenu={hideFilters &&
+            <PaneMenu>
+              <ExpandFilterPaneButton
                 onClick={this.toggleFilters}
                 filterCount={filterCountToDisplay}
               />
-            </div>
-          ) : null}
+            </PaneMenu>
+          }
           lastMenu={newButton}
           data-test-results-pane
         >

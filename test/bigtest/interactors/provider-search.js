@@ -16,9 +16,6 @@ import { AccordionInteractor } from '@folio/stripes-components/lib/Accordion/tes
 
 import TagsAccordion from './tags-accordion';
 
-import SearchBadge from './search-badge';
-
-
 @interactor class ProviderSearchPage {
   fillSearch = fillable('[data-test-search-field] input[name="search"]');
   submitSearch = clickable('[data-test-search-submit]');
@@ -47,7 +44,6 @@ import SearchBadge from './search-badge';
   isSearchVignetteHidden = isPresent('[data-test-pane-vignette]');
   clickCloseButton = clickable('[data-test-eholdings-details-view-close-button]');
   hasPreSearchPane = isPresent('[data-test-eholdings-pre-search-pane]');
-  searchBadge = new SearchBadge('[data-test-eholdings-results-pane-search-badge]');
   tagsSection = new TagsAccordion('[data-test-eholdings-tag-filter]');
   sortFilterAccordion = new AccordionInteractor('#filter-providers-sort');
   hasLoaded = computed(function () {
