@@ -3,6 +3,7 @@ const blacklist = [
   /componentWillReceiveProps has been renamed/,
   /componentWillUpdate has been renamed/,
   /componentWillMount has been renamed/,
+  /\[React Intl\]/,
 ];
 
 export default function turnOffWarnings() {

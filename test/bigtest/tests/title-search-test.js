@@ -836,7 +836,7 @@ describe('TitleSearch visiting the page with an existing tags filter', () => {
 
   beforeEach(async function () {
     this.visit('/eholdings?searchType=titles&filter[tags]=urgent');
-    await TitleSearchPage.whenLoaded();
+    await TitleSearchPage.when(() => TitleSearchPage.tagsSection.tagsAccordion.isPresent);
   });
 
   it('displays tags accordion as closed', () => {
@@ -874,12 +874,6 @@ describe('TitleSearch title sort functionality', () => {
   beforeEach(async function () {
     this.visit('/eholdings/?searchType=titles');
     await TitleSearchPage.whenLoaded();
-  });
-
-  describe('search form', () => {
-    it('should have search filters', () => {
-      expect(TitleSearchPage.hasSearchFilters).to.be.true;
-    });
   });
 
   describe('when searching for titles', () => {
@@ -993,33 +987,6 @@ describe('TitleSearch title sort functionality', () => {
     });
   });
 
-  // TODO move up to avoid nested visits
-  describe.skip('when visiting the page with an existing sort', () => {
-    beforeEach(async function () {
-      this.visit('/eholdings/?searchType=titles&q=football&sort=name');
-      // the search pane is ending up hidden by default
-      await TitleSearchPage.searchBadge.clickIcon();
-    });
-
-    describe('search field', () => {
-      it('should be filled with proper value', () => {
-        expect(TitleSearchPage.searchFieldValue).to.equal('football');
-      });
-    });
-
-    describe('search form', () => {
-      it('should display "name" sort filter chosen', () => {
-        expect(TitleSearchPage.sortBy).to.equal('name');
-      });
-    });
-
-    describe('the list of search results', () => {
-      it('shuold display expected results', () => {
-        expect(TitleSearchPage.titleList()).to.have.lengthOf(4);
-      });
-    });
-  });
-
   describe('when clearing the search field', () => {
     beforeEach(async () => {
       await TitleSearchPage.fillSearch('');
@@ -1046,6 +1013,38 @@ describe('TitleSearch title sort functionality', () => {
   });
 });
 
+describe('when visiting the page with an existing sort', () => {
+  setupApplication({
+    scenarios: ['titleSearchSorting']
+  });
+
+  beforeEach(async function () {
+    this.visit('/eholdings/?searchType=titles&q=football&sort=name');
+    // the search pane is ending up hidden by default
+
+    await TitleSearchPage.when(() => TitleSearchPage.searchBadge.isPresent);
+    await TitleSearchPage.searchBadge.clickIcon();
+  });
+
+  describe('search field', () => {
+    it('should be filled with proper value', () => {
+      expect(TitleSearchPage.searchFieldValue).to.equal('football');
+    });
+  });
+
+  describe('search form', () => {
+    it('should display "name" sort filter chosen', () => {
+      expect(TitleSearchPage.sortBy).to.equal('name');
+    });
+  });
+
+  describe('the list of search results', () => {
+    it('shuold display expected results', () => {
+      expect(TitleSearchPage.titleList()).to.have.lengthOf(4);
+    });
+  });
+});
+
 describe('TitleSearch filtering title by tags', () => {
   setupApplication({
     scenarios: ['titleSearchFilteredByTags']
@@ -1054,6 +1053,7 @@ describe('TitleSearch filtering title by tags', () => {
   beforeEach(async function () {
     this.visit('/eholdings/?searchType=titles');
     await TitleSearchPage.whenLoaded();
+    await TitleSearchPage.when(() => TitleSearchPage.tagsSection.isPresent);
   });
 
   it('displays tags accordion as closed', () => {
@@ -1216,6 +1216,7 @@ describe('TitleSearch encountering a server error', () => {
 
   beforeEach(async function () {
     this.visit('/eholdings/?searchType=titles');
+    await TitleSearchPage.whenLoaded();
     await TitleSearchPage.search("this doesn't matter");
   });
 
