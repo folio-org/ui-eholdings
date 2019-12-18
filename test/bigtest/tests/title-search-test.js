@@ -3,8 +3,6 @@ import { expect } from 'chai';
 
 import setupApplication from '../helpers/setup-application';
 import TitleSearchPage from '../interactors/title-search';
-import TitleShowPage from '../interactors/title-show';
-import ResourceShowPage from '../interactors/resource-show';
 import wait from '../helpers/wait';
 
 describe('TitleSearch', function () {
@@ -168,7 +166,7 @@ describe('TitleSearch visiting the page with an existing tags filter', () => {
   });
 });
 
-describe('TitleSearch title sort functionality', () => {
+describe('TitleSearch title sort functionality when searching for titles', () => {
   setupApplication({
     scenarios: ['titleSearchSorting']
   });
@@ -176,141 +174,95 @@ describe('TitleSearch title sort functionality', () => {
   beforeEach(async function () {
     this.visit('/eholdings/?searchType=titles');
     await TitleSearchPage.whenLoaded();
+    await TitleSearchPage.search('football');
   });
-
-  describe('when searching for titles', () => {
-    beforeEach(async () => {
-      await TitleSearchPage.search('football');
-    });
-
-    describe('when no sort options were chosen by user', () => {
-      describe('search form', () => {
-        it('should display "relevance" sort filter as the default', () => {
-          expect(TitleSearchPage.sortBy).to.equal('relevance');
-        });
-
-        it.always('should not reflect the default sort=relevance in url', function () {
-          expect(this.location.search).to.not.include('sort=relevance');
-        });
+  describe('when no sort options were chosen by user', () => {
+    describe('search form', () => {
+      it('should display "relevance" sort filter as the default', () => {
+        expect(TitleSearchPage.sortBy).to.equal('relevance');
       });
 
-      describe('the list of search results', () => {
-        it('should display title entries related to "football"', () => { // ???
-          expect(TitleSearchPage.titleList()).to.have.lengthOf(4);
-        });
+      it.always('should not reflect the default sort=relevance in url', function () {
+        expect(this.location.search).to.not.include('sort=relevance');
       });
     });
 
-    describe('when "name" sort option is chosen by user', () => {
-      beforeEach(async () => {
-        await TitleSearchPage.toggleAccordion('#accordion-toggle-button-filter-titles-sort');
-        await TitleSearchPage.clickFilter('sort', 'name');
-        await wait(1000);
-      });
-
-      describe('search form', () => {
-        it('should show the sort filter of name', () => {
-          expect(TitleSearchPage.sortBy).to.equal('name');
-        });
-
-        it('should reflect the sort in the URL query params', function () {
-          expect(this.location.search).to.include('sort=name');
-        });
-
-        it.skip('should show search filters on smaller screen sizes (due to filter change only)', () => {
-          expect(TitleSearchPage.isSearchVignetteHidden).to.equal(false);
-        });
-      });
-
-      describe('the list of search results', () => {
-        it('should show the same number of found titles', () => { // ???
-          expect(TitleSearchPage.titleList()).to.have.lengthOf(4);
-        });
-      });
-
-      describe('then searching for other titles', () => {
-        beforeEach(async () => {
-          await TitleSearchPage.search('analytics');
-          await wait(1000);
-        });
-
-        describe('search form', () => {
-          it('should keep "name" sort filter active', () => {
-            expect(TitleSearchPage.sortBy).to.equal('name');
-          });
-
-          it('should reflect the sort in the URL query params', function () {
-            expect(this.location.search).to.include('sort=name');
-          });
-        });
-
-        describe('the list of search results', () => {
-          it('should display the titles related to "analytics"', () => { // ???
-            expect(TitleSearchPage.titleList()).to.have.lengthOf(2);
-          });
-        });
-
-        describe('then navigating to package search', () => {
-          beforeEach(async () => {
-            await TitleSearchPage.changeSearchType('packages');
-            await wait(1000);
-          });
-
-          describe('the list of search results', () => {
-            it('should be empty', () => {
-              expect(TitleSearchPage.titleList()).to.have.lengthOf(0);
-            });
-          });
-
-          describe('then navigating back to title search', () => {
-            beforeEach(async () => {
-              await TitleSearchPage.changeSearchType('titles');
-              await wait(1000);
-            });
-
-            describe('search form', () => {
-              it('should keep the sort filter of name', () => {
-                expect(TitleSearchPage.sortBy).to.equal('name');
-              });
-
-              it('should reflect the sort=name in the URL query params', function () {
-                expect(this.location.search).to.include('sort=name');
-              });
-            });
-
-            describe('the list of search results', () => {
-              it('should display the results of previous search', () => {
-                expect(TitleSearchPage.titleList()).to.have.lengthOf(2);
-              });
-            });
-          });
-        });
+    describe('the list of search results', () => {
+      it('should display title entries related to "football"', () => { // ???
+        expect(TitleSearchPage.titleList()).to.have.lengthOf(4);
       });
     });
   });
+});
 
-  describe('when clearing the search field', () => {
-    beforeEach(async () => {
-      await TitleSearchPage.fillSearch('');
+describe('TitleSearch title sort functionality when searching for titles and when "name" sort option is chosen by user', () => {
+  setupApplication({
+    scenarios: ['titleSearchSorting']
+  });
+
+  beforeEach(async function () {
+    this.visit('/eholdings/?searchType=titles');
+    await TitleSearchPage.whenLoaded();
+    await TitleSearchPage.search('football');
+    await TitleSearchPage.toggleAccordion('#accordion-toggle-button-filter-titles-sort');
+    await TitleSearchPage.clickFilter('sort', 'name');
+    await wait(1000);
+  });
+
+  describe('search form', () => {
+    it('should show the sort filter of name', () => {
+      expect(TitleSearchPage.sortBy).to.equal('name');
     });
 
-    describe('search button', () => {
-      it('should be disabled', () => {
-        expect(TitleSearchPage.isSearchDisabled).to.be.true;
-      });
+    it('should reflect the sort in the URL query params', function () {
+      expect(this.location.search).to.include('sort=name');
+    });
+
+    it.skip('should show search filters on smaller screen sizes (due to filter change only)', () => {
+      expect(TitleSearchPage.isSearchVignetteHidden).to.equal(false);
     });
   });
 
-  describe('when selecting a filter without a value in the search field', () => {
-    beforeEach(async () => {
-      await TitleSearchPage.toggleAccordion('#accordion-toggle-button-filter-titles-sort');
-      await TitleSearchPage.clickFilter('sort', 'name');
+  describe('the list of search results', () => {
+    it('should show the same number of found titles', () => { // ???
+      expect(TitleSearchPage.titleList()).to.have.lengthOf(4);
     });
+  });
+});
 
-    describe('presearch pane', () => {
-      it('should be present', () => {
-        expect(TitleSearchPage.hasPreSearchPane).to.be.true;
-      });
+describe('TitleSearch title sort functionality when clearing the search field', () => {
+  setupApplication({
+    scenarios: ['titleSearchSorting']
+  });
+
+  beforeEach(async function () {
+    this.visit('/eholdings/?searchType=titles');
+    await TitleSearchPage.whenLoaded();
+    await TitleSearchPage.fillSearch('');
+  });
+
+  describe('search button', () => {
+    it('should be disabled', () => {
+      expect(TitleSearchPage.isSearchDisabled).to.be.true;
+    });
+  });
+});
+
+describe('TitleSearch title sort functionality when selecting a filter without a value in the search field', () => {
+  setupApplication({
+    scenarios: ['titleSearchSorting']
+  });
+
+  beforeEach(async function () {
+    this.visit('/eholdings/?searchType=titles');
+    await TitleSearchPage.whenLoaded();
+    await TitleSearchPage.toggleAccordion('#accordion-toggle-button-filter-titles-sort');
+    await TitleSearchPage.clickFilter('sort', 'name');
+  });
+
+  describe('presearch pane', () => {
+    it('should be present', () => {
+      expect(TitleSearchPage.hasPreSearchPane).to.be.true;
     });
   });
 });
@@ -355,7 +307,6 @@ describe('TitleSearch filtering title by tags', () => {
   beforeEach(async function () {
     this.visit('/eholdings/?searchType=titles');
     await TitleSearchPage.whenLoaded();
-    await TitleSearchPage.when(() => TitleSearchPage.tagsSection.isPresent);
   });
 
   it('displays tags accordion as closed', () => {
@@ -436,7 +387,7 @@ describe('TitleSearch filtering title by tags', () => {
   });
 });
 
-describe('TitleSearch with multiple pages of titles', () => {
+describe('TitleSearch with multiple pages of titles searching for titles', () => {
   setupApplication({
     scenarios: ['titleSearchMultiplePages']
   });
@@ -444,33 +395,35 @@ describe('TitleSearch with multiple pages of titles', () => {
   beforeEach(async function () {
     this.visit('/eholdings/?searchType=titles');
     await TitleSearchPage.whenLoaded();
+    await TitleSearchPage.search('other');
   });
 
-  describe('searching for titles', () => {
-    beforeEach(async () => {
-      await TitleSearchPage.search('other');
-    });
+  it('shows the first page of results', () => {
+    expect(TitleSearchPage.titleList(0).name).to.equal('Other Title 5');
+  });
+});
 
-    it('shows the first page of results', () => {
-      expect(TitleSearchPage.titleList(0).name).to.equal('Other Title 5');
-    });
+describe('TitleSearch with multiple pages of titles searching for titles and then scrolling down', () => {
+  setupApplication({
+    scenarios: ['titleSearchMultiplePages']
+  });
 
-    describe('and then scrolling down', () => {
-      beforeEach(async () => {
-        await TitleSearchPage.when(() => TitleSearchPage.hasLoaded);
-        await TitleSearchPage.scrollToOffset(26);
-      });
+  beforeEach(async function () {
+    this.visit('/eholdings/?searchType=titles');
+    await TitleSearchPage.whenLoaded();
+    await TitleSearchPage.search('other');
+    await TitleSearchPage.when(() => TitleSearchPage.hasLoaded);
+    await TitleSearchPage.scrollToOffset(26);
+  });
 
-      it('shows the next page of results', () => {
-        // when the list is scrolled, it has a threshold of 5 items. index 4,
-        // the 5th item, is the topmost visible item in the list
-        expect(TitleSearchPage.titleList(4).name).to.equal('Other Title 30');
-      });
+  it('shows the next page of results', () => {
+    // when the list is scrolled, it has a threshold of 5 items. index 4,
+    // the 5th item, is the topmost visible item in the list
+    expect(TitleSearchPage.titleList(4).name).to.equal('Other Title 30');
+  });
 
-      it('updates the offset in the URL', function () {
-        expect(this.location.search).to.include('offset=26');
-      });
-    });
+  it('updates the offset in the URL', function () {
+    expect(this.location.search).to.include('offset=26');
   });
 });
 
@@ -491,23 +444,29 @@ describe('TitleSearch with multiple pages of titles avigating directly to a sear
   it('should retain the proper offset', function () {
     expect(this.location.search).to.include('offset=51');
   });
+});
 
-  describe('and then scrolling up', () => {
-    beforeEach(async () => {
-      await TitleSearchPage.scrollToOffset(0);
-    });
+describe('TitleSearch with multiple pages of titles avigating directly to a search page and then scrolling up', () => {
+  setupApplication({
+    scenarios: ['titleSearchMultiplePages']
+  });
 
-    it('shows the total results', () => {
-      expect(TitleSearchPage.totalResults).to.equal('75 search results');
-    });
+  beforeEach(async function () {
+    this.visit('/eholdings/?searchType=titles&offset=51&q=other');
+    await TitleSearchPage.whenLoaded();
+    await TitleSearchPage.scrollToOffset(0);
+  });
 
-    it('shows the prev page of results', () => {
-      expect(TitleSearchPage.titleList(0).name).to.equal('Other Title 5');
-    });
+  it('shows the total results', () => {
+    expect(TitleSearchPage.totalResults).to.equal('75 search results');
+  });
 
-    it('updates the offset in the URL', function () {
-      expect(this.location.search).to.include('offset=0');
-    });
+  it('shows the prev page of results', () => {
+    expect(TitleSearchPage.titleList(0).name).to.equal('Other Title 5');
+  });
+
+  it('updates the offset in the URL', function () {
+    expect(this.location.search).to.include('offset=0');
   });
 });
 
