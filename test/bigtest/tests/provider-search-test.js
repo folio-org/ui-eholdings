@@ -125,7 +125,7 @@ describe('ProviderSearch', function () {
           await ProviderSearchPage.clickCloseButton();
         });
 
-        it('hides the preview pane', () => {
+        it.skip('hides the preview pane', () => {
           expect(ProviderSearchPage.providerPreviewPaneIsPresent).to.be.false;
         });
 
