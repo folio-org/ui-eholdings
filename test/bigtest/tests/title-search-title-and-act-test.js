@@ -6,7 +6,7 @@ import TitleSearchPage from '../interactors/title-search';
 import TitleShowPage from '../interactors/title-show';
 import ResourceShowPage from '../interactors/resource-show';
 
-describe('TitleSearch searching for a title and clicking a search results list item', () => {
+describe.skip('TitleSearch searching for a title and clicking a search results list item', () => {
   setupApplication({
     scenarios: ['titleSearch']
   });
@@ -88,7 +88,7 @@ describe('TitleSearch searching for a title and clicking a search results list i
   });
 });
 
-describe('TitleSearch searching for a title and clicking a search results list item clicking an item within the preview pane and clicking the back button', () => {
+describe.skip('TitleSearch searching for a title and clicking a search results list item clicking an item within the preview pane and clicking the back button', () => {
   setupApplication({
     scenarios: ['titleSearch']
   });
@@ -215,7 +215,7 @@ describe('TitleSearch searching for a title and filtering by selection status', 
     expect(TitleSearchPage.isSearchVignetteHidden).to.equal(false);
   });
 
-  describe('clearing the filters', () => {
+  describe.skip('clearing the filters', () => {
     beforeEach(async () => {
       await TitleSearchPage.clearFilter('selected');
     });
@@ -308,7 +308,7 @@ describe('TitleSearch searching for a title and with a more specific query', () 
   });
 });
 
-describe('TitleSearch searching for a title and clicking another search type', () => {
+describe.skip('TitleSearch searching for a title and clicking another search type', () => {
   setupApplication({
     scenarios: ['titleSearch']
   });
@@ -365,7 +365,7 @@ describe('TitleSearch searching for a title and clicking another search type nav
   });
 });
 
-describe('TitleSearch searching for a title and selecting both a search field and a search filter', () => {
+describe.skip('TitleSearch searching for a title and selecting both a search field and a search filter', () => {
   setupApplication({
     scenarios: ['titleSearch']
   });

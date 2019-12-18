@@ -158,7 +158,7 @@ describe('TitleSearch searching for a title', () => {
       expect(this.location.search).to.include('filter[type]=book');
     });
 
-    describe('clearing the filters', () => {
+    describe.skip('clearing the filters', () => {
       beforeEach(async () => {
         await TitleSearchPage.clearFilter('type');
       });
@@ -191,7 +191,7 @@ describe('TitleSearch searching for a title', () => {
       expect(TitleSearchPage.isSearchVignetteHidden).to.equal(false);
     });
 
-    describe('clearing the filters', () => {
+    describe.skip('clearing the filters', () => {
       beforeEach(async () => {
         await TitleSearchPage.clearFilter('selected');
       });
