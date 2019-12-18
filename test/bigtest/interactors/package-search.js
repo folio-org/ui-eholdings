@@ -13,11 +13,12 @@ import {
 } from '@bigtest/interactor';
 
 import { AccordionInteractor } from '@folio/stripes-components/lib/Accordion/tests/interactor';
+import ButtonInteractor from '@folio/stripes-components/lib/Button/tests/interactor';
 
 import TagsAccordion from './tags-accordion';
 
 import Toast from './toast';
-import SearchBadge from './search-badge';
+import ExpandFilterPaneButtonInteractor from './expand-filter-pane-button';
 
 @interactor class PackageSearchPage {
   fillSearch = fillable('[data-test-search-field] input[name="search"]');
@@ -50,7 +51,8 @@ import SearchBadge from './search-badge';
   sortBy = value('[data-test-eholdings-search-filters="packages"] input[name="sort"]:checked');
   clickCloseButton = clickable('[data-test-eholdings-details-view-close-button]');
   hasPreSearchPane = isPresent('[data-test-eholdings-pre-search-pane]');
-  searchBadge = new SearchBadge('[data-test-eholdings-results-pane-search-badge]');
+  collapseFilterPaneButton = new ButtonInteractor('[data-test-collapse-filter-pane-button]');
+  expandFilterPaneButton = new ExpandFilterPaneButtonInteractor();
   isSearchPanePresent = isPresent('[data-test-eholdings-search-pane]');
   clickNewButton = clickable('[data-test-eholdings-search-new-button]');
   tagsSection = new TagsAccordion('[data-test-eholdings-tag-filter]');
