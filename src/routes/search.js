@@ -78,7 +78,6 @@ class SearchRoute extends Component {
   static getDerivedStateFromProps(nextProps, prevState) {
     const { location, history, match } = nextProps;
     const { searchType, ...params } = qs.parse(location.search);
-
     if (!searchType) {
       history.replace({
         pathname: '/eholdings',
