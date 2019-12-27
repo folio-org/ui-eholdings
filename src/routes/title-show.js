@@ -69,20 +69,6 @@ class TitleShowRoute extends Component {
     return searchType;
   }
 
-  handleFullView = () => {
-    const {
-      history,
-      model,
-    } = this.props;
-
-    const fullViewRouteState = {
-      pathname: `/eholdings/titles/${model.id}`,
-      state: { eholdings: true },
-    };
-
-    history.push(fullViewRouteState);
-  }
-
   handleEdit = () => {
     const {
       history,
@@ -119,7 +105,6 @@ class TitleShowRoute extends Component {
           customPackages={customPackages}
           addCustomPackage={this.createResource}
           onEdit={this.handleEdit}
-          onFullView={this.getSearchType() && this.handleFullView}
           isFreshlySaved={
             history.action === 'PUSH' &&
             history.location.state &&

@@ -88,20 +88,6 @@ class ProviderShowRoute extends Component {
     return searchType;
   }
 
-  handleFullView = () => {
-    const {
-      history,
-      model,
-    } = this.props;
-
-    const fullViewRouteState = {
-      pathname: `/eholdings/providers/${model.id}`,
-      state: { eholdings: true },
-    };
-
-    history.push(fullViewRouteState);
-  }
-
   handleEdit = () => {
     const {
       history,
@@ -161,7 +147,6 @@ class ProviderShowRoute extends Component {
             />
           }
           onEdit={this.handleEdit}
-          onFullView={this.getSearchType() && this.handleFullView}
           isFreshlySaved={
             history.action === 'PUSH' &&
             history.location.state &&

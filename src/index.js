@@ -56,8 +56,7 @@ class EHoldings extends Component {
         <Route path={`${rootPath}/root-proxy`} exact component={SettingsRootProxyRoute} />
       </Route>
     ) : (
-      <Route path={rootPath} component={ApplicationRoute}>
-        <Route path={`${rootPath}/:type?/:id?`} component={SearchRoute}>
+        <Route path={rootPath} component={ApplicationRoute}>
           <Switch>
             <Route path={`${rootPath}/providers/:providerId`} exact component={ProviderShow} />
             <Route path={`${rootPath}/providers/:providerId/edit`} exact component={ProviderEdit} />
@@ -72,11 +71,11 @@ class EHoldings extends Component {
             <Route path={`${rootPath}/notes/new`} exact component={NoteCreate} />
             <Route path={`${rootPath}/notes/:noteId`} exact component={NoteView} />
             <Route path={`${rootPath}/notes/:id/edit`} exact component={NoteEdit} />
-            <Route render={() => (<Redirect to={`${rootPath}?searchType=providers`} />)} />
+            <Route path={`${rootPath}/`} exact component={SearchRoute} />
           </Switch>
+          
         </Route>
-      </Route>
-    );
+      );
   }
 }
 

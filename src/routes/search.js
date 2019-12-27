@@ -32,7 +32,6 @@ import { filterCountFromQuery } from '../components/search-modal/search-modal';
 
 class SearchRoute extends Component {
   static propTypes = {
-    children: PropTypes.node.isRequired,
     getTags: PropTypes.func.isRequired,
     history: ReactRouterPropTypes.history.isRequired,
     location: ReactRouterPropTypes.location.isRequired,
@@ -46,9 +45,9 @@ class SearchRoute extends Component {
 
   constructor(props) {
     super(props);
-
+    
     // the current location's query params, minus the search type
-    const { searchType, ...params } = qs.parse(props.location.search);
+    const { searchType="providers", ...params } = qs.parse(props.location.search);
 
     // cache queries so we can restore them with the search type buttons
     this.queries = {};
@@ -77,8 +76,16 @@ class SearchRoute extends Component {
   }
 
   static getDerivedStateFromProps(nextProps, prevState) {
-    const { location, match } = nextProps;
+    
+    const { location, history, match } = nextProps;
     const { searchType, ...params } = qs.parse(location.search);
+    if (!searchType) {
+      history.push({
+        pathname: '/eholdings',
+        search: '?searchType=providers'
+      });
+      return null;
+    }
     const hideDetails = /^\/eholdings\/?$/.test(location.pathname);
     const searchTypeChanged = searchType !== prevState.searchType;
     const urlContainsTagsFilter = hasIn(params, ['filter', 'tags']);
@@ -396,11 +403,10 @@ class SearchRoute extends Component {
    * render the search paneset, otherwise simply render our children
    */
   render() {
-    const { children, history, location, tagsModel } = this.props;
+    const { history, location, tagsModel } = this.props;
     const {
       searchType,
       params,
-      hideDetails,
       sort,
       draftSearchString,
       draftSearchFilters,
@@ -408,10 +414,11 @@ class SearchRoute extends Component {
       hideFilters,
       searchByTagsEnabled,
     } = this.state;
+    let results,
+      filterCount;
 
-    if (searchType) {
-      const results = this.getResults();
-      const filterCount = filterCountFromQuery({
+      results = this.getResults();
+      filterCount = filterCountFromQuery({
         sort: params.sort,
         q: params.q,
         filter: params.filter
@@ -428,16 +435,10 @@ class SearchRoute extends Component {
                   resultsType={searchType}
                   resultsLabel={label}
                   resultsView={this.renderResults()}
-                  detailsView={!hideDetails && children}
                   totalResults={results.length}
                   isLoading={!results.hasLoaded}
                   updateFilters={this.updateFilters}
                   location={location}
-                  onClosePreview={() => history.push({
-                    pathname: '/eholdings',
-                    search: location.search,
-                    state: { eholdings: true }
-                  })}
                   searchForm={(
                     <SearchForm
                       sort={sort}
@@ -463,9 +464,6 @@ class SearchRoute extends Component {
           )}
         </FormattedMessage>
       );
-    } else {
-      return children;
-    }
   }
 }
 

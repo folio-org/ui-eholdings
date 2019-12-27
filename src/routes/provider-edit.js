@@ -74,20 +74,6 @@ class ProviderEditRoute extends Component {
     return searchType;
   }
 
-  handleFullView = () => {
-    const {
-      history,
-      model,
-    } = this.props;
-
-    const fullViewRouteState = {
-      pathname: `/eholdings/providers/${model.id}/edit`,
-      state: { eholdings: true },
-    };
-
-    history.push(fullViewRouteState);
-  }
-
   handleCancel = () => {
     const {
       history,
@@ -125,7 +111,6 @@ class ProviderEditRoute extends Component {
           onCancel={this.handleCancel}
           proxyTypes={proxyTypes}
           rootProxy={rootProxy}
-          onFullView={this.getSearchType() && this.handleFullView}
         />
       </TitleManager>
     );

@@ -105,6 +105,7 @@ import PackageSelectionStatus from './selection-status';
       return this.isSelectedLabel === 'Selected';
     }),
     isHiddenLabel: text('[data-test-eholdings-title-list-item-title-hidden]'),
+    clickToTitle: clickable()
   });
 
   detailsPaneScrollTop = action(function (offset) {

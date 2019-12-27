@@ -49,7 +49,6 @@ class ProviderShow extends Component {
     listType: PropTypes.string.isRequired,
     model: PropTypes.object.isRequired,
     onEdit: PropTypes.func.isRequired,
-    onFullView: PropTypes.func,
     packages: PropTypes.object.isRequired,
     proxyTypes: PropTypes.object.isRequired,
     rootProxy: PropTypes.object.isRequired,
@@ -101,32 +100,22 @@ class ProviderShow extends Component {
     const {
       stripes,
       onEdit,
-      onFullView,
     } = this.props;
 
     const hasEditPermission = stripes.hasPerm('ui-eholdings.records.edit');
-    const isMenuNeeded = onFullView || hasEditPermission;
 
-    return isMenuNeeded && (
-      <Fragment>
-        {hasEditPermission && (
-          <Button
-            buttonStyle="dropdownItem fullWidth"
-            onClick={onEdit}
-          >
-            <FormattedMessage id="ui-eholdings.actionMenu.edit" />
-          </Button>
-        )}
+    if (!hasEditPermission) return null;
 
-        {onFullView && (
-          <Button
-            buttonStyle="dropdownItem fullWidth"
-            onClick={onFullView}
-          >
-            <FormattedMessage id="ui-eholdings.actionMenu.fullView" />
-          </Button>
-        )}
-      </Fragment>
+    return ({ onToggle }) => (
+      <Button
+        buttonStyle="dropdownItem fullWidth"
+        onClick={() => {
+          onToggle();
+          onEdit();
+        }}
+      >
+        <FormattedMessage id="ui-eholdings.actionMenu.edit" />
+      </Button>
     );
   }
 
@@ -336,7 +325,7 @@ class ProviderShow extends Component {
           model={model}
           key={model.id}
           paneTitle={model.name}
-          actionMenu={this.getActionMenu}
+          actionMenu={this.getActionMenu()}
           sections={sections}
           handleExpandAll={this.handleExpandAll}
           bodyContent={this.getBodyContent()}

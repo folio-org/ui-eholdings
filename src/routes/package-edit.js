@@ -188,20 +188,6 @@ class PackageEditRoute extends Component {
     return searchType;
   }
 
-  handleFullView = () => {
-    const {
-      history,
-      model,
-    } = this.props;
-
-    const fullViewRouteState = {
-      pathname: `/eholdings/packages/${model.id}/edit`,
-      state: { eholdings: true },
-    };
-
-    history.push(fullViewRouteState);
-  }
-
   handleCancel = () => {
     const {
       history,
@@ -242,7 +228,6 @@ class PackageEditRoute extends Component {
               onSubmit={this.packageEditSubmitted}
               onCancel={this.handleCancel}
               addPackageToHoldings={this.addPackageToHoldings}
-              onFullView={this.getSearchType() && this.handleFullView}
             />
           </TitleManager>
         )}

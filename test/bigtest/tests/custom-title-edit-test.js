@@ -102,7 +102,7 @@ describe('CustomTitleEdit', () => {
       });
 
       it('goes to the title show page', () => {
-        expect(TitleShowPage.$root).to.exist;
+        expect(TitleShowPage.isPresent).to.be.true;
       });
     });
 

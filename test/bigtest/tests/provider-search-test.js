@@ -57,10 +57,6 @@ describe('ProviderSearch', () => {
       expect(ProviderSearchPage.hasPreSearchPane).to.equal(false);
     });
 
-    it.skip('focuses on the search pane title', () => {
-      expect(ProviderSearchPage.paneTitleHasFocus).to.be.true;
-    });
-
     it("displays provider entries related to 'Provider'", () => {
       expect(ProviderSearchPage.providerList()).to.have.lengthOf(3);
     });
@@ -85,114 +81,6 @@ describe('ProviderSearch', () => {
       expect(ProviderSearchPage.totalResults).to.equal('3 search results');
     });
 
-    describe('clicking a search results list item', () => {
-      beforeEach(() => {
-        return ProviderSearchPage.providerList(0).clickThrough();
-      });
-
-      it('clicked item has an active state', () => {
-        expect(ProviderSearchPage.providerList(0).isActive).to.be.true;
-      });
-
-      it('shows the preview pane', () => {
-        expect(ProviderSearchPage.providerPreviewPaneIsPresent).to.be.true;
-      });
-
-      it('focuses the provider name', () => {
-        expect(ProviderShowPage.nameHasFocus).to.be.true;
-      });
-
-      it('should not display back button in UI', () => {
-        expect(ProviderSearchPage.hasBackButton).to.be.false;
-      });
-
-      describe('conducting a new search', () => {
-        beforeEach(() => {
-          return ProviderSearchPage.search('Totally Awesome Co');
-        });
-
-        it('displays the total number of search results', () => {
-          expect(ProviderSearchPage.totalResults).to.equal('1 search result');
-        });
-
-        it('removes the preview detail pane', () => {
-          expect(ProviderSearchPage.providerPreviewPaneIsPresent).to.be.false;
-        });
-
-        it('preserves the last history entry', function () {
-          // this is a check to make sure duplicate entries are not added
-          // to the history. Ensuring the back button works as expected
-          const history = this.app.props.history;
-          expect(history.entries[history.index - 1].search).to.include('q=Provider');
-        });
-      });
-
-      describe.skip('clicking the vignette behind the preview pane', () => {
-        beforeEach(() => {
-          return ProviderSearchPage.clickSearchVignette();
-        });
-
-        it('hides the preview pane', () => {
-          expect(ProviderSearchPage.providerPreviewPaneIsPresent).to.be.false;
-        });
-      });
-
-      describe('clicking the close button on the preview pane', () => {
-        beforeEach(() => {
-          return ProviderSearchPage.clickCloseButton();
-        });
-
-        it('hides the preview pane', () => {
-          expect(ProviderSearchPage.providerPreviewPaneIsPresent).to.be.false;
-        });
-
-        it('displays the original search', () => {
-          expect(ProviderSearchPage.searchFieldValue).to.equal('Provider');
-        });
-
-        it('displays the original search results', () => {
-          expect(ProviderSearchPage.providerList()).to.have.lengthOf(3);
-        });
-
-        it('focuses the last active item', () => {
-          expect(ProviderSearchPage.providerList(0).isActive).to.be.false;
-          expect(ProviderSearchPage.providerList(0).hasFocus).to.be.true;
-        });
-      });
-
-      describe('clicking an item within the preview pane', () => {
-        beforeEach(() => {
-          return ProviderSearchPage.providerPackageList(0).clickToPackage();
-        });
-
-        it('hides the search UI', () => {
-          expect(ProviderSearchPage.isPresent).to.be.false;
-        });
-
-        it('focuses the package name', () => {
-          expect(PackageShowPage.nameHasFocus).to.be.true;
-        });
-
-        describe('and clicking the back button', () => {
-          beforeEach(() => {
-            return PackageShowPage.clickBackButton();
-          });
-
-          it('displays the original search', () => {
-            expect(ProviderSearchPage.searchFieldValue).to.equal('Provider');
-          });
-
-          it('displays the original search results', () => {
-            expect(ProviderSearchPage.providerList()).to.have.lengthOf(3);
-          });
-
-          it('focuses the provider name', () => {
-            expect(ProviderShowPage.nameHasFocus).to.be.true;
-          });
-        });
-      });
-    });
-
     describe('filtering the search results further', () => {
       beforeEach(() => {
         return ProviderSearchPage.search('Provider1');
@@ -200,48 +88,6 @@ describe('ProviderSearch', () => {
 
       it('only shows a single result', () => {
         expect(ProviderSearchPage.providerList()).to.have.lengthOf(1);
-      });
-    });
-
-    describe('clicking another search type', () => {
-      beforeEach(() => {
-        return ProviderSearchPage
-          .providerList(0).clickThrough()
-          .changeSearchType('packages');
-      });
-
-      it('only shows one search type as selected', () => {
-        expect(ProviderSearchPage.selectedSearchType()).to.have.lengthOf(1);
-      });
-
-      it('displays an empty search', () => {
-        expect(ProviderSearchPage.searchFieldValue).to.equal('');
-      });
-
-      it('does not display any more results', () => {
-        expect(ProviderSearchPage.providerList()).to.have.lengthOf(0);
-      });
-
-      it('does not show the preview pane', () => {
-        expect(ProviderSearchPage.packagePreviewPaneIsPresent).to.be.false;
-      });
-
-      describe('navigating back to providers search', () => {
-        beforeEach(() => {
-          return ProviderSearchPage.changeSearchType('providers');
-        });
-
-        it('displays the original search', () => {
-          expect(ProviderSearchPage.searchFieldValue).to.equal('Provider');
-        });
-
-        it('displays the original search results', () => {
-          expect(ProviderSearchPage.providerList()).to.have.lengthOf(3);
-        });
-
-        it('shows the preview pane', () => {
-          expect(ProviderSearchPage.providerPreviewPaneIsPresent).to.be.true;
-        });
       });
     });
   });

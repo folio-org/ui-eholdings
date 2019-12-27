@@ -29,6 +29,7 @@ const initialValues = {
 };
 
 const focusOnErrors = createFocusDecorator();
+const paneTitle = <FormattedMessage id="ui-eholdings.package.create.custom" />;
 
 export default class PackageCreate extends Component {
   static propTypes = {
@@ -42,13 +43,15 @@ export default class PackageCreate extends Component {
     this.props.removeCreateRequests();
   }
 
-  getActionMenu = ({ onToggle }) => {
+  getActionMenu = () => {
     const {
       request,
       onCancel
     } = this.props;
+    
+    if (!onCancel) return null;
 
-    return onCancel ? (
+    return ({ onToggle }) => (
       <Button
         data-test-eholdings-package-create-cancel-action
         buttonStyle="dropdownItem fullWidth"
@@ -60,17 +63,36 @@ export default class PackageCreate extends Component {
       >
         <FormattedMessage id="ui-eholdings.actionMenu.cancelEditing" />
       </Button>
-    ) : null;
+    );
+  }
+
+  getFirstMenu = () => {
+    const { onCancel } = this.props;
+
+    return onCancel
+      ? (
+        <FormattedMessage
+          id="ui-eholdings.label.icon.closeX"
+          values={{ paneTitle }}
+        >
+          {ariaLabel => (
+            <IconButton
+              icon="times"
+              ariaLabel={ariaLabel}
+              onClick={onCancel}
+              data-test-eholdings-details-view-back-button
+            />
+          )}
+        </FormattedMessage>
+      )
+      : null
   }
 
   render() {
     const {
       request,
-      onCancel,
       onSubmit,
     } = this.props;
-
-    const paneTitle = <FormattedMessage id="ui-eholdings.package.create.custom" />;
 
     return (
       <Form
@@ -88,29 +110,14 @@ export default class PackageCreate extends Component {
                 type: 'error'
               }))}
             />
-
             <Paneset>
               <Pane
                 onSubmit={handleSubmit}
                 tagName="form"
                 defaultWidth="fill"
                 paneTitle={paneTitle}
-                actionMenu={this.getActionMenu}
-                firstMenu={onCancel && (
-                  <FormattedMessage
-                    id="ui-eholdings.label.icon.closeX"
-                    values={{ paneTitle }}
-                  >
-                    {ariaLabel => (
-                      <IconButton
-                        icon="times"
-                        ariaLabel={ariaLabel}
-                        onClick={onCancel}
-                        data-test-eholdings-details-view-back-button
-                      />
-                    )}
-                  </FormattedMessage>
-                )}
+                actionMenu={this.getActionMenu()}
+                firstMenu={this.getFirstMenu()}
                 lastMenu={(
                   <Fragment>
                     {request.isPending && (

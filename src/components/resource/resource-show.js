@@ -112,7 +112,7 @@ class ResourceShow extends Component {
     this.setState(next);
   }
 
-  getActionMenu = ({ onToggle }) => {
+  getActionMenu = () => {
     const {
       onEdit,
       stripes,
@@ -122,19 +122,21 @@ class ResourceShow extends Component {
     const hasSelectionPermission = stripes.hasPerm('ui-eholdings.package-title.select-unselect');
     const isMenuNeeded = hasEditPermission || hasSelectionPermission;
 
-    return isMenuNeeded && (
-      <Fragment>
-        {hasEditPermission &&
-          <Button
-            buttonStyle="dropdownItem fullWidth"
-            onClick={onEdit}
-          >
-            <FormattedMessage id="ui-eholdings.actionMenu.edit" />
-          </Button>
-        }
-        {hasSelectionPermission && this.renderSelectionButton(onToggle)}
-      </Fragment>
-    );
+    if (!isMenuNeeded) return null;
+
+    return ({ onToggle }) => (
+        <Fragment>
+          {hasEditPermission &&
+            <Button
+              buttonStyle="dropdownItem fullWidth"
+              onClick={onEdit}
+            >
+              <FormattedMessage id="ui-eholdings.actionMenu.edit" />
+            </Button>
+          }
+          {hasSelectionPermission && this.renderSelectionButton(onToggle)}
+        </Fragment>
+      );
   }
 
   renderSelectionButton(onToggle) {
@@ -235,7 +237,7 @@ class ResourceShow extends Component {
 
     const toasts = processErrors(model);
     const addToEholdingsButtonIsAvailable = (!resourceSelected && !isSelectInFlight)
-     || (!model.isSelected && isSelectInFlight);
+      || (!model.isSelected && isSelectInFlight);
 
     // if coming from updating any value on managed title in a managed package
     // show a success toast
@@ -256,7 +258,7 @@ class ResourceShow extends Component {
           model={model}
           paneTitle={model.title.name}
           paneSub={model.package.name}
-          actionMenu={this.getActionMenu}
+          actionMenu={this.getActionMenu()}
           sections={sections}
           handleExpandAll={this.handleExpandAll}
           lastMenu={this.renderLastMenu()}

@@ -24,19 +24,19 @@ export default class ProviderEdit extends Component {
   static propTypes = {
     model: PropTypes.object.isRequired,
     onCancel: PropTypes.func.isRequired,
-    onFullView: PropTypes.func,
     onSubmit: PropTypes.func.isRequired,
     proxyTypes: PropTypes.object.isRequired,
     rootProxy: PropTypes.object.isRequired
   };
 
-  getActionMenu = ({ onToggle }) => {
+  getActionMenu = () => {
     const {
-      onFullView,
       onCancel
     } = this.props;
 
-    return (
+    if (!onCancel) return null
+    
+    return ({ onToggle }) => (
       <Fragment>
         <Button
           data-test-eholdings-provider-cancel-action
@@ -48,18 +48,6 @@ export default class ProviderEdit extends Component {
         >
           <FormattedMessage id="ui-eholdings.actionMenu.cancelEditing" />
         </Button>
-
-        {onFullView && (
-          <Button
-            buttonStyle="dropdownItem fullWidth"
-            onClick={() => {
-              onToggle();
-              onFullView();
-            }}
-          >
-            <FormattedMessage id="ui-eholdings.actionMenu.fullView" />
-          </Button>
-        )}
       </Fragment>
     );
   }
@@ -92,7 +80,7 @@ export default class ProviderEdit extends Component {
                 model={model}
                 key={model.id}
                 paneTitle={model.name}
-                actionMenu={this.getActionMenu}
+                actionMenu={this.getActionMenu()}
                 lastMenu={(
                   <Fragment>
                     {model.update.isPending && (
