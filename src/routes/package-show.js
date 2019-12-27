@@ -168,22 +168,6 @@ class PackageShowRoute extends Component {
     return searchType;
   }
 
-  handleFullView = () => {
-    const {
-      history,
-      model,
-    } = this.props;
-
-    const fullViewRouteState = {
-      pathname: `/eholdings/packages/${model.id}`,
-      state: {
-        eholdings: true,
-      },
-    };
-
-    history.push(fullViewRouteState);
-  }
-
   handleEdit = () => {
     const {
       history,
@@ -236,7 +220,6 @@ class PackageShowRoute extends Component {
           customCoverageSubmitted={this.customCoverageSubmitted}
           toggleAllowKbToAddTitles={this.toggleAllowKbToAddTitles}
           onEdit={this.handleEdit}
-          onFullView={this.getSearchType() && this.handleFullView}
           isFreshlySaved={
             history.action === 'PUSH' &&
             history.location.state &&

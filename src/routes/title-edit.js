@@ -107,20 +107,6 @@ class TitleEditRoute extends Component {
     return searchType;
   }
 
-  handleFullView = () => {
-    const {
-      history,
-      model,
-    } = this.props;
-
-    const fullViewRouteState = {
-      pathname: `/eholdings/titles/${model.id}/edit`,
-      state: { eholdings: true },
-    };
-
-    history.push(fullViewRouteState);
-  }
-
   handleCancel = () => {
     const {
       history,
@@ -180,7 +166,6 @@ class TitleEditRoute extends Component {
                 contributors: model.contributors,
                 identifiers: this.mergeIdentifiers(model.identifiers)
               }}
-              onFullView={this.getSearchType() && this.handleFullView}
             />
           </TitleManager>
         )}

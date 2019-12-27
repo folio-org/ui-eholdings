@@ -3,8 +3,6 @@ import { expect } from 'chai';
 
 import setupApplication from '../helpers/setup-application';
 import TitleSearchPage from '../interactors/title-search';
-import TitleShowPage from '../interactors/title-show';
-import ResourceShowPage from '../interactors/resource-show';
 
 describe('TitleSearch', () => {
   setupApplication();
@@ -96,10 +94,6 @@ describe('TitleSearch', () => {
       expect(TitleSearchPage.hasPreSearchPane).to.equal(false);
     });
 
-    it.skip('focuses on the search pane title', () => {
-      expect(TitleSearchPage.paneTitleHasFocus).to.be.true;
-    });
-
     it('has enabled search button', () => {
       expect(TitleSearchPage.isSearchButtonDisabled).to.be.false;
     });
@@ -126,114 +120,6 @@ describe('TitleSearch', () => {
 
     it('displays the total number of search results', () => {
       expect(TitleSearchPage.totalResults).to.equal('3 search results');
-    });
-
-    describe('clicking a search results list item', () => {
-      beforeEach(() => {
-        return TitleSearchPage.titleList(0).clickThrough();
-      });
-
-      it('clicked item has an active state', () => {
-        expect(TitleSearchPage.titleList(0).isActive).to.be.true;
-      });
-
-      it('shows the preview pane', () => {
-        expect(TitleSearchPage.titlePreviewPaneIsPresent).to.be.true;
-      });
-
-      it('focuses the title name', () => {
-        expect(TitleShowPage.nameHasFocus).to.be.true;
-      });
-
-      it('should not display back button in UI', () => {
-        expect(TitleSearchPage.hasBackButton).to.be.false;
-      });
-
-      describe('conducting a new search', () => {
-        beforeEach(() => {
-          return TitleSearchPage.search('SomethingSomethingWhoa');
-        });
-
-        it('displays the total number of search results', () => {
-          expect(TitleSearchPage.totalResults).to.equal('1 search result');
-        });
-
-        it('removes the preview detail pane', () => {
-          expect(TitleSearchPage.titlePreviewPaneIsPresent).to.be.false;
-        });
-
-        it('preserves the last history entry', function () {
-          // this is a check to make sure duplicate entries are not added
-          // to the history. Ensuring the back button works as expected
-          const history = this.app.props.history;
-          expect(history.entries[history.index - 1].search).to.include('q=Title');
-        });
-      });
-
-      describe.skip('clicking the vignette behind the preview pane', () => {
-        beforeEach(() => {
-          return TitleSearchPage.clickSearchVignette();
-        });
-
-        it('hides the preview pane', () => {
-          expect(TitleSearchPage.titlePreviewPaneIsPresent).to.be.false;
-        });
-      });
-
-      describe('clicking the close button on the preview pane', () => {
-        beforeEach(() => {
-          return TitleSearchPage.clickCloseButton();
-        });
-
-        it('hides the preview pane', () => {
-          expect(TitleSearchPage.titlePreviewPaneIsPresent).to.be.false;
-        });
-
-        it('displays the original search', () => {
-          expect(TitleSearchPage.searchFieldValue).to.equal('Title');
-        });
-
-        it('displays the original search results', () => {
-          expect(TitleSearchPage.titleList()).to.have.lengthOf(3);
-        });
-
-        it('focuses the last active item', () => {
-          expect(TitleSearchPage.titleList(0).isActive).to.be.false;
-          expect(TitleSearchPage.titleList(0).hasFocus).to.be.true;
-        });
-      });
-
-      describe('clicking an item within the preview pane', () => {
-        beforeEach(() => {
-          return TitleSearchPage.packageTitleList(0).clickToPackage();
-        });
-
-        it('hides the search ui', () => {
-          expect(TitleSearchPage.isPresent).to.be.false;
-        });
-
-        it('focuses the resource name', () => {
-          expect(ResourceShowPage.nameHasFocus).to.be.true;
-        });
-
-        describe('and clicking the back button', () => {
-          beforeEach(() => {
-            return ResourceShowPage.clickBackButton();
-          });
-
-          it('displays the original search', () => {
-            expect(TitleSearchPage.searchFieldValue).to.equal('Title');
-          });
-
-          it('displays the original search results', () => {
-            expect(TitleSearchPage.titleList()).to.have.lengthOf(3);
-          });
-
-          it('focuses the title name', () => {
-            expect(TitleShowPage.nameHasFocus).to.be.true;
-          });
-        });
-      });
     });
 
     describe('filtering by publication type', () => {
@@ -369,48 +255,6 @@ describe('TitleSearch', () => {
 
       it('only shows a single result', () => {
         expect(TitleSearchPage.titleList()).to.have.lengthOf(1);
-      });
-    });
-
-    describe('clicking another search type', () => {
-      beforeEach(() => {
-        return TitleSearchPage
-          .titleList(0).click()
-          .changeSearchType('providers');
-      });
-
-      it('only shows one search type as selected', () => {
-        expect(TitleSearchPage.selectedSearchType()).to.have.lengthOf(1);
-      });
-
-      it('displays an empty search', () => {
-        expect(TitleSearchPage.providerOrPackageSearchFieldValue).to.equal('');
-      });
-
-      it('does not display any more results', () => {
-        expect(TitleSearchPage.titleList()).to.have.lengthOf(0);
-      });
-
-      it('does not show the preview pane', () => {
-        expect(TitleSearchPage.providerPreviewPaneIsPresent).to.be.false;
-      });
-
-      describe('navigating back to titles search', () => {
-        beforeEach(() => {
-          return TitleSearchPage.changeSearchType('titles');
-        });
-
-        it('displays the original search', () => {
-          expect(TitleSearchPage.searchFieldValue).to.equal('Title');
-        });
-
-        it('displays the original search results', () => {
-          expect(TitleSearchPage.titleList()).to.have.lengthOf(3);
-        });
-
-        it('shows the preview pane', () => {
-          expect(TitleSearchPage.titlePreviewPaneIsPresent).to.be.true;
-        });
       });
     });
 

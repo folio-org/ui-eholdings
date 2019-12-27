@@ -29,6 +29,7 @@ import PaneHeaderButton from '../../pane-header-button';
 import styles from './title-create.css';
 
 const focusOnErrors = createFocusDecorator();
+const paneTitle = <FormattedMessage id="ui-eholdings.title.create.paneTitle" />;
 
 export default class TitleCreate extends Component {
   static propTypes = {
@@ -43,13 +44,15 @@ export default class TitleCreate extends Component {
     this.props.removeCreateRequests();
   }
 
-  getActionMenu = ({ onToggle }) => {
+  getActionMenu = () => {
     const {
       onCancel,
       request
     } = this.props;
 
-    return onCancel ? (
+    if (!onCancel) return null;
+
+    return ({ onToggle }) => (
       <Button
         data-test-eholdings-title-create-cancel-action
         buttonStyle="dropdownItem fullWidth"
@@ -61,14 +64,58 @@ export default class TitleCreate extends Component {
       >
         <FormattedMessage id="ui-eholdings.actionMenu.cancelEditing" />
       </Button>
-    ) : null;
-  }
+    );
+  };
+
+  renderFirstMenu = () => {
+    const { onCancel } = this.props;
+
+    return (
+      <FormattedMessage
+        id="ui-eholdings.label.icon.closeX"
+        values={{ paneTitle }}
+      >
+        {ariaLabel => (
+          <IconButton
+            icon="times"
+            ariaLabel={ariaLabel}
+            onClick={onCancel}
+            data-test-eholdings-details-view-back-button
+          />
+        )}
+      </FormattedMessage>
+    );
+  };
+
+  renderLastMenu = (pristine) => {
+    const {
+      request,
+    } = this.props;
+
+    return (
+      <Fragment>
+        {request.isPending && (
+          <Icon icon="spinner-ellipsis" />
+        )}
+        <PaneHeaderButton
+          disabled={pristine || request.isPending}
+          type="submit"
+          buttonStyle="primary"
+          data-test-eholdings-title-create-save-button
+        >
+          {request.isPending ?
+            <FormattedMessage id="ui-eholdings.saving" />
+            : <FormattedMessage id="ui-eholdings.save" />
+          }
+        </PaneHeaderButton>
+      </Fragment>
+    );
+  };
 
   render() {
     const {
       customPackages,
       onSubmit,
-      onCancel,
       request
     } = this.props;
 
@@ -76,8 +123,6 @@ export default class TitleCreate extends Component {
       label: pkg.name,
       value: pkg.id
     }));
-
-    const paneTitle = <FormattedMessage id="ui-eholdings.title.create.paneTitle" />;
 
     return (
       <div data-test-eholdings-title-create>
@@ -104,40 +149,9 @@ export default class TitleCreate extends Component {
                   tagName="form"
                   defaultWidth="fill"
                   paneTitle={paneTitle}
-                  actionMenu={this.getActionMenu}
-                  firstMenu={onCancel && (
-                    <FormattedMessage
-                      id="ui-eholdings.label.icon.closeX"
-                      values={{ paneTitle }}
-                    >
-                      {ariaLabel => (
-                        <IconButton
-                          icon="times"
-                          ariaLabel={ariaLabel}
-                          onClick={onCancel}
-                          data-test-eholdings-details-view-back-button
-                        />
-                      )}
-                    </FormattedMessage>
-                  )}
-                  lastMenu={(
-                    <Fragment>
-                      {request.isPending && (
-                        <Icon icon="spinner-ellipsis" />
-                      )}
-                      <PaneHeaderButton
-                        disabled={pristine || request.isPending}
-                        type="submit"
-                        buttonStyle="primary"
-                        data-test-eholdings-title-create-save-button
-                      >
-                        {request.isPending ?
-                          <FormattedMessage id="ui-eholdings.saving" />
-                          : <FormattedMessage id="ui-eholdings.save" />
-                        }
-                      </PaneHeaderButton>
-                    </Fragment>
-                  )}
+                  actionMenu={this.getActionMenu()}
+                  lastMenu={this.renderLastMenu(pristine)}
+                  firstMenu={this.renderFirstMenu()}
                 >
                   <div className={styles['title-create-form-container']}>
                     <DetailsViewSection
@@ -164,7 +178,8 @@ export default class TitleCreate extends Component {
 
               <NavigationModal when={!pristine && !request.isPending && !request.isResolved} />
             </Fragment>
-          )}
+          )
+          }
         />
       </div>
     );

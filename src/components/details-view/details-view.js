@@ -5,7 +5,6 @@ import { withRouter } from 'react-router';
 import { FormattedMessage } from 'react-intl';
 import classNames from 'classnames/bind';
 import Measure from 'react-measure';
-import queryString from 'qs';
 
 import {
   Accordion,
@@ -13,7 +12,8 @@ import {
   Headline,
   Icon,
   IconButton,
-  PaneHeader
+  Pane,
+  Paneset,
 } from '@folio/stripes/components';
 
 import AccordionListHeader from './accordion-list-header';
@@ -190,8 +190,39 @@ class DetailsView extends Component {
     }
   };
 
-  handleClose = () => {
-    this.props.history.goBack();
+  navigateBack = () => {
+    const {
+      history,
+      location,
+    } = this.props;
+
+    if (location.state && location.state.eholdings) {
+      history.goBack();
+    } else {
+      history.push({
+        pathname: '/eholdings',
+      });
+    }
+  };
+
+  renderFirstMenu = () => {
+    const { paneTitle } = this.props;
+
+    return (
+      <FormattedMessage
+        id="ui-eholdings.label.icon.closeX"
+        values={{ paneTitle }}
+      >
+        {ariaLabel => (
+          <IconButton
+            icon="times"
+            ariaLabel={ariaLabel}
+            onClick={this.navigateBack}
+            data-test-eholdings-details-view-back-button
+          />
+        )}
+      </FormattedMessage>
+    );
   }
 
   render() {
@@ -211,8 +242,6 @@ class DetailsView extends Component {
       handleExpandAll,
       listSectionId,
       onListToggle,
-      history,
-      location,
       ariaRole,
     } = this.props;
 
@@ -222,155 +251,111 @@ class DetailsView extends Component {
       locked: isSticky
     });
 
-    const historyState = history.location.state;
-
     const isListAccordionOpen = sections && sections[listSectionId];
-    const { searchType } = queryString.parse(location.search, { ignoreQueryPrefix: true });
 
     return (
       <div data-test-eholdings-details-view={type}>
-        <PaneHeader
-          id={paneTitle}
-          firstMenu={searchType
-            ?
-              <FormattedMessage
-                id="ui-eholdings.label.icon.closeX"
-                values={{ paneTitle }}
-              >
-                {ariaLabel => (
-                  <IconButton
-                    icon="times"
-                    ariaLabel={ariaLabel}
-                    href={`/eholdings${location.search}`}
-                    data-test-eholdings-details-view-close-button
-                  />
-                )}
-              </FormattedMessage>
-            : historyState && historyState.eholdings
-              ?
-                <FormattedMessage
-                  id="ui-eholdings.label.icon.closeX"
-                  values={{ paneTitle }}
-                >
-                  {ariaLabel => (
-                    <IconButton
-                      icon="times"
-                      ariaLabel={ariaLabel}
-                      onClick={this.handleClose}
-                      data-test-eholdings-details-view-back-button
-                    />
+        <Paneset>
+          <Pane
+            id={paneTitle}
+            defaultWidth="fill"
+            actionMenu={actionMenu}
+            firstMenu={this.renderFirstMenu()}
+            paneTitle={
+              <span data-test-eholdings-details-view-pane-title>{paneTitle}</span>
+            }
+            lastMenu={lastMenu}
+            paneSub={
+              <span data-test-eholdings-details-view-pane-sub>{paneSub}</span>
+            }
+          >
+            <div
+              ref={(n) => { this.$container = n; }}
+              className={containerClassName}
+              onScroll={this.handleScroll}
+              onWheel={this.handleWheel}
+              data-test-eholdings-detail-pane-contents
+            >
+              {model.isLoaded ? [
+                <div key="header" className={styles.header}>
+                  <Headline
+                    size="xx-large"
+                    tag="h2"
+                    margin="none"
+                    tabIndex={-1}
+                    ref={this.$heading}
+                    data-test-eholdings-details-view-name={type}
+                  >
+                    {paneTitle}
+                  </Headline>
+                  {paneSub && (
+                    <Headline
+                      bold={false}
+                      faded
+                      size="large"
+                      tag="div"
+                    >
+                      {paneSub}
+                    </Headline>
                   )}
-                </FormattedMessage>
-              :
-                <FormattedMessage
-                  id="ui-eholdings.label.icon.closeX"
-                  values={{ paneTitle }}
-                >
-                  {ariaLabel => (
-                    <IconButton
-                      icon="times"
-                      ariaLabel={ariaLabel}
-                      href="/eholdings"
-                      data-test-eholdings-details-view-back-button
-                    />
+                  {sections && (
+                    <div data-test-eholdings-details-view-collapse-all-button>
+                      <ExpandAllButton
+                        accordionStatus={sections}
+                        onToggle={handleExpandAll}
+                        className={styles.expandAll}
+                      />
+                    </div>
                   )}
-                </FormattedMessage>
-          }
-          paneTitle={
-            <span data-test-eholdings-details-view-pane-title>{paneTitle}</span>
-          }
-          paneSub={
-            <span data-test-eholdings-details-view-pane-sub>{paneSub}</span>
-          }
-          actionMenu={actionMenu}
-          lastMenu={lastMenu}
-        />
-
-        <div
-          ref={(n) => { this.$container = n; }}
-          className={containerClassName}
-          onScroll={this.handleScroll}
-          onWheel={this.handleWheel}
-          data-test-eholdings-detail-pane-contents
-        >
-          {model.isLoaded ? [
-            <div key="header" className={styles.header}>
-              <Headline
-                size="xx-large"
-                tag="h2"
-                margin="none"
-                tabIndex={-1}
-                ref={this.$heading}
-                data-test-eholdings-details-view-name={type}
-              >
-                {paneTitle}
-              </Headline>
-              {paneSub && (
-                <Headline
-                  bold={false}
-                  faded
-                  size="large"
-                  tag="div"
-                >
-                  {paneSub}
-                </Headline>
-              )}
-              {sections && (
-                <div data-test-eholdings-details-view-collapse-all-button>
-                  <ExpandAllButton
-                    accordionStatus={sections}
-                    onToggle={handleExpandAll}
-                    className={styles.expandAll}
-                  />
-                </div>
-              )}
-            </div>,
-            <div role={ariaRole}>
-              <div key="body" className={styles.body}>
-                {bodyContent}
-              </div>
-              {!!renderList && (
-                <div
-                  ref={(n) => { this.$sticky = n; }}
-                  className={styles.sticky}
-                  data-test-eholdings-details-view-list={type}
-                >
-                  <Measure onResize={this.handleLayout}>
-                    {({ measureRef }) => (
-                      <Accordion
-                        separator={!isSticky}
-                        header={AccordionListHeader}
-                        label={(
-                          <Headline
-                            size="large"
-                            tag="h3"
+                </div>,
+                <div role={ariaRole}>
+                  <div key="body" className={styles.body}>
+                    {bodyContent}
+                  </div>
+                  {!!renderList && (
+                    <div
+                      ref={(n) => { this.$sticky = n; }}
+                      className={styles.sticky}
+                      data-test-eholdings-details-view-list={type}
+                    >
+                      <Measure onResize={this.handleLayout}>
+                        {({ measureRef }) => (
+                          <Accordion
+                            separator={!isSticky}
+                            header={AccordionListHeader}
+                            label={(
+                              <Headline
+                                size="large"
+                                tag="h3"
+                              >
+                                <FormattedMessage id={`ui-eholdings.listType.${listType}`} />
+                              </Headline>
+                            )}
+                            displayWhenOpen={searchModal}
+                            resultsLength={resultsLength}
+                            contentRef={(n) => { this.$list = n; measureRef(n); }}
+                            open={isListAccordionOpen}
+                            id={listSectionId}
+                            onToggle={onListToggle}
+                            listType={listType}
                           >
-                            <FormattedMessage id={`ui-eholdings.listType.${listType}`} />
-                          </Headline>
+                            {renderList(isSticky)}
+                          </Accordion>
                         )}
-                        displayWhenOpen={searchModal}
-                        resultsLength={resultsLength}
-                        contentRef={(n) => { this.$list = n; measureRef(n); }}
-                        open={isListAccordionOpen}
-                        id={listSectionId}
-                        onToggle={onListToggle}
-                        listType={listType}
-                      >
-                        {renderList(isSticky)}
-                      </Accordion>
-                    )}
-                  </Measure>
+                      </Measure>
+                    </div>
+                  )}
                 </div>
+              ] : model.request.isRejected ? (
+                <p data-test-eholdings-details-view-error={type}>
+                  {model.request.errors[0].title}
+                </p>
+              ) : (
+                <Icon icon="spinner-ellipsis" />
               )}
             </div>
-          ] : model.request.isRejected ? (
-            <p data-test-eholdings-details-view-error={type}>
-              {model.request.errors[0].title}
-            </p>
-          ) : (
-            <Icon icon="spinner-ellipsis" />
-          )}
-        </div>
+          </Pane>
+        </Paneset>
       </div>
     );
   }

@@ -4,7 +4,6 @@ import { expect } from 'chai';
 import setupApplication from '../helpers/setup-application';
 import PackageSearchPage from '../interactors/package-search';
 import PackageShowPage from '../interactors/package-show';
-import ResourceShowPage from '../interactors/resource-show';
 
 describe('PackageSearch', () => {
   setupApplication();
@@ -70,10 +69,6 @@ describe('PackageSearch', () => {
 
     it('removes the pre-results pane', () => {
       expect(PackageSearchPage.hasPreSearchPane).to.equal(false);
-    });
-
-    it.skip('focuses on the search pane title', () => {
-      expect(PackageSearchPage.paneTitleHasFocus).to.be.true;
     });
 
     it("displays package entries related to 'Package'", () => {
@@ -160,121 +155,12 @@ describe('PackageSearch', () => {
         return PackageSearchPage.packageList(0).clickThrough();
       });
 
-      it('still shows the collapse search & filter pane button', () => {
-        expect(PackageSearchPage.collapseFilterPaneButton.isPresent).to.be.true;
-      });
-
-      it('clicked item has an active state', () => {
-        expect(PackageSearchPage.packageList(0).isActive).to.be.true;
-      });
-
-      it('shows the preview pane', () => {
-        expect(PackageSearchPage.packagePreviewPaneIsPresent).to.be.true;
+      it('redirects to the package show', () => {
+        expect(PackageShowPage.isPresent).to.be.true;
       });
 
       it.skip('focuses the package name', () => {
         expect(PackageShowPage.nameHasFocus).to.be.true;
-      });
-
-      it.always('should not display button in UI', () => {
-        expect(PackageSearchPage.hasBackButton).to.be.false;
-      });
-
-      describe('conducting a new search', () => {
-        beforeEach(() => {
-          return PackageSearchPage.search('SomethingElse');
-        });
-
-        it('displays the total number of search results', () => {
-          expect(PackageSearchPage.totalResults).to.equal('1 search result');
-        });
-
-        it('removes the preview detail pane', () => {
-          expect(PackageSearchPage.packagePreviewPaneIsPresent).to.be.false;
-        });
-
-        it('preserves the last history entry', function () {
-          // this is a check to make sure duplicate entries are not added
-          // to the history. Ensuring the back button works as expected
-          const history = this.app.props.history;
-          expect(history.entries[history.index - 1].search).to.include('q=Package');
-        });
-      });
-
-      describe('selecting a package', () => {
-        beforeEach(() => {
-          return PackageShowPage.selectPackage();
-        });
-
-        it('reflects the selection in the results list', () => {
-          expect(PackageSearchPage.packageList(0).isSelected).to.be.true;
-        });
-      });
-
-      // the browser needs to be a specific size for this test to pass
-      describe.skip('clicking the vignette behind the preview pane', () => {
-        beforeEach(() => {
-          return PackageSearchPage.clickSearchVignette();
-        });
-
-        it('hides the preview pane', () => {
-          expect(PackageSearchPage.packagePreviewPaneIsPresent).to.be.false;
-        });
-      });
-
-      describe('clicking the close button on the preview pane', () => {
-        beforeEach(() => {
-          return PackageSearchPage.clickCloseButton();
-        });
-
-        it('hides the preview pane', () => {
-          expect(PackageSearchPage.packagePreviewPaneIsPresent).to.be.false;
-        });
-
-        it('displays the original search', () => {
-          expect(PackageSearchPage.searchFieldValue).to.equal('Package');
-        });
-
-        it('displays the original search results', () => {
-          expect(PackageSearchPage.packageList()).to.have.lengthOf(3);
-        });
-
-        it('focuses the last active item', () => {
-          expect(PackageSearchPage.packageList(0).isActive).to.be.false;
-          expect(PackageSearchPage.packageList(0).hasFocus).to.be.true;
-        });
-      });
-
-      describe('clicking an item within the preview pane', () => {
-        beforeEach(() => {
-          return PackageSearchPage.packageTitleList(0).clickToTitle();
-        });
-
-        it('hides the search ui', () => {
-          expect(PackageSearchPage.isPresent).to.be.false;
-        });
-
-        it('focuses the resource name', () => {
-          expect(ResourceShowPage.nameHasFocus).to.be.true;
-        });
-
-        describe('and clicking the back button', () => {
-          beforeEach(() => {
-            return ResourceShowPage.clickBackButton();
-          });
-
-          it('displays the original search', () => {
-            expect(PackageSearchPage.searchFieldValue).to.equal('Package');
-          });
-
-          it('displays the original search results', () => {
-            expect(PackageSearchPage.packageList()).to.have.lengthOf(3);
-          });
-
-          it.skip('focuses the package name', () => {
-            expect(PackageShowPage.nameHasFocus).to.be.true;
-          });
-        });
       });
     });
 
@@ -345,7 +231,6 @@ describe('PackageSearch', () => {
       });
     });
 
-
     describe('with a more specific query', () => {
       beforeEach(() => {
         return PackageSearchPage.search('Package1');
@@ -353,48 +238,6 @@ describe('PackageSearch', () => {
 
       it('only shows a single result', () => {
         expect(PackageSearchPage.packageList()).to.have.lengthOf(1);
-      });
-    });
-
-    describe('clicking another search type', () => {
-      beforeEach(() => {
-        return PackageSearchPage
-          .packageList(0).click()
-          .changeSearchType('titles');
-      });
-
-      it('only shows one search type as selected', () => {
-        expect(PackageSearchPage.selectedSearchType()).to.have.lengthOf(1);
-      });
-
-      it('displays an empty search', () => {
-        expect(PackageSearchPage.titleSearchFieldValue).to.equal('');
-      });
-
-      it('does not display any more results', () => {
-        expect(PackageSearchPage.hasResults).to.be.false;
-      });
-
-      it('does not show the preview pane', () => {
-        expect(PackageSearchPage.titlePreviewPaneIsPresent).to.be.false;
-      });
-
-      describe('navigating back to packages search', () => {
-        beforeEach(() => {
-          return PackageSearchPage.changeSearchType('packages');
-        });
-
-        it('displays the original search', () => {
-          expect(PackageSearchPage.searchFieldValue).to.equal('Package');
-        });
-
-        it('displays the original search results', () => {
-          expect(PackageSearchPage.packageList()).to.have.lengthOf(3);
-        });
-
-        it('shows the preview pane', () => {
-          expect(PackageSearchPage.packagePreviewPaneIsPresent).to.be.true;
-        });
       });
     });
   });

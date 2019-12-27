@@ -46,7 +46,6 @@ class TitleShow extends Component {
     isNewRecord: PropTypes.bool,
     model: PropTypes.object.isRequired,
     onEdit: PropTypes.func.isRequired,
-    onFullView: PropTypes.func,
     request: PropTypes.object.isRequired,
     stripes: PropTypes.shape({
       hasPerm: PropTypes.func.isRequired,
@@ -65,35 +64,24 @@ class TitleShow extends Component {
     const {
       stripes,
       onEdit,
-      onFullView,
       model: { isTitleCustom },
     } = this.props;
 
     const hasEditPermission = stripes.hasPerm('ui-eholdings.records.edit');
-    const isEditButtonNeeded = hasEditPermission && isTitleCustom;
-    const isMenuNeeded = onFullView || isEditButtonNeeded;
+    const isMenuNeeded = hasEditPermission && isTitleCustom;
 
-    return isMenuNeeded && (
-      <Fragment>
-        {isEditButtonNeeded && (
-          <IfPermission perm="ui-eholdings.records.edit">
-            <Button
-              buttonStyle="dropdownItem fullWidth"
-              onClick={onEdit}
-            >
-              <FormattedMessage id="ui-eholdings.actionMenu.edit" />
-            </Button>
-          </IfPermission>
-        )}
-        {onFullView && (
-          <Button
-            buttonStyle="dropdownItem fullWidth"
-            onClick={onFullView}
-          >
-            <FormattedMessage id="ui-eholdings.actionMenu.fullView" />
-          </Button>
-        )}
-      </Fragment>
+    if (!isMenuNeeded) return null;
+
+    return ({ onToggle }) => (
+      <Button
+        buttonStyle="dropdownItem fullWidth"
+        onClick={() => {
+          onToggle();
+          onEdit();
+        }}
+      >
+        <FormattedMessage id="ui-eholdings.actionMenu.edit" />
+      </Button>
     );
   }
 
@@ -206,7 +194,7 @@ class TitleShow extends Component {
           model={model}
           key={model.id}
           paneTitle={model.name}
-          actionMenu={this.getActionMenu}
+          actionMenu={this.getActionMenu()}
           sections={sections}
           handleExpandAll={this.handleExpandAll}
           lastMenu={this.lastMenu}

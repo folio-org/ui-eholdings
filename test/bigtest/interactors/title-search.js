@@ -30,11 +30,9 @@ import TagsAccordion from './tags-accordion';
   providerOrPackageSearchFieldValue = value('[data-test-search-field] input[name="search"]');
   searchFieldSelectValue = value('[data-test-search-field] select');
   hasSearchFilters = isPresent('[data-test-eholdings-search-filters="titles"]');
-  totalResults = text('[data-test-results-pane] [data-test-pane-header] p');
-  paneTitleHasFocus = is('[data-test-results-pane] [data-test-pane-header] h2 [tabindex]', ':focus');
-  titlePreviewPaneIsPresent = isPresent('[data-test-preview-pane="titles"]');
+  totalResults = text('#paneHeadersearch-results-subtitle span');
   sortBy = value('[data-test-eholdings-search-filters="titles"] input[name="sort"]:checked');
-  providerPreviewPaneIsPresent = isPresent('[data-test-preview-pane="providers"]');
+
   hasBackButton = isPresent('[data-test-eholdings-details-view-back-button]');
   clickSearchVignette = clickable('[data-test-pane-vignette]');
   hasErrors = isPresent('[data-test-query-list-error="titles"]');
@@ -46,7 +44,6 @@ import TagsAccordion from './tags-accordion';
   ].join(','));
 
   isSearchVignetteHidden = isPresent('[data-test-pane-vignette]');
-  clickCloseButton = clickable('[data-test-eholdings-details-view-close-button]');
   hasPreSearchPane = isPresent('[data-test-eholdings-pre-search-pane]');
   clickNewButton = clickable('[data-test-eholdings-search-new-button]');
   tagsSection = new TagsAccordion('[data-test-eholdings-tag-filter]');

@@ -51,9 +51,8 @@ describe('TitleShow', () => {
       expect(TitleShowPage.paneTitle).to.equal('Cool Title');
     });
 
-    it('displays and focuses the title name', () => {
+    it('displays the title name', () => {
       expect(TitleShowPage.titleName).to.equal('Cool Title');
-      expect(TitleShowPage.nameHasFocus).to.be.true;
     });
 
     it.always('does not display the edit button for a managed title', () => {

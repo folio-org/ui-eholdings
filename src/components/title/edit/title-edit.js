@@ -30,15 +30,13 @@ export default class TitleEdit extends Component {
     initialValues: PropTypes.object.isRequired,
     model: PropTypes.object.isRequired,
     onCancel: PropTypes.func.isRequired,
-    onFullView: PropTypes.func,
     onSubmit: PropTypes.func.isRequired,
     updateRequest: PropTypes.object.isRequired,
   };
 
   getActionMenu = ({ onToggle }) => {
     const {
-      onFullView,
-      onCancel
+      onCancel,
     } = this.props;
 
     return (
@@ -53,18 +51,6 @@ export default class TitleEdit extends Component {
         >
           <FormattedMessage id="ui-eholdings.actionMenu.cancelEditing" />
         </Button>
-
-        {onFullView && (
-          <Button
-            buttonStyle="dropdownItem fullWidth"
-            onClick={() => {
-              onToggle();
-              onFullView();
-            }}
-          >
-            <FormattedMessage id="ui-eholdings.actionMenu.fullView" />
-          </Button>
-        )}
       </Fragment>
     );
   }

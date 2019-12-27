@@ -34,10 +34,6 @@ describe('ProviderEdit', () => {
       expect(ProviderEditPage.name).to.equal('League of Ordinary Men');
     });
 
-    it.skip('focuses the provider name', () => {
-      expect(ProviderEditPage.nameHasFocus).to.be.true;
-    });
-
     it('has a select field defaulted with current root proxy', () => {
       expect(ProviderEditPage.proxySelectValue).to.equal('microstates');
     });

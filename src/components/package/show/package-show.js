@@ -60,7 +60,6 @@ class PackageShow extends Component {
     isNewRecord: PropTypes.bool,
     model: PropTypes.object.isRequired,
     onEdit: PropTypes.func.isRequired,
-    onFullView: PropTypes.func,
     packageTitles: PropTypes.object.isRequired,
     provider: PropTypes.object.isRequired,
     proxyTypes: PropTypes.object.isRequired,
@@ -137,12 +136,11 @@ class PackageShow extends Component {
     this.setState(next);
   }
 
-  getActionMenu = ({ onToggle }) => {
+  getActionMenu = () => {
     const {
       stripes,
       model: { isCustom },
       onEdit,
-      onFullView,
       model
     } = this.props;
 
@@ -157,9 +155,11 @@ class PackageShow extends Component {
     const hasSelectionPermission = stripes.hasPerm('ui-eholdings.package-title.select-unselect');
     const isAddButtonNeeded = (!packageSelected || model.isPartiallySelected) && hasSelectionPermission;
     const isRemoveButtonNeeded = packageSelected && hasRequiredRemovingPermission;
-    const isMenuNeeded = hasEditPermission || onFullView || isAddButtonNeeded || isRemoveButtonNeeded;
+    const isMenuNeeded = hasEditPermission || isAddButtonNeeded || isRemoveButtonNeeded;
 
-    return isMenuNeeded && (
+    if (!isMenuNeeded) return null;
+
+    return ({ onToggle }) => (
       <Fragment>
         {hasEditPermission &&
           <Button
@@ -169,14 +169,6 @@ class PackageShow extends Component {
             <FormattedMessage id="ui-eholdings.actionMenu.edit" />
           </Button>
         }
-        {onFullView && (
-          <Button
-            buttonStyle="dropdownItem fullWidth"
-            onClick={onFullView}
-          >
-            <FormattedMessage id="ui-eholdings.actionMenu.fullView" />
-          </Button>
-        )}
         {isRemoveButtonNeeded && this.renderRemoveFromHoldingsButton(onToggle)}
         {isAddButtonNeeded && this.renderAddToHoldingsButton(onToggle)}
       </Fragment>
@@ -661,7 +653,7 @@ class PackageShow extends Component {
           model={model}
           key={model.id}
           paneTitle={model.name}
-          actionMenu={this.getActionMenu}
+          actionMenu={this.getActionMenu()}
           sections={sections}
           handleExpandAll={this.handleExpandAll}
           searchModal={searchModal}

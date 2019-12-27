@@ -32,10 +32,6 @@ describe('ProviderShow', () => {
       expect(ProviderShowPage.name).to.equal('League of Ordinary Men');
     });
 
-    it.skip('focuses the provider name', () => {
-      expect(ProviderShowPage.nameHasFocus).to.be.true;
-    });
-
     it('displays the collapse all button', () => {
       expect(ProviderShowPage.hasCollapseAllButton).to.be.true;
     });

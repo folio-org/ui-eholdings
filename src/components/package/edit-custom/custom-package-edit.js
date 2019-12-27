@@ -40,7 +40,6 @@ export default class CustomPackageEdit extends Component {
     addPackageToHoldings: PropTypes.func.isRequired,
     model: PropTypes.object.isRequired,
     onCancel: PropTypes.func.isRequired,
-    onFullView: PropTypes.func,
     onSubmit: PropTypes.func.isRequired,
     provider: PropTypes.object.isRequired,
     proxyTypes: PropTypes.object.isRequired
@@ -175,7 +174,6 @@ export default class CustomPackageEdit extends Component {
 
   getActionMenu = ({ onToggle }) => {
     const {
-      onFullView,
       onCancel
     } = this.props;
 
@@ -193,18 +191,6 @@ export default class CustomPackageEdit extends Component {
         >
           <FormattedMessage id="ui-eholdings.actionMenu.cancelEditing" />
         </Button>
-
-        {onFullView && (
-          <Button
-            buttonStyle="dropdownItem fullWidth"
-            onClick={() => {
-              onToggle();
-              onFullView();
-            }}
-          >
-            <FormattedMessage id="ui-eholdings.actionMenu.fullView" />
-          </Button>
-        )}
 
         {packageSelected && (
           <IfPermission perm="ui-eholdings.titles-packages.create-delete">

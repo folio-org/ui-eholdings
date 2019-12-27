@@ -4,7 +4,7 @@ import { expect } from 'chai';
 import setupApplication from '../helpers/setup-application';
 import ResourcePage from '../interactors/resource-show';
 import ResourceEditPage from '../interactors/resource-edit';
-import PackageSearchPage from '../interactors/package-search';
+import PackageShowPage from '../interactors/package-show';
 
 describe('ResourceEditManagedTitleInCustomPackage', () => {
   setupApplication();
@@ -71,20 +71,16 @@ describe('ResourceEditManagedTitleInCustomPackage', () => {
           return ResourceEditPage.modal.confirmDeselection();
         });
 
-        it('transition to package search page', () => {
-          expect(PackageSearchPage.isPresent).to.equal(true);
+        it('transition to package show page', () => {
+          expect(PackageShowPage.isPresent).to.equal(true);
         });
 
-        it('has search prefilled with package name', () => {
-          expect(PackageSearchPage.searchFieldValue).to.equal('Star Wars Custom Package');
-        });
-
-        it('does not have an association to the above package', () => {
-          expect(PackageSearchPage.packageTitleList().length).to.equal(0);
+        it('has correct package name', () => {
+          expect(PackageShowPage.name).to.equal('Star Wars Custom Package');
         });
 
         it('has a success Toast notification', () => {
-          expect(PackageSearchPage.toast.successText).to.equal('Title removed from package.');
+          expect(PackageShowPage.toast.successText).to.equal('Title removed from package.');
         });
       });
 
@@ -94,7 +90,7 @@ describe('ResourceEditManagedTitleInCustomPackage', () => {
         });
 
         it('should not transition to title search page', () => {
-          expect(PackageSearchPage.isPresent).to.equal(false);
+          expect(PackageShowPage.isPresent).to.equal(false);
           expect(ResourceEditPage.isPresent).to.equal(true);
         });
       });
