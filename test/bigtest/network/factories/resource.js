@@ -9,6 +9,10 @@ export default Factory.extend({
   tags: {
     tagList: [],
   },
+  isTitleCustom: false,
+  userDefinedField1: () => faker.lorem.words(),
+  userDefinedField2: () => faker.lorem.words(),
+  userDefinedField3: () => faker.lorem.words(),
 
   withTitle: trait({
     afterCreate(resource, server) {
@@ -76,6 +80,16 @@ export default Factory.extend({
         id: 'bigTestJS'
       });
       resource.update('proxy', proxy.toJSON());
+      resource.save();
+    }
+  }),
+
+  withTitleCustom: trait({
+    afterCreate(resource) {
+      resource.update({
+        isTitleCustom: true,
+        isSelected: true,
+      });
       resource.save();
     }
   }),

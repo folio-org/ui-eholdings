@@ -1,44 +1,25 @@
-import { Observable } from 'rxjs/Observable';
-import 'rxjs/add/observable/from';
-import 'rxjs/add/observable/of';
-import 'rxjs/add/operator/catch';
-import 'rxjs/add/observable/throw';
-
 import { omit } from 'lodash';
 
 import {
-  parseResponseBody,
   getHeaders,
+  doRequest,
+  createUrl,
 } from './common';
 
 const API_URL = '/erm/sas';
 
-const createUrl = (baseUrl, refId) => {
-  const url = new URL(`${baseUrl}${API_URL}`);
-  const searchParams = {
+const createSearchParams = (refId) => {
+  return {
     filters: `items.reference=${refId}`,
     sort: 'startDate;desc',
   };
-
-  Object.keys(searchParams).forEach((paramName) => {
-    url.searchParams.append(paramName, searchParams[paramName]);
-  });
-
-  return url;
-};
-
-const doRequest = (url, params) => {
-  const promise = fetch(url, params)
-    .then(response => Promise.all([response.ok, parseResponseBody(response)]))
-    .then(([ok, body]) => (ok ? body : Promise.reject(body)));
-
-  return Observable.from(promise);
 };
 
 export default {
   getAll: (okapi, refId) => {
     const method = 'GET';
-    const url = createUrl(okapi.url, refId);
+    const searchParams = createSearchParams(refId);
+    const url = createUrl(okapi.url, API_URL, searchParams);
 
     const params = {
       method,

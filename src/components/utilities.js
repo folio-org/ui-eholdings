@@ -1,6 +1,9 @@
 import moment from 'moment';
 import queryString from 'qs';
-import get from 'lodash/get';
+import {
+  get,
+  pickBy,
+} from 'lodash';
 import { searchTypes } from '../constants';
 
 export function isBookPublicationType(publicationType) {
@@ -110,6 +113,12 @@ export const getEntityTags = (entityModel) => {
 export const getTagLabelsArr = (tagsModel) => {
   const tagRecords = get(tagsModel, ['resolver', 'state', 'tags', 'records'], {});
   return Object.values(tagRecords).map((tag) => tag.attributes);
+};
+
+export const getUserDefinedFields = (model) => {
+  const attributes = get(model, ['data', 'attributes']);
+
+  return pickBy(attributes, (value, key) => key.match(/^userDefinedField\d+$/));
 };
 
 export function formatNoteReferrerEntityData(data) {

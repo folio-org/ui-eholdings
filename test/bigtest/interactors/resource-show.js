@@ -9,10 +9,11 @@ import {
   text,
   is
 } from '@bigtest/interactor';
+import { AccordionInteractor } from '@folio/stripes-components/lib/Accordion/tests/interactor';
 
 import AgreementsAccordion from './agreements-accordion';
+import CustomLabel from './custom-label';
 import Toast from './toast';
-
 
 @interactor class ResourceShowDeselectionModal {
   confirmDeselection = clickable('[data-test-eholdings-resource-deselection-confirmation-modal-yes]');
@@ -128,6 +129,9 @@ import Toast from './toast';
   });
 
   agreementsSection = new AgreementsAccordion('#resourceShowAgreements');
+
+  customLabelsAccordion = new AccordionInteractor('#resourceShowCustomLabels');
+  customLabels = collection('[data-test-eholdings-resource-custom-label]', CustomLabel);
 }
 
 export default new ResourceShowPage('[data-test-eholdings-details-view="resource"]');

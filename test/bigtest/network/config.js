@@ -626,6 +626,7 @@ export default function config() {
       edition,
       identifiers,
       proxy,
+      userDefinedField1,
     } = body.data.attributes;
 
     matchingResource.update('isSelected', isSelected);
@@ -644,6 +645,7 @@ export default function config() {
     matchingResource.title.update('edition', edition);
     matchingResource.title.update('identifiers', identifiers);
     matchingResource.update('proxy', proxy);
+    matchingResource.update('userDefinedField1', userDefinedField1);
 
     return matchingResource;
   });
@@ -680,5 +682,41 @@ export default function config() {
     matchingResource.destroy();
 
     return {};
+  });
+
+  this.get('/custom-labels', {
+    data: [{
+      type: 'customLabel',
+      attributes: {
+        id: 1,
+        displayLabel: 'test label',
+        displayOnFullTextFinder: true,
+        displayOnPublicationFinder: false,
+      },
+    }, {
+      type: 'customLabel',
+      attributes: {
+        id: 2,
+        displayLabel: 'some label',
+        displayOnFullTextFinder: false,
+        displayOnPublicationFinder: false,
+      },
+    }, {
+      type: 'customLabel',
+      attributes: {
+        id: 3,
+        displayLabel: 'different label',
+        displayOnFullTextFinder: false,
+        displayOnPublicationFinder: false,
+      },
+    }, {
+      type: 'customLabel',
+      attributes: {
+        id: 4,
+        displayLabel: 'oh, another one',
+        displayOnFullTextFinder: false,
+        displayOnPublicationFinder: false,
+      },
+    }],
   });
 }
