@@ -4,7 +4,6 @@ import { expect } from 'chai';
 import setupApplication from '../helpers/setup-application';
 import PackageSearchPage from '../interactors/package-search';
 import PackageShowPage from '../interactors/package-show';
-import ResourceShowPage from '../interactors/resource-show';
 
 describe('PackageSearch', () => {
   setupApplication();

@@ -351,8 +351,8 @@ class DetailsView extends Component {
                   {model.request.errors[0].title}
                 </p>
               ) : (
-                    <Icon icon="spinner-ellipsis" />
-                  )}
+                <Icon icon="spinner-ellipsis" />
+              )}
             </div>
           </Pane>
         </Paneset>

@@ -125,18 +125,18 @@ class ResourceShow extends Component {
     if (!isMenuNeeded) return null;
 
     return ({ onToggle }) => (
-        <Fragment>
-          {hasEditPermission &&
-            <Button
-              buttonStyle="dropdownItem fullWidth"
-              onClick={onEdit}
-            >
-              <FormattedMessage id="ui-eholdings.actionMenu.edit" />
-            </Button>
-          }
-          {hasSelectionPermission && this.renderSelectionButton(onToggle)}
-        </Fragment>
-      );
+      <Fragment>
+        {hasEditPermission &&
+          <Button
+            buttonStyle="dropdownItem fullWidth"
+            onClick={onEdit}
+          >
+            <FormattedMessage id="ui-eholdings.actionMenu.edit" />
+          </Button>
+        }
+        {hasSelectionPermission && this.renderSelectionButton(onToggle)}
+      </Fragment>
+    );
   }
 
   renderSelectionButton(onToggle) {

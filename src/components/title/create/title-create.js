@@ -51,7 +51,7 @@ export default class TitleCreate extends Component {
     } = this.props;
 
     if (!onCancel) return null;
-    
+
     return ({ onToggle }) => (
       <Button
         data-test-eholdings-title-create-cancel-action
@@ -109,7 +109,7 @@ export default class TitleCreate extends Component {
           }
         </PaneHeaderButton>
       </Fragment>
-    )
+    );
   };
 
   render() {

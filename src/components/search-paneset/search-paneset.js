@@ -109,7 +109,7 @@ export default class SearchPaneset extends Component {
           />
         </PaneMenu>
       )
-      : null
+      : null;
   }
 
   render() {

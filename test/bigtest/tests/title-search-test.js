@@ -3,7 +3,6 @@ import { expect } from 'chai';
 
 import setupApplication from '../helpers/setup-application';
 import TitleSearchPage from '../interactors/title-search';
-import TitleShowPage from '../interactors/title-show';
 
 describe('TitleSearch', () => {
   setupApplication();

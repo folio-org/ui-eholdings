@@ -3,8 +3,6 @@ import { expect } from 'chai';
 
 import setupApplication from '../helpers/setup-application';
 import ProviderSearchPage from '../interactors/provider-search';
-import ProviderShowPage from '../interactors/provider-show';
-import PackageShowPage from '../interactors/package-show';
 
 describe('ProviderSearch', () => {
   setupApplication();

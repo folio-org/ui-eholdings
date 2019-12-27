@@ -31,11 +31,11 @@ export default class ProviderEdit extends Component {
 
   getActionMenu = () => {
     const {
-      onCancel
+      onCancel,
     } = this.props;
 
-    if (!onCancel) return null
-    
+    if (!onCancel) return null;
+
     return ({ onToggle }) => (
       <Fragment>
         <Button

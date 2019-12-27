@@ -45,9 +45,9 @@ class SearchRoute extends Component {
 
   constructor(props) {
     super(props);
-    
+
     // the current location's query params, minus the search type
-    const { searchType="providers", ...params } = qs.parse(props.location.search);
+    const { searchType = 'providers', ...params } = qs.parse(props.location.search);
 
     // cache queries so we can restore them with the search type buttons
     this.queries = {};
@@ -76,16 +76,18 @@ class SearchRoute extends Component {
   }
 
   static getDerivedStateFromProps(nextProps, prevState) {
-    
     const { location, history, match } = nextProps;
     const { searchType, ...params } = qs.parse(location.search);
+
     if (!searchType) {
       history.push({
         pathname: '/eholdings',
         search: '?searchType=providers'
       });
+
       return null;
     }
+
     const hideDetails = /^\/eholdings\/?$/.test(location.pathname);
     const searchTypeChanged = searchType !== prevState.searchType;
     const urlContainsTagsFilter = hasIn(params, ['filter', 'tags']);
@@ -403,7 +405,10 @@ class SearchRoute extends Component {
    * render the search paneset, otherwise simply render our children
    */
   render() {
-    const { history, location, tagsModel } = this.props;
+    const {
+      location,
+      tagsModel,
+    } = this.props;
     const {
       searchType,
       params,
@@ -414,56 +419,54 @@ class SearchRoute extends Component {
       hideFilters,
       searchByTagsEnabled,
     } = this.state;
-    let results,
-      filterCount;
 
-      results = this.getResults();
-      filterCount = filterCountFromQuery({
-        sort: params.sort,
-        q: params.q,
-        filter: params.filter
-      });
+    const results = this.getResults();
+    const filterCount = filterCountFromQuery({
+      sort: params.sort,
+      q: params.q,
+      filter: params.filter
+    });
 
-      return (
-        <FormattedMessage id={`ui-eholdings.search.searchType.${searchType}`}>
-          {label => (
-            <TitleManager record={label}>
-              <div data-test-eholdings>
-                <SearchPaneset
-                  filterCount={filterCount}
-                  hideFilters={hideFilters}
-                  resultsType={searchType}
-                  resultsLabel={label}
-                  resultsView={this.renderResults()}
-                  totalResults={results.length}
-                  isLoading={!results.hasLoaded}
-                  updateFilters={this.updateFilters}
-                  location={location}
-                  searchForm={(
-                    <SearchForm
-                      sort={sort}
-                      searchType={searchType}
-                      searchString={draftSearchString}
-                      searchFilter={draftSearchFilters}
-                      searchField={searchField}
-                      searchByTagsEnabled={searchByTagsEnabled}
-                      tagsModel={tagsModel}
-                      searchTypeUrls={this.getSearchTypeUrls()}
-                      isLoading={!!params.q && !results.hasLoaded}
-                      onSearch={this.handleSearchButtonClick}
-                      onSearchFieldChange={this.handleSearchFieldChange}
-                      onFilterChange={this.handleFilterChange}
-                      onSearchChange={this.handleSearchChange}
-                      onTagFilterChange={this.handleTagFilterChange}
-                      onSearchByTagsToggle={this.toggleSearchByTags}
-                    />
-                  )}
-                />
-              </div>
-            </TitleManager>
-          )}
-        </FormattedMessage>
-      );
+    return (
+      <FormattedMessage id={`ui-eholdings.search.searchType.${searchType}`}>
+        {label => (
+          <TitleManager record={label}>
+            <div data-test-eholdings>
+              <SearchPaneset
+                filterCount={filterCount}
+                hideFilters={hideFilters}
+                resultsType={searchType}
+                resultsLabel={label}
+                resultsView={this.renderResults()}
+                totalResults={results.length}
+                isLoading={!results.hasLoaded}
+                updateFilters={this.updateFilters}
+                location={location}
+                searchForm={(
+                  <SearchForm
+                    sort={sort}
+                    searchType={searchType}
+                    searchString={draftSearchString}
+                    searchFilter={draftSearchFilters}
+                    searchField={searchField}
+                    searchByTagsEnabled={searchByTagsEnabled}
+                    tagsModel={tagsModel}
+                    searchTypeUrls={this.getSearchTypeUrls()}
+                    isLoading={!!params.q && !results.hasLoaded}
+                    onSearch={this.handleSearchButtonClick}
+                    onSearchFieldChange={this.handleSearchFieldChange}
+                    onFilterChange={this.handleFilterChange}
+                    onSearchChange={this.handleSearchChange}
+                    onTagFilterChange={this.handleTagFilterChange}
+                    onSearchByTagsToggle={this.toggleSearchByTags}
+                  />
+                )}
+              />
+            </div>
+          </TitleManager>
+        )}
+      </FormattedMessage>
+    );
   }
 }
 

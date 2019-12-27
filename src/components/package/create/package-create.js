@@ -46,9 +46,9 @@ export default class PackageCreate extends Component {
   getActionMenu = () => {
     const {
       request,
-      onCancel
+      onCancel,
     } = this.props;
-    
+
     if (!onCancel) return null;
 
     return ({ onToggle }) => (
@@ -85,7 +85,7 @@ export default class PackageCreate extends Component {
           )}
         </FormattedMessage>
       )
-      : null
+      : null;
   }
 
   render() {

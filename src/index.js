@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { withRoot } from '@folio/stripes-core/src/components/Root/RootContext';
 import { hot } from 'react-hot-loader';
 
-import { Route, Switch, Redirect } from './router';
+import { Route, Switch } from './router';
 import { reducer, epics } from './redux';
 
 import ApplicationRoute from './routes/application';
@@ -50,12 +50,14 @@ class EHoldings extends Component {
       match: { path: rootPath }
     } = this.props;
 
-    return showSettings ? (
-      <Route path={rootPath} component={SettingsRoute}>
-        <Route path={`${rootPath}/knowledge-base`} exact component={SettingsKnowledgeBaseRoute} />
-        <Route path={`${rootPath}/root-proxy`} exact component={SettingsRootProxyRoute} />
-      </Route>
-    ) : (
+    return showSettings
+      ? (
+        <Route path={rootPath} component={SettingsRoute}>
+          <Route path={`${rootPath}/knowledge-base`} exact component={SettingsKnowledgeBaseRoute} />
+          <Route path={`${rootPath}/root-proxy`} exact component={SettingsRootProxyRoute} />
+        </Route>
+      )
+      : (
         <Route path={rootPath} component={ApplicationRoute}>
           <Switch>
             <Route path={`${rootPath}/providers/:providerId`} exact component={ProviderShow} />
@@ -73,7 +75,6 @@ class EHoldings extends Component {
             <Route path={`${rootPath}/notes/:id/edit`} exact component={NoteEdit} />
             <Route path={`${rootPath}/`} exact component={SearchRoute} />
           </Switch>
-          
         </Route>
       );
   }
