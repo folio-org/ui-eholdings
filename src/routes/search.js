@@ -80,7 +80,7 @@ class SearchRoute extends Component {
     const { searchType, ...params } = qs.parse(location.search);
 
     if (!searchType) {
-      history.push({
+      history.replace({
         pathname: '/eholdings',
         search: '?searchType=providers'
       });
