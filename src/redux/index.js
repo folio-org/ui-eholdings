@@ -1,7 +1,10 @@
 import { combineReducers } from 'redux';
 import { combineEpics } from 'redux-observable';
 
-import { agreementsApi } from '../api';
+import {
+  agreementsApi,
+  customLabelsApi,
+} from '../api';
 
 import Resolver from './resolver';
 import ProviderModel from './provider';
@@ -22,12 +25,16 @@ import {
   epic as dataEpic,
 } from './data';
 
-import agreements from './reducers';
+import {
+  agreements,
+  customLabels,
+} from './reducers';
 
 import {
   updateEntityTags,
   createGetAgreementsEpic,
   createAttachAgreementEpic,
+  createGetCustomLabelsEpic,
 } from './epics';
 
 export const createResolver = (state) => {
@@ -51,6 +58,7 @@ export const reducer = combineReducers({
     return {
       ...dataReducer(currentState, action),
       agreements: agreements(currentState.agreements, action),
+      customLabels: customLabels(currentState.customLabels, action),
     };
   }
 });
@@ -60,4 +68,5 @@ export const epics = combineEpics(
   updateEntityTags,
   createGetAgreementsEpic({ agreementsApi }),
   createAttachAgreementEpic({ agreementsApi }),
+  createGetCustomLabelsEpic({ customLabelsApi }),
 );

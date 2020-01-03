@@ -99,6 +99,7 @@
     "resource.packageContentType": "Package content type",
     "resource.coverageStatement": "Coverage statement",
     "resource.coverageStatement.textArea": "Describes the coverage to patrons.",
+    "resource.customLabels": "Custom labels",
     "resource.resourceInformation": "Resource information",
     "resource.embargoPeriod": "Embargo period",
     "resource.embargoPeriod.notSet": "No embargo period has been set.",

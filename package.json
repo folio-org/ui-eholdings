@@ -24,7 +24,7 @@
     "@bigtest/mocha": "^0.5.1",
     "@bigtest/react": "^0.1.2",
     "@folio/eslint-config-stripes": "^4.0.1",
-    "@folio/stripes": "^2.6.0",
+    "@folio/stripes": "^2.13.0",
     "@folio/stripes-cli": "^1.8.0",
     "babel-eslint": "^9.0.0",
     "babel-polyfill": "^6.26.0",

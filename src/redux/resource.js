@@ -34,6 +34,11 @@ class Resource {
   isTitleCustom = false;
   isPeerReviewed = false;
   description = '';
+  userDefinedField1 = '';
+  userDefinedField2 = '';
+  userDefinedField3 = '';
+  userDefinedField4 = '';
+  userDefinedField5 = '';
 
   serialize() {
     const data = {
