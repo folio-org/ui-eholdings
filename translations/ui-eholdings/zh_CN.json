@@ -120,7 +120,6 @@
     "settings.rootProxy.server": "根代理服务器",
     "settings.rootProxy.warning": "警告：更改根代理设置将覆盖当前根代理下所有链接和资源的代理设置。",
     "settings.rootProxy.ebsco.customer.message": "EBSCO KB API客户：请访问EBSCOAdmin以设置和维护代理。",
-    "actionMenu.fullView": "完全视图",
     "actionMenu.cancelEditing": "取消编辑",
     "actionMenu.edit": "编辑",
     "label.author": "作者",
@@ -328,5 +327,6 @@
     "filter.togglePane": "切换筛选面板",
     "search.enterYourSearch": "输入搜索",
     "search.selectFieldToSearch": "选择搜索字段",
-    "tags.filter": "Tags filter"
+    "tags.filter": "Tags filter",
+    "resource.customLabels": "Custom labels"
 }
