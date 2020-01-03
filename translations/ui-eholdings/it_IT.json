@@ -120,7 +120,6 @@
     "settings.rootProxy.server": "Root proxy server",
     "settings.rootProxy.warning": "Warning: Changing the root proxy setting will override the proxy for all links and resources currently set to inherit the root proxy selection.",
     "settings.rootProxy.ebsco.customer.message": "EBSCO KB API customers: Please access EBSCOAdmin to setup and maintain proxies.",
-    "actionMenu.fullView": "Vista completa",
     "actionMenu.cancelEditing": "Annulla modifica",
     "actionMenu.edit": "Modifica",
     "label.author": "Autore",
@@ -328,5 +327,6 @@
     "filter.togglePane": "Toggle filters pane",
     "search.enterYourSearch": "Inserisci la tua ricerca",
     "search.selectFieldToSearch": "Seleziona un capo per cercare",
-    "tags.filter": "Tags filter"
+    "tags.filter": "Tags filter",
+    "resource.customLabels": "Custom labels"
 }

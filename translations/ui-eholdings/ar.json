@@ -120,7 +120,6 @@
     "settings.rootProxy.server": "الخادم البديل (البروكسي) الجذري",
     "settings.rootProxy.warning": "تحذير: سيؤدي تغيير إعداد الخادم البديل الجذري إلى تخطي الخادم البديل لجميع الروابط والموارد التي تم ضبطها حاليًا لتوارث تحديد الخادم البديل الجذري.",
     "settings.rootProxy.ebsco.customer.message": "عملاء EBSCO KB API: يرجى الوصول إلى EBSCOAdmin لإعداد الخوادم البديلة (البروكسي) وصيانتها.",
-    "actionMenu.fullView": "العرض الكامل",
     "actionMenu.cancelEditing": "إلغاء التحرير",
     "actionMenu.edit": "تحرير",
     "label.author": "المؤلف",
@@ -328,5 +327,6 @@
     "filter.togglePane": "تبديل لوحة المنقحات",
     "search.enterYourSearch": "قم بإدخال بحثك",
     "search.selectFieldToSearch": "اختر حقل للبحث",
-    "tags.filter": "منقح الوسوم"
+    "tags.filter": "منقح الوسوم",
+    "resource.customLabels": "تسميات مخصصة"
 }
