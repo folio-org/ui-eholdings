@@ -2,21 +2,34 @@ import React, { Component, Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { FormattedMessage } from 'react-intl';
-import { Accordion, Headline } from '@folio/stripes/components';
+import { get } from 'lodash';
+
+import {
+  Accordion,
+  Headline,
+} from '@folio/stripes/components';
 
 import Toaster from '../../components/toaster';
-import CustomLabelsSection from '../../components/custom-labels-section';
 import { getCustomLabels as getCustomLabelsAction } from '../../redux/actions';
 import selectCustomLabels from '../../redux/selectors/select-custom-labels';
 
 class CustomLabelsAccordion extends Component {
   static propTypes = {
-    customLabels: PropTypes.object.isRequired,
+    customLabels: PropTypes.shape({
+      items: PropTypes.shape({
+        data: PropTypes.array,
+      }),
+    }).isRequired,
     getCustomLabels: PropTypes.func.isRequired,
     id: PropTypes.string.isRequired,
     isOpen: PropTypes.bool,
-    onToggle: PropTypes.func,
-    userDefinedFields: PropTypes.object.isRequired,
+    onToggle: PropTypes.func.isRequired,
+    section: PropTypes.node.isRequired,
+    userDefinedFields: PropTypes.objectOf(PropTypes.string).isRequired,
+  }
+
+  static defaultProps = {
+    isOpen: true,
   }
 
   componentDidMount() {
@@ -28,12 +41,10 @@ class CustomLabelsAccordion extends Component {
   getToastErrors() {
     const { customLabels: { errors } } = this.props;
 
-    return errors.map((error) => {
-      return {
-        message: error.title,
-        type: 'error',
-      };
-    });
+    return errors.map((error) => ({
+      message: error.title,
+      type: 'error',
+    }));
   }
 
   getCustomLabelsAccordionHeader = () => {
@@ -49,26 +60,31 @@ class CustomLabelsAccordion extends Component {
 
   render() {
     const {
-      customLabels: { items: { data = [] } },
-      isOpen,
+      customLabels,
       id,
+      isOpen,
       onToggle,
+      section: Section,
       userDefinedFields,
     } = this.props;
 
+    const data = get(customLabels, ['items', 'data'], []);
+
     return (
       <Fragment>
-        <Accordion
-          id={id}
-          open={isOpen}
-          label={this.getCustomLabelsAccordionHeader()}
-          onToggle={onToggle}
-        >
-          <CustomLabelsSection
-            customLabels={data}
-            userDefinedFields={userDefinedFields}
-          />
-        </Accordion>
+        {data.length &&
+          <Accordion
+            id={id}
+            label={this.getCustomLabelsAccordionHeader()}
+            open={isOpen}
+            onToggle={onToggle}
+          >
+            <Section
+              customLabels={data}
+              userDefinedFields={userDefinedFields}
+            />
+          </Accordion>
+        }
 
         <Toaster
           position="bottom"

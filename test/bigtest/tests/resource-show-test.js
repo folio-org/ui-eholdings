@@ -506,12 +506,8 @@ describe('ResourceShow', () => {
       expect(ResourcePage.toast.errorText).to.equal('There was an error');
     });
 
-    it('displays custom labels accordion', () => {
-      expect(ResourcePage.customLabelsAccordion.isPresent).to.be.true;
-    });
-
-    it('does not have any custom labels', () => {
-      expect(ResourcePage.customLabels().length).to.be.equal(0);
+    it('sould not display custom labels accordion', () => {
+      expect(ResourcePage.customLabelsAccordion.isPresent).to.be.false;
     });
   });
 

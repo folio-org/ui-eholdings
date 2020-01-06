@@ -45,6 +45,7 @@ import Toaster from '../toaster';
 import TagsAccordion from '../tags';
 import KeyValueColumns from '../key-value-columns';
 import ProxyDisplay from '../proxy-display';
+import { CustomLabelsShowSection } from '../custom-labels-section';
 
 class ResourceShow extends Component {
   static propTypes = {
@@ -439,6 +440,7 @@ class ResourceShow extends Component {
                   id="resourceShowCustomLabels"
                   isOpen={sections.resourceShowCustomLabels}
                   onToggle={this.handleSectionToggle}
+                  section={CustomLabelsShowSection}
                   userDefinedFields={userDefinedFields}
                 />
               }
