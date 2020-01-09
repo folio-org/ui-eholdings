@@ -12,7 +12,7 @@
     "package.customCoverageDates": "自定义收录范围日期",
     "package.deletePackage": "删除包",
     "package.modal.body": "确定要从馆藏中移除此包及其所有标题吗？所有自定义都将丢失。",
-    "package.modal.body.isCustom": "您确定要删除此包吗？删除后此包将不再可供选择，并且所有自定义都将丢失。如果题名仅出现在此包中，则将无法再进行选择。",
+    "package.modal.body.isCustom": "确定要删除此包吗？删除后此包将不再可供选择，并且所有自定义都将丢失。如果题名仅出现在此包中，则将无法再进行选择。",
     "package.modal.buttonCancel": "否，不移除",
     "package.modal.buttonCancel.isCustom": "否，不要删除",
     "package.modal.buttonConfirm": "是，移除",
@@ -39,7 +39,7 @@
     "package.visibility.notSelected": "将包添加到馆藏以自定义包的设置。",
     "package.create.custom": "新的自定义包",
     "package.modalMessageHeader.isCustom": "删除自定义包",
-    "package.modalMessageBody.isCustom": "您确定要删除此包吗？删除此包后将不再可供选择，并且所有自定义都将丢失。如果题名仅出现在此包中，则将无法再进行选择。",
+    "package.modalMessageBody.isCustom": "确定要删除此包吗？删除此包后将不再可供选择，并且所有自定义都将丢失。如果题名仅出现在此包中，则将无法再进行选择。",
     "package.modalMessageButtonConfirm.isCustom": "是, 删除",
     "package.modalMessageButtonWorking.isCustom": "正在删除...",
     "package.modalMessageButtonCancel.isCustom": "否，不要删除",
@@ -203,7 +203,7 @@
     "navModal.modalLabel": "确认导航",
     "navModal.continueLabel": "不保存而继续",
     "navModal.dismissLabel": "继续编辑",
-    "navModal.unsavedChangesMsg": "您的更改尚未保存。你确定要离开这个页面吗？",
+    "navModal.unsavedChangesMsg": "更改尚未保存。确定要离开这个页面吗？",
     "validate.errors.customTitle.name": "自定义标题必须具有名称。",
     "validate.errors.customTitle.name.length": "必须少于400个字符。",
     "validate.errors.title.description.length": "输入值超出了{amount}字符限制。输入值请勿超过{amount}字符。",
@@ -327,6 +327,6 @@
     "filter.togglePane": "切换筛选面板",
     "search.enterYourSearch": "输入搜索",
     "search.selectFieldToSearch": "选择搜索字段",
-    "tags.filter": "Tags filter",
-    "resource.customLabels": "Custom labels"
+    "tags.filter": "标签筛选",
+    "resource.customLabels": "自定义标签"
 }
