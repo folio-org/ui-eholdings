@@ -573,6 +573,71 @@ describe('ResourceEditCustomTitle', () => {
     });
   });
 
+  describe('visiting the resource edit page with custom labels', () => {
+    beforeEach(function () {
+      this.visit(`/eholdings/resources/${resource.titleId}/edit`);
+    });
+
+    it('custom labels accordion should be present', () => {
+      expect(ResourceEditPage.resourceCustomLabelsAccordion.isPresent).to.be.true;
+    });
+
+    it('should show correct accordion name', () => {
+      expect(ResourceEditPage.resourceCustomLabelsAccordion.label).to.equal('Custom labels');
+    });
+
+    describe('clicking the header', () => {
+      beforeEach(async () => {
+        await ResourceEditPage.resourceCustomLabelsAccordion.clickHeader();
+      });
+
+      it('collapses the section', () => {
+        expect(ResourceEditPage.resourceCustomLabelsAccordion.isOpen).to.be.false;
+      });
+
+      describe('clicking the header again', () => {
+        beforeEach(async () => {
+          await ResourceEditPage.resourceCustomLabelsAccordion.clickHeader();
+        });
+
+        it('expands the section', () => {
+          expect(ResourceEditPage.resourceCustomLabelsAccordion.isOpen).to.be.true;
+        });
+      });
+    });
+
+    it('correct length of custom labels inputs', () => {
+      expect(ResourceEditPage.customLabelsFields().length).to.be.equal(4);
+    });
+
+    describe('fill input with unvalid string', () => {
+      beforeEach(async () => {
+        await ResourceEditPage.customLabelsFields(0).inputCustomLabel(`${new Array(102).join('a')}`); // create a 101 char string
+        await ResourceEditPage.customLabelsFields(0).blurCustomLabel();
+      });
+
+      it('should show validation error message', () => {
+        expect(ResourceEditPage.customLabelsFields(0).validationErrorMessage).to.be.equal('Value has exceeded 100 character limit. Please revise your value.');
+      });
+    });
+
+    describe('fill input with valid values and save it', () => {
+      beforeEach(async () => {
+        await ResourceEditPage.customLabelsFields(0).inputCustomLabel('random value');
+        await ResourceEditPage.customLabelsFields(0).blurCustomLabel();
+        await ResourceEditPage.clickSave();
+      });
+
+      it('should show resource view page', () => {
+        expect(ResourceShowPage.isPresent).to.be.true;
+      });
+
+      it('should show correct value of custom labels', () => {
+        expect(ResourceShowPage.customLabels(0).value).to.be.equal('random value');
+      });
+    });
+  });
+
   describe('encountering a server error when GETting', () => {
     beforeEach(function () {
       this.server.get('/resources/:id', {
