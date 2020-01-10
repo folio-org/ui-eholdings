@@ -328,5 +328,6 @@
     "search.enterYourSearch": "Введите ваш поиск",
     "search.selectFieldToSearch": "Выберите поле для поиска",
     "tags.filter": "Tags filter",
-    "resource.customLabels": "Custom labels"
+    "resource.customLabels": "Custom labels",
+    "validate.errors.customLabels.length": "Value has exceeded 100 character limit. Please revise your value."
 }

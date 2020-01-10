@@ -328,5 +328,6 @@
     "search.enterYourSearch": "Digite sua pesquisa",
     "search.selectFieldToSearch": "Selecione um campo para pesquisar",
     "tags.filter": "Filtro de Tags",
-    "resource.customLabels": "Etiquetas personalizadas"
+    "resource.customLabels": "Etiquetas personalizadas",
+    "validate.errors.customLabels.length": "Value has exceeded 100 character limit. Please revise your value."
 }

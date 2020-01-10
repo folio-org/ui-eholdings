@@ -86,7 +86,7 @@
     "resource.coverage.notSelected": "Add the resource to holdings to customize coverage.",
     "resource.coverage.noCustomizations": "No coverage customizations set.",
     "resource.toast.isFreshlySaved": "Il titolo è stato aggiornato.",
-    "resource.visibilityData.isHidden": "(All titles in this package are hidden)",
+    "resource.visibilityData.isHidden": "(Tutti i titoli di questo pacchetto sono nascosti)",
     "title.name.isRequired": "Nome *",
     "title.package.isRequired": "Pacchetto *",
     "title.create.paneTitle": "Nuovo titolo personalizzato",
@@ -328,5 +328,6 @@
     "search.enterYourSearch": "Inserisci la tua ricerca",
     "search.selectFieldToSearch": "Seleziona un capo per cercare",
     "tags.filter": "Tags filter",
-    "resource.customLabels": "Custom labels"
+    "resource.customLabels": "Custom labels",
+    "validate.errors.customLabels.length": "Value has exceeded 100 character limit. Please revise your value."
 }

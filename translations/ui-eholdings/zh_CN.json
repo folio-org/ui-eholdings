@@ -328,5 +328,6 @@
     "search.enterYourSearch": "输入搜索",
     "search.selectFieldToSearch": "选择搜索字段",
     "tags.filter": "标签筛选",
-    "resource.customLabels": "自定义标签"
+    "resource.customLabels": "自定义标签",
+    "validate.errors.customLabels.length": "Value has exceeded 100 character limit. Please revise your value."
 }
