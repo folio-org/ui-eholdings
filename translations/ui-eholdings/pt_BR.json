@@ -329,5 +329,5 @@
     "search.selectFieldToSearch": "Selecione um campo para pesquisar",
     "tags.filter": "Filtro de Tags",
     "resource.customLabels": "Etiquetas personalizadas",
-    "validate.errors.customLabels.length": "Value has exceeded 100 character limit. Please revise your value."
+    "validate.errors.customLabels.length": "O valor excedeu o limite de 100 caracteres. Revise seu valor."
 }

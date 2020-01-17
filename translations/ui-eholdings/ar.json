@@ -329,5 +329,5 @@
     "search.selectFieldToSearch": "اختر حقل للبحث",
     "tags.filter": "منقح الوسوم",
     "resource.customLabels": "تسميات مخصصة",
-    "validate.errors.customLabels.length": "Value has exceeded 100 character limit. Please revise your value."
+    "validate.errors.customLabels.length": "تجاوزت القيمة الحد الأقصى لعدد الأحرف المسموح به وهو 100 حرفًا. يرجى مراجعة القيمة."
 }
