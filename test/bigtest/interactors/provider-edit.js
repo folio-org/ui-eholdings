@@ -1,5 +1,4 @@
 import {
-  Interactor,
   interactor,
   clickable,
   property,
@@ -8,7 +7,6 @@ import {
   blurrable,
   text,
   is,
-  attribute,
   action,
   isPresent,
   selectable
@@ -21,26 +19,12 @@ import Toast from './toast';
   confirmNavigation = clickable('[data-test-navigation-modal-continue]');
 }
 
-@interactor class ProviderEditDropDown {
-  clickDropDownButton = clickable('button');
-  isExpanded = attribute('button', 'aria-expanded');
-}
-
-@interactor class ProviderEditDropDownMenu {
-   cancel = new Interactor('[data-test-eholdings-provider-cancel-action]');
-}
-
 @interactor class ProviderEditPage {
   navigationModal = new ProviderEditNavigationModal('#navigation-modal');
   paneTitle = text('[data-test-eholdings-details-view-pane-title]');
   name = text('[data-test-eholdings-details-view-name="provider"]');
   nameHasFocus = is('[data-test-eholdings-details-view-name="provider"]', ':focus');
-  clickCancel= action(function () {
-    return this
-      .dropDown.clickDropDownButton()
-      .dropDownMenu.cancel.click();
-  });
-
+  clickCancelEditing = clickable('[data-test-eholdings-provider-edit-cancel-button]');
   clickSave = clickable('[data-test-eholdings-provider-save-button]');
   isSaveDisabled = property('[data-test-eholdings-provider-save-button]', 'disabled');
   hasErrors = isPresent('[data-test-eholdings-details-view-error="provider"]');
@@ -57,6 +41,7 @@ import Toast from './toast';
   clickAddProviderTokenButton = clickable('[data-test-eholdings-token-add-button="provider"] button');
   fillProviderTokenValue = fillable('[data-test-eholdings-token-value-textarea="provider"] textarea');
   blurProviderTokenValue = blurrable('[data-test-eholdings-token-value-textarea="provider"] textarea');
+  clickBackButton = clickable('[data-test-eholdings-details-view-back-button]');
 
   inputProviderTokenValue = action(function (tokenValue) {
     return this
@@ -64,8 +49,6 @@ import Toast from './toast';
       .blurProviderTokenValue();
   });
 
-  dropDown = new ProviderEditDropDown('[class*=paneHeaderCenterInner---] [class*=dropdown---]');
-  dropDownMenu = new ProviderEditDropDownMenu();
   hasProxySelect = isPresent('[data-test-eholdings-provider-proxy-select] select');
   noPackagesSelected = text('[data-test-eholdings-provider-package-not-selected]');
 

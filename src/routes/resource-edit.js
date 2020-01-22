@@ -53,12 +53,15 @@ class ResourceEditRoute extends Component {
     const isRejected = model.update.isRejected;
     const wasUnSelected = prevProps.model.isSelected && !model.isSelected;
     const isCurrentlySelected = prevProps.model.isSelected && model.isSelected;
-
-    if (wasPending && needsUpdate && !isRejected && (wasUnSelected || isCurrentlySelected)) {
+    const isFreshlySaved = wasPending && needsUpdate && !isRejected && (wasUnSelected || isCurrentlySelected);
+    if (isFreshlySaved || (model.isLoaded && !model.isSelected)) {
       history.push({
         pathname: `/eholdings/resources/${model.id}`,
         search: location.search,
-        state: { eholdings: true, isFreshlySaved: true }
+        state: {
+          eholdings: true,
+          isFreshlySaved,
+        }
       });
     }
   }

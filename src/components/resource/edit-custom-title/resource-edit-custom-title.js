@@ -8,14 +8,15 @@ import { FormattedMessage } from 'react-intl';
 import update from 'lodash/fp/update';
 import hasIn from 'lodash/hasIn';
 
-import { IfPermission } from '@folio/stripes-core';
+import { withStripes } from '@folio/stripes-core';
 import {
   Accordion,
   Button,
   Headline,
   Icon,
   Modal,
-  ModalFooter
+  ModalFooter,
+  PaneFooter,
 } from '@folio/stripes/components';
 
 import { processErrors, isBookPublicationType } from '../../utilities';
@@ -28,7 +29,6 @@ import CoverageStatementFields, { coverageStatementDecorator } from '../_fields/
 import CustomEmbargoFields, { getEmbargoInitial } from '../_fields/custom-embargo';
 import NavigationModal from '../../navigation-modal';
 import Toaster from '../../toaster';
-import PaneHeaderButton from '../../pane-header-button';
 import CoverageDateList from '../../coverage-date-list';
 import ProxySelectField from '../../proxy-select';
 
@@ -40,12 +40,15 @@ import {
 
 const focusOnErrors = createFocusDecorator();
 
-export default class ResourceEditCustomTitle extends Component {
+class ResourceEditCustomTitle extends Component {
   static propTypes = {
     model: PropTypes.object.isRequired,
     onCancel: PropTypes.func.isRequired,
     onSubmit: PropTypes.func.isRequired,
-    proxyTypes: PropTypes.object.isRequired
+    proxyTypes: PropTypes.object.isRequired,
+    stripes: PropTypes.shape({
+      hasPerm: PropTypes.func.isRequired,
+    }),
   };
 
   state = {
@@ -201,38 +204,60 @@ export default class ResourceEditCustomTitle extends Component {
     );
   };
 
-  getActionMenu = ({ onToggle }) => {
-    const { onCancel } = this.props;
+  getActionMenu = () => {
+    const { stripes } = this.props;
+
     const { resourceSelected } = this.state;
+    const hasSelectPermission = stripes.hasPerm('ui-eholdings.package-title.select-unselect');
+
+    if (!hasSelectPermission || !resourceSelected) return null;
+
+    return ({ onToggle }) => (
+      <Button
+        data-test-eholdings-remove-resource-from-holdings
+        buttonStyle="dropdownItem fullWidth"
+        onClick={() => {
+          onToggle();
+          this.handleRemoveResourceFromHoldings();
+        }}
+      >
+        <FormattedMessage id="ui-eholdings.resource.actionMenu.removeHolding" />
+      </Button>
+    );
+  }
+
+  getFooter = (pristine, reset) => {
+    const { model } = this.props;
+
+    const cancelButton = (
+      <Button
+        data-test-eholdings-provider-edit-cancel-button
+        buttonStyle="default mega"
+        disabled={model.update.isPending || model.destroy.isPending || pristine}
+        onClick={reset}
+        marginBottom0
+      >
+        <FormattedMessage id="stripes-components.cancel" />
+      </Button>
+    );
+
+    const saveButton = (
+      <Button
+        buttonStyle="primary mega"
+        data-test-eholdings-resource-save-button
+        disabled={pristine || model.update.isPending || model.destroy.isPending}
+        marginBottom0
+        type="submit"
+      >
+        <FormattedMessage id="stripes-components.saveAndClose" />
+      </Button>
+    );
 
     return (
-      <Fragment>
-        <Button
-          data-test-eholdings-resource-cancel-action
-          buttonStyle="dropdownItem fullWidth"
-          onClick={() => {
-            onToggle();
-            onCancel();
-          }}
-        >
-          <FormattedMessage id="ui-eholdings.actionMenu.cancelEditing" />
-        </Button>
-
-        {resourceSelected && (
-          <IfPermission perm="ui-eholdings.package-title.select-unselect">
-            <Button
-              data-test-eholdings-remove-resource-from-holdings
-              buttonStyle="dropdownItem fullWidth"
-              onClick={() => {
-                onToggle();
-                this.handleRemoveResourceFromHoldings();
-              }}
-            >
-              <FormattedMessage id="ui-eholdings.resource.actionMenu.removeHolding" />
-            </Button>
-          </IfPermission>
-        )}
-      </Fragment>
+      <PaneFooter
+        renderStart={cancelButton}
+        renderEnd={saveButton}
+      />
     );
   }
 
@@ -240,6 +265,7 @@ export default class ResourceEditCustomTitle extends Component {
     const {
       model,
       proxyTypes,
+      onCancel,
     } = this.props;
 
     const {
@@ -260,7 +286,7 @@ export default class ResourceEditCustomTitle extends Component {
         decorators={[coverageStatementDecorator, focusOnErrors]}
         mutators={{ ...arrayMutators }}
         initialValues={initialValues}
-        render={({ handleSubmit, pristine, form: { change } }) => (
+        render={({ handleSubmit, pristine, form: { change, reset } }) => (
           <div>
             <Toaster toasts={processErrors(model)} position="bottom" />
             <form onSubmit={handleSubmit}>
@@ -269,27 +295,10 @@ export default class ResourceEditCustomTitle extends Component {
                 model={model}
                 paneTitle={model.title.name}
                 paneSub={model.package.name}
-                actionMenu={this.getActionMenu}
+                actionMenu={this.getActionMenu()}
                 handleExpandAll={this.toggleAllSections}
                 sections={sections}
-                lastMenu={
-                  <Fragment>
-                    {(model.update.isPending || model.destroy.isPending) && (
-                      <Icon icon="spinner-ellipsis" />
-                    )}
-                    <PaneHeaderButton
-                      disabled={pristine || model.update.isPending || model.destroy.isPending}
-                      type="submit"
-                      buttonStyle="primary"
-                      data-test-eholdings-resource-save-button
-                    >
-                      {model.update.isPending || model.destroy.isPending ?
-                        (<FormattedMessage id="ui-eholdings.saving" />)
-                        :
-                        (<FormattedMessage id="ui-eholdings.save" />)}
-                    </PaneHeaderButton>
-                  </Fragment>
-                }
+                footer={this.getFooter(pristine, reset)}
                 bodyContent={(
                   <Fragment>
                     <Accordion
@@ -329,7 +338,8 @@ export default class ResourceEditCustomTitle extends Component {
                                 <div data-test-eholdings-resource-proxy-select>
                                   <ProxySelectField proxyTypes={proxyTypes} inheritedProxyId={model.package.proxy.id} />
                                 </div>
-                              ))}
+                              )
+                            )}
                           </div>
                           <CustomUrlFields />
                         </Fragment>
@@ -371,6 +381,7 @@ export default class ResourceEditCustomTitle extends Component {
                     </Accordion>
                   </Fragment>
                 )}
+                onCancel={onCancel}
               />
             </form>
 
@@ -430,3 +441,5 @@ export default class ResourceEditCustomTitle extends Component {
     );
   }
 }
+
+export default withStripes(ResourceEditCustomTitle);

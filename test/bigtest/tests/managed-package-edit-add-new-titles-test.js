@@ -37,9 +37,9 @@ describe('ManagedPackageEditAllowKbToAddTitles', () => {
       expect(PackageEditPage.isSaveDisabled).to.be.true;
     });
 
-    describe('clicking cancel', () => {
+    describe('clicking close (navigate back) button', () => {
       beforeEach(() => {
-        return PackageEditPage.clickCancel();
+        return PackageEditPage.clickBackButton();
       });
 
       it('goes to the package show page', () => {
@@ -52,9 +52,9 @@ describe('ManagedPackageEditAllowKbToAddTitles', () => {
         return PackageEditPage.clickDisallowKbToAddTitlesRadio();
       });
 
-      describe('clicking cancel', () => {
+      describe('clicking close (navigate back) button', () => {
         beforeEach(() => {
-          return PackageEditPage.clickCancel();
+          return PackageEditPage.clickBackButton();
         });
 
         it('shows a navigation confirmation modal', () => {
@@ -98,9 +98,9 @@ describe('ManagedPackageEditAllowKbToAddTitles', () => {
       expect(PackageEditPage.isSaveDisabled).to.be.true;
     });
 
-    describe('clicking cancel', () => {
+    describe('clicking close (navigate back) button', () => {
       beforeEach(() => {
-        return PackageEditPage.clickCancel();
+        return PackageEditPage.clickBackButton();
       });
 
       it('goes to the package show page', () => {
@@ -113,9 +113,9 @@ describe('ManagedPackageEditAllowKbToAddTitles', () => {
         return PackageEditPage.clickAllowKbToAddTitlesRadio();
       });
 
-      describe('clicking cancel', () => {
+      describe('clicking close (navigate back) button', () => {
         beforeEach(() => {
-          return PackageEditPage.clickCancel();
+          return PackageEditPage.clickBackButton();
         });
 
         it('shows a navigation confirmation modal', () => {
@@ -151,26 +151,8 @@ describe('ManagedPackageEditAllowKbToAddTitles', () => {
       this.visit(`/eholdings/packages/${providerPackage.id}/edit`);
     });
 
-    it.always('does not display the allow KB to add titles toggle switch', () => {
-      expect(PackageEditPage.hasRadioForAllowKbToAddTitles).to.equal(false);
-    });
-
-    it('hides the save button', () => {
-      expect(PackageEditPage.isSavePresent).to.equal(false);
-    });
-
-    describe('toggling the selected toggle', () => {
-      beforeEach(() => {
-        return PackageEditPage.clickAddButton();
-      });
-
-      it('reflects the desired state (Selected)', () => {
-        expect(PackageEditPage.selectionStatus.isSelected).to.be.true;
-      });
-
-      it('allow KB to add titles is selected true', () => {
-        expect(PackageEditPage.allowKbToAddTitlesRadio).to.be.true;
-      });
+    it('redirects to the package show page', () => {
+      expect(PackageShowPage.$root).to.exist;
     });
   });
 });

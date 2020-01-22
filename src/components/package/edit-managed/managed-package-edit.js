@@ -8,7 +8,7 @@ import arrayMutators from 'final-form-arrays';
 import createFocusDecorator from 'final-form-focus';
 import { FormattedMessage } from 'react-intl';
 
-import { IfPermission } from '@folio/stripes-core';
+import { withStripes } from '@folio/stripes-core';
 import {
   Accordion,
   Button,
@@ -17,6 +17,7 @@ import {
   Modal,
   ModalFooter,
   RadioButton,
+  PaneFooter,
 } from '@folio/stripes/components';
 
 import { processErrors } from '../../utilities';
@@ -25,7 +26,6 @@ import DetailsView from '../../details-view';
 import CoverageFields from '../_fields/custom-coverage';
 import NavigationModal from '../../navigation-modal';
 import Toaster from '../../toaster';
-import PaneHeaderButton from '../../pane-header-button';
 import SelectionStatus from '../selection-status';
 import ProxySelectField from '../../proxy-select';
 import TokenField from '../../token';
@@ -33,14 +33,17 @@ import styles from './managed-package-edit.css';
 
 const focusOnErrors = createFocusDecorator();
 
-export default class ManagedPackageEdit extends Component {
+class ManagedPackageEdit extends Component {
   static propTypes = {
     addPackageToHoldings: PropTypes.func.isRequired,
     model: PropTypes.object.isRequired,
     onCancel: PropTypes.func.isRequired,
     onSubmit: PropTypes.func.isRequired,
     provider: PropTypes.object.isRequired,
-    proxyTypes: PropTypes.object.isRequired
+    proxyTypes: PropTypes.object.isRequired,
+    stripes: PropTypes.shape({
+      hasPerm: PropTypes.func.isRequired,
+    }),
   };
 
   static getDerivedStateFromProps(nextProps, prevState) {
@@ -185,34 +188,21 @@ export default class ManagedPackageEdit extends Component {
     );
   }
 
-  getActionMenu = ({ onToggle }) => {
+  getActionMenu = () => {
     const {
+      stripes,
       model,
-      onCancel
     } = this.props;
-
     const { packageSelected } = this.state;
-
     const isAddButtonNeeded = !packageSelected || model.isPartiallySelected;
+    const hasSelectPermission = stripes.hasPerm('ui-eholdings.package-title.select-unselect');
 
-    return (
+    if (!hasSelectPermission) return null;
+
+    return ({ onToggle }) => (
       <Fragment>
-        <Button
-          data-test-eholdings-package-cancel-action
-          buttonStyle="dropdownItem fullWidth"
-          onClick={() => {
-            onToggle();
-            onCancel();
-          }}
-          disabled={model.update.isPending}
-        >
-          <FormattedMessage id="ui-eholdings.actionMenu.cancelEditing" />
-        </Button>
-
-        <IfPermission perm="ui-eholdings.package-title.select-unselect">
-          {packageSelected && this.renderRemoveFromHoldingsButton(onToggle)}
-          {isAddButtonNeeded && this.renderAddToHoldingsButton(onToggle)}
-        </IfPermission>
+        {packageSelected && this.renderRemoveFromHoldingsButton(onToggle)}
+        {isAddButtonNeeded && this.renderAddToHoldingsButton(onToggle)}
       </Fragment>
     );
   }
@@ -258,11 +248,47 @@ export default class ManagedPackageEdit extends Component {
     );
   }
 
+  getFooter = (pristine, reset) => {
+    const { model } = this.props;
+
+    const cancelButton = (
+      <Button
+        data-test-eholdings-package-edit-cancel-button
+        buttonStyle="default mega"
+        disabled={model.update.isPending || pristine}
+        onClick={reset}
+        marginBottom0
+      >
+        <FormattedMessage id="stripes-components.cancel" />
+      </Button>
+    );
+
+    const saveButton = (
+      <Button
+        buttonStyle="primary mega"
+        data-test-eholdings-package-save-button
+        disabled={model.update.isPending || pristine}
+        marginBottom0
+        type="submit"
+      >
+        <FormattedMessage id="stripes-components.saveAndClose" />
+      </Button>
+    );
+
+    return (
+      <PaneFooter
+        renderStart={cancelButton}
+        renderEnd={saveButton}
+      />
+    );
+  }
+
   render() {
     const {
       model,
       proxyTypes,
-      provider
+      provider,
+      onCancel,
     } = this.props;
 
     const {
@@ -285,7 +311,7 @@ export default class ManagedPackageEdit extends Component {
         decorators={[focusOnErrors]}
         mutators={{ ...arrayMutators }}
         initialValues={initialValues}
-        render={({ handleSubmit, pristine, form: { change } }) => (
+        render={({ handleSubmit, pristine, form: { change, reset } }) => (
           <div>
             <Toaster toasts={processErrors(model)} position="bottom" />
             <form onSubmit={handleSubmit}>
@@ -294,29 +320,10 @@ export default class ManagedPackageEdit extends Component {
                   type="package"
                   model={model}
                   paneTitle={model.name}
-                  actionMenu={this.getActionMenu}
+                  actionMenu={this.getActionMenu()}
                   handleExpandAll={this.toggleAllSections}
                   sections={sections}
-                  lastMenu={(
-                    <Fragment>
-                      {model.update.isPending && (
-                        <Icon icon="spinner-ellipsis" />
-                      )}
-                      {model.isSelected && (
-                        <PaneHeaderButton
-                          disabled={pristine || model.update.isPending}
-                          type="submit"
-                          buttonStyle="primary"
-                          data-test-eholdings-package-save-button
-                        >
-                          {model.update.isPending ?
-                            (<FormattedMessage id="ui-eholdings.saving" />)
-                            :
-                            (<FormattedMessage id="ui-eholdings.save" />)}
-                        </PaneHeaderButton>
-                      )}
-                    </Fragment>
-                  )}
+                  footer={this.getFooter(pristine, reset)}
                   bodyContent={(
                     <Fragment>
                       <Accordion
@@ -466,6 +473,7 @@ export default class ManagedPackageEdit extends Component {
                       )}
                     </Fragment>
                   )}
+                  onCancel={onCancel}
                 />
               </div>
             </form>
@@ -506,3 +514,5 @@ export default class ManagedPackageEdit extends Component {
     );
   }
 }
+
+export default withStripes(ManagedPackageEdit);

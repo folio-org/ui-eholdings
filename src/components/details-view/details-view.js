@@ -41,6 +41,7 @@ class DetailsView extends Component {
     ]),
     ariaRole: PropTypes.string,
     bodyContent: PropTypes.node.isRequired,
+    footer: PropTypes.node,
     handleExpandAll: PropTypes.func,
     history: ReactRouterPropTypes.history.isRequired,
     lastMenu: PropTypes.node,
@@ -53,6 +54,7 @@ class DetailsView extends Component {
       name: PropTypes.string.isRequired,
       request: PropTypes.object.isRequired
     }).isRequired,
+    onCancel: PropTypes.func,
     onListToggle: PropTypes.func,
     paneSub: PropTypes.oneOfType([
       PropTypes.string,
@@ -68,7 +70,7 @@ class DetailsView extends Component {
     resultsLength: PropTypes.number,
     searchModal: PropTypes.node,
     sections: PropTypes.object,
-    type: PropTypes.string.isRequired
+    type: PropTypes.string.isRequired,
   };
 
   static defaultProps = {
@@ -206,7 +208,10 @@ class DetailsView extends Component {
   };
 
   renderFirstMenu = () => {
-    const { paneTitle } = this.props;
+    const {
+      paneTitle,
+      onCancel,
+    } = this.props;
 
     return (
       <FormattedMessage
@@ -217,7 +222,7 @@ class DetailsView extends Component {
           <IconButton
             icon="times"
             ariaLabel={ariaLabel}
-            onClick={this.navigateBack}
+            onClick={onCancel || this.navigateBack}
             data-test-eholdings-details-view-back-button
           />
         )}
@@ -236,6 +241,7 @@ class DetailsView extends Component {
       paneSub,
       actionMenu,
       lastMenu,
+      footer,
       resultsLength,
       searchModal,
       sections,
@@ -248,7 +254,8 @@ class DetailsView extends Component {
     const { isSticky } = this.state;
 
     const containerClassName = cx('container', {
-      locked: isSticky
+      locked: isSticky,
+      hasFooter: !!footer,
     });
 
     const isListAccordionOpen = sections && sections[listSectionId];
@@ -259,7 +266,9 @@ class DetailsView extends Component {
           <Pane
             id={paneTitle}
             defaultWidth="fill"
+            padContent={false}
             actionMenu={actionMenu}
+            footer={footer}
             firstMenu={this.renderFirstMenu()}
             paneTitle={
               <span data-test-eholdings-details-view-pane-title>{paneTitle}</span>

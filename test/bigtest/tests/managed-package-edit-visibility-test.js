@@ -39,9 +39,9 @@ describe('ManagedPackageEditVisibility', () => {
       expect(PackageEditPage.isSaveDisabled).to.be.true;
     });
 
-    describe('clicking cancel', () => {
+    describe('clicking close (navigate back) button', () => {
       beforeEach(() => {
-        return PackageEditPage.clickCancel();
+        return PackageEditPage.clickBackButton();
       });
 
       it('goes to the package show page', () => {
@@ -56,7 +56,7 @@ describe('ManagedPackageEditVisibility', () => {
 
       describe('clicking cancel', () => {
         beforeEach(() => {
-          return PackageEditPage.toggleIsVisible().clickCancel();
+          return PackageEditPage.toggleIsVisible().clickBackButton();
         });
 
         it('shows a navigation confirmation modal', () => {
@@ -124,9 +124,9 @@ describe('ManagedPackageEditVisibility', () => {
       expect(PackageEditPage.isSaveDisabled).to.be.true;
     });
 
-    describe('clicking cancel', () => {
+    describe('clicking close (navigate back) button', () => {
       beforeEach(() => {
-        return PackageEditPage.clickCancel();
+        return PackageEditPage.clickBackButton();
       });
 
       it('goes to the package show page', () => {
@@ -141,7 +141,7 @@ describe('ManagedPackageEditVisibility', () => {
 
       describe('clicking cancel', () => {
         beforeEach(() => {
-          return PackageEditPage.toggleIsVisible().clickCancel();
+          return PackageEditPage.toggleIsVisible().clickBackButton();
         });
 
         it('shows a navigation confirmation modal', () => {
@@ -189,9 +189,9 @@ describe('ManagedPackageEditVisibility', () => {
       expect(PackageEditPage.isSavePresent).to.equal(false);
     });
 
-    describe('clicking cancel', () => {
+    describe('clicking close (navigate back) button', () => {
       beforeEach(() => {
-        return PackageEditPage.clickCancel();
+        return PackageEditPage.clickBackButton();
       });
 
       it('goes to the package show page', () => {

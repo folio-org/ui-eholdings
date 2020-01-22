@@ -25,15 +25,14 @@ describe('ManagedResourceEditCustomCoverage', () => {
 
     resource = this.server.create('resource', {
       package: pkg,
-      title
+      isSelected: true,
+      title,
     });
+    resource.save();
   });
 
   describe('visiting a selected managed resource edit page without custom coverage', () => {
-    beforeEach(function () {
-      resource.isSelected = true;
-      resource.save();
-
+    beforeEach(async function () {
       this.visit(`/eholdings/resources/${resource.id}/edit`);
     });
 
@@ -219,7 +218,6 @@ describe('ManagedResourceEditCustomCoverage', () => {
 
   describe('visiting a selected custom resource edit page with custom coverage', () => {
     beforeEach(function () {
-      resource.isSelected = true;
       const customCoverages = [
         this.server.create('custom-coverage', {
           beginCoverage: '2018-12-16',
@@ -268,7 +266,6 @@ describe('ManagedResourceEditCustomCoverage', () => {
 
   describe('visiting a selected custom resource edit page with multiple custom coverages', () => {
     beforeEach(function () {
-      resource.isSelected = true;
       const customCoverages = [
         this.server.create('custom-coverage', {
           beginCoverage: '2018-12-01',

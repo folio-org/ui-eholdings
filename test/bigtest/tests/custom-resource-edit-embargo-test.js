@@ -85,7 +85,7 @@ describe('CustomResourceEditEmbargo', () => {
         });
 
         it('goes to the resource show page', () => {
-          expect(ResourceShowPage.$root).to.exist;
+          expect(ResourceShowPage.isPresent).to.be.true;
         });
 
         it('does not show a custom embargo', () => {
@@ -123,16 +123,6 @@ describe('CustomResourceEditEmbargo', () => {
 
       it('shows the custom embargo select', () => {
         expect(ResourceEditPage.hasCustomEmbargoSelect).to.be.true;
-      });
-
-      describe('clicking cancel', () => {
-        beforeEach(() => {
-          return ResourceEditPage.clickCancel();
-        });
-
-        it('goes to the resource show page', () => {
-          expect(ResourceShowPage.$root).to.exist;
-        });
       });
 
       describe('entering valid custom embargo value and selecting unit', () => {

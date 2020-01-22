@@ -117,16 +117,18 @@ class ResourceShow extends Component {
       onEdit,
       stripes,
     } = this.props;
+    const { resourceSelected } = this.state;
 
     const hasEditPermission = stripes.hasPerm('ui-eholdings.records.edit');
     const hasSelectionPermission = stripes.hasPerm('ui-eholdings.package-title.select-unselect');
-    const isMenuNeeded = hasEditPermission || hasSelectionPermission;
+    const canEdit = hasEditPermission && resourceSelected;
+    const isMenuNeeded = canEdit || hasSelectionPermission;
 
     if (!isMenuNeeded) return null;
 
     return ({ onToggle }) => (
       <Fragment>
-        {hasEditPermission &&
+        {canEdit &&
           <Button
             buttonStyle="dropdownItem fullWidth"
             onClick={onEdit}
@@ -176,6 +178,9 @@ class ResourceShow extends Component {
       model: { name },
       onEdit,
     } = this.props;
+    const { resourceSelected } = this.state;
+
+    if (!resourceSelected) return null;
 
     return (
       <IfPermission perm="ui-eholdings.records.edit">

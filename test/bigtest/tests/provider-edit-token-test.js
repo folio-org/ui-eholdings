@@ -43,9 +43,9 @@ describe('ProviderEditToken', () => {
       expect(ProviderEditPage.isSaveDisabled).to.be.true;
     });
 
-    describe('clicking cancel', () => {
+    describe('clicking close (navigate back) button', () => {
       beforeEach(() => {
-        return ProviderEditPage.clickCancel();
+        return ProviderEditPage.clickBackButton();
       });
 
       it('goes to the provider show page', () => {

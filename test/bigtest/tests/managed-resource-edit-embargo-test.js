@@ -125,7 +125,7 @@ describe('ManagedResourceEditEmbargo', () => {
 
       describe('clicking cancel', () => {
         beforeEach(() => {
-          return ResourceEditPage.clickCancel();
+          return ResourceEditPage.clickBackButton();
         });
 
         it('goes to the resource show page', () => {

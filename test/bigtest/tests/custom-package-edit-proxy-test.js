@@ -19,7 +19,8 @@ describe('CustomPackageEditProxy', () => {
       provider,
       name: 'Cool Package',
       contentType: 'E-Book',
-      isCustom: true
+      isCustom: true,
+      isSelected: true,
     });
   });
 

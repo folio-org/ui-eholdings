@@ -8,7 +8,7 @@ import arrayMutators from 'final-form-arrays';
 import createFocusDecorator from 'final-form-focus';
 import { FormattedMessage } from 'react-intl';
 
-import { IfPermission } from '@folio/stripes-core';
+import { withStripes } from '@folio/stripes-core';
 import {
   Accordion,
   Button,
@@ -18,6 +18,7 @@ import {
   Modal,
   ModalFooter,
   RadioButton,
+  PaneFooter,
 } from '@folio/stripes/components';
 
 import { processErrors } from '../../utilities';
@@ -28,21 +29,23 @@ import CoverageFields from '../_fields/custom-coverage';
 import ContentTypeField from '../_fields/content-type';
 import NavigationModal from '../../navigation-modal';
 import Toaster from '../../toaster';
-import PaneHeaderButton from '../../pane-header-button';
 import SelectionStatus from '../selection-status';
 import ProxySelectField from '../../proxy-select';
 import styles from './custom-package-edit.css';
 
 const focusOnErrors = createFocusDecorator();
 
-export default class CustomPackageEdit extends Component {
+class CustomPackageEdit extends Component {
   static propTypes = {
     addPackageToHoldings: PropTypes.func.isRequired,
     model: PropTypes.object.isRequired,
     onCancel: PropTypes.func.isRequired,
     onSubmit: PropTypes.func.isRequired,
     provider: PropTypes.object.isRequired,
-    proxyTypes: PropTypes.object.isRequired
+    proxyTypes: PropTypes.object.isRequired,
+    stripes: PropTypes.shape({
+      hasPerm: PropTypes.func.isRequired,
+    }),
   };
 
   static getDerivedStateFromProps(nextProps, prevState) {
@@ -172,41 +175,59 @@ export default class CustomPackageEdit extends Component {
     );
   }
 
-  getActionMenu = ({ onToggle }) => {
-    const {
-      onCancel
-    } = this.props;
-
+  getActionMenu = () => {
     const { packageSelected } = this.state;
+    const { stripes } = this.props;
+    const hasDeletePermission = stripes.hasPerm('ui-eholdings.titles-packages.create-delete');
+
+    if (!hasDeletePermission || !packageSelected) return null;
+
+    return ({ onToggle }) => (
+      <Button
+        data-test-eholdings-package-remove-from-holdings-action
+        buttonStyle="dropdownItem fullWidth"
+        onClick={() => {
+          onToggle();
+          this.handleDeleteAction();
+        }}
+      >
+        <FormattedMessage id="ui-eholdings.package.deletePackage" />
+      </Button>
+    );
+  }
+
+  getFooter = (pristine, reset) => {
+    const { model } = this.props;
+
+    const cancelButton = (
+      <Button
+        data-test-eholdings-package-edit-cancel-button
+        buttonStyle="default mega"
+        disabled={model.update.isPending || pristine}
+        onClick={reset}
+        marginBottom0
+      >
+        <FormattedMessage id="stripes-components.cancel" />
+      </Button>
+    );
+
+    const saveButton = (
+      <Button
+        buttonStyle="primary mega"
+        data-test-eholdings-package-save-button
+        disabled={model.update.isPending || pristine}
+        marginBottom0
+        type="submit"
+      >
+        <FormattedMessage id="stripes-components.saveAndClose" />
+      </Button>
+    );
 
     return (
-      <Fragment>
-        <Button
-          data-test-eholdings-package-cancel-action
-          buttonStyle="dropdownItem fullWidth"
-          onClick={() => {
-            onToggle();
-            onCancel();
-          }}
-        >
-          <FormattedMessage id="ui-eholdings.actionMenu.cancelEditing" />
-        </Button>
-
-        {packageSelected && (
-          <IfPermission perm="ui-eholdings.titles-packages.create-delete">
-            <Button
-              data-test-eholdings-package-remove-from-holdings-action
-              buttonStyle="dropdownItem fullWidth"
-              onClick={() => {
-                onToggle();
-                this.handleDeleteAction();
-              }}
-            >
-              <FormattedMessage id="ui-eholdings.package.deletePackage" />
-            </Button>
-          </IfPermission>
-        )}
-      </Fragment>
+      <PaneFooter
+        renderStart={cancelButton}
+        renderEnd={saveButton}
+      />
     );
   }
 
@@ -214,7 +235,8 @@ export default class CustomPackageEdit extends Component {
     const {
       model,
       proxyTypes,
-      provider
+      provider,
+      onCancel,
     } = this.props;
 
     const {
@@ -232,7 +254,7 @@ export default class CustomPackageEdit extends Component {
         decorators={[focusOnErrors]}
         mutators={{ ...arrayMutators }}
         initialValues={initialValues}
-        render={({ handleSubmit, pristine, form: { change } }) => (
+        render={({ handleSubmit, pristine, form: { change, reset } }) => (
           <div>
             <Toaster toasts={processErrors(model)} position="bottom" />
             <form onSubmit={handleSubmit}>
@@ -240,28 +262,11 @@ export default class CustomPackageEdit extends Component {
                 type="package"
                 model={model}
                 paneTitle={model.name}
-                actionMenu={this.getActionMenu}
+                actionMenu={this.getActionMenu()}
                 handleExpandAll={this.toggleAllSections}
                 sections={sections}
                 ariaRole="tablist"
-                lastMenu={(
-                  <Fragment>
-                    {model.update.isPending && (
-                      <Icon icon="spinner-ellipsis" />
-                    )}
-                    <PaneHeaderButton
-                      disabled={pristine || model.update.isPending}
-                      type="submit"
-                      buttonStyle="primary"
-                      data-test-eholdings-package-save-button
-                    >
-                      {model.update.isPending ?
-                        (<FormattedMessage id="ui-eholdings.saving" />)
-                        :
-                        (<FormattedMessage id="ui-eholdings.save" />)}
-                    </PaneHeaderButton>
-                  </Fragment>
-                )}
+                footer={this.getFooter(pristine, reset)}
                 bodyContent={(
                   <Fragment>
                     <Accordion
@@ -353,7 +358,6 @@ export default class CustomPackageEdit extends Component {
                             >
                               <Icon icon="spinner-ellipsis" />
                             </div>
-
                           )}
                           {(proxyTypes.request.isResolved && provider.data.isLoaded) ? (
                             <div data-test-eholdings-package-proxy-select-field>
@@ -380,12 +384,14 @@ export default class CustomPackageEdit extends Component {
                       {packageSelected ? (
                         <CoverageFields
                           initial={initialValues.customCoverages}
-                        />) : (
-                          <p><FormattedMessage id="ui-eholdings.package.customCoverage.notSelected" /></p>
+                        />
+                      ) : (
+                        <p><FormattedMessage id="ui-eholdings.package.customCoverage.notSelected" /></p>
                       )}
                     </Accordion>
                   </Fragment>
                 )}
+                onCancel={onCancel}
               />
             </form>
 
@@ -425,3 +431,5 @@ export default class CustomPackageEdit extends Component {
     );
   }
 }
+
+export default withStripes(CustomPackageEdit);

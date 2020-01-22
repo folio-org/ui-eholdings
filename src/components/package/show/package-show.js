@@ -155,13 +155,14 @@ class PackageShow extends Component {
     const hasSelectionPermission = stripes.hasPerm('ui-eholdings.package-title.select-unselect');
     const isAddButtonNeeded = (!packageSelected || model.isPartiallySelected) && hasSelectionPermission;
     const isRemoveButtonNeeded = packageSelected && hasRequiredRemovingPermission;
-    const isMenuNeeded = hasEditPermission || isAddButtonNeeded || isRemoveButtonNeeded;
+    const canEdit = hasEditPermission && packageSelected;
+    const isMenuNeeded = canEdit || isAddButtonNeeded || isRemoveButtonNeeded;
 
     if (!isMenuNeeded) return null;
 
     return ({ onToggle }) => (
       <Fragment>
-        {hasEditPermission &&
+        {canEdit &&
           <Button
             buttonStyle="dropdownItem fullWidth"
             onClick={onEdit}
@@ -558,26 +559,30 @@ class PackageShow extends Component {
     const {
       model: { name },
       onEdit,
+      stripes,
     } = this.props;
+    const { packageSelected } = this.state;
+    const hasEditPermissions = stripes.hasPerm('ui-eholdings.records.edit');
+    const canEdit = packageSelected && hasEditPermissions;
+
+    if (!canEdit) return null;
 
     return (
-      <IfPermission perm="ui-eholdings.records.edit">
-        <FormattedMessage
-          id="ui-eholdings.label.editLink"
-          values={{
-            name,
-          }}
-        >
-          {ariaLabel => (
-            <IconButton
-              data-test-eholdings-package-edit-link
-              icon="edit"
-              ariaLabel={ariaLabel}
-              onClick={onEdit}
-            />
-          )}
-        </FormattedMessage>
-      </IfPermission>
+      <FormattedMessage
+        id="ui-eholdings.label.editLink"
+        values={{
+          name,
+        }}
+      >
+        {ariaLabel => (
+          <IconButton
+            data-test-eholdings-package-edit-link
+            icon="edit"
+            ariaLabel={ariaLabel}
+            onClick={onEdit}
+          />
+        )}
+      </FormattedMessage>
     );
   }
 

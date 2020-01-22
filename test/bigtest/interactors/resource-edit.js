@@ -41,7 +41,6 @@ import Datepicker from './datepicker';
 
 @interactor class ResourceEditDropDownMenu {
   clickRemoveFromHoldings = clickable('[data-test-eholdings-remove-resource-from-holdings]');
-  clickCancel = clickable('[data-test-eholdings-resource-cancel-action]');
 }
 
 @interactor class ResourceEditToggleSectionButton {
@@ -60,12 +59,6 @@ import Datepicker from './datepicker';
 
   addToHoldingsButton = isPresent('[data-test-eholdings-resource-add-to-holdings-button]');
 
-  clickCancel= action(function () {
-    return this
-      .dropDown.clickDropDownButton()
-      .dropDownMenu.clickCancel();
-  });
-
   toggleSectionButton = new ResourceEditToggleSectionButton();
   resourceHoldingStatusAccordion = new AccordionInteractor('#resourceShowHoldingStatus');
   resourceSettingsAccordion = new AccordionInteractor('#resourceShowSettings');
@@ -75,10 +68,12 @@ import Datepicker from './datepicker';
   hasSaveButon = isPresent('[data-test-eholdings-resource-save-button]');
   hasCancelButton = isPresent('[data-test-eholdings-resource-cancel-button]');
   isSaveDisabled = property('[data-test-eholdings-resource-save-button]', 'disabled');
+  isCancelDisabled = property('[data-test-eholdings-resource-cancel-button]', 'disabled');
   hasErrors = isPresent('[data-test-eholdings-resource-edit-error]');
   isPeerReviewed = property('[data-test-eholdings-peer-reviewed-field] input[type=checkbox]', 'checked');
   checkPeerReviewed = clickable('[data-test-eholdings-peer-reviewed-field] input[type=checkbox]');
   hasBackButton = isPresent('[data-test-eholdings-details-view-back-button]');
+  clickBackButton = clickable('[data-test-eholdings-details-view-back-button]');
   isResourceSelected = text('[data-test-eholdings-resource-holding-status] div');
   isResourceSelectedBoolean = isPresent('[data-test-eholdings-resource-holding-status] div');
   isResourceVisible = property('[data-test-eholdings-resource-visibility-field] input[value="true"]', 'checked');

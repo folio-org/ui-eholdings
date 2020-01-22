@@ -244,19 +244,19 @@ describe('TitleCreate', () => {
     });
   });
 
-  describe('canceling when there is router history', () => {
+  describe('closing when there is router history', () => {
     beforeEach(function () {
       this.visit('/eholdings/?searchType=titles');
     });
 
-    describe('clicking a cancel action', () => {
+    describe('clicking new title button', () => {
       beforeEach(function () {
         return TitleSearchPage.clickNewButton();
       });
 
-      describe('clicking cancel', () => {
+      describe('clicking close(back button)', () => {
         beforeEach(() => {
-          return TitleCreatePage.cancel();
+          return TitleCreatePage.clickBackButton();
         });
 
         it('redirects to the previous page', function () {
@@ -264,11 +264,11 @@ describe('TitleCreate', () => {
         });
       });
 
-      describe('clicking cancel after filling in data', () => {
+      describe('clicking close(back button) after filling in data', () => {
         beforeEach(() => {
           return TitleCreatePage
             .fillName('My Title')
-            .cancel();
+            .clickBackButton();
         });
 
         it('shows a navigation confirmation modal', () => {
