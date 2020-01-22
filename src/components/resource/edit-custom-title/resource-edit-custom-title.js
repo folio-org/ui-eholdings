@@ -1,6 +1,12 @@
-import React, { Component, Fragment } from 'react';
+import React, {
+  Component,
+  Fragment,
+} from 'react';
 import PropTypes from 'prop-types';
-import { Form, FormSpy } from 'react-final-form';
+import {
+  Form,
+  FormSpy,
+} from 'react-final-form';
 import arrayMutators from 'final-form-arrays';
 import createFocusDecorator from 'final-form-focus';
 import { FormattedMessage } from 'react-intl';
@@ -19,24 +25,31 @@ import {
   PaneFooter,
 } from '@folio/stripes/components';
 
-import { processErrors, isBookPublicationType } from '../../utilities';
-
-import DetailsView from '../../details-view';
-import VisibilityField from '../_fields/visibility';
-import CoverageFields from '../_fields/resource-coverage-fields';
-import CustomUrlFields from '../_fields/custom-url';
 import CoverageStatementFields, { coverageStatementDecorator } from '../_fields/coverage-statement';
 import CustomEmbargoFields, { getEmbargoInitial } from '../_fields/custom-embargo';
-import NavigationModal from '../../navigation-modal';
-import Toaster from '../../toaster';
+import CustomUrlFields from '../_fields/custom-url';
+import CoverageFields from '../_fields/resource-coverage-fields';
+import VisibilityField from '../_fields/visibility';
 import CoverageDateList from '../../coverage-date-list';
+import { CustomLabelsEditSection } from '../../custom-labels-section';
+import DetailsView from '../../details-view';
+import NavigationModal from '../../navigation-modal';
 import ProxySelectField from '../../proxy-select';
+import Toaster from '../../toaster';
 
+import {
+  processErrors,
+  isBookPublicationType,
+  getUserDefinedFields,
+} from '../../utilities';
+
+import { CustomLabelsAccordion } from '../../../features';
 
 import {
   historyActions,
   coverageStatementExistenceStatuses,
 } from '../../../constants';
+
 
 const focusOnErrors = createFocusDecorator();
 
@@ -59,6 +72,7 @@ class ResourceEditCustomTitle extends Component {
     initialValues: this.getInitialValuesFromModel(),
     sections: {
       resourceShowHoldingStatus: true,
+      resourceShowCustomLabels: true,
       resourceShowSettings: true,
       resourceShowCoverageSettings: true,
     },
@@ -280,6 +294,8 @@ class ResourceEditCustomTitle extends Component {
       ? <FormattedMessage id="ui-eholdings.resource.visibilityData.isHidden" />
       : model.visibilityData.reason && `(${model.visibilityData.reason})`;
 
+    const userDefinedFields = getUserDefinedFields(model);
+
     return (
       <Form
         onSubmit={this.handleOnSubmit}
@@ -320,6 +336,14 @@ class ResourceEditCustomTitle extends Component {
                         <br />
                       </label>
                     </Accordion>
+
+                    <CustomLabelsAccordion
+                      id="resourceShowCustomLabels"
+                      isOpen={sections.resourceShowCustomLabels}
+                      onToggle={this.toggleSection}
+                      section={CustomLabelsEditSection}
+                      userDefinedFields={userDefinedFields}
+                    />
 
                     <Accordion
                       label={this.getSectionHeader('ui-eholdings.resource.resourceSettings')}

@@ -1,7 +1,7 @@
 /* global describe, it */
 import { expect } from 'chai';
 
-import agreements from '../../../../../src/redux/reducers';
+import { agreements } from '../../../../../src/redux/reducers';
 import {
   GET_AGREEMENTS,
   GET_AGREEMENTS_SUCCESS,

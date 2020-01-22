@@ -120,7 +120,6 @@
     "settings.rootProxy.server": "Root proxy server",
     "settings.rootProxy.warning": "Warning: Changing the root proxy setting will override the proxy for all links and resources currently set to inherit the root proxy selection.",
     "settings.rootProxy.ebsco.customer.message": "EBSCO KB API customers: Please access EBSCOAdmin to setup and maintain proxies.",
-    "actionMenu.fullView": "Full view",
     "actionMenu.cancelEditing": "Cancel editing",
     "actionMenu.edit": "Редактировать",
     "label.author": "Автор",
@@ -328,5 +327,7 @@
     "filter.togglePane": "Toggle filters pane",
     "search.enterYourSearch": "Введите ваш поиск",
     "search.selectFieldToSearch": "Выберите поле для поиска",
-    "tags.filter": "Tags filter"
+    "tags.filter": "Tags filter",
+    "resource.customLabels": "Custom labels",
+    "validate.errors.customLabels.length": "Value has exceeded 100 character limit. Please revise your value."
 }

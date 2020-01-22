@@ -99,6 +99,7 @@
     "resource.packageContentType": "Package content type",
     "resource.coverageStatement": "Coverage statement",
     "resource.coverageStatement.textArea": "Describes the coverage to patrons.",
+    "resource.customLabels": "Custom labels",
     "resource.resourceInformation": "Resource information",
     "resource.embargoPeriod": "Embargo period",
     "resource.embargoPeriod.notSet": "No embargo period has been set.",
@@ -265,6 +266,7 @@
     "validate.errors.customPackage.name.length": "Must not exceed {amount} characters.",
     "validate.errors.coverageStatement.length": "Statement must be 350 characters or less.",
     "validate.errors.coverageStatement.blank": "Statement field cannot be blank if selected.",
+    "validate.errors.customLabels.length": "Value has exceeded 100 character limit. Please revise your value.",
 
     "validate.errors.edition.value": "Invalid value.",
     "validate.errors.edition.length": "Value exceeds the 250 character limit.",

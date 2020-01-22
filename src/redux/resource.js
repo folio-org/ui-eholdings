@@ -34,6 +34,11 @@ class Resource {
   isTitleCustom = false;
   isPeerReviewed = false;
   description = '';
+  userDefinedField1 = '';
+  userDefinedField2 = '';
+  userDefinedField3 = '';
+  userDefinedField4 = '';
+  userDefinedField5 = '';
 
   serialize() {
     const data = {
@@ -70,6 +75,11 @@ class Resource {
         isTitleCustom: this.isTitleCustom,
         isPeerReviewed: this.isPeerReviewed,
         description: this.description,
+        userDefinedField1: this.userDefinedField1,
+        userDefinedField2: this.userDefinedField2,
+        userDefinedField3: this.userDefinedField3,
+        userDefinedField4: this.userDefinedField4,
+        userDefinedField5: this.userDefinedField5,
       };
     }
 

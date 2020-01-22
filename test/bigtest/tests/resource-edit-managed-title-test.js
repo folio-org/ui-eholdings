@@ -571,4 +571,16 @@ describe('ResourceEditManagedTitleInManagedPackage', () => {
       });
     });
   });
+
+  describe('visiting the resource edit page which is not selected', () => {
+    beforeEach(function () {
+      resource.isSelected = false;
+      resource.save();
+      this.visit(`/eholdings/resources/${resource.titleId}/edit`);
+    });
+
+    it('custom labels accordion should not be present', () => {
+      expect(ResourceEditPage.resourceCustomLabelsAccordion.isPresent).to.be.false;
+    });
+  });
 });

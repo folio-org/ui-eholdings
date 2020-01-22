@@ -47,7 +47,7 @@ import KeyValueColumns from '../../key-value-columns';
 import ProxyDisplay from '../../proxy-display';
 import TokenDisplay from '../../token-display';
 import TagsAccordion from '../../tags';
-import AgreementsAccordion from '../../../features';
+import { AgreementsAccordion } from '../../../features';
 
 const ITEM_HEIGHT = 53;
 

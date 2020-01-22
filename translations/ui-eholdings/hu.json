@@ -120,7 +120,6 @@
     "settings.rootProxy.server": "Root proxy szerver",
     "settings.rootProxy.warning": "Figyelmeztetés: A root proxy beállításának módosítása felülbírálja a proxy beállítást az összes linkhez és forráshoz, amelyek jelenleg a root proxy beállításait öröklik.",
     "settings.rootProxy.ebsco.customer.message": "EBSCO KB API ügyfelek: Kérjen hozzáférést az EBSCOAdmin-hoz a proxyk beállításához és karbantartásához.",
-    "actionMenu.fullView": "Teljes nézet",
     "actionMenu.cancelEditing": "Szerkesztés elvetése",
     "actionMenu.edit": "Szerkeszt",
     "label.author": "Szerző",
@@ -328,5 +327,7 @@
     "filter.togglePane": "Toggle filters pane",
     "search.enterYourSearch": "Enter your search",
     "search.selectFieldToSearch": "Select a field to search",
-    "tags.filter": "Tags filter"
+    "tags.filter": "Tags filter",
+    "resource.customLabels": "Custom labels",
+    "validate.errors.customLabels.length": "Value has exceeded 100 character limit. Please revise your value."
 }

@@ -49,6 +49,13 @@ import Datepicker from './datepicker';
   click = clickable('[data-test-eholdings-details-view-collapse-all-button] button');
 }
 
+
+@interactor class ResourceEditCustomLabels {
+  inputCustomLabel = fillable('input');
+  blurCustomLabel = blurrable('input');
+  validationErrorMessage = text('[class^="feedbackError--"]');
+}
+
 @interactor class ResourceEditPage {
   isLoaded = isPresent('[data-test-eholdings-details-view-pane-title]');
   whenLoaded() {
@@ -63,6 +70,7 @@ import Datepicker from './datepicker';
   resourceHoldingStatusAccordion = new AccordionInteractor('#resourceShowHoldingStatus');
   resourceSettingsAccordion = new AccordionInteractor('#resourceShowSettings');
   resourceCoverageSettingsAccordion = new AccordionInteractor('#resourceShowCoverageSettings');
+  resourceCustomLabelsAccordion = new AccordionInteractor('#resourceShowCustomLabels');
 
   clickSave = clickable('[data-test-eholdings-resource-save-button]');
   hasSaveButon = isPresent('[data-test-eholdings-resource-save-button]');
@@ -157,6 +165,8 @@ import Datepicker from './datepicker';
   isEmbargoNotShownLabelPresent = isPresent('[data-test-eholdings-resource-embargo-not-shown-label]');
   validationErrorOnCustomUrl = text('[data-test-eholdings-custom-url-textfield] [class^="feedbackError--"]');
   managedCoverageDisplay = text('[data-test-eholdings-resource-edit-managed-coverage-list]');
+
+  customLabelsFields = collection('[data-test-eholdings-resource-edit-custom-labels-fields]', ResourceEditCustomLabels);
 
   selectPublicationType = fillable('[data-test-eholdings-publication-type-field] select');
   publicationTypeValue = value('[data-test-eholdings-publication-type-field] select');

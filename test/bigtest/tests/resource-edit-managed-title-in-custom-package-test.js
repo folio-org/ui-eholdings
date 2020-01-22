@@ -54,6 +54,9 @@ describe('ResourceEditManagedTitleInCustomPackage', () => {
       expect(ResourceEditPage.isSaveDisabled).to.equal(true);
     });
 
+    it('custom labels accordion should be present', () => {
+      expect(ResourceEditPage.resourceCustomLabelsAccordion.isPresent).to.be.true;
+    });
 
     describe('removing a managed resource', () => {
       beforeEach(() => {

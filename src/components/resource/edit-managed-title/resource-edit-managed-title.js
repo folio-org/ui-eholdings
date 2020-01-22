@@ -23,7 +23,11 @@ import {
   withStripes,
 } from '@folio/stripes-core';
 
-import { processErrors, isBookPublicationType } from '../../utilities';
+import {
+  processErrors,
+  isBookPublicationType,
+  getUserDefinedFields,
+} from '../../utilities';
 
 import CoverageStatementFields, { coverageStatementDecorator } from '../_fields/coverage-statement';
 import VisibilityField from '../_fields/visibility';
@@ -34,6 +38,8 @@ import ProxySelectField from '../../proxy-select';
 import CoverageFields from '../_fields/resource-coverage-fields';
 import CoverageDateList from '../../coverage-date-list';
 import DetailsView from '../../details-view';
+import { CustomLabelsEditSection } from '../../custom-labels-section';
+import { CustomLabelsAccordion } from '../../../features';
 
 import {
   historyActions,
@@ -254,6 +260,7 @@ class ResourceEditManagedTitle extends Component {
       model,
       proxyTypes,
       onCancel,
+      model: { isSelected },
     } = this.props;
 
     const {
@@ -268,6 +275,8 @@ class ResourceEditManagedTitle extends Component {
     const visibilityMessage = model.package.visibilityData.isHidden
       ? <FormattedMessage id="ui-eholdings.resource.visibilityData.isHidden" />
       : model.visibilityData.reason && `(${model.visibilityData.reason})`;
+
+    const userDefinedFields = getUserDefinedFields(model);
 
     return (
       <Form
@@ -327,6 +336,16 @@ class ResourceEditManagedTitle extends Component {
                         )}
                       </label>
                     </Accordion>
+
+                    {isSelected && (
+                      <CustomLabelsAccordion
+                        id="resourceShowCustomLabels"
+                        isOpen={sections.resourceShowCustomLabels}
+                        onToggle={this.toggleSection}
+                        section={CustomLabelsEditSection}
+                        userDefinedFields={userDefinedFields}
+                      />
+                    )}
 
                     {managedResourceSelected && (
                       <Accordion

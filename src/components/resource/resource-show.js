@@ -34,16 +34,18 @@ import ExternalLink from '../external-link/external-link';
 import IdentifiersList from '../identifiers-list';
 import ContributorsList from '../contributors-list';
 import CoverageDateList from '../coverage-date-list';
-import AgreementsAccordion from '../../features';
+import { AgreementsAccordion, CustomLabelsAccordion } from '../../features';
 import {
   isBookPublicationType,
   isValidCoverageList,
   processErrors,
+  getUserDefinedFields,
 } from '../utilities';
 import Toaster from '../toaster';
 import TagsAccordion from '../tags';
 import KeyValueColumns from '../key-value-columns';
 import ProxyDisplay from '../proxy-display';
+import { CustomLabelsShowSection } from '../custom-labels-section';
 
 class ResourceShow extends Component {
   static propTypes = {
@@ -66,6 +68,7 @@ class ResourceShow extends Component {
       resourceShowTags: true,
       resourceShowHoldingStatus: true,
       resourceShowInformation: true,
+      resourceShowCustomLabels: true,
       resourceShowSettings: true,
       resourceShowCoverageSettings: this.props.model.isSelected,
       resourceShowAgreements: true,
@@ -203,7 +206,6 @@ class ResourceShow extends Component {
     );
   }
 
-
   render() {
     const {
       model,
@@ -219,6 +221,9 @@ class ResourceShow extends Component {
       resourceSelected,
       sections
     } = this.state;
+
+    const userDefinedFields = getUserDefinedFields(model);
+    const showCustomLables = model.isTitleCustom || model.isSelected;
 
     const isSelectInFlight = model.update.isPending && 'isSelected' in model.update.changedAttributes;
     const visibilityMessage = model.package.visibilityData.isHidden ?
@@ -434,6 +439,16 @@ class ResourceShow extends Component {
                   </div>
                 </KeyValueColumns>
               </Accordion>
+
+              {showCustomLables &&
+                <CustomLabelsAccordion
+                  id="resourceShowCustomLabels"
+                  isOpen={sections.resourceShowCustomLabels}
+                  onToggle={this.handleSectionToggle}
+                  section={CustomLabelsShowSection}
+                  userDefinedFields={userDefinedFields}
+                />
+              }
 
               <Accordion
                 label={<Headline size="large" tag="h3"><FormattedMessage id="ui-eholdings.resource.resourceSettings" /></Headline>}

@@ -74,7 +74,12 @@ class ResourceEditRoute extends Component {
       customEmbargoPeriod,
       customUrl,
       isVisible,
-      proxyId
+      proxyId,
+      userDefinedField1,
+      userDefinedField2,
+      userDefinedField3,
+      userDefinedField4,
+      userDefinedField5,
     } = values;
 
     if (values.isSelected === false && model.package.isCustom) {
@@ -91,6 +96,11 @@ class ResourceEditRoute extends Component {
         contributors: [],
         coverageStatement: '',
         proxy: {},
+        userDefinedField1: '',
+        userDefinedField2: '',
+        userDefinedField3: '',
+        userDefinedField4: '',
+        userDefinedField5: '',
       }));
     } else if (values.isSelected && !values.customCoverages) {
       updateResource(Object.assign(model, {
@@ -117,6 +127,11 @@ class ResourceEditRoute extends Component {
         coverageStatement,
         customEmbargoPeriod: customEmbargoPeriod[0] || defaultEmbargoPeriod,
         proxy: { id: proxyId },
+        userDefinedField1,
+        userDefinedField2,
+        userDefinedField3,
+        userDefinedField4,
+        userDefinedField5,
       }));
     }
   }
@@ -169,6 +184,6 @@ export default connect(
     getResource: id => Resource.find(id, { include: ['package', 'title'] }),
     getProxyTypes: () => ProxyType.query(),
     updateResource: model => Resource.save(model),
-    destroyResource: model => Resource.destroy(model)
+    destroyResource: model => Resource.destroy(model),
   }
 )(ResourceEditRoute);

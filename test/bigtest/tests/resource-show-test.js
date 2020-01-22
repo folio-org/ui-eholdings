@@ -137,6 +137,10 @@ describe('ResourceShow', () => {
       expect(ResourcePage.packageName).to.equal('Cool Package');
     });
 
+    it('does not displays custom labels accordion', () => {
+      expect(ResourcePage.customLabelsAccordion.isPresent).to.be.false;
+    });
+
     describe('agreements section', () => {
       it('should display open accordion by default', () => {
         expect(ResourcePage.agreementsSection.isExpanded).to.be.true;
@@ -419,6 +423,91 @@ describe('ResourceShow', () => {
 
     it('displays the publication type without modification', () => {
       expect(ResourcePage.publicationType).to.equal('UnknownPublicationType');
+    });
+  });
+
+  describe('visiting the resource page with custom labels', () => {
+    beforeEach(function () {
+      providerPackage = this.server.create('package', 'withTitles', {
+        provider,
+        name: 'Cool Package',
+        contentType: '',
+        titleCount: 5,
+      });
+
+      const title = this.server.create('title', {
+        name: 'Best Title Ever',
+        edition: 'Best Edition Ever',
+        publicationType: '',
+      });
+
+      resource = this.server.create('resource', 'withTitleCustom', {
+        package: providerPackage,
+        title,
+      });
+
+      this.visit(`/eholdings/resources/${resource.id}`);
+    });
+
+    it('displays custom labels accordion', () => {
+      expect(ResourcePage.customLabelsAccordion.isPresent).to.be.true;
+    });
+
+    it('custom labels accordion is open', () => {
+      expect(ResourcePage.customLabelsAccordion.isOpen).to.be.true;
+    });
+
+    it('custom labels length', () => {
+      expect(ResourcePage.customLabels().length).to.be.equal(4);
+    });
+
+    it('displays correct labels', () => {
+      expect(ResourcePage.customLabels(0).label).to.be.equal('test label');
+      expect(ResourcePage.customLabels(1).label).to.be.equal('some label');
+      expect(ResourcePage.customLabels(2).label).to.be.equal('different label');
+      expect(ResourcePage.customLabels(3).label).to.be.equal('oh, another one');
+    });
+
+    it('last custom label without value', () => {
+      expect(ResourcePage.customLabels(3).value).to.be.equal('-');
+    });
+  });
+
+  describe('custom labels with a server error', () => {
+    beforeEach(function () {
+      providerPackage = this.server.create('package', 'withTitles', {
+        provider,
+        name: 'Cool Package',
+        contentType: '',
+        titleCount: 5,
+      });
+
+      const title = this.server.create('title', {
+        name: 'Best Title Ever',
+        edition: 'Best Edition Ever',
+        publicationType: '',
+      });
+
+      resource = this.server.create('resource', 'withTitleCustom', {
+        package: providerPackage,
+        title,
+      });
+
+      this.server.get('/custom-labels', {
+        errors: [{
+          title: 'There was an error',
+        }]
+      }, 500);
+
+      this.visit(`/eholdings/resources/${resource.id}`);
+    });
+
+    it.skip('displays the correct error text', () => {
+      expect(ResourcePage.toast.errorText).to.equal('There was an error');
+    });
+
+    it('sould not display custom labels accordion', () => {
+      expect(ResourcePage.customLabelsAccordion.isPresent).to.be.false;
     });
   });
 
