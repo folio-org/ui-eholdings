@@ -82,10 +82,6 @@ class TitleShowRoute extends Component {
       state: { eholdings: true },
     };
 
-    if (this.getSearchType()) {
-      history.push(editRouteState);
-    }
-
     history.replace(editRouteState);
   }
 
@@ -106,7 +102,7 @@ class TitleShowRoute extends Component {
           addCustomPackage={this.createResource}
           onEdit={this.handleEdit}
           isFreshlySaved={
-            history.action === 'PUSH' &&
+            history.action === 'REPLACE' &&
             history.location.state &&
             history.location.state.isFreshlySaved
           }

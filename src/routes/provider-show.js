@@ -103,10 +103,6 @@ class ProviderShowRoute extends Component {
       }
     };
 
-    if (this.getSearchType()) {
-      history.push(editRouteState);
-    }
-
     history.replace(editRouteState);
   }
 
@@ -148,7 +144,7 @@ class ProviderShowRoute extends Component {
           }
           onEdit={this.handleEdit}
           isFreshlySaved={
-            history.action === 'PUSH' &&
+            history.action === 'REPLACE' &&
             history.location.state &&
             history.location.state.isFreshlySaved
           }

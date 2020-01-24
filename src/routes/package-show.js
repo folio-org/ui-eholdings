@@ -183,10 +183,6 @@ class PackageShowRoute extends Component {
       },
     };
 
-    if (this.getSearchType()) {
-      history.push(editRouteState);
-    }
-
     history.replace(editRouteState);
   }
 
@@ -221,7 +217,6 @@ class PackageShowRoute extends Component {
           toggleAllowKbToAddTitles={this.toggleAllowKbToAddTitles}
           onEdit={this.handleEdit}
           isFreshlySaved={
-            history.action === 'PUSH' &&
             history.location.state &&
             history.location.state.isFreshlySaved
           }

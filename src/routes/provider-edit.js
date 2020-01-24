@@ -50,7 +50,7 @@ class ProviderEditRoute extends Component {
     const isRejected = model.update.isRejected;
 
     if (wasPending && needsUpdate && !isRejected) {
-      history.push({
+      history.replace({
         pathname: `/eholdings/providers/${model.id}`,
         search: location.search,
         state: { eholdings: true, isFreshlySaved: true }
@@ -88,10 +88,6 @@ class ProviderEditRoute extends Component {
         eholdings: true,
       }
     };
-
-    if (this.getSearchType()) {
-      history.push(viewRouteState);
-    }
 
     history.replace(viewRouteState);
   }

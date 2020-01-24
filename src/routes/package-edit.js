@@ -87,7 +87,7 @@ class PackageEditRoute extends Component {
     const isFreshlySaved = wasPending && needsUpdate && !isRejected && (wasUnSelected || isCurrentlySelected);
 
     if (isFreshlySaved || (next.isLoaded && !next.isSelected)) {
-      history.push({
+      history.replace({
         pathname: `/eholdings/packages/${next.id}`,
         search: this.props.location.search,
         state: { eholdings: true, isFreshlySaved }

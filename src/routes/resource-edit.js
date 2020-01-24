@@ -55,7 +55,7 @@ class ResourceEditRoute extends Component {
     const isCurrentlySelected = prevProps.model.isSelected && model.isSelected;
     const isFreshlySaved = wasPending && needsUpdate && !isRejected && (wasUnSelected || isCurrentlySelected);
     if (isFreshlySaved || (model.isLoaded && !model.isSelected)) {
-      history.push({
+      history.replace({
         pathname: `/eholdings/resources/${model.id}`,
         search: location.search,
         state: {

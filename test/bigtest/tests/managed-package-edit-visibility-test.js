@@ -177,26 +177,8 @@ describe('ManagedPackageEditVisibility', () => {
       this.visit(`/eholdings/packages/${providerPackage.id}/edit`);
     });
 
-    it('reflects the desired state of holding status', () => {
-      expect(PackageEditPage.selectionStatus.isSelected).to.equal(false);
-    });
-
-    it('visibility field is not present', () => {
-      expect(PackageEditPage.isVisibilityFieldPresent).to.equal(false);
-    });
-
-    it('disables the save button', () => {
-      expect(PackageEditPage.isSavePresent).to.equal(false);
-    });
-
-    describe('clicking close (navigate back) button', () => {
-      beforeEach(() => {
-        return PackageEditPage.clickBackButton();
-      });
-
-      it('goes to the package show page', () => {
-        expect(PackageShowPage.$root).to.exist;
-      });
+    it('redirects to the package show page', () => {
+      expect(PackageShowPage.isPresent).to.equal(true);
     });
   });
 });
