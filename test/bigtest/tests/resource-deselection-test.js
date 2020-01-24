@@ -3,7 +3,7 @@ import { expect } from 'chai';
 
 import setupApplication from '../helpers/setup-application';
 import ResourcePage from '../interactors/resource-show';
-import PackageSearchPage from '../interactors/package-search';
+import PackageShowPage from '../interactors/package-search';
 
 describe('ResourceDeselection', () => {
   setupApplication();
@@ -86,10 +86,9 @@ describe('ResourceDeselection', () => {
       });
 
       describe('deselecting', () => {
-        beforeEach(() => {
-          return ResourcePage
-            .dropDown.clickDropDownButton()
-            .dropDownMenu.clickRemoveFromHoldings();
+        beforeEach(async () => {
+          await ResourcePage.dropDown.clickDropDownButton();
+          await ResourcePage.dropDownMenu.clickRemoveFromHoldings();
         });
 
         it('warns the user they are deselecting', () => {
@@ -121,7 +120,7 @@ describe('ResourceDeselection', () => {
 
           describe('when the request succeeds', () => {
             it('shows a success Toast notification', () => {
-              expect(PackageSearchPage.toast.successText).to.equal('Title was updated.');
+              expect(PackageShowPage.toast.successText).to.equal('Title was updated.');
             });
           });
         });

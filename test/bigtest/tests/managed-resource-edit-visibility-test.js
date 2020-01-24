@@ -57,7 +57,7 @@ describe('ManagedResourceEditVisibility', () => {
 
     describe('clicking cancel', () => {
       beforeEach(() => {
-        return ResourceEditPage.clickCancel();
+        return ResourceEditPage.clickBackButton();
       });
 
       it('goes to the resource show page', () => {
@@ -77,7 +77,7 @@ describe('ManagedResourceEditVisibility', () => {
 
         describe('clicking cancel', () => {
           beforeEach(() => {
-            return ResourceEditPage.clickCancel();
+            return ResourceEditPage.clickBackButton();
           });
 
           it('shows a navigation confirmation modal', () => {

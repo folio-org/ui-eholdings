@@ -132,19 +132,19 @@ describe('PackageCreate', () => {
     });
   });
 
-  describe('canceling when there is router history', () => {
+  describe('closing when there is router history', () => {
     beforeEach(function () {
       this.visit('/eholdings/?searchType=packages');
     });
 
-    describe('clicking a cancel action', () => {
+    describe('clicking a close button', () => {
       beforeEach(function () {
         return PackageSearchPage.clickNewButton();
       });
 
-      describe('clicking cancel', () => {
+      describe('clicking close when pristine form', () => {
         beforeEach(() => {
-          return PackageCreatePage.cancel();
+          return PackageCreatePage.clickBackButton();
         });
 
         it('redirects to the previous page', function () {
@@ -152,11 +152,11 @@ describe('PackageCreate', () => {
         });
       });
 
-      describe('clicking cancel after filling in data', () => {
+      describe('clicking close after filling in data', () => {
         beforeEach(() => {
           return PackageCreatePage
             .fillName('My Package')
-            .cancel();
+            .clickBackButton();
         });
 
         it('shows a navigation confirmation modal', () => {

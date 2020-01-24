@@ -1,4 +1,4 @@
-import React, { Component, Fragment } from 'react';
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Form } from 'react-final-form';
 import arrayMutators from 'final-form-arrays';
@@ -7,10 +7,10 @@ import { FormattedMessage } from 'react-intl';
 
 import {
   Button,
-  Icon,
   IconButton,
   Pane,
   Paneset,
+  PaneFooter,
 } from '@folio/stripes/components';
 
 import DetailsViewSection from '../../details-view-section';
@@ -19,7 +19,6 @@ import CoverageFields from '../_fields/custom-coverage';
 import ContentTypeField from '../_fields/content-type';
 import NavigationModal from '../../navigation-modal';
 import Toaster from '../../toaster';
-import PaneHeaderButton from '../../pane-header-button';
 import styles from './package-create.css';
 
 const initialValues = {
@@ -43,26 +42,38 @@ export default class PackageCreate extends Component {
     this.props.removeCreateRequests();
   }
 
-  getActionMenu = () => {
-    const {
-      request,
-      onCancel,
-    } = this.props;
+  getFooter = (pristine, reset) => {
+    const { request } = this.props;
 
-    if (!onCancel) return null;
-
-    return ({ onToggle }) => (
+    const cancelButton = (
       <Button
-        data-test-eholdings-package-create-cancel-action
-        buttonStyle="dropdownItem fullWidth"
-        onClick={() => {
-          onToggle();
-          onCancel();
-        }}
-        disabled={request.isPending}
+        data-test-eholdings-package-create-cancel-button
+        buttonStyle="default mega"
+        disabled={request.isPending || pristine}
+        onClick={reset}
+        marginBottom0
       >
-        <FormattedMessage id="ui-eholdings.actionMenu.cancelEditing" />
+        <FormattedMessage id="stripes-components.cancel" />
       </Button>
+    );
+
+    const saveButton = (
+      <Button
+        buttonStyle="primary mega"
+        data-test-eholdings-package-create-save-button
+        disabled={request.isPending || pristine}
+        marginBottom0
+        type="submit"
+      >
+        <FormattedMessage id="stripes-components.saveAndClose" />
+      </Button>
+    );
+
+    return (
+      <PaneFooter
+        renderStart={cancelButton}
+        renderEnd={saveButton}
+      />
     );
   }
 
@@ -100,7 +111,7 @@ export default class PackageCreate extends Component {
         decorators={[focusOnErrors]}
         mutators={{ ...arrayMutators }}
         onSubmit={onSubmit}
-        render={({ handleSubmit, pristine }) => (
+        render={({ handleSubmit, pristine, form: { reset } }) => (
           <div data-test-eholdings-package-create>
             <Toaster
               position="bottom"
@@ -116,26 +127,8 @@ export default class PackageCreate extends Component {
                 tagName="form"
                 defaultWidth="fill"
                 paneTitle={paneTitle}
-                actionMenu={this.getActionMenu()}
                 firstMenu={this.getFirstMenu()}
-                lastMenu={(
-                  <Fragment>
-                    {request.isPending && (
-                      <Icon icon="spinner-ellipsis" />
-                    )}
-                    <PaneHeaderButton
-                      disabled={pristine || request.isPending}
-                      type="submit"
-                      buttonStyle="primary"
-                      data-test-eholdings-package-create-save-button
-                    >
-                      {request.isPending ?
-                        (<FormattedMessage id="ui-eholdings.saving" />)
-                        : (<FormattedMessage id="ui-eholdings.save" />)
-                      }
-                    </PaneHeaderButton>
-                  </Fragment>
-                )}
+                footer={this.getFooter(pristine, reset)}
               >
                 <div className={styles['package-create-form-container']}>
                   <DetailsViewSection

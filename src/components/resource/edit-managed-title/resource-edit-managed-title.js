@@ -14,10 +14,14 @@ import {
   Headline,
   Icon,
   Modal,
-  ModalFooter
+  ModalFooter,
+  PaneFooter,
 } from '@folio/stripes/components';
 
-import { IfPermission } from '@folio/stripes-core';
+import {
+  IfPermission,
+  withStripes,
+} from '@folio/stripes-core';
 
 import {
   processErrors,
@@ -33,7 +37,6 @@ import NavigationModal from '../../navigation-modal';
 import ProxySelectField from '../../proxy-select';
 import CoverageFields from '../_fields/resource-coverage-fields';
 import CoverageDateList from '../../coverage-date-list';
-import PaneHeaderButton from '../../pane-header-button';
 import DetailsView from '../../details-view';
 import { CustomLabelsEditSection } from '../../custom-labels-section';
 import { CustomLabelsAccordion } from '../../../features';
@@ -45,12 +48,15 @@ import {
 
 const focusOnErrors = createFocusDecorator();
 
-export default class ResourceEditManagedTitle extends Component {
+class ResourceEditManagedTitle extends Component {
   static propTypes = {
     model: PropTypes.object.isRequired,
     onCancel: PropTypes.func.isRequired,
     onSubmit: PropTypes.func.isRequired,
-    proxyTypes: PropTypes.object.isRequired
+    proxyTypes: PropTypes.object.isRequired,
+    stripes: PropTypes.shape({
+      hasPerm: PropTypes.func.isRequired,
+    }),
   };
 
   state = {
@@ -129,26 +135,10 @@ export default class ResourceEditManagedTitle extends Component {
       </Headline>);
   };
 
-  handleSelectionToggle = (e) => {
-    this.setState({
-      managedResourceSelected: e.target.checked
-    });
-  };
-
   handleRemoveResourceFromHoldings = () => {
-    this.setState({
-      formValues: {
-        isSelected: false
-      }
-    }, () => { this.handleOnSubmit(this.state.formValues); });
-  };
-
-  handleAddResourceToHoldings = () => {
-    this.setState({
-      formValues: {
-        isSelected: true
-      }
-    }, () => { this.handleOnSubmit(this.state.formValues); });
+    this.handleOnSubmit({
+      isSelected: false
+    });
   };
 
   commitSelectionToggle = () => {
@@ -210,60 +200,66 @@ export default class ResourceEditManagedTitle extends Component {
     );
   };
 
-  getActionMenu = ({ onToggle }) => {
-    const { onCancel } = this.props;
+  getActionMenu = () => {
+    const { stripes } = this.props;
+    const hasSelectPermission = stripes.hasPerm('ui-eholdings.package-title.select-unselect');
 
-    return (
-      <Fragment>
-        <Button
-          data-test-eholdings-resource-cancel-action
-          buttonStyle="dropdownItem fullWidth"
-          onClick={() => {
-            onToggle();
-            onCancel();
-          }}
-        >
-          <FormattedMessage id="ui-eholdings.actionMenu.cancelEditing" />
-        </Button>
-        <IfPermission perm="ui-eholdings.package-title.select-unselect">
-          {this.renderSelectionButton(onToggle)}
-        </IfPermission>
-      </Fragment>
+    if (!hasSelectPermission) return null;
+
+    return ({ onToggle }) => (
+      <Button
+        data-test-eholdings-remove-resource-from-holdings
+        buttonStyle="dropdownItem fullWidth"
+        onClick={() => {
+          onToggle();
+          this.handleRemoveResourceFromHoldings();
+        }}
+      >
+        <FormattedMessage id="ui-eholdings.resource.actionMenu.removeHolding" />
+      </Button>
     );
   }
 
-  renderSelectionButton(onToggle) {
-    return this.state.managedResourceSelected
-      ? (
-        <Button
-          data-test-eholdings-remove-resource-from-holdings
-          buttonStyle="dropdownItem fullWidth"
-          onClick={() => {
-            onToggle();
-            this.handleRemoveResourceFromHoldings();
-          }}
-        >
-          <FormattedMessage id="ui-eholdings.resource.actionMenu.removeHolding" />
-        </Button>
-      )
-      : (
-        <Button
-          data-test-eholdings-add-resource-to-holdings
-          buttonStyle="dropdownItem fullWidth"
-          onClick={() => {
-            onToggle();
-            this.handleAddResourceToHoldings();
-          }}
-        >
-          <FormattedMessage id="ui-eholdings.resource.actionMenu.addHolding" />
-        </Button>
-      );
+  getFooter = (pristine, reset) => {
+    const { model } = this.props;
+
+    const cancelButton = (
+      <Button
+        data-test-eholdings-provider-edit-cancel-button
+        buttonStyle="default mega"
+        disabled={model.update.isPending || model.destroy.isPending || pristine}
+        onClick={reset}
+        marginBottom0
+      >
+        <FormattedMessage id="stripes-components.cancel" />
+      </Button>
+    );
+
+    const saveButton = (
+      <Button
+        buttonStyle="primary mega"
+        data-test-eholdings-resource-save-button
+        disabled={pristine || model.update.isPending || model.destroy.isPending}
+        marginBottom0
+        type="submit"
+      >
+        <FormattedMessage id="stripes-components.saveAndClose" />
+      </Button>
+    );
+
+    return (
+      <PaneFooter
+        renderStart={cancelButton}
+        renderEnd={saveButton}
+      />
+    );
   }
 
   render() {
     const {
       model,
       proxyTypes,
+      onCancel,
       model: { isSelected },
     } = this.props;
 
@@ -289,7 +285,7 @@ export default class ResourceEditManagedTitle extends Component {
         mutators={{ ...arrayMutators }}
         initialValuesEqual={() => true}
         initialValues={initialValues}
-        render={({ handleSubmit, pristine, form: { change } }) => (
+        render={({ handleSubmit, pristine, form: { change, reset } }) => (
           <div>
             <Toaster toasts={processErrors(model)} position="bottom" />
             <form onSubmit={handleSubmit}>
@@ -298,29 +294,10 @@ export default class ResourceEditManagedTitle extends Component {
                 model={model}
                 paneTitle={model.title.name}
                 paneSub={model.package.name}
-                actionMenu={this.getActionMenu}
+                actionMenu={this.getActionMenu()}
                 handleExpandAll={this.toggleAllSections}
                 sections={sections}
-                lastMenu={(
-                  <Fragment>
-                    {(model.update.isPending || model.destroy.isPending) && (
-                      <Icon icon="spinner-ellipsis" />
-                    )}
-                    {managedResourceSelected && (
-                      <PaneHeaderButton
-                        disabled={pristine || model.update.isPending || model.destroy.isPending}
-                        type="submit"
-                        buttonStyle="primary"
-                        data-test-eholdings-resource-save-button
-                      >
-                        {model.update.isPending || model.destroy.isPending ?
-                          (<FormattedMessage id="ui-eholdings.saving" />)
-                          :
-                          (<FormattedMessage id="ui-eholdings.save" />)}
-                      </PaneHeaderButton>
-                    )}
-                  </Fragment>
-                )}
+                footer={this.getFooter(pristine, reset)}
                 bodyContent={(
                   <Fragment>
                     <Accordion
@@ -335,14 +312,15 @@ export default class ResourceEditManagedTitle extends Component {
                       >
                         {model.update.isPending ? (
                           <Icon icon='spinner-ellipsis' />
-                        ) : (
-                          <Headline margin="none">
-                            {managedResourceSelected ?
-                              (<FormattedMessage id="ui-eholdings.selected" />)
-                              : (<FormattedMessage id="ui-eholdings.notSelected" />)
-                            }
-                          </Headline>
-                        )}
+                        )
+                          : (
+                            <Headline margin="none">
+                              {managedResourceSelected ?
+                                (<FormattedMessage id="ui-eholdings.selected" />)
+                                : (<FormattedMessage id="ui-eholdings.notSelected" />)
+                              }
+                            </Headline>
+                          )}
                         <br />
                         {((!managedResourceSelected && !isSelectInFlight) || (!this.props.model.isSelected && isSelectInFlight)) && (
                           <IfPermission perm="ui-eholdings.package-title.select-unselect">
@@ -423,6 +401,7 @@ export default class ResourceEditManagedTitle extends Component {
                     </Accordion>
                   </Fragment>
                 )}
+                onCancel={onCancel}
               />
             </form>
 
@@ -462,3 +441,5 @@ export default class ResourceEditManagedTitle extends Component {
     );
   }
 }
+
+export default withStripes(ResourceEditManagedTitle);

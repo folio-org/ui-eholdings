@@ -96,9 +96,9 @@ describe('CustomTitleEdit', () => {
       expect(TitleEditPage.isSaveDisabled).to.be.true;
     });
 
-    describe('clicking cancel', () => {
+    describe('clicking close(navigate back button) ', () => {
       beforeEach(() => {
-        return TitleEditPage.clickCancel();
+        return TitleEditPage.clickBackButton();
       });
 
       it('goes to the title show page', () => {
@@ -253,9 +253,9 @@ describe('CustomTitleEdit', () => {
           .checkPeerReviewed();
       });
 
-      describe('clicking cancel', () => {
+      describe('clicking close (navigate back) button', () => {
         beforeEach(() => {
-          return TitleEditPage.clickCancel();
+          return TitleEditPage.clickBackButton();
         });
 
         it('shows a navigation confirmation modal', () => {

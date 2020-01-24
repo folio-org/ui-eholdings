@@ -74,7 +74,7 @@ describe('ResourceEditManagedTitleInManagedPackage', () => {
 
     describe('clicking cancel', () => {
       beforeEach(() => {
-        return ResourceEditPage.clickCancel();
+        return ResourceEditPage.clickBackButton();
       });
 
       it('goes to the resource show page', () => {
@@ -147,7 +147,7 @@ describe('ResourceEditManagedTitleInManagedPackage', () => {
 
         describe('clicking cancel', () => {
           beforeEach(() => {
-            return ResourceEditPage.clickCancel();
+            return ResourceEditPage.clickBackButton();
           });
 
           it('shows a navigation confirmation modal', () => {
@@ -409,7 +409,7 @@ describe('ResourceEditManagedTitleInManagedPackage', () => {
 
     describe('clicking cancel', () => {
       beforeEach(() => {
-        return ResourceEditPage.clickCancel();
+        return ResourceEditPage.clickBackButton();
       });
 
       it('goes to the resource show page', () => {
@@ -462,7 +462,7 @@ describe('ResourceEditManagedTitleInManagedPackage', () => {
 
       describe('clicking cancel', () => {
         beforeEach(() => {
-          return ResourceEditPage.clickCancel();
+          return ResourceEditPage.clickBackButton();
         });
 
         it('shows a navigation confirmation modal', () => {

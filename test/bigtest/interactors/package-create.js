@@ -1,5 +1,4 @@
 import {
-  action,
   interactor,
   isPresent,
   fillable,
@@ -10,14 +9,6 @@ import {
   value
 } from '@bigtest/interactor';
 import Datepicker from './datepicker';
-
-@interactor class PackageCreateDropDown {
-  clickDropDownButton = clickable('button');
-}
-
-@interactor class PackageCreateDropDownMenu {
-  clickCancel = clickable('[data-test-eholdings-package-create-cancel-action]');
-}
 
 @interactor class PackageCreatePage {
   hasName = isPresent('[data-test-eholdings-package-name-field]');
@@ -30,6 +21,7 @@ import Datepicker from './datepicker';
   save = clickable('[data-test-eholdings-package-create-save-button]');
   isSaveDisabled = property('[data-test-eholdings-package-create-save-button]', 'disabled');
   hasBackButton = isPresent('[data-test-eholdings-details-view-back-button]');
+  clickBackButton = clickable('[data-test-eholdings-details-view-back-button]');
 
   dateRangeRowList = collection('[data-test-eholdings-package-coverage-fields] li', {
     beginDate: scoped('[data-test-eholdings-coverage-fields-date-range-begin]', Datepicker),
@@ -40,13 +32,7 @@ import Datepicker from './datepicker';
     }
   });
 
-  dropDown = new PackageCreateDropDown('[class*=paneHeaderCenterInner---] [class*=dropdown---]');
-  dropDownMenu = new PackageCreateDropDownMenu();
-  cancel= action(function () {
-    return this
-      .dropDown.clickDropDownButton()
-      .dropDownMenu.clickCancel();
-  });
+  cancelEditing = clickable('[data-test-eholdings-package-create-cancel-button]');
 }
 
 export default new PackageCreatePage('[data-test-eholdings-package-create]');

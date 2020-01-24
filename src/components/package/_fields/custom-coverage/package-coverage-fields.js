@@ -96,9 +96,9 @@ class PackageCoverageFields extends Component {
     );
   }
 
-  renderRepeatableField = ({ fields, name, meta: { initial } }) => {
+  renderRepeatableField = ({ fields, meta: { initial } }) => {
     const hasAddButton = fields.length === 0;
-    const hasEmptyMessage = initial.length > 0 && initial[0].beginCoverage;
+    const hasEmptyMessage = initial && initial.length > 0 && initial[0].beginCoverage;
     const addLabel = hasAddButton
       ? <FormattedMessage id="ui-eholdings.package.coverage.addDateRange" />
       : null;
@@ -112,7 +112,6 @@ class PackageCoverageFields extends Component {
         addLabel={addLabel}
         emptyMessage={emptyMessage}
         fields={fields}
-        name={name}
         onAdd={() => fields.push({})}
         onRemove={(index) => fields.remove(index)}
         renderField={this.renderField}
