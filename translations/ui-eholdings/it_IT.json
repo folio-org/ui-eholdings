@@ -216,9 +216,9 @@
     "validate.errors.settings.apiKey": "API key cannot be blank",
     "validate.errors.dateRange.format": "Imettere la data nel formato {dateFormat} ",
     "validate.errors.dateRange.startDateBeforeEndDate": "La data di inizio deve precedere la data di fine",
-    "validate.errors.dateRange.packageRange": "Dates must be within package's date range ({startDate} - {endDate}).",
+    "validate.errors.dateRange.packageRange": "Le date devono rientrare nell'intervallo di date del pacchetto ({startDate} - {endDate}).",
     "validate.errors.dateRange.overlap": "L'intervallo di date si sovrappone a {startDate} - {endDate}.",
-    "validate.errors.publisherName.length": "The value entered exceeds the 250 character limit. Please enter a value that does not exceed 250 characters.",
+    "validate.errors.publisherName.length": "Il valore inserito supera il limite di 250 caratteri. Inserisci un valore che non superi i 250 caratteri.",
     "validate.errors.packageSelect.required": "I titoli personalizzati devono appartenere a un pacchetto.",
     "validate.errors.identifiers.noBlank": "L'ID non può essere vuoto.",
     "validate.errors.identifiers.exceedsLength": "Deve contenere meno di 20 caratteri.",
@@ -329,5 +329,5 @@
     "search.selectFieldToSearch": "Seleziona un capo per cercare",
     "tags.filter": "Tags filter",
     "resource.customLabels": "Custom labels",
-    "validate.errors.customLabels.length": "Value has exceeded 100 character limit. Please revise your value."
+    "validate.errors.customLabels.length": "Il valore ha superato il limite di 100 caratteri. Rivedi il tuo valore."
 }
