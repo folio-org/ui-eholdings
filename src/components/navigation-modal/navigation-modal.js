@@ -19,8 +19,15 @@ class NavigationModal extends Component {
   static propTypes = {
     history: ReactRouterPropTypes.history.isRequired,
     historyAction: PropTypes.string,
-    when: PropTypes.bool.isRequired
+    label: PropTypes.node,
+    message: PropTypes.node,
+    when: PropTypes.bool.isRequired,
   };
+
+  static defaultProps = {
+    label: <FormattedMessage id="ui-eholdings.navModal.modalLabel" />,
+    message: <FormattedMessage id="ui-eholdings.navModal.unsavedChangesMsg" />,
+  }
 
   constructor(props) {
     super(props);
@@ -67,21 +74,25 @@ class NavigationModal extends Component {
   }
 
   render() {
+    const {
+      label,
+      message,
+    } = this.props;
+
     return (
       <Modal
         id="navigation-modal"
         size="small"
         open={this.state.openModal}
-        label={<FormattedMessage id="ui-eholdings.navModal.modalLabel" />}
+        label={label}
         wrappingElement="form"
         onClose={this.onCancel}
-        onSubmit={this.submit}
         footer={(
           <ModalFooter>
             <Button
               data-test-navigation-modal-dismiss
               buttonStyle="primary"
-              type="submit"
+              onClick={this.submit}
             >
               <FormattedMessage id="ui-eholdings.navModal.dismissLabel" />
             </Button>
@@ -94,7 +105,7 @@ class NavigationModal extends Component {
           </ModalFooter>
         )}
       >
-        <FormattedMessage id="ui-eholdings.navModal.unsavedChangesMsg" />
+        {message}
       </Modal>
     );
   }

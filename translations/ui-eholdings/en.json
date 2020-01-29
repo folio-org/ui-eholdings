@@ -146,6 +146,13 @@
     "tags.filter": "Tags filter",
 
     "settings.goBackToEholdings": "Go back to eHoldings settings",
+    "settings.customLabels.displayLabel": "Display label",
+    "settings.customLabels.publicationFinder": "Show on publication finder",
+    "settings.customLabels.textFinder": "Show on full text finder",
+    "settings.customLabels.remove": "Remove custom label(s)",
+    "settings.customLabels.remove.description": "Are you sure want to remove the following custom label(s): <strong>{label}</strong>",
+    "settings.customLabels.remove.note": "<strong>Note:</strong> Removing this label <strong>does not delete</strong> any values you have defined for this label on your resources. Values associated eith this custom label will be retained.",
+    "settings.customLabels.toast": "Custom labels have been updated",
     "settings.kb": "Knowledge base",
     "settings.kb.rmApiCreds": "EBSCO RM API credentials",
     "settings.kb.customerId": "Customer ID",
@@ -258,6 +265,8 @@
     "navModal.continueLabel": "Continue without saving",
     "navModal.dismissLabel": "Keep editing",
     "navModal.unsavedChangesMsg": "Your changes have not been saved. Are you sure you want to leave this page?",
+    "navModal.areYouSure": "Are you sure?",
+    "navModal.unsavedChanges": "There are unsaved changes",
 
     "validate.errors.customTitle.name": "Custom titles must have a name.",
     "validate.errors.customTitle.name.length": "Must be less than 400 characters.",
@@ -273,6 +282,9 @@
 
     "validate.errors.settings.customerId": "Customer ID cannot be blank",
     "validate.errors.settings.apiKey": "API key cannot be blank",
+    "validate.errors.settings.customLabels.empty": "Please enter a display label.",
+    "validate.errors.settings.customLabels.utf": "Invalid character entered. Please revise the custom label.",
+    "validate.errors.settings.customLabels.length": "Character limit has been exceeded. Please revise custom label.",
 
     "validate.errors.dateRange.format": "Enter date in {dateFormat} format.",
     "validate.errors.dateRange.startDateBeforeEndDate": "Start date must be before end date",

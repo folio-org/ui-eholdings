@@ -1,5 +1,11 @@
 # Change history for ui-eholdings
 
+## [2.2.0] (IN PROGRESS)
+
+* Add display custom labels on view resource page (UIEH-805)
+* Add display custom labels on edit resource page (UIEH-185)
+* Create Settings Custom Labels Page (UIEH-184)
+
 ## [2.1.0](https://github.com/folio-org/ui-eholdings/tree/v2.1.0) (2019-12-04)
 
 * Fixed tests for the notes & for the agreements (STSMACOM-270)

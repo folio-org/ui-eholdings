@@ -17,5 +17,17 @@ export default {
     };
 
     return doRequest(url, params);
+  },
+  updateCustomLabels: (okapi, customLabels) => {
+    const method = 'PUT';
+    const url = `${okapi.url}${API_URL}`;
+
+    const params = {
+      method,
+      headers: getHeaders(method, okapi, url),
+      body: JSON.stringify({ data: customLabels, }),
+    };
+
+    return doRequest(url, params);
   }
 };

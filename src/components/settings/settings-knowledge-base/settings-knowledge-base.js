@@ -13,7 +13,6 @@ import {
 
 import SettingsForm from '../settings-form';
 import { processErrors } from '../../utilities';
-import Toaster from '../../toaster';
 
 const focusOnErrors = createFocusDecorator();
 
@@ -90,9 +89,8 @@ export default class SettingsKnowledgeBase extends Component {
             formState={formState}
             updateIsPending={model.update.isPending}
             title={<FormattedMessage id="ui-eholdings.settings.kb" />}
+            toasts={toasts}
           >
-            <Toaster toasts={toasts} position="bottom" />
-
             <Headline size="xx-large" tag="h3">
               <FormattedMessage id="ui-eholdings.settings.kb.rmApiCreds" />
             </Headline>

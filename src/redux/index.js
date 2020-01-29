@@ -35,6 +35,7 @@ import {
   createGetAgreementsEpic,
   createAttachAgreementEpic,
   createGetCustomLabelsEpic,
+  createUpdateCustomLabelsEpic,
 } from './epics';
 
 export const createResolver = (state) => {
@@ -69,4 +70,5 @@ export const epics = combineEpics(
   createGetAgreementsEpic({ agreementsApi }),
   createAttachAgreementEpic({ agreementsApi }),
   createGetCustomLabelsEpic({ customLabelsApi }),
+  createUpdateCustomLabelsEpic({ customLabelsApi }),
 );
