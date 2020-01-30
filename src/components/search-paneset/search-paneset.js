@@ -30,7 +30,7 @@ export default class SearchPaneset extends Component {
     filterCount: PropTypes.number,
     hideFilters: PropTypes.bool,
     isLoading: PropTypes.bool,
-    location: PropTypes.object.isRequired,
+    location: PropTypes.object,
     resultsLabel: PropTypes.node,
     resultsType: PropTypes.string,
     resultsView: PropTypes.node,
