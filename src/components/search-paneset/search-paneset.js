@@ -48,11 +48,6 @@ export default class SearchPaneset extends Component {
   // used to focus the pane title when a new search happens
   $title = React.createRef(); // eslint-disable-line react/sort-comp
 
-  componentDidUpdate(prevProps) {
-    const isNewSearch = prevProps.location.search !== this.props.location.search;
-    const isSameSearchType = prevProps.resultsType === this.props.resultsType;
-  }
-
   toggleFilters = () => {
     this.props.updateFilters(hideFilters => !hideFilters);
   };
