@@ -1,4 +1,4 @@
-import React, { Component, Fragment } from 'react';
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import {
   Field,
@@ -34,6 +34,29 @@ import styles from './managed-package-edit.css';
 const focusOnErrors = createFocusDecorator();
 
 class ManagedPackageEdit extends Component {
+  static getInitialValues(model, { providerToken }) {
+    const {
+      isSelected,
+      customCoverage,
+      proxy,
+      packageToken,
+      visibilityData,
+      allowKbToAddTitles,
+    } = model;
+
+    return {
+      isSelected,
+      customCoverages: [{
+        ...customCoverage,
+      }],
+      proxyId: proxy.id,
+      providerTokenValue: providerToken.value,
+      packageTokenValue: packageToken.value,
+      isVisible: !visibilityData.isHidden,
+      allowKbToAddTitles,
+    };
+  }
+
   static propTypes = {
     addPackageToHoldings: PropTypes.func.isRequired,
     model: PropTypes.object.isRequired,
@@ -74,42 +97,21 @@ class ManagedPackageEdit extends Component {
     return stateUpdates;
   }
 
-  static getInitialValues(model, { providerToken }) {
-    const {
-      isSelected,
-      customCoverage,
-      proxy,
-      packageToken,
-      visibilityData,
-      allowKbToAddTitles,
-
-    } = model;
-
-    return {
-      isSelected,
-      customCoverages: [{
-        ...customCoverage,
-      }],
-      proxyId: proxy.id,
-      providerTokenValue: providerToken.value,
-      packageTokenValue: packageToken.value,
-      isVisible: !visibilityData.isHidden,
-      allowKbToAddTitles,
+  constructor(props) {
+    super(props);
+    this.state = {
+      showSelectionModal: false,
+      allowFormToSubmit: false,
+      packageSelected: this.props.model.isSelected,
+      formValues: {},
+      initialValues: ManagedPackageEdit.getInitialValues(this.props.model, this.props.provider),
+      sections: {
+        packageHoldingStatus: true,
+        packageSettings: true,
+        packageCoverageSettings: true,
+      },
     };
   }
-
-  state = {
-    showSelectionModal: false,
-    allowFormToSubmit: false,
-    packageSelected: this.props.model.isSelected,
-    formValues: {},
-    initialValues: ManagedPackageEdit.getInitialValues(this.props.model, this.props.provider),
-    sections: {
-      packageHoldingStatus: true,
-      packageSettings: true,
-      packageCoverageSettings: true,
-    }
-  };
 
   handleSelectionAction = () => {
     this.setState({
@@ -200,10 +202,10 @@ class ManagedPackageEdit extends Component {
     if (!hasSelectPermission) return null;
 
     return ({ onToggle }) => (
-      <Fragment>
+      <>
         {packageSelected && this.renderRemoveFromHoldingsButton(onToggle)}
         {isAddButtonNeeded && this.renderAddToHoldingsButton(onToggle)}
-      </Fragment>
+      </>
     );
   }
 
@@ -325,7 +327,7 @@ class ManagedPackageEdit extends Component {
                   sections={sections}
                   footer={this.getFooter(pristine, reset)}
                   bodyContent={(
-                    <Fragment>
+                    <>
                       <Accordion
                         label={this.getSectionHeader('ui-eholdings.label.holdingStatus')}
                         open={sections.packageHoldingStatus}
@@ -471,7 +473,7 @@ class ManagedPackageEdit extends Component {
                           </Accordion>
                         </div>
                       )}
-                    </Fragment>
+                    </>
                   )}
                   onCancel={onCancel}
                 />

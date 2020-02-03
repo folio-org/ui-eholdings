@@ -1,4 +1,4 @@
-import React, { Component, Fragment } from 'react';
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Form } from 'react-final-form';
 import arrayMutators from 'final-form-arrays';
@@ -78,7 +78,7 @@ export default class TitleEdit extends Component {
     } = this.props;
 
     return (
-      <Fragment>
+      <>
         <Toaster
           position="bottom"
           toasts={updateRequest.errors.map(({ title }, index) => ({
@@ -94,7 +94,7 @@ export default class TitleEdit extends Component {
           decorators={[focusOnErrors]}
           mutators={{ ...arrayMutators }}
           render={({ handleSubmit, pristine, form: { reset } }) => (
-            <Fragment>
+            <>
               <form onSubmit={handleSubmit}>
                 <DetailsView
                   type="title"
@@ -102,7 +102,7 @@ export default class TitleEdit extends Component {
                   paneTitle={model.name}
                   footer={this.getFooter(pristine, reset)}
                   bodyContent={(
-                    <Fragment>
+                    <>
                       <DetailsViewSection
                         label={<FormattedMessage id="ui-eholdings.title.titleInformation" />}
                       >
@@ -115,17 +115,17 @@ export default class TitleEdit extends Component {
                         <DescriptionField />
                         <PeerReviewedField />
                       </DetailsViewSection>
-                    </Fragment>
+                    </>
                   )}
                   onCancel={onCancel}
                 />
               </form>
 
               <NavigationModal when={!pristine && !updateRequest.isResolved} />
-            </Fragment>
+            </>
           )}
         />
-      </Fragment>
+      </>
     );
   }
 }

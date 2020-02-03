@@ -1,5 +1,4 @@
 import {
-  Interactor,
   clickable,
   collection,
   scoped,
@@ -11,7 +10,6 @@ import {
   text,
   triggerable,
   is,
-  attribute,
 } from '@bigtest/interactor';
 
 import AgreementsAccordion from './agreements-accordion';
@@ -25,21 +23,9 @@ import Toast from './toast';
 import SearchModal from './search-modal';
 import SearchBadge from './search-badge';
 import PackageSelectionStatus from './selection-status';
-
-@interactor class PackageShowModal {
-  confirmDeselection = clickable('[data-test-eholdings-package-deselection-confirmation-modal-yes]');
-  cancelDeselection = clickable('[data-test-eholdings-package-deselection-confirmation-modal-no]');
-}
-
-@interactor class PackageShowDropDown {
-  clickDropDownButton = clickable('button');
-  isExpanded = attribute('button', 'aria-expanded');
-}
-
-@interactor class PackageShowDropDownMenu {
-  addToHoldings = new Interactor('[data-test-eholdings-package-add-to-holdings-action]');
-  removeFromHoldings = new Interactor('[data-test-eholdings-package-remove-from-holdings-action]');
-}
+import DropDown from './drop-down';
+import PackageDropDownMenu from './package-drop-down-menu';
+import PackageModal from './package-modal';
 
 @interactor class PackageShowPage {
   isLoaded = isPresent('[data-test-eholdings-details-view-name="package"]');
@@ -52,7 +38,7 @@ import PackageSelectionStatus from './selection-status';
   hasAllowKbToAddTitles = isPresent('[data-test-eholdings-package-details-toggle-allow-add-new-titles] input');
   hasAllowKbToAddTitlesToggle = isPresent('[package-details-toggle-allow-add-new-titles-switch]');
   selectionStatus = new PackageSelectionStatus();
-  modal = new PackageShowModal('#eholdings-package-confirmation-modal');
+  modal = new PackageModal('#eholdings-package-confirmation-modal');
   searchModal = new SearchModal('#eholdings-details-view-search-modal');
   searchResultsCount = text('[data-test-eholdings-details-view-results-count]');
   clickListSearch = clickable('[data-test-eholdings-search-filters="icon"]');
@@ -80,8 +66,8 @@ import PackageSelectionStatus from './selection-status';
   clickBackButton = clickable('[data-test-eholdings-details-view-back-button]');
   detailsPaneContentScrollHeight = property('[data-test-eholdings-detail-pane-contents]', 'scrollHeight');
   clickEditButton = clickable('[data-test-eholdings-package-edit-link]');
-  dropDown= new PackageShowDropDown('[class*=paneHeaderCenterInner---] [class*=dropdown---]');
-  dropDownMenu = new PackageShowDropDownMenu();
+  dropDown= new DropDown('[class*=paneHeaderCenterInner---] [class*=dropdown---]');
+  dropDownMenu = new PackageDropDownMenu();
   searchModalBadge = new SearchBadge('[data-test-eholdings-search-modal-badge]');
 
   detailPaneMouseWheel = triggerable('[data-test-eholdings-detail-pane-contents]', 'wheel', {

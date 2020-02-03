@@ -41,9 +41,12 @@ class Toast extends Component {
     timeout: 5000
   };
 
-  state = {
-    isOpen: true
-  };
+  constructor(props) {
+    super(props);
+    this.state = {
+      isOpen: true,
+    };
+  }
 
   componentDidMount() {
     this.timer = window.setTimeout(() => {

@@ -77,9 +77,12 @@ class DetailsView extends Component {
     searchModal: null
   }
 
-  state = {
-    isSticky: false
-  };
+  constructor(props) {
+    super(props);
+    this.state = {
+      isSticky: false,
+    };
+  }
 
   // used to focus the heading when the model loads
   $heading = React.createRef(); // eslint-disable-line react/sort-comp
@@ -149,7 +152,7 @@ class DetailsView extends Component {
       isSticky
     ) {
       // prevent scroll logic around bottoming out by scrolling up 1px
-      this.$container.scrollTop = this.$container.scrollTop - 1;
+      --this.$container.scrollTop;
       this.setState({ isSticky: false });
 
       // don't do these calculations when not scrolling the container
@@ -187,7 +190,7 @@ class DetailsView extends Component {
 
     if (isSticky && scrollingUp && (notInList || listAtTop)) {
       // prevent scroll logic around bottoming out by scrolling up 1px
-      this.$container.scrollTop = this.$container.scrollTop - 1;
+      --this.$container.scrollTop;
       this.setState({ isSticky: false });
     }
   };

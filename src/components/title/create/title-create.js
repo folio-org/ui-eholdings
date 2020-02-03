@@ -1,4 +1,4 @@
-import React, { Component, Fragment } from 'react';
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Form } from 'react-final-form';
 import arrayMutators from 'final-form-arrays';
@@ -128,7 +128,7 @@ export default class TitleCreate extends Component {
           decorators={[focusOnErrors]}
           mutators={{ ...arrayMutators }}
           render={({ handleSubmit, pristine, form: { reset } }) => (
-            <Fragment>
+            <>
               <Paneset>
                 <Pane
                   onSubmit={handleSubmit}
@@ -162,9 +162,8 @@ export default class TitleCreate extends Component {
               </Paneset>
 
               <NavigationModal when={!pristine && !request.isPending && !request.isResolved} />
-            </Fragment>
-          )
-          }
+            </>
+          )}
         />
       </div>
     );

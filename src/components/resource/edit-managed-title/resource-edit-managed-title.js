@@ -1,4 +1,4 @@
-import React, { Component, Fragment } from 'react';
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Form, FormSpy } from 'react-final-form';
 import arrayMutators from 'final-form-arrays';
@@ -59,18 +59,21 @@ class ResourceEditManagedTitle extends Component {
     }),
   };
 
-  state = {
-    managedResourceSelected: this.props.model.isSelected,
-    showSelectionModal: false,
-    allowFormToSubmit: false,
-    formValues: {},
-    initialValues: this.getInitialValuesFromModel(),
-    sections: {
-      resourceShowHoldingStatus: true,
-      resourceShowSettings: true,
-      resourceShowCoverageSettings: true,
-    },
-  };
+  constructor(props) {
+    super(props);
+    this.state = {
+      managedResourceSelected: this.props.model.isSelected,
+      showSelectionModal: false,
+      allowFormToSubmit: false,
+      formValues: {},
+      initialValues: this.getInitialValuesFromModel(),
+      sections: {
+        resourceShowHoldingStatus: true,
+        resourceShowSettings: true,
+        resourceShowCoverageSettings: true,
+      },
+    };
+  }
 
   static getDerivedStateFromProps(nextProps, prevState) {
     const stateUpdates = {};
@@ -299,7 +302,7 @@ class ResourceEditManagedTitle extends Component {
                 sections={sections}
                 footer={this.getFooter(pristine, reset)}
                 bodyContent={(
-                  <Fragment>
+                  <>
                     <Accordion
                       label={this.getSectionHeader('ui-eholdings.label.holdingStatus')}
                       open={sections.resourceShowHoldingStatus}
@@ -317,8 +320,7 @@ class ResourceEditManagedTitle extends Component {
                             <Headline margin="none">
                               {managedResourceSelected ?
                                 (<FormattedMessage id="ui-eholdings.selected" />)
-                                : (<FormattedMessage id="ui-eholdings.notSelected" />)
-                              }
+                                : (<FormattedMessage id="ui-eholdings.notSelected" />)}
                             </Headline>
                           )}
                         <br />
@@ -375,7 +377,7 @@ class ResourceEditManagedTitle extends Component {
                       onToggle={this.toggleSection}
                     >
                       {managedResourceSelected ? (
-                        <Fragment>
+                        <>
                           <Headline tag="h4">
                             <FormattedMessage id="ui-eholdings.label.dates" />
                           </Headline>
@@ -392,14 +394,14 @@ class ResourceEditManagedTitle extends Component {
                             <FormattedMessage id="ui-eholdings.resource.embargoPeriod" />
                           </Headline>
                           <CustomEmbargoFields />
-                        </Fragment>
+                        </>
                       ) : (
                         <p data-test-eholdings-resource-edit-settings-message>
                           <FormattedMessage id="ui-eholdings.resource.coverage.notSelected" />
                         </p>
                       )}
                     </Accordion>
-                  </Fragment>
+                  </>
                 )}
                 onCancel={onCancel}
               />

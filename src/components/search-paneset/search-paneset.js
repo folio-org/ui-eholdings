@@ -42,7 +42,10 @@ export default class SearchPaneset extends Component {
     totalResults: 0
   };
 
-  state = {};
+  constructor(props) {
+    super(props);
+    this.state = {};
+  }
 
   // used to focus the pane title when a new search happens
   $title = React.createRef(); // eslint-disable-line react/sort-comp
@@ -139,8 +142,7 @@ export default class SearchPaneset extends Component {
             data-test-eholdings-search-pane
           >
             {searchForm}
-          </Pane>
-        }
+          </Pane>}
 
         <Pane
           appIcon={<AppIcon app={APP_ICON_NAME} />}

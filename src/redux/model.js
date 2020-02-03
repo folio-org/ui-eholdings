@@ -1,3 +1,4 @@
+// eslint-disable-next-line max-classes-per-file
 import dasherize from 'lodash/kebabCase';
 import { pluralize } from 'inflected';
 import { qs } from '../components/utilities';

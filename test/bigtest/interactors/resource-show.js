@@ -5,7 +5,6 @@ import {
   isPresent,
   interactor,
   property,
-  attribute,
   text,
   is
 } from '@bigtest/interactor';
@@ -14,25 +13,10 @@ import { AccordionInteractor } from '@folio/stripes-components/lib/Accordion/tes
 import AgreementsAccordion from './agreements-accordion';
 import CustomLabel from './custom-label';
 import Toast from './toast';
-
-@interactor class ResourceShowDeselectionModal {
-  confirmDeselection = clickable('[data-test-eholdings-resource-deselection-confirmation-modal-yes]');
-  cancelDeselection = clickable('[data-test-eholdings-resource-deselection-confirmation-modal-no]');
-  hasDeselectTitleWarning = isPresent('[data-test-eholdings-deselect-title-warning]');
-  hasDeselectFinalTitleWarning = isPresent('[data-test-eholdings-deselect-final-title-warning]');
-}
-
-@interactor class ResourceShowDropDown {
-  clickDropDownButton = clickable('button');
-  isExpanded = attribute('button', 'aria-expanded');
-}
-
-@interactor class ResourceShowDropDownMenu {
-  clickRemoveFromHoldings = clickable('[data-test-eholdings-remove-resource-from-holdings]');
-  clickAddToHoldings = clickable('[data-test-eholdings-add-resource-to-holdings]');
-}
-
-@interactor class ResourceShowNavigationModal {}
+import DropDown from './drop-down';
+import ResourceDropDownMenu from './resource-drop-down-menu';
+import NavigationModal from './navigation-modal';
+import ResourceShowDeselectionModal from './resource-show-deselection-modal';
 
 @interactor class ResourceShowPage {
   isLoaded = isPresent('[data-test-eholdings-details-view-name="resource"]');
@@ -73,10 +57,10 @@ import Toast from './toast';
   clickPackage = clickable('[data-test-eholdings-resource-show-package-name] a');
   clickAddToHoldingsButton = clickable('[data-test-eholdings-resource-add-to-holdings-button]');
   isAddToHoldingsButtonDisabled = property('[data-test-eholdings-resource-add-to-holdings-button]', 'disabled');
-  dropDown= new ResourceShowDropDown('[class*=paneHeaderCenterInner---] [class*=dropdown---]');
-  dropDownMenu = new ResourceShowDropDownMenu();
+  dropDown= new DropDown('[class*=paneHeaderCenterInner---] [class*=dropdown---]');
+  dropDownMenu = new ResourceDropDownMenu();
   deselectionModal = new ResourceShowDeselectionModal('#eholdings-resource-deselection-confirmation-modal');
-  navigationModal = new ResourceShowNavigationModal('#navigation-modal');
+  navigationModal = NavigationModal;
   resourceVisibilityLabel = text('[data-test-eholdings-resource-show-visibility]');
   proxy = text('[data-test-eholdings-details-proxy]');
   isResourceHidden = computed(function () {

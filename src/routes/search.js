@@ -61,6 +61,8 @@ class SearchRoute extends Component {
     }
 
     this.state = {
+      // used in getDerivedStateFromProps
+      // eslint-disable-next-line react/no-unused-state
       hideDetails: /^\/eholdings\/?$/.test(props.location.pathname),
       searchType,
       params,

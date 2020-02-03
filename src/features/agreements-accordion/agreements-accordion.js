@@ -1,4 +1,4 @@
-import React, { Component, Fragment } from 'react';
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import {
@@ -93,7 +93,7 @@ class AgreementsAccordion extends Component {
     } = this.props;
 
     return (
-      <Fragment>
+      <>
         <Pluggable
           dataKey="find-agreements"
           type="find-agreement"
@@ -107,7 +107,7 @@ class AgreementsAccordion extends Component {
         >
           <FormattedMessage id="ui-eholdings.new" />
         </Button>
-      </Fragment>
+      </>
     );
   }
 
@@ -145,7 +145,7 @@ class AgreementsAccordion extends Component {
     } = this.props;
 
     return (
-      <Fragment>
+      <>
         <Accordion
           id={id}
           open={isOpen}
@@ -161,7 +161,7 @@ class AgreementsAccordion extends Component {
           position="bottom"
           toasts={this.getToastErrors()}
         />
-      </Fragment>
+      </>
     );
   }
 }
