@@ -303,7 +303,7 @@
     "package-resource.coverageDates.savingWillRemove": "No date ranges set. Saving will remove custom coverage.",
     "label.create.title": "Nouveau titre personnalisé",
     "label.create.package": "Nouveau bouquet personnalisé",
-    "label.settings": "eHoldings settings",
+    "label.settings": "Paramètres fond doc. élec.",
     "filter.filterType.packages": "Filtrer les bouquets",
     "filter.filterType.titles": "Filtrer les titres",
     "contributorType.author": "{count, plural, one {Auteur} other {Auteurs}}",
@@ -329,5 +329,5 @@
     "search.selectFieldToSearch": "Sélectionnez un champ à rechercher",
     "tags.filter": "Filtre de mots-clés",
     "resource.customLabels": "Custom labels",
-    "validate.errors.customLabels.length": "Value has exceeded 100 character limit. Please revise your value."
+    "validate.errors.customLabels.length": "La valeur a dépassé la limite de 100 caractères. Veuillez réviser la valeur."
 }

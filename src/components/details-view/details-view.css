@@ -1,8 +1,12 @@
 @import '@folio/stripes-components/lib/variables';
 
 .container {
-  height: calc(100vh - 90px);
+  height: calc(100vh - 100px);
   overflow-y: auto;
+
+  &.hasFooter {
+    height: calc(100vh - 160px);
+  }
 
   &.locked {
     overflow-y: hidden;

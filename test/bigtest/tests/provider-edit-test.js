@@ -42,13 +42,13 @@ describe('ProviderEdit', () => {
       expect(ProviderEditPage.isSaveDisabled).to.be.true;
     });
 
-    describe('clicking cancel', () => {
+    describe('clicking close (navigate back) button', () => {
       beforeEach(() => {
-        return ProviderEditPage.clickCancel();
+        return ProviderEditPage.clickBackButton();
       });
 
       it('goes to the provider show page', () => {
-        expect(ProviderShowPage.$root).to.exist;
+        expect(ProviderShowPage.isPresent).to.equal(true);
       });
     });
 
@@ -71,7 +71,7 @@ describe('ProviderEdit', () => {
         });
 
         it('goes to the provider show page', () => {
-          expect(ProviderShowPage.$root).to.exist;
+          expect(ProviderShowPage.isPresent).to.equal(true);
         });
 
         it('shows newly saved proxy', () => {
@@ -84,9 +84,9 @@ describe('ProviderEdit', () => {
         });
       });
 
-      describe('clicking cancel', () => {
+      describe('clicking close (navigate back) button', () => {
         beforeEach(() => {
-          return ProviderEditPage.clickCancel();
+          return ProviderEditPage.clickBackButton();
         });
 
         it('shows a navigation confirmation modal', () => {

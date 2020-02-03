@@ -46,10 +46,10 @@ class TitleEditRoute extends Component {
     }
 
     if (!prevProps.updateRequest.isResolved && this.props.updateRequest.isResolved) {
-      this.props.history.push(
-        `/eholdings/titles/${this.props.model.id}`,
-        { eholdings: true, isFreshlySaved: true }
-      );
+      this.props.history.replace({
+        pathname: `/eholdings/titles/${this.props.model.id}`,
+        state: { eholdings: true, isFreshlySaved: true }
+      });
     }
 
     if (titleId !== prevProps.match.params.titleId) {
@@ -61,7 +61,7 @@ class TitleEditRoute extends Component {
     const isRejected = model.update.isRejected;
 
     if (wasPending && needsUpdate && !isRejected) {
-      history.push({
+      history.replace({
         pathname: `/eholdings/titles/${model.id}`,
         search: location.search,
         state: { eholdings: true, isFreshlySaved: true }
@@ -119,10 +119,6 @@ class TitleEditRoute extends Component {
       search: location.search,
       state: { eholdings: true },
     };
-
-    if (this.getSearchType()) {
-      history.push(viewRouteState);
-    }
 
     history.replace(viewRouteState);
   }

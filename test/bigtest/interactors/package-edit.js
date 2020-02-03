@@ -43,7 +43,6 @@ import PackageSelectionStatus from './selection-status';
 @interactor class PackageEditDropDownMenu {
   addToHoldings = new Interactor('[data-test-eholdings-package-add-to-holdings-action]');
   removeFromHoldings = new Interactor('[data-test-eholdings-package-remove-from-holdings-action]');
-  cancel = new Interactor('[data-test-eholdings-package-cancel-action]');
 }
 
 @interactor class SectionToggleButton {
@@ -60,11 +59,7 @@ import PackageSelectionStatus from './selection-status';
 
   navigationModal = new PackageEditNavigationModal('#navigation-modal');
 
-  clickCancel= action(function () {
-    return this
-      .dropDown.clickDropDownButton()
-      .dropDownMenu.cancel.click();
-  });
+  clickCancelEditing = clickable('[data-test-eholdings-package-edit-cancel-button]');
 
   clickSave = clickable('[data-test-eholdings-package-save-button]');
   isSavePresent = isPresent('[data-test-eholdings-package-save-button]');
@@ -74,6 +69,7 @@ import PackageSelectionStatus from './selection-status';
   selectionStatus = new PackageSelectionStatus();
   clickAddButton = clickable('[data-test-eholdings-package-add-to-holdings-button]');
   hasBackButton = isPresent('[data-test-eholdings-details-view-back-button]');
+  clickBackButton = clickable('[data-test-eholdings-details-view-back-button]');
   isHiddenMessage = text('[data-test-eholdings-package-details-is-hidden-reason]');
   isHiddenMessagePresent = isPresent('[data-test-eholdings-package-details-is-hidden-reason]');
   isVisibilityFieldPresent = isPresent('[data-test-eholdings-package-visibility-field]');

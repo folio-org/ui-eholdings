@@ -41,9 +41,9 @@ describe('CustomPackageEdit', () => {
       expect(PackageEditPage.isSaveDisabled).to.be.true;
     });
 
-    describe('clicking cancel', () => {
+    describe('clicking close (navigate back) button', () => {
       beforeEach(() => {
-        return PackageEditPage.clickCancel();
+        return PackageEditPage.clickBackButton();
       });
 
       it('goes to the package show page', () => {
@@ -72,9 +72,9 @@ describe('CustomPackageEdit', () => {
         return PackageEditPage.dateRangeRowList(0).fillDates('12/16/2018', '12/18/2018');
       });
 
-      describe('clicking cancel', () => {
+      describe('clicking close (navigate back) button', () => {
         beforeEach(() => {
-          return PackageEditPage.clickCancel();
+          return PackageEditPage.clickBackButton();
         });
 
         it('shows a navigation confirmation modal', () => {
@@ -118,9 +118,9 @@ describe('CustomPackageEdit', () => {
       expect(PackageEditPage.isSaveDisabled).to.be.true;
     });
 
-    describe('clicking cancel', () => {
+    describe('clicking close (navigate back) button', () => {
       beforeEach(() => {
-        return PackageEditPage.clickCancel();
+        return PackageEditPage.clickBackButton();
       });
 
       it('goes to the package show page', () => {
@@ -153,9 +153,9 @@ describe('CustomPackageEdit', () => {
           .dateRangeRowList(0).fillDates('12/16/2018', '12/18/2018');
       });
 
-      describe('clicking cancel', () => {
+      describe('clicking close (navigate back) button', () => {
         beforeEach(() => {
-          return PackageEditPage.clickCancel();
+          return PackageEditPage.clickBackButton();
         });
 
         it('shows a navigation confirmation modal', () => {

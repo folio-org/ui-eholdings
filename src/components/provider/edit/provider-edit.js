@@ -6,7 +6,8 @@ import { FormattedMessage } from 'react-intl';
 import {
   Button,
   Headline,
-  Icon
+  PaneFooter,
+  Icon,
 } from '@folio/stripes/components';
 
 import { processErrors } from '../../utilities';
@@ -16,7 +17,6 @@ import NavigationModal from '../../navigation-modal';
 import Toaster from '../../toaster';
 import ProxySelectField from '../../proxy-select';
 import TokenField from '../../token';
-import PaneHeaderButton from '../../pane-header-button';
 
 const focusOnErrors = createFocusDecorator();
 
@@ -29,26 +29,38 @@ export default class ProviderEdit extends Component {
     rootProxy: PropTypes.object.isRequired
   };
 
-  getActionMenu = () => {
-    const {
-      onCancel,
-    } = this.props;
+  getFooter = (pristine, reset) => {
+    const { model } = this.props;
 
-    if (!onCancel) return null;
+    const cancelButton = (
+      <Button
+        data-test-eholdings-provider-edit-cancel-button
+        buttonStyle="default mega"
+        disabled={model.update.isPending || pristine}
+        onClick={reset}
+        marginBottom0
+      >
+        <FormattedMessage id="stripes-components.cancel" />
+      </Button>
+    );
 
-    return ({ onToggle }) => (
-      <Fragment>
-        <Button
-          data-test-eholdings-provider-cancel-action
-          buttonStyle="dropdownItem fullWidth"
-          onClick={() => {
-            onToggle();
-            onCancel();
-          }}
-        >
-          <FormattedMessage id="ui-eholdings.actionMenu.cancelEditing" />
-        </Button>
-      </Fragment>
+    const saveButton = (
+      <Button
+        buttonStyle="primary mega"
+        data-test-eholdings-provider-save-button
+        disabled={model.update.isPending || pristine}
+        marginBottom0
+        type="submit"
+      >
+        <FormattedMessage id="stripes-components.saveAndClose" />
+      </Button>
+    );
+
+    return (
+      <PaneFooter
+        renderStart={cancelButton}
+        renderEnd={saveButton}
+      />
     );
   }
 
@@ -58,6 +70,7 @@ export default class ProviderEdit extends Component {
       proxyTypes,
       rootProxy,
       onSubmit,
+      onCancel,
     } = this.props;
 
     const supportsTokens = model.providerToken && model.providerToken.prompt;
@@ -71,7 +84,7 @@ export default class ProviderEdit extends Component {
           proxyId: model.proxy.id,
           providerTokenValue: model.providerToken.value
         }}
-        render={({ handleSubmit, pristine }) => (
+        render={({ handleSubmit, pristine, form: { reset } }) => (
           <Fragment>
             <Toaster toasts={processErrors(model)} position="bottom" />
             <form onSubmit={handleSubmit}>
@@ -80,25 +93,7 @@ export default class ProviderEdit extends Component {
                 model={model}
                 key={model.id}
                 paneTitle={model.name}
-                actionMenu={this.getActionMenu()}
-                lastMenu={(
-                  <Fragment>
-                    {model.update.isPending && (
-                    <Icon icon="spinner-ellipsis" />
-                    )}
-                    <PaneHeaderButton
-                      disabled={pristine || model.update.isPending}
-                      type="submit"
-                      buttonStyle="primary"
-                      data-test-eholdings-provider-save-button
-                    >
-                      {model.update.isPending ?
-                        (<FormattedMessage id="ui-eholdings.saving" />)
-                        :
-                        (<FormattedMessage id="ui-eholdings.save" />)}
-                    </PaneHeaderButton>
-                  </Fragment>
-              )}
+                footer={this.getFooter(pristine, reset)}
                 bodyContent={(
                   <Fragment>
                     <DetailsViewSection
@@ -131,6 +126,7 @@ export default class ProviderEdit extends Component {
                     </DetailsViewSection>
                   </Fragment>
                 )}
+                onCancel={onCancel}
               />
             </form>
             <NavigationModal when={!pristine && !model.update.isPending && !model.update.isResolved} />

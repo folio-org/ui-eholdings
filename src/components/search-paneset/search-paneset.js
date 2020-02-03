@@ -30,7 +30,6 @@ export default class SearchPaneset extends Component {
     filterCount: PropTypes.number,
     hideFilters: PropTypes.bool,
     isLoading: PropTypes.bool,
-    location: PropTypes.object.isRequired,
     resultsLabel: PropTypes.node,
     resultsType: PropTypes.string,
     resultsView: PropTypes.node,
@@ -47,23 +46,6 @@ export default class SearchPaneset extends Component {
 
   // used to focus the pane title when a new search happens
   $title = React.createRef(); // eslint-disable-line react/sort-comp
-
-  // focus the pane title if we mounted with existing search results
-  componentDidMount() {
-    if (this.props.resultsView && this.$title.current) {
-      this.$title.current.focus();
-    }
-  }
-
-  componentDidUpdate(prevProps) {
-    const isNewSearch = prevProps.location.search !== this.props.location.search;
-    const isSameSearchType = prevProps.resultsType === this.props.resultsType;
-
-    // focus the pane title when a new search happens within the same search type
-    if (isNewSearch && isSameSearchType && this.$title.current) {
-      this.$title.current.focus();
-    }
-  }
 
   toggleFilters = () => {
     this.props.updateFilters(hideFilters => !hideFilters);

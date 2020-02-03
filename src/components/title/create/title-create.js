@@ -6,10 +6,10 @@ import createFocusDecorator from 'final-form-focus';
 
 import {
   Button,
-  Icon,
   IconButton,
   Pane,
-  Paneset
+  Paneset,
+  PaneFooter,
 } from '@folio/stripes/components';
 
 import { FormattedMessage } from 'react-intl';
@@ -25,7 +25,6 @@ import PublicationTypeField from '../_fields/publication-type';
 import PeerReviewedField from '../_fields/peer-reviewed';
 import NavigationModal from '../../navigation-modal';
 import Toaster from '../../toaster';
-import PaneHeaderButton from '../../pane-header-button';
 import styles from './title-create.css';
 
 const focusOnErrors = createFocusDecorator();
@@ -43,29 +42,6 @@ export default class TitleCreate extends Component {
   componentWillUnmount() {
     this.props.removeCreateRequests();
   }
-
-  getActionMenu = () => {
-    const {
-      onCancel,
-      request
-    } = this.props;
-
-    if (!onCancel) return null;
-
-    return ({ onToggle }) => (
-      <Button
-        data-test-eholdings-title-create-cancel-action
-        buttonStyle="dropdownItem fullWidth"
-        disabled={request.isPending}
-        onClick={() => {
-          onToggle();
-          onCancel();
-        }}
-      >
-        <FormattedMessage id="ui-eholdings.actionMenu.cancelEditing" />
-      </Button>
-    );
-  };
 
   renderFirstMenu = () => {
     const { onCancel } = this.props;
@@ -87,30 +63,40 @@ export default class TitleCreate extends Component {
     );
   };
 
-  renderLastMenu = (pristine) => {
-    const {
-      request,
-    } = this.props;
+  getFooter = (pristine, reset) => {
+    const { request } = this.props;
+
+    const cancelButton = (
+      <Button
+        data-test-eholdings-title-create-cancel-button
+        buttonStyle="default mega"
+        disabled={request.isPending || pristine}
+        onClick={reset}
+        marginBottom0
+      >
+        <FormattedMessage id="stripes-components.cancel" />
+      </Button>
+    );
+
+    const saveButton = (
+      <Button
+        buttonStyle="primary mega"
+        data-test-eholdings-title-create-save-button
+        disabled={request.isPending || pristine}
+        marginBottom0
+        type="submit"
+      >
+        <FormattedMessage id="stripes-components.saveAndClose" />
+      </Button>
+    );
 
     return (
-      <Fragment>
-        {request.isPending && (
-          <Icon icon="spinner-ellipsis" />
-        )}
-        <PaneHeaderButton
-          disabled={pristine || request.isPending}
-          type="submit"
-          buttonStyle="primary"
-          data-test-eholdings-title-create-save-button
-        >
-          {request.isPending ?
-            <FormattedMessage id="ui-eholdings.saving" />
-            : <FormattedMessage id="ui-eholdings.save" />
-          }
-        </PaneHeaderButton>
-      </Fragment>
+      <PaneFooter
+        renderStart={cancelButton}
+        renderEnd={saveButton}
+      />
     );
-  };
+  }
 
   render() {
     const {
@@ -141,7 +127,7 @@ export default class TitleCreate extends Component {
           }}
           decorators={[focusOnErrors]}
           mutators={{ ...arrayMutators }}
-          render={({ handleSubmit, pristine }) => (
+          render={({ handleSubmit, pristine, form: { reset } }) => (
             <Fragment>
               <Paneset>
                 <Pane
@@ -149,9 +135,8 @@ export default class TitleCreate extends Component {
                   tagName="form"
                   defaultWidth="fill"
                   paneTitle={paneTitle}
-                  actionMenu={this.getActionMenu()}
-                  lastMenu={this.renderLastMenu(pristine)}
                   firstMenu={this.renderFirstMenu()}
+                  footer={this.getFooter(pristine, reset)}
                 >
                   <div className={styles['title-create-form-container']}>
                     <DetailsViewSection

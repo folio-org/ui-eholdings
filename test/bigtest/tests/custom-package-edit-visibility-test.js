@@ -22,7 +22,7 @@ describe('CustomPackageEditVisibility', () => {
         provider,
         name: 'Cool Package',
         contentType: 'E-Book',
-        isCustom: true
+        isCustom: true,
       });
       this.visit(`/eholdings/packages/${providerPackage.id}/edit`);
     });
@@ -39,9 +39,9 @@ describe('CustomPackageEditVisibility', () => {
       expect(PackageEditPage.isSaveDisabled).to.be.true;
     });
 
-    describe('clicking cancel', () => {
+    describe('clicking close (navigate back) button', () => {
       beforeEach(() => {
-        return PackageEditPage.clickCancel();
+        return PackageEditPage.clickBackButton();
       });
 
       it('goes to the package show page', () => {
@@ -56,7 +56,7 @@ describe('CustomPackageEditVisibility', () => {
 
       describe('clicking cancel', () => {
         beforeEach(() => {
-          return PackageEditPage.toggleIsVisible().clickCancel();
+          return PackageEditPage.toggleIsVisible().clickBackButton();
         });
 
         it('shows a navigation confirmation modal', () => {
@@ -86,7 +86,7 @@ describe('CustomPackageEditVisibility', () => {
         provider,
         name: 'Cool Package',
         contentType: 'E-Book',
-        isCustom: true
+        isCustom: true,
       });
       this.visit(`/eholdings/packages/${providerPackage.id}/edit`);
     });
@@ -124,9 +124,9 @@ describe('CustomPackageEditVisibility', () => {
       expect(PackageEditPage.isSaveDisabled).to.be.true;
     });
 
-    describe('clicking cancel', () => {
+    describe('clicking close (navigate back) button', () => {
       beforeEach(() => {
-        return PackageEditPage.clickCancel();
+        return PackageEditPage.clickBackButton();
       });
 
       it('goes to the package show page', () => {
@@ -141,7 +141,7 @@ describe('CustomPackageEditVisibility', () => {
 
       describe('clicking cancel', () => {
         beforeEach(() => {
-          return PackageEditPage.toggleIsVisible().clickCancel();
+          return PackageEditPage.toggleIsVisible().clickBackButton();
         });
 
         it('shows a navigation confirmation modal', () => {
@@ -172,7 +172,7 @@ describe('CustomPackageEditVisibility', () => {
         name: 'Cool Package',
         contentType: 'E-Book',
         isCustom: true,
-        isVisible: true
+        isVisible: true,
       });
       this.visit(`/eholdings/packages/${providerPackage.id}/edit`);
     });

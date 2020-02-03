@@ -1,5 +1,4 @@
 import {
-  action,
   interactor,
   isPresent,
   fillable,
@@ -10,14 +9,6 @@ import {
   count,
   collection,
 } from '@bigtest/interactor';
-
-@interactor class TitleCreateDropDown {
-  clickDropDownButton = clickable('button');
-}
-
-@interactor class TitleCreateDropDownMenu {
-  clickCancel = clickable('[data-test-eholdings-title-create-cancel-action]');
-}
 
 @interactor class TitleCreatePage {
   static defaultScope = '[data-test-eholdings-title-create]';
@@ -67,14 +58,8 @@ import {
   save = clickable('[data-test-eholdings-title-create-save-button]');
   isSaveDisabled = property('[data-test-eholdings-title-create-save-button]', 'disabled');
   hasBackButton = isPresent('[data-test-eholdings-details-view-back-button]');
-
-  dropDown = new TitleCreateDropDown('[class*=paneHeaderCenterInner---] [class*=dropdown---]');
-  dropDownMenu = new TitleCreateDropDownMenu();
-  cancel= action(function () {
-    return this
-      .dropDown.clickDropDownButton()
-      .dropDownMenu.clickCancel();
-  });
+  clickBackButton = clickable('[data-test-eholdings-details-view-back-button]');
+  cancelEditing = clickable('[data-test-eholdings-title-create-cancel-button]');
 }
 
 export default new TitleCreatePage();

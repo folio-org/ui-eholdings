@@ -126,7 +126,6 @@ class ResourceShowRoute extends Component {
           toggleSelected={this.toggleSelected}
           onEdit={this.handleEdit}
           isFreshlySaved={
-            history.action === 'PUSH' &&
             history.location.state &&
             history.location.state.isFreshlySaved
           }

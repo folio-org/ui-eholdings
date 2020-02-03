@@ -6,7 +6,7 @@ import createFocusDecorator from 'final-form-focus';
 
 import {
   Button,
-  Icon
+  PaneFooter
 } from '@folio/stripes/components';
 import { FormattedMessage } from 'react-intl';
 import DetailsView from '../../details-view';
@@ -21,7 +21,6 @@ import PeerReviewedField from '../_fields/peer-reviewed';
 import DetailsViewSection from '../../details-view-section';
 import NavigationModal from '../../navigation-modal';
 import Toaster from '../../toaster';
-import PaneHeaderButton from '../../pane-header-button';
 
 const focusOnErrors = createFocusDecorator();
 
@@ -34,24 +33,38 @@ export default class TitleEdit extends Component {
     updateRequest: PropTypes.object.isRequired,
   };
 
-  getActionMenu = ({ onToggle }) => {
-    const {
-      onCancel,
-    } = this.props;
+  getFooter = (pristine, reset) => {
+    const { model } = this.props;
+
+    const cancelButton = (
+      <Button
+        data-test-eholdings-title-edit-cancel-button
+        buttonStyle="default mega"
+        disabled={model.update.isPending || pristine}
+        onClick={reset}
+        marginBottom0
+      >
+        <FormattedMessage id="stripes-components.cancel" />
+      </Button>
+    );
+
+    const saveButton = (
+      <Button
+        buttonStyle="primary mega"
+        data-test-eholdings-title-save-button
+        disabled={model.update.isPending || pristine}
+        marginBottom0
+        type="submit"
+      >
+        <FormattedMessage id="stripes-components.saveAndClose" />
+      </Button>
+    );
 
     return (
-      <Fragment>
-        <Button
-          data-test-eholdings-title-cancel-action
-          buttonStyle="dropdownItem fullWidth"
-          onClick={() => {
-            onToggle();
-            onCancel();
-          }}
-        >
-          <FormattedMessage id="ui-eholdings.actionMenu.cancelEditing" />
-        </Button>
-      </Fragment>
+      <PaneFooter
+        renderStart={cancelButton}
+        renderEnd={saveButton}
+      />
     );
   }
 
@@ -61,6 +74,7 @@ export default class TitleEdit extends Component {
       onSubmit,
       updateRequest,
       initialValues,
+      onCancel,
     } = this.props;
 
     return (
@@ -79,29 +93,14 @@ export default class TitleEdit extends Component {
           initialValuesEqual={() => true}
           decorators={[focusOnErrors]}
           mutators={{ ...arrayMutators }}
-          render={({ handleSubmit, pristine }) => (
+          render={({ handleSubmit, pristine, form: { reset } }) => (
             <Fragment>
               <form onSubmit={handleSubmit}>
                 <DetailsView
                   type="title"
                   model={model}
                   paneTitle={model.name}
-                  actionMenu={this.getActionMenu}
-                  lastMenu={(
-                    <Fragment>
-                      {model.update.isPending && (
-                        <Icon icon="spinner-ellipsis" />
-                      )}
-                      <PaneHeaderButton
-                        disabled={pristine || model.update.isPending}
-                        type="submit"
-                        buttonStyle="primary"
-                        data-test-eholdings-title-save-button
-                      >
-                        {model.update.isPending ? (<FormattedMessage id="ui-eholdings.saving" />) : (<FormattedMessage id="ui-eholdings.save" />)}
-                      </PaneHeaderButton>
-                    </Fragment>
-                  )}
+                  footer={this.getFooter(pristine, reset)}
                   bodyContent={(
                     <Fragment>
                       <DetailsViewSection
@@ -118,6 +117,7 @@ export default class TitleEdit extends Component {
                       </DetailsViewSection>
                     </Fragment>
                   )}
+                  onCancel={onCancel}
                 />
               </form>
 

@@ -36,13 +36,13 @@ describe('CustomPackageEditSelection', () => {
       expect(PackageEditPage.isSaveDisabled).to.be.true;
     });
 
-    describe('clicking cancel', () => {
+    describe('clicking close (navigate back) button', () => {
       beforeEach(() => {
-        return PackageEditPage.clickCancel();
+        return PackageEditPage.clickBackButton();
       });
 
       it('goes to the package show page', () => {
-        expect(PackageShowPage.$root).to.exist;
+        expect(PackageShowPage.isPresent).to.be.true;
       });
     });
 
@@ -259,13 +259,13 @@ describe('CustomPackageEditSelection', () => {
       });
     });
 
-    describe('clicking cancel', () => {
+    describe('clicking close (navigate back) button', () => {
       beforeEach(() => {
-        return PackageEditPage.clickCancel();
+        return PackageEditPage.clickBackButton();
       });
 
       it('goes to the package show page', () => {
-        expect(PackageShowPage.$root).to.exist;
+        expect(PackageShowPage.isPresent).to.equal(true);
       });
     });
 

@@ -81,14 +81,16 @@ class PackageEditRoute extends Component {
     const wasPending = prevProps.model.update.isPending && !next.update.isPending;
     const needsUpdate = !isEqual(prevProps.model, next);
     const isRejected = this.props.model.update.isRejected;
+
     const wasUnSelected = prevProps.model.isSelected && !next.isSelected;
     const isCurrentlySelected = prevProps.model.isSelected && next.isSelected;
+    const isFreshlySaved = wasPending && needsUpdate && !isRejected && (wasUnSelected || isCurrentlySelected);
 
-    if (wasPending && needsUpdate && !isRejected && (wasUnSelected || isCurrentlySelected)) {
-      history.push({
+    if (isFreshlySaved || (next.isLoaded && !next.isSelected)) {
+      history.replace({
         pathname: `/eholdings/packages/${next.id}`,
         search: this.props.location.search,
-        state: { eholdings: true, isFreshlySaved: true }
+        state: { eholdings: true, isFreshlySaved }
       });
     }
   }
