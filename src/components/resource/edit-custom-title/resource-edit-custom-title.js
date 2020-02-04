@@ -1,7 +1,4 @@
-import React, {
-  Component,
-  Fragment,
-} from 'react';
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import {
   Form,
@@ -64,19 +61,22 @@ class ResourceEditCustomTitle extends Component {
     }),
   };
 
-  state = {
-    resourceSelected: this.props.model.isSelected,
-    showSelectionModal: false,
-    allowFormToSubmit: false,
-    formValues: {},
-    initialValues: this.getInitialValuesFromModel(),
-    sections: {
-      resourceShowHoldingStatus: true,
-      resourceShowCustomLabels: true,
-      resourceShowSettings: true,
-      resourceShowCoverageSettings: true,
-    },
-  };
+  constructor(props) {
+    super(props);
+    this.state = {
+      resourceSelected: this.props.model.isSelected,
+      showSelectionModal: false,
+      allowFormToSubmit: false,
+      formValues: {},
+      initialValues: this.getInitialValuesFromModel(),
+      sections: {
+        resourceShowHoldingStatus: true,
+        resourceShowCustomLabels: true,
+        resourceShowSettings: true,
+        resourceShowCoverageSettings: true,
+      },
+    };
+  }
 
   static getDerivedStateFromProps(nextProps, prevState) {
     const stateUpdates = {};
@@ -316,7 +316,7 @@ class ResourceEditCustomTitle extends Component {
                 sections={sections}
                 footer={this.getFooter(pristine, reset)}
                 bodyContent={(
-                  <Fragment>
+                  <>
                     <Accordion
                       label={this.getSectionHeader('ui-eholdings.label.holdingStatus')}
                       open={sections.resourceShowHoldingStatus}
@@ -352,7 +352,7 @@ class ResourceEditCustomTitle extends Component {
                       onToggle={this.toggleSection}
                     >
                       {resourceSelected ? (
-                        <Fragment>
+                        <>
                           <VisibilityField disabled={visibilityMessage} />
                           <div>
                             {hasInheritedProxy && (
@@ -366,7 +366,7 @@ class ResourceEditCustomTitle extends Component {
                             )}
                           </div>
                           <CustomUrlFields />
-                        </Fragment>
+                        </>
                       ) : (
                         <p data-test-eholdings-resource-edit-settings-message>
                           <FormattedMessage id="ui-eholdings.resource.resourceSettings.notSelected" />
@@ -381,7 +381,7 @@ class ResourceEditCustomTitle extends Component {
                       onToggle={this.toggleSection}
                     >
                       {resourceSelected ? (
-                        <Fragment>
+                        <>
                           <Headline tag="h4"><FormattedMessage id="ui-eholdings.label.dates" /></Headline>
                           <CoverageFields model={model} />
 
@@ -396,14 +396,14 @@ class ResourceEditCustomTitle extends Component {
                             <FormattedMessage id="ui-eholdings.resource.embargoPeriod" />
                           </Headline>
                           <CustomEmbargoFields />
-                        </Fragment>
+                        </>
                       ) : (
                         <p data-test-eholdings-resource-edit-settings-message>
                           <FormattedMessage id="ui-eholdings.resource.coverage.notSelected" />
                         </p>
                       )}
                     </Accordion>
-                  </Fragment>
+                  </>
                 )}
                 onCancel={onCancel}
               />

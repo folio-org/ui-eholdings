@@ -1,4 +1,4 @@
-import React, { Component, Fragment } from 'react';
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import {
   Field,
@@ -36,6 +36,28 @@ import styles from './custom-package-edit.css';
 const focusOnErrors = createFocusDecorator();
 
 class CustomPackageEdit extends Component {
+  static getInitialValues(model) {
+    const {
+      name,
+      contentType,
+      isSelected,
+      customCoverage,
+      proxy,
+      visibilityData,
+    } = model;
+
+    return {
+      name,
+      contentType,
+      isSelected,
+      customCoverages: [{
+        ...customCoverage,
+      }],
+      proxyId: proxy.id,
+      isVisible: !visibilityData.isHidden,
+    };
+  }
+
   static propTypes = {
     addPackageToHoldings: PropTypes.func.isRequired,
     model: PropTypes.object.isRequired,
@@ -72,41 +94,22 @@ class CustomPackageEdit extends Component {
     return stateUpdates;
   }
 
-  static getInitialValues(model) {
-    const {
-      name,
-      contentType,
-      isSelected,
-      customCoverage,
-      proxy,
-      visibilityData,
-    } = model;
-
-    return {
-      name,
-      contentType,
-      isSelected,
-      customCoverages: [{
-        ...customCoverage
-      }],
-      proxyId: proxy.id,
-      isVisible: !visibilityData.isHidden
+  constructor(props) {
+    super(props);
+    this.state = {
+      showSelectionModal: false,
+      allowFormToSubmit: false,
+      packageSelected: this.props.model.isSelected,
+      formValues: {},
+      initialValues: CustomPackageEdit.getInitialValues(this.props.model),
+      sections: {
+        packageHoldingStatus: true,
+        packageInfo: true,
+        packageSettings: true,
+        packageCoverageSettings: true,
+      },
     };
   }
-
-  state = {
-    showSelectionModal: false,
-    allowFormToSubmit: false,
-    packageSelected: this.props.model.isSelected,
-    formValues: {},
-    initialValues: CustomPackageEdit.getInitialValues(this.props.model),
-    sections: {
-      packageHoldingStatus: true,
-      packageInfo: true,
-      packageSettings: true,
-      packageCoverageSettings: true,
-    }
-  };
 
   handleDeleteAction = () => {
     this.setState({
@@ -268,7 +271,7 @@ class CustomPackageEdit extends Component {
                 ariaRole="tablist"
                 footer={this.getFooter(pristine, reset)}
                 bodyContent={(
-                  <Fragment>
+                  <>
                     <Accordion
                       label={this.getSectionHeader('ui-eholdings.label.holdingStatus')}
                       open={sections.packageHoldingStatus}
@@ -389,7 +392,7 @@ class CustomPackageEdit extends Component {
                         <p><FormattedMessage id="ui-eholdings.package.customCoverage.notSelected" /></p>
                       )}
                     </Accordion>
-                  </Fragment>
+                  </>
                 )}
                 onCancel={onCancel}
               />

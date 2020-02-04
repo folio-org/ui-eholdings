@@ -1,4 +1,4 @@
-import React, { Component, Fragment } from 'react';
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import {
   FormattedDate,
@@ -72,22 +72,25 @@ class PackageShow extends Component {
     updateFolioTags: PropTypes.func.isRequired,
   };
 
-  state = {
-    showSelectionModal: false,
-    packageSelected: this.props.model.isSelected,
-    packageAllowedToAddTitles: this.props.model.allowKbToAddTitles,
-    isCoverageEditable: false,
-    sections: {
-      packageShowTags: true,
-      packageShowHoldingStatus: true,
-      packageShowInformation: true,
-      packageShowSettings: true,
-      packageShowCoverageSettings: true,
-      packageShowAgreements: true,
-      packageShowTitles: true,
-      packageShowNotes: true,
-    },
-  };
+  constructor(props) {
+    super(props);
+    this.state = {
+      showSelectionModal: false,
+      packageSelected: this.props.model.isSelected,
+      packageAllowedToAddTitles: this.props.model.allowKbToAddTitles,
+      isCoverageEditable: false,
+      sections: {
+        packageShowTags: true,
+        packageShowHoldingStatus: true,
+        packageShowInformation: true,
+        packageShowSettings: true,
+        packageShowCoverageSettings: true,
+        packageShowAgreements: true,
+        packageShowTitles: true,
+        packageShowNotes: true,
+      },
+    };
+  }
 
   static getDerivedStateFromProps(nextProps) {
     const { model: { allowKbToAddTitles, isSaving, isSelected } } = nextProps;
@@ -161,18 +164,17 @@ class PackageShow extends Component {
     if (!isMenuNeeded) return null;
 
     return ({ onToggle }) => (
-      <Fragment>
+      <>
         {canEdit &&
           <Button
             buttonStyle="dropdownItem fullWidth"
             onClick={onEdit}
           >
             <FormattedMessage id="ui-eholdings.actionMenu.edit" />
-          </Button>
-        }
+          </Button>}
         {isRemoveButtonNeeded && this.renderRemoveFromHoldingsButton(onToggle)}
         {isAddButtonNeeded && this.renderAddToHoldingsButton(onToggle)}
-      </Fragment>
+      </>
     );
   };
 
@@ -215,8 +217,7 @@ class PackageShow extends Component {
                         {packageAllowedToAddTitles ?
                           (<FormattedMessage id="ui-eholdings.yes" />)
                           :
-                          (<FormattedMessage id="ui-eholdings.no" />)
-                        }
+                          (<FormattedMessage id="ui-eholdings.no" />)}
                       </div>
                     )
                     : (
@@ -286,7 +287,7 @@ class PackageShow extends Component {
     } = this.state;
 
     return (
-      <Fragment>
+      <>
         <TagsAccordion
           id="packageShowTags"
           model={model}
@@ -472,7 +473,7 @@ class PackageShow extends Component {
           pathToNoteCreate={paths.NOTE_CREATE}
           pathToNoteDetails={paths.NOTES}
         />
-      </Fragment>
+      </>
     );
   }
 

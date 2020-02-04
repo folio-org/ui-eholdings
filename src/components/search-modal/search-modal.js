@@ -1,4 +1,4 @@
-import React, { Fragment } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import {
   isEqual,
@@ -39,11 +39,14 @@ class SearchModal extends React.PureComponent {
     tagsModel: PropTypes.object.isRequired,
   };
 
-  state = {
-    isModalVisible: false,
-    query: normalize(this.props.query),
-    searchByTagsEnabled: hasIn(this.props.query, 'filter.tags'),
-  };
+  constructor(props) {
+    super(props);
+    this.state = {
+      isModalVisible: false,
+      query: normalize(this.props.query),
+      searchByTagsEnabled: hasIn(this.props.query, 'filter.tags'),
+    };
+  }
 
   updateFilter(query) {
     const { searchByTagsEnabled } = this.state;
@@ -166,7 +169,7 @@ class SearchModal extends React.PureComponent {
     const hasChanges = !isEqual(queryFromProps, query);
 
     return (
-      <Fragment>
+      <>
         <SearchBadge
           data-test-eholdings-search-modal-badge
           filterCount={filterCount}
@@ -220,7 +223,7 @@ class SearchModal extends React.PureComponent {
             />
           </Modal>
         )}
-      </Fragment>
+      </>
     );
   }
 }

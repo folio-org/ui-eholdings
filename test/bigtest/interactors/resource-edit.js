@@ -20,41 +20,12 @@ import { hasClassBeginningWith } from './helpers';
 
 import Toast from './toast';
 import Datepicker from './datepicker';
-
-@interactor class ResourceEditNavigationModal {
-  cancelNavigation = clickable('[data-test-navigation-modal-dismiss]');
-  confirmNavigation = clickable('[data-test-navigation-modal-continue]');
-}
-
-@interactor class ResourceEditModal {
-  hasDeselectTitleWarning = isPresent('[data-test-eholdings-deselect-title-warning]');
-  hasDeselectFinalTitleWarning = isPresent('[data-test-eholdings-deselect-final-title-warning]');
-  confirmDeselection = clickable('[data-test-eholdings-resource-deselection-confirmation-modal-yes]');
-  cancelDeselection = clickable('[data-test-eholdings-resource-deselection-confirmation-modal-no]');
-  confirmButtonText = text('[data-test-eholdings-resource-deselection-confirmation-modal-yes]');
-  confirmButtonIsDisabled = property('[data-test-eholdings-resource-deselection-confirmation-modal-yes]', 'disabled');
-}
-
-@interactor class ResourceEditDropDown {
-  clickDropDownButton = clickable('button');
-}
-
-@interactor class ResourceEditDropDownMenu {
-  clickRemoveFromHoldings = clickable('[data-test-eholdings-remove-resource-from-holdings]');
-}
-
-@interactor class ResourceEditToggleSectionButton {
-  exists = isPresent('[data-test-eholdings-details-view-collapse-all-button]]');
-  label = text('[data-test-eholdings-details-view-collapse-all-button]]');
-  click = clickable('[data-test-eholdings-details-view-collapse-all-button] button');
-}
-
-
-@interactor class ResourceEditCustomLabels {
-  inputCustomLabel = fillable('input');
-  blurCustomLabel = blurrable('input');
-  validationErrorMessage = text('[class^="feedbackError--"]');
-}
+import NavigationModal from './navigation-modal';
+import DropDown from './drop-down';
+import ResourceEditModal from './resource-edit-modal';
+import ResourceDropDownMenu from './resource-drop-down-menu';
+import CustomLabelsFields from './custom-labels-fields';
+import ResourceEditToggleSectionButton from './resource-edit-toggle-section-button';
 
 @interactor class ResourceEditPage {
   isLoaded = isPresent('[data-test-eholdings-details-view-pane-title]');
@@ -62,7 +33,7 @@ import Datepicker from './datepicker';
     return this.when(() => this.isLoaded);
   }
 
-  navigationModal = new ResourceEditNavigationModal('#navigation-modal');
+  navigationModal = NavigationModal;
 
   addToHoldingsButton = isPresent('[data-test-eholdings-resource-add-to-holdings-button]');
 
@@ -166,7 +137,7 @@ import Datepicker from './datepicker';
   validationErrorOnCustomUrl = text('[data-test-eholdings-custom-url-textfield] [class^="feedbackError--"]');
   managedCoverageDisplay = text('[data-test-eholdings-resource-edit-managed-coverage-list]');
 
-  customLabelsFields = collection('[data-test-eholdings-resource-edit-custom-labels-fields]', ResourceEditCustomLabels);
+  customLabelsFields = collection('[data-test-eholdings-resource-edit-custom-labels-fields]', CustomLabelsFields);
 
   selectPublicationType = fillable('[data-test-eholdings-publication-type-field] select');
   publicationTypeValue = value('[data-test-eholdings-publication-type-field] select');
@@ -176,8 +147,8 @@ import Datepicker from './datepicker';
   proxySelectValue = value('[data-test-eholdings-resource-proxy-select] select');
   chooseProxy = selectable('[data-test-eholdings-resource-proxy-select] select');
 
-  dropDown = new ResourceEditDropDown('[class*=paneHeaderCenterInner---] [class*=dropdown---]');
-  dropDownMenu = new ResourceEditDropDownMenu();
+  dropDown = new DropDown('[class*=paneHeaderCenterInner---] [class*=dropdown---]');
+  dropDownMenu = new ResourceDropDownMenu();
 }
 
 export default new ResourceEditPage();

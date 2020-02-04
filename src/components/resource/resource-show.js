@@ -1,4 +1,4 @@
-import React, { Component, Fragment } from 'react';
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { FormattedMessage } from 'react-intl';
 import update from 'lodash/fp/update';
@@ -61,20 +61,23 @@ class ResourceShow extends Component {
     updateFolioTags: PropTypes.func.isRequired,
   };
 
-  state = {
-    showSelectionModal: false,
-    resourceSelected: this.props.model.isSelected,
-    sections: {
-      resourceShowTags: true,
-      resourceShowHoldingStatus: true,
-      resourceShowInformation: true,
-      resourceShowCustomLabels: true,
-      resourceShowSettings: true,
-      resourceShowCoverageSettings: this.props.model.isSelected,
-      resourceShowAgreements: true,
-      resourceShowNotes: true,
-    }
-  };
+  constructor(props) {
+    super(props);
+    this.state = {
+      showSelectionModal: false,
+      resourceSelected: this.props.model.isSelected,
+      sections: {
+        resourceShowTags: true,
+        resourceShowHoldingStatus: true,
+        resourceShowInformation: true,
+        resourceShowCustomLabels: true,
+        resourceShowSettings: true,
+        resourceShowCoverageSettings: this.props.model.isSelected,
+        resourceShowAgreements: true,
+        resourceShowNotes: true,
+      },
+    };
+  }
 
   static getDerivedStateFromProps({ model }, prevState) {
     return !model.isSaving ?
@@ -130,17 +133,16 @@ class ResourceShow extends Component {
     if (!isMenuNeeded) return null;
 
     return ({ onToggle }) => (
-      <Fragment>
+      <>
         {canEdit &&
           <Button
             buttonStyle="dropdownItem fullWidth"
             onClick={onEdit}
           >
             <FormattedMessage id="ui-eholdings.actionMenu.edit" />
-          </Button>
-        }
+          </Button>}
         {hasSelectionPermission && this.renderSelectionButton(onToggle)}
-      </Fragment>
+      </>
     );
   }
 
@@ -260,7 +262,7 @@ class ResourceShow extends Component {
     }
 
     return (
-      <Fragment>
+      <>
         <Toaster toasts={toasts} position="bottom" />
 
         <DetailsView
@@ -273,7 +275,7 @@ class ResourceShow extends Component {
           handleExpandAll={this.handleExpandAll}
           lastMenu={this.renderLastMenu()}
           bodyContent={(
-            <Fragment>
+            <>
               <TagsAccordion
                 id="resourceShowTags"
                 model={model}
@@ -447,8 +449,7 @@ class ResourceShow extends Component {
                   onToggle={this.handleSectionToggle}
                   section={CustomLabelsShowSection}
                   userDefinedFields={userDefinedFields}
-                />
-              }
+                />}
 
               <Accordion
                 label={<Headline size="large" tag="h3"><FormattedMessage id="ui-eholdings.resource.resourceSettings" /></Headline>}
@@ -487,8 +488,7 @@ class ResourceShow extends Component {
                   <KeyValue label={model.title.isTitleCustom ?
                     <FormattedMessage id="ui-eholdings.custom" />
                     :
-                    <FormattedMessage id="ui-eholdings.managed" />
-                  }
+                    <FormattedMessage id="ui-eholdings.managed" />}
                   >
                     <div data-test-eholdings-resource-show-url>
                       <ExternalLink
@@ -594,7 +594,7 @@ class ResourceShow extends Component {
                 pathToNoteCreate={paths.NOTE_CREATE}
                 pathToNoteDetails={paths.NOTES}
               />
-            </Fragment>
+            </>
           )}
         />
 
@@ -640,7 +640,7 @@ class ResourceShow extends Component {
               )
           }
         </Modal>
-      </Fragment>
+      </>
     );
   }
 }

@@ -1,4 +1,4 @@
-import React, { Component, Fragment } from 'react';
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Form } from 'react-final-form';
 import createFocusDecorator from 'final-form-focus';
@@ -85,7 +85,7 @@ export default class ProviderEdit extends Component {
           providerTokenValue: model.providerToken.value
         }}
         render={({ handleSubmit, pristine, form: { reset } }) => (
-          <Fragment>
+          <>
             <Toaster toasts={processErrors(model)} position="bottom" />
             <form onSubmit={handleSubmit}>
               <DetailsView
@@ -95,7 +95,7 @@ export default class ProviderEdit extends Component {
                 paneTitle={model.name}
                 footer={this.getFooter(pristine, reset)}
                 bodyContent={(
-                  <Fragment>
+                  <>
                     <DetailsViewSection
                       label={<FormattedMessage id="ui-eholdings.provider.providerSettings" />}
                     >
@@ -124,13 +124,13 @@ export default class ProviderEdit extends Component {
                         </div>
                       )}
                     </DetailsViewSection>
-                  </Fragment>
+                  </>
                 )}
                 onCancel={onCancel}
               />
             </form>
             <NavigationModal when={!pristine && !model.update.isPending && !model.update.isResolved} />
-          </Fragment>
+          </>
         )}
       />
     );

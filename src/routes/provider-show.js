@@ -35,16 +35,15 @@ class ProviderShowRoute extends Component {
 
   constructor(props) {
     super(props);
+    this.state = {
+      pkgSearchParams: {},
+      queryId: 0,
+    };
     const { providerId } = props.match.params;
     props.getProvider(providerId);
     props.getProxyTypes();
     props.getRootProxy();
     props.getTags();
-  }
-
-  state = {
-    pkgSearchParams: {},
-    queryId: 0
   }
 
   componentDidUpdate(prevProps, prevState) {

@@ -10,11 +10,10 @@ import {
 } from '@bigtest/interactor';
 import { hasClassBeginningWith } from './helpers';
 import Toast from './toast';
-
-@interactor class TitleEditNavigationModal {}
+import NavigationModal from './navigation-modal';
 
 @interactor class TitleEditPage {
-  navigationModal = new TitleEditNavigationModal('#navigation-modal');
+  navigationModal = NavigationModal;
 
   clickCancelEditing = clickable('[data-test-eholdings-title-edit-cancel-button]');
 

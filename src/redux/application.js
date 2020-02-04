@@ -1,3 +1,4 @@
+// eslint-disable-next-line max-classes-per-file
 import model from './model';
 
 export const Status = model({

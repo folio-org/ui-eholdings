@@ -1,7 +1,5 @@
 import {
-  Interactor,
   action,
-  attribute,
   clickable,
   collection,
   computed,
@@ -22,34 +20,11 @@ import { hasClassBeginningWith } from './helpers';
 import Toast from './toast';
 import Datepicker from './datepicker';
 import PackageSelectionStatus from './selection-status';
-
-@interactor class PackageEditNavigationModal {
-  cancelNavigation = clickable('[data-test-navigation-modal-dismiss]');
-  confirmNavigation = clickable('[data-test-navigation-modal-continue]');
-}
-
-@interactor class PackageEditModal {
-  cancelDeselection = clickable('[data-test-eholdings-package-deselection-confirmation-modal-no]');
-  confirmDeselection = clickable('[data-test-eholdings-package-deselection-confirmation-modal-yes]');
-  confirmButtonText = text('[data-test-eholdings-package-deselection-confirmation-modal-yes]');
-  confirmButtonIsDisabled = property('[data-test-eholdings-package-deselection-confirmation-modal-yes]', 'disabled');
-}
-
-@interactor class PackageEditDropDown {
-  clickDropDownButton = clickable('button');
-  isExpanded = attribute('button', 'aria-expanded');
-}
-
-@interactor class PackageEditDropDownMenu {
-  addToHoldings = new Interactor('[data-test-eholdings-package-add-to-holdings-action]');
-  removeFromHoldings = new Interactor('[data-test-eholdings-package-remove-from-holdings-action]');
-}
-
-@interactor class SectionToggleButton {
-  exists = isPresent('[data-test-eholdings-details-view-collapse-all-button]]');
-  label = text('[data-test-eholdings-details-view-collapse-all-button]]');
-  click = clickable('[data-test-eholdings-details-view-collapse-all-button] button');
-}
+import NavigationModal from './navigation-modal';
+import PackageModal from './package-modal';
+import DropDown from './drop-down';
+import PackageDropDownMenu from './package-drop-down-menu';
+import SectionToggleButton from './section-toggle-button';
 
 @interactor class PackageEditPage {
   isLoaded = isPresent('[data-test-eholdings-details-view-pane-title]');
@@ -57,7 +32,7 @@ import PackageSelectionStatus from './selection-status';
     return this.when(() => this.isLoaded);
   }
 
-  navigationModal = new PackageEditNavigationModal('#navigation-modal');
+  navigationModal = NavigationModal;
 
   clickCancelEditing = clickable('[data-test-eholdings-package-edit-cancel-button]');
 
@@ -65,7 +40,7 @@ import PackageSelectionStatus from './selection-status';
   isSavePresent = isPresent('[data-test-eholdings-package-save-button]');
   isSaveDisabled = property('[data-test-eholdings-package-save-button]', 'disabled');
   hasErrors = isPresent('[data-test-eholdings-package-edit-error]');
-  modal = new PackageEditModal('#eholdings-package-confirmation-modal');
+  modal = new PackageModal('#eholdings-package-confirmation-modal');
   selectionStatus = new PackageSelectionStatus();
   clickAddButton = clickable('[data-test-eholdings-package-add-to-holdings-button]');
   hasBackButton = isPresent('[data-test-eholdings-details-view-back-button]');
@@ -100,8 +75,8 @@ import PackageSelectionStatus from './selection-status';
   hasReadOnlyContentTypeFieldPresent = isPresent('[data-test-eholdings-package-details-readonly-content-type]');
   proxySelectValue = value('[data-test-eholdings-package-proxy-select-field] select');
   chooseProxy = selectable('[data-test-eholdings-package-proxy-select-field] select');
-  dropDown = new PackageEditDropDown('[class*=paneHeaderCenterInner---] [class*=dropdown---]');
-  dropDownMenu = new PackageEditDropDownMenu();
+  dropDown = new DropDown('[class*=paneHeaderCenterInner---] [class*=dropdown---]');
+  dropDownMenu = new PackageDropDownMenu();
   sectionToggleButton = new SectionToggleButton();
   holdingStatusSectionAccordion = new AccordionInteractor('#packageHoldingStatus');
   settingsSectionAccordion = new AccordionInteractor('#packageSettings');

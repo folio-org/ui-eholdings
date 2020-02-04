@@ -121,8 +121,7 @@ class ResourceCoverageFields extends Component {
                   isYearOnly={isBookPublicationType(model.publicationType)}
                 />
               )
-              : <p><FormattedMessage id="ui-eholdings.resource.managedCoverageDates.notSet" /></p>
-            }
+              : <p><FormattedMessage id="ui-eholdings.resource.managedCoverageDates.notSet" /></p>}
           </div>
         </div>
         <div>

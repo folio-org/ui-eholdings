@@ -13,14 +13,10 @@ import {
 } from '@bigtest/interactor';
 import { hasClassBeginningWith } from './helpers';
 import Toast from './toast';
-
-@interactor class ProviderEditNavigationModal {
-  cancelNavigation = clickable('[data-test-navigation-modal-dismiss]');
-  confirmNavigation = clickable('[data-test-navigation-modal-continue]');
-}
+import NavigationModal from './navigation-modal';
 
 @interactor class ProviderEditPage {
-  navigationModal = new ProviderEditNavigationModal('#navigation-modal');
+  navigationModal = NavigationModal;
   paneTitle = text('[data-test-eholdings-details-view-pane-title]');
   name = text('[data-test-eholdings-details-view-name="provider"]');
   nameHasFocus = is('[data-test-eholdings-details-view-name="provider"]', ':focus');

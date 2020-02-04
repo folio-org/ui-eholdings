@@ -1,4 +1,5 @@
 /* global describe, beforeEach, it */
+// eslint-disable-next-line max-classes-per-file
 import { expect } from 'chai';
 
 import Resolver from '../../../../src/redux/resolver';

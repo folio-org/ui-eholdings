@@ -4,13 +4,9 @@ import {
   clickable,
   collection,
   text,
-  isVisible,
 } from '@bigtest/interactor';
 
-@interactor class Button {
-  isDisplayed = isVisible();
-  click = clickable();
-}
+import Button from './button';
 
 @interactor class NotesAccordion {
   packageNotesAccordionIsDisplayed = isPresent('#packageShowNotes');

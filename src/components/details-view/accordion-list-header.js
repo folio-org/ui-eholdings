@@ -29,8 +29,7 @@ function AccordionListHeader(props) {
                 </span>
               )
                 :
-                (<FormattedNumber value={props.resultsLength} />)
-              }
+                (<FormattedNumber value={props.resultsLength} />)}
             </div>
           </KeyValue>
         </div>
