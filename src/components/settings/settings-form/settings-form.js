@@ -21,7 +21,6 @@ export default class SettingsForm extends Component {
       updateIsPending: PropTypes.bool,
     }).isRequired,
     title: PropTypes.node,
-    toastAction: PropTypes.func,
     toasts: PropTypes.array.isRequired,
   };
 
@@ -73,7 +72,6 @@ export default class SettingsForm extends Component {
       title,
       formState,
       toasts,
-      toastAction,
       ...formProps
     } = this.props;
 
@@ -97,7 +95,6 @@ export default class SettingsForm extends Component {
           <Toaster
             position='bottom'
             toasts={toasts}
-            toastAction={toastAction}
           />
 
           {children}

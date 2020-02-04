@@ -19,7 +19,6 @@ class Toaster extends Component {
   static propTypes = {
     // the position in which toasts are displayed
     position: PropTypes.string,
-    toastAction: PropTypes.func,
     // array of toast messages to display
     toasts: PropTypes.arrayOf(PropTypes.shape({
       // the type of toast: warn, error, or success
@@ -38,7 +37,6 @@ class Toaster extends Component {
   };
 
   static defaultProps = {
-    toastAction: () => null,
     position: 'bottom',
   };
 
@@ -54,12 +52,6 @@ class Toaster extends Component {
     return nextProps.toasts ?
       { toasts: nextProps.toasts } :
       null;
-  }
-
-  componentDidUpdate() {
-    if (this.state.toasts.some(toast => toast.type === 'success')) {
-      this.props.toastAction();
-    }
   }
 
   destroyToast = (toastId) => {

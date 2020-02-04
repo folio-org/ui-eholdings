@@ -47,6 +47,17 @@ export default class SettingsCustomLabels extends Component {
     };
   }
 
+  componentDidUpdate() {
+    const {
+      confirmUpdate,
+      customLabels: { isUpdated },
+    } = this.props;
+
+    if (isUpdated) {
+      confirmUpdate();
+    }
+  }
+
   prepareInitialValues = () => {
     const { customLabels } = this.props;
     const customLabelsData = get(customLabels, ['items', 'data'], []);
@@ -119,7 +130,6 @@ export default class SettingsCustomLabels extends Component {
   closeModal = () => this.setState({ modalIsOpen: false });
 
   render() {
-    const { confirmUpdate } = this.props;
     const {
       modalIsOpen,
       removingLabels,
@@ -138,7 +148,6 @@ export default class SettingsCustomLabels extends Component {
           formState={formState}
           title={<FormattedMessage id="ui-eholdings.resource.customLabels" />}
           toasts={this.getToastLabels()}
-          toastAction={confirmUpdate}
         >
           <Row>
             <Col xs={4}>
