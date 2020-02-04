@@ -5,6 +5,7 @@
 * Add display custom labels on view resource page (UIEH-805)
 * Add display custom labels on edit resource page (UIEH-185)
 * Create Settings Custom Labels Page (UIEH-184)
+* Update eslint to v6.2.1 (UIEH-818)
 
 ## [2.1.0](https://github.com/folio-org/ui-eholdings/tree/v2.1.0) (2019-12-04)
 
