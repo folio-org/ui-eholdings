@@ -1,5 +1,9 @@
 # Change history for ui-eholdings
 
+## [2.2.0](IN PROGRESS)
+
+* Update eslint to v6.2.1 (UIEH-818)
+
 ## [2.1.0](https://github.com/folio-org/ui-eholdings/tree/v2.1.0) (2019-12-04)
 
 * Fixed tests for the notes & for the agreements (STSMACOM-270)
