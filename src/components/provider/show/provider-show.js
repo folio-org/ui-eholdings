@@ -1,4 +1,4 @@
-import React, { Component, Fragment } from 'react';
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import {
   FormattedNumber,
@@ -60,15 +60,18 @@ class ProviderShow extends Component {
     updateFolioTags: PropTypes.func.isRequired,
   };
 
-  state = {
-    sections: {
-      providerShowTags: true,
-      providerShowProviderInformation: true,
-      providerShowProviderSettings: true,
-      providerShowProviderList: true,
-      providerShowNotes: true,
-    }
-  };
+  constructor(props) {
+    super(props);
+    this.state = {
+      sections: {
+        providerShowTags: true,
+        providerShowProviderInformation: true,
+        providerShowProviderSettings: true,
+        providerShowProviderList: true,
+        providerShowNotes: true,
+      }
+    };
+  }
 
   handleSectionToggle = ({ id }) => {
     const next = update(`sections.${id}`, value => !value, this.state);
@@ -199,7 +202,7 @@ class ProviderShow extends Component {
     const hasProviderSettings = hasProxy || hasToken;
 
     return (
-      <Fragment>
+      <>
         <TagsAccordion
           id="providerShowTags"
           model={model}
@@ -267,7 +270,7 @@ class ProviderShow extends Component {
           pathToNoteCreate={paths.NOTE_CREATE}
           pathToNoteDetails={paths.NOTES}
         />
-      </Fragment>
+      </>
     );
   }
 
@@ -315,7 +318,7 @@ class ProviderShow extends Component {
     const { sections } = this.state;
 
     return (
-      <Fragment>
+      <>
         <Toaster
           toasts={this.toasts}
           position="bottom"
@@ -338,7 +341,7 @@ class ProviderShow extends Component {
           renderList={this.renderPackagesList}
           ariaRole="tablist"
         />
-      </Fragment>
+      </>
     );
   }
 }

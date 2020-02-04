@@ -46,11 +46,11 @@ class CoverageDateList extends React.Component {
       return endCoverage ? endDate : '';
     } else {
       return (
-        <Fragment>
+        <>
           {startDate}
           {' - '}
           {endDate}
-        </Fragment>
+        </>
       );
     }
   }
@@ -70,11 +70,11 @@ class CoverageDateList extends React.Component {
       return startYear;
     } else {
       return (
-        <Fragment>
+        <>
           {startYear}
           {' - '}
           {endYear}
-        </Fragment>
+        </>
       );
     }
   }

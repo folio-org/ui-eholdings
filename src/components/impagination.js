@@ -133,19 +133,22 @@ export default class Impagination extends Component {
     readOffset: 0
   };
 
-  // we can't set this directly as the state object because it will
-  // lose getters and other prototype methods
-  state = {
-    // used in getDerivedStateFromProps
-    // eslint-disable-next-line react/no-unused-state
-    collection: this.props.collection,
-    dataset: new State({
-      pageSize: this.props.pageSize,
-      loadHorizon: this.props.loadHorizon,
-      readOffset: this.props.readOffset,
-      stats: { totalPages: this.props.collection.totalPages }
-    })
-  };
+  constructor(props) {
+    super(props);
+    // we can't set this directly as the state object because it will
+    // lose getters and other prototype methods
+    this.state = {
+      // used in getDerivedStateFromProps
+      // eslint-disable-next-line react/no-unused-state
+      collection: this.props.collection,
+      dataset: new State({
+        pageSize: this.props.pageSize,
+        loadHorizon: this.props.loadHorizon,
+        readOffset: this.props.readOffset,
+        stats: { totalPages: this.props.collection.totalPages }
+      })
+    };
+  }
 
   static getDerivedStateFromProps(nextProps, prevState) {
     const dataset = updateDataset(nextProps, prevState);

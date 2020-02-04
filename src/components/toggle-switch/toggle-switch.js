@@ -16,9 +16,12 @@ export default class ToggleSwitch extends Component {
     onChange: PropTypes.func
   }
 
-  state = {
-    inputChecked: this.props.checked, // isPending is actually used in getDerivedStateFromProps
-    isPending: this.props.isPending // eslint-disable-line react/no-unused-state
+  constructor(props) {
+    super(props);
+    this.state = {
+      inputChecked: this.props.checked, // isPending is actually used in getDerivedStateFromProps
+      isPending: this.props.isPending, // eslint-disable-line react/no-unused-state
+    };
   }
 
   static getDerivedStateFromProps({ checked, isPending }, state) {

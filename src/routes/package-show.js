@@ -43,17 +43,16 @@ class PackageShowRoute extends Component {
 
   constructor(props) {
     super(props);
+    this.state = {
+      queryId: 0,
+      pkgSearchParams: {},
+    };
     const { packageId } = props.match.params;
     const [providerId] = packageId.split('-');
     props.getPackage(packageId);
     props.getProxyTypes();
     props.getProvider(providerId);
     props.getTags();
-  }
-
-  state = {
-    queryId: 0,
-    pkgSearchParams: {}
   }
 
   componentDidUpdate(prevProps, prevState) {

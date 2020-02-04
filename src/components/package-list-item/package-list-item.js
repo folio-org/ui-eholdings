@@ -90,7 +90,7 @@ function PackageListItem({
           <span>
               &nbsp;&bull;&nbsp;
             <span data-test-eholdings-package-list-item-title-hidden>
-              {(<FormattedMessage id="ui-eholdings.hidden" />)}
+              <FormattedMessage id="ui-eholdings.hidden" />
             </span>
           </span>
         )}

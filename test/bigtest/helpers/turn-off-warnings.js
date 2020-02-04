@@ -1,3 +1,4 @@
+// eslint-disable-next-line no-console
 const warn = console.warn;
 const blacklist = [
   /componentWillReceiveProps has been renamed/,
@@ -6,6 +7,7 @@ const blacklist = [
 ];
 
 export default function turnOffWarnings() {
+  // eslint-disable-next-line no-console
   console.warn = function (...args) {
     if (blacklist.some(rx => rx.test(args[0]))) {
       return;

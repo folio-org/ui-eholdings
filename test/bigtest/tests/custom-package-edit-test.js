@@ -164,7 +164,7 @@ describe('CustomPackageEdit', () => {
 
         describe('confirming to continue without saving', () => {
           beforeEach(() => {
-            return PackageEditPage.navigationModal.confirmNavigation();
+            return PackageEditPage.navigationModal.clickContinue();
           });
 
           it('navigates from editing page', () => {
@@ -174,7 +174,7 @@ describe('CustomPackageEdit', () => {
 
         describe('confirming to keep editing', () => {
           beforeEach(() => {
-            return PackageEditPage.navigationModal.cancelNavigation();
+            return PackageEditPage.navigationModal.clickDismiss();
           });
 
           it('reamins on the editing page', () => {

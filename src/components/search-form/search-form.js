@@ -1,7 +1,7 @@
 import {
   sortBy
 } from 'lodash';
-import React, { Component, Fragment } from 'react';
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { FormattedMessage } from 'react-intl';
 import update from 'lodash/fp/update';
@@ -64,11 +64,14 @@ class SearchForm extends Component {
     searchString: '',
   };
 
-  state = {
-    sections: {
-      accordionTagFilter: false,
-    },
-  };
+  constructor(props) {
+    super(props);
+    this.state = {
+      sections: {
+        accordionTagFilter: false,
+      },
+    };
+  }
 
   toggleSection = ({ id }) => {
     const newState = update(`sections.${id}`, value => !value, this.state);
@@ -268,7 +271,7 @@ class SearchForm extends Component {
           <div data-test-search-field>
             <FormattedMessage id={`ui-eholdings.search.searchType.${searchType}`}>
               {placeholder => (
-                <Fragment>
+                <>
                   {(searchType === searchTypes.TITLES) && (
                     <FormattedMessage id="ui-eholdings.search.selectFieldToSearch">
                       {(ariaLabel) => (
@@ -308,7 +311,7 @@ class SearchForm extends Component {
                       />
                     )}
                   </FormattedMessage>
-                </Fragment>
+                </>
               )}
             </FormattedMessage>
           </div>

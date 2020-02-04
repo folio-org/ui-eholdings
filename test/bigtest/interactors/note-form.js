@@ -1,49 +1,15 @@
 import {
   interactor,
   isPresent,
-  fillable,
   clickable,
-  value,
-  is,
-  blurrable,
-  selectable,
   text,
 } from '@bigtest/interactor';
 
 import { AccordionInteractor } from '@folio/stripes-components/lib/Accordion/tests/interactor';
-
-@interactor class Select {
-  selectOption = selectable();
-  blur = blurrable();
-  value = value();
-
-  selectAndBlur(val) {
-    return this
-      .selectOption(val)
-      .blur();
-  }
-}
-
-@interactor class Button {
-  isDisabled = is('[disabled]');
-  click = clickable();
-}
-
-@interactor class FormField {
-  enterText(string) {
-    return this
-      .fill(string)
-      .blur();
-  }
-
-  blur = blurrable();
-  fill = fillable();
-  value = value();
-}
-
-@interactor class NoteDetailsField {
-  value = text();
-}
+import NoteDetailsField from './notes-details-field';
+import FormField from './form-field';
+import Button from './button';
+import Select from './select';
 
 @interactor class NoteForm {
   closeButton = new Button('[data-test-leave-note-form]');

@@ -6,12 +6,7 @@ import {
 } from '@bigtest/interactor';
 
 import { AccordionInteractor } from '@folio/stripes-components/lib/Accordion/tests/interactor';
-
-@interactor class DeleteConfirmationModal {
-  clickCancelButton = clickable('[data-test-confirmation-modal-cancel-button]');
-  clickConfirmButton = clickable('[data-test-confirmation-modal-confirm-button]');
-  message = text('[data-test-delete-confirmation-message]');
-}
+import DeleteConfirmationModal from './delete-confirmation-modal';
 
 @interactor class NoteView {
   isLoaded = isPresent('[class^=note-view-content]');

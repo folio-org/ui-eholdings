@@ -16,9 +16,12 @@ export default class TokenField extends Component {
     type: PropTypes.string
   };
 
-  state = {
-    showInputs: this.props.tokenValue
-  };
+  constructor(props) {
+    super(props);
+    this.state = {
+      showInputs: this.props.tokenValue
+    };
+  }
 
   toggleInputs = () => {
     this.setState(({ showInputs }) => ({

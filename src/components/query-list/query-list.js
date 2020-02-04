@@ -36,9 +36,12 @@ export default class QueryList extends Component {
     fullWidth: false
   }
 
-  state = {
-    offset: this.props.offset || 0
-  };
+  constructor(props) {
+    super(props);
+    this.state = {
+      offset: this.props.offset || 0,
+    };
+  }
 
   updateOffset = (offset) => {
     this.setState({ offset });

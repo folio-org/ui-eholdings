@@ -1,4 +1,4 @@
-import React, { Component, Fragment } from 'react';
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { FormattedMessage } from 'react-intl';
 
@@ -52,13 +52,16 @@ class TitleShow extends Component {
     }).isRequired,
   };
 
-  state = {
-    showCustomPackageModal: false,
-    sections: {
-      titleShowTags: true,
-      titleShowTitleInformation: true
-    }
-  };
+  constructor(props) {
+    super(props);
+    this.state = {
+      showCustomPackageModal: false,
+      sections: {
+        titleShowTags: true,
+        titleShowTitleInformation: true,
+      },
+    };
+  }
 
   getActionMenu = () => {
     const {
@@ -187,7 +190,7 @@ class TitleShow extends Component {
     const submitAddToCustomPackage = (event) => submit(event);
 
     return (
-      <Fragment>
+      <>
         <Toaster toasts={this.toasts} position="bottom" />
         <DetailsView
           type="title"
@@ -344,7 +347,7 @@ class TitleShow extends Component {
           />
         </Modal>
 
-      </Fragment>
+      </>
     );
   }
 }

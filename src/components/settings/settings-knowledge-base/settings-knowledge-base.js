@@ -1,4 +1,4 @@
-import React, { Component, Fragment } from 'react';
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Field, Form } from 'react-final-form';
 import createFocusDecorator from 'final-form-focus';
@@ -98,7 +98,7 @@ export default class SettingsKnowledgeBase extends Component {
             {model.isLoading ? (
               <Icon icon="spinner-ellipsis" />
             ) : (
-              <Fragment>
+              <>
                 <div data-test-eholdings-settings-kb-url>
                   <Field
                     name="rmapiBaseUrl"
@@ -137,7 +137,7 @@ export default class SettingsKnowledgeBase extends Component {
                 </div>
 
                 <p><FormattedMessage id="ui-eholdings.settings.kb.url.ebsco.customer.message" /></p>
-              </Fragment>
+              </>
             )}
           </SettingsForm>
         )}

@@ -1,4 +1,4 @@
-import React, { Component, Fragment } from 'react';
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { FormattedMessage } from 'react-intl';
@@ -16,6 +16,7 @@ import selectCustomLabels from '../../redux/selectors/select-custom-labels';
 class CustomLabelsAccordion extends Component {
   static propTypes = {
     customLabels: PropTypes.shape({
+      errors: PropTypes.array,
       items: PropTypes.shape({
         data: PropTypes.array,
       }),
@@ -71,7 +72,7 @@ class CustomLabelsAccordion extends Component {
     const data = get(customLabels, ['items', 'data'], []);
 
     return (
-      <Fragment>
+      <>
         {data.length &&
           <Accordion
             id={id}
@@ -83,14 +84,13 @@ class CustomLabelsAccordion extends Component {
               customLabels={data}
               userDefinedFields={userDefinedFields}
             />
-          </Accordion>
-        }
+          </Accordion>}
 
         <Toaster
           position="bottom"
           toasts={this.getToastErrors()}
         />
-      </Fragment>
+      </>
     );
   }
 }

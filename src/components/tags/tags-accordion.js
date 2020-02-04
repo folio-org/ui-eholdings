@@ -71,8 +71,7 @@ class TagsAccordion extends React.Component {
               updateEntityTags={updateEntityTags}
               tags={getTagLabelsArr(tagsModel)}
             />
-          )
-        }
+          )}
       </Accordion>
     );
   }
