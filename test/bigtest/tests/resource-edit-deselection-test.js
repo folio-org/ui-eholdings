@@ -48,7 +48,7 @@ describe('ResourceEditDeselection', () => {
     describe('deselecting the resource', () => {
       beforeEach(() => {
         return ResourceShowPage
-          .dropDown.clickDropDownButton()
+          .actionsDropDown.clickDropDownButton()
           .dropDownMenu.clickRemoveFromHoldings();
       });
 

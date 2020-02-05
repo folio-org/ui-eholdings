@@ -71,7 +71,7 @@ describe('PackageSelection', () => {
           // the `when` here
           return PackageShowPage
             .when(() => !PackageShowPage.isSelecting)
-            .dropDown.clickDropDownButton()
+            .actionsDropDown.clickDropDownButton()
             .dropDownMenu.removeFromHoldings.click();
         });
 

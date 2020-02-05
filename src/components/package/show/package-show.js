@@ -560,30 +560,27 @@ class PackageShow extends Component {
     const {
       model: { name },
       onEdit,
-      stripes,
     } = this.props;
     const { packageSelected } = this.state;
-    const hasEditPermissions = stripes.hasPerm('ui-eholdings.records.edit');
-    const canEdit = packageSelected && hasEditPermissions;
 
-    if (!canEdit) return null;
-
-    return (
-      <FormattedMessage
-        id="ui-eholdings.label.editLink"
-        values={{
-          name,
-        }}
-      >
-        {ariaLabel => (
-          <IconButton
-            data-test-eholdings-package-edit-link
-            icon="edit"
-            ariaLabel={ariaLabel}
-            onClick={onEdit}
-          />
-        )}
-      </FormattedMessage>
+    return packageSelected && (
+      <IfPermission perm="ui-eholdings.records.edit">
+        <FormattedMessage
+          id="ui-eholdings.label.editLink"
+          values={{
+            name,
+          }}
+        >
+          {ariaLabel => (
+            <IconButton
+              data-test-eholdings-package-edit-link
+              icon="edit"
+              ariaLabel={ariaLabel}
+              onClick={onEdit}
+            />
+          )}
+        </FormattedMessage>
+      </IfPermission>
     );
   }
 

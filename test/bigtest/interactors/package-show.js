@@ -23,7 +23,7 @@ import Toast from './toast';
 import SearchModal from './search-modal';
 import SearchBadge from './search-badge';
 import PackageSelectionStatus from './selection-status';
-import DropDown from './drop-down';
+import ActionsDropDown from './actions-drop-down';
 import PackageDropDownMenu from './package-drop-down-menu';
 import PackageModal from './package-modal';
 
@@ -66,7 +66,7 @@ import PackageModal from './package-modal';
   clickBackButton = clickable('[data-test-eholdings-details-view-back-button]');
   detailsPaneContentScrollHeight = property('[data-test-eholdings-detail-pane-contents]', 'scrollHeight');
   clickEditButton = clickable('[data-test-eholdings-package-edit-link]');
-  dropDown= new DropDown('[class*=paneHeaderCenterInner---] [class*=dropdown---]');
+  actionsDropDown = ActionsDropDown;
   dropDownMenu = new PackageDropDownMenu();
   searchModalBadge = new SearchBadge('[data-test-eholdings-search-modal-badge]');
 
@@ -134,20 +134,20 @@ import PackageModal from './package-modal';
 
   selectPackage() {
     return this
-      .dropDown.clickDropDownButton()
+      .actionsDropDown.clickDropDownButton()
       .dropDownMenu.addToHoldings.click();
   }
 
   deselectAndConfirmPackage() {
     return this
-      .dropDown.clickDropDownButton()
+      .actionsDropDown.clickDropDownButton()
       .dropDownMenu.removeFromHoldings.click()
       .modal.confirmDeselection();
   }
 
   deselectAndCancelPackage() {
     return this
-      .dropDown.clickDropDownButton()
+      .actionsDropDown.clickDropDownButton()
       .dropDownMenu.removeFromHoldings.click()
       .modal.cancelDeselection();
   }
