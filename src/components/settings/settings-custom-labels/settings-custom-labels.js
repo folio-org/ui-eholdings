@@ -3,7 +3,6 @@ import React, { Component } from 'react';
 import { FormattedMessage } from 'react-intl';
 import { Form } from 'react-final-form';
 import {
-  get,
   isEqual,
   pickBy,
 } from 'lodash';
@@ -29,10 +28,10 @@ export default class SettingsCustomLabels extends Component {
       isUpdated: PropTypes.bool,
       items: PropTypes.shape({
         data: PropTypes.arrayOf(PropTypes.shape({
-          displayLabel: PropTypes.string,
-          displayOnFullTextFinder: PropTypes.bool,
-          displayOnPublicationFinder: PropTypes.bool,
-          id: PropTypes.number,
+          displayLabel: PropTypes.string.isRequired,
+          displayOnFullTextFinder: PropTypes.bool.isRequired,
+          displayOnPublicationFinder: PropTypes.bool.isRequired,
+          id: PropTypes.number.isRequired,
         })),
       }),
     }).isRequired,
@@ -59,17 +58,25 @@ export default class SettingsCustomLabels extends Component {
   }
 
   prepareInitialValues = () => {
-    const { customLabels } = this.props;
-    const customLabelsData = get(customLabels, ['items', 'data'], []);
+    const { customLabels: { items: { data } } } = this.props;
 
-    return customLabelsData.reduce((acc, item) => ({
-      ...acc,
-      [`customLabel${item.attributes.id}`]: {
-        displayLabel: item.attributes.displayLabel,
-        displayOnFullTextFinder: item.attributes.displayOnFullTextFinder,
-        displayOnPublicationFinder: item.attributes.displayOnPublicationFinder,
-      }
-    }), {});
+    return data ? data.reduce((acc, { attributes }) => {
+      const {
+        id,
+        displayLabel,
+        displayOnFullTextFinder,
+        displayOnPublicationFinder,
+      } = attributes;
+
+      return {
+        ...acc,
+        [`customLabel${id}`]: {
+          displayLabel,
+          displayOnFullTextFinder,
+          displayOnPublicationFinder,
+        }
+      };
+    }, {}) : {};
   };
 
   removeCustomLabels = ({ values }) => {
@@ -81,8 +88,8 @@ export default class SettingsCustomLabels extends Component {
   }
 
   getRemovingCustomLabels = (formValues, initialValues) => {
-    const labels = pickBy(initialValues, (value, key) => (formValues[key].displayLabel === undefined));
-    const removingLabels = Object.values(labels).map(value => value.displayLabel);
+    const fieldsToDelete = pickBy(initialValues, (value, key) => (formValues[key].displayLabel === undefined));
+    const removingLabels = Object.values(fieldsToDelete).map(value => value.displayLabel);
 
     return removingLabels.join(', ');
   }

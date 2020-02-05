@@ -4,6 +4,7 @@ import { FormattedMessage } from 'react-intl';
 import { connect } from 'react-redux';
 
 import { TitleManager } from '@folio/stripes/core';
+import { Icon } from '@folio/stripes/components';
 
 import View from '../components/settings/settings-custom-labels';
 import {
@@ -17,6 +18,7 @@ class SettingsCustomLabelsRoute extends Component {
   static propTypes = {
     confirmUpdate: PropTypes.func.isRequired,
     customLabels: PropTypes.shape({
+      isLoading: PropTypes.bool.isRequired,
       items: PropTypes.object.isRequired,
     }).isRequired,
     getCustomLabels: PropTypes.func.isRequired,
@@ -32,6 +34,7 @@ class SettingsCustomLabelsRoute extends Component {
   render() {
     const {
       customLabels,
+      customLabels: { isLoading },
       updateCustomLabels,
       confirmUpdate,
     } = this.props;
@@ -45,11 +48,18 @@ class SettingsCustomLabelsRoute extends Component {
                 page={pageLabel}
                 record={recordLabel}
               >
-                <View
-                  customLabels={customLabels}
-                  updateCustomLabels={updateCustomLabels}
-                  confirmUpdate={confirmUpdate}
-                />
+                {!isLoading ? (
+                  <View
+                    customLabels={customLabels}
+                    updateCustomLabels={updateCustomLabels}
+                    confirmUpdate={confirmUpdate}
+                  />
+                ) : (
+                  <Icon
+                    icon='spinner-ellipsis'
+                    size='large'
+                  />
+                )}
               </TitleManager>
             )}
           </FormattedMessage>

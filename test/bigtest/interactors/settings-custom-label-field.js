@@ -6,7 +6,7 @@ import {
   isPresent,
 } from '@bigtest/interactor';
 
-@interactor class SettingsCustomLabelField {
+export default @interactor class SettingsCustomLabelField {
   label = value('[class^="textField---"] input');
   blurLabel = blurrable('[class^="textField---"] input');
   fillLabel = fillable('[class^="textField---"] input');

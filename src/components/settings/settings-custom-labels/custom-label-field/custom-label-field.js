@@ -2,7 +2,6 @@ import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 import { FormattedMessage } from 'react-intl';
 import { Field } from 'react-final-form';
-import { get } from 'lodash';
 
 import {
   Checkbox,
@@ -21,8 +20,8 @@ export default class CustomLabelField extends Component {
   validateLabel = (name, value, allValues) => {
     const utf8Value = value ? getMatchedStringInUTF8(value) : value;
 
-    const displayOnFullTextFinder = !!get(allValues[name], ['displayOnFullTextFinder'], false);
-    const displayOnPublicationFinder = !!get(allValues[name], ['displayOnPublicationFinder'], false);
+    const displayOnFullTextFinder = allValues[name] ? allValues[name].displayOnFullTextFinder : false;
+    const displayOnPublicationFinder = allValues[name] ? allValues[name].displayOnPublicationFinder : false;
 
     if (value && value.length > 50) {
       return <FormattedMessage id="ui-eholdings.validate.errors.settings.customLabels.length" />;
