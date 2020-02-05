@@ -146,7 +146,7 @@ describe('ResourceEmbargo', () => {
     describe('removing the title package via drop down', () => {
       beforeEach(() => {
         return ResourceShowPage
-          .dropDown.clickDropDownButton()
+          .actionsDropDown.clickDropDownButton()
           .dropDownMenu.clickRemoveFromHoldings();
       });
 

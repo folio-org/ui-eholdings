@@ -49,7 +49,7 @@ describe('CustomPackageEditSelection', () => {
     describe('deleting the custom package', () => {
       beforeEach(() => {
         return PackageEditPage
-          .dropDown.clickDropDownButton()
+          .actionsDropDown.clickDropDownButton()
           .dropDownMenu.removeFromHoldings.click();
       });
 
@@ -272,7 +272,7 @@ describe('CustomPackageEditSelection', () => {
     describe('deselecting the package', () => {
       beforeEach(() => {
         return PackageEditPage
-          .dropDown.clickDropDownButton()
+          .actionsDropDown.clickDropDownButton()
           .dropDownMenu.removeFromHoldings.click();
       });
 

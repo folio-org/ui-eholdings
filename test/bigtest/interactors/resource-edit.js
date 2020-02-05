@@ -21,7 +21,7 @@ import { hasClassBeginningWith } from './helpers';
 import Toast from './toast';
 import Datepicker from './datepicker';
 import NavigationModal from './navigation-modal';
-import DropDown from './drop-down';
+import ActionsDropDown from './actions-drop-down';
 import ResourceEditModal from './resource-edit-modal';
 import ResourceDropDownMenu from './resource-drop-down-menu';
 import CustomLabelsFields from './custom-labels-fields';
@@ -147,7 +147,7 @@ import ResourceEditToggleSectionButton from './resource-edit-toggle-section-butt
   proxySelectValue = value('[data-test-eholdings-resource-proxy-select] select');
   chooseProxy = selectable('[data-test-eholdings-resource-proxy-select] select');
 
-  dropDown = new DropDown('[class*=paneHeaderCenterInner---] [class*=dropdown---]');
+  actionsDropDown = ActionsDropDown;
   dropDownMenu = new ResourceDropDownMenu();
 }
 

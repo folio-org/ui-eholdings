@@ -22,7 +22,7 @@ import Datepicker from './datepicker';
 import PackageSelectionStatus from './selection-status';
 import NavigationModal from './navigation-modal';
 import PackageModal from './package-modal';
-import DropDown from './drop-down';
+import ActionsDropDown from './actions-drop-down';
 import PackageDropDownMenu from './package-drop-down-menu';
 import SectionToggleButton from './section-toggle-button';
 
@@ -75,7 +75,7 @@ import SectionToggleButton from './section-toggle-button';
   hasReadOnlyContentTypeFieldPresent = isPresent('[data-test-eholdings-package-details-readonly-content-type]');
   proxySelectValue = value('[data-test-eholdings-package-proxy-select-field] select');
   chooseProxy = selectable('[data-test-eholdings-package-proxy-select-field] select');
-  dropDown = new DropDown('[class*=paneHeaderCenterInner---] [class*=dropdown---]');
+  actionsDropDown = ActionsDropDown;
   dropDownMenu = new PackageDropDownMenu();
   sectionToggleButton = new SectionToggleButton();
   holdingStatusSectionAccordion = new AccordionInteractor('#packageHoldingStatus');
@@ -123,20 +123,20 @@ import SectionToggleButton from './section-toggle-button';
 
   selectPackage() {
     return this
-      .dropDown.clickDropDownButton()
+      .actionsDropDown.clickDropDownButton()
       .dropDownMenu.addToHoldings.click();
   }
 
   deselectAndConfirmPackage() {
     return this
-      .dropDown.clickDropDownButton()
+      .actionsDropDown.clickDropDownButton()
       .dropDownMenu.removeFromHoldings.click()
       .modal.confirmDeselection();
   }
 
   deselectAndCancelPackage() {
     return this
-      .dropDown.clickDropDownButton()
+      .actionsDropDown.clickDropDownButton()
       .dropDownMenu.removeFromHoldings.click()
       .modal.cancelDeselection();
   }

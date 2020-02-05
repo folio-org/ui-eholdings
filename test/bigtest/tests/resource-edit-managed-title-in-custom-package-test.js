@@ -61,7 +61,7 @@ describe('ResourceEditManagedTitleInCustomPackage', () => {
     describe('removing a managed resource', () => {
       beforeEach(() => {
         return ResourcePage
-          .dropDown.clickDropDownButton()
+          .actionsDropDown.clickDropDownButton()
           .dropDownMenu.clickRemoveFromHoldings();
       });
 
@@ -108,7 +108,7 @@ describe('ResourceEditManagedTitleInCustomPackage', () => {
         }, 500);
 
         return ResourcePage
-          .dropDown.clickDropDownButton()
+          .actionsDropDown.clickDropDownButton()
           .dropDownMenu.clickRemoveFromHoldings();
       });
 

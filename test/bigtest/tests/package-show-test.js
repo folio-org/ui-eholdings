@@ -210,7 +210,7 @@ describe('PackageShow', () => {
 
     describe('inspecting the menu', () => {
       beforeEach(() => {
-        return PackageShowPage.dropDown.clickDropDownButton();
+        return PackageShowPage.actionsDropDown.clickDropDownButton();
       });
 
       it('has menu item to add all remaining titles from this packages', () => {
