@@ -55,6 +55,10 @@ class Settings extends Component {
                   <FormattedMessage id="ui-eholdings.settings.rootProxy" />
                 </NavListItem>
               </IfPermission>
+
+              <NavListItem to="/settings/eholdings/custom-labels">
+                <FormattedMessage id="ui-eholdings.resource.customLabels" />
+              </NavListItem>
             </NavListSection>
           </NavList>
         </Pane>

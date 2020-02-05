@@ -1,7 +1,10 @@
 # Change history for ui-eholdings
 
-## [2.2.0](IN PROGRESS)
+## [2.2.0] (IN PROGRESS)
 
+* Add display custom labels on view resource page (UIEH-805)
+* Add display custom labels on edit resource page (UIEH-185)
+* Create Settings Custom Labels Page (UIEH-184)
 * Update eslint to v6.2.1 (UIEH-818)
 * Fix view of Action button on package view page header (UIEH-829)
 

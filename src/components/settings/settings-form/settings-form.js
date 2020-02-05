@@ -8,6 +8,7 @@ import {
   PaneFooter,
   Button,
 } from '@folio/stripes/components';
+import Toaster from '../../toaster';
 
 export default class SettingsForm extends Component {
   static propTypes = {
@@ -20,6 +21,7 @@ export default class SettingsForm extends Component {
       updateIsPending: PropTypes.bool,
     }).isRequired,
     title: PropTypes.node,
+    toasts: PropTypes.array.isRequired,
   };
 
   renderFooter() {
@@ -69,6 +71,7 @@ export default class SettingsForm extends Component {
       children,
       title,
       formState,
+      toasts,
       ...formProps
     } = this.props;
 
@@ -89,6 +92,11 @@ export default class SettingsForm extends Component {
           )}
           footer={this.renderFooter()}
         >
+          <Toaster
+            position='bottom'
+            toasts={toasts}
+          />
+
           {children}
         </Pane>
       </form>

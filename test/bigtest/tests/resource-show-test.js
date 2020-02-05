@@ -465,7 +465,7 @@ describe('ResourceShow', () => {
       expect(ResourcePage.customLabels(0).label).to.be.equal('test label');
       expect(ResourcePage.customLabels(1).label).to.be.equal('some label');
       expect(ResourcePage.customLabels(2).label).to.be.equal('different label');
-      expect(ResourcePage.customLabels(3).label).to.be.equal('oh, another one');
+      expect(ResourcePage.customLabels(3).label).to.be.equal('another one');
     });
 
     it('last custom label without value', () => {

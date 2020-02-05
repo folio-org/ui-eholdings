@@ -10,7 +10,6 @@ import { FormattedMessage } from 'react-intl';
 
 import SettingsForm from '../settings-form';
 import { processErrors } from '../../utilities';
-import Toaster from '../../toaster';
 import RootProxySelectField from './_fields/root-proxy-select';
 
 const focusOnErrors = createFocusDecorator();
@@ -54,9 +53,8 @@ export default class SettingsRootProxy extends Component {
             formState={formState}
             updateIsPending={rootProxy.update.isPending}
             title={<FormattedMessage id="ui-eholdings.settings.rootProxy" />}
+            toasts={toasts}
           >
-            <Toaster toasts={toasts} position="bottom" />
-
             <Headline size="xx-large" tag="h3">
               <FormattedMessage id="ui-eholdings.settings.rootProxy.setting" />
             </Headline>

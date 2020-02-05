@@ -707,16 +707,18 @@ export default function config() {
         id: 3,
         displayLabel: 'different label',
         displayOnFullTextFinder: false,
-        displayOnPublicationFinder: false,
+        displayOnPublicationFinder: true,
       },
     }, {
       type: 'customLabel',
       attributes: {
         id: 4,
-        displayLabel: 'oh, another one',
-        displayOnFullTextFinder: false,
-        displayOnPublicationFinder: false,
+        displayLabel: 'another one',
+        displayOnFullTextFinder: true,
+        displayOnPublicationFinder: true,
       },
     }],
   });
+
+  this.put('/custom-labels', (scheme, request) => request.requestBody);
 }

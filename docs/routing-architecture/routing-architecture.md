@@ -84,6 +84,7 @@ Here is the Route definitions from `src/index.js`.
       <Route path={rootPath} component={SettingsRoute}>
         <Route path="knowledge-base" exact component={SettingsKnowledgeBaseRoute} name="Knowledge base" />
         <Route path="root-proxy" exact component={SettingsRootProxyRoute} name="Root proxy" />
+        <Route path="custom-labels" exact component={SettingsCutomLabelsRoute} name="Custom labels" />
       </Route>
     ) : (
       <Route path={rootPath} component={ApplicationRoute}>

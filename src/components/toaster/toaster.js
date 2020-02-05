@@ -37,7 +37,7 @@ class Toaster extends Component {
   };
 
   static defaultProps = {
-    position: 'bottom'
+    position: 'bottom',
   };
 
   constructor(props) {
