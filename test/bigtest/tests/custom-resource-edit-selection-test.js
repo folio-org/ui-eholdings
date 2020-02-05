@@ -62,7 +62,7 @@ describe('CustomResourceHoldingSelection', () => {
           this.visit(`/eholdings/resources/${resource.titleId}/edit`);
 
           await ResourceEditPage
-            .dropDown.clickDropDownButton()
+            .actionsDropDown.clickDropDownButton()
             .dropDownMenu.clickRemoveFromHoldings();
         });
 
@@ -79,7 +79,7 @@ describe('CustomResourceHoldingSelection', () => {
           this.visit(`/eholdings/resources/${resource.titleId}/edit`);
 
           await ResourceEditPage
-            .dropDown.clickDropDownButton()
+            .actionsDropDown.clickDropDownButton()
             .dropDownMenu.clickRemoveFromHoldings();
         });
 
@@ -114,7 +114,7 @@ describe('CustomResourceHoldingSelection', () => {
           });
 
           await ResourceEditPage
-            .dropDown.clickDropDownButton()
+            .actionsDropDown.clickDropDownButton()
             .dropDownMenu.clickRemoveFromHoldings();
           await ResourceEditPage.modal.confirmDeselection();
         });
@@ -160,7 +160,7 @@ describe('CustomResourceHoldingSelection', () => {
       describe('canceling the save and discontinue deselection', () => {
         beforeEach(async () => {
           await ResourceEditPage
-            .dropDown.clickDropDownButton()
+            .actionsDropDown.clickDropDownButton()
             .dropDownMenu.clickRemoveFromHoldings();
           await ResourceEditPage.modal.cancelDeselection();
         });
@@ -181,7 +181,7 @@ describe('CustomResourceHoldingSelection', () => {
         }, 500);
 
         return ResourceEditPage
-          .dropDown.clickDropDownButton()
+          .actionsDropDown.clickDropDownButton()
           .dropDownMenu.clickRemoveFromHoldings();
       });
 

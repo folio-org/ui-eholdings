@@ -51,12 +51,12 @@ describe('ResourceSelection', () => {
         await ResourcePage.whenLoaded();
         this.server.block();
         await ResourcePage
-          .dropDown.clickDropDownButton()
+          .actionsDropDown.clickDropDownButton()
           .dropDownMenu.clickAddToHoldings();
       });
 
       it('closes the drop down', () => {
-        expect(ResourcePage.dropDown.isExpanded).to.equal('false');
+        expect(ResourcePage.actionsDropDown.isExpanded).to.equal('false');
       });
 
       it('indicates it is working to get to desired state', () => {

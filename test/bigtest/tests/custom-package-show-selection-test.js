@@ -43,7 +43,7 @@ describe('CustomPackageShowSelection', () => {
     describe('deselecting a custom package', () => {
       beforeEach(() => {
         return PackageShowPage
-          .dropDown.clickDropDownButton()
+          .actionsDropDown.clickDropDownButton()
           .dropDownMenu.removeFromHoldings.click();
       });
 
@@ -93,7 +93,7 @@ describe('CustomPackageShowSelection', () => {
         }, 500);
 
         return PackageShowPage
-          .dropDown.clickDropDownButton()
+          .actionsDropDown.clickDropDownButton()
           .dropDownMenu.removeFromHoldings.click();
       });
 

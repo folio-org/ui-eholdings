@@ -87,7 +87,7 @@ describe('ResourceDeselection', () => {
 
       describe('deselecting', () => {
         beforeEach(async () => {
-          await ResourcePage.dropDown.clickDropDownButton();
+          await ResourcePage.actionsDropDown.clickDropDownButton();
           await ResourcePage.dropDownMenu.clickRemoveFromHoldings();
         });
 

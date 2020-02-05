@@ -13,7 +13,7 @@ import { AccordionInteractor } from '@folio/stripes-components/lib/Accordion/tes
 import AgreementsAccordion from './agreements-accordion';
 import CustomLabel from './custom-label';
 import Toast from './toast';
-import DropDown from './drop-down';
+import ActionsDropDown from './actions-drop-down';
 import ResourceDropDownMenu from './resource-drop-down-menu';
 import NavigationModal from './navigation-modal';
 import ResourceShowDeselectionModal from './resource-show-deselection-modal';
@@ -57,7 +57,7 @@ import ResourceShowDeselectionModal from './resource-show-deselection-modal';
   clickPackage = clickable('[data-test-eholdings-resource-show-package-name] a');
   clickAddToHoldingsButton = clickable('[data-test-eholdings-resource-add-to-holdings-button]');
   isAddToHoldingsButtonDisabled = property('[data-test-eholdings-resource-add-to-holdings-button]', 'disabled');
-  dropDown= new DropDown('[class*=paneHeaderCenterInner---] [class*=dropdown---]');
+  actionsDropDown= ActionsDropDown;
   dropDownMenu = new ResourceDropDownMenu();
   deselectionModal = new ResourceShowDeselectionModal('#eholdings-resource-deselection-confirmation-modal');
   navigationModal = NavigationModal;
