@@ -329,5 +329,17 @@
     "search.selectFieldToSearch": "Select a field to search",
     "tags.filter": "Tags filter",
     "resource.customLabels": "Custom labels",
-    "validate.errors.customLabels.length": "Value has exceeded 100 character limit. Please revise your value."
+    "validate.errors.customLabels.length": "Value has exceeded 100 character limit. Please revise your value.",
+    "settings.customLabels.displayLabel": "Display label",
+    "settings.customLabels.publicationFinder": "Show on publication finder",
+    "settings.customLabels.textFinder": "Show on full text finder",
+    "settings.customLabels.remove": "Remove custom label(s)",
+    "settings.customLabels.remove.description": "Are you sure want to remove the following custom label(s): <strong>{label}</strong>",
+    "settings.customLabels.remove.note": "<strong>Note:</strong> Removing this label <strong>does not delete</strong> any values you have defined for this label on your resources. Values associated eith this custom label will be retained.",
+    "settings.customLabels.toast": "Custom labels have been updated",
+    "navModal.areYouSure": "Are you sure?",
+    "navModal.unsavedChanges": "There are unsaved changes",
+    "validate.errors.settings.customLabels.empty": "Please enter a display label.",
+    "validate.errors.settings.customLabels.utf": "Invalid character entered. Please revise the custom label.",
+    "validate.errors.settings.customLabels.length": "Character limit has been exceeded. Please revise custom label."
 }

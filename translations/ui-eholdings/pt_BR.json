@@ -329,5 +329,17 @@
     "search.selectFieldToSearch": "Selecione um campo para pesquisar",
     "tags.filter": "Filtro de Tags",
     "resource.customLabels": "Etiquetas personalizadas",
-    "validate.errors.customLabels.length": "O valor excedeu o limite de 100 caracteres. Revise seu valor."
+    "validate.errors.customLabels.length": "O valor excedeu o limite de 100 caracteres. Revise seu valor.",
+    "settings.customLabels.displayLabel": "Mostrar rótulo",
+    "settings.customLabels.publicationFinder": "Mostrar no localizador de publicações",
+    "settings.customLabels.textFinder": "Mostrar no localizador de texto completo",
+    "settings.customLabels.remove": "Remover rótulos personalizados",
+    "settings.customLabels.remove.description": "Tem certeza de que deseja remover os seguintes rótulos personalizados: <strong>{label}</strong>",
+    "settings.customLabels.remove.note": "<strong>Nota:</strong> remoção deste rótulo <strong>não exclui</strong> nenhum valor que você definiu para esse rótulo em seus recursos. Os valores associados a esse rótulo personalizado serão mantidos.",
+    "settings.customLabels.toast": "Os rótulos personalizados foram atualizados",
+    "navModal.areYouSure": "Você tem certeza?",
+    "navModal.unsavedChanges": "Existem alterações não salvas",
+    "validate.errors.settings.customLabels.empty": "Por favor, insira uma etiqueta de exibição.",
+    "validate.errors.settings.customLabels.utf": "Caractere inválido digitado. Revise o rótulo personalizado.",
+    "validate.errors.settings.customLabels.length": "O limite de caracteres foi excedido. Revise a etiqueta personalizada."
 }
