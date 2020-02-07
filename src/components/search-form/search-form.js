@@ -71,6 +71,13 @@ class SearchForm extends Component {
         accordionTagFilter: false,
       },
     };
+    this.searchField = React.createRef();
+  }
+
+  componentDidUpdate(prevProps) {
+    if (prevProps.searchType !== this.props.searchType) {
+      this.searchField.current.focus();
+    }
   }
 
   toggleSection = ({ id }) => {
@@ -300,6 +307,7 @@ class SearchForm extends Component {
                     {(ariaLabel) => (
                       <SearchField
                         name="search"
+                        inputRef={this.searchField}
                         autoFocus
                         onChange={this.handleChangeSearch}
                         onClear={this.handleClearSearch}
