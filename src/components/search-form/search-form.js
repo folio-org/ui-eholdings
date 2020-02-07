@@ -71,6 +71,7 @@ class SearchForm extends Component {
         accordionTagFilter: false,
       },
     };
+    this.searchField = React.createRef();
   }
 
   toggleSection = ({ id }) => {
@@ -136,6 +137,10 @@ class SearchForm extends Component {
     });
 
     return sortBy(dataOptions, ['value']);
+  }
+
+  focusSearchField = () => {
+    this.searchField.current.focus();
   }
 
   renderSearchByTagsCheckbox() {
@@ -255,6 +260,7 @@ class SearchForm extends Component {
                 id={type + '-tab'}
                 key={type}
                 to={searchTypeUrls[type]}
+                onClick={this.focusSearchField}
                 buttonStyle={searchType === type ? 'primary' : 'default'}
                 data-test-search-type-button={type}
               >
@@ -300,6 +306,7 @@ class SearchForm extends Component {
                     {(ariaLabel) => (
                       <SearchField
                         name="search"
+                        inputRef={this.searchField}
                         autoFocus
                         onChange={this.handleChangeSearch}
                         onClear={this.handleClearSearch}
