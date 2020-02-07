@@ -74,6 +74,12 @@ class SearchForm extends Component {
     this.searchField = React.createRef();
   }
 
+  componentDidUpdate(prevProps) {
+    if (prevProps.searchType !== this.props.searchType) {
+      this.searchField.current.focus();
+    }
+  }
+
   toggleSection = ({ id }) => {
     const newState = update(`sections.${id}`, value => !value, this.state);
     this.setState(newState);
@@ -137,10 +143,6 @@ class SearchForm extends Component {
     });
 
     return sortBy(dataOptions, ['value']);
-  }
-
-  focusSearchField = () => {
-    this.searchField.current.focus();
   }
 
   renderSearchByTagsCheckbox() {
@@ -260,7 +262,6 @@ class SearchForm extends Component {
                 id={type + '-tab'}
                 key={type}
                 to={searchTypeUrls[type]}
-                onClick={this.focusSearchField}
                 buttonStyle={searchType === type ? 'primary' : 'default'}
                 data-test-search-type-button={type}
               >
