@@ -22,7 +22,6 @@ import {
   Button,
   Headline,
   Icon,
-  IconButton,
   KeyValue,
   Modal,
   ModalFooter,
