@@ -169,6 +169,7 @@ class PackageShow extends Component {
           <Button
             buttonStyle="dropdownItem fullWidth"
             onClick={onEdit}
+            data-test-eholdings-package-edit-link
           >
             <FormattedMessage id="ui-eholdings.actionMenu.edit" />
           </Button>}
