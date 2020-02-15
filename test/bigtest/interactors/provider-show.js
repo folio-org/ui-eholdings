@@ -65,6 +65,7 @@ import SearchBadge from './search-badge';
   })
 
   tagsSection = new TagsAccordion('[data-test-eholdings-tag-filter]');
+  clickEditButton = clickable('[data-test-eholdings-provider-edit-link]');
 }
 
 export default new ProviderShowPage('[data-test-eholdings-details-view="provider"]');

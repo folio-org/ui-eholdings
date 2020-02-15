@@ -3,6 +3,7 @@ import { expect } from 'chai';
 
 import setupApplication from '../helpers/setup-application';
 import ProviderShowPage from '../interactors/provider-show';
+import ProviderEditPage from '../interactors/provider-edit';
 
 describe('ProviderShow', () => {
   setupApplication();
@@ -84,6 +85,16 @@ describe('ProviderShow', () => {
 
       it('toggles the button text to expand all', () => {
         expect(ProviderShowPage.collapseAllButtonText).to.equal('Expand all');
+      });
+    });
+
+    describe('clicking the edit button', () => {
+      beforeEach(async () => {
+        await ProviderShowPage.clickEditButton();
+      });
+
+      it('should open Provider Edit Page', function () {
+        expect(this.location.pathname).to.equal('/eholdings/providers/1/edit');
       });
     });
   });
