@@ -21,7 +21,6 @@ import {
   Button,
   Headline,
   Icon,
-  IconButton,
   KeyValue,
 } from '@folio/stripes/components';
 
@@ -99,52 +98,19 @@ class ProviderShow extends Component {
     return toasts;
   }
 
-  getActionMenu = () => {
-    const {
-      stripes,
-      onEdit,
-    } = this.props;
-
-    const hasEditPermission = stripes.hasPerm('ui-eholdings.records.edit');
-
-    if (!hasEditPermission) return null;
-
-    return ({ onToggle }) => (
-      <Button
-        buttonStyle="dropdownItem fullWidth"
-        onClick={() => {
-          onToggle();
-          onEdit();
-        }}
-      >
-        <FormattedMessage id="ui-eholdings.actionMenu.edit" />
-      </Button>
-    );
-  }
-
   renderLastMenu() {
-    const {
-      model: { name },
-      onEdit,
-    } = this.props;
+    const { onEdit } = this.props;
 
     return (
       <IfPermission perm="ui-eholdings.records.edit">
-        <FormattedMessage
-          id="ui-eholdings.label.editLink"
-          values={{
-            name,
-          }}
+        <Button
+          data-test-eholdings-provider-edit-link
+          buttonStyle="primary"
+          onClick={onEdit}
+          marginBottom0
         >
-          {ariaLabel => (
-            <IconButton
-              data-test-eholdings-provider-edit-link
-              icon="edit"
-              ariaLabel={ariaLabel}
-              onClick={onEdit}
-            />
-          )}
-        </FormattedMessage>
+          <FormattedMessage id="ui-eholdings.actionMenu.edit" />
+        </Button>
       </IfPermission>
     );
   }
@@ -328,7 +294,6 @@ class ProviderShow extends Component {
           model={model}
           key={model.id}
           paneTitle={model.name}
-          actionMenu={this.getActionMenu()}
           sections={sections}
           handleExpandAll={this.handleExpandAll}
           bodyContent={this.getBodyContent()}
