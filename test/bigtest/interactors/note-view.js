@@ -23,7 +23,7 @@ import DeleteConfirmationModal from './delete-confirmation-modal';
   assignmentInformationAccordionIsDisplayed = isPresent('#assigned');
   referredEntityType = text('[data-test-referred-entity-type]');
   referredEntityName = text('[data-test-referred-entity-name]');
-  clickPaneHeaderButton = clickable('[class^="paneHeaderCenterButton"]');
+  clickPaneHeaderButton = clickable('[data-test-pane-header-actions-button]');
   clickDeleteButton = clickable('[data-test-note-delete]');
   deleteConfirmationModalIsDisplayed = isPresent('#confirm-delete-note');
   deleteConfirmationModal = new DeleteConfirmationModal('#confirm-delete-note');

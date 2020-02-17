@@ -218,7 +218,7 @@ describe('PackageShow', () => {
       });
 
       it('has menu item to remove the entire package from holdings just like a completely selected packages', () => {
-        expect(PackageShowPage.dropDownMenu.removeFromHoldings.isVisible).to.equal(true);
+        expect(PackageShowPage.dropDownMenu.removeFromHoldings.isPresent).to.equal(true);
       });
     });
   });
