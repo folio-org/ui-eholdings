@@ -356,7 +356,11 @@ describe('CustomTitleEdit', () => {
         return TitleShowPage.clickEditButton();
       });
 
-      it('should display the back button in pane header', () => {
+      it('should navigate to custom title edit page', function () {
+        expect(this.location.pathname).to.equal(`/eholdings/titles/${title.id}/edit`);
+      });
+
+      it('should display the close(back) button in pane header', () => {
         expect(TitleEditPage.hasBackButton).to.be.true;
       });
     });
