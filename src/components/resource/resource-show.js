@@ -15,7 +15,6 @@ import {
   Accordion,
   Button,
   Headline,
-  IconButton,
   Icon,
   KeyValue,
   Modal,
@@ -137,6 +136,7 @@ class ResourceShow extends Component {
         {canEdit &&
           <Button
             buttonStyle="dropdownItem fullWidth"
+            data-test-eholdings-resource-edit-link
             onClick={onEdit}
           >
             <FormattedMessage id="ui-eholdings.actionMenu.edit" />
@@ -175,36 +175,6 @@ class ResourceShow extends Component {
             <FormattedMessage id="ui-eholdings.resource.actionMenu.addHolding" />
           </Button>
         )
-    );
-  }
-
-  renderLastMenu() {
-    const {
-      model: { name },
-      onEdit,
-    } = this.props;
-    const { resourceSelected } = this.state;
-
-    if (!resourceSelected) return null;
-
-    return (
-      <IfPermission perm="ui-eholdings.records.edit">
-        <FormattedMessage
-          id="ui-eholdings.label.editLink"
-          values={{
-            name,
-          }}
-        >
-          {ariaLabel => (
-            <IconButton
-              data-test-eholdings-resource-edit-link
-              icon="edit"
-              ariaLabel={ariaLabel}
-              onClick={onEdit}
-            />
-          )}
-        </FormattedMessage>
-      </IfPermission>
     );
   }
 
@@ -273,7 +243,6 @@ class ResourceShow extends Component {
           actionMenu={this.getActionMenu()}
           sections={sections}
           handleExpandAll={this.handleExpandAll}
-          lastMenu={this.renderLastMenu()}
           bodyContent={(
             <>
               <TagsAccordion
