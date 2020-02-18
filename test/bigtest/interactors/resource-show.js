@@ -1,4 +1,5 @@
 import {
+  action,
   clickable,
   collection,
   computed,
@@ -78,7 +79,12 @@ import ResourceShowDeselectionModal from './resource-show-deselection-modal';
     return this.isResourceHidden ? this.resourceVisibilityLabel.replace(/^No(\s\((.*)\))?$/, '$2') : '';
   });
 
-  clickEditButton = clickable('[data-test-eholdings-resource-edit-link]');
+  clickEditButton= action(function () {
+    return this
+      .actionsDropDown.clickDropDownButton()
+      .dropDownMenu.clickEdit();
+  });
+
   peerReviewedStatus = text('[data-test-eholdings-peer-reviewed-field]');
 
   toast = Toast;

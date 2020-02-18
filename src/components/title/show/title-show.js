@@ -17,7 +17,6 @@ import {
   Accordion,
   Button,
   Headline,
-  IconButton,
   KeyValue,
   Modal,
   ModalFooter,
@@ -63,60 +62,26 @@ class TitleShow extends Component {
     };
   }
 
-  getActionMenu = () => {
-    const {
-      stripes,
-      onEdit,
-      model: { isTitleCustom },
-    } = this.props;
-
-    const hasEditPermission = stripes.hasPerm('ui-eholdings.records.edit');
-    const isMenuNeeded = hasEditPermission && isTitleCustom;
-
-    if (!isMenuNeeded) return null;
-
-    return ({ onToggle }) => (
-      <Button
-        buttonStyle="dropdownItem fullWidth"
-        onClick={() => {
-          onToggle();
-          onEdit();
-        }}
-      >
-        <FormattedMessage id="ui-eholdings.actionMenu.edit" />
-      </Button>
-    );
-  }
-
   get lastMenu() {
     const {
       model,
       onEdit,
     } = this.props;
 
-    if (onEdit && model.isTitleCustom) {
-      return (
-        <IfPermission perm="ui-eholdings.records.edit">
-          <FormattedMessage
-            id="ui-eholdings.title.editCustomTitle"
-            values={{
-              name: model.name
-            }}
-          >
-            {ariaLabel => (
-              <IconButton
-                data-test-eholdings-title-edit-link
-                icon="edit"
-                ariaLabel={ariaLabel}
-                onClick={onEdit}
-              />
-            )}
-          </FormattedMessage>
-        </IfPermission>
-      );
-    } else {
-      return null;
-    }
+    if (!onEdit || !model.isTitleCustom) return null;
+
+    return (
+      <IfPermission perm="ui-eholdings.records.edit">
+        <Button
+          data-test-eholdings-title-edit-link
+          buttonStyle="primary"
+          onClick={onEdit}
+          marginBottom0
+        >
+          <FormattedMessage id="ui-eholdings.actionMenu.edit" />
+        </Button>
+      </IfPermission>
+    );
   }
 
   get toasts() {
@@ -177,10 +142,12 @@ class TitleShow extends Component {
       addCustomPackage,
       request,
     } = this.props;
-    const { showCustomPackageModal, sections } = this.state;
+    const {
+      showCustomPackageModal,
+      sections
+    } = this.state;
 
-    const modalMessage =
-    {
+    const modalMessage = {
       header: <FormattedMessage id="ui-eholdings.title.modalMessage.addTitleToCustomPackage" />,
       saving: <FormattedMessage id="ui-eholdings.saving" />,
       submit: <FormattedMessage id="ui-eholdings.submit" />,
@@ -197,7 +164,6 @@ class TitleShow extends Component {
           model={model}
           key={model.id}
           paneTitle={model.name}
-          actionMenu={this.getActionMenu()}
           sections={sections}
           handleExpandAll={this.handleExpandAll}
           lastMenu={this.lastMenu}
