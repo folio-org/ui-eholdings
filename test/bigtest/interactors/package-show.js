@@ -65,7 +65,6 @@ import PackageModal from './package-modal';
   clickCollapseAllButton = clickable('[data-test-eholdings-details-view-collapse-all-button] button');
   clickBackButton = clickable('[data-test-eholdings-details-view-back-button]');
   detailsPaneContentScrollHeight = property('[data-test-eholdings-detail-pane-contents]', 'scrollHeight');
-  clickEditButton = clickable('[data-test-eholdings-package-edit-link]');
   actionsDropDown = ActionsDropDown;
   dropDownMenu = new PackageDropDownMenu();
   searchModalBadge = new SearchBadge('[data-test-eholdings-search-modal-badge]');
@@ -110,6 +109,12 @@ import PackageModal from './package-modal';
           top: firstItem.offsetHeight * readOffset
         });
       });
+  });
+
+  clickEditButton = action(function () {
+    return this
+      .actionsDropDown.clickDropDownButton()
+      .dropDownMenu.clickEdit();
   });
 
   titleContainerHeight = property('[data-test-eholdings-details-view-list="package"]', 'offsetHeight');
