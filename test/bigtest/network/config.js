@@ -720,5 +720,300 @@ export default function config() {
     }],
   });
 
-  this.put('/custom-labels', (scheme, request) => request.requestBody);
+  this.put('/custom-labels', (schema, request) => request.requestBody);
+
+  this.get('/access-types', {
+    data: [
+      {
+        id: '6b30f929-6075-4e18-82fa-525f1355acd7',
+        type: 'accessTypes',
+        attributes: {
+          name: 'my custom type 1',
+          description: 'description 1',
+          metadata: {
+            createdDate: '2020-02-03T13:23:56.784',
+            updatedDate: '2020-02-03T13:23:56.784+0000',
+            createdByUserId: '22222222-2222-2222-a222-222222222222',
+            updatedByUserId: '22222222-2222-2222-a222-222222222222',
+            createdByUsername: 'john_doe',
+          },
+        },
+        creator: {
+          lastName: 'Doe',
+          firstName: 'John',
+        },
+      },
+      {
+        id: '342dcb99-c476-4f93-b430-471874b18e2a',
+        type: 'accessTypes',
+        attributes: {
+          name: 'my custom type 2',
+          description: 'description 2',
+          metadata: {
+            createdDate: '2020-02-03T13:23:56.784+0000',
+            updatedDate: '2020-02-03T14:36:06.234+0000',
+            createdByUserId: '22222222-2222-2222-a222-222222222222',
+            updatedByUserId: '33333333-3333-3333-a333-333333333333',
+            createdByUsername: 'john_doe',
+            updatedByUsername: 'jane_doe',
+          },
+        },
+        creator: {
+          lastName: 'Doe',
+          firstName: 'John',
+        },
+        updater: {
+          lastName: 'Doe',
+          firstName: 'Jane',
+        },
+      },
+      {
+        id: '3',
+        type: 'accessTypes',
+        attributes: {
+          name: 'my custom type 3',
+          description: 'description 3',
+          metadata: {
+            createdDate: '2020-02-03T13:23:56.784',
+            updatedDate: '2020-02-03T13:23:56.784+0000',
+            createdByUserId: '22222222-2222-2222-a222-222222222222',
+            updatedByUserId: '22222222-2222-2222-a222-222222222222',
+            createdByUsername: 'john_doe',
+          },
+        },
+        creator: {
+          lastName: 'Doe',
+          firstName: 'John',
+        },
+      },
+      {
+        id: '4',
+        type: 'accessTypes',
+        attributes: {
+          name: 'my custom type 4',
+          description: 'description 4',
+          metadata: {
+            createdDate: '2020-02-03T13:23:56.784',
+            updatedDate: '2020-02-03T13:23:56.784+0000',
+            createdByUserId: '22222222-2222-2222-a222-222222222222',
+            updatedByUserId: '22222222-2222-2222-a222-222222222222',
+            createdByUsername: 'john_doe',
+          },
+        },
+        creator: {
+          lastName: 'Doe',
+          firstName: 'John',
+        },
+      },
+      {
+        id: '5',
+        type: 'accessTypes',
+        attributes: {
+          name: 'my custom type 5',
+          description: 'description 5',
+          metadata: {
+            createdDate: '2020-02-03T13:23:56.784',
+            updatedDate: '2020-02-03T13:23:56.784+0000',
+            createdByUserId: '22222222-2222-2222-a222-222222222222',
+            updatedByUserId: '22222222-2222-2222-a222-222222222222',
+            createdByUsername: 'john_doe',
+          },
+        },
+        creator: {
+          lastName: 'Doe',
+          firstName: 'John',
+        },
+      },
+      {
+        id: '6',
+        type: 'accessTypes',
+        attributes: {
+          name: 'my custom type 6',
+          description: 'description 6',
+          metadata: {
+            createdDate: '2020-02-03T13:23:56.784',
+            updatedDate: '2020-02-03T13:23:56.784+0000',
+            createdByUserId: '22222222-2222-2222-a222-222222222222',
+            updatedByUserId: '22222222-2222-2222-a222-222222222222',
+            createdByUsername: 'john_doe',
+          },
+        },
+        creator: {
+          lastName: 'Doe',
+          firstName: 'John',
+        },
+      },
+      {
+        id: '7',
+        type: 'accessTypes',
+        attributes: {
+          name: 'my custom type 7',
+          description: 'description 7',
+          metadata: {
+            createdDate: '2020-02-03T13:23:56.784',
+            updatedDate: '2020-02-03T13:23:56.784+0000',
+            createdByUserId: '22222222-2222-2222-a222-222222222222',
+            updatedByUserId: '22222222-2222-2222-a222-222222222222',
+            createdByUsername: 'john_doe',
+          },
+        },
+        creator: {
+          lastName: 'Doe',
+          firstName: 'John',
+        },
+      },
+      {
+        id: '8',
+        type: 'accessTypes',
+        attributes: {
+          name: 'my custom type 8',
+          description: 'description 8',
+          metadata: {
+            createdDate: '2020-02-03T13:23:56.784',
+            updatedDate: '2020-02-03T13:23:56.784+0000',
+            createdByUserId: '22222222-2222-2222-a222-222222222222',
+            updatedByUserId: '22222222-2222-2222-a222-222222222222',
+            createdByUsername: 'john_doe',
+          },
+        },
+        creator: {
+          lastName: 'Doe',
+          firstName: 'John',
+        },
+      },
+      {
+        id: '9',
+        type: 'accessTypes',
+        attributes: {
+          name: 'my custom type 9',
+          description: 'description 9',
+          metadata: {
+            createdDate: '2020-02-03T13:23:56.784',
+            updatedDate: '2020-02-03T13:23:56.784+0000',
+            createdByUserId: '22222222-2222-2222-a222-222222222222',
+            updatedByUserId: '22222222-2222-2222-a222-222222222222',
+            createdByUsername: 'john_doe',
+          },
+        },
+        creator: {
+          lastName: 'Doe',
+          firstName: 'John',
+        },
+      },
+      {
+        id: '10',
+        type: 'accessTypes',
+        attributes: {
+          name: 'my custom type 10',
+          description: 'description 10',
+          metadata: {
+            createdDate: '2020-02-03T13:23:56.784',
+            updatedDate: '2020-02-03T13:23:56.784+0000',
+            createdByUserId: '22222222-2222-2222-a222-222222222222',
+            updatedByUserId: '22222222-2222-2222-a222-222222222222',
+            createdByUsername: 'john_doe',
+          },
+        },
+        creator: {
+          lastName: 'Doe',
+          firstName: 'John',
+        },
+      },
+      {
+        id: '11',
+        type: 'accessTypes',
+        attributes: {
+          name: 'my custom type 11',
+          description: 'description 11',
+          metadata: {
+            createdDate: '2020-02-03T13:23:56.784',
+            updatedDate: '2020-02-03T13:23:56.784+0000',
+            createdByUserId: '22222222-2222-2222-a222-222222222222',
+            updatedByUserId: '22222222-2222-2222-a222-222222222222',
+            createdByUsername: 'john_doe',
+          },
+        },
+        creator: {
+          lastName: 'Doe',
+          firstName: 'John',
+        },
+      },
+      {
+        id: '12',
+        type: 'accessTypes',
+        attributes: {
+          name: 'my custom type 12',
+          description: 'description 12',
+          metadata: {
+            createdDate: '2020-02-03T13:23:56.784',
+            updatedDate: '2020-02-03T13:23:56.784+0000',
+            createdByUserId: '22222222-2222-2222-a222-222222222222',
+            updatedByUserId: '22222222-2222-2222-a222-222222222222',
+            createdByUsername: 'john_doe',
+          },
+        },
+        creator: {
+          lastName: 'Doe',
+          firstName: 'John',
+        },
+      },
+      {
+        id: '13',
+        type: 'accessTypes',
+        attributes: {
+          name: 'my custom type 13',
+          description: 'description 13',
+          metadata: {
+            createdDate: '2020-02-03T13:23:56.784',
+            updatedDate: '2020-02-03T13:23:56.784+0000',
+            createdByUserId: '22222222-2222-2222-a222-222222222222',
+            updatedByUserId: '22222222-2222-2222-a222-222222222222',
+            createdByUsername: 'john_doe',
+          },
+        },
+        creator: {
+          lastName: 'Doe',
+          firstName: 'John',
+        },
+      },
+      {
+        id: '14',
+        type: 'accessTypes',
+        attributes: {
+          name: 'my custom type 14',
+          description: 'description 14',
+          metadata: {
+            createdDate: '2020-02-03T13:23:56.784',
+            updatedDate: '2020-02-03T13:23:56.784+0000',
+            createdByUserId: '22222222-2222-2222-a222-222222222222',
+            updatedByUserId: '22222222-2222-2222-a222-222222222222',
+            createdByUsername: 'john_doe',
+          },
+        },
+        creator: {
+          lastName: 'Doe',
+          firstName: 'John',
+        },
+      },
+    ],
+  });
+
+  this.post('/access-types', ({ accessTypes }, request) => {
+    const body = JSON.parse(request.requestBody);
+    const { type, attributes, id } = accessTypes.create(body);
+
+    return { type, attributes, id };
+  });
+
+  this.put('/access-types/:id', (schema, request) => {
+    const body = JSON.parse(request.requestBody);
+
+    return body;
+  });
+
+  this.delete('/access-types/:id', (schema, request) => {
+    const body = JSON.parse(request.requestBody);
+
+    return body;
+  });
 }

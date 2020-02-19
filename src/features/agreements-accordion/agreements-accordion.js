@@ -18,9 +18,7 @@ import {
 
 import Toaster from '../../components/toaster';
 
-import {
-  selectAgreements,
-} from '../../redux/selectors';
+import { selectPropFromData } from '../../redux/selectors';
 import {
   attachAgreement as attachAgreementAction,
   getAgreements as getAgreementsAction,
@@ -168,7 +166,7 @@ class AgreementsAccordion extends Component {
 
 export default connect(
   (store) => ({
-    agreements: selectAgreements(store),
+    agreements: selectPropFromData(store, 'agreements'),
   }), {
     getAgreements: getAgreementsAction,
     attachAgreement: attachAgreementAction,

@@ -12,7 +12,7 @@ import {
   updateCustomLabels as updateCustomLabelsAction,
   confirmUpdateCustomLabels as confirmUpdateAction,
 } from '../redux/actions';
-import selectCustomLabels from '../redux/selectors/select-custom-labels';
+import selectPropFromData from '../redux/selectors/select-prop-from-data';
 
 class SettingsCustomLabelsRoute extends Component {
   static propTypes = {
@@ -70,8 +70,8 @@ class SettingsCustomLabelsRoute extends Component {
 }
 
 export default connect(
-  (store) => ({
-    customLabels: selectCustomLabels(store),
+  store => ({
+    customLabels: selectPropFromData(store, 'customLabels'),
   }), {
     getCustomLabels: getCustomLabelsAction,
     updateCustomLabels: updateCustomLabelsAction,
