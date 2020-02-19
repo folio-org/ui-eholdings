@@ -279,16 +279,6 @@ describe('PackageShow', () => {
     it('displays package proxy value', () => {
       expect(PackageShowPage.proxyValue).to.equal('microstates');
     });
-
-    describe('when clicking Edit button', () => {
-      beforeEach(async () => {
-        await PackageShowPage.clickEditButton();
-      });
-
-      it('displays Package Edit page', function () {
-        expect(this.location.pathname).to.equal(`/eholdings/packages/${providerPackage.id}/edit`);
-      });
-    });
   });
 
   describe('visiting a managed package details page with an inherited proxy', () => {
