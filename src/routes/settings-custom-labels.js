@@ -12,7 +12,7 @@ import {
   updateCustomLabels as updateCustomLabelsAction,
   confirmUpdateCustomLabels as confirmUpdateAction,
 } from '../redux/actions';
-import selectPropFromData from '../redux/selectors/select-prop-from-data';
+import { selectPropFromData } from '../redux/selectors';
 
 class SettingsCustomLabelsRoute extends Component {
   static propTypes = {

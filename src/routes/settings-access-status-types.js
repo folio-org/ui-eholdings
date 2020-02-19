@@ -7,7 +7,7 @@ import { Icon } from '@folio/stripes/components';
 import { TitleManager } from '@folio/stripes/core';
 
 import View from '../components/settings/settings-access-status-types';
-import selectPropFromData from '../redux/selectors/select-prop-from-data';
+import { selectPropFromData } from '../redux/selectors';
 import {
   getAccessTypes as getAccessTypesAction,
   attachAccessType as attachAccessTypeAction,
