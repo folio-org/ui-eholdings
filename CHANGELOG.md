@@ -9,6 +9,7 @@
 * Fix view of Action button on package view page header (UIEH-829)
 * Remove Actions dropdown from view provider record page. (UIEH-821)
 * Remove Actions dropdown from view custom title record page. (UIEH-824)
+* Remove Edit/Pencil icon from view package record page (UIEH-822)
 
 ## [2.1.0](https://github.com/folio-org/ui-eholdings/tree/v2.1.0) (2019-12-04)
 

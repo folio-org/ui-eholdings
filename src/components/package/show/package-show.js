@@ -22,7 +22,6 @@ import {
   Button,
   Headline,
   Icon,
-  IconButton,
   KeyValue,
   Modal,
   ModalFooter,
@@ -169,6 +168,7 @@ class PackageShow extends Component {
           <Button
             buttonStyle="dropdownItem fullWidth"
             onClick={onEdit}
+            data-test-eholdings-package-edit-link
           >
             <FormattedMessage id="ui-eholdings.actionMenu.edit" />
           </Button>}
@@ -556,34 +556,6 @@ class PackageShow extends Component {
     );
   }
 
-  renderLastMenu() {
-    const {
-      model: { name },
-      onEdit,
-    } = this.props;
-    const { packageSelected } = this.state;
-
-    return packageSelected && (
-      <IfPermission perm="ui-eholdings.records.edit">
-        <FormattedMessage
-          id="ui-eholdings.label.editLink"
-          values={{
-            name,
-          }}
-        >
-          {ariaLabel => (
-            <IconButton
-              data-test-eholdings-package-edit-link
-              icon="edit"
-              ariaLabel={ariaLabel}
-              onClick={onEdit}
-            />
-          )}
-        </FormattedMessage>
-      </IfPermission>
-    );
-  }
-
   render() {
     const {
       model,
@@ -661,7 +633,6 @@ class PackageShow extends Component {
           handleExpandAll={this.handleExpandAll}
           searchModal={searchModal}
           bodyContent={this.getBodyContent()}
-          lastMenu={this.renderLastMenu()}
           listType={listTypes.TITLES}
           listSectionId="packageShowTitles"
           onListToggle={this.handleSectionToggle}
