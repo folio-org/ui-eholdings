@@ -27,21 +27,22 @@ const SettingsAccessStatusTypes = ({
   });
 
   const formatter = {
-    name: ({ attributes }) => (attributes?.name ?? '-'),
-    description: ({ attributes }) => (attributes?.description ?? '-'),
+    name: ({ attributes }) => (attributes?.name ?? <NoValue />),
+    description: ({ attributes }) => (attributes?.description ?? <NoValue />),
     lastUpdated: (data) => {
       const user = data.updater ?? data.creator;
 
-      return (
+      return data.metadata ? (
         <FormattedMessage
           id="ui-eholdings.settings.accessStatusTypes.lastUpdated.data"
           values={{
-            date: <FormattedDate value={data.metadata?.updatedDate} />,
+            date: <FormattedDate value={data.metadata.updatedDate} />,
             name: `${user?.lastName} ${user?.firstName}`,
           }}
         />
-      );
+      ) : <NoValue />;
     },
+    // records will be done after MODKBEKBJ-378
     records: () => <NoValue />
   };
 
