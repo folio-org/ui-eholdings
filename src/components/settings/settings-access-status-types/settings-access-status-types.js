@@ -49,6 +49,7 @@ const SettingsAccessStatusTypes = ({
   // eslint-disable-next-line react/prop-types
   const renderField = ({ fieldIndex, rowIndex, name }, validate) => {
     const dataAttr = { [`data-test-settings-access-type-${name}-field`]: true };
+    const fieldForName = name === 'name';
 
     return (
       <div
@@ -61,7 +62,7 @@ const SettingsAccessStatusTypes = ({
           validate={validate}
           marginBottom0
           fullWidth
-          autoFocus={name === 'name'}
+          autoFocus={fieldForName}
         />
       </div>
     );
@@ -70,14 +71,16 @@ const SettingsAccessStatusTypes = ({
   const nameValidation = value => {
     if (!value) {
       return <FormattedMessage id="ui-eholdings.settings.accessStatusTypes.type.validation" />;
-    } else if (value && value.length > 75) {
+    }
+
+    if (value && value.length > 75) {
       return <FormattedMessage
         id="ui-eholdings.settings.accessStatusTypes.validation"
         values={{ limit: 75 }}
       />;
-    } else {
-      return null;
     }
+
+    return null;
   };
 
   const descriptionValidation = value => {
@@ -86,9 +89,9 @@ const SettingsAccessStatusTypes = ({
         id="ui-eholdings.settings.accessStatusTypes.validation"
         values={{ limit: 150 }}
       />;
-    } else {
-      return null;
     }
+
+    return null;
   };
 
   return (
