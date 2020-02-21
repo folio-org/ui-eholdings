@@ -4,6 +4,7 @@ import { combineEpics } from 'redux-observable';
 import {
   agreementsApi,
   customLabelsApi,
+  accessTypesApi,
 } from '../api';
 
 import Resolver from './resolver';
@@ -28,6 +29,7 @@ import {
 import {
   agreements,
   customLabels,
+  accessTypes,
 } from './reducers';
 
 import {
@@ -36,6 +38,10 @@ import {
   createAttachAgreementEpic,
   createGetCustomLabelsEpic,
   createUpdateCustomLabelsEpic,
+  createGetAccessTypesEpic,
+  createAttachAccessTypeEpic,
+  createDeleteAccessTypeEpic,
+  createUpdateAccessTypeEpic,
 } from './epics';
 
 export const createResolver = (state) => {
@@ -60,6 +66,7 @@ export const reducer = combineReducers({
       ...dataReducer(currentState, action),
       agreements: agreements(currentState.agreements, action),
       customLabels: customLabels(currentState.customLabels, action),
+      accessTypes: accessTypes(currentState.accessTypes, action),
     };
   }
 });
@@ -71,4 +78,8 @@ export const epics = combineEpics(
   createAttachAgreementEpic({ agreementsApi }),
   createGetCustomLabelsEpic({ customLabelsApi }),
   createUpdateCustomLabelsEpic({ customLabelsApi }),
+  createGetAccessTypesEpic({ accessTypesApi }),
+  createAttachAccessTypeEpic({ accessTypesApi }),
+  createDeleteAccessTypeEpic({ accessTypesApi }),
+  createUpdateAccessTypeEpic({ accessTypesApi }),
 );

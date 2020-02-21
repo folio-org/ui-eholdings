@@ -26,6 +26,7 @@ import NoteEdit from './routes/note-edit';
 import SettingsCustomLabelsRoute from './routes/settings-custom-labels';
 import SettingsKnowledgeBaseRoute from './routes/settings-knowledge-base';
 import SettingsRootProxyRoute from './routes/settings-root-proxy';
+import SettingsAccessStatusTypesRoute from './routes/settings-access-status-types';
 
 class EHoldings extends Component {
   static propTypes = {
@@ -48,7 +49,7 @@ class EHoldings extends Component {
   render() {
     const {
       showSettings,
-      match: { path: rootPath }
+      match: { path: rootPath },
     } = this.props;
 
     return showSettings
@@ -57,6 +58,7 @@ class EHoldings extends Component {
           <Route path={`${rootPath}/knowledge-base`} exact component={SettingsKnowledgeBaseRoute} />
           <Route path={`${rootPath}/root-proxy`} exact component={SettingsRootProxyRoute} />
           <Route path={`${rootPath}/custom-labels`} exact component={SettingsCustomLabelsRoute} />
+          <Route path={`${rootPath}/access-status-types`} exact component={SettingsAccessStatusTypesRoute} />
         </Route>
       )
       : (

@@ -3,3 +3,7 @@ export { default as createGetAgreementsEpic } from './get-agreements';
 export { default as createAttachAgreementEpic } from './attach-agreement';
 export { default as createGetCustomLabelsEpic } from './get-custom-labels';
 export { default as createUpdateCustomLabelsEpic } from './update-custom-labels';
+export { default as createGetAccessTypesEpic } from './get-access-types';
+export { default as createAttachAccessTypeEpic } from './attach-access-type';
+export { default as createDeleteAccessTypeEpic } from './delete-access-type';
+export { default as createUpdateAccessTypeEpic } from './update-access-type';

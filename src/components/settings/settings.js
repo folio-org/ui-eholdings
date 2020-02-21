@@ -59,6 +59,10 @@ class Settings extends Component {
               <NavListItem to="/settings/eholdings/custom-labels">
                 <FormattedMessage id="ui-eholdings.resource.customLabels" />
               </NavListItem>
+
+              <NavListItem to="/settings/eholdings/access-status-types">
+                <FormattedMessage id="ui-eholdings.settings.accessStatusTypes" />
+              </NavListItem>
             </NavListSection>
           </NavList>
         </Pane>

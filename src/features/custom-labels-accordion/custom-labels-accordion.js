@@ -11,7 +11,7 @@ import {
 
 import Toaster from '../../components/toaster';
 import { getCustomLabels as getCustomLabelsAction } from '../../redux/actions';
-import selectCustomLabels from '../../redux/selectors/select-custom-labels';
+import { selectPropFromData } from '../../redux/selectors';
 
 class CustomLabelsAccordion extends Component {
   static propTypes = {
@@ -97,7 +97,7 @@ class CustomLabelsAccordion extends Component {
 
 export default connect(
   (store) => ({
-    customLabels: selectCustomLabels(store),
+    customLabels: selectPropFromData(store, 'customLabels'),
   }), {
     getCustomLabels: getCustomLabelsAction,
   }
