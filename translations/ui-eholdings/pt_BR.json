@@ -341,5 +341,13 @@
     "navModal.unsavedChanges": "Existem alterações não salvas",
     "validate.errors.settings.customLabels.empty": "Por favor, insira uma etiqueta de exibição.",
     "validate.errors.settings.customLabels.utf": "Caractere inválido digitado. Revise o rótulo personalizado.",
-    "validate.errors.settings.customLabels.length": "O limite de caracteres foi excedido. Revise a etiqueta personalizada."
+    "validate.errors.settings.customLabels.length": "O limite de caracteres foi excedido. Revise a etiqueta personalizada.",
+    "settings.accessStatusTypes": "Tipos de status de acesso",
+    "settings.accessStatusTypes.type": "Tipo de status de acesso",
+    "settings.accessStatusTypes.type.validation": "Campo é obrigatório",
+    "settings.accessStatusTypes.description": "Descrição",
+    "settings.accessStatusTypes.lastUpdated": "Última atualização",
+    "settings.accessStatusTypes.lastUpdated.data": "{date} por {name}",
+    "settings.accessStatusTypes.records": "Núm. de registros",
+    "settings.accessStatusTypes.validation": "Excedido {limit}. Por favor, revise."
 }

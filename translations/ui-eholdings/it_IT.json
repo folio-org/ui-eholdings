@@ -341,5 +341,13 @@
     "navModal.unsavedChanges": "Ci sono modifiche non salvate",
     "validate.errors.settings.customLabels.empty": "Inserisci un'etichetta di visualizzazione.",
     "validate.errors.settings.customLabels.utf": "Carattere inserito non valido. Si prega di rivedere l'etichetta personalizzata.",
-    "validate.errors.settings.customLabels.length": "Il limite di caratteri è stato superato. Si prega di rivedere l'etichetta personalizzata."
+    "validate.errors.settings.customLabels.length": "Il limite di caratteri è stato superato. Si prega di rivedere l'etichetta personalizzata.",
+    "settings.accessStatusTypes": "Access status types",
+    "settings.accessStatusTypes.type": "Access status type",
+    "settings.accessStatusTypes.type.validation": "Il campo è obbligatiorio",
+    "settings.accessStatusTypes.description": "Descrizione",
+    "settings.accessStatusTypes.lastUpdated": "Ultimo aggiornamento",
+    "settings.accessStatusTypes.lastUpdated.data": "{date} by {name}",
+    "settings.accessStatusTypes.records": "Numero di record",
+    "settings.accessStatusTypes.validation": "Superato {limit}. Rivedi il valore."
 }
