@@ -341,5 +341,13 @@
     "navModal.unsavedChanges": "هناك تغييرات غير محفوظة",
     "validate.errors.settings.customLabels.empty": "يرجى إدخال ملصق للعرض.",
     "validate.errors.settings.customLabels.utf": "تم إدخال حرف غير صالح. يرجى مراجعة الملصق المخصص.",
-    "validate.errors.settings.customLabels.length": "تم تجاوز حد الأحرف المسموح به. يرجى مراجعة الملصق المخصص."
+    "validate.errors.settings.customLabels.length": "تم تجاوز حد الأحرف المسموح به. يرجى مراجعة الملصق المخصص.",
+    "settings.accessStatusTypes": "أنواع حالة الوصول",
+    "settings.accessStatusTypes.type": "نوع حالة الوصول",
+    "settings.accessStatusTypes.type.validation": "الحقل مطلوب",
+    "settings.accessStatusTypes.description": "الوصف",
+    "settings.accessStatusTypes.lastUpdated": "آخر تحديث",
+    "settings.accessStatusTypes.lastUpdated.data": "{date} بواسطة  {name}",
+    "settings.accessStatusTypes.records": "# تسجيلة",
+    "settings.accessStatusTypes.validation": "تجاوز {limit}. يرجى المراجعة."
 }
