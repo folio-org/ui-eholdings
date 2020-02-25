@@ -33,12 +33,11 @@ import DeleteConfirmationModal from './delete-confirmation-modal';
     return this.clickPaneHeaderButton()
       .clickDeleteButton();
   }
-  
+
   clickEditButton() {
     return this.clickPaneHeaderButton()
-      .clickEdit()
+      .clickEdit();
   }
-  
 }
 
 export default NoteView;
