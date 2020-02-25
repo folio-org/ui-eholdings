@@ -82,6 +82,11 @@ class ResourceShowRoute extends Component {
       model.contributors = [];
       model.contributorsList = [];
       model.proxy = {};
+      model.userDefinedField1 = '';
+      model.userDefinedField2 = '';
+      model.userDefinedField3 = '';
+      model.userDefinedField4 = '';
+      model.userDefinedField5 = '';
 
       updateResource(model);
     } else {

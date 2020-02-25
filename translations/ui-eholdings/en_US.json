@@ -341,5 +341,13 @@
     "navModal.unsavedChanges": "There are unsaved changes",
     "validate.errors.settings.customLabels.empty": "Please enter a display label.",
     "validate.errors.settings.customLabels.utf": "Invalid character entered. Please revise the custom label.",
-    "validate.errors.settings.customLabels.length": "Character limit has been exceeded. Please revise custom label."
+    "validate.errors.settings.customLabels.length": "Character limit has been exceeded. Please revise custom label.",
+    "settings.accessStatusTypes": "Access status types",
+    "settings.accessStatusTypes.type": "Access status type",
+    "settings.accessStatusTypes.type.validation": "Field is required",
+    "settings.accessStatusTypes.description": "Description",
+    "settings.accessStatusTypes.lastUpdated": "Last updated",
+    "settings.accessStatusTypes.lastUpdated.data": "{date} by {name}",
+    "settings.accessStatusTypes.records": "# of records",
+    "settings.accessStatusTypes.validation": "Exceeded {limit}. Please revise."
 }
