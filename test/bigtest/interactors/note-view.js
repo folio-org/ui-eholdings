@@ -18,7 +18,7 @@ import DeleteConfirmationModal from './delete-confirmation-modal';
   noteTitle = text('[data-test-note-view-note-title]');
   noteDetails = text('[data-test-note-view-note-details]');
   clickCancelButton = clickable('[data-test-leave-note-view]');
-  clickEditButton = clickable('[data-test-navigate-note-edit]');
+  clickEdit = clickable('[data-test-navigate-note-edit]');
   generalInfoAccordionIsDisplayed = isPresent('#noteGeneralInfo');
   assignmentInformationAccordionIsDisplayed = isPresent('#assigned');
   referredEntityType = text('[data-test-referred-entity-type]');
@@ -33,6 +33,12 @@ import DeleteConfirmationModal from './delete-confirmation-modal';
     return this.clickPaneHeaderButton()
       .clickDeleteButton();
   }
+  
+  clickEditButton() {
+    return this.clickPaneHeaderButton()
+      .clickEdit()
+  }
+  
 }
 
 export default NoteView;
