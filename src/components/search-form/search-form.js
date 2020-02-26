@@ -23,6 +23,7 @@ import TitleSearchFilters from '../title-search-filters';
 
 import styles from './search-form.css';
 import { searchTypes } from '../../constants';
+import { getTagLabelsArr } from '../utilities';
 
 const validSearchTypes = [
   searchTypes.PROVIDERS,
@@ -134,7 +135,7 @@ class SearchForm extends Component {
 
   getSortedDataOptions = () => {
     const { tagsModel = [] } = this.props;
-    const dataOptions = tagsModel.map(tag => {
+    const dataOptions = getTagLabelsArr(tagsModel).map(tag => {
       const tagDisplay = tag.label.toLowerCase();
       return {
         value: tagDisplay,
