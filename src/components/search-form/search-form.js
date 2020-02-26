@@ -142,7 +142,7 @@ class SearchForm extends Component {
         label: tagDisplay,
       };
     });
-    debugger;
+
     return sortBy(dataOptions, ['value']);
   }
 
