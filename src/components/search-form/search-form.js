@@ -245,7 +245,6 @@ class SearchForm extends Component {
     const Filters = this.getFiltersComponent(searchType);
     // sort is treated separately from the rest of the filters on submit,
     // but treated together when rendering the filters.
-    
     const combinedFilters = { sort, ...searchFilter };
 
     return (
