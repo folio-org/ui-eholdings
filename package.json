@@ -69,7 +69,7 @@
     "redux-observable": "^0.15.0"
   },
   "peerDependencies": {
-    "@folio/stripes": "^2.13.0",
+    "@folio/stripes": "^2.12.1",
     "react": "*"
   },
   "stripes": {
