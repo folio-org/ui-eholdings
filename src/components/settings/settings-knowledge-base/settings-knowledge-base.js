@@ -139,7 +139,7 @@ export default class SettingsKnowledgeBase extends Component {
                 <p><FormattedMessage id="ui-eholdings.settings.kb.url.ebsco.customer.message" /></p>
 
                 <div>
-                  <a href="https://eadmin-lint.epnet.com/EAdmin/login.aspx" target="_blank" rel="noopener noreferrer">Visit UC at Ebsco!</a>
+                  <a href="https://eadmin.epnet.com/EAdmin/login.aspx" target="_blank" rel="noopener noreferrer">Visit UC at Ebsco!</a>
                 </div>
               </>
             )}
