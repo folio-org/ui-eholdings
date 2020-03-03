@@ -102,6 +102,9 @@ import TagsAccordion from './tags-accordion';
     name: text('[data-test-eholdings-title-list-item-title-name]'),
     publisherName: text('[data-test-eholdings-title-list-item-publisher-name]'),
     publicationType: text('[data-test-eholdings-title-list-item-publication-type]'),
+    contributorsList: text('[data-test-eholdings-contributors-inline-list-item]'),
+    hasIdentifiers: isPresent('[data-test-eholdings-identifiers-inline-list-item]'),
+    identifiersList: text('[data-test-eholdings-identifiers-inline-list-item]'),
     clickThrough: clickable(),
     isActive: is('[class*="is-selected--"]'),
     hasFocus: is(':focus')

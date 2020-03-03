@@ -10,10 +10,10 @@ describe('TitleSearch', () => {
 
   // Odd indexed items are assigned alternate attributes targeted in specific filtering tests
   beforeEach(function () {
-    titles = this.server.createList('title', 3, 'withPackages', 'withSubjects', 'withIdentifiers', {
+    titles = this.server.createList('title', 3, 'withPackages', 'withSubjects', 'withIdentifiers', 'withContributors', {
       name: i => `Title${i + 1}`,
       publicationType: i => (i % 2 ? 'book' : 'journal'),
-      publisherName: i => (i % 2 ? 'TestPublisher' : 'Default Publisher')
+      publisherName: i => (i % 2 ? 'TestPublisher' : 'Default Publisher'),
     });
 
     // make sure only one of these is not selected
@@ -28,19 +28,6 @@ describe('TitleSearch', () => {
           {
             type: 'TLI',
             subject: 'TestSubject'
-          }));
-        title.save();
-      }
-    });
-
-    // set up identifiers
-    titles.forEach((title, i) => {
-      if (i % 2) {
-        title.identifiers.push(this.server.create('identifier',
-          {
-            id: '999-999',
-            subtype: 0,
-            type: 0
           }));
         title.save();
       }
@@ -112,6 +99,14 @@ describe('TitleSearch', () => {
 
     it('displays the publication type of a title', () => {
       expect(TitleSearchPage.titleList(0).publicationType).to.equal(titles[0].publicationType);
+    });
+
+    it('displays the contrigutors of a title', () => {
+      expect(TitleSearchPage.titleList(0).contributorsList).to.equal('Contributor0; Contributor1; Contributor2');
+    });
+
+    it('displays the identifiers list of a title', () => {
+      expect(TitleSearchPage.titleList(0).identifiersList).to.equal('ISBN (Online): 0, 1, 2');
     });
 
     it('displays a loading indicator where the total results will be', () => {
@@ -222,22 +217,6 @@ describe('TitleSearch', () => {
       });
     });
 
-    describe('selecting an isxn search field', () => {
-      beforeEach(() => {
-        return TitleSearchPage
-          .selectSearchField('isxn')
-          .search('999-999');
-      });
-
-      it('only shows results having isxn field ', () => {
-        expect(TitleSearchPage.titleList()).to.have.lengthOf(1);
-      });
-
-      it('reflects the isxn searchfield in the URL query params', function () {
-        expect(this.location.search).to.include('searchfield=isxn');
-      });
-    });
-
     describe('changing search fields', () => {
       beforeEach(() => {
         return TitleSearchPage.selectSearchField('subject');
@@ -265,8 +244,7 @@ describe('TitleSearch', () => {
         await TitleSearchPage.clickFilter('type', 'book');
         await TitleSearchPage.search('999-999');
       });
-      it('only shows results having both isxn and book pub type', () => {
-        expect(TitleSearchPage.titleList()).to.have.lengthOf(1);
+      it('only shows results having book pub type', () => {
         expect(TitleSearchPage.titleList(0).publicationType).to.equal('book');
       });
 
@@ -743,6 +721,7 @@ describe('TitleSearch', () => {
       it('should show the search results for that page', () => {
         // see comment above about titleList index number
         expect(TitleSearchPage.titleList(4).name).to.equal('Other Title 55');
+
       });
 
       it('should retain the proper offset', function () {
