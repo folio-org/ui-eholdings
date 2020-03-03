@@ -4,7 +4,7 @@ import { FormattedMessage } from 'react-intl';
 
 import { KeyValue } from '@folio/stripes/components';
 
-export default function ContributorsList({ 
+export default function ContributorsList({
   data,
   showInline,
   contributorsInlineLimit,
@@ -42,28 +42,27 @@ export default function ContributorsList({
 
   const showInlineList = (numberOfFirstElements) => {
     let contributorsJointList = '';
-    
-    if (numberOfFirstElements && data.length > numberOfFirstElements){
+
+    if (numberOfFirstElements && data.length > numberOfFirstElements) {
       contributorsJointList = data
         .slice(0, numberOfFirstElements)
         .map((contributorObj) => contributorObj.contributor)
         .join('; ') + '...';
     } else {
       contributorsJointList = data
-      .map((contributorObj) => contributorObj.contributor)
-      .join('; ');
+        .map((contributorObj) => contributorObj.contributor)
+        .join('; ');
     }
 
     return (
       <>
-        <FormattedMessage id={"ui-eholdings.label.contributors"} />
-        {': '}
+        <FormattedMessage id='ui-eholdings.label.contributors' />
+        &#58;&nbsp;
         <span data-test-eholdings-contributors-inline-list-item>
           {contributorsJointList}
         </span>
       </>
     );
-
   };
 
   return showInline ? showInlineList(contributorsInlineLimit) : showKeyValueList();

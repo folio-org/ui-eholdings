@@ -9,6 +9,7 @@ import styles from './title-list-item.css';
 import InternalLink from '../internal-link';
 import IdentifiersList from '../identifiers-list';
 import ContributorsList from '../contributors-list';
+
 const cx = classNames.bind(styles);
 const CONTRIBUTORS_LIMIT = 3;
 
@@ -27,14 +28,16 @@ function TitleListItem({
   const hasPublisherOrType = item && showPublisherAndType && (item.publicationType || item.publisherName);
   const hasIdentifiers = item && item.identifiers && item.identifiers.length > 0 && showIdentifiers;
   const showPublisherContributorSeparator = hasPublisherOrType && hasContributors;
-  return !item ? (
-    <div
-      className={cx('skeleton', {
-        'is-selected-visible': showSelected,
-        'is-publisher-and-type-visible': showPublisherAndType
-      })}
-    />
-  ) : (
+  return !item
+    ? (
+      <div
+        className={cx('skeleton', {
+          'is-selected-visible': showSelected,
+          'is-publisher-and-type-visible': showPublisherAndType
+        })}
+      />
+    )
+    : (
       <InternalLink
         data-test-eholdings-title-list-item
         to={link}
@@ -67,7 +70,7 @@ function TitleListItem({
             {item.publisherName && (
               <span>
                 &nbsp;&bull;&nbsp;
-              <span data-test-eholdings-title-list-item-publisher-name>
+                <span data-test-eholdings-title-list-item-publisher-name>
                   {item.publisherName}
                 </span>
               </span>
@@ -105,7 +108,7 @@ function TitleListItem({
             {item.visibilityData.isHidden && (
               <span>
                 &nbsp;&bull;&nbsp;
-              <span data-test-eholdings-title-list-item-title-hidden>
+                <span data-test-eholdings-title-list-item-title-hidden>
                   <FormattedMessage id="ui-eholdings.hidden" />
                 </span>
               </span>
@@ -125,8 +128,10 @@ TitleListItem.propTypes = {
     PropTypes.object
   ]),
   onClick: PropTypes.func,
+  showContributors: PropTypes.bool,
+  showIdentifiers: PropTypes.bool,
   showPublisherAndType: PropTypes.bool,
-  showSelected: PropTypes.bool
+  showSelected: PropTypes.bool,
 };
 
 // this HOC adds a prop, `shouldFocus` that will focus the component's

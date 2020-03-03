@@ -721,7 +721,6 @@ describe('TitleSearch', () => {
       it('should show the search results for that page', () => {
         // see comment above about titleList index number
         expect(TitleSearchPage.titleList(4).name).to.equal('Other Title 55');
-
       });
 
       it('should retain the proper offset', function () {
@@ -752,7 +751,6 @@ describe('TitleSearch', () => {
     beforeEach(() => {
       return TitleSearchPage.search('fhqwhgads');
     });
-
     it("displays 'no results' message", () => {
       expect(TitleSearchPage.noResultsMessage).to.equal("No titles found for 'fhqwhgads'.");
     });

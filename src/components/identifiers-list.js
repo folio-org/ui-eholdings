@@ -42,7 +42,7 @@ export default function IdentifiersList({ data, displayInline }) {
         ))}
       </div>
     );
-  }
+  };
 
   const getInlineList = () => {
     const identifiersStringArr = [];
@@ -55,7 +55,7 @@ export default function IdentifiersList({ data, displayInline }) {
         {identifiersStringArr.join(' • ')}
       </div>
     );
-  }
+  };
 
   return displayInline ? getInlineList() : getKeyValueList();
 }
