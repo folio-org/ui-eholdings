@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { KeyValue } from '@folio/stripes/components';
 
-export default function IdentifiersList({ data }) {
+export default function IdentifiersList({ data, displayInline }) {
   // get rid of identifiers we received that aren't ISSN or ISBN
   const filteredData = data.filter(identifier => ['ISSN', 'ISBN'].includes(identifier.type));
 
@@ -28,19 +28,36 @@ export default function IdentifiersList({ data }) {
     return byType;
   }, {});
 
-  return (
-    <div>
-      {Object.keys(identifiersByType).map(key => (
-        <div key={key} data-test-eholdings-identifiers-list-item>
-          <KeyValue label={key}>
-            <div data-test-eholdings-identifier-id>
-              {identifiersByType[key].join(', ')}
-            </div>
-          </KeyValue>
-        </div>
-      ))}
-    </div>
-  );
+  const getKeyValueList = () => {
+    return (
+      <div>
+        {Object.keys(identifiersByType).map(key => (
+          <div key={key} data-test-eholdings-identifiers-list-item>
+            <KeyValue label={key}>
+              <div data-test-eholdings-identifier-id>
+                {identifiersByType[key].join(', ')}
+              </div>
+            </KeyValue>
+          </div>
+        ))}
+      </div>
+    );
+  };
+
+  const getInlineList = () => {
+    const identifiersStringArr = [];
+    Object.keys(identifiersByType).map(key => (
+      identifiersStringArr.push(`${key}: ${identifiersByType[key].join(', ')}`)
+    ));
+
+    return (
+      <div data-test-eholdings-identifiers-inline-list-item>
+        {identifiersStringArr.join(' • ')}
+      </div>
+    );
+  };
+
+  return displayInline ? getInlineList() : getKeyValueList();
 }
 
 IdentifiersList.propTypes = {

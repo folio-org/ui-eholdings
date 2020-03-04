@@ -6,5 +6,5 @@ export default Factory.extend({
     'editor',
     'illustrator'
   ]),
-  contributor: () => `${faker.name.firstName()} ${faker.name.lastName()}`
+  contributor: (i) => `Contributor${i}`
 });

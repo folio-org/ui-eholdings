@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import QueryList from './query-list';
 import TitleListItem from './title-list-item';
 
-const ITEM_HEIGHT = 53;
+const ITEM_HEIGHT = 70;
 
 export default function TitleSearchList({
   activeId,
@@ -29,6 +29,8 @@ export default function TitleSearchList({
       renderItem={item => (
         <TitleListItem
           showPublisherAndType
+          showIdentifiers
+          showContributors
           item={item.content}
           link={item.content && {
             pathname: `/eholdings/titles/${item.content.id}`

@@ -4,14 +4,17 @@ import { FormattedMessage } from 'react-intl';
 
 import { KeyValue } from '@folio/stripes/components';
 
-export default function ContributorsList({ data }) {
+export default function ContributorsList({
+  data,
+  showInline,
+  contributorsInlineLimit,
+}) {
   const contributorsByType = data.reduce((byType, contributor) => {
     byType[contributor.type] = byType[contributor.type] || [];
     byType[contributor.type].push(contributor.contributor);
     return byType;
   }, {});
-
-  return (
+  const showKeyValueList = () => (
     <div>
       {Object.keys(contributorsByType).map((contributorType) => {
         const names = contributorsByType[contributorType];
@@ -36,6 +39,33 @@ export default function ContributorsList({ data }) {
       })}
     </div>
   );
+
+  const showInlineList = (numberOfFirstElements) => {
+    let contributorsJointList = '';
+
+    if (numberOfFirstElements && data.length > numberOfFirstElements) {
+      contributorsJointList = data
+        .slice(0, numberOfFirstElements)
+        .map((contributorObj) => contributorObj.contributor)
+        .join('; ') + '...';
+    } else {
+      contributorsJointList = data
+        .map((contributorObj) => contributorObj.contributor)
+        .join('; ');
+    }
+
+    return (
+      <>
+        <FormattedMessage id='ui-eholdings.label.contributors' />
+        &#58;&nbsp;
+        <span data-test-eholdings-contributors-inline-list-item>
+          {contributorsJointList}
+        </span>
+      </>
+    );
+  };
+
+  return showInline ? showInlineList(contributorsInlineLimit) : showKeyValueList();
 }
 
 ContributorsList.propTypes = {
