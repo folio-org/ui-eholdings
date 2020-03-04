@@ -100,9 +100,10 @@ function TitleListItem({
         {showSelected && (
           <div>
             <span data-test-eholdings-title-list-item-title-selected>
-              {item.isSelected ?
-                <FormattedMessage id="ui-eholdings.selected" /> :
-                <FormattedMessage id="ui-eholdings.notSelected" />}
+              {item.isSelected
+                ? <FormattedMessage id="ui-eholdings.selected" />
+                : <FormattedMessage id="ui-eholdings.notSelected" />
+              }
             </span>
 
             {item.visibilityData.isHidden && (
