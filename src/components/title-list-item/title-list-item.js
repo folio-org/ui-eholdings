@@ -24,9 +24,9 @@ function TitleListItem({
   onClick,
   headingLevel
 }) {
-  const hasContributors = item && item.contributors && item.contributors.length > 0 && showContributors;
-  const hasPublisherOrType = item && showPublisherAndType && (item.publicationType || item.publisherName);
-  const hasIdentifiers = item && item.identifiers && item.identifiers.length > 0 && showIdentifiers;
+  const hasContributors = item?.contributors?.length > 0 && showContributors;
+  const hasPublisherOrType = showPublisherAndType && (item?.publicationType || item?.publisherName);
+  const hasIdentifiers = item?.identifiers?.length > 0 && showIdentifiers;
   const showPublisherContributorSeparator = hasPublisherOrType && hasContributors;
   return !item
     ? (

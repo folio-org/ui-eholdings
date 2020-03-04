@@ -244,9 +244,6 @@ describe('TitleSearch', () => {
         await TitleSearchPage.clickFilter('type', 'book');
         await TitleSearchPage.search('999-999');
       });
-      it('only shows results having book pub type', () => {
-        expect(TitleSearchPage.titleList(0).publicationType).to.equal('book');
-      });
 
       it('reflects searchfield=isxn in the URL query params', function () {
         expect(this.location.search).to.include('searchfield=isxn');
