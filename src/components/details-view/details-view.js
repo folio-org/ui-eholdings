@@ -161,7 +161,7 @@ class DetailsView extends Component {
       const height = e.currentTarget.offsetHeight;
       const scrollHeight = e.currentTarget.scrollHeight;
       // these will be equal when scrolled all the way down
-      const bottomedOut = top + height === scrollHeight;
+      const bottomedOut = Math.ceil(top + height) === scrollHeight;
 
       // if bottoming out, enable isSticky
       if (bottomedOut && !isSticky) {
