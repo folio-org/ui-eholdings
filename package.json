@@ -1,6 +1,6 @@
 {
   "name": "@folio/eholdings",
-  "version": "2.1.0",
+  "version": "3.0.0",
   "description": "FOLIO UI module for eHoldings",
   "main": "src/index.js",
   "repository": "https://github.com/folio-org/ui-eholdings",
@@ -25,7 +25,7 @@
     "@bigtest/react": "^0.1.2",
     "@folio/eslint-config-stripes": "^5.0.0",
     "@folio/stripes-cli": "^1.13.0",
-    "@folio/stripes": "^2.13.0",
+    "@folio/stripes": "^3.0.0",
     "babel-eslint": "^10.0.3",
     "babel-polyfill": "^6.26.0",
     "chai": "^4.0.2",
@@ -38,6 +38,7 @@
     "react": "^16.8.6",
     "react-dom": "^16.8.6",
     "react-redux": "^5.0.7",
+    "react-router-dom": "^4.3.1",
     "react-transition-group": "^2.5.0",
     "redux": "^3.0.0",
     "rxjs": "^5.0.0",
@@ -60,17 +61,17 @@
     "react-final-form": "6.3.0",
     "react-final-form-arrays": "3.1.0",
     "react-hot-loader": "^4.3.12",
-    "react-intl": "^2.4.0",
     "react-measure": "^2.1.0",
-    "react-router": "^4.3.1",
-    "react-router-dom": "^4.3.1",
     "react-router-prop-types": "^1.0.4",
     "redux-actions": "^2.2.1",
     "redux-observable": "^0.15.0"
   },
   "peerDependencies": {
-    "@folio/stripes": "^2.13.0",
-    "react": "*"
+    "@folio/stripes": "^3.0.0",
+    "react": "*",
+    "react-intl": "^2.4.0",
+    "react-router": "^4.3.1",
+    "react-router-dom": "^4.3.1"
   },
   "stripes": {
     "actsAs": ["app", "settings"],
