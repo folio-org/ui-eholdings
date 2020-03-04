@@ -8,7 +8,7 @@ export default TitleSerializer.extend({
     'publisherName',
     'publicationType',
     'subjects',
-    // 'contributors',
+    'contributors',
     'identifiers',
     'isTitleCustom',
     // 'isPeerReviewed',
