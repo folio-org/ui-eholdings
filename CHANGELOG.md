@@ -1,6 +1,6 @@
 # Change history for ui-eholdings
 
-## [2.2.0] (IN PROGRESS)
+## [3.0.0] (IN PROGRESS)
 
 * Add display custom labels on view resource page (UIEH-805)
 * Add display custom labels on edit resource page (UIEH-185)
@@ -11,6 +11,7 @@
 * Remove Actions dropdown from view custom title record page. (UIEH-824)
 * Remove Edit/Pencil icon from view package record page (UIEH-822)
 * Create Settings Access status types page (UIEH-828)
+* Migrate to `stripes` `v3.0.0` and move `react-intl` and `react-router` to peerDependencies.
 
 ## [2.1.0](https://github.com/folio-org/ui-eholdings/tree/v2.1.0) (2019-12-04)
 
