@@ -14,6 +14,7 @@ import {
   DELETE_ACCESS_TYPE,
   DELETE_ACCESS_TYPE_FAILURE,
   DELETE_ACCESS_TYPE_SUCCESS,
+  CONFIRM_DELETE_ACCESS_TYPE,
 } from '../../../../../src/redux/actions';
 
 describe('(reducer) accessTypes', () => {
@@ -22,6 +23,7 @@ describe('(reducer) accessTypes', () => {
       isLoading: false,
       items: {},
       errors: [],
+      isDeleted: false,
     });
   });
 
@@ -228,6 +230,7 @@ describe('(reducer) accessTypes', () => {
     const expectedState = {
       isLoading: false,
       errors: [{ title: 'error' }],
+      isDeleted: false,
     };
 
     expect(accessTypes(actualState, action)).to.deep.equal(expectedState);
@@ -245,7 +248,8 @@ describe('(reducer) accessTypes', () => {
             description: 'description of type',
           },
         }],
-      }
+      },
+      isDeleted: false,
     };
     const action = {
       type: DELETE_ACCESS_TYPE_SUCCESS,
@@ -254,6 +258,27 @@ describe('(reducer) accessTypes', () => {
     const expectedState = {
       isLoading: false,
       items: { data: [] },
+      isDeleted: true,
+    };
+
+    expect(accessTypes(actualState, action)).to.deep.equal(expectedState);
+  });
+
+  it('should handle CONFIRM_DELETE_ACCESS_TYPE', () => {
+    const actualState = {
+      isLoading: true,
+      items: {
+        data: [],
+      },
+      isDeleted: true,
+    };
+    const action = {
+      type: CONFIRM_DELETE_ACCESS_TYPE,
+    };
+    const expectedState = {
+      isLoading: true,
+      items: { data: [] },
+      isDeleted: false,
     };
 
     expect(accessTypes(actualState, action)).to.deep.equal(expectedState);

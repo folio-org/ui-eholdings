@@ -115,8 +115,43 @@ describe('With list of root proxies available to a customer', () => {
         await SettingsAccessStatusTypesPage.accessStatusTypesList(0).clickDelete();
       });
 
-      it('should show list of access status types without first item', () => {
-        expect(SettingsAccessStatusTypesPage.accessStatusTypesList().length).to.be.equal(13);
+      it('should display confirmation modal', () => {
+        expect(SettingsAccessStatusTypesPage.confirmationModalIsPresent).to.be.true;
+      });
+
+      describe('when clicking on Cancel', () => {
+        beforeEach(async () => {
+          await SettingsAccessStatusTypesPage.cancelStatusTypeDeleteButton();
+        });
+
+        it('should close the modal', () => {
+          expect(SettingsAccessStatusTypesPage.confirmationModalIsPresent).to.be.false;
+        });
+
+        it('should not delete the status type', () => {
+          expect(SettingsAccessStatusTypesPage.accessStatusTypesList().length).to.be.equal(14);
+        });
+      });
+
+      describe('when clicking on Delete', () => {
+        let typeToDelete = '';
+
+        beforeEach(async () => {
+          await SettingsAccessStatusTypesPage.confirmStatusTypeDeleteButton();
+          typeToDelete = SettingsAccessStatusTypesPage.accessStatusTypesList(0).cols(0).context;
+        });
+
+        it('should close the modal', () => {
+          expect(SettingsAccessStatusTypesPage.confirmationModalIsPresent).to.be.false;
+        });
+
+        it('should show list of access status types without first item', () => {
+          expect(SettingsAccessStatusTypesPage.accessStatusTypesList().length).to.be.equal(13);
+        });
+
+        it('should show toast message with correct status type name', () => {
+          expect(SettingsAccessStatusTypesPage.successText.includes(typeToDelete)).to.be.true;
+        });
       });
     });
   });
