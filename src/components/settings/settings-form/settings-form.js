@@ -18,10 +18,10 @@ export default class SettingsForm extends Component {
       handleSubmit: PropTypes.func.isRequired,
       invalid: PropTypes.bool,
       pristine: PropTypes.bool,
-      updateIsPending: PropTypes.bool,
     }).isRequired,
     title: PropTypes.node,
     toasts: PropTypes.array.isRequired,
+    updateIsPending: PropTypes.bool,
   };
 
   renderFooter() {
@@ -30,8 +30,8 @@ export default class SettingsForm extends Component {
         form: { reset },
         invalid,
         pristine,
-        updateIsPending,
       },
+      updateIsPending,
     } = this.props;
 
     const cancelButton = (
@@ -72,11 +72,10 @@ export default class SettingsForm extends Component {
       title,
       formState,
       toasts,
-      ...formProps
     } = this.props;
 
     return (
-      <form onSubmit={formState.handleSubmit} {...formProps}>
+      <form onSubmit={formState.handleSubmit}>
         <Pane
           paneTitle={title}
           defaultWidth="fill"
