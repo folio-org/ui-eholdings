@@ -185,11 +185,6 @@ class PackageEditRoute extends Component {
     updatePackage(model);
   };
 
-  getSearchType = () => {
-    const { searchType } = queryString.parse(this.props.location.search, { ignoreQueryPrefix: true });
-    return searchType;
-  }
-
   handleCancel = () => {
     const {
       history,
@@ -204,10 +199,6 @@ class PackageEditRoute extends Component {
         eholdings: true,
       }
     };
-
-    if (this.getSearchType()) {
-      history.push(viewRouteState);
-    }
 
     history.replace(viewRouteState);
   }
