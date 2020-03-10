@@ -28,10 +28,10 @@ export default class SettingsCustomLabels extends Component {
       isUpdated: PropTypes.bool,
       items: PropTypes.shape({
         data: PropTypes.arrayOf(PropTypes.shape({
-          displayLabel: PropTypes.string.isRequired,
-          displayOnFullTextFinder: PropTypes.bool.isRequired,
-          displayOnPublicationFinder: PropTypes.bool.isRequired,
-          id: PropTypes.number.isRequired,
+          displayLabel: PropTypes.string,
+          displayOnFullTextFinder: PropTypes.bool,
+          displayOnPublicationFinder: PropTypes.bool,
+          id: PropTypes.number,
         })),
       }),
     }).isRequired,
