@@ -185,7 +185,12 @@ const SettingsAccessStatusTypes = ({
       <ConfirmationModal
         id="delete-access-status-type-confirmation-modal"
         heading={<FormattedMessage id="ui-eholdings.settings.accessStatusTypes.delete" />}
-        message={<FormattedMessage id="ui-eholdings.settings.accessStatusTypes.delete.description" values={{ name: selectedStatusType?.attributes?.name || '' }} />}
+        message={
+          <FormattedMessage
+            id="ui-eholdings.settings.accessStatusTypes.delete.description"
+            values={{ name: selectedStatusType?.attributes?.name || '' }}
+          />
+        }
         confirmLabel={<FormattedMessage id="ui-eholdings.settings.accessStatusTypes.delete.confirm" />}
         cancelLabel={<FormattedMessage id="ui-eholdings.settings.accessStatusTypes.delete.cancel" />}
         onConfirm={deleteStatusType}
