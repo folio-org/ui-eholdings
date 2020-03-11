@@ -25,6 +25,8 @@ const SettingsAccessStatusTypes = ({
   onUpdate,
   confirmDelete,
 }) => {
+  const MAX_ACCESS_STATUS_TYPES_COUNT = 15;
+
   const [isConfirmDialogShown, setShowConfirmDialog] = useState(false);
   const [selectedStatusType, setSelectedStatusType] = useState(null);
   const [toasts, setToasts] = useState([]);
@@ -132,14 +134,19 @@ const SettingsAccessStatusTypes = ({
       ...toasts,
       {
         id: `success-access-type-deleted-${selectedStatusType.id}`,
-        message: <FormattedMessage id="ui-eholdings.settings.accessStatusTypes.delete.toast" values={{ name: selectedStatusType.attributes.name }} />,
-        type: 'success'
+        message: (
+          <FormattedMessage
+            id="ui-eholdings.settings.accessStatusTypes.delete.toast"
+            values={{ name: selectedStatusType.attributes.name }}
+          />
+        ),
+        type: 'success',
       }
     ]);
   }
 
   const actionProps = {
-    create: accessTypesData?.items?.length >= 15 ? () => ({ disabled: true }) : {},
+    create: accessTypesData?.items?.length >= MAX_ACCESS_STATUS_TYPES_COUNT ? () => ({ disabled: true }) : {},
     delete: item => ({ onClick: () => showConfirmDialog(item.id) }),
   };
 
