@@ -80,13 +80,11 @@ const SettingsAccessStatusTypes = ({
     const accessTypeToDelete = accessTypesData.items.find(type => type.id === id);
 
     if (!accessTypeToDelete) {
-      return Promise.reject();
+      return;
     }
 
     setSelectedStatusType(accessTypeToDelete);
     setShowConfirmDialog(true);
-
-    return new Promise(() => {});
   };
 
   const hideConfirmDialog = () => {
@@ -140,6 +138,11 @@ const SettingsAccessStatusTypes = ({
     ]);
   }
 
+  const actionProps = {
+    create: accessTypesData?.items?.length >= 15 ? () => ({ disabled: true }) : {},
+    delete: item => ({ onClick: () => showConfirmDialog(item.id) }),
+  };
+
   return (
     <Pane
       paneTitle={<FormattedMessage id="ui-eholdings.settings.accessStatusTypes" />}
@@ -159,7 +162,7 @@ const SettingsAccessStatusTypes = ({
       <IntlConsumer>
         {intl => (
           <EditableList
-            actionProps={accessTypesData?.items?.length >= 15 ? { create: () => ({ disabled: true }) } : {}}
+            actionProps={actionProps}
             columnMapping={{
               name: intl.formatMessage({ id: 'ui-eholdings.settings.accessStatusTypes.type' }),
               description: intl.formatMessage({ id: 'ui-eholdings.settings.accessStatusTypes.description' }),
