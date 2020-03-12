@@ -349,5 +349,10 @@
     "settings.accessStatusTypes.lastUpdated": "آخر تحديث",
     "settings.accessStatusTypes.lastUpdated.data": "{date} بواسطة  {name}",
     "settings.accessStatusTypes.records": "# تسجيلة",
-    "settings.accessStatusTypes.validation": "تجاوز {limit}. يرجى المراجعة."
+    "settings.accessStatusTypes.validation": "تجاوز {limit}. يرجى المراجعة.",
+    "settings.accessStatusTypes.delete": "حذف نوع حالة الوصول",
+    "settings.accessStatusTypes.delete.description": "هل أنت متأكد من أنك تريد حذف نوع حالة الوصول {name}؟",
+    "settings.accessStatusTypes.delete.cancel": "إلغاء",
+    "settings.accessStatusTypes.delete.confirm": "حذف",
+    "settings.accessStatusTypes.delete.toast": "تم حذف نوع حالة الوصول {name}"
 }

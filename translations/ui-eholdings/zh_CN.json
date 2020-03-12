@@ -349,5 +349,10 @@
     "settings.accessStatusTypes.lastUpdated": "上次更新",
     "settings.accessStatusTypes.lastUpdated.data": "{date} 按 {name}",
     "settings.accessStatusTypes.records": "记录数",
-    "settings.accessStatusTypes.validation": "超过{limit} 。请修改。"
+    "settings.accessStatusTypes.validation": "超过{limit} 。请修改。",
+    "settings.accessStatusTypes.delete": "Delete Access status type",
+    "settings.accessStatusTypes.delete.description": "Are you sure you want to delete the access status type {name}?",
+    "settings.accessStatusTypes.delete.cancel": "Cancel",
+    "settings.accessStatusTypes.delete.confirm": "Delete",
+    "settings.accessStatusTypes.delete.toast": "The access status type {name} has been deleted."
 }

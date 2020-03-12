@@ -349,5 +349,10 @@
     "settings.accessStatusTypes.lastUpdated": "Dernière mise à jour",
     "settings.accessStatusTypes.lastUpdated.data": "{date} par {name}",
     "settings.accessStatusTypes.records": "Nombre d'enregistrements",
-    "settings.accessStatusTypes.validation": "{limit} dépassé(e) . Merci de corriger"
+    "settings.accessStatusTypes.validation": "{limit} dépassé(e) . Merci de corriger",
+    "settings.accessStatusTypes.delete": "Supprimer le type de statut d'accès",
+    "settings.accessStatusTypes.delete.description": "Voulez-vous vraiment supprimer le type de statut d'accès {name} ?",
+    "settings.accessStatusTypes.delete.cancel": "Annuler",
+    "settings.accessStatusTypes.delete.confirm": "Supprimer",
+    "settings.accessStatusTypes.delete.toast": "Le type de statut d'accès {name} a été supprimé."
 }

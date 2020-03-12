@@ -125,7 +125,7 @@
     "label.author": "Autor",
     "label.editor": "Editor",
     "label.illustrator": "Ilustrador",
-    "label.contributors": "Autores",
+    "label.contributors": "Colaborador(es)",
     "label.holdingStatus": "Status do acervo",
     "label.coverageDates": "Datas de cobertura",
     "label.coverageSettings": "Configurações de cobertura",
@@ -349,5 +349,10 @@
     "settings.accessStatusTypes.lastUpdated": "Última atualização",
     "settings.accessStatusTypes.lastUpdated.data": "{date} por {name}",
     "settings.accessStatusTypes.records": "Núm. de registros",
-    "settings.accessStatusTypes.validation": "Excedido {limit}. Por favor, revise."
+    "settings.accessStatusTypes.validation": "Excedido {limit}. Por favor, revise.",
+    "settings.accessStatusTypes.delete": "Delete Access status type",
+    "settings.accessStatusTypes.delete.description": "Are you sure you want to delete the access status type {name}?",
+    "settings.accessStatusTypes.delete.cancel": "Cancel",
+    "settings.accessStatusTypes.delete.confirm": "Delete",
+    "settings.accessStatusTypes.delete.toast": "The access status type {name} has been deleted."
 }
