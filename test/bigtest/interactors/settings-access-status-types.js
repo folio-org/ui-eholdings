@@ -4,12 +4,18 @@ import {
   collection,
   text,
   property,
+  isPresent,
 } from '@bigtest/interactor';
 import TextFieldInteractor from '@folio/stripes-components/lib/TextField/tests/interactor';
+
 
 @interactor class SettingsAccessStatusTypesPage {
   clickAddNewButton = clickable('[id^="clickable-add-"]');
   addNewButtonIsDisabled = property('[id^="clickable-add-"]', 'disabled');
+  confirmationModalIsPresent = isPresent('#delete-access-status-type-confirmation-modal');
+  cancelStatusTypeDeleteButton = clickable('[data-test-confirmation-modal-cancel-button]');
+  confirmStatusTypeDeleteButton = clickable('[data-test-confirmation-modal-confirm-button]');
+  successText = text('[data-test-eholdings-toast="success"]');
 
   accessStatusTypesList = collection('[id^="editList-"] [data-row-index]', {
     clickDelete: clickable('[id^="clickable-delete-"]'),

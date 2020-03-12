@@ -10,6 +10,7 @@ import {
   UPDATE_ACCESS_TYPE,
   UPDATE_ACCESS_TYPE_SUCCESS,
   UPDATE_ACCESS_TYPE_FAILURE,
+  CONFIRM_DELETE_ACCESS_TYPE,
 } from '../actions';
 import { formatErrors } from '../helpers';
 
@@ -72,6 +73,7 @@ const handlers = {
     return {
       ...state,
       isLoading: false,
+      isDeleted: true,
       items: {
         ...state.items,
         data: data.reduce((acc, item) => (item.id !== id ? [...acc, item] : acc), []),
@@ -85,9 +87,15 @@ const handlers = {
     return {
       ...state,
       isLoading: false,
+      isDeleted: false,
       errors: formatErrors(errors),
     };
   },
+
+  [CONFIRM_DELETE_ACCESS_TYPE]: state => ({
+    ...state,
+    isDeleted: false,
+  }),
 
   [UPDATE_ACCESS_TYPE]: state => ({
     ...state,
@@ -123,6 +131,7 @@ const initialState = {
   isLoading: false,
   items: {},
   errors: [],
+  isDeleted: false,
 };
 
 export default function accessTypes(state, action) {
