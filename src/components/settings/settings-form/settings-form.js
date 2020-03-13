@@ -72,10 +72,11 @@ export default class SettingsForm extends Component {
       title,
       formState,
       toasts,
+      ...formProps
     } = this.props;
 
     return (
-      <form onSubmit={formState.handleSubmit}>
+      <form onSubmit={formState.handleSubmit} {...formProps}>
         <Pane
           paneTitle={title}
           defaultWidth="fill"
