@@ -1,6 +1,6 @@
 # Change history for ui-eholdings
 
-## [3.0.0] (IN PROGRESS)
+## [3.0.0] (https://github.com/folio-org/ui-eholdings/tree/v3.0.0) (2020-03-13)
 
 * Add display custom labels on view resource page (UIEH-805)
 * Add display custom labels on edit resource page (UIEH-185)
@@ -13,6 +13,8 @@
 * Create Settings Access status types page (UIEH-828)
 * Migrate to `stripes` `v3.0.0` and move `react-intl` and `react-router` to peerDependencies.
 * Show a Delete warning and confirmation for Access status types (UIEH-842)
+* Packages: Clicking "X" starts a nasty loop (UIEH-845)
+* Package Results UI updates (UIEH-844)
 
 ## [2.1.0](https://github.com/folio-org/ui-eholdings/tree/v2.1.0) (2019-12-04)
 
