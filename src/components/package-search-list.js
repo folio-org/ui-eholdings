@@ -2,9 +2,9 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 import QueryList from './query-list';
-import PackageListItem from './package-list-item';
+import SearchPackageListItem from './search-package-list-item';
 
-const ITEM_HEIGHT = 70;
+const ITEM_HEIGHT = 80;
 
 function PackageSearchList({
   activeId,
@@ -27,8 +27,7 @@ function PackageSearchList({
       notFoundMessage={notFoundMessage}
       fullWidth
       renderItem={item => (
-        <PackageListItem
-          showProviderName
+        <SearchPackageListItem
           item={item.content}
           link={item.content && {
             pathname: `/eholdings/packages/${item.content.id}`

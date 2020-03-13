@@ -82,6 +82,11 @@
         "name": "app",
         "alt": "FOLIO UI module for eHoldings",
         "title": "eHoldings"
+      },
+      {
+        "name": "selectedPackage",
+        "alt": "Selected",
+        "title": "Selected"
       }
     ],
     "okapiInterfaces": {

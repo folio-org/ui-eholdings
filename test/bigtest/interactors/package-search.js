@@ -99,7 +99,7 @@ import ExpandFilterPaneButtonInteractor from './expand-filter-pane-button';
     providerName: text('[data-test-eholdings-package-list-item-provider-name]'),
     isSelectedText: text('[data-test-eholdings-package-list-item-selected]'),
     isSelected: computed(function () {
-      return this.isSelectedText === 'Selected';
+      return this.isSelectedText.split(' ')[0] === 'Selected:';
     }),
     isActive: is('[class*="is-selected"]'),
     hasFocus: is(':focus'),

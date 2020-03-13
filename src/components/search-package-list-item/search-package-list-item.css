@@ -1,0 +1,114 @@
+@import '@folio/stripes-components/lib/variables';
+
+.item {
+  height: 100%;
+
+  & h3,
+  & h4,
+  & div {
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+  }
+
+  &.is-selected {
+    background-color: #666;
+    color: #fff;
+
+    &:hover {
+      background-color: #555;
+    }
+
+    & h3,
+    & h4 {
+      color: #fff;
+    }
+  }
+
+  & .selection-status {
+    &.not-selected img {
+      filter: grayscale(1);
+    }
+  }
+
+  & .itemMetadata {
+    font-size: var(--font-size-medium);
+    display: flex;
+    color: var(--color-text);
+    padding-top: var(--gutter-static-one-third);
+
+    & > span {
+      padding-right: var(--gutter-static);
+    }
+  }
+}
+
+.skeleton {
+  height: 100%;
+  background-repeat: no-repeat;
+  background-origin: content-box;
+  position: relative;
+  padding: 0.5rem 1rem 0.5rem 1.5rem;
+
+  /* skeleton effect */
+
+  /* 1. name  2. selected */
+  background-image:
+    linear-gradient(#eee, #eee 0.9em, transparent 0.9em),
+    linear-gradient(#eee, #eee 0.8em, transparent 0.8em);
+  background-size:
+    14rem var(--font-size-medium),
+    4rem var(--font-size-small);
+  background-position:
+    0 0.4rem,
+    0 1.67rem;
+
+  &.is-provider-name-visible {
+    /* 1. name  2. provider  3. selected */
+    background-image:
+      linear-gradient(#eee, #eee 0.9em, transparent 0.9em),
+      linear-gradient(#eee, #eee 0.8em, transparent 0.8em),
+      linear-gradient(#eee, #eee 0.8em, transparent 0.8em);
+    background-size:
+      14em var(--font-size-medium),
+      10em var(--font-size-small),
+      5em var(--font-size-small);
+    background-position:
+      0 0.4rem,
+      0 1.67rem,
+      0 3.5em;
+  }
+
+  &.is-title-count-visible {
+    /* 1. name  2. selected */
+    background-image:
+      linear-gradient(#eee, #eee 0.9em, transparent 0.9em),
+      linear-gradient(#eee, #eee 0.8em, transparent 0.8em);
+    background-size:
+      20em 1.1em,
+      5em 1em;
+    background-position:
+      0 0.1em,
+      0 1.75em;
+  }
+
+  /* shimmer effect */
+  &::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-repeat: no-repeat;
+    background-image: linear-gradient(to right, color(white a(0)), color(white a(30%)) 50%, color(white a(0)));
+    background-size: 10em 100%;
+    background-position: -10em 0;
+    animation: shimmer 3s infinite;
+  }
+}
+
+@keyframes shimmer {
+  from { background-position: -10em 0; }
+  to { background-position: calc(100% + 10em) 0; }
+}
