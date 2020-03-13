@@ -12,6 +12,7 @@
 * Remove Edit/Pencil icon from view package record page (UIEH-822)
 * Create Settings Access status types page (UIEH-828)
 * Migrate to `stripes` `v3.0.0` and move `react-intl` and `react-router` to peerDependencies.
+* Show a Delete warning and confirmation for Access status types (UIEH-842)
 
 ## [2.1.0](https://github.com/folio-org/ui-eholdings/tree/v2.1.0) (2019-12-04)
 

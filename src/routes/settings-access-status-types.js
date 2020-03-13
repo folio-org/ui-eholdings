@@ -13,6 +13,7 @@ import {
   attachAccessType as attachAccessTypeAction,
   deleteAccessType as deleteAccessTypeAction,
   updateAccessType as updateAccessTypeAction,
+  confirmDeleteAccessType as confirmDeleteAccessTypeAction,
 } from '../redux/actions';
 
 const SettingsAccessStatusTypesRoute = ({
@@ -21,6 +22,7 @@ const SettingsAccessStatusTypesRoute = ({
   attachAccessType,
   deleteAccessType,
   updateAccessType,
+  confirmDelete,
 }) => {
   const { items: { data } } = accessTypes;
 
@@ -41,10 +43,14 @@ const SettingsAccessStatusTypesRoute = ({
             >
               {data ? (
                 <View
-                  accessTypesData={data}
+                  accessTypesData={{
+                    ...accessTypes,
+                    items: data,
+                  }}
                   onCreate={attachAccessType}
                   onDelete={deleteAccessType}
                   onUpdate={updateAccessType}
+                  confirmDelete={confirmDelete}
                 />
               ) : (
                 <Icon
@@ -62,11 +68,13 @@ const SettingsAccessStatusTypesRoute = ({
 
 SettingsAccessStatusTypesRoute.propTypes = {
   accessTypes: PropTypes.shape({
+    isDeleted: PropTypes.bool.isRequired,
     items: PropTypes.shape({
       data: PropTypes.array,
     }),
   }),
   attachAccessType: PropTypes.func.isRequired,
+  confirmDelete: PropTypes.func.isRequired,
   deleteAccessType: PropTypes.func.isRequired,
   getAccessTypes: PropTypes.func.isRequired,
   updateAccessType: PropTypes.func.isRequired,
@@ -86,5 +94,6 @@ export default connect(
     attachAccessType: attachAccessTypeAction,
     deleteAccessType: deleteAccessTypeAction,
     updateAccessType: updateAccessTypeAction,
+    confirmDelete: confirmDeleteAccessTypeAction,
   }
 )(SettingsAccessStatusTypesRoute);

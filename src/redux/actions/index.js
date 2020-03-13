@@ -28,3 +28,4 @@ export * from './delete-access-type-failure';
 export * from './update-access-type';
 export * from './update-access-type-success';
 export * from './update-access-type-failure';
+export * from './confirm-delete-access-type';

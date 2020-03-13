@@ -349,5 +349,10 @@
     "settings.accessStatusTypes.lastUpdated": "Last updated",
     "settings.accessStatusTypes.lastUpdated.data": "{date} by {name}",
     "settings.accessStatusTypes.records": "# of records",
-    "settings.accessStatusTypes.validation": "Exceeded {limit}. Please revise."
+    "settings.accessStatusTypes.validation": "Exceeded {limit}. Please revise.",
+    "settings.accessStatusTypes.delete": "Borrar Access de tipo de estado",
+    "settings.accessStatusTypes.delete.description": "¿Está seguro que quiere borrar el acceso al tipo de estado?",
+    "settings.accessStatusTypes.delete.cancel": "Cancelar",
+    "settings.accessStatusTypes.delete.confirm": "Borrar",
+    "settings.accessStatusTypes.delete.toast": "The access status type {name} has been deleted."
 }
