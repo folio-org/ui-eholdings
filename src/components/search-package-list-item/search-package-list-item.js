@@ -19,11 +19,13 @@ function SearchPackageListItem({
   onClick,
   headingLevel,
 }) {
-  return !item ? (
-    <div
-      className={cx('skeleton', 'is-provider-name-visible')}
-    />
-  ) : (
+  return !item
+    ? (
+      <div
+        className={cx('skeleton', 'is-provider-name-visible')}
+      />
+    )
+    : (
       <InternalLink
         data-test-eholdings-package-list-item
         to={link}
@@ -53,7 +55,7 @@ function SearchPackageListItem({
         <div className={cx('itemMetadata')}>
           <AppIcon
             app={APP_ICON_NAME}
-            iconKey={'selectedPackage'}
+            iconKey='selectedPackage'
             size='small'
             className={cx('item', 'selection-status', {
               'not-selected': !item.isSelected,
@@ -71,7 +73,7 @@ function SearchPackageListItem({
             </span>
           </AppIcon>
 
-          <span >
+          <span>
             <FormattedMessage
               id="ui-eholdings.label.totalTitles"
               values={{
@@ -104,7 +106,6 @@ SearchPackageListItem.propTypes = {
   ]),
   onClick: PropTypes.func,
   packageName: PropTypes.string,
-  showTitleCount: PropTypes.bool
 };
 
 // this HOC adds a prop, `shouldFocus` that will focus the component's
