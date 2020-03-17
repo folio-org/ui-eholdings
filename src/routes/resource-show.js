@@ -8,12 +8,14 @@ import { Icon } from '@folio/stripes/components';
 import { createResolver } from '../redux';
 import Resource from '../redux/resource';
 import View from '../components/resource/resource-show';
-import { ProxyType } from '../redux/application';
+import { ProxyType, AccessType } from '../redux/application';
 import Tag from '../redux/tag';
 
 class ResourceShowRoute extends Component {
   static propTypes = {
+    accessTypes: PropTypes.object.isRequired,
     destroyResource: PropTypes.func.isRequired,
+    getAccessTypes: PropTypes.func.isRequired,
     getProxyTypes: PropTypes.func.isRequired,
     getResource: PropTypes.func.isRequired,
     getTags: PropTypes.func.isRequired,
@@ -32,12 +34,14 @@ class ResourceShowRoute extends Component {
     const {
       match,
       getResource,
+      getAccessTypes,
       getProxyTypes,
       getTags,
     } = props;
     const { id } = match.params;
     getResource(id);
     getProxyTypes();
+    getAccessTypes();
     getTags();
   }
 
@@ -112,6 +116,7 @@ class ResourceShowRoute extends Component {
     const {
       model,
       proxyTypes,
+      accessTypes,
       history,
       tagsModel,
       updateFolioTags,
@@ -128,6 +133,7 @@ class ResourceShowRoute extends Component {
           tagsModel={tagsModel}
           updateFolioTags={updateFolioTags}
           proxyTypes={proxyTypes}
+          accessStatusTypes={accessTypes}
           toggleSelected={this.toggleSelected}
           onEdit={this.handleEdit}
           isFreshlySaved={
@@ -153,6 +159,7 @@ export default connect(
       tagsModel: resolver.query('tags'),
       proxyTypes: resolver.query('proxyTypes'),
       resolver,
+      accessTypes: resolver.query('accessTypes'),
     };
   }, {
     getResource: id => Resource.find(id, { include: ['package', 'title'] }),
@@ -161,5 +168,6 @@ export default connect(
     updateFolioTags: model => Tag.create(model),
     getTags: () => Tag.query(),
     destroyResource: model => Resource.destroy(model),
+    getAccessTypes: () => AccessType.query(),
   }
 )(ResourceShowRoute);
