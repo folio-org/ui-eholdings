@@ -354,5 +354,7 @@
     "settings.accessStatusTypes.delete.description": "Are you sure you want to delete the access status type {name}?",
     "settings.accessStatusTypes.delete.cancel": "Cancel",
     "settings.accessStatusTypes.delete.confirm": "Delete",
-    "settings.accessStatusTypes.delete.toast": "The access status type {name} has been deleted."
+    "settings.accessStatusTypes.delete.toast": "The access status type {name} has been deleted.",
+    "label.totalTitles": "Total titles: {count}",
+    "selectedCount": "Selected: {count}"
 }

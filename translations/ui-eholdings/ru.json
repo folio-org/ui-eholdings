@@ -335,7 +335,7 @@
     "settings.customLabels.textFinder": "Show on full text finder",
     "settings.customLabels.remove": "Remove custom label(s)",
     "settings.customLabels.remove.description": "Are you sure want to remove the following custom label(s): <strong>{label}</strong>",
-    "settings.customLabels.remove.note": "<strong>Note:</strong> Removing this label <strong>does not delete</strong> any values you have defined for this label on your resources. Values associated with this custom label will be retained.",
+    "settings.customLabels.remove.note": "<strong>Примечание:</strong> ",
     "settings.customLabels.toast": "Custom labels have been updated",
     "navModal.areYouSure": "Are you sure?",
     "navModal.unsavedChanges": "There are unsaved changes",
@@ -350,9 +350,11 @@
     "settings.accessStatusTypes.lastUpdated.data": "{date} by {name}",
     "settings.accessStatusTypes.records": "# of records",
     "settings.accessStatusTypes.validation": "Exceeded {limit}. Please revise.",
-    "settings.accessStatusTypes.delete": "Delete Access status type",
-    "settings.accessStatusTypes.delete.description": "Are you sure you want to delete the access status type {name}?",
-    "settings.accessStatusTypes.delete.cancel": "Cancel",
-    "settings.accessStatusTypes.delete.confirm": "Delete",
-    "settings.accessStatusTypes.delete.toast": "The access status type {name} has been deleted."
+    "settings.accessStatusTypes.delete": "Удалить тип статуса доступа",
+    "settings.accessStatusTypes.delete.description": "Вы уверены, что хотите удалить тип статуса доступа {имя}?",
+    "settings.accessStatusTypes.delete.cancel": "Отменить",
+    "settings.accessStatusTypes.delete.confirm": "Удалить",
+    "settings.accessStatusTypes.delete.toast": "Тип статуса доступа {имя} был удалён",
+    "label.totalTitles": "Всего заголовков: {подсчёт}",
+    "selectedCount": "Выбрано: {счёт}"
 }
