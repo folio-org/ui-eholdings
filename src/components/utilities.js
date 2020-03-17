@@ -107,6 +107,14 @@ export const getEntityTags = (entityModel) => {
 };
 
 /**
+ * Geter helper for resource access type id
+ * @param {Object} resourceModel - entity model that has resource relationship info
+ */
+export const getAccessTypeId = (resourceModel) => {
+  return get(resourceModel, 'data.relationships.accessType.data.id');
+};
+
+/**
  *
  * @param {Object} entityModel - entity model that has tags attibute as tags:{taglist:[]}
  */

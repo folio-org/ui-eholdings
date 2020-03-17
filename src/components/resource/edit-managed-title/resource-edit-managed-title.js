@@ -34,6 +34,7 @@ import VisibilityField from '../_fields/visibility';
 import Toaster from '../../toaster';
 import CustomEmbargoFields, { getEmbargoInitial } from '../_fields/custom-embargo';
 import NavigationModal from '../../navigation-modal';
+import AccessTypeSelectField from '../../access-type-select';
 import ProxySelectField from '../../proxy-select';
 import CoverageFields from '../_fields/resource-coverage-fields';
 import CoverageDateList from '../../coverage-date-list';
@@ -50,6 +51,7 @@ const focusOnErrors = createFocusDecorator();
 
 class ResourceEditManagedTitle extends Component {
   static propTypes = {
+    accessStatusTypes: PropTypes.object.isRequired,
     model: PropTypes.object.isRequired,
     onCancel: PropTypes.func.isRequired,
     onSubmit: PropTypes.func.isRequired,
@@ -262,6 +264,7 @@ class ResourceEditManagedTitle extends Component {
     const {
       model,
       proxyTypes,
+      accessStatusTypes,
       onCancel,
       model: { isSelected },
     } = this.props;
@@ -366,6 +369,19 @@ class ResourceEditManagedTitle extends Component {
                                 <ProxySelectField proxyTypes={proxyTypes} inheritedProxyId={model.package.proxy.id} />
                               </div>
                             ))}
+                          {accessStatusTypes?.request?.isPending
+                            ? (
+                              <Icon icon="spinner-ellipsis" />
+                            )
+                            : accessStatusTypes?.request?.records?.length > 0
+                              ? (
+                                <div data-test-eholdings-access-types-select>
+                                  <AccessTypeSelectField
+                                    accessStatusTypes={accessStatusTypes}
+                                  />
+                                </div>
+                              )
+                              : null}
                         </div>
                       </Accordion>
                     )}

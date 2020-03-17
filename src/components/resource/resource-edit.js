@@ -8,6 +8,7 @@ import CustomResourceEdit from './edit-custom-title';
 
 export default class ResourceEdit extends Component {
   static propTypes = {
+    accessStatusTypes: PropTypes.object.isRequired,
     model: PropTypes.object.isRequired,
     onCancel: PropTypes.func.isRequired,
     onSubmit: PropTypes.func.isRequired,

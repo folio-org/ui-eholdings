@@ -32,6 +32,7 @@ import { CustomLabelsEditSection } from '../../custom-labels-section';
 import DetailsView from '../../details-view';
 import NavigationModal from '../../navigation-modal';
 import ProxySelectField from '../../proxy-select';
+import AccessTypeSelectField from '../../access-type-select';
 import Toaster from '../../toaster';
 
 import {
@@ -52,6 +53,7 @@ const focusOnErrors = createFocusDecorator();
 
 class ResourceEditCustomTitle extends Component {
   static propTypes = {
+    accessStatusTypes: PropTypes.object.isRequired,
     model: PropTypes.object.isRequired,
     onCancel: PropTypes.func.isRequired,
     onSubmit: PropTypes.func.isRequired,
@@ -280,6 +282,7 @@ class ResourceEditCustomTitle extends Component {
       model,
       proxyTypes,
       onCancel,
+      accessStatusTypes,
     } = this.props;
 
     const {
@@ -366,6 +369,19 @@ class ResourceEditCustomTitle extends Component {
                             )}
                           </div>
                           <CustomUrlFields />
+                          {accessStatusTypes?.request?.isPending
+                            ? (
+                              <Icon icon="spinner-ellipsis" />
+                            )
+                            : accessStatusTypes?.request?.records?.length > 0
+                              ? (
+                                <div data-test-eholdings-access-types-select>
+                                  <AccessTypeSelectField
+                                    accessStatusTypes={accessStatusTypes}
+                                  />
+                                </div>
+                              )
+                              : null}
                         </>
                       ) : (
                         <p data-test-eholdings-resource-edit-settings-message>

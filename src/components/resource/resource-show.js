@@ -44,10 +44,12 @@ import Toaster from '../toaster';
 import TagsAccordion from '../tags';
 import KeyValueColumns from '../key-value-columns';
 import ProxyDisplay from '../proxy-display';
+import AccessTypeDisplay from '../access-type-display';
 import { CustomLabelsShowSection } from '../custom-labels-section';
 
 class ResourceShow extends Component {
   static propTypes = {
+    accessStatusTypes: PropTypes.object.isRequired,
     isFreshlySaved: PropTypes.bool,
     model: PropTypes.object.isRequired,
     onEdit: PropTypes.func.isRequired,
@@ -186,6 +188,7 @@ class ResourceShow extends Component {
       tagsModel,
       updateFolioTags,
       stripes,
+      accessStatusTypes,
     } = this.props;
 
     const {
@@ -468,6 +471,21 @@ class ResourceShow extends Component {
                     </div>
                   </KeyValue>
                 )}
+
+                {
+                  <div data-test-eholdings-access-type>
+                    {!accessStatusTypes.request.isResolved || model.isLoading
+                      ? (
+                        <Icon icon="spinner-ellipsis" />
+                      )
+                      : (
+                        <AccessTypeDisplay
+                          model={model}
+                          accessStatusTypes={accessStatusTypes}
+                        />
+                      )}
+                  </div>
+                }
               </Accordion>
 
               <Accordion

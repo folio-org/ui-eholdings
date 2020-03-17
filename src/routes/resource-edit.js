@@ -8,14 +8,17 @@ import { TitleManager } from '@folio/stripes/core';
 import { FormattedMessage } from 'react-intl';
 
 import { createResolver } from '../redux';
-import { ProxyType } from '../redux/application';
+import { ProxyType, AccessType } from '../redux/application';
 import Resource from '../redux/resource';
 
 import View from '../components/resource/resource-edit';
+import { accessTypes } from '../constants';
 
 class ResourceEditRoute extends Component {
   static propTypes = {
+    accessStatusTypes: PropTypes.object.isRequired,
     destroyResource: PropTypes.func.isRequired,
+    getAccessTypes: PropTypes.func.isRequired,
     getProxyTypes: PropTypes.func.isRequired,
     getResource: PropTypes.func.isRequired,
     history: ReactRouterPropTypes.history.isRequired,
@@ -28,10 +31,11 @@ class ResourceEditRoute extends Component {
 
   constructor(props) {
     super(props);
-    const { match, getResource, getProxyTypes } = props;
+    const { match, getResource, getProxyTypes, getAccessTypes } = props;
     const { id } = match.params;
     getResource(id);
     getProxyTypes();
+    getAccessTypes();
   }
 
   componentDidUpdate(prevProps) {
@@ -75,6 +79,7 @@ class ResourceEditRoute extends Component {
       customUrl,
       isVisible,
       proxyId,
+      accessTypeId,
       userDefinedField1,
       userDefinedField2,
       userDefinedField3,
@@ -127,6 +132,7 @@ class ResourceEditRoute extends Component {
         coverageStatement,
         customEmbargoPeriod: customEmbargoPeriod[0] || defaultEmbargoPeriod,
         proxy: { id: proxyId },
+        accessTypeId: accessTypeId === accessTypes.ACCESS_TYPE_NONE_ID ? null : accessTypeId,
         userDefinedField1,
         userDefinedField2,
         userDefinedField3,
@@ -158,6 +164,7 @@ class ResourceEditRoute extends Component {
     const {
       model,
       proxyTypes,
+      accessStatusTypes,
     } = this.props;
     return (
       <FormattedMessage id="ui-eholdings.label.editLink" values={{ name: model.name }}>
@@ -168,6 +175,7 @@ class ResourceEditRoute extends Component {
               onSubmit={this.resourceEditSubmitted}
               onCancel={this.handleCancel}
               proxyTypes={proxyTypes}
+              accessStatusTypes={accessStatusTypes}
             />
           </TitleManager>
         )}
@@ -177,13 +185,21 @@ class ResourceEditRoute extends Component {
 }
 
 export default connect(
-  ({ eholdings: { data } }, { match }) => ({
-    model: createResolver(data).find('resources', match.params.id),
-    proxyTypes: createResolver(data).query('proxyTypes')
-  }), {
+  (store, { match }) => {
+    const { eholdings: { data } } = store;
+
+    const resolver = createResolver(data);
+
+    return {
+      model: resolver.find('resources', match.params.id),
+      proxyTypes: resolver.query('proxyTypes'),
+      accessStatusTypes: resolver.query('accessTypes'),
+    };
+  }, {
     getResource: id => Resource.find(id, { include: ['package', 'title'] }),
     getProxyTypes: () => ProxyType.query(),
     updateResource: model => Resource.save(model),
     destroyResource: model => Resource.destroy(model),
+    getAccessTypes: () => AccessType.query(),
   }
 )(ResourceEditRoute);

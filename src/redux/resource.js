@@ -18,6 +18,7 @@ class Resource {
   visibilityData = {};
   coverageStatement = '';
   proxy = {};
+  accessTypeId = '';
   tags = {
     tagList: [],
   };
@@ -66,6 +67,7 @@ class Resource {
         visibilityData: this.visibilityData,
         coverageStatement: this.coverageStatement,
         proxy: this.proxy,
+        accessTypeId: this.accessTypeId,
         publisherName: this.publisherName,
         edition: this.edition,
         publicationType: this.publicationType,

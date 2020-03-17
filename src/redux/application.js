@@ -59,3 +59,14 @@ export const RootProxy = model({
     proxyTypeId = '';
   }
 );
+
+export const AccessType = model({
+  type: 'accessTypes',
+  path: '/eholdings/access-types',
+})(
+  class AccessType {
+    id = '';
+    type = '';
+    attributes = {};
+  }
+);
