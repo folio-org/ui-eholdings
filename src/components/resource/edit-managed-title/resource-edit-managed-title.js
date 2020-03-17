@@ -27,6 +27,7 @@ import {
   processErrors,
   isBookPublicationType,
   getUserDefinedFields,
+  getAccessTypeId,
 } from '../../utilities';
 
 import CoverageStatementFields, { coverageStatementDecorator } from '../_fields/coverage-statement';
@@ -118,6 +119,7 @@ class ResourceEditManagedTitle extends Component {
       hasCoverageStatement,
       customEmbargoPeriod: getEmbargoInitial(customEmbargoPeriod),
       proxyId: proxy.id,
+      accessTypeId: getAccessTypeId(this.props.model),
     };
   }
 

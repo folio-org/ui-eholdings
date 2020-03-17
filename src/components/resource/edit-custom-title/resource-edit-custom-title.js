@@ -39,6 +39,7 @@ import {
   processErrors,
   isBookPublicationType,
   getUserDefinedFields,
+  getAccessTypeId,
 } from '../../utilities';
 
 import { CustomLabelsAccordion } from '../../../features';
@@ -121,6 +122,7 @@ class ResourceEditCustomTitle extends Component {
       hasCoverageStatement,
       customUrl: url,
       proxyId: proxy.id,
+      accessTypeId: getAccessTypeId(this.props.model),
       isVisible: !visibilityData.isHidden,
       customEmbargoPeriod: getEmbargoInitial(customEmbargoPeriod)
     };
