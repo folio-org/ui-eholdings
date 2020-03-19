@@ -87,6 +87,8 @@ class ResourceEditRoute extends Component {
       userDefinedField5,
     } = values;
 
+    const newAccessTypeId = accessTypeId === accessTypes.ACCESS_TYPE_NONE_ID ? null : accessTypeId;
+
     if (values.isSelected === false && model.package.isCustom) {
       destroyResource(model);
     } else if (values.isSelected === false) {
@@ -101,6 +103,7 @@ class ResourceEditRoute extends Component {
         contributors: [],
         coverageStatement: '',
         proxy: {},
+        accessTypeId: newAccessTypeId,
         userDefinedField1: '',
         userDefinedField2: '',
         userDefinedField3: '',
@@ -132,7 +135,7 @@ class ResourceEditRoute extends Component {
         coverageStatement,
         customEmbargoPeriod: customEmbargoPeriod[0] || defaultEmbargoPeriod,
         proxy: { id: proxyId },
-        accessTypeId: accessTypeId === accessTypes.ACCESS_TYPE_NONE_ID ? null : accessTypeId,
+        accessTypeId: newAccessTypeId,
         userDefinedField1,
         userDefinedField2,
         userDefinedField3,
@@ -196,7 +199,7 @@ export default connect(
       accessStatusTypes: resolver.query('accessTypes'),
     };
   }, {
-    getResource: id => Resource.find(id, { include: ['package', 'title'] }),
+    getResource: id => Resource.find(id, { include: ['package', 'title', 'accessType'] }),
     getProxyTypes: () => ProxyType.query(),
     updateResource: model => Resource.save(model),
     destroyResource: model => Resource.destroy(model),

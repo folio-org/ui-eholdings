@@ -162,7 +162,7 @@ export default connect(
       accessTypes: resolver.query('accessTypes'),
     };
   }, {
-    getResource: id => Resource.find(id, { include: ['package', 'title'] }),
+    getResource: id => Resource.find(id, { include: ['package', 'title', 'accessType'] }),
     getProxyTypes: () => ProxyType.query(),
     updateResource: model => Resource.save(model),
     updateFolioTags: model => Tag.create(model),

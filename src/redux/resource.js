@@ -18,7 +18,7 @@ class Resource {
   visibilityData = {};
   coverageStatement = '';
   proxy = {};
-  accessTypeId = '';
+  accessTypeId = null;
   tags = {
     tagList: [],
   };
