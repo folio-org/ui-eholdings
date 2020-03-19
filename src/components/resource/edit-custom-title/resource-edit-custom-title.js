@@ -301,6 +301,17 @@ class ResourceEditCustomTitle extends Component {
 
     const userDefinedFields = getUserDefinedFields(model);
 
+    // eslint-disable-next-line no-confusing-arrow
+    const renderAccessTypeSelectField = () => accessStatusTypes?.request?.records?.length
+      ? (
+        <div data-test-eholdings-access-types-select>
+          <AccessTypeSelectField
+            accessStatusTypes={accessStatusTypes}
+          />
+        </div>
+      )
+      : null;
+
     return (
       <Form
         onSubmit={this.handleOnSubmit}
@@ -375,15 +386,7 @@ class ResourceEditCustomTitle extends Component {
                             ? (
                               <Icon icon="spinner-ellipsis" />
                             )
-                            : accessStatusTypes?.request?.records?.length > 0
-                              ? (
-                                <div data-test-eholdings-access-types-select>
-                                  <AccessTypeSelectField
-                                    accessStatusTypes={accessStatusTypes}
-                                  />
-                                </div>
-                              )
-                              : null}
+                            : renderAccessTypeSelectField()}
                         </>
                       ) : (
                         <p data-test-eholdings-resource-edit-settings-message>

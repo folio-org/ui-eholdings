@@ -223,6 +223,7 @@ class ResourceShow extends Component {
     const toasts = processErrors(model);
     const addToEholdingsButtonIsAvailable = (!resourceSelected && !isSelectInFlight)
       || (!model.isSelected && isSelectInFlight);
+    const haveAccessTypesLoaded = accessStatusTypes.request.isResolved && !model.isLoading;
 
     // if coming from updating any value on managed title in a managed package
     // show a success toast
@@ -474,15 +475,15 @@ class ResourceShow extends Component {
 
                 {
                   <div data-test-eholdings-access-type>
-                    {!accessStatusTypes.request.isResolved || model.isLoading
+                    {haveAccessTypesLoaded
                       ? (
-                        <Icon icon="spinner-ellipsis" />
-                      )
-                      : (
                         <AccessTypeDisplay
                           model={model}
                           accessStatusTypes={accessStatusTypes}
                         />
+                      )
+                      : (
+                        <Icon icon="spinner-ellipsis" />
                       )}
                   </div>
                 }
