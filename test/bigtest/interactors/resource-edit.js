@@ -146,6 +146,9 @@ import ResourceEditToggleSectionButton from './resource-edit-toggle-section-butt
   publisherHasError = hasClassBeginningWith('[data-test-eholdings-publisher-name-field] [class*=inputGroup--]', 'hasError--');
   proxySelectValue = value('[data-test-eholdings-resource-proxy-select] select');
   chooseProxy = selectable('[data-test-eholdings-resource-proxy-select] select');
+  accessTypeSelectValue = value('[data-test-eholdings-access-type-select-field] select');
+  chooseAccessType = selectable('[data-test-eholdings-access-type-select-field] select');
+  hasAccessTypeSelect = isPresent('[data-test-eholdings-access-type-select-field] select');
 
   actionsDropDown = ActionsDropDown;
   dropDownMenu = new ResourceDropDownMenu();
