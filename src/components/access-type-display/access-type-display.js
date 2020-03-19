@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { FormattedMessage } from 'react-intl';
 import { KeyValue, NoValue } from '@folio/stripes/components';
 
-import { getAccessTypeId } from './utilities';
+import { getAccessTypeId } from '../utilities';
 
 const propTypes = {
   accessStatusTypes: PropTypes.object.isRequired,
@@ -12,7 +12,7 @@ const propTypes = {
 
 function AccessTypeDisplay({ model, accessStatusTypes }) {
   const accessTypesRecords = accessStatusTypes.resolver.state.accessTypes.records;
-  const hasAccessTypes = Object.keys(accessTypesRecords).length > 0;
+  const hasAccessTypes = !!Object.keys(accessTypesRecords).length;
   const accessTypeId = getAccessTypeId(model);
 
   if (!hasAccessTypes) {

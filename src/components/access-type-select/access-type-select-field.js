@@ -11,7 +11,7 @@ const propTypes = {
   accessStatusTypes: PropTypes.object.isRequired,
 };
 
-function AccessTypeSelectField({ accessStatusTypes = [] }) {
+function AccessTypeSelectField({ accessStatusTypes }) {
   const accessTypesRecords = accessStatusTypes.resolver.state.accessTypes.records;
 
   const accessTypesWithNoneOption = [{ id: accessTypes.ACCESS_TYPE_NONE_ID }, ...Object.values(accessTypesRecords)];
