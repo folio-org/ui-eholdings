@@ -350,9 +350,11 @@
     "settings.accessStatusTypes.lastUpdated.data": "{date} por {name}",
     "settings.accessStatusTypes.records": "Núm. de registros",
     "settings.accessStatusTypes.validation": "Excedido {limit}. Por favor, revise.",
-    "settings.accessStatusTypes.delete": "Delete Access status type",
-    "settings.accessStatusTypes.delete.description": "Are you sure you want to delete the access status type {name}?",
-    "settings.accessStatusTypes.delete.cancel": "Cancel",
-    "settings.accessStatusTypes.delete.confirm": "Delete",
-    "settings.accessStatusTypes.delete.toast": "The access status type {name} has been deleted."
+    "settings.accessStatusTypes.delete": "Excluir tipo de status de acesso",
+    "settings.accessStatusTypes.delete.description": "Tem certeza de que deseja excluir o tipo de status de acesso {name}?",
+    "settings.accessStatusTypes.delete.cancel": "Cancelar",
+    "settings.accessStatusTypes.delete.confirm": "Excluir",
+    "settings.accessStatusTypes.delete.toast": "O tipo de status de acesso {name} foi excluído.",
+    "label.totalTitles": "Total de títulos: {count}",
+    "selectedCount": "Selecionado: {count}"
 }
