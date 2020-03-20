@@ -127,9 +127,7 @@ const SettingsAccessStatusTypes = ({
     return null;
   };
 
-  const getSortedItems = () => {
-    return sortBy(accessTypesData?.items || [], [(item) => item.attributes.name.toLowerCase()]);
-  };
+  const sortedItems = sortBy(accessTypesData?.items || [], [(item) => item.attributes.name.toLowerCase()]);
 
   if (accessTypesData.isDeleted && !!selectedStatusType) {
     // access status type delete successful
@@ -183,7 +181,7 @@ const SettingsAccessStatusTypes = ({
               lastUpdated: intl.formatMessage({ id: 'ui-eholdings.settings.accessStatusTypes.lastUpdated' }),
               records: intl.formatMessage({ id: 'ui-eholdings.settings.accessStatusTypes.records' }),
             }}
-            contentData={getSortedItems()}
+            contentData={sortedItems}
             createButtonLabel={intl.formatMessage({ id: 'ui-eholdings.new' })}
             fieldComponents={{
               name: item => renderField(item, nameValidation),
