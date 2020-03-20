@@ -238,7 +238,7 @@ class ResourceEditCustomTitle extends Component {
           accessStatusTypes={formattedAccessTypes}
         />
       </div>
-    )
+    );
   }
 
   getActionMenu = () => {

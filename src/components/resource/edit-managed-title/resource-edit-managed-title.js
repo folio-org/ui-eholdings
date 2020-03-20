@@ -215,7 +215,7 @@ class ResourceEditManagedTitle extends Component {
       return null;
     }
 
-    const formattedAccessTypes = getAccessTypeIdsAndNames(accessStatusTypes.items.data)
+    const formattedAccessTypes = getAccessTypeIdsAndNames(accessStatusTypes.items.data);
 
     return (
       <div data-test-eholdings-access-types-select>
@@ -223,7 +223,7 @@ class ResourceEditManagedTitle extends Component {
           accessStatusTypes={formattedAccessTypes}
         />
       </div>
-    )
+    );
   }
 
   getActionMenu = () => {
