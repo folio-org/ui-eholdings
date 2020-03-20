@@ -128,7 +128,7 @@ const SettingsAccessStatusTypes = ({
   };
 
   const getSortedItems = () => {
-    return sortBy(accessTypesData?.items || [], [(item) => item.attributes.name.toLowerCase()])
+    return sortBy(accessTypesData?.items || [], [(item) => item.attributes.name.toLowerCase()]);
   };
 
   if (accessTypesData.isDeleted && !!selectedStatusType) {
