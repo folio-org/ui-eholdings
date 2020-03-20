@@ -286,8 +286,7 @@ class ResourceEditManagedTitle extends Component {
 
     const userDefinedFields = getUserDefinedFields(model);
 
-    // eslint-disable-next-line no-confusing-arrow
-    const renderAccessTypeSelectField = () => accessStatusTypes?.request?.records?.length
+    const renderAccessTypeSelectField = () => (accessStatusTypes?.request?.records?.length
       ? (
         <div data-test-eholdings-access-types-select>
           <AccessTypeSelectField
@@ -295,7 +294,7 @@ class ResourceEditManagedTitle extends Component {
           />
         </div>
       )
-      : null;
+      : null);
 
     return (
       <Form
