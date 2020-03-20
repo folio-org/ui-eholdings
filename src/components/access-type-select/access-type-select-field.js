@@ -12,9 +12,7 @@ const propTypes = {
 };
 
 function AccessTypeSelectField({ accessStatusTypes }) {
-  const accessTypesRecords = accessStatusTypes.resolver.state.accessTypes.records;
-
-  const accessTypesWithNoneOption = [{ id: accessTypes.ACCESS_TYPE_NONE_ID }, ...Object.values(accessTypesRecords)];
+  const accessTypesWithNoneOption = [{ id: accessTypes.ACCESS_TYPE_NONE_ID }, ...accessStatusTypes];
 
   const checkIfNoneOption = accessTypeId => accessTypeId === accessTypes.ACCESS_TYPE_NONE_ID;
 
@@ -26,7 +24,7 @@ function AccessTypeSelectField({ accessStatusTypes }) {
       >
         {(message) => (
           <option value={accessType.id}>
-            {checkIfNoneOption(accessType.id) ? message : `${accessType.attributes.name}`}
+            {checkIfNoneOption(accessType.id) ? message : `${accessType.name}`}
           </option>
         )}
       </FormattedMessage>

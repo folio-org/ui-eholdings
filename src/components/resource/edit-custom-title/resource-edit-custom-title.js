@@ -40,6 +40,7 @@ import {
   isBookPublicationType,
   getUserDefinedFields,
   getAccessTypeId,
+  getAccessTypeIdsAndNames,
 } from '../../utilities';
 
 import { CustomLabelsAccordion } from '../../../features';
@@ -222,6 +223,24 @@ class ResourceEditCustomTitle extends Component {
     );
   };
 
+  renderAccessTypeSelectField = () => {
+    const { accessStatusTypes } = this.props;
+
+    if (!accessStatusTypes?.items?.data?.length) {
+      return null;
+    }
+
+    const formattedAccessTypes = getAccessTypeIdsAndNames(accessStatusTypes.items.data);
+
+    return (
+      <div data-test-eholdings-access-types-select>
+        <AccessTypeSelectField
+          accessStatusTypes={formattedAccessTypes}
+        />
+      </div>
+    )
+  }
+
   getActionMenu = () => {
     const { stripes } = this.props;
 
@@ -301,16 +320,6 @@ class ResourceEditCustomTitle extends Component {
 
     const userDefinedFields = getUserDefinedFields(model);
 
-    const renderAccessTypeSelectField = () => (accessStatusTypes?.request?.records?.length
-      ? (
-        <div data-test-eholdings-access-types-select>
-          <AccessTypeSelectField
-            accessStatusTypes={accessStatusTypes}
-          />
-        </div>
-      )
-      : null);
-
     return (
       <Form
         onSubmit={this.handleOnSubmit}
@@ -381,11 +390,11 @@ class ResourceEditCustomTitle extends Component {
                             )}
                           </div>
                           <CustomUrlFields />
-                          {accessStatusTypes?.request?.isPending
+                          {accessStatusTypes?.isLoading
                             ? (
                               <Icon icon="spinner-ellipsis" />
                             )
-                            : renderAccessTypeSelectField()}
+                            : this.renderAccessTypeSelectField()}
                         </>
                       ) : (
                         <p data-test-eholdings-resource-edit-settings-message>

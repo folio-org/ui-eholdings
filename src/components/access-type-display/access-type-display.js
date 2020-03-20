@@ -3,24 +3,14 @@ import PropTypes from 'prop-types';
 import { FormattedMessage } from 'react-intl';
 import { KeyValue, NoValue } from '@folio/stripes/components';
 
-import { getAccessTypeId } from '../utilities';
-
 const propTypes = {
   accessStatusTypes: PropTypes.object.isRequired,
-  model: PropTypes.object.isRequired,
+  accessTypeId: PropTypes.string.isRequired,
 };
 
-function AccessTypeDisplay({ model, accessStatusTypes }) {
-  const accessTypesRecords = accessStatusTypes.resolver.state.accessTypes.records;
-  const accessTypesAreEmpty = !Object.keys(accessTypesRecords).length;
-
-  if (accessTypesAreEmpty) {
-    return null;
-  }
-
-  const accessTypeId = getAccessTypeId(model);
-
-  const selectedAccessType = accessTypesRecords[accessTypeId]?.attributes?.name || '';
+function AccessTypeDisplay({ accessTypeId, accessStatusTypes }) {
+  const selectedAccessType = accessStatusTypes
+    .find(accessType => accessType.id === accessTypeId)?.name || '';
 
   return (
     <KeyValue label={<FormattedMessage id="ui-eholdings.settings.accessStatusTypes" />}>
