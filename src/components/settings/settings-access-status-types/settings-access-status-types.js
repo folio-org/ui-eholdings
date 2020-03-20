@@ -5,6 +5,9 @@ import {
   FormattedMessage,
   FormattedDate,
 } from 'react-intl';
+import {
+  sortBy
+} from 'lodash';
 
 import { IntlConsumer } from '@folio/stripes/core';
 import {
@@ -25,6 +28,7 @@ const SettingsAccessStatusTypes = ({
   onUpdate,
   confirmDelete,
 }) => {
+  debugger;
   const MAX_ACCESS_STATUS_TYPES_COUNT = 15;
 
   const [isConfirmDialogShown, setShowConfirmDialog] = useState(false);
@@ -124,6 +128,8 @@ const SettingsAccessStatusTypes = ({
     return null;
   };
 
+  const getSortedItems = () => sortBy(accessTypesData?.items || [], [(item) => item.attributes.name]);
+
   if (accessTypesData.isDeleted && !!selectedStatusType) {
     // access status type delete successful
     confirmDelete();
@@ -176,7 +182,7 @@ const SettingsAccessStatusTypes = ({
               lastUpdated: intl.formatMessage({ id: 'ui-eholdings.settings.accessStatusTypes.lastUpdated' }),
               records: intl.formatMessage({ id: 'ui-eholdings.settings.accessStatusTypes.records' }),
             }}
-            contentData={accessTypesData?.items || []}
+            contentData={getSortedItems()}
             createButtonLabel={intl.formatMessage({ id: 'ui-eholdings.new' })}
             fieldComponents={{
               name: item => renderField(item, nameValidation),
