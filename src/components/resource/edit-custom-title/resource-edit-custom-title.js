@@ -301,8 +301,7 @@ class ResourceEditCustomTitle extends Component {
 
     const userDefinedFields = getUserDefinedFields(model);
 
-    // eslint-disable-next-line no-confusing-arrow
-    const renderAccessTypeSelectField = () => accessStatusTypes?.request?.records?.length
+    const renderAccessTypeSelectField = () => (accessStatusTypes?.request?.records?.length
       ? (
         <div data-test-eholdings-access-types-select>
           <AccessTypeSelectField
@@ -310,7 +309,7 @@ class ResourceEditCustomTitle extends Component {
           />
         </div>
       )
-      : null;
+      : null);
 
     return (
       <Form

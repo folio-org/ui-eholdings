@@ -12,17 +12,18 @@ const propTypes = {
 
 function AccessTypeDisplay({ model, accessStatusTypes }) {
   const accessTypesRecords = accessStatusTypes.resolver.state.accessTypes.records;
-  const hasAccessTypes = !!Object.keys(accessTypesRecords).length;
-  const accessTypeId = getAccessTypeId(model);
+  const accessTypesArePresent = !!Object.keys(accessTypesRecords).length;
 
-  if (!hasAccessTypes) {
+  if (!accessTypesArePresent) {
     return null;
   }
+
+  const accessTypeId = getAccessTypeId(model);
 
   const selectedAccessType = accessTypesRecords[accessTypeId]?.attributes?.name || '';
 
   return (
-    <KeyValue label={<FormattedMessage id="ui-eholdings.accessType" />}>
+    <KeyValue label={<FormattedMessage id="ui-eholdings.settings.accessStatusTypes" />}>
       <div data-test-eholdings-details-access-type>
         {accessTypeId
           ? selectedAccessType

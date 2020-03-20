@@ -508,7 +508,7 @@ describe('ResourceShow', () => {
     });
 
     it('should not render Access status type section', () => {
-      expect(ResourcePage.accessTypeSectionPresent).to.be.false;
+      expect(ResourcePage.isAccessTypeSectionPresent).to.be.false;
     });
   });
 
