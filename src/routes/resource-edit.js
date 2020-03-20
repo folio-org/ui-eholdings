@@ -8,11 +8,13 @@ import { TitleManager } from '@folio/stripes/core';
 import { FormattedMessage } from 'react-intl';
 
 import { createResolver } from '../redux';
-import { ProxyType, AccessType } from '../redux/application';
+import { ProxyType } from '../redux/application';
 import Resource from '../redux/resource';
 
 import View from '../components/resource/resource-edit';
 import { accessTypes } from '../constants';
+import { getAccessTypes as getAccessTypesAction } from '../redux/actions';
+import { selectPropFromData } from '../redux/selectors';
 
 class ResourceEditRoute extends Component {
   static propTypes = {
@@ -196,13 +198,13 @@ export default connect(
     return {
       model: resolver.find('resources', match.params.id),
       proxyTypes: resolver.query('proxyTypes'),
-      accessStatusTypes: resolver.query('accessTypes'),
+      accessStatusTypes: selectPropFromData(store, 'accessStatusTypes'),
     };
   }, {
     getResource: id => Resource.find(id, { include: ['package', 'title', 'accessType'] }),
     getProxyTypes: () => ProxyType.query(),
     updateResource: model => Resource.save(model),
     destroyResource: model => Resource.destroy(model),
-    getAccessTypes: () => AccessType.query(),
+    getAccessTypes: getAccessTypesAction,
   }
 )(ResourceEditRoute);

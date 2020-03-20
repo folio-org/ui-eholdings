@@ -10,6 +10,8 @@ import Resource from '../redux/resource';
 import View from '../components/resource/resource-show';
 import { ProxyType, AccessType } from '../redux/application';
 import Tag from '../redux/tag';
+import { getAccessTypes as getAccessTypesAction } from '../redux/actions';
+import { selectPropFromData } from '../redux/selectors';
 
 class ResourceShowRoute extends Component {
   static propTypes = {
@@ -159,7 +161,7 @@ export default connect(
       tagsModel: resolver.query('tags'),
       proxyTypes: resolver.query('proxyTypes'),
       resolver,
-      accessTypes: resolver.query('accessTypes'),
+      accessTypes: selectPropFromData(store, 'accessStatusTypes'),
     };
   }, {
     getResource: id => Resource.find(id, { include: ['package', 'title', 'accessType'] }),
@@ -168,6 +170,6 @@ export default connect(
     updateFolioTags: model => Tag.create(model),
     getTags: () => Tag.query(),
     destroyResource: model => Resource.destroy(model),
-    getAccessTypes: () => AccessType.query(),
+    getAccessTypes: getAccessTypesAction,
   }
 )(ResourceShowRoute);

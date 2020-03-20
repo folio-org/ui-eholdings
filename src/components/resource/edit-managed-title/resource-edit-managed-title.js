@@ -28,6 +28,7 @@ import {
   isBookPublicationType,
   getUserDefinedFields,
   getAccessTypeId,
+  getAccessTypeIdsAndNames,
 } from '../../utilities';
 
 import CoverageStatementFields, { coverageStatementDecorator } from '../_fields/coverage-statement';
@@ -207,6 +208,24 @@ class ResourceEditManagedTitle extends Component {
     );
   };
 
+  renderAccessTypeSelectField = () => {
+    const { accessStatusTypes } = this.props;
+
+    if (!accessStatusTypes?.items?.data?.length) {
+      return null;
+    }
+
+    const formattedAccessTypes = getAccessTypeIdsAndNames(accessStatusTypes.items.data)
+
+    return (
+      <div data-test-eholdings-access-types-select>
+        <AccessTypeSelectField
+          accessStatusTypes={formattedAccessTypes}
+        />
+      </div>
+    )
+  }
+
   getActionMenu = () => {
     const { stripes } = this.props;
     const hasSelectPermission = stripes.hasPerm('ui-eholdings.package-title.select-unselect');
@@ -285,16 +304,6 @@ class ResourceEditManagedTitle extends Component {
       : model.visibilityData.reason && `(${model.visibilityData.reason})`;
 
     const userDefinedFields = getUserDefinedFields(model);
-
-    const renderAccessTypeSelectField = () => (accessStatusTypes?.request?.records?.length
-      ? (
-        <div data-test-eholdings-access-types-select>
-          <AccessTypeSelectField
-            accessStatusTypes={accessStatusTypes}
-          />
-        </div>
-      )
-      : null);
 
     return (
       <Form
@@ -381,11 +390,11 @@ class ResourceEditManagedTitle extends Component {
                                 <ProxySelectField proxyTypes={proxyTypes} inheritedProxyId={model.package.proxy.id} />
                               </div>
                             ))}
-                          {accessStatusTypes?.request?.isPending
+                          {accessStatusTypes?.isLoading
                             ? (
                               <Icon icon="spinner-ellipsis" />
                             )
-                            : renderAccessTypeSelectField()}
+                            : this.renderAccessTypeSelectField()}
                         </div>
                       </Accordion>
                     )}

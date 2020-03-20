@@ -4,7 +4,7 @@ import {
   get,
   pickBy,
 } from 'lodash';
-import { searchTypes } from '../constants';
+import { searchTypes, accessTypes } from '../constants';
 
 export function isBookPublicationType(publicationType) {
   const publicationTypeIsBook = {
@@ -107,12 +107,21 @@ export const getEntityTags = (entityModel) => {
 };
 
 /**
- * Geter helper for resource access type id
+ * Getter helper for resource access type id
  * @param {Object} resourceModel - entity model that has resource relationship info
  */
 export const getAccessTypeId = (resourceModel) => {
   return get(resourceModel, 'data.relationships.accessType.data.id');
 };
+
+/**
+ * Formatter helper to get array of objects with shape { id: 'id', name: 'name' }
+ * @param {Array} accessTypes - array of Access status types
+ */
+export const getAccessTypeIdsAndNames = accessTypes => accessTypes.map(accessType => ({
+  id: accessType.id,
+  name: accessType.attributes.name,
+}));
 
 /**
  *

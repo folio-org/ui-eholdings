@@ -39,6 +39,8 @@ import {
   isValidCoverageList,
   processErrors,
   getUserDefinedFields,
+  getAccessTypeId,
+  getAccessTypeIdsAndNames,
 } from '../utilities';
 import Toaster from '../toaster';
 import TagsAccordion from '../tags';
@@ -180,6 +182,23 @@ class ResourceShow extends Component {
     );
   }
 
+  renderAccessTypeDisplay() {
+    const { model, accessStatusTypes } = this.props;
+
+    if (!accessStatusTypes?.items?.data?.length) {
+      return null;
+    }
+
+    const formattedAccessTypes = getAccessTypeIdsAndNames(accessStatusTypes.items.data);
+
+    return (
+      <AccessTypeDisplay
+        accessTypeId={getAccessTypeId(model)}
+        accessStatusTypes={formattedAccessTypes}
+      />
+    );
+  }
+
   render() {
     const {
       model,
@@ -223,7 +242,7 @@ class ResourceShow extends Component {
     const toasts = processErrors(model);
     const addToEholdingsButtonIsAvailable = (!resourceSelected && !isSelectInFlight)
       || (!model.isSelected && isSelectInFlight);
-    const haveAccessTypesLoaded = accessStatusTypes.request.isResolved && !model.isLoading;
+    const haveAccessTypesLoaded = !accessStatusTypes?.isLoading && !model.isLoading;
 
     // if coming from updating any value on managed title in a managed package
     // show a success toast
@@ -476,12 +495,7 @@ class ResourceShow extends Component {
                 {
                   <div data-test-eholdings-access-type>
                     {haveAccessTypesLoaded
-                      ? (
-                        <AccessTypeDisplay
-                          model={model}
-                          accessStatusTypes={accessStatusTypes}
-                        />
-                      )
+                      ? this.renderAccessTypeDisplay()
                       : (
                         <Icon icon="spinner-ellipsis" />
                       )}
