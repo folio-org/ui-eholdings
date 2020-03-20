@@ -12,9 +12,9 @@ const propTypes = {
 
 function AccessTypeDisplay({ model, accessStatusTypes }) {
   const accessTypesRecords = accessStatusTypes.resolver.state.accessTypes.records;
-  const accessTypesArePresent = !!Object.keys(accessTypesRecords).length;
+  const accessTypesAreEmpty = !Object.keys(accessTypesRecords).length;
 
-  if (!accessTypesArePresent) {
+  if (accessTypesAreEmpty) {
     return null;
   }
 
