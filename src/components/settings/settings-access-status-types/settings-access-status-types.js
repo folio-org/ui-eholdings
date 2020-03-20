@@ -28,7 +28,6 @@ const SettingsAccessStatusTypes = ({
   onUpdate,
   confirmDelete,
 }) => {
-  debugger;
   const MAX_ACCESS_STATUS_TYPES_COUNT = 15;
 
   const [isConfirmDialogShown, setShowConfirmDialog] = useState(false);
