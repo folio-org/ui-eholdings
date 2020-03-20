@@ -8,7 +8,7 @@ import { Icon } from '@folio/stripes/components';
 import { createResolver } from '../redux';
 import Resource from '../redux/resource';
 import View from '../components/resource/resource-show';
-import { ProxyType, AccessType } from '../redux/application';
+import { ProxyType } from '../redux/application';
 import Tag from '../redux/tag';
 import { getAccessTypes as getAccessTypesAction } from '../redux/actions';
 import { selectPropFromData } from '../redux/selectors';

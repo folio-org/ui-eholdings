@@ -4,7 +4,7 @@ import {
   get,
   pickBy,
 } from 'lodash';
-import { searchTypes, accessTypes } from '../constants';
+import { searchTypes } from '../constants';
 
 export function isBookPublicationType(publicationType) {
   const publicationTypeIsBook = {
@@ -116,9 +116,9 @@ export const getAccessTypeId = (resourceModel) => {
 
 /**
  * Formatter helper to get array of objects with shape { id: 'id', name: 'name' }
- * @param {Array} accessStatusTypes - array of Access status types
+ * @param {Array} accessTypes - array of Access status types
  */
-export const getAccessTypeIdsAndNames = accessStatusTypes => accessStatusTypes.map(accessType => ({
+export const getAccessTypeIdsAndNames = accessTypes => accessTypes.map(accessType => ({
   id: accessType.id,
   name: accessType.attributes.name,
 }));
