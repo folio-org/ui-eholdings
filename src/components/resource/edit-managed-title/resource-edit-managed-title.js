@@ -58,7 +58,8 @@ class ResourceEditManagedTitle extends Component {
       items: PropTypes.shape({
         data: PropTypes.array.isRequired,
       }).isRequired,
-    }).isRequired,    model: PropTypes.object.isRequired,
+    }).isRequired,
+    model: PropTypes.object.isRequired,
     onCancel: PropTypes.func.isRequired,
     onSubmit: PropTypes.func.isRequired,
     proxyTypes: PropTypes.object.isRequired,
