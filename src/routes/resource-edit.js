@@ -12,10 +12,20 @@ import { ProxyType } from '../redux/application';
 import Resource from '../redux/resource';
 
 import View from '../components/resource/resource-edit';
+import { accessTypes } from '../constants';
+import { getAccessTypes as getAccessTypesAction } from '../redux/actions';
+import { selectPropFromData } from '../redux/selectors';
 
 class ResourceEditRoute extends Component {
   static propTypes = {
+    accessStatusTypes: PropTypes.shape({
+      isLoading: PropTypes.bool.isRequired,
+      items: PropTypes.shape({
+        data: PropTypes.array.isRequired,
+      }).isRequired,
+    }).isRequired,
     destroyResource: PropTypes.func.isRequired,
+    getAccessTypes: PropTypes.func.isRequired,
     getProxyTypes: PropTypes.func.isRequired,
     getResource: PropTypes.func.isRequired,
     history: ReactRouterPropTypes.history.isRequired,
@@ -28,10 +38,11 @@ class ResourceEditRoute extends Component {
 
   constructor(props) {
     super(props);
-    const { match, getResource, getProxyTypes } = props;
+    const { match, getResource, getProxyTypes, getAccessTypes } = props;
     const { id } = match.params;
     getResource(id);
     getProxyTypes();
+    getAccessTypes();
   }
 
   componentDidUpdate(prevProps) {
@@ -75,12 +86,15 @@ class ResourceEditRoute extends Component {
       customUrl,
       isVisible,
       proxyId,
+      accessTypeId,
       userDefinedField1,
       userDefinedField2,
       userDefinedField3,
       userDefinedField4,
       userDefinedField5,
     } = values;
+
+    const newAccessTypeId = accessTypeId === accessTypes.ACCESS_TYPE_NONE_ID ? null : accessTypeId;
 
     if (values.isSelected === false && model.package.isCustom) {
       destroyResource(model);
@@ -96,6 +110,7 @@ class ResourceEditRoute extends Component {
         contributors: [],
         coverageStatement: '',
         proxy: {},
+        accessTypeId: newAccessTypeId,
         userDefinedField1: '',
         userDefinedField2: '',
         userDefinedField3: '',
@@ -127,6 +142,7 @@ class ResourceEditRoute extends Component {
         coverageStatement,
         customEmbargoPeriod: customEmbargoPeriod[0] || defaultEmbargoPeriod,
         proxy: { id: proxyId },
+        accessTypeId: newAccessTypeId,
         userDefinedField1,
         userDefinedField2,
         userDefinedField3,
@@ -158,6 +174,7 @@ class ResourceEditRoute extends Component {
     const {
       model,
       proxyTypes,
+      accessStatusTypes,
     } = this.props;
     return (
       <FormattedMessage id="ui-eholdings.label.editLink" values={{ name: model.name }}>
@@ -168,6 +185,7 @@ class ResourceEditRoute extends Component {
               onSubmit={this.resourceEditSubmitted}
               onCancel={this.handleCancel}
               proxyTypes={proxyTypes}
+              accessStatusTypes={accessStatusTypes}
             />
           </TitleManager>
         )}
@@ -177,13 +195,21 @@ class ResourceEditRoute extends Component {
 }
 
 export default connect(
-  ({ eholdings: { data } }, { match }) => ({
-    model: createResolver(data).find('resources', match.params.id),
-    proxyTypes: createResolver(data).query('proxyTypes')
-  }), {
-    getResource: id => Resource.find(id, { include: ['package', 'title'] }),
+  (store, { match }) => {
+    const { eholdings: { data } } = store;
+
+    const resolver = createResolver(data);
+
+    return {
+      model: resolver.find('resources', match.params.id),
+      proxyTypes: resolver.query('proxyTypes'),
+      accessStatusTypes: selectPropFromData(store, 'accessStatusTypes'),
+    };
+  }, {
+    getResource: id => Resource.find(id, { include: ['package', 'title', 'accessType'] }),
     getProxyTypes: () => ProxyType.query(),
     updateResource: model => Resource.save(model),
     destroyResource: model => Resource.destroy(model),
+    getAccessTypes: getAccessTypesAction,
   }
 )(ResourceEditRoute);

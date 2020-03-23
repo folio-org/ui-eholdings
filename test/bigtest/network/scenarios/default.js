@@ -36,10 +36,7 @@ export default function defaultScenario(server) {
     edition: ''
   });
 
-  server.create('resource', {
-    package: customPackage,
-    title: customTitle
-  });
+  server.createList('access-type', 14);
 
   createProvider('Economist Intelligence Unit', [
     {

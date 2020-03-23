@@ -11,6 +11,7 @@ describe('ResourceShow', () => {
   let provider;
   let providerPackage;
   let resource;
+  let accessType;
 
   beforeEach(function () {
     provider = this.server.create('provider', {
@@ -59,6 +60,13 @@ describe('ResourceShow', () => {
     ].map(m => m.toJSON());
 
     title.save();
+
+    accessType = this.server.create('access-type', {
+      id: '1',
+      name: 'Trial'
+    });
+
+    accessType.save();
 
     resource = this.server.create('resource', {
       package: providerPackage,
@@ -470,6 +478,87 @@ describe('ResourceShow', () => {
 
     it('last custom label without value', () => {
       expect(ResourcePage.customLabels(3).value).to.be.equal('-');
+    });
+  });
+
+  describe('visiting the resource page without access types', () => {
+    beforeEach(function () {
+      this.server.get('/access-types', () => []);
+
+      providerPackage = this.server.create('package', 'withTitles', {
+        provider,
+        name: 'Cool Package',
+        contentType: '',
+        titleCount: 5,
+      });
+
+      const title = this.server.create('title', {
+        name: 'Best Title Ever',
+        edition: 'Best Edition Ever',
+        publicationType: '',
+      });
+
+      resource = this.server.create('resource', 'withTitleCustom', {
+        package: providerPackage,
+        title,
+        accessType,
+      });
+
+      this.visit(`/eholdings/resources/${resource.id}`);
+    });
+
+    it('should not render Access status type section', () => {
+      expect(ResourcePage.isAccessTypeSectionPresent).to.be.false;
+    });
+  });
+
+  describe('visiting the resource page with access types', () => {
+    let title;
+
+    beforeEach(function () {
+      providerPackage = this.server.create('package', 'withTitles', {
+        provider,
+        name: 'Cool Package',
+        contentType: '',
+        titleCount: 5,
+      });
+
+      title = this.server.create('title', {
+        name: 'Best Title Ever',
+        edition: 'Best Edition Ever',
+        publicationType: '',
+      });
+    });
+
+    describe('when resource has access status type unassigned', () => {
+      beforeEach(function () {
+        resource = this.server.create('resource', 'withTitleCustom', {
+          package: providerPackage,
+          title,
+        });
+
+        this.visit(`/eholdings/resources/${resource.id}`);
+      });
+
+      it('should display the access type dash', () => {
+        expect(ResourcePage.accessType).to.equal('-');
+      });
+    });
+
+    describe('when resource has access status type assigned', () => {
+      beforeEach(function () {
+        resource = this.server.create('resource', 'withTitleCustom', {
+          package: providerPackage,
+          title,
+          accessType,
+        });
+
+        this.visit(`/eholdings/resources/${resource.id}`);
+      });
+
+      it('displays the access type name', () => {
+        expect(ResourcePage.accessType).to.equal('Trial');
+      });
     });
   });
 

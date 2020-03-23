@@ -88,7 +88,7 @@ SettingsAccessStatusTypesRoute.defaultProps = {
 
 export default connect(
   (store) => ({
-    accessTypes: selectPropFromData(store, 'accessTypes'),
+    accessTypes: selectPropFromData(store, 'accessStatusTypes'),
   }), {
     getAccessTypes: getAccessTypesAction,
     attachAccessType: attachAccessTypeAction,

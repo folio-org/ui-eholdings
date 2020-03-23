@@ -32,12 +32,15 @@ import { CustomLabelsEditSection } from '../../custom-labels-section';
 import DetailsView from '../../details-view';
 import NavigationModal from '../../navigation-modal';
 import ProxySelectField from '../../proxy-select';
+import AccessTypeSelectField from '../../access-type-select';
 import Toaster from '../../toaster';
 
 import {
   processErrors,
   isBookPublicationType,
   getUserDefinedFields,
+  getAccessTypeId,
+  getAccessTypeIdsAndNames,
 } from '../../utilities';
 
 import { CustomLabelsAccordion } from '../../../features';
@@ -52,6 +55,12 @@ const focusOnErrors = createFocusDecorator();
 
 class ResourceEditCustomTitle extends Component {
   static propTypes = {
+    accessStatusTypes: PropTypes.shape({
+      isLoading: PropTypes.bool.isRequired,
+      items: PropTypes.shape({
+        data: PropTypes.array.isRequired,
+      }).isRequired,
+    }).isRequired,
     model: PropTypes.object.isRequired,
     onCancel: PropTypes.func.isRequired,
     onSubmit: PropTypes.func.isRequired,
@@ -119,6 +128,7 @@ class ResourceEditCustomTitle extends Component {
       hasCoverageStatement,
       customUrl: url,
       proxyId: proxy.id,
+      accessTypeId: getAccessTypeId(this.props.model),
       isVisible: !visibilityData.isHidden,
       customEmbargoPeriod: getEmbargoInitial(customEmbargoPeriod)
     };
@@ -218,6 +228,24 @@ class ResourceEditCustomTitle extends Component {
     );
   };
 
+  renderAccessTypeSelectField = () => {
+    const { accessStatusTypes } = this.props;
+
+    if (!accessStatusTypes?.items?.data?.length) {
+      return null;
+    }
+
+    const formattedAccessTypes = getAccessTypeIdsAndNames(accessStatusTypes.items.data);
+
+    return (
+      <div data-test-eholdings-access-types-select>
+        <AccessTypeSelectField
+          accessStatusTypes={formattedAccessTypes}
+        />
+      </div>
+    );
+  }
+
   getActionMenu = () => {
     const { stripes } = this.props;
 
@@ -280,6 +308,7 @@ class ResourceEditCustomTitle extends Component {
       model,
       proxyTypes,
       onCancel,
+      accessStatusTypes,
     } = this.props;
 
     const {
@@ -366,6 +395,11 @@ class ResourceEditCustomTitle extends Component {
                             )}
                           </div>
                           <CustomUrlFields />
+                          {accessStatusTypes?.isLoading
+                            ? (
+                              <Icon icon="spinner-ellipsis" />
+                            )
+                            : this.renderAccessTypeSelectField()}
                         </>
                       ) : (
                         <p data-test-eholdings-resource-edit-settings-message>

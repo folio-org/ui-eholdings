@@ -38,6 +38,8 @@ import ResourceShowDeselectionModal from './resource-show-deselection-modal';
   packageName = text('[data-test-eholdings-resource-show-package-name]');
   isUrlPresent = isPresent('[data-test-eholdings-resource-show-url]');
   url = text('[data-test-eholdings-resource-show-url]');
+  accessType = text('[data-test-eholdings-details-access-type]');
+  isAccessTypeSectionPresent = isPresent('[data-test-eholdings-details-access-type]');
   isExternalLinkIconPresent = isPresent('[data-test-eholdings-resource-show-external-link-icon]');
   contentType = text('[data-test-eholdings-resource-show-content-type]');
   hasContentType = isPresent('[data-test-eholdings-resource-show-content-type]');

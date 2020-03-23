@@ -10,7 +10,9 @@ import wait from '../helpers/wait';
 import SettingsAccessStatusTypesPage from '../interactors/settings-access-status-types';
 
 describe('With list of root proxies available to a customer', () => {
-  setupApplication();
+  setupApplication({
+    scenarios: ['default'],
+  });
 
   describe('when visiting the settings access status types page', () => {
     beforeEach(async function () {

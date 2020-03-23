@@ -39,15 +39,24 @@ import {
   isValidCoverageList,
   processErrors,
   getUserDefinedFields,
+  getAccessTypeId,
+  getAccessTypeIdsAndNames,
 } from '../utilities';
 import Toaster from '../toaster';
 import TagsAccordion from '../tags';
 import KeyValueColumns from '../key-value-columns';
 import ProxyDisplay from '../proxy-display';
+import AccessTypeDisplay from '../access-type-display';
 import { CustomLabelsShowSection } from '../custom-labels-section';
 
 class ResourceShow extends Component {
   static propTypes = {
+    accessStatusTypes: PropTypes.shape({
+      isLoading: PropTypes.bool.isRequired,
+      items: PropTypes.shape({
+        data: PropTypes.array.isRequired,
+      }).isRequired,
+    }).isRequired,
     isFreshlySaved: PropTypes.bool,
     model: PropTypes.object.isRequired,
     onEdit: PropTypes.func.isRequired,
@@ -178,6 +187,23 @@ class ResourceShow extends Component {
     );
   }
 
+  renderAccessTypeDisplay() {
+    const { model, accessStatusTypes } = this.props;
+
+    if (!accessStatusTypes?.items?.data?.length) {
+      return null;
+    }
+
+    const formattedAccessTypes = getAccessTypeIdsAndNames(accessStatusTypes.items.data);
+
+    return (
+      <AccessTypeDisplay
+        accessTypeId={getAccessTypeId(model)}
+        accessStatusTypes={formattedAccessTypes}
+      />
+    );
+  }
+
   render() {
     const {
       model,
@@ -186,6 +212,7 @@ class ResourceShow extends Component {
       tagsModel,
       updateFolioTags,
       stripes,
+      accessStatusTypes,
     } = this.props;
 
     const {
@@ -220,6 +247,7 @@ class ResourceShow extends Component {
     const toasts = processErrors(model);
     const addToEholdingsButtonIsAvailable = (!resourceSelected && !isSelectInFlight)
       || (!model.isSelected && isSelectInFlight);
+    const haveAccessTypesLoaded = !accessStatusTypes?.isLoading && !model.isLoading;
 
     // if coming from updating any value on managed title in a managed package
     // show a success toast
@@ -468,6 +496,16 @@ class ResourceShow extends Component {
                     </div>
                   </KeyValue>
                 )}
+
+                {
+                  <div data-test-eholdings-access-type>
+                    {haveAccessTypesLoaded
+                      ? this.renderAccessTypeDisplay()
+                      : (
+                        <Icon icon="spinner-ellipsis" />
+                      )}
+                  </div>
+                }
               </Accordion>
 
               <Accordion

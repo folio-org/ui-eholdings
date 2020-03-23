@@ -18,7 +18,8 @@ import {
   Status as StatusModel,
   Configuration as ConfigurationModel,
   ProxyType as ProxyTypeModel,
-  RootProxy as RootProxyModel
+  RootProxy as RootProxyModel,
+  AccessType as AccessTypeModel,
 } from './application';
 
 import {
@@ -55,6 +56,7 @@ export const createResolver = (state) => {
     ProxyTypeModel,
     RootProxyModel,
     TagModel,
+    AccessTypeModel,
   ]);
 };
 
@@ -66,7 +68,7 @@ export const reducer = combineReducers({
       ...dataReducer(currentState, action),
       agreements: agreements(currentState.agreements, action),
       customLabels: customLabels(currentState.customLabels, action),
-      accessTypes: accessTypes(currentState.accessTypes, action),
+      accessStatusTypes: accessTypes(currentState.accessStatusTypes, action),
     };
   }
 });

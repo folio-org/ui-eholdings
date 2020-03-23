@@ -9,3 +9,4 @@ export { default as APP_ICON_NAME } from './appIconName';
 export { default as entityTypeTranslationKeys } from './entityTypeTranslationKeys';
 export { default as entityTypePluralizedTranslationKeys } from './entityTypePluralizedTranslationKeys';
 export { default as paths } from './paths';
+export { default as accessTypes } from './accessTypes';

@@ -102,8 +102,7 @@ function TitleListItem({
             <span data-test-eholdings-title-list-item-title-selected>
               {item.isSelected
                 ? <FormattedMessage id="ui-eholdings.selected" />
-                : <FormattedMessage id="ui-eholdings.notSelected" />
-              }
+                : <FormattedMessage id="ui-eholdings.notSelected" />}
             </span>
 
             {item.visibilityData.isHidden && (

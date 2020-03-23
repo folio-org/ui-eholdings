@@ -10,10 +10,14 @@ import Resource from '../redux/resource';
 import View from '../components/resource/resource-show';
 import { ProxyType } from '../redux/application';
 import Tag from '../redux/tag';
+import { getAccessTypes as getAccessTypesAction } from '../redux/actions';
+import { selectPropFromData } from '../redux/selectors';
 
 class ResourceShowRoute extends Component {
   static propTypes = {
+    accessTypes: PropTypes.object.isRequired,
     destroyResource: PropTypes.func.isRequired,
+    getAccessTypes: PropTypes.func.isRequired,
     getProxyTypes: PropTypes.func.isRequired,
     getResource: PropTypes.func.isRequired,
     getTags: PropTypes.func.isRequired,
@@ -32,12 +36,14 @@ class ResourceShowRoute extends Component {
     const {
       match,
       getResource,
+      getAccessTypes,
       getProxyTypes,
       getTags,
     } = props;
     const { id } = match.params;
     getResource(id);
     getProxyTypes();
+    getAccessTypes();
     getTags();
   }
 
@@ -112,6 +118,7 @@ class ResourceShowRoute extends Component {
     const {
       model,
       proxyTypes,
+      accessTypes,
       history,
       tagsModel,
       updateFolioTags,
@@ -128,6 +135,7 @@ class ResourceShowRoute extends Component {
           tagsModel={tagsModel}
           updateFolioTags={updateFolioTags}
           proxyTypes={proxyTypes}
+          accessStatusTypes={accessTypes}
           toggleSelected={this.toggleSelected}
           onEdit={this.handleEdit}
           isFreshlySaved={
@@ -153,13 +161,15 @@ export default connect(
       tagsModel: resolver.query('tags'),
       proxyTypes: resolver.query('proxyTypes'),
       resolver,
+      accessTypes: selectPropFromData(store, 'accessStatusTypes'),
     };
   }, {
-    getResource: id => Resource.find(id, { include: ['package', 'title'] }),
+    getResource: id => Resource.find(id, { include: ['package', 'title', 'accessType'] }),
     getProxyTypes: () => ProxyType.query(),
     updateResource: model => Resource.save(model),
     updateFolioTags: model => Tag.create(model),
     getTags: () => Tag.query(),
     destroyResource: model => Resource.destroy(model),
+    getAccessTypes: getAccessTypesAction,
   }
 )(ResourceShowRoute);
