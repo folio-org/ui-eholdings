@@ -4,7 +4,10 @@ import { FormattedMessage } from 'react-intl';
 import { KeyValue, NoValue } from '@folio/stripes/components';
 
 const propTypes = {
-  accessStatusTypes: PropTypes.object.isRequired,
+  accessStatusTypes: PropTypes.arrayOf(PropTypes.shape({
+    id: PropTypes.string.isRequired,
+    name: PropTypes.string.isRequired,
+  })).isRequired,
   accessTypeId: PropTypes.string.isRequired,
 };
 

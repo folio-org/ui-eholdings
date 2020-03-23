@@ -51,7 +51,12 @@ import { CustomLabelsShowSection } from '../custom-labels-section';
 
 class ResourceShow extends Component {
   static propTypes = {
-    accessStatusTypes: PropTypes.object.isRequired,
+    accessStatusTypes: PropTypes.shape({
+      isLoading: PropTypes.bool.isRequired,
+      items: PropTypes.shape({
+        data: PropTypes.array.isRequired,
+      }).isRequired,
+    }).isRequired,
     isFreshlySaved: PropTypes.bool,
     model: PropTypes.object.isRequired,
     onEdit: PropTypes.func.isRequired,

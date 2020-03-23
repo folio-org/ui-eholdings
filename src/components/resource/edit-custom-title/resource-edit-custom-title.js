@@ -55,8 +55,12 @@ const focusOnErrors = createFocusDecorator();
 
 class ResourceEditCustomTitle extends Component {
   static propTypes = {
-    accessStatusTypes: PropTypes.object.isRequired,
-    model: PropTypes.object.isRequired,
+    accessStatusTypes: PropTypes.shape({
+      isLoading: PropTypes.bool.isRequired,
+      items: PropTypes.shape({
+        data: PropTypes.array.isRequired,
+      }).isRequired,
+    }).isRequired,    model: PropTypes.object.isRequired,
     onCancel: PropTypes.func.isRequired,
     onSubmit: PropTypes.func.isRequired,
     proxyTypes: PropTypes.object.isRequired,

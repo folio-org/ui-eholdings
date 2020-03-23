@@ -8,7 +8,10 @@ import { Select } from '@folio/stripes/components';
 import { accessTypes } from '../../constants';
 
 const propTypes = {
-  accessStatusTypes: PropTypes.object.isRequired,
+  accessStatusTypes: PropTypes.arrayOf(PropTypes.shape({
+    id: PropTypes.string.isRequired,
+    name: PropTypes.string.isRequired,
+  })).isRequired,
 };
 
 function AccessTypeSelectField({ accessStatusTypes }) {
