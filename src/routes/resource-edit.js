@@ -23,7 +23,8 @@ class ResourceEditRoute extends Component {
       items: PropTypes.shape({
         data: PropTypes.array.isRequired,
       }).isRequired,
-    }).isRequired,    destroyResource: PropTypes.func.isRequired,
+    }).isRequired,
+    destroyResource: PropTypes.func.isRequired,
     getAccessTypes: PropTypes.func.isRequired,
     getProxyTypes: PropTypes.func.isRequired,
     getResource: PropTypes.func.isRequired,
