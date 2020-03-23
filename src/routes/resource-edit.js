@@ -18,8 +18,12 @@ import { selectPropFromData } from '../redux/selectors';
 
 class ResourceEditRoute extends Component {
   static propTypes = {
-    accessStatusTypes: PropTypes.object.isRequired,
-    destroyResource: PropTypes.func.isRequired,
+    accessStatusTypes: PropTypes.shape({
+      isLoading: PropTypes.bool.isRequired,
+      items: PropTypes.shape({
+        data: PropTypes.array.isRequired,
+      }).isRequired,
+    }).isRequired,    destroyResource: PropTypes.func.isRequired,
     getAccessTypes: PropTypes.func.isRequired,
     getProxyTypes: PropTypes.func.isRequired,
     getResource: PropTypes.func.isRequired,
