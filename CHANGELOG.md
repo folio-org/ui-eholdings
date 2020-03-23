@@ -1,5 +1,9 @@
 # Change history for ui-eholdings
 
+## [3.1.0] (IN PROGRESS)
+
+* Provider Results UI updates (UIEH-846)
+
 ## [3.0.0] (https://github.com/folio-org/ui-eholdings/tree/v3.0.0) (2020-03-13)
 
 * Add display custom labels on view resource page (UIEH-805)

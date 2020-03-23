@@ -215,6 +215,7 @@
     "label.publisher": "Publisher",
     "label.package": "Package",
     "label.packages": "Packages",
+    "label.totalPackages": "Total packages: {count}",
     "label.provider": "Provider",
     "label.publicationType": "Publication Type",
     "label.subjects": "Subjects",
