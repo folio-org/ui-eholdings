@@ -1,5 +1,10 @@
 # Change history for ui-eholdings
 
+## [3.1.0] (IN PROGRESS)
+
+* Fix Unsaved Changes Modal not appearing after changing selected status. (UIEH-854)
+* Fix need to click 'X' twice to return after changing selected status and visiting Edit page. (UIEH-854)
+
 ## [3.0.0] (https://github.com/folio-org/ui-eholdings/tree/v3.0.0) (2020-03-13)
 
 * Add display custom labels on view resource page (UIEH-805)
