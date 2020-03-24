@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import ReactRouterPropTypes from 'react-router-prop-types';
 import { connect } from 'react-redux';
 import queryString from 'qs';
+import isEqual from 'lodash/isEqual';
 
 import { TitleManager } from '@folio/stripes/core';
 
@@ -34,6 +35,7 @@ class PackageShowRoute extends Component {
     model: PropTypes.object.isRequired,
     provider: PropTypes.object.isRequired,
     proxyTypes: PropTypes.object.isRequired,
+    removeUpdateRequests: PropTypes.func.isRequired,
     resolver: PropTypes.object.isRequired,
     tagsModel: PropTypes.object.isRequired,
     unloadResources: PropTypes.func.isRequired,
@@ -64,6 +66,7 @@ class PackageShowRoute extends Component {
       history,
       location,
       getPackageTitles,
+      removeUpdateRequests,
     } = this.props;
 
     const { pkgSearchParams } = this.state;
@@ -74,8 +77,21 @@ class PackageShowRoute extends Component {
     } = prevProps;
 
     const tagsChanged = old.tags.tagList.length !== next.tags.tagList.length;
+    const wasPending = old.update.isPending && !next.update.isPending;
+    const needsUpdate = !isEqual(old, next);
+    const isRejected = next.update.isRejected;
+
+    const wasUnSelected = old.isSelected && !next.isSelected;
+    const isCurrentlySelected = !old.isSelected && next.isSelected;
+    const isFreshlySaved = wasPending && needsUpdate && !isRejected && (wasUnSelected || isCurrentlySelected);
 
     const { packageId } = match.params;
+
+    // if package was just added/removed from holdings
+    // need to clear 'update' requests for Unsaved Changes Modal to work coorectly on Edit
+    if (isFreshlySaved) {
+      removeUpdateRequests();
+    }
 
     if (!old.destroy.isResolved && next.destroy.isResolved) {
       // if package was reached based on search
@@ -272,5 +288,6 @@ export default connect(
     updatePackage: model => Package.save(model),
     updateFolioTags: (model) => Tag.create(model),
     destroyPackage: model => Package.destroy(model),
+    removeUpdateRequests: () => Package.removeRequests('update'),
   }
 )(PackageShowRoute);
