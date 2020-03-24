@@ -295,6 +295,16 @@ describe('ResourceShow', () => {
       expect(ResourcePage.hasBackButton).to.be.true;
     });
 
+    describe('toggling is selected successfully', () => {
+      beforeEach(() => {
+        return ResourcePage.clickAddToHoldingsButton();
+      });
+
+      it('should not redirect to Resource Show page', function () {
+        expect(this.location.state?.isFreshlySaved).to.not.be.true;
+      });
+    });
+
     describe('toggling is selected with errors', () => {
       beforeEach(function () {
         this.server.put('/resources/:id', {
