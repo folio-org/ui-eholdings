@@ -7,18 +7,33 @@ import { TitleManager } from '@folio/stripes/core';
 import { FormattedMessage } from 'react-intl';
 
 import { createResolver } from '../redux';
+import { selectPropFromData } from '../redux/selectors';
+import { getAccessTypes as getAccessTypesAction } from '../redux/actions';
 import Package from '../redux/package';
 
 import View from '../components/package/create';
 
 class PackageCreateRoute extends Component {
   static propTypes = {
+    accessStatusTypes: PropTypes.shape({
+      isLoading: PropTypes.bool.isRequired,
+      items: PropTypes.shape({
+        data: PropTypes.array.isRequired,
+      }).isRequired,
+    }).isRequired,
     createPackage: PropTypes.func.isRequired,
     createRequest: PropTypes.object.isRequired,
+    getAccessTypes: PropTypes.func.isRequired,
     history: ReactRouterPropTypes.history.isRequired,
     location: ReactRouterPropTypes.location.isRequired,
     removeCreateRequests: PropTypes.func.isRequired,
   };
+
+  constructor(props) {
+    super(props);
+
+    props.getAccessTypes();
+  }
 
   componentDidUpdate(prevProps) {
     if (!prevProps.createRequest.isResolved && this.props.createRequest.isResolved) {
@@ -49,6 +64,8 @@ class PackageCreateRoute extends Component {
       attrs.contentType = values.contentType;
     }
 
+    attrs.accessTypeId = values.accessTypeId;
+
     this.props.createPackage(attrs);
   };
 
@@ -57,7 +74,9 @@ class PackageCreateRoute extends Component {
       history,
       location,
       removeCreateRequests,
+      accessStatusTypes,
     } = this.props;
+
     let onCancel;
     if (location.state && location.state.eholdings) {
       onCancel = () => history.goBack();
@@ -72,6 +91,7 @@ class PackageCreateRoute extends Component {
               onSubmit={this.packageCreateSubmitted}
               onCancel={onCancel}
               removeCreateRequests={removeCreateRequests}
+              accessStatusTypes={accessStatusTypes}
             />
           </TitleManager>
         )}
@@ -81,10 +101,12 @@ class PackageCreateRoute extends Component {
 }
 
 export default connect(
-  ({ eholdings: { data } }) => ({
-    createRequest: createResolver(data).getRequest('create', { type: 'packages', pageSize: 100 })
+  (store) => ({
+    createRequest: createResolver(store.eholdings.data).getRequest('create', { type: 'packages', pageSize: 100 }),
+    accessStatusTypes: selectPropFromData(store, 'accessStatusTypes'),
   }), {
     createPackage: attrs => Package.create(attrs),
     removeCreateRequests: () => Package.removeRequests('create'),
+    getAccessTypes: getAccessTypesAction,
   }
 )(PackageCreateRoute);

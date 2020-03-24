@@ -8,8 +8,14 @@ import CustomPackageEdit from './edit-custom';
 
 export default class PackageEdit extends React.Component {
   static propTypes = {
+    accessStatusTypes: PropTypes.shape({
+      isLoading: PropTypes.bool.isRequired,
+      items: PropTypes.shape({
+        data: PropTypes.array.isRequired,
+      }).isRequired,
+    }).isRequired,
     model: PropTypes.object.isRequired,
-    provider: PropTypes.object.isRequired
+    provider: PropTypes.object.isRequired,
   };
 
   renderRequestErrorMessage() {
@@ -39,6 +45,7 @@ export default class PackageEdit extends React.Component {
     const {
       model,
       provider,
+      accessStatusTypes,
       ...props
     } = this.props;
 
@@ -50,6 +57,7 @@ export default class PackageEdit extends React.Component {
       <View
         model={model}
         provider={provider}
+        accessStatusTypes={accessStatusTypes}
         {...props}
       />
     );

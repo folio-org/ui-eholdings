@@ -2,5 +2,6 @@ import { Model, belongsTo, hasMany } from '@bigtest/mirage';
 
 export default Model.extend({
   resources: hasMany(),
-  provider: belongsTo()
+  provider: belongsTo(),
+  accessType: belongsTo(),
 });

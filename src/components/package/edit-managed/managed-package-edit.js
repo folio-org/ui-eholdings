@@ -25,6 +25,7 @@ import {
   getAccessTypeId,
   getProxyTypesRecords,
   getProxyTypeById,
+  getAccessTypeIdsAndNames,
 } from '../../utilities';
 
 import DetailsView from '../../details-view';
@@ -34,6 +35,8 @@ import Toaster from '../../toaster';
 import SelectionStatus from '../selection-status';
 import ProxySelectField from '../../proxy-select';
 import TokenField from '../../token';
+import AccessTypeField from '../../access-type-select';
+
 import styles from './managed-package-edit.css';
 
 const focusOnErrors = createFocusDecorator();
@@ -62,6 +65,7 @@ class ManagedPackageEdit extends Component {
       packageTokenValue: packageToken.value,
       isVisible: !visibilityData.isHidden,
       allowKbToAddTitles,
+      accessTypeId: getAccessTypeId(model),
     };
   }
 
@@ -70,6 +74,12 @@ class ManagedPackageEdit extends Component {
   }
 
   static propTypes = {
+    accessStatusTypes: PropTypes.shape({
+      isLoading: PropTypes.bool.isRequired,
+      items: PropTypes.shape({
+        data: PropTypes.array.isRequired,
+      }).isRequired,
+    }).isRequired,
     addPackageToHoldings: PropTypes.func.isRequired,
     model: PropTypes.object.isRequired,
     onCancel: PropTypes.func.isRequired,
@@ -307,12 +317,29 @@ class ManagedPackageEdit extends Component {
     );
   }
 
+  renderAccessTypeSelectField = () => {
+    const { accessStatusTypes } = this.props;
+
+    if (!accessStatusTypes?.items?.data?.length) {
+      return null;
+    }
+
+    const formattedAccessTypes = getAccessTypeIdsAndNames(accessStatusTypes.items.data);
+
+    return (
+      <div data-test-eholdings-access-types-select>
+        <AccessTypeField accessStatusTypes={formattedAccessTypes} />
+      </div>
+    );
+  }
+
   render() {
     const {
       model,
       proxyTypes,
       provider,
       onCancel,
+      accessStatusTypes,
     } = this.props;
 
     const {
@@ -459,6 +486,10 @@ class ManagedPackageEdit extends Component {
                             ) : (
                               <Icon icon="spinner-ellipsis" />
                             )}
+                            {accessStatusTypes.isLoading
+                              ? <Icon icon="spinner-ellipsis" />
+                              : this.renderAccessTypeSelectField()
+                            }
                             {supportsProviderTokens && (
                               <fieldset>
                                 <Headline tag="legend">

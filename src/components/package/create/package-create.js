@@ -11,14 +11,19 @@ import {
   Pane,
   Paneset,
   PaneFooter,
+  Icon,
 } from '@folio/stripes/components';
 
+import AccessTypeField from '../../access-type-select';
 import DetailsViewSection from '../../details-view-section';
 import NameField from '../_fields/name';
 import CoverageFields from '../_fields/custom-coverage';
 import ContentTypeField from '../_fields/content-type';
 import NavigationModal from '../../navigation-modal';
 import Toaster from '../../toaster';
+
+import { getAccessTypeIdsAndNames } from '../../utilities';
+
 import styles from './package-create.css';
 
 const initialValues = {
@@ -32,6 +37,12 @@ const paneTitle = <FormattedMessage id="ui-eholdings.package.create.custom" />;
 
 export default class PackageCreate extends Component {
   static propTypes = {
+    accessStatusTypes: PropTypes.shape({
+      isLoading: PropTypes.bool.isRequired,
+      items: PropTypes.shape({
+        data: PropTypes.array.isRequired,
+      }).isRequired,
+    }).isRequired,
     onCancel: PropTypes.func,
     onSubmit: PropTypes.func.isRequired,
     removeCreateRequests: PropTypes.func.isRequired,
@@ -99,10 +110,27 @@ export default class PackageCreate extends Component {
       : null;
   }
 
+  renderAccessTypeSelectField = () => {
+    const { accessStatusTypes } = this.props;
+
+    if (!accessStatusTypes?.items?.data?.length) {
+      return null;
+    }
+
+    const formattedAccessTypes = getAccessTypeIdsAndNames(accessStatusTypes.items.data);
+
+    return (
+      <div data-test-eholdings-access-types-select>
+        <AccessTypeField accessStatusTypes={formattedAccessTypes} />
+      </div>
+    );
+  }
+
   render() {
     const {
       request,
       onSubmit,
+      accessStatusTypes,
     } = this.props;
 
     return (
@@ -137,6 +165,10 @@ export default class PackageCreate extends Component {
                   >
                     <NameField />
                     <ContentTypeField />
+                    {accessStatusTypes.isLoading
+                      ? <Icon icon="spinner-ellipsis" />
+                      : this.renderAccessTypeSelectField()
+                    }
                   </DetailsViewSection>
                   <DetailsViewSection
                     label={<FormattedMessage id="ui-eholdings.label.coverageSettings" />}

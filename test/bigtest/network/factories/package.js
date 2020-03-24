@@ -50,6 +50,20 @@ export default Factory.extend({
     }
   }),
 
+  withAccessType: trait({
+    afterCreate(packageObj, server) {
+      const accessTypes = server.schema.accessTypes.all();
+      const randomAccessTypeIndex = faker.random.number({
+        min: 0,
+        max: accessTypes.length - 1
+      });
+
+      const randomAccessType = accessTypes.models[randomAccessTypeIndex];
+
+      packageObj.update('accessTypeId', randomAccessType.id);
+    },
+  }),
+
   withProvider: trait({
     afterCreate(packageObj, server) {
       const provider = server.create('provider');
@@ -154,7 +168,7 @@ export default Factory.extend({
         factName: '[[mysiteid]]',
         prompt: '/test1/',
         helpText,
-        value:'testing package token'
+        value: 'testing package token'
       });
       packageObj.update('packageToken', token.toJSON());
       packageObj.save();
