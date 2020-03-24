@@ -49,6 +49,10 @@ import SectionToggleButton from './section-toggle-button';
   isHiddenMessagePresent = isPresent('[data-test-eholdings-package-details-is-hidden-reason]');
   isVisibilityFieldPresent = isPresent('[data-test-eholdings-package-visibility-field]');
   isVisibleToPatrons = property('[data-test-eholdings-package-visibility-field] input[value="true"]', 'checked');
+  hasAccessTypeSelect = isPresent('[data-test-eholdings-access-type-select-field] select');
+  accessTypeSelectValue = value('[data-test-eholdings-access-type-select-field] select');
+  chooseAccessType = selectable('[data-test-eholdings-access-type-select-field] select');
+
   toggleIsVisible() {
     const isVisible = (!this.isVisibleToPatrons).toString();
     return this.click(`[data-test-eholdings-package-visibility-field] input[value="${isVisible}"]`);

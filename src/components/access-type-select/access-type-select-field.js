@@ -39,7 +39,7 @@ function AccessTypeSelectField({ accessStatusTypes }) {
         id="eholdings-access-type-id"
         name="accessTypeId"
         component={Select}
-        label={<FormattedMessage id="ui-eholdings.settings.accessStatusTypes" />}
+        label={<FormattedMessage id="ui-eholdings.settings.accessStatusTypes.type" />}
       >
         {options}
       </Field>

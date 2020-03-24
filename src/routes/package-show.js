@@ -13,6 +13,8 @@ import { ProxyType } from '../redux/application';
 import Package from '../redux/package';
 import Provider from '../redux/provider';
 import Resource from '../redux/resource';
+import { selectPropFromData } from '../redux/selectors';
+import { getAccessTypes as getAccessTypesAction } from '../redux/actions';
 import Tag from '../redux/tag';
 import { transformQueryParams } from '../components/utilities';
 import { listTypes } from '../constants';
@@ -22,7 +24,14 @@ import SearchModal from '../components/search-modal';
 
 class PackageShowRoute extends Component {
   static propTypes = {
+    accessStatusTypes: PropTypes.shape({
+      isLoading: PropTypes.bool.isRequired,
+      items: PropTypes.arrayOf(PropTypes.shape({
+        data: PropTypes.array.isRequired,
+      }).isRequired).isRequired,
+    }).isRequired,
     destroyPackage: PropTypes.func.isRequired,
+    getAccessTypes: PropTypes.func.isRequired,
     getPackage: PropTypes.func.isRequired,
     getPackageTitles: PropTypes.func.isRequired,
     getProvider: PropTypes.func.isRequired,
@@ -53,6 +62,7 @@ class PackageShowRoute extends Component {
     props.getProxyTypes();
     props.getProvider(providerId);
     props.getTags();
+    props.getAccessTypes();
   }
 
   componentDidUpdate(prevProps, prevState) {
@@ -193,6 +203,7 @@ class PackageShowRoute extends Component {
       provider,
       proxyTypes,
       updateFolioTags,
+      accessStatusTypes,
     } = this.props;
     const {
       pkgSearchParams,
@@ -215,6 +226,7 @@ class PackageShowRoute extends Component {
           customCoverageSubmitted={this.customCoverageSubmitted}
           toggleAllowKbToAddTitles={this.toggleAllowKbToAddTitles}
           onEdit={this.handleEdit}
+          accessStatusTypes={accessStatusTypes}
           isFreshlySaved={
             history.location.state &&
             history.location.state.isFreshlySaved
@@ -260,10 +272,11 @@ export default connect(
       provider: resolver.find('providers', model.providerId),
       tagsModel: resolver.query('tags'),
       resolver,
+      accessStatusTypes: selectPropFromData(store, 'accessStatusTypes'),
     };
   },
   {
-    getPackage: id => Package.find(id),
+    getPackage: id => Package.find(id, { include: ['accessType'] }),
     getPackageTitles: (id, params) => Package.queryRelated(id, 'resources', params),
     getProxyTypes: () => ProxyType.query(),
     getTags: () => Tag.query(),
@@ -272,5 +285,6 @@ export default connect(
     updatePackage: model => Package.save(model),
     updateFolioTags: (model) => Tag.create(model),
     destroyPackage: model => Package.destroy(model),
+    getAccessTypes: getAccessTypesAction,
   }
 )(PackageShowRoute);

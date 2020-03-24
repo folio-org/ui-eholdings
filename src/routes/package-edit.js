@@ -12,12 +12,23 @@ import { ProxyType } from '../redux/application';
 import Package from '../redux/package';
 import Provider from '../redux/provider';
 import Resource from '../redux/resource';
+import { selectPropFromData } from '../redux/selectors';
+import { getAccessTypes as getAccessTypesAction } from '../redux/actions';
 
 import View from '../components/package/package-edit';
 
+import { accessTypes } from '../constants';
+
 class PackageEditRoute extends Component {
   static propTypes = {
+    accessStatusTypes: PropTypes.shape({
+      isLoading: PropTypes.bool.isRequired,
+      items: PropTypes.shape({
+        data: PropTypes.array.isRequired,
+      }).isRequired,
+    }).isRequired,
     destroyPackage: PropTypes.func.isRequired,
+    getAccessTypes: PropTypes.func.isRequired,
     getPackage: PropTypes.func.isRequired,
     getProvider: PropTypes.func.isRequired,
     getProxyTypes: PropTypes.func.isRequired,
@@ -40,6 +51,7 @@ class PackageEditRoute extends Component {
     props.getPackage(packageId);
     props.getProxyTypes();
     props.getProvider(providerId);
+    props.getAccessTypes();
   }
 
   componentDidUpdate(prevProps) {
@@ -72,7 +84,7 @@ class PackageEditRoute extends Component {
 
     if (packageId !== oldMatch.params.packageId) {
       getPackage(packageId);
-    // if an update just resolved, unfetch the package titles
+      // if an update just resolved, unfetch the package titles
     } else if (next.update.isResolved && old.update.isPending) {
       unloadResources(next.resources);
     }
@@ -117,6 +129,7 @@ class PackageEditRoute extends Component {
       model.visibilityData.isHidden = false;
       model.customCoverage = {};
       model.allowKbToAddTitles = false;
+      model.accessTypeId = null;
       updatePackage(model);
     } else if (values.isSelected && !values.customCoverages) {
       model.isSelected = true;
@@ -169,6 +182,10 @@ class PackageEditRoute extends Component {
         this.providerEditSubmitted(values);
       }
 
+      model.accessTypeId = values.accessTypeId !== accessTypes.ACCESS_TYPE_NONE_ID
+        ? values.accessTypeId
+        : null;
+
       updatePackage(model);
     }
   };
@@ -207,6 +224,7 @@ class PackageEditRoute extends Component {
       model,
       proxyTypes,
       provider,
+      accessStatusTypes,
     } = this.props;
 
     return (
@@ -220,6 +238,7 @@ class PackageEditRoute extends Component {
               onSubmit={this.packageEditSubmitted}
               onCancel={this.handleCancel}
               addPackageToHoldings={this.addPackageToHoldings}
+              accessStatusTypes={accessStatusTypes}
             />
           </TitleManager>
         )}
@@ -229,17 +248,20 @@ class PackageEditRoute extends Component {
 }
 
 export default connect(
-  ({ eholdings: { data } }, { match }) => {
+  (store, { match }) => {
+    const { eholdings: { data } } = store;
     const resolver = createResolver(data);
     const model = resolver.find('packages', match.params.packageId);
     return {
       model,
       proxyTypes: resolver.query('proxyTypes'),
       provider: resolver.find('providers', model.providerId),
-      resolver
+      resolver,
+      accessStatusTypes: selectPropFromData(store, 'accessStatusTypes'),
     };
-  }, {
-    getPackage: id => Package.find(id),
+  },
+  {
+    getPackage: id => Package.find(id, { include: ['accessType'] }),
     getProxyTypes: () => ProxyType.query(),
     getProvider: id => Provider.find(id),
     unloadResources: collection => Resource.unload(collection),
@@ -247,5 +269,6 @@ export default connect(
     updatePackage: model => Package.save(model),
     destroyPackage: model => Package.destroy(model),
     removeUpdateRequests: () => Package.removeRequests('update'),
+    getAccessTypes: getAccessTypesAction,
   }
 )(PackageEditRoute);
