@@ -51,8 +51,8 @@ function ProviderListItem({ item, link, active, onClick, headingLevel }) {
           })}
         >
           <span data-test-eholdings-package-list-item-selected>
-            {item.packagesSelected ?
-              (<FormattedMessage
+            {item.packagesSelected
+              ? (<FormattedMessage
                 id="ui-eholdings.selectedCount"
                 values={{
                   count: (
@@ -61,8 +61,9 @@ function ProviderListItem({ item, link, active, onClick, headingLevel }) {
                     </span>
                   )
                 }}
-              />) :
-              (<FormattedMessage id="ui-eholdings.notSelected" />)}
+              />)
+              : <FormattedMessage id="ui-eholdings.notSelected" />
+            }
           </span>
         </AppIcon>
 
@@ -70,7 +71,11 @@ function ProviderListItem({ item, link, active, onClick, headingLevel }) {
           <FormattedMessage
             id="ui-eholdings.label.totalPackages"
             values={{
-              count: <span data-test-eholdings-provider-list-item-num-packages-total><FormattedNumber value={item.packagesTotal} /></span>
+              count: (
+                <span data-test-eholdings-provider-list-item-num-packages-total>
+                  <FormattedNumber value={item.packagesTotal} />
+                </span>
+              )
             }}
           />
         </span>
