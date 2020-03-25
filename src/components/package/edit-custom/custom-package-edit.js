@@ -93,7 +93,6 @@ class CustomPackageEdit extends Component {
     const {
       isSelected,
       destroy,
-      proxy,
     } = nextProps.model;
     const { proxyTypes, provider } = nextProps;
 
