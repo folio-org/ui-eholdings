@@ -218,6 +218,7 @@ const SettingsAccessStatusTypes = ({
 SettingsAccessStatusTypes.propTypes = {
   accessTypesData: PropTypes.shape({
     isDeleted: PropTypes.bool.isRequired,
+    isLoading: PropTypes.bool.isRequired,
     items: PropTypes.arrayOf(PropTypes.shape({
       attributes: PropTypes.shape({
         description: PropTypes.string,

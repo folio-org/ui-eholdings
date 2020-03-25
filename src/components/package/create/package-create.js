@@ -22,6 +22,8 @@ import AccessTypeEditSection from '../../access-type-edit-section';
 
 import Toaster from '../../toaster';
 
+import { accessTypesReduxStateShape } from '../../../constants';
+
 import styles from './package-create.css';
 
 const initialValues = {
@@ -35,12 +37,7 @@ const paneTitle = <FormattedMessage id="ui-eholdings.package.create.custom" />;
 
 export default class PackageCreate extends Component {
   static propTypes = {
-    accessStatusTypes: PropTypes.shape({
-      isLoading: PropTypes.bool.isRequired,
-      items: PropTypes.shape({
-        data: PropTypes.array.isRequired,
-      }).isRequired,
-    }).isRequired,
+    accessStatusTypes: accessTypesReduxStateShape.isRequired,
     onCancel: PropTypes.func,
     onSubmit: PropTypes.func.isRequired,
     removeCreateRequests: PropTypes.func.isRequired,

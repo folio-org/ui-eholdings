@@ -39,6 +39,8 @@ import SelectionStatus from '../selection-status';
 import ProxySelectField from '../../proxy-select';
 import AccessTypeEditSection from '../../access-type-edit-section';
 
+import { accessTypesReduxStateShape } from '../../../constants';
+
 import styles from './custom-package-edit.css';
 
 const focusOnErrors = createFocusDecorator();
@@ -75,12 +77,7 @@ class CustomPackageEdit extends Component {
   }
 
   static propTypes = {
-    accessStatusTypes: PropTypes.shape({
-      isLoading: PropTypes.bool.isRequired,
-      items: PropTypes.shape({
-        data: PropTypes.array.isRequired,
-      }).isRequired,
-    }).isRequired,
+    accessStatusTypes: accessTypesReduxStateShape.isRequired,
     addPackageToHoldings: PropTypes.func.isRequired,
     model: PropTypes.object.isRequired,
     onCancel: PropTypes.func.isRequired,

@@ -13,9 +13,11 @@ import Tag from '../redux/tag';
 import { getAccessTypes as getAccessTypesAction } from '../redux/actions';
 import { selectPropFromData } from '../redux/selectors';
 
+import { accessTypesReduxStateShape } from '../constants';
+
 class ResourceShowRoute extends Component {
   static propTypes = {
-    accessTypes: PropTypes.object.isRequired,
+    accessTypes: accessTypesReduxStateShape.isRequired,
     destroyResource: PropTypes.func.isRequired,
     getAccessTypes: PropTypes.func.isRequired,
     getProxyTypes: PropTypes.func.isRequired,

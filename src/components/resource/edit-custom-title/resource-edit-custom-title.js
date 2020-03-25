@@ -47,6 +47,7 @@ import { CustomLabelsAccordion } from '../../../features';
 import {
   historyActions,
   coverageStatementExistenceStatuses,
+  accessTypesReduxStateShape,
 } from '../../../constants';
 
 
@@ -54,12 +55,7 @@ const focusOnErrors = createFocusDecorator();
 
 class ResourceEditCustomTitle extends Component {
   static propTypes = {
-    accessStatusTypes: PropTypes.shape({
-      isLoading: PropTypes.bool.isRequired,
-      items: PropTypes.shape({
-        data: PropTypes.array.isRequired,
-      }).isRequired,
-    }).isRequired,
+    accessStatusTypes: accessTypesReduxStateShape.isRequired,
     model: PropTypes.object.isRequired,
     onCancel: PropTypes.func.isRequired,
     onSubmit: PropTypes.func.isRequired,
