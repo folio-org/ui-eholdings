@@ -302,9 +302,7 @@ class CustomPackageEdit extends Component {
                       onToggle={this.toggleSection}
                     >
                       {packageSelected
-                        ? (
-                          <NameField />
-                        )
+                        ? <NameField />
                         : (
                           <KeyValue label={<FormattedMessage id="ui-eholdings.package.name" />}>
                             <div data-test-eholdings-package-readonly-name-field>
@@ -314,9 +312,7 @@ class CustomPackageEdit extends Component {
                         )}
 
                       {packageSelected
-                        ? (
-                          <ContentTypeField />
-                        )
+                        ? <ContentTypeField />
                         : (
                           <KeyValue label={<FormattedMessage id="ui-eholdings.package.contentType" />}>
                             <div data-test-eholdings-package-details-readonly-content-type>
