@@ -312,7 +312,16 @@ export default function config() {
           name: 'microstates',
           urlMask: 'https://github.com/microstates',
         }
-      }
+      },
+      {
+        id: 'EZproxy',
+        type: 'proxyTypes',
+        attributes: {
+          id: 'EZproxy',
+          name: 'EZproxy',
+          urlMask: 'https://github.com/ezproxy',
+        }
+      },
     ]
   });
 
