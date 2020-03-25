@@ -4,7 +4,8 @@ export default Factory.extend({
   id: () => faker.random.arrayElement([
     '<n>',
     'bigTestJS',
-    'microstates'
+    'microstates',
+    'EZproxy',
   ]),
   inherited: true
 });
