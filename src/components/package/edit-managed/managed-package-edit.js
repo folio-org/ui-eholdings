@@ -20,7 +20,10 @@ import {
   PaneFooter,
 } from '@folio/stripes/components';
 
-import { processErrors } from '../../utilities';
+import {
+  processErrors,
+  getAccessTypeId,
+} from '../../utilities';
 
 import DetailsView from '../../details-view';
 import CoverageFields from '../_fields/custom-coverage';
@@ -29,6 +32,10 @@ import Toaster from '../../toaster';
 import SelectionStatus from '../selection-status';
 import ProxySelectField from '../../proxy-select';
 import TokenField from '../../token';
+import AccessTypeEditSection from '../../access-type-edit-section';
+
+import { accessTypesReduxStateShape } from '../../../constants';
+
 import styles from './managed-package-edit.css';
 
 const focusOnErrors = createFocusDecorator();
@@ -57,10 +64,12 @@ class ManagedPackageEdit extends Component {
       packageTokenValue: packageToken.value,
       isVisible: !visibilityData.isHidden,
       allowKbToAddTitles,
+      accessTypeId: getAccessTypeId(model),
     };
   }
 
   static propTypes = {
+    accessStatusTypes: accessTypesReduxStateShape.isRequired,
     addPackageToHoldings: PropTypes.func.isRequired,
     model: PropTypes.object.isRequired,
     onCancel: PropTypes.func.isRequired,
@@ -308,6 +317,7 @@ class ManagedPackageEdit extends Component {
       proxyTypes,
       provider,
       onCancel,
+      accessStatusTypes,
     } = this.props;
 
     const {
@@ -454,6 +464,7 @@ class ManagedPackageEdit extends Component {
                             ) : (
                               <Icon icon="spinner-ellipsis" />
                             )}
+                            <AccessTypeEditSection accessStatusTypes={accessStatusTypes} />
                             {supportsProviderTokens && (
                               <fieldset>
                                 <Headline tag="legend">

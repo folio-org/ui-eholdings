@@ -16,7 +16,7 @@ function AccessTypeDisplay({ accessTypeId, accessStatusTypes }) {
     .find(accessType => accessType.id === accessTypeId)?.name || '';
 
   return (
-    <KeyValue label={<FormattedMessage id="ui-eholdings.settings.accessStatusTypes" />}>
+    <KeyValue label={<FormattedMessage id="ui-eholdings.settings.accessStatusTypes.type" />}>
       <div data-test-eholdings-details-access-type>
         {accessTypeId
           ? selectedAccessType

@@ -21,7 +21,11 @@ import {
   PaneFooter,
 } from '@folio/stripes/components';
 
-import { processErrors } from '../../utilities';
+import {
+  processErrors,
+  getAccessTypeId,
+} from '../../utilities';
+
 
 import DetailsView from '../../details-view';
 import NameField from '../_fields/name';
@@ -31,6 +35,10 @@ import NavigationModal from '../../navigation-modal';
 import Toaster from '../../toaster';
 import SelectionStatus from '../selection-status';
 import ProxySelectField from '../../proxy-select';
+import AccessTypeEditSection from '../../access-type-edit-section';
+
+import { accessTypesReduxStateShape } from '../../../constants';
+
 import styles from './custom-package-edit.css';
 
 const focusOnErrors = createFocusDecorator();
@@ -58,10 +66,12 @@ class CustomPackageEdit extends Component {
       }],
       proxyId: matchingProxy?.id || proxy.id,
       isVisible: !visibilityData.isHidden,
+      accessTypeId: getAccessTypeId(model),
     };
   }
 
   static propTypes = {
+    accessStatusTypes: accessTypesReduxStateShape.isRequired,
     addPackageToHoldings: PropTypes.func.isRequired,
     model: PropTypes.object.isRequired,
     onCancel: PropTypes.func.isRequired,
@@ -258,6 +268,7 @@ class CustomPackageEdit extends Component {
       proxyTypes,
       provider,
       onCancel,
+      accessStatusTypes,
     } = this.props;
 
     const {
@@ -308,25 +319,26 @@ class CustomPackageEdit extends Component {
                       id="packageInfo"
                       onToggle={this.toggleSection}
                     >
-                      {packageSelected ? (
-                        <NameField />
-                      ) : (
-                        <KeyValue label={<FormattedMessage id="ui-eholdings.package.name" />}>
-                          <div data-test-eholdings-package-readonly-name-field>
-                            {model.name}
-                          </div>
-                        </KeyValue>
-                      )}
+                      {packageSelected
+                        ? <NameField />
+                        : (
+                          <KeyValue label={<FormattedMessage id="ui-eholdings.package.name" />}>
+                            <div data-test-eholdings-package-readonly-name-field>
+                              {model.name}
+                            </div>
+                          </KeyValue>
+                        )}
 
-                      {packageSelected ? (
-                        <ContentTypeField />
-                      ) : (
-                        <KeyValue label={<FormattedMessage id="ui-eholdings.package.contentType" />}>
-                          <div data-test-eholdings-package-details-readonly-content-type>
-                            {model.contentType}
-                          </div>
-                        </KeyValue>
-                      )}
+                      {packageSelected
+                        ? <ContentTypeField />
+                        : (
+                          <KeyValue label={<FormattedMessage id="ui-eholdings.package.contentType" />}>
+                            <div data-test-eholdings-package-details-readonly-content-type>
+                              {model.contentType}
+                            </div>
+                          </KeyValue>
+                        )}
+                      <AccessTypeEditSection accessStatusTypes={accessStatusTypes} />
                     </Accordion>
 
                     <Accordion

@@ -18,7 +18,12 @@ import NameField from '../_fields/name';
 import CoverageFields from '../_fields/custom-coverage';
 import ContentTypeField from '../_fields/content-type';
 import NavigationModal from '../../navigation-modal';
+import AccessTypeEditSection from '../../access-type-edit-section';
+
 import Toaster from '../../toaster';
+
+import { accessTypesReduxStateShape } from '../../../constants';
+
 import styles from './package-create.css';
 
 const initialValues = {
@@ -32,6 +37,7 @@ const paneTitle = <FormattedMessage id="ui-eholdings.package.create.custom" />;
 
 export default class PackageCreate extends Component {
   static propTypes = {
+    accessStatusTypes: accessTypesReduxStateShape.isRequired,
     onCancel: PropTypes.func,
     onSubmit: PropTypes.func.isRequired,
     removeCreateRequests: PropTypes.func.isRequired,
@@ -103,6 +109,7 @@ export default class PackageCreate extends Component {
     const {
       request,
       onSubmit,
+      accessStatusTypes,
     } = this.props;
 
     return (
@@ -137,6 +144,7 @@ export default class PackageCreate extends Component {
                   >
                     <NameField />
                     <ContentTypeField />
+                    <AccessTypeEditSection accessStatusTypes={accessStatusTypes} />
                   </DetailsViewSection>
                   <DetailsViewSection
                     label={<FormattedMessage id="ui-eholdings.label.coverageSettings" />}

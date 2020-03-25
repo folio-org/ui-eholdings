@@ -11,6 +11,7 @@ describe('PackageShow', () => {
   let provider;
   let providerPackage;
   let resources;
+  let accessType;
 
   beforeEach(function () {
     provider = this.server.create('provider', {
@@ -23,10 +24,14 @@ describe('PackageShow', () => {
       contentType: 'E-Book',
       isSelected: false,
       titleCount: 5,
-      packageType: 'Complete'
+      packageType: 'Complete',
     });
 
     resources = this.server.schema.where('resource', { packageId: providerPackage.id }).models;
+
+    accessType = this.server.create('access-type', {
+      name: 'Trial',
+    });
   });
 
   describe('visiting the package details page', () => {
@@ -88,6 +93,44 @@ describe('PackageShow', () => {
 
     it('should display a back (close) button', () => {
       expect(PackageShowPage.hasBackButton).to.be.true;
+    });
+
+    describe('when there is no access status types configured', () => {
+      beforeEach(function () {
+        this.server.get('/access-types', () => []);
+        this.visit(`/eholdings/packages/${providerPackage.id}`);
+      });
+
+      it('should not render access status type section', () => {
+        expect(PackageShowPage.isAccessTypeSectionPresent).to.be.false;
+      });
+    });
+
+    describe('when there are access status types configured', () => {
+      beforeEach(async function () {
+        providerPackage.update('isSelected', true);
+        this.visit(`/eholdings/packages/${providerPackage.id}`);
+      });
+
+      describe('and package has access status type unassigned', () => {
+        it('should display the access type dash', () => {
+          expect(PackageShowPage.accessType).to.equal('-');
+        });
+      });
+
+      describe('and package has access status type assigned', () => {
+        beforeEach(function () {
+          const testPackage = this.server.create('package', 'withTitles', 'withProvider', {
+            accessType,
+          });
+          providerPackage.save();
+          this.visit(`/eholdings/packages/${testPackage.id}`);
+        });
+
+        it('displays the access type name', () => {
+          expect(PackageShowPage.accessType).to.equal('Trial');
+        });
+      });
     });
 
     describe('agreements section', () => {

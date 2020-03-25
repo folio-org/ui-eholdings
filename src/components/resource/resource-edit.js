@@ -6,14 +6,11 @@ import { Icon } from '@folio/stripes-components';
 import ManagedResourceEdit from './edit-managed-title';
 import CustomResourceEdit from './edit-custom-title';
 
+import { accessTypesReduxStateShape } from '../../constants';
+
 export default class ResourceEdit extends Component {
   static propTypes = {
-    accessStatusTypes: PropTypes.shape({
-      isLoading: PropTypes.bool.isRequired,
-      items: PropTypes.shape({
-        data: PropTypes.array.isRequired,
-      }).isRequired,
-    }).isRequired,
+    accessStatusTypes: accessTypesReduxStateShape.isRequired,
     model: PropTypes.object.isRequired,
     onCancel: PropTypes.func.isRequired,
     onSubmit: PropTypes.func.isRequired,
