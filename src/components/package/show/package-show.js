@@ -33,8 +33,13 @@ import {
   listTypes,
   DOMAIN_NAME,
   paths,
+  accessTypesReduxStateShape,
 } from '../../../constants';
-import { processErrors } from '../../utilities';
+import {
+  processErrors,
+  getAccessTypeId,
+  getAccessTypeIdsAndNames,
+} from '../../utilities';
 import DetailsView from '../../details-view';
 import QueryList from '../../query-list';
 import InternalLink from '../../internal-link';
@@ -46,12 +51,14 @@ import KeyValueColumns from '../../key-value-columns';
 import ProxyDisplay from '../../proxy-display';
 import TokenDisplay from '../../token-display';
 import TagsAccordion from '../../tags';
+import AccessType from '../../access-type-display';
 import { AgreementsAccordion } from '../../../features';
 
 const ITEM_HEIGHT = 53;
 
 class PackageShow extends Component {
   static propTypes = {
+    accessStatusTypes: accessTypesReduxStateShape.isRequired,
     addPackageToHoldings: PropTypes.func.isRequired,
     fetchPackageTitles: PropTypes.func.isRequired,
     isDestroyed: PropTypes.bool,
@@ -178,11 +185,30 @@ class PackageShow extends Component {
     );
   };
 
+  renderAccessTypeDisplay() {
+    const { model, accessStatusTypes } = this.props;
+
+    if (!accessStatusTypes?.items?.data?.length) {
+      return null;
+    }
+
+    const formattedAccessTypes = getAccessTypeIdsAndNames(accessStatusTypes.items.data);
+
+    return (
+      <AccessType
+        accessTypeId={getAccessTypeId(model)}
+        accessStatusTypes={formattedAccessTypes}
+      />
+    );
+  }
+
+
   renderPackageSettings() {
     const {
       model,
       proxyTypes,
       provider,
+      accessStatusTypes,
     } = this.props;
 
     const {
@@ -194,6 +220,7 @@ class PackageShow extends Component {
     const hasProviderToken = hasIn('providerToken.prompt', provider);
     const hasPackageToken = hasIn('packageToken.prompt', model);
     const isProxyAvailable = hasProxy && proxyTypes.request.isResolved && model.isLoaded && provider.isLoaded;
+    const haveAccessTypesLoaded = !accessStatusTypes?.isLoading && !model.isLoading;
 
     return (
       <div>
@@ -240,6 +267,14 @@ class PackageShow extends Component {
               />
             )
             : <Icon icon="spinner-ellipsis" />
+        }
+        {
+          <div data-test-eholdings-access-type>
+            {haveAccessTypesLoaded
+              ? this.renderAccessTypeDisplay()
+              : <Icon icon="spinner-ellipsis" />
+            }
+          </div>
         }
         {
           hasProviderToken && (

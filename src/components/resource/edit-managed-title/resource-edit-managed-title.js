@@ -28,7 +28,6 @@ import {
   isBookPublicationType,
   getUserDefinedFields,
   getAccessTypeId,
-  getAccessTypeIdsAndNames,
 } from '../../utilities';
 
 import CoverageStatementFields, { coverageStatementDecorator } from '../_fields/coverage-statement';
@@ -36,7 +35,7 @@ import VisibilityField from '../_fields/visibility';
 import Toaster from '../../toaster';
 import CustomEmbargoFields, { getEmbargoInitial } from '../_fields/custom-embargo';
 import NavigationModal from '../../navigation-modal';
-import AccessTypeSelectField from '../../access-type-select';
+import AccessTypeEditSection from '../../access-type-edit-section';
 import ProxySelectField from '../../proxy-select';
 import CoverageFields from '../_fields/resource-coverage-fields';
 import CoverageDateList from '../../coverage-date-list';
@@ -47,18 +46,14 @@ import { CustomLabelsAccordion } from '../../../features';
 import {
   historyActions,
   coverageStatementExistenceStatuses,
+  accessTypesReduxStateShape,
 } from '../../../constants';
 
 const focusOnErrors = createFocusDecorator();
 
 class ResourceEditManagedTitle extends Component {
   static propTypes = {
-    accessStatusTypes: PropTypes.shape({
-      isLoading: PropTypes.bool.isRequired,
-      items: PropTypes.shape({
-        data: PropTypes.array.isRequired,
-      }).isRequired,
-    }).isRequired,
+    accessStatusTypes: accessTypesReduxStateShape.isRequired,
     model: PropTypes.object.isRequired,
     onCancel: PropTypes.func.isRequired,
     onSubmit: PropTypes.func.isRequired,
@@ -212,24 +207,6 @@ class ResourceEditManagedTitle extends Component {
       </FormSpy>
     );
   };
-
-  renderAccessTypeSelectField = () => {
-    const { accessStatusTypes } = this.props;
-
-    if (!accessStatusTypes?.items?.data?.length) {
-      return null;
-    }
-
-    const formattedAccessTypes = getAccessTypeIdsAndNames(accessStatusTypes.items.data);
-
-    return (
-      <div data-test-eholdings-access-types-select>
-        <AccessTypeSelectField
-          accessStatusTypes={formattedAccessTypes}
-        />
-      </div>
-    );
-  }
 
   getActionMenu = () => {
     const { stripes } = this.props;
@@ -395,11 +372,7 @@ class ResourceEditManagedTitle extends Component {
                                 <ProxySelectField proxyTypes={proxyTypes} inheritedProxyId={model.package.proxy.id} />
                               </div>
                             ))}
-                          {accessStatusTypes?.isLoading
-                            ? (
-                              <Icon icon="spinner-ellipsis" />
-                            )
-                            : this.renderAccessTypeSelectField()}
+                          <AccessTypeEditSection accessStatusTypes={accessStatusTypes} />
                         </div>
                       </Accordion>
                     )}

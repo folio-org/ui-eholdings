@@ -11,31 +11,6 @@ export default function defaultScenario(server) {
     });
   }
 
-  const customProvider = server.create('provider', {
-    name: 'Atlanta A&T Library',
-    packagesSelected: 1,
-    packagesTotal: 1
-  });
-
-  const customPackage = server.create('package', {
-    provider: customProvider,
-    name: 'Atlanta A&T Drumming Books',
-    contentType: 'AggregatedFullText',
-    isSelected: true,
-    isCustom: true,
-    selectedCount: 1,
-    titleCount: 1
-  });
-
-  const customTitle = server.create('title', {
-    name: 'Single, Double, and Triple Paradiddles',
-    isTitleCustom: true,
-    isPeerReviewed: false,
-    isSelected: true,
-    description: '',
-    edition: ''
-  });
-
   server.createList('access-type', 14);
 
   createProvider('Economist Intelligence Unit', [

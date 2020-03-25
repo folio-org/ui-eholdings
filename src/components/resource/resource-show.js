@@ -26,6 +26,7 @@ import {
   entityTypes,
   paths,
   DOMAIN_NAME,
+  accessTypesReduxStateShape,
 } from '../../constants';
 import DetailsView from '../details-view';
 import InternalLink from '../internal-link';
@@ -51,12 +52,7 @@ import { CustomLabelsShowSection } from '../custom-labels-section';
 
 class ResourceShow extends Component {
   static propTypes = {
-    accessStatusTypes: PropTypes.shape({
-      isLoading: PropTypes.bool.isRequired,
-      items: PropTypes.shape({
-        data: PropTypes.array.isRequired,
-      }).isRequired,
-    }).isRequired,
+    accessStatusTypes: accessTypesReduxStateShape.isRequired,
     isFreshlySaved: PropTypes.bool,
     model: PropTypes.object.isRequired,
     onEdit: PropTypes.func.isRequired,
