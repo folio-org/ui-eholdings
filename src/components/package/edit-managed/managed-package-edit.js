@@ -34,7 +34,7 @@ import styles from './managed-package-edit.css';
 const focusOnErrors = createFocusDecorator();
 
 class ManagedPackageEdit extends Component {
-  static getInitialValues(model, { providerToken }) {
+  static getInitialValues(model, { providerToken }, proxyTypes) {
     const {
       isSelected,
       customCoverage,
@@ -44,12 +44,15 @@ class ManagedPackageEdit extends Component {
       allowKbToAddTitles,
     } = model;
 
+    const proxyTypesRecords = proxyTypes.resolver.state.proxyTypes.records;
+    const matchingProxy = Object.values(proxyTypesRecords).find(proxyType => proxyType.id.toLowerCase() === proxy.id);
+
     return {
       isSelected,
       customCoverages: [{
         ...customCoverage,
       }],
-      proxyId: proxy.id,
+      proxyId: matchingProxy?.id || proxy.id,
       providerTokenValue: providerToken.value,
       packageTokenValue: packageToken.value,
       isVisible: !visibilityData.isHidden,
@@ -69,6 +72,10 @@ class ManagedPackageEdit extends Component {
     }),
   };
 
+  static isProxyTypesLoaded (proxyTypes, provider) {
+    return proxyTypes.request.isResolved && provider.data.isLoaded;
+  }
+
   static getDerivedStateFromProps(nextProps, prevState) {
     let stateUpdates = {};
     const { initialValues } = prevState;
@@ -78,15 +85,24 @@ class ManagedPackageEdit extends Component {
         update,
       },
       provider: { providerToken },
+      proxyTypes,
     } = nextProps;
 
     const providerTokenWasLoaded = !initialValues.providerTokenValue && providerToken.value;
     const selectionStatusChanged = isSelected !== initialValues.isSelected;
+    const isProxyTypesLoaded = ManagedPackageEdit.isProxyTypesLoaded(proxyTypes, nextProps.provider);
 
     if (selectionStatusChanged || providerTokenWasLoaded) {
       stateUpdates = {
-        initialValues: ManagedPackageEdit.getInitialValues(nextProps.model, nextProps.provider),
+        initialValues: ManagedPackageEdit.getInitialValues(nextProps.model, nextProps.provider, proxyTypes),
         packageSelected: isSelected
+      };
+    }
+
+    if (isProxyTypesLoaded) {
+      stateUpdates = {
+        initialValues: ManagedPackageEdit.getInitialValues(nextProps.model, nextProps.provider, proxyTypes),
+        proxyTypesLoaded: true,
       };
     }
 
@@ -103,8 +119,9 @@ class ManagedPackageEdit extends Component {
       showSelectionModal: false,
       allowFormToSubmit: false,
       packageSelected: this.props.model.isSelected,
+      proxyTypesLoaded: this.props.proxyTypes.request.isResolved,
       formValues: {},
-      initialValues: ManagedPackageEdit.getInitialValues(this.props.model, this.props.provider),
+      initialValues: ManagedPackageEdit.getInitialValues(this.props.model, this.props.provider, this.props.proxyTypes),
       sections: {
         packageHoldingStatus: true,
         packageSettings: true,

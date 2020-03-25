@@ -36,7 +36,7 @@ import styles from './custom-package-edit.css';
 const focusOnErrors = createFocusDecorator();
 
 class CustomPackageEdit extends Component {
-  static getInitialValues(model) {
+  static getInitialValues(model, proxyTypes) {
     const {
       name,
       contentType,
@@ -46,6 +46,9 @@ class CustomPackageEdit extends Component {
       visibilityData,
     } = model;
 
+    const proxyTypesRecords = proxyTypes.resolver.state.proxyTypes.records;
+    const matchingProxy = Object.values(proxyTypesRecords).find(proxyType => proxyType.id.toLowerCase() === proxy.id);
+
     return {
       name,
       contentType,
@@ -53,7 +56,7 @@ class CustomPackageEdit extends Component {
       customCoverages: [{
         ...customCoverage,
       }],
-      proxyId: proxy.id,
+      proxyId: matchingProxy?.id || proxy.id,
       isVisible: !visibilityData.isHidden,
     };
   }
@@ -70,20 +73,34 @@ class CustomPackageEdit extends Component {
     }),
   };
 
+  static isProxyTypesLoaded (proxyTypes, provider) {
+    return proxyTypes.request.isResolved && provider.data.isLoaded;
+  }
+
   static getDerivedStateFromProps(nextProps, prevState) {
     let stateUpdates = {};
     const { initialValues } = prevState;
     const {
       isSelected,
       destroy,
+      proxy,
     } = nextProps.model;
+    const { proxyTypes, provider } = nextProps;
 
     const selectionStatusChanged = isSelected !== initialValues.isSelected;
+    const isProxyTypesLoaded = CustomPackageEdit.isProxyTypesLoaded(proxyTypes, provider);
 
     if (selectionStatusChanged) {
       stateUpdates = {
-        initialValues: CustomPackageEdit.getInitialValues(nextProps.model),
+        initialValues: CustomPackageEdit.getInitialValues(nextProps.model, proxyTypes),
         packageSelected: isSelected
+      };
+    }
+
+    if (isProxyTypesLoaded) {
+      stateUpdates = {
+        initialValues: CustomPackageEdit.getInitialValues(nextProps.model, proxyTypes),
+        proxyTypesLoaded: true,
       };
     }
 
@@ -100,8 +117,9 @@ class CustomPackageEdit extends Component {
       showSelectionModal: false,
       allowFormToSubmit: false,
       packageSelected: this.props.model.isSelected,
+      proxyTypesLoaded: this.props.proxyTypes.request.isResolved,
       formValues: {},
-      initialValues: CustomPackageEdit.getInitialValues(this.props.model),
+      initialValues: CustomPackageEdit.getInitialValues(this.props.model, this.props.proxyTypes),
       sections: {
         packageHoldingStatus: true,
         packageInfo: true,
