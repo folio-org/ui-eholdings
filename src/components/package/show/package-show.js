@@ -276,13 +276,9 @@ class PackageShow extends Component {
           <div data-test-eholdings-access-type>
             {haveAccessTypesLoaded
               ? this.renderAccessTypeDisplay()
-              : (
-                <Icon icon="spinner-ellipsis" />
-              )}
+              : <Icon icon="spinner-ellipsis" />
+            }
           </div>
-        }
-        {
-
         }
         {
           hasProviderToken && (
