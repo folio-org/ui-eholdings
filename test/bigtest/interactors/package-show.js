@@ -68,6 +68,8 @@ import PackageModal from './package-modal';
   actionsDropDown = ActionsDropDown;
   dropDownMenu = new PackageDropDownMenu();
   searchModalBadge = new SearchBadge('[data-test-eholdings-search-modal-badge]');
+  isAccessTypeSectionPresent = isPresent('[data-test-eholdings-details-access-type]');
+  accessType = text('[data-test-eholdings-details-access-type]');
 
   detailPaneMouseWheel = triggerable('[data-test-eholdings-detail-pane-contents]', 'wheel', {
     bubbles: true,

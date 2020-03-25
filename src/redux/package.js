@@ -16,6 +16,7 @@ class Package {
   packageType = '';
   proxy = {};
   packageToken = {};
+  accessTypeId = null;
   tags = {
     tagList: []
   };
@@ -44,6 +45,7 @@ class Package {
         proxy: this.proxy,
         packageToken: this.packageToken,
         isFullPackage: this.isSelected && !this.isPartiallySelected,
+        accessTypeId: this.accessTypeId,
       };
     }
 

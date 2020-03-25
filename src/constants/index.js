@@ -10,3 +10,4 @@ export { default as entityTypeTranslationKeys } from './entityTypeTranslationKey
 export { default as entityTypePluralizedTranslationKeys } from './entityTypePluralizedTranslationKeys';
 export { default as paths } from './paths';
 export { default as accessTypes } from './accessTypes';
+export { default as accessTypesReduxStateShape } from './accessTypesReduxStateShape';

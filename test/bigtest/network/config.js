@@ -426,6 +426,7 @@ export default function config() {
       contentType,
       proxy,
       packageToken,
+      accessTypeId,
     } = body.data.attributes;
 
     const selectedCount = isSelected ? matchingResources.length : 0;
@@ -441,6 +442,7 @@ export default function config() {
     matchingPackage.update('contentType', contentType);
     matchingPackage.update('proxy', proxy);
     matchingPackage.update('packageToken', packageToken);
+    matchingPackage.update('accessTypeId', accessTypeId);
 
     return matchingPackage;
   });
