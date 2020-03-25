@@ -17,16 +17,14 @@ import { getAccessTypes as getAccessTypesAction } from '../redux/actions';
 
 import View from '../components/package/package-edit';
 
-import { accessTypes } from '../constants';
+import {
+  accessTypes,
+  accessTypesReduxStateShape,
+} from '../constants';
 
 class PackageEditRoute extends Component {
   static propTypes = {
-    accessStatusTypes: PropTypes.shape({
-      isLoading: PropTypes.bool.isRequired,
-      items: PropTypes.shape({
-        data: PropTypes.array.isRequired,
-      }).isRequired,
-    }).isRequired,
+    accessStatusTypes: accessTypesReduxStateShape.isRequired,
     destroyPackage: PropTypes.func.isRequired,
     getAccessTypes: PropTypes.func.isRequired,
     getPackage: PropTypes.func.isRequired,
