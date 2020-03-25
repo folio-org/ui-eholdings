@@ -32,7 +32,7 @@ import { CustomLabelsEditSection } from '../../custom-labels-section';
 import DetailsView from '../../details-view';
 import NavigationModal from '../../navigation-modal';
 import ProxySelectField from '../../proxy-select';
-import AccessTypeSelectField from '../../access-type-select';
+import AccessTypeEditSection from '../../access-type-edit-section';
 import Toaster from '../../toaster';
 
 import {
@@ -40,7 +40,6 @@ import {
   isBookPublicationType,
   getUserDefinedFields,
   getAccessTypeId,
-  getAccessTypeIdsAndNames,
 } from '../../utilities';
 
 import { CustomLabelsAccordion } from '../../../features';
@@ -228,24 +227,6 @@ class ResourceEditCustomTitle extends Component {
     );
   };
 
-  renderAccessTypeSelectField = () => {
-    const { accessStatusTypes } = this.props;
-
-    if (!accessStatusTypes?.items?.data?.length) {
-      return null;
-    }
-
-    const formattedAccessTypes = getAccessTypeIdsAndNames(accessStatusTypes.items.data);
-
-    return (
-      <div data-test-eholdings-access-types-select>
-        <AccessTypeSelectField
-          accessStatusTypes={formattedAccessTypes}
-        />
-      </div>
-    );
-  }
-
   getActionMenu = () => {
     const { stripes } = this.props;
 
@@ -395,11 +376,7 @@ class ResourceEditCustomTitle extends Component {
                             )}
                           </div>
                           <CustomUrlFields />
-                          {accessStatusTypes?.isLoading
-                            ? (
-                              <Icon icon="spinner-ellipsis" />
-                            )
-                            : this.renderAccessTypeSelectField()}
+                          <AccessTypeEditSection accessStatusTypes={accessStatusTypes} />
                         </>
                       ) : (
                         <p data-test-eholdings-resource-edit-settings-message>

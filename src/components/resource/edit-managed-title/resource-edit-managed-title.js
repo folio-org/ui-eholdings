@@ -28,7 +28,6 @@ import {
   isBookPublicationType,
   getUserDefinedFields,
   getAccessTypeId,
-  getAccessTypeIdsAndNames,
 } from '../../utilities';
 
 import CoverageStatementFields, { coverageStatementDecorator } from '../_fields/coverage-statement';
@@ -36,7 +35,7 @@ import VisibilityField from '../_fields/visibility';
 import Toaster from '../../toaster';
 import CustomEmbargoFields, { getEmbargoInitial } from '../_fields/custom-embargo';
 import NavigationModal from '../../navigation-modal';
-import AccessTypeSelectField from '../../access-type-select';
+import AccessTypeEditSection from '../../access-type-edit-section';
 import ProxySelectField from '../../proxy-select';
 import CoverageFields from '../_fields/resource-coverage-fields';
 import CoverageDateList from '../../coverage-date-list';
@@ -213,24 +212,6 @@ class ResourceEditManagedTitle extends Component {
     );
   };
 
-  renderAccessTypeSelectField = () => {
-    const { accessStatusTypes } = this.props;
-
-    if (!accessStatusTypes?.items?.data?.length) {
-      return null;
-    }
-
-    const formattedAccessTypes = getAccessTypeIdsAndNames(accessStatusTypes.items.data);
-
-    return (
-      <div data-test-eholdings-access-types-select>
-        <AccessTypeSelectField
-          accessStatusTypes={formattedAccessTypes}
-        />
-      </div>
-    );
-  }
-
   getActionMenu = () => {
     const { stripes } = this.props;
     const hasSelectPermission = stripes.hasPerm('ui-eholdings.package-title.select-unselect');
@@ -395,11 +376,7 @@ class ResourceEditManagedTitle extends Component {
                                 <ProxySelectField proxyTypes={proxyTypes} inheritedProxyId={model.package.proxy.id} />
                               </div>
                             ))}
-                          {accessStatusTypes?.isLoading
-                            ? (
-                              <Icon icon="spinner-ellipsis" />
-                            )
-                            : this.renderAccessTypeSelectField()}
+                          <AccessTypeEditSection accessStatusTypes={accessStatusTypes} />
                         </div>
                       </Accordion>
                     )}

@@ -24,7 +24,6 @@ import {
 import {
   processErrors,
   getAccessTypeId,
-  getAccessTypeIdsAndNames,
 } from '../../utilities';
 
 
@@ -36,7 +35,8 @@ import NavigationModal from '../../navigation-modal';
 import Toaster from '../../toaster';
 import SelectionStatus from '../selection-status';
 import ProxySelectField from '../../proxy-select';
-import AccessTypeField from '../../access-type-select';
+import AccessTypeEditSection from '../../access-type-edit-section';
+
 import styles from './custom-package-edit.css';
 
 const focusOnErrors = createFocusDecorator();
@@ -247,22 +247,6 @@ class CustomPackageEdit extends Component {
     );
   }
 
-  renderAccessTypeSelectField = () => {
-    const { accessStatusTypes } = this.props;
-
-    if (!accessStatusTypes?.items?.data?.length) {
-      return null;
-    }
-
-    const formattedAccessTypes = getAccessTypeIdsAndNames(accessStatusTypes.items.data);
-
-    return (
-      <div data-test-eholdings-access-types-select>
-        <AccessTypeField accessStatusTypes={formattedAccessTypes} />
-      </div>
-    );
-  }
-
   render() {
     const {
       model,
@@ -343,10 +327,7 @@ class CustomPackageEdit extends Component {
                             </div>
                           </KeyValue>
                         )}
-                      {accessStatusTypes.isLoading
-                        ? <Icon icon="spinner-ellipsis" />
-                        : this.renderAccessTypeSelectField()
-                      }
+                      <AccessTypeEditSection accessStatusTypes={accessStatusTypes} />
                     </Accordion>
 
                     <Accordion

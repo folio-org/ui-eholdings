@@ -23,7 +23,6 @@ import {
 import {
   processErrors,
   getAccessTypeId,
-  getAccessTypeIdsAndNames,
 } from '../../utilities';
 
 import DetailsView from '../../details-view';
@@ -33,7 +32,7 @@ import Toaster from '../../toaster';
 import SelectionStatus from '../selection-status';
 import ProxySelectField from '../../proxy-select';
 import TokenField from '../../token';
-import AccessTypeField from '../../access-type-select';
+import AccessTypeEditSection from '../../access-type-edit-section';
 
 import styles from './managed-package-edit.css';
 
@@ -298,22 +297,6 @@ class ManagedPackageEdit extends Component {
     );
   }
 
-  renderAccessTypeSelectField = () => {
-    const { accessStatusTypes } = this.props;
-
-    if (!accessStatusTypes?.items?.data?.length) {
-      return null;
-    }
-
-    const formattedAccessTypes = getAccessTypeIdsAndNames(accessStatusTypes.items.data);
-
-    return (
-      <div data-test-eholdings-access-types-select>
-        <AccessTypeField accessStatusTypes={formattedAccessTypes} />
-      </div>
-    );
-  }
-
   render() {
     const {
       model,
@@ -467,10 +450,7 @@ class ManagedPackageEdit extends Component {
                             ) : (
                               <Icon icon="spinner-ellipsis" />
                             )}
-                            {accessStatusTypes.isLoading
-                              ? <Icon icon="spinner-ellipsis" />
-                              : this.renderAccessTypeSelectField()
-                            }
+                            <AccessTypeEditSection accessStatusTypes={accessStatusTypes} />
                             {supportsProviderTokens && (
                               <fieldset>
                                 <Headline tag="legend">
