@@ -11,18 +11,16 @@ import {
   Pane,
   Paneset,
   PaneFooter,
-  Icon,
 } from '@folio/stripes/components';
 
-import AccessTypeField from '../../access-type-select';
 import DetailsViewSection from '../../details-view-section';
 import NameField from '../_fields/name';
 import CoverageFields from '../_fields/custom-coverage';
 import ContentTypeField from '../_fields/content-type';
 import NavigationModal from '../../navigation-modal';
-import Toaster from '../../toaster';
+import AccessTypeEditSection from '../../access-type-edit-section';
 
-import { getAccessTypeIdsAndNames } from '../../utilities';
+import Toaster from '../../toaster';
 
 import styles from './package-create.css';
 
@@ -110,22 +108,6 @@ export default class PackageCreate extends Component {
       : null;
   }
 
-  renderAccessTypeSelectField = () => {
-    const { accessStatusTypes } = this.props;
-
-    if (!accessStatusTypes?.items?.data?.length) {
-      return null;
-    }
-
-    const formattedAccessTypes = getAccessTypeIdsAndNames(accessStatusTypes.items.data);
-
-    return (
-      <div data-test-eholdings-access-types-select>
-        <AccessTypeField accessStatusTypes={formattedAccessTypes} />
-      </div>
-    );
-  }
-
   render() {
     const {
       request,
@@ -165,10 +147,7 @@ export default class PackageCreate extends Component {
                   >
                     <NameField />
                     <ContentTypeField />
-                    {accessStatusTypes.isLoading
-                      ? <Icon icon="spinner-ellipsis" />
-                      : this.renderAccessTypeSelectField()
-                    }
+                    <AccessTypeEditSection accessStatusTypes={accessStatusTypes} />
                   </DetailsViewSection>
                   <DetailsViewSection
                     label={<FormattedMessage id="ui-eholdings.label.coverageSettings" />}
