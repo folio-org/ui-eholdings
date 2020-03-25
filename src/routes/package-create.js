@@ -13,14 +13,11 @@ import Package from '../redux/package';
 
 import View from '../components/package/create';
 
+import { accessTypesReduxStateShape } from '../constants';
+
 class PackageCreateRoute extends Component {
   static propTypes = {
-    accessStatusTypes: PropTypes.shape({
-      isLoading: PropTypes.bool.isRequired,
-      items: PropTypes.shape({
-        data: PropTypes.array.isRequired,
-      }).isRequired,
-    }).isRequired,
+    accessStatusTypes: accessTypesReduxStateShape.isRequired,
     createPackage: PropTypes.func.isRequired,
     createRequest: PropTypes.object.isRequired,
     getAccessTypes: PropTypes.func.isRequired,

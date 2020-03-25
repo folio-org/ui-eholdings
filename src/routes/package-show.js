@@ -17,19 +17,17 @@ import { selectPropFromData } from '../redux/selectors';
 import { getAccessTypes as getAccessTypesAction } from '../redux/actions';
 import Tag from '../redux/tag';
 import { transformQueryParams } from '../components/utilities';
-import { listTypes } from '../constants';
+import {
+  listTypes,
+  accessTypesReduxStateShape,
+} from '../constants';
 
 import View from '../components/package/show';
 import SearchModal from '../components/search-modal';
 
 class PackageShowRoute extends Component {
   static propTypes = {
-    accessStatusTypes: PropTypes.shape({
-      isLoading: PropTypes.bool.isRequired,
-      items: PropTypes.arrayOf(PropTypes.shape({
-        data: PropTypes.array.isRequired,
-      }).isRequired).isRequired,
-    }).isRequired,
+    accessStatusTypes: accessTypesReduxStateShape.isRequired,
     destroyPackage: PropTypes.func.isRequired,
     getAccessTypes: PropTypes.func.isRequired,
     getPackage: PropTypes.func.isRequired,

@@ -1,5 +1,4 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 
 import { Icon } from '@folio/stripes/components';
 
@@ -8,13 +7,10 @@ import {
   getAccessTypeIdsAndNames,
 } from '../utilities';
 
+import { accessTypesReduxStateShape } from '../../constants';
+
 const propTypes = {
-  accessStatusTypes: PropTypes.shape({
-    isLoading: PropTypes.bool.isRequired,
-    items: PropTypes.shape({
-      data: PropTypes.array.isRequired,
-    }).isRequired,
-  }).isRequired,
+  accessStatusTypes: accessTypesReduxStateShape.isRequired,
 };
 
 const AccessStatusTypeEditSection = ({ accessStatusTypes }) => {
