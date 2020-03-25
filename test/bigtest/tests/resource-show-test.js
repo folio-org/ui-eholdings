@@ -300,8 +300,14 @@ describe('ResourceShow', () => {
         return ResourcePage.clickAddToHoldingsButton();
       });
 
-      it('should not redirect to Resource Show page', function () {
-        expect(this.location.state?.isFreshlySaved).to.not.be.true;
+      describe('and clicking Back button', () => {
+        beforeEach(() => {
+          return ResourcePage.clickBackButton();
+        });
+
+        it('should not return to same page', function () {
+          expect(this.location.pathname).to.not.equal(`/eholdings/resources/${resource.id}`);
+        });
       });
     });
 

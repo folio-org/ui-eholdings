@@ -49,8 +49,6 @@ class ResourceShowRoute extends Component {
 
   componentDidUpdate(prevProps) {
     const wasUpdated = !this.props.model.update.isPending && prevProps.model.update.isPending && (!this.props.model.update.errors.length > 0);
-    const { changedAttributes } = this.props.model.update;
-    const isSelectedUpdated = changedAttributes?.isSelected?.prev !== changedAttributes?.isSelected?.next;
 
     const { match, getResource, history, location } = this.props;
     const { id } = match.params;
@@ -61,10 +59,8 @@ class ResourceShowRoute extends Component {
         { eholdings: true, isDestroyed: true });
     }
 
-    // no need to open View Resource page after adding/removing from holdings
-    // since we're already on it
-    if (wasUpdated && !isSelectedUpdated) {
-      history.push({
+    if (wasUpdated) {
+      history.replace({
         pathname: `/eholdings/resources/${this.props.model.id}`,
         search: location.search,
         state: { eholdings: true, isFreshlySaved: true }
