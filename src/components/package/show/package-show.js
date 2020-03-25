@@ -33,6 +33,7 @@ import {
   listTypes,
   DOMAIN_NAME,
   paths,
+  accessTypesReduxStateShape,
 } from '../../../constants';
 import {
   processErrors,
@@ -57,12 +58,7 @@ const ITEM_HEIGHT = 53;
 
 class PackageShow extends Component {
   static propTypes = {
-    accessStatusTypes: PropTypes.shape({
-      isLoading: PropTypes.bool.isRequired,
-      items: PropTypes.shape({
-        data: PropTypes.array.isRequired,
-      }).isRequired,
-    }).isRequired,
+    accessStatusTypes: accessTypesReduxStateShape.isRequired,
     addPackageToHoldings: PropTypes.func.isRequired,
     fetchPackageTitles: PropTypes.func.isRequired,
     isDestroyed: PropTypes.bool,

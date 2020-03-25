@@ -6,14 +6,11 @@ import { Icon } from '@folio/stripes-components';
 import ManagedPackageEdit from './edit-managed';
 import CustomPackageEdit from './edit-custom';
 
+import { accessTypesReduxStateShape } from '../../constants';
+
 export default class PackageEdit extends React.Component {
   static propTypes = {
-    accessStatusTypes: PropTypes.shape({
-      isLoading: PropTypes.bool.isRequired,
-      items: PropTypes.shape({
-        data: PropTypes.array.isRequired,
-      }).isRequired,
-    }).isRequired,
+    accessStatusTypes: accessTypesReduxStateShape.isRequired,
     model: PropTypes.object.isRequired,
     provider: PropTypes.object.isRequired,
   };
