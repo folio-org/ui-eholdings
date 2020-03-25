@@ -68,6 +68,10 @@ class ManagedPackageEdit extends Component {
     };
   }
 
+  static isProxyTypesLoaded(proxyTypes, provider) {
+    return proxyTypes.request.isResolved && provider.data.isLoaded;
+  }
+
   static propTypes = {
     accessStatusTypes: accessTypesReduxStateShape.isRequired,
     addPackageToHoldings: PropTypes.func.isRequired,
@@ -81,13 +85,9 @@ class ManagedPackageEdit extends Component {
     }),
   };
 
-  static isProxyTypesLoaded (proxyTypes, provider) {
-    return proxyTypes.request.isResolved && provider.data.isLoaded;
-  }
-
   static getDerivedStateFromProps(nextProps, prevState) {
     let stateUpdates = {};
-    const { initialValues } = prevState;
+    const { initialValues, proxyTypesLoaded } = prevState;
     const {
       model: {
         isSelected,
@@ -108,7 +108,7 @@ class ManagedPackageEdit extends Component {
       };
     }
 
-    if (isProxyTypesLoaded) {
+    if (isProxyTypesLoaded && !proxyTypesLoaded) {
       stateUpdates = {
         initialValues: ManagedPackageEdit.getInitialValues(nextProps.model, nextProps.provider, proxyTypes),
         proxyTypesLoaded: true,

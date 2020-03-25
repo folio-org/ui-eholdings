@@ -70,6 +70,10 @@ class CustomPackageEdit extends Component {
     };
   }
 
+  static isProxyTypesLoaded(proxyTypes, provider) {
+    return proxyTypes.request.isResolved && provider.data.isLoaded;
+  }
+
   static propTypes = {
     accessStatusTypes: accessTypesReduxStateShape.isRequired,
     addPackageToHoldings: PropTypes.func.isRequired,
@@ -83,13 +87,9 @@ class CustomPackageEdit extends Component {
     }),
   };
 
-  static isProxyTypesLoaded (proxyTypes, provider) {
-    return proxyTypes.request.isResolved && provider.data.isLoaded;
-  }
-
   static getDerivedStateFromProps(nextProps, prevState) {
     let stateUpdates = {};
-    const { initialValues } = prevState;
+    const { initialValues, proxyTypesLoaded } = prevState;
     const {
       isSelected,
       destroy,
@@ -107,7 +107,7 @@ class CustomPackageEdit extends Component {
       };
     }
 
-    if (isProxyTypesLoaded) {
+    if (isProxyTypesLoaded && !proxyTypesLoaded) {
       stateUpdates = {
         initialValues: CustomPackageEdit.getInitialValues(nextProps.model, proxyTypes),
         proxyTypesLoaded: true,
