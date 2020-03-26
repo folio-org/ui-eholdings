@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import QueryList from './query-list';
 import ProviderListItem from './provider-list-item';
 
-const ITEM_HEIGHT = 53;
+const ITEM_HEIGHT = 62;
 
 export default function ProviderSearchList({
   activeId,

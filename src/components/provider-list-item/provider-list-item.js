@@ -3,10 +3,12 @@ import PropTypes from 'prop-types';
 import classNames from 'classnames/bind';
 import { FormattedNumber, FormattedMessage } from 'react-intl';
 import { Headline } from '@folio/stripes/components';
+import { AppIcon } from '@folio/stripes-core';
 
 import shouldFocus from '../should-focus';
 import styles from './provider-list-item.css';
 import InternalLink from '../internal-link';
+import { APP_ICON_NAME } from '../../constants';
 
 const cx = classNames.bind(styles);
 
@@ -36,23 +38,46 @@ function ProviderListItem({ item, link, active, onClick, headingLevel }) {
         {item.name}
       </Headline>
 
-      <div data-test-eholdings-provider-list-item-selections>
-        <span data-test-eholdings-provider-list-item-num-packages-selected>
-          <FormattedNumber value={item.packagesSelected} />
-        </span>
-
-        &nbsp;/&nbsp;
-
-        <span data-test-eholdings-provider-list-item-num-packages-total>
-          <FormattedNumber value={item.packagesTotal} />
-        </span>
-
-        &nbsp;
+      <div
+        data-test-eholdings-provider-list-item-selections
+        className={cx('itemMetadata')}
+      >
+        <AppIcon
+          app={APP_ICON_NAME}
+          iconKey='selectedPackage'
+          size='small'
+          className={cx('item', 'selection-status', {
+            'not-selected': !item.packagesSelected,
+          })}
+        >
+          <span data-test-eholdings-package-list-item-selected>
+            {item.packagesSelected
+              ? (<FormattedMessage
+                id="ui-eholdings.selectedCount"
+                values={{
+                  count: (
+                    <span data-test-eholdings-provider-list-item-num-packages-selected>
+                      <FormattedNumber value={item.packagesSelected} />
+                    </span>
+                  )
+                }}
+              />)
+              : <FormattedMessage id="ui-eholdings.notSelected" />
+            }
+          </span>
+        </AppIcon>
 
         <span>
-          {item.packagesTotal === 1 ?
-            (<FormattedMessage id="ui-eholdings.label.package" />) :
-            (<FormattedMessage id="ui-eholdings.label.packages" />)}
+          <FormattedMessage
+            id="ui-eholdings.label.totalPackages"
+            values={{
+              count: (
+                <span data-test-eholdings-provider-list-item-num-packages-total>
+                  <FormattedNumber value={item.packagesTotal} />
+                </span>
+              )
+            }}
+          />
         </span>
       </div>
     </InternalLink>
