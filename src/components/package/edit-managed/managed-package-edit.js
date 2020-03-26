@@ -20,7 +20,12 @@ import {
   PaneFooter,
 } from '@folio/stripes/components';
 
-import { processErrors } from '../../utilities';
+import {
+  processErrors,
+  getAccessTypeId,
+  getProxyTypesRecords,
+  getProxyTypeById,
+} from '../../utilities';
 
 import DetailsView from '../../details-view';
 import CoverageFields from '../_fields/custom-coverage';
@@ -44,8 +49,8 @@ class ManagedPackageEdit extends Component {
       allowKbToAddTitles,
     } = model;
 
-    const proxyTypesRecords = proxyTypes.resolver.state.proxyTypes.records;
-    const matchingProxy = Object.values(proxyTypesRecords).find(proxyType => proxyType.id.toLowerCase() === proxy.id);
+    const proxyTypesRecords = getProxyTypesRecords(proxyTypes);
+    const matchingProxy = getProxyTypeById(proxyTypesRecords, proxy.id);
 
     return {
       isSelected,
