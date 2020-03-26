@@ -124,6 +124,18 @@ export const getAccessTypeIdsAndNames = accessTypes => accessTypes.map(accessTyp
 }));
 
 /**
+ * Getter helper to get object with shape { proxyId: proxyType }
+ * @param {Object} proxyTypes - proxyTypes object returned by resolver
+ */
+export const getProxyTypesRecords = proxyTypes => proxyTypes?.resolver?.state?.proxyTypes?.records || {};
+
+/**
+ * Getter helper to get proxy type by id, ignoring case
+ * @param {Object} proxyTypesRecords - proxy types object with shape { proxyId: proxyType }
+ */
+export const getProxyTypeById = (proxyTypesRecords, id) => Object.values(proxyTypesRecords).find(proxyType => proxyType.id.toLowerCase() === id);
+
+/**
  *
  * @param {Object} entityModel - entity model that has tags attibute as tags:{taglist:[]}
  */

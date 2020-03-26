@@ -24,6 +24,8 @@ import {
 import {
   processErrors,
   getAccessTypeId,
+  getProxyTypesRecords,
+  getProxyTypeById,
 } from '../../utilities';
 
 
@@ -54,8 +56,8 @@ class CustomPackageEdit extends Component {
       visibilityData,
     } = model;
 
-    const proxyTypesRecords = proxyTypes.resolver.state.proxyTypes.records;
-    const matchingProxy = Object.values(proxyTypesRecords).find(proxyType => proxyType.id.toLowerCase() === proxy.id);
+    const proxyTypesRecords = getProxyTypesRecords(proxyTypes);
+    const matchingProxy = getProxyTypeById(proxyTypesRecords, proxy.id);
 
     return {
       name,

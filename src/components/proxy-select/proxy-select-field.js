@@ -5,8 +5,10 @@ import { FormattedMessage } from 'react-intl';
 
 import { Select } from '@folio/stripes/components';
 
+import { getProxyTypesRecords } from '../utilities';
+
 function ProxySelectField({ proxyTypes, inheritedProxyId }) {
-  const proxyTypesRecords = proxyTypes.resolver.state.proxyTypes.records;
+  const proxyTypesRecords = getProxyTypesRecords(proxyTypes);
 
   const checkIfInherited = proxyTypeId => (inheritedProxyId && inheritedProxyId.toLowerCase() === proxyTypeId.toLowerCase());
 
