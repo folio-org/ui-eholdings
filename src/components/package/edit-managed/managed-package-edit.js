@@ -83,7 +83,7 @@ class ManagedPackageEdit extends Component {
 
   static getDerivedStateFromProps(nextProps, prevState) {
     let stateUpdates = {};
-    const { initialValues, proxyTypesLoaded } = prevState;
+    const { initialValues, wasProxyTypesLoaded } = prevState;
     const {
       model: {
         isSelected,
@@ -104,10 +104,10 @@ class ManagedPackageEdit extends Component {
       };
     }
 
-    if (isProxyTypesLoaded && !proxyTypesLoaded) {
+    if (isProxyTypesLoaded && !wasProxyTypesLoaded) {
       stateUpdates = {
         initialValues: ManagedPackageEdit.getInitialValues(nextProps.model, nextProps.provider, proxyTypes),
-        proxyTypesLoaded: true,
+        wasProxyTypesLoaded: true,
       };
     }
 
@@ -124,7 +124,7 @@ class ManagedPackageEdit extends Component {
       showSelectionModal: false,
       allowFormToSubmit: false,
       packageSelected: this.props.model.isSelected,
-      proxyTypesLoaded: this.props.proxyTypes.request.isResolved,
+      wasProxyTypesLoaded: this.props.proxyTypes.request.isResolved,
       formValues: {},
       initialValues: ManagedPackageEdit.getInitialValues(this.props.model, this.props.provider, this.props.proxyTypes),
       sections: {
