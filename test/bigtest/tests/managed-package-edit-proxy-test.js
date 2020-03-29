@@ -32,6 +32,21 @@ describe('ManagedPackageEditProxy', () => {
       expect(PackageEditPage.proxySelectValue).to.equal('microstates');
     });
 
+    describe('when inherited proxy id has different casing', () => {
+      beforeEach(function () {
+        const proxy = this.server.create('proxy', {
+          id: 'ezproxy',
+        });
+
+        providerPackage.update('proxy', proxy.toJSON());
+        this.visit(`/eholdings/packages/${providerPackage.id}/edit`);
+      });
+
+      it('has a select containing the current proxy value', () => {
+        expect(PackageEditPage.proxySelectValue).to.equal('EZproxy');
+      });
+    });
+
     describe('selecting a new proxy value', () => {
       beforeEach(() => {
         return PackageEditPage.chooseProxy('Inherited - bigTestJS');

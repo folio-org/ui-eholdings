@@ -51,6 +51,7 @@ class ResourceShowRoute extends Component {
 
   componentDidUpdate(prevProps) {
     const wasUpdated = !this.props.model.update.isPending && prevProps.model.update.isPending && (!this.props.model.update.errors.length > 0);
+
     const { match, getResource, history, location } = this.props;
     const { id } = match.params;
 
@@ -61,7 +62,7 @@ class ResourceShowRoute extends Component {
     }
 
     if (wasUpdated) {
-      history.push({
+      history.replace({
         pathname: `/eholdings/resources/${this.props.model.id}`,
         search: location.search,
         state: { eholdings: true, isFreshlySaved: true }

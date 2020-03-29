@@ -23,6 +23,8 @@ import {
 import {
   processErrors,
   getAccessTypeId,
+  getProxyTypesRecords,
+  getProxyTypeById,
 } from '../../utilities';
 
 import DetailsView from '../../details-view';
@@ -41,7 +43,7 @@ import styles from './managed-package-edit.css';
 const focusOnErrors = createFocusDecorator();
 
 class ManagedPackageEdit extends Component {
-  static getInitialValues(model, { providerToken }) {
+  static getInitialValues(model, { providerToken }, proxyTypes) {
     const {
       isSelected,
       customCoverage,
@@ -51,18 +53,25 @@ class ManagedPackageEdit extends Component {
       allowKbToAddTitles,
     } = model;
 
+    const proxyTypesRecords = getProxyTypesRecords(proxyTypes);
+    const matchingProxy = getProxyTypeById(proxyTypesRecords, proxy.id);
+
     return {
       isSelected,
       customCoverages: [{
         ...customCoverage,
       }],
-      proxyId: proxy.id,
+      proxyId: matchingProxy?.id || proxy.id,
       providerTokenValue: providerToken.value,
       packageTokenValue: packageToken.value,
       isVisible: !visibilityData.isHidden,
       allowKbToAddTitles,
       accessTypeId: getAccessTypeId(model),
     };
+  }
+
+  static isProxyTypesLoaded(proxyTypes, provider) {
+    return proxyTypes.request.isResolved && provider.data.isLoaded;
   }
 
   static propTypes = {
@@ -80,22 +89,31 @@ class ManagedPackageEdit extends Component {
 
   static getDerivedStateFromProps(nextProps, prevState) {
     let stateUpdates = {};
-    const { initialValues } = prevState;
+    const { initialValues, wasProxyTypesLoaded } = prevState;
     const {
       model: {
         isSelected,
         update,
       },
       provider: { providerToken },
+      proxyTypes,
     } = nextProps;
 
     const providerTokenWasLoaded = !initialValues.providerTokenValue && providerToken.value;
     const selectionStatusChanged = isSelected !== initialValues.isSelected;
+    const isProxyTypesLoaded = ManagedPackageEdit.isProxyTypesLoaded(proxyTypes, nextProps.provider);
 
     if (selectionStatusChanged || providerTokenWasLoaded) {
       stateUpdates = {
-        initialValues: ManagedPackageEdit.getInitialValues(nextProps.model, nextProps.provider),
+        initialValues: ManagedPackageEdit.getInitialValues(nextProps.model, nextProps.provider, proxyTypes),
         packageSelected: isSelected
+      };
+    }
+
+    if (isProxyTypesLoaded && !wasProxyTypesLoaded) {
+      stateUpdates = {
+        initialValues: ManagedPackageEdit.getInitialValues(nextProps.model, nextProps.provider, proxyTypes),
+        wasProxyTypesLoaded: true,
       };
     }
 
@@ -112,8 +130,9 @@ class ManagedPackageEdit extends Component {
       showSelectionModal: false,
       allowFormToSubmit: false,
       packageSelected: this.props.model.isSelected,
+      wasProxyTypesLoaded: this.props.proxyTypes.request.isResolved,
       formValues: {},
-      initialValues: ManagedPackageEdit.getInitialValues(this.props.model, this.props.provider),
+      initialValues: ManagedPackageEdit.getInitialValues(this.props.model, this.props.provider, this.props.proxyTypes),
       sections: {
         packageHoldingStatus: true,
         packageSettings: true,

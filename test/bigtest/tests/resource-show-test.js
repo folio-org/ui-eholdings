@@ -295,6 +295,22 @@ describe('ResourceShow', () => {
       expect(ResourcePage.hasBackButton).to.be.true;
     });
 
+    describe('toggling is selected successfully', () => {
+      beforeEach(() => {
+        return ResourcePage.clickAddToHoldingsButton();
+      });
+
+      describe('and clicking Back button', () => {
+        beforeEach(() => {
+          return ResourcePage.clickBackButton();
+        });
+
+        it('should not return to same page', function () {
+          expect(this.location.pathname).to.not.equal(`/eholdings/resources/${resource.id}`);
+        });
+      });
+    });
+
     describe('toggling is selected with errors', () => {
       beforeEach(function () {
         this.server.put('/resources/:id', {

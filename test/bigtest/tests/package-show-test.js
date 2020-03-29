@@ -3,6 +3,7 @@ import { expect } from 'chai';
 
 import setupApplication from '../helpers/setup-application';
 import PackageShowPage from '../interactors/package-show';
+import PackageEditPage from '../interactors/package-edit';
 import { entityAuthorityTypes } from '../../../src/constants';
 
 describe('PackageShow', () => {
@@ -566,6 +567,21 @@ describe('PackageShow', () => {
 
     it('should display the back button in UI', () => {
       expect(PackageShowPage.hasBackButton).to.be.true;
+    });
+  });
+
+  describe('toggling is selected successfully', () => {
+    beforeEach(async function () {
+      this.visit(`/eholdings/packages/${providerPackage.id}`);
+
+      await PackageShowPage.selectPackage();
+      await PackageShowPage.clickEditButton();
+      await PackageEditPage.chooseProxy('microstates');
+      return PackageEditPage.clickBackButton();
+    });
+
+    it('shows a navigation confirmation modal', () => {
+      expect(PackageEditPage.navigationModal.$root).to.exist;
     });
   });
 
