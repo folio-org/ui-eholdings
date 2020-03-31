@@ -187,12 +187,10 @@ class PackageShowRoute extends Component {
     const qs = queryString.parse(location.search, { ignoreQueryPrefix: true });
     const search = queryString.stringify({ ...qs, filterTitles: pkgSearchParams.q });
 
-    if (pkgSearchParams?.q) {
-      history.replace({
-        ...location,
-        search
-      }, { eholdings: true });
-    }
+    history.replace({
+      ...location,
+      search
+    }, { eholdings: true });
 
     this.setState(({ queryId }) => ({
       pkgSearchParams,

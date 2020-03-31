@@ -4,7 +4,7 @@ import ReactRouterPropTypes from 'react-router-prop-types';
 import { connect } from 'react-redux';
 import { TitleManager } from '@folio/stripes/core';
 
-
+import { omit } from 'lodash';
 import queryString from 'qs';
 import { createResolver } from '../redux';
 import Provider from '../redux/provider';
@@ -78,12 +78,10 @@ class ProviderShowRoute extends Component {
     const qs = queryString.parse(location.search, { ignoreQueryPrefix: true });
     const search = queryString.stringify({ ...qs, filterPackages: pkgSearchParams.q });
 
-    if (pkgSearchParams?.q) {
-      history.replace({
-        ...location,
-        search
-      }, { eholdings: true });
-    }
+    history.replace({
+      ...location,
+      search
+    }, { eholdings: true });
 
     this.setState(({ queryId }) => ({
       pkgSearchParams,
