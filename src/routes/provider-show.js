@@ -4,7 +4,7 @@ import ReactRouterPropTypes from 'react-router-prop-types';
 import { connect } from 'react-redux';
 import { TitleManager } from '@folio/stripes/core';
 
-import { omit } from 'lodash';
+
 import queryString from 'qs';
 import { createResolver } from '../redux';
 import Provider from '../redux/provider';
