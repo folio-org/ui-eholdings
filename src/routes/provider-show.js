@@ -35,8 +35,11 @@ class ProviderShowRoute extends Component {
 
   constructor(props) {
     super(props);
+
+    const { filterPackages } = queryString.parse(props.location.search);
+
     this.state = {
-      pkgSearchParams: {},
+      pkgSearchParams: filterPackages ? { q: filterPackages } : {},
       queryId: 0,
     };
     const { providerId } = props.match.params;
@@ -71,6 +74,17 @@ class ProviderShowRoute extends Component {
   }
 
   searchPackages = (pkgSearchParams) => {
+    const { location, history } = this.props;
+    const qs = queryString.parse(location.search, { ignoreQueryPrefix: true });
+    const search = queryString.stringify({ ...qs, filterPackages: pkgSearchParams.q });
+
+    if (pkgSearchParams?.q) {
+      history.replace({
+        ...location,
+        search
+      }, { eholdings: true });
+    }
+
     this.setState(({ queryId }) => ({
       pkgSearchParams,
       queryId: (queryId + 1)
