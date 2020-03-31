@@ -269,7 +269,6 @@ class PackageShowRoute extends Component {
             history.location.state &&
             history.location.state.isDestroyed
           }
-          searchParams={pkgSearchParams}
           searchModal={
             <SearchModal
               key={queryId}
