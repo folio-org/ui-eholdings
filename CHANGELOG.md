@@ -6,6 +6,8 @@
 * Fix Unsaved Changes Modal not appearing after changing selected status. (UIEH-854)
 * Fix need to click 'X' twice to return after changing selected status and visiting Edit page. (UIEH-854)
 * Fix Proxy selection is set to None when package has Inherited proxy. (UIEH-854)
+* Retain search within packages search and filter selections on the Provider record (UIEH-847)
+* Retain search within titles search and filter selections on the Package record (UIEH-853)
 
 ## [3.0.0] (https://github.com/folio-org/ui-eholdings/tree/v3.0.0) (2020-03-13)
 
