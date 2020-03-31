@@ -16,6 +16,7 @@ import { AccordionInteractor } from '@folio/stripes-components/lib/Accordion/tes
 import ButtonInteractor from '@folio/stripes-components/lib/Button/tests/interactor';
 
 import TagsAccordion from './tags-accordion';
+import AccessStatusTypesFilter from './accessTypesFilterAccordion';
 
 import Toast from './toast';
 import ExpandFilterPaneButtonInteractor from './expand-filter-pane-button';
@@ -52,6 +53,7 @@ import ExpandFilterPaneButtonInteractor from './expand-filter-pane-button';
   isSearchPanePresent = isPresent('[data-test-eholdings-search-pane]');
   clickNewButton = clickable('[data-test-eholdings-search-new-button]');
   tagsSection = new TagsAccordion('[data-test-eholdings-tag-filter]');
+  accessStatusTypesSection = new AccessStatusTypesFilter('[data-test-eholdings-access-types-filter]');
 
   toast = Toast;
 

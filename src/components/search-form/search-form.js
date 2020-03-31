@@ -193,7 +193,7 @@ class SearchForm extends Component {
           </span>
         )}
         onClick={onStandaloneFilterToggle('access-type')}
-        data-test-tags-checkbox
+        data-test-toggle-access-types-filter-checkbox
       />
     );
   }
@@ -286,7 +286,7 @@ class SearchForm extends Component {
       : accessStatusTypesExist && (
         <div
           className={styles['search-filters']}
-          data-test-eholdings-tag-filter
+          data-test-eholdings-access-types-filter
         >
           <Accordion
             label={<FormattedMessage id="ui-eholdings.settings.accessStatusTypes" />}
@@ -304,7 +304,7 @@ class SearchForm extends Component {
               {
                 label => (
                   <MultiSelectionFilter
-                    id="accessTypeFilter"
+                    id="accessTypeFilterSelect"
                     ariaLabel={label}
                     dataOptions={this.getAccessTypesDataOptions()}
                     name="access-type"
