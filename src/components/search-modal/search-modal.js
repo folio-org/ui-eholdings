@@ -14,6 +14,7 @@ import {
 
 import SearchForm from '../search-form';
 import SearchBadge from './search-badge';
+import { accessTypesReduxStateShape } from '../../constants';
 
 export const normalize = (query = {}) => {
   return {
@@ -32,6 +33,7 @@ export const filterCountFromQuery = ({ q, sort, filter }) => {
 
 class SearchModal extends React.PureComponent {
   static propTypes = {
+    accessTypes: accessTypesReduxStateShape,
     listType: PropTypes.string,
     onFilter: PropTypes.func,
     onSearch: PropTypes.func,
@@ -41,15 +43,22 @@ class SearchModal extends React.PureComponent {
 
   constructor(props) {
     super(props);
+    const queryContainsTagsFilter = hasIn(props.query, ['filter', 'tags']);
+    const queryContainsAccessTypesFilter = hasIn(props.query, ['filter', 'access-type']);
+
     this.state = {
       isModalVisible: false,
       query: normalize(this.props.query),
-      searchByTagsEnabled: hasIn(this.props.query, 'filter.tags'),
+      searchByTagsEnabled: queryContainsTagsFilter,
+      searchByAccessTypesEnabled: queryContainsAccessTypesFilter && !queryContainsAccessTypesFilter,
     };
   }
 
   updateFilter(query) {
-    const { searchByTagsEnabled } = this.state;
+    const {
+      searchByTagsEnabled,
+      searchByAccessTypesEnabled,
+    } = this.state;
 
     let searchQuery;
 
@@ -61,6 +70,14 @@ class SearchModal extends React.PureComponent {
 
     if (!searchByTagsEnabled) {
       delete filter.tags;
+    }
+
+    if (!searchByTagsEnabled) {
+      delete filter.tags;
+    }
+
+    if (!searchByAccessTypesEnabled) {
+      delete filter['access-type'];
     }
 
     if (this.props.onFilter) {
@@ -106,11 +123,20 @@ class SearchModal extends React.PureComponent {
     });
   }
 
-  toggleSearchByTags = () => {
+  toggleFilter = filterName => () => {
+    const filterToBeToggled = filterName === 'access-type'
+      ? 'searchByAccessTypesEnabled'
+      : 'searchByTagsEnabled';
+
+    const filterToBeDisabled = filterName === 'access-type'
+      ? 'searchByTagsEnabled'
+      : 'searchByAccessTypesEnabled';
+
     this.setState(currentState => ({
-      searchByTagsEnabled: !currentState.searchByTagsEnabled
+      [filterToBeToggled]: !currentState[filterToBeToggled],
+      [filterToBeDisabled]: false,
     }));
-  };
+  }
 
   handleSearchFieldChange = (searchfield) => {
     this.setState(({ query }) => ({
@@ -141,7 +167,7 @@ class SearchModal extends React.PureComponent {
     }));
   }
 
-  handleTagFilterChange = (filter) => {
+  handleStandaloneFilterChange = filter => {
     this.setState(({ query }) => ({
       query: normalize({
         sort: query.sort,
@@ -154,12 +180,17 @@ class SearchModal extends React.PureComponent {
   }
 
   render() {
-    const { listType, tagsModel } = this.props;
+    const {
+      listType,
+      tagsModel,
+      accessTypes,
+    } = this.props;
 
     const {
       isModalVisible,
       query,
       searchByTagsEnabled,
+      searchByAccessTypesEnabled,
     } = this.state;
 
     const queryFromProps = normalize(this.props.query);
@@ -217,9 +248,12 @@ class SearchModal extends React.PureComponent {
               onFilterChange={this.handleFilterChange}
               onSearchChange={this.handleSearchQueryChange}
               onSearchFieldChange={this.handleSearchFieldChange}
-              onTagFilterChange={this.handleTagFilterChange}
+              onTagFilterChange={this.handleStandaloneFilterChange}
               searchByTagsEnabled={searchByTagsEnabled}
-              onSearchByTagsToggle={this.toggleSearchByTags}
+              searchByAccessTypesEnabled={searchByAccessTypesEnabled}
+              onStandaloneFilterToggle={this.toggleFilter}
+              onStandaloneFilterChange={this.handleStandaloneFilterChange}
+              accessTypesStoreData={accessTypes}
             />
           </Modal>
         )}

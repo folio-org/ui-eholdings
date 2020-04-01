@@ -304,6 +304,52 @@ describe('PackageSearch', () => {
     });
   });
 
+  describe('visiting the page with an existing access status types filter', () => {
+    beforeEach(function () {
+      const accessType = this.server.create('access-type', {
+        name: 'random'
+      });
+
+      this.server.create('package', {
+        name: 'test package',
+        accessTypeId: accessType.id
+      });
+
+      this.visit('/eholdings?searchType=packages&filter[access-type]=random');
+    });
+
+    it('displays access types accordion as closed', () => {
+      expect(PackageSearchPage.accessStatusTypesSection.accessTypesAccordion.isOpen).to.equal(false);
+    });
+
+    describe('clicking to open access types accordion', () => {
+      beforeEach(async () => {
+        await PackageSearchPage.accessStatusTypesSection.clickAccordionHeader();
+      });
+
+      it('displays access types accordion as expanded', () => {
+        expect(PackageSearchPage.accessStatusTypesSection.accessTypesAccordion.isOpen).to.be.true;
+      });
+
+      it('should display access types multiselect enabled', () => {
+        expect(PackageSearchPage.accessStatusTypesSection.accessTypesSelectIsDisabled).to.be.false;
+      });
+
+      it('search by tags access types checkbox should be checked', () => {
+        expect(PackageSearchPage.accessStatusTypesSection.filterCheckboxIsChecked).to.be.true;
+      });
+
+      it('should display selected value as random', () => {
+        expect(PackageSearchPage.accessStatusTypesSection.accessTypesSelect.values(0).valLabel).to.equal('random');
+      });
+
+      it('displays packages with access status type "random"', () => {
+        expect(PackageSearchPage.packageList()).to.have.lengthOf(1);
+        expect(PackageSearchPage.packageList(0).name).to.equal('test package');
+      });
+    });
+  });
+
   describe('sorting packages', () => {
     beforeEach(function () {
       this.server.create('package', {

@@ -10,13 +10,20 @@ import { createResolver } from '../redux';
 import Provider from '../redux/provider';
 import Tag from '../redux/tag';
 import { ProxyType, RootProxy } from '../redux/application';
+import { getAccessTypes as getAccessTypesAction } from '../redux/actions';
 
 import View from '../components/provider/show';
 import SearchModal from '../components/search-modal';
-import { listTypes } from '../constants';
+import {
+  listTypes,
+  accessTypesReduxStateShape,
+} from '../constants';
+import { selectPropFromData } from '../redux/selectors';
 
 class ProviderShowRoute extends Component {
   static propTypes = {
+    accessTypes: accessTypesReduxStateShape.isRequired,
+    getAccessTypes: PropTypes.func.isRequired,
     getPackages: PropTypes.func.isRequired,
     getProvider: PropTypes.func.isRequired,
     getProxyTypes: PropTypes.func.isRequired,
@@ -47,6 +54,7 @@ class ProviderShowRoute extends Component {
     props.getProxyTypes();
     props.getRootProxy();
     props.getTags();
+    props.getAccessTypes();
   }
 
   componentDidUpdate(prevProps, prevState) {
@@ -125,6 +133,7 @@ class ProviderShowRoute extends Component {
       rootProxy,
       tagsModel,
       updateFolioTags,
+      accessTypes,
     } = this.props;
 
     const {
@@ -151,6 +160,7 @@ class ProviderShowRoute extends Component {
               query={pkgSearchParams}
               onSearch={this.searchPackages}
               onFilter={this.searchPackages}
+              accessTypes={accessTypes}
             />
           }
           onEdit={this.handleEdit}
@@ -175,14 +185,18 @@ class ProviderShowRoute extends Component {
   }
 }
 export default connect(
-  ({ eholdings: { data } }, { match }) => {
+  (store, { match }) => {
+    const { data } = store.eholdings;
+
     const resolver = createResolver(data);
+
     return {
       model: resolver.find('providers', match.params.providerId),
       proxyTypes: resolver.query('proxyTypes'),
       tagsModel: resolver.query('tags'),
       rootProxy: resolver.find('rootProxies', 'root-proxy'),
-      resolver
+      resolver,
+      accessTypes: selectPropFromData(store, 'accessStatusTypes')
     };
   }, {
     getProvider: id => Provider.find(id, { include: 'packages' }),
@@ -190,6 +204,7 @@ export default connect(
     getProxyTypes: () => ProxyType.query(),
     getTags: () => Tag.query(),
     updateFolioTags: (model) => Tag.create(model),
-    getRootProxy: () => RootProxy.find('root-proxy')
+    getRootProxy: () => RootProxy.find('root-proxy'),
+    getAccessTypes: getAccessTypesAction
   }
 )(ProviderShowRoute);
