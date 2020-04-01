@@ -40,6 +40,8 @@ import {
   isBookPublicationType,
   getUserDefinedFields,
   getAccessTypeId,
+  getProxyTypesRecords,
+  getProxyTypeById,
 } from '../../utilities';
 
 import { CustomLabelsAccordion } from '../../../features';
@@ -54,6 +56,10 @@ import {
 const focusOnErrors = createFocusDecorator();
 
 class ResourceEditCustomTitle extends Component {
+  static isProxyTypesLoaded(proxyTypes) {
+    return proxyTypes.request.isResolved;
+  }
+
   static propTypes = {
     accessStatusTypes: accessTypesReduxStateShape.isRequired,
     model: PropTypes.object.isRequired,
@@ -71,6 +77,7 @@ class ResourceEditCustomTitle extends Component {
       resourceSelected: this.props.model.isSelected,
       showSelectionModal: false,
       allowFormToSubmit: false,
+      wasProxyTypesLoaded: this.props.proxyTypes.request.isResolved,
       formValues: {},
       initialValues: this.getInitialValuesFromModel(),
       sections: {
@@ -83,7 +90,11 @@ class ResourceEditCustomTitle extends Component {
   }
 
   static getDerivedStateFromProps(nextProps, prevState) {
+    const { wasProxyTypesLoaded } = prevState;
     const stateUpdates = {};
+
+    const { proxyTypes } = nextProps;
+    const isProxyTypesLoaded = ResourceEditCustomTitle.isProxyTypesLoaded(proxyTypes);
 
     if (nextProps.model.destroy.errors.length) {
       stateUpdates.showSelectionModal = false;
@@ -95,6 +106,13 @@ class ResourceEditCustomTitle extends Component {
           isSelected: nextProps.model.isSelected
         },
         resourceSelected: nextProps.model.isSelected
+      });
+    }
+
+    if (isProxyTypesLoaded && !wasProxyTypesLoaded) {
+      Object.assign(stateUpdates, {
+        initialValues: this.getInitialValuesFromModel(),
+        wasProxyTypesLoaded: true,
       });
     }
 
@@ -110,7 +128,11 @@ class ResourceEditCustomTitle extends Component {
       customEmbargoPeriod,
       url,
       proxy,
+      proxyTypes,
     } = this.props.model;
+
+    const proxyTypesRecords = getProxyTypesRecords(proxyTypes);
+    const matchingProxy = getProxyTypeById(proxyTypesRecords, proxy.id);
 
     const hasCoverageStatement = coverageStatement.length > 0
       ? coverageStatementExistenceStatuses.YES
@@ -122,7 +144,7 @@ class ResourceEditCustomTitle extends Component {
       coverageStatement,
       hasCoverageStatement,
       customUrl: url,
-      proxyId: proxy.id,
+      proxyId: matchingProxy?.id || proxy.id,
       accessTypeId: getAccessTypeId(this.props.model),
       isVisible: !visibilityData.isHidden,
       customEmbargoPeriod: getEmbargoInitial(customEmbargoPeriod)

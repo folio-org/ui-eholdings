@@ -28,6 +28,7 @@ class ResourceShowRoute extends Component {
     match: ReactRouterPropTypes.match.isRequired,
     model: PropTypes.object.isRequired,
     proxyTypes: PropTypes.object.isRequired,
+    removeUpdateRequests: PropTypes.func.isRequired,
     tagsModel: PropTypes.object.isRequired,
     updateFolioTags: PropTypes.func.isRequired,
     updateResource: PropTypes.func.isRequired,
@@ -52,13 +53,19 @@ class ResourceShowRoute extends Component {
   componentDidUpdate(prevProps) {
     const wasUpdated = !this.props.model.update.isPending && prevProps.model.update.isPending && (!this.props.model.update.errors.length > 0);
 
-    const { match, getResource, history, location } = this.props;
+    const { match, getResource, history, location, removeUpdateRequests } = this.props;
     const { id } = match.params;
+
+    const isSelectedChanged = prevProps.model.isSelected !== this.props.model.isSelected;
 
     const { packageName, packageId } = prevProps.model;
     if (!prevProps.model.destroy.isResolved && this.props.model.destroy.isResolved) {
       history.replace(`/eholdings/packages/${packageId}?searchType=packages&q=${packageName}`,
         { eholdings: true, isDestroyed: true });
+    }
+
+    if (isSelectedChanged) {
+      removeUpdateRequests();
     }
 
     if (wasUpdated) {
@@ -174,5 +181,6 @@ export default connect(
     getTags: () => Tag.query(),
     destroyResource: model => Resource.destroy(model),
     getAccessTypes: getAccessTypesAction,
+    removeUpdateRequests: () => Resource.removeRequests('update'),
   }
 )(ResourceShowRoute);
