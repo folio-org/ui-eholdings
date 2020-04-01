@@ -380,10 +380,22 @@ export default function config() {
     const selected = params['filter[selected]'];
     const custom = params['filter[custom]'];
     const tags = params['filter[tags]'];
+    const accessTypes = params['filter[access-type]'];
+
     let filtered = true;
 
     if (filtered && tags) {
       return tags.split(',').some(item => pkg.tags.tagList.includes(item));
+    }
+
+    if (accessTypes) {
+      const serverAccessTypes = JSON.parse(JSON.stringify(this.schema.accessTypes.all().models));
+
+      return accessTypes.split(',').some(filterAccessType => {
+        return serverAccessTypes.some(serverAccessType => {
+          return serverAccessType.name === filterAccessType && serverAccessType.packageIds.includes(pkg.id);
+        });
+      });
     }
 
     if (params.q && pkg.name) {

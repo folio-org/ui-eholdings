@@ -21,17 +21,25 @@ import Provider from '../redux/provider';
 import Package from '../redux/package';
 import Title from '../redux/title';
 import Tag from '../redux/tag';
+import { getAccessTypes as getAccessTypesAction } from '../redux/actions';
+import { selectPropFromData } from '../redux/selectors';
 
 import ProviderSearchList from '../components/provider-search-list';
 import PackageSearchList from '../components/package-search-list';
 import TitleSearchList from '../components/title-search-list';
 import SearchPaneset from '../components/search-paneset';
 import SearchForm from '../components/search-form';
-import { searchTypes } from '../constants';
+import {
+  searchTypes,
+  accessTypesReduxStateShape,
+} from '../constants';
+
 import { filterCountFromQuery } from '../components/search-modal/search-modal';
 
 class SearchRoute extends Component {
   static propTypes = {
+    accessTypes: accessTypesReduxStateShape.isRequired,
+    getAccessTypes: PropTypes.func.isRequired,
     getTags: PropTypes.func.isRequired,
     history: ReactRouterPropTypes.history.isRequired,
     location: ReactRouterPropTypes.location.isRequired,
@@ -54,6 +62,7 @@ class SearchRoute extends Component {
     this.path = {};
 
     props.getTags();
+    props.getAccessTypes();
 
     if (searchType) {
       this.queries[searchType] = params;
@@ -73,7 +82,8 @@ class SearchRoute extends Component {
       draftSearchFilters: params.filter,
       searchField: params.searchfield,
       hideFilters: false,
-      searchByTagsEnabled: false
+      searchByTagsEnabled: false,
+      searchByAccessTypesEnabled: false,
     };
   }
 
@@ -92,6 +102,7 @@ class SearchRoute extends Component {
     const hideDetails = /^\/eholdings\/?$/.test(location.pathname);
     const searchTypeChanged = searchType !== prevState.searchType;
     const urlContainsTagsFilter = hasIn(params, ['filter', 'tags']);
+    const urlContainsAccessTypesFilter = hasIn(params, ['filter', 'access-type']);
     let shouldFocusItem = null;
 
     if (hideDetails && match.params.id !== (prevState.match && prevState.match.params.id)) {
@@ -119,6 +130,7 @@ class SearchRoute extends Component {
           ? params.q
           : prevState.draftSearchString,
         searchByTagsEnabled: urlContainsTagsFilter,
+        searchByAccessTypesEnabled: !urlContainsTagsFilter && urlContainsAccessTypesFilter,
       };
     }
 
@@ -133,27 +145,34 @@ class SearchRoute extends Component {
     }
   }
 
-  toggleSearchByTags = () => {
-    const {
-      searchByTagsEnabled,
-      draftSearchFilters,
-    } = this.state;
+  toggleFilter = filterName => () => {
+    const filterToBeToggled = filterName === 'access-type'
+      ? 'searchByAccessTypesEnabled'
+      : 'searchByTagsEnabled';
 
-    const searchByTagsIsExpected = !searchByTagsEnabled && hasIn(draftSearchFilters, 'tags');
+    const filterToBeDisabled = filterName === 'access-type'
+      ? 'searchByTagsEnabled'
+      : 'searchByAccessTypesEnabled';
 
     this.setState(currentState => {
-      return searchByTagsIsExpected
+      const searchByAccessTypesIsExpected = !currentState[filterToBeToggled] && hasIn(currentState.draftSearchFilters, filterName);
+
+      return searchByAccessTypesIsExpected
         ? {
-          searchByTagsEnabled: !currentState.searchByTagsEnabled,
+          [filterToBeToggled]: !currentState[filterToBeToggled],
+          [filterToBeDisabled]: false,
           submittedSearchString: '',
           submittedSearchFilters: {
-            tags: currentState.draftSearchFilters.tags,
+            [filterName]: currentState.draftSearchFilters[filterName],
           },
 
         }
-        : { searchByTagsEnabled: !currentState.searchByTagsEnabled };
+        : {
+          [filterToBeToggled]: !currentState[filterToBeToggled],
+          [filterToBeDisabled]: false,
+        };
     }, this.handleSearch);
-  };
+  }
 
   handleSearchChange = draftSearchString => {
     this.setState({ draftSearchString });
@@ -167,32 +186,24 @@ class SearchRoute extends Component {
           ? prevState.submittedSearchFilters
           : {
             ...searchFilters,
-            tags: undefined
+            tags: undefined,
+            'access-type': undefined,
           },
         draftSearchFilters: searchFilters
       };
     }, this.handleSearch);
   };
 
-  resetTagsFilter = () => {
+  handleStandaloneFilterChange = filter => {
     this.setState(prevState => ({
-      submittedSearchFilters: {
-        ...prevState.draftSearchFilters,
-        tags: undefined
-      }
-    }), this.handleSearch);
-  };
-
-  handleTagFilterChange = tagFilter => {
-    this.setState(prevState => ({
-      submittedSearchFilters: tagFilter,
+      submittedSearchFilters: filter,
       draftSearchFilters: {
         ...prevState.submittedSearchFilters,
-        ...tagFilter
+        ...filter
       },
       submittedSearchString: '',
     }), this.handleSearch);
-  };
+  }
 
   handleSearchFieldChange = searchField => {
     this.setState({ searchField });
@@ -289,6 +300,7 @@ class SearchRoute extends Component {
   search(params) {
     const { searchType } = this.state;
     const searchParams = transformQueryParams(searchType, params);
+
     if (searchType === searchTypes.PROVIDERS) this.props.searchProviders(searchParams);
     if (searchType === searchTypes.PACKAGES) this.props.searchPackages(searchParams);
     if (searchType === searchTypes.TITLES) this.props.searchTitles(searchParams);
@@ -319,7 +331,12 @@ class SearchRoute extends Component {
   handleSearchButtonClick = () => {
     this.setState(currentState => ({
       submittedSearchString: currentState.draftSearchString,
-    }), this.resetTagsFilter);
+      submittedSearchFilters: {
+        ...currentState.draftSearchFilters,
+        'access-type': undefined,
+        tags: undefined
+      }
+    }), this.handleSearch);
   };
 
   /**
@@ -385,10 +402,13 @@ class SearchRoute extends Component {
     } = params;
 
 
-    const { tags = '' } = filter;
+    const {
+      tags = '',
+      'access-type': accessType,
+    } = filter;
 
 
-    if (params.q || tags) {
+    if (params.q || tags || accessType) {
       if (searchType === searchTypes.PROVIDERS) {
         return <ProviderSearchList {...props} />;
       } else if (searchType === searchTypes.PACKAGES) {
@@ -409,7 +429,9 @@ class SearchRoute extends Component {
     const {
       location,
       tagsModel,
+      accessTypes,
     } = this.props;
+
     const {
       searchType,
       params,
@@ -419,6 +441,7 @@ class SearchRoute extends Component {
       searchField,
       hideFilters,
       searchByTagsEnabled,
+      searchByAccessTypesEnabled,
     } = this.state;
 
     const results = this.getResults();
@@ -451,15 +474,17 @@ class SearchRoute extends Component {
                     searchFilter={draftSearchFilters}
                     searchField={searchField}
                     searchByTagsEnabled={searchByTagsEnabled}
+                    searchByAccessTypesEnabled={searchByAccessTypesEnabled}
                     tagsModel={tagsModel}
+                    accessTypesStoreData={accessTypes}
                     searchTypeUrls={this.getSearchTypeUrls()}
                     isLoading={!!params.q && !results.hasLoaded}
                     onSearch={this.handleSearchButtonClick}
                     onSearchFieldChange={this.handleSearchFieldChange}
                     onFilterChange={this.handleFilterChange}
                     onSearchChange={this.handleSearchChange}
-                    onTagFilterChange={this.handleTagFilterChange}
-                    onSearchByTagsToggle={this.toggleSearchByTags}
+                    onStandaloneFilterChange={this.handleStandaloneFilterChange}
+                    onStandaloneFilterToggle={this.toggleFilter}
                   />
                 )}
               />
@@ -472,16 +497,19 @@ class SearchRoute extends Component {
 }
 
 export default connect(
-  ({ eholdings: { data } }) => {
+  (store) => {
+    const { data } = store.eholdings;
     const resolver = createResolver(data);
     return {
       tagsModel: resolver.query('tags'),
-      resolver
+      resolver,
+      accessTypes: selectPropFromData(store, 'accessStatusTypes'),
     };
   }, {
     searchProviders: params => Provider.query(params),
     searchPackages: params => Package.query(params),
     searchTitles: params => Title.query(params),
-    getTags: () => Tag.query()
+    getTags: () => Tag.query(),
+    getAccessTypes: getAccessTypesAction
   }
 )(SearchRoute);
