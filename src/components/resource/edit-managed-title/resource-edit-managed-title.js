@@ -28,6 +28,8 @@ import {
   isBookPublicationType,
   getUserDefinedFields,
   getAccessTypeId,
+  getProxyTypesRecords,
+  getProxyTypeById,
 } from '../../utilities';
 
 import CoverageStatementFields, { coverageStatementDecorator } from '../_fields/coverage-statement';
@@ -52,6 +54,10 @@ import {
 const focusOnErrors = createFocusDecorator();
 
 class ResourceEditManagedTitle extends Component {
+  static isProxyTypesLoaded(proxyTypes) {
+    return proxyTypes.request.isResolved;
+  }
+
   static propTypes = {
     accessStatusTypes: accessTypesReduxStateShape.isRequired,
     model: PropTypes.object.isRequired,
@@ -69,6 +75,7 @@ class ResourceEditManagedTitle extends Component {
       managedResourceSelected: this.props.model.isSelected,
       showSelectionModal: false,
       allowFormToSubmit: false,
+      wasProxyTypesLoaded: this.props.proxyTypes.request.isResolved,
       formValues: {},
       initialValues: this.getInitialValuesFromModel(),
       sections: {
@@ -80,7 +87,11 @@ class ResourceEditManagedTitle extends Component {
   }
 
   static getDerivedStateFromProps(nextProps, prevState) {
+    const { wasProxyTypesLoaded } = prevState;
     const stateUpdates = {};
+
+    const { proxyTypes } = nextProps;
+    const isProxyTypesLoaded = ResourceEditManagedTitle.isProxyTypesLoaded(proxyTypes);
 
     if (nextProps.model.update.errors.length) {
       stateUpdates.showSelectionModal = false;
@@ -95,6 +106,13 @@ class ResourceEditManagedTitle extends Component {
       });
     }
 
+    if (isProxyTypesLoaded && !wasProxyTypesLoaded) {
+      Object.assign(stateUpdates, {
+        initialValues: this.getInitialValuesFromModel(),
+        wasProxyTypesLoaded: true,
+      });
+    }
+
     return stateUpdates;
   }
 
@@ -105,8 +123,12 @@ class ResourceEditManagedTitle extends Component {
       customCoverages,
       coverageStatement,
       customEmbargoPeriod,
-      proxy
+      proxy,
+      proxyTypes,
     } = this.props.model;
+
+    const proxyTypesRecords = getProxyTypesRecords(proxyTypes);
+    const matchingProxy = getProxyTypeById(proxyTypesRecords, proxy.id);
 
     const hasCoverageStatement = coverageStatement.length > 0
       ? coverageStatementExistenceStatuses.YES
@@ -119,7 +141,7 @@ class ResourceEditManagedTitle extends Component {
       coverageStatement,
       hasCoverageStatement,
       customEmbargoPeriod: getEmbargoInitial(customEmbargoPeriod),
-      proxyId: proxy.id,
+      proxyId: matchingProxy?.id || proxy.id,
       accessTypeId: getAccessTypeId(this.props.model),
     };
   }
