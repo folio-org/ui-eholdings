@@ -1,10 +1,31 @@
 import { Response } from '@bigtest/mirage';
 import { searchRouteFor, nestedResourceRouteFor, includesWords } from './helpers';
+import { Response } from '@bigtest/mirage';
+
 
 // typical mirage config export
 export default function config() {
   const server = this;
   // okapi endpoints
+  this.post('/bl-users/login', () => {
+    return new Response(201, {
+      'X-Okapi-Token': `myOkapiToken:${Date.now()}`
+    }, {
+      user: {
+        id: 'test',
+        username: 'testuser',
+        personal: {
+          lastName: 'User',
+          firstName: 'Test',
+          email: 'user@folio.org',
+        }
+      },
+      permissions: {
+        permissions: []
+      }
+    });
+  });
+
   this.get('/note-types');
 
   this.post('/note-types', ({ requestBody }) => {
