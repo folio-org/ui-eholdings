@@ -49,9 +49,11 @@ class SearchForm extends Component {
     searchByTagsEnabled: PropTypes.bool.isRequired,
     searchField: PropTypes.string,
     searchFilter: PropTypes.shape({
+      'access-type': PropTypes.string,
       filter: PropTypes.object,
       q: PropTypes.string,
       searchfield: PropTypes.string,
+      tags: PropTypes.string,
     }),
     searchString: PropTypes.string,
     searchType: PropTypes.oneOf(validSearchTypes).isRequired,
@@ -68,6 +70,7 @@ class SearchForm extends Component {
     displaySearchTypeSwitcher: true,
     displaySearchButton: true,
     searchString: '',
+    searchFilter: {},
   };
 
   constructor(props) {
@@ -262,7 +265,7 @@ class SearchForm extends Component {
     const {
       accessTypesStoreData,
       searchByAccessTypesEnabled,
-      searchFilter = {},
+      searchFilter,
     } = this.props;
 
     const {
