@@ -1,3 +1,8 @@
-.listSection {
-  margin-bottom: 1.5rem;
+.listSectionHeader {
+  color: #000;
+  cursor: pointer;
+}
+
+.listSectionContent {
+  padding-left: 1rem;
 }
