@@ -213,3 +213,9 @@ export function formatCustomLabelsValues(formValues) {
 
   return formattedFormValues;
 }
+
+export const isKnowledgeBaseConfigured = (knowledgeBase) => {
+  const { name, apiKey, url, customerId } = knowledgeBase.attributes;
+
+  return !!name && !!apiKey && !!url && !!customerId;
+};
