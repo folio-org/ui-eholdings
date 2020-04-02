@@ -43,10 +43,28 @@ class ProviderShowRoute extends Component {
   constructor(props) {
     super(props);
 
-    const { filterPackages } = queryString.parse(props.location.search);
+    const {
+      filterPackages,
+      sort,
+      tags,
+      type,
+      'access-type': accessType,
+      selected,
+      searchfield,
+    } = queryString.parse(props.location.search);
 
     this.state = {
-      pkgSearchParams: filterPackages ? { q: filterPackages } : {},
+      pkgSearchParams: {
+        q: filterPackages,
+        sort,
+        searchfield,
+        filter: {
+          tags,
+          type,
+          selected,
+          'access-type': accessType,
+        }
+      },
       queryId: 0,
     };
     const { providerId } = props.match.params;
@@ -84,7 +102,16 @@ class ProviderShowRoute extends Component {
   searchPackages = (pkgSearchParams) => {
     const { location, history } = this.props;
     const qs = queryString.parse(location.search, { ignoreQueryPrefix: true });
-    const search = queryString.stringify({ ...qs, filterPackages: pkgSearchParams.q });
+    const search = queryString.stringify({
+      ...qs,
+      filterPackages: pkgSearchParams.q,
+      sort: pkgSearchParams.sort,
+      tags: pkgSearchParams.filter?.tags,
+      type: pkgSearchParams.filter?.type,
+      'access-type': pkgSearchParams.filter?.['access-type'],
+      selected: pkgSearchParams.filter?.selected,
+      searchfield: pkgSearchParams.searchfield,
+    });
 
     history.replace({
       ...location,
