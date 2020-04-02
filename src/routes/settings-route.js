@@ -8,28 +8,28 @@ import View from '../components/settings';
 import ApplicationRoute from './application';
 
 const kbCredentials = [
-  {
-    id: '1',
-    type: 'credentials',
-    attributes: {
-      name: 'Amherst',
-      apiKey: '',
-      url: '',
-      customerId: '',
-    },
-    metadata: {},
-  },
-  {
-    id: '2',
-    type: 'credentials',
-    attributes: {
-      name: 'Hampshire',
-      apiKey: '',
-      url: '',
-      customerId: '',
-    },
-    metadata: {},
-  },
+  // {
+  //   id: '1',
+  //   type: 'credentials',
+  //   attributes: {
+  //     name: 'Amherst',
+  //     apiKey: '',
+  //     url: '',
+  //     customerId: '',
+  //   },
+  //   metadata: {},
+  // },
+  // {
+  //   id: '2',
+  //   type: 'credentials',
+  //   attributes: {
+  //     name: 'Hampshire',
+  //     apiKey: '',
+  //     url: '',
+  //     customerId: '',
+  //   },
+  //   metadata: {},
+  // },
 ];
 
 class SettingsRoute extends Component {

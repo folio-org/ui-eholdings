@@ -4,7 +4,7 @@ import { Response } from '@bigtest/mirage';
 
 import setupApplication from '../helpers/setup-application';
 import ApplicationPage from '../interactors/application';
-import SettingsPage from '../interactors/settings';
+import SettingsPage from '../interactors/settings-configuration';
 
 describe('Error retrieving backend', () => {
   setupApplication({
