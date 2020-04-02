@@ -94,7 +94,7 @@ class Settings extends Component {
               <IfPermission perm="ui-eholdings.settings.root-proxy">
                 <NavListItem
                   to={`/settings/eholdings/${configuration.attributes.name}/root-proxy`}
-                  isDisabled={!knowledgeBaseConfigured}
+                  isDisabled={false}
                 >
                   <FormattedMessage id="ui-eholdings.settings.rootProxy" />
                 </NavListItem>
@@ -125,6 +125,7 @@ class Settings extends Component {
       <Button
         id="create-knowledge-base-configuration"
         marginBottom0
+        data-test-create-kb-configuration
       >
         <FormattedMessage id="ui-eholdings.settings.kb.new" />
       </Button>
@@ -139,6 +140,7 @@ class Settings extends Component {
     return (
       <>
         <Pane
+          data-test-eholdings-settings-pane
           defaultWidth="30%"
           paneTitle={
             <Headline tag="h3" margin="none">
