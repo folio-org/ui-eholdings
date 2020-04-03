@@ -25,7 +25,7 @@ describe('CustomPackageEditProxy', () => {
   });
 
   describe('visiting the package edit page', () => {
-    beforeEach(function () {
+    beforeEach(async function () {
       this.visit(`/eholdings/packages/${providerPackage.id}/edit`);
     });
 
@@ -34,7 +34,7 @@ describe('CustomPackageEditProxy', () => {
     });
 
     describe('when inherited proxy id has different casing', () => {
-      beforeEach(function () {
+      beforeEach(async function () {
         const proxy = this.server.create('proxy', {
           id: 'ezproxy',
         });
