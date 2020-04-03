@@ -59,6 +59,7 @@ class Settings extends Component {
           <FormattedMessage id="ui-eholdings.settings.kb">
             {(message) => ((
               <span
+                data-test-configuration-heading
                 ref={ref}
                 role="button"
                 className={css.listSectionHeader}
@@ -94,7 +95,7 @@ class Settings extends Component {
               <IfPermission perm="ui-eholdings.settings.root-proxy">
                 <NavListItem
                   to={`/settings/eholdings/${configuration.attributes.name}/root-proxy`}
-                  isDisabled={false}
+                  isDisabled={!knowledgeBaseConfigured}
                 >
                   <FormattedMessage id="ui-eholdings.settings.rootProxy" />
                 </NavListItem>
