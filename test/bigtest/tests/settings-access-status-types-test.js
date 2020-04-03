@@ -16,7 +16,7 @@ describe('With list of root proxies available to a customer', () => {
 
   describe('when visiting the settings access status types page', () => {
     beforeEach(async function () {
-      this.visit('/settings/eholdings/access-status-types');
+      this.visit('/settings/eholdings/1/access-status-types');
       await wait(1000);
     });
 
