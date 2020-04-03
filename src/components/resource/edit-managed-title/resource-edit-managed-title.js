@@ -54,6 +54,35 @@ import {
 const focusOnErrors = createFocusDecorator();
 
 class ResourceEditManagedTitle extends Component {
+  static getInitialValuesFromModel(model, proxyTypes) {
+    const {
+      isSelected,
+      visibilityData,
+      customCoverages,
+      coverageStatement,
+      customEmbargoPeriod,
+      proxy,
+    } = model;
+
+    const proxyTypesRecords = getProxyTypesRecords(proxyTypes);
+    const matchingProxy = getProxyTypeById(proxyTypesRecords, proxy.id);
+
+    const hasCoverageStatement = coverageStatement.length > 0
+      ? coverageStatementExistenceStatuses.YES
+      : coverageStatementExistenceStatuses.NO;
+
+    return {
+      isSelected,
+      isVisible: !visibilityData.isHidden,
+      customCoverages,
+      coverageStatement,
+      hasCoverageStatement,
+      customEmbargoPeriod: getEmbargoInitial(customEmbargoPeriod),
+      proxyId: matchingProxy?.id || proxy.id,
+      accessTypeId: getAccessTypeId(model),
+    };
+  }
+
   static isProxyTypesLoaded(proxyTypes) {
     return proxyTypes.request.isResolved;
   }
@@ -77,7 +106,7 @@ class ResourceEditManagedTitle extends Component {
       allowFormToSubmit: false,
       wasProxyTypesLoaded: this.props.proxyTypes.request.isResolved,
       formValues: {},
-      initialValues: this.getInitialValuesFromModel(),
+      initialValues: ResourceEditManagedTitle.getInitialValuesFromModel(this.props.model, this.props.proxyTypes),
       sections: {
         resourceShowHoldingStatus: true,
         resourceShowSettings: true,
@@ -108,42 +137,12 @@ class ResourceEditManagedTitle extends Component {
 
     if (isProxyTypesLoaded && !wasProxyTypesLoaded) {
       Object.assign(stateUpdates, {
-        initialValues: this.getInitialValuesFromModel(),
+        initialValues: ResourceEditManagedTitle.getInitialValuesFromModel(nextProps.model, proxyTypes),
         wasProxyTypesLoaded: true,
       });
     }
 
     return stateUpdates;
-  }
-
-  getInitialValuesFromModel() {
-    const {
-      isSelected,
-      visibilityData,
-      customCoverages,
-      coverageStatement,
-      customEmbargoPeriod,
-      proxy,
-      proxyTypes,
-    } = this.props.model;
-
-    const proxyTypesRecords = getProxyTypesRecords(proxyTypes);
-    const matchingProxy = getProxyTypeById(proxyTypesRecords, proxy.id);
-
-    const hasCoverageStatement = coverageStatement.length > 0
-      ? coverageStatementExistenceStatuses.YES
-      : coverageStatementExistenceStatuses.NO;
-
-    return {
-      isSelected,
-      isVisible: !visibilityData.isHidden,
-      customCoverages,
-      coverageStatement,
-      hasCoverageStatement,
-      customEmbargoPeriod: getEmbargoInitial(customEmbargoPeriod),
-      proxyId: matchingProxy?.id || proxy.id,
-      accessTypeId: getAccessTypeId(this.props.model),
-    };
   }
 
   toggleSection = ({ id }) => {

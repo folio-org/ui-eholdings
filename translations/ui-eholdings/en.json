@@ -144,6 +144,7 @@
     "tags": "Tags",
     "tags.addTagFor": "Add tag for: <strong>{filter}</strong>",
     "tags.filter": "Tags filter",
+    "accessTypes.filter": "Access status types filter",
 
     "settings.goBackToEholdings": "Go back to eHoldings settings",
     "settings.customLabels.displayLabel": "Display label",
@@ -347,6 +348,7 @@
     "search.searchType.packages": "Packages",
     "search.searchType.providers": "Providers",
     "search.searchByTagsOnly" : "Search by tags only",
+    "search.searchByAccessTypesOnly" : "Search by access status types only",
     "search.selectFieldToSearch" : "Select a field to search",
 
     "date.present": "Present",

@@ -53,12 +53,31 @@ class PackageShowRoute extends Component {
   constructor(props) {
     super(props);
 
-    const { filterTitles } = queryString.parse(props.location.search.substring(1));
+    const {
+      filterTitles,
+      sort,
+      tags,
+      type,
+      'access-type': accessType,
+      selected,
+      searchfield,
+    } = queryString.parse(props.location.search.substring(1));
 
     this.state = {
+      pkgSearchParams: {
+        q: filterTitles,
+        sort,
+        searchfield,
+        filter: {
+          tags,
+          type,
+          selected,
+          'access-type': accessType,
+        }
+      },
       queryId: 0,
-      pkgSearchParams: filterTitles ? { q: filterTitles } : {},
     };
+
     const { packageId } = props.match.params;
     const [providerId] = packageId.split('-');
     props.getPackage(packageId);
@@ -185,7 +204,16 @@ class PackageShowRoute extends Component {
   searchTitles = (pkgSearchParams) => {
     const { location, history } = this.props;
     const qs = queryString.parse(location.search, { ignoreQueryPrefix: true });
-    const search = queryString.stringify({ ...qs, filterTitles: pkgSearchParams.q });
+    const search = queryString.stringify({
+      ...qs,
+      filterTitles: pkgSearchParams.q,
+      sort: pkgSearchParams.sort,
+      tags: pkgSearchParams.filter?.tags,
+      type: pkgSearchParams.filter?.type,
+      'access-type': pkgSearchParams.filter?.['access-type'],
+      selected: pkgSearchParams.filter?.selected,
+      searchfield: pkgSearchParams.searchfield,
+    });
 
     history.replace({
       ...location,
