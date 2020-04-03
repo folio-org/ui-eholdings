@@ -56,7 +56,8 @@ class ResourceShowRoute extends Component {
     const { match, getResource, history, location, removeUpdateRequests } = this.props;
     const { id } = match.params;
 
-    const isSelectedChanged = prevProps.model.isSelected !== this.props.model.isSelected;
+    const isRejected = this.props.model.update.isRejected;
+    const isSelectedChanged = wasUpdated && !isRejected && prevProps.model.isSelected !== this.props.model.isSelected;
 
     const { packageName, packageId } = prevProps.model;
     if (!prevProps.model.destroy.isResolved && this.props.model.destroy.isResolved) {
