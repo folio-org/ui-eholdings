@@ -44,12 +44,12 @@ class Settings extends Component {
     location: ReactRouterPropTypes.location.isRequired,
   }
 
-  handleKnowledgeBaseHeadingClick = (name) => {
-    this.props.history.push(`/settings/eholdings/knowledge-base/${name}`);
+  handleKnowledgeBaseHeadingClick = (id) => {
+    this.props.history.push(`/settings/eholdings/knowledge-base/${id}`);
   }
 
   renderKnowledgeBaseHeading(configuration) {
-    const { name } = configuration.attributes;
+    const { id, attributes: { name } } = configuration;
 
     return (
       <Tooltip
@@ -65,7 +65,7 @@ class Settings extends Component {
                 className={css.listSectionHeader}
                 aria-labelledby={ariaIds.text}
                 aria-describedby={ariaIds.sub}
-                onClick={() => this.handleKnowledgeBaseHeadingClick(name)}
+                onClick={() => this.handleKnowledgeBaseHeadingClick(id)}
               >
                 {name || message}
               </span>
@@ -94,7 +94,7 @@ class Settings extends Component {
             <div className={css.listSectionContent}>
               <IfPermission perm="ui-eholdings.settings.root-proxy">
                 <NavListItem
-                  to={`/settings/eholdings/${configuration.attributes.name}/root-proxy`}
+                  to={`/settings/eholdings/${configuration.id}/root-proxy`}
                   isDisabled={!knowledgeBaseConfigured}
                 >
                   <FormattedMessage id="ui-eholdings.settings.rootProxy" />
@@ -102,14 +102,14 @@ class Settings extends Component {
               </IfPermission>
 
               <NavListItem
-                to={`/settings/eholdings/${configuration.attributes.name}/custom-labels`}
+                to={`/settings/eholdings/${configuration.id}/custom-labels`}
                 isDisabled={!knowledgeBaseConfigured}
               >
                 <FormattedMessage id="ui-eholdings.resource.customLabels" />
               </NavListItem>
 
               <NavListItem
-                to={`/settings/eholdings/${configuration.attributes.name}/access-status-types`}
+                to={`/settings/eholdings/${configuration.id}/access-status-types`}
                 isDisabled={!knowledgeBaseConfigured}
               >
                 <FormattedMessage id="ui-eholdings.settings.accessStatusTypes" />
