@@ -288,15 +288,14 @@ export default function config() {
 
   // Current root proxy
   this.get('/root-proxy', {
-    data:
-    {
+    data: {
       id: 'root-proxy',
       type: 'rootProxies',
       attributes: {
         id: 'root-proxy',
         proxyTypeId: 'bigTestJS'
-      }
-    }
+      },
+    },
   });
 
   // update root proxy
@@ -730,7 +729,7 @@ export default function config() {
     return {};
   });
 
-  this.get('/custom-labels', {
+  this.get('/kb-credentials/:id/custom-labels', {
     data: [{
       type: 'customLabel',
       attributes: {
@@ -766,7 +765,7 @@ export default function config() {
     }],
   });
 
-  this.put('/custom-labels', (schema, request) => request.requestBody);
+  this.put('/kb-credentials/:id/custom-labels', (schema, request) => request.requestBody);
 
   this.get('/access-types', ({ accessTypes }) => {
     return accessTypes.all();
