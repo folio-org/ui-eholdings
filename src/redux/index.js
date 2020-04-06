@@ -5,6 +5,7 @@ import {
   agreementsApi,
   customLabelsApi,
   accessTypesApi,
+  knowledgeBaseApi,
 } from '../api';
 
 import Resolver from './resolver';
@@ -31,6 +32,7 @@ import {
   agreements,
   customLabels,
   accessTypes,
+  kbCredentials,
 } from './reducers';
 
 import {
@@ -43,6 +45,10 @@ import {
   createAttachAccessTypeEpic,
   createDeleteAccessTypeEpic,
   createUpdateAccessTypeEpic,
+  createGetKbCredentialsEpic,
+  createPostKbCredentialsEpic,
+  createPutKbCredentialsEpic,
+  createDeleteKbCredentialsEpic,
 } from './epics';
 
 export const createResolver = (state) => {
@@ -69,6 +75,7 @@ export const reducer = combineReducers({
       agreements: agreements(currentState.agreements, action),
       customLabels: customLabels(currentState.customLabels, action),
       accessStatusTypes: accessTypes(currentState.accessStatusTypes, action),
+      kbCredentials: kbCredentials(currentState.kbCredentials, action),
     };
   }
 });
@@ -84,4 +91,8 @@ export const epics = combineEpics(
   createAttachAccessTypeEpic({ accessTypesApi }),
   createDeleteAccessTypeEpic({ accessTypesApi }),
   createUpdateAccessTypeEpic({ accessTypesApi }),
+  createGetKbCredentialsEpic({ knowledgeBaseApi }),
+  createPostKbCredentialsEpic({ knowledgeBaseApi }),
+  createPutKbCredentialsEpic({ knowledgeBaseApi }),
+  createDeleteKbCredentialsEpic({ knowledgeBaseApi }),
 );
