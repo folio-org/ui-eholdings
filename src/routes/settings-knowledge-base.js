@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { TitleManager } from '@folio/stripes/core';
 import { FormattedMessage } from 'react-intl';
 
-import { createResolver } from '../redux';
+import { selectPropFromData } from '../redux/selectors';
 import { Configuration } from '../redux/application';
 
 import View from '../components/settings/settings-knowledge-base';
@@ -13,6 +13,7 @@ class SettingsKnowledgeBaseRoute extends Component {
   static propTypes = {
     config: PropTypes.object.isRequired,
     getBackendConfig: PropTypes.func.isRequired,
+    match: PropTypes.object.isRequired,
     updateBackendConfig: PropTypes.func.isRequired
   };
 
@@ -56,9 +57,45 @@ class SettingsKnowledgeBaseRoute extends Component {
   }
 }
 
+const kbCredentials = [
+  {
+    id: '1',
+    type: 'credentials',
+    attributes: {
+      name: 'Amherst',
+      apiKey: '',
+      url: '',
+      customerId: '',
+    },
+    metadata: {},
+  },
+  {
+    id: '2',
+    type: 'credentials',
+    attributes: {
+      name: 'Hampshire',
+      apiKey: 'some-valid-api-key',
+      url: 'https://sandbox.ebsco.io',
+      customerId: 'some-valid-customer-id',
+    },
+    metadata: {},
+  },
+  {
+    id: '3',
+    type: 'credentials',
+    attributes: {
+      name: 'Some other',
+      apiKey: 'some-valid-api-key',
+      url: 'https://sandbox.ebsco.io',
+      customerId: 'some-valid-customer-id',
+    },
+    metadata: {},
+  },
+]
+
 export default connect(
-  ({ eholdings: { data } }) => ({
-    config: createResolver(data).find('configurations', 'configuration')
+  (store, { match: { params } }) => ({
+    config: (selectPropFromData(store, 'credentials') || kbCredentials).find(cred => cred.id === params.kbId),
   }), {
     getBackendConfig: () => Configuration.find('configuration'),
     updateBackendConfig: model => Configuration.save(model)

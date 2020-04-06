@@ -30,6 +30,17 @@ const kbCredentials = [
     },
     metadata: {},
   },
+  {
+    id: '3',
+    type: 'credentials',
+    attributes: {
+      name: 'Some other',
+      apiKey: 'some-valid-api-key',
+      url: 'https://sandbox.ebsco.io',
+      customerId: 'some-valid-customer-id',
+    },
+    metadata: {},
+  },
 ];
 
 class SettingsRoute extends Component {

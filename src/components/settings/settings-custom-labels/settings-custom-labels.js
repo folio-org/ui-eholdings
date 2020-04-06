@@ -23,6 +23,7 @@ import { formatCustomLabelsValues } from '../../utilities';
 export default class SettingsCustomLabels extends Component {
   static propTypes = {
     confirmUpdate: PropTypes.func.isRequired,
+    credentialId: PropTypes.string.isRequired,
     customLabels: PropTypes.shape({
       errors: PropTypes.array,
       isUpdated: PropTypes.bool,
@@ -80,10 +81,10 @@ export default class SettingsCustomLabels extends Component {
   };
 
   removeCustomLabels = ({ values }) => {
-    const { updateCustomLabels } = this.props;
+    const { updateCustomLabels, credentialId } = this.props;
     const formattedFormValues = formatCustomLabelsValues(values);
 
-    updateCustomLabels(formattedFormValues);
+    updateCustomLabels(formattedFormValues, credentialId);
     this.closeModal();
   }
 
@@ -95,7 +96,7 @@ export default class SettingsCustomLabels extends Component {
   }
 
   onSubmit = (formValues, { getState }) => {
-    const { updateCustomLabels } = this.props;
+    const { updateCustomLabels, credentialId } = this.props;
     const { initialValues } = getState();
 
     const removingLabels = this.getRemovingCustomLabels(formValues, initialValues);
@@ -108,7 +109,7 @@ export default class SettingsCustomLabels extends Component {
     } else {
       const formattedFormValues = formatCustomLabelsValues(formValues);
 
-      updateCustomLabels(formattedFormValues);
+      updateCustomLabels(formattedFormValues, credentialId);
     }
   }
 
