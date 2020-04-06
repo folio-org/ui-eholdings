@@ -24,8 +24,9 @@ describe('CustomPackageEditSelection', () => {
   });
 
   describe('visiting the package edit page', () => {
-    beforeEach(function () {
+    beforeEach(async function () {
       this.visit(`/eholdings/packages/${providerPackage.id}/edit`);
+      await PackageEditPage.whenLoaded();
     });
 
     it('displays the correct holdings status (ON)', () => {

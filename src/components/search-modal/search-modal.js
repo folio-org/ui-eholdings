@@ -2,7 +2,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import {
   isEqual,
-  hasIn,
 } from 'lodash';
 import { FormattedMessage } from 'react-intl';
 
@@ -18,7 +17,12 @@ import { accessTypesReduxStateShape } from '../../constants';
 
 export const normalize = (query = {}) => {
   return {
-    filter: query.filter || {},
+    filter: query.filter || {
+      tags: undefined,
+      type: undefined,
+      selected: undefined,
+      'access-type': undefined,
+    },
     q: query.q || '',
     searchfield: query.searchfield,
     sort: query.sort
@@ -43,8 +47,8 @@ class SearchModal extends React.PureComponent {
 
   constructor(props) {
     super(props);
-    const queryContainsTagsFilter = hasIn(props.query, ['filter', 'tags']);
-    const queryContainsAccessTypesFilter = hasIn(props.query, ['filter', 'access-type']);
+    const queryContainsTagsFilter = !!props.query?.filter?.tags;
+    const queryContainsAccessTypesFilter = !!props.query?.filter['access-type'];
 
     this.state = {
       isModalVisible: false,
@@ -69,15 +73,11 @@ class SearchModal extends React.PureComponent {
     const filter = { ...query.filter };
 
     if (!searchByTagsEnabled) {
-      delete filter.tags;
-    }
-
-    if (!searchByTagsEnabled) {
-      delete filter.tags;
+      filter.tags = undefined;
     }
 
     if (!searchByAccessTypesEnabled) {
-      delete filter['access-type'];
+      filter['access-type'] = undefined;
     }
 
     if (this.props.onFilter) {

@@ -29,7 +29,7 @@ import SectionToggleButton from './section-toggle-button';
 @interactor class PackageEditPage {
   isLoaded = isPresent('[data-test-eholdings-details-view-pane-title]');
   whenLoaded() {
-    return this.when(() => this.isLoaded);
+    return this.when(() => this.isLoaded).timeout(1000);
   }
 
   navigationModal = NavigationModal;
