@@ -103,8 +103,10 @@ describe('(reducer) custom labels', () => {
     const action = {
       type: UPDATE_CUSTOM_LABELS,
       payload: {
-        id: 5,
-      }
+        customLabels: {
+          id: 5,
+        },
+      },
     };
     const expectedState = {
       items: {

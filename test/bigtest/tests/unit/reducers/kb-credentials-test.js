@@ -24,6 +24,7 @@ describe('(reducer) kbCredentials', () => {
       isLoading: false,
       hasLoaded: false,
       hasFailed: false,
+      hasUpdated: false,
       items: [],
       errors: [],
     });
@@ -217,6 +218,7 @@ describe('(reducer) kbCredentials', () => {
       isLoading: false,
       hasLoaded: false,
       hasFailed: true,
+      hasUpdated: false,
       errors: [
         { title: 'error' },
       ]
