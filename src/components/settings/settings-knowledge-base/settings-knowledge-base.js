@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Field, Form } from 'react-final-form';
 import createFocusDecorator from 'final-form-focus';
-import isEqual from 'lodash/isEqual';
 import { FormattedMessage } from 'react-intl';
 import {
   Headline,
@@ -12,14 +11,15 @@ import {
 } from '@folio/stripes/components';
 
 import SettingsForm from '../settings-form';
-import { processErrors } from '../../utilities';
+import { KbCredentials } from '../../../constants';
 
 const focusOnErrors = createFocusDecorator();
 
 export default class SettingsKnowledgeBase extends Component {
   static propTypes = {
-    model: PropTypes.object.isRequired,
+    config: KbCredentials.CredentialShape,
     onSubmit: PropTypes.func.isRequired,
+    kbCredentials: KbCredentials.KbCredentialsReduxStateShape,
   };
 
   static contextTypes = {
@@ -30,52 +30,59 @@ export default class SettingsKnowledgeBase extends Component {
     }).isRequired
   };
 
-  componentDidUpdate(prevProps) {
-    const wasPending = prevProps.model.update.isPending && !this.props.model.update.isPending;
-    const needsUpdate = !isEqual(prevProps.model, this.props.model);
-    const isRejected = this.props.model.update.isRejected;
+  state = {
+    toasts: [],
+  }
 
+  componentDidUpdate(prevProps) {
+    const { config, kbCredentials } = this.props;
     const { router } = this.context;
 
-    if (wasPending && needsUpdate && !isRejected) {
+    if (kbCredentials.hasUpdated) {
       router.history.push({
-        pathname: '/settings/eholdings/knowledge-base',
+        pathname: `/settings/eholdings/knowledge-base/${config.id}`,
         state: { eholdings: true, isFreshlySaved: true }
       });
+
+      this.setState(({ toasts }) => ({
+        toasts: [...toasts, {
+          id: `settings-kb-${config.id}`,
+          message: <FormattedMessage id="ui-eholdings.settings.kb.updated" />,
+          type: 'success'
+        }],
+      }));
+    }
+
+    if (prevProps.kbCredentials.errors !== kbCredentials.errors) {
+      this.setState(({ toasts }) => ({
+        toasts: [...toasts, ...kbCredentials.errors.map(error => ({
+          id: `settings-kb-${config.id}`,
+          message: error.title,
+          type: 'error'
+        }))],
+      }))
     }
   }
 
   getInitialValues() {
-    const { attributes } = this.props.model.data;
+    const { config } = this.props;
+
     const initialValues = {
       rmapiBaseUrl: 'https://sandbox.ebsco.io',
     };
 
-    return Object.assign(initialValues, attributes);
+    if (!config) {
+      return initialValues;
+    }
+
+    return Object.assign(initialValues, config.attributes);
   }
 
   render() {
     const {
-      model,
       onSubmit,
+      kbCredentials,
     } = this.props;
-
-    const { router } = this.context;
-
-    const toasts = processErrors(model);
-
-    if (
-      router.history.action === 'PUSH' &&
-      router.history.location.state &&
-      router.history.location.state.isFreshlySaved &&
-      model.update.isResolved
-    ) {
-      toasts.push({
-        id: `settings-kb-${model.update.timestamp}`,
-        message: <FormattedMessage id="ui-eholdings.settings.kb.updated" />,
-        type: 'success'
-      });
-    }
 
     return (
       <Form
@@ -87,15 +94,15 @@ export default class SettingsKnowledgeBase extends Component {
             id="knowledge-base-form"
             data-test-eholdings-settings-kb
             formState={formState}
-            updateIsPending={model.update.isPending}
+            updateIsPending={false}
             title={<FormattedMessage id="ui-eholdings.settings.kb" />}
-            toasts={toasts}
+            toasts={this.state.toasts}
           >
             <Headline size="xx-large" tag="h3">
               <FormattedMessage id="ui-eholdings.settings.kb.rmApiCreds" />
             </Headline>
 
-            {model.isLoading ? (
+            {kbCredentials.isLoading ? (
               <Icon icon="spinner-ellipsis" />
             ) : (
               <>
