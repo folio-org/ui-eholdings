@@ -7,8 +7,12 @@ import { TitleManager } from '@folio/stripes/core';
 import { FormattedMessage } from 'react-intl';
 
 import { createResolver } from '../redux';
-import { ProxyType } from '../redux/application';
-import { getRootProxy, updateRootProxy, confirmUpdateRootProxy } from '../redux/actions';
+import {
+  getRootProxy,
+  updateRootProxy,
+  confirmUpdateRootProxy,
+  getProxyTypes,
+} from '../redux/actions';
 import { selectPropFromData } from '../redux/selectors';
 import { rootProxy } from '../constants';
 import View from '../components/settings/settings-root-proxy';
@@ -28,12 +32,19 @@ class SettingsRootProxyRoute extends Component {
   componentDidMount() {
     const { getProxyTypes, getRootProxy, match: { params } } = this.props;
 
-    getProxyTypes();
+    getProxyTypes(params.kbId);
     getRootProxy(params.kbId);
   }
 
-  componentDidUpdate() {
-    const { history, rootProxy, confirmUpdateRootProxy, match: { params } } = this.props;
+  componentDidUpdate(prevProps) {
+    const {
+      history,
+      rootProxy,
+      confirmUpdateRootProxy,
+      match: { params },
+      getProxyTypes,
+      getRootProxy,
+    } = this.props;
 
     if (rootProxy.isUpdated) {
       history.push({
@@ -42,6 +53,11 @@ class SettingsRootProxyRoute extends Component {
       });
 
       confirmUpdateRootProxy();
+    }
+
+    if (prevProps.match.params.kbId !== params.kbId) {
+      getProxyTypes(params.kbId);
+      getRootProxy(params.kbId);
     }
   }
 
@@ -81,15 +97,11 @@ class SettingsRootProxyRoute extends Component {
 }
 
 export default connect(
-  (store) => {
-    const { data } = store.eholdings;
-
-    return {
-      proxyTypes: createResolver(data).query('proxyTypes'),
-      rootProxy: selectPropFromData(store, 'settingsRootProxy'),
-    };
-  }, {
-    getProxyTypes: () => ProxyType.query(),
+  (store) => ({
+    proxyTypes: selectPropFromData(store, 'settingsProxyTypes'),
+    rootProxy: selectPropFromData(store, 'settingsRootProxy'),
+  }), {
+    getProxyTypes,
     getRootProxy,
     updateRootProxy,
     confirmUpdateRootProxy,

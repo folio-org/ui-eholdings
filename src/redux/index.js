@@ -7,6 +7,7 @@ import {
   accessTypesApi,
   knowledgeBaseApi,
   rootProxyApi,
+  proxyTypesApi,
 } from '../api';
 
 import Resolver from './resolver';
@@ -35,6 +36,7 @@ import {
   accessTypes,
   kbCredentials,
   rootProxy,
+  proxyTypes,
 } from './reducers';
 
 import {
@@ -53,6 +55,7 @@ import {
   createDeleteKbCredentialsEpic,
   createGetRootProxyEpic,
   createUpdateRootProxyEpic,
+  createGetProxyTypesEpic,
 } from './epics';
 
 export const createResolver = (state) => {
@@ -81,6 +84,7 @@ export const reducer = combineReducers({
       accessStatusTypes: accessTypes(currentState.accessStatusTypes, action),
       kbCredentials: kbCredentials(currentState.kbCredentials, action),
       settingsRootProxy: rootProxy(currentState.settingsRootProxy, action),
+      settingsProxyTypes: proxyTypes(currentState.settingsProxyTypes, action),
     };
   }
 });
@@ -102,4 +106,5 @@ export const epics = combineEpics(
   createDeleteKbCredentialsEpic({ knowledgeBaseApi }),
   createGetRootProxyEpic({ rootProxyApi }),
   createUpdateRootProxyEpic({ rootProxyApi }),
+  createGetProxyTypesEpic({ proxyTypesApi }),
 );

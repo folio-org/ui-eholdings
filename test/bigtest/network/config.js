@@ -286,48 +286,6 @@ export default function config() {
     return JSON.parse(request.requestBody);
   });
 
-  // Available root proxies
-  this.get('/proxy-types', {
-    data: [
-      {
-        id: '<n>',
-        type: 'proxyTypes',
-        attributes: {
-          id: '<n>',
-          name: 'None',
-          urlMask: '',
-        }
-      },
-      {
-        id: 'bigTestJS',
-        type: 'proxyTypes',
-        attributes: {
-          id: 'bigTestJS',
-          name: 'bigTestJS',
-          urlMask: 'https://github.com/bigtestjs',
-        }
-      },
-      {
-        id: 'microstates',
-        type: 'proxyTypes',
-        attributes: {
-          id: 'microstates',
-          name: 'microstates',
-          urlMask: 'https://github.com/microstates',
-        }
-      },
-      {
-        id: 'EZproxy',
-        type: 'proxyTypes',
-        attributes: {
-          id: 'EZproxy',
-          name: 'EZproxy',
-          urlMask: 'https://github.com/ezproxy',
-        }
-      },
-    ]
-  });
-
   // Provider resources
   this.get('/providers', searchRouteFor('providers', (provider, req) => {
     const params = req.queryParams;
@@ -855,6 +813,21 @@ export default function config() {
   this.delete('/kb-credentials/:id', () => new Response(204));
 
   // Current root proxy
+  this.get('/root-proxy', {
+    data: {
+      id: 'root-proxy',
+      type: 'rootProxies',
+      attributes: {
+        id: 'root-proxy',
+        proxyTypeId: 'bigTestJS'
+      },
+    },
+  });
+
+  // update root proxy
+  this.put('/root-proxy', () => new Response(204));
+
+  // Current root proxy
   this.get('/kb-credentials/:id/root-proxy', {
     data: {
       id: 'root-proxy',
@@ -868,4 +841,87 @@ export default function config() {
 
   // update root proxy
   this.put('/kb-credentials/:id/root-proxy', () => new Response(204));
+
+  this.get('/proxy-types', {
+    data: [
+      {
+        id: '<n>',
+        type: 'proxyTypes',
+        attributes: {
+          id: '<n>',
+          name: 'None',
+          urlMask: '',
+        }
+      },
+      {
+        id: 'bigTestJS',
+        type: 'proxyTypes',
+        attributes: {
+          id: 'bigTestJS',
+          name: 'bigTestJS',
+          urlMask: 'https://github.com/bigtestjs',
+        }
+      },
+      {
+        id: 'microstates',
+        type: 'proxyTypes',
+        attributes: {
+          id: 'microstates',
+          name: 'microstates',
+          urlMask: 'https://github.com/microstates',
+        }
+      },
+      {
+        id: 'EZproxy',
+        type: 'proxyTypes',
+        attributes: {
+          id: 'EZproxy',
+          name: 'EZproxy',
+          urlMask: 'https://github.com/ezproxy',
+        }
+      },
+    ]
+  });
+
+  // Available root proxies
+  this.get('/kb-credentials/:id/proxy-types', {
+    data: [
+      {
+        id: '<n>',
+        type: 'proxyTypes',
+        attributes: {
+          id: '<n>',
+          name: 'None',
+          urlMask: '',
+        }
+      },
+      {
+        id: 'bigTestJS',
+        type: 'proxyTypes',
+        attributes: {
+          id: 'bigTestJS',
+          name: 'bigTestJS',
+          urlMask: 'https://github.com/bigtestjs',
+        }
+      },
+      {
+        id: 'microstates',
+        type: 'proxyTypes',
+        attributes: {
+          id: 'microstates',
+          name: 'microstates',
+          urlMask: 'https://github.com/microstates',
+        }
+      },
+      {
+        id: 'EZproxy',
+        type: 'proxyTypes',
+        attributes: {
+          id: 'EZproxy',
+          name: 'EZproxy',
+          urlMask: 'https://github.com/ezproxy',
+        }
+      },
+    ]
+  });
 }
