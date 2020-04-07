@@ -10,6 +10,7 @@ import {
   POST_KB_CREDENTIALS_SUCCESS,
   POST_KB_CREDENTIALS_FAILURE,
   PUT_KB_CREDENTIALS,
+  CONFIRM_PUT_KB_CREDENTIALS,
   PUT_KB_CREDENTIALS_SUCCESS,
   PUT_KB_CREDENTIALS_FAILURE,
   DELETE_KB_CREDENTIALS,
@@ -169,6 +170,22 @@ describe('(reducer) kbCredentials', () => {
     expect(kbCredentials(actualState, action)).to.deep.equal(expectedState);
   });
 
+  it('should handle CONFIRM_PUT_KB_CREDENTIALS', () => {
+    const actualState = {
+      hasUpdated: true,
+      isLoading: false,
+    };
+    const action = {
+      type: CONFIRM_PUT_KB_CREDENTIALS,
+    };
+    const expectedState = {
+      isLoading: false,
+      hasUpdated: false,
+    };
+
+    expect(kbCredentials(actualState, action)).to.deep.equal(expectedState);
+  });
+
   it('should handle PUT_KB_CREDENTIALS_SUCCESS', () => {
     const actualState = {
       isLoading: true,
@@ -181,6 +198,7 @@ describe('(reducer) kbCredentials', () => {
       isLoading: false,
       hasLoaded: true,
       hasFailed: false,
+      hasUpdated: true,
       items: [],
     };
 
