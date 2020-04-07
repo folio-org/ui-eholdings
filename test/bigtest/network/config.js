@@ -286,23 +286,6 @@ export default function config() {
     return JSON.parse(request.requestBody);
   });
 
-  // Current root proxy
-  this.get('/root-proxy', {
-    data: {
-      id: 'root-proxy',
-      type: 'rootProxies',
-      attributes: {
-        id: 'root-proxy',
-        proxyTypeId: 'bigTestJS'
-      },
-    },
-  });
-
-  // update root proxy
-  this.put('/root-proxy', (_, request) => {
-    return JSON.parse(request.requestBody);
-  });
-
   // Available root proxies
   this.get('/proxy-types', {
     data: [
@@ -870,4 +853,19 @@ export default function config() {
 
   this.put('/kb-credentials/:id', () => new Response(204));
   this.delete('/kb-credentials/:id', () => new Response(204));
+
+  // Current root proxy
+  this.get('/kb-credentials/:id/root-proxy', {
+    data: {
+      id: 'root-proxy',
+      type: 'rootProxies',
+      attributes: {
+        id: 'root-proxy',
+        proxyTypeId: 'bigTestJS'
+      },
+    },
+  });
+
+  // update root proxy
+  this.put('/kb-credentials/:id/root-proxy', () => new Response(204));
 }

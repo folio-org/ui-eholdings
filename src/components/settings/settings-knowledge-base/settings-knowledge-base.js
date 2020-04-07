@@ -60,7 +60,7 @@ export default class SettingsKnowledgeBase extends Component {
           message: error.title,
           type: 'error'
         }))],
-      }))
+      }));
     }
   }
 
