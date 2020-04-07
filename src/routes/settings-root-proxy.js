@@ -7,49 +7,55 @@ import { TitleManager } from '@folio/stripes/core';
 import { FormattedMessage } from 'react-intl';
 
 import { createResolver } from '../redux';
-import { ProxyType, RootProxy } from '../redux/application';
+import { ProxyType } from '../redux/application';
+import { getRootProxy, updateRootProxy, confirmUpdateRootProxy } from '../redux/actions';
+import { selectPropFromData } from '../redux/selectors';
+import { rootProxy } from '../constants';
 import View from '../components/settings/settings-root-proxy';
 
 class SettingsRootProxyRoute extends Component {
   static propTypes = {
+    confirmUpdateRootProxy: PropTypes.func.isRequired,
     getProxyTypes: PropTypes.func.isRequired,
     getRootProxy: PropTypes.func.isRequired,
     history: ReactRouterPropTypes.history.isRequired,
+    match: ReactRouterPropTypes.match.isRequired,
     proxyTypes: PropTypes.object.isRequired,
-    rootProxy: PropTypes.object.isRequired,
+    rootProxy: rootProxy.RootProxyReduxStateShape.isRequired,
     updateRootProxy: PropTypes.func.isRequired
   };
 
-  constructor(props) {
-    super(props);
-    props.getProxyTypes();
-    props.getRootProxy();
+  componentDidMount() {
+    const { getProxyTypes, getRootProxy, match: { params } } = this.props;
+
+    getProxyTypes();
+    getRootProxy(params.kbId);
   }
 
-  componentDidUpdate(prevProps) {
-    const { history, rootProxy } = this.props;
-    const wasPending = prevProps.rootProxy.update.isPending && !rootProxy.update.isPending;
-    const needsUpdate = !isEqual(prevProps.rootProxy, rootProxy);
-    const isRejected = rootProxy.update.isRejected;
+  componentDidUpdate() {
+    const { history, rootProxy, confirmUpdateRootProxy, match: { params } } = this.props;
 
-    if (wasPending && needsUpdate && !isRejected) {
+    if (rootProxy.isUpdated) {
       history.push({
-        pathname: '/settings/eholdings/root-proxy',
+        pathname: `/settings/eholdings/${params.kbId}/root-proxy`,
         state: { eholdings: true, isFreshlySaved: true }
       });
+
+      confirmUpdateRootProxy();
     }
   }
 
   rootProxySubmitted = (values) => {
-    const { rootProxy, updateRootProxy } = this.props;
+    const { rootProxy, updateRootProxy, match: { params } } = this.props;
 
-    rootProxy.proxyTypeId = values.rootProxyServer;
+    const rootProxyData = rootProxy.data;
+    rootProxyData.attributes.proxyTypeId = values.rootProxyServer;
 
-    updateRootProxy(rootProxy);
+    updateRootProxy(rootProxyData, params.kbId);
   }
 
   render() {
-    const { proxyTypes, rootProxy, history } = this.props;
+    const { proxyTypes, rootProxy } = this.props;
 
     return (
       <FormattedMessage id="ui-eholdings.label.settings">
@@ -64,11 +70,6 @@ class SettingsRootProxyRoute extends Component {
                   proxyTypes={proxyTypes}
                   rootProxy={rootProxy}
                   onSubmit={this.rootProxySubmitted}
-                  isFreshlySaved={
-                    history.action === 'PUSH' &&
-                    history.location.state &&
-                    history.location.state.isFreshlySaved
-                  }
                 />
               </TitleManager>
             )}
@@ -80,12 +81,17 @@ class SettingsRootProxyRoute extends Component {
 }
 
 export default connect(
-  ({ eholdings: { data } }) => ({
-    proxyTypes: createResolver(data).query('proxyTypes'),
-    rootProxy: createResolver(data).find('rootProxies', 'root-proxy')
-  }), {
+  (store) => {
+    const { data } = store.eholdings;
+
+    return {
+      proxyTypes: createResolver(data).query('proxyTypes'),
+      rootProxy: selectPropFromData(store, 'settingsRootProxy'),
+    };
+  }, {
     getProxyTypes: () => ProxyType.query(),
-    getRootProxy: () => RootProxy.find('root-proxy'),
-    updateRootProxy: model => RootProxy.save(model)
+    getRootProxy,
+    updateRootProxy,
+    confirmUpdateRootProxy,
   }
 )(SettingsRootProxyRoute);
