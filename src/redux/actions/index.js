@@ -49,3 +49,6 @@ export * from './update-root-proxy';
 export * from './update-root-proxy-success';
 export * from './confirm-update-root-proxy';
 export * from './update-root-proxy-failure';
+export * from './get-proxy-types';
+export * from './get-proxy-types-success';
+export * from './get-proxy-types-failure';
