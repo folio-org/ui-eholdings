@@ -277,7 +277,7 @@ class SearchForm extends Component {
     } = this.state;
 
     const accessTypesList = accessTypes
-      ? accessTypes.split(',').map(accessType => accessType.toLowerCase())
+      ? accessTypes.split(',')
       : [];
 
     accessTypesList.sort();
@@ -326,9 +326,9 @@ class SearchForm extends Component {
   getAccessTypesDataOptions() {
     const { accessTypesStoreData } = this.props;
 
-    return accessTypesStoreData.items.data.map(accessType => ({
-      value: accessType.attributes.name.toLowerCase(),
-      label: accessType.attributes.name.toLowerCase(),
+    return accessTypesStoreData.items.data.map(({ attributes }) => ({
+      value: attributes.name,
+      label: attributes.name,
     }));
   }
 
