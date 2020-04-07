@@ -4,36 +4,47 @@ import { connect } from 'react-redux';
 import { TitleManager } from '@folio/stripes/core';
 import { FormattedMessage } from 'react-intl';
 
+import { putKBCredentials, confirmPutKBCredentials } from '../redux/actions';
 import { selectPropFromData } from '../redux/selectors';
-import { Configuration } from '../redux/application';
+import { KbCredentials } from '../constants';
 
 import View from '../components/settings/settings-knowledge-base';
 
 class SettingsKnowledgeBaseRoute extends Component {
   static propTypes = {
-    config: PropTypes.object.isRequired,
+    confirmPutKBCredentials: PropTypes.func.isRequired,
     getBackendConfig: PropTypes.func.isRequired,
+    kbCredentials: KbCredentials.KbCredentialsReduxStateShape,
     match: PropTypes.object.isRequired,
-    updateBackendConfig: PropTypes.func.isRequired
+    putKBCredentials: PropTypes.func.isRequired,
   };
 
-  constructor(props) {
-    super(props);
-    props.getBackendConfig();
+  componentDidUpdate() {
+    const { kbCredentials, confirmPutKBCredentials } = this.props;
+
+    if (kbCredentials.hasUpdated) {
+      confirmPutKBCredentials();
+    }
   }
 
-  updateConfig = ({ rmapiBaseUrl, customerId, apiKey }) => {
-    const { config, updateBackendConfig } = this.props;
+  getCurrentConfig() {
+    return this.props.kbCredentials.items.find(cred => cred.id === this.props.match.params.kbId);
+  }
 
-    config.rmapiBaseUrl = rmapiBaseUrl;
-    config.customerId = customerId;
-    config.apiKey = apiKey;
+  updateConfig = ({ rmapiBaseUrl, customerId, apiKey, name }) => {
+    const { putKBCredentials } = this.props;
+    const config = this.getCurrentConfig();
 
-    updateBackendConfig(config);
+    config.attributes.url = rmapiBaseUrl;
+    config.attributes.customerId = customerId;
+    config.attributes.apiKey = apiKey;
+    config.attributes.name = name;
+
+    putKBCredentials(config);
   };
 
   render() {
-    const { config } = this.props;
+    const { kbCredentials } = this.props;
 
     return (
       <FormattedMessage id="ui-eholdings.label.settings">
@@ -45,7 +56,8 @@ class SettingsKnowledgeBaseRoute extends Component {
                 record={recordLabel}
               >
                 <View
-                  model={config}
+                  kbCredentials={kbCredentials}
+                  config={this.getCurrentConfig()}
                   onSubmit={this.updateConfig}
                 />
               </TitleManager>
@@ -57,47 +69,11 @@ class SettingsKnowledgeBaseRoute extends Component {
   }
 }
 
-const kbCredentials = [
-  {
-    id: '1',
-    type: 'credentials',
-    attributes: {
-      name: 'Amherst',
-      apiKey: '',
-      url: '',
-      customerId: '',
-    },
-    metadata: {},
-  },
-  {
-    id: '2',
-    type: 'credentials',
-    attributes: {
-      name: 'Hampshire',
-      apiKey: 'some-valid-api-key',
-      url: 'https://sandbox.ebsco.io',
-      customerId: 'some-valid-customer-id',
-    },
-    metadata: {},
-  },
-  {
-    id: '3',
-    type: 'credentials',
-    attributes: {
-      name: 'Some other',
-      apiKey: 'some-valid-api-key',
-      url: 'https://sandbox.ebsco.io',
-      customerId: 'some-valid-customer-id',
-    },
-    metadata: {},
-  },
-]
-
 export default connect(
-  (store, { match: { params } }) => ({
-    config: (selectPropFromData(store, 'credentials') || kbCredentials).find(cred => cred.id === params.kbId),
+  (store) => ({
+    kbCredentials: selectPropFromData(store, 'kbCredentials'),
   }), {
-    getBackendConfig: () => Configuration.find('configuration'),
-    updateBackendConfig: model => Configuration.save(model)
+    putKBCredentials,
+    confirmPutKBCredentials,
   }
 )(SettingsKnowledgeBaseRoute);

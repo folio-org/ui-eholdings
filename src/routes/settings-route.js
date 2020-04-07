@@ -1,47 +1,15 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import ReactRouterPropTypes from 'react-router-prop-types';
-import { TitleManager } from '@folio/stripes/core';
 import { FormattedMessage } from 'react-intl';
+
+import { TitleManager } from '@folio/stripes/core';
 
 import View from '../components/settings';
 import ApplicationRoute from './application';
-
-const kbCredentials = [
-  {
-    id: '1',
-    type: 'credentials',
-    attributes: {
-      name: 'Amherst',
-      apiKey: '',
-      url: '',
-      customerId: '',
-    },
-    metadata: {},
-  },
-  {
-    id: '2',
-    type: 'credentials',
-    attributes: {
-      name: 'Hampshire',
-      apiKey: 'some-valid-api-key',
-      url: 'https://sandbox.ebsco.io',
-      customerId: 'some-valid-customer-id',
-    },
-    metadata: {},
-  },
-  {
-    id: '3',
-    type: 'credentials',
-    attributes: {
-      name: 'Some other',
-      apiKey: 'some-valid-api-key',
-      url: 'https://sandbox.ebsco.io',
-      customerId: 'some-valid-customer-id',
-    },
-    metadata: {},
-  },
-];
+import { getKbCredentials } from '../redux/actions';
+import { selectPropFromData } from '../redux/selectors';
 
 class SettingsRoute extends Component {
   static propTypes = {
@@ -49,15 +17,19 @@ class SettingsRoute extends Component {
     location: ReactRouterPropTypes.location.isRequired,
   };
 
+  componentDidMount() {
+    this.props.getKbCredentials();
+  }
+
   render() {
-    const { children, location } = this.props;
+    const { children, location, kbCredentials } = this.props;
 
     return (
       <ApplicationRoute showSettings>
         <FormattedMessage id="ui-eholdings.label.settings">
           {pageTitle => (
             <TitleManager page={pageTitle}>
-              <View location={location} kbCredentials={kbCredentials}>
+              <View location={location} kbCredentials={kbCredentials.items}>
                 {children}
               </View>
             </TitleManager>
@@ -68,4 +40,10 @@ class SettingsRoute extends Component {
   }
 }
 
-export default SettingsRoute;
+export default connect(
+  (store) => ({
+    kbCredentials: selectPropFromData(store, 'kbCredentials'),
+  }), {
+    getKbCredentials
+  }
+)(SettingsRoute);
