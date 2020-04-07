@@ -54,7 +54,7 @@ class SearchModal extends React.PureComponent {
       isModalVisible: false,
       query: normalize(this.props.query),
       searchByTagsEnabled: queryContainsTagsFilter,
-      searchByAccessTypesEnabled: queryContainsAccessTypesFilter && !queryContainsAccessTypesFilter,
+      searchByAccessTypesEnabled: queryContainsAccessTypesFilter && !queryContainsTagsFilter,
     };
   }
 
