@@ -36,7 +36,7 @@ export default {
 
     const params = {
       method,
-      body: JSON.stringify(credentials),
+      body: JSON.stringify(credentials.attributes),
       headers: getHeaders(method, okapi, url),
     };
 
