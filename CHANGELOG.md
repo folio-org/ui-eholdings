@@ -1,5 +1,11 @@
 # Change history for ui-eholdings
 
+## [3.1.0] (IN PROGRESS)
+
+* Retain search within packages search and filter selections on the Provider record (UIEH-847)
+* Retain search within titles search and filter selections on the Package record (UIEH-853)
+* Display Access Status Types on Create/Edit/View records. (UIEH-831)
+
 ## [3.0.1] (https://github.com/folio-org/ui-eholdings/tree/v3.0.1) (2020-04-02)
 
 * Provider Results UI updates (UIEH-846)
@@ -8,7 +14,6 @@
 * Fix Proxy selection is set to None when package has Inherited proxy. (UIEH-854)
 * Fix inconsistent proxy selection for Resources. (UIEH-875)
 * Fix Unsaved Changes Modal not appearing after changing Resource selected status. (UIEH-876)
-* Display Access Status Types on Create/Edit/View records. (UIEH-831)
 * Filter Packages by Access Status Type. (UIEH-835)
 
 ## [3.0.0] (https://github.com/folio-org/ui-eholdings/tree/v3.0.0) (2020-03-13)

@@ -168,8 +168,8 @@ describe('With valid backend configuration', () => {
       });
 
       describe('saving the changes', () => {
-        beforeEach(() => {
-          return SettingsPage.save();
+        beforeEach(async () => {
+          await SettingsPage.save();
         });
 
         // mirage may respond too quick to properly test loading states
