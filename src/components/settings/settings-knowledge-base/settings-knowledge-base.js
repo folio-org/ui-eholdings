@@ -96,7 +96,7 @@ export default class SettingsKnowledgeBase extends Component {
             id="knowledge-base-form"
             data-test-eholdings-settings-kb
             formState={formState}
-            updateIsPending={false}
+            updateIsPending={kbCredentials.isUpdating}
             title={<FormattedMessage id="ui-eholdings.settings.kb" />}
             toasts={this.state.toasts}
           >

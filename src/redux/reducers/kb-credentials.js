@@ -18,6 +18,7 @@ import { formatErrors } from '../helpers';
 
 const initialState = {
   isLoading: false,
+  isUpdating: false,
   hasLoaded: false,
   hasFailed: false,
   hasUpdated: false,
@@ -88,6 +89,7 @@ const handlers = {
   [PUT_KB_CREDENTIALS]: state => ({
     ...state,
     isLoading: true,
+    isUpdating: true,
     hasLoaded: false,
     hasFailed: false,
   }),
@@ -100,6 +102,7 @@ const handlers = {
   [PUT_KB_CREDENTIALS_SUCCESS]: state => ({
     ...state,
     isLoading: false,
+    isUpdating: false,
     hasLoaded: true,
     hasFailed: false,
     hasUpdated: true,
@@ -111,6 +114,7 @@ const handlers = {
     return {
       ...state,
       isLoading: false,
+      isUpdating: false,
       hasLoaded: false,
       hasFailed: true,
       hasUpdated: false,

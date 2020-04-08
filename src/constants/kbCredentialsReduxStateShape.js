@@ -25,6 +25,7 @@ const KbCredentialsReduxStateShape = PropTypes.shape({
   hasLoaded: PropTypes.bool.isRequired,
   hasUpdated: PropTypes.bool.isRequired,
   isLoading: PropTypes.bool.isRequired,
+  isUpdating: PropTypes.bool.isRequired,
   items: PropTypes.arrayOf(CredentialShape).isRequired,
 });
 
