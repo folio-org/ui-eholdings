@@ -4,7 +4,7 @@ import { Response } from '@bigtest/mirage';
 
 import setupApplication from '../helpers/setup-application';
 import ApplicationPage from '../interactors/application';
-import SettingsPage from '../interactors/settings';
+import SettingsPage from '../interactors/settings-configuration';
 
 describe('Error retrieving backend', () => {
   setupApplication({
@@ -55,7 +55,7 @@ describe('With unconfigured backend', () => {
 
   describe('when visiting the KB auth form', () => {
     beforeEach(function () {
-      this.visit('/settings/eholdings/knowledge-base');
+      this.visit('/settings/eholdings/knowledge-base/Amherst');
     });
 
     it('does not enable the save button', () => {
@@ -103,7 +103,7 @@ describe('With valid backend configuration', () => {
 
   describe('when visiting the KB auth form', () => {
     beforeEach(function () {
-      this.visit('/settings/eholdings/knowledge-base');
+      this.visit('/settings/eholdings/knowledge-base/Hampshire');
     });
 
     it('has a field for the ebsco customer id', () => {

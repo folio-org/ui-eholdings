@@ -10,6 +10,7 @@ import {
   POST_KB_CREDENTIALS_SUCCESS,
   POST_KB_CREDENTIALS_FAILURE,
   PUT_KB_CREDENTIALS,
+  CONFIRM_PUT_KB_CREDENTIALS,
   PUT_KB_CREDENTIALS_SUCCESS,
   PUT_KB_CREDENTIALS_FAILURE,
   DELETE_KB_CREDENTIALS,
@@ -21,8 +22,10 @@ describe('(reducer) kbCredentials', () => {
   it('should return the initial state', () => {
     expect(kbCredentials(undefined, {})).to.deep.equal({
       isLoading: false,
+      isUpdating: false,
       hasLoaded: false,
       hasFailed: false,
+      hasUpdated: false,
       items: [],
       errors: [],
     });
@@ -153,6 +156,7 @@ describe('(reducer) kbCredentials', () => {
   it('should handle PUT_KB_CREDENTIALS', () => {
     const actualState = {
       isLoading: false,
+      isUpdating: false,
       items: [],
     };
     const action = {
@@ -162,8 +166,25 @@ describe('(reducer) kbCredentials', () => {
     const expectedState = {
       items: [],
       isLoading: true,
+      isUpdating: true,
       hasLoaded: false,
       hasFailed: false,
+    };
+
+    expect(kbCredentials(actualState, action)).to.deep.equal(expectedState);
+  });
+
+  it('should handle CONFIRM_PUT_KB_CREDENTIALS', () => {
+    const actualState = {
+      hasUpdated: true,
+      isLoading: false,
+    };
+    const action = {
+      type: CONFIRM_PUT_KB_CREDENTIALS,
+    };
+    const expectedState = {
+      isLoading: false,
+      hasUpdated: false,
     };
 
     expect(kbCredentials(actualState, action)).to.deep.equal(expectedState);
@@ -172,6 +193,7 @@ describe('(reducer) kbCredentials', () => {
   it('should handle PUT_KB_CREDENTIALS_SUCCESS', () => {
     const actualState = {
       isLoading: true,
+      isUpdating: true,
       items: [],
     };
     const action = {
@@ -179,8 +201,10 @@ describe('(reducer) kbCredentials', () => {
     };
     const expectedState = {
       isLoading: false,
+      isUpdating: false,
       hasLoaded: true,
       hasFailed: false,
+      hasUpdated: true,
       items: [],
     };
 
@@ -190,6 +214,7 @@ describe('(reducer) kbCredentials', () => {
   it('should handle PUT_KB_CREDENTIALS_FAILURE', () => {
     const actualState = {
       isLoading: true,
+      isUpdating: true,
     };
     const action = {
       type: PUT_KB_CREDENTIALS_FAILURE,
@@ -197,8 +222,10 @@ describe('(reducer) kbCredentials', () => {
     };
     const expectedState = {
       isLoading: false,
+      isUpdating: false,
       hasLoaded: false,
       hasFailed: true,
+      hasUpdated: false,
       errors: [
         { title: 'error' },
       ]
