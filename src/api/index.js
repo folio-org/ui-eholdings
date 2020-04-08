@@ -2,3 +2,4 @@
 export { default as agreementsApi } from './agreements';
 export { default as customLabelsApi } from './custom-labels';
 export { default as accessTypesApi } from './access-types';
+export { default as knowledgeBaseApi } from './kb-credentials';
