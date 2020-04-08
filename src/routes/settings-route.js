@@ -10,10 +10,13 @@ import View from '../components/settings';
 import ApplicationRoute from './application';
 import { getKbCredentials } from '../redux/actions';
 import { selectPropFromData } from '../redux/selectors';
+import { KbCredentials } from '../constants';
 
 class SettingsRoute extends Component {
   static propTypes = {
     children: PropTypes.node.isRequired,
+    getKbCredentials: PropTypes.func.isRequired,
+    kbCredentials: KbCredentials.KbCredentialsReduxStateShape,
     location: ReactRouterPropTypes.location.isRequired,
   };
 

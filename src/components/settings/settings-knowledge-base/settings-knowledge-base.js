@@ -18,8 +18,8 @@ const focusOnErrors = createFocusDecorator();
 export default class SettingsKnowledgeBase extends Component {
   static propTypes = {
     config: KbCredentials.CredentialShape,
-    onSubmit: PropTypes.func.isRequired,
     kbCredentials: KbCredentials.KbCredentialsReduxStateShape,
+    onSubmit: PropTypes.func.isRequired,
   };
 
   static contextTypes = {
@@ -44,6 +44,7 @@ export default class SettingsKnowledgeBase extends Component {
         state: { eholdings: true, isFreshlySaved: true }
       });
 
+      // eslint-disable-next-line react/no-did-update-set-state
       this.setState(({ toasts }) => ({
         toasts: [...toasts, {
           id: `settings-kb-${config.id}`,
@@ -54,13 +55,14 @@ export default class SettingsKnowledgeBase extends Component {
     }
 
     if (prevProps.kbCredentials.errors !== kbCredentials.errors) {
+      // eslint-disable-next-line react/no-did-update-set-state
       this.setState(({ toasts }) => ({
         toasts: [...toasts, ...kbCredentials.errors.map(error => ({
           id: `settings-kb-${config.id}`,
           message: error.title,
           type: 'error'
         }))],
-      }))
+      }));
     }
   }
 

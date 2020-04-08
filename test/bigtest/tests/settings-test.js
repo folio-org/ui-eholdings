@@ -59,7 +59,7 @@ describe('Settings', () => {
         await Settings.configurationNavigationList()[0].clickHeading();
       });
 
-      it('should redirect to Knowledge Base configuration page', function() {
+      it('should redirect to Knowledge Base configuration page', function () {
         expect(this.location.pathname).to.equal('/settings/eholdings/knowledge-base/Amherst');
       });
     });

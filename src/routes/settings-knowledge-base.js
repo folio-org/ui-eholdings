@@ -4,7 +4,10 @@ import { connect } from 'react-redux';
 import { TitleManager } from '@folio/stripes/core';
 import { FormattedMessage } from 'react-intl';
 
-import { putKBCredentials, confirmPutKBCredentials } from '../redux/actions';
+import {
+  putKBCredentials as putKBCredentialsAction,
+  confirmPutKBCredentials as confirmPutKBCredentialsAction,
+} from '../redux/actions';
 import { selectPropFromData } from '../redux/selectors';
 import { KbCredentials } from '../constants';
 
@@ -13,7 +16,6 @@ import View from '../components/settings/settings-knowledge-base';
 class SettingsKnowledgeBaseRoute extends Component {
   static propTypes = {
     confirmPutKBCredentials: PropTypes.func.isRequired,
-    getBackendConfig: PropTypes.func.isRequired,
     kbCredentials: KbCredentials.KbCredentialsReduxStateShape,
     match: PropTypes.object.isRequired,
     putKBCredentials: PropTypes.func.isRequired,
@@ -73,7 +75,7 @@ export default connect(
   (store) => ({
     kbCredentials: selectPropFromData(store, 'kbCredentials'),
   }), {
-    putKBCredentials,
-    confirmPutKBCredentials,
+    putKBCredentials: putKBCredentialsAction,
+    confirmPutKBCredentials: confirmPutKBCredentialsAction,
   }
 )(SettingsKnowledgeBaseRoute);

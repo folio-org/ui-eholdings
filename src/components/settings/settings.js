@@ -57,7 +57,7 @@ class Settings extends Component {
       >
         {({ ref, ariaIds }) => (
           <FormattedMessage id="ui-eholdings.settings.kb">
-            {(message) => ((
+            {(message) => (
               <span
                 data-test-configuration-heading
                 ref={ref}
@@ -69,7 +69,7 @@ class Settings extends Component {
               >
                 {name || message}
               </span>
-            ))}
+            )}
           </FormattedMessage>
         )}
       </Tooltip>
