@@ -670,6 +670,44 @@ export default function config() {
     return {};
   });
 
+  this.get('/custom-labels', {
+    data: [{
+      type: 'customLabel',
+      attributes: {
+        id: 1,
+        displayLabel: 'test label',
+        displayOnFullTextFinder: true,
+        displayOnPublicationFinder: false,
+      },
+    }, {
+      type: 'customLabel',
+      attributes: {
+        id: 2,
+        displayLabel: 'some label',
+        displayOnFullTextFinder: false,
+        displayOnPublicationFinder: false,
+      },
+    }, {
+      type: 'customLabel',
+      attributes: {
+        id: 3,
+        displayLabel: 'different label',
+        displayOnFullTextFinder: false,
+        displayOnPublicationFinder: true,
+      },
+    }, {
+      type: 'customLabel',
+      attributes: {
+        id: 4,
+        displayLabel: 'another one',
+        displayOnFullTextFinder: true,
+        displayOnPublicationFinder: true,
+      },
+    }],
+  });
+
+  this.put('/custom-labels', (schema, request) => request.requestBody);
+
   this.get('/kb-credentials/:id/custom-labels', {
     data: [{
       type: 'customLabel',
