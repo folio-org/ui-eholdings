@@ -7,7 +7,7 @@ import { Select } from '@folio/stripes/components';
 import styles from './root-proxy-select-field.css';
 
 function RootProxySelectField({ proxyTypes }) {
-  if (!proxyTypes?.items) {
+  if (!proxyTypes?.items?.length) {
     return null;
   }
 
