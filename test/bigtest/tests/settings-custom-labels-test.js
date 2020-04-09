@@ -15,7 +15,7 @@ describe('With list of root proxies available to a customer', () => {
 
   describe('when visiting the settings custom-labels form', () => {
     beforeEach(async function () {
-      this.visit('/settings/eholdings/custom-labels');
+      this.visit('/settings/eholdings/2/custom-labels');
       await wait(1000);
     });
 

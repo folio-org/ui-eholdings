@@ -14,7 +14,9 @@ describe('Settings', () => {
 
   describe('when there are no Knowledge Base Configurations', () => {
     beforeEach(async function () {
-      // setup empty list of kb configurations
+      this.server.get('/kb-credentials/', () => ({
+        data: [],
+      }));
       this.visit('/settings/eholdings');
       await Settings.whenLoaded();
     });
@@ -39,7 +41,7 @@ describe('Settings', () => {
     });
 
     it('shold display correct number of Knowledge Base configurations', () => {
-      expect(Settings.configurationNavigationList().length).to.equal(2);
+      expect(Settings.configurationNavigationList().length).to.equal(3);
     });
 
     it('all settings for unconfigured KB should be disabled', () => {
@@ -60,7 +62,7 @@ describe('Settings', () => {
       });
 
       it('should redirect to Knowledge Base configuration page', function () {
-        expect(this.location.pathname).to.equal('/settings/eholdings/knowledge-base/Amherst');
+        expect(this.location.pathname).to.equal('/settings/eholdings/knowledge-base/1');
       });
     });
   });

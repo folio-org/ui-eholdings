@@ -3,14 +3,14 @@ import { expect } from 'chai';
 
 import { TestScheduler } from 'rxjs/Rx';
 
-import { createGetKbCredentialsEpic } from '../../../../../src/redux/epics';
+import { createGetRootProxyEpic } from '../../../../../src/redux/epics';
 import {
-  GET_KB_CREDENTIALS,
-  GET_KB_CREDENTIALS_SUCCESS,
-  GET_KB_CREDENTIALS_FAILURE,
+  GET_ROOT_PROXY,
+  GET_ROOT_PROXY_SUCCESS,
+  GET_ROOT_PROXY_FAILURE,
 } from '../../../../../src/redux/actions';
 
-describe('(epic) getKBCredentials', () => {
+describe('(epic) getRootProxy', () => {
   let testScheduler;
 
   beforeEach(() => {
@@ -36,24 +36,24 @@ describe('(epic) getKBCredentials', () => {
     const response = { body: ['item1', 'item2'] };
 
     const action$ = testScheduler.createHotObservable('-a', {
-      a: { type: GET_KB_CREDENTIALS }
+      a: { type: GET_ROOT_PROXY }
     });
 
     const dependencies = {
-      knowledgeBaseApi: {
-        getCollection: () => testScheduler.createColdObservable('--a', {
-          a: response.body
-        })
-      }
+      rootProxyApi: {
+        get: () => testScheduler.createColdObservable('--a', {
+          a: response.body,
+        }),
+      },
     };
 
-    const output$ = createGetKbCredentialsEpic(dependencies)(action$, state$);
+    const output$ = createGetRootProxyEpic(dependencies)(action$, state$);
 
     testScheduler.expectObservable(output$).toBe('---a', {
       a: {
-        type: GET_KB_CREDENTIALS_SUCCESS,
+        type: GET_ROOT_PROXY_SUCCESS,
         payload: response.body,
-      }
+      },
     });
 
     testScheduler.flush();
@@ -61,20 +61,20 @@ describe('(epic) getKBCredentials', () => {
 
   it('should handle errors', () => {
     const action$ = testScheduler.createHotObservable('-a', {
-      a: { type: GET_KB_CREDENTIALS }
+      a: { type: GET_ROOT_PROXY }
     });
 
     const dependencies = {
-      knowledgeBaseApi: {
-        getCollection: () => testScheduler.createColdObservable('--#', null, 'Error messages')
+      rootProxyApi: {
+        get: () => testScheduler.createColdObservable('--#', null, 'Error messages')
       }
     };
 
-    const output$ = createGetKbCredentialsEpic(dependencies)(action$, state$);
+    const output$ = createGetRootProxyEpic(dependencies)(action$, state$);
 
     testScheduler.expectObservable(output$).toBe('---a', {
       a: {
-        type: GET_KB_CREDENTIALS_FAILURE,
+        type: GET_ROOT_PROXY_FAILURE,
         payload: 'Error messages',
       }
     });

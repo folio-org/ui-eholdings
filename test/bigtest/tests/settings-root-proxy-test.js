@@ -10,7 +10,7 @@ describe('With list of root proxies available to a customer', () => {
 
   describe('when visiting the settings root proxy form', () => {
     beforeEach(async function () {
-      this.visit('/settings/eholdings/root-proxy');
+      this.visit('/settings/eholdings/2/root-proxy');
       await wait(1000);
     });
 
@@ -57,13 +57,13 @@ describe('With list of root proxies available to a customer', () => {
 
   describe('encountering a server error when PUTting', () => {
     beforeEach(async function () {
-      await this.server.put('/root-proxy', {
+      await this.server.put('/kb-credentials/2/root-proxy', {
         errors: [{
           title: 'There was an error'
         }]
       }, 500);
 
-      this.visit('/settings/eholdings/root-proxy');
+      this.visit('/settings/eholdings/2/root-proxy');
       await wait(2000);
     });
 

@@ -1,8 +1,8 @@
 export const UPDATE_CUSTOM_LABELS = 'UPDATE_CUSTOM_LABELS';
 
-export function updateCustomLabels(payload) {
+export function updateCustomLabels(customLabels, credentialId) {
   return {
     type: UPDATE_CUSTOM_LABELS,
-    payload,
+    payload: { customLabels, credentialId },
   };
 }

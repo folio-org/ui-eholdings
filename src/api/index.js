@@ -3,3 +3,5 @@ export { default as agreementsApi } from './agreements';
 export { default as customLabelsApi } from './custom-labels';
 export { default as accessTypesApi } from './access-types';
 export { default as knowledgeBaseApi } from './kb-credentials';
+export { default as rootProxyApi } from './root-proxy';
+export { default as proxyTypesApi } from './proxy-types';

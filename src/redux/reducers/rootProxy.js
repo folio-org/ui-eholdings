@@ -1,30 +1,31 @@
 import {
-  GET_CUSTOM_LABELS_SUCCESS,
-  GET_CUSTOM_LABELS_FAILURE,
-  GET_CUSTOM_LABELS,
-  UPDATE_CUSTOM_LABELS,
-  UPDATE_CUSTOM_LABELS_FAILURE,
-  UPDATE_CUSTOM_LABELS_SUCCESS,
-  CONFIRM_UPDATE_CUSTOM_LABELS,
+  GET_ROOT_PROXY,
+  GET_ROOT_PROXY_SUCCESS,
+  GET_ROOT_PROXY_FAILURE,
+  UPDATE_ROOT_PROXY,
+  CONFIRM_UPDATE_ROOT_PROXY,
+  UPDATE_ROOT_PROXY_SUCCESS,
+  UPDATE_ROOT_PROXY_FAILURE,
 } from '../actions';
 
 import { formatErrors } from '../helpers';
 
 const handlers = {
-  [GET_CUSTOM_LABELS]: (state) => {
+  [GET_ROOT_PROXY]: (state) => {
     return {
       ...state,
       isLoading: true,
     };
   },
-  [GET_CUSTOM_LABELS_SUCCESS]: (state, action) => {
+  [GET_ROOT_PROXY_SUCCESS]: (state, action) => {
     return {
       ...state,
       isLoading: false,
-      items: action.payload.customLabels,
+      isFailed: false,
+      data: action.payload.data,
     };
   },
-  [GET_CUSTOM_LABELS_FAILURE]: (state, action) => {
+  [GET_ROOT_PROXY_FAILURE]: (state, action) => {
     const {
       payload: { errors },
     } = action;
@@ -32,10 +33,18 @@ const handlers = {
     return {
       ...state,
       isLoading: false,
+      isFailed: true,
       errors: formatErrors(errors),
     };
   },
-  [UPDATE_CUSTOM_LABELS_FAILURE]: (state, action) => {
+  [UPDATE_ROOT_PROXY]: (state) => {
+    return {
+      ...state,
+      isLoading: true,
+      isFailed: false,
+    };
+  },
+  [UPDATE_ROOT_PROXY_FAILURE]: (state, action) => {
     const {
       payload: { errors },
     } = action;
@@ -43,28 +52,20 @@ const handlers = {
     return {
       ...state,
       isLoading: false,
+      isFailed: true,
       errors: formatErrors(errors),
     };
   },
-  [UPDATE_CUSTOM_LABELS_SUCCESS]: (state) => {
+  [UPDATE_ROOT_PROXY_SUCCESS]: (state, action) => {
     return {
       ...state,
+      isLoading: false,
       isUpdated: true,
+      isFailed: false,
+      data: action.payload,
     };
   },
-  [UPDATE_CUSTOM_LABELS]: (state, action) => {
-    const { items } = state;
-    const { payload } = action;
-
-    return {
-      ...state,
-      items: {
-        ...items,
-        data: payload.customLabels,
-      },
-    };
-  },
-  [CONFIRM_UPDATE_CUSTOM_LABELS]: (state) => {
+  [CONFIRM_UPDATE_ROOT_PROXY]: (state) => {
     return {
       ...state,
       isUpdated: false,
@@ -74,12 +75,13 @@ const handlers = {
 
 const initialState = {
   isLoading: false,
-  items: {},
+  isFailed: false,
+  data: {},
   errors: [],
   isUpdated: false,
 };
 
-export default function customLabels(state, action) {
+export default function rootProxy(state, action) {
   const currentState = state || initialState;
 
   return handlers[action.type]

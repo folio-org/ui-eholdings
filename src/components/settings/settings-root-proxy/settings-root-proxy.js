@@ -9,41 +9,60 @@ import {
 import { FormattedMessage } from 'react-intl';
 
 import SettingsForm from '../settings-form';
-import { processErrors } from '../../utilities';
 import RootProxySelectField from './_fields/root-proxy-select';
+import { rootProxy as rootProxyShapes } from '../../../constants';
 
 const focusOnErrors = createFocusDecorator();
 
 export default class SettingsRootProxy extends Component {
   static propTypes = {
-    isFreshlySaved: PropTypes.bool,
     onSubmit: PropTypes.func.isRequired,
     proxyTypes: PropTypes.object.isRequired,
-    rootProxy: PropTypes.object.isRequired
+    rootProxy: rootProxyShapes.RootProxyReduxStateShape.isRequired,
   };
+
+  state = {
+    toasts: [],
+  }
+
+  componentDidUpdate(prevProps) {
+    const { rootProxy } = this.props;
+
+    if (rootProxy.isUpdated) {
+      // eslint-disable-next-line react/no-did-update-set-state
+      this.setState(({ toasts }) => ({
+        toasts: [...toasts, {
+          id: `root-proxy-${rootProxy.id}`,
+          message: <FormattedMessage id="ui-eholdings.settings.rootProxy.updated" />,
+          type: 'success'
+        }],
+      }));
+    }
+
+    if (prevProps.rootProxy.errors !== rootProxy.errors) {
+      // eslint-disable-next-line react/no-did-update-set-state
+      this.setState(({ toasts }) => ({
+        toasts: [...toasts, ...rootProxy.errors.map(error => ({
+          id: `root-proxy-${rootProxy.id}`,
+          message: error.title,
+          type: 'error'
+        }))],
+      }));
+    }
+  }
 
   render() {
     const {
       rootProxy,
       proxyTypes,
       onSubmit,
-      isFreshlySaved,
     } = this.props;
-    const toasts = processErrors(rootProxy);
-
-    if (isFreshlySaved) {
-      toasts.push({
-        id: `root-proxy-${rootProxy.update.timestamp}`,
-        message: <FormattedMessage id="ui-eholdings.settings.rootProxy.updated" />,
-        type: 'success'
-      });
-    }
 
     return (
       <Form
         onSubmit={onSubmit}
         initialValues={{
-          rootProxyServer: rootProxy.proxyTypeId
+          rootProxyServer: rootProxy.data?.attributes?.proxyTypeId
         }}
         decorators={[focusOnErrors]}
         render={(formState) => (
@@ -51,9 +70,9 @@ export default class SettingsRootProxy extends Component {
             data-test-eholdings-settings-root-proxy
             id="root-proxy-form"
             formState={formState}
-            updateIsPending={rootProxy.update.isPending}
+            updateIsPending={rootProxy.isLoading}
             title={<FormattedMessage id="ui-eholdings.settings.rootProxy" />}
-            toasts={toasts}
+            toasts={this.state.toasts}
           >
             <Headline size="xx-large" tag="h3">
               <FormattedMessage id="ui-eholdings.settings.rootProxy.setting" />

@@ -10,8 +10,9 @@ describe('(action) getCustomLabels', () => {
   it('should create an action to get custom labels', () => {
     const expectedAction = {
       type: GET_CUSTOM_LABELS,
+      payload: '1',
     };
 
-    expect(getCustomLabels()).to.deep.equal(expectedAction);
+    expect(getCustomLabels('1')).to.deep.equal(expectedAction);
   });
 });
