@@ -10,7 +10,7 @@ import { FormattedMessage } from 'react-intl';
 
 import SettingsForm from '../settings-form';
 import RootProxySelectField from './_fields/root-proxy-select';
-import { rootProxy } from '../../../constants';
+import { rootProxy as rootProxyShapes } from '../../../constants';
 
 const focusOnErrors = createFocusDecorator();
 
@@ -18,7 +18,7 @@ export default class SettingsRootProxy extends Component {
   static propTypes = {
     onSubmit: PropTypes.func.isRequired,
     proxyTypes: PropTypes.object.isRequired,
-    rootProxy: rootProxy.RootProxyReduxStateShape.isRequired,
+    rootProxy: rootProxyShapes.RootProxyReduxStateShape.isRequired,
   };
 
   state = {
@@ -29,6 +29,7 @@ export default class SettingsRootProxy extends Component {
     const { rootProxy } = this.props;
 
     if (rootProxy.isUpdated) {
+      // eslint-disable-next-line react/no-did-update-set-state
       this.setState(({ toasts }) => ({
         toasts: [...toasts, {
           id: `root-proxy-${rootProxy.id}`,
@@ -39,6 +40,7 @@ export default class SettingsRootProxy extends Component {
     }
 
     if (prevProps.rootProxy.errors !== rootProxy.errors) {
+      // eslint-disable-next-line react/no-did-update-set-state
       this.setState(({ toasts }) => ({
         toasts: [...toasts, ...rootProxy.errors.map(error => ({
           id: `root-proxy-${rootProxy.id}`,

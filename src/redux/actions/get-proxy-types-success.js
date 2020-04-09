@@ -5,4 +5,4 @@ export function getProxyTypesSuccess(proxyTypes) {
     type: GET_PROXY_TYPES_SUCCESS,
     payload: proxyTypes,
   };
-};
+}

@@ -2,19 +2,17 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import ReactRouterPropTypes from 'react-router-prop-types';
 import { connect } from 'react-redux';
-import isEqual from 'lodash/isEqual';
 import { TitleManager } from '@folio/stripes/core';
 import { FormattedMessage } from 'react-intl';
 
-import { createResolver } from '../redux';
 import {
-  getRootProxy,
-  updateRootProxy,
-  confirmUpdateRootProxy,
-  getProxyTypes,
+  getRootProxy as getRootProxyAction,
+  updateRootProxy as updateRootProxyAction,
+  confirmUpdateRootProxy as confirmUpdateRootProxyAction,
+  getProxyTypes as getProxyTypesAction,
 } from '../redux/actions';
 import { selectPropFromData } from '../redux/selectors';
-import { rootProxy } from '../constants';
+import { rootProxy as rootProxyShapes } from '../constants';
 import View from '../components/settings/settings-root-proxy';
 
 class SettingsRootProxyRoute extends Component {
@@ -25,7 +23,7 @@ class SettingsRootProxyRoute extends Component {
     history: ReactRouterPropTypes.history.isRequired,
     match: ReactRouterPropTypes.match.isRequired,
     proxyTypes: PropTypes.object.isRequired,
-    rootProxy: rootProxy.RootProxyReduxStateShape.isRequired,
+    rootProxy: rootProxyShapes.RootProxyReduxStateShape.isRequired,
     updateRootProxy: PropTypes.func.isRequired
   };
 
@@ -101,9 +99,9 @@ export default connect(
     proxyTypes: selectPropFromData(store, 'settingsProxyTypes'),
     rootProxy: selectPropFromData(store, 'settingsRootProxy'),
   }), {
-    getProxyTypes,
-    getRootProxy,
-    updateRootProxy,
-    confirmUpdateRootProxy,
+    getProxyTypes: getProxyTypesAction,
+    getRootProxy: getRootProxyAction,
+    updateRootProxy: updateRootProxyAction,
+    confirmUpdateRootProxy: confirmUpdateRootProxyAction,
   }
 )(SettingsRootProxyRoute);

@@ -42,7 +42,7 @@ const handlers = {
       ...state,
       isLoading: true,
       isFailed: false,
-    }
+    };
   },
   [UPDATE_ROOT_PROXY_FAILURE]: (state, action) => {
     const {

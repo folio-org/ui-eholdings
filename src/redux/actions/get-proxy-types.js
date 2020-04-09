@@ -5,4 +5,4 @@ export function getProxyTypes(credentialId) {
     type: GET_PROXY_TYPES,
     payload: credentialId,
   };
-};
+}
