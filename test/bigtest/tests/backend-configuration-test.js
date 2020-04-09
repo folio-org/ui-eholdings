@@ -55,7 +55,7 @@ describe('With unconfigured backend', () => {
 
   describe('when visiting the KB auth form', () => {
     beforeEach(function () {
-      this.visit('/settings/eholdings/knowledge-base/Amherst');
+      this.visit('/settings/eholdings/knowledge-base/1');
     });
 
     it('does not enable the save button', () => {
@@ -103,7 +103,7 @@ describe('With valid backend configuration', () => {
 
   describe('when visiting the KB auth form', () => {
     beforeEach(function () {
-      this.visit('/settings/eholdings/knowledge-base/Hampshire');
+      this.visit('/settings/eholdings/knowledge-base/2');
     });
 
     it('has a field for the ebsco customer id', () => {

@@ -60,7 +60,7 @@ describe('Settings', () => {
       });
 
       it('should redirect to Knowledge Base configuration page', function () {
-        expect(this.location.pathname).to.equal('/settings/eholdings/knowledge-base/Amherst');
+        expect(this.location.pathname).to.equal('/settings/eholdings/knowledge-base/1');
       });
     });
   });
