@@ -21,7 +21,7 @@ export default {
   },
   updateCustomLabels: (okapi, customLabels, credentialId) => {
     const method = 'PUT';
-    const url = `${okapi.url}${API_URL(credentialId)}`;
+    const url = `${okapi.url}${credentialId ? CREDENTIALS_API_URL(credentialId) : API_URL}`;
 
     const params = {
       method,

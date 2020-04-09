@@ -134,7 +134,7 @@ describe('With valid backend configuration', () => {
 
     describe('filling in invalid data', () => {
       beforeEach(function () {
-        this.server.put('/configuration', () => {
+        this.server.put('/kb-credentials/2', () => {
           return new Response(422, {}, {
             errors: [{
               title: 'Invalid KB API credentials'
@@ -190,7 +190,7 @@ describe('With valid backend configuration', () => {
 
       describe('when saving the changes fail', () => {
         beforeEach(function () {
-          this.server.put('/configuration', {
+          this.server.put('/kb-credentials/2', {
             errors: [{
               title: 'an error has occurred'
             }]
@@ -224,8 +224,8 @@ describe('With valid backend configuration', () => {
         });
 
         it('reverts the changes', () => {
-          expect(SettingsPage.customerId).to.equal('some-valid-customer-id');
-          expect(SettingsPage.apiKey).to.equal('some-valid-api-key');
+          expect(SettingsPage.customerId).to.equal('ZZZZ');
+          expect(SettingsPage.apiKey).to.equal('XXXX');
         });
       });
     });

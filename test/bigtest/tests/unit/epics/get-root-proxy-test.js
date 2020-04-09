@@ -75,7 +75,7 @@ describe('(epic) getRootProxy', () => {
     testScheduler.expectObservable(output$).toBe('---a', {
       a: {
         type: GET_ROOT_PROXY_FAILURE,
-        payload: { errors: 'Error messages' },
+        payload: 'Error messages',
       }
     });
 
