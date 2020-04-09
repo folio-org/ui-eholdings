@@ -42,7 +42,7 @@ const initialState = {
   errors: [],
 };
 
-export default function settingsProxyTypes(state, action) {
+export default function proxyTypes(state, action) {
   const currentState = state || initialState;
 
   return handlers[action.type]

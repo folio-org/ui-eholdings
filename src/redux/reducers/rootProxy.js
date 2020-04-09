@@ -81,7 +81,7 @@ const initialState = {
   isUpdated: false,
 };
 
-export default function settingsRootProxy(state, action) {
+export default function rootProxy(state, action) {
   const currentState = state || initialState;
 
   return handlers[action.type]
