@@ -24,14 +24,10 @@ class SettingsKnowledgeBase extends Component {
   static propTypes = {
     config: KbCredentials.CredentialShape,
     intl: intlShape,
-    isModeCreate: PropTypes.bool,
+    isCreateMode: PropTypes.bool,
     kbCredentials: KbCredentials.KbCredentialsReduxStateShape,
     onSubmit: PropTypes.func.isRequired,
   };
-
-  static defaultProps = {
-    isModeCreate: false,
-  }
 
   static contextTypes = {
     router: PropTypes.shape({
@@ -65,6 +61,22 @@ class SettingsKnowledgeBase extends Component {
       }));
     }
 
+    if (kbCredentials.hasSaved) {
+      router.history.push({
+        pathname: `/settings/eholdings/knowledge-base/${config.id}`,
+        state: { eholdings: true, isFreshlySaved: true }
+      });
+
+      // eslint-disable-next-line react/no-did-update-set-state
+      this.setState(({ toasts }) => ({
+        toasts: [...toasts, {
+          id: `settings-kb-${config.id}`,
+          message: <FormattedMessage id="ui-eholdings.settings.kb.saved" values={{ name: config.attributes.name }} />,
+          type: 'success'
+        }],
+      }));
+    }
+
     if (prevProps.kbCredentials.errors !== kbCredentials.errors) {
       // eslint-disable-next-line react/no-did-update-set-state
       this.setState(({ toasts }) => ({
@@ -90,18 +102,11 @@ class SettingsKnowledgeBase extends Component {
   }
 
   getInitialValues() {
-    const { config, isModeCreate } = this.props;
-
-    if (isModeCreate) {
-      return {
-        name: this.getKbCredentialsName(),
-        apiKey: '',
-        customerId: '',
-      };
-    }
+    const { config, isCreateMode } = this.props;
 
     const initialValues = {
       rmapiBaseUrl: 'https://sandbox.ebsco.io',
+      name: isCreateMode ? this.getKbCredentialsName() : null,
     };
 
     if (!config) {
@@ -151,7 +156,7 @@ class SettingsKnowledgeBase extends Component {
     const {
       onSubmit,
       kbCredentials,
-      isModeCreate,
+      isCreateMode,
     } = this.props;
 
     return (
@@ -168,7 +173,7 @@ class SettingsKnowledgeBase extends Component {
             title={<FormattedMessage id="ui-eholdings.settings.kb" />}
             toasts={this.state.toasts}
           >
-            {!isModeCreate && (
+            {!isCreateMode && (
               <Headline size="xx-large" tag="h3">
                 <FormattedMessage id="ui-eholdings.settings.kb.rmApiCreds" />
               </Headline>
@@ -178,7 +183,7 @@ class SettingsKnowledgeBase extends Component {
               <Icon icon="spinner-ellipsis" />
             ) : (
               <>
-                {isModeCreate && (
+                {isCreateMode && (
                   <div data-test-eholdings-settings-kb-name>
                     <Field
                       name="name"
@@ -231,7 +236,7 @@ class SettingsKnowledgeBase extends Component {
               </>
             )}
 
-            {isModeCreate && (
+            {isCreateMode && (
               <NavigationModal
                 label={<FormattedMessage id="ui-eholdings.navModal.areYouSure" />}
                 message={<FormattedMessage id="ui-eholdings.navModal.unsavedChanges" />}

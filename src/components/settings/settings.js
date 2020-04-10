@@ -1,3 +1,4 @@
+/* eslint-disable jsx-a11y/interactive-supports-focus */
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { withRouter } from 'react-router';
@@ -58,6 +59,7 @@ class Settings extends Component {
         {({ ref, ariaIds }) => (
           <FormattedMessage id="ui-eholdings.settings.kb">
             {(message) => (
+              // eslint-disable-next-line jsx-a11y/click-events-have-key-events
               <span
                 data-test-configuration-heading
                 ref={ref}

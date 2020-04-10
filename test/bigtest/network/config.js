@@ -1,4 +1,5 @@
 import { Response } from '@bigtest/mirage';
+import { random } from 'faker';
 import { searchRouteFor, nestedResourceRouteFor, includesWords } from './helpers';
 
 
@@ -832,7 +833,10 @@ export default function config() {
     const body = JSON.parse(request.requestBody);
     const { attributes } = kbCredentials.create(body);
 
-    return { attributes };
+    return {
+      attributes,
+      id: random.uuid(),
+    };
   });
 
   this.put('/kb-credentials/:id', () => new Response(204));
