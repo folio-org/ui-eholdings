@@ -22,13 +22,20 @@ class SettingsCustomLabelsRoute extends Component {
       items: PropTypes.object.isRequired,
     }).isRequired,
     getCustomLabels: PropTypes.func.isRequired,
+    match: PropTypes.object.isRequired,
     updateCustomLabels: PropTypes.func.isRequired,
   };
 
   componentDidMount() {
-    const { getCustomLabels } = this.props;
+    const { getCustomLabels, match: { params } } = this.props;
 
-    getCustomLabels();
+    getCustomLabels(params.kbId);
+  }
+
+  componentDidUpdate(prevProps) {
+    if (prevProps.match.params.kbId !== this.props.match.params.kbId) {
+      this.props.getCustomLabels(this.props.match.params.kbId);
+    }
   }
 
   render() {
@@ -37,6 +44,7 @@ class SettingsCustomLabelsRoute extends Component {
       customLabels: { isLoading },
       updateCustomLabels,
       confirmUpdate,
+      match: { params: { kbId } },
     } = this.props;
 
     return (
@@ -53,6 +61,7 @@ class SettingsCustomLabelsRoute extends Component {
                     customLabels={customLabels}
                     updateCustomLabels={updateCustomLabels}
                     confirmUpdate={confirmUpdate}
+                    credentialId={kbId}
                   />
                 ) : (
                   <Icon

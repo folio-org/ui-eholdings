@@ -54,15 +54,13 @@ const handlers = {
   },
   [UPDATE_CUSTOM_LABELS]: (state, action) => {
     const { items } = state;
-    const {
-      payload: customLabel,
-    } = action;
+    const { payload } = action;
 
     return {
       ...state,
       items: {
         ...items,
-        data: customLabel,
+        data: payload.customLabels,
       },
     };
   },

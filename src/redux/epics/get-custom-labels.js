@@ -18,8 +18,14 @@ export default ({ customLabelsApi }) => (action$, store) => {
 
   return action$
     .filter(action => action.type === GET_CUSTOM_LABELS)
-    .mergeMap(() => customLabelsApi
-      .getAll(state.okapi)
-      .map(response => getCustomLabelsSuccess(response))
-      .catch(errors => Observable.of(getCustomLabelsFailure({ errors }))));
+    .mergeMap(action => {
+      const {
+        payload: credentialId,
+      } = action;
+
+      return customLabelsApi
+        .getAll(state.okapi, credentialId)
+        .map(response => getCustomLabelsSuccess(response))
+        .catch(errors => Observable.of(getCustomLabelsFailure({ errors })));
+    });
 };

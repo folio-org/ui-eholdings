@@ -11,3 +11,5 @@ export { default as entityTypePluralizedTranslationKeys } from './entityTypePlur
 export { default as paths } from './paths';
 export { default as accessTypes } from './accessTypes';
 export { default as accessTypesReduxStateShape } from './accessTypesReduxStateShape';
+export { default as KbCredentials } from './kbCredentialsReduxStateShape';
+export { default as rootProxy } from './rootProxyReduxStateShape';

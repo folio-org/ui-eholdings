@@ -8,12 +8,16 @@ import {
 
 describe('(action) updateCustomLabels', () => {
   it('should create an action to update custom labels', () => {
-    const payload = 'payload';
+    const customLabels = 'payload';
+    const credentialId = '1';
     const expectedAction = {
       type: UPDATE_CUSTOM_LABELS,
-      payload,
+      payload: {
+        customLabels,
+        credentialId,
+      },
     };
 
-    expect(updateCustomLabels(payload)).to.deep.equal(expectedAction);
+    expect(updateCustomLabels(customLabels, credentialId)).to.deep.equal(expectedAction);
   });
 });

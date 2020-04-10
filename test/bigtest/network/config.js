@@ -1,9 +1,30 @@
+import { Response } from '@bigtest/mirage';
 import { searchRouteFor, nestedResourceRouteFor, includesWords } from './helpers';
+
 
 // typical mirage config export
 export default function config() {
   const server = this;
   // okapi endpoints
+  this.post('/bl-users/login', () => {
+    return new Response(201, {
+      'X-Okapi-Token': `myOkapiToken:${Date.now()}`
+    }, {
+      user: {
+        id: 'test',
+        username: 'testuser',
+        personal: {
+          lastName: 'User',
+          firstName: 'Test',
+          email: 'user@folio.org',
+        }
+      },
+      permissions: {
+        permissions: []
+      }
+    });
+  });
+
   this.get('/note-types');
 
   this.post('/note-types', ({ requestBody }) => {
@@ -263,66 +284,6 @@ export default function config() {
 
   this.put('/configuration', (_, request) => {
     return JSON.parse(request.requestBody);
-  });
-
-  // Current root proxy
-  this.get('/root-proxy', {
-    data:
-    {
-      id: 'root-proxy',
-      type: 'rootProxies',
-      attributes: {
-        id: 'root-proxy',
-        proxyTypeId: 'bigTestJS'
-      }
-    }
-  });
-
-  // update root proxy
-  this.put('/root-proxy', (_, request) => {
-    return JSON.parse(request.requestBody);
-  });
-
-  // Available root proxies
-  this.get('/proxy-types', {
-    data: [
-      {
-        id: '<n>',
-        type: 'proxyTypes',
-        attributes: {
-          id: '<n>',
-          name: 'None',
-          urlMask: '',
-        }
-      },
-      {
-        id: 'bigTestJS',
-        type: 'proxyTypes',
-        attributes: {
-          id: 'bigTestJS',
-          name: 'bigTestJS',
-          urlMask: 'https://github.com/bigtestjs',
-        }
-      },
-      {
-        id: 'microstates',
-        type: 'proxyTypes',
-        attributes: {
-          id: 'microstates',
-          name: 'microstates',
-          urlMask: 'https://github.com/microstates',
-        }
-      },
-      {
-        id: 'EZproxy',
-        type: 'proxyTypes',
-        attributes: {
-          id: 'EZproxy',
-          name: 'EZproxy',
-          urlMask: 'https://github.com/ezproxy',
-        }
-      },
-    ]
   });
 
   // Provider resources
@@ -747,6 +708,44 @@ export default function config() {
 
   this.put('/custom-labels', (schema, request) => request.requestBody);
 
+  this.get('/kb-credentials/:id/custom-labels', {
+    data: [{
+      type: 'customLabel',
+      attributes: {
+        id: 1,
+        displayLabel: 'test label',
+        displayOnFullTextFinder: true,
+        displayOnPublicationFinder: false,
+      },
+    }, {
+      type: 'customLabel',
+      attributes: {
+        id: 2,
+        displayLabel: 'some label',
+        displayOnFullTextFinder: false,
+        displayOnPublicationFinder: false,
+      },
+    }, {
+      type: 'customLabel',
+      attributes: {
+        id: 3,
+        displayLabel: 'different label',
+        displayOnFullTextFinder: false,
+        displayOnPublicationFinder: true,
+      },
+    }, {
+      type: 'customLabel',
+      attributes: {
+        id: 4,
+        displayLabel: 'another one',
+        displayOnFullTextFinder: true,
+        displayOnPublicationFinder: true,
+      },
+    }],
+  });
+
+  this.put('/kb-credentials/:id/custom-labels', (schema, request) => request.requestBody);
+
   this.get('/access-types', ({ accessTypes }) => {
     return accessTypes.all();
   });
@@ -768,5 +767,199 @@ export default function config() {
     const body = JSON.parse(request.requestBody);
 
     return body;
+  });
+
+  this.get('/kb-credentials', () => ({
+    data: [
+      {
+        'id': '1',
+        'type': 'credentials',
+        'attributes': {
+          'name': '111111111',
+          'apiKey': '',
+          'url': '',
+          'customerId': ''
+        },
+        'metadata': {
+          'createdDate': '2020-03-17T15:22:04.098',
+          'updatedDate': '2020-03-17T15:23:04.098+0000',
+          'createdByUserId': '1f8f660e-7dc9-4f6f-828f-96284c68a250',
+          'updatedByUserId': '6893f51f-b40c-479d-bd78-1704ab5b802b',
+          'createdByUsername': 'john_doe',
+          'updatedByUsername': 'jane_doe'
+        }
+      },
+      {
+        'id': '2',
+        'type': 'credentials',
+        'attributes': {
+          'name': '2222222',
+          'apiKey': 'XXXX',
+          'url': 'YYYY',
+          'customerId': 'ZZZZ'
+        },
+        'metadata': {
+          'createdDate': '2020-03-17T15:22:04.098',
+          'updatedDate': '2020-03-17T15:23:04.098+0000',
+          'createdByUserId': '1f8f660e-7dc9-4f6f-828f-96284c68a250',
+          'updatedByUserId': '6893f51f-b40c-479d-bd78-1704ab5b802b',
+          'createdByUsername': 'john_doe',
+          'updatedByUsername': 'jane_doe'
+        }
+      },
+      {
+        'id': '3',
+        'type': 'credentials',
+        'attributes': {
+          'name': '333333333',
+          'apiKey': 'XXXX',
+          'url': 'YYYY',
+          'customerId': 'ZZZZ'
+        },
+        'metadata': {
+          'createdDate': '2020-03-17T15:22:04.098',
+          'updatedDate': '2020-03-17T15:23:04.098+0000',
+          'createdByUserId': '1f8f660e-7dc9-4f6f-828f-96284c68a250',
+          'updatedByUserId': '6893f51f-b40c-479d-bd78-1704ab5b802b',
+          'createdByUsername': 'john_doe',
+          'updatedByUsername': 'jane_doe'
+        }
+      },
+    ]
+  }));
+
+  this.post('/kb-credentials', () => ({
+    'id': '2ffa1940-2cf6-48b1-8cc9-5e539c61d93f',
+    'type': 'credentials',
+    'attributes': {
+      'name': 'post post post post',
+      'apiKey': 'XXXX',
+      'url': 'YYYY',
+      'customerId': 'ZZZZ'
+    },
+    'metadata': {
+      'createdDate': '2020-03-17T15:22:04.098',
+      'updatedDate': '2020-03-17T15:23:04.098+0000',
+      'createdByUserId': '1f8f660e-7dc9-4f6f-828f-96284c68a250',
+      'updatedByUserId': '6893f51f-b40c-479d-bd78-1704ab5b802b',
+      'createdByUsername': 'john_doe',
+      'updatedByUsername': 'jane_doe'
+    }
+  }));
+
+  this.put('/kb-credentials/:id', () => new Response(204));
+  this.delete('/kb-credentials/:id', () => new Response(204));
+
+  // Current root proxy
+  this.get('/root-proxy', {
+    data: {
+      id: 'root-proxy',
+      type: 'rootProxies',
+      attributes: {
+        id: 'root-proxy',
+        proxyTypeId: 'bigTestJS'
+      },
+    },
+  });
+
+  // update root proxy
+  this.put('/root-proxy', () => new Response(204));
+
+  // Current root proxy
+  this.get('/kb-credentials/:id/root-proxy', {
+    data: {
+      id: 'root-proxy',
+      type: 'rootProxies',
+      attributes: {
+        id: 'root-proxy',
+        proxyTypeId: 'bigTestJS'
+      },
+    },
+  });
+
+  // update root proxy
+  this.put('/kb-credentials/:id/root-proxy', () => new Response(204));
+
+  this.get('/proxy-types', {
+    data: [
+      {
+        id: '<n>',
+        type: 'proxyTypes',
+        attributes: {
+          id: '<n>',
+          name: 'None',
+          urlMask: '',
+        }
+      },
+      {
+        id: 'bigTestJS',
+        type: 'proxyTypes',
+        attributes: {
+          id: 'bigTestJS',
+          name: 'bigTestJS',
+          urlMask: 'https://github.com/bigtestjs',
+        }
+      },
+      {
+        id: 'microstates',
+        type: 'proxyTypes',
+        attributes: {
+          id: 'microstates',
+          name: 'microstates',
+          urlMask: 'https://github.com/microstates',
+        }
+      },
+      {
+        id: 'EZproxy',
+        type: 'proxyTypes',
+        attributes: {
+          id: 'EZproxy',
+          name: 'EZproxy',
+          urlMask: 'https://github.com/ezproxy',
+        }
+      },
+    ]
+  });
+
+  // Available root proxies
+  this.get('/kb-credentials/:id/proxy-types', {
+    data: [
+      {
+        id: '<n>',
+        type: 'proxyTypes',
+        attributes: {
+          id: '<n>',
+          name: 'None',
+          urlMask: '',
+        }
+      },
+      {
+        id: 'bigTestJS',
+        type: 'proxyTypes',
+        attributes: {
+          id: 'bigTestJS',
+          name: 'bigTestJS',
+          urlMask: 'https://github.com/bigtestjs',
+        }
+      },
+      {
+        id: 'microstates',
+        type: 'proxyTypes',
+        attributes: {
+          id: 'microstates',
+          name: 'microstates',
+          urlMask: 'https://github.com/microstates',
+        }
+      },
+      {
+        id: 'EZproxy',
+        type: 'proxyTypes',
+        attributes: {
+          id: 'EZproxy',
+          name: 'EZproxy',
+          urlMask: 'https://github.com/ezproxy',
+        }
+      },
+    ]
   });
 }
