@@ -670,7 +670,7 @@ export default function config() {
     return {};
   });
 
-  this.get('/custom-labels', {
+  this.get('/kb-credentials/:id/custom-labels', {
     data: [{
       type: 'customLabel',
       attributes: {
@@ -706,7 +706,7 @@ export default function config() {
     }],
   });
 
-  this.put('/custom-labels', (schema, request) => request.requestBody);
+  this.put('/kb-credentials/:id/custom-labels', (schema, request) => request.requestBody);
 
   this.get('/kb-credentials/:id/custom-labels', {
     data: [{
@@ -828,24 +828,12 @@ export default function config() {
     ]
   }));
 
-  this.post('/kb-credentials', () => ({
-    'id': '2ffa1940-2cf6-48b1-8cc9-5e539c61d93f',
-    'type': 'credentials',
-    'attributes': {
-      'name': 'post post post post',
-      'apiKey': 'XXXX',
-      'url': 'YYYY',
-      'customerId': 'ZZZZ'
-    },
-    'metadata': {
-      'createdDate': '2020-03-17T15:22:04.098',
-      'updatedDate': '2020-03-17T15:23:04.098+0000',
-      'createdByUserId': '1f8f660e-7dc9-4f6f-828f-96284c68a250',
-      'updatedByUserId': '6893f51f-b40c-479d-bd78-1704ab5b802b',
-      'createdByUsername': 'john_doe',
-      'updatedByUsername': 'jane_doe'
-    }
-  }));
+  this.post('/kb-credentials', ({ kbCredentials }, request) => {
+    const body = JSON.parse(request.requestBody);
+    const { attributes } = kbCredentials.create(body);
+
+    return { attributes };
+  });
 
   this.put('/kb-credentials/:id', () => new Response(204));
   this.delete('/kb-credentials/:id', () => new Response(204));

@@ -1,6 +1,6 @@
 export const GET_KB_CREDENTIALS_FAILURE = 'getKbCredentialsFailure';
 
-export const getKbCredentialsFailure = ({ errors }) => ({
+export const getKbCredentialsFailure = error => ({
   type: GET_KB_CREDENTIALS_FAILURE,
-  payload: errors,
+  payload: error,
 });

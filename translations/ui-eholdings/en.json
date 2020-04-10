@@ -156,6 +156,7 @@
     "settings.customLabels.toast": "Custom labels have been updated",
     "settings.kb": "Knowledge base",
     "settings.kb.new": "New",
+    "settings.kb.defaultName": "Knowledge base ({number})",
     "settings.kb.rmApiCreds": "EBSCO RM API credentials",
     "settings.kb.customerId": "Customer ID",
     "settings.kb.apiKey": "API Key",
@@ -299,7 +300,9 @@
 
     "validate.errors.edition.value": "Invalid value.",
     "validate.errors.edition.length": "Value exceeds the 250 character limit.",
-
+    
+    "validate.errors.settings.kb.name": "Field required. Please revise.",
+    "validate.errors.settings.kb.name.length": "255 character limit has been exceeded. Please revise.",
     "validate.errors.settings.customerId": "Customer ID cannot be blank",
     "validate.errors.settings.apiKey": "API key cannot be blank",
     "validate.errors.settings.customLabels.empty": "Please enter a display label.",

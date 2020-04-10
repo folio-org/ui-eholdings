@@ -122,11 +122,18 @@ class Settings extends Component {
   }
 
   renderLastMenu() {
+    const { location: { pathname } } = this.props;
+
     return (
       <Button
         id="create-knowledge-base-configuration"
         marginBottom0
         data-test-create-kb-configuration
+        to={{
+          pathname: '/settings/eholdings/knowledge-base/new',
+          state: { eholdings: true }
+        }}
+        disabled={pathname === '/settings/eholdings/knowledge-base/new'}
       >
         <FormattedMessage id="ui-eholdings.settings.kb.new" />
       </Button>
@@ -136,6 +143,7 @@ class Settings extends Component {
   render() {
     const {
       children,
+      location: { pathname },
     } = this.props;
 
     return (
@@ -154,6 +162,32 @@ class Settings extends Component {
           lastMenu={this.renderLastMenu()}
         >
           {this.renderKnowledgeBaseConfigurations()}
+          {pathname === '/settings/eholdings/knowledge-base/new' && (
+            <FormattedMessage id="ui-eholdings.settings.kb">
+              {label => (
+                <NavList ariaLabel={label}>
+                  <NavListSection
+                    label={label}
+                    activeLink={pathname}
+                  >
+                    <div className={css.listSectionContent}>
+                      <NavListItem className={css.listItemDisabled}>
+                        <FormattedMessage id="ui-eholdings.settings.rootProxy" />
+                      </NavListItem>
+
+                      <NavListItem className={css.listItemDisabled}>
+                        <FormattedMessage id="ui-eholdings.resource.customLabels" />
+                      </NavListItem>
+
+                      <NavListItem className={css.listItemDisabled}>
+                        <FormattedMessage id="ui-eholdings.settings.accessStatusTypes" />
+                      </NavListItem>
+                    </div>
+                  </NavListSection>
+                </NavList>
+              )}
+            </FormattedMessage>
+          )}
         </Pane>
         {children}
       </>

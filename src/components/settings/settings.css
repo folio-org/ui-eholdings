@@ -1,8 +1,25 @@
+<<<<<<< Updated upstream
 .listSectionHeader {
   color: #000;
+=======
+@import '@folio/stripes-components/lib/variables';
+
+.listSectionHeader {
+>>>>>>> Stashed changes
   cursor: pointer;
 }
 
 .listSectionContent {
   padding-left: 1rem;
+<<<<<<< Updated upstream
+=======
+}
+
+.listItemDisabled {
+  color: #616161;
+}
+
+.newListSection {
+  color: #000;
+>>>>>>> Stashed changes
 }
