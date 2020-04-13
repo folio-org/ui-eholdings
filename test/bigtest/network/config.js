@@ -671,7 +671,7 @@ export default function config() {
     return {};
   });
 
-  this.get('/kb-credentials/:id/custom-labels', {
+  this.get('/custom-labels', {
     data: [{
       type: 'customLabel',
       attributes: {
