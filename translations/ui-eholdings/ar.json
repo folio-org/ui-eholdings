@@ -354,5 +354,12 @@
     "settings.accessStatusTypes.delete.description": "هل أنت متأكد من أنك تريد حذف نوع حالة الوصول {name}؟",
     "settings.accessStatusTypes.delete.cancel": "إلغاء",
     "settings.accessStatusTypes.delete.confirm": "حذف",
-    "settings.accessStatusTypes.delete.toast": "تم حذف نوع حالة الوصول {name}"
+    "settings.accessStatusTypes.delete.toast": "تم حذف نوع حالة الوصول {name}",
+    "label.totalTitles": "إجمالي العناوين: {count}",
+    "selectedCount": "المحدد: {count}",
+    "accessType.select": "اختر نوع حالة الوصول",
+    "accessType.novalue": "لم يتم اختيار نوع حالة الوصول",
+    "label.totalPackages": "إجمالي الحزم: {count}",
+    "accessTypes.filter": "منقح أنواع حالات الوصول",
+    "search.searchByAccessTypesOnly": "بحث بواسطة أنواع حالة الوصول فقط"
 }

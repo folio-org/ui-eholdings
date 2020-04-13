@@ -354,5 +354,12 @@
     "settings.accessStatusTypes.delete.description": "Voulez-vous vraiment supprimer le type de statut d'accès {name} ?",
     "settings.accessStatusTypes.delete.cancel": "Annuler",
     "settings.accessStatusTypes.delete.confirm": "Supprimer",
-    "settings.accessStatusTypes.delete.toast": "Le type de statut d'accès {name} a été supprimé."
+    "settings.accessStatusTypes.delete.toast": "Le type de statut d'accès {name} a été supprimé.",
+    "label.totalTitles": "Nombre total de titres: {count}",
+    "selectedCount": "Sélectionné: {count}",
+    "accessType.select": "Sélectionnez un type de statut d'accès",
+    "accessType.novalue": "Aucun type de statut d'accès n'est sélectionné",
+    "label.totalPackages": "Total packages: {count}",
+    "accessTypes.filter": "Access status types filter",
+    "search.searchByAccessTypesOnly": "Search by access status types only"
 }
