@@ -1,12 +1,12 @@
 # Change history for ui-eholdings
 
-## [3.0.2] (https://github.com/folio-org/ui-eholdings/tree/v3.0.2) (2020-04-08)
+## [3.1.0] (IN PROGRESS)
 
 * Retain search within packages search and filter selections on the Provider record (UIEH-847)
 * Retain search within titles search and filter selections on the Package record (UIEH-853)
 * Display Access Status Types on Create/Edit/View records. (UIEH-831)
-* Fix Tags filter is selected by default in Search Modal. (UIEH-882)
-* Fix filter by Access Types will not return records. (UIEH-883)
+* Ability to create multiple Knowledge base configurations. (UIEH-856)
+* Add a Name field to Settings Knowledge Base page. (UIEH-855)
 
 ## [3.0.1] (https://github.com/folio-org/ui-eholdings/tree/v3.0.1) (2020-04-02)
 

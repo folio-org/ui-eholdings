@@ -1,17 +1,7 @@
-@import '@folio/stripes-components/lib/variables';
-
 .listSectionHeader {
   cursor: pointer;
 }
 
 .listSectionContent {
   padding-left: 1rem;
-}
-
-.listItemDisabled {
-  color: #616161;
-}
-
-.newListSection {
-  color: #000;
 }

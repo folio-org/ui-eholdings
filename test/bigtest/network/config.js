@@ -707,7 +707,7 @@ export default function config() {
     }],
   });
 
-  this.put('/kb-credentials/:id/custom-labels', (schema, request) => request.requestBody);
+  this.put('/custom-labels', (schema, request) => request.requestBody);
 
   this.get('/kb-credentials/:id/custom-labels', {
     data: [{
