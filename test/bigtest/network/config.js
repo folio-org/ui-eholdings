@@ -962,4 +962,42 @@ export default function config() {
       },
     ]
   });
+
+  this.get('/kb-credentials/:credId/users', () => ({
+    data: [
+      {
+        id: '1f8f660e-7dc9-4f6f-828f-96284c68a25',
+        type: 'assignedUsers',
+        attributes: {
+          credentialsId: '2ffa1940-2cf6-48b1-8cc9-5e539c61d93f',
+          firstName: 'John',
+          middleName: 'William',
+          lastName: 'Doe',
+          patronGroup: 'Staff',
+          userName: 'john_doe'
+        }
+      },
+      {
+        id: '6893f51f-b40c-479d-bd78-1704ab5b802b',
+        type: 'assignedUsers',
+        attributes: {
+          credentialsId: '2ffa1940-2cf6-48b1-8cc9-5e539c61d93f',
+          firstName: 'Jane',
+          middleName: 'Rosemary',
+          lastName: 'Doe',
+          patronGroup: 'Staff',
+          userName: 'jane_doe'
+        }
+      }
+    ],
+    meta: {
+      totalResults: 2
+    },
+    jsonapi: {
+      version: '1.0'
+    }
+  }));
+
+  this.post('/kb-credentials/:credId/users', (_schema, request) => request.requestBody);
+  this.delete('/kb-credentials/:credId/users/:userId', () => new Response(204));
 }

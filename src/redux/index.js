@@ -6,6 +6,7 @@ import {
   customLabelsApi,
   accessTypesApi,
   knowledgeBaseApi,
+  kbCredentialsUsersApi,
   rootProxyApi,
   proxyTypesApi,
 } from '../api';
@@ -37,6 +38,7 @@ import {
   kbCredentials,
   rootProxy,
   proxyTypes,
+  kbCredentialsUsers,
 } from './reducers';
 
 import {
@@ -53,6 +55,8 @@ import {
   createPostKbCredentialsEpic,
   createPutKbCredentialsEpic,
   createDeleteKbCredentialsEpic,
+  createGetKbCredentialsUsersEpic,
+  createDeleteKbCredentialsUsersEpic,
   createGetRootProxyEpic,
   createUpdateRootProxyEpic,
   createGetProxyTypesEpic,
@@ -83,6 +87,7 @@ export const reducer = combineReducers({
       customLabels: customLabels(currentState.customLabels, action),
       accessStatusTypes: accessTypes(currentState.accessStatusTypes, action),
       kbCredentials: kbCredentials(currentState.kbCredentials, action),
+      kbCredentialsUsers: kbCredentialsUsers(currentState.kbCredentialsUsers, action),
       settingsRootProxy: rootProxy(currentState.settingsRootProxy, action),
       settingsProxyTypes: proxyTypes(currentState.settingsProxyTypes, action),
     };
@@ -104,6 +109,8 @@ export const epics = combineEpics(
   createPostKbCredentialsEpic({ knowledgeBaseApi }),
   createPutKbCredentialsEpic({ knowledgeBaseApi }),
   createDeleteKbCredentialsEpic({ knowledgeBaseApi }),
+  createGetKbCredentialsUsersEpic({ kbCredentialsUsersApi }),
+  createDeleteKbCredentialsUsersEpic({ kbCredentialsUsersApi }),
   createGetRootProxyEpic({ rootProxyApi }),
   createUpdateRootProxyEpic({ rootProxyApi }),
   createGetProxyTypesEpic({ proxyTypesApi }),

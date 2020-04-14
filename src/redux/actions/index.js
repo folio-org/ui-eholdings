@@ -42,6 +42,7 @@ export * from './put-kb-credentials-failure';
 export * from './delete-kb-credentials';
 export * from './delete-kb-credentials-success';
 export * from './delete-kb-credentials-failure';
+export * from './kb-credentials-users';
 export * from './get-root-proxy';
 export * from './get-root-proxy-success';
 export * from './get-root-proxy-failure';
