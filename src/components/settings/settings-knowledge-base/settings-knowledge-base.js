@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Field, Form } from 'react-final-form';
-import { connect } from 'react-redux';
 import createFocusDecorator from 'final-form-focus';
 import {
   FormattedMessage,
@@ -94,7 +93,7 @@ class SettingsKnowledgeBase extends Component {
       return <FormattedMessage id="ui-eholdings.validate.errors.settings.kb.name" />;
     }
 
-    if (value?.length > 255) {
+    if (value.length > 255) {
       return <FormattedMessage id="ui-eholdings.validate.errors.settings.kb.name.length" />;
     }
 
@@ -250,4 +249,4 @@ class SettingsKnowledgeBase extends Component {
   }
 }
 
-export default connect()(injectIntl(SettingsKnowledgeBase));
+export default injectIntl(SettingsKnowledgeBase);
