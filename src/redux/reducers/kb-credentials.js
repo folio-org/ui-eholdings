@@ -10,6 +10,7 @@ import {
   DELETE_KB_CREDENTIALS_FAILURE,
   PUT_KB_CREDENTIALS,
   CONFIRM_PUT_KB_CREDENTIALS,
+  CONFIRM_POST_KB_CREDENTIALS,
   PUT_KB_CREDENTIALS_SUCCESS,
   PUT_KB_CREDENTIALS_FAILURE,
 } from '../actions';
@@ -22,6 +23,7 @@ const initialState = {
   hasLoaded: false,
   hasFailed: false,
   hasUpdated: false,
+  hasSaved: false,
   items: [],
   errors: [],
 };
@@ -59,6 +61,11 @@ const handlers = {
     hasFailed: false,
   }),
 
+  [CONFIRM_POST_KB_CREDENTIALS]: state => ({
+    ...state,
+    hasSaved: false,
+  }),
+
   [POST_KB_CREDENTIALS_SUCCESS]: (state, action) => {
     const { payload } = action;
 
@@ -67,6 +74,7 @@ const handlers = {
       isLoading: false,
       hasLoaded: true,
       hasFailed: false,
+      hasSaved: true,
       items: [
         ...state.items,
         payload,
@@ -82,6 +90,7 @@ const handlers = {
       isLoading: false,
       hasLoaded: false,
       hasFailed: true,
+      hasSaved: false,
       errors: formatErrors(errors),
     };
   },

@@ -58,11 +58,21 @@ describe('Settings', () => {
 
     describe('when clicking on configuration heading', () => {
       beforeEach(async () => {
-        await Settings.configurationNavigationList()[0].clickHeading();
+        await Settings.configurationNavigationList(0).clickHeading();
       });
 
       it('should redirect to Knowledge Base configuration page', function () {
-        expect(this.location.pathname).to.equal('/settings/eholdings/knowledge-base/1');
+        expect(this.location).to.equal('/settings/eholdings/knowledge-base/1');
+      });
+    });
+
+    describe('when clicking on new button', () => {
+      beforeEach(async () => {
+        await Settings.clickNew();
+      });
+
+      it('should redirect to Knowledge Base create page', function () {
+        expect(this.location.pathname).to.equal('/settings/eholdings/knowledge-base/new');
       });
     });
   });
