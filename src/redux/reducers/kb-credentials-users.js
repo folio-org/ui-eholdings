@@ -37,7 +37,7 @@ const handlers = {
     isLoading: false,
     hasLoaded: false,
     hasFailed: true,
-    errors: formatErrors(action.payload.errors),
+    errors: formatErrors(action.payload),
   }),
 
   [DELETE_KB_CREDENTIALS_USER]: state => ({
@@ -47,13 +47,13 @@ const handlers = {
   [DELETE_KB_CREDENTIALS_USER_SUCCESS]: (state, action) => ({
     ...state,
     isLoading: false,
-    items: state.items.filter(user => !(user.id === action.payload.userId)),
+    items: state.items.filter(user => user.id !== action.payload.userId),
   }),
   [DELETE_KB_CREDENTIALS_USER_FAILURE]: (state, action) => ({
     ...state,
     isLoading: false,
     hasFailed: true,
-    errors: formatErrors(action.payload.errors),
+    errors: formatErrors(action.payload),
   }),
 };
 export default function kbCredentialsUsers(state, action) {
