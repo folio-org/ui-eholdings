@@ -219,3 +219,11 @@ export const isKnowledgeBaseConfigured = (knowledgeBase) => {
 
   return !!name && !!apiKey && !!url && !!customerId;
 };
+
+export const getFullName = user => {
+  const lastName = user?.lastName || '';
+  const firstName = user?.firstName || '';
+  const middleName = user?.middleName || '';
+
+  return `${lastName}${firstName ? ', ' : ' '}${firstName}${middleName ? ' ' : ''}${middleName}`;
+};

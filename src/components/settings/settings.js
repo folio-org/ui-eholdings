@@ -116,6 +116,12 @@ class Settings extends Component {
               >
                 <FormattedMessage id="ui-eholdings.settings.accessStatusTypes" />
               </NavListItem>
+              <NavListItem
+                to={`/settings/eholdings/${configuration.id}/users`}
+                isDisabled={!knowledgeBaseConfigured}
+              >
+                <FormattedMessage id="ui-eholdings.settings.assignedUsers" />
+              </NavListItem>
             </div>
           </NavListSection>
         </NavList>

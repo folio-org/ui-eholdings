@@ -990,6 +990,6 @@ export default function config() {
     }
   }));
 
-  this.post('/kb-credentials/:credId/users', (_schema, request) => request.requestBody);
+  this.post('/kb-credentials/:credId/users', (_schema, request) => JSON.parse(request.requestBody).data);
   this.delete('/kb-credentials/:credId/users/:userId', () => new Response(204));
 }
