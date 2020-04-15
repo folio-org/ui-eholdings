@@ -57,16 +57,7 @@ const SettingsAssignedUsers = ({
     setUserToBeAssigned
   ] = useState(null);
 
-  const handleSelectUser = () => {
-    const user = {
-      username: "devonte",
-      id: "a208cf17-a7f0-452d-ae0e-64011232c86d",
-      patronGroup: "ad0bc554-d5bc-463c-85d1-5562127ae91b",
-      personal: {
-        lastName: "Abbott",
-        firstName: "Ser",
-      }
-    };
+  const handleSelectUser = (user) => {
     setUserToBeAssigned(user);
     onSelectUser(user);
   };
@@ -88,12 +79,7 @@ const SettingsAssignedUsers = ({
           selectUser={handleSelectUser}
           searchLabel={<FormattedMessage id="ui-eholdings.settings.assignedUsers.assignmentModal.label" />}
         >
-          <Button
-            marginBottom0
-            onClick={handleSelectUser}
-          >
-            Assign users
-          </Button>
+          <span>[find-user-plugin is not available]</span>
         </Pluggable>
       </Col>
     </Row>

@@ -16,6 +16,7 @@ import {
   getKBCredentialsUsers as getKBCredentialsUsersAction,
   deleteKBCredentialsUser as deleteKBCredentialsUserAction,
   postKBCredentialsUser as postKBCredentialsUserAction,
+  getUserGroups as getUserGroupsAction,
 } from '../redux/actions';
 import {
   KbCredentialsUsers,
@@ -29,9 +30,23 @@ const propTypes = {
   assignedUsers: KbCredentialsUsers.kbCredentialsUsersReduxStateShape.isRequired,
   deleteKBCredentialsUser: PropTypes.func.isRequired,
   getKBCredentialsUsers: PropTypes.func.isRequired,
+  getUserGroups: PropTypes.func.isRequired,
   kbCredentials: KbCredentials.KbCredentialsReduxStateShape,
   match: ReactRouterPropTypes.match.isRequired,
   postKBCredentialsUser: PropTypes.func.isRequired,
+  userGroups: PropTypes.shape({
+    errors: PropTypes.arrayOf(PropTypes.shape({
+      title: PropTypes.string.isRequired,
+    })).isRequired,
+    hasFailed: PropTypes.bool.isRequired,
+    hasLoaded: PropTypes.bool.isRequired,
+    isLoading: PropTypes.bool.isRequired,
+    items: PropTypes.arrayOf(PropTypes.shape({
+      desc: PropTypes.string.isRequired,
+      group: PropTypes.string.isRequired,
+      id: PropTypes.string.isRequired,
+    })).isRequired,
+  }).isRequired,
 };
 
 const SettingsAssignedUsersRoute = ({
@@ -41,10 +56,16 @@ const SettingsAssignedUsersRoute = ({
   assignedUsers,
   kbCredentials,
   match: { params: { kbId } },
+  userGroups,
+  getUserGroups,
 }) => {
   useEffect(() => {
     getKBCredentialsUsers(kbId);
   }, [getKBCredentialsUsers, kbId]);
+
+  useEffect(() => {
+    getUserGroups();
+  }, [getUserGroups]);
 
   const [
     alreadyAssignedMessageDisplayed,
@@ -81,6 +102,10 @@ const SettingsAssignedUsersRoute = ({
       }));
   }, [assignedUsers.errors]);
 
+  const getPatronGroupNameById = id => {
+    return userGroups.items.find(userGroup => userGroup.id === id).group;
+  };
+
   const getFormattedUserData = user => {
     const {
       patronGroup,
@@ -95,7 +120,7 @@ const SettingsAssignedUsersRoute = ({
 
     const attributes = {
       credentialsId: kbId,
-      patronGroup,
+      patronGroup: getPatronGroupNameById(patronGroup),
       lastName,
     };
 
@@ -122,7 +147,7 @@ const SettingsAssignedUsersRoute = ({
 
   return (
     <>
-      {assignedUsers.hasLoaded
+      {assignedUsers.hasLoaded && userGroups.hasLoaded
         ? (
           <View
             requestIsPending={assignedUsers.isLoading}
@@ -150,10 +175,12 @@ export default connect(
   (store) => ({
     assignedUsers: selectPropFromData(store, 'kbCredentialsUsers'),
     kbCredentials: selectPropFromData(store, 'kbCredentials'),
+    userGroups: selectPropFromData(store, 'userGroups'),
   }),
   {
     getKBCredentialsUsers: getKBCredentialsUsersAction,
     postKBCredentialsUser: postKBCredentialsUserAction,
     deleteKBCredentialsUser: deleteKBCredentialsUserAction,
+    getUserGroups: getUserGroupsAction,
   }
 )(SettingsAssignedUsersRoute);
