@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import PropTypes from 'prop-types';
 import { FormattedMessage } from 'react-intl';
 import { connect } from 'react-redux';
@@ -23,6 +23,8 @@ import {
 } from '../constants';
 import { getFullName } from '../components/utilities';
 
+const ASSIGNED_TO_ANOTHER_CREDENTIALS_BACKEND_ERROR = 'The user is already assigned to another credentials';
+
 const propTypes = {
   assignedUsers: KbCredentialsUsers.kbCredentialsUsersReduxStateShape.isRequired,
   deleteKBCredentialsUser: PropTypes.func.isRequired,
@@ -44,6 +46,23 @@ const SettingsAssignedUsersRoute = ({
     getKBCredentialsUsers(kbId);
   }, [getKBCredentialsUsers, kbId]);
 
+  const [
+    alreadyAssignedMessageDisplayed,
+    setAlreadyAssignedMessageDisplayed,
+  ] = useState(false);
+
+  useEffect(() => {
+    const lastError = assignedUsers.errors[assignedUsers.errors.length - 1];
+
+    if (lastError?.title === ASSIGNED_TO_ANOTHER_CREDENTIALS_BACKEND_ERROR) {
+      setAlreadyAssignedMessageDisplayed(true);
+    }
+  }, [assignedUsers.errors]);
+
+  const hideAlreadyAssignedMessage = () => {
+    setAlreadyAssignedMessageDisplayed(false);
+  };
+
   const formattedAssignedUsersList = assignedUsers.items.map(user => ({
     name: getFullName(user.attributes),
     patronGroup: user.attributes.patronGroup,
@@ -53,11 +72,13 @@ const SettingsAssignedUsersRoute = ({
   const currentKB = kbCredentials.items.find(({ id }) => id === kbId);
 
   const toasts = useMemo(() => {
-    return assignedUsers.errors.map((_error) => ({
-      message: <FormattedMessage id="ui-eholdings.settings.assignedUsers.networkErrorMessage" />,
-      type: 'error',
-      id: `kbId-${Date.now()}`
-    }));
+    return assignedUsers.errors
+      .filter(error => error.title !== ASSIGNED_TO_ANOTHER_CREDENTIALS_BACKEND_ERROR)
+      .map(() => ({
+        message: <FormattedMessage id="ui-eholdings.settings.assignedUsers.networkErrorMessage" />,
+        type: 'error',
+        id: `kbId-${Date.now()}`
+      }));
   }, [assignedUsers.errors]);
 
   const getFormattedUserData = user => {
@@ -110,6 +131,8 @@ const SettingsAssignedUsersRoute = ({
             onDeleteUser={deleteKBCredentialsUser}
             credentialsId={kbId}
             onSelectUser={handleUserSelection}
+            alreadyAssignedMessageDisplayed={alreadyAssignedMessageDisplayed}
+            hideAlreadyAssignedMessage={hideAlreadyAssignedMessage}
           />
         )
         : <Icon icon="spinner-ellipsis" />}

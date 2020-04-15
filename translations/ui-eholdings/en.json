@@ -189,6 +189,8 @@
     "settings.assignedUsers.list.patronGroup": "Patron group",
     "settings.assignedUsers.list.unassignUser": "Unassign user",
     "settings.assignedUsers.list.emptyMessage": "Use only if you are planning to to have multiple EBSCO KBs configured.",
+    "settings.assignedUsers.alreadyAssignedModal.title": "Already assigned to a knowledge base",
+    "settings.assignedUsers.alreadyAssignedModal.message": "<strong>{userName}</strong> has already been assigned to another knowledge base and cannot be assigned to this knowledge base.",
     "settings.assignedUsers.confirmationModal.title": "Unassign a user from a knowledge base",
     "settings.assignedUsers.confirmationModal.prompt": "Are you sure you want to unassign <strong>{userName}</strong> from <strong>{knowledgeBaseName}</strong>?",
     "settings.assignedUsers.confirmationModal.confirmButton": "Unassign",

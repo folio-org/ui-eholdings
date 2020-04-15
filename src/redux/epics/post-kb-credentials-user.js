@@ -22,6 +22,6 @@ export default ({ kbCredentialsUsersApi }) => (action$, store) => {
       return kbCredentialsUsersApi
         .assignUser(state.okapi, credentialsId, userData)
         .map(postKBCredentialsUserSuccess)
-        .catch(errors => Observable.of(postKBCredentialsUserFailure({ errors })));
+        .catch(errors => Observable.of(postKBCredentialsUserFailure(errors)));
     });
 };

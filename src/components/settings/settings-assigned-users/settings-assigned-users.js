@@ -16,17 +16,21 @@ import {
   Icon,
 } from '@folio/stripes/components';
 
+import { getFullName } from '../../utilities';
+
 import css from './settings-assigned-users.css';
 
 const pageTitle = <FormattedMessage id="ui-eholdings.settings.assignedUsers" />;
 
 const propTypes = {
+  alreadyAssignedMessageDisplayed: PropTypes.bool.isRequired,
   assignedUsers: PropTypes.arrayOf(PropTypes.shape({
     id: PropTypes.string.isRequired,
     name: PropTypes.string.isRequired,
     patronGroup: PropTypes.string.isRequired,
   })).isRequired,
   credentialsId: PropTypes.string.isRequired,
+  hideAlreadyAssignedMessage: PropTypes.func.isRequired,
   knowledgeBaseName: PropTypes.string.isRequired,
   onDeleteUser: PropTypes.func.isRequired,
   onSelectUser: PropTypes.func.isRequired,
@@ -40,22 +44,30 @@ const SettingsAssignedUsers = ({
   credentialsId,
   requestIsPending,
   onSelectUser,
+  alreadyAssignedMessageDisplayed,
+  hideAlreadyAssignedMessage,
 }) => {
   const [
     userToBeUnassigned,
     setUserToBeUnassigned
   ] = useState(null);
 
-  const temporaryAddHandler = () => {
+  const [
+    userToBeAssigned,
+    setUserToBeAssigned
+  ] = useState(null);
+
+  const handleSelectUser = () => {
     const user = {
       username: "devonte",
       id: "a208cf17-a7f0-452d-ae0e-64011232c86d",
       patronGroup: "ad0bc554-d5bc-463c-85d1-5562127ae91b",
       personal: {
         lastName: "Abbott",
+        firstName: "Ser",
       }
     };
-
+    setUserToBeAssigned(user);
     onSelectUser(user);
   };
 
@@ -73,12 +85,12 @@ const SettingsAssignedUsers = ({
       <Col xs={2}>
         <Pluggable
           type="find-user"
-          selectUser={onSelectUser}
+          selectUser={handleSelectUser}
           searchLabel={<FormattedMessage id="ui-eholdings.settings.assignedUsers.assignmentModal.label" />}
         >
           <Button
             marginBottom0
-            onClick={temporaryAddHandler}
+            onClick={handleSelectUser}
           >
             Assign users
           </Button>
@@ -176,6 +188,29 @@ const SettingsAssignedUsers = ({
     );
   };
 
+  const renderAlreadyAssignedMessage = () => (
+    <Modal
+      size="small"
+      open
+      label={<FormattedMessage id="ui-eholdings.settings.assignedUsers.alreadyAssignedModal.title" />}
+      footer={(
+        <ModalFooter>
+          <Button
+            buttonStyle="primary"
+            onClick={hideAlreadyAssignedMessage}
+          >
+            <FormattedMessage id="ui-eholdings.settings.assignedUsers.confirmationModal.cancelButton" />
+          </Button>
+        </ModalFooter>
+      )}
+    >
+      <SafeHTMLMessage
+        id="ui-eholdings.settings.assignedUsers.alreadyAssignedModal.message"
+        values={{ userName: getFullName(userToBeAssigned.personal) }}
+      />
+    </Modal>
+  );
+
   return (
     <Pane
       defaultWidth="fill"
@@ -189,6 +224,7 @@ const SettingsAssignedUsers = ({
           : renderEmptyMessage()
       }
       {userToBeUnassigned && renderUnassignConfirmationModal()}
+      {alreadyAssignedMessageDisplayed && renderAlreadyAssignedMessage()}
     </Pane>
   );
 };
