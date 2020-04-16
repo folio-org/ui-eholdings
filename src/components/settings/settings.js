@@ -190,6 +190,9 @@ class Settings extends Component {
                       <NavListItem className={css.listItemDisabled}>
                         <FormattedMessage id="ui-eholdings.settings.accessStatusTypes" />
                       </NavListItem>
+                      <NavListItem className={css.listItemDisabled}>
+                        <FormattedMessage id="ui-eholdings.settings.assignedUsers" />
+                      </NavListItem>
                     </div>
                   </NavListSection>
                 </NavList>

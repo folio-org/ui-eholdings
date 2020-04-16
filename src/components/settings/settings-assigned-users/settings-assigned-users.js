@@ -5,6 +5,7 @@ import SafeHTMLMessage from '@folio/react-intl-safe-html';
 
 import { Pluggable } from '@folio/stripes/core';
 import {
+  Paneset,
   Pane,
   MultiColumnList,
   Row,
@@ -205,20 +206,22 @@ const SettingsAssignedUsers = ({
   );
 
   return (
-    <Pane
-      defaultWidth="fill"
-      paneTitle={pageTitle}
-    >
-      {header}
-      {requestIsPending ?
-        renderLoadingIndicator()
-        : assignedUsers.length
-          ? renderList()
-          : renderEmptyMessage()
-      }
-      {userToBeUnassigned && renderUnassignConfirmationModal()}
-      {alreadyAssignedMessageDisplayed && renderAlreadyAssignedMessage()}
-    </Pane>
+    <Paneset>
+      <Pane
+        defaultWidth="100%"
+        paneTitle={pageTitle}
+      >
+        {header}
+        {requestIsPending ?
+          renderLoadingIndicator()
+          : assignedUsers.length
+            ? renderList()
+            : renderEmptyMessage()
+        }
+        {userToBeUnassigned && renderUnassignConfirmationModal()}
+        {alreadyAssignedMessageDisplayed && renderAlreadyAssignedMessage()}
+      </Pane>
+    </Paneset>
   );
 };
 
