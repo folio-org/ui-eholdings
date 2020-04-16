@@ -19,6 +19,7 @@ describe('(reducer) kbCredentialsUsers', () => {
       hasFailed: false,
       items: [],
       errors: [],
+      userKbCredentials: null,
     });
   });
 
@@ -86,7 +87,7 @@ describe('(reducer) kbCredentialsUsers', () => {
 
     const action = {
       type: GET_KB_CREDENTIALS_USERS_FAILURE,
-      payload: { errors: ['some error'] },
+      payload: ['some error'],
     };
 
     const expectedState = {
@@ -158,7 +159,7 @@ describe('(reducer) kbCredentialsUsers', () => {
 
     const action = {
       type: DELETE_KB_CREDENTIALS_USER_FAILURE,
-      payload: { errors: ['some error'] },
+      payload: ['some error'],
     };
 
     const expectedState = {

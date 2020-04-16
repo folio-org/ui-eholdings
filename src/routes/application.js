@@ -5,22 +5,29 @@ import { Icon } from '@folio/stripes/components';
 
 import { createResolver } from '../redux';
 import { Status } from '../redux/application';
+import { getUsersKbCredentials as getUsersKbCredentialsAction } from '../redux/actions';
+import { selectPropFromData } from '../redux/selectors';
+import { KbCredentialsUsers } from '../constants';
 import NoBackendErrorScreen from '../components/error-screen/no-backend-error-screen';
 import FailedBackendErrorScreen from '../components/error-screen/failed-backend-error-screen';
 import InvalidBackendErrorScreen from '../components/error-screen/invalid-backend-error-screen';
+import UserNotAssignedToKbErrorScreen from '../components/error-screen/user-not-assigned-to-kb-error-screen';
 
 class ApplicationRoute extends Component {
   static propTypes = {
     children: PropTypes.node.isRequired,
     getBackendStatus: PropTypes.func.isRequired,
+    getUsersKbCredentials: PropTypes.func.isRequired,
+    kbCredentialsUsers: KbCredentialsUsers.kbCredentialsUsersReduxStateShape,
     interfaces: PropTypes.object,
     showSettings: PropTypes.bool,
-    status: PropTypes.object.isRequired
+    status: PropTypes.object.isRequired,
   }
 
   constructor(props) {
     super(props);
     props.getBackendStatus();
+    props.getUsersKbCredentials();
   }
 
   render() {
@@ -28,8 +35,17 @@ class ApplicationRoute extends Component {
       status,
       interfaces: { eholdings: version },
       showSettings,
-      children
+      children,
+      kbCredentialsUsers,
+      kbCredentials,
     } = this.props;
+    const {
+      isLoading: isLoadingUser,
+      userKbCredentials,
+      errors,
+    } = kbCredentialsUsers;
+
+    const userHasKbCredentials = !isLoadingUser && !errors.length && !!userKbCredentials;
 
     return (
       version ? (status.isLoading ? (
@@ -39,20 +55,26 @@ class ApplicationRoute extends Component {
       ) : status.isLoaded && (
         !(showSettings || status.isConfigurationValid)
           ? <InvalidBackendErrorScreen />
-          : children
+          : userHasKbCredentials ? children : <UserNotAssignedToKbErrorScreen />
       )) : <NoBackendErrorScreen />
     );
   }
 }
 
 export default connect(
-  ({
-    eholdings: { data },
-    discovery: { interfaces = {} }
-  }) => ({
-    status: createResolver(data).find('statuses', 'status'),
-    interfaces
-  }), {
-    getBackendStatus: () => Status.find('status')
+  (store) => {
+    const {
+      eholdings: { data },
+      discovery: { interfaces = {} },
+    } = store;
+
+    return {
+      status: createResolver(data).find('statuses', 'status'),
+      interfaces,
+      kbCredentialsUsers: selectPropFromData(store, 'kbCredentialsUsers'),
+    };
+  }, {
+    getBackendStatus: () => Status.find('status'),
+    getUsersKbCredentials: getUsersKbCredentialsAction,
   }
 )(ApplicationRoute);

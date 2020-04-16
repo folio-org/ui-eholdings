@@ -335,6 +335,7 @@
     "server.errors.noKbDetected": "No knowledge base detected",
     "server.errors.kbRequired": "The eHoldings package requires a knowledge base to be present for proper operation.",
     "server.errors.installBackend": "Please install an appropriate backend module with your instance of OKAPI.",
+    "server.errors.userNotAssignedToKb": "Unable to grant access to the eholdings app. Please contact your FOLIO system administrator to grant access.",
 
     "search.apply": "Apply",
     "search.addNew": "New",

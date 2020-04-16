@@ -3,14 +3,14 @@ import { expect } from 'chai';
 
 import { TestScheduler } from 'rxjs/Rx';
 
-import { createGetKbCredentialsUsersEpic } from '../../../../../src/redux/epics';
+import { createGetKbCredentialsForUserEpic } from '../../../../../src/redux/epics';
 import {
-  GET_KB_CREDENTIALS_USERS,
-  GET_KB_CREDENTIALS_USERS_SUCCESS,
-  GET_KB_CREDENTIALS_USERS_FAILURE,
+  GET_USERS_KB_CREDENTIALS,
+  GET_USERS_KB_CREDENTIALS_SUCCESS,
+  GET_USERS_KB_CREDENTIALS_FAILURE,
 } from '../../../../../src/redux/actions';
 
-describe('(epic) getKBCredentialsUsers', () => {
+describe('(epic) getKBCredentialsForUser', () => {
   let testScheduler;
 
   beforeEach(() => {
@@ -33,30 +33,27 @@ describe('(epic) getKBCredentialsUsers', () => {
 
 
   it('should handle successful data fetching', () => {
-    const response = { body: ['item1', 'item2'] };
+    const response = { body: 'credentials' };
 
     const action$ = testScheduler.createHotObservable('-a', {
-      a: {
-        type: GET_KB_CREDENTIALS_USERS,
-        payload: { id: 'someId' },
-      }
+      a: { type: GET_USERS_KB_CREDENTIALS }
     });
 
     const dependencies = {
       kbCredentialsUsersApi: {
-        getCollection: () => testScheduler.createColdObservable('--a', {
-          a: response.body
-        })
-      }
+        getCredentialsForUser: () => testScheduler.createColdObservable('--a', {
+          a: response.body,
+        }),
+      },
     };
 
-    const output$ = createGetKbCredentialsUsersEpic(dependencies)(action$, state$);
+    const output$ = createGetKbCredentialsForUserEpic(dependencies)(action$, state$);
 
     testScheduler.expectObservable(output$).toBe('---a', {
       a: {
-        type: GET_KB_CREDENTIALS_USERS_SUCCESS,
+        type: GET_USERS_KB_CREDENTIALS_SUCCESS,
         payload: response.body,
-      }
+      },
     });
 
     testScheduler.flush();
@@ -64,23 +61,20 @@ describe('(epic) getKBCredentialsUsers', () => {
 
   it('should handle errors', () => {
     const action$ = testScheduler.createHotObservable('-a', {
-      a: {
-        type: GET_KB_CREDENTIALS_USERS,
-        payload: { id: 'someId' },
-      }
+      a: { type: GET_USERS_KB_CREDENTIALS }
     });
 
     const dependencies = {
       kbCredentialsUsersApi: {
-        getCollection: () => testScheduler.createColdObservable('--#', null, 'Error messages')
+        getCredentialsForUser: () => testScheduler.createColdObservable('--#', null, 'Error messages')
       }
     };
 
-    const output$ = createGetKbCredentialsUsersEpic(dependencies)(action$, state$);
+    const output$ = createGetKbCredentialsForUserEpic(dependencies)(action$, state$);
 
     testScheduler.expectObservable(output$).toBe('---a', {
       a: {
-        type: GET_KB_CREDENTIALS_USERS_FAILURE,
+        type: GET_USERS_KB_CREDENTIALS_FAILURE,
         payload: 'Error messages',
       }
     });
