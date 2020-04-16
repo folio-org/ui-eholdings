@@ -30,13 +30,13 @@ export default {
 
     return doRequest(url, params);
   },
-  editCredentials(okapi, credentials) {
+  editCredentials(okapi, credentials, id) {
     const method = 'PUT';
-    const url = `${okapi.url}${API_URL}/${credentials.id}`;
+    const url = `${okapi.url}${API_URL}/${id}`;
 
     const params = {
       method,
-      body: JSON.stringify(credentials.attributes),
+      body: JSON.stringify(credentials),
       headers: getHeaders(method, okapi, url),
     };
 

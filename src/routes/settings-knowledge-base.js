@@ -28,7 +28,7 @@ class SettingsKnowledgeBaseRoute extends Component {
   };
 
   state = {
-    isCreateMode: this.props.location.pathname = '/settings/eholdings/knowledge-base/new',
+    isCreateMode: this.props.location.pathname === '/settings/eholdings/knowledge-base/new',
   }
 
   componentDidUpdate(prevProps) {
@@ -64,7 +64,7 @@ class SettingsKnowledgeBaseRoute extends Component {
     } = this.props;
 
     if (this.state.isCreateMode) {
-      return hasSaved ? items[items.length - 1] : { attributes: {} };
+      return hasSaved ? items[items.length - 1] : { type: 'kbCredentials', attributes: {} };
     }
 
     return items.find(cred => cred.id === this.props.match.params.kbId);
@@ -84,9 +84,9 @@ class SettingsKnowledgeBaseRoute extends Component {
     config.attributes.name = name;
 
     if (this.state.isCreateMode) {
-      postKBCredentials(config);
+      postKBCredentials({ data: config });
     } else {
-      putKBCredentials(config);
+      putKBCredentials({ data: config }, config.id);
     }
   };
 
