@@ -5,6 +5,8 @@
 * Retain search within packages search and filter selections on the Provider record (UIEH-847)
 * Retain search within titles search and filter selections on the Package record (UIEH-853)
 * Display Access Status Types on Create/Edit/View records. (UIEH-831)
+* Ability to create multiple Knowledge base configurations. (UIEH-856)
+* Add a Name field to Settings Knowledge Base page. (UIEH-855)
 
 ## [3.0.1] (https://github.com/folio-org/ui-eholdings/tree/v3.0.1) (2020-04-02)
 

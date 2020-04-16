@@ -6,7 +6,9 @@ import {
   interactor,
   property,
   value,
-  isPresent
+  isPresent,
+  scoped,
+  text,
 } from '@bigtest/interactor';
 
 import Toast from './toast';
@@ -33,6 +35,17 @@ import { hasClassBeginningWith } from './helpers';
   cancel = clickable('[data-test-eholdings-settings-form-cancel-button]');
   saveButtonDisabled = property('[data-test-eholdings-settings-form-save-button]', 'disabled');
   apiKeyInputType = attribute('[data-test-eholdings-settings-apikey] input', 'type');
+  nameFieldIsPresent = isPresent('[data-test-eholdings-settings-kb-name]');
+  nameField = scoped('[data-test-eholdings-settings-kb-name]', {
+    value: value('input'),
+    validationMessage: text('[class^="feedbackError---"]'),
+    blur: blurrable('input'),
+    fill: fillable('input'),
+
+    fillAndBlur(name) {
+      return this.fill(name).blur();
+    }
+  });
 
   toast = Toast;
 }

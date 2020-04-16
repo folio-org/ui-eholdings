@@ -34,6 +34,7 @@ export * from './get-kb-credentials-success';
 export * from './get-kb-credentials-failure';
 export * from './post-kb-credentials';
 export * from './confirm-put-kb-credentials';
+export * from './confirm-post-kb-credentials';
 export * from './post-kb-credentials-success';
 export * from './post-kb-credentials-failure';
 export * from './put-kb-credentials';

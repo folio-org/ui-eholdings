@@ -2,6 +2,7 @@ import {
   interactor,
   isPresent,
   collection,
+  clickable,
 } from '@bigtest/interactor';
 
 import { hasClassBeginningWith } from './helpers';
@@ -12,10 +13,7 @@ import { hasClassBeginningWith } from './helpers';
 
 @interactor class ConfigurationInteractor {
   settingsLinks = collection('[data-test-nav-list-item]', NavListItem);
-
-  clickHeading = function () {
-    return this.click('[data-test-configuration-heading]');
-  }
+  clickHeading = clickable('[data-test-configuration-heading]');
 }
 
 @interactor class Settings {
@@ -26,6 +24,7 @@ import { hasClassBeginningWith } from './helpers';
     return this.when(() => this.isPresent);
   }
 
+  clickNew = clickable('[data-test-create-kb-configuration]');
   newButtonIsPresent = isPresent('[data-test-create-kb-configuration]');
   configurationNavigationList = collection('[data-test-nav-list]', ConfigurationInteractor);
 }
