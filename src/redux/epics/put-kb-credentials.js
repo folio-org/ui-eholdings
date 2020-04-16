@@ -17,7 +17,7 @@ export default ({ knowledgeBaseApi }) => (action$, store) => {
     .filter(action => action.type === PUT_KB_CREDENTIALS)
     .mergeMap(({ payload }) => {
       return knowledgeBaseApi
-        .editCredentials(state.okapi, payload)
+        .editCredentials(state.okapi, payload.data, payload.credentialId)
         .map(putKBCredentialsSuccess)
         .catch(errors => Observable.of(putKBCredentialsFailure({ errors })));
     });

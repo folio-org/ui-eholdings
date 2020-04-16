@@ -182,18 +182,15 @@ class SettingsKnowledgeBase extends Component {
               <Icon icon="spinner-ellipsis" />
             ) : (
               <>
-                {isCreateMode && (
-                  <div data-test-eholdings-settings-kb-name>
-                    <Field
-                      name="name"
-                      component={TextField}
-                      label={<FormattedMessage id="ui-eholdings.name" />}
-                      required
-                      validate={this.validateNameField}
-                    />
-                  </div>
-                )}
-
+                <div data-test-eholdings-settings-kb-name>
+                  <Field
+                    name="name"
+                    component={TextField}
+                    label={<FormattedMessage id="ui-eholdings.name" />}
+                    required
+                    validate={this.validateNameField}
+                  />
+                </div>
                 <div data-test-eholdings-settings-kb-url>
                   <Field
                     name="rmapiBaseUrl"
