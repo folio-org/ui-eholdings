@@ -124,7 +124,7 @@ const SettingsAssignedUsersRoute = ({
       lastName,
     };
 
-    if (username) attributes.username = username;
+    if (username) attributes.userName = username;
     if (firstName) attributes.firstName = firstName;
     if (middleName) attributes.middleName = middleName;
 
