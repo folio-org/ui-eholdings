@@ -24,12 +24,7 @@ export default {
 
     const params = {
       method,
-      body: JSON.stringify({
-        data: {
-          type: 'kbCredentials',
-          attributes: credentials.attributes,
-        }
-      }),
+      body: JSON.stringify(credentials),
       headers: getHeaders(method, okapi, url),
     };
 
