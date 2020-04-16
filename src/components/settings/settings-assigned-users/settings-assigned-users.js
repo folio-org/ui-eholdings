@@ -73,11 +73,18 @@ const SettingsAssignedUsers = ({
           {pageTitle}
         </span>
       </Col>
-      <Col xs={2}>
+      <Col>
         <Pluggable
           type="find-user"
           selectUser={handleSelectUser}
-          searchLabel={<FormattedMessage id="ui-eholdings.settings.assignedUsers.assignmentModal.label" />}
+          marginBottom0
+          renderTrigger={({ onClick }) => (
+            <Button
+              onClick={onClick}
+            >
+              <FormattedMessage id="ui-eholdings.settings.assignedUsers.pluginButtonMessage" />
+            </Button>
+          )}
         >
           <span>[find-user-plugin is not available]</span>
         </Pluggable>
