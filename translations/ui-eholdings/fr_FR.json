@@ -306,9 +306,9 @@
     "label.settings": "Paramètres collections élec.",
     "filter.filterType.packages": "Filtrer les bouquets",
     "filter.filterType.titles": "Filtrer les titres",
-    "contributorType.author": "{count, plural, one {Auteur} other {Auteurs}}",
-    "contributorType.illustrator": "{count, plural, one {Illustrateur} other {Illustrateurs}}",
-    "contributorType.editor": "{count, plural, one {Rédacteur} other {Rédacteurs}}",
+    "contributorType.author": "{contributorType.author, plural, one {Auteur} other {Auteurs}}",
+    "contributorType.illustrator": "{contributorType.illustrator, plural, one {Illustrateur} other {Illustrateurs}}",
+    "contributorType.editor": "{contributorType.editor, plural, one {Rédacteur} other {Rédacteurs}}",
     "listType.packages": "Bouquets",
     "listType.titles": "Titres",
     "notes.entityType.provider": "Fournisseur",
@@ -354,5 +354,12 @@
     "settings.accessStatusTypes.delete.description": "Voulez-vous vraiment supprimer le type de statut d'accès {name} ?",
     "settings.accessStatusTypes.delete.cancel": "Annuler",
     "settings.accessStatusTypes.delete.confirm": "Supprimer",
-    "settings.accessStatusTypes.delete.toast": "Le type de statut d'accès {name} a été supprimé."
+    "settings.accessStatusTypes.delete.toast": "Le type de statut d'accès {name} a été supprimé.",
+    "label.totalTitles": "Nombre total de titres: {count}",
+    "selectedCount": "Sélectionné: {count}",
+    "accessType.select": "Sélectionnez un type de statut d'accès",
+    "accessType.novalue": "Aucun type de statut d'accès n'est sélectionné",
+    "label.totalPackages": "Total packages: {count}",
+    "accessTypes.filter": "Access status types filter",
+    "search.searchByAccessTypesOnly": "Search by access status types only"
 }

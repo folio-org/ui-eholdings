@@ -306,9 +306,9 @@
     "label.settings": "إعدادات المقتنيات الإلكترونية",
     "filter.filterType.packages": "تنقيح الحزم",
     "filter.filterType.titles": "تنقيح العناوين",
-    "contributorType.author": "{count, plural, zero {} one {مؤلف} two {} few {} many {} other {مؤلفين}}",
-    "contributorType.illustrator": "{count, plural, zero {} one {رسام توضيحي} two {} few {} many {} other {رسامين توضيحيين}}",
-    "contributorType.editor": "{count, plural, zero {} one {محرر} two {} few {} many {} other {محررين}}",
+    "contributorType.author": "{contributorType.author, plural, zero {} one {مؤلف} two {} few {} many {} other {مؤلفين}}",
+    "contributorType.illustrator": "{contributorType.illustrator, plural, zero {} one {رسام توضيحي} two {} few {} many {} other {رسامين توضيحيين}}",
+    "contributorType.editor": "{contributorType.editor, plural, zero {} one {محرر} two {} few {} many {} other {محررين}}",
     "listType.packages": "الحزم",
     "listType.titles": "العناوين",
     "notes.entityType.provider": "مزود",
@@ -354,5 +354,12 @@
     "settings.accessStatusTypes.delete.description": "هل أنت متأكد من أنك تريد حذف نوع حالة الوصول {name}؟",
     "settings.accessStatusTypes.delete.cancel": "إلغاء",
     "settings.accessStatusTypes.delete.confirm": "حذف",
-    "settings.accessStatusTypes.delete.toast": "تم حذف نوع حالة الوصول {name}"
+    "settings.accessStatusTypes.delete.toast": "تم حذف نوع حالة الوصول {name}",
+    "label.totalTitles": "إجمالي العناوين: {count}",
+    "selectedCount": "المحدد: {count}",
+    "accessType.select": "اختر نوع حالة الوصول",
+    "accessType.novalue": "لم يتم اختيار نوع حالة الوصول",
+    "label.totalPackages": "إجمالي الحزم: {count}",
+    "accessTypes.filter": "منقح أنواع حالات الوصول",
+    "search.searchByAccessTypesOnly": "بحث بواسطة أنواع حالة الوصول فقط"
 }

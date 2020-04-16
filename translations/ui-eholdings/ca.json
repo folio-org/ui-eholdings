@@ -306,9 +306,9 @@
     "label.settings": "eHoldings settings",
     "filter.filterType.packages": "Filter packages",
     "filter.filterType.titles": "Filter titles",
-    "contributorType.author": "{count, plural, one {Author} other {Authors}}",
-    "contributorType.illustrator": "{count, plural, one {Illustrator} other {Illustrators}}",
-    "contributorType.editor": "{count, plural, one {Editor} other {Editors}}",
+    "contributorType.author": "{contributorType.author, plural, one {Author} other {Authors}}",
+    "contributorType.illustrator": "{contributorType.illustrator, plural, one {Illustrator} other {Illustrators}}",
+    "contributorType.editor": "{contributorType.editor, plural, one {Editor} other {Editors}}",
     "listType.packages": "Packages",
     "listType.titles": "Títols",
     "notes.entityType.provider": "Provider",
@@ -354,5 +354,12 @@
     "settings.accessStatusTypes.delete.description": "Are you sure you want to delete the access status type {name}?",
     "settings.accessStatusTypes.delete.cancel": "Cancel",
     "settings.accessStatusTypes.delete.confirm": "Delete",
-    "settings.accessStatusTypes.delete.toast": "The access status type {name} has been deleted."
+    "settings.accessStatusTypes.delete.toast": "The access status type {name} has been deleted.",
+    "label.totalTitles": "Total titles: {count}",
+    "selectedCount": "Selected: {count}",
+    "accessType.select": "Select an access status type",
+    "accessType.novalue": "No access status type is selected",
+    "label.totalPackages": "Total packages: {count}",
+    "accessTypes.filter": "Access status types filter",
+    "search.searchByAccessTypesOnly": "Search by access status types only"
 }
