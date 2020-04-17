@@ -9,6 +9,7 @@ import {
   kbCredentialsUsersApi,
   rootProxyApi,
   proxyTypesApi,
+  userGroupsApi,
 } from '../api';
 
 import Resolver from './resolver';
@@ -39,6 +40,7 @@ import {
   rootProxy,
   proxyTypes,
   kbCredentialsUsers,
+  userGroups,
 } from './reducers';
 
 import {
@@ -57,9 +59,11 @@ import {
   createDeleteKbCredentialsEpic,
   createGetKbCredentialsUsersEpic,
   createDeleteKbCredentialsUsersEpic,
+  createPostKbCredentialsUserEpic,
   createGetRootProxyEpic,
   createUpdateRootProxyEpic,
   createGetProxyTypesEpic,
+  createGetUserGroupsEpic,
 } from './epics';
 
 export const createResolver = (state) => {
@@ -90,6 +94,7 @@ export const reducer = combineReducers({
       kbCredentialsUsers: kbCredentialsUsers(currentState.kbCredentialsUsers, action),
       settingsRootProxy: rootProxy(currentState.settingsRootProxy, action),
       settingsProxyTypes: proxyTypes(currentState.settingsProxyTypes, action),
+      userGroups: userGroups(currentState.userGroups, action),
     };
   }
 });
@@ -111,7 +116,9 @@ export const epics = combineEpics(
   createDeleteKbCredentialsEpic({ knowledgeBaseApi }),
   createGetKbCredentialsUsersEpic({ kbCredentialsUsersApi }),
   createDeleteKbCredentialsUsersEpic({ kbCredentialsUsersApi }),
+  createPostKbCredentialsUserEpic({ kbCredentialsUsersApi }),
   createGetRootProxyEpic({ rootProxyApi }),
   createUpdateRootProxyEpic({ rootProxyApi }),
   createGetProxyTypesEpic({ proxyTypesApi }),
+  createGetUserGroupsEpic({ userGroupsApi }),
 );
