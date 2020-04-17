@@ -33,7 +33,7 @@ describe('with list of users assigned to a KB', () => {
 
       it('should display confirmation modal', () => {
         expect(SettingsAssignedUsersPage.unassignConfirmationModalIsDisplayed).to.be.true;
-      })
+      });
 
       describe('and confirm button was clicked', () => {
         beforeEach(async () => {
@@ -62,7 +62,7 @@ describe('with list of users assigned to a KB', () => {
             expect(SettingsAssignedUsersPage.emptyMessageIsDisplayed).to.be.true;
           });
         });
-      })
+      });
 
       describe('and cancel button was clicked', () => {
         beforeEach(async () => {
@@ -71,12 +71,12 @@ describe('with list of users assigned to a KB', () => {
 
         it('should close the modal', () => {
           expect(SettingsAssignedUsersPage.unassignConfirmationModalIsDisplayed).to.be.false;
-        })
+        });
 
         it('should render 2 assigned users', () => {
           expect(SettingsAssignedUsersPage.assignedUsersList().length).to.be.equal(2);
         });
-      })
+      });
     });
   });
 });

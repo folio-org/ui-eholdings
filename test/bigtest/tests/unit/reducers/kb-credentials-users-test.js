@@ -105,10 +105,6 @@ describe('(reducer) kbCredentialsUsers', () => {
     expect(actualState).to.deep.equal(expectedState);
   });
 
-
-
-
-
   it('should handle POST_KB_CREDENTIALS_USER', () => {
     const actualState = {
       items: [],
@@ -162,10 +158,6 @@ describe('(reducer) kbCredentialsUsers', () => {
 
     expect(kbCredentialsUsers(actualState, action)).to.deep.equal(expectedState);
   });
-
-
-
-
 
   it('should handle DELETE_KB_CREDENTIALS_USER', () => {
     const currentState = {

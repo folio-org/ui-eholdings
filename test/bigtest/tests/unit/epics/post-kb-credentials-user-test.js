@@ -30,7 +30,7 @@ describe('(epic) postKbCredentialsUserEpic', () => {
   });
 
   it('should trigger an action to assign a user to KB credentials and passes user data to success action', () => {
-    const userData =  { name: 'joe' };
+    const userData = { name: 'joe' };
     const action$ = testScheduler.createHotObservable('-a', {
       a: {
         type: POST_KB_CREDENTIALS_USER,
