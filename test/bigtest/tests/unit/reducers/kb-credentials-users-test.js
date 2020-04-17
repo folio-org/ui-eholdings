@@ -119,6 +119,7 @@ describe('(reducer) kbCredentialsUsers', () => {
     };
     const expectedState = {
       items: [],
+      hasLoaded: false,
       isLoading: true,
     };
 
@@ -136,6 +137,7 @@ describe('(reducer) kbCredentialsUsers', () => {
     };
     const expectedState = {
       items: [{ name: 'joe' }],
+      hasLoaded: true,
       isLoading: false,
     };
 
