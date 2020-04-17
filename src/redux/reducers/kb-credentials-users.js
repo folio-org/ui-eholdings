@@ -39,6 +39,7 @@ const handlers = {
     hasFailed: true,
     errors: formatErrors(action.payload),
   }),
+
   [DELETE_KB_CREDENTIALS_USER]: state => ({
     ...state,
     isLoading: true,

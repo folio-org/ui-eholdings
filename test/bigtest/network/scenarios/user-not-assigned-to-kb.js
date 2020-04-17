@@ -12,7 +12,7 @@ export default function userNotAssignedToKbError(server) {
   server.get('/kb-credentials', {
     data: [
       {
-      'id': '1',
+        'id': '1',
         'type': 'credentials',
         'attributes': {
           'name': '111111111',
@@ -49,4 +49,4 @@ export default function userNotAssignedToKbError(server) {
       },
     ],
   });
-};
+}

@@ -67,7 +67,9 @@ class SettingsKnowledgeBaseRoute extends Component {
       return hasSaved ? items[items.length - 1] : { type: 'kbCredentials', attributes: {} };
     }
 
-    return Object.assign({}, items.find(cred => cred.id === this.props.match.params.kbId));
+    const config = items.find(cred => cred.id === this.props.match.params.kbId);
+
+    return config ? { ...config } : null;
   }
 
   updateConfig = ({ url, customerId, apiKey, name }) => {

@@ -38,7 +38,6 @@ class SettingsKnowledgeBase extends Component {
 
   state = {
     toasts: [],
-    initialValues: this.getInitialValues(),
   }
 
   componentDidUpdate(prevProps) {
@@ -86,13 +85,6 @@ class SettingsKnowledgeBase extends Component {
           type: 'error'
         }))],
       }));
-    }
-
-    if (prevProps.config !== this.props.config) {
-      // eslint-disable-next-line react/no-did-update-set-state
-      this.setState({
-        initialValues: this.getInitialValues(),
-      });
     }
   }
 
@@ -164,7 +156,12 @@ class SettingsKnowledgeBase extends Component {
       onSubmit,
       kbCredentials,
       isCreateMode,
+      config,
     } = this.props;
+
+    if (!config) {
+      return null;
+    }
 
     return (
       <Form

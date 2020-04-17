@@ -990,19 +990,6 @@ export default function config() {
     }
   }));
 
-  this.get('/user-kb-credential', {
-    id: '1f8f660e-7dc9-4f6f-828f-96284c68a25',
-    type: 'assignedUsers',
-    attributes: {
-      credentialsId: '2ffa1940-2cf6-48b1-8cc9-5e539c61d93f',
-      firstName: 'John',
-      middleName: 'William',
-      lastName: 'Doe',
-      patronGroup: 'Staff',
-      userName: 'john_doe'
-    }
-  });
-
   this.post('/kb-credentials/:credId/users', (_schema, request) => request.requestBody);
   this.delete('/kb-credentials/:credId/users/:userId', () => new Response(204));
 }
