@@ -5,9 +5,9 @@ import { Icon } from '@folio/stripes/components';
 
 import { createResolver } from '../redux';
 import { Status } from '../redux/application';
-import { getUsersKbCredentials as getUsersKbCredentialsAction } from '../redux/actions';
+import { getKbCredentials as getKbCredentialsAction } from '../redux/actions';
 import { selectPropFromData } from '../redux/selectors';
-import { KbCredentialsUsers } from '../constants';
+import { KbCredentials } from '../constants';
 import NoBackendErrorScreen from '../components/error-screen/no-backend-error-screen';
 import FailedBackendErrorScreen from '../components/error-screen/failed-backend-error-screen';
 import InvalidBackendErrorScreen from '../components/error-screen/invalid-backend-error-screen';
@@ -17,9 +17,9 @@ class ApplicationRoute extends Component {
   static propTypes = {
     children: PropTypes.node.isRequired,
     getBackendStatus: PropTypes.func.isRequired,
-    getUsersKbCredentials: PropTypes.func.isRequired,
-    kbCredentialsUsers: KbCredentialsUsers.kbCredentialsUsersReduxStateShape,
+    getKbCredentials: PropTypes.func.isRequired,
     interfaces: PropTypes.object,
+    kbCredentials: KbCredentials.KbCredentialsReduxStateShape.isRequired,
     showSettings: PropTypes.bool,
     status: PropTypes.object.isRequired,
   }
@@ -27,7 +27,7 @@ class ApplicationRoute extends Component {
   constructor(props) {
     super(props);
     props.getBackendStatus();
-    props.getUsersKbCredentials();
+    props.getKbCredentials();
   }
 
   render() {
@@ -36,26 +36,20 @@ class ApplicationRoute extends Component {
       interfaces: { eholdings: version },
       showSettings,
       children,
-      kbCredentialsUsers,
       kbCredentials,
     } = this.props;
-    const {
-      isLoading: isLoadingUser,
-      userKbCredentials,
-      errors,
-    } = kbCredentialsUsers;
 
-    const userHasKbCredentials = !isLoadingUser && !errors.length && !!userKbCredentials;
+    const hasMultipleKbCredentials = kbCredentials.items?.length > 1;
 
     return (
-      version ? (status.isLoading ? (
+      version ? (kbCredentials.isLoading && status.isLoading ? (
         <Icon icon="spinner-ellipsis" />
       ) : status.request.isRejected ? (
         <FailedBackendErrorScreen />
       ) : status.isLoaded && (
-        !(showSettings || status.isConfigurationValid)
-          ? <InvalidBackendErrorScreen />
-          : userHasKbCredentials ? children : <UserNotAssignedToKbErrorScreen />
+        (!showSettings && !status.isConfigurationValid)
+          ? (hasMultipleKbCredentials ? <UserNotAssignedToKbErrorScreen /> : <InvalidBackendErrorScreen />)
+          : children
       )) : <NoBackendErrorScreen />
     );
   }
@@ -71,10 +65,10 @@ export default connect(
     return {
       status: createResolver(data).find('statuses', 'status'),
       interfaces,
-      kbCredentialsUsers: selectPropFromData(store, 'kbCredentialsUsers'),
+      kbCredentials: selectPropFromData(store, 'kbCredentials'),
     };
   }, {
     getBackendStatus: () => Status.find('status'),
-    getUsersKbCredentials: getUsersKbCredentialsAction,
+    getKbCredentials: getKbCredentialsAction,
   }
 )(ApplicationRoute);

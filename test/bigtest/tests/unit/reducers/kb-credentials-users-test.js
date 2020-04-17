@@ -19,7 +19,6 @@ describe('(reducer) kbCredentialsUsers', () => {
       hasFailed: false,
       items: [],
       errors: [],
-      userKbCredentials: null,
     });
   });
 

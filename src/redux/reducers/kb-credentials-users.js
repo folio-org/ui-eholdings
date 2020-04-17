@@ -2,9 +2,6 @@ import {
   GET_KB_CREDENTIALS_USERS,
   GET_KB_CREDENTIALS_USERS_SUCCESS,
   GET_KB_CREDENTIALS_USERS_FAILURE,
-  GET_USERS_KB_CREDENTIALS,
-  GET_USERS_KB_CREDENTIALS_SUCCESS,
-  GET_USERS_KB_CREDENTIALS_FAILURE,
   DELETE_KB_CREDENTIALS_USER,
   DELETE_KB_CREDENTIALS_USER_SUCCESS,
   DELETE_KB_CREDENTIALS_USER_FAILURE,
@@ -17,7 +14,6 @@ const initialState = {
   hasLoaded: false,
   hasFailed: false,
   items: [],
-  userKbCredentials: null,
   errors: [],
 };
 
@@ -43,28 +39,6 @@ const handlers = {
     hasFailed: true,
     errors: formatErrors(action.payload),
   }),
-  [GET_USERS_KB_CREDENTIALS]: (state, action) => ({
-    ...state,
-    isLoading: true,
-    hasLoaded: false,
-    hasFailed: false,
-    errors: [],
-  }),
-  [GET_USERS_KB_CREDENTIALS_SUCCESS]: (state, action) => ({
-    ...state,
-    isLoading: false,
-    hasLoaded: true,
-    hasFailed: false,
-    userKbCredentials: action.payload,
-  }),
-  [GET_USERS_KB_CREDENTIALS_FAILURE]: (state, action) => ({
-    ...state,
-    isLoading: false,
-    hasLoaded: false,
-    hasFailed: true,
-    errors: formatErrors(action.payload),
-  }),
-
   [DELETE_KB_CREDENTIALS_USER]: state => ({
     ...state,
     isLoading: true,

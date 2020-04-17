@@ -12,7 +12,6 @@ export { default as createPostKbCredentialsEpic } from './post-kb-credentials';
 export { default as createPutKbCredentialsEpic } from './put-kb-credentials';
 export { default as createDeleteKbCredentialsEpic } from './delete-kb-credentials';
 export { default as createGetKbCredentialsUsersEpic } from './get-kb-credentials-users';
-export { default as createGetKbCredentialsForUserEpic } from './get-kb-credentials-for-user';
 export { default as createDeleteKbCredentialsUsersEpic } from './delete-kb-credentials-user';
 export { default as createGetRootProxyEpic } from './get-root-proxy';
 export { default as createUpdateRootProxyEpic } from './update-root-proxy';

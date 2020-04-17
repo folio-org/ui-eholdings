@@ -17,17 +17,6 @@ export default {
 
     return doRequest(url, params);
   },
-  getCredentialsForUser(okapi) {
-    const method = 'GET';
-    const url = `${okapi.url}/eholdings/user-kb-credential`;
-
-    const params = {
-      method,
-      headers: getHeaders(method, okapi, url),
-    };
-
-    return doRequest(url, params);
-  },
   assignUser(okapi, credsId, userData) {
     const method = 'POST';
     const url = `${okapi.url}${API_URL}/${credsId}/users`;

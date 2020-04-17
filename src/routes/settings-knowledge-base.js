@@ -67,10 +67,10 @@ class SettingsKnowledgeBaseRoute extends Component {
       return hasSaved ? items[items.length - 1] : { type: 'kbCredentials', attributes: {} };
     }
 
-    return items.find(cred => cred.id === this.props.match.params.kbId);
+    return Object.assign({}, items.find(cred => cred.id === this.props.match.params.kbId));
   }
 
-  updateConfig = ({ rmapiBaseUrl, customerId, apiKey, name }) => {
+  updateConfig = ({ url, customerId, apiKey, name }) => {
     const {
       postKBCredentials,
       putKBCredentials
@@ -78,15 +78,18 @@ class SettingsKnowledgeBaseRoute extends Component {
 
     const config = this.getCurrentConfig();
 
-    config.attributes.url = rmapiBaseUrl;
-    config.attributes.customerId = customerId;
-    config.attributes.apiKey = apiKey;
-    config.attributes.name = name;
+    config.attributes = {
+      ...config.attributes,
+      url,
+      customerId,
+      apiKey,
+      name,
+    };
 
     if (this.state.isCreateMode) {
       postKBCredentials({ data: config });
     } else {
-      putKBCredentials({ data: config }, config.id);
+      putKBCredentials(config, config.id);
     }
   };
 

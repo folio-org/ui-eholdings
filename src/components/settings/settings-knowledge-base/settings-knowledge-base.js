@@ -38,6 +38,7 @@ class SettingsKnowledgeBase extends Component {
 
   state = {
     toasts: [],
+    initialValues: this.getInitialValues(),
   }
 
   componentDidUpdate(prevProps) {
@@ -69,7 +70,7 @@ class SettingsKnowledgeBase extends Component {
       // eslint-disable-next-line react/no-did-update-set-state
       this.setState(({ toasts }) => ({
         toasts: [...toasts, {
-          id: `settings-kb-${config.id}`,
+          id: `settings-kb-${config.id}-${Date.now()}`,
           message: <FormattedMessage id="ui-eholdings.settings.kb.saved" values={{ name: config.attributes.name }} />,
           type: 'success'
         }],
@@ -80,11 +81,18 @@ class SettingsKnowledgeBase extends Component {
       // eslint-disable-next-line react/no-did-update-set-state
       this.setState(({ toasts }) => ({
         toasts: [...toasts, ...kbCredentials.errors.map(error => ({
-          id: `settings-kb-${config.id}`,
+          id: `settings-kb-${config.id}-${Date.now()}`,
           message: error.title,
           type: 'error'
         }))],
       }));
+    }
+
+    if (prevProps.config !== this.props.config) {
+      // eslint-disable-next-line react/no-did-update-set-state
+      this.setState({
+        initialValues: this.getInitialValues(),
+      });
     }
   }
 
@@ -104,7 +112,7 @@ class SettingsKnowledgeBase extends Component {
     const { config, isCreateMode } = this.props;
 
     const initialValues = {
-      rmapiBaseUrl: 'https://sandbox.ebsco.io',
+      url: 'https://sandbox.ebsco.io',
       name: isCreateMode ? this.getKbCredentialsName() : null,
     };
 
@@ -193,7 +201,7 @@ class SettingsKnowledgeBase extends Component {
                 </div>
                 <div data-test-eholdings-settings-kb-url>
                   <Field
-                    name="rmapiBaseUrl"
+                    name="url"
                     component={Select}
                     label={<FormattedMessage id="ui-eholdings.settings.kb.rmapiBaseUrl" />}
                   >

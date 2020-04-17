@@ -62,7 +62,7 @@ describe('Settings', () => {
       });
 
       it('should redirect to Knowledge Base configuration page', function () {
-        expect(this.location).to.equal('/settings/eholdings/knowledge-base/1');
+        expect(this.location.pathname).to.equal('/settings/eholdings/knowledge-base/1');
       });
     });
 
