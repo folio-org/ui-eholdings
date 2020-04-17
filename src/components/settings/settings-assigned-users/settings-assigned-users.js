@@ -96,6 +96,7 @@ const SettingsAssignedUsers = ({
   const renderList = () => {
     return (
       <MultiColumnList
+        id="users-list"
         contentData={assignedUsers}
         columnMapping={{
           name: <FormattedMessage id="ui-eholdings.settings.assignedUsers.list.name" />,
@@ -116,6 +117,7 @@ const SettingsAssignedUsers = ({
                     icon="trash"
                     onClick={() => { setUserToBeUnassigned(user); }}
                     ariaLabel={ariaLabel}
+                    data-test-delete-user
                   />
                 )}
               </FormattedMessage>
@@ -127,7 +129,10 @@ const SettingsAssignedUsers = ({
   };
 
   const renderEmptyMessage = () => (
-    <div className={css.emptyMessage}>
+    <div
+      className={css.emptyMessage}
+      id="assignedUsersEmptyMessage"
+    >
       <FormattedMessage id="ui-eholdings.settings.assignedUsers.list.emptyMessage" />
     </div>
   );
@@ -151,6 +156,7 @@ const SettingsAssignedUsers = ({
     return (
       <Modal
         size="small"
+        id="unassignConfirmationModal"
         open
         label={<FormattedMessage id="ui-eholdings.settings.assignedUsers.confirmationModal.title" />}
         footer={(
@@ -159,12 +165,14 @@ const SettingsAssignedUsers = ({
               buttonStyle="primary"
               onClick={handleUnassignConfirmation}
               disabled={requestIsPending}
+              id="unassignConfirmationButton"
             >
               <FormattedMessage id="ui-eholdings.settings.assignedUsers.confirmationModal.confirmButton" />
             </Button>
             <Button
               onClick={handleUnassignCancellation}
               disabled={requestIsPending}
+              id="unassignCancellationButton"
             >
               <FormattedMessage id="ui-eholdings.settings.assignedUsers.confirmationModal.cancelButton" />
             </Button>
