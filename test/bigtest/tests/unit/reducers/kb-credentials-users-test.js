@@ -9,6 +9,9 @@ import {
   DELETE_KB_CREDENTIALS_USER,
   DELETE_KB_CREDENTIALS_USER_FAILURE,
   DELETE_KB_CREDENTIALS_USER_SUCCESS,
+  POST_KB_CREDENTIALS_USER,
+  POST_KB_CREDENTIALS_USER_SUCCESS,
+  POST_KB_CREDENTIALS_USER_FAILURE,
 } from '../../../../../src/redux/actions';
 
 describe('(reducer) kbCredentialsUsers', () => {
@@ -86,7 +89,7 @@ describe('(reducer) kbCredentialsUsers', () => {
 
     const action = {
       type: GET_KB_CREDENTIALS_USERS_FAILURE,
-      payload: { errors: ['some error'] },
+      payload: { title: 'some error' },
     };
 
     const expectedState = {
@@ -101,6 +104,66 @@ describe('(reducer) kbCredentialsUsers', () => {
 
     expect(actualState).to.deep.equal(expectedState);
   });
+
+
+
+
+
+  it('should handle POST_KB_CREDENTIALS_USER', () => {
+    const actualState = {
+      items: [],
+      isLoading: false,
+    };
+    const action = {
+      type: POST_KB_CREDENTIALS_USER,
+    };
+    const expectedState = {
+      items: [],
+      isLoading: true,
+    };
+
+    expect(kbCredentialsUsers(actualState, action)).to.deep.equal(expectedState);
+  });
+
+  it('should handle POST_KB_CREDENTIALS_USER_SUCCESS', () => {
+    const actualState = {
+      items: [],
+      isLoading: true,
+    };
+    const action = {
+      type: POST_KB_CREDENTIALS_USER_SUCCESS,
+      payload: { name: 'joe' },
+    };
+    const expectedState = {
+      items: [{ name: 'joe' }],
+      isLoading: false,
+    };
+
+    expect(kbCredentialsUsers(actualState, action)).to.deep.equal(expectedState);
+  });
+
+  it('should handle POST_KB_CREDENTIALS_USER_FAILURE', () => {
+    const actualState = {
+      items: [],
+      isLoading: true,
+    };
+    const action = {
+      type: POST_KB_CREDENTIALS_USER_FAILURE,
+      payload: { title: 'error' },
+    };
+    const expectedState = {
+      items: [],
+      isLoading: false,
+      hasFailed: true,
+      errors: [{ title: 'error' }]
+    };
+
+    expect(kbCredentialsUsers(actualState, action)).to.deep.equal(expectedState);
+  });
+
+
+
+
 
   it('should handle DELETE_KB_CREDENTIALS_USER', () => {
     const currentState = {
@@ -158,7 +221,7 @@ describe('(reducer) kbCredentialsUsers', () => {
 
     const action = {
       type: DELETE_KB_CREDENTIALS_USER_FAILURE,
-      payload: { errors: ['some error'] },
+      payload: { title: 'some error' },
     };
 
     const expectedState = {
