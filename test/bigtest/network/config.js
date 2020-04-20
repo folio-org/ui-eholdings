@@ -26,6 +26,22 @@ export default function config() {
     });
   });
 
+  this.get('/groups', () => ({
+    usergroups: [
+      {
+        group: 'faculty',
+        id: '503a81cd-6c26-400f-b620-14c08943697c',
+        desc: 'Faculty member'
+      },
+      {
+        group: 'staff',
+        id: '503a81cd-6c26-400f-b620-14c089436972',
+        desc: 'Staff Member'
+      },
+    ],
+    totalRecords: 2,
+  }));
+
   this.get('/note-types');
 
   this.post('/note-types', ({ requestBody }) => {
@@ -990,6 +1006,6 @@ export default function config() {
     }
   }));
 
-  this.post('/kb-credentials/:credId/users', (_schema, request) => request.requestBody);
+  this.post('/kb-credentials/:credId/users', (_schema, request) => JSON.parse(request.requestBody).data);
   this.delete('/kb-credentials/:credId/users/:userId', () => new Response(204));
 }

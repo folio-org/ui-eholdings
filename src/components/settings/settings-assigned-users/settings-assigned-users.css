@@ -1,0 +1,22 @@
+.pageTitle {
+  font-size: 1.4rem;
+  font-weight: bold;
+}
+
+.unassignCell {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+
+.pageHeader {
+  margin-bottom: 0.6rem;
+}
+
+.emptyMessage {
+  margin-top: 1.3rem;
+}
+
+.loadingIndicator {
+  margin-top: 1rem;
+}

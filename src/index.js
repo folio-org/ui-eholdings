@@ -27,6 +27,7 @@ import SettingsCustomLabelsRoute from './routes/settings-custom-labels';
 import SettingsKnowledgeBaseRoute from './routes/settings-knowledge-base';
 import SettingsRootProxyRoute from './routes/settings-root-proxy';
 import SettingsAccessStatusTypesRoute from './routes/settings-access-status-types';
+import SettingsAssignedUsersRoute from './routes/settings-assigned-users-route';
 
 class EHoldings extends Component {
   static propTypes = {
@@ -59,6 +60,7 @@ class EHoldings extends Component {
           <Route path={`${rootPath}/:kbId/root-proxy`} exact component={SettingsRootProxyRoute} />
           <Route path={`${rootPath}/:kbId/custom-labels`} exact component={SettingsCustomLabelsRoute} />
           <Route path={`${rootPath}/:kbId/access-status-types`} exact component={SettingsAccessStatusTypesRoute} />
+          <Route path={`${rootPath}/:kbId/users`} exact component={SettingsAssignedUsersRoute} />
         </Route>
       )
       : (

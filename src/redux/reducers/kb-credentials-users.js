@@ -5,6 +5,9 @@ import {
   DELETE_KB_CREDENTIALS_USER,
   DELETE_KB_CREDENTIALS_USER_SUCCESS,
   DELETE_KB_CREDENTIALS_USER_FAILURE,
+  POST_KB_CREDENTIALS_USER,
+  POST_KB_CREDENTIALS_USER_SUCCESS,
+  POST_KB_CREDENTIALS_USER_FAILURE,
 } from '../actions';
 
 import { formatErrors } from '../helpers';
@@ -39,7 +42,26 @@ const handlers = {
     hasFailed: true,
     errors: formatErrors(action.payload),
   }),
-
+  [POST_KB_CREDENTIALS_USER]: state => ({
+    ...state,
+    hasLoaded: false,
+    isLoading: true,
+  }),
+  [POST_KB_CREDENTIALS_USER_SUCCESS]: (state, action) => ({
+    ...state,
+    isLoading: false,
+    hasLoaded: true,
+    items: [
+      ...state.items,
+      action.payload,
+    ]
+  }),
+  [POST_KB_CREDENTIALS_USER_FAILURE]: (state, action) => ({
+    ...state,
+    isLoading: false,
+    hasFailed: true,
+    errors: formatErrors(action.payload),
+  }),
   [DELETE_KB_CREDENTIALS_USER]: state => ({
     ...state,
     isLoading: true,
