@@ -18,10 +18,21 @@ class ApplicationRoute extends Component {
     children: PropTypes.node.isRequired,
     getBackendStatus: PropTypes.func.isRequired,
     getKbCredentials: PropTypes.func.isRequired,
-    interfaces: PropTypes.object,
+    interfaces: PropTypes.shape({
+      eholdings: PropTypes.shape({
+        version: PropTypes.string,
+      }),
+    }),
     kbCredentials: KbCredentials.KbCredentialsReduxStateShape.isRequired,
     showSettings: PropTypes.bool,
-    status: PropTypes.object.isRequired,
+    status: PropTypes.shape({
+      isConfigurationValid: PropTypes.bool.isRequired,
+      isLoaded: PropTypes.bool.isRequired,
+      isLoading: PropTypes.bool.isRequired,
+      request: PropTypes.shape({
+        isRejected: PropTypes.bool.isRequired,
+      }).isRequired,
+    }).isRequired,
   }
 
   constructor(props) {
