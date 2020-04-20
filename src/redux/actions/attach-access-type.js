@@ -1,8 +1,11 @@
 export const ATTACH_ACCESS_TYPE = 'ATTACH_ACCESS_TYPE';
 
-export function attachAccessType(payload) {
+export function attachAccessType(accessType, credentialId) {
   return {
     type: ATTACH_ACCESS_TYPE,
-    payload,
+    payload: {
+      accessType,
+      credentialId,
+    },
   };
 }

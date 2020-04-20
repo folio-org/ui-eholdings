@@ -16,10 +16,10 @@ export default ({ accessTypesApi }) => (action$, store) => {
   return action$
     .filter(action => action.type === DELETE_ACCESS_TYPE)
     .mergeMap(action => {
-      const { payload: id } = action;
+      const { payload: { id, credentialId } } = action;
 
       return accessTypesApi
-        .deleteAccessType(state.okapi, id)
+        .deleteAccessType(state.okapi, id, credentialId)
         .map(() => deleteAccessTypeSuccess(id))
         .catch(errors => Observable.of(deleteAccessTypeFailure({ errors })));
     });

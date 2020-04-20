@@ -23,14 +23,19 @@ const SettingsAccessStatusTypesRoute = ({
   deleteAccessType,
   updateAccessType,
   confirmDelete,
+  match: { params },
 }) => {
   const { items: { data } } = accessTypes;
 
   useEffect(() => {
     if (!data) {
-      getAccessTypes();
+      getAccessTypes(params.kbId);
     }
   }, [data, getAccessTypes]);
+
+  useEffect(() => {
+    getAccessTypes(params.kbId);
+  }, [params.kbId]);
 
   return (
     <FormattedMessage id="ui-eholdings.label.settings">
@@ -77,6 +82,11 @@ SettingsAccessStatusTypesRoute.propTypes = {
   confirmDelete: PropTypes.func.isRequired,
   deleteAccessType: PropTypes.func.isRequired,
   getAccessTypes: PropTypes.func.isRequired,
+  match: PropTypes.shape({
+    params: PropTypes.shape({
+      kbId: PropTypes.string.isRequired,
+    }).isRequired,
+  }).isRequired,
   updateAccessType: PropTypes.func.isRequired,
 };
 
