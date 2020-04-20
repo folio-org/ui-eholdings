@@ -81,7 +81,7 @@ describe('(epic) getKBCredentialsUsers', () => {
     testScheduler.expectObservable(output$).toBe('---a', {
       a: {
         type: GET_KB_CREDENTIALS_USERS_FAILURE,
-        payload: { errors: 'Error messages' },
+        payload: 'Error messages',
       }
     });
 

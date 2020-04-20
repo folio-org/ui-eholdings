@@ -25,6 +25,7 @@ describe('(reducer) kbCredentials', () => {
       isUpdating: false,
       hasLoaded: false,
       hasFailed: false,
+      hasSaved: false,
       hasUpdated: false,
       items: [],
       errors: [],
@@ -111,6 +112,7 @@ describe('(reducer) kbCredentials', () => {
   it('should handle POST_KB_CREDENTIALS_SUCCESS', () => {
     const actualState = {
       isLoading: true,
+      hasSaved: false,
       items: [],
     };
     const action = {
@@ -123,6 +125,7 @@ describe('(reducer) kbCredentials', () => {
       isLoading: false,
       hasLoaded: true,
       hasFailed: false,
+      hasSaved: true,
       items: [
         { title: 'creds' },
       ],
@@ -138,12 +141,13 @@ describe('(reducer) kbCredentials', () => {
     };
     const action = {
       type: POST_KB_CREDENTIALS_FAILURE,
-      payload: { errors: 'error' }
+      payload: { errors: ['error'] },
     };
     const expectedState = {
       isLoading: false,
       hasLoaded: false,
       hasFailed: true,
+      hasSaved: false,
       items: [],
       errors: [
         { title: 'error' },

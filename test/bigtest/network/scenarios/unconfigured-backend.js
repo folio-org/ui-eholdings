@@ -9,15 +9,7 @@ export default function unconfiguredBackendScenario(server) {
     }
   });
 
-  server.get('/configuration', {
-    data: {
-      id: 'configuration',
-      type: 'configurations',
-      attributes: {
-        rmapiBaseUrl: '',
-        customerId: '',
-        apiKey: ''
-      }
-    }
+  server.get('/kb-credentials', {
+    data: []
   });
 }

@@ -108,13 +108,16 @@ const handlers = {
     hasUpdated: false,
   }),
 
-  [PUT_KB_CREDENTIALS_SUCCESS]: state => ({
+  [PUT_KB_CREDENTIALS_SUCCESS]: (state, action) => ({
     ...state,
     isLoading: false,
     isUpdating: false,
     hasLoaded: true,
     hasFailed: false,
     hasUpdated: true,
+    items: state.items.map((credential) => {
+      return credential.id === action.payload.id ? action.payload : credential;
+    }),
   }),
 
   [PUT_KB_CREDENTIALS_FAILURE]: (state, action) => {

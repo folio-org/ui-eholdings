@@ -847,7 +847,7 @@ export default function config() {
 
   this.post('/kb-credentials', ({ kbCredentials }, request) => {
     const body = JSON.parse(request.requestBody);
-    const { attributes } = kbCredentials.create(body);
+    const { attributes } = kbCredentials.create(body.data);
 
     return {
       attributes,

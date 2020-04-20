@@ -231,3 +231,19 @@ describe('With valid backend configuration', () => {
     });
   });
 });
+
+describe('With not assigned credentials', () => {
+  setupApplication({
+    scenarios: ['user-not-assigned-to-kb']
+  });
+
+  describe('when trying to use the app', () => {
+    beforeEach(function () {
+      this.visit('/eholdings');
+    });
+
+    it('blocks access to the eholdings app and points you to the configuration screen', () => {
+      expect(ApplicationPage.userNotAssignedKbCredentialsError).to.be.true;
+    });
+  });
+});
