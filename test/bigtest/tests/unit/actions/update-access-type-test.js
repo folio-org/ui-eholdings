@@ -8,12 +8,17 @@ import {
 
 describe('(action) updateAccessType', () => {
   it('should create an action to update access type', () => {
-    const payload = 'payload';
+    const accessType = 'payload';
+    const credentialId = '1';
+
     const expectedAction = {
       type: UPDATE_ACCESS_TYPE,
-      payload,
+      payload: {
+        accessType,
+        credentialId,
+      },
     };
 
-    expect(updateAccessType(payload)).to.deep.equal(expectedAction);
+    expect(updateAccessType(accessType, credentialId)).to.deep.equal(expectedAction);
   });
 });

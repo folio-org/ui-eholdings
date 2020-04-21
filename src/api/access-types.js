@@ -6,11 +6,14 @@ import {
 } from './common';
 
 const API_URL = '/eholdings/access-types';
+const getApiUrl = (credentialId) => {
+  return credentialId ? `/eholdings/kb-credentials/${credentialId}/access-types` : API_URL;
+};
 
 export default {
-  getAll: okapi => {
+  getAll: (okapi, credentialId) => {
     const method = 'GET';
-    const url = createUrl(okapi.url, API_URL);
+    const url = createUrl(okapi.url, getApiUrl(credentialId));
     const params = {
       method,
       headers: getHeaders(method, okapi, url),
@@ -18,9 +21,9 @@ export default {
 
     return doRequest(url, params);
   },
-  attachAccessType: (okapi, accessType) => {
+  attachAccessType: (okapi, accessType, credentialId) => {
     const method = 'POST';
-    const url = `${okapi.url}${API_URL}`;
+    const url = `${okapi.url}${getApiUrl(credentialId)}`;
     const params = {
       method,
       headers: getHeaders(method, okapi, url),
@@ -29,9 +32,9 @@ export default {
 
     return doRequest(url, params);
   },
-  deleteAccessType: (okapi, accessType) => {
+  deleteAccessType: (okapi, accessType, credentialId) => {
     const method = 'DELETE';
-    const url = `${okapi.url}${API_URL}/${accessType.id}`;
+    const url = `${okapi.url}${getApiUrl(credentialId)}/${accessType.id}`;
     const params = {
       method,
       headers: getHeaders(method, okapi, url),
@@ -39,9 +42,9 @@ export default {
 
     return doRequest(url, params);
   },
-  updateAccessType: (okapi, accessType) => {
+  updateAccessType: (okapi, accessType, credentialId) => {
     const method = 'PUT';
-    const url = `${okapi.url}${API_URL}/${accessType.id}`;
+    const url = `${okapi.url}${getApiUrl(credentialId)}/${accessType.id}`;
     const params = {
       method,
       headers: getHeaders(method, okapi, url),
