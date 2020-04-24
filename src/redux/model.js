@@ -103,7 +103,6 @@ export class Collection {
    * @returns {Object} the request object
    */
   get request() {
-    // eslint-disable-next-line no-unused-vars
     const { page, ...queryParams } = this.params;
 
     // without including the page param, this will return the last
@@ -312,11 +311,11 @@ class BaseModel {
 
   /**
    * Action creator for saving a record
-   * @param {Model} model - the record's model
+   * @param {Model} updatedModel - the record's model
    */
-  static save(model) { // eslint-disable-line no-shadow
-    return save(this.type, model.serialize(), {
-      path: this.pathFor(model.id)
+  static save(updatedModel) {
+    return save(this.type, updatedModel.serialize(), {
+      path: this.pathFor(updatedModel.id)
     });
   }
 
@@ -335,11 +334,11 @@ class BaseModel {
 
   /**
    * Action creator for deleting a record
-   * @param {Model} model - the record's model
+   * @param {Model} modelToDestroy - the record's model
    */
-  static destroy(model) { // eslint-disable-line no-shadow
-    return destroy(this.type, model.serialize(), {
-      path: this.pathFor(model.id)
+  static destroy(modelToDestroy) {
+    return destroy(this.type, modelToDestroy.serialize(), {
+      path: this.pathFor(modelToDestroy.id)
     });
   }
 
@@ -530,19 +529,17 @@ function describeBelongsTo(key, relType = pluralize(key)) {
   return {
     get() {
       const Model = this.resolver.modelFor(relType);
-      let model = new Model(null, this.resolver); // eslint-disable-line no-shadow
-
       const relId = `${key}Id`;
 
       // check for related records first based on `relationship` if it exists
       if (hasOwnProperty(this.data.relationships, key) && this.data.relationships[key].data) {
-        model = new Model(this.data.relationships[key].data.id, this.resolver);
+        return new Model(this.data.relationships[key].data.id, this.resolver);
       // in absence of explicit `relationship` data, check for foreign keys in attributes
       } else if (hasOwnProperty(this.data.attributes, relId) && this.data.attributes[relId]) {
-        model = new Model(this.data.attributes[relId], this.resolver);
+        return new Model(this.data.attributes[relId], this.resolver);
       }
 
-      return model;
+      return new Model(null, this.resolver);
     }
   };
 }
@@ -594,7 +591,6 @@ export default function model({ type, path } = {}) {
     const relTypes = {};
 
     // strip the constructor so not to override the BaseModel constructor
-    // eslint-disable-next-line no-unused-vars
     const { constructor, ...proto } = Object.getOwnPropertyDescriptors(Class.prototype);
 
     for (let i = 0, l = properties.length; i < l; i++) {
