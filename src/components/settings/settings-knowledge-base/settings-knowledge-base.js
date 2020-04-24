@@ -130,9 +130,9 @@ class SettingsKnowledgeBase extends Component {
       const filteredNames = kbCredentialsNames.reduce((acc, name) => {
         if (name.match(reg)) {
           const red1 = new RegExp(`${defaultName} \\(`);
-          const number = parseInt(name.replace(red1, ''), 10);
+          const numberInName = parseInt(name.replace(red1, ''), 10);
 
-          return [...acc, number];
+          return [...acc, numberInName];
         }
 
         return [...acc];

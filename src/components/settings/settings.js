@@ -150,10 +150,7 @@ class Settings extends Component {
   }
 
   render() {
-    const {
-      children,
-      location: { pathname },
-    } = this.props;
+    const { children } = this.props;
 
     return (
       <>
