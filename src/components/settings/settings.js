@@ -135,6 +135,7 @@ class Settings extends Component {
     return (
       <Button
         id="create-knowledge-base-configuration"
+        buttonStyle="primary"
         marginBottom0
         data-test-create-kb-configuration
         to={{
@@ -143,7 +144,7 @@ class Settings extends Component {
         }}
         disabled={pathname === '/settings/eholdings/knowledge-base/new'}
       >
-        <FormattedMessage id="ui-eholdings.settings.kb.new" />
+        <FormattedMessage id="ui-eholdings.settings.kb.newButton" />
       </Button>
     );
   }
@@ -170,35 +171,6 @@ class Settings extends Component {
           lastMenu={this.renderLastMenu()}
         >
           {this.renderKnowledgeBaseConfigurations()}
-          {pathname === '/settings/eholdings/knowledge-base/new' && (
-            <FormattedMessage id="ui-eholdings.settings.kb">
-              {label => (
-                <NavList ariaLabel={label}>
-                  <NavListSection
-                    label={label}
-                    activeLink={pathname}
-                  >
-                    <div className={css.listSectionContent}>
-                      <NavListItem className={css.listItemDisabled}>
-                        <FormattedMessage id="ui-eholdings.settings.rootProxy" />
-                      </NavListItem>
-
-                      <NavListItem className={css.listItemDisabled}>
-                        <FormattedMessage id="ui-eholdings.resource.customLabels" />
-                      </NavListItem>
-
-                      <NavListItem className={css.listItemDisabled}>
-                        <FormattedMessage id="ui-eholdings.settings.accessStatusTypes" />
-                      </NavListItem>
-                      <NavListItem className={css.listItemDisabled}>
-                        <FormattedMessage id="ui-eholdings.settings.assignedUsers" />
-                      </NavListItem>
-                    </div>
-                  </NavListSection>
-                </NavList>
-              )}
-            </FormattedMessage>
-          )}
         </Pane>
         {children}
       </>

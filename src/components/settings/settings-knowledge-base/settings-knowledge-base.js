@@ -174,7 +174,7 @@ class SettingsKnowledgeBase extends Component {
             data-test-eholdings-settings-kb
             formState={formState}
             updateIsPending={kbCredentials.isUpdating}
-            title={<FormattedMessage id="ui-eholdings.settings.kb" />}
+            title={<FormattedMessage id={isCreateMode ? 'ui-eholdings.settings.kb.new' : 'ui-eholdings.settings.kb.edit'} />}
             toasts={this.state.toasts}
           >
             {!isCreateMode && (

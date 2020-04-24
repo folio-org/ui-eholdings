@@ -55,7 +55,7 @@ describe('With unconfigured backend', () => {
 
   describe('when visiting the KB auth form', () => {
     beforeEach(function () {
-      this.visit('/settings/eholdings/knowledge-base/1');
+      this.visit('/settings/eholdings/knowledge-base/new');
     });
 
     it('does not enable the save button', () => {
