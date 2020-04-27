@@ -1008,4 +1008,27 @@ export default function config() {
 
   this.post('/kb-credentials/:credId/users', (_schema, request) => JSON.parse(request.requestBody).data);
   this.delete('/kb-credentials/:credId/users/:userId', () => new Response(204));
+
+  this.get('/kb-credentials/:credId/access-types', ({ accessTypes }) => {
+    return accessTypes.all();
+  });
+
+  this.post('/kb-credentials/:credId/access-types', ({ accessTypes }, request) => {
+    const body = JSON.parse(request.requestBody);
+    const { type, attributes, id } = accessTypes.create(body);
+
+    return { type, attributes, id };
+  });
+
+  this.put('/kb-credentials/:credId/access-types/:id', (schema, request) => {
+    const body = JSON.parse(request.requestBody);
+
+    return body;
+  });
+
+  this.delete('/kb-credentials/:credId/access-types/:id', (schema, request) => {
+    const body = JSON.parse(request.requestBody);
+
+    return body;
+  });
 }

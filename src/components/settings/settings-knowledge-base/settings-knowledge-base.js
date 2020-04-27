@@ -130,9 +130,9 @@ class SettingsKnowledgeBase extends Component {
       const filteredNames = kbCredentialsNames.reduce((acc, name) => {
         if (name.match(reg)) {
           const red1 = new RegExp(`${defaultName} \\(`);
-          const number = parseInt(name.replace(red1, ''), 10);
+          const numberInName = parseInt(name.replace(red1, ''), 10);
 
-          return [...acc, number];
+          return [...acc, numberInName];
         }
 
         return [...acc];
@@ -174,7 +174,7 @@ class SettingsKnowledgeBase extends Component {
             data-test-eholdings-settings-kb
             formState={formState}
             updateIsPending={kbCredentials.isUpdating}
-            title={<FormattedMessage id="ui-eholdings.settings.kb" />}
+            title={<FormattedMessage id={isCreateMode ? 'ui-eholdings.settings.kb.new' : 'ui-eholdings.settings.kb.edit'} />}
             toasts={this.state.toasts}
           >
             {!isCreateMode && (

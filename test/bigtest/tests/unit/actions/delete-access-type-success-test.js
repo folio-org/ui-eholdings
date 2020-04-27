@@ -11,7 +11,7 @@ describe('(action) deleteAccessTypeSuccess', () => {
     const id = 'id';
     const expectedAction = {
       type: DELETE_ACCESS_TYPE_SUCCESS,
-      payload: id,
+      payload: { id },
     };
 
     expect(deleteAccessTypeSuccess(id)).to.deep.equal(expectedAction);

@@ -44,18 +44,6 @@ describe('Settings', () => {
       expect(Settings.configurationNavigationList().length).to.equal(3);
     });
 
-    it('all settings for unconfigured KB should be disabled', () => {
-      Settings.configurationNavigationList()[0].settingsLinks().forEach((link) => {
-        expect(link.isDisabled).to.be.true;
-      });
-    });
-
-    it('all settings for unconfigured KB should be enabled', () => {
-      Settings.configurationNavigationList()[1].settingsLinks().forEach((link) => {
-        expect(link.isDisabled).to.be.false;
-      });
-    });
-
     describe('when clicking on configuration heading', () => {
       beforeEach(async () => {
         await Settings.configurationNavigationList(0).clickHeading();
