@@ -217,6 +217,7 @@ class SettingsKnowledgeBase extends Component {
                     validate={value => (
                       value ? undefined : <FormattedMessage id="ui-eholdings.validate.errors.settings.customerId" />
                     )}
+                    required
                   />
                 </div>
 
@@ -230,6 +231,7 @@ class SettingsKnowledgeBase extends Component {
                     validate={value => (
                       value ? undefined : <FormattedMessage id="ui-eholdings.validate.errors.settings.apiKey" />
                     )}
+                    required
                   />
                 </div>
 
