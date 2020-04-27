@@ -355,7 +355,6 @@ class SearchRoute extends Component {
    * @param {Number} page - the page number
    */
   fetchPage = (page) => {
-    // eslint-disable-next-line no-unused-vars
     const { offset, ...params } = this.state.params;
     this.search({ ...params, page });
   };

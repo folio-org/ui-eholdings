@@ -25,6 +25,7 @@ module.exports = {
     "no-console": "warn",
     "react/forbid-prop-types": "off",
     "react/destructuring-assignment": "off",
-    "react/sort-prop-types": ["error"]
+    "react/sort-prop-types": ["error"],
+    "no-unused-vars": ["error", { "ignoreRestSiblings": true }]
   }
 };

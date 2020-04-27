@@ -400,8 +400,8 @@ const handlers = {
       next = handlers[actionTypes.UNLOAD](next, action);
     } else {
       // then we reduce each record in the set of records
-      next = records.reduce((next, record) => { // eslint-disable-line no-shadow
-        return reduceData(record.type, next, (store) => {
+      next = records.reduce((reducedRecordsSet, record) => {
+        return reduceData(record.type, reducedRecordsSet, (store) => {
           const recordState = getRecord(store, record.id);
 
           return {
@@ -534,7 +534,7 @@ export function epic(action$, { getState }) {
       // request which rejects when not OK
       const promise = fetch(url, { headers, method, body })
         .then(response => Promise.all([response.ok, parseResponseBody(response)]))
-        .then(([ok, body]) => (ok ? body : Promise.reject(body.errors))); // eslint-disable-line no-shadow
+        .then(([ok, responseBody]) => (ok ? responseBody : Promise.reject(responseBody.errors)));
 
       // an observable from resolving or rejecting the request payload
       return Observable.from(promise)
