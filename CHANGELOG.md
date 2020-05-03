@@ -1,5 +1,9 @@
 # Change history for ui-eholdings
 
+## 3.1.0 (IN PROGRES)
+
+* Pin `moment` at `~2.24.0`. Refs STRIPES-678.
+
 ## [3.0.2] (https://github.com/folio-org/ui-eholdings/tree/v3.0.2) (2020-04-08)
 
 * Retain search within packages search and filter selections on the Provider record (UIEH-847)
