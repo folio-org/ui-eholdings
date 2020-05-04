@@ -21,6 +21,8 @@ import { EditableList } from '@folio/stripes/smart-components';
 
 import Toaster from '../../toaster';
 
+import { accessStatusTypeDataShape } from '../../../constants/accessTypesReduxStateShape';
+
 const SettingsAccessStatusTypes = ({
   accessTypesData,
   onCreate,
@@ -224,23 +226,7 @@ SettingsAccessStatusTypes.propTypes = {
   accessTypesData: PropTypes.shape({
     isDeleted: PropTypes.bool.isRequired,
     isLoading: PropTypes.bool.isRequired,
-    items: PropTypes.arrayOf(PropTypes.shape({
-      attributes: PropTypes.shape({
-        description: PropTypes.string,
-        name: PropTypes.string.isRequired,
-      }).isRequired,
-      creator: PropTypes.objectOf(PropTypes.string),
-      id: PropTypes.string.isRequired,
-      metadata: PropTypes.shape({
-        createdByUserId: PropTypes.string.isRequired,
-        createdByUsername: PropTypes.string.isRequired,
-        createdDate: PropTypes.string.isRequired,
-        updatedByUserId: PropTypes.string,
-        updatedDate: PropTypes.string,
-      }),
-      type: PropTypes.string.isRequired,
-      updater: PropTypes.objectOf(PropTypes.string),
-    })),
+    items: PropTypes.arrayOf(accessStatusTypeDataShape),
   }),
   confirmDelete: PropTypes.func.isRequired,
   onCreate: PropTypes.func.isRequired,

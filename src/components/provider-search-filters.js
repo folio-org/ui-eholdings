@@ -1,7 +1,7 @@
 import React from 'react';
-import { FormattedMessage } from 'react-intl';
 
 import SearchFilters from './search-form/search-filters';
+import { providerSortFilterConfig } from '../constants';
 
 /**
  * Renders search filters with specific provider filters.
@@ -15,15 +15,7 @@ function ProviderSearchFilters(props) {
   return (
     <SearchFilters
       searchType="providers"
-      availableFilters={[{
-        name: 'sort',
-        label: <FormattedMessage id="ui-eholdings.label.sortOptions" />,
-        defaultValue: 'relevance',
-        options: [
-          { label: <FormattedMessage id="ui-eholdings.filter.sortOptions.relevance" />, value: 'relevance' },
-          { label: <FormattedMessage id="ui-eholdings.label.provider" />, value: 'name' }
-        ]
-      }]}
+      availableFilters={[providerSortFilterConfig]}
       {...props}
     />
   );
