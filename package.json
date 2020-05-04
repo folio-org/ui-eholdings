@@ -73,6 +73,9 @@
     "react-router": "^4.3.1",
     "react-router-dom": "^4.3.1"
   },
+  "resolutions": {
+    "moment": "~2.24.0"
+  },
   "stripes": {
     "actsAs": ["app", "settings"],
     "displayName": "ui-eholdings.meta.title",
