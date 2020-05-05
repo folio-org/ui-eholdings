@@ -39,6 +39,13 @@ describe('TitleSearch', () => {
       name: 'SomethingSomethingWhoa'
     });
 
+    trialAccessType = this.server.create('access-type', {
+      name: 'Trial',
+    });
+    subscriptionAccessType = this.server.create('access-type', {
+      name: 'Subscription',
+    });
+
     this.visit('/eholdings/?searchType=titles');
   });
 
@@ -261,8 +268,8 @@ describe('TitleSearch', () => {
       });
 
       describe('navigating to packages search', () => {
-        beforeEach(() => {
-          return TitleSearchPage.changeSearchType('packages');
+        beforeEach(async () => {
+          await TitleSearchPage.changeSearchType('packages');
         });
 
         it('displays an empty search', () => {
@@ -270,8 +277,8 @@ describe('TitleSearch', () => {
         });
 
         describe('navigating back to titles search', () => {
-          beforeEach(() => {
-            return TitleSearchPage.changeSearchType('titles');
+          beforeEach(async () => {
+            await TitleSearchPage.changeSearchType('titles');
           });
 
           it('reflects the isxn searchfield in the URL query params', function () {
@@ -389,10 +396,10 @@ describe('TitleSearch', () => {
 
   describe('visiting the page with an existing access types filter', () => {
     beforeEach(async function () {
-      this.visit('/eholdings?searchType=titles&filter[access-type]=Trial');
+      await this.visit('/eholdings?searchType=titles&filter[access-type]=Trial');
     });
 
-    it('displays tags accordion as closed', () => {
+    it('displays access types accordion as closed', () => {
       expect(TitleSearchPage.accessTypesSection.accessTypesAccordion.isOpen).to.equal(false);
     });
 
@@ -710,13 +717,6 @@ describe('TitleSearch', () => {
 
   describe('filtering title by access types', () => {
     beforeEach(function () {
-      trialAccessType = this.server.create('access-type', {
-        name: 'Trial',
-      });
-      subscriptionAccessType = this.server.create('access-type', {
-        name: 'Subscription',
-      });
-
       const trialTitle = this.server.create('title', 'withPackages', {
         name: 'Test Trial Title',
       });
