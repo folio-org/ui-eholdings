@@ -444,7 +444,7 @@ class SearchForm extends Component {
           {Filters && (
             <div role="tablist">
               {this.renderTagFilter()}
-              {searchType === searchTypes.PACKAGES && this.renderAccessTypesFilter()}
+              {(searchType === searchTypes.PACKAGES || searchType === searchTypes.TITLES) && this.renderAccessTypesFilter()}
               <Filters
                 activeFilters={combinedFilters}
                 onUpdate={this.handleUpdateFilter}

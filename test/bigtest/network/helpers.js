@@ -158,3 +158,16 @@ export function nestedResourceRouteFor(foreignKey, resourceType, filter = () => 
     return json;
   };
 }
+
+/**
+ * Helper for extracting array of Access Types from filter query string
+ * in format 'filter[access-type]=Trial&filter[access-type]=Subscription
+ * @param {String} query - query part of url without '?'
+ * @returns {Array} array of Access Types
+ */
+export function getAccessTypesFromFilterQuery(query = '') {
+  return query
+    .split('&')
+    .filter(param => param.split('=')[0] === 'filter[access-type]')
+    .map(param => param.split('=')[1]);
+}
