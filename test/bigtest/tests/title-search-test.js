@@ -735,50 +735,50 @@ describe('TitleSearch', () => {
       beforeEach(async () => {
         await TitleSearchPage.accessTypesSection.clickAccessTypesHeader();
       });
-  
+
       it('displays access types accordion as expanded', () => {
         expect(TitleSearchPage.accessTypesSection.accessTypesAccordion.isOpen).to.be.true;
       });
-  
+
       it('should display tags multiselect disabled by default', () => {
         expect(TitleSearchPage.accessTypesSection.accessTypesMultiselectIsDisabled).to.be.true;
       });
-  
+
       it('search by tags tags checkbox should be not checked', () => {
         expect(TitleSearchPage.accessTypesSection.accessTypesCheckboxIsChecked).to.be.false;
       });
-  
+
       describe('and search by access types was enabled', () => {
         beforeEach(async () => {
           await TitleSearchPage.accessTypesSection.toggleSearchByAccessTypes();
         });
-  
+
         it('search field should be disabled', () => {
           expect(TitleSearchPage.searchFieldIsDisabled).to.be.true;
         });
-  
+
         it('should display access types multiselect enabled', () => {
           expect(TitleSearchPage.accessTypesSection.accessTypesMultiselectIsDisabled).to.be.false;
         });
-  
+
         it('search by tags tags checkbox should be checked', () => {
           expect(TitleSearchPage.accessTypesSection.accessTypesCheckboxIsChecked).to.be.true;
         });
-  
+
         describe('after selecting "Trial" access type', () => {
           beforeEach(async () => {
             await TitleSearchPage.accessTypesSection.accessTypesSelect.options(0).clickOption();
           });
-  
+
           it('should display selected value as "Trial"', () => {
             expect(TitleSearchPage.accessTypesSection.accessTypesSelect.values(0).valLabel).to.equal('Trial');
           });
-  
+
           it('displays titles with access type "Trial"', () => {
             expect(TitleSearchPage.titleList()).to.have.lengthOf(1);
             expect(TitleSearchPage.titleList(0).name).to.equal('Test Trial Title');
           });
-  
+
           it('should display the clear access type filter button', () => {
             expect(TitleSearchPage.accessTypesSection.hasClearAccessTypesFilter).to.be.true;
           });
