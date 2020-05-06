@@ -303,6 +303,7 @@ class PackageShowRoute extends Component {
               query={pkgSearchParams}
               onSearch={this.searchTitles}
               onFilter={this.searchTitles}
+              accessTypes={accessStatusTypes}
             />
           }
         />
