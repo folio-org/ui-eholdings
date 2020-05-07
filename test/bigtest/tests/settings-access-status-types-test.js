@@ -57,6 +57,16 @@ describe('With list of root proxies available to a customer', () => {
         });
       });
 
+      describe('fill access status type name field with duplicate value', () => {
+        beforeEach(async () => {
+          await SettingsAccessStatusTypesPage.accessStatusTypesList(0).nameField.fillAndBlur('my custom type 1');
+        });
+
+        it('should show validation error message', () => {
+          expect(SettingsAccessStatusTypesPage.accessStatusTypesList(0).validationErrorMessage).to.be.equal('Duplicate type. Please revise.');
+        });
+      });
+
       describe('fill description field with unvalid string length', () => {
         beforeEach(async () => {
           await SettingsAccessStatusTypesPage.accessStatusTypesList(0).descriptionField.fillAndBlur((new Array(151)).fill('a').join(''));

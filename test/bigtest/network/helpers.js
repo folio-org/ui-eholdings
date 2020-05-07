@@ -170,7 +170,16 @@ export function nestedResourceRouteFor(foreignKey, resourceType, filter = () => 
 export function getAccessTypesFromFilterQuery(query = '') {
   const parsedQuery = queryString.parse(query, { ignoreQueryPrefix: true });
 
-  const accessTypes = parsedQuery.filter['access-type'];
+  const { filter } = parsedQuery;
+  if (!filter) {
+    return [];
+  }
+
+  const accessTypes = filter['access-type'];
+  if (!accessTypes) {
+    return [];
+  }
+
   if (Array.isArray(accessTypes)) {
     return accessTypes;
   } else {
