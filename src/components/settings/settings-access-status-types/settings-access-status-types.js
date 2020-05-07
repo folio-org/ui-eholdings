@@ -115,6 +115,10 @@ const SettingsAccessStatusTypes = ({
       />;
     }
 
+    if (value && accessTypesData.items.find(accessType => accessType.attributes.name === value)) {
+      return <FormattedMessage id="ui-eholdings.settings.accessStatusTypes.validation.duplicate" />;
+    }
+
     return null;
   };
 
