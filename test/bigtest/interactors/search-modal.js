@@ -1,5 +1,4 @@
 import {
-  interactor,
   action,
   attribute,
   clickable,
@@ -9,6 +8,8 @@ import {
   selectable,
   collection,
 } from '@bigtest/interactor';
+
+import { interactor } from '../helpers/interactor';
 
 import { AccordionInteractor } from '@folio/stripes-components/lib/Accordion/tests/interactor';
 

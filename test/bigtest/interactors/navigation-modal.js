@@ -1,7 +1,8 @@
 import {
-  interactor,
   clickable
 } from '@bigtest/interactor';
+
+import { interactor } from '../helpers/interactor';
 
 @interactor class NavigationModal {
   clickContinue = clickable('[data-test-navigation-modal-continue]');

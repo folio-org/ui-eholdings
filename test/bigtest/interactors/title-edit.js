@@ -3,11 +3,13 @@ import {
   collection,
   fillable,
   isPresent,
-  interactor,
   property,
   value,
   text
 } from '@bigtest/interactor';
+
+import { interactor } from '../helpers/interactor';
+
 import { hasClassBeginningWith } from './helpers';
 import Toast from './toast';
 import NavigationModal from './navigation-modal';

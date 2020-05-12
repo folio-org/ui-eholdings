@@ -1,9 +1,10 @@
 import {
-  interactor,
   text,
   isPresent,
   clickable,
 } from '@bigtest/interactor';
+
+import { interactor } from '../helpers/interactor';
 
 export default interactor(class ExpandFilterPaneButtonInteractor {
   static defaultScope = '[data-test-expand-filter-pane-button]';

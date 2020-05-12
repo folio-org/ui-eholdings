@@ -1,8 +1,9 @@
 import {
-  interactor,
   clickable,
   attribute,
 } from '@bigtest/interactor';
+
+import { interactor } from '../helpers/interactor';
 
 @interactor class ActionsDropDown {
   clickDropDownButton = clickable('button');

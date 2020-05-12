@@ -1,11 +1,13 @@
 import {
-  interactor,
   clickable,
   collection,
   text,
   property,
   isPresent,
 } from '@bigtest/interactor';
+
+import { interactor } from '../helpers/interactor';
+
 import TextFieldInteractor from '@folio/stripes-components/lib/TextField/tests/interactor';
 
 

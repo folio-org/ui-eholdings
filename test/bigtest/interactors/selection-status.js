@@ -1,9 +1,10 @@
 import {
-  interactor,
   computed,
   text,
   isPresent
 } from '@bigtest/interactor';
+
+import { interactor } from '../helpers/interactor';
 
 export default @interactor class PackageSelectionStatus {
   static defaultScope = '[data-test-eholdings-package-details-selected]';

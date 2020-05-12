@@ -1,10 +1,11 @@
 import {
-  interactor,
   value,
   blurrable,
   fillable,
   isPresent,
 } from '@bigtest/interactor';
+
+import { interactor } from '../helpers/interactor';
 
 export default @interactor class SettingsCustomLabelField {
   label = value('[class^="textField---"] input');

@@ -1,11 +1,12 @@
 import {
   clickable,
   collection,
-  interactor,
   isPresent,
   text,
   attribute,
 } from '@bigtest/interactor';
+
+import { interactor } from '../helpers/interactor';
 
 export default @interactor class {
   isExpanded = !!attribute('#accordion-toggle-button-packageShowAgreements', 'aria-expanded');

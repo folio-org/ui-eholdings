@@ -1,5 +1,4 @@
 import {
-  interactor,
   isPresent,
   fillable,
   clickable,
@@ -9,6 +8,8 @@ import {
   count,
   collection,
 } from '@bigtest/interactor';
+
+import { interactor } from '../helpers/interactor';
 
 @interactor class TitleCreatePage {
   static defaultScope = '[data-test-eholdings-title-create]';

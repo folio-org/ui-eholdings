@@ -2,9 +2,10 @@ import {
   clickable,
   collection,
   property,
-  interactor,
   fillable,
 } from '@bigtest/interactor';
+
+import { interactor } from '../helpers/interactor';
 
 import { hasClassBeginningWith } from './helpers';
 

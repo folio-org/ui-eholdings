@@ -1,8 +1,9 @@
 import {
-  interactor,
   clickable,
   isPresent,
 } from '@bigtest/interactor';
+
+import { interactor } from '../helpers/interactor';
 
 export default @interactor class ResourceShowDeselectionModal {
   confirmDeselection = clickable('[data-test-eholdings-resource-deselection-confirmation-modal-yes]');

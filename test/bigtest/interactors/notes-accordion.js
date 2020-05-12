@@ -1,10 +1,11 @@
 import {
-  interactor,
   isPresent,
   clickable,
   collection,
   text,
 } from '@bigtest/interactor';
+
+import { interactor } from '../helpers/interactor';
 
 import Button from './button';
 

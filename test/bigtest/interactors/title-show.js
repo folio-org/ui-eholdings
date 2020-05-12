@@ -5,10 +5,11 @@ import {
   computed,
   isPresent,
   property,
-  interactor,
   text,
   is
 } from '@bigtest/interactor';
+
+import { interactor } from '../helpers/interactor';
 
 import { getComputedStyle } from './helpers';
 

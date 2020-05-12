@@ -1,12 +1,12 @@
 import {
   clickable,
   selectable,
-  interactor,
   property,
   value
 } from '@bigtest/interactor';
 import Toast from './toast';
 
+import { interactor } from '../helpers/interactor';
 
 @interactor class SettingsRootProxyPage {
   RootProxySelectValue = value('[data-test-eholdings-settings-root-proxy-select] select');

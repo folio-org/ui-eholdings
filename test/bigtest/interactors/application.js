@@ -1,7 +1,8 @@
 import {
   isPresent,
-  interactor,
 } from '@bigtest/interactor';
+
+import { interactor } from '../helpers/interactor';
 
 @interactor class ApplicationPage {
   doesNotHaveBackend = isPresent('[data-test-eholdings-no-backend]')

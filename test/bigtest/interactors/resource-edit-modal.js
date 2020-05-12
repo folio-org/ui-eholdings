@@ -1,10 +1,11 @@
 import {
-  interactor,
   isPresent,
   clickable,
   text,
   property,
 } from '@bigtest/interactor';
+
+import { interactor } from '../helpers/interactor';
 
 export default @interactor class ResourceEditModal {
   hasDeselectTitleWarning = isPresent('[data-test-eholdings-deselect-title-warning]');

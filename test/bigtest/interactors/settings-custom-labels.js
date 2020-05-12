@@ -1,9 +1,10 @@
 import {
   collection,
   clickable,
-  interactor,
   property,
 } from '@bigtest/interactor';
+
+import { interactor } from '../helpers/interactor';
 
 import ConfirmationModalInteractor from '@folio/stripes-components/lib/ConfirmationModal/tests/interactor';
 import ModalInteractor from '@folio/stripes-components/lib/Modal/tests/interactor';

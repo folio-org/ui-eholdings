@@ -1,12 +1,14 @@
 import {
   clickable,
-  interactor,
   value,
   fillable,
   text,
   triggerable,
   blurrable
 } from '@bigtest/interactor';
+
+import { interactor } from '../helpers/interactor';
+
 import { hasClassBeginningWith } from './helpers';
 
 export default @interactor class Datepicker {

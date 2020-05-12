@@ -1,8 +1,8 @@
 import {
-  interactor,
-  Interactor,
   clickable,
 } from '@bigtest/interactor';
+
+import { interactor, Interactor } from '../helpers/interactor';
 
 export default @interactor class PackageDropDownMenu {
   clickEdit = clickable('[data-test-eholdings-package-edit-link]');

@@ -7,10 +7,11 @@ import {
   isPresent,
   is,
   property,
-  interactor,
   value,
   text
 } from '@bigtest/interactor';
+
+import { interactor } from '../helpers/interactor';
 
 import { AccordionInteractor } from '@folio/stripes-components/lib/Accordion/tests/interactor';
 

@@ -4,11 +4,13 @@ import {
   collection,
   computed,
   isPresent,
-  interactor,
   property,
   text,
   is
 } from '@bigtest/interactor';
+
+import { interactor } from '../helpers/interactor';
+
 import { AccordionInteractor } from '@folio/stripes-components/lib/Accordion/tests/interactor';
 
 import AgreementsAccordion from './agreements-accordion';
