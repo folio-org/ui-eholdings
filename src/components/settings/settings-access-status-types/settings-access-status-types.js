@@ -58,7 +58,7 @@ const SettingsAccessStatusTypes = ({
       ) : <NoValue />;
     },
     // records will be done after MODKBEKBJ-378
-    records: () => <NoValue />
+    records: ({ usageNumber }) => usageNumber || <NoValue />
   };
 
   // eslint-disable-next-line react/prop-types
@@ -200,6 +200,7 @@ const SettingsAccessStatusTypes = ({
             onUpdate={onUpdate}
             readOnlyFields={['lastUpdated', 'records']}
             visibleFields={['name', 'description', 'lastUpdated', 'records']}
+            actionSuppression={{ delete: accessType => accessType.usageNumber, edit: () => false }}
           />
         )}
       </IntlConsumer>
