@@ -390,6 +390,13 @@
     "notes.entityType.provider.pluralized": "{count} {count, plural, one {provider} other {providers}}",
     "notes.entityType.package.pluralized": "{count} {count, plural, one {package} other {packages}}",
     "notes.entityType.resource.pluralized": "{count} {count, plural, one {resource} other {resources}}",
-    "notes.entityType.title.pluralized": "{count} {count, plural, one {title} other {titles}}"
+    "notes.entityType.title.pluralized": "{count} {count, plural, one {title} other {titles}}",
 
+    "permission.module.eholdings.enabled": "UI: eHoldings module is enabled",
+    "permission.eholdings.enabled": "Settings (eHoldings): display list of settings pages",
+    "permission.settings.kb": "Settings (eHoldings): configure EBSCO RM API credentials",
+    "permission.settings.root-proxy": "Settings (eHoldings): configure root proxy setting",
+    "permission.package-title.select-unselect": "eHoldings: Can select/unselect packages and titles to/from your holdings",
+    "permission.records.edit": "eHoldings: Can edit providers, packages, titles detail records",
+    "permission.titles-packages.create-delete": "eHoldings: Can create and delete custom packages and titles"
   }

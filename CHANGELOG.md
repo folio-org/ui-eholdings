@@ -5,6 +5,7 @@
 * Pin `moment` at `~2.24.0`. Refs STRIPES-678.
 * Add filtering of titles by Access Types. (UIEH-834)
 * Add validation for duplicated Access Types. (UIEH-878)
+* Add permission names to translations. (UIEH-890)
 * Update react-intl to v4
 * Update `stripes` to `v4`
 
