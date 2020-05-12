@@ -1,11 +1,13 @@
 # Change history for ui-eholdings
 
-## [3.1.0] (IN PROGRESS)
+## [4.0.0] (IN PROGRESS)
 
 * Pin `moment` at `~2.24.0`. Refs STRIPES-678.
 * Add filtering of titles by Access Types. (UIEH-834)
 * Add validation for duplicated Access Types. (UIEH-878)
 * Add permission names to translations. (UIEH-890)
+* Update react-intl to v4
+* Update `stripes` to `v4`
 
 ## [3.0.2] (https://github.com/folio-org/ui-eholdings/tree/v3.0.2) (2020-04-08)
 
