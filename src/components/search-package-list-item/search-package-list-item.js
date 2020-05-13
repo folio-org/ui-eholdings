@@ -18,6 +18,7 @@ function SearchPackageListItem({
   packageName,
   onClick,
   headingLevel,
+  showProviderName,
 }) {
   return !item
     ? (
@@ -48,9 +49,11 @@ function SearchPackageListItem({
           {packageName || item.name}
         </Headline>
 
-        <div data-test-eholdings-package-list-item-provider-name>
-          {item.providerName}
-        </div>
+        {showProviderName &&
+          <div data-test-eholdings-package-list-item-provider-name>
+            {item.providerName}
+          </div>
+        }
 
         <div className={cx('itemMetadata')}>
           <AppIcon
@@ -106,6 +109,11 @@ SearchPackageListItem.propTypes = {
   ]),
   onClick: PropTypes.func,
   packageName: PropTypes.string,
+  showProviderName: PropTypes.bool,
+};
+
+SearchPackageListItem.defaultProps = {
+  showProviderName: false,
 };
 
 // this HOC adds a prop, `shouldFocus` that will focus the component's

@@ -33,13 +33,13 @@ import {
 
 import DetailsView from '../../details-view';
 import QueryList from '../../query-list';
-import PackageListItem from '../../package-list-item';
+import SearchPackageListItem from '../../search-package-list-item';
 import Toaster from '../../toaster';
 import ProxyDisplay from '../../proxy-display';
 import TokenDisplay from '../../token-display';
 import TagsAccordion from '../../tags';
 
-const ITEM_HEIGHT = 53;
+const ITEM_HEIGHT = 62;
 
 class ProviderShow extends Component {
   static propTypes = {
@@ -244,7 +244,7 @@ class ProviderShow extends Component {
     const itemLink = item.content && `/eholdings/packages/${item.content.id}`;
 
     return (
-      <PackageListItem
+      <SearchPackageListItem
         link={itemLink}
         item={item.content}
         showTitleCount
