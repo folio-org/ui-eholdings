@@ -18,6 +18,7 @@ function SearchPackageListItem({
   packageName,
   onClick,
   headingLevel,
+  isVisibleProviderName,
 }) {
   return !item
     ? (
@@ -48,9 +49,11 @@ function SearchPackageListItem({
           {packageName || item.name}
         </Headline>
 
-        <div data-test-eholdings-package-list-item-provider-name>
-          {item.providerName}
-        </div>
+        {isVisibleProviderName &&
+          <div data-test-eholdings-package-list-item-provider-name>
+            {item.providerName}
+          </div>
+        }
 
         <div className={cx('itemMetadata')}>
           <AppIcon
@@ -99,6 +102,7 @@ function SearchPackageListItem({
 SearchPackageListItem.propTypes = {
   active: PropTypes.bool,
   headingLevel: PropTypes.string,
+  isVisibleProviderName: PropTypes.bool,
   item: PropTypes.object,
   link: PropTypes.oneOfType([
     PropTypes.string,
@@ -106,6 +110,10 @@ SearchPackageListItem.propTypes = {
   ]),
   onClick: PropTypes.func,
   packageName: PropTypes.string,
+};
+
+SearchPackageListItem.propTypes = {
+  isVisibleProviderName: false,
 };
 
 // this HOC adds a prop, `shouldFocus` that will focus the component's
