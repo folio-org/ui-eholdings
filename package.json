@@ -111,6 +111,7 @@
         "permissionName": "settings.eholdings.enabled",
         "displayName": "Settings (eHoldings): display list of settings pages",
         "subPermissions": [
+          "module.eholdings.enabled",
           "settings.enabled"
         ]
       },
@@ -135,6 +136,7 @@
         "displayName": "eHoldings: Can select/unselect packages and titles to/from your holdings",
         "visible": true,
         "subPermissions": [
+          "module.eholdings.enabled",
           "kb-ebsco.packages.item.put",
           "kb-ebsco.resources.item.put"
         ]
@@ -144,6 +146,7 @@
         "displayName": "eHoldings: Can edit providers, packages, titles detail records",
         "visible": true,
         "subPermissions": [
+          "module.eholdings.enabled",
           "kb-ebsco.packages.item.put",
           "kb-ebsco.resources.item.put",
           "kb-ebsco.providers.item.put"
@@ -154,6 +157,7 @@
         "displayName": "eHoldings: Can create and delete custom packages and titles",
         "visible": true,
         "subPermissions": [
+          "module.eholdings.enabled",
           "kb-ebsco.packages.collection.post",
           "kb-ebsco.resources.collection.post",
           "kb-ebsco.titles.collection.post",
