@@ -102,7 +102,6 @@ function SearchPackageListItem({
 SearchPackageListItem.propTypes = {
   active: PropTypes.bool,
   headingLevel: PropTypes.string,
-  showProviderName: PropTypes.bool,
   item: PropTypes.object,
   link: PropTypes.oneOfType([
     PropTypes.string,
@@ -110,6 +109,7 @@ SearchPackageListItem.propTypes = {
   ]),
   onClick: PropTypes.func,
   packageName: PropTypes.string,
+  showProviderName: PropTypes.bool,
 };
 
 SearchPackageListItem.defaultProps = {
