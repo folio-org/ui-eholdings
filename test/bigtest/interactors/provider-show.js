@@ -46,7 +46,7 @@ import SearchBadge from './search-badge';
       return this.isHiddenLabel === 'Hidden';
     }),
     numTitles: text('[data-test-eholdings-package-list-item-num-titles]'),
-    numTitlesSelected: text('[data-test-eholdings-package-list-item-num-titles-selected]')
+    numTitlesSelected: text('[data-test-eholdings-package-list-item-selected]')
   });
 
   searchResultsCount = text('[data-test-eholdings-details-view-results-count]');

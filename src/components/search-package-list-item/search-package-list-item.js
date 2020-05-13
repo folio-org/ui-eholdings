@@ -112,7 +112,7 @@ SearchPackageListItem.propTypes = {
   packageName: PropTypes.string,
 };
 
-SearchPackageListItem.propTypes = {
+SearchPackageListItem.defaultProps = {
   isVisibleProviderName: false,
 };
 
