@@ -1,4 +1,5 @@
 import {
+  interactor,
   isPresent,
   fillable,
   clickable,
@@ -6,8 +7,6 @@ import {
   is,
   blurrable
 } from '@bigtest/interactor';
-
-import { interactor } from '../helpers/interactor';
 
 @interactor class NotesModal {
   isDisplayed = isPresent('[data-test-notes-modal]');

@@ -7,8 +7,7 @@ throw new Error(
 );
 */
 
-import { interactor, Interactor } from '@bigtest/interactor';
-
+import { Interactor } from '@bigtest/interactor';
 
 /**
  * Adds stats to the accumulator and returns `stats.value`
@@ -27,8 +26,6 @@ function collectStats(accumulator, stats) {
 
   return stats.value;
 }
-
-const { now } = Date;
 
 /**
  * Captures a promise that will only resolve once a given condition
@@ -53,12 +50,11 @@ const { now } = Date;
  * if `always` is true, then rejects at the first error instead
  */
 export function convergeOn(assertion, timeout, always) {
-  let start = now();
-  let interval = 10;
-  let bail = false;
+  const start = Date.now();
+  const interval = 10;
 
   // track various stats
-  let stats = {
+  const stats = {
     start,
     runs: 0,
     end: start,
@@ -74,12 +70,10 @@ export function convergeOn(assertion, timeout, always) {
       stats.runs += 1;
 
       try {
-        let results = assertion();
+        const results = assertion();
 
-        // a promise means there could be side-effects; bail
+        // a promise means there could be side-effects
         if (results && typeof results.then === 'function') {
-          bail = true;
-
           throw new Error(
             'convergent assertion encountered a async function or promise; ' +
             'since convergent assertions can run multiple times, you should ' +
@@ -89,37 +83,39 @@ export function convergeOn(assertion, timeout, always) {
 
         // the timeout calculation comes after the assertion so that
         // the assertion's execution time is accounted for
-        let doLoop = now() - start < timeout;
+        const doLoop = Date.now() - start < timeout;
 
         if (always && doLoop) {
           setTimeout(loop, interval);
         } else if (results === false) {
           throw new Error('convergent assertion returned `false`');
-        } if (!always && !doLoop) {
-          console.error(`convergent assertion was successful,
-            but exceeded the ${timeout}ms timeout`);
+        } else {
+          if (!always && !doLoop) {
+            console.error(`convergent assertion was successful,
+              but exceeded the ${timeout}ms timeout`);
+          }
+          // } else if (!always && !doLoop) {
+          //   throw new Error(
+          //     'convergent assertion was successful, ' +
+          //     `but exceeded the ${timeout}ms timeout`
+          //   );
+          // } else {
+          // calculate some stats right before resolving with them
+          stats.end = Date.now();
+          stats.elapsed = stats.end - start;
+          stats.value = results;
+          resolve(stats);
         }
-        // } else if (!always && !doLoop) {
-        //   throw new Error(
-        //     'convergent assertion was successful, ' +
-        //     `but exceeded the ${timeout}ms timeout`
-        //   );
-        // } else {
-        // calculate some stats right before resolving with them
-        stats.end = Date.now();
-        stats.elapsed = stats.end - start;
-        stats.value = results;
-        resolve(stats);
       } catch (error) {
-        let doLoop = now() - start < timeout;
+        const doLoop = Date.now() - start < timeout;
 
-        if (!bail && !always && doLoop) {
+        if (!always && doLoop) {
           setTimeout(loop, interval);
-        } else if (bail || always || !doLoop) {
+        } else if (always || !doLoop) {
           reject(error);
         }
       }
-    })();
+    }());
   });
 }
 
@@ -361,5 +357,3 @@ Interactor.prototype.run = function () {
     // always resolve with the stats object
     .then(() => stats);
 };
-
-export { interactor, Interactor };

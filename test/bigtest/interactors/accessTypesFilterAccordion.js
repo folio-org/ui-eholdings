@@ -1,12 +1,11 @@
 import {
   action,
   isPresent,
+  interactor,
   clickable,
   is,
   property,
 } from '@bigtest/interactor';
-
-import { interactor } from '../helpers/interactor';
 
 import MultiSelectInteractor from '@folio/stripes-components/lib/MultiSelection/tests/interactor';
 import { AccordionInteractor } from '@folio/stripes-components/lib/Accordion/tests/interactor';

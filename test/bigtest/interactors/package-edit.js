@@ -7,13 +7,12 @@ import {
   fillable,
   blurrable,
   isPresent,
+  interactor,
   property,
   text,
   value,
   selectable,
 } from '@bigtest/interactor';
-
-import { interactor } from '../helpers/interactor';
 
 import { AccordionInteractor } from '@folio/stripes-components/lib/Accordion/tests/interactor';
 

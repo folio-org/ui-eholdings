@@ -346,8 +346,8 @@ describe('ResourceEditCustomTitle', () => {
         });
 
         describe('clicking save', () => {
-          beforeEach(async () => {
-            await ResourceEditPage.clickSave();
+          beforeEach(() => {
+            return ResourceEditPage.clickSave();
           });
 
           it('goes to the resource show page', () => {

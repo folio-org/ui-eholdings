@@ -3,6 +3,7 @@ import {
   collection,
   scoped,
   computed,
+  interactor,
   isPresent,
   property,
   action,
@@ -10,8 +11,6 @@ import {
   triggerable,
   is,
 } from '@bigtest/interactor';
-
-import { interactor } from '../helpers/interactor';
 
 import AgreementsAccordion from './agreements-accordion';
 import TagsAccordion from './tags-accordion';

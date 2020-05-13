@@ -3,12 +3,11 @@ import {
   blurrable,
   clickable,
   fillable,
+  interactor,
   property,
   value,
   isPresent
 } from '@bigtest/interactor';
-
-import { interactor } from '../helpers/interactor';
 
 import Toast from './toast';
 import { hasClassBeginningWith } from './helpers';

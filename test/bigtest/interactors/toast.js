@@ -1,11 +1,9 @@
 import {
   hasClass,
   count,
+  interactor,
   text
 } from '@bigtest/interactor';
-
-import { interactor } from '../helpers/interactor';
-
 import style from '../../../src/components/toaster/style.css';
 
 @interactor class Toast {

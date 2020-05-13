@@ -664,7 +664,7 @@ describe('PackageSearch', () => {
     });
   });
 
-  describe.skip("searching for the package 'fhqwhgads'", () => {
+  describe("searching for the package 'fhqwhgads'", () => {
     beforeEach(() => {
       return PackageSearchPage.search('fhqwhgads');
     });

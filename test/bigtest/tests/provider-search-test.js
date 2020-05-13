@@ -537,7 +537,7 @@ describe('ProviderSearch', () => {
     });
   });
 
-  describe.skip("searching for the provider 'fhqwhgads'", () => {
+  describe("searching for the provider 'fhqwhgads'", () => {
     beforeEach(() => {
       return ProviderSearchPage.search('fhqwhgads');
     });

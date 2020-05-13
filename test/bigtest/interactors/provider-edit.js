@@ -1,4 +1,5 @@
 import {
+  interactor,
   clickable,
   property,
   value,
@@ -10,9 +11,6 @@ import {
   isPresent,
   selectable
 } from '@bigtest/interactor';
-
-import { interactor } from '../helpers/interactor';
-
 import { hasClassBeginningWith } from './helpers';
 import Toast from './toast';
 import NavigationModal from './navigation-modal';

@@ -893,7 +893,7 @@ describe('TitleSearch', () => {
     });
   });
 
-  describe.skip("searching for the title 'fhqwhgads'", () => {
+  describe("searching for the title 'fhqwhgads'", () => {
     beforeEach(() => {
       return TitleSearchPage.search('fhqwhgads');
     });

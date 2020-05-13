@@ -1,4 +1,5 @@
 import {
+  interactor,
   isPresent,
   fillable,
   clickable,
@@ -7,9 +8,6 @@ import {
   property,
   value
 } from '@bigtest/interactor';
-
-import { interactor } from '../helpers/interactor';
-
 import Datepicker from './datepicker';
 
 @interactor class PackageCreatePage {

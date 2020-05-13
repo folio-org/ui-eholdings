@@ -3,12 +3,11 @@ import {
   collection,
   computed,
   isPresent,
+  interactor,
   text,
   clickable,
   is
 } from '@bigtest/interactor';
-
-import { interactor } from '../helpers/interactor';
 
 import TagsAccordion from './tags-accordion';
 

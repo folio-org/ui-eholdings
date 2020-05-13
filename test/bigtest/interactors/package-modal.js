@@ -1,10 +1,9 @@
 import {
+  interactor,
   clickable,
   text,
   property,
 } from '@bigtest/interactor';
-
-import { interactor } from '../helpers/interactor';
 
 export default @interactor class PackageModal {
   cancelDeselection = clickable('[data-test-eholdings-package-deselection-confirmation-modal-no]');
