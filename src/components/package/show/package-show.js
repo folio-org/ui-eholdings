@@ -54,7 +54,7 @@ import TagsAccordion from '../../tags';
 import AccessType from '../../access-type-display';
 import { AgreementsAccordion } from '../../../features';
 
-const ITEM_HEIGHT = 53;
+const ITEM_HEIGHT = 62;
 
 class PackageShow extends Component {
   static propTypes = {
