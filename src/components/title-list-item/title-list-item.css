@@ -24,6 +24,23 @@
       color: #fff;
     }
   }
+
+  & .selection-status {
+    &.not-selected img {
+      filter: grayscale(1);
+    }
+  }
+
+  & .itemMetadata {
+    display: flex;
+    padding-top: var(--gutter-static-one-third);
+    font-size: var(--font-size-medium);
+    color: var(--color-text);
+
+    & > span {
+      padding-right: var(--gutter-static);
+    }
+  }
 }
 
 .skeleton {
