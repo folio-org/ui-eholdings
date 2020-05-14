@@ -92,7 +92,7 @@ import PackageModal from './package-modal';
     isSelected: computed(function () {
       return this.isSelectedLabel === 'Selected';
     }),
-    isHiddenLabel: text('[data-test-eholdings-title-list-item-title-hidden]'),
+    hiddenIndicatorDisplayed: isPresent('[data-test-eholdings-title-list-item-title-hidden]'),
     clickToTitle: clickable()
   });
 

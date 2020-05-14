@@ -2,13 +2,18 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames/bind';
 import { FormattedMessage } from 'react-intl';
-import { Headline } from '@folio/stripes/components';
+import { AppIcon } from '@folio/stripes/core';
+import {
+  Headline,
+  Icon,
+} from '@folio/stripes/components';
 
 import shouldFocus from '../should-focus';
 import styles from './title-list-item.css';
 import InternalLink from '../internal-link';
 import IdentifiersList from '../identifiers-list';
 import ContributorsList from '../contributors-list';
+import { APP_ICON_NAME } from '../../constants';
 
 const cx = classNames.bind(styles);
 const CONTRIBUTORS_LIMIT = 3;
@@ -28,6 +33,7 @@ function TitleListItem({
   const hasPublisherOrType = showPublisherAndType && (item?.publicationType || item?.publisherName);
   const hasIdentifiers = item?.identifiers?.length > 0 && showIdentifiers;
   const showPublisherContributorSeparator = hasPublisherOrType && hasContributors;
+
   return !item
     ? (
       <div
@@ -98,20 +104,28 @@ function TitleListItem({
         )}
 
         {showSelected && (
-          <div>
-            <span data-test-eholdings-title-list-item-title-selected>
-              {item.isSelected
-                ? <FormattedMessage id="ui-eholdings.selected" />
-                : <FormattedMessage id="ui-eholdings.notSelected" />}
-            </span>
-
+          <div className={cx('itemMetadata')}>
+            <AppIcon
+              app={APP_ICON_NAME}
+              iconKey='selectedPackage'
+              size='small'
+              className={cx('item', 'selection-status', {
+                'not-selected': !item.isSelected,
+              })}
+            >
+              <span data-test-eholdings-title-list-item-title-selected>
+                {item.isSelected
+                  ? <FormattedMessage id="ui-eholdings.selected" />
+                  : <FormattedMessage id="ui-eholdings.notSelected" />
+                }
+              </span>
+            </AppIcon>
             {item.visibilityData.isHidden && (
-              <span>
-                &nbsp;&bull;&nbsp;
+              <Icon icon="eye-closed">
                 <span data-test-eholdings-title-list-item-title-hidden>
                   <FormattedMessage id="ui-eholdings.hidden" />
                 </span>
-              </span>
+              </Icon>
             )}
           </div>
         )}
