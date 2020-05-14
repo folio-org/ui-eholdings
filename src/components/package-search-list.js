@@ -35,6 +35,7 @@ function PackageSearchList({
           active={item.content && activeId && item.content.id === activeId}
           shouldFocus={item.content && shouldFocusItem && item.content.id === shouldFocusItem}
           onClick={() => onClickItem(`/eholdings/packages/${item.content.id}`)}
+          showProviderName
         />
       )}
     />

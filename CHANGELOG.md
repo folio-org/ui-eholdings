@@ -9,6 +9,7 @@
 * Update react-intl to v4
 * Update `stripes` to `v4`
 * Hide delete button when access type is used in records. (UIEH-868)
+* Provider Record list of Packages UI updates. (UIEH-861)
 
 ## [3.0.2] (https://github.com/folio-org/ui-eholdings/tree/v3.0.2) (2020-04-08)
 
