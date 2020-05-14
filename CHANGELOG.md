@@ -19,6 +19,8 @@
 * Retain search within packages search and filter selections on the Provider record (UIEH-847)
 * Retain search within titles search and filter selections on the Package record (UIEH-853)
 * Display Access Status Types on Create/Edit/View records. (UIEH-831)
+* Fix Tags filter is selected by default in Search Modal. (UIEH-882)
+* Fix filter by Access Types will not return records. (UIEH-883)
 
 ## [3.0.1] (https://github.com/folio-org/ui-eholdings/tree/v3.0.1) (2020-04-02)
 
