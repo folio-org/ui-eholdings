@@ -21,7 +21,6 @@ function SearchPackageListItem({
   showProviderName,
   showTitleCount,
 }) {
-  console.log(item);
   return !item
     ? (
       <div
