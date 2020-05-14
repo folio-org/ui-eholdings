@@ -82,10 +82,16 @@ const handlers = {
   },
 
   [DELETE_ACCESS_TYPE_FAILURE]: (state, action) => {
-    const { payload: { errors } } = action;
+    const { payload: { errors, accessTypeId } } = action;
+    const isAlreadyDeleted = errors[0].title.endsWith('not found');
 
     return {
       ...state,
+      items: {
+        data: isAlreadyDeleted
+          ? state.items.data.filter(accessType => accessType.id !== accessTypeId)
+          : state.items.data,
+      },
       isLoading: false,
       isDeleted: false,
       errors: formatErrors(errors),

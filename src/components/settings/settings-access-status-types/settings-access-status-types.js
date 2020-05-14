@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { Field } from 'redux-form';
 import {
@@ -41,6 +41,29 @@ const SettingsAccessStatusTypes = ({
     attributes,
   });
 
+  useEffect(() => {
+    const errorsLength = accessTypesData.errors.length;
+
+    if (errorsLength) {
+      const lastErrorTitle = accessTypesData.errors[errorsLength - 1].title;
+
+      if (lastErrorTitle.endsWith('not found')) {
+        setToasts(currentToasts => [
+          ...currentToasts,
+          {
+            id: `access-type-delete-failure-${Date.now()}`,
+            message: <FormattedMessage id="ui-eholdings.settings.accessStatusTypes.delete.error" />,
+            type: 'error',
+          }
+        ]);
+
+        setSelectedStatusType(null);
+        setShowConfirmDialog(false);
+      }
+    }
+  }, [accessTypesData.errors]);
+
+
   const formatter = {
     name: ({ attributes }) => (attributes?.name ?? <NoValue />),
     description: ({ attributes }) => (attributes?.description ?? <NoValue />),
@@ -58,7 +81,7 @@ const SettingsAccessStatusTypes = ({
       ) : <NoValue />;
     },
     // records will be done after MODKBEKBJ-378
-    records: () => <NoValue />
+    records: ({ usageNumber }) => usageNumber || <NoValue />
   };
 
   // eslint-disable-next-line react/prop-types
@@ -200,6 +223,7 @@ const SettingsAccessStatusTypes = ({
             onUpdate={onUpdate}
             readOnlyFields={['lastUpdated', 'records']}
             visibleFields={['name', 'description', 'lastUpdated', 'records']}
+            actionSuppression={{ delete: accessType => accessType.usageNumber, edit: () => false }}
           />
         )}
       </IntlConsumer>
@@ -228,6 +252,7 @@ const SettingsAccessStatusTypes = ({
 
 SettingsAccessStatusTypes.propTypes = {
   accessTypesData: PropTypes.shape({
+    errors: PropTypes.arrayOf(PropTypes.objectOf(PropTypes.string)).isRequired,
     isDeleted: PropTypes.bool.isRequired,
     isLoading: PropTypes.bool.isRequired,
     items: PropTypes.arrayOf(accessStatusTypeDataShape),

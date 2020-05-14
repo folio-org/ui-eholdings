@@ -221,16 +221,47 @@ describe('(reducer) accessTypes', () => {
     expect(accessTypes(actualState, action)).to.deep.equal(expectedState);
   });
 
-  it('should handle DELETE_ACCESS_TYPE_FAILURE', () => {
-    const actualState = { isLoading: true };
+  it('should handle general case for DELETE_ACCESS_TYPE_FAILURE', () => {
+    const actualState = {
+      isLoading: true,
+      items: { data: [{ id: '1' }] }
+    };
+
     const action = {
       type: DELETE_ACCESS_TYPE_FAILURE,
-      payload: { errors: 'error' },
+      payload: {
+        errors: [{ title: 'random error' }],
+        accessTypeId: '1'
+      },
     };
     const expectedState = {
       isLoading: false,
-      errors: [{ title: 'error' }],
+      errors: [{ title: 'random error' }],
       isDeleted: false,
+      items: { data: [{ id: '1' }] },
+    };
+
+    expect(accessTypes(actualState, action)).to.deep.equal(expectedState);
+  });
+
+  it('should handle not found case for DELETE_ACCESS_TYPE_FAILURE', () => {
+    const actualState = {
+      isLoading: true,
+      items: { data: [{ id: '1' }] }
+    };
+
+    const action = {
+      type: DELETE_ACCESS_TYPE_FAILURE,
+      payload: {
+        errors: [{ title: 'not found' }],
+        accessTypeId: '1'
+      },
+    };
+    const expectedState = {
+      isLoading: false,
+      errors: [{ title: 'not found' }],
+      isDeleted: false,
+      items: { data: [] },
     };
 
     expect(accessTypes(actualState, action)).to.deep.equal(expectedState);
