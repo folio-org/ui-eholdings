@@ -181,6 +181,7 @@
     "settings.accessStatusTypes.delete.cancel": "Cancel",
     "settings.accessStatusTypes.delete.confirm": "Delete",
     "settings.accessStatusTypes.delete.toast": "The access status type {name} has been deleted.",
+    "settings.accessStatusTypes.delete.error": "This access status type has already been deleted.",
 
     "proxy": "Proxy",
     "proxy.inherited": "Inherited - {proxy}",
