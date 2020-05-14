@@ -165,6 +165,31 @@ describe('With list of root proxies available to a customer', () => {
           expect(SettingsAccessStatusTypesPage.successText.includes(typeToDelete)).to.be.true;
         });
       });
+
+      describe('if access status type does not exist in the back-end', () => {
+        beforeEach(function () {
+          this.server.delete('/access-types/:id', {
+            errors: [{
+              title: 'not found'
+            }]
+          }, 404);
+        });
+
+        describe('when clicking on Delete', () => {
+          beforeEach(async () => {
+            await SettingsAccessStatusTypesPage.confirmStatusTypeDeleteButton();
+          });
+          it('should display correct error message', () => {
+            const expectedErrorText = 'This access status type has already been deleted.';
+
+            expect(SettingsAccessStatusTypesPage.errorText).to.be.equal(expectedErrorText);
+          });
+
+          it('should show list of access status types without first item', () => {
+            expect(SettingsAccessStatusTypesPage.accessStatusTypesList().length).to.be.equal(13);
+          });
+        });
+      });
     });
   });
 });
