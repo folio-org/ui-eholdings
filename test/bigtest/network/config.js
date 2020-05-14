@@ -1,6 +1,6 @@
 import { Response } from '@bigtest/mirage';
 import { random } from 'faker';
-import { searchRouteFor, nestedResourceRouteFor, includesWords } from './helpers';
+import { searchRouteFor, nestedResourceRouteFor, includesWords, getAccessTypesFromFilterQuery } from './helpers';
 
 
 // typical mirage config export
@@ -485,6 +485,7 @@ export default function config() {
 
   // Title resources
   this.get('/titles', searchRouteFor('titles', (title, req) => {
+    const queryString = req.responseURL.split('?')[1];
     const params = req.queryParams;
     const type = params['filter[type]'];
     const selected = params['filter[selected]'];
@@ -493,11 +494,18 @@ export default function config() {
     const subject = params['filter[subject]'];
     const publisher = params['filter[publisher]'];
     const tags = params['filter[tags]'];
+    const accessTypes = getAccessTypesFromFilterQuery(queryString);
     let filtered = true;
 
     if (tags) {
       return tags.split(',').some(item => {
         return title.resources.models.some((resource => resource.tags.tagList.includes(item)));
+      });
+    }
+
+    if (accessTypes.length) {
+      return accessTypes.some(accessType => {
+        return title.resources.models.some((resource) => resource.accessType?.attrs?.name === accessType);
       });
     }
 
@@ -560,6 +568,7 @@ export default function config() {
 
   // Resources
   this.get('/packages/:id/resources', nestedResourceRouteFor('package', 'resources', (resource, req) => {
+    const queryString = req.responseURL.split('?')[1];
     const title = resource.title;
     const params = req.queryParams;
     const type = params['filter[type]'];
@@ -569,10 +578,15 @@ export default function config() {
     const subject = params['filter[subject]'];
     const publisher = params['filter[publisher]'];
     const tags = params['filter[tags]'];
+    const accessTypes = getAccessTypesFromFilterQuery(queryString);
     let filtered = true;
 
     if (tags) {
       return tags.split(',').some(item => title.tags.tagList.includes(item));
+    }
+
+    if (accessTypes.length) {
+      return accessTypes.some(item => resource.accessType?.attrs?.name === item);
     }
 
     if (name) {

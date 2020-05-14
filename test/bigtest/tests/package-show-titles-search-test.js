@@ -8,7 +8,9 @@ describe('Package Show Title Search', () => {
   setupApplication();
   let provider,
     resources,
-    providerPackage;
+    providerPackage,
+    trialAccessType,
+    subscriptionAccessType;
 
   beforeEach(function () {
     provider = this.server.create('provider', {
@@ -33,6 +35,13 @@ describe('Package Show Title Search', () => {
       packageId: providerPackage.id
     }).models;
 
+    trialAccessType = this.server.create('access-type', {
+      name: 'Trial',
+    });
+    subscriptionAccessType = this.server.create('access-type', {
+      name: 'Subscription',
+    });
+
     resources[0].title.update({
       name: 'My Title 1',
       publicationType: 'report',
@@ -41,6 +50,7 @@ describe('Package Show Title Search', () => {
 
     resources[0].update({
       isSelected: true,
+      accessType: trialAccessType,
     });
 
     resources[0].title.update({
@@ -55,11 +65,12 @@ describe('Package Show Title Search', () => {
       publisherName: 'The Frontside',
       tags: {
         tagList: ['urgent']
-      }
+      },
     });
 
     resources[1].update({
-      isSelected: false
+      isSelected: false,
+      accessType: subscriptionAccessType,
     });
 
     resources[2].title.update({
@@ -67,7 +78,7 @@ describe('Package Show Title Search', () => {
       publicationType: 'book',
       tags: {
         tagList: ['urgent']
-      }
+      },
     });
 
     resources[2].update({
@@ -281,6 +292,90 @@ describe('Package Show Title Search', () => {
         });
       });
 
+      describe('after clicking on access types accordion header', () => {
+        beforeEach(async () => {
+          await PackageShowPage.searchModal.accessTypesSection.clickAccessTypesHeader();
+        });
+
+        it('should expand the accordion', () => {
+          expect(PackageShowPage.searchModal.accessTypesSection.accessTypesAccordion.isOpen).to.be.true;
+        });
+
+        it('search by access types should be disabled', () => {
+          expect(PackageShowPage.searchModal.accessTypesSection.accessTypesCheckboxIsChecked).to.be.false;
+          expect(PackageShowPage.searchModal.accessTypesSection.accessTypesMultiselectIsDisabled).to.be.true;
+        });
+
+        it('search by query should be enabled', () => {
+          expect(PackageShowPage.searchModal.searchFieldIsDisabled).to.be.false;
+        });
+
+        it('displays access types filter with empty value by default', () => {
+          expect(PackageShowPage.searchModal.accessTypesSection.accessTypesSelect.values()).to.deep.equal([]);
+        });
+
+        describe('after enabling search by access types', () => {
+          beforeEach(async () => {
+            await PackageShowPage.searchModal.accessTypesSection.toggleSearchByAccessTypes();
+          });
+
+          it('search by access types should be enabled', () => {
+            expect(PackageShowPage.searchModal.accessTypesSection.accessTypesCheckboxIsChecked).to.be.true;
+            expect(PackageShowPage.searchModal.accessTypesSection.accessTypesMultiselectIsDisabled).to.be.false;
+          });
+
+          it('search by query should be disabled', () => {
+            expect(PackageShowPage.searchModal.searchFieldIsDisabled).to.be.true;
+          });
+
+          describe('after clicking on "Trial" option', () => {
+            beforeEach(async () => {
+              await PackageShowPage.searchModal.accessTypesSection.accessTypesSelect.options(0).clickOption();
+            });
+
+            it('should close search modal', () => {
+              expect(PackageShowPage.searchModal.isPresent).to.be.false;
+            });
+
+            it('should display resources with access type Trial', () => {
+              expect(PackageShowPage.titleList()).to.have.lengthOf(1);
+            });
+          });
+
+          describe('when "Trial" and "Subscription" access types are selected', () => {
+            beforeEach(async () => {
+              await PackageShowPage.searchModal.accessTypesSection.accessTypesSelect.options(0).clickOption();
+              await PackageShowPage.clickListSearch();
+              await PackageShowPage.searchModal.accessTypesSection.accessTypesSelect.options(1).clickOption();
+            });
+
+            it('should close search modal', () => {
+              expect(PackageShowPage.searchModal.isPresent).to.be.false;
+            });
+
+            it('displays resources with "Trial" and "Subscription" access types', () => {
+              expect(PackageShowPage.titleList()).to.have.lengthOf(2);
+            });
+          });
+
+          describe('when some of the access types were selected and do access types clear', () => {
+            beforeEach(async () => {
+              await PackageShowPage.searchModal.accessTypesSection.accessTypesSelect.options(0).clickOption();
+              await PackageShowPage.clickListSearch();
+              await PackageShowPage.searchModal.accessTypesSection.clearAccessTypesFilter();
+            });
+
+            it('should close search modal', () => {
+              expect(PackageShowPage.searchModal.isPresent).to.be.false;
+            });
+
+            it('should display empty list of resources', () => {
+              expect(PackageShowPage.titleList()).to.have.lengthOf(3);
+            });
+          });
+        });
+      });
+
       describe('after doing a couple of clicks on accordion header', () => {
         beforeEach(async () => {
           await PackageShowPage.searchModal.tagsSection.clickTagHeader();
@@ -290,6 +385,25 @@ describe('Package Show Title Search', () => {
         it('should collapse the accordion', () => {
           expect(PackageShowPage.searchModal.tagsSection.tagsAccordion.isOpen).to.be.false;
         });
+      });
+    });
+
+    describe('when access types were not created in settings', () => {
+      beforeEach(async function () {
+        this.server.get('/access-types', () => []);
+
+        this.visit(
+          {
+            pathname: `/eholdings/packages/${providerPackage.id}`,
+            state: { eholdings: true }
+          }
+        );
+
+        await PackageShowPage.clickListSearch();
+      });
+
+      it('should not render filter by access types section', () => {
+        expect(PackageShowPage.accessTypesSection.hasAccessTypesAccordion).to.be.false;
       });
     });
   });

@@ -1,12 +1,11 @@
 import React, { Component } from 'react';
-import PropTypes from 'prop-types';
-import { Form, FormSpy } from 'react-final-form';
+import { Form } from 'react-final-form';
 import arrayMutators from 'final-form-arrays';
 import createFocusDecorator from 'final-form-focus';
 import { FormattedMessage } from 'react-intl';
 
-import update from 'lodash/fp/update';
 import hasIn from 'lodash/hasIn';
+import update from 'lodash/fp/update';
 
 import {
   Accordion,
@@ -15,7 +14,6 @@ import {
   Icon,
   Modal,
   ModalFooter,
-  PaneFooter,
 } from '@folio/stripes/components';
 
 import {
@@ -23,9 +21,10 @@ import {
   withStripes,
 } from '@folio/stripes-core';
 
+import resourceEditProptypes from '../recource-edit-proptypes';
+
 import {
   processErrors,
-  isBookPublicationType,
   getUserDefinedFields,
   getAccessTypeId,
   getProxyTypesRecords,
@@ -40,7 +39,6 @@ import NavigationModal from '../../navigation-modal';
 import AccessTypeEditSection from '../../access-type-edit-section';
 import ProxySelectField from '../../proxy-select';
 import CoverageFields from '../_fields/resource-coverage-fields';
-import CoverageDateList from '../../coverage-date-list';
 import DetailsView from '../../details-view';
 import { CustomLabelsEditSection } from '../../custom-labels-section';
 import { CustomLabelsAccordion } from '../../../features';
@@ -48,7 +46,6 @@ import { CustomLabelsAccordion } from '../../../features';
 import {
   historyActions,
   coverageStatementExistenceStatuses,
-  accessTypesReduxStateShape,
 } from '../../../constants';
 
 const focusOnErrors = createFocusDecorator();
@@ -87,25 +84,13 @@ class ResourceEditManagedTitle extends Component {
     return proxyTypes.request.isResolved;
   }
 
-  static propTypes = {
-    accessStatusTypes: accessTypesReduxStateShape.isRequired,
-    model: PropTypes.object.isRequired,
-    onCancel: PropTypes.func.isRequired,
-    onSubmit: PropTypes.func.isRequired,
-    proxyTypes: PropTypes.object.isRequired,
-    stripes: PropTypes.shape({
-      hasPerm: PropTypes.func.isRequired,
-    }),
-  };
+  static propTypes = resourceEditProptypes;
 
   constructor(props) {
     super(props);
     this.state = {
       managedResourceSelected: this.props.model.isSelected,
-      showSelectionModal: false,
-      allowFormToSubmit: false,
       wasProxyTypesLoaded: this.props.proxyTypes.request.isResolved,
-      formValues: {},
       initialValues: ResourceEditManagedTitle.getInitialValuesFromModel(this.props.model, this.props.proxyTypes),
       sections: {
         resourceShowHoldingStatus: true,
@@ -121,10 +106,6 @@ class ResourceEditManagedTitle extends Component {
 
     const { proxyTypes } = nextProps;
     const isProxyTypesLoaded = ResourceEditManagedTitle.isProxyTypesLoaded(proxyTypes);
-
-    if (nextProps.model.update.errors.length) {
-      stateUpdates.showSelectionModal = false;
-    }
 
     if (nextProps.model.isSelected !== prevState.initialValues.isSelected) {
       Object.assign(stateUpdates, {
@@ -154,79 +135,18 @@ class ResourceEditManagedTitle extends Component {
     this.setState({ sections });
   };
 
-  getSectionHeader = (translationKey) => {
-    return (
-      <Headline
-        size="large"
-        tag="h3"
-      >
-        <FormattedMessage id={translationKey} />
-      </Headline>);
-  };
-
   handleRemoveResourceFromHoldings = () => {
-    this.handleOnSubmit({
+    this.props.handleOnSubmit({
       isSelected: false
     });
   };
 
-  commitSelectionToggle = () => {
-    this.setState({
-      allowFormToSubmit: true
-    }, () => { this.handleOnSubmit(this.state.formValues); });
-  };
-
   cancelSelectionToggle = () => {
+    this.props.closeSelectionModal();
+
     this.setState({
-      showSelectionModal: false,
       managedResourceSelected: true,
     });
-  };
-
-  handleOnSubmit = (values) => {
-    if (this.state.allowFormToSubmit === false && values.isSelected === false) {
-      this.setState({
-        showSelectionModal: true,
-        formValues: values
-      });
-    } else {
-      this.setState({
-        allowFormToSubmit: false,
-        formValues: {}
-      }, () => {
-        this.props.onSubmit(values);
-      });
-    }
-  };
-
-  renderCoverageDates = () => {
-    return (
-      <FormSpy subscription={{ values: true }}>
-        {({ values }) => {
-          const { model } = this.props;
-          const { customCoverages: customCoverageDateValues } = values;
-          let coverageDates = model.managedCoverages;
-
-          if (customCoverageDateValues && customCoverageDateValues.length > 0) {
-            coverageDates = customCoverageDateValues;
-          }
-
-          const nonEmptyCoverageDates = coverageDates
-            .filter((currentCoverageDate) => Object.keys(currentCoverageDate).length !== 0);
-
-          if (nonEmptyCoverageDates.length === 0) {
-            return null;
-          }
-
-          return (
-            <CoverageDateList
-              coverageArray={nonEmptyCoverageDates}
-              isYearOnly={isBookPublicationType(model.publicationType)}
-            />
-          );
-        }}
-      </FormSpy>
-    );
   };
 
   getActionMenu = () => {
@@ -249,41 +169,6 @@ class ResourceEditManagedTitle extends Component {
     );
   }
 
-  getFooter = (pristine, reset) => {
-    const { model } = this.props;
-
-    const cancelButton = (
-      <Button
-        data-test-eholdings-provider-edit-cancel-button
-        buttonStyle="default mega"
-        disabled={model.update.isPending || model.destroy.isPending || pristine}
-        onClick={reset}
-        marginBottom0
-      >
-        <FormattedMessage id="stripes-components.cancel" />
-      </Button>
-    );
-
-    const saveButton = (
-      <Button
-        buttonStyle="primary mega"
-        data-test-eholdings-resource-save-button
-        disabled={pristine || model.update.isPending || model.destroy.isPending}
-        marginBottom0
-        type="submit"
-      >
-        <FormattedMessage id="stripes-components.saveAndClose" />
-      </Button>
-    );
-
-    return (
-      <PaneFooter
-        renderStart={cancelButton}
-        renderEnd={saveButton}
-      />
-    );
-  }
-
   render() {
     const {
       model,
@@ -291,10 +176,15 @@ class ResourceEditManagedTitle extends Component {
       accessStatusTypes,
       onCancel,
       model: { isSelected },
+      showSelectionModal,
+      handelDeleteConfirmation,
+      handleOnSubmit,
+      getFooter,
+      getSectionHeader,
+      renderCoverageDates,
     } = this.props;
 
     const {
-      showSelectionModal,
       managedResourceSelected,
       sections,
       initialValues,
@@ -310,7 +200,7 @@ class ResourceEditManagedTitle extends Component {
 
     return (
       <Form
-        onSubmit={this.handleOnSubmit}
+        onSubmit={handleOnSubmit}
         decorators={[coverageStatementDecorator, focusOnErrors]}
         mutators={{ ...arrayMutators }}
         initialValuesEqual={() => true}
@@ -327,11 +217,11 @@ class ResourceEditManagedTitle extends Component {
                 actionMenu={this.getActionMenu()}
                 handleExpandAll={this.toggleAllSections}
                 sections={sections}
-                footer={this.getFooter(pristine, reset)}
+                footer={getFooter(pristine, reset)}
                 bodyContent={(
                   <>
                     <Accordion
-                      label={this.getSectionHeader('ui-eholdings.label.holdingStatus')}
+                      label={getSectionHeader('ui-eholdings.label.holdingStatus')}
                       open={sections.resourceShowHoldingStatus}
                       id="resourceShowHoldingStatus"
                       onToggle={this.toggleSection}
@@ -378,7 +268,7 @@ class ResourceEditManagedTitle extends Component {
 
                     {managedResourceSelected && (
                       <Accordion
-                        label={this.getSectionHeader('ui-eholdings.resource.resourceSettings')}
+                        label={getSectionHeader('ui-eholdings.resource.resourceSettings')}
                         open={sections.resourceShowSettings}
                         id="resourceShowSettings"
                         onToggle={this.toggleSection}
@@ -399,7 +289,7 @@ class ResourceEditManagedTitle extends Component {
                     )}
 
                     <Accordion
-                      label={this.getSectionHeader('ui-eholdings.label.coverageSettings')}
+                      label={getSectionHeader('ui-eholdings.label.coverageSettings')}
                       open={sections.resourceShowCoverageSettings}
                       id="resourceShowCoverageSettings"
                       onToggle={this.toggleSection}
@@ -415,7 +305,7 @@ class ResourceEditManagedTitle extends Component {
                             <FormattedMessage id="ui-eholdings.label.coverageDisplay" />
                           </Headline>
                           <CoverageStatementFields
-                            coverageDates={this.renderCoverageDates()}
+                            coverageDates={renderCoverageDates()}
                           />
 
                           <Headline tag="h4">
@@ -448,7 +338,7 @@ class ResourceEditManagedTitle extends Component {
                     data-test-eholdings-resource-deselection-confirmation-modal-yes
                     buttonStyle="primary"
                     disabled={model.update.isPending}
-                    onClick={this.commitSelectionToggle}
+                    onClick={handelDeleteConfirmation}
                   >
                     {(model.update.isPending ?
                       <FormattedMessage id="ui-eholdings.resource.modal.buttonWorking" /> :

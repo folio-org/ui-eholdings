@@ -1,6 +1,6 @@
 {
   "name": "@folio/eholdings",
-  "version": "3.0.1",
+  "version": "4.0.0",
   "description": "FOLIO UI module for eHoldings",
   "main": "src/index.js",
   "repository": "https://github.com/folio-org/ui-eholdings",
@@ -25,7 +25,7 @@
     "@bigtest/react": "^0.1.2",
     "@folio/eslint-config-stripes": "^5.0.0",
     "@folio/stripes-cli": "^1.13.0",
-    "@folio/stripes": "^3.0.0",
+    "@folio/stripes": "^4.0.0",
     "babel-eslint": "^10.0.3",
     "babel-polyfill": "^6.26.0",
     "chai": "^4.0.2",
@@ -33,7 +33,7 @@
     "husky": "^1.3.1",
     "lodash": "^4.17.4",
     "mocha": "^5.2.0",
-    "moment": "^2.22.2",
+    "moment": "~2.24.0",
     "qs": "^6.5.1",
     "react": "^16.8.6",
     "react-dom": "^16.8.6",
@@ -67,11 +67,14 @@
     "redux-observable": "^0.15.0"
   },
   "peerDependencies": {
-    "@folio/stripes": "^3.0.0",
+    "@folio/stripes": "^4.0.0",
     "react": "*",
-    "react-intl": "^2.4.0",
+    "react-intl": "^4.5.1",
     "react-router": "^4.3.1",
     "react-router-dom": "^4.3.1"
+  },
+  "resolutions": {
+    "moment": "~2.24.0"
   },
   "stripes": {
     "actsAs": ["app", "settings"],
@@ -108,6 +111,7 @@
         "permissionName": "settings.eholdings.enabled",
         "displayName": "Settings (eHoldings): display list of settings pages",
         "subPermissions": [
+          "module.eholdings.enabled",
           "settings.enabled"
         ]
       },
@@ -132,6 +136,7 @@
         "displayName": "eHoldings: Can select/unselect packages and titles to/from your holdings",
         "visible": true,
         "subPermissions": [
+          "module.eholdings.enabled",
           "kb-ebsco.packages.item.put",
           "kb-ebsco.resources.item.put"
         ]
@@ -141,6 +146,7 @@
         "displayName": "eHoldings: Can edit providers, packages, titles detail records",
         "visible": true,
         "subPermissions": [
+          "module.eholdings.enabled",
           "kb-ebsco.packages.item.put",
           "kb-ebsco.resources.item.put",
           "kb-ebsco.providers.item.put"
@@ -151,6 +157,7 @@
         "displayName": "eHoldings: Can create and delete custom packages and titles",
         "visible": true,
         "subPermissions": [
+          "module.eholdings.enabled",
           "kb-ebsco.packages.collection.post",
           "kb-ebsco.resources.collection.post",
           "kb-ebsco.titles.collection.post",

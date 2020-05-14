@@ -13,6 +13,7 @@ import {
 import { AccordionInteractor } from '@folio/stripes-components/lib/Accordion/tests/interactor';
 
 import TagsAccordion from './tags-accordion';
+import AccessTypesAccordion from './access-types-accordion';
 
 export default @interactor class SearchModal {
   searchType = attribute('data-test-search-form', '[data-test-search-form]')
@@ -28,6 +29,7 @@ export default @interactor class SearchModal {
   sortBy = value('[data-test-eholdings-search-filters="titles"] input[name="sort"]:checked');
   resetSortFilter = clickable('#filter-titles-sort button[icon="times-circle-solid"]');
   tagsSection = new TagsAccordion('[data-test-eholdings-tag-filter]');
+  accessTypesSection = new AccessTypesAccordion('[data-test-eholdings-access-types-filter]');
   sortFilterAccordion = new AccordionInteractor('#filter-packages-sort');
   selectionFilterAccordion = new AccordionInteractor('#filter-packages-selected');
   typeFilterAccordion = new AccordionInteractor('#filter-packages-type');

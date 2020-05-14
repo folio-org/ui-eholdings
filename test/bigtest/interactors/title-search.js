@@ -15,6 +15,7 @@ import {
 import { AccordionInteractor } from '@folio/stripes-components/lib/Accordion/tests/interactor';
 
 import TagsAccordion from './tags-accordion';
+import AccessTypesAccordion from './access-types-accordion';
 
 @interactor class TitleSearchPage {
   fillSearch = fillable('[data-test-search-field] input[name="search"]');
@@ -47,6 +48,7 @@ import TagsAccordion from './tags-accordion';
   hasPreSearchPane = isPresent('[data-test-eholdings-pre-search-pane]');
   clickNewButton = clickable('[data-test-eholdings-search-new-button]');
   tagsSection = new TagsAccordion('[data-test-eholdings-tag-filter]');
+  accessTypesSection = new AccessTypesAccordion('[data-test-eholdings-access-types-filter]');
   sortFilterAccordion = new AccordionInteractor('#filter-titles-sort');
   selectionFilterAccordion = new AccordionInteractor('#filter-titles-selected');
   typeFilterAccordion = new AccordionInteractor('#filter-titles-type');

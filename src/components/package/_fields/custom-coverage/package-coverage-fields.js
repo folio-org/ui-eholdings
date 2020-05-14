@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import { Field } from 'react-final-form';
 import { FieldArray } from 'react-final-form-arrays';
 import {
   FormattedMessage,
   injectIntl,
-  intlShape,
 } from 'react-intl';
 
 import moment from 'moment';
@@ -20,7 +20,7 @@ import {
 
 class PackageCoverageFields extends Component {
   static propTypes = {
-    intl: intlShape,
+    intl: PropTypes.object.isRequired,
   };
 
   validateDateRange = (values) => {

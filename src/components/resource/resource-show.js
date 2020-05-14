@@ -130,8 +130,10 @@ class ResourceShow extends Component {
     const { resourceSelected } = this.state;
 
     const hasEditPermission = stripes.hasPerm('ui-eholdings.records.edit');
+    const hasCreateAndDeletePermission = stripes.hasPerm('ui-eholdings.titles-packages.create-delete');
     const hasSelectionPermission = stripes.hasPerm('ui-eholdings.package-title.select-unselect');
-    const canEdit = hasEditPermission && resourceSelected;
+    const canEdit = (hasEditPermission || hasCreateAndDeletePermission) && resourceSelected;
+    const canSelectAndUnselect = hasSelectionPermission || hasCreateAndDeletePermission;
     const isMenuNeeded = canEdit || hasSelectionPermission;
 
     if (!isMenuNeeded) return null;
@@ -146,7 +148,7 @@ class ResourceShow extends Component {
           >
             <FormattedMessage id="ui-eholdings.actionMenu.edit" />
           </Button>}
-        {hasSelectionPermission && this.renderSelectionButton(onToggle)}
+        {canSelectAndUnselect && this.renderSelectionButton(onToggle)}
       </>
     );
   }

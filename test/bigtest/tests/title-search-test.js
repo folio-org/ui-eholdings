@@ -7,6 +7,8 @@ import TitleSearchPage from '../interactors/title-search';
 describe('TitleSearch', () => {
   setupApplication();
   let titles;
+  let trialAccessType;
+  let subscriptionAccessType;
 
   // Odd indexed items are assigned alternate attributes targeted in specific filtering tests
   beforeEach(function () {
@@ -35,6 +37,13 @@ describe('TitleSearch', () => {
 
     this.server.create('title', {
       name: 'SomethingSomethingWhoa'
+    });
+
+    trialAccessType = this.server.create('access-type', {
+      name: 'Trial',
+    });
+    subscriptionAccessType = this.server.create('access-type', {
+      name: 'Subscription',
     });
 
     this.visit('/eholdings/?searchType=titles');
@@ -66,6 +75,7 @@ describe('TitleSearch', () => {
 
   it('filter accordions should be collapsed by default', () => {
     expect(TitleSearchPage.tagsSection.tagsAccordion.isOpen).to.be.false;
+    expect(TitleSearchPage.accessTypesSection.accessTypesAccordion.isOpen).to.be.false;
     expect(TitleSearchPage.typeFilterAccordion.isOpen).to.be.false;
     expect(TitleSearchPage.sortFilterAccordion.isOpen).to.be.false;
     expect(TitleSearchPage.selectionFilterAccordion.isOpen).to.be.false;
@@ -258,8 +268,8 @@ describe('TitleSearch', () => {
       });
 
       describe('navigating to packages search', () => {
-        beforeEach(() => {
-          return TitleSearchPage.changeSearchType('packages');
+        beforeEach(async () => {
+          await TitleSearchPage.changeSearchType('packages');
         });
 
         it('displays an empty search', () => {
@@ -267,8 +277,8 @@ describe('TitleSearch', () => {
         });
 
         describe('navigating back to titles search', () => {
-          beforeEach(() => {
-            return TitleSearchPage.changeSearchType('titles');
+          beforeEach(async () => {
+            await TitleSearchPage.changeSearchType('titles');
           });
 
           it('reflects the isxn searchfield in the URL query params', function () {
@@ -380,6 +390,38 @@ describe('TitleSearch', () => {
 
       it('should display selected value as urgent', () => {
         expect(TitleSearchPage.tagsSection.tagsSelect.values(0).valLabel).to.equal('urgent');
+      });
+    });
+  });
+
+  describe('visiting the page with an existing access types filter', () => {
+    beforeEach(async function () {
+      await this.visit('/eholdings?searchType=titles&filter[access-type]=Trial');
+    });
+
+    it('displays access types accordion as closed', () => {
+      expect(TitleSearchPage.accessTypesSection.accessTypesAccordion.isOpen).to.equal(false);
+    });
+
+    describe('clicking to open access types accordion', () => {
+      beforeEach(async () => {
+        await TitleSearchPage.accessTypesSection.clickAccessTypesHeader();
+      });
+
+      it('displays access types accordion as expanded', () => {
+        expect(TitleSearchPage.accessTypesSection.accessTypesAccordion.isOpen).to.be.true;
+      });
+
+      it('should display access types multiselect enabled', () => {
+        expect(TitleSearchPage.accessTypesSection.accessTypesMultiselectIsDisabled).to.be.false;
+      });
+
+      it('search by access types checkbox should be checked', () => {
+        expect(TitleSearchPage.accessTypesSection.accessTypesCheckboxIsChecked).to.be.true;
+      });
+
+      it('should display selected value as Trial', () => {
+        expect(TitleSearchPage.accessTypesSection.accessTypesSelect.values(0).valLabel).to.equal('Trial');
       });
     });
   });
@@ -666,6 +708,113 @@ describe('TitleSearch', () => {
 
             it.always('removes the filter from the URL query params', function () {
               expect(this.location.search).to.not.include('filter[tags]');
+            });
+          });
+        });
+      });
+    });
+  });
+
+  describe('filtering title by access types', () => {
+    beforeEach(function () {
+      const trialTitle = this.server.create('title', 'withPackages', {
+        name: 'Test Trial Title',
+      });
+      const subscriptionTitle = this.server.create('title', 'withPackages', {
+        name: 'Test Subscription Title',
+      });
+
+      trialTitle.resources.models[0].accessType = trialAccessType;
+      trialTitle.resources.models[0].save();
+
+      subscriptionTitle.resources.models[0].accessType = subscriptionAccessType;
+      subscriptionTitle.resources.models[0].save();
+    });
+
+    describe('when clicking on access type header', () => {
+      beforeEach(async () => {
+        await TitleSearchPage.accessTypesSection.clickAccessTypesHeader();
+      });
+
+      it('displays access types accordion as expanded', () => {
+        expect(TitleSearchPage.accessTypesSection.accessTypesAccordion.isOpen).to.be.true;
+      });
+
+      it('should display tags multiselect disabled by default', () => {
+        expect(TitleSearchPage.accessTypesSection.accessTypesMultiselectIsDisabled).to.be.true;
+      });
+
+      it('search by tags tags checkbox should be not checked', () => {
+        expect(TitleSearchPage.accessTypesSection.accessTypesCheckboxIsChecked).to.be.false;
+      });
+
+      describe('and search by access types was enabled', () => {
+        beforeEach(async () => {
+          await TitleSearchPage.accessTypesSection.toggleSearchByAccessTypes();
+        });
+
+        it('search field should be disabled', () => {
+          expect(TitleSearchPage.searchFieldIsDisabled).to.be.true;
+        });
+
+        it('should display access types multiselect enabled', () => {
+          expect(TitleSearchPage.accessTypesSection.accessTypesMultiselectIsDisabled).to.be.false;
+        });
+
+        it('search by tags tags checkbox should be checked', () => {
+          expect(TitleSearchPage.accessTypesSection.accessTypesCheckboxIsChecked).to.be.true;
+        });
+
+        describe('after selecting "Trial" access type', () => {
+          beforeEach(async () => {
+            await TitleSearchPage.accessTypesSection.accessTypesSelect.options(0).clickOption();
+          });
+
+          it('should display selected value as "Trial"', () => {
+            expect(TitleSearchPage.accessTypesSection.accessTypesSelect.values(0).valLabel).to.equal('Trial');
+          });
+
+          it('displays titles with access type "Trial"', () => {
+            expect(TitleSearchPage.titleList()).to.have.lengthOf(1);
+            expect(TitleSearchPage.titleList(0).name).to.equal('Test Trial Title');
+          });
+
+          it('should display the clear access type filter button', () => {
+            expect(TitleSearchPage.accessTypesSection.hasClearAccessTypesFilter).to.be.true;
+          });
+
+          describe('after selecting "Subscription" access type', () => {
+            beforeEach(async () => {
+              await TitleSearchPage.accessTypesSection.accessTypesSelect.options(1).clickOption();
+            });
+
+            it('should display selected value as "Subscription"', () => {
+              expect(TitleSearchPage.accessTypesSection.accessTypesSelect.values(0).valLabel).to.equal('Subscription');
+            });
+
+            it('displays titles with access type "Trial" and "Subscription"', () => {
+              expect(TitleSearchPage.titleList()).to.have.lengthOf(2);
+
+              const names = [TitleSearchPage.titleList(0).name, TitleSearchPage.titleList(1).name];
+              expect(names).to.have.members(['Test Trial Title', 'Test Subscription Title']);
+            });
+          });
+
+          describe('clearing the filters', () => {
+            beforeEach(async () => {
+              await TitleSearchPage.accessTypesSection.clearAccessTypesFilter();
+            });
+
+            it('displays access types filter with empty value', () => {
+              expect(TitleSearchPage.accessTypesSection.accessTypesSelect.values()).to.deep.equal([]);
+            });
+
+            it('displays no title results', () => {
+              expect(TitleSearchPage.titleList()).to.have.lengthOf(0);
+            });
+
+            it('removes the filter from the URL query params', function () {
+              expect(this.location.search).to.not.include('filter[access-type]');
             });
           });
         });
