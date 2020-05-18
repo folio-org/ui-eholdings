@@ -4,7 +4,6 @@ import { Field, Form } from 'react-final-form';
 import createFocusDecorator from 'final-form-focus';
 import {
   FormattedMessage,
-  intlShape,
   injectIntl,
 } from 'react-intl';
 import {
@@ -22,7 +21,7 @@ const focusOnErrors = createFocusDecorator();
 class SettingsKnowledgeBase extends Component {
   static propTypes = {
     config: KbCredentials.CredentialShape,
-    intl: intlShape,
+    intl: PropTypes.object.isRequired,
     isCreateMode: PropTypes.bool,
     kbCredentials: KbCredentials.KbCredentialsReduxStateShape,
     onSubmit: PropTypes.func.isRequired,
