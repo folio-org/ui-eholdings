@@ -354,5 +354,21 @@
     "settings.accessStatusTypes.delete.description": "هل أنت متأكد من أنك تريد حذف نوع حالة الوصول {name}؟",
     "settings.accessStatusTypes.delete.cancel": "إلغاء",
     "settings.accessStatusTypes.delete.confirm": "حذف",
-    "settings.accessStatusTypes.delete.toast": "تم حذف نوع حالة الوصول {name}"
+    "settings.accessStatusTypes.delete.toast": "تم حذف نوع حالة الوصول {name}",
+    "label.totalTitles": "إجمالي العناوين: {count}",
+    "selectedCount": "المحدد: {count}",
+    "accessType.select": "اختر نوع حالة الوصول",
+    "accessType.novalue": "لم يتم اختيار نوع حالة الوصول",
+    "label.totalPackages": "إجمالي الحزم: {count}",
+    "accessTypes.filter": "منقح أنواع حالات الوصول",
+    "search.searchByAccessTypesOnly": "بحث بواسطة أنواع حالة الوصول فقط",
+    "settings.accessStatusTypes.validation.duplicate": "نوع مكرر. يرجى المراجعة.",
+    "permission.module.eholdings.enabled": "واجهة االمستخدم: تم تفعيل وحدة المقتنيات الإلكترونية",
+    "permission.eholdings.enabled": "الإعدادت (المقتنيات الإلكترونية): اعرض قائمة بصفحات الإعدادات",
+    "permission.settings.kb": "الإعدادت (المقتنيات الإلكترونية): تهيئة بيانات اعتماد واجهة برمجة تطبيقات EBSCO RM",
+    "permission.settings.root-proxy": "الإعدادت (المقتنيات الإلكترونية): تهيئة إعدادات البروكسي الجذري",
+    "permission.package-title.select-unselect": "المقتنيات الإلكترونية: إمكانية تحديد/إلغاء تحديد الحزم والعناوين إلى المقتنيات ومنها.",
+    "permission.records.edit": "المقتنيات الإلكترونية: إمكانية تحرير تسجيلات تفاصيل مقدمي الخدمة، الحزم، والعناوين.",
+    "permission.titles-packages.create-delete": "المقتنيات الإلكترونية: إمكانية إنشاء وحذف العناوين والحزم المخصصة",
+    "settings.accessStatusTypes.delete.error": "تم حذف نوع حالة الوصول هذا بالفعل"
 }

@@ -9,6 +9,7 @@ import {
   sortBy
 } from 'lodash';
 
+import SafeHTMLMessage from '@folio/react-intl-safe-html';
 import { IntlConsumer } from '@folio/stripes/core';
 import {
   Pane,
@@ -231,7 +232,7 @@ const SettingsAccessStatusTypes = ({
         id="delete-access-status-type-confirmation-modal"
         heading={<FormattedMessage id="ui-eholdings.settings.accessStatusTypes.delete" />}
         message={
-          <FormattedMessage
+          <SafeHTMLMessage
             id="ui-eholdings.settings.accessStatusTypes.delete.description"
             values={{ name: selectedStatusType?.attributes?.name || '' }}
           />
