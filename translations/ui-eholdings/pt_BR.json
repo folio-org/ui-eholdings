@@ -351,7 +351,7 @@
     "settings.accessStatusTypes.records": "Núm. de registros",
     "settings.accessStatusTypes.validation": "Excedido {limit}. Por favor, revise.",
     "settings.accessStatusTypes.delete": "Excluir tipo de status de acesso",
-    "settings.accessStatusTypes.delete.description": "Tem certeza de que deseja excluir o tipo de status de acesso {name}?",
+    "settings.accessStatusTypes.delete.description": "Tem certeza de que deseja excluir o tipo de status de acesso <strong>{name}</strong>?",
     "settings.accessStatusTypes.delete.cancel": "Cancelar",
     "settings.accessStatusTypes.delete.confirm": "Excluir",
     "settings.accessStatusTypes.delete.toast": "O tipo de status de acesso {name} foi excluído.",
