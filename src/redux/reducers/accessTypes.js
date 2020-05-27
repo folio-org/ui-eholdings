@@ -76,7 +76,7 @@ const handlers = {
       isDeleted: true,
       items: {
         ...state.items,
-        data: data.reduce((acc, item) => (item.id !== id ? [...acc, item] : acc), []),
+        data: data.filter(item => item.id !== id),
       },
     };
   },

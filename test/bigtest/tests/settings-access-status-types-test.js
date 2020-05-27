@@ -179,14 +179,11 @@ describe('With list of root proxies available to a customer', () => {
           beforeEach(async () => {
             await SettingsAccessStatusTypesPage.confirmStatusTypeDeleteButton();
           });
+
           it('should display correct error message', () => {
             const expectedErrorText = 'This access status type has already been deleted.';
 
             expect(SettingsAccessStatusTypesPage.errorText).to.be.equal(expectedErrorText);
-          });
-
-          it('should show list of access status types without first item', () => {
-            expect(SettingsAccessStatusTypesPage.accessStatusTypesList().length).to.be.equal(13);
           });
         });
       });

@@ -9,11 +9,12 @@ import {
 describe('(action) deleteAccessTypeSuccess', () => {
   it('should create an action to delete access type success', () => {
     const id = 'id';
+    const credentialId = 'credId';
     const expectedAction = {
       type: DELETE_ACCESS_TYPE_SUCCESS,
-      payload: { id },
+      payload: { id, credentialId },
     };
 
-    expect(deleteAccessTypeSuccess(id)).to.deep.equal(expectedAction);
+    expect(deleteAccessTypeSuccess({ id, credentialId })).to.deep.equal(expectedAction);
   });
 });
