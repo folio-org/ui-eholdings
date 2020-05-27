@@ -6,7 +6,6 @@ import { FieldArray } from 'react-final-form-arrays';
 import {
   FormattedMessage,
   injectIntl,
-  intlShape,
 } from 'react-intl';
 
 import moment from 'moment';
@@ -32,7 +31,7 @@ const COVERAGE_STATEMENT_ON_STATUS = 'on';
 
 class ResourceCoverageFields extends Component {
   static propTypes = {
-    intl: intlShape.isRequired,
+    intl: PropTypes.object.isRequired,
     model: PropTypes.object.isRequired,
   };
 

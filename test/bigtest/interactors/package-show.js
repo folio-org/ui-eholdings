@@ -14,6 +14,7 @@ import {
 
 import AgreementsAccordion from './agreements-accordion';
 import TagsAccordion from './tags-accordion';
+import AccessTypesAccordion from './access-types-accordion';
 import {
   getComputedStyle,
   hasClassBeginningWith,
@@ -91,7 +92,7 @@ import PackageModal from './package-modal';
     isSelected: computed(function () {
       return this.isSelectedLabel === 'Selected';
     }),
-    isHiddenLabel: text('[data-test-eholdings-title-list-item-title-hidden]'),
+    hiddenIndicatorDisplayed: isPresent('[data-test-eholdings-title-list-item-title-hidden]'),
     clickToTitle: clickable()
   });
 
@@ -138,6 +139,7 @@ import PackageModal from './package-modal';
   findAgreementsModalIsVisible = isPresent('[class^="modal"] #list-agreements');
 
   tagsSection = new TagsAccordion('[data-test-eholdings-tag-filter]');
+  accessTypesSection = new AccessTypesAccordion('[data-test-eholdings-access-types-filter]');
 
   selectPackage() {
     return this

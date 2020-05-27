@@ -18,6 +18,8 @@ function SearchPackageListItem({
   packageName,
   onClick,
   headingLevel,
+  showProviderName,
+  showTitleCount,
 }) {
   return !item
     ? (
@@ -48,9 +50,11 @@ function SearchPackageListItem({
           {packageName || item.name}
         </Headline>
 
-        <div data-test-eholdings-package-list-item-provider-name>
-          {item.providerName}
-        </div>
+        {showProviderName &&
+          <div data-test-eholdings-package-list-item-provider-name>
+            {item.providerName}
+          </div>
+        }
 
         <div className={cx('itemMetadata')}>
           <AppIcon
@@ -62,25 +66,30 @@ function SearchPackageListItem({
             })}
           >
             <span data-test-eholdings-package-list-item-selected>
-              {item.isSelected ?
-                (<FormattedMessage
-                  id="ui-eholdings.selectedCount"
-                  values={{
-                    count: <FormattedNumber value={item.selectedCount} />
-                  }}
-                />) :
-                (<FormattedMessage id="ui-eholdings.notSelected" />)}
+              {item.isSelected
+                ? (showTitleCount
+                  ? (<FormattedMessage
+                    id="ui-eholdings.selectedCount"
+                    values={{
+                      count: <FormattedNumber value={item.selectedCount} />
+                    }}
+                  />)
+                  : <FormattedMessage id="ui-eholdings.selected" />)
+                : <FormattedMessage id="ui-eholdings.notSelected" />
+              }
             </span>
           </AppIcon>
 
-          <span>
-            <FormattedMessage
-              id="ui-eholdings.label.totalTitles"
-              values={{
-                count: <span data-test-eholdings-package-list-item-num-titles><FormattedNumber value={item.titleCount} /></span>
-              }}
-            />
-          </span>
+          {showTitleCount &&
+            <span>
+              <FormattedMessage
+                id="ui-eholdings.label.totalTitles"
+                values={{
+                  count: <span data-test-eholdings-package-list-item-num-titles><FormattedNumber value={item.titleCount} /></span>
+                }}
+              />
+            </span>
+          }
 
           {item.visibilityData.isHidden && (
             <Icon
@@ -106,6 +115,13 @@ SearchPackageListItem.propTypes = {
   ]),
   onClick: PropTypes.func,
   packageName: PropTypes.string,
+  showProviderName: PropTypes.bool,
+  showTitleCount: PropTypes.bool,
+};
+
+SearchPackageListItem.defaultProps = {
+  showProviderName: false,
+  showTitleCount: false,
 };
 
 // this HOC adds a prop, `shouldFocus` that will focus the component's

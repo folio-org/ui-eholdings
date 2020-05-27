@@ -91,6 +91,10 @@ describe('PackageShow', () => {
       expect(PackageShowPage.titleList(0).isSelectedLabel).to.equal((resources[0].isSelected ? 'Selected' : 'Not selected'));
     });
 
+    it('displays whether the first title is hidden', () => {
+      expect(PackageShowPage.titleList(0).hiddenIndicatorDisplayed).to.equal((resources[0].visibilityData.isHidden));
+    });
+
     it('should display a back (close) button', () => {
       expect(PackageShowPage.hasBackButton).to.be.true;
     });

@@ -57,6 +57,16 @@ describe('With list of root proxies available to a customer', () => {
         });
       });
 
+      describe('fill access status type name field with duplicate value', () => {
+        beforeEach(async () => {
+          await SettingsAccessStatusTypesPage.accessStatusTypesList(0).nameField.fillAndBlur('my custom type 1');
+        });
+
+        it('should show validation error message', () => {
+          expect(SettingsAccessStatusTypesPage.accessStatusTypesList(0).validationErrorMessage).to.be.equal('Duplicate type. Please revise.');
+        });
+      });
+
       describe('fill description field with unvalid string length', () => {
         beforeEach(async () => {
           await SettingsAccessStatusTypesPage.accessStatusTypesList(0).descriptionField.fillAndBlur((new Array(151)).fill('a').join(''));
@@ -153,6 +163,31 @@ describe('With list of root proxies available to a customer', () => {
 
         it('should show toast message with correct status type name', () => {
           expect(SettingsAccessStatusTypesPage.successText.includes(typeToDelete)).to.be.true;
+        });
+      });
+
+      describe('if access status type does not exist in the back-end', () => {
+        beforeEach(function () {
+          this.server.delete('/access-types/:id', {
+            errors: [{
+              title: 'not found'
+            }]
+          }, 404);
+        });
+
+        describe('when clicking on Delete', () => {
+          beforeEach(async () => {
+            await SettingsAccessStatusTypesPage.confirmStatusTypeDeleteButton();
+          });
+          it('should display correct error message', () => {
+            const expectedErrorText = 'This access status type has already been deleted.';
+
+            expect(SettingsAccessStatusTypesPage.errorText).to.be.equal(expectedErrorText);
+          });
+
+          it('should show list of access status types without first item', () => {
+            expect(SettingsAccessStatusTypesPage.accessStatusTypesList().length).to.be.equal(13);
+          });
         });
       });
     });

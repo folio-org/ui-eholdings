@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { Field } from 'redux-form';
 import {
@@ -9,6 +9,7 @@ import {
   sortBy
 } from 'lodash';
 
+import SafeHTMLMessage from '@folio/react-intl-safe-html';
 import { IntlConsumer } from '@folio/stripes/core';
 import {
   Pane,
@@ -20,6 +21,8 @@ import {
 import { EditableList } from '@folio/stripes/smart-components';
 
 import Toaster from '../../toaster';
+
+import { accessStatusTypeDataShape } from '../../../constants/accessTypesReduxStateShape';
 
 const SettingsAccessStatusTypes = ({
   accessTypesData,
@@ -39,6 +42,29 @@ const SettingsAccessStatusTypes = ({
     attributes,
   });
 
+  useEffect(() => {
+    const errorsLength = accessTypesData.errors.length;
+
+    if (errorsLength) {
+      const lastErrorTitle = accessTypesData.errors[errorsLength - 1].title;
+
+      if (lastErrorTitle.endsWith('not found')) {
+        setToasts(currentToasts => [
+          ...currentToasts,
+          {
+            id: `access-type-delete-failure-${Date.now()}`,
+            message: <FormattedMessage id="ui-eholdings.settings.accessStatusTypes.delete.error" />,
+            type: 'error',
+          }
+        ]);
+
+        setSelectedStatusType(null);
+        setShowConfirmDialog(false);
+      }
+    }
+  }, [accessTypesData.errors]);
+
+
   const formatter = {
     name: ({ attributes }) => (attributes?.name ?? <NoValue />),
     description: ({ attributes }) => (attributes?.description ?? <NoValue />),
@@ -56,7 +82,7 @@ const SettingsAccessStatusTypes = ({
       ) : <NoValue />;
     },
     // records will be done after MODKBEKBJ-378
-    records: () => <NoValue />
+    records: ({ usageNumber }) => usageNumber || <NoValue />
   };
 
   // eslint-disable-next-line react/prop-types
@@ -111,6 +137,10 @@ const SettingsAccessStatusTypes = ({
         id="ui-eholdings.settings.accessStatusTypes.validation"
         values={{ limit: 75 }}
       />;
+    }
+
+    if (value && accessTypesData.items.find(accessType => accessType.attributes.name === value)) {
+      return <FormattedMessage id="ui-eholdings.settings.accessStatusTypes.validation.duplicate" />;
     }
 
     return null;
@@ -194,6 +224,7 @@ const SettingsAccessStatusTypes = ({
             onUpdate={onUpdate}
             readOnlyFields={['lastUpdated', 'records']}
             visibleFields={['name', 'description', 'lastUpdated', 'records']}
+            actionSuppression={{ delete: accessType => accessType.usageNumber, edit: () => false }}
           />
         )}
       </IntlConsumer>
@@ -201,7 +232,7 @@ const SettingsAccessStatusTypes = ({
         id="delete-access-status-type-confirmation-modal"
         heading={<FormattedMessage id="ui-eholdings.settings.accessStatusTypes.delete" />}
         message={
-          <FormattedMessage
+          <SafeHTMLMessage
             id="ui-eholdings.settings.accessStatusTypes.delete.description"
             values={{ name: selectedStatusType?.attributes?.name || '' }}
           />
@@ -222,25 +253,10 @@ const SettingsAccessStatusTypes = ({
 
 SettingsAccessStatusTypes.propTypes = {
   accessTypesData: PropTypes.shape({
+    errors: PropTypes.arrayOf(PropTypes.objectOf(PropTypes.string)).isRequired,
     isDeleted: PropTypes.bool.isRequired,
     isLoading: PropTypes.bool.isRequired,
-    items: PropTypes.arrayOf(PropTypes.shape({
-      attributes: PropTypes.shape({
-        description: PropTypes.string,
-        name: PropTypes.string.isRequired,
-      }).isRequired,
-      creator: PropTypes.objectOf(PropTypes.string),
-      id: PropTypes.string.isRequired,
-      metadata: PropTypes.shape({
-        createdByUserId: PropTypes.string.isRequired,
-        createdByUsername: PropTypes.string.isRequired,
-        createdDate: PropTypes.string.isRequired,
-        updatedByUserId: PropTypes.string,
-        updatedDate: PropTypes.string,
-      }),
-      type: PropTypes.string.isRequired,
-      updater: PropTypes.objectOf(PropTypes.string),
-    })),
+    items: PropTypes.arrayOf(accessStatusTypeDataShape),
   }),
   confirmDelete: PropTypes.func.isRequired,
   onCreate: PropTypes.func.isRequired,

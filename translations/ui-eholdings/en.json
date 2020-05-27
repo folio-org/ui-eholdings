@@ -180,11 +180,13 @@
     "settings.accessStatusTypes.lastUpdated.data": "{date} by {name}",
     "settings.accessStatusTypes.records": "# of records",
     "settings.accessStatusTypes.validation": "Exceeded {limit}. Please revise.",
+    "settings.accessStatusTypes.validation.duplicate": "Duplicate type. Please revise.",
     "settings.accessStatusTypes.delete": "Delete Access status type",
-    "settings.accessStatusTypes.delete.description": "Are you sure you want to delete the access status type {name}?",
+    "settings.accessStatusTypes.delete.description": "Are you sure you want to delete the access status type <strong>{name}</strong>?",
     "settings.accessStatusTypes.delete.cancel": "Cancel",
     "settings.accessStatusTypes.delete.confirm": "Delete",
     "settings.accessStatusTypes.delete.toast": "The access status type {name} has been deleted.",
+    "settings.accessStatusTypes.delete.error": "This access status type has already been deleted.",
     "settings.assignedUsers": "Assigned users",
     "settings.assignedUsers.pluginButtonMessage": "Assign users",
     "settings.assignedUsers.list.name": "Name",
@@ -411,6 +413,13 @@
     "notes.entityType.provider.pluralized": "{count} {count, plural, one {provider} other {providers}}",
     "notes.entityType.package.pluralized": "{count} {count, plural, one {package} other {packages}}",
     "notes.entityType.resource.pluralized": "{count} {count, plural, one {resource} other {resources}}",
-    "notes.entityType.title.pluralized": "{count} {count, plural, one {title} other {titles}}"
+    "notes.entityType.title.pluralized": "{count} {count, plural, one {title} other {titles}}",
 
+    "permission.module.eholdings.enabled": "UI: eHoldings module is enabled",
+    "permission.eholdings.enabled": "Settings (eHoldings): display list of settings pages",
+    "permission.settings.kb": "Settings (eHoldings): configure EBSCO RM API credentials",
+    "permission.settings.root-proxy": "Settings (eHoldings): configure root proxy setting",
+    "permission.package-title.select-unselect": "eHoldings: Can select/unselect packages and titles to/from your holdings",
+    "permission.records.edit": "eHoldings: Can edit providers, packages, titles detail records",
+    "permission.titles-packages.create-delete": "eHoldings: Can create and delete custom packages and titles"
   }

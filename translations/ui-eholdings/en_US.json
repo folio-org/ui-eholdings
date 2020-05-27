@@ -354,5 +354,21 @@
     "settings.accessStatusTypes.delete.description": "Are you sure you want to delete the access status type {name}?",
     "settings.accessStatusTypes.delete.cancel": "Cancel",
     "settings.accessStatusTypes.delete.confirm": "Delete",
-    "settings.accessStatusTypes.delete.toast": "The access status type {name} has been deleted."
+    "settings.accessStatusTypes.delete.toast": "The access status type {name} has been deleted.",
+    "label.totalTitles": "Total titles: {count}",
+    "selectedCount": "Selected: {count}",
+    "accessType.select": "Select an access status type",
+    "accessType.novalue": "No access status type is selected",
+    "label.totalPackages": "Total packages: {count}",
+    "accessTypes.filter": "Access status types filter",
+    "search.searchByAccessTypesOnly": "Search by access status types only",
+    "settings.accessStatusTypes.validation.duplicate": "Duplicate type. Please revise.",
+    "permission.module.eholdings.enabled": "UI: eHoldings module is enabled",
+    "permission.eholdings.enabled": "Settings (eHoldings): display list of settings pages",
+    "permission.settings.kb": "Settings (eHoldings): configure EBSCO RM API credentials",
+    "permission.settings.root-proxy": "Settings (eHoldings): configure root proxy setting",
+    "permission.package-title.select-unselect": "eHoldings: Can select/unselect packages and titles to/from your holdings",
+    "permission.records.edit": "eHoldings: Can edit providers, packages, titles detail records",
+    "permission.titles-packages.create-delete": "eHoldings: Can create and delete custom packages and titles",
+    "settings.accessStatusTypes.delete.error": "This access status type has already been deleted."
 }

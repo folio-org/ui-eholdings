@@ -16,6 +16,7 @@ import TextFieldInteractor from '@folio/stripes-components/lib/TextField/tests/i
   cancelStatusTypeDeleteButton = clickable('[data-test-confirmation-modal-cancel-button]');
   confirmStatusTypeDeleteButton = clickable('[data-test-confirmation-modal-confirm-button]');
   successText = text('[data-test-eholdings-toast="success"]');
+  errorText = text('[data-test-eholdings-toast="error"]');
 
   accessStatusTypesList = collection('[id^="editList-"] [data-row-index]', {
     clickDelete: clickable('[id^="clickable-delete-"]'),

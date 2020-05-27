@@ -26,7 +26,7 @@ import { processErrors } from '../../utilities';
 import { listTypes } from '../../../constants';
 import DetailsView from '../../details-view';
 import ScrollView from '../../scroll-view';
-import PackageListItem from '../../package-list-item';
+import SearchPackageListItem from '../../search-package-list-item';
 import IdentifiersList from '../../identifiers-list';
 import ContributorsList from '../../contributors-list';
 import AddTitleToPackage from '../_field-groups/add-title-to-package';
@@ -35,7 +35,7 @@ import KeyValueColumns from '../../key-value-columns';
 import styles from './title-show.css';
 
 const focusOnErrors = createFocusDecorator();
-const ITEM_HEIGHT = 53;
+const ITEM_HEIGHT = 62;
 
 class TitleShow extends Component {
   static propTypes = {
@@ -260,7 +260,7 @@ class TitleShow extends Component {
               queryListName="title-packages"
             >
               {item => (
-                <PackageListItem
+                <SearchPackageListItem
                   link={`/eholdings/resources/${item.id}`}
                   packageName={item.packageName}
                   item={item}
