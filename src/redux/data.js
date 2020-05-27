@@ -507,15 +507,7 @@ export function epic(action$, { getState }) {
       // if we're querying a set of records, data.params are the
       // parameters needed in the request URL
       if (type === actionTypes.QUERY && Object.keys(data.params).length !== 0) {
-        if (data?.params?.filter?.['access-type']) {
-          const accessTypesParams = data.params.filter['access-type']
-            .split(',')
-            .reduce((acc, accessType, index) => `${acc}${index ? '&' : ''}filter[access-type]=${accessType}`, '');
-
-          url = `${url}?${accessTypesParams}`;
-        } else {
-          url = `${url}?${qs.stringify(data.params)}`;
-        }
+        url = `${url}?${qs.stringify(data.params)}`;
       }
 
       // if we need to include additional resources in the response,

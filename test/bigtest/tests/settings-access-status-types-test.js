@@ -16,7 +16,7 @@ describe('With list of root proxies available to a customer', () => {
 
   describe('when visiting the settings access status types page', () => {
     beforeEach(async function () {
-      this.visit('/settings/eholdings/access-status-types');
+      this.visit('/settings/eholdings/1/access-status-types');
       await wait(1000);
     });
 
@@ -179,14 +179,11 @@ describe('With list of root proxies available to a customer', () => {
           beforeEach(async () => {
             await SettingsAccessStatusTypesPage.confirmStatusTypeDeleteButton();
           });
+
           it('should display correct error message', () => {
             const expectedErrorText = 'This access status type has already been deleted.';
 
             expect(SettingsAccessStatusTypesPage.errorText).to.be.equal(expectedErrorText);
-          });
-
-          it('should show list of access status types without first item', () => {
-            expect(SettingsAccessStatusTypesPage.accessStatusTypesList().length).to.be.equal(13);
           });
         });
       });

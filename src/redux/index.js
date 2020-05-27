@@ -5,6 +5,11 @@ import {
   agreementsApi,
   customLabelsApi,
   accessTypesApi,
+  knowledgeBaseApi,
+  kbCredentialsUsersApi,
+  rootProxyApi,
+  proxyTypesApi,
+  userGroupsApi,
 } from '../api';
 
 import Resolver from './resolver';
@@ -31,6 +36,11 @@ import {
   agreements,
   customLabels,
   accessTypes,
+  kbCredentials,
+  rootProxy,
+  proxyTypes,
+  kbCredentialsUsers,
+  userGroups,
 } from './reducers';
 
 import {
@@ -43,6 +53,17 @@ import {
   createAttachAccessTypeEpic,
   createDeleteAccessTypeEpic,
   createUpdateAccessTypeEpic,
+  createGetKbCredentialsEpic,
+  createPostKbCredentialsEpic,
+  createPutKbCredentialsEpic,
+  createDeleteKbCredentialsEpic,
+  createGetKbCredentialsUsersEpic,
+  createDeleteKbCredentialsUsersEpic,
+  createPostKbCredentialsUserEpic,
+  createGetRootProxyEpic,
+  createUpdateRootProxyEpic,
+  createGetProxyTypesEpic,
+  createGetUserGroupsEpic,
 } from './epics';
 
 export const createResolver = (state) => {
@@ -69,6 +90,11 @@ export const reducer = combineReducers({
       agreements: agreements(currentState.agreements, action),
       customLabels: customLabels(currentState.customLabels, action),
       accessStatusTypes: accessTypes(currentState.accessStatusTypes, action),
+      kbCredentials: kbCredentials(currentState.kbCredentials, action),
+      kbCredentialsUsers: kbCredentialsUsers(currentState.kbCredentialsUsers, action),
+      settingsRootProxy: rootProxy(currentState.settingsRootProxy, action),
+      settingsProxyTypes: proxyTypes(currentState.settingsProxyTypes, action),
+      userGroups: userGroups(currentState.userGroups, action),
     };
   }
 });
@@ -84,4 +110,15 @@ export const epics = combineEpics(
   createAttachAccessTypeEpic({ accessTypesApi }),
   createDeleteAccessTypeEpic({ accessTypesApi }),
   createUpdateAccessTypeEpic({ accessTypesApi }),
+  createGetKbCredentialsEpic({ knowledgeBaseApi }),
+  createPostKbCredentialsEpic({ knowledgeBaseApi }),
+  createPutKbCredentialsEpic({ knowledgeBaseApi }),
+  createDeleteKbCredentialsEpic({ knowledgeBaseApi }),
+  createGetKbCredentialsUsersEpic({ kbCredentialsUsersApi }),
+  createDeleteKbCredentialsUsersEpic({ kbCredentialsUsersApi }),
+  createPostKbCredentialsUserEpic({ kbCredentialsUsersApi }),
+  createGetRootProxyEpic({ rootProxyApi }),
+  createUpdateRootProxyEpic({ rootProxyApi }),
+  createGetProxyTypesEpic({ proxyTypesApi }),
+  createGetUserGroupsEpic({ userGroupsApi }),
 );

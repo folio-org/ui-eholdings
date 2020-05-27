@@ -8,12 +8,17 @@ import {
 
 describe('(action) attachAccessType', () => {
   it('should create an action to attach access type', () => {
-    const payload = 'payload';
+    const accessType = 'payload';
+    const credentialId = '1';
+
     const expectedAction = {
       type: ATTACH_ACCESS_TYPE,
-      payload,
+      payload: {
+        accessType,
+        credentialId,
+      },
     };
 
-    expect(attachAccessType(payload)).to.deep.equal(expectedAction);
+    expect(attachAccessType(accessType, credentialId)).to.deep.equal(expectedAction);
   });
 });

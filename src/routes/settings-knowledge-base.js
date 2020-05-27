@@ -1,38 +1,102 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import ReactRouterPropTypes from 'react-router-prop-types';
 import { TitleManager } from '@folio/stripes/core';
 import { FormattedMessage } from 'react-intl';
 
-import { createResolver } from '../redux';
-import { Configuration } from '../redux/application';
+import {
+  postKBCredentials as postKBCredentialsAction,
+  putKBCredentials as putKBCredentialsAction,
+  confirmPutKBCredentials as confirmPutKBCredentialsAction,
+  confirmPostKBCredentials as confirmPostKBCredentialsAction,
+} from '../redux/actions';
+import { selectPropFromData } from '../redux/selectors';
+import { KbCredentials } from '../constants';
 
 import View from '../components/settings/settings-knowledge-base';
 
 class SettingsKnowledgeBaseRoute extends Component {
   static propTypes = {
-    config: PropTypes.object.isRequired,
-    getBackendConfig: PropTypes.func.isRequired,
-    updateBackendConfig: PropTypes.func.isRequired
+    confirmPostKBCredentials: PropTypes.func.isRequired,
+    confirmPutKBCredentials: PropTypes.func.isRequired,
+    kbCredentials: KbCredentials.KbCredentialsReduxStateShape,
+    location: ReactRouterPropTypes.location.isRequired,
+    match: PropTypes.object.isRequired,
+    postKBCredentials: PropTypes.func.isRequired,
+    putKBCredentials: PropTypes.func.isRequired,
   };
 
-  constructor(props) {
-    super(props);
-    props.getBackendConfig();
+  state = {
+    isCreateMode: this.props.location.pathname === '/settings/eholdings/knowledge-base/new',
   }
 
-  updateConfig = ({ rmapiBaseUrl, customerId, apiKey }) => {
-    const { config, updateBackendConfig } = this.props;
+  componentDidUpdate(prevProps) {
+    const {
+      kbCredentials,
+      confirmPutKBCredentials,
+      confirmPostKBCredentials,
+      location: { pathname }
+    } = this.props;
 
-    config.rmapiBaseUrl = rmapiBaseUrl;
-    config.customerId = customerId;
-    config.apiKey = apiKey;
+    if (prevProps.location.pathname !== pathname) {
+      // eslint-disable-next-line react/no-did-update-set-state
+      this.setState({
+        isCreateMode: pathname === '/settings/eholdings/knowledge-base/new',
+      });
+    }
 
-    updateBackendConfig(config);
+    if (kbCredentials.hasUpdated) {
+      confirmPutKBCredentials();
+    }
+
+    if (kbCredentials.hasSaved) {
+      confirmPostKBCredentials();
+    }
+  }
+
+  getCurrentConfig() {
+    const {
+      kbCredentials: {
+        items,
+        hasSaved,
+      }
+    } = this.props;
+
+    if (this.state.isCreateMode) {
+      return hasSaved ? items[items.length - 1] : { type: 'kbCredentials', attributes: {} };
+    }
+
+    const config = items.find(cred => cred.id === this.props.match.params.kbId);
+
+    return config ? { ...config } : null;
+  }
+
+  updateConfig = ({ url, customerId, apiKey, name }) => {
+    const {
+      postKBCredentials,
+      putKBCredentials
+    } = this.props;
+
+    const config = this.getCurrentConfig();
+
+    config.attributes = {
+      ...config.attributes,
+      url,
+      customerId,
+      apiKey,
+      name,
+    };
+
+    if (this.state.isCreateMode) {
+      postKBCredentials({ data: config });
+    } else {
+      putKBCredentials(config, config.id);
+    }
   };
 
   render() {
-    const { config } = this.props;
+    const { kbCredentials } = this.props;
 
     return (
       <FormattedMessage id="ui-eholdings.label.settings">
@@ -44,8 +108,10 @@ class SettingsKnowledgeBaseRoute extends Component {
                 record={recordLabel}
               >
                 <View
-                  model={config}
+                  kbCredentials={kbCredentials}
+                  config={this.getCurrentConfig()}
                   onSubmit={this.updateConfig}
+                  isCreateMode={this.state.isCreateMode}
                 />
               </TitleManager>
             )}
@@ -57,10 +123,12 @@ class SettingsKnowledgeBaseRoute extends Component {
 }
 
 export default connect(
-  ({ eholdings: { data } }) => ({
-    config: createResolver(data).find('configurations', 'configuration')
+  (store) => ({
+    kbCredentials: selectPropFromData(store, 'kbCredentials'),
   }), {
-    getBackendConfig: () => Configuration.find('configuration'),
-    updateBackendConfig: model => Configuration.save(model)
+    postKBCredentials: postKBCredentialsAction,
+    putKBCredentials: putKBCredentialsAction,
+    confirmPutKBCredentials: confirmPutKBCredentialsAction,
+    confirmPostKBCredentials: confirmPostKBCredentialsAction,
   }
 )(SettingsKnowledgeBaseRoute);

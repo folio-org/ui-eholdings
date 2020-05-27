@@ -8,10 +8,12 @@ import {
 
 describe('(action) getAccessTypes', () => {
   it('should create an action to get access types', () => {
+    const credentialId = '1';
     const expectedAction = {
       type: GET_ACCESS_TYPES,
+      payload: credentialId,
     };
 
-    expect(getAccessTypes()).to.deep.equal(expectedAction);
+    expect(getAccessTypes(credentialId)).to.deep.equal(expectedAction);
   });
 });

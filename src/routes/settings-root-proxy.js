@@ -2,54 +2,74 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import ReactRouterPropTypes from 'react-router-prop-types';
 import { connect } from 'react-redux';
-import isEqual from 'lodash/isEqual';
 import { TitleManager } from '@folio/stripes/core';
 import { FormattedMessage } from 'react-intl';
 
-import { createResolver } from '../redux';
-import { ProxyType, RootProxy } from '../redux/application';
+import {
+  getRootProxy as getRootProxyAction,
+  updateRootProxy as updateRootProxyAction,
+  confirmUpdateRootProxy as confirmUpdateRootProxyAction,
+  getProxyTypes as getProxyTypesAction,
+} from '../redux/actions';
+import { selectPropFromData } from '../redux/selectors';
+import { rootProxy as rootProxyShapes } from '../constants';
 import View from '../components/settings/settings-root-proxy';
 
 class SettingsRootProxyRoute extends Component {
   static propTypes = {
+    confirmUpdateRootProxy: PropTypes.func.isRequired,
     getProxyTypes: PropTypes.func.isRequired,
     getRootProxy: PropTypes.func.isRequired,
     history: ReactRouterPropTypes.history.isRequired,
+    match: ReactRouterPropTypes.match.isRequired,
     proxyTypes: PropTypes.object.isRequired,
-    rootProxy: PropTypes.object.isRequired,
+    rootProxy: rootProxyShapes.RootProxyReduxStateShape.isRequired,
     updateRootProxy: PropTypes.func.isRequired
   };
 
-  constructor(props) {
-    super(props);
-    props.getProxyTypes();
-    props.getRootProxy();
+  componentDidMount() {
+    const { getProxyTypes, getRootProxy, match: { params } } = this.props;
+
+    getProxyTypes(params.kbId);
+    getRootProxy(params.kbId);
   }
 
   componentDidUpdate(prevProps) {
-    const { history, rootProxy } = this.props;
-    const wasPending = prevProps.rootProxy.update.isPending && !rootProxy.update.isPending;
-    const needsUpdate = !isEqual(prevProps.rootProxy, rootProxy);
-    const isRejected = rootProxy.update.isRejected;
+    const {
+      history,
+      rootProxy,
+      confirmUpdateRootProxy,
+      match: { params },
+      getProxyTypes,
+      getRootProxy,
+    } = this.props;
 
-    if (wasPending && needsUpdate && !isRejected) {
+    if (rootProxy.isUpdated) {
       history.push({
-        pathname: '/settings/eholdings/root-proxy',
+        pathname: `/settings/eholdings/${params.kbId}/root-proxy`,
         state: { eholdings: true, isFreshlySaved: true }
       });
+
+      confirmUpdateRootProxy();
+    }
+
+    if (prevProps.match.params.kbId !== params.kbId) {
+      getProxyTypes(params.kbId);
+      getRootProxy(params.kbId);
     }
   }
 
   rootProxySubmitted = (values) => {
-    const { rootProxy, updateRootProxy } = this.props;
+    const { rootProxy, updateRootProxy, match: { params } } = this.props;
 
-    rootProxy.proxyTypeId = values.rootProxyServer;
+    const rootProxyData = rootProxy.data;
+    rootProxyData.attributes.proxyTypeId = values.rootProxyServer;
 
-    updateRootProxy(rootProxy);
+    updateRootProxy(rootProxyData, params.kbId);
   }
 
   render() {
-    const { proxyTypes, rootProxy, history } = this.props;
+    const { proxyTypes, rootProxy } = this.props;
 
     return (
       <FormattedMessage id="ui-eholdings.label.settings">
@@ -64,11 +84,6 @@ class SettingsRootProxyRoute extends Component {
                   proxyTypes={proxyTypes}
                   rootProxy={rootProxy}
                   onSubmit={this.rootProxySubmitted}
-                  isFreshlySaved={
-                    history.action === 'PUSH' &&
-                    history.location.state &&
-                    history.location.state.isFreshlySaved
-                  }
                 />
               </TitleManager>
             )}
@@ -80,12 +95,13 @@ class SettingsRootProxyRoute extends Component {
 }
 
 export default connect(
-  ({ eholdings: { data } }) => ({
-    proxyTypes: createResolver(data).query('proxyTypes'),
-    rootProxy: createResolver(data).find('rootProxies', 'root-proxy')
+  (store) => ({
+    proxyTypes: selectPropFromData(store, 'settingsProxyTypes'),
+    rootProxy: selectPropFromData(store, 'settingsRootProxy'),
   }), {
-    getProxyTypes: () => ProxyType.query(),
-    getRootProxy: () => RootProxy.find('root-proxy'),
-    updateRootProxy: model => RootProxy.save(model)
+    getProxyTypes: getProxyTypesAction,
+    getRootProxy: getRootProxyAction,
+    updateRootProxy: updateRootProxyAction,
+    confirmUpdateRootProxy: confirmUpdateRootProxyAction,
   }
 )(SettingsRootProxyRoute);

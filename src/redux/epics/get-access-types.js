@@ -15,8 +15,8 @@ export default ({ accessTypesApi }) => (action$, store) => {
 
   return action$
     .filter(action => action.type === GET_ACCESS_TYPES)
-    .mergeMap(() => accessTypesApi
-      .getAll(state.okapi)
+    .mergeMap(({ payload: credentialId }) => accessTypesApi
+      .getAll(state.okapi, credentialId)
       .map(response => getAccessTypesSuccess(response))
       .catch(errors => Observable.of(getAccessTypesFailure({ errors }))));
 };

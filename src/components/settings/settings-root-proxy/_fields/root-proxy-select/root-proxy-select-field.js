@@ -7,23 +7,20 @@ import { Select } from '@folio/stripes/components';
 import styles from './root-proxy-select-field.css';
 
 function RootProxySelectField({ proxyTypes }) {
-  const proxyTypesRecords = proxyTypes.resolver.state.proxyTypes.records;
-  const options = [];
-
-  if (proxyTypesRecords) {
-    for (const proxyTypesRecord in proxyTypesRecords) {
-      if (Object.prototype.hasOwnProperty.call(proxyTypesRecords, proxyTypesRecord)) {
-        options.push(
-          <option
-            key={proxyTypesRecords[proxyTypesRecord].attributes.id}
-            value={proxyTypesRecords[proxyTypesRecord].attributes.id}
-          >
-            {proxyTypesRecords[proxyTypesRecord].attributes.name}
-          </option>
-        );
-      }
-    }
+  if (!proxyTypes?.items?.length) {
+    return null;
   }
+
+  const options = proxyTypes.items.map((proxyType) => {
+    return (
+      <option
+        key={proxyType.attributes.id}
+        value={proxyType.attributes.id}
+      >
+        {proxyType.attributes.name}
+      </option>
+    );
+  });
 
   return (
     <div

@@ -5,11 +5,14 @@ import {
 } from './common';
 
 const API_URL = '/eholdings/custom-labels';
+const getApiUrl = (credentialId) => {
+  return credentialId ? `/eholdings/kb-credentials/${credentialId}/custom-labels` : API_URL;
+};
 
 export default {
-  getAll: (okapi) => {
+  getAll: (okapi, credentialId) => {
     const method = 'GET';
-    const url = createUrl(okapi.url, API_URL);
+    const url = createUrl(okapi.url, getApiUrl(credentialId));
 
     const params = {
       method,
@@ -18,9 +21,9 @@ export default {
 
     return doRequest(url, params);
   },
-  updateCustomLabels: (okapi, customLabels) => {
+  updateCustomLabels: (okapi, customLabels, credentialId) => {
     const method = 'PUT';
-    const url = `${okapi.url}${API_URL}`;
+    const url = `${okapi.url}${getApiUrl(credentialId)}`;
 
     const params = {
       method,

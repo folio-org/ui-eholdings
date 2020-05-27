@@ -17,10 +17,10 @@ export default ({ accessTypesApi }) => (action$, store) => {
   return action$
     .filter(action => action.type === ATTACH_ACCESS_TYPE)
     .mergeMap(action => {
-      const { payload: accessType } = action;
+      const { payload: { accessType, credentialId } } = action;
 
       return accessTypesApi
-        .attachAccessType(state.okapi, accessType)
+        .attachAccessType(state.okapi, accessType, credentialId)
         .map(response => {
           attachAccessTypeSuccess();
           return addAccessType(response);
