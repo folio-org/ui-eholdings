@@ -157,9 +157,3 @@ workflows:
       - build:
           requires:
             - checkout-and-install
-      - test-chrome:
-          requires:
-            - checkout-and-install
-      - test-firefox:
-          requires:
-            - checkout-and-install
