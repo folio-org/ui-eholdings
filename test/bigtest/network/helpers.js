@@ -1,5 +1,3 @@
-import queryString from 'qs';
-
 /**
  * Helper Name Compare function used when sorting results (A-Z in ascending order)
  *
