@@ -4,5 +4,4 @@ dist/*
 artifacts
 coverage
 .DS_STORE
-yarn.lock
 /yarn-error.log

@@ -1,4 +1,3 @@
-
 buildNPM {
   publishModDescriptor = 'yes'
   runLint = 'yes'
