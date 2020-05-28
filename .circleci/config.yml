@@ -148,12 +148,3 @@ workflows:
   push:
     jobs:
       - checkout-and-install
-      - eslint:
-          requires:
-            - checkout-and-install
-      - stylelint:
-          requires:
-            - checkout-and-install
-      - build:
-          requires:
-            - checkout-and-install
