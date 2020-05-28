@@ -13,6 +13,7 @@
 * Title Record list of Packages UI updates. (UIEH-863)
 * Ability to create multiple Knowledge base configurations. (UIEH-856)
 * Add a Name field to Settings Knowledge Base page. (UIEH-855)
+* Remove CircleCI configuration
 
 ## [3.0.2] (https://github.com/folio-org/ui-eholdings/tree/v3.0.2) (2020-04-08)
 
