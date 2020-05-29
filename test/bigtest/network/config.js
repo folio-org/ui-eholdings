@@ -1027,7 +1027,7 @@ export default function config() {
 
   this.post('/kb-credentials/:credId/access-types', ({ accessTypes }, request) => {
     const body = JSON.parse(request.requestBody);
-    const { type, attributes, id } = accessTypes.create(body);
+    const { type, attributes, id } = accessTypes.create(body.data);
 
     return { type, attributes, id };
   });

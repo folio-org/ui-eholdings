@@ -168,7 +168,7 @@ describe('With list of root proxies available to a customer', () => {
 
       describe('if access status type does not exist in the back-end', () => {
         beforeEach(function () {
-          this.server.delete('/access-types/:id', {
+          this.server.delete('/kb-credentials/:credId/access-types/:id', {
             errors: [{
               title: 'not found'
             }]

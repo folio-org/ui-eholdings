@@ -199,7 +199,7 @@ export function formatCustomLabelsValues(formValues) {
       return [
         ...acc,
         {
-          type: 'customLabel',
+          type: 'customLabels',
           attributes: {
             displayOnFullTextFinder: formValues[item].displayOnFullTextFinder || false,
             displayOnPublicationFinder: formValues[item].displayOnPublicationFinder || false,
