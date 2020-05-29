@@ -10,6 +10,8 @@ import {
 } from '@folio/stripes/components';
 import Toaster from '../../toaster';
 
+import css from './settings-form.css';
+
 export default class SettingsForm extends Component {
   static propTypes = {
     children: PropTypes.node,
@@ -76,7 +78,11 @@ export default class SettingsForm extends Component {
     } = this.props;
 
     return (
-      <form onSubmit={formState.handleSubmit} {...formProps}>
+      <form
+        className={css.SettingsForm}
+        onSubmit={formState.handleSubmit}
+        {...formProps}
+      >
         <Pane
           paneTitle={title}
           defaultWidth="fill"

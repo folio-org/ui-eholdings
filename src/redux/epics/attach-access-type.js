@@ -20,7 +20,7 @@ export default ({ accessTypesApi }) => (action$, store) => {
       const { payload: { accessType, credentialId } } = action;
 
       return accessTypesApi
-        .attachAccessType(state.okapi, accessType, credentialId)
+        .attachAccessType(state.okapi, { data: accessType }, credentialId)
         .map(response => {
           attachAccessTypeSuccess();
           return addAccessType(response);

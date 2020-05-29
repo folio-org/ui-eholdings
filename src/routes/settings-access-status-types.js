@@ -56,6 +56,7 @@ const SettingsAccessStatusTypesRoute = ({
                   onDelete={deleteAccessType}
                   onUpdate={updateAccessType}
                   confirmDelete={confirmDelete}
+                  kbId={params.kbId}
                 />
               ) : (
                 <Icon

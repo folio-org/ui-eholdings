@@ -48,7 +48,7 @@ export default {
     const params = {
       method,
       headers: getHeaders(method, okapi, url),
-      body: JSON.stringify(pick(accessType, ['type', 'attributes'])),
+      body: JSON.stringify({ data: pick(accessType, ['type', 'attributes']) }),
     };
 
     return doRequest(url, params);

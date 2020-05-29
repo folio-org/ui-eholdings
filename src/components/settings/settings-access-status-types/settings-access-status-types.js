@@ -30,6 +30,7 @@ const SettingsAccessStatusTypes = ({
   onDelete,
   onUpdate,
   confirmDelete,
+  kbId,
 }) => {
   const MAX_ACCESS_STATUS_TYPES_COUNT = 15;
 
@@ -37,10 +38,14 @@ const SettingsAccessStatusTypes = ({
   const [selectedStatusType, setSelectedStatusType] = useState(null);
   const [toasts, setToasts] = useState([]);
 
-  const onCreateItem = ({ attributes }) => onCreate({
-    type: 'accessTypes',
-    attributes,
-  });
+  const onCreateItem = ({ attributes }) => {
+    onCreate({
+      type: 'accessTypes',
+      attributes,
+    }, kbId);
+  };
+
+  const onUpdateItem = (accessType) => onUpdate(accessType, kbId);
 
   useEffect(() => {
     const errorsLength = accessTypesData.errors.length;
@@ -124,7 +129,7 @@ const SettingsAccessStatusTypes = ({
   };
 
   const deleteStatusType = () => {
-    onDelete(selectedStatusType.id);
+    onDelete(selectedStatusType, kbId);
   };
 
   const nameValidation = value => {
@@ -221,7 +226,7 @@ const SettingsAccessStatusTypes = ({
             label={intl.formatMessage({ id: 'ui-eholdings.settings.accessStatusTypes' })}
             onCreate={onCreateItem}
             onDelete={showConfirmDialog}
-            onUpdate={onUpdate}
+            onUpdate={onUpdateItem}
             readOnlyFields={['lastUpdated', 'records']}
             visibleFields={['name', 'description', 'lastUpdated', 'records']}
             actionSuppression={{ delete: accessType => accessType.usageNumber, edit: () => false }}
@@ -259,6 +264,7 @@ SettingsAccessStatusTypes.propTypes = {
     items: PropTypes.arrayOf(accessStatusTypeDataShape),
   }),
   confirmDelete: PropTypes.func.isRequired,
+  kbId: PropTypes.string.isRequired,
   onCreate: PropTypes.func.isRequired,
   onDelete: PropTypes.func.isRequired,
   onUpdate: PropTypes.func.isRequired,

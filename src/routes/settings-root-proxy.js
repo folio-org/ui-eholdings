@@ -62,7 +62,7 @@ class SettingsRootProxyRoute extends Component {
   rootProxySubmitted = (values) => {
     const { rootProxy, updateRootProxy, match: { params } } = this.props;
 
-    const rootProxyData = rootProxy.data;
+    const { credentialsId, ...rootProxyData } = rootProxy.data;
     rootProxyData.attributes.proxyTypeId = values.rootProxyServer;
 
     updateRootProxy(rootProxyData, params.kbId);
