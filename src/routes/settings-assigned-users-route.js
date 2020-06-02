@@ -145,9 +145,12 @@ const SettingsAssignedUsersRoute = ({
     }
   };
 
+  const assignedUsersLoaded = assignedUsers.hasLoaded || assignedUsers.hasFailed;
+  const userGroupsLoaded = userGroups.hasLoaded || userGroups.hasFailed;
+
   return (
     <>
-      {!assignedUsers.isLoading && !userGroups.isLoading
+      {assignedUsersLoaded && userGroupsLoaded
         ? (
           <View
             requestIsPending={assignedUsers.isLoading}
