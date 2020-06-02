@@ -56,7 +56,7 @@ export default class SettingsForm extends Component {
         marginBottom0
         type="submit"
       >
-        <FormattedMessage id="stripes-components.save" />
+        <FormattedMessage id="stripes-core.button.save" />
       </Button>
     );
 
