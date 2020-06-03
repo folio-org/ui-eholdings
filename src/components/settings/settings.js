@@ -95,31 +95,21 @@ class Settings extends Component {
           >
             <div className={css.listSectionContent}>
               <IfPermission perm="ui-eholdings.settings.root-proxy">
-                <NavListItem
-                  to={`/settings/eholdings/${configuration.id}/root-proxy`}
-                  isDisabled={!knowledgeBaseConfigured}
-                >
+                <NavListItem to={`/settings/eholdings/${configuration.id}/root-proxy`}>
                   <FormattedMessage id="ui-eholdings.settings.rootProxy" />
                 </NavListItem>
               </IfPermission>
 
-              <NavListItem
-                to={`/settings/eholdings/${configuration.id}/custom-labels`}
-                isDisabled={!knowledgeBaseConfigured}
-              >
+              <NavListItem to={`/settings/eholdings/${configuration.id}/custom-labels`}>
                 <FormattedMessage id="ui-eholdings.resource.customLabels" />
               </NavListItem>
 
-              <NavListItem
-                to={`/settings/eholdings/${configuration.id}/access-status-types`}
-                isDisabled={!knowledgeBaseConfigured}
-              >
-                <FormattedMessage id="ui-eholdings.settings.accessStatusTypes" />
-              </NavListItem>
-              <NavListItem
-                to={`/settings/eholdings/${configuration.id}/users`}
-                isDisabled={!knowledgeBaseConfigured}
-              >
+              <IfPermission perm="ui-eholdings.settings.access-types.view">
+                <NavListItem to={`/settings/eholdings/${configuration.id}/access-status-types`}>
+                  <FormattedMessage id="ui-eholdings.settings.accessStatusTypes" />
+                </NavListItem>
+              </IfPermission>
+              <NavListItem to={`/settings/eholdings/${configuration.id}/users`}>
                 <FormattedMessage id="ui-eholdings.settings.assignedUsers" />
               </NavListItem>
             </div>

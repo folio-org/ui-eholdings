@@ -2,9 +2,14 @@ import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { FormattedMessage } from 'react-intl';
 import { connect } from 'react-redux';
+import { withRouter } from 'react-router';
+import ReactRouterPropTypes from 'react-router-prop-types';
 
 import { Icon } from '@folio/stripes/components';
-import { TitleManager } from '@folio/stripes/core';
+import {
+  TitleManager,
+  useStripes,
+} from '@folio/stripes/core';
 
 import View from '../components/settings/settings-access-status-types';
 import { selectPropFromData } from '../redux/selectors';
@@ -24,8 +29,14 @@ const SettingsAccessStatusTypesRoute = ({
   updateAccessType,
   confirmDelete,
   match: { params },
+  history,
 }) => {
+  const stripes = useStripes();
   const { items: { data } } = accessTypes;
+
+  if (!stripes.hasPerm('ui-eholdings.settings.access-types.view')) {
+    history.push('/settings/eholdings');
+  }
 
   useEffect(() => {
     if (!data) {
@@ -83,6 +94,7 @@ SettingsAccessStatusTypesRoute.propTypes = {
   confirmDelete: PropTypes.func.isRequired,
   deleteAccessType: PropTypes.func.isRequired,
   getAccessTypes: PropTypes.func.isRequired,
+  history: ReactRouterPropTypes.history.isRequired,
   match: PropTypes.shape({
     params: PropTypes.shape({
       kbId: PropTypes.string.isRequired,
@@ -107,4 +119,4 @@ export default connect(
     updateAccessType: updateAccessTypeAction,
     confirmDelete: confirmDeleteAccessTypeAction,
   }
-)(SettingsAccessStatusTypesRoute);
+)(withRouter(SettingsAccessStatusTypesRoute));
