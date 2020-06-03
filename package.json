@@ -165,6 +165,38 @@
           "kb-ebsco.packages.item.delete",
           "kb-ebsco.resources.item.delete"
         ]
+      },
+      {
+        "permissionName": "ui-eholdings.settings.access-types.view",
+        "displayName": "Settings (eholdings): Can view access status types",
+        "visible": true,
+        "subPermissions": [
+          "settings.eholdings.enabled",
+          "kb-ebsco.kb-credentials.access-types.collection.get",
+          "kb-ebsco.kb-credentials.access-types.item.get"
+        ]
+      },
+      {
+        "permissionName": "ui-eholdings.settings.access-types.create-edit",
+        "displayName": "Settings (eholdings): Can create, edit, and view access status types",
+        "visible": true,
+        "subPermissions": [
+          "settings.eholdings.enabled",
+          "ui-eholdings.settings.access-types.view",
+          "kb-ebsco.kb-credentials.access-types.collection.post",
+          "kb-ebsco.kb-credentials.access-types.item.put"
+        ]
+      },
+      {
+        "permissionName": "ui-eholdings.settings.access-types.all",
+        "displayName": "Settings (eholdings): Can create, edit, view, and delete access status types",
+        "visible": true,
+        "subPermissions": [
+          "settings.eholdings.enabled",
+          "ui-eholdings.settings.access-types.view",
+          "ui-eholdings.settings.access-types.create-edit",
+          "kb-ebsco.kb-credentials.access-types.item.delete"          
+        ]
       }
     ]
   }
