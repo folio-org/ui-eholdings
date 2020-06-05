@@ -10,7 +10,10 @@ import {
 } from 'lodash';
 
 import SafeHTMLMessage from '@folio/react-intl-safe-html';
-import { IntlConsumer } from '@folio/stripes/core';
+import {
+  IntlConsumer,
+  useStripes,
+} from '@folio/stripes/core';
 import {
   Pane,
   PaneCloseLink,
@@ -32,6 +35,8 @@ const SettingsAccessStatusTypes = ({
   confirmDelete,
   kbId,
 }) => {
+  const stripes = useStripes();
+
   const MAX_ACCESS_STATUS_TYPES_COUNT = 15;
 
   const [isConfirmDialogShown, setShowConfirmDialog] = useState(false);
@@ -185,10 +190,18 @@ const SettingsAccessStatusTypes = ({
     ]);
   }
 
+  const canDelete = stripes.hasPerm('ui-eholdings.settings.access-types.all');
+  const canCreateAndEdit = stripes.hasPerm('ui-eholdings.settings.access-types.create-edit');
+
+  const isMaxAccessTypesNumberReached = accessTypesData?.items?.length >= MAX_ACCESS_STATUS_TYPES_COUNT;
+  const isCreateButtonDisabled = isMaxAccessTypesNumberReached || !canCreateAndEdit;
+  const isListEditable = canDelete || canCreateAndEdit;
+
   const actionProps = {
-    create: accessTypesData?.items?.length >= MAX_ACCESS_STATUS_TYPES_COUNT ? () => ({ disabled: true }) : {},
+    create: isCreateButtonDisabled ? () => ({ disabled: true }) : {},
     delete: item => ({ onClick: () => showConfirmDialog(item.id) }),
   };
+
 
   return (
     <Pane
@@ -209,6 +222,7 @@ const SettingsAccessStatusTypes = ({
       <IntlConsumer>
         {intl => (
           <EditableList
+            editable={isListEditable}
             actionProps={actionProps}
             columnMapping={{
               name: intl.formatMessage({ id: 'ui-eholdings.settings.accessStatusTypes.type' }),
@@ -229,7 +243,10 @@ const SettingsAccessStatusTypes = ({
             onUpdate={onUpdateItem}
             readOnlyFields={['lastUpdated', 'records']}
             visibleFields={['name', 'description', 'lastUpdated', 'records']}
-            actionSuppression={{ delete: accessType => accessType.usageNumber, edit: () => false }}
+            actionSuppression={{
+              delete: accessType => accessType.usageNumber || !canDelete,
+              edit: () => !canCreateAndEdit,
+            }}
           />
         )}
       </IntlConsumer>

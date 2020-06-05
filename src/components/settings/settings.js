@@ -17,8 +17,6 @@ import {
   Button,
 } from '@folio/stripes/components';
 
-import { isKnowledgeBaseConfigured } from '../utilities';
-
 import css from './settings.css';
 
 class Settings extends Component {
@@ -84,49 +82,35 @@ class Settings extends Component {
       kbCredentials,
     } = this.props;
 
-    return kbCredentials.map((configuration) => {
-      const knowledgeBaseConfigured = isKnowledgeBaseConfigured(configuration);
-
-      return (
-        <NavList>
-          <NavListSection
-            label={this.renderKnowledgeBaseHeading(configuration)}
-            activeLink={pathname}
-          >
-            <div className={css.listSectionContent}>
-              <IfPermission perm="ui-eholdings.settings.root-proxy">
-                <NavListItem
-                  to={`/settings/eholdings/${configuration.id}/root-proxy`}
-                  isDisabled={!knowledgeBaseConfigured}
-                >
-                  <FormattedMessage id="ui-eholdings.settings.rootProxy" />
-                </NavListItem>
-              </IfPermission>
-
-              <NavListItem
-                to={`/settings/eholdings/${configuration.id}/custom-labels`}
-                isDisabled={!knowledgeBaseConfigured}
-              >
-                <FormattedMessage id="ui-eholdings.resource.customLabels" />
+    return kbCredentials.map((configuration) => (
+      <NavList>
+        <NavListSection
+          label={this.renderKnowledgeBaseHeading(configuration)}
+          activeLink={pathname}
+        >
+          <div className={css.listSectionContent}>
+            <IfPermission perm="ui-eholdings.settings.root-proxy">
+              <NavListItem to={`/settings/eholdings/${configuration.id}/root-proxy`}>
+                <FormattedMessage id="ui-eholdings.settings.rootProxy" />
               </NavListItem>
+            </IfPermission>
 
-              <NavListItem
-                to={`/settings/eholdings/${configuration.id}/access-status-types`}
-                isDisabled={!knowledgeBaseConfigured}
-              >
+            <NavListItem to={`/settings/eholdings/${configuration.id}/custom-labels`}>
+              <FormattedMessage id="ui-eholdings.resource.customLabels" />
+            </NavListItem>
+
+            <IfPermission perm="ui-eholdings.settings.access-types.view">
+              <NavListItem to={`/settings/eholdings/${configuration.id}/access-status-types`}>
                 <FormattedMessage id="ui-eholdings.settings.accessStatusTypes" />
               </NavListItem>
-              <NavListItem
-                to={`/settings/eholdings/${configuration.id}/users`}
-                isDisabled={!knowledgeBaseConfigured}
-              >
-                <FormattedMessage id="ui-eholdings.settings.assignedUsers" />
-              </NavListItem>
-            </div>
-          </NavListSection>
-        </NavList>
-      );
-    });
+            </IfPermission>
+            <NavListItem to={`/settings/eholdings/${configuration.id}/users`}>
+              <FormattedMessage id="ui-eholdings.settings.assignedUsers" />
+            </NavListItem>
+          </div>
+        </NavListSection>
+      </NavList>
+    ));
   }
 
   renderLastMenu() {
