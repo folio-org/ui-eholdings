@@ -213,7 +213,7 @@ class SettingsKnowledgeBase extends Component {
 
                   <div data-test-eholdings-settings-customerid>
                     <FormattedMessage id="ui-eholdings.settings.kb.customerId">
-                      {label => {
+                      {label => (
                         <Field
                           label={label}
                           name="customerId"
@@ -227,7 +227,7 @@ class SettingsKnowledgeBase extends Component {
                           aria-label={label}
                         />
 
-                      }}
+                      )}
                     </FormattedMessage>
                   </div>
 
