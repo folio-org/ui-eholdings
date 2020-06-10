@@ -392,5 +392,8 @@
     "settings.assignedUsers.networkErrorMessage": "Não foi possível concluir esta operação. Por favor, tente novamente.",
     "validate.errors.settings.kb.name": "Campo obrigatório. Por favor, revise.",
     "validate.errors.settings.kb.name.length": "O limite de 255 caracteres foi excedido. Por favor revise.",
-    "server.errors.userNotAssignedToKb": "Não foi possível conceder acesso ao aplicativo eAcervo. Entre em contato com o administrador do sistema FOLIO para conceder acesso."
+    "server.errors.userNotAssignedToKb": "Não foi possível conceder acesso ao aplicativo eAcervo. Entre em contato com o administrador do sistema FOLIO para conceder acesso.",
+    "permission.settings.access-types.all": "Configurações (eAcervo): Pode criar, editar, visualizar e excluir tipos de status de acesso",
+    "permission.settings.access-types.create-edit": "Configurações (eAcervo): Pode criar, editar e visualizar tipos de status de acesso",
+    "permission.settings.access-types.view": "Configurações (eAcervo): Pode ver os tipos de status de acesso"
 }
