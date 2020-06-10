@@ -98,21 +98,29 @@ const SettingsAccessStatusTypes = ({
   // eslint-disable-next-line react/prop-types
   const renderField = ({ fieldIndex, rowIndex, name }, validate) => {
     const dataAttr = { [`data-test-settings-access-type-${name}-field`]: true };
-    const fieldForName = name === 'name';
+    const isNameField = name === 'name';
+    const labelTranslationId = isNameField
+      ? 'ui-eholdings.settings.accessStatusTypes.type'
+      : 'ui-eholdings.settings.accessStatusTypes.description';
 
     return (
       <div
         {...dataAttr}
         key={fieldIndex}
       >
-        <Field
-          component={TextField}
-          name={`items[${rowIndex}].attributes.${name}`}
-          validate={validate}
-          marginBottom0
-          fullWidth
-          autoFocus={fieldForName}
-        />
+        <FormattedMessage id={labelTranslationId}>
+          {label => (
+            <Field
+              component={TextField}
+              name={`items[${rowIndex}].attributes.${name}`}
+              validate={validate}
+              marginBottom0
+              fullWidth
+              autoFocus={isNameField}
+              aria-label={label}
+            />
+          )}
+        </FormattedMessage>
       </div>
     );
   };

@@ -43,26 +43,41 @@ export default class CustomLabelField extends Component {
         key={name}
       >
         <Col xs={4}>
-          <Field
-            autoFocus
-            component={TextField}
-            name={`${name}.displayLabel`}
-            validate={(value, allValues) => this.validateLabel(name, value, allValues)}
-          />
+          <FormattedMessage id="ui-eholdings.settings.customLabels.displayLabel">
+            {label => (
+              <Field
+                autoFocus
+                component={TextField}
+                name={`${name}.displayLabel`}
+                validate={(value, allValues) => this.validateLabel(name, value, allValues)}
+                aria-label={label}
+              />
+            )}
+          </FormattedMessage>
         </Col>
         <Col xs={4}>
-          <Field
-            component={Checkbox}
-            name={`${name}.displayOnPublicationFinder`}
-            type='checkbox'
-          />
+          <FormattedMessage id="ui-eholdings.settings.customLabels.publicationFinder">
+            {label => (
+              <Field
+                component={Checkbox}
+                name={`${name}.displayOnPublicationFinder`}
+                type='checkbox'
+                aria-label={label}
+              />
+            )}
+          </FormattedMessage>
         </Col>
         <Col xs={4}>
-          <Field
-            component={Checkbox}
-            name={`${name}.displayOnFullTextFinder`}
-            type='checkbox'
-          />
+          <FormattedMessage id="ui-eholdings.settings.customLabels.textFinder">
+            {label => (
+              <Field
+                component={Checkbox}
+                name={`${name}.displayOnFullTextFinder`}
+                type='checkbox'
+                aria-label={label}
+              />
+            )}
+          </FormattedMessage>
         </Col>
       </Row>
     );
