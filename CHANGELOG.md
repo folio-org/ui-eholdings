@@ -1,6 +1,6 @@
 # Change history for ui-eholdings
 
-## [4.0.0] (IN PROGRESS)
+## [4.0.0] (https://github.com/folio-org/ui-eholdings/tree/v4.0.0) (2020-06-11)
 
 * Pin `moment` at `~2.24.0`. Refs STRIPES-678.
 * Add filtering of titles by Access Types. (UIEH-834)
@@ -10,9 +10,16 @@
 * Update `stripes` to `v4`
 * Hide delete button when access type is used in records. (UIEH-868)
 * Provider Record list of Packages UI updates. (UIEH-861)
+* Package record list UI updates. (UIEH-862)
 * Title Record list of Packages UI updates. (UIEH-863)
 * Ability to create multiple Knowledge base configurations. (UIEH-856)
 * Add a Name field to Settings Knowledge Base page. (UIEH-855)
+* Apply the default container width to create, edit, view pages. (UIEH-896) 
+* Fix accessibility and semantics issues on the settings page. (UIEH-894, UIEH-895)
+* Fix DetailsView scrolling issues. (UIEH-897)
+* Access status types settings permissions. (UIEH-864)
+* Settings > Access status types > Delete confirmation modal change. (UIEH-872)
+* Handle error when trying to delete access status type that doesn't exist. (UIEH-860)
 
 ## [3.0.2] (https://github.com/folio-org/ui-eholdings/tree/v3.0.2) (2020-04-08)
 
