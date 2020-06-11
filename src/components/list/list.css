@@ -3,7 +3,7 @@
 .list {
   font-size: var(--font-size-small);
   line-height: var(--line-height);
-  max-width: 48rem;
+  max-width: calc(var(--container-max-width) - 2rem);
   margin: 0 auto;
   padding: 0;
 

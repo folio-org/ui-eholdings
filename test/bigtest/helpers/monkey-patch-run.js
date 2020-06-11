@@ -91,6 +91,7 @@ export function convergeOn(assertion, timeout, always) {
           throw new Error('convergent assertion returned `false`');
         } else {
           if (!always && !doLoop) {
+            // eslint-disable-next-line
             console.error(`convergent assertion was successful,
               but exceeded the ${timeout}ms timeout`);
           }

@@ -31,7 +31,7 @@
 .header {
   padding: 0 1rem;
   margin: 3rem auto 1rem auto;
-  max-width: 50rem;
+  max-width: var(--container-max-width);
 
   & h1:focus,
   & h2:focus,
@@ -47,7 +47,7 @@
 
 .body {
   margin: 0 auto;
-  max-width: 50rem;
+  max-width: var(--container-max-width);
   padding: 0 1rem;
 }
 

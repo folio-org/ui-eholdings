@@ -1,6 +1,8 @@
+@import '@folio/stripes-components/lib/variables';
+
 .accordion-list-header {
   margin: 0 auto;
-  max-width: 50rem;
+  max-width: var(--container-max-width);
   width: 100%;
   padding: 0 1rem;
 }

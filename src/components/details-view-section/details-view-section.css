@@ -3,7 +3,7 @@
 .details-view-section {
   border-top: 1px solid var(--minor-divider-color);
   margin: 0 auto;
-  max-width: 50rem;
+  max-width: var(--container-max-width);
   padding: 0.83em 0 1em 0;
 
   &.hide-separator {
@@ -16,5 +16,5 @@
   font-size: var(--font-size-large);
   font-weight: 600;
   margin: 1em auto;
-  max-width: 50rem;
+  max-width: var(--container-max-width);
 }
