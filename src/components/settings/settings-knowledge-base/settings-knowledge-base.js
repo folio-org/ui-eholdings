@@ -185,75 +185,75 @@ class SettingsKnowledgeBase extends Component {
             {kbCredentials.isLoading ? (
               <Icon icon="spinner-ellipsis" />
             ) : (
-                <>
-                  <div data-test-eholdings-settings-kb-name>
-                    <FormattedMessage id="ui-eholdings.name">
-                      {label => (
-                        <Field
-                          name="name"
-                          component={TextField}
-                          label={label}
-                          aria-label={label}
-                          required
-                          validate={this.validateNameField}
-                        />
-                      )}
-                    </FormattedMessage>
-                  </div>
-                  <div data-test-eholdings-settings-kb-url>
-                    <Field
-                      name="url"
-                      component={Select}
-                      label={<FormattedMessage id="ui-eholdings.settings.kb.rmapiBaseUrl" />}
-                    >
-                      <option value="https://sandbox.ebsco.io">Sandbox: https://sandbox.ebsco.io</option>
-                      <option value="https://api.ebsco.io">Production: https://api.ebsco.io</option>
-                    </Field>
-                  </div>
+              <>
+                <div data-test-eholdings-settings-kb-name>
+                  <FormattedMessage id="ui-eholdings.name">
+                    {label => (
+                      <Field
+                        name="name"
+                        component={TextField}
+                        label={label}
+                        aria-label={label}
+                        required
+                        validate={this.validateNameField}
+                      />
+                    )}
+                  </FormattedMessage>
+                </div>
+                <div data-test-eholdings-settings-kb-url>
+                  <Field
+                    name="url"
+                    component={Select}
+                    label={<FormattedMessage id="ui-eholdings.settings.kb.rmapiBaseUrl" />}
+                  >
+                    <option value="https://sandbox.ebsco.io">Sandbox: https://sandbox.ebsco.io</option>
+                    <option value="https://api.ebsco.io">Production: https://api.ebsco.io</option>
+                  </Field>
+                </div>
 
-                  <div data-test-eholdings-settings-customerid>
-                    <FormattedMessage id="ui-eholdings.settings.kb.customerId">
-                      {label => (
-                        <Field
-                          label={label}
-                          name="customerId"
-                          component={TextField}
-                          type="text"
-                          autoComplete="off"
-                          validate={value => (
-                            value ? undefined : <FormattedMessage id="ui-eholdings.validate.errors.settings.customerId" />
-                          )}
-                          required
-                          aria-label={label}
-                        />
+                <div data-test-eholdings-settings-customerid>
+                  <FormattedMessage id="ui-eholdings.settings.kb.customerId">
+                    {label => (
+                      <Field
+                        label={label}
+                        name="customerId"
+                        component={TextField}
+                        type="text"
+                        autoComplete="off"
+                        validate={value => (
+                          value ? undefined : <FormattedMessage id="ui-eholdings.validate.errors.settings.customerId" />
+                        )}
+                        required
+                        aria-label={label}
+                      />
 
-                      )}
-                    </FormattedMessage>
-                  </div>
+                    )}
+                  </FormattedMessage>
+                </div>
 
-                  <div data-test-eholdings-settings-apikey>
-                    <FormattedMessage id="ui-eholdings.settings.kb.apiKey">
-                      {label => (
-                        <Field
-                          label={label}
-                          name="apiKey"
-                          component={TextField}
-                          type="password"
-                          autoComplete="off"
-                          validate={value => (
-                            value ? undefined : <FormattedMessage id="ui-eholdings.validate.errors.settings.apiKey" />
-                          )}
-                          required
-                          aria-label={label}
-                        />
+                <div data-test-eholdings-settings-apikey>
+                  <FormattedMessage id="ui-eholdings.settings.kb.apiKey">
+                    {label => (
+                      <Field
+                        label={label}
+                        name="apiKey"
+                        component={TextField}
+                        type="password"
+                        autoComplete="off"
+                        validate={value => (
+                          value ? undefined : <FormattedMessage id="ui-eholdings.validate.errors.settings.apiKey" />
+                        )}
+                        required
+                        aria-label={label}
+                      />
 
-                      )}
-                    </FormattedMessage>
-                  </div>
+                    )}
+                  </FormattedMessage>
+                </div>
 
-                  <p><FormattedMessage id="ui-eholdings.settings.kb.url.ebsco.customer.message" /></p>
-                </>
-              )}
+                <p><FormattedMessage id="ui-eholdings.settings.kb.url.ebsco.customer.message" /></p>
+              </>
+            )}
 
             {isCreateMode && (
               <NavigationModal
