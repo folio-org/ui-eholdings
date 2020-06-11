@@ -142,7 +142,7 @@ class Settings extends Component {
           data-test-eholdings-settings-pane
           defaultWidth="30%"
           paneTitle={
-            <Headline tag="h3" margin="none">
+            <Headline margin="none">
               <FormattedMessage id="ui-eholdings.meta.title" />
             </Headline>
           }
