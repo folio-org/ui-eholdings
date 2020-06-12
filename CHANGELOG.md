@@ -1,5 +1,9 @@
 # Change history for ui-eholdings
 
+## [4.0.1] (IN PROGRESS)
+
+* Fix missing Access Status Types on records when missing Settings permissions. (UIEH-864)
+
 ## [4.0.0] (https://github.com/folio-org/ui-eholdings/tree/v4.0.0) (2020-06-11)
 
 * Pin `moment` at `~2.24.0`. Refs STRIPES-678.

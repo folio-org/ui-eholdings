@@ -171,9 +171,7 @@
         "displayName": "Settings (eholdings): Can view access status types",
         "visible": true,
         "subPermissions": [
-          "settings.eholdings.enabled",
-          "kb-ebsco.kb-credentials.access-types.collection.get",
-          "kb-ebsco.kb-credentials.access-types.item.get"
+          "settings.eholdings.enabled"
         ]
       },
       {
