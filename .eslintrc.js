@@ -27,5 +27,13 @@ module.exports = {
     "react/destructuring-assignment": "off",
     "react/sort-prop-types": ["error"],
     "no-unused-vars": ["error", { "ignoreRestSiblings": true }]
-  }
+  },
+  overrides: [
+    {
+      files: ['*-test.js'],
+      rules: {
+        'no-unused-expressions': "off"
+      }
+    }
+  ]
 };
