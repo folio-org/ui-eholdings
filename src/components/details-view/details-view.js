@@ -21,6 +21,8 @@ import styles from './details-view.css';
 
 const cx = classNames.bind(styles);
 
+const ITEM_HEIGHT = 62;
+
 /**
  * This component will render a details view which includes the type
  * of resource and resource name, along with some body content, and an
@@ -140,6 +142,7 @@ class DetailsView extends Component {
    * the list's "sticky" behavior
    */
   handleScroll = e => {
+    const { resultsLength } = this.props;
     const { isSticky } = this.state;
 
     // bail if we shouldn't handle scrolling
@@ -163,8 +166,12 @@ class DetailsView extends Component {
       // these will be equal when scrolled all the way down
       const bottomedOut = Math.abs(scrollHeight - (top + height)) < 1;
 
+      const listContainerHeight = this.$list.offsetHeight;
+      const actualListItemsHeight = resultsLength * ITEM_HEIGHT;
+      const isListScrollbarNeeded = actualListItemsHeight > listContainerHeight;
+
       // if bottoming out, enable isSticky
-      if (bottomedOut && !isSticky) {
+      if (bottomedOut && !isSticky && isListScrollbarNeeded) {
         this.setState({ isSticky: true });
         // if not bottomed out, disable isSticky
       } else if (!bottomedOut && isSticky) {
@@ -233,18 +240,14 @@ class DetailsView extends Component {
     );
   }
 
-  render() {
+  renderItemData() {
     const {
       type,
-      model,
       bodyContent,
       listType,
       renderList,
       paneTitle,
       paneSub,
-      actionMenu,
-      lastMenu,
-      footer,
       resultsLength,
       searchModal,
       sections,
@@ -256,12 +259,116 @@ class DetailsView extends Component {
 
     const { isSticky } = this.state;
 
+    const isListAccordionOpen = sections && sections[listSectionId];
+
+    return (
+      <>
+        <div key="header" className={styles.header}>
+          <Headline
+            size="xx-large"
+            tag="h2"
+            margin="none"
+            tabIndex={-1}
+            ref={this.$heading}
+            data-test-eholdings-details-view-name={type}
+          >
+            {paneTitle}
+          </Headline>
+          {paneSub && (
+            <Headline
+              bold={false}
+              faded
+              size="large"
+              tag="div"
+            >
+              {paneSub}
+            </Headline>
+          )}
+          {sections && (
+            <div data-test-eholdings-details-view-collapse-all-button>
+              <ExpandAllButton
+                accordionStatus={sections}
+                onToggle={handleExpandAll}
+                className={styles.expandAll}
+              />
+            </div>
+          )}
+        </div>,
+        <div role={ariaRole}>
+          <div key="body" className={styles.body}>
+            {bodyContent}
+          </div>
+          {!!renderList && (
+            <div
+              ref={(n) => { this.$sticky = n; }}
+              className={styles.sticky}
+              data-test-eholdings-details-view-list={type}
+            >
+              <Measure onResize={this.handleLayout}>
+                {({ measureRef }) => (
+                  <Accordion
+                    separator={!isSticky}
+                    header={AccordionListHeader}
+                    label={(
+                      <Headline
+                        size="large"
+                        tag="h3"
+                      >
+                        <FormattedMessage id={`ui-eholdings.listType.${listType}`} />
+                      </Headline>
+                    )}
+                    displayWhenOpen={searchModal}
+                    resultsLength={resultsLength}
+                    contentRef={(n) => { this.$list = n; measureRef(n); }}
+                    open={isListAccordionOpen}
+                    id={listSectionId}
+                    onToggle={onListToggle}
+                    listType={listType}
+                  >
+                    {renderList(isSticky)}
+                  </Accordion>
+                )}
+              </Measure>
+            </div>
+          )}
+        </div>
+      </>
+    );
+  }
+
+  indicateItemIsNotLoaded() {
+    const {
+      type,
+      model: { request },
+    } = this.props;
+
+    return request.isRejected
+      ? (
+        <p data-test-eholdings-details-view-error={type}>
+          {request.errors[0].title}
+        </p>
+      )
+      : <Icon icon="spinner-ellipsis" />;
+  }
+
+  render() {
+    const {
+      type,
+      model,
+      paneTitle,
+      paneSub,
+      actionMenu,
+      lastMenu,
+      footer,
+    } = this.props;
+
+    const { isSticky } = this.state;
+
     const containerClassName = cx('container', {
       locked: isSticky,
       hasFooter: !!footer,
     });
 
-    const isListAccordionOpen = sections && sections[listSectionId];
 
     return (
       <div data-test-eholdings-details-view={type}>
@@ -288,83 +395,10 @@ class DetailsView extends Component {
               onWheel={this.handleWheel}
               data-test-eholdings-detail-pane-contents
             >
-              {model.isLoaded ? [
-                <div key="header" className={styles.header}>
-                  <Headline
-                    size="xx-large"
-                    tag="h2"
-                    margin="none"
-                    tabIndex={-1}
-                    ref={this.$heading}
-                    data-test-eholdings-details-view-name={type}
-                  >
-                    {paneTitle}
-                  </Headline>
-                  {paneSub && (
-                    <Headline
-                      bold={false}
-                      faded
-                      size="large"
-                      tag="div"
-                    >
-                      {paneSub}
-                    </Headline>
-                  )}
-                  {sections && (
-                    <div data-test-eholdings-details-view-collapse-all-button>
-                      <ExpandAllButton
-                        accordionStatus={sections}
-                        onToggle={handleExpandAll}
-                        className={styles.expandAll}
-                      />
-                    </div>
-                  )}
-                </div>,
-                <div role={ariaRole}>
-                  <div key="body" className={styles.body}>
-                    {bodyContent}
-                  </div>
-                  {!!renderList && (
-                    <div
-                      ref={(n) => { this.$sticky = n; }}
-                      className={styles.sticky}
-                      data-test-eholdings-details-view-list={type}
-                    >
-                      <Measure onResize={this.handleLayout}>
-                        {({ measureRef }) => (
-                          <Accordion
-                            separator={!isSticky}
-                            header={AccordionListHeader}
-                            label={(
-                              <Headline
-                                size="large"
-                                tag="h3"
-                              >
-                                <FormattedMessage id={`ui-eholdings.listType.${listType}`} />
-                              </Headline>
-                            )}
-                            displayWhenOpen={searchModal}
-                            resultsLength={resultsLength}
-                            contentRef={(n) => { this.$list = n; measureRef(n); }}
-                            open={isListAccordionOpen}
-                            id={listSectionId}
-                            onToggle={onListToggle}
-                            listType={listType}
-                          >
-                            {renderList(isSticky)}
-                          </Accordion>
-                        )}
-                      </Measure>
-                    </div>
-                  )}
-                </div>
-              ] : model.request.isRejected ? (
-                <p data-test-eholdings-details-view-error={type}>
-                  {model.request.errors[0].title}
-                </p>
-              ) : (
-                <Icon icon="spinner-ellipsis" />
-              )}
+              {model.isLoaded
+                ? this.renderItemData()
+                : this.indicateItemIsNotLoaded()
+              }
             </div>
           </Pane>
         </Paneset>
