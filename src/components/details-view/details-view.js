@@ -21,6 +21,8 @@ import styles from './details-view.css';
 
 const cx = classNames.bind(styles);
 
+const ITEM_HEIGHT = 62;
+
 /**
  * This component will render a details view which includes the type
  * of resource and resource name, along with some body content, and an
@@ -140,6 +142,7 @@ class DetailsView extends Component {
    * the list's "sticky" behavior
    */
   handleScroll = e => {
+    const { resultsLength } = this.props;
     const { isSticky } = this.state;
 
     // bail if we shouldn't handle scrolling
@@ -163,8 +166,12 @@ class DetailsView extends Component {
       // these will be equal when scrolled all the way down
       const bottomedOut = Math.abs(scrollHeight - (top + height)) < 1;
 
+      const listContainerHeight = this.$list.offsetHeight;
+      const actualListItemsHeight = resultsLength * ITEM_HEIGHT;
+      const isListScrollbarNeeded = actualListItemsHeight > listContainerHeight;
+
       // if bottoming out, enable isSticky
-      if (bottomedOut && !isSticky) {
+      if (bottomedOut && !isSticky && isListScrollbarNeeded) {
         this.setState({ isSticky: true });
         // if not bottomed out, disable isSticky
       } else if (!bottomedOut && isSticky) {
@@ -363,8 +370,8 @@ class DetailsView extends Component {
                   {model.request.errors[0].title}
                 </p>
               ) : (
-                <Icon icon="spinner-ellipsis" />
-              )}
+                    <Icon icon="spinner-ellipsis" />
+                  )}
             </div>
           </Pane>
         </Paneset>
