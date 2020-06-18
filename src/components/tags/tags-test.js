@@ -22,7 +22,7 @@ const baseProps = {
   updateEntityTags: () => { },
 };
 
-describe.only('enzyme tests', () => {
+describe('enzyme tests', () => {
   it('should render the root element', () => {
     const wrapper = shallow(<Tags {...baseProps} />);
 
