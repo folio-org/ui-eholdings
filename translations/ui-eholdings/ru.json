@@ -113,7 +113,7 @@
     "settings.kb": "База знаний",
     "settings.kb.rmApiCreds": "EBSCO RM API credentials",
     "settings.kb.customerId": "Customer ID",
-    "settings.kb.apiKey": "API Key",
+    "settings.kb.apiKey": "Ключ API",
     "settings.rootProxy": "Root proxy",
     "settings.rootProxy.updated": "Root proxy updated",
     "settings.rootProxy.setting": "Root proxy setting",
