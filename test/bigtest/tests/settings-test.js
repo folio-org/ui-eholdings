@@ -8,7 +8,6 @@ import { expect } from 'chai';
 import setupApplication from '../helpers/setup-application';
 import Settings from '../interactors/settings';
 
-
 describe('Settings', () => {
   setupApplication();
 
@@ -44,13 +43,19 @@ describe('Settings', () => {
       expect(Settings.configurationNavigationList().length).to.equal(3);
     });
 
+    it('should display Knowledge Base configurations in alphabetical order', () => {
+      const names = Settings.configurationNavigationList().map(kbCredential => kbCredential.name);
+
+      expect(names).to.deep.equal(['Alpha', 'Beta', 'Gamma']);
+    });
+
     describe('when clicking on configuration heading', () => {
       beforeEach(async () => {
         await Settings.configurationNavigationList(0).clickHeading();
       });
 
       it('should redirect to Knowledge Base configuration page', function () {
-        expect(this.location.pathname).to.equal('/settings/eholdings/knowledge-base/1');
+        expect(this.location.pathname).to.equal('/settings/eholdings/knowledge-base/2');
       });
     });
 
