@@ -804,7 +804,7 @@ export default function config() {
         'id': '1',
         'type': 'credentials',
         'attributes': {
-          'name': '111111111',
+          'name': 'Beta',
           'apiKey': '',
           'url': '',
           'customerId': ''
@@ -822,7 +822,7 @@ export default function config() {
         'id': '2',
         'type': 'credentials',
         'attributes': {
-          'name': '2222222',
+          'name': 'Alpha',
           'apiKey': 'XXXX',
           'url': 'YYYY',
           'customerId': 'ZZZZ'
@@ -840,7 +840,7 @@ export default function config() {
         'id': '3',
         'type': 'credentials',
         'attributes': {
-          'name': '333333333',
+          'name': 'Gamma',
           'apiKey': 'XXXX',
           'url': 'YYYY',
           'customerId': 'ZZZZ'
