@@ -15,12 +15,6 @@ import {
 } from './common';
 
 export default ({ agreementsApi }) => (action$, store) => {
-  const {
-    getState,
-  } = store;
-
-  const state = getState();
-
   return action$
     .filter(action => action.type === ATTACH_AGREEMENT)
     .mergeMap(action => {
@@ -29,7 +23,7 @@ export default ({ agreementsApi }) => (action$, store) => {
       } = action;
 
       return agreementsApi
-        .attachAgreement(state.okapi, agreement)
+        .attachAgreement(store.getState().okapi, agreement)
         .map((currentAgreement) => {
           attachAgreementSuccess();
           return addAgreement(pickAgreementProps(currentAgreement));

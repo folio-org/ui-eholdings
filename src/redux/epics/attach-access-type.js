@@ -11,16 +11,13 @@ import {
 } from '../actions';
 
 export default ({ accessTypesApi }) => (action$, store) => {
-  const { getState } = store;
-  const state = getState();
-
   return action$
     .filter(action => action.type === ATTACH_ACCESS_TYPE)
     .mergeMap(action => {
       const { payload: { accessType, credentialId } } = action;
 
       return accessTypesApi
-        .attachAccessType(state.okapi, { data: accessType }, credentialId)
+        .attachAccessType(store.getState().okapi, { data: accessType }, credentialId)
         .map(response => {
           attachAccessTypeSuccess();
           return addAccessType(response);
