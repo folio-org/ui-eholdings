@@ -116,8 +116,10 @@ class SearchForm extends Component {
   };
 
   handleStandaloneFilterChange = filter => {
+    const formattedValues = filter.name === 'access-type' ? filter.values : filter.values.join(',');
+
     const formattedFilter = {
-      [filter.name]: filter.values.join(',') || undefined,
+      [filter.name]: formattedValues || undefined,
     };
     this.props.onStandaloneFilterChange(formattedFilter);
   };
@@ -277,7 +279,8 @@ class SearchForm extends Component {
     } = this.state;
 
     const accessTypesList = accessTypes
-      ? accessTypes.split(',')
+      ? Array.isArray(accessTypes) ? accessTypes
+        : accessTypes.split(',')
       : [];
 
     accessTypesList.sort();

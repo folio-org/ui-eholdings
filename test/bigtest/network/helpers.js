@@ -1,3 +1,5 @@
+import queryString from 'qs';
+
 /**
  * Helper Name Compare function used when sorting results (A-Z in ascending order)
  *
@@ -158,3 +160,17 @@ export function nestedResourceRouteFor(foreignKey, resourceType, filter = () => 
     return json;
   };
 }
+
+/**
+ * Helper for extracting array of Access Types from filter query string
+ * in format 'filter[access-type]=Trial&filter[access-type]=Subscription
+ * @param {String} query - query part of url without '?'
+ * @returns {Array} array of Access Types
+ */
+export const getAccessTypesFromQueryString = (query) => {
+  const parsedQuery = queryString.parse(query, { ignoreQueryPrefix: true });
+
+  const accessTypes = parsedQuery.filter?.['access-type'] || [];
+
+  return Array.isArray(accessTypes) ? accessTypes : [accessTypes];
+};
