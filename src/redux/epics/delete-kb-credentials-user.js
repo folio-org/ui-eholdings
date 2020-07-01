@@ -10,17 +10,13 @@ import {
 } from '../actions';
 
 export default ({ kbCredentialsUsersApi }) => (action$, store) => {
-  const { getState } = store;
-
-  const state = getState();
-
   return action$
     .filter(action => action.type === DELETE_KB_CREDENTIALS_USER)
     .mergeMap(({ payload }) => {
       const { credentialsId, userId } = payload;
 
       return kbCredentialsUsersApi
-        .unassignUser(state.okapi, credentialsId, userId)
+        .unassignUser(store.getState().okapi, credentialsId, userId)
         .map(() => deleteKBCredentialsUserSuccess(userId))
         .catch(errors => Observable.of(deleteKBCredentialsUserFailure({ errors })));
     });

@@ -10,16 +10,13 @@ import {
 } from '../actions';
 
 export default ({ accessTypesApi }) => (action$, store) => {
-  const { getState } = store;
-  const state = getState();
-
   return action$
     .filter(action => action.type === UPDATE_ACCESS_TYPE)
     .mergeMap(action => {
       const { payload: { accessType, credentialId } } = action;
 
       return accessTypesApi
-        .updateAccessType(state.okapi, accessType, credentialId)
+        .updateAccessType(store.getState().okapi, accessType, credentialId)
         .map(() => updateAccessTypeSuccess(accessType))
         .catch(errors => Observable.of(updateAccessTypeFailure({ errors })));
     });

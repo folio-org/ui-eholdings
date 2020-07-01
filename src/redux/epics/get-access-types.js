@@ -10,13 +10,10 @@ import {
 } from '../actions';
 
 export default ({ accessTypesApi }) => (action$, store) => {
-  const { getState } = store;
-  const state = getState();
-
   return action$
     .filter(action => action.type === GET_ACCESS_TYPES)
     .mergeMap(({ payload: credentialId }) => accessTypesApi
-      .getAll(state.okapi, credentialId)
+      .getAll(store.getState().okapi, credentialId)
       .map(response => getAccessTypesSuccess(response))
       .catch(errors => Observable.of(getAccessTypesFailure({ errors }))));
 };
