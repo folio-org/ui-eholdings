@@ -31,6 +31,13 @@ import SettingsAssignedUsersRoute from './routes/settings-assigned-users-route';
 
 class EHoldings extends Component {
   static propTypes = {
+    history: PropTypes.shape({
+      replace: PropTypes.func.isRequired,
+    }).isRequired,
+    location: PropTypes.shape({
+      pathname: PropTypes.string.isRequired,
+      search: PropTypes.string.isRequired,
+    }),
     match: PropTypes.shape({
       path: PropTypes.string.isRequired
     }).isRequired,
@@ -45,6 +52,20 @@ class EHoldings extends Component {
     super(props);
     props.root.addReducer('eholdings', reducer);
     props.root.addEpic('eholdings', epics);
+  }
+
+  componentDidMount() {
+    const {
+      history,
+      location: {
+        pathname,
+        search,
+      },
+    } = this.props;
+
+    const currentURL = `${pathname}${search}`;
+
+    history.replace(currentURL, {});
   }
 
   render() {
