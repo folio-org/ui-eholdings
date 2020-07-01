@@ -618,4 +618,22 @@ describe('PackageShow', () => {
       expect(PackageShowPage.hasErrors).to.be.true;
     });
   });
+
+  describe('when visiting a package from outside of the eholdings app and providign search query and filters data', () => {
+    beforeEach(function () {
+      this.visit('/settings');
+      this.visit(`/eholdings/packages/${providerPackage.id}?searchType=packages&q=a`);
+    });
+
+    describe('and clicking the X button', () => {
+      beforeEach(async () => {
+        await PackageShowPage.clickBackButton();
+      });
+
+      it('should redirect to package search page and apply correct filters', function () {
+        expect(this.location.pathname).to.equal('/eholdings');
+        expect(this.location.search).to.equal('?searchType=packages&q=a');
+      });
+    });
+  });
 });
