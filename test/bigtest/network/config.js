@@ -1,6 +1,11 @@
 import { Response } from '@bigtest/mirage';
 import { random } from 'faker';
-import { searchRouteFor, nestedResourceRouteFor, includesWords } from './helpers';
+import {
+  searchRouteFor,
+  nestedResourceRouteFor,
+  includesWords,
+  getAccessTypesFromQueryString,
+} from './helpers';
 
 
 // typical mirage config export
@@ -358,7 +363,7 @@ export default function config() {
     const selected = params['filter[selected]'];
     const custom = params['filter[custom]'];
     const tags = params['filter[tags]'];
-    const accessTypes = params['filter[access-type]'];
+    const accessTypes = getAccessTypesFromQueryString(req.url.split('?')[1]);
 
     let filtered = true;
 
@@ -366,10 +371,10 @@ export default function config() {
       return tags.split(',').some(item => pkg.tags.tagList.includes(item));
     }
 
-    if (accessTypes) {
+    if (accessTypes.length) {
       const serverAccessTypes = JSON.parse(JSON.stringify(this.schema.accessTypes.all().models));
 
-      return accessTypes.split(',').some(filterAccessType => {
+      return accessTypes.some(filterAccessType => {
         return serverAccessTypes.some(serverAccessType => {
           return serverAccessType.name === filterAccessType && serverAccessType.packageIds.includes(pkg.id);
         });
@@ -493,7 +498,7 @@ export default function config() {
     const subject = params['filter[subject]'];
     const publisher = params['filter[publisher]'];
     const tags = params['filter[tags]'];
-    const accessTypes = params['filter[access-type]'];
+    const accessTypes = getAccessTypesFromQueryString(req.url.split('?')[1]);
     let filtered = true;
 
     if (tags) {
@@ -502,8 +507,8 @@ export default function config() {
       });
     }
 
-    if (accessTypes) {
-      return accessTypes.split(',').some(accessType => {
+    if (accessTypes.length) {
+      return accessTypes.some(accessType => {
         return title.resources.models.some((resource) => resource.accessType?.attrs?.name === accessType);
       });
     }
@@ -576,15 +581,15 @@ export default function config() {
     const subject = params['filter[subject]'];
     const publisher = params['filter[publisher]'];
     const tags = params['filter[tags]'];
-    const accessTypes = params['filter[access-type]'];
+    const accessTypes = getAccessTypesFromQueryString(req.url.split('?')[1]);
     let filtered = true;
 
     if (tags) {
       return tags.split(',').some(item => title.tags.tagList.includes(item));
     }
 
-    if (accessTypes) {
-      return accessTypes.split(',').some(item => resource.accessType?.attrs?.name === item);
+    if (accessTypes.length) {
+      return accessTypes.some(item => resource.accessType?.attrs?.name === item);
     }
 
     if (name) {

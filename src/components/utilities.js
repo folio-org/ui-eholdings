@@ -48,7 +48,10 @@ export function isValidCoverageList(coverageArray) {
 // the same options every time.
 export const qs = {
   parse: path => queryString.parse(path, { ignoreQueryPrefix: true }),
-  stringify: params => queryString.stringify(params, { encodeValuesOnly: true })
+  stringify: params => queryString.stringify(params, {
+    encodeValuesOnly: true,
+    indices: false,
+  }),
 };
 
 export const processErrors = ({ request, update, destroy }) => {
