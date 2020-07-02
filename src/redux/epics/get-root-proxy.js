@@ -10,12 +10,6 @@ import {
 } from '../actions';
 
 export default ({ rootProxyApi }) => (action$, store) => {
-  const {
-    getState,
-  } = store;
-
-  const state = getState();
-
   return action$
     .filter(action => action.type === GET_ROOT_PROXY)
     .mergeMap(action => {
@@ -24,7 +18,7 @@ export default ({ rootProxyApi }) => (action$, store) => {
       } = action;
 
       return rootProxyApi
-        .get(state.okapi, credentialId)
+        .get(store.getState().okapi, credentialId)
         .map(response => getRootProxySuccess(response))
         .catch(errors => Observable.of(getRootProxyFailure({ errors })));
     });
