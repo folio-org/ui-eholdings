@@ -1,5 +1,12 @@
 # Change history for ui-eholdings
 
+## [4.0.1] (IN PROGRESS)
+
+* Fix KB credentials list shown not in alphabetical order. (UIEH-912)
+* Fix incorrect x-okapi-token sent after re-logging in eHoldings. (UIEH-918)
+* Fix filter by Access Types request incorrectly formatted. (UIEH-917)
+* Fix routing issues. (UIEH-916)
+
 ## [4.0.0] (https://github.com/folio-org/ui-eholdings/tree/v4.0.0) (2020-06-11)
 
 * Pin `moment` at `~2.24.0`. Refs STRIPES-678.
@@ -14,7 +21,7 @@
 * Title Record list of Packages UI updates. (UIEH-863)
 * Ability to create multiple Knowledge base configurations. (UIEH-856)
 * Add a Name field to Settings Knowledge Base page. (UIEH-855)
-* Apply the default container width to create, edit, view pages. (UIEH-896) 
+* Apply the default container width to create, edit, view pages. (UIEH-896)
 * Fix accessibility and semantics issues on the settings page. (UIEH-894, UIEH-895)
 * Fix DetailsView scrolling issues. (UIEH-897)
 * Access status types settings permissions. (UIEH-864)
@@ -119,7 +126,7 @@
 * Provider/Package/Resource: Create a note page (UIEH-693)
 * Title: Remove Tags functionality (UIEH-685)
 * Notes accordion for package show page (UIEH-691)
-* Create note page (UIEH-693) 
+* Create note page (UIEH-693)
 
 ## [1.6.0](https://github.com/folio-org/ui-eholdings/tree/v1.6.0) (2019-05-10)
 

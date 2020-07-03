@@ -10,14 +10,10 @@ import {
 } from '../actions';
 
 export default ({ userGroupsApi }) => (action$, store) => {
-  const { getState } = store;
-
-  const state = getState();
-
   return action$
     .filter(action => action.type === GET_USER_GROUPS)
     .mergeMap(() => userGroupsApi
-      .getAll(state.okapi)
+      .getAll(store.getState().okapi)
       .map(getUserGroupsSuccess)
       .catch(errors => Observable.of(getUserGroupsFailure({ errors }))));
 };

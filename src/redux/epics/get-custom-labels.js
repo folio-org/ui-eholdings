@@ -10,12 +10,6 @@ import {
 } from '../actions';
 
 export default ({ customLabelsApi }) => (action$, store) => {
-  const {
-    getState,
-  } = store;
-
-  const state = getState();
-
   return action$
     .filter(action => action.type === GET_CUSTOM_LABELS)
     .mergeMap(action => {
@@ -24,7 +18,7 @@ export default ({ customLabelsApi }) => (action$, store) => {
       } = action;
 
       return customLabelsApi
-        .getAll(state.okapi, credentialId)
+        .getAll(store.getState().okapi, credentialId)
         .map(response => getCustomLabelsSuccess(response))
         .catch(errors => Observable.of(getCustomLabelsFailure({ errors })));
     });

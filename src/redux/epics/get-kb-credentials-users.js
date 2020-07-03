@@ -10,14 +10,10 @@ import {
 } from '../actions';
 
 export default ({ kbCredentialsUsersApi }) => (action$, store) => {
-  const { getState } = store;
-
-  const state = getState();
-
   return action$
     .filter(action => action.type === GET_KB_CREDENTIALS_USERS)
     .mergeMap(({ payload: { credentialsId } }) => kbCredentialsUsersApi
-      .getCollection(state.okapi, credentialsId)
+      .getCollection(store.getState().okapi, credentialsId)
       .map(getKBCredentialsUsersSuccess)
       .catch(errors => Observable.of(getKBCredentialsUsersFailure({ errors }))));
 };

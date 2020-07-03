@@ -10,14 +10,11 @@ import {
 } from '../actions';
 
 export default ({ knowledgeBaseApi }) => (action$, store) => {
-  const { getState } = store;
-  const state = getState();
-
   return action$
     .filter(action => action.type === PUT_KB_CREDENTIALS)
     .mergeMap(({ payload }) => {
       return knowledgeBaseApi
-        .editCredentials(state.okapi, { data: payload.data }, payload.credentialId)
+        .editCredentials(store.getState().okapi, { data: payload.data }, payload.credentialId)
         .map(() => putKBCredentialsSuccess(payload.data))
         .catch(errors => Observable.of(putKBCredentialsFailure({ errors })));
     });

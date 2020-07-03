@@ -10,12 +10,6 @@ import {
 } from '../actions';
 
 export default ({ agreementsApi }) => (action$, store) => {
-  const {
-    getState,
-  } = store;
-
-  const state = getState();
-
   return action$
     .filter(action => action.type === GET_AGREEMENTS)
     .mergeMap(action => {
@@ -26,7 +20,7 @@ export default ({ agreementsApi }) => (action$, store) => {
       } = action;
 
       return agreementsApi
-        .getAll(state.okapi, refId)
+        .getAll(store.getState().okapi, refId)
         .map(response => getAgreementsSuccess(response))
         .catch(errors => Observable.of(getAgreementsFailure({ errors })));
     });

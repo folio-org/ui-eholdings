@@ -3,6 +3,7 @@ import {
   isPresent,
   collection,
   clickable,
+  text,
 } from '@bigtest/interactor';
 
 import { hasClassBeginningWith } from './helpers';
@@ -14,6 +15,7 @@ import { hasClassBeginningWith } from './helpers';
 @interactor class ConfigurationInteractor {
   settingsLinks = collection('[data-test-nav-list-item]', NavListItem);
   clickHeading = clickable('[data-test-configuration-heading]');
+  name = text('[data-test-configuration-heading]');
 }
 
 @interactor class Settings {

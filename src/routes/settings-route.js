@@ -24,6 +24,10 @@ class SettingsRoute extends Component {
     this.props.getKbCredentials();
   }
 
+  sortKbCredentials = (kbCredentials) => {
+    return kbCredentials.sort((a, b) => a.attributes.name.localeCompare(b.attributes.name));
+  }
+
   render() {
     const { children, location, kbCredentials } = this.props;
 
@@ -32,7 +36,10 @@ class SettingsRoute extends Component {
         <FormattedMessage id="ui-eholdings.label.settings">
           {pageTitle => (
             <TitleManager page={pageTitle}>
-              <View location={location} kbCredentials={kbCredentials.items}>
+              <View
+                location={location}
+                kbCredentials={this.sortKbCredentials(kbCredentials.items)}
+              >
                 {children}
               </View>
             </TitleManager>

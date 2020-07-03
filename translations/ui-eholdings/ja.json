@@ -392,5 +392,8 @@
     "settings.assignedUsers.networkErrorMessage": "Unable to complete this operation. Please try again.",
     "validate.errors.settings.kb.name": "Field required. Please revise.",
     "validate.errors.settings.kb.name.length": "255 character limit has been exceeded. Please revise.",
-    "server.errors.userNotAssignedToKb": "Unable to grant access to the eholdings app. Please contact your FOLIO system administrator to grant access."
+    "server.errors.userNotAssignedToKb": "Unable to grant access to the eholdings app. Please contact your FOLIO system administrator to grant access.",
+    "permission.settings.access-types.all": "Settings (eholdings): Can create, edit, view, and delete access status types",
+    "permission.settings.access-types.create-edit": "Settings (eholdings): Can create, edit, and view access status types",
+    "permission.settings.access-types.view": "Settings (eholdings): Can view access status types"
 }
