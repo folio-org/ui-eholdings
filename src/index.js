@@ -1,7 +1,9 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { withRoot } from '@folio/stripes-core/src/components/Root/RootContext';
+import ReactRouterPropTypes from 'react-router-prop-types';
 import { hot } from 'react-hot-loader';
+
+import { withRoot } from '@folio/stripes-core/src/components/Root/RootContext';
 
 import { Route, Switch } from './router';
 import { reducer, epics } from './redux';
@@ -31,9 +33,9 @@ import SettingsAssignedUsersRoute from './routes/settings-assigned-users-route';
 
 class EHoldings extends Component {
   static propTypes = {
-    match: PropTypes.shape({
-      path: PropTypes.string.isRequired
-    }).isRequired,
+    history: ReactRouterPropTypes.history.isRequired,
+    location: ReactRouterPropTypes.location.isRequired,
+    match: ReactRouterPropTypes.match.isRequired,
     root: PropTypes.shape({
       addEpic: PropTypes.func.isRequired,
       addReducer: PropTypes.func.isRequired,
@@ -45,6 +47,20 @@ class EHoldings extends Component {
     super(props);
     props.root.addReducer('eholdings', reducer);
     props.root.addEpic('eholdings', epics);
+  }
+
+  componentDidMount() {
+    const {
+      history,
+      location: {
+        pathname,
+        search,
+      },
+    } = this.props;
+
+    const currentURL = `${pathname}${search}`;
+
+    history.replace(currentURL, {});
   }
 
   render() {
