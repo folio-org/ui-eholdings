@@ -2,15 +2,15 @@
 import { expect } from 'chai';
 import { TestScheduler } from 'rxjs/Rx';
 
-import { createPutKbCredentialsEpic } from '../../../../../src/redux/epics';
+import { createPatchKBCredentialsEpic } from '../../../../../src/redux/epics';
 
 import {
-  PUT_KB_CREDENTIALS,
-  PUT_KB_CREDENTIALS_SUCCESS,
-  PUT_KB_CREDENTIALS_FAILURE,
+  PATCH_KB_CREDENTIALS,
+  PATCH_KB_CREDENTIALS_SUCCESS,
+  PATCH_KB_CREDENTIALS_FAILURE,
 } from '../../../../../src/redux/actions';
 
-describe('(epic) putKbCredentialsEpic', () => {
+describe('(epic) PatchKBCredentialsEpic', () => {
   const state$ = {
     getState: () => ({
       okapi: {
@@ -31,7 +31,7 @@ describe('(epic) putKbCredentialsEpic', () => {
 
   it('should trigger an action to update KB credentials and passes KB credentials data', () => {
     const action$ = testScheduler.createHotObservable('-a', {
-      a: { type: PUT_KB_CREDENTIALS }
+      a: { type: PATCH_KB_CREDENTIALS }
     });
 
     const kbCredentials = {
@@ -52,11 +52,11 @@ describe('(epic) putKbCredentialsEpic', () => {
       }
     };
 
-    const output$ = createPutKbCredentialsEpic(dependencies)(action$, state$);
+    const output$ = createPatchKBCredentialsEpic(dependencies)(action$, state$);
 
     testScheduler.expectObservable(output$).toBe('---a', {
       a: {
-        type: PUT_KB_CREDENTIALS_SUCCESS,
+        type: PATCH_KB_CREDENTIALS_SUCCESS,
         payload: kbCredentials,
       }
     });
@@ -64,7 +64,7 @@ describe('(epic) putKbCredentialsEpic', () => {
 
   it('should handle errors', () => {
     const action$ = testScheduler.createHotObservable('-a', {
-      a: { type: PUT_KB_CREDENTIALS },
+      a: { type: PATCH_KB_CREDENTIALS },
     });
 
     const dependencies = {
@@ -73,11 +73,11 @@ describe('(epic) putKbCredentialsEpic', () => {
       }
     };
 
-    const output$ = createPutKbCredentialsEpic(dependencies)(action$, state$);
+    const output$ = createPatchKBCredentialsEpic(dependencies)(action$, state$);
 
     testScheduler.expectObservable(output$).toBe('---a', {
       a: {
-        type: PUT_KB_CREDENTIALS_FAILURE,
+        type: PATCH_KB_CREDENTIALS_FAILURE,
         payload: { errors: 'Error messages' }
       }
     });

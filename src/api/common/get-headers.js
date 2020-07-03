@@ -14,7 +14,7 @@ export default function (method, okapi, url) {
     'X-Okapi-Token': okapi.token
   };
 
-  if (method === 'PUT' || method === 'POST') {
+  if (method === 'PUT' || method === 'POST' || method === 'PATCH') {
     if (url.includes('eholdings')) {
       headers['Content-Type'] = 'application/vnd.api+json';
     }
