@@ -872,7 +872,7 @@ export default function config() {
     };
   });
 
-  this.put('/kb-credentials/:id', () => new Response(204));
+  this.patch('/kb-credentials/:id', () => new Response(204));
   this.delete('/kb-credentials/:id', () => new Response(204));
 
   // Current root proxy

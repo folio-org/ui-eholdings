@@ -31,7 +31,7 @@ export default {
     return doRequest(url, params);
   },
   editCredentials(okapi, credentials, id) {
-    const method = 'PUT';
+    const method = 'PATCH';
     const url = `${okapi.url}${API_URL}/${id}`;
 
     const params = {
@@ -53,6 +53,5 @@ export default {
     };
 
     return doRequest(url, params);
-  }
-
+  },
 };

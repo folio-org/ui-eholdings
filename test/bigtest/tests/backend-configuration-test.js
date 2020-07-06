@@ -134,7 +134,7 @@ describe('With valid backend configuration', () => {
 
     describe('filling in invalid data', () => {
       beforeEach(function () {
-        this.server.put('/kb-credentials/2', () => {
+        this.server.patch('/kb-credentials/2', () => {
           return new Response(422, {}, {
             errors: [{
               title: 'Invalid KB API credentials'
@@ -190,7 +190,7 @@ describe('With valid backend configuration', () => {
 
       describe('when saving the changes fail', () => {
         beforeEach(function () {
-          this.server.put('/kb-credentials/2', {
+          this.server.patch('/kb-credentials/2', {
             errors: [{
               title: 'an error has occurred'
             }]

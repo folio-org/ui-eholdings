@@ -8,11 +8,11 @@ import {
   DELETE_KB_CREDENTIALS,
   DELETE_KB_CREDENTIALS_SUCCESS,
   DELETE_KB_CREDENTIALS_FAILURE,
-  PUT_KB_CREDENTIALS,
-  CONFIRM_PUT_KB_CREDENTIALS,
+  PATCH_KB_CREDENTIALS,
+  CONFIRM_PATCH_KB_CREDENTIALS,
   CONFIRM_POST_KB_CREDENTIALS,
-  PUT_KB_CREDENTIALS_SUCCESS,
-  PUT_KB_CREDENTIALS_FAILURE,
+  PATCH_KB_CREDENTIALS_SUCCESS,
+  PATCH_KB_CREDENTIALS_FAILURE,
 } from '../actions';
 
 import { formatErrors } from '../helpers';
@@ -95,7 +95,7 @@ const handlers = {
     };
   },
 
-  [PUT_KB_CREDENTIALS]: state => ({
+  [PATCH_KB_CREDENTIALS]: state => ({
     ...state,
     isLoading: true,
     isUpdating: true,
@@ -103,12 +103,12 @@ const handlers = {
     hasFailed: false,
   }),
 
-  [CONFIRM_PUT_KB_CREDENTIALS]: state => ({
+  [CONFIRM_PATCH_KB_CREDENTIALS]: state => ({
     ...state,
     hasUpdated: false,
   }),
 
-  [PUT_KB_CREDENTIALS_SUCCESS]: (state, action) => ({
+  [PATCH_KB_CREDENTIALS_SUCCESS]: (state, action) => ({
     ...state,
     isLoading: false,
     isUpdating: false,
@@ -116,11 +116,19 @@ const handlers = {
     hasFailed: false,
     hasUpdated: true,
     items: state.items.map((credential) => {
-      return credential.id === action.payload.id ? action.payload : credential;
+      return credential.id === action.payload.id
+        ? { // overwrite data that was sent with request, but keep unchanged data
+          ...action.payload,
+          attributes: {
+            ...credential.attributes,
+            ...action.payload.attributes,
+          },
+        }
+        : credential;
     }),
   }),
 
-  [PUT_KB_CREDENTIALS_FAILURE]: (state, action) => {
+  [PATCH_KB_CREDENTIALS_FAILURE]: (state, action) => {
     const { payload: { errors } } = action;
 
     return {
