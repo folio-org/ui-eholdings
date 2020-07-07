@@ -4,11 +4,12 @@ import { connect } from 'react-redux';
 import ReactRouterPropTypes from 'react-router-prop-types';
 import { TitleManager } from '@folio/stripes/core';
 import { FormattedMessage } from 'react-intl';
+import { cloneDeep } from 'lodash';
 
 import {
   postKBCredentials as postKBCredentialsAction,
-  putKBCredentials as putKBCredentialsAction,
-  confirmPutKBCredentials as confirmPutKBCredentialsAction,
+  patchKBCredentials as patchKBCredentialsAction,
+  confirmPatchKBCredentials as confirmPatchKBCredentialsAction,
   confirmPostKBCredentials as confirmPostKBCredentialsAction,
 } from '../redux/actions';
 import { selectPropFromData } from '../redux/selectors';
@@ -18,13 +19,13 @@ import View from '../components/settings/settings-knowledge-base';
 
 class SettingsKnowledgeBaseRoute extends Component {
   static propTypes = {
+    confirmPatchKBCredentials: PropTypes.func.isRequired,
     confirmPostKBCredentials: PropTypes.func.isRequired,
-    confirmPutKBCredentials: PropTypes.func.isRequired,
     kbCredentials: KbCredentials.KbCredentialsReduxStateShape,
     location: ReactRouterPropTypes.location.isRequired,
     match: PropTypes.object.isRequired,
+    patchKBCredentials: PropTypes.func.isRequired,
     postKBCredentials: PropTypes.func.isRequired,
-    putKBCredentials: PropTypes.func.isRequired,
   };
 
   state = {
@@ -34,7 +35,7 @@ class SettingsKnowledgeBaseRoute extends Component {
   componentDidUpdate(prevProps) {
     const {
       kbCredentials,
-      confirmPutKBCredentials,
+      confirmPatchKBCredentials,
       confirmPostKBCredentials,
       location: { pathname }
     } = this.props;
@@ -47,7 +48,7 @@ class SettingsKnowledgeBaseRoute extends Component {
     }
 
     if (kbCredentials.hasUpdated) {
-      confirmPutKBCredentials();
+      confirmPatchKBCredentials();
     }
 
     if (kbCredentials.hasSaved) {
@@ -75,23 +76,26 @@ class SettingsKnowledgeBaseRoute extends Component {
   updateConfig = ({ url, customerId, apiKey, name }) => {
     const {
       postKBCredentials,
-      putKBCredentials
+      patchKBCredentials
     } = this.props;
 
-    const config = this.getCurrentConfig();
+    const { meta, ...currentConfig } = this.getCurrentConfig();
 
+    const config = cloneDeep(currentConfig);
     config.attributes = {
-      ...config.attributes,
       url,
       customerId,
-      apiKey,
       name,
     };
+
+    if (currentConfig.attributes.apiKey !== apiKey) {
+      config.attributes.apiKey = apiKey;
+    }
 
     if (this.state.isCreateMode) {
       postKBCredentials({ data: config });
     } else {
-      putKBCredentials(config, config.id);
+      patchKBCredentials(config, config.id);
     }
   };
 
@@ -127,8 +131,8 @@ export default connect(
     kbCredentials: selectPropFromData(store, 'kbCredentials'),
   }), {
     postKBCredentials: postKBCredentialsAction,
-    putKBCredentials: putKBCredentialsAction,
-    confirmPutKBCredentials: confirmPutKBCredentialsAction,
+    patchKBCredentials: patchKBCredentialsAction,
+    confirmPatchKBCredentials: confirmPatchKBCredentialsAction,
     confirmPostKBCredentials: confirmPostKBCredentialsAction,
   }
 )(SettingsKnowledgeBaseRoute);

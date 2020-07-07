@@ -9,10 +9,10 @@ import {
   POST_KB_CREDENTIALS,
   POST_KB_CREDENTIALS_SUCCESS,
   POST_KB_CREDENTIALS_FAILURE,
-  PUT_KB_CREDENTIALS,
-  CONFIRM_PUT_KB_CREDENTIALS,
-  PUT_KB_CREDENTIALS_SUCCESS,
-  PUT_KB_CREDENTIALS_FAILURE,
+  PATCH_KB_CREDENTIALS,
+  CONFIRM_PATCH_KB_CREDENTIALS,
+  PATCH_KB_CREDENTIALS_SUCCESS,
+  PATCH_KB_CREDENTIALS_FAILURE,
   DELETE_KB_CREDENTIALS,
   DELETE_KB_CREDENTIALS_SUCCESS,
   DELETE_KB_CREDENTIALS_FAILURE,
@@ -157,14 +157,14 @@ describe('(reducer) kbCredentials', () => {
     expect(kbCredentials(actualState, action)).to.deep.equal(expectedState);
   });
 
-  it('should handle PUT_KB_CREDENTIALS', () => {
+  it('should handle PATCH_KB_CREDENTIALS', () => {
     const actualState = {
       isLoading: false,
       isUpdating: false,
       items: [],
     };
     const action = {
-      type: PUT_KB_CREDENTIALS,
+      type: PATCH_KB_CREDENTIALS,
       payload: { title: 'random' },
     };
     const expectedState = {
@@ -178,13 +178,13 @@ describe('(reducer) kbCredentials', () => {
     expect(kbCredentials(actualState, action)).to.deep.equal(expectedState);
   });
 
-  it('should handle CONFIRM_PUT_KB_CREDENTIALS', () => {
+  it('should handle CONFIRM_PATCH_KB_CREDENTIALS', () => {
     const actualState = {
       hasUpdated: true,
       isLoading: false,
     };
     const action = {
-      type: CONFIRM_PUT_KB_CREDENTIALS,
+      type: CONFIRM_PATCH_KB_CREDENTIALS,
     };
     const expectedState = {
       isLoading: false,
@@ -194,14 +194,14 @@ describe('(reducer) kbCredentials', () => {
     expect(kbCredentials(actualState, action)).to.deep.equal(expectedState);
   });
 
-  it('should handle PUT_KB_CREDENTIALS_SUCCESS', () => {
+  it('should handle PATCH_KB_CREDENTIALS_SUCCESS', () => {
     const actualState = {
       isLoading: true,
       isUpdating: true,
       items: [],
     };
     const action = {
-      type: PUT_KB_CREDENTIALS_SUCCESS,
+      type: PATCH_KB_CREDENTIALS_SUCCESS,
     };
     const expectedState = {
       isLoading: false,
@@ -215,13 +215,13 @@ describe('(reducer) kbCredentials', () => {
     expect(kbCredentials(actualState, action)).to.deep.equal(expectedState);
   });
 
-  it('should handle PUT_KB_CREDENTIALS_FAILURE', () => {
+  it('should handle PATCH_KB_CREDENTIALS_FAILURE', () => {
     const actualState = {
       isLoading: true,
       isUpdating: true,
     };
     const action = {
-      type: PUT_KB_CREDENTIALS_FAILURE,
+      type: PATCH_KB_CREDENTIALS_FAILURE,
       payload: { errors: 'error' }
     };
     const expectedState = {
