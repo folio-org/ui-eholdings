@@ -6,6 +6,9 @@ import {
   FormattedMessage,
   injectIntl,
 } from 'react-intl';
+import { withRouter } from 'react-router';
+import ReactRouterPropTypes from 'react-router-prop-types';
+
 import {
   Headline,
   Icon,
@@ -21,18 +24,11 @@ const focusOnErrors = createFocusDecorator();
 class SettingsKnowledgeBase extends Component {
   static propTypes = {
     config: KbCredentials.CredentialShape,
+    history: ReactRouterPropTypes.history.isRequired,
     intl: PropTypes.object.isRequired,
     isCreateMode: PropTypes.bool,
     kbCredentials: KbCredentials.KbCredentialsReduxStateShape,
     onSubmit: PropTypes.func.isRequired,
-  };
-
-  static contextTypes = {
-    router: PropTypes.shape({
-      history: PropTypes.shape({
-        push: PropTypes.func.isRequired
-      }).isRequired
-    }).isRequired
   };
 
   state = {
@@ -40,11 +36,14 @@ class SettingsKnowledgeBase extends Component {
   }
 
   componentDidUpdate(prevProps) {
-    const { config, kbCredentials } = this.props;
-    const { router } = this.context;
+    const {
+      config,
+      kbCredentials,
+      history,
+    } = this.props;
 
     if (kbCredentials.hasUpdated) {
-      router.history.push({
+      history.push({
         pathname: `/settings/eholdings/knowledge-base/${config.id}`,
         state: { eholdings: true, isFreshlySaved: true }
       });
@@ -60,7 +59,7 @@ class SettingsKnowledgeBase extends Component {
     }
 
     if (kbCredentials.hasSaved) {
-      router.history.push({
+      history.push({
         pathname: `/settings/eholdings/knowledge-base/${config.id}`,
         state: { eholdings: true, isFreshlySaved: true }
       });
@@ -269,4 +268,4 @@ class SettingsKnowledgeBase extends Component {
   }
 }
 
-export default injectIntl(SettingsKnowledgeBase);
+export default injectIntl(withRouter(SettingsKnowledgeBase));
