@@ -1,6 +1,6 @@
 # Change history for ui-eholdings
 
-## [4.0.1] (IN PROGRESS)
+## [4.0.1] (https://github.com/folio-org/ui-eholdings/tree/v4.0.0) (2020-07-08)
 
 * Fix KB credentials list shown not in alphabetical order. (UIEH-912)
 * Fix incorrect x-okapi-token sent after re-logging in eHoldings. (UIEH-918)
