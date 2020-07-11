@@ -102,19 +102,34 @@
       {
         "permissionName": "module.eholdings.enabled",
         "displayName": "UI: eHoldings module is enabled",
-        "visible": true,
+        "visible": false,
         "subPermissions": [
           "kb-ebsco.all",
           "tags.all"
         ]
       },
       {
+        "permissionName": "ui-eholdings.app.enabled",
+        "subPermissions": [
+          "module.eholdings.enabled"
+        ],
+        "visible": true
+      },
+      {
         "permissionName": "settings.eholdings.enabled",
         "displayName": "Settings (eHoldings): display list of settings pages",
+        "visible": false,
         "subPermissions": [
           "module.eholdings.enabled",
           "settings.enabled"
         ]
+      },
+      {
+        "permissionName": "ui-eholdings.settings.enabled",
+        "subPermissions": [
+          "settings.eholdings.enabled"
+        ],
+        "visible": true
       },
       {
         "permissionName": "ui-eholdings.settings.kb",

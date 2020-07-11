@@ -7,6 +7,7 @@
 * Fix filter by Access Types request incorrectly formatted. (UIEH-917)
 * Fix routing issues. (UIEH-916)
 * Added possibility to change KB Name. (UIEH-898)
+* Fix permission error in devtools console. (UIEH-915)
 
 ## [4.0.0] (https://github.com/folio-org/ui-eholdings/tree/v4.0.0) (2020-06-11)
 
