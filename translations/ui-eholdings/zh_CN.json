@@ -363,8 +363,6 @@
     "accessTypes.filter": "访问状态类型筛选",
     "search.searchByAccessTypesOnly": "仅按访问状态类型搜索",
     "settings.accessStatusTypes.validation.duplicate": "类型重复。请修改。",
-    "permission.module.eholdings.enabled": "UI：电子馆藏模块已启用",
-    "permission.eholdings.enabled": "设置（电子馆藏）：显示设置页面列表",
     "permission.settings.kb": "设置（电子馆藏）：配置EBSCO RM API凭据",
     "permission.settings.root-proxy": "设置（电子馆藏）：配置根代理设置",
     "permission.package-title.select-unselect": "电子馆藏：可以从馆藏中选择/取消选择包和标题",
@@ -395,5 +393,7 @@
     "server.errors.userNotAssignedToKb": "无法授予对电子馆藏应用程序的访问权限。请与FOLIO系统管理员联系以授予访问权限。",
     "permission.settings.access-types.all": "设置（电子馆藏）：可以创建、编辑、查看和删除访问状态类型",
     "permission.settings.access-types.create-edit": "设置（电子馆藏）：可以创建、编辑和查看访问状态类型",
-    "permission.settings.access-types.view": "设置（电子馆藏）：可以查看访问状态类型"
+    "permission.settings.access-types.view": "设置（电子馆藏）：可以查看访问状态类型",
+    "permission.app.enabled": "UI: eHoldings module is enabled",
+    "permission.settings.enabled": "Settings (eHoldings): display list of settings pages"
 }

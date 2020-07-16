@@ -363,8 +363,6 @@
     "accessTypes.filter": "منقح أنواع حالات الوصول",
     "search.searchByAccessTypesOnly": "بحث بواسطة أنواع حالة الوصول فقط",
     "settings.accessStatusTypes.validation.duplicate": "نوع مكرر. يرجى المراجعة.",
-    "permission.module.eholdings.enabled": "واجهة االمستخدم: تم تفعيل وحدة المقتنيات الإلكترونية",
-    "permission.eholdings.enabled": "الإعدادت (المقتنيات الإلكترونية): اعرض قائمة بصفحات الإعدادات",
     "permission.settings.kb": "الإعدادت (المقتنيات الإلكترونية): تهيئة بيانات اعتماد واجهة برمجة تطبيقات EBSCO RM",
     "permission.settings.root-proxy": "الإعدادت (المقتنيات الإلكترونية): تهيئة إعدادات البروكسي الجذري",
     "permission.package-title.select-unselect": "المقتنيات الإلكترونية: إمكانية تحديد/إلغاء تحديد الحزم والعناوين إلى المقتنيات ومنها.",
@@ -395,5 +393,7 @@
     "server.errors.userNotAssignedToKb": "تعذر منح الوصول إلى تطبيق المقتنيات. يرجى الاتصال بمدير نظام فوليو الخاص بك لمنح الوصول.",
     "permission.settings.access-types.all": "الإعدادات (المقتنيات الإلكترونية): إمكانية إنشاء، تحرير، عرض، وحذف أنواع حالة الوصول",
     "permission.settings.access-types.create-edit": "الإعدادات (المقتنيات الإلكترونية): إمكانية إنشاء، تحرير وعرض أنواع حالة الوصول",
-    "permission.settings.access-types.view": "الإعدادات (المقتنيات الإلكترونية): إمكانية عرض أنواع حالة الوصول"
+    "permission.settings.access-types.view": "الإعدادات (المقتنيات الإلكترونية): إمكانية عرض أنواع حالة الوصول",
+    "permission.app.enabled": "واجهة االمستخدم: تم تفعيل وحدة المقتنيات الإلكترونية",
+    "permission.settings.enabled": "الإعدادت (المقتنيات الإلكترونية): اعرض قائمة بصفحات الإعدادات"
 }
