@@ -363,8 +363,6 @@
     "accessTypes.filter": "Access status types filter",
     "search.searchByAccessTypesOnly": "Search by access status types only",
     "settings.accessStatusTypes.validation.duplicate": "Duplicate type. Please revise.",
-    "permission.module.eholdings.enabled": "UI: eHoldings module is enabled",
-    "permission.eholdings.enabled": "Settings (eHoldings): display list of settings pages",
     "permission.settings.kb": "Settings (eHoldings): configure EBSCO RM API credentials",
     "permission.settings.root-proxy": "Settings (eHoldings): configure root proxy setting",
     "permission.package-title.select-unselect": "eHoldings: Can select/unselect packages and titles to/from your holdings",
@@ -395,5 +393,7 @@
     "server.errors.userNotAssignedToKb": "Unable to grant access to the eholdings app. Please contact your FOLIO system administrator to grant access.",
     "permission.settings.access-types.all": "Settings (eholdings): Can create, edit, view, and delete access status types",
     "permission.settings.access-types.create-edit": "Settings (eholdings): Can create, edit, and view access status types",
-    "permission.settings.access-types.view": "Settings (eholdings): Can view access status types"
+    "permission.settings.access-types.view": "Settings (eholdings): Can view access status types",
+    "permission.app.enabled": "UI: eHoldings module is enabled",
+    "permission.settings.enabled": "Settings (eHoldings): display list of settings pages"
 }

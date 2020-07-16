@@ -92,7 +92,7 @@
     "title.create.paneTitle": "Novo título personalizado",
     "title.titleInformation": "Informações sobre o título",
     "title.contributor.notSet": "Nenhum colaborador definido. Salvando removerá qualquer um definido anteriormente.",
-    "title.contributor.addContributor": "Adicionar um autor",
+    "title.contributor.addContributor": "Adicionar um contribuidor",
     "title.description": "Descrição",
     "title.edition": "Edição",
     "title.identifier.notSet": "Nenhum identificador definido. Salvando removerá qualquer definido anteriormente.",
@@ -222,8 +222,8 @@
     "validate.errors.packageSelect.required": "Títulos personalizados devem pertencer a um pacote.",
     "validate.errors.identifiers.noBlank": "O ID não pode ficar em branco.",
     "validate.errors.identifiers.exceedsLength": "Deve ter menos de 20 caracteres.",
-    "validate.errors.contributor.empty": "Você deve fornecer um autor",
-    "validate.errors.contributor.exceedsLength": "Um autor deve ter menos de 250 caracteres",
+    "validate.errors.contributor.empty": "Você deve fornecer um contribuidor",
+    "validate.errors.contributor.exceedsLength": "Um contribuidor deve ter menos de 250 caracteres",
     "validate.errors.embargoPeriod.moreThanZero": "Digite um número maior que 0",
     "validate.errors.embargoPeriod.number": "Deve ser um número",
     "validate.errors.embargoPeriod.unit": "Selecione uma unidade",
@@ -363,8 +363,6 @@
     "accessTypes.filter": "Filtro de tipos de status de acesso",
     "search.searchByAccessTypesOnly": "Pesquisar apenas por tipos de status de acesso",
     "settings.accessStatusTypes.validation.duplicate": "Tipo duplicado. Por favor revise.",
-    "permission.module.eholdings.enabled": "UI: o módulo Acervo digital está ativado",
-    "permission.eholdings.enabled": "Configurações (Acervo digital): exibe a lista de páginas de configurações",
     "permission.settings.kb": "Configurações (Acervo digital): configurar credenciais da API do EBSCO RM",
     "permission.settings.root-proxy": "Configurações (Acervo digital): define a configuração da raiz do proxy",
     "permission.package-title.select-unselect": "Acervo digital: Pode selecionar/desmarcar pacotes e títulos de/para seus acervos",
@@ -395,5 +393,7 @@
     "server.errors.userNotAssignedToKb": "Não foi possível conceder acesso ao aplicativo eAcervo. Entre em contato com o administrador do sistema FOLIO para conceder acesso.",
     "permission.settings.access-types.all": "Configurações (eAcervo): Pode criar, editar, visualizar e excluir tipos de status de acesso",
     "permission.settings.access-types.create-edit": "Configurações (eAcervo): Pode criar, editar e visualizar tipos de status de acesso",
-    "permission.settings.access-types.view": "Configurações (eAcervo): Pode ver os tipos de status de acesso"
+    "permission.settings.access-types.view": "Configurações (eAcervo): Pode ver os tipos de status de acesso",
+    "permission.app.enabled": "UI: o módulo Acervo digital está ativado",
+    "permission.settings.enabled": "Configurações (Acervo digital): exibe a lista de páginas de configurações"
 }
