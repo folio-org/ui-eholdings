@@ -30,7 +30,7 @@ describe('Custom package edit access types flow', () => {
   describe('when access status types were not set in settings', () => {
     beforeEach(function () {
       this.server.get('/access-types', () => []);
-      return this.visit(`/eholdings/packages/${testPackage.id}/edit`);
+      this.visit(`/eholdings/packages/${testPackage.id}/edit`);
     });
 
     it.only('should not render access type select', () => {
