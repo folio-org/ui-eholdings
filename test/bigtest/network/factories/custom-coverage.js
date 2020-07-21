@@ -1,4 +1,5 @@
-import { Factory, faker } from '@bigtest/mirage';
+import { Factory } from 'miragejs';
+import faker from 'faker';
 
 export default Factory.extend({
   beginCoverage: () => faker.date.past().toISOString().substring(0, 10),
