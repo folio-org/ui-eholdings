@@ -7,6 +7,10 @@ import PackageShowPage from '../interactors/package-show';
 
 import { accessTypes } from '../../../src/constants';
 
+/*
+  [WIP] Mirage: You called server.create('visibility-data') but no model or factory was found. Make sure you're passing in the singularized version of the model or factory name.
+*/
+
 describe('Custom package edit access types flow', () => {
   setupApplication();
 
@@ -26,10 +30,10 @@ describe('Custom package edit access types flow', () => {
   describe('when access status types were not set in settings', () => {
     beforeEach(function () {
       this.server.get('/access-types', () => []);
-      this.visit(`/eholdings/packages/${testPackage.id}/edit`);
+      return this.visit(`/eholdings/packages/${testPackage.id}/edit`);
     });
 
-    it('should not render access type select', () => {
+    it.only('should not render access type select', () => {
       expect(PackageEditPage.hasAccessTypeSelect).to.be.false;
     });
   });
