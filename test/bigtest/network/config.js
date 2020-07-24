@@ -4,7 +4,7 @@ import {
   searchRouteFor,
   nestedResourceRouteFor,
   includesWords,
-  getAccessTypesFromQueryString,
+  getMultiSelectValueFromQueryString,
 } from './helpers';
 
 
@@ -310,14 +310,14 @@ export default function config() {
 
   // Provider resources
   this.get('/providers', searchRouteFor('providers', (provider, req) => {
-    const params = req.queryParams;
-    const tags = params['filter[tags]'];
+    const queryString = req.url.split('?')[1];
+    const tags = getMultiSelectValueFromQueryString(queryString, 'tags');
 
     if (req.queryParams.q && provider.name) {
       return includesWords(provider.name, req.queryParams.q.toLowerCase());
-    } else if (tags) {
+    } else if (tags.length) {
       // tags is comma separated list -- check if provider has at least one of the tags
-      return tags.split(',').some(item => provider.tags.tagList.includes(item));
+      return tags.some(item => provider.tags.tagList.includes(item));
     } else {
       return !!provider.name;
     }
@@ -358,17 +358,18 @@ export default function config() {
 
   // Package resources
   const packagesFilter = (pkg, req) => {
+    const queryString = req.url.split('?')[1];
     const params = req.queryParams;
     const type = params['filter[type]'];
     const selected = params['filter[selected]'];
     const custom = params['filter[custom]'];
-    const tags = params['filter[tags]'];
-    const accessTypes = getAccessTypesFromQueryString(req.url.split('?')[1]);
+    const tags = getMultiSelectValueFromQueryString(queryString, 'tags');
+    const accessTypes = getMultiSelectValueFromQueryString(queryString, 'access-type');
 
     let filtered = true;
 
-    if (filtered && tags) {
-      return tags.split(',').some(item => pkg.tags.tagList.includes(item));
+    if (filtered && tags.length) {
+      return tags.some(item => pkg.tags.tagList.includes(item));
     }
 
     if (accessTypes.length) {
@@ -490,6 +491,7 @@ export default function config() {
 
   // Title resources
   this.get('/titles', searchRouteFor('titles', (title, req) => {
+    const queryString = req.url.split('?')[1];
     const params = req.queryParams;
     const type = params['filter[type]'];
     const selected = params['filter[selected]'];
@@ -497,12 +499,12 @@ export default function config() {
     const isxn = params['filter[isxn]'];
     const subject = params['filter[subject]'];
     const publisher = params['filter[publisher]'];
-    const tags = params['filter[tags]'];
-    const accessTypes = getAccessTypesFromQueryString(req.url.split('?')[1]);
+    const tags = getMultiSelectValueFromQueryString(queryString, 'tags');
+    const accessTypes = getMultiSelectValueFromQueryString(queryString, 'access-type');
     let filtered = true;
 
-    if (tags) {
-      return tags.split(',').some(item => {
+    if (tags.length) {
+      return tags.some(item => {
         return title.resources.models.some((resource => resource.tags.tagList.includes(item)));
       });
     }
@@ -572,6 +574,7 @@ export default function config() {
 
   // Resources
   this.get('/packages/:id/resources', nestedResourceRouteFor('package', 'resources', (resource, req) => {
+    const queryString = req.url.split('?')[1];
     const title = resource.title;
     const params = req.queryParams;
     const type = params['filter[type]'];
@@ -580,12 +583,12 @@ export default function config() {
     const isxn = params['filter[isxn]'];
     const subject = params['filter[subject]'];
     const publisher = params['filter[publisher]'];
-    const tags = params['filter[tags]'];
-    const accessTypes = getAccessTypesFromQueryString(req.url.split('?')[1]);
+    const tags = getMultiSelectValueFromQueryString(queryString, 'tags');
+    const accessTypes = getMultiSelectValueFromQueryString(queryString, 'access-type');
     let filtered = true;
 
-    if (tags) {
-      return tags.split(',').some(item => title.tags.tagList.includes(item));
+    if (tags.length) {
+      return tags.some(item => title.tags.tagList.includes(item));
     }
 
     if (accessTypes.length) {
