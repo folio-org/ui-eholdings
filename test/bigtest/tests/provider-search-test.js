@@ -274,7 +274,7 @@ describe('ProviderSearch', () => {
     beforeEach(function () {
       const allTags = ['urgent', 'not urgent'];
 
-      const urgentTag = this.server.create('tags', {
+      const urgentTag = this.server.create('tag', {
         tagList: allTags.slice(0)
       }).toJSON();
 
@@ -283,7 +283,7 @@ describe('ProviderSearch', () => {
         tags: urgentTag
       });
 
-      const notUrgentTag = this.server.create('tags', {
+      const notUrgentTag = this.server.create('tag', {
         tagList: allTags.slice(1),
       }).toJSON();
 
@@ -292,7 +292,7 @@ describe('ProviderSearch', () => {
         tags: notUrgentTag
       });
 
-      const bothTags = this.server.create('tags', {
+      const bothTags = this.server.create('tag', {
         tagList: allTags,
       }).toJSON();
 
@@ -424,7 +424,7 @@ describe('ProviderSearch', () => {
     beforeEach(async function () {
       const allTags = ['urgent', 'not urgent'];
 
-      const urgentTag = this.server.create('tags', {
+      const urgentTag = this.server.create('tag', {
         tagList: allTags.slice(0)
       }).toJSON();
 

@@ -88,7 +88,7 @@ export default Factory.extend({
 
   withTags: trait({
     afterCreate(provider, server) {
-      const tags = server.create('tags', {
+      const tags = server.create('tag', {
         tagList: defaultTags
       });
       provider.update('tags', tags.toJSON());
