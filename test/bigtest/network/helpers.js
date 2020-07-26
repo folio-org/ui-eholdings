@@ -162,15 +162,15 @@ export function nestedResourceRouteFor(foreignKey, resourceType, filter = () => 
 }
 
 /**
- * Helper for extracting array of Access Types from filter query string
- * in format 'filter[access-type]=Trial&filter[access-type]=Subscription
+ * Helper for extracting array of MultiSelect values from filter query string
+ * in format 'filter[`name`]=Trial&filter[`name`]=Subscription
  * @param {String} query - query part of url without '?'
- * @returns {Array} array of Access Types
+ * @returns {Array} array of values
  */
-export const getAccessTypesFromQueryString = (query) => {
+export const getMultiSelectValueFromQueryString = (query, name) => {
   const parsedQuery = queryString.parse(query, { ignoreQueryPrefix: true });
 
-  const accessTypes = parsedQuery.filter?.['access-type'] || [];
+  const values = parsedQuery.filter?.[name] || [];
 
-  return Array.isArray(accessTypes) ? accessTypes : [accessTypes];
+  return Array.isArray(values) ? values : [values];
 };

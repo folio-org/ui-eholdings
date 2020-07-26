@@ -8,6 +8,7 @@
 * Fix routing issues. (UIEH-916)
 * Added possibility to change KB Name. (UIEH-898)
 * Fix permission error in devtools console. (UIEH-915)
+* Change filter by Tags request format. (UIEH-922)
 * Refactor from `bigtest/mirage` to `miragejs`.
 
 ## [4.0.0] (https://github.com/folio-org/ui-eholdings/tree/v4.0.0) (2020-06-11)
