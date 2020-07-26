@@ -116,10 +116,8 @@ class SearchForm extends Component {
   };
 
   handleStandaloneFilterChange = filter => {
-    const formattedValues = filter.name === 'access-type' ? filter.values : filter.values.join(',');
-
     const formattedFilter = {
-      [filter.name]: formattedValues || undefined,
+      [filter.name]: filter.values || undefined,
     };
     this.props.onStandaloneFilterChange(formattedFilter);
   };
@@ -218,11 +216,15 @@ class SearchForm extends Component {
       sections,
     } = this.state;
 
-    const tagsList = tags ? tags.split(',').map(tag => {
-      return tag.toLowerCase();
-    }) : [];
+    let tagsList = tags
+      ? Array.isArray(tags)
+        ? tags
+        : tags.split(',')
+      : [];
 
-    tagsList.sort();
+    tagsList = tagsList.map(tag => {
+      return tag.toLowerCase();
+    }).sort();
 
     return tagsModel.isLoading
       ? <Icon icon="spinner-ellipsis" />
@@ -279,7 +281,8 @@ class SearchForm extends Component {
     } = this.state;
 
     const accessTypesList = accessTypes
-      ? Array.isArray(accessTypes) ? accessTypes
+      ? Array.isArray(accessTypes)
+        ? accessTypes
         : accessTypes.split(',')
       : [];
 
