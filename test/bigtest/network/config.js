@@ -1,5 +1,6 @@
 import { Response } from 'miragejs';
 import { random } from 'faker';
+import { inflections } from 'inflected';
 import {
   searchRouteFor,
   nestedResourceRouteFor,
@@ -7,9 +8,11 @@ import {
   getAccessTypesFromQueryString,
 } from './helpers';
 
-
 // typical mirage config export
 export default function config() {
+  inflections('en', function (inflect) {
+    inflect.irregular('visibilityData', 'visibilityData');
+  });
   const server = this;
   // okapi endpoints
   this.post('/bl-users/login', () => {
