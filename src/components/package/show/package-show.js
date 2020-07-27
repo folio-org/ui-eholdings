@@ -15,6 +15,7 @@ import {
   IfPermission,
 } from '@folio/stripes-core';
 
+import SafeHTMLMessage from '@folio/react-intl-safe-html';
 import { NotesSmartAccordion } from '@folio/stripes/smart-components';
 
 import {
@@ -81,7 +82,8 @@ class PackageShow extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      showSelectionModal: false,
+      showSelectionConfirmationModal: false,
+      showDeselectionModal: false,
       packageSelected: this.props.model.isSelected,
       packageAllowedToAddTitles: this.props.model.allowKbToAddTitles,
       isCoverageEditable: false,
@@ -112,7 +114,7 @@ class PackageShow extends Component {
   handleSelectionToggle = () => {
     this.setState({ packageSelected: !this.props.model.isSelected });
     if (this.props.model.isSelected) {
-      this.setState({ showSelectionModal: true });
+      this.setState({ showDeselectionModal: true });
     } else {
       this.setState({ packageAllowedToAddTitles: true });
       this.props.toggleSelected();
@@ -120,13 +122,13 @@ class PackageShow extends Component {
   };
 
   commitSelectionToggle = () => {
-    this.setState({ showSelectionModal: false });
+    this.setState({ showDeselectionModal: false });
     this.props.toggleSelected();
   };
 
   cancelSelectionToggle = () => {
     this.setState({
-      showSelectionModal: false,
+      showDeselectionModal: false,
       packageSelected: this.props.model.isSelected
     });
   };
@@ -347,7 +349,7 @@ class PackageShow extends Component {
         >
           <SelectionStatus
             model={model}
-            onAddToHoldings={this.props.addPackageToHoldings}
+            onAddToHoldings={this.toggleSelectionConfirmationModal}
           />
         </Accordion>
 
@@ -582,12 +584,51 @@ class PackageShow extends Component {
           buttonStyle="dropdownItem fullWidth"
           onClick={() => {
             onToggle();
-            this.props.addPackageToHoldings();
+            this.toggleSelectionConfirmationModal();
           }}
         >
           <FormattedMessage id={`ui-eholdings.${translationIdEnding}`} />
         </Button>
       </IfPermission>
+    );
+  }
+
+  toggleSelectionConfirmationModal = () => {
+    this.setState(({ showSelectionConfirmationModal }) => ({
+      showSelectionConfirmationModal: !showSelectionConfirmationModal,
+    }));
+  }
+
+  renderSelectionConfirmationModal() {
+    const { showSelectionConfirmationModal } = this.state;
+    const { addPackageToHoldings } = this.props;
+
+    const footer = (
+      <ModalFooter>
+        <Button
+          buttonStyle="primary"
+          onClick={() => {
+            addPackageToHoldings();
+            this.toggleSelectionConfirmationModal();
+          }}
+        >
+          <FormattedMessage id="ui-eholdings.selectPackage.confirmationModal.confirmationButtonText" />
+        </Button>
+        <Button onClick={this.toggleSelectionConfirmationModal}>
+          <FormattedMessage id="ui-eholdings.cancel" />
+        </Button>
+      </ModalFooter>
+    );
+
+    return (
+      <Modal
+        open={showSelectionConfirmationModal}
+        label={<FormattedMessage id="ui-eholdings.selectPackage.confirmationModal.label" />}
+        footer={footer}
+        size="small"
+      >
+        <SafeHTMLMessage id="ui-eholdings.selectPackage.confirmationModal.message" />
+      </Modal>
     );
   }
 
@@ -601,7 +642,7 @@ class PackageShow extends Component {
     } = this.props;
 
     const {
-      showSelectionModal,
+      showDeselectionModal,
       isCoverageEditable,
       sections
     } = this.state;
@@ -676,7 +717,7 @@ class PackageShow extends Component {
           ariaRole="tablist"
         />
         <Modal
-          open={showSelectionModal}
+          open={showDeselectionModal}
           size="small"
           label={modalMessage.header}
           id="eholdings-package-confirmation-modal"
@@ -701,6 +742,7 @@ class PackageShow extends Component {
           {modalMessage.body}
         </Modal>
 
+        {this.renderSelectionConfirmationModal()}
         <NavigationModal when={isCoverageEditable} />
       </div>
     );
