@@ -178,7 +178,7 @@
     "filter.sortOptions.relevance": "Relevance",
     "filter.selectionStatus.orderedThroughEbsco": "Ordered through EBSCO",
     "filter.contentType.aggregated": "Aggregated Full Text",
-    "filter.contentType.abstract": "Аннотация и индекс",
+    "filter.contentType.abstract": "Аннотация и оглавление",
     "filter.contentType.ebook": "Электронная книга",
     "filter.contentType.ejournal": "Электронный журнал",
     "filter.contentType.print": "Print",
