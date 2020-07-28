@@ -600,7 +600,6 @@ class PackageShow extends Component {
   }
 
   renderSelectionConfirmationModal() {
-    const { showSelectionConfirmationModal } = this.state;
     const { addPackageToHoldings } = this.props;
 
     const footer = (
@@ -626,7 +625,7 @@ class PackageShow extends Component {
 
     return (
       <Modal
-        open={showSelectionConfirmationModal}
+        open
         label={<FormattedMessage id="ui-eholdings.selectPackage.confirmationModal.label" />}
         footer={footer}
         size="small"
@@ -649,7 +648,8 @@ class PackageShow extends Component {
     const {
       showDeselectionModal,
       isCoverageEditable,
-      sections
+      sections,
+      showSelectionConfirmationModal,
     } = this.state;
 
     const modalMessage = model.isCustom ?
@@ -747,7 +747,7 @@ class PackageShow extends Component {
           {modalMessage.body}
         </Modal>
 
-        {this.renderSelectionConfirmationModal()}
+        {showSelectionConfirmationModal && this.renderSelectionConfirmationModal()}
         <NavigationModal when={isCoverageEditable} />
       </div>
     );
