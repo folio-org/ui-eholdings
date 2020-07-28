@@ -606,6 +606,7 @@ class PackageShow extends Component {
     const footer = (
       <ModalFooter>
         <Button
+          data-test-confirm-package-selection
           buttonStyle="primary"
           onClick={() => {
             addPackageToHoldings();
@@ -614,7 +615,10 @@ class PackageShow extends Component {
         >
           <FormattedMessage id="ui-eholdings.selectPackage.confirmationModal.confirmationButtonText" />
         </Button>
-        <Button onClick={this.toggleSelectionConfirmationModal}>
+        <Button
+          data-test-cancel-package-selection
+          onClick={this.toggleSelectionConfirmationModal}
+        >
           <FormattedMessage id="ui-eholdings.cancel" />
         </Button>
       </ModalFooter>
@@ -626,6 +630,7 @@ class PackageShow extends Component {
         label={<FormattedMessage id="ui-eholdings.selectPackage.confirmationModal.label" />}
         footer={footer}
         size="small"
+        id="package-selection-confirmation-modal"
       >
         <SafeHTMLMessage id="ui-eholdings.selectPackage.confirmationModal.message" />
       </Modal>

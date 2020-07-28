@@ -36,6 +36,7 @@ describe('PackageSelection', () => {
         await PackageShowPage.whenLoaded();
         this.server.block();
         await PackageShowPage.selectPackage();
+        await PackageShowPage.selectionConfirmationModal.confirmPackageSelection();
       });
 
       it.skip('indicates it is working to get to desired state', () => {
@@ -140,6 +141,7 @@ describe('PackageSelection', () => {
         await PackageShowPage.whenLoaded();
         this.server.block();
         await PackageShowPage.selectPackage();
+        await PackageShowPage.selectionConfirmationModal.confirmPackageSelection();
       });
 
       it.skip('indicates it is working to get to desired state', () => {

@@ -249,7 +249,7 @@ describe('PackageShow', () => {
     });
 
     it('has a button to add all of the remaining titles by selecting the entire package directly in the detail record', () => {
-      expect(PackageShowPage.selectionStatus.buttonText).to.equal('Add all to holdings');
+      expect(PackageShowPage.selectionStatus.buttonText).to.equal('Add all titles to holdings');
     });
 
     it('does not display tags accordion', () => {
@@ -262,7 +262,7 @@ describe('PackageShow', () => {
       });
 
       it('has menu item to add all remaining titles from this packages', () => {
-        expect(PackageShowPage.dropDownMenu.addToHoldings.text).to.equal('Add all to holdings');
+        expect(PackageShowPage.dropDownMenu.addToHoldings.text).to.equal('Add all titles to holdings');
       });
 
       it('has menu item to remove the entire package from holdings just like a completely selected packages', () => {
@@ -579,6 +579,7 @@ describe('PackageShow', () => {
       this.visit(`/eholdings/packages/${providerPackage.id}`);
 
       await PackageShowPage.selectPackage();
+      await PackageShowPage.selectionConfirmationModal.confirmPackageSelection();
       await PackageShowPage.clickEditButton();
       await PackageEditPage.chooseProxy('microstates');
       return PackageEditPage.clickBackButton();
