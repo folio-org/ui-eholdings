@@ -141,7 +141,6 @@ import PackageSelectionModal from './package-selection-modal';
 
   tagsSection = new TagsAccordion('[data-test-eholdings-tag-filter]');
   accessTypesSection = new AccessTypesAccordion('[data-test-eholdings-access-types-filter]');
-
   selectionConfirmationModal = new PackageSelectionModal();
 
   selectPackage() {

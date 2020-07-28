@@ -746,7 +746,6 @@ class PackageShow extends Component {
         >
           {modalMessage.body}
         </Modal>
-
         {showSelectionConfirmationModal && this.renderSelectionConfirmationModal()}
         <NavigationModal when={isCoverageEditable} />
       </div>
