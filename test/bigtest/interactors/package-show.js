@@ -27,6 +27,7 @@ import PackageSelectionStatus from './selection-status';
 import ActionsDropDown from './actions-drop-down';
 import PackageDropDownMenu from './package-drop-down-menu';
 import PackageModal from './package-modal';
+import PackageSelectionModal from './package-selection-modal';
 
 @interactor class PackageShowPage {
   isLoaded = isPresent('[data-test-eholdings-details-view-name="package"]');
@@ -140,6 +141,7 @@ import PackageModal from './package-modal';
 
   tagsSection = new TagsAccordion('[data-test-eholdings-tag-filter]');
   accessTypesSection = new AccessTypesAccordion('[data-test-eholdings-access-types-filter]');
+  selectionConfirmationModal = new PackageSelectionModal();
 
   selectPackage() {
     return this

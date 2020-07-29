@@ -319,7 +319,7 @@
 
     "validate.errors.edition.value": "Invalid value.",
     "validate.errors.edition.length": "Value exceeds the 250 character limit.",
-    
+
     "validate.errors.settings.kb.name": "Field required. Please revise.",
     "validate.errors.settings.kb.name.length": "255 character limit has been exceeded. Please revise.",
     "validate.errors.settings.customerId": "Customer ID cannot be blank",
@@ -380,8 +380,11 @@
     "selected": "Selected",
     "selectedCount": "Selected: {count}",
     "notSelected": "Not selected",
-    "addToHoldings": "Add to holdings",
-    "addAllToHoldings": "Add all to holdings",
+    "addToHoldings": "Add package to holdings",
+    "addAllToHoldings": "Add all titles to holdings",
+    "selectPackage.confirmationModal.label": "Add all titles in a package to holdings",
+    "selectPackage.confirmationModal.message": "Selecting this action will <strong>add all titles</strong> in this package to your holdings. To continue this action, select <strong>Add package (all titles) to holdings</strong>.",
+    "selectPackage.confirmationModal.confirmationButtonText": "Add package (all titles) to holdings",
     "saving": "Saving",
     "submit": "Submit",
     "save": "Save",
