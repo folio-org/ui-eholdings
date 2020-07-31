@@ -129,7 +129,8 @@ class SettingsKnowledgeBaseRoute extends Component {
 export default connect(
   (store) => ({
     kbCredentials: selectPropFromData(store, 'kbCredentials'),
-  }), {
+  }),
+  {
     postKBCredentials: postKBCredentialsAction,
     patchKBCredentials: patchKBCredentialsAction,
     confirmPatchKBCredentials: confirmPatchKBCredentialsAction,
