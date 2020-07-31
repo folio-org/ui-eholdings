@@ -14,7 +14,13 @@ import {
   Icon,
   TextField,
   Select,
+  Button,
+  Modal,
+  ModalFooter,
 } from '@folio/stripes/components';
+
+
+import SafeHTMLMessage from '@folio/react-intl-safe-html';
 
 import SettingsForm from '../settings-form';
 import { KbCredentials } from '../../../constants';
@@ -28,11 +34,14 @@ class SettingsKnowledgeBase extends Component {
     intl: PropTypes.object.isRequired,
     isCreateMode: PropTypes.bool,
     kbCredentials: KbCredentials.KbCredentialsReduxStateShape,
+    match: ReactRouterPropTypes.history.isRequired,
+    onDelete: PropTypes.func.isRequired,
     onSubmit: PropTypes.func.isRequired,
   };
 
   state = {
     toasts: [],
+    deleteConfirmationModalDisplayed: false,
   }
 
   componentDidUpdate(prevProps) {
@@ -149,6 +158,57 @@ class SettingsKnowledgeBase extends Component {
     }
   }
 
+  onDeleteConfirmation = kbID => () => {
+    this.props.onDelete(kbID);
+    this.toggleDeleteConfirmationModal();
+  }
+
+  renderDeleteConfirmationModal() {
+    const { deleteConfirmationModalDisplayed } = this.state;
+    const {
+      kbCredentials,
+      match,
+    } = this.props;
+
+    const kbToDeleteID = match.params.kbId;
+    const kbToDelete = kbCredentials.items.find(kb => kb.id === kbToDeleteID);
+    const kbToDeleteName = kbToDelete.attributes.name;
+
+    const footer = (
+      <ModalFooter>
+        <Button
+          buttonStyle="danger"
+          onClick={this.onDeleteConfirmation(kbToDeleteID)}
+        >
+          <FormattedMessage id="ui-eholdings.settings.kb.delete" />
+        </Button>
+        <Button onClick={this.toggleDeleteConfirmationModal}>
+          <FormattedMessage id="ui-eholdings.cancel" />
+        </Button>
+      </ModalFooter>
+    );
+
+    return (
+      <Modal
+        size="small"
+        open={deleteConfirmationModalDisplayed}
+        footer={footer}
+        label={<FormattedMessage id="ui-eholdings.settings.kb.delete.modalHeading" />}
+      >
+        <SafeHTMLMessage
+          id="ui-eholdings.settings.kb.delete.warning"
+          values={{ kbName: kbToDeleteName }}
+        />
+      </Modal>
+    );
+  }
+
+  toggleDeleteConfirmationModal = () => {
+    this.setState(({ deleteConfirmationModalDisplayed }) => ({
+      deleteConfirmationModalDisplayed: !deleteConfirmationModalDisplayed
+    }));
+  }
+
   render() {
     const {
       onSubmit,
@@ -174,6 +234,15 @@ class SettingsKnowledgeBase extends Component {
             updateIsPending={kbCredentials.isUpdating}
             title={<FormattedMessage id={isCreateMode ? 'ui-eholdings.settings.kb.new' : 'ui-eholdings.settings.kb.edit'} />}
             toasts={this.state.toasts}
+            lastMenu={(
+              <Button
+                buttonStyle="danger"
+                onClick={this.toggleDeleteConfirmationModal}
+                marginBottom0
+              >
+                <FormattedMessage id="ui-eholdings.settings.kb.delete" />
+              </Button>
+            )}
           >
             {!isCreateMode && (
               <Headline size="xx-large" tag="h3">
@@ -261,6 +330,7 @@ class SettingsKnowledgeBase extends Component {
                 when={!formState.pristine}
               />
             )}
+            {this.renderDeleteConfirmationModal()}
           </SettingsForm>
         )}
       />

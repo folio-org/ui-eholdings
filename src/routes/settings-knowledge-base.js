@@ -99,6 +99,10 @@ class SettingsKnowledgeBaseRoute extends Component {
     }
   };
 
+  deleteKBCredentials = kbID => {
+    console.log('THIS KB WILL BE DELETED', kbID);
+  };
+
   render() {
     const { kbCredentials } = this.props;
 
@@ -116,6 +120,7 @@ class SettingsKnowledgeBaseRoute extends Component {
                   config={this.getCurrentConfig()}
                   onSubmit={this.updateConfig}
                   isCreateMode={this.state.isCreateMode}
+                  onDelete={this.deleteKBCredentials}
                 />
               </TitleManager>
             )}
