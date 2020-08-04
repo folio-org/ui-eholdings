@@ -9,7 +9,8 @@
 * Added possibility to change KB Name. (UIEH-898)
 * Fix permission error in devtools console. (UIEH-915)
 * Change filter by Tags request format. (UIEH-922)
-* Add package selection confirmation modal. (UIIH-907)
+* Add package selection confirmation modal. (UIEH-907)
+* Add possibility to delete KB credentials. (UIEH-909)
 
 ## [4.0.0] (https://github.com/folio-org/ui-eholdings/tree/v4.0.0) (2020-06-11)
 
