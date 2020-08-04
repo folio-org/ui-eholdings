@@ -395,5 +395,8 @@
     "permission.settings.access-types.create-edit": "الإعدادات (المقتنيات الإلكترونية): إمكانية إنشاء، تحرير وعرض أنواع حالة الوصول",
     "permission.settings.access-types.view": "الإعدادات (المقتنيات الإلكترونية): إمكانية عرض أنواع حالة الوصول",
     "permission.app.enabled": "واجهة االمستخدم: تم تفعيل وحدة المقتنيات الإلكترونية",
-    "permission.settings.enabled": "الإعدادت (المقتنيات الإلكترونية): اعرض قائمة بصفحات الإعدادات"
+    "permission.settings.enabled": "الإعدادت (المقتنيات الإلكترونية): اعرض قائمة بصفحات الإعدادات",
+    "selectPackage.confirmationModal.label": "إضافة كل العناوين الموجودة في حزمة إلى المقتنيات",
+    "selectPackage.confirmationModal.message": "سيؤدي تحديد هذا الإجراء إلى <strong>إضافة كل المواد</strong> الموجودة في هذه الحزمة إلى مقتنياتك. للاستمرار في هذا الإجراء، قم بتحديد <strong>إضافة الحزمة (كل المواد) إلى المقتنيات</strong>.",
+    "selectPackage.confirmationModal.confirmationButtonText": "إضافة حزمة (كل العناوين) إلى المقتنيات"
 }
