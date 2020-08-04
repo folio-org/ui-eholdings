@@ -220,6 +220,7 @@ class SettingsKnowledgeBase extends Component {
       kbCredentials,
       isCreateMode,
       config,
+      intl,
     } = this.props;
 
     const { deleteConfirmationModalDisplayed } = this.state;
@@ -227,6 +228,10 @@ class SettingsKnowledgeBase extends Component {
     if (!config) {
       return null;
     }
+
+    const nameFieldLabel = intl.formatMessage({ id: 'ui-eholdings.name' });
+    const customerIDFieldLabel = intl.formatMessage({ id: 'ui-eholdings.settings.kb.customerId' });
+    const apiKeyFieldLabel = intl.formatMessage({ id: 'ui-eholdings.settings.kb.apiKey' });
 
     return (
       <Form
@@ -263,18 +268,14 @@ class SettingsKnowledgeBase extends Component {
               : (
                 <>
                   <div data-test-eholdings-settings-kb-name>
-                    <FormattedMessage id="ui-eholdings.name">
-                      {label => (
-                        <Field
-                          name="name"
-                          component={TextField}
-                          label={label}
-                          aria-label={label}
-                          required
-                          validate={this.validateNameField}
-                        />
-                      )}
-                    </FormattedMessage>
+                    <Field
+                      name="name"
+                      component={TextField}
+                      label={nameFieldLabel}
+                      aria-label={nameFieldLabel}
+                      required
+                      validate={this.validateNameField}
+                    />
                   </div>
                   <div data-test-eholdings-settings-kb-url>
                     <Field
@@ -288,46 +289,38 @@ class SettingsKnowledgeBase extends Component {
                   </div>
 
                   <div data-test-eholdings-settings-customerid>
-                    <FormattedMessage id="ui-eholdings.settings.kb.customerId">
-                      {label => (
-                        <Field
-                          label={label}
-                          name="customerId"
-                          component={TextField}
-                          type="text"
-                          autoComplete="off"
-                          validate={value => (
-                            value ? undefined : <FormattedMessage id="ui-eholdings.validate.errors.settings.customerId" />
-                          )}
-                          required
-                          aria-label={label}
-                        />
-
+                    <Field
+                      label={customerIDFieldLabel}
+                      name="customerId"
+                      component={TextField}
+                      type="text"
+                      autoComplete="off"
+                      validate={value => (
+                        value ? null : <FormattedMessage id="ui-eholdings.validate.errors.settings.customerId" />
                       )}
-                    </FormattedMessage>
+                      required
+                      aria-label={customerIDFieldLabel}
+                    />
                   </div>
 
                   <div data-test-eholdings-settings-apikey>
-                    <FormattedMessage id="ui-eholdings.settings.kb.apiKey">
-                      {label => (
-                        <Field
-                          label={label}
-                          name="apiKey"
-                          component={TextField}
-                          type="password"
-                          autoComplete="off"
-                          validate={value => (
-                            value ? undefined : <FormattedMessage id="ui-eholdings.validate.errors.settings.apiKey" />
-                          )}
-                          required
-                          aria-label={label}
-                        />
-
+                    <Field
+                      label={apiKeyFieldLabel}
+                      name="apiKey"
+                      component={TextField}
+                      type="password"
+                      autoComplete="off"
+                      validate={value => (
+                        value ? null : <FormattedMessage id="ui-eholdings.validate.errors.settings.apiKey" />
                       )}
-                    </FormattedMessage>
+                      required
+                      aria-label={apiKeyFieldLabel}
+                    />
                   </div>
 
-                  <p><FormattedMessage id="ui-eholdings.settings.kb.url.ebsco.customer.message" /></p>
+                  <p>
+                    <FormattedMessage id="ui-eholdings.settings.kb.url.ebsco.customer.message" />
+                  </p>
                 </>
               )}
 

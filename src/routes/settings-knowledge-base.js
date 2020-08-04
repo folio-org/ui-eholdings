@@ -6,7 +6,10 @@ import {
   TitleManager,
   CalloutContext,
 } from '@folio/stripes/core';
-import { FormattedMessage } from 'react-intl';
+import {
+  FormattedMessage,
+  injectIntl,
+} from 'react-intl';
 import { cloneDeep } from 'lodash';
 
 import {
@@ -29,6 +32,7 @@ class SettingsKnowledgeBaseRoute extends Component {
     confirmPostKBCredentials: PropTypes.func.isRequired,
     deleteKBCredentials: PropTypes.func.isRequired,
     history: ReactRouterPropTypes.history.isRequired,
+    intl: PropTypes.object.isRequired,
     kbCredentials: KbCredentials.KbCredentialsReduxStateShape,
     location: ReactRouterPropTypes.location.isRequired,
     match: PropTypes.object.isRequired,
@@ -79,7 +83,10 @@ class SettingsKnowledgeBaseRoute extends Component {
         type: 'success',
         message: (
           <span data-test-kb-deleted-notification>
-            <FormattedMessage id="ui-eholdings.settings.kb.delete.toast" values={{ kbName: currentKBName }} />
+            <FormattedMessage
+              id="ui-eholdings.settings.kb.delete.toast"
+              values={{ kbName: currentKBName }}
+            />
           </span>
         ),
       });
@@ -151,7 +158,10 @@ class SettingsKnowledgeBaseRoute extends Component {
   };
 
   render() {
-    const { kbCredentials } = this.props;
+    const {
+      kbCredentials,
+      intl,
+    } = this.props;
 
     return (
       <CalloutContext.Consumer>
@@ -159,27 +169,19 @@ class SettingsKnowledgeBaseRoute extends Component {
           this.sendDeleteSuccessCallout = sendCallout;
 
           return (
-            <FormattedMessage id="ui-eholdings.label.settings">
-              {pageLabel => (
-                <FormattedMessage id="ui-eholdings.settings.kb">
-                  {recordLabel => (
-                    <TitleManager
-                      page={pageLabel}
-                      record={recordLabel}
-                    >
-                      <View
-                        kbCredentials={kbCredentials}
-                        config={this.getCurrentConfig()}
-                        onSubmit={this.updateConfig}
-                        isCreateMode={this.state.isCreateMode}
-                        onDelete={this.deleteKBCredentials}
-                        currentKBName={this.getCurrentKBName()}
-                      />
-                    </TitleManager>
-                  )}
-                </FormattedMessage>
-              )}
-            </FormattedMessage>
+            <TitleManager
+              page={intl.formatMessage({ id: 'ui-eholdings.label.settings' })}
+              record={intl.formatMessage({ id: 'ui-eholdings.settings.kb' })}
+            >
+              <View
+                kbCredentials={kbCredentials}
+                config={this.getCurrentConfig()}
+                onSubmit={this.updateConfig}
+                isCreateMode={this.state.isCreateMode}
+                onDelete={this.deleteKBCredentials}
+                currentKBName={this.getCurrentKBName()}
+              />
+            </TitleManager>
           );
         }}
       </CalloutContext.Consumer>
@@ -199,4 +201,4 @@ export default connect(
     confirmPatchKBCredentials: confirmPatchKBCredentialsAction,
     confirmPostKBCredentials: confirmPostKBCredentialsAction,
   }
-)(SettingsKnowledgeBaseRoute);
+)(injectIntl(SettingsKnowledgeBaseRoute));
