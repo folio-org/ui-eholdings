@@ -395,5 +395,12 @@
     "permission.settings.access-types.create-edit": "设置（电子馆藏）：可以创建、编辑和查看访问状态类型",
     "permission.settings.access-types.view": "设置（电子馆藏）：可以查看访问状态类型",
     "permission.app.enabled": "UI：电子馆藏模块已启用",
-    "permission.settings.enabled": "设置（电子馆藏）：设置页面显示清单"
+    "permission.settings.enabled": "设置（电子馆藏）：设置页面显示清单",
+    "selectPackage.confirmationModal.label": "Add all titles in a package to holdings",
+    "selectPackage.confirmationModal.message": "Selecting this action will <strong>add all titles</strong> in this package to your holdings. To continue this action, select <strong>Add package (all titles) to holdings</strong>.",
+    "selectPackage.confirmationModal.confirmationButtonText": "Add package (all titles) to holdings",
+    "settings.kb.delete": "Delete",
+    "settings.kb.delete.modalHeading": "Delete Knowledge base credentials",
+    "settings.kb.delete.toast": "{kbName} has been removed.",
+    "settings.kb.delete.warning": "Are you sure you want to delete <strong>{kbName}</strong> credentials? If you continue with deletion, then the credentials will no longer be available for this FOLIO instance. Root proxy, custom labels, access status types, and assigned users will also not be available."
 }

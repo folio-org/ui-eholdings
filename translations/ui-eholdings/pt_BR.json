@@ -250,8 +250,8 @@
     "date.endDate": "Data final",
     "selected": "Selecionado",
     "notSelected": "Não selecionado",
-    "addToHoldings": "Adicionar ao holdings",
-    "addAllToHoldings": "Adicionar todos ao holdings",
+    "addToHoldings": "Adicionar pacote aos holdings",
+    "addAllToHoldings": "Adicionar todos os títulos aos holdings",
     "saving": "Salvando",
     "submit": "Enviar",
     "save": "Salvar",
@@ -395,5 +395,12 @@
     "permission.settings.access-types.create-edit": "Configurações (eAcervo): Pode criar, editar e visualizar tipos de status de acesso",
     "permission.settings.access-types.view": "Configurações (eAcervo): Pode ver os tipos de status de acesso",
     "permission.app.enabled": "UI: o módulo Acervo digital está ativado",
-    "permission.settings.enabled": "Configurações (Acervo digital): exibe a lista de páginas de configurações"
+    "permission.settings.enabled": "Configurações (Acervo digital): exibe a lista de páginas de configurações",
+    "selectPackage.confirmationModal.label": "Adicionar todos os títulos em um pacote aos holdings",
+    "selectPackage.confirmationModal.message": "Selecionar esta ação <strong>adicionará todos os títulos</strong> neste pacote aos seus holdings. Para continuar esta ação, selecione <strong>Adicionar pacote (todos os títulos) aos holdings</strong>.",
+    "selectPackage.confirmationModal.confirmationButtonText": "Adicionar pacote (todos os títulos) aos holdings",
+    "settings.kb.delete": "Delete",
+    "settings.kb.delete.modalHeading": "Delete Knowledge base credentials",
+    "settings.kb.delete.toast": "{kbName} has been removed.",
+    "settings.kb.delete.warning": "Are you sure you want to delete <strong>{kbName}</strong> credentials? If you continue with deletion, then the credentials will no longer be available for this FOLIO instance. Root proxy, custom labels, access status types, and assigned users will also not be available."
 }
