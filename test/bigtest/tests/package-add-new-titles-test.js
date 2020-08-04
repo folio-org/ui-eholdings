@@ -86,8 +86,9 @@ describe('PackageShowAllowKbToAddTitles', () => {
     });
 
     describe('selecting a package', () => {
-      beforeEach(() => {
-        return PackageShowPage.whenLoaded().selectPackage();
+      beforeEach(async () => {
+        await PackageShowPage.whenLoaded().selectPackage();
+        await PackageShowPage.selectionConfirmationModal.confirmPackageSelection();
       });
 
       it('reflects the desired state (Selected)', () => {

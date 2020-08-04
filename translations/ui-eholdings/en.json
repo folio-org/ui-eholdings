@@ -166,6 +166,10 @@
     "settings.kb.url.ebsco.customer.message": "EBSCO KB API customers: Configuration enables searching with eHoldings and Codex search apps.",
     "settings.kb.updated": "KB settings updated",
     "settings.kb.saved": "{name} has been saved",
+    "settings.kb.delete": "Delete",
+    "settings.kb.delete.modalHeading": "Delete Knowledge base credentials",
+    "settings.kb.delete.toast": "{kbName} has been removed.",
+    "settings.kb.delete.warning": "Are you sure you want to delete <strong>{kbName}</strong> credentials? If you continue with deletion, then the credentials will no longer be available for this FOLIO instance. Root proxy, custom labels, access status types, and assigned users will also not be available.",
     "settings.rootProxy": "Root proxy",
     "settings.rootProxy.updated": "Root proxy updated",
     "settings.rootProxy.setting": "Root proxy setting",
@@ -319,7 +323,7 @@
 
     "validate.errors.edition.value": "Invalid value.",
     "validate.errors.edition.length": "Value exceeds the 250 character limit.",
-    
+
     "validate.errors.settings.kb.name": "Field required. Please revise.",
     "validate.errors.settings.kb.name.length": "255 character limit has been exceeded. Please revise.",
     "validate.errors.settings.customerId": "Customer ID cannot be blank",
@@ -380,8 +384,11 @@
     "selected": "Selected",
     "selectedCount": "Selected: {count}",
     "notSelected": "Not selected",
-    "addToHoldings": "Add to holdings",
-    "addAllToHoldings": "Add all to holdings",
+    "addToHoldings": "Add package to holdings",
+    "addAllToHoldings": "Add all titles to holdings",
+    "selectPackage.confirmationModal.label": "Add all titles in a package to holdings",
+    "selectPackage.confirmationModal.message": "Selecting this action will <strong>add all titles</strong> in this package to your holdings. To continue this action, select <strong>Add package (all titles) to holdings</strong>.",
+    "selectPackage.confirmationModal.confirmationButtonText": "Add package (all titles) to holdings",
     "saving": "Saving",
     "submit": "Submit",
     "save": "Save",
