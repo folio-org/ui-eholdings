@@ -14,6 +14,16 @@ import {
 import Toast from './toast';
 import { hasClassBeginningWith } from './helpers';
 
+@interactor class DeleteConfirmationModal {
+  confirmKBDelete = clickable('[data-test-confirm-delete-kb-credentials]');
+  cancelKBDelete = clickable('[data-test-cancel-delete-kb-credentials]');
+}
+
+@interactor class DeleteSuccessNotification {
+  confirmKBDelete = clickable('[data-test-confirm-delete-kb-credentials]');
+  cancelKBDelete = clickable('[data-test-cancel-delete-kb-credentials]');
+}
+
 @interactor class SettingsPage {
   isLoaded = isPresent('[data-test-eholdings-settings-customerid]');
 
@@ -46,6 +56,11 @@ import { hasClassBeginningWith } from './helpers';
       return this.fill(name).blur();
     }
   });
+
+  deleteButtonIsDisplayed = isPresent('[data-test-delete-kb-credentials]');
+  clickDeleteButton = clickable('[data-test-delete-kb-credentials]');
+  deleteNotification = new DeleteSuccessNotification('[data-test-kb-deleted-notification]');
+  deleteConfirmationModal = new DeleteConfirmationModal('#delete-kb-confirmation-modal');
 
   toast = Toast;
 }
