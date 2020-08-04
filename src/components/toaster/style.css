@@ -5,7 +5,7 @@
   z-index: 13;
   pointer-events: none;
   right: 0;
-  padding: 1em;
+  padding: 1.5rem 2rem;
   width: 100%;
 }
 
@@ -22,18 +22,26 @@
 }
 
 .toast {
+  width: 45vw;
+  position: relative;
+  pointer-events: all;
+  background-color: #fff;
+  padding: 1rem;
+  transition: left 0.4s, right 0.4s, opacity 0.4s;
+  border: 1px solid transparent;
   display: flex;
+  flex-direction: row;
   justify-content: space-between;
-  max-width: 640px;
-  min-width: 300px;
-  margin-left: auto;
-  margin-bottom: 1em;
-  margin-right: auto;
-  color: white;
-  padding: 10px;
+  align-items: center;
   border-radius: var(--radius);
-  box-shadow: 0 10px 30px 0 rgba(0, 0, 0, 0.24);
-  pointer-events: auto;
+  margin-bottom: 4px;
+
+  & .message {
+    flex-grow: 2;
+    padding: 0 6px;
+    font-size: var(--font-size-medium);
+  }
+
 }
 
 .slideInBottom {
@@ -65,7 +73,8 @@
 }
 
 .error {
-  background-color: var(--error);
+  border-color: var(--error);
+  background-color: color(var(--error, #600) tint(75%));
 }
 
 .warn {
@@ -73,11 +82,12 @@
 }
 
 .success {
-  background-color: var(--success);
+  border-color: var(--success);
+  background-color: color(var(--success, #060) tint(75%));
 }
 
 .closeIcon {
-  fill: white;
+  fill: #000;
 }
 
 @keyframes slideInBottom {
