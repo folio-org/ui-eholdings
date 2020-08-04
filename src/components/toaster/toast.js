@@ -64,6 +64,17 @@ class Toast extends Component {
     });
   }
 
+  getIconForType(type) {
+    switch (type) {
+      case 'success':
+        return 'check-circle';
+      case 'error':
+        return 'exclamation-circle';
+      default:
+        return 'chevron-double-right';
+    }
+  }
+
   render() {
     const { isOpen } = this.state;
     const { type, animationPosition } = this.props;
@@ -83,10 +94,13 @@ class Toast extends Component {
         }}
       >
         <div className={toastClass} aria-live="assertive" data-test-eholdings-toast={type}>
-          {this.props.children}
+          <Icon icon={this.getIconForType(type)} />
+          <span className={style.message}>
+            {this.props.children}
+          </span>
 
           <button onClick={this.hideToast} type="button">
-            <Icon icon="times" size="small" iconClassName={style.closeIcon} />
+            <Icon icon="times" iconClassName={style.closeIcon} />
           </button>
         </div>
       </CSSTransition>

@@ -21,6 +21,7 @@ export default class SettingsForm extends Component {
       invalid: PropTypes.bool,
       pristine: PropTypes.bool,
     }).isRequired,
+    lastMenu: PropTypes.element,
     title: PropTypes.node,
     toasts: PropTypes.array.isRequired,
     updateIsPending: PropTypes.bool,
@@ -74,6 +75,7 @@ export default class SettingsForm extends Component {
       title,
       formState,
       toasts,
+      lastMenu,
       ...formProps
     } = this.props;
 
@@ -96,6 +98,7 @@ export default class SettingsForm extends Component {
               )}
             </FormattedMessage>
           )}
+          lastMenu={lastMenu}
           footer={this.renderFooter()}
         >
           <Toaster

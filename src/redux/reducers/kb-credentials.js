@@ -11,6 +11,7 @@ import {
   PATCH_KB_CREDENTIALS,
   CONFIRM_PATCH_KB_CREDENTIALS,
   CONFIRM_POST_KB_CREDENTIALS,
+  CONFIRM_DELETE_KB_CREDENTIALS,
   PATCH_KB_CREDENTIALS_SUCCESS,
   PATCH_KB_CREDENTIALS_FAILURE,
 } from '../actions';
@@ -24,6 +25,7 @@ const initialState = {
   hasFailed: false,
   hasUpdated: false,
   hasSaved: false,
+  hasDeleted: false,
   items: [],
   errors: [],
 };
@@ -158,9 +160,15 @@ const handlers = {
       isLoading: false,
       hasLoaded: true,
       hasFailed: false,
+      hasDeleted: true,
       items: items.reduce((acc, item) => (item.id !== id ? [...acc, item] : acc), []),
     };
   },
+
+  [CONFIRM_DELETE_KB_CREDENTIALS]: state => ({
+    ...state,
+    hasDeleted: false,
+  }),
 
   [DELETE_KB_CREDENTIALS_FAILURE]: (state, action) => {
     const { payload: { errors } } = action;

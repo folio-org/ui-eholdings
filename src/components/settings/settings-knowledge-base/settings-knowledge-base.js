@@ -9,11 +9,15 @@ import {
 import { withRouter } from 'react-router';
 import ReactRouterPropTypes from 'react-router-prop-types';
 
+import SafeHTMLMessage from '@folio/react-intl-safe-html';
 import {
   Headline,
   Icon,
   TextField,
   Select,
+  Button,
+  Modal,
+  ModalFooter,
 } from '@folio/stripes/components';
 
 import SettingsForm from '../settings-form';
@@ -24,15 +28,19 @@ const focusOnErrors = createFocusDecorator();
 class SettingsKnowledgeBase extends Component {
   static propTypes = {
     config: KbCredentials.CredentialShape,
+    currentKBName: PropTypes.string.isRequired,
     history: ReactRouterPropTypes.history.isRequired,
     intl: PropTypes.object.isRequired,
     isCreateMode: PropTypes.bool,
     kbCredentials: KbCredentials.KbCredentialsReduxStateShape,
+    match: ReactRouterPropTypes.history.isRequired,
+    onDelete: PropTypes.func.isRequired,
     onSubmit: PropTypes.func.isRequired,
   };
 
   state = {
     toasts: [],
+    deleteConfirmationModalDisplayed: false,
   }
 
   componentDidUpdate(prevProps) {
@@ -149,17 +157,81 @@ class SettingsKnowledgeBase extends Component {
     }
   }
 
+  onDeleteConfirmation = kbID => () => {
+    this.props.onDelete(kbID);
+    this.toggleDeleteConfirmationModal();
+  }
+
+  renderDeleteConfirmationModal() {
+    const {
+      match,
+      currentKBName,
+    } = this.props;
+
+    const kbToDeleteID = match.params.kbId;
+
+    const footer = (
+      <ModalFooter>
+        <Button
+          buttonStyle="danger"
+          onClick={this.onDeleteConfirmation(kbToDeleteID)}
+          data-test-confirm-delete-kb-credentials
+        >
+          <FormattedMessage id="ui-eholdings.settings.kb.delete" />
+        </Button>
+        <Button
+          onClick={this.toggleDeleteConfirmationModal}
+          data-test-cancel-delete-kb-credentials
+        >
+          <FormattedMessage id="ui-eholdings.cancel" />
+        </Button>
+      </ModalFooter>
+    );
+
+    return (
+      <span data-test-delete-confirmation-modal>
+        <Modal
+          size="small"
+          open
+          footer={footer}
+          label={<FormattedMessage id="ui-eholdings.settings.kb.delete.modalHeading" />}
+          dismissible
+          onClose={this.toggleDeleteConfirmationModal}
+          id="delete-kb-confirmation-modal"
+        >
+          <SafeHTMLMessage
+            id="ui-eholdings.settings.kb.delete.warning"
+            values={{ kbName: currentKBName }}
+          />
+        </Modal>
+      </span>
+    );
+  }
+
+  toggleDeleteConfirmationModal = () => {
+    this.setState(({ deleteConfirmationModalDisplayed }) => ({
+      deleteConfirmationModalDisplayed: !deleteConfirmationModalDisplayed
+    }));
+  }
+
   render() {
     const {
       onSubmit,
       kbCredentials,
       isCreateMode,
       config,
+      intl,
     } = this.props;
+
+    const { deleteConfirmationModalDisplayed } = this.state;
 
     if (!config) {
       return null;
     }
+
+    const nameFieldLabel = intl.formatMessage({ id: 'ui-eholdings.name' });
+    const customerIDFieldLabel = intl.formatMessage({ id: 'ui-eholdings.settings.kb.customerId' });
+    const apiKeyFieldLabel = intl.formatMessage({ id: 'ui-eholdings.settings.kb.apiKey' });
 
     return (
       <Form
@@ -174,6 +246,16 @@ class SettingsKnowledgeBase extends Component {
             updateIsPending={kbCredentials.isUpdating}
             title={<FormattedMessage id={isCreateMode ? 'ui-eholdings.settings.kb.new' : 'ui-eholdings.settings.kb.edit'} />}
             toasts={this.state.toasts}
+            lastMenu={!isCreateMode && (
+              <Button
+                buttonStyle="danger"
+                onClick={this.toggleDeleteConfirmationModal}
+                marginBottom0
+                data-test-delete-kb-credentials
+              >
+                <FormattedMessage id="ui-eholdings.settings.kb.delete" />
+              </Button>
+            )}
           >
             {!isCreateMode && (
               <Headline size="xx-large" tag="h3">
@@ -181,78 +263,66 @@ class SettingsKnowledgeBase extends Component {
               </Headline>
             )}
 
-            {kbCredentials.isLoading ? (
-              <Icon icon="spinner-ellipsis" />
-            ) : (
-              <>
-                <div data-test-eholdings-settings-kb-name>
-                  <FormattedMessage id="ui-eholdings.name">
-                    {label => (
-                      <Field
-                        name="name"
-                        component={TextField}
-                        label={label}
-                        aria-label={label}
-                        required
-                        validate={this.validateNameField}
-                      />
-                    )}
-                  </FormattedMessage>
-                </div>
-                <div data-test-eholdings-settings-kb-url>
-                  <Field
-                    name="url"
-                    component={Select}
-                    label={<FormattedMessage id="ui-eholdings.settings.kb.rmapiBaseUrl" />}
-                  >
-                    <option value="https://sandbox.ebsco.io">Sandbox: https://sandbox.ebsco.io</option>
-                    <option value="https://api.ebsco.io">Production: https://api.ebsco.io</option>
-                  </Field>
-                </div>
+            {kbCredentials.isLoading
+              ? <Icon icon="spinner-ellipsis" />
+              : (
+                <>
+                  <div data-test-eholdings-settings-kb-name>
+                    <Field
+                      name="name"
+                      component={TextField}
+                      label={nameFieldLabel}
+                      aria-label={nameFieldLabel}
+                      required
+                      validate={this.validateNameField}
+                    />
+                  </div>
+                  <div data-test-eholdings-settings-kb-url>
+                    <Field
+                      name="url"
+                      component={Select}
+                      label={<FormattedMessage id="ui-eholdings.settings.kb.rmapiBaseUrl" />}
+                    >
+                      <option value="https://sandbox.ebsco.io">Sandbox: https://sandbox.ebsco.io</option>
+                      <option value="https://api.ebsco.io">Production: https://api.ebsco.io</option>
+                    </Field>
+                  </div>
 
-                <div data-test-eholdings-settings-customerid>
-                  <FormattedMessage id="ui-eholdings.settings.kb.customerId">
-                    {label => (
-                      <Field
-                        label={label}
-                        name="customerId"
-                        component={TextField}
-                        type="text"
-                        autoComplete="off"
-                        validate={value => (
-                          value ? undefined : <FormattedMessage id="ui-eholdings.validate.errors.settings.customerId" />
-                        )}
-                        required
-                        aria-label={label}
-                      />
+                  <div data-test-eholdings-settings-customerid>
+                    <Field
+                      label={customerIDFieldLabel}
+                      name="customerId"
+                      component={TextField}
+                      type="text"
+                      autoComplete="off"
+                      validate={value => (
+                        value ? null : <FormattedMessage id="ui-eholdings.validate.errors.settings.customerId" />
+                      )}
+                      required
+                      aria-label={customerIDFieldLabel}
+                    />
+                  </div>
 
-                    )}
-                  </FormattedMessage>
-                </div>
+                  <div data-test-eholdings-settings-apikey>
+                    <Field
+                      label={apiKeyFieldLabel}
+                      name="apiKey"
+                      component={TextField}
+                      type="password"
+                      autoComplete="off"
+                      validate={value => (
+                        value ? null : <FormattedMessage id="ui-eholdings.validate.errors.settings.apiKey" />
+                      )}
+                      required
+                      aria-label={apiKeyFieldLabel}
+                    />
+                  </div>
 
-                <div data-test-eholdings-settings-apikey>
-                  <FormattedMessage id="ui-eholdings.settings.kb.apiKey">
-                    {label => (
-                      <Field
-                        label={label}
-                        name="apiKey"
-                        component={TextField}
-                        type="password"
-                        autoComplete="off"
-                        validate={value => (
-                          value ? undefined : <FormattedMessage id="ui-eholdings.validate.errors.settings.apiKey" />
-                        )}
-                        required
-                        aria-label={label}
-                      />
-
-                    )}
-                  </FormattedMessage>
-                </div>
-
-                <p><FormattedMessage id="ui-eholdings.settings.kb.url.ebsco.customer.message" /></p>
-              </>
-            )}
+                  <p>
+                    <FormattedMessage id="ui-eholdings.settings.kb.url.ebsco.customer.message" />
+                  </p>
+                </>
+              )}
 
             {isCreateMode && (
               <NavigationModal
@@ -261,6 +331,7 @@ class SettingsKnowledgeBase extends Component {
                 when={!formState.pristine}
               />
             )}
+            {deleteConfirmationModalDisplayed && this.renderDeleteConfirmationModal()}
           </SettingsForm>
         )}
       />
