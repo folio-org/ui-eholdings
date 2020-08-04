@@ -9,6 +9,7 @@ import {
 import { withRouter } from 'react-router';
 import ReactRouterPropTypes from 'react-router-prop-types';
 
+import SafeHTMLMessage from '@folio/react-intl-safe-html';
 import {
   Headline,
   Icon,
@@ -19,9 +20,6 @@ import {
   ModalFooter,
 } from '@folio/stripes/components';
 
-
-import SafeHTMLMessage from '@folio/react-intl-safe-html';
-
 import SettingsForm from '../settings-form';
 import { KbCredentials } from '../../../constants';
 import NavigationModal from '../../navigation-modal';
@@ -30,6 +28,7 @@ const focusOnErrors = createFocusDecorator();
 class SettingsKnowledgeBase extends Component {
   static propTypes = {
     config: KbCredentials.CredentialShape,
+    currentKBName: PropTypes.string.isRequired,
     history: ReactRouterPropTypes.history.isRequired,
     intl: PropTypes.object.isRequired,
     isCreateMode: PropTypes.bool,
@@ -164,42 +163,48 @@ class SettingsKnowledgeBase extends Component {
   }
 
   renderDeleteConfirmationModal() {
-    const { deleteConfirmationModalDisplayed } = this.state;
     const {
-      kbCredentials,
       match,
+      currentKBName,
     } = this.props;
 
     const kbToDeleteID = match.params.kbId;
-    const kbToDelete = kbCredentials.items.find(kb => kb.id === kbToDeleteID);
-    const kbToDeleteName = kbToDelete.attributes.name;
 
     const footer = (
       <ModalFooter>
         <Button
           buttonStyle="danger"
           onClick={this.onDeleteConfirmation(kbToDeleteID)}
+          data-test-confirm-delete-kb-credentials
         >
           <FormattedMessage id="ui-eholdings.settings.kb.delete" />
         </Button>
-        <Button onClick={this.toggleDeleteConfirmationModal}>
+        <Button
+          onClick={this.toggleDeleteConfirmationModal}
+          data-test-cancel-delete-kb-credentials
+        >
           <FormattedMessage id="ui-eholdings.cancel" />
         </Button>
       </ModalFooter>
     );
 
     return (
-      <Modal
-        size="small"
-        open={deleteConfirmationModalDisplayed}
-        footer={footer}
-        label={<FormattedMessage id="ui-eholdings.settings.kb.delete.modalHeading" />}
-      >
-        <SafeHTMLMessage
-          id="ui-eholdings.settings.kb.delete.warning"
-          values={{ kbName: kbToDeleteName }}
-        />
-      </Modal>
+      <span data-test-delete-confirmation-modal>
+        <Modal
+          size="small"
+          open
+          footer={footer}
+          label={<FormattedMessage id="ui-eholdings.settings.kb.delete.modalHeading" />}
+          dismissible
+          onClose={this.toggleDeleteConfirmationModal}
+          id="delete-kb-confirmation-modal"
+        >
+          <SafeHTMLMessage
+            id="ui-eholdings.settings.kb.delete.warning"
+            values={{ kbName: currentKBName }}
+          />
+        </Modal>
+      </span>
     );
   }
 
@@ -216,6 +221,8 @@ class SettingsKnowledgeBase extends Component {
       isCreateMode,
       config,
     } = this.props;
+
+    const { deleteConfirmationModalDisplayed } = this.state;
 
     if (!config) {
       return null;
@@ -234,11 +241,12 @@ class SettingsKnowledgeBase extends Component {
             updateIsPending={kbCredentials.isUpdating}
             title={<FormattedMessage id={isCreateMode ? 'ui-eholdings.settings.kb.new' : 'ui-eholdings.settings.kb.edit'} />}
             toasts={this.state.toasts}
-            lastMenu={(
+            lastMenu={!isCreateMode && (
               <Button
                 buttonStyle="danger"
                 onClick={this.toggleDeleteConfirmationModal}
                 marginBottom0
+                data-test-delete-kb-credentials
               >
                 <FormattedMessage id="ui-eholdings.settings.kb.delete" />
               </Button>
@@ -330,7 +338,7 @@ class SettingsKnowledgeBase extends Component {
                 when={!formState.pristine}
               />
             )}
-            {this.renderDeleteConfirmationModal()}
+            {deleteConfirmationModalDisplayed && this.renderDeleteConfirmationModal()}
           </SettingsForm>
         )}
       />

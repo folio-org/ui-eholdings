@@ -42,13 +42,12 @@ export default {
 
     return doRequest(url, params);
   },
-  deleteCredentials(okapi, credentials) {
+  deleteCredentials(okapi, credentialsId) {
     const method = 'DELETE';
-    const url = `${okapi.url}${API_URL}/${credentials.id}`;
+    const url = `${okapi.url}${API_URL}/${credentialsId}`;
 
     const params = {
       method,
-      body: JSON.stringify(credentials),
       headers: getHeaders(method, okapi, url),
     };
 
