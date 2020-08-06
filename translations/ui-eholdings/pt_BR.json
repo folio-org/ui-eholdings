@@ -399,8 +399,8 @@
     "selectPackage.confirmationModal.label": "Adicionar todos os títulos em um pacote aos holdings",
     "selectPackage.confirmationModal.message": "Selecionar esta ação <strong>adicionará todos os títulos</strong> neste pacote aos seus holdings. Para continuar esta ação, selecione <strong>Adicionar pacote (todos os títulos) aos holdings</strong>.",
     "selectPackage.confirmationModal.confirmationButtonText": "Adicionar pacote (todos os títulos) aos holdings",
-    "settings.kb.delete": "Delete",
-    "settings.kb.delete.modalHeading": "Delete Knowledge base credentials",
-    "settings.kb.delete.toast": "{kbName} has been removed.",
-    "settings.kb.delete.warning": "Are you sure you want to delete <strong>{kbName}</strong> credentials? If you continue with deletion, then the credentials will no longer be available for this FOLIO instance. Root proxy, custom labels, access status types, and assigned users will also not be available."
+    "settings.kb.delete": "Excluir",
+    "settings.kb.delete.modalHeading": "Excluir credenciais da Knowledge base",
+    "settings.kb.delete.toast": "{kbName} foi removido.",
+    "settings.kb.delete.warning": "Tem certeza de que deseja excluir credenciais <strong>{kbName}</strong>? Se você continuar com a exclusão, as credenciais não estarão mais disponíveis para esta instância do FOLIO. Proxy raiz, rótulos personalizados, tipos de status de acesso e usuários atribuídos também não estarão disponíveis."
 }
