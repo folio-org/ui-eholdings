@@ -7,11 +7,15 @@ import { createResolver } from '../redux';
 import { Status } from '../redux/application';
 import { getKbCredentials as getKbCredentialsAction } from '../redux/actions';
 import { selectPropFromData } from '../redux/selectors';
-import { KbCredentials } from '../constants';
+import {
+  KbCredentials,
+  httpResponseCodes,
+} from '../constants';
 import NoBackendErrorScreen from '../components/error-screen/no-backend-error-screen';
 import FailedBackendErrorScreen from '../components/error-screen/failed-backend-error-screen';
 import InvalidBackendErrorScreen from '../components/error-screen/invalid-backend-error-screen';
 import UserNotAssignedToKbErrorScreen from '../components/error-screen/user-not-assigned-to-kb-error-screen';
+import ApiLimitExceededErrorScreen from '../components/error-screen/api-limit-exceeded-error-screen';
 
 class ApplicationRoute extends Component {
   static propTypes = {
@@ -52,17 +56,29 @@ class ApplicationRoute extends Component {
 
     const hasMultipleKbCredentials = kbCredentials.items?.length > 1;
 
-    return (
-      version ? (kbCredentials.isLoading && status.isLoading ? (
-        <Icon icon="spinner-ellipsis" />
-      ) : status.request.isRejected ? (
-        <FailedBackendErrorScreen />
-      ) : status.isLoaded && (
-        (!showSettings && !status.isConfigurationValid)
-          ? (hasMultipleKbCredentials ? <UserNotAssignedToKbErrorScreen /> : <InvalidBackendErrorScreen />)
-          : children
-      )) : <NoBackendErrorScreen />
-    );
+    if (!version) {
+      return <NoBackendErrorScreen />;
+    }
+
+    if (kbCredentials.isLoading && status.isLoading) {
+      return <Icon icon="spinner-ellipsis" />;
+    }
+
+    if (status.request.isRejected) {
+      if (status.request.status === httpResponseCodes.API_LIMIT_EXCEEDED) {
+        return <ApiLimitExceededErrorScreen />;
+      }
+
+      return <FailedBackendErrorScreen />;
+    }
+
+    if (status.isLoaded && (!showSettings && !status.isConfigurationValid)) {
+      return hasMultipleKbCredentials
+        ? <UserNotAssignedToKbErrorScreen />
+        : <InvalidBackendErrorScreen />;
+    }
+
+    return children;
   }
 }
 

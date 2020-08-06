@@ -14,4 +14,5 @@ export { default as accessTypesReduxStateShape } from './accessTypesReduxStateSh
 export { default as KbCredentials } from './kbCredentialsReduxStateShape';
 export { default as KbCredentialsUsers } from './kbCredentialsUsersReduxStateShape';
 export { default as rootProxy } from './rootProxyReduxStateShape';
+export { default as httpResponseCodes } from './httpResponseCodes';
 export * from './filterConfigs';

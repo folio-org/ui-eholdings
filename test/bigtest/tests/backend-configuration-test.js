@@ -22,6 +22,22 @@ describe('Error retrieving backend', () => {
   });
 });
 
+describe('API limit exceeded', () => {
+  setupApplication({
+    scenarios: ['api-limit-exceeded']
+  });
+
+  describe('when trying to use the app', () => {
+    beforeEach(function () {
+      this.visit('/eholdings');
+    });
+
+    it('informs user that API limit was exceeded', () => {
+      expect(ApplicationPage.apiLimitExceededError).to.be.true;
+    });
+  });
+});
+
 describe('With no backend at all', () => {
   setupApplication({
     scenarios: ['no-backend']
