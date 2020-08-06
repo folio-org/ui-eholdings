@@ -27,6 +27,7 @@ describe('(reducer) kbCredentials', () => {
       hasFailed: false,
       hasSaved: false,
       hasUpdated: false,
+      hasDeleted: false,
       items: [],
       errors: [],
     });
@@ -267,6 +268,7 @@ describe('(reducer) kbCredentials', () => {
     const expectedState = {
       isLoading: false,
       hasLoaded: true,
+      hasDeleted: true,
       hasFailed: false,
       items: [{ id: '3' }],
     };

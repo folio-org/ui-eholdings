@@ -1,15 +1,20 @@
 # Change history for ui-eholdings
 
-## [4.0.1] (IN PROGRESS)
+## [5.0.0] (IN PROGRESS)
+
+* Fix permission error in devtools console. (UIEH-915)
+* Change filter by Tags request format. (UIEH-922)
+* Add package selection confirmation modal. (UIEH-907)
+* Add possibility to delete KB credentials. (UIEH-909)
+* Improve error messaging for unconfigured KB credentials and exceeded API limit. (UIEH-816)
+
+## [4.0.1] (https://github.com/folio-org/ui-eholdings/tree/v4.0.0) (2020-07-08)
 
 * Fix KB credentials list shown not in alphabetical order. (UIEH-912)
 * Fix incorrect x-okapi-token sent after re-logging in eHoldings. (UIEH-918)
 * Fix filter by Access Types request incorrectly formatted. (UIEH-917)
 * Fix routing issues. (UIEH-916)
 * Added possibility to change KB Name. (UIEH-898)
-* Fix permission error in devtools console. (UIEH-915)
-* Change filter by Tags request format. (UIEH-922)
-* Add package selection confirmation modal. (UIIH-907)
 
 ## [4.0.0] (https://github.com/folio-org/ui-eholdings/tree/v4.0.0) (2020-06-11)
 
