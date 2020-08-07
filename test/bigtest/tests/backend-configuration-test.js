@@ -8,7 +8,7 @@ import SettingsPage from '../interactors/settings-configuration';
 
 describe('Error retrieving backend', () => {
   setupApplication({
-    scenarios: ['load-error-backend']
+    scenarios: ['load-error-backend'],
   });
 
   describe('when trying to use the app', () => {
@@ -24,7 +24,7 @@ describe('Error retrieving backend', () => {
 
 describe('API limit exceeded', () => {
   setupApplication({
-    scenarios: ['api-limit-exceeded']
+    scenarios: ['api-limit-exceeded'],
   });
 
   describe('when trying to use the app', () => {
@@ -40,7 +40,7 @@ describe('API limit exceeded', () => {
 
 describe('With no backend at all', () => {
   setupApplication({
-    scenarios: ['no-backend']
+    scenarios: ['no-backend'],
   });
 
   describe('when trying to use the app', () => {
@@ -56,7 +56,7 @@ describe('With no backend at all', () => {
 
 describe('With unconfigured backend', () => {
   setupApplication({
-    scenarios: ['unconfigured-backend']
+    scenarios: ['unconfigured-backend'],
   });
 
   describe('when trying to use the app', () => {
@@ -153,8 +153,8 @@ describe('With valid backend configuration', () => {
         this.server.patch('/kb-credentials/2', () => {
           return new Response(422, {}, {
             errors: [{
-              title: 'Invalid KB API credentials'
-            }]
+              title: 'Invalid KB API credentials',
+            }],
           });
         });
 
@@ -208,8 +208,8 @@ describe('With valid backend configuration', () => {
         beforeEach(function () {
           this.server.patch('/kb-credentials/2', {
             errors: [{
-              title: 'an error has occurred'
-            }]
+              title: 'an error has occurred',
+            }],
           }, 500);
 
           return SettingsPage.save();
@@ -250,7 +250,7 @@ describe('With valid backend configuration', () => {
 
 describe('With not assigned credentials', () => {
   setupApplication({
-    scenarios: ['user-not-assigned-to-kb']
+    scenarios: ['user-not-assigned-to-kb'],
   });
 
   describe('when trying to use the app', () => {

@@ -35,6 +35,7 @@ class ApplicationRoute extends Component {
       isLoading: PropTypes.bool.isRequired,
       request: PropTypes.shape({
         isRejected: PropTypes.bool.isRequired,
+        status: PropTypes.number.isRequired,
       }).isRequired,
     }).isRequired,
   }
