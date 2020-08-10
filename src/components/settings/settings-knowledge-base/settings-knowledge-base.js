@@ -11,7 +11,6 @@ import ReactRouterPropTypes from 'react-router-prop-types';
 
 import SafeHTMLMessage from '@folio/react-intl-safe-html';
 import {
-  Headline,
   Icon,
   TextField,
   Select,
@@ -257,12 +256,6 @@ class SettingsKnowledgeBase extends Component {
               </Button>
             )}
           >
-            {!isCreateMode && (
-              <Headline size="xx-large" tag="h3">
-                <FormattedMessage id="ui-eholdings.settings.kb.rmApiCreds" />
-              </Headline>
-            )}
-
             {kbCredentials.isLoading
               ? <Icon icon="spinner-ellipsis" />
               : (

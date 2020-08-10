@@ -12,6 +12,7 @@
 * Add package selection confirmation modal. (UIEH-907)
 * Add possibility to delete KB credentials. (UIEH-909)
 * Refactor from `bigtest/mirage` to `miragejs`.
+* Remove headlines from Root Proxy and KB settings pages. (UIEH-911)
 
 ## [4.0.0] (https://github.com/folio-org/ui-eholdings/tree/v4.0.0) (2020-06-11)
 

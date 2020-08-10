@@ -2,10 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Form } from 'react-final-form';
 import createFocusDecorator from 'final-form-focus';
-import {
-  Headline,
-  Icon,
-} from '@folio/stripes/components';
+import { Icon } from '@folio/stripes/components';
 import { FormattedMessage } from 'react-intl';
 
 import SettingsForm from '../settings-form';
@@ -74,10 +71,6 @@ export default class SettingsRootProxy extends Component {
             title={<FormattedMessage id="ui-eholdings.settings.rootProxy" />}
             toasts={this.state.toasts}
           >
-            <Headline size="xx-large" tag="h3">
-              <FormattedMessage id="ui-eholdings.settings.rootProxy.setting" />
-            </Headline>
-
             {proxyTypes.isLoading ? (
               <Icon icon="spinner-ellipsis" />
             ) : (
