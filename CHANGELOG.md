@@ -6,6 +6,8 @@
 * Change filter by Tags request format. (UIEH-922)
 * Add package selection confirmation modal. (UIEH-907)
 * Add possibility to delete KB credentials. (UIEH-909)
+* Refactor from `bigtest/mirage` to `miragejs`.
+* Remove headlines from Root Proxy and KB settings pages. (UIEH-911)
 * Improve error messaging for unconfigured KB credentials and exceeded API limit. (UIEH-816)
 
 ## [4.0.1] (https://github.com/folio-org/ui-eholdings/tree/v4.0.0) (2020-07-08)

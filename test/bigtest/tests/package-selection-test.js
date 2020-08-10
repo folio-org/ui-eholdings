@@ -1,6 +1,6 @@
 import { beforeEach, describe, it } from '@bigtest/mocha';
 import { expect } from 'chai';
-import { Response } from '@bigtest/mirage';
+import { Response } from 'miragejs';
 
 import setupApplication from '../helpers/setup-application';
 import setupBlockServer from '../helpers/setup-block-server';

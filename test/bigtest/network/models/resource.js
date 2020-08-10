@@ -1,4 +1,4 @@
-import { Model, belongsTo } from '@bigtest/mirage';
+import { Model, belongsTo } from 'miragejs';
 
 export default Model.extend({
   package: belongsTo(),
