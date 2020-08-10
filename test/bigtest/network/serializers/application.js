@@ -1,4 +1,5 @@
-import { JSONAPISerializer, camelize, pluralize } from '@bigtest/mirage';
+import { JSONAPISerializer } from 'miragejs';
+import { camelize, pluralize } from '../../helpers/inflected';
 
 export default JSONAPISerializer.extend({
   serializeIds: 'always',

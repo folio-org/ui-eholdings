@@ -1,4 +1,5 @@
-import { Factory, faker, trait } from '@bigtest/mirage';
+import { Factory, trait } from 'miragejs';
+import faker from 'faker';
 
 export default Factory.extend({
   isSelected: false,
@@ -42,7 +43,7 @@ export default Factory.extend({
 
   isHidden: trait({
     afterCreate(resource, server) {
-      const visibilityData = server.create('visibility-data', {
+      const visibilityData = server.create('visibilityData', {
         isHidden: true,
         reason: 'The content is for mature audiences only.'
       });
@@ -53,7 +54,7 @@ export default Factory.extend({
 
   isHiddenWithoutReason: trait({
     afterCreate(resource, server) {
-      const visibilityData = server.create('visibility-data', {
+      const visibilityData = server.create('visibilityData', {
         isHidden: true,
         reason: ''
       });
@@ -96,7 +97,7 @@ export default Factory.extend({
 
   afterCreate(resource, server) {
     if (!resource.visibilityData) {
-      const visibilityData = server.create('visibility-data');
+      const visibilityData = server.create('visibilityData');
       resource.update('visibilityData', visibilityData.toJSON());
       resource.save();
     }
