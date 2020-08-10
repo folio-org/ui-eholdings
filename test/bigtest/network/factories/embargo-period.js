@@ -1,4 +1,4 @@
-import { Factory } from '@bigtest/mirage';
+import { Factory } from 'miragejs';
 
 export default Factory.extend({
   // these faker methods are currently not used, by removing them we

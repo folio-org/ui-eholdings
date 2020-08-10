@@ -1,4 +1,4 @@
-import { camelize } from '@bigtest/mirage';
+import { camelize } from '../helpers/inflected';
 
 // auto-import all mirage submodules
 const req = require.context('./', true, /\.js$/);

@@ -623,7 +623,7 @@ describe('TitleSearch', () => {
     beforeEach(function () {
       const allTags = ['urgent', 'not urgent'];
 
-      const urgentTag = this.server.create('tags', {
+      const urgentTag = this.server.create('tag', {
         tagList: allTags.slice(0)
       }).toJSON();
 

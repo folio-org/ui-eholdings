@@ -1,4 +1,5 @@
-import { Factory, faker } from '@bigtest/mirage';
+import { Factory } from 'miragejs';
+import faker from 'faker';
 
 export default Factory.extend({
   type: () => faker.random.arrayElement([

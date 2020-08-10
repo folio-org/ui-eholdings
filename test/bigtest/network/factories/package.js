@@ -1,4 +1,5 @@
-import { Factory, faker, trait } from '@bigtest/mirage';
+import { Factory, trait } from 'miragejs';
+import faker from 'faker';
 
 const helpText = '<ul><li>Enter your Gale token</li></ul>';
 
@@ -74,7 +75,7 @@ export default Factory.extend({
 
   isHidden: trait({
     afterCreate(packageObj, server) {
-      const visibilityData = server.create('visibility-data', {
+      const visibilityData = server.create('visibilityData', {
         isHidden: true,
         reason: 'The content is for mature audiences only.'
       });
@@ -84,7 +85,7 @@ export default Factory.extend({
 
   isHiddenWithoutReason: trait({
     afterCreate(packageObj, server) {
-      const visibilityData = server.create('visibility-data', {
+      const visibilityData = server.create('visibilityData', {
         isHidden: true,
         reason: ''
       });
@@ -149,7 +150,7 @@ export default Factory.extend({
 
   afterCreate(packageObj, server) {
     if (!packageObj.visibilityData) {
-      const visibilityData = server.create('visibility-data');
+      const visibilityData = server.create('visibilityData');
       packageObj.update('visibilityData', visibilityData.toJSON());
       packageObj.save();
     }

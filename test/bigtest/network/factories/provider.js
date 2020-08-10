@@ -1,4 +1,5 @@
-import { Factory, faker, trait } from '@bigtest/mirage';
+import { Factory, trait } from 'miragejs';
+import faker from 'faker';
 
 const helpText = '<ul><li>Enter your Gale token</li></ul>';
 const defaultTags = ['urgent', 'not urgent'];
@@ -87,7 +88,7 @@ export default Factory.extend({
 
   withTags: trait({
     afterCreate(provider, server) {
-      const tags = server.create('tags', {
+      const tags = server.create('tag', {
         tagList: defaultTags
       });
       provider.update('tags', tags.toJSON());

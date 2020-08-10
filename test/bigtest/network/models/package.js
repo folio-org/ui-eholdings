@@ -1,4 +1,4 @@
-import { Model, belongsTo, hasMany } from '@bigtest/mirage';
+import { Model, belongsTo, hasMany } from 'miragejs';
 
 export default Model.extend({
   resources: hasMany(),

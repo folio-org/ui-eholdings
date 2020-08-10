@@ -42,11 +42,11 @@ const SettingsAccessStatusTypesRoute = ({
     if (!data) {
       getAccessTypes(params.kbId);
     }
-  }, [data, getAccessTypes]);
+  }, [data, getAccessTypes, params.kbId]);
 
   useEffect(() => {
     getAccessTypes(params.kbId);
-  }, [params.kbId]);
+  }, [getAccessTypes, params.kbId]);
 
   return (
     <FormattedMessage id="ui-eholdings.label.settings">
