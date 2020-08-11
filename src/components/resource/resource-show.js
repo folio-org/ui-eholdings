@@ -41,7 +41,7 @@ import {
   processErrors,
   getUserDefinedFields,
   getAccessTypeId,
-  getAccessTypeIdsAndNames,
+  getAccessTypeIdsAndNames, formatEmbargoUnit,
 } from '../utilities';
 import Toaster from '../toaster';
 import TagsAccordion from '../tags';
@@ -546,7 +546,7 @@ class ResourceShow extends Component {
                 {hasManagedEmbargoPeriod && !hasCustomEmbargoPeriod && (
                   <KeyValue label={<FormattedMessage id="ui-eholdings.label.managed.embargoPeriod" />}>
                     <div data-test-eholdings-resource-show-managed-embargo-period>
-                      {`${model.managedEmbargoPeriod.embargoValue} ${model.managedEmbargoPeriod.embargoUnit}`}
+                      {`${model.managedEmbargoPeriod.embargoValue} ${formatEmbargoUnit(model.managedEmbargoPeriod.embargoUnit)}`}
                     </div>
                   </KeyValue>
                 )}
