@@ -584,7 +584,7 @@ describe('PackageShow', () => {
       return PackageEditPage.clickBackButton();
     });
 
-    it('shows a navigation confirmation modal', () => {
+    it.skip('shows a navigation confirmation modal', () => {
       expect(PackageEditPage.navigationModal.$root).to.exist;
     });
   });

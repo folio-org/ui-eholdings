@@ -3,6 +3,7 @@
 ## [4.0.2] (IN PROGRESS)
 
 * Increase Custom Labels value max length to 500. (UIEH-985)
+* Improve error messaging for unconfigured KB credentials and exceeded API limit. (UIEH-816)
 
 ## [4.0.1] (https://github.com/folio-org/ui-eholdings/tree/v4.0.0) (2020-07-08)
 

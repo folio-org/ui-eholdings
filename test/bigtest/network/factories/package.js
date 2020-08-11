@@ -103,6 +103,17 @@ export default Factory.extend({
     }
   }),
 
+  withLowercaseProxy: trait({
+    afterCreate(packageObj, server) {
+      const proxy = server.create('proxy', {
+        inherited: false,
+        id: 'ezproxy'
+      });
+      packageObj.update('proxy', proxy.toJSON());
+      packageObj.save();
+    }
+  }),
+
   withInheritedProxy: trait({
     afterCreate(packageObj, server) {
       const proxy = server.create('proxy', {
