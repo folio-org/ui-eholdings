@@ -229,8 +229,8 @@
     "validate.errors.embargoPeriod.unit": "Select a unit",
     "validate.errors.customUrl.length": "Benutzerdefinierte URLs dürfen maximal 600 Zeichen lang sein.",
     "validate.errors.customUrl.include": "Die URL sollte http:// oder https:// enthalten",
-    "server.errors.failedBackend": "Could not retrieve configuration information",
-    "server.errors.errorDuringFetch": "There was a server error while retrieving your knowledge base configuration.",
+    "server.errors.failedBackend": "eHoldings app is unavailable at this time.",
+    "server.errors.errorDuringFetch": "If the problem persist please contact your FOLIO system administrator or visit <a>EBSCO Connect</a>",
     "server.errors.kbNotConfigured": "Knowledge Base nicht konfiguriert",
     "server.errors.detectedUnconfiguredKb": "Die eHoldings-Anwendung hat das Vorhandensein einer Knowledge Base erkannt, aber die Knowledge Base scheint nicht konfiguriert zu sein.",
     "server.errors.configureKbLinkMsg": "Bitte konfigurieren Sie die Knowledge Base mit Ihren Zugangsdaten in {link}.",
@@ -402,5 +402,7 @@
     "settings.kb.delete": "Delete",
     "settings.kb.delete.modalHeading": "Delete Knowledge base credentials",
     "settings.kb.delete.toast": "{kbName} has been removed.",
-    "settings.kb.delete.warning": "Are you sure you want to delete <strong>{kbName}</strong> credentials? If you continue with deletion, then the credentials will no longer be available for this FOLIO instance. Root proxy, custom labels, access status types, and assigned users will also not be available."
+    "settings.kb.delete.warning": "Are you sure you want to delete <strong>{kbName}</strong> credentials? If you continue with deletion, then the credentials will no longer be available for this FOLIO instance. Root proxy, custom labels, access status types, and assigned users will also not be available.",
+    "server.errors.unableToCompleteOperation": "Unable to complete operation.",
+    "server.errors.apiLimitExceeded": "HoldingsIQ API limit has been exceeded. Please contact your EBSCO Holdings IQ support contact."
 }
