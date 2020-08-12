@@ -174,7 +174,7 @@ describe('ResourceEditManagedTitleInManagedPackage', () => {
           });
 
           it('shows the new embargo value', () => {
-            expect(ResourceShowPage.customEmbargoPeriod).to.equal('27 Weeks');
+            expect(ResourceShowPage.customEmbargoPeriod).to.equal('27 week(s)');
           });
         });
       });
@@ -484,7 +484,7 @@ describe('ResourceEditManagedTitleInManagedPackage', () => {
         });
 
         it('shows the new embargo value', () => {
-          expect(ResourceShowPage.customEmbargoPeriod).to.equal('27 Weeks');
+          expect(ResourceShowPage.customEmbargoPeriod).to.equal('27 week(s)');
         });
       });
     });
