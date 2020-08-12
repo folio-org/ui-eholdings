@@ -554,7 +554,7 @@ class ResourceShow extends Component {
                 {hasCustomEmbargoPeriod && (
                   <KeyValue label={<FormattedMessage id="ui-eholdings.label.custom.embargoPeriod" />}>
                     <div data-test-eholdings-resource-custom-embargo-display>
-                      {`${model.customEmbargoPeriod.embargoValue} ${model.customEmbargoPeriod.embargoUnit}`}
+                      {`${model.customEmbargoPeriod.embargoValue} ${formatEmbargoUnit(model.customEmbargoPeriod.embargoUnit)}`}
                     </div>
                   </KeyValue>
                 )}
