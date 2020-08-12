@@ -9,6 +9,7 @@ import {
 import { withRouter } from 'react-router';
 import ReactRouterPropTypes from 'react-router-prop-types';
 
+import { IfPermission } from '@folio/stripes-core';
 import SafeHTMLMessage from '@folio/react-intl-safe-html';
 import {
   Icon,
@@ -246,14 +247,16 @@ class SettingsKnowledgeBase extends Component {
             title={<FormattedMessage id={isCreateMode ? 'ui-eholdings.settings.kb.new' : 'ui-eholdings.settings.kb.edit'} />}
             toasts={this.state.toasts}
             lastMenu={!isCreateMode && (
-              <Button
-                buttonStyle="danger"
-                onClick={this.toggleDeleteConfirmationModal}
-                marginBottom0
-                data-test-delete-kb-credentials
-              >
-                <FormattedMessage id="ui-eholdings.settings.kb.delete" />
-              </Button>
+              <IfPermission perm="ui-eholdings.settings.kb.delete">
+                <Button
+                  buttonStyle="danger"
+                  onClick={this.toggleDeleteConfirmationModal}
+                  marginBottom0
+                  data-test-delete-kb-credentials
+                >
+                  <FormattedMessage id="ui-eholdings.settings.kb.delete" />
+                </Button>
+              </IfPermission>
             )}
           >
             {kbCredentials.isLoading

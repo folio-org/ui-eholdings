@@ -137,10 +137,19 @@
       },
       {
         "permissionName": "ui-eholdings.settings.kb",
-        "displayName": "Settings (eHoldings): configure EBSCO RM API credentials",
+        "displayName": "Settings (eHoldings): Can create, edit, and view knowledge base credentials",
         "visible": true,
         "subPermissions": [
           "settings.eholdings.enabled"
+        ]
+      },
+      {
+        "permissionName": "ui-eholdings.settings.kb.delete",
+        "displayName": "Settings (eHoldings): Can delete knowledge base credentials",
+        "visible": true,
+        "subPermissions": [
+          "settings.eholdings.enabled",
+          "kb-ebsco.kb-credentials.item.delete"
         ]
       },
       {
