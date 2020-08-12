@@ -36,12 +36,12 @@ import ContributorsList from '../contributors-list';
 import CoverageDateList from '../coverage-date-list';
 import { AgreementsAccordion, CustomLabelsAccordion } from '../../features';
 import {
+  getAccessTypeId,
+  getAccessTypeIdsAndNames,
+  getUserDefinedFields,
   isBookPublicationType,
   isValidCoverageList,
   processErrors,
-  getUserDefinedFields,
-  getAccessTypeId,
-  getAccessTypeIdsAndNames, formatEmbargoUnit,
 } from '../utilities';
 import Toaster from '../toaster';
 import TagsAccordion from '../tags';
@@ -319,7 +319,7 @@ class ResourceShow extends Component {
                           disabled={model.destroy.isPending || isSelectInFlight}
                           data-test-eholdings-resource-add-to-holdings-button
                         >
-                          <FormattedMessage id="ui-eholdings.addToHoldings" />
+                          <FormattedMessage id="ui-eholdings.addToHoldings"/>
                         </Button>
                       </IfPermission>
                     )
@@ -438,13 +438,13 @@ class ResourceShow extends Component {
               </Accordion>
 
               {showCustomLables &&
-                <CustomLabelsAccordion
-                  id="resourceShowCustomLabels"
-                  isOpen={sections.resourceShowCustomLabels}
-                  onToggle={this.handleSectionToggle}
-                  section={CustomLabelsShowSection}
-                  userDefinedFields={userDefinedFields}
-                />}
+              <CustomLabelsAccordion
+                id="resourceShowCustomLabels"
+                isOpen={sections.resourceShowCustomLabels}
+                onToggle={this.handleSectionToggle}
+                section={CustomLabelsShowSection}
+                userDefinedFields={userDefinedFields}
+              />}
 
               <Accordion
                 label={<Headline size="large" tag="h3"><FormattedMessage id="ui-eholdings.resource.resourceSettings" /></Headline>}
@@ -546,7 +546,10 @@ class ResourceShow extends Component {
                 {hasManagedEmbargoPeriod && !hasCustomEmbargoPeriod && (
                   <KeyValue label={<FormattedMessage id="ui-eholdings.label.managed.embargoPeriod" />}>
                     <div data-test-eholdings-resource-show-managed-embargo-period>
-                      {`${model.managedEmbargoPeriod.embargoValue} ${formatEmbargoUnit(model.managedEmbargoPeriod.embargoUnit)}`}
+                      <FormattedMessage
+                        id={`ui-eholdings.resource.embargoUnit.${model.managedEmbargoPeriod.embargoUnit}`}
+                        values={{ value: model.managedEmbargoPeriod.embargoValue }}
+                      />
                     </div>
                   </KeyValue>
                 )}
@@ -554,7 +557,10 @@ class ResourceShow extends Component {
                 {hasCustomEmbargoPeriod && (
                   <KeyValue label={<FormattedMessage id="ui-eholdings.label.custom.embargoPeriod" />}>
                     <div data-test-eholdings-resource-custom-embargo-display>
-                      {`${model.customEmbargoPeriod.embargoValue} ${formatEmbargoUnit(model.customEmbargoPeriod.embargoUnit)}`}
+                      <FormattedMessage
+                        id={`ui-eholdings.resource.embargoUnit.${model.customEmbargoPeriod.embargoUnit}`}
+                        values={{ value: model.customEmbargoPeriod.embargoValue }}
+                      />
                     </div>
                   </KeyValue>
                 )}

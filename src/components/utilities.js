@@ -225,6 +225,3 @@ export const getFullName = user => {
 
   return `${lastName}${firstName ? ', ' : ' '}${firstName}${middleName ? ' ' : ''}${middleName}`;
 };
-
-
-export const formatEmbargoUnit = unit => unit.toLowerCase().replace(/(.$)/, '(s)');
