@@ -319,7 +319,7 @@ class ResourceShow extends Component {
                           disabled={model.destroy.isPending || isSelectInFlight}
                           data-test-eholdings-resource-add-to-holdings-button
                         >
-                          <FormattedMessage id="ui-eholdings.addToHoldings"/>
+                          <FormattedMessage id="ui-eholdings.addToHoldings" />
                         </Button>
                       </IfPermission>
                     )

@@ -1,7 +1,7 @@
 import moment from 'moment';
 import queryString from 'qs';
-import {get, pickBy,} from 'lodash';
-import {searchTypes} from '../constants';
+import { get, pickBy } from 'lodash';
+import { searchTypes } from '../constants';
 
 export function isBookPublicationType(publicationType) {
   const publicationTypeIsBook = {
@@ -48,15 +48,15 @@ export function isValidCoverageList(coverageArray) {
 // allows us to preload them with defaults so we don't have to repeat
 // the same options every time.
 export const qs = {
-  parse: path => queryString.parse(path, {ignoreQueryPrefix: true}),
+  parse: path => queryString.parse(path, { ignoreQueryPrefix: true }),
   stringify: params => queryString.stringify(params, {
     encodeValuesOnly: true,
     indices: false,
   }),
 };
 
-export const processErrors = ({request, update, destroy}) => {
-  const processErrorsSet = ({errors, timestamp}) => errors.map((error, index) => ({
+export const processErrors = ({ request, update, destroy }) => {
+  const processErrorsSet = ({ errors, timestamp }) => errors.map((error, index) => ({
     message: error.title,
     type: 'error',
     id: `error-${timestamp}-${index}`
@@ -83,7 +83,7 @@ export function transformQueryParams(searchType, params) {
       ...searchParams
     } = params;
 
-    let {searchfield = 'name'} = params;
+    let { searchfield = 'name' } = params;
 
     if (searchfield === 'title') {
       searchfield = 'name';
