@@ -79,17 +79,20 @@ class SettingsKnowledgeBaseRoute extends Component {
 
     if (kbCredentials.hasDeleted) {
       history.replace('/settings/eholdings');
-      this.sendDeleteSuccessCallout({
-        type: 'success',
-        message: (
-          <span data-test-kb-deleted-notification>
-            <FormattedMessage
-              id="ui-eholdings.settings.kb.delete.toast"
-              values={{ kbName: currentKBName }}
-            />
-          </span>
-        ),
-      });
+
+      if (this.sendDeleteSuccessCallout) {
+        this.sendDeleteSuccessCallout({
+          type: 'success',
+          message: (
+            <span data-test-kb-deleted-notification>
+              <FormattedMessage
+                id="ui-eholdings.settings.kb.delete.toast"
+                values={{ kbName: currentKBName }}
+              />
+            </span>
+          ),
+        });
+      }
       confirmDeleteKBCredentials();
     }
   }
@@ -165,8 +168,10 @@ class SettingsKnowledgeBaseRoute extends Component {
 
     return (
       <CalloutContext.Consumer>
-        {({ sendCallout }) => {
-          this.sendDeleteSuccessCallout = sendCallout;
+        {(context) => {
+          if (context) {
+            this.sendDeleteSuccessCallout = context.sendCallout;
+          }
 
           return (
             <TitleManager

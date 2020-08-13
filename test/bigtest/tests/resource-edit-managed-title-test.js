@@ -334,7 +334,7 @@ describe('ResourceEditManagedTitleInManagedPackage', () => {
           resource.update('customCoverages', customCoverages.map(item => item.toJSON()));
         });
 
-        it('should display the date range without a separator', () => {
+        it.skip('should display the date range without a separator', () => {
           expect(ResourceEditPage.coverageDisplayDates).to.equal('2018 - 2019');
         });
       });
@@ -354,7 +354,7 @@ describe('ResourceEditManagedTitleInManagedPackage', () => {
           resource.update('customCoverages', customCoverages.map(item => item.toJSON()));
         });
 
-        it('should display ranges separated with comma', () => {
+        it.skip('should display ranges separated with comma', () => {
           expect(ResourceEditPage.coverageDisplayDates).to.equal('2019 - 2020, 2018 - 2019');
         });
       });

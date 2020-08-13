@@ -8,6 +8,7 @@ import {
   backendNotConfigured = isPresent('[data-test-eholdings-unconfigured-backend]');
   hasBackendLoadError = isPresent('[data-test-eholdings-application-rejected]');
   userNotAssignedKbCredentialsError = isPresent('[data-test-eholdings-user-no-credentials]');
+  apiLimitExceededError = isPresent('[data-test-eholdings-api-limit-exceeded]');
 }
 
 export default new ApplicationPage();

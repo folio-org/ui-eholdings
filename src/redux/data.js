@@ -145,7 +145,7 @@ export const unload = (type, ids) => ({
  * @param {Object} body - JSON API returned body
  * @param {Object} payload - payload sent with the request
  */
-const resolve = (request, body, payload = {}) => {
+const resolve = (request, body, payload = {}, status) => {
   let records = [];
   let ids = [];
   let meta = {};
@@ -180,8 +180,8 @@ const resolve = (request, body, payload = {}) => {
   return {
     type: actionTypes.RESOLVE,
     data: { type: request.resource, ids },
-    request: { ...request, records: ids, meta },
-    records
+    request: { ...request, records: ids, meta, status },
+    records,
   };
 };
 
@@ -191,12 +191,14 @@ const resolve = (request, body, payload = {}) => {
  * the request being resolved
  * @param {Array} errors - response errors
  * @param {Object} data - data associated with the request
+ * @param {String} status - HTTP response status
  */
-const reject = (request, errors, data) => ({
+const reject = (request, errors, data, status) => ({
   type: actionTypes.REJECT,
   request,
   errors,
-  data
+  data,
+  status,
 });
 
 /**
@@ -390,6 +392,7 @@ const handlers = {
           ...store.requests[request.timestamp],
           records: request.records,
           meta: request.meta,
+          status: request.status,
           isPending: false,
           isResolved: true
         }
@@ -431,13 +434,14 @@ const handlers = {
    * @param {Array} action.errors - response errors
    * @param {Object} action.data - data used to create the request
    */
-  [actionTypes.REJECT]: (state, { request, errors, data }) => {
+  [actionTypes.REJECT]: (state, { request, errors, data, status }) => {
     // first we reduce the request state object
     let next = reduceData(request.resource, state, store => ({
       requests: {
         ...store.requests,
         [request.timestamp]: {
           ...store.requests[request.timestamp],
+          status,
           errors: formatErrors(errors),
           isPending: false,
           isRejected: true
@@ -525,12 +529,14 @@ export function epic(action$, { getState }) {
 
       // request which rejects when not OK
       const promise = fetch(url, { headers, method, body })
-        .then(response => Promise.all([response.ok, parseResponseBody(response)]))
-        .then(([ok, responseBody]) => (ok ? responseBody : Promise.reject(responseBody.errors)));
+        .then(response => Promise.all([response.ok, parseResponseBody(response), response.status]))
+        .then(([ok, responseBody, status]) => (ok
+          ? { status, responseBody }
+          : Promise.reject({ errors: responseBody.errors, status }))); // eslint-disable-line prefer-promise-reject-errors
 
       // an observable from resolving or rejecting the request payload
       return Observable.from(promise)
-        .map(responseBody => resolve(request, responseBody, payload))
-        .catch(errors => Observable.of(reject(request, errors, data)));
+        .map(({ status, responseBody }) => resolve(request, responseBody, payload, status))
+        .catch(({ errors, status }) => Observable.of(reject(request, errors, data, status)));
     });
 }

@@ -356,8 +356,8 @@
 
     "validate.errors.token.length": "Tokens must be 500 characters or less.",
 
-    "server.errors.failedBackend": "Could not retrieve configuration information",
-    "server.errors.errorDuringFetch": "There was a server error while retrieving your knowledge base configuration.",
+    "server.errors.failedBackend": "eHoldings app is unavailable at this time.",
+    "server.errors.errorDuringFetch": "If the problem persist please contact your FOLIO system administrator or visit <a>EBSCO Connect</a>",
     "server.errors.kbNotConfigured": "Knowledge base not configured",
     "server.errors.detectedUnconfiguredKb": "The eHoldings application detected the presence of a knowledge base, but the knowledge base does not appear to be configured.",
     "server.errors.configureKbLinkMsg": "Please configure the knowledge base with your credentials in {link}.",
@@ -366,6 +366,8 @@
     "server.errors.kbRequired": "The eHoldings package requires a knowledge base to be present for proper operation.",
     "server.errors.installBackend": "Please install an appropriate backend module with your instance of OKAPI.",
     "server.errors.userNotAssignedToKb": "Unable to grant access to the eholdings app. Please contact your FOLIO system administrator to grant access.",
+    "server.errors.unableToCompleteOperation": "Unable to complete operation.",
+    "server.errors.apiLimitExceeded": "HoldingsIQ API limit has been exceeded. Please contact your EBSCO Holdings IQ support contact.",
 
     "search.apply": "Apply",
     "search.addNew": "New",
