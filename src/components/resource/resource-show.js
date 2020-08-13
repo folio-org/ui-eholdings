@@ -36,12 +36,12 @@ import ContributorsList from '../contributors-list';
 import CoverageDateList from '../coverage-date-list';
 import { AgreementsAccordion, CustomLabelsAccordion } from '../../features';
 import {
-  getAccessTypeId,
-  getAccessTypeIdsAndNames,
-  getUserDefinedFields,
   isBookPublicationType,
   isValidCoverageList,
   processErrors,
+  getUserDefinedFields,
+  getAccessTypeId,
+  getAccessTypeIdsAndNames,
 } from '../utilities';
 import Toaster from '../toaster';
 import TagsAccordion from '../tags';
