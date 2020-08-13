@@ -1,6 +1,9 @@
 import moment from 'moment';
 import queryString from 'qs';
-import { get, pickBy } from 'lodash';
+import {
+  get,
+  pickBy,
+} from 'lodash';
 import { searchTypes } from '../constants';
 
 export function isBookPublicationType(publicationType) {
@@ -27,14 +30,10 @@ export function isBookPublicationType(publicationType) {
 
 export function isValidCoverage(coverageObj) {
   if (coverageObj.beginCoverage) {
-    if (!moment.utc(coverageObj.beginCoverage, 'YYYY-MM-DD').isValid()) {
-      return false;
-    }
+    if (!moment.utc(coverageObj.beginCoverage, 'YYYY-MM-DD').isValid()) { return false; }
   }
   if (coverageObj.endCoverage) {
-    if (!moment.utc(coverageObj.endCoverage, 'YYYY-MM-DD').isValid()) {
-      return false;
-    }
+    if (!moment.utc(coverageObj.endCoverage, 'YYYY-MM-DD').isValid()) { return false; }
   }
   return true;
 }
