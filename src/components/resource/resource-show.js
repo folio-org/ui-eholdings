@@ -438,13 +438,13 @@ class ResourceShow extends Component {
               </Accordion>
 
               {showCustomLables &&
-              <CustomLabelsAccordion
-                id="resourceShowCustomLabels"
-                isOpen={sections.resourceShowCustomLabels}
-                onToggle={this.handleSectionToggle}
-                section={CustomLabelsShowSection}
-                userDefinedFields={userDefinedFields}
-              />}
+                <CustomLabelsAccordion
+                  id="resourceShowCustomLabels"
+                  isOpen={sections.resourceShowCustomLabels}
+                  onToggle={this.handleSectionToggle}
+                  section={CustomLabelsShowSection}
+                  userDefinedFields={userDefinedFields}
+                />}
 
               <Accordion
                 label={<Headline size="large" tag="h3"><FormattedMessage id="ui-eholdings.resource.resourceSettings" /></Headline>}
