@@ -9,6 +9,10 @@ import {
   hasBackendLoadError = isPresent('[data-test-eholdings-application-rejected]');
   userNotAssignedKbCredentialsError = isPresent('[data-test-eholdings-user-no-credentials]');
   apiLimitExceededError = isPresent('[data-test-eholdings-api-limit-exceeded]');
+
+  whenRequestFailed() {
+    return this.when(() => this.hasBackendLoadError).timeout(10000);
+  }
 }
 
 export default new ApplicationPage();

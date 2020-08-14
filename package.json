@@ -8,7 +8,7 @@
   "scripts": {
     "start": "stripes serve",
     "build": "stripes build --output dist",
-    "test": "stripes test karma",
+    "test": "export NODE_OPTIONS=\"--max-old-space-size=8192 $NODE_OPTIONS\"; stripes test karma",
     "lint": "eslint ./ && stylelint \"src/**/*.css\"",
     "eslint": "eslint ./",
     "stylelint": "stylelint \"src/**/*.css\""

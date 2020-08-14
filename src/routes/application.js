@@ -62,7 +62,12 @@ class ApplicationRoute extends Component {
     }
 
     if (kbCredentials.isLoading && status.isLoading) {
-      return <Icon icon="spinner-ellipsis" />;
+      return (
+        <Icon
+          id="kb-credentials-loading-spinner"
+          icon="spinner-ellipsis"
+        />
+      );
     }
 
     if (status.request.isRejected) {
