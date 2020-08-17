@@ -386,7 +386,7 @@
     "selected": "Selected",
     "selectedCount": "Selected: {count}",
     "notSelected": "Not selected",
-    "addToHoldings": "Add package to holdings",
+    "addToHoldings": "Add to holdings",
     "addAllToHoldings": "Add all titles to holdings",
     "selectPackage.confirmationModal.label": "Add all titles in a package to holdings",
     "selectPackage.confirmationModal.message": "Selecting this action will <strong>add all titles</strong> in this package to your holdings. To continue this action, select <strong>Add package (all titles) to holdings</strong>.",
