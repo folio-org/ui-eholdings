@@ -402,5 +402,7 @@
     "settings.kb.delete": "Delete",
     "settings.kb.delete.modalHeading": "Delete Knowledge base credentials",
     "settings.kb.delete.toast": "{kbName} has been removed.",
-    "settings.kb.delete.warning": "Are you sure you want to delete <strong>{kbName}</strong> credentials? If you continue with deletion, then the credentials will no longer be available for this FOLIO instance. Root proxy, custom labels, access status types, and assigned users will also not be available."
+    "settings.kb.delete.warning": "Are you sure you want to delete <strong>{kbName}</strong> credentials? If you continue with deletion, then the credentials will no longer be available for this FOLIO instance. Root proxy, custom labels, access status types, and assigned users will also not be available.",
+    "server.errors.unableToCompleteOperation": "Unable to complete operation.",
+    "server.errors.apiLimitExceeded": "HoldingsIQ API limit has been exceeded. Please contact your EBSCO Holdings IQ support contact."
 }

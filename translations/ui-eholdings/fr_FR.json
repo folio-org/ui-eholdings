@@ -229,8 +229,8 @@
     "validate.errors.embargoPeriod.unit": "Sélectionnez une unité",
     "validate.errors.customUrl.length": "Les URL personnalisées doivent comporter 600 caractères ou moins.",
     "validate.errors.customUrl.include": "L’URL doit inclure http: // ou https: //",
-    "server.errors.failedBackend": "Impossible de récupérer les informations de configuration",
-    "server.errors.errorDuringFetch": "Une erreur de serveur s'est produite lors de la récupération de la configuration de votre base de connaissances.",
+    "server.errors.failedBackend": "L'application eHoldings n'est pas disponible pour le moment.",
+    "server.errors.errorDuringFetch": "Si le problème persiste, contactez votre administrateur système FOLIO ou visitez <a> EBSCO Connect </a>",
     "server.errors.kbNotConfigured": "Base de connaissances non configurée",
     "server.errors.detectedUnconfiguredKb": "L'application eHoldings a détecté la présence d'une base de connaissances, mais la base de connaissances ne semble pas être configurée.",
     "server.errors.configureKbLinkMsg": "Merci de configurer la base de connaissances avec vos informations d'identification dans {link} .",
@@ -402,5 +402,7 @@
     "settings.kb.delete": "Supprimer",
     "settings.kb.delete.modalHeading": "Delete Knowledge base credentials",
     "settings.kb.delete.toast": "{kbName} a été supprimé.",
-    "settings.kb.delete.warning": "Are you sure you want to delete <strong>{kbName}</strong> credentials? If you continue with deletion, then the credentials will no longer be available for this FOLIO instance. Root proxy, custom labels, access status types, and assigned users will also not be available."
+    "settings.kb.delete.warning": "Are you sure you want to delete <strong>{kbName}</strong> credentials? If you continue with deletion, then the credentials will no longer be available for this FOLIO instance. Root proxy, custom labels, access status types, and assigned users will also not be available.",
+    "server.errors.unableToCompleteOperation": "Unable to complete operation.",
+    "server.errors.apiLimitExceeded": "HoldingsIQ API limit has been exceeded. Please contact your EBSCO Holdings IQ support contact."
 }
