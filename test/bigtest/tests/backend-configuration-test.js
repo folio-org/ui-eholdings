@@ -6,18 +6,6 @@ import setupApplication from '../helpers/setup-application';
 import ApplicationPage from '../interactors/application';
 import SettingsPage from '../interactors/settings-configuration';
 
-describe('setup tests', () => {
-  setupApplication();
-
-  beforeEach(function () {
-    this.visit('/eholdings');
-  });
-
-  it('should setup tests', () => {
-    expect(true).to.be.true;
-  });
-});
-
 describe('Error retrieving backend', () => {
   setupApplication({
     scenarios: ['load-error-backend'],

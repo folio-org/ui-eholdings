@@ -6,18 +6,6 @@ jobs:
       - image: circleci/node:10
     steps:
       - checkout
-      - restore_cache:
-          key: v1-node-modules-{{ checksum "yarn.lock" }}
-      - run:
-          name: Install dependencies
-          command: yarn install
-      - persist_to_workspace:
-          root: ~/
-          paths: project
-      - save_cache:
-          key: v1-node-modules-{{ checksum "yarn.lock" }}
-          paths:
-            - ~/project/node_modules
 
   eslint:
     docker:
