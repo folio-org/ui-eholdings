@@ -137,10 +137,20 @@
       },
       {
         "permissionName": "ui-eholdings.settings.kb",
-        "displayName": "Settings (eHoldings): configure EBSCO RM API credentials",
+        "displayName": "Settings (eHoldings): Can create, edit, and view knowledge base credentials",
         "visible": true,
         "subPermissions": [
-          "settings.eholdings.enabled"
+          "ui-eholdings.settings.enabled"
+        ]
+      },
+      {
+        "permissionName": "ui-eholdings.settings.kb.delete",
+        "displayName": "Settings (eHoldings): Can delete knowledge base credentials",
+        "visible": true,
+        "subPermissions": [
+          "ui-eholdings.settings.enabled",
+          "ui-eholdings.settings.kb",
+          "kb-ebsco.kb-credentials.item.delete"
         ]
       },
       {
@@ -148,7 +158,7 @@
         "displayName": "Settings (eHoldings): configure root proxy setting",
         "visible": true,
         "subPermissions": [
-          "settings.eholdings.enabled"
+          "ui-eholdings.settings.enabled"
         ]
       },
       {
@@ -190,7 +200,7 @@
         "displayName": "Settings (eholdings): Can view access status types",
         "visible": true,
         "subPermissions": [
-          "settings.eholdings.enabled",
+          "ui-eholdings.settings.enabled",
           "kb-ebsco.kb-credentials.access-types.collection.get",
           "kb-ebsco.kb-credentials.access-types.item.get"
         ]
@@ -200,7 +210,7 @@
         "displayName": "Settings (eholdings): Can create, edit, and view access status types",
         "visible": true,
         "subPermissions": [
-          "settings.eholdings.enabled",
+          "ui-eholdings.settings.enabled",
           "ui-eholdings.settings.access-types.view",
           "kb-ebsco.kb-credentials.access-types.collection.post",
           "kb-ebsco.kb-credentials.access-types.item.put"
@@ -211,7 +221,7 @@
         "displayName": "Settings (eholdings): Can create, edit, view, and delete access status types",
         "visible": true,
         "subPermissions": [
-          "settings.eholdings.enabled",
+          "ui-eholdings.settings.enabled",
           "ui-eholdings.settings.access-types.view",
           "ui-eholdings.settings.access-types.create-edit",
           "kb-ebsco.kb-credentials.access-types.item.delete"

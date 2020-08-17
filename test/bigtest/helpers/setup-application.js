@@ -15,6 +15,7 @@ export default function setupApplication({
     permissions,
     stripesConfig: {
       hasAllPerms
-    }
+    },
+    userLoggedIn: true,
   });
 }
