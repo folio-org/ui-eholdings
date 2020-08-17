@@ -8,7 +8,7 @@
   "scripts": {
     "start": "stripes serve",
     "build": "stripes build --output dist",
-    "test": "export NODE_OPTIONS=\"--max-old-space-size=8192 $NODE_OPTIONS\"; stripes test karma",
+    "test": "stripes test karma",
     "lint": "eslint ./ && stylelint \"src/**/*.css\"",
     "eslint": "eslint ./",
     "stylelint": "stylelint \"src/**/*.css\""
@@ -140,7 +140,7 @@
         "displayName": "Settings (eHoldings): Can create, edit, and view knowledge base credentials",
         "visible": true,
         "subPermissions": [
-          "settings.eholdings.enabled"
+          "ui-eholdings.settings.enabled"
         ]
       },
       {
@@ -148,7 +148,8 @@
         "displayName": "Settings (eHoldings): Can delete knowledge base credentials",
         "visible": true,
         "subPermissions": [
-          "settings.eholdings.enabled",
+          "ui-eholdings.settings.enabled",
+          "ui-eholdings.settings.kb",
           "kb-ebsco.kb-credentials.item.delete"
         ]
       },
@@ -157,7 +158,7 @@
         "displayName": "Settings (eHoldings): configure root proxy setting",
         "visible": true,
         "subPermissions": [
-          "settings.eholdings.enabled"
+          "ui-eholdings.settings.enabled"
         ]
       },
       {
@@ -199,7 +200,7 @@
         "displayName": "Settings (eholdings): Can view access status types",
         "visible": true,
         "subPermissions": [
-          "settings.eholdings.enabled",
+          "ui-eholdings.settings.enabled",
           "kb-ebsco.kb-credentials.access-types.collection.get",
           "kb-ebsco.kb-credentials.access-types.item.get"
         ]
@@ -209,7 +210,7 @@
         "displayName": "Settings (eholdings): Can create, edit, and view access status types",
         "visible": true,
         "subPermissions": [
-          "settings.eholdings.enabled",
+          "ui-eholdings.settings.enabled",
           "ui-eholdings.settings.access-types.view",
           "kb-ebsco.kb-credentials.access-types.collection.post",
           "kb-ebsco.kb-credentials.access-types.item.put"
@@ -220,7 +221,7 @@
         "displayName": "Settings (eholdings): Can create, edit, view, and delete access status types",
         "visible": true,
         "subPermissions": [
-          "settings.eholdings.enabled",
+          "ui-eholdings.settings.enabled",
           "ui-eholdings.settings.access-types.view",
           "ui-eholdings.settings.access-types.create-edit",
           "kb-ebsco.kb-credentials.access-types.item.delete"

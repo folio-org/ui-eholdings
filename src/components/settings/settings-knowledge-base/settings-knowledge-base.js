@@ -9,7 +9,7 @@ import {
 import { withRouter } from 'react-router';
 import ReactRouterPropTypes from 'react-router-prop-types';
 
-import { IfPermission } from '@folio/stripes-core';
+import { IfPermission } from '@folio/stripes/core';
 import SafeHTMLMessage from '@folio/react-intl-safe-html';
 import {
   Icon,

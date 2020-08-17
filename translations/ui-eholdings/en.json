@@ -426,7 +426,8 @@
 
     "permission.app.enabled": "UI: eHoldings module is enabled",
     "permission.settings.enabled": "Settings (eHoldings): display list of settings pages",
-    "permission.settings.kb": "Settings (eHoldings): configure EBSCO RM API credentials",
+    "permission.settings.kb": "Settings (eHoldings): Can create, edit, and view knowledge base credentials",
+    "permission.settings.kb.delete": "Settings (eHoldings): Can delete knowledge base credentials",
     "permission.settings.root-proxy": "Settings (eHoldings): configure root proxy setting",
     "permission.package-title.select-unselect": "eHoldings: Can select/unselect packages and titles to/from your holdings",
     "permission.records.edit": "eHoldings: Can edit providers, packages, titles detail records",
