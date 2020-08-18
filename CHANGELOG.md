@@ -10,7 +10,11 @@
 * Remove headlines from Root Proxy and KB settings pages. (UIEH-911)
 * Increment `@folio/stripes` to `v5`, `react-router` to `v5.2`.
 * Improve error messaging for unconfigured KB credentials and exceeded API limit. (UIEH-816)
+<<<<<<< Updated upstream
 * Add delete KB credentials permission, renamed existing KB credentials permission. (UIEH-910)
+=======
+* Add custom labels settings permissions. (UIEH-865)
+>>>>>>> Stashed changes
 
 ## [4.0.1] (https://github.com/folio-org/ui-eholdings/tree/v4.0.0) (2020-07-08)
 
