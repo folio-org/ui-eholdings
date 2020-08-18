@@ -546,7 +546,10 @@ class ResourceShow extends Component {
                 {hasManagedEmbargoPeriod && !hasCustomEmbargoPeriod && (
                   <KeyValue label={<FormattedMessage id="ui-eholdings.label.managed.embargoPeriod" />}>
                     <div data-test-eholdings-resource-show-managed-embargo-period>
-                      {`${model.managedEmbargoPeriod.embargoValue} ${model.managedEmbargoPeriod.embargoUnit}`}
+                      <FormattedMessage
+                        id={`ui-eholdings.resource.embargoUnit.${model.managedEmbargoPeriod.embargoUnit}`}
+                        values={{ value: model.managedEmbargoPeriod.embargoValue }}
+                      />
                     </div>
                   </KeyValue>
                 )}
@@ -554,7 +557,10 @@ class ResourceShow extends Component {
                 {hasCustomEmbargoPeriod && (
                   <KeyValue label={<FormattedMessage id="ui-eholdings.label.custom.embargoPeriod" />}>
                     <div data-test-eholdings-resource-custom-embargo-display>
-                      {`${model.customEmbargoPeriod.embargoValue} ${model.customEmbargoPeriod.embargoUnit}`}
+                      <FormattedMessage
+                        id={`ui-eholdings.resource.embargoUnit.${model.customEmbargoPeriod.embargoUnit}`}
+                        values={{ value: model.customEmbargoPeriod.embargoValue }}
+                      />
                     </div>
                   </KeyValue>
                 )}

@@ -42,7 +42,7 @@ describe('ResourceEmbargo', () => {
     });
 
     it('displays the custom embargo section', () => {
-      expect(ResourceShowPage.customEmbargoPeriod).to.equal('9 Weeks');
+      expect(ResourceShowPage.customEmbargoPeriod).to.equal('9 week(s)');
     });
   });
 
@@ -136,7 +136,7 @@ describe('ResourceEmbargo', () => {
     });
 
     it('displays the custom embargo section', () => {
-      expect(ResourceShowPage.customEmbargoPeriod).to.equal('10 Weeks');
+      expect(ResourceShowPage.customEmbargoPeriod).to.equal('10 week(s)');
     });
 
     it('displays whether the title package is selected', () => {
@@ -170,7 +170,7 @@ describe('ResourceEmbargo', () => {
         });
 
         it('does not remove custom embargo', () => {
-          expect(ResourceShowPage.customEmbargoPeriod).to.equal('10 Weeks');
+          expect(ResourceShowPage.customEmbargoPeriod).to.equal('10 week(s)');
         });
       });
     });

@@ -367,7 +367,7 @@ describe('ResourceEditCustomTitle', () => {
           });
 
           it('shows the new embargo value', () => {
-            expect(ResourceShowPage.customEmbargoPeriod).to.equal('27 Weeks');
+            expect(ResourceShowPage.customEmbargoPeriod).to.equal('27 week(s)');
           });
 
           it('shows the new url value', () => {
@@ -546,7 +546,7 @@ describe('ResourceEditCustomTitle', () => {
         });
 
         it('shows the new embargo value', () => {
-          expect(ResourceShowPage.customEmbargoPeriod).to.equal('27 Weeks');
+          expect(ResourceShowPage.customEmbargoPeriod).to.equal('27 week(s)');
         });
       });
     });
