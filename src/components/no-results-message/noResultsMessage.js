@@ -12,10 +12,10 @@ const propTypes = {
 const NoResultsMessage = ({ children, ...rest }) => {
   return (
     <div className={css.noResultsMessage} {...rest}>
-      <div className={css.noResultsMessageLabelWrap}>
-        <Icon iconRootClass={css.noResultsMessageIcon} icon="search" />
+      <p className={css.noResultsMessageLabelWrap}>
+        <Icon icon="search" />
         <span className={css.noResultsMessageLabel}>{children}</span>
-      </div>
+      </p>
     </div>
   );
 };
