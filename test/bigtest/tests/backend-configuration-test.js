@@ -12,7 +12,7 @@ describe('Error retrieving backend', () => {
   });
 
   describe('when trying to use the app', () => {
-    beforeEach(function () {
+    beforeEach(async function () {
       this.visit('/eholdings');
     });
 
