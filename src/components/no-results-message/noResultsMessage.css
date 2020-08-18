@@ -1,0 +1,33 @@
+@import '@folio/stripes-components/lib/variables';
+
+.noResultsMessage {
+  padding: 15px;
+  color: var(--color-text-p2);
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: var(--color-fill);
+  flex-direction: column;
+}
+
+.noResultsMessage,
+.noResultsMessageLabelWrap {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.noResultsMessageLabelWrap {
+  font-size: var(--font-size-large);
+}
+
+.noResultsMessageIcon,
+.noResultsMessageLabel {
+  margin: 0 4px;
+}
+
+.noResultsMessageButton {
+  margin-top: 15px;
+}
