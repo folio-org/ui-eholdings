@@ -260,7 +260,7 @@ class ManagedPackageEdit extends Component {
 
     const translationIdEnding = isPartiallySelected
       ? 'addAllToHoldings'
-      : 'addToHoldings';
+      : 'addPackageToHoldings';
 
     return (
       <Button

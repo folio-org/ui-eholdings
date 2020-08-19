@@ -12,6 +12,7 @@
 * Improve error messaging for unconfigured KB credentials and exceeded API limit. (UIEH-816)
 * Add delete KB credentials permission, renamed existing KB credentials permission. (UIEH-910)
 * Fixed no Provider/Package/Title results message. (UIEH-905)
+* Change holdings status button label. (UIEH-935)
 
 ## [4.0.1] (https://github.com/folio-org/ui-eholdings/tree/v4.0.0) (2020-07-08)
 

@@ -575,7 +575,7 @@ class PackageShow extends Component {
 
     const translationIdEnding = isPartiallySelected
       ? 'addAllToHoldings'
-      : 'addToHoldings';
+      : 'addPackageToHoldings';
 
     return (
       <IfPermission perm="ui-eholdings.package-title.select-unselect">
