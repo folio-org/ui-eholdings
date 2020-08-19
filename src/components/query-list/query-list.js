@@ -5,6 +5,7 @@ import classnames from 'classnames/bind';
 import styles from './query-list.css';
 import ScrollView from '../scroll-view';
 import Impagination from '../impagination';
+import NoResultsMessage from '../no-results-message';
 
 const cx = classnames.bind(styles);
 
@@ -83,9 +84,9 @@ export default class QueryList extends Component {
               {state.rejected[0].error[0].title}
             </div>
           ) : !state.length ? (
-            <div className={cx('error', 'not-found')} data-test-query-list-not-found={type}>
+            <NoResultsMessage data-test-query-list-not-found={type}>
               {notFoundMessage}
-            </div>
+            </NoResultsMessage>
           ) : (
             <ScrollView
               items={state}
