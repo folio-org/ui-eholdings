@@ -363,7 +363,7 @@
     "accessTypes.filter": "Access status types filter",
     "search.searchByAccessTypesOnly": "Search by access status types only",
     "settings.accessStatusTypes.validation.duplicate": "Duplicate type. Please revise.",
-    "permission.settings.kb": "Settings (eHoldings): configure EBSCO RM API credentials",
+    "permission.settings.kb": "Settings (eHoldings): Can create, edit, and view knowledge base credentials",
     "permission.settings.root-proxy": "Settings (eHoldings): configure root proxy setting",
     "permission.package-title.select-unselect": "eHoldings: Can select/unselect packages and titles to/from your holdings",
     "permission.records.edit": "eHoldings: Can edit providers, packages, titles detail records",
@@ -402,5 +402,13 @@
     "settings.kb.delete": "Delete",
     "settings.kb.delete.modalHeading": "Delete Knowledge base credentials",
     "settings.kb.delete.toast": "{kbName} has been removed.",
-    "settings.kb.delete.warning": "Are you sure you want to delete <strong>{kbName}</strong> credentials? If you continue with deletion, then the credentials will no longer be available for this FOLIO instance. Root proxy, custom labels, access status types, and assigned users will also not be available."
+    "settings.kb.delete.warning": "Are you sure you want to delete <strong>{kbName}</strong> credentials? If you continue with deletion, then the credentials will no longer be available for this FOLIO instance. Root proxy, custom labels, access status types, and assigned users will also not be available.",
+    "server.errors.unableToCompleteOperation": "Unable to complete operation.",
+    "server.errors.apiLimitExceeded": "HoldingsIQ API limit has been exceeded. Please contact your EBSCO Holdings IQ support contact.",
+    "permission.settings.kb.delete": "Settings (eHoldings): Can delete knowledge base credentials",
+    "resource.embargoUnit.Days": "{value} day(s)",
+    "resource.embargoUnit.Weeks": "{value} week(s)",
+    "resource.embargoUnit.Months": "{value} month(s)",
+    "resource.embargoUnit.Years": "{value} year(s)",
+    "addPackageToHoldings": "Add package to holdings"
 }

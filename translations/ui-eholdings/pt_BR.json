@@ -229,8 +229,8 @@
     "validate.errors.embargoPeriod.unit": "Selecione uma unidade",
     "validate.errors.customUrl.length": "Os URLs personalizados devem ter 600 caracteres ou menos.",
     "validate.errors.customUrl.include": "O URL deve incluir http: // ou https: //",
-    "server.errors.failedBackend": "Não foi possível recuperar informações de configuração",
-    "server.errors.errorDuringFetch": "Houve um erro no servidor ao recuperar sua configuração da knowledge base.",
+    "server.errors.failedBackend": "O aplicativo eHoldings não está disponível no momento.",
+    "server.errors.errorDuringFetch": "Se o problema persistir, entre em contato com o administrador do sistema FOLIO ou visite <a>EBSCO Connect</a>",
     "server.errors.kbNotConfigured": "Knowledge base não configurada",
     "server.errors.detectedUnconfiguredKb": "O aplicativo Acervo digital detectou a presença de uma knowledge base, mas a knowledge base não parece estar configurada.",
     "server.errors.configureKbLinkMsg": "Por favor, configure a knowledge base com suas credenciais em {link}.",
@@ -402,5 +402,13 @@
     "settings.kb.delete": "Excluir",
     "settings.kb.delete.modalHeading": "Excluir credenciais da Knowledge base",
     "settings.kb.delete.toast": "{kbName} foi removido.",
-    "settings.kb.delete.warning": "Tem certeza de que deseja excluir credenciais <strong>{kbName}</strong>? Se você continuar com a exclusão, as credenciais não estarão mais disponíveis para esta instância do FOLIO. Proxy raiz, rótulos personalizados, tipos de status de acesso e usuários atribuídos também não estarão disponíveis."
+    "settings.kb.delete.warning": "Tem certeza de que deseja excluir credenciais <strong>{kbName}</strong>? Se você continuar com a exclusão, as credenciais não estarão mais disponíveis para esta instância do FOLIO. Proxy raiz, rótulos personalizados, tipos de status de acesso e usuários atribuídos também não estarão disponíveis.",
+    "server.errors.unableToCompleteOperation": "Não foi possível concluir esta operação.",
+    "server.errors.apiLimitExceeded": "O limite da API HoldingsIQ foi excedido. Entre em contato com seu contato de suporte da EBSCO Holdings IQ.",
+    "permission.settings.kb.delete": "Settings (eHoldings): Can delete knowledge base credentials",
+    "resource.embargoUnit.Days": "{value} day(s)",
+    "resource.embargoUnit.Weeks": "{value} week(s)",
+    "resource.embargoUnit.Months": "{value} month(s)",
+    "resource.embargoUnit.Years": "{value} ano(s)",
+    "addPackageToHoldings": "Add package to holdings"
 }
