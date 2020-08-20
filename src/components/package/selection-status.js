@@ -52,7 +52,7 @@ function SelectionStatusMessage({ model }) {
 
 function SelectionStatusButton({ model, onAddToHoldings }) {
   if (model.isPartiallySelected || !model.isSelected || model.isInFlight) {
-    const messageId = model.isPartiallySelected ? 'addAllToHoldings' : 'addToHoldings';
+    const messageId = model.isPartiallySelected ? 'addAllToHoldings' : 'addPackageToHoldings';
     return (
       <Button
         type="button"
