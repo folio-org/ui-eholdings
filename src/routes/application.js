@@ -57,7 +57,7 @@ class ApplicationRoute extends Component {
 
     const hasMultipleKbCredentials = kbCredentials.items?.length > 1;
 
-    if (!version) {
+    if (!version && !status.isLoading) {
       return <NoBackendErrorScreen />;
     }
 
