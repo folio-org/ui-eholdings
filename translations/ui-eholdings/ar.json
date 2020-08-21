@@ -402,5 +402,13 @@
     "settings.kb.delete": "حذف",
     "settings.kb.delete.modalHeading": "حذف بيانات اعتماد قاعدة المعرفة",
     "settings.kb.delete.toast": "تمت إزالة {kbName}.",
-    "settings.kb.delete.warning": "هل أنت متأكد من أنك تريد حذف بيانات اعتماد <strong>{kbName}</strong>؟ إذا تابعت عملية الحذف، لن تعد بيانات الاعتماد متاحة لوعاء فوليو هذا. كما لن تعد بروكسي الجذر، ملصقات التسمية المخصصة، أنواع حالات الوصول، والمستخدمين المعينين متاحة كذلك."
+    "settings.kb.delete.warning": "هل أنت متأكد من أنك تريد حذف بيانات اعتماد <strong>{kbName}</strong>؟ إذا تابعت عملية الحذف، لن تعد بيانات الاعتماد متاحة لوعاء فوليو هذا. كما لن تعد بروكسي الجذر، ملصقات التسمية المخصصة، أنواع حالات الوصول، والمستخدمين المعينين متاحة كذلك.",
+    "server.errors.unableToCompleteOperation": "غير قادر على إتمام العملية.",
+    "server.errors.apiLimitExceeded": "تم تجاوز حد واجهة برمجة تطبيقات HoldingsIQ. يرجى الاتصال بجهة الاتصال الخاصة بدعم Holdings IQ من إبسكو.",
+    "permission.settings.kb.delete": "الإعدادت (المقتنيات الإلكترونية): إمكانية حذف بيانات قاعدة المعرفة",
+    "resource.embargoUnit.Days": "{value} يوماً",
+    "resource.embargoUnit.Weeks": "{value} أسبوعاً",
+    "resource.embargoUnit.Months": "{value} شهراً",
+    "resource.embargoUnit.Years": "{value} عاماً",
+    "addPackageToHoldings": "إضافة حزمة إلى المقتنيات"
 }
