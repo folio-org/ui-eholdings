@@ -161,8 +161,8 @@
     "label.identifiers": "标识符",
     "label.identifier.issnOnline": "ISSN（在线）",
     "label.identifier.issnPrint": "ISSN（印本）",
-    "label.identifier.isbnOnline": "ISSN(在线)",
-    "label.identifier.isbnPrint": "ISSN（印本）",
+    "label.identifier.isbnOnline": "ISBN（在线）",
+    "label.identifier.isbnPrint": "ISBN（印本）",
     "label.removeItem": "移除{item}",
     "label.icon.goBack": "返回",
     "label.icon.closeX": "关闭{paneTitle}",
@@ -405,10 +405,10 @@
     "settings.kb.delete.warning": "Are you sure you want to delete <strong>{kbName}</strong> credentials? If you continue with deletion, then the credentials will no longer be available for this FOLIO instance. Root proxy, custom labels, access status types, and assigned users will also not be available.",
     "server.errors.unableToCompleteOperation": "Unable to complete operation.",
     "server.errors.apiLimitExceeded": "HoldingsIQ API limit has been exceeded. Please contact your EBSCO Holdings IQ support contact.",
-    "permission.settings.kb.delete": "Settings (eHoldings): Can delete knowledge base credentials",
-    "resource.embargoUnit.Days": "{value} day(s)",
-    "resource.embargoUnit.Weeks": "{value} week(s)",
-    "resource.embargoUnit.Months": "{value} month(s)",
-    "resource.embargoUnit.Years": "{value} year(s)",
-    "addPackageToHoldings": "Add package to holdings"
+    "permission.settings.kb.delete": "设置（电子馆藏）：可以删除知识库凭证",
+    "resource.embargoUnit.Days": "{value}天",
+    "resource.embargoUnit.Weeks": "{value}周",
+    "resource.embargoUnit.Months": "{value}个月",
+    "resource.embargoUnit.Years": "{value}年",
+    "addPackageToHoldings": "添加资源包到馆藏"
 }
