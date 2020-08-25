@@ -5,7 +5,10 @@ import { withRouter } from 'react-router';
 import ReactRouterPropTypes from 'react-router-prop-types';
 import { FormattedMessage } from 'react-intl';
 
-import { IfPermission } from '@folio/stripes/core';
+import {
+  IfPermission,
+  withStripes,
+} from '@folio/stripes/core';
 import {
   Headline,
   NavList,
@@ -41,6 +44,9 @@ class Settings extends Component {
       type: PropTypes.string.isRequired,
     })).isRequired,
     location: ReactRouterPropTypes.location.isRequired,
+    stripes: PropTypes.shape({
+      hasPerm: PropTypes.func.isRequired,
+    }).isRequired,
   }
 
   handleKnowledgeBaseHeadingClick = (id) => {
@@ -49,6 +55,21 @@ class Settings extends Component {
 
   renderKnowledgeBaseHeading(configuration) {
     const { id, attributes: { name } } = configuration;
+
+    if (!this.props.stripes.hasPerm('ui-eholdings.settings.kb')) {
+      return (
+        <FormattedMessage id="ui-eholdings.settings.kb">
+          {(message) => (
+            <span
+              data-test-configuration-heading
+              className={css.listSectionHeader}
+            >
+              {name || message}
+            </span>
+          )}
+        </FormattedMessage>
+      );
+    }
 
     return (
       <Tooltip
@@ -159,4 +180,4 @@ class Settings extends Component {
   }
 }
 
-export default withRouter(Settings);
+export default withRouter(withStripes(Settings));
