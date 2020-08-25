@@ -34,9 +34,10 @@ export default function PackageNameField() {
             name="name"
             type="text"
             component={TextField}
-            label={<FormattedMessage id="ui-eholdings.label.name.isRequired" />}
+            label={<FormattedMessage id="ui-eholdings.label.name" />}
             validate={validate}
             ariaLabel={ariaLabel}
+            required
           />
         )}
       </FormattedMessage>
