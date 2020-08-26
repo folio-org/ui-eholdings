@@ -405,10 +405,10 @@
     "settings.kb.delete.warning": "Tem certeza de que deseja excluir credenciais <strong>{kbName}</strong>? Se você continuar com a exclusão, as credenciais não estarão mais disponíveis para esta instância do FOLIO. Proxy raiz, rótulos personalizados, tipos de status de acesso e usuários atribuídos também não estarão disponíveis.",
     "server.errors.unableToCompleteOperation": "Não foi possível concluir esta operação.",
     "server.errors.apiLimitExceeded": "O limite da API HoldingsIQ foi excedido. Entre em contato com seu contato de suporte da EBSCO Holdings IQ.",
-    "permission.settings.kb.delete": "Settings (eHoldings): Can delete knowledge base credentials",
-    "resource.embargoUnit.Days": "{value} day(s)",
-    "resource.embargoUnit.Weeks": "{value} week(s)",
-    "resource.embargoUnit.Months": "{value} month(s)",
+    "permission.settings.kb.delete": "Configurações (eHoldings): Pode excluir credenciais da knowledge base",
+    "resource.embargoUnit.Days": "{value} dia(s)",
+    "resource.embargoUnit.Weeks": "{value} semana(s)",
+    "resource.embargoUnit.Months": "{value} mês(es)",
     "resource.embargoUnit.Years": "{value} ano(s)",
-    "addPackageToHoldings": "Add package to holdings"
+    "addPackageToHoldings": "Adicionar pacote aos holdings"
 }

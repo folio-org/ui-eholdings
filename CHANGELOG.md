@@ -13,6 +13,7 @@
 * Add delete KB credentials permission, renamed existing KB credentials permission. (UIEH-910)
 * Fixed no Provider/Package/Title results message. (UIEH-905)
 * Change holdings status button label. (UIEH-935)
+* Changed asterisk to red and added accessibility label on Create/Edit Custom Package > Name. (UIEH-919)
 * Add custom labels settings permissions. (UIEH-865)
 
 ## [4.0.1] (https://github.com/folio-org/ui-eholdings/tree/v4.0.0) (2020-07-08)
