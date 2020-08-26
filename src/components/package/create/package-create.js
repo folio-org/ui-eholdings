@@ -136,6 +136,7 @@ export default class PackageCreate extends Component {
                 paneTitle={paneTitle}
                 firstMenu={this.getFirstMenu()}
                 footer={this.getFooter(pristine, reset)}
+                noValidate
               >
                 <div className={styles['package-create-form-container']}>
                   <DetailsViewSection
