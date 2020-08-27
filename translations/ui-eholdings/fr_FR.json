@@ -410,5 +410,7 @@
     "resource.embargoUnit.Weeks": "{value} semaine (s)",
     "resource.embargoUnit.Months": "{value} mois",
     "resource.embargoUnit.Years": "{value} année (s)",
-    "addPackageToHoldings": "Add package to holdings"
+    "addPackageToHoldings": "Add package to holdings",
+    "permission.settings.custom-labels.all:": "Settings (eholdings): Can create, edit, view, and delete custom labels",
+    "permission.settings.custom-labels.view": "Settings (eholdings): Can view custom labels"
 }
