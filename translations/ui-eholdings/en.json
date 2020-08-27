@@ -439,5 +439,7 @@
     "permission.titles-packages.create-delete": "eHoldings: Can create and delete custom packages and titles",
     "permission.settings.access-types.all": "Settings (eholdings): Can create, edit, view, and delete access status types",
     "permission.settings.access-types.create-edit": "Settings (eholdings): Can create, edit, and view access status types",
-    "permission.settings.access-types.view": "Settings (eholdings): Can view access status types"
+    "permission.settings.access-types.view": "Settings (eholdings): Can view access status types",
+    "permission.settings.custom-labels.all:": "Settings (eholdings): Can create, edit, view, and delete custom labels",
+    "permission.settings.custom-labels.view": "Settings (eholdings): Can view custom labels"
   }

@@ -226,6 +226,22 @@
           "ui-eholdings.settings.access-types.create-edit",
           "kb-ebsco.kb-credentials.access-types.item.delete"
         ]
+      },
+      {
+        "permissionName": "ui-eholdings.settings.custom-labels.view",
+        "displayName": "Settings (eholdings): Can view custom labels",
+        "visible": true,
+        "subPermissions": [
+          "ui-eholdings.settings.enabled"
+        ]
+      },
+      {
+        "permissionName": "ui-eholdings.settings.custom-labels.all",
+        "displayName": "Settings (eholdings): Can create, edit, view, and delete custom labels",
+        "visible": true,
+        "subPermissions": [
+          "ui-eholdings.settings.custom-labels.view"
+        ]
       }
     ]
   }
