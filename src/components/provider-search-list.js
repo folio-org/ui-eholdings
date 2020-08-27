@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 
 import QueryList from './query-list';
 import ProviderListItem from './provider-list-item';
+import NoResultsMessage from './no-results-message';
 
 const ITEM_HEIGHT = 62;
 
@@ -24,7 +25,11 @@ export default function ProviderSearchList({
       collection={collection}
       onUpdateOffset={onUpdateOffset}
       itemHeight={ITEM_HEIGHT}
-      notFoundMessage={notFoundMessage}
+      notFoundMessage={
+        <NoResultsMessage data-test-query-list-not-found="providers">
+          {notFoundMessage}
+        </NoResultsMessage>
+      }
       fullWidth
       renderItem={item => (
         <ProviderListItem
