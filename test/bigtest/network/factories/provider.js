@@ -19,7 +19,7 @@ export default Factory.extend({
       if (provider.packagesTotal > 0) {
         // Decide how many will be selected if not already (0 to packagesTotal)
         provider.packagesSelected = provider.packagesSelected ||
-          faker.random.number({ min: 0, max: provider.packagesTotal });
+          faker.random.number({ min: 1, max: provider.packagesTotal });
 
         server.createList('package', provider.packagesSelected, 'withTitles', {
           provider,

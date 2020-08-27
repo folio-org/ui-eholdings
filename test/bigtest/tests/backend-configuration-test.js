@@ -6,13 +6,15 @@ import setupApplication from '../helpers/setup-application';
 import ApplicationPage from '../interactors/application';
 import SettingsPage from '../interactors/settings-configuration';
 
-describe('Error retrieving backend', () => {
+describe.only('Error retrieving backend', function () {
   setupApplication({
     scenarios: ['load-error-backend'],
   });
 
   describe('when trying to use the app', () => {
-    beforeEach(async function () {
+    this.retries(4);
+
+    beforeEach(function () {
       this.visit('/eholdings');
     });
 
@@ -22,7 +24,7 @@ describe('Error retrieving backend', () => {
   });
 });
 
-describe('API limit exceeded', () => {
+describe.only('API limit exceeded', () => {
   setupApplication({
     scenarios: ['api-limit-exceeded'],
   });
@@ -38,7 +40,7 @@ describe('API limit exceeded', () => {
   });
 });
 
-describe('With no backend at all', () => {
+describe.only('With no backend at all', () => {
   setupApplication({
     scenarios: ['no-backend'],
   });

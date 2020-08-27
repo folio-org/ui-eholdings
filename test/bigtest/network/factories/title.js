@@ -37,7 +37,7 @@ export default Factory.extend({
       const total = faker.random.number({ min: 1, max: 10 });
 
       // Decide how many will be selected (0 to total)
-      const selectedCount = faker.random.number({ min: 0, max: total });
+      const selectedCount = faker.random.number({ min: 1, max: total });
 
       server.createList('resource', selectedCount, 'withPackage', 'withManagedCoverage', {
         title,
