@@ -95,7 +95,7 @@ export default class TitleEdit extends Component {
           mutators={{ ...arrayMutators }}
           render={({ handleSubmit, pristine, form: { reset } }) => (
             <>
-              <form onSubmit={handleSubmit}>
+              <form onSubmit={handleSubmit} noValidate>
                 <DetailsView
                   type="title"
                   model={model}

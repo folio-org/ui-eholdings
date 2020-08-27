@@ -83,9 +83,7 @@ export default class QueryList extends Component {
               {state.rejected[0].error[0].title}
             </div>
           ) : !state.length ? (
-            <>
-              { notFoundMessage }
-            </>
+            { notFoundMessage }
           ) : (
             <ScrollView
               items={state}

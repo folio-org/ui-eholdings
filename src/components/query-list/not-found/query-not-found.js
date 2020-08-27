@@ -9,7 +9,7 @@ const cx = classnames.bind(styles);
 
 const propTypes = {
   children: PropTypes.node.isRequired,
-  type: PropTypes.string.isRequired,
+  type: PropTypes.oneOf(['provider-packages', 'package-titles']).isRequired,
 };
 
 const QueryNotFound = ({ children, type }) => (
