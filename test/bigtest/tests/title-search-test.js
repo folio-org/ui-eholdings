@@ -81,7 +81,6 @@ describe('TitleSearch', () => {
     expect(TitleSearchPage.selectionFilterAccordion.isOpen).to.be.false;
   });
 
-
   describe('searching for a title', () => {
     beforeEach(() => {
       return TitleSearchPage.search('Title');

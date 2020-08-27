@@ -58,10 +58,11 @@ import AddToCustomPackageModal from './add-to-custom-package-modal';
 
   packageList = collection('[data-test-query-list="title-packages"] li a', {
     name: text('[data-test-eholdings-package-list-item-name]'),
-    isSelectedText: text('[data-test-eholdings-package-list-item-selected]'),
+    isSelectedText: text('[data-test-selected-label]'),
     isSelected: computed(function () {
       return this.isSelectedText === 'Selected';
-    })
+    }),
+    tagList: text('[data-test-tags-label]'),
   });
 
   identifiersList = collection('[data-test-eholdings-identifiers-list-item]', {

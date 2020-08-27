@@ -40,13 +40,13 @@ import SearchBadge from './search-badge';
 
   packageList = collection('[data-test-query-list="provider-packages"] li a', {
     name: text('[data-test-eholdings-package-list-item-name]'),
-    selectedLabel: text('[data-test-eholdings-title-list-item-title-selected]'),
-    isHiddenLabel: text('[data-test-eholdings-package-list-item-title-hidden]'),
+    isHiddenLabel: text('[data-test-hidden-label]'),
     isPackageHidden: computed(function () {
       return this.isHiddenLabel === 'Hidden';
     }),
     numTitles: text('[data-test-eholdings-package-list-item-num-titles]'),
-    numTitlesSelected: text('[data-test-eholdings-package-list-item-selected]')
+    numTitlesSelected: text('[data-test-total-title-label]'),
+    tags: text('[data-test-tags-label]'),
   });
 
   searchResultsCount = text('[data-test-eholdings-details-view-results-count]');

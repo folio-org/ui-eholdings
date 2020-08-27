@@ -248,6 +248,8 @@ class ProviderShow extends Component {
         link={itemLink}
         item={item.content}
         showTitleCount
+        showSelectedCount
+        showTags
         headingLevel='h4'
       />
     );

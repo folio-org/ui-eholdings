@@ -25,12 +25,6 @@
     }
   }
 
-  & .selection-status {
-    &.not-selected img {
-      filter: grayscale(1);
-    }
-  }
-
   & .itemMetadata {
     font-size: var(--font-size-medium);
     display: flex;

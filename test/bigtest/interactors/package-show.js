@@ -89,12 +89,13 @@ import PackageSelectionModal from './package-selection-modal';
   hasTitleList = isPresent('[data-test-query-list="package-titles"]');
   titleList = collection('[data-test-query-list="package-titles"] li a', {
     name: text('[data-test-eholdings-title-list-item-title-name]'),
-    isSelectedLabel: text('[data-test-eholdings-title-list-item-title-selected]'),
+    isSelectedLabel: text('[data-test-selected-label]'),
     isSelected: computed(function () {
       return this.isSelectedLabel === 'Selected';
     }),
-    hiddenIndicatorDisplayed: isPresent('[data-test-eholdings-title-list-item-title-hidden]'),
-    clickToTitle: clickable()
+    hiddenIndicatorDisplayed: isPresent('[data-test-hidden-label]'),
+    clickToTitle: clickable(),
+    tags: text('[data-test-tags-label]'),
   });
 
   detailsPaneScrollTop = action(function (offset) {
