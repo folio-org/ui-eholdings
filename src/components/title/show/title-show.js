@@ -1,12 +1,16 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { FormattedMessage } from 'react-intl';
+import { withRouter } from 'react-router';
+import ReactRouterPropTypes from 'react-router-prop-types';
 
 import { Form } from 'react-final-form';
 import createFocusDecorator from 'final-form-focus';
 
 import update from 'lodash/fp/update';
 import set from 'lodash/fp/set';
+
+import qs from 'qs';
 
 import {
   withStripes,
@@ -32,6 +36,7 @@ import ContributorsList from '../../contributors-list';
 import AddTitleToPackage from '../_field-groups/add-title-to-package';
 import Toaster from '../../toaster';
 import KeyValueColumns from '../../key-value-columns';
+import PackageFilterModal from './package-filter-modal';
 import styles from './title-show.css';
 
 const focusOnErrors = createFocusDecorator();
@@ -41,8 +46,10 @@ class TitleShow extends Component {
   static propTypes = {
     addCustomPackage: PropTypes.func.isRequired,
     customPackages: PropTypes.object.isRequired,
+    history: ReactRouterPropTypes.history.isRequired,
     isFreshlySaved: PropTypes.bool,
     isNewRecord: PropTypes.bool,
+    location: ReactRouterPropTypes.location.isRequired,
     model: PropTypes.object.isRequired,
     onEdit: PropTypes.func.isRequired,
     request: PropTypes.object.isRequired,
@@ -53,14 +60,67 @@ class TitleShow extends Component {
 
   constructor(props) {
     super(props);
+
+    const filteredPackages = this.getFilteredPackagesFromParams();
+
     this.state = {
       showCustomPackageModal: false,
       sections: {
         titleShowTags: true,
         titleShowTitleInformation: true,
       },
+      filteredPackages,
+      packageFilterApplied: !!filteredPackages.length,
     };
   }
+
+  componentDidUpdate(prevProps) {
+    if (!prevProps.model.isLoaded && this.props.model.isLoaded) {
+      const filteredPackages = this.getFilteredPackagesFromParams();
+
+      this.setState({ // eslint-disable-line react/no-did-update-set-state
+        filteredPackages,
+        packageFilterApplied: !!filteredPackages.length,
+      });
+    }
+  }
+
+  getFilteredPackagesFromParams = () => {
+    const {
+      location,
+      model,
+    } = this.props;
+
+
+    const { filteredPackages: filteredPackagesIds } = qs.parse(location.search, {
+      ignoreQueryPrefix: true,
+    });
+
+    return filteredPackagesIds
+      ? model.resources.records.filter(({ id: recordId }) => filteredPackagesIds.some(id => id === recordId))
+      : [];
+  }
+
+  handlePackageFilterChange = selectedPackages => {
+    const {
+      history,
+      location,
+    } = this.props;
+
+    const filteredPackagesIds = selectedPackages.map(({ id }) => id);
+    const currentSearch = qs.parse(location.search);
+    const newSearch = qs.stringify({
+      ...currentSearch,
+      filteredPackages: filteredPackagesIds,
+    }, { arrayFormat: 'indices' });
+
+    this.setState({
+      filteredPackages: selectedPackages,
+      packageFilterApplied: !!selectedPackages.length,
+    });
+    history.replace({ search: newSearch }, { eholdings: true });
+  }
+
 
   get lastMenu() {
     const {
@@ -144,7 +204,9 @@ class TitleShow extends Component {
     } = this.props;
     const {
       showCustomPackageModal,
-      sections
+      sections,
+      filteredPackages,
+      packageFilterApplied,
     } = this.state;
 
     const modalMessage = {
@@ -168,6 +230,14 @@ class TitleShow extends Component {
           handleExpandAll={this.handleExpandAll}
           lastMenu={this.lastMenu}
           ariaRole="tablist"
+          searchModal={(
+            <PackageFilterModal
+              allPackages={model.resources.records}
+              selectedPackages={filteredPackages}
+              onSubmit={this.handlePackageFilterChange}
+              filterCount={packageFilterApplied ? 1 : 0}
+            />)
+          }
           bodyContent={(
 
             <Accordion
@@ -251,11 +321,15 @@ class TitleShow extends Component {
 
           )}
           listType={listTypes.PACKAGES}
-          resultsLength={model.resources.length}
+          resultsLength={packageFilterApplied
+            ? filteredPackages.length
+            : model.resources.length}
           renderList={scrollable => (
             <ScrollView
               itemHeight={ITEM_HEIGHT}
-              items={model.resources}
+              items={packageFilterApplied
+                ? filteredPackages
+                : model.resources}
               scrollable={scrollable}
               queryListName="title-packages"
             >
@@ -318,4 +392,4 @@ class TitleShow extends Component {
   }
 }
 
-export default withStripes(TitleShow);
+export default withRouter(withStripes(TitleShow));

@@ -304,6 +304,7 @@
     "filter.pubType.website": "Website",
     "filter.pubType.unspecified": "Unspecified",
     "filter.resetAll": "Reset all",
+    "filter.search": "Search",
     "filter.filterType": "Filter {listType}",
     "filter.filterType.packages": "Filter packages",
     "filter.filterType.titles": "Filter titles",
