@@ -116,9 +116,11 @@ class Settings extends Component {
               </NavListItem>
             </IfPermission>
 
-            <NavListItem to={`/settings/eholdings/${configuration.id}/custom-labels`}>
-              <FormattedMessage id="ui-eholdings.resource.customLabels" />
-            </NavListItem>
+            <IfPermission perm="ui-eholdings.settings.custom-labels.view">
+              <NavListItem to={`/settings/eholdings/${configuration.id}/custom-labels`}>
+                <FormattedMessage id="ui-eholdings.resource.customLabels" />
+              </NavListItem>
+            </IfPermission>
 
             <IfPermission perm="ui-eholdings.settings.access-types.view">
               <NavListItem to={`/settings/eholdings/${configuration.id}/access-status-types`}>
