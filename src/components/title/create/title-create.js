@@ -137,6 +137,7 @@ export default class TitleCreate extends Component {
                   paneTitle={paneTitle}
                   firstMenu={this.renderFirstMenu()}
                   footer={this.getFooter(pristine, reset)}
+                  noValidate
                 >
                   <div className={styles['title-create-form-container']}>
                     <DetailsViewSection
