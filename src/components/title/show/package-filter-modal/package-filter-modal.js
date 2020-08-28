@@ -64,11 +64,15 @@ const PackageFilterModal = ({
       <ModalFooter>
         <Button
           buttonStyle="primary"
+          data-test-package-selection-modal-submit
           onClick={handleSubmit}
         >
           <FormattedMessage id="ui-eholdings.filter.search" />
         </Button>
-        <Button onClick={handleReset}>
+        <Button
+          onClick={handleReset}
+          data-test-package-selection-modal-reset-all
+        >
           <FormattedMessage id="ui-eholdings.filter.resetAll" />
         </Button>
       </ModalFooter>
@@ -84,12 +88,15 @@ const PackageFilterModal = ({
         label={<FormattedMessage id="ui-eholdings.filter.filterType.packages" />}
         footer={footer}
         onClose={toggleModal}
+        id="package-filter-modal"
       >
         <MultiSelection
           label={<FormattedMessage id="ui-eholdings.label.packages" />}
           dataOptions={allOptions}
           onChange={handleFilterChange}
           value={selectedOptions}
+          data-test-package-filter-select
+          id="packageFilterSelect"
         />
       </Modal>
     );
