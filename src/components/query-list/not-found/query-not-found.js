@@ -4,7 +4,6 @@ import PropTypes from 'prop-types';
 import classnames from 'classnames/bind';
 import styles from '../query-list.css';
 
-
 const cx = classnames.bind(styles);
 
 const propTypes = {
@@ -13,7 +12,10 @@ const propTypes = {
 };
 
 const QueryNotFound = ({ children, type }) => (
-  <div className={cx('error', 'not-found')} data-test-query-list-not-found={type}>
+  <div
+    className={cx('error', 'not-found')}
+    data-test-query-list-not-found={type}
+  >
     { children }
   </div>
 );
