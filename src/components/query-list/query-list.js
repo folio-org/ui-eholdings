@@ -82,32 +82,32 @@ export default class QueryList extends Component {
             <div className={styles.error} data-test-query-list-error={type}>
               {state.rejected[0].error[0].title}
             </div>
-          ) : !state.length ? (
+          ) : !state.length ?
             { notFoundMessage }
-          ) : (
-            <ScrollView
-              items={state}
-              length={length}
-              offset={offset}
-              itemHeight={itemHeight}
-              onUpdate={this.updateOffset}
-              scrollable={scrollable}
-              queryListName={type}
-              fullWidth={fullWidth}
-            >
-              {item => (
-                item.isRejected ? (
-                  <div className={cx('list-item', 'is-error')} data-test-query-list-error={type}>
-                    {item.error[0].title}
-                  </div>
-                ) : (
-                  <div className={styles['list-item']} data-test-query-list-item>
-                    {renderItem(item)}
-                  </div>
-                )
-              )}
-            </ScrollView>
-          )
+            : (
+              <ScrollView
+                items={state}
+                length={length}
+                offset={offset}
+                itemHeight={itemHeight}
+                onUpdate={this.updateOffset}
+                scrollable={scrollable}
+                queryListName={type}
+                fullWidth={fullWidth}
+              >
+                {item => (
+                  item.isRejected ? (
+                    <div className={cx('list-item', 'is-error')} data-test-query-list-error={type}>
+                      {item.error[0].title}
+                    </div>
+                  ) : (
+                    <div className={styles['list-item']} data-test-query-list-item>
+                      {renderItem(item)}
+                    </div>
+                  )
+                )}
+              </ScrollView>
+            )
         )}
       </Impagination>
     );

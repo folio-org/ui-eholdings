@@ -271,7 +271,8 @@ class ProviderShow extends Component {
         notFoundMessage={
           <QueryNotFound type="provider-packages">
             <FormattedMessage id="ui-eholdings.notFound" />
-          </QueryNotFound>}
+          </QueryNotFound>
+        }
         renderItem={this.renderPackagesListItem}
       />
     );

@@ -290,7 +290,10 @@ class CustomPackageEdit extends Component {
         render={({ handleSubmit, pristine, form: { change, reset } }) => (
           <div>
             <Toaster toasts={processErrors(model)} position="bottom" />
-            <form onSubmit={handleSubmit} noValidate>
+            <form
+              onSubmit={handleSubmit}
+              noValidate
+            >
               <DetailsView
                 type="package"
                 model={model}

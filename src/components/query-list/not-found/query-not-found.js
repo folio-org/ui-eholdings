@@ -16,7 +16,7 @@ const QueryNotFound = ({ children, type }) => (
     className={cx('error', 'not-found')}
     data-test-query-list-not-found={type}
   >
-    { children }
+    {children}
   </div>
 );
 

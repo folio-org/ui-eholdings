@@ -543,7 +543,8 @@ class PackageShow extends Component {
         notFoundMessage={
           <QueryNotFound type="package-titles">
             <FormattedMessage id="ui-eholdings.notFound" />
-          </QueryNotFound>}
+          </QueryNotFound>
+        }
         renderItem={this.renderTitlesListItem}
       />
     );
