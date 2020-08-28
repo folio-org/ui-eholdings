@@ -91,7 +91,6 @@ class TitleShow extends Component {
       model,
     } = this.props;
 
-
     const { filteredPackages: filteredPackagesIds } = qs.parse(location.search, {
       ignoreQueryPrefix: true,
     });
@@ -120,7 +119,6 @@ class TitleShow extends Component {
     });
     history.replace({ search: newSearch }, { eholdings: true });
   }
-
 
   get lastMenu() {
     const {
