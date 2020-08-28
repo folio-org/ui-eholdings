@@ -233,7 +233,7 @@ class TitleShow extends Component {
               allPackages={model.resources.records}
               selectedPackages={filteredPackages}
               onSubmit={this.handlePackageFilterChange}
-              filterCount={packageFilterApplied ? 1 : 0}
+              filterCount={packageFilterApplied ? 1 : 0} // todo: implement actual filter counting to avoid hardcoding
             />)
           }
           bodyContent={(
