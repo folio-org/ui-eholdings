@@ -82,8 +82,8 @@ export default class QueryList extends Component {
             <div className={styles.error} data-test-query-list-error={type}>
               {state.rejected[0].error[0].title}
             </div>
-          ) : !state.length ?
-            { notFoundMessage }
+          ) : !state.length
+            ? notFoundMessage
             : (
               <ScrollView
                 items={state}
