@@ -5,10 +5,9 @@ import setupApplication from '../helpers/setup-application';
 import TitleShowPage from '../interactors/title-show';
 import PackageFilterModal from '../interactors/package-filter-modal';
 
-describe.only('TitleShow package filter flow', () => {
+describe('TitleShow package filter flow', () => {
   setupApplication();
-  let title,
-    resources;
+  let title;
 
   beforeEach(function () {
     title = this.server.create('title', 'withPackages', {
@@ -39,8 +38,6 @@ describe.only('TitleShow package filter flow', () => {
     ].map(m => m.toJSON());
 
     title.save();
-
-    resources = title.resources.models;
   });
 
   describe('when the title show page is opened', () => {
