@@ -412,5 +412,6 @@
     "resource.embargoUnit.Years": "{value}年",
     "addPackageToHoldings": "添加资源包到馆藏",
     "permission.settings.custom-labels.all:": "Settings (eholdings): Can create, edit, view, and delete custom labels",
-    "permission.settings.custom-labels.view": "Settings (eholdings): Can view custom labels"
+    "permission.settings.custom-labels.view": "Settings (eholdings): Can view custom labels",
+    "filter.search": "Search"
 }
