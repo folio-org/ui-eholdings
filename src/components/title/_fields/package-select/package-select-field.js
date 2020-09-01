@@ -2,8 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Field } from 'react-final-form';
 import { FormattedMessage } from 'react-intl';
-
-import { Select } from '@folio/stripes/components';
+import { Selection } from '@folio/stripes/components';
 
 function validate(value) {
   return value ? undefined : <FormattedMessage id="ui-eholdings.validate.errors.packageSelect.required" />;
@@ -14,29 +13,22 @@ function PackageSelectField({ options }) {
     <div data-test-eholdings-package-select-field>
       <Field
         name="packageId"
-        component={Select}
+        component={Selection}
         label={<FormattedMessage id="ui-eholdings.label.package" />}
         validate={validate}
         onBlur={null} // preventing validation that is in onBlur
+        placeholder={<FormattedMessage id="ui-eholdings.title.chooseAPackage" />}
+        dataOptions={options}
         required
-      >
-        {options.length ? (
-          <FormattedMessage id="ui-eholdings.title.chooseAPackage">
-            {option => (
-              <option value="" disabled>{option}</option>
-            )}
-          </FormattedMessage>
-        ) : (
-          <FormattedMessage id="ui-eholdings.search.loading">
-            {option => (
-              <option value="" disabled>{option}</option>
-            )}
-          </FormattedMessage>
-        )}
-        {options.filter(option => option.label !== '').map(({ disabled, label, value }) => (
-          <option disabled={disabled} key={value} value={value}>{label}</option>
-        ))}
-      </Field>
+        tether={{
+          constraints: [
+            {
+              to: 'window',
+              attachment: 'together',
+            }
+          ]
+        }}
+      />
     </div>
   );
 }

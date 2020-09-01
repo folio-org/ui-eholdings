@@ -349,6 +349,7 @@ class TitleShow extends Component {
           label={modalMessage.header}
           id="eholdings-custom-package-modal"
           wrappingElement="form"
+          enforceFocus={false}
           footer={(
             <ModalFooter>
               <Button
