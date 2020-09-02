@@ -69,11 +69,12 @@ describe('TitleCreate', () => {
       expect(TitleCreatePage.hasBackButton).to.be.false;
     });
 
-    describe('creating a new title', () => {
-      beforeEach(() => {
+    describe.only('creating a new title', () => {
+      beforeEach(async () => {
+        await new Promise(r => setTimeout(r, 1000));
         return TitleCreatePage
           .fillName('My Title')
-          .selectPackage(packages[0].name)
+          .expandSelectTitle()
           .save();
       });
 

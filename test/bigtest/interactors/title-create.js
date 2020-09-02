@@ -11,7 +11,7 @@ import {
 } from '@bigtest/interactor';
 
 @interactor class TitleCreatePage {
-  static defaultScope = '[data-test-eholdings-title-create]';
+  // static defaultScope = '[data-test-eholdings-title-create]';
 
   hasName = isPresent('[data-test-eholdings-title-name-field]');
   fillName = fillable('[data-test-eholdings-title-name-field] input');
@@ -46,6 +46,13 @@ import {
       .fill('[data-test-eholdings-identifiers-fields-type] select', values[type])
       .fill('[data-test-eholdings-identifiers-fields-id] input', id);
   }
+
+  expandSelectTitle() {
+    return this
+      .click('[id^="stripes-selection-"')
+      .click('ul[class^="selectionList---"] li:first-of-type');
+  }
+
 
   hasDescription = isPresent('[data-test-eholdings-description-textarea]');
   fillDescription = fillable('[data-test-eholdings-description-textarea] textarea');
