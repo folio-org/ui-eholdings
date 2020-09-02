@@ -9,6 +9,7 @@ import {
   count,
   collection,
 } from '@bigtest/interactor';
+import SelectionInteractor from '@folio/stripes-components/lib/Selection/tests/interactor';
 
 @interactor class TitleCreatePage {
   // static defaultScope = '[data-test-eholdings-title-create]';
@@ -47,13 +48,6 @@ import {
       .fill('[data-test-eholdings-identifiers-fields-id] input', id);
   }
 
-  expandSelectTitle() {
-    return this
-      .click('[id^="stripes-selection-"')
-      .click('ul[class^="selectionList---"] li:first-of-type');
-  }
-
-
   hasDescription = isPresent('[data-test-eholdings-description-textarea]');
   fillDescription = fillable('[data-test-eholdings-description-textarea] textarea');
   hasPackageSelect = isPresent('[data-test-eholdings-package-select-field]');
@@ -67,6 +61,7 @@ import {
   hasBackButton = isPresent('[data-test-eholdings-details-view-back-button]');
   clickBackButton = clickable('[data-test-eholdings-details-view-back-button]');
   cancelEditing = clickable('[data-test-eholdings-title-create-cancel-button]');
+  packageSelection = new SelectionInteractor('[data-test-eholdings-package-select-field]')
 }
 
 export default new TitleCreatePage();

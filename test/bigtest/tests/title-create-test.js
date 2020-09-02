@@ -70,12 +70,10 @@ describe('TitleCreate', () => {
     });
 
     describe.only('creating a new title', () => {
-      beforeEach(async () => {
-        await new Promise(r => setTimeout(r, 1000));
-        return TitleCreatePage
-          .fillName('My Title')
-          .expandSelectTitle()
-          .save();
+      beforeEach(() => {
+        TitleCreatePage.fillName('My Title');
+        TitleCreatePage.packageSelection.clickOption(0);
+        TitleCreatePage.save();
       });
 
       it('disables the save button', () => {
@@ -93,15 +91,14 @@ describe('TitleCreate', () => {
       });
     });
 
-    describe('creating a new title with a contributor', () => {
+    describe.only('creating a new title with a contributor', () => {
       beforeEach(() => {
-        return TitleCreatePage
-          .fillName('My Title')
-          .clickAddContributor()
-          .contributorsRowList(0).type('author')
-          .contributorsRowList(0).contributor('Me') // eslint-disable-line newline-per-chained-call
-          .selectPackage(packages[0].name)
-          .save();
+        TitleCreatePage.fillName('My Title');
+        TitleCreatePage.clickAddContributor();
+        TitleCreatePage.contributorsRowList(0).type('author');
+        TitleCreatePage.contributorsRowList(0).contributor('Me'); // eslint-disable-line newline-per-chained-call
+        TitleCreatePage.packageSelection.clickOption(0);
+        TitleCreatePage.save();
       });
       it('goes to the title show page', () => {
         expect(TitleShowPage.$root).to.exist;
@@ -112,13 +109,12 @@ describe('TitleCreate', () => {
       });
     });
 
-    describe('creating a new title with an edition', () => {
+    describe.only('creating a new title with an edition', () => {
       beforeEach(() => {
-        return TitleCreatePage
-          .fillName('My Title')
-          .fillEdition('My Edition')
-          .selectPackage(packages[0].name)
-          .save();
+        TitleCreatePage.fillName('My Title');
+        TitleCreatePage.fillEdition('My Edition');
+        TitleCreatePage.packageSelection.clickOption(0);
+        TitleCreatePage.save();
       });
 
       it('redirects to the new title show page with the specified edition', function () {
@@ -127,13 +123,12 @@ describe('TitleCreate', () => {
       });
     });
 
-    describe('creating a new title with a publisher', () => {
+    describe.only('creating a new title with a publisher', () => {
       beforeEach(() => {
-        return TitleCreatePage
-          .fillName('My Title')
-          .fillPublisher('Me')
-          .selectPackage(packages[0].name)
-          .save();
+        TitleCreatePage.fillName('My Title');
+        TitleCreatePage.fillPublisher('Me');
+        TitleCreatePage.packageSelection.clickOption(0);
+        TitleCreatePage.save();
       });
 
       it('redirects to the new title show page with the specified publisher', function () {
@@ -142,13 +137,12 @@ describe('TitleCreate', () => {
       });
     });
 
-    describe('creating a new title with a specified publication type', () => {
+    describe.only('creating a new title with a specified publication type', () => {
       beforeEach(() => {
-        return TitleCreatePage
-          .fillName('My Title')
-          .choosePublicationType('Book')
-          .selectPackage(packages[0].name)
-          .save();
+        TitleCreatePage.fillName('My Title');
+        TitleCreatePage.choosePublicationType('Book');
+        TitleCreatePage.packageSelection.clickOption(0);
+        TitleCreatePage.save();
       });
 
       it('redirects to the new package with the specified content type', function () {
@@ -157,13 +151,12 @@ describe('TitleCreate', () => {
       });
     });
 
-    describe('creating a new title with an identifier', () => {
+    describe.only('creating a new title with an identifier', () => {
       beforeEach(() => {
-        return TitleCreatePage
-          .fillName('My Title')
-          .addIdentifier('ISBN (Print)', '90210')
-          .selectPackage(packages[0].name)
-          .save();
+        TitleCreatePage.fillName('My Title');
+        TitleCreatePage.addIdentifier('ISBN (Print)', '90210');
+        TitleCreatePage.packageSelection.clickOption(0);
+        TitleCreatePage.save();
       });
 
       it('redirects to the new title show page with the specified identifier', function () {
@@ -172,13 +165,12 @@ describe('TitleCreate', () => {
       });
     });
 
-    describe('creating a new title with a description', () => {
+    describe.only('creating a new title with a description', () => {
       beforeEach(() => {
-        return TitleCreatePage
-          .fillName('My Title')
-          .fillDescription('This is my title')
-          .selectPackage(packages[0].name)
-          .save();
+        TitleCreatePage.fillName('My Title');
+        TitleCreatePage.fillDescription('This is my title');
+        TitleCreatePage.packageSelection.clickOption(0);
+        TitleCreatePage.save();
       });
 
       it('redirects to the new package with the specified description', function () {
@@ -187,12 +179,11 @@ describe('TitleCreate', () => {
       });
     });
 
-    describe('creating a new title with a different package', () => {
+    describe.only('creating a new title with a different package', () => {
       beforeEach(() => {
-        return TitleCreatePage
-          .fillName('My Title')
-          .selectPackage(packages[1].name)
-          .save();
+        TitleCreatePage.fillName('My Title');
+        TitleCreatePage.packageSelection.clickOption(0);
+        TitleCreatePage.save();
       });
 
       it('redirects to the new package with the specified package', function () {
@@ -201,14 +192,13 @@ describe('TitleCreate', () => {
       });
     });
 
-    describe('creating a new title and specifying peer reviewed status', () => {
+    describe.only('creating a new title and specifying peer reviewed status', () => {
       beforeEach(() => {
-        return TitleCreatePage
-          .fillName('My Title')
-          .fillPublisher('Me')
-          .togglePeerReviewed()
-          .selectPackage(packages[0].name)
-          .save();
+        TitleCreatePage.fillName('My Title');
+        TitleCreatePage.fillPublisher('Me');
+        TitleCreatePage.togglePeerReviewed();
+        TitleCreatePage.packageSelection.clickOption(0);
+        TitleCreatePage.save();
       });
 
       it('redirects to the new package with the specified content type', function () {
