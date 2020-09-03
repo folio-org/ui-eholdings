@@ -412,5 +412,6 @@
     "resource.embargoUnit.Years": "{value} عاماً",
     "addPackageToHoldings": "إضافة حزمة إلى المقتنيات",
     "permission.settings.custom-labels.all:": "الإعدادات (المقتنيات الإلكترونية): إمكانية إنشاء، تحرير، عرض، وحذف ملصقات التسمية المخصصة",
-    "permission.settings.custom-labels.view": "الإعدادات (المقتنيات الإلكترونية): إمكانية عرض ملصقات التسمية المخصصة"
+    "permission.settings.custom-labels.view": "الإعدادات (المقتنيات الإلكترونية): إمكانية عرض ملصقات التسمية المخصصة",
+    "filter.search": "بحث"
 }
