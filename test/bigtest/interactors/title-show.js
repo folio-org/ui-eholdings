@@ -21,6 +21,7 @@ import AddToCustomPackageModal from './add-to-custom-package-modal';
     return this.when(() => this.isLoaded);
   }
 
+  clickSearchBadge = clickable('[data-test-eholdings-search-filters="icon"]')
   paneTitle = text('[data-test-eholdings-details-view-pane-title]');
   titleName = text('[data-test-eholdings-details-view-name="title"]');
   nameHasFocus = is('[data-test-eholdings-details-view-name="title"]', ':focus');

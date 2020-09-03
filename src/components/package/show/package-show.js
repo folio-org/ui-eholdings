@@ -54,6 +54,7 @@ import TokenDisplay from '../../token-display';
 import TagsAccordion from '../../tags';
 import AccessType from '../../access-type-display';
 import { AgreementsAccordion } from '../../../features';
+import QueryNotFound from '../../query-list/not-found';
 
 const ITEM_HEIGHT = 62;
 
@@ -539,7 +540,11 @@ class PackageShow extends Component {
         length={packageTitles.length}
         scrollable={scrollable}
         itemHeight={ITEM_HEIGHT}
-        notFoundMessage={<FormattedMessage id="ui-eholdings.notFound" />}
+        notFoundMessage={
+          <QueryNotFound type="package-titles">
+            <FormattedMessage id="ui-eholdings.notFound" />
+          </QueryNotFound>
+        }
         renderItem={this.renderTitlesListItem}
       />
     );
