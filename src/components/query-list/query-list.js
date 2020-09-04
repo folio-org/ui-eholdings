@@ -5,7 +5,6 @@ import classnames from 'classnames/bind';
 import styles from './query-list.css';
 import ScrollView from '../scroll-view';
 import Impagination from '../impagination';
-import NoResultsMessage from '../no-results-message';
 
 const cx = classnames.bind(styles);
 
@@ -83,34 +82,32 @@ export default class QueryList extends Component {
             <div className={styles.error} data-test-query-list-error={type}>
               {state.rejected[0].error[0].title}
             </div>
-          ) : !state.length ? (
-            <NoResultsMessage data-test-query-list-not-found={type}>
-              {notFoundMessage}
-            </NoResultsMessage>
-          ) : (
-            <ScrollView
-              items={state}
-              length={length}
-              offset={offset}
-              itemHeight={itemHeight}
-              onUpdate={this.updateOffset}
-              scrollable={scrollable}
-              queryListName={type}
-              fullWidth={fullWidth}
-            >
-              {item => (
-                item.isRejected ? (
-                  <div className={cx('list-item', 'is-error')} data-test-query-list-error={type}>
-                    {item.error[0].title}
-                  </div>
-                ) : (
-                  <div className={styles['list-item']} data-test-query-list-item>
-                    {renderItem(item)}
-                  </div>
-                )
-              )}
-            </ScrollView>
-          )
+          ) : !state.length
+            ? notFoundMessage
+            : (
+              <ScrollView
+                items={state}
+                length={length}
+                offset={offset}
+                itemHeight={itemHeight}
+                onUpdate={this.updateOffset}
+                scrollable={scrollable}
+                queryListName={type}
+                fullWidth={fullWidth}
+              >
+                {item => (
+                  item.isRejected ? (
+                    <div className={cx('list-item', 'is-error')} data-test-query-list-error={type}>
+                      {item.error[0].title}
+                    </div>
+                  ) : (
+                    <div className={styles['list-item']} data-test-query-list-item>
+                      {renderItem(item)}
+                    </div>
+                  )
+                )}
+              </ScrollView>
+            )
         )}
       </Impagination>
     );
