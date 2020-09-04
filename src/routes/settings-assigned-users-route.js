@@ -103,7 +103,7 @@ const SettingsAssignedUsersRoute = ({
   }, [assignedUsers.errors]);
 
   const getPatronGroupNameById = id => {
-    return userGroups.items.find(userGroup => userGroup.id === id).group;
+    return userGroups.items.find(userGroup => userGroup.id === id)?.group;
   };
 
   const getFormattedUserData = user => {
