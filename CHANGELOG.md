@@ -15,7 +15,9 @@
 * Change holdings status button label. (UIEH-935)
 * Changed asterisk to red and added accessibility label on Create/Edit Custom Package > Name. (UIEH-919)
 * Changed asterisk to red and added accessibility label on Create/Edit Custom Title > Name and Package. (UIEH-920)
-* New/Edit Custom title: update Name required error message.
+* Add custom labels settings permissions. (UIEH-865)
+* Add possibility to filter packages on the title page. (UIEH-928)
+* New/Edit Custom title: update Name required error message. (UIEH-958)
 
 ## [4.0.1] (https://github.com/folio-org/ui-eholdings/tree/v4.0.0) (2020-07-08)
 

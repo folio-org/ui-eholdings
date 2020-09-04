@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types';
-import React, { Component } from 'react';
+import React from 'react';
 import { FormattedMessage } from 'react-intl';
 import { Field } from 'react-final-form';
 
@@ -9,19 +9,21 @@ import {
   Row,
   TextField,
 } from '@folio/stripes/components';
+import { useStripes } from '@folio/stripes/core';
 
 import { getMatchedStringInUTF8 } from '../../../utilities';
 
-export default class CustomLabelField extends Component {
-  static propTypes = {
-    name: PropTypes.string.isRequired,
-  }
+const propTypes = { name: PropTypes.string.isRequired };
 
-  validateLabel = (name, value, allValues) => {
+const CustomLabelField = ({ name }) => {
+  const stripes = useStripes();
+  const disabled = !stripes.hasPerm('ui-eholdings.settings.custom-labels.all');
+
+  const validateLabel = (label, value, allValues) => {
     const utf8Value = value ? getMatchedStringInUTF8(value) : value;
 
-    const displayOnFullTextFinder = allValues[name] ? allValues[name].displayOnFullTextFinder : false;
-    const displayOnPublicationFinder = allValues[name] ? allValues[name].displayOnPublicationFinder : false;
+    const displayOnFullTextFinder = allValues[label] ? allValues[label].displayOnFullTextFinder : false;
+    const displayOnPublicationFinder = allValues[label] ? allValues[label].displayOnPublicationFinder : false;
 
     if (value && value.length > 50) {
       return <FormattedMessage id="ui-eholdings.validate.errors.settings.customLabels.length" />;
@@ -32,54 +34,57 @@ export default class CustomLabelField extends Component {
     } else {
       return undefined;
     }
-  }
+  };
 
-  render() {
-    const { name } = this.props;
+  return (
+    <Row
+      data-test-settings-custom-label
+      key={name}
+    >
+      <Col xs={4}>
+        <FormattedMessage id="ui-eholdings.settings.customLabels.displayLabel">
+          {label => (
+            <Field
+              autoFocus
+              component={TextField}
+              name={`${name}.displayLabel`}
+              validate={(value, allValues) => validateLabel(name, value, allValues)}
+              aria-label={label}
+              disabled={disabled}
+            />
+          )}
+        </FormattedMessage>
+      </Col>
+      <Col xs={4}>
+        <FormattedMessage id="ui-eholdings.settings.customLabels.publicationFinder">
+          {label => (
+            <Field
+              component={Checkbox}
+              name={`${name}.displayOnPublicationFinder`}
+              type='checkbox'
+              aria-label={label}
+              disabled={disabled}
+            />
+          )}
+        </FormattedMessage>
+      </Col>
+      <Col xs={4}>
+        <FormattedMessage id="ui-eholdings.settings.customLabels.textFinder">
+          {label => (
+            <Field
+              component={Checkbox}
+              name={`${name}.displayOnFullTextFinder`}
+              type='checkbox'
+              aria-label={label}
+              disabled={disabled}
+            />
+          )}
+        </FormattedMessage>
+      </Col>
+    </Row>
+  );
+};
 
-    return (
-      <Row
-        data-test-settings-custom-label
-        key={name}
-      >
-        <Col xs={4}>
-          <FormattedMessage id="ui-eholdings.settings.customLabels.displayLabel">
-            {label => (
-              <Field
-                autoFocus
-                component={TextField}
-                name={`${name}.displayLabel`}
-                validate={(value, allValues) => this.validateLabel(name, value, allValues)}
-                aria-label={label}
-              />
-            )}
-          </FormattedMessage>
-        </Col>
-        <Col xs={4}>
-          <FormattedMessage id="ui-eholdings.settings.customLabels.publicationFinder">
-            {label => (
-              <Field
-                component={Checkbox}
-                name={`${name}.displayOnPublicationFinder`}
-                type='checkbox'
-                aria-label={label}
-              />
-            )}
-          </FormattedMessage>
-        </Col>
-        <Col xs={4}>
-          <FormattedMessage id="ui-eholdings.settings.customLabels.textFinder">
-            {label => (
-              <Field
-                component={Checkbox}
-                name={`${name}.displayOnFullTextFinder`}
-                type='checkbox'
-                aria-label={label}
-              />
-            )}
-          </FormattedMessage>
-        </Col>
-      </Row>
-    );
-  }
-}
+CustomLabelField.propTypes = propTypes;
+
+export default CustomLabelField;
