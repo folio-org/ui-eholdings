@@ -11,9 +11,9 @@ describe('TitleCreate', () => {
   setupApplication();
   let packages;
 
-  describe('submitting the form', () => {
+  describe.only('submitting the form', () => {
     beforeEach(function () {
-      packages = this.server.createList('package', 2, {
+      packages = this.server.createList('package', 4, {
         name: i => `Custom Package ${i + 1}`,
         provider: this.server.create('provider'),
         isCustom: true
@@ -69,11 +69,12 @@ describe('TitleCreate', () => {
       expect(TitleCreatePage.hasBackButton).to.be.false;
     });
 
-    describe.only('creating a new title', () => {
-      beforeEach(() => {
-        TitleCreatePage.fillName('My Title');
-        TitleCreatePage.packageSelection.clickOption(0);
-        TitleCreatePage.save();
+    describe('creating a new title', () => {
+      beforeEach(async () => {
+        await TitleCreatePage.fillName('My Title');
+        await new Promise(r => setTimeout(r, 1000));
+        await TitleCreatePage.packageSelection.expandAndClick(0);
+        await TitleCreatePage.save();
       });
 
       it('disables the save button', () => {
@@ -91,14 +92,15 @@ describe('TitleCreate', () => {
       });
     });
 
-    describe.only('creating a new title with a contributor', () => {
-      beforeEach(() => {
-        TitleCreatePage.fillName('My Title');
-        TitleCreatePage.clickAddContributor();
-        TitleCreatePage.contributorsRowList(0).type('author');
-        TitleCreatePage.contributorsRowList(0).contributor('Me'); // eslint-disable-line newline-per-chained-call
-        TitleCreatePage.packageSelection.clickOption(0);
-        TitleCreatePage.save();
+    describe('creating a new title with a contributor', () => {
+      beforeEach(async () => {
+        await TitleCreatePage.fillName('My Title');
+        await TitleCreatePage.clickAddContributor();
+        await TitleCreatePage.contributorsRowList(0).type('author');
+        await TitleCreatePage.contributorsRowList(0).contributor('Me'); // eslint-disable-line newline-per-chained-call
+        await new Promise(r => setTimeout(r, 1000));
+        await TitleCreatePage.packageSelection.clickOption(0);
+        await TitleCreatePage.save();
       });
       it('goes to the title show page', () => {
         expect(TitleShowPage.$root).to.exist;
@@ -109,12 +111,13 @@ describe('TitleCreate', () => {
       });
     });
 
-    describe.only('creating a new title with an edition', () => {
-      beforeEach(() => {
-        TitleCreatePage.fillName('My Title');
-        TitleCreatePage.fillEdition('My Edition');
-        TitleCreatePage.packageSelection.clickOption(0);
-        TitleCreatePage.save();
+    describe('creating a new title with an edition', () => {
+      beforeEach(async () => {
+        await TitleCreatePage.fillName('My Title');
+        await TitleCreatePage.fillEdition('My Edition');
+        await new Promise(r => setTimeout(r, 1000));
+        await TitleCreatePage.packageSelection.clickOption(0);
+        await TitleCreatePage.save();
       });
 
       it('redirects to the new title show page with the specified edition', function () {
@@ -123,12 +126,13 @@ describe('TitleCreate', () => {
       });
     });
 
-    describe.only('creating a new title with a publisher', () => {
-      beforeEach(() => {
-        TitleCreatePage.fillName('My Title');
-        TitleCreatePage.fillPublisher('Me');
-        TitleCreatePage.packageSelection.clickOption(0);
-        TitleCreatePage.save();
+    describe('creating a new title with a publisher', () => {
+      beforeEach(async () => {
+        await TitleCreatePage.fillName('My Title');
+        await TitleCreatePage.fillPublisher('Me');
+        await new Promise(r => setTimeout(r, 1000));
+        await TitleCreatePage.packageSelection.clickOption(0);
+        await TitleCreatePage.save();
       });
 
       it('redirects to the new title show page with the specified publisher', function () {
@@ -137,12 +141,13 @@ describe('TitleCreate', () => {
       });
     });
 
-    describe.only('creating a new title with a specified publication type', () => {
-      beforeEach(() => {
-        TitleCreatePage.fillName('My Title');
-        TitleCreatePage.choosePublicationType('Book');
-        TitleCreatePage.packageSelection.clickOption(0);
-        TitleCreatePage.save();
+    describe('creating a new title with a specified publication type', () => {
+      beforeEach(async () => {
+        await TitleCreatePage.fillName('My Title');
+        await TitleCreatePage.choosePublicationType('Book');
+        await new Promise(r => setTimeout(r, 1000));
+        await TitleCreatePage.packageSelection.clickOption(0);
+        await TitleCreatePage.save();
       });
 
       it('redirects to the new package with the specified content type', function () {
@@ -151,12 +156,13 @@ describe('TitleCreate', () => {
       });
     });
 
-    describe.only('creating a new title with an identifier', () => {
-      beforeEach(() => {
-        TitleCreatePage.fillName('My Title');
-        TitleCreatePage.addIdentifier('ISBN (Print)', '90210');
-        TitleCreatePage.packageSelection.clickOption(0);
-        TitleCreatePage.save();
+    describe('creating a new title with an identifier', () => {
+      beforeEach(async () => {
+        await TitleCreatePage.fillName('My Title');
+        await TitleCreatePage.addIdentifier('ISBN (Print)', '90210');
+        await new Promise(r => setTimeout(r, 1000));
+        await TitleCreatePage.packageSelection.clickOption(0);
+        await TitleCreatePage.save();
       });
 
       it('redirects to the new title show page with the specified identifier', function () {
@@ -165,12 +171,13 @@ describe('TitleCreate', () => {
       });
     });
 
-    describe.only('creating a new title with a description', () => {
-      beforeEach(() => {
-        TitleCreatePage.fillName('My Title');
-        TitleCreatePage.fillDescription('This is my title');
-        TitleCreatePage.packageSelection.clickOption(0);
-        TitleCreatePage.save();
+    describe('creating a new title with a description', () => {
+      beforeEach(async () => {
+        await TitleCreatePage.fillName('My Title');
+        await TitleCreatePage.fillDescription('This is my title');
+        await new Promise(r => setTimeout(r, 1000));
+        await TitleCreatePage.packageSelection.clickOption(0);
+        await TitleCreatePage.save();
       });
 
       it('redirects to the new package with the specified description', function () {
@@ -179,11 +186,12 @@ describe('TitleCreate', () => {
       });
     });
 
-    describe.only('creating a new title with a different package', () => {
-      beforeEach(() => {
-        TitleCreatePage.fillName('My Title');
-        TitleCreatePage.packageSelection.clickOption(0);
-        TitleCreatePage.save();
+    describe('creating a new title with a different package', () => {
+      beforeEach(async () => {
+        await TitleCreatePage.fillName('My Title');
+        await new Promise(r => setTimeout(r, 1000));
+        await TitleCreatePage.packageSelection.clickOption(0);
+        await TitleCreatePage.save();
       });
 
       it('redirects to the new package with the specified package', function () {
@@ -193,12 +201,14 @@ describe('TitleCreate', () => {
     });
 
     describe.only('creating a new title and specifying peer reviewed status', () => {
-      beforeEach(() => {
-        TitleCreatePage.fillName('My Title');
-        TitleCreatePage.fillPublisher('Me');
-        TitleCreatePage.togglePeerReviewed();
-        TitleCreatePage.packageSelection.clickOption(0);
-        TitleCreatePage.save();
+      beforeEach(async () => {
+
+        await TitleCreatePage.fillName('My Title');
+        await TitleCreatePage.fillPublisher('Me');
+        await TitleCreatePage.togglePeerReviewed();
+        await new Promise(r => setTimeout(r, 2000));
+        await TitleCreatePage.packageSelection.clickOption(0);
+        await TitleCreatePage.save();
       });
 
       it('redirects to the new package with the specified content type', function () {
@@ -208,17 +218,17 @@ describe('TitleCreate', () => {
     });
 
     describe('getting an error when creating a new title', () => {
-      beforeEach(function () {
+      beforeEach(async function () {
         this.server.post('/titles', {
           errors: [{
             title: 'There was an error'
           }]
-        }, 500);
+        }, 1500);
 
-        return TitleCreatePage
-          .fillName('My Title')
-          .selectPackage(packages[0].name)
-          .save();
+        await TitleCreatePage.fillName('My Title');
+        await new Promise(r => setTimeout(r, 1000));
+        await TitleCreatePage.packageSelection.clickOption(0);
+        await TitleCreatePage.save();
       });
 
       it.always('does not create the title', function () {

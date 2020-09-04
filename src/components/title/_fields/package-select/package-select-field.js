@@ -18,7 +18,7 @@ function PackageSelectField({ options }) {
         validate={validate}
         onBlur={null} // preventing validation that is in onBlur
         placeholder={<FormattedMessage id="ui-eholdings.title.chooseAPackage" />}
-        dataOptions={options.slice(0, 100)}
+        dataOptions={options.filter(option => option.label && !option.disabled)}
         required
         tether={{
           constraints: [
