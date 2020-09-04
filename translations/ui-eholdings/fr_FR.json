@@ -204,7 +204,7 @@
     "navModal.continueLabel": "Continuer sans sauvegarder",
     "navModal.dismissLabel": "Continuer l'édition",
     "navModal.unsavedChangesMsg": "Vos modifications n'ont pas été enregistrées. Êtes-vous sûr(e) de vouloir quitter cette page?",
-    "validate.errors.customTitle.name": "Les titres personnalisés doivent avoir un nom.",
+    "validate.errors.customTitle.name": "Nom obligatoire.",
     "validate.errors.customTitle.name.length": "Doit contenir moins de 400 caractères.",
     "validate.errors.title.description.length": "La valeur saisie dépasse la limite de {amount} . Merci de saisir une valeur ne dépassant pas {amount} caractères.",
     "validate.errors.customPackage.name": "Les bouquets personnalisés doivent avoir un nom.",
@@ -413,5 +413,6 @@
     "addPackageToHoldings": "Add package to holdings",
     "permission.settings.custom-labels.all:": "Settings (eholdings): Can create, edit, view, and delete custom labels",
     "permission.settings.custom-labels.view": "Settings (eholdings): Can view custom labels",
-    "filter.search": "Rechercher"
+    "filter.search": "Rechercher",
+    "label.tags": "Tag(s): {tags}"
 }
