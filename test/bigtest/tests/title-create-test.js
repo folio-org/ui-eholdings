@@ -7,13 +7,12 @@ import TitleShowPage from '../interactors/title-show';
 import TitleSearchPage from '../interactors/title-search';
 import NavigationModal from '../interactors/navigation-modal';
 
-describe('TitleCreate', () => {
+describe.only('TitleCreate', () => {
   setupApplication();
-  let packages;
 
   describe('submitting the form', () => {
     beforeEach(function () {
-      packages = this.server.createList('package', 4, {
+      this.server.createList('package', 4, {
         name: i => `Custom Package ${i + 1}`,
         provider: this.server.create('provider'),
         isCustom: true
@@ -201,7 +200,6 @@ describe('TitleCreate', () => {
 
     describe('creating a new title and specifying peer reviewed status', () => {
       beforeEach(async () => {
-
         await TitleCreatePage.fillName('My Title');
         await TitleCreatePage.fillPublisher('Me');
         await TitleCreatePage.togglePeerReviewed();

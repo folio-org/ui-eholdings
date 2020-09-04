@@ -89,11 +89,9 @@ describe('TitleShowAddToCustomPackage', () => {
       });
     });
 
-    describe('adding a URL and clicking submit', () => {
-      let customPackage;
-
+    describe.only('adding a URL and clicking submit', () => {
       beforeEach(async function () {
-        customPackage = this.server.schema.packages.findBy({
+        this.server.schema.packages.findBy({
           name: 'Custom Package 2'
         });
 
