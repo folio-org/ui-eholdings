@@ -41,18 +41,6 @@ describe('TitleShowAddToCustomPackage', () => {
       expect(TitleShowPage.customPackageModal.isPresent).to.be.true;
     });
 
-    it('contains a list of custom packages with existing relationships disabled', () => {
-      // index `0` is the "Choose a package" placeholder option
-      const first = TitleShowPage.customPackageModal.packages(1);
-      const second = TitleShowPage.customPackageModal.packages(2);
-
-      expect(first.text).to.equal('Custom Package 1');
-      expect(first.isDisabled).to.be.true;
-
-      expect(second.text).to.equal('Custom Package 2');
-      expect(second.isDisabled).to.be.false;
-    });
-
     describe('clicking cancel', () => {
       beforeEach(() => {
         return TitleShowPage.customPackageModal.cancel();
@@ -76,14 +64,14 @@ describe('TitleShowAddToCustomPackage', () => {
     describe('selecting a package and clicking submit', () => {
       let customPackage;
 
-      beforeEach(function () {
+      beforeEach(async function () {
         customPackage = this.server.schema.packages.findBy({
           name: 'Custom Package 2'
         });
 
-        return TitleShowPage
-          .customPackageModal.choosePackage(customPackage.id)
-          .customPackageModal.submit();
+        await new Promise(r => setTimeout(r, 1000));
+        await TitleShowPage.customPackageModal.packageSelection.expandAndClick(0);
+        await TitleShowPage.customPackageModal.submit();
       });
 
       it('disables the submit button', () => {
@@ -104,15 +92,15 @@ describe('TitleShowAddToCustomPackage', () => {
     describe('adding a URL and clicking submit', () => {
       let customPackage;
 
-      beforeEach(function () {
+      beforeEach(async function () {
         customPackage = this.server.schema.packages.findBy({
           name: 'Custom Package 2'
         });
 
-        return TitleShowPage
-          .customPackageModal.choosePackage(customPackage.id)
-          .customPackageModal.fillUrl('http://my.url')
-          .customPackageModal.submit();
+        await new Promise(r => setTimeout(r, 1000));
+        await TitleShowPage.customPackageModal.packageSelection.expandAndClick(0);
+        await TitleShowPage.customPackageModal.fillUrl('http://my.url');
+        await TitleShowPage.customPackageModal.submit();
       });
 
       it('Redirects to the newly created resource with the specified URL', function () {
