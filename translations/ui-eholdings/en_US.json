@@ -204,7 +204,7 @@
     "navModal.continueLabel": "Continue without saving",
     "navModal.dismissLabel": "Keep editing",
     "navModal.unsavedChangesMsg": "Your changes have not been saved. Are you sure you want to leave this page?",
-    "validate.errors.customTitle.name": "Custom titles must have a name.",
+    "validate.errors.customTitle.name": "Name required.",
     "validate.errors.customTitle.name.length": "Must be less than 400 characters.",
     "validate.errors.title.description.length": "The value entered exceeds the {amount} character limit. Please enter a value that does not exceed {amount} characters.",
     "validate.errors.customPackage.name": "Custom packages must have a name.",
@@ -413,5 +413,6 @@
     "addPackageToHoldings": "Add package to holdings",
     "permission.settings.custom-labels.all:": "Settings (eholdings): Can create, edit, view, and delete custom labels",
     "permission.settings.custom-labels.view": "Settings (eholdings): Can view custom labels",
-    "filter.search": "Search"
+    "filter.search": "Search",
+    "label.tags": "Tag(s): {tags}"
 }
