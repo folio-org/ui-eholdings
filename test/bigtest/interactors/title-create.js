@@ -12,8 +12,6 @@ import {
 import SelectionInteractor from '@folio/stripes-components/lib/Selection/tests/interactor';
 
 @interactor class TitleCreatePage {
-  // static defaultScope = '[data-test-eholdings-title-create]';
-
   hasName = isPresent('[data-test-eholdings-title-name-field]');
   fillName = fillable('[data-test-eholdings-title-name-field] input');
 
