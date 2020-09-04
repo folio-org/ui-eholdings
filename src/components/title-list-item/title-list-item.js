@@ -1,19 +1,19 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames/bind';
-import { FormattedMessage } from 'react-intl';
-import { AppIcon } from '@folio/stripes/core';
-import {
-  Headline,
-  Icon,
-} from '@folio/stripes/components';
+import isEmpty from 'lodash/isEmpty';
+
+import { Headline } from '@folio/stripes/components';
 
 import shouldFocus from '../should-focus';
-import styles from './title-list-item.css';
 import InternalLink from '../internal-link';
 import IdentifiersList from '../identifiers-list';
 import ContributorsList from '../contributors-list';
-import { APP_ICON_NAME } from '../../constants';
+import TagsLabel from '../tags-label';
+
+import styles from './title-list-item.css';
+import HiddenLabel from '../hidden-label';
+import SelectedLabel from '../selected-label/selected-label';
 
 const cx = classNames.bind(styles);
 const CONTRIBUTORS_LIMIT = 3;
@@ -105,28 +105,11 @@ function TitleListItem({
 
         {showSelected && (
           <div className={cx('itemMetadata')}>
-            <AppIcon
-              app={APP_ICON_NAME}
-              iconKey='selectedPackage'
-              size='small'
-              className={cx('item', 'selection-status', {
-                'not-selected': !item.isSelected,
-              })}
-            >
-              <span data-test-eholdings-title-list-item-title-selected>
-                {item.isSelected
-                  ? <FormattedMessage id="ui-eholdings.selected" />
-                  : <FormattedMessage id="ui-eholdings.notSelected" />
-                }
-              </span>
-            </AppIcon>
-            {item.visibilityData.isHidden && (
-              <Icon icon="eye-closed">
-                <span data-test-eholdings-title-list-item-title-hidden>
-                  <FormattedMessage id="ui-eholdings.hidden" />
-                </span>
-              </Icon>
-            )}
+            <SelectedLabel isSelected={item.isSelected} />
+
+            {item.visibilityData.isHidden && <HiddenLabel />}
+
+            {!isEmpty(item.tags.tagList) && <TagsLabel tagList={item.tags.tagList} />}
           </div>
         )}
       </InternalLink>

@@ -278,6 +278,7 @@
     "label.create.package": "New custom package",
     "label.settings": "eHoldings settings",
     "label.dates": "Dates",
+    "label.tags": "Tag(s): {tags}",
 
     "filter.all": "All",
     "filter.sortOptions.relevance": "Relevance",

@@ -42,6 +42,7 @@ function PackageSearchList({
           onClick={() => onClickItem(`/eholdings/packages/${item.content.id}`)}
           showProviderName
           showTitleCount
+          showSelectedCount
         />
       )}
     />

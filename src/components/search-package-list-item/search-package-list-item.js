@@ -1,13 +1,21 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames/bind';
-import { FormattedNumber, FormattedMessage } from 'react-intl';
-import { Headline, Icon } from '@folio/stripes/components';
-import { AppIcon } from '@folio/stripes-core';
+import isEmpty from 'lodash/isEmpty';
+import {
+  FormattedNumber,
+  FormattedMessage,
+} from 'react-intl';
+
+import { Headline } from '@folio/stripes/components';
+
 import shouldFocus from '../should-focus';
-import styles from './search-package-list-item.css';
 import InternalLink from '../internal-link';
-import { APP_ICON_NAME } from '../../constants';
+import HiddenLabel from '../hidden-label';
+import SelectedLabel from '../selected-label';
+import TagsLabel from '../tags-label';
+
+import styles from './search-package-list-item.css';
 
 const cx = classNames.bind(styles);
 
@@ -20,6 +28,8 @@ function SearchPackageListItem({
   headingLevel,
   showProviderName,
   showTitleCount,
+  showSelectedCount,
+  showTags,
 }) {
   return !item
     ? (
@@ -57,31 +67,14 @@ function SearchPackageListItem({
         }
 
         <div className={cx('itemMetadata')}>
-          <AppIcon
-            app={APP_ICON_NAME}
-            iconKey='selectedPackage'
-            size='small'
-            className={cx('item', 'selection-status', {
-              'not-selected': !item.isSelected,
-            })}
-          >
-            <span data-test-eholdings-package-list-item-selected>
-              {item.isSelected
-                ? (showTitleCount
-                  ? (<FormattedMessage
-                    id="ui-eholdings.selectedCount"
-                    values={{
-                      count: <FormattedNumber value={item.selectedCount} />
-                    }}
-                  />)
-                  : <FormattedMessage id="ui-eholdings.selected" />)
-                : <FormattedMessage id="ui-eholdings.notSelected" />
-              }
-            </span>
-          </AppIcon>
+          <SelectedLabel
+            isSelected={item.isSelected}
+            selectedCount={item.selectedCount}
+            showSelectedCount={showSelectedCount}
+          />
 
           {showTitleCount &&
-            <span>
+            <span data-test-total-title-label>
               <FormattedMessage
                 id="ui-eholdings.label.totalTitles"
                 values={{
@@ -91,15 +84,9 @@ function SearchPackageListItem({
             </span>
           }
 
-          {item.visibilityData.isHidden && (
-            <Icon
-              icon="eye-closed"
-            >
-              <span data-test-eholdings-package-list-item-title-hidden>
-                <FormattedMessage id="ui-eholdings.hidden" />
-              </span>
-            </Icon>
-          )}
+          {item.visibilityData.isHidden && <HiddenLabel />}
+
+          {(showTags && !isEmpty(item.tags.tagList)) && <TagsLabel tagList={item.tags.tagList} />}
         </div>
       </InternalLink>
     );
@@ -116,11 +103,15 @@ SearchPackageListItem.propTypes = {
   onClick: PropTypes.func,
   packageName: PropTypes.string,
   showProviderName: PropTypes.bool,
+  showSelectedCount: PropTypes.bool,
+  showTags: PropTypes.bool,
   showTitleCount: PropTypes.bool,
 };
 
 SearchPackageListItem.defaultProps = {
   showProviderName: false,
+  showSelectedCount: false,
+  showTags: false,
   showTitleCount: false,
 };
 
