@@ -33,18 +33,12 @@ export default Factory.extend({
 
   withPackages: trait({
     afterCreate(title, server) {
-      // Decide how many to create (1 to 10)
-      const total = faker.random.number({ min: 1, max: 10 });
-
-      // Decide how many will be selected (0 to total)
-      const selectedCount = faker.random.number({ min: 0, max: total });
-
-      server.createList('resource', selectedCount, 'withPackage', 'withManagedCoverage', {
+      server.createList('resource', 5, 'withPackage', 'withManagedCoverage', 'withTags', {
         title,
         isSelected: true
       });
 
-      server.createList('resource', (total - selectedCount), 'withPackage', 'withManagedCoverage', {
+      server.createList('resource', 5, 'withPackage', 'withManagedCoverage', {
         title,
         isSelected: false
       });

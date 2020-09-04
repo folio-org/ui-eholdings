@@ -43,8 +43,8 @@ describe('TitleShow', () => {
   });
 
   describe('visiting the title page', () => {
-    beforeEach(function () {
-      this.visit(`/eholdings/titles/${title.id}`);
+    beforeEach(async function () {
+      await this.visit(`/eholdings/titles/${title.id}`);
     });
 
     it('displays the title name in the pane header', () => {
@@ -117,6 +117,10 @@ describe('TitleShow', () => {
 
     it('displays whether the first resource is selected', () => {
       expect(TitleShowPage.packageList(0).isSelected).to.equal(resources[0].isSelected);
+    });
+
+    it('displays tags list', () => {
+      expect(TitleShowPage.packageList(0).tagList).to.equal(`Tag(s): ${resources[0].tags.tagList.join(', ')}`);
     });
 
     it('should display back (close) button', () => {

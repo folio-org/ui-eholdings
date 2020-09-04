@@ -1,0 +1,5 @@
+@import '@folio/stripes-components/lib/variables';
+
+.not-selected img {
+  filter: grayscale(1);
+}

@@ -38,6 +38,7 @@ import Toaster from '../../toaster';
 import ProxyDisplay from '../../proxy-display';
 import TokenDisplay from '../../token-display';
 import TagsAccordion from '../../tags';
+import QueryNotFound from '../../query-list/not-found';
 
 const ITEM_HEIGHT = 62;
 
@@ -248,6 +249,8 @@ class ProviderShow extends Component {
         link={itemLink}
         item={item.content}
         showTitleCount
+        showSelectedCount
+        showTags
         headingLevel='h4'
       />
     );
@@ -267,7 +270,11 @@ class ProviderShow extends Component {
         length={packages.length}
         scrollable={scrollable}
         itemHeight={ITEM_HEIGHT}
-        notFoundMessage={<FormattedMessage id="ui-eholdings.notFound" />}
+        notFoundMessage={
+          <QueryNotFound type="provider-packages">
+            <FormattedMessage id="ui-eholdings.notFound" />
+          </QueryNotFound>
+        }
         renderItem={this.renderPackagesListItem}
       />
     );

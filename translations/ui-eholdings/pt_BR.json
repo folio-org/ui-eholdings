@@ -412,5 +412,6 @@
     "resource.embargoUnit.Years": "{value} ano(s)",
     "addPackageToHoldings": "Adicionar pacote aos holdings",
     "permission.settings.custom-labels.all:": "Configurações (eholdings): Pode criar, editar, visualizar e excluir etiquetas personalizados",
-    "permission.settings.custom-labels.view": "Configurações (eholdings): Pode visualizar etiquetas personalizadas"
+    "permission.settings.custom-labels.view": "Configurações (eholdings): Pode visualizar etiquetas personalizadas",
+    "filter.search": "Pesquisar"
 }

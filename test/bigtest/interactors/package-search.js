@@ -99,7 +99,7 @@ import ExpandFilterPaneButtonInteractor from './expand-filter-pane-button';
   packageList = collection('[data-test-eholdings-package-list-item]', {
     name: text('[data-test-eholdings-package-list-item-name]'),
     providerName: text('[data-test-eholdings-package-list-item-provider-name]'),
-    isSelectedText: text('[data-test-eholdings-package-list-item-selected]'),
+    isSelectedText: text('[data-test-selected-label]'),
     isSelected: computed(function () {
       return this.isSelectedText.split(' ')[0] === 'Selected:';
     }),

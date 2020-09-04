@@ -1,6 +1,8 @@
 import { Factory, trait } from 'miragejs';
 import faker from 'faker';
 
+const defaultTags = ['urgent', 'not urgent'];
+
 export default Factory.extend({
   isSelected: false,
   url: () => faker.internet.url(),
@@ -91,6 +93,16 @@ export default Factory.extend({
         isTitleCustom: true,
         isSelected: true,
       });
+      resource.save();
+    }
+  }),
+
+  withTags: trait({
+    afterCreate(resource, server) {
+      const tags = server.create('tag', {
+        tagList: defaultTags
+      });
+      resource.update('tags', tags.toJSON());
       resource.save();
     }
   }),

@@ -278,6 +278,7 @@
     "label.create.package": "New custom package",
     "label.settings": "eHoldings settings",
     "label.dates": "Dates",
+    "label.tags": "Tag(s): {tags}",
 
     "filter.all": "All",
     "filter.sortOptions.relevance": "Relevance",
@@ -317,7 +318,7 @@
     "navModal.areYouSure": "Are you sure?",
     "navModal.unsavedChanges": "There are unsaved changes",
 
-    "validate.errors.customTitle.name": "Custom titles must have a name.",
+    "validate.errors.customTitle.name": "Name required.",
     "validate.errors.customTitle.name.length": "Must be less than 400 characters.",
     "validate.errors.title.description.length": "The value entered exceeds the {amount} character limit. Please enter a value that does not exceed {amount} characters.",
     "validate.errors.customPackage.name": "Custom packages must have a name.",

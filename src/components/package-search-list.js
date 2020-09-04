@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 
 import QueryList from './query-list';
 import SearchPackageListItem from './search-package-list-item';
+import NoResultsMessage from './no-results-message';
 
 const ITEM_HEIGHT = 80;
 
@@ -24,7 +25,11 @@ function PackageSearchList({
       collection={collection}
       onUpdateOffset={onUpdateOffset}
       itemHeight={ITEM_HEIGHT}
-      notFoundMessage={notFoundMessage}
+      notFoundMessage={
+        <NoResultsMessage data-test-query-list-not-found="packages">
+          {notFoundMessage}
+        </NoResultsMessage>
+      }
       fullWidth
       renderItem={item => (
         <SearchPackageListItem
@@ -37,6 +42,7 @@ function PackageSearchList({
           onClick={() => onClickItem(`/eholdings/packages/${item.content.id}`)}
           showProviderName
           showTitleCount
+          showSelectedCount
         />
       )}
     />

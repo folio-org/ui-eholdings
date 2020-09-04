@@ -411,6 +411,7 @@
     "resource.embargoUnit.Months": "{value} month(s)",
     "resource.embargoUnit.Years": "{value} year(s)",
     "addPackageToHoldings": "Add package to holdings",
-    "permission.settings.custom-labels.all:": "Settings (eholdings): Can create, edit, view, and delete custom labels",
-    "permission.settings.custom-labels.view": "Settings (eholdings): Can view custom labels"
+    "permission.settings.custom-labels.all:": "Configuración (eholdings): puede crear, editar, ver y eliminar etiquetas personalizadas",
+    "permission.settings.custom-labels.view": "Ajustes (eholdings): Puede ver las etiquetas personalizadas",
+    "filter.search": "Buscar"
 }

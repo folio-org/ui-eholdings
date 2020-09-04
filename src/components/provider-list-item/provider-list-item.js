@@ -3,12 +3,12 @@ import PropTypes from 'prop-types';
 import classNames from 'classnames/bind';
 import { FormattedNumber, FormattedMessage } from 'react-intl';
 import { Headline } from '@folio/stripes/components';
-import { AppIcon } from '@folio/stripes-core';
 
 import shouldFocus from '../should-focus';
-import styles from './provider-list-item.css';
 import InternalLink from '../internal-link';
-import { APP_ICON_NAME } from '../../constants';
+import SelectedLabel from '../selected-label';
+
+import styles from './provider-list-item.css';
 
 const cx = classNames.bind(styles);
 
@@ -42,30 +42,11 @@ function ProviderListItem({ item, link, active, onClick, headingLevel }) {
         data-test-eholdings-provider-list-item-selections
         className={cx('itemMetadata')}
       >
-        <AppIcon
-          app={APP_ICON_NAME}
-          iconKey='selectedPackage'
-          size='small'
-          className={cx('item', 'selection-status', {
-            'not-selected': !item.packagesSelected,
-          })}
-        >
-          <span data-test-eholdings-package-list-item-selected>
-            {item.packagesSelected
-              ? (<FormattedMessage
-                id="ui-eholdings.selectedCount"
-                values={{
-                  count: (
-                    <span data-test-eholdings-provider-list-item-num-packages-selected>
-                      <FormattedNumber value={item.packagesSelected} />
-                    </span>
-                  )
-                }}
-              />)
-              : <FormattedMessage id="ui-eholdings.notSelected" />
-            }
-          </span>
-        </AppIcon>
+        <SelectedLabel
+          isSelected={item.packagesSelected}
+          selectedCount={item.packagesSelected}
+          showSelectedCount
+        />
 
         <span>
           <FormattedMessage
