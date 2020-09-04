@@ -11,7 +11,7 @@ describe('TitleCreate', () => {
   setupApplication();
   let packages;
 
-  describe.only('submitting the form', () => {
+  describe('submitting the form', () => {
     beforeEach(function () {
       packages = this.server.createList('package', 4, {
         name: i => `Custom Package ${i + 1}`,
@@ -53,7 +53,6 @@ describe('TitleCreate', () => {
 
     it('has a package select field', () => {
       expect(TitleCreatePage.hasPackageSelect).to.be.true;
-      expect(TitleCreatePage.packagesCount).to.equal(2);
     });
 
     it('has a peer reviewed toggle', () => {
@@ -99,7 +98,7 @@ describe('TitleCreate', () => {
         await TitleCreatePage.contributorsRowList(0).type('author');
         await TitleCreatePage.contributorsRowList(0).contributor('Me'); // eslint-disable-line newline-per-chained-call
         await new Promise(r => setTimeout(r, 1000));
-        await TitleCreatePage.packageSelection.clickOption(0);
+        await TitleCreatePage.packageSelection.expandAndClick(0);
         await TitleCreatePage.save();
       });
       it('goes to the title show page', () => {
@@ -116,7 +115,7 @@ describe('TitleCreate', () => {
         await TitleCreatePage.fillName('My Title');
         await TitleCreatePage.fillEdition('My Edition');
         await new Promise(r => setTimeout(r, 1000));
-        await TitleCreatePage.packageSelection.clickOption(0);
+        await TitleCreatePage.packageSelection.expandAndClick(0);
         await TitleCreatePage.save();
       });
 
@@ -131,7 +130,7 @@ describe('TitleCreate', () => {
         await TitleCreatePage.fillName('My Title');
         await TitleCreatePage.fillPublisher('Me');
         await new Promise(r => setTimeout(r, 1000));
-        await TitleCreatePage.packageSelection.clickOption(0);
+        await TitleCreatePage.packageSelection.expandAndClick(0);
         await TitleCreatePage.save();
       });
 
@@ -146,7 +145,7 @@ describe('TitleCreate', () => {
         await TitleCreatePage.fillName('My Title');
         await TitleCreatePage.choosePublicationType('Book');
         await new Promise(r => setTimeout(r, 1000));
-        await TitleCreatePage.packageSelection.clickOption(0);
+        await TitleCreatePage.packageSelection.expandAndClick(0);
         await TitleCreatePage.save();
       });
 
@@ -161,7 +160,7 @@ describe('TitleCreate', () => {
         await TitleCreatePage.fillName('My Title');
         await TitleCreatePage.addIdentifier('ISBN (Print)', '90210');
         await new Promise(r => setTimeout(r, 1000));
-        await TitleCreatePage.packageSelection.clickOption(0);
+        await TitleCreatePage.packageSelection.expandAndClick(0);
         await TitleCreatePage.save();
       });
 
@@ -176,7 +175,7 @@ describe('TitleCreate', () => {
         await TitleCreatePage.fillName('My Title');
         await TitleCreatePage.fillDescription('This is my title');
         await new Promise(r => setTimeout(r, 1000));
-        await TitleCreatePage.packageSelection.clickOption(0);
+        await TitleCreatePage.packageSelection.expandAndClick(0);
         await TitleCreatePage.save();
       });
 
@@ -190,7 +189,7 @@ describe('TitleCreate', () => {
       beforeEach(async () => {
         await TitleCreatePage.fillName('My Title');
         await new Promise(r => setTimeout(r, 1000));
-        await TitleCreatePage.packageSelection.clickOption(0);
+        await TitleCreatePage.packageSelection.expandAndClick(1);
         await TitleCreatePage.save();
       });
 
@@ -200,14 +199,14 @@ describe('TitleCreate', () => {
       });
     });
 
-    describe.only('creating a new title and specifying peer reviewed status', () => {
+    describe('creating a new title and specifying peer reviewed status', () => {
       beforeEach(async () => {
 
         await TitleCreatePage.fillName('My Title');
         await TitleCreatePage.fillPublisher('Me');
         await TitleCreatePage.togglePeerReviewed();
         await new Promise(r => setTimeout(r, 2000));
-        await TitleCreatePage.packageSelection.clickOption(0);
+        await TitleCreatePage.packageSelection.expandAndClick(0);
         await TitleCreatePage.save();
       });
 
@@ -227,7 +226,7 @@ describe('TitleCreate', () => {
 
         await TitleCreatePage.fillName('My Title');
         await new Promise(r => setTimeout(r, 1000));
-        await TitleCreatePage.packageSelection.clickOption(0);
+        await TitleCreatePage.packageSelection.expandAndClick(0);
         await TitleCreatePage.save();
       });
 
