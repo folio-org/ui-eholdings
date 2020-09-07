@@ -7,7 +7,7 @@ import TitleShowPage from '../interactors/title-show';
 import TitleSearchPage from '../interactors/title-search';
 import NavigationModal from '../interactors/navigation-modal';
 
-describe.only('TitleCreate', () => {
+describe('TitleCreate', () => {
   setupApplication();
 
   describe('submitting the form', () => {
