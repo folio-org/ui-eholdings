@@ -18,6 +18,8 @@
 * Add custom labels settings permissions. (UIEH-865)
 * Add possibility to filter packages on the title page. (UIEH-928)
 * New/Edit Custom title: update Name required error message. (UIEH-958)
+* Add Tags label assigned to Title and Packages. (UIEH-933, UIEH-934)
+* Fix Package/Title view page wobbles when scrolling. (UIEH-960)
 * Add Tags label assigned to Title and Packages (UIEH-933, UIEH-934)
 * Pass aria-labelledby to MultiSelection component (UIEH-939)
 
