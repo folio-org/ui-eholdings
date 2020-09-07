@@ -32,7 +32,13 @@ const SelectedLabel = ({
   const titleCount = showSelectedCount
     ? <FormattedMessage
       id="ui-eholdings.selectedCount"
-      values={{ count: <FormattedNumber value={selectedCount} /> }}
+      values={{
+        count: (
+          <span data-test-eholdings-provider-list-item-num-packages-selected>
+            <FormattedNumber value={selectedCount} />
+          </span>
+        )
+      }}
     />
     : <FormattedMessage id="ui-eholdings.selected" />;
 
