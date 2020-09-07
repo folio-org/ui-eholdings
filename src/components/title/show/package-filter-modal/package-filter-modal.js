@@ -79,7 +79,7 @@ const PackageFilterModal = ({
       </ModalFooter>
     );
 
-    const labelId = 'package-filter-modal-multiselection';
+    const labelId = 'package-filter-modal-multiselection-label';
 
     return (
       <Modal
