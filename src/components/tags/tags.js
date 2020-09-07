@@ -22,6 +22,7 @@ export default class Tags extends React.Component {
     super(props);
     this.onChange = this.onChange.bind(this);
     this.filterItems = this.filterItems.bind(this);
+    this.labelId = 'multiselection-details-tags-label';
   }
 
   onAdd(tags) {
@@ -183,6 +184,9 @@ export default class Tags extends React.Component {
 
     return (
       <div data-test-eholdings-details-tags>
+        <span className="sr-only" id={this.labelId}>
+          <FormattedMessage id="stripes-smart-components.enterATag" />
+        </span>
         <FormattedMessage id="stripes-smart-components.enterATag">
           {placeholder => (
             <FormattedMessage id="stripes-smart-components.tagsTextArea">
@@ -190,6 +194,7 @@ export default class Tags extends React.Component {
                 <MultiSelection
                   placeholder={placeholder}
                   aria-label={ariaLabel}
+                  ariaLabelledBy={this.labelId}
                   actions={actions}
                   filter={this.filterItems}
                   emptyMessage=" "
