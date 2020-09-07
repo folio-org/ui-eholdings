@@ -7,6 +7,7 @@ import {
   Button,
   ModalFooter,
   MultiSelection,
+  Label,
 } from '@folio/stripes/components';
 
 import useModalToggle from './use-modal-toggle';
@@ -78,6 +79,8 @@ const PackageFilterModal = ({
       </ModalFooter>
     );
 
+    const labelId = 'package-filter-modal-multiselection';
+
     return (
       <Modal
         open
@@ -90,13 +93,17 @@ const PackageFilterModal = ({
         onClose={toggleModal}
         id="package-filter-modal"
       >
+        <Label id={labelId}>
+          <FormattedMessage id="ui-eholdings.label.packages" />
+        </Label>
         <MultiSelection
-          label={<FormattedMessage id="ui-eholdings.label.packages" />}
           dataOptions={allOptions}
           onChange={handleFilterChange}
           value={selectedOptions}
           data-test-package-filter-select
           id="packageFilterSelect"
+          ariaLabelledBy={labelId}
+          aria-label={<FormattedMessage id="ui-eholdings.label.packages" />}
         />
       </Modal>
     );
