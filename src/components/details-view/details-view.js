@@ -122,8 +122,8 @@ class DetailsView extends Component {
    */
   handleLayout = () => {
     if (this.$container && this.$sticky && this.$list) {
-      const stickyHeight = this.$sticky.offsetHeight;
-      const containerHeight = this.$container.offsetHeight;
+      const stickyHeight = Math.floor(this.$sticky.getBoundingClientRect().height);
+      const containerHeight = Math.floor(this.$container.getBoundingClientRect().height);
 
       this.shouldHandleScroll = stickyHeight >= containerHeight;
 
