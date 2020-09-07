@@ -3,16 +3,13 @@ import {
   collection,
   property,
   interactor,
-  fillable,
+  fillable, isPresent,
 } from '@bigtest/interactor';
 
-import { hasClassBeginningWith } from './helpers';
+import SelectionInteractor from '@folio/stripes-components/lib/Selection/tests/interactor';
 
 export default @interactor class AddToCustomPackageModal {
-  hasPackageError = hasClassBeginningWith(
-    '[data-test-eholdings-package-select-field] select',
-    'hasError--'
-  );
+  hasPackageError = isPresent('[data-test-eholdings-package-select-field] [class^="feedbackError--"]');
 
   choosePackage = fillable('[data-test-eholdings-package-select-field] select');
   packages = collection('[data-test-eholdings-package-select-field] option', {
@@ -26,4 +23,5 @@ export default @interactor class AddToCustomPackageModal {
 
   isSubmitDisabled = property('[data-test-eholdings-custom-package-modal-submit]', 'disabled');
   isCancelDisabled = property('[data-test-eholdings-custom-package-modal-cancel]', 'disabled');
+  packageSelection = new SelectionInteractor('[data-test-eholdings-package-select-field]');
 }
