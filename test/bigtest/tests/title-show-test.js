@@ -119,10 +119,6 @@ describe('TitleShow', () => {
       expect(TitleShowPage.packageList(0).isSelected).to.equal(resources[0].isSelected);
     });
 
-    it('displays tags list', () => {
-      expect(TitleShowPage.packageList(0).tagList).to.equal(`Tag(s): ${resources[0].tags.tagList.join(', ')}`);
-    });
-
     it('should display back (close) button', () => {
       expect(TitleShowPage.hasBackButton).to.be.true;
     });

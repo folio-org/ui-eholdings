@@ -63,7 +63,6 @@ import AddToCustomPackageModal from './add-to-custom-package-modal';
     isSelected: computed(function () {
       return this.isSelectedText === 'Selected';
     }),
-    tagList: text('[data-test-tags-label]'),
   });
 
   identifiersList = collection('[data-test-eholdings-identifiers-list-item]', {

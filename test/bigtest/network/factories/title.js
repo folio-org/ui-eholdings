@@ -33,7 +33,7 @@ export default Factory.extend({
 
   withPackages: trait({
     afterCreate(title, server) {
-      server.createList('resource', 5, 'withPackage', 'withManagedCoverage', 'withTags', {
+      server.createList('resource', 5, 'withPackage', 'withManagedCoverage', {
         title,
         isSelected: true
       });

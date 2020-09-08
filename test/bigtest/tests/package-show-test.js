@@ -29,6 +29,15 @@ describe('PackageShow', () => {
 
     resources = this.server.schema.where('resource', { packageId: providerPackage.id }).models;
 
+    const urgentTag = this.server.create('tag', {
+      tagList: ['urgent'],
+    }).toJSON();
+
+    resources.forEach(resource => {
+      resource.tags = urgentTag;
+      resource.save();
+    });
+
     accessType = this.server.create('access-type', {
       name: 'Trial',
     });
@@ -97,6 +106,10 @@ describe('PackageShow', () => {
 
     it('should display a back (close) button', () => {
       expect(PackageShowPage.hasBackButton).to.be.true;
+    });
+
+    it('displays tags list', () => {
+      expect(PackageShowPage.titleList(0).tags).to.equal(`Tag(s): ${resources[0].tags.tagList.join(', ')}`);
     });
 
     describe('when there is no access status types configured', () => {
