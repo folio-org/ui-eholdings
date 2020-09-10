@@ -204,7 +204,7 @@
     "navModal.continueLabel": "Continuar sem salvar",
     "navModal.dismissLabel": "Continuar editando",
     "navModal.unsavedChangesMsg": "Suas alterações não foram salvas. Tem certeza de que deseja sair desta página?",
-    "validate.errors.customTitle.name": "Títulos personalizados devem ter um nome.",
+    "validate.errors.customTitle.name": "Nome é obrigatório.",
     "validate.errors.customTitle.name.length": "Deve ter menos de 400 caracteres.",
     "validate.errors.title.description.length": "O valor inserido excede o limite de {amount} caracteres. Por favor insira um valor que não exceda {amount} caracteres.",
     "validate.errors.customPackage.name": "Pacotes personalizados devem ter um nome.",
