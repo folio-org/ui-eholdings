@@ -100,7 +100,7 @@
     "okapiInterfaces": {
       "eholdings": "2.0",
       "tags": "1.0",
-      "erm": "1.0 2.0"
+      "erm": "1.0 2.0 3.0"
     },
     "permissionSets": [
       {
