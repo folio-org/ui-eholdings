@@ -41,6 +41,17 @@ describe('API limit exceeded', () => {
 describe('With no backend at all', () => {
   setupApplication({
     scenarios: ['no-backend'],
+    initialState: {
+      discovery: {
+        modules: {
+          'mod-kb-ebsco-java-3.5.3-SNAPSHOT.246': 'kb-ebsco',
+        },
+        interfaces: {
+          erm: '3.0',
+          tags: '1.0',
+        },
+      },
+    },
   });
 
   describe('when trying to use the app', () => {

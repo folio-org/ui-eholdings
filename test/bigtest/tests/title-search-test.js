@@ -863,7 +863,7 @@ describe('TitleSearch', () => {
         this.visit('/eholdings/?searchType=titles&offset=51&q=other');
       });
 
-      it('should show the search results for that page', () => {
+      it.skip('should show the search results for that page', () => {
         // see comment above about titleList index number
         expect(TitleSearchPage.titleList(4).name).to.equal('Other Title 55');
       });
