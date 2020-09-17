@@ -1,7 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Field } from 'react-final-form';
-import { FormattedMessage } from 'react-intl';
+import {
+  FormattedMessage,
+  useIntl,
+} from 'react-intl';
 import { Selection } from '@folio/stripes/components';
 
 function validate(value) {
@@ -9,12 +12,14 @@ function validate(value) {
 }
 
 function PackageSelectField({ options }) {
+  const intl = useIntl();
+
   return (
     <div data-test-eholdings-package-select-field>
       <Field
         name="packageId"
         component={Selection}
-        label={<FormattedMessage id="ui-eholdings.label.package" />}
+        label={intl.formatMessage({ id: 'ui-eholdings.label.package' })}
         validate={validate}
         onBlur={null} // preventing validation that is in onBlur
         placeholder={<FormattedMessage id="ui-eholdings.title.chooseAPackage" />}
