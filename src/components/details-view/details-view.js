@@ -376,6 +376,7 @@ class DetailsView extends Component {
       hasFooter: !!footer,
     });
 
+    const paneTitleId = 'details-view-pane-title';
 
     return (
       <div data-test-eholdings-details-view={type}>
@@ -388,12 +389,18 @@ class DetailsView extends Component {
             footer={footer}
             firstMenu={this.renderFirstMenu()}
             paneTitle={
-              <span data-test-eholdings-details-view-pane-title>{paneTitle}</span>
+              <span
+                data-test-eholdings-details-view-pane-title
+                id={paneTitleId}
+              >
+                {paneTitle}
+              </span>
             }
             lastMenu={lastMenu}
             paneSub={
               <span data-test-eholdings-details-view-pane-sub>{paneSub}</span>
             }
+            aria-labelledby={paneTitleId}
           >
             <div
               ref={(n) => { this.$container = n; }}
