@@ -376,13 +376,14 @@ class DetailsView extends Component {
       hasFooter: !!footer,
     });
 
-    const paneTitleId = 'details-view-pane-title';
+    const paneIdFromTitle = paneTitle.replace(/\s+/g, '-').toLowerCase();
+    const paneTitleId = 'details-view-pane-title ' + paneIdFromTitle;
 
     return (
       <div data-test-eholdings-details-view={type}>
         <Paneset>
           <Pane
-            id={paneTitle}
+            id={paneIdFromTitle}
             defaultWidth="fill"
             padContent={false}
             actionMenu={actionMenu}
