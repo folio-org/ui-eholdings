@@ -97,6 +97,7 @@ const PackageFilterModal = ({
           <FormattedMessage id="ui-eholdings.label.packages" />
         </Label>
         <MultiSelection
+          // axelinter:disable: autoFocus 
           autoFocus
           dataOptions={allOptions}
           onChange={handleFilterChange}
