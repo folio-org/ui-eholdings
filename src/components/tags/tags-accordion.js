@@ -60,6 +60,9 @@ class TagsAccordion extends React.Component {
             </span>
           </Badge>
         }
+        headerProps={{
+          role: 'tab'
+        }}
       >
         {(!tagsModel.request.isResolved || model.isLoading)
           ? <Icon icon="spinner-ellipsis" />

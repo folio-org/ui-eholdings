@@ -167,6 +167,9 @@ class ProviderShow extends Component {
     const hasProxy = hasIn('proxy.id', model);
     const hasToken = hasIn('providerToken.prompt', model);
     const hasProviderSettings = hasProxy || hasToken;
+    const headerProps = {
+      role: 'tab'
+    };
 
     return (
       <>
@@ -191,6 +194,7 @@ class ProviderShow extends Component {
           open={sections.providerShowProviderInformation}
           id="providerShowProviderInformation"
           onToggle={this.handleSectionToggle}
+          headerProps={headerProps}
         >
           <KeyValue label={<FormattedMessage id="ui-eholdings.provider.packagesSelected" />}>
             <div data-test-eholdings-provider-details-packages-selected>
@@ -219,6 +223,7 @@ class ProviderShow extends Component {
               open={sections.providerShowProviderSettings}
               id="providerShowProviderSettings"
               onToggle={this.handleSectionToggle}
+              headerProps={headerProps}
             >
               {hasProxy && this.renderProxy()}
               {hasToken && this.renderToken()}
@@ -236,6 +241,7 @@ class ProviderShow extends Component {
           entityId={model.id}
           pathToNoteCreate={paths.NOTE_CREATE}
           pathToNoteDetails={paths.NOTES}
+          headerProps={headerProps}
         />
       </>
     );

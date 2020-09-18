@@ -24,6 +24,7 @@
 * Pass aria-labelledby to MultiSelection component (UIEH-939)
 * Bumped `erm` interface version to `3.0`.
 * Fixed id and aria-labelledby attributes in Pane header. (UIEH-924)
+* Fixed Providers, Packages, Titles filter - accordions ARIA attributes. (UIEH-923)
 
 ## [4.0.1] (https://github.com/folio-org/ui-eholdings/tree/v4.0.0) (2020-07-08)
 

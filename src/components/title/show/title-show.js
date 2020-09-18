@@ -215,6 +215,9 @@ class TitleShow extends Component {
     };
     let submit;
     const submitAddToCustomPackage = (event) => submit(event);
+    const headerProps = {
+      role: 'tab'
+    };
 
     return (
       <>
@@ -243,6 +246,7 @@ class TitleShow extends Component {
               open={sections.titleShowTitleInformation}
               id="titleShowTitleInformation"
               onToggle={this.handleSectionToggle}
+              headerProps={headerProps}
             >
               <KeyValueColumns>
                 <div>

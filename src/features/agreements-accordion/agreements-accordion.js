@@ -34,6 +34,7 @@ class AgreementsAccordion extends Component {
     agreements: PropTypes.object.isRequired,
     attachAgreement: PropTypes.func.isRequired,
     getAgreements: PropTypes.func.isRequired,
+    headerProps: PropTypes.object,
     id: PropTypes.string.isRequired,
     isOpen: PropTypes.bool,
     onToggle: PropTypes.func,
@@ -140,6 +141,7 @@ class AgreementsAccordion extends Component {
       isOpen,
       id,
       onToggle,
+      headerProps,
     } = this.props;
 
     return (
@@ -151,6 +153,7 @@ class AgreementsAccordion extends Component {
           displayWhenOpen={this.getAgreementsAccordionButtons()}
           displayWhenClosed={this.renderBadge()}
           onToggle={onToggle}
+          headerProps={headerProps}
         >
           <AgreementsList agreements={agreements} />
         </Accordion>
