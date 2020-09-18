@@ -377,7 +377,7 @@ class DetailsView extends Component {
     });
 
     const paneIdFromTitle = paneTitle.replace(/\s+/g, '-').toLowerCase();
-    const paneTitleId = 'details-view-pane-title ' + paneIdFromTitle;
+    const paneTitleId = `details-view-pane-title ${paneIdFromTitle}`;
 
     return (
       <div data-test-eholdings-details-view={type}>
