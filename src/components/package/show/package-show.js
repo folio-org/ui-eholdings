@@ -337,6 +337,7 @@ class PackageShow extends Component {
           open={sections.packageShowTags}
           tagsModel={tagsModel}
           updateFolioTags={updateFolioTags}
+          headerProps={headerProps}
         />
 
         <Accordion

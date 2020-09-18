@@ -19,6 +19,7 @@ import { updateEntityTags as updateEntityTagsAction } from '../../redux/actions'
 class TagsAccordion extends React.Component {
   static propTypes = {
     entityTags: PropTypes.arrayOf(PropTypes.string),
+    headerProps: PropTypes.object,
     id: PropTypes.string.isRequired,
     model: PropTypes.object.isRequired,
     onToggle: PropTypes.func.isRequired,
@@ -38,6 +39,7 @@ class TagsAccordion extends React.Component {
       updateFolioTags,
       updateEntityTags,
       entityTags,
+      headerProps
     } = this.props;
 
     return (
@@ -60,9 +62,7 @@ class TagsAccordion extends React.Component {
             </span>
           </Badge>
         }
-        headerProps={{
-          role: 'tab'
-        }}
+        headerProps={headerProps}
       >
         {(!tagsModel.request.isResolved || model.isLoading)
           ? <Icon icon="spinner-ellipsis" />

@@ -180,6 +180,7 @@ class ProviderShow extends Component {
           open={sections.providerShowTags}
           tagsModel={tagsModel}
           updateFolioTags={updateFolioTags}
+          headerProps={headerProps}
         />
 
         <Accordion
