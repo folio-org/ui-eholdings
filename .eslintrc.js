@@ -27,6 +27,8 @@ module.exports = {
     "react/destructuring-assignment": "off",
     "react/sort-prop-types": ["error"],
     "no-unused-vars": ["error", { "ignoreRestSiblings": true }],
-    "jsx-a11y/no-autofocus": "off",
+    "jsx-a11y/no-autofocus": [ 2, {
+      "ignoreNonDOM": false,
+    }],
   }
 };
