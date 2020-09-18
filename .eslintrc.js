@@ -26,6 +26,7 @@ module.exports = {
     "react/forbid-prop-types": "off",
     "react/destructuring-assignment": "off",
     "react/sort-prop-types": ["error"],
-    "no-unused-vars": ["error", { "ignoreRestSiblings": true }]
+    "no-unused-vars": ["error", { "ignoreRestSiblings": true }],
+    "jsx-a11y/no-autofocus": "off",
   }
 };
