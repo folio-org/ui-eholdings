@@ -376,24 +376,32 @@ class DetailsView extends Component {
       hasFooter: !!footer,
     });
 
+    const paneIdFromTitle = paneTitle.replace(/\s+/g, '-').toLowerCase();
+    const paneTitleId = `details-view-pane-title ${paneIdFromTitle}`;
 
     return (
       <div data-test-eholdings-details-view={type}>
         <Paneset>
           <Pane
-            id={paneTitle}
+            id={paneIdFromTitle}
             defaultWidth="fill"
             padContent={false}
             actionMenu={actionMenu}
             footer={footer}
             firstMenu={this.renderFirstMenu()}
             paneTitle={
-              <span data-test-eholdings-details-view-pane-title>{paneTitle}</span>
+              <span
+                data-test-eholdings-details-view-pane-title
+                id={paneTitleId}
+              >
+                {paneTitle}
+              </span>
             }
             lastMenu={lastMenu}
             paneSub={
               <span data-test-eholdings-details-view-pane-sub>{paneSub}</span>
             }
+            aria-labelledby={paneTitleId}
           >
             <div
               ref={(n) => { this.$container = n; }}
