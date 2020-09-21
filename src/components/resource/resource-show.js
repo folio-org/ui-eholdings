@@ -256,9 +256,7 @@ class ResourceShow extends Component {
         type: 'success'
       });
     }
-    const headerProps = {
-      role: 'tab'
-    };
+    const headerProps = { role: 'tab' };
 
     return (
       <>

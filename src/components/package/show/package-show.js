@@ -324,9 +324,7 @@ class PackageShow extends Component {
       packageSelected,
     } = this.state;
 
-    const headerProps = {
-      role: 'tab'
-    };
+    const headerProps = { role: 'tab' };
 
     return (
       <>

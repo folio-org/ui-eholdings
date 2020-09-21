@@ -39,7 +39,7 @@ class TagsAccordion extends React.Component {
       updateFolioTags,
       updateEntityTags,
       entityTags,
-      headerProps
+      headerProps,
     } = this.props;
 
     return (

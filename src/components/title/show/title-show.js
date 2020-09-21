@@ -215,9 +215,7 @@ class TitleShow extends Component {
     };
     let submit;
     const submitAddToCustomPackage = (event) => submit(event);
-    const headerProps = {
-      role: 'tab'
-    };
+    const headerProps = { role: 'tab' };
 
     return (
       <>

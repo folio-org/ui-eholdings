@@ -167,9 +167,7 @@ class ProviderShow extends Component {
     const hasProxy = hasIn('proxy.id', model);
     const hasToken = hasIn('providerToken.prompt', model);
     const hasProviderSettings = hasProxy || hasToken;
-    const headerProps = {
-      role: 'tab'
-    };
+    const headerProps = { role: 'tab' };
 
     return (
       <>
