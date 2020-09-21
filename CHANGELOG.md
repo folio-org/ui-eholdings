@@ -25,6 +25,7 @@
 * Bumped `erm` interface version to `3.0`.
 * Fixed id and aria-labelledby attributes in Pane header. (UIEH-924)
 * Fix issues in Title Record Filter packages Multi-select component. (UIEH-959)
+* Fixed Providers, Packages, Titles filter - accordions ARIA attributes. (UIEH-923)
 
 ## [4.0.1] (https://github.com/folio-org/ui-eholdings/tree/v4.0.0) (2020-07-08)
 

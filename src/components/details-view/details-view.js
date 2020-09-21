@@ -331,6 +331,7 @@ class DetailsView extends Component {
                     id={listSectionId}
                     onToggle={onListToggle}
                     listType={listType}
+                    headerProps={{ role: 'tab' }}
                   >
                     {renderList(isSticky)}
                   </Accordion>
