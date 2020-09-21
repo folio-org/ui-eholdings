@@ -20,10 +20,11 @@
 * New/Edit Custom title: update Name required error message. (UIEH-958)
 * Add Tags label assigned to Title and Packages. (UIEH-933, UIEH-934)
 * Fix Package/Title view page wobbles when scrolling. (UIEH-960)
-* Add Tags label assigned to Title and Packages (UIEH-933, UIEH-934)
-* Pass aria-labelledby to MultiSelection component (UIEH-939)
+* Add Tags label assigned to Title and Packages. (UIEH-933, UIEH-934)
+* Pass aria-labelledby to MultiSelection component. (UIEH-939)
 * Bumped `erm` interface version to `3.0`.
 * Fixed id and aria-labelledby attributes in Pane header. (UIEH-924)
+* Fix issues in Title Record Filter packages Multi-select component. (UIEH-959)
 * Bumped `react-intl` version to `5.8.0`.
 
 ## [4.0.1] (https://github.com/folio-org/ui-eholdings/tree/v4.0.0) (2020-07-08)
