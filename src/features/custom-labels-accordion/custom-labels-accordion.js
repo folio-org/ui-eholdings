@@ -22,6 +22,7 @@ class CustomLabelsAccordion extends Component {
       }),
     }).isRequired,
     getCustomLabels: PropTypes.func.isRequired,
+    headerProps: PropTypes.object,
     id: PropTypes.string.isRequired,
     isOpen: PropTypes.bool,
     onToggle: PropTypes.func.isRequired,
@@ -67,6 +68,7 @@ class CustomLabelsAccordion extends Component {
       onToggle,
       section: Section,
       userDefinedFields,
+      headerProps,
     } = this.props;
 
     const data = get(customLabels, ['items', 'data'], []);
@@ -79,6 +81,7 @@ class CustomLabelsAccordion extends Component {
             label={this.getCustomLabelsAccordionHeader()}
             open={isOpen}
             onToggle={onToggle}
+            headerProps={headerProps}
           >
             <Section
               customLabels={data}
