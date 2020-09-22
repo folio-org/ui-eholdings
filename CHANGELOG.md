@@ -27,6 +27,7 @@
 * Fix issues in Title Record Filter packages Multi-select component. (UIEH-959)
 * Fixed Providers, Packages, Titles filter - accordions ARIA attributes. (UIEH-923)
 * Bumped `react-intl` version to `5.8.0`.
+* Fixed View Package > Find Title - Accordions missing some ARIA attributes. (UIEH-925)
 
 ## [4.0.1] (https://github.com/folio-org/ui-eholdings/tree/v4.0.0) (2020-07-08)
 

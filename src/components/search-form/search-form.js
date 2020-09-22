@@ -243,6 +243,7 @@ class SearchForm extends Component {
             displayClearButton={tagsList.length > 0}
             onClearFilter={() => this.props.onStandaloneFilterChange({ tags: undefined })}
             onToggle={this.toggleSection}
+            headerProps={{ role: 'tab' }}
           >
             {this.renderSearchByTagsCheckbox()}
             <FormattedMessage id="ui-eholdings.tags.filter">
@@ -307,6 +308,7 @@ class SearchForm extends Component {
             displayClearButton={accessTypesList.length}
             onClearFilter={() => this.props.onStandaloneFilterChange({ 'access-type': undefined })}
             onToggle={this.toggleSection}
+            headerProps={{ role: 'tab' }}
           >
             {this.renderSearchByAccessTypesCheckbox()}
             <FormattedMessage id="ui-eholdings.accessTypes.filter">
