@@ -97,6 +97,7 @@ const PackageFilterModal = ({
           <FormattedMessage id="ui-eholdings.label.packages" />
         </Label>
         <MultiSelection
+          autoFocus
           dataOptions={allOptions}
           onChange={handleFilterChange}
           value={selectedOptions}
@@ -104,6 +105,14 @@ const PackageFilterModal = ({
           id="packageFilterSelect"
           ariaLabelledBy={labelId}
           aria-label={<FormattedMessage id="ui-eholdings.label.packages" />}
+          tether={{
+            constraints: [
+              {
+                to: 'window',
+                attachment: 'together',
+              }
+            ]
+          }}
         />
       </Modal>
     );
