@@ -16,7 +16,15 @@ import {
   Col,
   Row,
 } from '@folio/stripes/components';
-
+import {
+  formatDate,
+  parseDate,
+} from '../../../utilities';
+import {
+  DATE_FORMAT,
+  BACKEND_DATE_STANDARD,
+  TIME_ZOME,
+} from '../../../../constants';
 
 class PackageCoverageFields extends Component {
   static propTypes = {
@@ -58,8 +66,6 @@ class PackageCoverageFields extends Component {
   }
 
   renderField = (dateRange) => {
-    const formatField = value => (value ? moment.utc(value) : '');
-
     return (
       <Row>
         <Col
@@ -69,12 +75,22 @@ class PackageCoverageFields extends Component {
         >
           <Field
             name={`${dateRange}.beginCoverage`}
-            type="text"
-            component={Datepicker}
-            label={<FormattedMessage id="ui-eholdings.date.startDate" />}
-            format={formatField}
             validate={this.validateCoverageDate}
-            timeZone="UTC"
+            timeZone={TIME_ZOME}
+            render={({ input, meta }) => (
+              <Datepicker
+                dateFormat={DATE_FORMAT}
+                parse={parseDate}
+                format={formatDate}
+                backendDateStandard={BACKEND_DATE_STANDARD}
+                error={meta.error}
+                id="begin-coverage"
+                input={input}
+                label={<FormattedMessage id="ui-eholdings.date.startDate" />}
+                useInput
+                usePortal
+              />
+            )}
           />
         </Col>
         <Col
@@ -84,12 +100,22 @@ class PackageCoverageFields extends Component {
         >
           <Field
             name={`${dateRange}.endCoverage`}
-            type="text"
-            component={Datepicker}
-            label={<FormattedMessage id="ui-eholdings.date.endDate" />}
-            format={formatField}
             validate={this.validateCoverageDate}
-            timeZone="UTC"
+            timeZone={TIME_ZOME}
+            render={({ input, meta }) => (
+              <Datepicker
+                dateFormat={DATE_FORMAT}
+                parse={parseDate}
+                format={formatDate}
+                backendDateStandard={BACKEND_DATE_STANDARD}
+                error={meta.error}
+                id="begin-coverage"
+                input={input}
+                label={<FormattedMessage id="ui-eholdings.date.endDate" />}
+                useInput
+                usePortal
+              />
+            )}
           />
         </Col>
       </Row>

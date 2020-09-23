@@ -224,3 +224,7 @@ export const getFullName = user => {
 
   return `${lastName}${firstName ? ', ' : ' '}${firstName}${middleName ? ' ' : ''}${middleName}`;
 };
+
+export const parseDate = value => value;
+
+export const formatDate = value => (value ? moment.utc(value) : '');

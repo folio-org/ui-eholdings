@@ -23,13 +23,20 @@ import {
 import CoverageDateList from '../../../coverage-date-list';
 
 import validateDateRange from '../validate-date-range';
-import { isBookPublicationType } from '../../../utilities';
+import {
+  isBookPublicationType,
+  parseDate,
+  formatDate,
+} from '../../../utilities';
+import {
+  DATE_FORMAT,
+  BACKEND_DATE_STANDARD,
+  TIME_ZOME,
+} from '../../../../constants';
 
 import styles from './resource-coverage-fields.css';
 
 const COVERAGE_STATEMENT_ON_STATUS = 'on';
-const BACKEND_DATE_STANDARD = 'YYYY-MM-DD';
-const DATE_FORMAT = 'MM/DD/YYYY';
 
 class ResourceCoverageFields extends Component {
   static propTypes = {
@@ -71,14 +78,6 @@ class ResourceCoverageFields extends Component {
       />
     );
   }
-
-  formatDate(value) {
-    return value
-      ? moment.utc(value)
-      : '';
-  }
-
-  parseDate = value => value;
 
   renderManagedCoverageFields = (formData) => {
     const { model } = this.props;
@@ -159,11 +158,12 @@ class ResourceCoverageFields extends Component {
         >
           <Field
             name={`${dateRange}.beginCoverage`}
+            timeZone={TIME_ZOME}
             render={({ input, meta }) => (
               <Datepicker
                 dateFormat={DATE_FORMAT}
-                parse={this.parseDate}
-                format={this.formatDate}
+                parse={parseDate}
+                format={formatDate}
                 backendDateStandard={BACKEND_DATE_STANDARD}
                 error={meta.error}
                 id="begin-coverage"
@@ -182,11 +182,12 @@ class ResourceCoverageFields extends Component {
         >
           <Field
             name={`${dateRange}.endCoverage`}
+            timeZone={TIME_ZOME}
             render={({ input, meta }) => (
               <Datepicker
                 dateFormat={DATE_FORMAT}
-                parse={this.parseDate}
-                format={this.formatDate}
+                parse={parseDate}
+                format={formatDate}
                 backendDateStandard={BACKEND_DATE_STANDARD}
                 error={meta.error}
                 id="end-coverage"
