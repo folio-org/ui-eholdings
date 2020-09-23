@@ -8,7 +8,6 @@ import {
   injectIntl,
 } from 'react-intl';
 
-import moment from 'moment';
 import isEqual from 'lodash/isEqual';
 import has from 'lodash/has';
 
