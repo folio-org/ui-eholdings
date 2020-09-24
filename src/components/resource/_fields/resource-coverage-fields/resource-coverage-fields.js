@@ -8,7 +8,6 @@ import {
   injectIntl,
 } from 'react-intl';
 
-import moment from 'moment';
 import isEqual from 'lodash/isEqual';
 import has from 'lodash/has';
 
@@ -23,7 +22,16 @@ import {
 import CoverageDateList from '../../../coverage-date-list';
 
 import validateDateRange from '../validate-date-range';
-import { isBookPublicationType } from '../../../utilities';
+import {
+  isBookPublicationType,
+  parseDate,
+  formatDate,
+} from '../../../utilities';
+import {
+  DATE_FORMAT,
+  BACKEND_DATE_STANDARD,
+  TIME_ZOME,
+} from '../../../../constants';
 
 import styles from './resource-coverage-fields.css';
 
@@ -68,12 +76,6 @@ class ResourceCoverageFields extends Component {
         renderField={this.renderField}
       />
     );
-  }
-
-  formatDate(value) {
-    return value
-      ? moment.utc(value)
-      : '';
   }
 
   renderManagedCoverageFields = (formData) => {
@@ -155,12 +157,21 @@ class ResourceCoverageFields extends Component {
         >
           <Field
             name={`${dateRange}.beginCoverage`}
-            type="text"
-            component={Datepicker}
-            label={<FormattedMessage id="ui-eholdings.date.startDate" />}
-            id="begin-coverage"
-            format={this.formatDate}
-            timeZone="UTC"
+            timeZone={TIME_ZOME}
+            render={({ input, meta }) => (
+              <Datepicker
+                dateFormat={DATE_FORMAT}
+                parse={parseDate}
+                format={formatDate}
+                backendDateStandard={BACKEND_DATE_STANDARD}
+                error={meta.error}
+                id="begin-coverage"
+                input={input}
+                label={<FormattedMessage id="ui-eholdings.date.startDate" />}
+                useInput
+                usePortal
+              />
+            )}
           />
         </Col>
         <Col
@@ -170,12 +181,21 @@ class ResourceCoverageFields extends Component {
         >
           <Field
             name={`${dateRange}.endCoverage`}
-            type="text"
-            component={Datepicker}
-            label={<FormattedMessage id="ui-eholdings.date.endDate" />}
-            id="end-coverage"
-            format={this.formatDate}
-            timeZone="UTC"
+            timeZone={TIME_ZOME}
+            render={({ input, meta }) => (
+              <Datepicker
+                dateFormat={DATE_FORMAT}
+                parse={parseDate}
+                format={formatDate}
+                backendDateStandard={BACKEND_DATE_STANDARD}
+                error={meta.error}
+                id="end-coverage"
+                input={input}
+                label={<FormattedMessage id="ui-eholdings.date.endDate" />}
+                useInput
+                usePortal
+              />
+            )}
           />
         </Col>
       </Row>
