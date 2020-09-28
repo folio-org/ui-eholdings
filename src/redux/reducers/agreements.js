@@ -4,6 +4,7 @@ import {
   GET_AGREEMENTS_FAILURE,
   ATTACH_AGREEMENT_FAILURE,
   ADD_AGREEMENT,
+  UNASSIGN_AGREEMENT,
 } from '../actions';
 
 import { formatErrors } from '../helpers';
@@ -68,6 +69,17 @@ const handlers = {
         ],
       };
   },
+  [UNASSIGN_AGREEMENT]: (state, action) => {
+    const { id } = action;
+    const { items } = state;
+
+    const filteredItems = items.filter(item => item.id === id);
+ 
+    return {
+      ...state,
+      items: filteredItems,
+    };
+  }
 };
 
 const initialState = {

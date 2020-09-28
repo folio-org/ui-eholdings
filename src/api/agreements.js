@@ -41,5 +41,8 @@ export default {
     };
 
     return doRequest(url, params);
+  },
+  unassignAgreement: (okapi, params) => {
+    console.log('api');
   }
 };

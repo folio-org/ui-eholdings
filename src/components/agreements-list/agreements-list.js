@@ -3,34 +3,45 @@ import PropTypes from 'prop-types';
 import {
   FormattedMessage,
   FormattedDate,
+  useIntl,
 } from 'react-intl';
 import { Link } from 'react-router-dom';
 
 import {
   MultiColumnList,
   Icon,
+  IconButton,
 } from '@folio/stripes/components';
 
-
-const COLUMN_NAMES = ['startDate', 'status', 'name'];
+const COLUMN_NAMES = ['startDate', 'status', 'name', 'actions'];
 const COLUMN_WIDTHS = {
   startDate: '30%',
-  name: '40%',
+  name: '30%',
   status: '30%',
+  actions: '10%',
 };
 
-const columnsMap = {
-  startDate: <FormattedMessage id="ui-eholdings.startDate" />,
-  name: <FormattedMessage id="ui-eholdings.name" />,
-  status: <FormattedMessage id="ui-eholdings.status" />,
+const propTypes = {
+  agreements: PropTypes.shape({
+    isLoading: PropTypes.bool.isRequired,
+    items: PropTypes.arrayOf({
+      id: PropTypes.string.isRequired,
+      name: PropTypes.string.isRequired,
+    }).isRequired,
+  }).isRequired,
 };
 
-export default class AgreementsList extends React.Component {
-  static propTypes = {
-    agreements: PropTypes.object.isRequired,
-  }
+const AgreementsList = ({ agreements, unassignAgreement }) => {
+  const { formatMessage } = useIntl();
 
-  rowFormatter = (row) => {
+  const columnsMap = {
+    startDate: formatMessage({ id: 'ui-eholdings.startDate' }),
+    name: formatMessage({ id: 'ui-eholdings.name' }),
+    status: formatMessage({ id: 'ui-eholdings.status' }),
+    actions: '',
+  };
+
+  const rowFormatter = row => {
     const {
       rowClass,
       rowData: { id },
@@ -60,53 +71,61 @@ export default class AgreementsList extends React.Component {
     );
   };
 
-  getResults() {
-    return this.props.agreements.items
-      .map(agreement => {
-        const {
-          id,
-          name,
-          startDate,
-          agreementStatus,
-        } = agreement;
+  const getResults = () => agreements.items.map(agreement => {
+    const {
+      id,
+      name,
+      startDate,
+      agreementStatus,
+    } = agreement;
 
-        return {
-          id,
-          startDate: (
-            <FormattedDate
-              value={startDate}
-              year="numeric"
-              month="numeric"
-              day="numeric"
-            />
-          ),
-          status: agreementStatus.label,
-          name,
-        };
-      });
-  }
+    return {
+      id,
+      name,
+      status: agreementStatus.label,
+      startDate: (
+        <FormattedDate
+          value={startDate}
+          year="numeric"
+          month="numeric"
+          day="numeric"
+          timeZone="UTC"
+        />
+      ),
+    };
+  });
+  
+  const formatter = {
+    startDate: ({ startDate }) => startDate,
+    status: ({ status }) => status,
+    name: ({ name }) => name,
+    actions: ({ id }) => (
+      <IconButton
+        icon="trash"
+        onClick={(e) => { e.preventDefault(); console.log('here', unassignAgreement); unassignAgreement(id); }}
+        data-test-delete-agreement
+      />
+    )
+  };
 
-  render() {
-    return this.props.agreements.isLoading
-      ? <Icon icon="spinner-ellipsis" />
-      : (
-        <FormattedMessage id="ui-eholdings.agreements">
-          {
-            (ariaLabel) => (
-              <MultiColumnList
-                id="agreements-list"
-                interactive
-                ariaLabel={ariaLabel}
-                contentData={this.getResults()}
-                visibleColumns={COLUMN_NAMES}
-                columnMapping={columnsMap}
-                columnWidths={COLUMN_WIDTHS}
-                isEmptyMessage={<FormattedMessage id="ui-eholdings.agreements.notFound" />}
-                rowFormatter={this.rowFormatter}
-              />
-            )
-          }
-        </FormattedMessage>
+  return agreements.isLoading
+    ? <Icon icon="spinner-ellipsis" />
+    : (
+        <MultiColumnList
+          id="agreements-list"
+          interactive
+          ariaLabel={formatMessage({ id: 'ui-eholdings.agreements' })}
+          contentData={getResults()}
+          visibleColumns={COLUMN_NAMES}
+          columnMapping={columnsMap}
+          columnWidths={COLUMN_WIDTHS}
+          isEmptyMessage={<FormattedMessage id="ui-eholdings.agreements.notFound" />}
+          rowFormatter={rowFormatter}
+          formatter={formatter}
+        />
       );
-  }
-}
+};
+
+AgreementsList.propTypes = propTypes;
+
+export default AgreementsList;

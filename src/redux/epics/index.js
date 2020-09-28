@@ -18,3 +18,4 @@ export { default as createGetRootProxyEpic } from './get-root-proxy';
 export { default as createUpdateRootProxyEpic } from './update-root-proxy';
 export { default as createGetProxyTypesEpic } from './get-proxy-types';
 export { default as createGetUserGroupsEpic } from './get-user-groups';
+export { default as createUnassignAgreementEpic } from './unassign-agreement';
