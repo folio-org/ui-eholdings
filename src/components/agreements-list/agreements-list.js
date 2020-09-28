@@ -13,7 +13,6 @@ import {
 
 import { TIME_ZONE } from '../../constants';
 
-
 const COLUMN_NAMES = ['startDate', 'status', 'name'];
 const COLUMN_WIDTHS = {
   startDate: '30%',
