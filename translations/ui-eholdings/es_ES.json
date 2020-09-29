@@ -230,7 +230,7 @@
     "validate.errors.customUrl.length": "Las URLs personalizadas deben tener 600 caracters o menos.",
     "validate.errors.customUrl.include": "La URL debe incluir http:// o https://",
     "server.errors.failedBackend": "No se pudo recuperar la información de configuración",
-    "server.errors.errorDuringFetch": "Se produjo un error en el servidor al recuperar la configuración de su base de conocimiento.",
+    "server.errors.errorDuringFetch": "If the problem persist please contact your FOLIO system administrator or visit <a>EBSCO Connect</a>",
     "server.errors.kbNotConfigured": "Base de conocimiento no configurada",
     "server.errors.detectedUnconfiguredKb": "La aplicación eRecursos detectó la presencia de una base de conocimiento, pero la base de conocimiento no parece estar configurada.",
     "server.errors.configureKbLinkMsg": "Por favor configura la base de conocimiento con tus credenciales en {link}.",
