@@ -230,7 +230,7 @@
     "validate.errors.customUrl.length": "L'URL personalizzato deve contenere un massimo di 590 caratteri",
     "validate.errors.customUrl.include": "L'URL deve includere http:// o https://",
     "server.errors.failedBackend": "Impossibile recuperare le informazioni di configurazione",
-    "server.errors.errorDuringFetch": "Si è verificato un errore del server durante il recupero della configurazione della knowledge base.",
+    "server.errors.errorDuringFetch": "If the problem persist please contact your FOLIO system administrator or visit <a>EBSCO Connect</a>",
     "server.errors.kbNotConfigured": "Knowledge base non configurata",
     "server.errors.detectedUnconfiguredKb": "L'applicazione eHoldings ha rilevato la presenza di una knowledge base, ma la knowledge base non sembra essere configurata.",
     "server.errors.configureKbLinkMsg": "Configura la knowledge base con le tue credenziali in {link} .",

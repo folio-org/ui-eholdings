@@ -73,7 +73,8 @@
     "react": "*",
     "react-intl": "^5.8.0",
     "react-router": "^5.2.0",
-    "react-router-dom": "^5.2.0"
+    "react-router-dom": "^5.2.0",
+    "moment": "~2.24.0"
   },
   "resolutions": {
     "moment": "~2.24.0"
