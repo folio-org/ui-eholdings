@@ -23,7 +23,7 @@ import {
 import {
   DATE_FORMAT,
   BACKEND_DATE_STANDARD,
-  TIME_ZOME,
+  TIME_ZONE,
 } from '../../../../constants';
 
 class PackageCoverageFields extends Component {
@@ -76,7 +76,7 @@ class PackageCoverageFields extends Component {
           <Field
             name={`${dateRange}.beginCoverage`}
             validate={this.validateCoverageDate}
-            timeZone={TIME_ZOME}
+            timeZone={TIME_ZONE}
             render={({ input, meta }) => (
               <Datepicker
                 dateFormat={DATE_FORMAT}
@@ -101,7 +101,7 @@ class PackageCoverageFields extends Component {
           <Field
             name={`${dateRange}.endCoverage`}
             validate={this.validateCoverageDate}
-            timeZone={TIME_ZOME}
+            timeZone={TIME_ZONE}
             render={({ input, meta }) => (
               <Datepicker
                 dateFormat={DATE_FORMAT}

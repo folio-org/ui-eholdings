@@ -29,6 +29,7 @@
 * Bumped `react-intl` version to `5.8.0`.
 * Fixed View Package > Find Title - Accordions missing some ARIA attributes. (UIEH-925)
 * Fix bug with `<Datepicker>` in Resource Edit Page. (UIEH-961)
+* Fix issue in agreements accordion with displaying start date. (UIEH-971)
 
 ## [4.0.1] (https://github.com/folio-org/ui-eholdings/tree/v4.0.0) (2020-07-08)
 
