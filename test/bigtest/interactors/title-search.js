@@ -115,6 +115,10 @@ import AccessTypesAccordion from './access-types-accordion';
   packageTitleList = collection('[data-test-query-list="title-packages"] li', {
     clickToPackage: clickable('a')
   });
+
+  whenLoaded() {
+    return this.when(() => isPresent('#search-pane'));
+  }
 }
 
 export default new TitleSearchPage('[data-test-eholdings]');

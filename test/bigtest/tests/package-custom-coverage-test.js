@@ -1,13 +1,15 @@
 import { beforeEach, describe, it } from '@bigtest/mocha';
 import { expect } from 'chai';
 
-import setupApplication from '../helpers/setup-application';
+import setupApplication, { axe } from '../helpers/setup-application';
 import PackageShowPage from '../interactors/package-show';
 
 describe('PackageCustomCoverage', () => {
   setupApplication();
   let provider,
     pkg;
+
+  let a11yResults = null;
 
   beforeEach(function () {
     provider = this.server.create('provider', {
@@ -16,7 +18,7 @@ describe('PackageCustomCoverage', () => {
   });
 
   describe('visiting the package show page and package is not selected', () => {
-    beforeEach(function () {
+    beforeEach(async function () {
       pkg = this.server.create('package', {
         provider,
         name: 'Cool Package',
@@ -25,6 +27,12 @@ describe('PackageCustomCoverage', () => {
       });
 
       this.visit(`/eholdings/packages/${pkg.id}`);
+      await PackageShowPage.whenLoaded();
+      a11yResults = await axe.run();
+    });
+
+    it('should not have any a11y issues', () => {
+      expect(a11yResults.violations).to.be.empty;
     });
 
     it('should not display custom coverage', () => {
@@ -33,7 +41,7 @@ describe('PackageCustomCoverage', () => {
   });
 
   describe('visiting the package show page with custom coverage', () => {
-    beforeEach(function () {
+    beforeEach(async function () {
       const customCoverage = this.server.create('custom-coverage', {
         beginCoverage: '1969-07-16',
         endCoverage: '1972-12-19'
@@ -48,6 +56,12 @@ describe('PackageCustomCoverage', () => {
       });
 
       this.visit(`/eholdings/packages/${pkg.id}`);
+      await PackageShowPage.whenLoaded();
+      a11yResults = await axe.run();
+    });
+
+    it('should not have any a11y issues', () => {
+      expect(a11yResults.violations).to.be.empty;
     });
 
     it('displays the custom coverage section', () => {

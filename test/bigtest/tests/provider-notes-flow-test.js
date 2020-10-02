@@ -2,11 +2,12 @@ import { beforeEach, describe, it } from '@bigtest/mocha';
 import { expect } from 'chai';
 import faker from 'faker';
 
-import setupApplication from '../helpers/setup-application';
+import setupApplication, { axe } from '../helpers/setup-application';
 import NotesAccordion from '../interactors/notes-accordion';
 import NotesModal from '../interactors/notes-modal';
 import NoteForm from '../interactors/note-form';
 import NoteView from '../interactors/note-view';
+import ProviderShow from '../interactors/provider-show';
 import wait from '../helpers/wait';
 
 const notesModal = new NotesModal();
@@ -20,6 +21,8 @@ describe('Provider view', function () {
   let provider;
   let noteType;
   let providerNote;
+
+  let a11yResults = null;
 
   beforeEach(function () {
     provider = this.server.create('provider', {
@@ -53,6 +56,12 @@ describe('Provider view', function () {
   describe('when the provider details page is visited', () => {
     beforeEach(async function () {
       this.visit(`/eholdings/providers/${provider.id}`);
+      await ProviderShow.whenLoaded();
+      a11yResults = await axe.run();
+    });
+
+    it('should not have any a11y issues', () => {
+      expect(a11yResults.violations).to.be.empty;
     });
 
     it('should display notes accordion', () => {

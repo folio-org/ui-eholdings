@@ -1,15 +1,24 @@
 import { expect } from 'chai';
 import { describe, beforeEach, it } from '@bigtest/mocha';
 
-import setupApplication from '../helpers/setup-application';
+import setupApplication, { axe } from '../helpers/setup-application';
 import TitleShowPage from '../interactors/title-show';
 import ResourceShowPage from '../interactors/resource-show';
+
+axe.configure({
+  rules: [{
+    id: 'aria-allowed-role',
+    enabled: false,
+  }],
+});
 
 describe('TitleShowAddToCustomPackage', () => {
   setupApplication();
   let title;
 
-  beforeEach(function () {
+  let a11yResults = null;
+
+  beforeEach(async function () {
     title = this.server.create('title', 'withPackages', {
       name: 'Cool Title',
       publisherName: 'Cool Publisher',
@@ -30,11 +39,22 @@ describe('TitleShowAddToCustomPackage', () => {
     });
 
     this.visit(`/eholdings/titles/${title.id}`);
+    await TitleShowPage.whenLoaded();
+    a11yResults = await axe.run();
+  });
+
+  it('should not have any a11y issues', () => {
+    expect(a11yResults.violations).to.be.empty;
   });
 
   describe('clicking the add to custom package button', () => {
-    beforeEach(() => {
-      return TitleShowPage.clickAddToCustomPackageButton();
+    beforeEach(async () => {
+      await TitleShowPage.clickAddToCustomPackageButton();
+      a11yResults = await axe.run();
+    });
+
+    it('should not have any a11y issues', () => {
+      expect(a11yResults.violations).to.be.empty;
     });
 
     it('shows the modal for adding a custom package', () => {
@@ -52,8 +72,13 @@ describe('TitleShowAddToCustomPackage', () => {
     });
 
     describe('clicking submit', () => {
-      beforeEach(() => {
-        return TitleShowPage.customPackageModal.submit();
+      beforeEach(async () => {
+        await TitleShowPage.customPackageModal.submit();
+        a11yResults = await axe.run();
+      });
+
+      it('should not have any a11y issues', () => {
+        expect(a11yResults.violations).to.be.empty;
       });
 
       it('shows an error with no selected package', () => {
@@ -72,6 +97,11 @@ describe('TitleShowAddToCustomPackage', () => {
         await new Promise(r => setTimeout(r, 1000));
         await TitleShowPage.customPackageModal.packageSelection.expandAndClick(0);
         await TitleShowPage.customPackageModal.submit();
+        a11yResults = await axe.run();
+      });
+
+      it('should not have any a11y issues', () => {
+        expect(a11yResults.violations).to.be.empty;
       });
 
       it('disables the submit button', () => {
@@ -99,6 +129,11 @@ describe('TitleShowAddToCustomPackage', () => {
         await TitleShowPage.customPackageModal.packageSelection.expandAndClick(0);
         await TitleShowPage.customPackageModal.fillUrl('http://my.url');
         await TitleShowPage.customPackageModal.submit();
+        a11yResults = await axe.run();
+      });
+
+      it('should not have any a11y issues', () => {
+        expect(a11yResults.violations).to.be.empty;
       });
 
       it('Redirects to the newly created resource with the specified URL', function () {

@@ -1,7 +1,7 @@
 import { beforeEach, describe, it } from '@bigtest/mocha';
 import { expect } from 'chai';
 
-import setupApplication from '../helpers/setup-application';
+import setupApplication, { axe } from '../helpers/setup-application';
 import PackageShowPage from '../interactors/package-show';
 import TitleShowPage from '../interactors/title-show';
 
@@ -11,9 +11,17 @@ describe('DetailsView', () => {
     this.server.loadFixtures();
   });
 
+  let a11yResults = null;
+
   describe('visiting a package with paged resources', () => {
-    beforeEach(function () {
+    beforeEach(async function () {
       this.visit('/eholdings/packages/paged_pkg');
+      await PackageShowPage.whenLoaded();
+      a11yResults = await axe.run();
+    });
+
+    it('should not have any a11y issues', () => {
+      expect(a11yResults.violations).to.be.empty;
     });
 
     it('has a list that fills the container', () => {

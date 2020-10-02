@@ -1,7 +1,7 @@
 import { beforeEach, describe, it } from '@bigtest/mocha';
 import { expect } from 'chai';
 
-import setupApplication from '../helpers/setup-application';
+import setupApplication, { axe } from '../helpers/setup-application';
 import ResourceShowPage from '../interactors/resource-show';
 
 describe('ResourceEmbargo', () => {
@@ -9,6 +9,8 @@ describe('ResourceEmbargo', () => {
   let pkg,
     title,
     resource;
+
+  let a11yResults = null;
 
   beforeEach(function () {
     pkg = this.server.create('package', 'withProvider');
@@ -21,7 +23,7 @@ describe('ResourceEmbargo', () => {
   });
 
   describe('visiting the resource show page with custom and managed embargos', () => {
-    beforeEach(function () {
+    beforeEach(async function () {
       resource.managedEmbargoPeriod = this.server.create('embargo-period', {
         embargoUnit: 'Months',
         embargoValue: 6
@@ -35,6 +37,12 @@ describe('ResourceEmbargo', () => {
       resource.save();
 
       this.visit(`/eholdings/resources/${resource.id}`);
+      await ResourceShowPage.whenLoaded();
+      a11yResults = await axe.run();
+    });
+
+    it('should not have any a11y issues', () => {
+      expect(a11yResults.violations).to.be.empty;
     });
 
     it('does not display the managed embargo section', () => {
@@ -61,7 +69,7 @@ describe('ResourceEmbargo', () => {
   });
 
   describe('visiting the resource show page with embargos with null values', () => {
-    beforeEach(function () {
+    beforeEach(async function () {
       resource.managedEmbargoPeriod = this.server.create('embargo-period', {
         embargoUnit: 'Months',
         embargoValue: null
@@ -74,6 +82,12 @@ describe('ResourceEmbargo', () => {
 
       resource.save();
       this.visit(`/eholdings/resources/${resource.id}`);
+      await ResourceShowPage.whenLoaded();
+      a11yResults = await axe.run();
+    });
+
+    it('should not have any a11y issues', () => {
+      expect(a11yResults.violations).to.be.empty;
     });
 
     it.always('does not display the managed embargo section', () => {
@@ -144,10 +158,16 @@ describe('ResourceEmbargo', () => {
     });
 
     describe('removing the title package via drop down', () => {
-      beforeEach(() => {
-        return ResourceShowPage
+      beforeEach(async () => {
+        await ResourceShowPage
           .actionsDropDown.clickDropDownButton()
           .dropDownMenu.clickRemoveFromHoldings();
+
+        a11yResults = await axe.run();
+      });
+
+      it('should not have any a11y issues', () => {
+        expect(a11yResults.violations).to.be.empty;
       });
 
       describe('and confirming deselection', () => {

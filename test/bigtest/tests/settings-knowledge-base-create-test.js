@@ -5,17 +5,24 @@ import {
 } from '@bigtest/mocha';
 import { expect } from 'chai';
 
-import setupApplication from '../helpers/setup-application';
+import setupApplication, { axe } from '../helpers/setup-application';
 import SettingsCreateKBPage from '../interactors/settings-configuration';
 import wait from '../helpers/wait';
 
 describe('With list of root proxies available to a customer', () => {
   setupApplication();
 
+  let a11yResults = null;
+
   describe('when click on New button on settings eholdings pane', () => {
     beforeEach(async function () {
       this.visit('/settings/eholdings/knowledge-base/new');
       await wait(1000);
+      a11yResults = await axe.run();
+    });
+
+    it('should not have any a11y issues', () => {
+      expect(a11yResults.violations).to.be.empty;
     });
 
     it('should open settings knowledge base create page', () => {
@@ -33,6 +40,11 @@ describe('With list of root proxies available to a customer', () => {
     describe('when fill name field with empty value', () => {
       beforeEach(async () => {
         await SettingsCreateKBPage.nameField.fillAndBlur('');
+        a11yResults = await axe.run();
+      });
+
+      it('should not have any a11y issues', () => {
+        expect(a11yResults.violations).to.be.empty;
       });
 
       it('should show error message', () => {
@@ -58,6 +70,12 @@ describe('With list of root proxies available to a customer', () => {
           .fillApiKey('totally-bogus-api-key')
           .chooseRMAPIUrl('https://sandbox.ebsco.io')
           .save();
+
+        a11yResults = await axe.run();
+      });
+
+      it('should not have any a11y issues', () => {
+        expect(a11yResults.violations).to.be.empty;
       });
 
       it('should shown toast with successful message', () => {

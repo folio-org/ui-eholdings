@@ -1,7 +1,7 @@
 import { beforeEach, describe, it } from '@bigtest/mocha';
 import { expect } from 'chai';
 
-import setupApplication from '../helpers/setup-application';
+import setupApplication, { axe } from '../helpers/setup-application';
 import PackageShowPage from '../interactors/package-show';
 
 describe('Package Show Title Search', () => {
@@ -11,6 +11,8 @@ describe('Package Show Title Search', () => {
     providerPackage,
     trialAccessType,
     subscriptionAccessType;
+
+  let a11yResults = null;
 
   beforeEach(function () {
     provider = this.server.create('provider', {
@@ -87,7 +89,7 @@ describe('Package Show Title Search', () => {
   });
 
   describe('navigating to package show page to filter titles', () => {
-    beforeEach(function () {
+    beforeEach(async function () {
       this.visit(
         {
           pathname: `/eholdings/packages/${providerPackage.id}`,
@@ -95,6 +97,13 @@ describe('Package Show Title Search', () => {
           state: { eholdings: true }
         }
       );
+
+      await PackageShowPage.whenLoaded();
+      a11yResults = await axe.run();
+    });
+
+    it('should not have any a11y issues', () => {
+      expect(a11yResults.violations).to.be.empty;
     });
 
     it('displays the proper title count', () => {
@@ -112,6 +121,11 @@ describe('Package Show Title Search', () => {
     describe('when the search modal is open', () => {
       beforeEach(async () => {
         await PackageShowPage.clickListSearch();
+        a11yResults = await axe.run();
+      });
+
+      it('should not have any a11y issues', () => {
+        expect(a11yResults.violations).to.be.empty;
       });
 
       it('all filter accordions should be collapsed', () => {
@@ -124,6 +138,11 @@ describe('Package Show Title Search', () => {
         beforeEach(async () => {
           await PackageShowPage.searchModal.searchTitles('My Title');
           await PackageShowPage.searchModal.clickSearch();
+          a11yResults = await axe.run();
+        });
+
+        it('should not have any a11y issues', () => {
+          expect(a11yResults.violations).to.be.empty;
         });
 
         it('properly filters the results', () => {
@@ -141,6 +160,11 @@ describe('Package Show Title Search', () => {
           await PackageShowPage.searchModal.toggleAccordion('#accordion-toggle-button-filter-titles-selected');
           await PackageShowPage.searchModal.clickFilter('selected', 'true');
           await PackageShowPage.searchModal.clickSearch();
+          a11yResults = await axe.run();
+        });
+
+        it('should not have any a11y issues', () => {
+          expect(a11yResults.violations).to.be.empty;
         });
 
         it('properly filters the results', () => {

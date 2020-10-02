@@ -317,6 +317,7 @@ class ProviderShow extends Component {
           resultsLength={packages.length}
           renderList={this.renderPackagesList}
           ariaRole="tablist"
+          bodyAriaRole="tab"
         />
       </>
     );

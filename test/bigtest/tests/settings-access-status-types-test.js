@@ -5,7 +5,7 @@ import {
 } from '@bigtest/mocha';
 import { expect } from 'chai';
 
-import setupApplication from '../helpers/setup-application';
+import setupApplication, { axe } from '../helpers/setup-application';
 import wait from '../helpers/wait';
 import SettingsAccessStatusTypesPage from '../interactors/settings-access-status-types';
 
@@ -14,10 +14,17 @@ describe('With list of root proxies available to a customer', () => {
     scenarios: ['default'],
   });
 
+  let a11yResults = null;
+
   describe('when visiting the settings access status types page', () => {
     beforeEach(async function () {
       this.visit('/settings/eholdings/1/access-status-types');
       await wait(1000);
+      a11yResults = await axe.run();
+    });
+
+    it('should not have any a11y issues', () => {
+      expect(a11yResults.violations).to.be.empty;
     });
 
     it('should open settings access status types page', () => {
@@ -31,6 +38,11 @@ describe('With list of root proxies available to a customer', () => {
     describe('add new access status type', () => {
       beforeEach(async () => {
         await SettingsAccessStatusTypesPage.clickAddNewButton();
+        a11yResults = await axe.run();
+      });
+
+      it('should not have any a11y issues', () => {
+        expect(a11yResults.violations).to.be.empty;
       });
 
       it('should open settings access status types page', () => {
@@ -40,6 +52,11 @@ describe('With list of root proxies available to a customer', () => {
       describe('fill access status type name field with unvalid string length', () => {
         beforeEach(async () => {
           await SettingsAccessStatusTypesPage.accessStatusTypesList(0).nameField.fillAndBlur((new Array(76)).fill('a').join(''));
+          a11yResults = await axe.run();
+        });
+
+        it('should not have any a11y issues', () => {
+          expect(a11yResults.violations).to.be.empty;
         });
 
         it('should show validation error message', () => {
@@ -82,6 +99,11 @@ describe('With list of root proxies available to a customer', () => {
           await SettingsAccessStatusTypesPage.accessStatusTypesList(0).nameField.fillAndBlur('name');
           await SettingsAccessStatusTypesPage.accessStatusTypesList(0).descriptionField.fillAndBlur('description');
           await SettingsAccessStatusTypesPage.accessStatusTypesList(0).clickSave();
+          a11yResults = await axe.run();
+        });
+
+        it('should not have any a11y issues', () => {
+          expect(a11yResults.violations).to.be.empty;
         });
 
         it('should show updated list', () => {
@@ -102,6 +124,11 @@ describe('With list of root proxies available to a customer', () => {
     describe('update first item', () => {
       beforeEach(async () => {
         await SettingsAccessStatusTypesPage.accessStatusTypesList(0).clickEdit();
+        a11yResults = await axe.run();
+      });
+
+      it('should not have any a11y issues', () => {
+        expect(a11yResults.violations).to.be.empty;
       });
 
       it('form sets to edit mode', () => {
@@ -113,6 +140,11 @@ describe('With list of root proxies available to a customer', () => {
           await SettingsAccessStatusTypesPage.accessStatusTypesList(0).nameField.fillAndBlur('Awesome');
           await SettingsAccessStatusTypesPage.accessStatusTypesList(0).descriptionField.fillAndBlur('test');
           await SettingsAccessStatusTypesPage.accessStatusTypesList(0).clickSave();
+          a11yResults = await axe.run();
+        });
+
+        it('should not have any a11y issues', () => {
+          expect(a11yResults.violations).to.be.empty;
         });
 
         it('first item should have correct values', () => {
@@ -125,6 +157,11 @@ describe('With list of root proxies available to a customer', () => {
     describe('delete first item', () => {
       beforeEach(async () => {
         await SettingsAccessStatusTypesPage.accessStatusTypesList(0).clickDelete();
+        a11yResults = await axe.run();
+      });
+
+      it('should not have any a11y issues', () => {
+        expect(a11yResults.violations).to.be.empty;
       });
 
       it('should display confirmation modal', () => {

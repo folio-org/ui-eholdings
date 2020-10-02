@@ -1,7 +1,7 @@
 import { beforeEach, describe, it } from '@bigtest/mocha';
 import { expect } from 'chai';
 
-import setupApplication from '../helpers/setup-application';
+import setupApplication, { axe } from '../helpers/setup-application';
 import ResourcePage from '../interactors/resource-show';
 import PackageShowPage from '../interactors/package-search';
 
@@ -11,6 +11,8 @@ describe('ResourceDeselection', () => {
     title,
     providerPackage,
     resource;
+
+  let a11yResults = null;
 
   beforeEach(function () {
     provider = this.server.create('provider', {
@@ -38,8 +40,14 @@ describe('ResourceDeselection', () => {
 
   describe('visiting the resource page', () => {
     describe('part of a package with only one selected title', () => {
-      beforeEach(function () {
+      beforeEach(async function () {
         this.visit(`/eholdings/resources/${resource.id}`);
+        await ResourcePage.whenLoaded();
+        a11yResults = await axe.run();
+      });
+
+      it('should not have any a11y issues', () => {
+        expect(a11yResults.violations).to.be.empty;
       });
 
       it('indicates that the resource is selected', () => {
@@ -47,8 +55,13 @@ describe('ResourceDeselection', () => {
       });
 
       describe('deselecting managed title', () => {
-        beforeEach(() => {
-          return ResourcePage.dropDownMenu.clickRemoveFromHoldings();
+        beforeEach(async () => {
+          await ResourcePage.dropDownMenu.clickRemoveFromHoldings();
+          a11yResults = await axe.run();
+        });
+
+        it('should not have any a11y issues', () => {
+          expect(a11yResults.violations).to.be.empty;
         });
 
         describe('deselection modal', () => {

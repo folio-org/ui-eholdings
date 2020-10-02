@@ -1,17 +1,24 @@
 import { beforeEach, describe, it } from '@bigtest/mocha';
 import { expect } from 'chai';
 
-import setupApplication from '../helpers/setup-application';
+import setupApplication, { axe } from '../helpers/setup-application';
 import SettingsRootProxyPage from '../interactors/settings-root-proxy';
 import wait from '../helpers/wait';
 
 describe('With list of root proxies available to a customer', () => {
   setupApplication();
 
+  let a11yResults = null;
+
   describe('when visiting the settings root proxy form', () => {
     beforeEach(async function () {
       this.visit('/settings/eholdings/2/root-proxy');
       await wait(1000);
+      a11yResults = await axe.run();
+    });
+
+    it('should not have any a11y issues', () => {
+      expect(a11yResults.violations).to.be.empty;
     });
 
     it('has a select field defaulted with current root proxy', () => {
@@ -23,6 +30,12 @@ describe('With list of root proxies available to a customer', () => {
         await SettingsRootProxyPage
           .chooseRootProxy('microstates')
           .save();
+
+        a11yResults = await axe.run();
+      });
+
+      it('should not have any a11y issues', () => {
+        expect(a11yResults.violations).to.be.empty;
       });
 
       it('should display the updated root proxy', () => {
@@ -72,6 +85,12 @@ describe('With list of root proxies available to a customer', () => {
         await SettingsRootProxyPage
           .chooseRootProxy('microstates')
           .save();
+
+        a11yResults = await axe.run();
+      });
+
+      it('should not have any a11y issues', () => {
+        expect(a11yResults.violations).to.be.empty;
       });
 
       it('should show a error toast', () => {

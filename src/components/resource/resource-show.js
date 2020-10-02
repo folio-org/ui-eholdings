@@ -270,7 +270,8 @@ class ResourceShow extends Component {
           actionMenu={this.getActionMenu()}
           sections={sections}
           handleExpandAll={this.handleExpandAll}
-          ariaRole='tablist'
+          ariaRole="tablist"
+          bodyAriaRole="tab"
           bodyContent={(
             <>
               <TagsAccordion

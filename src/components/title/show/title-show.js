@@ -229,6 +229,8 @@ class TitleShow extends Component {
           handleExpandAll={this.handleExpandAll}
           lastMenu={this.lastMenu}
           ariaRole="tablist"
+          bodyAriaRole="tab"
+          listSectionId="titleShowPackages"
           searchModal={(
             <PackageFilterModal
               allPackages={model.resources.records}

@@ -201,6 +201,10 @@ class SearchForm extends Component {
     );
   }
 
+  renderAccodrionHeader(props) {
+    return <FilterAccordionHeader {...props} headingLevel="2" />;
+  }
+
   renderTagFilter() {
     const {
       tagsModel,
@@ -232,6 +236,7 @@ class SearchForm extends Component {
         <div
           className={styles['search-filters']}
           data-test-eholdings-tag-filter
+          role="tab"
         >
           <Accordion
             label={<FormattedMessage id="ui-eholdings.tags" />}
@@ -239,12 +244,15 @@ class SearchForm extends Component {
             separator={false}
             open={sections.accordionTagFilter}
             closedByDefault
-            header={FilterAccordionHeader}
+            header={this.renderAccodrionHeader}
             displayClearButton={tagsList.length > 0}
             onClearFilter={() => this.props.onStandaloneFilterChange({ tags: undefined })}
             onToggle={this.toggleSection}
             headerProps={{ role: 'tab' }}
           >
+            <span className="sr-only" id="selectTagFilter-label">
+              <FormattedMessage id="ui-eholdings.tags" />
+            </span>
             {this.renderSearchByTagsCheckbox()}
             <FormattedMessage id="ui-eholdings.tags.filter">
               {
@@ -257,6 +265,7 @@ class SearchForm extends Component {
                     onChange={this.handleStandaloneFilterChange}
                     selectedValues={tagsList}
                     disabled={!searchByTagsEnabled}
+                    aria-labelledby="selectTagFilter-label"
                   />
                 )
               }
@@ -297,6 +306,7 @@ class SearchForm extends Component {
         <div
           className={styles['search-filters']}
           data-test-eholdings-access-types-filter
+          role="tab"
         >
           <Accordion
             label={<FormattedMessage id="ui-eholdings.settings.accessStatusTypes" />}
@@ -304,12 +314,15 @@ class SearchForm extends Component {
             separator={false}
             open={sections.accessTypesFilter}
             closedByDefault
-            header={FilterAccordionHeader}
+            header={this.renderAccodrionHeader}
             displayClearButton={accessTypesList.length}
             onClearFilter={() => this.props.onStandaloneFilterChange({ 'access-type': undefined })}
             onToggle={this.toggleSection}
             headerProps={{ role: 'tab' }}
           >
+            <span className="sr-only" id="accessTypesFilter-label">
+              <FormattedMessage id="ui-eholdings.settings.accessStatusTypes" />
+            </span>
             {this.renderSearchByAccessTypesCheckbox()}
             <FormattedMessage id="ui-eholdings.accessTypes.filter">
               {
@@ -322,6 +335,7 @@ class SearchForm extends Component {
                     onChange={this.handleStandaloneFilterChange}
                     selectedValues={accessTypesList}
                     disabled={!searchByAccessTypesEnabled}
+                    aria-labelledby="accessTypesFilter-label"
                   />
                 )
               }

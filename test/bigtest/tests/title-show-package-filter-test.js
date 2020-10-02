@@ -1,13 +1,15 @@
 import { expect } from 'chai';
 import { describe, beforeEach, it } from '@bigtest/mocha';
 
-import setupApplication from '../helpers/setup-application';
+import setupApplication, { axe } from '../helpers/setup-application';
 import TitleShowPage from '../interactors/title-show';
 import PackageFilterModal from '../interactors/package-filter-modal';
 
 describe('TitleShow package filter flow', () => {
   setupApplication();
   let title;
+
+  let a11yResults = null;
 
   beforeEach(function () {
     title = this.server.create('title', 'withPackages', {
@@ -41,13 +43,24 @@ describe('TitleShow package filter flow', () => {
   });
 
   describe('when the title show page is opened', () => {
-    beforeEach(function () {
+    beforeEach(async function () {
       this.visit(`/eholdings/titles/${title.id}`);
+      await TitleShowPage.whenLoaded();
+      a11yResults = await axe.run();
+    });
+
+    it('should not have any a11y issues', () => {
+      expect(a11yResults.violations).to.be.empty;
     });
 
     describe('and the package filter modal is opened', () => {
       beforeEach(async () => {
         await TitleShowPage.clickSearchBadge();
+        a11yResults = await axe.run();
+      });
+
+      it('should not have any a11y issues', () => {
+        expect(a11yResults.violations).to.be.empty;
       });
 
       it('should display the package filter modal', () => {

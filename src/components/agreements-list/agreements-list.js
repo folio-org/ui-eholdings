@@ -44,7 +44,7 @@ export default class AgreementsList extends React.Component {
 
     return (
       <div
-        role="listitem"
+        role="rowheader"
         key={id}
       >
         <Link

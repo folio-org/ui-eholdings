@@ -1,7 +1,7 @@
 import { beforeEach, describe, it } from '@bigtest/mocha';
 import { expect } from 'chai';
 
-import setupApplication from '../helpers/setup-application';
+import setupApplication, { axe } from '../helpers/setup-application';
 import TitleSearchPage from '../interactors/title-search';
 
 describe('TitleSearch', () => {
@@ -10,8 +10,10 @@ describe('TitleSearch', () => {
   let trialAccessType;
   let subscriptionAccessType;
 
+  let a11yResults = null;
+
   // Odd indexed items are assigned alternate attributes targeted in specific filtering tests
-  beforeEach(function () {
+  beforeEach(async function () {
     titles = this.server.createList('title', 3, 'withPackages', 'withSubjects', 'withIdentifiers', 'withContributors', {
       name: i => `Title${i + 1}`,
       publicationType: i => (i % 2 ? 'book' : 'journal'),
@@ -47,6 +49,12 @@ describe('TitleSearch', () => {
     });
 
     this.visit('/eholdings/?searchType=titles');
+    await TitleSearchPage.whenLoaded();
+    a11yResults = await axe.run();
+  });
+
+  it('should not have any a11y issues', () => {
+    expect(a11yResults.violations).to.be.empty;
   });
 
   it('has a searchbox', () => {
@@ -82,8 +90,13 @@ describe('TitleSearch', () => {
   });
 
   describe('searching for a title', () => {
-    beforeEach(() => {
-      return TitleSearchPage.search('Title');
+    beforeEach(async () => {
+      await TitleSearchPage.search('Title');
+      a11yResults = await axe.run();
+    });
+
+    it('should not have any a11y issues', () => {
+      expect(a11yResults.violations).to.be.empty;
     });
 
     it('removes the pre-results pane', () => {
@@ -130,6 +143,11 @@ describe('TitleSearch', () => {
       beforeEach(async () => {
         await TitleSearchPage.toggleAccordion('#accordion-toggle-button-filter-titles-type');
         await TitleSearchPage.clickFilter('type', 'book');
+        a11yResults = await axe.run();
+      });
+
+      it('should not have any a11y issues', () => {
+        expect(a11yResults.violations).to.be.empty;
       });
 
       it('only shows results for book publication types', () => {
@@ -164,6 +182,11 @@ describe('TitleSearch', () => {
       beforeEach(async () => {
         await TitleSearchPage.toggleAccordion('#accordion-toggle-button-filter-titles-selected');
         await TitleSearchPage.clickFilter('selected', 'true');
+        a11yResults = await axe.run();
+      });
+
+      it('should not have any a11y issues', () => {
+        expect(a11yResults.violations).to.be.empty;
       });
 
       it('only shows results for selected titles', () => {
@@ -194,10 +217,16 @@ describe('TitleSearch', () => {
     });
 
     describe('selecting a publisher search field', () => {
-      beforeEach(() => {
-        return TitleSearchPage
+      beforeEach(async () => {
+        await TitleSearchPage
           .selectSearchField('publisher')
           .search('TestPublisher');
+
+        a11yResults = await axe.run();
+      });
+
+      it('should not have any a11y issues', () => {
+        expect(a11yResults.violations).to.be.empty;
       });
 
       it('only shows results having publishers with name including TestPublisher', () => {
@@ -211,10 +240,16 @@ describe('TitleSearch', () => {
     });
 
     describe('selecting a subject search field', () => {
-      beforeEach(() => {
-        return TitleSearchPage
+      beforeEach(async () => {
+        await TitleSearchPage
           .selectSearchField('subject')
           .search('TestSubject');
+
+        a11yResults = await axe.run();
+      });
+
+      it('should not have any a11y issues', () => {
+        expect(a11yResults.violations).to.be.empty;
       });
 
       it('only shows results having subjects including TestSubject', () => {

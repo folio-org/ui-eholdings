@@ -1,7 +1,7 @@
 import { beforeEach, describe, it } from '@bigtest/mocha';
 import { expect } from 'chai';
 
-import setupApplication from '../helpers/setup-application';
+import setupApplication, { axe } from '../helpers/setup-application';
 import ResourceShowPage from '../interactors/resource-show';
 
 describe('ResourceManagedCoverage', () => {
@@ -9,6 +9,8 @@ describe('ResourceManagedCoverage', () => {
   let pkg,
     title,
     resource;
+
+  let a11yResults = null;
 
   beforeEach(function () {
     pkg = this.server.create('package', 'withProvider');
@@ -25,8 +27,14 @@ describe('ResourceManagedCoverage', () => {
   });
 
   describe('visiting the resource page with managed coverage undefined', () => {
-    beforeEach(function () {
+    beforeEach(async function () {
       this.visit(`/eholdings/resources/${resource.id}`);
+      await ResourceShowPage.whenLoaded();
+      a11yResults = await axe.run();
+    });
+
+    it('should not have any a11y issues', () => {
+      expect(a11yResults.violations).to.be.empty;
     });
 
     it.always('does not display the managed coverage section', () => {
@@ -47,7 +55,7 @@ describe('ResourceManagedCoverage', () => {
   });
 
   describe('visiting the resource page with single managed coverage', () => {
-    beforeEach(function () {
+    beforeEach(async function () {
       resource.managedCoverages = this.server.createList('managed-coverage', 1, {
         beginCoverage: '1969-07-16',
         endCoverage: '1972-12-19'
@@ -55,6 +63,12 @@ describe('ResourceManagedCoverage', () => {
 
       resource.save();
       this.visit(`/eholdings/resources/${resource.id}`);
+      await ResourceShowPage.whenLoaded();
+      a11yResults = await axe.run();
+    });
+
+    it('should not have any a11y issues', () => {
+      expect(a11yResults.violations).to.be.empty;
     });
 
     it('displays the managed coverage section for single date', () => {

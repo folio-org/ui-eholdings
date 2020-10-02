@@ -1,7 +1,7 @@
 import { beforeEach, describe, it } from '@bigtest/mocha';
 import { expect } from 'chai';
 
-import setupApplication from '../helpers/setup-application';
+import setupApplication, { axe } from '../helpers/setup-application';
 import PackageSearchPage from '../interactors/package-search';
 import PackageShowPage from '../interactors/package-show';
 
@@ -9,7 +9,9 @@ describe('PackageSearch', () => {
   setupApplication();
   let pkgs;
 
-  beforeEach(function () {
+  let a11yResults = null;
+
+  beforeEach(async function () {
     pkgs = this.server.createList('package', 3, 'withProvider', 'withTitles', {
       name: i => `Package${i + 1}`,
       isSelected: i => !!i,
@@ -23,6 +25,12 @@ describe('PackageSearch', () => {
     });
 
     this.visit('/eholdings/?searchType=packages');
+    await PackageSearchPage.whenLoaded();
+    a11yResults = await axe.run();
+  });
+
+  it('should not have any a11y issues', () => {
+    expect(a11yResults.violations).to.be.empty;
   });
 
   it('has a searchbox', () => {
@@ -40,6 +48,11 @@ describe('PackageSearch', () => {
   describe('clicking to open tags accordion', () => {
     beforeEach(async () => {
       await PackageSearchPage.tagsSection.clickTagHeader();
+      a11yResults = await axe.run();
+    });
+
+    it('should not have any a11y issues', () => {
+      expect(a11yResults.violations).to.be.empty;
     });
 
     it('should display tags multiselect disabled by default', () => {
@@ -63,8 +76,13 @@ describe('PackageSearch', () => {
   });
 
   describe('searching for a package', () => {
-    beforeEach(() => {
-      return PackageSearchPage.search('Package');
+    beforeEach(async () => {
+      await PackageSearchPage.search('Package');
+      a11yResults = await axe.run();
+    });
+
+    it('should not have any a11y issues', () => {
+      expect(a11yResults.violations).to.be.empty;
     });
 
     it('removes the pre-results pane', () => {
@@ -102,7 +120,14 @@ describe('PackageSearch', () => {
       });
 
       describe('clicking on the search icon', () => {
-        beforeEach(() => PackageSearchPage.collapseFilterPaneButton.click());
+        beforeEach(async () => {
+          await PackageSearchPage.collapseFilterPaneButton.click();
+          a11yResults = await axe.run();
+        });
+
+        it('should not have any a11y issues', () => {
+          expect(a11yResults.violations).to.be.empty;
+        });
 
         it('closes the search pane', () => {
           expect(PackageSearchPage.isSearchPanePresent).to.be.false;
@@ -168,6 +193,11 @@ describe('PackageSearch', () => {
       beforeEach(async () => {
         await PackageSearchPage.toggleAccordion('#accordion-toggle-button-filter-packages-type');
         await PackageSearchPage.clickFilter('type', 'ebook');
+        a11yResults = await axe.run();
+      });
+
+      it('should not have any a11y issues', () => {
+        expect(a11yResults.violations).to.be.empty;
       });
 
       it('only shows results for ebook content types', () => {
@@ -209,6 +239,11 @@ describe('PackageSearch', () => {
       beforeEach(async () => {
         await PackageSearchPage.toggleAccordion('#accordion-toggle-button-filter-packages-selected');
         await PackageSearchPage.clickFilter('selected', 'true');
+        a11yResults = await axe.run();
+      });
+
+      it('should not have any a11y issues', () => {
+        expect(a11yResults.violations).to.be.empty;
       });
 
       it('only shows results for selected packages', () => {
@@ -279,6 +314,11 @@ describe('PackageSearch', () => {
     describe('clicking to open tags accordion', () => {
       beforeEach(async () => {
         await PackageSearchPage.tagsSection.clickTagHeader();
+        a11yResults = await axe.run();
+      });
+
+      it('should not have any a11y issues', () => {
+        expect(a11yResults.violations).to.be.empty;
       });
 
       it('displays tags accordion as expanded', () => {
@@ -325,6 +365,11 @@ describe('PackageSearch', () => {
     describe('clicking to open access types accordion', () => {
       beforeEach(async () => {
         await PackageSearchPage.accessStatusTypesSection.clickAccordionHeader();
+        a11yResults = await axe.run();
+      });
+
+      it('should not have any a11y issues', () => {
+        expect(a11yResults.violations).to.be.empty;
       });
 
       it('displays access types accordion as expanded', () => {

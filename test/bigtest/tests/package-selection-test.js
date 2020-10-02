@@ -2,7 +2,7 @@ import { beforeEach, describe, it } from '@bigtest/mocha';
 import { expect } from 'chai';
 import { Response } from 'miragejs';
 
-import setupApplication from '../helpers/setup-application';
+import setupApplication, { axe } from '../helpers/setup-application';
 import setupBlockServer from '../helpers/setup-block-server';
 import PackageShowPage from '../interactors/package-show';
 
@@ -10,6 +10,8 @@ describe('PackageSelection', () => {
   setupApplication();
   let provider,
     providerPackage;
+
+  let a11yResults = null;
 
   beforeEach(function () {
     setupBlockServer(this.server);
@@ -27,14 +29,25 @@ describe('PackageSelection', () => {
   });
 
   describe('visiting the package details page', () => {
-    beforeEach(function () {
+    beforeEach(async function () {
       this.visit(`/eholdings/packages/${providerPackage.id}`);
+      await PackageShowPage.whenLoaded();
+      a11yResults = await axe.run();
+    });
+
+    it('should not have any a11y issues', () => {
+      expect(a11yResults.violations).to.be.empty;
     });
 
     describe('when the package selection modal is open', () => {
       beforeEach(async function () {
         await PackageShowPage.whenLoaded();
         await PackageShowPage.selectPackage();
+        a11yResults = await axe.run();
+      });
+
+      it('should not have any a11y issues', () => {
+        expect(a11yResults.violations).to.be.empty;
       });
 
       it('should display selection confirmation modal', () => {

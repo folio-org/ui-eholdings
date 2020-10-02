@@ -734,6 +734,7 @@ class PackageShow extends Component {
           resultsLength={model.resources.length}
           renderList={this.renderTitlesList}
           ariaRole="tablist"
+          bodyAriaRole="tab"
         />
         <Modal
           open={showDeselectionModal}

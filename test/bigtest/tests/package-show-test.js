@@ -1,7 +1,7 @@
 import { beforeEach, describe, it } from '@bigtest/mocha';
 import { expect } from 'chai';
 
-import setupApplication from '../helpers/setup-application';
+import setupApplication, { axe } from '../helpers/setup-application';
 import PackageShowPage from '../interactors/package-show';
 import PackageEditPage from '../interactors/package-edit';
 import { entityAuthorityTypes } from '../../../src/constants';
@@ -12,6 +12,8 @@ describe('PackageShow', () => {
   let providerPackage;
   let resources;
   let accessType;
+
+  let a11yResults = null;
 
   beforeEach(function () {
     provider = this.server.create('provider', {
@@ -44,8 +46,14 @@ describe('PackageShow', () => {
   });
 
   describe('visiting the package details page', () => {
-    beforeEach(function () {
+    beforeEach(async function () {
       this.visit(`/eholdings/packages/${providerPackage.id}`);
+      await PackageShowPage.whenLoaded();
+      a11yResults = await axe.run();
+    });
+
+    it('should not have any a11y issues', () => {
+      expect(a11yResults.violations).to.be.empty;
     });
 
     it('displays the package name in the pane header', () => {
@@ -604,7 +612,7 @@ describe('PackageShow', () => {
   });
 
   describe('encountering a server error', () => {
-    beforeEach(function () {
+    beforeEach(async function () {
       this.server.get('/packages/:packageId', {
         errors: [{
           title: 'There was an error'
@@ -612,6 +620,11 @@ describe('PackageShow', () => {
       }, 500);
 
       this.visit(`/eholdings/packages/${providerPackage.id}`);
+      a11yResults = await axe.run();
+    });
+
+    it('should not have any a11y issues', () => {
+      expect(a11yResults.violations).to.be.empty;
     });
 
     it('displays the correct error text', () => {

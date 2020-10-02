@@ -111,6 +111,10 @@ import ExpandFilterPaneButtonInteractor from './expand-filter-pane-button';
   packageTitleList = collection('[data-test-query-list="package-titles"] li', {
     clickToTitle: clickable('a')
   });
+
+  whenLoaded() {
+    return this.when(() => isPresent('#search-pane'));
+  }
 }
 
 export default new PackageSearchPage('[data-test-eholdings]');
