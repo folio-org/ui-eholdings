@@ -11,6 +11,7 @@ import {
   Icon,
 } from '@folio/stripes/components';
 
+import { TIME_ZONE } from '../../constants';
 
 const COLUMN_NAMES = ['startDate', 'status', 'name'];
 const COLUMN_WIDTHS = {
@@ -78,6 +79,7 @@ export default class AgreementsList extends React.Component {
               year="numeric"
               month="numeric"
               day="numeric"
+              timeZone={TIME_ZONE}
             />
           ),
           status: agreementStatus.label,

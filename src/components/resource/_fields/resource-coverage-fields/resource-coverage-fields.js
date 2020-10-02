@@ -30,7 +30,7 @@ import {
 import {
   DATE_FORMAT,
   BACKEND_DATE_STANDARD,
-  TIME_ZOME,
+  TIME_ZONE,
 } from '../../../../constants';
 
 import styles from './resource-coverage-fields.css';
@@ -157,7 +157,7 @@ class ResourceCoverageFields extends Component {
         >
           <Field
             name={`${dateRange}.beginCoverage`}
-            timeZone={TIME_ZOME}
+            timeZone={TIME_ZONE}
             render={({ input, meta }) => (
               <Datepicker
                 dateFormat={DATE_FORMAT}
@@ -181,7 +181,7 @@ class ResourceCoverageFields extends Component {
         >
           <Field
             name={`${dateRange}.endCoverage`}
-            timeZone={TIME_ZOME}
+            timeZone={TIME_ZONE}
             render={({ input, meta }) => (
               <Datepicker
                 dateFormat={DATE_FORMAT}
