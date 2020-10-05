@@ -1,7 +1,7 @@
 import { expect } from 'chai';
 import { describe, beforeEach, it } from '@bigtest/mocha';
 
-import setupApplication from '../helpers/setup-application';
+import setupApplication, { axe } from '../helpers/setup-application';
 import PackageShowPage from '../interactors/package-show';
 import PackageEditPage from '../interactors/package-edit';
 
@@ -10,6 +10,8 @@ describe('CustomPackageEditVisibility', () => {
   let provider,
     providerPackage;
 
+  let a11yResults = null;
+
   beforeEach(function () {
     provider = this.server.create('provider', {
       name: 'Cool Provider'
@@ -17,7 +19,7 @@ describe('CustomPackageEditVisibility', () => {
   });
 
   describe('visiting the package edit page with a hidden package and a hidden reason', () => {
-    beforeEach(function () {
+    beforeEach(async function () {
       providerPackage = this.server.create('package', 'isHidden', {
         provider,
         name: 'Cool Package',
@@ -25,6 +27,12 @@ describe('CustomPackageEditVisibility', () => {
         isCustom: true,
       });
       this.visit(`/eholdings/packages/${providerPackage.id}/edit`);
+      await PackageEditPage.whenLoaded();
+      a11yResults = await axe.run();
+    });
+
+    it('should not have any a11y issues', () => {
+      expect(a11yResults.violations).to.be.empty;
     });
 
     it('displays the correct visibility status', () => {
@@ -55,8 +63,13 @@ describe('CustomPackageEditVisibility', () => {
       });
 
       describe('clicking cancel', () => {
-        beforeEach(() => {
-          return PackageEditPage.toggleIsVisible().clickBackButton();
+        beforeEach(async () => {
+          await PackageEditPage.toggleIsVisible().clickBackButton();
+          a11yResults = await axe.run();
+        });
+
+        it('should not have any a11y issues', () => {
+          expect(a11yResults.violations).to.be.empty;
         });
 
         it('shows a navigation confirmation modal', () => {
@@ -101,7 +114,7 @@ describe('CustomPackageEditVisibility', () => {
   });
 
   describe('visiting the package edit page with a package that is not hidden', () => {
-    beforeEach(function () {
+    beforeEach(async function () {
       providerPackage = this.server.create('package', {
         provider,
         name: 'Cool Package',
@@ -110,6 +123,17 @@ describe('CustomPackageEditVisibility', () => {
         isVisible: true
       });
       this.visit(`/eholdings/packages/${providerPackage.id}/edit`);
+    });
+
+    describe('waiting for axe to run', () => {
+      beforeEach(async () => {
+        await PackageShowPage.whenLoaded();
+        a11yResults = await axe.run();
+      });
+
+      it('should not have any a11y issues', () => {
+        expect(a11yResults.violations).to.be.empty;
+      });
     });
 
     it('displays the correct visibility status', () => {

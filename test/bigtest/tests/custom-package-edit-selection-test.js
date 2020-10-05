@@ -1,7 +1,7 @@
 import { expect } from 'chai';
 import { describe, beforeEach, it } from '@bigtest/mocha';
 
-import setupApplication from '../helpers/setup-application';
+import setupApplication, { axe } from '../helpers/setup-application';
 import PackageShowPage from '../interactors/package-show';
 import PackageEditPage from '../interactors/package-edit';
 
@@ -9,6 +9,8 @@ describe('CustomPackageEditSelection', () => {
   setupApplication();
   let provider,
     providerPackage;
+
+  let a11yResults = null;
 
   beforeEach(function () {
     provider = this.server.create('provider', {
@@ -27,6 +29,11 @@ describe('CustomPackageEditSelection', () => {
     beforeEach(async function () {
       this.visit(`/eholdings/packages/${providerPackage.id}/edit`);
       await PackageEditPage.whenLoaded();
+      a11yResults = await axe.run();
+    });
+
+    it('should not have any a11y issues', () => {
+      expect(a11yResults.violations).to.be.empty;
     });
 
     it('displays the correct holdings status (ON)', () => {
@@ -48,10 +55,16 @@ describe('CustomPackageEditSelection', () => {
     });
 
     describe('deleting the custom package', () => {
-      beforeEach(() => {
-        return PackageEditPage
+      beforeEach(async () => {
+        await PackageEditPage
           .actionsDropDown.clickDropDownButton()
           .dropDownMenu.removeFromHoldings.click();
+
+        a11yResults = await axe.run();
+      });
+
+      it('should not have any a11y issues', () => {
+        expect(a11yResults.violations).to.be.empty;
       });
 
       it('shows the deletion confirmation modal', () => {
@@ -112,7 +125,7 @@ describe('CustomPackageEditSelection', () => {
   });
 
   describe('visiting the package edit page with a totally selected package', () => {
-    beforeEach(function () {
+    beforeEach(async function () {
       providerPackage = this.server.create('package', {
         provider,
         name: 'Cool Package',
@@ -120,6 +133,12 @@ describe('CustomPackageEditSelection', () => {
         isSelected: true
       });
       this.visit(`/eholdings/packages/${providerPackage.id}/edit`);
+      await PackageEditPage.whenLoaded();
+      a11yResults = await axe.run();
+    });
+
+    it('should not have any a11y issues', () => {
+      expect(a11yResults.violations).to.be.empty;
     });
 
     describe('holding status section', () => {
@@ -271,10 +290,16 @@ describe('CustomPackageEditSelection', () => {
     });
 
     describe('deselecting the package', () => {
-      beforeEach(() => {
-        return PackageEditPage
+      beforeEach(async () => {
+        await PackageEditPage
           .actionsDropDown.clickDropDownButton()
           .dropDownMenu.removeFromHoldings.click();
+
+        a11yResults = await axe.run();
+      });
+
+      it('should not have any a11y issues', () => {
+        expect(a11yResults.violations).to.be.empty;
       });
 
       it('shows the deselection confirmation modal', () => {

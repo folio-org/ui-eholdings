@@ -22,11 +22,17 @@ function validate(value, { hasCoverageStatement }) {
 
 export default class CoverageStatementFields extends Component {
   static propTypes = {
-    coverageDates: PropTypes.node
+    'aria-labelledby': PropTypes.string,
+    coverageDates: PropTypes.node,
   };
 
   render() {
-    const { coverageDates } = this.props;
+    const {
+      coverageDates,
+      ...rest
+    } = this.props;
+
+    const ariaLabelledBy = rest['aria-labelledby'];
 
     return (
       <fieldset>
@@ -54,6 +60,7 @@ export default class CoverageStatementFields extends Component {
             name="coverageStatement"
             component={TextArea}
             validate={validate}
+            aria-labelledby={ariaLabelledBy}
           />
         </div>
       </fieldset>

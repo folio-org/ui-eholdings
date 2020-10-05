@@ -469,25 +469,27 @@ class ManagedPackageEdit extends Component {
                             <AccessTypeEditSection accessStatusTypes={accessStatusTypes} />
                             {supportsProviderTokens && (
                               <fieldset>
-                                <Headline tag="legend">
+                                <Headline tag="legend" id="provider-token-label">
                                   <FormattedMessage id="ui-eholdings.provider.token" />
                                 </Headline>
                                 <TokenField
                                   token={provider.providerToken}
                                   tokenValue={hasProviderTokenValue}
                                   type="provider"
+                                  aria-labelledby="provider-token-label"
                                 />
                               </fieldset>
                             )}
                             {supportsPackageTokens && (
                               <fieldset>
-                                <Headline tag="legend">
+                                <Headline tag="legend" id="package-token-label">
                                   <FormattedMessage id="ui-eholdings.package.token" />
                                 </Headline>
                                 <TokenField
                                   token={model.packageToken}
                                   tokenValue={hasPackageTokenValue}
                                   type="package"
+                                  aria-labelledby="package-token-label"
                                 />
                               </fieldset>
                             )}

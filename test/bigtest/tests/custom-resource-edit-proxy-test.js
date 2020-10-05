@@ -1,7 +1,7 @@
 import { beforeEach, describe, it } from '@bigtest/mocha';
 import { expect } from 'chai';
 
-import setupApplication from '../helpers/setup-application';
+import setupApplication, { axe } from '../helpers/setup-application';
 import ResourceEditPage from '../interactors/resource-edit';
 import ResourceShowPage from '../interactors/resource-show';
 
@@ -11,6 +11,8 @@ describe('CustomResourceEditProxy', () => {
     providerPackage,
     title,
     resource;
+
+  let a11yResults = null;
 
   beforeEach(function () {
     provider = this.server.create('provider', {
@@ -50,7 +52,7 @@ describe('CustomResourceEditProxy', () => {
   });
 
   describe('visiting the resource edit page with an inherited proxy', () => {
-    beforeEach(function () {
+    beforeEach(async function () {
       const resourceProxy = this.server.create('proxy', {
         inherited: true,
         id: 'bigTestJS'
@@ -59,6 +61,12 @@ describe('CustomResourceEditProxy', () => {
       resource.save();
 
       this.visit(`/eholdings/resources/${resource.id}/edit`);
+      await ResourceEditPage.whenLoaded();
+      a11yResults = await axe.run();
+    });
+
+    it('should not have any a11y issues', () => {
+      expect(a11yResults.violations).to.be.empty;
     });
 
     it('disables the save button', () => {

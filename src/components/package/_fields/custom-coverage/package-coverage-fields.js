@@ -65,7 +65,7 @@ class PackageCoverageFields extends Component {
     return errors;
   }
 
-  renderField = (dateRange) => {
+  renderField = (dateRange, index) => {
     return (
       <Row>
         <Col
@@ -84,7 +84,7 @@ class PackageCoverageFields extends Component {
                 format={formatDate}
                 backendDateStandard={BACKEND_DATE_STANDARD}
                 error={meta.error}
-                id="begin-coverage"
+                id={`begin-coverage-${index}`}
                 input={input}
                 label={<FormattedMessage id="ui-eholdings.date.startDate" />}
                 useInput
@@ -109,7 +109,7 @@ class PackageCoverageFields extends Component {
                 format={formatDate}
                 backendDateStandard={BACKEND_DATE_STANDARD}
                 error={meta.error}
-                id="begin-coverage"
+                id={`end-coverage-${index}`}
                 input={input}
                 label={<FormattedMessage id="ui-eholdings.date.endDate" />}
                 useInput

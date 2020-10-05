@@ -1,7 +1,7 @@
 import { beforeEach, describe, it } from '@bigtest/mocha';
 import { expect } from 'chai';
 
-import setupApplication from '../helpers/setup-application';
+import setupApplication, { axe } from '../helpers/setup-application';
 import ResourceEditPage from '../interactors/resource-edit';
 import ResourceShowPage from '../interactors/resource-show';
 
@@ -15,6 +15,8 @@ describe('CustomResourceEditAccessType', () => {
   let title;
   let resource;
   let accessType;
+
+  let a11yResults = null;
 
   beforeEach(function () {
     provider = this.server.create('provider', {
@@ -53,9 +55,15 @@ describe('CustomResourceEditAccessType', () => {
   });
 
   describe('when Access status types were not set in settings', () => {
-    beforeEach(function () {
+    beforeEach(async function () {
       this.server.get('/access-types', () => []);
       this.visit(`/eholdings/resources/${resource.id}/edit`);
+      await ResourceEditPage.whenLoaded();
+      a11yResults = await axe.run();
+    });
+
+    it('should not have any a11y issues', () => {
+      expect(a11yResults.violations).to.be.empty;
     });
 
     it('should not render Access type select', () => {
@@ -65,8 +73,14 @@ describe('CustomResourceEditAccessType', () => {
 
   describe('when Access status types were set in settings', () => {
     describe('when Resource does not have Access status type selected', () => {
-      beforeEach(function () {
+      beforeEach(async function () {
         this.visit(`/eholdings/resources/${resource.id}/edit`);
+        await ResourceEditPage.whenLoaded();
+        a11yResults = await axe.run();
+      });
+
+      it('should not have any a11y issues', () => {
+        expect(a11yResults.violations).to.be.empty;
       });
 
       it('should have unselected option as default value', () => {

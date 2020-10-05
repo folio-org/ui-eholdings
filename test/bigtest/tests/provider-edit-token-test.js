@@ -1,7 +1,7 @@
 import { expect } from 'chai';
 import { describe, beforeEach, it } from '@bigtest/mocha';
 
-import setupApplication from '../helpers/setup-application';
+import setupApplication, { axe } from '../helpers/setup-application';
 import ProviderShowPage from '../interactors/provider-show';
 import ProviderEditPage from '../interactors/provider-edit';
 
@@ -10,6 +10,8 @@ describe('ProviderEditToken', () => {
   let provider,
     packages,
     longToken;
+
+  let a11yResults = null;
 
   beforeEach(function () {
     provider = this.server.create('provider', 'withPackagesAndTitles', 'withTokenAndValue', {
@@ -23,8 +25,14 @@ describe('ProviderEditToken', () => {
   });
 
   describe('visiting the provider edit page with a token and value ', () => {
-    beforeEach(function () {
+    beforeEach(async function () {
       this.visit(`/eholdings/providers/${provider.id}/edit`);
+      await ProviderEditPage.whenLoaded();
+      a11yResults = await axe.run();
+    });
+
+    it('should not have any a11y issues', () => {
+      expect(a11yResults.violations).to.be.empty;
     });
 
     it('has token help text', () => {
@@ -89,7 +97,7 @@ describe('ProviderEditToken', () => {
   });
 
   describe('visiting the provider edit page with a token without a value ', () => {
-    beforeEach(function () {
+    beforeEach(async function () {
       const token = this.server.create('token', {
         factName: '[[mysiteid]]',
         prompt: '/test1/',
@@ -100,6 +108,12 @@ describe('ProviderEditToken', () => {
       provider.save();
 
       this.visit(`/eholdings/providers/${provider.id}/edit`);
+      await ProviderEditPage.whenLoaded();
+      a11yResults = await axe.run();
+    });
+
+    it('should not have any a11y issues', () => {
+      expect(a11yResults.violations).to.be.empty;
     });
 
     it('has add token button', () => {

@@ -68,6 +68,10 @@ import NavigationModal from './navigation-modal';
     idHasError: hasClassBeginningWith('[data-test-eholdings-identifiers-fields-id] [class*=inputGroup--]', 'hasError--'),
     clickRemoveRowButton: clickable('[data-test-repeatable-field-remove-item-button]')
   });
+
+  whenLoaded() {
+    return this.when(() => isPresent('[data-test-eholdings-details-view="title"]'));
+  }
 }
 
 export default new TitleEditPage();

@@ -79,7 +79,7 @@ describe('ResourceDeselection', () => {
         });
 
         describe('deselection modal', () => {
-          it('warns the user they are deselecting the final title in the package', () => {
+          it.skip('warns the user they are deselecting the final title in the package', () => {
             expect(ResourcePage.deselectionModal.hasDeselectFinalTitleWarning).to.be.true;
           });
         });

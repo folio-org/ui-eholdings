@@ -1,7 +1,7 @@
 import { expect } from 'chai';
 import { describe, beforeEach, it } from '@bigtest/mocha';
 
-import setupApplication from '../helpers/setup-application';
+import setupApplication, { axe } from '../helpers/setup-application';
 import PackageShowPage from '../interactors/package-show';
 import PackageEditPage from '../interactors/package-edit';
 
@@ -9,6 +9,8 @@ describe('CustomPackageEditProxy', () => {
   setupApplication();
   let provider,
     providerPackage;
+
+  let a11yResults = null;
 
   beforeEach(function () {
     provider = this.server.create('provider', {
@@ -27,6 +29,12 @@ describe('CustomPackageEditProxy', () => {
   describe('visiting the package edit page', () => {
     beforeEach(async function () {
       this.visit(`/eholdings/packages/${providerPackage.id}/edit`);
+      await PackageEditPage.whenLoaded();
+      a11yResults = await axe.run();
+    });
+
+    it('should not have any a11y issues', () => {
+      expect(a11yResults.violations).to.be.empty;
     });
 
     it('has a select containing the current proxy value', () => {
@@ -41,6 +49,12 @@ describe('CustomPackageEditProxy', () => {
 
         providerPackage.update('proxy', proxy.toJSON());
         this.visit(`/eholdings/packages/${providerPackage.id}/edit`);
+        await PackageEditPage.whenLoaded();
+        a11yResults = await axe.run();
+      });
+
+      it('should not have any a11y issues', () => {
+        expect(a11yResults.violations).to.be.empty;
       });
 
       it.skip('has a select containing the current proxy value', () => {
@@ -49,8 +63,13 @@ describe('CustomPackageEditProxy', () => {
     });
 
     describe('selecting a new proxy value', () => {
-      beforeEach(() => {
-        return PackageEditPage.chooseProxy('Inherited - bigTestJS');
+      beforeEach(async () => {
+        await PackageEditPage.chooseProxy('Inherited - bigTestJS');
+        a11yResults = await axe.run();
+      });
+
+      it('should not have any a11y issues', () => {
+        expect(a11yResults.violations).to.be.empty;
       });
 
       it('enables the save button', () => {

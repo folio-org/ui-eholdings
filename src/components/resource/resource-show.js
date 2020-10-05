@@ -256,7 +256,6 @@ class ResourceShow extends Component {
         type: 'success'
       });
     }
-    const headerProps = { role: 'tab' };
 
     return (
       <>
@@ -281,7 +280,6 @@ class ResourceShow extends Component {
                 open={sections.resourceShowTags}
                 tagsModel={tagsModel}
                 updateFolioTags={updateFolioTags}
-                headerProps={headerProps}
               />
 
               <Accordion
@@ -289,7 +287,6 @@ class ResourceShow extends Component {
                 open={sections.resourceShowHoldingStatus}
                 id="resourceShowHoldingStatus"
                 onToggle={this.handleSectionToggle}
-                headerProps={headerProps}
               >
                 <label
                   data-test-eholdings-resource-show-selected
@@ -337,7 +334,6 @@ class ResourceShow extends Component {
                 open={sections.resourceShowInformation}
                 id="resourceShowInformation"
                 onToggle={this.handleSectionToggle}
-                headerProps={headerProps}
               >
                 <KeyValueColumns>
                   <div>
@@ -450,7 +446,6 @@ class ResourceShow extends Component {
                   onToggle={this.handleSectionToggle}
                   section={CustomLabelsShowSection}
                   userDefinedFields={userDefinedFields}
-                  headerProps={headerProps}
                 />}
 
               <Accordion
@@ -458,7 +453,6 @@ class ResourceShow extends Component {
                 open={sections.resourceShowSettings}
                 id="resourceShowSettings"
                 onToggle={this.handleSectionToggle}
-                headerProps={headerProps}
               >
                 <KeyValue label={<FormattedMessage id="ui-eholdings.label.showToPatrons" />}>
                   <div data-test-eholdings-resource-show-visibility>
@@ -519,7 +513,6 @@ class ResourceShow extends Component {
                 open={sections.resourceShowCoverageSettings}
                 id="resourceShowCoverageSettings"
                 onToggle={this.handleSectionToggle}
-                headerProps={headerProps}
               >
 
                 {hasManagedCoverages && !hasCustomCoverages && (
@@ -601,7 +594,6 @@ class ResourceShow extends Component {
                 refType={entityAuthorityTypes.RESOURCE}
                 isOpen={sections.resourceShowAgreements}
                 onToggle={this.handleSectionToggle}
-                headerProps={headerProps}
               />
 
               <NotesSmartAccordion
@@ -614,7 +606,6 @@ class ResourceShow extends Component {
                 entityId={model.id}
                 pathToNoteCreate={paths.NOTE_CREATE}
                 pathToNoteDetails={paths.NOTES}
-                headerProps={headerProps}
               />
             </>
           )}

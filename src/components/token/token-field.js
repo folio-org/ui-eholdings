@@ -11,6 +11,7 @@ import {
 
 export default class TokenField extends Component {
   static propTypes = {
+    'aria-labelledby': PropTypes.string,
     token: PropTypes.object,
     tokenValue: PropTypes.string,
     type: PropTypes.string
@@ -37,9 +38,14 @@ export default class TokenField extends Component {
 
   render() {
     /* eslint-disable react/no-danger */
-    const { token, type } = this.props;
+    const {
+      token,
+      type,
+      ...rest
+    } = this.props;
     const { showInputs } = this.state;
     const helpTextMarkup = { __html: token.helpText };
+    const ariaLabelledBy = rest['aria-labelledby'];
 
     return (showInputs) ? (
       <div>
@@ -52,9 +58,19 @@ export default class TokenField extends Component {
         </div>
         <div data-test-eholdings-token-value-textarea={type}>
           {type === 'provider' ? (
-            <Field name="providerTokenValue" component={TextArea} validate={this.validate} />
+            <Field
+              name="providerTokenValue"
+              component={TextArea}
+              validate={this.validate}
+              aria-labelledby={ariaLabelledBy}
+            />
           ) : (
-            <Field name="packageTokenValue" component={TextArea} validate={this.validate} />
+            <Field
+              name="packageTokenValue"
+              component={TextArea}
+              validate={this.validate}
+              aria-labelledby={ariaLabelledBy}
+            />
           )}
         </div>
       </div>

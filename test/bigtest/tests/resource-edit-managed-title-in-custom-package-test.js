@@ -1,7 +1,7 @@
 import { beforeEach, describe, it } from '@bigtest/mocha';
 import { expect } from 'chai';
 
-import setupApplication from '../helpers/setup-application';
+import setupApplication, { axe } from '../helpers/setup-application';
 import ResourcePage from '../interactors/resource-show';
 import ResourceEditPage from '../interactors/resource-edit';
 import PackageShowPage from '../interactors/package-show';
@@ -11,6 +11,8 @@ describe('ResourceEditManagedTitleInCustomPackage', () => {
   let provider,
     providerPackage,
     resource;
+
+  let a11yResults = null;
 
   beforeEach(function () {
     provider = this.server.create('provider', {
@@ -42,8 +44,14 @@ describe('ResourceEditManagedTitleInCustomPackage', () => {
   });
 
   describe('visiting the package details page', () => {
-    beforeEach(function () {
+    beforeEach(async function () {
       this.visit(`/eholdings/resources/${resource.titleId}/edit`);
+      await ResourceEditPage.whenLoaded();
+      a11yResults = await axe.run();
+    });
+
+    it('should not have any a11y issues', () => {
+      expect(a11yResults.violations).to.be.empty;
     });
 
     it('shows the managed resource as selected in my holdings', () => {
@@ -59,10 +67,16 @@ describe('ResourceEditManagedTitleInCustomPackage', () => {
     });
 
     describe('removing a managed resource', () => {
-      beforeEach(() => {
-        return ResourcePage
+      beforeEach(async () => {
+        await ResourcePage
           .actionsDropDown.clickDropDownButton()
           .dropDownMenu.clickRemoveFromHoldings();
+
+        a11yResults = await axe.run();
+      });
+
+      it('should not have any a11y issues', () => {
+        expect(a11yResults.violations).to.be.empty;
       });
 
       it('shows the confirmation modal', () => {
@@ -113,8 +127,13 @@ describe('ResourceEditManagedTitleInCustomPackage', () => {
       });
 
       describe('confirming the deselection', () => {
-        beforeEach(() => {
-          return ResourceEditPage.modal.confirmDeselection();
+        beforeEach(async () => {
+          await ResourceEditPage.modal.confirmDeselection();
+          a11yResults = await axe.run();
+        });
+
+        it('should not have any a11y issues', () => {
+          expect(a11yResults.violations).to.be.empty;
         });
 
         it('shows a toasts with an error message', () => {

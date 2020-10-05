@@ -324,8 +324,6 @@ class PackageShow extends Component {
       packageSelected,
     } = this.state;
 
-    const headerProps = { role: 'tab' };
-
     return (
       <>
         <TagsAccordion
@@ -335,7 +333,6 @@ class PackageShow extends Component {
           open={sections.packageShowTags}
           tagsModel={tagsModel}
           updateFolioTags={updateFolioTags}
-          headerProps={headerProps}
         />
 
         <Accordion
@@ -350,7 +347,6 @@ class PackageShow extends Component {
           open={sections.packageShowHoldingStatus}
           id="packageShowHoldingStatus"
           onToggle={this.handleSectionToggle}
-          headerProps={headerProps}
         >
           <SelectionStatus
             model={model}
@@ -370,7 +366,6 @@ class PackageShow extends Component {
           open={sections.packageShowInformation}
           id="packageShowInformation"
           onToggle={this.handleSectionToggle}
-          headerProps={headerProps}
         >
           <KeyValueColumns>
             <div>
@@ -431,7 +426,6 @@ class PackageShow extends Component {
           open={sections.packageShowSettings}
           id="packageShowSettings"
           onToggle={this.handleSectionToggle}
-          headerProps={headerProps}
         >
           {
             packageSelected
@@ -453,7 +447,6 @@ class PackageShow extends Component {
           open={sections.packageShowCoverageSettings}
           id="packageShowCoverageSettings"
           onToggle={this.handleSectionToggle}
-          headerProps={headerProps}
         >
           {
             packageSelected
@@ -505,7 +498,6 @@ class PackageShow extends Component {
           refType={entityAuthorityTypes.PACKAGE}
           isOpen={sections.packageShowAgreements}
           onToggle={this.handleSectionToggle}
-          headerProps={headerProps}
         />
 
         <NotesSmartAccordion
@@ -518,7 +510,6 @@ class PackageShow extends Component {
           entityId={model.id}
           pathToNoteCreate={paths.NOTE_CREATE}
           pathToNoteDetails={paths.NOTES}
-          headerProps={headerProps}
         />
       </>
     );

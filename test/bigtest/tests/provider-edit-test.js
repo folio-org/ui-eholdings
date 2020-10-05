@@ -1,7 +1,7 @@
 import { expect } from 'chai';
 import { describe, beforeEach, it } from '@bigtest/mocha';
 
-import setupApplication from '../helpers/setup-application';
+import setupApplication, { axe } from '../helpers/setup-application';
 import ProviderShowPage from '../interactors/provider-show';
 import ProviderEditPage from '../interactors/provider-edit';
 
@@ -9,6 +9,8 @@ describe('ProviderEdit', () => {
   setupApplication();
   let provider,
     packages;
+
+  let a11yResults = null;
 
   beforeEach(function () {
     provider = this.server.create('provider', 'withPackagesAndTitles', 'withProxy', {
@@ -22,8 +24,14 @@ describe('ProviderEdit', () => {
   });
 
   describe('visiting the provider edit page ', () => {
-    beforeEach(function () {
+    beforeEach(async function () {
       this.visit(`/eholdings/providers/${provider.id}/edit`);
+      await ProviderEditPage.whenLoaded();
+      a11yResults = await axe.run();
+    });
+
+    it('should not have any a11y issues', () => {
+      expect(a11yResults.violations).to.be.empty;
     });
 
     it('displays the provider name in the pane header', () => {
@@ -85,8 +93,13 @@ describe('ProviderEdit', () => {
       });
 
       describe('clicking close (navigate back) button', () => {
-        beforeEach(() => {
-          return ProviderEditPage.clickBackButton();
+        beforeEach(async () => {
+          await ProviderEditPage.clickBackButton();
+          a11yResults = await axe.run();
+        });
+
+        it('should not have any a11y issues', () => {
+          expect(a11yResults.violations).to.be.empty;
         });
 
         it('shows a navigation confirmation modal', () => {

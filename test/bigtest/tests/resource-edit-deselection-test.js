@@ -1,7 +1,7 @@
 import { beforeEach, describe, it } from '@bigtest/mocha';
 import { expect } from 'chai';
 
-import setupApplication from '../helpers/setup-application';
+import setupApplication, { axe } from '../helpers/setup-application';
 import ResourceShowPage from '../interactors/resource-show';
 import ResourceEditPage from '../interactors/resource-edit';
 
@@ -11,6 +11,8 @@ describe('ResourceEditDeselection', () => {
     title,
     providerPackage,
     resource;
+
+  let a11yResults = null;
 
   beforeEach(function () {
     provider = this.server.create('provider', {
@@ -37,8 +39,14 @@ describe('ResourceEditDeselection', () => {
   });
 
   describe('visiting the resource page', () => {
-    beforeEach(function () {
+    beforeEach(async function () {
       this.visit(`/eholdings/resources/${resource.id}/edit`);
+      await ResourceEditPage.whenLoaded();
+      a11yResults = await axe.run();
+    });
+
+    it('should not have any a11y issues', () => {
+      expect(a11yResults.violations).to.be.empty;
     });
 
     it('indicates that the resource is selected', () => {
@@ -46,12 +54,17 @@ describe('ResourceEditDeselection', () => {
     });
 
     describe('deselecting the resource', () => {
-      beforeEach(() => {
-        return ResourceShowPage
+      beforeEach(async () => {
+        await ResourceShowPage
           .actionsDropDown.clickDropDownButton()
           .dropDownMenu.clickRemoveFromHoldings();
+
+        a11yResults = await axe.run();
       });
 
+      it('should not have any a11y issues', () => {
+        expect(a11yResults.violations).to.be.empty;
+      });
 
       it('should show a confirmation modal', () => {
         expect(ResourceEditPage.modal.isPresent).to.equal(true);

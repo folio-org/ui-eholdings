@@ -3,7 +3,7 @@ import { expect } from 'chai';
 
 import moment from 'moment';
 
-import setupApplication from '../helpers/setup-application';
+import setupApplication, { axe } from '../helpers/setup-application';
 import ResourceEditPage from '../interactors/resource-edit';
 import ResourcePage from '../interactors/resource-show';
 
@@ -12,6 +12,8 @@ describe('CustomResourceEditCustomCoverage', () => {
   let pkg,
     title,
     resource;
+
+  let a11yResults = null;
 
   beforeEach(function () {
     pkg = this.server.create('package', 'withProvider');
@@ -35,11 +37,17 @@ describe('CustomResourceEditCustomCoverage', () => {
   });
 
   describe('visiting a selected custom resource edit page without custom coverage', () => {
-    beforeEach(function () {
+    beforeEach(async function () {
       resource.isSelected = true;
       resource.save();
 
       this.visit(`/eholdings/resources/${resource.id}/edit`);
+      await ResourceEditPage.whenLoaded();
+      a11yResults = await axe.run();
+    });
+
+    it('should not have any a11y issues', () => {
+      expect(a11yResults.violations).to.be.empty;
     });
 
     it('disables the save button', () => {
@@ -51,8 +59,13 @@ describe('CustomResourceEditCustomCoverage', () => {
     });
 
     describe('clicking the add date range button', () => {
-      beforeEach(() => {
-        return ResourceEditPage.clickAddRowButton();
+      beforeEach(async () => {
+        await ResourceEditPage.clickAddRowButton();
+        a11yResults = await axe.run();
+      });
+
+      it('should not have any a11y issues', () => {
+        expect(a11yResults.violations).to.be.empty;
       });
 
       it('shows a single row of inputs', () => {
@@ -116,11 +129,17 @@ describe('CustomResourceEditCustomCoverage', () => {
 
       describe('entering an invalid date range', () => {
         describe('entering an invalid begin date format', () => {
-          beforeEach(() => {
-            return ResourceEditPage.dateRangeRowList(0)
+          beforeEach(async () => {
+            await ResourceEditPage.dateRangeRowList(0)
               .fillDates('16/12/2018', '')
               .dateRangeRowList(0).beginDate.clearInput()
               .clickSave();
+
+            a11yResults = await axe.run();
+          });
+
+          it('should not have any a11y issues', () => {
+            expect(a11yResults.violations).to.be.empty;
           });
 
           it('indicates validation error on begin date', () => {

@@ -111,10 +111,15 @@ export default class ProviderEdit extends Component {
 
                           {supportsTokens && (
                             <fieldset>
-                              <Headline tag="legend">
+                              <Headline tag="legend" id="provider-token-label">
                                 <FormattedMessage id="ui-eholdings.provider.token" />
                               </Headline>
-                              <TokenField token={model.providerToken} tokenValue={hasTokenValue} type="provider" />
+                              <TokenField
+                                token={model.providerToken}
+                                tokenValue={hasTokenValue}
+                                type="provider"
+                                aria-labelledby="provider-token-label"
+                              />
                             </fieldset>
                           )}
                         </div>

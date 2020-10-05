@@ -301,17 +301,20 @@ class ResourceEditManagedTitle extends Component {
                           </Headline>
                           <CoverageFields model={model} />
 
-                          <Headline tag="h4">
+                          <Headline tag="h4" id="coverage-display-label">
                             <FormattedMessage id="ui-eholdings.label.coverageDisplay" />
                           </Headline>
                           <CoverageStatementFields
                             coverageDates={renderCoverageDates()}
+                            aria-labelledby="coverage-display-label"
                           />
 
-                          <Headline tag="h4">
+                          <Headline tag="h4" id="embargo-period-label">
                             <FormattedMessage id="ui-eholdings.resource.embargoPeriod" />
                           </Headline>
-                          <CustomEmbargoFields />
+                          <CustomEmbargoFields
+                            aria-labelledby="embargo-period-label"
+                          />
                         </>
                       ) : (
                         <p data-test-eholdings-resource-edit-settings-message>
