@@ -185,7 +185,7 @@ class AgreementsAccordion extends Component {
 
         <Toaster
           position="bottom"
-          toasts={this.getToastErrors()}
+          toasts={toasts}
         />
       </>
     );

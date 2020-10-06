@@ -26,12 +26,12 @@ const COLUMN_WIDTHS = {
 const propTypes = {
   agreements: PropTypes.shape({
     isLoading: PropTypes.bool.isRequired,
+    isUnassigned: PropTypes.bool.isRequired,
     items: PropTypes.arrayOf({
       id: PropTypes.string.isRequired,
       name: PropTypes.string.isRequired,
       startDate: PropTypes.string.isRequired,
     }).isRequired,
-    isUnassigned: PropTypes.bool.isRequired,
   }).isRequired,
   unassignAgreement: PropTypes.func.isRequired,
 };
@@ -107,12 +107,12 @@ const AgreementsList = ({
     startDate: ({ startDate }) => startDate,
     status: ({ status }) => status,
     name: ({ name }) => name,
-    actions: ({ id }) => (
+    actions: agreement => (
       <IconButton
         icon="trash"
         onClick={e => {
           e.preventDefault();
-          unassignAgreement({ id });
+          unassignAgreement({ id: agreement.id });
         }}
         data-test-delete-agreement
       />
