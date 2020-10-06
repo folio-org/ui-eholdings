@@ -29,6 +29,7 @@ const propTypes = {
     items: PropTypes.arrayOf({
       id: PropTypes.string.isRequired,
       name: PropTypes.string.isRequired,
+      startDate: PropTypes.string.isRequired,
     }).isRequired,
   }).isRequired,
   unassignAgreement: PropTypes.func.isRequired,
@@ -77,7 +78,7 @@ const AgreementsList = ({
     );
   };
 
-  const getResults = () => agreements.items.map(agreement => {
+  const contentData = agreements.items.map(agreement => {
     const {
       id,
       name,
@@ -124,7 +125,7 @@ const AgreementsList = ({
         id="agreements-list"
         interactive
         ariaLabel={formatMessage({ id: 'ui-eholdings.agreements' })}
-        contentData={getResults()}
+        contentData={contentData}
         visibleColumns={COLUMN_NAMES}
         columnMapping={columnsMap}
         columnWidths={COLUMN_WIDTHS}

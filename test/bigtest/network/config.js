@@ -287,7 +287,7 @@ export default function config() {
     const referenceId = reference.split('%3D')[1];
 
     return [{
-      id: "33fce77f-5e00-415e-a297-04b77319b84b",
+      id: '33fce77f-5e00-415e-a297-04b77319b84b',
       tags:[],
       owner: {
         id: ownerId,

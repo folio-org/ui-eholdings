@@ -87,7 +87,7 @@ const handlers = {
       items: items.filter(item => item.id !== unassignedAgreement.id),
       unassignedAgreement: {},
       isLoading: false,
-    }
+    };
   },
 };
 
