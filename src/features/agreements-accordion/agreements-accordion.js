@@ -44,6 +44,7 @@ class AgreementsAccordion extends Component {
     stripes: PropTypes.shape({
       hasPerm: PropTypes.func.isRequired,
     }).isRequired,
+    unassignAgreement: PropTypes.func.isRequired,
   }
 
   componentDidMount() {

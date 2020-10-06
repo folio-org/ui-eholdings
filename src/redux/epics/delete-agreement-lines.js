@@ -20,7 +20,7 @@ export default ({ agreementsApi }) => (action$, store) => {
 
       const items = payload.map(id => ({ id, _delete: true }));
 
-      const agreement = { 
+      const agreement = {
         ...unassignedAgreement,
         items,
       };

@@ -6,7 +6,6 @@ import {
   ADD_AGREEMENT,
   UNASSIGN_AGREEMENT,
   GET_AGREEMENT_LINES_FAILURE,
-  GET_AGREEMENT_LINES_SUCCESS,
   DELETE_AGREEMENT_LINES_FAILURE,
   DELETE_AGREEMENT_LINES_SUCCESS,
 } from '../actions';
@@ -89,7 +88,7 @@ const handlers = {
       unassignedAgreement: {},
       isLoading: false,
     }
-  }
+  },
 };
 
 const initialState = {

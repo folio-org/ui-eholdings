@@ -50,7 +50,7 @@ export default {
       method,
       headers: getHeaders(method, okapi, url),
     };
-    console.log(params);
+
     return doRequest(url, params);
   },
   deleteAgreementLines: (okapi, agreement) => {

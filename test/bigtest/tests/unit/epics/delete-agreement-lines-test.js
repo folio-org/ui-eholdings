@@ -42,7 +42,8 @@ describe('(epic) deleteAgreementLines', () => {
         }, {
           id: '1-2',
           _delete: true,
-      }],
+        },
+      ],
     };
 
     const dependencies = {

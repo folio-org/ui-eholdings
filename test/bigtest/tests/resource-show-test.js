@@ -197,7 +197,6 @@ describe('ResourceShow', () => {
           });
 
           it('should remove first agreement from aggreements list', () => {
-            console.log(ResourcePage.agreementsSection.agreements(0));
             expect(ResourcePage.agreementsSection.agreements().length).to.equal(2);
           });
         });

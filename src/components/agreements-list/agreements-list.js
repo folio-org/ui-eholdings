@@ -100,7 +100,7 @@ const AgreementsList = ({
       ),
     };
   });
-  
+
   const formatter = {
     startDate: ({ startDate }) => startDate,
     status: ({ status }) => status,
@@ -120,19 +120,19 @@ const AgreementsList = ({
   return agreements.isLoading
     ? <Icon icon="spinner-ellipsis" />
     : (
-        <MultiColumnList
-          id="agreements-list"
-          interactive
-          ariaLabel={formatMessage({ id: 'ui-eholdings.agreements' })}
-          contentData={getResults()}
-          visibleColumns={COLUMN_NAMES}
-          columnMapping={columnsMap}
-          columnWidths={COLUMN_WIDTHS}
-          isEmptyMessage={<FormattedMessage id="ui-eholdings.agreements.notFound" />}
-          rowFormatter={rowFormatter}
-          formatter={formatter}
-        />
-      );
+      <MultiColumnList
+        id="agreements-list"
+        interactive
+        ariaLabel={formatMessage({ id: 'ui-eholdings.agreements' })}
+        contentData={getResults()}
+        visibleColumns={COLUMN_NAMES}
+        columnMapping={columnsMap}
+        columnWidths={COLUMN_WIDTHS}
+        isEmptyMessage={<FormattedMessage id="ui-eholdings.agreements.notFound" />}
+        rowFormatter={rowFormatter}
+        formatter={formatter}
+      />
+    );
 };
 
 AgreementsList.propTypes = propTypes;
