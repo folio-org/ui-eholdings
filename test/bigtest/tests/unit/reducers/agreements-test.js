@@ -14,13 +14,14 @@ import {
   DELETE_AGREEMENT_LINES_SUCCESS,
 } from '../../../../../src/redux/actions';
 
-describe('(reducer) agreements', () => {
+describe.only('(reducer) agreements', () => {
   it('should return the initial state', () => {
     expect(agreements(undefined, {})).to.deep.equal({
       isLoading: false,
       items: [],
       errors: [],
       unassignedAgreement: {},
+      isUnassigned: false,
     });
   });
 
@@ -39,6 +40,7 @@ describe('(reducer) agreements', () => {
       items: 'items',
       isLoading: true,
       referenceId: '123',
+      isUnassigned: false,
     };
 
     expect(agreements(actualState, action)).to.deep.equal(expectedState);
@@ -75,6 +77,7 @@ describe('(reducer) agreements', () => {
     const expectedState = {
       items: 'items',
       isLoading: false,
+      isUnassigned: false,
       errors: [
         { title: 'error' },
       ],
@@ -93,6 +96,7 @@ describe('(reducer) agreements', () => {
     };
     const expectedState = {
       isLoading: false,
+      isUnassigned: false,
       errors: [
         { title: 'error' },
       ],
@@ -179,6 +183,7 @@ describe('(reducer) agreements', () => {
     };
     const expectedState = {
       isLoading: false,
+      isUnassigned: false,
       errors: [
         { title: 'error' },
       ],
@@ -197,6 +202,7 @@ describe('(reducer) agreements', () => {
     };
     const expectedState = {
       isLoading: false,
+      isUnassigned: false,
       errors: [
         { title: 'error' },
       ],
@@ -222,6 +228,7 @@ describe('(reducer) agreements', () => {
       items: [{ id: 2 }],
       isLoading: false,
       unassignedAgreement: {},
+      isUnassigned: true,
     };
 
     expect(agreements(actualState, action)).to.deep.equal(expectedState);
