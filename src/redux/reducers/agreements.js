@@ -15,6 +15,7 @@ import { formatErrors } from '../helpers';
 const handleError = (state, { payload }) => ({
   ...state,
   isLoading: false,
+  isUnassigned: false,
   errors: formatErrors(payload.errors),
 });
 
@@ -27,6 +28,7 @@ const handlers = {
     return {
       ...state,
       isLoading: true,
+      isUnassigned: false,
       ...payload,
     };
   },
@@ -87,6 +89,7 @@ const handlers = {
       items: items.filter(item => item.id !== unassignedAgreement.id),
       unassignedAgreement: {},
       isLoading: false,
+      isUnassigned: true,
     };
   },
 };
@@ -96,6 +99,7 @@ const initialState = {
   items: [],
   errors: [],
   unassignedAgreement: {},
+  isUnassigned: false,
 };
 
 export default function agreements(state, action) {

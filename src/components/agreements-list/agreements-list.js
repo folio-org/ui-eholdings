@@ -31,6 +31,7 @@ const propTypes = {
       name: PropTypes.string.isRequired,
       startDate: PropTypes.string.isRequired,
     }).isRequired,
+    isUnassigned: PropTypes.bool.isRequired,
   }).isRequired,
   unassignAgreement: PropTypes.func.isRequired,
 };

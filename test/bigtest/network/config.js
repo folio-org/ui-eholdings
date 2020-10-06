@@ -296,7 +296,7 @@ export default function config() {
         startDate: '2019-01-01T00:01:00Z',
         items: [],
         historyLines: [],
-        name: "Test",
+        name: 'Test',
         orgs: [],
         agreementStatus: {
           id: '2c918098689ba8f701689baa48e40011',

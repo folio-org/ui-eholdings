@@ -32,7 +32,16 @@ import styles from './agreements-accordion.css';
 
 class AgreementsAccordion extends Component {
   static propTypes = {
-    agreements: PropTypes.object.isRequired,
+    agreements: PropTypes.shape({
+      errors: PropTypes.array.isRequired,
+      isLoading: PropTypes.bool.isRequired,
+      isUnassigned: PropTypes.bool.isRequired,
+      items: PropTypes.arrayOf({
+        id: PropTypes.string.isRequired,
+        name: PropTypes.string.isRequired,
+        startDate: PropTypes.string.isRequired,
+      }).isRequired,
+    }).isRequired,
     attachAgreement: PropTypes.func.isRequired,
     getAgreements: PropTypes.func.isRequired,
     headerProps: PropTypes.object,
@@ -146,6 +155,16 @@ class AgreementsAccordion extends Component {
       headerProps,
       unassignAgreement,
     } = this.props;
+
+    const toasts = this.getToastErrors();
+
+    if (agreements.isUnassigned) {
+      toasts.push({
+        id: `success-agreement-unlink-${id}-${Date.now()}`,
+        message: <FormattedMessage id="ui-eholdings.agreements.unlink" />,
+        type: 'success'
+      });
+    }
 
     return (
       <>
