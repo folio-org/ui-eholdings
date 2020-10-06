@@ -22,6 +22,7 @@ import { selectPropFromData } from '../../redux/selectors';
 import {
   attachAgreement as attachAgreementAction,
   getAgreements as getAgreementsAction,
+  unassignAgreement as unassignAgreementAction,
 } from '../../redux/actions';
 
 import AgreementsList from '../../components/agreements-list';
@@ -142,6 +143,7 @@ class AgreementsAccordion extends Component {
       id,
       onToggle,
       headerProps,
+      unassignAgreement,
     } = this.props;
 
     return (
@@ -155,7 +157,10 @@ class AgreementsAccordion extends Component {
           onToggle={onToggle}
           headerProps={headerProps}
         >
-          <AgreementsList agreements={agreements} />
+          <AgreementsList
+            agreements={agreements}
+            unassignAgreement={unassignAgreement}
+          />
         </Accordion>
 
         <Toaster
@@ -173,5 +178,6 @@ export default connect(
   }), {
     getAgreements: getAgreementsAction,
     attachAgreement: attachAgreementAction,
+    unassignAgreement: unassignAgreementAction,
   }
 )(AgreementsAccordion);

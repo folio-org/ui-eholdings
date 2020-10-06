@@ -7,6 +7,7 @@ import {
   includesWords,
   getMultiSelectValueFromQueryString,
 } from './helpers';
+import queryString from 'qs';
 
 // typical mirage config export
 export default function config() {
@@ -175,6 +176,7 @@ export default function config() {
     ]
   }));
 
+  // Agreements endpoints
   this.get('/erm/sas', [
     {
       id: '2c918098689ba8f70168a349f1160027',
@@ -278,6 +280,47 @@ export default function config() {
         'label': 'Active',
       },
     };
+  });
+
+  this.get('/erm/entitlements', (schema, request) => {
+    const [ ,owner, reference] = request.url.split('filters=');
+    const ownerId = owner.split('%3D')[1].slice(0, -1);
+    const referenceId = reference.split('%3D')[1];
+
+    return [{
+        id: "33fce77f-5e00-415e-a297-04b77319b84b",
+        tags:[],
+        owner: {
+          id: ownerId,
+          contacts: [],
+          tags: [],
+          startDate: '2019-01-01T00:01:00Z',
+          items: [],
+          historyLines: [],
+          name: "Test",
+          orgs: [],
+          agreementStatus: {
+            id: '2c918098689ba8f701689baa48e40011',
+            value: 'active',
+            label: 'Active',
+          },
+        },
+        resource: {
+          id: referenceId,
+          suppressFromDiscovery: false,
+          tags: [],
+        },
+        poLines: [],
+        suppressFromDiscovery: false,
+        customCoverage: false,
+        startDate: null,
+        endDate: null,
+        activeFrom: null,
+        activeTo: null,
+        contentUpdated: null,
+        haveAccess: true,
+        suppressFromDiscovery: false,
+      }];
   });
 
   // e-holdings endpoints
