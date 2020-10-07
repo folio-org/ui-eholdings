@@ -41,7 +41,6 @@ describe('(reducer) agreements', () => {
       items: 'items',
       isLoading: true,
       referenceId: '123',
-      isUnassigned: false,
     };
 
     expect(agreements(actualState, action)).to.deep.equal(expectedState);
@@ -155,7 +154,6 @@ describe('(reducer) agreements', () => {
 
   it('should handle UNASSIGN_AGREEMENT', () => {
     const actualState = {
-      isLoading: false,
       items: [
         { id: 1 },
         { id: 2 },
@@ -167,16 +165,14 @@ describe('(reducer) agreements', () => {
     };
     const expectedState = {
       ...actualState,
-      isLoading: true,
       unassignedAgreement: { id: 1 },
     };
 
     expect(agreements(actualState, action)).to.deep.equal(expectedState);
   });
 
-  it('should handle UNASSIGN_AGREEMENT whit not-existend id', () => {
+  it('should handle UNASSIGN_AGREEMENT with not-existend id', () => {
     const actualState = {
-      isLoading: false,
       items: [
         { id: 1 },
         { id: 2 },
@@ -188,7 +184,6 @@ describe('(reducer) agreements', () => {
     };
     const expectedState = {
       ...actualState,
-      isLoading: true,
       unassignedAgreement: {},
     };
 
