@@ -23,6 +23,7 @@ import {
   attachAgreement as attachAgreementAction,
   getAgreements as getAgreementsAction,
   unassignAgreement as unassignAgreementAction,
+  confirmUnassignAgreement as confirmUnassignAgreementAction,
 } from '../../redux/actions';
 
 import AgreementsList from '../../components/agreements-list';
@@ -43,6 +44,7 @@ class AgreementsAccordion extends Component {
       }).isRequired,
     }).isRequired,
     attachAgreement: PropTypes.func.isRequired,
+    confirmUnassignAgreement: PropTypes.func.isRequired,
     getAgreements: PropTypes.func.isRequired,
     headerProps: PropTypes.object,
     id: PropTypes.string.isRequired,
@@ -68,6 +70,17 @@ class AgreementsAccordion extends Component {
     }
   }
 
+  componentDidUpdate() {
+    const {
+      agreements: { isUnassigned },
+      confirmUnassignAgreement,
+    } = this.props;
+
+    if (isUnassigned) {
+      confirmUnassignAgreement();
+    }
+  }
+
   getAgreementsAccordionHeader = () => {
     return (
       <Headline
@@ -77,15 +90,6 @@ class AgreementsAccordion extends Component {
         <FormattedMessage id="ui-eholdings.agreements" />
       </Headline>
     );
-  }
-
-  getToastErrors() {
-    return this.props.agreements.errors.map((error) => {
-      return {
-        message: error.title,
-        type: 'error',
-      };
-    });
   }
 
   renderFindAgreementTrigger = (props) => {
@@ -146,6 +150,31 @@ class AgreementsAccordion extends Component {
     attachAgreement(new Agreement(agreementParams));
   };
 
+  get toasts() {
+    const {
+      id,
+      agreements: {
+        errors,
+        isUnassigned,
+      },
+    } = this.props;
+
+    const toasts = errors.map(error => ({
+      message: error.title,
+      type: 'error',
+    }));
+
+    if (isUnassigned) {
+      toasts.push({
+        id: `success-agreement-unlink-${id}-${Date.now()}`,
+        message: <FormattedMessage id="ui-eholdings.agreements.unlink" />,
+        type: 'success'
+      });
+    }
+
+    return toasts;
+  }
+
   render() {
     const {
       agreements,
@@ -155,16 +184,6 @@ class AgreementsAccordion extends Component {
       headerProps,
       unassignAgreement,
     } = this.props;
-
-    const toasts = this.getToastErrors();
-
-    if (agreements.isUnassigned) {
-      toasts.push({
-        id: `success-agreement-unlink-${id}-${Date.now()}`,
-        message: <FormattedMessage id="ui-eholdings.agreements.unlink" />,
-        type: 'success'
-      });
-    }
 
     return (
       <>
@@ -185,7 +204,7 @@ class AgreementsAccordion extends Component {
 
         <Toaster
           position="bottom"
-          toasts={toasts}
+          toasts={this.toasts}
         />
       </>
     );
@@ -199,5 +218,6 @@ export default connect(
     getAgreements: getAgreementsAction,
     attachAgreement: attachAgreementAction,
     unassignAgreement: unassignAgreementAction,
+    confirmUnassignAgreement: confirmUnassignAgreementAction,
   }
 )(AgreementsAccordion);

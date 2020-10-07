@@ -12,6 +12,7 @@ import {
   GET_AGREEMENT_LINES_FAILURE,
   DELETE_AGREEMENT_LINES_FAILURE,
   DELETE_AGREEMENT_LINES_SUCCESS,
+  CONFIRM_UNASSIGN_AGREEMENT,
 } from '../../../../../src/redux/actions';
 
 describe('(reducer) agreements', () => {
@@ -254,4 +255,20 @@ describe('(reducer) agreements', () => {
 
     expect(agreements(actualState, action)).to.deep.equal(expectedState);
   });
+
+  it('should handle CONFIRM_UNASSIGN_AGREEMENT', () => {
+    const actualState = {
+      isLoading: false,
+      items: [],
+      isUnassigned: true,
+    };
+    const action = { type: CONFIRM_UNASSIGN_AGREEMENT };
+    const expectedState = {
+      items: [],
+      isLoading: false,
+      isUnassigned: false,
+    };
+
+    expect(agreements(actualState, action)).to.deep.equal(expectedState);
+  })
 });

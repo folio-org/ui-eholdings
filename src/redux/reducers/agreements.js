@@ -8,6 +8,7 @@ import {
   GET_AGREEMENT_LINES_FAILURE,
   DELETE_AGREEMENT_LINES_FAILURE,
   DELETE_AGREEMENT_LINES_SUCCESS,
+  CONFIRM_UNASSIGN_AGREEMENT,
 } from '../actions';
 
 import { formatErrors } from '../helpers';
@@ -28,7 +29,6 @@ const handlers = {
     return {
       ...state,
       isLoading: true,
-      isUnassigned: false,
       ...payload,
     };
   },
@@ -90,6 +90,12 @@ const handlers = {
       unassignedAgreement: {},
       isLoading: false,
       isUnassigned: true,
+    };
+  },
+  [CONFIRM_UNASSIGN_AGREEMENT]: state => {
+    return {
+      ...state,
+      isUnassigned: false,
     };
   },
 };
