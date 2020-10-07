@@ -14,7 +14,7 @@ import {
   DELETE_AGREEMENT_LINES_SUCCESS,
 } from '../../../../../src/redux/actions';
 
-describe.only('(reducer) agreements', () => {
+describe('(reducer) agreements', () => {
   it('should return the initial state', () => {
     expect(agreements(undefined, {})).to.deep.equal({
       isLoading: false,
