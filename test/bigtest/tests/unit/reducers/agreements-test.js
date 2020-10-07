@@ -173,6 +173,27 @@ describe('(reducer) agreements', () => {
     expect(agreements(actualState, action)).to.deep.equal(expectedState);
   });
 
+  it('should handle UNASSIGN_AGREEMENT whit not-existend id', () => {
+    const actualState = {
+      isLoading: false,
+      items: [
+        { id: 1 },
+        { id: 2 },
+      ],
+    };
+    const action = {
+      type: UNASSIGN_AGREEMENT,
+      payload: { id: 3 },
+    };
+    const expectedState = {
+      ...actualState,
+      isLoading: true,
+      unassignedAgreement: {},
+    };
+
+    expect(agreements(actualState, action)).to.deep.equal(expectedState);
+  });
+
   it('should handle GET_AGREEMENT_LINES_FAILURE', () => {
     const actualState = {
       isLoading: true,
