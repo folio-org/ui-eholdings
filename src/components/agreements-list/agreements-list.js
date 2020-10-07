@@ -17,10 +17,10 @@ import { TIME_ZONE } from '../../constants';
 
 const COLUMN_NAMES = ['startDate', 'status', 'name', 'actions'];
 const COLUMN_WIDTHS = {
-  startDate: '30%',
-  name: '30%',
-  status: '30%',
-  actions: '10%',
+  startDate: '32%',
+  name: '32%',
+  status: '32%',
+  actions: '4%',
 };
 
 const propTypes = {
