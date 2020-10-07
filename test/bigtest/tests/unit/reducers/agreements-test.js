@@ -270,5 +270,5 @@ describe('(reducer) agreements', () => {
     };
 
     expect(agreements(actualState, action)).to.deep.equal(expectedState);
-  })
+  });
 });
