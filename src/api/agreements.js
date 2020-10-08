@@ -41,5 +41,28 @@ export default {
     };
 
     return doRequest(url, params);
+  },
+  getAgreementLines: (okapi, agreementId, refId) => {
+    const method = 'GET';
+    const url = `${okapi.url}/erm/entitlements?filters=owner%3D${agreementId}&filters=reference%3D${refId}`;
+
+    const params = {
+      method,
+      headers: getHeaders(method, okapi, url),
+    };
+
+    return doRequest(url, params);
+  },
+  deleteAgreementLines: (okapi, agreement) => {
+    const method = 'PUT';
+    const url = `${okapi.url}${API_URL}/${agreement.id}`;
+
+    const params = {
+      method,
+      headers: getHeaders(method, okapi, url),
+      body: JSON.stringify(agreement),
+    };
+
+    return doRequest(url, params);
   }
 };

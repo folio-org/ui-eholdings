@@ -8,6 +8,11 @@ import {
   GET_AGREEMENTS_FAILURE,
   ADD_AGREEMENT,
   ATTACH_AGREEMENT_FAILURE,
+  UNASSIGN_AGREEMENT,
+  GET_AGREEMENT_LINES_FAILURE,
+  DELETE_AGREEMENT_LINES_FAILURE,
+  DELETE_AGREEMENT_LINES_SUCCESS,
+  CONFIRM_UNASSIGN_AGREEMENT,
 } from '../../../../../src/redux/actions';
 
 describe('(reducer) agreements', () => {
@@ -16,6 +21,8 @@ describe('(reducer) agreements', () => {
       isLoading: false,
       items: [],
       errors: [],
+      unassignedAgreement: {},
+      isUnassigned: false,
     });
   });
 
@@ -70,6 +77,7 @@ describe('(reducer) agreements', () => {
     const expectedState = {
       items: 'items',
       isLoading: false,
+      isUnassigned: false,
       errors: [
         { title: 'error' },
       ],
@@ -88,6 +96,7 @@ describe('(reducer) agreements', () => {
     };
     const expectedState = {
       isLoading: false,
+      isUnassigned: false,
       errors: [
         { title: 'error' },
       ],
@@ -138,6 +147,121 @@ describe('(reducer) agreements', () => {
         { id: 1, data: 'data1' },
         { id: 2, data: 'data2' },
       ],
+    };
+
+    expect(agreements(actualState, action)).to.deep.equal(expectedState);
+  });
+
+  it('should handle UNASSIGN_AGREEMENT', () => {
+    const actualState = {
+      items: [
+        { id: 1 },
+        { id: 2 },
+      ],
+    };
+    const action = {
+      type: UNASSIGN_AGREEMENT,
+      payload: { id: 1 },
+    };
+    const expectedState = {
+      ...actualState,
+      unassignedAgreement: { id: 1 },
+    };
+
+    expect(agreements(actualState, action)).to.deep.equal(expectedState);
+  });
+
+  it('should handle UNASSIGN_AGREEMENT with not-existend id', () => {
+    const actualState = {
+      items: [
+        { id: 1 },
+        { id: 2 },
+      ],
+    };
+    const action = {
+      type: UNASSIGN_AGREEMENT,
+      payload: { id: 3 },
+    };
+    const expectedState = {
+      ...actualState,
+      unassignedAgreement: {},
+    };
+
+    expect(agreements(actualState, action)).to.deep.equal(expectedState);
+  });
+
+  it('should handle GET_AGREEMENT_LINES_FAILURE', () => {
+    const actualState = {
+      isLoading: true,
+    };
+    const action = {
+      type: GET_AGREEMENT_LINES_FAILURE,
+      payload: { errors: 'error' }
+    };
+    const expectedState = {
+      isLoading: false,
+      isUnassigned: false,
+      errors: [
+        { title: 'error' },
+      ],
+    };
+
+    expect(agreements(actualState, action)).to.deep.equal(expectedState);
+  });
+
+  it('should handle DELETE_AGREEMENT_LINES_FAILURE', () => {
+    const actualState = {
+      isLoading: true,
+    };
+    const action = {
+      type: DELETE_AGREEMENT_LINES_FAILURE,
+      payload: { errors: 'error' }
+    };
+    const expectedState = {
+      isLoading: false,
+      isUnassigned: false,
+      errors: [
+        { title: 'error' },
+      ],
+    };
+
+    expect(agreements(actualState, action)).to.deep.equal(expectedState);
+  });
+
+  it('should handle DELETE_AGREEMENT_LINES_SUCCESS', () => {
+    const actualState = {
+      isLoading: false,
+      items: [
+        { id: 1 },
+        { id: 2 },
+      ],
+      unassignedAgreement: { id: 1 },
+    };
+    const action = {
+      type: DELETE_AGREEMENT_LINES_SUCCESS,
+      payload: { id: 1 },
+    };
+    const expectedState = {
+      items: [{ id: 2 }],
+      isLoading: false,
+      unassignedAgreement: {},
+      isUnassigned: true,
+    };
+
+    expect(agreements(actualState, action)).to.deep.equal(expectedState);
+  });
+
+  it('should handle CONFIRM_UNASSIGN_AGREEMENT', () => {
+    const actualState = {
+      isLoading: false,
+      items: [],
+      isUnassigned: true,
+    };
+    const action = { type: CONFIRM_UNASSIGN_AGREEMENT };
+    const expectedState = {
+      items: [],
+      isLoading: false,
+      isUnassigned: false,
     };
 
     expect(agreements(actualState, action)).to.deep.equal(expectedState);

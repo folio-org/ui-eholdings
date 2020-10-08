@@ -64,6 +64,8 @@ import {
   createUpdateRootProxyEpic,
   createGetProxyTypesEpic,
   createGetUserGroupsEpic,
+  createGetAgreementLinesEpic,
+  createDeleteAgreementLinesEpic,
 } from './epics';
 
 export const createResolver = (state) => {
@@ -103,6 +105,8 @@ export const epics = combineEpics(
   dataEpic,
   updateEntityTags,
   createGetAgreementsEpic({ agreementsApi }),
+  createGetAgreementLinesEpic({ agreementsApi }),
+  createDeleteAgreementLinesEpic({ agreementsApi }),
   createAttachAgreementEpic({ agreementsApi }),
   createGetCustomLabelsEpic({ customLabelsApi }),
   createUpdateCustomLabelsEpic({ customLabelsApi }),
