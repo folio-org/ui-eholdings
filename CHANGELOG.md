@@ -31,6 +31,7 @@
 * Fix bug with `<Datepicker>` in Resource Edit Page. (UIEH-961)
 * Fix issue in agreements accordion with displaying start date. (UIEH-971)
 * Ability to unlink an agreement from package/resource. (UIEH-956)
+* Add Unassign Agreement modal window. (UIEH-972)
 
 ## [4.0.1] (https://github.com/folio-org/ui-eholdings/tree/v4.0.0) (2020-07-08)
 
