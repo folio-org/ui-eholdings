@@ -64,7 +64,7 @@ class AgreementsAccordion extends Component {
     this.state = {
       showModal: false,
       currentAgreement: {},
-    }
+    };
   }
 
   componentDidMount() {
