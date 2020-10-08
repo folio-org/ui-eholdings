@@ -414,5 +414,6 @@
     "permission.settings.custom-labels.all:": "设置（电子馆藏）：可以创建、编辑、查看和删除自定义标签",
     "permission.settings.custom-labels.view": "设置（电子馆藏）：可以查看自定义标签",
     "filter.search": "搜索",
-    "label.tags": "标签： {tags}"
+    "label.tags": "标签： {tags}",
+    "agreements.unlink": "Unlink agreement from this record."
 }
