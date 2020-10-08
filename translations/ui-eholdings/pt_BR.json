@@ -414,5 +414,6 @@
     "permission.settings.custom-labels.all:": "Configurações (eholdings): Pode criar, editar, visualizar e excluir etiquetas personalizados",
     "permission.settings.custom-labels.view": "Configurações (eholdings): Pode visualizar etiquetas personalizadas",
     "filter.search": "Pesquisar",
-    "label.tags": "Tag(s): {tags}"
+    "label.tags": "Tag(s): {tags}",
+    "agreements.unlink": "Unlink agreement from this record."
 }

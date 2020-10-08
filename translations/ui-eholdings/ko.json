@@ -414,5 +414,6 @@
     "permission.settings.custom-labels.all:": "설정 (eHoldings) : 커스텀 레이블을 만들고, 편집, 보고, 삭제할 수 있습니다.",
     "permission.settings.custom-labels.view": "설정 (eHoldings) : 커스텀 레이블을 볼 수 있습니다.",
     "filter.search": "검색",
-    "label.tags": "태그 : {tags}"
+    "label.tags": "태그 : {tags}",
+    "agreements.unlink": "Unlink agreement from this record."
 }
