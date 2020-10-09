@@ -47,12 +47,17 @@ describe('TitleShow', () => {
   describe('visiting the title page', () => {
     beforeEach(async function () {
       await this.visit(`/eholdings/titles/${title.id}`);
-      await TitleShowPage.whenLoaded();
-      a11yResults = await axe.run();
     });
 
-    it('should not have any a11y issues', () => {
-      expect(a11yResults.violations).to.be.empty;
+    describe('waiting for axe to run', () => {
+      beforeEach(async () => {
+        await TitleShowPage.whenLoaded();
+        a11yResults = await axe.run();
+      });
+
+      it('should not have any a11y issues', () => {
+        expect(a11yResults.violations).to.be.empty;
+      });
     });
 
     it('displays the title name in the pane header', () => {
@@ -168,12 +173,17 @@ describe('TitleShow', () => {
       title.save();
       resources = title.resources.models;
       this.visit(`/eholdings/titles/${title.id}`);
-      await TitleShowPage.whenLoaded();
-      a11yResults = await axe.run();
     });
 
-    it('should not have any a11y issues', () => {
-      expect(a11yResults.violations).to.be.empty;
+    describe('waiting for axe to run', () => {
+      beforeEach(async () => {
+        await TitleShowPage.whenLoaded();
+        a11yResults = await axe.run();
+      });
+
+      it('should not have any a11y issues', () => {
+        expect(a11yResults.violations).to.be.empty;
+      });
     });
 
     it('displays the title name', () => {

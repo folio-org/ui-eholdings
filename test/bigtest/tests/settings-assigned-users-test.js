@@ -18,11 +18,16 @@ describe('with list of users assigned to a KB', () => {
     beforeEach(async function () {
       this.visit('/settings/eholdings/1/users');
       await wait(1000);
-      a11yResults = await axe.run();
     });
 
-    it('should not have any a11y issues', () => {
-      expect(a11yResults.violations).to.be.empty;
+    describe('waiting for axe to run', () => {
+      beforeEach(async () => {
+        a11yResults = await axe.run();
+      });
+
+      it('should not have any a11y issues', () => {
+        expect(a11yResults.violations).to.be.empty;
+      });
     });
 
     it('should render users list', () => {

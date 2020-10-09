@@ -63,12 +63,17 @@ describe('CustomTitleEdit', () => {
   describe('visiting the title edit page', () => {
     beforeEach(async function () {
       this.visit(`/eholdings/titles/${title.id}/edit`);
-      await TitleEditPage.whenLoaded();
-      a11yResults = await axe.run();
     });
 
-    it('should not have any a11y issues', () => {
-      expect(a11yResults.violations).to.be.empty;
+    describe('waiting for axe to run', () => {
+      beforeEach(async () => {
+        await TitleEditPage.whenLoaded();
+        a11yResults = await axe.run();
+      });
+
+      it('should not have any a11y issues', () => {
+        expect(a11yResults.violations).to.be.empty;
+      });
     });
 
     it('shows a field for edition', () => {

@@ -29,12 +29,17 @@ describe('CustomPackageEditProxy', () => {
   describe('visiting the package edit page', () => {
     beforeEach(async function () {
       this.visit(`/eholdings/packages/${providerPackage.id}/edit`);
-      await PackageEditPage.whenLoaded();
-      a11yResults = await axe.run();
     });
 
-    it('should not have any a11y issues', () => {
-      expect(a11yResults.violations).to.be.empty;
+    describe('waiting for axe to run', () => {
+      beforeEach(async () => {
+        await PackageEditPage.whenLoaded();
+        a11yResults = await axe.run();
+      });
+
+      it('should not have any a11y issues', () => {
+        expect(a11yResults.violations).to.be.empty;
+      });
     });
 
     it('has a select containing the current proxy value', () => {
@@ -49,12 +54,17 @@ describe('CustomPackageEditProxy', () => {
 
         providerPackage.update('proxy', proxy.toJSON());
         this.visit(`/eholdings/packages/${providerPackage.id}/edit`);
-        await PackageEditPage.whenLoaded();
-        a11yResults = await axe.run();
       });
 
-      it('should not have any a11y issues', () => {
-        expect(a11yResults.violations).to.be.empty;
+      describe('waiting for axe to run', () => {
+        beforeEach(async () => {
+          await PackageEditPage.whenLoaded();
+          a11yResults = await axe.run();
+        });
+
+        it('should not have any a11y issues', () => {
+          expect(a11yResults.violations).to.be.empty;
+        });
       });
 
       it.skip('has a select containing the current proxy value', () => {

@@ -31,12 +31,17 @@ describe('PackageSelection', () => {
   describe('visiting the package details page', () => {
     beforeEach(async function () {
       this.visit(`/eholdings/packages/${providerPackage.id}`);
-      await PackageShowPage.whenLoaded();
-      a11yResults = await axe.run();
     });
 
-    it('should not have any a11y issues', () => {
-      expect(a11yResults.violations).to.be.empty;
+    describe('waiting for axe to run', () => {
+      beforeEach(async () => {
+        await PackageShowPage.whenLoaded();
+        a11yResults = await axe.run();
+      });
+
+      it('should not have any a11y issues', () => {
+        expect(a11yResults.violations).to.be.empty;
+      });
     });
 
     describe('when the package selection modal is open', () => {

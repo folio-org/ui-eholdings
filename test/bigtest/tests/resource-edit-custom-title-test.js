@@ -73,12 +73,17 @@ describe('ResourceEditCustomTitle', () => {
       });
 
       this.visit(`/eholdings/resources/${resource.titleId}/edit`);
-      await ResourceEditPage.whenLoaded();
-      a11yResults = await axe.run();
     });
 
-    it('should not have any a11y issues', () => {
-      expect(a11yResults.violations).to.be.empty;
+    describe('waiting for axe to run', () => {
+      beforeEach(async () => {
+        await ResourceEditPage.whenLoaded();
+        a11yResults = await axe.run();
+      });
+
+      it('should not have any a11y issues', () => {
+        expect(a11yResults.violations).to.be.empty;
+      });
     });
 
     describe('with the resource unselected', () => {
@@ -99,11 +104,17 @@ describe('ResourceEditCustomTitle', () => {
   describe('visiting the resource edit page without coverage dates or statements', () => {
     beforeEach(async function () {
       this.visit(`/eholdings/resources/${resource.titleId}/edit`);
-      a11yResults = await axe.run();
     });
 
-    it('should not have any a11y issues', () => {
-      expect(a11yResults.violations).to.be.empty;
+    describe('waiting for axe to run', () => {
+      beforeEach(async () => {
+        await ResourceEditPage.whenLoaded();
+        a11yResults = await axe.run();
+      });
+
+      it('should not have any a11y issues', () => {
+        expect(a11yResults.violations).to.be.empty;
+      });
     });
 
     describe('section: holding status', () => {
@@ -594,12 +605,17 @@ describe('ResourceEditCustomTitle', () => {
   describe('visiting the resource edit page with custom labels', () => {
     beforeEach(async function () {
       this.visit(`/eholdings/resources/${resource.titleId}/edit`);
-      await ResourceEditPage.whenLoaded();
-      a11yResults = await axe.run();
     });
 
-    it('should not have any a11y issues', () => {
-      expect(a11yResults.violations).to.be.empty;
+    describe('waiting for axe to run', () => {
+      beforeEach(async () => {
+        await ResourceEditPage.whenLoaded();
+        a11yResults = await axe.run();
+      });
+
+      it('should not have any a11y issues', () => {
+        expect(a11yResults.violations).to.be.empty;
+      });
     });
 
     it('custom labels accordion should be present', () => {

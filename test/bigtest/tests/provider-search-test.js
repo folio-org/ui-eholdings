@@ -21,12 +21,17 @@ describe('ProviderSearch', () => {
     });
 
     this.visit('/eholdings/?searchType=providers');
-    await ProviderSearchPage.whenLoaded();
-    a11yResults = await axe.run();
   });
 
-  it('should not have any a11y issues', () => {
-    expect(a11yResults.violations).to.be.empty;
+  describe('waiting for axe to run', () => {
+    beforeEach(async () => {
+      await ProviderSearchPage.whenLoaded();
+      a11yResults = await axe.run();
+    });
+
+    it('should not have any a11y issues', () => {
+      expect(a11yResults.violations).to.be.empty;
+    });
   });
 
   it('has a searchbox', () => {

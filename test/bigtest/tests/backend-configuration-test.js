@@ -17,12 +17,17 @@ describe('backend configuration', () => {
     describe('when trying to use the app', () => {
       beforeEach(async function () {
         this.visit('/eholdings');
-        await ApplicationPage.whenLoaded();
-        a11yResults = await axe.run();
       });
 
-      it('should not have any a11y issues', () => {
-        expect(a11yResults.violations).to.be.empty;
+      describe('waiting for axe to run', () => {
+        beforeEach(async () => {
+          await ApplicationPage.whenLoaded();
+          a11yResults = await axe.run();
+        });
+
+        it('should not have any a11y issues', () => {
+          expect(a11yResults.violations).to.be.empty;
+        });
       });
 
       it('informs user that an error has occurred', () => {
@@ -41,12 +46,17 @@ describe('backend configuration', () => {
     describe('when trying to use the app', () => {
       beforeEach(async function () {
         this.visit('/eholdings');
-        await ApplicationPage.whenLoaded();
-        a11yResults = await axe.run();
       });
 
-      it('should not have any a11y issues', () => {
-        expect(a11yResults.violations).to.be.empty;
+      describe('waiting for axe to run', () => {
+        beforeEach(async () => {
+          await ApplicationPage.whenLoaded();
+          a11yResults = await axe.run();
+        });
+
+        it('should not have any a11y issues', () => {
+          expect(a11yResults.violations).to.be.empty;
+        });
       });
 
       it('informs user that API limit was exceeded', () => {
@@ -76,12 +86,17 @@ describe('backend configuration', () => {
     describe('when trying to use the app', () => {
       beforeEach(async function () {
         this.visit('/eholdings');
-        await ApplicationPage.whenLoaded();
-        a11yResults = await axe.run();
       });
 
-      it('should not have any a11y issues', () => {
-        expect(a11yResults.violations).to.be.empty;
+      describe('waiting for axe to run', () => {
+        beforeEach(async () => {
+          await ApplicationPage.whenLoaded();
+          a11yResults = await axe.run();
+        });
+
+        it('should not have any a11y issues', () => {
+          expect(a11yResults.violations).to.be.empty;
+        });
       });
 
       it('blocks access to the eholdings app and tells me that I need to install a backend', () => {
@@ -100,12 +115,17 @@ describe('backend configuration', () => {
     describe('when trying to use the app', () => {
       beforeEach(async function () {
         this.visit('/eholdings');
-        await ApplicationPage.whenLoaded();
-        a11yResults = await axe.run();
       });
 
-      it('should not have any a11y issues', () => {
-        expect(a11yResults.violations).to.be.empty;
+      describe('waiting for axe to run', () => {
+        beforeEach(async () => {
+          await ApplicationPage.whenLoaded();
+          a11yResults = await axe.run();
+        });
+
+        it('should not have any a11y issues', () => {
+          expect(a11yResults.violations).to.be.empty;
+        });
       });
 
       it('blocks access to the eholdings app and points you to the configuration screen', () => {
@@ -116,12 +136,17 @@ describe('backend configuration', () => {
     describe('when visiting the KB auth form', () => {
       beforeEach(async function () {
         this.visit('/settings/eholdings/knowledge-base/new');
-        await ApplicationPage.whenLoaded();
-        a11yResults = await axe.run();
       });
 
-      it('should not have any a11y issues', () => {
-        expect(a11yResults.violations).to.be.empty;
+      describe('waiting for axe to run', () => {
+        beforeEach(async () => {
+          await ApplicationPage.whenLoaded();
+          a11yResults = await axe.run();
+        });
+
+        it('should not have any a11y issues', () => {
+          expect(a11yResults.violations).to.be.empty;
+        });
       });
 
       it('does not enable the save button', () => {
@@ -179,12 +204,17 @@ describe('backend configuration', () => {
     describe('when visiting the KB auth form', () => {
       beforeEach(async function () {
         this.visit('/settings/eholdings/knowledge-base/2');
-        await ApplicationPage.whenLoaded();
-        a11yResults = await axe.run();
       });
 
-      it('should not have any a11y issues', () => {
-        expect(a11yResults.violations).to.be.empty;
+      describe('waiting for axe to run', () => {
+        beforeEach(async () => {
+          await ApplicationPage.whenLoaded();
+          a11yResults = await axe.run();
+        });
+
+        it('should not have any a11y issues', () => {
+          expect(a11yResults.violations).to.be.empty;
+        });
       });
 
       it('has a field for the ebsco customer id', () => {
@@ -228,13 +258,17 @@ describe('backend configuration', () => {
             .fillApiKey('totally-bogus-api-key')
             .chooseRMAPIUrl('https://sandbox.ebsco.io')
             .save();
-
-          await ApplicationPage.whenLoaded();
-          a11yResults = await axe.run();
         });
 
-        it('should not have any a11y issues', () => {
-          expect(a11yResults.violations).to.be.empty;
+        describe('waiting for axe to run', () => {
+          beforeEach(async () => {
+            await ApplicationPage.whenLoaded();
+            a11yResults = await axe.run();
+          });
+
+          it('should not have any a11y issues', () => {
+            expect(a11yResults.violations).to.be.empty;
+          });
         });
 
         it('reports the error to the interface', () => {
@@ -258,8 +292,19 @@ describe('backend configuration', () => {
           });
         });
 
-        it('should not have any a11y issues', () => {
-          expect(a11yResults.violations).to.be.empty;
+        describe('waiting for axe to run', () => {
+          beforeEach(async () => {
+            await ApplicationPage.whenLoaded();
+            a11yResults = await axe.run({
+              rules: {
+                'color-contrast': { enabled: false },
+              },
+            });
+          });
+
+          it('should not have any a11y issues', () => {
+            expect(a11yResults.violations).to.be.empty;
+          });
         });
 
         it('enables the save button', () => {
@@ -296,12 +341,17 @@ describe('backend configuration', () => {
             }, 500);
 
             await SettingsPage.save();
-            await ApplicationPage.whenLoaded();
-            a11yResults = await axe.run();
           });
 
-          it('should not have any a11y issues', () => {
-            expect(a11yResults.violations).to.be.empty;
+          describe('waiting for axe to run', () => {
+            beforeEach(async () => {
+              await ApplicationPage.whenLoaded();
+              a11yResults = await axe.run();
+            });
+
+            it('should not have any a11y issues', () => {
+              expect(a11yResults.violations).to.be.empty;
+            });
           });
 
           it('enables the save button', () => {
@@ -316,12 +366,17 @@ describe('backend configuration', () => {
         describe('when the validation fails', () => {
           beforeEach(async () => {
             await SettingsPage.fillCustomerId('');
-            await ApplicationPage.whenLoaded();
-            a11yResults = await axe.run();
           });
 
-          it('should not have any a11y issues', () => {
-            expect(a11yResults.violations).to.be.empty;
+          describe('waiting for axe to run', () => {
+            beforeEach(async () => {
+              await ApplicationPage.whenLoaded();
+              a11yResults = await axe.run();
+            });
+
+            it('should not have any a11y issues', () => {
+              expect(a11yResults.violations).to.be.empty;
+            });
           });
 
           it('does not enable the save button', () => {
@@ -353,12 +408,17 @@ describe('backend configuration', () => {
     describe('when trying to use the app', () => {
       beforeEach(async function () {
         this.visit('/eholdings');
-        await ApplicationPage.whenLoaded();
-        a11yResults = await axe.run();
       });
 
-      it('should not have any a11y issues', () => {
-        expect(a11yResults.violations).to.be.empty;
+      describe('waiting for axe to run', () => {
+        beforeEach(async () => {
+          await ApplicationPage.whenLoaded();
+          a11yResults = await axe.run();
+        });
+
+        it('should not have any a11y issues', () => {
+          expect(a11yResults.violations).to.be.empty;
+        });
       });
 
       it('blocks access to the eholdings app and points you to the configuration screen', () => {

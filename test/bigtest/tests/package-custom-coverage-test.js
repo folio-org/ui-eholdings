@@ -27,12 +27,17 @@ describe('PackageCustomCoverage', () => {
       });
 
       this.visit(`/eholdings/packages/${pkg.id}`);
-      await PackageShowPage.whenLoaded();
-      a11yResults = await axe.run();
     });
 
-    it('should not have any a11y issues', () => {
-      expect(a11yResults.violations).to.be.empty;
+    describe('waiting for axe to run', () => {
+      beforeEach(async () => {
+        await PackageShowPage.whenLoaded();
+        a11yResults = await axe.run();
+      });
+
+      it('should not have any a11y issues', () => {
+        expect(a11yResults.violations).to.be.empty;
+      });
     });
 
     it('should not display custom coverage', () => {
@@ -56,12 +61,17 @@ describe('PackageCustomCoverage', () => {
       });
 
       this.visit(`/eholdings/packages/${pkg.id}`);
-      await PackageShowPage.whenLoaded();
-      a11yResults = await axe.run();
     });
 
-    it('should not have any a11y issues', () => {
-      expect(a11yResults.violations).to.be.empty;
+    describe('waiting for axe to run', () => {
+      beforeEach(async () => {
+        await PackageShowPage.whenLoaded();
+        a11yResults = await axe.run();
+      });
+
+      it('should not have any a11y issues', () => {
+        expect(a11yResults.violations).to.be.empty;
+      });
     });
 
     it('displays the custom coverage section', () => {

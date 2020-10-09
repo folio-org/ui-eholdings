@@ -28,12 +28,17 @@ describe('CustomPackageEditSelection', () => {
   describe('visiting the package edit page', () => {
     beforeEach(async function () {
       this.visit(`/eholdings/packages/${providerPackage.id}/edit`);
-      await PackageEditPage.whenLoaded();
-      a11yResults = await axe.run();
     });
 
-    it('should not have any a11y issues', () => {
-      expect(a11yResults.violations).to.be.empty;
+    describe('waiting for axe to run', () => {
+      beforeEach(async () => {
+        await PackageEditPage.whenLoaded();
+        a11yResults = await axe.run();
+      });
+
+      it('should not have any a11y issues', () => {
+        expect(a11yResults.violations).to.be.empty;
+      });
     });
 
     it('displays the correct holdings status (ON)', () => {
@@ -133,12 +138,17 @@ describe('CustomPackageEditSelection', () => {
         isSelected: true
       });
       this.visit(`/eholdings/packages/${providerPackage.id}/edit`);
-      await PackageEditPage.whenLoaded();
-      a11yResults = await axe.run();
     });
 
-    it('should not have any a11y issues', () => {
-      expect(a11yResults.violations).to.be.empty;
+    describe('waiting for axe to run', () => {
+      beforeEach(async () => {
+        await PackageEditPage.whenLoaded();
+        a11yResults = await axe.run();
+      });
+
+      it('should not have any a11y issues', () => {
+        expect(a11yResults.violations).to.be.empty;
+      });
     });
 
     describe('holding status section', () => {

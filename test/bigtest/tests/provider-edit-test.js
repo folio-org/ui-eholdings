@@ -26,12 +26,17 @@ describe('ProviderEdit', () => {
   describe('visiting the provider edit page ', () => {
     beforeEach(async function () {
       this.visit(`/eholdings/providers/${provider.id}/edit`);
-      await ProviderEditPage.whenLoaded();
-      a11yResults = await axe.run();
     });
 
-    it('should not have any a11y issues', () => {
-      expect(a11yResults.violations).to.be.empty;
+    describe('waiting for axe to run', () => {
+      beforeEach(async () => {
+        await ProviderEditPage.whenLoaded();
+        a11yResults = await axe.run();
+      });
+
+      it('should not have any a11y issues', () => {
+        expect(a11yResults.violations).to.be.empty;
+      });
     });
 
     it('displays the provider name in the pane header', () => {

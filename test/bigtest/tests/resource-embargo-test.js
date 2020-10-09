@@ -37,12 +37,17 @@ describe('ResourceEmbargo', () => {
       resource.save();
 
       this.visit(`/eholdings/resources/${resource.id}`);
-      await ResourceShowPage.whenLoaded();
-      a11yResults = await axe.run();
     });
 
-    it('should not have any a11y issues', () => {
-      expect(a11yResults.violations).to.be.empty;
+    describe('waiting for axe to run', () => {
+      beforeEach(async () => {
+        await ResourceShowPage.whenLoaded();
+        a11yResults = await axe.run();
+      });
+
+      it('should not have any a11y issues', () => {
+        expect(a11yResults.violations).to.be.empty;
+      });
     });
 
     it('does not display the managed embargo section', () => {
@@ -82,12 +87,17 @@ describe('ResourceEmbargo', () => {
 
       resource.save();
       this.visit(`/eholdings/resources/${resource.id}`);
-      await ResourceShowPage.whenLoaded();
-      a11yResults = await axe.run();
     });
 
-    it('should not have any a11y issues', () => {
-      expect(a11yResults.violations).to.be.empty;
+    describe('waiting for axe to run', () => {
+      beforeEach(async () => {
+        await ResourceShowPage.whenLoaded();
+        a11yResults = await axe.run();
+      });
+
+      it('should not have any a11y issues', () => {
+        expect(a11yResults.violations).to.be.empty;
+      });
     });
 
     it.always('does not display the managed embargo section', () => {

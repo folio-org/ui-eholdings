@@ -58,12 +58,17 @@ describe('CustomResourceEditAccessType', () => {
     beforeEach(async function () {
       this.server.get('/access-types', () => []);
       this.visit(`/eholdings/resources/${resource.id}/edit`);
-      await ResourceEditPage.whenLoaded();
-      a11yResults = await axe.run();
     });
 
-    it('should not have any a11y issues', () => {
-      expect(a11yResults.violations).to.be.empty;
+    describe('waiting for axe to run', () => {
+      beforeEach(async () => {
+        await ResourceEditPage.whenLoaded();
+        a11yResults = await axe.run();
+      });
+
+      it('should not have any a11y issues', () => {
+        expect(a11yResults.violations).to.be.empty;
+      });
     });
 
     it('should not render Access type select', () => {
@@ -75,12 +80,17 @@ describe('CustomResourceEditAccessType', () => {
     describe('when Resource does not have Access status type selected', () => {
       beforeEach(async function () {
         this.visit(`/eholdings/resources/${resource.id}/edit`);
-        await ResourceEditPage.whenLoaded();
-        a11yResults = await axe.run();
       });
 
-      it('should not have any a11y issues', () => {
-        expect(a11yResults.violations).to.be.empty;
+      describe('waiting for axe to run', () => {
+        beforeEach(async () => {
+          await ResourceEditPage.whenLoaded();
+          a11yResults = await axe.run();
+        });
+
+        it('should not have any a11y issues', () => {
+          expect(a11yResults.violations).to.be.empty;
+        });
       });
 
       it('should have unselected option as default value', () => {

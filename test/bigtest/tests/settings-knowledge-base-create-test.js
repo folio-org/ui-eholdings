@@ -18,11 +18,16 @@ describe('With list of root proxies available to a customer', () => {
     beforeEach(async function () {
       this.visit('/settings/eholdings/knowledge-base/new');
       await wait(1000);
-      a11yResults = await axe.run();
     });
 
-    it('should not have any a11y issues', () => {
-      expect(a11yResults.violations).to.be.empty;
+    describe('waiting for axe to run', () => {
+      beforeEach(async () => {
+        a11yResults = await axe.run();
+      });
+
+      it('should not have any a11y issues', () => {
+        expect(a11yResults.violations).to.be.empty;
+      });
     });
 
     it('should open settings knowledge base create page', () => {

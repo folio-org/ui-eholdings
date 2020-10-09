@@ -52,12 +52,17 @@ describe('CustomResourceEditEmbargo', () => {
       resource.save();
 
       this.visit(`/eholdings/resources/${resource.id}/edit`);
-      await ResourceEditPage.whenLoaded();
-      a11yResults = await axe.run();
     });
 
-    it('should not have any a11y issues', () => {
-      expect(a11yResults.violations).to.be.empty;
+    describe('waiting for axe to run', () => {
+      beforeEach(async () => {
+        await ResourceEditPage.whenLoaded();
+        a11yResults = await axe.run();
+      });
+
+      it('should not have any a11y issues', () => {
+        expect(a11yResults.violations).to.be.empty;
+      });
     });
 
     it('disables the save button', () => {
@@ -112,12 +117,17 @@ describe('CustomResourceEditEmbargo', () => {
   describe('visiting the resource edit page without any embargos', () => {
     beforeEach(async function () {
       this.visit(`/eholdings/resources/${resource.id}/edit`);
-      await ResourceEditPage.whenLoaded();
-      a11yResults = await axe.run();
     });
 
-    it('should not have any a11y issues', () => {
-      expect(a11yResults.violations).to.be.empty;
+    describe('waiting for axe to run', () => {
+      beforeEach(async () => {
+        await ResourceEditPage.whenLoaded();
+        a11yResults = await axe.run();
+      });
+
+      it('should not have any a11y issues', () => {
+        expect(a11yResults.violations).to.be.empty;
+      });
     });
 
     it('disables the save button', () => {

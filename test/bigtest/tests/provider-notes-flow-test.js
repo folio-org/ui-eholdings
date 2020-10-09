@@ -56,12 +56,17 @@ describe('Provider view', function () {
   describe('when the provider details page is visited', () => {
     beforeEach(async function () {
       this.visit(`/eholdings/providers/${provider.id}`);
-      await ProviderShow.whenLoaded();
-      a11yResults = await axe.run();
     });
 
-    it('should not have any a11y issues', () => {
-      expect(a11yResults.violations).to.be.empty;
+    describe('waiting for axe to run', () => {
+      beforeEach(async () => {
+        await ProviderShow.whenLoaded();
+        a11yResults = await axe.run();
+      });
+
+      it('should not have any a11y issues', () => {
+        expect(a11yResults.violations).to.be.empty;
+      });
     });
 
     it('should display notes accordion', () => {

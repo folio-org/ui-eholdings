@@ -53,12 +53,17 @@ describe('ProviderShow package search', () => {
     });
 
     this.visit(`/eholdings/providers/${provider.id}`);
-    await ProviderShowPage.whenLoaded();
-    a11yResults = await axe.run();
   });
 
-  it('should not have any a11y issues', () => {
-    expect(a11yResults.violations).to.be.empty;
+  describe('waiting for axe to run', () => {
+    beforeEach(async () => {
+      await ProviderShowPage.whenLoaded();
+      a11yResults = await axe.run();
+    });
+
+    it('should not have any a11y issues', () => {
+      expect(a11yResults.violations).to.be.empty;
+    });
   });
 
   describe('clicking the search button', () => {

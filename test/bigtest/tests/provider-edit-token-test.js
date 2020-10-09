@@ -27,12 +27,17 @@ describe('ProviderEditToken', () => {
   describe('visiting the provider edit page with a token and value ', () => {
     beforeEach(async function () {
       this.visit(`/eholdings/providers/${provider.id}/edit`);
-      await ProviderEditPage.whenLoaded();
-      a11yResults = await axe.run();
     });
 
-    it('should not have any a11y issues', () => {
-      expect(a11yResults.violations).to.be.empty;
+    describe('waiting for axe to run', () => {
+      beforeEach(async () => {
+        await ProviderEditPage.whenLoaded();
+        a11yResults = await axe.run();
+      });
+
+      it('should not have any a11y issues', () => {
+        expect(a11yResults.violations).to.be.empty;
+      });
     });
 
     it('has token help text', () => {

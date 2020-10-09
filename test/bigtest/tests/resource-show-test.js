@@ -484,12 +484,17 @@ describe('ResourceShow', () => {
       });
 
       this.visit(`/eholdings/resources/${resource.id}`);
-      await ResourcePage.whenLoaded();
-      a11yResults = await axe.run();
     });
 
-    it('should not have any a11y issues', () => {
-      expect(a11yResults.violations).to.be.empty;
+    describe('waiting for axe to run', () => {
+      beforeEach(async () => {
+        await ResourcePage.whenLoaded();
+        a11yResults = await axe.run();
+      });
+
+      it('should not have any a11y issues', () => {
+        expect(a11yResults.violations).to.be.empty;
+      });
     });
 
     it('displays custom labels accordion', () => {

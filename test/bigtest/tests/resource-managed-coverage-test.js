@@ -29,12 +29,17 @@ describe('ResourceManagedCoverage', () => {
   describe('visiting the resource page with managed coverage undefined', () => {
     beforeEach(async function () {
       this.visit(`/eholdings/resources/${resource.id}`);
-      await ResourceShowPage.whenLoaded();
-      a11yResults = await axe.run();
     });
 
-    it('should not have any a11y issues', () => {
-      expect(a11yResults.violations).to.be.empty;
+    describe('waiting for axe to run', () => {
+      beforeEach(async () => {
+        await ResourceShowPage.whenLoaded();
+        a11yResults = await axe.run();
+      });
+
+      it('should not have any a11y issues', () => {
+        expect(a11yResults.violations).to.be.empty;
+      });
     });
 
     it.always('does not display the managed coverage section', () => {
@@ -63,12 +68,17 @@ describe('ResourceManagedCoverage', () => {
 
       resource.save();
       this.visit(`/eholdings/resources/${resource.id}`);
-      await ResourceShowPage.whenLoaded();
-      a11yResults = await axe.run();
     });
 
-    it('should not have any a11y issues', () => {
-      expect(a11yResults.violations).to.be.empty;
+    describe('waiting for axe to run', () => {
+      beforeEach(async () => {
+        await ResourceShowPage.whenLoaded();
+        a11yResults = await axe.run();
+      });
+
+      it('should not have any a11y issues', () => {
+        expect(a11yResults.violations).to.be.empty;
+      });
     });
 
     it('displays the managed coverage section for single date', () => {

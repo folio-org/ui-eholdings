@@ -14,11 +14,16 @@ describe('With list of root proxies available to a customer', () => {
     beforeEach(async function () {
       this.visit('/settings/eholdings/2/root-proxy');
       await wait(1000);
-      a11yResults = await axe.run();
     });
 
-    it('should not have any a11y issues', () => {
-      expect(a11yResults.violations).to.be.empty;
+    describe('waiting for axe to run', () => {
+      beforeEach(async () => {
+        a11yResults = await axe.run();
+      });
+
+      it('should not have any a11y issues', () => {
+        expect(a11yResults.violations).to.be.empty;
+      });
     });
 
     it('has a select field defaulted with current root proxy', () => {
