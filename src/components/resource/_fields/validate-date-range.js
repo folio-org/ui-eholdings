@@ -4,7 +4,10 @@ import {
   FormattedDate,
 } from 'react-intl';
 
-import moment from 'moment';
+import Moment from 'moment';
+import { extendMoment } from 'moment-range';
+
+const moment = extendMoment(Moment);
 
 /**
    * Validator to ensure begin date is present and entered dates are valid
