@@ -28,6 +28,7 @@ describe('With list of root proxies available to a customer', () => {
       });
 
       it('should not have any a11y issues', () => {
+        console.log(JSON.stringify(a11yResults.violations));
         expect(a11yResults.violations).to.be.empty;
       });
     });
@@ -47,6 +48,7 @@ describe('With list of root proxies available to a customer', () => {
       });
 
       it('should not have any a11y issues', () => {
+        console.log(JSON.stringify(a11yResults.violations));
         expect(a11yResults.violations).to.be.empty;
       });
 
@@ -61,6 +63,7 @@ describe('With list of root proxies available to a customer', () => {
         });
 
         it('should not have any a11y issues', () => {
+          console.log(JSON.stringify(a11yResults.violations));
           expect(a11yResults.violations).to.be.empty;
         });
 
@@ -133,6 +136,7 @@ describe('With list of root proxies available to a customer', () => {
       });
 
       it('should not have any a11y issues', () => {
+        console.log(JSON.stringify(a11yResults.violations));
         expect(a11yResults.violations).to.be.empty;
       });
 
@@ -166,6 +170,7 @@ describe('With list of root proxies available to a customer', () => {
       });
 
       it('should not have any a11y issues', () => {
+        console.log(JSON.stringify(a11yResults.violations));
         expect(a11yResults.violations).to.be.empty;
       });
 

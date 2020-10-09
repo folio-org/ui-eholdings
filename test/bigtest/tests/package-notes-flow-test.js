@@ -255,6 +255,7 @@ describe('Package view', function () {
       });
 
       it('should not have any a11y issues', () => {
+        console.log(JSON.stringify(a11yResults.violations));
         expect(a11yResults.violations).to.be.empty;
       });
 
@@ -278,6 +279,7 @@ describe('Package view', function () {
         });
 
         it('should not have any a11y issues', () => {
+          console.log(JSON.stringify(a11yResults.violations));
           expect(a11yResults.violations).to.be.empty;
         });
 
@@ -302,6 +304,7 @@ describe('Package view', function () {
           });
 
           it('should not have any a11y issues', () => {
+            console.log(JSON.stringify(a11yResults.violations));
             expect(a11yResults.violations).to.be.empty;
           });
 
