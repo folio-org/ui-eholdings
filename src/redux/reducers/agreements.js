@@ -4,9 +4,21 @@ import {
   GET_AGREEMENTS_FAILURE,
   ATTACH_AGREEMENT_FAILURE,
   ADD_AGREEMENT,
+  UNASSIGN_AGREEMENT,
+  GET_AGREEMENT_LINES_FAILURE,
+  DELETE_AGREEMENT_LINES_FAILURE,
+  DELETE_AGREEMENT_LINES_SUCCESS,
+  CONFIRM_UNASSIGN_AGREEMENT,
 } from '../actions';
 
 import { formatErrors } from '../helpers';
+
+const handleError = (state, { payload }) => ({
+  ...state,
+  isLoading: false,
+  isUnassigned: false,
+  errors: formatErrors(payload.errors),
+});
 
 const handlers = {
   [GET_AGREEMENTS]: (state, action) => {
@@ -31,24 +43,8 @@ const handlers = {
       items: [...payload.items],
     };
   },
-  [GET_AGREEMENTS_FAILURE]: (state, action) => {
-    const {
-      payload: { errors },
-    } = action;
-
-    return {
-      ...state,
-      isLoading: false,
-      errors: formatErrors(errors),
-    };
-  },
-  [ATTACH_AGREEMENT_FAILURE]: (state, action) => {
-    return {
-      ...state,
-      isLoading: false,
-      errors: formatErrors(action.payload.errors),
-    };
-  },
+  [GET_AGREEMENTS_FAILURE]: handleError,
+  [ATTACH_AGREEMENT_FAILURE]: handleError,
   [ADD_AGREEMENT]: (state, action) => {
     const {
       payload: agreement,
@@ -68,12 +64,46 @@ const handlers = {
         ],
       };
   },
+  [UNASSIGN_AGREEMENT]: (state, action) => {
+    const { payload: { id } } = action;
+    const { items } = state;
+
+    const unassignedAgreement = items.find(item => item.id === id) || {};
+
+    return {
+      ...state,
+      unassignedAgreement,
+    };
+  },
+  [GET_AGREEMENT_LINES_FAILURE]: handleError,
+  [DELETE_AGREEMENT_LINES_FAILURE]: handleError,
+  [DELETE_AGREEMENT_LINES_SUCCESS]: state => {
+    const {
+      items,
+      unassignedAgreement,
+    } = state;
+
+    return {
+      ...state,
+      items: items.filter(item => item.id !== unassignedAgreement.id),
+      unassignedAgreement: {},
+      isUnassigned: true,
+    };
+  },
+  [CONFIRM_UNASSIGN_AGREEMENT]: state => {
+    return {
+      ...state,
+      isUnassigned: false,
+    };
+  },
 };
 
 const initialState = {
   isLoading: false,
   items: [],
   errors: [],
+  unassignedAgreement: {},
+  isUnassigned: false,
 };
 
 export default function agreements(state, action) {

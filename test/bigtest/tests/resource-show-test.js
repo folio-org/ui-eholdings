@@ -203,6 +203,16 @@ describe('ResourceShow', () => {
             expect(this.location.pathname).to.contain(itemDetailsUrl);
           });
         });
+
+        describe('when clicking on trash icon for first agreement', () => {
+          beforeEach(async () => {
+            await ResourcePage.agreementsSection.agreements(0).clickTrashIcon();
+          });
+
+          it('should remove first agreement from aggreements list', () => {
+            expect(ResourcePage.agreementsSection.agreements().length).to.equal(2);
+          });
+        });
       });
 
       describe('when closed', () => {
