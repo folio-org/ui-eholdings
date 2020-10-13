@@ -414,5 +414,6 @@
     "permission.settings.custom-labels.all:": "Settings (eholdings): Can create, edit, view, and delete custom labels",
     "permission.settings.custom-labels.view": "Settings (eholdings): Can view custom labels",
     "filter.search": "Rechercher",
-    "label.tags": "Tag(s): {tags}"
+    "label.tags": "Tag(s): {tags}",
+    "agreements.unlink": "Unlink agreement from this record."
 }
