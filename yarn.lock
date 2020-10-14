@@ -1166,10 +1166,10 @@
     webpack-bundle-analyzer "^3.3.2"
     yargs "^13.1.0"
 
-"@folio/stripes-components@8.0.10001193", "@folio/stripes-components@~8.1.0":
-  version "8.0.10001193"
-  resolved "https://repository.folio.org/repository/npm-folioci/@folio/stripes-components/-/stripes-components-8.0.10001193.tgz#c417a1bf9589a98bbd658006e7a900e88eb93d65"
-  integrity sha512-J6b2Y7DV0V2CVKpZrl0S0GiNAeppeWZAO0m6EPs17oCB9gWI9unafdTdfIs/W/JiiFc7S8/DPQmqhNm5WN+dtw==
+"@folio/stripes-components@8.0.10001192", "@folio/stripes-components@~8.1.0":
+  version "8.0.10001192"
+  resolved "https://repository.folio.org/repository/npm-folioci/@folio/stripes-components/-/stripes-components-8.0.10001192.tgz#0730bf25d136ad9de37f92ae21f651be9ba45407"
+  integrity sha512-cn4t59G9Rx7pAyhoJ2QKfZcb3uKNEeMRospSoys6gyp/hVgFm8nXU8zY5Ep07o4qX2q8CjVI7nYHMMVh7ijoUg==
   dependencies:
     "@folio/stripes-react-hotkeys" "^3.0.5"
     classnames "^2.2.5"

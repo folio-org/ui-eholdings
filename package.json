@@ -77,7 +77,7 @@
   },
   "resolutions": {
     "moment": "~2.24.0",
-    "@folio/stripes-components": "8.0.10001193"
+    "@folio/stripes-components": "8.0.10001192"
   },
   "stripes": {
     "actsAs": [
