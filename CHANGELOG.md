@@ -1,6 +1,6 @@
 # Change history for ui-eholdings
 
-## [5.0.0] (IN PROGRESS)
+## [5.0.0] (https://github.com/folio-org/ui-eholdings/tree/v5.0.0) (2020-10-15)
 
 * Fix permission error in devtools console. (UIEH-915)
 * Change filter by Tags request format. (UIEH-922)
