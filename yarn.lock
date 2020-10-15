@@ -1254,10 +1254,10 @@
     redux "^3.6.0"
     uuid "^3.0.1"
 
-"@folio/stripes-core@6.0.1000778", "@folio/stripes-core@^2.17.1 || ^3.0.0 || ^4.0.0 || ^5.0.0 || ^6.0.0", "@folio/stripes-core@~6.1.0":
-  version "6.0.1000778"
-  resolved "https://repository.folio.org/repository/npm-folioci/@folio/stripes-core/-/stripes-core-6.0.1000778.tgz#a53ce0f61551291cb1cad58125ce72fe8a9bac1e"
-  integrity sha512-HAG1NsiPa2ZYNk9q6jj8KWCSBRtxlrY5P0K+RRnJajKb7l82VV8KkOXD2rDwg2oDtuezShuwPfWmFInAEiMpow==
+"@folio/stripes-core@6.0.1000776", "@folio/stripes-core@^2.17.1 || ^3.0.0 || ^4.0.0 || ^5.0.0 || ^6.0.0", "@folio/stripes-core@~6.1.0":
+  version "6.0.1000776"
+  resolved "https://repository.folio.org/repository/npm-folioci/@folio/stripes-core/-/stripes-core-6.0.1000776.tgz#b414872cf598d3c135fcaff09cf8bccd35ad8e61"
+  integrity sha512-Fe2gSPDp6AkgX0u4ZcUsEtrDLAw8g7r1W4KsB3fR+Uo2ABgn1DffV9iMQqslXwvdAvjd51JeFEdLpSKScjxC9A==
   dependencies:
     "@apollo/client" "^3.2.1"
     "@babel/core" "^7.8.0"
@@ -1276,6 +1276,7 @@
     "@bigtest/mirage" "^0.0.1"
     "@folio/stripes-components" "~8.0.0"
     "@folio/stripes-connect" "~6.0.0"
+    "@folio/stripes-final-form" "~4.0.0"
     "@folio/stripes-logger" "~1.0.0"
     "@formatjs/intl-displaynames" "^2.2.3"
     "@formatjs/intl-pluralrules" "^2.2.1"
@@ -1355,6 +1356,19 @@
     webpack-dev-middleware "^3.1.3"
     webpack-hot-middleware "^2.22.2"
     webpack-virtual-modules "^0.1.10"
+
+"@folio/stripes-final-form@~4.0.0":
+  version "4.0.100054"
+  resolved "https://repository.folio.org/repository/npm-folioci/@folio/stripes-final-form/-/stripes-final-form-4.0.100054.tgz#aadf533adf46379ae45d70bd036f16e091afbaf0"
+  integrity sha512-JA5w2dbYKYbNGHBQjGrLVUsa1iPLnmGLeFDKbqhU5tju1OeXGGYzhgMFMBt7mhEjqbFs8Fti9GqTvxBFbLqW/A==
+  dependencies:
+    final-form "^4.18.2"
+    final-form-arrays "^3.0.1"
+    final-form-focus "^1.1.2"
+    flat "^4.0.0"
+    prop-types "^15.5.10"
+    react-final-form "^6.3.0"
+    react-final-form-arrays "^3.1.0"
 
 "@folio/stripes-final-form@~4.1.0":
   version "4.1.100055"
