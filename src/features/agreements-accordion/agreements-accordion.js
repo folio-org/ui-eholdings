@@ -1,20 +1,20 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import {
-  FormattedMessage,
-} from 'react-intl';
+import { FormattedMessage } from 'react-intl';
 
 import {
   Pluggable,
 } from '@folio/stripes-core';
-
 import {
   Accordion,
   Headline,
   Button,
   Badge,
+  Modal,
+  ModalFooter,
 } from '@folio/stripes/components';
+import SafeHTMLMessage from '@folio/react-intl-safe-html';
 
 import Toaster from '../../components/toaster';
 
@@ -51,11 +51,20 @@ class AgreementsAccordion extends Component {
     isOpen: PropTypes.bool,
     onToggle: PropTypes.func,
     refId: PropTypes.string.isRequired,
+    refName: PropTypes.string.isRequired,
     refType: PropTypes.string,
     stripes: PropTypes.shape({
       hasPerm: PropTypes.func.isRequired,
     }).isRequired,
     unassignAgreement: PropTypes.func.isRequired,
+  }
+
+  constructor(props) {
+    super(props);
+    this.state = {
+      showModal: false,
+      currentAgreement: {},
+    };
   }
 
   componentDidMount() {
@@ -168,11 +177,25 @@ class AgreementsAccordion extends Component {
       toasts.push({
         id: `success-agreement-unlink-${id}-${Date.now()}`,
         message: <FormattedMessage id="ui-eholdings.agreements.unlink" />,
-        type: 'success'
+        type: 'success',
       });
     }
 
     return toasts;
+  }
+
+  onUnassignAgreement = currentAgreement => {
+    this.setState(() => ({
+      showModal: true,
+      currentAgreement,
+    }));
+  }
+
+  closeModal = () => {
+    this.setState(() => ({
+      showModal: false,
+      currentAgreement: {},
+    }));
   }
 
   render() {
@@ -183,7 +206,12 @@ class AgreementsAccordion extends Component {
       onToggle,
       headerProps,
       unassignAgreement,
+      refName,
     } = this.props;
+    const {
+      currentAgreement,
+      showModal,
+    } = this.state;
 
     return (
       <>
@@ -198,7 +226,7 @@ class AgreementsAccordion extends Component {
         >
           <AgreementsList
             agreements={agreements}
-            unassignAgreement={unassignAgreement}
+            onUnassignAgreement={this.onUnassignAgreement}
           />
         </Accordion>
 
@@ -206,6 +234,44 @@ class AgreementsAccordion extends Component {
           position="bottom"
           toasts={this.toasts}
         />
+
+        <Modal
+          open={showModal}
+          size="small"
+          label={<FormattedMessage id="ui-eholdings.agreements.unassignModal.header" />}
+          id="unassign-agreement-confirmation-modal"
+          footer={(
+            <ModalFooter>
+              <Button
+                data-test-eholdings-agreements-unassign-modal-yes
+                buttonStyle="primary"
+                marginBottom0
+                onClick={() => {
+                  unassignAgreement({ id: currentAgreement.id });
+
+                  this.closeModal();
+                }}
+              >
+                <FormattedMessage id="ui-eholdings.agreements.unassignModal.unassign" />
+              </Button>
+              <Button
+                data-test-eholdings-agreements-unassign-modal-no
+                marginBottom0
+                onClick={this.closeModal}
+              >
+                <FormattedMessage id="ui-eholdings.agreements.unassignModal.cancel" />
+              </Button>
+            </ModalFooter>
+          )}
+        >
+          <SafeHTMLMessage
+            id="ui-eholdings.agreements.unassignModal.description"
+            values={{
+              agreementName: currentAgreement.name,
+              recordName: refName,
+            }}
+          />
+        </Modal>
       </>
     );
   }
