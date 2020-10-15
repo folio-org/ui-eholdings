@@ -506,6 +506,7 @@ class PackageShow extends Component {
           isOpen={sections.packageShowAgreements}
           onToggle={this.handleSectionToggle}
           headerProps={headerProps}
+          refName={model.name}
         />
 
         <NotesSmartAccordion

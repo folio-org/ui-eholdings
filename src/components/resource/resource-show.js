@@ -601,6 +601,7 @@ class ResourceShow extends Component {
                 isOpen={sections.resourceShowAgreements}
                 onToggle={this.handleSectionToggle}
                 headerProps={headerProps}
+                refName={model.title.name}
               />
 
               <NotesSmartAccordion

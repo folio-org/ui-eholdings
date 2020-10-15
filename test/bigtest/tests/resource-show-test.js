@@ -196,8 +196,32 @@ describe('ResourceShow', () => {
             await ResourcePage.agreementsSection.agreements(0).clickTrashIcon();
           });
 
-          it('should remove first agreement from aggreements list', () => {
-            expect(ResourcePage.agreementsSection.agreements().length).to.equal(2);
+          it('should open unassign agreement modal', () => {
+            expect(ResourcePage.unassignAgreementModal.isPresent).to.be.true;
+          });
+
+          describe('when clicking on "Cancel" button', () => {
+            beforeEach(async () => {
+              await ResourcePage.unassignAgreementModal.cancelUnassign();
+            });
+
+            it('should close unassign agreement modal', () => {
+              expect(ResourcePage.unassignAgreementModal.isPresent).to.be.false;
+            });
+          });
+
+          describe('when clicking on "Unassign" button', () => {
+            beforeEach(async () => {
+              await ResourcePage.unassignAgreementModal.confirmUnassign();
+            });
+
+            it('should close unassign agreement modal', () => {
+              expect(ResourcePage.unassignAgreementModal.isPresent).to.be.false;
+            });
+
+            it('should remove first agreement from agreements list', () => {
+              expect(ResourcePage.agreementsSection.agreements().length).to.equal(2);
+            });
           });
         });
       });
