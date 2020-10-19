@@ -594,6 +594,7 @@ class ResourceShow extends Component {
                 refType={entityAuthorityTypes.RESOURCE}
                 isOpen={sections.resourceShowAgreements}
                 onToggle={this.handleSectionToggle}
+                refName={model.title.name}
               />
 
               <NotesSmartAccordion

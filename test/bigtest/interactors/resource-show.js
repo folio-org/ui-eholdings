@@ -18,6 +18,7 @@ import ActionsDropDown from './actions-drop-down';
 import ResourceDropDownMenu from './resource-drop-down-menu';
 import NavigationModal from './navigation-modal';
 import ResourceShowDeselectionModal from './resource-show-deselection-modal';
+import UnassignAgreementModal from './unassign-agreement-modal';
 
 @interactor class ResourceShowPage {
   isLoaded = isPresent('[data-test-eholdings-details-view-name="resource"]');
@@ -124,6 +125,8 @@ import ResourceShowDeselectionModal from './resource-show-deselection-modal';
 
   customLabelsAccordion = new AccordionInteractor('#resourceShowCustomLabels');
   customLabels = collection('[data-test-eholdings-resource-custom-label]', CustomLabel);
+
+  unassignAgreementModal = UnassignAgreementModal;
 }
 
 export default new ResourceShowPage('[data-test-eholdings-details-view="resource"]');

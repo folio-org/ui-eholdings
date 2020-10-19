@@ -498,6 +498,7 @@ class PackageShow extends Component {
           refType={entityAuthorityTypes.PACKAGE}
           isOpen={sections.packageShowAgreements}
           onToggle={this.handleSectionToggle}
+          refName={model.name}
         />
 
         <NotesSmartAccordion

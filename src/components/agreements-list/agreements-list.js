@@ -33,12 +33,12 @@ const propTypes = {
       startDate: PropTypes.string.isRequired,
     }).isRequired,
   }).isRequired,
-  unassignAgreement: PropTypes.func.isRequired,
+  onUnassignAgreement: PropTypes.func.isRequired,
 };
 
 const AgreementsList = ({
   agreements,
-  unassignAgreement,
+  onUnassignAgreement,
 }) => {
   const { formatMessage } = useIntl();
 
@@ -112,7 +112,8 @@ const AgreementsList = ({
         icon="trash"
         onClick={e => {
           e.preventDefault();
-          unassignAgreement({ id: agreement.id });
+
+          onUnassignAgreement(agreement);
         }}
         data-test-delete-agreement
       />

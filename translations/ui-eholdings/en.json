@@ -8,6 +8,10 @@
     "agreements": "Agreements",
     "agreements.notFound": "No agreements found",
     "agreements.unlink": "Unlink agreement from this record.",
+    "agreements.unassignModal.header": "Unassign an agreement from this record",
+    "agreements.unassignModal.description": "Are you sure you want to unassign <strong>{agreementName}</strong> from <strong>{recordName}</strong>? Once you unsassign, the agreement will no longer be attached to this record.",
+    "agreements.unassignModal.cancel": "Cancel",
+    "agreements.unassignModal.unassign": "Unassign",
     "package.actionMenu.edit": "Edit",
     "package.addToHoldings": "Add to holdings",
     "package.addToken": "Add token",
@@ -443,6 +447,6 @@
     "permission.settings.access-types.all": "Settings (eholdings): Can create, edit, view, and delete access status types",
     "permission.settings.access-types.create-edit": "Settings (eholdings): Can create, edit, and view access status types",
     "permission.settings.access-types.view": "Settings (eholdings): Can view access status types",
-    "permission.settings.custom-labels.all:": "Settings (eholdings): Can create, edit, view, and delete custom labels",
+    "permission.settings.custom-labels.all": "Settings (eholdings): Can create, edit, view, and delete custom labels",
     "permission.settings.custom-labels.view": "Settings (eholdings): Can view custom labels"
   }
