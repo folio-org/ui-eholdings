@@ -251,12 +251,6 @@ describe('Package view', function () {
     describe('and assign button was clicked', () => {
       beforeEach(async () => {
         await notesAccordion.assignButton.click();
-        a11yResults = await axe.run();
-      });
-
-      it('should not have any a11y issues', () => {
-        console.log(JSON.stringify(a11yResults.violations));
-        expect(a11yResults.violations).to.be.empty;
       });
 
       it('should open notes modal', function () {
@@ -275,12 +269,6 @@ describe('Package view', function () {
         beforeEach(async () => {
           await notesModal.enterSearchQuery('some note');
           await wait(300);
-          a11yResults = await axe.run();
-        });
-
-        it('should not have any a11y issues', () => {
-          console.log(JSON.stringify(a11yResults.violations));
-          expect(a11yResults.violations).to.be.empty;
         });
 
         it('should enable search button', () => {
@@ -300,12 +288,6 @@ describe('Package view', function () {
         describe('and unassigned filter was selected', () => {
           beforeEach(async () => {
             await notesModal.selectUnassignedFilter();
-            a11yResults = await axe.run();
-          });
-
-          it('should not have any a11y issues', () => {
-            console.log(JSON.stringify(a11yResults.violations));
-            expect(a11yResults.violations).to.be.empty;
           });
 
           it('notes list should contain 2 notes', () => {

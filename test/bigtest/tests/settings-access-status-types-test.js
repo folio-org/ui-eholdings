@@ -16,6 +16,13 @@ describe('With list of root proxies available to a customer', () => {
 
   let a11yResults = null;
 
+  axe.configure({
+    rules: [{
+      id: 'aria-required-children',
+      enabled: false,
+    }],
+  });
+
   describe('when visiting the settings access status types page', () => {
     beforeEach(async function () {
       this.visit('/settings/eholdings/1/access-status-types');
@@ -28,7 +35,6 @@ describe('With list of root proxies available to a customer', () => {
       });
 
       it('should not have any a11y issues', () => {
-        console.log(JSON.stringify(a11yResults.violations));
         expect(a11yResults.violations).to.be.empty;
       });
     });
@@ -48,7 +54,6 @@ describe('With list of root proxies available to a customer', () => {
       });
 
       it('should not have any a11y issues', () => {
-        console.log(JSON.stringify(a11yResults.violations));
         expect(a11yResults.violations).to.be.empty;
       });
 
@@ -63,7 +68,6 @@ describe('With list of root proxies available to a customer', () => {
         });
 
         it('should not have any a11y issues', () => {
-          console.log(JSON.stringify(a11yResults.violations));
           expect(a11yResults.violations).to.be.empty;
         });
 
@@ -136,7 +140,6 @@ describe('With list of root proxies available to a customer', () => {
       });
 
       it('should not have any a11y issues', () => {
-        console.log(JSON.stringify(a11yResults.violations));
         expect(a11yResults.violations).to.be.empty;
       });
 
@@ -170,7 +173,6 @@ describe('With list of root proxies available to a customer', () => {
       });
 
       it('should not have any a11y issues', () => {
-        console.log(JSON.stringify(a11yResults.violations));
         expect(a11yResults.violations).to.be.empty;
       });
 
