@@ -173,14 +173,6 @@ class AgreementsAccordion extends Component {
       type: 'error',
     }));
 
-    if (isUnassigned) {
-      toasts.push({
-        id: `success-agreement-unlink-${id}-${Date.now()}`,
-        message: <FormattedMessage id="ui-eholdings.agreements.unlink" />,
-        type: 'success',
-      });
-    }
-
     return toasts;
   }
 
