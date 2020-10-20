@@ -411,8 +411,13 @@
     "resource.embargoUnit.Months": "{value} mês(es)",
     "resource.embargoUnit.Years": "{value} ano(s)",
     "addPackageToHoldings": "Adicionar pacote aos holdings",
-    "permission.settings.custom-labels.all:": "Configurações (eholdings): Pode criar, editar, visualizar e excluir etiquetas personalizados",
     "permission.settings.custom-labels.view": "Configurações (eholdings): Pode visualizar etiquetas personalizadas",
     "filter.search": "Pesquisar",
-    "label.tags": "Tag(s): {tags}"
+    "label.tags": "Tag(s): {tags}",
+    "agreements.unlink": "Desvincule o contrato deste registro.",
+    "agreements.unassignModal.header": "Cancelar a atribuição de um contrato deste registro",
+    "agreements.unassignModal.description": "Tem certeza de que deseja cancelar a atribuição de <strong>{agreementName}</strong> de <strong>{recordName}</strong>? Depois de cancelar a atribuição, o contrato não será mais anexado a este registro.",
+    "agreements.unassignModal.cancel": "Cancelar",
+    "agreements.unassignModal.unassign": "Cancelar atribuição",
+    "permission.settings.custom-labels.all": "Configurações (eholdings): Pode criar, editar, visualizar e excluir etiquetas personalizadas"
 }
