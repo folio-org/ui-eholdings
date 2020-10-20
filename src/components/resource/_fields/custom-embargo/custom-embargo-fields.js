@@ -48,11 +48,11 @@ function validateEmbargoUnit(embargoUnit, { customEmbargoPeriod }) {
 
 export default class CustomEmbargoFields extends Component {
   static propTypes = {
-    'aria-labelledby': PropTypes.string,
+    ariaLabelledBy: PropTypes.string.isRequired,
   }
 
   renderEmbargoUnitField({ name: fieldsName }) {
-    const ariaLabelledBy = this.props['aria-labelledby'];
+    const { ariaLabelledBy } = this.props;
 
     return (
       <div
@@ -88,7 +88,7 @@ export default class CustomEmbargoFields extends Component {
   }
 
   renderEmbargoValueField(fields, initialValues) {
-    const ariaLabelledBy = this.props['aria-labelledby'];
+    const { ariaLabelledBy } = this.props;
 
     return (
       <div

@@ -307,14 +307,14 @@ class ResourceEditCustomTitle extends Component {
                           </Headline>
                           <CoverageStatementFields
                             coverageDates={renderCoverageDates()}
-                            aria-labelledby="coverage-statement-label"
+                            ariaLabelledBy="coverage-statement-label"
                           />
 
                           <Headline tag="h4" id="embargo-period-label">
                             <FormattedMessage id="ui-eholdings.resource.embargoPeriod" />
                           </Headline>
                           <CustomEmbargoFields
-                            aria-labelledby="embargo-period-label"
+                            ariaLabelledBy="embargo-period-label"
                           />
                         </>
                       ) : (

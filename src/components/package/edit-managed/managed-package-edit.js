@@ -476,7 +476,7 @@ class ManagedPackageEdit extends Component {
                                   token={provider.providerToken}
                                   tokenValue={hasProviderTokenValue}
                                   type="provider"
-                                  aria-labelledby="provider-token-label"
+                                  ariaLabelledBy="provider-token-label"
                                 />
                               </fieldset>
                             )}
@@ -489,7 +489,7 @@ class ManagedPackageEdit extends Component {
                                   token={model.packageToken}
                                   tokenValue={hasPackageTokenValue}
                                   type="package"
-                                  aria-labelledby="package-token-label"
+                                  ariaLabelledBy="package-token-label"
                                 />
                               </fieldset>
                             )}

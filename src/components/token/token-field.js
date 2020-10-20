@@ -11,7 +11,7 @@ import {
 
 export default class TokenField extends Component {
   static propTypes = {
-    'aria-labelledby': PropTypes.string,
+    ariaLabelledBy: PropTypes.string.isRequired,
     token: PropTypes.object,
     tokenValue: PropTypes.string,
     type: PropTypes.string
@@ -41,11 +41,10 @@ export default class TokenField extends Component {
     const {
       token,
       type,
-      ...rest
+      ariaLabelledBy,
     } = this.props;
     const { showInputs } = this.state;
     const helpTextMarkup = { __html: token.helpText };
-    const ariaLabelledBy = rest['aria-labelledby'];
 
     return (showInputs) ? (
       <div>

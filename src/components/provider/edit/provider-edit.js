@@ -118,7 +118,7 @@ export default class ProviderEdit extends Component {
                                 token={model.providerToken}
                                 tokenValue={hasTokenValue}
                                 type="provider"
-                                aria-labelledby="provider-token-label"
+                                ariaLabelledBy="provider-token-label"
                               />
                             </fieldset>
                           )}
