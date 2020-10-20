@@ -11,6 +11,7 @@ import {
   MultiColumnList,
   Icon,
   IconButton,
+  Tooltip,
 } from '@folio/stripes/components';
 
 import { TIME_ZONE } from '../../constants';
@@ -108,15 +109,24 @@ const AgreementsList = ({
     status: ({ status }) => status,
     name: ({ name }) => name,
     actions: agreement => (
-      <IconButton
-        icon="trash"
-        onClick={e => {
-          e.preventDefault();
+      <Tooltip
+        text={<FormattedMessage id="ui-eholdings.agreements.unlink" />}
+        id='unassign-agreement-tooltip'
+      >
+        {({ ref, ariaIds }) => (
+          <IconButton
+            ref={ref}
+            icon="trash"
+            aria-labelledby={ariaIds.text}
+            onClick={e => {
+              e.preventDefault();
 
-          onUnassignAgreement(agreement);
-        }}
-        data-test-delete-agreement
-      />
+              onUnassignAgreement(agreement);
+            }}
+            data-test-delete-agreement
+          />
+        )}
+      </Tooltip>
     )
   };
 

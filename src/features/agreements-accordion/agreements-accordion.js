@@ -161,10 +161,8 @@ class AgreementsAccordion extends Component {
 
   get toasts() {
     const {
-      id,
       agreements: {
         errors,
-        isUnassigned,
       },
     } = this.props;
 
@@ -172,14 +170,6 @@ class AgreementsAccordion extends Component {
       message: error.title,
       type: 'error',
     }));
-
-    if (isUnassigned) {
-      toasts.push({
-        id: `success-agreement-unlink-${id}-${Date.now()}`,
-        message: <FormattedMessage id="ui-eholdings.agreements.unlink" />,
-        type: 'success',
-      });
-    }
 
     return toasts;
   }
