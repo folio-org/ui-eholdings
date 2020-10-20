@@ -124,7 +124,7 @@ const AgreementsList = ({
               onUnassignAgreement(agreement);
             }}
             data-test-delete-agreement
-        />
+          />
         )}
       </Tooltip>
     )
