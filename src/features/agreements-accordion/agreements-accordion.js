@@ -161,10 +161,8 @@ class AgreementsAccordion extends Component {
 
   get toasts() {
     const {
-      id,
       agreements: {
         errors,
-        isUnassigned,
       },
     } = this.props;
 
