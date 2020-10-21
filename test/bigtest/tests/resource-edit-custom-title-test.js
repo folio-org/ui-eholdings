@@ -75,17 +75,6 @@ describe('ResourceEditCustomTitle', () => {
       this.visit(`/eholdings/resources/${resource.titleId}/edit`);
     });
 
-    describe('waiting for axe to run', () => {
-      beforeEach(async () => {
-        await ResourceEditPage.whenLoaded();
-        a11yResults = await axe.run();
-      });
-
-      it('should not have any a11y issues', () => {
-        expect(a11yResults.violations).to.be.empty;
-      });
-    });
-
     describe('with the resource unselected', () => {
       it('should not display the coverage button', () => {
         expect(ResourceEditPage.hasAddCustomCoverageButton).to.be.false;

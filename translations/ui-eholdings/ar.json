@@ -411,8 +411,13 @@
     "resource.embargoUnit.Months": "{value} شهراً",
     "resource.embargoUnit.Years": "{value} عاماً",
     "addPackageToHoldings": "إضافة حزمة إلى المقتنيات",
-    "permission.settings.custom-labels.all:": "الإعدادات (المقتنيات الإلكترونية): إمكانية إنشاء، تحرير، عرض، وحذف ملصقات التسمية المخصصة",
     "permission.settings.custom-labels.view": "الإعدادات (المقتنيات الإلكترونية): إمكانية عرض ملصقات التسمية المخصصة",
     "filter.search": "بحث",
-    "label.tags": "وسوم: {tags}"
+    "label.tags": "وسوم: {tags}",
+    "agreements.unlink": "إلغاء ربط الاتفاقية لهذه التسجيلة",
+    "agreements.unassignModal.header": "إلغاء تعيين اتفاقية من هذه التسجيلة",
+    "agreements.unassignModal.description": "هل أنت متأكد من أنك تريد إلغاء تعيين <strong>{agreementName}</strong> من <strong>{recordName}</strong>؟ بمجرد قيامك بإلغاء التعيين، لن تكون الاتفاقية مرفقة بهذه التسجيلة بعد الآن.",
+    "agreements.unassignModal.cancel": "إلغاء",
+    "agreements.unassignModal.unassign": "إلغاء تعيين",
+    "permission.settings.custom-labels.all": "الإعدادات (المقتنيات الإلكترونية): إمكانية إنشاء، تحرير، عرض، وحذف ملصقات التسمية المخصصة"
 }

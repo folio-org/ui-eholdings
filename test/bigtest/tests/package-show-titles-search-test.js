@@ -142,11 +142,6 @@ describe('Package Show Title Search', () => {
         beforeEach(async () => {
           await PackageShowPage.searchModal.searchTitles('My Title');
           await PackageShowPage.searchModal.clickSearch();
-          a11yResults = await axe.run();
-        });
-
-        it('should not have any a11y issues', () => {
-          expect(a11yResults.violations).to.be.empty;
         });
 
         it('properly filters the results', () => {
@@ -164,11 +159,6 @@ describe('Package Show Title Search', () => {
           await PackageShowPage.searchModal.toggleAccordion('#accordion-toggle-button-filter-titles-selected');
           await PackageShowPage.searchModal.clickFilter('selected', 'true');
           await PackageShowPage.searchModal.clickSearch();
-          a11yResults = await axe.run();
-        });
-
-        it('should not have any a11y issues', () => {
-          expect(a11yResults.violations).to.be.empty;
         });
 
         it('properly filters the results', () => {
