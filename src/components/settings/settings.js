@@ -73,6 +73,7 @@ class Settings extends Component {
 
     return (
       <Tooltip
+        id={`${id}-tooltip`}
         text="View details"
       >
         {({ ref, ariaIds }) => (
@@ -104,7 +105,7 @@ class Settings extends Component {
     } = this.props;
 
     return kbCredentials.map((configuration) => (
-      <NavList>
+      <NavList aria-label={`${configuration.attributes.name}`}>
         <NavListSection
           label={this.renderKnowledgeBaseHeading(configuration)}
           activeLink={pathname}

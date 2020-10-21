@@ -5,11 +5,13 @@ import {
 } from '@bigtest/mocha';
 import { expect } from 'chai';
 
-import setupApplication from '../helpers/setup-application';
+import setupApplication, { axe } from '../helpers/setup-application';
 import Settings from '../interactors/settings';
 
 describe('Settings', () => {
   setupApplication();
+
+  let a11yResults = null;
 
   describe('when there are no Knowledge Base Configurations', () => {
     beforeEach(async function () {
@@ -17,7 +19,17 @@ describe('Settings', () => {
         data: [],
       }));
       this.visit('/settings/eholdings');
-      await Settings.whenLoaded();
+    });
+
+    describe('waiting for axe to run', () => {
+      beforeEach(async () => {
+        await Settings.whenLoaded();
+        a11yResults = await axe.run();
+      });
+
+      it('should not have any a11y issues', () => {
+        expect(a11yResults.violations).to.be.empty;
+      });
     });
 
     it('should display New button', () => {
@@ -32,7 +44,17 @@ describe('Settings', () => {
   describe('when there are Knowledge Base configurations', () => {
     beforeEach(async function () {
       this.visit('/settings/eholdings');
-      await Settings.whenLoaded();
+    });
+
+    describe('waiting for axe to run', () => {
+      beforeEach(async () => {
+        await Settings.whenLoaded();
+        a11yResults = await axe.run();
+      });
+
+      it('should not have any a11y issues', () => {
+        expect(a11yResults.violations).to.be.empty;
+      });
     });
 
     it('should display New button', () => {
@@ -52,6 +74,11 @@ describe('Settings', () => {
     describe('when clicking on configuration heading', () => {
       beforeEach(async () => {
         await Settings.configurationNavigationList(0).clickHeading();
+        a11yResults = await axe.run();
+      });
+
+      it('should not have any a11y issues', () => {
+        expect(a11yResults.violations).to.be.empty;
       });
 
       it('should redirect to Knowledge Base configuration page', function () {
@@ -62,6 +89,11 @@ describe('Settings', () => {
     describe('when clicking on new button', () => {
       beforeEach(async () => {
         await Settings.clickNew();
+        a11yResults = await axe.run();
+      });
+
+      it('should not have any a11y issues', () => {
+        expect(a11yResults.violations).to.be.empty;
       });
 
       it('should redirect to Knowledge Base create page', function () {

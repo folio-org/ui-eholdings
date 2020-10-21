@@ -90,6 +90,10 @@ import TagsAccordion from './tags-accordion';
   providerPackageList = collection('[data-test-query-list="provider-packages"] li', {
     clickToPackage: clickable('a')
   });
+
+  whenLoaded() {
+    return this.when(() => isPresent('#search-pane'));
+  }
 }
 
 export default new ProviderSearchPage('[data-test-eholdings]');

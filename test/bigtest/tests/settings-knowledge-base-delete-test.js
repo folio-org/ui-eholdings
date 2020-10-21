@@ -5,15 +5,28 @@ import {
 } from '@bigtest/mocha';
 import { expect } from 'chai';
 
-import setupApplication from '../helpers/setup-application';
+import setupApplication, { axe } from '../helpers/setup-application';
 import SettingsCreateKBPage from '../interactors/settings-configuration';
 
 describe('Delete knowledge base flow', () => {
   setupApplication();
 
+  let a11yResults = null;
+
   describe('when creating a knowledge base', () => {
     beforeEach(async function () {
       this.visit('/settings/eholdings/knowledge-base/new');
+      await SettingsCreateKBPage.whenLoaded();
+    });
+
+    describe('waiting for axe to run', () => {
+      beforeEach(async () => {
+        a11yResults = await axe.run();
+      });
+
+      it('should not have any a11y issues', () => {
+        expect(a11yResults.violations).to.be.empty;
+      });
     });
 
     it('should not show the delete button', () => {
@@ -37,6 +50,11 @@ describe('Delete knowledge base flow', () => {
       describe('and the delete button was clicked', () => {
         beforeEach(async () => {
           await SettingsCreateKBPage.clickDeleteButton();
+          a11yResults = await axe.run();
+        });
+
+        it('should not have any a11y issues', () => {
+          expect(a11yResults.violations).to.be.empty;
         });
 
         it('should display confirmation modal', () => {

@@ -1,7 +1,7 @@
 import { beforeEach, describe, it } from '@bigtest/mocha';
 import { expect } from 'chai';
 
-import setupApplication from '../helpers/setup-application';
+import setupApplication, { axe } from '../helpers/setup-application';
 import setupBlockServer from '../helpers/setup-block-server';
 import ResourcePage from '../interactors/resource-show';
 
@@ -10,6 +10,8 @@ describe('ResourceSelection', () => {
   let provider,
     providerPackage,
     resource;
+
+  let a11yResults = null;
 
   beforeEach(function () {
     setupBlockServer(this.server);
@@ -36,8 +38,19 @@ describe('ResourceSelection', () => {
   });
 
   describe('visiting the resource page', () => {
-    beforeEach(function () {
+    beforeEach(async function () {
       this.visit(`/eholdings/resources/${resource.id}`);
+    });
+
+    describe('waiting for axe to run', () => {
+      beforeEach(async () => {
+        await ResourcePage.whenLoaded();
+        a11yResults = await axe.run();
+      });
+
+      it('should not have any a11y issues', () => {
+        expect(a11yResults.violations).to.be.empty;
+      });
     });
 
     it('indicates that the resource is not yet selected', () => {

@@ -1,6 +1,6 @@
 import { beforeEach, describe, it } from '@bigtest/mocha';
 import { expect } from 'chai';
-import setupApplication from '../helpers/setup-application';
+import setupApplication, { axe } from '../helpers/setup-application';
 import ResourcePage from '../interactors/resource-show';
 
 describe('ResourceCustomCoverage', () => {
@@ -8,6 +8,8 @@ describe('ResourceCustomCoverage', () => {
   let pkg,
     title,
     resource;
+
+  let a11yResults = null;
 
   beforeEach(function () {
     pkg = this.server.create('package', 'withProvider');
@@ -26,11 +28,22 @@ describe('ResourceCustomCoverage', () => {
   });
 
   describe('visiting an unselected resource show page', () => {
-    beforeEach(function () {
+    beforeEach(async function () {
       resource.isSelected = false;
       resource.save();
 
       this.visit(`/eholdings/resources/${resource.id}`);
+    });
+
+    describe('waiting for axe to run', () => {
+      beforeEach(async () => {
+        await ResourcePage.whenLoaded();
+        a11yResults = await axe.run();
+      });
+
+      it('should not have any a11y issues', () => {
+        expect(a11yResults.violations).to.be.empty;
+      });
     });
 
     it('displays message that resource needs to be selected', () => {
@@ -43,7 +56,7 @@ describe('ResourceCustomCoverage', () => {
   });
 
   describe('visiting a selected resource show page with custom coverage', () => {
-    beforeEach(function () {
+    beforeEach(async function () {
       const customCoverages = [
         this.server.create('custom-coverage', {
           beginCoverage: '1969-07-16',
@@ -53,6 +66,17 @@ describe('ResourceCustomCoverage', () => {
       resource.update('customCoverages', customCoverages.map(item => item.toJSON()));
       resource.save();
       this.visit(`/eholdings/resources/${resource.id}`);
+    });
+
+    describe('waiting for axe to run', () => {
+      beforeEach(async () => {
+        await ResourcePage.whenLoaded();
+        a11yResults = await axe.run();
+      });
+
+      it('should not have any a11y issues', () => {
+        expect(a11yResults.violations).to.be.empty;
+      });
     });
 
     it('displays the date ranges', () => {
@@ -104,6 +128,7 @@ describe('ResourceCustomCoverage', () => {
       expect(ResourcePage.customCoverageList).to.equal('7/16/1969');
     });
   });
+
   describe('visiting the resource show page with multiple custom coverage dates', () => {
     beforeEach(function () {
       resource.customCoverages = [

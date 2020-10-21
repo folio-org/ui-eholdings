@@ -1,12 +1,15 @@
 import { beforeEach, describe, it } from '@bigtest/mocha';
 import { expect } from 'chai';
 
-import setupApplication from '../helpers/setup-application';
+import setupApplication, { axe } from '../helpers/setup-application';
 import ProviderSearchPage from '../interactors/provider-search';
 
 describe('ProviderSearch', () => {
   setupApplication();
-  beforeEach(function () {
+
+  let a11yResults = null;
+
+  beforeEach(async function () {
     this.server.createList('provider', 3, 'withPackagesAndTitles', {
       name: i => `Provider${i + 1}`,
       packagesSelected: 1,
@@ -18,6 +21,17 @@ describe('ProviderSearch', () => {
     });
 
     this.visit('/eholdings/?searchType=providers');
+  });
+
+  describe('waiting for axe to run', () => {
+    beforeEach(async () => {
+      await ProviderSearchPage.whenLoaded();
+      a11yResults = await axe.run();
+    });
+
+    it('should not have any a11y issues', () => {
+      expect(a11yResults.violations).to.be.empty;
+    });
   });
 
   it('has a searchbox', () => {

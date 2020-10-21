@@ -1,7 +1,7 @@
 import { beforeEach, describe, it } from '@bigtest/mocha';
 import { expect } from 'chai';
 
-import setupApplication from '../helpers/setup-application';
+import setupApplication, { axe } from '../helpers/setup-application';
 import PackageCreatePage from '../interactors/package-create';
 import PackageShowPage from '../interactors/package-show';
 import PackageSearchPage from '../interactors/package-search';
@@ -10,9 +10,22 @@ import NavigationModal from '../interactors/navigation-modal';
 describe('PackageCreate', () => {
   setupApplication();
 
+  let a11yResults = null;
+
   describe('submitting the form', () => {
-    beforeEach(function () {
+    beforeEach(async function () {
       this.visit('/eholdings/packages/new');
+    });
+
+    describe('waiting for axe to run', () => {
+      beforeEach(async () => {
+        await PackageCreatePage.whenLoaded();
+        a11yResults = await axe.run();
+      });
+
+      it('should not have any a11y issues', () => {
+        expect(a11yResults.violations).to.be.empty;
+      });
     });
 
     it('has a package name field', () => {
@@ -106,16 +119,22 @@ describe('PackageCreate', () => {
     });
 
     describe('getting an error when creating a new package', () => {
-      beforeEach(function () {
+      beforeEach(async function () {
         this.server.post('/packages', {
           errors: [{
             title: 'There was an error'
           }]
         }, 500);
 
-        return PackageCreatePage
+        await PackageCreatePage
           .fillName('My Package')
           .save();
+
+        a11yResults = await axe.run();
+      });
+
+      it('should not have any a11y issues', () => {
+        expect(a11yResults.violations).to.be.empty;
       });
 
       it.always('does not create the new package', function () {
@@ -153,10 +172,16 @@ describe('PackageCreate', () => {
       });
 
       describe('clicking close after filling in data', () => {
-        beforeEach(() => {
-          return PackageCreatePage
+        beforeEach(async () => {
+          await PackageCreatePage
             .fillName('My Package')
             .clickBackButton();
+
+          a11yResults = await axe.run();
+        });
+
+        it('should not have any a11y issues', () => {
+          expect(a11yResults.violations).to.be.empty;
         });
 
         it('shows a navigation confirmation modal', () => {

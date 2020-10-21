@@ -17,7 +17,11 @@ export default function SearchFilters({
   disabled,
 }) {
   return (
-    <div className={styles['search-filters']} data-test-eholdings-search-filters={searchType}>
+    <div
+      className={styles['search-filters']}
+      role="tab"
+      data-test-eholdings-search-filters={searchType}
+    >
       {availableFilters.map(({ name, label, defaultValue, options }) => {
         const accordionLabelId = `filter-${searchType}-${name}-label`;
 

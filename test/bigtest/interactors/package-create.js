@@ -33,6 +33,10 @@ import Datepicker from './datepicker';
   });
 
   cancelEditing = clickable('[data-test-eholdings-package-create-cancel-button]');
+
+  whenLoaded() {
+    return this.when(() => isPresent('[data-test-eholdings-package-create]'));
+  }
 }
 
 export default new PackageCreatePage('[data-test-eholdings-package-create]');

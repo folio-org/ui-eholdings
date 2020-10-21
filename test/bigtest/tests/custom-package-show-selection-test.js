@@ -1,7 +1,7 @@
 import { beforeEach, describe, it } from '@bigtest/mocha';
 import { expect } from 'chai';
 
-import setupApplication from '../helpers/setup-application';
+import setupApplication, { axe } from '../helpers/setup-application';
 import setupBlockServer from '../helpers/setup-block-server';
 import PackageShowPage from '../interactors/package-show';
 
@@ -15,6 +15,8 @@ describe('CustomPackageShowSelection', () => {
 
   let provider,
     providerPackage;
+
+  let a11yResults = null;
 
   beforeEach(function () {
     setupBlockServer(this.server);
@@ -32,8 +34,19 @@ describe('CustomPackageShowSelection', () => {
   });
 
   describe('visiting the package details page', () => {
-    beforeEach(function () {
+    beforeEach(async function () {
       this.visit(`/eholdings/packages/${providerPackage.id}`);
+    });
+
+    describe('waiting for axe to run', () => {
+      beforeEach(async () => {
+        await PackageShowPage.whenLoaded();
+        a11yResults = await axe.run();
+      });
+
+      it('should not have any a11y issues', () => {
+        expect(a11yResults.violations).to.be.empty;
+      });
     });
 
     it('automatically has the custom package in my holdings', () => {
@@ -41,10 +54,20 @@ describe('CustomPackageShowSelection', () => {
     });
 
     describe('deselecting a custom package', () => {
-      beforeEach(() => {
-        return PackageShowPage
+      beforeEach(async () => {
+        await PackageShowPage
           .actionsDropDown.clickDropDownButton()
           .dropDownMenu.removeFromHoldings.click();
+
+        a11yResults = await axe.run({
+          rules: {
+            'aria-required-parent': { enabled: false },
+          },
+        });
+      });
+
+      it('should not have any a11y issues', () => {
+        expect(a11yResults.violations).to.be.empty;
       });
 
       describe('canceling the deselection', () => {
@@ -85,16 +108,26 @@ describe('CustomPackageShowSelection', () => {
     // put is only on updating a custom packge.
 
     describe('unsuccessfully deselecting a custom package', () => {
-      beforeEach(function () {
+      beforeEach(async function () {
         this.server.delete('/packages/:packageId', {
           errors: [{
             title: 'There was an error'
           }]
         }, 500);
 
-        return PackageShowPage
+        await PackageShowPage
           .actionsDropDown.clickDropDownButton()
           .dropDownMenu.removeFromHoldings.click();
+
+        a11yResults = await axe.run({
+          rules: {
+            'aria-required-parent': { enabled: false },
+          },
+        });
+      });
+
+      it('should not have any a11y issues', () => {
+        expect(a11yResults.violations).to.be.empty;
       });
 
       it('shows a confirmation dialog', () => {

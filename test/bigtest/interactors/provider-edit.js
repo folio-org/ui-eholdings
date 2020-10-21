@@ -52,6 +52,10 @@ import NavigationModal from './navigation-modal';
   providerTokenError = text('[data-test-eholdings-token-value-textarea="provider"] [class^="feedbackError--"]');
 
   toast = Toast;
+
+  whenLoaded() {
+    return this.when(() => isPresent('[data-test-eholdings-details-view="provider"]'));
+  }
 }
 
 export default new ProviderEditPage('[data-test-eholdings-details-view="provider"]');

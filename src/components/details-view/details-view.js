@@ -42,6 +42,7 @@ class DetailsView extends Component {
       PropTypes.node
     ]),
     ariaRole: PropTypes.string,
+    bodyAriaRole: PropTypes.string,
     bodyContent: PropTypes.node.isRequired,
     footer: PropTypes.node,
     handleExpandAll: PropTypes.func,
@@ -262,6 +263,7 @@ class DetailsView extends Component {
       listSectionId,
       onListToggle,
       ariaRole,
+      bodyAriaRole,
     } = this.props;
 
     const { isSticky } = this.state;
@@ -302,7 +304,7 @@ class DetailsView extends Component {
           )}
         </div>,
         <div role={ariaRole}>
-          <div key="body" className={styles.body}>
+          <div key="body" className={styles.body} role={bodyAriaRole}>
             {bodyContent}
           </div>
           {!!renderList && (
@@ -331,7 +333,6 @@ class DetailsView extends Component {
                     id={listSectionId}
                     onToggle={onListToggle}
                     listType={listType}
-                    headerProps={{ role: 'tab' }}
                   >
                     {renderList(isSticky)}
                   </Accordion>

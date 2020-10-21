@@ -1,7 +1,7 @@
 import { expect } from 'chai';
 import { describe, beforeEach, it } from '@bigtest/mocha';
 
-import setupApplication from '../helpers/setup-application';
+import setupApplication, { axe } from '../helpers/setup-application';
 import ResourceShowPage from '../interactors/resource-show';
 import ResourceEditPage from '../interactors/resource-edit';
 
@@ -10,6 +10,8 @@ describe('ResourceEditManagedTitleInManagedPackage', () => {
   let provider,
     providerPackage,
     resource;
+
+  let a11yResults = null;
 
   beforeEach(function () {
     provider = this.server.create('provider', {
@@ -45,7 +47,7 @@ describe('ResourceEditManagedTitleInManagedPackage', () => {
   });
 
   describe('visiting the resource edit page without coverage dates, statement, or embargo', () => {
-    beforeEach(function () {
+    beforeEach(async function () {
       resource.managedCoverages = this.server.createList('managed-coverage', 1, {
         beginCoverage: '1969-07-16',
         endCoverage: '1972-12-19'
@@ -54,6 +56,17 @@ describe('ResourceEditManagedTitleInManagedPackage', () => {
       resource.save();
 
       this.visit(`/eholdings/resources/${resource.titleId}/edit`);
+    });
+
+    describe('waiting for axe to run', () => {
+      beforeEach(async () => {
+        await ResourceEditPage.whenLoaded();
+        a11yResults = await axe.run();
+      });
+
+      it('should not have any a11y issues', () => {
+        expect(a11yResults.violations).to.be.empty;
+      });
     });
 
     it('displays the managed coverage dates in the form', () => {
@@ -182,7 +195,7 @@ describe('ResourceEditManagedTitleInManagedPackage', () => {
   });
 
   describe('visiting the resource edit page with coverage dates, statement, and embargo', () => {
-    beforeEach(function () {
+    beforeEach(async function () {
       resource.coverageStatement = 'Use this one weird trick to get access.';
       const customCoverages = [
         this.server.create('custom-coverage', {
@@ -202,6 +215,17 @@ describe('ResourceEditManagedTitleInManagedPackage', () => {
       resource.save();
 
       this.visit(`/eholdings/resources/${resource.titleId}/edit`);
+    });
+
+    describe('waiting for axe to run', () => {
+      beforeEach(async () => {
+        await ResourceEditPage.whenLoaded();
+        a11yResults = await axe.run();
+      });
+
+      it('should not have any a11y issues', () => {
+        expect(a11yResults.violations).to.be.empty;
+      });
     });
 
     describe('section: holding status', () => {

@@ -2,17 +2,31 @@ import { beforeEach, describe, it } from '@bigtest/mocha';
 import { expect } from 'chai';
 import faker from 'faker';
 
-import setupApplication from '../helpers/setup-application';
+import setupApplication, { axe } from '../helpers/setup-application';
 import NotesAccordion from '../interactors/notes-accordion';
 import NotesModal from '../interactors/notes-modal';
 import NoteForm from '../interactors/note-form';
 import NoteView from '../interactors/note-view';
+import PackageShow from '../interactors/package-show';
 import wait from '../helpers/wait';
 
 const notesAccordion = new NotesAccordion();
 const notesModal = new NotesModal();
 const noteForm = new NoteForm();
 const noteView = new NoteView();
+
+axe.configure({
+  rules: [{
+    id: 'button-name',
+    enabled: false,
+  }, {
+    id: 'color-contrast',
+    enabled: false,
+  }, {
+    id: 'aria-required-parent',
+    enabled: false,
+  }],
+});
 
 describe('Package view', function () {
   setupApplication();
@@ -21,6 +35,7 @@ describe('Package view', function () {
   let providerPackage;
   let noteType;
   let packageNote;
+  let a11yResults = null;
 
   beforeEach(function () {
     provider = this.server.create('provider', {
@@ -65,6 +80,17 @@ describe('Package view', function () {
       this.visit(`/eholdings/packages/${providerPackage.id}`);
     });
 
+    describe('waiting for axe to run', () => {
+      beforeEach(async () => {
+        await PackageShow.whenLoaded();
+        a11yResults = await axe.run();
+      });
+
+      it('should not have any a11y issues', () => {
+        expect(a11yResults.violations).to.be.empty;
+      });
+    });
+
     it('should display notes accordion', () => {
       expect(notesAccordion.packageNotesAccordionIsDisplayed).to.be.true;
     });
@@ -88,6 +114,11 @@ describe('Package view', function () {
     describe('and new button was clicked', () => {
       beforeEach(async () => {
         await notesAccordion.newButton.click();
+        a11yResults = await axe.run();
+      });
+
+      it('should not have any a11y issues', () => {
+        expect(a11yResults.violations).to.be.empty;
       });
 
       it('should open create note page', function () {
@@ -116,6 +147,11 @@ describe('Package view', function () {
         describe('and note title length is exceeded', () => {
           beforeEach(async () => {
             await noteForm.noteTitleField.enterText(faker.lorem.words(100));
+            a11yResults = await axe.run();
+          });
+
+          it('should not have any a11y issues', () => {
+            expect(a11yResults.violations).to.be.empty;
           });
 
           it('should display title length error', () => {
@@ -136,6 +172,11 @@ describe('Package view', function () {
         describe('and correct note data was entered', () => {
           beforeEach(async () => {
             await noteForm.enterNoteData(noteType.name, 'some note title');
+            a11yResults = await axe.run();
+          });
+
+          it('should not have any a11y issues', () => {
+            expect(a11yResults.violations).to.be.empty;
           });
 
           it('should enable save button', () => {
@@ -154,6 +195,11 @@ describe('Package view', function () {
             describe('and cancel navigation button was clicked', () => {
               beforeEach(async () => {
                 await noteForm.clickCancelNavigationButton();
+                a11yResults = await axe.run();
+              });
+
+              it('should not have any a11y issues', () => {
+                expect(a11yResults.violations).to.be.empty;
               });
 
               it('should close navigation modal', () => {
@@ -183,6 +229,11 @@ describe('Package view', function () {
           describe('and save button was clicked', () => {
             beforeEach(async () => {
               await noteForm.saveButton.click();
+              a11yResults = await axe.run();
+            });
+
+            it('should not have any a11y issues', () => {
+              expect(a11yResults.violations).to.be.empty;
             });
 
             it('should redirect to previous page', function () {
@@ -275,6 +326,11 @@ describe('Package view', function () {
       beforeEach(async () => {
         await notesAccordion.notes(0).click();
         await noteView.whenLoaded();
+        a11yResults = await axe.run();
+      });
+
+      it('should not have any a11y issues', () => {
+        expect(a11yResults.violations).to.be.empty;
       });
 
       it('should redirect to note view page', function () {
@@ -326,6 +382,11 @@ describe('Package view', function () {
       describe('and delete button was clicked', async () => {
         beforeEach(async () => {
           await noteView.performDeleteNoteAction();
+          a11yResults = await axe.run();
+        });
+
+        it('should not have any a11y issues', () => {
+          expect(a11yResults.violations).to.be.empty;
         });
 
         it('should open confirmation modal', () => {
@@ -357,6 +418,11 @@ describe('Package view', function () {
         beforeEach(async () => {
           await noteView.clickEditButton();
           await noteForm.when(() => noteForm.formFieldsAccordionIsDisplayed);
+          a11yResults = await axe.run();
+        });
+
+        it('should not have any a11y issues', () => {
+          expect(a11yResults.violations).to.be.empty;
         });
 
         it('should redirect to note edit page', function () {
@@ -409,6 +475,11 @@ describe('Package view', function () {
           describe('and note title length is exceeded', () => {
             beforeEach(async () => {
               await noteForm.noteTitleField.enterText(faker.lorem.words(100));
+              a11yResults = await axe.run();
+            });
+
+            it('should not have any a11y issues', () => {
+              expect(a11yResults.violations).to.be.empty;
             });
 
             it('should display title length error', () => {
@@ -429,6 +500,11 @@ describe('Package view', function () {
           describe('and correct note data was entered', () => {
             beforeEach(async () => {
               await noteForm.enterNoteData(noteType.name, 'some note title');
+              a11yResults = await axe.run();
+            });
+
+            it('should not have any a11y issues', () => {
+              expect(a11yResults.violations).to.be.empty;
             });
 
             it('should enable save button', () => {
@@ -438,6 +514,11 @@ describe('Package view', function () {
             describe('and close button was clicked', () => {
               beforeEach(async () => {
                 await noteForm.closeButton.click();
+                a11yResults = await axe.run();
+              });
+
+              it('should not have any a11y issues', () => {
+                expect(a11yResults.violations).to.be.empty;
               });
 
               it('should display navigation modal', function () {

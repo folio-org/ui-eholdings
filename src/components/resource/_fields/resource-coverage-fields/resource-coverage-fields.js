@@ -147,7 +147,7 @@ class ResourceCoverageFields extends Component {
     );
   };
 
-  renderField = (dateRange) => {
+  renderField = (dateRange, index) => {
     return (
       <Row>
         <Col
@@ -165,7 +165,7 @@ class ResourceCoverageFields extends Component {
                 format={formatDate}
                 backendDateStandard={BACKEND_DATE_STANDARD}
                 error={meta.error}
-                id="begin-coverage"
+                id={`begin-coverage-${index}`}
                 input={input}
                 label={<FormattedMessage id="ui-eholdings.date.startDate" />}
                 useInput
@@ -189,7 +189,7 @@ class ResourceCoverageFields extends Component {
                 format={formatDate}
                 backendDateStandard={BACKEND_DATE_STANDARD}
                 error={meta.error}
-                id="end-coverage"
+                id={`end-coverage-${index}`}
                 input={input}
                 label={<FormattedMessage id="ui-eholdings.date.endDate" />}
                 useInput

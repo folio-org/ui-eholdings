@@ -60,6 +60,10 @@ import SelectionInteractor from '@folio/stripes-components/lib/Selection/tests/i
   clickBackButton = clickable('[data-test-eholdings-details-view-back-button]');
   cancelEditing = clickable('[data-test-eholdings-title-create-cancel-button]');
   packageSelection = new SelectionInteractor('[data-test-eholdings-package-select-field]')
+
+  whenLoaded() {
+    return this.when(() => isPresent('[data-test-eholdings-title-create]'));
+  }
 }
 
 export default new TitleCreatePage();

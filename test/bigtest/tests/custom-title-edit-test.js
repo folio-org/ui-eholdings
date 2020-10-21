@@ -1,7 +1,7 @@
 import { expect } from 'chai';
 import { describe, beforeEach, it } from '@bigtest/mocha';
 
-import setupApplication from '../helpers/setup-application';
+import setupApplication, { axe } from '../helpers/setup-application';
 import TitleShowPage from '../interactors/title-show';
 import TitleEditPage from '../interactors/title-edit';
 
@@ -10,6 +10,8 @@ describe('CustomTitleEdit', () => {
   let provider,
     providerPackage,
     title;
+
+  let a11yResults = null;
 
   beforeEach(function () {
     provider = this.server.create('provider', {
@@ -59,8 +61,19 @@ describe('CustomTitleEdit', () => {
   });
 
   describe('visiting the title edit page', () => {
-    beforeEach(function () {
+    beforeEach(async function () {
       this.visit(`/eholdings/titles/${title.id}/edit`);
+    });
+
+    describe('waiting for axe to run', () => {
+      beforeEach(async () => {
+        await TitleEditPage.whenLoaded();
+        a11yResults = await axe.run();
+      });
+
+      it('should not have any a11y issues', () => {
+        expect(a11yResults.violations).to.be.empty;
+      });
     });
 
     it('shows a field for edition', () => {
@@ -254,8 +267,13 @@ describe('CustomTitleEdit', () => {
       });
 
       describe('clicking close (navigate back) button', () => {
-        beforeEach(() => {
-          return TitleEditPage.clickBackButton();
+        beforeEach(async () => {
+          await TitleEditPage.clickBackButton();
+          a11yResults = await axe.run();
+        });
+
+        it('should not have any a11y issues', () => {
+          expect(a11yResults.violations).to.be.empty;
         });
 
         it('shows a navigation confirmation modal', () => {

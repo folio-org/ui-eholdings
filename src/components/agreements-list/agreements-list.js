@@ -64,7 +64,7 @@ const AgreementsList = ({
 
     return (
       <div
-        role="listitem"
+        role="rowheader"
         key={id}
       >
         <Link

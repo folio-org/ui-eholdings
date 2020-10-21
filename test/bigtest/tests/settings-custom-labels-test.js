@@ -5,7 +5,7 @@ import {
 } from '@bigtest/mocha';
 import { expect } from 'chai';
 
-import setupApplication from '../helpers/setup-application';
+import setupApplication, { axe } from '../helpers/setup-application';
 import NavigationModal from '../interactors/navigation-modal';
 import SettingsCustomLabelsPage from '../interactors/settings-custom-labels';
 import wait from '../helpers/wait';
@@ -13,10 +13,22 @@ import wait from '../helpers/wait';
 describe('With list of root proxies available to a customer', () => {
   setupApplication();
 
+  let a11yResults = null;
+
   describe('when visiting the settings custom-labels form', () => {
     beforeEach(async function () {
       this.visit('/settings/eholdings/2/custom-labels');
       await wait(1000);
+    });
+
+    describe('waiting for axe to run', () => {
+      beforeEach(async () => {
+        a11yResults = await axe.run();
+      });
+
+      it('should not have any a11y issues', () => {
+        expect(a11yResults.violations).to.be.empty;
+      });
     });
 
     it('should open settings custom labels page', () => {
@@ -58,6 +70,11 @@ describe('With list of root proxies available to a customer', () => {
     describe('delete label where one of checkboxes is checked', () => {
       beforeEach(async () => {
         await SettingsCustomLabelsPage.customLabels(0).fillAndBlurLabel('');
+        a11yResults = await axe.run();
+      });
+
+      it('should not have any a11y issues', () => {
+        expect(a11yResults.violations).to.be.empty;
       });
 
       it('should show error message', () => {
@@ -97,6 +114,11 @@ describe('With list of root proxies available to a customer', () => {
       describe('click on save button', () => {
         beforeEach(async () => {
           await SettingsCustomLabelsPage.save();
+          a11yResults = await axe.run();
+        });
+
+        it('should not have any a11y issues', () => {
+          expect(a11yResults.violations).to.be.empty;
         });
 
         it('should show remove confirmation modal', () => {
@@ -133,6 +155,15 @@ describe('With list of root proxies available to a customer', () => {
       beforeEach(async () => {
         await SettingsCustomLabelsPage.customLabels(0).fillAndBlurLabel('new label');
         await SettingsCustomLabelsPage.closeButton();
+        a11yResults = await axe.run({
+          rules: {
+            'aria-allowed-role': { enabled: false },
+          },
+        });
+      });
+
+      it('should not have any a11y issues', () => {
+        expect(a11yResults.violations).to.be.empty;
       });
 
       it('should show unsaved changes confirmation modal', () => {

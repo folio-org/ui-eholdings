@@ -1,7 +1,7 @@
 import { beforeEach, describe, it } from '@bigtest/mocha';
 import { expect } from 'chai';
 
-import setupApplication from '../helpers/setup-application';
+import setupApplication, { axe } from '../helpers/setup-application';
 import ProviderShowPage from '../interactors/provider-show';
 
 describe('ProviderShow package search', () => {
@@ -9,7 +9,9 @@ describe('ProviderShow package search', () => {
   let provider,
     packages;
 
-  beforeEach(function () {
+  let a11yResults = null;
+
+  beforeEach(async function () {
     provider = this.server.create('provider', 'withPackagesAndTitles', {
       name: 'League of Ordinary Men',
       packagesTotal: 5
@@ -53,9 +55,29 @@ describe('ProviderShow package search', () => {
     this.visit(`/eholdings/providers/${provider.id}`);
   });
 
+  describe('waiting for axe to run', () => {
+    beforeEach(async () => {
+      await ProviderShowPage.whenLoaded();
+      a11yResults = await axe.run();
+    });
+
+    it('should not have any a11y issues', () => {
+      expect(a11yResults.violations).to.be.empty;
+    });
+  });
+
   describe('clicking the search button', () => {
-    beforeEach(() => {
-      return ProviderShowPage.clickListSearch();
+    beforeEach(async () => {
+      await ProviderShowPage.clickListSearch();
+      a11yResults = await axe.run({
+        rules: {
+          'heading-order': { enabled: false },
+        },
+      });
+    });
+
+    it('should not have any a11y issues', () => {
+      expect(a11yResults.violations).to.be.empty;
     });
 
     it('shows the package search modal', () => {

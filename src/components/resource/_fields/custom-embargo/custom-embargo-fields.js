@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Field } from 'react-final-form';
 import { FieldArray } from 'react-final-form-arrays';
 import { FormattedMessage } from 'react-intl';
+import PropTypes from 'prop-types';
 
 import isEqual from 'lodash/isEqual';
 
@@ -46,7 +47,13 @@ function validateEmbargoUnit(embargoUnit, { customEmbargoPeriod }) {
 }
 
 export default class CustomEmbargoFields extends Component {
+  static propTypes = {
+    ariaLabelledBy: PropTypes.string.isRequired,
+  }
+
   renderEmbargoUnitField({ name: fieldsName }) {
+    const { ariaLabelledBy } = this.props;
+
     return (
       <div
         data-test-eholdings-custom-embargo-select
@@ -59,6 +66,7 @@ export default class CustomEmbargoFields extends Component {
               component={Select}
               validate={validateEmbargoUnit}
               placeholder={placeholder}
+              aria-labelledby={ariaLabelledBy}
             >
               <FormattedMessage id="ui-eholdings.label.days">
                 {(message) => <option value="Days">{message}</option>}
@@ -80,6 +88,8 @@ export default class CustomEmbargoFields extends Component {
   }
 
   renderEmbargoValueField(fields, initialValues) {
+    const { ariaLabelledBy } = this.props;
+
     return (
       <div
         data-test-eholdings-custom-embargo-textfield
@@ -93,6 +103,7 @@ export default class CustomEmbargoFields extends Component {
               placeholder={placeholder}
               autoFocus={!initialValues.length}
               validate={validateEmbargoValue}
+              aria-labelledby={ariaLabelledBy}
             />
           )}
         </FormattedMessage>

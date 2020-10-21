@@ -302,6 +302,7 @@ class CustomPackageEdit extends Component {
                 handleExpandAll={this.toggleAllSections}
                 sections={sections}
                 ariaRole="tablist"
+                bodyAriaRole="tab"
                 footer={this.getFooter(pristine, reset)}
                 bodyContent={(
                   <>

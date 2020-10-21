@@ -87,6 +87,7 @@ class NavigationModal extends Component {
         label={label}
         wrappingElement="form"
         onClose={this.onCancel}
+        role="dialog"
         footer={(
           <ModalFooter>
             <Button

@@ -1,7 +1,7 @@
 import { expect } from 'chai';
 import { describe, beforeEach, it } from '@bigtest/mocha';
 
-import setupApplication from '../helpers/setup-application';
+import setupApplication, { axe } from '../helpers/setup-application';
 import PackageShowPage from '../interactors/package-show';
 import PackageEditPage from '../interactors/package-edit';
 
@@ -9,6 +9,8 @@ describe('CustomPackageEdit', () => {
   setupApplication();
   let provider,
     providerPackage;
+
+  let a11yResults = null;
 
   beforeEach(function () {
     provider = this.server.create('provider', {
@@ -24,8 +26,19 @@ describe('CustomPackageEdit', () => {
   });
 
   describe('visiting the package edit page without coverage dates', () => {
-    beforeEach(function () {
+    beforeEach(async function () {
       this.visit(`/eholdings/packages/${providerPackage.id}/edit`);
+    });
+
+    describe('waiting for axe to run', () => {
+      beforeEach(async () => {
+        await PackageEditPage.whenLoaded();
+        a11yResults = await axe.run();
+      });
+
+      it('should not have any a11y issues', () => {
+        expect(a11yResults.violations).to.be.empty;
+      });
     });
 
     it('displays the correct holdings status', () => {
@@ -56,10 +69,16 @@ describe('CustomPackageEdit', () => {
     });
 
     describe('entering invalid data', () => {
-      beforeEach(() => {
-        return PackageEditPage
+      beforeEach(async () => {
+        await PackageEditPage
           .dateRangeRowList(0).fillDates('12/18/2018', '12/16/2018')
           .clickSave();
+
+        a11yResults = await axe.run();
+      });
+
+      it('should not have any a11y issues', () => {
+        expect(a11yResults.violations).to.be.empty;
       });
 
       it('displays a validation error for coverage', () => {
@@ -154,8 +173,13 @@ describe('CustomPackageEdit', () => {
       });
 
       describe('clicking close (navigate back) button', () => {
-        beforeEach(() => {
-          return PackageEditPage.clickBackButton();
+        beforeEach(async () => {
+          await PackageEditPage.clickBackButton();
+          a11yResults = await axe.run();
+        });
+
+        it('should not have any a11y issues', () => {
+          expect(a11yResults.violations).to.be.empty;
         });
 
         it('shows a navigation confirmation modal', () => {

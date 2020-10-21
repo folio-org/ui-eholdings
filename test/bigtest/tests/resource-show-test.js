@@ -1,7 +1,7 @@
 import { expect } from 'chai';
 import { describe, beforeEach, it } from '@bigtest/mocha';
 
-import setupApplication from '../helpers/setup-application';
+import setupApplication, { axe } from '../helpers/setup-application';
 import ResourcePage from '../interactors/resource-show';
 import PackageEditPage from '../interactors/package-edit';
 import { entityAuthorityTypes } from '../../../src/constants';
@@ -12,6 +12,8 @@ describe('ResourceShow', () => {
   let providerPackage;
   let resource;
   let accessType;
+
+  let a11yResults = null;
 
   beforeEach(function () {
     provider = this.server.create('provider', {
@@ -85,8 +87,19 @@ describe('ResourceShow', () => {
   });
 
   describe('visiting the resource page', () => {
-    beforeEach(function () {
+    beforeEach(async function () {
       this.visit(`/eholdings/resources/${resource.titleId}`);
+    });
+
+    describe('waiting for axe to run', () => {
+      beforeEach(async () => {
+        await ResourcePage.whenLoaded();
+        a11yResults = await axe.run();
+      });
+
+      it('should not have any a11y issues', () => {
+        expect(a11yResults.violations).to.be.empty;
+      });
     });
 
     it('displays the title name in the pane header', () => {
@@ -485,7 +498,7 @@ describe('ResourceShow', () => {
   });
 
   describe('visiting the resource page with custom labels', () => {
-    beforeEach(function () {
+    beforeEach(async function () {
       providerPackage = this.server.create('package', 'withTitles', {
         provider,
         name: 'Cool Package',
@@ -505,6 +518,17 @@ describe('ResourceShow', () => {
       });
 
       this.visit(`/eholdings/resources/${resource.id}`);
+    });
+
+    describe('waiting for axe to run', () => {
+      beforeEach(async () => {
+        await ResourcePage.whenLoaded();
+        a11yResults = await axe.run();
+      });
+
+      it('should not have any a11y issues', () => {
+        expect(a11yResults.violations).to.be.empty;
+      });
     });
 
     it('displays custom labels accordion', () => {

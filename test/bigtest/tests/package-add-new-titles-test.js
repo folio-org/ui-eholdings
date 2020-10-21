@@ -1,13 +1,15 @@
 import { expect } from 'chai';
 import { beforeEach, describe, it } from '@bigtest/mocha';
 
-import setupApplication from '../helpers/setup-application';
+import setupApplication, { axe } from '../helpers/setup-application';
 import PackageShowPage from '../interactors/package-show';
 
 describe('PackageShowAllowKbToAddTitles', () => {
   setupApplication();
   let provider,
     pkg;
+
+  let a11yResults = null;
 
   beforeEach(function () {
     provider = this.server.create('provider', {
@@ -16,7 +18,7 @@ describe('PackageShowAllowKbToAddTitles', () => {
   });
 
   describe('visiting the package show page with a selected package allowing KB to add new titles', () => {
-    beforeEach(function () {
+    beforeEach(async function () {
       pkg = this.server.create('package', {
         provider,
         name: 'Cool Package',
@@ -28,13 +30,24 @@ describe('PackageShowAllowKbToAddTitles', () => {
       this.visit(`/eholdings/packages/${pkg.id}`);
     });
 
+    describe('waiting for axe to run', () => {
+      beforeEach(async () => {
+        await PackageShowPage.whenLoaded();
+        a11yResults = await axe.run();
+      });
+
+      it('should not have any a11y issues', () => {
+        expect(a11yResults.violations).to.be.empty;
+      });
+    });
+
     it('displays YES for allowing kb to select new titles', () => {
       expect(PackageShowPage.allowKbToAddTitles).to.equal('Yes');
     });
   });
 
   describe('visiting the package show page with a selected package not allowing KB to add new titles', () => {
-    beforeEach(function () {
+    beforeEach(async function () {
       pkg = this.server.create('package', {
         provider,
         name: 'Cool Package',
@@ -44,6 +57,17 @@ describe('PackageShowAllowKbToAddTitles', () => {
       });
 
       this.visit(`/eholdings/packages/${pkg.id}`);
+    });
+
+    describe('waiting for axe to run', () => {
+      beforeEach(async () => {
+        await PackageShowPage.whenLoaded();
+        a11yResults = await axe.run();
+      });
+
+      it('should not have any a11y issues', () => {
+        expect(a11yResults.violations).to.be.empty;
+      });
     });
 
     it('displays NO for allowing kb to select new titles', () => {
@@ -89,6 +113,11 @@ describe('PackageShowAllowKbToAddTitles', () => {
       beforeEach(async () => {
         await PackageShowPage.whenLoaded().selectPackage();
         await PackageShowPage.selectionConfirmationModal.confirmPackageSelection();
+        a11yResults = await axe.run();
+      });
+
+      it('should not have any a11y issues', () => {
+        expect(a11yResults.violations).to.be.empty;
       });
 
       it('reflects the desired state (Selected)', () => {
@@ -129,8 +158,13 @@ describe('PackageShowAllowKbToAddTitles', () => {
     });
 
     describe('toggling to deselect a package and canceling deselection', () => {
-      beforeEach(() => {
-        return PackageShowPage.deselectAndCancelPackage();
+      beforeEach(async () => {
+        await PackageShowPage.deselectAndCancelPackage();
+        a11yResults = await axe.run();
+      });
+
+      it('should not have any a11y issues', () => {
+        expect(a11yResults.violations).to.be.empty;
       });
 
       it('displays YES for allowing kb to select new titles', () => {

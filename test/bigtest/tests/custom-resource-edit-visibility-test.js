@@ -1,7 +1,7 @@
 import { beforeEach, describe, it } from '@bigtest/mocha';
 import { expect } from 'chai';
 
-import setupApplication from '../helpers/setup-application';
+import setupApplication, { axe } from '../helpers/setup-application';
 import ResourceEditPage from '../interactors/resource-edit';
 import ResourceShowPage from '../interactors/resource-show';
 
@@ -11,6 +11,8 @@ describe('CustomResourceEditVisibility', () => {
     providerPackage,
     title,
     resource;
+
+  let a11yResults = null;
 
   beforeEach(function () {
     provider = this.server.create('provider', {
@@ -35,7 +37,7 @@ describe('CustomResourceEditVisibility', () => {
   });
 
   describe('visiting the resource edit page and hiding a resource', () => {
-    beforeEach(function () {
+    beforeEach(async function () {
       resource = this.server.create('resource', {
         package: providerPackage,
         isSelected: true,
@@ -43,6 +45,17 @@ describe('CustomResourceEditVisibility', () => {
       });
 
       this.visit(`/eholdings/resources/${resource.id}/edit`);
+    });
+
+    describe('waiting for axe to run', () => {
+      beforeEach(async () => {
+        await ResourceEditPage.whenLoaded();
+        a11yResults = await axe.run();
+      });
+
+      it('should not have any a11y issues', () => {
+        expect(a11yResults.violations).to.be.empty;
+      });
     });
 
     it('displays the yes visibility radio is selected', () => {
@@ -78,8 +91,13 @@ describe('CustomResourceEditVisibility', () => {
         });
 
         describe('clicking cancel', () => {
-          beforeEach(() => {
-            return ResourceEditPage.clickBackButton();
+          beforeEach(async () => {
+            await ResourceEditPage.clickBackButton();
+            a11yResults = await axe.run();
+          });
+
+          it('should not have any a11y issues', () => {
+            expect(a11yResults.violations).to.be.empty;
           });
 
           it('shows a navigation confirmation modal', () => {
@@ -105,7 +123,7 @@ describe('CustomResourceEditVisibility', () => {
   });
 
   describe('visiting the resource edit page and showing a hidden without reason resource', () => {
-    beforeEach(function () {
+    beforeEach(async function () {
       resource = this.server.create('resource', 'isHiddenWithoutReason', {
         package: providerPackage,
         isSelected: true,
@@ -113,6 +131,17 @@ describe('CustomResourceEditVisibility', () => {
       });
 
       this.visit(`/eholdings/resources/${resource.id}/edit`);
+    });
+
+    describe('waiting for axe to run', () => {
+      beforeEach(async () => {
+        await ResourceEditPage.whenLoaded();
+        a11yResults = await axe.run();
+      });
+
+      it('should not have any a11y issues', () => {
+        expect(a11yResults.violations).to.be.empty;
+      });
     });
 
     it('displays the no visibility radio is selected', () => {

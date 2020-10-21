@@ -1,7 +1,7 @@
 import { expect } from 'chai';
 import { describe, beforeEach, it } from '@bigtest/mocha';
 
-import setupApplication from '../helpers/setup-application';
+import setupApplication, { axe } from '../helpers/setup-application';
 import ResourceShowPage from '../interactors/resource-show';
 import ResourceEditPage from '../interactors/resource-edit';
 
@@ -10,6 +10,8 @@ describe('ResourceEditCustomTitle', () => {
   let provider,
     providerPackage,
     resource;
+
+  let a11yResults = null;
 
   beforeEach(function () {
     provider = this.server.create('provider', {
@@ -50,7 +52,7 @@ describe('ResourceEditCustomTitle', () => {
   });
 
   describe('visting the custom resource edit page but the resource is unselected', () => {
-    beforeEach(function () {
+    beforeEach(async function () {
       const title = this.server.create('title', {
         name: 'Best Title Ever',
         publicationType: 'Streaming Video',
@@ -89,8 +91,19 @@ describe('ResourceEditCustomTitle', () => {
   });
 
   describe('visiting the resource edit page without coverage dates or statements', () => {
-    beforeEach(function () {
+    beforeEach(async function () {
       this.visit(`/eholdings/resources/${resource.titleId}/edit`);
+    });
+
+    describe('waiting for axe to run', () => {
+      beforeEach(async () => {
+        await ResourceEditPage.whenLoaded();
+        a11yResults = await axe.run();
+      });
+
+      it('should not have any a11y issues', () => {
+        expect(a11yResults.violations).to.be.empty;
+      });
     });
 
     describe('section: holding status', () => {
@@ -336,8 +349,13 @@ describe('ResourceEditCustomTitle', () => {
         });
 
         describe('clicking cancel', () => {
-          beforeEach(() => {
-            return ResourceEditPage.clickBackButton();
+          beforeEach(async () => {
+            await ResourceEditPage.clickBackButton();
+            a11yResults = await axe.run();
+          });
+
+          it('should not have any a11y issues', () => {
+            expect(a11yResults.violations).to.be.empty;
           });
 
           it('shows a navigation confirmation modal', () => {
@@ -574,8 +592,19 @@ describe('ResourceEditCustomTitle', () => {
   });
 
   describe('visiting the resource edit page with custom labels', () => {
-    beforeEach(function () {
+    beforeEach(async function () {
       this.visit(`/eholdings/resources/${resource.titleId}/edit`);
+    });
+
+    describe('waiting for axe to run', () => {
+      beforeEach(async () => {
+        await ResourceEditPage.whenLoaded();
+        a11yResults = await axe.run();
+      });
+
+      it('should not have any a11y issues', () => {
+        expect(a11yResults.violations).to.be.empty;
+      });
     });
 
     it('custom labels accordion should be present', () => {

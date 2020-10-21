@@ -1,4 +1,6 @@
 import setupStripesCore from '@folio/stripes-core/test/bigtest/helpers/setup-application';
+import axe from 'axe-core';
+
 import mirageOptions from '../network';
 
 const defaultInitialState = {
@@ -13,6 +15,24 @@ const defaultInitialState = {
     }
   }
 };
+
+axe.configure({
+  rules: [{
+    id: 'meta-viewport',
+    enabled: false,
+  }, {
+    id: 'landmark-one-main',
+    enabled: false,
+  }, {
+    id: 'page-has-heading-one',
+    enabled: false,
+  }, {
+    id: 'bypass',
+    enabled: false,
+  }],
+});
+
+export { axe };
 
 export default function setupApplication({
   scenarios,

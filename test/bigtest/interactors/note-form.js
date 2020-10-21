@@ -33,6 +33,10 @@ import Select from './select';
     return this.noteTypesSelect.selectAndBlur(noteType)
       .noteTitleField.enterText(noteTitle);
   }
+
+  whenLoaded() {
+    return this.when(() => isPresent('#notes-form'));
+  }
 }
 
 export default NoteForm;

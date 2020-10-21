@@ -1,7 +1,7 @@
 import { beforeEach, describe, it } from '@bigtest/mocha';
 import { expect } from 'chai';
 
-import setupApplication from '../helpers/setup-application';
+import setupApplication, { axe } from '../helpers/setup-application';
 import TitleCreatePage from '../interactors/title-create';
 import TitleShowPage from '../interactors/title-show';
 import TitleSearchPage from '../interactors/title-search';
@@ -10,8 +10,10 @@ import NavigationModal from '../interactors/navigation-modal';
 describe('TitleCreate', () => {
   setupApplication();
 
+  let a11yResults = null;
+
   describe('submitting the form', () => {
-    beforeEach(function () {
+    beforeEach(async function () {
       this.server.createList('package', 4, {
         name: i => `Custom Package ${i + 1}`,
         provider: this.server.create('provider'),
@@ -19,6 +21,17 @@ describe('TitleCreate', () => {
       });
 
       this.visit('/eholdings/titles/new');
+    });
+
+    describe('waiting for axe to run', () => {
+      beforeEach(async () => {
+        await TitleCreatePage.whenLoaded();
+        a11yResults = await axe.run();
+      });
+
+      it('should not have any a11y issues', () => {
+        expect(a11yResults.violations).to.be.empty;
+      });
     });
 
     it('has a title name field', () => {
@@ -100,6 +113,7 @@ describe('TitleCreate', () => {
         await TitleCreatePage.packageSelection.expandAndClick(0);
         await TitleCreatePage.save();
       });
+
       it('goes to the title show page', () => {
         expect(TitleShowPage.$root).to.exist;
       });
@@ -226,6 +240,11 @@ describe('TitleCreate', () => {
         await new Promise(r => setTimeout(r, 1000));
         await TitleCreatePage.packageSelection.expandAndClick(0);
         await TitleCreatePage.save();
+        a11yResults = await axe.run();
+      });
+
+      it('should not have any a11y issues', () => {
+        expect(a11yResults.violations).to.be.empty;
       });
 
       it.always('does not create the title', function () {
@@ -263,10 +282,16 @@ describe('TitleCreate', () => {
       });
 
       describe('clicking close(back button) after filling in data', () => {
-        beforeEach(() => {
-          return TitleCreatePage
+        beforeEach(async () => {
+          await TitleCreatePage
             .fillName('My Title')
             .clickBackButton();
+
+          a11yResults = await axe.run();
+        });
+
+        it('should not have any a11y issues', () => {
+          expect(a11yResults.violations).to.be.empty;
         });
 
         it('shows a navigation confirmation modal', () => {

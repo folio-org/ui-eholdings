@@ -1,13 +1,15 @@
 import { expect } from 'chai';
 import { describe, beforeEach, it } from '@bigtest/mocha';
 
-import setupApplication from '../helpers/setup-application';
+import setupApplication, { axe } from '../helpers/setup-application';
 import TitleShowPage from '../interactors/title-show';
 
 describe('TitleShow', () => {
   setupApplication();
   let title,
     resources;
+
+  let a11yResults = null;
 
   beforeEach(function () {
     title = this.server.create('title', 'withPackages', {
@@ -45,6 +47,17 @@ describe('TitleShow', () => {
   describe('visiting the title page', () => {
     beforeEach(async function () {
       await this.visit(`/eholdings/titles/${title.id}`);
+    });
+
+    describe('waiting for axe to run', () => {
+      beforeEach(async () => {
+        await TitleShowPage.whenLoaded();
+        a11yResults = await axe.run();
+      });
+
+      it('should not have any a11y issues', () => {
+        expect(a11yResults.violations).to.be.empty;
+      });
     });
 
     it('displays the title name in the pane header', () => {
@@ -160,7 +173,17 @@ describe('TitleShow', () => {
       title.save();
       resources = title.resources.models;
       this.visit(`/eholdings/titles/${title.id}`);
-      await TitleShowPage.whenLoaded();
+    });
+
+    describe('waiting for axe to run', () => {
+      beforeEach(async () => {
+        await TitleShowPage.whenLoaded();
+        a11yResults = await axe.run();
+      });
+
+      it('should not have any a11y issues', () => {
+        expect(a11yResults.violations).to.be.empty;
+      });
     });
 
     it('displays the title name', () => {
@@ -298,7 +321,7 @@ describe('TitleShow', () => {
   });
 
   describe('encountering a server error', () => {
-    beforeEach(function () {
+    beforeEach(async function () {
       this.server.get('/titles/:titleId', [{
         message: 'There was an error',
         code: '1000',
@@ -306,6 +329,11 @@ describe('TitleShow', () => {
       }], 500);
 
       this.visit(`/eholdings/titles/${title.titleId}`);
+      a11yResults = await axe.run();
+    });
+
+    it('should not have any a11y issues', () => {
+      expect(a11yResults.violations).to.be.empty;
     });
 
     it('displays the correct error text', () => {

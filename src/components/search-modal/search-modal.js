@@ -210,7 +210,11 @@ class SearchModal extends React.PureComponent {
           <Modal
             open
             size="small"
-            label={<FormattedMessage id={`ui-eholdings.filter.filterType.${listType}`} />}
+            label={(
+              <span id={`${listType}-tab`}>
+                <FormattedMessage id={`ui-eholdings.filter.filterType.${listType}`} />
+              </span>
+            )}
             onClose={this.close}
             id="eholdings-details-view-search-modal"
             closeOnBackgroundClick

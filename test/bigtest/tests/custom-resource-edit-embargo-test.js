@@ -1,7 +1,7 @@
 import { beforeEach, describe, it } from '@bigtest/mocha';
 import { expect } from 'chai';
 
-import setupApplication from '../helpers/setup-application';
+import setupApplication, { axe } from '../helpers/setup-application';
 import ResourceEditPage from '../interactors/resource-edit';
 import ResourceShowPage from '../interactors/resource-show';
 
@@ -11,6 +11,8 @@ describe('CustomResourceEditEmbargo', () => {
     providerPackage,
     title,
     resource;
+
+  let a11yResults = null;
 
   beforeEach(function () {
     provider = this.server.create('provider', {
@@ -41,7 +43,7 @@ describe('CustomResourceEditEmbargo', () => {
   });
 
   describe('visiting the resource edit page with a custom embargo', () => {
-    beforeEach(function () {
+    beforeEach(async function () {
       resource.customEmbargoPeriod = this.server.create('embargo-period', {
         embargoUnit: 'Weeks',
         embargoValue: 9
@@ -50,6 +52,17 @@ describe('CustomResourceEditEmbargo', () => {
       resource.save();
 
       this.visit(`/eholdings/resources/${resource.id}/edit`);
+    });
+
+    describe('waiting for axe to run', () => {
+      beforeEach(async () => {
+        await ResourceEditPage.whenLoaded();
+        a11yResults = await axe.run();
+      });
+
+      it('should not have any a11y issues', () => {
+        expect(a11yResults.violations).to.be.empty;
+      });
     });
 
     it('disables the save button', () => {
@@ -62,9 +75,15 @@ describe('CustomResourceEditEmbargo', () => {
     });
 
     describe('clicking (x) remove embargo button', () => {
-      beforeEach(() => {
-        return ResourceEditPage
+      beforeEach(async () => {
+        await ResourceEditPage
           .clickRemoveCustomEmbargoButton();
+
+        a11yResults = await axe.run();
+      });
+
+      it('should not have any a11y issues', () => {
+        expect(a11yResults.violations).to.be.empty;
       });
 
       it('does not show the custom embargo text field', () => {
@@ -96,8 +115,19 @@ describe('CustomResourceEditEmbargo', () => {
   });
 
   describe('visiting the resource edit page without any embargos', () => {
-    beforeEach(function () {
+    beforeEach(async function () {
       this.visit(`/eholdings/resources/${resource.id}/edit`);
+    });
+
+    describe('waiting for axe to run', () => {
+      beforeEach(async () => {
+        await ResourceEditPage.whenLoaded();
+        a11yResults = await axe.run();
+      });
+
+      it('should not have any a11y issues', () => {
+        expect(a11yResults.violations).to.be.empty;
+      });
     });
 
     it('disables the save button', () => {
