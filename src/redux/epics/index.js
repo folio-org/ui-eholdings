@@ -20,3 +20,6 @@ export { default as createGetProxyTypesEpic } from './get-proxy-types';
 export { default as createGetUserGroupsEpic } from './get-user-groups';
 export { default as createGetAgreementLinesEpic } from './get-agreement-lines';
 export { default as createDeleteAgreementLinesEpic } from './delete-agreement-lines';
+export { default as createGetUsageConsolidationEpic } from './get-usage-consolidation';
+export { default as createPostUsageConsolidationEpic } from './post-usage-consolidation';
+export { default as createPatchUsageConsolidationEpic } from './patch-usage-consolidation';
