@@ -5,7 +5,7 @@ import SettingsUsageConsolidationPage from '../interactors/settings-usage-consol
 import setupApplication, { axe } from '../helpers/setup-application';
 import wait from '../helpers/wait';
 
-describe.only('With usage consolidation available to a customer', () => {
+describe('With usage consolidation available to a customer', () => {
   setupApplication();
 
   let a11yResults = null;
