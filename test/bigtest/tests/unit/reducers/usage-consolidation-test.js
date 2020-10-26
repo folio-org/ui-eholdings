@@ -6,78 +6,92 @@ import {
   GET_USAGE_CONSOLIDATION_SUCCESS,
   GET_USAGE_CONSOLIDATION_FAILURE,
   GET_USAGE_CONSOLIDATION,
+  CLEAR_USAGE_CONSOLIDATION_ERRORS,
+  POST_USAGE_CONSOLIDATION_FAILURE,
+  PATCH_USAGE_CONSOLIDATION_FAILURE,
 } from '../../../../../src/redux/actions';
 
-describe('(reducer) usageConsolidation', () => {
+describe.only('(reducer) usageConsolidation', () => {
   it('should return the initial state', () => {
-    expect(userGroups(undefined, {})).to.deep.equal({
-      isLoading: false,
-      hasLoaded: false,
-      hasFailed: false,
-      items: [],
+    expect(usageConsolidation(undefined, {})).to.deep.equal({
+      data: {},
       errors: [],
+      isLoading: false,
     });
   });
 
-  it('should handle GET_USER_GROUPS', () => {
+  it('should handle GET_USAGE_CONSOLIDATION_FAILURE', () => {
     const actualState = {
-      items: [],
-      isLoading: false,
+      data: {},
+      errors: [],
+      isLoading: true,
     };
     const action = {
-      type: GET_USER_GROUPS,
+      type: GET_USAGE_CONSOLIDATION_FAILURE,
+      payload: { errors: { title: 'error' } },
     };
     const expectedState = {
-      items: [],
+      data: {},
+      isLoading: false,
+      errors: [{ title: 'error' }],
+    };
+
+    expect(usageConsolidation(actualState, action)).to.deep.equal(expectedState);
+  });
+
+  it('should handle POST_USAGE_CONSOLIDATION_FAILURE', () => {
+    const actualState = {
+      data: {},
+      errors: [],
       isLoading: true,
-      hasFailed: false,
-      hasLoaded: false,
+    };
+    const action = {
+      type: POST_USAGE_CONSOLIDATION_FAILURE,
+      payload: { errors: { title: 'error' } },
+    };
+    const expectedState = {
+      data: {},
+      isLoading: false,
+      errors: [{ title: 'error' }],
+    };
+
+    expect(usageConsolidation(actualState, action)).to.deep.equal(expectedState);
+  });
+
+  it('should handle PATCH_USAGE_CONSOLIDATION_FAILURE', () => {
+    const actualState = {
+      data: {},
+      errors: [],
+      isLoading: true,
+    };
+    const action = {
+      type: PATCH_USAGE_CONSOLIDATION_FAILURE,
+      payload: { errors: { title: 'error' } },
+    };
+    const expectedState = {
+      data: {},
+      isLoading: false,
+      errors: [{ title: 'error' }],
+    };
+
+    expect(usageConsolidation(actualState, action)).to.deep.equal(expectedState);
+  });
+
+  it('should handle CLEAR_USAGE_CONSOLIDATION_ERRORS', () => {
+    const actualState = {
+      data: {},
+      isLoading: false,
+      errors: [{ title: 'error' }],
+    };
+    const action = {
+      type: CLEAR_USAGE_CONSOLIDATION_ERRORS,
+    };
+    const expectedState = {
+      data: {},
+      isLoading: false,
       errors: [],
     };
 
-    expect(userGroups(actualState, action)).to.deep.equal(expectedState);
-  });
-
-  it('should handle GET_USER_GROUPS_SUCCESS', () => {
-    const actualState = {
-      items: [],
-      isLoading: true,
-    };
-    const action = {
-      type: GET_USER_GROUPS_SUCCESS,
-      payload: {
-        usergroups: ['item1', 'item2'],
-      }
-    };
-    const expectedState = {
-      hasLoaded: true,
-      isLoading: false,
-      hasFailed: false,
-      items: action.payload,
-    };
-
-    expect(userGroups(actualState, action)).to.deep.equal(expectedState);
-  });
-
-  it('should handle GET_USER_GROUPS_FAILURE', () => {
-    const actualState = {
-      items: [],
-      isLoading: true,
-    };
-    const action = {
-      type: GET_USER_GROUPS_FAILURE,
-      payload: { title: 'error' }
-    };
-    const expectedState = {
-      items: [],
-      isLoading: false,
-      hasLoaded: false,
-      hasFailed: true,
-      errors: [
-        { title: 'error' },
-      ],
-    };
-
-    expect(userGroups(actualState, action)).to.deep.equal(expectedState);
+    expect(usageConsolidation(actualState, action)).to.deep.equal(expectedState);
   });
 });

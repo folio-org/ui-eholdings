@@ -16,33 +16,40 @@ import {
 import SettingsForm from '../settings-form';
 
 const propTypes = {
+  clearUsageConsolidationErrors: PropTypes.func.isRequired,
   updateUsageConsolidation: PropTypes.func.isRequired,
+  usageConsolidation: PropTypes.shape({
+    errors: PropTypes.array.isRequired,
+    isLoading: PropTypes.bool.isRequired,
+    data: PropTypes.object.isRequired,
+  }).isRequired,
 };
 
+const INVALID_CUSTOMER_KEY_ERROR_MESSAGE = 'Invalid UC Credentials';
+
 const SettingsUsageConsolidation = ({
+  clearUsageConsolidationErrors,
   usageConsolidation,
-  updateUsageConsolidation,
+  updateUsageConsolidation: onSubmit,
 }) => {
   const { formatMessage } = useIntl();
 
   const usageConsolidationIdLabel = formatMessage({ id: 'ui-eholdings.settings.usageConsolidation.id' });
 
-  const onSubmit = params => {
-    updateUsageConsolidation(params);
-  };
+  const customerKeyIsInvalid = usageConsolidation.errors[0]?.title === INVALID_CUSTOMER_KEY_ERROR_MESSAGE;
 
   const validate = values => {
     const errors = {};
+    
+    if (customerKeyIsInvalid) {
+      errors.customerKey = (
+        <FormattedMessage id="ui-eholdings.settings.usageConsolidation.id.validation.invalid" />
+      );
+    }
 
     if (!values.customerKey) {
       errors.customerKey = (
         <FormattedMessage id="ui-eholdings.settings.usageConsolidation.id.validation.empty" />
-      );
-    }
-
-    if (usageConsolidation.errors.title === 'Invalid UC Credentials') {
-      errors.customerKey = (
-        <FormattedMessage id="ui-eholdings.settings.usageConsolidation.id.validation.invalid" />
       );
     }
 
@@ -71,6 +78,11 @@ const SettingsUsageConsolidation = ({
             component={TextField}
             label={usageConsolidationIdLabel}
             aria-label={usageConsolidationIdLabel}
+            onChange={() => {
+              if (customerKeyIsInvalid) {
+                clearUsageConsolidationErrors();
+              }
+            }}
           />
         </SettingsForm>
       )}

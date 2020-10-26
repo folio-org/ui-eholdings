@@ -6,7 +6,7 @@ import {
   getUsageConsolidation,
 } from '../../../../../../src/redux/actions';
 
-describe('(action) getUsageConsolidation', () => {
+describe.only('(action) getUsageConsolidation', () => {
   it('should create an action to handle get usage consolidation settings', () => {
     const expectedAction = {
       type: GET_USAGE_CONSOLIDATION,

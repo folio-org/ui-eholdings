@@ -6,7 +6,7 @@ import {
   postUsageConsolidationFailure,
 } from '../../../../../../src/redux/actions';
 
-describe('(action) postUsageConsolidationFailure', () => {
+describe.only('(action) postUsageConsolidationFailure', () => {
   it('should create an action to handle post usage consolidation failure', () => {
     const payload = { error: 'payload' };
     const expectedAction = {
