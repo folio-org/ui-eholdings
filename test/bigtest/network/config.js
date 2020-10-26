@@ -1096,7 +1096,7 @@ export default function config() {
     return body;
   });
 
-  this.get('/kb-credentials/:credId/uc', (schema, request) => ({
+  this.get('/kb-credentials/:credId/uc', () => ({
     id: '2ffa1940-2cf6-48b1-8cc9-5e539c61d93f',
     type: 'ucSettings',
     attributes: {

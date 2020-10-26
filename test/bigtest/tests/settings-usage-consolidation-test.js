@@ -27,7 +27,6 @@ describe('With list of root proxies available to a customer', () => {
       });
     });
 
-    
     it('should open settings usage consolidation page', () => {
       expect(SettingsUsageConsolidationPage.isPresent).to.be.true;
     });
@@ -35,13 +34,5 @@ describe('With list of root proxies available to a customer', () => {
     it('should show usage consolidation id field', () => {
       expect(SettingsUsageConsolidationPage.usageConsolidationIdField.isPresent).to.be.true;
     });
-/*
-    describe.skip('when fill usage consolidation id field with empty value', () => {
-      beforeEach(() => {
-        SettingsUsageConsolidationPage.usageConsolidationIdField.fill('');
-      });
-
-      expect(SettingsUsageConsolidationPage.usageConsolidationIdField.value()).to.be.true;
-    });*/
   });
 });
