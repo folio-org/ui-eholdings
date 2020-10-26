@@ -41,14 +41,6 @@ describe.only('With usage consolidation available to a customer', () => {
     it('should show correct saved start month value', () => {
       expect(SettingsUsageConsolidationPage.usageConsolidationStartMonthField.value).to.equal('mar');
     });
-/*
-    describe.skip('when fill usage consolidation id field with empty value', () => {
-      beforeEach(() => {
-        SettingsUsageConsolidationPage.usageConsolidationIdField.fill('');
-      });
-
-      expect(SettingsUsageConsolidationPage.usageConsolidationIdField.value()).to.be.true;
-    });*/
   });
 
   describe('when usage consolidation has not been set up', () => {

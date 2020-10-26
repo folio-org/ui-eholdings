@@ -3,12 +3,10 @@ import { expect } from 'chai';
 
 import { usageConsolidation } from '../../../../../src/redux/reducers';
 import {
-  GET_USAGE_CONSOLIDATION_SUCCESS,
-  GET_USAGE_CONSOLIDATION_FAILURE,
-  GET_USAGE_CONSOLIDATION,
   CLEAR_USAGE_CONSOLIDATION_ERRORS,
-  POST_USAGE_CONSOLIDATION_FAILURE,
+  GET_USAGE_CONSOLIDATION_FAILURE,
   PATCH_USAGE_CONSOLIDATION_FAILURE,
+  POST_USAGE_CONSOLIDATION_FAILURE,
 } from '../../../../../src/redux/actions';
 
 describe('(reducer) usageConsolidation', () => {

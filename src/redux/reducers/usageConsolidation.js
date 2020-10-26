@@ -36,16 +36,35 @@ const handlers = {
   [POST_USAGE_CONSOLIDATION_FAILURE]: handleError,
   [PATCH_USAGE_CONSOLIDATION_FAILURE]: handleError,
   [POST_USAGE_CONSOLIDATION_SUCCESS]: (state, { payload }) => {
+    const { data } = payload;
+
     return {
       ...state,
       isLoading: false,
       data,
-    }
+    };
   },
+  [PATCH_USAGE_CONSOLIDATION_SUCCESS]: (state, { payload }) => {
+    const { data } = payload;
+
+    return {
+      ...state,
+      isLoading: false,
+      data,
+    };
+  },
+  [POST_USAGE_CONSOLIDATION]: state => ({
+    ...state,
+    isLoading: true,
+  }),
+  [PATCH_USAGE_CONSOLIDATION]: state => ({
+    ...state,
+    isLoading: true,
+  }),
   [CLEAR_USAGE_CONSOLIDATION_ERRORS]: state => ({
     ...state,
     errors: [],
-  })
+  }),
 };
 
 const initialState = {
