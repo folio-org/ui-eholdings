@@ -14,10 +14,10 @@ export default ({ usageConsolidationApi }) => (action$, store) => {
     .filter(action => action.type === POST_USAGE_CONSOLIDATION)
     .mergeMap(({ payload }) => {
       const { credentialsId, data } = payload;
-      console.log('epic', payload, credentialsId, data);
+
       return usageConsolidationApi
         .postUsageConsolidation(store.getState().okapi, credentialsId, { data })
         .map(postUsageConsolidationSuccess)
-        .catch(errors => Observable.of(postUsageConsolidationFailure({ errors })));
+        .catch(errors => Observable.of(postUsageConsolidationFailure(errors)));
     });
 };

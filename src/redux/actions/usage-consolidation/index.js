@@ -1,3 +1,4 @@
+export * from './clear-usage-consolidation-errors';
 export * from './get-usage-consolidation';
 export * from './get-usage-consolidation-failure';
 export * from './get-usage-consolidation-success';

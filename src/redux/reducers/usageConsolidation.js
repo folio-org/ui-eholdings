@@ -8,21 +8,15 @@ import {
   PATCH_USAGE_CONSOLIDATION_FAILURE,
   PATCH_USAGE_CONSOLIDATION_SUCCESS,
   PATCH_USAGE_CONSOLIDATION,
+  CLEAR_USAGE_CONSOLIDATION_ERRORS,
 } from '../actions';
 import { formatErrors } from '../helpers';
 
-const handleError = (state, action) => {
-
-  const {
-    payload,
-  } = action;
-  console.log(payload);
-  return {
-    ...state,
-    isLoading: false,
-    errors: formatErrors(payload.errors),
-  }
-};
+const handleError = (state, { payload }) => ({
+  ...state,
+  isLoading: false,
+  errors: formatErrors(payload.errors),
+});
 
 const handlers = {
   [GET_USAGE_CONSOLIDATION]: state => ({
@@ -40,12 +34,18 @@ const handlers = {
   },
   [GET_USAGE_CONSOLIDATION_FAILURE]: handleError,
   [POST_USAGE_CONSOLIDATION_FAILURE]: handleError,
-  [POST_USAGE_CONSOLIDATION]: (state, action) => {
+  [PATCH_USAGE_CONSOLIDATION_FAILURE]: handleError,
+  [POST_USAGE_CONSOLIDATION_SUCCESS]: (state, { payload }) => {
     return {
       ...state,
-      isLoading: true,
-    };
+      isLoading: false,
+      data,
+    }
   },
+  [CLEAR_USAGE_CONSOLIDATION_ERRORS]: state => ({
+    ...state,
+    errors: [],
+  })
 };
 
 const initialState = {

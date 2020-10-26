@@ -1,35 +1,40 @@
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
-import { FormattedMessage } from 'react-intl';
 import { connect } from 'react-redux';
-import ReactRouterPropTypes from 'react-router-prop-types';
 
 import {
-  Icon
+  Icon,
 } from '@folio/stripes/components';
 
 import View from '../components/settings/settings-usage-consolidation';
-import Toaster from '../components/toaster';
 
 import { selectPropFromData } from '../redux/selectors';
 import {
+  clearUsageConsolidationErrors as clearUsageConsolidationErrorsAction,
   getUsageConsolidation as getUsageConsolidationAction,
   patchUsageConsolidation as patchUsageConsolidationAction,
   postUsageConsolidation as postUsageConsolidationAction,
 } from '../redux/actions';
 
 const propTypes = {
+  clearUsageConsolidationErrors: PropTypes.func.isRequired,
   getUsageConsolidation: PropTypes.func.isRequired,
+  match: PropTypes.shape({
+    params: PropTypes.shape({
+      kbId: PropTypes.string.isRequired,
+    }).isRequired,
+  }).isRequired,
   patchUsageConsolidation: PropTypes.func.isRequired,
   postUsageConsolidation: PropTypes.func.isRequired,
   usageConsolidation: PropTypes.shape({
-    data: PropTypes.object,
-    isLoading: PropTypes.bool,
-
-  }), //!!!!!!
+    data: PropTypes.object.isRequired,
+    errors: PropTypes.array.isRequired,
+    isLoading: PropTypes.bool.isRequired,
+  }),
 };
 
 const SettingsUsageConsolidationRoute = ({
+  clearUsageConsolidationErrors,
   getUsageConsolidation,
   match: { params: { kbId } },
   patchUsageConsolidation,
@@ -37,13 +42,13 @@ const SettingsUsageConsolidationRoute = ({
   usageConsolidation,
 }) => {
   const {
-    data,
+    data: usageConsolidationData,
     isLoading,
   } = usageConsolidation;
 
   useEffect(() => {
     getUsageConsolidation(kbId);
-  }, getUsageConsolidation, kbId);
+  }, [getUsageConsolidation, kbId]);
 
   const updateUsageConsolidation = params => {
     const data = {
@@ -54,7 +59,7 @@ const SettingsUsageConsolidationRoute = ({
       },
     };
 
-    if (!data?.id) {
+    if (!usageConsolidationData?.id) {
       postUsageConsolidation({ data, credentialsId: kbId });
     } else {
       patchUsageConsolidation({ data, credentialsId: kbId });
@@ -67,6 +72,7 @@ const SettingsUsageConsolidationRoute = ({
       <View
         usageConsolidation={usageConsolidation}
         updateUsageConsolidation={updateUsageConsolidation}
+        clearUsageConsolidationErrors={clearUsageConsolidationErrors}
       />
     );
 };
@@ -77,6 +83,7 @@ export default connect(
   store => ({
     usageConsolidation: selectPropFromData(store, 'usageConsolidation'),
   }), {
+    clearUsageConsolidationErrors: clearUsageConsolidationErrorsAction,
     getUsageConsolidation: getUsageConsolidationAction,
     patchUsageConsolidation: patchUsageConsolidationAction,
     postUsageConsolidation: postUsageConsolidationAction,
