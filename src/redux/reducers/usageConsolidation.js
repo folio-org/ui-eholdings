@@ -24,13 +24,13 @@ const handlers = {
     isLoading: true,
   }),
   [GET_USAGE_CONSOLIDATION_SUCCESS]: (state, { payload }) => {
-    const { data } = payload;
+    const { attributes } = payload;
 
     return {
       ...state,
       isLoading: false,
-      data,
-    }; 
+      data: attributes,
+    };
   },
   [GET_USAGE_CONSOLIDATION_FAILURE]: handleError,
   [POST_USAGE_CONSOLIDATION_FAILURE]: handleError,

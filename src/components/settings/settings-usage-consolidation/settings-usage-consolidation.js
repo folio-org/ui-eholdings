@@ -97,7 +97,6 @@ const SettingsUsageConsolidation = ({
             name="startMonth"
             component={Select}
             dataOptions={monthDataOptions}
-            initialValue={monthDataOptions[0].value}
             label={usageConsolidationStartMonthLabel}
             aria-label={usageConsolidationStartMonthLabel}
           />
