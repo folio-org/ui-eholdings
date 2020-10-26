@@ -11,7 +11,7 @@ import {
   PATCH_USAGE_CONSOLIDATION_FAILURE,
 } from '../../../../../src/redux/actions';
 
-describe.only('(reducer) usageConsolidation', () => {
+describe('(reducer) usageConsolidation', () => {
   it('should return the initial state', () => {
     expect(usageConsolidation(undefined, {})).to.deep.equal({
       data: {},

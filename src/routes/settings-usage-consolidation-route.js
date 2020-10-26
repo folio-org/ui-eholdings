@@ -1,11 +1,9 @@
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
-import { FormattedMessage } from 'react-intl';
 import { connect } from 'react-redux';
-import ReactRouterPropTypes from 'react-router-prop-types';
 
 import {
-  Icon
+  Icon,
 } from '@folio/stripes/components';
 
 import View from '../components/settings/settings-usage-consolidation';
@@ -21,12 +19,17 @@ import {
 const propTypes = {
   clearUsageConsolidationErrors: PropTypes.func.isRequired,
   getUsageConsolidation: PropTypes.func.isRequired,
+  match: PropTypes.shape({
+    params: PropTypes.shape({
+      kbId: PropTypes.string.isRequired,
+    }).isRequired,
+  }).isRequired,
   patchUsageConsolidation: PropTypes.func.isRequired,
   postUsageConsolidation: PropTypes.func.isRequired,
   usageConsolidation: PropTypes.shape({
     data: PropTypes.object.isRequired,
-    isLoading: PropTypes.bool.isRequired,
     errors: PropTypes.array.isRequired,
+    isLoading: PropTypes.bool.isRequired,
   }),
 };
 
@@ -45,7 +48,7 @@ const SettingsUsageConsolidationRoute = ({
 
   useEffect(() => {
     getUsageConsolidation(kbId);
-  }, getUsageConsolidation, kbId);
+  }, [getUsageConsolidation, kbId]);
 
   const updateUsageConsolidation = params => {
     const data = {
@@ -56,7 +59,7 @@ const SettingsUsageConsolidationRoute = ({
       },
     };
 
-    if (!usageConsolidation.id) {
+    if (!usageConsolidationData.id) {
       postUsageConsolidation({ data, credentialsId: kbId });
     } else {
       patchUsageConsolidation({ data, credentialsId: kbId });

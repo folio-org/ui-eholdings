@@ -6,7 +6,7 @@ import {
   getUsageConsolidationSuccess,
 } from '../../../../../../src/redux/actions';
 
-describe.only('(action) getUsageConsolidationSuccess', () => {
+describe('(action) getUsageConsolidationSuccess', () => {
   it('should create an action to handle get usage consolidation success', () => {
     const payload = { data: 'data' };
     const expectedAction = {

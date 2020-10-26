@@ -6,7 +6,7 @@ import {
   postUsageConsolidationSuccess,
 } from '../../../../../../src/redux/actions';
 
-describe.only('(action) postUsageConsolidationSuccess', () => {
+describe('(action) postUsageConsolidationSuccess', () => {
   it('should create an action to handle post usage consolidation success', () => {
     const expectedAction = {
       type: POST_USAGE_CONSOLIDATION_SUCCESS,

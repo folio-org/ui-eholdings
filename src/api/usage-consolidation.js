@@ -45,4 +45,4 @@ export default {
 
     return doRequest(url, params);
   },
-}
+};

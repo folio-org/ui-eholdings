@@ -6,7 +6,7 @@ import {
   postUsageConsolidation,
 } from '../../../../../../src/redux/actions';
 
-describe.only('(action) postUsageConsolidation', () => {
+describe('(action) postUsageConsolidation', () => {
   it('should create an action to handle post usage consolidation', () => {
     const payload = 'payload';
     const expectedAction = {

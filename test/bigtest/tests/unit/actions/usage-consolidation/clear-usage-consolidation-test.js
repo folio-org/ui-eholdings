@@ -6,7 +6,7 @@ import {
   clearUsageConsolidationErrors,
 } from '../../../../../../src/redux/actions';
 
-describe.only('(action) clearUsageConsolidationErrors', () => {
+describe('(action) clearUsageConsolidationErrors', () => {
   it('should create an action to handle clear usage consolidation errors', () => {
     const expectedAction = {
       type: CLEAR_USAGE_CONSOLIDATION_ERRORS,

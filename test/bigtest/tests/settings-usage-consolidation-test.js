@@ -6,7 +6,7 @@ import setupApplication, { axe } from '../helpers/setup-application';
 import wait from '../helpers/wait';
 
 
-describe.only('With list of root proxies available to a customer', () => {
+describe('With list of root proxies available to a customer', () => {
   setupApplication();
 
   let a11yResults = null;

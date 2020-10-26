@@ -19,9 +19,9 @@ const propTypes = {
   clearUsageConsolidationErrors: PropTypes.func.isRequired,
   updateUsageConsolidation: PropTypes.func.isRequired,
   usageConsolidation: PropTypes.shape({
+    data: PropTypes.object.isRequired,
     errors: PropTypes.array.isRequired,
     isLoading: PropTypes.bool.isRequired,
-    data: PropTypes.object.isRequired,
   }).isRequired,
 };
 
@@ -40,7 +40,7 @@ const SettingsUsageConsolidation = ({
 
   const validate = values => {
     const errors = {};
-    
+
     if (customerKeyIsInvalid) {
       errors.customerKey = (
         <FormattedMessage id="ui-eholdings.settings.usageConsolidation.id.validation.invalid" />
@@ -54,7 +54,7 @@ const SettingsUsageConsolidation = ({
     }
 
     return errors;
-  }
+  };
 
   return (
     <Form

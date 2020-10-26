@@ -6,7 +6,7 @@ import {
   patchUsageConsolidationFailure,
 } from '../../../../../../src/redux/actions';
 
-describe.only('(action) patchUsageConsolidationFailure', () => {
+describe('(action) patchUsageConsolidationFailure', () => {
   it('should create an action to handle patch usage consolidation failure', () => {
     const payload = { error: 'payload' };
     const expectedAction = {
