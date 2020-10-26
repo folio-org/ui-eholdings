@@ -8,9 +8,11 @@ import {
   FormattedMessage,
   useIntl,
 } from 'react-intl';
+import moment from 'moment';
 
 import {
   TextField,
+  Select,
 } from '@folio/stripes/components';
 
 import SettingsForm from '../settings-form';
@@ -26,6 +28,7 @@ const SettingsUsageConsolidation = ({
   const { formatMessage } = useIntl();
 
   const usageConsolidationIdLabel = formatMessage({ id: 'ui-eholdings.settings.usageConsolidation.id' });
+  const usageConsolidationStartMonthLabel = formatMessage({ id: 'ui-eholdings.settings.usageConsolidation.startMonth' });
 
   const onSubmit = params => {
     updateUsageConsolidation(params);
@@ -47,7 +50,12 @@ const SettingsUsageConsolidation = ({
     }
 
     return errors;
-  }
+  };
+
+  const monthDataOptions = moment.months().map(month => ({
+    value: month.toLowerCase().substr(0, 3),
+    label: month,
+  }));
 
   return (
     <Form
@@ -71,6 +79,15 @@ const SettingsUsageConsolidation = ({
             component={TextField}
             label={usageConsolidationIdLabel}
             aria-label={usageConsolidationIdLabel}
+          />
+          <Field
+            id="eholdings-settings-usage-consolidation-month"
+            name="startMonth"
+            component={Select}
+            dataOptions={monthDataOptions}
+            initialValue={monthDataOptions[0].value}
+            label={usageConsolidationStartMonthLabel}
+            aria-label={usageConsolidationStartMonthLabel}
           />
         </SettingsForm>
       )}

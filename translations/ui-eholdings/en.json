@@ -218,6 +218,7 @@
     "settings.usageConsolidation.id": "Usage consolidation ID",
     "settings.usageConsolidation.id.validation.empty": "Please enter a Usage Consolidation ID.",
     "settings.usageConsolidation.id.validation.invalid": "Invalid Usage Consolidation ID. Please enter a valid ID.",
+    "settings.usageConsolidation.startMonth": "Start month for usage stastistics",
 
     "proxy": "Proxy",
     "proxy.inherited": "Inherited - {proxy}",

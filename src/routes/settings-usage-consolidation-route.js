@@ -37,7 +37,7 @@ const SettingsUsageConsolidationRoute = ({
   usageConsolidation,
 }) => {
   const {
-    data: { id },
+    data,
     isLoading,
   } = usageConsolidation;
 
@@ -54,7 +54,7 @@ const SettingsUsageConsolidationRoute = ({
       },
     };
 
-    if (!id) {
+    if (!data?.id) {
       postUsageConsolidation({ data, credentialsId: kbId });
     } else {
       patchUsageConsolidation({ data, credentialsId: kbId });
