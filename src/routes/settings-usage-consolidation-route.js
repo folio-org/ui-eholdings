@@ -59,7 +59,7 @@ const SettingsUsageConsolidationRoute = ({
       },
     };
 
-    if (!usageConsolidationData.id) {
+    if (!usageConsolidationData?.id) {
       postUsageConsolidation({ data, credentialsId: kbId });
     } else {
       patchUsageConsolidation({ data, credentialsId: kbId });
