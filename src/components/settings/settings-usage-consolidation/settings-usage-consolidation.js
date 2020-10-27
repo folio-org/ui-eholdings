@@ -16,6 +16,7 @@ import {
 } from '@folio/stripes/components';
 
 import SettingsForm from '../settings-form';
+import { platformTypes } from '../../../constants';
 
 const propTypes = {
   clearUsageConsolidationErrors: PropTypes.func.isRequired,
@@ -38,6 +39,7 @@ const SettingsUsageConsolidation = ({
 
   const usageConsolidationIdLabel = formatMessage({ id: 'ui-eholdings.settings.usageConsolidation.id' });
   const usageConsolidationStartMonthLabel = formatMessage({ id: 'ui-eholdings.settings.usageConsolidation.startMonth' });
+  const usageConsolidationPlatformTypeLabel = formatMessage({ id: 'ui-eholdings.settings.usageConsolidation.platformType' });
 
   const customerKeyIsInvalid = usageConsolidation.errors[0]?.title === INVALID_CUSTOMER_KEY_ERROR_MESSAGE;
 
@@ -63,6 +65,21 @@ const SettingsUsageConsolidation = ({
     value: month.toLowerCase().substr(0, 3),
     label: month,
   }));
+
+  const platformTypesDataOptions = [
+    {
+      label: formatMessage({ id: `ui-eholdings.settings.usageConsolidation.platformType.${platformTypes.ALL}` }),
+      value: platformTypes.ALL,
+    },
+    {
+      label: formatMessage({ id: `ui-eholdings.settings.usageConsolidation.platformType.${platformTypes.PUBLISHER_ONLY}` }),
+      value: platformTypes.PUBLISHER_ONLY,
+    },
+    {
+      label: formatMessage({ id: `ui-eholdings.settings.usageConsolidation.platformType.${platformTypes.NON_PUBLISHER_ONLY}` }),
+      value: platformTypes.NON_PUBLISHER_ONLY,
+    },
+  ];
 
   return (
     <Form
@@ -101,6 +118,14 @@ const SettingsUsageConsolidation = ({
             dataOptions={monthDataOptions}
             label={usageConsolidationStartMonthLabel}
             aria-label={usageConsolidationStartMonthLabel}
+          />
+          <Field
+            id="eholdings-settings-usage-consolidation-platform-type"
+            name="platformType"
+            component={Select}
+            dataOptions={platformTypesDataOptions}
+            label={usageConsolidationPlatformTypeLabel}
+            aria-label={usageConsolidationPlatformTypeLabel}
           />
         </SettingsForm>
       )}
