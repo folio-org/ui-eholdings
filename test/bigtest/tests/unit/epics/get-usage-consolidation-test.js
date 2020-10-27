@@ -10,7 +10,7 @@ import {
   GET_USAGE_CONSOLIDATION_SUCCESS,
 } from '../../../../../src/redux/actions';
 
-describe.only('(epic) getUsageConsolidation', () => {
+describe('(epic) getUsageConsolidation', () => {
   let testScheduler;
 
   beforeEach(() => {
@@ -52,7 +52,7 @@ describe.only('(epic) getUsageConsolidation', () => {
     testScheduler.expectObservable(output$).toBe('---a', {
       a: {
         type: GET_USAGE_CONSOLIDATION_SUCCESS,
-        payload: response.body.data,
+        payload: { data: {} },
       },
     });
 
@@ -75,7 +75,7 @@ describe.only('(epic) getUsageConsolidation', () => {
     testScheduler.expectObservable(output$).toBe('---a', {
       a: {
         type: GET_USAGE_CONSOLIDATION_FAILURE,
-        payload: 'Error messages',
+        payload: { errors: 'Error messages' },
       },
     });
 
