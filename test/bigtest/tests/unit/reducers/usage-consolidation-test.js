@@ -6,7 +6,9 @@ import {
   CLEAR_USAGE_CONSOLIDATION_ERRORS,
   GET_USAGE_CONSOLIDATION_FAILURE,
   PATCH_USAGE_CONSOLIDATION_FAILURE,
+  PATCH_USAGE_CONSOLIDATION_SUCCESS,
   POST_USAGE_CONSOLIDATION_FAILURE,
+  POST_USAGE_CONSOLIDATION_SUCCESS,
 } from '../../../../../src/redux/actions';
 
 describe('(reducer) usageConsolidation', () => {
@@ -56,6 +58,25 @@ describe('(reducer) usageConsolidation', () => {
     expect(usageConsolidation(actualState, action)).to.deep.equal(expectedState);
   });
 
+  it('should handle POST_USAGE_CONSOLIDATION_SUCCESS', () => {
+    const actualState = {
+      data: {},
+      errors: [],
+      isLoading: true,
+    };
+    const action = {
+      type: POST_USAGE_CONSOLIDATION_SUCCESS,
+      payload: { data: { customreKey: 'customerKey' } },
+    };
+    const expectedState = {
+      data: { customreKey: 'customerKey' },
+      isLoading: false,
+      errors: [],
+    };
+
+    expect(usageConsolidation(actualState, action)).to.deep.equal(expectedState);
+  });
+
   it('should handle PATCH_USAGE_CONSOLIDATION_FAILURE', () => {
     const actualState = {
       data: {},
@@ -70,6 +91,25 @@ describe('(reducer) usageConsolidation', () => {
       data: {},
       isLoading: false,
       errors: [{ title: 'error' }],
+    };
+
+    expect(usageConsolidation(actualState, action)).to.deep.equal(expectedState);
+  });
+
+  it('should handle PATCH_USAGE_CONSOLIDATION_SUCCESS', () => {
+    const actualState = {
+      data: {},
+      errors: [],
+      isLoading: true,
+    };
+    const action = {
+      type: PATCH_USAGE_CONSOLIDATION_SUCCESS,
+      payload: { data: { customreKey: 'customerKey' } },
+    };
+    const expectedState = {
+      data: { customreKey: 'customerKey' },
+      isLoading: false,
+      errors: [],
     };
 
     expect(usageConsolidation(actualState, action)).to.deep.equal(expectedState);

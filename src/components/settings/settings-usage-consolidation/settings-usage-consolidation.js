@@ -46,7 +46,7 @@ const SettingsUsageConsolidation = ({
         <FormattedMessage id="ui-eholdings.settings.usageConsolidation.id.validation.invalid" />
       );
     }
-
+    console.log(values);
     if (!values.customerKey) {
       errors.customerKey = (
         <FormattedMessage id="ui-eholdings.settings.usageConsolidation.id.validation.empty" />
@@ -78,10 +78,12 @@ const SettingsUsageConsolidation = ({
             component={TextField}
             label={usageConsolidationIdLabel}
             aria-label={usageConsolidationIdLabel}
-            onChange={() => {
+            parse={value => {
               if (customerKeyIsInvalid) {
                 clearUsageConsolidationErrors();
               }
+
+              return value;
             }}
           />
         </SettingsForm>
