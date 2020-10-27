@@ -10,6 +10,7 @@ import {
   rootProxyApi,
   proxyTypesApi,
   userGroupsApi,
+  usageConsolidationApi,
 } from '../api';
 
 import Resolver from './resolver';
@@ -41,6 +42,7 @@ import {
   proxyTypes,
   kbCredentialsUsers,
   userGroups,
+  usageConsolidation,
 } from './reducers';
 
 import {
@@ -66,6 +68,9 @@ import {
   createGetUserGroupsEpic,
   createGetAgreementLinesEpic,
   createDeleteAgreementLinesEpic,
+  createGetUsageConsolidationEpic,
+  createPostUsageConsolidationEpic,
+  createPatchUsageConsolidationEpic,
 } from './epics';
 
 export const createResolver = (state) => {
@@ -97,6 +102,7 @@ export const reducer = combineReducers({
       settingsRootProxy: rootProxy(currentState.settingsRootProxy, action),
       settingsProxyTypes: proxyTypes(currentState.settingsProxyTypes, action),
       userGroups: userGroups(currentState.userGroups, action),
+      usageConsolidation: usageConsolidation(currentState.usageConsolidation, action),
     };
   }
 });
@@ -125,4 +131,7 @@ export const epics = combineEpics(
   createUpdateRootProxyEpic({ rootProxyApi }),
   createGetProxyTypesEpic({ proxyTypesApi }),
   createGetUserGroupsEpic({ userGroupsApi }),
+  createGetUsageConsolidationEpic({ usageConsolidationApi }),
+  createPostUsageConsolidationEpic({ usageConsolidationApi }),
+  createPatchUsageConsolidationEpic({ usageConsolidationApi }),
 );

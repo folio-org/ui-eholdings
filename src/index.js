@@ -30,6 +30,7 @@ import SettingsKnowledgeBaseRoute from './routes/settings-knowledge-base';
 import SettingsRootProxyRoute from './routes/settings-root-proxy';
 import SettingsAccessStatusTypesRoute from './routes/settings-access-status-types';
 import SettingsAssignedUsersRoute from './routes/settings-assigned-users-route';
+import SettingsUsageConsolidationRoute from './routes/settings-usage-consolidation-route';
 
 class EHoldings extends Component {
   static propTypes = {
@@ -77,6 +78,7 @@ class EHoldings extends Component {
           <Route path={`${rootPath}/:kbId/custom-labels`} exact component={SettingsCustomLabelsRoute} />
           <Route path={`${rootPath}/:kbId/access-status-types`} exact component={SettingsAccessStatusTypesRoute} />
           <Route path={`${rootPath}/:kbId/users`} exact component={SettingsAssignedUsersRoute} />
+          <Route path={`${rootPath}/:kbId/usage-consolidation`} exact component={SettingsUsageConsolidationRoute} />
         </Route>
       )
       : (

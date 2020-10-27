@@ -214,6 +214,10 @@
     "settings.assignedUsers.confirmationModal.cancelButton": "Cancel",
     "settings.assignedUsers.assignmentModal.label": "Select user",
     "settings.assignedUsers.networkErrorMessage": "Unable to complete this operation. Please try again.",
+    "settings.usageConsolidation": "Usage consolidation",
+    "settings.usageConsolidation.id": "Usage consolidation ID",
+    "settings.usageConsolidation.id.validation.empty": "Please enter a Usage Consolidation ID.",
+    "settings.usageConsolidation.id.validation.invalid": "Invalid Usage Consolidation ID. Please enter a valid ID.",
 
     "proxy": "Proxy",
     "proxy.inherited": "Inherited - {proxy}",
