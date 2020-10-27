@@ -8,10 +8,12 @@ import {
 
 describe('(action) postUsageConsolidationSuccess', () => {
   it('should create an action to handle post usage consolidation success', () => {
+    const payload = { data: 'data' };
     const expectedAction = {
       type: POST_USAGE_CONSOLIDATION_SUCCESS,
+      payload,
     };
 
-    expect(postUsageConsolidationSuccess()).to.deep.equal(expectedAction);
+    expect(postUsageConsolidationSuccess(payload)).to.deep.equal(expectedAction);
   });
 });

@@ -2,16 +2,18 @@
 import { expect } from 'chai';
 
 import {
-  POST_USAGE_CONSOLIDATION_SUCCESS,
-  postUsageConsolidationSuccess,
+  PATCH_USAGE_CONSOLIDATION_SUCCESS,
+  patchUsageConsolidationSuccess,
 } from '../../../../../../src/redux/actions';
 
-describe('(action) postUsageConsolidationSuccess', () => {
-  it('should create an action to handle post usage consolidation success', () => {
+describe('(action) patchUsageConsolidationSuccess', () => {
+  it('should create an action to handle patch usage consolidation success', () => {
+    const payload = { data: 'data' };
     const expectedAction = {
-      type: POST_USAGE_CONSOLIDATION_SUCCESS,
+      type: PATCH_USAGE_CONSOLIDATION_SUCCESS,
+      payload,
     };
 
-    expect(postUsageConsolidationSuccess()).to.deep.equal(expectedAction);
+    expect(patchUsageConsolidationSuccess(payload)).to.deep.equal(expectedAction);
   });
 });

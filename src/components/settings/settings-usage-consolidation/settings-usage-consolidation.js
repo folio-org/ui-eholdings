@@ -86,10 +86,12 @@ const SettingsUsageConsolidation = ({
             component={TextField}
             label={usageConsolidationIdLabel}
             aria-label={usageConsolidationIdLabel}
-            onChange={() => {
+            parse={value => {
               if (customerKeyIsInvalid) {
                 clearUsageConsolidationErrors();
               }
+
+              return value;
             }}
           />
           <Field

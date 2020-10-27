@@ -33,7 +33,7 @@ export default {
 
     return doRequest(url, params);
   },
-  editUsageConsolidation: (okapi, credentialId, data) => {
+  patchUsageConsolidation: (okapi, credentialId, data) => {
     const method = 'PATCH';
     const url = `${okapi.url}${getApiUrl(credentialId)}`;
 
