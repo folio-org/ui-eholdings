@@ -51,18 +51,23 @@ const SettingsUsageConsolidationRoute = ({
   }, [getUsageConsolidation, kbId]);
 
   const updateUsageConsolidation = params => {
+    const {
+      credentialsId,
+      ...updatedData
+    } = params;
+
     const data = {
       type: 'ucSettings',
       attributes: {
-        ...params,
+        ...updatedData,
         currency: 'USD',
       },
     };
 
-    if (!usageConsolidationData?.id) {
+    if (!usageConsolidationData?.credentialsId) {
       postUsageConsolidation({ data, credentialsId: kbId });
     } else {
-      patchUsageConsolidation({ data, credentialsId: kbId });
+      patchUsageConsolidation({ data, credentialsId });
     }
   };
 

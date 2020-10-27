@@ -13,9 +13,11 @@ export default ({ usageConsolidationApi }) => (action$, store) => {
   return action$
     .filter(action => action.type === PATCH_USAGE_CONSOLIDATION)
     .mergeMap(({ payload }) => {
+      const { credentialsId, data } = payload;
+
       return usageConsolidationApi
-        .editUsageConsolidation(store.getState().okapi, { data: payload.data }, payload.credentialId)
-        .map(() => patchUsageConsolidationSuccess(payload.data))
-        .catch(errors => Observable.of(patchUsageConsolidationFailure({ errors })));
+        .patchUsageConsolidation(store.getState().okapi, credentialsId, { data })
+        .map(patchUsageConsolidationSuccess)
+        .catch(errors => Observable.of(patchUsageConsolidationFailure(errors)));
     });
 };

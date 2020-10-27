@@ -66,7 +66,7 @@ describe('(reducer) usageConsolidation', () => {
     };
     const action = {
       type: POST_USAGE_CONSOLIDATION_SUCCESS,
-      payload: { data: { customreKey: 'customerKey' } },
+      payload: { customreKey: 'customerKey' },
     };
     const expectedState = {
       data: { customreKey: 'customerKey' },
@@ -104,7 +104,7 @@ describe('(reducer) usageConsolidation', () => {
     };
     const action = {
       type: PATCH_USAGE_CONSOLIDATION_SUCCESS,
-      payload: { data: { customreKey: 'customerKey' } },
+      payload: { customreKey: 'customerKey' },
     };
     const expectedState = {
       data: { customreKey: 'customerKey' },
