@@ -66,20 +66,10 @@ const SettingsUsageConsolidation = ({
     label: month,
   }));
 
-  const platformTypesDataOptions = [
-    {
-      label: formatMessage({ id: `ui-eholdings.settings.usageConsolidation.platformType.${platformTypes.ALL}` }),
-      value: platformTypes.ALL,
-    },
-    {
-      label: formatMessage({ id: `ui-eholdings.settings.usageConsolidation.platformType.${platformTypes.PUBLISHER_ONLY}` }),
-      value: platformTypes.PUBLISHER_ONLY,
-    },
-    {
-      label: formatMessage({ id: `ui-eholdings.settings.usageConsolidation.platformType.${platformTypes.NON_PUBLISHER_ONLY}` }),
-      value: platformTypes.NON_PUBLISHER_ONLY,
-    },
-  ];
+  const platformTypesDataOptions = Object.values(platformTypes).map(platformType => ({
+    label: formatMessage({ id: `ui-eholdings.settings.usageConsolidation.platformType.${platformType}` }),
+    value: platformType,
+  }));
 
   return (
     <Form
