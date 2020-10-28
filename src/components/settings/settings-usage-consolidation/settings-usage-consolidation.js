@@ -8,9 +8,11 @@ import {
   FormattedMessage,
   useIntl,
 } from 'react-intl';
+import moment from 'moment';
 
 import {
   TextField,
+  Select,
 } from '@folio/stripes/components';
 
 import SettingsForm from '../settings-form';
@@ -35,6 +37,7 @@ const SettingsUsageConsolidation = ({
   const { formatMessage } = useIntl();
 
   const usageConsolidationIdLabel = formatMessage({ id: 'ui-eholdings.settings.usageConsolidation.id' });
+  const usageConsolidationStartMonthLabel = formatMessage({ id: 'ui-eholdings.settings.usageConsolidation.startMonth' });
 
   const customerKeyIsInvalid = usageConsolidation.errors[0]?.title === INVALID_CUSTOMER_KEY_ERROR_MESSAGE;
 
@@ -55,6 +58,11 @@ const SettingsUsageConsolidation = ({
 
     return errors;
   };
+
+  const monthDataOptions = moment.months().map(month => ({
+    value: month.toLowerCase().substr(0, 3),
+    label: month,
+  }));
 
   return (
     <Form
@@ -85,6 +93,14 @@ const SettingsUsageConsolidation = ({
 
               return value;
             }}
+          />
+          <Field
+            id="eholdings-settings-usage-consolidation-month"
+            name="startMonth"
+            component={Select}
+            dataOptions={monthDataOptions}
+            label={usageConsolidationStartMonthLabel}
+            aria-label={usageConsolidationStartMonthLabel}
           />
         </SettingsForm>
       )}

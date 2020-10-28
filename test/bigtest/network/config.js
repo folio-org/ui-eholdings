@@ -1101,7 +1101,7 @@ export default function config() {
     type: 'ucSettings',
     attributes: {
       name: '****************************************',
-      startMonth: 'jan',
+      startMonth: 'mar',
       currency: 'USD',
       platformType: 'all',
     },

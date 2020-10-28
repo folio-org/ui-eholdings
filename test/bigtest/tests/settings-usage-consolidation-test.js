@@ -5,8 +5,7 @@ import SettingsUsageConsolidationPage from '../interactors/settings-usage-consol
 import setupApplication, { axe } from '../helpers/setup-application';
 import wait from '../helpers/wait';
 
-
-describe('With list of root proxies available to a customer', () => {
+describe('With usage consolidation available to a customer', () => {
   setupApplication();
 
   let a11yResults = null;
@@ -33,6 +32,27 @@ describe('With list of root proxies available to a customer', () => {
 
     it('should show usage consolidation id field', () => {
       expect(SettingsUsageConsolidationPage.usageConsolidationIdField.isPresent).to.be.true;
+    });
+
+    it('should show usage consolidation start month field', () => {
+      expect(SettingsUsageConsolidationPage.usageConsolidationStartMonthField.isPresent).to.be.true;
+    });
+
+    it('should show correct saved start month value', () => {
+      expect(SettingsUsageConsolidationPage.usageConsolidationStartMonthField.value).to.equal('mar');
+    });
+  });
+
+  describe('when usage consolidation has not been set up', () => {
+    beforeEach(async function () {
+      this.server.get('/kb-credentials/:credId/uc', () => ({}));
+
+      this.visit('/settings/eholdings/2/usage-consolidation');
+      await wait(1000);
+    });
+
+    it('should show default value as January', () => {
+      expect(SettingsUsageConsolidationPage.usageConsolidationStartMonthField.value).to.equal('jan');
     });
   });
 });
