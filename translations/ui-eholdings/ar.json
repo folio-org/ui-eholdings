@@ -320,7 +320,7 @@
     "notes.entityType.resource.pluralized": "{count} {count, plural, one {مورد} other {مورد}}",
     "notes.entityType.title.pluralized": "{count} {count, plural, one {عنوان} other {عنوان}}",
     "package.resultsNotFoundForQuery": "لم يتم العثور على أي حزم لـ \"{ query }\". يرجى التحقق من التهجئة والمنقحات.",
-    "provider.resultsNotFoundForQuery": "لم يتم العثور على أي مزودي خدمة لـ '{query}'.",
+    "provider.resultsNotFoundForQuery": "لم يتم العثور على أي مزودي خدمة لـ '{query}'. يرجى التحقق من التهجئة والمنقحات.",
     "title.resultsNotFoundForQuery": "لم يتم العثور على أي عناوين لـ '{query}'.",
     "label.edit.custom.coverageDates": "تواريخ التغطية المخصصة (قم بإدخال نطاقات زمنية متعددة بترتيب تنازلي)",
     "search.searchByTagsOnly": "بحث بواسطة الوسوم فقط",
