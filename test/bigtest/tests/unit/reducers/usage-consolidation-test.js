@@ -5,6 +5,7 @@ import { usageConsolidation } from '../../../../../src/redux/reducers';
 import {
   CLEAR_USAGE_CONSOLIDATION_ERRORS,
   GET_USAGE_CONSOLIDATION_FAILURE,
+  GET_USAGE_CONSOLIDATION,
   PATCH_USAGE_CONSOLIDATION_FAILURE,
   PATCH_USAGE_CONSOLIDATION_SUCCESS,
   POST_USAGE_CONSOLIDATION_FAILURE,
@@ -18,6 +19,22 @@ describe('(reducer) usageConsolidation', () => {
       errors: [],
       isLoading: false,
     });
+  });
+
+  it('should handle GET_USAGE_CONSOLIDATION', () => {
+    const actualState = {
+      data: {},
+      errors: [],
+      isLoading: false,
+    };
+    const action = { type: GET_USAGE_CONSOLIDATION };
+    const expectedState = {
+      data: {},
+      errors: [],
+      isLoading: true,
+    };
+
+    expect(usageConsolidation(actualState, action)).to.deep.equal(expectedState);
   });
 
   it('should handle GET_USAGE_CONSOLIDATION_FAILURE', () => {

@@ -1114,4 +1114,29 @@ export default function config() {
       updatedByUsername: 'jane_doe',
     }
   }));
+
+  this.get('/currencies', () => ({
+    data: [{
+      id: 'AFN',
+      type: 'currencies',
+      attributes: {
+        code: 'AFN',
+        description: 'Afghan Afghani',
+      },
+    }, {
+      id: 'ALL',
+      type: 'currencies',
+      attributes: {
+        code: 'ALL',
+        description: 'Albanian Lek',
+      },
+    }, {
+      id: 'USD',
+      type: 'currencies',
+      attributes: {
+        code: 'USD',
+        description: 'United State Dollar',
+      },
+    }],
+  }));
 }

@@ -19,6 +19,11 @@ import SettingsForm from '../settings-form';
 
 const propTypes = {
   clearUsageConsolidationErrors: PropTypes.func.isRequired,
+  currencies: PropTypes.shape({
+    errors: PropTypes.array.isRequired,
+    isLoading: PropTypes.bool.isRequired,
+    items: PropTypes.array.isRequired,
+  }),
   updateUsageConsolidation: PropTypes.func.isRequired,
   usageConsolidation: PropTypes.shape({
     data: PropTypes.object.isRequired,
@@ -31,6 +36,7 @@ const INVALID_CUSTOMER_KEY_ERROR_MESSAGE = 'Invalid UC Credentials';
 
 const SettingsUsageConsolidation = ({
   clearUsageConsolidationErrors,
+  currencies,
   usageConsolidation,
   updateUsageConsolidation: onSubmit,
 }) => {
@@ -38,6 +44,7 @@ const SettingsUsageConsolidation = ({
 
   const usageConsolidationIdLabel = formatMessage({ id: 'ui-eholdings.settings.usageConsolidation.id' });
   const usageConsolidationStartMonthLabel = formatMessage({ id: 'ui-eholdings.settings.usageConsolidation.startMonth' });
+  const currencyLabel = formatMessage({ id: 'ui-eholdings.settings.usageConsolidation.currency' });
 
   const customerKeyIsInvalid = usageConsolidation.errors[0]?.title === INVALID_CUSTOMER_KEY_ERROR_MESSAGE;
 
@@ -56,12 +63,39 @@ const SettingsUsageConsolidation = ({
       );
     }
 
+    if(!values.currency) {
+      errors.currency = (
+        <FormattedMessage id="ui-eholdings.settings.usageConsolidation.currency.validation" />
+      );
+    }
+
     return errors;
   };
 
   const monthDataOptions = moment.months().map(month => ({
     value: month.toLowerCase().substr(0, 3),
     label: month,
+  }));
+
+  const parseUsageConsolidationId = value => {
+    if (customerKeyIsInvalid) {
+      clearUsageConsolidationErrors();
+    }
+
+    return value;
+  };
+
+  const defaultCurrency = {
+    value: '',
+    label: formatMessage({ id: "ui-eholdings.settings.usageConsolidation.currency.default" }),
+  };
+
+  const currencyDataOptions = currencies.items.map(({ attributes: {
+    code,
+    description,
+  }}) => ({
+    value: code,
+    label: description,
   }));
 
   return (
@@ -81,18 +115,12 @@ const SettingsUsageConsolidation = ({
             id="eholdings-settings-usage-consolidation-id"
             name="customerKey"
             type="password"
-            autoComplete="off"
+            autoComplete="new-password"
             required
             component={TextField}
             label={usageConsolidationIdLabel}
             aria-label={usageConsolidationIdLabel}
-            parse={value => {
-              if (customerKeyIsInvalid) {
-                clearUsageConsolidationErrors();
-              }
-
-              return value;
-            }}
+            parse={parseUsageConsolidationId}
           />
           <Field
             id="eholdings-settings-usage-consolidation-month"
@@ -100,7 +128,14 @@ const SettingsUsageConsolidation = ({
             component={Select}
             dataOptions={monthDataOptions}
             label={usageConsolidationStartMonthLabel}
-            aria-label={usageConsolidationStartMonthLabel}
+          />
+          <Field
+            id="eholdings-settings-usage-consolidation-currency"
+            name="currency"
+            component={Select}
+            dataOptions={[defaultCurrency, ...currencyDataOptions]}
+            label={currencyLabel}
+            required
           />
         </SettingsForm>
       )}

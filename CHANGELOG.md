@@ -1,8 +1,9 @@
 # Change history for ui-eholdings
 
 ## [6.0.0] (IN PROGRESS)
-
-
+* Settings - Usage Consolidation - Currency. (UIEH-965)
+* Settings - Usage Consolidation - Start month for usage statistics. (UIEH-966)
+* Settings - Usage Consolidation - Usage consolidation ID. (UIEH-968)
 
 ## [5.0.0] (https://github.com/folio-org/ui-eholdings/tree/v5.0.0) (2020-10-15)
 

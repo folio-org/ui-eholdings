@@ -23,3 +23,4 @@ export { default as createDeleteAgreementLinesEpic } from './delete-agreement-li
 export { default as createGetUsageConsolidationEpic } from './get-usage-consolidation';
 export { default as createPostUsageConsolidationEpic } from './post-usage-consolidation';
 export { default as createPatchUsageConsolidationEpic } from './patch-usage-consolidation';
+export { default as createGetCurrenciesEpic } from './get-currencies';

@@ -20,6 +20,8 @@ const handlers = {
   [GET_USAGE_CONSOLIDATION]: state => ({
     ...state,
     isLoading: true,
+    data: {},
+    errors: [],
   }),
   [GET_USAGE_CONSOLIDATION_SUCCESS]: (state, { payload }) => {
     const { attributes } = payload;
