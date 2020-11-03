@@ -81,7 +81,7 @@ export default class ProviderEdit extends Component {
         decorators={[focusOnErrors]}
         onSubmit={onSubmit}
         initialValues={{
-          proxyId: model.proxy.id,
+          proxyId: model.proxy.id?.toLowerCase(),
           providerTokenValue: model.providerToken.value
         }}
         render={({ handleSubmit, pristine, form: { reset } }) => (
