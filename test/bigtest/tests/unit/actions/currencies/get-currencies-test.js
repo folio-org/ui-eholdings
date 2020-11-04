@@ -1,7 +1,7 @@
 /* global describe, it */
 import { expect } from 'chai';
 
-import { 
+import {
   GET_CURRENCIES,
   getCurrencies,
 } from '../../../../../../src/redux/actions/currencies';
