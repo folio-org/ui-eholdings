@@ -67,12 +67,19 @@ const SettingsUsageConsolidationRoute = ({
       ...updatedData
     } = params;
 
+    const attributes = {
+      currency: 'USD',
+      platformType: updatedData.platformType,
+      startMonth: updatedData.startMonth,
+    };
+
+    if (usageConsolidationData.customerKey !== updatedData.customerKey) {
+      attributes.customerKey = updatedData.customerKey;
+    }
+
     const data = {
       type: 'ucSettings',
-      attributes: {
-        ...updatedData,
-        currency: 'USD',
-      },
+      attributes,
     };
 
     if (!usageConsolidationData?.credentialsId) {

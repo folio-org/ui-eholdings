@@ -49,6 +49,62 @@ describe('With usage consolidation available to a customer', () => {
     it('should show correct saved currency value', () => {
       expect(SettingsUsageConsolidationPage.currencyField.value).to.equal('USD');
     });
+
+    it('should show usage consolidation platform type field', () => {
+      expect(SettingsUsageConsolidationPage.usageConsolidationPlatformTypeField.isPresent).to.be.true;
+    });
+
+    it('should show correct saved platform type value', () => {
+      expect(SettingsUsageConsolidationPage.usageConsolidationPlatformTypeField.value).to.equal('publisher');
+    });
+
+    describe('when changing start month value', () => {
+      beforeEach(() => {
+        return SettingsUsageConsolidationPage.usageConsolidationStartMonthField.selectAndBlur('April');
+      });
+
+      it('should enable the save button', () => {
+        expect(SettingsUsageConsolidationPage.saveButtonDisabled).to.be.false;
+      });
+
+      describe('and clicking save', () => {
+        beforeEach(() => {
+          return SettingsUsageConsolidationPage.save();
+        });
+
+        it('should save the new value', () => {
+          expect(SettingsUsageConsolidationPage.usageConsolidationStartMonthField.value).to.equal('apr');
+        });
+
+        it('should disable the save button', () => {
+          expect(SettingsUsageConsolidationPage.saveButtonDisabled).to.be.true;
+        });
+      });
+    });
+
+    describe('when changing platform type value', () => {
+      beforeEach(() => {
+        return SettingsUsageConsolidationPage.usageConsolidationPlatformTypeField.selectAndBlur('Non-publisher platforms only');
+      });
+
+      it('should enable the save button', () => {
+        expect(SettingsUsageConsolidationPage.saveButtonDisabled).to.be.false;
+      });
+
+      describe('and clicking save', () => {
+        beforeEach(() => {
+          return SettingsUsageConsolidationPage.save();
+        });
+
+        it('should save the new value', () => {
+          expect(SettingsUsageConsolidationPage.usageConsolidationPlatformTypeField.value).to.equal('nonPublisher');
+        });
+
+        it('should disable the save button', () => {
+          expect(SettingsUsageConsolidationPage.saveButtonDisabled).to.be.true;
+        });
+      });
+    });
   });
 
   describe('when usage consolidation has not been set up', () => {
@@ -59,12 +115,16 @@ describe('With usage consolidation available to a customer', () => {
       await wait(1000);
     });
 
-    it('should show default value as January', () => {
+    it('should show default start month value as January', () => {
       expect(SettingsUsageConsolidationPage.usageConsolidationStartMonthField.value).to.equal('jan');
     });
 
     it('should show default value for currency field', () => {
       expect(SettingsUsageConsolidationPage.currencyField.value).to.equal('');
+    });
+
+    it('should show default platform type value as All', () => {
+      expect(SettingsUsageConsolidationPage.usageConsolidationPlatformTypeField.value).to.equal('all');
     });
   });
 });
