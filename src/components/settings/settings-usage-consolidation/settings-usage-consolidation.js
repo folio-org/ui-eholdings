@@ -65,7 +65,7 @@ const SettingsUsageConsolidation = ({
       );
     }
 
-    if(!values.currency) {
+    if (!values.currency) {
       errors.currency = (
         <FormattedMessage id="ui-eholdings.settings.usageConsolidation.currency.validation" />
       );
@@ -89,13 +89,13 @@ const SettingsUsageConsolidation = ({
 
   const defaultCurrency = {
     value: '',
-    label: formatMessage({ id: "ui-eholdings.settings.usageConsolidation.currency.default" }),
+    label: formatMessage({ id: 'ui-eholdings.settings.usageConsolidation.currency.default' }),
   };
 
   const currencyDataOptions = currencies.items.map(({ attributes: {
     code,
     description,
-  }}) => ({
+  } }) => ({
     value: code,
     label: description,
   }));
