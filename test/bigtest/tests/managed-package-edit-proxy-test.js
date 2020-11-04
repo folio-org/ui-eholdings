@@ -50,8 +50,8 @@ describe('ManagedPackageEditProxy', () => {
         this.visit(`/eholdings/packages/${ezProxyPackage.id}/edit`);
       });
 
-      it.skip('has a select containing the current proxy value', () => {
-        expect(PackageEditPage.proxySelectValue).to.equal('EZproxy');
+      it('has a select containing the current proxy value', () => {
+        expect(PackageEditPage.proxySelectValue).to.equal('ezproxy');
       });
     });
 
@@ -65,7 +65,7 @@ describe('ManagedPackageEditProxy', () => {
       });
 
       it('selected option has changed', () => {
-        expect(PackageEditPage.proxySelectValue).to.equal('bigTestJS');
+        expect(PackageEditPage.proxySelectValue).to.equal('bigtestjs');
       });
 
       describe('saving the new proxy value', () => {

@@ -76,7 +76,7 @@ describe('ManagedResourceEditProxy', () => {
       });
 
       it('selected option has changed', () => {
-        expect(ResourceEditPage.proxySelectValue).to.equal('bigTestJS');
+        expect(ResourceEditPage.proxySelectValue).to.equal('bigtestjs');
       });
 
       describe('clicking save to update Resource Proxy', () => {
