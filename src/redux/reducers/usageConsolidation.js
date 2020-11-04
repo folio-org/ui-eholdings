@@ -43,7 +43,10 @@ const handlers = {
   [PATCH_USAGE_CONSOLIDATION_SUCCESS]: (state, { payload }) => {
     return {
       ...state,
-      data: payload,
+      data: {
+        ...state.data,
+        ...payload,
+      },
       isLoading: false,
     };
   },

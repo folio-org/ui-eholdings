@@ -1100,10 +1100,10 @@ export default function config() {
     id: '2ffa1940-2cf6-48b1-8cc9-5e539c61d93f',
     type: 'ucSettings',
     attributes: {
-      name: '****************************************',
+      customerKey: '****************************************',
       startMonth: 'mar',
       currency: 'USD',
-      platformType: 'all',
+      platformType: 'publisher',
     },
     metadata: {
       createdDate: '2020-03-17T15:22:04.098',
@@ -1114,4 +1114,7 @@ export default function config() {
       updatedByUsername: 'jane_doe',
     }
   }));
+
+  this.post('/kb-credentials/:credId/uc', (_schema, request) => JSON.parse(request.requestBody));
+  this.patch('/kb-credentials/:credId/uc', (_schema, request) => JSON.parse(request.requestBody));
 }

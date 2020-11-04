@@ -17,7 +17,7 @@ export default ({ usageConsolidationApi }) => (action$, store) => {
 
       return usageConsolidationApi
         .patchUsageConsolidation(store.getState().okapi, credentialsId, { data })
-        .map(patchUsageConsolidationSuccess)
+        .map(() => patchUsageConsolidationSuccess(data))
         .catch(errors => Observable.of(patchUsageConsolidationFailure(errors)));
     });
 };

@@ -16,6 +16,7 @@ import {
 } from '@folio/stripes/components';
 
 import SettingsForm from '../settings-form';
+import { platformTypes } from '../../../constants';
 
 const propTypes = {
   clearUsageConsolidationErrors: PropTypes.func.isRequired,
@@ -38,6 +39,7 @@ const SettingsUsageConsolidation = ({
 
   const usageConsolidationIdLabel = formatMessage({ id: 'ui-eholdings.settings.usageConsolidation.id' });
   const usageConsolidationStartMonthLabel = formatMessage({ id: 'ui-eholdings.settings.usageConsolidation.startMonth' });
+  const usageConsolidationPlatformTypeLabel = formatMessage({ id: 'ui-eholdings.settings.usageConsolidation.platformType' });
 
   const customerKeyIsInvalid = usageConsolidation.errors[0]?.title === INVALID_CUSTOMER_KEY_ERROR_MESSAGE;
 
@@ -62,6 +64,11 @@ const SettingsUsageConsolidation = ({
   const monthDataOptions = moment.months().map(month => ({
     value: month.toLowerCase().substr(0, 3),
     label: month,
+  }));
+
+  const platformTypesDataOptions = Object.values(platformTypes).map(platformType => ({
+    label: formatMessage({ id: `ui-eholdings.settings.usageConsolidation.platformType.${platformType}` }),
+    value: platformType,
   }));
 
   return (
@@ -101,6 +108,14 @@ const SettingsUsageConsolidation = ({
             dataOptions={monthDataOptions}
             label={usageConsolidationStartMonthLabel}
             aria-label={usageConsolidationStartMonthLabel}
+          />
+          <Field
+            id="eholdings-settings-usage-consolidation-platform-type"
+            name="platformType"
+            component={Select}
+            dataOptions={platformTypesDataOptions}
+            label={usageConsolidationPlatformTypeLabel}
+            aria-label={usageConsolidationPlatformTypeLabel}
           />
         </SettingsForm>
       )}
