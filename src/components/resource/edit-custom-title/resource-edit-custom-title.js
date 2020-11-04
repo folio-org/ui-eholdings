@@ -76,7 +76,7 @@ class ResourceEditCustomTitle extends Component {
       coverageStatement,
       hasCoverageStatement,
       customUrl: url,
-      proxyId: matchingProxy?.id || proxy.id,
+      proxyId: (matchingProxy?.id || proxy.id).toLowerCase(),
       accessTypeId: getAccessTypeId(model),
       isVisible: !visibilityData.isHidden,
       customEmbargoPeriod: getEmbargoInitial(customEmbargoPeriod)
