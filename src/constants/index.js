@@ -19,3 +19,4 @@ export { default as DATE_FORMAT } from './dateFormat';
 export { default as BACKEND_DATE_STANDARD } from './backendDateStandard';
 export { default as TIME_ZONE } from './timeZone';
 export * from './filterConfigs';
+export * from './customLabels';
