@@ -9,6 +9,8 @@ import {
   TextField,
 } from '@folio/stripes/components';
 
+import { CUSTOM_LABELS_VALUE_MAX_LENGTH } from '../../constants';
+
 class CustomLabelEditSection extends Component {
   static propTypes = {
     customLabels: PropTypes.arrayOf(PropTypes.shape({
@@ -23,7 +25,7 @@ class CustomLabelEditSection extends Component {
   validateStringLength = (value) => {
     const message = <FormattedMessage id="ui-eholdings.validate.errors.customLabels.length" />;
 
-    return value && value.length > 100 ? message : undefined;
+    return value && value.length > CUSTOM_LABELS_VALUE_MAX_LENGTH ? message : undefined;
   }
 
   render() {

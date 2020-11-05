@@ -641,7 +641,7 @@ describe('ResourceEditCustomTitle', () => {
 
     describe('fill input with unvalid string', () => {
       beforeEach(async () => {
-        await ResourceEditPage.customLabelsFields(0).inputCustomLabel(`${new Array(102).join('a')}`); // create a 101 char string
+        await ResourceEditPage.customLabelsFields(0).inputCustomLabel(`${new Array(501).join('a')}`); // create a 501 char string
         await ResourceEditPage.customLabelsFields(0).blurCustomLabel();
       });
 
