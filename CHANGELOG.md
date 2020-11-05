@@ -1,5 +1,9 @@
 # Change history for ui-eholdings
 
+## [5.1.0] (IN PROGRESS)
+
+* Increase Settings Custom Labels display label max length to 200. (UIEH-985)
+
 ## [5.0.0] (https://github.com/folio-org/ui-eholdings/tree/v5.0.0) (2020-10-15)
 
 * Fix permission error in devtools console. (UIEH-915)
