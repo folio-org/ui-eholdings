@@ -59,7 +59,9 @@ const SettingsUsageConsolidationRoute = ({
     getUsageConsolidation(kbId);
   }, [getUsageConsolidation, kbId]);
 
-  useEffect(getCurrencies, [getCurrencies]);
+  useEffect(() => {
+    getCurrencies();
+  }, [getCurrencies]);
 
   const updateUsageConsolidation = params => {
     const {
