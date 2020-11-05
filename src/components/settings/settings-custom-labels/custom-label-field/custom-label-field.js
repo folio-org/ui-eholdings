@@ -11,6 +11,7 @@ import {
 } from '@folio/stripes/components';
 
 import { getMatchedStringInUTF8 } from '../../../utilities';
+import { CUSTOM_LABELS_DISPLAY_LABEL_MAX_LENGTH } from '../../../../constants';
 
 export default class CustomLabelField extends Component {
   static propTypes = {
@@ -23,7 +24,7 @@ export default class CustomLabelField extends Component {
     const displayOnFullTextFinder = allValues[name] ? allValues[name].displayOnFullTextFinder : false;
     const displayOnPublicationFinder = allValues[name] ? allValues[name].displayOnPublicationFinder : false;
 
-    if (value && value.length > 50) {
+    if (value && value.length > CUSTOM_LABELS_DISPLAY_LABEL_MAX_LENGTH) {
       return <FormattedMessage id="ui-eholdings.validate.errors.settings.customLabels.length" />;
     } else if (utf8Value !== value) {
       return <FormattedMessage id="ui-eholdings.validate.errors.settings.customLabels.utf" />;

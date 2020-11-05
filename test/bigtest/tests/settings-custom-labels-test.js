@@ -77,7 +77,7 @@ describe('With list of root proxies available to a customer', () => {
 
     describe('fill more then 50 character', () => {
       beforeEach(async () => {
-        await SettingsCustomLabelsPage.customLabels(0).fillAndBlurLabel((new Array(51)).fill('a').join('')); // 51 character
+        await SettingsCustomLabelsPage.customLabels(0).fillAndBlurLabel((new Array(201)).fill('a').join('')); // 201 character
       });
 
       it('should show error message', () => {
