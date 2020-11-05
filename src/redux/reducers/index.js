@@ -7,3 +7,4 @@ export { default as rootProxy } from './rootProxy';
 export { default as proxyTypes } from './proxyTypes';
 export { default as userGroups } from './user-groups';
 export { default as usageConsolidation } from './usageConsolidation';
+export { default as currencies } from './currencies';

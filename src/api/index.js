@@ -8,3 +8,4 @@ export { default as rootProxyApi } from './root-proxy';
 export { default as proxyTypesApi } from './proxy-types';
 export { default as userGroupsApi } from './user-groups';
 export { default as usageConsolidationApi } from './usage-consolidation';
+export { default as currenciesApi } from './currencies';

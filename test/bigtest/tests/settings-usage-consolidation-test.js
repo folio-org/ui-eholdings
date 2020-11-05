@@ -42,6 +42,14 @@ describe('With usage consolidation available to a customer', () => {
       expect(SettingsUsageConsolidationPage.usageConsolidationStartMonthField.value).to.equal('mar');
     });
 
+    it('should show currency field', () => {
+      expect(SettingsUsageConsolidationPage.currencyField.isPresent).to.be.true;
+    });
+
+    it('should show correct saved currency value', () => {
+      expect(SettingsUsageConsolidationPage.currencyField.value).to.equal('USD');
+    });
+
     it('should show usage consolidation platform type field', () => {
       expect(SettingsUsageConsolidationPage.usageConsolidationPlatformTypeField.isPresent).to.be.true;
     });
@@ -109,6 +117,10 @@ describe('With usage consolidation available to a customer', () => {
 
     it('should show default start month value as January', () => {
       expect(SettingsUsageConsolidationPage.usageConsolidationStartMonthField.value).to.equal('jan');
+    });
+
+    it('should show default value for currency field', () => {
+      expect(SettingsUsageConsolidationPage.currencyField.value).to.equal('');
     });
 
     it('should show default platform type value as All', () => {

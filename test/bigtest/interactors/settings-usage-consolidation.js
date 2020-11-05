@@ -13,6 +13,7 @@ import Select from './select';
 
   usageConsolidationIdField = scoped('#eholdings-settings-usage-consolidation-id', {});
   usageConsolidationStartMonthField = new Select('#eholdings-settings-usage-consolidation-month');
+  currencyField = new Select('#eholdings-settings-usage-consolidation-currency');
   usageConsolidationPlatformTypeField = new Select('#eholdings-settings-usage-consolidation-platform-type');
 
   saveButtonDisabled = property('[data-test-eholdings-settings-form-save-button]', 'disabled');

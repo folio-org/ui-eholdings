@@ -14,10 +14,17 @@ import {
   getUsageConsolidation as getUsageConsolidationAction,
   patchUsageConsolidation as patchUsageConsolidationAction,
   postUsageConsolidation as postUsageConsolidationAction,
+  getCurrencies as getCurrenciesAction,
 } from '../redux/actions';
 
 const propTypes = {
   clearUsageConsolidationErrors: PropTypes.func.isRequired,
+  currencies: PropTypes.shape({
+    errors: PropTypes.array.isRequired,
+    isLoading: PropTypes.bool.isRequired,
+    items: PropTypes.array.isRequired,
+  }),
+  getCurrencies: PropTypes.func.isRequired,
   getUsageConsolidation: PropTypes.func.isRequired,
   match: PropTypes.shape({
     params: PropTypes.shape({
@@ -35,6 +42,8 @@ const propTypes = {
 
 const SettingsUsageConsolidationRoute = ({
   clearUsageConsolidationErrors,
+  currencies,
+  getCurrencies,
   getUsageConsolidation,
   match: { params: { kbId } },
   patchUsageConsolidation,
@@ -49,6 +58,10 @@ const SettingsUsageConsolidationRoute = ({
   useEffect(() => {
     getUsageConsolidation(kbId);
   }, [getUsageConsolidation, kbId]);
+
+  useEffect(() => {
+    getCurrencies();
+  }, [getCurrencies]);
 
   const updateUsageConsolidation = params => {
     const {
@@ -85,6 +98,7 @@ const SettingsUsageConsolidationRoute = ({
         usageConsolidation={usageConsolidation}
         updateUsageConsolidation={updateUsageConsolidation}
         clearUsageConsolidationErrors={clearUsageConsolidationErrors}
+        currencies={currencies}
       />
     );
 };
@@ -94,10 +108,12 @@ SettingsUsageConsolidationRoute.propTypes = propTypes;
 export default connect(
   store => ({
     usageConsolidation: selectPropFromData(store, 'usageConsolidation'),
+    currencies: selectPropFromData(store, 'currencies'),
   }), {
     clearUsageConsolidationErrors: clearUsageConsolidationErrorsAction,
     getUsageConsolidation: getUsageConsolidationAction,
     patchUsageConsolidation: patchUsageConsolidationAction,
     postUsageConsolidation: postUsageConsolidationAction,
+    getCurrencies: getCurrenciesAction,
   }
 )(SettingsUsageConsolidationRoute);
