@@ -28,7 +28,7 @@ const initialState = {
   errors: [],
 };
 
-export default function agreements(state, action) {
+export default function currencies(state, action) {
   const currentState = state || initialState;
 
   return handlers[action.type]
