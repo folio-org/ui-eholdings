@@ -16,6 +16,7 @@
 
 * Fix discrepancy with Proxy selection. (UIEH-981)
 * Increase Settings Custom Labels display label max length to 200. (UIEH-985)
+* Increase Custom Labels value max length to 500. (UIEH-985)
 
 ## [5.0.0] (https://github.com/folio-org/ui-eholdings/tree/v5.0.0) (2020-10-15)
 
