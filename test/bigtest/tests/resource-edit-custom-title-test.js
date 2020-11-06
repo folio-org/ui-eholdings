@@ -641,12 +641,12 @@ describe('ResourceEditCustomTitle', () => {
 
     describe('fill input with unvalid string', () => {
       beforeEach(async () => {
-        await ResourceEditPage.customLabelsFields(0).inputCustomLabel(`${new Array(501).join('a')}`); // create a 501 char string
+        await ResourceEditPage.customLabelsFields(0).inputCustomLabel(`${new Array(502).join('a')}`); // create a 501 char string
         await ResourceEditPage.customLabelsFields(0).blurCustomLabel();
       });
 
       it('should show validation error message', () => {
-        expect(ResourceEditPage.customLabelsFields(0).validationErrorMessage).to.be.equal('Value has exceeded 100 character limit. Please revise your value.');
+        expect(ResourceEditPage.customLabelsFields(0).validationErrorMessage).to.be.equal('Value has exceeded 500 character limit. Please revise your value.');
       });
     });
 
