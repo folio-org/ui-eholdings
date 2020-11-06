@@ -1,5 +1,9 @@
 # Change history for ui-eholdings
 
+## [4.0.2] (IN PROGRESS)
+
+* Increase Custom Labels value max length to 500. (UIEH-985)
+
 ## [4.0.1] (https://github.com/folio-org/ui-eholdings/tree/v4.0.0) (2020-07-08)
 
 * Fix KB credentials list shown not in alphabetical order. (UIEH-912)
