@@ -29,7 +29,7 @@ class NoteViewRoute extends Component {
       match,
     } = this.props;
 
-    history.replace({
+    history.push({
       pathname: `/eholdings/notes/${match.params.noteId}/edit/`,
       state: location.state,
     });

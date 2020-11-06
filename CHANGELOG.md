@@ -1,8 +1,12 @@
 # Change history for ui-eholdings
 
+## [5.0.2] (IN PROGRESS)
+* Fix routing issues when visiting Note Edit page. (UIEH-991)
+
 ## [5.0.1] (https://github.com/folio-org/ui-eholdings/tree/v5.0.1) (2020-11-13)
 
 * Fix discrepancy with Proxy selection. (UIEH-981)
+* Increase Settings Custom Labels display label max length to 200. (UIEH-985)
 
 ## [5.0.0] (https://github.com/folio-org/ui-eholdings/tree/v5.0.0) (2020-10-15)
 
