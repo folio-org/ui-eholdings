@@ -137,20 +137,19 @@ const SettingsUsageConsolidation = ({
             label={usageConsolidationStartMonthLabel}
           />
           <Field
+            id="eholdings-settings-usage-consolidation-platform-type"
+            name="platformType"
+            component={Select}
+            dataOptions={platformTypesDataOptions}
+            label={usageConsolidationPlatformTypeLabel}
+          />
+          <Field
             id="eholdings-settings-usage-consolidation-currency"
             name="currency"
             component={Select}
             dataOptions={[defaultCurrency, ...currencyDataOptions]}
             label={currencyLabel}
             required
-          />
-          <Field
-            id="eholdings-settings-usage-consolidation-platform-type"
-            name="platformType"
-            component={Select}
-            dataOptions={platformTypesDataOptions}
-            label={usageConsolidationPlatformTypeLabel}
-            aria-label={usageConsolidationPlatformTypeLabel}
           />
         </SettingsForm>
       )}
