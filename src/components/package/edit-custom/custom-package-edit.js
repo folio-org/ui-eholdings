@@ -66,7 +66,7 @@ class CustomPackageEdit extends Component {
       customCoverages: [{
         ...customCoverage,
       }],
-      proxyId: matchingProxy?.id || proxy.id,
+      proxyId: (matchingProxy?.id || proxy.id).toLowerCase(),
       isVisible: !visibilityData.isHidden,
       accessTypeId: getAccessTypeId(model),
     };
