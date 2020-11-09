@@ -24,19 +24,7 @@ export default class NoteEditRoute extends Component {
   };
 
   goToNoteView = () => {
-    const {
-      match,
-      history,
-      location,
-    } = this.props;
-
-    const { id } = match.params;
-    const noteViewUrl = `/eholdings/notes/${id}`;
-
-    history.replace({
-      pathname: noteViewUrl,
-      state: location.state,
-    });
+    this.props.history.goBack();
   }
 
   render() {
