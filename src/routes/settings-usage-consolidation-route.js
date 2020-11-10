@@ -16,6 +16,7 @@ import {
   postUsageConsolidation as postUsageConsolidationAction,
   getCurrencies as getCurrenciesAction,
 } from '../redux/actions';
+import { usageConsolidation as ucReduxStateShape } from '../constants';
 
 const propTypes = {
   clearUsageConsolidationErrors: PropTypes.func.isRequired,
@@ -33,11 +34,7 @@ const propTypes = {
   }).isRequired,
   patchUsageConsolidation: PropTypes.func.isRequired,
   postUsageConsolidation: PropTypes.func.isRequired,
-  usageConsolidation: PropTypes.shape({
-    data: PropTypes.object.isRequired,
-    errors: PropTypes.array.isRequired,
-    isLoading: PropTypes.bool.isRequired,
-  }),
+  usageConsolidation: ucReduxStateShape.UsageConsolidationReduxStateShape.isRequired,
 };
 
 const SettingsUsageConsolidationRoute = ({

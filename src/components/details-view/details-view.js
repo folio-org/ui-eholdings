@@ -74,6 +74,7 @@ class DetailsView extends Component {
     searchModal: PropTypes.node,
     sections: PropTypes.object,
     type: PropTypes.string.isRequired,
+    usageConsolidationContent: PropTypes.node,
   };
 
   static defaultProps = {
@@ -122,11 +123,18 @@ class DetailsView extends Component {
    * height, we have no need to handle any scroll behavior
    */
   handleLayout = () => {
+    const {
+      sections,
+      listSectionId,
+    } = this.props;
+
     if (this.$container && this.$sticky && this.$list) {
       const stickyHeight = Math.floor(this.$sticky.getBoundingClientRect().height);
       const containerHeight = Math.floor(this.$container.getBoundingClientRect().height);
 
-      this.shouldHandleScroll = stickyHeight >= containerHeight;
+      const isListAccordionOpen = sections && sections[listSectionId];
+
+      this.shouldHandleScroll = stickyHeight >= containerHeight && isListAccordionOpen;
 
       // the sticky wrapper needs an explicit height for child
       // elements with percentage-based heights
@@ -161,11 +169,13 @@ class DetailsView extends Component {
 
       // don't do these calculations when not scrolling the container
     } else if (e.currentTarget === e.target) {
+      const usageConsolidationHeight = this.$usageConsolidationContainer?.offsetHeight || 0;
+
       const top = e.currentTarget.scrollTop;
       const height = e.currentTarget.offsetHeight;
-      const scrollHeight = e.currentTarget.scrollHeight;
+      const scrollHeight = e.currentTarget.scrollHeight - usageConsolidationHeight;
       // these will be equal when scrolled all the way down
-      const bottomedOut = Math.abs(scrollHeight - (top + height)) < 1;
+      const bottomedOut = scrollHeight - (top + height) < 1;
 
       const listContainerHeight = this.$list.offsetHeight;
       const actualListItemsHeight = resultsLength * ITEM_HEIGHT;
@@ -174,6 +184,7 @@ class DetailsView extends Component {
       // if bottoming out, enable isSticky
       if (bottomedOut && !isSticky && isListScrollbarNeeded) {
         this.setState({ isSticky: true });
+        this.$sticky.scrollIntoView();
         // if not bottomed out, disable isSticky
       } else if (!bottomedOut && isSticky) {
         this.setState({ isSticky: false });
@@ -264,6 +275,7 @@ class DetailsView extends Component {
       onListToggle,
       ariaRole,
       bodyAriaRole,
+      usageConsolidationContent,
     } = this.props;
 
     const { isSticky } = this.state;
@@ -340,6 +352,12 @@ class DetailsView extends Component {
               </Measure>
             </div>
           )}
+          <div
+            className={styles.body}
+            ref={(n) => { this.$usageConsolidationContainer = n; }}
+          >
+            {usageConsolidationContent}
+          </div>
         </div>
       </>
     );

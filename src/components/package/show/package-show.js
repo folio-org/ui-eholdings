@@ -53,7 +53,10 @@ import ProxyDisplay from '../../proxy-display';
 import TokenDisplay from '../../token-display';
 import TagsAccordion from '../../tags';
 import AccessType from '../../access-type-display';
-import { AgreementsAccordion } from '../../../features';
+import {
+  AgreementsAccordion,
+  UsageConsolidationAccordion,
+} from '../../../features';
 import QueryNotFound from '../../query-list/not-found';
 
 const ITEM_HEIGHT = 62;
@@ -97,6 +100,7 @@ class PackageShow extends Component {
         packageShowAgreements: true,
         packageShowTitles: true,
         packageShowNotes: true,
+        packageShowUsageConsolidation: false,
       },
     };
   }
@@ -516,6 +520,18 @@ class PackageShow extends Component {
     );
   }
 
+  getUsageConsolidationAccordion = () => {
+    const { sections } = this.state;
+
+    return (
+      <UsageConsolidationAccordion
+        id="packageShowUsageConsolidation"
+        isOpen={sections.packageShowUsageConsolidation}
+        onToggle={this.handleSectionToggle}
+      />
+    );
+  }
+
   renderTitlesListItem = (item) => {
     return (
       <TitleListItem
@@ -720,6 +736,7 @@ class PackageShow extends Component {
           handleExpandAll={this.handleExpandAll}
           searchModal={searchModal}
           bodyContent={this.getBodyContent()}
+          usageConsolidationContent={this.getUsageConsolidationAccordion()}
           listType={listTypes.TITLES}
           listSectionId="packageShowTitles"
           onListToggle={this.handleSectionToggle}

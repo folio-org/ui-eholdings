@@ -13,6 +13,8 @@ import { formatErrors } from '../helpers';
 const handleError = (state, { payload }) => ({
   ...state,
   isLoading: false,
+  isLoaded: false,
+  isFailed: true,
   errors: formatErrors(payload.errors),
 });
 
@@ -20,6 +22,8 @@ const handlers = {
   [GET_USAGE_CONSOLIDATION]: state => ({
     ...state,
     isLoading: true,
+    isLoaded: false,
+    isFailed: false,
     data: {},
     errors: [],
   }),
@@ -29,6 +33,8 @@ const handlers = {
     return {
       ...state,
       isLoading: false,
+      isLoaded: true,
+      isFailed: false,
       data: attributes,
     };
   },
@@ -40,6 +46,8 @@ const handlers = {
       ...state,
       data: payload,
       isLoading: false,
+      isLoaded: true,
+      isFailed: false,
     };
   },
   [PATCH_USAGE_CONSOLIDATION_SUCCESS]: (state, { payload }) => {
@@ -50,6 +58,8 @@ const handlers = {
         ...payload,
       },
       isLoading: false,
+      isLoaded: true,
+      isFailed: false,
     };
   },
   [CLEAR_USAGE_CONSOLIDATION_ERRORS]: state => ({
@@ -60,6 +70,8 @@ const handlers = {
 
 const initialState = {
   isLoading: false,
+  isLoaded: false,
+  isFailed: false,
   data: {},
   errors: [],
 };
