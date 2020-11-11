@@ -410,7 +410,7 @@
     "resource.embargoUnit.Weeks": "{value} semaine (s)",
     "resource.embargoUnit.Months": "{value} mois",
     "resource.embargoUnit.Years": "{value} année (s)",
-    "addPackageToHoldings": "Add package to holdings",
+    "addPackageToHoldings": "Ajouter le bouquet aux collections",
     "permission.settings.custom-labels.view": "Settings (eholdings): Can view custom labels",
     "filter.search": "Rechercher",
     "label.tags": "Tag(s): {tags}",
