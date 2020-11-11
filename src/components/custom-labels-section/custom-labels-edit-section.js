@@ -23,7 +23,12 @@ class CustomLabelEditSection extends Component {
   }
 
   validateStringLength = (value) => {
-    const message = <FormattedMessage id="ui-eholdings.validate.errors.customLabels.length" />;
+    const message = (
+      <FormattedMessage
+        id="ui-eholdings.validate.errors.customLabels.length"
+        values={{ amount: CUSTOM_LABELS_VALUE_MAX_LENGTH }}
+      />
+    );
 
     return value && value.length > CUSTOM_LABELS_VALUE_MAX_LENGTH ? message : undefined;
   }
