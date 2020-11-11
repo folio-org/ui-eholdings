@@ -329,7 +329,7 @@
     "search.selectFieldToSearch": "Select a field to search",
     "tags.filter": "Tags filter",
     "resource.customLabels": "Custom labels",
-    "validate.errors.customLabels.length": "Value has exceeded 500 character limit. Please revise your value.",
+    "validate.errors.customLabels.length": "Value has exceeded {amount} character limit. Please revise your value.",
     "settings.customLabels.displayLabel": "Display label",
     "settings.customLabels.publicationFinder": "Show on publication finder",
     "settings.customLabels.textFinder": "Show on full text finder",
