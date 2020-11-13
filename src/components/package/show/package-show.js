@@ -209,7 +209,6 @@ class PackageShow extends Component {
     );
   }
 
-
   renderPackageSettings() {
     const {
       model,
@@ -528,6 +527,7 @@ class PackageShow extends Component {
         id="packageShowUsageConsolidation"
         isOpen={sections.packageShowUsageConsolidation}
         onToggle={this.handleSectionToggle}
+        onFilterSubmit={() => {}} // TODO: implement in UIEH-945
       />
     );
   }

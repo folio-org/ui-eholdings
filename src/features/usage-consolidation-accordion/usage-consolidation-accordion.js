@@ -5,6 +5,7 @@ import React, {
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { FormattedMessage } from 'react-intl';
+import moment from 'moment';
 
 import { useStripes } from '@folio/stripes/core';
 import {
@@ -13,6 +14,7 @@ import {
 } from '@folio/stripes/components';
 
 import Toaster from '../../components/toaster';
+import UsageConsolidationFilters from './usage-consolidation-filters';
 import { getUsageConsolidation as getUsageConsolidationAction } from '../../redux/actions';
 import { selectPropFromData } from '../../redux/selectors';
 import { usageConsolidation as ucReduxStateShape } from '../../constants';
@@ -22,8 +24,8 @@ const propTypes = {
   headerProps: PropTypes.object,
   id: PropTypes.string.isRequired,
   isOpen: PropTypes.bool,
+  onFilterSubmit: PropTypes.func.isRequired,
   onToggle: PropTypes.func.isRequired,
-  section: PropTypes.node.isRequired,
   usageConsolidation: ucReduxStateShape.UsageConsolidationReduxStateShape.isRequired,
 };
 
@@ -34,6 +36,7 @@ const UsageConsolidationAccordion = ({
   isOpen = true,
   onToggle,
   usageConsolidation,
+  onFilterSubmit,
 }) => {
   const stripes = useStripes();
   const [accordionContentRef, setAccordionContentRef] = useState(null);
@@ -66,16 +69,21 @@ const UsageConsolidationAccordion = ({
     );
   };
 
-  if (usageConsolidation.isFailed || !canViewUsageConsolidation) {
-    return null;
-  }
-
   if (accordionContentRef) {
     accordionContentRef.style.margin = '0';
   }
 
+  const filtersInitialState = {
+    year: moment().year(),
+    platformType: usageConsolidation.data.platformType,
+  };
+
+  if (usageConsolidation.isFailed || !canViewUsageConsolidation) {
+    return null;
+  }
+
   return (
-    usageConsolidation.data?.credentialsId &&
+    usageConsolidation.data?.credentialsId ? (
       <>
         <Accordion
           id={id}
@@ -84,12 +92,18 @@ const UsageConsolidationAccordion = ({
           onToggle={onToggle}
           headerProps={headerProps}
           contentRef={(n) => setAccordionContentRef(n)}
-        />
+        >
+          <UsageConsolidationFilters
+            onSubmit={(filterData) => onFilterSubmit(filterData)}
+            initialState={filtersInitialState}
+          />
+        </Accordion>
         <Toaster
           position="bottom"
           toasts={getToastErrors()}
         />
       </>
+    ) : null
   );
 };
 
