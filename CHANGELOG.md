@@ -1,11 +1,11 @@
 # Change history for ui-eholdings
 
-## [4.0.2] (IN PROGRESS)
+## [4.0.2] (https://github.com/folio-org/ui-eholdings/tree/v4.0.2) (2020-11-13)
 
 * Increase Custom Labels value max length to 500. (UIEH-985)
 * Improve error messaging for unconfigured KB credentials and exceeded API limit. (UIEH-816)
 
-## [4.0.1] (https://github.com/folio-org/ui-eholdings/tree/v4.0.0) (2020-07-08)
+## [4.0.1] (https://github.com/folio-org/ui-eholdings/tree/v4.0.1) (2020-07-08)
 
 * Fix KB credentials list shown not in alphabetical order. (UIEH-912)
 * Fix incorrect x-okapi-token sent after re-logging in eHoldings. (UIEH-918)
