@@ -1,5 +1,9 @@
 # Change history for ui-eholdings
 
+## [5.0.1] (https://github.com/folio-org/ui-eholdings/tree/v5.0.1) (2020-11-13)
+
+* Fix discrepancy with Proxy selection. (UIEH-981)
+
 ## [5.0.0] (https://github.com/folio-org/ui-eholdings/tree/v5.0.0) (2020-10-15)
 
 * Fix permission error in devtools console. (UIEH-915)
