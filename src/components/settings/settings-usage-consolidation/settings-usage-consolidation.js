@@ -16,7 +16,10 @@ import {
 } from '@folio/stripes/components';
 
 import SettingsForm from '../settings-form';
-import { platformTypes } from '../../../constants';
+import {
+  platformTypes,
+  usageConsolidation as ucReduxStateShape,
+} from '../../../constants';
 
 const propTypes = {
   clearUsageConsolidationErrors: PropTypes.func.isRequired,
@@ -26,11 +29,7 @@ const propTypes = {
     items: PropTypes.array.isRequired,
   }),
   updateUsageConsolidation: PropTypes.func.isRequired,
-  usageConsolidation: PropTypes.shape({
-    data: PropTypes.object.isRequired,
-    errors: PropTypes.array.isRequired,
-    isLoading: PropTypes.bool.isRequired,
-  }).isRequired,
+  usageConsolidation: ucReduxStateShape.UsageConsolidationReduxStateShape.isRequired,
 };
 
 const INVALID_CUSTOMER_KEY_ERROR_MESSAGE = 'Invalid UC Credentials';

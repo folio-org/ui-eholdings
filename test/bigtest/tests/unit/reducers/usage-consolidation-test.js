@@ -18,6 +18,8 @@ describe('(reducer) usageConsolidation', () => {
       data: {},
       errors: [],
       isLoading: false,
+      isLoaded: false,
+      isFailed: false,
     });
   });
 
@@ -32,6 +34,8 @@ describe('(reducer) usageConsolidation', () => {
       data: {},
       errors: [],
       isLoading: true,
+      isLoaded: false,
+      isFailed: false,
     };
 
     expect(usageConsolidation(actualState, action)).to.deep.equal(expectedState);
@@ -50,6 +54,8 @@ describe('(reducer) usageConsolidation', () => {
     const expectedState = {
       data: {},
       isLoading: false,
+      isLoaded: false,
+      isFailed: true,
       errors: [{ title: 'error' }],
     };
 
@@ -69,6 +75,8 @@ describe('(reducer) usageConsolidation', () => {
     const expectedState = {
       data: {},
       isLoading: false,
+      isLoaded: false,
+      isFailed: true,
       errors: [{ title: 'error' }],
     };
 
@@ -88,6 +96,8 @@ describe('(reducer) usageConsolidation', () => {
     const expectedState = {
       data: { customreKey: 'customerKey' },
       isLoading: false,
+      isLoaded: true,
+      isFailed: false,
       errors: [],
     };
 
@@ -107,6 +117,8 @@ describe('(reducer) usageConsolidation', () => {
     const expectedState = {
       data: {},
       isLoading: false,
+      isLoaded: false,
+      isFailed: true,
       errors: [{ title: 'error' }],
     };
 
@@ -126,6 +138,8 @@ describe('(reducer) usageConsolidation', () => {
     const expectedState = {
       data: { customreKey: 'customerKey' },
       isLoading: false,
+      isLoaded: true,
+      isFailed: false,
       errors: [],
     };
 
@@ -136,6 +150,8 @@ describe('(reducer) usageConsolidation', () => {
     const actualState = {
       data: {},
       isLoading: false,
+      isLoaded: false,
+      isFailed: true,
       errors: [{ title: 'error' }],
     };
     const action = {
@@ -144,6 +160,8 @@ describe('(reducer) usageConsolidation', () => {
     const expectedState = {
       data: {},
       isLoading: false,
+      isLoaded: false,
+      isFailed: true,
       errors: [],
     };
 

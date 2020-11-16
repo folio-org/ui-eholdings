@@ -1100,6 +1100,27 @@ export default function config() {
     id: '2ffa1940-2cf6-48b1-8cc9-5e539c61d93f',
     type: 'ucSettings',
     attributes: {
+      credentialsId: '80898dee-449f-44dd-9c8e-37d5eb469b1d',
+      customerKey: '****************************************',
+      startMonth: 'mar',
+      currency: 'USD',
+      platformType: 'publisher',
+    },
+    metadata: {
+      createdDate: '2020-03-17T15:22:04.098',
+      updatedDate: '2020-03-17T15:23:04.098+0000',
+      createdByUserId: '1f8f660e-7dc9-4f6f-828f-96284c68a250',
+      updatedByUserId: '6893f51f-b40c-479d-bd78-1704ab5b802b',
+      createdByUsername: 'john_doe',
+      updatedByUsername: 'jane_doe',
+    }
+  }));
+
+  this.get('/uc', () => ({
+    id: '2ffa1940-2cf6-48b1-8cc9-5e539c61d93f',
+    type: 'ucSettings',
+    attributes: {
+      credentialsId: '80898dee-449f-44dd-9c8e-37d5eb469b1d',
       customerKey: '****************************************',
       startMonth: 'mar',
       currency: 'USD',
