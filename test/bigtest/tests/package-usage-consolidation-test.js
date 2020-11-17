@@ -81,12 +81,130 @@ describe('PackageShowUsageConsolidation', () => {
       it('should open the accordion', () => {
         expect(PackageShowPage.usageConsolidation.accordion.isOpen).to.be.true;
       });
+
+      describe('when clicking View', () => {
+        beforeEach(async () => {
+          await PackageShowPage.usageConsolidation.filters.clickView();
+          await PackageShowPage.usageConsolidation.content.whenLoaded();
+        });
+
+        describe('waiting for axe to run', () => {
+          beforeEach(async () => {
+            await PackageShowPage.whenLoaded();
+            a11yResults = await axe.run();
+          });
+
+          it('should not have any a11y issues', () => {
+            expect(a11yResults.violations).to.be.empty;
+          });
+        });
+
+        it('should show Summary table', () => {
+          expect(PackageShowPage.usageConsolidation.content.summaryTable.isPresent).to.be.true;
+        });
+
+        it('should show Cost data in correct format', () => {
+          expect(PackageShowPage.usageConsolidation.content.summaryTable.rows(0).cells(0).content).to.equal('$1201 (USD)');
+        });
+
+        it('should show CostPerUse data in correct format', () => {
+          expect(PackageShowPage.usageConsolidation.content.summaryTable.rows(0).cells(2).content).to.equal('$0.0334 (USD)');
+        });
+      });
     });
   });
 
-  describe('visiting the package details page', () => {
+  describe('when Usage Consolidation request has failed', () => {
     beforeEach(async function () {
+      this.server.get('/packages/:packageId/costperuse', {
+        errors: [{
+          title: 'There was an error',
+        }],
+      }, 404);
+
       this.visit(`/eholdings/packages/${providerPackage.id}`);
+      await PackageShowPage.usageConsolidation.accordion.clickHeader();
+      await PackageShowPage.usageConsolidation.filters.clickView();
+      await PackageShowPage.usageConsolidation.content.whenLoaded();
+    });
+
+    it('should show an error message', () => {
+      expect(PackageShowPage.usageConsolidation.content.isUsageConsolidationErrorPresent);
+    });
+
+    it('should show correct error text', () => {
+      expect(PackageShowPage.usageConsolidation.content.usageConsolidationErrorText).to.equal('Unable to provide summary information');
+    });
+  });
+
+  describe('when Usage Consolidation data is not available', () => {
+    beforeEach(async function () {
+      this.server.get('/packages/:packageId/costperuse', () => ({
+        'packageId': '58-473',
+        'type': 'packageCostPerUse',
+        'attributes': {
+          'analysis': {
+            'publisherPlatforms': {
+              'cost': 1201,
+              'usage': 0,
+              'costPerUse': 0.0334,
+            }
+          },
+          'parameters': {
+            'startMonth': 'jan',
+            'currency': 'USD',
+          },
+        },
+      }));
+
+      this.visit(`/eholdings/packages/${providerPackage.id}`);
+      await PackageShowPage.usageConsolidation.accordion.clickHeader();
+      await PackageShowPage.usageConsolidation.filters.clickView();
+      await PackageShowPage.usageConsolidation.content.whenLoaded();
+    });
+
+    it('should show Summary table', () => {
+      expect(PackageShowPage.usageConsolidation.content.summaryTable.isPresent).to.be.true;
+    });
+
+    it('should show Usage in correct format', () => {
+      expect(PackageShowPage.usageConsolidation.content.summaryTable.rows(0).cells(1).content).to.equal('-');
+    });
+  });
+
+  describe('when Usage Consolidation data is incomplete', () => {
+    beforeEach(async function () {
+      this.server.get('/packages/:packageId/costperuse', () => ({
+        'packageId': '58-473',
+        'type': 'packageCostPerUse',
+        'attributes': {
+          'analysis': {
+            'publisherPlatforms': {
+              'cost': 0,
+              'usage': 0,
+              'costPerUse': 0,
+            }
+          },
+          'parameters': {
+            'startMonth': 'jan',
+            'currency': 'USD',
+          },
+        },
+      }));
+
+      this.visit(`/eholdings/packages/${providerPackage.id}`);
+      await PackageShowPage.usageConsolidation.accordion.clickHeader();
+      await PackageShowPage.usageConsolidation.filters.clickView();
+      await PackageShowPage.usageConsolidation.content.whenLoaded();
+    });
+
+    it('should show an error message', () => {
+      expect(PackageShowPage.usageConsolidation.content.isUsageConsolidationErrorPresent);
+    });
+
+    it('should show correct error text', () => {
+      expect(PackageShowPage.usageConsolidation.content.usageConsolidationErrorText)
+        .to.equal(`This package contains no cost or usage data for ${new Date().getFullYear()}`);
     });
   });
 });

@@ -35,6 +35,7 @@ import {
   DOMAIN_NAME,
   paths,
   accessTypesReduxStateShape,
+  costPerUse as costPerUseShape,
 } from '../../../constants';
 import {
   processErrors,
@@ -65,6 +66,8 @@ class PackageShow extends Component {
   static propTypes = {
     accessStatusTypes: accessTypesReduxStateShape.isRequired,
     addPackageToHoldings: PropTypes.func.isRequired,
+    costPerUse: costPerUseShape.CostPerUseReduxStateShape.isRequired,
+    fetchPackageCostPerUse: PropTypes.func.isRequired,
     fetchPackageTitles: PropTypes.func.isRequired,
     isDestroyed: PropTypes.bool,
     isFreshlySaved: PropTypes.bool,
@@ -520,6 +523,10 @@ class PackageShow extends Component {
   }
 
   getUsageConsolidationAccordion = () => {
+    const {
+      fetchPackageCostPerUse,
+      costPerUse,
+    } = this.props;
     const { sections } = this.state;
 
     return (
@@ -527,7 +534,9 @@ class PackageShow extends Component {
         id="packageShowUsageConsolidation"
         isOpen={sections.packageShowUsageConsolidation}
         onToggle={this.handleSectionToggle}
-        onFilterSubmit={() => {}} // TODO: implement in UIEH-945
+        onFilterSubmit={fetchPackageCostPerUse}
+        recordType={entityTypes.PACKAGE}
+        costPerUseData={costPerUse}
       />
     );
   }

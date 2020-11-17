@@ -20,4 +20,6 @@ export { default as BACKEND_DATE_STANDARD } from './backendDateStandard';
 export { default as TIME_ZONE } from './timeZone';
 export { default as platformTypes } from './platformTypes';
 export { default as usageConsolidation } from './usageConsolidationReduxStateShape';
+export { default as costPerUseTypes } from './costPerUseTypes';
+export { default as costPerUse } from './costPerUseReduxStateShape';
 export * from './filterConfigs';

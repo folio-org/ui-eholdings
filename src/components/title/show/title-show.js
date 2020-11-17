@@ -68,6 +68,7 @@ class TitleShow extends Component {
       sections: {
         titleShowTags: true,
         titleShowTitleInformation: true,
+        titleShowPackages: true,
       },
       filteredPackages,
       packageFilterApplied: !!filteredPackages.length,
