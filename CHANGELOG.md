@@ -1,6 +1,6 @@
 # Change history for ui-eholdings
 
-## [5.0.2] (IN PROGRESS)
+## [5.0.2] (https://github.com/folio-org/ui-eholdings/tree/v5.0.2) (2020-11-18)
 * Fix routing issues when visiting Note Edit page. (UIEH-991)
 
 ## [5.0.1] (https://github.com/folio-org/ui-eholdings/tree/v5.0.1) (2020-11-13)
