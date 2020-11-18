@@ -250,6 +250,16 @@ describe('ResourceShow', () => {
       });
     });
 
+    describe('usage & analysis section', () => {
+      it('should display usage & analysis accordion', () => {
+        expect(ResourcePage.usageConsolidationSection.isAccordionPresent).to.be.true;
+      });
+
+      it('should display closed accordion by default', () => {
+        expect(ResourcePage.usageConsolidationSection.accordion.isOpen).to.be.false;
+      });
+    });
+
     describe('when token is not needed', () => {
       it('should not display "Add token" button', () => {
         expect(ResourcePage.hasAddTokenButton).to.be.false;
@@ -401,6 +411,17 @@ describe('ResourceShow', () => {
         expect(ResourcePage.toast.errorToastCount).to.equal(2);
         expect(ResourcePage.toast.totalToastCount).to.equal(2);
       });
+    });
+  });
+  
+  describe('visiting the resource page without Usage Consolidation Settings', () => {
+    beforeEach(function () {
+      this.server.get('/uc', 404);
+      this.visit(`/eholdings/resources/${resource.titleId}`);
+    });
+
+    it('should not show Usage Consolidation accordion', () => {
+      expect(ResourcePage.usageConsolidationSection.isAccordionPresent).to.be.false;
     });
   });
 
