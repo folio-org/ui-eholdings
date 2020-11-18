@@ -413,7 +413,7 @@ describe('ResourceShow', () => {
       });
     });
   });
-  
+
   describe('visiting the resource page without Usage Consolidation Settings', () => {
     beforeEach(function () {
       this.server.get('/uc', 404);
