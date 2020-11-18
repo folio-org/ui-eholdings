@@ -34,7 +34,7 @@ import ExternalLink from '../external-link/external-link';
 import IdentifiersList from '../identifiers-list';
 import ContributorsList from '../contributors-list';
 import CoverageDateList from '../coverage-date-list';
-import { AgreementsAccordion, CustomLabelsAccordion } from '../../features';
+import { AgreementsAccordion, CustomLabelsAccordion, UsageConsolidationAccordion } from '../../features';
 import {
   isBookPublicationType,
   isValidCoverageList,
@@ -79,6 +79,7 @@ class ResourceShow extends Component {
         resourceShowCoverageSettings: this.props.model.isSelected,
         resourceShowAgreements: true,
         resourceShowNotes: true,
+        resourceShowUsageConsolidation: true,
       },
     };
   }
@@ -256,7 +257,7 @@ class ResourceShow extends Component {
         type: 'success'
       });
     }
-
+    console.log(this.props);
     return (
       <>
         <Toaster toasts={toasts} position="bottom" />
@@ -607,6 +608,13 @@ class ResourceShow extends Component {
                 entityId={model.id}
                 pathToNoteCreate={paths.NOTE_CREATE}
                 pathToNoteDetails={paths.NOTES}
+              />
+
+              <UsageConsolidationAccordion
+                id="resourceUsageConsolidation"
+                isOpen={sections.resourceShowUsageConsolidation}
+                packageId={model.packageId}
+                packageName={model.packageName}
               />
             </>
           )}
