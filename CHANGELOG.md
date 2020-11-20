@@ -4,7 +4,9 @@
 * Settings - Usage Consolidation - Currency. (UIEH-965)
 * Settings - Usage Consolidation - Start month for usage statistics. (UIEH-966)
 * Settings - Usage Consolidation - Usage consolidation ID. (UIEH-968)
+* Package Record: Display Usage & Analysis Accordion (UIEH-941)
 * Added Usage Consolidation Filters to Package Show page. (UIEH-942, UIEH-973)
+* Title+Package Record: Display Usage & Analysis Accordion. (UIEH-949)
 * Added Usage Consolidation Summary table to Package Show page. (UIEH-945)
 
 ## [5.0.0] (https://github.com/folio-org/ui-eholdings/tree/v5.0.0) (2020-10-15)
