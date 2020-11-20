@@ -7,6 +7,7 @@
 * Package Record: Display Usage & Analysis Accordion (UIEH-941)
 * Added Usage Consolidation Filters to Package Show page. (UIEH-942, UIEH-973)
 * Title+Package Record: Display Usage & Analysis Accordion. (UIEH-949)
+* Added Usage Consolidation Filters to Resource Show page. (UIEH-951)
 
 ## [5.0.0] (https://github.com/folio-org/ui-eholdings/tree/v5.0.0) (2020-10-15)
 
