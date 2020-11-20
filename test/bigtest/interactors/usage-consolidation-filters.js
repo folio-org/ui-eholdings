@@ -4,7 +4,6 @@ import {
   collection,
   text,
 } from '@bigtest/interactor';
-import SelectInteractor from '@folio/stripes-components/lib/Select/tests/interactor';
 
 import Select from './select';
 
