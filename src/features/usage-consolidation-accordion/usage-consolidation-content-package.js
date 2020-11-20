@@ -12,6 +12,7 @@ import {
   Dropdown,
   DropdownButton,
   DropdownMenu,
+  NoValue,
 } from '@folio/stripes/components';
 
 import { costPerUse as costPerUseShape } from '../../constants';
@@ -45,7 +46,7 @@ const UsageConsolidationContentPackage = ({
   }
 
   const currency = data?.attributes?.parameters?.currency;
-  const currencySymbol = getSymbolFromCurrency(currency);
+  const currencySymbol = getSymbolFromCurrency(currency) || '';
 
   const {
     cost,
@@ -54,10 +55,10 @@ const UsageConsolidationContentPackage = ({
   } = data?.attributes?.analysis;
   const noCostPerUseAvailable = !cost && !costPerUse && !usage;
 
-  const formatCost = (value) => `${currencySymbol || ''}${value} (${currency})`;
+  const formatCost = (value) => `${currencySymbol}${value} (${currency})`;
   const formatValue = (value, formatter) => {
-    if (!noCostPerUseAvailable && !value) {
-      return '-';
+    if (!value && value !== 0) {
+      return <NoValue />;
     }
 
     return formatter ? formatter(value) : value;
@@ -78,62 +79,60 @@ const UsageConsolidationContentPackage = ({
   }
 
   return (
-    <>
-      <MultiColumnList
-        id="packageUsageConsolidationSummary"
-        onRowClick={() => {}}
-        contentData={[{ cost, costPerUse, usage }]}
-        visibleColumns={['cost', 'usage', 'costPerUse', 'ucActions']}
-        formatter={{
-          cost: (rowData) => formatValue(rowData.cost, formatCost),
-          costPerUse: (rowData) => formatValue(rowData.costPerUse, formatCost),
-          usage: (rowData) => formatValue(rowData.usage),
-          ucActions: () => (
-            <Dropdown
-              renderTrigger={({ onToggle, triggerRef, ariaProps, keyHandler, getTriggerProps }) => (
-                <DropdownButton
-                  id="usage-consolidation-actions-dropdown-button"
-                  ref={triggerRef}
-                  onKeyDown={keyHandler}
-                  marginBottom0
+    <MultiColumnList
+      id="packageUsageConsolidationSummary"
+      onRowClick={() => {}}
+      contentData={[{ cost, costPerUse, usage }]}
+      visibleColumns={['cost', 'usage', 'costPerUse', 'ucActions']}
+      formatter={{
+        cost: (rowData) => formatValue(rowData.cost, formatCost),
+        costPerUse: (rowData) => formatValue(rowData.costPerUse, formatCost),
+        usage: (rowData) => formatValue(rowData.usage),
+        ucActions: () => (
+          <Dropdown
+            renderTrigger={({ onToggle, triggerRef, ariaProps, keyHandler, getTriggerProps }) => (
+              <DropdownButton
+                id="usage-consolidation-actions-dropdown-button"
+                ref={triggerRef}
+                onKeyDown={keyHandler}
+                marginBottom0
+                onClick={onToggle}
+                {...ariaProps}
+                {...getTriggerProps()}
+              >
+                <FormattedMessage id="ui-eholdings.usageConsolidation.summary.actions" />
+              </DropdownButton>
+            )}
+            renderMenu={({ onToggle }) => (
+              <DropdownMenu
+                role="menu"
+              >
+                <Button
+                  buttonStyle="dropdownItem fullWidth"
+                  role="menuitem"
                   onClick={onToggle}
-                  {...ariaProps}
-                  {...getTriggerProps()}
+                  marginBottom0
                 >
-                  <FormattedMessage id="ui-eholdings.usageConsolidation.summary.actions" />
-                </DropdownButton>
-              )}
-              renderMenu={({ onToggle }) => (
-                <DropdownMenu
-                  role="menu"
-                >
-                  <Button
-                    buttonStyle="dropdownItem fullWidth"
-                    role="menuitem"
-                    onClick={onToggle}
-                    marginBottom0
-                  >
-                    <FormattedMessage id="ui-eholdings.usageConsolidation.summary.actions.export" />
-                  </Button>
-                </DropdownMenu>
-              )}
-            />
-          )
-        }}
-        columnMapping={{
-          cost: intl.formatMessage({ id: 'ui-eholdings.usageConsolidation.summary.packageCost' }),
-          usage: intl.formatMessage({ id: 'ui-eholdings.usageConsolidation.summary.totalUsage' }),
-          costPerUse: intl.formatMessage({ id: 'ui-eholdings.usageConsolidation.summary.costPerUse' }),
-          ucActions: null,
-        }}
-        columnWidths={{
-          cost: '25%',
-          usage: '20%',
-          costPerUse: '40%',
-          ucActions: '15%',
-        }}
-      />
-    </>
+                  <FormattedMessage id="ui-eholdings.usageConsolidation.summary.actions.export" />
+                </Button>
+              </DropdownMenu>
+            )}
+          />
+        )
+      }}
+      columnMapping={{
+        cost: intl.formatMessage({ id: 'ui-eholdings.usageConsolidation.summary.packageCost' }),
+        usage: intl.formatMessage({ id: 'ui-eholdings.usageConsolidation.summary.totalUsage' }),
+        costPerUse: intl.formatMessage({ id: 'ui-eholdings.usageConsolidation.summary.costPerUse' }),
+        ucActions: null,
+      }}
+      columnWidths={{
+        cost: '25%',
+        usage: '20%',
+        costPerUse: '40%',
+        ucActions: '15%',
+      }}
+    />
   );
 };
 

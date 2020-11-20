@@ -137,7 +137,42 @@ describe('PackageShowUsageConsolidation', () => {
     });
   });
 
-  describe('when Usage Consolidation data is not available', () => {
+  describe('when Usage Consolidation data is incomplete', () => {
+    beforeEach(async function () {
+      this.server.get('/packages/:packageId/costperuse', () => ({
+        'packageId': '58-473',
+        'type': 'packageCostPerUse',
+        'attributes': {
+          'analysis': {
+            'publisherPlatforms': {
+              'cost': 1201,
+              'usage': null,
+              'costPerUse': 0.0334,
+            }
+          },
+          'parameters': {
+            'startMonth': 'jan',
+            'currency': 'USD',
+          },
+        },
+      }));
+
+      this.visit(`/eholdings/packages/${providerPackage.id}`);
+      await PackageShowPage.usageConsolidation.accordion.clickHeader();
+      await PackageShowPage.usageConsolidation.filters.clickView();
+      await PackageShowPage.usageConsolidation.content.whenLoaded();
+    });
+
+    it('should show Summary table', () => {
+      expect(PackageShowPage.usageConsolidation.content.summaryTable.isPresent).to.be.true;
+    });
+
+    it('should show Usage in correct format', () => {
+      expect(PackageShowPage.usageConsolidation.content.summaryTable.rows(0).cells(1).content).to.equal('-');
+    });
+  });
+
+  describe('when some Usage Consolidation data has value 0', () => {
     beforeEach(async function () {
       this.server.get('/packages/:packageId/costperuse', () => ({
         'packageId': '58-473',
@@ -168,11 +203,11 @@ describe('PackageShowUsageConsolidation', () => {
     });
 
     it('should show Usage in correct format', () => {
-      expect(PackageShowPage.usageConsolidation.content.summaryTable.rows(0).cells(1).content).to.equal('-');
+      expect(PackageShowPage.usageConsolidation.content.summaryTable.rows(0).cells(1).content).to.equal('0');
     });
   });
 
-  describe('when Usage Consolidation data is incomplete', () => {
+  describe('when Usage Consolidation data is not available', () => {
     beforeEach(async function () {
       this.server.get('/packages/:packageId/costperuse', () => ({
         'packageId': '58-473',

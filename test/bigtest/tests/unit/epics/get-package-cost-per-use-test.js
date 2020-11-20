@@ -31,7 +31,6 @@ describe('(epic) getPackageCostPerUse', () => {
     },
   };
 
-
   it('should handle successful data fetching', () => {
     const response = {
       body: {

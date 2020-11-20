@@ -17,7 +17,6 @@ const getPackageCostPerUseUrl = (packageId, filterData) => {
   return `/eholdings/packages/${packageId}/costperuse?${formatParametersForBackend(filterData)}`;
 };
 
-
 export default {
   getPackageCostPerUse: (okapi, packageId, filterData) => {
     const method = 'GET';

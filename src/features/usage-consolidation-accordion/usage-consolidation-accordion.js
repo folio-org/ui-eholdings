@@ -40,7 +40,7 @@ const UsageConsolidationAccordion = ({
   getUsageConsolidation,
   headerProps,
   id,
-  isOpen = true,
+  isOpen,
   onToggle,
   usageConsolidation,
   onFilterSubmit,
