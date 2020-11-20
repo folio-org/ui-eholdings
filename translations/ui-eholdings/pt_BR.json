@@ -329,7 +329,7 @@
     "search.selectFieldToSearch": "Selecione um campo para pesquisar",
     "tags.filter": "Filtro de Tags",
     "resource.customLabels": "Etiquetas personalizadas",
-    "validate.errors.customLabels.length": "O valor excedeu o limite de 500 caracteres. Por favor, revise seu valor.",
+    "validate.errors.customLabels.length": "O valor excedeu {amount} caracteres. Por favor, revise seu valor.",
     "settings.customLabels.displayLabel": "Mostrar rótulo",
     "settings.customLabels.publicationFinder": "Mostrar no localizador de publicações",
     "settings.customLabels.textFinder": "Mostrar no localizador de texto completo",

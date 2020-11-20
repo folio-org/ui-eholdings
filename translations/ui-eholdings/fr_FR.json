@@ -329,7 +329,7 @@
     "search.selectFieldToSearch": "Sélectionnez un champ à rechercher",
     "tags.filter": "Filtre de mots-clés",
     "resource.customLabels": "Étiquettes personnalisées",
-    "validate.errors.customLabels.length": "La valeur a dépassé la limite de 100 caractères. Veuillez réviser la valeur.",
+    "validate.errors.customLabels.length": "La valeur a dépassé la limite de {amount} caractères. Veuillez réviser votre valeur.",
     "settings.customLabels.displayLabel": "Afficher l'étiquette",
     "settings.customLabels.publicationFinder": "Afficher dans Publication Finder",
     "settings.customLabels.textFinder": "Afficher dans Full Text Finder",
