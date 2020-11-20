@@ -24,3 +24,4 @@ export { default as createGetUsageConsolidationEpic } from './get-usage-consolid
 export { default as createPostUsageConsolidationEpic } from './post-usage-consolidation';
 export { default as createPatchUsageConsolidationEpic } from './patch-usage-consolidation';
 export { default as createGetCurrenciesEpic } from './get-currencies';
+export { default as createGetPackageCostPerUseEpic } from './get-package-costperuse';

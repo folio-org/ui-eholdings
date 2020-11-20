@@ -15,12 +15,16 @@ import Package from '../redux/package';
 import Provider from '../redux/provider';
 import Resource from '../redux/resource';
 import { selectPropFromData } from '../redux/selectors';
-import { getAccessTypes as getAccessTypesAction } from '../redux/actions';
+import {
+  getAccessTypes as getAccessTypesAction,
+  getPackageCostPerUse as getPackageCostPerUseAction,
+} from '../redux/actions';
 import Tag from '../redux/tag';
 import { transformQueryParams } from '../components/utilities';
 import {
   listTypes,
   accessTypesReduxStateShape,
+  costPerUse as costPerUseShape,
 } from '../constants';
 
 import View from '../components/package/show';
@@ -29,9 +33,11 @@ import SearchModal from '../components/search-modal';
 class PackageShowRoute extends Component {
   static propTypes = {
     accessStatusTypes: accessTypesReduxStateShape.isRequired,
+    costPerUse: costPerUseShape.CostPerUseReduxStateShape.isRequired,
     destroyPackage: PropTypes.func.isRequired,
     getAccessTypes: PropTypes.func.isRequired,
     getPackage: PropTypes.func.isRequired,
+    getPackageCostPerUse: PropTypes.func.isRequired,
     getPackageTitles: PropTypes.func.isRequired,
     getProvider: PropTypes.func.isRequired,
     getProxyTypes: PropTypes.func.isRequired,
@@ -231,6 +237,15 @@ class PackageShowRoute extends Component {
     return searchType;
   }
 
+  fetchPackageCostPerUse = (filterData) => {
+    const {
+      getPackageCostPerUse,
+      model: { id: packageId },
+    } = this.props;
+
+    getPackageCostPerUse(packageId, filterData);
+  }
+
   handleEdit = () => {
     const {
       history,
@@ -258,6 +273,7 @@ class PackageShowRoute extends Component {
       proxyTypes,
       updateFolioTags,
       accessStatusTypes,
+      costPerUse,
     } = this.props;
     const {
       pkgSearchParams,
@@ -274,6 +290,7 @@ class PackageShowRoute extends Component {
           proxyTypes={proxyTypes}
           provider={provider}
           fetchPackageTitles={this.fetchPackageTitles}
+          fetchPackageCostPerUse={this.fetchPackageCostPerUse}
           toggleSelected={this.toggleSelected}
           addPackageToHoldings={this.addPackageToHoldings}
           toggleHidden={this.toggleHidden}
@@ -281,6 +298,7 @@ class PackageShowRoute extends Component {
           toggleAllowKbToAddTitles={this.toggleAllowKbToAddTitles}
           onEdit={this.handleEdit}
           accessStatusTypes={accessStatusTypes}
+          costPerUse={costPerUse}
           isFreshlySaved={
             history.location.state &&
             history.location.state.isFreshlySaved
@@ -328,6 +346,7 @@ export default connect(
       tagsModel: resolver.query('tags'),
       resolver,
       accessStatusTypes: selectPropFromData(store, 'accessStatusTypes'),
+      costPerUse: selectPropFromData(store, 'costPerUse'),
     };
   },
   {
@@ -342,5 +361,6 @@ export default connect(
     destroyPackage: model => Package.destroy(model),
     removeUpdateRequests: () => Package.removeRequests('update'),
     getAccessTypes: getAccessTypesAction,
+    getPackageCostPerUse: getPackageCostPerUseAction,
   }
 )(PackageShowRoute);

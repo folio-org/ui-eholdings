@@ -1163,4 +1163,22 @@ export default function config() {
 
   this.post('/kb-credentials/:credId/uc', (_schema, request) => JSON.parse(request.requestBody));
   this.patch('/kb-credentials/:credId/uc', (_schema, request) => JSON.parse(request.requestBody));
+
+  this.get('/packages/:packageId/costperuse', () => ({
+    'packageId': '58-473',
+    'type': 'packageCostPerUse',
+    'attributes': {
+      'analysis': {
+        'publisherPlatforms': {
+          'cost': 1201,
+          'usage': 35913,
+          'costPerUse': 0.0334,
+        }
+      },
+      'parameters': {
+        'startMonth': 'jan',
+        'currency': 'USD',
+      },
+    },
+  }));
 }

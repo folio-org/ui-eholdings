@@ -15,17 +15,24 @@ import {
 
 import Toaster from '../../components/toaster';
 import UsageConsolidationFilters from './usage-consolidation-filters';
+import UsageConsolidationContentPackage from './usage-consolidation-content-package';
 import { getUsageConsolidation as getUsageConsolidationAction } from '../../redux/actions';
 import { selectPropFromData } from '../../redux/selectors';
-import { usageConsolidation as ucReduxStateShape } from '../../constants';
+import {
+  usageConsolidation as ucReduxStateShape,
+  entityTypes,
+  costPerUse,
+} from '../../constants';
 
 const propTypes = {
+  costPerUseData: costPerUse.CostPerUseReduxStateShape.isRequired,
   getUsageConsolidation: PropTypes.func.isRequired,
   headerProps: PropTypes.object,
   id: PropTypes.string.isRequired,
   isOpen: PropTypes.bool,
   onFilterSubmit: PropTypes.func.isRequired,
   onToggle: PropTypes.func.isRequired,
+  recordType: PropTypes.string.isRequired,
   usageConsolidation: ucReduxStateShape.UsageConsolidationReduxStateShape.isRequired,
 };
 
@@ -33,13 +40,21 @@ const UsageConsolidationAccordion = ({
   getUsageConsolidation,
   headerProps,
   id,
-  isOpen = true,
+  isOpen = false,
   onToggle,
   usageConsolidation,
   onFilterSubmit,
+  costPerUseData,
+  recordType,
 }) => {
+  const filtersInitialState = {
+    year: moment().year(),
+    platformType: usageConsolidation.data.platformType,
+  };
+
   const stripes = useStripes();
   const [accordionContentRef, setAccordionContentRef] = useState(null);
+  const [filterData, setFilterData] = useState(filtersInitialState);
 
   const canViewUsageConsolidation = stripes.hasPerm('ui-eholdings.costperuse.view');
 
@@ -69,14 +84,27 @@ const UsageConsolidationAccordion = ({
     );
   };
 
+  const handleFiltersSubmit = (changedFilterData) => {
+    setFilterData(changedFilterData);
+    onFilterSubmit(changedFilterData);
+  };
+
+  const renderContent = () => {
+    if (recordType === entityTypes.PACKAGE) {
+      return (
+        <UsageConsolidationContentPackage
+          costPerUseData={costPerUseData}
+          year={filterData.year}
+        />
+      );
+    }
+
+    return null;
+  };
+
   if (accordionContentRef) {
     accordionContentRef.style.margin = '0';
   }
-
-  const filtersInitialState = {
-    year: moment().year(),
-    platformType: usageConsolidation.data.platformType,
-  };
 
   if (usageConsolidation.isFailed || !canViewUsageConsolidation) {
     return null;
@@ -94,9 +122,10 @@ const UsageConsolidationAccordion = ({
           contentRef={(n) => setAccordionContentRef(n)}
         >
           <UsageConsolidationFilters
-            onSubmit={(filterData) => onFilterSubmit(filterData)}
+            onSubmit={handleFiltersSubmit}
             initialState={filtersInitialState}
           />
+          {renderContent()}
         </Accordion>
         <Toaster
           position="bottom"
