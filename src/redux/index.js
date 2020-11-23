@@ -12,6 +12,7 @@ import {
   userGroupsApi,
   usageConsolidationApi,
   currenciesApi,
+  costPerUseApi,
 } from '../api';
 
 import Resolver from './resolver';
@@ -45,6 +46,7 @@ import {
   userGroups,
   usageConsolidation,
   currencies,
+  costPerUse,
 } from './reducers';
 
 import {
@@ -74,6 +76,7 @@ import {
   createPostUsageConsolidationEpic,
   createPatchUsageConsolidationEpic,
   createGetCurrenciesEpic,
+  createGetPackageCostPerUseEpic,
 } from './epics';
 
 export const createResolver = (state) => {
@@ -107,6 +110,7 @@ export const reducer = combineReducers({
       userGroups: userGroups(currentState.userGroups, action),
       usageConsolidation: usageConsolidation(currentState.usageConsolidation, action),
       currencies: currencies(currentState.currencies, action),
+      costPerUse: costPerUse(currentState.costPerUse, action),
     };
   }
 });
@@ -139,4 +143,5 @@ export const epics = combineEpics(
   createPostUsageConsolidationEpic({ usageConsolidationApi }),
   createPatchUsageConsolidationEpic({ usageConsolidationApi }),
   createGetCurrenciesEpic({ currenciesApi }),
+  createGetPackageCostPerUseEpic({ costPerUseApi }),
 );

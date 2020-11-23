@@ -205,7 +205,7 @@ class DetailsView extends Component {
     const { isSticky } = this.state;
     const scrollingUp = e.deltaY < 0;
     const notInList = !this.$list.contains(e.target);
-    const listAtTop = this.$list.firstElementChild.scrollTop === 0;
+    const listAtTop = this.$list.firstElementChild?.scrollTop === 0;
 
     if (isSticky && scrollingUp && (notInList || listAtTop)) {
       // prevent scroll logic around bottoming out by scrolling up 1px
@@ -346,7 +346,7 @@ class DetailsView extends Component {
                     onToggle={onListToggle}
                     listType={listType}
                   >
-                    {renderList(isSticky)}
+                    {isListAccordionOpen ? renderList(isSticky) : null}
                   </Accordion>
                 )}
               </Measure>
