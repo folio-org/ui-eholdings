@@ -264,7 +264,7 @@ describe('ResourceShow', () => {
       });
 
       it('should display correct value for year filter', () => {
-        expect(ResourcePage.usageConsolidationSection.filters.yearDropdown.value).to.equal('2020');
+        expect(ResourcePage.usageConsolidationSection.filters.yearDropdown.value).to.equal(`${new Date().getFullYear()}`);
       });
 
       it('sholud display platform filter', () => {
