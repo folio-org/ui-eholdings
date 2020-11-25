@@ -258,6 +258,22 @@ describe('ResourceShow', () => {
       it('should display closed accordion by default', () => {
         expect(ResourcePage.usageConsolidationSection.accordion.isOpen).to.be.false;
       });
+
+      it('should display year filter', () => {
+        expect(ResourcePage.usageConsolidationSection.filters.yearDropdown.isPresent).to.be.true;
+      });
+
+      it('should display correct value for year filter', () => {
+        expect(ResourcePage.usageConsolidationSection.filters.yearDropdown.value).to.equal(`${new Date().getFullYear()}`);
+      });
+
+      it('sholud display platform filter', () => {
+        expect(ResourcePage.usageConsolidationSection.filters.platformTypeDropdown.isPresent).to.be.true;
+      });
+
+      it('sholud display correct value for platform filter', () => {
+        expect(ResourcePage.usageConsolidationSection.filters.platformTypeDropdown.value).to.equal('publisher');
+      });
     });
 
     describe('when token is not needed', () => {
