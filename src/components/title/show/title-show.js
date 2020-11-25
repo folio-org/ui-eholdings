@@ -27,7 +27,10 @@ import {
 } from '@folio/stripes/components';
 
 import { processErrors } from '../../utilities';
-import { listTypes } from '../../../constants';
+import {
+  listTypes,
+  entityTypes,
+} from '../../../constants';
 import DetailsView from '../../details-view';
 import ScrollView from '../../scroll-view';
 import SearchPackageListItem from '../../search-package-list-item';
@@ -37,6 +40,7 @@ import AddTitleToPackage from '../_field-groups/add-title-to-package';
 import Toaster from '../../toaster';
 import KeyValueColumns from '../../key-value-columns';
 import PackageFilterModal from './package-filter-modal';
+import UsageConsolidationAccordion from '../../../features/usage-consolidation-accordion';
 import styles from './title-show.css';
 
 const focusOnErrors = createFocusDecorator();
@@ -69,6 +73,7 @@ class TitleShow extends Component {
         titleShowTags: true,
         titleShowTitleInformation: true,
         titleShowPackages: true,
+        titleShowUsageConsolidation: false,
       },
       filteredPackages,
       packageFilterApplied: !!filteredPackages.length,
@@ -195,6 +200,21 @@ class TitleShow extends Component {
     this.setState(next);
   }
 
+  getUsageConsolidationAccordion = () => {
+    const { sections } = this.state;
+
+    return (
+      <UsageConsolidationAccordion
+        id="titleShowUsageConsolidation"
+        isOpen={sections.titleShowUsageConsolidation}
+        onToggle={this.handleSectionToggle}
+        onFilterSubmit={() => {}} // TODO: implement in UIEH-999
+        recordType={entityTypes.PACKAGE}
+        costPerUseData={{}} // TODO: implement in UIEH-999
+      />
+    );
+  }
+
   render() {
     const {
       model,
@@ -240,7 +260,6 @@ class TitleShow extends Component {
             />)
           }
           bodyContent={(
-
             <Accordion
               label={<Headline size="large" tag="h3"><FormattedMessage id="ui-eholdings.title.titleInformation" /></Headline>}
               open={sections.titleShowTitleInformation}
@@ -321,7 +340,9 @@ class TitleShow extends Component {
             </Accordion>
 
           )}
+          usageConsolidationContent={this.getUsageConsolidationAccordion()}
           listType={listTypes.PACKAGES}
+          onListToggle={this.handleSectionToggle}
           resultsLength={packageFilterApplied
             ? filteredPackages.length
             : model.resources.length}

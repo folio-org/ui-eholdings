@@ -14,6 +14,7 @@ import { getComputedStyle } from './helpers';
 
 import Toast from './toast';
 import AddToCustomPackageModal from './add-to-custom-package-modal';
+import TitleUsageConsolidation from './title-usage-consolidation';
 
 @interactor class TitleShowPage {
   isLoaded = isPresent('[data-test-eholdings-details-view-name="title"]');
@@ -64,6 +65,8 @@ import AddToCustomPackageModal from './add-to-custom-package-modal';
       return this.isSelectedText === 'Selected';
     }),
   });
+
+  usageConsolidationSection = new TitleUsageConsolidation();
 
   identifiersList = collection('[data-test-eholdings-identifiers-list-item]', {
     identifierId: text('[data-test-eholdings-identifier-id]'),
