@@ -46,14 +46,14 @@ const UsageConsolidationAccordion = ({
   const calloutRef = useRef();
   const [accordionContentRef, setAccordionContentRef] = useState(null);
 
-  const canViewUsageConsolidation = true || stripes.hasPerm('ui-eholdings.costperuse.view');
-
+  //const canViewUsageConsolidation = true || stripes.hasPerm('ui-eholdings.costperuse.view');
+/*
   useEffect(() => {
     if (canViewUsageConsolidation) {
       getUsageConsolidation();
     }
   }, [canViewUsageConsolidation, getUsageConsolidation]);
-
+*/
   const getToastErrors = () => {
     const { errors } = usageConsolidation;
 
@@ -74,10 +74,10 @@ const UsageConsolidationAccordion = ({
     );
   };
 
-  if (usageConsolidation.isFailed || !canViewUsageConsolidation) {
+  /*if (usageConsolidation.isFailed || !canViewUsageConsolidation) {
     return null;
   }
-
+*/
   if (accordionContentRef) {
     accordionContentRef.style.margin = '0';
   }
@@ -99,7 +99,7 @@ const UsageConsolidationAccordion = ({
         'Content-Type': 'application/json',
       }
     );
-
+      console.log(okapi);
     const saveReport = (packageName, reportData, fileType) => {
       const blob = new Blob([reportData], { type: fileType });
       const fileName = `${packageName}.${fileType}`;
@@ -109,11 +109,12 @@ const UsageConsolidationAccordion = ({
     const format = 'csv';
 
     fetch(   
-      `${okapi.url}/eholdings/packages/${packageId}/resources/costperuse/export`,
+      `${okapi.url}/eholdings/packages/38-4367/resources/costperuse/export?platform=all&fiscalYear=2019`,
       { headers: httpHeaders }
     )
     .then((response) => {
       calloutRef.current.removeCallout(calloutID);
+      console.log(response);
       if (response.status >= 400) {
         throw new SubmissionError({
           identifier: `Error ${response.status} retrieving report for multiple months`,
@@ -146,7 +147,7 @@ const UsageConsolidationAccordion = ({
     });
   }
 
-  return usageConsolidation.data?.credentialsId ? (
+  return (
     <>
       <Accordion
         id={id}
@@ -166,7 +167,7 @@ const UsageConsolidationAccordion = ({
       />
       <Callout ref={calloutRef} />
     </>
-  ) : null;
+  );
 };
 
 UsageConsolidationAccordion.propTypes = propTypes;
