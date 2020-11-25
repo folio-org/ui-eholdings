@@ -267,11 +267,11 @@ describe('ResourceShow', () => {
         expect(ResourcePage.usageConsolidationSection.filters.yearDropdown.value).to.equal(`${new Date().getFullYear()}`);
       });
 
-      it('sholud display platform filter', () => {
+      it('should display platform filter', () => {
         expect(ResourcePage.usageConsolidationSection.filters.platformTypeDropdown.isPresent).to.be.true;
       });
 
-      it('sholud display correct value for platform filter', () => {
+      it('should display correct value for platform filter', () => {
         expect(ResourcePage.usageConsolidationSection.filters.platformTypeDropdown.value).to.equal('publisher');
       });
     });

@@ -145,6 +145,32 @@ describe('TitleShow', () => {
         expect(TitleShowPage.collapseAllButtonText).to.equal('Expand all');
       });
     });
+
+    describe('usage & analysis section', () => {
+      it('should display usage & analysis accordion', () => {
+        expect(TitleShowPage.usageConsolidationSection.isAccordionPresent).to.be.true;
+      });
+
+      it('should display closed accordion by default', () => {
+        expect(TitleShowPage.usageConsolidationSection.accordion.isOpen).to.be.false;
+      });
+
+      it('should display year filter', () => {
+        expect(TitleShowPage.usageConsolidationSection.filters.yearDropdown.isPresent).to.be.true;
+      });
+
+      it('should display correct value for year filter', () => {
+        expect(TitleShowPage.usageConsolidationSection.filters.yearDropdown.value).to.equal(`${new Date().getFullYear()}`);
+      });
+
+      it('should display platform filter', () => {
+        expect(TitleShowPage.usageConsolidationSection.filters.platformTypeDropdown.isPresent).to.be.true;
+      });
+
+      it('should display correct value for platform filter', () => {
+        expect(TitleShowPage.usageConsolidationSection.filters.platformTypeDropdown.value).to.equal('publisher');
+      });
+    });
   });
 
   describe('navigating to title page', () => {
