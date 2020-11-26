@@ -256,6 +256,25 @@
         "subPermissions": [
           "ui-eholdings.settings.custom-labels.view"
         ]
+      },
+      {
+        "permissionName": "ui-eholdings.settings.usage-consolidation.view",
+        "displayName": "Settings (eholdings): View Usage Consolidation API credentials",
+        "visible": true,
+        "subPermissions": [
+          "ui-eholdings.settings.enabled",
+          "kb-ebsco.kb-credentials.uc.item.get"
+        ]
+      },
+      {
+        "permissionName": "ui-eholdings.settings.usage-consolidation.create-edit",
+        "displayName": "Settings (eholdings): Create, edit, and view Usage Consolidation API credentials",
+        "visible": true,
+        "subPermissions": [
+          "ui-eholdings.settings.usage-consolidation.view",
+          "kb-ebsco.kb-credentials.uc.collection.post",
+          "kb-ebsco.kb-credentials.uc.item.patch"
+        ]
       }
     ]
   }

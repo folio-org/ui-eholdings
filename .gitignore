@@ -1,6 +1,7 @@
 node_modules
 dist/*
 .vscode
+.idea
 artifacts
 coverage
 .DS_STORE

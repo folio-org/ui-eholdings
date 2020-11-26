@@ -11,6 +11,9 @@ import {
 import moment from 'moment';
 
 import {
+  useStripes,
+} from '@folio/stripes/core';
+import {
   TextField,
   Select,
 } from '@folio/stripes/components';
@@ -40,6 +43,8 @@ const SettingsUsageConsolidation = ({
   usageConsolidation,
   updateUsageConsolidation: onSubmit,
 }) => {
+  const stripes = useStripes();
+  const disabled = !stripes.hasPerm('ui-eholdings.settings.usage-consolidation.create-edit');
   const { formatMessage } = useIntl();
 
   const usageConsolidationIdLabel = formatMessage({ id: 'ui-eholdings.settings.usageConsolidation.id' });
@@ -127,6 +132,7 @@ const SettingsUsageConsolidation = ({
             label={usageConsolidationIdLabel}
             aria-label={usageConsolidationIdLabel}
             parse={parseUsageConsolidationId}
+            disabled={disabled}
           />
           <Field
             id="eholdings-settings-usage-consolidation-month"
@@ -134,6 +140,7 @@ const SettingsUsageConsolidation = ({
             component={Select}
             dataOptions={monthDataOptions}
             label={usageConsolidationStartMonthLabel}
+            disabled={disabled}
           />
           <Field
             id="eholdings-settings-usage-consolidation-platform-type"
@@ -141,6 +148,7 @@ const SettingsUsageConsolidation = ({
             component={Select}
             dataOptions={platformTypesDataOptions}
             label={usageConsolidationPlatformTypeLabel}
+            disabled={disabled}
           />
           <Field
             id="eholdings-settings-usage-consolidation-currency"
@@ -149,6 +157,7 @@ const SettingsUsageConsolidation = ({
             dataOptions={[defaultCurrency, ...currencyDataOptions]}
             label={currencyLabel}
             required
+            disabled={disabled}
           />
         </SettingsForm>
       )}
