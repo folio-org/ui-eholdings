@@ -3,6 +3,7 @@ import { expect } from 'chai';
 
 import setupApplication, { axe } from '../helpers/setup-application';
 import PackageShowPage from '../interactors/package-show';
+// import usageConsolidationInfoPopoverTests from './usage-consolidation-info-popover';
 
 describe('PackageShowUsageConsolidation', () => {
   setupApplication();
@@ -61,6 +62,9 @@ describe('PackageShowUsageConsolidation', () => {
     it('should show accordion collapsed by default', () => {
       expect(PackageShowPage.usageConsolidation.accordion.isOpen).to.be.false;
     });
+
+    // TODO:: uncomment current tests after folio/stripes 5.1.0 will be available
+    // usageConsolidationInfoPopoverTests(PackageShowPage.usageConsolidation.infoPopover);
 
     describe('when clicking on accordion header', () => {
       beforeEach(async () => {

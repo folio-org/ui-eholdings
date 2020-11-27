@@ -30,6 +30,8 @@
     "usageConsolidation.summary.actions": "Actions",
     "usageConsolidation.summary.actions.export": "Export",
     "usageConsolidation.summary.embargo": "full text delay:",
+    "usageConsolidation.infoPopover.content": "Access to cost and usage information for the packages and titles that are a part of your library's holdings.",
+    "usageConsolidation.infoPopover.buttonLabel": "Learn more",
     "package.actionMenu.edit": "Edit",
     "package.addToHoldings": "Add to holdings",
     "package.addToken": "Add token",

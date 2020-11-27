@@ -11,6 +11,7 @@ import { useStripes } from '@folio/stripes/core';
 import {
   Accordion,
   Headline,
+  InfoPopover,
 } from '@folio/stripes/components';
 
 import Toaster from '../../components/toaster';
@@ -25,6 +26,8 @@ import {
   entityTypes,
   costPerUse,
 } from '../../constants';
+
+import styles from './usage-consolidation-accordion.css';
 
 const propTypes = {
   costPerUseData: costPerUse.CostPerUseReduxStateShape.isRequired,
@@ -76,13 +79,38 @@ const UsageConsolidationAccordion = ({
     }));
   };
 
+  const renderInfoPopover = () => {
+    return (
+      // eslint-disable-next-line jsx-a11y/interactive-supports-focus, jsx-a11y/click-events-have-key-events
+      <span
+        role="button"
+        onClick={(e) => {
+          // We don't need to open / close the accordion by clicking on the info icon
+          e.stopPropagation();
+        }}
+      >
+        <InfoPopover
+          allowAnchorClick
+          hideOnButtonClick
+          iconSize="medium"
+          content={<FormattedMessage id="ui-eholdings.usageConsolidation.infoPopover.content" />}
+          buttonLabel={<FormattedMessage id="ui-eholdings.usageConsolidation.infoPopover.buttonLabel" />}
+          buttonHref="https://wiki.folio.org/display/FOLIOtips/Usage+Consolidation"
+          buttonTarget="_blank"
+        />
+      </span>
+    );
+  };
+
   const getUsageConsolidationAccordionHeader = () => {
     return (
       <Headline
         size="large"
         tag="h3"
+        className={styles['accordion-usage-consolidation-header']}
       >
         <FormattedMessage id="ui-eholdings.usageConsolidation" />
+        {renderInfoPopover()}
       </Headline>
     );
   };
