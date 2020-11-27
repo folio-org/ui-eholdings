@@ -1,7 +1,12 @@
 import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import { withRouter } from 'react-router';
+import ReactRouterPropTypes from 'react-router-prop-types';
 
+import {
+  useStripes,
+} from '@folio/stripes/core';
 import {
   Icon,
 } from '@folio/stripes/components';
@@ -27,6 +32,7 @@ const propTypes = {
   }),
   getCurrencies: PropTypes.func.isRequired,
   getUsageConsolidation: PropTypes.func.isRequired,
+  history: ReactRouterPropTypes.history.isRequired,
   match: PropTypes.shape({
     params: PropTypes.shape({
       kbId: PropTypes.string.isRequired,
@@ -46,11 +52,17 @@ const SettingsUsageConsolidationRoute = ({
   patchUsageConsolidation,
   postUsageConsolidation,
   usageConsolidation,
+  history,
 }) => {
+  const stripes = useStripes();
   const {
     data: usageConsolidationData,
     isLoading,
   } = usageConsolidation;
+
+  if (!stripes.hasPerm('ui-eholdings.settings.usage-consolidation.view')) {
+    history.push('/settings/eholdings');
+  }
 
   useEffect(() => {
     getUsageConsolidation(kbId);
@@ -113,4 +125,4 @@ export default connect(
     postUsageConsolidation: postUsageConsolidationAction,
     getCurrencies: getCurrenciesAction,
   }
-)(SettingsUsageConsolidationRoute);
+)(withRouter(SettingsUsageConsolidationRoute));
