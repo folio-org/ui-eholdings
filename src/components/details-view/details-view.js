@@ -74,7 +74,6 @@ class DetailsView extends Component {
     searchModal: PropTypes.node,
     sections: PropTypes.object,
     type: PropTypes.string.isRequired,
-    usageConsolidationContent: PropTypes.node,
   };
 
   static defaultProps = {
@@ -169,11 +168,9 @@ class DetailsView extends Component {
 
       // don't do these calculations when not scrolling the container
     } else if (e.currentTarget === e.target) {
-      const usageConsolidationHeight = this.$usageConsolidationContainer?.offsetHeight || 0;
-
       const top = e.currentTarget.scrollTop;
       const height = e.currentTarget.offsetHeight;
-      const scrollHeight = e.currentTarget.scrollHeight - usageConsolidationHeight;
+      const scrollHeight = e.currentTarget.scrollHeight;
       // these will be equal when scrolled all the way down
       const bottomedOut = scrollHeight - (top + height) < 1;
 
@@ -275,7 +272,6 @@ class DetailsView extends Component {
       onListToggle,
       ariaRole,
       bodyAriaRole,
-      usageConsolidationContent,
     } = this.props;
 
     const { isSticky } = this.state;
@@ -352,12 +348,6 @@ class DetailsView extends Component {
               </Measure>
             </div>
           )}
-          <div
-            className={styles.body}
-            ref={(n) => { this.$usageConsolidationContainer = n; }}
-          >
-            {usageConsolidationContent}
-          </div>
         </div>
       </>
     );

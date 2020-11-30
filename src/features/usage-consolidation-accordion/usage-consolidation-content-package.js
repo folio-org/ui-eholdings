@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import {
   useIntl,
   FormattedMessage,
+  FormattedNumber,
 } from 'react-intl';
 import getSymbolFromCurrency from 'currency-symbol-map';
 
@@ -12,9 +13,12 @@ import {
   Dropdown,
   DropdownButton,
   DropdownMenu,
-  NoValue,
 } from '@folio/stripes/components';
 
+import {
+  formatCost,
+  formatValue,
+} from './utilities';
 import { costPerUse as costPerUseShape } from '../../constants';
 
 const propTypes = {
@@ -27,23 +31,7 @@ const UsageConsolidationContentPackage = ({
   year,
 }) => {
   const intl = useIntl();
-  const {
-    isLoaded,
-    isFailed,
-    data,
-  } = costPerUseData;
-
-  if (!isLoaded && !isFailed) {
-    return null;
-  }
-
-  if (isFailed) {
-    return (
-      <div data-test-usage-consolidation-error>
-        <FormattedMessage id="ui-eholdings.usageConsolidation.summary.error" />
-      </div>
-    );
-  }
+  const { data } = costPerUseData;
 
   const currency = data?.attributes?.parameters?.currency;
   const currencySymbol = getSymbolFromCurrency(currency) || '';
@@ -54,15 +42,6 @@ const UsageConsolidationContentPackage = ({
     usage,
   } = data?.attributes?.analysis;
   const noCostPerUseAvailable = !cost && !costPerUse && !usage;
-
-  const formatCost = (value) => `${currencySymbol}${value} (${currency})`;
-  const formatValue = (value, formatter) => {
-    if (!value && value !== 0) {
-      return <NoValue />;
-    }
-
-    return formatter ? formatter(value) : value;
-  };
 
   if (noCostPerUseAvailable) {
     return (
@@ -85,9 +64,9 @@ const UsageConsolidationContentPackage = ({
       contentData={[{ cost, costPerUse, usage }]}
       visibleColumns={['cost', 'usage', 'costPerUse', 'ucActions']}
       formatter={{
-        cost: (rowData) => formatValue(rowData.cost, formatCost),
-        costPerUse: (rowData) => formatValue(rowData.costPerUse, formatCost),
-        usage: (rowData) => formatValue(rowData.usage),
+        cost: (rowData) => formatValue(rowData.cost, (value) => formatCost(value, currencySymbol, currency)),
+        costPerUse: (rowData) => formatValue(rowData.costPerUse, (value) => formatCost(value, currencySymbol, currency)),
+        usage: (rowData) => formatValue(rowData.usage, (value) => <FormattedNumber value={value} />),
         ucActions: () => (
           <Dropdown
             renderTrigger={({ onToggle, triggerRef, ariaProps, keyHandler, getTriggerProps }) => (
@@ -122,7 +101,7 @@ const UsageConsolidationContentPackage = ({
       }}
       columnMapping={{
         cost: intl.formatMessage({ id: 'ui-eholdings.usageConsolidation.summary.packageCost' }),
-        usage: intl.formatMessage({ id: 'ui-eholdings.usageConsolidation.summary.totalUsage' }),
+        usage: intl.formatMessage({ id: 'ui-eholdings.usageConsolidation.summary.package.usage' }),
         costPerUse: intl.formatMessage({ id: 'ui-eholdings.usageConsolidation.summary.costPerUse' }),
         ucActions: null,
       }}

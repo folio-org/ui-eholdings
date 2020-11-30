@@ -16,6 +16,7 @@ import {
 import Toaster from '../../components/toaster';
 import UsageConsolidationFilters from './usage-consolidation-filters';
 import UsageConsolidationContentPackage from './usage-consolidation-content-package';
+import UsageConsolidationContentTitle from './usage-consolidation-content-title';
 import { getUsageConsolidation as getUsageConsolidationAction } from '../../redux/actions';
 import { selectPropFromData } from '../../redux/selectors';
 import {
@@ -32,6 +33,7 @@ const propTypes = {
   isOpen: PropTypes.bool,
   onFilterSubmit: PropTypes.func.isRequired,
   onToggle: PropTypes.func.isRequired,
+  publicationType: PropTypes.string,
   recordType: PropTypes.string.isRequired,
   usageConsolidation: ucReduxStateShape.UsageConsolidationReduxStateShape.isRequired,
 };
@@ -46,6 +48,7 @@ const UsageConsolidationAccordion = ({
   onFilterSubmit,
   costPerUseData,
   recordType,
+  publicationType,
 }) => {
   const filtersInitialState = {
     year: moment().year(),
@@ -53,7 +56,6 @@ const UsageConsolidationAccordion = ({
   };
 
   const stripes = useStripes();
-  const [accordionContentRef, setAccordionContentRef] = useState(null);
   const [filterData, setFilterData] = useState(filtersInitialState);
 
   const canViewUsageConsolidation = stripes.hasPerm('ui-eholdings.costperuse.view');
@@ -90,6 +92,20 @@ const UsageConsolidationAccordion = ({
   };
 
   const renderContent = () => {
+    const { isLoaded, isFailed } = costPerUseData;
+
+    if (!isLoaded && !isFailed) {
+      return null;
+    }
+
+    if (isFailed) {
+      return (
+        <div data-test-usage-consolidation-error>
+          <FormattedMessage id="ui-eholdings.usageConsolidation.summary.error" />
+        </div>
+      );
+    }
+
     if (recordType === entityTypes.PACKAGE) {
       return (
         <UsageConsolidationContentPackage
@@ -97,14 +113,18 @@ const UsageConsolidationAccordion = ({
           year={filterData.year}
         />
       );
+    } else if (recordType === entityTypes.TITLE) {
+      return (
+        <UsageConsolidationContentTitle
+          costPerUseData={costPerUseData}
+          year={filterData.year}
+          publicationType={publicationType}
+        />
+      );
     }
 
     return null;
   };
-
-  if (accordionContentRef) {
-    accordionContentRef.style.margin = '0';
-  }
 
   if (usageConsolidation.isFailed || !canViewUsageConsolidation) {
     return null;
@@ -119,7 +139,6 @@ const UsageConsolidationAccordion = ({
           open={isOpen}
           onToggle={onToggle}
           headerProps={headerProps}
-          contentRef={(n) => setAccordionContentRef(n)}
         >
           <UsageConsolidationFilters
             onSubmit={handleFiltersSubmit}
