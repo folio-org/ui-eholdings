@@ -99,10 +99,12 @@ const UsageConsolidationAccordion = ({
     const UsageConsolidationContent = CONTENT_COMPONENTS[recordType];
 
     return UsageConsolidationContent
-      ? <UsageConsolidationContent
+      ? (
+        <UsageConsolidationContent
           costPerUseData={costPerUseData}
           year={filterData.year}
         />
+      )
       : null;
   };
 

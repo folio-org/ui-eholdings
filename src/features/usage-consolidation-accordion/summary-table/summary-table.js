@@ -79,9 +79,9 @@ const SummaryTable = ({
   }
 
   const formatter = {
-    cost: ({ cost }) => formatValue(cost, formatCost),
-    costPerUse: ({ costPerUse }) => formatValue(costPerUse, formatCost),
-    usage: ({ usage }) => formatValue(usage),
+    cost: rowData => formatValue(rowData.cost, formatCost),
+    costPerUse: rowData => formatValue(rowData.costPerUse, formatCost),
+    usage: rowData => formatValue(rowData.usage),
     ucActions: () => (
       <Dropdown
         renderTrigger={({ onToggle, triggerRef, ariaProps, keyHandler, getTriggerProps }) => (
@@ -115,12 +115,14 @@ const SummaryTable = ({
     )
   };
 
+  const tableProperties = useSummaryTableProperties(customProperties);
+
   return (
     <MultiColumnList
       id={id}
       contentData={[{ cost, costPerUse, usage }]}
       formatter={formatter}
-      {...useSummaryTableProperties(customProperties)}
+      {...tableProperties}
     />
   );
 };

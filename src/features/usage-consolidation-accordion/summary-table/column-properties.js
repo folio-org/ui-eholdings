@@ -22,7 +22,7 @@ const DEFAULT_SUMMARY_TABLE_COLUMN_MAPPING = {
 
 const combineMCLProps = defaultProps => customProps => {
   return {
-    columnWidths: {...defaultProps.columnWidths, ...customProps.columnWidths },
+    columnWidths: { ...defaultProps.columnWidths, ...customProps.columnWidths },
     columnMapping: { ...defaultProps.columnMapping, ...customProps.columnMapping },
     visibleColumns: customProps.visibleColumns || defaultProps.visibleColumns || [],
   };
