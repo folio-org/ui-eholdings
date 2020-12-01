@@ -12,17 +12,17 @@ const propTypes = {
   year: PropTypes.string.isRequired,
 };
 
-const UsageConsolidationContentPackage = props => (
+const UsageConsolidationContentResource = props => (
   <SummaryTable
-    id="packageUsageConsolidationSummary"
-    entityType={entityTypes.PACKAGE}
+    id="resourceUsageConsolidationSummary"
+    entityType={entityTypes.TITLE}
     customProperties={{
-      columnMapping: { cost: 'ui-eholdings.usageConsolidation.summary.packageCost' },
+      columnMapping: { cost: 'ui-eholdings.usageConsolidation.summary.resourceCost' },
     }}
     {...props}
   />
 );
 
-UsageConsolidationContentPackage.propTypes = propTypes;
+UsageConsolidationContentResource.propTypes = propTypes;
 
-export default UsageConsolidationContentPackage;
+export default UsageConsolidationContentResource;

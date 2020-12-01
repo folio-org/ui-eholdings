@@ -10,16 +10,25 @@ import Resource from '../redux/resource';
 import View from '../components/resource/resource-show';
 import { ProxyType } from '../redux/application';
 import Tag from '../redux/tag';
-import { getAccessTypes as getAccessTypesAction } from '../redux/actions';
+import {
+  getAccessTypes as getAccessTypesAction,
+  getCostPerUse as getCostPerUseAction,
+} from '../redux/actions';
 import { selectPropFromData } from '../redux/selectors';
 
-import { accessTypesReduxStateShape } from '../constants';
+import {
+  accessTypesReduxStateShape,
+  costPerUse as costPerUseShape,
+  listTypes,
+} from '../constants';
 
 class ResourceShowRoute extends Component {
   static propTypes = {
     accessTypes: accessTypesReduxStateShape.isRequired,
+    costPerUse: costPerUseShape.CostPerUseReduxStateShape.isRequired,
     destroyResource: PropTypes.func.isRequired,
     getAccessTypes: PropTypes.func.isRequired,
+    getCostPerUse: PropTypes.func.isRequired,
     getProxyTypes: PropTypes.func.isRequired,
     getResource: PropTypes.func.isRequired,
     getTags: PropTypes.func.isRequired,
@@ -125,6 +134,15 @@ class ResourceShowRoute extends Component {
     history.replace(editRouteState);
   }
 
+  fetchResourceCostPerUse = (filterData) => {
+    const {
+      getCostPerUse,
+      model: { id },
+    } = this.props;
+
+    getCostPerUse(listTypes.RESOURCES, id, filterData);
+  }
+
   render() {
     const {
       model,
@@ -133,6 +151,7 @@ class ResourceShowRoute extends Component {
       history,
       tagsModel,
       updateFolioTags,
+      costPerUse,
     } = this.props;
 
     if (model.isLoading) {
@@ -149,6 +168,8 @@ class ResourceShowRoute extends Component {
           accessStatusTypes={accessTypes}
           toggleSelected={this.toggleSelected}
           onEdit={this.handleEdit}
+          fetchResourceCostPerUse={this.fetchResourceCostPerUse}
+          costPerUse={costPerUse}
           isFreshlySaved={
             history.location.state &&
             history.location.state.isFreshlySaved
@@ -173,6 +194,7 @@ export default connect(
       proxyTypes: resolver.query('proxyTypes'),
       resolver,
       accessTypes: selectPropFromData(store, 'accessStatusTypes'),
+      costPerUse: selectPropFromData(store, 'costPerUse'),
     };
   }, {
     getResource: id => Resource.find(id, { include: ['package', 'title', 'accessType'] }),
@@ -183,5 +205,6 @@ export default connect(
     destroyResource: model => Resource.destroy(model),
     getAccessTypes: getAccessTypesAction,
     removeUpdateRequests: () => Resource.removeRequests('update'),
+    getCostPerUse: getCostPerUseAction,
   }
 )(ResourceShowRoute);

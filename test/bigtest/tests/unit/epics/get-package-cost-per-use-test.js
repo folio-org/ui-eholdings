@@ -5,12 +5,12 @@ import { TestScheduler } from 'rxjs/Rx';
 
 import { createGetPackageCostPerUseEpic } from '../../../../../src/redux/epics';
 import {
-  GET_PACKAGE_COST_PER_USE,
-  GET_PACKAGE_COST_PER_USE_SUCCESS,
-  GET_PACKAGE_COST_PER_USE_FAILURE,
+  GET_COST_PER_USE,
+  GET_COST_PER_USE_SUCCESS,
+  GET_COST_PER_USE_FAILURE,
 } from '../../../../../src/redux/actions';
 
-describe('(epic) getPackageCostPerUse', () => {
+describe('(epic) getCostPerUse', () => {
   let testScheduler;
 
   beforeEach(() => {
@@ -46,7 +46,7 @@ describe('(epic) getPackageCostPerUse', () => {
 
     const action$ = testScheduler.createHotObservable('-a', {
       a: {
-        type: GET_PACKAGE_COST_PER_USE,
+        type: GET_COST_PER_USE,
         payload: {
           packageId: '123',
           filterData: {
@@ -58,7 +58,7 @@ describe('(epic) getPackageCostPerUse', () => {
 
     const dependencies = {
       costPerUseApi: {
-        getPackageCostPerUse: () => testScheduler.createColdObservable('--a', {
+        getCostPerUse: () => testScheduler.createColdObservable('--a', {
           a: response.body,
         }),
       },
@@ -68,7 +68,7 @@ describe('(epic) getPackageCostPerUse', () => {
 
     testScheduler.expectObservable(output$).toBe('---a', {
       a: {
-        type: GET_PACKAGE_COST_PER_USE_SUCCESS,
+        type: GET_COST_PER_USE_SUCCESS,
         payload: {
           attributes: {
             analysis: {
@@ -85,7 +85,7 @@ describe('(epic) getPackageCostPerUse', () => {
   it('should handle errors', () => {
     const action$ = testScheduler.createHotObservable('-a', {
       a: {
-        type: GET_PACKAGE_COST_PER_USE,
+        type: GET_COST_PER_USE,
         payload: {
           packageId: '123',
           filterData: {
@@ -97,7 +97,7 @@ describe('(epic) getPackageCostPerUse', () => {
 
     const dependencies = {
       costPerUseApi: {
-        getPackageCostPerUse: () => testScheduler.createColdObservable('--#', null, 'Error messages'),
+        getCostPerUse: () => testScheduler.createColdObservable('--#', null, 'Error messages'),
       },
     };
 
@@ -105,7 +105,7 @@ describe('(epic) getPackageCostPerUse', () => {
 
     testScheduler.expectObservable(output$).toBe('---a', {
       a: {
-        type: GET_PACKAGE_COST_PER_USE_FAILURE,
+        type: GET_COST_PER_USE_FAILURE,
         payload: { errors: 'Error messages' },
       },
     });

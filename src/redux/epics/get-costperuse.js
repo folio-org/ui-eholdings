@@ -4,16 +4,16 @@ import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/catch';
 
 import {
-  GET_PACKAGE_COST_PER_USE,
-  getPackageCostPerUseSuccess,
-  getPackageCostPerUseFailure,
+  GET_COST_PER_USE,
+  getCostPerUseSuccess,
+  getCostPerUseFailure,
 } from '../actions';
 
 export default ({ costPerUseApi }) => (action$, store) => {
   return action$
-    .filter(action => action.type === GET_PACKAGE_COST_PER_USE)
-    .mergeMap(({ payload: { packageId, filterData } }) => costPerUseApi
-      .getPackageCostPerUse(store.getState().okapi, packageId, filterData)
+    .filter(action => action.type === GET_COST_PER_USE)
+    .mergeMap(({ payload: { listType, id, filterData } }) => costPerUseApi
+      .getCostPerUse(store.getState().okapi, listType, id, filterData)
       .map((payload) => {
         const payloadWithRelevantPublisher = {
           ...payload,
@@ -23,7 +23,7 @@ export default ({ costPerUseApi }) => (action$, store) => {
           },
         };
 
-        return getPackageCostPerUseSuccess(payloadWithRelevantPublisher);
+        return getCostPerUseSuccess(payloadWithRelevantPublisher);
       })
-      .catch(errors => Observable.of(getPackageCostPerUseFailure({ errors }))));
+      .catch(errors => Observable.of(getCostPerUseFailure({ errors }))));
 };

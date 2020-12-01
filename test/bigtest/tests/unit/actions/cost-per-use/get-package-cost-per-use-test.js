@@ -2,20 +2,20 @@
 import { expect } from 'chai';
 
 import {
-  GET_PACKAGE_COST_PER_USE,
-  getPackageCostPerUse,
+  GET_COST_PER_USE,
+  getCostPerUse,
 } from '../../../../../../src/redux/actions';
 
-describe('(action) getPackageCostPerUse', () => {
+describe('(action) getCostPerUse', () => {
   it('should create an action to handle get cost per use of a package', () => {
     const packageId = '123';
     const filterData = { year: 2020 };
 
     const expectedAction = {
-      type: GET_PACKAGE_COST_PER_USE,
+      type: GET_COST_PER_USE,
       payload: { packageId, filterData },
     };
 
-    expect(getPackageCostPerUse(packageId, filterData)).to.deep.equal(expectedAction);
+    expect(getCostPerUse(packageId, filterData)).to.deep.equal(expectedAction);
   });
 });

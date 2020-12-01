@@ -2,18 +2,18 @@
 import { expect } from 'chai';
 
 import {
-  GET_PACKAGE_COST_PER_USE_FAILURE,
-  getPackageCostPerUseFailure,
+  GET_COST_PER_USE_FAILURE,
+  getCostPerUseFailure,
 } from '../../../../../../src/redux/actions';
 
-describe('(action) getPackageCostPerUseFailure', () => {
+describe('(action) getCostPerUseFailure', () => {
   it('should create an action to handle get package cost per use failure', () => {
     const payload = { error: 'payload' };
     const expectedAction = {
-      type: GET_PACKAGE_COST_PER_USE_FAILURE,
+      type: GET_COST_PER_USE_FAILURE,
       payload,
     };
 
-    expect(getPackageCostPerUseFailure(payload)).to.deep.equal(expectedAction);
+    expect(getCostPerUseFailure(payload)).to.deep.equal(expectedAction);
   });
 });
