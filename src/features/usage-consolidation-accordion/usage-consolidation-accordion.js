@@ -37,11 +37,6 @@ const propTypes = {
   usageConsolidation: ucReduxStateShape.UsageConsolidationReduxStateShape.isRequired,
 };
 
-const CONTENT_COMPONENTS = {
-  [entityTypes.PACKAGE]: UsageConsolidationContentPackage,
-  [entityTypes.RESOURCE]: UsageConsolidationContentResource,
-};
-
 const UsageConsolidationAccordion = ({
   getUsageConsolidation,
   headerProps,
@@ -96,16 +91,25 @@ const UsageConsolidationAccordion = ({
   };
 
   const renderContent = () => {
-    const UsageConsolidationContent = CONTENT_COMPONENTS[recordType];
+    if (recordType === entityTypes.PACKAGE) {
+      return (
+        <UsageConsolidationContentPackage
+          costPerUseData={costPerUseData}
+          year={filterData.year}
+        />
+      );
+    }
 
-    return UsageConsolidationContent
-      ? (
-        <UsageConsolidationContent
+    if (recordType === entityTypes.RESOURCE) {
+      return (
+        <UsageConsolidationContentResource
           costPerUseData={costPerUseData}
           year={filterData.year}
         />
       )
-      : null;
+    }
+
+    return null;
   };
 
   if (accordionContentRef) {

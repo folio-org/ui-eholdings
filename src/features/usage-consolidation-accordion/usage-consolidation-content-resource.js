@@ -6,23 +6,26 @@ import {
   costPerUse as costPerUseShape,
   entityTypes,
 } from '../../constants';
-import { useSummaryTableProperties } from './summary-table/column-properties';
 
 const propTypes = {
   costPerUseData: costPerUseShape.CostPerUseReduxStateShape.isRequired,
   year: PropTypes.string.isRequired,
 };
 
-const UsageConsolidationContentResource = props => (
-  <SummaryTable
-    id="resourceUsageConsolidationSummary"
-    entityType={entityTypes.TITLE}
-    customProperties={...useSummaryTableProperties({
-      columnMapping: { cost: 'ui-eholdings.usageConsolidation.summary.resourceCost' },
-    })}
-    {...props}
-  />
-);
+const UsageConsolidationContentResource = props => {
+  const customProperties = setColumnListProperties({
+    columnMapping: { cost: 'ui-eholdings.usageConsolidation.summary.resourceCost' },
+  });
+
+  return (
+    <SummaryTable
+      id="resourceUsageConsolidationSummary"
+      entityType={entityTypes.TITLE}
+      customProperties={customProperties}
+      {...props}
+    />
+  );
+};
 
 UsageConsolidationContentResource.propTypes = propTypes;
 

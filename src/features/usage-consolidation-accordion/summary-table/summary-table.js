@@ -12,6 +12,7 @@ import {
   NoValue,
 } from '@folio/stripes/components';
 
+import { getSummaryTableColumnProperties } from './column-properties';
 import { costPerUse as costPerUseShape } from '../../../constants';
 
 const propTypes = {
@@ -23,11 +24,11 @@ const propTypes = {
 };
 
 const SummaryTable = ({
-  id,
-  customProperties,
   costPerUseData,
-  year,
+  customProperties,
   entityType,
+  id,
+  year,
 }) => {
   const {
     isLoaded,
@@ -119,7 +120,7 @@ const SummaryTable = ({
       id={id}
       contentData={[{ cost, costPerUse, usage }]}
       formatter={formatter}
-      {...customProperties}
+      {...getSummaryTableColumnProperties(intl, customProperties)}
     />
   );
 };

@@ -12,16 +12,20 @@ const propTypes = {
   year: PropTypes.string.isRequired,
 };
 
-const UsageConsolidationContentPackage = props => (
-  <SummaryTable
-    id="packageUsageConsolidationSummary"
-    entityType={entityTypes.PACKAGE}
-    customProperties={{
-      columnMapping: { cost: 'ui-eholdings.usageConsolidation.summary.packageCost' },
-    }}
-    {...props}
-  />
-);
+const UsageConsolidationContentPackage = props => {
+  const customProperties = {
+    columnMapping: { cost: 'ui-eholdings.usageConsolidation.summary.packageCost' },
+  };
+
+  return (
+    <SummaryTable
+      id="packageUsageConsolidationSummary"
+      entityType={entityTypes.PACKAGE}
+      customProperties={customProperties}
+      {...props}
+    />
+  );
+};
 
 UsageConsolidationContentPackage.propTypes = propTypes;
 
