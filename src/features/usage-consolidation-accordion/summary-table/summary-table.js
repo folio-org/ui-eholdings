@@ -12,7 +12,6 @@ import {
   NoValue,
 } from '@folio/stripes/components';
 
-import { useSummaryTableProperties } from './column-properties';
 import { costPerUse as costPerUseShape } from '../../../constants';
 
 const propTypes = {
@@ -115,14 +114,12 @@ const SummaryTable = ({
     )
   };
 
-  const tableProperties = useSummaryTableProperties(customProperties);
-
   return (
     <MultiColumnList
       id={id}
       contentData={[{ cost, costPerUse, usage }]}
       formatter={formatter}
-      {...tableProperties}
+      {...customProperties}
     />
   );
 };
