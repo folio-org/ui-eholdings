@@ -3,7 +3,7 @@ import { expect } from 'chai';
 
 import { TestScheduler } from 'rxjs/Rx';
 
-import { createGetPackageCostPerUseEpic } from '../../../../../src/redux/epics';
+import { createGetCostPerUseEpic } from '../../../../../src/redux/epics';
 import {
   GET_COST_PER_USE,
   GET_COST_PER_USE_SUCCESS,
@@ -48,7 +48,8 @@ describe('(epic) getCostPerUse', () => {
       a: {
         type: GET_COST_PER_USE,
         payload: {
-          packageId: '123',
+          listType: 'package',
+          id: '123',
           filterData: {
             platformType: 'publisher',
           },
@@ -64,7 +65,7 @@ describe('(epic) getCostPerUse', () => {
       },
     };
 
-    const output$ = createGetPackageCostPerUseEpic(dependencies)(action$, state$);
+    const output$ = createGetCostPerUseEpic(dependencies)(action$, state$);
 
     testScheduler.expectObservable(output$).toBe('---a', {
       a: {
@@ -87,7 +88,8 @@ describe('(epic) getCostPerUse', () => {
       a: {
         type: GET_COST_PER_USE,
         payload: {
-          packageId: '123',
+          listType: 'package',
+          id: '123',
           filterData: {
             platformType: 'publisher',
           },
@@ -101,7 +103,7 @@ describe('(epic) getCostPerUse', () => {
       },
     };
 
-    const output$ = createGetPackageCostPerUseEpic(dependencies)(action$, state$);
+    const output$ = createGetCostPerUseEpic(dependencies)(action$, state$);
 
     testScheduler.expectObservable(output$).toBe('---a', {
       a: {

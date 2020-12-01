@@ -8,14 +8,19 @@ import {
 
 describe('(action) getCostPerUse', () => {
   it('should create an action to handle get cost per use of a package', () => {
-    const packageId = '123';
+    const listType = 'package';
+    const id = '123';
     const filterData = { year: 2020 };
 
     const expectedAction = {
       type: GET_COST_PER_USE,
-      payload: { packageId, filterData },
+      payload: {
+        listType,
+        id,
+        filterData,
+      },
     };
 
-    expect(getCostPerUse(packageId, filterData)).to.deep.equal(expectedAction);
+    expect(getCostPerUse(listType, id, filterData)).to.deep.equal(expectedAction);
   });
 });

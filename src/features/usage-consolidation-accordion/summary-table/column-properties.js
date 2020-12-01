@@ -1,3 +1,5 @@
+import { useIntl } from 'react-intl';
+
 export const DEFAULT_SUMMARY_TABLE_COLUMNS = {
   COST: 'cost',
   USAGE: 'usage',
@@ -20,8 +22,8 @@ const DEFAULT_SUMMARY_TABLE_COLUMN_MAPPING = {
 
 const combineMCLProps = defaultProps => customProps => {
   return {
-    columnWidths: Object.assign({}, defaultProps.columnWidths, customProps.columnWidths),
-    columnMapping: Object.assign({}, defaultProps.columnMapping, customProps.columnMapping),
+    columnWidths: {...defaultProps.columnWidths, ...customProps.columnWidths },
+    columnMapping: { ...defaultProps.columnMapping, ...customProps.columnMapping },
     visibleColumns: customProps.visibleColumns || defaultProps.visibleColumns || [],
   };
 };
@@ -48,5 +50,5 @@ export const useSummaryTableProperties = (customProps = {}) => {
       columnWidths: { ...DEFAULT_SUMMARY_TABLE_COLUMN_WIDTH },
     },
     customProps
-    );
+  );
 };

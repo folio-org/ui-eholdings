@@ -7,7 +7,7 @@ import {
 } from '../../../../../../src/redux/actions';
 
 describe('(action) getCostPerUseSuccess', () => {
-  it('should create an action to handle get package cost per use success', () => {
+  it('should create an action to handle get cost per use success', () => {
     const payload = { data: 'data' };
     const expectedAction = {
       type: GET_COST_PER_USE_SUCCESS,

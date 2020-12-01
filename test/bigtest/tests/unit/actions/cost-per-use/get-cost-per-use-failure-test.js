@@ -7,7 +7,7 @@ import {
 } from '../../../../../../src/redux/actions';
 
 describe('(action) getCostPerUseFailure', () => {
-  it('should create an action to handle get package cost per use failure', () => {
+  it('should create an action to handle get cost per use failure', () => {
     const payload = { error: 'payload' };
     const expectedAction = {
       type: GET_COST_PER_USE_FAILURE,
