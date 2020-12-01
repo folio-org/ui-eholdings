@@ -106,7 +106,7 @@ const UsageConsolidationAccordion = ({
           costPerUseData={costPerUseData}
           year={filterData.year}
         />
-      )
+      );
     }
 
     return null;

@@ -1,6 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { FormattedMessage } from 'react-intl';
+import {
+  useIntl,
+  FormattedMessage,
+} from 'react-intl';
 import getSymbolFromCurrency from 'currency-symbol-map';
 
 import {
@@ -30,6 +33,7 @@ const SummaryTable = ({
   id,
   year,
 }) => {
+  const intl = useIntl();
   const {
     isLoaded,
     isFailed,

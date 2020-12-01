@@ -13,9 +13,9 @@ const propTypes = {
 };
 
 const UsageConsolidationContentResource = props => {
-  const customProperties = setColumnListProperties({
+  const customProperties = {
     columnMapping: { cost: 'ui-eholdings.usageConsolidation.summary.resourceCost' },
-  });
+  };
 
   return (
     <SummaryTable
