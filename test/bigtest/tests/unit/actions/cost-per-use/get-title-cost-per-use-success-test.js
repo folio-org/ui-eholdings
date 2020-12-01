@@ -6,7 +6,7 @@ import {
   getTitleCostPerUseSuccess,
 } from '../../../../../../src/redux/actions';
 
-describe'(action) getTitleCostPerUseSuccess', () => {
+describe('(action) getTitleCostPerUseSuccess', () => {
   it('should create an action to handle get title cost per use success', () => {
     const payload = { data: 'data' };
     const expectedAction = {

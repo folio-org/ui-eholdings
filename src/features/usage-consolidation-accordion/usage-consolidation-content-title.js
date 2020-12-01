@@ -67,14 +67,14 @@ const UsageConsolidationContentTitle = ({
       const hasEmbargo = embargoPeriod?.embargoValue && embargoPeriod?.embargoUnit;
       const embargo = hasEmbargo ? (
         <>
-          {' ('}
+          (
           <FormattedMessage id="ui-eholdings.usageConsolidation.summary.embargo" />
           {' '}
           <FormattedMessage
             id={`ui-eholdings.resource.embargoUnit.${embargoPeriod.embargoUnit}`}
             values={{ value: embargoPeriod.embargoValue }}
           />
-          {')'}
+          )
         </>
       ) : null;
 
@@ -87,7 +87,7 @@ const UsageConsolidationContentTitle = ({
               ? formatCoverageYear(coverageArrayObj)
               : formatCoverageFullDate(coverageArrayObj)
           }
-          {i !== dateRanges.length - 1 ? ', ' : embargo}
+          {i !== dateRanges.length - 1 ? ', ' : <> {embargo}</>}
         </>
       ));
 

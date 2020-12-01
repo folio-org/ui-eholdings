@@ -11,7 +11,7 @@ import {
   GET_TITLE_COST_PER_USE_FAILURE,
 } from '../../../../../src/redux/actions';
 
-describe'(reducer) costPerUse', () => {
+describe('(reducer) costPerUse', () => {
   it('should return the initial state', () => {
     expect(costPerUse(undefined, {})).to.deep.equal({
       errors: [],

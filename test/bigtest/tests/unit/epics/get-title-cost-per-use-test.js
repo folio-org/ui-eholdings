@@ -10,7 +10,7 @@ import {
   GET_TITLE_COST_PER_USE_FAILURE,
 } from '../../../../../src/redux/actions';
 
-describe'(epic) getTitleCostPerUse', () => {
+describe('(epic) getTitleCostPerUse', () => {
   let testScheduler;
 
   beforeEach(() => {

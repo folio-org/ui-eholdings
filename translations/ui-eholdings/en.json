@@ -234,7 +234,7 @@
     "settings.usageConsolidation.id.validation.empty": "Please enter a Usage Consolidation ID.",
     "settings.usageConsolidation.id.validation.invalid": "Invalid Usage Consolidation ID. Please enter a valid ID.",
     "settings.usageConsolidation.startMonth": "Start month for usage stastistics",
-    "settings.usageConsolidation.currency": "Currency", 
+    "settings.usageConsolidation.currency": "Currency",
     "settings.usageConsolidation.currency.default": "Select a currency",
     "settings.usageConsolidation.currency.validation": "Select a currency",
     "settings.usageConsolidation.platformType": "Show platform usage statistics default display",
@@ -476,5 +476,7 @@
     "permission.settings.access-types.create-edit": "Settings (eholdings): Can create, edit, and view access status types",
     "permission.settings.access-types.view": "Settings (eholdings): Can view access status types",
     "permission.settings.custom-labels.all": "Settings (eholdings): Can create, edit, view, and delete custom labels",
-    "permission.settings.custom-labels.view": "Settings (eholdings): Can view custom labels"
+    "permission.settings.custom-labels.view": "Settings (eholdings): Can view custom labels",
+    "permission.settings.usage-consolidation.view": "Settings (eholdings): View Usage Consolidation API credentials",
+    "permission.settings.usage-consolidation.create-edit": "Settings (eholdings): Create, edit, and view Usage Consolidation API credentials"
   }

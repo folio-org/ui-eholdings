@@ -104,11 +104,11 @@ describe('PackageShowUsageConsolidation', () => {
         });
 
         it('should show Cost data in correct format', () => {
-          expect(PackageShowPage.usageConsolidation.content.summaryTable.rows(0).cells(0).content).to.equal('$1201 (USD)');
+          expect(PackageShowPage.usageConsolidation.content.summaryTable.rows(0).cells(0).content).to.equal('$1,201 (USD)');
         });
 
         it('should show CostPerUse data in correct format', () => {
-          expect(PackageShowPage.usageConsolidation.content.summaryTable.rows(0).cells(2).content).to.equal('$0.0334 (USD)');
+          expect(PackageShowPage.usageConsolidation.content.summaryTable.rows(0).cells(2).content).to.equal('$0.03 (USD)');
         });
       });
     });

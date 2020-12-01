@@ -6,7 +6,7 @@ import {
   getTitleCostPerUse,
 } from '../../../../../../src/redux/actions';
 
-describe'(action) getTitleCostPerUse', () => {
+describe('(action) getTitleCostPerUse', () => {
   it('should create an action to handle get cost per use of a title', () => {
     const titleId = '123';
     const filterData = { year: 2020 };

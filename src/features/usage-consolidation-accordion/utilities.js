@@ -18,7 +18,7 @@ export const formatCost = (value, currencySymbol, currency) => {
 };
 
 export const formatValue = (value, formatter) => {
-  const number = Number(value);
+  const number = typeof value === 'string' ? Number(value) : value;
 
   if (!number && number !== 0) {
     return <NoValue />;

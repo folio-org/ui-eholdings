@@ -614,6 +614,7 @@ class ResourceShow extends Component {
                 id="resourceShowUsageConsolidation"
                 isOpen={sections.resourceShowUsageConsolidation}
                 onToggle={this.handleSectionToggle}
+                costPerUseData={{}} // TODO: implement in UIEH-952
               />
             </>
           )}
