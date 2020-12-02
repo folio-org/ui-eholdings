@@ -63,12 +63,12 @@ const SummaryTable = ({
   const noCostPerUseAvailable = !cost && !costPerUse && !usage;
 
   const formatCost = (value) => `${currencySymbol}${value} (${currency})`;
-  const formatValue = (value, formatter) => {
+  const formatValue = (value, formatValue) => {
     if (!value && value !== 0) {
       return <NoValue />;
     }
 
-    return formatter ? formatter(value) : value;
+    return formatValue ? formatValue(value) : value;
   };
 
   if (noCostPerUseAvailable) {
