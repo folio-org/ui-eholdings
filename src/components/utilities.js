@@ -284,3 +284,11 @@ export const getFullName = user => {
 export const parseDate = value => value;
 
 export const formatDate = value => (value ? moment.utc(value) : '');
+
+export const combineMCLProps = defaultProps => customProps => {
+  return {
+    columnWidths: { ...defaultProps.columnWidths, ...customProps.columnWidths },
+    columnMapping: { ...defaultProps.columnMapping, ...customProps.columnMapping },
+    visibleColumns: customProps.visibleColumns || defaultProps.visibleColumns || [],
+  };
+};

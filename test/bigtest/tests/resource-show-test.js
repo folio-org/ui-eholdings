@@ -274,6 +274,36 @@ describe('ResourceShow', () => {
       it('should display correct value for platform filter', () => {
         expect(ResourcePage.usageConsolidationSection.filters.platformTypeDropdown.value).to.equal('publisher');
       });
+
+      describe('when clicking View', () => {
+        beforeEach(async () => {
+          await ResourcePage.usageConsolidationSection.filters.clickView();
+          await ResourcePage.usageConsolidationSection.content.whenLoaded();
+        });
+
+        describe('waiting for axe to run', () => {
+          beforeEach(async () => {
+            await ResourcePage.whenLoaded();
+            a11yResults = await axe.run();
+          });
+
+          it('should not have any a11y issues', () => {
+            expect(a11yResults.violations).to.be.empty;
+          });
+        });
+
+        it('should show Summary table', () => {
+          expect(ResourcePage.usageConsolidationSection.content.summaryTable.isPresent).to.be.true;
+        });
+
+        it('should show Cost data in correct format', () => {
+          expect(ResourcePage.usageConsolidationSection.content.summaryTable.rows(0).cells(0).content).to.equal('$1200 (USD)');
+        });
+
+        it('should show CostPerUse data in correct format', () => {
+          expect(ResourcePage.usageConsolidationSection.content.summaryTable.rows(0).cells(2).content).to.equal('$0.0434 (USD)');
+        });
+      });
     });
 
     describe('when token is not needed', () => {

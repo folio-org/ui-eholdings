@@ -17,6 +17,7 @@ import Toaster from '../../components/toaster';
 import UsageConsolidationFilters from './usage-consolidation-filters';
 import UsageConsolidationContentPackage from './usage-consolidation-content-package';
 import UsageConsolidationContentTitle from './usage-consolidation-content-title';
+import UsageConsolidationContentResource from './usage-consolidation-content-resource';
 import { getUsageConsolidation as getUsageConsolidationAction } from '../../redux/actions';
 import { selectPropFromData } from '../../redux/selectors';
 import {
@@ -119,6 +120,15 @@ const UsageConsolidationAccordion = ({
           costPerUseData={costPerUseData}
           year={filterData.year}
           publicationType={publicationType}
+        />
+      );
+    }
+
+    if (recordType === entityTypes.RESOURCE) {
+      return (
+        <UsageConsolidationContentResource
+          costPerUseData={costPerUseData}
+          year={filterData.year}
         />
       );
     }

@@ -6,9 +6,12 @@ import queryString from 'qs';
 
 import { TitleManager } from '@folio/stripes/core';
 
-import { costPerUse as costPerUseShape } from '../constants';
 import {
-  getTitleCostPerUse as getTitleCostPerUseAction,
+  costPerUse as costPerUseShape,
+  listTypes,
+} from '../constants';
+import {
+  getCostPerUse as getCostPerUseAction,
 } from '../redux/actions';
 import { selectPropFromData } from '../redux/selectors';
 import { createResolver } from '../redux';
@@ -23,9 +26,9 @@ class TitleShowRoute extends Component {
     createRequest: PropTypes.object.isRequired,
     createResource: PropTypes.func.isRequired,
     customPackages: PropTypes.object.isRequired,
+    getCostPerUse: PropTypes.func.isRequired,
     getCustomPackages: PropTypes.func.isRequired,
     getTitle: PropTypes.func.isRequired,
-    getTitleCostPerUse: PropTypes.func.isRequired,
     history: ReactRouterPropTypes.history.isRequired,
     location: ReactRouterPropTypes.location.isRequired,
     match: ReactRouterPropTypes.match.isRequired,
@@ -74,11 +77,11 @@ class TitleShowRoute extends Component {
 
   fetchTitleCostPerUse = (filterData) => {
     const {
-      getTitleCostPerUse,
-      model: { id: titleId },
+      getCostPerUse,
+      model: { id },
     } = this.props;
 
-    getTitleCostPerUse(titleId, filterData);
+    getCostPerUse(listTypes.TITLES, id, filterData);
   }
 
   getSearchType = () => {
@@ -160,6 +163,6 @@ export default connect(
       filter: { custom: true },
       count: 100
     }),
-    getTitleCostPerUse: getTitleCostPerUseAction,
+    getCostPerUse: getCostPerUseAction,
   }
 )(TitleShowRoute);

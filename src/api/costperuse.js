@@ -13,8 +13,8 @@ const formatParametersForBackend = (filterData) => {
   });
 };
 
-const getPackageCostPerUseUrl = (packageId, filterData) => {
-  return `/eholdings/packages/${packageId}/costperuse?${formatParametersForBackend(filterData)}`;
+const getCostPerUseUrl = (listType, id, filterData) => {
+  return `/eholdings/${listType}/${id}/costperuse?${formatParametersForBackend(filterData)}`;
 };
 
 const getTitleCostPerUseUrl = (titleId, filterData) => {
@@ -22,9 +22,9 @@ const getTitleCostPerUseUrl = (titleId, filterData) => {
 };
 
 export default {
-  getPackageCostPerUse: (okapi, packageId, filterData) => {
+  getCostPerUse: (okapi, listType, id, filterData) => {
     const method = 'GET';
-    const url = createUrl(okapi.url, getPackageCostPerUseUrl(packageId, filterData));
+    const url = createUrl(okapi.url, getCostPerUseUrl(listType, id, filterData));
 
     const params = {
       method,

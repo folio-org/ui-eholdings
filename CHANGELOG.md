@@ -11,6 +11,7 @@
 * Added Usage Consolidation Filters to Resource Show page. (UIEH-951)
 * Title Record: Display Usage & Analysis Accordion. (UIEH-950)
 * Settings: Usage Consolidation: Permissions. (UIEH-938)
+* Added Usage Consolidation Summary table to Resource Show page. (UIEH-952)
 * Title Record: Display Holdings summary table. (UIEH-999)
 
 ## [5.0.0] (https://github.com/folio-org/ui-eholdings/tree/v5.0.0) (2020-10-15)

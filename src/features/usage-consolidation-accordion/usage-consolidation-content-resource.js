@@ -2,7 +2,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 import SummaryTable from './summary-table';
-
 import {
   costPerUse as costPerUseShape,
   entityTypes,
@@ -13,7 +12,7 @@ const propTypes = {
   year: PropTypes.string.isRequired,
 };
 
-const UsageConsolidationContentPackage = props => {
+const UsageConsolidationContentResource = props => {
   const {
     cost,
     costPerUse,
@@ -23,13 +22,13 @@ const UsageConsolidationContentPackage = props => {
   const noCostPerUseAvailable = !cost && !costPerUse && !usage;
 
   const customProperties = {
-    columnMapping: { cost: 'ui-eholdings.usageConsolidation.summary.packageCost' },
+    columnMapping: { cost: 'ui-eholdings.usageConsolidation.summary.resourceCost' },
   };
 
   return (
     <SummaryTable
-      id="packageUsageConsolidationSummary"
-      entityType={entityTypes.PACKAGE}
+      id="resourceUsageConsolidationSummary"
+      entityType={entityTypes.RESOURCE}
       customProperties={customProperties}
       noCostPerUseAvailable={noCostPerUseAvailable}
       {...props}
@@ -37,6 +36,6 @@ const UsageConsolidationContentPackage = props => {
   );
 };
 
-UsageConsolidationContentPackage.propTypes = propTypes;
+UsageConsolidationContentResource.propTypes = propTypes;
 
-export default UsageConsolidationContentPackage;
+export default UsageConsolidationContentResource;

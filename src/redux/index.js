@@ -76,8 +76,7 @@ import {
   createPostUsageConsolidationEpic,
   createPatchUsageConsolidationEpic,
   createGetCurrenciesEpic,
-  createGetPackageCostPerUseEpic,
-  createGetTitleCostPerUseEpic,
+  createGetCostPerUseEpic,
 } from './epics';
 
 export const createResolver = (state) => {
@@ -144,6 +143,5 @@ export const epics = combineEpics(
   createPostUsageConsolidationEpic({ usageConsolidationApi }),
   createPatchUsageConsolidationEpic({ usageConsolidationApi }),
   createGetCurrenciesEpic({ currenciesApi }),
-  createGetPackageCostPerUseEpic({ costPerUseApi }),
-  createGetTitleCostPerUseEpic({ costPerUseApi }),
+  createGetCostPerUseEpic({ costPerUseApi }),
 );

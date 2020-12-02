@@ -17,7 +17,7 @@ import Resource from '../redux/resource';
 import { selectPropFromData } from '../redux/selectors';
 import {
   getAccessTypes as getAccessTypesAction,
-  getPackageCostPerUse as getPackageCostPerUseAction,
+  getCostPerUse as getCostPerUseAction,
 } from '../redux/actions';
 import Tag from '../redux/tag';
 import { transformQueryParams } from '../components/utilities';
@@ -36,8 +36,8 @@ class PackageShowRoute extends Component {
     costPerUse: costPerUseShape.CostPerUseReduxStateShape.isRequired,
     destroyPackage: PropTypes.func.isRequired,
     getAccessTypes: PropTypes.func.isRequired,
+    getCostPerUse: PropTypes.func.isRequired,
     getPackage: PropTypes.func.isRequired,
-    getPackageCostPerUse: PropTypes.func.isRequired,
     getPackageTitles: PropTypes.func.isRequired,
     getProvider: PropTypes.func.isRequired,
     getProxyTypes: PropTypes.func.isRequired,
@@ -239,11 +239,11 @@ class PackageShowRoute extends Component {
 
   fetchPackageCostPerUse = (filterData) => {
     const {
-      getPackageCostPerUse,
-      model: { id: packageId },
+      getCostPerUse,
+      model: { id },
     } = this.props;
 
-    getPackageCostPerUse(packageId, filterData);
+    getCostPerUse(listTypes.PACKAGES, id, filterData);
   }
 
   handleEdit = () => {
@@ -361,6 +361,6 @@ export default connect(
     destroyPackage: model => Package.destroy(model),
     removeUpdateRequests: () => Package.removeRequests('update'),
     getAccessTypes: getAccessTypesAction,
-    getPackageCostPerUse: getPackageCostPerUseAction,
+    getCostPerUse: getCostPerUseAction,
   }
 )(PackageShowRoute);
