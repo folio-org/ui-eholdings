@@ -4,7 +4,7 @@ import { expect } from 'chai';
 import setupApplication, { axe } from '../helpers/setup-application';
 import PackageShowPage from '../interactors/package-show';
 
-describe('PackageShowUsageConsolidation', () => {
+describe.only('PackageShowUsageConsolidation', () => {
   setupApplication();
   let provider;
   let providerPackage;
@@ -82,7 +82,7 @@ describe('PackageShowUsageConsolidation', () => {
         expect(PackageShowPage.usageConsolidation.accordion.isOpen).to.be.true;
       });
 
-      describe('when clicking View', () => {
+      describe.only('when clicking View', () => {
         beforeEach(async () => {
           await PackageShowPage.usageConsolidation.filters.clickView();
           await PackageShowPage.usageConsolidation.content.whenLoaded();

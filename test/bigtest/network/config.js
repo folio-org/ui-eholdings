@@ -1181,4 +1181,22 @@ export default function config() {
       },
     },
   }));
+
+  this.get('/resources/:resourceId/costperuse', () => ({
+    'resourceId': '134131-3212415-19735043',
+    'type': 'resourceCostPerUse',
+    'attributes': {
+      'analysis': {
+        'publisherPlatforms': {
+          'cost': 1200,
+          'usage': 31953,
+          'costPerUse': 0.0434,
+        }
+      },
+      'parameters': {
+        'startMonth': 'jan',
+        'currency': 'USD',
+      },
+    },
+  }));
 }

@@ -31,7 +31,9 @@ export const getSummaryTableColumnProperties = (intl, customProps = {}) => {
   const combinedProps = combineMCLProps(defaultProps)(customProps);
 
   const formattedColumnMappingMessages = Object.keys(combinedProps.columnMapping).reduce((memo, currentKey) => {
-    memo[currentKey] = intl.formatMessage({ id: combinedProps.columnMapping[currentKey] });
+    memo[currentKey] = combinedProps.columnMapping[currentKey]
+      ? intl.formatMessage({ id: combinedProps.columnMapping[currentKey] })
+      : null;
 
     return memo;
   }, {});
