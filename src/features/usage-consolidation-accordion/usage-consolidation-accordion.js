@@ -133,6 +133,15 @@ const UsageConsolidationAccordion = ({
       );
     }
 
+    if (recordType === entityTypes.RESOURCE) {
+      return (
+        <UsageConsolidationContentResource
+          costPerUseData={costPerUseData}
+          year={filterData.year}
+        />
+      );
+    }
+
     return null;
   };
 

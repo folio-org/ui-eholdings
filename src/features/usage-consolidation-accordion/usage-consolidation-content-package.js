@@ -2,7 +2,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 import SummaryTable from './summary-table';
-
 import {
   costPerUse as costPerUseShape,
   entityTypes,

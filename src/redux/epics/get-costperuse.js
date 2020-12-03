@@ -8,7 +8,6 @@ import {
   getCostPerUseSuccess,
   getCostPerUseFailure,
 } from '../actions';
-import { costPerUseTypes } from '../../constants';
 
 export default ({ costPerUseApi }) => (action$, store) => {
   return action$
@@ -16,19 +15,15 @@ export default ({ costPerUseApi }) => (action$, store) => {
     .mergeMap(({ payload: { listType, id, filterData } }) => costPerUseApi
       .getCostPerUse(store.getState().okapi, listType, id, filterData)
       .map((payload) => {
-        let costPerUseData = payload;
+        const payloadWithRelevantPublisher = {
+          ...payload,
+          attributes: {
+            ...payload.attributes,
+            analysis: payload.attributes.analysis[`${filterData.platformType}Platforms`],
+          },
+        };
 
-        if (payload.type !== costPerUseTypes.TITLE_COST_PER_USE) {
-          costPerUseData = {
-            ...payload,
-            attributes: {
-              ...payload.attributes,
-              analysis: payload.attributes.analysis[`${filterData.platformType}Platforms`],
-            },
-          };
-        }
-
-        return getCostPerUseSuccess(costPerUseData);
+        return getCostPerUseSuccess(payloadWithRelevantPublisher);
       })
       .catch(errors => Observable.of(getCostPerUseFailure({ errors }))));
 };

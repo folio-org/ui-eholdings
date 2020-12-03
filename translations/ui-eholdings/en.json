@@ -236,7 +236,7 @@
     "settings.usageConsolidation.id": "Usage consolidation ID",
     "settings.usageConsolidation.id.validation.empty": "Please enter a Usage Consolidation ID.",
     "settings.usageConsolidation.id.validation.invalid": "Invalid Usage Consolidation ID. Please enter a valid ID.",
-    "settings.usageConsolidation.startMonth": "Start month for usage stastistics",
+    "settings.usageConsolidation.startMonth": "Start month for usage statistics",
     "settings.usageConsolidation.currency": "Currency",
     "settings.usageConsolidation.currency.default": "Select a currency",
     "settings.usageConsolidation.currency.validation": "Select a currency",
