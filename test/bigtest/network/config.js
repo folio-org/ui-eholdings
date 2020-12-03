@@ -1279,10 +1279,10 @@ export default function config() {
           'costPerUse': 0.0434,
         }
       },
-    },
-    'parameters': {
-      'startMonth': 'jan',
-      'currency': 'USD',
+      'parameters': {
+        'startMonth': 'jan',
+        'currency': 'USD',
+      },
     },
   }));
 }
