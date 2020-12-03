@@ -27,6 +27,7 @@ import {
   paths,
   DOMAIN_NAME,
   accessTypesReduxStateShape,
+  costPerUse as costPerUseShape,
 } from '../../constants';
 import DetailsView from '../details-view';
 import InternalLink from '../internal-link';
@@ -53,6 +54,8 @@ import { CustomLabelsShowSection } from '../custom-labels-section';
 class ResourceShow extends Component {
   static propTypes = {
     accessStatusTypes: accessTypesReduxStateShape.isRequired,
+    costPerUse: costPerUseShape.CostPerUseReduxStateShape.isRequired,
+    fetchResourceCostPerUse: PropTypes.func.isRequired,
     isFreshlySaved: PropTypes.bool,
     model: PropTypes.object.isRequired,
     onEdit: PropTypes.func.isRequired,
@@ -212,6 +215,8 @@ class ResourceShow extends Component {
       updateFolioTags,
       stripes,
       accessStatusTypes,
+      fetchResourceCostPerUse,
+      costPerUse,
     } = this.props;
 
     const {
@@ -614,6 +619,9 @@ class ResourceShow extends Component {
                 id="resourceShowUsageConsolidation"
                 isOpen={sections.resourceShowUsageConsolidation}
                 onToggle={this.handleSectionToggle}
+                onFilterSubmit={fetchResourceCostPerUse}
+                recordType={entityTypes.RESOURCE}
+                costPerUseData={costPerUse}
               />
             </>
           )}

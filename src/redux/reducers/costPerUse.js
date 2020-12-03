@@ -1,7 +1,7 @@
 import {
-  GET_PACKAGE_COST_PER_USE,
-  GET_PACKAGE_COST_PER_USE_SUCCESS,
-  GET_PACKAGE_COST_PER_USE_FAILURE,
+  GET_COST_PER_USE,
+  GET_COST_PER_USE_SUCCESS,
+  GET_COST_PER_USE_FAILURE,
 } from '../actions';
 
 import { formatErrors } from '../helpers';
@@ -30,9 +30,9 @@ const handlePendingRequest = (state) => ({
 });
 
 const handlers = {
-  [GET_PACKAGE_COST_PER_USE]: handlePendingRequest,
-  [GET_PACKAGE_COST_PER_USE_SUCCESS]: handleSuccess,
-  [GET_PACKAGE_COST_PER_USE_FAILURE]: handleError,
+  [GET_COST_PER_USE]: handlePendingRequest,
+  [GET_COST_PER_USE_SUCCESS]: handleSuccess,
+  [GET_COST_PER_USE_FAILURE]: handleError,
 };
 
 const initialState = {
