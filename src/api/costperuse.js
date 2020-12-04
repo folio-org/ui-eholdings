@@ -29,4 +29,7 @@ export default {
 
     return doRequest(url, params);
   },
+  getPackageTitlesCostPerUse: (okapi, id, filterData) => {
+    const method = 'GET';
+  }
 };

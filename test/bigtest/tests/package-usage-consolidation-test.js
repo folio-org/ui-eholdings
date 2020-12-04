@@ -242,4 +242,61 @@ describe('PackageShowUsageConsolidation', () => {
         .to.equal(`This package contains no cost or usage data for ${new Date().getFullYear()}`);
     });
   });
+
+  describe('when Package Titles cost per use request has failed', () => {
+    beforeEach(async function () {
+      this.server.get('/packages/:packageId/titles/costperuse', {
+        errors: [{
+          title: 'There was an error',
+        }],
+      }, 404);
+
+      this.visit(`/eholdings/packages/${providerPackage.id}`);
+      await PackageShowPage.usageConsolidation.accordion.clickHeader();
+      await PackageShowPage.usageConsolidation.filters.clickView();
+      await PackageShowPage.usageConsolidation.content.whenLoaded();
+    });
+
+    // TODO: write tests
+    it.only('should show error message', () => {
+      
+    });
+  });
+
+  describe('when Package Titles cost per use data is incomplete', () => {
+    beforeEach(async function () {
+      this.server.get('/packages/:packageId/titles/costperuse', () => ({
+        'type': 'packageTitleCostPerUse',
+        'attributes': {
+          'resources': [
+            {
+              'id': '1-473-356',
+              'attributes': {
+                'cost': 141.8806,
+                'usage': null,
+                'costPerUse': 5.456946153846153,
+              }
+            },
+          ],
+        },
+      }));
+
+      this.visit(`/eholdings/packages/${providerPackage.id}`);
+      await PackageShowPage.usageConsolidation.accordion.clickHeader();
+      await PackageShowPage.usageConsolidation.filters.clickView();
+      await PackageShowPage.usageConsolidation.content.whenLoaded();
+    });
+
+    it('should show Titles table', () => {
+      expect(PackageShowPage.usageConsolidation.content.titlesTable.isPresent).to.be.true;
+    });
+
+    it('should show Usage in correct format', () => {
+      expect(PackageShowPage.usageConsolidation.content.titlesTable.rows(0).cells(3).content).to.equal('-');
+    });
+  });
+
+  describe('when Package Titles cost per use data is not available', () => {
+    // TODO: describe case
+  });
 });

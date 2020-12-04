@@ -1,6 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
+import {
+  MultiColumnList,
+} from '@folio/stripes/components';
+
 import SummaryTable from './summary-table';
 import {
   costPerUse as costPerUseShape,
@@ -18,12 +22,22 @@ const UsageConsolidationContentPackage = props => {
   };
 
   return (
-    <SummaryTable
-      id="packageUsageConsolidationSummary"
-      entityType={entityTypes.PACKAGE}
-      customProperties={customProperties}
-      {...props}
-    />
+    <>
+      <SummaryTable
+        id="packageUsageConsolidationSummary"
+        entityType={entityTypes.PACKAGE}
+        customProperties={customProperties}
+        {...props}
+      />
+      <MultiColumnList
+        id="packageUsageConsolidationTitles"
+        contentData={[]}
+        formatter={{}}
+        visibleColumns={[]}
+        columnMapping={{}}
+        columnWidths={{}}
+      />
+    </>
   );
 };
 

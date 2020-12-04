@@ -12,6 +12,8 @@ import MultiColumnListInteractor from '@folio/stripes-components/lib/MultiColumn
   usageConsolidationErrorText = text('[data-test-usage-consolidation-error]');
 
   summaryTable = new MultiColumnListInteractor('#packageUsageConsolidationSummary');
+  titlesTable = new MultiColumnListInteractor('#packageUsageConsolidationTitles');
+
   actionsButton = new Button('#usage-consolidation-actions-dropdown-button');
 
   whenLoaded() {
