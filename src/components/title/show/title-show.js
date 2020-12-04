@@ -252,7 +252,11 @@ class TitleShow extends Component {
           bodyContent={(
             <>
               <Accordion
-                label={<Headline size="large" tag="h3"><FormattedMessage id="ui-eholdings.title.titleInformation" /></Headline>}
+                label={(
+                  <Headline size="large" tag="h3">
+                    <FormattedMessage id="ui-eholdings.title.titleInformation" />
+                  </Headline>
+                )}
                 open={sections.titleShowTitleInformation}
                 id="titleShowTitleInformation"
                 onToggle={this.handleSectionToggle}
@@ -300,13 +304,19 @@ class TitleShow extends Component {
 
                     <KeyValue label={<FormattedMessage id="ui-eholdings.title.peerReviewed" />}>
                       <div data-test-eholdings-peer-reviewed-field>
-                        {model.isPeerReviewed ? (<FormattedMessage id="ui-eholdings.yes" />) : (<FormattedMessage id="ui-eholdings.no" />)}
+                        {model.isPeerReviewed
+                          ? <FormattedMessage id="ui-eholdings.yes" />
+                          : <FormattedMessage id="ui-eholdings.no" />
+                        }
                       </div>
                     </KeyValue>
 
                     <KeyValue label={<FormattedMessage id="ui-eholdings.title.titleType" />}>
                       <div data-test-eholdings-title-details-type>
-                        {model.isTitleCustom ? (<FormattedMessage id="ui-eholdings.custom" />) : (<FormattedMessage id="ui-eholdings.managed" />)}
+                        {model.isTitleCustom
+                          ? <FormattedMessage id="ui-eholdings.custom" />
+                          : <FormattedMessage id="ui-eholdings.managed" />
+                        }
                       </div>
                     </KeyValue>
 

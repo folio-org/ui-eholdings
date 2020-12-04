@@ -93,13 +93,16 @@ const UsageConsolidationAccordion = ({
   };
 
   const renderContent = () => {
-    const { isLoaded, isFailed } = costPerUseData;
+    const {
+      isLoaded: isCostPerUseDataLoaded,
+      isFailed: isCostPerUseDataLoadingFailed,
+    } = costPerUseData;
 
-    if (!isLoaded && !isFailed) {
+    if (!isCostPerUseDataLoaded && !isCostPerUseDataLoadingFailed) {
       return null;
     }
 
-    if (isFailed) {
+    if (isCostPerUseDataLoadingFailed) {
       return (
         <div data-test-usage-consolidation-error>
           <FormattedMessage id="ui-eholdings.usageConsolidation.summary.error" />

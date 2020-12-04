@@ -41,6 +41,18 @@ const UsageConsolidationContentTitle = (props) => {
   const holdingsSummary = data?.attributes?.analysis?.holdingsSummary;
   const noCostPerUseAvailable = !holdingsSummary;
 
+  const onHeaderClick = (_, metadata) => {
+    const { name } = metadata;
+
+    if (name !== sortedColumn) {
+      setSortedColumn(name);
+      setSortOrder('ascending');
+    } else {
+      const order = sortOrder === 'ascending' ? 'descending' : 'ascending';
+      setSortOrder(order);
+    }
+  };
+
   const formatter = {
     packageName: (rowData) => {
       return (
@@ -71,14 +83,14 @@ const UsageConsolidationContentTitle = (props) => {
 
       const isYearOnly = isBookPublicationType(publicationType);
       const dateRanges = [...rowData.coverages].sort(compareCoveragesToBeSortedInDescOrder);
-      const coverageDates = dateRanges.map((coverageArrayObj, i) => (
+      const coverageDates = dateRanges.map((coverageArrayObj, coverateDateIndex) => (
         <>
           {
             isYearOnly
               ? formatCoverageYear(coverageArrayObj)
               : formatCoverageFullDate(coverageArrayObj)
           }
-          {i !== dateRanges.length - 1 ? ', ' : <> {embargo}</>}
+          {coverateDateIndex !== dateRanges.length - 1 ? ', ' : <> {embargo}</>}
         </>
       ));
 
@@ -141,17 +153,7 @@ const UsageConsolidationContentTitle = (props) => {
       entityType={entityTypes.TITLE}
       customProperties={customProperties}
       noCostPerUseAvailable={noCostPerUseAvailable}
-      onHeaderClick={(_, metadata) => {
-        const { name } = metadata;
-
-        if (name !== sortedColumn) {
-          setSortedColumn(name);
-          setSortOrder('ascending');
-        } else {
-          const order = sortOrder === 'ascending' ? 'descending' : 'ascending';
-          setSortOrder(order);
-        }
-      }}
+      onHeaderClick={onHeaderClick}
       sortedColumn={sortedColumn}
       sortDirection={sortOrder}
       {...props}

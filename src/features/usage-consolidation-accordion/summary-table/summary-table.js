@@ -52,9 +52,7 @@ const SummaryTable = ({
 
   const formatCost = (value) => {
     return (
-      <FormattedNumber
-        value={value}
-      >
+      <FormattedNumber value={value}>
         {(formattedNumber) => `${currencySymbol}${formattedNumber} (${currency})`}
       </FormattedNumber>
     );

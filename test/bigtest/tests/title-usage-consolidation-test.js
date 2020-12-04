@@ -1,5 +1,9 @@
 import { expect } from 'chai';
-import { describe, beforeEach, it } from '@bigtest/mocha';
+import {
+  describe,
+  beforeEach,
+  it,
+} from '@bigtest/mocha';
 
 import setupApplication, { axe } from '../helpers/setup-application';
 import TitleShowPage from '../interactors/title-show';
