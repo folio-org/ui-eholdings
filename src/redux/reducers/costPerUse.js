@@ -19,7 +19,10 @@ const handleSuccess = (state, { payload }) => ({
   isLoading: false,
   isLoaded: true,
   isFailed: false,
-  data: payload,
+  data: {
+    ...state.data,
+    [payload.type]: payload,
+  },
 });
 
 const handlePendingRequest = (state) => ({
@@ -36,6 +39,7 @@ const handlers = {
 };
 
 const initialState = {
+  data: {}, // TODO: update tests
   isLoading: false,
   isLoaded: false,
   isFailed: false,

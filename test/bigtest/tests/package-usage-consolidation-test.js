@@ -73,7 +73,7 @@ describe('PackageShowUsageConsolidation', () => {
           a11yResults = await axe.run();
         });
 
-        it('should not have any a11y issues', () => {
+        it.only('should not have any a11y issues', () => {
           expect(a11yResults.violations).to.be.empty;
         });
       });

@@ -31,5 +31,13 @@ export default {
   },
   getPackageTitlesCostPerUse: (okapi, id, filterData) => {
     const method = 'GET';
-  }
+    const url = `/eholdings/package/${id}/titles/costperuse?${queryString.stringify(filterData)}`;
+
+    const params = {
+      method,
+      headers: getHeaders(method, okapi, url),
+    };
+
+    return doRequest(url, params);
+  },
 };
