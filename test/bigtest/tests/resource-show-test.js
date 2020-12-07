@@ -297,11 +297,11 @@ describe('ResourceShow', () => {
         });
 
         it('should show Cost data in correct format', () => {
-          expect(ResourcePage.usageConsolidationSection.content.summaryTable.rows(0).cells(0).content).to.equal('$1200 (USD)');
+          expect(ResourcePage.usageConsolidationSection.content.summaryTable.rows(0).cells(0).content).to.equal('$1,200 (USD)');
         });
 
         it('should show CostPerUse data in correct format', () => {
-          expect(ResourcePage.usageConsolidationSection.content.summaryTable.rows(0).cells(2).content).to.equal('$0.0434 (USD)');
+          expect(ResourcePage.usageConsolidationSection.content.summaryTable.rows(0).cells(2).content).to.equal('$0.04 (USD)');
         });
       });
     });

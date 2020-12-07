@@ -13,6 +13,14 @@ const propTypes = {
 };
 
 const UsageConsolidationContentPackage = props => {
+  const {
+    cost,
+    costPerUse,
+    usage,
+  } = props.costPerUseData.data?.attributes?.analysis;
+
+  const noCostPerUseAvailable = !cost && !costPerUse && !usage;
+
   const customProperties = {
     columnMapping: { cost: 'ui-eholdings.usageConsolidation.summary.packageCost' },
   };
@@ -22,6 +30,7 @@ const UsageConsolidationContentPackage = props => {
       id="packageUsageConsolidationSummary"
       entityType={entityTypes.PACKAGE}
       customProperties={customProperties}
+      noCostPerUseAvailable={noCostPerUseAvailable}
       {...props}
     />
   );

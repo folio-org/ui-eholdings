@@ -13,6 +13,14 @@ const propTypes = {
 };
 
 const UsageConsolidationContentResource = props => {
+  const {
+    cost,
+    costPerUse,
+    usage,
+  } = props.costPerUseData.data?.attributes?.analysis;
+
+  const noCostPerUseAvailable = !cost && !costPerUse && !usage;
+
   const customProperties = {
     columnMapping: { cost: 'ui-eholdings.usageConsolidation.summary.resourceCost' },
   };
@@ -20,8 +28,9 @@ const UsageConsolidationContentResource = props => {
   return (
     <SummaryTable
       id="resourceUsageConsolidationSummary"
-      entityType={entityTypes.TITLE}
+      entityType={entityTypes.RESOURCE}
       customProperties={customProperties}
+      noCostPerUseAvailable={noCostPerUseAvailable}
       {...props}
     />
   );

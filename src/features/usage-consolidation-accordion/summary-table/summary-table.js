@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import {
   useIntl,
   FormattedMessage,
+  FormattedNumber,
 } from 'react-intl';
 import getSymbolFromCurrency from 'currency-symbol-map';
 
@@ -19,10 +20,12 @@ import { getSummaryTableColumnProperties } from './column-properties';
 import { costPerUse as costPerUseShape } from '../../../constants';
 
 const propTypes = {
+  contentData: PropTypes.array,
   costPerUseData: costPerUseShape.CostPerUseReduxStateShape.isRequired,
   customProperties: PropTypes.object,
   entityType: PropTypes.string.isRequired,
   id: PropTypes.string.isRequired,
+  noCostPerUseAvailable: PropTypes.bool.isRequired,
   year: PropTypes.string.isRequired,
 };
 
@@ -32,25 +35,11 @@ const SummaryTable = ({
   entityType,
   id,
   year,
+  noCostPerUseAvailable,
+  ...rest
 }) => {
   const intl = useIntl();
-  const {
-    isLoaded,
-    isFailed,
-    data,
-  } = costPerUseData;
-
-  if (!isLoaded && !isFailed) {
-    return null;
-  }
-
-  if (isFailed) {
-    return (
-      <div data-test-usage-consolidation-error>
-        <FormattedMessage id="ui-eholdings.usageConsolidation.summary.error" />
-      </div>
-    );
-  }
+  const { data } = costPerUseData;
 
   const currency = data?.attributes?.parameters?.currency;
   const currencySymbol = getSymbolFromCurrency(currency) || '';
@@ -60,15 +49,25 @@ const SummaryTable = ({
     costPerUse,
     usage,
   } = data?.attributes?.analysis;
-  const noCostPerUseAvailable = !cost && !costPerUse && !usage;
 
-  const formatCost = (value) => `${currencySymbol}${value} (${currency})`;
+  const formatCost = (value) => {
+    return (
+      <FormattedNumber value={value}>
+        {(formattedNumber) => `${currencySymbol}${formattedNumber} (${currency})`}
+      </FormattedNumber>
+    );
+  };
+
   const formatValue = (value, callback) => {
-    if (!value && value !== 0) {
+    const number = typeof value === 'string' ? Number(value) : value;
+
+    if (!number && number !== 0) {
       return <NoValue />;
     }
 
-    return callback ? callback(value) : value;
+    const valueToFixed = number.toFixed(2);
+
+    return callback ? callback(valueToFixed) : valueToFixed;
   };
 
   if (noCostPerUseAvailable) {
@@ -85,7 +84,7 @@ const SummaryTable = ({
   const formatter = {
     cost: rowData => formatValue(rowData.cost, formatCost),
     costPerUse: rowData => formatValue(rowData.costPerUse, formatCost),
-    usage: rowData => formatValue(rowData.usage),
+    usage: rowData => formatValue(rowData.usage, (value) => <FormattedNumber value={value} />),
     ucActions: () => (
       <Dropdown
         renderTrigger={({ onToggle, triggerRef, ariaProps, keyHandler, getTriggerProps }) => (
@@ -119,12 +118,18 @@ const SummaryTable = ({
     )
   };
 
+  const contentData = rest.contentData || [{ cost, costPerUse, usage }];
+
   return (
     <MultiColumnList
       id={id}
-      contentData={[{ cost, costPerUse, usage }]}
-      formatter={formatter}
+      contentData={contentData}
+      formatter={{
+        ...formatter,
+        ...customProperties.formatter,
+      }}
       {...getSummaryTableColumnProperties(intl, customProperties)}
+      {...rest}
     />
   );
 };

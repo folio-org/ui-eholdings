@@ -1,0 +1,3 @@
+.coverageDatesList:nth-child(odd) {
+  background-color: transparent;
+}

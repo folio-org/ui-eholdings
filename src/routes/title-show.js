@@ -2,9 +2,18 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import ReactRouterPropTypes from 'react-router-prop-types';
 import { connect } from 'react-redux';
+import queryString from 'qs';
+
 import { TitleManager } from '@folio/stripes/core';
 
-import queryString from 'qs';
+import {
+  costPerUse as costPerUseShape,
+  listTypes,
+} from '../constants';
+import {
+  getCostPerUse as getCostPerUseAction,
+} from '../redux/actions';
+import { selectPropFromData } from '../redux/selectors';
 import { createResolver } from '../redux';
 import Title from '../redux/title';
 import Package from '../redux/package';
@@ -13,9 +22,11 @@ import View from '../components/title/show';
 
 class TitleShowRoute extends Component {
   static propTypes = {
+    costPerUse: costPerUseShape.CostPerUseReduxStateShape.isRequired,
     createRequest: PropTypes.object.isRequired,
     createResource: PropTypes.func.isRequired,
     customPackages: PropTypes.object.isRequired,
+    getCostPerUse: PropTypes.func.isRequired,
     getCustomPackages: PropTypes.func.isRequired,
     getTitle: PropTypes.func.isRequired,
     history: ReactRouterPropTypes.history.isRequired,
@@ -64,6 +75,15 @@ class TitleShowRoute extends Component {
     });
   };
 
+  fetchTitleCostPerUse = (filterData) => {
+    const {
+      getCostPerUse,
+      model: { id },
+    } = this.props;
+
+    getCostPerUse(listTypes.TITLES, id, filterData);
+  }
+
   getSearchType = () => {
     const { searchType } = queryString.parse(this.props.location.search, { ignoreQueryPrefix: true });
     return searchType;
@@ -91,6 +111,7 @@ class TitleShowRoute extends Component {
       customPackages,
       createRequest,
       history,
+      costPerUse,
     } = this.props;
 
     return (
@@ -101,6 +122,8 @@ class TitleShowRoute extends Component {
           customPackages={customPackages}
           addCustomPackage={this.createResource}
           onEdit={this.handleEdit}
+          fetchTitleCostPerUse={this.fetchTitleCostPerUse}
+          costPerUse={costPerUse}
           isFreshlySaved={
             history.action === 'REPLACE' &&
             history.location.state &&
@@ -118,7 +141,10 @@ class TitleShowRoute extends Component {
 }
 
 export default connect(
-  ({ eholdings: { data } }, { match }) => {
+  (store, { match }) => {
+    const {
+      eholdings: { data },
+    } = store;
     const resolver = createResolver(data);
 
     return {
@@ -127,7 +153,8 @@ export default connect(
       customPackages: resolver.query('packages', {
         filter: { custom: true },
         count: 100
-      })
+      }),
+      costPerUse: selectPropFromData(store, 'costPerUse'),
     };
   }, {
     getTitle: id => Title.find(id, { include: 'resources' }),
@@ -135,6 +162,7 @@ export default connect(
     getCustomPackages: () => Package.query({
       filter: { custom: true },
       count: 100
-    })
+    }),
+    getCostPerUse: getCostPerUseAction,
   }
 )(TitleShowRoute);
