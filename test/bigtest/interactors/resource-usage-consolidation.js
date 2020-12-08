@@ -6,6 +6,7 @@ import {
 import { AccordionInteractor } from '@folio/stripes-components/lib/Accordion/tests/interactor';
 
 import UsageConsolidationFilters from './usage-consolidation-filters';
+import UsageConsolidationInfoPopover from './usage-consolidation-info-popover';
 import UsageConsolidationContent from './usage-consolidation-content-resource';
 
 export default @interactor class ResourceUsageConsolidation {
@@ -13,6 +14,7 @@ export default @interactor class ResourceUsageConsolidation {
   isAccordionPresent = isPresent('#resourceShowUsageConsolidation');
 
   filters = new UsageConsolidationFilters();
+  infoPopover = new UsageConsolidationInfoPopover();
   content = new UsageConsolidationContent();
 
   whenLoaded() {
