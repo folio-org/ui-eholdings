@@ -1182,6 +1182,92 @@ export default function config() {
     },
   }));
 
+  this.get('/titles/:titleId/costperuse', () => ({
+    'titleId': '185972',
+    'type': 'titleCostPerUse',
+    'attributes': {
+      'usage': {
+        'platforms': [{
+          'name': 'Wiley Online Library',
+          'isPublisherPlatform' : true,
+          'counts': [2, 6, 0, 3, 6, 2, 1, 2, null, null, null, null],
+          'total': 22
+        }],
+        'totals': {
+          'publisher': {
+            'counts': [2, 6, 0, 3, 6, 2, 1, 2, null, null, null, null],
+            'total': 22
+          }
+        }
+      },
+      'analysis' : {
+        'holdingsSummary': [{
+          'packageId': '58-2121943',
+          'resourceId': '58-2121943-185972',
+          'packageName': 'Wiley Database Model (BIBSAM)',
+          'coverages': [{
+            'beginCoverage': '1998-01-01',
+            'endCoverage': '2000-01-01'
+          }, {
+            'beginCoverage': '2001-01-01',
+            'endCoverage': '2003-01-01',
+          }],
+          'embargoPeriod': {
+            'embargoValue': 10,
+            'embargoUnit': 'Days',
+          },
+          'cost': 1030.145,
+          'usage': 22,
+          'costPerUse': 50.123
+        }, {
+          'packageId': '58-3172012',
+          'resourceId': '58-3172012-185972',
+          'packageName': 'Wiley Online Library Database Model 2019',
+          'coverages': [{
+            'beginCoverage': '1997-01-01',
+            'endCoverage': ''
+          }],
+          'embargoPeriod': {
+            'embargoValue': 0
+          },
+          'cost': 0.0,
+          'usage': 22,
+          'costPerUse': 0.0
+        }, {
+          'packageId': '58-3517631',
+          'resourceId': '58-3517631-185972',
+          'packageName': 'Wiley Online Library Full Collection 2020',
+          'coverages': [{
+            'beginCoverage': '1997-01-01',
+            'endCoverage': ''
+          }],
+          'embargoPeriod': {
+            'embargoValue': 0
+          },
+          'cost': 0.0,
+          'usage': 22,
+          'costPerUse': 0.0
+        }, {
+          'packageId': '22-3123003',
+          'resourceId': '22-3123003-185972',
+          'packageName': 'Agricultural & Environmental Science Database (DRAA)',
+          'coverageStatement': '',
+          'coverages': [],
+          'embargoPeriod': {
+            'embargoValue': 0
+          },
+          'cost': 0.0,
+          'usage': 22,
+          'costPerUse': 0.0
+        }],
+      },
+      'parameters': {
+        'startMonth': 'jan',
+        'currency': 'USD',
+      },
+    }
+  }));
+
   this.get('/resources/:resourceId/costperuse', () => ({
     'resourceId': '134131-3212415-19735043',
     'type': 'resourceCostPerUse',

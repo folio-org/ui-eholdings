@@ -5,6 +5,7 @@ import SummaryTable from './summary-table';
 import {
   costPerUse as costPerUseShape,
   entityTypes,
+  costPerUseTypes,
 } from '../../constants';
 
 const propTypes = {
@@ -13,6 +14,14 @@ const propTypes = {
 };
 
 const UsageConsolidationContentResource = props => {
+  const {
+    cost,
+    costPerUse,
+    usage,
+  } = props.costPerUseData.data[costPerUseTypes.RESOURCE_COST_PER_USE]?.attributes?.analysis;
+
+  const noCostPerUseAvailable = !cost && !costPerUse && !usage;
+
   const customProperties = {
     columnMapping: { cost: 'ui-eholdings.usageConsolidation.summary.resourceCost' },
   };
@@ -20,8 +29,10 @@ const UsageConsolidationContentResource = props => {
   return (
     <SummaryTable
       id="resourceUsageConsolidationSummary"
-      entityType={entityTypes.TITLE}
+      entityType={entityTypes.RESOURCE}
       customProperties={customProperties}
+      noCostPerUseAvailable={noCostPerUseAvailable}
+      costPerUseType={costPerUseTypes.PACKAGE_COST_PER_USE}
       {...props}
     />
   );

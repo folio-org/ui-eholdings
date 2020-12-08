@@ -3,6 +3,7 @@ import { expect } from 'chai';
 
 import setupApplication, { axe } from '../helpers/setup-application';
 import PackageShowPage from '../interactors/package-show';
+// import usageConsolidationInfoPopoverTests from './usage-consolidation-info-popover';
 
 describe('PackageShowUsageConsolidation', () => {
   setupApplication();
@@ -62,6 +63,9 @@ describe('PackageShowUsageConsolidation', () => {
       expect(PackageShowPage.usageConsolidation.accordion.isOpen).to.be.false;
     });
 
+    // TODO:: uncomment current tests after folio/stripes 5.1.0 will be available
+    // usageConsolidationInfoPopoverTests(PackageShowPage.usageConsolidation.infoPopover);
+
     describe('when clicking on accordion header', () => {
       beforeEach(async () => {
         await PackageShowPage.usageConsolidation.accordion.clickHeader();
@@ -104,11 +108,11 @@ describe('PackageShowUsageConsolidation', () => {
         });
 
         it('should show Cost data in correct format', () => {
-          expect(PackageShowPage.usageConsolidation.content.summaryTable.rows(0).cells(0).content).to.equal('$1201 (USD)');
+          expect(PackageShowPage.usageConsolidation.content.summaryTable.rows(0).cells(0).content).to.equal('$1,201 (USD)');
         });
 
         it('should show CostPerUse data in correct format', () => {
-          expect(PackageShowPage.usageConsolidation.content.summaryTable.rows(0).cells(2).content).to.equal('$0.0334 (USD)');
+          expect(PackageShowPage.usageConsolidation.content.summaryTable.rows(0).cells(2).content).to.equal('$0.03 (USD)');
         });
       });
     });

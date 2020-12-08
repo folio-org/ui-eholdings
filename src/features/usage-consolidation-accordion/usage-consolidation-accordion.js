@@ -11,11 +11,13 @@ import { useStripes } from '@folio/stripes/core';
 import {
   Accordion,
   Headline,
+  InfoPopover,
 } from '@folio/stripes/components';
 
 import Toaster from '../../components/toaster';
 import UsageConsolidationFilters from './usage-consolidation-filters';
 import UsageConsolidationContentPackage from './usage-consolidation-content-package';
+import UsageConsolidationContentTitle from './usage-consolidation-content-title';
 import UsageConsolidationContentResource from './usage-consolidation-content-resource';
 import { getUsageConsolidation as getUsageConsolidationAction } from '../../redux/actions';
 import { selectPropFromData } from '../../redux/selectors';
@@ -25,6 +27,8 @@ import {
   costPerUse,
 } from '../../constants';
 
+import styles from './usage-consolidation-accordion.css';
+
 const propTypes = {
   costPerUseData: costPerUse.CostPerUseReduxStateShape.isRequired,
   getUsageConsolidation: PropTypes.func.isRequired,
@@ -33,6 +37,7 @@ const propTypes = {
   isOpen: PropTypes.bool,
   onFilterSubmit: PropTypes.func.isRequired,
   onToggle: PropTypes.func.isRequired,
+  publicationType: PropTypes.string,
   recordType: PropTypes.string.isRequired,
   usageConsolidation: ucReduxStateShape.UsageConsolidationReduxStateShape.isRequired,
 };
@@ -47,6 +52,7 @@ const UsageConsolidationAccordion = ({
   onFilterSubmit,
   costPerUseData,
   recordType,
+  publicationType,
 }) => {
   const filtersInitialState = {
     year: moment().year(),
@@ -54,7 +60,6 @@ const UsageConsolidationAccordion = ({
   };
 
   const stripes = useStripes();
-  const [accordionContentRef, setAccordionContentRef] = useState(null);
   const [filterData, setFilterData] = useState(filtersInitialState);
 
   const canViewUsageConsolidation = stripes.hasPerm('ui-eholdings.costperuse.view');
@@ -74,13 +79,38 @@ const UsageConsolidationAccordion = ({
     }));
   };
 
+  const renderInfoPopover = () => {
+    return (
+      // eslint-disable-next-line jsx-a11y/interactive-supports-focus, jsx-a11y/click-events-have-key-events
+      <span
+        role="button"
+        onClick={(e) => {
+          // We don't need to open / close the accordion by clicking on the info icon
+          e.stopPropagation();
+        }}
+      >
+        <InfoPopover
+          allowAnchorClick
+          hideOnButtonClick
+          iconSize="medium"
+          content={<FormattedMessage id="ui-eholdings.usageConsolidation.infoPopover.content" />}
+          buttonLabel={<FormattedMessage id="ui-eholdings.usageConsolidation.infoPopover.buttonLabel" />}
+          buttonHref="https://wiki.folio.org/display/FOLIOtips/Usage+Consolidation"
+          buttonTarget="_blank"
+        />
+      </span>
+    );
+  };
+
   const getUsageConsolidationAccordionHeader = () => {
     return (
       <Headline
         size="large"
         tag="h3"
+        className={styles['accordion-usage-consolidation-header']}
       >
         <FormattedMessage id="ui-eholdings.usageConsolidation" />
+        {renderInfoPopover()}
       </Headline>
     );
   };
@@ -91,9 +121,43 @@ const UsageConsolidationAccordion = ({
   };
 
   const renderContent = () => {
+    const {
+      isLoaded: isCostPerUseDataLoaded,
+      isFailed: isCostPerUseDataLoadingFailed,
+    } = costPerUseData;
+
+    if (!isCostPerUseDataLoaded && !isCostPerUseDataLoadingFailed) {
+      return null;
+    }
+
+    if (isCostPerUseDataLoadingFailed) {
+      return (
+        <div data-test-usage-consolidation-error>
+          <FormattedMessage id="ui-eholdings.usageConsolidation.summary.error" />
+        </div>
+      );
+    }
+
     if (recordType === entityTypes.PACKAGE) {
       return (
         <UsageConsolidationContentPackage
+          costPerUseData={costPerUseData}
+          year={filterData.year}
+        />
+      );
+    } else if (recordType === entityTypes.TITLE) {
+      return (
+        <UsageConsolidationContentTitle
+          costPerUseData={costPerUseData}
+          year={filterData.year}
+          publicationType={publicationType}
+        />
+      );
+    }
+
+    if (recordType === entityTypes.RESOURCE) {
+      return (
+        <UsageConsolidationContentResource
           costPerUseData={costPerUseData}
           year={filterData.year}
         />
@@ -112,10 +176,6 @@ const UsageConsolidationAccordion = ({
     return null;
   };
 
-  if (accordionContentRef) {
-    accordionContentRef.style.margin = '0';
-  }
-
   if (usageConsolidation.isFailed || !canViewUsageConsolidation) {
     return null;
   }
@@ -129,7 +189,6 @@ const UsageConsolidationAccordion = ({
           open={isOpen}
           onToggle={onToggle}
           headerProps={headerProps}
-          contentRef={(n) => setAccordionContentRef(n)}
         >
           <UsageConsolidationFilters
             onSubmit={handleFiltersSubmit}

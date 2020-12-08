@@ -5,6 +5,7 @@ import setupApplication, { axe } from '../helpers/setup-application';
 import ResourcePage from '../interactors/resource-show';
 import PackageEditPage from '../interactors/package-edit';
 import { entityAuthorityTypes } from '../../../src/constants';
+// import usageConsolidationInfoPopoverTests from './usage-consolidation-info-popover';
 
 describe('ResourceShow', () => {
   setupApplication();
@@ -297,13 +298,16 @@ describe('ResourceShow', () => {
         });
 
         it('should show Cost data in correct format', () => {
-          expect(ResourcePage.usageConsolidationSection.content.summaryTable.rows(0).cells(0).content).to.equal('$1200 (USD)');
+          expect(ResourcePage.usageConsolidationSection.content.summaryTable.rows(0).cells(0).content).to.equal('$1,200 (USD)');
         });
 
         it('should show CostPerUse data in correct format', () => {
-          expect(ResourcePage.usageConsolidationSection.content.summaryTable.rows(0).cells(2).content).to.equal('$0.0434 (USD)');
+          expect(ResourcePage.usageConsolidationSection.content.summaryTable.rows(0).cells(2).content).to.equal('$0.04 (USD)');
         });
       });
+
+      // TODO:: uncomment current tests after folio/stripes 5.1.0 will be available
+      // usageConsolidationInfoPopoverTests(ResourcePage.usageConsolidationSection.infoPopover);
     });
 
     describe('when token is not needed', () => {

@@ -323,6 +323,8 @@ class PackageShow extends Component {
       tagsModel,
       updateFolioTags,
       stripes,
+      fetchPackageCostPerUse,
+      costPerUse,
     } = this.props;
 
     const {
@@ -518,26 +520,16 @@ class PackageShow extends Component {
           pathToNoteCreate={paths.NOTE_CREATE}
           pathToNoteDetails={paths.NOTES}
         />
+
+        <UsageConsolidationAccordion
+          id="packageShowUsageConsolidation"
+          isOpen={sections.packageShowUsageConsolidation}
+          onToggle={this.handleSectionToggle}
+          onFilterSubmit={fetchPackageCostPerUse}
+          recordType={entityTypes.PACKAGE}
+          costPerUseData={costPerUse}
+        />
       </>
-    );
-  }
-
-  getUsageConsolidationAccordion = () => {
-    const {
-      fetchPackageCostPerUse,
-      costPerUse,
-    } = this.props;
-    const { sections } = this.state;
-
-    return (
-      <UsageConsolidationAccordion
-        id="packageShowUsageConsolidation"
-        isOpen={sections.packageShowUsageConsolidation}
-        onToggle={this.handleSectionToggle}
-        onFilterSubmit={fetchPackageCostPerUse}
-        recordType={entityTypes.PACKAGE}
-        costPerUseData={costPerUse}
-      />
     );
   }
 
@@ -745,7 +737,6 @@ class PackageShow extends Component {
           handleExpandAll={this.handleExpandAll}
           searchModal={searchModal}
           bodyContent={this.getBodyContent()}
-          usageConsolidationContent={this.getUsageConsolidationAccordion()}
           listType={listTypes.TITLES}
           listSectionId="packageShowTitles"
           onListToggle={this.handleSectionToggle}
