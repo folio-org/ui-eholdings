@@ -5,7 +5,6 @@ import {
   FormattedMessage,
   FormattedNumber,
 } from 'react-intl';
-import getSymbolFromCurrency from 'currency-symbol-map';
 
 import {
   MultiColumnList,
@@ -13,11 +12,18 @@ import {
   Dropdown,
   DropdownButton,
   DropdownMenu,
-  NoValue,
+  Icon,
 } from '@folio/stripes/components';
 
 import { getSummaryTableColumnProperties } from './column-properties';
-import { costPerUse as costPerUseShape } from '../../../constants';
+import {
+  formatCost,
+  formatValue,
+} from '../utilities';
+import {
+  costPerUse as costPerUseShape,
+  entityTypes,
+} from '../../../constants';
 
 const propTypes = {
   contentData: PropTypes.array,
@@ -27,6 +33,7 @@ const propTypes = {
   entityType: PropTypes.string.isRequired,
   id: PropTypes.string.isRequired,
   noCostPerUseAvailable: PropTypes.bool.isRequired,
+  onViewTitles: PropTypes.func,
   year: PropTypes.string.isRequired,
 };
 
@@ -38,13 +45,13 @@ const SummaryTable = ({
   year,
   noCostPerUseAvailable,
   costPerUseType,
+  onViewTitles = () => {},
   ...rest
 }) => {
   const intl = useIntl();
   const data = costPerUseData.data[costPerUseType];
 
   const currency = data?.attributes?.parameters?.currency;
-  const currencySymbol = getSymbolFromCurrency(currency) || '';
 
   const {
     cost,
@@ -52,24 +59,9 @@ const SummaryTable = ({
     usage,
   } = data?.attributes?.analysis;
 
-  const formatCost = (value) => {
-    return (
-      <FormattedNumber value={value}>
-        {(formattedNumber) => `${currencySymbol}${formattedNumber} (${currency})`}
-      </FormattedNumber>
-    );
-  };
-
-  const formatValue = (value, callback) => {
-    const number = typeof value === 'string' ? Number(value) : value;
-
-    if (!number && number !== 0) {
-      return <NoValue />;
-    }
-
-    const valueToFixed = number.toFixed(2);
-
-    return callback ? callback(valueToFixed) : valueToFixed;
+  const handleViewTitles = (onToggle) => () => {
+    onViewTitles();
+    onToggle();
   };
 
   if (noCostPerUseAvailable) {
@@ -84,11 +76,12 @@ const SummaryTable = ({
   }
 
   const formatter = {
-    cost: rowData => formatValue(rowData.cost, formatCost),
-    costPerUse: rowData => formatValue(rowData.costPerUse, formatCost),
+    cost: rowData => formatValue(rowData.cost, (value) => formatCost(currency, value)),
+    costPerUse: rowData => formatValue(rowData.costPerUse, (value) => formatCost(currency, value)),
     usage: rowData => formatValue(rowData.usage, (value) => <FormattedNumber value={value} />),
     ucActions: () => (
       <Dropdown
+        id="summary-table-actions-dropdown"
         renderTrigger={({ onToggle, triggerRef, ariaProps, keyHandler, getTriggerProps }) => (
           <DropdownButton
             id="usage-consolidation-actions-dropdown-button"
@@ -106,13 +99,35 @@ const SummaryTable = ({
           <DropdownMenu
             role="menu"
           >
+            {entityType === entityTypes.PACKAGE ? (
+              <Button
+                id="summary-table-actions-view-titles"
+                buttonStyle="dropdownItem fullWidth"
+                role="menuitem"
+                onClick={handleViewTitles(onToggle)}
+                marginBottom0
+              >
+                <Icon
+                  icon="eye-open"
+                  size="small"
+                >
+                  <FormattedMessage id="ui-eholdings.usageConsolidation.summary.actions.view" />
+                </Icon>
+              </Button>
+            ) : null
+            }
             <Button
               buttonStyle="dropdownItem fullWidth"
               role="menuitem"
               onClick={onToggle}
               marginBottom0
             >
-              <FormattedMessage id="ui-eholdings.usageConsolidation.summary.actions.export" />
+              <Icon
+                icon="download"
+                size="small"
+              >
+                <FormattedMessage id="ui-eholdings.usageConsolidation.summary.actions.export" />
+              </Icon>
             </Button>
           </DropdownMenu>
         )}

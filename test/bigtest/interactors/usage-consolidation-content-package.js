@@ -4,8 +4,8 @@ import {
   isPresent,
 } from '@bigtest/interactor';
 
-import Button from '@folio/stripes-components/lib/Button/tests/interactor'; // eslint-disable-line
 import MultiColumnListInteractor from '@folio/stripes-components/lib/MultiColumnList/tests/interactor'; // eslint-disable-line
+import DropdownInteractor from '@folio/stripes-components/lib/Dropdown/tests/interactor'; // eslint-disable-line
 
 @interactor class UsageConsolidationContentPackage {
   isUsageConsolidationErrorPresent = isPresent('[data-test-usage-consolidation-error]');
@@ -13,11 +13,18 @@ import MultiColumnListInteractor from '@folio/stripes-components/lib/MultiColumn
 
   summaryTable = new MultiColumnListInteractor('#packageUsageConsolidationSummary');
   titlesTable = new MultiColumnListInteractor('#packageUsageConsolidationTitles');
+  isLoadingMessagePresent = isPresent('[data-test-titles-table-loading-message]');
 
-  actionsButton = new Button('#usage-consolidation-actions-dropdown-button');
+  actionsDropdown = new DropdownInteractor('#summary-table-actions-dropdown');
+
+  errorToastNotificationPresent = isPresent('[data-test-eholdings-toast]');
 
   whenLoaded() {
     return this.when(() => this.isUsageConsolidationErrorPresent || this.summaryTable.isPresent);
+  }
+
+  whenTitlesLoaded() {
+    return this.when(() => this.titlesTable.isPresent);
   }
 }
 

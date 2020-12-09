@@ -440,7 +440,7 @@ export default function config() {
 
     if (filtered && custom) {
       // packages don't always have `isCustom` defined
-      filtered = pkg.isCustom ? custom === 'true' : custom === 'false';
+      filtered = pkg.isCustom ? custom === 'true': custom === 'false';
     }
 
     return filtered;
@@ -478,7 +478,7 @@ export default function config() {
       accessTypeId,
     } = body.data.attributes;
 
-    const selectedCount = isSelected ? matchingResources.length : 0;
+    const selectedCount = isSelected ? matchingResources.length: 0;
 
     matchingResources.update('isSelected', isSelected);
     matchingResources.update('visibilityData', visibilityData);
@@ -1182,6 +1182,61 @@ export default function config() {
     },
   }));
 
+  this.get('/packages/:id/resources/costperuse', () => ({
+    'data': [{
+      'resourceId': '58-473-356',
+      'type': 'resourceCostPerUseItem',
+      'attributes': {
+        'name': 'Abacus',
+        'publicationType': 'Journal',
+        'percent': 0.08677172462134165,
+        'cost': 1.042165,
+        'usage': 127,
+        'costPerUse': 0.008206023622047243
+      }
+    }, {
+      'resourceId': '58-473-491',
+      'type': 'resourceCostPerUseItem',
+      'attributes': {
+        'name': 'About Campus',
+        'publicationType': 'Journal',
+        'percent': 15.4,
+        'usage': 23,
+        'costPerUse': 0.008206023622047243
+      }
+    }, {
+      'resourceId': '58-473-1230757',
+      'type': 'resourceCostPerUseItem',
+      'attributes': {
+        'name': 'AAHE-ERIC/Higher Education Research Report',
+        'publicationType': 'Journal',
+        'percent': 15.6,
+        'usage': 0,
+        'costPerUse': 0.008206023622047243
+      }
+    }, {
+      'resourceId': '58-473-1230759',
+      'type': 'resourceCostPerUseItem',
+      'attributes': {
+        'name': 'AAHE-ERIC/Higher Education Research Report 2',
+        'publicationType': 'Journal',
+        'percent': 0,
+        'usage': 200,
+        'costPerUse': 0.008206023622047243
+      }
+    }],
+    'parameters': {
+      'startMonth': 'jan',
+      'currency': 'USD'
+    },
+    'meta': {
+      'totalResults': 3
+    },
+    'jsonapi': {
+      'version': '1.0'
+    }
+  }));
+
   this.get('/titles/:titleId/costperuse', () => ({
     'titleId': '185972',
     'type': 'titleCostPerUse',
@@ -1189,7 +1244,7 @@ export default function config() {
       'usage': {
         'platforms': [{
           'name': 'Wiley Online Library',
-          'isPublisherPlatform' : true,
+          'isPublisherPlatform': true,
           'counts': [2, 6, 0, 3, 6, 2, 1, 2, null, null, null, null],
           'total': 22
         }],
@@ -1200,7 +1255,7 @@ export default function config() {
           }
         }
       },
-      'analysis' : {
+      'analysis': {
         'holdingsSummary': [{
           'packageId': '58-2121943',
           'resourceId': '58-2121943-185972',

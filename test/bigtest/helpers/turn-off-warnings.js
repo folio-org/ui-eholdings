@@ -4,6 +4,7 @@ const blacklist = [
   /componentWillReceiveProps has been renamed/,
   /componentWillUpdate has been renamed/,
   /componentWillMount has been renamed/,
+  /[@formatjs/intl]/
 ];
 
 // eslint-disable-next-line no-console

@@ -2,6 +2,9 @@ import {
   GET_COST_PER_USE,
   GET_COST_PER_USE_SUCCESS,
   GET_COST_PER_USE_FAILURE,
+  GET_COST_PER_USE_PACKAGE_TITLES,
+  GET_COST_PER_USE_PACKAGE_TITLES_SUCCESS,
+  GET_COST_PER_USE_PACKAGE_TITLES_FAILURE,
 } from '../actions';
 
 import { formatErrors } from '../helpers';
@@ -23,6 +26,7 @@ const handleSuccess = (state, { payload }) => ({
     ...state.data,
     [payload.type]: payload,
   },
+  errors: [],
 });
 
 const handlePendingRequest = (state) => ({
@@ -36,6 +40,41 @@ const handlers = {
   [GET_COST_PER_USE]: handlePendingRequest,
   [GET_COST_PER_USE_SUCCESS]: handleSuccess,
   [GET_COST_PER_USE_FAILURE]: handleError,
+  [GET_COST_PER_USE_PACKAGE_TITLES]: (state) => ({
+    ...state,
+    isPackageTitlesLoading: true,
+    isPackageTitlesLoaded: false,
+    isPackageTitlesFailed: false,
+  }),
+  [GET_COST_PER_USE_PACKAGE_TITLES_SUCCESS]: (state, { payload }) => ({
+    ...state,
+    isPackageTitlesLoading: false,
+    isPackageTitlesLoaded: true,
+    isPackageTitlesFailed: false,
+    data: {
+      ...state.data,
+      [payload.data.type]: payload.loadMore
+        ? {
+          ...payload.data,
+          attributes: {
+            ...payload.data.attributes,
+            resources: [
+              ...(state.data[payload.data.type]?.attributes?.resources || []),
+              ...payload.data.attributes.resources,
+            ],
+          },
+        }
+        : payload.data,
+    },
+    errors: [],
+  }),
+  [GET_COST_PER_USE_PACKAGE_TITLES_FAILURE]: (state, { payload }) => ({
+    ...state,
+    isPackageTitlesLoading: false,
+    isPackageTitlesLoaded: false,
+    isPackageTitlesFailed: true,
+    errors: formatErrors(payload.errors),
+  }),
 };
 
 const initialState = {
@@ -43,6 +82,9 @@ const initialState = {
   isLoading: false,
   isLoaded: false,
   isFailed: false,
+  isPackageTitlesLoading: false,
+  isPackageTitlesLoaded: false,
+  isPackageTitlesFailed: false,
   errors: [],
 };
 

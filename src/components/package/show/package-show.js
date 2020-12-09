@@ -67,11 +67,13 @@ class PackageShow extends Component {
     accessStatusTypes: accessTypesReduxStateShape.isRequired,
     addPackageToHoldings: PropTypes.func.isRequired,
     costPerUse: costPerUseShape.CostPerUseReduxStateShape.isRequired,
+    fetchCostPerUsePackageTitles: PropTypes.func.isRequired,
     fetchPackageCostPerUse: PropTypes.func.isRequired,
     fetchPackageTitles: PropTypes.func.isRequired,
     isDestroyed: PropTypes.bool,
     isFreshlySaved: PropTypes.bool,
     isNewRecord: PropTypes.bool,
+    loadMoreCostPerUsePackageTitles: PropTypes.func.isRequired,
     model: PropTypes.object.isRequired,
     onEdit: PropTypes.func.isRequired,
     packageTitles: PropTypes.object.isRequired,
@@ -324,6 +326,8 @@ class PackageShow extends Component {
       updateFolioTags,
       stripes,
       fetchPackageCostPerUse,
+      fetchCostPerUsePackageTitles,
+      loadMoreCostPerUsePackageTitles,
       costPerUse,
     } = this.props;
 
@@ -526,6 +530,8 @@ class PackageShow extends Component {
           isOpen={sections.packageShowUsageConsolidation}
           onToggle={this.handleSectionToggle}
           onFilterSubmit={fetchPackageCostPerUse}
+          onViewTitles={fetchCostPerUsePackageTitles}
+          onLoadMoreTitles={loadMoreCostPerUsePackageTitles}
           recordType={entityTypes.PACKAGE}
           costPerUseData={costPerUse}
         />

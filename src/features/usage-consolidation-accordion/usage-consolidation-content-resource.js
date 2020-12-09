@@ -14,11 +14,17 @@ const propTypes = {
 };
 
 const UsageConsolidationContentResource = props => {
+  const data = props.costPerUseData.data[costPerUseTypes.RESOURCE_COST_PER_USE];
+
+  if (!data) {
+    return null;
+  }
+
   const {
     cost,
     costPerUse,
     usage,
-  } = props.costPerUseData.data[costPerUseTypes.RESOURCE_COST_PER_USE]?.attributes?.analysis;
+  } = data.attributes?.analysis;
 
   const noCostPerUseAvailable = !cost && !costPerUse && !usage;
 

@@ -18,10 +18,12 @@ import {
   compareCoveragesToBeSortedInDescOrder,
   isBookPublicationType,
 } from '../../components/utilities';
+import { useMultiColumnListSort } from '../../hooks';
 import {
   costPerUse as costPerUseShape,
   entityTypes,
   costPerUseTypes,
+  sortOrders,
 } from '../../constants';
 import styles from './usage-consolidation-content.css';
 
@@ -34,25 +36,20 @@ const propTypes = {
 const UsageConsolidationContentTitle = (props) => {
   const intl = useIntl();
   const { costPerUseData, publicationType } = props;
-  const [sortedColumn, setSortedColumn] = useState('packageName');
-  const [sortOrder, setSortOrder] = useState('ascending');
+  const [sortParameters, onHeaderClick] = useMultiColumnListSort(sortOrders.asc, 'packageName');
+  const {
+    sortOrder,
+    sortedColumn,
+  } = sortParameters;
 
   const data = costPerUseData.data[costPerUseTypes.TITLE_COST_PER_USE];
 
+  if (!data) {
+    return null;
+  }
+
   const holdingsSummary = data?.attributes?.analysis?.holdingsSummary;
   const noCostPerUseAvailable = !holdingsSummary;
-
-  const onHeaderClick = (_, metadata) => {
-    const { name } = metadata;
-
-    if (name !== sortedColumn) {
-      setSortedColumn(name);
-      setSortOrder('ascending');
-    } else {
-      const order = sortOrder === 'ascending' ? 'descending' : 'ascending';
-      setSortOrder(order);
-    }
-  };
 
   const formatter = {
     packageName: (rowData) => {
@@ -106,8 +103,9 @@ const UsageConsolidationContentTitle = (props) => {
 
   const contentData = holdingsSummary ?
     holdingsSummary.sort((a, b) => {
-      const valA = sortOrder === 'ascending' ? a : b;
-      const valB = sortOrder === 'ascending' ? b : a;
+      const isAscendingSort = sortOrder.name === sortOrders.asc.name;
+      const valA = isAscendingSort ? a : b;
+      const valB = isAscendingSort ? b : a;
 
       if (sortedColumn === 'packageName') {
         return valA.packageName.localeCompare(valB.packageName);
@@ -154,10 +152,10 @@ const UsageConsolidationContentTitle = (props) => {
       entityType={entityTypes.TITLE}
       customProperties={customProperties}
       noCostPerUseAvailable={noCostPerUseAvailable}
-      costPerUseType={costPerUseTypes.PACKAGE_COST_PER_USE}
+      costPerUseType={costPerUseTypes.TITLE_COST_PER_USE}
       onHeaderClick={onHeaderClick}
       sortedColumn={sortedColumn}
-      sortDirection={sortOrder}
+      sortDirection={sortOrder.name}
       {...props}
     />
   );

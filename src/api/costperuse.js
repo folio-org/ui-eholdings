@@ -1,4 +1,8 @@
 import queryString from 'query-string';
+import {
+  pick,
+  omit,
+} from 'lodash';
 
 import {
   getHeaders,
@@ -7,14 +11,29 @@ import {
 } from './common';
 
 const formatParametersForBackend = (filterData) => {
+  const ucParamsKeys = ['platformType', 'year'];
+  const ucParams = pick(filterData, ucParamsKeys);
+  const rest = omit(filterData, ucParamsKeys);
+
   return queryString.stringify({
-    platform: filterData.platformType,
-    fiscalYear: filterData.year,
+    platform: ucParams.platformType,
+    fiscalYear: ucParams.year,
+    ...rest,
   });
 };
 
 const getCostPerUseUrl = (listType, id, filterData) => {
   return `/eholdings/${listType}/${id}/costperuse?${formatParametersForBackend(filterData)}`;
+};
+
+const getPackageTitlesCostPerUseUrl = (id, filterData) => {
+  const parameters = {
+    order: 'desc',
+    sort: 'usage',
+    ...filterData,
+  };
+
+  return `/eholdings/packages/${id}/resources/costperuse?${formatParametersForBackend(parameters)}`;
 };
 
 export default {
@@ -31,7 +50,7 @@ export default {
   },
   getPackageTitlesCostPerUse: (okapi, id, filterData) => {
     const method = 'GET';
-    const url = `/eholdings/package/${id}/titles/costperuse?${queryString.stringify(filterData)}`;
+    const url = createUrl(okapi.url, getPackageTitlesCostPerUseUrl(id, filterData));
 
     const params = {
       method,

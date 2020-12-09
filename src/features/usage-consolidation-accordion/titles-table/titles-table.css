@@ -1,0 +1,27 @@
+@import '@folio/stripes-components/lib/variables';
+
+.titlesLoadingMessage {
+  padding: 5rem;
+  color: var(--color-text-p2);
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  flex-direction: column;
+}
+
+.titlesLoadingMessage,
+.titlesLoadingMessageLabelWrap {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.titlesLoadingMessageLabelWrap {
+  font-size: var(--font-size-large);
+}
+
+.titlesLoadingMessageIcon,
+.titlesLoadingMessageLabel {
+  margin: 0 4px;
+}
