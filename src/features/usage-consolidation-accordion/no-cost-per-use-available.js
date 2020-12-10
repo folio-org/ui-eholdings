@@ -4,7 +4,7 @@ import { FormattedMessage } from 'react-intl';
 
 const propTypes = {
   entityType: PropTypes.string.isRequired,
-  year: PropTypes.number.isRequired, 
+  year: PropTypes.number.isRequired,
 };
 
 const NoCostPerUseAvailable = ({

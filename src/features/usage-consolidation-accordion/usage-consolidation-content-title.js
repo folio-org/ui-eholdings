@@ -168,7 +168,7 @@ const UsageConsolidationContentTitle = (props) => {
         sortDirection={sortOrder}
         costPerUseData={costPerUseData}
       />
-  );
+    );
 };
 
 UsageConsolidationContentTitle.propTypes = propTypes;

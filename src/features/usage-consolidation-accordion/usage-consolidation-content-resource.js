@@ -38,7 +38,7 @@ const UsageConsolidationContentResource = ({
     ? (
       <NoCostPerUseAvailable
         entityType={entityTypes.RESOURCE}
-        year={year} 
+        year={year}
       />
     )
     : (
