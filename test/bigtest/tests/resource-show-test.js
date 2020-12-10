@@ -260,54 +260,64 @@ describe('ResourceShow', () => {
         expect(ResourcePage.usageConsolidationSection.accordion.isOpen).to.be.false;
       });
 
-      it('should display year filter', () => {
-        expect(ResourcePage.usageConsolidationSection.filters.yearDropdown.isPresent).to.be.true;
-      });
-
-      it('should display correct value for year filter', () => {
-        expect(ResourcePage.usageConsolidationSection.filters.yearDropdown.value).to.equal(`${new Date().getFullYear()}`);
-      });
-
-      it('should display platform filter', () => {
-        expect(ResourcePage.usageConsolidationSection.filters.platformTypeDropdown.isPresent).to.be.true;
-      });
-
-      it('should display correct value for platform filter', () => {
-        expect(ResourcePage.usageConsolidationSection.filters.platformTypeDropdown.value).to.equal('publisher');
-      });
-
-      describe('when clicking View', () => {
-        beforeEach(async () => {
-          await ResourcePage.usageConsolidationSection.filters.clickView();
-          await ResourcePage.usageConsolidationSection.content.whenLoaded();
+      describe('when usage & analysis accordion is open', () => {
+        beforeEach(() => {
+          ResourcePage.usageConsolidationSection.accordion.clickHeader();
         });
 
-        describe('waiting for axe to run', () => {
+        it('should display year filter', () => {
+          expect(ResourcePage.usageConsolidationSection.filters.yearDropdown.isPresent).to.be.true;
+        });
+
+        it('should display correct value for year filter', () => {
+          expect(ResourcePage.usageConsolidationSection.filters.yearDropdown.value).to.equal(`${new Date().getFullYear()}`);
+        });
+
+        it('should display platform filter', () => {
+          expect(ResourcePage.usageConsolidationSection.filters.platformTypeDropdown.isPresent).to.be.true;
+        });
+
+        it('should display correct value for platform filter', () => {
+          expect(ResourcePage.usageConsolidationSection.filters.platformTypeDropdown.value).to.equal('publisher');
+        });
+
+        describe('when clicking View', () => {
           beforeEach(async () => {
-            await ResourcePage.whenLoaded();
-            a11yResults = await axe.run();
+            await ResourcePage.usageConsolidationSection.filters.clickView();
+            await ResourcePage.usageConsolidationSection.content.whenLoaded();
           });
 
-          it('should not have any a11y issues', () => {
-            expect(a11yResults.violations).to.be.empty;
+          describe('waiting for axe to run', () => {
+            beforeEach(async () => {
+              await ResourcePage.whenLoaded();
+              a11yResults = await axe.run();
+            });
+
+            it('should not have any a11y issues', () => {
+              expect(a11yResults.violations).to.be.empty;
+            });
+          });
+
+          it('should show Summary table', () => {
+            expect(ResourcePage.usageConsolidationSection.content.summaryTable.isPresent).to.be.true;
+          });
+
+          it('should show Cost data in correct format', () => {
+            expect(ResourcePage.usageConsolidationSection.content.summaryTable.rows(0).cells(0).content).to.equal('$100 (USD)');
+          });
+
+          it('should show CostPerUse data in correct format', () => {
+            expect(ResourcePage.usageConsolidationSection.content.summaryTable.rows(0).cells(2).content).to.equal('$3.85 (USD)');
+          });
+
+          it('should show Full text request usage table', () => {
+            expect(ResourcePage.usageConsolidationSection.content.fullTextRequestUsageTable.isPresent).to.be.true;
           });
         });
 
-        it('should show Summary table', () => {
-          expect(ResourcePage.usageConsolidationSection.content.summaryTable.isPresent).to.be.true;
-        });
-
-        it('should show Cost data in correct format', () => {
-          expect(ResourcePage.usageConsolidationSection.content.summaryTable.rows(0).cells(0).content).to.equal('$1,200 (USD)');
-        });
-
-        it('should show CostPerUse data in correct format', () => {
-          expect(ResourcePage.usageConsolidationSection.content.summaryTable.rows(0).cells(2).content).to.equal('$0.04 (USD)');
-        });
+        // TODO:: uncomment current tests after folio/stripes 5.1.0 will be available
+        // usageConsolidationInfoPopoverTests(ResourcePage.usageConsolidationSection.infoPopover);
       });
-
-      // TODO:: uncomment current tests after folio/stripes 5.1.0 will be available
-      // usageConsolidationInfoPopoverTests(ResourcePage.usageConsolidationSection.infoPopover);
     });
 
     describe('when token is not needed', () => {

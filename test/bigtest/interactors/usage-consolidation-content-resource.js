@@ -13,6 +13,7 @@ import MultiColumnListInteractor from '@folio/stripes-components/lib/MultiColumn
 
   summaryTable = new MultiColumnListInteractor('#resourceUsageConsolidationSummary');
   actionsButton = new Button('#usage-consolidation-actions-dropdown-button');
+  fullTextRequestUsageTable = new MultiColumnListInteractor('#fullTextRequestUsageTable');
 
   whenLoaded() {
     return this.when(() => this.isUsageConsolidationErrorPresent || this.summaryTable.isPresent);

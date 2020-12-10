@@ -45,15 +45,9 @@ const FullTextRequestUsageTable = ({
   startMonth,
 }) => {
   const {
-    data: {
-      attributes: {
-        usage: {
-          totals,
-          platforms,
-        },
-      },
-    },
-  } = costPerUseData;
+    totals,
+    platforms,
+  } = costPerUseData?.data?.attributes?.usage;
 
   const intl = useIntl();
 
@@ -176,7 +170,7 @@ const FullTextRequestUsageTable = ({
     [columnNames.TOTAL]: ({ total, platform }) => formatValue(total, platform),
     [columnNames.PUBLISHER]: ({ publisher, platform }) => {
       if (Object.values(platformTypes).includes(platform)) {
-        return null;
+        return '';
       }
 
       return intl.formatMessage({
