@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { FormattedMessage } from 'react-intl';
 
 import FullTextRequestUsageTable from './full-text-request-usage-table';
 import SummaryTable from './summary-table';
@@ -22,6 +23,16 @@ const UsageConsolidationContentResource = ({
   startMonth,
   year,
 }) => {
+  const { isFailed } = costPerUseData;
+
+  if (isFailed) {
+    return (
+      <FormattedMessage
+        id="ui-eholdings.usageConsolidation.fullTextRequestUsageTable.noResponse"
+      />
+    );
+  }
+
   const {
     cost,
     costPerUse,
