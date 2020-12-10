@@ -1278,11 +1278,11 @@ export default function config() {
             isPublisherPlatform: true,
             counts: [0, 1, 3, 1, 3, 1, 16, 1, null, null, null, null],
             total: 26,
-          },  
-          { 
+          },
+          {
             name: 'EBSCOhost',
             isPublisherPlatform: false,
-            counts: [2, null, 1, null, null, null, 3, 4, null, null, null, null],  
+            counts: [2, null, 1, null, null, null, 3, 4, null, null, null, null],
             total: 10,
           },
         ],
@@ -1290,7 +1290,7 @@ export default function config() {
           publisher: {
             counts: [0, 1, 3, 1, 3, 1, 16, 1, null, null, null, null],
             total: 26,
-          },  
+          },
           nonPublisher: {
             counts: [2, null, 1, null, null, null, 3, 4, null, null, null, null],
             total: 10,
