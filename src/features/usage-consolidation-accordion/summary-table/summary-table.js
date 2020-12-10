@@ -14,6 +14,7 @@ import {
   DropdownButton,
   DropdownMenu,
   NoValue,
+  KeyValue,
 } from '@folio/stripes/components';
 
 import { getSummaryTableColumnProperties } from './column-properties';
@@ -26,7 +27,7 @@ const propTypes = {
   entityType: PropTypes.string.isRequired,
   id: PropTypes.string.isRequired,
   noCostPerUseAvailable: PropTypes.bool.isRequired,
-  year: PropTypes.string.isRequired,
+  year: PropTypes.number.isRequired,
 };
 
 const SummaryTable = ({
@@ -121,16 +122,18 @@ const SummaryTable = ({
   const contentData = rest.contentData || [{ cost, costPerUse, usage }];
 
   return (
-    <MultiColumnList
-      id={id}
-      contentData={contentData}
-      formatter={{
-        ...formatter,
-        ...customProperties.formatter,
-      }}
-      {...getSummaryTableColumnProperties(intl, customProperties)}
-      {...rest}
-    />
+    <KeyValue>
+      <MultiColumnList
+        id={id}
+        contentData={contentData}
+        formatter={{
+          ...formatter,
+          ...customProperties.formatter,
+        }}
+        {...getSummaryTableColumnProperties(intl, customProperties)}
+        {...rest}
+      />
+    </KeyValue>
   );
 };
 

@@ -28,6 +28,7 @@ import {
 } from '../../constants';
 
 import styles from './usage-consolidation-accordion.css';
+import { Spinner } from '@folio/stripes-components';
 
 const propTypes = {
   costPerUseData: costPerUse.CostPerUseReduxStateShape.isRequired,
@@ -54,6 +55,7 @@ const UsageConsolidationAccordion = ({
   recordType,
   publicationType,
 }) => {
+  const { isLoading: isCostPerUseDataLoading } = costPerUseData;
   const filtersInitialState = {
     year: moment().year(),
     platformType: usageConsolidation.data.platformType,
@@ -160,6 +162,8 @@ const UsageConsolidationAccordion = ({
         <UsageConsolidationContentResource
           costPerUseData={costPerUseData}
           year={filterData.year}
+          platformType={filterData.platformType}
+          startMonth={usageConsolidation.data.startMonth}
         />
       );
     }
@@ -194,7 +198,10 @@ const UsageConsolidationAccordion = ({
             onSubmit={handleFiltersSubmit}
             initialState={filtersInitialState}
           />
-          {renderContent()}
+          {isCostPerUseDataLoading
+            ? <Spinner /> 
+            : renderContent()
+          }
         </Accordion>
         <Toaster
           position="bottom"
