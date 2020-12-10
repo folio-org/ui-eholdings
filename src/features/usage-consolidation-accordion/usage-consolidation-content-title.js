@@ -11,6 +11,7 @@ import {
   List,
 } from '@folio/stripes/components';
 
+import NoCostPerUseAvailable from './no-cost-per-use-available';
 import SummaryTable from './summary-table';
 import {
   formatCoverageYear,
@@ -32,7 +33,11 @@ const propTypes = {
 
 const UsageConsolidationContentTitle = (props) => {
   const intl = useIntl();
-  const { costPerUseData, publicationType } = props;
+  const {
+    costPerUseData,
+    publicationType,
+    year,
+  } = props;
   const [sortedColumn, setSortedColumn] = useState('packageName');
   const [sortOrder, setSortOrder] = useState('ascending');
 
@@ -146,18 +151,23 @@ const UsageConsolidationContentTitle = (props) => {
     formatter,
   };
 
-  return (
-    <SummaryTable
-      id="titleUsageConsolidationSummary"
-      contentData={contentData}
-      entityType={entityTypes.TITLE}
-      customProperties={customProperties}
-      noCostPerUseAvailable={noCostPerUseAvailable}
-      onHeaderClick={onHeaderClick}
-      sortedColumn={sortedColumn}
-      sortDirection={sortOrder}
-      {...props}
-    />
+  return noCostPerUseAvailable
+    ? (
+      <NoCostPerUseAvailable
+        entityType={entityTypes.TITLE}
+        year={year}
+      />
+    )
+    : (
+      <SummaryTable
+        id="titleUsageConsolidationSummary"
+        contentData={contentData}
+        customProperties={customProperties}
+        onHeaderClick={onHeaderClick}
+        sortedColumn={sortedColumn}
+        sortDirection={sortOrder}
+        costPerUseData={costPerUseData}
+      />
   );
 };
 

@@ -44,7 +44,6 @@ const FullTextRequestUsageTable = ({
   platformType,
   startMonth,
 }) => {
- 
   const {
     data: {
       attributes: {
@@ -77,7 +76,7 @@ const FullTextRequestUsageTable = ({
   const [sortOrder, setSortOrder] = useState('ascending');
 
   const platformData = platforms.map(({ name, isPublisherPlatform, counts, total }) => {
-    const countByMonth = counts.reduce((acc, value, index) => ({ 
+    const countByMonth = counts.reduce((acc, value, index) => ({
       ...acc,
       [months[index]]: value,
     }), {});
@@ -87,7 +86,7 @@ const FullTextRequestUsageTable = ({
       ...countByMonth,
       [columnNames.TOTAL]: total,
       [columnNames.PUBLISHER]: isPublisherPlatform,
-    }
+    };
   });
 
   const currentPlatforms = platformType === platformTypes.ALL
@@ -95,7 +94,7 @@ const FullTextRequestUsageTable = ({
     : [platformType];
 
   const totalsData = currentPlatforms.map(platform => {
-    const countByMonth = totals[platform]?.counts.reduce((acc, value, index) => ({ 
+    const countByMonth = totals[platform]?.counts.reduce((acc, value, index) => ({
       ...acc,
       [months[index]]: value,
     }), {});
@@ -104,7 +103,7 @@ const FullTextRequestUsageTable = ({
       [columnNames.PLATFORM]: platform,
       ...countByMonth,
       [columnNames.TOTAL]: totals[platform]?.total,
-    }
+    };
   });
 
   if (platformType === platformTypes.ALL) {
@@ -123,15 +122,15 @@ const FullTextRequestUsageTable = ({
 
       return valA[sortedColumn] - valB[sortedColumn];
     })
-    : []; 
+    : [];
 
   const visibleColumns = Object.values(columnNames);
-    console.log(contentPlatformData);
+
   const columnMapping = visibleColumns.reduce((acc, columnName) => {
     acc[columnName] = intl.formatMessage({
       id: `ui-eholdings.usageConsolidation.fullTextRequestUsageTable.header.${columnName}`,
     });
-    
+
     return acc;
   }, {});
 
@@ -145,7 +144,7 @@ const FullTextRequestUsageTable = ({
     const valueToFixed = number.toFixed(2);
 
     return (
-      <div className={styles['usageView']}>
+      <div className={styles.usageView}>
         {!Object.values(platformTypes).includes(platform)
           ? <FormattedNumber value={valueToFixed} />
           : (
@@ -155,7 +154,7 @@ const FullTextRequestUsageTable = ({
           )
         }
       </div>
-    )
+    );
   };
 
   const formatterForMonths = months.reduce((acc, month) => ({
@@ -184,7 +183,7 @@ const FullTextRequestUsageTable = ({
         id: `ui-eholdings.${publisher ? 'yes' : 'no'}`,
       });
     },
-  }
+  };
 
   const columnWidthsForMonths = months.reduce((acc, month) => ({
     ...acc,
@@ -214,7 +213,7 @@ const FullTextRequestUsageTable = ({
     <KeyValue
       label={intl.formatMessage({ id: 'ui-eholdings.usageConsolidation.fullTextRequestUsageTable' })}
     >
-     <MultiColumnList
+      <MultiColumnList
         id="fullTextRequestUsageTable"
         contentData={[...contentPlatformData, ...totalsData]}
         visibleColumns={visibleColumns}
@@ -225,9 +224,10 @@ const FullTextRequestUsageTable = ({
         onHeaderClick={onHeaderClick}
         sortedColumn={sortedColumn}
         sortDirection={sortOrder}
+        nonInteractiveHeaders={months}
       />
-    </KeyValue> 
-  )
+    </KeyValue>
+  );
 };
 
 FullTextRequestUsageTable.propTypes = propTypes;

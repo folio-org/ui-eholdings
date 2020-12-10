@@ -24,19 +24,13 @@ const propTypes = {
   contentData: PropTypes.array,
   costPerUseData: costPerUseShape.CostPerUseReduxStateShape.isRequired,
   customProperties: PropTypes.object,
-  entityType: PropTypes.string.isRequired,
   id: PropTypes.string.isRequired,
-  noCostPerUseAvailable: PropTypes.bool.isRequired,
-  year: PropTypes.number.isRequired,
 };
 
 const SummaryTable = ({
   costPerUseData,
   customProperties,
-  entityType,
   id,
-  year,
-  noCostPerUseAvailable,
   ...rest
 }) => {
   const intl = useIntl();
@@ -70,17 +64,6 @@ const SummaryTable = ({
 
     return callback ? callback(valueToFixed) : valueToFixed;
   };
-
-  if (noCostPerUseAvailable) {
-    return (
-      <div data-test-usage-consolidation-error>
-        <FormattedMessage
-          id={`ui-eholdings.usageConsolidation.summary.${entityType}.noData`}
-          values={{ year }}
-        />
-      </div>
-    );
-  }
 
   const formatter = {
     cost: rowData => formatValue(rowData.cost, formatCost),

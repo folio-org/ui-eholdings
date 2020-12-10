@@ -12,6 +12,7 @@ import {
   Accordion,
   Headline,
   InfoPopover,
+  Spinner,
 } from '@folio/stripes/components';
 
 import Toaster from '../../components/toaster';
@@ -28,7 +29,6 @@ import {
 } from '../../constants';
 
 import styles from './usage-consolidation-accordion.css';
-import { Spinner } from '@folio/stripes-components';
 
 const propTypes = {
   costPerUseData: costPerUse.CostPerUseReduxStateShape.isRequired,
@@ -199,7 +199,7 @@ const UsageConsolidationAccordion = ({
             initialState={filtersInitialState}
           />
           {isCostPerUseDataLoading
-            ? <Spinner /> 
+            ? <Spinner />
             : renderContent()
           }
         </Accordion>
