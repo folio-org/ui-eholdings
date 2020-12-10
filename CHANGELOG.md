@@ -14,6 +14,7 @@
 * Added Usage Consolidation Summary table to Resource Show page. (UIEH-952)
 * Title Record: Display Holdings summary table. (UIEH-999)
 * Add info popover for Usage Consolidation Accordion. (UIEH-993)
+* Edit Package/Resource record: Field labels text size is too small. (UIEH-1003)
 
 ## [5.0.0] (https://github.com/folio-org/ui-eholdings/tree/v5.0.0) (2020-10-15)
 
