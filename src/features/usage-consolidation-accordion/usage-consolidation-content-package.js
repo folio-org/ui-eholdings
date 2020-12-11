@@ -1,8 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { FormattedMessage } from 'react-intl';
 
-import FullTextRequestUsageTable from './full-text-request-usage-table';
 import NoCostPerUseAvailable from './no-cost-per-use-available';
 import SummaryTable from './summary-table';
 import {
@@ -12,29 +10,13 @@ import {
 
 const propTypes = {
   costPerUseData: costPerUseShape.CostPerUseReduxStateShape.isRequired,
-  platformType: PropTypes.string.isRequired,
-  startMonth: PropTypes.string.isRequired,
   year: PropTypes.number.isRequired,
 };
 
 const UsageConsolidationContentPackage = ({
   costPerUseData,
-  platformType,
-  startMonth,
   year,
 }) => {
-  const { isFailed } = costPerUseData;
-
-  if (isFailed) {
-    return (
-      <div data-test-cost-per-use-request-is-failed>
-        <FormattedMessage
-          id="ui-eholdings.usageConsolidation.fullTextRequestUsageTable.noResponse"
-        />
-      </div>
-    );
-  }
-
   const {
     cost,
     costPerUse,
@@ -55,18 +37,11 @@ const UsageConsolidationContentPackage = ({
       />
     )
     : (
-      <>
-        <SummaryTable
-          id="packageUsageConsolidationSummary"
-          costPerUseData={costPerUseData}
-          customProperties={customProperties}
-        />
-        <FullTextRequestUsageTable
-          costPerUseData={costPerUseData}
-          platformType={platformType}
-          startMonth={startMonth}
-        />
-      </>
+      <SummaryTable
+        id="packageUsageConsolidationSummary"
+        costPerUseData={costPerUseData}
+        customProperties={customProperties}
+      />
     );
 };
 

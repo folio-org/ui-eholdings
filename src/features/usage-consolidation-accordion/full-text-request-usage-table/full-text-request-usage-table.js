@@ -83,6 +83,16 @@ const FullTextRequestUsageTable = ({
     };
   });
 
+  const filteredPlatformData = platformData.filter(({ publisher }) => {
+    if (publisher && platformType === platformTypes.PUBLISHER_ONLY ||
+      !publisher && platformType === platformTypes.NON_PUBLISHER_ONLY ||
+      platformType === platformTypes.ALL) {
+      return true;
+    }
+
+    return false;
+  });
+
   const currentPlatforms = platformType === platformTypes.ALL
     ? Object.values(platformTypes)
     : [platformType];
@@ -105,8 +115,8 @@ const FullTextRequestUsageTable = ({
     totalsData.shift();
   }
 
-  const contentPlatformData = platformData
-    ? platformData.sort((a, b) => {
+  const contentPlatformData = filteredPlatformData
+    ? filteredPlatformData.sort((a, b) => {
       const valA = sortOrder === 'ascending' ? a : b;
       const valB = sortOrder === 'ascending' ? b : a;
 

@@ -151,8 +151,6 @@ const UsageConsolidationAccordion = ({
         <UsageConsolidationContentPackage
           costPerUseData={costPerUseData}
           year={year}
-          platformType={platformType}
-          startMonth={startMonth}
         />
       );
     } else if (recordType === entityTypes.TITLE) {
@@ -161,6 +159,8 @@ const UsageConsolidationAccordion = ({
           costPerUseData={costPerUseData}
           year={year}
           publicationType={publicationType}
+          platformType={platformType}
+          startMonth={startMonth}
         />
       );
     } else if (recordType === entityTypes.RESOURCE) {

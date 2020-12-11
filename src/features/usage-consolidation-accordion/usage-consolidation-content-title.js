@@ -11,6 +11,7 @@ import {
   List,
 } from '@folio/stripes/components';
 
+import FullTextRequestUsageTable from './full-text-request-usage-table';
 import NoCostPerUseAvailable from './no-cost-per-use-available';
 import SummaryTable from './summary-table';
 import {
@@ -27,7 +28,9 @@ import styles from './usage-consolidation-content.css';
 
 const propTypes = {
   costPerUseData: costPerUseShape.CostPerUseReduxStateShape.isRequired,
+  platformType: PropTypes.string.isRequired,
   publicationType: PropTypes.string,
+  startMonth: PropTypes.string.isRequired,
   year: PropTypes.string.isRequired,
 };
 
@@ -35,13 +38,28 @@ const UsageConsolidationContentTitle = (props) => {
   const intl = useIntl();
   const {
     costPerUseData,
+    platformType,
+    startMonth,
     publicationType,
     year,
   } = props;
+  const {
+    data,
+    isFailed,
+  } = costPerUseData;
+
+  if (isFailed) {
+    return (
+      <div data-test-cost-per-use-request-is-failed>
+        <FormattedMessage
+          id="ui-eholdings.usageConsolidation.fullTextRequestUsageTable.noResponse"
+        />
+      </div>
+    );
+  }
+
   const [sortedColumn, setSortedColumn] = useState('packageName');
   const [sortOrder, setSortOrder] = useState('ascending');
-
-  const { data } = costPerUseData;
 
   const holdingsSummary = data?.attributes?.analysis?.holdingsSummary;
   const noCostPerUseAvailable = !holdingsSummary;
@@ -150,7 +168,7 @@ const UsageConsolidationContentTitle = (props) => {
     },
     formatter,
   };
-
+  console.log(costPerUseData);
   return noCostPerUseAvailable
     ? (
       <NoCostPerUseAvailable
@@ -159,15 +177,22 @@ const UsageConsolidationContentTitle = (props) => {
       />
     )
     : (
-      <SummaryTable
-        id="titleUsageConsolidationSummary"
-        contentData={contentData}
-        customProperties={customProperties}
-        onHeaderClick={onHeaderClick}
-        sortedColumn={sortedColumn}
-        sortDirection={sortOrder}
-        costPerUseData={costPerUseData}
-      />
+      <>
+        <SummaryTable
+          id="titleUsageConsolidationSummary"
+          contentData={contentData}
+          customProperties={customProperties}
+          onHeaderClick={onHeaderClick}
+          sortedColumn={sortedColumn}
+          sortDirection={sortOrder}
+          costPerUseData={costPerUseData}
+        />
+        <FullTextRequestUsageTable
+          costPerUseData={costPerUseData}
+          platformType={platformType}
+          startMonth={startMonth}
+        />
+      </>
     );
 };
 
