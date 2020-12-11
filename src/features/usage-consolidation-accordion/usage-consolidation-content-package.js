@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
+import FullTextRequestUsageTable from './full-text-request-usage-table';
 import NoCostPerUseAvailable from './no-cost-per-use-available';
 import SummaryTable from './summary-table';
 import {
@@ -10,11 +11,15 @@ import {
 
 const propTypes = {
   costPerUseData: costPerUseShape.CostPerUseReduxStateShape.isRequired,
+  platformType: PropTypes.string.isRequired,
+  startMonth: PropTypes.string.isRequired,
   year: PropTypes.number.isRequired,
 };
 
 const UsageConsolidationContentPackage = ({
   costPerUseData,
+  platformType,
+  startMonth,
   year,
 }) => {
   const {
@@ -37,11 +42,18 @@ const UsageConsolidationContentPackage = ({
       />
     )
     : (
-      <SummaryTable
-        id="packageUsageConsolidationSummary"
-        costPerUseData={costPerUseData}
-        customProperties={customProperties}
-      />
+      <>
+        <SummaryTable
+          id="packageUsageConsolidationSummary"
+          costPerUseData={costPerUseData}
+          customProperties={customProperties}
+        />
+        <FullTextRequestUsageTable
+          costPerUseData={costPerUseData}
+          platformType={platformType}
+          startMonth={startMonth}
+        />
+      </>
     );
 };
 

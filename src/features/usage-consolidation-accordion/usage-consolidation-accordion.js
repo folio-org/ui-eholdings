@@ -128,6 +128,12 @@ const UsageConsolidationAccordion = ({
       isFailed: isCostPerUseDataLoadingFailed,
     } = costPerUseData;
 
+    const {
+      platformType,
+      year,
+    } = filterData;
+    const { startMonth } = usageConsolidation.data;
+
     if (!isCostPerUseDataLoaded && !isCostPerUseDataLoadingFailed) {
       return null;
     }
@@ -144,35 +150,26 @@ const UsageConsolidationAccordion = ({
       return (
         <UsageConsolidationContentPackage
           costPerUseData={costPerUseData}
-          year={filterData.year}
+          year={year}
+          platformType={platformType}
+          startMonth={startMonth}
         />
       );
     } else if (recordType === entityTypes.TITLE) {
       return (
         <UsageConsolidationContentTitle
           costPerUseData={costPerUseData}
-          year={filterData.year}
+          year={year}
           publicationType={publicationType}
         />
       );
-    }
-
-    if (recordType === entityTypes.RESOURCE) {
+    } else if (recordType === entityTypes.RESOURCE) {
       return (
         <UsageConsolidationContentResource
           costPerUseData={costPerUseData}
-          year={filterData.year}
-          platformType={filterData.platformType}
-          startMonth={usageConsolidation.data.startMonth}
-        />
-      );
-    }
-
-    if (recordType === entityTypes.RESOURCE) {
-      return (
-        <UsageConsolidationContentResource
-          costPerUseData={costPerUseData}
-          year={filterData.year}
+          year={year}
+          platformType={platformType}
+          startMonth={startMonth}
         />
       );
     }

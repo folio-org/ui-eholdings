@@ -111,7 +111,7 @@ const FullTextRequestUsageTable = ({
       const valB = sortOrder === 'ascending' ? b : a;
 
       if (sortedColumn === columnNames.PLATFORM) {
-        return valA[sortedColumn].localeCompare(valB.packageName);
+        return valA[sortedColumn].localeCompare(valB[sortedColumn]);
       }
 
       return valA[sortedColumn] - valB[sortedColumn];
