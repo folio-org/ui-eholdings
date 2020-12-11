@@ -37,6 +37,8 @@ import AddTitleToPackage from '../_field-groups/add-title-to-package';
 import Toaster from '../../toaster';
 import KeyValueColumns from '../../key-value-columns';
 import PackageFilterModal from './package-filter-modal';
+import QueryNotFound from '../../query-list/not-found';
+
 import styles from './title-show.css';
 
 const focusOnErrors = createFocusDecorator();
@@ -61,16 +63,15 @@ class TitleShow extends Component {
   constructor(props) {
     super(props);
 
-    const filteredPackages = this.getFilteredPackagesFromParams();
-
     this.state = {
       showCustomPackageModal: false,
       sections: {
         titleShowTags: true,
         titleShowTitleInformation: true,
       },
-      filteredPackages,
-      packageFilterApplied: !!filteredPackages.length,
+      filteredPackages: [],
+      countOfAppliedPackagesFilters: 0,
+      packageFilterApplied: false,
     };
   }
 
@@ -100,7 +101,7 @@ class TitleShow extends Component {
       : [];
   }
 
-  handlePackageFilterChange = selectedPackages => {
+  handlePackageFilterChange = (selectedPackages, countOfAppliedPackagesFilters) => {
     const {
       history,
       location,
@@ -115,7 +116,8 @@ class TitleShow extends Component {
 
     this.setState({
       filteredPackages: selectedPackages,
-      packageFilterApplied: !!selectedPackages.length,
+      countOfAppliedPackagesFilters,
+      packageFilterApplied: !!countOfAppliedPackagesFilters,
     });
     history.replace({ search: newSearch }, { eholdings: true });
   }
@@ -204,6 +206,7 @@ class TitleShow extends Component {
       showCustomPackageModal,
       sections,
       filteredPackages,
+      countOfAppliedPackagesFilters,
       packageFilterApplied,
     } = this.state;
 
@@ -235,7 +238,7 @@ class TitleShow extends Component {
               allPackages={model.resources.records}
               selectedPackages={filteredPackages}
               onSubmit={this.handlePackageFilterChange}
-              filterCount={packageFilterApplied ? 1 : 0} // todo: implement actual filter counting to avoid hardcoding
+              filterCount={countOfAppliedPackagesFilters}
             />)
           }
           bodyContent={(
@@ -324,25 +327,37 @@ class TitleShow extends Component {
           resultsLength={packageFilterApplied
             ? filteredPackages.length
             : model.resources.length}
-          renderList={scrollable => (
-            <ScrollView
-              itemHeight={ITEM_HEIGHT}
-              items={packageFilterApplied
-                ? filteredPackages
-                : model.resources}
-              scrollable={scrollable}
-              queryListName="title-packages"
-            >
-              {item => (
-                <SearchPackageListItem
-                  link={`/eholdings/resources/${item.id}`}
-                  packageName={item.packageName}
-                  item={item}
-                  headingLevel='h4'
-                />
-              )}
-            </ScrollView>
-          )}
+          renderList={scrollable => {
+            const items = packageFilterApplied
+              ? filteredPackages
+              : model.resources;
+
+            if (!items.length) {
+              return (
+                <QueryNotFound type="package-titles">
+                  <FormattedMessage id="ui-eholdings.notFound" />
+                </QueryNotFound>
+              );
+            }
+
+            return (
+              <ScrollView
+                itemHeight={ITEM_HEIGHT}
+                items={items}
+                scrollable={scrollable}
+                queryListName="title-packages"
+              >
+                {item => (
+                  <SearchPackageListItem
+                    link={`/eholdings/resources/${item.id}`}
+                    packageName={item.packageName}
+                    item={item}
+                    headingLevel='h4'
+                  />
+                )}
+              </ScrollView>
+            );
+          }}
         />
 
         <Modal

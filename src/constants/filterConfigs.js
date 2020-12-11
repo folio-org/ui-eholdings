@@ -31,15 +31,38 @@ export const titleSortFilterConfig = {
   ],
 };
 
+export const selectionStatusFilterOptions = {
+  ALL: 'all',
+  TRUE: 'true',
+  FALSE: 'false',
+  EBSCO: 'ebsco',
+};
+
+export const EBSCO_PROVIDER_ID = 19;
+
+export const selectionStatusDefaultFilterOption = selectionStatusFilterOptions.ALL;
+
 export const selectionStatusFilterConfig = {
   name: 'selected',
   label: <FormattedMessage id="ui-eholdings.label.selectionStatus" />,
-  defaultValue: 'all',
+  defaultValue: selectionStatusDefaultFilterOption,
   options: [
-    { label: <FormattedMessage id="ui-eholdings.filter.all" />, value: 'all' },
-    { label: <FormattedMessage id="ui-eholdings.selected" />, value: 'true' },
-    { label: <FormattedMessage id="ui-eholdings.notSelected" />, value: 'false' },
-    { label: <FormattedMessage id="ui-eholdings.filter.selectionStatus.orderedThroughEbsco" />, value: 'ebsco' }
+    {
+      label: <FormattedMessage id="ui-eholdings.filter.all" />,
+      value: selectionStatusFilterOptions.ALL,
+    },
+    {
+      label: <FormattedMessage id="ui-eholdings.selected" />,
+      value: selectionStatusFilterOptions.TRUE,
+    },
+    {
+      label: <FormattedMessage id="ui-eholdings.notSelected" />,
+      value: selectionStatusFilterOptions.FALSE,
+    },
+    {
+      label: <FormattedMessage id="ui-eholdings.filter.selectionStatus.orderedThroughEbsco" />,
+      value: selectionStatusFilterOptions.EBSCO,
+    }
   ]
 };
 
