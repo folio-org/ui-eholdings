@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { FormattedMessage } from 'react-intl';
 
 import FullTextRequestUsageTable from './full-text-request-usage-table';
 import NoCostPerUseAvailable from './no-cost-per-use-available';
