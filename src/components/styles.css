@@ -4,8 +4,3 @@
 .marginRightHalf {
   margin-right: 0.5rem;
 }
-
-/* like `Label` component `font-size` from `stripes-components` */
-.labelFontSize {
-  font-size: 1.05rem;
-}
