@@ -22,6 +22,18 @@ const UsageConsolidationContentPackage = ({
   startMonth,
   year,
 }) => {
+  const { isFailed } = costPerUseData;
+
+  if (isFailed) {
+    return (
+      <div data-test-cost-per-use-request-is-failed>
+        <FormattedMessage
+          id="ui-eholdings.usageConsolidation.fullTextRequestUsageTable.noResponse"
+        />
+      </div>
+    );
+  }
+
   const {
     cost,
     costPerUse,

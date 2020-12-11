@@ -27,9 +27,11 @@ const UsageConsolidationContentResource = ({
 
   if (isFailed) {
     return (
-      <FormattedMessage
-        id="ui-eholdings.usageConsolidation.fullTextRequestUsageTable.noResponse"
-      />
+      <div data-test-cost-per-use-request-is-failed>
+        <FormattedMessage
+          id="ui-eholdings.usageConsolidation.fullTextRequestUsageTable.noResponse"
+        />
+      </div>
     );
   }
 

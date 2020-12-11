@@ -261,8 +261,8 @@ describe('ResourceShow', () => {
       });
 
       describe('when usage & analysis accordion is open', () => {
-        beforeEach(() => {
-          ResourcePage.usageConsolidationSection.accordion.clickHeader();
+        beforeEach(async () => {
+          await ResourcePage.usageConsolidationSection.accordion.clickHeader();
         });
 
         it('should display year filter', () => {
@@ -312,6 +312,28 @@ describe('ResourceShow', () => {
 
           it('should show Full text request usage table', () => {
             expect(ResourcePage.usageConsolidationSection.content.fullTextRequestUsageTable.isPresent).to.be.true;
+          });
+
+          it.skip('should show correct column length for Full text request usage table', () => {
+            expect(ResourcePage.usageConsolidationSection.content.fullTextRequestUsageTable.columnCount).to.equal(13);
+          });
+
+          it.skip('should show Publisher data in correct format', () => {
+            expect(ResourcePage.usageConsolidationSection.content.fullTextRequestUsageTable.rows(0).cell(12).content).to.equal('No');
+            expect(ResourcePage.usageConsolidationSection.content.fullTextRequestUsageTable.rows(1).cell(12).content).to.equal('Yes');
+            expect(ResourcePage.usageConsolidationSection.content.fullTextRequestUsageTable.rows(2).cell(12).content).to.equal('');
+          });
+
+          it.skip('should show Platform data in correct format', () => {
+            expect(ResourcePage.usageConsolidationSection.content.fullTextRequestUsageTable.rows(0).cell(0).content).to.equal('EBSCOhost');
+            expect(ResourcePage.usageConsolidationSection.content.fullTextRequestUsageTable.rows(1).cell(0).content).to.equal('Wiley Online Library');
+            expect(ResourcePage.usageConsolidationSection.content.fullTextRequestUsageTable.rows(2).cell(0).content).to.equal('All publisher platform(s) total');
+          });
+
+          it.skip('should show months data in correct format', () => {
+            expect(ResourcePage.usageConsolidationSection.content.fullTextRequestUsageTable.rows(0).cell(1).content).to.equal('2');
+            expect(ResourcePage.usageConsolidationSection.content.fullTextRequestUsageTable.rows(1).cell(1).content).to.equal('0');
+            expect(ResourcePage.usageConsolidationSection.content.fullTextRequestUsageTable.rows(0).cell(2).content).to.equal('-');
           });
         });
 
