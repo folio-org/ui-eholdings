@@ -72,13 +72,84 @@ describe('TitleShow package filter flow', () => {
         expect(PackageFilterModal.modalIsDisplayed).to.be.true;
       });
 
+      it('multi select accordion should be opened by default', () => {
+        expect(PackageFilterModal.packageMultiSelectAccordion.isOpen).to.be.true;
+      });
+
+      it('should display the package filter multi select', () => {
+        expect(PackageFilterModal.packageMultiSelect.isPresent).to.be.true;
+      });
+
       it('the package filter select should be empty by default', () => {
         expect(PackageFilterModal.packageMultiSelect.values()).to.deep.equal([]);
+      });
+
+      it('selection filter accordion should be opened by default', () => {
+        expect(PackageFilterModal.selectionFilterAccordion.isOpen).to.be.true;
+      });
+
+      it('should display the package filter selection filter', () => {
+        expect(PackageFilterModal.selectionFilterIsPresent).to.be.true;
+      });
+
+      describe('Selection filter', () => {
+        describe('when status "All" selected for selection filter', () => {
+          beforeEach(async () => {
+            await PackageFilterModal.selectionFilterAll.clickAndBlur();
+          });
+
+          it('should select all from selection status', () => {
+            expect(PackageFilterModal.selectionFilterAll.isChecked).to.be.true;
+            expect(PackageFilterModal.selectionFilterSelected.isChecked).to.be.false;
+            expect(PackageFilterModal.selectionFilterNotSelected.isChecked).to.be.false;
+            expect(PackageFilterModal.selectionFilterEBSCO.isChecked).to.be.false;
+          });
+        });
+
+        describe('when status "Selected" selected for selection filter', () => {
+          beforeEach(async () => {
+            await PackageFilterModal.selectionFilterSelected.clickAndBlur();
+          });
+
+          it('should select selected from selection status', () => {
+            expect(PackageFilterModal.selectionFilterAll.isChecked).to.be.false;
+            expect(PackageFilterModal.selectionFilterSelected.isChecked).to.be.true;
+            expect(PackageFilterModal.selectionFilterNotSelected.isChecked).to.be.false;
+            expect(PackageFilterModal.selectionFilterEBSCO.isChecked).to.be.false;
+          });
+        });
+
+        describe('when status "Not selected" selected for selection filter', () => {
+          beforeEach(async () => {
+            await PackageFilterModal.selectionFilterNotSelected.clickAndBlur();
+          });
+
+          it('should select not selected from selection status', () => {
+            expect(PackageFilterModal.selectionFilterAll.isChecked).to.be.false;
+            expect(PackageFilterModal.selectionFilterSelected.isChecked).to.be.false;
+            expect(PackageFilterModal.selectionFilterNotSelected.isChecked).to.be.true;
+            expect(PackageFilterModal.selectionFilterEBSCO.isChecked).to.be.false;
+          });
+        });
+
+        describe('when status "Ordered through EBSCO" selected for selection filter', () => {
+          beforeEach(async () => {
+            await PackageFilterModal.selectionFilterEBSCO.clickAndBlur();
+          });
+
+          it('should select ebsco from selection status', () => {
+            expect(PackageFilterModal.selectionFilterAll.isChecked).to.be.false;
+            expect(PackageFilterModal.selectionFilterSelected.isChecked).to.be.false;
+            expect(PackageFilterModal.selectionFilterNotSelected.isChecked).to.be.false;
+            expect(PackageFilterModal.selectionFilterEBSCO.isChecked).to.be.true;
+          });
+        });
       });
 
       describe('and one package was selected', () => {
         beforeEach(async () => {
           await PackageFilterModal.packageMultiSelect.options(0).clickOption();
+          await PackageFilterModal.selectionFilterAll.clickAndBlur();
         });
 
         describe('and reset all was clicked', () => {
@@ -111,6 +182,22 @@ describe('TitleShow package filter flow', () => {
           it('should contain the package filter in the url', function () {
             expect(this.location.search).to.equal(`?filteredPackages%5B0%5D=${title.resources.models[0].id}`);
           });
+
+          it('should display that one filter was selected', () => {
+            expect(PackageFilterModal.filterCount).to.equal('1');
+          });
+        });
+      });
+
+      describe('when selected more than one filters', () => {
+        beforeEach(async () => {
+          await PackageFilterModal.packageMultiSelect.options(0).clickOption();
+          await PackageFilterModal.selectionFilterEBSCO.clickAndBlur();
+          await PackageFilterModal.clickSearch();
+        });
+
+        it('should display that two filter was selected', () => {
+          expect(PackageFilterModal.filterCount).to.equal('2');
         });
       });
     });
