@@ -43,6 +43,10 @@ const UsageConsolidationContentTitle = (props) => {
     publicationType,
     year,
   } = props;
+
+  const [sortedColumn, setSortedColumn] = useState('packageName');
+  const [sortOrder, setSortOrder] = useState('ascending');
+
   const {
     data,
     isFailed,
@@ -57,9 +61,6 @@ const UsageConsolidationContentTitle = (props) => {
       </div>
     );
   }
-
-  const [sortedColumn, setSortedColumn] = useState('packageName');
-  const [sortOrder, setSortOrder] = useState('ascending');
 
   const holdingsSummary = data?.attributes?.analysis?.holdingsSummary;
   const noCostPerUseAvailable = !holdingsSummary;

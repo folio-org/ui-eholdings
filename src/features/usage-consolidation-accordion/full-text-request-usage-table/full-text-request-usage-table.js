@@ -84,9 +84,9 @@ const FullTextRequestUsageTable = ({
   });
 
   const filteredPlatformData = platformData.filter(({ publisher }) => {
-    if (publisher && platformType === platformTypes.PUBLISHER_ONLY ||
-      !publisher && platformType === platformTypes.NON_PUBLISHER_ONLY ||
-      platformType === platformTypes.ALL) {
+    if ((publisher && platformType === platformTypes.PUBLISHER_ONLY) ||
+      (!publisher && platformType === platformTypes.NON_PUBLISHER_ONLY) ||
+      (platformType === platformTypes.ALL)) {
       return true;
     }
 
