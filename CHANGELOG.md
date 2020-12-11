@@ -7,6 +7,7 @@
 * Fix routing issues when visiting Note Edit page. (UIEH-991)
 * Add permission for button New Settings (eHoldings): Can create, edit, and view knowledge base credentials. (UIEH-992)
 * Title Record: Add a Selection Status filter to Search within Packages modal. (UIEH-978)
+* Add label for contributor type narrator. (UIEH-977)
 
 ## [5.0.0] (https://github.com/folio-org/ui-eholdings/tree/v5.0.0) (2020-10-15)
 
