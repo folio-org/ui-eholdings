@@ -117,7 +117,7 @@ describe('PackageShowUsageConsolidation', () => {
 
         describe('when clicking View titles', () => {
           beforeEach(async () => {
-            await PackageShowPage.usageConsolidation.content.actionsDropdown.focusAndClickOpen();
+            await PackageShowPage.usageConsolidation.content.actionsDropdown.focusAndOpen();
             await PackageShowPage.usageConsolidation.content.actionsDropdown.menu.items(0).click();
             await PackageShowPage.usageConsolidation.content.whenTitlesLoaded();
           });
