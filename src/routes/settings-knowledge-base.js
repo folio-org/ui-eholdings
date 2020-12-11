@@ -3,14 +3,16 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import ReactRouterPropTypes from 'react-router-prop-types';
 import {
-  TitleManager,
-  CalloutContext,
-} from '@folio/stripes/core';
-import {
   FormattedMessage,
   injectIntl,
 } from 'react-intl';
 import { cloneDeep } from 'lodash';
+
+import {
+  TitleManager,
+  CalloutContext,
+  withStripes,
+} from '@folio/stripes/core';
 
 import {
   postKBCredentials as postKBCredentialsAction,
@@ -38,6 +40,9 @@ class SettingsKnowledgeBaseRoute extends Component {
     match: PropTypes.object.isRequired,
     patchKBCredentials: PropTypes.func.isRequired,
     postKBCredentials: PropTypes.func.isRequired,
+    stripes: PropTypes.shape({
+      hasPerm: PropTypes.func.isRequired,
+    }).isRequired,
   };
 
   state = {
@@ -164,7 +169,13 @@ class SettingsKnowledgeBaseRoute extends Component {
     const {
       kbCredentials,
       intl,
+      stripes,
+      history,
     } = this.props;
+
+    if (!stripes.hasPerm('ui-eholdings.settings.kb')) {
+      history.push('/settings/eholdings');
+    }
 
     return (
       <CalloutContext.Consumer>
@@ -206,4 +217,4 @@ export default connect(
     confirmPatchKBCredentials: confirmPatchKBCredentialsAction,
     confirmPostKBCredentials: confirmPostKBCredentialsAction,
   }
-)(injectIntl(SettingsKnowledgeBaseRoute));
+)(injectIntl(withStripes(SettingsKnowledgeBaseRoute)));
