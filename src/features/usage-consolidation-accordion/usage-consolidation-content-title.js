@@ -11,6 +11,8 @@ import {
   List,
 } from '@folio/stripes/components';
 
+import FullTextRequestUsageTable from './full-text-request-usage-table';
+import NoCostPerUseAvailable from './no-cost-per-use-available';
 import SummaryTable from './summary-table';
 import {
   formatCoverageYear,
@@ -26,17 +28,39 @@ import styles from './usage-consolidation-content.css';
 
 const propTypes = {
   costPerUseData: costPerUseShape.CostPerUseReduxStateShape.isRequired,
+  platformType: PropTypes.string.isRequired,
   publicationType: PropTypes.string,
+  startMonth: PropTypes.string.isRequired,
   year: PropTypes.string.isRequired,
 };
 
 const UsageConsolidationContentTitle = (props) => {
   const intl = useIntl();
-  const { costPerUseData, publicationType } = props;
+  const {
+    costPerUseData,
+    platformType,
+    startMonth,
+    publicationType,
+    year,
+  } = props;
+
   const [sortedColumn, setSortedColumn] = useState('packageName');
   const [sortOrder, setSortOrder] = useState('ascending');
 
-  const { data } = costPerUseData;
+  const {
+    data,
+    isFailed,
+  } = costPerUseData;
+
+  if (isFailed) {
+    return (
+      <div data-test-cost-per-use-request-is-failed>
+        <FormattedMessage
+          id="ui-eholdings.usageConsolidation.fullTextRequestUsageTable.noResponse"
+        />
+      </div>
+    );
+  }
 
   const holdingsSummary = data?.attributes?.analysis?.holdingsSummary;
   const noCostPerUseAvailable = !holdingsSummary;
@@ -145,20 +169,32 @@ const UsageConsolidationContentTitle = (props) => {
     },
     formatter,
   };
-
-  return (
-    <SummaryTable
-      id="titleUsageConsolidationSummary"
-      contentData={contentData}
-      entityType={entityTypes.TITLE}
-      customProperties={customProperties}
-      noCostPerUseAvailable={noCostPerUseAvailable}
-      onHeaderClick={onHeaderClick}
-      sortedColumn={sortedColumn}
-      sortDirection={sortOrder}
-      {...props}
-    />
-  );
+  console.log(costPerUseData);
+  return noCostPerUseAvailable
+    ? (
+      <NoCostPerUseAvailable
+        entityType={entityTypes.TITLE}
+        year={year}
+      />
+    )
+    : (
+      <>
+        <SummaryTable
+          id="titleUsageConsolidationSummary"
+          contentData={contentData}
+          customProperties={customProperties}
+          onHeaderClick={onHeaderClick}
+          sortedColumn={sortedColumn}
+          sortDirection={sortOrder}
+          costPerUseData={costPerUseData}
+        />
+        <FullTextRequestUsageTable
+          costPerUseData={costPerUseData}
+          platformType={platformType}
+          startMonth={startMonth}
+        />
+      </>
+    );
 };
 
 UsageConsolidationContentTitle.propTypes = propTypes;

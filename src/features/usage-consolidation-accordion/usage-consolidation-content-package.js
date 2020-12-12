@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
+import NoCostPerUseAvailable from './no-cost-per-use-available';
 import SummaryTable from './summary-table';
 import {
   costPerUse as costPerUseShape,
@@ -9,15 +10,18 @@ import {
 
 const propTypes = {
   costPerUseData: costPerUseShape.CostPerUseReduxStateShape.isRequired,
-  year: PropTypes.string.isRequired,
+  year: PropTypes.number.isRequired,
 };
 
-const UsageConsolidationContentPackage = props => {
+const UsageConsolidationContentPackage = ({
+  costPerUseData,
+  year,
+}) => {
   const {
     cost,
     costPerUse,
     usage,
-  } = props.costPerUseData.data?.attributes?.analysis;
+  } = costPerUseData.data?.attributes?.analysis;
 
   const noCostPerUseAvailable = !cost && !costPerUse && !usage;
 
@@ -25,15 +29,20 @@ const UsageConsolidationContentPackage = props => {
     columnMapping: { cost: 'ui-eholdings.usageConsolidation.summary.packageCost' },
   };
 
-  return (
-    <SummaryTable
-      id="packageUsageConsolidationSummary"
-      entityType={entityTypes.PACKAGE}
-      customProperties={customProperties}
-      noCostPerUseAvailable={noCostPerUseAvailable}
-      {...props}
-    />
-  );
+  return noCostPerUseAvailable
+    ? (
+      <NoCostPerUseAvailable
+        entityType={entityTypes.PACKAGE}
+        year={year}
+      />
+    )
+    : (
+      <SummaryTable
+        id="packageUsageConsolidationSummary"
+        costPerUseData={costPerUseData}
+        customProperties={customProperties}
+      />
+    );
 };
 
 UsageConsolidationContentPackage.propTypes = propTypes;
