@@ -12,6 +12,7 @@ import {
   Accordion,
   Headline,
   InfoPopover,
+  Spinner,
 } from '@folio/stripes/components';
 
 import Toaster from '../../components/toaster';
@@ -58,6 +59,7 @@ const UsageConsolidationAccordion = ({
   onViewTitles = () => {},
   onLoadMoreTitles = () => {},
 }) => {
+  const { isLoading: isCostPerUseDataLoading } = costPerUseData;
   const filtersInitialState = {
     year: moment().year(),
     platformType: usageConsolidation.data.platformType,
@@ -144,6 +146,12 @@ const UsageConsolidationAccordion = ({
       isFailed: isCostPerUseDataLoadingFailed,
     } = costPerUseData;
 
+    const {
+      platformType,
+      year,
+    } = filterData;
+    const { startMonth } = usageConsolidation.data;
+
     if (!isCostPerUseDataLoaded && !isCostPerUseDataLoadingFailed) {
       return null;
     }
@@ -160,7 +168,7 @@ const UsageConsolidationAccordion = ({
       return (
         <UsageConsolidationContentPackage
           costPerUseData={costPerUseData}
-          year={filterData.year}
+          year={year}
           onViewTitles={handleViewTitles}
           onLoadMoreTitles={handleLoadMoreTitles}
         />
@@ -169,26 +177,19 @@ const UsageConsolidationAccordion = ({
       return (
         <UsageConsolidationContentTitle
           costPerUseData={costPerUseData}
-          year={filterData.year}
+          year={year}
           publicationType={publicationType}
+          platformType={platformType}
+          startMonth={startMonth}
         />
       );
-    }
-
-    if (recordType === entityTypes.RESOURCE) {
+    } else if (recordType === entityTypes.RESOURCE) {
       return (
         <UsageConsolidationContentResource
           costPerUseData={costPerUseData}
-          year={filterData.year}
-        />
-      );
-    }
-
-    if (recordType === entityTypes.RESOURCE) {
-      return (
-        <UsageConsolidationContentResource
-          costPerUseData={costPerUseData}
-          year={filterData.year}
+          year={year}
+          platformType={platformType}
+          startMonth={startMonth}
         />
       );
     }
@@ -214,7 +215,10 @@ const UsageConsolidationAccordion = ({
             onSubmit={handleFiltersSubmit}
             initialState={filtersInitialState}
           />
-          {renderContent()}
+          {isCostPerUseDataLoading
+            ? <Spinner />
+            : renderContent()
+          }
         </Accordion>
         <Toaster
           position="bottom"

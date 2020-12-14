@@ -1,6 +1,6 @@
 @import '@folio/stripes-components/lib/variables';
 
-.titlesLoadingMessage {
+.loadingMessage {
   padding: 5rem;
   color: var(--color-text-p2);
   top: 0;
@@ -10,18 +10,18 @@
   flex-direction: column;
 }
 
-.titlesLoadingMessage,
-.titlesLoadingMessageLabelWrap {
+.loadingMessage,
+.loadingMessageLabelWrap {
   display: flex;
   align-items: center;
   justify-content: center;
 }
 
-.titlesLoadingMessageLabelWrap {
+.loadingMessageLabelWrap {
   font-size: var(--font-size-large);
 }
 
-.titlesLoadingMessageIcon,
-.titlesLoadingMessageLabel {
+.loadingMessageIcon,
+.loadingMessageLabel {
   margin: 0 4px;
 }

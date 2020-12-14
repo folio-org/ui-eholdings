@@ -3,16 +3,15 @@ import PropTypes from 'prop-types';
 import {
   useIntl,
   FormattedNumber,
-  FormattedMessage,
 } from 'react-intl';
 import { Link } from 'react-router-dom';
 
 import {
   MultiColumnList,
-  Icon,
   NoValue,
 } from '@folio/stripes/components';
 
+import LoadingMessage from '../loading-message';
 import Toaster from '../../../components/toaster';
 import {
   formatCost,
@@ -24,8 +23,6 @@ import {
   costPerUseTypes,
   sortOrders,
 } from '../../../constants';
-
-import styles from './titles-table.css';
 
 const propTypes = {
   costPerUseData: costPerUseShape.CostPerUseReduxStateShape.isRequired,
@@ -48,12 +45,7 @@ const TitlesTable = ({
     onSortTitles(sortedColumn, sortOrder.name);
   };
 
-  const [sortParameters, onHeaderClick] = useMultiColumnListSort(sortOrders.desc, 'usage', handleSortChange);
-
-  const {
-    sortedColumn,
-    sortOrder,
-  } = sortParameters;
+  const [{ sortedColumn, sortOrder }, onHeaderClick] = useMultiColumnListSort(sortOrders.desc, 'usage', handleSortChange);
 
   const data = costPerUseData.data[costPerUseTypes.PACKAGE_TITLE_COST_PER_USE];
   const {
@@ -77,19 +69,7 @@ const TitlesTable = ({
   const hideTable = !isPackageTitlesLoading && !isPackageTitlesFailed && !data;
 
   if (showLoadingMessage) {
-    return (
-      <div
-        data-test-titles-table-loading-message
-        className={styles.titlesLoadingMessage}
-      >
-        <div className={styles.titlesLoadingMessageLabelWrap}>
-          <Icon iconRootClass={styles.titlesLoadingMessageIcon} icon="spinner-ellipsis" />
-          <span className={styles.titlesLoadingMessageLabel}>
-            <FormattedMessage id="ui-eholdings.usageConsolidation.titles.loading" />
-          </span>
-        </div>
-      </div>
-    );
+    return <LoadingMessage label="ui-eholdings.usageConsolidation.titles.loading" />;
   }
 
   if (hideTable) {

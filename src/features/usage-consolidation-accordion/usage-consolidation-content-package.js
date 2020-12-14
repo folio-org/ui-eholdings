@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
+import NoCostPerUseAvailable from './no-cost-per-use-available';
 import SummaryTable from './summary-table';
 import TitlesTable from './titles-table';
 import {
@@ -13,11 +14,14 @@ const propTypes = {
   costPerUseData: costPerUseShape.CostPerUseReduxStateShape.isRequired,
   onLoadMoreTitles: PropTypes.func.isRequired,
   onViewTitles: PropTypes.func.isRequired,
-  year: PropTypes.string.isRequired,
+  year: PropTypes.number.isRequired,
 };
 
 const UsageConsolidationContentPackage = props => {
   const data = props.costPerUseData.data[costPerUseTypes.PACKAGE_COST_PER_USE];
+  if (!data) {
+    return null;
+  }
 
   const {
     cost,
@@ -43,7 +47,12 @@ const UsageConsolidationContentPackage = props => {
     });
   };
 
-  return (
+  return noCostPerUseAvailable ? (
+    <NoCostPerUseAvailable
+      entityType={entityTypes.PACKAGE}
+      year={props.year}
+    />
+  ) : (
     <>
       <SummaryTable
         id="packageUsageConsolidationSummary"
@@ -54,6 +63,7 @@ const UsageConsolidationContentPackage = props => {
         noCostPerUseAvailable={noCostPerUseAvailable}
         costPerUseType={costPerUseTypes.PACKAGE_COST_PER_USE}
         onViewTitles={props.onViewTitles}
+        costPerUseData={props.costPerUseData}
         {...props}
       />
       <TitlesTable

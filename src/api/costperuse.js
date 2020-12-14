@@ -9,11 +9,15 @@ import {
   doRequest,
   createUrl,
 } from './common';
+import { sortOrders } from '../constants';
+import {
+  DEFAULT_SUMMARY_TABLE_COLUMNS,
+} from '../features/usage-consolidation-accordion/summary-table/column-properties';
 
-const formatParametersForBackend = (filterData) => {
+const formatParametersForBackend = (parameters) => {
   const ucParamsKeys = ['platformType', 'year'];
-  const ucParams = pick(filterData, ucParamsKeys);
-  const rest = omit(filterData, ucParamsKeys);
+  const ucParams = pick(parameters, ucParamsKeys);
+  const rest = omit(parameters, ucParamsKeys); // sort and paging parameters
 
   return queryString.stringify({
     platform: ucParams.platformType,
@@ -28,8 +32,8 @@ const getCostPerUseUrl = (listType, id, filterData) => {
 
 const getPackageTitlesCostPerUseUrl = (id, filterData) => {
   const parameters = {
-    order: 'desc',
-    sort: 'usage',
+    order: sortOrders.desc.name,
+    sort: DEFAULT_SUMMARY_TABLE_COLUMNS.USAGE,
     ...filterData,
   };
 

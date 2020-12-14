@@ -350,7 +350,7 @@ describe('PackageShowUsageConsolidation', () => {
       await PackageShowPage.usageConsolidation.accordion.clickHeader();
       await PackageShowPage.usageConsolidation.filters.clickView();
       await PackageShowPage.usageConsolidation.content.whenLoaded();
-      await PackageShowPage.usageConsolidation.content.actionsDropdown.focusAndClickOpen();
+      await PackageShowPage.usageConsolidation.content.actionsDropdown.focusAndOpen();
       await PackageShowPage.usageConsolidation.content.actionsDropdown.menu.items(0).click();
     });
 
@@ -405,7 +405,7 @@ describe('PackageShowUsageConsolidation', () => {
       await PackageShowPage.usageConsolidation.accordion.clickHeader();
       await PackageShowPage.usageConsolidation.filters.clickView();
       await PackageShowPage.usageConsolidation.content.whenLoaded();
-      await PackageShowPage.usageConsolidation.content.actionsDropdown.focusAndClickOpen();
+      await PackageShowPage.usageConsolidation.content.actionsDropdown.focusAndOpen();
       await PackageShowPage.usageConsolidation.content.actionsDropdown.menu.items(0).click();
     });
 
@@ -448,26 +448,34 @@ describe('PackageShowUsageConsolidation', () => {
 
   describe('when Package Titles cost per use data is incomplete', () => {
     beforeEach(async function () {
-      this.server.get('/packages/:packageId/titles/costperuse', () => ({
-        'type': 'packageTitleCostPerUse',
-        'attributes': {
-          'resources': [
-            {
-              'id': '1-473-356',
-              'attributes': {
-                'cost': 141.8806,
-                'usage': null,
-                'costPerUse': 5.456946153846153,
-              }
-            },
-          ],
+      this.server.get('/packages/:packageId/resources/costperuse', () => ({
+        'data': [{
+          'id': '1-473-356',
+          'attributes': {
+            'cost': 141.8806,
+            'usage': null,
+            'costPerUse': 5.456946153846153,
+          }
+        }],
+        'parameters': {
+          'startMonth': 'jan',
+          'currency': 'USD'
         },
+        'meta': {
+          'totalResults': 3
+        },
+        'jsonapi': {
+          'version': '1.0'
+        }
       }));
 
       this.visit(`/eholdings/packages/${providerPackage.id}`);
       await PackageShowPage.usageConsolidation.accordion.clickHeader();
       await PackageShowPage.usageConsolidation.filters.clickView();
       await PackageShowPage.usageConsolidation.content.whenLoaded();
+      await PackageShowPage.usageConsolidation.content.actionsDropdown.focusAndOpen();
+      await PackageShowPage.usageConsolidation.content.actionsDropdown.menu.items(0).click();
+      await PackageShowPage.usageConsolidation.content.whenTitlesLoaded();
     });
 
     it('should show Titles table', () => {

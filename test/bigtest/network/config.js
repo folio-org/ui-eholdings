@@ -440,7 +440,7 @@ export default function config() {
 
     if (filtered && custom) {
       // packages don't always have `isCustom` defined
-      filtered = pkg.isCustom ? custom === 'true': custom === 'false';
+      filtered = pkg.isCustom ? custom === 'true' : custom === 'false';
     }
 
     return filtered;
@@ -478,7 +478,7 @@ export default function config() {
       accessTypeId,
     } = body.data.attributes;
 
-    const selectedCount = isSelected ? matchingResources.length: 0;
+    const selectedCount = isSelected ? matchingResources.length : 0;
 
     matchingResources.update('isSelected', isSelected);
     matchingResources.update('visibilityData', visibilityData);
@@ -1324,19 +1324,58 @@ export default function config() {
   }));
 
   this.get('/resources/:resourceId/costperuse', () => ({
-    'resourceId': '134131-3212415-19735043',
-    'type': 'resourceCostPerUse',
-    'attributes': {
-      'analysis': {
-        'publisherPlatforms': {
-          'cost': 1200,
-          'usage': 31953,
-          'costPerUse': 0.0434,
-        }
+    type: 'resourceCostPerUse',
+    attributes: {
+      usage: {
+        platforms: [
+          {
+            name: 'Wiley Online Library',
+            isPublisherPlatform: true,
+            counts: [0, 1, 3, 1, 3, 1, 16, 1, null, null, null, null],
+            total: 26,
+          },
+          {
+            name: 'EBSCOhost',
+            isPublisherPlatform: false,
+            counts: [2, null, 1, null, null, null, 3, 4, null, null, null, null],
+            total: 10,
+          },
+        ],
+        totals: {
+          publisher: {
+            counts: [0, 1, 3, 1, 3, 1, 16, 1, null, null, null, null],
+            total: 26,
+          },
+          nonPublisher: {
+            counts: [2, null, 1, null, null, null, 3, 4, null, null, null, null],
+            total: 10,
+          },
+          all: {
+            counts: [2, 1, 4, 1, 3, 1, 19, 5, null, null, null, null],
+            total: 36,
+          },
+        },
       },
-      'parameters': {
-        'startMonth': 'jan',
-        'currency': 'USD',
+      analysis: {
+        publisherPlatforms: {
+          cost: 100.0,
+          usage: 26,
+          costPerUse: 3.8461538461538463
+        },
+        nonPublisherPlatforms: {
+          cost: 100.0,
+          usage: 10,
+          costPerUse: 10.0
+        },
+        allPlatforms: {
+          cost: 100.0,
+          usage: 36,
+          costPerUse: 2.7777777777777777,
+        },
+      },
+      parameters: {
+        startMonth: 'jan',
+        currency: 'USD',
       },
     },
   }));

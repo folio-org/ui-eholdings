@@ -13,6 +13,7 @@ import {
   DropdownButton,
   DropdownMenu,
   Icon,
+  KeyValue,
 } from '@folio/stripes/components';
 
 import { getSummaryTableColumnProperties } from './column-properties';
@@ -32,7 +33,6 @@ const propTypes = {
   customProperties: PropTypes.object,
   entityType: PropTypes.string.isRequired,
   id: PropTypes.string.isRequired,
-  noCostPerUseAvailable: PropTypes.bool.isRequired,
   onViewTitles: PropTypes.func,
   year: PropTypes.string.isRequired,
 };
@@ -40,16 +40,18 @@ const propTypes = {
 const SummaryTable = ({
   costPerUseData,
   customProperties,
-  entityType,
   id,
   year,
-  noCostPerUseAvailable,
   costPerUseType,
   onViewTitles = () => {},
+  entityType,
   ...rest
 }) => {
   const intl = useIntl();
   const data = costPerUseData.data[costPerUseType];
+  if (!data) {
+    return null;
+  }
 
   const currency = data?.attributes?.parameters?.currency;
 
@@ -63,17 +65,6 @@ const SummaryTable = ({
     onViewTitles();
     onToggle();
   };
-
-  if (noCostPerUseAvailable) {
-    return (
-      <div data-test-usage-consolidation-error>
-        <FormattedMessage
-          id={`ui-eholdings.usageConsolidation.summary.${entityType}.noData`}
-          values={{ year }}
-        />
-      </div>
-    );
-  }
 
   const formatter = {
     cost: rowData => formatValue(rowData.cost, (value) => formatCost(currency, value)),
@@ -138,16 +129,18 @@ const SummaryTable = ({
   const contentData = rest.contentData || [{ cost, costPerUse, usage }];
 
   return (
-    <MultiColumnList
-      id={id}
-      contentData={contentData}
-      formatter={{
-        ...formatter,
-        ...customProperties.formatter,
-      }}
-      {...getSummaryTableColumnProperties(intl, customProperties)}
-      {...rest}
-    />
+    <KeyValue>
+      <MultiColumnList
+        id={id}
+        contentData={contentData}
+        formatter={{
+          ...formatter,
+          ...customProperties.formatter,
+        }}
+        {...getSummaryTableColumnProperties(intl, customProperties)}
+        {...rest}
+      />
+    </KeyValue>
   );
 };
 

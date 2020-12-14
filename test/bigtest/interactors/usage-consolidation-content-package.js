@@ -13,7 +13,7 @@ import DropdownInteractor from '@folio/stripes-components/lib/Dropdown/tests/int
 
   summaryTable = new MultiColumnListInteractor('#packageUsageConsolidationSummary');
   titlesTable = new MultiColumnListInteractor('#packageUsageConsolidationTitles');
-  isLoadingMessagePresent = isPresent('[data-test-titles-table-loading-message]');
+  isLoadingMessagePresent = isPresent('[data-test-usage-consolidation-loading-message]');
 
   actionsDropdown = new DropdownInteractor('#summary-table-actions-dropdown');
 

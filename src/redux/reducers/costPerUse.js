@@ -78,7 +78,7 @@ const handlers = {
 };
 
 const initialState = {
-  data: {}, // TODO: update tests
+  data: {},
   isLoading: false,
   isLoaded: false,
   isFailed: false,
