@@ -56,8 +56,8 @@ const UsageConsolidationAccordion = ({
   costPerUseData,
   recordType,
   publicationType,
-  onViewTitles = () => {},
-  onLoadMoreTitles = () => {},
+  onViewTitles,
+  onLoadMoreTitles,
 }) => {
   const { isLoading: isCostPerUseDataLoading } = costPerUseData;
   const filtersInitialState = {
@@ -227,6 +227,11 @@ const UsageConsolidationAccordion = ({
       </>
     ) : null
   );
+};
+
+UsageConsolidationAccordion.defaultProps = {
+  onViewTitles: () => {},
+  onLoadMoreTitles: () => {},
 };
 
 UsageConsolidationAccordion.propTypes = propTypes;

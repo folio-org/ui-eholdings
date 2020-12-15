@@ -34,7 +34,7 @@ const propTypes = {
   platformType: PropTypes.string.isRequired,
   publicationType: PropTypes.string,
   startMonth: PropTypes.string.isRequired,
-  year: PropTypes.string.isRequired,
+  year: PropTypes.number.isRequired,
 };
 
 const UsageConsolidationContentTitle = ({
@@ -173,12 +173,12 @@ const UsageConsolidationContentTitle = ({
         contentData={contentData}
         entityType={entityTypes.TITLE}
         customProperties={customProperties}
-        noCostPerUseAvailable={noCostPerUseAvailable}
         costPerUseType={costPerUseTypes.TITLE_COST_PER_USE}
         onHeaderClick={onHeaderClick}
         sortedColumn={sortedColumn}
         sortDirection={sortOrder.fullName}
         costPerUseData={costPerUseData}
+        year={year}
       />
       <FullTextRequestUsageTable
         usageData={data.attributes.usage}

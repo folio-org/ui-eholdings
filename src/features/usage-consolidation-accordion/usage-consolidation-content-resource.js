@@ -66,9 +66,9 @@ const UsageConsolidationContentResource = ({
           id="resourceUsageConsolidationSummary"
           entityType={entityTypes.RESOURCE}
           customProperties={customProperties}
-          noCostPerUseAvailable={noCostPerUseAvailable}
           costPerUseType={costPerUseTypes.RESOURCE_COST_PER_USE}
           costPerUseData={costPerUseData}
+          year={year}
           {...rest}
         />
         <FullTextRequestUsageTable

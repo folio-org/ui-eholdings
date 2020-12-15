@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import {
   useIntl,
-  FormattedNumber,
 } from 'react-intl';
 import { Link } from 'react-router-dom';
 
@@ -13,10 +12,7 @@ import {
 
 import LoadingMessage from '../loading-message';
 import Toaster from '../../../components/toaster';
-import {
-  formatCost,
-  formatValue,
-} from '../utilities';
+import { getCostPerUseFormatter } from '../summary-table/column-properties';
 import { useMultiColumnListSort } from '../../../hooks';
 import {
   costPerUse as costPerUseShape,
@@ -31,6 +27,7 @@ const propTypes = {
 };
 
 const PAGE_SIZE = 100;
+const DEFAULT_PAGE = 1;
 
 const TitlesTable = ({
   costPerUseData,
@@ -38,10 +35,10 @@ const TitlesTable = ({
   onSortTitles,
 }) => {
   const intl = useIntl();
-  const [page, setPage] = useState(1);
+  const [page, setPage] = useState(DEFAULT_PAGE);
 
   const handleSortChange = (sortedColumn, sortOrder) => {
-    setPage(1);
+    setPage(DEFAULT_PAGE);
     onSortTitles(sortedColumn, sortOrder.name);
   };
 
@@ -62,7 +59,11 @@ const TitlesTable = ({
   const titlesContentData = resources.map(resource => ({
     resourceId: resource.resourceId,
     type: resource.attributes.publicationType,
-    ...resource.attributes,
+    name: resource.attributes.name,
+    percent: resource.attributes.percent,
+    usage: resource.attributes.usage,
+    costPerUse: resource.attributes.costPerUse,
+    cost: resource.attributes.cost,
   }));
 
   const showLoadingMessage = isPackageTitlesLoading && !data;
@@ -97,14 +98,12 @@ const TitlesTable = ({
             id="packageUsageConsolidationTitles"
             contentData={titlesContentData}
             formatter={{
+              ...getCostPerUseFormatter(currency),
               name: rowData => (
                 <Link to={`/eholdings/resources/${rowData.resourceId}`}>
                   {rowData.name}
                 </Link>
               ),
-              cost: rowData => formatValue(rowData.cost, (value) => formatCost(currency, value)),
-              costPerUse: rowData => formatValue(rowData.costPerUse, (value) => formatCost(currency, value)),
-              usage: rowData => formatValue(rowData.usage, (value) => <FormattedNumber value={value} />),
               percent: ({ percent }) => {
                 if (percent === 0) {
                   return <NoValue />;

@@ -60,10 +60,7 @@ const UsageConsolidationContentPackage = props => {
         customProperties={{
           columnMapping: { cost: 'ui-eholdings.usageConsolidation.summary.packageCost' },
         }}
-        noCostPerUseAvailable={noCostPerUseAvailable}
         costPerUseType={costPerUseTypes.PACKAGE_COST_PER_USE}
-        onViewTitles={props.onViewTitles}
-        costPerUseData={props.costPerUseData}
         {...props}
       />
       <TitlesTable

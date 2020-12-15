@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import {
   useIntl,
   FormattedMessage,
-  FormattedNumber,
 } from 'react-intl';
 
 import {
@@ -18,10 +17,6 @@ import {
 
 import { getSummaryTableColumnProperties } from './column-properties';
 import {
-  formatCost,
-  formatValue,
-} from '../utilities';
-import {
   costPerUse as costPerUseShape,
   entityTypes,
 } from '../../../constants';
@@ -34,7 +29,7 @@ const propTypes = {
   entityType: PropTypes.string.isRequired,
   id: PropTypes.string.isRequired,
   onViewTitles: PropTypes.func,
-  year: PropTypes.string.isRequired,
+  year: PropTypes.number.isRequired,
 };
 
 const SummaryTable = ({
@@ -43,7 +38,7 @@ const SummaryTable = ({
   id,
   year,
   costPerUseType,
-  onViewTitles = () => {},
+  onViewTitles,
   entityType,
   ...rest
 }) => {
@@ -67,9 +62,6 @@ const SummaryTable = ({
   };
 
   const formatter = {
-    cost: rowData => formatValue(rowData.cost, (value) => formatCost(currency, value)),
-    costPerUse: rowData => formatValue(rowData.costPerUse, (value) => formatCost(currency, value)),
-    usage: rowData => formatValue(rowData.usage, (value) => <FormattedNumber value={value} />),
     ucActions: () => (
       <Dropdown
         id="summary-table-actions-dropdown"
@@ -126,6 +118,14 @@ const SummaryTable = ({
     )
   };
 
+  const customPropertiesWithFormatter = {
+    ...customProperties,
+    formatter: {
+      ...(customProperties.formatter || {}),
+      ...formatter,
+    },
+  };
+
   const contentData = rest.contentData || [{ cost, costPerUse, usage }];
 
   return (
@@ -133,15 +133,15 @@ const SummaryTable = ({
       <MultiColumnList
         id={id}
         contentData={contentData}
-        formatter={{
-          ...formatter,
-          ...customProperties.formatter,
-        }}
-        {...getSummaryTableColumnProperties(intl, customProperties)}
+        {...getSummaryTableColumnProperties(intl, customPropertiesWithFormatter, currency)}
         {...rest}
       />
     </KeyValue>
   );
+};
+
+SummaryTable.defaultProps = {
+  onViewTitles: () => {},
 };
 
 SummaryTable.propTypes = propTypes;
