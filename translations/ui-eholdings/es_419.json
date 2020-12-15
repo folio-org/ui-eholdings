@@ -419,5 +419,6 @@
     "agreements.unassignModal.description": "¿Seguro que desea cancelar la asignación <strong> {agreementName} </strong> de <strong> {recordName} </strong> ? Una vez que cancele la asignación, el acuerdo ya no se adjuntará a este registro.",
     "agreements.unassignModal.cancel": "Cancelar",
     "agreements.unassignModal.unassign": "Anular la asignación",
-    "permission.settings.custom-labels.all": "Configuración (eholdings): puede crear, editar, ver y eliminar etiquetas personalizadas"
+    "permission.settings.custom-labels.all": "Configuración (eholdings): puede crear, editar, ver y eliminar etiquetas personalizadas",
+    "contributorType.narrator": "{count, plural, one {Narrator} other {Narrators}}"
 }

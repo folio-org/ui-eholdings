@@ -419,5 +419,6 @@
     "agreements.unassignModal.description": " <strong> {recordName} </strong> 에서 <strong> {agreementName} </strong>  할당을 취소하겠습니까? 할당을 취소하면 계약이 더 이상 이 레코드에 첨부되지 않습니다.",
     "agreements.unassignModal.cancel": "취소",
     "agreements.unassignModal.unassign": "할당 해제",
-    "permission.settings.custom-labels.all": "설정 (eHoldings) : 커스텀 레이블을 만들고, 편집, 보고, 삭제할 수 있습니다."
+    "permission.settings.custom-labels.all": "설정 (eHoldings) : 커스텀 레이블을 만들고, 편집, 보고, 삭제할 수 있습니다.",
+    "contributorType.narrator": "{count, plural, one {Narrator} other {Narrators}}"
 }
