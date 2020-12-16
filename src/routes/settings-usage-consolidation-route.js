@@ -79,7 +79,7 @@ const SettingsUsageConsolidationRoute = ({
     } = params;
 
     const attributes = {
-      currency: 'USD',
+      currency: updatedData.currency,
       platformType: updatedData.platformType,
       startMonth: updatedData.startMonth,
     };
