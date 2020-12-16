@@ -25,3 +25,4 @@ export { default as createPostUsageConsolidationEpic } from './post-usage-consol
 export { default as createPatchUsageConsolidationEpic } from './patch-usage-consolidation';
 export { default as createGetCurrenciesEpic } from './get-currencies';
 export { default as createGetCostPerUseEpic } from './get-costperuse';
+export { default as createGetCostPerUsePackageTitlesEpic } from './get-cost-per-use-package-titles';

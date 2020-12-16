@@ -278,5 +278,6 @@ export const combineMCLProps = defaultProps => customProps => {
     columnWidths: { ...defaultProps.columnWidths, ...customProps.columnWidths },
     columnMapping: { ...defaultProps.columnMapping, ...customProps.columnMapping },
     visibleColumns: customProps.visibleColumns || defaultProps.visibleColumns || [],
+    formatter: { ...defaultProps.formatter, ...customProps.formatter },
   };
 };

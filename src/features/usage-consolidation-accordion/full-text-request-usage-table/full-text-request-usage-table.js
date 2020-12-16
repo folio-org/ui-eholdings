@@ -12,7 +12,6 @@ import {
 } from '@folio/stripes/components';
 
 import {
-  costPerUse as costPerUseShape,
   platformTypes,
 } from '../../../constants';
 
@@ -34,20 +33,20 @@ const monthsNames = {
 };
 
 const propTypes = {
-  costPerUseData: costPerUseShape.CostPerUseReduxStateShape.isRequired,
   platformType: PropTypes.string.isRequired,
   startMonth: PropTypes.string.isRequired,
+  usageData: PropTypes.object.isRequired,
 };
 
 const FullTextRequestUsageTable = ({
-  costPerUseData,
+  usageData,
   platformType,
   startMonth,
 }) => {
   const {
     totals,
     platforms,
-  } = costPerUseData?.data?.attributes?.usage;
+  } = usageData;
 
   const intl = useIntl();
 

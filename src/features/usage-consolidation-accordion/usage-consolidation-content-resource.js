@@ -8,6 +8,7 @@ import NoCostPerUseAvailable from './no-cost-per-use-available';
 import {
   costPerUse as costPerUseShape,
   entityTypes,
+  costPerUseTypes,
 } from '../../constants';
 
 const propTypes = {
@@ -22,7 +23,13 @@ const UsageConsolidationContentResource = ({
   platformType,
   startMonth,
   year,
+  ...rest
 }) => {
+  const data = costPerUseData.data[costPerUseTypes.RESOURCE_COST_PER_USE];
+  if (!data) {
+    return null;
+  }
+
   const { isFailed } = costPerUseData;
 
   if (isFailed) {
@@ -39,7 +46,7 @@ const UsageConsolidationContentResource = ({
     cost,
     costPerUse,
     usage,
-  } = costPerUseData.data?.attributes?.analysis;
+  } = data.attributes?.analysis;
 
   const noCostPerUseAvailable = !cost && !costPerUse && !usage;
 
@@ -53,16 +60,19 @@ const UsageConsolidationContentResource = ({
         entityType={entityTypes.RESOURCE}
         year={year}
       />
-    )
-    : (
+    ) : (
       <>
         <SummaryTable
           id="resourceUsageConsolidationSummary"
+          entityType={entityTypes.RESOURCE}
           customProperties={customProperties}
+          costPerUseType={costPerUseTypes.RESOURCE_COST_PER_USE}
           costPerUseData={costPerUseData}
+          year={year}
+          {...rest}
         />
         <FullTextRequestUsageTable
-          costPerUseData={costPerUseData}
+          usageData={data.attributes.usage}
           platformType={platformType}
           startMonth={startMonth}
         />

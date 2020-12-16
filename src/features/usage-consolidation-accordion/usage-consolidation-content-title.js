@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import {
   useIntl,
@@ -20,9 +20,12 @@ import {
   compareCoveragesToBeSortedInDescOrder,
   isBookPublicationType,
 } from '../../components/utilities';
+import { useMultiColumnListSort } from '../../hooks';
 import {
   costPerUse as costPerUseShape,
   entityTypes,
+  costPerUseTypes,
+  sortOrders,
 } from '../../constants';
 import styles from './usage-consolidation-content.css';
 
@@ -31,26 +34,25 @@ const propTypes = {
   platformType: PropTypes.string.isRequired,
   publicationType: PropTypes.string,
   startMonth: PropTypes.string.isRequired,
-  year: PropTypes.string.isRequired,
+  year: PropTypes.number.isRequired,
 };
 
-const UsageConsolidationContentTitle = (props) => {
+const UsageConsolidationContentTitle = ({
+  costPerUseData,
+  platformType,
+  startMonth,
+  publicationType,
+  year,
+}) => {
   const intl = useIntl();
-  const {
-    costPerUseData,
-    platformType,
-    startMonth,
-    publicationType,
-    year,
-  } = props;
+  const [{ sortOrder, sortedColumn }, onHeaderClick] = useMultiColumnListSort(sortOrders.asc, 'packageName');
 
-  const [sortedColumn, setSortedColumn] = useState('packageName');
-  const [sortOrder, setSortOrder] = useState('ascending');
+  const data = costPerUseData.data[costPerUseTypes.TITLE_COST_PER_USE];
+  if (!data) {
+    return null;
+  }
 
-  const {
-    data,
-    isFailed,
-  } = costPerUseData;
+  const { isFailed } = costPerUseData;
 
   if (isFailed) {
     return (
@@ -64,18 +66,6 @@ const UsageConsolidationContentTitle = (props) => {
 
   const holdingsSummary = data?.attributes?.analysis?.holdingsSummary;
   const noCostPerUseAvailable = !holdingsSummary;
-
-  const onHeaderClick = (_, metadata) => {
-    const { name } = metadata;
-
-    if (name !== sortedColumn) {
-      setSortedColumn(name);
-      setSortOrder('ascending');
-    } else {
-      const order = sortOrder === 'ascending' ? 'descending' : 'ascending';
-      setSortOrder(order);
-    }
-  };
 
   const formatter = {
     packageName: (rowData) => {
@@ -129,8 +119,9 @@ const UsageConsolidationContentTitle = (props) => {
 
   const contentData = holdingsSummary ?
     holdingsSummary.sort((a, b) => {
-      const valA = sortOrder === 'ascending' ? a : b;
-      const valB = sortOrder === 'ascending' ? b : a;
+      const isAscendingSort = sortOrder.name === sortOrders.asc.name;
+      const valA = isAscendingSort ? a : b;
+      const valB = isAscendingSort ? b : a;
 
       if (sortedColumn === 'packageName') {
         return valA.packageName.localeCompare(valB.packageName);
@@ -169,32 +160,33 @@ const UsageConsolidationContentTitle = (props) => {
     },
     formatter,
   };
-  console.log(costPerUseData);
-  return noCostPerUseAvailable
-    ? (
-      <NoCostPerUseAvailable
+
+  return noCostPerUseAvailable ? (
+    <NoCostPerUseAvailable
+      entityType={entityTypes.TITLE}
+      year={year}
+    />
+  ) : (
+    <>
+      <SummaryTable
+        id="titleUsageConsolidationSummary"
+        contentData={contentData}
         entityType={entityTypes.TITLE}
+        customProperties={customProperties}
+        costPerUseType={costPerUseTypes.TITLE_COST_PER_USE}
+        onHeaderClick={onHeaderClick}
+        sortedColumn={sortedColumn}
+        sortDirection={sortOrder.fullName}
+        costPerUseData={costPerUseData}
         year={year}
       />
-    )
-    : (
-      <>
-        <SummaryTable
-          id="titleUsageConsolidationSummary"
-          contentData={contentData}
-          customProperties={customProperties}
-          onHeaderClick={onHeaderClick}
-          sortedColumn={sortedColumn}
-          sortDirection={sortOrder}
-          costPerUseData={costPerUseData}
-        />
-        <FullTextRequestUsageTable
-          costPerUseData={costPerUseData}
-          platformType={platformType}
-          startMonth={startMonth}
-        />
-      </>
-    );
+      <FullTextRequestUsageTable
+        usageData={data.attributes.usage}
+        platformType={platformType}
+        startMonth={startMonth}
+      />
+    </>
+  );
 };
 
 UsageConsolidationContentTitle.propTypes = propTypes;

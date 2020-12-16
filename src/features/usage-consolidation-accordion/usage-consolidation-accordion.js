@@ -37,7 +37,9 @@ const propTypes = {
   id: PropTypes.string.isRequired,
   isOpen: PropTypes.bool,
   onFilterSubmit: PropTypes.func.isRequired,
+  onLoadMoreTitles: PropTypes.func,
   onToggle: PropTypes.func.isRequired,
+  onViewTitles: PropTypes.func,
   publicationType: PropTypes.string,
   recordType: PropTypes.string.isRequired,
   usageConsolidation: ucReduxStateShape.UsageConsolidationReduxStateShape.isRequired,
@@ -54,6 +56,8 @@ const UsageConsolidationAccordion = ({
   costPerUseData,
   recordType,
   publicationType,
+  onViewTitles,
+  onLoadMoreTitles,
 }) => {
   const { isLoading: isCostPerUseDataLoading } = costPerUseData;
   const filtersInitialState = {
@@ -122,6 +126,20 @@ const UsageConsolidationAccordion = ({
     onFilterSubmit(changedFilterData);
   };
 
+  const handleViewTitles = (pageAndSortParams) => {
+    onViewTitles({
+      ...pageAndSortParams,
+      ...filterData,
+    });
+  };
+
+  const handleLoadMoreTitles = (pageAndSortParams) => {
+    onLoadMoreTitles({
+      ...pageAndSortParams,
+      ...filterData,
+    });
+  };
+
   const renderContent = () => {
     const {
       isLoaded: isCostPerUseDataLoaded,
@@ -151,6 +169,8 @@ const UsageConsolidationAccordion = ({
         <UsageConsolidationContentPackage
           costPerUseData={costPerUseData}
           year={year}
+          onViewTitles={handleViewTitles}
+          onLoadMoreTitles={handleLoadMoreTitles}
         />
       );
     } else if (recordType === entityTypes.TITLE) {
@@ -207,6 +227,11 @@ const UsageConsolidationAccordion = ({
       </>
     ) : null
   );
+};
+
+UsageConsolidationAccordion.defaultProps = {
+  onViewTitles: () => {},
+  onLoadMoreTitles: () => {},
 };
 
 UsageConsolidationAccordion.propTypes = propTypes;
