@@ -263,7 +263,8 @@
         "visible": true,
         "subPermissions": [
           "ui-eholdings.settings.enabled",
-          "kb-ebsco.kb-credentials.uc.item.get"
+          "kb-ebsco.kb-credentials.uc.item.get",
+          "kb-ebsco.currencies.collection.get"
         ]
       },
       {
