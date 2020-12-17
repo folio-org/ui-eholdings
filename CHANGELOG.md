@@ -8,6 +8,7 @@
 * Add permission for button New Settings (eHoldings): Can create, edit, and view knowledge base credentials. (UIEH-992)
 * Title Record: Add a Selection Status filter to Search within Packages modal. (UIEH-978)
 * Add label for contributor type narrator. (UIEH-977)
+* Remove request to '/status' in Settings > eHoldings. (UIEH-1012)
 
 ## [5.0.0] (https://github.com/folio-org/ui-eholdings/tree/v5.0.0) (2020-10-15)
 
