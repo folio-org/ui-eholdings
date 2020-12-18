@@ -1,9 +1,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
+import { Callout } from '@folio/stripes/components';
+
 import NoCostPerUseAvailable from './no-cost-per-use-available';
 import SummaryTable from './summary-table';
 import TitlesTable from './titles-table';
+import useFetchExportAndSaveTitles from './useFetchExportAndSaveTitles';
 import {
   costPerUse as costPerUseShape,
   entityTypes,
@@ -12,13 +15,33 @@ import {
 
 const propTypes = {
   costPerUseData: costPerUseShape.CostPerUseReduxStateShape.isRequired,
+  isExportDisabled: PropTypes.bool.isRequired,
   onLoadMoreTitles: PropTypes.func.isRequired,
   onViewTitles: PropTypes.func.isRequired,
   year: PropTypes.number.isRequired,
+  packageId: PropTypes.string.isRequired,
+  packageName: PropTypes.string.isRequired,
+  platformType: PropTypes.string.isRequired,
 };
 
-const UsageConsolidationContentPackage = props => {
-  const data = props.costPerUseData.data[costPerUseTypes.PACKAGE_COST_PER_USE];
+const UsageConsolidationContentPackage = ({
+  costPerUseData,
+  packageId,
+  packageName,
+  platformType,
+  year,
+  onLoadMoreTitles,
+  onViewTitles,
+  isExportDisabled,
+}) => { 
+  const [{ calloutRef }, onExportTitles] = useFetchExportAndSaveTitles({
+    packageId,
+    packageName,
+    fiscalYear: year,
+    platformType,
+  });
+
+  const data = costPerUseData.data[costPerUseTypes.PACKAGE_COST_PER_USE];
   if (!data) {
     return null;
   }
@@ -32,7 +55,7 @@ const UsageConsolidationContentPackage = props => {
   const noCostPerUseAvailable = !cost && !costPerUse && !usage;
 
   const handleFetchNextPage = (page, pageSize, sortedColumn, sortOrder) => {
-    props.onLoadMoreTitles({
+    onLoadMoreTitles({
       page,
       pageSize,
       sort: sortedColumn,
@@ -41,7 +64,7 @@ const UsageConsolidationContentPackage = props => {
   };
 
   const handleSortTitles = (sortedColumn, sortOrder) => {
-    props.onViewTitles({
+    onViewTitles({
       sort: sortedColumn,
       order: sortOrder,
     });
@@ -50,7 +73,7 @@ const UsageConsolidationContentPackage = props => {
   return noCostPerUseAvailable ? (
     <NoCostPerUseAvailable
       entityType={entityTypes.PACKAGE}
-      year={props.year}
+      year={year}
     />
   ) : (
     <>
@@ -61,13 +84,17 @@ const UsageConsolidationContentPackage = props => {
           columnMapping: { cost: 'ui-eholdings.usageConsolidation.summary.packageCost' },
         }}
         costPerUseType={costPerUseTypes.PACKAGE_COST_PER_USE}
-        {...props}
+        costPerUseData={costPerUseData}
+        onExportTitles={onExportTitles}
+        onViewTitles={onViewTitles}
+        isExportDisabled={isExportDisabled}
       />
       <TitlesTable
-        costPerUseData={props.costPerUseData}
+        costPerUseData={costPerUseData}
         fetchNextPage={handleFetchNextPage}
         onSortTitles={handleSortTitles}
       />
+      <Callout ref={calloutRef} />
     </>
   );
 };

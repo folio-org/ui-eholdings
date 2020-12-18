@@ -26,6 +26,7 @@ import {
   usageConsolidation as ucReduxStateShape,
   entityTypes,
   costPerUse,
+  platformTypes,
 } from '../../constants';
 
 import styles from './usage-consolidation-accordion.css';
@@ -35,12 +36,15 @@ const propTypes = {
   getUsageConsolidation: PropTypes.func.isRequired,
   headerProps: PropTypes.object,
   id: PropTypes.string.isRequired,
+  isExportDisabled: PropTypes.bool,
   isOpen: PropTypes.bool,
   onFilterSubmit: PropTypes.func.isRequired,
   onLoadMoreTitles: PropTypes.func,
   onToggle: PropTypes.func.isRequired,
   onViewTitles: PropTypes.func,
   publicationType: PropTypes.string,
+  recordId: PropTypes.string,
+  recordName: PropTypes.string,
   recordType: PropTypes.string.isRequired,
   usageConsolidation: ucReduxStateShape.UsageConsolidationReduxStateShape.isRequired,
 };
@@ -49,15 +53,18 @@ const UsageConsolidationAccordion = ({
   getUsageConsolidation,
   headerProps,
   id,
-  isOpen = false,
+  isOpen,
   onToggle,
   usageConsolidation,
   onFilterSubmit,
   costPerUseData,
   recordType,
+  recordId,
+  recordName,
   publicationType,
   onViewTitles,
   onLoadMoreTitles,
+  isExportDisabled,
 }) => {
   const { isLoading: isCostPerUseDataLoading } = costPerUseData;
   const filtersInitialState = {
@@ -168,9 +175,13 @@ const UsageConsolidationAccordion = ({
       return (
         <UsageConsolidationContentPackage
           costPerUseData={costPerUseData}
+          packageId={recordId}
+          packageName={recordName}
+          platformType={platformType}
           year={year}
           onViewTitles={handleViewTitles}
           onLoadMoreTitles={handleLoadMoreTitles}
+          isExportDisabled={isExportDisabled}
         />
       );
     } else if (recordType === entityTypes.TITLE) {
@@ -232,6 +243,10 @@ const UsageConsolidationAccordion = ({
 UsageConsolidationAccordion.defaultProps = {
   onViewTitles: () => {},
   onLoadMoreTitles: () => {},
+  isExportDisabled: false,
+  isOpen: false,
+  publicationType: '',
+  recordId: '',
 };
 
 UsageConsolidationAccordion.propTypes = propTypes;
