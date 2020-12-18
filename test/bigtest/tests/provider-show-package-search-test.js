@@ -383,7 +383,8 @@ describe('ProviderShow package search', () => {
       expect(ProviderShowPage.numPackages).to.equal('1,500,000');
     });
 
-    it('displays Over 10,000 as number of title records in list header', () => {
+    // TODO: unskip when Accordion issues have been fixed. https://github.com/folio-org/stripes-components/pull/1458
+    it.skip('displays Over 10,000 as number of title records in list header', () => {
       expect(ProviderShowPage.searchResultsCount).to.contain('Over');
       expect(ProviderShowPage.searchResultsCount).to.contain('10,000');
     });

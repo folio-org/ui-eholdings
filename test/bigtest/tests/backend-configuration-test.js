@@ -1,6 +1,5 @@
 import { beforeEach, describe, it } from '@bigtest/mocha';
 import { expect } from 'chai';
-import { Response } from 'miragejs';
 
 import setupApplication from '../helpers/setup-application';
 import ApplicationPage from '../interactors/application';
@@ -160,16 +159,16 @@ describe('With valid backend configuration', () => {
     });
 
     describe('filling in invalid data', () => {
-      beforeEach(function () {
-        this.server.patch('/kb-credentials/2', () => {
-          return new Response(422, {}, {
-            errors: [{
-              title: 'Invalid KB API credentials',
-            }],
-          });
-        });
+      beforeEach(async function () {
+        this.server.patch('/kb-credentials/2', {
+          errors: [{
+            title: 'Invalid KB API credentials',
+          }],
+        }, 422);
 
-        return SettingsPage
+        this.visit('/settings/eholdings/knowledge-base/2');
+
+        await SettingsPage
           .fillCustomerId('totally-bogus-customer-id')
           .fillApiKey('totally-bogus-api-key')
           .chooseRMAPIUrl('https://sandbox.ebsco.io')
@@ -180,7 +179,6 @@ describe('With valid backend configuration', () => {
         expect(SettingsPage.toast.errorText).to.equal('Invalid KB API credentials');
       });
     });
-
 
     describe('filling in complete data', () => {
       beforeEach(() => {

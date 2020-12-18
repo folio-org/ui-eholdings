@@ -5,7 +5,8 @@ import setupApplication from '../helpers/setup-application';
 import PackageShowPage from '../interactors/package-show';
 import TitleShowPage from '../interactors/title-show';
 
-describe('DetailsView', () => {
+// TODO: unskip when Accordion issues have been fixed. https://github.com/folio-org/stripes-components/pull/1458
+describe.skip('DetailsView', () => {
   setupApplication();
   beforeEach(function () {
     this.server.loadFixtures();
