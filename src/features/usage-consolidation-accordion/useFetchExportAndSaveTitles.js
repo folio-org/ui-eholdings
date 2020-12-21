@@ -42,17 +42,17 @@ const useFetchExportTitlesFromPackage = ({
     const calloutId = calloutRef.current.sendCallout({
       type: 'success',
       message: <FormattedMessage id='ui-eholdings.usageConsolidation.summary.exportTitles.progress' />,
-    });  
+    });
 
     try {
       const response = await fetch(url, { headers });
 
-      if (response.status >= 400) {
-        throw new Error('service');
-      }
-
       if (response.status === 504) {
         throw new Error('timeout');
+      }
+
+      if (response.status >= 400) {
+        throw new Error('service');
       }
 
       const text = await response.text();
@@ -63,7 +63,6 @@ const useFetchExportTitlesFromPackage = ({
         type: 'success',
         message: <FormattedMessage id='ui-eholdings.usageConsolidation.summary.exportTitles.success' />,
       });
-
     } catch (error) {
       calloutRef.current.removeCallout(calloutId);
       calloutRef.current.sendCallout({
@@ -79,7 +78,7 @@ const useFetchExportTitlesFromPackage = ({
     if (isLoading) {
       fetchData();
     }
-  }, [isLoading]);
+  }, [isLoading, fetchData]);
 
   return [{ calloutRef }, setIsLoading];
 };

@@ -18,10 +18,10 @@ const propTypes = {
   isExportDisabled: PropTypes.bool.isRequired,
   onLoadMoreTitles: PropTypes.func.isRequired,
   onViewTitles: PropTypes.func.isRequired,
-  year: PropTypes.number.isRequired,
   packageId: PropTypes.string.isRequired,
   packageName: PropTypes.string.isRequired,
   platformType: PropTypes.string.isRequired,
+  year: PropTypes.number.isRequired,
 };
 
 const UsageConsolidationContentPackage = ({
@@ -33,7 +33,7 @@ const UsageConsolidationContentPackage = ({
   onLoadMoreTitles,
   onViewTitles,
   isExportDisabled,
-}) => { 
+}) => {
   const [{ calloutRef }, onExportTitles] = useFetchExportAndSaveTitles({
     packageId,
     packageName,

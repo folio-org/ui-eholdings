@@ -26,7 +26,6 @@ import {
   usageConsolidation as ucReduxStateShape,
   entityTypes,
   costPerUse,
-  platformTypes,
 } from '../../constants';
 
 import styles from './usage-consolidation-accordion.css';
