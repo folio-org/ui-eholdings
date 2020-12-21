@@ -1379,4 +1379,10 @@ export default function config() {
       },
     },
   }));
+
+  this.get('/packages/:packageId/resources/costperuse/export', () => `
+    Title, Type, Cost, Usage, Cost per use, % of usage
+    Writings of Professor B. B. Edwards,Book,500.00,2225,0.22,16
+    The Seasons and the Symphony,Streaming Video,800.00,4544, 0.18,20
+  `);
 }

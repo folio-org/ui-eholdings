@@ -6,7 +6,7 @@ import { Callout } from '@folio/stripes/components';
 import NoCostPerUseAvailable from './no-cost-per-use-available';
 import SummaryTable from './summary-table';
 import TitlesTable from './titles-table';
-import useFetchExportAndSaveTitles from './useFetchExportAndSaveTitles';
+import { useFetchExportTitlesFromPackage } from '../../hooks';
 import {
   costPerUse as costPerUseShape,
   entityTypes,
@@ -34,7 +34,7 @@ const UsageConsolidationContentPackage = ({
   onViewTitles,
   isExportDisabled,
 }) => {
-  const [{ calloutRef }, onExportTitles] = useFetchExportAndSaveTitles({
+  const [{ calloutRef }, onExportTitles] = useFetchExportTitlesFromPackage({
     packageId,
     packageName,
     fiscalYear: year,
