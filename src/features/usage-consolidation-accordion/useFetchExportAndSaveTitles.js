@@ -2,6 +2,7 @@ import React, {
   useState,
   useEffect,
   useRef,
+  useCallback,
 } from 'react';
 import { useStripes } from '@folio/stripes/core';
 import { FormattedMessage } from 'react-intl';
@@ -36,7 +37,7 @@ const useFetchExportTitlesFromPackage = ({
     saveAs(blob, fileName);
   };
 
-  const fetchData = async () => {
+  const fetchData = useCallback(async () => {
     setIsLoading(true);
 
     const calloutId = calloutRef.current.sendCallout({
@@ -72,7 +73,7 @@ const useFetchExportTitlesFromPackage = ({
     }
 
     setIsLoading(false);
-  };
+  });
 
   useEffect(() => {
     if (isLoading) {

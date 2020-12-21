@@ -1,8 +1,10 @@
 @import "@folio/stripes-components/lib/sharedStyles/form.css";
 
 .limit-error {
-  composes: feedbackError;
   position: relative;
   top: -0.35rem;
   margin-left: 1.25rem;
+  padding: 0 var(--input-vertical-padding);
+  font-size: var(--font-size-medium);
+  color: var(--error);
 }
