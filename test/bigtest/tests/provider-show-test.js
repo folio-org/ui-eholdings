@@ -109,7 +109,7 @@ describe('ProviderShow', () => {
       expect(ProviderShowPage.packageList(0).name).to.equal('Provider Package 1');
     });
 
-    describe('scrolling down the list of packages', () => {
+    describe.skip('scrolling down the list of packages', () => {
       beforeEach(() => {
         return ProviderShowPage
           .when(() => ProviderShowPage.packageListHasLoaded)
