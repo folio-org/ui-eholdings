@@ -5,9 +5,21 @@ import {
   GET_COST_PER_USE_PACKAGE_TITLES,
   GET_COST_PER_USE_PACKAGE_TITLES_SUCCESS,
   GET_COST_PER_USE_PACKAGE_TITLES_FAILURE,
+  CLEAR_COST_PER_USE_DATA,
 } from '../actions';
 
 import { formatErrors } from '../helpers';
+
+const initialState = {
+  data: {},
+  isLoading: false,
+  isLoaded: false,
+  isFailed: false,
+  isPackageTitlesLoading: false,
+  isPackageTitlesLoaded: false,
+  isPackageTitlesFailed: false,
+  errors: [],
+};
 
 const handleError = (state, { payload }) => ({
   ...state,
@@ -75,17 +87,7 @@ const handlers = {
     isPackageTitlesFailed: true,
     errors: formatErrors(payload.errors),
   }),
-};
-
-const initialState = {
-  data: {},
-  isLoading: false,
-  isLoaded: false,
-  isFailed: false,
-  isPackageTitlesLoading: false,
-  isPackageTitlesLoaded: false,
-  isPackageTitlesFailed: false,
-  errors: [],
+  [CLEAR_COST_PER_USE_DATA]: () => initialState,
 };
 
 export default function costPerUse(state, action) {
