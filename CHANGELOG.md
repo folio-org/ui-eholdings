@@ -1,6 +1,6 @@
 # Change history for ui-eholdings
 
-## [5.0.3] (IN PROGRESS)
+## [5.0.3] (https://github.com/folio-org/ui-eholdings/tree/v5.0.3) (2020-12-29)
 
 * Remove request to '/status' in Settings > eHoldings. (UIEH-1012)
 
