@@ -321,7 +321,7 @@
     "notes.entityType.title.pluralized": "{count} {count, plural, one {عنوان} other {عنوان}}",
     "package.resultsNotFoundForQuery": "لم يتم العثور على أي حزم لـ \"{ query }\". يرجى التحقق من التهجئة والمنقحات.",
     "provider.resultsNotFoundForQuery": "لم يتم العثور على أي مزودي خدمة لـ '{query}'. يرجى التحقق من التهجئة والمنقحات.",
-    "title.resultsNotFoundForQuery": "لم يتم العثور على أي عناوين لـ '{query}'.",
+    "title.resultsNotFoundForQuery": "لم يتم العثور على أي عناوين لـ \"{ query }\". يرجى التحقق من التهجئة والمنقحات.",
     "label.edit.custom.coverageDates": "تواريخ التغطية المخصصة (قم بإدخال نطاقات زمنية متعددة بترتيب تنازلي)",
     "search.searchByTagsOnly": "بحث بواسطة الوسوم فقط",
     "filter.togglePane": "تبديل لوحة المنقحات",
@@ -419,5 +419,6 @@
     "agreements.unassignModal.description": "هل أنت متأكد من أنك تريد إلغاء تعيين <strong>{agreementName}</strong> من <strong>{recordName}</strong>؟ بمجرد قيامك بإلغاء التعيين، لن تكون الاتفاقية مرفقة بهذه التسجيلة بعد الآن.",
     "agreements.unassignModal.cancel": "إلغاء",
     "agreements.unassignModal.unassign": "إلغاء تعيين",
-    "permission.settings.custom-labels.all": "الإعدادات (المقتنيات الإلكترونية): إمكانية إنشاء، تحرير، عرض، وحذف ملصقات التسمية المخصصة"
+    "permission.settings.custom-labels.all": "الإعدادات (المقتنيات الإلكترونية): إمكانية إنشاء، تحرير، عرض، وحذف ملصقات التسمية المخصصة",
+    "contributorType.narrator": "{count, plural, zero {راوٍ} one {راوٍ} two {رواة} few {رواة} many {رواة} other {رواة}}"
 }

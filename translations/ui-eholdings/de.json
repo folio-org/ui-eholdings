@@ -384,10 +384,10 @@
     "settings.assignedUsers.alreadyAssignedModal.message": "<strong>{userName}</strong> has already been assigned to another knowledge base and cannot be assigned to this knowledge base.",
     "settings.assignedUsers.confirmationModal.title": "Unassign a user from a knowledge base",
     "settings.assignedUsers.confirmationModal.prompt": "Are you sure you want to unassign <strong>{userName}</strong> from <strong>{knowledgeBaseName}</strong>?",
-    "settings.assignedUsers.confirmationModal.confirmButton": "Unassign",
-    "settings.assignedUsers.confirmationModal.cancelButton": "Cancel",
-    "settings.assignedUsers.assignmentModal.label": "Select user",
-    "settings.assignedUsers.networkErrorMessage": "Unable to complete this operation. Please try again.",
+    "settings.assignedUsers.confirmationModal.confirmButton": "Entfernen",
+    "settings.assignedUsers.confirmationModal.cancelButton": "Abbrechen",
+    "settings.assignedUsers.assignmentModal.label": "Person auswählen",
+    "settings.assignedUsers.networkErrorMessage": "Dieser Vorgang kann nicht abgeschlossen werden. Bitte versuchen Sie es erneut.",
     "validate.errors.settings.kb.name": "Field required. Please revise.",
     "validate.errors.settings.kb.name.length": "255 character limit has been exceeded. Please revise.",
     "server.errors.userNotAssignedToKb": "Unable to grant access to the eholdings app. Please contact your FOLIO system administrator to grant access.",
@@ -419,5 +419,6 @@
     "agreements.unassignModal.description": "Are you sure you want to unassign <strong>{agreementName}</strong> from <strong>{recordName}</strong>? Once you unsassign, the agreement will no longer be attached to this record.",
     "agreements.unassignModal.cancel": "Cancel",
     "agreements.unassignModal.unassign": "Unassign",
-    "permission.settings.custom-labels.all": "Settings (eholdings): Can create, edit, view, and delete custom labels"
+    "permission.settings.custom-labels.all": "Settings (eholdings): Can create, edit, view, and delete custom labels",
+    "contributorType.narrator": "{count, plural, one {Narrator} other {Narrators}}"
 }
