@@ -420,5 +420,7 @@
     "agreements.unassignModal.cancel": "Cancelar",
     "agreements.unassignModal.unassign": "Anular la asignación",
     "permission.settings.custom-labels.all": "Configuración (eholdings): puede crear, editar, ver y eliminar etiquetas personalizadas",
-    "contributorType.narrator": "{count, plural, one {Narrator} other {Narrators}}"
+    "contributorType.narrator": "{count, plural, one {Narrator} other {Narrators}}",
+    "permission.module.eholdings.enabled": "",
+    "permission.eholdings.enabled": ""
 }
