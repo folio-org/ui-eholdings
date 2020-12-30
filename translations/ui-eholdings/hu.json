@@ -420,5 +420,7 @@
     "agreements.unassignModal.cancel": "Cancel",
     "agreements.unassignModal.unassign": "Unassign",
     "permission.settings.custom-labels.all": "Settings (eholdings): Can create, edit, view, and delete custom labels",
-    "contributorType.narrator": "{count, plural, one {Narrator} other {Narrators}}"
+    "contributorType.narrator": "{count, plural, one {Narrator} other {Narrators}}",
+    "permission.module.eholdings.enabled": "",
+    "permission.eholdings.enabled": ""
 }

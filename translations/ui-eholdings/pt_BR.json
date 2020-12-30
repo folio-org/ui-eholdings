@@ -420,5 +420,7 @@
     "agreements.unassignModal.cancel": "Cancelar",
     "agreements.unassignModal.unassign": "Cancelar atribuição",
     "permission.settings.custom-labels.all": "Configurações (eholdings): Pode criar, editar, visualizar e excluir etiquetas personalizadas",
-    "contributorType.narrator": "{count, plural, one {Narrador} other {Narradores}}"
+    "contributorType.narrator": "{count, plural, one {Narrador} other {Narradores}}",
+    "permission.module.eholdings.enabled": "",
+    "permission.eholdings.enabled": ""
 }

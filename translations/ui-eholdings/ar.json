@@ -420,5 +420,7 @@
     "agreements.unassignModal.cancel": "إلغاء",
     "agreements.unassignModal.unassign": "إلغاء تعيين",
     "permission.settings.custom-labels.all": "الإعدادات (المقتنيات الإلكترونية): إمكانية إنشاء، تحرير، عرض، وحذف ملصقات التسمية المخصصة",
-    "contributorType.narrator": "{count, plural, zero {راوٍ} one {راوٍ} two {رواة} few {رواة} many {رواة} other {رواة}}"
+    "contributorType.narrator": "{count, plural, zero {راوٍ} one {راوٍ} two {رواة} few {رواة} many {رواة} other {رواة}}",
+    "permission.module.eholdings.enabled": "",
+    "permission.eholdings.enabled": ""
 }
