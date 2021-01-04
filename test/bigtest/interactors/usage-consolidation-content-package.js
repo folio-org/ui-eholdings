@@ -6,6 +6,7 @@ import {
 
 import MultiColumnListInteractor from '@folio/stripes-components/lib/MultiColumnList/tests/interactor'; // eslint-disable-line
 import DropdownInteractor from '@folio/stripes-components/lib/Dropdown/tests/interactor'; // eslint-disable-line
+import CalloutInteractor from '@folio/stripes-components/lib/Callout/tests/interactor'; // eslint-disable-line
 
 @interactor class UsageConsolidationContentPackage {
   isUsageConsolidationErrorPresent = isPresent('[data-test-usage-consolidation-error]');
@@ -26,6 +27,8 @@ import DropdownInteractor from '@folio/stripes-components/lib/Dropdown/tests/int
   whenTitlesLoaded() {
     return this.when(() => this.titlesTable.isPresent);
   }
+
+  toast = new CalloutInteractor();
 }
 
 export default UsageConsolidationContentPackage;

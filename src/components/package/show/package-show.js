@@ -61,6 +61,7 @@ import {
 import QueryNotFound from '../../query-list/not-found';
 
 const ITEM_HEIGHT = 62;
+const MAX_EXPORT_TITLE_LIMIT = 200000;
 
 class PackageShow extends Component {
   static propTypes = {
@@ -533,7 +534,10 @@ class PackageShow extends Component {
           onViewTitles={fetchCostPerUsePackageTitles}
           onLoadMoreTitles={loadMoreCostPerUsePackageTitles}
           recordType={entityTypes.PACKAGE}
+          recordId={model.id}
+          recordName={model.name}
           costPerUseData={costPerUse}
+          isExportDisabled={model.selectedCount >= MAX_EXPORT_TITLE_LIMIT}
         />
       </>
     );

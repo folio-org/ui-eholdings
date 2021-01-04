@@ -19,6 +19,7 @@
 * Add Usage Consolidation Titles table to Package Show page. (UIEH-948)
 * Fix Usage Consolidation currency setting not updating. (UIEH-1009)
 * Clear Usage Consolidation data when leaving Package/Title/Resource View page. (UIEH-1013)
+* Package Show page | Export Titles. (UIEH-946)
 
 ## [5.0.0] (https://github.com/folio-org/ui-eholdings/tree/v5.0.0) (2020-10-15)
 

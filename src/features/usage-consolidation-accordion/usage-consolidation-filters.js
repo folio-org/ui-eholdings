@@ -22,7 +22,7 @@ import { platformTypes } from '../../constants';
 const propTypes = {
   initialState: PropTypes.shape({
     platformType: PropTypes.string,
-    year: PropTypes.string,
+    year: PropTypes.number,
   }).isRequired,
   onSubmit: PropTypes.func.isRequired,
 };

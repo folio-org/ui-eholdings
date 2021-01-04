@@ -205,6 +205,18 @@ describe('PackageShowUsageConsolidation', () => {
             });
           });
         });
+
+        describe('when clicking Export titles', () => {
+          beforeEach(async () => {
+            await PackageShowPage.usageConsolidation.content.actionsDropdown.focusAndOpen();
+            await PackageShowPage.usageConsolidation.content.actionsDropdown.menu.items(1).click();
+            await PackageShowPage.usageConsolidation.content.whenTitlesLoaded();
+          });
+
+          it.skip('should show success callout', () => {
+            expect(PackageShowPage.usageConsolidation.toast.successCalloutIsPresent).to.be.true;
+          });
+        });
       });
     });
   });
