@@ -13,6 +13,7 @@ import Tag from '../redux/tag';
 import {
   getAccessTypes as getAccessTypesAction,
   getCostPerUse as getCostPerUseAction,
+  clearCostPerUseData as clearCostPerUseDataAction,
 } from '../redux/actions';
 import { selectPropFromData } from '../redux/selectors';
 
@@ -25,6 +26,7 @@ import {
 class ResourceShowRoute extends Component {
   static propTypes = {
     accessTypes: accessTypesReduxStateShape.isRequired,
+    clearCostPerUseData: PropTypes.func.isRequired,
     costPerUse: costPerUseShape.CostPerUseReduxStateShape.isRequired,
     destroyResource: PropTypes.func.isRequired,
     getAccessTypes: PropTypes.func.isRequired,
@@ -89,6 +91,10 @@ class ResourceShowRoute extends Component {
     if (id !== prevProps.match.params.id) {
       getResource(id);
     }
+  }
+
+  componentWillUnmount() {
+    this.props.clearCostPerUseData();
   }
 
   toggleSelected = () => {
@@ -206,5 +212,6 @@ export default connect(
     getAccessTypes: getAccessTypesAction,
     removeUpdateRequests: () => Resource.removeRequests('update'),
     getCostPerUse: getCostPerUseAction,
+    clearCostPerUseData: clearCostPerUseDataAction,
   }
 )(ResourceShowRoute);
