@@ -19,6 +19,7 @@ import {
   getAccessTypes as getAccessTypesAction,
   getCostPerUse as getCostPerUseAction,
   getCostPerUsePackageTitles as getCostPerUsePackageTitlesAction,
+  clearCostPerUseData as clearCostPerUseDataAction,
 } from '../redux/actions';
 import Tag from '../redux/tag';
 import { transformQueryParams } from '../components/utilities';
@@ -34,6 +35,7 @@ import SearchModal from '../components/search-modal';
 class PackageShowRoute extends Component {
   static propTypes = {
     accessStatusTypes: accessTypesReduxStateShape.isRequired,
+    clearCostPerUseData: PropTypes.func.isRequired,
     costPerUse: costPerUseShape.CostPerUseReduxStateShape.isRequired,
     destroyPackage: PropTypes.func.isRequired,
     getAccessTypes: PropTypes.func.isRequired,
@@ -155,6 +157,10 @@ class PackageShowRoute extends Component {
       const params = transformQueryParams('titles', pkgSearchParams);
       getPackageTitles(packageId, { ...params });
     }
+  }
+
+  componentWillUnmount() {
+    this.props.clearCostPerUseData();
   }
 
   getTitleResults() {
@@ -380,5 +386,6 @@ export default connect(
     getAccessTypes: getAccessTypesAction,
     getCostPerUse: getCostPerUseAction,
     getCostPerUsePackageTitles: getCostPerUsePackageTitlesAction,
+    clearCostPerUseData: clearCostPerUseDataAction,
   }
 )(PackageShowRoute);
