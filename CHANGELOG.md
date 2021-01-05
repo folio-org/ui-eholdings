@@ -8,6 +8,7 @@
 ## [5.0.3] (https://github.com/folio-org/ui-eholdings/tree/v5.0.3) (2020-12-29)
 
 * Remove request to '/status' in Settings > eHoldings. (UIEH-1012)
+* Fixed text wrapping for Custom Labels. (UIEH-985)
 
 ## [5.0.2] (https://github.com/folio-org/ui-eholdings/tree/v5.0.2) (2020-11-18)
 
