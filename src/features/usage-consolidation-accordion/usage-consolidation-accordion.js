@@ -156,7 +156,10 @@ const UsageConsolidationAccordion = ({
       platformType,
       year,
     } = filterData;
-    const { startMonth } = usageConsolidation.data;
+    const {
+      startMonth,
+      metricType,
+    } = usageConsolidation.data;
 
     if (!isCostPerUseDataLoaded && !isCostPerUseDataLoadingFailed) {
       return null;
@@ -180,6 +183,7 @@ const UsageConsolidationAccordion = ({
           year={year}
           onViewTitles={handleViewTitles}
           onLoadMoreTitles={handleLoadMoreTitles}
+          metricType={metricType}
           isExportDisabled={isExportDisabled}
         />
       );
@@ -191,6 +195,7 @@ const UsageConsolidationAccordion = ({
           publicationType={publicationType}
           platformType={platformType}
           startMonth={startMonth}
+          metricType={metricType}
         />
       );
     } else if (recordType === entityTypes.RESOURCE) {
@@ -200,6 +205,7 @@ const UsageConsolidationAccordion = ({
           year={year}
           platformType={platformType}
           startMonth={startMonth}
+          metricType={metricType}
         />
       );
     }

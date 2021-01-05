@@ -16,6 +16,7 @@ import {
 const propTypes = {
   costPerUseData: costPerUseShape.CostPerUseReduxStateShape.isRequired,
   isExportDisabled: PropTypes.bool.isRequired,
+  metricType: PropTypes.string,
   onLoadMoreTitles: PropTypes.func.isRequired,
   onViewTitles: PropTypes.func.isRequired,
   packageId: PropTypes.string.isRequired,
@@ -33,6 +34,7 @@ const UsageConsolidationContentPackage = ({
   onLoadMoreTitles,
   onViewTitles,
   isExportDisabled,
+  metricType,
 }) => {
   const [{ calloutRef }, onExportTitles] = useFetchExportTitlesFromPackage({
     packageId,
@@ -88,6 +90,7 @@ const UsageConsolidationContentPackage = ({
         onExportTitles={onExportTitles}
         onViewTitles={onViewTitles}
         isExportDisabled={isExportDisabled}
+        metricType={metricType}
       />
       <TitlesTable
         costPerUseData={costPerUseData}

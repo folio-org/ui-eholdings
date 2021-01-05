@@ -31,6 +31,7 @@ import styles from './usage-consolidation-content.css';
 
 const propTypes = {
   costPerUseData: costPerUseShape.CostPerUseReduxStateShape.isRequired,
+  metricType: PropTypes.string,
   platformType: PropTypes.string.isRequired,
   publicationType: PropTypes.string,
   startMonth: PropTypes.string.isRequired,
@@ -43,6 +44,7 @@ const UsageConsolidationContentTitle = ({
   startMonth,
   publicationType,
   year,
+  metricType,
 }) => {
   const intl = useIntl();
   const [{ sortOrder, sortedColumn }, onHeaderClick] = useMultiColumnListSort(sortOrders.asc, 'packageName');
@@ -179,6 +181,7 @@ const UsageConsolidationContentTitle = ({
         sortDirection={sortOrder.fullName}
         costPerUseData={costPerUseData}
         year={year}
+        metricType={metricType}
       />
       <FullTextRequestUsageTable
         usageData={data.attributes.usage}

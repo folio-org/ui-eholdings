@@ -13,6 +13,7 @@ import {
 
 const propTypes = {
   costPerUseData: costPerUseShape.CostPerUseReduxStateShape.isRequired,
+  metricType: PropTypes.string,
   platformType: PropTypes.string.isRequired,
   startMonth: PropTypes.string.isRequired,
   year: PropTypes.number.isRequired,
