@@ -18,6 +18,7 @@
 * Add Full text request usage table to Resource/Title Show page. (UIEH-953, UIEH-997)
 * Add Usage Consolidation Titles table to Package Show page. (UIEH-948)
 * Fix Usage Consolidation currency setting not updating. (UIEH-1009)
+* Display Usage data metric selection for Total usage on Summary table. (UIEH-994)
 
 ## [5.0.0] (https://github.com/folio-org/ui-eholdings/tree/v5.0.0) (2020-10-15)
 

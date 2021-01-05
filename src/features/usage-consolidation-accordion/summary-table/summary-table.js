@@ -28,6 +28,7 @@ const propTypes = {
   customProperties: PropTypes.object,
   entityType: PropTypes.string.isRequired,
   id: PropTypes.string.isRequired,
+  metricType: PropTypes.string,
   onViewTitles: PropTypes.func,
   year: PropTypes.number.isRequired,
 };
@@ -40,6 +41,7 @@ const SummaryTable = ({
   costPerUseType,
   onViewTitles,
   entityType,
+  metricType,
   ...rest
 }) => {
   const intl = useIntl();
@@ -133,7 +135,11 @@ const SummaryTable = ({
       <MultiColumnList
         id={id}
         contentData={contentData}
-        {...getSummaryTableColumnProperties(intl, customPropertiesWithFormatter, currency)}
+        {...getSummaryTableColumnProperties(intl, customPropertiesWithFormatter, {
+          currency,
+          metricType,
+          entityType,
+        })}
         {...rest}
       />
     </KeyValue>

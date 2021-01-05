@@ -1125,6 +1125,7 @@ export default function config() {
       startMonth: 'mar',
       currency: 'USD',
       platformType: 'publisher',
+      metricType: 'Total Item Requests',
     },
     metadata: {
       createdDate: '2020-03-17T15:22:04.098',

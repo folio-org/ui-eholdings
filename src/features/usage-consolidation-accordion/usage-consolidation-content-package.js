@@ -12,6 +12,7 @@ import {
 
 const propTypes = {
   costPerUseData: costPerUseShape.CostPerUseReduxStateShape.isRequired,
+  metricType: PropTypes.string,
   onLoadMoreTitles: PropTypes.func.isRequired,
   onViewTitles: PropTypes.func.isRequired,
   year: PropTypes.number.isRequired,

@@ -4,6 +4,7 @@ const UsageConsolidationShape = PropTypes.shape({
   credentialsId: PropTypes.string.isRequired,
   currency: PropTypes.string.isRequired,
   customerKey: PropTypes.string.isRequired,
+  metricType: PropTypes.string,
   platformType: PropTypes.string.isRequired,
   startMonth: PropTypes.string.isRequired,
 });
