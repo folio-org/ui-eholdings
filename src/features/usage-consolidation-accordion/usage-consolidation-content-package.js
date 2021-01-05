@@ -1,10 +1,19 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { FormattedMessage } from 'react-intl';
 
-import { Callout } from '@folio/stripes/components';
+import {
+  Callout,
+  Button,
+  Dropdown,
+  DropdownButton,
+  DropdownMenu,
+  Icon,
+} from '@folio/stripes/components';
 
 import NoCostPerUseAvailable from './no-cost-per-use-available';
 import SummaryTable from './summary-table';
+import { DEFAULT_SUMMARY_TABLE_COLUMNS } from './summary-table/column-properties';
 import TitlesTable from './titles-table';
 import { useFetchExportTitlesFromPackage } from '../../hooks';
 import {
@@ -12,6 +21,8 @@ import {
   entityTypes,
   costPerUseTypes,
 } from '../../constants';
+
+import style from './usage-consolidation-content.css';
 
 const propTypes = {
   costPerUseData: costPerUseShape.CostPerUseReduxStateShape.isRequired,
@@ -70,6 +81,87 @@ const UsageConsolidationContentPackage = ({
     });
   };
 
+  const handleViewTitles = onToggle => () => {
+    onViewTitles();
+    onToggle();
+  };
+
+  const customProperties = {
+    visibleColumns: [...Object.values(DEFAULT_SUMMARY_TABLE_COLUMNS), 'actions'],
+    columnMapping: {
+      [DEFAULT_SUMMARY_TABLE_COLUMNS.COST]: 'ui-eholdings.usageConsolidation.summary.packageCost',
+      actions: null,
+    },
+    columnWidths: {
+      [DEFAULT_SUMMARY_TABLE_COLUMNS.COST]: '25%',
+      [DEFAULT_SUMMARY_TABLE_COLUMNS.USAGE]: '20%',
+      [DEFAULT_SUMMARY_TABLE_COLUMNS.COST_PER_USE]: '40%',
+      actions: '15%',
+    },
+    formatter: {
+      actions: () => (
+        <Dropdown
+          id="summary-table-actions-dropdown"
+          renderTrigger={({ onToggle, triggerRef, ariaProps, keyHandler, getTriggerProps }) => (
+            <DropdownButton
+              id="usage-consolidation-actions-dropdown-button"
+              ref={triggerRef}
+              onKeyDown={keyHandler}
+              marginBottom0
+              onClick={onToggle}
+              {...ariaProps}
+              {...getTriggerProps()}
+            >
+              <FormattedMessage id="ui-eholdings.usageConsolidation.summary.actions" />
+            </DropdownButton>
+          )}
+          renderMenu={({ onToggle }) => (
+            <DropdownMenu role="menu">
+              <Button
+                id="summary-table-actions-view-titles"
+                buttonStyle="dropdownItem fullWidth"
+                role="menuitem"
+                onClick={handleViewTitles(onToggle)}
+                marginBottom0
+              >
+                <Icon
+                  icon="eye-open"
+                  size="small"
+                >
+                  <FormattedMessage id="ui-eholdings.usageConsolidation.summary.actions.view" />
+                </Icon>
+              </Button>
+              <div>
+                <Button
+                  buttonStyle="dropdownItem fullWidth"
+                  role="menuitem"
+                  onClick={() => {
+                    onExportTitles(true);
+                    onToggle();
+                  }}
+                  disabled={isExportDisabled}
+                  marginBottom0
+                >
+                  <Icon
+                    icon="download"
+                    size="small"
+                  >
+                    <FormattedMessage id="ui-eholdings.usageConsolidation.summary.actions.export" />
+                  </Icon>
+                </Button>
+                {isExportDisabled && (
+                  <span className={style['limit-error']}>
+                    <FormattedMessage id="ui-eholdings.usageConsolidation.summary.exportTitles.limit" />
+                  </span>
+                )}
+              </div>
+            </DropdownMenu>
+          )}
+        />
+      )
+    },
+  };
+
   return noCostPerUseAvailable ? (
     <NoCostPerUseAvailable
       entityType={entityTypes.PACKAGE}
@@ -80,9 +172,7 @@ const UsageConsolidationContentPackage = ({
       <SummaryTable
         id="packageUsageConsolidationSummary"
         entityType={entityTypes.PACKAGE}
-        customProperties={{
-          columnMapping: { cost: 'ui-eholdings.usageConsolidation.summary.packageCost' },
-        }}
+        customProperties={customProperties}
         costPerUseType={costPerUseTypes.PACKAGE_COST_PER_USE}
         costPerUseData={costPerUseData}
         onExportTitles={onExportTitles}

@@ -274,6 +274,10 @@ describe('PackageShowUsageConsolidation', () => {
       expect(PackageShowPage.usageConsolidation.content.summaryTable.isPresent).to.be.true;
     });
 
+    it('should show four columns in Summary table', () => {
+      expect(PackageShowPage.usageConsolidation.content.summaryTable.columnCount).to.be.equal(4);
+    });
+
     it('should show Usage in correct format', () => {
       expect(PackageShowPage.usageConsolidation.content.summaryTable.rows(0).cells(1).content).to.equal('-');
     });
