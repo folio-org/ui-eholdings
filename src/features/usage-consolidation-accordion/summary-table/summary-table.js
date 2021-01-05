@@ -49,11 +49,6 @@ const SummaryTable = ({
     usage,
   } = data?.attributes?.analysis;
 
-  const customPropertiesWithFormatter = {
-    ...customProperties,
-    formatter: { ...(customProperties.formatter || {}) },
-  };
-
   const contentData = rest.contentData || [{ cost, costPerUse, usage }];
 
   return (
@@ -61,7 +56,7 @@ const SummaryTable = ({
       <MultiColumnList
         id={id}
         contentData={contentData}
-        {...getSummaryTableColumnProperties(intl, customPropertiesWithFormatter, {
+        {...getSummaryTableColumnProperties(intl, customProperties, {
           currency,
           metricType,
           entityType,

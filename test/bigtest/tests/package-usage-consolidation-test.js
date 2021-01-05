@@ -92,7 +92,7 @@ describe('PackageShowUsageConsolidation', () => {
           await PackageShowPage.usageConsolidation.content.whenLoaded();
         });
 
-        // Try to run test after STCOM-788
+        // TODO: Try to run test after STCOM-788
         describe.skip('waiting for axe to run', () => {
           beforeEach(async () => {
             await PackageShowPage.whenLoaded();
