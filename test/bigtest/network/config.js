@@ -1125,6 +1125,7 @@ export default function config() {
       startMonth: 'mar',
       currency: 'USD',
       platformType: 'publisher',
+      metricType: 'Total Item Requests',
     },
     metadata: {
       createdDate: '2020-03-17T15:22:04.098',
@@ -1182,6 +1183,61 @@ export default function config() {
     },
   }));
 
+  this.get('/packages/:id/resources/costperuse', () => ({
+    'data': [{
+      'resourceId': '58-473-356',
+      'type': 'resourceCostPerUseItem',
+      'attributes': {
+        'name': 'Abacus',
+        'publicationType': 'Journal',
+        'percent': 0.08677172462134165,
+        'cost': 1.042165,
+        'usage': 127,
+        'costPerUse': 0.008206023622047243
+      }
+    }, {
+      'resourceId': '58-473-491',
+      'type': 'resourceCostPerUseItem',
+      'attributes': {
+        'name': 'About Campus',
+        'publicationType': 'Journal',
+        'percent': 15.4,
+        'usage': 23,
+        'costPerUse': 0.008206023622047243
+      }
+    }, {
+      'resourceId': '58-473-1230757',
+      'type': 'resourceCostPerUseItem',
+      'attributes': {
+        'name': 'AAHE-ERIC/Higher Education Research Report',
+        'publicationType': 'Journal',
+        'percent': 15.6,
+        'usage': 0,
+        'costPerUse': 0.008206023622047243
+      }
+    }, {
+      'resourceId': '58-473-1230759',
+      'type': 'resourceCostPerUseItem',
+      'attributes': {
+        'name': 'AAHE-ERIC/Higher Education Research Report 2',
+        'publicationType': 'Journal',
+        'percent': 0,
+        'usage': 200,
+        'costPerUse': 0.008206023622047243
+      }
+    }],
+    'parameters': {
+      'startMonth': 'jan',
+      'currency': 'USD'
+    },
+    'meta': {
+      'totalResults': 3
+    },
+    'jsonapi': {
+      'version': '1.0'
+    }
+  }));
+
   this.get('/titles/:titleId/costperuse', () => ({
     'titleId': '185972',
     'type': 'titleCostPerUse',
@@ -1189,7 +1245,7 @@ export default function config() {
       'usage': {
         'platforms': [{
           'name': 'Wiley Online Library',
-          'isPublisherPlatform' : true,
+          'isPublisherPlatform': true,
           'counts': [2, 6, 0, 3, 6, 2, 1, 2, null, null, null, null],
           'total': 22
         }],
@@ -1200,7 +1256,7 @@ export default function config() {
           }
         }
       },
-      'analysis' : {
+      'analysis': {
         'holdingsSummary': [{
           'packageId': '58-2121943',
           'resourceId': '58-2121943-185972',
@@ -1269,20 +1325,65 @@ export default function config() {
   }));
 
   this.get('/resources/:resourceId/costperuse', () => ({
-    'resourceId': '134131-3212415-19735043',
-    'type': 'resourceCostPerUse',
-    'attributes': {
-      'analysis': {
-        'publisherPlatforms': {
-          'cost': 1200,
-          'usage': 31953,
-          'costPerUse': 0.0434,
-        }
+    type: 'resourceCostPerUse',
+    attributes: {
+      usage: {
+        platforms: [
+          {
+            name: 'Wiley Online Library',
+            isPublisherPlatform: true,
+            counts: [0, 1, 3, 1, 3, 1, 16, 1, null, null, null, null],
+            total: 26,
+          },
+          {
+            name: 'EBSCOhost',
+            isPublisherPlatform: false,
+            counts: [2, null, 1, null, null, null, 3, 4, null, null, null, null],
+            total: 10,
+          },
+        ],
+        totals: {
+          publisher: {
+            counts: [0, 1, 3, 1, 3, 1, 16, 1, null, null, null, null],
+            total: 26,
+          },
+          nonPublisher: {
+            counts: [2, null, 1, null, null, null, 3, 4, null, null, null, null],
+            total: 10,
+          },
+          all: {
+            counts: [2, 1, 4, 1, 3, 1, 19, 5, null, null, null, null],
+            total: 36,
+          },
+        },
       },
-      'parameters': {
-        'startMonth': 'jan',
-        'currency': 'USD',
+      analysis: {
+        publisherPlatforms: {
+          cost: 100.0,
+          usage: 26,
+          costPerUse: 3.8461538461538463
+        },
+        nonPublisherPlatforms: {
+          cost: 100.0,
+          usage: 10,
+          costPerUse: 10.0
+        },
+        allPlatforms: {
+          cost: 100.0,
+          usage: 36,
+          costPerUse: 2.7777777777777777,
+        },
+      },
+      parameters: {
+        startMonth: 'jan',
+        currency: 'USD',
       },
     },
   }));
+
+  this.get('/packages/:packageId/resources/costperuse/export', () => `
+    Title, Type, Cost, Usage, Cost per use, % of usage
+    Writings of Professor B. B. Edwards,Book,500.00,2225,0.22,16
+    The Seasons and the Symphony,Streaming Video,800.00,4544, 0.18,20
+  `);
 }

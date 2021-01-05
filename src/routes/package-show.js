@@ -18,6 +18,8 @@ import { selectPropFromData } from '../redux/selectors';
 import {
   getAccessTypes as getAccessTypesAction,
   getCostPerUse as getCostPerUseAction,
+  getCostPerUsePackageTitles as getCostPerUsePackageTitlesAction,
+  clearCostPerUseData as clearCostPerUseDataAction,
 } from '../redux/actions';
 import Tag from '../redux/tag';
 import { transformQueryParams } from '../components/utilities';
@@ -33,10 +35,12 @@ import SearchModal from '../components/search-modal';
 class PackageShowRoute extends Component {
   static propTypes = {
     accessStatusTypes: accessTypesReduxStateShape.isRequired,
+    clearCostPerUseData: PropTypes.func.isRequired,
     costPerUse: costPerUseShape.CostPerUseReduxStateShape.isRequired,
     destroyPackage: PropTypes.func.isRequired,
     getAccessTypes: PropTypes.func.isRequired,
     getCostPerUse: PropTypes.func.isRequired,
+    getCostPerUsePackageTitles: PropTypes.func.isRequired,
     getPackage: PropTypes.func.isRequired,
     getPackageTitles: PropTypes.func.isRequired,
     getProvider: PropTypes.func.isRequired,
@@ -155,6 +159,10 @@ class PackageShowRoute extends Component {
     }
   }
 
+  componentWillUnmount() {
+    this.props.clearCostPerUseData();
+  }
+
   getTitleResults() {
     const { match, resolver } = this.props;
     const { pkgSearchParams } = this.state;
@@ -246,6 +254,19 @@ class PackageShowRoute extends Component {
     getCostPerUse(listTypes.PACKAGES, id, filterData);
   }
 
+  fetchCostPerUsePackageTitles = (filterData, loadMore = false) => {
+    const {
+      getCostPerUsePackageTitles,
+      model: { id },
+    } = this.props;
+
+    getCostPerUsePackageTitles(id, filterData, loadMore);
+  }
+
+  loadMoreCostPerUsePackageTitles = (filterData) => {
+    this.fetchCostPerUsePackageTitles(filterData, true);
+  }
+
   handleEdit = () => {
     const {
       history,
@@ -291,6 +312,8 @@ class PackageShowRoute extends Component {
           provider={provider}
           fetchPackageTitles={this.fetchPackageTitles}
           fetchPackageCostPerUse={this.fetchPackageCostPerUse}
+          fetchCostPerUsePackageTitles={this.fetchCostPerUsePackageTitles}
+          loadMoreCostPerUsePackageTitles={this.loadMoreCostPerUsePackageTitles}
           toggleSelected={this.toggleSelected}
           addPackageToHoldings={this.addPackageToHoldings}
           toggleHidden={this.toggleHidden}
@@ -362,5 +385,7 @@ export default connect(
     removeUpdateRequests: () => Package.removeRequests('update'),
     getAccessTypes: getAccessTypesAction,
     getCostPerUse: getCostPerUseAction,
+    getCostPerUsePackageTitles: getCostPerUsePackageTitlesAction,
+    clearCostPerUseData: clearCostPerUseDataAction,
   }
 )(PackageShowRoute);

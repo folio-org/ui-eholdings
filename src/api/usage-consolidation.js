@@ -4,7 +4,7 @@ import {
   createUrl,
 } from './common';
 
-const API_URL = '/eholdings/uc';
+const API_URL = '/eholdings/uc?metrictype=true';
 const getApiUrl = credentialId => {
   return credentialId ? `/eholdings/kb-credentials/${credentialId}/uc` : API_URL;
 };

@@ -3,9 +3,7 @@ import PropTypes from 'prop-types';
 import {
   useIntl,
   FormattedMessage,
-  FormattedNumber,
 } from 'react-intl';
-import getSymbolFromCurrency from 'currency-symbol-map';
 
 import {
   MultiColumnList,
@@ -13,36 +11,50 @@ import {
   Dropdown,
   DropdownButton,
   DropdownMenu,
-  NoValue,
+  Icon,
+  KeyValue,
 } from '@folio/stripes/components';
 
 import { getSummaryTableColumnProperties } from './column-properties';
-import { costPerUse as costPerUseShape } from '../../../constants';
+import {
+  costPerUse as costPerUseShape,
+  entityTypes,
+} from '../../../constants';
+
+import style from './summary-table.css';
 
 const propTypes = {
   contentData: PropTypes.array,
   costPerUseData: costPerUseShape.CostPerUseReduxStateShape.isRequired,
+  costPerUseType: PropTypes.string.isRequired,
   customProperties: PropTypes.object,
   entityType: PropTypes.string.isRequired,
   id: PropTypes.string.isRequired,
-  noCostPerUseAvailable: PropTypes.bool.isRequired,
-  year: PropTypes.string.isRequired,
+  isExportDisabled: PropTypes.bool,
+  metricType: PropTypes.string,
+  onExportTitles: PropTypes.func,
+  onViewTitles: PropTypes.func,
 };
 
 const SummaryTable = ({
   costPerUseData,
   customProperties,
-  entityType,
   id,
-  year,
-  noCostPerUseAvailable,
+  costPerUseType,
+  onViewTitles,
+  entityType,
+  metricType,
+  onExportTitles,
+  isExportDisabled,
   ...rest
 }) => {
   const intl = useIntl();
-  const { data } = costPerUseData;
+  const data = costPerUseData.data[costPerUseType];
+  if (!data) {
+    return null;
+  }
 
   const currency = data?.attributes?.parameters?.currency;
-  const currencySymbol = getSymbolFromCurrency(currency) || '';
 
   const {
     cost,
@@ -50,43 +62,15 @@ const SummaryTable = ({
     usage,
   } = data?.attributes?.analysis;
 
-  const formatCost = (value) => {
-    return (
-      <FormattedNumber value={value}>
-        {(formattedNumber) => `${currencySymbol}${formattedNumber} (${currency})`}
-      </FormattedNumber>
-    );
+  const handleViewTitles = (onToggle) => () => {
+    onViewTitles();
+    onToggle();
   };
-
-  const formatValue = (value, callback) => {
-    const number = typeof value === 'string' ? Number(value) : value;
-
-    if (!number && number !== 0) {
-      return <NoValue />;
-    }
-
-    const valueToFixed = number.toFixed(2);
-
-    return callback ? callback(valueToFixed) : valueToFixed;
-  };
-
-  if (noCostPerUseAvailable) {
-    return (
-      <div data-test-usage-consolidation-error>
-        <FormattedMessage
-          id={`ui-eholdings.usageConsolidation.summary.${entityType}.noData`}
-          values={{ year }}
-        />
-      </div>
-    );
-  }
 
   const formatter = {
-    cost: rowData => formatValue(rowData.cost, formatCost),
-    costPerUse: rowData => formatValue(rowData.costPerUse, formatCost),
-    usage: rowData => formatValue(rowData.usage, (value) => <FormattedNumber value={value} />),
     ucActions: () => (
       <Dropdown
+        id="summary-table-actions-dropdown"
         renderTrigger={({ onToggle, triggerRef, ariaProps, keyHandler, getTriggerProps }) => (
           <DropdownButton
             id="usage-consolidation-actions-dropdown-button"
@@ -104,34 +88,83 @@ const SummaryTable = ({
           <DropdownMenu
             role="menu"
           >
-            <Button
-              buttonStyle="dropdownItem fullWidth"
-              role="menuitem"
-              onClick={onToggle}
-              marginBottom0
-            >
-              <FormattedMessage id="ui-eholdings.usageConsolidation.summary.actions.export" />
-            </Button>
+            {entityType === entityTypes.PACKAGE ? (
+              <Button
+                id="summary-table-actions-view-titles"
+                buttonStyle="dropdownItem fullWidth"
+                role="menuitem"
+                onClick={handleViewTitles(onToggle)}
+                marginBottom0
+              >
+                <Icon
+                  icon="eye-open"
+                  size="small"
+                >
+                  <FormattedMessage id="ui-eholdings.usageConsolidation.summary.actions.view" />
+                </Icon>
+              </Button>
+            ) : null
+            }
+            <div>
+              <Button
+                buttonStyle="dropdownItem fullWidth"
+                role="menuitem"
+                onClick={() => {
+                  onExportTitles(true);
+                  onToggle();
+                }}
+                disabled={isExportDisabled}
+                marginBottom0
+              >
+                <Icon
+                  icon="download"
+                  size="small"
+                >
+                  <FormattedMessage id="ui-eholdings.usageConsolidation.summary.actions.export" />
+                </Icon>
+              </Button>
+              {isExportDisabled && (
+                <span className={style['limit-error']}>
+                  <FormattedMessage id="ui-eholdings.usageConsolidation.summary.exportTitles.limit" />
+                </span>
+              )}
+            </div>
           </DropdownMenu>
         )}
       />
     )
   };
 
+  const customPropertiesWithFormatter = {
+    ...customProperties,
+    formatter: {
+      ...(customProperties.formatter || {}),
+      ...formatter,
+    },
+  };
+
   const contentData = rest.contentData || [{ cost, costPerUse, usage }];
 
   return (
-    <MultiColumnList
-      id={id}
-      contentData={contentData}
-      formatter={{
-        ...formatter,
-        ...customProperties.formatter,
-      }}
-      {...getSummaryTableColumnProperties(intl, customProperties)}
-      {...rest}
-    />
+    <KeyValue>
+      <MultiColumnList
+        id={id}
+        contentData={contentData}
+        {...getSummaryTableColumnProperties(intl, customPropertiesWithFormatter, {
+          currency,
+          metricType,
+          entityType,
+        })}
+        {...rest}
+      />
+    </KeyValue>
   );
+};
+
+SummaryTable.defaultProps = {
+  isExportDisabled: false,
+  onExportTitles: () => {},
+  onViewTitles: () => {},
 };
 
 SummaryTable.propTypes = propTypes;

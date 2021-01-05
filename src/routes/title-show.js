@@ -12,6 +12,7 @@ import {
 } from '../constants';
 import {
   getCostPerUse as getCostPerUseAction,
+  clearCostPerUseData as clearCostPerUseDataAction
 } from '../redux/actions';
 import { selectPropFromData } from '../redux/selectors';
 import { createResolver } from '../redux';
@@ -22,6 +23,7 @@ import View from '../components/title/show';
 
 class TitleShowRoute extends Component {
   static propTypes = {
+    clearCostPerUseData: PropTypes.func.isRequired,
     costPerUse: costPerUseShape.CostPerUseReduxStateShape.isRequired,
     createRequest: PropTypes.object.isRequired,
     createResource: PropTypes.func.isRequired,
@@ -62,6 +64,10 @@ class TitleShowRoute extends Component {
         { eholdings: true, isNewRecord: true }
       );
     }
+  }
+
+  componentWillUnmount() {
+    this.props.clearCostPerUseData();
   }
 
   createResource = ({ packageId, customUrl }) => {
@@ -164,5 +170,6 @@ export default connect(
       count: 100
     }),
     getCostPerUse: getCostPerUseAction,
+    clearCostPerUseData: clearCostPerUseDataAction,
   }
 )(TitleShowRoute);

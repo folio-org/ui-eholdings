@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import {
   useIntl,
@@ -11,6 +11,8 @@ import {
   List,
 } from '@folio/stripes/components';
 
+import FullTextRequestUsageTable from './full-text-request-usage-table';
+import NoCostPerUseAvailable from './no-cost-per-use-available';
 import SummaryTable from './summary-table';
 import {
   formatCoverageYear,
@@ -18,40 +20,54 @@ import {
   compareCoveragesToBeSortedInDescOrder,
   isBookPublicationType,
 } from '../../components/utilities';
+import { useMultiColumnListSort } from '../../hooks';
 import {
   costPerUse as costPerUseShape,
   entityTypes,
+  costPerUseTypes,
+  sortOrders,
 } from '../../constants';
 import styles from './usage-consolidation-content.css';
 
 const propTypes = {
   costPerUseData: costPerUseShape.CostPerUseReduxStateShape.isRequired,
+  metricType: PropTypes.string,
+  platformType: PropTypes.string.isRequired,
   publicationType: PropTypes.string,
-  year: PropTypes.string.isRequired,
+  startMonth: PropTypes.string.isRequired,
+  year: PropTypes.number.isRequired,
 };
 
-const UsageConsolidationContentTitle = (props) => {
+const UsageConsolidationContentTitle = ({
+  costPerUseData,
+  platformType,
+  startMonth,
+  publicationType,
+  year,
+  metricType,
+}) => {
   const intl = useIntl();
-  const { costPerUseData, publicationType } = props;
-  const [sortedColumn, setSortedColumn] = useState('packageName');
-  const [sortOrder, setSortOrder] = useState('ascending');
+  const [{ sortOrder, sortedColumn }, onHeaderClick] = useMultiColumnListSort(sortOrders.asc, 'packageName');
 
-  const { data } = costPerUseData;
+  const data = costPerUseData.data[costPerUseTypes.TITLE_COST_PER_USE];
+  if (!data) {
+    return null;
+  }
+
+  const { isFailed } = costPerUseData;
+
+  if (isFailed) {
+    return (
+      <div data-test-cost-per-use-request-is-failed>
+        <FormattedMessage
+          id="ui-eholdings.usageConsolidation.fullTextRequestUsageTable.noResponse"
+        />
+      </div>
+    );
+  }
 
   const holdingsSummary = data?.attributes?.analysis?.holdingsSummary;
   const noCostPerUseAvailable = !holdingsSummary;
-
-  const onHeaderClick = (_, metadata) => {
-    const { name } = metadata;
-
-    if (name !== sortedColumn) {
-      setSortedColumn(name);
-      setSortOrder('ascending');
-    } else {
-      const order = sortOrder === 'ascending' ? 'descending' : 'ascending';
-      setSortOrder(order);
-    }
-  };
 
   const formatter = {
     packageName: (rowData) => {
@@ -105,8 +121,9 @@ const UsageConsolidationContentTitle = (props) => {
 
   const contentData = holdingsSummary ?
     holdingsSummary.sort((a, b) => {
-      const valA = sortOrder === 'ascending' ? a : b;
-      const valB = sortOrder === 'ascending' ? b : a;
+      const isAscendingSort = sortOrder.name === sortOrders.asc.name;
+      const valA = isAscendingSort ? a : b;
+      const valB = isAscendingSort ? b : a;
 
       if (sortedColumn === 'packageName') {
         return valA.packageName.localeCompare(valB.packageName);
@@ -146,18 +163,32 @@ const UsageConsolidationContentTitle = (props) => {
     formatter,
   };
 
-  return (
-    <SummaryTable
-      id="titleUsageConsolidationSummary"
-      contentData={contentData}
+  return noCostPerUseAvailable ? (
+    <NoCostPerUseAvailable
       entityType={entityTypes.TITLE}
-      customProperties={customProperties}
-      noCostPerUseAvailable={noCostPerUseAvailable}
-      onHeaderClick={onHeaderClick}
-      sortedColumn={sortedColumn}
-      sortDirection={sortOrder}
-      {...props}
+      year={year}
     />
+  ) : (
+    <>
+      <SummaryTable
+        id="titleUsageConsolidationSummary"
+        contentData={contentData}
+        entityType={entityTypes.TITLE}
+        customProperties={customProperties}
+        costPerUseType={costPerUseTypes.TITLE_COST_PER_USE}
+        onHeaderClick={onHeaderClick}
+        sortedColumn={sortedColumn}
+        sortDirection={sortOrder.fullName}
+        costPerUseData={costPerUseData}
+        year={year}
+        metricType={metricType}
+      />
+      <FullTextRequestUsageTable
+        usageData={data.attributes.usage}
+        platformType={platformType}
+        startMonth={startMonth}
+      />
+    </>
   );
 };
 

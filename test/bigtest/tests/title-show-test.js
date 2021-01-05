@@ -3,6 +3,7 @@ import { describe, beforeEach, it } from '@bigtest/mocha';
 
 import setupApplication, { axe } from '../helpers/setup-application';
 import TitleShowPage from '../interactors/title-show';
+// import usageConsolidationInfoPopoverTests from './usage-consolidation-info-popover';
 
 describe('TitleShow', () => {
   setupApplication();
@@ -170,6 +171,9 @@ describe('TitleShow', () => {
       it('should display correct value for platform filter', () => {
         expect(TitleShowPage.usageConsolidationSection.filters.platformTypeDropdown.value).to.equal('publisher');
       });
+
+      // TODO:: uncomment current tests after folio/stripes 5.1.0 will be available
+      // usageConsolidationInfoPopoverTests(TitleShowPage.usageConsolidationSection.infoPopover);
     });
   });
 
