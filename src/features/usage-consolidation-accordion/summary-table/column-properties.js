@@ -1,11 +1,7 @@
 import React from 'react';
-import {
-  FormattedMessage,
-  FormattedNumber,
-} from 'react-intl';
+import { FormattedNumber } from 'react-intl';
 
-import { InfoPopover } from '@folio/stripes/components';
-
+import UsageColumnHeader from './usage-column-header';
 import { combineMCLProps } from '../../../components/utilities';
 import {
   formatValue,
@@ -27,32 +23,7 @@ const DEFAULT_SUMMARY_TABLE_COLUMN_WIDTH = {
 };
 
 const DEFAULT_SUMMARY_TABLE_COLUMN_MAPPING = {
-  [DEFAULT_SUMMARY_TABLE_COLUMNS.USAGE]: ({ metricType, entityType }) => ((
-    <>
-      <FormattedMessage id="ui-eholdings.usageConsolidation.summary.totalUsage" />
-      { /* eslint-disable-next-line jsx-a11y/interactive-supports-focus, jsx-a11y/click-events-have-key-events */ }
-      <span
-        role="button"
-        onClick={(e) => {
-          // We don't need to open / close the accordion by clicking on the info icon
-          e.stopPropagation();
-        }}
-      >
-        <InfoPopover
-          allowAnchorClick
-          hideOnButtonClick
-          iconSize="medium"
-          content={(
-            <FormattedMessage
-              id={`ui-eholdings.usageConsolidation.summary.totalUsage.infoPopover.${entityType}`}
-              values={{ metricType }}
-            />
-          )}
-          buttonLabel={<FormattedMessage id="ui-eholdings.usageConsolidation.infoPopover.buttonLabel" />}
-        />
-      </span>
-    </>
-  )),
+  [DEFAULT_SUMMARY_TABLE_COLUMNS.USAGE]: UsageColumnHeader,
   [DEFAULT_SUMMARY_TABLE_COLUMNS.COST_PER_USE]: 'ui-eholdings.usageConsolidation.summary.costPerUse',
   [DEFAULT_SUMMARY_TABLE_COLUMNS.UC_ACTIONS]: null,
 };
@@ -66,7 +37,6 @@ const DEFAULT_FORMATTER = (currency) => ({
 export const getCostPerUseFormatter = DEFAULT_FORMATTER;
 
 export const getSummaryTableColumnProperties = (intl, customProps = {}, args) => {
-
   const defaultProps = {
     visibleColumns: [...Object.values(DEFAULT_SUMMARY_TABLE_COLUMNS)],
     columnMapping: { ...DEFAULT_SUMMARY_TABLE_COLUMN_MAPPING },

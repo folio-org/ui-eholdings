@@ -30,8 +30,8 @@ const propTypes = {
   customProperties: PropTypes.object,
   entityType: PropTypes.string.isRequired,
   id: PropTypes.string.isRequired,
-  metricType: PropTypes.string,
   isExportDisabled: PropTypes.bool,
+  metricType: PropTypes.string,
   onExportTitles: PropTypes.func,
   onViewTitles: PropTypes.func,
 };
