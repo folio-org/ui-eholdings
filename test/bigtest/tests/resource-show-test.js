@@ -302,6 +302,10 @@ describe('ResourceShow', () => {
             expect(ResourcePage.usageConsolidationSection.content.summaryTable.isPresent).to.be.true;
           });
 
+          it('should show three columns in Summary table', () => {
+            expect(ResourcePage.usageConsolidationSection.content.summaryTable.columnCount).to.be.equal(3);
+          });
+
           it('should show Cost data in correct format', () => {
             expect(ResourcePage.usageConsolidationSection.content.summaryTable.rows(0).cells(0).content).to.equal('$100 (USD)');
           });

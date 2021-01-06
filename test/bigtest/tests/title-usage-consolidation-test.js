@@ -110,6 +110,10 @@ describe('TitleShowUsageConsolidation', () => {
           expect(TitleShowPage.usageConsolidationSection.content.summaryTable.isPresent).to.be.true;
         });
 
+        it('should show five columns in Summary table', () => {
+          expect(TitleShowPage.usageConsolidationSection.content.summaryTable.columnCount).to.be.equal(5);
+        });
+
         it('should show Cost data in correct format', () => {
           expect(TitleShowPage.usageConsolidationSection.content.summaryTable.rows(1).cells(2).content).to.equal('$1,030.14 (USD)');
         });
