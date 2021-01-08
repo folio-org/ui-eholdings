@@ -53,7 +53,7 @@ const SettingsUsageConsolidation = ({
 
   useEffect(() => {
     if (usageConsolidation.hasSaved) {
-      setToasts([...toasts, {
+      setToasts(t => [...t, {
         id: `settings-uc-${Date.now()}`,
         message: <FormattedMessage id="ui-eholdings.settings.usageConsolidation.saved" />,
         type: 'success',
