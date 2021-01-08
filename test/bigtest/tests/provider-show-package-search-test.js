@@ -69,15 +69,20 @@ describe('ProviderShow package search', () => {
   describe('clicking the search button', () => {
     beforeEach(async () => {
       await ProviderShowPage.clickListSearch();
-      a11yResults = await axe.run({
-        rules: {
-          'heading-order': { enabled: false },
-        },
-      });
     });
 
-    it('should not have any a11y issues', () => {
-      expect(a11yResults.violations).to.be.empty;
+    describe('waiting for aXe to run', () => {
+      beforeEach(async () => {
+        a11yResults = await axe.run({
+          rules: {
+            'heading-order': { enabled: false },
+          },
+        });
+      });
+
+      it('should not have any a11y issues', () => {
+        expect(a11yResults.violations).to.be.empty;
+      });
     });
 
     it('shows the package search modal', () => {

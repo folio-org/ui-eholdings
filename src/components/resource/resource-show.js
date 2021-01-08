@@ -1,6 +1,9 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { FormattedMessage } from 'react-intl';
+import {
+  FormattedMessage,
+  injectIntl,
+} from 'react-intl';
 import update from 'lodash/fp/update';
 import set from 'lodash/fp/set';
 
@@ -56,6 +59,9 @@ class ResourceShow extends Component {
     accessStatusTypes: accessTypesReduxStateShape.isRequired,
     costPerUse: costPerUseShape.CostPerUseReduxStateShape.isRequired,
     fetchResourceCostPerUse: PropTypes.func.isRequired,
+    intl: PropTypes.shape({
+      formatMessage: PropTypes.func.isRequired,
+    }).isRequired,
     isFreshlySaved: PropTypes.bool,
     model: PropTypes.object.isRequired,
     onEdit: PropTypes.func.isRequired,
@@ -217,6 +223,7 @@ class ResourceShow extends Component {
       accessStatusTypes,
       fetchResourceCostPerUse,
       costPerUse,
+      intl,
     } = this.props;
 
     const {
@@ -632,6 +639,7 @@ class ResourceShow extends Component {
           size="small"
           label={<FormattedMessage id="ui-eholdings.resource.show.modal.header" />}
           id="eholdings-resource-deselection-confirmation-modal"
+          aria-label={intl.formatMessage({ id: 'ui-eholdings.resource.show.modal.header' })}
           footer={(
             <ModalFooter>
               <Button
@@ -674,4 +682,4 @@ class ResourceShow extends Component {
   }
 }
 
-export default withStripes(ResourceShow);
+export default withStripes(injectIntl(ResourceShow));

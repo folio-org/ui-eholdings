@@ -1,6 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { FormattedMessage } from 'react-intl';
+import {
+  FormattedMessage,
+  useIntl,
+} from 'react-intl';
 
 import {
   Modal,
@@ -32,6 +35,8 @@ const PackageFilterModal = ({
   onSubmit,
   filterCount,
 }) => {
+  const intl = useIntl();
+
   const {
     isOpen,
     toggleModal,
@@ -89,6 +94,7 @@ const PackageFilterModal = ({
         size="small"
         contentClass={css.content}
         label={<FormattedMessage id="ui-eholdings.filter.filterType.packages" />}
+        aria-label={intl.formatMessage({ id: 'ui-eholdings.filter.filterType.packages' })}
         footer={footer}
         onClose={toggleModal}
         id="package-filter-modal"

@@ -166,6 +166,7 @@ class SettingsKnowledgeBase extends Component {
     const {
       match,
       currentKBName,
+      intl,
     } = this.props;
 
     const kbToDeleteID = match.params.kbId;
@@ -195,6 +196,7 @@ class SettingsKnowledgeBase extends Component {
           open
           footer={footer}
           label={<FormattedMessage id="ui-eholdings.settings.kb.delete.modalHeading" />}
+          aria-label={intl.formatMessage({ id: 'ui-eholdings.settings.kb.delete.modalHeading' })}
           dismissible
           onClose={this.toggleDeleteConfirmationModal}
           id="delete-kb-confirmation-modal"
