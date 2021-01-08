@@ -1,4 +1,7 @@
-import React from 'react';
+import React, {
+  useEffect,
+  useState,
+} from 'react';
 import PropTypes from 'prop-types';
 import {
   Form,
@@ -43,9 +46,20 @@ const SettingsUsageConsolidation = ({
   usageConsolidation,
   updateUsageConsolidation: onSubmit,
 }) => {
+  const [toasts, setToasts] = useState([]);
   const stripes = useStripes();
   const disabled = !stripes.hasPerm('ui-eholdings.settings.usage-consolidation.create-edit');
   const { formatMessage } = useIntl();
+
+  useEffect(() => {
+    if (usageConsolidation.hasSaved) {
+      setToasts([...toasts, {
+        id: `settings-uc-${Date.now()}`,
+        message: <FormattedMessage id="ui-eholdings.settings.usageConsolidation.saved" />,
+        type: 'success',
+      }]);
+    }
+  }, [usageConsolidation.hasSaved]);
 
   const usageConsolidationIdLabel = formatMessage({ id: 'ui-eholdings.settings.usageConsolidation.id' });
   const usageConsolidationStartMonthLabel = formatMessage({ id: 'ui-eholdings.settings.usageConsolidation.startMonth' });
@@ -120,7 +134,7 @@ const SettingsUsageConsolidation = ({
           id="usage-consolidation-form"
           formState={formState}
           title={<FormattedMessage id="ui-eholdings.settings.usageConsolidation" />}
-          toasts={[]}
+          toasts={toasts}
         >
           <Field
             id="eholdings-settings-usage-consolidation-id"
