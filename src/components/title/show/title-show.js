@@ -227,6 +227,8 @@ class TitleShow extends Component {
     let submit;
     const submitAddToCustomPackage = (event) => submit(event);
 
+    const showUsageConsolidation = model.hasSelectedResources;
+
     return (
       <>
         <Toaster toasts={this.toasts} position="bottom" />
@@ -339,15 +341,18 @@ class TitleShow extends Component {
                   </Button>
                 </div>
               </Accordion>
-              <UsageConsolidationAccordion
-                id="titleShowUsageConsolidation"
-                isOpen={sections.titleShowUsageConsolidation}
-                onToggle={this.handleSectionToggle}
-                onFilterSubmit={fetchTitleCostPerUse}
-                recordType={entityTypes.TITLE}
-                costPerUseData={costPerUse}
-                publicationType={model.publicationType}
-              />
+
+              {showUsageConsolidation && (
+                <UsageConsolidationAccordion
+                  id="titleShowUsageConsolidation"
+                  isOpen={sections.titleShowUsageConsolidation}
+                  onToggle={this.handleSectionToggle}
+                  onFilterSubmit={fetchTitleCostPerUse}
+                  recordType={entityTypes.TITLE}
+                  costPerUseData={costPerUse}
+                  publicationType={model.publicationType}
+                />
+              )}
             </>
           )}
           listType={listTypes.PACKAGES}

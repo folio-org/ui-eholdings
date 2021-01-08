@@ -22,6 +22,7 @@
 * Package Show page | Export Titles. (UIEH-946)
 * Display Usage data metric selection for Total usage on Summary table. (UIEH-994)
 * Remove Actions button dropdown from Title/Resource Summary Table. (UIEH-1014)
+* Hide Usage Consolidation accordion when Package/Title/Resource is not selected. (UIEH-1000)
 
 ## [5.0.0] (https://github.com/folio-org/ui-eholdings/tree/v5.0.0) (2020-10-15)
 
