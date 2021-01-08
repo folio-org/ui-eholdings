@@ -19,7 +19,8 @@ describe('TitleShowUsageConsolidation', () => {
       name: 'Cool Title',
       edition: 'Cool Edition',
       publisherName: 'Cool Publisher',
-      publicationType: 'Website'
+      publicationType: 'Website',
+      hasSelectedResources: true,
     });
 
     title.subjects = [
@@ -361,6 +362,44 @@ describe('TitleShowUsageConsolidation', () => {
     it('should show correct error text', () => {
       expect(TitleShowPage.usageConsolidationSection.content.usageConsolidationErrorText)
         .to.equal(`This title contains no cost or usage data for ${new Date().getFullYear()}`);
+    });
+  });
+
+  describe('when title is not selected in any package', () => {
+    beforeEach(function () {
+      title = this.server.create('title', {
+        name: 'Cool Title',
+        edition: 'Cool Edition',
+        publisherName: 'Cool Publisher',
+        publicationType: 'Website',
+        hasSelectedResources: false,
+      });
+
+      title.save();
+      this.visit(`/eholdings/titles/${title.id}`);
+    });
+
+    it('should not show Usage Consolidation accordion', () => {
+      expect(TitleShowPage.usageConsolidationSection.isAccordionPresent).to.be.false;
+    });
+  });
+
+  describe('when title is selected in at least one package', () => {
+    beforeEach(function () {
+      title = this.server.create('title', {
+        name: 'Cool Title',
+        edition: 'Cool Edition',
+        publisherName: 'Cool Publisher',
+        publicationType: 'Website',
+        hasSelectedResources: true,
+      });
+
+      title.save();
+      this.visit(`/eholdings/titles/${title.id}`);
+    });
+
+    it('should show Usage Consolidation accordion', () => {
+      expect(TitleShowPage.usageConsolidationSection.isAccordionPresent).to.be.true;
     });
   });
 });

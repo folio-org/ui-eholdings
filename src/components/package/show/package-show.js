@@ -526,19 +526,21 @@ class PackageShow extends Component {
           pathToNoteDetails={paths.NOTES}
         />
 
-        <UsageConsolidationAccordion
-          id="packageShowUsageConsolidation"
-          isOpen={sections.packageShowUsageConsolidation}
-          onToggle={this.handleSectionToggle}
-          onFilterSubmit={fetchPackageCostPerUse}
-          onViewTitles={fetchCostPerUsePackageTitles}
-          onLoadMoreTitles={loadMoreCostPerUsePackageTitles}
-          recordType={entityTypes.PACKAGE}
-          recordId={model.id}
-          recordName={model.name}
-          costPerUseData={costPerUse}
-          isExportDisabled={model.selectedCount >= MAX_EXPORT_TITLE_LIMIT}
-        />
+        {packageSelected && (
+          <UsageConsolidationAccordion
+            id="packageShowUsageConsolidation"
+            isOpen={sections.packageShowUsageConsolidation}
+            onToggle={this.handleSectionToggle}
+            onFilterSubmit={fetchPackageCostPerUse}
+            onViewTitles={fetchCostPerUsePackageTitles}
+            onLoadMoreTitles={loadMoreCostPerUsePackageTitles}
+            recordType={entityTypes.PACKAGE}
+            recordId={model.id}
+            recordName={model.name}
+            costPerUseData={costPerUse}
+            isExportDisabled={model.selectedCount >= MAX_EXPORT_TITLE_LIMIT}
+          />
+        )}
       </>
     );
   }

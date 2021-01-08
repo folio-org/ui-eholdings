@@ -13,6 +13,7 @@ export default Factory.extend({
     tagList: [],
   },
   isTitleCustom: false,
+  titleHasSelectedResources: false,
   userDefinedField1: () => faker.lorem.words(),
   userDefinedField2: () => faker.lorem.words(),
   userDefinedField3: () => faker.lorem.words(),

@@ -35,7 +35,11 @@ import ExternalLink from '../external-link/external-link';
 import IdentifiersList from '../identifiers-list';
 import ContributorsList from '../contributors-list';
 import CoverageDateList from '../coverage-date-list';
-import { AgreementsAccordion, CustomLabelsAccordion, UsageConsolidationAccordion } from '../../features';
+import {
+  AgreementsAccordion,
+  CustomLabelsAccordion,
+  UsageConsolidationAccordion,
+} from '../../features';
 import {
   isBookPublicationType,
   isValidCoverageList,
@@ -252,6 +256,7 @@ class ResourceShow extends Component {
     const addToEholdingsButtonIsAvailable = (!resourceSelected && !isSelectInFlight)
       || (!model.isSelected && isSelectInFlight);
     const haveAccessTypesLoaded = !accessStatusTypes?.isLoading && !model.isLoading;
+    const showUsageConsolidation = model.isSelected || (!model.isSelected && model.titleHasSelectedResources);
 
     // if coming from updating any value on managed title in a managed package
     // show a success toast
@@ -615,14 +620,16 @@ class ResourceShow extends Component {
                 pathToNoteDetails={paths.NOTES}
               />
 
-              <UsageConsolidationAccordion
-                id="resourceShowUsageConsolidation"
-                isOpen={sections.resourceShowUsageConsolidation}
-                onToggle={this.handleSectionToggle}
-                onFilterSubmit={fetchResourceCostPerUse}
-                recordType={entityTypes.RESOURCE}
-                costPerUseData={costPerUse}
-              />
+              {showUsageConsolidation && (
+                <UsageConsolidationAccordion
+                  id="resourceShowUsageConsolidation"
+                  isOpen={sections.resourceShowUsageConsolidation}
+                  onToggle={this.handleSectionToggle}
+                  onFilterSubmit={fetchResourceCostPerUse}
+                  recordType={entityTypes.RESOURCE}
+                  costPerUseData={costPerUse}
+                />
+              )}
             </>
           )}
         />
