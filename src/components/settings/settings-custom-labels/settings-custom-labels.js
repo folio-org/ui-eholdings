@@ -1,6 +1,9 @@
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
-import { FormattedMessage } from 'react-intl';
+import {
+  FormattedMessage,
+  injectIntl,
+} from 'react-intl';
 import { Form } from 'react-final-form';
 import {
   isEqual,
@@ -20,7 +23,7 @@ import SettingsForm from '../settings-form';
 import NavigationModal from '../../navigation-modal';
 import { formatCustomLabelsValues } from '../../utilities';
 
-export default class SettingsCustomLabels extends Component {
+class SettingsCustomLabels extends Component {
   static propTypes = {
     confirmUpdate: PropTypes.func.isRequired,
     credentialId: PropTypes.string.isRequired,
@@ -35,6 +38,9 @@ export default class SettingsCustomLabels extends Component {
           id: PropTypes.number,
         })),
       }),
+    }).isRequired,
+    intl: PropTypes.shape({
+      formatMessage: PropTypes.func.isRequired,
     }).isRequired,
     updateCustomLabels: PropTypes.func.isRequired,
   };
@@ -138,6 +144,8 @@ export default class SettingsCustomLabels extends Component {
   closeModal = () => this.setState({ modalIsOpen: false });
 
   render() {
+    const { intl } = this.props;
+
     const {
       modalIsOpen,
       removingLabels,
@@ -145,62 +153,67 @@ export default class SettingsCustomLabels extends Component {
 
     const initialValues = this.prepareInitialValues();
 
-    return <Form
-      onSubmit={this.onSubmit}
-      initialValues={initialValues}
-      initialValuesEqual={isEqual}
-      render={(formState) => (
-        <SettingsForm
-          data-test-eholdings-settings-custom-labels
-          id="custom-labels-form"
-          formState={formState}
-          title={<FormattedMessage id="ui-eholdings.resource.customLabels" />}
-          toasts={this.getToastLabels()}
-        >
-          <Row>
-            <Col xs={4}>
-              <KeyValue label={<FormattedMessage id="ui-eholdings.settings.customLabels.displayLabel" />} />
-            </Col>
-            <Col xs={4}>
-              <KeyValue label={<FormattedMessage id="ui-eholdings.settings.customLabels.publicationFinder" />} />
-            </Col>
-            <Col xs={4}>
-              <KeyValue label={<FormattedMessage id="ui-eholdings.settings.customLabels.textFinder" />} />
-            </Col>
-          </Row>
+    return (
+      <Form
+        onSubmit={this.onSubmit}
+        initialValues={initialValues}
+        initialValuesEqual={isEqual}
+        render={(formState) => (
+          <SettingsForm
+            data-test-eholdings-settings-custom-labels
+            id="custom-labels-form"
+            formState={formState}
+            title={<FormattedMessage id="ui-eholdings.resource.customLabels" />}
+            toasts={this.getToastLabels()}
+          >
+            <Row>
+              <Col xs={4}>
+                <KeyValue label={<FormattedMessage id="ui-eholdings.settings.customLabels.displayLabel" />} />
+              </Col>
+              <Col xs={4}>
+                <KeyValue label={<FormattedMessage id="ui-eholdings.settings.customLabels.publicationFinder" />} />
+              </Col>
+              <Col xs={4}>
+                <KeyValue label={<FormattedMessage id="ui-eholdings.settings.customLabels.textFinder" />} />
+              </Col>
+            </Row>
 
-          <CustomLabelField name='customLabel1' />
-          <CustomLabelField name='customLabel2' />
-          <CustomLabelField name='customLabel3' />
-          <CustomLabelField name='customLabel4' />
-          <CustomLabelField name='customLabel5' />
+            <CustomLabelField name='customLabel1' />
+            <CustomLabelField name='customLabel2' />
+            <CustomLabelField name='customLabel3' />
+            <CustomLabelField name='customLabel4' />
+            <CustomLabelField name='customLabel5' />
 
-          <NavigationModal
-            label={<FormattedMessage id="ui-eholdings.navModal.areYouSure" />}
-            message={<FormattedMessage id="ui-eholdings.navModal.unsavedChanges" />}
-            when={!formState.pristine && !isEqual(formState.values, initialValues)}
-          />
+            <NavigationModal
+              label={<FormattedMessage id="ui-eholdings.navModal.areYouSure" />}
+              message={<FormattedMessage id="ui-eholdings.navModal.unsavedChanges" />}
+              when={!formState.pristine && !isEqual(formState.values, initialValues)}
+            />
 
-          <ConfirmationModal
-            confirmLabel={<FormattedMessage id="ui-eholdings.settings.customLabels.remove" />}
-            id="confirmation-modal"
-            heading={<FormattedMessage id="ui-eholdings.settings.customLabels.remove" />}
-            message={
-              <>
-                <SafeHTMLMessage
-                  id="ui-eholdings.settings.customLabels.remove.description"
-                  values={{ label: removingLabels }}
-                />
-                <br />
-                <SafeHTMLMessage id="ui-eholdings.settings.customLabels.remove.note" />
-              </>
-            }
-            onCancel={this.closeModal}
-            onConfirm={() => this.removeCustomLabels(formState)}
-            open={modalIsOpen}
-          />
-        </SettingsForm>
-      )}
-    />;
+            <ConfirmationModal
+              confirmLabel={<FormattedMessage id="ui-eholdings.settings.customLabels.remove" />}
+              id="confirmation-modal"
+              heading={<FormattedMessage id="ui-eholdings.settings.customLabels.remove" />}
+              ariaLabel={intl.formatMessage({ id: 'ui-eholdings.settings.customLabels.remove' })}
+              message={
+                <>
+                  <SafeHTMLMessage
+                    id="ui-eholdings.settings.customLabels.remove.description"
+                    values={{ label: removingLabels }}
+                  />
+                  <br />
+                  <SafeHTMLMessage id="ui-eholdings.settings.customLabels.remove.note" />
+                </>
+              }
+              onCancel={this.closeModal}
+              onConfirm={() => this.removeCustomLabels(formState)}
+              open={modalIsOpen}
+            />
+          </SettingsForm>
+        )}
+      />
+    );
   }
 }
+
+export default injectIntl(SettingsCustomLabels);

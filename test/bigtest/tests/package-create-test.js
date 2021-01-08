@@ -176,12 +176,16 @@ describe('PackageCreate', () => {
           await PackageCreatePage
             .fillName('My Package')
             .clickBackButton();
-
-          a11yResults = await axe.run();
         });
 
-        it('should not have any a11y issues', () => {
-          expect(a11yResults.violations).to.be.empty;
+        describe('waiting for aXe to run', () => {
+          beforeEach(async () => {
+            a11yResults = await axe.run();
+          });
+
+          it('should not have any a11y issues', () => {
+            expect(a11yResults.violations).to.be.empty;
+          });
         });
 
         it('shows a navigation confirmation modal', () => {

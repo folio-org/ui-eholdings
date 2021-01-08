@@ -286,12 +286,16 @@ describe('TitleCreate', () => {
           await TitleCreatePage
             .fillName('My Title')
             .clickBackButton();
-
-          a11yResults = await axe.run();
         });
 
-        it('should not have any a11y issues', () => {
-          expect(a11yResults.violations).to.be.empty;
+        describe('waiting for axe to run', () => {
+          beforeEach(async () => {
+            a11yResults = await axe.run();
+          });
+
+          it('should not have any a11y issues', () => {
+            expect(a11yResults.violations).to.be.empty;
+          });
         });
 
         it('shows a navigation confirmation modal', () => {

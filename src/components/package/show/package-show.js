@@ -4,6 +4,7 @@ import {
   FormattedDate,
   FormattedNumber,
   FormattedMessage,
+  injectIntl,
 } from 'react-intl';
 
 import update from 'lodash/fp/update';
@@ -63,6 +64,9 @@ class PackageShow extends Component {
     accessStatusTypes: accessTypesReduxStateShape.isRequired,
     addPackageToHoldings: PropTypes.func.isRequired,
     fetchPackageTitles: PropTypes.func.isRequired,
+    intl: PropTypes.shape({
+      formatMessage: PropTypes.func.isRequired,
+    }).isRequired,
     isDestroyed: PropTypes.bool,
     isFreshlySaved: PropTypes.bool,
     isNewRecord: PropTypes.bool,
@@ -606,7 +610,10 @@ class PackageShow extends Component {
   }
 
   renderSelectionConfirmationModal() {
-    const { addPackageToHoldings } = this.props;
+    const {
+      addPackageToHoldings,
+      intl,
+    } = this.props;
 
     const footer = (
       <ModalFooter>
@@ -633,6 +640,7 @@ class PackageShow extends Component {
       <Modal
         open
         label={<FormattedMessage id="ui-eholdings.selectPackage.confirmationModal.label" />}
+        aria-label={intl.formatMessage({ id: 'ui-eholdings.selectPackage.confirmationModal.label' })}
         footer={footer}
         size="small"
         id="package-selection-confirmation-modal"
@@ -649,6 +657,7 @@ class PackageShow extends Component {
       isFreshlySaved,
       isNewRecord,
       isDestroyed,
+      intl,
     } = this.props;
 
     const {
@@ -661,12 +670,14 @@ class PackageShow extends Component {
     const modalMessage = model.isCustom ?
       {
         header: <FormattedMessage id="ui-eholdings.package.modal.header.isCustom" />,
+        label: intl.formatMessage({ id: 'ui-eholdings.package.modal.header.isCustom' }),
         body: <FormattedMessage id="ui-eholdings.package.modal.body.isCustom" />,
         buttonConfirm: <FormattedMessage id="ui-eholdings.package.modal.buttonConfirm.isCustom" />,
         buttonCancel: <FormattedMessage id="ui-eholdings.package.modal.buttonCancel.isCustom" />
       } :
       {
         header: <FormattedMessage id="ui-eholdings.package.modal.header" />,
+        label: intl.formatMessage({ id: 'ui-eholdings.package.modal.header' }),
         body: <FormattedMessage id="ui-eholdings.package.modal.body" />,
         buttonConfirm: <FormattedMessage id="ui-eholdings.package.modal.buttonConfirm" />,
         buttonCancel: <FormattedMessage id="ui-eholdings.package.modal.buttonCancel" />
@@ -732,6 +743,7 @@ class PackageShow extends Component {
           open={showDeselectionModal}
           size="small"
           label={modalMessage.header}
+          aria-label={modalMessage.label}
           id="eholdings-package-confirmation-modal"
           footer={(
             <ModalFooter>
@@ -760,4 +772,4 @@ class PackageShow extends Component {
   }
 }
 
-export default withStripes(PackageShow);
+export default withStripes(injectIntl(PackageShow));

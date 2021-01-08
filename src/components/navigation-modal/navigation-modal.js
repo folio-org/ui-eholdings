@@ -7,7 +7,10 @@ import {
   ModalFooter,
   Button,
 } from '@folio/stripes/components';
-import { FormattedMessage } from 'react-intl';
+import {
+  FormattedMessage,
+  injectIntl,
+} from 'react-intl';
 import historyActions from '../../constants/historyActions';
 
 const INITIAL_MODAL_STATE = {
@@ -17,8 +20,12 @@ const INITIAL_MODAL_STATE = {
 
 class NavigationModal extends Component {
   static propTypes = {
+    ariaLabel: PropTypes.string,
     history: ReactRouterPropTypes.history.isRequired,
     historyAction: PropTypes.string,
+    intl: PropTypes.shape({
+      formatMessage: PropTypes.func.isRequired,
+    }).isRequired,
     label: PropTypes.node,
     message: PropTypes.node,
     when: PropTypes.bool.isRequired,
@@ -77,6 +84,8 @@ class NavigationModal extends Component {
     const {
       label,
       message,
+      intl,
+      ariaLabel,
     } = this.props;
 
     return (
@@ -85,6 +94,7 @@ class NavigationModal extends Component {
         size="small"
         open={this.state.openModal}
         label={label}
+        aria-label={ariaLabel || intl.formatMessage({ id: 'ui-eholdings.navModal.modalLabel' })}
         wrappingElement="form"
         onClose={this.onCancel}
         role="dialog"
@@ -112,4 +122,4 @@ class NavigationModal extends Component {
   }
 }
 
-export default withRouter(NavigationModal);
+export default withRouter(injectIntl(NavigationModal));

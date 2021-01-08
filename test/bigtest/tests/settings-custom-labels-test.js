@@ -114,11 +114,16 @@ describe('With list of root proxies available to a customer', () => {
       describe('click on save button', () => {
         beforeEach(async () => {
           await SettingsCustomLabelsPage.save();
-          a11yResults = await axe.run();
         });
 
-        it('should not have any a11y issues', () => {
-          expect(a11yResults.violations).to.be.empty;
+        describe('waiting for axe to run', () => {
+          beforeEach(async () => {
+            a11yResults = await axe.run();
+          });
+
+          it('should not have any a11y issues', () => {
+            expect(a11yResults.violations).to.be.empty;
+          });
         });
 
         it('should show remove confirmation modal', () => {
@@ -155,15 +160,20 @@ describe('With list of root proxies available to a customer', () => {
       beforeEach(async () => {
         await SettingsCustomLabelsPage.customLabels(0).fillAndBlurLabel('new label');
         await SettingsCustomLabelsPage.closeButton();
-        a11yResults = await axe.run({
-          rules: {
-            'aria-allowed-role': { enabled: false },
-          },
-        });
       });
 
-      it('should not have any a11y issues', () => {
-        expect(a11yResults.violations).to.be.empty;
+      describe('waiting for axe to run', () => {
+        beforeEach(async () => {
+          a11yResults = await axe.run({
+            rules: {
+              'aria-allowed-role': { enabled: false },
+            },
+          });
+        });
+
+        it('should not have any a11y issues', () => {
+          expect(a11yResults.violations).to.be.empty;
+        });
       });
 
       it('should show unsaved changes confirmation modal', () => {

@@ -41,11 +41,16 @@ describe('with list of users assigned to a KB', () => {
     describe('and delete button was clicked', () => {
       beforeEach(async () => {
         await SettingsAssignedUsersPage.assignedUsersList(1).clickDelete();
-        a11yResults = await axe.run();
       });
 
-      it('should not have any a11y issues', () => {
-        expect(a11yResults.violations).to.be.empty;
+      describe('waiting for axe to run', () => {
+        beforeEach(async () => {
+          a11yResults = await axe.run();
+        });
+
+        it('should not have any a11y issues', () => {
+          expect(a11yResults.violations).to.be.empty;
+        });
       });
 
       it('should display confirmation modal', () => {

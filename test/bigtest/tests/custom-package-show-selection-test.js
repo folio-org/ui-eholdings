@@ -58,16 +58,20 @@ describe('CustomPackageShowSelection', () => {
         await PackageShowPage
           .actionsDropDown.clickDropDownButton()
           .dropDownMenu.removeFromHoldings.click();
-
-        a11yResults = await axe.run({
-          rules: {
-            'aria-required-parent': { enabled: false },
-          },
-        });
       });
 
-      it('should not have any a11y issues', () => {
-        expect(a11yResults.violations).to.be.empty;
+      describe('waiting for aXe to run', () => {
+        beforeEach(async () => {
+          a11yResults = await axe.run({
+            rules: {
+              'aria-required-parent': { enabled: false },
+            },
+          });
+        });
+
+        it('should not have any a11y issues', () => {
+          expect(a11yResults.violations).to.be.empty;
+        });
       });
 
       describe('canceling the deselection', () => {
@@ -118,16 +122,20 @@ describe('CustomPackageShowSelection', () => {
         await PackageShowPage
           .actionsDropDown.clickDropDownButton()
           .dropDownMenu.removeFromHoldings.click();
-
-        a11yResults = await axe.run({
-          rules: {
-            'aria-required-parent': { enabled: false },
-          },
-        });
       });
 
-      it('should not have any a11y issues', () => {
-        expect(a11yResults.violations).to.be.empty;
+      describe('waiting for aXe to run', () => {
+        beforeEach(async function () {
+          a11yResults = await axe.run({
+            rules: {
+              'aria-required-parent': { enabled: false },
+            },
+          });
+        });
+
+        it('should not have any a11y issues', () => {
+          expect(a11yResults.violations).to.be.empty;
+        });
       });
 
       it('shows a confirmation dialog', () => {

@@ -61,11 +61,16 @@ describe('TitleShow package filter flow', () => {
     describe('and the package filter modal is opened', () => {
       beforeEach(async () => {
         await TitleShowPage.clickSearchBadge();
-        a11yResults = await axe.run();
       });
 
-      it('should not have any a11y issues', () => {
-        expect(a11yResults.violations).to.be.empty;
+      describe('waiting for axe to run', () => {
+        beforeEach(async () => {
+          a11yResults = await axe.run();
+        });
+
+        it('should not have any a11y issues', () => {
+          expect(a11yResults.violations).to.be.empty;
+        });
       });
 
       it('should display the package filter modal', () => {

@@ -1,6 +1,9 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { FormattedMessage } from 'react-intl';
+import {
+  FormattedMessage,
+  injectIntl,
+} from 'react-intl';
 import { withRouter } from 'react-router';
 import ReactRouterPropTypes from 'react-router-prop-types';
 
@@ -49,6 +52,9 @@ class TitleShow extends Component {
     addCustomPackage: PropTypes.func.isRequired,
     customPackages: PropTypes.object.isRequired,
     history: ReactRouterPropTypes.history.isRequired,
+    intl: PropTypes.shape({
+      formatMessage: PropTypes.func.isRequired,
+    }).isRequired,
     isFreshlySaved: PropTypes.bool,
     isNewRecord: PropTypes.bool,
     location: ReactRouterPropTypes.location.isRequired,
@@ -201,6 +207,7 @@ class TitleShow extends Component {
       model,
       addCustomPackage,
       request,
+      intl,
     } = this.props;
     const {
       showCustomPackageModal,
@@ -212,6 +219,7 @@ class TitleShow extends Component {
 
     const modalMessage = {
       header: <FormattedMessage id="ui-eholdings.title.modalMessage.addTitleToCustomPackage" />,
+      label: intl.formatMessage({ id: 'ui-eholdings.title.modalMessage.addTitleToCustomPackage' }),
       saving: <FormattedMessage id="ui-eholdings.saving" />,
       submit: <FormattedMessage id="ui-eholdings.submit" />,
       cancel: <FormattedMessage id="ui-eholdings.cancel" />
@@ -364,6 +372,7 @@ class TitleShow extends Component {
           open={showCustomPackageModal}
           size="small"
           label={modalMessage.header}
+          aria-label={modalMessage.label}
           id="eholdings-custom-package-modal"
           wrappingElement="form"
           enforceFocus={false}
@@ -408,4 +417,4 @@ class TitleShow extends Component {
   }
 }
 
-export default withRouter(withStripes(TitleShow));
+export default withRouter(withStripes(injectIntl(TitleShow)));

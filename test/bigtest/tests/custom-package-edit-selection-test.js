@@ -60,16 +60,18 @@ describe('CustomPackageEditSelection', () => {
     });
 
     describe('deleting the custom package', () => {
-      beforeEach(async () => {
-        await PackageEditPage
-          .actionsDropDown.clickDropDownButton()
-          .dropDownMenu.removeFromHoldings.click();
+      describe('waiting for aXe to run', () => {
+        beforeEach(async () => {
+          await PackageEditPage
+            .actionsDropDown.clickDropDownButton()
+            .dropDownMenu.removeFromHoldings.click();
 
-        a11yResults = await axe.run();
-      });
+          a11yResults = await axe.run();
+        });
 
-      it('should not have any a11y issues', () => {
-        expect(a11yResults.violations).to.be.empty;
+        it('should not have any a11y issues', () => {
+          expect(a11yResults.violations).to.be.empty;
+        });
       });
 
       it('shows the deletion confirmation modal', () => {
@@ -300,16 +302,18 @@ describe('CustomPackageEditSelection', () => {
     });
 
     describe('deselecting the package', () => {
-      beforeEach(async () => {
-        await PackageEditPage
-          .actionsDropDown.clickDropDownButton()
-          .dropDownMenu.removeFromHoldings.click();
+      describe('waiting for aXe to run', () => {
+        beforeEach(async () => {
+          await PackageEditPage
+            .actionsDropDown.clickDropDownButton()
+            .dropDownMenu.removeFromHoldings.click();
 
-        a11yResults = await axe.run();
-      });
+          a11yResults = await axe.run();
+        });
 
-      it('should not have any a11y issues', () => {
-        expect(a11yResults.violations).to.be.empty;
+        it('should not have any a11y issues', () => {
+          expect(a11yResults.violations).to.be.empty;
+        });
       });
 
       it('shows the deselection confirmation modal', () => {
