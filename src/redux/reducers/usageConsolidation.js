@@ -15,6 +15,7 @@ const handleError = (state, { payload }) => ({
   isLoading: false,
   isLoaded: false,
   isFailed: true,
+  hasSaved: false,
   errors: formatErrors(payload.errors),
 });
 
@@ -24,6 +25,7 @@ const handlers = {
     isLoading: true,
     isLoaded: false,
     isFailed: false,
+    hasSaved: false,
     data: {},
     errors: [],
   }),
@@ -35,6 +37,7 @@ const handlers = {
       isLoading: false,
       isLoaded: true,
       isFailed: false,
+      hasSaved: false,
       data: attributes,
     };
   },
@@ -48,6 +51,7 @@ const handlers = {
       isLoading: false,
       isLoaded: true,
       isFailed: false,
+      hasSaved: true,
     };
   },
   [PATCH_USAGE_CONSOLIDATION_SUCCESS]: (state, { payload }) => {
@@ -60,6 +64,7 @@ const handlers = {
       isLoading: false,
       isLoaded: true,
       isFailed: false,
+      hasSaved: true,
     };
   },
   [CLEAR_USAGE_CONSOLIDATION_ERRORS]: state => ({
@@ -72,6 +77,7 @@ const initialState = {
   isLoading: false,
   isLoaded: false,
   isFailed: false,
+  hasSaved: false,
   data: {},
   errors: [],
 };
