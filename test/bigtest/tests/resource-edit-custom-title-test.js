@@ -616,7 +616,7 @@ describe('ResourceEditCustomTitle', () => {
         await ResourceEditPage.customLabelsFields(0).blurCustomLabel();
       });
 
-      it.only('should show validation error message', () => {
+      it('should show validation error message', () => {
         expect(ResourceEditPage.customLabelsFields(0).validationErrorMessage).to.be.equal('Value has exceeded 500 character limit. Please revise your value.');
       });
     });
