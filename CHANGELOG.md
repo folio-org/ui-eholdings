@@ -1,8 +1,13 @@
 # Change history for ui-eholdings
 
+## [4.0.3] (IN PROGRESS)
+
+* Fixed text wrapping for Custom Labels. (UIEH-985)
+* Increase Settings Custom Labels display label max length to 200. (UIEH-985)
+
 ## [4.0.2] (https://github.com/folio-org/ui-eholdings/tree/v4.0.2) (2020-11-13)
 
-* Increase Custom Labels value max length to 500. (UIEH-985)
+* Increase Custom Labels value max length to 500. (UIEH-986)
 * Improve error messaging for unconfigured KB credentials and exceeded API limit. (UIEH-816)
 
 ## [4.0.1] (https://github.com/folio-org/ui-eholdings/tree/v4.0.1) (2020-07-08)
