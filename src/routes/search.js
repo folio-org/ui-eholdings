@@ -87,8 +87,6 @@ class SearchRoute extends Component {
     };
   }
 
-  $resultPaneTitle = React.createRef();
-
   static getDerivedStateFromProps(nextProps, prevState) {
     const { location, history, match } = nextProps;
     const { searchType, ...params } = qs.parse(location.search);
@@ -146,6 +144,8 @@ class SearchRoute extends Component {
       this.path[this.state.searchType] = this.state.location.pathname;
     }
   }
+
+  $resultPaneTitle = React.createRef();
 
   toggleFilter = filterName => () => {
     const filterToBeToggled = filterName === 'access-type'

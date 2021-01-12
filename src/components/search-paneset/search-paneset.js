@@ -30,8 +30,8 @@ export default class SearchPaneset extends Component {
     filterCount: PropTypes.number,
     hideFilters: PropTypes.bool,
     isLoading: PropTypes.bool,
-    resultsLabel: PropTypes.node,
     resultPaneTitle: PropTypes.node,
+    resultsLabel: PropTypes.node,
     resultsType: PropTypes.string,
     resultsView: PropTypes.node,
     searchForm: PropTypes.node,
@@ -153,7 +153,6 @@ export default class SearchPaneset extends Component {
           padContent={false}
           paneTitle={resultsLabel}
           paneTitleRef={resultPaneTitle}
-          paneTitleAutoFocus={true}
           data-test-results-pane
         >
           {resultsView || (
