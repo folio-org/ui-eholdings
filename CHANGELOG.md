@@ -1,5 +1,11 @@
 # Change history for ui-eholdings
 
+## [5.0.4] (IN PROGRESS)
+
+* Increase Settings Custom Labels display label max length to 200. (UIEH-985)
+* Fixed text wrapping for Custom Labels. (UIEH-985)
+* Support custom label value increased character limit from 100 to 500. (UIEH-986)
+
 ## [5.0.3] (https://github.com/folio-org/ui-eholdings/tree/v5.0.3) (2020-12-29)
 
 * Remove request to '/status' in Settings > eHoldings. (UIEH-1012)
@@ -11,7 +17,6 @@
 ## [5.0.1] (https://github.com/folio-org/ui-eholdings/tree/v5.0.1) (2020-11-13)
 
 * Fix discrepancy with Proxy selection. (UIEH-981)
-* Increase Settings Custom Labels display label max length to 200. (UIEH-985)
 
 ## [5.0.0] (https://github.com/folio-org/ui-eholdings/tree/v5.0.0) (2020-10-15)
 
