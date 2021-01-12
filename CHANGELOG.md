@@ -10,6 +10,7 @@
 * Add label for contributor type narrator. (UIEH-977)
 * Remove request to '/status' in Settings > eHoldings. (UIEH-1012)
 * Fixed text wrapping for Custom Labels. (UIEH-985)
+* Update focus behavior on Result list pane. (UIEH-1001)
 
 ## [5.0.0] (https://github.com/folio-org/ui-eholdings/tree/v5.0.0) (2020-10-15)
 

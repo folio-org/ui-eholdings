@@ -31,6 +31,7 @@ export default class SearchPaneset extends Component {
     hideFilters: PropTypes.bool,
     isLoading: PropTypes.bool,
     resultsLabel: PropTypes.node,
+    resultPaneTitle: PropTypes.node,
     resultsType: PropTypes.string,
     resultsView: PropTypes.node,
     searchForm: PropTypes.node,
@@ -46,9 +47,6 @@ export default class SearchPaneset extends Component {
     super(props);
     this.state = {};
   }
-
-  // used to focus the pane title when a new search happens
-  $title = React.createRef(); // eslint-disable-line react/sort-comp
 
   toggleFilters = () => {
     this.props.updateFilters(hideFilters => !hideFilters);
@@ -101,6 +99,7 @@ export default class SearchPaneset extends Component {
     const {
       searchForm,
       resultsLabel,
+      resultPaneTitle,
       resultsType,
       resultsView,
       totalResults,
@@ -153,7 +152,8 @@ export default class SearchPaneset extends Component {
           paneSub={resultsView && resultsPaneSub}
           padContent={false}
           paneTitle={resultsLabel}
-          paneTitleRef={this.$title}
+          paneTitleRef={resultPaneTitle}
+          paneTitleAutoFocus={true}
           data-test-results-pane
         >
           {resultsView || (
