@@ -14,6 +14,7 @@ import {
 import FullTextRequestUsageTable from './full-text-request-usage-table';
 import NoCostPerUseAvailable from './no-cost-per-use-available';
 import SummaryTable from './summary-table';
+import UsageColumnHeader from './summary-table/usage-column-header';
 import {
   formatCoverageYear,
   formatCoverageFullDate,
@@ -151,7 +152,13 @@ const UsageConsolidationContentTitle = ({
     columnMapping: {
       packageName: intl.formatMessage({ id: 'ui-eholdings.usageConsolidation.summary.packageName' }),
       coverage: intl.formatMessage({ id: 'ui-eholdings.usageConsolidation.summary.coverage' }),
-      usage: intl.formatMessage({ id: 'ui-eholdings.usageConsolidation.summary.title.usage' }),
+      usage: (props) => (
+        <UsageColumnHeader
+          {...props}
+          label={intl.formatMessage({ id: 'ui-eholdings.usageConsolidation.summary.title.usage' })}
+        />
+      ),
+      cost: 'ui-eholdings.usageConsolidation.summary.titleCost',
     },
     columnWidths: {
       packageName: '33%',

@@ -56,11 +56,11 @@ const SummaryTable = ({
       <MultiColumnList
         id={id}
         contentData={contentData}
-        {...getSummaryTableColumnProperties(intl, customProperties, {
+        {...getSummaryTableColumnProperties(intl, {
           currency,
           metricType,
           entityType,
-        })}
+        }, customProperties)}
         {...rest}
       />
     </KeyValue>

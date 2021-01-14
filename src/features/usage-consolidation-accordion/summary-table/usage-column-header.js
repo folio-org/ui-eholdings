@@ -6,12 +6,13 @@ import { InfoPopover } from '@folio/stripes/components';
 
 const propTypes = {
   entityType: PropTypes.string.isRequired,
+  label: PropTypes.oneOfType([PropTypes.string, PropTypes.element]).isRequired,
   metricType: PropTypes.string,
 };
 
-const UsageColumnHeader = ({ metricType, entityType }) => ((
+const UsageColumnHeader = ({ label, metricType, entityType }) => (
   <>
-    <FormattedMessage id="ui-eholdings.usageConsolidation.summary.totalUsage" />
+    {label}
     { /* eslint-disable-next-line jsx-a11y/interactive-supports-focus, jsx-a11y/click-events-have-key-events */ }
     <span
       role="button"
@@ -35,7 +36,7 @@ const UsageColumnHeader = ({ metricType, entityType }) => ((
       />
     </span>
   </>
-));
+);
 
 UsageColumnHeader.propTypes = propTypes;
 

@@ -18,6 +18,7 @@
     "usageConsolidation.filters.view": "View",
     "usageConsolidation.summary.packageName": "Package",
     "usageConsolidation.summary.coverage": "Coverage",
+    "usageConsolidation.summary.titleCost": "Cost",
     "usageConsolidation.summary.packageCost": "Package cost",
     "usageConsolidation.summary.resourceCost": "Resource cost",
     "usageConsolidation.summary.totalUsage": "Total usage",
