@@ -13,6 +13,7 @@
 * Make Coverage Accordion in Resource Page be always expanded. (UIEH-1008)
 * Update focus behavior on Result list pane. (UIEH-1001)
 * Add assign/unassign user from KB permissions. (UIEH-1018) 
+* Updated `stripes` to v6. (UIEH-1019)
 
 ## [5.0.0] (https://github.com/folio-org/ui-eholdings/tree/v5.0.0) (2020-10-15)
 
