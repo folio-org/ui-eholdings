@@ -37,9 +37,9 @@ const TitlesTable = ({
   const intl = useIntl();
   const [page, setPage] = useState(DEFAULT_PAGE);
 
-  const handleSortChange = (sortedColumn, sortOrder) => {
+  const handleSortChange = (newSortedColumn, newSortOrder) => {
     setPage(DEFAULT_PAGE);
-    onSortTitles(sortedColumn, sortOrder.name);
+    onSortTitles(newSortedColumn, newSortOrder.name);
   };
 
   const [{ sortedColumn, sortOrder }, onHeaderClick] = useMultiColumnListSort(sortOrders.desc, 'usage', handleSortChange);

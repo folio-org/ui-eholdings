@@ -41,7 +41,7 @@ const DEFAULT_FORMATTER = (currency) => ({
 
 export const getCostPerUseFormatter = DEFAULT_FORMATTER;
 
-export const getSummaryTableColumnProperties = (intl, customProps = {}, args) => {
+export const getSummaryTableColumnProperties = (intl, args, customProps = {}) => {
   const defaultProps = {
     visibleColumns: [...Object.values(DEFAULT_SUMMARY_TABLE_COLUMNS)],
     columnMapping: { ...DEFAULT_SUMMARY_TABLE_COLUMN_MAPPING },

@@ -10,7 +10,7 @@ const propTypes = {
   metricType: PropTypes.string,
 };
 
-const UsageColumnHeader = ({ label, metricType, entityType }) => ((
+const UsageColumnHeader = ({ label, metricType, entityType }) => (
   <>
     {label}
     { /* eslint-disable-next-line jsx-a11y/interactive-supports-focus, jsx-a11y/click-events-have-key-events */ }
@@ -36,7 +36,7 @@ const UsageColumnHeader = ({ label, metricType, entityType }) => ((
       />
     </span>
   </>
-));
+);
 
 UsageColumnHeader.propTypes = propTypes;
 

@@ -10,7 +10,7 @@ const propTypes = {
   label: PropTypes.string.isRequired,
 };
 
-const LoadingMessage = ({ label }) => ((
+const LoadingMessage = ({ label }) => (
   <div
     data-test-usage-consolidation-loading-message
     className={styles.loadingMessage}
@@ -22,7 +22,7 @@ const LoadingMessage = ({ label }) => ((
       </span>
     </div>
   </div>
-));
+);
 
 LoadingMessage.propTypes = propTypes;
 
