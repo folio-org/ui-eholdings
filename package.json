@@ -247,7 +247,10 @@
       {
         "permissionName": "ui-eholdings.settings.assignedUser",
         "displayName": "Settings (eHoldings): Can assign/unassign a user from a KB",
-        "visible": true
+        "visible": true,
+        "subPermissions": [
+          "kb-ebsco.kb-credentials.users.all"
+        ]
       }
     ]
   }
