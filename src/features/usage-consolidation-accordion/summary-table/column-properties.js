@@ -1,5 +1,8 @@
 import React from 'react';
-import { FormattedNumber } from 'react-intl';
+import {
+  FormattedNumber,
+  FormattedMessage,
+} from 'react-intl';
 
 import UsageColumnHeader from './usage-column-header';
 import { combineMCLProps } from '../../../components/utilities';
@@ -21,7 +24,12 @@ const DEFAULT_SUMMARY_TABLE_COLUMN_WIDTH = {
 };
 
 const DEFAULT_SUMMARY_TABLE_COLUMN_MAPPING = {
-  [DEFAULT_SUMMARY_TABLE_COLUMNS.USAGE]: UsageColumnHeader,
+  [DEFAULT_SUMMARY_TABLE_COLUMNS.USAGE]: (props) => (
+    <UsageColumnHeader
+      {...props}
+      label={<FormattedMessage id="ui-eholdings.usageConsolidation.summary.totalUsage" />}
+    />
+  ),
   [DEFAULT_SUMMARY_TABLE_COLUMNS.COST_PER_USE]: 'ui-eholdings.usageConsolidation.summary.costPerUse',
 };
 
