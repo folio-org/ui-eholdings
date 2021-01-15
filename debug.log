@@ -1,0 +1,2 @@
+[0115/161237.733:ERROR:directory_reader_win.cc(43)] FindFirstFile: The system cannot find the path specified. (0x3)
+[0115/165009.906:ERROR:filesystem_win.cc(129)] GetFileAttributes C:\Users\DENYS_~1\AppData\Local\Temp\karma-50234676\Crashpad\attachments\d5e728e7-16bc-4b56-ac10-dfe3313d30a0: The system cannot find the path specified. (0x3)
