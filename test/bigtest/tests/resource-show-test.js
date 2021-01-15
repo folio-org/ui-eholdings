@@ -76,7 +76,8 @@ describe('ResourceShow', () => {
       isSelected: false,
       title,
       url: 'https://frontside.io',
-      isTokenNeeded: false
+      isTokenNeeded: false,
+      titleHasSelectedResources: true,
     });
 
     const proxy = this.server.create('proxy', {
@@ -740,6 +741,54 @@ describe('ResourceShow', () => {
       it('displays the access type name', () => {
         expect(ResourcePage.accessType).to.equal('Trial');
       });
+    });
+  });
+
+  describe('when resource title is not selected in any package', () => {
+    let title;
+
+    beforeEach(function () {
+      title = this.server.create('title', {
+        name: 'Best Title Ever',
+        edition: 'Best Edition Ever',
+        publicationType: '',
+      });
+
+      resource = this.server.create('resource', {
+        package: providerPackage,
+        title,
+        titleHasSelectedResources: false,
+      });
+
+      this.visit(`/eholdings/resources/${resource.id}`);
+    });
+
+    it('should not display usage & analysis accordion', () => {
+      expect(ResourcePage.usageConsolidationSection.isAccordionPresent).to.be.false;
+    });
+  });
+
+  describe('when resource title is selected in other package', () => {
+    let title;
+
+    beforeEach(function () {
+      title = this.server.create('title', {
+        name: 'Best Title Ever',
+        edition: 'Best Edition Ever',
+        publicationType: '',
+      });
+
+      resource = this.server.create('resource', {
+        package: providerPackage,
+        title,
+        titleHasSelectedResources: true,
+      });
+
+      this.visit(`/eholdings/resources/${resource.id}`);
+    });
+
+    it('should display usage & analysis accordion', () => {
+      expect(ResourcePage.usageConsolidationSection.isAccordionPresent).to.be.true;
     });
   });
 

@@ -60,12 +60,14 @@ describe('CustomPackageEditSelection', () => {
     });
 
     describe('deleting the custom package', () => {
+      beforeEach(async () => {
+        await PackageEditPage
+          .actionsDropDown.clickDropDownButton()
+          .dropDownMenu.removeFromHoldings.click();
+      });
+
       describe('waiting for aXe to run', () => {
         beforeEach(async () => {
-          await PackageEditPage
-            .actionsDropDown.clickDropDownButton()
-            .dropDownMenu.removeFromHoldings.click();
-
           a11yResults = await axe.run();
         });
 
@@ -302,12 +304,14 @@ describe('CustomPackageEditSelection', () => {
     });
 
     describe('deselecting the package', () => {
+      beforeEach(async () => {
+        await PackageEditPage
+          .actionsDropDown.clickDropDownButton()
+          .dropDownMenu.removeFromHoldings.click();
+      });
+
       describe('waiting for aXe to run', () => {
         beforeEach(async () => {
-          await PackageEditPage
-            .actionsDropDown.clickDropDownButton()
-            .dropDownMenu.removeFromHoldings.click();
-
           a11yResults = await axe.run();
         });
 

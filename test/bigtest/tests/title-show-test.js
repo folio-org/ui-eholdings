@@ -17,7 +17,8 @@ describe('TitleShow', () => {
       name: 'Cool Title',
       edition: 'Cool Edition',
       publisherName: 'Cool Publisher',
-      publicationType: 'Website'
+      publicationType: 'Website',
+      hasSelectedResources: true,
     });
 
     title.subjects = [

@@ -22,7 +22,7 @@ describe('PackageShowUsageConsolidation', () => {
       provider,
       name: 'Cool Package',
       contentType: 'E-Book',
-      isSelected: false,
+      isSelected: true,
       titleCount: 5,
       packageType: 'Complete',
     });
@@ -51,8 +51,9 @@ describe('PackageShowUsageConsolidation', () => {
   });
 
   describe('when Usage Consolidation has been set up in Settings', () => {
-    beforeEach(function () {
+    beforeEach(async function () {
       this.visit(`/eholdings/packages/${providerPackage.id}`);
+      await PackageShowPage.usageConsolidation.whenLoaded();
     });
 
     it('should show Usage Consolidation accordion', () => {
@@ -501,6 +502,26 @@ describe('PackageShowUsageConsolidation', () => {
 
     it('should show Usage in correct format', () => {
       expect(PackageShowPage.usageConsolidation.content.titlesTable.rows(0).cells(3).content).to.equal('-');
+    });
+  });
+
+
+  describe('when package is not selected', () => {
+    beforeEach(function () {
+      providerPackage = this.server.create('package', 'withTitles', 'withCustomCoverage', 'withProxy', {
+        provider,
+        name: 'Cool Package',
+        contentType: 'E-Book',
+        isSelected: false,
+        titleCount: 5,
+        packageType: 'Complete',
+      });
+
+      this.visit(`/eholdings/packages/${providerPackage.id}`);
+    });
+
+    it('should not show Usage Consolidation accordion', () => {
+      expect(PackageShowPage.usageConsolidation.isAccordionPresent).to.be.false;
     });
   });
 });

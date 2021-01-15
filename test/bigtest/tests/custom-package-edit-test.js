@@ -173,9 +173,12 @@ describe('CustomPackageEdit', () => {
       });
 
       describe('clicking close (navigate back) button', () => {
+        beforeEach(async () => {
+          await PackageEditPage.clickBackButton();
+        });
+
         describe('waiting for aXe to run', () => {
           beforeEach(async () => {
-            await PackageEditPage.clickBackButton();
             a11yResults = await axe.run();
           });
 

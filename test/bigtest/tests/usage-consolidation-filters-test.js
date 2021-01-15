@@ -21,7 +21,7 @@ describe('Usage Consolidation filters', () => {
       provider,
       name: 'Cool Package',
       contentType: 'E-Book',
-      isSelected: false,
+      isSelected: true,
       titleCount: 5
     });
   });

@@ -20,6 +20,7 @@ describe('(reducer) usageConsolidation', () => {
       isLoading: false,
       isLoaded: false,
       isFailed: false,
+      hasSaved: false,
     });
   });
 
@@ -36,6 +37,7 @@ describe('(reducer) usageConsolidation', () => {
       isLoading: true,
       isLoaded: false,
       isFailed: false,
+      hasSaved: false,
     };
 
     expect(usageConsolidation(actualState, action)).to.deep.equal(expectedState);
@@ -56,6 +58,7 @@ describe('(reducer) usageConsolidation', () => {
       isLoading: false,
       isLoaded: false,
       isFailed: true,
+      hasSaved: false,
       errors: [{ title: 'error' }],
     };
 
@@ -77,6 +80,7 @@ describe('(reducer) usageConsolidation', () => {
       isLoading: false,
       isLoaded: false,
       isFailed: true,
+      hasSaved: false,
       errors: [{ title: 'error' }],
     };
 
@@ -98,6 +102,7 @@ describe('(reducer) usageConsolidation', () => {
       isLoading: false,
       isLoaded: true,
       isFailed: false,
+      hasSaved: true,
       errors: [],
     };
 
@@ -119,6 +124,7 @@ describe('(reducer) usageConsolidation', () => {
       isLoading: false,
       isLoaded: false,
       isFailed: true,
+      hasSaved: false,
       errors: [{ title: 'error' }],
     };
 
@@ -140,6 +146,7 @@ describe('(reducer) usageConsolidation', () => {
       isLoading: false,
       isLoaded: true,
       isFailed: false,
+      hasSaved: true,
       errors: [],
     };
 
@@ -152,6 +159,7 @@ describe('(reducer) usageConsolidation', () => {
       isLoading: false,
       isLoaded: false,
       isFailed: true,
+      hasSaved: false,
       errors: [{ title: 'error' }],
     };
     const action = {
@@ -162,6 +170,7 @@ describe('(reducer) usageConsolidation', () => {
       isLoading: false,
       isLoaded: false,
       isFailed: true,
+      hasSaved: false,
       errors: [],
     };
 
